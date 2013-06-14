@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -72,11 +72,12 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
      * @see org.kuali.kfs.module.ar.document.service.CashControlDocumentService#createAndSavePaymentApplicationDocument(java.lang.String,
      *      org.kuali.kfs.module.ar.document.CashControlDocument, org.kuali.kfs.module.ar.businessobject.CashControlDetail)
      */
+    @Override
     public PaymentApplicationDocument createAndSavePaymentApplicationDocument(String description, CashControlDocument cashControlDocument, CashControlDetail cashControlDetail) throws WorkflowException {
 
         // create a new PaymentApplicationdocument
         PaymentApplicationDocument doc = (PaymentApplicationDocument) documentService.getNewDocument(PaymentApplicationDocument.class);
-        
+
         // set a description to say that this application document has been created by the CashControldocument
         doc.getDocumentHeader().setDocumentDescription(description);
 
@@ -86,27 +87,28 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
         //  re-use the Processing Chart/Org from the CashControlDoc's arDocHeader
         String processingChartCode = cashControlDocument.getAccountsReceivableDocumentHeader().getProcessingChartOfAccountCode();
         String processingOrgCode = cashControlDocument.getAccountsReceivableDocumentHeader().getProcessingOrganizationCode();
-        
+
         //  create the arDocHeader
-        // NOTE that we re-use the processing chart/org from the CashControl document, rather than 
-        // pull from the current user.  This is done to bypass some challenges in the Lockbox batch process, 
-        // and we dont believe it will impact the processing CashControl processing, as the PayApps created 
+        // NOTE that we re-use the processing chart/org from the CashControl document, rather than
+        // pull from the current user.  This is done to bypass some challenges in the Lockbox batch process,
+        // and we dont believe it will impact the processing CashControl processing, as the PayApps created
         // always have the same processing chart/org as the cashcontrol doc that creates is
-        AccountsReceivableDocumentHeaderService arDocHeaderService = SpringContext.getBean(AccountsReceivableDocumentHeaderService.class);
-        AccountsReceivableDocumentHeader arDocHeader = arDocHeaderService.getNewAccountsReceivableDocumentHeader(processingChartCode, processingOrgCode);
+        AccountsReceivableDocumentHeader arDocHeader = new AccountsReceivableDocumentHeader();
+        arDocHeader.setProcessingChartOfAccountCode(processingChartCode);
+        arDocHeader.setProcessingOrganizationCode(processingOrgCode);
         arDocHeader.setDocumentNumber(doc.getDocumentNumber());
         arDocHeader.setCustomerNumber(cashControlDetail.getCustomerNumber());
         doc.setAccountsReceivableDocumentHeader(arDocHeader);
 
         doc.getDocumentHeader().setOrganizationDocumentNumber(cashControlDocument.getDocumentNumber());
-        
+
         // refresh nonupdatable references and save the PaymentApplicationDocument
         doc.refreshNonUpdateableReferences();
 
         // This attribute is transient but is necessary to sort of bootstrap, allowing some validation rules
         // to succeed before the document is saved again.
         doc.setCashControlDetail(cashControlDetail);
-        
+
 //        AccountsReceivableDocumentHeader accountsReceivableDocumentHeader2 = accountsReceivableDocumentHeaderService.getNewAccountsReceivableDocumentHeaderForCurrentUser();
 //        accountsReceivableDocumentHeader2.setDocumentNumber(doc.getDocumentNumber());
 //        accountsReceivableDocumentHeader2.setCustomerNumber(cashControlDetail.getCustomerNumber());
@@ -114,15 +116,15 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
 //        doc.getNonAppliedHolding().setCustomerNumber(cashControlDetail.getCustomerNumber());
 //        doc.getNonAppliedHolding().setReferenceFinancialDocumentNumber(doc.getDocumentNumber());
         doc.setNonAppliedHolding(null);
-                
-        documentService.saveDocument(doc);       
+
+        documentService.saveDocument(doc);
 
         //RICE20 replaced searchableAttributeProcessingService.indexDocument with DocumentAttributeIndexingQueue.indexDocument
         DocumentTypeService documentTypeService = SpringContext.getBean(DocumentTypeService.class);
         DocumentType documentType = documentTypeService.getDocumentTypeByName(doc.getFinancialDocumentTypeCode());
         DocumentAttributeIndexingQueue queue = KewApiServiceLocator.getDocumentAttributeIndexingQueue(documentType.getApplicationId());
         queue.indexDocument(doc.getDocumentNumber());
-        
+
         return doc;
     }
 
@@ -130,6 +132,7 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
      * @see org.kuali.kfs.module.ar.document.service.CashControlDocumentService#addNewCashControlDetail(java.lang.String,
      *      org.kuali.kfs.module.ar.document.CashControlDocument, org.kuali.kfs.module.ar.businessobject.CashControlDetail)
      */
+    @Override
     public void addNewCashControlDetail(String description, CashControlDocument cashControlDocument, CashControlDetail cashControlDetail) throws WorkflowException {
 
         // add cash control detail
@@ -143,14 +146,14 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
         cashControlDetail.setReferenceFinancialDocument(paymentApplicationDocument);
         cashControlDetail.setReferenceFinancialDocumentNumber(paymentApplicationDocument.getDocumentNumber());
         // newCashControlDetail.setStatus(doc.getDocumentHeader().getWorkflowDocument().getStatusDisplayValue());
-        
+
         // Save the cash control document, but do NOT do a full workflow-save, just persist the state
         paymentApplicationDocument.populateDocumentForRouting();
         paymentApplicationDocument.prepareForSave();
-        documentService.prepareWorkflowDocument(paymentApplicationDocument); 
+        documentService.prepareWorkflowDocument(paymentApplicationDocument);
         documentService.saveDocument(cashControlDocument);
 
-        //RICE20 replaced searchableAttributeProcessingService.indexDocument with DocumentAttributeIndexingQueue.indexDocument 
+        //RICE20 replaced searchableAttributeProcessingService.indexDocument with DocumentAttributeIndexingQueue.indexDocument
         DocumentTypeService documentTypeService = SpringContext.getBean(DocumentTypeService.class);
 
         DocumentType cashDocumentType = documentTypeService.getDocumentTypeByName(cashControlDocument.getFinancialDocumentTypeCode());
@@ -165,6 +168,7 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
     /**
      * @see org.kuali.kfs.module.ar.document.service.CashControlDocumentService#saveGLPEs(org.kuali.kfs.module.ar.document.CashControlDocument)
      */
+    @Override
     public void saveGLPEs(CashControlDocument cashControlDocument) {
         businessObjectService.save(cashControlDocument.getGeneralLedgerPendingEntries());
     }
@@ -173,6 +177,7 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
      * @see org.kuali.kfs.module.ar.document.service.CashControlDocumentService#createCashReceiptGLPEs(org.kuali.kfs.module.ar.document.CashControlDocument,
      *      org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper)
      */
+    @Override
     public boolean createCashReceiptGLPEs(CashControlDocument cashControlDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
 
         boolean success = true;
@@ -191,8 +196,8 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
         criteria.put("universityFiscalYear", currentFiscalYear);
         criteria.put("processingChartOfAccountCode", processingChartOfAccountCode);
         criteria.put("processingOrganizationCode", processingOrganizationCode);
-        SystemInformation systemInformation = (SystemInformation)SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(SystemInformation.class, criteria);
-        
+        SystemInformation systemInformation = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(SystemInformation.class, criteria);
+
         // if there is no system information for this processing chart of accounts and organization return false; glpes cannot be
         // created
         if (ObjectUtils.isNull(systemInformation)) {
@@ -202,7 +207,7 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
         // get current year options
         SystemOptions options = optionsService.getCurrentYearOptions();
 
-        // build an accounting line that will be used to create the glpe 
+        // build an accounting line that will be used to create the glpe
         // ignore university clearing sub-object-code KULAR-633
         accountingLine = buildAccountingLine(systemInformation.getUniversityClearingAccountNumber(), systemInformation.getUniversityClearingSubAccountNumber(), systemInformation.getUniversityClearingObjectCode(), null, systemInformation.getUniversityClearingChartOfAccountsCode(), KFSConstants.GL_CREDIT_CODE, cashControlDocument.getCashControlTotalAmount());
         // get document type for the glpes
@@ -214,18 +219,19 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
 
         return success;
     }
-    
+
     /**
      * Creates bank offset GLPEs for the cash control document
      * @param cashControlDocument the document to create cash control GLPEs for
      * @param sequenceHelper the sequence helper which will sequence the new GLPEs
      * @return true if the new bank offset GLPEs were created successfully, false otherwise
      */
+    @Override
     public boolean createBankOffsetGLPEs(CashControlDocument cashControlDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
         boolean success = true;
         if (SpringContext.getBean(BankService.class).isBankSpecificationEnabled()) {
             // get associated bank
-            Bank bank = (Bank) SpringContext.getBean(BankService.class).getByPrimaryId(cashControlDocument.getBankCode());
+            Bank bank = SpringContext.getBean(BankService.class).getByPrimaryId(cashControlDocument.getBankCode());
             GeneralLedgerPendingEntry bankOffsetEntry = new GeneralLedgerPendingEntry();
             final KualiDecimal totalAmount = glpeService.getOffsetToCashAmount(cashControlDocument).negated();
             // add additional GLPE's based on bank code
@@ -249,9 +255,10 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
     /**
      * @see org.kuali.kfs.module.ar.document.service.CashControlDocumentService#createDistributionOfIncomeAndExpenseGLPEs(org.kuali.kfs.module.ar.document.CashControlDocument, org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper)
      */
+    @Override
     public boolean createDistributionOfIncomeAndExpenseGLPEs(CashControlDocument cashControlDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
         boolean success = true;
-        
+
         AccountingLine accountingLine = null;
         GeneralLedgerPendingEntry explicitEntry = new GeneralLedgerPendingEntry();
 
@@ -267,7 +274,7 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
         criteria.put("universityFiscalYear", currentFiscalYear);
         criteria.put("processingChartOfAccountCode", processingChartOfAccountCode);
         criteria.put("processingOrganizationCode", processingOrganizationCode);
-        SystemInformation systemInformation = (SystemInformation)SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(SystemInformation.class, criteria);
+        SystemInformation systemInformation = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(SystemInformation.class, criteria);
 
         // if there is no system information set up for this processing chart of accounts and organization return false, glpes
         // cannot be created
@@ -277,7 +284,7 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
 
         // get current year options
         SystemOptions options = optionsService.getCurrentYearOptions();
-        
+
         // build dummy accounting line for gl population
         // ignore university clearing sub-object-code KULAR-633
         accountingLine = buildAccountingLine(systemInformation.getUniversityClearingAccountNumber(), systemInformation.getUniversityClearingSubAccountNumber(), systemInformation.getUniversityClearingObjectCode(), null, systemInformation.getUniversityClearingChartOfAccountsCode(), KFSConstants.GL_CREDIT_CODE, cashControlDocument.getCashControlTotalAmount());
@@ -304,8 +311,8 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
             criteria3.put("documentNumber", electronicPaymentClaim.getDocumentNumber());
             criteria3.put("sequenceNumber", electronicPaymentClaim.getFinancialDocumentLineNumber());
             criteria3.put("financialDocumentLineTypeCode", "F");
-            SourceAccountingLine advanceDepositAccountingLine = (SourceAccountingLine)SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(SourceAccountingLine.class, criteria3);
-            
+            SourceAccountingLine advanceDepositAccountingLine = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(SourceAccountingLine.class, criteria3);
+
             // build dummy accounting line for gl creation
             accountingLine = buildAccountingLine(advanceDepositAccountingLine.getAccountNumber(), advanceDepositAccountingLine.getSubAccountNumber(), advanceDepositAccountingLine.getFinancialObjectCode(), advanceDepositAccountingLine.getFinancialSubObjectCode(), advanceDepositAccountingLine.getChartOfAccountsCode(), KFSConstants.GL_DEBIT_CODE, advanceDepositAccountingLine.getAmount());
             // create and add the new explicit entry based on this accounting line
@@ -320,6 +327,7 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
     /**
      * @see org.kuali.kfs.module.ar.document.service.CashControlDocumentService#createGeneralErrorCorrectionGLPEs(org.kuali.kfs.module.ar.document.CashControlDocument, org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper)
      */
+    @Override
     public boolean createGeneralErrorCorrectionGLPEs(CashControlDocument cashControlDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
         boolean success = true;
 
@@ -336,7 +344,7 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
         criteria.put("universityFiscalYear", currentFiscalYear);
         criteria.put("processingChartOfAccountCode", processingChartOfAccountCode);
         criteria.put("processingOrganizationCode", processingOrganizationCode);
-        SystemInformation systemInformation = (SystemInformation)SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(SystemInformation.class, criteria);
+        SystemInformation systemInformation = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(SystemInformation.class, criteria);
 
         // if no system information is set up for this processing chart of accounts and organization code return false, the glpes
         // cannot be created
@@ -368,6 +376,7 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
     /**
      * @see org.kuali.kfs.module.ar.document.service.CashControlDocumentService#getLockboxNumber(org.kuali.kfs.module.ar.document.CashControlDocument)
      */
+    @Override
     public String getLockboxNumber(CashControlDocument cashControlDocument) {
 
         Integer currentFiscalYear = universityDateService.getCurrentFiscalYear();
@@ -377,7 +386,7 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
         criteria.put("universityFiscalYear", currentFiscalYear);
         criteria.put("processingChartOfAccountCode", chartOfAccountsCode);
         criteria.put("processingOrganizationCode", processingOrgCode);
-        SystemInformation systemInformation = (SystemInformation)SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(SystemInformation.class, criteria);
+        SystemInformation systemInformation = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(SystemInformation.class, criteria);
 
         return (systemInformation == null) ? null : systemInformation.getLockboxNumber();
 
@@ -385,7 +394,7 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
 
     /**
      * This method creates an accounting line.
-     * 
+     *
      * @param systemInformation System Information used to set accounting line data
      * @param debitOrCredit Tells if it is debit or credit
      * @param amount The amount
@@ -397,7 +406,7 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
 
         // get new accounting line
         try {
-            accountingLine = (SourceAccountingLine) SourceAccountingLine.class.newInstance();
+            accountingLine = SourceAccountingLine.class.newInstance();
         }
         catch (IllegalAccessException e) {
             throw new InfrastructureException("unable to access sourceAccountingLineClass", e);
@@ -420,7 +429,7 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
 
     /**
      * This method creates and adds a new explicit glpe
-     * 
+     *
      * @param cashControlDocument the cash control document
      * @param sequenceHelper sequence helper
      * @param accountingLine the accounting line based on which the glpe is created
@@ -450,7 +459,7 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
 
     /**
      * This method creates and adds an offset entry for the given explicit entry and accounting line.
-     * 
+     *
      * @param cashControlDocument the cash control document
      * @param explicitEntry the explicit entry for which we create the offset entry
      * @param accountingLine the accounting line used to populate the offset entry
@@ -508,7 +517,7 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
     }
 
     /**
-     * Gets the dataDictionaryService attribute. 
+     * Gets the dataDictionaryService attribute.
      * @return Returns the dataDictionaryService.
      */
     public DataDictionaryService getDataDictionaryService() {

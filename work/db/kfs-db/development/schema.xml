@@ -15950,6 +15950,7 @@
         <column name="FDOC_BNK_CD" size="4" type="VARCHAR"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
+        <column name="FDOC_NXT_ADV_NBR" size="7" type="DECIMAL"/>
         <foreign-key foreignTable="TEM_TRAVELER_DTL_T" name="TEM_TRVL_AUTH_AMEND_DOC_TR1">
             <reference foreign="ID" local="TRAVELER_DTL_ID"/>
         </foreign-key>
@@ -16023,6 +16024,7 @@
         <column name="FDOC_BNK_CD" size="4" type="VARCHAR"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
+        <column name="FDOC_NXT_ADV_NBR" size="7" type="DECIMAL"/>
         <foreign-key foreignTable="TEM_TRAVELER_DTL_T" name="TEM_TRVL_AUTH_DOC_TR1">
             <reference foreign="ID" local="TRAVELER_DTL_ID"/>
         </foreign-key>

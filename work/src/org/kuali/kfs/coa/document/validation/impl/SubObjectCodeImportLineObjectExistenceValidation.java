@@ -17,9 +17,11 @@ package org.kuali.kfs.coa.document.validation.impl;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.SubObjectCodeImportDetail;
+import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.MassImportLineBase;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.rice.kns.service.DataDictionaryService;
@@ -81,14 +83,15 @@ public class SubObjectCodeImportLineObjectExistenceValidation extends GenericVal
             valid = false;
         }
 
+        boolean canCrossCharts = SpringContext.getBean(AccountService.class).accountsCanCrossCharts();
 
-        if (StringUtils.isNotBlank(subObjectImpLine.getChartOfAccountsCode()) && ObjectUtils.isNull(subObjectImpLine.getChartOfAccounts())) {
+        if (canCrossCharts && (StringUtils.isBlank(subObjectImpLine.getChartOfAccountsCode()) || ObjectUtils.isNull(subObjectImpLine.getChartOfAccounts()))) {
             String label = dataDictionaryService.getDataDictionary().getBusinessObjectEntry(SubObjectCodeImportDetail.class.getName()).getAttributeDefinition(KFSPropertyConstants.SubObjectCodeImport.CHART_OF_ACCOUNTS_CODE).getLabel();
             GlobalVariables.getMessageMap().putError(KRADConstants.DOCUMENT_ERRORS, KFSKeyConstants.ERROR_MASSIMPORT_EXISTENCE, new String[] { subObjectImpLine.getSequenceNumber() == null ? "" : subObjectImpLine.getSequenceNumber().toString(), label });
             valid = false;
         }
 
-        if (StringUtils.isNotBlank(subObjectImpLine.getChartOfAccountsCode()) && StringUtils.isNotBlank(subObjectImpLine.getAccountNumber()) && ObjectUtils.isNull(subObjectImpLine.getAccount())) {
+        if ((!canCrossCharts || StringUtils.isNotBlank(subObjectImpLine.getChartOfAccountsCode())) && StringUtils.isNotBlank(subObjectImpLine.getAccountNumber()) && ObjectUtils.isNull(subObjectImpLine.getAccount())) {
             String label = dataDictionaryService.getDataDictionary().getBusinessObjectEntry(SubObjectCodeImportDetail.class.getName()).getAttributeDefinition(KFSPropertyConstants.SubAccountImport.ACCOUNT_NUMBER).getLabel();
             GlobalVariables.getMessageMap().putError(KRADConstants.DOCUMENT_ERRORS, KFSKeyConstants.ERROR_MASSIMPORT_EXISTENCE, new String[] { subObjectImpLine.getSequenceNumber() == null ? "" : subObjectImpLine.getSequenceNumber().toString(), label });
             valid = false;

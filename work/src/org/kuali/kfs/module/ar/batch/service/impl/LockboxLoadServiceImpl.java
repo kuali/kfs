@@ -36,7 +36,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
 /**
  *
  * @author mramawat
- * @see edu.iu.ebs.kfs.module.ar.service.LockboxLoadService
+ * @see org.kuali.kfs.module.ar.batch.service.LockboxLoadService
  * FSKD-688 iu-custom
  */
 public class LockboxLoadServiceImpl implements LockboxLoadService {
@@ -210,9 +210,6 @@ public class LockboxLoadServiceImpl implements LockboxLoadService {
     }
 
 
-    /**
-     * @see edu.iu.ebs.kfs.pdp.batch.service.ExtractPaymentEmailService.sendExtractCheckAddressEmail()
-     */
     public void sendEmail(FlatFileInformation flatFileInformation) {
         LOG.debug("sendEmail() starting");
 

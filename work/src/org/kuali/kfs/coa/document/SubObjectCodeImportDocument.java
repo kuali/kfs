@@ -19,9 +19,12 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.SubObjectCodeImportDetail;
 import org.kuali.kfs.coa.document.service.SubObjectCodeImportService;
+import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants.SubObjectCodeImport;
@@ -31,6 +34,7 @@ import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
 import org.kuali.kfs.sys.document.MassImportDocument;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * This class is the global business object for Sub Account Import Global Maintenance Document
@@ -127,9 +131,17 @@ public class SubObjectCodeImportDocument extends FinancialSystemTransactionalDoc
      */
     @Override
     public void customizeImportedLines(List<MassImportLineBase> importedLines) {
+        boolean canCrossCharts = SpringContext.getBean(AccountService.class).accountsCanCrossCharts();
         for (Iterator iterator = importedLines.iterator(); iterator.hasNext();) {
             SubObjectCodeImportDetail importedLine = (SubObjectCodeImportDetail) iterator.next();
             importedLine.setActive(true);
+            if (!canCrossCharts && StringUtils.isNotBlank(importedLine.getAccountNumber())) {
+                // populate chart code based of account number
+                Account account = SpringContext.getBean(AccountService.class).getUniqueAccountForAccountNumber(importedLine.getAccountNumber());
+                if (ObjectUtils.isNotNull(account)) {
+                    importedLine.setChartOfAccountsCode(account.getChartOfAccountsCode());
+                }
+            }
         }
     }
 
@@ -169,7 +181,12 @@ public class SubObjectCodeImportDocument extends FinancialSystemTransactionalDoc
 
     @Override
     public String[] getOrderedFieldList() {
-        return new String[] { SubObjectCodeImport.UNIVERSITY_FISCAL_YEAR, SubObjectCodeImport.CHART_OF_ACCOUNTS_CODE, SubObjectCodeImport.ACCOUNT_NUMBER, SubObjectCodeImport.FIN_OBJECT_CODE, SubObjectCodeImport.FIN_SUB_OBJECT_CODE, SubObjectCodeImport.FIN_SUB_OBJECT_CODE_NAME, SubObjectCodeImport.FIN_SUB_OBJECT_CODE_SHORT_NAME };
+        if (SpringContext.getBean(AccountService.class).accountsCanCrossCharts()) {
+            //include chart code
+            return new String[] { SubObjectCodeImport.UNIVERSITY_FISCAL_YEAR, SubObjectCodeImport.CHART_OF_ACCOUNTS_CODE, SubObjectCodeImport.ACCOUNT_NUMBER, SubObjectCodeImport.FIN_OBJECT_CODE, SubObjectCodeImport.FIN_SUB_OBJECT_CODE, SubObjectCodeImport.FIN_SUB_OBJECT_CODE_NAME, SubObjectCodeImport.FIN_SUB_OBJECT_CODE_SHORT_NAME };
+        }
+        //exclude chart code
+        return new String[] { SubObjectCodeImport.UNIVERSITY_FISCAL_YEAR, SubObjectCodeImport.ACCOUNT_NUMBER, SubObjectCodeImport.FIN_OBJECT_CODE, SubObjectCodeImport.FIN_SUB_OBJECT_CODE, SubObjectCodeImport.FIN_SUB_OBJECT_CODE_NAME, SubObjectCodeImport.FIN_SUB_OBJECT_CODE_SHORT_NAME };
     }
 
 

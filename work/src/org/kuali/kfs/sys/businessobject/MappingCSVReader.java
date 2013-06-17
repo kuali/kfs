@@ -23,12 +23,24 @@ import org.kuali.kfs.sys.exception.ParseException;
 import au.com.bytecode.opencsv.CSVReader;
 import au.com.bytecode.opencsv.bean.CsvToBean;
 
-// Created for Research Participant Upload
-public class KFSCSVReader extends CsvToBean {
+/**
+ * Created for Research Participant Upload
+ * This class uses the readNext method in CSVReader
+ * to read a line from spreadsheet and parses the
+ * line into an array of String of the columns in
+ * the line.
+ * It also uses the processLine method of the
+ * CsvToBean to convert an array of String into
+ * an Object. The type of Object it's creating
+ * depends on the MappingStrategy passed into the
+ * input parameter.
+ *
+ */
+public class MappingCSVReader extends CsvToBean {
 
     private CSVReader csvReader;
 
-    public KFSCSVReader(InputStreamReader inputStreamReader) {
+    public MappingCSVReader(InputStreamReader inputStreamReader) {
         csvReader = new CSVReader(inputStreamReader);
     }
 

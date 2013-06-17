@@ -97,7 +97,9 @@ public class RequisitionDocumentTest extends KualiTestBase {
     }
 
     public final void testConvertIntoCopy_copyDisallowed() throws Exception {
-        AccountingDocumentTestUtils.testConvertIntoCopy_copyDisallowed(buildSimpleDocument(), SpringContext.getBean(DataDictionaryService.class));
+        RequisitionDocument doc = buildSimpleDocument();
+        doc.getRequisitionSource().setAllowCopyDays(0);
+        AccountingDocumentTestUtils.testConvertIntoCopy_copyDisallowed(doc, SpringContext.getBean(DataDictionaryService.class));
 
     }
 

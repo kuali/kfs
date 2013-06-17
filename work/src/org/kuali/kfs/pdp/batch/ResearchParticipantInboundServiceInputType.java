@@ -28,6 +28,7 @@ import org.apache.log4j.Logger;
 import org.kuali.kfs.gl.batch.CollectorBatch;
 import org.kuali.kfs.pdp.PdpConstants;
 import org.kuali.kfs.pdp.PdpKeyConstants;
+import org.kuali.kfs.pdp.batch.service.ExtractPaymentService;
 import org.kuali.kfs.pdp.businessobject.LoadPaymentStatus;
 import org.kuali.kfs.pdp.businessobject.PaymentAccountDetail;
 import org.kuali.kfs.pdp.businessobject.PaymentDetail;
@@ -42,7 +43,7 @@ import org.kuali.kfs.pdp.service.PaymentFileService;
 import org.kuali.kfs.pdp.service.ResearchParticipantPaymentValidationService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.batch.BatchInputFileTypeBase;
-import org.kuali.kfs.sys.businessobject.KFSCSVReader;
+import org.kuali.kfs.sys.businessobject.MappingCSVReader;
 import org.kuali.kfs.sys.exception.ParseException;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiInteger;
@@ -70,8 +71,8 @@ public class ResearchParticipantInboundServiceInputType extends BatchInputFileTy
     private DictionaryValidationService dictionaryValidationService;
     private SequenceAccessorService sequenceAccessorService;
     private CountryService countryService;
-
     private ResearchParticipantPaymentValidationService researchParticipantPaymentValidationService;
+    private ExtractPaymentService extractPaymentService;
 
     /**
      * @see org.kuali.kfs.sys.batch.BatchInputFileType#getFileTypeIdentifer()
@@ -156,6 +157,14 @@ public class ResearchParticipantInboundServiceInputType extends BatchInputFileTy
         this.countryService = countryService;
     }
 
+    public ExtractPaymentService getExtractPaymentService() {
+        return extractPaymentService;
+    }
+
+    public void setExtractPaymentService(ExtractPaymentService extractPaymentService) {
+        this.extractPaymentService = extractPaymentService;
+    }
+
     /**
      * Override the superclass method to parse the incoming spreadsheet
      * file and convert into PaymentFileLoad, then return it to the invoker.
@@ -171,7 +180,7 @@ public class ResearchParticipantInboundServiceInputType extends BatchInputFileTy
         try {
 
             InputStreamReader inputStreamReader = new InputStreamReader(new ByteArrayInputStream(fileByteContent));
-            KFSCSVReader reader = new KFSCSVReader(inputStreamReader);
+            MappingCSVReader reader = new MappingCSVReader(inputStreamReader);
 
             String[] fileLine = null;
 
@@ -275,10 +284,16 @@ public class ResearchParticipantInboundServiceInputType extends BatchInputFileTy
             paymentDetail.setInvoiceDate(uploadFile.getPaymentHeader().getPaymentDate());
             paymentDetail.setCustPaymentDocNbr(uploadFile.getPaymentHeader().getSourceDocNumber());
             paymentDetail.setFinancialSystemOriginCode(KFSConstants.ORIGIN_CODE_KUALI);
-            PaymentNoteText note = new PaymentNoteText();
-            note.setCustomerNoteText(detail.getCheckStubText());
-            note.setCustomerNoteLineNbr(new KualiInteger(1));
-            paymentDetail.addNote(note);
+
+            List<String> formattedCheckNoteLines = this.getExtractPaymentService().formatCheckNoteLines(detail.getCheckStubText());
+            int count = 1;
+            for (String noteText : formattedCheckNoteLines) {
+                PaymentNoteText note = new PaymentNoteText();
+                note.setCustomerNoteText(noteText);
+                note.setCustomerNoteLineNbr(new KualiInteger(count++));
+                paymentDetail.addNote(note);
+            }
+
             uploadFile.getPaymentAccountDetail().setAccountNetAmount(detail.getAmount());
 
             PaymentAccountDetail ac = new PaymentAccountDetail();
@@ -324,7 +339,7 @@ public class ResearchParticipantInboundServiceInputType extends BatchInputFileTy
      * @param strat
      * @return
      */
-    protected PaymentHeader parsePaymentHeader(String[] fileLine, KFSCSVReader reader, ColumnPositionMappingStrategy strat) {
+    protected PaymentHeader parsePaymentHeader(String[] fileLine, MappingCSVReader reader, ColumnPositionMappingStrategy strat) {
         strat.setType(PaymentHeader.class);
         String[] headerColumns = new String[] { PdpConstants.PaymentHeader.CHART,
                 PdpConstants.PaymentHeader.UNIT, PdpConstants.PaymentHeader.SUBUNIT,
@@ -344,7 +359,7 @@ public class ResearchParticipantInboundServiceInputType extends BatchInputFileTy
      * @param strat
      * @return
      */
-    protected PaymentAccountDetail parseAccountingLine(String[] fileLine, KFSCSVReader reader, ColumnPositionMappingStrategy strat) {
+    protected PaymentAccountDetail parseAccountingLine(String[] fileLine, MappingCSVReader reader, ColumnPositionMappingStrategy strat) {
         strat.setType(PaymentAccountDetail.class);
         String[] headerColumns = new String[] { PdpConstants.PaymentAccountDetail.CHART,
                 PdpConstants.PaymentAccountDetail.ACCOUNT_NBR,
@@ -366,7 +381,7 @@ public class ResearchParticipantInboundServiceInputType extends BatchInputFileTy
      * @param strat
      * @return
      */
-    protected ResearchParticipantPaymentDetail parsePaymentDetail(String[] fileLine, KFSCSVReader reader, ColumnPositionMappingStrategy strat) {
+    protected ResearchParticipantPaymentDetail parsePaymentDetail(String[] fileLine, MappingCSVReader reader, ColumnPositionMappingStrategy strat) {
         strat.setType(ResearchParticipantPaymentDetail.class);
         String[] headerColumns = new String[] { PdpConstants.PaymentDetail.PAYEE_NAME,
                 PdpConstants.PaymentDetail.ADDRESS_LINE_1, PdpConstants.PaymentDetail.ADDRESS_LINE_2,

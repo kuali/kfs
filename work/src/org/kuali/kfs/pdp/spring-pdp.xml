@@ -345,6 +345,7 @@
 		<property name="businessObjectService" ref="businessObjectService" />
 		<property name="configurationService" ref="kualiConfigurationService"/>
 		<property name="countryService" ref="countryService"/>		
+        <property name="dataDictionaryService" ref="dataDictionaryService"/>		
 	</bean>
 	
     <bean id="pdpExtractGlTransactionService" parent="pdpExtractGlTransactionService-parentBean"/>
@@ -720,6 +721,7 @@
         <property name="sequenceAccessorService" ref="sequenceAccessorService"/>
         <property name="countryService" ref="countryService"/>
         <property name="researchParticipantPaymentValidationService" ref="researchParticipantPaymentValidationService"/>
+        <property name="extractPaymentService" ref="pdpExtractPaymentService" />
 	</bean>	
 	<bean id="researchParticipantPaymentValidationService" parent="researchParticipantPaymentValidationService-parentBean" />
     <bean id="researchParticipantPaymentValidationService-parentBean" class="org.kuali.kfs.pdp.service.impl.ResearchParticipantPaymentValidationServiceImpl" abstract="true">

@@ -14945,6 +14945,7 @@
     </table>
     <table name="TEM_AGENCY_STAGING_T">
         <column name="ID" primaryKey="true" size="22" type="DECIMAL"/>
+        <column name="COPIED_AGENCY_STAGING_ID" size="22" type="DECIMAL"/>
         <column name="ERROR_CD" size="40" type="VARCHAR"/>
         <column name="DUP_REC_ID" size="22" type="DECIMAL"/>
         <column name="IMPORT_BY" size="3" type="VARCHAR"/>
@@ -15022,6 +15023,7 @@
         <column name="CREATION_TS" type="DATE"/>
         <column name="PROCESSING_TS" type="DATE"/>
         <column name="MV_TO_HISTORY" size="1" type="VARCHAR"/>
+        <column name="MANUAL_CRTD" size="1" type="VARCHAR"/>
         <column name="ACTV_CD" size="1" type="VARCHAR"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>

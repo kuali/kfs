@@ -44,7 +44,6 @@ import org.kuali.kfs.module.ar.document.CashControlDocument;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.PaymentApplicationDocument;
 import org.kuali.kfs.module.ar.document.dataaccess.CashControlDetailDao;
-import org.kuali.kfs.module.ar.document.service.AccountsReceivableDocumentHeaderService;
 import org.kuali.kfs.module.ar.document.service.CustomerAddressService;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
 import org.kuali.kfs.module.ar.document.service.InvoicePaidAppliedService;
@@ -106,8 +105,9 @@ public class PaymentApplicationDocumentServiceImpl implements PaymentApplication
         String processingChartCode = customerInvoiceDocument.getAccountsReceivableDocumentHeader().getProcessingChartOfAccountCode();
         String processingOrgCode = customerInvoiceDocument.getAccountsReceivableDocumentHeader().getProcessingOrganizationCode();
 
-        AccountsReceivableDocumentHeaderService arDocHeaderService = SpringContext.getBean(AccountsReceivableDocumentHeaderService.class);
-        AccountsReceivableDocumentHeader arDocHeader = arDocHeaderService.getNewAccountsReceivableDocumentHeader(processingChartCode, processingOrgCode);
+        AccountsReceivableDocumentHeader arDocHeader = new AccountsReceivableDocumentHeader();
+        arDocHeader.setProcessingChartOfAccountCode(processingChartCode);
+        arDocHeader.setProcessingOrganizationCode(processingOrgCode);
         arDocHeader.setDocumentNumber(applicationDocument.getDocumentNumber());
         applicationDocument.setAccountsReceivableDocumentHeader(arDocHeader);
 

@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -41,6 +41,7 @@ public class AccountsReceivableDocumentHeaderServiceImpl implements AccountsRece
      * @see org.kuali.kfs.module.ar.document.service.AccountsReceivableDocumentHeaderService#getNewAccountsReceivableDocumentHeader(java.lang.String,
      *      java.lang.String)
      */
+    @Override
     public AccountsReceivableDocumentHeader getNewAccountsReceivableDocumentHeader(String chartOfAccountsCode, String organizationCode) {
         AccountsReceivableDocumentHeader accountsReceivableDocumentHeader = new AccountsReceivableDocumentHeader();
 
@@ -51,7 +52,7 @@ public class AccountsReceivableDocumentHeaderServiceImpl implements AccountsRece
             accountsReceivableDocumentHeader.setProcessingOrganizationCode(processingOrg.getProcessingOrganizationCode());
             return accountsReceivableDocumentHeader;
         }
-        
+
         //  next we try to get the processing org through the initiating user's billing org, if that exists
         OrganizationOptions orgOptions = getOrgOptionsIfExists(chartOfAccountsCode, organizationCode);
         if (orgOptions != null) {
@@ -59,26 +60,27 @@ public class AccountsReceivableDocumentHeaderServiceImpl implements AccountsRece
             accountsReceivableDocumentHeader.setProcessingOrganizationCode(orgOptions.getProcessingOrganizationCode());
             return accountsReceivableDocumentHeader;
         }
-        
-        //  If we get here, then we didnt find a matching BillingOrg or ProcessingOrg, so we have 
-        // no way to retrieve the document processing org.  This should never happen if the authorization 
+
+        //  If we get here, then we didnt find a matching BillingOrg or ProcessingOrg, so we have
+        // no way to retrieve the document processing org.  This should never happen if the authorization
         // is working right, so we're going to puke and die right here.
-        throw new UnsupportedOperationException("");
+        throw new UnsupportedOperationException("Unable to create AR Document Header due to incomplete configuration. Missing or inactive SystemInformation and/or OrganizationOptions for: "+ chartOfAccountsCode +"-"+ organizationCode );
     }
 
     protected OrganizationOptions getOrgOptionsIfExists(String chartOfAccountsCode, String organizationCode) {
         Map<String, String> criteria = new HashMap<String, String>();
         criteria.put("chartOfAccountsCode", chartOfAccountsCode);
         criteria.put("organizationCode", organizationCode);
-        return (OrganizationOptions) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(OrganizationOptions.class, criteria);
+        return SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(OrganizationOptions.class, criteria);
     }
-    
+
     protected SystemInformation getProcessingOrgIfExists(String chartOfAccountsCode, String organizationCode) {
         return sysInfoService.getByProcessingChartOrgAndFiscalYear(chartOfAccountsCode, organizationCode, universityDateService.getCurrentFiscalYear());
     }
     /**
      * @see org.kuali.kfs.module.ar.document.service.AccountsReceivableDocumentHeaderService#getNewAccountsReceivableDocumentHeaderForCurrentUser()
      */
+    @Override
     public AccountsReceivableDocumentHeader getNewAccountsReceivableDocumentHeaderForCurrentUser() {
         ChartOrgHolder currentUser = SpringContext.getBean(FinancialSystemUserService.class).getPrimaryOrganization(GlobalVariables.getUserSession().getPerson(), ArConstants.AR_NAMESPACE_CODE);
         return getNewAccountsReceivableDocumentHeader(currentUser.getChartOfAccountsCode(), currentUser.getOrganizationCode());

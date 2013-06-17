@@ -350,10 +350,7 @@ are intended for use only by Kuali Foundation developers.
 		<!-- Development impex files -->
 		<delete verbose="true">
 			<fileset dir="${all.temp.directory}/kfs/work/db">
-				<include name="export-rice*" />
-				<exclude name="impex-local*"/>
-				<exclude name="refresh-local*"/>
-				<exclude name="rice_db_cleanup.sql"/>
+				<exclude name="fieldsToEncrypt.properties" />
 			</fileset>
 		</delete>
 		<delete dir="${all.temp.directory}/kfs/work/db/kfs-db/db-impex/export-to-svn" />

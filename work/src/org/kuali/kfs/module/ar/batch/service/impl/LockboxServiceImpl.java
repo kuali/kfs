@@ -98,16 +98,18 @@ public class LockboxServiceImpl implements LockboxService {
     private LockboxDao lockboxDao;
     private String reportsDirectory;
 
-    Lockbox ctrlLockbox = new Lockbox();
+    Lockbox ctrlLockbox;
     CashControlDocument cashControlDocument;
-    boolean anyRecordsFound = false;
+    boolean anyRecordsFound;
 
 
 
     @Override
     public boolean processLockboxes() throws WorkflowException {
 
+        ctrlLockbox = new Lockbox();
         cashControlDocument = null;
+        anyRecordsFound = false;
         //  create the pdf doc
         com.lowagie.text.Document pdfdoc = getPdfDoc();
 
@@ -255,16 +257,11 @@ public class LockboxServiceImpl implements LockboxService {
 
             //  setup the AR header for this CashControl doc
             LOG.info("   creating AR header for customer: [" + lockbox.getCustomerNumber() + "] and ProcessingOrg: " + sysInfo.getProcessingChartOfAccountCode() + "-" + sysInfo.getProcessingOrganizationCode() + ".");
-            AccountsReceivableDocumentHeader arDocHeader;
-            try {
-                arDocHeader = accountsReceivableDocumentHeaderService.getNewAccountsReceivableDocumentHeader(
-                        sysInfo.getProcessingChartOfAccountCode(), sysInfo.getProcessingOrganizationCode());
-            }
-            catch (Exception e) {
-                LOG.error("An Exception was thrown while trying to create a new AccountsReceivableDocumentHeader for the current user: '" + principal.getPrincipalName() + "'.", e);
-                throw new RuntimeException("An Exception was thrown while trying to create a new AccountsReceivableDocumentHeader for the current user: '" + principal.getPrincipalName() + "'.", e);
-            }
+            AccountsReceivableDocumentHeader arDocHeader = new AccountsReceivableDocumentHeader();
+            arDocHeader.setProcessingChartOfAccountCode(sysInfo.getProcessingChartOfAccountCode());
+            arDocHeader.setProcessingOrganizationCode(sysInfo.getProcessingOrganizationCode());
             arDocHeader.setDocumentNumber(cashControlDocument.getDocumentNumber());
+
             if(ObjectUtils.isNotNull(lockbox.getCustomerNumber())) {
                 Customer customer = customerService.getByPrimaryKey(lockbox.getCustomerNumber());
                 if (ObjectUtils.isNotNull(customer)) {

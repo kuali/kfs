@@ -22,8 +22,8 @@ import java.util.List;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
-import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
+import org.joda.time.DateTime;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.businessobject.AutoClosePurchaseOrderView;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
@@ -32,6 +32,8 @@ import org.kuali.kfs.module.purap.document.dataaccess.PurchaseOrderDao;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
+import org.kuali.rice.kew.api.KewApiServiceLocator;
+import org.kuali.rice.kew.api.document.Document;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -41,7 +43,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class PurchaseOrderDaoOjb extends PlatformAwareDaoBaseOjb implements PurchaseOrderDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurchaseOrderDaoOjb.class);
 
-    
+    @Override
     public Integer getPurchaseOrderIdForCurrentPurchaseOrderByRelatedDocId(Integer accountsPayablePurchasingDocumentLinkIdentifier) {
         Criteria criteria = new Criteria();
         criteria.addEqualTo("accountsPayablePurchasingDocumentLinkIdentifier", accountsPayablePurchasingDocumentLinkIdentifier);
@@ -56,7 +58,7 @@ public class PurchaseOrderDaoOjb extends PlatformAwareDaoBaseOjb implements Purc
         return null;
     }
 
-  
+    @Override
     public PurchaseOrderDocument getCurrentPurchaseOrder(Integer id) {
         Criteria criteria = new Criteria();
         criteria.addEqualTo(PurapPropertyConstants.PURAP_DOC_ID, id);
@@ -69,7 +71,7 @@ public class PurchaseOrderDaoOjb extends PlatformAwareDaoBaseOjb implements Purc
     /**
      * @see org.kuali.kfs.module.purap.document.dataaccess.PurchaseOrderDao#getDocumentNumberForPurchaseOrderId(java.lang.Integer)
      */
-
+    @Override
     public String getDocumentNumberForPurchaseOrderId(Integer id) {
         Criteria criteria = new Criteria();
         criteria.addEqualTo(PurapPropertyConstants.PURAP_DOC_ID, id);
@@ -80,7 +82,7 @@ public class PurchaseOrderDaoOjb extends PlatformAwareDaoBaseOjb implements Purc
     /**
      * @see org.kuali.kfs.module.purap.document.dataaccess.PurchaseOrderDao#getDocumentNumberForCurrentPurchaseOrder(java.lang.Integer)
      */
-   
+    @Override
     public String getDocumentNumberForCurrentPurchaseOrder(Integer id) {
         Criteria criteria = new Criteria();
         criteria.addEqualTo(PurapPropertyConstants.PURAP_DOC_ID, id);
@@ -92,26 +94,34 @@ public class PurchaseOrderDaoOjb extends PlatformAwareDaoBaseOjb implements Purc
     /**
      * @see org.kuali.kfs.module.purap.document.dataaccess.PurchaseOrderDao#getOldestPurchaseOrderDocumentNumber(java.lang.Integer)
      */
-  
+    @Override
     public String getOldestPurchaseOrderDocumentNumber(Integer id) {
         Criteria criteria = new Criteria();
-        criteria.addEqualTo(PurapPropertyConstants.PURAP_DOC_ID, id);
-        ReportQueryByCriteria rqbc = QueryFactory.newReportQuery(PurchaseOrderDocument.class, criteria);
-        rqbc.setAttributes(new String[] { KFSPropertyConstants.DOCUMENT_NUMBER });
-        //the documents need to be sorted in descending order because we want the
-        //the oldest document number to get the oldest purchase order
-        //because the notes remoteobjectid is set to the object id of the oldest
-        //purchase order document.
-        //KFSMI-8394
-        rqbc.addOrderByDescending(KFSPropertyConstants.DOCUMENT_NUMBER);
-
+        List<String> relatedPurchaseOrderDocNumForPO = new ArrayList<String>();
+        DateTime oldestDocumentsCreationDate = DateTime.now();
         String oldestDocumentNumber = null;
-        java.util.Iterator iter = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(rqbc);
-        while (iter.hasNext()) {
-            final Object[] results = (Object[]) iter.next();
-            oldestDocumentNumber = (String) results[0];
-        }
 
+        criteria.addEqualTo(PurapPropertyConstants.PURAP_DOC_ID, id);
+        // we only need the document number, no need to get the entire document object
+        ReportQueryByCriteria query = new ReportQueryByCriteria(PurchaseOrderDocument.class, new String[]{PurapPropertyConstants.DOCUMENT_NUMBER}, criteria);
+        java.util.Iterator<Object[]> iter = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query);
+        while (iter.hasNext()) {
+            final Object[] res = iter.next();
+            relatedPurchaseOrderDocNumForPO.add((String)res[0]);
+        }
+        // We want the oldest purchase order because the notes remoteobjectid is set to the object id of the oldest purchase order document.
+        // KFSMI-8394
+        // later on changed for KFSCNTRB-1642
+        for(String docId : relatedPurchaseOrderDocNumForPO){
+            Document wd = KewApiServiceLocator.getWorkflowDocumentService().getDocument(docId);
+            if(wd != null){
+                DateTime createDate = wd.getDateCreated();
+                if(oldestDocumentsCreationDate.compareTo(createDate) >= 0){
+                    oldestDocumentsCreationDate = createDate;
+                    oldestDocumentNumber = docId;
+                }
+            }
+        }
         return oldestDocumentNumber;
     }
 
@@ -164,7 +174,7 @@ public class PurchaseOrderDaoOjb extends PlatformAwareDaoBaseOjb implements Purc
     /**
      * @see org.kuali.kfs.module.purap.document.dataaccess.PurchaseOrderDao#itemExistsOnPurchaseOrder(java.lang.Integer, java.lang.String)
      */
-  
+    @Override
     public boolean itemExistsOnPurchaseOrder(Integer poItemLineNumber, String docNumber){
         boolean existsInPo = false;
 
@@ -187,7 +197,7 @@ public class PurchaseOrderDaoOjb extends PlatformAwareDaoBaseOjb implements Purc
     /**
      * @see org.kuali.kfs.module.purap.document.dataaccess.PurchaseOrderDao#getAllOpenPurchaseOrders(java.util.List)
      */
- 
+    @Override
     public List<AutoClosePurchaseOrderView> getAllOpenPurchaseOrders(List<String> excludedVendorChoiceCodes) {
         LOG.debug("getAllOpenPurchaseOrders() started");
         Criteria criteria = new Criteria();
@@ -210,7 +220,7 @@ public class PurchaseOrderDaoOjb extends PlatformAwareDaoBaseOjb implements Purc
     /**
      * @see org.kuali.kfs.module.purap.document.dataaccess.PurchaseOrderDao#getAutoCloseRecurringPurchaseOrders(java.util.List)
      */
-   
+    @Override
     public List<AutoClosePurchaseOrderView> getAutoCloseRecurringPurchaseOrders(List<String> excludedVendorChoiceCodes) {
         LOG.debug("getAutoCloseRecurringPurchaseOrders() started.");
         Criteria criteria = new Criteria();
@@ -232,7 +242,7 @@ public class PurchaseOrderDaoOjb extends PlatformAwareDaoBaseOjb implements Purc
         return l;
     }
 
-   
+    @Override
     public List<PurchaseOrderDocument> getPendingPurchaseOrdersForFaxing() {
         LOG.debug("Getting pending purchase orders for faxing");
         Criteria criteria = new Criteria();
@@ -242,14 +252,14 @@ public class PurchaseOrderDaoOjb extends PlatformAwareDaoBaseOjb implements Purc
         return l;
    }
 
-
     /**
      * This method document number of the POA to be used for document comparison
      *
      */
 
 
-    
+
+    @Override
     public List<String> getPurchaseOrderDocumentNumbersForComparison(Integer id, String documentNumber) {
         String oldestDocumentNumber = null;
         Criteria criteria = new Criteria();

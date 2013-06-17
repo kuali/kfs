@@ -31,11 +31,13 @@ public class TemKeyConstants {
     public static final String ERROR_TA_REASON_REQUIRED  = "error.travelAuthorization.reasonRequired";
     public static final String ERROR_TA_REASON_PASTLIMIT = "error.travelAuthorization.reason.pastLimit";
     public static final String ERROR_TAA_WITH_TR_ENROUTE = "error.travel.authorization.amendment.enroute.reimbursement";
+    public static final String ERROR_TA_ADVANCE_ACCOUNTING_LINES_ADVANCE_AMOUNT_REQUESTED_NOT_EQUAL = "error.travelAuthorization.advanceAccountingLines.travelAdvanceRequested.notEqual";
     public static final String TR_FISCAL_OFFICER_QUESTION = "travelAuthorization.fiscalOfficer.question.text";
     public static final String TA_MESSAGE_HOLD_DOCUMENT_TEXT = "travelAuthorization.message.hold.text";
     public static final String TA_MESSAGE_AMEND_DOCUMENT_TEXT = "travelAuthorization.message.amend.text";
     public static final String TA_MESSAGE_RETIRED_DOCUMENT_TEXT = "travelAuthorization.message.retired.text";
     public static final String TA_MESSAGE_CLOSE_DOCUMENT_TEXT = "travelAuthorization.message.close.text";
+    public static final String TA_MESSAGE_ADVANCE_ACCOUNTING_LINES_GLPE_DESCRIPTION = "travelAuthorization.message.advanceAccountingLines.glpeDescription";
 
     public static final String AGENCY_SITES_URL       = "url.document.travelRelocation.agencySites";
     public static final String ENABLE_AGENCY_SITES_URL  = "config.document.travelRelocation.agencySites.enable";
@@ -64,7 +66,7 @@ public class TemKeyConstants {
     public static final String WARNING_PERDIEM_EXPENSE_LODGING_ENTERED = "warning.document.tem.perdiemexpense.lodgingentered";
 
     // errors
-    public static final String TRVL_AUTH_TRVL_ADVANCE_ERRORS = "newTravelAdvanceLine.*,document.travelAdvances*";
+    public static final String TRVL_AUTH_TRVL_ADVANCE_ERRORS = "document.travelAdvance*,travelAdvance.*,advanceAccountingLines*,advanceTravelPayment.*,document.advanceTravelPayment.*,document.advanceAccountingLines*,newAdvanceAccountingLine*";
 
     public static final String TRVL_AUTH_TRIP_OVERVIEW_ERRORS = "tripInfoUpdateTripDetails.*,document.tripBegin,document.tripEnd,document.tripTypeCode,document.primaryDestinationName," +
                                                                 "document.travelerTypeCode,document.firstName,document.lastName,document.streetAddressLine1,"+
@@ -129,6 +131,8 @@ public class TemKeyConstants {
     public static final String MESSAGE_DV_IN_ACTION_LIST       = "message.document.tem.dv.actionList";
     public static final String MESSAGE_RELO_DV_IN_ACTION_LIST = "message.document.tem.relo.dv.actionList";
     public static final String MESSAGE_TA_ADVANCE_POLICY = "message.document.tem.ta.advance.policy";
+    public static final String MESSAGE_TA_ADVANCE_PAYMENT_HOLD_TEXT = "message.document.tem.ta.advance.checkText.holdingText";
+    public static final String MESSAGE_TA_ADVANCE_PAYMENT_CHECK_TEXT_PREFIX = "message.document.tem.ta.advance.checkText.prefix";
 
     //Add any custom messages
     public static final String MESSAGE_GENERIC = "message.generic";

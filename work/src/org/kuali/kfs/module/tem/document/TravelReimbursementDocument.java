@@ -18,6 +18,7 @@ package org.kuali.kfs.module.tem.document;
 import static org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters.TRAVEL_AUTHORIZATION_REQUIRED_IND;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -84,6 +85,8 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
     private KualiDecimal travelAdvanceAmount = KualiDecimal.ZERO;
     @Transient
     private KualiDecimal reimbursableAmount = KualiDecimal.ZERO;
+    @Transient
+    private List<TravelAdvance> travelAdvances;
 
     public TravelReimbursementDocument() {
     }
@@ -355,14 +358,17 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
                 }
             }
         }
-        if (getTravelAdvances() != null && getTravelAdvances().size() > 0) {
-            for (TravelAdvance advance : getTravelAdvances()) {
-                if (advance.getPaymentMethod().equals(TemConstants.DisbursementVoucherPaymentMethods.WIRE_TRANSFER_PAYMENT_METHOD_CODE)
-                        || advance.getPaymentMethod().equals(TemConstants.DisbursementVoucherPaymentMethods.FOREIGN_DRAFT_PAYMENT_METHOD_CODE)) {
+
+        final List<Document> authorizations = getTravelDocumentService().getDocumentsRelatedTo(this, TemConstants.TravelDocTypes.TRAVEL_AUTHORIZATION_DOCUMENT, TemConstants.TravelDocTypes.TRAVEL_AUTHORIZATION_AMEND_DOCUMENT);
+        if (authorizations != null && !authorizations.isEmpty()) {
+            for (Document doc : authorizations) {
+                TravelAuthorizationDocument auth = (TravelAuthorizationDocument)doc;
+                if (!ObjectUtils.isNull(auth.getTravelAdvance()) && auth.shouldProcessAdvanceForDocument() && (TemConstants.DisbursementVoucherPaymentMethods.WIRE_TRANSFER_PAYMENT_METHOD_CODE.equals(auth.getAdvanceTravelPayment().getPaymentMethodCode()) || TemConstants.DisbursementVoucherPaymentMethods.FOREIGN_DRAFT_PAYMENT_METHOD_CODE.equals(auth.getAdvanceTravelPayment().getPaymentMethodCode()))) {
                     return true;
                 }
             }
         }
+
         KualiDecimal trTotal = KualiDecimal.ZERO;
         List<AccountingLine> lines = getSourceAccountingLines();
         for (AccountingLine line : lines) {
@@ -439,33 +445,6 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
     }
 
     /**
-     * @see org.kuali.kfs.module.tem.document.TravelDocumentBase#populateDisbursementVoucherFields(org.kuali.kfs.fp.document.DisbursementVoucherDocument, org.kuali.kfs.module.tem.document.TravelDocument)
-     */
-    @Override
-    public void populateDisbursementVoucherFields(DisbursementVoucherDocument disbursementVoucherDocument) {
-        super.populateDisbursementVoucherFields(disbursementVoucherDocument);
-
-        final String paymentReasonCode = getParameterService().getParameterValueAsString(TravelReimbursementDocument.class,TravelReimbursementParameters.PAYMENT_REASON_CODE);
-        disbursementVoucherDocument.getDvPayeeDetail().setDisbVchrPaymentReasonCode(paymentReasonCode);
-        final String paymentLocationCode = getParameterService().getParameterValueAsString(TemParameterConstants.TEM_DOCUMENT.class,TravelParameters.DOCUMENTATION_LOCATION_CODE);
-        disbursementVoucherDocument.setDisbursementVoucherDocumentationLocationCode(paymentLocationCode);
-
-        //check if the reimbursable total and the reimbursable amount (reduced by CRM) is different, which means we need to adjust the DV's accounting line amounts
-        if (!getReimbursableTotal().equals(getReimbursableAmount())){
-            //change the DV's total to the reimbursable amount set previously
-            disbursementVoucherDocument.setDisbVchrCheckTotalAmount(getReimbursableAmount());
-
-            //Distribute the DV accounting line to the reimbursable amount
-            if (getReimbursableSourceAccountingLines().size() > 1){
-                getTravelDisbursementService().redistributeDisbursementAccountingLine(disbursementVoucherDocument, getReimbursableSourceAccountingLines());
-            }else{
-                //there is only one reimbursable source line, go ahead and assign the reimbursable amount to it directly
-                disbursementVoucherDocument.getSourceAccountingLine(0).setAmount(getReimbursableAmount());
-            }
-        }
-    }
-
-    /**
      * Overridden to respect reimbursable amount logic
      * @see org.kuali.kfs.module.tem.document.TEMReimbursementDocument#getPaymentAmount()
      */
@@ -475,6 +454,23 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
             return getReimbursableAmount();
         }
         return super.getPaymentAmount();
+    }
+
+    /**
+     * @return all travel advances associated with the trip this document is reimbursing
+     */
+    public List<TravelAdvance> getTravelAdvances() {
+        // TODO should be via ojb?
+        if (travelAdvances == null) {
+            List<TravelAdvance> advances = getTravelReimbursementService().getTravelAdvancesForTrip(getTravelDocumentIdentifier());
+            travelAdvances = new ArrayList<TravelAdvance>();
+            for (TravelAdvance advance: advances) {
+                if (advance.isAtLeastPartiallyFilledIn()) {
+                    travelAdvances.add(advance);
+                }
+            }
+        }
+        return travelAdvances;
     }
 
     /**

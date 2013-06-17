@@ -36,7 +36,6 @@ import org.kuali.kfs.integration.ar.AccountsReceivableCustomer;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemConstants.EntertainmentStatusCodeKeys;
-import org.kuali.kfs.module.tem.TemConstants.TravelEntertainmentParameters;
 import org.kuali.kfs.module.tem.TemConstants.TravelParameters;
 import org.kuali.kfs.module.tem.TemParameterConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
@@ -58,6 +57,7 @@ import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.ObjectUtils;
 
@@ -288,22 +288,13 @@ public class TravelEntertainmentDocument extends TEMReimbursementDocument {
     }
 
     /**
-     * @see org.kuali.kfs.module.tem.document.TEMReimbursementDocument#populateDisbursementVoucherFields(org.kuali.kfs.fp.document.DisbursementVoucherDocument)
+     * Checks the check stub text for the payment
+     * @see org.kuali.kfs.module.tem.document.TravelDocumentBase#prepareForSave(org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent)
      */
     @Override
-    public void populateDisbursementVoucherFields(DisbursementVoucherDocument disbursementVoucherDocument) {
-        super.populateDisbursementVoucherFields(disbursementVoucherDocument);
-
-        //override the check stub text on ENT doc
-        disbursementVoucherDocument.setDisbVchrCheckStubText(getTravelDocumentIdentifier() + " " + StringUtils.defaultString(getEventTitle()) + getTripBegin());
-        //change to use payment method from the document
-        disbursementVoucherDocument.setDisbVchrPaymentMethodCode(getPaymentMethod());
-
-        final String paymentReasonCode = getParameterService().getParameterValueAsString(TravelEntertainmentDocument.class, TravelEntertainmentParameters.PAYMENT_REASON_CODE);
-        disbursementVoucherDocument.getDvPayeeDetail().setDisbVchrPaymentReasonCode(paymentReasonCode);
-
-       final String paymentLocationCode = getParameterService().getParameterValueAsString(TemParameterConstants.TEM_DOCUMENT.class, TemConstants.TravelParameters.DOCUMENTATION_LOCATION_CODE);
-        disbursementVoucherDocument.setDisbursementVoucherDocumentationLocationCode(paymentLocationCode);
+    public void prepareForSave(KualiDocumentEvent event) {
+        super.prepareForSave(event);
+        getTravelPayment().setCheckStubText(getTravelDocumentIdentifier() + " " + StringUtils.defaultString(getEventTitle()) + getTripBegin());
     }
 
     /**

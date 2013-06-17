@@ -25,27 +25,18 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.tem.dataaccess.TravelDocumentDao;
 import org.kuali.kfs.module.tem.document.TEMReimbursementDocument;
 import org.kuali.kfs.module.tem.document.service.ReimbursableDocumentPaymentService;
+import org.kuali.kfs.module.tem.document.service.TravelPaymentsHelperService;
 import org.kuali.kfs.module.tem.service.TravelerService;
-import org.kuali.kfs.pdp.PdpConstants;
 import org.kuali.kfs.pdp.businessobject.PaymentAccountDetail;
 import org.kuali.kfs.pdp.businessobject.PaymentDetail;
 import org.kuali.kfs.pdp.businessobject.PaymentGroup;
-import org.kuali.kfs.pdp.businessobject.PaymentNoteText;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.batch.service.PaymentSourceExtractionService;
 import org.kuali.kfs.sys.batch.service.PaymentSourceToExtractService;
-import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.document.PaymentSource;
 import org.kuali.kfs.sys.document.validation.event.AccountingDocumentSaveWithNoLedgerEntryGenerationEvent;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
-import org.kuali.rice.core.api.util.type.KualiInteger;
-import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.exception.WorkflowException;
-import org.kuali.rice.kim.api.identity.Person;
-import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.krad.service.DocumentService;
-import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
 
 /**
  * Helper class to help PDP extraction of Reimbursable travel & entertainment documents - namely, the Travel Reimbursement,
@@ -56,9 +47,8 @@ public class ReimbursableDocumentExtractionHelperServiceImpl implements PaymentS
     protected DocumentService documentService;
     protected TravelerService travelerService;
     protected PaymentSourceExtractionService paymentSourceExtractionService;
-    protected PersonService personService;
-    protected WorkflowDocumentService workflowDocumentService;
     protected TravelDocumentDao travelDocumentDao;
+    protected TravelPaymentsHelperService travelPaymentsHelperService;
 
     /**
      *
@@ -74,7 +64,7 @@ public class ReimbursableDocumentExtractionHelperServiceImpl implements PaymentS
         final List<TEMReimbursementDocument> reimbursables = retrieveAllApprovedReimbursableDocuments(immediatesOnly);
         Map<String, String> initiatorCampuses = new HashMap<String, String>();
         for (TEMReimbursementDocument document : reimbursables) {
-            final String campusCode = findCampusForDocument(document, initiatorCampuses);
+            final String campusCode = getTravelPaymentsHelperService().findCampusForDocument(document, initiatorCampuses);
             if (!StringUtils.isBlank(campusCode)) {
                 List<TEMReimbursementDocument> documentsForCampus = (List<TEMReimbursementDocument>)documentsByCampus.get(campusCode);
                 if (documentsForCampus == null) {
@@ -98,40 +88,6 @@ public class ReimbursableDocumentExtractionHelperServiceImpl implements PaymentS
         allReimbursables.addAll(getTravelDocumentDao().getRelocationDocumentsByHeaderStatus(KFSConstants.DocumentStatusCodes.APPROVED, immediatesOnly));
         allReimbursables.addAll(getTravelDocumentDao().getEntertainmentDocumentsByHeaderStatus(KFSConstants.DocumentStatusCodes.APPROVED, immediatesOnly));
         return allReimbursables;
-    }
-
-    /**
-     * Retrieves the campus code associated with the initiator of a passed in reimbursable document
-     * @param document the reimbursable document to find a campus for
-     * @param initiatorCampuses the cache of document initiator principal keys to campus codes
-     * @return the campus code associated with the initiator of the given document
-     */
-    protected String findCampusForDocument(TEMReimbursementDocument document, Map<String, String> initiatorCampuses) {
-        try {
-            final WorkflowDocument workflowDocument = getWorkflowDocumentService().loadWorkflowDocument(document.getDocumentNumber(), GlobalVariables.getUserSession().getPerson());
-            return findCampusForInitiator(workflowDocument.getInitiatorPrincipalId(), initiatorCampuses);
-        }
-        catch (WorkflowException we) {
-            throw new RuntimeException("Could not load document: "+document.getDocumentNumber(), we);
-        }
-    }
-
-    /**
-     * Retrieves and caches the campus code for the given initiator's principal id
-     * @param initiatorPrincipalId the principal id of the initiator of a document
-     * @param initiatorCampuses the cache of initiator principal keys to campus codes
-     * @return the campus code associated with the given principal id
-     */
-    protected String findCampusForInitiator(String initiatorPrincipalId, Map<String, String> initiatorCampuses) {
-        if (!StringUtils.isBlank(initiatorCampuses.get(initiatorPrincipalId))) {
-            return initiatorCampuses.get(initiatorPrincipalId);
-        }
-        final Person initiatorPerson = getPersonService().getPerson(initiatorPrincipalId);
-        final String campusCode = initiatorPerson.getCampusCode();
-        if (!StringUtils.isBlank(campusCode)) {
-            initiatorCampuses.put(initiatorPrincipalId, campusCode);
-        }
-        return campusCode;
     }
 
     /**
@@ -166,30 +122,12 @@ public class ReimbursableDocumentExtractionHelperServiceImpl implements PaymentS
             LOG.debug("createPaymentGroupForReimbursable() started");
         }
 
-        PaymentGroup pg = new PaymentGroup();
-        pg.setCombineGroups(Boolean.TRUE);
-        pg.setCampusAddress(Boolean.FALSE);
-
-        pg.setCity(reimbursableDoc.getTraveler().getCityName());
-        pg.setCountry(reimbursableDoc.getTraveler().getCountryCode());
-        pg.setLine1Address(reimbursableDoc.getTraveler().getStreetAddressLine1());
-        pg.setLine2Address(reimbursableDoc.getTraveler().getStreetAddressLine2());
-        pg.setPayeeName(reimbursableDoc.getTraveler().getFirstName() + " " + reimbursableDoc.getTraveler().getLastName());
+        PaymentGroup pg = getTravelPaymentsHelperService().buildGenericPaymentGroup(reimbursableDoc.getTraveler(), reimbursableDoc.getTravelPayment(), reimbursableDoc.getFinancialDocumentBankCode());
         if (getTravelerService().isEmployee(reimbursableDoc.getTraveler())){
             pg.setPayeeId(reimbursableDoc.getTemProfile().getEmployeeId());
         }else{
             pg.setPayeeId(reimbursableDoc.getTraveler().getCustomerNumber());
         }
-        pg.setState(reimbursableDoc.getTraveler().getStateCode());
-        pg.setZipCd(reimbursableDoc.getTraveler().getZipCode());
-        pg.setPaymentDate(reimbursableDoc.getTravelPayment().getDueDate());
-        pg.setProcessImmediate(reimbursableDoc.getTravelPayment().isImmediatePaymentIndicator());
-        pg.setPymtAttachment(reimbursableDoc.getTravelPayment().isAttachmentCode());
-        pg.setPymtSpecialHandling(reimbursableDoc.getTravelPayment().isSpecialHandlingCode());
-        pg.setNraPayment(reimbursableDoc.getTravelPayment().isAlienPaymentCode());
-
-        pg.setBankCode(reimbursableDoc.getFinancialDocumentBankCode());
-        pg.setPaymentStatusCode(PdpConstants.PaymentStatusCodes.OPEN);
 
         // now add the payment detail
         final PaymentDetail paymentDetail = buildPaymentDetail(reimbursableDoc, processRunDate);
@@ -210,115 +148,11 @@ public class ReimbursableDocumentExtractionHelperServiceImpl implements PaymentS
             LOG.debug("buildPaymentDetail() started");
         }
 
-        PaymentDetail pd = new PaymentDetail();
-        if (StringUtils.isNotEmpty(document.getDocumentHeader().getOrganizationDocumentNumber())) {
-            pd.setOrganizationDocNbr(document.getDocumentHeader().getOrganizationDocumentNumber());
-        }
-        pd.setCustPaymentDocNbr(document.getDocumentNumber());
-        pd.setInvoiceDate(new java.sql.Date(processRunDate.getTime()));
-        pd.setOrigInvoiceAmount(document.getTravelPayment().getCheckTotalAmount());
-        pd.setInvTotDiscountAmount(KualiDecimal.ZERO);
-        pd.setInvTotOtherCreditAmount(KualiDecimal.ZERO);
-        pd.setInvTotOtherDebitAmount(KualiDecimal.ZERO);
-        pd.setInvTotShipAmount(KualiDecimal.ZERO);
-        pd.setNetPaymentAmount(document.getTravelPayment().getCheckTotalAmount());
-        pd.setPrimaryCancelledPayment(Boolean.FALSE);
-        pd.setFinancialDocumentTypeCode(document.getAchCheckDocumentType());
-        pd.setFinancialSystemOriginCode(KFSConstants.ORIGIN_CODE_KUALI);
-
+        PaymentDetail pd = getTravelPaymentsHelperService().buildGenericPaymentDetail(document.getDocumentHeader(), processRunDate, document.getTravelPayment(), getTravelPaymentsHelperService().getInitiator(document), document.getAchCheckDocumentType());
         // Handle accounts
-        for (SourceAccountingLine sal : (List<? extends SourceAccountingLine>)document.getSourceAccountingLines()) {
-            PaymentAccountDetail pad = new PaymentAccountDetail();
-            pad.setFinChartCode(sal.getChartOfAccountsCode());
-            pad.setAccountNbr(sal.getAccountNumber());
-            if (StringUtils.isNotEmpty(sal.getSubAccountNumber())) {
-                pad.setSubAccountNbr(sal.getSubAccountNumber());
-            }
-            else {
-                pad.setSubAccountNbr(KFSConstants.getDashSubAccountNumber());
-            }
-            pad.setFinObjectCode(sal.getFinancialObjectCode());
-            if (StringUtils.isNotEmpty(sal.getFinancialSubObjectCode())) {
-                pad.setFinSubObjectCode(sal.getFinancialSubObjectCode());
-            }
-            else {
-                pad.setFinSubObjectCode(KFSConstants.getDashFinancialSubObjectCode());
-            }
-            if (StringUtils.isNotEmpty(sal.getOrganizationReferenceId())) {
-                pad.setOrgReferenceId(sal.getOrganizationReferenceId());
-            }
-            if (StringUtils.isNotEmpty(sal.getProjectCode())) {
-                pad.setProjectCode(sal.getProjectCode());
-            }
-            else {
-                pad.setProjectCode(KFSConstants.getDashProjectCode());
-            }
-            pad.setAccountNetAmount(sal.getAmount());
+        final List<PaymentAccountDetail> paymentAccounts = this.getTravelPaymentsHelperService().buildGenericPaymentAccountDetails(document.getSourceAccountingLines());
+        for (PaymentAccountDetail pad : paymentAccounts) {
             pd.addAccountDetail(pad);
-        }
-
-        // Handle notes
-        final Person initiator = getPersonService().getPerson(document.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId());
-        int line = 0;
-        PaymentNoteText pnt = new PaymentNoteText();
-        pnt.setCustomerNoteLineNbr(new KualiInteger(line++));
-        pnt.setCustomerNoteText("Info: " + initiator.getPrincipalName() + " " + initiator.getPhoneNumber());
-        pd.addNote(pnt);
-
-        if (StringUtils.isNotEmpty(document.getTravelPayment().getSpecialHandlingPersonName())) {
-            pnt = new PaymentNoteText();
-            pnt.setCustomerNoteLineNbr(new KualiInteger(line++));
-            pnt.setCustomerNoteText("Send Check To: " + document.getTravelPayment().getSpecialHandlingPersonName());
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("Creating special handling person name note: "+pnt.getCustomerNoteText());
-            }
-            pd.addNote(pnt);
-        }
-        if (StringUtils.isNotEmpty(document.getTravelPayment().getSpecialHandlingLine1Addr())) {
-            pnt = new PaymentNoteText();
-            pnt.setCustomerNoteLineNbr(new KualiInteger(line++));
-            pnt.setCustomerNoteText(document.getTravelPayment().getSpecialHandlingLine1Addr());
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("Creating special handling address 1 note: "+pnt.getCustomerNoteText());
-            }
-            pd.addNote(pnt);
-        }
-        if (StringUtils.isNotEmpty(document.getTravelPayment().getSpecialHandlingLine2Addr())) {
-            pnt = new PaymentNoteText();
-            pnt.setCustomerNoteLineNbr(new KualiInteger(line++));
-            pnt.setCustomerNoteText(document.getTravelPayment().getSpecialHandlingLine2Addr());
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("Creating special handling address 2 note: "+pnt.getCustomerNoteText());
-            }
-            pd.addNote(pnt);
-        }
-        if (StringUtils.isNotEmpty(document.getTravelPayment().getSpecialHandlingCityName())) {
-            pnt = new PaymentNoteText();
-            pnt.setCustomerNoteLineNbr(new KualiInteger(line++));
-            pnt.setCustomerNoteText(document.getTravelPayment().getSpecialHandlingCityName() + ", " + document.getTravelPayment().getSpecialHandlingStateCode() + " " + document.getTravelPayment().getSpecialHandlingZipCode());
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("Creating special handling city note: "+pnt.getCustomerNoteText());
-            }
-            pd.addNote(pnt);
-        }
-        if (document.getTravelPayment().isAttachmentCode()) {
-            pnt = new PaymentNoteText();
-            pnt.setCustomerNoteLineNbr(new KualiInteger(line++));
-            pnt.setCustomerNoteText("Attachment Included");
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("create attachment note: "+pnt.getCustomerNoteText());
-            }
-            pd.addNote(pnt);
-        }
-
-        // Get the original, raw form, note text from the DV document.
-        final String text = document.getTravelPayment().getCheckStubText();
-        if (!StringUtils.isBlank(text)) {
-            pnt = this.getPaymentSourceExtractionService().buildNoteForCheckStubText(text, line);
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("Creating check stub text note: " + pnt.getCustomerNoteText());
-            }
-            pd.addNote(pnt);
         }
 
         return pd;
@@ -370,21 +204,6 @@ public class ReimbursableDocumentExtractionHelperServiceImpl implements PaymentS
     }
 
     /**
-     * @return an implementation of the PersonService
-     */
-    public PersonService getPersonService() {
-        return personService;
-    }
-
-    /**
-     * Sets the implementation of the PersonService for this service to use
-     * @param parameterService an implementation of PersonService
-     */
-    public void setPersonService(PersonService personService) {
-        this.personService = personService;
-    }
-
-    /**
      * @return an implementation of the DAO for TravelDocuments
      */
     public TravelDocumentDao getTravelDocumentDao() {
@@ -400,18 +219,18 @@ public class ReimbursableDocumentExtractionHelperServiceImpl implements PaymentS
     }
 
     /**
-     * @return an implementation of the WorkflowDocumentService
+     * @return an implementation of the TravelPaymentsHelperService
      */
-    public WorkflowDocumentService getWorkflowDocumentService() {
-        return workflowDocumentService;
+    public TravelPaymentsHelperService getTravelPaymentsHelperService() {
+        return travelPaymentsHelperService;
     }
 
     /**
-     * Sets the implementation of the WorkflowDocumentService for this service to use
-     * @param parameterService an implementation of WorkflowDocumentService
+     * Sets the implementation of the TravelPaymentsHelperService for this service to use
+     * @param travelPaymentsHelperService an implementation of the TravelPaymentsHelperService
      */
-    public void setWorkflowDocumentService(WorkflowDocumentService workflowDocumentService) {
-        this.workflowDocumentService = workflowDocumentService;
+    public void setTravelPaymentsHelperService(TravelPaymentsHelperService travelPaymentsHelperService) {
+        this.travelPaymentsHelperService = travelPaymentsHelperService;
     }
 
 }

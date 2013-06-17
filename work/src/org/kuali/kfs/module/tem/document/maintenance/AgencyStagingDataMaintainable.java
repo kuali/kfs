@@ -15,11 +15,10 @@
  */
 package org.kuali.kfs.module.tem.document.maintenance;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemConstants.AgencyStagingDataErrorCodes;
 import org.kuali.kfs.module.tem.TemConstants.ExpenseImportTypes;
 import org.kuali.kfs.module.tem.batch.service.AgencyDataImportService;
@@ -32,14 +31,14 @@ import org.kuali.kfs.sys.document.FinancialSystemMaintainable;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.krad.bo.DocumentHeader;
-import org.kuali.rice.krad.bo.Note;
-import org.kuali.rice.krad.service.KRADServiceLocator;
+import org.kuali.rice.krad.service.SequenceAccessorService;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * Maintainable instance for the travel agency audit maintenance document
  *
  */
-public class TravelAgencyAuditMaintainable extends FinancialSystemMaintainable {
+public class AgencyStagingDataMaintainable extends FinancialSystemMaintainable {
 
     /**
      * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#processAfterNew(org.kuali.rice.kns.document.MaintenanceDocument, java.util.Map)
@@ -63,9 +62,16 @@ public class TravelAgencyAuditMaintainable extends FinancialSystemMaintainable {
         AgencyStagingData agencyData = (AgencyStagingData) getBusinessObject();
         agencyData.setManualCreated(true);
 
-        TravelAgencyAuditMaintainable oldMaintainable = (TravelAgencyAuditMaintainable)document.getOldMaintainableObject();
+        AgencyStagingDataMaintainable oldMaintainable = (AgencyStagingDataMaintainable)document.getOldMaintainableObject();
+        AgencyStagingDataMaintainable newMaintainable = (AgencyStagingDataMaintainable)document.getNewMaintainableObject();
         //this is not new, so it must be for copy - we will set the Copied From Id
         agencyData.setCopiedFromId(((AgencyStagingData)oldMaintainable.getBusinessObject()).getId());
+        AgencyStagingData newAgencyStagingDataObject = (AgencyStagingData)newMaintainable.getBusinessObject();
+        if(ObjectUtils.isNull(newAgencyStagingDataObject.getId())) {
+            Integer newId = SpringContext.getBean(SequenceAccessorService.class).getNextAvailableSequenceNumber(TemConstants.TEM_CREDIT_CARD_AGENCY_SEQ_NAME).intValue();
+            newAgencyStagingDataObject.setId(newId);
+        }
+
     }
 
     /**
@@ -127,20 +133,7 @@ public class TravelAgencyAuditMaintainable extends FinancialSystemMaintainable {
     @SuppressWarnings("rawtypes")
     @Override
     public Map populateBusinessObject(Map<String, String> fieldValues, MaintenanceDocument maintenanceDocument, String methodToCall) {
-      //populate maintenanceDocument with notes from the BO
-        List<Note> documentNotes = maintenanceDocument.getNotes();
-        if (documentNotes == null){
-            documentNotes = new ArrayList<Note>();
-        }else{
-            documentNotes.clear();
-        }
-
-        List<Note> boNotes = new ArrayList<Note>();
-        if (maintenanceDocument.getOldMaintainableObject().getBusinessObject().getObjectId() != null) {
-            boNotes = KRADServiceLocator.getNoteService().getByRemoteObjectId(this.getBusinessObject().getObjectId());
-        }
-        documentNotes.addAll(boNotes);
-        return super.populateBusinessObject(fieldValues, maintenanceDocument, methodToCall);
+         return super.populateBusinessObject(fieldValues, maintenanceDocument, methodToCall);
     }
 
 	/**

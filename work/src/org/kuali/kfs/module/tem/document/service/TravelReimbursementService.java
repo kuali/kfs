@@ -1,12 +1,12 @@
 /*
  * Copyright 2010 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,18 +17,20 @@ package org.kuali.kfs.module.tem.document.service;
 
 import java.util.Date;
 import java.util.List;
+
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomerInvoice;
 import org.kuali.kfs.module.tem.businessobject.ActualExpense;
+import org.kuali.kfs.module.tem.businessobject.TravelAdvance;
 import org.kuali.kfs.module.tem.document.TEMReimbursementDocument;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
 import org.kuali.kfs.module.tem.document.TravelReimbursementDocument;
 import org.kuali.kfs.module.tem.pdf.Coversheet;
-import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 
 /**
  * Travel Reimbursement Service
- * 
+ *
  */
 public interface TravelReimbursementService {
 
@@ -58,35 +60,35 @@ public interface TravelReimbursementService {
 
     /**
      *     Search for the INV associated with the Travel Authorization from AR (Org Doc Number = Trip ID)
-     *     
+     *
      *     If any amount is left in the invoice - determine CRM spawn by TA
-     *     
+     *
      *     Compute the reimbursable amount = total year-to-date amount reimbursed for this trip plus reimbursable amount for this TR
      *     (possibly in TA?)
-     *     
-     *         1. reimbursable amount >= INV 
+     *
+     *         1. reimbursable amount >= INV
      *              Spawn a customer credit memo (CRM) up to the Invoice amount
      *              The traveler will be reimbursed for the difference by (DV)
-     *              
+     *
      *         2. reimbursable amount < INV
      *              Spawn a customer credit memo (CRM) for the reimbursable amount
      *              The traveler will not receive any reimbursement - No DV necessary
-     *              
+     *
      *        3. If there is no reimbursement for this travel $0
      *              No CRM & No DV ?? TR w/ no reimbursement?
-     *        
+     *
      *        4. There is no INV, then do not spawn a credit memo - under case 1
-     * 
+     *
      * @param reimbursement
      * @throws WorkflowException
      */
     void processCustomerReimbursement(final TravelReimbursementDocument reimbursement) throws WorkflowException;
-    
+
     /**
-     * Use a reimbursement to create a {@link CustomerCreditMemoDocument}. Nothing is returned because the 
+     * Use a reimbursement to create a {@link CustomerCreditMemoDocument}. Nothing is returned because the
      * created document will be blanketApproved and will show up in the "relatedDocuments" section
-     * 
-     * AccountsReceivableCustomerInvoice 
+     *
+     * AccountsReceivableCustomerInvoice
      *
      * @param reimbursement
      * @param invoice {@link AccountsReceivableCustomerInvoice} invoice used for generating  {@link CustomerCreditMemoDocument}
@@ -102,7 +104,7 @@ public interface TravelReimbursementService {
      * @param reimbursement to use for creating the {@link CustomerCreditMemoDocument}
      */
     TravelAuthorizationDocument getRelatedOpenTravelAuthorizationDocument(final TravelReimbursementDocument reimbursement) ;
-    
+
     /**
      * Notification when the original trip date is changed. A note is left on the workflow document detailing
      * the date change with the message DATE_CHANGED_MESSAGE
@@ -114,34 +116,34 @@ public interface TravelReimbursementService {
     void notifyDateChangedOn(final TravelReimbursementDocument reimbursement, final Date start, final Date end) throws Exception;
 
     /**
-     * 
-     * Checks to see if the trip date changed from the TA dates. If the dates have changed, a note is left on the 
+     *
+     * Checks to see if the trip date changed from the TA dates. If the dates have changed, a note is left on the
      * workflow document detailing the date change with the message DATE_CHANGED_MESSAGE (by calling notifyDateChangedOn())
      *
      * @param travelReqDoc {@link TravelReimbursementDocument} for this trip
      * @param taDoc {@link TravelAuthorizationDocument} for this trip
      */
     void addDateChangedNote(TravelReimbursementDocument travelReqDoc, TravelAuthorizationDocument taDoc);
-    
+
     /**
      * This method uses the values provided to build and populate a cover sheet associated with a given {@link Document}.
-     * 
-     * @param document {@link TravelReimbursementDocument} to generate a coversheet for 
+     *
+     * @param document {@link TravelReimbursementDocument} to generate a coversheet for
      * @return {@link Coversheet} instance
      */
     Coversheet generateCoversheetFor(final TravelReimbursementDocument document) throws Exception;
 
     /**
-     * the actual reimbursable amount to the traveler.  This includes the calculation for open invoices which will 
+     * the actual reimbursable amount to the traveler.  This includes the calculation for open invoices which will
      * not be paid back to the traveler.
-     * 
-     *  TEM requested reimbursable amount subtract open invoices amount 
-     * 
+     *
+     *  TEM requested reimbursable amount subtract open invoices amount
+     *
      * @param reimbursementDocument
      * @return
      */
     public KualiDecimal getReimbursableToTraveler(TEMReimbursementDocument reimbursementDocument);
-    
+
     /**
      * This method searches to make sure that the expense entered doesn't already exist
      * If they exist, disable them in the per diem table and notify the user.
@@ -151,13 +153,20 @@ public interface TravelReimbursementService {
      *          the expense in question
      */
     public void disableDuplicateExpenses(TravelReimbursementDocument trDocument, ActualExpense actualExpense);
-    
+
     /**
      * This checks to see if the expense no longer exists, and if it doesn't, enables the expense that was disabled
      * @param trDocument
      * @param actualExpense
      */
     public void enableDuplicateExpenses(TravelReimbursementDocument trDocument, ActualExpense actualExpense);
+
+    /**
+     * Returns all travel advances associated with the passed in trip id
+     * @param travelDocumentIdentifier the trip id of the reimbursement
+     * @return a List of all TravelAdvances associated with that trip
+     */
+    public List<TravelAdvance> getTravelAdvancesForTrip(String travelDocumentIdentifier);
 
 
 }

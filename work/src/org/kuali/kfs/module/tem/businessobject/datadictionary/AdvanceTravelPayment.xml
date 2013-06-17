@@ -1,0 +1,113 @@
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
+
+	<bean id="AdvanceTravelPayment" parent="AdvanceTravelPayment-parentBean" />
+	<bean id="AdvanceTravelPayment-parentBean" abstract="true" parent="BusinessObjectEntry" >
+		<property name="businessObjectClass" value="org.kuali.kfs.module.tem.businessobject.AdvanceTravelPayment" />
+		<property name="objectLabel" value="Payment Information for Travel Advance" />
+		<property name="attributes">
+		<list>
+			<ref bean="AdvanceTravelPayment-checkTotalAmount" />
+			<ref bean="AdvanceTravelPayment-attachmentCode" />
+			<ref bean="AdvanceTravelPayment-specialHandlingCode" />
+			<ref bean="AdvanceTravelPayment-checkStubText" />
+			<ref bean="AdvanceTravelPayment-documentationLocationCode" />
+			<ref bean="AdvanceTravelPayment-dueDate" />
+			<ref bean="AdvanceTravelPayment-paymentMethodCode" />
+			<ref bean="AdvanceTravelPayment-immediatePaymentIndicator" />
+			<ref bean="AdvanceTravelPayment-extractDate" />
+			<ref bean="AdvanceTravelPayment-paidDate" />
+			<ref bean="AdvanceTravelPayment-cancelDate" />
+			<ref bean="AdvanceTravelPayment-alienPaymentCode" />
+			<ref bean="AdvanceTravelPayment-payeeW9CompleteCode"/>
+			<ref bean="AdvanceTravelPayment-specialHandlingPersonName" />
+			<ref bean="AdvanceTravelPayment-specialHandlingLine1Addr" />
+			<ref bean="AdvanceTravelPayment-specialHandlingLine2Addr" />
+			<ref bean="AdvanceTravelPayment-specialHandlingCityName" />
+			<ref bean="AdvanceTravelPayment-specialHandlingStateCode" />
+			<ref bean="AdvanceTravelPayment-specialHandlingZipCode" />
+			<ref bean="AdvanceTravelPayment-specialHandlingCountryCode" />
+			<ref bean="AdvanceTravelPayment-paymentPdpStatus"/>
+			<ref bean="AdvanceTravelPayment-payeeTypeCode" />
+			<ref bean="AdvanceTravelPayment-exceptionAttachedIndicator"/>
+			<ref bean="AdvanceTravelPayment-versionNumber" />
+		</list>
+		</property>
+	</bean>
+	
+	<!-- Attributes -->
+	<bean id="AdvanceTravelPayment-checkTotalAmount" parent="AdvanceTravelPayment-checkTotalAmount-parentBean"/>
+	<bean id="AdvanceTravelPayment-checkTotalAmount-parentBean" abstract="true" parent="TravelPayment-checkTotalAmount">
+		<property name="label" value="Advance Amount Requested"/>
+	</bean>
+
+	<bean id="AdvanceTravelPayment-attachmentCode" parent="AdvanceTravelPayment-attachmentCode-parentBean"/>
+	<bean id="AdvanceTravelPayment-attachmentCode-parentBean" abstract="true" parent="TravelPayment-attachmentCode"/>
+
+	<bean id="AdvanceTravelPayment-specialHandlingCode" parent="AdvanceTravelPayment-specialHandlingCode-parentBean"/>
+	<bean id="AdvanceTravelPayment-specialHandlingCode-parentBean" abstract="true" parent="TravelPayment-specialHandlingCode"/>
+
+	<bean id="AdvanceTravelPayment-documentationLocationCode" parent="AdvanceTravelPayment-documentationLocationCode-parentBean"/>
+	<bean id="AdvanceTravelPayment-documentationLocationCode-parentBean" abstract="true" parent="TravelPayment-documentationLocationCode"/>
+	
+	<bean id="AdvanceTravelPayment-dueDate" parent="AdvanceTravelPayment-dueDate-parentBean"/>
+	<bean id="AdvanceTravelPayment-dueDate-parentBean" abstract="true" parent="TravelPayment-dueDate"/>
+	
+	<bean id="AdvanceTravelPayment-paymentMethodCode" parent="AdvanceTravelPayment-paymentMethodCode-parentBean"/>
+	<bean id="AdvanceTravelPayment-paymentMethodCode-parentBean" abstract="true" parent="TravelPayment-paymentMethodCode"/>
+	
+	<bean id="AdvanceTravelPayment-checkStubText" parent="AdvanceTravelPayment-checkStubText-parentBean"/>
+	<bean id="AdvanceTravelPayment-checkStubText-parentBean" abstract="true" parent="TravelPayment-checkStubText"/>
+	
+	<bean id="AdvanceTravelPayment-extractDate" parent="AdvanceTravelPayment-extractDate-parentBean"/>
+	<bean id="AdvanceTravelPayment-extractDate-parentBean" abstract="true" parent="TravelPayment-extractDate"/>
+	
+	<bean id="AdvanceTravelPayment-paidDate" parent="AdvanceTravelPayment-paidDate-parentBean"/>
+	<bean id="AdvanceTravelPayment-paidDate-parentBean" abstract="true" parent="TravelPayment-paidDate"/>
+	
+	<bean id="AdvanceTravelPayment-cancelDate" parent="AdvanceTravelPayment-cancelDate-parentBean"/>
+	<bean id="AdvanceTravelPayment-cancelDate-parentBean" abstract="true" parent="TravelPayment-cancelDate"/>
+	
+	<bean id="AdvanceTravelPayment-immediatePaymentIndicator" parent="AdvanceTravelPayment-immediatePaymentIndicator-parentBean"/>
+	<bean id="AdvanceTravelPayment-immediatePaymentIndicator-parentBean" abstract="true" parent="TravelPayment-immediatePaymentIndicator"/>
+	
+	<bean id="AdvanceTravelPayment-alienPaymentCode" parent="AdvanceTravelPayment-alienPaymentCode-parentBean"/>
+	<bean id="AdvanceTravelPayment-alienPaymentCode-parentBean" abstract="true" parent="TravelPayment-alienPaymentCode"/>
+	
+	<bean id="AdvanceTravelPayment-specialHandlingPersonName" parent="AdvanceTravelPayment-specialHandlingPersonName-parentBean"/>
+	<bean id="AdvanceTravelPayment-specialHandlingPersonName-parentBean" abstract="true" parent="TravelPayment-specialHandlingPersonName"/>
+	
+	<bean id="AdvanceTravelPayment-specialHandlingLine1Addr" parent="AdvanceTravelPayment-specialHandlingLine1Addr-parentBean"/>
+	<bean id="AdvanceTravelPayment-specialHandlingLine1Addr-parentBean" abstract="true" parent="TravelPayment-specialHandlingLine1Addr"/>
+	
+	<bean id="AdvanceTravelPayment-specialHandlingLine2Addr" parent="AdvanceTravelPayment-specialHandlingLine2Addr-parentBean"/>
+	<bean id="AdvanceTravelPayment-specialHandlingLine2Addr-parentBean" abstract="true" parent="TravelPayment-specialHandlingLine2Addr"/>
+	
+	<bean id="AdvanceTravelPayment-specialHandlingCityName" parent="AdvanceTravelPayment-specialHandlingCityName-parentBean"/>
+	<bean id="AdvanceTravelPayment-specialHandlingCityName-parentBean" abstract="true" parent="TravelPayment-specialHandlingCityName"/>
+	
+	<bean id="AdvanceTravelPayment-specialHandlingStateCode" parent="AdvanceTravelPayment-specialHandlingStateCode-parentBean"/>
+	<bean id="AdvanceTravelPayment-specialHandlingStateCode-parentBean" abstract="true" parent="TravelPayment-specialHandlingStateCode"/>
+	
+	<bean id="AdvanceTravelPayment-specialHandlingZipCode" parent="AdvanceTravelPayment-specialHandlingZipCode-parentBean"/>
+	<bean id="AdvanceTravelPayment-specialHandlingZipCode-parentBean" abstract="true" parent="TravelPayment-specialHandlingZipCode"/>
+
+	<bean id="AdvanceTravelPayment-specialHandlingCountryCode" parent="AdvanceTravelPayment-specialHandlingCountryCode-parentBean"/>
+	<bean id="AdvanceTravelPayment-specialHandlingCountryCode-parentBean" abstract="true" parent="TravelPayment-specialHandlingCountryCode"/>
+	
+	<bean id="AdvanceTravelPayment-paymentPdpStatus" parent="AdvanceTravelPayment-paymentPdpStatus-parentBean"/>
+	<bean id="AdvanceTravelPayment-paymentPdpStatus-parentBean" abstract="true" parent="TravelPayment-paymentPdpStatus"/>
+	
+	<bean id="AdvanceTravelPayment-versionNumber" parent="AdvanceTravelPayment-versionNumber-parentBean" />
+	<bean id="AdvanceTravelPayment-versionNumber-parentBean" parent="TravelPayment-versionNumber" abstract="true"/>
+	
+	<bean id="AdvanceTravelPayment-payeeW9CompleteCode" parent="AdvanceTravelPayment-payeeW9CompleteCode-parentBean"/>
+	<bean id="AdvanceTravelPayment-payeeW9CompleteCode-parentBean" abstract="true" parent="TravelPayment-payeeW9CompleteCode"/>
+	  
+	<bean id="AdvanceTravelPayment-payeeTypeCode" parent="AdvanceTravelPayment-payeeTypeCode-parentBean"/>
+	<bean id="AdvanceTravelPayment-payeeTypeCode-parentBean" abstract="true" parent="TravelPayment-payeeTypeCode"/>
+	  
+	<bean id="AdvanceTravelPayment-exceptionAttachedIndicator" parent="AdvanceTravelPayment-exceptionAttachedIndicator-parentBean"/>
+	<bean id="AdvanceTravelPayment-exceptionAttachedIndicator-parentBean" abstract="true" parent="TravelPayment-exceptionAttachedIndicator"/>
+</beans>

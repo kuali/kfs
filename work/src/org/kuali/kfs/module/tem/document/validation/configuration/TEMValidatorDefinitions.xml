@@ -183,8 +183,16 @@
 		<property name="sourceEventProperty" value="document" />
 		<property name="targetValidationProperty" value="travelDocumentForValidation" /> 
 	</bean>
+	<bean id="travelAuthorizationDocumentFieldConversion" abstract="true" parent="validationFieldConversion">
+		<property name="sourceEventProperty" value="document" />
+		<property name="targetValidationProperty" value="travelAuthorizationDocumentForValidation" /> 
+	</bean>
 	<bean id="reimbursableTravelPaymentFieldConversion" abstract="true" parent="validationFieldConversion">
 		<property name="sourceEventProperty" value="document.travelPayment" />
+		<property name="targetValidationProperty" value="travelPaymentForValidation" /> 
+	</bean>
+	<bean id="authorizationAdvanceTravelPaymentFieldConversion" abstract="true" parent="validationFieldConversion">
+		<property name="sourceEventProperty" value="document.advanceTravelPayment" />
 		<property name="targetValidationProperty" value="travelPaymentForValidation" /> 
 	</bean>
 	
@@ -203,6 +211,70 @@
 	<bean id="TravelPayment-dataDictionaryValidation" parent="TravelPayment-dataDictionaryValidation-parentBean" scope="prototype"/>
 	<bean id="TravelPayment-dataDictionaryValidation-parentBean" class="org.kuali.kfs.module.tem.document.validation.impl.TravelPaymentDataDictionaryValidation" abstract="true">
 		<property name="dictionaryValidationService" ref="dictionaryValidationService"/>
+		<property name="travelPaymentPropertyName" value="travelPayment"/>
+	</bean>
+	
+	<bean id="TravelAuthorizationDocument-travelAdvanceBranchingValidation" parent="TravelAuthorizationDocument-travelAdvanceBranchingValidation-parentBean" scope="prototype"/>
+	<bean id="TravelAuthorizationDocument-travelAdvanceBranchingValidation-parentBean" class="org.kuali.kfs.module.tem.document.validation.impl.TravelAdvanceBranchingValidation" abstract="true"/>
+	
+	<bean id="TravelAuthorizationDocument-travelAdvanceAndPamentValidation" parent="TravelAuthorizationDocument-travelAdvanceAndPamentValidation-parentBean" scope="prototype"/>
+	<bean id="TravelAuthorizationDocument-travelAdvanceAndPamentValidation-parentBean" abstract="true" parent="CompositeValidation">
+		<property name="validations">
+			<list>
+				<bean parent="AccountingDocument-businessObjectDataDictionaryValidation">
+					<property name="parameterProperties">
+						<list>
+								<bean parent="validationFieldConversion" p:sourceEventProperty="document.travelAdvance" p:targetValidationProperty="businessObjectForValidation"/>
+						</list>
+					</property>
+				</bean>
+				<bean parent="TravelModule-travelAdvanceValidation" scope="prototype" />
+				<bean parent="TravelPayment-dataDictionaryValidation" scope="prototype" p:travelPaymentPropertyName="advanceTravelPayment">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="validationFieldConversion" p:sourceEventProperty="document.advanceTravelPayment" p:targetValidationProperty="travelPaymentForValidation"/>
+						</list>
+					</property>
+				</bean>
+				<bean parent="TravelAuthorization-advanceAccountingLinesTotalValidation" scope="prototype"/>
+				<bean parent="PaymentSource-wireTransferValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="accountingDocumentFieldConversion" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="PaymentSource-foreignDraftValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="accountingDocumentFieldConversion" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="TravelPayment-specialHandlingStateCodeValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="authorizationAdvanceTravelPaymentFieldConversion" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="TravelPayment-specialHandlingValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="authorizationAdvanceTravelPaymentFieldConversion" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="TravelPayment-requiredNotesValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="travelDocumentFieldConversion" />
+							<bean parent="authorizationAdvanceTravelPaymentFieldConversion" />
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
 	</bean>
 		
     <import resource="AuthorizationValidatorDefinitions.xml" />
@@ -210,5 +282,5 @@
     <import resource="RelocationValidatorDefinitions.xml" />
     <import resource="EntertainmentValidatorDefinitions.xml" />
     <import resource="ArrangerValidatorDefinitions.xml" />
-    <import resource="TravelAgencyAuditValidatorDefinitions.xml" />
+    <import resource="AgencyStagingDataValidatorDefinitions.xml" />
 </beans>

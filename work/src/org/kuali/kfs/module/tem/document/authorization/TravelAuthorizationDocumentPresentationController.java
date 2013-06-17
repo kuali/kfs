@@ -1,12 +1,12 @@
 /*
  * Copyright 2012 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,11 +17,12 @@ package org.kuali.kfs.module.tem.document.authorization;
 
 import java.util.Set;
 
+import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.rice.krad.document.Document;
 
 /**
  * Travel Reimbursement Document Presentation Controller
- * 
+ *
  */
 public class TravelAuthorizationDocumentPresentationController extends TravelDocumentPresentationController{
 
@@ -32,6 +33,9 @@ public class TravelAuthorizationDocumentPresentationController extends TravelDoc
     public Set<String> getEditModes(Document document) {
         Set<String> editModes = super.getEditModes(document);
         addFullEntryEditMode(document, editModes);
+        editModes.remove(TemConstants.EditModes.CHECK_AMOUNT_ENTRY);
+        editModes.add(TemConstants.TravelEditMode.ADVANCE_PAYMENT_ENTRY);
+        editModes.add(TemConstants.TravelEditMode.ADVANCE_POLICY_ENTRY);
         return editModes;
     }
 }

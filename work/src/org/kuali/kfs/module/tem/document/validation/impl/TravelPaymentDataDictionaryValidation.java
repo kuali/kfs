@@ -15,8 +15,7 @@
  */
 package org.kuali.kfs.module.tem.document.validation.impl;
 
-import org.kuali.kfs.module.tem.TemPropertyConstants;
-import org.kuali.kfs.module.tem.document.TravelDocument;
+import org.kuali.kfs.module.tem.businessobject.TravelPayment;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
@@ -26,7 +25,8 @@ import org.kuali.rice.krad.service.DictionaryValidationService;
  * Runs the data dictionary validation on the travel payment - but only at nodes specified in the spring config
  */
 public class TravelPaymentDataDictionaryValidation extends GenericValidation {
-    protected TravelDocument travelDocumentForValidation;
+    protected TravelPayment travelPaymentForValidation;
+    protected String travelPaymentPropertyName;
     protected DictionaryValidationService dictionaryValidationService;
 
     /**
@@ -35,22 +35,37 @@ public class TravelPaymentDataDictionaryValidation extends GenericValidation {
      */
     @Override
     public boolean validate(AttributedDocumentEvent event) {
-        return getDictionaryValidationService().isBusinessObjectValid(getTravelDocumentForValidation(), KFSPropertyConstants.DOCUMENT+"."+TemPropertyConstants.TRAVEL_PAYMENT);
+        return getDictionaryValidationService().isBusinessObjectValid(getTravelPaymentForValidation(), KFSPropertyConstants.DOCUMENT+"."+getTravelPaymentPropertyName());
     }
 
     /**
      * @return the travel document which is being validated
      */
-    public TravelDocument getTravelDocumentForValidation() {
-        return travelDocumentForValidation;
+    public TravelPayment getTravelPaymentForValidation() {
+        return travelPaymentForValidation;
     }
 
     /**
      * Sets the travel document which is being validated
      * @param travelDocumentForValidation the travel document which is about to get itself all validated
      */
-    public void setTravelDocumentForValidation(TravelDocument travelDocumentForValidation) {
-        this.travelDocumentForValidation = travelDocumentForValidation;
+    public void setTravelPaymentForValidation(TravelPayment travelPaymentForValidation) {
+        this.travelPaymentForValidation = travelPaymentForValidation;
+    }
+
+    /**
+     * @return the property name of the travel payment on the document
+     */
+    public String getTravelPaymentPropertyName() {
+        return travelPaymentPropertyName;
+    }
+
+    /**
+     * Sets the property name of the travel payment on the document
+     * @param travelPaymentPropertyName the property name of the travel payment on the document
+     */
+    public void setTravelPaymentPropertyName(String travelPaymentPropertyName) {
+        this.travelPaymentPropertyName = travelPaymentPropertyName;
     }
 
     /**

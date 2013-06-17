@@ -17,7 +17,7 @@ package org.kuali.kfs.module.tem.document.validation.impl;
 
 import org.kuali.kfs.module.tem.batch.service.ExpenseImportByTravelerService;
 import org.kuali.kfs.module.tem.businessobject.AgencyStagingData;
-import org.kuali.kfs.module.tem.document.service.TravelAgencyAuditValidationHelper;
+import org.kuali.kfs.module.tem.document.service.AgencyStagingDataValidationHelper;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -28,7 +28,7 @@ import org.kuali.rice.krad.util.KRADConstants;
  *
  * @author Leo Przybylski (leo [at] rsmart.com)
  */
-public class TravelAgencyAuditValidationByTraveler implements TravelAgencyAuditValidationHelper {
+public class AgencyStagingDataValidationByTraveler implements AgencyStagingDataValidationHelper {
     public static final String MAINTAINABLE_ERROR_PREFIX = KRADConstants.MAINTENANCE_NEW_MAINTAINABLE;
     public static final String DOCUMENT_ERROR_PREFIX = "document.";
     public static final String MAINTAINABLE_ERROR_PATH = DOCUMENT_ERROR_PREFIX + "newMaintainableObject";

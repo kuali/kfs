@@ -105,25 +105,6 @@ public class TravelAuthorizationServiceTest extends KualiTestBase {
     }
 
     /**
-     * This method tests {@link TravelAuthorizationService#createDVARDocument(TravelAuthorizationDocument)}
-     */
-    @Test
-    public void testCreateDVARDocument() {
-        boolean success = false;
-
-        try {
-            taService.createTravelAdvanceDVDocument(ta);
-            success = true;
-        }
-        catch (Exception e) {
-            success = false;
-            LOG.warn("NPE.", e);
-        }
-
-        assertTrue(success);
-    }
-
-    /**
      * This method tests {@link TravelAuthorizationService#getTravelAuthorizationBy(String)}
      */
     @Test

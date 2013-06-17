@@ -22,7 +22,7 @@ import static org.kuali.kfs.module.tem.TemPropertyConstants.TravelAgencyAuditRep
 import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.batch.service.ExpenseImportByTripService;
 import org.kuali.kfs.module.tem.businessobject.AgencyStagingData;
-import org.kuali.kfs.module.tem.document.service.TravelAgencyAuditValidationHelper;
+import org.kuali.kfs.module.tem.document.service.AgencyStagingDataValidationHelper;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -33,7 +33,7 @@ import org.kuali.rice.krad.util.KRADConstants;
  *
  * @author Leo Przybylski (leo [at] rsmart.com)
  */
-public class TravelAgencyAuditValidationByTrip implements TravelAgencyAuditValidationHelper {
+public class AgencyStagingDataValidationByTrip implements AgencyStagingDataValidationHelper {
     public static final String MAINTAINABLE_ERROR_PREFIX = KRADConstants.MAINTENANCE_NEW_MAINTAINABLE;
     public static final String DOCUMENT_ERROR_PREFIX = "document.";
     public static final String MAINTAINABLE_ERROR_PATH = DOCUMENT_ERROR_PREFIX + "newMaintainableObject";

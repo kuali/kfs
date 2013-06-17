@@ -7,85 +7,23 @@
 		<property name="businessObjectClass" value="org.kuali.kfs.module.tem.businessobject.TravelAdvance" />
 		<property name="lookupDefinition" ref="TravelAdvance-lookupDefinition" />
 		<property name="inquiryDefinition" ref="TravelAdvance-inquiryDefinition" />
-		<property name="titleAttribute" value="id" />
+		<property name="titleAttribute" value="documentNumber" />
 		<property name="objectLabel" value="TravelAdvance" />
 		<property name="attributes">
 		<list>
-			<ref bean="TravelAdvance-id" />
 			<ref bean="TravelAdvance-documentNumber" />
-			<ref bean="TravelAdvance-financialDocumentLineNumber" />
+			<ref bean="TravelAdvance-travelDocumentIdentifier" />
 			<ref bean="TravelAdvance-travelAdvanceRequested" />
 			<ref bean="TravelAdvance-amountDue" />
 			<ref bean="TravelAdvance-arCustomerId" />
 			<ref bean="TravelAdvance-arInvoiceDocNumber" />
 			<ref bean="TravelAdvance-dueDate" />
-			<ref bean="TravelAdvance-paymentMethod" />
-			<ref bean="TravelAdvance-accountNumber" />
-			<ref bean="TravelAdvance-subAccountNumber" />
-			<ref bean="TravelAdvance-financialObjectCode" />
-			<ref bean="TravelAdvance-financialSubObjectCode" />
 			<ref bean="TravelAdvance-advancePaymentReasonCode" />
 			<ref bean="TravelAdvance-travelAdvancePolicy" />
 			<ref bean="TravelAdvance-additionalJustification" />
 			<ref bean="TravelAdvance-versionNumber" />
 		</list>
 		</property>
-		<property name="relationships">
-		<list>
-			<bean parent="RelationshipDefinition">
-				<property name="objectAttributeName" value="acct" />
-				<property name="primitiveAttributes">
-				<list>
-					<bean parent="PrimitiveAttributeDefinition" p:sourceName="accountNumber" p:targetName="accountNumber" />
-				</list>
-				</property>
-			</bean>
-			<bean parent="RelationshipDefinition">
-				<property name="objectAttributeName" value="subAcct" />
-				<property name="primitiveAttributes">
-				<list>
-					<bean parent="PrimitiveAttributeDefinition" p:sourceName="subAccountNumber" p:targetName="subAccountNumber" />
-				</list>
-				</property>
-			</bean>
-			<bean parent="RelationshipDefinition">
-				<property name="objectAttributeName" value="objCode" />
-				<property name="primitiveAttributes">
-				<list>
-					<bean parent="PrimitiveAttributeDefinition" p:sourceName="financialObjectCode" p:targetName="financialObjectCode" />
-				</list>
-				</property>
-			</bean>
-			<bean parent="RelationshipDefinition">
-				<property name="objectAttributeName" value="subObjCode" />
-				<property name="primitiveAttributes">
-				<list>
-					<bean parent="PrimitiveAttributeDefinition" p:sourceName="financialSubObjectCode" p:targetName="financialSubObjectCode" />
-				</list>
-				</property>
-			</bean>
-			<bean parent="RelationshipDefinition">
-				<property name="objectAttributeName" value="advancePaymentReason" />
-				<property name="primitiveAttributes">
-				<list>
-					<bean parent="PrimitiveAttributeDefinition" p:sourceName="financialSubObjectCode" p:targetName="code" />
-				</list>
-				</property>
-			</bean>
-		</list>
-		</property>
-	</bean>
-	<bean id="TravelAdvance-id" parent="TravelAdvance-id-parentBean" />
-	<bean id="TravelAdvance-id-parentBean" parent="AttributeDefinition">
-		<property name="name" value="id" />
-		<property name="label" value="Id" />
-		<property name="shortLabel" value="Id" />
-		<property name="maxLength" value="32" />
-		<property name="required" value="true" />
-		<property name="summary" value="Id" />
-		<property name="description" value="Id" />
-		<property name="control"><bean parent="HiddenControlDefinition" /></property>
-		<property name="validationPattern"><bean parent="NumericValidationPattern" /></property>
 	</bean>
 	<bean id="TravelAdvance-documentNumber" parent="TravelAdvance-documentNumber-parentBean" />
 	<bean id="TravelAdvance-documentNumber-parentBean" parent="AttributeDefinition">
@@ -97,16 +35,15 @@
 		<property name="description" value="Document Number" />
 		<property name="control"><bean parent="TextControlDefinition" p:size="255"/></property>
 	</bean>
-	<bean id="TravelAdvance-financialDocumentLineNumber" parent="TravelAdvance-financialDocumentLineNumber-parentBean" />
-	<bean id="TravelAdvance-financialDocumentLineNumber-parentBean" parent="AttributeDefinition">
-		<property name="name" value="financialDocumentLineNumber" />
-		<property name="label" value="Financial Document Line Number" />
-		<property name="shortLabel" value="Financial Document Line Number" />
+	<bean id="TravelAdvance-travelDocumentIdentifier" parent="TravelAdvance-travelDocumentIdentifier-parentBean" />
+	<bean id="TravelAdvance-travelDocumentIdentifier-parentBean" parent="AttributeDefinition">
+		<property name="name" value="travelDocumentIdentifier" />
+		<property name="label" value="Trip ID" />
+		<property name="shortLabel" value="Trip ID" />
 		<property name="maxLength" value="32" />
-		<property name="summary" value="Financial Document Line Number" />
-		<property name="description" value="Financial Document Line Number" />
+		<property name="summary" value="Trip ID" />
+		<property name="description" value="Trip ID" />
 		<property name="control"><bean parent="TextControlDefinition" p:size="32"/></property>
-		<property name="validationPattern"><bean parent="NumericValidationPattern" /></property>
 	</bean>
 	<bean id="TravelAdvance-travelAdvanceRequested" parent="TravelAdvance-travelAdvanceRequested-parentBean" />
 	<bean id="TravelAdvance-travelAdvanceRequested-parentBean" parent="GenericAttributes-genericAmount">
@@ -152,60 +89,6 @@
 		<property name="summary" value="Payment Due Date" />
 		<property name="description" value="Payment Due Date" />
 		<property name="required" value="true" />
-	</bean>
-	<bean id="TravelAdvance-paymentMethod" parent="TravelAdvance-paymentMethod-parentBean" />
-	<bean id="TravelAdvance-paymentMethod-parentBean" parent="AttributeDefinition">
-		<property name="name" value="paymentMethod" />
-		<property name="label" value="Payment Method" />
-		<property name="shortLabel" value="Payment Method" />
-		<property name="maxLength" value="255" />
-		<property name="summary" value="Payment Method" />
-		<property name="description" value="Payment Method" />
-		<property name="control">
-            <bean parent="SelectControlDefinition"
-                p:valuesFinderClass="org.kuali.kfs.sys.businessobject.options.PaymentMethodValuesFinder"
-                p:includeKeyInLabel="false" />
-        </property>
-	</bean>
-	<bean id="TravelAdvance-accountNumber" parent="TravelAdvance-accountNumber-parentBean" />
-	<bean id="TravelAdvance-accountNumber-parentBean" parent="AttributeDefinition">
-		<property name="name" value="accountNumber" />
-		<property name="label" value="Account" />
-		<property name="shortLabel" value="Account" />
-		<property name="maxLength" value="255" />
-		<property name="summary" value="Account Number" />
-		<property name="description" value="Account Number" />
-		<property name="control"><bean parent="TextControlDefinition" p:size="255"/></property>
-	</bean>
-	<bean id="TravelAdvance-subAccountNumber" parent="TravelAdvance-subAccountNumber-parentBean" />
-	<bean id="TravelAdvance-subAccountNumber-parentBean" parent="AttributeDefinition">
-		<property name="name" value="subAccountNumber" />
-		<property name="label" value="Sub-Account" />
-		<property name="shortLabel" value="Sub-Account" />
-		<property name="maxLength" value="255" />
-		<property name="summary" value="Sub Account Number" />
-		<property name="description" value="Sub Account Number" />
-		<property name="control"><bean parent="TextControlDefinition" p:size="255"/></property>
-	</bean>
-	<bean id="TravelAdvance-financialObjectCode" parent="TravelAdvance-financialObjectCode-parentBean" />
-	<bean id="TravelAdvance-financialObjectCode-parentBean" parent="AttributeDefinition">
-		<property name="name" value="financialObjectCode" />
-		<property name="label" value="Object Code" />
-		<property name="shortLabel" value="Object Code" />
-		<property name="maxLength" value="255" />
-		<property name="summary" value="Financial Object Code" />
-		<property name="description" value="Financial Object Code" />
-		<property name="control"><bean parent="TextControlDefinition" p:size="255"/></property>
-	</bean>
-	<bean id="TravelAdvance-financialSubObjectCode" parent="TravelAdvance-financialSubObjectCode-parentBean" />
-	<bean id="TravelAdvance-financialSubObjectCode-parentBean" parent="AttributeDefinition">
-		<property name="name" value="financialSubObjectCode" />
-		<property name="label" value="Sub-Object Code" />
-		<property name="shortLabel" value="Sub-Object Code" />
-		<property name="maxLength" value="255" />
-		<property name="summary" value="Financial Sub Object Code" />
-		<property name="description" value="Financial Sub Object Code" />
-		<property name="control"><bean parent="TextControlDefinition" p:size="255"/></property>
 	</bean>
 	<bean id="TravelAdvance-advancePaymentReasonCode" parent="TravelAdvance-advancePaymentReasonCode-parentBean" />
 	<bean id="TravelAdvance-advancePaymentReasonCode-parentBean" parent="AttributeDefinition">
@@ -261,18 +144,11 @@
 				<property name="numberOfColumns" value="1"/>
 				<property name="inquiryFields">
 				<list>
-					<bean parent="FieldDefinition" p:attributeName="id" />
 					<bean parent="FieldDefinition" p:attributeName="documentNumber" />
-					<bean parent="FieldDefinition" p:attributeName="financialDocumentLineNumber" />
 					<bean parent="FieldDefinition" p:attributeName="travelAdvanceRequested" />
 					<bean parent="FieldDefinition" p:attributeName="arCustomerId" />
 					<bean parent="FieldDefinition" p:attributeName="arInvoiceDocNumber" />
 					<bean parent="FieldDefinition" p:attributeName="dueDate" />
-					<bean parent="FieldDefinition" p:attributeName="paymentMethod" />
-					<bean parent="FieldDefinition" p:attributeName="accountNumber" />
-					<bean parent="FieldDefinition" p:attributeName="subAccountNumber" />
-					<bean parent="FieldDefinition" p:attributeName="financialObjectCode" />
-					<bean parent="FieldDefinition" p:attributeName="financialSubObjectCode" />
 				</list>
 				</property>
 			</bean>
@@ -289,23 +165,16 @@
 		</bean>
 		</property>
 		<property name="lookupFields"><list>
-			<bean parent="FieldDefinition" p:attributeName="id" />
+			<bean parent="FieldDefinition" p:attributeName="documentNumber" />
 		</list>
 		</property>
 		<property name="resultFields">
 		<list>
-			<bean parent="FieldDefinition" p:attributeName="id" />
 			<bean parent="FieldDefinition" p:attributeName="documentNumber" />
-			<bean parent="FieldDefinition" p:attributeName="financialDocumentLineNumber" />
 			<bean parent="FieldDefinition" p:attributeName="travelAdvanceRequested" />
 			<bean parent="FieldDefinition" p:attributeName="arCustomerId" />
 			<bean parent="FieldDefinition" p:attributeName="arInvoiceDocNumber" />
 			<bean parent="FieldDefinition" p:attributeName="dueDate" />
-			<bean parent="FieldDefinition" p:attributeName="paymentMethod" />
-			<bean parent="FieldDefinition" p:attributeName="accountNumber" />
-			<bean parent="FieldDefinition" p:attributeName="subAccountNumber" />
-			<bean parent="FieldDefinition" p:attributeName="financialObjectCode" />
-			<bean parent="FieldDefinition" p:attributeName="financialSubObjectCode" />
 		</list>
 		</property>
 	</bean>

@@ -16,7 +16,9 @@
 package org.kuali.kfs.module.tem.document;
 
 import java.beans.PropertyChangeEvent;
+import java.sql.Date;
 import java.sql.Timestamp;
+import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -38,6 +40,7 @@ import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationParameters;
 import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationStatusCodeKeys;
 import org.kuali.kfs.module.tem.TemConstants.TravelDocTypes;
 import org.kuali.kfs.module.tem.TemConstants.TravelParameters;
+import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.TemParameterConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.TemWorkflowConstants;
@@ -49,21 +52,36 @@ import org.kuali.kfs.module.tem.businessobject.TEMProfile;
 import org.kuali.kfs.module.tem.businessobject.TemSourceAccountingLine;
 import org.kuali.kfs.module.tem.businessobject.TransportationModeDetail;
 import org.kuali.kfs.module.tem.businessobject.TravelAdvance;
+import org.kuali.kfs.module.tem.businessobject.TravelPayment;
 import org.kuali.kfs.module.tem.businessobject.TravelerDetailEmergencyContact;
+import org.kuali.kfs.module.tem.document.service.TravelAuthorizationDocumentPaymentService;
 import org.kuali.kfs.module.tem.document.service.TravelAuthorizationService;
 import org.kuali.kfs.module.tem.service.TEMExpenseService;
+import org.kuali.kfs.pdp.businessobject.PaymentGroup;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.batch.service.PaymentSourceExtractionService;
+import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
-import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
+import org.kuali.kfs.sys.businessobject.PaymentSourceWireTransfer;
+import org.kuali.kfs.sys.businessobject.WireCharge;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.PaymentSource;
+import org.kuali.kfs.sys.document.service.PaymentSourceHelperService;
+import org.kuali.kfs.sys.service.AccountingLineService;
+import org.kuali.kfs.sys.service.OptionsService;
 import org.kuali.kfs.sys.service.UniversityDateService;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.krad.exception.InfrastructureException;
 import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
@@ -74,7 +92,7 @@ import org.springframework.beans.BeanUtils;
 
 @Entity
 @Table(name = "TEM_TRVL_AUTH_DOC_T")
-public class TravelAuthorizationDocument extends TravelDocumentBase {
+public class TravelAuthorizationDocument extends TravelDocumentBase implements PaymentSource {
 
     protected static Logger LOG = Logger.getLogger(TravelAuthorizationDocument.class);
 
@@ -86,12 +104,28 @@ public class TravelAuthorizationDocument extends TravelDocumentBase {
     private String citizenshipCountryCode;
     private Country citizenshipCountry;
     private List<TransportationModeDetail> transportationModes = new ArrayList<TransportationModeDetail>();
+    private TravelAdvance travelAdvance;
+    private TravelPayment advanceTravelPayment;
+    private PaymentSourceWireTransfer wireTransfer;
+    private List<TemSourceAccountingLine> advanceAccountingLines;
+    private Integer nextAdvanceLineNumber  = new Integer(1);
+
+    protected volatile static PersonService personService;
+    protected volatile static TravelAuthorizationDocumentPaymentService travelAuthorizationDocumentPaymentService;
+    protected volatile static ConfigurationService configurationService;
+    protected volatile static PaymentSourceHelperService paymentSourceHelperService;
+    protected volatile static OptionsService optionsService;
 
     /**
      * Creates a new instance of the Travel Request Document. Initializes the empty arrays as well as the line tracking numbers
      */
     public TravelAuthorizationDocument() {
         super();
+        advanceAccountingLines = new ArrayList<TemSourceAccountingLine>();
+        travelAdvance = new TravelAdvance();
+        advanceTravelPayment = new TravelPayment();
+        wireTransfer = new PaymentSourceWireTransfer();
+
     }
 
     public TravelAuthorizationAmendmentDocument toCopyTAA() throws WorkflowException {
@@ -155,9 +189,8 @@ public class TravelAuthorizationDocument extends TravelDocumentBase {
         copyToDocument.setTravelerDetailId(null);
         copyToDocument.setTraveler(getTravelerService().copyTravelerDetail(getTraveler(), documentID));
         copyToDocument.setGroupTravelers(getTravelDocumentService().copyGroupTravelers(getGroupTravelers(), documentID));
-        copyToDocument.setTravelAdvances(getTravelDocumentService().copyTravelAdvances(getTravelAdvances(), documentID));
-        copyToDocument.setActualExpenses((List<ActualExpense>) getTravelDocumentService().copyActualExpenses(getActualExpenses(), documentID));
         copyToDocument.setImportedExpenses(new ArrayList<ImportedExpense>());
+        copyToDocument.setTravelAdvance(new TravelAdvance());
 
         copyToDocument.getNotes().clear();
         copyToDocument.getDocumentHeader().setDocumentDescription(getDocumentHeader().getDocumentDescription());
@@ -376,6 +409,21 @@ public class TravelAuthorizationDocument extends TravelDocumentBase {
     }
 
     /**
+     * @return the TravelAdvance associated with this document
+     */
+    public TravelAdvance getTravelAdvance() {
+        return travelAdvance;
+    }
+
+    /**
+     * Sets the TravelAdvance associated with this document
+     * @param travelAdvance the Travel Advance for this document
+     */
+    public void setTravelAdvance(TravelAdvance travelAdvance) {
+        this.travelAdvance = travelAdvance;
+    }
+
+    /**
      * @see org.kuali.kfs.module.tem.document.TravelDocumentBase#initiateDocument()
      */
     @Override
@@ -391,9 +439,42 @@ public class TravelAuthorizationDocument extends TravelDocumentBase {
         calendar.add(Calendar.DAY_OF_MONTH, 2);
         setTripEnd(new Timestamp(calendar.getTimeInMillis()));
         setDefaultBankCode();
-        /* TODO FIX SETTING DOCUMENTATION LOCATION CODE */
-        //getTravelPayment().setDocumentationLocationCode(getParameterService().getParameterValueAsString(TravelAuthorizationDocument.class, TravelParameters.DOCUMENTATION_LOCATION_CODE,
-        //        getParameterService().getParameterValueAsString(TemParameterConstants.TEM_DOCUMENT.class,TravelParameters.DOCUMENTATION_LOCATION_CODE)));
+        setAdvanceTravelPayment(new TravelPayment());
+        getAdvanceTravelPayment().setDocumentNumber(getDocumentNumber());
+        getAdvanceTravelPayment().setDocumentationLocationCode(getParameterService().getParameterValueAsString(TravelAuthorizationDocument.class, TravelParameters.DOCUMENTATION_LOCATION_CODE,
+                getParameterService().getParameterValueAsString(TemParameterConstants.TEM_DOCUMENT.class,TravelParameters.DOCUMENTATION_LOCATION_CODE)));
+        getAdvanceTravelPayment().setCheckStubText(getConfigurationService().getPropertyValueAsString(TemKeyConstants.MESSAGE_TA_ADVANCE_PAYMENT_HOLD_TEXT));
+        if (allParametersForAdvanceSet()) {
+            // we can initiate the travel advance accounting line
+            TemSourceAccountingLine accountingLine = initiateAdvanceAccountingLine();
+            addAdvanceAccountingLine(accountingLine);
+        }
+    }
+
+    /**
+     * Initiates the accounting line to go with the advance if all the parameters for the advance are set
+     * @return the initiated accounting line
+     */
+    protected TemSourceAccountingLine initiateAdvanceAccountingLine() {
+        try {
+            TemSourceAccountingLine accountingLine = getAdvanceAccountingLineClass().newInstance();
+            accountingLine.setDocumentNumber(getDocumentNumber());
+            accountingLine.setFinancialDocumentLineTypeCode(TemConstants.TRAVEL_ADVANCE_ACCOUNTING_LINE_TYPE_CODE);
+            accountingLine.setSequenceNumber(new Integer(1));
+            accountingLine.setChartOfAccountsCode(getParameterService().getParameterValueAsString(TravelAuthorizationDocument.class, TemConstants.TravelAuthorizationParameters.TRAVEL_ADVANCE_CHART));
+            accountingLine.setAccountNumber(getParameterService().getParameterValueAsString(TravelAuthorizationDocument.class, TemConstants.TravelAuthorizationParameters.TRAVEL_ADVANCE_ACCOUNT));
+            accountingLine.setFinancialObjectCode(getParameterService().getParameterValueAsString(TravelAuthorizationDocument.class, TemConstants.TravelAuthorizationParameters.TRAVEL_ADVANCE_OBJECT_CODE));
+            accountingLine.setCardType(TemConstants.ADVANCE);
+            return accountingLine;
+        }
+        catch (InstantiationException ie) {
+            LOG.error("Could not instantiate new advance accounting line of type: "+getAdvanceAccountingLineClass().getName());
+            throw new RuntimeException("Could not instantiate new advance accounting line of type: "+getAdvanceAccountingLineClass().getName(), ie);
+        }
+        catch (IllegalAccessException iae) {
+            LOG.error("Illegal access attempting to instantiate advance accounting line of class "+getAdvanceAccountingLineClass().getName());
+            throw new RuntimeException("Illegal access attempting to instantiate advance accounting line of class "+getAdvanceAccountingLineClass().getName(), iae);
+        }
     }
 
     /**
@@ -448,9 +529,23 @@ public class TravelAuthorizationDocument extends TravelDocumentBase {
      */
     @Override
     public void customizeExplicitGeneralLedgerPendingEntry(GeneralLedgerPendingEntrySourceDetail postable, GeneralLedgerPendingEntry explicitEntry) {
-
         super.customizeExplicitGeneralLedgerPendingEntry(postable, explicitEntry);
+        if (postable instanceof AccountingLine) {
+            final AccountingLine accountingLine = (AccountingLine)postable;
+            if (TemConstants.TRAVEL_ADVANCE_ACCOUNTING_LINE_TYPE_CODE.equals(accountingLine.getFinancialDocumentLineTypeCode())) {
+                customizeAdvanceExplicitGeneralLedgerPendingEntry(postable, explicitEntry);
+                return; // just leave the method, we're done
+            }
+        }
+        customizeExpenseExplicitGeneralLedgerPendingEntry(postable, explicitEntry);
+    }
 
+    /**
+     * Customization for "normal" accounting lines - the accounting lines which will encumber
+     * @param postable the general ledger pending entry source which is the source of the customized explicit entry
+     * @param explicitEntry the explicit entry to customize
+     */
+    protected void customizeExpenseExplicitGeneralLedgerPendingEntry(GeneralLedgerPendingEntrySourceDetail postable, GeneralLedgerPendingEntry explicitEntry) {
         // set the encumbrance update code Set to ENCUMB_UPDT_REFERENCE_DOCUMENT_CD ("R")
         explicitEntry.setTransactionEncumbranceUpdateCode(KFSConstants.ENCUMB_UPDT_REFERENCE_DOCUMENT_CD);
 
@@ -472,14 +567,42 @@ public class TravelAuthorizationDocument extends TravelDocumentBase {
     }
 
     /**
+     * Customization for accounting lines associated with travel advances
+     * @param postable the general ledger pending entry source which is the source of the customized explicit entry
+     * @param explicitEntry the explicit entry to customize
+     */
+    protected void customizeAdvanceExplicitGeneralLedgerPendingEntry(GeneralLedgerPendingEntrySourceDetail postable, GeneralLedgerPendingEntry explicitEntry) {
+        explicitEntry.setFinancialDocumentTypeCode(TemConstants.TravelDocTypes.TRAVEL_AUTHORIZATION_CHECK_ACH_DOCUMENT);
+        final String description = MessageFormat.format(getConfigurationService().getPropertyValueAsString(TemKeyConstants.TA_MESSAGE_ADVANCE_ACCOUNTING_LINES_GLPE_DESCRIPTION), getDataDictionaryService().getDocumentTypeNameByClass(getClass()), getDocumentNumber());
+        final int maxLength = getDataDictionaryService().getAttributeMaxLength(GeneralLedgerPendingEntry.class, KFSPropertyConstants.TRANSACTION_LEDGER_ENTRY_DESC);
+        explicitEntry.setTransactionLedgerEntryDescription(StringUtils.abbreviate(description, maxLength));
+    }
+
+    /**
      * @see org.kuali.kfs.sys.document.AccountingDocumentBase#customizeOffsetGeneralLedgerPendingEntry(org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail,
      *      org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry, org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry)
      */
     @Override
     public boolean customizeOffsetGeneralLedgerPendingEntry(GeneralLedgerPendingEntrySourceDetail accountingLine, GeneralLedgerPendingEntry explicitEntry, GeneralLedgerPendingEntry offsetEntry) {
-
         boolean customized = super.customizeOffsetGeneralLedgerPendingEntry(accountingLine, explicitEntry, offsetEntry);
+        if (accountingLine instanceof AccountingLine) {
+            final AccountingLine postable = (AccountingLine)accountingLine;
+            if (TemConstants.TRAVEL_ADVANCE_ACCOUNTING_LINE_TYPE_CODE.equals(postable.getFinancialDocumentLineTypeCode())) {
+                return customized && customizeAdvanceOffsetGeneralLedgerPendingEntry(accountingLine, explicitEntry, offsetEntry);
+            }
+        }
+        return customized && customizeExpenseOffsetGeneralLedgerPendingEntry(accountingLine, explicitEntry, offsetEntry);
+    }
 
+    /**
+     * Customizes offset GLPE's for "normal" accounting lines which are offsetting entries which are paying off expenses
+     * @param accountingLine the general ledger pending entry source which acts as the source of the given offset entry to customize
+     * @param explicitEntry the explicit GLPE which needs to be offset
+     * @param offsetEntry the offset GLPE which is being customized
+     * @return true if customization has completed successfully, false otherwise
+     */
+    public boolean customizeExpenseOffsetGeneralLedgerPendingEntry(GeneralLedgerPendingEntrySourceDetail accountingLine, GeneralLedgerPendingEntry explicitEntry, GeneralLedgerPendingEntry offsetEntry) {
+        boolean customized = false;
         // set the encumbrance update code
         offsetEntry.setTransactionEncumbranceUpdateCode(KFSConstants.ENCUMB_UPDT_REFERENCE_DOCUMENT_CD);
 
@@ -497,9 +620,58 @@ public class TravelAuthorizationDocument extends TravelDocumentBase {
         String balanceType = getTravelEncumbranceService().getEncumbranceBalanceTypeByTripType(this);
         if (StringUtils.isNotEmpty(balanceType)) {
             offsetEntry.setFinancialBalanceTypeCode(balanceType);
-            customized &= true;
+            customized = true;
         }
         return customized;
+    }
+
+    /**
+     * Customizes offset GLPE's for accounting lines associated with advances
+     * @param accountingLine the general ledger pending entry source which acts as the source of the given offset entry to customize
+     * @param explicitEntry the explicit GLPE which needs to be offset
+     * @param offsetEntry the offset GLPE which is being customized
+     * @return true if customization has completed successfully, false otherwise
+     */
+    public boolean customizeAdvanceOffsetGeneralLedgerPendingEntry(GeneralLedgerPendingEntrySourceDetail accountingLine, GeneralLedgerPendingEntry explicitEntry, GeneralLedgerPendingEntry offsetEntry) {
+        offsetEntry.setFinancialDocumentTypeCode(TemConstants.TravelDocTypes.TRAVEL_AUTHORIZATION_CHECK_ACH_DOCUMENT);
+        return true;
+    }
+
+    /**
+     *
+     * @see org.kuali.kfs.module.tem.document.TravelDocumentBase#generateDocumentGeneralLedgerPendingEntries(org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper)
+     */
+    @Override
+    public boolean generateDocumentGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
+        boolean success = super.generateDocumentGeneralLedgerPendingEntries(sequenceHelper);
+        if (getTravelAdvance().isAtLeastPartiallyFilledIn() && getTravelAdvance().getTravelAdvanceRequested() != null) {
+            // generate wire entries
+            if (!StringUtils.isBlank(getAdvanceTravelPayment().getPaymentMethodCode())) {
+                if (KFSConstants.PaymentSourceConstants.PAYMENT_METHOD_WIRE.equals(getAdvanceTravelPayment().getPaymentMethodCode()) && !getWireTransfer().isWireTransferFeeWaiverIndicator()) {
+                    LOG.debug("generating wire charge gl pending entries.");
+
+                    // retrieve wire charge
+                    WireCharge wireCharge = getPaymentSourceHelperService().retrieveCurrentYearWireCharge();
+
+                    // generate debits
+                    GeneralLedgerPendingEntry chargeEntry = getPaymentSourceHelperService().processWireChargeDebitEntries(this, sequenceHelper, wireCharge);
+
+                    // generate credits
+                    getPaymentSourceHelperService().processWireChargeCreditEntries(this, sequenceHelper, wireCharge, chargeEntry);
+                }
+
+                // for wire or drafts generate bank offset entry (if enabled), for ACH and checks offset will be generated by PDP
+                if (KFSConstants.PaymentSourceConstants.PAYMENT_METHOD_WIRE.equals(getAdvanceTravelPayment().getPaymentMethodCode()) || KFSConstants.PaymentSourceConstants.PAYMENT_METHOD_DRAFT.equals(getAdvanceTravelPayment().getPaymentMethodCode())) {
+                    getPaymentSourceHelperService().generateDocumentBankOffsetEntries(this, sequenceHelper, TemConstants.TravelDocTypes.TRAVEL_AUTHORIZATION_WIRE_OR_FOREIGN_DRAFT_DOCUMENT, getTravelAdvance().getTravelAdvanceRequested().negated());
+                }
+            }
+            // generate entries for advance accounting lines
+            for (TemSourceAccountingLine advanceAccountingLine : getAdvanceAccountingLines()) {
+                generateGeneralLedgerPendingEntries(advanceAccountingLine, sequenceHelper);
+                sequenceHelper.increment();
+            }
+        }
+        return success;
     }
 
     /**
@@ -516,7 +688,6 @@ public class TravelAuthorizationDocument extends TravelDocumentBase {
                 // for some reason when it goes to final it never updates to the last status, updating TA status to OPEN REIMBURSEMENT
                 updateAppDocStatus(TravelAuthorizationStatusCodeKeys.OPEN_REIMB);
 
-                getTravelAuthorizationService().createTravelAdvanceDVDocument(this);
                 getTravelAuthorizationService().createCustomerInvoice(this);
 
                 //If the hold new fiscal year encumbrance indicator is true and the trip end date is after the current fiscal year end date then mark all the gl pending entries
@@ -538,11 +709,9 @@ public class TravelAuthorizationDocument extends TravelDocumentBase {
                     SpringContext.getBean(BusinessObjectService.class).save(getGeneralLedgerPendingEntries());
                 }
 
-                //************************************************** FILL THIS IN!!!
-                // TODO WE NEED TO EXTRACT AN IMMEDIATE PAYMENT
-                // if there's a travel advance on this document
-                // and the payment information on this document is marked extract immediate
-                // SpringContext.getBean(PaymentSourceExtractionService.class).extractSingleImmediatePayment(this);
+                if (shouldProcessAdvanceForDocument() && this.getAdvanceTravelPayment().isImmediatePaymentIndicator()) {
+                    SpringContext.getBean(PaymentSourceExtractionService.class).extractSingleImmediatePayment(this);
+                }
             }
         }
     }
@@ -571,6 +740,91 @@ public class TravelAuthorizationDocument extends TravelDocumentBase {
             }
         }
         return encumbranceLines;
+    }
+
+    /**
+     * @return the payment for advances on this document
+     */
+    public TravelPayment getAdvanceTravelPayment() {
+        return advanceTravelPayment;
+    }
+
+    /**
+     * Sets the payment information for advances on this document
+     * @param advanceTravelPayment the payment information for advances on this document
+     */
+    public void setAdvanceTravelPayment(TravelPayment advanceTravelPayment) {
+        this.advanceTravelPayment = advanceTravelPayment;
+    }
+
+    /**
+     * @return the accounting lines associated with advances on this document
+     */
+    public List<TemSourceAccountingLine> getAdvanceAccountingLines() {
+        return advanceAccountingLines;
+    }
+
+    /**
+     * Sets accounting lines associated with advances on this document
+     * @param advanceAccountingLines the travel advance accounting lines
+     */
+    public void setAdvanceAccountingLines(List<TemSourceAccountingLine> advanceAccountingLines) {
+        this.advanceAccountingLines = advanceAccountingLines;
+    }
+
+    /**
+     * This implementation sets the sequence number appropriately for the passed in source accounting line using the value that has
+     * been stored in the nextSourceLineNumber variable, adds the accounting line to the list that is aggregated by this object, and
+     * then handles incrementing the nextSourceLineNumber variable for you.
+     */
+    public void addAdvanceAccountingLine(TemSourceAccountingLine line) {
+        line.setSequenceNumber(this.getNextAdvanceLineNumber());
+        this.advanceAccountingLines.add(line);
+        this.nextAdvanceLineNumber = new Integer(getNextAdvanceLineNumber().intValue() + 1);
+    }
+
+    /**
+     * This implementation is coupled tightly with some underlying issues that the Struts PojoProcessor plugin has with how objects
+     * get instantiated within lists. The first three lines are required otherwise when the PojoProcessor tries to automatically
+     * inject values into the list, it will get an index out of bounds error if the instance at an index is being called and prior
+     * instances at indices before that one are not being instantiated. So changing the code below will cause adding lines to break
+     * if you add more than one item to the list.
+     */
+    public TemSourceAccountingLine getAdvanceAccountingLine(int index) {
+        while (getAdvanceAccountingLines().size() <= index) {
+            getAdvanceAccountingLines().add(createNewAdvanceAccountingLine());
+        }
+        return getAdvanceAccountingLines().get(index);
+    }
+
+    /**
+     * Creates a new, properly-initiated accounting line of the advance accounting line class specified on the Travel Authorization document
+     * @return a new accounting line for travel advances
+     */
+    public TemSourceAccountingLine createNewAdvanceAccountingLine() {
+        try {
+            TemSourceAccountingLine accountingLine = getAdvanceAccountingLineClass().newInstance();
+            accountingLine.setFinancialDocumentLineTypeCode(TemConstants.TRAVEL_ADVANCE_ACCOUNTING_LINE_TYPE_CODE);
+            accountingLine.setCardType(TemConstants.ADVANCE); // really, card type is ignored but it is validated so we have to set something
+            return accountingLine;
+        }
+        catch (Exception e) {
+            throw new InfrastructureException("unable to create a new source accounting line", e);
+        }
+    }
+
+    /**
+     * @return the class associated with advances accounting lines
+     */
+    public Class<? extends TemSourceAccountingLine> getAdvanceAccountingLineClass() {
+        return TemSourceAccountingLine.class;
+    }
+
+    /**
+     * @return the next available accounting line number for advances accounting lines
+     */
+    public Integer getNextAdvanceLineNumber() {
+        return this.nextAdvanceLineNumber;
     }
 
     /**
@@ -631,16 +885,7 @@ public class TravelAuthorizationDocument extends TravelDocumentBase {
      * @return
      */
     private boolean requiresTravelAdvanceReviewRouting() {
-        if (this.getTravelAdvances().size() > 0) {
-            KualiDecimal total = KualiDecimal.ZERO;
-            for (TravelAdvance advance : this.getTravelAdvances()) {
-                total = total.add(advance.getTravelAdvanceRequested());
-            }
-            if (total.isGreaterThan(KualiDecimal.ZERO)) {
-                return true;
-            }
-        }
-        return false;
+        return (shouldProcessAdvanceForDocument() && KualiDecimal.ZERO.isLessThan(this.getTravelAdvance().getTravelAdvanceRequested()));
     }
 
     /**
@@ -670,10 +915,8 @@ public class TravelAuthorizationDocument extends TravelDocumentBase {
     @Override
     public void setTemProfile(TEMProfile temProfile) {
         super.setTemProfile(temProfile);
-        if (getTravelAdvances() != null && getTravelAdvances().size() > 0){
-            for (TravelAdvance advance : getTravelAdvances()){
-                advance.setTravelAdvancePolicy(false);
-            }
+        if (!ObjectUtils.isNull(getTravelAdvance())) {
+            getTravelAdvance().setTravelAdvancePolicy(false);
         }
     }
 
@@ -701,58 +944,6 @@ public class TravelAuthorizationDocument extends TravelDocumentBase {
         managedLists.add(getTransportationModes());
 
         return managedLists;
-    }
-
-    /**
-     * @see org.kuali.kfs.module.tem.document.TravelDocumentBase#populateDisbursementVoucherFields(org.kuali.kfs.fp.document.DisbursementVoucherDocument, org.kuali.kfs.module.tem.document.TravelDocument)
-     */
-    @Override
-    public void populateDisbursementVoucherFields(DisbursementVoucherDocument disbursementVoucherDocument) {
-
-        super.populateDisbursementVoucherFields(disbursementVoucherDocument);
-
-        //override the check stub text
-        disbursementVoucherDocument.setDisbVchrCheckStubText("Travel Advance for " + getTravelDocumentIdentifier() + " " + getTraveler().getLastName() + " - " + getPrimaryDestinationName() + " - " + getTripBegin());
-        //set the payment method from the advance
-        disbursementVoucherDocument.setDisbVchrPaymentMethodCode(getTravelAdvances().get(0).getPaymentMethod());
-
-        final String paymentReasonCode = getParameterService().getParameterValueAsString(TravelAuthorizationDocument.class, TravelAuthorizationParameters.TRAVEL_ADVANCE_PAYMENT_REASON_CODE);
-        disbursementVoucherDocument.getDvPayeeDetail().setDisbVchrPaymentReasonCode(paymentReasonCode);
-        final String paymentLocationCode = getParameterService().getParameterValueAsString(TemParameterConstants.TEM_DOCUMENT.class,TravelParameters.DOCUMENTATION_LOCATION_CODE);
-        disbursementVoucherDocument.setDisbursementVoucherDocumentationLocationCode(paymentLocationCode);
-
-        final String advancePaymentChartCode = getParameterService().getParameterValueAsString(TravelAuthorizationDocument.class, TravelAuthorizationParameters.TRAVEL_ADVANCE_CHART);
-        final String advancePaymentAccountNumber = getParameterService().getParameterValueAsString(TravelAuthorizationDocument.class, TravelAuthorizationParameters.TRAVEL_ADVANCE_ACCOUNT);
-        final String advancePaymentObjectCode = getParameterService().getParameterValueAsString(TravelAuthorizationDocument.class, TravelAuthorizationParameters.TRAVEL_ADVANCE_OBJECT_CODE);
-
-        // set accounting (this should have been bypassed in the super class)
-        KualiDecimal totalAmount = KualiDecimal.ZERO;
-        for (TravelAdvance advance : getTravelAdvances()) {
-            if (StringUtils.isBlank(advance.getArInvoiceDocNumber())) {
-                SourceAccountingLine accountingLine = new SourceAccountingLine();
-
-                //if the parameter fields are empty, use that of the advance
-                accountingLine.setChartOfAccountsCode(StringUtils.defaultIfEmpty(advancePaymentChartCode, advance.getAcct().getChartOfAccountsCode()));
-                accountingLine.setAccountNumber(StringUtils.defaultIfEmpty(advancePaymentAccountNumber, advance.getAccountNumber()));
-                accountingLine.setFinancialObjectCode(StringUtils.defaultIfEmpty(advancePaymentObjectCode, StringUtils.defaultString(advance.getFinancialObjectCode())));
-                //accountingLine.setFinancialSubObjectCode(StringUtils.defaultString(advance.getFinancialSubObjectCode()));
-                //accountingLine.setSubAccountNumber(StringUtils.defaultString(advance.getSubAccountNumber()));
-                accountingLine.setAmount(advance.getTravelAdvanceRequested());
-                accountingLine.setPostingYear(disbursementVoucherDocument.getPostingYear());
-                accountingLine.setDocumentNumber(disbursementVoucherDocument.getDocumentNumber());
-
-                disbursementVoucherDocument.addSourceAccountingLine(accountingLine);
-                totalAmount = totalAmount.add(advance.getTravelAdvanceRequested());
-
-                //in case of multiple unprocessed advance, this becomes an issue what the due date and payment method will be set to
-                // this is now setting to the latest advance's information
-                if (advance.getDueDate() != null) {
-                    disbursementVoucherDocument.setDisbursementVoucherDueDate(advance.getDueDate());
-                }
-                disbursementVoucherDocument.setDisbVchrPaymentMethodCode(advance.getPaymentMethod());
-            }
-        }
-        disbursementVoucherDocument.setDisbVchrCheckTotalAmount(totalAmount);
     }
 
     @Override
@@ -810,4 +1001,282 @@ public class TravelAuthorizationDocument extends TravelDocumentBase {
         return TravelAuthorizationStatusCodeKeys.getDisapprovedAppDocStatusMap();
     }
 
+    /**
+     * If the line is for an advance, always returns true; otherwise, always returns false
+     * @see org.kuali.kfs.module.tem.document.TravelDocumentBase#isDebit(org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail)
+     */
+    @Override
+    public boolean isDebit(GeneralLedgerPendingEntrySourceDetail postable) {
+        if (postable instanceof AccountingLine && TemConstants.TRAVEL_ADVANCE_ACCOUNTING_LINE_TYPE_CODE.equals(((AccountingLine)postable).getFinancialDocumentLineTypeCode())) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Set the document number and the trip id on our travel advance
+     * @see org.kuali.kfs.module.tem.document.TravelDocumentBase#prepareForSave(org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent)
+     */
+    @Override
+    public void prepareForSave(KualiDocumentEvent event) {
+        super.prepareForSave(event);
+        if (!ObjectUtils.isNull(getTravelAdvance())) {
+            getTravelAdvance().setDocumentNumber(getDocumentNumber());
+            getTravelAdvance().setTravelDocumentIdentifier(getTravelDocumentIdentifier());
+            getWireTransfer().setDocumentNumber(getDocumentNumber());
+            final String checkStubPrefix = getConfigurationService().getPropertyValueAsString(TemKeyConstants.MESSAGE_TA_ADVANCE_PAYMENT_CHECK_TEXT_PREFIX);
+            getAdvanceTravelPayment().setCheckStubText(checkStubPrefix+" "+getDocumentHeader().getDocumentDescription());
+            getAdvanceTravelPayment().setDueDate(getTravelAdvance().getDueDate());
+            updatePayeeTypeForAuthorization();
+        }
+    }
+
+    /**
+     * For reimbursable documents, sets the proper payee type code and profile id after a profile lookup
+     * @param document the reimbursable document to update
+     */
+    public void updatePayeeTypeForAuthorization() {
+        if (!ObjectUtils.isNull(getTraveler()) && !ObjectUtils.isNull(getAdvanceTravelPayment())) {
+            if (getTravelerService().isEmployee(getTraveler())){
+                getAdvanceTravelPayment().setPayeeTypeCode(KFSConstants.PaymentPayeeTypes.EMPLOYEE);
+                setProfileId(getTemProfileId());
+            }else{
+                getAdvanceTravelPayment().setPayeeTypeCode(KFSConstants.PaymentPayeeTypes.CUSTOMER);
+            }
+        }
+    }
+
+    /**
+     * Returns the WireTransfer associated with this travel authorization
+     * @see org.kuali.kfs.sys.document.PaymentSource#getWireTransfer()
+     */
+    @Override
+    public PaymentSourceWireTransfer getWireTransfer() {
+        return wireTransfer;
+    }
+
+    /**
+     * Sets the wire transfer for this travel authorization
+     * @param wireTransfer the wire transfer for this travel authorization
+     */
+    public void setWireTransfer(PaymentSourceWireTransfer wireTransfer) {
+        this.wireTransfer = wireTransfer;
+    }
+
+    @Override
+    public PaymentGroup generatePaymentGroup(Date processRunDate) {
+        if (shouldProcessAdvanceForDocument()) {
+            return getTravelAuthorizationDocumentPaymentService().createPaymentGroupForAuthorization(this, processRunDate);
+        }
+        return null;
+    }
+
+    /**
+     * @return true if this document seems to have an active advance which should therefore be processed, false otherwise
+     */
+    public boolean shouldProcessAdvanceForDocument() {
+        return !ObjectUtils.isNull(getTravelAdvance()) && getTravelAdvance().isAtLeastPartiallyFilledIn();
+    }
+
+    /**
+     * Sets the extraction date on the travel payment
+     * @see org.kuali.kfs.sys.document.PaymentSource#markAsExtracted(java.sql.Date)
+     */
+    @Override
+    public void markAsExtracted(Date extractionDate) {
+        getAdvanceTravelPayment().setExtractDate(extractionDate);
+    }
+
+    /**
+     * Sets the paid date on the travel payment
+     * @see org.kuali.kfs.sys.document.PaymentSource#markAsPaid(java.sql.Date)
+     */
+    @Override
+    public void markAsPaid(Date processDate) {
+        getAdvanceTravelPayment().setPaidDate(processDate);
+    }
+
+    @Override
+    public void cancelPayment(Date cancelDate) {
+        getTravelAuthorizationDocumentPaymentService().cancelAuthorizationDocument(this, cancelDate);
+    }
+
+    /**
+     * This involves rolling back the extracted and paid dates and setting the document to approved
+     * @see org.kuali.kfs.sys.document.PaymentSource#resetFromExtraction()
+     */
+    @Override
+    public void resetFromExtraction() {
+        getAdvanceTravelPayment().setExtractDate(null);
+        getAdvanceTravelPayment().setPaidDate(null);
+    }
+
+    /**
+     * Returns the cancel date from the travel payment
+     * @see org.kuali.kfs.sys.document.PaymentSource#getCancelDate()
+     */
+    @Override
+    public Date getCancelDate() {
+        return this.getAdvanceTravelPayment().getCancelDate();
+    }
+
+    /**
+     * Returns the attachment code from the travel payment
+     * @see org.kuali.kfs.sys.document.PaymentSource#hasAttachment()
+     */
+    @Override
+    public boolean hasAttachment() {
+        return this.getAdvanceTravelPayment().isAttachmentCode();
+    }
+
+    /**
+     * Returns the payment method code associated with the travel payment for the advance
+     * @see org.kuali.kfs.sys.document.PaymentSource#getPaymentMethodCode()
+     */
+    @Override
+    public String getPaymentMethodCode() {
+        return this.getAdvanceTravelPayment().getPaymentMethodCode();
+    }
+
+    /**
+     * If the travel advance is partially filled in, returns the amount requested
+     * @see org.kuali.kfs.sys.document.PaymentSource#getPaymentAmount()
+     */
+    @Override
+    public KualiDecimal getPaymentAmount() {
+        if (shouldProcessAdvanceForDocument()) {
+            return this.getTravelAdvance().getTravelAdvanceRequested();
+        }
+        return KualiDecimal.ZERO;
+    }
+
+    /**
+     * Returns the campus code of the initiator of this document
+     * @see org.kuali.kfs.sys.document.PaymentSource#getCampusCode()
+     */
+    @Override
+    public String getCampusCode() {
+        final Person initiator = getPersonService().getPerson(getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId());
+        return initiator.getCampusCode();
+    }
+
+    /**
+     * Returns "TACA"
+     * @see org.kuali.kfs.sys.document.PaymentSource#getAchCheckDocumentType()
+     */
+    @Override
+    public String getAchCheckDocumentType() {
+        return TemConstants.TravelDocTypes.TRAVEL_AUTHORIZATION_CHECK_ACH_DOCUMENT;
+    }
+
+    @Override
+    public String getImmediateExtractEMailFromAddress() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public List<String> getImmediateExtractEmailToAddresses() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    public boolean allParametersForAdvanceSet() {
+        return (!StringUtils.isBlank(getParameterService().getParameterValueAsString(TravelAuthorizationDocument.class, TemConstants.TravelAuthorizationParameters.TRAVEL_ADVANCE_ACCOUNT, "")) &&
+                !StringUtils.isBlank(getParameterService().getParameterValueAsString(TravelAuthorizationDocument.class, TemConstants.TravelAuthorizationParameters.TRAVEL_ADVANCE_CHART)) &&
+                        !StringUtils.isBlank(getParameterService().getParameterValueAsString(TravelAuthorizationDocument.class, TemConstants.TravelAuthorizationParameters.TRAVEL_ADVANCE_OBJECT_CODE)));
+    }
+
+    /**
+     * Propagates the amount from the advance to the travel payment and to the accounting line if the accounting line is read only
+     */
+    public void propagateAdvanceAmountIfNeeded() {
+        if (!ObjectUtils.isNull(getTravelAdvance()) && getTravelAdvance().getTravelAdvanceRequested() != null) {
+            if (!ObjectUtils.isNull(getAdvanceTravelPayment())) {
+                getAdvanceTravelPayment().setCheckTotalAmount(getTravelAdvance().getTravelAdvanceRequested());
+            }
+            if (allParametersForAdvanceSet()) {
+                getAdvanceAccountingLines().get(0).setAmount(getTravelAdvance().getTravelAdvanceRequested());
+            }
+            // let's also propogate the due date
+            if (getTravelAdvance().getDueDate() != null && !ObjectUtils.isNull(getAdvanceTravelPayment())) {
+                getAdvanceTravelPayment().setDueDate(getTravelAdvance().getDueDate());
+            }
+        }
+    }
+
+    /**
+     * Generate events for advance accounting lines
+     * @see org.kuali.kfs.sys.document.AccountingDocumentBase#generateSaveEvents()
+     */
+    @Override
+    public List generateSaveEvents() {
+        List events = super.generateSaveEvents();
+
+        final List persistedAdvanceAccountingLines = getPersistedAdvanceAccountingLinesForComparison();
+        final List currentAdvanceAccountingLines = getAdvanceAccountingLinesForComparison();
+
+        final List advanceEvents = generateEvents(persistedAdvanceAccountingLines, currentAdvanceAccountingLines, KFSConstants.DOCUMENT_PROPERTY_NAME + "." + TemPropertyConstants.ADVANCE_ACCOUNTING_LINES, this);
+        events.addAll(advanceEvents);
+
+        return events;
+    }
+
+    /**
+     * This method gets the Source Accounting Lines that will be used in comparisons
+     *
+     * @return
+     */
+    protected List getAdvanceAccountingLinesForComparison() {
+        return getAdvanceAccountingLines();
+    }
+
+    /**
+     * This method gets the Persisted advance Accounting Lines that will be used in comparisons
+     *
+     * @return
+     */
+    protected List getPersistedAdvanceAccountingLinesForComparison() {
+        return SpringContext.getBean(AccountingLineService.class).getByDocumentHeaderIdAndLineType(getAdvanceAccountingLineClass(), getDocumentNumber(), TemConstants.TRAVEL_ADVANCE_ACCOUNTING_LINE_TYPE_CODE);
+    }
+
+    /**
+     * @return the default implementation of the PersonService
+     */
+    protected static PersonService getPersonService() {
+        if (personService == null) {
+            personService = SpringContext.getBean(PersonService.class);
+        }
+        return personService;
+    }
+
+    /**
+     * @return the default implementation of the ReimbursableDocumentPaymentService
+     */
+    protected static TravelAuthorizationDocumentPaymentService getTravelAuthorizationDocumentPaymentService() {
+        if (travelAuthorizationDocumentPaymentService == null) {
+            travelAuthorizationDocumentPaymentService = SpringContext.getBean(TravelAuthorizationDocumentPaymentService.class);
+        }
+        return travelAuthorizationDocumentPaymentService;
+    }
+
+    /**
+     * @return the default implementation of the PaymentSourceHelperService
+     */
+    protected static PaymentSourceHelperService getPaymentSourceHelperService() {
+        if (paymentSourceHelperService == null) {
+            paymentSourceHelperService = SpringContext.getBean(PaymentSourceHelperService.class);
+        }
+        return paymentSourceHelperService;
+    }
+
+    /**
+     * @return the default implementation of the OptionsService
+     */
+    protected static OptionsService getOptionsService() {
+        if (optionsService == null) {
+            optionsService = SpringContext.getBean(OptionsService.class);
+        }
+        return optionsService;
+    }
 }

@@ -19,6 +19,7 @@ import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.businessobject.WireCharge;
 import org.kuali.kfs.sys.document.PaymentSource;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 /**
  * Methods to aid PaymentSources do various things they need to do, such as create correct GLPE entries
@@ -26,7 +27,6 @@ import org.kuali.kfs.sys.document.PaymentSource;
 public interface PaymentSourceHelperService {
     /**
      * Retrieves the wire transfer information for the current fiscal year.
-     *
      * @return <code>WireCharge</code>
      */
     public WireCharge retrieveCurrentYearWireCharge();
@@ -34,7 +34,6 @@ public interface PaymentSourceHelperService {
     /**
      * Builds an explicit and offset for the wire charge debit. The account associated with the first accounting is used for the
      * debit. The explicit and offset entries for the first accounting line and copied and customized for the wire charge.
-     *
      * @param paymentSource the payment source to generate bank offset entries for
      * @param sequenceHelper helper class to keep track of GLPE sequence
      * @param wireCharge wireCharge object from current fiscal year
@@ -45,7 +44,6 @@ public interface PaymentSourceHelperService {
     /**
      * Builds an explicit and offset for the wire charge credit. The account and income object code found in the wire charge table
      * is used for the entry.
-     *
      * @param paymentSource the payment source to generate bank offset entries for
      * @param sequenceHelper helper class to keep track of GLPE sequence
      * @param chargeEntry GLPE charge
@@ -55,12 +53,23 @@ public interface PaymentSourceHelperService {
 
     /**
      * If bank specification is enabled generates bank offsetting entries for the document amount
-     *
      * @param paymentSource the payment source to generate bank offset entries for
      * @param sequenceHelper helper class to keep track of GLPE sequence
      * @param paymentMethodCode the payment method of the given PaymentSource
      * @param wireTransferOrForeignDraftEntryDocumentType the FSLO document type for wire transfer or foreign draft entries associated with the given payment source
+     * @return true if the entries were successfully generated, false otherwise
      */
     public abstract boolean generateDocumentBankOffsetEntries(PaymentSource paymentSource, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, String wireTransferOrForeignDraftEntryDocumentType);
+
+    /**
+     * If bank specification is enabled generates bank offsetting entries for the document amount
+     * @param paymentSource the payment source to generate bank offset entries for
+     * @param sequenceHelper helper class to keep track of GLPE sequence
+     * @param paymentMethodCode the payment method of the given PaymentSource
+     * @param wireTransferOrForeignDraftEntryDocumentType the FSLO document type for wire transfer or foreign draft entries associated with the given payment source
+     * @param bankOffsetAmount the amount to offset
+     * @return true if the entries were successfully generated, false otherwise
+     */
+    public abstract boolean generateDocumentBankOffsetEntries(PaymentSource paymentSource, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, String wireTransferOrForeignDraftEntryDocumentType, KualiDecimal bankOffsetAmount);
 
 }

@@ -20,17 +20,9 @@ import java.util.LinkedHashMap;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
-import org.kuali.kfs.coa.businessobject.Account;
-import org.kuali.kfs.coa.businessobject.ObjectCode;
-import org.kuali.kfs.coa.businessobject.SubAccount;
-import org.kuali.kfs.coa.businessobject.SubObjectCode;
-import org.kuali.kfs.module.tem.TemConstants.DisbursementVoucherPaymentMethods;
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
@@ -39,10 +31,8 @@ import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 @Entity
 @Table(name = "TEM_TRVL_ADV_T")
 public class TravelAdvance extends PersistableBusinessObjectBase {
-
-    private Integer id;
     private String documentNumber;
-    private Integer financialDocumentLineNumber;
+    private String travelDocumentIdentifier;
 
     private KualiDecimal travelAdvanceRequested;
     private KualiDecimal amountDue;
@@ -50,48 +40,11 @@ public class TravelAdvance extends PersistableBusinessObjectBase {
     private String arCustomerId;
     private String arInvoiceDocNumber;
     private Date dueDate;
-    private String paymentMethod = DisbursementVoucherPaymentMethods.CHECK_ACH_PAYMENT_METHOD_CODE;
     private Date taxRamificationNotificationDate;
-
-    private String chartOfAccountsCode;
-    private String accountNumber;
-    private String subAccountNumber;
-    private String financialObjectCode;
-    private String financialSubObjectCode;
     private String advancePaymentReasonCode;
-
     private Boolean travelAdvancePolicy = Boolean.FALSE;
-
     private String additionalJustification;
-
-    private Account acct;
-    private SubAccount subAcct;
-    private ObjectCode objCode;
-    private SubObjectCode subObjCode;
     private AdvancePaymentReason advancePaymentReason;
-
-
-    /**
-     * This method returns the generated Id of this TravelAdvance
-     *
-     * @return generated id of this Travel Advance
-     */
-    @Id
-    @GeneratedValue(generator = "TEM_TRVL_ADV_ID_SEQ")
-    @SequenceGenerator(name = "TEM_TRVL_ADV_ID_SEQ", sequenceName = "TEM_TRVL_ADV_ID_SEQ", allocationSize = 5)
-    @Column(name = "id", nullable = false)
-    public Integer getId() {
-        return id;
-    }
-
-    /**
-     * This method sets the generated Id of this Travel Advance
-     *
-     * @param id
-     */
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     /**
      * Gets the documentNumber attribute.
@@ -113,22 +66,20 @@ public class TravelAdvance extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the financialDocumentLineNumber attribute.
-     *
-     * @return Returns the financialDocumentLineNumber
+     * @return the trip id for the travel document this is associated with.  We know this breaks normalization, but it will make it much easier for
+     * travel reimbursement to find all related travel advances
      */
-    @Column(name = "FDOC_LINE_NBR")
-    public Integer getFinancialDocumentLineNumber() {
-        return financialDocumentLineNumber;
+    @Column(name="TRVL_ID")
+    public String getTravelDocumentIdentifier() {
+        return travelDocumentIdentifier;
     }
 
     /**
-     * Sets the financialDocumentLineNumber attribute.
-     *
-     * @param financialDocumentLineNumber The financialDocumentLineNumber to set.
+     * Sets the trip id for the travel document this advance is associated with
+     * @param travelDocumentIdentifier the travel document identifier/travel id/trip id
      */
-    public void setFinancialDocumentLineNumber(Integer financialDocumentLineNumber) {
-        this.financialDocumentLineNumber = financialDocumentLineNumber;
+    public void setTravelDocumentIdentifier(String travelDocumentIdentifier) {
+        this.travelDocumentIdentifier = travelDocumentIdentifier;
     }
 
     /**
@@ -228,177 +179,6 @@ public class TravelAdvance extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the paymentMethod attribute.
-     *
-     * @return Returns the paymentMethod.
-     */
-    @Column(name = "PYMT_MTHD")
-    public String getPaymentMethod() {
-        return paymentMethod;
-    }
-
-    /**
-     * Sets the paymentMethod attribute value.
-     *
-     * @param paymentMethod The paymentMethod to set.
-     */
-    public void setPaymentMethod(String paymentMethod) {
-        this.paymentMethod = paymentMethod;
-    }
-
-    /**
-     * Gets the accountNumber attribute.
-     *
-     * @return Returns the accountNumber.
-     */
-    @Column(name = "ACCOUNT_NBR")
-    public String getAccountNumber() {
-        return accountNumber;
-    }
-
-    /**
-     * Sets the accountNumber attribute value.
-     *
-     * @param accountNumber The accountNumber to set.
-     */
-    public void setAccountNumber(String accountNumber) {
-        this.accountNumber = accountNumber;
-    }
-
-    /**
-     * Gets the subAccountNumber attribute.
-     *
-     * @return Returns the subAccountNumber.
-     */
-    @Column(name = "SUB_ACCT_NBR")
-    public String getSubAccountNumber() {
-        return subAccountNumber;
-    }
-
-    /**
-     * Sets the subAccountNumber attribute value.
-     *
-     * @param subAccountNumber The subAccountNumber to set.
-     */
-    public void setSubAccountNumber(String subAccountNumber) {
-        this.subAccountNumber = subAccountNumber;
-    }
-
-    /**
-     * Gets the financialObjectCode attribute.
-     *
-     * @return Returns the financialObjectCode.
-     */
-    @Column(name = "FIN_OBJECT_CD")
-    public String getFinancialObjectCode() {
-        return financialObjectCode;
-    }
-
-    /**
-     * Sets the financialObjectCode attribute value.
-     *
-     * @param financialObjectCode The financialObjectCode to set.
-     */
-    public void setFinancialObjectCode(String financialObjectCode) {
-        this.financialObjectCode = financialObjectCode;
-    }
-
-    /**
-     * Gets the financialSubObjectCode attribute.
-     *
-     * @return Returns the financialSubObjectCode.
-     */
-    @Column(name = "FIN_SUB_OBJ_CD")
-    public String getFinancialSubObjectCode() {
-        return financialSubObjectCode;
-    }
-
-    /**
-     * Sets the financialSubObjectCode attribute value.
-     *
-     * @param financialSubObjectCode The financialSubObjectCode to set.
-     */
-    public void setFinancialSubObjectCode(String financialSubObjectCode) {
-        this.financialSubObjectCode = financialSubObjectCode;
-    }
-
-    /**
-     * Gets the acct attribute.
-     *
-     * @return Returns the acct.
-     */
-    @Transient
-    public Account getAcct() {
-        return acct;
-    }
-
-    /**
-     * Sets the acct attribute value.
-     *
-     * @param acct The acct to set.
-     */
-    public void setAcct(Account acct) {
-        this.acct = acct;
-    }
-
-    /**
-     * Gets the subAcct attribute.
-     *
-     * @return Returns the subAcct.
-     */
-    @Transient
-    public SubAccount getSubAcct() {
-        return subAcct;
-    }
-
-    /**
-     * Sets the subAcct attribute value.
-     *
-     * @param subAcct The subAcct to set.
-     */
-    public void setSubAcct(SubAccount subAcct) {
-        this.subAcct = subAcct;
-    }
-
-    /**
-     * Gets the objCode attribute.
-     *
-     * @return Returns the objCode.
-     */
-    @Transient
-    public ObjectCode getObjCode() {
-        return objCode;
-    }
-
-    /**
-     * Sets the objCode attribute value.
-     *
-     * @param objCode The objCode to set.
-     */
-    public void setObjCode(ObjectCode objCode) {
-        this.objCode = objCode;
-    }
-
-    /**
-     * Gets the subObjCode attribute.
-     *
-     * @return Returns the subObjCode.
-     */
-    @Transient
-    public SubObjectCode getSubObjCode() {
-        return subObjCode;
-    }
-
-    /**
-     * Sets the subObjCode attribute value.
-     *
-     * @param subObjCode The subObjCode to set.
-     */
-    public void setSubObjCode(SubObjectCode subObjCode) {
-        this.subObjCode = subObjCode;
-    }
-
-    /**
      * Gets the advancePaymentReasonCode attribute.
      * @return Returns the advancePaymentReasonCode.
      */
@@ -489,20 +269,10 @@ public class TravelAdvance extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the chartOfAccountsCode attribute.
-     * @return Returns the chartOfAccountsCode.
+     * Determines if any user-writable fields on the advance have been filled in
+     * @return true if any user-writable field on the advance has been written to; false otherwise
      */
-    @Column(name = "FIN_COA_CD")
-    public String getChartOfAccountsCode() {
-        return chartOfAccountsCode;
+    public boolean isAtLeastPartiallyFilledIn() {
+        return this.getTravelAdvanceRequested() != null || this.getDueDate() != null || !StringUtils.isBlank(this.getAdvancePaymentReasonCode()) || this.getTravelAdvancePolicy() || !StringUtils.isBlank(this.getAdditionalJustification());
     }
-
-    /**
-     * Sets the chartOfAccountsCode attribute value.
-     * @param chartOfAccountsCode The chartOfAccountsCode to set.
-     */
-    public void setChartOfAccountsCode(String chartOfAccountsCode) {
-        this.chartOfAccountsCode = chartOfAccountsCode;
-    }
-
 }

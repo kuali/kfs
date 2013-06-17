@@ -22,12 +22,12 @@ import java.util.Map;
 
 import org.kuali.kfs.fp.businessobject.TravelExpenseTypeCode;
 import org.kuali.kfs.module.tem.TemConstants;
-import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.TemConstants.AgencyStagingDataErrorCodes;
 import org.kuali.kfs.module.tem.TemConstants.CreditCardStagingDataErrorCodes;
 import org.kuali.kfs.module.tem.TemConstants.ExpenseImportTypes;
 import org.kuali.kfs.module.tem.TemConstants.ExpenseType;
 import org.kuali.kfs.module.tem.TemConstants.ReconciledCodes;
+import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.businessobject.AgencyStagingData;
 import org.kuali.kfs.module.tem.businessobject.CreditCardAgency;
 import org.kuali.kfs.module.tem.businessobject.CreditCardStagingData;
@@ -52,7 +52,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
 /**
  * Service for handling travel expenses
  *
- * @see org.kuali.kfs.module.tem.document.validation.impl.TravelAgencyAuditValidation
+ * @see org.kuali.kfs.module.tem.document.validation.impl.AgencyStagingDataValidation
  */
 public class TravelExpenseServiceImpl implements TravelExpenseService {
 

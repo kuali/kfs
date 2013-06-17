@@ -30,7 +30,7 @@ import org.kuali.rice.kns.service.DocumentHelperService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
 
-public class TravelAgencyAuditPresentationController extends MaintenanceDocumentPresentationControllerBase {
+public class AgencyStagingDataPresentationController extends MaintenanceDocumentPresentationControllerBase {
 
     DocumentHelperService documentHelperService;
 

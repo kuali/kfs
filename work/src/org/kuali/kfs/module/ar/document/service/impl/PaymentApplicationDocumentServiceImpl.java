@@ -42,7 +42,6 @@ import org.kuali.kfs.module.ar.document.CashControlDocument;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.PaymentApplicationDocument;
 import org.kuali.kfs.module.ar.document.dataaccess.CashControlDetailDao;
-import org.kuali.kfs.module.ar.document.service.AccountsReceivableDocumentHeaderService;
 import org.kuali.kfs.module.ar.document.service.CustomerAddressService;
 import org.kuali.kfs.module.ar.document.service.InvoicePaidAppliedService;
 import org.kuali.kfs.module.ar.document.service.NonAppliedHoldingService;
@@ -88,6 +87,7 @@ public class PaymentApplicationDocumentServiceImpl implements PaymentApplication
     private ParameterService parameterService;
 
     /**
+     *
      * @param customerInvoiceDocument
      * @return
      * @throws WorkflowException
@@ -204,6 +204,7 @@ public class PaymentApplicationDocumentServiceImpl implements PaymentApplication
     }
 
     /**
+     *
      * @see org.kuali.kfs.module.ar.document.service.PaymentApplicationDocumentService#getCashControlDocumentForPaymentApplicationDocument(org.kuali.kfs.module.ar.document.PaymentApplicationDocument)
      */
     @Override
@@ -216,6 +217,7 @@ public class PaymentApplicationDocumentServiceImpl implements PaymentApplication
     }
 
     /**
+     *
      * @see org.kuali.kfs.module.ar.document.service.PaymentApplicationDocumentService#getCashControlDocumentForPayAppDocNumber(java.lang.String)
      */
     @Override
@@ -252,6 +254,7 @@ public class PaymentApplicationDocumentServiceImpl implements PaymentApplication
     }
 
     /**
+     *
      * @see org.kuali.kfs.module.ar.document.service.PaymentApplicationDocumentService#getCashControlDetailForPayAppDocNumber(java.lang.String)
      */
     @Override
@@ -285,7 +288,6 @@ public class PaymentApplicationDocumentServiceImpl implements PaymentApplication
 
             // create the new paidapplied
             InvoicePaidApplied invoicePaidApplied = createInvoicePaidAppliedForInvoiceDetail(detail, paymentApplicationDocument, paidAppliedItemNumber);
-
             // add it to the payment application document list of applied payments
             paymentApplicationDocument.getInvoicePaidApplieds().add(invoicePaidApplied);
             paidAppliedItemNumber++;
@@ -333,6 +335,23 @@ public class PaymentApplicationDocumentServiceImpl implements PaymentApplication
         return pairs;
     }
 
+    public Collection<PaymentApplicationDocument> getPaymentApplicationDocumentByInvoiceDocument(String invoiceNumber) {
+        Map<String, String> fieldValues = new HashMap<String, String>();
+        fieldValues.put("financialDocumentReferenceInvoiceNumber", invoiceNumber);
+        BusinessObjectService service = SpringContext.getBean(BusinessObjectService.class);
+
+        Collection<PaymentApplicationDocument> payments = service.findMatching(PaymentApplicationDocument.class, fieldValues);
+
+        return payments;
+    }
+
+    /*
+    public Collection<PaymentApplicationDocument> getPaymentApplicationDocumentsByCustomerNumber(String customerNumber) {
+		Collection<PaymentApplicationDocument> payments = new ArrayList<PaymentApplicationDocument>();
+
+        Map<String, String> fieldValues = new HashMap<String, String>();
+        fieldValues.put("customerNumber", customerNumber);
+
     /* Start TEM REFUND merge */
     /**
      * Creates a new disbursement voucher document populated from the given payment application document. The DV is initiated as the
@@ -345,6 +364,29 @@ public class PaymentApplicationDocumentServiceImpl implements PaymentApplication
     public void createDisbursementVoucherDocumentForRefund(PaymentApplicationDocument paymentApplicationDocument) {
         // changed session to initiator of payment application so DV will save to their inbox
         UserSession userSession = GlobalVariables.getUserSession();
+		Collection<AccountsReceivableDocumentHeader> documentHeaders = businessObjectService.findMatching(AccountsReceivableDocumentHeader.class, fieldValues);
+        List<String> documentHeaderIds = new ArrayList<String>();
+        for (AccountsReceivableDocumentHeader header : documentHeaders) {
+            String documentNumber = null;
+            try {
+                Long.parseLong(header.getDocumentHeader().getDocumentNumber());
+                documentNumber = header.getDocumentHeader().getDocumentNumber();
+                documentHeaderIds.add(documentNumber);
+				 }
+            catch (NumberFormatException nfe) {
+            }
+        }
+
+        if (0 < documentHeaderIds.size()) {
+            try {
+                payments = documentService.getDocumentsByListOfDocumentHeaderIds(PaymentApplicationDocument.class, documentHeaderIds);
+            }
+            catch (WorkflowException e) {
+                //LOG.error(e.getMessage(), e);
+            }
+        }
+        return payments;
+    }
 
         Person initiator = SpringContext.getBean(PersonService.class).getPerson(paymentApplicationDocument.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId());
         GlobalVariables.setUserSession(new UserSession(initiator.getPrincipalName()));
@@ -506,6 +548,23 @@ public class PaymentApplicationDocumentServiceImpl implements PaymentApplication
 
         disbursementVoucherDocument.setDisbVchrCheckTotalAmount(totalAmount);
     }
+
+	public Collection<PaymentApplicationDocument> getPaymentApplicationDocumentsByAccountNumber(String accountNumber) {
+		Collection<CustomerInvoiceDocument> invoiceList = SpringContext.getBean(CustomerInvoiceDocumentService.class).getCustomerInvoiceDocumentsByAccountNumber(accountNumber);
+
+        Set<String> customerNumberSet = new HashSet<String>();
+        for (CustomerInvoiceDocument invoice : invoiceList) {
+            Map<String, String> fieldValues = new HashMap<String, String>();
+            fieldValues.put("documentNumber", invoice.getDocumentNumber());
+			AccountsReceivableDocumentHeader arDocHeader = (AccountsReceivableDocumentHeader)businessObjectService.findByPrimaryKey(AccountsReceivableDocumentHeader.class, fieldValues);
+            customerNumberSet.add(arDocHeader.getCustomerNumber());
+		}
+		Collection<PaymentApplicationDocument> paymentApplicationDocumentList = new ArrayList<PaymentApplicationDocument>();
+        for (String customerNumber : customerNumberSet) {
+            paymentApplicationDocumentList.addAll(getPaymentApplicationDocumentsByCustomerNumber(customerNumber));
+		}
+		return paymentApplicationDocumentList;
+	}
 
     /**
      * @see org.kuali.kfs.module.ar.document.service.PaymentApplicationDocumentService#addNoteToPaymentRequestDocument(java.lang.String,

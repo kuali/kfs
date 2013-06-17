@@ -32,7 +32,7 @@
         <ref bean="TaxableRamificationDocument-openAmount"/>
 
         <ref bean="TaxableRamificationDocument-travelDocumentIdentifier"/>        
-        <ref bean="TaxableRamificationDocument-travelAdvanceId"/>
+        <ref bean="TaxableRamificationDocument-travelAdvanceDocumentNumber"/>
         <ref bean="TaxableRamificationDocument-travelerDetailId"/>
         <ref bean="TaxableRamificationDocument-taxableRamificationNotice"/>
       </list>
@@ -45,11 +45,11 @@
 	<property name="label" value="Travel Document Identifier" />
   </bean>  
   
-  <bean id="TaxableRamificationDocument-travelAdvanceId" parent="TaxableRamificationDocument-travelAdvanceId-parent"/>  
-  <bean id="TaxableRamificationDocument-travelAdvanceId-parent" abstract="true" parent="TravelAdvance-id">
-  	<property name="name" value="travelAdvanceId" />
-	<property name="label" value="Travel Advance Id" />
-	<property name="shortLabel" value="Travel Advance Id" />		
+  <bean id="TaxableRamificationDocument-travelAdvanceDocumentNumber" parent="TaxableRamificationDocument-travelAdvanceDocumentNumber-parent"/>  
+  <bean id="TaxableRamificationDocument-travelAdvanceDocumentNumber-parent" abstract="true" parent="TravelAdvance-documentNumber">
+  	<property name="name" value="travelAdvanceDocumentNumber" />
+	<property name="label" value="Travel Advance Document Number" />
+	<property name="shortLabel" value="Advance Doc. #" />		
     <property name="required" value="true"/>	
 	<property name="control"><bean parent="TextControlDefinition" p:size="32"/></property>    
   </bean>

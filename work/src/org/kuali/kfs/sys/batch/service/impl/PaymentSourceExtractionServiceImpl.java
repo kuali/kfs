@@ -366,6 +366,7 @@ public class PaymentSourceExtractionServiceImpl implements PaymentSourceExtracti
     public void resetExtractedPaymentSource(PaymentSource paymentSource, java.sql.Date processDate) {
         try {
             paymentSource.resetFromExtraction();
+            paymentSource.getFinancialSystemDocumentHeader().setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.APPROVED);
             SpringContext.getBean(DocumentService.class).saveDocument(paymentSource, AccountingDocumentSaveWithNoLedgerEntryGenerationEvent.class);
         }
         catch (WorkflowException we) {

@@ -19,11 +19,7 @@ import static org.kuali.kfs.module.tem.TemConstants.CERTIFICATION_STATEMENT_ATTR
 import static org.kuali.kfs.module.tem.TemConstants.EMPLOYEE_TEST_ATTRIBUTE;
 import static org.kuali.kfs.module.tem.TemConstants.KIM_PERSON_LOOKUPABLE;
 import static org.kuali.kfs.module.tem.TemConstants.TEM_PROFILE_LOOKUPABLE;
-import static org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationParameters.TRAVEL_ADVANCE_ACCOUNT;
-import static org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationParameters.TRAVEL_ADVANCE_CHART;
-import static org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationParameters.TRAVEL_ADVANCE_OBJECT_CODE;
 import static org.kuali.kfs.module.tem.TemPropertyConstants.NEW_EMERGENCY_CONTACT_LINE;
-import static org.kuali.kfs.module.tem.TemPropertyConstants.NEW_TRAVEL_ADVANCE_LINE;
 import static org.kuali.kfs.sys.KFSPropertyConstants.FINANCIAL_OBJECT_CODE;
 import static org.kuali.kfs.sys.KFSPropertyConstants.NEW_SOURCE_LINE;
 
@@ -48,7 +44,7 @@ import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationStatusCodeKeys;
 import org.kuali.kfs.module.tem.TemConstants.TravelDocTypes;
 import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
-import org.kuali.kfs.module.tem.businessobject.TravelAdvance;
+import org.kuali.kfs.module.tem.businessobject.TemSourceAccountingLine;
 import org.kuali.kfs.module.tem.businessobject.TravelerDetailEmergencyContact;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationAmendmentDocument;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
@@ -57,11 +53,14 @@ import org.kuali.kfs.module.tem.document.TravelDocumentBase;
 import org.kuali.kfs.module.tem.document.TravelReimbursementDocument;
 import org.kuali.kfs.module.tem.document.authorization.TravelAuthorizationAuthorizer;
 import org.kuali.kfs.module.tem.document.validation.event.AddEmergencyContactLineEvent;
-import org.kuali.kfs.module.tem.document.validation.event.AddTravelAdvanceLineEvent;
 import org.kuali.kfs.module.tem.document.web.bean.TravelAuthorizationMvcWrapperBean;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.validation.event.AddAccountingLineEvent;
+import org.kuali.kfs.sys.document.validation.event.DeleteAccountingLineEvent;
+import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
@@ -79,6 +78,7 @@ import org.kuali.rice.krad.exception.ValidationException;
 import org.kuali.rice.krad.service.DataDictionaryService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.KualiRuleService;
+import org.kuali.rice.krad.service.PersistenceService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -115,16 +115,6 @@ public class TravelAuthorizationAction extends TravelActionBase {
 
         authForm.setPerDiemPercentage(perDiemPercentage);
 
-        if (authForm.getNewTravelAdvanceLine() == null) {
-            String accountNumber = getParameterService().getParameterValueAsString(TravelAuthorizationDocument.class, TRAVEL_ADVANCE_ACCOUNT);
-            String objectCode = getParameterService().getParameterValueAsString(TravelAuthorizationDocument.class, TRAVEL_ADVANCE_OBJECT_CODE);
-            String chartCode = getParameterService().getParameterValueAsString(TravelAuthorizationDocument.class, TRAVEL_ADVANCE_CHART);
-            TravelAdvance adv = new TravelAdvance();
-            adv.setChartOfAccountsCode(chartCode);
-            adv.setAccountNumber(accountNumber);
-            adv.setFinancialObjectCode(objectCode);
-            authForm.setNewTravelAdvanceLine(adv);
-        }
         // try pulling the transpo modes from the form or the request
         String[] transpoModes = request.getParameterValues("selectedTransportationModes");
         if (transpoModes != null) {
@@ -166,12 +156,14 @@ public class TravelAuthorizationAction extends TravelActionBase {
             recalculateTripDetailTotalOnly(mapping, form, request, response);
         }
 
-        setupTravelAdvances(authForm, request);
+        setupTravelAdvances(authForm);
+
+        travelAuthDocument.propagateAdvanceAmountIfNeeded();
 
         return retval;
     }
 
-    private void setupTravelAdvances(TravelAuthorizationForm form, HttpServletRequest request) {
+    private void setupTravelAdvances(TravelAuthorizationForm form) {
         TravelAuthorizationDocument document = form.getTravelAuthorizationDocument();
         boolean waitingOnTraveler = document.getAppDocStatus().equals(TemConstants.TravelAuthorizationStatusCodeKeys.AWAIT_TRVLR);
         String initiator = document.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId();
@@ -190,6 +182,110 @@ public class TravelAuthorizationAction extends TravelActionBase {
 
         form.setWaitingOnTraveler(waitingOnTraveler);
         form.setShowPolicy(showPolicy);
+    }
+
+    /**
+     * Extended to handle the overrides for the advances accounting lines
+     * @see org.kuali.kfs.sys.web.struts.KualiAccountingDocumentActionBase#processAccountingLineOverrides(org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase)
+     */
+    @Override
+    protected void processAccountingLineOverrides(KualiAccountingDocumentFormBase transForm) {
+        super.processAccountingLineOverrides(transForm);
+        processAccountingLineOverrides(((TravelAuthorizationForm)transForm).getNewAdvanceAccountingLine());
+        if (transForm.hasDocumentId()) {
+            TravelAuthorizationDocument authorizationDocument = (TravelAuthorizationDocument) transForm.getDocument();
+            processAccountingLineOverrides(authorizationDocument,authorizationDocument.getAdvanceAccountingLines());
+        }
+    }
+
+    /**
+     * This action executes an insert of an accounting line associated with an advance
+     * @param mapping this is the mapping
+     * @param form this is the form
+     * @param request we have to assume this is a "request" of some sort
+     * @param response is this used?  for...something?
+     * @return ActionForward we promise to return one of these things
+     * @throws Exception 'cause sometimes bad things happen
+     */
+    public ActionForward insertAdvanceAccountingLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        TravelAuthorizationForm authorizationDocumentForm = (TravelAuthorizationForm) form;
+        TemSourceAccountingLine line = authorizationDocumentForm.getNewAdvanceAccountingLine();
+
+        boolean rulePassed = true;
+        // check any business rules
+        rulePassed &= SpringContext.getBean(KualiRuleService.class).applyRules(new AddAccountingLineEvent(TemPropertyConstants.NEW_ADVANCE_ACCOUNTING_LINE, authorizationDocumentForm.getDocument(), line));
+
+        if (rulePassed) {
+            SpringContext.getBean(PersistenceService.class).refreshAllNonUpdatingReferences(line);
+            authorizationDocumentForm.setAnchor(TemConstants.SOURCE_ANCHOR);
+            authorizationDocumentForm.getTravelAuthorizationDocument().addAdvanceAccountingLine(line);
+            authorizationDocumentForm.setNewAdvanceAccountingLine(null);
+        }
+
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+
+    /**
+     * This method will remove an accounting line associated with the travel advance from a FinancialDocument. This assumes that the user presses the delete button
+     * for a specific accounting line on the document and that the document is represented by a FinancialDocumentFormBase.  If these assumptions are not meant...wow.
+     * That's trouble, isn't it?
+     * @param mapping a thing
+     * @param form another thing
+     * @param request I'm sure the Struts documentation covers this in detail
+     * @param response for the remaining amount of time we're using Struts
+     * @return ActionForward ah well...enjoy this, upcoming javadoc'ers
+     * @throws Exception thrown if a bad thing happens
+     */
+    public ActionForward deleteAdvanceAccountingLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        TravelAuthorizationForm authorizationDocumentForm = (TravelAuthorizationForm) form;
+
+        int deleteIndex = getLineToDelete(request);
+        String errorPath = KFSConstants.DOCUMENT_PROPERTY_NAME + "." + TemPropertyConstants.ADVANCE_ACCOUNTING_LINES + "[" + deleteIndex + "]";
+        boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new DeleteAccountingLineEvent(errorPath, authorizationDocumentForm.getDocument(), authorizationDocumentForm.getTravelAuthorizationDocument().getAdvanceAccountingLine(deleteIndex), false));
+
+        // if the rule evaluation passed, let's delete it
+        if (rulePassed) {
+            authorizationDocumentForm.setAnchor(TemConstants.SOURCE_ANCHOR);
+            authorizationDocumentForm.getTravelAuthorizationDocument().getAdvanceAccountingLines().remove(deleteIndex);
+        }
+        else {
+            String[] errorParams = new String[] { "source", Integer.toString(deleteIndex + 1) };
+            GlobalVariables.getMessageMap().putError(errorPath, KFSKeyConstants.ERROR_ACCOUNTINGLINE_DELETERULE_INVALIDACCOUNT, errorParams);
+        }
+
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+
+    /**
+     * Takes care of storing the action form in the User session and forwarding to the balance inquiry report menu action for an accounting line
+     * associated with a travel advance
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return ActionForward
+     * @throws Exception
+     */
+    public ActionForward performBalanceInquiryForAdvanceAccountingLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        TemSourceAccountingLine line = getAdvanceAccountingLine(form, request);
+        return performBalanceInquiryForAccountingLine(mapping, form, request, line);
+    }
+
+    /**
+     * This method is a helper method that will return a source accounting line. The reason we're making it protected in here is so
+     * that we can override this method in some of the modules. PurchasingActionBase is one of the subclasses that will be
+     * overriding this, because in PurchasingActionBase, we'll need to get the source accounting line using both an item index and
+     * an account index.
+     *
+     * @param form
+     * @param request
+     * @param isSource
+     * @return
+     */
+    protected TemSourceAccountingLine getAdvanceAccountingLine(ActionForm form, HttpServletRequest request) {
+        final int lineIndex = getSelectedLine(request);
+        TemSourceAccountingLine line = (TemSourceAccountingLine) ObjectUtils.deepCopy(((TravelAuthorizationForm) form).getTravelAuthorizationDocument().getAdvanceAccountingLine(lineIndex));
+        return line;
     }
 
     /**
@@ -507,7 +603,7 @@ public class TravelAuthorizationAction extends TravelActionBase {
 
         LOG.debug("refresh call is: "+ refreshCaller);
         String groupTravelerId = request.getParameter("newGroupTravelerLine.groupTravelerEmpId");
-        TravelDocumentBase document = authForm.getTravelAuthorizationDocument();
+        TravelAuthorizationDocument document = authForm.getTravelAuthorizationDocument();
 
         boolean isTravelerLookupable = StringUtils.equals(refreshCaller, TEM_PROFILE_LOOKUPABLE);
 
@@ -532,6 +628,8 @@ public class TravelAuthorizationAction extends TravelActionBase {
             final String principalName = getPersonService().getPerson(document.getTraveler().getPrincipalId()).getPrincipalName();
             document.getTraveler().setPrincipalName(principalName);
         }
+
+        document.updatePayeeTypeForAuthorization();
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
@@ -697,62 +795,6 @@ public class TravelAuthorizationAction extends TravelActionBase {
 
         int deleteIndex = getLineToDelete(request);
         travelReqDoc.getTraveler().getEmergencyContacts().remove(deleteIndex);
-
-        return mapping.findForward(KFSConstants.MAPPING_BASIC);
-    }
-
-    /**
-     * This method adds a new travel advance into the travel authorization document
-     *
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
-     */
-    public ActionForward addTravelAdvanceLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        TravelAuthorizationForm travelauthForm = (TravelAuthorizationForm) form;
-        TravelAuthorizationDocument travelReqDoc = (TravelAuthorizationDocument) travelauthForm.getDocument();
-
-        TravelAdvance newTravelAdvanceLine = travelauthForm.getNewTravelAdvanceLine();
-        boolean rulePassed = true;
-        // check any business rules
-        rulePassed &= SpringContext.getBean(KualiRuleService.class).applyRules(new AddTravelAdvanceLineEvent(NEW_TRAVEL_ADVANCE_LINE, travelauthForm.getDocument(), newTravelAdvanceLine));
-        // travelReqDoc.logErrors();
-        if (rulePassed) {
-
-            // add travel advance line
-            travelauthForm.getNewTravelAdvanceLine().refreshNonUpdateableReferences();
-            travelReqDoc.addTravelAdvanceLine(newTravelAdvanceLine);
-            newTravelAdvanceLine.refreshReferenceObject("advancePaymentReason");
-            travelauthForm.setNewTravelAdvanceLine(new TravelAdvance());
-        }
-
-        return mapping.findForward(KFSConstants.MAPPING_BASIC);
-    }
-
-    /**
-     * This method removes a travel advance from this collection
-     *
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
-     */
-    public ActionForward deleteTravelAdvanceLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        TravelAuthorizationForm travelAuthForm = (TravelAuthorizationForm) form;
-        TravelAuthorizationDocument travelAuthDoc = (TravelAuthorizationDocument) travelAuthForm.getDocument();
-
-
-        int deleteIndex = getLineToDelete(request);
-        travelAuthDoc.getTravelAdvances().remove(deleteIndex);
-        for (int i=deleteIndex;i<travelAuthDoc.getTravelAdvances().size();i++){
-            int value = travelAuthDoc.getTravelAdvances().get(i).getFinancialDocumentLineNumber().intValue() - 1;
-            travelAuthDoc.getTravelAdvances().get(i).setFinancialDocumentLineNumber(new Integer(value));
-        }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
@@ -1204,9 +1246,7 @@ public class TravelAuthorizationAction extends TravelActionBase {
      */
     @Override
     public ActionForward blanketApprove(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        for (TravelAdvance advance : ((TravelAuthorizationForm)form).getTravelAuthorizationDocument().getTravelAdvances()){
-            advance.setTravelAdvancePolicy(true);
-        }
+        ((TravelAuthorizationForm)form).getTravelAuthorizationDocument().getTravelAdvance().setTravelAdvancePolicy(true);
 
         return super.blanketApprove(mapping, form, request, response);
     }

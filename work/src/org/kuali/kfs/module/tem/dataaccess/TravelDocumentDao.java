@@ -24,6 +24,7 @@ import org.kuali.kfs.module.tem.businessobject.PerDiem;
 import org.kuali.kfs.module.tem.businessobject.PrimaryDestination;
 import org.kuali.kfs.module.tem.businessobject.TravelAdvance;
 import org.kuali.kfs.module.tem.document.TEMReimbursementDocument;
+import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
 
 /**
  * This is the data access interface for Document objects.
@@ -92,4 +93,13 @@ public interface TravelDocumentDao {
      * @return a Collection of qualifying Entertainment documents
      */
     public abstract Collection<? extends TEMReimbursementDocument> getEntertainmentDocumentsByHeaderStatus(String statusCode, boolean immediatesOnly);
+
+    /**
+     * Retrieves all TravelAuthorization and TravelAuthorizationAmendment documents with the given financial system document header status
+     * @param statusCode the financial system document header status of the documents to retrieve
+     * @param immediatesOnly true if only those documents marked for immediate payment are to be retrieved, false if all documents at the status are to be retrieved
+     * @return a Collection of qualifying authorization documents
+     */
+    public abstract Collection<? extends TravelAuthorizationDocument> getAuthorizationsAndAmendmentsByHeaderStatus(String statusCode, boolean immediatesOnly);
+
 }

@@ -43,7 +43,7 @@ public class TaxableRamificationDocument extends FinancialSystemTransactionalDoc
 
     private String travelDocumentIdentifier;
     private Integer travelerDetailId;
-    private Integer travelAdvanceId;
+    private String travelAdvanceDocumentNumber;
 
     private TravelerDetail travelerDetail;
     private TravelAdvance travelAdvance;
@@ -197,8 +197,8 @@ public class TaxableRamificationDocument extends FinancialSystemTransactionalDoc
      *
      * @return Returns the travelAdvanceId.
      */
-    public Integer getTravelAdvanceId() {
-        return travelAdvanceId;
+    public String getTravelDocumentNumber() {
+        return travelAdvanceDocumentNumber;
     }
 
     /**
@@ -206,8 +206,8 @@ public class TaxableRamificationDocument extends FinancialSystemTransactionalDoc
      *
      * @param travelAdvanceId The travelAdvanceId to set.
      */
-    public void setTravelAdvanceId(Integer travelAdvanceId) {
-        this.travelAdvanceId = travelAdvanceId;
+    public void setTravelAdvanceDocumentNumber(String travelAdvanceDocumentNumber) {
+        this.travelAdvanceDocumentNumber = travelAdvanceDocumentNumber;
     }
 
     /**

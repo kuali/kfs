@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.struts.upload.FormFile;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationParameters;
@@ -29,9 +30,9 @@ import org.kuali.kfs.module.tem.TemConstants.TravelParameters;
 import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.TemParameterConstants;
 import org.kuali.kfs.module.tem.businessobject.AccountingDistribution;
+import org.kuali.kfs.module.tem.businessobject.TemSourceAccountingLine;
 import org.kuali.kfs.module.tem.businessobject.TransportationMode;
 import org.kuali.kfs.module.tem.businessobject.TransportationModeDetail;
-import org.kuali.kfs.module.tem.businessobject.TravelAdvance;
 import org.kuali.kfs.module.tem.businessobject.TravelerDetail;
 import org.kuali.kfs.module.tem.businessobject.TravelerDetailEmergencyContact;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
@@ -51,7 +52,6 @@ import org.kuali.rice.krad.service.DataDictionaryService;
 
 public class TravelAuthorizationForm extends TravelFormBase implements TravelAuthorizationMvcWrapperBean{
     private TravelerDetailEmergencyContact newEmergencyContactLine;
-    private TravelAdvance newTravelAdvanceLine;
     private TravelerDetail newTraveler;
     private boolean canCloseTA;
     private boolean canAmend;
@@ -64,10 +64,13 @@ public class TravelAuthorizationForm extends TravelFormBase implements TravelAut
     private boolean allowIncidentals = true;
     private String policyURL = getParameterService().getParameterValueAsString(TravelAuthorizationDocument.class, TravelAuthorizationParameters.TRAVEL_ADVANCES_POLICY_URL);
     private boolean multipleAdvances =getParameterService().getParameterValueAsBoolean(TravelAuthorizationDocument.class, TravelAuthorizationParameters.MULTIPLE_CASH_ADVANCES_ALLOWED_IND);
-    private boolean showPaymentMethods = getParameterService().getParameterValueAsBoolean(TravelAuthorizationDocument.class, TravelAuthorizationParameters.DISPLAY_PAYMENT_METHOD_DROPDOWN_IND);
     private boolean showPolicy;
     private boolean waitingOnTraveler;
     private boolean showCorporateCardTotal = getParameterService().getParameterValueAsBoolean(TemParameterConstants.TEM_DOCUMENT.class, TravelParameters.AMOUNT_DUE_CORPORATE_CARD_TOTAL_LINE_IND);
+
+    protected transient FormFile advanceAccountingFile;
+
+    private TemSourceAccountingLine newAdvanceAccountingLine;
 
     // parameters that affect the UI
     private List<String> tempSelectedTransportationModes = new ArrayList<String>();
@@ -169,23 +172,24 @@ public class TravelAuthorizationForm extends TravelFormBase implements TravelAut
     }
 
     /**
-     * Gets the newTravelAdvanceLine attribute.
-     *
-     * @return Returns the newTravelAdvanceLine.
+     * @return new accounting line associated with travel advance
      */
-    @Override
-    public TravelAdvance getNewTravelAdvanceLine() {
-        return newTravelAdvanceLine;
+    public TemSourceAccountingLine getNewAdvanceAccountingLine() {
+        if (getTravelAuthorizationDocument() == null) {
+            throw new IllegalArgumentException("TravelAuthorizationDocument cannot be null when creating new accounting line for advance");
+        }
+        if (newAdvanceAccountingLine == null) {
+            newAdvanceAccountingLine = getTravelAuthorizationDocument().createNewAdvanceAccountingLine();
+        }
+        return newAdvanceAccountingLine;
     }
 
     /**
-     * Sets the newTravelAdvanceLine attribute value.
-     *
-     * @param newTravelAdvanceLine The newTravelAdvanceLine to set.
+     * Sets new accounting line associated with travel advance
+     * @param newTravelAdvanceAccountingLine new accounting line associated with travel advance
      */
-    @Override
-    public void setNewTravelAdvanceLine(TravelAdvance newTravelAdvanceLine) {
-        this.newTravelAdvanceLine = newTravelAdvanceLine;
+    public void setNewAdvanceAccountingLine(TemSourceAccountingLine newTravelAdvanceAccountingLine) {
+        this.newAdvanceAccountingLine = newTravelAdvanceAccountingLine;
     }
 
     /**
@@ -479,14 +483,6 @@ public class TravelAuthorizationForm extends TravelFormBase implements TravelAut
     }
 
     /**
-     * Gets the showPaymentMethods attribute.
-     * @return Returns the showPaymentMethods.
-     */
-    public boolean isShowPaymentMethods() {
-        return showPaymentMethods;
-    }
-
-    /**
      * Gets the waitingOnTraveler attribute.
      * @return Returns the waitingOnTraveler.
      */
@@ -569,4 +565,18 @@ public class TravelAuthorizationForm extends TravelFormBase implements TravelAut
         return TemConstants.TRAVEL_AUTHORIZATION_ACTION_NAME;
     }
 
+    /**
+     * @return the encapsulation of an uploaded file of accounting lines to associate with the travel advance
+     */
+    public FormFile getAdvanceAccountingFile() {
+        return advanceAccountingFile;
+    }
+
+    /**
+     * Sets the form file for advance accounting line uploads
+     * @param advanceFile a file of accounting lines to associate with paying for a travel advance
+     */
+    public void setAdvanceAccountingFile(FormFile advanceFile) {
+        this.advanceAccountingFile = advanceFile;
+    }
 }

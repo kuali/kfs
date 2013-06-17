@@ -17,7 +17,7 @@ package org.kuali.kfs.module.tem.document.service.impl;
 
 import static org.kuali.kfs.module.tem.TemConstants.PARAM_NAMESPACE;
 import static org.kuali.kfs.module.tem.TemConstants.TravelParameters.TRAVEL_COVERSHEET_INSTRUCTIONS;
-import static org.kuali.kfs.module.tem.TemPropertyConstants.TRVL_IDENTIFIER_PROPERTY;
+import static org.kuali.kfs.module.tem.TemPropertyConstants.TRAVEL_DOCUMENT_IDENTIFIER;
 import static org.kuali.kfs.sys.KFSConstants.EXTERNALIZABLE_HELP_URL_KEY;
 import static org.kuali.kfs.sys.context.SpringContext.getBean;
 
@@ -66,7 +66,7 @@ public class TravelEntertainmentDocumentServiceImpl implements TravelEntertainme
     @Override
     public Collection<TravelEntertainmentDocument> findByTravelId(String travelDocumentIdentifier) {
         final Map<String, Object> criteria = new HashMap<String, Object>();
-        criteria.put(TRVL_IDENTIFIER_PROPERTY, travelDocumentIdentifier);
+        criteria.put(TRAVEL_DOCUMENT_IDENTIFIER, travelDocumentIdentifier);
         return getBusinessObjectService().findMatching(TravelEntertainmentDocument.class, criteria);
     }
 

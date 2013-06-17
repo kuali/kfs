@@ -15,22 +15,29 @@
  */
 package org.kuali.kfs.coa.document;
 
+import static org.kuali.kfs.sys.KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.SubAccountImportDetail;
 import org.kuali.kfs.coa.document.service.SubAccountImportService;
+import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants.SubAccountImport;
+import org.kuali.kfs.sys.ObjectUtil;
 import org.kuali.kfs.sys.businessobject.MassImportLineBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
 import org.kuali.kfs.sys.document.MassImportDocument;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * This class is the global business object for Sub Account Import Global Maintenance Document
@@ -51,7 +58,7 @@ public class SubAccountImportDocument extends FinancialSystemTransactionalDocume
 
     /**
      * Saves the imported details into database when document is processed successfully
-     *
+     * 
      * @see org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase#doRouteStatusChange(org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange)
      */
     @Override
@@ -78,7 +85,7 @@ public class SubAccountImportDocument extends FinancialSystemTransactionalDocume
 
     /**
      * Gets the subAccountImportDetails attribute.
-     *
+     * 
      * @return Returns the subAccountImportDetails.
      */
     public List<SubAccountImportDetail> getSubAccountImportDetails() {
@@ -88,7 +95,7 @@ public class SubAccountImportDocument extends FinancialSystemTransactionalDocume
 
     /**
      * Sets the subAccountImportDetails attribute value.
-     *
+     * 
      * @param subAccountImportGlobalDetails The subAccountImportDetails to set.
      */
     public void setSubAccountImportDetails(List<SubAccountImportDetail> subAccountImportDetails) {
@@ -98,7 +105,7 @@ public class SubAccountImportDocument extends FinancialSystemTransactionalDocume
 
     /**
      * Retrieve a particular line at a given index in the list of details.
-     *
+     * 
      * @param index
      * @return Check
      */
@@ -125,10 +132,18 @@ public class SubAccountImportDocument extends FinancialSystemTransactionalDocume
      */
     @Override
     public void customizeImportedLines(List<MassImportLineBase> importedLines) {
+        boolean canCrossCharts = SpringContext.getBean(AccountService.class).accountsCanCrossCharts();
         for (Iterator iterator = importedLines.iterator(); iterator.hasNext();) {
             SubAccountImportDetail detailLine = (SubAccountImportDetail) iterator.next();
             detailLine.setSubAccountTypeCode(detailLine.getDefaultSubAccountTypeCode());
             detailLine.setActive(true);
+            if (!canCrossCharts && StringUtils.isNotBlank(detailLine.getAccountNumber())) {
+                // populate chart code based of account number
+                Account account = SpringContext.getBean(AccountService.class).getUniqueAccountForAccountNumber(detailLine.getAccountNumber());
+                if (ObjectUtils.isNotNull(account)) {
+                    detailLine.setChartOfAccountsCode(account.getChartOfAccountsCode());
+                }
+            }
         }
     }
 
@@ -150,7 +165,7 @@ public class SubAccountImportDocument extends FinancialSystemTransactionalDocume
 
     /**
      * Gets the nextItemLineNumber attribute.
-     *
+     * 
      * @return Returns the nextItemLineNumber.
      */
     @Override
@@ -160,7 +175,7 @@ public class SubAccountImportDocument extends FinancialSystemTransactionalDocume
 
     /**
      * Sets the nextItemLineNumber attribute value.
-     *
+     * 
      * @param nextItemLineNumber The nextItemLineNumber to set.
      */
     @Override
@@ -171,8 +186,12 @@ public class SubAccountImportDocument extends FinancialSystemTransactionalDocume
 
     @Override
     public String[] getOrderedFieldList() {
-      return new String[] { SubAccountImport.CHART_OF_ACCOUNTS_CODE, SubAccountImport.ACCOUNT_NUMBER, SubAccountImport.SUB_ACCOUNT_NUMBER, SubAccountImport.SUB_ACCOUNT_NAME, SubAccountImport.FINANCIAL_REPORT_CHART_CODE, SubAccountImport.FIN_REPORT_ORGANIZATION_CODE, SubAccountImport.FINANCIAL_REPORTING_CODE };
+        if (SpringContext.getBean(AccountService.class).accountsCanCrossCharts()) {
+            // include chart code
+            return new String[] { SubAccountImport.CHART_OF_ACCOUNTS_CODE, SubAccountImport.ACCOUNT_NUMBER, SubAccountImport.SUB_ACCOUNT_NUMBER, SubAccountImport.SUB_ACCOUNT_NAME, SubAccountImport.FINANCIAL_REPORT_CHART_CODE, SubAccountImport.FIN_REPORT_ORGANIZATION_CODE, SubAccountImport.FINANCIAL_REPORTING_CODE };
+        }
+        // exclude chart
+        return new String[] { SubAccountImport.ACCOUNT_NUMBER, SubAccountImport.SUB_ACCOUNT_NUMBER, SubAccountImport.SUB_ACCOUNT_NAME, SubAccountImport.FINANCIAL_REPORT_CHART_CODE, SubAccountImport.FIN_REPORT_ORGANIZATION_CODE, SubAccountImport.FINANCIAL_REPORTING_CODE };
     }
-
 
 }

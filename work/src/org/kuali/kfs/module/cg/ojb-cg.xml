@@ -21,10 +21,10 @@
 		<field-descriptor name="inStateIndicator" column="CG_AGNCY_IN_ST_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
 		<field-descriptor name="agencyTypeCode" column="CG_AGENCY_TYP_CD" jdbc-type="VARCHAR" index="true" />
 		<field-descriptor name="reportsToAgencyNumber" column="CG_RPTTO_AGNCY_NBR" jdbc-type="VARCHAR" />
-		<field-descriptor name="cageNumber" column="CAGE_NUMBER" jdbc-type="VARCHAR" />
-		<field-descriptor name="dodacNumber" column="DODAC_NUMBER" jdbc-type="VARCHAR" />
-		<field-descriptor name="dunAndBradstreetNumber" column="DUN_AND_BRADSTREET_NUMBER" jdbc-type="VARCHAR" />
-		<field-descriptor name="dunsPlusFourNumber" column="DUNS_PLUS_FOUR_NUMBER" jdbc-type="VARCHAR" />
+		<field-descriptor name="cageNumber" column="CAGE_NBR" jdbc-type="VARCHAR" />
+		<field-descriptor name="dodacNumber" column="DODAC_NBR" jdbc-type="VARCHAR" />
+		<field-descriptor name="dunAndBradstreetNumber" column="DUN_AND_BRADSTREET_NBR" jdbc-type="VARCHAR" />
+		<field-descriptor name="dunsPlusFourNumber" column="DUNS_PLUS_FOUR_NBR" jdbc-type="VARCHAR" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 		<field-descriptor name="agencyFrequencyCode" column="CG_AGENCY_BILL_FREQ_CD" jdbc-type="VARCHAR" /><!-- Billing Frequency Link -->

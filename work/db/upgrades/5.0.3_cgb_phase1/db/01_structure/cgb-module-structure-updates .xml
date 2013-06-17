@@ -331,9 +331,6 @@
 			<column name="EST_AMT" type="decimal(7,0)" />
 			<column name="IS_IT_BLD" type="varchar(5)" />
 		</createTable>
-		<addForeignKeyConstraint constraintName="CG_BILL_FK1"
-			referencedTableName="CG_AWD_T" baseColumnNames="CGPRPSL_NBR"
-			baseTableName="CG_BILL_T" referencedColumnNames="CGPRPSL_NBR" />
 	</changeSet>
 
 	<!-- Create Table CG_BILL_ID_SEQ to accommodate Billing Frequency add/delete -->

@@ -3,6 +3,28 @@
 	xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd'>
 
 	<changeSet author="KFSCGB" id="KFSMI">
+	<sql>set foreign_key_checks=0</sql>
+	 	<addForeignKeyConstraint constraintName="CG_AGENCY_FK1"
+			referencedTableName="CG_BILL_FREQ_T" baseColumnNames="CG_AGENCY_BILL_FREQ_CD"
+			baseTableName="CG_AGENCY_T" referencedColumnNames="BILL_FREQ_CD" />
+		<addForeignKeyConstraint constraintName="CG_AGENCY_FK2"
+			referencedTableName="CG_FIN_FORM_TYP_T" baseColumnNames="CG_AGENCY_FIN_FORM_TYP_CD"
+			baseTableName="CG_AGENCY_T" referencedColumnNames="FIN_FORM_TYP_CD" />
+		<addForeignKeyConstraint constraintName="CG_AGENCY_FK3"
+			referencedTableName="CG_INV_TYP_T" baseColumnNames="CG_AGENCY_INV_TYP_CD"
+			baseTableName="CG_AGENCY_T" referencedColumnNames="INV_TYP_CD" />
+		<addForeignKeyConstraint constraintName="CG_AGENCY_TR3"
+			referencedTableName="CG_FIN_RPT_FREQ_T" baseColumnNames="FIN_RPT_FREQ_CD"
+			baseTableName="CG_AGENCY_T" referencedColumnNames="FIN_RPT_FREQ_CD" />
+		<addForeignKeyConstraint constraintName="CG_AWD_FK_LFC"
+			referencedTableName="CG_LTRCR_FND_T" baseColumnNames="CG_LTRCR_FND_CD"
+			baseTableName="CG_AWD_T" referencedColumnNames="CG_LTRCR_FND_CD" />
+					<addForeignKeyConstraint constraintName="CG_BILL_FK1"
+			referencedTableName="CG_AWD_T" baseColumnNames="CGPRPSL_NBR"
+			baseTableName="CG_BILL_T" referencedColumnNames="CGPRPSL_NBR" />
+	</changeSet>
+			
+	<changeSet author="KFSCGB" id="KFSMI1">
 		<addForeignKeyConstraint constraintName="CG_AGENCY_ADDR_TR2"
 			referencedTableName="CG_AGENCY_T" baseColumnNames="CG_AGENCY_NBR"
 			baseTableName="CG_AGENCY_ADDR_T" referencedColumnNames="CG_AGENCY_NBR" />
@@ -18,21 +40,6 @@
 		<addForeignKeyConstraint constraintName="CG_AWD_INV_ACCT_FK1"
 			referencedTableName="CG_AWD_T" baseColumnNames="CGPRPSL_NBR"
 			baseTableName="CG_AWD_INV_ACCT_T" referencedColumnNames="CGPRPSL_NBR" />
-	<!-- 	<addForeignKeyConstraint constraintName="CG_AGENCY_FK1"
-			referencedTableName="CG_BILL_FREQ_T" baseColumnNames="CG_AGENCY_BILL_FREQ_CD"
-			baseTableName="CG_AGENCY_T" referencedColumnNames="BILL_FREQ_CD" />
-		<addForeignKeyConstraint constraintName="CG_AGENCY_FK2"
-			referencedTableName="CG_FIN_FORM_TYP_T" baseColumnNames="CG_AGENCY_FIN_FORM_TYP_CD"
-			baseTableName="CG_AGENCY_T" referencedColumnNames="FIN_FORM_TYP_CD" />
-		<addForeignKeyConstraint constraintName="CG_AGENCY_FK3"
-			referencedTableName="CG_INV_TYP_T" baseColumnNames="CG_AGENCY_INV_TYP_CD"
-			baseTableName="CG_AGENCY_T" referencedColumnNames="INV_TYP_CD" />
-		<addForeignKeyConstraint constraintName="CG_AGENCY_TR3"
-			referencedTableName="CG_FIN_RPT_FREQ_T" baseColumnNames="FIN_RPT_FREQ_CD"
-			baseTableName="CG_AGENCY_T" referencedColumnNames="FIN_RPT_FREQ_CD" />
-		<addForeignKeyConstraint constraintName="CG_AWD_FK_LFC"
-			referencedTableName="CG_LTRCR_FND_T" baseColumnNames="CG_LTRCR_FND_CD"
-			baseTableName="CG_AWD_T" referencedColumnNames="CG_LTRCR_FND_CD" />-->
 		<addForeignKeyConstraint constraintName="CG_AWD_FNDMGR_TR2"
 			referencedTableName="CG_AWD_T" baseColumnNames="CGPRPSL_NBR"
 			baseTableName="CG_AWD_FNDMGR_T" referencedColumnNames="CGPRPSL_NBR" />

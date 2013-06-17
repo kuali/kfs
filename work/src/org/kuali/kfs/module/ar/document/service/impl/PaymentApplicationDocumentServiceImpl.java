@@ -19,8 +19,10 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
@@ -42,7 +44,9 @@ import org.kuali.kfs.module.ar.document.CashControlDocument;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.PaymentApplicationDocument;
 import org.kuali.kfs.module.ar.document.dataaccess.CashControlDetailDao;
+import org.kuali.kfs.module.ar.document.service.AccountsReceivableDocumentHeaderService;
 import org.kuali.kfs.module.ar.document.service.CustomerAddressService;
+import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
 import org.kuali.kfs.module.ar.document.service.InvoicePaidAppliedService;
 import org.kuali.kfs.module.ar.document.service.NonAppliedHoldingService;
 import org.kuali.kfs.module.ar.document.service.PaymentApplicationDocumentService;
@@ -59,6 +63,7 @@ import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.bo.Note;
+import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.rules.rule.event.BlanketApproveDocumentEvent;
 import org.kuali.rice.krad.rules.rule.event.RouteDocumentEvent;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -335,22 +340,36 @@ public class PaymentApplicationDocumentServiceImpl implements PaymentApplication
         return pairs;
     }
 
-    public Collection<PaymentApplicationDocument> getPaymentApplicationDocumentByInvoiceDocument(String invoiceNumber) {
-        Map<String, String> fieldValues = new HashMap<String, String>();
-        fieldValues.put("financialDocumentReferenceInvoiceNumber", invoiceNumber);
-        BusinessObjectService service = SpringContext.getBean(BusinessObjectService.class);
-
-        Collection<PaymentApplicationDocument> payments = service.findMatching(PaymentApplicationDocument.class, fieldValues);
-
-        return payments;
-    }
-
-    /*
     public Collection<PaymentApplicationDocument> getPaymentApplicationDocumentsByCustomerNumber(String customerNumber) {
 		Collection<PaymentApplicationDocument> payments = new ArrayList<PaymentApplicationDocument>();
 
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put("customerNumber", customerNumber);
+        Collection<AccountsReceivableDocumentHeader> documentHeaders = businessObjectService.findMatching(AccountsReceivableDocumentHeader.class, fieldValues);
+        List<String> documentHeaderIds = new ArrayList<String>();
+        for (AccountsReceivableDocumentHeader header : documentHeaders) {
+            String documentNumber = null;
+            try {
+                Long.parseLong(header.getDocumentHeader().getDocumentNumber());
+                documentNumber = header.getDocumentHeader().getDocumentNumber();
+                documentHeaderIds.add(documentNumber);
+                 }
+            catch (NumberFormatException nfe) {
+            }
+        }
+
+        if (0 < documentHeaderIds.size()) {
+            try {
+                for (Document doc : documentService.getDocumentsByListOfDocumentHeaderIds(PaymentApplicationDocument.class, documentHeaderIds)) {
+                    payments.add((PaymentApplicationDocument)doc);
+                }
+            }
+            catch (WorkflowException e) {
+                //LOG.error(e.getMessage(), e);
+            }
+        }
+        return payments;
+    }
 
     /* Start TEM REFUND merge */
     /**
@@ -364,29 +383,7 @@ public class PaymentApplicationDocumentServiceImpl implements PaymentApplication
     public void createDisbursementVoucherDocumentForRefund(PaymentApplicationDocument paymentApplicationDocument) {
         // changed session to initiator of payment application so DV will save to their inbox
         UserSession userSession = GlobalVariables.getUserSession();
-		Collection<AccountsReceivableDocumentHeader> documentHeaders = businessObjectService.findMatching(AccountsReceivableDocumentHeader.class, fieldValues);
-        List<String> documentHeaderIds = new ArrayList<String>();
-        for (AccountsReceivableDocumentHeader header : documentHeaders) {
-            String documentNumber = null;
-            try {
-                Long.parseLong(header.getDocumentHeader().getDocumentNumber());
-                documentNumber = header.getDocumentHeader().getDocumentNumber();
-                documentHeaderIds.add(documentNumber);
-				 }
-            catch (NumberFormatException nfe) {
-            }
-        }
 
-        if (0 < documentHeaderIds.size()) {
-            try {
-                payments = documentService.getDocumentsByListOfDocumentHeaderIds(PaymentApplicationDocument.class, documentHeaderIds);
-            }
-            catch (WorkflowException e) {
-                //LOG.error(e.getMessage(), e);
-            }
-        }
-        return payments;
-    }
 
         Person initiator = SpringContext.getBean(PersonService.class).getPerson(paymentApplicationDocument.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId());
         GlobalVariables.setUserSession(new UserSession(initiator.getPrincipalName()));
@@ -556,7 +553,7 @@ public class PaymentApplicationDocumentServiceImpl implements PaymentApplication
         for (CustomerInvoiceDocument invoice : invoiceList) {
             Map<String, String> fieldValues = new HashMap<String, String>();
             fieldValues.put("documentNumber", invoice.getDocumentNumber());
-			AccountsReceivableDocumentHeader arDocHeader = (AccountsReceivableDocumentHeader)businessObjectService.findByPrimaryKey(AccountsReceivableDocumentHeader.class, fieldValues);
+			AccountsReceivableDocumentHeader arDocHeader = businessObjectService.findByPrimaryKey(AccountsReceivableDocumentHeader.class, fieldValues);
             customerNumberSet.add(arDocHeader.getCustomerNumber());
 		}
 		Collection<PaymentApplicationDocument> paymentApplicationDocumentList = new ArrayList<PaymentApplicationDocument>();

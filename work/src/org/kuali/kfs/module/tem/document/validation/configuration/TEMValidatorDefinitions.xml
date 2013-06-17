@@ -282,5 +282,5 @@
     <import resource="RelocationValidatorDefinitions.xml" />
     <import resource="EntertainmentValidatorDefinitions.xml" />
     <import resource="ArrangerValidatorDefinitions.xml" />
-    <import resource="AgencystagingDataValidatorDefinitions.xml" />
+    <import resource="AgencyStagingDataValidatorDefinitions.xml" />
 </beans>

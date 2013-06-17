@@ -1,0 +1,195 @@
+<databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog'
+	xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+	xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd'>
+
+	<changeSet author="kfs" id="CG_UPDT_FIELD_DEFS">
+		<delete tableName="cg_inv_typ_t">
+			<where>INV_TYP_CD='cms'</where>
+		</delete>
+		<insert tableName="cg_inv_typ_t">
+			<column name="inv_typ_cd" value="SCHD" />
+			<column name="INV_TYP_DESC" value="Scheduled" />
+			<column name="DOBJ_MAINT_CD_ACTV_IND" value="Y" />
+			<column name="OBJ_ID" value="D4165C25-B7A8-AF03-9196-03852497103A" />
+		</insert>
+		<insert tableName="cg_inv_typ_t">
+			<column name="inv_typ_cd" value="STD" />
+			<column name="INV_TYP_DESC" value="Standard" />
+			<column name="DOBJ_MAINT_CD_ACTV_IND" value="Y" />
+			<column name="OBJ_ID" value="D4165C24-9C76-703D-41E2-F6B2D48CEA49" />
+		</insert>
+		<delete tableName="cg_bill_freq_t">
+			<where>BILL_FREQ_CD='BILL'</where>
+		</delete>
+		<delete tableName="cg_bill_freq_t">
+			<where>BILL_FREQ_CD='QTR-CAL'</where>
+		</delete>
+		<delete tableName="cg_bill_freq_t">
+			<where>BILL_FREQ_CD='QTR-UDF'</where>
+		</delete>
+		<insert tableName="cg_bill_freq_t">
+			<column name="BILL_FREQ_CD" value="PDBS" />
+			<column name="BILL_FREQ_DESC" value="Predetermined Billing Schedule" />
+			<column name="DOBJ_MAINT_CD_ACTV_IND" value="Y" />
+			<column name="OBJ_ID" value="D4165C22-B612-5BCB-2FEF-F8E77A13BAA4" />
+		</insert>
+		<update tableName="cg_fin_form_typ_t">
+			<column name="FIN_FORM_TYP_DESC">Federal SF-269A</column>
+			<where>FIN_FORM_TYP_CD='269A'</where>
+		</update>
+		<update tableName="cg_fin_form_typ_t">
+			<column name="FIN_FORM_TYP_DESC">Federal SF-272A</column>
+			<where>FIN_FORM_TYP_CD='272A'</where>
+		</update>
+		<update tableName="cg_fin_form_typ_t">
+			<column name="FIN_FORM_TYP_DESC">Federal SF-425</column>
+			<where>FIN_FORM_TYP_CD='425'</where>
+		</update>
+		<update tableName="cg_fin_rpt_freq_t">
+			<column name="FIN_RPT_FREQ_DESC">Annually</column>
+			<where>FIN_RPT_FREQ_CD='ANN'</where>
+		</update>
+		<update tableName="cg_cntrct_grnt_typ_t">
+			<column name="CNTRCT_GRNT_TYP_CD">GFP</column>
+			<where>CNTRCT_GRNT_TYP_CD='FP'</where>
+		</update>
+		<update tableName="cg_cntrct_grnt_typ_t">
+			<column name="CNTRCT_GRNT_TYP_CD">GRI</column>
+			<where>CNTRCT_GRNT_TYP_CD='RI'</where>
+		</update>
+		<update tableName="cg_cntrct_grnt_typ_t">
+			<column name="CNTRCT_GRNT_TYP_CD">GSC</column>
+			<where>CNTRCT_GRNT_TYP_CD='SC'</where>
+		</update>
+		<insert tableName="cg_cntrct_grnt_typ_t">
+			<column name="CNTRCT_GRNT_TYP_CD" value="CCS" />
+			<column name="CNTRCT_GRNT_TYP_DESC" value="Contract - Cost Share" />
+			<column name="DOBJ_MAINT_CD_ACTV_IND" value="Y" />
+			<column name="OBJ_ID" value="D4165C21-94D8-676E-F8F7-3498524D893A" />
+		</insert>
+		<insert tableName="cg_cntrct_grnt_typ_t">
+			<column name="CNTRCT_GRNT_TYP_CD" value="CMS" />
+			<column name="CNTRCT_GRNT_TYP_DESC" value="Contract - Milestone" />
+			<column name="DOBJ_MAINT_CD_ACTV_IND" value="Y" />
+			<column name="OBJ_ID" value="D4165C20-029D-EF27-B6A7-A5E7BDFC39B4" />
+		</insert>
+		<insert tableName="cg_cntrct_grnt_typ_t">
+			<column name="CNTRCT_GRNT_TYP_CD" value="CPB" />
+			<column name="CNTRCT_GRNT_TYP_DESC" value="Contract - Predetermined Billing Schedule" />
+			<column name="DOBJ_MAINT_CD_ACTV_IND" value="Y" />
+			<column name="OBJ_ID" value="D4165C1F-E97E-150D-9523-FA74B02E4CFE" />
+		</insert>
+		<insert tableName="cg_cntrct_grnt_typ_t">
+			<column name="CNTRCT_GRNT_TYP_CD" value="CPP" />
+			<column name="CNTRCT_GRNT_TYP_DESC" value="Contract - Prepaid" />
+			<column name="DOBJ_MAINT_CD_ACTV_IND" value="Y" />
+			<column name="OBJ_ID" value="D4165C1E-B158-2193-D609-D73B0E2A5450" />
+		</insert>
+		<insert tableName="cg_cntrct_grnt_typ_t">
+			<column name="CNTRCT_GRNT_TYP_CD" value="CSC" />
+			<column name="CNTRCT_GRNT_TYP_DESC" value="Contract - Subcontract" />
+			<column name="DOBJ_MAINT_CD_ACTV_IND" value="Y" />
+			<column name="OBJ_ID" value="D4165C1D-9366-60BE-79E4-0CF7ECD7526D" />
+		</insert>
+		<insert tableName="cg_cntrct_grnt_typ_t">
+			<column name="CNTRCT_GRNT_TYP_CD" value="GCS" />
+			<column name="CNTRCT_GRNT_TYP_DESC" value="Grant - Cost Share" />
+			<column name="DOBJ_MAINT_CD_ACTV_IND" value="Y" />
+			<column name="OBJ_ID" value="D4165C1C-EDEE-7C3B-856D-85001C5E5BA9" />
+		</insert>
+		<insert tableName="cg_cntrct_grnt_typ_t">
+			<column name="CNTRCT_GRNT_TYP_CD" value="GMS" />
+			<column name="CNTRCT_GRNT_TYP_DESC" value="Grant - Milestone" />
+			<column name="DOBJ_MAINT_CD_ACTV_IND" value="Y" />
+			<column name="OBJ_ID" value="D4165C1B-FC96-6420-3E4D-B3D9164E79B8" />
+		</insert>
+		<insert tableName="cg_cntrct_grnt_typ_t">
+			<column name="CNTRCT_GRNT_TYP_CD" value="GPB" />
+			<column name="CNTRCT_GRNT_TYP_DESC" value="Grant - Predetermined Billing Schedule" />
+			<column name="DOBJ_MAINT_CD_ACTV_IND" value="Y" />
+			<column name="OBJ_ID" value="D4165C19-B0E5-FCBE-C7F3-CCD476113744" />
+		</insert>
+		<insert tableName="cg_cntrct_grnt_typ_t">
+			<column name="CNTRCT_GRNT_TYP_CD" value="GPP" />
+			<column name="CNTRCT_GRNT_TYP_DESC" value="Grant - Prepaid" />
+			<column name="DOBJ_MAINT_CD_ACTV_IND" value="Y" />
+			<column name="OBJ_ID" value="7d25f110-a34e-11e0-8264-0800200c9a66" />
+		</insert>
+		<insert tableName="cg_src_of_fnds_t">
+			<column name="SRC_OF_FNDS_CD" value="STF" />
+			<column name="SRC_OF_FNDS_DESC" value="State Funds" />
+			<column name="DOBJ_MAINT_CD_ACTV_IND" value="Y" />
+			<column name="OBJ_ID" value="6ebd6f40-a34e-11e0-8264-0800200c9a66" />
+		</insert>
+		<insert tableName="cg_src_of_fnds_t">
+			<column name="SRC_OF_FNDS_CD" value="IF" />
+			<column name="SRC_OF_FNDS_DESC" value="Internal Funds" />
+			<column name="DOBJ_MAINT_CD_ACTV_IND" value="Y" />
+			<column name="OBJ_ID" value="e38246d0-a34d-11e0-8264-0800200c9a66" />
+		</insert>
+		<delete tableName="cg_src_of_fnds_t">
+			<where>SRC_OF_FNDS_CD='RF'</where>
+		</delete>
+	</changeSet>
+
+	<!-- Special Payment medium option for CG LOC -->
+	<changeSet author="kfs" id="AR_PMT_MEDIUM_T_LOC_ADD">
+		<insert tableName="AR_PMT_MEDIUM_T">
+			<column name="CUST_PMT_MEDIUM_CD" value="LW" />
+			<column name="OBJ_ID" value="KFSCG01" />
+			<column name="VER_NBR" value="1" />
+			<column name="CUST_PMT_MEDM_DESC" value="LOC Wire" />
+			<column name="ROW_ACTV_IND" value="Y" />
+		</insert>
+	</changeSet>
+
+	<!-- Loading data into the table -->
+
+	<changeSet author="kfs" id="CG_BILL_FREQ_T_ADD_DATA">
+		<delete tableName="CG_BILL_FREQ_T">
+			<where>BILL_FREQ_CD='90DAB'</where>
+		</delete>
+		<insert tableName="CG_BILL_FREQ_T">
+			<column name="BILL_FREQ_CD" value="BILL" />
+			<column name="OBJ_ID" value="BILL_FREQ_01" />
+			<column name="VER_NBR" value="1" />
+			<column name="BILL_FREQ_DESC" value="Billing" />
+			<column name="DOBJ_MAINT_CD_ACTV_IND" value="Y" />
+		</insert>
+	</changeSet>
+
+	<!-- Inset a new billing frequency for LOC Review process -->
+
+	<changeSet author="kfs" id="CG_BILL_FREQ_T_INSERT">
+		<insert tableName="CG_BILL_FREQ_T">
+			<column name="BILL_FREQ_CD" value="LOCB" />
+			<column name="OBJ_ID" value="KFSCG01" />
+			<column name="VER_NBR" value="1" />
+			<column name="BILL_FREQ_DESC" value="LOC Billing" />
+			<column name="DOBJ_MAINT_CD_ACTV_IND" value="Y" />
+			<column name="grace_period" value="0" />
+		</insert>
+	</changeSet>
+
+	<changeSet author="kfs" id="CG_UPDT_FIELDS">
+		<!-- <sql>set foreign_key_checks=0</sql> -->
+		<delete tableName="cg_bill_freq_t">
+			<where>BILL_FREQ_CD='ATSTART'</where>
+		</delete>
+		<delete tableName="cg_bill_freq_t">
+			<where>BILL_FREQ_CD='AT_TERM'</where>
+		</delete>
+		<delete tableName="cg_bill_freq_t">
+			<where>BILL_FREQ_CD='ON-DEMAND'</where>
+		</delete>
+	</changeSet>
+
+	<changeSet author="kfs" id="UPDATE_AR_SYS_INFO_T_FOR_REFUND">
+		<update tableName="AR_SYS_INFO_T">
+			<column name="REFND_PMT_REAS_CD" value="P" />
+			<where>PRCS_FIN_COA_CD='UA' AND PRCS_ORG_CD='VPIT' AND
+				UNIV_FISCAL_YR='2012'
+			</where>
+		</update>
+	</changeSet>
+</databaseChangeLog>

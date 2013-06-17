@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog'
+	xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+	xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd'>
+
+
+	<!-- script to add new Collector role -->
+	<changeSet author="KFS411CGB"
+		id="KFSCNTRB-860_INSERT_COLLECTOR_KRIM_ROLE_01">
+		<insert tableName="KRIM_ROLE_T">
+			<column name="ROLE_ID" value="KFSCGBPII1" />
+			<column name="ROLE_NM" value="CGB Collector" />
+			<column name="NMSPC_CD" value="KFS-AR" />
+			<column name="DESC_TXT"
+				value="This role defines the list of users that may be selected as Collectors on the Customer document." />
+			<column name="KIM_TYP_ID" value="1" />
+			<column name="ACTV_IND" value="Y" />
+			<column name="LAST_UPDT_DT" valueDate="now()" />
+			<column name="OBJ_ID" valueNumeric="SYS_GUID" />
+			<column name="VER_NBR" value="1" />
+		</insert>
+		<modifySql dbms="mysql">
+			<replace replace="SYS_GUID" with="uuid()" />
+		</modifySql>
+		<modifySql dbms='oracle'>
+			<replace replace='SYS_GUID' with='sys_guid()' />
+		</modifySql>
+	</changeSet>
+
+	<!-- script to add new parameter for FINAL Days past due for Dunning Letter 
+		Distribtuion -->
+	<changeSet author="KFS411CGB"
+		id="KFSCNTRB908_DUNNING_CAMPAIGN_MAINTENANCE_DOCUMENT_10">
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-AR" />
+			<column name="CMPNT_CD" value="DunningCampaign" />
+			<column name="PARM_NM" value="DUNNING_LETTERS_FINAL_DAYS_PAST_DUE" />
+			<column name="OBJ_ID" valueNumeric="SYS_GUID" />
+			<column name="VER_NBR" value="1" />
+			<column name="PARM_TYP_CD" value="CONFG" />
+			<column name="VAL" value="150" />
+			<column name="PARM_DESC_TXT"
+				value="To set the value for FINAL days past due value used for sending strongly worded Dunning Letter requesting for payment." />
+			<column name="EVAL_OPRTR_CD" value="A" />
+			<column name="APPL_ID" value="KFS" />
+		</insert>
+		<modifySql dbms="mysql">
+			<replace replace="SYS_GUID" with="uuid()" />
+		</modifySql>
+		<modifySql dbms='oracle'>
+			<replace replace='SYS_GUID' with='sys_guid()' />
+		</modifySql>
+	</changeSet>
+
+	<changeSet author="KFS411CGB"
+		id="KFSCNTRB908_DUNNING_CAMPAIGN_MAINTENANCE_DOCUMENT_11">
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-AR" />
+			<column name="CMPNT_CD" value="DunningCampaign" />
+			<column name="PARM_NM"
+				value="DUNNING_LETTERS_STATE_AGENCY_FINAL_DAYS_PAST_DUE" />
+			<column name="OBJ_ID" valueNumeric="SYS_GUID" />
+			<column name="VER_NBR" value="1" />
+			<column name="PARM_TYP_CD" value="CONFG" />
+			<column name="VAL" value="150" />
+			<column name="PARM_DESC_TXT"
+				value="To set the value for STATE AGENCY FINAL days past due value used for sending strongly worded Dunning Letter requesting for payment." />
+			<column name="EVAL_OPRTR_CD" value="A" />
+			<column name="APPL_ID" value="KFS" />
+		</insert>
+		<modifySql dbms="mysql">
+			<replace replace="SYS_GUID" with="uuid()" />
+		</modifySql>
+		<modifySql dbms='oracle'>
+			<replace replace='SYS_GUID' with='sys_guid()' />
+		</modifySql>
+	</changeSet>
+
+
+	<changeSet author="KFS411CGB"
+		id="KFSCNTRB908_DUNNING_CAMPAIGN_MAINTENANCE_DOCUMENT_12">
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-CG" />
+			<column name="CMPNT_CD" value="Agency" />
+			<column name="PARM_NM" value="DEFAULT_DUNNING_CAMPAIGN" />
+			<column name="OBJ_ID" value="SYS_GUID" />
+			<column name="VER_NBR" value="1" />
+			<column name="PARM_TYP_CD" value="CONFG" />
+			<column name="VAL" value="" />
+			<column name="PARM_DESC_TXT"
+				value="The default value for the Dunning Campaign code for Agencies." />
+			<column name="EVAL_OPRTR_CD" value="A" />
+			<column name="APPL_ID" value="KFS" />
+		</insert>
+		<modifySql dbms="mysql">
+			<replace replace="SYS_GUID" with="uuid()" />
+		</modifySql>
+		<modifySql dbms='oracle'>
+			<replace replace='SYS_GUID' with='sys_guid()' />
+		</modifySql>
+	</changeSet>
+
+</databaseChangeLog>

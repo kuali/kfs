@@ -1,0 +1,653 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog'
+	xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+	xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd'>
+
+	<!-- script for Collection Activity Type -->
+	<changeSet author="KFS411CGB"
+		id="KFSCNTRB858_COLLECTION_ACTIVITY_TYPE_MAINTENANCE_DOCUMENT_01">
+		<createTable tableName="AR_CLCTN_ACTVTY_TYP_T">
+			<column name="AR_CLCTN_ACTVTY_TYP_CD" type="varchar(6)">
+				<constraints primaryKey="true" primaryKeyName="AR_CLCTN_ACTVTY_TYP_TP1" />
+			</column>
+			<column name="ACTVTY_DESC" type="varchar(120)" />
+			<column name="RFRL_IND" type="varchar(1)" defaultValue="N" />
+			<column name="DUN_PRCS_IND" type="varchar(1)" defaultValue="N" />
+			<column name="OBJ_ID" type="varchar(36)">
+				<constraints unique="true" nullable="false"
+					uniqueConstraintName="AR_CLCTN_ACTVTY_TYP_TC0" />
+			</column>
+			<column name="VER_NBR" type="decimal(8,0)" defaultValue="1">
+				<constraints nullable="false" />
+			</column>
+			<column name="ACTV_IND" type="varchar(1)" defaultValue="Y" />
+		</createTable>
+
+		<modifySql dbms="oracle">
+			<replace replace="VARCHAR" with="VARCHAR2" />
+			<replace replace="DECIMAL" with="NUMBER" />
+		</modifySql>
+	</changeSet>
+
+	<!-- script for Customer Note -->
+	<changeSet author="KFS411CGB"
+		id="KFSCNTRB859_CUSTOMER_NOTE_TAB_IN_CUSTOMER_EDOC_01">
+		<createTable tableName="AR_CUST_NTE_T">
+			<column name="CUST_NBR" type="varchar(9)">
+				<constraints primaryKey="true" primaryKeyName="AR_CUST_NTE_TP1" />
+			</column>
+			<column name="CUST_NTE_ID" type="decimal(7,0)">
+				<constraints primaryKey="true" primaryKeyName="AR_CUST_NTE_TP1" />
+			</column>
+			<column name="NTE_TXT" type="varchar(800)" />
+			<column name="POST_TS" type="datetime" />
+			<column name="AUTH_PRNCPL_ID" type="varchar(40)" />
+			<column name="OBJ_ID" type="varchar(36)">
+				<constraints unique="true" nullable="false"
+					uniqueConstraintName="AR_CUST_NTE_TC0" />
+			</column>
+			<column name="VER_NBR" type="decimal(8,0)" defaultValue="1">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+
+		<modifySql dbms="oracle">
+			<replace replace="VARCHAR" with="VARCHAR2" />
+			<replace replace="DECIMAL" with="NUMBER" />
+			<replace replace="DATETIME" with="DATE" />
+		</modifySql>
+	</changeSet>
+
+	<changeSet author="KFS411CGB"
+		id="KFSCNTRB859_CUSTOMER_NOTE_TAB_IN_CUSTOMER_EDOC_02">
+		<addForeignKeyConstraint constraintName="AR_CUST_NTE_FK1"
+			referencedTableName="AR_CUST_T" baseColumnNames="CUST_NBR"
+			baseTableName="AR_CUST_NTE_T" referencedColumnNames="CUST_NBR" />
+	</changeSet>
+
+	<!-- script for Customer Note sequence -->
+	<changeSet author="KFS411CGB"
+		id="KFSCNTRB859_CUSTOMER_NOTE_TAB_IN_CUSTOMER_EDOC_03" dbms="oracle">
+		<createSequence sequenceName="CUST_NTE_SEQ" />
+	</changeSet>
+
+	<changeSet author="KFS411CGB"
+		id="KFSCNTRB859_CUSTOMER_NOTE_TAB_IN_CUSTOMER_EDOC_04" dbms="mysql">
+		<createTable tableName="CUST_NTE_SEQ">
+			<column name="id" type="BIGINT(19)" autoIncrement="true">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+		</createTable>
+		<modifySql dbms="mysql">
+			<append value=" engine myisam" />
+		</modifySql>
+	</changeSet>
+
+	<!-- script for AR Collectors -->
+	<changeSet author="KFS411CGB"
+		id="KFSCNTRB860_ADD_COLLECTORS_TAB_IN_CUSTOMER_EDOC_01">
+		<createTable tableName="AR_CUST_CLCTR_T">
+			<column name="CUST_NBR" type="varchar(9)">
+				<constraints primaryKey="true" primaryKeyName="AR_CUST_CLCTR_TP1" />
+			</column>
+			<column name="PRNCPL_ID" type="varchar(40)" />
+			<column name="OBJ_ID" type="varchar(36)">
+				<constraints unique="true" nullable="false"
+					uniqueConstraintName="AR_CUST_CLCTR_TC0" />
+			</column>
+			<column name="VER_NBR" type="decimal(8,0)" defaultValue="1">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+		<modifySql dbms="oracle">
+			<replace replace="VARCHAR" with="VARCHAR2" />
+			<replace replace="DECIMAL" with="NUMBER" />
+		</modifySql>
+	</changeSet>
+
+	<changeSet author="KFS411CGB"
+		id="KFSCNTRB860_ADD_COLLECTORS_TAB_IN_CUSTOMER_EDOC_02">
+		<addForeignKeyConstraint constraintName="AR_CUST_CLCTR_FK1"
+			referencedTableName="AR_CUST_T" baseColumnNames="CUST_NBR"
+			baseTableName="AR_CUST_CLCTR_T" referencedColumnNames="CUST_NBR" />
+	</changeSet>
+
+	<!-- script for Collection Status -->
+	<changeSet author="KFS411CGB"
+		id="KFSCNTRB885_COLLECTION_STATUS_MAINTENANCE_DOCUMENT_01">
+		<createTable tableName="AR_CLCTN_STATUS_T">
+			<column name="AR_CLCTN_STATUS_CD" type="varchar(6)">
+				<constraints primaryKey="true" primaryKeyName="AR_CLLCTN_STATUS_TP1" />
+			</column>
+			<column name="STATUS_DESC" type="varchar(120)" />
+			<column name="OBJ_ID" type="varchar(36)">
+				<constraints unique="true" nullable="false"
+					uniqueConstraintName="AR_CLCTN_STATUS_TC0" />
+			</column>
+			<column name="VER_NBR" type="decimal(8,0)" defaultValue="1">
+				<constraints nullable="false" />
+			</column>
+			<column name="ACTV_IND" type="varchar(1)" defaultValue="Y" />
+		</createTable>
+
+		<modifySql dbms="oracle">
+			<replace replace="VARCHAR" with="VARCHAR2" />
+			<replace replace="DECIMAL" with="NUMBER" />
+		</modifySql>
+	</changeSet>
+
+	<!-- script for Dunning Letter Templates -->
+	<changeSet author="KFS411CGB"
+		id="KFSCNTRB894_DUNNING_LETTER_TEMPLATES_MAINTENANCE_DOCUMENT_01">
+		<createTable tableName="AR_DUN_LTR_TMPLT_T">
+			<column name="DUN_LTR_TMPLT_CD" type="varchar(10)">
+				<constraints primaryKey="true" primaryKeyName="AR_DUN_LTR_TMPLT_TP1" />
+			</column>
+			<column name="DUN_LTR_TMPLT_DESC" type="varchar(45)" />
+			<column name="FILENAME" type="varchar(50)" />
+			<column name="FILEPATH" type="varchar(500)" />
+			<column name="ACCESS_RSTRCTD_IND" type="varchar(1)"
+				defaultValue="N" />
+			<column name="ACTV_IND" type="varchar(1)" defaultValue="Y" />
+			<column name="UPLOAD_DT" type="varchar(25)" />
+			<column name="BILL_BY_COA_CD" type="varchar(2)" />
+			<column name="BILL_BY_ORG_CD" type="varchar(4)" />
+			<column name="OBJ_ID" type="varchar(36)">
+				<constraints unique="true" nullable="false"
+					uniqueConstraintName="AR_DUN_LTR_TMPLT_TC0" />
+			</column>
+			<column name="VER_NBR" type="decimal(8,0)" defaultValue="1">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+
+		<modifySql dbms="oracle">
+			<replace replace="VARCHAR" with="VARCHAR2" />
+			<replace replace="DECIMAL" with="NUMBER" />
+		</modifySql>
+	</changeSet>
+
+	<!-- script for Dunning Campaign -->
+	<changeSet author="KFS411CGB"
+		id="KFSCNTRB908_DUNNING_CAMPAIGN_MAINTENANCE_DOCUMENT_01">
+		<createTable tableName="AR_DUN_CMPGN_DOC_T">
+			<column name="CMPGN_ID" type="varchar(4)">
+				<constraints primaryKey="true" primaryKeyName="AR_DUN_CMPGN_DOC_TP1" />
+			</column>
+			<column name="OBJ_ID" type="varchar(36)">
+				<constraints unique="true" nullable="false"
+					uniqueConstraintName="AR_DUN_CMPGN_DOC_TC0" />
+			</column>
+			<column name="VER_NBR" type="decimal(8,0)" defaultValue="1">
+				<constraints nullable="false" />
+			</column>
+			<column name="CMPGN_DESC" type="varchar(40)" />
+			<column name="ACTV_IND" type="varchar(1)" defaultValue="Y" />
+		</createTable>
+
+		<modifySql dbms="oracle">
+			<replace replace="VARCHAR" with="VARCHAR2" />
+			<replace replace="DECIMAL" with="NUMBER" />
+		</modifySql>
+
+	</changeSet>
+
+	<!-- script for Dunning Letter Distribution -->
+	<changeSet author="KFS411CGB"
+		id="KFSCNTRB908_DUNNING_CAMPAIGN_MAINTENANCE_DOCUMENT_02">
+		<createTable tableName="AR_DUN_LTR_DIST_T">
+			<column name="CMPGN_ID" type="varchar(4)">
+				<constraints primaryKey="true" primaryKeyName="AR_DUN_LTR_DIST_TP1" />
+			</column>
+			<column name="DUN_LTR_DIST_ID" type="decimal(12,0)">
+				<constraints primaryKey="true" primaryKeyName="AR_DUN_LTR_DIST_TP1" />
+			</column>
+			<column name="OBJ_ID" type="varchar(36)">
+				<constraints unique="true" nullable="false"
+					uniqueConstraintName="AR_DUN_LTR_DIST_TC0" />
+			</column>
+			<column name="VER_NBR" type="decimal(8,0)" defaultValue="1">
+				<constraints nullable="false" />
+			</column>
+			<column name="DYS_PST_DUE_TXT" type="varchar(45)" />
+			<column name="SND_DUN_LTR_IND" type="varchar(1)" defaultValue="N" />
+			<column name="ACTV_IND" type="varchar(1)" defaultValue="Y">
+			</column>
+			<column name="LTR_TYP_CD" type="varchar(10)" />
+		</createTable>
+
+		<modifySql dbms="oracle">
+			<replace replace="VARCHAR" with="VARCHAR2" />
+			<replace replace="DECIMAL" with="NUMBER" />
+		</modifySql>
+	</changeSet>
+
+	<!-- script for Dunning Letter Distribution sequence -->
+	<changeSet author="KFS411CGB"
+		id="KFSCNTRB908_DUNNING_CAMPAIGN_MAINTENANCE_DOCUMENT_04" dbms="oracle">
+		<createSequence sequenceName="DUN_LTR_DIST_SEQ" />
+	</changeSet>
+
+	<changeSet author="KFS411CGB"
+		id="KFSCNTRB908_DUNNING_CAMPAIGN_MAINTENANCE_DOCUMENT_05" dbms="mysql">
+		<createTable tableName="DUN_LTR_DIST_SEQ">
+			<column name="id" type="BIGINT(19)" autoIncrement="true">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+		</createTable>
+		<modifySql dbms="mysql">
+			<append value=" engine myisam" />
+		</modifySql>
+	</changeSet>
+
+	<changeSet author="KFS411CGB"
+		id="KFSCNTRB908_DUNNING_CAMPAIGN_MAINTENANCE_DOCUMENT_06">
+
+		<addColumn tableName="AR_INV_GNRL_DTL_T">
+			<column name="AGENCY_NBR" type="varchar(5)" />
+		</addColumn>
+		<modifySql dbms="oracle">
+			<replace replace="VARCHAR" with="VARCHAR2" />
+		</modifySql>
+	</changeSet>
+
+	<changeSet author="KFS411CGB"
+		id="KFSCNTRB908_DUNNING_CAMPAIGN_MAINTENANCE_DOCUMENT_07">
+		<addColumn tableName="CG_AGENCY_T">
+			<column name="CMPGN_ID" type="varchar(4)" />
+			<column name="STATE_AGENCY_IND" type="varchar(1)"
+				defaultValue="N" />
+		</addColumn>
+		<modifySql dbms="oracle">
+			<replace replace="VARCHAR" with="VARCHAR2" />
+		</modifySql>
+	</changeSet>
+
+	<changeSet author="KFS411CGB"
+		id="KFSCNTRB908_DUNNING_CAMPAIGN_MAINTENANCE_DOCUMENT_08">
+		<addColumn tableName="CG_AWD_T">
+			<column name="CMPGN_ID" type="varchar(4)" />
+		</addColumn>
+
+		<modifySql dbms="oracle">
+			<replace replace="VARCHAR" with="VARCHAR2" />
+		</modifySql>
+	</changeSet>
+
+	<changeSet author="KFS411CGB"
+		id="KFSCNTRB908_DUNNING_CAMPAIGN_MAINTENANCE_DOCUMENT_09">
+
+		<addColumn tableName="AR_INV_GNRL_DTL_T">
+			<column name="DUN_LTR_ASSGNED" type="varchar(20)" />
+			<column name="DUN_LTR_SNT_DT" type="datetime" />
+		</addColumn>
+		<modifySql dbms="oracle">
+			<replace replace="VARCHAR" with="VARCHAR2" />
+			<replace replace="DATETIME" with="DATE" />
+		</modifySql>
+	</changeSet>
+
+
+	<!-- script for Collection Activity Document -->
+	<changeSet author="KFS411CGB"
+		id="KFSCNTRB900_COLLECTION_ACTIVITY_PROCESSING_01">
+		<createTable tableName="AR_CLCTN_ACTVTY_DOC_T">
+			<column name="FDOC_NBR" type="varchar(14)">
+				<constraints primaryKey="true" primaryKeyName="AR_CLCTN_ACTVTY_DOC_TP1" />
+			</column>
+			<column name="PRPSL_NBR" type="decimal(12,0)">
+				<constraints nullable="false" />
+			</column>
+			<column name="OBJ_ID" type="varchar(36)">
+				<constraints unique="true" nullable="false"
+					uniqueConstraintName="AR_CLCTN_ACTVTY_DOC_TC0" />
+			</column>
+			<column name="VER_NBR" type="decimal(8,0)" defaultValue="1">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+
+		<modifySql dbms="oracle">
+			<replace replace="VARCHAR" with="VARCHAR2" />
+			<replace replace="DECIMAL" with="NUMBER" />
+		</modifySql>
+	</changeSet>
+
+	<!-- script for Event -->
+	<changeSet author="KFS411CGB"
+		id="KFSCNTRB900_COLLECTION_ACTIVITY_PROCESSING_02">
+		<createTable tableName="AR_EVENT_T">
+			<column name="EVENT_ID" type="decimal(12,0)">
+				<constraints primaryKey="true" primaryKeyName="AR_EVENT_TP1" />
+			</column>
+			<column name="EVENT_CD" type="varchar(10)" />
+			<column name="INVOICE_NBR" type="varchar(14)">
+				<constraints nullable="false" />
+			</column>
+			<column name="ACTVTY_CD" type="varchar(6)" />
+			<column name="ACTVTY_DT" type="datetime" />
+			<column name="ACTVTY_TXT" type="varchar(200)" />
+			<column name="FLW_UP_IND" type="varchar(1)" defaultValue="N" />
+			<column name="FLW_UP_DT" type="datetime" />
+			<column name="CMPLTD_IND" type="varchar(1)" defaultValue="Y" />
+			<column name="CMPLTD_DT" type="datetime" />
+			<column name="POST_TS" type="datetime" />
+			<column name="EVENT_ROUTE_STATUS" type="varchar(1)" />
+			<column name="FDOC_NBR" type="varchar(14)" />
+			<column name="USR_PRNCPL_ID" type="varchar(40)" />
+			<column name="OBJ_ID" type="varchar(36)">
+				<constraints unique="true" nullable="false"
+					uniqueConstraintName="AR_EVENT_TC0" />
+			</column>
+			<column name="VER_NBR" type="decimal(8,0)" defaultValue="1">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+
+		<modifySql dbms="oracle">
+			<replace replace="VARCHAR" with="VARCHAR2" />
+			<replace replace="DECIMAL" with="NUMBER" />
+			<replace replace="DATETIME" with="DATE" />
+		</modifySql>
+	</changeSet>
+
+	<!-- script for Event sequence -->
+	<changeSet author="KFS411CGB"
+		id="KFSCNTRB900_COLLECTION_ACTIVITY_PROCESSING_03" dbms="oracle">
+		<createSequence sequenceName="EVENT_SEQ" />
+	</changeSet>
+
+	<changeSet author="KFS411CGB"
+		id="KFSCNTRB900_COLLECTION_ACTIVITY_PROCESSING_04" dbms="mysql">
+		<createTable tableName="EVENT_SEQ">
+			<column name="id" type="BIGINT(19)" autoIncrement="true">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+		</createTable>
+		<modifySql dbms="mysql">
+			<append value=" engine myisam" />
+		</modifySql>
+	</changeSet>
+
+	<changeSet author="KFS411CGB"
+		id="KFSCNTRB900_COLLECTION_ACTIVITY_PROCESSING_05">
+
+		<addColumn tableName="AR_CLCTN_ACTVTY_DOC_T">
+			<column name="AGENCY_NBR" type="varchar(5)" />
+			<column name="AGENCY_NM" type="varchar(50)" />
+			<column name="CUST_NBR" type="varchar(9)" />
+			<column name="CUST_NM" type="varchar(60)" />
+		</addColumn>
+		<modifySql dbms="oracle">
+			<replace replace="VARCHAR" with="VARCHAR2" />
+		</modifySql>
+	</changeSet>
+
+	<!-- Script for Collection Hierarchy -->
+	<changeSet author="KFS411CGB"
+		id="KFSCNTRB1101_COLLETOR_HIERARCHY_MAINTENANCE_DOCUMENT_01">
+		<createTable tableName="AR_CLCTR_HEAD_T">
+			<column name="CLCTR_HEAD_PRNCPL_ID" type="varchar(40)">
+				<constraints primaryKey="true" primaryKeyName="AR_CLCTR_HEAD_TP1" />
+			</column>
+			<column name="OBJ_ID" type="varchar(36)">
+				<constraints unique="true" nullable="false"
+					uniqueConstraintName="AR_CLCTR_HEAD_TC0" />
+			</column>
+			<column name="VER_NBR" type="decimal(8,0)" defaultValue="1">
+				<constraints nullable="false" />
+			</column>
+			<column name="ACTV_IND" type="varchar(1)" defaultValue="Y" />
+		</createTable>
+
+		<modifySql dbms="oracle">
+			<replace replace="VARCHAR" with="VARCHAR2" />
+			<replace replace="DECIMAL" with="NUMBER" />
+		</modifySql>
+	</changeSet>
+
+	<!-- Script for Collector Information -->
+	<changeSet author="KFS411CGB"
+		id="KFSCNTRB1101_COLLETOR_HIERARCHY_MAINTENANCE_DOCUMENT_02">
+		<createTable tableName="AR_CLCTR_INFO_T">
+			<column name="CLCTR_PRNCPL_ID" type="varchar(40)">
+				<constraints primaryKey="true" primaryKeyName="AR_CLCTR_INFO_TP1" />
+			</column>
+			<column name="CLCTR_HEAD_PRNCPL_ID" type="varchar(40)">
+				<constraints primaryKey="true" primaryKeyName="AR_CLCTR_INFO_TP1" />
+			</column>
+			<column name="OBJ_ID" type="varchar(36)">
+				<constraints unique="true" nullable="false"
+					uniqueConstraintName="AR_CLCTR_INFO_TC0" />
+			</column>
+			<column name="VER_NBR" type="decimal(8,0)" defaultValue="1">
+				<constraints nullable="false" />
+			</column>
+			<column name="ACTV_IND" type="varchar(1)" defaultValue="Y" />
+		</createTable>
+
+		<modifySql dbms="oracle">
+			<replace replace="VARCHAR" with="VARCHAR2" />
+			<replace replace="DECIMAL" with="NUMBER" />
+		</modifySql>
+	</changeSet>
+
+	<!-- Script for Referral To Collections TD -->
+	<changeSet author="KFS411CGB"
+		id="KFSCNTRB1100_REFERRAL_TO_COLLECTIONS_DOCUMENT_01">
+		<createTable tableName="AR_RFRL_TO_CLCTNS_DOC_T">
+			<column name="FDOC_NBR" type="varchar(14)">
+				<constraints primaryKey="true" primaryKeyName="AR_RFRL_TO_CLCTNS_DOC_TP1" />
+			</column>
+			<column name="AGENCY_NBR" type="varchar(5)" />
+			<column name="AGENCY_NM" type="varchar(50)" />
+			<column name="CUST_NBR" type="varchar(9)" />
+			<column name="CUST_NM" type="varchar(60)" />
+			<column name="CUST_TYP_CD" type="varchar(4)" />
+			<column name="CLCTN_STATUS_CD" type="varchar(6)" />
+			<column name="RFRL_TYP_CD" type="varchar(6)" />
+			<column name="OBJ_ID" type="varchar(36)">
+				<constraints unique="true" nullable="false"
+					uniqueConstraintName="AR_RFRL_TO_CLCTNS_DOC_TC0" />
+			</column>
+			<column name="VER_NBR" type="decimal(8,0)" defaultValue="1">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+
+		<modifySql dbms="oracle">
+			<replace replace="VARCHAR" with="VARCHAR2" />
+			<replace replace="DECIMAL" with="NUMBER" />
+		</modifySql>
+	</changeSet>
+
+	<!-- Script for Referral To Collections Document Detail -->
+	<changeSet author="KFS411CGB"
+		id="KFSCNTRB1100_REFERRAL_TO_COLLECTIONS_DOCUMENT_02">
+		<createTable tableName="AR_RFRL_TO_CLCTNS_DTL_T">
+			<column name="FDOC_NBR" type="varchar(14)">
+				<constraints primaryKey="true" primaryKeyName="AR_RFRL_TO_CLCTNS_DTL_TP1" />
+			</column>
+			<column name="RFRL_TO_CLCTNS_DTL_ID" type="decimal(12,0)">
+				<constraints primaryKey="true" primaryKeyName="RFRL_TO_CLCTNS_DTL_TP1" />
+			</column>
+			<column name="INV_FDOC_NBR" type="varchar(14)" />
+			<column name="AGENCY_NBR" type="varchar(5)" />
+			<column name="PRPSL_NBR" type="decimal(12,0)" />
+			<column name="FIN_COA_CD" type="varchar(2)" />
+			<column name="ACCT_NBR" type="varchar(7)" />
+			<column name="BILL_DT" type="datetime" />
+			<column name="INV_TOTAL_AMT" type="decimal(19,2)" />
+			<column name="INV_BAL_AMT" type="decimal(19,2)" />
+			<column name="AGE_DAYS" type="decimal(4,0)" />
+			<column name="FINAL_DISPOS_CD" type="varchar(4)" />
+			<column name="OBJ_ID" type="varchar(36)">
+				<constraints unique="true" nullable="false"
+					uniqueConstraintName="AR_RFRL_TO_CLCTNS_DTL_TC0" />
+			</column>
+			<column name="VER_NBR" type="decimal(8,0)" defaultValue="1">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+
+		<modifySql dbms="oracle">
+			<replace replace="VARCHAR" with="VARCHAR2" />
+			<replace replace="DECIMAL" with="NUMBER" />
+			<replace replace="DATETIME" with="DATE" />
+		</modifySql>
+	</changeSet>
+
+	<changeSet author="KFS411CGB"
+		id="KFSCNTRB1100_REFERRAL_TO_COLLECTIONS_DOCUMENT_03" dbms="oracle">
+		<createSequence sequenceName="RFRL_TO_CLCTNS_DTL_SEQ" />
+	</changeSet>
+
+
+	<changeSet author="KFS411CGB"
+		id="KFSCNTRB1100_REFERRAL_TO_COLLECTIONS_DOCUMENT_04" dbms="mysql">
+		<createTable tableName="RFRL_TO_CLCTNS_DTL_SEQ">
+			<column name="id" type="BIGINT(19)" autoIncrement="true">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+		</createTable>
+		<modifySql dbms="mysql">
+			<append value=" engine myisam" />
+		</modifySql>
+	</changeSet>
+
+
+	<changeSet author="KFS411CGB" id="KFSCNTRB1100_REFERRAL_TO_COLLECTIONS_DOCUMENT_05">
+		<addColumn tableName="AR_INV_DOC_T">
+			<column name="RFRL_TYP_CD" type="varchar(6)" />
+			<column name="FINAL_DISPOS_CD" type="varchar(4)" />
+		</addColumn>
+
+		<modifySql dbms="oracle">
+			<replace replace="VARCHAR" with="VARCHAR2" />
+			<replace replace="DECIMAL" with="NUMBER" />
+		</modifySql>
+	</changeSet>
+
+	<!-- script for Final Disposition -->
+	<changeSet author="KFS411CGB"
+		id="KFSCNTRB1172_FINAL_DISPOSITION_MAINTENANCE_DOCUMENT_01">
+		<createTable tableName="AR_FINAL_DISPOS_T">
+			<column name="AR_FINAL_DISPOS_CD" type="varchar(4)">
+				<constraints primaryKey="true" primaryKeyName="AR_FINAL_DISPOS_TP1" />
+			</column>
+			<column name="DISPOS_DESC" type="varchar(25)" />
+			<column name="OBJ_ID" type="varchar(36)">
+				<constraints unique="true" nullable="false"
+					uniqueConstraintName="AR_FINAL_DISPOS_TC0" />
+			</column>
+			<column name="VER_NBR" type="decimal(8,0)" defaultValue="1">
+				<constraints nullable="false" />
+			</column>
+			<column name="ACTV_IND" type="varchar(1)" defaultValue="Y" />
+		</createTable>
+
+		<modifySql dbms="oracle">
+			<replace replace="VARCHAR" with="VARCHAR2" />
+			<replace replace="DECIMAL" with="NUMBER" />
+		</modifySql>
+	</changeSet>
+
+	<!-- Alter table Script for collections maitenance in agency -->
+	<changeSet author="KFS411CGB"
+		id="KFSCNTRB1173_COLLECTIONS_MAINTENANCE_IN_AGENCY_01">
+		<addColumn tableName="CG_AGENCY_T">
+			<column name="CLCTN_STATUS_CD" type="varchar(6)" />
+			<column name="BNKRPTCY_TYPE_CD" type="varchar(5)" />
+			<column name="BNKRPTCY_DT" type="datetime" />
+			<column name="BNKRPTCY_REVIEW_DT" type="datetime" />
+			<column name="STOP_WRK_IND" type="varchar(1)" defaultValue="N" />
+			<column name="STOP_WRK_REASON_TXT" type="varchar(120)" />
+			<column name="NTE_TXT" type="varchar(800)" />
+		</addColumn>
+
+		<modifySql dbms="oracle">
+			<replace replace="VARCHAR" with="VARCHAR2" />
+			<replace replace="DECIMAL" with="NUMBER" />
+			<replace replace="DATETIME" with="DATE" />
+		</modifySql>
+	</changeSet>
+
+	<!-- script for Agency Note -->
+	<changeSet author="KFS411CGB"
+		id="KFSCNTRB859_AGENCY_NOTE_TAB_IN_CUSTOMER_EDOC_01">
+		<createTable tableName="CG_AGENCY_NTE_T">
+			<column name="AGENCY_NTE_ID" type="decimal(7,0)">
+				<constraints primaryKey="true" primaryKeyName="CG_AGENCY_NTE_TP1" />
+			</column>
+			<column name="CG_AGENCY_NBR" type="varchar(5)">
+				<constraints primaryKey="true" primaryKeyName="CG_AGENCY_NTE_TP1" />
+			</column>
+			<column name="NTE_TXT" type="varchar(800)" />
+			<column name="POST_TS" type="datetime" />
+			<column name="AUTH_PRNCPL_ID" type="varchar(40)" />
+			<column name="OBJ_ID" type="varchar(36)">
+				<constraints unique="true" nullable="false"
+					uniqueConstraintName="CG_AGENCY_NTE_TC0" />
+			</column>
+			<column name="VER_NBR" type="decimal(8,0)" defaultValue="1">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+
+		<modifySql dbms="oracle">
+			<replace replace="VARCHAR" with="VARCHAR2" />
+			<replace replace="DECIMAL" with="NUMBER" />
+			<replace replace="DATETIME" with="DATE" />
+		</modifySql>
+	</changeSet>
+
+	<!-- script for Agency Note sequence -->
+	<changeSet author="KFS411CGB"
+		id="KFSCNTRB859_AGENCY_NOTE_TAB_IN_CUSTOMER_EDOC_03" dbms="oracle">
+		<createSequence sequenceName="AGENCY_NTE_SEQ" />
+	</changeSet>
+
+	<changeSet author="KFS411CGB"
+		id="KFSCNTRB859_AGENCY_NOTE_TAB_IN_CUSTOMER_EDOC_04" dbms="mysql">
+		<createTable tableName="AGENCY_NTE_SEQ">
+			<column name="id" type="BIGINT(19)" autoIncrement="true">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+		</createTable>
+		<modifySql dbms="mysql">
+			<append value=" engine myisam" />
+		</modifySql>
+	</changeSet>
+
+	<changeSet author="KFS411CGB"
+		id="KFSCNTRB1350_RFRL_TYPE_MAINTENANCE_DOCUMENT_01">
+		<createTable tableName="AR_RFRL_TYP_T">
+			<column name="AR_RFRL_TYPE_CD" type="varchar(4)">
+				<constraints primaryKey="true" primaryKeyName="AR_RFRL_TYP_TP1" />
+			</column>
+			<column name="RFRL_TYP_DESC" type="varchar(40)" />
+			<column name="OBJ_ID" type="varchar(36)">
+				<constraints unique="true" nullable="false"
+					uniqueConstraintName="AR_RFRL_TYP_TC0" />
+			</column>
+			<column name="VER_NBR" type="decimal(8,0)" defaultValue="1">
+				<constraints nullable="false" />
+			</column>
+			<column name="ACTV_IND" type="varchar(1)" defaultValue="Y" />
+			<column name="OUTSD_CLCTN_AGENCY_IND" type="varchar(1)"
+				defaultValue="N" />
+		</createTable>
+
+		<modifySql dbms="oracle">
+			<replace replace="VARCHAR" with="VARCHAR2" />
+			<replace replace="DECIMAL" with="NUMBER" />
+		</modifySql>
+	</changeSet>
+
+	<changeSet author="KFS411CGB" id="KFSCNTRB1351_AGENCY_STOP_WORK_PROCESS_01">
+		<addColumn tableName="CG_AWD_T">
+			<column name="STOP_WRK_IND" type="varchar(1)" defaultValue="N" />
+		</addColumn>
+	</changeSet>
+
+</databaseChangeLog>

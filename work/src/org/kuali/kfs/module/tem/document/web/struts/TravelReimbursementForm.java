@@ -18,7 +18,6 @@ package org.kuali.kfs.module.tem.document.web.struts;
 import static org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters.VENDOR_PAYMENT_ALLOWED_BEFORE_FINAL_APPROVAL_IND;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -45,7 +44,6 @@ import org.kuali.rice.kns.web.ui.ExtraButton;
  */
 public class TravelReimbursementForm extends TravelFormBase implements TravelReimbursementMvcWrapperBean {
     private List<Serializable> history;
-    private List<TravelAdvance> invoices;
     private Date startDate;
     private Date endDate;
 
@@ -59,7 +57,6 @@ public class TravelReimbursementForm extends TravelFormBase implements TravelRei
      */
     public TravelReimbursementForm() {
         super();
-        setInvoices(new ArrayList<TravelAdvance>());
     }
 
     /**
@@ -158,7 +155,7 @@ public class TravelReimbursementForm extends TravelFormBase implements TravelRei
 
     @Override
     protected String getDefaultDocumentTypeName() {
-        return "TR";
+        return TemConstants.TravelDocTypes.TRAVEL_REIMBURSEMENT_DOCUMENT;
     }
 
     @Override
@@ -169,16 +166,6 @@ public class TravelReimbursementForm extends TravelFormBase implements TravelRei
     @Override
     public void setHistory(final List<Serializable> history) {
         this.history = history;
-    }
-
-    @Override
-    public void setInvoices(final List<TravelAdvance> invoices) {
-        this.invoices = invoices;
-    }
-
-    @Override
-    public List<TravelAdvance> getInvoices() {
-        return this.invoices;
     }
 
     /**

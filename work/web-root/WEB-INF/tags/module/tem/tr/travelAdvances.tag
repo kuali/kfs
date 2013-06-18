@@ -25,16 +25,16 @@
 		</div>
 		<h3>Travel Advances</h3>
 		<table style="border: none;">
-			<c:forEach items="${KualiForm.invoices}" var="invoice">
+			<c:forEach items="${KualiForm.document.travelAdvances}" var="travelAdvance">
 				<tr>
 					<th><kul:htmlAttributeLabel attributeEntry="${travelAdvanceAttributes.travelAdvanceRequested}" /> </th>
-					<td class="datacell">${invoice.travelAdvanceRequested}</td>
+					<td class="datacell">${travelAdvance.travelAdvanceRequested}</td>
 					<th><kul:htmlAttributeLabel attributeEntry="${travelAdvanceAttributes.dueDate}" /> </th>
-					<td class="datacell">${invoice.dueDate==null ? '&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp' : invoice.dueDate}</td>
+					<td class="datacell">${travelAdvance.dueDate==null ? '&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp' : travelAdvance.dueDate}</td>
 					<th><kul:htmlAttributeLabel attributeEntry="${travelAdvanceAttributes.amountDue}" /> </th>
-					<td class="datacell">${invoice.amountDue}</td>
+					<td class="datacell">${travelAdvance.amountDue}</td>
 					<th><kul:htmlAttributeLabel attributeEntry="${travelAdvanceAttributes.arInvoiceDocNumber}" /> </th>
-					<td class="datacell">${invoice.arInvoiceDocNumber}</td>
+					<td class="datacell">${travelAdvance.arInvoiceDocNumber}</td>
 				</tr>
 			</c:forEach>
 		</table>

@@ -1,0 +1,4 @@
+cg_agency_addr_type_cd|obj_id|ver_nbr|cg_agency_addr_typ_desc|row_actv_ind|
+A|CG1000|1.0|Alternate|Y|
+P|CG1001|1.0|Primary|Y|
+T|CG1002|1.0|Temporary|Y|

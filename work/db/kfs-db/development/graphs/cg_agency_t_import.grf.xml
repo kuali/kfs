@@ -28,6 +28,28 @@
         $0.cg_agncy_in_st_ind := replace(nvl($cg_agncy_in_st_ind, ""), "~!~", "|" );
         $0.cg_agency_typ_cd := replace(nvl($cg_agency_typ_cd, ""), "~!~", "|" );
         $0.cg_rptto_agncy_nbr := replace(nvl($cg_rptto_agncy_nbr, ""), "~!~", "|" );
+        $0.cage_nbr := replace(nvl($cage_nbr, ""), "~!~", "|" );
+        $0.dodac_nbr := replace(nvl($dodac_nbr, ""), "~!~", "|" );
+        $0.dun_and_bradstreet_nbr := replace(nvl($dun_and_bradstreet_nbr, ""), "~!~", "|" );
+        $0.duns_plus_four_nbr := replace(nvl($duns_plus_four_nbr, ""), "~!~", "|" );
+        $0.cg_agency_bill_freq_cd := replace(nvl($cg_agency_bill_freq_cd, ""), "~!~", "|" );
+        $0.cg_agency_fin_form_typ_cd := replace(nvl($cg_agency_fin_form_typ_cd, ""), "~!~", "|" );
+        $0.cg_agency_inv_typ_cd := replace(nvl($cg_agency_inv_typ_cd, ""), "~!~", "|" );
+        $0.fin_rpt_freq_cd := replace(nvl($fin_rpt_freq_cd, ""), "~!~", "|" );
+        $0.agcy_exp_dt := $agcy_exp_dt;
+        $0.cust_nbr := replace(nvl($cust_nbr, ""), "~!~", "|" );
+        $0.cust_typ_cd := replace(nvl($cust_typ_cd, ""), "~!~", "|" );
+        $0.cust_crtd := replace(nvl($cust_crtd, ""), "~!~", "|" );
+        $0.spnsr_cd := replace(nvl($spnsr_cd, ""), "~!~", "|" );
+        $0.cmpgn_id := replace(nvl($cmpgn_id, ""), "~!~", "|" );
+        $0.state_agency_ind := replace(nvl($state_agency_ind, ""), "~!~", "|" );
+        $0.clctn_status_cd := replace(nvl($clctn_status_cd, ""), "~!~", "|" );
+        $0.bnkrptcy_type_cd := replace(nvl($bnkrptcy_type_cd, ""), "~!~", "|" );
+        $0.bnkrptcy_dt := $bnkrptcy_dt;
+        $0.bnkrptcy_review_dt := $bnkrptcy_review_dt;
+        $0.stop_wrk_ind := replace(nvl($stop_wrk_ind, ""), "~!~", "|" );
+        $0.stop_wrk_reason_txt := replace(nvl($stop_wrk_reason_txt, ""), "~!~", "|" );
+        $0.nte_txt := replace(nvl($nte_txt, ""), "~!~", "|" );
    }
       ]]></attr>
     </Node>

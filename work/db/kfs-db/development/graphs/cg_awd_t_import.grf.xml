@@ -53,6 +53,28 @@
         $0.cgawd_comment_txt := replace(nvl($cgawd_comment_txt, ""), "~!~", "|" );
         $0.cgawd_purpose_cd := replace(nvl($cgawd_purpose_cd, ""), "~!~", "|" );
         $0.row_actv_ind := replace(nvl($row_actv_ind, ""), "~!~", "|" );
+        $0.prfrd_bill_freq_cd := replace(nvl($prfrd_bill_freq_cd, ""), "~!~", "|" );
+        $0.prfrd_rprt_freq := replace(nvl($prfrd_rprt_freq, ""), "~!~", "|" );
+        $0.prfrd_rprt_typ := replace(nvl($prfrd_rprt_typ, ""), "~!~", "|" );
+        $0.suspnd_invcng := replace(nvl($suspnd_invcng, ""), "~!~", "|" );
+        $0.addtnl_frms_rqrd := replace(nvl($addtnl_frms_rqrd, ""), "~!~", "|" );
+        $0.addtnl_frm_desc := replace(nvl($addtnl_frm_desc, ""), "~!~", "|" );
+        $0.cntrct_grnt_typ := replace(nvl($cntrct_grnt_typ, ""), "~!~", "|" );
+        $0.awrd_src_of_fnds := replace(nvl($awrd_src_of_fnds, ""), "~!~", "|" );
+        $0.cg_min_inv_amt := $cg_min_inv_amt;
+        $0.cg_ltrcr_fnd_cd := replace(nvl($cg_ltrcr_fnd_cd, ""), "~!~", "|" );
+        $0.awd_id := replace(nvl($awd_id, ""), "~!~", "|" );
+        $0.auto_app := replace(nvl($auto_app, ""), "~!~", "|" );
+        $0.funding_exp_dt := $funding_exp_dt;
+        $0.draw_nbr := replace(nvl($draw_nbr, ""), "~!~", "|" );
+        $0.comment_txt := replace(nvl($comment_txt, ""), "~!~", "|" );
+        $0.cg_inv_opt := replace(nvl($cg_inv_opt, ""), "~!~", "|" );
+        $0.lst_bld_dt := $lst_bld_dt;
+        $0.loc_crtn_typ := replace(nvl($loc_crtn_typ, ""), "~!~", "|" );
+        $0.susp_reason := replace(nvl($susp_reason, ""), "~!~", "|" );
+        $0.state_trnsfr := replace(nvl($state_trnsfr, ""), "~!~", "|" );
+        $0.cmpgn_id := replace(nvl($cmpgn_id, ""), "~!~", "|" );
+        $0.stop_wrk_ind := replace(nvl($stop_wrk_ind, ""), "~!~", "|" );
    }
       ]]></attr>
     </Node>

@@ -1,0 +1,6 @@
+src_of_fnds_cd|obj_id|ver_nbr|src_of_fnds_desc|dobj_maint_cd_actv_ind|
+FF|079C62E2-1457-C5E7-D1F4-D288023822D1|1.0|Federal Funds|Y|
+GF|670F4BB4-EA17-9E3C-0F55-A05BF5BAFB9B|1.0|General Funds|Y|
+IF|e38246d0-a34d-11e0-8264-0800200c9a66|1.0|Internal Funds|Y|
+SF|031B322E-C8E0-5467-A0CD-24955A12A80F|1.0|Special Funds|Y|
+STF|6ebd6f40-a34e-11e0-8264-0800200c9a66|1.0|State Funds|Y|

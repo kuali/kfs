@@ -8,5 +8,27 @@
   <Field name="cg_agency_hist_ind"              type="string"     nullable="true"  trim="false" delimiter="|"  />
   <Field name="cg_agncy_in_st_ind"              type="string"     nullable="true"  trim="false" delimiter="|"  />
   <Field name="cg_agency_typ_cd"                type="string"     nullable="true"  trim="false" delimiter="|"  />
-  <Field name="cg_rptto_agncy_nbr"              type="string"     nullable="true"  trim="false" delimiter="|\r\n" />
+  <Field name="cg_rptto_agncy_nbr"              type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="cage_nbr"                        type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="dodac_nbr"                       type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="dun_and_bradstreet_nbr"          type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="duns_plus_four_nbr"              type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="cg_agency_bill_freq_cd"          type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="cg_agency_fin_form_typ_cd"       type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="cg_agency_inv_typ_cd"            type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="fin_rpt_freq_cd"                 type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="agcy_exp_dt"                     type="date"       nullable="true"  trim="false" delimiter="|"  format="yyyyMMddHHmmss" />
+  <Field name="cust_nbr"                        type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="cust_typ_cd"                     type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="cust_crtd"                       type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="spnsr_cd"                        type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="cmpgn_id"                        type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="state_agency_ind"                type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="clctn_status_cd"                 type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="bnkrptcy_type_cd"                type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="bnkrptcy_dt"                     type="date"       nullable="true"  trim="false" delimiter="|"  format="yyyyMMddHHmmss" />
+  <Field name="bnkrptcy_review_dt"              type="date"       nullable="true"  trim="false" delimiter="|"  format="yyyyMMddHHmmss" />
+  <Field name="stop_wrk_ind"                    type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="stop_wrk_reason_txt"             type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="nte_txt"                         type="string"     nullable="true"  trim="false" delimiter="|\r\n" />
 </Record>

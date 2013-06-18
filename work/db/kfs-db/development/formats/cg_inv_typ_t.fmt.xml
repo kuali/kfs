@@ -1,0 +1,13 @@
+<Record name="cg_inv_typ_t" type="delimited">
+  <Field name="inv_typ_cd"                      type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="obj_id"                          type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="ver_nbr"                         type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="inv_typ_desc"                    type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="dobj_maint_cd_actv_ind"          type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="filename"                        type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="filepath"                        type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="access_rstrctd_ind"              type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="bill_by_coa_cd"                  type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="bill_by_org_cd"                  type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="upload_date"                     type="string"     nullable="true"  trim="false" delimiter="|\r\n" />
+</Record>

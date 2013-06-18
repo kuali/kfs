@@ -21,5 +21,8 @@
   <Field name="org_remit_st_cd"                 type="string"     nullable="true"  trim="false" delimiter="|"  />
   <Field name="org_remit_zip_cd"                type="string"     nullable="true"  trim="false" delimiter="|"  />
   <Field name="org_chck_pay_to_nm"              type="string"     nullable="true"  trim="false" delimiter="|"  />
-  <Field name="fdoc_initiator_id"               type="string"     nullable="true"  trim="false" delimiter="|\r\n" />
+  <Field name="fdoc_initiator_id"               type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="refnd_pmt_reas_cd"               type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="refnd_fin_object_cd"             type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="refnd_doc_loc_cd"                type="string"     nullable="true"  trim="false" delimiter="|\r\n" />
 </Record>

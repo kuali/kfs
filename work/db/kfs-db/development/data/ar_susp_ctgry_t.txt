@@ -1,0 +1,14 @@
+susp_ctgry_cd|susp_ctgry_desc|obj_id|ver_nbr|row_actv_ind|
+1|Bill date exceeds the award stop date|CGB-SC1|1.0|Y|
+10|Award has active but expired account(s)|CGB-SC10|1.0|Y|
+11|Award suspended by user|CGB-SC11|1.0|Y|
+12|Invoice Type is Missing|CGB-SC12|1.0|Y|
+13|Award has closed account with current expenditures|CGB-SC13|1.0|Y|
+2|New Total Billed amount exceeds award total|CGB-SC2|1.0|Y|
+3|Invoice amount is less than invoice minimum requirement|CGB-SC3|1.0|Y|
+4|Reports are required to be attached|CGB-SC4|1.0|Y|
+5|Agency Primary address not complete|CGB-SC5|1.0|Y|
+6|Agency Alternate address not complete|CGB-SC6|1.0|Y|
+7|Final Invoice Expiration Date Reached|CGB-SC7|1.0|Y|
+8|Object Code for the award has not been assigned to a CGB Category Code|CGB-SC8|1.0|Y|
+9|LOC remaining amount is not sufficient|CGB-SC9|1.0|Y|

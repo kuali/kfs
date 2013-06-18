@@ -41,6 +41,9 @@
         $0.org_remit_zip_cd := replace(nvl($org_remit_zip_cd, ""), "~!~", "|" );
         $0.org_chck_pay_to_nm := replace(nvl($org_chck_pay_to_nm, ""), "~!~", "|" );
         $0.fdoc_initiator_id := replace(nvl($fdoc_initiator_id, ""), "~!~", "|" );
+        $0.refnd_pmt_reas_cd := replace(nvl($refnd_pmt_reas_cd, ""), "~!~", "|" );
+        $0.refnd_fin_object_cd := replace(nvl($refnd_fin_object_cd, ""), "~!~", "|" );
+        $0.refnd_doc_loc_cd := replace(nvl($refnd_doc_loc_cd, ""), "~!~", "|" );
    }
       ]]></attr>
     </Node>

@@ -24,6 +24,7 @@
         $0.dv_pmt_reas_nm := replace(nvl($dv_pmt_reas_nm, ""), "~!~", "|" );
         $0.dv_pmt_reas_desc := replace(nvl($dv_pmt_reas_desc, ""), "~!~", "|" );
         $0.dv_pmt_reas_actv_ind := replace(nvl($dv_pmt_reas_actv_ind, ""), "~!~", "|" );
+        $0.ar_refnd_ind := replace(nvl($ar_refnd_ind, ""), "~!~", "|" );
    }
       ]]></attr>
     </Node>

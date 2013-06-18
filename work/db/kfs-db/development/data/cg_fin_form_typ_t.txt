@@ -1,0 +1,4 @@
+fin_form_typ_cd|obj_id|ver_nbr|fin_form_typ_desc|dobj_maint_cd_actv_ind|
+1034/1035|CGB-FINANCIAL-FORM-TEMPLATE_VALUE-1|1.0|Public Voucher For Purchases and Services|Y|
+270|CGB-FINANCIAL-FORM-TEMPLATE_VALUE-2|1.0|Request For Advance Or Reimbursement|Y|
+425|CGB-FINANCIAL-FORM-TEMPLATE_VALUE-3|1.0|Federal SF-425|Y|

@@ -59,6 +59,7 @@ import org.kuali.kfs.module.tem.document.service.TravelAuthorizationService;
 import org.kuali.kfs.module.tem.service.TEMExpenseService;
 import org.kuali.kfs.pdp.businessobject.PaymentGroup;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSParameterKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.batch.service.PaymentSourceExtractionService;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
@@ -1190,16 +1191,24 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
         return TemConstants.TravelDocTypes.TRAVEL_AUTHORIZATION_CHECK_ACH_DOCUMENT;
     }
 
+    /**
+     * Returns the value of the KFS-TEM / Document / IMMEDIATE_EXTRACT_NOTIFICATION_FROM_EMAIL_ADDRESS parameter
+     * @see org.kuali.kfs.sys.document.PaymentSource#getImmediateExtractEMailFromAddress()
+     */
     @Override
     public String getImmediateExtractEMailFromAddress() {
-        // TODO Auto-generated method stub
-        return null;
+        return getParameterService().getParameterValueAsString(TemParameterConstants.TEM_DOCUMENT.class, KFSParameterKeyConstants.PdpExtractBatchParameters.IMMEDIATE_EXTRACT_FROM_ADDRESS_PARM_NM);
     }
 
+    /**
+     * Returns the value of the KFS-TEM / Document / IMMEDIATE_EXTRACT_NOTIFICATION_TO_EMAIL_ADDRESSES parameter
+     * @see org.kuali.kfs.sys.document.PaymentSource#getImmediateExtractEmailToAddresses()
+     */
     @Override
     public List<String> getImmediateExtractEmailToAddresses() {
-        // TODO Auto-generated method stub
-        return null;
+        List<String> toAddresses = new ArrayList<String>();
+        toAddresses.addAll(getParameterService().getParameterValuesAsString(TemParameterConstants.TEM_DOCUMENT.class, KFSParameterKeyConstants.PdpExtractBatchParameters.IMMEDIATE_EXTRACT_TO_ADDRESSES_PARM_NM));
+        return toAddresses;
     }
 
     public boolean allParametersForAdvanceSet() {

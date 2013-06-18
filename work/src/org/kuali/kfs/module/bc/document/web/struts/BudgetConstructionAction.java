@@ -1227,7 +1227,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         // typical refresh callers would be monthlyBudget or salarySetting or lookupable
         String refreshCaller = request.getParameter(KFSConstants.REFRESH_CALLER);
 
-        if (refreshCaller != null && refreshCaller.equalsIgnoreCase(BCConstants.MONTHLY_BUDGET_REFRESH_CALLER)) {
+        if (refreshCaller != null && refreshCaller.endsWith(BCConstants.MONTHLY_BUDGET_REFRESH_CALLER)) {
 
             // monthly process applies any changes to the DB and the form session object
             // including any override to the request amount which also changes the request total
@@ -1236,7 +1236,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
             budgetDocumentService.calculateBenefitsIfNeeded(budgetConstructionForm.getBudgetConstructionDocument());
 
         }
-        if (refreshCaller != null && refreshCaller.equalsIgnoreCase(BCConstants.QUICK_SALARY_SETTING_REFRESH_CALLER)) {
+        if (refreshCaller != null && refreshCaller.endsWith(BCConstants.QUICK_SALARY_SETTING_REFRESH_CALLER)) {
 
 
             BudgetDocumentService budgetDocumentService = SpringContext.getBean(BudgetDocumentService.class);

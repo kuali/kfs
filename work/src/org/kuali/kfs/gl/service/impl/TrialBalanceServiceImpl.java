@@ -47,9 +47,7 @@ public class TrialBalanceServiceImpl implements TrialBalanceService {
     protected ReportGenerationService reportGenerationService;
     protected DateTimeService dateTimeService;
 
-    /**
-     * @see edu.msu.ebsp.kfs.gl.service.TrialBalanceService#findTrialBalance(java.util.Map)
-     */
+
     @Override
     public List findTrialBalance(String selectedFiscalYear, String chartCode) {
         if ("*".equals(chartCode)) {

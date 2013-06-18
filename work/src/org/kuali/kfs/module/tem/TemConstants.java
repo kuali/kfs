@@ -788,12 +788,6 @@ public class TemConstants {
         }
     }
 
-
-    public enum DisburseType {
-        corpCard,
-        reimbursable;
-    }
-
     public static final String CONUS = "CONUS";
     public static final String OTHER_PRIMARY_DESTINATION = "[OTHER]";
     public static final String BLANKET_IN_STATE = "BLN";

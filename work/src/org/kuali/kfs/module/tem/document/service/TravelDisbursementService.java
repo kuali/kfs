@@ -18,9 +18,6 @@ package org.kuali.kfs.module.tem.document.service;
 import java.util.List;
 
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
-import org.kuali.kfs.module.tem.TemConstants.DisburseType;
-import org.kuali.kfs.module.tem.document.TEMReimbursementDocument;
-import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.rice.kew.api.exception.WorkflowException;
@@ -55,36 +52,7 @@ public interface TravelDisbursementService {
      * @param document
      * @return
      */
-    public DisbursementVoucherDocument createAndApproveDisbursementVoucherDocument(DisburseType type, TravelDocument document, String cardAgencyType);
-
-
-    /**
-     * Wrapper method to default card type to null;
-     *
-     * @param document
-     * @return
-     */
-    public DisbursementVoucherDocument createAndApproveDisbursementVoucherDocument(DisburseType type, TravelDocument document);
-
-    /**
-     * process Disbursement Voucher document for the TEMReimbursementDocument document
-     *
-     * It will create the Reimbursement DV document and then add to the travel document as a related doc
-     *
-     * @param document
-     * @return
-     */
-    public void processTEMReimbursementDV(TEMReimbursementDocument document);
-
-    /**
-     * process Disbursement Voucher document for the Travel Authorization document
-     *
-     * It will create the Payment DV document according to the advance and then add to the travel document as a related doc
-     *
-     * @param document
-     * @return
-     */
-    public void processTravelAdvanceDV(TravelAuthorizationDocument document);
+    public DisbursementVoucherDocument createAndApproveDisbursementVoucherDocument(TravelDocument document, String cardAgencyType);
 
     /**
      * save the DV with added notes and annotation

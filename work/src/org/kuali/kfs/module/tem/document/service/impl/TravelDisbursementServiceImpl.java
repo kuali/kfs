@@ -24,16 +24,11 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.module.tem.TemConstants;
-import org.kuali.kfs.module.tem.TemConstants.DisburseType;
 import org.kuali.kfs.module.tem.TemConstants.TravelParameters;
 import org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters;
-import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.TemParameterConstants;
-import org.kuali.kfs.module.tem.businessobject.AccountingDocumentRelationship;
 import org.kuali.kfs.module.tem.businessobject.HistoricalTravelExpense;
 import org.kuali.kfs.module.tem.businessobject.TemSourceAccountingLine;
-import org.kuali.kfs.module.tem.document.TEMReimbursementDocument;
-import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.TravelReimbursementDocument;
 import org.kuali.kfs.module.tem.document.service.AccountingDocumentRelationshipService;
@@ -56,7 +51,6 @@ import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
-import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.document.Document;
@@ -278,7 +272,7 @@ public class TravelDisbursementServiceImpl implements TravelDisbursementService{
      * @see org.kuali.kfs.module.tem.document.service.TravelDisbursementService#createAndApproveDisbursementVoucherDocument(org.kuali.kfs.module.tem.TemConstants.DisburseType, org.kuali.kfs.module.tem.document.TravelDocument, java.lang.String)
      */
     @Override
-    public DisbursementVoucherDocument createAndApproveDisbursementVoucherDocument(DisburseType type, TravelDocument document, String cardAgencyType){
+    public DisbursementVoucherDocument createAndApproveDisbursementVoucherDocument(TravelDocument document, String cardAgencyType){
         String currentUser = GlobalVariables.getUserSession().getPrincipalName();
 
         String principalName = SpringContext.getBean(PersonService.class).getPerson(document.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId()).getPrincipalName();
@@ -292,14 +286,7 @@ public class TravelDisbursementServiceImpl implements TravelDisbursementService{
             //update the DV's DocumentHeader's workflow title to be that of the travel document
             disbursementVoucherDocument.getDocumentHeader().getWorkflowDocument().setTitle(document.getDocumentHeader().getDocumentDescription());
 
-            switch (type){
-                case corpCard:
-                    populateImportedCorpCardDisbursementVoucherFields(disbursementVoucherDocument, document, cardAgencyType);
-                    break;
-                case reimbursable:
-                    document.populateDisbursementVoucherFields(disbursementVoucherDocument);
-                    break;
-            }
+            populateImportedCorpCardDisbursementVoucherFields(disbursementVoucherDocument, document, cardAgencyType);
 
         }
         catch (WorkflowException wfe) {
@@ -376,47 +363,47 @@ public class TravelDisbursementServiceImpl implements TravelDisbursementService{
         return disbursementVoucherDocument;
     }
 
-    /**
-     * @see org.kuali.kfs.module.tem.document.service.TravelDisbursementService#createAndApproveDisbursementVoucherDocument(org.kuali.kfs.module.tem.TemConstants.DisburseType, org.kuali.kfs.module.tem.document.TravelDocument)
-     */
-    @Override
-    public DisbursementVoucherDocument createAndApproveDisbursementVoucherDocument(DisburseType type, TravelDocument document){
-        return  createAndApproveDisbursementVoucherDocument(type, document, null);
-    }
+//    /**
+//     * @see org.kuali.kfs.module.tem.document.service.TravelDisbursementService#createAndApproveDisbursementVoucherDocument(org.kuali.kfs.module.tem.TemConstants.DisburseType, org.kuali.kfs.module.tem.document.TravelDocument)
+//     */
+//    @Override
+//    public DisbursementVoucherDocument createAndApproveDisbursementVoucherDocument(DisburseType type, TravelDocument document){
+//        return  createAndApproveDisbursementVoucherDocument(type, document, null);
+//    }
 
-    /**
-     * Since there is no difference between TEMReimbursement and TravelAdvance type disbursement voucher,
-     * use the same implementation.
-     *
-     * @param document
-     */
-    private void processTravelDocumentDV(TravelDocument document){
-        String relationDescription = document.getDocumentHeader().getWorkflowDocument().getDocumentTypeName() + " - DV";
-        try {
-            DisbursementVoucherDocument disbursementVoucherDocument = createAndApproveDisbursementVoucherDocument(DisburseType.reimbursable, document);
-            accountingDocumentRelationshipService.save(new AccountingDocumentRelationship(document.getDocumentNumber(), disbursementVoucherDocument.getDocumentNumber(), relationDescription));
-            KNSGlobalVariables.getMessageList().add(TemKeyConstants.MESSAGE_DV_IN_ACTION_LIST, disbursementVoucherDocument.getDocumentNumber());
-        }
-        catch (Exception ex) {
-            LOG.error("Could not spawn " + relationDescription + " for reimbursement:" + ex.getMessage(), ex);
-        }
-    }
+//    /**
+//     * Since there is no difference between TEMReimbursement and TravelAdvance type disbursement voucher,
+//     * use the same implementation.
+//     *
+//     * @param document
+//     */
+//    private void processTravelDocumentDV(TravelDocument document){
+//        String relationDescription = document.getDocumentHeader().getWorkflowDocument().getDocumentTypeName() + " - DV";
+//        try {
+//            DisbursementVoucherDocument disbursementVoucherDocument = createAndApproveDisbursementVoucherDocument(DisburseType.reimbursable, document);
+//            accountingDocumentRelationshipService.save(new AccountingDocumentRelationship(document.getDocumentNumber(), disbursementVoucherDocument.getDocumentNumber(), relationDescription));
+//            KNSGlobalVariables.getMessageList().add(TemKeyConstants.MESSAGE_DV_IN_ACTION_LIST, disbursementVoucherDocument.getDocumentNumber());
+//        }
+//        catch (Exception ex) {
+//            LOG.error("Could not spawn " + relationDescription + " for reimbursement:" + ex.getMessage(), ex);
+//        }
+//    }
 
-    /**
-     * @see org.kuali.kfs.module.tem.document.service.TravelDisbursementService#processTEMReimbursementDV(org.kuali.kfs.module.tem.document.TEMReimbursementDocument)
-     */
-    @Override
-    public void processTEMReimbursementDV(TEMReimbursementDocument document){
-        processTravelDocumentDV(document);
-    }
-
-    /**
-     * @see org.kuali.kfs.module.tem.document.service.TravelDisbursementService#processTEMReimbursementDV(org.kuali.kfs.module.tem.document.TEMReimbursementDocument)
-     */
-    @Override
-    public void processTravelAdvanceDV(TravelAuthorizationDocument document){
-        //processTravelDocumentDV(document);
-    }
+//    /**
+//     * @see org.kuali.kfs.module.tem.document.service.TravelDisbursementService#processTEMReimbursementDV(org.kuali.kfs.module.tem.document.TEMReimbursementDocument)
+//     */
+//    @Override
+//    public void processTEMReimbursementDV(TEMReimbursementDocument document){
+//        processTravelDocumentDV(document);
+//    }
+//
+//    /**
+//     * @see org.kuali.kfs.module.tem.document.service.TravelDisbursementService#processTEMReimbursementDV(org.kuali.kfs.module.tem.document.TEMReimbursementDocument)
+//     */
+//    @Override
+//    public void processTravelAdvanceDV(TravelAuthorizationDocument document){
+//        //processTravelDocumentDV(document);
+//    }
 
     /**
      * @see org.kuali.kfs.module.tem.document.service.TravelDisbursementService#saveErrorDisbursementVoucher(org.kuali.kfs.fp.document.DisbursementVoucherDocument, org.kuali.kfs.module.tem.document.TravelDocument)

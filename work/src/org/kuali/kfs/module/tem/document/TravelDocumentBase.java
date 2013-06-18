@@ -1099,16 +1099,6 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
     }
 
     /**
-     * Disbursement voucher fields for reimbursable
-     *
-     * @param disbursementVoucherDocument
-     */
-    @Override
-    public void populateDisbursementVoucherFields(DisbursementVoucherDocument disbursementVoucherDocument) {
-        getTravelDisbursementService().populateReimbursableDisbursementVoucherFields(disbursementVoucherDocument, this);
-    }
-
-    /**
      *
      * @param reqsDoc
      * @param document

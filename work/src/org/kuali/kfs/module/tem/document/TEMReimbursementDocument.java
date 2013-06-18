@@ -148,17 +148,6 @@ public abstract class TEMReimbursementDocument extends TravelDocumentBase implem
     }
 
     /**
-     * @see org.kuali.kfs.module.tem.document.TravelDocumentBase#populateDisbursementVoucherFields(org.kuali.kfs.fp.document.DisbursementVoucherDocument)
-     */
-    @Override
-    public void populateDisbursementVoucherFields(DisbursementVoucherDocument disbursementVoucherDocument) {
-        super.populateDisbursementVoucherFields(disbursementVoucherDocument);
-
-        //modify for any of the reimbursement doc to use the payment option instead of default
-        disbursementVoucherDocument.setDisbVchrPaymentMethodCode(getPaymentMethod());
-    }
-
-    /**
      * change to generate the GLPE on ACTUAL EXPENSE based on Reimbursable minus Advance and its only ONE entry to
      * DV clearning account
      *

@@ -334,13 +334,6 @@ public interface TravelDocument extends AccountingDocument, TravelEntertainmentM
     public void setPerDiemAdjustment(KualiDecimal perDiemAdjustment);
 
     /**
-     * Populate the fields from the Travel document to create the DisbursementVoucherDocument
-     *
-     * @param disbursementVoucherDocument
-     */
-    public void populateDisbursementVoucherFields(DisbursementVoucherDocument disbursementVoucherDocument);
-
-    /**
      * Return the source accounting lines which will be used for reimbursement in DV
      *
      * @return

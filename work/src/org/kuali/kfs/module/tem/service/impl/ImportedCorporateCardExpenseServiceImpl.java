@@ -26,7 +26,6 @@ import org.apache.log4j.Logger;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.module.tem.TemConstants;
-import org.kuali.kfs.module.tem.TemConstants.DisburseType;
 import org.kuali.kfs.module.tem.TemConstants.TravelParameters;
 import org.kuali.kfs.module.tem.TemParameterConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
@@ -164,7 +163,7 @@ public class ImportedCorporateCardExpenseServiceImpl extends ExpenseServiceBase 
 
         //process DV for each of the card type
         for (String cardAgencyType : cardAgencyTypeSet){
-            DisbursementVoucherDocument disbursementVoucherDocument = travelDisbursementService.createAndApproveDisbursementVoucherDocument(DisburseType.corpCard, document, cardAgencyType);
+            DisbursementVoucherDocument disbursementVoucherDocument = travelDisbursementService.createAndApproveDisbursementVoucherDocument(document, cardAgencyType);
             String docNumber = disbursementVoucherDocument.getDocumentNumber();
 
             if (!(document instanceof TravelRelocationDocument)){

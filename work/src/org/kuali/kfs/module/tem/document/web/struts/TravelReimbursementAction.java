@@ -180,7 +180,6 @@ public class TravelReimbursementAction extends TravelActionBase {
             reimbursement.refreshReferenceObject(TemPropertyConstants.TRAVELER);
             reimbursement.refreshReferenceObject(TemPropertyConstants.TRIP_TYPE);
             reimbursement.refreshReferenceObject(TemPropertyConstants.ACTUAL_EXPENSES);
-            reimbursement.refreshReferenceObject(TemPropertyConstants.TRVL_ADV);
             reimbursement.refreshReferenceObject(TemPropertyConstants.PRIMARY_DESTINATION);
             reimbursement.refreshReferenceObject(TemPropertyConstants.SPECIAL_CIRCUMSTANCES);
         }

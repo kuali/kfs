@@ -21,7 +21,6 @@ import static org.kuali.kfs.module.tem.TemPropertyConstants.TRAVEL_DOCUMENT_IDEN
 import java.beans.PropertyChangeListener;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.HashMap;
@@ -121,9 +120,8 @@ public class TravelAuthorizationServiceImpl implements TravelAuthorizationServic
         boolean enableInvoice = parameterService.getParameterValueAsBoolean(TravelAuthorizationDocument.class, TravelAuthorizationParameters.GENERATE_INVOICE_FOR_TRAVEL_ADVANCE_IND);
         if (enableInvoice && travelAuthorizationDocument.shouldProcessAdvanceForDocument()) {
             KualiDecimal amount = travelAuthorizationDocument.getTravelAdvance().getTravelAdvanceRequested();
-            List<TravelAdvance> advances = new ArrayList<TravelAdvance>();
             if (KualiDecimal.ZERO.isLessThan(amount)) {
-                createCustomerInvoiceFromAdvances(travelAuthorizationDocument, advances, amount);
+                createCustomerInvoiceFromAdvances(travelAuthorizationDocument, travelAuthorizationDocument.getTravelAdvance(), amount);
             }
         }
     }
@@ -135,7 +133,7 @@ public class TravelAuthorizationServiceImpl implements TravelAuthorizationServic
      * @param advances
      * @param amount
      */
-    private void createCustomerInvoiceFromAdvances(final TravelAuthorizationDocument travelAuthorizationDocument, final List<TravelAdvance> advances, final KualiDecimal amount) {
+    protected void createCustomerInvoiceFromAdvances(final TravelAuthorizationDocument travelAuthorizationDocument, final TravelAdvance advance, final KualiDecimal amount) {
 
         final int numDaysDue = Integer.parseInt(parameterService.getParameterValueAsString(TravelAuthorizationDocument.class, TravelAuthorizationParameters.DUE_DATE_DAYS));
         final String invoiceItemCode = parameterService.getParameterValueAsString(TravelAuthorizationDocument.class, TravelAuthorizationParameters.TRAVEL_ADVANCE_INVOICE_ITEM_CODE);
@@ -248,12 +246,11 @@ public class TravelAuthorizationServiceImpl implements TravelAuthorizationServic
                     try {
                         LOG.info("Saving customer invoice document " + customerInvoiceDocument.getDocumentNumber());
                         // getDocumentService().saveDocument(customerInvoiceDocument);
-                        for (TravelAdvance adv : advances) {
-                            if (StringUtils.isEmpty(adv.getArInvoiceDocNumber())) {
-                                AccountsReceivableCustomerInvoiceDetail detail = createInvoiceDetailFromAdvance(adv, customerInvoiceDocument.getDocumentNumber(), invoiceItemCode, processingOrgCode, processingChartCode);
-                                addInvoiceDetailToDocument(detail, customerInvoiceDocument);
-                            }
+                        if (StringUtils.isEmpty(advance.getArInvoiceDocNumber())) {
+                            AccountsReceivableCustomerInvoiceDetail detail = createInvoiceDetailFromAdvance(advance, customerInvoiceDocument.getDocumentNumber(), invoiceItemCode, processingOrgCode, processingChartCode);
+                            addInvoiceDetailToDocument(detail, customerInvoiceDocument);
                         }
+
                         LOG.info("Saving customer invoice document after adding acctg lines " + customerInvoiceDocument.getDocumentNumber());
                         accountsReceivableModuleService.saveCustomerInvoiceDocument(customerInvoiceDocument);
 
@@ -262,11 +259,9 @@ public class TravelAuthorizationServiceImpl implements TravelAuthorizationServic
                         accountingDocumentRelationshipService.save(new AccountingDocumentRelationship(travelAuthorizationDocument.getDocumentNumber(), customerInvoiceDocument.getDocumentNumber(), relationDescription));
 
                         //update AR Invoice Doc number to the travel advances
-                        for (TravelAdvance adv : advances) {
-                            if (StringUtils.isEmpty(adv.getArInvoiceDocNumber())) {
-                                adv.setArInvoiceDocNumber(customerInvoiceDocument.getDocumentNumber());
-                                adv.setArCustomerId(customerNumber);
-                            }
+                        if (StringUtils.isEmpty(advance.getArInvoiceDocNumber())) {
+                            advance.setArInvoiceDocNumber(customerInvoiceDocument.getDocumentNumber());
+                            advance.setArCustomerId(customerNumber);
                         }
 
                         // route

@@ -121,11 +121,6 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
      */
     public TravelAuthorizationDocument() {
         super();
-        advanceAccountingLines = new ArrayList<TemSourceAccountingLine>();
-        travelAdvance = new TravelAdvance();
-        advanceTravelPayment = new TravelPayment();
-        wireTransfer = new PaymentSourceWireTransfer();
-
     }
 
     public TravelAuthorizationAmendmentDocument toCopyTAA() throws WorkflowException {
@@ -133,8 +128,35 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
         toCopyTravelAuthorizationDocument(doc);
 
         doc.getDocumentHeader().setDocumentDescription(TemConstants.PRE_FILLED_DESCRIPTION);
+        setAppDocStatus(TravelAuthorizationStatusCodeKeys.IN_PROCESS);
+
+        doc.initiateAdvancePaymentAndLines();
 
         return doc;
+    }
+
+    /**
+     * Utility method which initiates the travel advance, hte wire transfer, the travel payment, and sets up all the related keys.  Also, if the parameters are set for the advance accounting line, that is set up as
+     * well
+     */
+    protected void initiateAdvancePaymentAndLines() {
+        setDefaultBankCode();
+        setTravelAdvance(new TravelAdvance());
+        getTravelAdvance().setDocumentNumber(getDocumentNumber());
+        setAdvanceTravelPayment(new TravelPayment());
+        getAdvanceTravelPayment().setDocumentNumber(getDocumentNumber());
+        getAdvanceTravelPayment().setDocumentationLocationCode(getParameterService().getParameterValueAsString(TravelAuthorizationDocument.class, TravelParameters.DOCUMENTATION_LOCATION_CODE,
+                getParameterService().getParameterValueAsString(TemParameterConstants.TEM_DOCUMENT.class,TravelParameters.DOCUMENTATION_LOCATION_CODE)));
+        getAdvanceTravelPayment().setCheckStubText(getConfigurationService().getPropertyValueAsString(TemKeyConstants.MESSAGE_TA_ADVANCE_PAYMENT_HOLD_TEXT));
+        setWireTransfer(new PaymentSourceWireTransfer());
+        getWireTransfer().setDocumentNumber(getDocumentNumber());
+        setAdvanceAccountingLines(new ArrayList<TemSourceAccountingLine>());
+        resetNextAdvanceLineNumber();
+        if (allParametersForAdvanceSet()) {
+            // we can initiate the travel advance accounting line
+            TemSourceAccountingLine accountingLine = initiateAdvanceAccountingLine();
+            addAdvanceAccountingLine(accountingLine);
+        }
     }
 
     public TravelAuthorizationCloseDocument toCopyTAC() throws WorkflowException {
@@ -207,6 +229,8 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
             newList.add(line);
         }
         copyToDocument.setSourceAccountingLines(newList);
+
+        copyToDocument.initiateAdvancePaymentAndLines();// should we be reinitiating all travel advance info here?  Funcs will tell us if that's wrong....
     }
 
     /**
@@ -438,17 +462,7 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
 
         calendar.add(Calendar.DAY_OF_MONTH, 2);
         setTripEnd(new Timestamp(calendar.getTimeInMillis()));
-        setDefaultBankCode();
-        setAdvanceTravelPayment(new TravelPayment());
-        getAdvanceTravelPayment().setDocumentNumber(getDocumentNumber());
-        getAdvanceTravelPayment().setDocumentationLocationCode(getParameterService().getParameterValueAsString(TravelAuthorizationDocument.class, TravelParameters.DOCUMENTATION_LOCATION_CODE,
-                getParameterService().getParameterValueAsString(TemParameterConstants.TEM_DOCUMENT.class,TravelParameters.DOCUMENTATION_LOCATION_CODE)));
-        getAdvanceTravelPayment().setCheckStubText(getConfigurationService().getPropertyValueAsString(TemKeyConstants.MESSAGE_TA_ADVANCE_PAYMENT_HOLD_TEXT));
-        if (allParametersForAdvanceSet()) {
-            // we can initiate the travel advance accounting line
-            TemSourceAccountingLine accountingLine = initiateAdvanceAccountingLine();
-            addAdvanceAccountingLine(accountingLine);
-        }
+        initiateAdvancePaymentAndLines();
     }
 
     /**
@@ -644,7 +658,7 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
     @Override
     public boolean generateDocumentGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
         boolean success = super.generateDocumentGeneralLedgerPendingEntries(sequenceHelper);
-        if (getTravelAdvance().isAtLeastPartiallyFilledIn() && getTravelAdvance().getTravelAdvanceRequested() != null) {
+        if (!ObjectUtils.isNull(getTravelAdvance()) && getTravelAdvance().isAtLeastPartiallyFilledIn() && getTravelAdvance().getTravelAdvanceRequested() != null) {
             // generate wire entries
             if (!StringUtils.isBlank(getAdvanceTravelPayment().getPaymentMethodCode())) {
                 if (KFSConstants.PaymentSourceConstants.PAYMENT_METHOD_WIRE.equals(getAdvanceTravelPayment().getPaymentMethodCode()) && !getWireTransfer().isWireTransferFeeWaiverIndicator()) {
@@ -825,6 +839,14 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
      */
     public Integer getNextAdvanceLineNumber() {
         return this.nextAdvanceLineNumber;
+    }
+
+    /**
+     * Method which resets the next next advance accounting line number back to 1; it should only be called by internal methods
+     * (like that which creates TAA's)
+     */
+    protected void resetNextAdvanceLineNumber() {
+        this.nextAdvanceLineNumber = new Integer(0);
     }
 
     /**
@@ -1021,12 +1043,11 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
     public void prepareForSave(KualiDocumentEvent event) {
         super.prepareForSave(event);
         if (!ObjectUtils.isNull(getTravelAdvance())) {
-            getTravelAdvance().setDocumentNumber(getDocumentNumber());
             getTravelAdvance().setTravelDocumentIdentifier(getTravelDocumentIdentifier());
-            getWireTransfer().setDocumentNumber(getDocumentNumber());
             final String checkStubPrefix = getConfigurationService().getPropertyValueAsString(TemKeyConstants.MESSAGE_TA_ADVANCE_PAYMENT_CHECK_TEXT_PREFIX);
             getAdvanceTravelPayment().setCheckStubText(checkStubPrefix+" "+getDocumentHeader().getDocumentDescription());
             getAdvanceTravelPayment().setDueDate(getTravelAdvance().getDueDate());
+            getAdvanceTravelPayment().setDocumentNumber(getDocumentNumber());  // this should already be set but no harm in resetting...
             updatePayeeTypeForAuthorization();
         }
     }
@@ -1213,11 +1234,14 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
     public List generateSaveEvents() {
         List events = super.generateSaveEvents();
 
-        final List persistedAdvanceAccountingLines = getPersistedAdvanceAccountingLinesForComparison();
-        final List currentAdvanceAccountingLines = getAdvanceAccountingLinesForComparison();
+        if (!ObjectUtils.isNull(getTravelAdvance()) && getTravelAdvance().isAtLeastPartiallyFilledIn()) {
+            // only check advance accounting lines if the travel advance is filled in
+            final List persistedAdvanceAccountingLines = getPersistedAdvanceAccountingLinesForComparison();
+            final List currentAdvanceAccountingLines = getAdvanceAccountingLinesForComparison();
 
-        final List advanceEvents = generateEvents(persistedAdvanceAccountingLines, currentAdvanceAccountingLines, KFSConstants.DOCUMENT_PROPERTY_NAME + "." + TemPropertyConstants.ADVANCE_ACCOUNTING_LINES, this);
-        events.addAll(advanceEvents);
+            final List advanceEvents = generateEvents(persistedAdvanceAccountingLines, currentAdvanceAccountingLines, KFSConstants.DOCUMENT_PROPERTY_NAME + "." + TemPropertyConstants.ADVANCE_ACCOUNTING_LINES, this);
+            events.addAll(advanceEvents);
+        }
 
         return events;
     }

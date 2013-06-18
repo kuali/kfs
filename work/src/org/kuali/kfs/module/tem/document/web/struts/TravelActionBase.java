@@ -318,9 +318,11 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
         request.setAttribute(FISCAL_OFFICER_TEST_ATTRIBUTE, setFiscalOfficer((TravelFormBase) form));
         request.setAttribute(DELINQUENT_TEST_ATTRIBUTE, document.getDelinquentAction());
 
-        final Map<String, List<Document>> relatedDocuments = getTravelDocumentService().getDocumentsRelatedTo(document);
-        travelFormBase.setRelatedDocuments(relatedDocuments);
-        travelFormBase.setDistribution(getAccountingDistributionService().buildDistributionFrom(travelFormBase.getTravelDocument()));
+        if (!StringUtils.isBlank(document.getDocumentNumber())) {
+            final Map<String, List<Document>> relatedDocuments = getTravelDocumentService().getDocumentsRelatedTo(document); //we don't have a doc number yet...there's no related documents
+            travelFormBase.setRelatedDocuments(relatedDocuments);
+            travelFormBase.setDistribution(getAccountingDistributionService().buildDistributionFrom(travelFormBase.getTravelDocument())); // and likely, there's nothing to distribute either
+        }
 
         //reset accounting line sequence number
         if (document.getSourceAccountingLines().size() > 0){

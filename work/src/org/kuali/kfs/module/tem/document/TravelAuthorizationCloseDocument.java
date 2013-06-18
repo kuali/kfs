@@ -43,4 +43,11 @@ public class TravelAuthorizationCloseDocument extends TravelAuthorizationDocumen
             }
         }
     }
+
+    /**
+     * Override to do nothing - travel auth close's don't have advances or payments associated with those
+     * @see org.kuali.kfs.module.tem.document.TravelAuthorizationDocument#initiateAdvancePaymentAndLines()
+     */
+    @Override
+    protected void initiateAdvancePaymentAndLines() {}
 }

@@ -532,7 +532,7 @@ public class TemConstants {
 
     public class PerDiemParameter {
         public static final String IN_STATE_TRIP_TYPE_CODE_PARAM_NAME = "IN_STATE_TRIP_TYPE_CODE";
-        public static final String OUT_STATE_TRIP_TYPE_CODE_PARAM_NAME = "OUT_STATE_TRIP_TYPE_CODE";
+        public static final String OUT_STATE_TRIP_TYPE_CODE_PARAM_NAME = "OUT_OF_STATE_TRIP_TYPE_CODE";
         public static final String INTERNATIONAL_TRIP_TYPE_CODE_PARAM_NAME = "INTERNATIONAL_TRIP_TYPE_CODE";
         public static final String INSTITUTION_STATE_PARAM_NAME = "INSTITUTION_STATE";
         public static final String OCONUS_MEAL_BREAKDOWN_PARAM_NAME = "OCONUS_MEAL_BREAKDOWN";

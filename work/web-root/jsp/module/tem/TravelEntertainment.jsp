@@ -18,12 +18,12 @@
 <script language="javascript" src="dwr/interface/TravelDocumentService.js"></script>
 <script language="javascript" src="scripts/module/tem/common.js"></script>
 
+<c:set var="canEdit" value="${KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" scope="request" />
 <c:set var="fullEntryMode" value="${KualiForm.editingMode['fullEntry']}" scope="request" />
 <c:set var="advancePaymentMode" value="${KualiForm.editingMode['advancePaymentEntry']}" scope="request"/>
-<c:set var="documentTitle" value="${'TravelEntertainmentDocument'}" />
 
 <kul:documentPage showDocumentInfo="true"
-    documentTypeName="TravelEntertainmentDocument"
+    documentTypeName="ENT"
     htmlFormAction="temTravelEntertainment" renderMultipart="true"
     showTabButtons="true">
      

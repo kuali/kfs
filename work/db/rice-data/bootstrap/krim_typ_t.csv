@@ -18,7 +18,7 @@
 "39","39","1","Derived Role: Account","{http://kfs.kuali.org/kfs/v5_0}accountDerivedRoleTypeService","Y","KFS-COA"
 "40","40","1","Derived Role: Chart","{http://kfs.kuali.org/kfs/v5_0}chartDerivedRoleTypeService","Y","KFS-COA"
 "41","41","1","Derived Role: Employee","{http://kfs.kuali.org/kfs/v5_0}employeeDerivedRoleTypeService","Y","KFS-SYS"
-"46","46","1","Payment Method","{http://kfs.kuali.org/kfs/v5_0}paymentMethodRoleTypeService","Y","KFS-FP"
+"46","46","1","Payment Method","{http://kfs.kuali.org/kfs/v5_0}paymentMethodRoleTypeService","Y","KFS-SYS"
 "47","47","1","Sub-Account & Document Type","{http://kfs.kuali.org/kfs/v5_0}subAccountReviewRoleTypeService","Y","KFS-COA"
 "48","48","1","Derived Role: Purchasing Document","{http://kfs.kuali.org/kfs/v5_0}relatedDocumentDerivedRoleTypeService","Y","KFS-PURAP"
 "50","50","1","Derived Role: Asset Document","{http://kfs.kuali.org/kfs/v5_0}assetDerivedRoleTypeService","Y","KFS-CAM"

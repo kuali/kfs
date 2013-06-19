@@ -37,7 +37,7 @@
 "49","KFS49","1","1","KFS-FP","Review DV Tax","","Y"
 "5","KFS5","1","1","KFS-CG","Review KFS ResearchRisk","","Y"
 "50","KFS50","1","1","KFS-FP","Review DV Travel","","Y"
-"51","KFS51","1","1","KFS-FP","Review DV PaymentMethod","","Y"
+"51","KFS51","1","1","KFS-SYS","Review KFS PaymentMethod","","Y"
 "6","KFS6","1","1","KFS-PURAP","Review PUR Commodity","","Y"
 "7","KFS7","1","1","KFS-SYS","Review KFS SubFund","","Y"
 "71","KFS71","1","1","KFS-PURAP","Review AP ImageAttachment","","Y"

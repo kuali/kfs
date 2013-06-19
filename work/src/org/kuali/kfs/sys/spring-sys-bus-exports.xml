@@ -47,6 +47,10 @@
 	<bean parent="roleTypeServiceCallback" 
 		p:callbackService-ref="excludeSingleActorSeparationOfDutiesRoleTypeService" 
 		p:localServiceName="excludeSingleActorSeparationOfDutiesRoleTypeService" /> 
+		
+	<bean parent="roleTypeServiceCallback" 
+		p:callbackService-ref="paymentMethodRoleTypeService" 
+		p:localServiceName="paymentMethodRoleTypeService" />
 
 	<bean parent="permissionTypeServiceCallback" 
 		p:callbackService-ref="namespaceOrFilePathPermissionTypeService" 

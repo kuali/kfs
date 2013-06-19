@@ -44,7 +44,7 @@ public class KfsKimAttributes extends org.kuali.rice.kim.bo.impl.KimAttributes {
     public static final String ACH_TRANSACTION_TYPE_CODE = "achTransactionTypeCode";
     public static final String VENDOR_TYPE_CODE = "vendorTypeCode";
     public static final String CONTRACTS_AND_GRANTS_ACCOUNT_RESPONSIBILITY_ID = "contractsAndGrantsAccountResponsibilityId";
-    public static final String DISBURSEMENT_VOUCHER_PAYMENT_METHOD_CODE = "disbursementVoucherPaymentMethodCode";
+    public static final String PAYMENT_METHOD_CODE = "paymentMethodCode";
     public static final String SUB_ACCOUNT_NUMBER = "subAccountNumber";
     public static final String FILE_PATH = "filePath";
     public static final String ROUTE_NODE_NAME = "routeNodeName";
@@ -63,7 +63,7 @@ public class KfsKimAttributes extends org.kuali.rice.kim.bo.impl.KimAttributes {
     protected String achTransactionTypeCode;
     protected String vendorTypeCode;
     protected String contractsAndGrantsAccountResponsibilityId;
-    protected String disbursementVoucherPaymentMethodCode;
+    protected String paymentMethodCode;
     protected String subAccountNumber;
     protected String filePath;
 
@@ -272,12 +272,12 @@ public class KfsKimAttributes extends org.kuali.rice.kim.bo.impl.KimAttributes {
         this.contractsAndGrantsAccountResponsibilityId = contractsAndGrantsAccountResponsibilityId;
     }
 
-    public String getDisbursementVoucherPaymentMethodCode() {
-        return disbursementVoucherPaymentMethodCode;
+    public String getPaymentMethodCode() {
+        return paymentMethodCode;
     }
 
-    public void setDisbursementVoucherPaymentMethodCode(String disbursementVoucherPaymentMethodCode) {
-        this.disbursementVoucherPaymentMethodCode = disbursementVoucherPaymentMethodCode;
+    public void setPaymentMethodCode(String paymentMethodCode) {
+        this.paymentMethodCode = paymentMethodCode;
     }
 
     public String getSubAccountNumber() {

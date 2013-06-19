@@ -527,7 +527,7 @@
     	<property name="routingAttributes">
     		<list>
 		        <bean class="org.kuali.rice.krad.datadictionary.RoutingAttribute">
-			    	<property name="qualificationAttributeName" value="disbursementVoucherPaymentMethodCode"/>
+			    	<property name="qualificationAttributeName" value="paymentMethodCode"/>
 			    </bean>
     		</list>
     	</property>

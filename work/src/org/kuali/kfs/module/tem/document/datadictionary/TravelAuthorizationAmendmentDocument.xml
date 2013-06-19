@@ -15,7 +15,7 @@
     	<property name="maxDictionaryValidationDepth" value="0"/>
 
         <property name="workflowAttributes">
-    	  <ref bean="TravelAuthorizationDocument-workflowAttributes"/>
+    	  <bean parent="TravelAuthorizationDocument-workflowAttributes" p:businessObjectClassName="org.kuali.kfs.module.tem.document.TravelAuthorizationAmentmentDocument"/>
         </property>
    
 		<property name="accountingLineGroups">

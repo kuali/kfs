@@ -14,7 +14,7 @@ ROLE_ID,OBJ_ID,VER_NBR,ROLE_NM,NMSPC_CD,DESC_TXT,KIM_TYP_ID,ACTV_IND
 11,KFS11,1,Cash Manager,KFS-FP,Users authorized to work the Cash Management Document and verify Cash Receipt documents for a given campus.,17,Y
 92,KFS92,1,Cash Receipt Initiator,KFS-FP,Users authorized to initiate Cash Receipt documents. This role exists to exclude Cash Managers from being able to initiate Cash Receipt documents. You do not need to add explicit members to this role to accomplish this exclusion.,65,Y
 12,KFS12,1,Disbursement Manager,KFS-FP,Users who receive workflow action requests for Disbursement Vouchers based on the campus code associated with the initiator of the document.,17,Y
-70,KFS70,1,Disbursement Method Reviewer,KFS-FP,Users who receive workflow action requests for Disbursement Vouchers with specified payment methods and can edit the accounting lines and Wire Transfer and Foreign Draft tabs.,46,Y
+70,KFS70,1,Disbursement Method Reviewer,KFS-SYS,Users who receive workflow action requests for Disbursement Vouchers with specified payment methods and can edit the accounting lines and Wire Transfer and Foreign Draft tabs.,46,Y
 96,KFS96,1,Financial Processing Manager,KFS-FP,Users that manage the KFS-FP module. This role has no inherent permissions or responsibilities.,1,Y
 13,KFS13,1,Service Bill Processor,KFS-FP,"Users authorized to use the Service Billing document and enter specified accounts on the ""Income"" side of the document.",26,Y
 15,KFS15,1,Travel Manager,KFS-SYS,Users who receive workflow action requests for Disbursement Vouchers for travel payment reasons and can edit the accounting line and Non-Employee Travel Expense or Pre-Paid Travel Expenses tabs.,1,Y

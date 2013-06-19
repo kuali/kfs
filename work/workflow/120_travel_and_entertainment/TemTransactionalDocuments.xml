@@ -72,6 +72,7 @@
 				<status>Awaiting Sub-Fund Review</status>
 				<status>Awaiting Award Review</status>
                 <status>Awaiting Separation Of Duties Review</status>
+                <status>Awaiting Disbursement Method Review</status>
 				<status>Awaiting Travel Manager Review</status>
 				<status>Reimbursement On Hold</status>
 				<status>Cancelled</status>
@@ -86,6 +87,7 @@
 				<status>Disapproved - Sub-Fund</status>
 				<status>Disapproved - Award</status>
                 <status>Disapproved - Separation Of Duties</status>
+                <status>Disapproved - Disbursement Method</status>
 				<status>Disapproved - Travel</status>
 				<status>Open For Reimbursement</status>
 				<status>Pending Amendment</status>
@@ -164,15 +166,16 @@
 					<role name="Award" nextNode="RequiresSeparationOfDuties" nextAppDocStatus="Awaiting Separation Of Duties Review"/>
 	     			<split name="RequiresSeparationOfDuties" nextNode="TravelAdvanceRequested" nextAppDocStatus="Awaiting Separation Of Duties Review">
 			         	<branch name="True">
-			            	<role name="SeparationOfDuties" nextNode="JoinRequiresSeparationOfDuties" nextAppDocStatus="Awaiting Travel Manager Review" />
+			            	<role name="SeparationOfDuties" nextNode="JoinRequiresSeparationOfDuties" nextAppDocStatus="Awaiting Disbursement Method Review" />
 			         	</branch>
 			         	<branch name="False">
-			            	<simple name="NoOpRequiresSeparationOfDuties" nextNode="JoinRequiresSeparationOfDuties" nextAppDocStatus="Awaiting Travel Manager Review" />
+			            	<simple name="NoOpRequiresSeparationOfDuties" nextNode="JoinRequiresSeparationOfDuties" nextAppDocStatus="Awaiting Disbursement Method Review" />
 			         	</branch>	
 			         	<join name="JoinRequiresSeparationOfDuties" />	         		
 	     			</split>
-					<split name="TravelAdvanceRequested" nextAppDocStatus="Awaiting Travel Manager Review">
+					<split name="TravelAdvanceRequested" nextAppDocStatus="Awaiting Disbursement Method Review">
                         <branch name="True">
+                        	<role name="PaymentMethod" nextNode="Travel" nextAppDocStatus="Awaiting Travel Manager Review" />
                             <role name="Travel" nextNode="JoinTravelAdvanceRequested" nextAppDocStatus="Open For Reimbursement" />
                         </branch>
                         <branch name="False">
@@ -304,6 +307,12 @@
                     <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
                 </simple>
                 <join name="JoinTravelAdvanceRequested" />
+                <role name="PaymentMethod">
+                    <qualifierResolverClass>
+                        org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
+                    </qualifierResolverClass>
+                    <activationType>P</activationType>
+                </role>
                 <role name="Travel">
                     <qualifierResolverClass>
                         org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
@@ -380,6 +389,7 @@
                 <status>Awaiting Award Review</status>
                 <status>Awaiting Tax Manager Review</status>
                 <status>Awaiting Separation Of Duties Review</status>
+                <status>Awaiting Disbursement Method Review</status>
                 <status>Awaiting Travel Manager Review</status>
                 <status>Department Approved</status>
                 <status>Disapproved - Traveler</status>
@@ -392,6 +402,7 @@
                 <status>Disapproved - Award</status>
                 <status>Disapproved - Tax Manager</status>
                 <status>Disapproved - Separation Of Duties</status>
+                <status>Disapproved - Disbursement Method</status>
                 <status>Disapproved - Travel</status>
                 <status>Cancelled</status>
             </validApplicationStatuses>
@@ -489,15 +500,16 @@
 			         	</branch>	
 			         	<join name="JoinTaxManager" />	         		
 	     			</split>
-	     			<split name="RequiresSeparationOfDuties" nextNode="RequiresTravel" nextAppDocStatus="Awaiting Separation Of Duties Review">
+	     			<split name="RequiresSeparationOfDuties" nextNode="PaymentMethod" nextAppDocStatus="Awaiting Separation Of Duties Review">
 			         	<branch name="True">
-			            	<role name="SeparationOfDuties" nextNode="JoinRequiresSeparationOfDuties" nextAppDocStatus="Awaiting Travel Manager Review" />
+			            	<role name="SeparationOfDuties" nextNode="JoinRequiresSeparationOfDuties" nextAppDocStatus="Awaiting Disbursement Method Review" />
 			         	</branch>
 			         	<branch name="False">
-			            	<simple name="NoOpRequiresSeparationOfDuties" nextNode="JoinRequiresSeparationOfDuties" nextAppDocStatus="Awaiting Travel Manager Review" />
+			            	<simple name="NoOpRequiresSeparationOfDuties" nextNode="JoinRequiresSeparationOfDuties" nextAppDocStatus="Awaiting Disbursement Method Review" />
 			         	</branch>	
 			         	<join name="JoinRequiresSeparationOfDuties" />	         		
 	     			</split>
+	     			<role name="PaymentMethod" nextNode="RequiresTravel" nextAppDocStatus="Awaiting Travel Manager Review" />
 	     			<split name="RequiresTravel" nextAppDocStatus="Awaiting Travel Manager Review">
 						<branch name="True">
 							<role name="Travel" nextNode="JoinRequiresTravel" nextAppDocStatus="Department Approved" />
@@ -629,6 +641,10 @@
                     <qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
                     <activationType>P</activationType>
                 </role>
+                <role name="PaymentMethod">
+                    <qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+                    <activationType>P</activationType>
+                </role>
 	     			
 	     		<join name="JoinRequiresTravel" />
 				<simple name="NoOpTravel">
@@ -721,6 +737,7 @@
                 <status>Awaiting Award Review</status>
                 <status>Awaiting Tax Manager Review</status>
                 <status>Awaiting Separation Of Duties Review</status>
+                <status>Awaiting Disbursement Method Review</status>
                 <status>Awaiting Moving and Relocation Manager Review</status>
                 <status>Moving And Relocation Manager Approved</status>
                 <status>Disapproved - Traveler</status>
@@ -732,6 +749,7 @@
                 <status>Disapproved - Award</status>
                 <status>Disapproved - Tax Manager</status>
                 <status>Disapproved - Separation Of Duties</status>
+                <status>Disapproved - Disbursement Method</status>
                 <status>Disapproved - Moving and Relocation Manager</status>
                 <status>Cancelled</status>
                 <status>In Process</status>
@@ -791,15 +809,16 @@
 			         	</branch>
                         <join name="JoinTaxManagerApproval"/>		         		
 	     			</split>
-                    <split name="RequiresSeparationOfDuties" nextNode="MovingAndRelocationManager" nextAppDocStatus="Awaiting Separation Of Duties Review">
+                    <split name="RequiresSeparationOfDuties" nextNode="PaymentMethod" nextAppDocStatus="Awaiting Separation Of Duties Review">
                         <branch name="True">
-                            <role name="SeparationOfDuties" nextNode="JoinRequiresSeparationOfDuties" nextAppDocStatus="Awaiting Moving and Relocation Manager Review" />
+                            <role name="SeparationOfDuties" nextNode="JoinRequiresSeparationOfDuties" nextAppDocStatus="Awaiting Disbursement Method Review" />
                         </branch>
                         <branch name="False">
                             <simple name="NoOpRequiresSeparationOfDuties" nextNode="JoinRequiresSeparationOfDuties" nextAppDocStatus="Awaiting Moving and Relocation Manager Review" />
                         </branch>   
                         <join name="JoinRequiresSeparationOfDuties" />                  
                     </split>
+                    <role name="PaymentMethod" nextNode="MovingAndRelocationManager" nextAppDocStatus="Awaiting Moving and Relocation Manager Review" />
                     <role name="MovingAndRelocationManager" nextAppDocStatus="Moving And Relocation Manager Approved" />
                 </routePath>
             </routePaths> 
@@ -903,6 +922,15 @@
                     <activationType>P</activationType>
                 </role>
                 
+                <role name="PaymentMethod">
+                    <qualifierResolverClass>
+                        org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
+                    </qualifierResolverClass>
+                    <activationType>
+                        P
+                    </activationType>
+                </role>    
+                
                 <role name="MovingAndRelocationManager">
                     <qualifierResolverClass>
                         org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
@@ -989,6 +1017,7 @@
                 <status>Awaiting Award Review</status>
                 <status>Awaiting Tax Manager Review</status>
                 <status>Awaiting Separation Of Duties Review</status>
+                <status>Awaiting Disbursement Payment Review</status>
                 <status>Awaiting Entertainment Manager Review</status>
                 <status>Department Approved</status>
                 <status>Disapproved - Traveler</status>
@@ -999,6 +1028,7 @@
                 <status>Disapproved - Award</status>
                 <status>Disapproved - Tax Manager</status>
                 <status>Disapproved - Separation Of Duties</status>
+                <status>Disapproved - Disbursement Method</status>
                 <status>Disapproved - Entertainment Manager</status>
                 <status>Entertainment Manager Approved</status>
                 <status>Cancelled</status>
@@ -1047,15 +1077,16 @@
 					   </branch>
 					   <join name="JoinTaxManager"/>
 					</split>
-                    <split name="RequiresSeparationOfDuties" nextNode="EntertainmentManager" nextAppDocStatus="Awaiting Separation Of Duties Review">
+                    <split name="RequiresSeparationOfDuties" nextNode="PaymentMethod" nextAppDocStatus="Awaiting Separation Of Duties Review">
                         <branch name="True">
-                            <role name="SeparationOfDuties" nextNode="JoinRequiresSeparationOfDuties" nextAppDocStatus="Awaiting Entertainment Manager Review" />
+                            <role name="SeparationOfDuties" nextNode="JoinRequiresSeparationOfDuties" nextAppDocStatus="Awaiting Disbursement Payment Review" />
                         </branch>
                         <branch name="False">
                             <simple name="NoOpRequiresSeparationOfDuties" nextNode="JoinRequiresSeparationOfDuties" nextAppDocStatus="Awaiting Entertainment Manager Review" />
                         </branch>   
                         <join name="JoinRequiresSeparationOfDuties" />                  
                     </split>
+                    <role name="PaymentMethod" nextNode="EntertainmentManager" nextAppDocStatus="Awaiting Entertainment Manager Review"/>
 					<role name="EntertainmentManager" nextAppDocStatus="Entertainment Manager Approved"/>
                 </routePath>
             </routePaths>
@@ -1135,6 +1166,13 @@
                 </split>
                 <role name="SeparationOfDuties">
                     <qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+                    <activationType>P</activationType>
+                </role>
+                
+                <role name="PaymentMethod">
+                    <qualifierResolverClass>
+                        org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
+                    </qualifierResolverClass>
                     <activationType>P</activationType>
                 </role>
             

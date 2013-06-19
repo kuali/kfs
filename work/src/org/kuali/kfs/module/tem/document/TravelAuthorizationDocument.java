@@ -1256,12 +1256,22 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
     }
 
     /**
-     * This method gets the Source Accounting Lines that will be used in comparisons
-     *
-     * @return
+     * @return the advance Accounting Lines that will be used in comparisons between persisted and currrent accounting lines to generate accounting line events
      */
     protected List getAdvanceAccountingLinesForComparison() {
         return getAdvanceAccountingLines();
+    }
+
+    /**
+     * @return all accounting lines which fiscal officers reviewing this document should review - which means: source accounting lines and then the advance accounting lines if the advance is filled in
+     */
+    public List<? extends AccountingLine> getAccountingLinesForReview() {
+        List<AccountingLine> lines = new ArrayList<AccountingLine>();
+        lines.addAll(getSourceAccountingLines());
+        if (shouldProcessAdvanceForDocument()) {
+            lines.addAll(getAdvanceAccountingLines());
+        }
+        return lines;
     }
 
     /**

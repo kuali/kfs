@@ -241,39 +241,41 @@
 			</attributes>
 			<active>
 				true
-			</active>
-			<security>
-				<securityAttribute name="TemSecurityAttribute" />
-			</security>
+            </active>
+            <security>
+                <securityAttribute name="TemSecurityAttribute"/>
+            </security>
 			<routingVersion>
 				2
-			</routingVersion>
+            </routingVersion>
 			<validApplicationStatuses>
 				<status>In Process</status>
 				<status>Awaiting Traveler Review</status>
 				<status>Awaiting Fiscal Officer Review</status>
 				<status>Awaiting Organization Review</status>
 				<status>Awaiting Division Review</status>
-				<status>Awaiting Special Request Review</status>
+                <status>Awaiting Special Request Review</status>
 				<status>Awaiting International Travel Review</status>
 				<status>Awaiting Risk Management Review</status>
 				<status>Awaiting Sub-Fund Review</status>
 				<status>Awaiting Award Review</status>
-				<status>Awaiting Separation Of Duties Review</status>
+                <status>Awaiting Separation Of Duties Review</status>
+                <status>Awaiting Disbursement Method Review</status>
 				<status>Awaiting Travel Manager Review</status>
 				<status>Reimbursement On Hold</status>
 				<status>Cancelled</status>
 				<status>Closed</status>
-				<status>Disapproved - Traveler</status>
+                <status>Disapproved - Traveler</status>
 				<status>Disapproved - Fiscal Officer</status>
-				<status>Disapproved - Organization</status>
+                <status>Disapproved - Organization</status>
 				<status>Disapproved - Division</status>
 				<status>Disapproved - Special Request</status>
-				<status>Disapproved - International Travel</status>
+                <status>Disapproved - International Travel</status>
 				<status>Disapproved - Risk Management</status>
 				<status>Disapproved - Sub-Fund</status>
 				<status>Disapproved - Award</status>
-				<status>Disapproved - Separation Of Duties</status>
+                <status>Disapproved - Separation Of Duties</status>
+                <status>Disapproved - Disbursement Method</status>
 				<status>Disapproved - Travel</status>
 				<status>Open For Reimbursement</status>
 				<status>Pending Amendment</status>
@@ -292,132 +294,113 @@
 			</policies>
 			<routePaths>
 				<routePath>
-					<start name="AdHoc" nextNode="TravelRequiresTravelerApproval"
-						nextAppDocStatus="Awaiting Traveler Review" />
-					<split name="TravelRequiresTravelerApproval" nextNode="TravelRequiresAccountApproval"
-						nextAppDocStatus="Awaiting Traveler Review">
-						<branch name="True">
-							<role name="Traveler" nextNode="JoinTravelRequiresTravelerApproval"
-								nextAppDocStatus="Awaiting Fiscal Officer Review" />
-						</branch>
-						<branch name="False">
-							<simple name="NoOpTravelRequiresTravelerApproval"
-								nextNode="JoinTravelRequiresTravelerApproval" nextAppDocStatus="Awaiting Fiscal Officer Review" />
-						</branch>
-						<join name="JoinTravelRequiresTravelerApproval" />
-					</split>
-					<split name="TravelRequiresAccountApproval" nextNode="AccountingOrganizationHierarchy"
-						nextAppDocStatus="Awaiting Fiscal Officer Review">
-						<branch name="True">
-							<role name="Account" nextNode="JoinTravelRequiresAccountApproval"
-								nextAppDocStatus="Awaiting Organization Review" />
-						</branch>
-						<branch name="False">
-							<simple name="NoOpTravelRequiresAccountApproval" nextNode="JoinTravelRequiresAccountApproval"
-								nextAppDocStatus="Awaiting Organization Review" />
-						</branch>
-						<join name="JoinTravelRequiresAccountApproval" />
-					</split>
+					<start name="AdHoc" nextNode="TravelRequiresTravelerApproval" nextAppDocStatus="Awaiting Traveler Review" />
+					<split name="TravelRequiresTravelerApproval" nextNode="TravelRequiresAccountApproval" nextAppDocStatus="Awaiting Traveler Review">
+                        <branch name="True">
+                            <role name="Traveler" nextNode="JoinTravelRequiresTravelerApproval" nextAppDocStatus="Awaiting Fiscal Officer Review" />
+                        </branch>
+                        <branch name="False">
+                            <simple name="NoOpTravelRequiresTravelerApproval" nextNode="JoinTravelRequiresTravelerApproval" nextAppDocStatus="Awaiting Fiscal Officer Review" />
+                        </branch>
+                        <join name="JoinTravelRequiresTravelerApproval"/>
+                    </split>
+					<split name="TravelRequiresAccountApproval" nextNode="AccountingOrganizationHierarchy" nextAppDocStatus="Awaiting Fiscal Officer Review">
+                        <branch name="True">
+                            <role name="Account" nextNode="JoinTravelRequiresAccountApproval" nextAppDocStatus="Awaiting Organization Review" />
+                        </branch>
+                        <branch name="False">
+                            <simple name="NoOpTravelRequiresAccountApproval" nextNode="JoinTravelRequiresAccountApproval" nextAppDocStatus="Awaiting Organization Review" />
+                        </branch>
+                        <join name="JoinTravelRequiresAccountApproval"/>
+                    </split>
 					<role name="AccountingOrganizationHierarchy" nextNode="TravelRequiresDivisionApproval" />
-					<split name="TravelRequiresDivisionApproval" nextNode="TravelHasSpecialRequest"
-						nextAppDocStatus="Awaiting Division Review">
-						<branch name="True">
-							<role name="Division" nextNode="JoinTravelRequiresDivisionApproval" />
-						</branch>
-						<branch name="False">
-							<simple name="NoOpTravelRequiresDivisionApproval"
-								nextNode="JoinTravelRequiresDivisionApproval" />
-						</branch>
-						<join name="JoinTravelRequiresDivisionApproval" />
-					</split>
-					<split name="TravelHasSpecialRequest" nextNode="TravelIsInternational"
-						nextAppDocStatus="Awaiting Special Request Review">
+				    <split name="TravelRequiresDivisionApproval" nextNode="TravelHasSpecialRequest" nextAppDocStatus="Awaiting Division Review">
+				        <branch name="True">
+                            <role name="Division" nextNode="JoinTravelRequiresDivisionApproval" />
+                        </branch>
+                        <branch name="False">
+                            <simple name="NoOpTravelRequiresDivisionApproval" nextNode="JoinTravelRequiresDivisionApproval" />
+                        </branch>
+                        <join name="JoinTravelRequiresDivisionApproval"/>
+				    </split>
+					<split name="TravelHasSpecialRequest" nextNode="TravelIsInternational" nextAppDocStatus="Awaiting Special Request Review">
 						<branch name="True">
 							<role name="SpecialRequest" nextNode="JoinTravelHasSpecialRequest" />
 						</branch>
 						<branch name="False">
 							<simple name="NoOpTravelHasSpecialRequest" nextNode="JoinTravelHasSpecialRequest" />
 						</branch>
-						<join name="JoinTravelHasSpecialRequest" />
+						<join name="JoinTravelHasSpecialRequest"/>
 					</split>
-					<split name="TravelIsInternational" nextNode="TravelNeedsRiskManagement"
-						nextAppDocStatus="Awaiting International Travel Review">
-						<branch name="True">
-							<role name="InternationalTravel" nextNode="JoinTravelIsInternational" />
-						</branch>
-						<branch name="False">
-							<simple name="NoOpTravelIsInternational" nextNode="JoinTravelIsInternational" />
-						</branch>
-						<join name="JoinTravelIsInternational" />
-					</split>
-					<split name="TravelNeedsRiskManagement" nextNode="SubFund"
-						nextAppDocStatus="Awaiting Risk Management Review">
-						<branch name="True">
-							<role name="RiskManagement" nextNode="JoinTravelNeedsRiskManagement"
-								nextAppDocStatus="Awaiting Sub-Fund Review" />
-						</branch>
-						<branch name="False">
-							<simple name="NoOpTravelNeedsRiskManagement" nextNode="JoinTravelNeedsRiskManagement"
-								nextAppDocStatus="Awaiting Sub-Fund Review" />
-						</branch>
-						<join name="JoinTravelNeedsRiskManagement" />
-					</split>
+                    <split name="TravelIsInternational" nextNode="TravelNeedsRiskManagement" nextAppDocStatus="Awaiting International Travel Review">
+                        <branch name="True">
+                            <role name="InternationalTravel" nextNode="JoinTravelIsInternational" />
+                        </branch>
+                        <branch name="False">
+                            <simple name="NoOpTravelIsInternational" nextNode="JoinTravelIsInternational" />
+                        </branch>
+                        <join name="JoinTravelIsInternational"/>
+                    </split>
+                    <split name="TravelNeedsRiskManagement" nextNode="SubFund" nextAppDocStatus="Awaiting Risk Management Review">
+                        <branch name="True">
+                            <role name="RiskManagement" nextNode="JoinTravelNeedsRiskManagement" nextAppDocStatus="Awaiting Sub-Fund Review" />
+                        </branch>
+                        <branch name="False">
+                            <simple name="NoOpTravelNeedsRiskManagement" nextNode="JoinTravelNeedsRiskManagement" nextAppDocStatus="Awaiting Sub-Fund Review" />
+                        </branch>
+                        <join name="JoinTravelNeedsRiskManagement"/>
+                    </split>
 					<role name="SubFund" nextNode="Award" nextAppDocStatus="Awaiting Award Review" />
-					<role name="Award" nextNode="RequiresSeparationOfDuties"
-						nextAppDocStatus="Awaiting Separation Of Duties Review" />
-					<split name="RequiresSeparationOfDuties" nextNode="TravelAdvanceRequested"
-						nextAppDocStatus="Awaiting Separation Of Duties Review">
-						<branch name="True">
-							<role name="SeparationOfDuties" nextNode="JoinRequiresSeparationOfDuties"
-								nextAppDocStatus="Awaiting Travel Manager Review" />
-						</branch>
-						<branch name="False">
-							<simple name="NoOpRequiresSeparationOfDuties" nextNode="JoinRequiresSeparationOfDuties"
-								nextAppDocStatus="Awaiting Travel Manager Review" />
-						</branch>
-						<join name="JoinRequiresSeparationOfDuties" />
-					</split>
-					<split name="TravelAdvanceRequested" nextAppDocStatus="Awaiting Travel Manager Review">
-						<branch name="True">
-							<role name="Travel" nextNode="JoinTravelAdvanceRequested"
-								nextAppDocStatus="Open For Reimbursement" />
-						</branch>
-						<branch name="False">
-							<simple name="NoOpTravelAdvanceRequested" nextNode="JoinTravelAdvanceRequested"
-								nextAppDocStatus="Open For Reimbursement" />
-						</branch>
-						<join name="JoinTravelAdvanceRequested" />
-					</split>
+					<role name="Award" nextNode="RequiresSeparationOfDuties" nextAppDocStatus="Awaiting Separation Of Duties Review"/>
+	     			<split name="RequiresSeparationOfDuties" nextNode="TravelAdvanceRequested" nextAppDocStatus="Awaiting Separation Of Duties Review">
+			         	<branch name="True">
+			            	<role name="SeparationOfDuties" nextNode="JoinRequiresSeparationOfDuties" nextAppDocStatus="Awaiting Disbursement Method Review" />
+			         	</branch>
+			         	<branch name="False">
+			            	<simple name="NoOpRequiresSeparationOfDuties" nextNode="JoinRequiresSeparationOfDuties" nextAppDocStatus="Awaiting Disbursement Method Review" />
+			         	</branch>	
+			         	<join name="JoinRequiresSeparationOfDuties" />	         		
+	     			</split>
+					<split name="TravelAdvanceRequested" nextAppDocStatus="Awaiting Disbursement Method Review">
+                        <branch name="True">
+                        	<role name="PaymentMethod" nextNode="Travel" nextAppDocStatus="Awaiting Travel Manager Review" />
+                            <role name="Travel" nextNode="JoinTravelAdvanceRequested" nextAppDocStatus="Open For Reimbursement" />
+                        </branch>
+                        <branch name="False">
+                            <simple name="NoOpTravelAdvanceRequested" nextNode="JoinTravelAdvanceRequested" nextAppDocStatus="Open For Reimbursement" />
+                        </branch>
+                        <join name="JoinTravelAdvanceRequested"/>
+                    </split>
 				</routePath>
 			</routePaths>
 			<routeNodes>
 				<start name="AdHoc" />
 				<join name="JoinTravelRequiresTravelerApproval" />
-				<simple name="NoOpTravelRequiresTravelerApproval">
-					<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
-				</simple>
-				<split name="TravelRequiresTravelerApproval">
-					<type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
-				</split>
+                <simple name="NoOpTravelRequiresTravelerApproval">
+                    <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+                </simple>
+                <split name="TravelRequiresTravelerApproval">
+                    <type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+                </split>
 				<role name="Traveler">
 					<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
 					<activationType>P</activationType>
 				</role>
 				<join name="JoinTravelRequiresAccountApproval" />
-				<simple name="NoOpTravelRequiresAccountApproval">
-					<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
-				</simple>
-				<split name="TravelRequiresAccountApproval">
-					<type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode
-					</type>
-				</split>
+                <simple name="NoOpTravelRequiresAccountApproval">
+                    <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+                </simple>
+                <split name="TravelRequiresAccountApproval">
+                    <type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode
+                    </type>
+                </split>
 				<role name="Account">
 					<qualifierResolverClass>
 						org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
 					</qualifierResolverClass>
 					<activationType>
 						P
-					</activationType>
+                    </activationType>
 				</role>
 				<role name="AccountingOrganizationHierarchy">
 					<qualifierResolverClass>
@@ -425,22 +408,22 @@
 					</qualifierResolverClass>
 					<activationType>
 						P
-					</activationType>
+                    </activationType>
 				</role>
 				<join name="JoinTravelRequiresDivisionApproval" />
-				<simple name="NoOpTravelRequiresDivisionApproval">
-					<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
-				</simple>
-				<split name="TravelRequiresDivisionApproval">
-					<type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode
-					</type>
-				</split>
-				<role name="Division">
-					<qualifierResolverClass>
-						org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
-					</qualifierResolverClass>
-					<activationType>P</activationType>
-				</role>
+                <simple name="NoOpTravelRequiresDivisionApproval">
+                    <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+                </simple>
+                <split name="TravelRequiresDivisionApproval">
+                    <type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode
+                    </type>
+                </split>
+                <role name="Division">
+                    <qualifierResolverClass>
+                        org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
+                    </qualifierResolverClass>
+                    <activationType>P</activationType>
+                </role>
 				<join name="JoinTravelHasSpecialRequest" />
 				<simple name="NoOpTravelHasSpecialRequest">
 					<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
@@ -450,50 +433,50 @@
 					</type>
 				</split>
 				<role name="SpecialRequest">
-					<qualifierResolverClass>
-						org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
-					</qualifierResolverClass>
-					<activationType>P</activationType>
-				</role>
-
-
+                    <qualifierResolverClass>
+                        org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
+                    </qualifierResolverClass>
+                    <activationType>P</activationType>
+                </role>
+                
+                
 				<split name="TravelIsInternational">
-					<type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode
-					</type>
-				</split>
-				<simple name="NoOpTravelIsInternational">
-					<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
-				</simple>
-				<join name="JoinTravelIsInternational" />
+                    <type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode
+                    </type>
+                </split>
+                <simple name="NoOpTravelIsInternational">
+                    <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+                </simple>
+                <join name="JoinTravelIsInternational" />
 				<role name="InternationalTravel">
-					<qualifierResolverClass>
-						org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
-					</qualifierResolverClass>
-					<activationType>P</activationType>
-				</role>
-
-
-				<split name="TravelNeedsRiskManagement">
-					<type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode
-					</type>
-				</split>
-				<simple name="NoOpTravelNeedsRiskManagement">
-					<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
-				</simple>
-				<join name="JoinTravelNeedsRiskManagement" />
-				<role name="RiskManagement">
-					<qualifierResolverClass>
-						org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
-					</qualifierResolverClass>
-					<activationType>P</activationType>
-				</role>
+                    <qualifierResolverClass>
+                        org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
+                    </qualifierResolverClass>
+                    <activationType>P</activationType>
+                </role>
+                
+                
+                <split name="TravelNeedsRiskManagement">
+                    <type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode
+                    </type>
+                </split>
+                <simple name="NoOpTravelNeedsRiskManagement">
+                    <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+                </simple>
+                <join name="JoinTravelNeedsRiskManagement" />
+                <role name="RiskManagement">
+                    <qualifierResolverClass>
+                        org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
+                    </qualifierResolverClass>
+                    <activationType>P</activationType>
+                </role>
 				<role name="SubFund">
 					<qualifierResolverClass>
 						org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
 					</qualifierResolverClass>
 					<activationType>
 						P
-					</activationType>
+          			</activationType>
 				</role>
 				<role name="Award">
 					<qualifierResolverClass>
@@ -501,36 +484,42 @@
 					</qualifierResolverClass>
 					<activationType>
 						P
-					</activationType>
+          			</activationType>
 				</role>
-
+                
 				<split name="TravelAdvanceRequested">
-					<type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode
-					</type>
-				</split>
-				<simple name="NoOpTravelAdvanceRequested">
-					<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
-				</simple>
-				<join name="JoinTravelAdvanceRequested" />
-				<role name="Travel">
-					<qualifierResolverClass>
-						org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
-					</qualifierResolverClass>
-					<activationType>P</activationType>
-				</role>
-
-				<join name="JoinRequiresSeparationOfDuties" />
+                    <type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode
+                    </type>
+                </split>
+                <simple name="NoOpTravelAdvanceRequested">
+                    <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+                </simple>
+                <join name="JoinTravelAdvanceRequested" />
+                <role name="PaymentMethod">
+                    <qualifierResolverClass>
+                        org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
+                    </qualifierResolverClass>
+                    <activationType>P</activationType>
+                </role>
+                <role name="Travel">
+                    <qualifierResolverClass>
+                        org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
+                    </qualifierResolverClass>
+                    <activationType>P</activationType>
+                </role>
+                
+                <join name="JoinRequiresSeparationOfDuties" />
 				<simple name="NoOpRequiresSeparationOfDuties">
 					<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
 				</simple>
 				<split name="RequiresSeparationOfDuties">
 					<type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
 				</split>
-				<role name="SeparationOfDuties">
-					<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
-					<activationType>P</activationType>
-				</role>
-
+                <role name="SeparationOfDuties">
+                    <qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+                    <activationType>P</activationType>
+                </role>
+                
 			</routeNodes>
 		</documentType>
 		<documentType>
@@ -554,12 +543,12 @@
 			</routeNodes>
 		</documentType>
 		<documentType>
-			<name>TR</name>
-			<parent>TT</parent>
-			<docHandler>${application.url}/temTravelReimbursement.do?methodToCall=docHandler
-			</docHandler>
-			<label>Travel Reimbursement</label>
-			<attributes>
+            <name>TR</name>
+            <parent>TT</parent>
+            <docHandler>${application.url}/temTravelReimbursement.do?methodToCall=docHandler
+            </docHandler>
+            <label>Travel Reimbursement</label>
+            <attributes>
 				<attribute>
 					<name>TemFinancialSystemSearchableAttribute</name>
 				</attribute>
@@ -567,199 +556,168 @@
 					<name>TravelDocumentSearchCustomizer</name>
 				</attribute>
 			</attributes>
-			<active>
-				true
-			</active>
-			<security>
-				<securityAttribute name="TemSecurityAttribute" />
-			</security>
-			<routingVersion>
-				2
-			</routingVersion>
-			<validApplicationStatuses>
-				<status>In Process</status>
-				<status>Awaiting Traveler Review</status>
-				<status>Awaiting Fiscal Officer Review</status>
-				<status>Awaiting Travel Accounting Review</status>
-				<status>Awaiting Division Review</status>
-				<status>Awaiting Special Request Review</status>
-				<status>Awaiting International Travel Review</status>
-				<status>Awaiting Sub-Fund Review</status>
-				<status>Awaiting Award Review</status>
-				<status>Awaiting Tax Manager Review</status>
-				<status>Awaiting Separation Of Duties Review</status>
-				<status>Awaiting Travel Manager Review</status>
-				<status>Department Approved</status>
-				<status>Disapproved - Traveler</status>
-				<status>Disapproved - Fiscal Officer</status>
-				<status>Disapproved - Travel Accounting</status>
-				<status>Disapproved - Division</status>
-				<status>Disapproved - Special Request</status>
-				<status>Disapproved - International Travel</status>
-				<status>Disapproved - Sub-Fund</status>
-				<status>Disapproved - Award</status>
-				<status>Disapproved - Tax Manager</status>
-				<status>Disapproved - Separation Of Duties</status>
-				<status>Disapproved - Travel</status>
-				<status>Cancelled</status>
-			</validApplicationStatuses>
-			<policies>
-				<policy>
-					<name>DEFAULT_APPROVE</name>
-					<value>false</value>
-				</policy>
-				<policy>
-					<name>DOCUMENT_STATUS_POLICY</name>
-					<stringValue>app</stringValue>
-				</policy>
-			</policies>
-			<routePaths>
-				<routePath>
-					<start name="AdHoc" nextNode="TravelRequiresTravelerApproval"
-						nextAppDocStatus="Awaiting Traveler Review" />
-					<split name="TravelRequiresTravelerApproval" nextNode="TravelRequiresAccountApproval"
-						nextAppDocStatus="Awaiting Traveler Review">
+            <active>
+                true
+            </active>
+            <security>
+                <securityAttribute name="TemSecurityAttribute"/>
+            </security>
+            <routingVersion>
+                2
+            </routingVersion>
+            <validApplicationStatuses>
+                <status>In Process</status>
+                <status>Awaiting Traveler Review</status>
+                <status>Awaiting Fiscal Officer Review</status>
+                <status>Awaiting Travel Accounting Review</status>
+                <status>Awaiting Division Review</status>
+                <status>Awaiting Special Request Review</status>
+                <status>Awaiting International Travel Review</status>
+                <status>Awaiting Sub-Fund Review</status>
+                <status>Awaiting Award Review</status>
+                <status>Awaiting Tax Manager Review</status>
+                <status>Awaiting Separation Of Duties Review</status>
+                <status>Awaiting Disbursement Method Review</status>
+                <status>Awaiting Travel Manager Review</status>
+                <status>Department Approved</status>
+                <status>Disapproved - Traveler</status>
+                <status>Disapproved - Fiscal Officer</status>
+                <status>Disapproved - Travel Accounting</status>
+                <status>Disapproved - Division</status>
+                <status>Disapproved - Special Request</status>
+                <status>Disapproved - International Travel</status>
+                <status>Disapproved - Sub-Fund</status>
+                <status>Disapproved - Award</status>
+                <status>Disapproved - Tax Manager</status>
+                <status>Disapproved - Separation Of Duties</status>
+                <status>Disapproved - Disbursement Method</status>
+                <status>Disapproved - Travel</status>
+                <status>Cancelled</status>
+            </validApplicationStatuses>
+            <policies>
+                <policy>
+                    <name>DEFAULT_APPROVE</name>
+                    <value>false</value>
+                </policy>
+                <policy>
+                    <name>DOCUMENT_STATUS_POLICY</name>
+                    <stringValue>app</stringValue>
+                </policy>
+            </policies>
+            <routePaths>
+                <routePath>
+                    <start name="AdHoc" nextNode="TravelRequiresTravelerApproval" nextAppDocStatus="Awaiting Traveler Review"/>
+                    <split name="TravelRequiresTravelerApproval" nextNode="TravelRequiresAccountApproval" nextAppDocStatus="Awaiting Traveler Review">
+                        <branch name="True">
+                            <role name="Traveler" nextNode="JoinTravelRequiresTravelerApproval" nextAppDocStatus="Awaiting Fiscal Officer Review" />
+                        </branch>
+                        <branch name="False">
+                            <simple name="NoOpTravelRequiresTravelerApproval" nextNode="JoinTravelRequiresTravelerApproval" nextAppDocStatus="Awaiting Fiscal Officer Review" />
+                        </branch>
+                        <join name="JoinTravelRequiresTravelerApproval"/>
+                    </split>
+                    <split name="TravelRequiresAccountApproval" nextNode="TravelRequiresAccountingOrganizationHierarchy" nextAppDocStatus="Awaiting Fiscal Officer Review">
 						<branch name="True">
-							<role name="Traveler" nextNode="JoinTravelRequiresTravelerApproval"
-								nextAppDocStatus="Awaiting Fiscal Officer Review" />
+							<role name="Account" nextNode="JoinRequiresAccountApproval" nextAppDocStatus="Awaiting Travel Accounting Review" />
 						</branch>
 						<branch name="False">
-							<simple name="NoOpTravelRequiresTravelerApproval"
-								nextNode="JoinTravelRequiresTravelerApproval" nextAppDocStatus="Awaiting Fiscal Officer Review" />
-						</branch>
-						<join name="JoinTravelRequiresTravelerApproval" />
-					</split>
-					<split name="TravelRequiresAccountApproval" nextNode="TravelRequiresAccountingOrganizationHierarchy"
-						nextAppDocStatus="Awaiting Fiscal Officer Review">
-						<branch name="True">
-							<role name="Account" nextNode="JoinRequiresAccountApproval"
-								nextAppDocStatus="Awaiting Travel Accounting Review" />
-						</branch>
-						<branch name="False">
-							<simple name="NoOpAccountApproval" nextNode="JoinRequiresAccountApproval"
-								nextAppDocStatus="Awaiting Travel Accounting Review" />
+							<simple name="NoOpAccountApproval" nextNode="JoinRequiresAccountApproval" nextAppDocStatus="Awaiting Travel Accounting Review" />
 						</branch>
 						<join name="JoinRequiresAccountApproval" />
 					</split>
-					<split name="TravelRequiresAccountingOrganizationHierarchy"
-						nextNode="TravelRequiresDivisionApproval" nextAppDocStatus="Awaiting Travel Accounting Review">
+                    <split name="TravelRequiresAccountingOrganizationHierarchy" nextNode="TravelRequiresDivisionApproval" nextAppDocStatus="Awaiting Travel Accounting Review">
+                        <branch name="True">
+                            <role name="AccountingOrganizationHierarchy" nextNode="JoinRequiresAccountingOrganizationHierarchy" nextAppDocStatus="Awaiting Division Review" />
+                        </branch>
+                        <branch name="False">
+                            <simple name="NoOpAccountingOrganizationHierarchy" nextNode="JoinRequiresAccountingOrganizationHierarchy" nextAppDocStatus="Awaiting Division Review" />
+                        </branch>
+                        <join name="JoinRequiresAccountingOrganizationHierarchy"/>
+                    </split>
+                    <split name="TravelRequiresDivisionApproval" nextNode="TravelHasSpecialRequest" nextAppDocStatus="Awaiting Division Review">
+                        <branch name="True">
+                            <role name="Division" nextNode="JoinTravelRequiresDivisionApproval" nextAppDocStatus="Awaiting Special Request Review" />
+                        </branch>
+                        <branch name="False">
+                            <simple name="NoOpTravelRequiresDivisionApproval" nextNode="JoinTravelRequiresDivisionApproval" nextAppDocStatus="Awaiting Special Request Review" />
+                        </branch>
+                        <join name="JoinTravelRequiresDivisionApproval"/>
+                    </split>
+                    <split name="TravelHasSpecialRequest" nextNode="TravelIsInternational" nextAppDocStatus="Awaiting Special Request Review">
 						<branch name="True">
-							<role name="AccountingOrganizationHierarchy" nextNode="JoinRequiresAccountingOrganizationHierarchy"
-								nextAppDocStatus="Awaiting Division Review" />
+							<role name="SpecialRequest" nextNode="JoinTravelHasSpecialRequest" nextAppDocStatus="Awaiting International Travel Review" />
 						</branch>
 						<branch name="False">
-							<simple name="NoOpAccountingOrganizationHierarchy"
-								nextNode="JoinRequiresAccountingOrganizationHierarchy"
-								nextAppDocStatus="Awaiting Division Review" />
-						</branch>
-						<join name="JoinRequiresAccountingOrganizationHierarchy" />
-					</split>
-					<split name="TravelRequiresDivisionApproval" nextNode="TravelHasSpecialRequest"
-						nextAppDocStatus="Awaiting Division Review">
-						<branch name="True">
-							<role name="Division" nextNode="JoinTravelRequiresDivisionApproval"
-								nextAppDocStatus="Awaiting Special Request Review" />
-						</branch>
-						<branch name="False">
-							<simple name="NoOpTravelRequiresDivisionApproval"
-								nextNode="JoinTravelRequiresDivisionApproval" nextAppDocStatus="Awaiting Special Request Review" />
-						</branch>
-						<join name="JoinTravelRequiresDivisionApproval" />
-					</split>
-					<split name="TravelHasSpecialRequest" nextNode="TravelIsInternational"
-						nextAppDocStatus="Awaiting Special Request Review">
-						<branch name="True">
-							<role name="SpecialRequest" nextNode="JoinTravelHasSpecialRequest"
-								nextAppDocStatus="Awaiting International Travel Review" />
-						</branch>
-						<branch name="False">
-							<simple name="NoOpTravelHasSpecialRequest" nextNode="JoinTravelHasSpecialRequest"
-								nextAppDocStatus="Awaiting International Travel Review" />
+							<simple name="NoOpTravelHasSpecialRequest" nextNode="JoinTravelHasSpecialRequest" nextAppDocStatus="Awaiting International Travel Review" />
 						</branch>
 						<join name="JoinTravelHasSpecialRequest" />
 					</split>
-					<split name="TravelIsInternational" nextNode="RequiresSubFund"
-						nextAppDocStatus="Awaiting International Travel Review">
+                    <split name="TravelIsInternational" nextNode="RequiresSubFund" nextAppDocStatus="Awaiting International Travel Review">
 						<branch name="True">
-							<role name="InternationalTravel" nextNode="JoinTravelIsInternational"
-								nextAppDocStatus="Awaiting Sub-Fund Review" />
+							<role name="InternationalTravel" nextNode="JoinTravelIsInternational" nextAppDocStatus="Awaiting Sub-Fund Review" />
 						</branch>
 						<branch name="False">
-							<simple name="NoOpTravelIsInternational" nextNode="JoinTravelIsInternational"
-								nextAppDocStatus="Awaiting Sub-Fund Review" />
+							<simple name="NoOpTravelIsInternational" nextNode="JoinTravelIsInternational" nextAppDocStatus="Awaiting Sub-Fund Review" />
 						</branch>
 						<join name="JoinTravelIsInternational" />
 					</split>
-					<split name="RequiresSubFund" nextNode="RequiresAward"
-						nextAppDocStatus="Awaiting Sub-Fund Review">
+                    <split name="RequiresSubFund" nextNode="RequiresAward" nextAppDocStatus="Awaiting Sub-Fund Review">
 						<branch name="True">
-							<role name="SubFund" nextNode="JoinRequiresSubFund"
-								nextAppDocStatus="Awaiting Award Review" />
+							<role name="SubFund" nextNode="JoinRequiresSubFund" nextAppDocStatus="Awaiting Award Review" />
 						</branch>
 						<branch name="False">
-							<simple name="NoOpSubFund" nextNode="JoinRequiresSubFund"
-								nextAppDocStatus="Awaiting Award Review" />
+							<simple name="NoOpSubFund" nextNode="JoinRequiresSubFund" nextAppDocStatus="Awaiting Award Review" />
 						</branch>
 						<join name="JoinRequiresSubFund" />
 					</split>
-					<split name="RequiresAward" nextNode="TaxManagerApproval"
-						nextAppDocStatus="Awaiting Award Review">
+					<split name="RequiresAward" nextNode="TaxManagerApproval" nextAppDocStatus="Awaiting Award Review">
 						<branch name="True">
-							<role name="Award" nextNode="JoinRequiresAward"
-								nextAppDocStatus="Awaiting Tax Manager Review" />
+							<role name="Award" nextNode="JoinRequiresAward" nextAppDocStatus="Awaiting Tax Manager Review" />
 						</branch>
 						<branch name="False">
-							<simple name="NoOpAward" nextNode="JoinRequiresAward"
-								nextAppDocStatus="Awaiting Tax Manager Review" />
+							<simple name="NoOpAward" nextNode="JoinRequiresAward" nextAppDocStatus="Awaiting Tax Manager Review" />
 						</branch>
 						<join name="JoinRequiresAward" />
 					</split>
-					<split name="TaxManagerApproval" nextNode="RequiresSeparationOfDuties"
-						nextAppDocStatus="Awaiting Tax Manager Review">
+					<split name="TaxManagerApproval" nextNode="RequiresSeparationOfDuties" nextAppDocStatus="Awaiting Tax Manager Review">
+			         	<branch name="True">
+			            	<role name="Tax" nextNode="JoinTaxManager" nextAppDocStatus="Awaiting Separation Of Duties Review" />
+			         	</branch>
+			         	<branch name="False">
+			            	<simple name="NoOpTaxManager" nextNode="JoinTaxManager" nextAppDocStatus="Awaiting Separation Of Duties Review" />
+			         	</branch>	
+			         	<join name="JoinTaxManager" />	         		
+	     			</split>
+	     			<split name="RequiresSeparationOfDuties" nextNode="PaymentMethod" nextAppDocStatus="Awaiting Separation Of Duties Review">
+			         	<branch name="True">
+			            	<role name="SeparationOfDuties" nextNode="JoinRequiresSeparationOfDuties" nextAppDocStatus="Awaiting Disbursement Method Review" />
+			         	</branch>
+			         	<branch name="False">
+			            	<simple name="NoOpRequiresSeparationOfDuties" nextNode="JoinRequiresSeparationOfDuties" nextAppDocStatus="Awaiting Disbursement Method Review" />
+			         	</branch>	
+			         	<join name="JoinRequiresSeparationOfDuties" />	         		
+	     			</split>
+	     			<role name="PaymentMethod" nextNode="RequiresTravel" nextAppDocStatus="Awaiting Travel Manager Review" />
+	     			<split name="RequiresTravel" nextAppDocStatus="Awaiting Travel Manager Review">
 						<branch name="True">
-							<role name="Tax" nextNode="JoinTaxManager"
-								nextAppDocStatus="Awaiting Separation Of Duties Review" />
+							<role name="Travel" nextNode="JoinRequiresTravel" nextAppDocStatus="Department Approved" />
 						</branch>
 						<branch name="False">
-							<simple name="NoOpTaxManager" nextNode="JoinTaxManager"
-								nextAppDocStatus="Awaiting Separation Of Duties Review" />
-						</branch>
-						<join name="JoinTaxManager" />
-					</split>
-					<split name="RequiresSeparationOfDuties" nextNode="RequiresTravel"
-						nextAppDocStatus="Awaiting Separation Of Duties Review">
-						<branch name="True">
-							<role name="SeparationOfDuties" nextNode="JoinRequiresSeparationOfDuties"
-								nextAppDocStatus="Awaiting Travel Manager Review" />
-						</branch>
-						<branch name="False">
-							<simple name="NoOpRequiresSeparationOfDuties" nextNode="JoinRequiresSeparationOfDuties"
-								nextAppDocStatus="Awaiting Travel Manager Review" />
-						</branch>
-						<join name="JoinRequiresSeparationOfDuties" />
-					</split>
-					<split name="RequiresTravel" nextAppDocStatus="Awaiting Travel Manager Review">
-						<branch name="True">
-							<role name="Travel" nextNode="JoinRequiresTravel"
-								nextAppDocStatus="Department Approved" />
-						</branch>
-						<branch name="False">
-							<simple name="NoOpTravel" nextNode="JoinRequiresTravel"
-								nextAppDocStatus="Department Approved" />
+							<simple name="NoOpTravel" nextNode="JoinRequiresTravel" nextAppDocStatus="Department Approved" />
 						</branch>
 						<join name="JoinRequiresTravel" />
-					</split>
-				</routePath>
-			</routePaths>
-			<routeNodes>
-				<start name="AdHoc" />
-				<join name="JoinTravelRequiresTravelerApproval" />
-				<simple name="NoOpTravelRequiresTravelerApproval">
-					<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
-				</simple>
-				<split name="TravelRequiresTravelerApproval">
-					<type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
-				</split>
+					</split>   
+                </routePath>
+            </routePaths>
+            <routeNodes>
+                <start name="AdHoc" />
+                <join name="JoinTravelRequiresTravelerApproval" />
+                <simple name="NoOpTravelRequiresTravelerApproval">
+                    <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+                </simple>
+                <split name="TravelRequiresTravelerApproval">
+                    <type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+                </split>
 				<role name="Traveler">
 					<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
 					<activationType>P</activationType>
@@ -771,11 +729,11 @@
 				<split name="TravelRequiresAccountApproval">
 					<type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
 				</split>
-				<role name="Account">
-					<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
-					<activationType>P</activationType>
-				</role>
-
+                <role name="Account">
+                    <qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+                    <activationType>P</activationType>
+                </role>
+                
 				<join name="JoinRequiresAccountingOrganizationHierarchy" />
 				<simple name="NoOpAccountingOrganizationHierarchy">
 					<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
@@ -783,108 +741,112 @@
 				<split name="TravelRequiresAccountingOrganizationHierarchy">
 					<type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
 				</split>
-				<role name="AccountingOrganizationHierarchy">
-					<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
-					<activationType>P</activationType>
-				</role>
-
-				<join name="JoinTravelRequiresDivisionApproval" />
+                <role name="AccountingOrganizationHierarchy">
+                    <qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+                    <activationType>P</activationType>
+                </role>
+                
+                <join name="JoinTravelRequiresDivisionApproval" />
 				<simple name="NoOpTravelRequiresDivisionApproval">
 					<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
 				</simple>
 				<split name="TravelRequiresDivisionApproval">
 					<type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
 				</split>
-				<role name="Division">
-					<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
-					<activationType>P</activationType>
-				</role>
-
-				<join name="JoinTravelHasSpecialRequest" />
+                <role name="Division">
+                    <qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+                    <activationType>P</activationType>
+                </role>
+                
+                <join name="JoinTravelHasSpecialRequest" />
 				<simple name="NoOpTravelHasSpecialRequest">
 					<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
 				</simple>
 				<split name="TravelHasSpecialRequest">
 					<type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
 				</split>
-				<role name="SpecialRequest">
-					<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
-					<activationType>P</activationType>
-				</role>
-
-				<join name="JoinTravelIsInternational" />
+                <role name="SpecialRequest">
+                    <qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+                    <activationType>P</activationType>
+                </role>
+                
+                <join name="JoinTravelIsInternational" />
 				<simple name="NoOpTravelIsInternational">
 					<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
 				</simple>
 				<split name="TravelIsInternational">
 					<type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
 				</split>
-				<role name="InternationalTravel">
-					<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
-					<activationType>P</activationType>
-				</role>
-
-				<join name="JoinRequiresSubFund" />
+                <role name="InternationalTravel">
+                    <qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+                    <activationType>P</activationType>
+                </role>
+                
+                <join name="JoinRequiresSubFund" />
 				<simple name="NoOpSubFund">
 					<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
 				</simple>
 				<split name="RequiresSubFund">
 					<type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
 				</split>
-				<role name="SubFund">
-					<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
-					<activationType>P</activationType>
-				</role>
-
-				<join name="JoinRequiresAward" />
+                <role name="SubFund">
+                    <qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+                    <activationType>P</activationType>
+                </role>
+                
+                <join name="JoinRequiresAward" />
 				<simple name="NoOpAward">
 					<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
 				</simple>
 				<split name="RequiresAward">
 					<type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
 				</split>
-				<role name="Award">
-					<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
-					<activationType>P</activationType>
-				</role>
-
-				<join name="JoinTaxManager" />
+                <role name="Award">
+                    <qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+                    <activationType>P</activationType>
+                </role>
+                
+                <join name="JoinTaxManager" />
 				<simple name="NoOpTaxManager">
 					<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
 				</simple>
 				<split name="TaxManagerApproval">
 					<type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
 				</split>
-				<role name="Tax">
-					<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
-					<activationType>P</activationType>
-				</role>
-
-				<join name="JoinRequiresSeparationOfDuties" />
+                <role name="Tax">
+                    <qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+                    <activationType>P</activationType>
+                </role>
+                
+                <join name="JoinRequiresSeparationOfDuties" />
 				<simple name="NoOpRequiresSeparationOfDuties">
 					<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
 				</simple>
 				<split name="RequiresSeparationOfDuties">
 					<type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
 				</split>
-				<role name="SeparationOfDuties">
-					<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
-					<activationType>P</activationType>
-				</role>
-
-				<join name="JoinRequiresTravel" />
+                <role name="SeparationOfDuties">
+                    <qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+                    <activationType>P</activationType>
+                </role>
+                <role name="PaymentMethod">
+                    <qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+                    <activationType>P</activationType>
+                </role>
+	     			
+	     		<join name="JoinRequiresTravel" />
 				<simple name="NoOpTravel">
 					<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
 				</simple>
 				<split name="RequiresTravel">
 					<type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
 				</split>
-				<role name="Travel">
-					<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
-					<activationType>P</activationType>
-				</role>
-			</routeNodes>
-		</documentType>
+                <role name="Travel">
+                    <qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+                    <activationType>P</activationType>
+                </role>
+            </routeNodes>
+        </documentType>
 		<documentType>
 			<name>TMCP</name>
 			<parent>TT</parent>
@@ -932,12 +894,12 @@
 			</routeNodes>
 		</documentType>
 		<documentType>
-			<name>RELO</name>
-			<parent>TT</parent>
-			<docHandler>${application.url}/temTravelRelocation.do?methodToCall=docHandler
-			</docHandler>
-			<label>Moving and Relocation</label>
-			<attributes>
+            <name>RELO</name>
+            <parent>TT</parent>
+            <docHandler>${application.url}/temTravelRelocation.do?methodToCall=docHandler
+            </docHandler>
+            <label>Moving and Relocation</label>
+            <attributes>
 				<attribute>
 					<name>TemFinancialSystemSearchableAttribute</name>
 				</attribute>
@@ -945,154 +907,139 @@
 					<name>TravelDocumentSearchCustomizer</name>
 				</attribute>
 			</attributes>
-			<active>
-				true
-			</active>
-			<security>
-				<securityAttribute name="TemSecurityAttribute" />
-			</security>
-			<routingVersion>
-				2
-			</routingVersion>
-			<validApplicationStatuses>
-				<status>Awaiting Traveler Review</status>
-				<status>Awaiting Fiscal Officer Review</status>
-				<status>Awaiting Organization Review</status>
-				<status>Awaiting Special Request Review</status>
-				<status>Awaiting Executive Review</status>
-				<status>Awaiting Sub-Fund Review</status>
-				<status>Awaiting Award Review</status>
-				<status>Awaiting Tax Manager Review</status>
-				<status>Awaiting Separation Of Duties Review</status>
-				<status>Awaiting Moving and Relocation Manager Review</status>
-				<status>Moving And Relocation Manager Approved</status>
-				<status>Disapproved - Traveler</status>
-				<status>Disapproved - Fiscal Officer</status>
-				<status>Disapproved - Organization</status>
-				<status>Disapproved - Special Request</status>
-				<status>Disapproved - Executive</status>
-				<status>Disapproved - Sub-Fund</status>
-				<status>Disapproved - Award</status>
-				<status>Disapproved - Tax Manager</status>
-				<status>Disapproved - Separation Of Duties</status>
-				<status>Disapproved - Moving and Relocation Manager</status>
-				<status>Cancelled</status>
-				<status>In Process</status>
-			</validApplicationStatuses>
-			<policies>
-				<policy>
-					<name>DEFAULT_APPROVE</name>
-					<value>true</value>
-				</policy>
-				<policy>
-					<name>DOCUMENT_STATUS_POLICY</name>
-					<stringValue>app</stringValue>
-				</policy>
-			</policies>
-			<routePaths>
-				<routePath>
-					<start name="AdHoc" nextNode="TravelRequiresTravelerApproval"
-						nextAppDocStatus="Awaiting Traveler Review" />
-					<split name="TravelRequiresTravelerApproval" nextNode="TravelRequiresAccountApproval"
-						nextAppDocStatus="Awaiting Traveler Review">
-						<branch name="True">
-							<role name="Traveler" nextNode="JoinTravelRequiresTravelerApproval"
-								nextAppDocStatus="Awaiting Fiscal Officer Review" />
-						</branch>
-						<branch name="False">
-							<simple name="NoOpTravelRequiresTravelerApproval"
-								nextNode="JoinTravelRequiresTravelerApproval" nextAppDocStatus="Awaiting Fiscal Officer Review" />
-						</branch>
-						<join name="JoinTravelRequiresTravelerApproval" />
-					</split>
-					<split name="TravelRequiresAccountApproval" nextNode="AccountingOrganizationHierarchy"
-						nextAppDocStatus="Awaiting Fiscal Officer Review">
-						<branch name="True">
-							<role name="Account" nextNode="JoinRequiresAccountApproval"
-								nextAppDocStatus="Awaiting Organization Review" />
-						</branch>
-						<branch name="False">
-							<simple name="NoOpTravelRequiresAccountApproval" nextNode="JoinRequiresAccountApproval"
-								nextAppDocStatus="Awaiting Organization Review" />
-						</branch>
-						<join name="JoinRequiresAccountApproval" />
-					</split>
-					<role name="AccountingOrganizationHierarchy" nextNode="TravelHasSpecialRequest"
-						nextAppDocStatus="Awaiting Organization Review" />
-					<split name="TravelHasSpecialRequest" nextNode="ExecutiveApproval"
-						nextAppDocStatus="Awaiting Special Request Review">
-						<branch name="True">
-							<role name="SpecialRequest" nextNode="JoinTravelHasSpecialRequest"
-								nextAppDocStatus="Awaiting Executive Review" />
-						</branch>
-						<branch name="False">
-							<simple name="NoOpTravelHasSpecialRequest" nextNode="JoinTravelHasSpecialRequest"
-								nextAppDocStatus="Awaiting Executive Review" />
-						</branch>
-						<join name="JoinTravelHasSpecialRequest" />
-					</split>
-					<role name="ExecutiveApproval" nextNode="SubFund"
-						nextAppDocStatus="Awaiting Sub-Fund Review" />
-
-					<role name="SubFund" nextNode="Award" nextAppDocStatus="Awaiting Award Review" />
-					<role name="Award" nextNode="TaxManagerApproval"
-						nextAppDocStatus="Awaiting Tax Manager Review" />
-					<split name="TaxManagerApproval" nextNode="RequiresSeparationOfDuties"
-						nextAppDocStatus="Awaiting Tax Manager Review">
-						<branch name="True">
-							<role name="Tax" nextNode="JoinTaxManagerApproval"
-								nextAppDocStatus="Awaiting Separation Of Duties Review" />
-						</branch>
-						<branch name="False">
-							<simple name="NoOpTaxManagerApproval" nextNode="JoinTaxManagerApproval"
-								nextAppDocStatus="Awaiting Separation Of Duties Review" />
-						</branch>
-						<join name="JoinTaxManagerApproval" />
-					</split>
-					<split name="RequiresSeparationOfDuties" nextNode="MovingAndRelocationManager"
-						nextAppDocStatus="Awaiting Separation Of Duties Review">
-						<branch name="True">
-							<role name="SeparationOfDuties" nextNode="JoinRequiresSeparationOfDuties"
-								nextAppDocStatus="Awaiting Moving and Relocation Manager Review" />
-						</branch>
-						<branch name="False">
-							<simple name="NoOpRequiresSeparationOfDuties" nextNode="JoinRequiresSeparationOfDuties"
-								nextAppDocStatus="Awaiting Moving and Relocation Manager Review" />
-						</branch>
-						<join name="JoinRequiresSeparationOfDuties" />
-					</split>
-					<role name="MovingAndRelocationManager" nextAppDocStatus="Moving And Relocation Manager Approved" />
-				</routePath>
-			</routePaths>
-
-			<routeNodes>
-				<start name="AdHoc" />
-				<join name="JoinTravelRequiresTravelerApproval" />
-				<simple name="NoOpTravelRequiresTravelerApproval">
-					<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
-				</simple>
-				<split name="TravelRequiresTravelerApproval">
-					<type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
-				</split>
-				<role name="Traveler">
-					<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
-					<activationType>P</activationType>
-				</role>
+            <active>
+                true
+            </active>
+            <security>
+                <securityAttribute name="TemSecurityAttribute"/>
+            </security>
+            <routingVersion>
+                2
+            </routingVersion>
+            <validApplicationStatuses>
+                <status>Awaiting Traveler Review</status>
+                <status>Awaiting Fiscal Officer Review</status>
+                <status>Awaiting Organization Review</status>
+                <status>Awaiting Special Request Review</status>
+                <status>Awaiting Executive Review</status>
+                <status>Awaiting Sub-Fund Review</status>
+                <status>Awaiting Award Review</status>
+                <status>Awaiting Tax Manager Review</status>
+                <status>Awaiting Separation Of Duties Review</status>
+                <status>Awaiting Disbursement Method Review</status>
+                <status>Awaiting Moving and Relocation Manager Review</status>
+                <status>Moving And Relocation Manager Approved</status>
+                <status>Disapproved - Traveler</status>
+                <status>Disapproved - Fiscal Officer</status>
+                <status>Disapproved - Organization</status>
+                <status>Disapproved - Special Request</status>
+                <status>Disapproved - Executive</status>
+                <status>Disapproved - Sub-Fund</status>
+                <status>Disapproved - Award</status>
+                <status>Disapproved - Tax Manager</status>
+                <status>Disapproved - Separation Of Duties</status>
+                <status>Disapproved - Disbursement Method</status>
+                <status>Disapproved - Moving and Relocation Manager</status>
+                <status>Cancelled</status>
+                <status>In Process</status>
+            </validApplicationStatuses>
+            <policies>
+                <policy>
+                    <name>DEFAULT_APPROVE</name>
+                    <value>true</value>
+                </policy>
+                <policy>
+                    <name>DOCUMENT_STATUS_POLICY</name>
+                    <stringValue>app</stringValue>
+                </policy>
+            </policies>
+            <routePaths>
+                <routePath>
+                    <start name="AdHoc" nextNode="TravelRequiresTravelerApproval" nextAppDocStatus="Awaiting Traveler Review" />
+					<split name="TravelRequiresTravelerApproval" nextNode="TravelRequiresAccountApproval" nextAppDocStatus="Awaiting Traveler Review">
+                        <branch name="True">
+                            <role name="Traveler" nextNode="JoinTravelRequiresTravelerApproval" nextAppDocStatus="Awaiting Fiscal Officer Review" />
+                        </branch>
+                        <branch name="False">
+                            <simple name="NoOpTravelRequiresTravelerApproval" nextNode="JoinTravelRequiresTravelerApproval" nextAppDocStatus="Awaiting Fiscal Officer Review" />
+                        </branch>
+                        <join name="JoinTravelRequiresTravelerApproval"/>
+                    </split>
+                    <split name="TravelRequiresAccountApproval" nextNode="AccountingOrganizationHierarchy"
+                        nextAppDocStatus="Awaiting Fiscal Officer Review">
+                        <branch name="True">
+                            <role name="Account" nextNode="JoinRequiresAccountApproval" nextAppDocStatus="Awaiting Organization Review" />
+                        </branch>
+                        <branch name="False">
+                            <simple name="NoOpTravelRequiresAccountApproval" nextNode="JoinRequiresAccountApproval" nextAppDocStatus="Awaiting Organization Review" />
+                        </branch>
+                        <join name="JoinRequiresAccountApproval"/>
+                    </split>
+                    <role name="AccountingOrganizationHierarchy" nextNode="TravelHasSpecialRequest" nextAppDocStatus="Awaiting Organization Review" />
+				    <split name="TravelHasSpecialRequest" nextNode="ExecutiveApproval" nextAppDocStatus="Awaiting Special Request Review">
+                        <branch name="True">
+                            <role name="SpecialRequest" nextNode="JoinTravelHasSpecialRequest" nextAppDocStatus="Awaiting Executive Review" />
+                        </branch>
+                        <branch name="False">
+                            <simple name="NoOpTravelHasSpecialRequest" nextNode="JoinTravelHasSpecialRequest" nextAppDocStatus="Awaiting Executive Review" />
+                        </branch>
+                        <join name="JoinTravelHasSpecialRequest" />
+                    </split>
+					<role name="ExecutiveApproval" nextNode="SubFund" nextAppDocStatus="Awaiting Sub-Fund Review" />				
+                    
+                    <role name="SubFund" nextNode="Award" nextAppDocStatus="Awaiting Award Review" />
+                    <role name="Award" nextNode="TaxManagerApproval" nextAppDocStatus="Awaiting Tax Manager Review" />
+                    <split name="TaxManagerApproval" nextNode="RequiresSeparationOfDuties" nextAppDocStatus="Awaiting Tax Manager Review">
+			         	<branch name="True">
+			            	<role name="Tax" nextNode="JoinTaxManagerApproval" nextAppDocStatus="Awaiting Separation Of Duties Review" />
+			         	</branch>
+			         	<branch name="False">
+			            	<simple name="NoOpTaxManagerApproval" nextNode="JoinTaxManagerApproval" nextAppDocStatus="Awaiting Separation Of Duties Review" />
+			         	</branch>
+                        <join name="JoinTaxManagerApproval"/>		         		
+	     			</split>
+                    <split name="RequiresSeparationOfDuties" nextNode="PaymentMethod" nextAppDocStatus="Awaiting Separation Of Duties Review">
+                        <branch name="True">
+                            <role name="SeparationOfDuties" nextNode="JoinRequiresSeparationOfDuties" nextAppDocStatus="Awaiting Disbursement Method Review" />
+                        </branch>
+                        <branch name="False">
+                            <simple name="NoOpRequiresSeparationOfDuties" nextNode="JoinRequiresSeparationOfDuties" nextAppDocStatus="Awaiting Moving and Relocation Manager Review" />
+                        </branch>   
+                        <join name="JoinRequiresSeparationOfDuties" />                  
+                    </split>
+                    <role name="PaymentMethod" nextNode="MovingAndRelocationManager" nextAppDocStatus="Awaiting Moving and Relocation Manager Review" />
+                    <role name="MovingAndRelocationManager" nextAppDocStatus="Moving And Relocation Manager Approved" />
+                </routePath>
+            </routePaths> 
+            
+            <routeNodes>
+            	<start name="AdHoc" />
+                <join name="JoinTravelRequiresTravelerApproval" />
+                <simple name="NoOpTravelRequiresTravelerApproval">
+                    <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+                </simple>
+                <split name="TravelRequiresTravelerApproval">
+                    <type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+                </split>
+                <role name="Traveler">
+                    <qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+                    <activationType>P</activationType>
+                </role>
 				<join name="JoinRequiresAccountApproval" />
-				<simple name="NoOpTravelRequiresAccountApproval">
-					<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
-				</simple>
-				<split name="TravelRequiresAccountApproval">
-					<type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode
-					</type>
-				</split>
+                <simple name="NoOpTravelRequiresAccountApproval">
+                    <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+                </simple>
+                <split name="TravelRequiresAccountApproval">
+                    <type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode
+                    </type>
+                </split>
 				<role name="Account">
 					<qualifierResolverClass>
 						org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
 					</qualifierResolverClass>
 					<activationType>
 						P
-					</activationType>
+                    </activationType>
 				</role>
 				<role name="AccountingOrganizationHierarchy">
 					<qualifierResolverClass>
@@ -1100,80 +1047,89 @@
 					</qualifierResolverClass>
 					<activationType>
 						P
-					</activationType>
+                    </activationType>
 				</role>
-
-				<join name="JoinTravelHasSpecialRequest" />
-				<simple name="NoOpTravelHasSpecialRequest">
-					<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
-				</simple>
-				<split name="TravelHasSpecialRequest">
-					<type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
-				</split>
-				<role name="SpecialRequest">
-					<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
-					<activationType>P</activationType>
-				</role>
-
-				<role name="ExecutiveApproval">
-					<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
-					<activationType>P</activationType>
-				</role>
-
+                
+                <join name="JoinTravelHasSpecialRequest" />
+                <simple name="NoOpTravelHasSpecialRequest">
+                    <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+                </simple>
+                <split name="TravelHasSpecialRequest">
+                    <type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+                </split>
+                <role name="SpecialRequest">
+                    <qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+                    <activationType>P</activationType>
+                </role>
+				 
+                <role name="ExecutiveApproval">
+                    <qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+                    <activationType>P</activationType>
+               </role>
+				
 				<role name="SubFund">
-					<qualifierResolverClass>
-						org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
-					</qualifierResolverClass>
-					<activationType>
-						P
-					</activationType>
-				</role>
-				<role name="Award">
-					<qualifierResolverClass>
-						org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
-					</qualifierResolverClass>
-					<activationType>
-						P
-					</activationType>
-				</role>
-
-				<join name="JoinTaxManagerApproval" />
-				<split name="TaxManagerApproval">
-					<type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+                    <qualifierResolverClass>
+                        org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
+                    </qualifierResolverClass>
+                    <activationType>
+                        P
+                    </activationType>
+                </role>
+                <role name="Award">
+                    <qualifierResolverClass>
+                        org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
+                    </qualifierResolverClass>
+                    <activationType>
+                        P
+                    </activationType>
+                </role>
+                
+                <join name="JoinTaxManagerApproval" />
+                <split name="TaxManagerApproval">
+				    <type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
 				</split>
 				<simple name="NoOpTaxManagerApproval">
-					<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+				    <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
 				</simple>
-
+				
 				<role name="Tax">
-					<qualifierResolverClass>
-						org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
-					</qualifierResolverClass>
-					<activationType>P</activationType>
-				</role>
-
-				<join name="JoinRequiresSeparationOfDuties" />
-				<simple name="NoOpRequiresSeparationOfDuties">
-					<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
-				</simple>
-				<split name="RequiresSeparationOfDuties">
-					<type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
-				</split>
-				<role name="SeparationOfDuties">
-					<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
-					<activationType>P</activationType>
-				</role>
-
-				<role name="MovingAndRelocationManager">
-					<qualifierResolverClass>
-						org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
-					</qualifierResolverClass>
-					<activationType>
-						P
-					</activationType>
-				</role>
-			</routeNodes>
-		</documentType>
+			        <qualifierResolverClass>
+			            org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
+			        </qualifierResolverClass>
+			        <activationType>P</activationType>
+				</role> 
+				
+                <join name="JoinRequiresSeparationOfDuties" />
+                <simple name="NoOpRequiresSeparationOfDuties">
+                    <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+                </simple>
+                <split name="RequiresSeparationOfDuties">
+                    <type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+                </split>
+                <role name="SeparationOfDuties">
+                    <qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+                    <activationType>P</activationType>
+                </role>
+                
+                <role name="PaymentMethod">
+                    <qualifierResolverClass>
+                        org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
+                    </qualifierResolverClass>
+                    <activationType>
+                        P
+                    </activationType>
+                </role>    
+                
+                <role name="MovingAndRelocationManager">
+                    <qualifierResolverClass>
+                        org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
+                    </qualifierResolverClass>
+                    <activationType>
+                        P
+                    </activationType>
+                </role>        
+            </routeNodes>        
+        </documentType>
 		<documentType>
 			<name>TXRF</name>
 			<parent>TT</parent>
@@ -1218,12 +1174,12 @@
 			</routeNodes>
 		</documentType>
 		<documentType>
-			<name>ENT</name>
-			<parent>TT</parent>
-			<docHandler>${application.url}/temTravelEntertainment.do?methodToCall=docHandler
-			</docHandler>
-			<label>Entertainment Document</label>
-			<attributes>
+            <name>ENT</name>
+            <parent>TT</parent>
+            <docHandler>${application.url}/temTravelEntertainment.do?methodToCall=docHandler
+            </docHandler>
+            <label>Entertainment Document</label>
+            <attributes>
 				<attribute>
 					<name>TemFinancialSystemSearchableAttribute</name>
 				</attribute>
@@ -1231,122 +1187,112 @@
 					<name>TravelDocumentSearchCustomizer</name>
 				</attribute>
 			</attributes>
-			<active>
-				true
-			</active>
-			<security>
-				<securityAttribute name="TemSecurityAttribute" />
-			</security>
-			<routingVersion>
-				2
-			</routingVersion>
-			<validApplicationStatuses>
-				<status>In Process</status>
-				<status>Awaiting Traveler Review</status>
-				<status>Awaiting Fiscal Officer Review</status>
-				<status>Awaiting Organization Review</status>
-				<status>Awaiting Special Request Review</status>
-				<status>Awaiting Sub-Fund Review</status>
-				<status>Awaiting Award Review</status>
-				<status>Awaiting Tax Manager Review</status>
-				<status>Awaiting Separation Of Duties Review</status>
-				<status>Awaiting Entertainment Manager Review</status>
-				<status>Department Approved</status>
-				<status>Disapproved - Traveler</status>
-				<status>Disapproved - Fiscal Officer</status>
-				<status>Disapproved - Organization</status>
-				<status>Disapproved - Special Request</status>
-				<status>Disapproved - Sub-Fund</status>
-				<status>Disapproved - Award</status>
-				<status>Disapproved - Tax Manager</status>
-				<status>Disapproved - Separation Of Duties</status>
-				<status>Disapproved - Entertainment Manager</status>
-				<status>Entertainment Manager Approved</status>
-				<status>Cancelled</status>
-			</validApplicationStatuses>
-			<policies>
-				<policy>
-					<name>DEFAULT_APPROVE</name>
-					<value>true</value>
-				</policy>
-				<policy>
-					<name>DOCUMENT_STATUS_POLICY</name>
-					<stringValue>app</stringValue>
-				</policy>
-			</policies>
-			<routePaths>
-				<routePath>
-					<start name="AdHoc" nextNode="TravelRequiresTravelerApproval"
-						nextAppDocStatus="Awaiting Traveler Review" />
-					<split name="TravelRequiresTravelerApproval" nextNode="Account"
-						nextAppDocStatus="Awaiting Traveler Review">
-						<branch name="True">
-							<role name="Traveler" nextNode="JoinTravelRequiresTravelerApproval"
-								nextAppDocStatus="Awaiting Fiscal Officer Review" />
-						</branch>
-						<branch name="False">
-							<simple name="NoOpTravelRequiresTravelerApproval"
-								nextNode="JoinTravelRequiresTravelerApproval" nextAppDocStatus="Awaiting Fiscal Officer Review" />
-						</branch>
-						<join name="JoinTravelRequiresTravelerApproval" />
-					</split>
-					<role name="Account" nextNode="AccountingOrganizationHierarchy"
-						nextAppDocStatus="Awaiting Fiscal Officer Review" />
-					<role name="AccountingOrganizationHierarchy" nextNode="TravelHasSpecialRequest"
-						nextAppDocStatus="Awaiting Organization Review" />
-					<split name="TravelHasSpecialRequest" nextNode="SubFund"
-						nextAppDocStatus="Awaiting Special Request Review">
+            <active>
+                true
+            </active>
+            <security>
+                <securityAttribute name="TemSecurityAttribute"/>
+            </security>
+            <routingVersion>
+                2
+            </routingVersion>
+            <validApplicationStatuses>
+                <status>In Process</status>
+                <status>Awaiting Traveler Review</status>
+                <status>Awaiting Fiscal Officer Review</status>
+                <status>Awaiting Organization Review</status>
+                <status>Awaiting Special Request Review</status>
+                <status>Awaiting Sub-Fund Review</status>
+                <status>Awaiting Award Review</status>
+                <status>Awaiting Tax Manager Review</status>
+                <status>Awaiting Separation Of Duties Review</status>
+                <status>Awaiting Disbursement Payment Review</status>
+                <status>Awaiting Entertainment Manager Review</status>
+                <status>Department Approved</status>
+                <status>Disapproved - Traveler</status>
+                <status>Disapproved - Fiscal Officer</status>
+                <status>Disapproved - Organization</status>
+                <status>Disapproved - Special Request</status>
+                <status>Disapproved - Sub-Fund</status>
+                <status>Disapproved - Award</status>
+                <status>Disapproved - Tax Manager</status>
+                <status>Disapproved - Separation Of Duties</status>
+                <status>Disapproved - Disbursement Method</status>
+                <status>Disapproved - Entertainment Manager</status>
+                <status>Entertainment Manager Approved</status>
+                <status>Cancelled</status>
+            </validApplicationStatuses>
+            <policies>
+                <policy>
+                    <name>DEFAULT_APPROVE</name>
+                    <value>true</value>
+                </policy>
+                <policy>
+                    <name>DOCUMENT_STATUS_POLICY</name>
+                    <stringValue>app</stringValue>
+                </policy>
+            </policies>
+            <routePaths>
+                <routePath>
+                	<start name="AdHoc" nextNode="TravelRequiresTravelerApproval" nextAppDocStatus="Awaiting Traveler Review"/>
+                    <split name="TravelRequiresTravelerApproval" nextNode="Account" nextAppDocStatus="Awaiting Traveler Review">
+                        <branch name="True">
+                            <role name="Traveler" nextNode="JoinTravelRequiresTravelerApproval" nextAppDocStatus="Awaiting Fiscal Officer Review" />
+                        </branch>
+                        <branch name="False">
+                            <simple name="NoOpTravelRequiresTravelerApproval" nextNode="JoinTravelRequiresTravelerApproval" nextAppDocStatus="Awaiting Fiscal Officer Review" />
+                        </branch>
+                        <join name="JoinTravelRequiresTravelerApproval"/>
+                    </split>
+                    <role name="Account" nextNode="AccountingOrganizationHierarchy" nextAppDocStatus="Awaiting Fiscal Officer Review" />
+                    <role name="AccountingOrganizationHierarchy" nextNode="TravelHasSpecialRequest" nextAppDocStatus="Awaiting Organization Review" />
+                 	<split name="TravelHasSpecialRequest" nextNode="SubFund" nextAppDocStatus="Awaiting Special Request Review">
 						<branch name="True">
 							<role name="SpecialRequest" nextNode="JoinTravelHasSpecialRequest" />
 						</branch>
 						<branch name="False">
 							<simple name="NoOpTravelHasSpecialRequest" nextNode="JoinTravelHasSpecialRequest" />
 						</branch>
-						<join name="JoinTravelHasSpecialRequest" />
+						<join name="JoinTravelHasSpecialRequest"/>
 					</split>
-					<role name="SubFund" nextNode="Award" nextAppDocStatus="Awaiting Sub-Fund Review" />
-					<role name="Award" nextNode="TaxManager" nextAppDocStatus="Awaiting Award Review" />
-					<split name="TaxManager" nextNode="RequiresSeparationOfDuties"
-						nextAppDocStatus="Awaiting Tax Manager Review">
-						<branch name="True">
-							<role name="Tax" nextNode="JoinTaxManager"
-								nextAppDocStatus="Awaiting Separation Of Duties Review" />
-						</branch>
-						<branch name="False">
-							<simple name="NoOpTaxManager" nextNode="JoinTaxManager"
-								nextAppDocStatus="Awaiting Separation Of Duties Review" />
-						</branch>
-						<join name="JoinTaxManager" />
+           	        <role name="SubFund" nextNode="Award" nextAppDocStatus="Awaiting Sub-Fund Review" />
+            	    <role name="Award" nextNode="TaxManager" nextAppDocStatus="Awaiting Award Review" />
+                    <split name="TaxManager" nextNode="RequiresSeparationOfDuties" nextAppDocStatus="Awaiting Tax Manager Review">
+					   <branch name="True">
+					      <role name="Tax" nextNode="JoinTaxManager" nextAppDocStatus="Awaiting Separation Of Duties Review"/>
+					   </branch>
+					   <branch name="False">
+						  <simple name="NoOpTaxManager" nextNode="JoinTaxManager"  nextAppDocStatus="Awaiting Separation Of Duties Review" />
+					   </branch>
+					   <join name="JoinTaxManager"/>
 					</split>
-					<split name="RequiresSeparationOfDuties" nextNode="EntertainmentManager"
-						nextAppDocStatus="Awaiting Separation Of Duties Review">
-						<branch name="True">
-							<role name="SeparationOfDuties" nextNode="JoinRequiresSeparationOfDuties"
-								nextAppDocStatus="Awaiting Entertainment Manager Review" />
-						</branch>
-						<branch name="False">
-							<simple name="NoOpRequiresSeparationOfDuties" nextNode="JoinRequiresSeparationOfDuties"
-								nextAppDocStatus="Awaiting Entertainment Manager Review" />
-						</branch>
-						<join name="JoinRequiresSeparationOfDuties" />
-					</split>
-					<role name="EntertainmentManager" nextAppDocStatus="Entertainment Manager Approved" />
-				</routePath>
-			</routePaths>
-			<routeNodes>
-
-				<start name="AdHoc" />
-				<join name="JoinTravelRequiresTravelerApproval" />
-				<simple name="NoOpTravelRequiresTravelerApproval">
-					<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
-				</simple>
-				<split name="TravelRequiresTravelerApproval">
-					<type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
-				</split>
-				<role name="Traveler">
-					<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
-					<activationType>P</activationType>
-				</role>
+                    <split name="RequiresSeparationOfDuties" nextNode="PaymentMethod" nextAppDocStatus="Awaiting Separation Of Duties Review">
+                        <branch name="True">
+                            <role name="SeparationOfDuties" nextNode="JoinRequiresSeparationOfDuties" nextAppDocStatus="Awaiting Disbursement Payment Review" />
+                        </branch>
+                        <branch name="False">
+                            <simple name="NoOpRequiresSeparationOfDuties" nextNode="JoinRequiresSeparationOfDuties" nextAppDocStatus="Awaiting Entertainment Manager Review" />
+                        </branch>   
+                        <join name="JoinRequiresSeparationOfDuties" />                  
+                    </split>
+                    <role name="PaymentMethod" nextNode="EntertainmentManager" nextAppDocStatus="Awaiting Entertainment Manager Review"/>
+					<role name="EntertainmentManager" nextAppDocStatus="Entertainment Manager Approved"/>
+                </routePath>
+            </routePaths>
+            <routeNodes>
+          
+                <start name="AdHoc" />
+                <join name="JoinTravelRequiresTravelerApproval" />
+                <simple name="NoOpTravelRequiresTravelerApproval">
+                    <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+                </simple>
+                <split name="TravelRequiresTravelerApproval">
+                    <type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+                </split>
+                <role name="Traveler">
+                    <qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+                    <activationType>P</activationType>
+                </role>
 				<role name="Account">
 					<qualifierResolverClass>
 						org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
@@ -1359,7 +1305,7 @@
 					</qualifierResolverClass>
 					<activationType>P</activationType>
 				</role>
-				<join name="JoinTravelHasSpecialRequest" />
+					<join name="JoinTravelHasSpecialRequest" />
 				<simple name="NoOpTravelHasSpecialRequest">
 					<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
 				</simple>
@@ -1368,12 +1314,12 @@
 					</type>
 				</split>
 				<role name="SpecialRequest">
-					<qualifierResolverClass>
-						org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
-					</qualifierResolverClass>
-					<activationType>P</activationType>
-				</role>
-				<role name="SubFund">
+                    <qualifierResolverClass>
+                        org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
+                    </qualifierResolverClass>
+                    <activationType>P</activationType>
+                </role>
+                <role name="SubFund">
 					<qualifierResolverClass>
 						org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
 					</qualifierResolverClass>
@@ -1385,41 +1331,48 @@
 					</qualifierResolverClass>
 					<activationType>P</activationType>
 				</role>
-
+				
 				<join name="JoinTaxManager" />
-				<simple name="NoOpTaxManager">
-					<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
-				</simple>
-				<split name="TaxManager">
-					<type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
-				</split>
-				<role name="Tax">
+                <simple name="NoOpTaxManager">
+                    <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+                </simple>
+                <split name="TaxManager">
+                    <type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+                </split>
+                <role name="Tax">
 					<qualifierResolverClass>
 						org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
 					</qualifierResolverClass>
 					<activationType>P</activationType>
 				</role>
-
-				<join name="JoinRequiresSeparationOfDuties" />
-				<simple name="NoOpRequiresSeparationOfDuties">
-					<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
-				</simple>
-				<split name="RequiresSeparationOfDuties">
-					<type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
-				</split>
-				<role name="SeparationOfDuties">
-					<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
-					<activationType>P</activationType>
-				</role>
-
+            
+                <join name="JoinRequiresSeparationOfDuties" />
+                <simple name="NoOpRequiresSeparationOfDuties">
+                    <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+                </simple>
+                <split name="RequiresSeparationOfDuties">
+                    <type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+                </split>
+                <role name="SeparationOfDuties">
+                    <qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+                    <activationType>P</activationType>
+                </role>
+                
+                <role name="PaymentMethod">
+                    <qualifierResolverClass>
+                        org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
+                    </qualifierResolverClass>
+                    <activationType>P</activationType>
+                </role>
+            
 				<role name="EntertainmentManager">
-					<qualifierResolverClass>
-						org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
-					</qualifierResolverClass>
-					<activationType>P</activationType>
-				</role>
-			</routeNodes>
-		</documentType>
+                    <qualifierResolverClass>
+                        org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
+                    </qualifierResolverClass>
+                    <activationType>P</activationType>
+                </role>
+            </routeNodes>
+        </documentType>
 		<documentType>
 			<name>CTAP</name>
 			<parent>TT</parent>

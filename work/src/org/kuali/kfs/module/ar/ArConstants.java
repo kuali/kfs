@@ -288,29 +288,29 @@ public class ArConstants{
 
         static final public String CGINVOICE_DOCUMENT_DESCRIPTION_OF_BATCH_PROCESS = "Auto-generated Invoice Document";
 
-        static final public String CGINVOICE_CREATION_AWARD_START_DATE_MISSING_ERROR = "Award start date is missing.";
-        static final public String CGINVOICE_CREATION_USER_SUSPENDED_ERROR = "Award Invoicing is suspended by user.";
-        static final public String CGINVOICE_CREATION_AWARD_INACTIVE_ERROR = "Award is inactive.";
-        static final public String CGINVOICE_CREATION_AWARD_CLOSED_ERROR = "Award is closed.";
-        static final public String CGINVOICE_CREATION_AWARD_PAST_STOP_DATE_ERROR = "Award is past the stop date.";
-        static final public String CGINVOICE_CREATION_INVOICING_OPTION_MISSING_ERROR = "Award invoicing option is missing.";
-        static final public String CGINVOICE_CREATION_BILLING_FREQUENCY_MISSING_ERROR = "Award preferred billing frequency is missing or invalid.";
-        static final public String CGINVOICE_CREATION_NO_ACCOUNT_ASSIGNED_ERROR = "Award has no active accounts assigned.";
-        static final public String CGINVOICE_CREATION_AWARD_FINAL_BILLED_ERROR = "Award has final invoice billed already.";
-        static final public String CGINVOICE_CREATION_CONAINS_EXPIRED_ACCOUNTS_ERROR = "Award contains expired accounts.";
-        static final public String CGINVOICE_CREATION_AWARD_TOO_STALE_ERROR = "Award is too stale to invoice.";
-        static final public String CGINVOICE_CREATION_SINGLE_ACCOUNT_ERROR = "Awards with Milestone or Predetermined Billing frequency must have only 1 account.";
-        static final public String LOC_CREATION_ERROR_INVOICE_NOT_FINAL = "Invoice is not FINAL.";
-        static final public String LOC_CREATION_ERROR__CSH_CTRL_IN_PROGRESS = "Cash Control/Payment Application document already exists";
-        static final public String CGINVOICE_CREATION_AWARD_INVALID_BILLING_PERIOD = "Award is not eligible to be invoiced in the current billing period.";
+        static final public String CGINVOICE_CREATION_AWARD_START_DATE_MISSING_ERROR = "error.cginvoice.award.startDate.missing";
+        static final public String CGINVOICE_CREATION_USER_SUSPENDED_ERROR = "error.cginvoice.user.suspended";
+        static final public String CGINVOICE_CREATION_AWARD_INACTIVE_ERROR = "error.cginvoice.award.inactive";
+        static final public String CGINVOICE_CREATION_AWARD_CLOSED_ERROR = "error.cginvoice.award.closed";
+        static final public String CGINVOICE_CREATION_AWARD_PAST_STOP_DATE_ERROR = "error.cginvoice.award.past.stop.date";
+        static final public String CGINVOICE_CREATION_INVOICING_OPTION_MISSING_ERROR = "error.cginvoice.award.missing";
+        static final public String CGINVOICE_CREATION_BILLING_FREQUENCY_MISSING_ERROR = "error.cginvoice.billing.missing.frequency";
+        static final public String CGINVOICE_CREATION_NO_ACCOUNT_ASSIGNED_ERROR = "error.cginvoice.no.account.assigned";
+        static final public String CGINVOICE_CREATION_AWARD_FINAL_BILLED_ERROR = "error.cginvoice.already.billed";
+        static final public String CGINVOICE_CREATION_CONAINS_EXPIRED_ACCOUNTS_ERROR = "error.cginvoice.award.contain.expired.account";
+        static final public String CGINVOICE_CREATION_AWARD_TOO_STALE_ERROR = "error.cginvice.award.too.stale";
+        static final public String CGINVOICE_CREATION_SINGLE_ACCOUNT_ERROR = "error.cginvoice.award.single.account";
+        static final public String LOC_CREATION_ERROR_INVOICE_NOT_FINAL = "error.loc.not.final";
+        static final public String LOC_CREATION_ERROR__CSH_CTRL_IN_PROGRESS = "error.loc.csh.ctrl.in.progress";
+        static final public String CGINVOICE_CREATION_AWARD_INVALID_BILLING_PERIOD = "error.cginvoice.award.not.eligible.invoice";
         static final public String CGINVOICE_CREATION_AWARD_NO_VALID_MILESTONES = "Award has no valid Milestones to invoice.";
-        static final public String CGINVOICE_CREATION_AWARD_NO_VALID_BILLS = "Award has no valid Bills to invoice.";
-        static final public String CGINVOICE_CREATION_AWARD_NO_VALID_ACCOUNTS = "There are no billable accounts in the Award. They could have invoices in progress or zero balances.";
-        static final public String CGINVOICE_CREATION_AWARD_AGENCY_NO_CUSTOMER_RECORD = "Agency associated with the Award has no valid customer record.";
-        static final public String CGINVOICE_CREATION_SYS_INFO_OADF_NOT_SETUP = "System Information, Organization Options and Organization Accounting Default must be setup for the appropriate Chart and Org Code to Invoice.";
-        static final public String CGINVOICE_CREATION_AWARD_NO_AR_INV_ACCOUNT = "Award has no AR Invoice Account assigned when GLPE Receivable parameter is set to 3.";
-        static final public String CGINVOICE_CREATION_AWARD_INVOICES_IN_PROGRESS = "All the accounts in the Award have invoices in Progress.";
-        static final public String CGINVOICE_CREATION_AWARD_OFFSET_DEF_NOT_SETUP = "Offset Definition must be setup for the appropriate Chart when GLPE Receivable parameter is set to 3.";
+        static final public String CGINVOICE_CREATION_AWARD_NO_VALID_BILLS = "error.cginvoice.award.not.valid.bills";
+        static final public String CGINVOICE_CREATION_AWARD_NO_VALID_ACCOUNTS = "error.cgivoice.award.not.valid.accounts";
+        static final public String CGINVOICE_CREATION_AWARD_AGENCY_NO_CUSTOMER_RECORD = "error.cginvoice.award.not.valid.customer";
+        static final public String CGINVOICE_CREATION_SYS_INFO_OADF_NOT_SETUP = "error.cginvoice.sys.info.not.setup";
+        static final public String CGINVOICE_CREATION_AWARD_NO_AR_INV_ACCOUNT = "error.cginvoice.award.not.ar.account";
+        static final public String CGINVOICE_CREATION_AWARD_INVOICES_IN_PROGRESS = "error.cginvoice.award.invoice.progress";
+        static final public String CGINVOICE_CREATION_AWARD_OFFSET_DEF_NOT_SETUP = "error.cginvoice.award.offset.not.setup";
     }
 
     public static class ReportsConstants {
@@ -427,5 +427,9 @@ public class ArConstants{
     public static final String CONTRACT_CONTROL_ACCOUNT = "Contract Control Account";
     public static final String INV_RPT_PRCS_IN_PROGRESS = "IN PROGRESS";
     public static final String INV_RPT_PRCS_SENT = "EMAILS SENT";
+    
+    private static final String ACTIVE_INVOICE_TEMPLATE_ERROR = "error.invoice.associate.active.templete";
+    private static final String INVOICE_TEMPLATE_NOT_FOUND_ERROR = "error.invoice.templete.not.found";
+    private static final String CORRECTED_INVOICE_NOT_FOUND_ERROR = "error.invoice.not.correct";
 
 }

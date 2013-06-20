@@ -112,9 +112,6 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
     private List<InvoiceSuspensionCategory> invoiceSuspensionCategories;
     private ContractsAndGrantsCGBAward award;
     private static final SimpleDateFormat FILE_NAME_TIMESTAMP = new SimpleDateFormat("MM-dd-yyyy");
-    private static final String ACTIVE_INVOICE_TEMPLATE_ERROR = "Please associate an active Invoice Template with the award.";
-    private static final String INVOICE_TEMPLATE_NOT_FOUND_ERROR = "Please upload an invoice Template file for the template ";
-    private static final String CORRECTED_INVOICE_NOT_FOUND_ERROR = "Corrected Invoice could not be Found. ";
 
     protected String locCreationType;// To categorize the CG Invoices based on Award LOC Type
     protected String letterOfCreditFundGroupCode;
@@ -246,7 +243,7 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
                 invoiceTemplate = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsInvoiceTemplate.class).getExternalizableBusinessObject(ContractsAndGrantsInvoiceTemplate.class, map);
             }
             else {
-                GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_FILE_UPLOAD_NO_PDF_FILE_SELECTED_FOR_SAVE, ACTIVE_INVOICE_TEMPLATE_ERROR);
+                GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_FILE_UPLOAD_NO_PDF_FILE_SELECTED_FOR_SAVE, ArConstants.ACTIVE_INVOICE_TEMPLATE_ERROR);
             }
 
             // generate invoices from templates.
@@ -326,7 +323,7 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
                 }
             }
             else {
-                GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_FILE_UPLOAD_NO_PDF_FILE_SELECTED_FOR_SAVE, ACTIVE_INVOICE_TEMPLATE_ERROR);
+                GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_FILE_UPLOAD_NO_PDF_FILE_SELECTED_FOR_SAVE, ArConstants.ACTIVE_INVOICE_TEMPLATE_ERROR);
             }
         }
     }
@@ -389,7 +386,7 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
                         }
                     }
                     else {
-                        GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_CORRECTED_INVOICE_NOT_FOUND_ERROR, CORRECTED_INVOICE_NOT_FOUND_ERROR);
+                        GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_CORRECTED_INVOICE_NOT_FOUND_ERROR, ArConstants.CORRECTED_INVOICE_NOT_FOUND_ERROR);
                     }
                 }
                 catch (WorkflowException ex) {

@@ -74,9 +74,6 @@ import org.springframework.util.CollectionUtils;
 public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements ContractsGrantsInvoiceCreateDocumentService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ContractsGrantsInvoiceCreateDocumentServiceImpl.class);
 
-    public static final String WORKFLOW_SEARCH_RESULT_KEY = "routeHeaderId";
-
-
     private AccountingPeriodService accountingPeriodService;
     private VerifyBillingFrequency verifyBillingFrequency;
     private BusinessObjectService businessObjectService;

@@ -1237,6 +1237,7 @@ public class KFSPropertyConstants {
     public static final String VENDOR_ZIP_CODE = "vendorZipCode";
     public static final String VERSION_NUMBER = KRADPropertyConstants.VERSION_NUMBER;
     public static final String WORKFLOW_DOCUMENT = KRADPropertyConstants.WORKFLOW_DOCUMENT;
+    public static final String WORKFLOW_SEARCH_RESULT_KEY = "routeHeaderId";
     public static final String XML_DOCUMENT_CONTENTS = KRADPropertyConstants.XML_DOCUMENT_CONTENTS;
     public static final String ZIP_CODE = "zipCode";
     public static final String CASH_CONTROL_DETAIL = "cashControlDetail";

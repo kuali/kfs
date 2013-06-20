@@ -197,7 +197,7 @@
 "379","379","1","10","KFS-SYS","Initiate Document IdentityManagementGroupDocument","Authorizes the initiation of the KIM Group document.","Y"
 "38","38","1","26","KFS-CAM","Modify Maintenance Document Field Asset governmentTagNumber","Users who can modify the Government Tag Number field on the Asset document.","Y"
 "380","380","1","10","KFS-COA","Initiate Document GORV","Authorizes the initiation of the Organization Reversion Global Document.","Y"
-"381","381","1","27","KFS-FP","Full Unmask Field DisbursementVoucherWireTransfer disbVchrPayeeAccountNumber","Authorizes users to view the entire bank account number on the Wire Transfer tab of the Disbursement Voucher document.","Y"
+"381","381","1","27","KFS-SYS","Full Unmask Field PaymentSourceWireTransfer payeeAccountNumber","Authorizes users to view the entire bank account number on displays of wire transfer information on payment source documents (such as the Disbursement Voucher, the Travel Authorization, the Travel Reimbursement, etc).","Y"
 "382","382","1","16","KFS-SYS","Edit Document FSSM AdHoc R","Authorizes users to edit Simple Maintenance document at the AdHoc route node.","Y"
 "383","383","1","16","KFS-SYS","Edit Document KFSM AdHoc R","Authorizes users to edit Complex Maintenance document at the AdHoc route node.","Y"
 "385","385","1","33","KFS-GL","Upload Batch Input File(s) collectorFlatFileInputFileType","Authorizes user to access the Collector Flat File Upload page.","Y"

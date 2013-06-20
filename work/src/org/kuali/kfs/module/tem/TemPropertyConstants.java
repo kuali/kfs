@@ -365,6 +365,5 @@ public class TemPropertyConstants {
     public class TravelPaymentProperties {
         public static final String SPECIAL_HANDLING_PERSON_NAME = "specialHandlingPersonName";
         public static final String SPECIAL_HANDLING_STATE_CODE = "specialHandlingStateCode";
-
     }
 }

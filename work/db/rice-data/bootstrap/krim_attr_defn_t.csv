@@ -14,7 +14,7 @@
 "34","34","1","researchRiskTypeCode","","Y","KFS-CG","org.kuali.kfs.module.cg.identity.CgKimAttributes"
 "35","35","1","sensitiveDataCode","","Y","KFS-PURAP","org.kuali.kfs.module.purap.identity.PurapKimAttributes"
 "36","36","1","vendorTypeCode","","Y","KFS-VND","org.kuali.kfs.sys.identity.KfsKimAttributes"
-"38","38","1","disbursementVoucherPaymentMethodCode","","Y","KFS-FP","org.kuali.kfs.sys.identity.KfsKimAttributes"
+"38","38","1","paymentMethodCode","","Y","KFS-SYS","org.kuali.kfs.sys.identity.KfsKimAttributes"
 "39","39","1","subAccountNumber","","Y","KFS-COA","org.kuali.kfs.sys.identity.KfsKimAttributes"
 "43","43","1","questionTypeCode","","Y","KFS-CG","org.kuali.kfs.module.cg.identity.CgKimAttributes"
 "45","45","1","documentSensitive","","Y","KFS-PURAP","org.kuali.kfs.module.purap.identity.PurapKimAttributes"

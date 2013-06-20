@@ -15,16 +15,10 @@
  */
 package org.kuali.kfs.module.tem.document.authorization;
 
-import java.util.Set;
-
-import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemKeyConstants;
-import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.api.identity.Person;
-import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.document.authorization.DocumentAuthorizer;
 import org.kuali.rice.kns.document.authorization.MaintenanceDocumentPresentationControllerBase;
 import org.kuali.rice.kns.service.DocumentHelperService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
@@ -45,32 +39,6 @@ public class AgencyStagingDataPresentationController extends MaintenanceDocument
         }
 
         return true;
-    }
-
-    /**
-     * @see org.kuali.rice.kns.document.authorization.MaintenanceDocumentPresentationControllerBase#getConditionallyReadOnlyPropertyNames(org.kuali.rice.kns.document.MaintenanceDocument)
-     */
-    @Override
-    public Set<String> getConditionallyReadOnlyPropertyNames(MaintenanceDocument document) {
-
-        Person user = GlobalVariables.getUserSession().getPerson();
-        DocumentAuthorizer authorizer = getDocumentHelperService().getDocumentAuthorizer(document);
-
-        Set<String> readOnlyPropertyNames = super.getConditionallyReadOnlyPropertyNames(document);
-
-        //if not authorized for full edit permission, set the following fields as read only
-        if (!authorizer.isAuthorized(document, TemConstants.NAMESPACE, TemConstants.Permission.FULL_EDIT_AGENCY_DATA, user.getPrincipalId())){
-            readOnlyPropertyNames.add(TemPropertyConstants.IMPORT_BY);
-            readOnlyPropertyNames.add(TemPropertyConstants.AGENCY_DATA_ID);
-            readOnlyPropertyNames.add(TemPropertyConstants.OTHER_COMPANY_NAME);
-            readOnlyPropertyNames.add(TemPropertyConstants.TRIP_TRAVELER_TYPE_ID);
-            readOnlyPropertyNames.add(TemPropertyConstants.OTHER_AMOUNT);
-            readOnlyPropertyNames.add(TemPropertyConstants.TRAVELER_NAME);
-            readOnlyPropertyNames.add(TemPropertyConstants.TRAVELER_NETWORK_ID);
-            readOnlyPropertyNames.add(TemPropertyConstants.TRIP_EXPENSE_AMOUNT);
-            readOnlyPropertyNames.add(TemPropertyConstants.TRIP_ARRANGER_NAME);
-        }
-        return readOnlyPropertyNames;
     }
 
     public DocumentHelperService getDocumentHelperService() {

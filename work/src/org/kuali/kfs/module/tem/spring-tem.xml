@@ -577,7 +577,7 @@
 	</bean>
 
 	<bean id="arrangerDerivedRoleTypeService" class="org.kuali.kfs.module.tem.identity.ArrangerDerivedRoleTypeServiceImpl">
-		<property name="temRoleService" ref="temRoleService" />
+		<property name="arrangerDocumentService" ref="temArrangerDocumentService" />
 	</bean>
 
 	<bean id="temArrangerDocumentService"

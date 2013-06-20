@@ -113,12 +113,6 @@ public class AgencyStagingDataValidationByTraveler implements AgencyStagingDataV
      *
      */
     protected boolean errorAlreadyExists(String propertyName, String errorConstant) {
-
-        if (GlobalVariables.getMessageMap().fieldHasMessage(propertyName, errorConstant)) {
-            return true;
-        }
-        else {
-            return false;
-        }
+        return GlobalVariables.getMessageMap().fieldHasMessage(propertyName, errorConstant);
     }
 }

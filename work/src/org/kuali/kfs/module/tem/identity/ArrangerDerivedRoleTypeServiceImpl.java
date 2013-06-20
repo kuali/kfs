@@ -16,11 +16,15 @@
 package org.kuali.kfs.module.tem.identity;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.module.tem.TemConstants.TravelDocTypes;
 import org.kuali.kfs.module.tem.TemPropertyConstants.TEMProfileProperties;
-import org.kuali.kfs.module.tem.service.TEMRoleService;
+import org.kuali.kfs.module.tem.businessobject.TEMProfileArranger;
+import org.kuali.kfs.module.tem.document.service.TravelArrangerDocumentService;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.role.RoleMembership;
 import org.kuali.rice.kns.kim.role.DerivedRoleTypeServiceBase;
@@ -31,8 +35,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
  */
 @SuppressWarnings("deprecation")
 public class ArrangerDerivedRoleTypeServiceImpl extends DerivedRoleTypeServiceBase {
-
-    TEMRoleService temRoleService;
+    protected TravelArrangerDocumentService arrangerDocumentService;
 
     /**
      * @see org.kuali.rice.kns.kim.role.RoleTypeServiceBase#hasDerivedRole(java.lang.String, java.util.List, java.lang.String, java.lang.String, java.util.Map)
@@ -41,16 +44,30 @@ public class ArrangerDerivedRoleTypeServiceImpl extends DerivedRoleTypeServiceBa
     public boolean hasDerivedRole(String principalId, List<String> groupIds, String namespaceCode, String roleName, Map<String,String> qualification) {
         //first we need to grab the profileId if it exists
         if(qualification!=null && !qualification.isEmpty()){
-            String profileId = qualification.get(TEMProfileProperties.PROFILE_ID);
-            String documentType = qualification.get(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME);
-            if(ObjectUtils.isNotNull(profileId)) {
-                return temRoleService.isTravelDocumentArrangerForProfile(documentType, principalId, Integer.valueOf(profileId));
+            final String profileId = qualification.get(TEMProfileProperties.PROFILE_ID);
+            final String documentType = qualification.get(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME);
+            if(!StringUtils.isBlank(profileId) && !StringUtils.isBlank(documentType)) {
+                final Integer profIdAsInt = new Integer(profileId);
+                final TEMProfileArranger arranger = getArrangerDocumentService().findTemProfileArranger(principalId, profIdAsInt);
+                if (arranger != null){
+                    if (TravelDocTypes.getAuthorizationDocTypes().contains(documentType)){
+                        return arranger.getTaInd();
+                    }else if (TravelDocTypes.getReimbursementDocTypes().contains(documentType)){
+                        return arranger.getTrInd();
+                    }
+                }
             }
         }
 
         //Because workflow (route/save/copy) would not pick up the qualifer from Document Authorizor, but ONLY base on the permission template, we will
         //simply check whether the person is an arranger (not particularly tied to a profile)
-        return temRoleService.isProfileArranger(principalId);
+        if(StringUtils.isNotBlank(principalId)) {
+            Map fieldValues = new HashMap();
+            fieldValues.put(TEMProfileProperties.PRINCIPAL_ID, principalId);
+            List<TEMProfileArranger> profileArrangers = new ArrayList<TEMProfileArranger>( getBusinessObjectService().findMatching(TEMProfileArranger.class, fieldValues));
+            return ObjectUtils.isNotNull(profileArrangers) && !profileArrangers.isEmpty();
+        }
+        return false;
     }
 
     @Override
@@ -60,8 +77,18 @@ public class ArrangerDerivedRoleTypeServiceImpl extends DerivedRoleTypeServiceBa
         return members;
     }
 
-    public void setTemRoleService(TEMRoleService temRoleService) {
-        this.temRoleService = temRoleService;
+    /**
+     * @return the injected implementation of TravelArrangerDocumentService
+     */
+    public TravelArrangerDocumentService getArrangerDocumentService() {
+        return arrangerDocumentService;
     }
 
+    /**
+     * Injects an implementation of TravelArrangerDocumentService
+     * @param arrangerDocumentService the implementation of TravelArrangerDocumentService to utilize
+     */
+    public void setArrangerDocumentService(TravelArrangerDocumentService arrangerDocumentService) {
+        this.arrangerDocumentService = arrangerDocumentService;
+    }
 }

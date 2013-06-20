@@ -56,13 +56,16 @@ import org.kuali.kfs.sys.service.OriginationCodeService;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.doctype.DocumentTypeService;
 import org.kuali.rice.krad.bo.KualiCodeBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.DataDictionaryService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
+import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -70,6 +73,8 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Transactional
 public class PaymentFileValidationServiceImpl implements PaymentFileValidationService {
+    public static final String[] PAYMENT_GROUP_PROPERTIES_TO_CHECK_MAX_LENGTH = {"line1Address", "line2Address", "line3Address", "line4Address", "city", "state", "country", "zipCd", "adviceEmailAddress"};
+
     protected CustomerProfileService customerProfileService;
     protected PaymentFileLoadDao paymentFileLoadDao;
     protected ParameterService parameterService;
@@ -83,6 +88,7 @@ public class PaymentFileValidationServiceImpl implements PaymentFileValidationSe
     protected OriginationCodeService originationCodeService;
     protected DocumentTypeService documentTypeService;
     protected BusinessObjectService businessObjectService;
+    protected DataDictionaryService dataDictionaryService;
 
     /**
      * @see org.kuali.kfs.pdp.batch.service.PaymentFileValidationService#doHardEdits(org.kuali.kfs.pdp.businessobject.PaymentFile,
@@ -159,9 +165,24 @@ public class PaymentFileValidationServiceImpl implements PaymentFileValidationSe
         int groupCount = 0;
         for (PaymentGroup paymentGroup : paymentFile.getPaymentGroups()) {
             groupCount++;
-
             int noteLineCount = 0;
             int detailCount = 0;
+
+            /* We've encountered Payment Files that have address lines exceeding the column size in DB table;
+            // so adding extra validation on payment group BO, especially the max length, based on DD definitions.
+            if (!SpringContext.getBean(DictionaryValidationService.class).isBusinessObjectValid(paymentGroup)) {
+                errorMap.putError(KFSConstants.GLOBAL_ERRORS, PdpKeyConstants.ERROR_PAYMENT_LOAD_INVALID_PAYMENTGROUP, paymentGroup.toString());
+                // merge DD validation errors into errorMap
+                // need to put GLOBAL_ERRORS as the key for all error messages passed from GlobalVariables, since otherwise these won't show up in email notice
+                //errorMap.merge(GlobalVariables.getMessageMap());
+                for (Iterator<AutoPopulatingList<ErrorMessage>> iter = GlobalVariables.getMessageMap().getErrorMessages().values().iterator(); iter.hasNext();) {
+                    errorMap.getMessages(KFSConstants.GLOBAL_ERRORS).addAll(iter.next());
+                }
+            }
+            */
+
+            // check that PaymentGroup String properties don't exceed maximum allowed length
+            checkPaymentGroupPropertyMaxLength(paymentGroup, errorMap);
 
             // verify payee id and owner code if customer requires them to be filled in
             if (paymentFile.getCustomer().getPayeeIdRequired() && StringUtils.isBlank(paymentGroup.getPayeeId())) {
@@ -237,6 +258,30 @@ public class PaymentFileValidationServiceImpl implements PaymentFileValidationSe
             // check that the number of detail items and note lines will fit on a check stub
             if (noteLineCount > getMaxNoteLines()) {
                 errorMap.putError(KFSConstants.GLOBAL_ERRORS, PdpKeyConstants.ERROR_PAYMENT_LOAD_MAX_NOTE_LINES, Integer.toString(groupCount), Integer.toString(noteLineCount), Integer.toString(getMaxNoteLines()));
+            }
+        }
+    }
+
+    /**
+     * Checks the max length for PaymentGroup properties that could possibly exceed the maximum length defined in DD.
+     * This checking is needed because we've encountered Payment Files that have address lines exceeding the column size in DB table, and this causes
+     * SQL exceptions while saving PaymentGroup. So we need check all PaymentGroup property values which might exceed the maximum length allowed.
+     *
+     * @param paymentGroup the payment group for which field lengths are checked
+     * @param errorMap map in which errors will be added to
+     */
+    protected void checkPaymentGroupPropertyMaxLength(PaymentGroup paymentGroup, MessageMap errorMap) {
+        for (String propertyName : PAYMENT_GROUP_PROPERTIES_TO_CHECK_MAX_LENGTH) {
+            // we only check max length on String type properties
+            String propertyValue = (String)ObjectUtils.getPropertyValue(paymentGroup, propertyName);
+            if (StringUtils.isNotEmpty(propertyValue)) {
+                // we assume that max length defined in DD is the same as the size of the column in PaymentGroup table
+                Integer maxLength = dataDictionaryService.getAttributeMaxLength(PaymentGroup.class, propertyName);
+                if ((maxLength != null) && (maxLength.intValue() < propertyValue.length())) {
+                    String errorLabel = dataDictionaryService.getAttributeErrorLabel(PaymentGroup.class, propertyName);
+                    errorLabel += " with the value '" + propertyValue + "'";
+                    errorMap.putError(KFSConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_MAX_LENGTH, new String[]{errorLabel, maxLength.toString()});
+                }
             }
         }
     }
@@ -771,6 +816,10 @@ public class PaymentFileValidationServiceImpl implements PaymentFileValidationSe
 
     public void setDocumentTypeService(DocumentTypeService documentTypeService) {
         this.documentTypeService = documentTypeService;
+    }
+
+    public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
+        this.dataDictionaryService = dataDictionaryService;
     }
 
 }

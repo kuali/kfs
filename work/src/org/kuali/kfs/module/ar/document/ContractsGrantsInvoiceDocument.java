@@ -316,7 +316,7 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
                     SpringContext.getBean(DocumentService.class).updateDocument(this);
                 }
                 catch (IOException ex) {
-                    GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_FILE_UPLOAD_NO_PDF_FILE_SELECTED_FOR_SAVE, INVOICE_TEMPLATE_NOT_FOUND_ERROR + invoiceTemplate.getInvoiceTemplateCode() + ".");
+                    GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_FILE_UPLOAD_NO_PDF_FILE_SELECTED_FOR_SAVE, ArConstants.INVOICE_TEMPLATE_NOT_FOUND_ERROR + invoiceTemplate.getInvoiceTemplateCode() + ".");
                 }
                 catch (Exception ex) {
                     ex.printStackTrace();

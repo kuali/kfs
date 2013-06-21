@@ -428,8 +428,8 @@ public class ArConstants{
     public static final String INV_RPT_PRCS_IN_PROGRESS = "IN PROGRESS";
     public static final String INV_RPT_PRCS_SENT = "EMAILS SENT";
     
-    private static final String ACTIVE_INVOICE_TEMPLATE_ERROR = "error.invoice.associate.active.templete";
-    private static final String INVOICE_TEMPLATE_NOT_FOUND_ERROR = "error.invoice.templete.not.found";
-    private static final String CORRECTED_INVOICE_NOT_FOUND_ERROR = "error.invoice.not.correct";
+    public static final String ACTIVE_INVOICE_TEMPLATE_ERROR = "error.invoice.associate.active.templete";
+    public static final String INVOICE_TEMPLATE_NOT_FOUND_ERROR = "error.invoice.templete.not.found";
+    public static final String CORRECTED_INVOICE_NOT_FOUND_ERROR = "error.invoice.not.correct";
 
 }

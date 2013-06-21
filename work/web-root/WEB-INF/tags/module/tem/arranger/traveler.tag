@@ -26,8 +26,10 @@
             <th class="bord-l-b"><div align="left">Traveler Lookup:</div></th>
             <td class="datacell">
 				<kul:htmlControlAttribute attributeEntry="${profileAttributes.travelerName}" property="document.profile.name" readOnly="true"/>
-                <kul:lookup boClassName="org.kuali.kfs.module.tem.businessobject.TEMProfile"
-                                lookupParameters="document.profileId:profileId" />
+				<c:if test="${fullEntryMode}">
+					<kul:lookup boClassName="org.kuali.kfs.module.tem.businessobject.TEMProfile"
+									lookupParameters="document.profileId:profileId" />
+				</c:if>
             </td>
         </tr>
         

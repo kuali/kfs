@@ -462,14 +462,6 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
                     isInvalid = true;
                 }
 
-                // 3. Award is Closed
-                if (contractsGrantsInvoiceDocumentService.isAwardClosed(award)) {
-                    errorList.add(ArConstants.BatchFileSystem.CGINVOICE_CREATION_AWARD_CLOSED_ERROR);
-                    invalidGroup.put(award, errorList);
-
-                    isInvalid = true;
-                }
-
                 // 4. Award invoicing option is missing
                 if (contractsGrantsInvoiceDocumentService.isAwardInvoicingOptionMissing(award)) {
                     errorList.add(ArConstants.BatchFileSystem.CGINVOICE_CREATION_INVOICING_OPTION_MISSING_ERROR);

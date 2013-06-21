@@ -168,20 +168,9 @@ public class PaymentFileValidationServiceImpl implements PaymentFileValidationSe
             int noteLineCount = 0;
             int detailCount = 0;
 
-            /* We've encountered Payment Files that have address lines exceeding the column size in DB table;
+            // We've encountered Payment Files that have address lines exceeding the column size in DB table;
             // so adding extra validation on payment group BO, especially the max length, based on DD definitions.
-            if (!SpringContext.getBean(DictionaryValidationService.class).isBusinessObjectValid(paymentGroup)) {
-                errorMap.putError(KFSConstants.GLOBAL_ERRORS, PdpKeyConstants.ERROR_PAYMENT_LOAD_INVALID_PAYMENTGROUP, paymentGroup.toString());
-                // merge DD validation errors into errorMap
-                // need to put GLOBAL_ERRORS as the key for all error messages passed from GlobalVariables, since otherwise these won't show up in email notice
-                //errorMap.merge(GlobalVariables.getMessageMap());
-                for (Iterator<AutoPopulatingList<ErrorMessage>> iter = GlobalVariables.getMessageMap().getErrorMessages().values().iterator(); iter.hasNext();) {
-                    errorMap.getMessages(KFSConstants.GLOBAL_ERRORS).addAll(iter.next());
-                }
-            }
-            */
-
-            // check that PaymentGroup String properties don't exceed maximum allowed length
+            // Check that PaymentGroup String properties don't exceed maximum allowed length
             checkPaymentGroupPropertyMaxLength(paymentGroup, errorMap);
 
             // verify payee id and owner code if customer requires them to be filled in

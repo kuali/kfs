@@ -1,4 +1,4 @@
-Dear $!{document.traveler.firstName} $!{document.traveler.lastName}: 
+Dear $!{document.traveler.firstName} $!{document.traveler.lastName}:
 
 #set($beginDate = $DateTimeService.toDateString($!{document.tripBegin}))
 #set($terDescritpion = "$!{document.purpose.purposeName}$!{document.reason.reloReasonName}$!{document.primaryDestinationName}")

@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!--
     Copyright 2013 The Kuali Foundation
 
@@ -13,7 +14,6 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 -->
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog'
 	xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
 	xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd'>

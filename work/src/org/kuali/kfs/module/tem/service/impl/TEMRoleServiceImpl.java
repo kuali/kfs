@@ -165,7 +165,7 @@ public class TEMRoleServiceImpl implements TEMRoleService{
      */
     @Override
     public boolean isTravelManager(final Person user) {
-        return checkUserRole(user, TemConstants.TRAVEL_MANAGER, KFSConstants.CoreModuleNamespaces.FINANCIAL, null);
+        return checkUserRole(user, TemConstants.TRAVEL_MANAGER, KFSConstants.CoreModuleNamespaces.KFS, null);
     }
 
     /**

@@ -146,42 +146,42 @@ public class ContractsGrantsInvoiceTemplateUploadAction extends KualiAction {
         FormFile uploadedFile = newForm.getUploadedFile();
 
         // validations performed on the required values for saving the template
-        boolean requiredValuesForFilesMissing = false;
+        boolean isRequiredValuesForFilesMissing = false;
         InvoiceTemplate document = boService.findBySinglePrimaryKey(InvoiceTemplate.class, newForm.getInvoiceTemplateCode());
 
         // check uploaded file
         if (uploadedFile == null || uploadedFile.getInputStream() == null || uploadedFile.getInputStream().available() == 0) {
             GlobalVariables.getMessageMap().putError(KFSConstants.INVOICE_TEMPLATE_UPLOAD, KFSKeyConstants.ERROR_CUSTOM, "Please check the Template being uploaded.");
-            requiredValuesForFilesMissing = true;
+            isRequiredValuesForFilesMissing = true;
         }
 
         // check template code for null and being empty, and check if org code and COAcode exists for the template
         if (ObjectUtils.isNull(newForm.getInvoiceTemplateCode()) || StringUtils.isEmpty(newForm.getInvoiceTemplateCode())) {
             GlobalVariables.getMessageMap().putError(KFSConstants.INVOICE_TEMPLATE_UPLOAD, KFSKeyConstants.ERROR_CUSTOM, "Please select an Invoice Type.");
-            requiredValuesForFilesMissing = true;
+            isRequiredValuesForFilesMissing = true;
         }
         else {
             if (ObjectUtils.isNotNull(document)) {
                 if (ObjectUtils.isNull(document.getBillByChartOfAccountCode()) || ObjectUtils.isNull(document.getBilledByOrganizationCode())) {
                     GlobalVariables.getMessageMap().putError(KFSConstants.INVOICE_TEMPLATE_UPLOAD, KFSKeyConstants.ERROR_CUSTOM, "Current User is not authorized to upload Template");
-                    requiredValuesForFilesMissing = true;
+                    isRequiredValuesForFilesMissing = true;
                 }
                 else if (!document.getBillByChartOfAccountCode().equals(currentUserChartValueFinder.getValue()) || !document.getBilledByOrganizationCode().equals(currentUserOrgValueFinder.getValue())) {
                     GlobalVariables.getMessageMap().putError(KFSConstants.INVOICE_TEMPLATE_UPLOAD, KFSKeyConstants.ERROR_CUSTOM, "Current User is not authorized to upload Template");
-                    requiredValuesForFilesMissing = true;
+                    isRequiredValuesForFilesMissing = true;
                 }
             }
             else {
                 GlobalVariables.getMessageMap().putError(KFSConstants.INVOICE_TEMPLATE_UPLOAD, KFSKeyConstants.ERROR_CUSTOM, "Invoice Document Not Available.");
-                requiredValuesForFilesMissing = true;
+                isRequiredValuesForFilesMissing = true;
             }
         }
         // check for valid pdf template file
         if (!"application/pdf".equals(URLConnection.guessContentTypeFromName(uploadedFile.getFileName()))) {
             GlobalVariables.getMessageMap().putError(KFSConstants.INVOICE_TEMPLATE_UPLOAD, KFSKeyConstants.ERROR_CUSTOM, "Please upload a valid file type.");
-            requiredValuesForFilesMissing = true;
+            isRequiredValuesForFilesMissing = true;
         }
-        if (requiredValuesForFilesMissing) {
+        if (isRequiredValuesForFilesMissing) {
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
 

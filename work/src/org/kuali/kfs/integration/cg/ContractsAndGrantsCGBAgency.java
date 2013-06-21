@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -25,7 +25,7 @@ import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 public interface ContractsAndGrantsCGBAgency extends MutableInactivatable, ExternalizableBusinessObject {
     /**
      * Returns the agency number for this agency
-     * 
+     *
      * @return the agency number for the given agency
      */
     public abstract String getAgencyNumber();
@@ -33,7 +33,7 @@ public interface ContractsAndGrantsCGBAgency extends MutableInactivatable, Exter
 
     /**
      * Gets the fullName attribute.
-     * 
+     *
      * @return Returns the fullName
      */
     public String getFullName();
@@ -41,7 +41,7 @@ public interface ContractsAndGrantsCGBAgency extends MutableInactivatable, Exter
 
     /**
      * Gets the customerNumber attribute.
-     * 
+     *
      * @return Returns the customerNumber.
      */
     public String getCustomerNumber();
@@ -49,7 +49,7 @@ public interface ContractsAndGrantsCGBAgency extends MutableInactivatable, Exter
 
     /**
      * Gets the reportingName attribute.
-     * 
+     *
      * @return Returns the reportingName
      */
     public String getReportingName();
@@ -57,7 +57,7 @@ public interface ContractsAndGrantsCGBAgency extends MutableInactivatable, Exter
 
     /**
      * Gets the customerTypeCode attribute.
-     * 
+     *
      * @return Returns the customerTypeCode.
      */
     public String getCustomerTypeCode();
@@ -65,29 +65,29 @@ public interface ContractsAndGrantsCGBAgency extends MutableInactivatable, Exter
 
     /**
      * Gets the dunsPlusFourNumber attribute.
-     * 
+     *
      * @return Returns the dunsPlusFourNumber.
      */
     public String getDunsPlusFourNumber();
 
     /**
      * Gets the customer attribute.
-     * 
+     *
      * @return Returns the customer.
      */
     public AccountsReceivableCustomer getCustomer();
 
     /**
      * Gets collectionStatus attribute.
-     * 
+     *
      * @return Returns the collectionStatus.
      */
     public String getCollectionStatus();
 
     /**
      * Gets the stateAgency attribute.
-     * 
+     *
      * @return Returns the stateAgency.
      */
-    public boolean isStateAgency();
+    public boolean isStateAgencyIndicator();
 }

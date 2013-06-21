@@ -179,9 +179,9 @@ public class ContractsGrantsAwardBalancesReportLookupAction extends KualiLookupA
         kualiLookupable.validateSearchParameters(awardBalancesReportLookupForm.getFields());
 
         // this is for 200 limit. turn it off for report.
-        boolean unbounded = true;
+        boolean isUnbounded = true;
 
-        List<ContractsGrantsAwardBalancesReport> displayList = (List<ContractsGrantsAwardBalancesReport>) kualiLookupable.performLookup(awardBalancesReportLookupForm, resultTable, unbounded);
+        List<ContractsGrantsAwardBalancesReport> displayList = (List<ContractsGrantsAwardBalancesReport>) kualiLookupable.performLookup(awardBalancesReportLookupForm, resultTable, isUnbounded);
         Object sortIndexObject = GlobalVariables.getUserSession().retrieveObject(SORT_INDEX_SESSION_KEY);
 
         if (ObjectUtils.isNull(sortIndexObject) || sortIndexObject.toString() == "0") {

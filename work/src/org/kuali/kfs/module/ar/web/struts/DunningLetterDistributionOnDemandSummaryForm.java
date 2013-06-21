@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -29,19 +29,19 @@ public class DunningLetterDistributionOnDemandSummaryForm extends KualiForm {
 
     private String lookupResultsSequenceNumber;
     private Collection<DunningLetterDistributionOnDemandLookupResult> dunningLetterDistributionOnDemandLookupResults;
-    private boolean dunningLetterNotSent;
+    private boolean dunningLetterNotSentInd;
 
     /**
      * Initialize contractsGrantsInvoiceOnDemandLookupResults and awardInvoiced.
      */
     public DunningLetterDistributionOnDemandSummaryForm() {
         dunningLetterDistributionOnDemandLookupResults = new ArrayList<DunningLetterDistributionOnDemandLookupResult>();
-        dunningLetterNotSent = false;
+        dunningLetterNotSentInd = false;
     }
 
     /**
      * Gets the collection lookupResultsSequenceNumber.
-     * 
+     *
      * @return Returns the lookupResultsSequenceNumber.
      */
     public String getLookupResultsSequenceNumber() {
@@ -50,7 +50,7 @@ public class DunningLetterDistributionOnDemandSummaryForm extends KualiForm {
 
     /**
      * Sets the lookupResultsSequenceNumber attribute.
-     * 
+     *
      * @param lookupResultsSequenceNumber The lookupResultsSequenceNumber to set.
      */
     public void setLookupResultsSequenceNumber(String lookupResultsSequenceNumber) {
@@ -59,7 +59,7 @@ public class DunningLetterDistributionOnDemandSummaryForm extends KualiForm {
 
     /**
      * Gets the collection dunningLetterDistributionOnDemandLookupResults.
-     * 
+     *
      * @return Returns the collection dunningLetterDistributionOnDemandLookupResults.
      */
     public Collection<DunningLetterDistributionOnDemandLookupResult> getDunningLetterDistributionOnDemandLookupResults() {
@@ -68,7 +68,7 @@ public class DunningLetterDistributionOnDemandSummaryForm extends KualiForm {
 
     /**
      * Sets the dunningLetterDistributionOnDemandLookupResults attribute.
-     * 
+     *
      * @param dunningLetterDistributionOnDemandLookupResults The dunningLetterDistributionOnDemandLookupResults collection to set.
      */
     public void setDunningLetterDistributionOnDemandLookupResults(Collection<DunningLetterDistributionOnDemandLookupResult> dunningLetterDistributionOnDemandLookupResults) {
@@ -77,7 +77,7 @@ public class DunningLetterDistributionOnDemandSummaryForm extends KualiForm {
 
     /**
      * Gets the dunningLetterDistributionOnDemandLookupResult from the specific index.
-     * 
+     *
      * @param index
      * @return Returns the dunningLetterDistributionOnDemandLookupResult at given index from the list.
      */
@@ -87,21 +87,21 @@ public class DunningLetterDistributionOnDemandSummaryForm extends KualiForm {
     }
 
     /**
-     * Gets the collection dunningLetterNotSent.
-     * 
-     * @return Returns the dunningLetterNotSent.
+     * Gets the collection dunningLetterNotSentInd.
+     *
+     * @return Returns the dunningLetterNotSentInd.
      */
-    public boolean isDunningLetterNotSent() {
-        return dunningLetterNotSent;
+    public boolean isDunningLetterNotSentInd() {
+        return dunningLetterNotSentInd;
     }
 
     /**
-     * Sets the dunningLetterNotSent attribute.
-     * 
-     * @param dunningLetterNotSent The dunningLetterNotSent set.
+     * Sets the dunningLetterNotSentInd attribute.
+     *
+     * @param dunningLetterNotSentInd The dunningLetterNotSentInd set.
      */
-    public void setDunningLetterNotSent(boolean dunningLetterNotSent) {
-        this.dunningLetterNotSent = dunningLetterNotSent;
+    public void setDunningLetterNotSentInd(boolean dunningLetterNotSentInd) {
+        this.dunningLetterNotSentInd = dunningLetterNotSentInd;
     }
 
 

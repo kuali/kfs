@@ -38,7 +38,7 @@ public class InvoiceGeneralDetail extends PersistableBusinessObjectBase {
     private String awardDateRange;
     private String agencyNumber;
     private String billingFrequency;
-    private boolean finalBill;
+    private boolean finalBillIndicator;
     private String billingPeriod;
     private String contractGrantType;
     private KualiDecimal awardTotal = KualiDecimal.ZERO;
@@ -189,22 +189,22 @@ public class InvoiceGeneralDetail extends PersistableBusinessObjectBase {
 
 
     /**
-     * Gets the finalBill attribute.
+     * Gets the finalBillIndicator attribute.
      *
-     * @return Returns the finalBill.
+     * @return Returns the finalBillIndicator.
      */
-    public boolean isFinalBill() {
-        return finalBill;
+    public boolean isFinalBillIndicator() {
+        return finalBillIndicator;
     }
 
 
     /**
-     * Sets the finalBill attribute value.
+     * Sets the finalBillIndicator attribute value.
      *
-     * @param finalBill The finalBill to set.
+     * @param finalBillIndicator The finalBillIndicator to set.
      */
-    public void setFinalBill(boolean finalBill) {
-        this.finalBill = finalBill;
+    public void setFinalBillIndicator(boolean finalBillIndicator) {
+        this.finalBillIndicator = finalBillIndicator;
     }
 
 

@@ -55,7 +55,7 @@ import org.kuali.kfs.integration.cg.ContractsGrantsAwardInvoiceAccountInformatio
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
-import org.kuali.kfs.module.ar.batch.service.VerifyBillingFrequency;
+import org.kuali.kfs.module.ar.batch.service.VerifyBillingFrequencyService;
 import org.kuali.kfs.module.ar.businessobject.AwardAccountObjectCodeTotalBilled;
 import org.kuali.kfs.module.ar.businessobject.CollectorHierarchy;
 import org.kuali.kfs.module.ar.businessobject.CollectorInformation;
@@ -118,11 +118,15 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
     private ContractsGrantsInvoiceDocumentDao contractsGrantsInvoiceDocumentDao;
     private AccountingPeriodService accountingPeriodService;
     private AwardAccountObjectCodeTotalBilledDao awardAccountObjectCodeTotalBilledDao;
-    private VerifyBillingFrequency verifyBillingFrequency;
+    private VerifyBillingFrequencyService verifyBillingFrequencyService;
     private DateTimeService dateTimeService;
     private InvoicePaidAppliedService invoicePaidAppliedService;
     private CollectorHierarchyDao collectorHierarchyDao;
     public static final String REPORT_LINE_DIVIDER = "--------------------------------------------------------------------------------------------------------------";
+
+    public void setVerifyBillingFrequencyService(VerifyBillingFrequencyService verifyBillingFrequencyService) {
+        this.verifyBillingFrequencyService = verifyBillingFrequencyService;
+    }
 
     public InvoicePaidAppliedService getInvoicePaidAppliedService() {
         return invoicePaidAppliedService;
@@ -209,10 +213,10 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         map.put(KFSPropertyConstants.ACTIVE, true);
         awardInvoiceAccounts = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsGrantsAwardInvoiceAccountInformation.class).getExternalizableBusinessObjectsList(ContractsGrantsAwardInvoiceAccountInformation.class, map);
         }
-        boolean awardBillByControlAccount = false;
-        boolean awardBillByInvoicingAccount = false;
+        boolean awardBillByControlAccountInd = false;
+        boolean awardBillByInvoicingAccountInd = false;
         List<String> invoiceAccountDetails = new ArrayList<String>();
-        boolean invoiceWithControlAccount = false;
+        boolean invoiceWithControlAccountInd = false;
 
         // To check if the Source accounting lines are existing. If they are do nothing
         if (CollectionUtils.isEmpty(contractsGrantsInvoiceDocument.getSourceAccountingLines())) {
@@ -225,7 +229,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
                     for (ContractsGrantsAwardInvoiceAccountInformation awardInvoiceAccount : awardInvoiceAccounts) {
                         if (awardInvoiceAccount.getAccountType().equals(ArPropertyConstants.INCOME_ACCOUNT)) {
                             if (awardInvoiceAccount.isActive()) {// Consider the active invoice account only.
-                                awardBillByInvoicingAccount = true;
+                                awardBillByInvoicingAccountInd = true;
                                 invoiceAccountDetails.add(awardInvoiceAccount.getChartOfAccountsCode());
                                 invoiceAccountDetails.add(awardInvoiceAccount.getAccountNumber());
                                 invoiceAccountDetails.add(awardInvoiceAccount.getObjectCode());
@@ -238,10 +242,10 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             // To check if award is set to bill by Contract Control Account.
 
             if (ObjectUtils.isNotNull(contractsGrantsInvoiceDocument.getAward()) && contractsGrantsInvoiceDocument.getAward().getInvoicingOptions().equalsIgnoreCase(ArPropertyConstants.INV_CONTRACT_CONTROL_ACCOUNT)) {
-                awardBillByControlAccount = true;
+                awardBillByControlAccountInd = true;
             }
             else {
-                awardBillByControlAccount = false;
+                awardBillByControlAccountInd = false;
             }
 
 
@@ -275,7 +279,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             // it somewhere.
             OrganizationAccountingDefault organizationAccountingDefault = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(OrganizationAccountingDefault.class, criteria);
             if (ObjectUtils.isNotNull(organizationAccountingDefault)) {
-                if (awardBillByInvoicingAccount) {
+                if (awardBillByInvoicingAccountInd) {
                     // If its bill by Invoicing Account , irrespective of it is by contract control account, there would be a single
                     // source accounting line with award invoice account specified by the user.
                     try {
@@ -289,7 +293,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
                 }
                 else {
                     // If its bill by Contract Control Account there would be a single source accounting line.
-                    if (awardBillByControlAccount) {
+                    if (awardBillByControlAccountInd) {
 
                         // To get the account number and coa code for contract control account.
                         String accountNumber = null;
@@ -570,7 +574,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
     @Override
     public boolean adjustObjectCodeAmountsIfChanged(ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument) {
 
-        boolean expenditureValueChanged = false;
+        boolean isExpenditureValueChanged = false;
 
         // put the invoiceDetailAccountObjectCode into a map based on category
         List<InvoiceDetailAccountObjectCode> invoiceDetailAccountObjectCodes = contractsGrantsInvoiceDocument.getInvoiceDetailAccountObjectCodes();
@@ -602,10 +606,10 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
             if (invoiceDetail.getExpenditures().compareTo(total) != 0) {
                 recalculateObjectCodeByCategory(contractsGrantsInvoiceDocument, invoiceDetail, total, invoiceDetailAccountObjectCodeMap.get(invoiceDetail.getCategoryCode()));
-                expenditureValueChanged = true;
+                isExpenditureValueChanged = true;
             }
         }
-        return expenditureValueChanged;
+        return isExpenditureValueChanged;
     }
 
     /**
@@ -952,8 +956,8 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
      * @return
      */
     public List<String> validateInvoices(Collection<ContractsGrantsInvoiceDocument> cgInvoices, String detail, String errorFileName) {
-        boolean result = false;
-        boolean invalid = false;
+        boolean resultInd = false;
+        boolean isInvalid = false;
         String line = null;
         List<String> invalidGroup = new ArrayList<String>();
         if (CollectionUtils.isEmpty(cgInvoices)) {
@@ -978,17 +982,17 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             return invalidGroup;
         }
         for (ContractsGrantsInvoiceDocument cgInvoice : cgInvoices) {
-            invalid = false;
+            isInvalid = false;
             // if the invoices are not final yet - then the LOC cannot be created
             if (!cgInvoice.getFinancialSystemDocumentHeader().getFinancialDocumentStatusCode().equalsIgnoreCase(KFSConstants.DocumentStatusCodes.APPROVED)) {
                 line = "Contracts Grants Invoice# " + cgInvoice.getDocumentNumber() + " : " + ArConstants.BatchFileSystem.LOC_CREATION_ERROR_INVOICE_NOT_FINAL;
                 invalidGroup.add(line);
-                invalid = true;
+                isInvalid = true;
             }
 
             // if invalid is true, the award is unqualified.
             // records the unqualified award with failed reasons.
-            if (invalid) {
+            if (isInvalid) {
                 File errOutPutFile = new File(errorFileName);
                 PrintStream outputFileStream = null;
 
@@ -1083,7 +1087,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         glBalances.addAll(SpringContext.getBean(BusinessObjectService.class).findMatching(Balance.class, balanceKeys));
         }
         for (Balance bal : glBalances) {
-            if(!StringUtils.equalsIgnoreCase(bal.getSubAccount().getA21SubAccount().getSubAccountTypeCode(),KFSConstants.SubAccountType.COST_SHARE)){ 
+            if(!StringUtils.equalsIgnoreCase(bal.getSubAccount().getA21SubAccount().getSubAccountTypeCode(),KFSConstants.SubAccountType.COST_SHARE)){
             balAmt = bal.getContractsGrantsBeginningBalanceAmount().add(bal.getAccountLineAnnualBalanceAmount());
             balanceAmount = balanceAmount.add(balAmt);
             }
@@ -1100,7 +1104,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
     @Override
     public void setAwardAccountToDraw(List<ContractsAndGrantsCGBAwardAccount> awardAccounts, ContractsAndGrantsCGBAward award) {
 
-        boolean valid = true;
+        boolean isValid = true;
         // 1. To get the billed to date amount for every award account based on the criteria passed.
         List<AwardAccountObjectCodeTotalBilled> awardAccountTotalBilledAmounts = awardAccountObjectCodeTotalBilledDao.getAwardAccountObjectCodeTotalBuildByProposalNumberAndAccount(awardAccounts);
 
@@ -1167,7 +1171,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         glBalances.addAll(SpringContext.getBean(BusinessObjectService.class).findMatching(Balance.class, balanceKeys));
         }
         for (Balance bal : glBalances) {
-            if(!StringUtils.equalsIgnoreCase(bal.getSubAccount().getA21SubAccount().getSubAccountTypeCode(),KFSConstants.SubAccountType.COST_SHARE)){ 
+            if(!StringUtils.equalsIgnoreCase(bal.getSubAccount().getA21SubAccount().getSubAccountTypeCode(),KFSConstants.SubAccountType.COST_SHARE)){
             if (bal.getObjectTypeCode().equalsIgnoreCase(ArPropertyConstants.EXPENSE_OBJECT_TYPE)) {
                 balAmt = bal.getContractsGrantsBeginningBalanceAmount().add(bal.getAccountLineAnnualBalanceAmount());
 
@@ -1315,7 +1319,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         }
 
         // validation suspension code - Check to see if award has 'Suspend Invoicing' enabled
-        if (award.isSuspendInvoicing()) {
+        if (award.isSuspendInvoicingIndicator()) {
             addSuspensionCategoryToDocument(suspensionCategoryCodes, invoiceSuspensionCategories, documentNumber, ArConstants.SuspensionCategories.AWARD_SUSPENDED_BY_USER);
         }
         else {
@@ -1437,7 +1441,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
      * @return
      */
     public boolean isReportNotAttachedButRequiredByAward(ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument) {
-        if( contractsGrantsInvoiceDocument.getAward().isAdditionalFormsRequired()){
+        if( contractsGrantsInvoiceDocument.getAward().isAdditionalFormsRequiredIndicator()){
             return true;
         }
         return false;
@@ -1496,7 +1500,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
      * @return
      */
     public boolean isInvoiceNotFinalAndAwardExpired(ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument) {
-        return isAwardExpired(contractsGrantsInvoiceDocument.getAward()) && !contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().isFinalBill();
+        return isAwardExpired(contractsGrantsInvoiceDocument.getAward()) && !contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().isFinalBillIndicator();
     }
 
     /**
@@ -1524,7 +1528,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
      * @return
      */
     public boolean isAwardMarkedStopWork(ContractsAndGrantsCGBAward award) {
-        return award.isStopWork();
+        return award.isStopWorkIndicator();
     }
 
 
@@ -1811,7 +1815,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         glBalances.addAll(SpringContext.getBean(BusinessObjectService.class).findMatching(Balance.class, balanceKeys));
         }
         for (Balance bal : glBalances) {
-            if(!StringUtils.equalsIgnoreCase(bal.getSubAccount().getA21SubAccount().getSubAccountTypeCode(),KFSConstants.SubAccountType.COST_SHARE)){ 
+            if(!StringUtils.equalsIgnoreCase(bal.getSubAccount().getA21SubAccount().getSubAccountTypeCode(),KFSConstants.SubAccountType.COST_SHARE)){
             balAmt = bal.getContractsGrantsBeginningBalanceAmount().add(bal.getAccountLineAnnualBalanceAmount());
             cumAmt = cumAmt.add(balAmt);
             }
@@ -1880,7 +1884,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
     @Override
     public boolean isAwardInvoicingSuspendedByUser(ContractsAndGrantsCGBAward award) {
 
-        return award.isSuspendInvoicing();
+        return award.isSuspendInvoicingIndicator();
     }
 
     /**
@@ -1932,20 +1936,20 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
      */
     @Override
     public boolean isValueOfPreferredBillingFrequencyValid(ContractsAndGrantsCGBAward award) {
-        Boolean valid = false;
+        Boolean isValid = false;
         if (award.getPreferredBillingFrequency() != null) {
             Map<String, Object> criteria = new HashMap<String, Object>();
             criteria.put(KFSPropertyConstants.ACTIVE, true);
             Collection<ContractsAndGrantsBillingFrequency> set = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsBillingFrequency.class).getExternalizableBusinessObjectsList(ContractsAndGrantsBillingFrequency.class, criteria);
             for (ContractsAndGrantsBillingFrequency billingFrequency : set) {
                 if (award.getPreferredBillingFrequency().equalsIgnoreCase(billingFrequency.getFrequency())) {
-                    valid = true;
+                    isValid = true;
                     break;
                 }
             }
         }
 
-        return valid;
+        return isValid;
     }
 
 
@@ -2048,7 +2052,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         Iterator<ContractsAndGrantsCGBAwardAccount> iterator = award.getActiveAwardAccounts().iterator();
         while (iterator.hasNext()) {
             awardAccount = iterator.next();
-            if (!awardAccount.isFinalBilled()) {
+            if (!awardAccount.isFinalBilledIndicator()) {
                 awardAccounts.add(awardAccount);
             }
             if (CollectionUtils.isEmpty(awardAccounts)) {
@@ -2099,7 +2103,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
      */
     @Override
     public boolean hasNoMilestonesToInvoice(ContractsAndGrantsCGBAward award) {
-        boolean valid = false;
+        boolean isValid = false;
         if (award.getPreferredBillingFrequency().equalsIgnoreCase(ArPropertyConstants.MILESTONE_BILLING_SCHEDULE_CODE)) {
             List<ContractsAndGrantsMilestone> milestones = new ArrayList<ContractsAndGrantsMilestone>();
             List<ContractsAndGrantsMilestone> validMilestones = new ArrayList<ContractsAndGrantsMilestone>();
@@ -2113,7 +2117,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             Timestamp ts = new Timestamp(new java.util.Date().getTime());
             java.sql.Date today = new java.sql.Date(ts.getTime());
             AccountingPeriod currPeriod = accountingPeriodService.getByDate(today);
-            java.sql.Date[] pair = verifyBillingFrequency.getStartDateAndEndDateOfPreviousBillingPeriod(award, currPeriod);
+            java.sql.Date[] pair = verifyBillingFrequencyService.getStartDateAndEndDateOfPreviousBillingPeriod(award, currPeriod);
             java.sql.Date invoiceDate = pair[1];
 
 
@@ -2123,10 +2127,10 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
                 }
             }
             if (CollectionUtils.isEmpty(validMilestones)) {
-                valid = true;
+                isValid = true;
             }
         }
-        return valid;
+        return isValid;
     }
 
     /**
@@ -2134,7 +2138,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
      */
     @Override
     public boolean hasNoBillsToInvoice(ContractsAndGrantsCGBAward award) {
-        boolean valid = false;
+        boolean isValid = false;
         if (award.getPreferredBillingFrequency().equalsIgnoreCase(ArPropertyConstants.PREDETERMINED_BILLING_SCHEDULE_CODE)) {
 
             List<ContractsAndGrantsBill> bills = new ArrayList<ContractsAndGrantsBill>();
@@ -2148,7 +2152,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             Timestamp ts = new Timestamp(new java.util.Date().getTime());
             java.sql.Date today = new java.sql.Date(ts.getTime());
             AccountingPeriod currPeriod = accountingPeriodService.getByDate(today);
-            java.sql.Date[] pair = verifyBillingFrequency.getStartDateAndEndDateOfPreviousBillingPeriod(award, currPeriod);
+            java.sql.Date[] pair = verifyBillingFrequencyService.getStartDateAndEndDateOfPreviousBillingPeriod(award, currPeriod);
             java.sql.Date invoiceDate = pair[1];
 
             for (ContractsAndGrantsBill awdBill : bills) {
@@ -2157,10 +2161,10 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
                 }
             }
             if (CollectionUtils.isEmpty(validBills)) {
-                valid = true;
+                isValid = true;
             }
         }
-        return valid;
+        return isValid;
     }
 
     /**
@@ -2168,16 +2172,16 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
      */
     @Override
     public boolean owningAgencyHasNoCustomerRecord(ContractsAndGrantsCGBAward award) {
-        boolean valid = true;
+        boolean isValid = true;
         CustomerService customerService = SpringContext.getBean(CustomerService.class);
         if (ObjectUtils.isNotNull(award.getAgency().getCustomerNumber())) {
             Customer customer = customerService.getByPrimaryKey(award.getAgency().getCustomerNumber());
             if (ObjectUtils.isNotNull(customer)) {
-                valid = false;
+                isValid = false;
             }
         }
 
-        return valid;
+        return isValid;
     }
 
     /**
@@ -2397,21 +2401,21 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
     }
 
     /**
-     * Gets the verifyBillingFrequency attribute.
+     * Gets the verifyBillingFrequencyService attribute.
      *
-     * @return Returns the verifyBillingFrequency.
+     * @return Returns the verifyBillingFrequencyService.
      */
-    public VerifyBillingFrequency getVerifyBillingFrequency() {
-        return verifyBillingFrequency;
+    public VerifyBillingFrequencyService getVerifyBillingFrequencyService() {
+        return verifyBillingFrequencyService;
     }
 
     /**
-     * Sets the verifyBillingFrequency attribute value.
+     * Sets the verifyBillingFrequencyService attribute value.
      *
-     * @param verifyBillingFrequency The verifyBillingFrequency to set.
+     * @param verifyBillingFrequencyService The verifyBillingFrequencyService to set.
      */
-    public void setVerifyBillingFrequency(VerifyBillingFrequency verifyBillingFrequency) {
-        this.verifyBillingFrequency = verifyBillingFrequency;
+    public void setVerifyBillingFrequencyServuce(VerifyBillingFrequencyService verifyBillingFrequencyService) {
+        this.verifyBillingFrequencyService = verifyBillingFrequencyService;
     }
 
     /**
@@ -2466,13 +2470,13 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
      */
     @Override
     public boolean hasARInvoiceAccountAssigned(ContractsAndGrantsCGBAward award){
-        boolean valid = true;
+        boolean isValid = true;
         String receivableOffsetOption = SpringContext.getBean(ParameterService.class).getParameterValueAsString(CustomerInvoiceDocument.class, ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD);
         boolean isUsingReceivableFAU = receivableOffsetOption.equals("3");
         //This condition is validated only if GLPE is 3 and CG enhancements is ON
         if (isUsingReceivableFAU ) {
             if (ObjectUtils.isNull(award.getActiveAwardInvoiceAccounts()) || CollectionUtils.isEmpty(award.getActiveAwardInvoiceAccounts())) {
-                valid = false;
+                isValid = false;
             }
             else{
                 int arCount = 0;
@@ -2483,11 +2487,11 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
                     }
                 }
                 if (arCount == 0) {
-                    valid = false;
+                    isValid = false;
                 }
             }
         }
-        return valid;
+        return isValid;
     }
 
 
@@ -2668,7 +2672,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
              //To override agingBucketStartValue and agingBucketEndValue if State Agency Final is true.
 
              ContractsAndGrantsCGBAgency agency = invoice.getAward().getAgency();
-             if(agency.isStateAgency()){
+             if(agency.isStateAgencyIndicator()){
                  stateAgencyFinalCutOffDate = SpringContext.getBean(ParameterService.class).getParameterValueAsString(DunningCampaign.class, ArConstants.DunningLetters.DYS_PST_DUE_STATE_AGENCY_FINAL_PARM);
              }
              if(ObjectUtils.isNotNull(stateAgencyFinalCutOffDate) && agingBucket.equalsIgnoreCase(ArConstants.DunningLetters.DYS_PST_DUE_STATE_AGENCY_FINAL)){
@@ -2684,7 +2688,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
              //Now to validate based on agingbucket and make sure the agency = stateagency is applied.
              if(ObjectUtils.isNotNull(agingBucketStartValue) && ObjectUtils.isNotNull(agingBucketStartValue)){
                  if(agingBucket.equalsIgnoreCase(ArConstants.DunningLetters.DYS_PST_DUE_FINAL)){
-                     if(agency.isStateAgency()){
+                     if(agency.isStateAgencyIndicator()){
                          eligibleInvoiceFlag = false;
                          continue;
                      }
@@ -2696,7 +2700,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
                      }
                  }
                  else if(agingBucket.equalsIgnoreCase(ArConstants.DunningLetters.DYS_PST_DUE_STATE_AGENCY_FINAL)){
-                     if(!agency.isStateAgency()){
+                     if(!agency.isStateAgencyIndicator()){
                          eligibleInvoiceFlag = false;
                          continue;
                      }
@@ -2761,7 +2765,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
                      }
                  }
                  else if(dunningLetterDistribution.getDaysPastDue().equalsIgnoreCase(ArConstants.DunningLetters.DYS_PST_DUE_121)){
-                     if(agency.isStateAgency()){//To replace final with state agency final value
+                     if(agency.isStateAgencyIndicator()){//To replace final with state agency final value
                          cutoffdateFinal = new Integer(stateAgencyFinalCutOffDate);
                      }
                      if((invoice.getAge().compareTo(cutoffdate120) >0) && (invoice.getAge().compareTo(cutoffdateFinal) <=0)){
@@ -2774,7 +2778,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
                      }
                  }
                  else if(dunningLetterDistribution.getDaysPastDue().equalsIgnoreCase(ArConstants.DunningLetters.DYS_PST_DUE_FINAL)){
-                     if(agency.isStateAgency()){//to proceed only if agency is not state agency
+                     if(agency.isStateAgencyIndicator()){//to proceed only if agency is not state agency
                          continue;
                      }
                      else{
@@ -2788,7 +2792,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
                      }
                  }
                  else if(dunningLetterDistribution.getDaysPastDue().equalsIgnoreCase(ArConstants.DunningLetters.DYS_PST_DUE_STATE_AGENCY_FINAL)){
-                     if(agency.isStateAgency()){//to replace final with state agency final value
+                     if(agency.isStateAgencyIndicator()){//to replace final with state agency final value
                          cutoffdateFinal = new Integer(stateAgencyFinalCutOffDate);
                      }
                      else{//If the agency is not state agency - nothing to calculate.

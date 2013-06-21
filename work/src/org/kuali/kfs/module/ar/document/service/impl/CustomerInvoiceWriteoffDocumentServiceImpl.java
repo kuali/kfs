@@ -297,7 +297,7 @@ public class CustomerInvoiceWriteoffDocumentServiceImpl implements CustomerInvoi
     public boolean checkIfThereIsNoAnotherCRMInRouteForTheInvoice(String invoiceDocumentNumber) {
 
         WorkflowDocument workflowDocument;
-        boolean success = true;
+        boolean isSuccess = true;
 
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put("financialDocumentReferenceInvoiceNumber", invoiceDocumentNumber);
@@ -306,18 +306,18 @@ public class CustomerInvoiceWriteoffDocumentServiceImpl implements CustomerInvoi
 
         // no CRMs associated with the invoice are found
         if (customerCreditMemoDocuments.isEmpty()) {
-            return success;
+            return isSuccess;
         }
 
         String userId = GlobalVariables.getUserSession().getPrincipalId();
         for(CustomerCreditMemoDocument customerCreditMemoDocument : customerCreditMemoDocuments) {
             workflowDocument = WorkflowDocumentFactory.loadDocument(userId, customerCreditMemoDocument.getDocumentNumber());
             if (!(workflowDocument.isApproved() || workflowDocument.isCanceled() || workflowDocument.isDisapproved())) {
-                success = false;
+                isSuccess = false;
                 break;
             }
         }
-        return success;
+        return isSuccess;
     }
 
     /**
@@ -331,7 +331,7 @@ public class CustomerInvoiceWriteoffDocumentServiceImpl implements CustomerInvoi
     public boolean checkIfThereIsNoAnotherWriteoffInRouteForTheInvoice(String invoiceDocumentNumber) {
 
         WorkflowDocument workflowDocument;
-        boolean success = true;
+        boolean isSuccess = true;
 
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put("financialDocumentReferenceInvoiceNumber", invoiceDocumentNumber);
@@ -340,18 +340,18 @@ public class CustomerInvoiceWriteoffDocumentServiceImpl implements CustomerInvoi
 
         // no writeoffs associated with the invoice are found
         if (customerInvoiceWriteoffDocuments.isEmpty()) {
-            return success;
+            return isSuccess;
         }
 
         String userId = GlobalVariables.getUserSession().getPrincipalId();
         for(CustomerInvoiceWriteoffDocument customerInvoiceWriteoffDocument : customerInvoiceWriteoffDocuments) {
             workflowDocument = WorkflowDocumentFactory.loadDocument(userId, customerInvoiceWriteoffDocument.getDocumentNumber());
             if (!(workflowDocument.isApproved() || workflowDocument.isCanceled() || workflowDocument.isDisapproved())) {
-                success = false;
+                isSuccess = false;
                 break;
             }
         }
-        return success;
+        return isSuccess;
     }
 
 

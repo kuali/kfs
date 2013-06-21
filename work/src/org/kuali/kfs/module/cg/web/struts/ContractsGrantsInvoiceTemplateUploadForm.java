@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -29,13 +29,13 @@ public class ContractsGrantsInvoiceTemplateUploadForm extends KualiForm {
 
     private FormFile uploadedFile;
     private boolean active;
-    private boolean accessRestricted;
+    private boolean accessRestrictedInd;
     private String invoiceTemplateCode;
     private String filePath;
 
     /**
      * Gets the filePath attribute.
-     * 
+     *
      * @return Returns the filePath.
      */
     public String getFilePath() {
@@ -44,7 +44,7 @@ public class ContractsGrantsInvoiceTemplateUploadForm extends KualiForm {
 
     /**
      * Sets the filePath attribute value.
-     * 
+     *
      * @param filePath The filePath to set.
      */
     public void setFilePath(String filePath) {
@@ -56,7 +56,7 @@ public class ContractsGrantsInvoiceTemplateUploadForm extends KualiForm {
 
     /**
      * Gets the invoiceTemplateList attribute.
-     * 
+     *
      * @return Returns the invoiceTemplateList.
      */
     public List getInvoiceTemplateList() {
@@ -65,7 +65,7 @@ public class ContractsGrantsInvoiceTemplateUploadForm extends KualiForm {
 
     /**
      * Gets the active attribute.
-     * 
+     *
      * @return Returns the active.
      */
     public boolean isActive() {
@@ -74,7 +74,7 @@ public class ContractsGrantsInvoiceTemplateUploadForm extends KualiForm {
 
     /**
      * Sets the active attribute value.
-     * 
+     *
      * @param active The active to set.
      */
     public void setActive(boolean active) {
@@ -82,26 +82,26 @@ public class ContractsGrantsInvoiceTemplateUploadForm extends KualiForm {
     }
 
     /**
-     * Gets the accessRestricted attribute.
-     * 
-     * @return Returns the accessRestricted.
+     * Gets the accessRestrictedInd attribute.
+     *
+     * @return Returns the accessRestrictedInd.
      */
-    public boolean isAccessRestricted() {
-        return accessRestricted;
+    public boolean isAccessRestrictedInd() {
+        return accessRestrictedInd;
     }
 
     /**
-     * Sets the accessRestricted attribute value.
-     * 
-     * @param accessRestricted The accessRestricted to set.
+     * Sets the accessRestrictedInd attribute value.
+     *
+     * @param accessRestrictedInd The accessRestrictedInd to set.
      */
-    public void setAccessRestricted(boolean accessRestricted) {
-        this.accessRestricted = accessRestricted;
+    public void setAccessRestrictedInd(boolean accessRestrictedInd) {
+        this.accessRestrictedInd = accessRestrictedInd;
     }
 
     /**
      * Gets the invoiceTemplateCode attribute.
-     * 
+     *
      * @return Returns the invoiceTemplateCode.
      */
     public String getInvoiceTemplateCode() {
@@ -110,7 +110,7 @@ public class ContractsGrantsInvoiceTemplateUploadForm extends KualiForm {
 
     /**
      * Sets the invoiceTemplateCode attribute value.
-     * 
+     *
      * @param invoiceTemplateCode The invoiceTemplateCode to set.
      */
     public void setInvoiceTemplateCode(String invoiceTemplateCode) {
@@ -119,7 +119,7 @@ public class ContractsGrantsInvoiceTemplateUploadForm extends KualiForm {
 
     /**
      * Gets the uploadedFile attribute.
-     * 
+     *
      * @return Returns the uploadedFile.
      */
     public FormFile getUploadedFile() {
@@ -128,7 +128,7 @@ public class ContractsGrantsInvoiceTemplateUploadForm extends KualiForm {
 
     /**
      * Constructs a ContractsGrantsInvoiceTemplateUploadForm.java.
-     * 
+     *
      * @param document
      * @param uploadedFile
      */
@@ -139,7 +139,7 @@ public class ContractsGrantsInvoiceTemplateUploadForm extends KualiForm {
 
     /**
      * Sets the uploadedFile attribute value.
-     * 
+     *
      * @param uploadedFile The uploadedFile to set.
      */
     public void setUploadedFile(FormFile uploadedFile) {

@@ -1,12 +1,12 @@
 /*
  * Copyright 2012 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -29,19 +29,19 @@ public class ReferralToCollectionsSummaryForm extends KualiForm {
 
     private String lookupResultsSequenceNumber;
     private Collection<ReferralToCollectionsLookupResult> referralToCollectionsLookupResults;
-    private boolean awardInvoiced;
+    private boolean awardInvoicedInd;
 
     /**
-     * Default constructor. Initializes referralToCollectionsLookupResults and awardInvoiced.
+     * Default constructor. Initializes referralToCollectionsLookupResults and awardInvoicedInd.
      */
     public ReferralToCollectionsSummaryForm() {
         referralToCollectionsLookupResults = new ArrayList<ReferralToCollectionsLookupResult>();
-        awardInvoiced = false;
+        awardInvoicedInd = false;
     }
 
     /**
      * Gets the lookupResultsSequenceNumber attribute.
-     * 
+     *
      * @return Returns the lookupResultsSequenceNumber attribute.
      */
     public String getLookupResultsSequenceNumber() {
@@ -50,7 +50,7 @@ public class ReferralToCollectionsSummaryForm extends KualiForm {
 
     /**
      * Sets the lookupResultsSequenceNumber attribute.
-     * 
+     *
      * @param lookupResultsSequenceNumber The lookup results sequence number to set.
      */
     public void setLookupResultsSequenceNumber(String lookupResultsSequenceNumber) {
@@ -59,7 +59,7 @@ public class ReferralToCollectionsSummaryForm extends KualiForm {
 
     /**
      * Gets the referralToCollectionsLookupResults attribute.
-     * 
+     *
      * @return Returns the referralToCollectionsLookupResults collection.
      */
     public Collection<ReferralToCollectionsLookupResult> getReferralToCollectionsLookupResults() {
@@ -68,7 +68,7 @@ public class ReferralToCollectionsSummaryForm extends KualiForm {
 
     /**
      * Sets the referralToCollectionsLookupResults attribute.
-     * 
+     *
      * @param referralToCollectionsLookupResults The referralToCollectionsLookupResults list to set.
      */
     public void setReferralToCollectionsLookupResults(Collection<ReferralToCollectionsLookupResult> referralToCollectionsLookupResults) {
@@ -77,7 +77,7 @@ public class ReferralToCollectionsSummaryForm extends KualiForm {
 
     /**
      * Gets the referralToCollectionsLookupResult object by index.
-     * 
+     *
      * @param index The index of the object to fetch.
      * @return Return the object from list.
      */
@@ -87,20 +87,20 @@ public class ReferralToCollectionsSummaryForm extends KualiForm {
     }
 
     /**
-     * Gets the awardInvoiced attribute.
-     * 
-     * @return Returns the awardInvoiced.
+     * Gets the awardInvoicedInd attribute.
+     *
+     * @return Returns the awardInvoicedInd.
      */
-    public boolean isAwardInvoiced() {
-        return awardInvoiced;
+    public boolean isAwardInvoicedInd() {
+        return awardInvoicedInd;
     }
 
     /**
-     * Sets the awardInvoiced attribute.
-     * 
-     * @param awardInvoiced The awardInvoiced to set.
+     * Sets the awardInvoicedInd attribute.
+     *
+     * @param awardInvoicedInd The awardInvoicedInd to set.
      */
-    public void setAwardInvoiced(boolean awardInvoiced) {
-        this.awardInvoiced = awardInvoiced;
+    public void setAwardInvoicedInd(boolean awardInvoicedInd) {
+        this.awardInvoicedInd = awardInvoicedInd;
     }
 }

@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -58,7 +58,7 @@ public class DunningLetterDistributionOnDemandSummaryAction extends KualiAction 
     /**
      * 1. This method passes the control from Dunning Letter Distribution On Demand lookup to the Dunning Letter Distribution On
      * Demand Summary page. 2. Retrieves the list of selected awards by agency for sending Dunning Letters
-     * 
+     *
      * @param mapping
      * @param form
      * @param request
@@ -82,7 +82,7 @@ public class DunningLetterDistributionOnDemandSummaryAction extends KualiAction 
     /**
      * This method would create invoices for the list of awards. It calls the batch process to reuse the functionality to send
      * dunning letters
-     * 
+     *
      * @param mapping
      * @param form
      * @param request
@@ -130,7 +130,7 @@ public class DunningLetterDistributionOnDemandSummaryAction extends KualiAction 
             response.setHeader("Expires", "0");
             response.setHeader("Cache-Control", "must-revalidate, post-check=0, pre-check=0");
             response.setHeader("Pragma", "public");
-            response.setContentLength((int) baos.size());
+            response.setContentLength(baos.size());
             ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
             IOUtils.copy(bais, response.getOutputStream());
             response.getOutputStream().flush();
@@ -138,7 +138,7 @@ public class DunningLetterDistributionOnDemandSummaryAction extends KualiAction 
         }
         else {
             KNSGlobalVariables.getMessageList().add(ArKeyConstants.DunningCampaignConstantsAndErrors.MESSAGE_DUNNING_CAMPAIGN_BATCH_NOT_SENT);
-            dunningLetterDistributionOnDemandSummaryForm.setDunningLetterNotSent(true);
+            dunningLetterDistributionOnDemandSummaryForm.setDunningLetterNotSentInd(true);
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
     }
@@ -146,7 +146,7 @@ public class DunningLetterDistributionOnDemandSummaryAction extends KualiAction 
 
     /**
      * To cancel the document, invoices are not created when the cancel method is called.
-     * 
+     *
      * @param mapping
      * @param form
      * @param request

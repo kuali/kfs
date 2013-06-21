@@ -35,13 +35,14 @@ public class DunningLetterTemplateValuesFinder extends KeyValuesBase {
     /**
      * @see org.kuali.keyvalues.KeyValuesFinder#getKeyValues()
      */
+    @Override
     @SuppressWarnings("unchecked")
     public List<KeyValue> getKeyValues() {
 
         List<DunningLetterTemplate> boList = (List<DunningLetterTemplate>) SpringContext.getBean(BusinessObjectService.class).findAll(DunningLetterTemplate.class);
         keyValues.add(new ConcreteKeyValue("", ""));
         for (DunningLetterTemplate element : boList) {
-            if (!element.isAccessRestricted() && element.isActive()) {
+            if (!element.isAccessRestrictedInd() && element.isActive()) {
                 keyValues.add(new ConcreteKeyValue(element.getLetterTemplateCode(), element.getLetterTemplateDescription()));
             }
             else {

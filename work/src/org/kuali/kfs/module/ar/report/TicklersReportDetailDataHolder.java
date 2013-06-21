@@ -1,12 +1,12 @@
 /*
  * Copyright 2012 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -52,7 +52,7 @@ public class TicklersReportDetailDataHolder {
 
     /**
      * Constructor to initialize other values from given object.
-     * 
+     *
      * @param tr TicklersReport object from which values to be set in data holder object.
      */
     public TicklersReportDetailDataHolder(TicklersReport tr) {
@@ -70,12 +70,12 @@ public class TicklersReportDetailDataHolder {
         this.invoiceAmount = ((ObjectUtils.isNull(tr.getInvoiceAmount())) ? BigDecimal.ZERO : tr.getInvoiceAmount().bigDecimalValue());
         this.paymentAmount = ((ObjectUtils.isNull(tr.getPaymentAmount())) ? BigDecimal.ZERO : tr.getPaymentAmount().bigDecimalValue());
         this.balanceDue = ((ObjectUtils.isNull(tr.getBalanceDue())) ? BigDecimal.ZERO : tr.getBalanceDue().bigDecimalValue());
-        this.completed = ((!tr.isCompleted()) ? KFSConstants.ParameterValues.STRING_NO : KFSConstants.ParameterValues.STRING_YES);
+        this.completed = ((!tr.isCompletedInd()) ? KFSConstants.ParameterValues.STRING_NO : KFSConstants.ParameterValues.STRING_YES);
     }
 
     /**
      * Gets the followupDate attribute.
-     * 
+     *
      * @return Returns the followup date.
      */
     public Date getFollowupDate() {
@@ -84,7 +84,7 @@ public class TicklersReportDetailDataHolder {
 
     /**
      * Sets the followupDate attribute.
-     * 
+     *
      * @param followupDate The followup date to set.
      */
     public void setFollowupDate(Date followupDate) {
@@ -93,7 +93,7 @@ public class TicklersReportDetailDataHolder {
 
     /**
      * Gets the activityCode attribute.
-     * 
+     *
      * @return Returns the activity code.
      */
     public String getActivityCode() {
@@ -102,7 +102,7 @@ public class TicklersReportDetailDataHolder {
 
     /**
      * Sets the activityCode attribute.
-     * 
+     *
      * @param activityCode The activity code to set.
      */
     public void setActivityCode(String activityCode) {
@@ -111,7 +111,7 @@ public class TicklersReportDetailDataHolder {
 
     /**
      * Gets the proposalNumber attribute.
-     * 
+     *
      * @return Returns the proposal number.
      */
     public Long getProposalNumber() {
@@ -120,7 +120,7 @@ public class TicklersReportDetailDataHolder {
 
     /**
      * Sets the proposalNumber attribute.
-     * 
+     *
      * @param proposalNumber The proposal number to set.
      */
     public void setProposalNumber(Long proposalNumber) {
@@ -129,7 +129,7 @@ public class TicklersReportDetailDataHolder {
 
     /**
      * Gets the agencyNumber attribute.
-     * 
+     *
      * @return Returns the agency number.
      */
     public String getAgencyNumber() {
@@ -138,7 +138,7 @@ public class TicklersReportDetailDataHolder {
 
     /**
      * Sets the agencyNumber attribute.
-     * 
+     *
      * @param agencyNumber The agency number to set.
      */
     public void setAgencyNumber(String agencyNumber) {
@@ -147,7 +147,7 @@ public class TicklersReportDetailDataHolder {
 
     /**
      * Gets the invoiceNumber attribute.
-     * 
+     *
      * @return Returns the invoice number.
      */
     public String getInvoiceNumber() {
@@ -156,7 +156,7 @@ public class TicklersReportDetailDataHolder {
 
     /**
      * Sets the invoiceNumber attribute.
-     * 
+     *
      * @param invoiceNumber The invoice number to set.
      */
     public void setInvoiceNumber(String invoiceNumber) {
@@ -165,7 +165,7 @@ public class TicklersReportDetailDataHolder {
 
     /**
      * Gets the accountNumber attribute.
-     * 
+     *
      * @return Returns the accountNumber.
      */
     public String getAccountNumber() {
@@ -174,7 +174,7 @@ public class TicklersReportDetailDataHolder {
 
     /**
      * Sets the accountNumber attribute.
-     * 
+     *
      * @param accountNumber The accountNumber to set.
      */
     public void setAccountNumber(String accountNumber) {
@@ -183,7 +183,7 @@ public class TicklersReportDetailDataHolder {
 
     /**
      * Gets the agencyName attribute.
-     * 
+     *
      * @return Returns tha agency name.
      */
     public String getAgencyName() {
@@ -192,7 +192,7 @@ public class TicklersReportDetailDataHolder {
 
     /**
      * Sets the agencyName attribute.
-     * 
+     *
      * @param agencyName The agency name to set.
      */
     public void setAgencyName(String agencyName) {
@@ -201,7 +201,7 @@ public class TicklersReportDetailDataHolder {
 
     /**
      * Gets the activityText attribute.
-     * 
+     *
      * @return Returns the activity comments.
      */
     public String getActivityText() {
@@ -210,7 +210,7 @@ public class TicklersReportDetailDataHolder {
 
     /**
      * Sets the activityText attribute.
-     * 
+     *
      * @param activityText The activity comments to set.
      */
     public void setActivityText(String activityText) {
@@ -219,7 +219,7 @@ public class TicklersReportDetailDataHolder {
 
     /**
      * Gets the activityDescription attribute.
-     * 
+     *
      * @return Returns the activity description.
      */
     public String getActivityDescription() {
@@ -228,7 +228,7 @@ public class TicklersReportDetailDataHolder {
 
     /**
      * Sets the activityDescription attribute.
-     * 
+     *
      * @param activityDescription The activity description to set.
      */
     public void setActivityDescription(String activityDescription) {
@@ -237,7 +237,7 @@ public class TicklersReportDetailDataHolder {
 
     /**
      * Gets the invoice amount.
-     * 
+     *
      * @return Returns the invoice amount.
      */
     public BigDecimal getInvoiceAmount() {
@@ -246,7 +246,7 @@ public class TicklersReportDetailDataHolder {
 
     /**
      * Sets the invoiceAmount attribute.
-     * 
+     *
      * @param invoiceAmount The invoice amount to set.
      */
     public void setInvoiceAmount(BigDecimal invoiceAmount) {
@@ -255,7 +255,7 @@ public class TicklersReportDetailDataHolder {
 
     /**
      * Gets the paymentAmount attribute.
-     * 
+     *
      * @return Returns the payment amount.
      */
     public BigDecimal getPaymentAmount() {
@@ -264,7 +264,7 @@ public class TicklersReportDetailDataHolder {
 
     /**
      * Sets the paymentAmount attribute.
-     * 
+     *
      * @param paymentAmount The payment amount to set.
      */
     public void setPaymentAmount(BigDecimal paymentAmount) {
@@ -273,7 +273,7 @@ public class TicklersReportDetailDataHolder {
 
     /**
      * Gets the balanceDue attribute.
-     * 
+     *
      * @return Returns the balanceDue attribute.
      */
     public BigDecimal getBalanceDue() {
@@ -282,7 +282,7 @@ public class TicklersReportDetailDataHolder {
 
     /**
      * Sets the balanceDue attribute.
-     * 
+     *
      * @param balanceDue The balanceDue value to set.
      */
     public void setBalanceDue(BigDecimal balanceDue) {
@@ -291,7 +291,7 @@ public class TicklersReportDetailDataHolder {
 
     /**
      * Gets the completed attribute.
-     * 
+     *
      * @return Returns the completed value.
      */
     public String getCompleted() {
@@ -300,7 +300,7 @@ public class TicklersReportDetailDataHolder {
 
     /**
      * Sets the completed attribute.
-     * 
+     *
      * @param completed The completed value to set.
      */
     public void setCompleted(String completed) {
@@ -309,7 +309,7 @@ public class TicklersReportDetailDataHolder {
 
     /**
      * Gets activityDate attribute.
-     * 
+     *
      * @return Returns the activityDate.
      */
     public Date getActivityDate() {
@@ -318,7 +318,7 @@ public class TicklersReportDetailDataHolder {
 
     /**
      * Sets the activityDate attribute.
-     * 
+     *
      * @param activityDate The activityDate to set.
      */
     public void setActivityDate(Date activityDate) {
@@ -327,7 +327,7 @@ public class TicklersReportDetailDataHolder {
 
     /**
      * Gets the user attribute.
-     * 
+     *
      * @return Returns the user attribute.
      */
     public String getUser() {
@@ -336,7 +336,7 @@ public class TicklersReportDetailDataHolder {
 
     /**
      * Sets the user attribute.
-     * 
+     *
      * @param user The user attribute to set.
      */
     public void setUser(String user) {

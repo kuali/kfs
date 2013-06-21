@@ -1,12 +1,12 @@
 /*
  * Copyright 2012 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -26,7 +26,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * Defines the letter templates that will be assigned to the appropriate dunning letter campaigns.
- * 
+ *
  * @author mpritmani
  */
 public class DunningLetterTemplate extends PersistableBusinessObjectBase {
@@ -41,7 +41,7 @@ public class DunningLetterTemplate extends PersistableBusinessObjectBase {
     protected String billedByOrganizationCode;
     protected Chart billByChartOfAccount;
     protected Organization billedByOrganization;
-    private boolean accessRestricted;
+    private boolean accessRestrictedInd;
     private String filename;
     private String filepath;
     private String date;
@@ -55,7 +55,7 @@ public class DunningLetterTemplate extends PersistableBusinessObjectBase {
 
     /**
      * Gets the letterTemplateCode attribute.
-     * 
+     *
      * @return Returns letterTemplateCode.
      */
     public String getLetterTemplateCode() {
@@ -64,7 +64,7 @@ public class DunningLetterTemplate extends PersistableBusinessObjectBase {
 
     /**
      * Sets the letterTemplateCode attribute.
-     * 
+     *
      * @param letterTemplateCode The letterTemplateCode attribute to set.
      */
     public void setLetterTemplateCode(String letterTemplateCode) {
@@ -73,7 +73,7 @@ public class DunningLetterTemplate extends PersistableBusinessObjectBase {
 
     /**
      * Gets the letterTemplateDescription attribute.
-     * 
+     *
      * @return Returns the letterTemplateDescription attribute.
      */
     public String getLetterTemplateDescription() {
@@ -82,7 +82,7 @@ public class DunningLetterTemplate extends PersistableBusinessObjectBase {
 
     /**
      * Sets the letterTemplateDescription attribute.
-     * 
+     *
      * @param letterTemplateDescription The letterTemplateDescription attribute to set.
      */
     public void setLetterTemplateDescription(String letterTemplateDescription) {
@@ -91,7 +91,7 @@ public class DunningLetterTemplate extends PersistableBusinessObjectBase {
 
     /**
      * Gets the active attribute.
-     * 
+     *
      * @return Returns active attribute.
      */
     public boolean isActive() {
@@ -100,7 +100,7 @@ public class DunningLetterTemplate extends PersistableBusinessObjectBase {
 
     /**
      * Sets the active attribute.
-     * 
+     *
      * @param active The active attribute to set.
      */
     public void setActive(boolean active) {
@@ -109,7 +109,7 @@ public class DunningLetterTemplate extends PersistableBusinessObjectBase {
 
     /**
      * Gets the date attribute.
-     * 
+     *
      * @return Returns the date.
      */
     public String getDate() {
@@ -118,7 +118,7 @@ public class DunningLetterTemplate extends PersistableBusinessObjectBase {
 
     /**
      * Sets the date attribute value.
-     * 
+     *
      * @param date The date to set.
      */
     public void setDate(String date) {
@@ -127,7 +127,7 @@ public class DunningLetterTemplate extends PersistableBusinessObjectBase {
 
     /**
      * Gets the filepath attribute.
-     * 
+     *
      * @return Returns the filepath.
      */
     public String getFilepath() {
@@ -136,7 +136,7 @@ public class DunningLetterTemplate extends PersistableBusinessObjectBase {
 
     /**
      * Sets the filepath attribute value.
-     * 
+     *
      * @param filepath The filepath to set.
      */
     public void setFilepath(String filepath) {
@@ -144,17 +144,17 @@ public class DunningLetterTemplate extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the accessRestricted attribute.
-     * 
-     * @return Returns the accessRestricted.
+     * Gets the accessRestrictedInd attribute.
+     *
+     * @return Returns the accessRestrictedInd.
      */
-    public boolean isAccessRestricted() {
-        return accessRestricted;
+    public boolean isAccessRestrictedInd() {
+        return accessRestrictedInd;
     }
 
     /**
      * Gets the billByChartOfAccountCode attribute.
-     * 
+     *
      * @return Returns the billByChartOfAccountCode.
      */
     public String getBillByChartOfAccountCode() {
@@ -163,7 +163,7 @@ public class DunningLetterTemplate extends PersistableBusinessObjectBase {
 
     /**
      * Sets the billByChartOfAccountCode attribute value.
-     * 
+     *
      * @param billByChartOfAccountCode The billByChartOfAccountCode to set.
      */
     public void setBillByChartOfAccountCode(String billByChartOfAccountCode) {
@@ -172,7 +172,7 @@ public class DunningLetterTemplate extends PersistableBusinessObjectBase {
 
     /**
      * Gets the billedByOrganizationCode attribute.
-     * 
+     *
      * @return Returns the billedByOrganizationCode.
      */
     public String getBilledByOrganizationCode() {
@@ -181,7 +181,7 @@ public class DunningLetterTemplate extends PersistableBusinessObjectBase {
 
     /**
      * Sets the billedByOrganizationCode attribute value.
-     * 
+     *
      * @param billedByOrganizationCode The billedByOrganizationCode to set.
      */
     public void setBilledByOrganizationCode(String billedByOrganizationCode) {
@@ -190,7 +190,7 @@ public class DunningLetterTemplate extends PersistableBusinessObjectBase {
 
     /**
      * Gets the billByChartOfAccount attribute.
-     * 
+     *
      * @return Returns the billByChartOfAccount.
      */
     public Chart getBillByChartOfAccount() {
@@ -199,7 +199,7 @@ public class DunningLetterTemplate extends PersistableBusinessObjectBase {
 
     /**
      * Sets the billByChartOfAccount attribute value.
-     * 
+     *
      * @param billByChartOfAccount The billByChartOfAccount to set.
      */
     public void setBillByChartOfAccount(Chart billByChartOfAccount) {
@@ -208,7 +208,7 @@ public class DunningLetterTemplate extends PersistableBusinessObjectBase {
 
     /**
      * Gets the billedByOrganization attribute.
-     * 
+     *
      * @return Returns the billedByOrganization.
      */
     public Organization getBilledByOrganization() {
@@ -217,7 +217,7 @@ public class DunningLetterTemplate extends PersistableBusinessObjectBase {
 
     /**
      * Sets the billedByOrganization attribute value.
-     * 
+     *
      * @param billedByOrganization The billedByOrganization to set.
      */
     public void setBilledByOrganization(Organization billedByOrganization) {
@@ -225,17 +225,17 @@ public class DunningLetterTemplate extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Sets the accessRestricted attribute value.
-     * 
-     * @param accessRestricted The accessRestricted to set.
+     * Sets the accessRestrictedInd attribute value.
+     *
+     * @param accessRestrictedInd The accessRestrictedInd to set.
      */
-    public void setAccessRestricted(boolean accessRestricted) {
-        this.accessRestricted = accessRestricted;
+    public void setAccessRestrictedInd(boolean accessRestrictedInd) {
+        this.accessRestrictedInd = accessRestrictedInd;
     }
 
     /**
      * Gets the filename attribute.
-     * 
+     *
      * @return Returns the filename.
      */
     public String getFilename() {
@@ -244,7 +244,7 @@ public class DunningLetterTemplate extends PersistableBusinessObjectBase {
 
     /**
      * Sets the filename attribute value.
-     * 
+     *
      * @param filename The filename to set.
      */
     public void setFilename(String filename) {
@@ -254,7 +254,7 @@ public class DunningLetterTemplate extends PersistableBusinessObjectBase {
     /**
      * This method returns if the current user has a valid organization as compared to the organization associated with this letter
      * template template
-     * 
+     *
      * @return
      */
     public boolean isValidOrganization() {
@@ -267,7 +267,7 @@ public class DunningLetterTemplate extends PersistableBusinessObjectBase {
         return false;
     }
 
-    
+
     protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap toStringMap = new LinkedHashMap();
         toStringMap.put("letterTemplateCode", this.letterTemplateCode);

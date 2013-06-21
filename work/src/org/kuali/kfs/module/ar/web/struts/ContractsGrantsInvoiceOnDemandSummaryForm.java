@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -29,14 +29,14 @@ public class ContractsGrantsInvoiceOnDemandSummaryForm extends KualiForm {
 
     private String lookupResultsSequenceNumber;
     private Collection<ContractsGrantsInvoiceOnDemandLookupResult> contractsGrantsInvoiceOnDemandLookupResults;
-    private boolean awardInvoiced;
+    private boolean awardInvoicedInd;
 
     /**
-     * Initialize contractsGrantsInvoiceOnDemandLookupResults and awardInvoiced.
+     * Initialize contractsGrantsInvoiceOnDemandLookupResults and awardInvoicedInd.
      */
     public ContractsGrantsInvoiceOnDemandSummaryForm() {
         contractsGrantsInvoiceOnDemandLookupResults = new ArrayList<ContractsGrantsInvoiceOnDemandLookupResult>();
-        awardInvoiced = false;
+        awardInvoicedInd = false;
     }
 
     /**
@@ -48,7 +48,7 @@ public class ContractsGrantsInvoiceOnDemandSummaryForm extends KualiForm {
 
     /**
      * Gets the contractsGrantsInvoiceOnDemandLookupResults attribute.
-     * 
+     *
      * @return Returns the contractsGrantsInvoiceOnDemandLookupResults.
      */
     public Collection<ContractsGrantsInvoiceOnDemandLookupResult> getContractsGrantsInvoiceOnDemandLookupResults() {
@@ -57,7 +57,7 @@ public class ContractsGrantsInvoiceOnDemandSummaryForm extends KualiForm {
 
     /**
      * Sets the contractsGrantsInvoiceOnDemandLookupResults attribute value.
-     * 
+     *
      * @param contractsGrantsInvoiceOnDemandLookupResults The contractsGrantsInvoiceOnDemandLookupResults to set.
      */
     public void setContractsGrantsInvoiceOnDemandLookupResults(Collection<ContractsGrantsInvoiceOnDemandLookupResult> contractsGrantsInvoiceOnDemandLookupResults) {
@@ -81,21 +81,21 @@ public class ContractsGrantsInvoiceOnDemandSummaryForm extends KualiForm {
     }
 
     /**
-     * Gets the awardInvoiced attribute.
-     * 
-     * @return Returns the awardInvoiced.
+     * Gets the awardInvoicedInd attribute.
+     *
+     * @return Returns the awardInvoicedInd.
      */
-    public boolean isAwardInvoiced() {
-        return awardInvoiced;
+    public boolean isAwardInvoicedInd() {
+        return awardInvoicedInd;
     }
 
     /**
-     * Sets the awardInvoiced attribute value.
-     * 
-     * @param awardInvoiced The awardInvoiced to set.
+     * Sets the awardInvoicedInd attribute value.
+     *
+     * @param awardInvoicedInd The awardInvoicedInd to set.
      */
-    public void setAwardInvoiced(boolean awardInvoiced) {
-        this.awardInvoiced = awardInvoiced;
+    public void setAwardInvoicedInd(boolean awardInvoicedInd) {
+        this.awardInvoicedInd = awardInvoicedInd;
     }
 
 }

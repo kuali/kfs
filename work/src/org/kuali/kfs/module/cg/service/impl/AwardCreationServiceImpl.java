@@ -432,10 +432,10 @@ public class AwardCreationServiceImpl implements AwardCreationService {
      */
     public Document createCGAwardMaintenanceDocument(AwardCreationStatusDTO awardCreationStatus) {
 
-        boolean internalUserSession = false;
+        boolean internalUserSessionInd = false;
         try {
             if (GlobalVariables.getUserSession() == null) {
-                internalUserSession = true;
+                internalUserSessionInd = true;
                 GlobalVariables.setUserSession(new UserSession(KRADConstants.SYSTEM_USER));
                 GlobalVariables.clear();
             }
@@ -450,7 +450,7 @@ public class AwardCreationServiceImpl implements AwardCreationService {
         }
         finally {
             // if a user session was established for this call, clear it our
-            if (internalUserSession) {
+            if (internalUserSessionInd) {
                 GlobalVariables.clear();
                 GlobalVariables.setUserSession(null);
             }

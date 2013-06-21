@@ -49,7 +49,7 @@
         <ref bean="OrganizationOptions-organizationRemitToStateCode"/>
         <ref bean="OrganizationOptions-organizationRemitToZipCode"/>
         <ref bean="OrganizationOptions-printInvoiceIndicator"/>
-        <ref bean="OrganizationOptions-cgBiller"/>
+        <ref bean="OrganizationOptions-cgBillerIndicator"/>
         <ref bean="OrganizationOptions-universityName"/>
         <ref bean="OrganizationOptions-organizationPostalZipCode"/>
         <ref bean="OrganizationOptions-organizationPostalCountryCode"/>
@@ -326,10 +326,10 @@
     </property>
   </bean>
   
-  <bean id="OrganizationOptions-cgBiller" parent="OrganizationOptions-cgBiller-parentBean"/>
+  <bean id="OrganizationOptions-cgBillerIndicator" parent="OrganizationOptions-cgBillerIndicator-parentBean"/>
 
-  <bean id="OrganizationOptions-cgBiller-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="cgBiller"/>
+  <bean id="OrganizationOptions-cgBillerIndicator-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="cgBillerIndicator"/>
     <property name="label" value="Contract and Grant Biller?"/>
     <property name="shortLabel" value="Contract and Grant Biller?"/>
     <property name="maxLength" value="1"/>
@@ -408,7 +408,7 @@
 							<bean parent="FieldDefinition" p:attributeName="organizationPaymentTermsText"/>
 							<bean parent="FieldDefinition" p:attributeName="organizationMessageText"/>
 							<bean parent="FieldDefinition" p:attributeName="printInvoiceIndicator"/>
-							<bean parent="FieldDefinition" p:attributeName="cgBiller"/>
+							<bean parent="FieldDefinition" p:attributeName="cgBillerIndicator"/>
 						</list>
 					</property>
 				</bean>

@@ -47,8 +47,8 @@
 			property="${propertyName}.activityDate" readOnly="${readOnly}" /></td>
 		<td align=left class="${cssClass}"><kul:htmlControlAttribute attributeEntry="${eventAttributes.activityText}"
 			property="${propertyName}.activityText" readOnly="${readOnly}" /></td>
-		<td align=left class="${cssClass}"><kul:htmlControlAttribute attributeEntry="${eventAttributes.followup}"
-			property="${propertyName}.followup" readOnly="${readOnly}" /></td>
+		<td align=left class="${cssClass}"><kul:htmlControlAttribute attributeEntry="${eventAttributes.followupInd}"
+			property="${propertyName}.followupInd" readOnly="${readOnly}" /></td>
 		<td align=left class="${cssClass}"><kul:htmlControlAttribute attributeEntry="${eventAttributes.followupDate}"
 			property="${propertyName}.followupDate" readOnly="${readOnly}" /></td>
 		<td align=left class="${cssClass}"><kul:htmlControlAttribute attributeEntry="${eventAttributes.completed}"
@@ -81,8 +81,8 @@
 			property="${propertyName}.activityDate" readOnly="true" /></td>
 		<td align=left class="${cssClass}"><kul:htmlControlAttribute attributeEntry="${eventAttributes.activityText}"
 			property="${propertyName}.activityText" readOnly="false" /></td>
-		<td align=left class="${cssClass}"><kul:htmlControlAttribute attributeEntry="${eventAttributes.followup}"
-			property="${propertyName}.followup" readOnly="true" /></td>
+		<td align=left class="${cssClass}"><kul:htmlControlAttribute attributeEntry="${eventAttributes.followupInd}"
+			property="${propertyName}.followupInd" readOnly="true" /></td>
 		<td align=left class="${cssClass}"><kul:htmlControlAttribute attributeEntry="${eventAttributes.followupDate}"
 			property="${propertyName}.followupDate" readOnly="true" /></td>
 		<td align=left class="${cssClass}"><kul:htmlControlAttribute attributeEntry="${eventAttributes.completed}" onclick="clearDate(this.name, '${propertyName}.completedDate');"

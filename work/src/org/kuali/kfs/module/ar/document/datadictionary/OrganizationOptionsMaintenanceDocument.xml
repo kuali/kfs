@@ -112,7 +112,7 @@
 				<bean parent="MaintainableFieldDefinition" p:name="organizationMessageText" />
 				<bean parent="MaintainableFieldDefinition" p:name="printInvoiceIndicator"
 					p:defaultValue="Y" />
-				<bean parent="MaintainableFieldDefinition" p:name="cgBiller" />
+				<bean parent="MaintainableFieldDefinition" p:name="cgBillerIndicator" />
 			</list>
 		</property>
 	</bean>

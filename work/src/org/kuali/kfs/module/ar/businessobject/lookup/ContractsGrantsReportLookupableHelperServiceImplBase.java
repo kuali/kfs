@@ -90,9 +90,9 @@ public class ContractsGrantsReportLookupableHelperServiceImplBase extends KualiL
             if (getBusinessObjectDictionaryService().isExportable(getBusinessObjectClass())) {
                 row.setBusinessObject(element);
             }
-            boolean rowReturnable = isResultReturnable(element);
-            row.setRowReturnable(rowReturnable);
-            if (rowReturnable) {
+            boolean isRowReturnable = isResultReturnable(element);
+            row.setRowReturnable(isRowReturnable);
+            if (isRowReturnable) {
                 hasReturnableRow = true;
             }
             resultTable.add(row);

@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -57,7 +57,7 @@ public class ContractsGrantsInvoiceOnDemandSummaryAction extends KualiAction {
     /**
      * 1. This method passes the control from Contracts Grants Invoice On Demand lookup to the Contracts Grants Invoice On Demand
      * Summary page. 2. Retrieves the list of selected awards by agency for creating invoices.
-     * 
+     *
      * @param mapping
      * @param form
      * @param request
@@ -81,7 +81,7 @@ public class ContractsGrantsInvoiceOnDemandSummaryAction extends KualiAction {
     /**
      * This method would create invoices for the list of awards. It calls the batch process to reuse the functionality to create the
      * invoices.
-     * 
+     *
      * @param mapping
      * @param form
      * @param request
@@ -108,7 +108,7 @@ public class ContractsGrantsInvoiceOnDemandSummaryAction extends KualiAction {
         String destinationFolderPath = ((FinancialSystemModuleConfiguration) systemConfiguration).getBatchFileDirectories().get(0);
 
         String runtimeStamp = dateTimeService.toDateTimeStringForFilename(new java.util.Date());
-        contractsGrantsInvoiceOnDemandSummaryForm.setAwardInvoiced(true);// set to false before creating invoices
+        contractsGrantsInvoiceOnDemandSummaryForm.setAwardInvoicedInd(true);// set to false before creating invoices
         // Create Invoices from list of Awards.
         for (ContractsGrantsInvoiceOnDemandLookupResult contractsGrantsInvoiceOnDemandLookupResult : lookupResults) {
 
@@ -130,7 +130,7 @@ public class ContractsGrantsInvoiceOnDemandSummaryAction extends KualiAction {
 
     /**
      * To cancel the document, invoices are not created when the cancel method is called.
-     * 
+     *
      * @param mapping
      * @param form
      * @param request

@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -65,7 +65,7 @@ public class AgencyMaintainableImpl extends FinancialSystemMaintainable {
 
     /**
      * Constructs a AgencyMaintainableImpl.
-     * 
+     *
      * @param agency
      */
     public AgencyMaintainableImpl(Agency agency) {
@@ -75,7 +75,7 @@ public class AgencyMaintainableImpl extends FinancialSystemMaintainable {
 
     /**
      * Gets the underlying Agency.
-     * 
+     *
      * @return
      */
     public Agency getAgency() {
@@ -84,7 +84,7 @@ public class AgencyMaintainableImpl extends FinancialSystemMaintainable {
 
     /**
      * This method overrides the parent method to create a new Customer document when Agency document goes to final.
-     * 
+     *
      * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#doRouteStatusChange(org.kuali.rice.krad.bo.DocumentHeader)
      */
     @Override
@@ -120,17 +120,17 @@ public class AgencyMaintainableImpl extends FinancialSystemMaintainable {
                     }
 
                     //To set dunningCampaign value from Agency to all the awards in the agency.
-                    
+
                     List<Award> awards = new ArrayList<Award>();
                     Map<String,Object> criteria = new HashMap<String,Object>();
                     criteria.put(KFSPropertyConstants.AGENCY_NUMBER, agency.getAgencyNumber());
                     awards = (List<Award>) SpringContext.getBean(BusinessObjectService.class).findMatching(Award.class, criteria);
                     for(Award award:awards){
                         award.setDunningCampaign(agency.getDunningCampaign());
-                        award.setStopWork(agency.isStopWork());
+                        award.setStopWorkIndicator(agency.isStopWorkIndicator());
                         SpringContext.getBean(BusinessObjectService.class).save(award);
                     }
-                    
+
                 }
 
             }
@@ -201,7 +201,7 @@ public class AgencyMaintainableImpl extends FinancialSystemMaintainable {
     }
 
     /**
-     * 
+     *
      * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#refresh(java.lang.String, java.util.Map, org.kuali.rice.kns.document.MaintenanceDocument)
      */
     @Override
@@ -221,7 +221,7 @@ public class AgencyMaintainableImpl extends FinancialSystemMaintainable {
 
     /**
      * Overridden to set the default values on the Agency document.
-     * 
+     *
      * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#processAfterNew(org.kuali.rice.kns.document.MaintenanceDocument,
      *      java.util.Map)
      */
@@ -252,7 +252,7 @@ public class AgencyMaintainableImpl extends FinancialSystemMaintainable {
 
     /**
      * Overriding to default fields on the document for new documents
-     * 
+     *
      * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#processAfterEdit(org.kuali.rice.kns.document.MaintenanceDocument,
      *      java.util.Map)
      */
@@ -266,7 +266,7 @@ public class AgencyMaintainableImpl extends FinancialSystemMaintainable {
 
     /**
      * Overriding to default fields on the document for copied documents
-     * 
+     *
      * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#processAfterEdit(org.kuali.rice.kns.document.MaintenanceDocument,
      *      java.util.Map)
      */
@@ -281,7 +281,7 @@ public class AgencyMaintainableImpl extends FinancialSystemMaintainable {
 
     /**
      * Defaults the invoice template field for new Agency Addresses on the given Agency maintenance document
-     * 
+     *
      * @param agency
      * @param document
      */
@@ -293,7 +293,7 @@ public class AgencyMaintainableImpl extends FinancialSystemMaintainable {
             newAgencyAddress.setAgencyInvoiceTemplateCode(agency.getAgencyInvoiceTemplateCode());
         }
     }
-    
+
 //    @Override
 //    public void addNewLineToCollection(String collectionName) {
 //        if (collectionName.equalsIgnoreCase("customerNotes")) {

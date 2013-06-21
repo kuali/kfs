@@ -1,12 +1,12 @@
 /*
  * Copyright 2005 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -88,10 +88,10 @@ public class Agency extends PersistableBusinessObjectBase implements ContractsAn
     private String bankruptcyType;
     private Date bankruptcyDate;
     private Date bankruptcyReviewDate;
-    private boolean stopWork;
+    private boolean stopWorkIndicator;
     private String stopWorkReason;
     private String notes;
-    private boolean stateAgency;
+    private boolean stateAgencyIndicator;
 
     private AccountsReceivableCollectionStatus collStatusObj;
 
@@ -112,7 +112,7 @@ public class Agency extends PersistableBusinessObjectBase implements ContractsAn
 
     /**
      * Gets the collStatusObj attribute.
-     * 
+     *
      * @return Returns the collStatusObj.
      */
     public AccountsReceivableCollectionStatus getCollStatusObj() {
@@ -121,7 +121,7 @@ public class Agency extends PersistableBusinessObjectBase implements ContractsAn
 
     /**
      * Sets the collStatusObj attribute value.
-     * 
+     *
      * @param collStatusObj The collStatusObj to set.
      */
     public void setCollStatusObj(AccountsReceivableCollectionStatus collStatusObj) {
@@ -130,7 +130,7 @@ public class Agency extends PersistableBusinessObjectBase implements ContractsAn
 
     /**
      * Gets the sponsorCode attribute.
-     * 
+     *
      * @return Returns the sponsorCode.
      */
     public String getSponsorCode() {
@@ -139,7 +139,7 @@ public class Agency extends PersistableBusinessObjectBase implements ContractsAn
 
     /**
      * Sets the sponsorCode attribute value.
-     * 
+     *
      * @param sponsorCode The sponsorCode to set.
      */
     public void setSponsorCode(String sponsorCode) {
@@ -149,7 +149,7 @@ public class Agency extends PersistableBusinessObjectBase implements ContractsAn
     // Getters and setters for Billing frequency
     /**
      * Gets the agencyFrequencyCode attribute.
-     * 
+     *
      * @return Returns the agencyFrequencyCode.
      */
     public String getAgencyFrequencyCode() {
@@ -158,7 +158,7 @@ public class Agency extends PersistableBusinessObjectBase implements ContractsAn
 
     /**
      * Sets the agencyFrequencyCode attribute value.
-     * 
+     *
      * @param agencyFrequencyCode The agencyFrequencyCode to set.
      */
     public void setAgencyFrequencyCode(String agencyFrequencyCode) {
@@ -167,7 +167,7 @@ public class Agency extends PersistableBusinessObjectBase implements ContractsAn
 
     /**
      * Gets the agencybillingFrequency attribute.
-     * 
+     *
      * @return Returns the agencybillingFrequency.
      */
     public BillingFrequency getAgencybillingFrequency() {
@@ -176,7 +176,7 @@ public class Agency extends PersistableBusinessObjectBase implements ContractsAn
 
     /**
      * Sets the agencybillingFrequency attribute value.
-     * 
+     *
      * @param agencybillingFrequency The agencybillingFrequency to set.
      */
     public void setAgencybillingFrequency(BillingFrequency agencybillingFrequency) {
@@ -187,7 +187,7 @@ public class Agency extends PersistableBusinessObjectBase implements ContractsAn
     // Getters and setters for Invoice Types
     /**
      * Gets the agencyInvoiceTemplateCode attribute.
-     * 
+     *
      * @return Returns the agencyInvoiceTemplateCode.
      */
     public String getAgencyInvoiceTemplateCode() {
@@ -196,7 +196,7 @@ public class Agency extends PersistableBusinessObjectBase implements ContractsAn
 
     /**
      * Sets the agencyInvoiceTemplateCode attribute value.
-     * 
+     *
      * @param agencyInvoiceTemplateCode The agencyInvoiceTemplateCode to set.
      */
     public void setAgencyInvoiceTemplateCode(String agencyInvoiceTemplateCode) {
@@ -206,7 +206,7 @@ public class Agency extends PersistableBusinessObjectBase implements ContractsAn
 
     /**
      * Gets the agencyInvoiceTemplate attribute.
-     * 
+     *
      * @return Returns the agencyInvoiceTemplate.
      */
     public InvoiceTemplate getAgencyInvoiceTemplate() {
@@ -215,7 +215,7 @@ public class Agency extends PersistableBusinessObjectBase implements ContractsAn
 
     /**
      * Sets the agencyInvoiceTemplate attribute value.
-     * 
+     *
      * @param agencyInvoiceTemplate The agencyInvoiceTemplate to set.
      */
     public void setAgencyInvoiceTemplate(InvoiceTemplate agencyInvoiceTemplate) {
@@ -226,7 +226,7 @@ public class Agency extends PersistableBusinessObjectBase implements ContractsAn
     // Getters and setters for Financial Report Type
     /**
      * Gets the agencyFinancialReportCode attribute.
-     * 
+     *
      * @return Returns the agencyFinancialReportCode.
      */
     public String getAgencyFinancialReportCode() {
@@ -235,7 +235,7 @@ public class Agency extends PersistableBusinessObjectBase implements ContractsAn
 
     /**
      * Sets the agencyFinancialReportCode attribute value.
-     * 
+     *
      * @param agencyFinancialReportCode The agencyFinancialReportCode to set.
      */
     public void setAgencyFinancialReportCode(String agencyFinancialReportCode) {
@@ -244,7 +244,7 @@ public class Agency extends PersistableBusinessObjectBase implements ContractsAn
 
     /**
      * Gets the agencyFinancialReportType attribute.
-     * 
+     *
      * @return Returns the agencyFinancialReportType.
      */
     public FinancialFormTemplate getAgencyFinancialReportType() {
@@ -253,7 +253,7 @@ public class Agency extends PersistableBusinessObjectBase implements ContractsAn
 
     /**
      * Sets the agencyFinancialReportType attribute value.
-     * 
+     *
      * @param agencyFinancialReportType The agencyFinancialReportType to set.
      */
     public void setAgencyFinancialReportType(FinancialFormTemplate agencyFinancialReportType) {
@@ -263,7 +263,7 @@ public class Agency extends PersistableBusinessObjectBase implements ContractsAn
 
     /**
      * Gets the agencyFinancialReportFreqCode attribute.
-     * 
+     *
      * @return Returns the agencyFinancialReportFreqCode.
      */
     public String getAgencyFinancialReportFreqCode() {
@@ -272,7 +272,7 @@ public class Agency extends PersistableBusinessObjectBase implements ContractsAn
 
     /**
      * Sets the agencyFinancialReportFreqCode attribute value.
-     * 
+     *
      * @param agencyFinancialReportFreqCode The agencyFinancialReportFreqCode to set.
      */
     public void setAgencyFinancialReportFreqCode(String agencyFinancialReportFreqCode) {
@@ -281,7 +281,7 @@ public class Agency extends PersistableBusinessObjectBase implements ContractsAn
 
     /**
      * Gets the agencyFinancialReportFreq attribute.
-     * 
+     *
      * @return Returns the agencyFinancialReportFreq.
      */
     public FinancialReportFrequencies getAgencyFinancialReportFreq() {
@@ -290,7 +290,7 @@ public class Agency extends PersistableBusinessObjectBase implements ContractsAn
 
     /**
      * Sets the agencyFinancialReportFreq attribute value.
-     * 
+     *
      * @param agencyFinancialReportFreq The agencyFinancialReportFreq to set.
      */
     public void setAgencyFinancialReportFreq(FinancialReportFrequencies agencyFinancialReportFreq) {
@@ -299,7 +299,7 @@ public class Agency extends PersistableBusinessObjectBase implements ContractsAn
 
     /**
      * Gets the agencyExpirationDate attribute.
-     * 
+     *
      * @return Returns the agencyExpirationDate.
      */
     public Date getAgencyExpirationDate() {
@@ -308,7 +308,7 @@ public class Agency extends PersistableBusinessObjectBase implements ContractsAn
 
     /**
      * Sets the agencyExpirationDate attribute value.
-     * 
+     *
      * @param agencyExpirationDate The agencyExpirationDate to set.
      */
     public void setAgencyExpirationDate(Date agencyExpirationDate) {
@@ -317,7 +317,7 @@ public class Agency extends PersistableBusinessObjectBase implements ContractsAn
 
     /**
      * Gets the agencyTypeCode attribute.
-     * 
+     *
      * @return Returns the agencyTypeCode.
      */
     public String getAgencyTypeCode() {
@@ -326,7 +326,7 @@ public class Agency extends PersistableBusinessObjectBase implements ContractsAn
 
     /**
      * Sets the agencyTypeCode attribute value.
-     * 
+     *
      * @param agencyTypeCode The agencyTypeCode to set.
      */
     public void setAgencyTypeCode(String agencyTypeCode) {
@@ -335,7 +335,7 @@ public class Agency extends PersistableBusinessObjectBase implements ContractsAn
 
     /**
      * Gets the reportsToAgencyNumber attribute.
-     * 
+     *
      * @return Returns the reportsToAgencyNumber.
      */
     public String getReportsToAgencyNumber() {
@@ -344,7 +344,7 @@ public class Agency extends PersistableBusinessObjectBase implements ContractsAn
 
     /**
      * Sets the reportsToAgencyNumber attribute value.
-     * 
+     *
      * @param reportsToAgencyNumber The reportsToAgencyNumber to set.
      */
     public void setReportsToAgencyNumber(String reportsToAgencyNumber) {
@@ -353,16 +353,17 @@ public class Agency extends PersistableBusinessObjectBase implements ContractsAn
 
     /**
      * Gets the agencyNumber attribute.
-     * 
+     *
      * @return Returns the agencyNumber
      */
+    @Override
     public String getAgencyNumber() {
         return agencyNumber;
     }
 
     /**
      * Sets the agencyNumber attribute.
-     * 
+     *
      * @param agencyNumber The agencyNumber to set.
      */
     public void setAgencyNumber(String agencyNumber) {
@@ -371,16 +372,17 @@ public class Agency extends PersistableBusinessObjectBase implements ContractsAn
 
     /**
      * Gets the reportingName attribute.
-     * 
+     *
      * @return Returns the reportingName
      */
+    @Override
     public String getReportingName() {
         return reportingName;
     }
 
     /**
      * Sets the reportingName attribute.
-     * 
+     *
      * @param reportingName The reportingName to set.
      */
     public void setReportingName(String reportingName) {
@@ -389,16 +391,17 @@ public class Agency extends PersistableBusinessObjectBase implements ContractsAn
 
     /**
      * Gets the fullName attribute.
-     * 
+     *
      * @return Returns the fullName
      */
+    @Override
     public String getFullName() {
         return fullName;
     }
 
     /**
      * Sets the fullName attribute.
-     * 
+     *
      * @param fullName The fullName to set.
      */
     public void setFullName(String fullName) {
@@ -407,7 +410,7 @@ public class Agency extends PersistableBusinessObjectBase implements ContractsAn
 
     /**
      * Gets the indirectAmount attribute.
-     * 
+     *
      * @return Returns the indirectAmount
      */
     public KualiDecimal getIndirectAmount() {
@@ -416,7 +419,7 @@ public class Agency extends PersistableBusinessObjectBase implements ContractsAn
 
     /**
      * Sets the indirectAmount attribute.
-     * 
+     *
      * @param indirectAmount The indirectAmount to set.
      */
     public void setIndirectAmount(KualiDecimal indirectAmount) {
@@ -425,7 +428,7 @@ public class Agency extends PersistableBusinessObjectBase implements ContractsAn
 
     /**
      * Gets the inStateIndicator attribute.
-     * 
+     *
      * @return Returns the inStateIndicator
      */
     public boolean isInStateIndicator() {
@@ -434,7 +437,7 @@ public class Agency extends PersistableBusinessObjectBase implements ContractsAn
 
     /**
      * Sets the inStateIndicator attribute.
-     * 
+     *
      * @param inStateIndicator The inStateIndicator to set.
      */
     public void setInStateIndicator(boolean inStateIndicator) {
@@ -443,7 +446,7 @@ public class Agency extends PersistableBusinessObjectBase implements ContractsAn
 
     /**
      * Gets the reportsToAgency attribute.
-     * 
+     *
      * @return Returns the reportsToAgency
      */
     public Agency getReportsToAgency() {
@@ -452,18 +455,19 @@ public class Agency extends PersistableBusinessObjectBase implements ContractsAn
 
     /**
      * Sets the reportsToAgency attribute.
-     * 
+     *
      * @param reportsToAgencyNumber The reportsToAgency to set.
      * @deprecated
      * @todo Why is this deprecated?
      */
+    @Deprecated
     public void setReportsToAgency(Agency reportsToAgencyNumber) {
         this.reportsToAgency = reportsToAgencyNumber;
     }
 
     /**
      * Gets the agencyType attribute.
-     * 
+     *
      * @return Returns the agencyType
      */
     public AgencyType getAgencyType() {
@@ -472,11 +476,12 @@ public class Agency extends PersistableBusinessObjectBase implements ContractsAn
 
     /**
      * Sets the agencyType attribute.
-     * 
+     *
      * @param agencyType The agencyType to set.
      * @deprecated
      * @todo Why is this deprecated?
      */
+    @Deprecated
     public void setAgencyType(AgencyType agencyType) {
         this.agencyType = agencyType;
     }
@@ -494,7 +499,7 @@ public class Agency extends PersistableBusinessObjectBase implements ContractsAn
     /**
      * This method compares the passed in agency object against this agency object to check for equality. Equality is defined by if
      * the agency passed in has the same agency number as the agency being compared to.
-     * 
+     *
      * @param agency The agency object to be compared.
      * @return True if the agency passed in is determined to be equal, false otherwise.
      */
@@ -504,25 +509,27 @@ public class Agency extends PersistableBusinessObjectBase implements ContractsAn
 
     /**
      * Gets the active attribute.
-     * 
+     *
      * @return Returns the active.
      */
+    @Override
     public boolean isActive() {
         return active;
     }
 
     /**
      * Sets the active attribute value.
-     * 
+     *
      * @param active The active to set.
      */
+    @Override
     public void setActive(boolean active) {
         this.active = active;
     }
 
     /**
      * Gets the cageNumber attribute.
-     * 
+     *
      * @return Returns the cageNumber.
      */
     public String getCageNumber() {
@@ -531,7 +538,7 @@ public class Agency extends PersistableBusinessObjectBase implements ContractsAn
 
     /**
      * Sets the cageNumber attribute value.
-     * 
+     *
      * @param cageNumber The cageNumber to set.
      */
     public void setCageNumber(String cageNumber) {
@@ -540,7 +547,7 @@ public class Agency extends PersistableBusinessObjectBase implements ContractsAn
 
     /**
      * Gets the dodacNumber attribute.
-     * 
+     *
      * @return Returns the dodacNumber.
      */
     public String getDodacNumber() {
@@ -549,7 +556,7 @@ public class Agency extends PersistableBusinessObjectBase implements ContractsAn
 
     /**
      * Sets the dodacNumber attribute value.
-     * 
+     *
      * @param dodacNumber The dodacNumber to set.
      */
     public void setDodacNumber(String dodacNumber) {
@@ -558,7 +565,7 @@ public class Agency extends PersistableBusinessObjectBase implements ContractsAn
 
     /**
      * Gets the dunAndBradstreetNumber attribute.
-     * 
+     *
      * @return Returns the dunAndBradstreetNumber.
      */
     public String getDunAndBradstreetNumber() {
@@ -567,7 +574,7 @@ public class Agency extends PersistableBusinessObjectBase implements ContractsAn
 
     /**
      * Sets the dunAndBradstreetNumber attribute value.
-     * 
+     *
      * @param dunAndBradstreetNumber The dunAndBradstreetNumber to set.
      */
     public void setDunAndBradstreetNumber(String dunAndBradstreetNumber) {
@@ -576,16 +583,17 @@ public class Agency extends PersistableBusinessObjectBase implements ContractsAn
 
     /**
      * Gets the dunsPlusFourNumber attribute.
-     * 
+     *
      * @return Returns the dunsPlusFourNumber.
      */
+    @Override
     public String getDunsPlusFourNumber() {
         return dunsPlusFourNumber;
     }
 
     /**
      * Sets the dunsPlusFourNumber attribute value.
-     * 
+     *
      * @param dunsPlusFourNumber The dunsPlusFourNumber to set.
      */
     public void setDunsPlusFourNumber(String dunsPlusFourNumber) {
@@ -594,7 +602,7 @@ public class Agency extends PersistableBusinessObjectBase implements ContractsAn
 
     /**
      * This method gets agencyAddresses
-     * 
+     *
      * @return agencyAddresses
      */
     public List<AgencyAddress> getAgencyAddresses() {
@@ -603,7 +611,7 @@ public class Agency extends PersistableBusinessObjectBase implements ContractsAn
 
     /**
      * This method sets agencyAddresses
-     * 
+     *
      * @param agencyAddresses
      */
     public void setAgencyAddresses(List<AgencyAddress> agencyAddresses) {
@@ -613,16 +621,17 @@ public class Agency extends PersistableBusinessObjectBase implements ContractsAn
 
     /**
      * Gets the customerNumber attribute.
-     * 
+     *
      * @return Returns the customerNumber.
      */
+    @Override
     public String getCustomerNumber() {
         return customerNumber;
     }
 
     /**
      * Sets the customerNumber attribute value.
-     * 
+     *
      * @param customerNumber The customerNumber to set.
      */
     public void setCustomerNumber(String customerNumber) {
@@ -632,16 +641,17 @@ public class Agency extends PersistableBusinessObjectBase implements ContractsAn
 
     /**
      * Gets the customer attribute.
-     * 
+     *
      * @return Returns the customer.
      */
+    @Override
     public AccountsReceivableCustomer getCustomer() {
-        return customer = (AccountsReceivableCustomer) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(AccountsReceivableCustomer.class).retrieveExternalizableBusinessObjectIfNecessary(this, customer, "customer");
+        return customer = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(AccountsReceivableCustomer.class).retrieveExternalizableBusinessObjectIfNecessary(this, customer, "customer");
     }
 
     /**
      * Sets the customer attribute value.
-     * 
+     *
      * @param customer The customer to set.
      */
     public void setCustomer(AccountsReceivableCustomer customer) {
@@ -650,7 +660,7 @@ public class Agency extends PersistableBusinessObjectBase implements ContractsAn
 
     /**
      * Gets the customerCreated attribute.
-     * 
+     *
      * @return Returns the customerCreated.
      */
     public String getCustomerCreated() {
@@ -659,7 +669,7 @@ public class Agency extends PersistableBusinessObjectBase implements ContractsAn
 
     /**
      * Sets the customerCreated attribute value.
-     * 
+     *
      * @param customerCreated The customerCreated to set.
      */
     public void setCustomerCreated(String customerCreated) {
@@ -668,16 +678,17 @@ public class Agency extends PersistableBusinessObjectBase implements ContractsAn
 
     /**
      * Gets the customerTypeCode attribute.
-     * 
+     *
      * @return Returns the customerTypeCode.
      */
+    @Override
     public String getCustomerTypeCode() {
         return customerTypeCode;
     }
 
     /**
      * Sets the customerTypeCode attribute value.
-     * 
+     *
      * @param customerTypeCode The customerTypeCode to set.
      */
     public void setCustomerTypeCode(String customerTypeCode) {
@@ -686,7 +697,7 @@ public class Agency extends PersistableBusinessObjectBase implements ContractsAn
 
     /**
      * Gets the dunningCampaign attribute.
-     * 
+     *
      * @return Returns the dunningCampaign.
      */
     public String getDunningCampaign() {
@@ -695,7 +706,7 @@ public class Agency extends PersistableBusinessObjectBase implements ContractsAn
 
     /**
      * Sets the dunningCampaign attribute value.
-     * 
+     *
      * @param dunningCampaign The dunningCampaign to set.
      */
     public void setDunningCampaign(String dunningCampaign) {
@@ -705,16 +716,17 @@ public class Agency extends PersistableBusinessObjectBase implements ContractsAn
 
     /**
      * Gets the collectionStatus attribute.
-     * 
+     *
      * @return Returns the collectionStatus.
      */
+    @Override
     public String getCollectionStatus() {
         return collectionStatus;
     }
 
     /**
      * Sets the collectionStatus attribute value.
-     * 
+     *
      * @param collectionStatus The collectionStatus to set.
      */
     public void setCollectionStatus(String collectionStatus) {
@@ -723,7 +735,7 @@ public class Agency extends PersistableBusinessObjectBase implements ContractsAn
 
     /**
      * Gets the bankruptcyType attribute.
-     * 
+     *
      * @return Returns the bankruptcyType.
      */
     public String getBankruptcyType() {
@@ -732,7 +744,7 @@ public class Agency extends PersistableBusinessObjectBase implements ContractsAn
 
     /**
      * Sets the bankruptcyType attribute value.
-     * 
+     *
      * @param bankruptcyType The bankruptcyType to set.
      */
     public void setBankruptcyType(String bankruptcyType) {
@@ -741,7 +753,7 @@ public class Agency extends PersistableBusinessObjectBase implements ContractsAn
 
     /**
      * Gets the bankruptcyDate attribute.
-     * 
+     *
      * @return Returns the bankruptcyDate.
      */
     public Date getBankruptcyDate() {
@@ -750,7 +762,7 @@ public class Agency extends PersistableBusinessObjectBase implements ContractsAn
 
     /**
      * Sets the bankruptcyDate attribute value.
-     * 
+     *
      * @param bankruptcyDate The bankruptcyDate to set.
      */
     public void setBankruptcyDate(Date bankruptcyDate) {
@@ -759,7 +771,7 @@ public class Agency extends PersistableBusinessObjectBase implements ContractsAn
 
     /**
      * Gets the bankruptcyReviewDate attribute.
-     * 
+     *
      * @return Returns the bankruptcyReviewDate.
      */
     public Date getBankruptcyReviewDate() {
@@ -768,7 +780,7 @@ public class Agency extends PersistableBusinessObjectBase implements ContractsAn
 
     /**
      * Sets the bankruptcyReviewDate attribute value.
-     * 
+     *
      * @param reviewDate The bankruptcyReviewDate to set.
      */
     public void setBankruptcyReviewDate(Date bankruptcyReviewDate) {
@@ -777,25 +789,25 @@ public class Agency extends PersistableBusinessObjectBase implements ContractsAn
 
     /**
      * Gets the stopWork attribute.
-     * 
+     *
      * @return Returns the stopWork.
      */
-    public boolean isStopWork() {
-        return stopWork;
+    public boolean isStopWorkIndicator() {
+        return stopWorkIndicator;
     }
 
     /**
-     * Sets the stopWork attribute value.
-     * 
-     * @param stopWork The stopWork to set.
+     * Sets the stopWorkIndicator attribute value.
+     *
+     * @param stopWorkIndicator The stopWorkIndicator to set.
      */
-    public void setStopWork(boolean stopWork) {
-        this.stopWork = stopWork;
+    public void setStopWorkIndicator(boolean stopWorkIndicator) {
+        this.stopWorkIndicator = stopWorkIndicator;
     }
 
     /**
      * Gets the stopWorkReason attribute.
-     * 
+     *
      * @return Returns the stopWorkReason.
      */
     public String getStopWorkReason() {
@@ -804,7 +816,7 @@ public class Agency extends PersistableBusinessObjectBase implements ContractsAn
 
     /**
      * Sets the stopWorkReason attribute value.
-     * 
+     *
      * @param stopWorkReason The stopWorkReason to set.
      */
     public void setStopWorkReason(String stopWorkReason) {
@@ -813,7 +825,7 @@ public class Agency extends PersistableBusinessObjectBase implements ContractsAn
 
     /**
      * Gets the notes attribute.
-     * 
+     *
      * @return Returns the notes.
      */
     public String getNotes() {
@@ -822,7 +834,7 @@ public class Agency extends PersistableBusinessObjectBase implements ContractsAn
 
     /**
      * Sets the notes attribute value.
-     * 
+     *
      * @param notes The notes to set.
      */
     public void setNotes(String notes) {
@@ -831,7 +843,7 @@ public class Agency extends PersistableBusinessObjectBase implements ContractsAn
 
     /**
      * Gets the agencyNotes attribute.
-     * 
+     *
      * @return Returns the agencyNotes.
      */
     public List<AgencyNote> getAgencyNotes() {
@@ -840,7 +852,7 @@ public class Agency extends PersistableBusinessObjectBase implements ContractsAn
 
     /**
      * Sets the agencyNotes attribute.
-     * 
+     *
      * @param agencyNotes The agencyNotes to set.
      */
     public void setAgencyNotes(List<AgencyNote> agencyNotes) {
@@ -848,21 +860,22 @@ public class Agency extends PersistableBusinessObjectBase implements ContractsAn
     }
 
     /**
-     * Gets the stateAgency attribute.
-     * 
-     * @return Returns the stateAgency.
+     * Gets the stateAgencyIndicator attribute.
+     *
+     * @return Returns the stateAgencyIndicator.
      */
-    public boolean isStateAgency() {
-        return stateAgency;
+    @Override
+    public boolean isStateAgencyIndicator() {
+        return stateAgencyIndicator;
     }
 
     /**
-     * Sets the stateAgency attribute value.
-     * 
-     * @param stateAgency The stateAgency to set.
+     * Sets the stateAgencyIndicator attribute value.
+     *
+     * @param stateAgencyIndicator The stateAgencyIndicator to set.
      */
-    public void setStateAgency(boolean stateAgency) {
-        this.stateAgency = stateAgency;
+    public void setStateAgencyIndicator(boolean stateAgencyIndicator) {
+        this.stateAgencyIndicator = stateAgencyIndicator;
     }
 
 

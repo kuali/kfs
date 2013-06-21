@@ -175,17 +175,17 @@ public class CashControlElectronicPaymentClaimingHelperImpl implements Electroni
      */
     @Override
     public boolean isDocumentReferenceValid(String referenceDocumentNumber) {
-        boolean valid = false;
+        boolean isValid = false;
         try {
             long docNumberAsLong = Long.parseLong(referenceDocumentNumber);
             if (docNumberAsLong > 0L) {
-                valid = documentService.documentExists(referenceDocumentNumber);
+                isValid = documentService.documentExists(referenceDocumentNumber);
             }
         }
         catch (NumberFormatException nfe) {
-            valid = false;
+            isValid = false;
         }
-        return valid;
+        return isValid;
     }
 
     /**

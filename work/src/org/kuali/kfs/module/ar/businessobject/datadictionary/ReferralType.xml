@@ -32,7 +32,7 @@
         <ref bean="ReferralType-referralTypeCode"/>
         <ref bean="ReferralType-description"/>
         <ref bean="ReferralType-active"/>
-        <ref bean="ReferralType-outsideCollectionAgency"/>
+        <ref bean="ReferralType-outsideCollectionAgencyInd"/>
       </list>
     </property>
   </bean>
@@ -80,10 +80,10 @@
     <property name="name" value="active"/>
   </bean>
   
-  <bean id="ReferralType-outsideCollectionAgency" parent="ReferralType-outsideCollectionAgency-parentBean"/>
+  <bean id="ReferralType-outsideCollectionAgencyInd" parent="ReferralType-outsideCollectionAgencyInd-parentBean"/>
 
-  <bean id="ReferralType-outsideCollectionAgency-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
-    <property name="name" value="outsideCollectionAgency"/>
+  <bean id="ReferralType-outsideCollectionAgencyInd-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+    <property name="name" value="outsideCollectionAgencyInd"/>
     <property name="label" value="Outside Collection Agency"/>
     <property name="shortLabel" value="Outside Collection Agency"/>
   </bean>
@@ -103,7 +103,7 @@
             <list>
               <bean parent="FieldDefinition" p:attributeName="referralTypeCode"/>
               <bean parent="FieldDefinition" p:attributeName="description"/>
-              <bean parent="FieldDefinition" p:attributeName="outsideCollectionAgency"/>
+              <bean parent="FieldDefinition" p:attributeName="outsideCollectionAgencyInd"/>
               <bean parent="FieldDefinition" p:attributeName="active"/>
             </list>
           </property>
@@ -127,7 +127,7 @@
       <list>
         <bean parent="FieldDefinition" p:attributeName="referralTypeCode"/>
         <bean parent="FieldDefinition" p:attributeName="description"/>
-        <bean parent="FieldDefinition" p:attributeName="outsideCollectionAgency" p:defaultValue="N"/>
+        <bean parent="FieldDefinition" p:attributeName="outsideCollectionAgencyInd" p:defaultValue="N"/>
         <bean parent="FieldDefinition" p:attributeName="active" p:defaultValue="Y"/>
       </list>
     </property>
@@ -135,7 +135,7 @@
       <list>
         <bean parent="FieldDefinition" p:attributeName="referralTypeCode"/>
         <bean parent="FieldDefinition" p:attributeName="description"/>
-        <bean parent="FieldDefinition" p:attributeName="outsideCollectionAgency"/>
+        <bean parent="FieldDefinition" p:attributeName="outsideCollectionAgencyInd"/>
         <bean parent="FieldDefinition" p:attributeName="active"/>
       </list>
     </property>

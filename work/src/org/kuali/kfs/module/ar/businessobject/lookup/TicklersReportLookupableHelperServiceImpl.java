@@ -112,34 +112,34 @@ public class TicklersReportLookupableHelperServiceImpl extends ContractsGrantsRe
         for (Event event : events) {
 
             // Check for followup date range
-            boolean valid = true;
+            boolean isValid = true;
 
             if (ObjectUtils.isNotNull(lookupFieldValue) && !lookupFieldValue.equals("")) {
                 if (ObjectUtils.isNull(event.getInvoiceDocument().getAward()) || !lookupFieldValue.equals(event.getInvoiceDocument().getAward().getAgencyNumber())) {
-                    valid = false;
+                    isValid = false;
                 }
             }
 
-            if (valid) {
+            if (isValid) {
                 String propertyName = ArPropertyConstants.TicklersReportFields.FOLLOWUP_DATE;
                 String dateFromFieldValues = ObjectUtils.isNull(lookupFormFields.get(KRADConstants.LOOKUP_RANGE_LOWER_BOUND_PROPERTY_PREFIX + propertyName.toString())) ? "" : lookupFormFields.get(KRADConstants.LOOKUP_RANGE_LOWER_BOUND_PROPERTY_PREFIX + propertyName.toString()).toString();
                 String dateToFieldValues = ObjectUtils.isNull(lookupFormFields.get(propertyName.toString())) ? "" : lookupFormFields.get(propertyName.toString()).toString();
 
                 if (ObjectUtils.isNotNull(event.getFollowupDate())) {
                     try {
-                        valid = ContractsGrantsReportUtils.isDateFieldInRange(dateFromFieldValues, dateToFieldValues, event.getFollowupDate(), propertyName.toString());
+                        isValid = ContractsGrantsReportUtils.isDateFieldInRange(dateFromFieldValues, dateToFieldValues, event.getFollowupDate(), propertyName.toString());
                     }
                     catch (Exception e) {
                         // do nothing
-                        valid = false;
+                        isValid = false;
                     }
                 }
                 else {
-                    valid = false;
+                    isValid = false;
                 }
             }
 
-            if (valid) {
+            if (isValid) {
                 // Check for customer collectors
                 if (!collectorPrincName.trim().isEmpty()) {
                     PersonService personService = SpringContext.getBean(org.kuali.rice.kim.api.identity.PersonService.class);
@@ -147,7 +147,7 @@ public class TicklersReportLookupableHelperServiceImpl extends ContractsGrantsRe
                     if (ObjectUtils.isNotNull(collUser)) {
                         principalId = collUser.getPrincipalId();
                         if (ObjectUtils.isNotNull(principalId) && !principalId.equals("")) {
-                            valid = false;
+                            isValid = false;
 
                             CustomerCollector customerCollector = event.getInvoiceDocument().getCustomer().getCustomerCollector();
 
@@ -165,14 +165,14 @@ public class TicklersReportLookupableHelperServiceImpl extends ContractsGrantsRe
                                 CollectorHierarchy collectorHead = new ArrayList<CollectorHierarchy>(collectorHierarchies).get(0);
                                 if (ObjectUtils.isNotNull(collectorHead)) {
                                     if (ObjectUtils.isNotNull(collectorHead.getPrincipalId()) && ObjectUtils.isNotNull(customerCollector) && collectorHead.getPrincipalId().equalsIgnoreCase(customerCollector.getPrincipalId())) {
-                                        valid = true;
+                                        isValid = true;
                                     }
                                     else {
                                         // check principal ids of collector
                                         if (ObjectUtils.isNotNull(collectorHead.getCollectorInformations()) && CollectionUtils.isNotEmpty(collectorHead.getCollectorInformations())) {
                                             for (CollectorInformation collectorInfo : collectorHead.getCollectorInformations()) {
                                                 if (collectorInfo.isActive() && ObjectUtils.isNotNull(collectorInfo.getPrincipalId()) && ObjectUtils.isNotNull(customerCollector) && collectorInfo.getPrincipalId().equalsIgnoreCase(customerCollector.getPrincipalId())) {
-                                                    valid = true;
+                                                    isValid = true;
                                                     break;
                                                 }
                                             }
@@ -181,24 +181,24 @@ public class TicklersReportLookupableHelperServiceImpl extends ContractsGrantsRe
                                 }
                                 else if (ObjectUtils.isNotNull(customerCollector) && customerCollector.getPrincipalId().equals(principalId)) {
                                     if (collectorHierarchyDao.isCollector(principalId)) {
-                                        valid = true;
+                                        isValid = true;
                                     }
                                 }
                             }
                             else if (ObjectUtils.isNotNull(customerCollector) && customerCollector.getPrincipalId().equals(principalId)) {
                                 if (collectorHierarchyDao.isCollector(principalId)) {
-                                    valid = true;
+                                    isValid = true;
                                 }
                             }
                         }
                     }
                     else {
-                        valid = false;
+                        isValid = false;
                     }
                 }
             }
 
-            if (valid) {
+            if (isValid) {
 
                 TicklersReport ticklerReport = new TicklersReport();
                 ContractsGrantsInvoiceDocument invoice = event.getInvoiceDocument();
@@ -219,7 +219,7 @@ public class TicklersReportLookupableHelperServiceImpl extends ContractsGrantsRe
                 if (ObjectUtils.isNotNull(event.getCollectionActivityType())) {
                     ticklerReport.setActivityDescription(event.getCollectionActivityType().getActivityDescription());
                 }
-                ticklerReport.setCompleted(event.isCompleted());
+                ticklerReport.setCompletedInd(event.isCompletedInd());
                 ticklerReport.setActivityDate(event.getActivityDate());
                 ticklerReport.setUser(event.getUser().getName());
                 displayList.add(ticklerReport);
@@ -235,6 +235,7 @@ public class TicklersReportLookupableHelperServiceImpl extends ContractsGrantsRe
      * @see org.kuali.kfs.module.ar.businessobject.lookup.ContractsGrantsReportLookupableHelperServiceImplBase#buildResultTable(org.kuali.rice.kns.web.struts.form.LookupForm,
      *      java.util.Collection, java.util.Collection)
      */
+    @Override
     protected void buildResultTable(LookupForm lookupForm, Collection displayList, Collection resultTable) {
         Person user = GlobalVariables.getUserSession().getPerson();
         boolean hasReturnableRow = false;
@@ -296,9 +297,9 @@ public class TicklersReportLookupableHelperServiceImpl extends ContractsGrantsRe
             if (getBusinessObjectDictionaryService().isExportable(getBusinessObjectClass())) {
                 row.setBusinessObject(element);
             }
-            boolean rowReturnable = isResultReturnable(element);
-            row.setRowReturnable(rowReturnable);
-            if (rowReturnable) {
+            boolean isRowReturnable = isResultReturnable(element);
+            row.setRowReturnable(isRowReturnable);
+            if (isRowReturnable) {
                 hasReturnableRow = true;
             }
             resultTable.add(row);

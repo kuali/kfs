@@ -77,7 +77,7 @@ public class CloseServiceImpl implements CloseService {
             return true;
         }
 
-        boolean result = true;
+        boolean resultInd = true;
         String noteText = null;
         if (max.getDocumentHeader().getWorkflowDocument().getCurrentNodeNames().contains( CGConstants.CGKimApiConstants.UNPROCESSED_ROUTING_NODE_NAME) ) {
 
@@ -111,10 +111,10 @@ public class CloseServiceImpl implements CloseService {
                 noteText = MessageFormat.format(messageProperty, e.getMessage(), e.getCause().getMessage());
             }
             finally {
-                result = this.addDocumentNoteAfterClosing(max, noteText);
+                resultInd = this.addDocumentNoteAfterClosing(max, noteText);
             }
         }
-        return result;
+        return resultInd;
     }
 
     /**

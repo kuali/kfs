@@ -64,7 +64,7 @@ public class OrganizationOptions extends PersistableBusinessObjectBase implement
 	protected String organizationCheckPayableToName;
     protected String organizationPostalZipCode;
     protected String organizationPostalCountryCode;
-    private boolean cgBiller;
+    private boolean cgBillerIndicator;
     protected Organization organization;
 	protected Chart chartOfAccounts;
 	protected Chart processingChartOfAccount;
@@ -90,19 +90,19 @@ public class OrganizationOptions extends PersistableBusinessObjectBase implement
 	}
 
 	/**
-	 * Gets the cgBiller attribute.
-	 * @return Returns the cgBiller.
+	 * Gets the cgBillerIndicator attribute.
+	 * @return Returns the cgBillerIndicator.
 	 */
-	public boolean isCgBiller() {
-	    return cgBiller;
+	public boolean isCgBillerIndicator() {
+	    return cgBillerIndicator;
 	}
 
     /**
-     * Sets the cgBiller attribute value.
-     * @param cgBiller The cgBiller to set.
+     * Sets the cgBillerIndicator attribute value.
+     * @param cgBillerIndicator The cgBillerIndicator to set.
      */
-    public void setCgBiller(boolean cgBiller) {
-        this.cgBiller = cgBiller;
+    public void setCgBillerIndicator(boolean cgBillerIndicator) {
+        this.cgBillerIndicator = cgBillerIndicator;
     }
 
     /**
@@ -529,7 +529,8 @@ public class OrganizationOptions extends PersistableBusinessObjectBase implement
 	 * @param organization The organization to set.
 	 * @deprecated
 	 */
-	public void setOrganization(Organization organization) {
+	@Deprecated
+    public void setOrganization(Organization organization) {
 		this.organization = organization;
 	}
 
@@ -549,7 +550,8 @@ public class OrganizationOptions extends PersistableBusinessObjectBase implement
 	 * @param chartOfAccounts The chartOfAccounts to set.
 	 * @deprecated
 	 */
-	public void setChartOfAccounts(Chart chartOfAccounts) {
+	@Deprecated
+    public void setChartOfAccounts(Chart chartOfAccounts) {
 		this.chartOfAccounts = chartOfAccounts;
 	}
 
@@ -569,7 +571,8 @@ public class OrganizationOptions extends PersistableBusinessObjectBase implement
 	 * @param processingChartOfAccount The processingChartOfAccount to set.
 	 * @deprecated
 	 */
-	public void setProcessingChartOfAccount(Chart processingChartOfAccount) {
+	@Deprecated
+    public void setProcessingChartOfAccount(Chart processingChartOfAccount) {
 		this.processingChartOfAccount = processingChartOfAccount;
 	}
 
@@ -589,7 +592,8 @@ public class OrganizationOptions extends PersistableBusinessObjectBase implement
 	 * @param processingOrganization The processingOrganization to set.
 	 * @deprecated
 	 */
-	public void setProcessingOrganization(Organization processingOrganization) {
+	@Deprecated
+    public void setProcessingOrganization(Organization processingOrganization) {
 		this.processingOrganization = processingOrganization;
 	}
 

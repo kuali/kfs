@@ -1,12 +1,12 @@
 /*
  * Copyright 2012 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -47,7 +47,7 @@ public class CollectionActivityReportDetailDataHolder {
 
     /**
      * Constructor to initialize other values from given object.
-     * 
+     *
      * @param cr ColletionActivityReport object from which values to be set in data holder object.
      */
     public CollectionActivityReportDetailDataHolder(CollectionActivityReport cr) {
@@ -58,13 +58,13 @@ public class CollectionActivityReportDetailDataHolder {
         this.activityType = cr.getActivityType();
         this.activityComment = cr.getActivityComment();
         this.completedDate = cr.getCompletedDate();
-        this.activityComplete = (cr.isCompleted()) ? KFSConstants.ParameterValues.STRING_YES : KFSConstants.ParameterValues.STRING_NO;
+        this.activityComplete = (cr.isCompletedInd()) ? KFSConstants.ParameterValues.STRING_YES : KFSConstants.ParameterValues.STRING_NO;
         this.userPrincipalId = cr.getUserPrincipalId();
     }
 
     /**
      * Gets the followupDate attribute.
-     * 
+     *
      * @return Returns the followup date.
      */
     public Date getFollowupDate() {
@@ -73,7 +73,7 @@ public class CollectionActivityReportDetailDataHolder {
 
     /**
      * Sets the followupDate attribute.
-     * 
+     *
      * @param followupDate The followup date to set.
      */
     public void setFollowupDate(Date followupDate) {
@@ -82,7 +82,7 @@ public class CollectionActivityReportDetailDataHolder {
 
     /**
      * Gets the activityType attribute.
-     * 
+     *
      * @return Returns the activityType.
      */
     public String getActivityType() {
@@ -91,7 +91,7 @@ public class CollectionActivityReportDetailDataHolder {
 
     /**
      * Sets the activityType attribute.
-     * 
+     *
      * @param activityType The activityType to set.
      */
     public void setActivityType(String activityType) {
@@ -100,7 +100,7 @@ public class CollectionActivityReportDetailDataHolder {
 
     /**
      * Gets the activityComment attribute.
-     * 
+     *
      * @return Returns the activityComment.
      */
     public String getActivityComment() {
@@ -109,7 +109,7 @@ public class CollectionActivityReportDetailDataHolder {
 
     /**
      * Sets the activityComment attribute.
-     * 
+     *
      * @param activityComment The activityComment to set.
      */
     public void setActivityComment(String activityComment) {
@@ -118,7 +118,7 @@ public class CollectionActivityReportDetailDataHolder {
 
     /**
      * Gets the accountNumber attribute.
-     * 
+     *
      * @return Returns the accountNumber.
      */
     public String getAccountNumber() {
@@ -127,7 +127,7 @@ public class CollectionActivityReportDetailDataHolder {
 
     /**
      * Sets the accountNumber attribute.
-     * 
+     *
      * @param accountNumber The accountNumber to set.
      */
     public void setAccountNumber(String accountNumber) {
@@ -136,7 +136,7 @@ public class CollectionActivityReportDetailDataHolder {
 
     /**
      * Gets the activityDate attribute.
-     * 
+     *
      * @return Returns the activityDate.
      */
     public Date getActivityDate() {
@@ -145,7 +145,7 @@ public class CollectionActivityReportDetailDataHolder {
 
     /**
      * Sets the activityDate attribute.
-     * 
+     *
      * @param activityDate The activityDate to set.
      */
     public void setActivityDate(Date activityDate) {
@@ -154,7 +154,7 @@ public class CollectionActivityReportDetailDataHolder {
 
     /**
      * Gets the activityComplete attribute.
-     * 
+     *
      * @return Returns the activityComplete.
      */
     public String getActivityComplete() {
@@ -163,7 +163,7 @@ public class CollectionActivityReportDetailDataHolder {
 
     /**
      * Sets the activityComplete attribute.
-     * 
+     *
      * @param activityComplete The activityComplete to set.
      */
     public void setActivityComplete(String activityComplete) {
@@ -172,7 +172,7 @@ public class CollectionActivityReportDetailDataHolder {
 
     /**
      * Gets the completedDate attribute.
-     * 
+     *
      * @return Returns the completedDate.
      */
     public Date getCompletedDate() {
@@ -181,7 +181,7 @@ public class CollectionActivityReportDetailDataHolder {
 
     /**
      * Sets the completedDate attribute.
-     * 
+     *
      * @param completedDate The completedDate to set.
      */
     public void setCompletedDate(Date completedDate) {
@@ -190,7 +190,7 @@ public class CollectionActivityReportDetailDataHolder {
 
     /**
      * Gets the userPrincipalId attribute.
-     * 
+     *
      * @return Returns the userPrincipalId.
      */
     public String getUserPrincipalId() {
@@ -199,7 +199,7 @@ public class CollectionActivityReportDetailDataHolder {
 
     /**
      * Sets the userPrincipalId attribute.
-     * 
+     *
      * @param userPrincipalId The userPrincipalId to set.
      */
     public void setUserPrincipalId(String userPrincipalId) {
@@ -208,7 +208,7 @@ public class CollectionActivityReportDetailDataHolder {
 
     /**
      * Gets the proposalNumber attribute.
-     * 
+     *
      * @return Returns the proposal number.
      */
     public Long getProposalNumber() {
@@ -217,7 +217,7 @@ public class CollectionActivityReportDetailDataHolder {
 
     /**
      * Sets the proposalNumber attribute.
-     * 
+     *
      * @param proposalNumber The proposal number to set.
      */
     public void setProposalNumber(Long proposalNumber) {
@@ -226,7 +226,7 @@ public class CollectionActivityReportDetailDataHolder {
 
     /**
      * Gets the agencyNumber attribute.
-     * 
+     *
      * @return Returns the agency number.
      */
     public String getAgencyNumber() {
@@ -235,7 +235,7 @@ public class CollectionActivityReportDetailDataHolder {
 
     /**
      * Sets the agencyNumber attribute.
-     * 
+     *
      * @param agencyNumber The agency number to set.
      */
     public void setAgencyNumber(String agencyNumber) {
@@ -244,7 +244,7 @@ public class CollectionActivityReportDetailDataHolder {
 
     /**
      * Gets the invoiceNumber attribute.
-     * 
+     *
      * @return Returns the invoice number.
      */
     public String getInvoiceNumber() {
@@ -253,7 +253,7 @@ public class CollectionActivityReportDetailDataHolder {
 
     /**
      * Sets the invoiceNumber attribute.
-     * 
+     *
      * @param invoiceNumber The invoice number to set.
      */
     public void setInvoiceNumber(String invoiceNumber) {
@@ -262,7 +262,7 @@ public class CollectionActivityReportDetailDataHolder {
 
     /**
      * Gets the agencyName attribute.
-     * 
+     *
      * @return Returns tha agency name.
      */
     public String getAgencyName() {
@@ -271,7 +271,7 @@ public class CollectionActivityReportDetailDataHolder {
 
     /**
      * Sets the agencyName attribute.
-     * 
+     *
      * @param agencyName The agency name to set.
      */
     public void setAgencyName(String agencyName) {

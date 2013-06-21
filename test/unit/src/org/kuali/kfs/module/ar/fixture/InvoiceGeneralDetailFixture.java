@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -32,7 +32,7 @@ public enum InvoiceGeneralDetailFixture {
     private String comment;
     private String awardDateRange;
     private String billingFrequency;
-    private boolean finalBill;
+    private boolean finalBillIndicator;
     private String billingPeriod;
     private String contractGrantType;
     private KualiDecimal awardTotal = KualiDecimal.ZERO;
@@ -43,12 +43,12 @@ public enum InvoiceGeneralDetailFixture {
     private Date lastBilledDate;
     private Integer transferNumber;
 
-    private InvoiceGeneralDetailFixture(String documentNumber, String comment, String awardDateRange, String billingFrequency, boolean finalBill, String billingPeriod, String contractGrantType, KualiDecimal awardTotal, KualiDecimal newTotalBilled, KualiDecimal amountRemainingToBill, KualiDecimal billedToDate, KualiDecimal costShareAmount, Date lastBilledDate, Integer transferNumber) {
+    private InvoiceGeneralDetailFixture(String documentNumber, String comment, String awardDateRange, String billingFrequency, boolean finalBillIndicator, String billingPeriod, String contractGrantType, KualiDecimal awardTotal, KualiDecimal newTotalBilled, KualiDecimal amountRemainingToBill, KualiDecimal billedToDate, KualiDecimal costShareAmount, Date lastBilledDate, Integer transferNumber) {
         this.documentNumber = documentNumber;
         this.comment = comment;
         this.awardDateRange = awardDateRange;
         this.billingFrequency = billingFrequency;
-        this.finalBill = finalBill;
+        this.finalBillIndicator = finalBillIndicator;
         this.billingPeriod = billingPeriod;
         this.contractGrantType = contractGrantType;
         this.awardTotal = awardTotal;
@@ -66,7 +66,7 @@ public enum InvoiceGeneralDetailFixture {
         invoiceGeneralDetail.setComment(comment);
         invoiceGeneralDetail.setAwardDateRange(awardDateRange);
         invoiceGeneralDetail.setBillingFrequency(billingFrequency);
-        invoiceGeneralDetail.setFinalBill(finalBill);
+        invoiceGeneralDetail.setFinalBillIndicator(finalBillIndicator);
         invoiceGeneralDetail.setBillingPeriod(billingPeriod);
         invoiceGeneralDetail.setContractGrantType(contractGrantType);
         invoiceGeneralDetail.setAwardTotal(awardTotal);

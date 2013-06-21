@@ -80,11 +80,13 @@
         <property name="packagePrefixes">
             <list>
                 <value>org.kuali.kfs.integration.cg</value>
+                <value>org.kuali.kfs.integration.ar</value>
             </list>
         </property>
         <property name="dataDictionaryPackages">
             <list>
                 <value>org/kuali/kfs/integration/cg/businessobject/datadictionary</value>
+                <value>org/kuali/kfs/integration/ar/businessobject/datadictionary</value>
             </list>
         </property>
         <property name="externalizableBusinessObjectImplementations">

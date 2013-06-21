@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -55,18 +55,18 @@ public class CustomerInvoiceWriteoffLookupSummaryAction extends KualiAction {
     }
 
     public ActionForward createCustomerInvoiceWriteoffs(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        
-        CustomerInvoiceWriteoffLookupSummaryForm customerInvoiceWriteoffLookupSummaryForm = (CustomerInvoiceWriteoffLookupSummaryForm) form;        
+
+        CustomerInvoiceWriteoffLookupSummaryForm customerInvoiceWriteoffLookupSummaryForm = (CustomerInvoiceWriteoffLookupSummaryForm) form;
 
         Person person = GlobalVariables.getUserSession().getPerson();
-          
+
         CustomerInvoiceWriteoffDocumentService service = SpringContext.getBean(CustomerInvoiceWriteoffDocumentService.class);
         Collection<CustomerInvoiceWriteoffLookupResult> lookupResults = customerInvoiceWriteoffLookupSummaryForm.getCustomerInvoiceWriteoffLookupResults();
 
         //TODO Need to check every invoiceNumber submitted and make sure that:
         //      1. Invoice exists in the system.
         //      2. Invoice doesnt already have a writeoff in progress, either in route or final.
-        
+
         //  make sure no null/blank invoiceNumbers get sent
         boolean anyFound = false;
         boolean customerNoteMissingOrInvalid = false;
@@ -89,28 +89,29 @@ public class CustomerInvoiceWriteoffLookupSummaryAction extends KualiAction {
             }
             ind++;
         }
-        
+
         if (customerNoteMissingOrInvalid || !anyFound) {
             // only submit this if there's at least one invoiceNumber in the stack
-            if (!anyFound)
+            if (!anyFound) {
                 GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, ArKeyConstants.ERROR_CUSTOMER_INVOICE_WRITEOFF_NO_INVOICES_SELECTED);
+            }
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
-        
+
         //  send the batch file off
         String filename = service.sendCustomerInvoiceWriteoffDocumentsToBatch(person, lookupResults);
-        
+
         //  manually fire off the batch job
-        SpringContext.getBean(CustomerInvoiceWriteoffBatchService.class).loadFiles(); 
-        
-        customerInvoiceWriteoffLookupSummaryForm.setSentToBatch(true);
-        
+        SpringContext.getBean(CustomerInvoiceWriteoffBatchService.class).loadFiles();
+
+        customerInvoiceWriteoffLookupSummaryForm.setSentToBatchInd(true);
+
         KNSGlobalVariables.getMessageList().add(ArKeyConstants.ERROR_CUSTOMER_INVOICE_WRITEOFF_BATCH_SENT);
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
-    
+
     public ActionForward cancel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         return mapping.findForward(KFSConstants.MAPPING_CANCEL);
-    }        
+    }
 }
 

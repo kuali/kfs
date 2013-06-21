@@ -187,7 +187,7 @@
 								p:unconditionallyReadOnly="true" />
 							<bean parent="MaintainableFieldDefinition" p:name="currentLastBilledDate"
 								p:unconditionallyReadOnly="true" />
-							<bean parent="MaintainableFieldDefinition" p:name="finalBilled"
+							<bean parent="MaintainableFieldDefinition" p:name="finalBilledIndicator"
 								p:defaultValue="false" p:unconditionallyReadOnly="true" />
 							<bean parent="MaintainableFieldDefinition" p:name="principalId"
 								p:unconditionallyReadOnly="true" />
@@ -381,17 +381,17 @@
 					p:triggerOnChange="true" />
 				<bean parent="MaintainableFieldDefinition" p:name="preferredReportTemplate" />
 				<bean parent="MaintainableFieldDefinition" p:name="preferredReportFrequency" />
-				<bean parent="MaintainableFieldDefinition" p:name="stateTransfer" />
-				<bean parent="MaintainableFieldDefinition" p:name="suspendInvoicing" />
+				<bean parent="MaintainableFieldDefinition" p:name="stateTransferIndicator" />
+				<bean parent="MaintainableFieldDefinition" p:name="suspendInvoicingIndicator" />
 				<bean parent="MaintainableFieldDefinition" p:name="suspensionReason" />
-				<bean parent="MaintainableFieldDefinition" p:name="additionalFormsRequired" />
+				<bean parent="MaintainableFieldDefinition" p:name="additionalFormsRequiredIndicator" />
 				<bean parent="MaintainableFieldDefinition" p:name="additionalFormsDescription" />
 				<bean parent="MaintainableFieldDefinition" p:name="awardsourceOfFundsCode" />
-				<bean parent="MaintainableFieldDefinition" p:name="autoApprove" />
+				<bean parent="MaintainableFieldDefinition" p:name="autoApproveIndicator" />
 				<bean parent="MaintainableFieldDefinition" p:name="minInvoiceAmount" />
 				<bean parent="MaintainableFieldDefinition" p:name="invoicingOptions" />
 				<bean parent="MaintainableFieldDefinition" p:name="dunningCampaign" />
-				<bean parent="MaintainableFieldDefinition" p:name="stopWork" />
+				<bean parent="MaintainableFieldDefinition" p:name="stopWorkIndicator" />
 				<bean parent="MaintainableFieldDefinition" p:name="commentText" />				
 			</list>
 		</property>

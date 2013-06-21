@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -31,19 +31,19 @@ public enum ARAwardAccountFixture {
     private String chartOfAccountsCode;
     private String accountNumber;
     private boolean active = true;
-    private boolean finalBilled;
+    private boolean finalBilledIndicator;
     private Date currentLastBilledDate;
     private Date previousLastBilledDate;
     private KualiDecimal amountToDraw = KualiDecimal.ZERO;
     private boolean locReviewIndicator;
 
 
-    private ARAwardAccountFixture(Long proposalNumber, String chartOfAccountsCode, String accountNumber, boolean finalBilled, Date currentLastBilledDate, Date previousLastBilledDate, KualiDecimal amountToDraw, boolean locReviewIndicator) {
+    private ARAwardAccountFixture(Long proposalNumber, String chartOfAccountsCode, String accountNumber, boolean finalBilledIndicator, Date currentLastBilledDate, Date previousLastBilledDate, KualiDecimal amountToDraw, boolean locReviewIndicator) {
 
         this.proposalNumber = proposalNumber;
         this.chartOfAccountsCode = chartOfAccountsCode;
         this.accountNumber = accountNumber;
-        this.finalBilled = finalBilled;
+        this.finalBilledIndicator = finalBilledIndicator;
         this.currentLastBilledDate = currentLastBilledDate;
         this.previousLastBilledDate = previousLastBilledDate;
         this.amountToDraw = amountToDraw;
@@ -58,7 +58,7 @@ public enum ARAwardAccountFixture {
         awardAccount.setProposalNumber(this.proposalNumber);
         awardAccount.setChartOfAccountsCode(this.chartOfAccountsCode);
         awardAccount.setAccountNumber(this.accountNumber);
-        awardAccount.setFinalBilled(this.finalBilled);
+        awardAccount.setFinalBilledIndicator(this.finalBilledIndicator);
         awardAccount.setCurrentLastBilledDate(this.currentLastBilledDate);
         awardAccount.setPreviousLastBilledDate(this.previousLastBilledDate);
         awardAccount.setAmountToDraw(this.amountToDraw);

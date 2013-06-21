@@ -48,7 +48,7 @@ import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleUpdateService;
 import org.kuali.kfs.integration.cg.ContractsGrantsAwardInvoiceAccountInformation;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
-import org.kuali.kfs.module.ar.batch.service.VerifyBillingFrequency;
+import org.kuali.kfs.module.ar.batch.service.VerifyBillingFrequencyService;
 import org.kuali.kfs.module.ar.businessobject.AwardAccountObjectCodeTotalBilled;
 import org.kuali.kfs.module.ar.businessobject.ContractsAndGrantsCategories;
 import org.kuali.kfs.module.ar.businessobject.Customer;
@@ -127,7 +127,7 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
     public Date paymentDate;
     public String markedForProcessing;
     private final String REQUIRES_APPROVAL_SPLIT = "RequiresApprovalSplit";
-    private boolean showEvents = true;
+    private boolean showEventsInd = true;
 
     /**
      * Default constructor.
@@ -209,7 +209,7 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
      * This method updates the awardAccounts when the final invoice is generated.
      */
     public void doWhenFinalInvoice() {
-        if (this.getInvoiceGeneralDetail().isFinalBill()) {
+        if (this.getInvoiceGeneralDetail().isFinalBillIndicator()) {
             Iterator it = accountDetails.iterator();
             while (it.hasNext()) {
                 InvoiceAccountDetail id = (InvoiceAccountDetail) it.next();
@@ -279,7 +279,7 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
                     replacementList.put("#agency.fullAddress", returnProperStringValue(fullAddress));
                     reportStream = PdfFormFillerUtil.populateTemplate(templateFile, replacementList, "");
                     // creating and saving the original note with an attachment
-                    if (ObjectUtils.isNotNull(this.getInvoiceGeneralDetail()) && this.getInvoiceGeneralDetail().isFinalBill()) {
+                    if (ObjectUtils.isNotNull(this.getInvoiceGeneralDetail()) && this.getInvoiceGeneralDetail().isFinalBillIndicator()) {
                         reportStream = PdfFormFillerUtil.createFinalmarkOnFile(reportStream, "FINAL INVOICE");
                     }
                     Note note = new Note();
@@ -365,11 +365,11 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
             this.doWhenFinalInvoice();
             if (this.isInvoiceReversal()) { // Invoice correction process when corrected invoice goes to FINAL
                 try {
-                    this.getInvoiceGeneralDetail().setFinalBill(false);
+                    this.getInvoiceGeneralDetail().setFinalBillIndicator(false);
                     ContractsGrantsInvoiceDocument invoice = (ContractsGrantsInvoiceDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(this.getFinancialSystemDocumentHeader().getFinancialDocumentInErrorNumber());
                     if (ObjectUtils.isNotNull(invoice)) {
                         invoice.setInvoiceDueDate(new java.sql.Date(new Date().getTime()));
-                        invoice.getInvoiceGeneralDetail().setFinalBill(false);
+                        invoice.getInvoiceGeneralDetail().setFinalBillIndicator(false);
                         SpringContext.getBean(DocumentService.class).updateDocument(invoice);
                         // update correction to the AwardAccount Objects since the Invoice was unmarked as Final
                         invoice.updateUnfinalizationToAwardAccount();
@@ -661,9 +661,9 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
                 parameterMap.put("#invoiceGeneralDetail.documentNumber", returnProperStringValue(invoiceGeneralDetail.getDocumentNumber()));
                 parameterMap.put("#invoiceGeneralDetail.awardDateRange", returnProperStringValue(invoiceGeneralDetail.getAwardDateRange()));
                 parameterMap.put("#invoiceGeneralDetail.billingFrequency", returnProperStringValue(invoiceGeneralDetail.getBillingFrequency()));
-                parameterMap.put("#invoiceGeneralDetail.finalBill", convertBooleanValue(invoiceGeneralDetail.isFinalBill()));
-                parameterMap.put("#invoiceGeneralDetail.finalInvoice", convertBooleanValue(invoiceGeneralDetail.isFinalBill()));
-                if (invoiceGeneralDetail.isFinalBill()) {
+                parameterMap.put("#invoiceGeneralDetail.finalBill", convertBooleanValue(invoiceGeneralDetail.isFinalBillIndicator()));
+                parameterMap.put("#invoiceGeneralDetail.finalInvoice", convertBooleanValue(invoiceGeneralDetail.isFinalBillIndicator()));
+                if (invoiceGeneralDetail.isFinalBillIndicator()) {
                     parameterMap.put("#invoiceGeneralDetail.finalInvoiceYesNo", "Yes");
                 }
                 else {
@@ -761,13 +761,13 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
                 parameterMap.put("#award.kimGroupNames", returnProperStringValue(award.getKimGroupNames()));
                 parameterMap.put("#award.routingOrg", returnProperStringValue(award.getRoutingOrg()));
                 parameterMap.put("#award.routingChart", returnProperStringValue(award.getRoutingChart()));
-                parameterMap.put("#award.suspendInvoicing", convertBooleanValue(award.isSuspendInvoicing()));
-                parameterMap.put("#award.additionalFormsRequired", convertBooleanValue(award.isAdditionalFormsRequired()));
+                parameterMap.put("#award.suspendInvoicing", convertBooleanValue(award.isSuspendInvoicingIndicator()));
+                parameterMap.put("#award.additionalFormsRequired", convertBooleanValue(award.isAdditionalFormsRequiredIndicator()));
                 parameterMap.put("#award.additionalFormsDescription", returnProperStringValue(award.getAdditionalFormsDescription()));
                 parameterMap.put("#award.contractGrantType", returnProperStringValue(award.getContractGrantType()));
                 parameterMap.put("#award.awardsourceOfFundsCode", returnProperStringValue(award.getAwardsourceOfFundsCode()));
                 parameterMap.put("#award.minInvoiceAmount", returnProperStringValue(award.getMinInvoiceAmount()));
-                parameterMap.put("#award.autoApprove", returnProperStringValue(award.getAutoApprove()));
+                parameterMap.put("#award.autoApprove", returnProperStringValue(award.getAutoApproveIndicator()));
                 parameterMap.put("#award.lookupPersonUniversalIdentifier", returnProperStringValue(award.getLookupPersonUniversalIdentifier()));
                 parameterMap.put("#award.lookupPerson", returnProperStringValue(award.getLookupPerson().getPrincipalName()));
                 parameterMap.put("#award.userLookupRoleNamespaceCode", returnProperStringValue(award.getUserLookupRoleNamespaceCode()));
@@ -1021,13 +1021,13 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
             invoiceGeneralDetail.setDocumentNumber(this.getDocumentNumber());
 
             ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService = SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class);
-            VerifyBillingFrequency verifyBillingFrequency = SpringContext.getBean(VerifyBillingFrequency.class);
+            VerifyBillingFrequencyService verifyBillingFrequencyService = SpringContext.getBean(VerifyBillingFrequencyService.class);
 
             // Set the last Billed Date and Billing Period
             Timestamp ts = new Timestamp(new java.util.Date().getTime());
             java.sql.Date today = new java.sql.Date(ts.getTime());
             AccountingPeriod currPeriod = accountingPeriodService.getByDate(today);
-            java.sql.Date[] pair = verifyBillingFrequency.getStartDateAndEndDateOfPreviousBillingPeriod(award, currPeriod);
+            java.sql.Date[] pair = verifyBillingFrequencyService.getStartDateAndEndDateOfPreviousBillingPeriod(award, currPeriod);
             invoiceGeneralDetail.setBillingPeriod(pair[0] + " to " + pair[1]);
             invoiceGeneralDetail.setLastBilledDate(pair[1]);
 
@@ -1566,15 +1566,15 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
                 balanceKeys.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, eachFiscalYr);
                 balanceKeys.put("objectTypeCode", ArPropertyConstants.EXPENSE_OBJECT_TYPE);
                 balanceKeys.put("balanceTypeCode", ArPropertyConstants.ACTUAL_BALANCE_TYPE);
-    
+
                 glBalances.addAll(SpringContext.getBean(BusinessObjectService.class).findMatching(Balance.class, balanceKeys));
             }
         } // now you have a list of balances from all accounts;
 
 
         for (Balance bal : glBalances) {
-           if(!StringUtils.equalsIgnoreCase(bal.getSubAccount().getA21SubAccount().getSubAccountTypeCode(),KFSConstants.SubAccountType.COST_SHARE)){ 
-            
+           if(!StringUtils.equalsIgnoreCase(bal.getSubAccount().getA21SubAccount().getSubAccountTypeCode(),KFSConstants.SubAccountType.COST_SHARE)){
+
             ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService = SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class);
 
             for (ContractsAndGrantsCategories category : contractsAndGrantsCategories) {
@@ -2125,7 +2125,7 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
     private boolean isRequiresFundingManagerApproval() {
         // if auto approve on the award is false or suspension exists, then we need to have funds manager approve.
         boolean result;
-        result = !this.getAward().getAutoApprove() || !this.getInvoiceSuspensionCategories().isEmpty();
+        result = !this.getAward().getAutoApproveIndicator() || !this.getInvoiceSuspensionCategories().isEmpty();
         return result;
     }
 
@@ -2226,20 +2226,20 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
     }
 
     /**
-     * Gets the showEvents attribute.
+     * Gets the showEventsInd attribute.
      *
-     * @return Returns the showEvents attribute.
+     * @return Returns the showEventsInd attribute.
      */
-    public boolean isShowEvents() {
-        return showEvents;
+    public boolean isShowEventsInd() {
+        return showEventsInd;
     }
 
     /**
-     * Sets the showEvents attribute.
+     * Sets the showEventsInd attribute.
      *
-     * @param showEvents The showEvents to set.
+     * @param showEventsInd The showEventsInd to set.
      */
-    public void setShowEvents(boolean showEvents) {
-        this.showEvents = showEvents;
+    public void setShowEventsInd(boolean showEventsInd) {
+        this.showEventsInd = showEventsInd;
     }
 }

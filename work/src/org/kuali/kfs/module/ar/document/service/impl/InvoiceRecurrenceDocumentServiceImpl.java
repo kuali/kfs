@@ -130,10 +130,10 @@ public class InvoiceRecurrenceDocumentServiceImpl implements InvoiceRecurrenceDo
      */
     @Override
     public boolean isInvoiceApproved( String invoiceNumber ) {
-        boolean success = true;
+        boolean isSuccess = true;
 
         if (ObjectUtils.isNull(invoiceNumber)) {
-            return success;
+            return isSuccess;
         }
 
         CustomerInvoiceDocument customerInvoiceDocument = null;
@@ -145,13 +145,13 @@ public class InvoiceRecurrenceDocumentServiceImpl implements InvoiceRecurrenceDo
         if (ObjectUtils.isNotNull(customerInvoiceDocument)) {
             WorkflowDocument workflowDocument = customerInvoiceDocument.getDocumentHeader().getWorkflowDocument();
             if (!(workflowDocument.isApproved())) {
-                success = false;
+                isSuccess = false;
             }
         }
         else {
-            success = false;
+            isSuccess = false;
         }
-        return success;
+        return isSuccess;
     }
 
     /**
@@ -159,16 +159,16 @@ public class InvoiceRecurrenceDocumentServiceImpl implements InvoiceRecurrenceDo
      */
     @Override
     public boolean isValidRecurrenceBeginDate(Date beginDate) {
-        boolean success = true;
+        boolean isSuccess = true;
         if (ObjectUtils.isNull(beginDate)) {
-            return success;
+            return isSuccess;
         }
         Timestamp currentDate = new Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime());
         Timestamp beginDateTimestamp = new Timestamp(beginDate.getTime());
         if (beginDateTimestamp.before(currentDate) || beginDateTimestamp.equals(currentDate)) {
             return false;
         }
-        return success;
+        return isSuccess;
     }
 
     /**
@@ -176,10 +176,10 @@ public class InvoiceRecurrenceDocumentServiceImpl implements InvoiceRecurrenceDo
      */
     @Override
     public boolean isValidRecurrenceEndDate(Date beginDate, Date endDate) {
-        boolean success = true;
+        boolean isSuccess = true;
         if (ObjectUtils.isNull(beginDate) ||
             ObjectUtils.isNull(endDate)) {
-            return success;
+            return isSuccess;
         }
         Timestamp beginDateTimestamp = new Timestamp(beginDate.getTime());
         Timestamp endDateTimestamp = new Timestamp(endDate.getTime());
@@ -187,7 +187,7 @@ public class InvoiceRecurrenceDocumentServiceImpl implements InvoiceRecurrenceDo
             (endDateTimestamp.before(beginDateTimestamp) || endDateTimestamp.equals(beginDateTimestamp))) {
             return false;
         }
-        return success;
+        return isSuccess;
     }
 
     /**
@@ -249,11 +249,11 @@ public class InvoiceRecurrenceDocumentServiceImpl implements InvoiceRecurrenceDo
      */
     @Override
     public boolean isValidEndDateOrTotalRecurrenceNumber( Date endDate, Integer totalRecurrenceNumber ) {
-        boolean success = true;
+        boolean isSuccess = true;
         if (ObjectUtils.isNull(endDate) && ObjectUtils.isNull(totalRecurrenceNumber)) {
             return false;
         }
-        return success;
+        return isSuccess;
     }
 
     /**

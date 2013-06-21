@@ -30,8 +30,8 @@ public class CustomerCreditMemoDocumentPreRules extends PromptBeforeValidationBa
      */
     @Override
     public boolean doPrompts(Document document) {
-        boolean preRulesOK = conditionallyAskQuestion(document);
-        return preRulesOK;
+        boolean isPreRulesOK = conditionallyAskQuestion(document);
+        return isPreRulesOK;
     }
     
     /**
@@ -45,8 +45,8 @@ public class CustomerCreditMemoDocumentPreRules extends PromptBeforeValidationBa
         boolean shouldAskQuestion = customerCreditMemoDocument.getInvoice().hasAtLeastOneDiscount();
         if (shouldAskQuestion) {
             String questionText = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(ArKeyConstants.WARNING_CUSTOMER_CREDIT_MEMO_DOCUMENT_INVOICE_HAS_DISCOUNT);
-            boolean confirm = super.askOrAnalyzeYesNoQuestion(ArConstants.CustomerCreditMemoConstants.GENERATE_CUSTOMER_CREDIT_MEMO_DOCUMENT_QUESTION_ID, questionText);
-            if (!confirm) {
+            boolean confirmInd = super.askOrAnalyzeYesNoQuestion(ArConstants.CustomerCreditMemoConstants.GENERATE_CUSTOMER_CREDIT_MEMO_DOCUMENT_QUESTION_ID, questionText);
+            if (!confirmInd) {
                 super.abortRulesCheck();
             }
         }

@@ -113,7 +113,7 @@ public class CustomerLoadServiceImpl extends InitiateDirectoryBase implements Cu
 
         LOG.info("Beginning processing of all available files for AR Customer Batch Upload.");
 
-        boolean result = true;
+        boolean resultInd = true;
         List<CustomerLoadFileResult> fileResults = new ArrayList<CustomerLoadFileResult>();
         CustomerLoadFileResult reporter = null;
 
@@ -136,13 +136,13 @@ public class CustomerLoadServiceImpl extends InitiateDirectoryBase implements Cu
             fileResults.add(reporter);
 
             if (loadFile(inputFileName,  reporter, fileNamesToLoad.get(inputFileName), routedDocumentNumbers, failedDocumentNumbers)) {
-                result &= true;
+                resultInd &= true;
                 reporter.addFileInfoMessage("File successfully completed processing.");
                 processedFiles.add(inputFileName);
             }
             else {
                 reporter.addFileErrorMessage("File failed to process successfully.");
-                result &= false;
+                resultInd &= false;
             }
         }
 
@@ -152,7 +152,7 @@ public class CustomerLoadServiceImpl extends InitiateDirectoryBase implements Cu
         //  write report PDF
         writeReportPDF(fileResults);
 
-        return result;
+        return resultInd;
     }
 
     /**
@@ -247,16 +247,16 @@ public class CustomerLoadServiceImpl extends InitiateDirectoryBase implements Cu
 
     protected boolean sendDocumentsIntoWorkflow(List<MaintenanceDocument> readyTransientDocs, List<String> routedDocumentNumbers,
             List<String> failedDocumentNumbers, CustomerLoadFileResult reporter) {
-        boolean result = true;
+        boolean resultInd = true;
         for (MaintenanceDocument readyTransientDoc : readyTransientDocs) {
-            result &= sendDocumentIntoWorkflow(readyTransientDoc, routedDocumentNumbers, failedDocumentNumbers, reporter);
+            resultInd &= sendDocumentIntoWorkflow(readyTransientDoc, routedDocumentNumbers, failedDocumentNumbers, reporter);
         }
-        return result;
+        return resultInd;
     }
 
     protected boolean sendDocumentIntoWorkflow(MaintenanceDocument readyTransientDoc, List<String> routedDocumentNumbers,
             List<String> failedDocumentNumbers, CustomerLoadFileResult reporter) {
-        boolean result = true;
+        boolean resultInd = true;
 
         String customerName = ((Customer) readyTransientDoc.getNewMaintainableObject().getBusinessObject()).getCustomerName();
 
@@ -284,10 +284,10 @@ public class CustomerLoadServiceImpl extends InitiateDirectoryBase implements Cu
         catch (WorkflowException e) {
             LOG.error("WorkflowException occurred while trying to route a new MaintenanceDocument.", e);
             reporter.addCustomerErrorMessage(customerName, "WorkflowException occurred while trying to route a new MaintenanceDocument: " + e.getMessage());
-            result = false;
+            resultInd = false;
         }
 
-        if (result == true) {
+        if (resultInd == true) {
             reporter.setCustomerSuccessResult(customerName);
             reporter.setCustomerWorkflowDocId(customerName, realMaintDoc.getDocumentNumber());
             routedDocumentNumbers.add(realMaintDoc.getDocumentNumber());
@@ -296,7 +296,7 @@ public class CustomerLoadServiceImpl extends InitiateDirectoryBase implements Cu
             reporter.setCustomerFailureResult(customerName);
             failedDocumentNumbers.add(realMaintDoc.getDocumentNumber());
         }
-        return result;
+        return resultInd;
     }
 
     protected String getCustomerMaintenanceDocumentTypeName() {
@@ -404,8 +404,8 @@ public class CustomerLoadServiceImpl extends InitiateDirectoryBase implements Cu
             return false;
         }
 
-        boolean groupSucceeded = true;
-        boolean docSucceeded = true;
+        boolean isGroupSucceeded = true;
+        boolean isDocSucceeded = true;
 
         //  check to make sure the input file doesnt have more docs than we allow in one batch file
         String maxRecordsString = parameterService.getParameterValueAsString(CustomerLoadStep.class, MAX_RECORDS_PARM_NAME);
@@ -434,7 +434,7 @@ public class CustomerLoadServiceImpl extends InitiateDirectoryBase implements Cu
         }
         for (CustomerDigesterVO customerDigesterVO : customerUploads) {
 
-            docSucceeded = true;
+            isDocSucceeded = true;
             customerName = customerDigesterVO.getCustomerName();
 
             //  setup logging and reporting
@@ -453,8 +453,8 @@ public class CustomerLoadServiceImpl extends InitiateDirectoryBase implements Cu
                 customerBatchErrors.addError(customerName, "Global", Object.class, "", "This document was not processed due to errors in uploading and conversion.");
                 addBatchErrorstoCustomerLoadResult(customerBatchErrors, result);
                 reporter.setCustomerFailureResult(customerName);
-                docSucceeded = false;
-                groupSucceeded &= false;
+                isDocSucceeded = false;
+                isGroupSucceeded &= false;
                 continue;
             }
 
@@ -499,14 +499,14 @@ public class CustomerLoadServiceImpl extends InitiateDirectoryBase implements Cu
 
             //  validate the batched customer
             if (!validateSingle(transientMaintDoc, customerBatchErrors, customerName)) {
-                groupSucceeded &= false;
-                docSucceeded = false;
+                isGroupSucceeded &= false;
+                isDocSucceeded = false;
                 reporter.setCustomerFailureResult(customerName);
             }
             addBatchErrorstoCustomerLoadResult(customerBatchErrors, result);
 
             //  if the doc succeeded then add it to the list to be routed, and report it as successful
-            if (docSucceeded) {
+            if (isDocSucceeded) {
                 customerMaintDocs.add(transientMaintDoc);
                 Customer customer2 = (Customer) transientMaintDoc.getNewMaintainableObject().getBusinessObject();
                 reporter.addCustomerInfoMessage(customerName, "Customer Number is: " + customer2.getCustomerNumber());
@@ -522,7 +522,7 @@ public class CustomerLoadServiceImpl extends InitiateDirectoryBase implements Cu
             addBatchErrorsToGlobalVariables(fileBatchErrors);
         }
 
-        return groupSucceeded;
+        return isGroupSucceeded;
     }
 
     /**
@@ -800,21 +800,21 @@ public class CustomerLoadServiceImpl extends InitiateDirectoryBase implements Cu
     }
 
     protected boolean validateSingle(MaintenanceDocument maintDoc, CustomerLoadBatchErrors batchErrors, String customerName) {
-        boolean result = true;
+        boolean resultInd = true;
 
         //  get an instance of the business rule
         CustomerRule rule = new CustomerRule();
 
         //  run the business rules
-        result &= rule.processRouteDocument(maintDoc);
+        resultInd &= rule.processRouteDocument(maintDoc);
 
         extractGlobalVariableErrors(batchErrors, customerName);
 
-        return result;
+        return resultInd;
     }
 
     protected boolean extractGlobalVariableErrors(CustomerLoadBatchErrors batchErrors, String customerName) {
-        boolean result = true;
+        boolean resultInd = true;
 
         MessageMap messageMap = GlobalVariables.getMessageMap();
 
@@ -842,13 +842,13 @@ public class CustomerLoadServiceImpl extends InitiateDirectoryBase implements Cu
                     errorString = MessageFormat.format(errorString, messageParams);
                 }
                 batchErrors.addError(customerName, errorProperty, Object.class, "", errorString);
-                result = false;
+                resultInd = false;
             }
         }
 
         //  clear the stuff out of globalvars, as we need to reformat it and put it back
         GlobalVariables.getMessageMap().clearErrorMessages();
-        return result;
+        return resultInd;
     }
 
     protected MaintenanceDocument createTransientMaintDoc() {

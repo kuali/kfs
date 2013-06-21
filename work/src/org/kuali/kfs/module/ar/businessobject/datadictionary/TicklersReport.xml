@@ -29,7 +29,7 @@
 				<ref bean="TicklersReport-followupDate" />
 				<ref bean="TicklersReport-activityCode" />
 				<ref bean="TicklersReport-agencyNumber"/>
-				<ref bean="TicklersReport-completed"/>
+				<ref bean="TicklersReport-completedInd"/>
 				<ref bean="TicklersReport-proposalNumber" />
 				<ref bean="TicklersReport-invoiceNumber" />
 				<ref bean="TicklersReport-accountNumber" />
@@ -160,11 +160,11 @@
 		</property>
 	</bean>
 	
-	<bean id="TicklersReport-completed" parent="TicklersReport-completed-parentBean" />
+	<bean id="TicklersReport-completedInd" parent="TicklersReport-completedInd-parentBean" />
 
-	<bean id="TicklersReport-completed-parentBean"
+	<bean id="TicklersReport-completedInd-parentBean"
 		abstract="true" parent="GenericAttributes-genericBoolean">
-		<property name="name" value="completed" />
+		<property name="name" value="completedInd" />
 		<property name="label" value="Completed" />
 		<property name="shortLabel" value="Completed" />
 	</bean>
@@ -330,7 +330,7 @@
 				<bean parent="FieldDefinition" p:attributeName="activityCode" />
 				<bean parent="FieldDefinition" p:attributeName="proposalNumber" />
 				<bean parent="FieldDefinition" p:attributeName="agencyNumber" />
-				<bean parent="FieldDefinition" p:attributeName="completed" p:defaultValue = "N" />
+				<bean parent="FieldDefinition" p:attributeName="completedInd" p:defaultValue = "N" />
 			</list>
 		</property>
 

@@ -1,12 +1,12 @@
 /*
  * Copyright 2012 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -27,7 +27,7 @@ import org.kuali.rice.kns.web.struts.form.KualiForm;
 public class AccountsReceivableLetterTemplateUploadForm extends KualiForm {
     private FormFile uploadedFile;
     private boolean active;
-    private boolean accessRestricted;
+    private boolean accessRestrictedInd;
     private String letterTemplateCode;
     private String filePath;
 
@@ -36,7 +36,7 @@ public class AccountsReceivableLetterTemplateUploadForm extends KualiForm {
 
     /**
      * Constructs a AccountsReceivableLetterTemplateUploadForm.java.
-     * 
+     *
      * @param document
      * @param uploadedFile
      */
@@ -47,7 +47,7 @@ public class AccountsReceivableLetterTemplateUploadForm extends KualiForm {
 
     /**
      * Gets the filePath attribute.
-     * 
+     *
      * @return Returns the filePath.
      */
     public String getFilePath() {
@@ -56,7 +56,7 @@ public class AccountsReceivableLetterTemplateUploadForm extends KualiForm {
 
     /**
      * Sets the filePath attribute value.
-     * 
+     *
      * @param filePath The filePath to set.
      */
     public void setFilePath(String filePath) {
@@ -65,7 +65,7 @@ public class AccountsReceivableLetterTemplateUploadForm extends KualiForm {
 
     /**
      * Gets the active attribute.
-     * 
+     *
      * @return Returns the active.
      */
     public boolean isActive() {
@@ -74,7 +74,7 @@ public class AccountsReceivableLetterTemplateUploadForm extends KualiForm {
 
     /**
      * Sets the active attribute value.
-     * 
+     *
      * @param active The active to set.
      */
     public void setActive(boolean active) {
@@ -82,26 +82,26 @@ public class AccountsReceivableLetterTemplateUploadForm extends KualiForm {
     }
 
     /**
-     * Gets the accessRestricted attribute.
-     * 
-     * @return Returns the accessRestricted.
+     * Gets the accessRestrictedInd attribute.
+     *
+     * @return Returns the accessRestrictedInd.
      */
-    public boolean isAccessRestricted() {
-        return accessRestricted;
+    public boolean isAccessRestrictedInd() {
+        return accessRestrictedInd;
     }
 
     /**
-     * Sets the accessRestricted attribute value.
-     * 
-     * @param accessRestricted The accessRestricted to set.
+     * Sets the accessRestrictedInd attribute value.
+     *
+     * @param accessRestrictedInd The accessRestrictedInd to set.
      */
-    public void setAccessRestricted(boolean accessRestricted) {
-        this.accessRestricted = accessRestricted;
+    public void setAccessRestrictedInd(boolean accessRestrictedInd) {
+        this.accessRestrictedInd = accessRestrictedInd;
     }
 
     /**
      * Gets the letterTemplateCode attribute.
-     * 
+     *
      * @return Returns the letterTemplateCode.
      */
     public String getLetterTemplateCode() {
@@ -110,7 +110,7 @@ public class AccountsReceivableLetterTemplateUploadForm extends KualiForm {
 
     /**
      * Sets the letterTemplateCode attribute value.
-     * 
+     *
      * @param letterTemplateCode The letterTemplateCode to set.
      */
     public void setLetterTemplateCode(String letterTemplateCode) {
@@ -119,7 +119,7 @@ public class AccountsReceivableLetterTemplateUploadForm extends KualiForm {
 
     /**
      * Gets the uploadedFile attribute.
-     * 
+     *
      * @return Returns the uploadedFile.
      */
     public FormFile getUploadedFile() {
@@ -128,7 +128,7 @@ public class AccountsReceivableLetterTemplateUploadForm extends KualiForm {
 
     /**
      * Sets the uploadedFile attribute value.
-     * 
+     *
      * @param uploadedFile The uploadedFile to set.
      */
     public void setUploadedFile(FormFile uploadedFile) {
@@ -137,7 +137,7 @@ public class AccountsReceivableLetterTemplateUploadForm extends KualiForm {
 
     /**
      * Gets the letterTemplateList attribute.
-     * 
+     *
      * @return Returns the letterTemplateList.
      */
     public List getLetterTemplateList() {

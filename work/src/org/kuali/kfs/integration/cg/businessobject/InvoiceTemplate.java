@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -37,23 +37,24 @@ public class InvoiceTemplate implements ContractsAndGrantsInvoiceTemplate {
     protected String billedByOrganizationCode;
     protected Chart billByChartOfAccount;
     protected Organization billedByOrganization;
-    private boolean accessRestricted;
+    private boolean accessRestrictedIndicator;
     private String filename;
     private String filepath;
     private String date;
 
     /**
      * Gets the date attribute.
-     * 
+     *
      * @return Returns the date.
      */
+    @Override
     public String getDate() {
         return date;
     }
 
     /**
      * Sets the date attribute value.
-     * 
+     *
      * @param date The date to set.
      */
     public void setDate(String date) {
@@ -62,16 +63,17 @@ public class InvoiceTemplate implements ContractsAndGrantsInvoiceTemplate {
 
     /**
      * Gets the filepath attribute.
-     * 
+     *
      * @return Returns the filepath.
      */
+    @Override
     public String getFilepath() {
         return filepath;
     }
 
     /**
      * Sets the filepath attribute value.
-     * 
+     *
      * @param filepath The filepath to set.
      */
     public void setFilepath(String filepath) {
@@ -79,17 +81,17 @@ public class InvoiceTemplate implements ContractsAndGrantsInvoiceTemplate {
     }
 
     /**
-     * Gets the accessRestricted attribute.
-     * 
-     * @return Returns the accessRestricted.
+     * Gets the accessRestrictedIndicator attribute.
+     *
+     * @return Returns the accessRestrictedIndicator.
      */
-    public boolean isAccessRestricted() {
-        return accessRestricted;
+    public boolean isAccessRestrictedIndicator() {
+        return accessRestrictedIndicator;
     }
 
     /**
      * Gets the billByChartOfAccountCode attribute.
-     * 
+     *
      * @return Returns the billByChartOfAccountCode.
      */
     public String getBillByChartOfAccountCode() {
@@ -98,16 +100,17 @@ public class InvoiceTemplate implements ContractsAndGrantsInvoiceTemplate {
 
     /**
      * Sets the billByChartOfAccountCode attribute value.
-     * 
+     *
      * @param billByChartOfAccountCode The billByChartOfAccountCode to set.
      */
+    @Override
     public void setBillByChartOfAccountCode(String billByChartOfAccountCode) {
         this.billByChartOfAccountCode = billByChartOfAccountCode;
     }
 
     /**
      * Gets the billedByOrganizationCode attribute.
-     * 
+     *
      * @return Returns the billedByOrganizationCode.
      */
     public String getBilledByOrganizationCode() {
@@ -116,16 +119,17 @@ public class InvoiceTemplate implements ContractsAndGrantsInvoiceTemplate {
 
     /**
      * Sets the billedByOrganizationCode attribute value.
-     * 
+     *
      * @param billedByOrganizationCode The billedByOrganizationCode to set.
      */
+    @Override
     public void setBilledByOrganizationCode(String billedByOrganizationCode) {
         this.billedByOrganizationCode = billedByOrganizationCode;
     }
 
     /**
      * Gets the billByChartOfAccount attribute.
-     * 
+     *
      * @return Returns the billByChartOfAccount.
      */
     public Chart getBillByChartOfAccount() {
@@ -134,16 +138,17 @@ public class InvoiceTemplate implements ContractsAndGrantsInvoiceTemplate {
 
     /**
      * Sets the billByChartOfAccount attribute value.
-     * 
+     *
      * @param billByChartOfAccount The billByChartOfAccount to set.
      */
+    @Override
     public void setBillByChartOfAccount(Chart billByChartOfAccount) {
         this.billByChartOfAccount = billByChartOfAccount;
     }
 
     /**
      * Gets the billedByOrganization attribute.
-     * 
+     *
      * @return Returns the billedByOrganization.
      */
     public Organization getBilledByOrganization() {
@@ -152,34 +157,36 @@ public class InvoiceTemplate implements ContractsAndGrantsInvoiceTemplate {
 
     /**
      * Sets the billedByOrganization attribute value.
-     * 
+     *
      * @param billedByOrganization The billedByOrganization to set.
      */
+    @Override
     public void setBilledByOrganization(Organization billedByOrganization) {
         this.billedByOrganization = billedByOrganization;
     }
 
     /**
-     * Sets the accessRestricted attribute value.
-     * 
-     * @param accessRestricted The accessRestricted to set.
+     * Sets the accessRestrictedIndicator attribute value.
+     *
+     * @param accessRestrictedIndicator The accessRestrictedIndicator to set.
      */
-    public void setAccessRestricted(boolean accessRestricted) {
-        this.accessRestricted = accessRestricted;
+    public void setAccessRestrictedIndicator(boolean accessRestrictedIndicator) {
+        this.accessRestrictedIndicator = accessRestrictedIndicator;
     }
 
     /**
      * Gets the filename attribute.
-     * 
+     *
      * @return Returns the filename.
      */
+    @Override
     public String getFilename() {
         return filename;
     }
 
     /**
      * Sets the filename attribute value.
-     * 
+     *
      * @param filename The filename to set.
      */
     public void setFilename(String filename) {
@@ -192,6 +199,7 @@ public class InvoiceTemplate implements ContractsAndGrantsInvoiceTemplate {
     public InvoiceTemplate() {
     }
 
+    @Override
     public String getInvoiceTemplateCode() {
         return invoiceTemplateCode;
     }
@@ -200,6 +208,7 @@ public class InvoiceTemplate implements ContractsAndGrantsInvoiceTemplate {
         this.invoiceTemplateCode = invoiceTemplateCode;
     }
 
+    @Override
     public String getInvoiceTemplateDescription() {
         return invoiceTemplateDescription;
     }
@@ -208,10 +217,12 @@ public class InvoiceTemplate implements ContractsAndGrantsInvoiceTemplate {
         this.invoiceTemplateDescription = invoiceTemplateDescription;
     }
 
+    @Override
     public boolean isActive() {
         return active;
     }
 
+    @Override
     public void setActive(boolean active) {
         this.active = active;
     }
@@ -219,9 +230,10 @@ public class InvoiceTemplate implements ContractsAndGrantsInvoiceTemplate {
     /**
      * This method returns if the current user has a valid organization as compared to the organization associated with this invoice
      * template
-     * 
+     *
      * @return
      */
+    @Override
     public boolean isValidOrganization() {
         if (ObjectUtils.isNotNull(this.getBillByChartOfAccountCode()) && ObjectUtils.isNotNull(this.getBilledByOrganizationCode())) {
             if (this.getBillByChartOfAccountCode().equals((new CurrentUserChartValueFinder()).getValue()) && this.getBilledByOrganizationCode().equals((new CurrentUserOrgValueFinder()).getValue())) {
@@ -236,6 +248,7 @@ public class InvoiceTemplate implements ContractsAndGrantsInvoiceTemplate {
 
     }
 
+    @Override
     public void refresh() {
 
     }

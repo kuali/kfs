@@ -34,7 +34,7 @@ public class CashControlAllAppDocsApprovedValidation extends GenericValidation {
     
     public boolean validate(AttributedDocumentEvent event) {
         
-        boolean allAppDocsApproved = true;
+        boolean isAllAppDocsApproved = true;
         GlobalVariables.getMessageMap().addToErrorPath(KFSConstants.DOCUMENT_PROPERTY_NAME);
 
         PaymentApplicationDocument applicationDocument = cashControlDetail.getReferenceFinancialDocument();
@@ -42,11 +42,11 @@ public class CashControlAllAppDocsApprovedValidation extends GenericValidation {
 
         if (!(workflowDocument.isApproved() || workflowDocument.isFinal())) {
             GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(ArPropertyConstants.CashControlDocumentFields.APPLICATION_DOC_STATUS, ArKeyConstants.ERROR_ALL_APPLICATION_DOCS_MUST_BE_APPROVED);
-            allAppDocsApproved = false;
+            isAllAppDocsApproved = false;
         }
 
         GlobalVariables.getMessageMap().removeFromErrorPath(KFSConstants.DOCUMENT_PROPERTY_NAME);
-        return allAppDocsApproved;
+        return isAllAppDocsApproved;
     }
 
     public CashControlDocument getCashControlDocument() {

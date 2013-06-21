@@ -1,12 +1,12 @@
 /*
  * Copyright 2005-2009 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -41,11 +41,11 @@ public class Agency implements ContractsAndGrantsCGBAgency, ContractsAndGrantsAg
     private boolean active;
     private AccountsReceivableCustomer customer;
     private String collectionStatus;
-    private boolean stateAgency;
+    private boolean stateAgencyIndicator;
 
     /**
      * Gets the agencyTypeCode attribute.
-     * 
+     *
      * @return Returns the agencyTypeCode.
      */
     public String getAgencyTypeCode() {
@@ -54,7 +54,7 @@ public class Agency implements ContractsAndGrantsCGBAgency, ContractsAndGrantsAg
 
     /**
      * Sets the agencyTypeCode attribute value.
-     * 
+     *
      * @param agencyTypeCode The agencyTypeCode to set.
      */
     public void setAgencyTypeCode(String agencyTypeCode) {
@@ -63,7 +63,7 @@ public class Agency implements ContractsAndGrantsCGBAgency, ContractsAndGrantsAg
 
     /**
      * Gets the reportsToAgencyNumber attribute.
-     * 
+     *
      * @return Returns the reportsToAgencyNumber.
      */
     public String getReportsToAgencyNumber() {
@@ -72,7 +72,7 @@ public class Agency implements ContractsAndGrantsCGBAgency, ContractsAndGrantsAg
 
     /**
      * Sets the reportsToAgencyNumber attribute value.
-     * 
+     *
      * @param reportsToAgencyNumber The reportsToAgencyNumber to set.
      */
     public void setReportsToAgencyNumber(String reportsToAgencyNumber) {
@@ -87,16 +87,17 @@ public class Agency implements ContractsAndGrantsCGBAgency, ContractsAndGrantsAg
 
     /**
      * Gets the agencyNumber attribute.
-     * 
+     *
      * @return Returns the agencyNumber
      */
+    @Override
     public String getAgencyNumber() {
         return agencyNumber;
     }
 
     /**
      * Sets the agencyNumber attribute.
-     * 
+     *
      * @param agencyNumber The agencyNumber to set.
      */
     public void setAgencyNumber(String agencyNumber) {
@@ -105,16 +106,17 @@ public class Agency implements ContractsAndGrantsCGBAgency, ContractsAndGrantsAg
 
     /**
      * Gets the reportingName attribute.
-     * 
+     *
      * @return Returns the reportingName
      */
+    @Override
     public String getReportingName() {
         return reportingName;
     }
 
     /**
      * Sets the reportingName attribute.
-     * 
+     *
      * @param reportingName The reportingName to set.
      */
     public void setReportingName(String reportingName) {
@@ -123,16 +125,17 @@ public class Agency implements ContractsAndGrantsCGBAgency, ContractsAndGrantsAg
 
     /**
      * Gets the fullName attribute.
-     * 
+     *
      * @return Returns the fullName
      */
+    @Override
     public String getFullName() {
         return fullName;
     }
 
     /**
      * Sets the fullName attribute.
-     * 
+     *
      * @param fullName The fullName to set.
      */
     public void setFullName(String fullName) {
@@ -141,7 +144,7 @@ public class Agency implements ContractsAndGrantsCGBAgency, ContractsAndGrantsAg
 
     /**
      * Gets the indirectAmount attribute.
-     * 
+     *
      * @return Returns the indirectAmount
      */
     public KualiDecimal getIndirectAmount() {
@@ -150,7 +153,7 @@ public class Agency implements ContractsAndGrantsCGBAgency, ContractsAndGrantsAg
 
     /**
      * Sets the indirectAmount attribute.
-     * 
+     *
      * @param indirectAmount The indirectAmount to set.
      */
     public void setIndirectAmount(KualiDecimal indirectAmount) {
@@ -159,7 +162,7 @@ public class Agency implements ContractsAndGrantsCGBAgency, ContractsAndGrantsAg
 
     /**
      * Gets the inStateIndicator attribute.
-     * 
+     *
      * @return Returns the inStateIndicator
      */
     public boolean isInStateIndicator() {
@@ -168,7 +171,7 @@ public class Agency implements ContractsAndGrantsCGBAgency, ContractsAndGrantsAg
 
     /**
      * Sets the inStateIndicator attribute.
-     * 
+     *
      * @param inStateIndicator The inStateIndicator to set.
      */
     public void setInStateIndicator(boolean inStateIndicator) {
@@ -177,7 +180,7 @@ public class Agency implements ContractsAndGrantsCGBAgency, ContractsAndGrantsAg
 
     /**
      * Gets the reportsToAgency attribute.
-     * 
+     *
      * @return Returns the reportsToAgency
      */
     public Agency getReportsToAgency() {
@@ -186,11 +189,12 @@ public class Agency implements ContractsAndGrantsCGBAgency, ContractsAndGrantsAg
 
     /**
      * Sets the reportsToAgency attribute.
-     * 
+     *
      * @param reportsToAgencyNumber The reportsToAgency to set.
      * @deprecated
      * @todo Why is this deprecated?
      */
+    @Deprecated
     public void setReportsToAgency(Agency reportsToAgencyNumber) {
         this.reportsToAgency = reportsToAgencyNumber;
     }
@@ -198,7 +202,7 @@ public class Agency implements ContractsAndGrantsCGBAgency, ContractsAndGrantsAg
     /**
      * This method compares the passed in agency object against this agency object to check for equality. Equality is defined by if
      * the agency passed in has the same agency number as the agency being compared to.
-     * 
+     *
      * @param agency The agency object to be compared.
      * @return True if the agency passed in is determined to be equal, false otherwise.
      */
@@ -208,25 +212,27 @@ public class Agency implements ContractsAndGrantsCGBAgency, ContractsAndGrantsAg
 
     /**
      * Gets the active attribute.
-     * 
+     *
      * @return Returns the active.
      */
+    @Override
     public boolean isActive() {
         return active;
     }
 
     /**
      * Gets the customerNumber attribute.
-     * 
+     *
      * @return Returns the customerNumber.
      */
+    @Override
     public String getCustomerNumber() {
         return customerNumber;
     }
 
     /**
      * Sets the customerNumber attribute value.
-     * 
+     *
      * @param customerNumber The customerNumber to set.
      */
     public void setCustomerNumber(String customerNumber) {
@@ -235,7 +241,7 @@ public class Agency implements ContractsAndGrantsCGBAgency, ContractsAndGrantsAg
 
     /**
      * Sets the customerTypeCode attribute value.
-     * 
+     *
      * @param customerTypeCode The customerTypeCode to set.
      */
     public void setCustomerTypeCode(String customerTypeCode) {
@@ -244,25 +250,27 @@ public class Agency implements ContractsAndGrantsCGBAgency, ContractsAndGrantsAg
 
     /**
      * Gets the customerTypeCode attribute.
-     * 
+     *
      * @return Returns the customerTypeCode.
      */
+    @Override
     public String getCustomerTypeCode() {
         return customerTypeCode;
     }
 
     /**
      * Gets the dunsPlusFourNumber attribute.
-     * 
+     *
      * @return Returns the dunsPlusFourNumber.
      */
+    @Override
     public String getDunsPlusFourNumber() {
         return dunsPlusFourNumber;
     }
 
     /**
      * Sets the dunsPlusFourNumber attribute value.
-     * 
+     *
      * @param dunsPlusFourNumber The dunsPlusFourNumber to set.
      */
     public void setDunsPlusFourNumber(String dunsPlusFourNumber) {
@@ -271,9 +279,10 @@ public class Agency implements ContractsAndGrantsCGBAgency, ContractsAndGrantsAg
 
     /**
      * Sets the active attribute value.
-     * 
+     *
      * @param active The active to set.
      */
+    @Override
     public void setActive(boolean active) {
         this.active = active;
     }
@@ -281,13 +290,14 @@ public class Agency implements ContractsAndGrantsCGBAgency, ContractsAndGrantsAg
     /**
      * @see org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAgency#getCustomer()
      */
+    @Override
     public AccountsReceivableCustomer getCustomer() {
         return customer;
     }
 
     /**
      * Sets the customer attribute.
-     * 
+     *
      * @param customer The customer object to set.
      */
     public void setCustomer(AccountsReceivableCustomer customer) {
@@ -297,13 +307,14 @@ public class Agency implements ContractsAndGrantsCGBAgency, ContractsAndGrantsAg
     /**
      * @see org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAgency#getCollectionStatus()
      */
+    @Override
     public String getCollectionStatus() {
         return collectionStatus;
     }
 
     /**
      * Sets the collectionStatus attribute.
-     * 
+     *
      * @param collectionStatus The collectionStatus to set.
      */
     public void setCollectionStatus(String collectionStatus) {
@@ -311,21 +322,22 @@ public class Agency implements ContractsAndGrantsCGBAgency, ContractsAndGrantsAg
     }
 
     /**
-     * Gets the stateAgency attribute.
-     * 
-     * @return Returns the stateAgency.
+     * Gets the stateAgencyIndicator attribute.
+     *
+     * @return Returns the stateAgencyIndicator.
      */
-    public boolean isStateAgency() {
-        return stateAgency;
+    @Override
+    public boolean isStateAgencyIndicator() {
+        return stateAgencyIndicator;
     }
 
     /**
-     * Sets the stateAgency attribute value.
-     * 
-     * @param stateAgency The stateAgency to set.
+     * Sets the stateAgencyIndicator attribute value.
+     *
+     * @param stateAgencyIndicator The stateAgencyIndicator to set.
      */
-    public void setStateAgency(boolean stateAgency) {
-        this.stateAgency = stateAgency;
+    public void setStateAgencyIndicator(boolean stateAgencyIndicator) {
+        this.stateAgencyIndicator = stateAgencyIndicator;
     }
 
     /**
@@ -337,6 +349,7 @@ public class Agency implements ContractsAndGrantsCGBAgency, ContractsAndGrantsAg
     /**
      * @see org.kuali.rice.krad.bo.BusinessObject#refresh()
      */
+    @Override
     public void refresh() {
     }
 }

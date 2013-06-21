@@ -132,7 +132,7 @@ public class PaymentApplicationDocumentForm extends FinancialSystemTransactional
     public void reset(ActionMapping mapping, ServletRequest request) {
         super.reset(mapping, request);
         for (PaymentApplicationInvoiceApply application : invoiceApplications) {
-            application.setQuickApply(false);
+            application.setQuickApplyInd(false);
         }
     }
 

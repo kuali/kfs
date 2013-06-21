@@ -260,7 +260,7 @@ public class CollectionActivityDocument extends FinancialSystemTransactionalDocu
             events = new ArrayList<Event>();
             for (ContractsGrantsInvoiceDocument invoice : invoices) {
                 List<Event> invoiceEvents = invoice.getEvents();
-                if (ObjectUtils.isNotNull(invoiceEvents) && !invoiceEvents.isEmpty() && invoice.isShowEvents()) {
+                if (ObjectUtils.isNotNull(invoiceEvents) && !invoiceEvents.isEmpty() && invoice.isShowEventsInd()) {
                     events.addAll(invoiceEvents);
                 }
             }
@@ -437,10 +437,10 @@ public class CollectionActivityDocument extends FinancialSystemTransactionalDocu
         Iterator<ContractsGrantsInvoiceDocument> invoiceItr = cgInvoices.iterator();
         for (ContractsGrantsInvoiceDocument invoice : cgInvoices) {
             if (!collectionActivityDocumentService.validateInvoiceForSavedEvents(invoice.getDocumentNumber(), this.getDocumentNumber())) {
-                invoice.setShowEvents(false);
+                invoice.setShowEventsInd(false);
             }
             else {
-                invoice.setShowEvents(true);
+                invoice.setShowEventsInd(true);
             }
         }
         return cgInvoices;

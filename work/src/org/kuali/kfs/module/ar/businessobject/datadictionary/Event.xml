@@ -35,9 +35,9 @@
         <ref bean="Event-activityCode"/>
         <ref bean="Event-activityDate"/>        
         <ref bean="Event-activityText"/>
-        <ref bean="Event-followup"/>
+        <ref bean="Event-followupInd"/>
         <ref bean="Event-followupDate"/>
-        <ref bean="Event-completed"/>
+        <ref bean="Event-completedInd"/>
         <ref bean="Event-completedDate"/>
         <ref bean="Event-postedDate"/>
         <ref bean="Event-userPrincipalId"/>
@@ -140,10 +140,10 @@
     </property>
   </bean>
   
-  <bean id="Event-followup" parent="Event-followup-parentBean"/>
+  <bean id="Event-followupInd" parent="Event-followupInd-parentBean"/>
 
-  <bean id="Event-followup-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
-    <property name="name" value="followup"/>
+  <bean id="Event-followupInd-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+    <property name="name" value="followupInd"/>
     <property name="label" value="Do you want to follow-up?"/>
     <property name="shortLabel" value="Do you want to follow-up?"/>
   </bean>
@@ -157,10 +157,10 @@
     <property name="description" value="A free-form text field that identifies the next follow-up date."/>
   </bean>
 
-  <bean id="Event-completed" parent="Event-completed-parentBean"/>
+  <bean id="Event-completedInd" parent="Event-completedInd-parentBean"/>
 
-  <bean id="Event-completed-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
-    <property name="name" value="completed"/>
+  <bean id="Event-completedInd-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+    <property name="name" value="completedInd"/>
     <property name="label" value="Completed"/>
     <property name="shortLabel" value="Completed"/>
   </bean>
@@ -210,7 +210,7 @@
             <list>
               <bean parent="FieldDefinition" p:attributeName="invoiceNumber"/>
               <bean parent="FieldDefinition" p:attributeName="activityCode"/>
-              <bean parent="FieldDefinition" p:attributeName="followup"/>
+              <bean parent="FieldDefinition" p:attributeName="followupInd"/>
               <bean parent="FieldDefinition" p:attributeName="followupDate"/>
             </list>
           </property>
@@ -235,9 +235,9 @@
       <list>
         <bean parent="FieldDefinition" p:attributeName="invoiceNumber"/>
         <bean parent="FieldDefinition" p:attributeName="activityCode"/>
-        <bean parent="FieldDefinition" p:attributeName="followup" p:defaultValue="Y"/>
+        <bean parent="FieldDefinition" p:attributeName="followupInd" p:defaultValue="Y"/>
         <bean parent="FieldDefinition" p:attributeName="followupDate"/>
-        <bean parent="FieldDefinition" p:attributeName="completed"/>
+        <bean parent="FieldDefinition" p:attributeName="completedInd"/>
         <bean parent="FieldDefinition" p:attributeName="completedDate"/>
       </list>
     </property>
@@ -246,9 +246,9 @@
         <bean parent="FieldDefinition" p:attributeName="invoiceNumber"/>
         <bean parent="FieldDefinition" p:attributeName="activityCode"/>
         <bean parent="FieldDefinition" p:attributeName="activityText"/>
-        <bean parent="FieldDefinition" p:attributeName="followup"/>
+        <bean parent="FieldDefinition" p:attributeName="followupInd"/>
         <bean parent="FieldDefinition" p:attributeName="followupDate"/>
-        <bean parent="FieldDefinition" p:attributeName="completed"/>
+        <bean parent="FieldDefinition" p:attributeName="completedInd"/>
         <bean parent="FieldDefinition" p:attributeName="completedDate"/>
       </list>
     </property>

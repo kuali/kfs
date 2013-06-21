@@ -177,7 +177,7 @@ public class ContractsAndGrantsModuleUpdateServiceImpl implements ContractsAndGr
     @Override
     public void setFinalBilledToAwardAccount(Map<String, Object> criteria, boolean finalBilled) {
         AwardAccount awardAccount = getBusinessObjectService().findByPrimaryKey(AwardAccount.class, criteria);
-        awardAccount.setFinalBilled(finalBilled);
+        awardAccount.setFinalBilledIndicator(finalBilled);
         getBusinessObjectService().save(awardAccount);
     }
 

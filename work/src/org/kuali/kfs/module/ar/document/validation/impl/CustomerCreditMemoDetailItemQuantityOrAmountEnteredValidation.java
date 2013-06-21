@@ -30,7 +30,7 @@ public class CustomerCreditMemoDetailItemQuantityOrAmountEnteredValidation exten
     public boolean validate(AttributedDocumentEvent event) {
         BigDecimal quantity = customerCreditMemoDetail.getCreditMemoItemQuantity();
         KualiDecimal amount = customerCreditMemoDetail.getCreditMemoItemTotalAmount();
-        boolean validValue;
+        boolean isValid;
 
         // don't generate error message but fail the business rules.
         if (ObjectUtils.isNull(quantity) && ObjectUtils.isNull(amount)) {

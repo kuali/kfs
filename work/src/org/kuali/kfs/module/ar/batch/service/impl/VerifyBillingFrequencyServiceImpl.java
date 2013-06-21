@@ -27,13 +27,13 @@ import org.kuali.kfs.coa.businessobject.AccountingPeriod;
 import org.kuali.kfs.coa.service.AccountingPeriodService;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAward;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
-import org.kuali.kfs.module.ar.batch.service.VerifyBillingFrequency;
+import org.kuali.kfs.module.ar.batch.service.VerifyBillingFrequencyService;
 import org.kuali.kfs.sys.service.UniversityDateService;
 
 /**
  * Implementation of the billing frequency validation.
  */
-public class VerifyBillingFrequencyImpl implements VerifyBillingFrequency {
+public class VerifyBillingFrequencyServiceImpl implements VerifyBillingFrequencyService {
 
     private AccountingPeriodService accountingPeriodService;
     private UniversityDateService universityDateService;
@@ -50,7 +50,7 @@ public class VerifyBillingFrequencyImpl implements VerifyBillingFrequency {
     public boolean validatBillingFrequency(ContractsAndGrantsCGBAward award) {
 
         // first we need to get the period itself to check these things
-        boolean valid = true;
+        boolean isValid = true;
         Timestamp ts = new Timestamp(new java.util.Date().getTime());
         Date today = new Date(ts.getTime());
         AccountingPeriod currPeriod = accountingPeriodService.getByDate(today);
@@ -62,13 +62,13 @@ public class VerifyBillingFrequencyImpl implements VerifyBillingFrequency {
         // To check if the previousAccountingPeriodStartDate is after previousAccountingPeriodEndDate - situations where award
         // beginning date is set later.
         if (previousAccountingPeriodStartDate.after(previousAccountingPeriodEndDate)) {
-            valid = false;
+            isValid = false;
         }
         else {
-            valid = calculateIfWithinGracePeriod(today, previousAccountingPeriodEndDate, previousAccountingPeriodStartDate, award.getLastBilledDate(), Integer.parseInt(award.getBillingFrequency().getGracePeriodDays()));
+            isValid = calculateIfWithinGracePeriod(today, previousAccountingPeriodEndDate, previousAccountingPeriodStartDate, award.getLastBilledDate(), Integer.parseInt(award.getBillingFrequency().getGracePeriodDays()));
         }
 
-        return valid;
+        return isValid;
     }
 
 
@@ -81,7 +81,7 @@ public class VerifyBillingFrequencyImpl implements VerifyBillingFrequency {
      */
     public boolean calculateIfWithinGracePeriod(Date today, Date previousAccountingPeriodEndDate, Date previousAccountingPeriodStartDate, Date lastBilledDate, int gracePeriodDays) {
         AccountingPeriod currPeriod = accountingPeriodService.getByDate(today);
-        boolean result = false;
+        boolean resultInd = false;
         int lastBilled = -1;
 
         if (previousAccountingPeriodEndDate == null || previousAccountingPeriodStartDate == null) {

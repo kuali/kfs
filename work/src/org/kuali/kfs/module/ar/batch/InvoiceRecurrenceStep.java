@@ -26,13 +26,13 @@ public class InvoiceRecurrenceStep extends AbstractStep {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(InvoiceRecurrenceStep.class);
 
     public boolean execute(String jobName, Date jobRunDate) throws InterruptedException {
-        boolean result = true;
+        boolean resultInd = true;
         try {
-            result = invoiceRecurrenceService.processInvoiceRecurrence();
+            resultInd = invoiceRecurrenceService.processInvoiceRecurrence();
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return result;
+        return resultInd;
     }
 
     public void setInvoiceRecurrenceService(InvoiceRecurrenceService irs) {

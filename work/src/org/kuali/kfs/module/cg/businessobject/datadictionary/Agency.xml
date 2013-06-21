@@ -71,10 +71,10 @@
 				<ref bean="Agency-bankruptcyType"/>
 				<ref bean="Agency-bankruptcyDate"/>
 				<ref bean="Agency-bankruptcyReviewDate"/>
-				<ref bean="Agency-stopWork"/>
+				<ref bean="Agency-stopWorkIndicator"/>
 				<ref bean="Agency-stopWorkReason"/>
 				<ref bean="Agency-notes"/>
-				<ref bean="Agency-stateAgency"/>
+				<ref bean="Agency-stateAgencyIndicator"/>
 			</list>
 		</property>
 		<property name="collections">
@@ -658,11 +658,11 @@
 		<property name="shortLabel" value="Bankruptcy Review Date" />
 	</bean>
 	
-	<bean id="Agency-stopWork" parent="Agency-stopWork-parentBean" />
+	<bean id="Agency-stopWorkIndicator" parent="Agency-stopWorkIndicator-parentBean" />
 
-	<bean id="Agency-stopWork-parentBean" abstract="true"
+	<bean id="Agency-stopWorkIndicator-parentBean" abstract="true"
 		parent="AttributeDefinition">
-		<property name="name" value="stopWork" />
+		<property name="name" value="stopWorkIndicator" />
 		<property name="label" value="Stop Work" />
 		<property name="shortLabel" value="Stop Work" />
 		<property name="maxLength" value="1" />
@@ -706,11 +706,11 @@
     <property name="label" value="Notes"/>
   </bean>
   
-  	<bean id="Agency-stateAgency" parent="Agency-stateAgency-parentBean" />
+  	<bean id="Agency-stateAgencyIndicator" parent="Agency-stateAgencyIndicator-parentBean" />
 
-	<bean id="Agency-stateAgency-parentBean" abstract="true"
+	<bean id="Agency-stateAgencyIndicator-parentBean" abstract="true"
 		parent="AttributeDefinition">
-		<property name="name" value="stateAgency" />
+		<property name="name" value="stateAgencyIndicator" />
 		<property name="label" value="State Agency" />
 		<property name="shortLabel" value="State Agency" />
 		<property name="maxLength" value="1" />

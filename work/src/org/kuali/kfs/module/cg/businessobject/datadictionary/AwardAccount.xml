@@ -36,7 +36,7 @@
 				<ref bean="AwardAccount-account.accountName" />
 				<ref bean="AwardAccount-account.accountExpirationDate" />
 				<ref bean="AwardAccount-currentLastBilledDate" />
-				<ref bean="AwardAccount-finalBilled" />
+				<ref bean="AwardAccount-finalBilledIndicator" />
 				<ref bean="AwardAccount-award.proposal.federalPassThroughAgencyNumber" />
 				<ref
 					bean="AwardAccount-award.proposal.proposalFederalPassThroughIndicator" />
@@ -140,11 +140,11 @@
 		<property name="shortLabel" value="last billed" />
 	</bean>
 
-	<bean id="AwardAccount-finalBilled" parent="AwardAccount-finalBilled-parentBean" />
+	<bean id="AwardAccount-finalBilledIndicator" parent="AwardAccount-finalBilledIndicator-parentBean" />
 
-	<bean id="AwardAccount-finalBilled-parentBean" abstract="true"
+	<bean id="AwardAccount-finalBilledIndicator-parentBean" abstract="true"
 		parent="AttributeDefinition">
-		<property name="name" value="finalBilled" />
+		<property name="name" value="finalBilledIndicator" />
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Final Billed" />
 		<property name="shortLabel" value="FinalBilled" />

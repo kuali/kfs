@@ -205,10 +205,10 @@ public class ArPropertyConstants{
         public static final String EVENT_CODE = "eventCode";
         public static final String EVENT_IDENTIFIER = "eventIdentifier";
         public static final String INVOICE_NUMBER = "invoiceNumber";
-        public static final String FOLLOW_UP_IND = "followup";
+        public static final String FOLLOW_UP_IND = "followupInd";
         public static final String FOLLOW_UP_DATE = "followupDate";
         public static final String COMPLETED_DATE = "completedDate";
-        public static final String COMPLETED = "completed";
+        public static final String COMPLETED = "completedInd";
         public static final String EVENT_ROUTE_STATUS = "eventRouteStatus";
         public static final String DOCUMENT_NUMBER = "documentNumber";
     }

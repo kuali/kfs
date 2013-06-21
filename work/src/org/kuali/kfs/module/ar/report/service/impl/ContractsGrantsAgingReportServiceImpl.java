@@ -320,7 +320,7 @@ public class ContractsGrantsAgingReportServiceImpl extends ContractsGrantsReport
                         // retrive Organization
                         OrganizationOptions orgOp = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(OrganizationOptions.class, orgCriteria);
                         if (orgOp != null) {
-                            isBiller = orgOp.isCgBiller();
+                            isBiller = orgOp.isCgBillerIndicator();
                             billerOrgMap.put(org, isBiller);
                         }
 
@@ -657,6 +657,7 @@ public class ContractsGrantsAgingReportServiceImpl extends ContractsGrantsReport
     /**
      * @see org.kuali.kfs.module.ar.report.service.ContractsGrantsInvoiceReportService#generateCSVToExport(org.kuali.kfs.module.ar.document.ContractsGrantsLOCReviewDocument)
      */
+    @Override
     public byte[] generateCSVToExport(Map<String, List<ContractsGrantsAgingReportDetailDataHolder>> detailsMap, ContractsGrantsAgingReportDetailDataHolder totalDataHolder) {
         try {
 

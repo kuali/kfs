@@ -42,7 +42,7 @@ public class AgencyInvoiceTemplateValuesFinder extends KeyValuesBase {
         List<InvoiceTemplate> boList = (List<InvoiceTemplate>) SpringContext.getBean(BusinessObjectService.class).findAll(InvoiceTemplate.class);
         keyValues.add(new ConcreteKeyValue("", ""));
         for (InvoiceTemplate element : boList) {
-            if (!element.isAccessRestricted() && element.isActive()) {
+            if (!element.isAccessRestrictedIndicator() && element.isActive()) {
                 keyValues.add(new ConcreteKeyValue(element.getInvoiceTemplateCode(), element.getInvoiceTemplateDescription()));
             }
             else {

@@ -168,7 +168,7 @@ public class CustomerCreditMemoDocumentServiceImpl implements CustomerCreditMemo
     }
     
     public boolean isThereNoDataToSubmit(CustomerCreditMemoDocument customerCreditMemoDocument) {
-        boolean success = true;
+        boolean isSuccess = true;
         KualiDecimal customerCreditMemoDetailItemAmount;
         BigDecimal itemQuantity;
         List<CustomerCreditMemoDetail> customerCreditMemoDetails = customerCreditMemoDocument.getCreditMemoDetails();
@@ -178,11 +178,11 @@ public class CustomerCreditMemoDocumentServiceImpl implements CustomerCreditMemo
             itemQuantity = customerCreditMemoDetail.getCreditMemoItemQuantity();
             customerCreditMemoDetailItemAmount = customerCreditMemoDetail.getCreditMemoItemTotalAmount();
             if (ObjectUtils.isNotNull(itemQuantity) || ObjectUtils.isNotNull(customerCreditMemoDetailItemAmount)) {
-                success = false;
+                isSuccess = false;
                 break;
             }
         }
-        return success;
+        return isSuccess;
     }
 
     public void setDocumentService(DocumentService documentService) {

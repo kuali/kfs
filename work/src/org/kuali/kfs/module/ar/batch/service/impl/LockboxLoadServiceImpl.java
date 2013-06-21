@@ -55,7 +55,7 @@ public class LockboxLoadServiceImpl implements LockboxLoadService {
     @Override
     public boolean loadFile() {
 
-        boolean result = true;
+        boolean resultInd = true;
         //List<LockboxLoadFileResult> fileResults = new ArrayList<LockboxLoadFileResult>();
         List<FlatFileInformation> flatFileInformationList = new ArrayList<FlatFileInformation>();
         //LockboxLoadFileResult fileResult = null;
@@ -89,11 +89,11 @@ public class LockboxLoadServiceImpl implements LockboxLoadService {
         // SendEmail
         sendLoadSummaryEmail(flatFileInformationList);
 
-        return result ;
+        return resultInd ;
     }
 
     public boolean loadFile(String fileName,FlatFileInformation flatFileInformation) {
-        boolean valid = true;
+        boolean isValid = true;
         //  load up the file into a byte array
         byte[] fileByteContent = safelyLoadFileBytes(fileName);
 
@@ -107,19 +107,19 @@ public class LockboxLoadServiceImpl implements LockboxLoadService {
         catch (ParseException e) {
             LOG.error("Error parsing batch file: " + e.getMessage());
             flatFileInformation.addFileErrorMessage("Error parsing batch file: " + e.getMessage());
-            valid = false;
+            isValid = false;
             //    throw new ParseException(e.getMessage());
         }
 
         // validate the parsed data
         if (parsedObject != null ) {
-            valid = validate(parsedObject);
+            isValid = validate(parsedObject);
             copyAllMessage(parsedObject,flatFileInformation);
-            if (valid) {
+            if (isValid) {
                 loadLockbox(parsedObject);
             }
         }
-        return valid ;
+        return isValid ;
 
     }
 
@@ -127,16 +127,16 @@ public class LockboxLoadServiceImpl implements LockboxLoadService {
     @Override
     public boolean validate(Object parsedFileContents) {
         // compare header with detail record
-        boolean valid = true;
+        boolean isValid = true;
         List<Lockbox> lockboxList = (List<Lockbox>)parsedFileContents;
         for (Lockbox lockbox : lockboxList) {
             if (! compareDetailsWithHeader(lockbox)) {
-                valid = false;
+                isValid = false;
                 break;
             }
         }
 
-        return valid;
+        return isValid;
     }
 
 
@@ -148,7 +148,7 @@ public class LockboxLoadServiceImpl implements LockboxLoadService {
     public void process(String fileName, Object parsedFileContents) {}
 
     private boolean compareDetailsWithHeader(Lockbox lockbox) {
-        boolean  isHeaderMatchedDetails = true;
+        boolean isHeaderMatchedDetails = true;
         KualiDecimal  headerTransBatchTotal = lockbox.getHeaderTransactionBatchTotal();
         Integer headerTransBatchCount   = lockbox.getHeaderTransactionBatchCount();
         KualiDecimal detailInvPaidTotal = new KualiDecimal(0);

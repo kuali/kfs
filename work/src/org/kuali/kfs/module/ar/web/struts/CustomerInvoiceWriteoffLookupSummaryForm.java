@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -34,14 +34,14 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 
 public class CustomerInvoiceWriteoffLookupSummaryForm extends KualiForm {
-    
+
     private String lookupResultsSequenceNumber;
     private Collection<CustomerInvoiceWriteoffLookupResult> customerInvoiceWriteoffLookupResults;
-    private boolean sentToBatch;
-    
+    private boolean sentToBatchInd;
+
     public CustomerInvoiceWriteoffLookupSummaryForm(){
         customerInvoiceWriteoffLookupResults = new ArrayList<CustomerInvoiceWriteoffLookupResult>();
-        sentToBatch = false;
+        sentToBatchInd = false;
     }
 
     public String getLookupResultsSequenceNumber() {
@@ -58,19 +58,19 @@ public class CustomerInvoiceWriteoffLookupSummaryForm extends KualiForm {
 
     public void setLookupResultsSequenceNumber(String lookupResultsSequenceNumber) {
         this.lookupResultsSequenceNumber = lookupResultsSequenceNumber;
-    } 
-    
+    }
+
     public CustomerInvoiceWriteoffLookupResult getCustomerInvoiceWriteoffLookupResult(int index){
         CustomerInvoiceWriteoffLookupResult customerInvoiceWriteoffLookupResult = ((List<CustomerInvoiceWriteoffLookupResult>)getCustomerInvoiceWriteoffLookupResults()).get(index);
         return customerInvoiceWriteoffLookupResult;
     }
 
-    public boolean isSentToBatch() {
-        return sentToBatch;
+    public boolean isSentToBatchInd() {
+        return sentToBatchInd;
     }
 
-    public void setSentToBatch(boolean sentToBatch) {
-        this.sentToBatch = sentToBatch;
+    public void setSentToBatchInd(boolean sentToBatchInd) {
+        this.sentToBatchInd = sentToBatchInd;
     }
     @Override
     public void populate(HttpServletRequest request) {
@@ -83,8 +83,10 @@ public class CustomerInvoiceWriteoffLookupSummaryForm extends KualiForm {
             Collection<CustomerInvoiceWriteoffLookupResult> customerInvoiceWriteoffLookupResults = CustomerInvoiceWriteoffLookupUtil.getCustomerInvoiceWriteoffResutlsFromLookupResultsSequenceNumber(lookupResultsSequenceNumber,person.getPrincipalId());
             this.setCustomerInvoiceWriteoffLookupResults(customerInvoiceWriteoffLookupResults);
             this.setLookupResultsSequenceNumber(lookupResultsSequenceNumber);
-            
-        } 
-        if (! WebUtils.parseMethodToCall(this, request).equals(KFSConstants.MAPPING_CANCEL)) super.populate(request);
+
+        }
+        if (! WebUtils.parseMethodToCall(this, request).equals(KFSConstants.MAPPING_CANCEL)) {
+            super.populate(request);
+        }
      }
 }

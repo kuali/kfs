@@ -341,12 +341,12 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
 
 
                 // handle the user clicking full apply
-                if (detailApplication.isFullApply()) {
+                if (detailApplication.isFullApplyInd()) {
                     detailApplication.setAmountApplied(detailApplication.getAmountOpen());
                 }
                 // handle the user manually entering an amount
                 else {
-                    if (detailApplication.isFullApplyChanged()) { // means it went from true to false
+                    if (detailApplication.isFullApplyIndChanged()) { // means it went from true to false
                         detailApplication.setAmountApplied(KualiDecimal.ZERO);
                     }
                 }
@@ -461,15 +461,15 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
             String invoiceDocNumber = invoiceApplication.getDocumentNumber();
 
             // skip the line if its not set to quick apply
-            if (!invoiceApplication.isQuickApply()) {
+            if (!invoiceApplication.isQuickApplyInd()) {
 
                 // if it was just flipped from True to False
-                if (invoiceApplication.isQuickApplyChanged()) {
+                if (invoiceApplication.isQuickApplyIndChanged()) {
                     for (PaymentApplicationInvoiceDetailApply detailApplication : invoiceApplication.getDetailApplications()) {
 
                         // zero out all the details
                         detailApplication.setAmountApplied(KualiDecimal.ZERO);
-                        detailApplication.setFullApply(false);
+                        detailApplication.setFullApplyInd(false);
 
                         // remove any existing paidApplieds for this invoice
                         for (int i = appliedToIndividualDetails.size() - 1; i >= 0; i--) {
@@ -501,7 +501,7 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
             String fieldName = "invoiceApplications[" + invoiceDocNumber + "].quickApply";
             for (PaymentApplicationInvoiceDetailApply detailApplication : invoiceApplication.getDetailApplications()) {
                 detailApplication.setAmountApplied(detailApplication.getAmountOpen());
-                detailApplication.setFullApply(true);
+                detailApplication.setFullApplyInd(true);
                 InvoicePaidApplied paidApplied = generateAndValidateNewPaidApplied(detailApplication, fieldName, applicationDocument);
                 if (paidApplied != null) {
                     invoicePaidApplieds.add(paidApplied);
@@ -774,7 +774,7 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
                             if (!paidApplied.getInvoiceItemAppliedAmount().equals(detailApplication.getAmountApplied())) {
                                 detailApplication.setAmountApplied(paidApplied.getInvoiceItemAppliedAmount());
                                 if (paidApplied.getInvoiceItemAppliedAmount().equals(detailApplication.getAmountOpen())) {
-                                    detailApplication.setFullApply(true);
+                                    detailApplication.setFullApplyInd(true);
                                 }
                             }
                         }

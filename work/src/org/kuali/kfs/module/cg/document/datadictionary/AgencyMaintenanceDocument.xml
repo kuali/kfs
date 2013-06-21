@@ -200,13 +200,13 @@
 		<property name="title" value="Collections Maintenance" />
 		<property name="maintainableItems">
 			<list>
-				<bean parent="MaintainableFieldDefinition" p:name="stateAgency" />
+				<bean parent="MaintainableFieldDefinition" p:name="stateAgencyIndicator" />
 				<bean parent="MaintainableFieldDefinition" p:name="dunningCampaign"/>
 				<bean parent="MaintainableFieldDefinition" p:name="collectionStatus" />				
 				<bean parent="MaintainableFieldDefinition" p:name="bankruptcyType" />
 				<bean parent="MaintainableFieldDefinition" p:name="bankruptcyDate" />
 				<bean parent="MaintainableFieldDefinition" p:name="bankruptcyReviewDate" />
-				<bean parent="MaintainableFieldDefinition" p:name="stopWork" />
+				<bean parent="MaintainableFieldDefinition" p:name="stopWorkIndicator" />
 				<bean parent="MaintainableFieldDefinition" p:name="stopWorkReason" />
 				<bean parent="MaintainableFieldDefinition" p:name="notes" />
 			</list>

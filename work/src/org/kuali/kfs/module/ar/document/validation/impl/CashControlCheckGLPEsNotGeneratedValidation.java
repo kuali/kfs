@@ -31,14 +31,14 @@ public class CashControlCheckGLPEsNotGeneratedValidation extends GenericValidati
     
     public boolean validate(AttributedDocumentEvent event) {
         
-        boolean success = true;
+        boolean isSuccess = true;
         List<GeneralLedgerPendingEntry> glpes = cashControlDocument.getGeneralLedgerPendingEntries();
 
         if (glpes != null && !glpes.isEmpty()) {
-            success = false;
+            isSuccess = false;
             GlobalVariables.getMessageMap().putError(KFSConstants.GENERAL_LEDGER_PENDING_ENTRIES_TAB_ERRORS, ArKeyConstants.ERROR_DELETE_ADD_APP_DOCS_NOT_ALLOWED_AFTER_GLPES_GEN);
         }
-        return success;
+        return isSuccess;
 
     }
 

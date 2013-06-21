@@ -27,7 +27,7 @@
 				<ref bean="InvoiceGeneralDetail-comment" />
 				<ref bean="InvoiceGeneralDetail-awardDateRange" />
 				<ref bean="InvoiceGeneralDetail-billingFrequency" />
-				<ref bean="InvoiceGeneralDetail-finalBill" />
+				<ref bean="InvoiceGeneralDetail-finalBillIndicator" />
 				<ref bean="InvoiceGeneralDetail-billingPeriod" />
 				<ref bean="InvoiceGeneralDetail-contractGrantType" />
 				<ref bean="InvoiceGeneralDetail-awardTotal" />
@@ -94,10 +94,10 @@
 	</bean>
 
 
-	<bean id="InvoiceGeneralDetail-finalBill" parent="InvoiceGeneralDetail-finalBill-parentBean" />
+	<bean id="InvoiceGeneralDetail-finalBillIndicator" parent="InvoiceGeneralDetail-finalBillIndicator-parentBean" />
 
-	<bean id="InvoiceGeneralDetail-finalBill-parentBean" abstract="true" parent="AttributeDefinition">
-		<property name="name" value="finalBill" />
+	<bean id="InvoiceGeneralDetail-finalBillIndicator-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="finalBillIndicator" />
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Final Bill" />
 		<property name="shortLabel" value="FinalBill" />

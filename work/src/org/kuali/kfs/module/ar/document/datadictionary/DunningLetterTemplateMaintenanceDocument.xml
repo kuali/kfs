@@ -77,7 +77,7 @@
 					p:required="true" />
 				<bean parent="MaintainableFieldDefinition" p:name="active"
 					p:defaultValue="true" />
-				<bean parent="MaintainableFieldDefinition" p:name="accessRestricted"
+				<bean parent="MaintainableFieldDefinition" p:name="accessRestrictedInd"
 					p:defaultValue="false" />
 			</list>
 		</property>

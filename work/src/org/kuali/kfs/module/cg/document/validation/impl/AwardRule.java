@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -108,13 +108,14 @@ public class AwardRule extends CGMaintenanceDocumentRuleBase {
 
     /**
      * Checks whether the award Invoicing is Suspended.
-     * 
+     *
      * @return
      */
     protected boolean checkSuspendedAwardInvoicing() {
-        if (newAwardCopy.isSuspendInvoicing()) {
-            if (ObjectUtils.isNotNull(newAwardCopy.getSuspensionReason()))
+        if (newAwardCopy.isSuspendInvoicingIndicator()) {
+            if (ObjectUtils.isNotNull(newAwardCopy.getSuspensionReason())) {
                 return true;
+            }
             else {
                 putFieldError(KFSPropertyConstants.SUSPENSION_REASON, KFSKeyConstants.ERROR_SUSPENSION_REASON_REQUIRED);
                 return false;
@@ -126,7 +127,7 @@ public class AwardRule extends CGMaintenanceDocumentRuleBase {
 
     /**
      * checks to see if at least 1 award account exists
-     * 
+     *
      * @return true if the award contains at least 1 {@link AwardAccount}, false otherwise
      */
     protected boolean checkAccounts() {
@@ -148,7 +149,7 @@ public class AwardRule extends CGMaintenanceDocumentRuleBase {
      * <li>a proposal has already been awarded
      * <li>a proposal is inactive
      * </ol>
-     * 
+     *
      * @return
      */
     protected boolean checkProposal() {
@@ -168,7 +169,7 @@ public class AwardRule extends CGMaintenanceDocumentRuleBase {
 
     /**
      * checks if the required federal pass through fields are filled in if the federal pass through indicator is yes
-     * 
+     *
      * @return
      */
     protected boolean checkFederalPassThrough() {
@@ -230,7 +231,7 @@ public class AwardRule extends CGMaintenanceDocumentRuleBase {
     /**
      * Overrides the method in MaintenanceDocumentRuleBase to give error message to the user when the user tries to add multiple
      * Primary Fund Managers. At most one Primary Fund Manager is allowed. contract.
-     * 
+     *
      * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processAddCollectionLineBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument,
      *      java.lang.String, org.kuali.rice.krad.bo.PersistableBusinessObject)
      */
@@ -316,7 +317,7 @@ public class AwardRule extends CGMaintenanceDocumentRuleBase {
 
     /**
      * check if the given award organization exists
-     * 
+     *
      * @param awardOrganization
      * @return
      */
@@ -344,7 +345,7 @@ public class AwardRule extends CGMaintenanceDocumentRuleBase {
 
     /**
      * check if the given award subcontrator exists
-     * 
+     *
      * @param awardSubcontractor
      * @return
      */
@@ -372,7 +373,7 @@ public class AwardRule extends CGMaintenanceDocumentRuleBase {
 
     /**
      * check if the given award account exists
-     * 
+     *
      * @param awardAccount
      * @return
      */
@@ -408,7 +409,7 @@ public class AwardRule extends CGMaintenanceDocumentRuleBase {
 
     /**
      * check if the given award project director exists
-     * 
+     *
      * @param awardProjectDirector
      * @return
      */
@@ -431,7 +432,7 @@ public class AwardRule extends CGMaintenanceDocumentRuleBase {
 
     /**
      * check if the given award fund manager exists
-     * 
+     *
      * @param awardFundManager
      * @return
      */
@@ -455,7 +456,7 @@ public class AwardRule extends CGMaintenanceDocumentRuleBase {
 
     /**
      * This method checks the Contract Control account set for Award Account based on award's invoicing option.
-     * 
+     *
      * @return
      */
     protected boolean checkInvoicingOptions() {
@@ -472,7 +473,7 @@ public class AwardRule extends CGMaintenanceDocumentRuleBase {
 
     /**
      * checks to see if at least and atmost ACTIVE 1 award invoice account of AR type exists when the GLPE parameter is set to 3.
-     * 
+     *
      * @return true if the award contains at least and atmost 1 ACTIVE {@link AwardInvoiceAccount}, false otherwise
      */
     protected boolean checkAwardInvoiceAccounts() {

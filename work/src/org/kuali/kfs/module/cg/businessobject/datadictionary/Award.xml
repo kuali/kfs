@@ -96,21 +96,21 @@
 				<ref bean="Award-oldProposalNumber" />
 				<ref bean="Award-proposalAwardTypeCode" />
 				<ref bean="Award-awardInquiryTitle" />
-				<ref bean="Award-stateTransfer" />
-				<ref bean="Award-suspendInvoicing" />
+				<ref bean="Award-stateTransferIndicator" />
+				<ref bean="Award-suspendInvoicingIndicator" />
 				<ref bean="Award-suspensionReason" />
-				<ref bean="Award-additionalFormsRequired" />
+				<ref bean="Award-additionalFormsRequiredIndicator" />
 				<ref bean="Award-additionalFormsDescription" />
 				<ref bean="Award-contractGrantType" />
 				<ref bean="Award-awardsourceOfFundsCode" />
 				<ref bean="Award-minInvoiceAmount" />
 				<ref bean="Award-invoicingOptions" />
-				<ref bean="Award-autoApprove" />
+				<ref bean="Award-autoApproveIndicator" />
 				<ref bean="Award-fundingExpirationDate" />
 				<ref bean="Award-drawNumber" />
 				<ref bean="Award-commentText" />
 				<ref bean="Award-dunningCampaign" />
-				<ref bean="Award-stopWork"/>
+				<ref bean="Award-stopWorkIndicator"/>
 				<ref bean="Award-active" />
 			</list>
 		</property>
@@ -1008,29 +1008,29 @@
 		</property>
 	</bean>
 
-	<bean id="Award-stateTransfer" parent="Award-stateTransfer-parentBean" />
+	<bean id="Award-stateTransferIndicator" parent="Award-stateTransferIndicator-parentBean" />
 
-	<bean id="Award-stateTransfer-parentBean" abstract="true"
+	<bean id="Award-stateTransferIndicator-parentBean" abstract="true"
 		parent="GenericAttributes-genericBoolean">
-		<property name="name" value="stateTransfer" />
+		<property name="name" value="stateTransferIndicator" />
 		<property name="label" value="State Transfer" />
 		<property name="shortLabel" value="State Transfer" />
 	</bean>
 
-	<bean id="Award-suspendInvoicing" parent="Award-suspendInvoicing-parentBean" />
+	<bean id="Award-suspendInvoicingIndicator" parent="Award-suspendInvoicingIndicator-parentBean" />
 
-	<bean id="Award-suspendInvoicing-parentBean" abstract="true"
+	<bean id="Award-suspendInvoicingIndicator-parentBean" abstract="true"
 		parent="GenericAttributes-genericBoolean">
-		<property name="name" value="suspendInvoicing" />
+		<property name="name" value="suspendInvoicingIndicator" />
 		<property name="label" value="Exclude from Invoicing" />
 		<property name="shortLabel" value="Exclude from Invoicing" />
 	</bean>
 
-	<bean id="Award-additionalFormsRequired" parent="Award-additionalFormsRequired-parentBean" />
+	<bean id="Award-additionalFormsRequiredIndicator" parent="Award-additionalFormsRequiredIndicator-parentBean" />
 
-	<bean id="Award-additionalFormsRequired-parentBean" abstract="true"
+	<bean id="Award-additionalFormsRequiredIndicator-parentBean" abstract="true"
 		parent="GenericAttributes-genericBoolean">
-		<property name="name" value="additionalFormsRequired" />
+		<property name="name" value="additionalFormsRequiredIndicator" />
 		<property name="label" value="Additional Forms Required" />
 		<property name="shortLabel" value="Additional Forms Required" />
 	</bean>
@@ -1126,11 +1126,11 @@
 	</bean>
 
 
-	<bean id="Award-autoApprove" parent="Award-autoApprove-parentBean" />
+	<bean id="Award-autoApproveIndicator" parent="Award-autoApproveIndicator-parentBean" />
 
-	<bean id="Award-autoApprove-parentBean" abstract="true"
+	<bean id="Award-autoApproveIndicator-parentBean" abstract="true"
 		parent="GenericAttributes-genericBoolean">
-		<property name="name" value="autoApprove" />
+		<property name="name" value="autoApproveIndicator" />
 		<property name="label" value="Auto Approve" />
 		<property name="shortLabel" value="Auto Approve" />
 	</bean>
@@ -1194,11 +1194,11 @@
 		</property>
 	</bean>
 	
-	<bean id="Award-stopWork" parent="Award-stopWork-parentBean" />
+	<bean id="Award-stopWorkIndicator" parent="Award-stopWorkIndicator-parentBean" />
 
-	<bean id="Award-stopWork-parentBean" abstract="true"
+	<bean id="Award-stopWorkIndicator-parentBean" abstract="true"
 		parent="AttributeDefinition">
-		<property name="name" value="stopWork" />
+		<property name="name" value="stopWorkIndicator" />
 		<property name="label" value="Stop Work" />
 		<property name="shortLabel" value="Stop Work" />
 		<property name="maxLength" value="1" />
@@ -1300,14 +1300,14 @@
 							<bean parent="FieldDefinition" p:attributeName="preferredBillingFrequency" />
 							<bean parent="FieldDefinition" p:attributeName="preferredReportTemplate" />
 							<bean parent="FieldDefinition" p:attributeName="preferredReportFrequency" />
-							<bean parent="FieldDefinition" p:attributeName="stateTransfer" />
-							<bean parent="FieldDefinition" p:attributeName="suspendInvoicing" />
+							<bean parent="FieldDefinition" p:attributeName="stateTransferIndicator" />
+							<bean parent="FieldDefinition" p:attributeName="suspendInvoicingIndicator" />
 							<bean parent="FieldDefinition" p:attributeName="suspensionReason" />
-							<bean parent="FieldDefinition" p:attributeName="additionalFormsRequired" />
+							<bean parent="FieldDefinition" p:attributeName="additionalFormsRequiredIndicator" />
 							<bean parent="FieldDefinition" p:attributeName="additionalFormsDescription" />
 							<bean parent="FieldDefinition" p:attributeName="contractGrantType" />
 							<bean parent="FieldDefinition" p:attributeName="awardsourceOfFundsCode" />
-							<bean parent="FieldDefinition" p:attributeName="autoApprove" />
+							<bean parent="FieldDefinition" p:attributeName="autoApproveIndicator" />
 							<bean parent="FieldDefinition" p:attributeName="minInvoiceAmount" />
 							<bean parent="FieldDefinition" p:attributeName="invoicingOptions" />
 						</list>
@@ -1417,7 +1417,7 @@
 										<bean parent="FieldDefinition" p:attributeName="projectDirector.name" />
 										<bean parent="FieldDefinition" p:attributeName="account.accountExpirationDate" />
 										<bean parent="FieldDefinition" p:attributeName="currentLastBilledDate" />
-										<bean parent="FieldDefinition" p:attributeName="finalBilled" />
+										<bean parent="FieldDefinition" p:attributeName="finalBilledIndicator" />
 									</list>
 								</property>
 								<property name="summaryFields">
@@ -1568,9 +1568,9 @@
 				<bean parent="FieldDefinition" p:attributeName="preferredBillingFrequency" />
 				<bean parent="FieldDefinition" p:attributeName="preferredReportTemplate" />
 				<bean parent="FieldDefinition" p:attributeName="preferredReportFrequency" />
-				<bean parent="FieldDefinition" p:attributeName="stateTransfer" />
-				<bean parent="FieldDefinition" p:attributeName="suspendInvoicing" />
-				<bean parent="FieldDefinition" p:attributeName="additionalFormsRequired" />
+				<bean parent="FieldDefinition" p:attributeName="stateTransferIndicator" />
+				<bean parent="FieldDefinition" p:attributeName="suspendInvoicingIndicator" />
+				<bean parent="FieldDefinition" p:attributeName="additionalFormsRequiredIndicator" />
 				<bean parent="FieldDefinition" p:attributeName="additionalFormsDescription" />
 				<bean parent="FieldDefinition" p:attributeName="contractGrantType" />
 				<bean parent="FieldDefinition" p:attributeName="awardsourceOfFundsCode" />
@@ -1601,13 +1601,13 @@
 				<bean parent="FieldDefinition" p:attributeName="preferredBillingFrequency" />
 				<bean parent="FieldDefinition" p:attributeName="preferredReportTemplate" />
 				<bean parent="FieldDefinition" p:attributeName="preferredReportFrequency" />
-				<bean parent="FieldDefinition" p:attributeName="stateTransfer" />
-				<bean parent="FieldDefinition" p:attributeName="suspendInvoicing" />
-				<bean parent="FieldDefinition" p:attributeName="additionalFormsRequired" />
+				<bean parent="FieldDefinition" p:attributeName="stateTransferIndicator" />
+				<bean parent="FieldDefinition" p:attributeName="suspendInvoicingIndicator" />
+				<bean parent="FieldDefinition" p:attributeName="additionalFormsRequiredIndicator" />
 				<bean parent="FieldDefinition" p:attributeName="additionalFormsDescription" />
 				<bean parent="FieldDefinition" p:attributeName="contractGrantType" />
 				<bean parent="FieldDefinition" p:attributeName="awardsourceOfFundsCode" />
-				<bean parent="FieldDefinition" p:attributeName="autoApprove" />
+				<bean parent="FieldDefinition" p:attributeName="autoApproveIndicator" />
 				<bean parent="FieldDefinition" p:attributeName="minInvoiceAmount" />
 				<bean parent="FieldDefinition" p:attributeName="fundingExpirationDate" />
 				<bean parent="FieldDefinition" p:attributeName="drawNumber" />

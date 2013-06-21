@@ -1,12 +1,12 @@
 /*
  * Copyright 2006-2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -25,7 +25,7 @@ public class AuditCluster {
 
     private String label;
     private List auditErrorList;
-    private boolean softAudits;
+    private boolean softAuditsIndicator;
 
     public AuditCluster() {
         this.auditErrorList = new ArrayList();
@@ -36,14 +36,14 @@ public class AuditCluster {
         this.auditErrorList = auditErrorList;
     }
 
-    public AuditCluster(String label, List auditErrorList, boolean softAudits) {
+    public AuditCluster(String label, List auditErrorList, boolean softAuditsIndicator) {
         this(label, auditErrorList);
-        this.softAudits = softAudits;
+        this.softAuditsIndicator = softAuditsIndicator;
     }
 
     /**
      * Gets the label attribute.
-     * 
+     *
      * @return Returns the label.
      */
     public String getLabel() {
@@ -52,7 +52,7 @@ public class AuditCluster {
 
     /**
      * Sets the label attribute value.
-     * 
+     *
      * @param label The label to set.
      */
     public void setLabel(String label) {
@@ -61,7 +61,7 @@ public class AuditCluster {
 
     /**
      * Gets the auditErrorList attribute.
-     * 
+     *
      * @return Returns the auditErrorList.
      */
     public List getAuditErrorList() {
@@ -70,7 +70,7 @@ public class AuditCluster {
 
     /**
      * Sets the auditErrorList attribute value.
-     * 
+     *
      * @param auditErrorList The auditErrorList to set.
      */
     public void setAuditErrorList(List auditErrorList) {
@@ -78,26 +78,26 @@ public class AuditCluster {
     }
 
     /**
-     * Gets the softAudits attribute.
-     * 
-     * @return Returns the softAudits.
+     * Gets the softAuditsIndicator attribute.
+     *
+     * @return Returns the softAuditsIndicator.
      */
-    public boolean isSoftAudits() {
-        return softAudits;
+    public boolean isSoftAuditsIndicator() {
+        return softAuditsIndicator;
     }
 
     /**
-     * Sets the softAudits attribute value.
-     * 
-     * @param softAudits The softAudits to set.
+     * Sets the softAuditsIndicator attribute value.
+     *
+     * @param softAuditsIndicator The softAuditsIndicator to set.
      */
-    public void setSoftAudits(boolean softAudits) {
-        this.softAudits = softAudits;
+    public void setSoftAuditsIndicator(boolean softAuditsIndicator) {
+        this.softAuditsIndicator = softAuditsIndicator;
     }
 
     /**
      * Returns the number of audit errors in the cluster.
-     * 
+     *
      * @return int size
      */
     public int getSize() {

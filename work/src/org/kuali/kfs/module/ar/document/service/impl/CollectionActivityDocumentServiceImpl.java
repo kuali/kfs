@@ -199,7 +199,7 @@ public class CollectionActivityDocumentServiceImpl implements CollectionActivity
      */
     @Override
     public boolean validateInvoiceForSavedEvents(String invoiceNumber, String documentNumber) {
-        boolean result = true;
+        boolean resultInd = true;
         Criteria criteria = new Criteria();
 
         criteria.addEqualTo(ArPropertyConstants.EventFields.INVOICE_NUMBER, invoiceNumber);
@@ -207,8 +207,8 @@ public class CollectionActivityDocumentServiceImpl implements CollectionActivity
         criteria.addNotEqualTo(ArPropertyConstants.EventFields.DOCUMENT_NUMBER, documentNumber);
         List<Event> events = (List<Event>) this.retrieveEventsByCriteria(criteria);
         if (CollectionUtils.isNotEmpty(events)) {
-            result = false;
+            resultInd = false;
         }
-        return result;
+        return resultInd;
     }
 }

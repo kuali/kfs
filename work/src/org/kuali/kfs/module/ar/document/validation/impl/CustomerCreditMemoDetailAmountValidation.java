@@ -37,20 +37,20 @@ public class CustomerCreditMemoDetailAmountValidation extends GenericValidation 
         BigDecimal quantity = customerCreditMemoDetail.getCreditMemoItemQuantity();
         KualiDecimal invoiceOpenItemAmount = customerCreditMemoDetail.getInvoiceOpenItemAmount();
         KualiDecimal creditMemoItemAmount = customerCreditMemoDetail.getCreditMemoItemTotalAmount();
-        boolean validValue;
+        boolean isValid;
 
         if (ObjectUtils.isNotNull(creditMemoItemAmount) && ObjectUtils.isNull(quantity)) {
             
             // customer credit memo total amount must be greater than zero
-            validValue = creditMemoItemAmount.isPositive();
-            if (!validValue) {
+            isValid = creditMemoItemAmount.isPositive();
+            if (!isValid) {
                 GlobalVariables.getMessageMap().putError(DOCUMENT_ERROR_PREFIX + ArPropertyConstants.CustomerCreditMemoDocumentFields.CREDIT_MEMO_ITEM_TOTAL_AMOUNT, ArKeyConstants.ERROR_CUSTOMER_CREDIT_MEMO_DETAIL_ITEM_AMOUNT_LESS_THAN_OR_EQUAL_TO_ZERO);
                 return false;
             }
 
             // customer credit memo total amount must not be greater than invoice open item total amount
-            validValue = creditMemoItemAmount.isLessEqual(invoiceOpenItemAmount);
-            if (!validValue) {
+            isValid = creditMemoItemAmount.isLessEqual(invoiceOpenItemAmount);
+            if (!isValid) {
                 GlobalVariables.getMessageMap().putError(DOCUMENT_ERROR_PREFIX + ArPropertyConstants.CustomerCreditMemoDocumentFields.CREDIT_MEMO_ITEM_TOTAL_AMOUNT, ArKeyConstants.ERROR_CUSTOMER_CREDIT_MEMO_DETAIL_ITEM_AMOUNT_GREATER_THAN_INVOICE_ITEM_AMOUNT);
                 return false;
             }

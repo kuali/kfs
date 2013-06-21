@@ -37,7 +37,7 @@ import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleRetrieveService;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.batch.service.ContractsGrantsInvoiceCreateDocumentService;
-import org.kuali.kfs.module.ar.batch.service.VerifyBillingFrequency;
+import org.kuali.kfs.module.ar.batch.service.VerifyBillingFrequencyService;
 import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.AccountsReceivableDocumentHeaderService;
@@ -67,7 +67,7 @@ import org.springframework.util.CollectionUtils;
 
 /**
  * This is the default implementation of the ContractsGrantsInvoiceDocumentCreateService interface.
- * 
+ *
  * @see org.kuali.kfs.module.ar.batch.service.ContractsGrantsInvoiceDocumentCreateService
  */
 @Transactional
@@ -75,7 +75,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ContractsGrantsInvoiceCreateDocumentServiceImpl.class);
 
     private AccountingPeriodService accountingPeriodService;
-    private VerifyBillingFrequency verifyBillingFrequency;
+    private VerifyBillingFrequencyService verifyBillingFrequencyService;
     private BusinessObjectService businessObjectService;
     private DocumentService documentService;
     private WorkflowDocumentService workflowDocumentService;
@@ -89,9 +89,10 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
     /**
      * The default implementation of this service retrieves a collection of qualified Awards and create Contracts Grants Invoice
      * Documents by Awards.
-     * 
+     *
      * @see org.kuali.kfs.module.ar.batch.service.ContractsGrantsInvoiceDocumentCreateService#createCGInvoiceDocumentsByAwards(java.lang.String)
      */
+    @Override
     public boolean createCGInvoiceDocumentsByAwards(Collection<ContractsAndGrantsCGBAward> awards, String errOutputFileName) {
         ContractsGrantsInvoiceDocument cgInvoiceDocument;
         List<ContractsAndGrantsCGBAwardAccount> tmpAcctList1 = null;
@@ -109,7 +110,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
                 if (invOpt.equals(ArPropertyConstants.INV_ACCOUNT)) {
 
                     for (ContractsAndGrantsCGBAwardAccount awardAccount : awd.getActiveAwardAccounts()) {
-                        if (!awardAccount.isFinalBilled()) {
+                        if (!awardAccount.isFinalBilledIndicator()) {
                             tmpAcctList1.clear();
                             // only one account is added into the list to create cgin
                             tmpAcctList1.add(awardAccount);
@@ -183,7 +184,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
                                 tmpAcctList1.clear();
 
                                 for (ContractsAndGrantsCGBAwardAccount awardAccount : awd.getActiveAwardAccounts()) {
-                                    if (!awardAccount.isFinalBilled()) {
+                                    if (!awardAccount.isFinalBilledIndicator()) {
                                         tmpCtrlAcct = awardAccount.getAccount().getContractControlAccount();
                                         if (tmpCtrlAcct.getChartOfAccountsCode().equals(controlAccount.getChartOfAccountsCode()) && tmpCtrlAcct.getAccountNumber().equals(controlAccount.getAccountNumber())) {
                                             tmpAcctList1.add(awardAccount);
@@ -230,7 +231,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
                     }
                     else {
                         // check if control accounts of awardaccounts are the same
-                        boolean valid = true;
+                        boolean isValid = true;
                         if (accountNum != 1) {
                             Account tmpAcct1, tmpAcct2;
 
@@ -241,13 +242,13 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
 
                                 if (ObjectUtils.isNull(tmpAcct1) || ObjectUtils.isNull(tmpAcct2) || !areTheSameAccounts(tmpAcct1, tmpAcct2)) {
                                     errLines.add("Award/Proposal# " + awd.getProposalNumber().toString() + " is billed by award, but it has different control accounts for award accounts.");
-                                    valid = false;
+                                    isValid = false;
                                     break;
                                 }
                             }
                         }
 
-                        if (valid) {
+                        if (isValid) {
                             Account account;
                             for (ContractsAndGrantsCGBAwardAccount awardAccount : awd.getActiveAwardAccounts()) {
                                 account = awardAccount.getAccount();
@@ -314,9 +315,10 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
 
     /**
      * This method retrieves create a ContractsGrantsInvoiceDocument by Award * @param awd
-     * 
+     *
      * @return ContractsGrantsInvoiceDocument
      */
+    @Override
     public ContractsGrantsInvoiceDocument createCGInvoiceDocumentByAwardInfo(ContractsAndGrantsCGBAward awd, List<ContractsAndGrantsCGBAwardAccount> accounts, String chartOfAccountsCode, String organizationCode) {
         ContractsGrantsInvoiceDocument cgInvoiceDocument;
         if (ObjectUtils.isNotNull(accounts) && !accounts.isEmpty() && !CollectionUtils.isEmpty(accounts)) {
@@ -372,6 +374,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
     /**
      * @see org.kuali.kfs.module.ar.batch.service.ContractsGrantsInvoiceCreateDocumentService#retrieveAwards()
      */
+    @Override
     public Collection<ContractsAndGrantsCGBAward> retrieveAwards() {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put(KFSPropertyConstants.ACTIVE, true);
@@ -382,12 +385,13 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
 
     /**
      * This method validates awards and output an error file including unqualified awards with reason stated.
-     * 
+     *
      * @param errOutputFile The name of the file recording unqualified awards with reason stated.
      * @return True if
      */
+    @Override
     public Collection<ContractsAndGrantsCGBAward> validateAwards(Collection<ContractsAndGrantsCGBAward> awards, String errOutputFile) {
-        boolean invalid;
+        boolean isInvalid;
         Map<ContractsAndGrantsCGBAward, List<String>> invalidGroup = new HashMap<ContractsAndGrantsCGBAward, List<String>>();
         List<String> errorList = new ArrayList<String>();
         List<ContractsAndGrantsCGBAward> qualifiedAwards = new ArrayList<ContractsAndGrantsCGBAward>();
@@ -419,11 +423,11 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
 
         // To check for every award if its within the billing frequency.
         Collection<ContractsAndGrantsCGBAward> awardsToBill = new ArrayList<ContractsAndGrantsCGBAward>();
-        boolean valid = true;
+        boolean isValid = true;
         for (ContractsAndGrantsCGBAward awd : tmpAwards) {
             errorList = new ArrayList<String>();
-            valid = verifyBillingFrequency.validatBillingFrequency(awd);
-            if (valid) {
+            isValid = verifyBillingFrequencyService.validatBillingFrequency(awd);
+            if (isValid) {
                 awardsToBill.add(awd);
             }
             else {
@@ -438,7 +442,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
         if (!CollectionUtils.isEmpty(awardsToBill)) {
             String proposalId;
             for (ContractsAndGrantsCGBAward award : awardsToBill) {
-                invalid = false;
+                isInvalid = false;
                 errorList = new ArrayList<String>();
                 // use business rules to validate awards
 
@@ -448,14 +452,14 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
                     errorList.add(ArConstants.BatchFileSystem.CGINVOICE_CREATION_USER_SUSPENDED_ERROR);
                     invalidGroup.put(award, errorList);
 
-                    invalid = true;
+                    isInvalid = true;
                 }
                 // 2. Award is Inactive
                 if (!award.isActive()) {
                     errorList.add(ArConstants.BatchFileSystem.CGINVOICE_CREATION_AWARD_INACTIVE_ERROR);
                     invalidGroup.put(award, errorList);
 
-                    invalid = true;
+                    isInvalid = true;
                 }
 
                 // 3. Award is Closed
@@ -463,7 +467,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
                     errorList.add(ArConstants.BatchFileSystem.CGINVOICE_CREATION_AWARD_CLOSED_ERROR);
                     invalidGroup.put(award, errorList);
 
-                    invalid = true;
+                    isInvalid = true;
                 }
 
                 // 4. Award invoicing option is missing
@@ -471,7 +475,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
                     errorList.add(ArConstants.BatchFileSystem.CGINVOICE_CREATION_INVOICING_OPTION_MISSING_ERROR);
                     invalidGroup.put(award, errorList);
 
-                    invalid = true;
+                    isInvalid = true;
                 }
 
                 // 5. Award preferred billing frequency is not set correctly
@@ -479,7 +483,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
                     errorList.add(ArConstants.BatchFileSystem.CGINVOICE_CREATION_SINGLE_ACCOUNT_ERROR);
                     invalidGroup.put(award, errorList);
 
-                    invalid = true;
+                    isInvalid = true;
                 }
 
                 // 6. Award has no accounts assigned
@@ -487,7 +491,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
                     errorList.add(ArConstants.BatchFileSystem.CGINVOICE_CREATION_NO_ACCOUNT_ASSIGNED_ERROR);
                     invalidGroup.put(award, errorList);
 
-                    invalid = true;
+                    isInvalid = true;
                 }
 
                 // 7. Award contains expired account or accounts
@@ -503,14 +507,14 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
                     errorList.add(line.toString());
                     invalidGroup.put(award, errorList);
 
-                    invalid = true;
+                    isInvalid = true;
                 }
                 // 8. Award has final invoice Billed already
                 if (contractsGrantsInvoiceDocumentService.isAwardFinalInvoiceAlreadyBuilt(award)) {
                     errorList.add(ArConstants.BatchFileSystem.CGINVOICE_CREATION_AWARD_FINAL_BILLED_ERROR);
                     invalidGroup.put(award, errorList);
 
-                    invalid = true;
+                    isInvalid = true;
                 }
 
 
@@ -519,21 +523,21 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
                     errorList.add(ArConstants.BatchFileSystem.CGINVOICE_CREATION_AWARD_NO_VALID_MILESTONES);
                     invalidGroup.put(award, errorList);
 
-                    invalid = true;
+                    isInvalid = true;
                 }
                 // 10. All has no valid bills to invoice
                 if (contractsGrantsInvoiceDocumentService.hasNoBillsToInvoice(award)) {
                     errorList.add(ArConstants.BatchFileSystem.CGINVOICE_CREATION_AWARD_NO_VALID_BILLS);
                     invalidGroup.put(award, errorList);
 
-                    invalid = true;
+                    isInvalid = true;
                 }
                 // 11. Agency has no matching Customer record
                 if (contractsGrantsInvoiceDocumentService.owningAgencyHasNoCustomerRecord(award)) {
                     errorList.add(ArConstants.BatchFileSystem.CGINVOICE_CREATION_AWARD_AGENCY_NO_CUSTOMER_RECORD);
                     invalidGroup.put(award, errorList);
 
-                    invalid = true;
+                    isInvalid = true;
                 }
 
                 // 12. All accounts of an Award have zero$ to invoice
@@ -541,7 +545,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
                     errorList.add(ArConstants.BatchFileSystem.CGINVOICE_CREATION_AWARD_NO_VALID_ACCOUNTS);
                     invalidGroup.put(award, errorList);
 
-                    invalid = true;
+                    isInvalid = true;
                 }
                 // 13. Award does not have appropriate Contract Control Accounts set based on Invoicing Options
                 List<String> errorString = SpringContext.getBean(ContractsAndGrantsModuleRetrieveService.class).hasValidContractControlAccounts(award.getProposalNumber());
@@ -549,14 +553,14 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
                     errorList.add(SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(errorString.get(0)).replace("{0}", errorString.get(1)));
                     invalidGroup.put(award, errorList);
 
-                    invalid = true;
+                    isInvalid = true;
                 }
                 // 14. System Information and ORganization Accounting Default not setup.
                 if (contractsGrantsInvoiceDocumentService.isChartAndOrgNotSetupForInvoicing(award)) {
                     errorList.add(ArConstants.BatchFileSystem.CGINVOICE_CREATION_SYS_INFO_OADF_NOT_SETUP);
                     invalidGroup.put(award, errorList);
 
-                    invalid = true;
+                    isInvalid = true;
                 }
 
                 // 15. if there is no AR Invoice Account present when the GLPE is 3.
@@ -564,7 +568,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
                     errorList.add(ArConstants.BatchFileSystem.CGINVOICE_CREATION_AWARD_NO_AR_INV_ACCOUNT);
                     invalidGroup.put(award, errorList);
 
-                    invalid = true;
+                    isInvalid = true;
                 }
 
                 // 16. If all accounts of award has invoices in progress.
@@ -572,7 +576,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
                     errorList.add(ArConstants.BatchFileSystem.CGINVOICE_CREATION_AWARD_INVOICES_IN_PROGRESS);
                     invalidGroup.put(award, errorList);
 
-                    invalid = true;
+                    isInvalid = true;
                 }
 
                 // 17. Offset Definition is not available when the GLPE is 3.
@@ -580,13 +584,13 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
                     errorList.add(ArConstants.BatchFileSystem.CGINVOICE_CREATION_AWARD_OFFSET_DEF_NOT_SETUP);
                     invalidGroup.put(award, errorList);
 
-                    invalid = true;
+                    isInvalid = true;
                 }
 
 
                 // if invalid is true, the award is unqualified.
                 // records the unqualified award with failed reasons.
-                if (!invalid) {
+                if (!isInvalid) {
                     qualifiedAwards.add(award);
 
                 }
@@ -643,33 +647,34 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
     /**
      * This method validate if two accounts present the same account by comparing their "account number" and
      * "chart of account code",which are primary key.
-     * 
+     *
      * @param obj1
      * @param obj2
      * @return True if these two accounts are the same
      */
     protected boolean areTheSameAccounts(Account obj1, Account obj2) {
-        boolean equal = false;
+        boolean isEqual = false;
 
         if (obj1 != null && obj2 != null) {
             if (StringUtils.equals(obj1.getChartOfAccountsCode(), obj2.getChartOfAccountsCode())) {
                 if (StringUtils.equals(obj1.getAccountNumber(), obj2.getAccountNumber())) {
-                    equal = true;
+                    isEqual = true;
                 }
             }
         }
 
-        return equal;
+        return isEqual;
     }
 
 
     /**
      * This method retrieves all the contracts grants invoice documents with a status of 'I' and routes them to the next step in the
      * routing path.
-     * 
+     *
      * @return True if the routing was performed successfully. A runtime exception will be thrown if any errors occur while routing.
      * @see org.kuali.kfs.module.ar.batch.service.ContractsGrantsInvoiceDocumentCreateService#routeContractsGrantsInvoiceDocuments()
      */
+    @Override
     public boolean routeContractsGrantsInvoiceDocuments() {
         List<String> documentIdList = null;
         try {
@@ -716,7 +721,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
 
     /**
      * Returns a list of all initiated but not yet routed contracts grants invoice documents, using the KualiWorkflowInfo service.
-     * 
+     *
      * @return a list of contracts grants invoice documents to route
      */
     protected List<String> retrieveContractsGrantsInvoiceDocumentsToRoute(String statusCode) throws WorkflowException, RemoteException {
@@ -755,7 +760,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
 
     /**
      * Retrieves the document id out of the route document header
-     * 
+     *
      * @param routeDocHeader the String representing an HTML link to the document
      * @return the document id
      */
@@ -878,7 +883,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
     /**
      * This method would calulate the amounts to be invoiced for every award account and returns the valid award acccounts with
      * amounts > zero dollars
-     * 
+     *
      * @param awardAccounts
      * @return valid awardAccounts
      */
@@ -916,7 +921,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
 
     /**
      * Sets the accountingPeriodService attribute value.
-     * 
+     *
      * @param accountingPeriodService The accountingPeriodService to set.
      */
     public void setAccountingPeriodService(AccountingPeriodService accountingPeriodService) {
@@ -925,17 +930,17 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
 
 
     /**
-     * Sets the verifyBillingFrequency attribute value.
-     * 
-     * @param verifyBillingFrequency The verifyBillingFrequency to set.
+     * Sets the verifyBillingFrequencyService attribute value.
+     *
+     * @param verifyBillingFrequencyService The verifyBillingFrequencyService to set.
      */
-    public void setVerifyBillingFrequency(VerifyBillingFrequency verifyBillingFrequency) {
-        this.verifyBillingFrequency = verifyBillingFrequency;
+    public void setVerifyBillingFrequencyService(VerifyBillingFrequencyService verifyBillingFrequencyService) {
+        this.verifyBillingFrequencyService = verifyBillingFrequencyService;
     }
 
     /**
      * Sets the businessObjectService attribute value.
-     * 
+     *
      * @param businessObjectService The businessObjectService to set.
      */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
@@ -944,7 +949,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
 
     /**
      * Sets the workflowDocumentService attribute value.
-     * 
+     *
      * @param workflowDocumentService The workflowDocumentService to set.
      */
     public void setWorkflowDocumentService(WorkflowDocumentService workflowDocumentService) {
@@ -954,7 +959,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
 
     /**
      * Sets the documentService attribute value.
-     * 
+     *
      * @param documentService The documentService to set.
      */
     public void setDocumentService(DocumentService documentService) {
@@ -964,7 +969,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
 
     /**
      * Sets the accountsReceivableDocumentHeaderService attribute value.
-     * 
+     *
      * @param accountsReceivableDocumentHeaderService The accountsReceivableDocumentHeaderService to set.
      */
     public void setAccountsReceivableDocumentHeaderService(AccountsReceivableDocumentHeaderService accountsReceivableDocumentHeaderService) {
@@ -973,7 +978,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
 
     /**
      * Sets the contractsGrantsInvoiceDocumentService attribute value.
-     * 
+     *
      * @param contractsGrantsInvoiceDocumentService The contractsGrantsInvoiceDocumentService to set.
      */
     public void setContractsGrantsInvoiceDocumentService(ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService) {

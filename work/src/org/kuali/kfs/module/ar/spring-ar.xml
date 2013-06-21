@@ -156,8 +156,8 @@
 		<property name="accountingPeriodService">
 			<ref bean="accountingPeriodService" />
 		</property>
-		<property name="verifyBillingFrequency">
-			<ref bean="verifyBillingFrequency" />
+		<property name="verifyBillingFrequencyService">
+			<ref bean="verifyBillingFrequencyService" />
 		</property>
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
@@ -261,8 +261,8 @@
 		<property name="dateTimeService">
 			<ref bean="dateTimeService" />
 		</property>
-		<property name="verifyBillingFrequency">
-			<ref bean="verifyBillingFrequency" />
+		<property name="verifyBillingFrequencyService">
+			<ref bean="verifyBillingFrequencyService" />
 		</property>
 		<property name="invoicePaidAppliedService">
 			<ref bean="invoicePaidAppliedService" />
@@ -272,7 +272,7 @@
 		</property>
 	</bean>
 
-	<bean id="verifyBillingFrequency" class="org.kuali.kfs.module.ar.batch.service.impl.VerifyBillingFrequencyImpl">
+	<bean id="verifyBillingFrequencyService" class="org.kuali.kfs.module.ar.batch.service.impl.VerifyBillingFrequencyServiceImpl">
 		<property name="universityDateService">
 			<ref bean="universityDateService" />
 		</property>

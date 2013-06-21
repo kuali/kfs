@@ -170,18 +170,18 @@ public class CashControlDocumentPresentationController extends FinancialSystemTr
      * @return true if it has at least one application document approved, false otherwise
      */
     protected boolean hasAtLeastOneAppDocApproved(CashControlDocument cashControlDocument) {
-        boolean result = false;
+        boolean resultInd = false;
         // check if there is at least one Application Document approved
         for (CashControlDetail cashControlDetail : cashControlDocument.getCashControlDetails()) {
             PaymentApplicationDocument applicationDocument = cashControlDetail.getReferenceFinancialDocument();
             WorkflowDocument workflowDocument = applicationDocument.getDocumentHeader().getWorkflowDocument();
 
             if (workflowDocument != null && workflowDocument.isApproved()) {
-                result = true;
+                resultInd = true;
                 break;
             }
         }
-        return result;
+        return resultInd;
     }
 
     /**
@@ -191,19 +191,19 @@ public class CashControlDocumentPresentationController extends FinancialSystemTr
      * @return true if all application documents have been approved, false otherwise
      */
     protected boolean hasAllAppDocsApproved(CashControlDocument cashControlDocument) {
-        boolean result = true;
+        boolean resultInd = true;
         for (CashControlDetail cashControlDetail : cashControlDocument.getCashControlDetails()) {
 
             PaymentApplicationDocument applicationDocument = cashControlDetail.getReferenceFinancialDocument();
             WorkflowDocument workflowDocument = applicationDocument.getDocumentHeader().getWorkflowDocument();
 
             if (!(workflowDocument.isApproved() || workflowDocument.isFinal())) {
-                result = false;
+                resultInd = false;
                 break;
             }
 
         }
-        return result;
+        return resultInd;
     }
 
 }

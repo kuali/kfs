@@ -1,12 +1,12 @@
 /*
  * Copyright 2012 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -63,7 +63,7 @@ public class CollectionActivityReportServiceImpl extends ContractsGrantsReportSe
 
     /**
      * Gets the collActReportInfo attribute.
-     * 
+     *
      * @return Returns the collActReportInfo.
      */
     public ReportInfo getCollActReportInfo() {
@@ -72,7 +72,7 @@ public class CollectionActivityReportServiceImpl extends ContractsGrantsReportSe
 
     /**
      * Sets the collActReportInfo attribute value.
-     * 
+     *
      * @param collActReportInfo The collActReportInfo to set.
      */
     public void setCollActReportInfo(ReportInfo collActReportInfo) {
@@ -81,7 +81,7 @@ public class CollectionActivityReportServiceImpl extends ContractsGrantsReportSe
 
     /**
      * Gets the businessObjectService attribute.
-     * 
+     *
      * @return Returns the businessObjectService.
      */
     public BusinessObjectService getBusinessObjectService() {
@@ -90,7 +90,7 @@ public class CollectionActivityReportServiceImpl extends ContractsGrantsReportSe
 
     /**
      * Sets the businessObjectService attribute value.
-     * 
+     *
      * @param businessObjectService The businessObjectService to set.
      */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
@@ -99,7 +99,7 @@ public class CollectionActivityReportServiceImpl extends ContractsGrantsReportSe
 
     /**
      * Gets the contractsGrantsInvoiceDocumentService attribute.
-     * 
+     *
      * @return Returns the contractsGrantsInvoiceDocumentService.
      */
     public ContractsGrantsInvoiceDocumentService getContractsGrantsInvoiceDocumentService() {
@@ -108,7 +108,7 @@ public class CollectionActivityReportServiceImpl extends ContractsGrantsReportSe
 
     /**
      * Sets the collectorHierarchyDao attribute value.
-     * 
+     *
      * @param collectorHierarchyDao The collectorHierarchyDao to set.
      */
     public void setContractsGrantsInvoiceDocumentService(ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService) {
@@ -117,7 +117,7 @@ public class CollectionActivityReportServiceImpl extends ContractsGrantsReportSe
 
     /**
      * Gets the collectorHierarchyDao attribute.
-     * 
+     *
      * @return Returns the collectorHierarchyDao.
      */
     public CollectorHierarchyDao getCollectorHierarchyDao() {
@@ -126,7 +126,7 @@ public class CollectionActivityReportServiceImpl extends ContractsGrantsReportSe
 
     /**
      * Sets the collectorHierarchyDao attribute value.
-     * 
+     *
      * @param collectorHierarchyDao The collectorHierarchyDao to set.
      */
     public void setCollectorHierarchyDao(CollectorHierarchyDao collectorHierarchyDao) {
@@ -135,7 +135,7 @@ public class CollectionActivityReportServiceImpl extends ContractsGrantsReportSe
 
     /**
      * Gets the customerCollectorDao attribute.
-     * 
+     *
      * @return Returns the customerCollectorDao.
      */
     public CustomerCollectorDao getCustomerCollectorDao() {
@@ -144,7 +144,7 @@ public class CollectionActivityReportServiceImpl extends ContractsGrantsReportSe
 
     /**
      * Sets the customerCollectorDao attribute value.
-     * 
+     *
      * @param customerCollectorDao The customerCollectorDao to set.
      */
     public void setCustomerCollectorDao(CustomerCollectorDao customerCollectorDao) {
@@ -307,7 +307,7 @@ public class CollectionActivityReportServiceImpl extends ContractsGrantsReportSe
 
     /**
      * This method filters the Contracts Grants Invoice doc by Award related details
-     * 
+     *
      * @param contractsGrantsInvoiceDocs
      * @param awardDocumentNumber
      * @param awardEndDate
@@ -331,7 +331,7 @@ public class CollectionActivityReportServiceImpl extends ContractsGrantsReportSe
 
     /**
      * This method filters invoices according to collectors
-     * 
+     *
      * @param contractsGrantsInvoiceDocuments
      * @param customerNumbers
      * @return Returns the list of ContractsGrantsInvoiceDocument.
@@ -350,7 +350,7 @@ public class CollectionActivityReportServiceImpl extends ContractsGrantsReportSe
 
     /**
      * This method checks that the given customer is found in list of customers found in customer collectors
-     * 
+     *
      * @param customerNumber
      * @param customerNumbers
      * @return Returns true if customer found in the list otherwise false
@@ -373,7 +373,7 @@ public class CollectionActivityReportServiceImpl extends ContractsGrantsReportSe
 
     /**
      * This method is used to convert the Event Object into collection activity report.
-     * 
+     *
      * @param collectionActivityReport
      * @param event
      * @return Returns the Object of CollectionActivityReport class.
@@ -388,7 +388,7 @@ public class CollectionActivityReportServiceImpl extends ContractsGrantsReportSe
 
         if (ObjectUtils.isNotNull(activityCode)) {
             map.put(ArPropertyConstants.CollectionActivityTypeFields.ACTIVITY_CODE, activityCode);
-            CollectionActivityType collectionActivityType = (CollectionActivityType) businessObjectService.findByPrimaryKey(CollectionActivityType.class, map);
+            CollectionActivityType collectionActivityType = businessObjectService.findByPrimaryKey(CollectionActivityType.class, map);
             if (ObjectUtils.isNotNull(collectionActivityType)) {
                 collectionActivityReport.setActivityType(collectionActivityType.getActivityDescription());
             }
@@ -397,7 +397,7 @@ public class CollectionActivityReportServiceImpl extends ContractsGrantsReportSe
         collectionActivityReport.setActivityComment(event.getActivityText());
         collectionActivityReport.setFollowupDate(event.getFollowupDate());
         collectionActivityReport.setProposalNumber(event.getInvoiceDocument().getProposalNumber());
-        collectionActivityReport.setCompleted(event.isCompleted());
+        collectionActivityReport.setCompletedInd(event.isCompletedInd());
         collectionActivityReport.setCompletedDate(event.getCompletedDate());
         PersonService personService = SpringContext.getBean(org.kuali.rice.kim.api.identity.PersonService.class);
 

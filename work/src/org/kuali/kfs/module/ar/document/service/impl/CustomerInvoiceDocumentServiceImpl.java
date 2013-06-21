@@ -45,6 +45,7 @@ import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
 import org.kuali.kfs.module.ar.document.service.InvoicePaidAppliedService;
 import org.kuali.kfs.module.ar.document.service.NonInvoicedDistributionService;
+import org.kuali.kfs.module.ar.document.service.ReceivableAccountingLineService;
 import org.kuali.kfs.module.ar.report.util.CustomerStatementResultHolder;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
@@ -854,16 +855,16 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
      */
     @Override
     public boolean checkIfInvoiceNumberIsFinal(String invDocumentNumber) {
-        boolean success = true;
+        boolean isSuccess = true;
         if (StringUtils.isBlank(invDocumentNumber)) {
-            success &= false;
+            isSuccess &= false;
         }
         else {
             CustomerInvoiceDocumentService service = SpringContext.getBean(CustomerInvoiceDocumentService.class);
             CustomerInvoiceDocument customerInvoiceDocument = service.getInvoiceByInvoiceDocumentNumber(invDocumentNumber);
 
             if (ObjectUtils.isNull(customerInvoiceDocument)) {
-                success &= false;
+                isSuccess &= false;
             }
             else {
                 Document doc = null;
@@ -871,14 +872,14 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
                     doc = SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(invDocumentNumber);
                 }
                 catch (WorkflowException e) {
-                    success &= false;
+                    isSuccess &= false;
                 }
                 if (ObjectUtils.isNull(doc) || ObjectUtils.isNull(doc.getDocumentHeader()) || doc.getDocumentHeader().getWorkflowDocument() == null || !(doc.getDocumentHeader().getWorkflowDocument().isApproved() || doc.getDocumentHeader().getWorkflowDocument().isProcessed())) {
-                    success &= false;
+                    isSuccess &= false;
                 }
             }
         }
-        return success;
+        return isSuccess;
     }
 
     /**

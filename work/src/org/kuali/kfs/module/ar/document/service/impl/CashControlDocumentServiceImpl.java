@@ -180,7 +180,7 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
     @Override
     public boolean createCashReceiptGLPEs(CashControlDocument cashControlDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
 
-        boolean success = true;
+        boolean isSuccess = true;
         AccountingLine accountingLine = null;
         GeneralLedgerPendingEntry explicitEntry = new GeneralLedgerPendingEntry();
 
@@ -215,9 +215,9 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
         // create and add the new explicit entry based on this accounting line
         explicitEntry = createAndAddNewExplicitEntry(cashControlDocument, sequenceHelper, accountingLine, options, financialSystemDocumentTypeCode);
         // create and add the offset entry
-        success &= createAndAddTheOffsetEntry(cashControlDocument, explicitEntry, accountingLine, sequenceHelper);
+        isSuccess &= createAndAddTheOffsetEntry(cashControlDocument, explicitEntry, accountingLine, sequenceHelper);
 
-        return success;
+        return isSuccess;
     }
 
     /**
@@ -228,7 +228,7 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
      */
     @Override
     public boolean createBankOffsetGLPEs(CashControlDocument cashControlDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
-        boolean success = true;
+        boolean isSuccess = true;
         if (SpringContext.getBean(BankService.class).isBankSpecificationEnabled()) {
             // get associated bank
             Bank bank = SpringContext.getBean(BankService.class).getByPrimaryId(cashControlDocument.getBankCode());
@@ -241,15 +241,15 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
                 cashControlDocument.addPendingEntry(bankOffsetEntry);
                 sequenceHelper.increment();
                 GeneralLedgerPendingEntry offsetEntry = new GeneralLedgerPendingEntry(bankOffsetEntry);
-                success &= glpeService.populateOffsetGeneralLedgerPendingEntry(cashControlDocument.getPostingYear(), bankOffsetEntry, sequenceHelper, offsetEntry);
+                isSuccess &= glpeService.populateOffsetGeneralLedgerPendingEntry(cashControlDocument.getPostingYear(), bankOffsetEntry, sequenceHelper, offsetEntry);
                 cashControlDocument.addPendingEntry(offsetEntry);
                 sequenceHelper.increment();
             }
             else {
-                success = false;
+                isSuccess = false;
             }
         }
-        return success;
+        return isSuccess;
     }
 
     /**
@@ -257,7 +257,7 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
      */
     @Override
     public boolean createDistributionOfIncomeAndExpenseGLPEs(CashControlDocument cashControlDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
-        boolean success = true;
+        boolean isSuccess = true;
 
         AccountingLine accountingLine = null;
         GeneralLedgerPendingEntry explicitEntry = new GeneralLedgerPendingEntry();
@@ -293,7 +293,7 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
         // create and add the new explicit entry based on this accounting line
         explicitEntry = createAndAddNewExplicitEntry(cashControlDocument, sequenceHelper, accountingLine, options, financialSystemDocumentTypeCode);
         // create and add the offset entry
-        success &= createAndAddTheOffsetEntry(cashControlDocument, explicitEntry, accountingLine, sequenceHelper);
+        isSuccess &= createAndAddTheOffsetEntry(cashControlDocument, explicitEntry, accountingLine, sequenceHelper);
 
         // get Advance Deposit accounting lines by getting Electronic Payment Claims
         Map criteria2 = new HashMap();
@@ -318,10 +318,10 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
             // create and add the new explicit entry based on this accounting line
             explicitEntry = createAndAddNewExplicitEntry(cashControlDocument, sequenceHelper, accountingLine, options, financialSystemDocumentTypeCode);
             // create and add the offset entry
-            success &= createAndAddTheOffsetEntry(cashControlDocument, explicitEntry, accountingLine, sequenceHelper);
+            isSuccess &= createAndAddTheOffsetEntry(cashControlDocument, explicitEntry, accountingLine, sequenceHelper);
         }
 
-        return success;
+        return isSuccess;
     }
 
     /**
@@ -329,7 +329,7 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
      */
     @Override
     public boolean createGeneralErrorCorrectionGLPEs(CashControlDocument cashControlDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
-        boolean success = true;
+        boolean isSuccess = true;
 
         Integer currentFiscalYear = universityDateService.getCurrentFiscalYear();
         AccountingLine accountingLine = null;
@@ -370,7 +370,7 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
         // create and add the new explicit entry based on this accounting line
         createAndAddNewExplicitEntry(cashControlDocument, sequenceHelper, accountingLine, options, financialSystemDocumentTypeCode);
 
-        return success;
+        return isSuccess;
     }
 
     /**
@@ -467,11 +467,11 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
      * @return true if successfuly created and added, false otherwise
      */
     protected boolean createAndAddTheOffsetEntry(CashControlDocument cashControlDocument, GeneralLedgerPendingEntry explicitEntry, AccountingLine accountingLine, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
-        boolean success = true;
+        boolean isSuccess = true;
 
         // create offset
         GeneralLedgerPendingEntry offsetEntry = new GeneralLedgerPendingEntry(explicitEntry);
-        success &= glpeService.populateOffsetGeneralLedgerPendingEntry(cashControlDocument.getPostingYear(), explicitEntry, sequenceHelper, offsetEntry);
+        isSuccess &= glpeService.populateOffsetGeneralLedgerPendingEntry(cashControlDocument.getPostingYear(), explicitEntry, sequenceHelper, offsetEntry);
         cashControlDocument.customizeOffsetGeneralLedgerPendingEntry(accountingLine, explicitEntry, offsetEntry);
 
         // add the offset
@@ -480,7 +480,7 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
         // increment the sequence counter
         sequenceHelper.increment();
 
-        return success;
+        return isSuccess;
     }
 
 

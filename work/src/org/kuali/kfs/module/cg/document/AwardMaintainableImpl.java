@@ -218,7 +218,7 @@ public class AwardMaintainableImpl extends FinancialSystemMaintainable {
                     }
                     // iterate over the array to get the first empty value
                     // loop over the awardSubcontractorNumbers first
-                    boolean foundNumbers = false;
+                    boolean isFoundNumbers = false;
                     for (int i = 1; i <= 99; i++) {
                         for (int j = 1; j <= 99; j++) {
                             if (!nums[j][i]) {
@@ -228,11 +228,11 @@ public class AwardMaintainableImpl extends FinancialSystemMaintainable {
                                 // mark the cell as used before the next pass
                                 nums[j][i] = true;
                                 // just a flag to allow us to break out of both loops
-                                foundNumbers = true;
+                                isFoundNumbers = true;
                                 break;
                             }
                         }
-                        if (foundNumbers) {
+                        if (isFoundNumbers) {
                             break;
                         }
                         // JHK - yes, this will break down if there are more than 9801 subcontracts
@@ -258,8 +258,8 @@ public class AwardMaintainableImpl extends FinancialSystemMaintainable {
     public void refresh(String refreshCaller, Map fieldValues, MaintenanceDocument document) {
         if (StringUtils.equals("proposalLookupable", (String) fieldValues.get(KFSConstants.REFRESH_CALLER))) {
 
-            boolean awarded = AwardRuleUtil.isProposalAwarded(getAward());
-            if (awarded) {
+            boolean isAwarded = AwardRuleUtil.isProposalAwarded(getAward());
+            if (isAwarded) {
                 String pathToMaintainable = DOCUMENT + "." + NEW_MAINTAINABLE_OBJECT;
                 GlobalVariables.getMessageMap().addToErrorPath(pathToMaintainable);
                 GlobalVariables.getMessageMap().putError(KFSPropertyConstants.PROPOSAL_NUMBER, KFSKeyConstants.ERROR_AWARD_PROPOSAL_AWARDED, new String[] { getAward().getProposalNumber().toString() });
@@ -273,7 +273,7 @@ public class AwardMaintainableImpl extends FinancialSystemMaintainable {
             // }
 
             // copy over proposal values after refresh
-            if (!awarded) {
+            if (!isAwarded) {
                 refreshAward(true);
                 fieldValues.put(KFSConstants.REFERENCES_TO_REFRESH, "proposal");
                 super.refresh(refreshCaller, fieldValues, document);

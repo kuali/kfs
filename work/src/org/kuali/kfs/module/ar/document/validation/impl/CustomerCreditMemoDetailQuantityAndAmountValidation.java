@@ -39,7 +39,7 @@ public class CustomerCreditMemoDetailQuantityAndAmountValidation extends Generic
         KualiDecimal creditAmount = customerCreditMemoDetail.getCreditMemoItemTotalAmount();
         BigDecimal quantity = customerCreditMemoDetail.getCreditMemoItemQuantity();
         BigDecimal unitPrice = customerCreditMemoDetail.getCustomerInvoiceDetail().getInvoiceItemUnitPrice();
-        boolean validValue;
+        boolean isValid;
         
         if (ObjectUtils.isNotNull(quantity) && ObjectUtils.isNotNull(creditAmount)) {
 
@@ -51,8 +51,8 @@ public class CustomerCreditMemoDetailQuantityAndAmountValidation extends Generic
             KualiDecimal deviationPercentage = expectedCreditQuantity.subtract(creditQuantity).abs().divide(expectedCreditQuantity);
         
             // only allow a certain deviation of creditQuantity from the expectedCreditQuantity 
-            validValue = (deviationPercentage.isLessEqual(getAllowedQtyDeviation()));
-            if (!validValue){
+            isValid = (deviationPercentage.isLessEqual(getAllowedQtyDeviation()));
+            if (!isValid){
                 GlobalVariables.getMessageMap().putError(ArPropertyConstants.CustomerCreditMemoDocumentFields.CREDIT_MEMO_ITEM_QUANTITY, ArKeyConstants.ERROR_CUSTOMER_CREDIT_MEMO_DETAIL_INVALID_DATA_INPUT);
                 GlobalVariables.getMessageMap().putError(ArPropertyConstants.CustomerCreditMemoDocumentFields.CREDIT_MEMO_ITEM_TOTAL_AMOUNT, ArKeyConstants.ERROR_CUSTOMER_CREDIT_MEMO_DETAIL_INVALID_DATA_INPUT);
             }

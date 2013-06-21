@@ -1,12 +1,12 @@
 /*
  * Copyright 2012 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -36,7 +36,7 @@ public class DunningLetterTemplateLookupableHelperServiceImpl extends KualiLooku
 
     /***
      * This method was overridden to remove the COPY link from the actions and to add in the REPORT link.
-     * 
+     *
      * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getCustomActionUrls(org.kuali.rice.krad.bo.BusinessObject,
      *      java.util.List)
      */
@@ -50,17 +50,19 @@ public class DunningLetterTemplateLookupableHelperServiceImpl extends KualiLooku
         if (allowsMaintenanceNewOrCopyAction()) {
             htmlDataList.add(getUrlData(businessObject, KRADConstants.MAINTENANCE_COPY_METHOD_TO_CALL, pkNames));
         }
-        if (letterTemplate.isValidOrganization() || !letterTemplate.isAccessRestricted()) // if the access is not restricted, anyone
-                                                                                          // can upload file and do changes.
+        if (letterTemplate.isValidOrganization() || !letterTemplate.isAccessRestrictedInd()) {
+            // can upload file and do changes.
             htmlDataList.add(getDunningLetterTemplateUploadUrl(businessObject));
-        if (ObjectUtils.isNotNull(letterTemplate.getFilename()) && StringUtils.isNotBlank(letterTemplate.getFilename()))
+        }
+        if (ObjectUtils.isNotNull(letterTemplate.getFilename()) && StringUtils.isNotBlank(letterTemplate.getFilename())) {
             htmlDataList.add(getDunningLetterTemplateDownloadUrl(businessObject));
+        }
         return htmlDataList;
     }
 
     /**
      * This method helps in uploading the dunning letter templates.
-     * 
+     *
      * @param bo
      * @return
      */
@@ -72,7 +74,7 @@ public class DunningLetterTemplateLookupableHelperServiceImpl extends KualiLooku
 
     /**
      * This method helps in downloading the dunning letter templates.
-     * 
+     *
      * @param bo
      * @return
      */

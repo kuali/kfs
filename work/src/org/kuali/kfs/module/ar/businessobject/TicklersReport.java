@@ -1,12 +1,12 @@
 /*
  * Copyright 2012 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -38,7 +38,7 @@ public class TicklersReport extends TransientBusinessObjectBase {
     private String activityCode;
     private Long proposalNumber;
     private String agencyNumber;
-    private boolean completed;
+    private boolean completedInd;
 
     private String invoiceNumber;
     private String accountNumber;
@@ -68,7 +68,7 @@ public class TicklersReport extends TransientBusinessObjectBase {
 
     /**
      * Gets the principalId attribute.
-     * 
+     *
      * @return Return the principal id of collector.
      */
     public String getPrincipalId() {
@@ -77,7 +77,7 @@ public class TicklersReport extends TransientBusinessObjectBase {
 
     /**
      * Sets the principalId attribute.
-     * 
+     *
      * @param principalId The prinicipal id to set.
      */
     public void setPrincipalId(String principalId) {
@@ -86,7 +86,7 @@ public class TicklersReport extends TransientBusinessObjectBase {
 
     /**
      * Gets the userLookupRoleNamespaceCode attribute.
-     * 
+     *
      * @return Returns lookup role namespace code.
      */
     public String getUserLookupRoleNamespaceCode() {
@@ -95,7 +95,7 @@ public class TicklersReport extends TransientBusinessObjectBase {
 
     /**
      * Gets the userLookupRoleName attribute.
-     * 
+     *
      * @return Returns the lookup role name.
      */
     public String getUserLookupRoleName() {
@@ -104,7 +104,7 @@ public class TicklersReport extends TransientBusinessObjectBase {
 
     /**
      * Gets the collector attribute.
-     * 
+     *
      * @return Returns the collector object.
      */
     public Person getCollector() {
@@ -114,7 +114,7 @@ public class TicklersReport extends TransientBusinessObjectBase {
 
     /**
      * Sets the collector attribute.
-     * 
+     *
      * @param collector The collector attribute to set.
      */
     public void setCollector(Person collector) {
@@ -123,7 +123,7 @@ public class TicklersReport extends TransientBusinessObjectBase {
 
     /**
      * Gets the followupDate attribute.
-     * 
+     *
      * @return Returns the followup date.
      */
     public Date getFollowupDate() {
@@ -132,7 +132,7 @@ public class TicklersReport extends TransientBusinessObjectBase {
 
     /**
      * Sets the followupDate attribute.
-     * 
+     *
      * @param followupDate The followup date to set.
      */
     public void setFollowupDate(Date followupDate) {
@@ -141,7 +141,7 @@ public class TicklersReport extends TransientBusinessObjectBase {
 
     /**
      * Gets the activityCode attribute.
-     * 
+     *
      * @return Returns the activity code.
      */
     public String getActivityCode() {
@@ -150,7 +150,7 @@ public class TicklersReport extends TransientBusinessObjectBase {
 
     /**
      * Sets the activityCode attribute.
-     * 
+     *
      * @param activityCode The activity code to set.
      */
     public void setActivityCode(String activityCode) {
@@ -159,7 +159,7 @@ public class TicklersReport extends TransientBusinessObjectBase {
 
     /**
      * Gets the proposalNumber attribute.
-     * 
+     *
      * @return Returns the proposal number.
      */
     public Long getProposalNumber() {
@@ -168,7 +168,7 @@ public class TicklersReport extends TransientBusinessObjectBase {
 
     /**
      * Sets the proposalNumber attribute.
-     * 
+     *
      * @param proposalNumber The proposal number to set.
      */
     public void setProposalNumber(Long proposalNumber) {
@@ -177,7 +177,7 @@ public class TicklersReport extends TransientBusinessObjectBase {
 
     /**
      * Gets the agencyNumber attribute.
-     * 
+     *
      * @return Returns the agency number.
      */
     public String getAgencyNumber() {
@@ -186,7 +186,7 @@ public class TicklersReport extends TransientBusinessObjectBase {
 
     /**
      * Sets the agencyNumber attribute.
-     * 
+     *
      * @param agencyNumber The agency number to set.
      */
     public void setAgencyNumber(String agencyNumber) {
@@ -194,26 +194,26 @@ public class TicklersReport extends TransientBusinessObjectBase {
     }
 
     /**
-     * Gets the completed attribute.
-     * 
-     * @return Returns the completed attribute.
+     * Gets the completedInd attribute.
+     *
+     * @return Returns the completedInd attribute.
      */
-    public boolean isCompleted() {
-        return completed;
+    public boolean isCompletedInd() {
+        return completedInd;
     }
 
     /**
-     * Sets the completed attribute.
-     * 
-     * @param completed The completed attribute to set.
+     * Sets the completedInd attribute.
+     *
+     * @param completedInd The completedInd attribute to set.
      */
-    public void setCompleted(boolean completed) {
-        this.completed = completed;
+    public void setCompletedInd(boolean completedInd) {
+        this.completedInd = completedInd;
     }
 
     /**
      * Gets the invoiceNumber attribute.
-     * 
+     *
      * @return Returns the invoice number.
      */
     public String getInvoiceNumber() {
@@ -222,7 +222,7 @@ public class TicklersReport extends TransientBusinessObjectBase {
 
     /**
      * Sets the invoiceNumber attribute.
-     * 
+     *
      * @param invoiceNumber The invoice number to set.
      */
     public void setInvoiceNumber(String invoiceNumber) {
@@ -231,7 +231,7 @@ public class TicklersReport extends TransientBusinessObjectBase {
 
     /**
      * Gets the accountNumber attribute.
-     * 
+     *
      * @return Returns the accountNumber attribute.
      */
     public String getAccountNumber() {
@@ -240,7 +240,7 @@ public class TicklersReport extends TransientBusinessObjectBase {
 
     /**
      * Sets the accountNumber attribute.
-     * 
+     *
      * @param accountNumber The accountNumber to set.
      */
     public void setAccountNumber(String accountNumber) {
@@ -249,7 +249,7 @@ public class TicklersReport extends TransientBusinessObjectBase {
 
     /**
      * Gets the agencyName attribute.
-     * 
+     *
      * @return Returns tha agency name.
      */
     public String getAgencyName() {
@@ -258,7 +258,7 @@ public class TicklersReport extends TransientBusinessObjectBase {
 
     /**
      * Sets the agencyName attribute.
-     * 
+     *
      * @param agencyName The agency name to set.
      */
     public void setAgencyName(String agencyName) {
@@ -267,7 +267,7 @@ public class TicklersReport extends TransientBusinessObjectBase {
 
     /**
      * Gets the activityText attribute.
-     * 
+     *
      * @return Returns the activity comments.
      */
     public String getActivityText() {
@@ -276,7 +276,7 @@ public class TicklersReport extends TransientBusinessObjectBase {
 
     /**
      * Sets the activityText attribute.
-     * 
+     *
      * @param activityText The activity comments to set.
      */
     public void setActivityText(String activityText) {
@@ -285,7 +285,7 @@ public class TicklersReport extends TransientBusinessObjectBase {
 
     /**
      * Gets the activityDescription attribute.
-     * 
+     *
      * @return Returns the activity description.
      */
     public String getActivityDescription() {
@@ -294,7 +294,7 @@ public class TicklersReport extends TransientBusinessObjectBase {
 
     /**
      * Sets the activityDescription attribute.
-     * 
+     *
      * @param activityDescription The activity description to set.
      */
     public void setActivityDescription(String activityDescription) {
@@ -303,7 +303,7 @@ public class TicklersReport extends TransientBusinessObjectBase {
 
     /**
      * Gets the invoice amount.
-     * 
+     *
      * @return Returns the invoice amount.
      */
     public KualiDecimal getInvoiceAmount() {
@@ -312,7 +312,7 @@ public class TicklersReport extends TransientBusinessObjectBase {
 
     /**
      * Sets the invoiceAmount attribute.
-     * 
+     *
      * @param invoiceAmount The invoice amount to set.
      */
     public void setInvoiceAmount(KualiDecimal invoiceAmount) {
@@ -321,7 +321,7 @@ public class TicklersReport extends TransientBusinessObjectBase {
 
     /**
      * Gets the paymentAmount attribute.
-     * 
+     *
      * @return Returns the payment amount.
      */
     public KualiDecimal getPaymentAmount() {
@@ -330,7 +330,7 @@ public class TicklersReport extends TransientBusinessObjectBase {
 
     /**
      * Sets the paymentAmount attribute.
-     * 
+     *
      * @param paymentAmount The payment amount to set.
      */
     public void setPaymentAmount(KualiDecimal paymentAmount) {
@@ -339,7 +339,7 @@ public class TicklersReport extends TransientBusinessObjectBase {
 
     /**
      * Gets the balanceDue attribute.
-     * 
+     *
      * @return Returns the balanceDue attribute.
      */
     public KualiDecimal getBalanceDue() {
@@ -348,7 +348,7 @@ public class TicklersReport extends TransientBusinessObjectBase {
 
     /**
      * Sets the balanceDue attribute.
-     * 
+     *
      * @param balanceDue The balanceDue value to set.
      */
     public void setBalanceDue(KualiDecimal balanceDue) {
@@ -357,7 +357,7 @@ public class TicklersReport extends TransientBusinessObjectBase {
 
     /**
      * Gets the collectionActivityInquiryTitle attribute.
-     * 
+     *
      * @return Returns the collectionActivityInquiryTitle.
      */
     public String getCollectionActivityInquiryTitle() {
@@ -366,7 +366,7 @@ public class TicklersReport extends TransientBusinessObjectBase {
 
     /**
      * Sets the collectionActivityInquiryTitle attribute value.
-     * 
+     *
      * @param collectionActivityInquiryTitle The collectionActivityInquiryTitle to set.
      */
     public void setCollectionActivityInquiryTitle(String collectionActivityInquiryTitle) {
@@ -376,7 +376,7 @@ public class TicklersReport extends TransientBusinessObjectBase {
 
     /**
      * Gets the award attribute.
-     * 
+     *
      * @return Returns the award.
      */
     public ContractsAndGrantsCGBAward getAward() {
@@ -385,7 +385,7 @@ public class TicklersReport extends TransientBusinessObjectBase {
 
     /**
      * Sets the award attribute value.
-     * 
+     *
      * @param award The award to set.
      */
     public void setAward(ContractsAndGrantsCGBAward award) {
@@ -394,7 +394,7 @@ public class TicklersReport extends TransientBusinessObjectBase {
 
     /**
      * Gets the agency attribute.
-     * 
+     *
      * @return Returns the agency.
      */
     public ContractsAndGrantsCGBAgency getAgency() {
@@ -403,7 +403,7 @@ public class TicklersReport extends TransientBusinessObjectBase {
 
     /**
      * Sets the agency attribute value.
-     * 
+     *
      * @param agency The agency to set.
      */
     public void setAgency(ContractsAndGrantsCGBAgency agency) {
@@ -412,7 +412,7 @@ public class TicklersReport extends TransientBusinessObjectBase {
 
     /**
      * Gets activityDate attribute.
-     * 
+     *
      * @return Returns the activityDate.
      */
     public Date getActivityDate() {
@@ -421,7 +421,7 @@ public class TicklersReport extends TransientBusinessObjectBase {
 
     /**
      * Sets the activityDate attribute.
-     * 
+     *
      * @param activityDate The activityDate to set.
      */
     public void setActivityDate(Date activityDate) {
@@ -430,7 +430,7 @@ public class TicklersReport extends TransientBusinessObjectBase {
 
     /**
      * Gets the user attribute.
-     * 
+     *
      * @return Returns the user attribute.
      */
     public String getUser() {
@@ -439,7 +439,7 @@ public class TicklersReport extends TransientBusinessObjectBase {
 
     /**
      * Sets the user attribute.
-     * 
+     *
      * @param user The user attribute to set.
      */
     public void setUser(String user) {
@@ -449,7 +449,7 @@ public class TicklersReport extends TransientBusinessObjectBase {
     /**
      * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    
+
     protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         m.put("proposalNumber", this.proposalNumber);

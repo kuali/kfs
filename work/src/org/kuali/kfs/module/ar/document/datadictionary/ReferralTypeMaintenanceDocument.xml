@@ -51,7 +51,7 @@
       <list>
         <bean parent="MaintainableFieldDefinition" p:name="referralTypeCode" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="description" p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="outsideCollectionAgency" p:required="false"/>
+        <bean parent="MaintainableFieldDefinition" p:name="outsideCollectionAgencyInd" p:required="false"/>
         <bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true"/>
       </list>
     </property>

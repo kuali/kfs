@@ -71,7 +71,7 @@ public class AwardServiceImpl implements AwardService {
 
 
         List<String> errorString = new ArrayList<String>();
-        boolean valid = true;
+        boolean isValid = true;
         int accountNum = award.getActiveAwardAccounts().size();
         // To check if invoicing options exist on the award
         if (ObjectUtils.isNotNull(award.getInvoicingOptions())) {
@@ -80,7 +80,7 @@ public class AwardServiceImpl implements AwardService {
             for (AwardAccount awardAccount : award.getAwardAccounts()) {
                 if (awardAccount.isActive()) {
                     if (ObjectUtils.isNull(awardAccount.getAccount().getContractControlAccount())) {
-                        valid = false;
+                        isValid = false;
                         break;
                     }
                 }
@@ -89,7 +89,7 @@ public class AwardServiceImpl implements AwardService {
             // if the Invoicing option is "By Contract Control Account" and there are no contract control accounts for one / all
             // award accounts, then throw error.
             if (award.getInvoicingOptions().equalsIgnoreCase(CGPropertyConstants.INV_CONTRACT_CONTROL_ACCOUNT)) {
-                if (!valid) {
+                if (!isValid) {
                     errorString.add(CGKeyConstants.AwardConstants.ERROR_NO_CTRL_ACCT);
                     errorString.add(CGPropertyConstants.INV_CONTRACT_CONTROL_ACCOUNT);
                 }
@@ -98,7 +98,7 @@ public class AwardServiceImpl implements AwardService {
             // if the Invoicing option is "By Award" and there are no contract control accounts for one / all award accounts, then
             // throw error.
             else if (award.getInvoicingOptions().equalsIgnoreCase(CGPropertyConstants.INV_AWARD)) {
-                if (!valid) {
+                if (!isValid) {
                     errorString.add(CGKeyConstants.AwardConstants.ERROR_NO_CTRL_ACCT);
                     errorString.add(CGPropertyConstants.INV_AWARD);
                 }
@@ -133,17 +133,17 @@ public class AwardServiceImpl implements AwardService {
      * @return True if these two accounts are the same
      */
     protected boolean areTheSameAccounts(Account obj1, Account obj2) {
-        boolean equal = false;
+        boolean isEqual = false;
 
         if (obj1 != null && obj2 != null) {
             if (StringUtils.equals(obj1.getChartOfAccountsCode(), obj2.getChartOfAccountsCode())) {
                 if (StringUtils.equals(obj1.getAccountNumber(), obj2.getAccountNumber())) {
-                    equal = true;
+                    isEqual = true;
                 }
             }
         }
 
-        return equal;
+        return isEqual;
     }
 
 }

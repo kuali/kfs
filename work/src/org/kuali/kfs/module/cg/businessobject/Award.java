@@ -123,9 +123,9 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
     private String routingOrg;
     private String routingChart;
 
-    private boolean stateTransfer;
-    private boolean suspendInvoicing;
-    private boolean additionalFormsRequired;
+    private boolean stateTransferIndicator;
+    private boolean suspendInvoicingIndicator;
+    private boolean additionalFormsRequiredIndicator;
     private String additionalFormsDescription;
     private String suspensionReason;
     private String contractGrantType;
@@ -135,7 +135,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
 
     private KualiDecimal minInvoiceAmount = KualiDecimal.ZERO;
 
-    private boolean autoApprove;
+    private boolean autoApproveIndicator;
 
     private MilestoneSchedule milestoneSchedule;
 
@@ -143,7 +143,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
     private String drawNumber;
     private String commentText;
     private String dunningCampaign;
-    private boolean stopWork;
+    private boolean stopWorkIndicator;
 
     /** Dummy value used to facilitate lookups */
     private transient String lookupPersonUniversalIdentifier;
@@ -181,22 +181,22 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
     }
 
     /**
-     * Gets the stateTransfer attribute.
+     * Gets the stateTransferIndicator attribute.
      *
-     * @return Returns the stateTransfer.
+     * @return Returns the stateTransferIndicator.
      */
     @Override
-    public boolean isStateTransfer() {
-        return stateTransfer;
+    public boolean isStateTransferIndicator() {
+        return stateTransferIndicator;
     }
 
     /**
-     * Sets the stateTransfer attribute value.
+     * Sets the stateTransferIndicator attribute value.
      *
-     * @param stateTransfer The stateTransfer to set.
+     * @param stateTransferIndicator The stateTransferIndicator to set.
      */
-    public void setStateTransfer(boolean stateTransfer) {
-        this.stateTransfer = stateTransfer;
+    public void setStateTransferIndicator(boolean stateTransferIndicator) {
+        this.stateTransferIndicator = stateTransferIndicator;
     }
 
     /**
@@ -1496,41 +1496,41 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
     }
 
     /**
-     * Gets the suspendInvoicing attribute.
+     * Gets the suspendInvoicingIndicator attribute.
      *
-     * @return Returns the suspendInvoicing.
+     * @return Returns the suspendInvoicingIndicator.
      */
     @Override
-    public boolean isSuspendInvoicing() {
-        return suspendInvoicing;
+    public boolean isSuspendInvoicingIndicator() {
+        return suspendInvoicingIndicator;
     }
 
     /**
-     * Sets the suspendInvoicing attribute value.
+     * Sets the suspendInvoicingIndicator attribute value.
      *
-     * @param suspendInvoicing The suspendInvoicing to set.
+     * @param suspendInvoicingIndicator The suspendInvoicingIndicator to set.
      */
-    public void setSuspendInvoicing(boolean suspendInvoicing) {
-        this.suspendInvoicing = suspendInvoicing;
+    public void setSuspendInvoicingIndicator(boolean suspendInvoicingIndicator) {
+        this.suspendInvoicingIndicator = suspendInvoicingIndicator;
     }
 
     /**
-     * Gets the additionalFormsRequired attribute.
+     * Gets the additionalFormsRequiredIndicator attribute.
      *
-     * @return Returns the additionalFormsRequired.
+     * @return Returns the additionalFormsRequiredIndicator.
      */
     @Override
-    public boolean isAdditionalFormsRequired() {
-        return additionalFormsRequired;
+    public boolean isAdditionalFormsRequiredIndicator() {
+        return additionalFormsRequiredIndicator;
     }
 
     /**
-     * Sets the additionalFormsRequired attribute value.
+     * Sets the additionalFormsRequiredIndicator attribute value.
      *
-     * @param additionalFormsRequired The additionalFormsRequired to set.
+     * @param additionalFormsRequiredIndicator The additionalFormsRequiredIndicator to set.
      */
-    public void setAdditionalFormsRequired(boolean additionalFormsRequired) {
-        this.additionalFormsRequired = additionalFormsRequired;
+    public void setAdditionalFormsRequiredIndicator(boolean additionalFormsRequiredIndicator) {
+        this.additionalFormsRequiredIndicator = additionalFormsRequiredIndicator;
     }
 
     /**
@@ -1719,22 +1719,22 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
     }
 
     /**
-     * Gets the autoApprove attribute.
+     * Gets the autoApproveIndicator attribute.
      *
-     * @return Returns the autoApprove.
+     * @return Returns the autoApproveIndicator.
      */
     @Override
-    public boolean getAutoApprove() {
-        return autoApprove;
+    public boolean getAutoApproveIndicator() {
+        return autoApproveIndicator;
     }
 
     /**
-     * Sets the autoApprove attribute value.
+     * Sets the autoApproveIndicator attribute value.
      *
-     * @param autoApprove The autoApprove to set.
+     * @param autoApproveIndicator The autoApproveIndicator to set.
      */
-    public void setAutoApprove(boolean autoApprove) {
-        this.autoApprove = autoApprove;
+    public void setAutoApproveIndicator(boolean autoApproveIndicator) {
+        this.autoApproveIndicator = autoApproveIndicator;
     }
 
     /**
@@ -1880,6 +1880,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
      *
      * @return Returns the lookupFundMgrPerson.
      */
+    @Override
     public Person getLookupFundMgrPerson() {
         return lookupFundMgrPerson;
     }
@@ -2023,22 +2024,22 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
 
 
     /**
-     * Gets the stopWork attribute.
+     * Gets the stopWorkIndicator attribute.
      *
-     * @return Returns the stopWork.
+     * @return Returns the stopWorkIndicator.
      */
     @Override
-    public boolean isStopWork() {
-        return stopWork;
+    public boolean isStopWorkIndicator() {
+        return stopWorkIndicator;
     }
 
     /**
-     * Sets the stopWork attribute value.
+     * Sets the stopWorkIndicator attribute value.
      *
-     * @param stopWork The stopWork to set.
+     * @param stopWorkIndicator The stopWorkIndicator to set.
      */
-    public void setStopWork(boolean stopWork) {
-        this.stopWork = stopWork;
+    public void setStopWorkIndicator(boolean stopWorkIndicator) {
+        this.stopWorkIndicator = stopWorkIndicator;
     }
 
     /**

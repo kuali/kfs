@@ -33,7 +33,7 @@
  				<ref bean="CollectionActivityReport-activityType"/>
  				<ref bean="CollectionActivityReport-activityComment"/>
  				<ref bean="CollectionActivityReport-activityDate"/>
- 				<ref bean="CollectionActivityReport-completed" />
+ 				<ref bean="CollectionActivityReport-completedInd" />
  				<ref bean="CollectionActivityReport-completedDate" />
  				<ref bean="CollectionActivityReport-followupDate" />
  				<ref bean="CollectionActivityReport-userPrincipalId" />
@@ -245,10 +245,10 @@
     <property name="description" value="A free-form text field that identifies the next follow-up date."/>
   </bean>
 
-  <bean id="CollectionActivityReport-completed" parent="CollectionActivityReport-completed-parentBean"/>
+  <bean id="CollectionActivityReport-completedInd" parent="CollectionActivityReport-completedInd-parentBean"/>
 
-  <bean id="CollectionActivityReport-completed-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
-    <property name="name" value="completed"/>
+  <bean id="CollectionActivityReport-completedInd-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+    <property name="name" value="completedInd"/>
     <property name="label" value="Completed"/>
     <property name="shortLabel" value="Completed"/>
   </bean>
@@ -303,7 +303,7 @@
 				<bean parent="FieldDefinition" p:attributeName="activityType"/>
 				<bean parent="FieldDefinition" p:attributeName="activityComment"/>
 				<bean parent="FieldDefinition" p:attributeName="followupDate"/>
-				<bean parent="FieldDefinition" p:attributeName="completed"/>
+				<bean parent="FieldDefinition" p:attributeName="completedInd"/>
 				<bean parent="FieldDefinition" p:attributeName="completedDate"/>
 				<bean parent="FieldDefinition" p:attributeName="userPrincipalId"/>
 				<bean parent="FieldDefinition" p:attributeName="collectionActivityInquiryTitle"/>

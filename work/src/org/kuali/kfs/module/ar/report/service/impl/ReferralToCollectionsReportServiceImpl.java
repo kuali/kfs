@@ -69,9 +69,9 @@ public class ReferralToCollectionsReportServiceImpl extends ContractsGrantsRepor
     private String proposalNumber;
     private String accountNumber;
     private String invoiceNumber;
-    private boolean considerProposalNumber;
-    private boolean considerAccountNumber;
-    private boolean considerinvoiceNumber;
+    private boolean considerProposalNumberInd;
+    private boolean considerAccountNumberInd;
+    private boolean considerinvoiceNumberInd;
 
 
     /**
@@ -231,25 +231,25 @@ public class ReferralToCollectionsReportServiceImpl extends ContractsGrantsRepor
             criteria.addEqualTo(ArPropertyConstants.ReferralToCollectionsFields.AGENCY_NUMBER, agencyNumber);
         }
 
-        considerProposalNumber = false;
-        considerinvoiceNumber = false;
-        considerAccountNumber = false;
+        considerProposalNumberInd = false;
+        considerinvoiceNumberInd = false;
+        considerAccountNumberInd = false;
 
         // considering final docs
         criteria.addEqualTo(ArPropertyConstants.DOCUMENT_STATUS_CODE, KFSConstants.DocumentStatusCodes.APPROVED);
 
         if (ObjectUtils.isNotNull(proposalNumber) && StringUtils.isNotEmpty(proposalNumber.trim())) {
-            considerProposalNumber = true;
+            considerProposalNumberInd = true;
             criteria.addEqualTo(ArPropertyConstants.ReferralToCollectionsFields.PROPOSAL_NUMBER, proposalNumber);
         }
 
         if (ObjectUtils.isNotNull(invoiceNumber) && StringUtils.isNotEmpty(invoiceNumber.trim())) {
-            considerinvoiceNumber = true;
+            considerinvoiceNumberInd = true;
             criteria.addEqualTo(ArPropertyConstants.ReferralToCollectionsFields.INVOICE_NUMBER, invoiceNumber);
         }
 
         if (ObjectUtils.isNotNull(accountNumber) && StringUtils.isNotEmpty(accountNumber.trim())) {
-            considerAccountNumber = true;
+            considerAccountNumberInd = true;
             criteria.addEqualTo(ArPropertyConstants.ReferralToCollectionsFields.ACCOUNT_NUMBER, accountNumber);
         }
 
@@ -528,15 +528,15 @@ public class ReferralToCollectionsReportServiceImpl extends ContractsGrantsRepor
         boolean isValidIN = true;
         boolean isValidAN = true;
 
-        if (considerProposalNumber) {
+        if (considerProposalNumberInd) {
             isValidPN = refDetail.getProposalNumber().toString().equals(proposalNumber);
         }
 
-        if (considerinvoiceNumber) {
+        if (considerinvoiceNumberInd) {
             isValidIN = refDetail.getInvoiceNumber().toString().equals(invoiceNumber);
         }
 
-        if (considerAccountNumber) {
+        if (considerAccountNumberInd) {
             isValidAN = refDetail.getAccountNumber().toString().equals(accountNumber);
         }
 

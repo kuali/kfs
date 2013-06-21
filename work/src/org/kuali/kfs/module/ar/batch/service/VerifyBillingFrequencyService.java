@@ -24,7 +24,7 @@ import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAward;
 /**
  * Interface class for Billing Frequency validation.
  */
-public interface VerifyBillingFrequency {
+public interface VerifyBillingFrequencyService {
     
     /**
      * This method checks if the award is within the grace period.

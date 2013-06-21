@@ -297,9 +297,9 @@ public class ProposalCreationServiceImpl implements ProposalCreationService {
             maintenanceProposalDocument.getNewMaintainableObject().setMaintenanceAction(KRADConstants.MAINTENANCE_NEW_ACTION);
 
             try {
-                boolean rulesPassed = SpringContext.getBean(KualiRuleService.class).applyRules(new BlanketApproveDocumentEvent(maintenanceProposalDocument));
+                boolean isRulesPassed = SpringContext.getBean(KualiRuleService.class).applyRules(new BlanketApproveDocumentEvent(maintenanceProposalDocument));
 
-                if( rulesPassed && GlobalVariables.getMessageMap().hasNoErrors()){
+                if( isRulesPassed && GlobalVariables.getMessageMap().hasNoErrors()){
                     getDocumentService().blanketApproveDocument(maintenanceProposalDocument, "", null);
                 }else{
                     //get errors from apply rules invocation, also clears global variables
@@ -336,12 +336,12 @@ public class ProposalCreationServiceImpl implements ProposalCreationService {
      */
     public Document createCGProposalMaintenanceDocument(ProposalCreationStatusDTO proposalCreationStatus) {
 
-        boolean existingUserSession = false;
+        boolean existingUserSessionInd = false;
         String oldUserSessionPrinicpalName = null;
 
         try {
             if (GlobalVariables.getUserSession() != null) {
-                existingUserSession = true;
+                existingUserSessionInd = true;
             }
             oldUserSessionPrinicpalName = GlobalVariables.getUserSession().getPrincipalName();
             GlobalVariables.setUserSession(new UserSession(KFSConstants.SYSTEM_USER));
@@ -357,7 +357,7 @@ public class ProposalCreationServiceImpl implements ProposalCreationService {
         }
         finally {
             // if there wasn't an existing user, clear it out, otherwise set it back to original user
-            if (!existingUserSession) {
+            if (!existingUserSessionInd) {
                 GlobalVariables.clear();
                 GlobalVariables.setUserSession(null);
             } else {

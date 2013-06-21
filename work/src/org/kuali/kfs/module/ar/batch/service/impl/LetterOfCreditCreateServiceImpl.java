@@ -154,7 +154,7 @@ public class LetterOfCreditCreateServiceImpl implements LetterOfCreditCreateServ
      * @return
      */
     public boolean validatecashControlDocument(String customerNumber, String locCreationType, String locValue, PrintStream outputFileStream) {
-        boolean exists = false;
+        boolean isExists = false;
         Criteria criteria = new Criteria();
         criteria.addEqualTo("locCreationType", locCreationType);
         if (locCreationType.equalsIgnoreCase(ArConstants.LOC_BY_AWARD)) {
@@ -184,7 +184,7 @@ public class LetterOfCreditCreateServiceImpl implements LetterOfCreditCreateServ
             }
 
             if (CollectionUtils.isNotEmpty(cashControlDetails)) {
-                exists = true;
+                isExists = true;
                 String error = ArConstants.BatchFileSystem.LOC_CREATION_ERROR__CSH_CTRL_IN_PROGRESS + " (" + cashControlDocument.getDocumentNumber() + ")" + " for Customer Number #" + customerNumber + " and LOC Value of " + locValue;
                 try {
 
@@ -197,7 +197,7 @@ public class LetterOfCreditCreateServiceImpl implements LetterOfCreditCreateServ
             }
 
         }
-        return exists;
+        return isExists;
     }
 
 

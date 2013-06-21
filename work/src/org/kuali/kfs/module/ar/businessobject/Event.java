@@ -38,9 +38,9 @@ public class Event extends PersistableBusinessObjectBase {
     private String activityCode;
     private Date activityDate;
     private String activityText;
-    private boolean followup;
+    private boolean followupInd;
     private Date followupDate;
-    private boolean completed;
+    private boolean completedInd;
     private Date completedDate;
     private java.util.Date postedDate;
     private String userPrincipalId;
@@ -167,21 +167,21 @@ public class Event extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the followup attribute.
+     * Gets the followupInd attribute.
      *
-     * @return Returns the followup.
+     * @return Returns the followupInd.
      */
-    public boolean isFollowup() {
-        return followup;
+    public boolean isFollowupInd() {
+        return followupInd;
     }
 
     /**
-     * Sets the followup attribute.
+     * Sets the followupInd attribute.
      *
-     * @param followup The followup attribute to set.
+     * @param followupInd The followupInd attribute to set.
      */
-    public void setFollowup(boolean followup) {
-        this.followup = followup;
+    public void setFollowupInd(boolean followupInd) {
+        this.followupInd = followupInd;
     }
 
     /**
@@ -203,21 +203,21 @@ public class Event extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the completed attribute.
+     * Gets the completedInd attribute.
      *
-     * @return Returns the completed attribute.
+     * @return Returns the completedInd attribute.
      */
-    public boolean isCompleted() {
-        return completed;
+    public boolean isCompletedInd() {
+        return completedInd;
     }
 
     /**
-     * Sets the completed attribute.
+     * Sets the completedInd attribute.
      *
-     * @param completed The completed attribute to set.
+     * @param completedInd The completedInd attribute to set.
      */
-    public void setCompleted(boolean completed) {
-        this.completed = completed;
+    public void setCompletedInd(boolean completedInd) {
+        this.completedInd = completedInd;
     }
 
     /**

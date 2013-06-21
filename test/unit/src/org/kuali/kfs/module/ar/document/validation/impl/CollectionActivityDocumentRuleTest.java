@@ -1,12 +1,12 @@
 /*
  * Copyright 2012 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -36,11 +36,11 @@ public class CollectionActivityDocumentRuleTest extends KualiTestBase {
     private DocumentService documentService;
     private CollectionActivityDocumentRule collectionActivityDocumentRule;
     private CollectionActivityDocument collectionActivityDocument;
-    
+
     private final static String ACTIVITY_CODE = "LTSS";
-    
+
     /**
-     * 
+     *
      * @see junit.framework.TestCase#setUp()
      */
     @Override
@@ -50,9 +50,9 @@ public class CollectionActivityDocumentRuleTest extends KualiTestBase {
         collectionActivityDocumentRule = new CollectionActivityDocumentRule();
         collectionActivityDocument = createCollectionActivityDocument();
     }
-    
+
     /**
-     * 
+     *
      * @see junit.framework.TestCase#tearDown()
      */
     @Override
@@ -61,29 +61,29 @@ public class CollectionActivityDocumentRuleTest extends KualiTestBase {
         collectionActivityDocumentRule = null;
         collectionActivityDocument = null;
     }
-    
+
     /**
      * Creates the collection activity document.
-     * 
+     *
      * @return Returns new document of collection activity.
      * @throws WorkflowException
      */
     private CollectionActivityDocument createCollectionActivityDocument() throws WorkflowException {
         CollectionActivityDocument collectionActivityDocument = (CollectionActivityDocument) documentService.getNewDocument(CollectionActivityDocument.class);
         collectionActivityDocument.getDocumentHeader().setDocumentDescription("Testing document");
-        
+
         return collectionActivityDocument;
     }
 
     /**
-     * Tests the validateEvent() method of service and returns true when all rules passed. 
+     * Tests the validateEvent() method of service and returns true when all rules passed.
      */
     public void testValidateEvent_True() {
         Event event = new Event();
         event.setActivityCode(ACTIVITY_CODE);
         event.setActivityText("Testing text");
         event.setActivityDate(new Date(12333232323L));
-        
+
         boolean result = collectionActivityDocumentRule.validateEvent(event);
         assertTrue(result);
     }
@@ -96,12 +96,12 @@ public class CollectionActivityDocumentRuleTest extends KualiTestBase {
         event.setActivityCode(ACTIVITY_CODE);
         event.setActivityText("Testing text");
         event.setActivityDate(new Date(12333232323L));
-        event.setFollowup(Boolean.TRUE);
-        
+        event.setFollowupInd(Boolean.TRUE);
+
         boolean result = collectionActivityDocumentRule.validateEvent(event);
         assertFalse(result);
     }
-    
+
     /**
      * Tests the validateEvents() method of service and returns true when all rules passed.
      */
@@ -110,7 +110,7 @@ public class CollectionActivityDocumentRuleTest extends KualiTestBase {
         event.setActivityCode(ACTIVITY_CODE);
         event.setActivityText("Testing text");
         event.setActivityDate(new Date(12333232323L));
-        
+
         collectionActivityDocument.getEvents().add(event);
         boolean result = collectionActivityDocumentRule.validateEvents(collectionActivityDocument);
         assertTrue(result);
@@ -125,7 +125,7 @@ public class CollectionActivityDocumentRuleTest extends KualiTestBase {
         boolean result = collectionActivityDocumentRule.validateEvents(collectionActivityDocument);
         assertFalse(result);
     }
-    
+
     /**
      * Tests the processAddEventBusinessRules() method of service and returns true when all rules are passed.
      */
@@ -134,12 +134,12 @@ public class CollectionActivityDocumentRuleTest extends KualiTestBase {
         event.setActivityCode(ACTIVITY_CODE);
         event.setActivityText("Testing text");
         event.setActivityDate(new Date(12333232323L));
-        
+
         collectionActivityDocument.getEvents().add(event);
         boolean result = collectionActivityDocumentRule.processAddCollectionActivityDocumentEventBusinessRules(collectionActivityDocument, event);
-        assertTrue(result);        
+        assertTrue(result);
     }
-    
+
     /**
      * Tests the processAddEventBusinessRules() method of service and returns false when any rule is not passed.
      */
@@ -148,10 +148,10 @@ public class CollectionActivityDocumentRuleTest extends KualiTestBase {
         event.setActivityCode(ACTIVITY_CODE);
         event.setActivityText("Testing text");
         event.setActivityDate(new Date(12333232323L));
-        event.setCompleted(Boolean.TRUE);
-        
+        event.setCompletedInd(Boolean.TRUE);
+
         collectionActivityDocument.getEvents().add(event);
         boolean result = collectionActivityDocumentRule.processAddCollectionActivityDocumentEventBusinessRules(collectionActivityDocument, event);
-        assertFalse(result);        
+        assertFalse(result);
     }
 }

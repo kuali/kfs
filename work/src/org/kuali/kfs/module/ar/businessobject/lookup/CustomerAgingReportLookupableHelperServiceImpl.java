@@ -413,9 +413,9 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
                         row.setObjectId(((PersistableBusinessObject) element).getObjectId());
                     }
 
-                    boolean rowReturnable = isResultReturnable(element);
-                    row.setRowReturnable(rowReturnable);
-                    if (rowReturnable) {
+                    boolean isRowReturnable = isResultReturnable(element);
+                    row.setRowReturnable(isRowReturnable);
+                    if (isRowReturnable) {
                         hasReturnableRow = true;
                     }
                     resultTable.add(row);

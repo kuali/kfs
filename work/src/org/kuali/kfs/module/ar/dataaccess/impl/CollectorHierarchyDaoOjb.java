@@ -46,7 +46,7 @@ public class CollectorHierarchyDaoOjb extends PlatformAwareDaoBaseOjb implements
      */
     @Override
     public boolean isCollector(String collector) {
-        boolean flag = false;
+        boolean isFlag = false;
 
         Criteria criteria = new Criteria();
         criteria.addEqualTo(KFSPropertyConstants.PRINCIPAL_ID, collector);
@@ -61,8 +61,8 @@ public class CollectorHierarchyDaoOjb extends PlatformAwareDaoBaseOjb implements
 
         QueryByCriteria qbc = QueryFactory.newQuery(CollectorHierarchy.class, criteria);
         Collection<CollectorHierarchy> collectors = getPersistenceBrokerTemplate().getCollectionByQuery(qbc);
-        flag = collectors != null && !collectors.isEmpty() && collectors.size() > 0;
-        return flag;
+        isFlag = collectors != null && !collectors.isEmpty() && collectors.size() > 0;
+        return isFlag;
     }
 
 }

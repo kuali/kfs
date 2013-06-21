@@ -71,7 +71,7 @@ public class ContractsGrantsReportUtils {
         }
 
 
-        boolean returnBoolean = true;
+        boolean returnIndicator = true;
         for (Object propertyName : fieldsForLookup.keySet()) {
 
             if (lookupResultFields.contains(propertyName.toString())) {
@@ -83,7 +83,7 @@ public class ContractsGrantsReportUtils {
                 if (propertyName.toString().equals("active")) {
                     String activeInd = propertyValueObject.toString().toLowerCase().equals("true") ? "y" : "n";
                     if (activeInd.equals(lookupFieldValue.toString().toLowerCase())) {
-                        returnBoolean &= true;
+                        returnIndicator &= true;
                         continue;
                     }
                     else {
@@ -97,7 +97,7 @@ public class ContractsGrantsReportUtils {
                     // lookupFieldValueObject is blank: means the fields is not specified with search
                     if (ObjectUtils.isNotNull(propertyValueObject) && !lookupFieldValue.equals("")) {
                         if (Pattern.matches(wildcardToRegex(lookupFieldValue.toString().toLowerCase()), propertyValueObject.toString().toLowerCase())) {
-                            returnBoolean &= true;
+                            returnIndicator &= true;
                         }
                         else {
                             return false;
@@ -110,7 +110,7 @@ public class ContractsGrantsReportUtils {
                 }
                 else {
                     if (ObjectUtils.isNotNull(propertyValueObject) && isDateFieldInRange(fieldsForLookup, (Date) propertyValueObject, propertyName.toString())) {
-                        returnBoolean &= true;
+                        returnIndicator &= true;
                     }
                     else {
                         return false;
@@ -118,7 +118,7 @@ public class ContractsGrantsReportUtils {
                 }
             }
         }
-        return returnBoolean;
+        return returnIndicator;
     }
 
     /**

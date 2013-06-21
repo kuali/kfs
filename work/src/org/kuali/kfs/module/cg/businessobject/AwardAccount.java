@@ -43,7 +43,7 @@ public class AwardAccount extends PersistableBusinessObjectBase implements CGPro
     private String accountNumber;
     private String principalId;
     private boolean active = true;
-    private boolean finalBilled;
+    private boolean finalBilledIndicator;
     private Date currentLastBilledDate;
     private Date previousLastBilledDate;
     private KualiDecimal amountToDraw = KualiDecimal.ZERO;// Amount to Draw when awards are pulled up for review.
@@ -56,22 +56,22 @@ public class AwardAccount extends PersistableBusinessObjectBase implements CGPro
     private Award award;
 
     /**
-     * Gets the finalBilled attribute.
+     * Gets the finalBilledIndicator attribute.
      *
-     * @return Returns the finalBilled.
+     * @return Returns the finalBilledIndicator.
      */
     @Override
-    public boolean isFinalBilled() {
-        return finalBilled;
+    public boolean isFinalBilledIndicator() {
+        return finalBilledIndicator;
     }
 
     /**
-     * Sets the finalBilled attribute value.
+     * Sets the finalBilledIndicator attribute value.
      *
-     * @param finalBilled The finalBilled to set.
+     * @param finalBilledIndicator The finalBilledIndicator to set.
      */
-    public void setFinalBilled(boolean finalBilled) {
-        this.finalBilled = finalBilled;
+    public void setFinalBilledIndicator(boolean finalBilledIndicator) {
+        this.finalBilledIndicator = finalBilledIndicator;
     }
 
     /**
@@ -234,7 +234,7 @@ public class AwardAccount extends PersistableBusinessObjectBase implements CGPro
         m.put(KFSPropertyConstants.ACCOUNT_NUMBER, this.accountNumber);
         m.put(KFSPropertyConstants.KUALI_USER_PERSON_UNIVERSAL_IDENTIFIER, this.principalId);
         m.put(KFSPropertyConstants.ACTIVE, this.active);
-        m.put("finalBilled", this.finalBilled);
+        m.put("finalBilledIndicator", this.finalBilledIndicator);
         m.put("currentLastBilledDate", this.currentLastBilledDate);
         m.put("previousLastBilledDate", this.previousLastBilledDate);
         m.put("amountToDraw", this.amountToDraw);
@@ -318,6 +318,7 @@ public class AwardAccount extends PersistableBusinessObjectBase implements CGPro
      *
      * @return Returns the currentLastBilledDate.
      */
+    @Override
     public Date getCurrentLastBilledDate() {
         return currentLastBilledDate;
     }
@@ -336,6 +337,7 @@ public class AwardAccount extends PersistableBusinessObjectBase implements CGPro
      *
      * @return Returns the previousLastBilledDate.
      */
+    @Override
     public Date getPreviousLastBilledDate() {
         return previousLastBilledDate;
     }

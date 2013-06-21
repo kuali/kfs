@@ -27,13 +27,13 @@ public class LockboxStep extends AbstractStep {
 
     @Override
     public boolean execute(String jobName, Date jobRunDate) throws InterruptedException {
-        boolean result = true;
+        boolean resultInd = true;
         try {
-            result = lockboxService.processLockboxes();
+            resultInd = lockboxService.processLockboxes();
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return result;
+        return resultInd;
     }
 
     public void setLockboxService(LockboxService ls) {

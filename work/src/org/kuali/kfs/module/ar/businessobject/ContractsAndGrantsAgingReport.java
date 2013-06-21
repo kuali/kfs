@@ -1,12 +1,12 @@
 /*
  * Copyright 2006-2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -40,7 +40,7 @@ public class ContractsAndGrantsAgingReport extends TransientBusinessObjectBase {
     private String fundManager;
     private String proposalNumber;
     private String awardDocumentNumber;
-    private boolean markedAsFinal;
+    private boolean markedAsFinalInd;
     private Date awardEndDate;
     private KualiDecimal invoiceAmountTo;
     private KualiDecimal invoiceAmountFrom;
@@ -73,7 +73,7 @@ public class ContractsAndGrantsAgingReport extends TransientBusinessObjectBase {
     private Person lookupFundMgrPerson;
     private Customer customer;
     private Account account;
-    private boolean finalInvoice;
+    private boolean finalInvoiceInd;
 
     /**
      * Constructs a ContractsAndGrantsAgingReportDetail.java.
@@ -85,7 +85,7 @@ public class ContractsAndGrantsAgingReport extends TransientBusinessObjectBase {
     /**
      * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    
+
     protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         m.put("customerNumber", this.customerNumber);
@@ -96,7 +96,7 @@ public class ContractsAndGrantsAgingReport extends TransientBusinessObjectBase {
 
     /**
      * Gets the customerName attribute.
-     * 
+     *
      * @return Returns the customerName.
      */
     public String getCustomerName() {
@@ -105,7 +105,7 @@ public class ContractsAndGrantsAgingReport extends TransientBusinessObjectBase {
 
     /**
      * Sets the customerName attribute value.
-     * 
+     *
      * @param customerName The customerName to set.
      */
     public void setCustomerName(String customerName) {
@@ -114,7 +114,7 @@ public class ContractsAndGrantsAgingReport extends TransientBusinessObjectBase {
 
     /**
      * Gets the customerNumber attribute.
-     * 
+     *
      * @return Returns the customerNumber.
      */
     public String getCustomerNumber() {
@@ -123,7 +123,7 @@ public class ContractsAndGrantsAgingReport extends TransientBusinessObjectBase {
 
     /**
      * Sets the customerNumber attribute value.
-     * 
+     *
      * @param customerNumber The customerNumber to set.
      */
     public void setCustomerNumber(String customerNumber) {
@@ -132,7 +132,7 @@ public class ContractsAndGrantsAgingReport extends TransientBusinessObjectBase {
 
     /**
      * Gets the accountChartOfAccountsCode attribute.
-     * 
+     *
      * @return Returns the accountChartOfAccountsCode.
      */
     public String getAccountChartOfAccountsCode() {
@@ -141,7 +141,7 @@ public class ContractsAndGrantsAgingReport extends TransientBusinessObjectBase {
 
     /**
      * Sets the accountChartOfAccountsCode attribute value.
-     * 
+     *
      * @param accountChartOfAccountsCode The accountChartOfAccountsCode to set.
      */
     public void setAccountChartOfAccountsCode(String accountChartOfAccountsCode) {
@@ -150,7 +150,7 @@ public class ContractsAndGrantsAgingReport extends TransientBusinessObjectBase {
 
     /**
      * Gets the accountNumber attribute.
-     * 
+     *
      * @return Returns the accountNumber.
      */
     public String getAccountNumber() {
@@ -159,7 +159,7 @@ public class ContractsAndGrantsAgingReport extends TransientBusinessObjectBase {
 
     /**
      * Sets the accountNumber attribute value.
-     * 
+     *
      * @param accountNumber The accountNumber to set.
      */
     public void setAccountNumber(String accountNumber) {
@@ -168,7 +168,7 @@ public class ContractsAndGrantsAgingReport extends TransientBusinessObjectBase {
 
     /**
      * Gets the fundManager attribute.
-     * 
+     *
      * @return Returns the fundManager.
      */
     public String getFundManager() {
@@ -177,7 +177,7 @@ public class ContractsAndGrantsAgingReport extends TransientBusinessObjectBase {
 
     /**
      * Sets the fundManager attribute value.
-     * 
+     *
      * @param fundManager The fundManager to set.
      */
     public void setFundManager(String fundManager) {
@@ -186,7 +186,7 @@ public class ContractsAndGrantsAgingReport extends TransientBusinessObjectBase {
 
     /**
      * Gets the proposalNumber attribute.
-     * 
+     *
      * @return Returns the proposalNumber.
      */
     public String getProposalNumber() {
@@ -195,7 +195,7 @@ public class ContractsAndGrantsAgingReport extends TransientBusinessObjectBase {
 
     /**
      * Sets the proposalNumber attribute value.
-     * 
+     *
      * @param proposalNumber The proposalNumber to set.
      */
     public void setProposalNumber(String proposalNumber) {
@@ -204,7 +204,7 @@ public class ContractsAndGrantsAgingReport extends TransientBusinessObjectBase {
 
     /**
      * Gets the collector attribute.
-     * 
+     *
      * @return Returns the collector.
      */
     public Person getCollector() {
@@ -214,7 +214,7 @@ public class ContractsAndGrantsAgingReport extends TransientBusinessObjectBase {
 
     /**
      * Sets the collector attribute value.
-     * 
+     *
      * @param collector The collector to set.
      */
     public void setCollector(Person collector) {
@@ -223,7 +223,7 @@ public class ContractsAndGrantsAgingReport extends TransientBusinessObjectBase {
 
     /**
      * Gets the awardDocumentNumber attribute.
-     * 
+     *
      * @return Returns the awardDocumentNumber.
      */
     public String getAwardDocumentNumber() {
@@ -232,7 +232,7 @@ public class ContractsAndGrantsAgingReport extends TransientBusinessObjectBase {
 
     /**
      * Sets the awardDocumentNumber attribute value.
-     * 
+     *
      * @param awardDocumentNumber The awardDocumentNumber to set.
      */
     public void setAwardDocumentNumber(String awardDocumentNumber) {
@@ -240,26 +240,26 @@ public class ContractsAndGrantsAgingReport extends TransientBusinessObjectBase {
     }
 
     /**
-     * Gets the markedAsFinal attribute.
-     * 
-     * @return Returns the markedAsFinal.
+     * Gets the markedAsFinalInd attribute.
+     *
+     * @return Returns the markedAsFinalInd.
      */
-    public boolean isMarkedAsFinal() {
-        return markedAsFinal;
+    public boolean isMarkedAsFinalInd() {
+        return markedAsFinalInd;
     }
 
     /**
-     * Sets the markedAsFinal attribute value.
-     * 
-     * @param markedAsFinal The markedAsFinal to set.
+     * Sets the markedAsFinalInd attribute value.
+     *
+     * @param markedAsFinalInd The markedAsFinalInd to set.
      */
-    public void setMarkedAsFinal(boolean markedAsFinal) {
-        this.markedAsFinal = markedAsFinal;
+    public void setMarkedAsFinalInd(boolean markedAsFinalInd) {
+        this.markedAsFinalInd = markedAsFinalInd;
     }
 
     /**
      * Gets the awardEndDate attribute.
-     * 
+     *
      * @return Returns the awardEndDate.
      */
     public Date getAwardEndDate() {
@@ -268,7 +268,7 @@ public class ContractsAndGrantsAgingReport extends TransientBusinessObjectBase {
 
     /**
      * Sets the awardEndDate attribute value.
-     * 
+     *
      * @param awardEndDate The awardEndDate to set.
      */
     public void setAwardEndDate(Date awardEndDate) {
@@ -277,7 +277,7 @@ public class ContractsAndGrantsAgingReport extends TransientBusinessObjectBase {
 
     /**
      * Gets the invoiceAmountTo attribute.
-     * 
+     *
      * @return Returns the invoiceAmountTo.
      */
     public KualiDecimal getInvoiceAmountTo() {
@@ -286,7 +286,7 @@ public class ContractsAndGrantsAgingReport extends TransientBusinessObjectBase {
 
     /**
      * Sets the invoiceAmountTo attribute value.
-     * 
+     *
      * @param invoiceAmountTo The invoiceAmountTo to set.
      */
     public void setInvoiceAmountTo(KualiDecimal invoiceAmountTo) {
@@ -295,7 +295,7 @@ public class ContractsAndGrantsAgingReport extends TransientBusinessObjectBase {
 
     /**
      * Gets the invoiceAmountFrom attribute.
-     * 
+     *
      * @return Returns the invoiceAmountFrom.
      */
     public KualiDecimal getInvoiceAmountFrom() {
@@ -304,7 +304,7 @@ public class ContractsAndGrantsAgingReport extends TransientBusinessObjectBase {
 
     /**
      * Sets the invoiceAmountFrom attribute value.
-     * 
+     *
      * @param invoiceAmountFrom The invoiceAmountFrom to set.
      */
     public void setInvoiceAmountFrom(KualiDecimal invoiceAmountFrom) {
@@ -313,7 +313,7 @@ public class ContractsAndGrantsAgingReport extends TransientBusinessObjectBase {
 
     /**
      * Gets the invoiceNumber attribute.
-     * 
+     *
      * @return Returns the invoiceNumber.
      */
     public String getInvoiceNumber() {
@@ -322,7 +322,7 @@ public class ContractsAndGrantsAgingReport extends TransientBusinessObjectBase {
 
     /**
      * Sets the invoiceNumber attribute value.
-     * 
+     *
      * @param invoiceNumber The invoiceNumber to set.
      */
     public void setInvoiceNumber(String invoiceNumber) {
@@ -331,7 +331,7 @@ public class ContractsAndGrantsAgingReport extends TransientBusinessObjectBase {
 
     /**
      * Gets the reportRunDate attribute.
-     * 
+     *
      * @return Returns the reportRunDate.
      */
     public Date getReportRunDate() {
@@ -340,7 +340,7 @@ public class ContractsAndGrantsAgingReport extends TransientBusinessObjectBase {
 
     /**
      * Sets the reportRunDate attribute value.
-     * 
+     *
      * @param reportRunDate The reportRunDate to set.
      */
     public void setReportRunDate(Date reportRunDate) {
@@ -349,7 +349,7 @@ public class ContractsAndGrantsAgingReport extends TransientBusinessObjectBase {
 
     /**
      * Gets the unpaidBalance0to30 attribute.
-     * 
+     *
      * @return Returns the unpaidBalance0to30.
      */
     public KualiDecimal getUnpaidBalance0to30() {
@@ -358,7 +358,7 @@ public class ContractsAndGrantsAgingReport extends TransientBusinessObjectBase {
 
     /**
      * Sets the unpaidBalance0to30 attribute value.
-     * 
+     *
      * @param unpaidBalance0to30 The unpaidBalance0to30 to set.
      */
     public void setUnpaidBalance0to30(KualiDecimal unpaidBalance0to30) {
@@ -367,7 +367,7 @@ public class ContractsAndGrantsAgingReport extends TransientBusinessObjectBase {
 
     /**
      * Gets the unpaidBalance31to60 attribute.
-     * 
+     *
      * @return Returns the unpaidBalance31to60.
      */
     public KualiDecimal getUnpaidBalance31to60() {
@@ -376,7 +376,7 @@ public class ContractsAndGrantsAgingReport extends TransientBusinessObjectBase {
 
     /**
      * Sets the unpaidBalance31to60 attribute value.
-     * 
+     *
      * @param reportRunDate The unpaidBalance31to60 to set.
      */
     public void setUnpaidBalance31to60(KualiDecimal unpaidBalance31to60) {
@@ -385,7 +385,7 @@ public class ContractsAndGrantsAgingReport extends TransientBusinessObjectBase {
 
     /**
      * Gets the unpaidBalance61to90 attribute.
-     * 
+     *
      * @return Returns the unpaidBalance61to90.
      */
     public KualiDecimal getUnpaidBalance61to90() {
@@ -394,7 +394,7 @@ public class ContractsAndGrantsAgingReport extends TransientBusinessObjectBase {
 
     /**
      * Sets the unpaidBalance61to90 attribute value.
-     * 
+     *
      * @param unpaidBalance61to90 The unpaidBalance61to90 to set.
      */
     public void setUnpaidBalance61to90(KualiDecimal unpaidBalance61to90) {
@@ -403,7 +403,7 @@ public class ContractsAndGrantsAgingReport extends TransientBusinessObjectBase {
 
     /**
      * Gets the unpaidBalance91toSYSPR attribute.
-     * 
+     *
      * @return Returns the unpaidBalance91toSYSPR.
      */
     public KualiDecimal getUnpaidBalance91toSYSPR() {
@@ -412,7 +412,7 @@ public class ContractsAndGrantsAgingReport extends TransientBusinessObjectBase {
 
     /**
      * Sets the unpaidBalance91toSYSPR attribute value.
-     * 
+     *
      * @param unpaidBalance91toSYSPR The unpaidBalance91toSYSPR to set.
      */
     public void setUnpaidBalance91toSYSPR(KualiDecimal unpaidBalance91toSYSPR) {
@@ -421,7 +421,7 @@ public class ContractsAndGrantsAgingReport extends TransientBusinessObjectBase {
 
     /**
      * Gets the unpaidBalanceSYSPRplus1orMore attribute.
-     * 
+     *
      * @return Returns the unpaidBalanceSYSPRplus1orMore.
      */
     public KualiDecimal getUnpaidBalanceSYSPRplus1orMore() {
@@ -430,7 +430,7 @@ public class ContractsAndGrantsAgingReport extends TransientBusinessObjectBase {
 
     /**
      * Sets the unpaidBalanceSYSPRplus1orMore attribute value.
-     * 
+     *
      * @param unpaidBalanceSYSPRplus1orMore The unpaidBalanceSYSPRplus1orMore to set.
      */
     public void setUnpaidBalanceSYSPRplus1orMore(KualiDecimal unpaidBalanceSYSPRplus1orMore) {
@@ -439,7 +439,7 @@ public class ContractsAndGrantsAgingReport extends TransientBusinessObjectBase {
 
     /**
      * Gets the reportingName attribute.
-     * 
+     *
      * @return Returns the reportingName.
      */
     public String getReportingName() {
@@ -448,7 +448,7 @@ public class ContractsAndGrantsAgingReport extends TransientBusinessObjectBase {
 
     /**
      * Sets the reportingName attribute value.
-     * 
+     *
      * @param reportingName The reportingName to set.
      */
     public void setReportingName(String reportingName) {
@@ -457,7 +457,7 @@ public class ContractsAndGrantsAgingReport extends TransientBusinessObjectBase {
 
     /**
      * Gets the totalOpenInvoices attribute.
-     * 
+     *
      * @return Returns the totalOpenInvoices.
      */
     public KualiDecimal getTotalOpenInvoices() {
@@ -466,7 +466,7 @@ public class ContractsAndGrantsAgingReport extends TransientBusinessObjectBase {
 
     /**
      * Sets the totalOpenInvoices attribute value.
-     * 
+     *
      * @param totalOpenInvoices The totalOpenInvoices to set.
      */
     public void setTotalOpenInvoices(KualiDecimal totalOpenInvoices) {
@@ -475,7 +475,7 @@ public class ContractsAndGrantsAgingReport extends TransientBusinessObjectBase {
 
     /**
      * Gets the totalCredits attribute.
-     * 
+     *
      * @return Returns the totalCredits.
      */
     public KualiDecimal getTotalCredits() {
@@ -484,7 +484,7 @@ public class ContractsAndGrantsAgingReport extends TransientBusinessObjectBase {
 
     /**
      * Sets the totalCredits attribute value.
-     * 
+     *
      * @param totalCredits The totalCredits to set.
      */
     public void setTotalCredits(KualiDecimal totalCredits) {
@@ -493,7 +493,7 @@ public class ContractsAndGrantsAgingReport extends TransientBusinessObjectBase {
 
     /**
      * Gets the totalWriteOff attribute.
-     * 
+     *
      * @return Returns the totalWriteOff.
      */
     public KualiDecimal getTotalWriteOff() {
@@ -502,7 +502,7 @@ public class ContractsAndGrantsAgingReport extends TransientBusinessObjectBase {
 
     /**
      * Sets the totalWriteOff attribute value.
-     * 
+     *
      * @param totalWriteOff The totalWriteOff to set.
      */
     public void setTotalWriteOff(KualiDecimal totalWriteOff) {
@@ -511,7 +511,7 @@ public class ContractsAndGrantsAgingReport extends TransientBusinessObjectBase {
 
     /**
      * Gets the agencyNumber attribute.
-     * 
+     *
      * @return Returns the agencyNumber.
      */
     public String getAgencyNumber() {
@@ -520,7 +520,7 @@ public class ContractsAndGrantsAgingReport extends TransientBusinessObjectBase {
 
     /**
      * Sets the agencyNumber attribute value.
-     * 
+     *
      * @param agencyNumber The agencyNumber to set.
      */
     public void setAgencyNumber(String agencyNumber) {
@@ -529,7 +529,7 @@ public class ContractsAndGrantsAgingReport extends TransientBusinessObjectBase {
 
     /**
      * Gets the principalId attribute.
-     * 
+     *
      * @return Returns the principalId.
      */
     public String getPrincipalId() {
@@ -538,7 +538,7 @@ public class ContractsAndGrantsAgingReport extends TransientBusinessObjectBase {
 
     /**
      * Sets the principalId attribute value.
-     * 
+     *
      * @param principalId The principalId to set.
      */
     public void setPrincipalId(String principalId) {
@@ -547,7 +547,7 @@ public class ContractsAndGrantsAgingReport extends TransientBusinessObjectBase {
 
     /**
      * Gets the userLookupRoleNamespaceCode attribute.
-     * 
+     *
      * @return Returns the userLookupRoleNamespaceCode.
      */
     public String getUserLookupRoleNamespaceCode() {
@@ -556,7 +556,7 @@ public class ContractsAndGrantsAgingReport extends TransientBusinessObjectBase {
 
     /**
      * Gets the userLookupRoleName attribute.
-     * 
+     *
      * @return Returns the userLookupRoleName.
      */
     public String getUserLookupRoleName() {
@@ -565,7 +565,7 @@ public class ContractsAndGrantsAgingReport extends TransientBusinessObjectBase {
 
     /**
      * Gets the organizationCode attribute.
-     * 
+     *
      * @return Returns the organizationCode.
      */
     public String getOrganizationCode() {
@@ -574,7 +574,7 @@ public class ContractsAndGrantsAgingReport extends TransientBusinessObjectBase {
 
     /**
      * Sets the organizationCode attribute value.
-     * 
+     *
      * @param organizationCode The organizationCode to set.
      */
     public void setOrganizationCode(String organizationCode) {
@@ -583,7 +583,7 @@ public class ContractsAndGrantsAgingReport extends TransientBusinessObjectBase {
 
     /**
      * Gets the billingChartCode attribute.
-     * 
+     *
      * @return Returns the billingChartCode.
      */
     public String getBillingChartCode() {
@@ -592,7 +592,7 @@ public class ContractsAndGrantsAgingReport extends TransientBusinessObjectBase {
 
     /**
      * Sets the billingChartCode attribute value.
-     * 
+     *
      * @param billingChartCode The billingChartCode to set.
      */
     public void setBillingChartCode(String billingChartCode) {
@@ -601,7 +601,7 @@ public class ContractsAndGrantsAgingReport extends TransientBusinessObjectBase {
 
     /**
      * Gets the lookupFundMgrPerson attribute.
-     * 
+     *
      * @return Returns the lookupFundMgrPerson.
      */
     public Person getLookupFundMgrPerson() {
@@ -611,7 +611,7 @@ public class ContractsAndGrantsAgingReport extends TransientBusinessObjectBase {
 
     /**
      * Sets the lookupFundMgrPerson attribute value.
-     * 
+     *
      * @param lookupFundMgrPerson The lookupFundMgrPerson to set.
      */
     public void setLookupFundMgrPerson(Person lookupFundMgrPerson) {
@@ -620,7 +620,7 @@ public class ContractsAndGrantsAgingReport extends TransientBusinessObjectBase {
 
     /**
      * Gets the invoiceDate attribute.
-     * 
+     *
      * @return Returns the invoiceDate.
      */
     public Date getInvoiceDate() {
@@ -629,7 +629,7 @@ public class ContractsAndGrantsAgingReport extends TransientBusinessObjectBase {
 
     /**
      * Sets the invoiceDate attribute value.
-     * 
+     *
      * @param invoiceDate The invoiceDate to set.
      */
     public void setInvoiceDate(Date invoiceDate) {
@@ -638,7 +638,7 @@ public class ContractsAndGrantsAgingReport extends TransientBusinessObjectBase {
 
     /**
      * Gets the customer attribute.
-     * 
+     *
      * @return Returns the customer.
      */
     public Customer getCustomer() {
@@ -647,7 +647,7 @@ public class ContractsAndGrantsAgingReport extends TransientBusinessObjectBase {
 
     /**
      * Sets the customer attribute value.
-     * 
+     *
      * @param customer The customer to set.
      */
     public void setCustomer(Customer customer) {
@@ -656,7 +656,7 @@ public class ContractsAndGrantsAgingReport extends TransientBusinessObjectBase {
 
     /**
      * Gets the account attribute.
-     * 
+     *
      * @return Returns the account.
      */
     public Account getAccount() {
@@ -665,7 +665,7 @@ public class ContractsAndGrantsAgingReport extends TransientBusinessObjectBase {
 
     /**
      * Sets the account attribute value.
-     * 
+     *
      * @param account The account to set.
      */
     public void setAccount(Account account) {
@@ -674,7 +674,7 @@ public class ContractsAndGrantsAgingReport extends TransientBusinessObjectBase {
 
     /**
      * Gets the contractsAndGrantsAccountResponsibilityId attribute.
-     * 
+     *
      * @return Returns the contractsAndGrantsAccountResponsibilityId.
      */
     public String getContractsAndGrantsAccountResponsibilityId() {
@@ -683,7 +683,7 @@ public class ContractsAndGrantsAgingReport extends TransientBusinessObjectBase {
 
     /**
      * Sets the contractsAndGrantsAccountResponsibilityId attribute value.
-     * 
+     *
      * @param contractsAndGrantsAccountResponsibilityId The contractsAndGrantsAccountResponsibilityId to set.
      */
     public void setContractsAndGrantsAccountResponsibilityId(String contractsAndGrantsAccountResponsibilityId) {
@@ -692,7 +692,7 @@ public class ContractsAndGrantsAgingReport extends TransientBusinessObjectBase {
 
     /**
      * Gets the processingOrganizationCode attribute.
-     * 
+     *
      * @return Returns the processingOrganizationCode.
      */
     public String getProcessingOrganizationCode() {
@@ -701,7 +701,7 @@ public class ContractsAndGrantsAgingReport extends TransientBusinessObjectBase {
 
     /**
      * Sets the processingOrganizationCode attribute value.
-     * 
+     *
      * @param processingOrganizationCode The processingOrganizationCode to set.
      */
     public void setProcessingOrganizationCode(String processingOrganizationCode) {
@@ -710,7 +710,7 @@ public class ContractsAndGrantsAgingReport extends TransientBusinessObjectBase {
 
     /**
      * Gets the processingChartOfAccountCode attribute.
-     * 
+     *
      * @return Returns the processingChartOfAccountCode.
      */
     public String getProcessingChartOfAccountCode() {
@@ -719,7 +719,7 @@ public class ContractsAndGrantsAgingReport extends TransientBusinessObjectBase {
 
     /**
      * Sets the processingChartOfAccountCode attribute value.
-     * 
+     *
      * @param processingChartOfAccountCode The processingChartOfAccountCode to set.
      */
     public void setProcessingChartOfAccountCode(String processingChartOfAccountCode) {

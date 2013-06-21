@@ -1,12 +1,12 @@
 /*
  * Copyright 2006 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -23,17 +23,17 @@ import org.kuali.kfs.coa.businessobject.AccountingPeriod;
 import org.kuali.kfs.coa.service.AccountingPeriodService;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAward;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleUpdateService;
-import org.kuali.kfs.module.ar.batch.service.VerifyBillingFrequency;
+import org.kuali.kfs.module.ar.batch.service.VerifyBillingFrequencyService;
 import org.kuali.kfs.module.ar.fixture.ARAwardFixture;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 
 /**
- * This class tests the VerifyBillingFrequency
+ * This class tests the VerifyBillingFrequencyService
  */
 @ConfigureContext(session = khuntley)
-public class VerifyBillingFrequencyTest extends KualiTestBase {
+public class VerifyBillingFrequencyServiceTest extends KualiTestBase {
 
 
     @Override
@@ -50,7 +50,7 @@ public class VerifyBillingFrequencyTest extends KualiTestBase {
         ContractsAndGrantsModuleUpdateService moduleUpdateService = SpringContext.getBean(ContractsAndGrantsModuleUpdateService.class);
 
 
-        VerifyBillingFrequency verifyBillingFrequency = SpringContext.getBean(VerifyBillingFrequency.class);
+        VerifyBillingFrequencyService verifyBillingFrequencyService = SpringContext.getBean(VerifyBillingFrequencyService.class);
         boolean valid = false;
         Date testEndDay = null;
         Date testStartDay = null;
@@ -69,9 +69,9 @@ public class VerifyBillingFrequencyTest extends KualiTestBase {
         testEndDay = Date.valueOf("2011-09-30");
         testStartDay = Date.valueOf("2011-01-01");
 
-        Date[] pair = verifyBillingFrequency.getStartDateAndEndDateOfPreviousBillingPeriod(award, currPeriod);
+        Date[] pair = verifyBillingFrequencyService.getStartDateAndEndDateOfPreviousBillingPeriod(award, currPeriod);
 
-        valid = verifyBillingFrequency.calculateIfWithinGracePeriod(date, pair[1], pair[0], award.getLastBilledDate(), new Integer(0));
+        valid = verifyBillingFrequencyService.calculateIfWithinGracePeriod(date, pair[1], pair[0], award.getLastBilledDate(), new Integer(0));
 
 
         assertEquals(pair[0], testStartDay);
@@ -82,10 +82,10 @@ public class VerifyBillingFrequencyTest extends KualiTestBase {
         testEndDay = Date.valueOf("2011-09-30");
         testStartDay = Date.valueOf("2011-01-01");
 
-        pair = verifyBillingFrequency.getStartDateAndEndDateOfPreviousBillingPeriod(award, currPeriod);
+        pair = verifyBillingFrequencyService.getStartDateAndEndDateOfPreviousBillingPeriod(award, currPeriod);
 
         valid = false;
-        valid = verifyBillingFrequency.calculateIfWithinGracePeriod(date, pair[1], pair[0], award.getLastBilledDate(), new Integer(0));
+        valid = verifyBillingFrequencyService.calculateIfWithinGracePeriod(date, pair[1], pair[0], award.getLastBilledDate(), new Integer(0));
 
 
         assertEquals(pair[0], testStartDay);
@@ -98,10 +98,10 @@ public class VerifyBillingFrequencyTest extends KualiTestBase {
         testEndDay = Date.valueOf("2011-09-30");
         testStartDay = Date.valueOf("2011-01-01");
 
-        pair = verifyBillingFrequency.getStartDateAndEndDateOfPreviousBillingPeriod(award, currPeriod);
+        pair = verifyBillingFrequencyService.getStartDateAndEndDateOfPreviousBillingPeriod(award, currPeriod);
 
         valid = false;
-        valid = verifyBillingFrequency.calculateIfWithinGracePeriod(date, pair[1], pair[0], award.getLastBilledDate(), new Integer(0));
+        valid = verifyBillingFrequencyService.calculateIfWithinGracePeriod(date, pair[1], pair[0], award.getLastBilledDate(), new Integer(0));
 
 
         assertEquals(pair[0], testStartDay);
@@ -116,10 +116,10 @@ public class VerifyBillingFrequencyTest extends KualiTestBase {
         testEndDay = Date.valueOf("2011-09-30");
         testStartDay = Date.valueOf("2011-01-01");
 
-        pair = verifyBillingFrequency.getStartDateAndEndDateOfPreviousBillingPeriod(award, currPeriod);
+        pair = verifyBillingFrequencyService.getStartDateAndEndDateOfPreviousBillingPeriod(award, currPeriod);
 
         valid = false;
-        valid = verifyBillingFrequency.calculateIfWithinGracePeriod(date, pair[1], pair[0], award.getLastBilledDate(), new Integer(0));
+        valid = verifyBillingFrequencyService.calculateIfWithinGracePeriod(date, pair[1], pair[0], award.getLastBilledDate(), new Integer(0));
 
 
         assertEquals(pair[0], testStartDay);
@@ -132,10 +132,10 @@ public class VerifyBillingFrequencyTest extends KualiTestBase {
         testEndDay = Date.valueOf("2011-06-30");
         testStartDay = Date.valueOf("2011-01-01");
 
-        pair = verifyBillingFrequency.getStartDateAndEndDateOfPreviousBillingPeriod(award, currPeriod);
+        pair = verifyBillingFrequencyService.getStartDateAndEndDateOfPreviousBillingPeriod(award, currPeriod);
 
         valid = false;
-        valid = verifyBillingFrequency.calculateIfWithinGracePeriod(date, pair[1], pair[0], award.getLastBilledDate(), new Integer(0));
+        valid = verifyBillingFrequencyService.calculateIfWithinGracePeriod(date, pair[1], pair[0], award.getLastBilledDate(), new Integer(0));
 
 
         assertEquals(pair[0], testStartDay);
@@ -149,10 +149,10 @@ public class VerifyBillingFrequencyTest extends KualiTestBase {
         testEndDay = Date.valueOf("2011-06-30");
         testStartDay = Date.valueOf("2011-01-01");
 
-        pair = verifyBillingFrequency.getStartDateAndEndDateOfPreviousBillingPeriod(award, currPeriod);
+        pair = verifyBillingFrequencyService.getStartDateAndEndDateOfPreviousBillingPeriod(award, currPeriod);
 
         valid = false;
-        valid = verifyBillingFrequency.calculateIfWithinGracePeriod(date, pair[1], pair[0], award.getLastBilledDate(), new Integer(0));
+        valid = verifyBillingFrequencyService.calculateIfWithinGracePeriod(date, pair[1], pair[0], award.getLastBilledDate(), new Integer(0));
 
 
         assertEquals(pair[0], testStartDay);
@@ -165,7 +165,7 @@ public class VerifyBillingFrequencyTest extends KualiTestBase {
 
         testStartDay = Date.valueOf("2011-01-01");
 
-        pair = verifyBillingFrequency.getStartDateAndEndDateOfPreviousBillingPeriod(award, currPeriod);
+        pair = verifyBillingFrequencyService.getStartDateAndEndDateOfPreviousBillingPeriod(award, currPeriod);
 
         assertEquals(pair[0], testStartDay);
 
@@ -182,10 +182,10 @@ public class VerifyBillingFrequencyTest extends KualiTestBase {
         testEndDay = Date.valueOf("2011-10-31");
         testStartDay = Date.valueOf("2011-10-01");
 
-        pair = verifyBillingFrequency.getStartDateAndEndDateOfPreviousBillingPeriod(award, currPeriod);
+        pair = verifyBillingFrequencyService.getStartDateAndEndDateOfPreviousBillingPeriod(award, currPeriod);
 
         valid = false;
-        valid = verifyBillingFrequency.calculateIfWithinGracePeriod(date, pair[1], pair[0], award.getLastBilledDate(), new Integer(0));
+        valid = verifyBillingFrequencyService.calculateIfWithinGracePeriod(date, pair[1], pair[0], award.getLastBilledDate(), new Integer(0));
 
 
         assertEquals(pair[0], testStartDay);
@@ -197,10 +197,10 @@ public class VerifyBillingFrequencyTest extends KualiTestBase {
         testEndDay = Date.valueOf("2011-10-31");
         testStartDay = Date.valueOf("2011-10-01");
 
-        pair = verifyBillingFrequency.getStartDateAndEndDateOfPreviousBillingPeriod(award, currPeriod);
+        pair = verifyBillingFrequencyService.getStartDateAndEndDateOfPreviousBillingPeriod(award, currPeriod);
 
         valid = false;
-        valid = verifyBillingFrequency.calculateIfWithinGracePeriod(date, pair[1], pair[0], award.getLastBilledDate(), new Integer(0));
+        valid = verifyBillingFrequencyService.calculateIfWithinGracePeriod(date, pair[1], pair[0], award.getLastBilledDate(), new Integer(0));
 
 
         assertEquals(pair[0], testStartDay);
@@ -213,10 +213,10 @@ public class VerifyBillingFrequencyTest extends KualiTestBase {
         testEndDay = Date.valueOf("2011-10-31");
         testStartDay = Date.valueOf("2011-10-01");
 
-        pair = verifyBillingFrequency.getStartDateAndEndDateOfPreviousBillingPeriod(award, currPeriod);
+        pair = verifyBillingFrequencyService.getStartDateAndEndDateOfPreviousBillingPeriod(award, currPeriod);
 
         valid = false;
-        valid = verifyBillingFrequency.calculateIfWithinGracePeriod(date, pair[1], pair[0], award.getLastBilledDate(), new Integer(0));
+        valid = verifyBillingFrequencyService.calculateIfWithinGracePeriod(date, pair[1], pair[0], award.getLastBilledDate(), new Integer(0));
 
 
         assertEquals(pair[0], testStartDay);
@@ -230,10 +230,10 @@ public class VerifyBillingFrequencyTest extends KualiTestBase {
         testEndDay = Date.valueOf("2011-09-30");
         testStartDay = Date.valueOf("2011-07-01");
 
-        pair = verifyBillingFrequency.getStartDateAndEndDateOfPreviousBillingPeriod(award, currPeriod);
+        pair = verifyBillingFrequencyService.getStartDateAndEndDateOfPreviousBillingPeriod(award, currPeriod);
 
         valid = false;
-        valid = verifyBillingFrequency.calculateIfWithinGracePeriod(date, pair[1], pair[0], award.getLastBilledDate(), new Integer(0));
+        valid = verifyBillingFrequencyService.calculateIfWithinGracePeriod(date, pair[1], pair[0], award.getLastBilledDate(), new Integer(0));
 
 
         assertEquals(pair[0], testStartDay);
@@ -248,10 +248,10 @@ public class VerifyBillingFrequencyTest extends KualiTestBase {
         testEndDay = Date.valueOf("2011-12-31");
         testStartDay = Date.valueOf("2011-07-01");
 
-        pair = verifyBillingFrequency.getStartDateAndEndDateOfPreviousBillingPeriod(award, currPeriod);
+        pair = verifyBillingFrequencyService.getStartDateAndEndDateOfPreviousBillingPeriod(award, currPeriod);
 
         valid = false;
-        valid = verifyBillingFrequency.calculateIfWithinGracePeriod(date, pair[1], pair[0], award.getLastBilledDate(), new Integer(0));
+        valid = verifyBillingFrequencyService.calculateIfWithinGracePeriod(date, pair[1], pair[0], award.getLastBilledDate(), new Integer(0));
 
 
         assertEquals(pair[0], testStartDay);
@@ -268,10 +268,10 @@ public class VerifyBillingFrequencyTest extends KualiTestBase {
         testEndDay = Date.valueOf("2011-06-30");
         testStartDay = Date.valueOf("2010-07-01");
 
-        pair = verifyBillingFrequency.getStartDateAndEndDateOfPreviousBillingPeriod(award, currPeriod);
+        pair = verifyBillingFrequencyService.getStartDateAndEndDateOfPreviousBillingPeriod(award, currPeriod);
 
         valid = false;
-        valid = verifyBillingFrequency.calculateIfWithinGracePeriod(date, pair[1], pair[0], award.getLastBilledDate(), new Integer(0));
+        valid = verifyBillingFrequencyService.calculateIfWithinGracePeriod(date, pair[1], pair[0], award.getLastBilledDate(), new Integer(0));
 
 
         assertEquals(pair[0], testStartDay);
@@ -287,9 +287,9 @@ public class VerifyBillingFrequencyTest extends KualiTestBase {
 
         testStartDay = Date.valueOf("2010-12-14");
 
-        pair = verifyBillingFrequency.getStartDateAndEndDateOfPreviousBillingPeriod(award, currPeriod);
+        pair = verifyBillingFrequencyService.getStartDateAndEndDateOfPreviousBillingPeriod(award, currPeriod);
 
-        valid = verifyBillingFrequency.calculateIfWithinGracePeriod(date, pair[1], pair[0], award.getLastBilledDate(), new Integer(0));
+        valid = verifyBillingFrequencyService.calculateIfWithinGracePeriod(date, pair[1], pair[0], award.getLastBilledDate(), new Integer(0));
         assertEquals(pair[0], testStartDay);
 
 

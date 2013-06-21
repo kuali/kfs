@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -21,6 +21,7 @@ import java.util.Map;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.OrganizationAccountingDefault;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
+import org.kuali.kfs.module.ar.document.service.ReceivableAccountingLineService;
 import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.FinancialSystemUserService;
@@ -30,25 +31,26 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 public class ReceivableAccountingLineServiceImpl implements ReceivableAccountingLineService {
-    
+
     private UniversityDateService universityDateService;
     private BusinessObjectService businessObjectService;
 
     /**
      * @see org.kuali.kfs.module.ar.document.service.impl.ReceivableAccountingLineService#setReceivableAccountingLineForCustomerInvoiceDocument(org.kuali.kfs.module.ar.document.CustomerInvoiceDocument)
      */
+    @Override
     @SuppressWarnings("unchecked")
     public void setReceivableAccountingLineForCustomerInvoiceDocument(CustomerInvoiceDocument customerInvoiceDocument) {
 
         Integer currentUniverisityFiscalYear = universityDateService.getCurrentFiscalYear();
         ChartOrgHolder currentUser = SpringContext.getBean(FinancialSystemUserService.class).getPrimaryOrganization(GlobalVariables.getUserSession().getPerson(), ArConstants.AR_NAMESPACE_CODE);
-        
+
         Map criteria = new HashMap();
         criteria.put("universityFiscalYear", currentUniverisityFiscalYear);
         criteria.put("chartOfAccountsCode", currentUser.getChartOfAccountsCode());
         criteria.put("organizationCode", currentUser.getOrganizationCode());
-        
-        OrganizationAccountingDefault organizationAccountingDefault = (OrganizationAccountingDefault)businessObjectService.findByPrimaryKey(OrganizationAccountingDefault.class, criteria);
+
+        OrganizationAccountingDefault organizationAccountingDefault = businessObjectService.findByPrimaryKey(OrganizationAccountingDefault.class, criteria);
         if( ObjectUtils.isNotNull( organizationAccountingDefault) ){
             customerInvoiceDocument.setPaymentChartOfAccountsCode(organizationAccountingDefault.getDefaultPaymentChartOfAccountsCode());
             customerInvoiceDocument.setPaymentAccountNumber(organizationAccountingDefault.getDefaultPaymentAccountNumber());

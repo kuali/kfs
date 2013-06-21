@@ -29,7 +29,7 @@
 
 				<ref bean="ContractsAndGrantsAgingReport-proposalNumber" />
 				<ref bean="ContractsAndGrantsAgingReport-awardDocumentNumber" />
-				<ref bean="ContractsAndGrantsAgingReport-markedAsFinal" />
+				<ref bean="ContractsAndGrantsAgingReport-markedAsFinalInd" />
 				<ref bean="ContractsAndGrantsAgingReport-awardEndDate" />
 				<ref bean="ContractsAndGrantsAgingReport-invoiceAmountFrom" />
 				<ref bean="ContractsAndGrantsAgingReport-invoiceAmountTo" />
@@ -186,11 +186,11 @@
 	</bean>
 
 
-	<bean id="ContractsAndGrantsAgingReport-markedAsFinal" parent="ContractsAndGrantsAgingReport-markedAsFinal-parentBean" />
+	<bean id="ContractsAndGrantsAgingReport-markedAsFinalInd" parent="ContractsAndGrantsAgingReport-markedAsFinalInd-parentBean" />
 
-	<bean id="ContractsAndGrantsAgingReport-markedAsFinal-parentBean"
+	<bean id="ContractsAndGrantsAgingReport-markedAsFinalInd-parentBean"
 		abstract="true" parent="GenericAttributes-genericBoolean">
-		<property name="name" value="markedAsFinal" />
+		<property name="name" value="markedAsFinalInd" />
 		<property name="label" value="Invoices Marked as Final" />
 		<property name="shortLabel" value="Invoices Marked as Final" />
 	</bean>
@@ -488,7 +488,7 @@
         <bean parent="FieldDefinition" p:attributeName="collector.principalName" />
 		<bean parent="FieldDefinition" p:attributeName="principalId" />
         <bean parent="FieldDefinition" p:attributeName="awardDocumentNumber"/>
-        <bean parent="FieldDefinition" p:attributeName="markedAsFinal" p:defaultValue ="N"/>
+        <bean parent="FieldDefinition" p:attributeName="markedAsFinalInd" p:defaultValue ="N"/>
         <bean parent="FieldDefinition" p:attributeName="awardEndDate" />
         <bean parent="FieldDefinition" p:attributeName="invoiceDate" />
         <bean parent="FieldDefinition" p:attributeName="invoiceAmountFrom"/> 

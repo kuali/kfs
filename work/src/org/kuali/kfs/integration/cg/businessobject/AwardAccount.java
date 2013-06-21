@@ -1,12 +1,12 @@
 /*
  * Copyright 2006-2009 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -36,7 +36,7 @@ public class AwardAccount implements ContractsAndGrantsAccountAwardInformation, 
     private String principalId;
     private Date currentLastBilledDate;
     private Date previousLastBilledDate;
-    private boolean finalBilled;
+    private boolean finalBilledIndicator;
     private KualiDecimal amountToDraw = KualiDecimal.ZERO;
     private boolean locReviewIndicator;
     private boolean active = true;
@@ -45,16 +45,17 @@ public class AwardAccount implements ContractsAndGrantsAccountAwardInformation, 
 
     /**
      * Gets the amountToDraw attribute.
-     * 
+     *
      * @return Returns the amountToDraw.
      */
+    @Override
     public KualiDecimal getAmountToDraw() {
         return amountToDraw;
     }
 
     /**
      * Sets the amountToDraw attribute value.
-     * 
+     *
      * @param amountToDraw The amountToDraw to set.
      */
     public void setAmountToDraw(KualiDecimal amountToDraw) {
@@ -63,16 +64,17 @@ public class AwardAccount implements ContractsAndGrantsAccountAwardInformation, 
 
     /**
      * Gets the locReviewIndicator attribute.
-     * 
+     *
      * @return Returns the locReviewIndicator.
      */
+    @Override
     public boolean isLocReviewIndicator() {
         return locReviewIndicator;
     }
 
     /**
      * Sets the locReviewIndicator attribute value.
-     * 
+     *
      * @param locReviewIndicator The locReviewIndicator to set.
      */
     public void setLocReviewIndicator(boolean locReviewIndicator) {
@@ -81,35 +83,37 @@ public class AwardAccount implements ContractsAndGrantsAccountAwardInformation, 
 
 
     /**
-     * Gets the finalBilled attribute.
-     * 
-     * @return Returns the finalBilled.
+     * Gets the finalBilledIndicator attribute.
+     *
+     * @return Returns the finalBilledIndicator.
      */
-    public boolean isFinalBilled() {
-        return finalBilled;
+    @Override
+    public boolean isFinalBilledIndicator() {
+        return finalBilledIndicator;
     }
 
     /**
-     * Sets the finalBilled attribute value.
-     * 
-     * @param finalBilled The finalBilled to set.
+     * Sets the finalBilledIndicator attribute value.
+     *
+     * @param finalBilledIndicator The finalBilledIndicator to set.
      */
-    public void setFinalBilled(boolean finalBilled) {
-        this.finalBilled = finalBilled;
+    public void setFinalBilledIndicator(boolean finalBilledIndicator) {
+        this.finalBilledIndicator = finalBilledIndicator;
     }
 
     /**
      * Gets the currentLastBilledDate attribute.
-     * 
+     *
      * @return Returns the currentLastBilledDate.
      */
+    @Override
     public Date getCurrentLastBilledDate() {
         return currentLastBilledDate;
     }
 
     /**
      * Sets the currentLastBilledDate attribute value.
-     * 
+     *
      * @param currentLastBilledDate The currentLastBilledDate to set.
      */
     public void setCurrentLastBilledDate(Date currentLastBilledDate) {
@@ -118,16 +122,17 @@ public class AwardAccount implements ContractsAndGrantsAccountAwardInformation, 
 
     /**
      * Gets the previousLastBilledDate attribute.
-     * 
+     *
      * @return Returns the previousLastBilledDate.
      */
+    @Override
     public Date getPreviousLastBilledDate() {
         return previousLastBilledDate;
     }
 
     /**
      * Sets the previousLastBilledDate attribute value.
-     * 
+     *
      * @param previousLastBilledDate The previousLastBilledDate to set.
      */
     public void setPreviousLastBilledDate(Date previousLastBilledDate) {
@@ -137,13 +142,14 @@ public class AwardAccount implements ContractsAndGrantsAccountAwardInformation, 
     /***
      * @see org.kuali.kfs.integration.businessobject.cg.ContractsAndGrantsAccountAwardInformation#getProposalNumber()
      */
+    @Override
     public Long getProposalNumber() {
         return proposalNumber;
     }
 
     /**
      * Sets the proposalNumber attribute.
-     * 
+     *
      * @param proposalNumber The proposalNumber to set.
      */
     public void setProposalNumber(Long proposalNumber) {
@@ -154,13 +160,14 @@ public class AwardAccount implements ContractsAndGrantsAccountAwardInformation, 
     /***
      * @see org.kuali.kfs.integration.businessobject.cg.ContractsAndGrantsAccountAwardInformation#getChartOfAccountsCode()
      */
+    @Override
     public String getChartOfAccountsCode() {
         return chartOfAccountsCode;
     }
 
     /**
      * Sets the chartOfAccountsCode attribute.
-     * 
+     *
      * @param chartOfAccountsCode The chartOfAccountsCode to set.
      */
     public void setChartOfAccountsCode(String chartOfAccountsCode) {
@@ -171,13 +178,14 @@ public class AwardAccount implements ContractsAndGrantsAccountAwardInformation, 
     /***
      * @see org.kuali.kfs.integration.businessobject.cg.ContractsAndGrantsAccountAwardInformation#getAccountNumber()
      */
+    @Override
     public String getAccountNumber() {
         return accountNumber;
     }
 
     /**
      * Sets the accountNumber attribute.
-     * 
+     *
      * @param accountNumber The accountNumber to set.
      */
     public void setAccountNumber(String accountNumber) {
@@ -187,13 +195,14 @@ public class AwardAccount implements ContractsAndGrantsAccountAwardInformation, 
     /***
      * @see org.kuali.kfs.integration.businessobject.cg.ContractsAndGrantsAccountAwardInformation#getPrincipalId()
      */
+    @Override
     public String getPrincipalId() {
         return principalId;
     }
 
     /**
      * Sets the principalId attribute.
-     * 
+     *
      * @param principalId The principalId to set.
      */
     public void setPrincipalId(String principalId) {
@@ -204,6 +213,7 @@ public class AwardAccount implements ContractsAndGrantsAccountAwardInformation, 
     /**
      * @see org.kuali.rice.core.api.mo.common.active.MutableInactivatable#isActive()
      */
+    @Override
     public boolean isActive() {
         return active;
     }
@@ -211,6 +221,7 @@ public class AwardAccount implements ContractsAndGrantsAccountAwardInformation, 
     /**
      * @see org.kuali.rice.core.api.mo.common.active.MutableInactivatable#setActive(boolean)
      */
+    @Override
     public void setActive(boolean active) {
         this.active = active;
     }
@@ -218,10 +229,12 @@ public class AwardAccount implements ContractsAndGrantsAccountAwardInformation, 
     /**
      * @see org.kuali.kfs.integration.cg.ContractsAndGrantsAccountAwardInformation#getProjectDirectorName()
      */
+    @Override
     public String getProjectDirectorName() {
         return "";
     }
 
+    @Override
     public Account getAccount() {
         return null;
     }
@@ -231,6 +244,7 @@ public class AwardAccount implements ContractsAndGrantsAccountAwardInformation, 
     // return null;
     // }
 
+    @Override
     public Chart getChartOfAccounts() {
         return null;
     }
@@ -238,10 +252,12 @@ public class AwardAccount implements ContractsAndGrantsAccountAwardInformation, 
     public void prepareForWorkflow() {
     }
 
+    @Override
     public void refresh() {
     }
 
 
+    @Override
     public String getInvoiceDocumentStatus() {
         return invoiceDocumentStatus;
     }

@@ -1,12 +1,12 @@
 /*
  * Copyright 2012 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -39,6 +39,7 @@ public class CollectionActivityDocumentRule extends TransactionalDocumentRuleBas
     /**
      * @see org.kuali.rice.krad.rules.DocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.rice.krad.document.Document)
      */
+    @Override
     protected boolean processCustomSaveDocumentBusinessRules(Document document) {
         boolean isValid = super.processCustomSaveDocumentBusinessRules(document);
         isValid &= this.validateEvents((CollectionActivityDocument) document);
@@ -51,34 +52,34 @@ public class CollectionActivityDocumentRule extends TransactionalDocumentRuleBas
      */
     @Override
     public boolean processAddCollectionActivityDocumentEventBusinessRules(CollectionActivityDocument transactionalDocument, Event event) {
-        boolean success = true;
+        boolean isSuccess = true;
 
-        success &= this.validateEvent(event);
-        success &= this.validateEvents(transactionalDocument);
+        isSuccess &= this.validateEvent(event);
+        isSuccess &= this.validateEvents(transactionalDocument);
 
-        return success;
+        return isSuccess;
     }
 
     /**
      * Validates the collection activity document detail list from document.
-     * 
+     *
      * @param collectionActivityDocument The document which contains the list.
      * @return Returns true if all validations succeed otherwise false.
      */
     public boolean validateEvents(CollectionActivityDocument collectionActivityDocument) {
         List<Event> caDetails = collectionActivityDocument.getEvents();
-        boolean success = true;
+        boolean isSuccess = true;
         if (CollectionUtils.isNotEmpty(caDetails)) {
             for (Event caDetail : caDetails) {
-                success &= this.validateEvent(caDetail);
+                isSuccess &= this.validateEvent(caDetail);
             }
         }
-        return success;
+        return isSuccess;
     }
 
     /**
      * Validates a single collection activity document detail object.
-     * 
+     *
      * @param event The object to get validated.
      * @return Returns true if all validations succeed otherwise false.
      */
@@ -92,11 +93,11 @@ public class CollectionActivityDocumentRule extends TransactionalDocumentRuleBas
         SpringContext.getBean(DictionaryValidationService.class).validateBusinessObject(event);
         isValid = (errorMap.getErrorCount() == originalErrorCount);
 
-        if (ObjectUtils.isNotNull(event.isFollowup()) && event.isFollowup() && event.getFollowupDate() == null) {
+        if (ObjectUtils.isNotNull(event.isFollowupInd()) && event.isFollowupInd() && event.getFollowupDate() == null) {
             errorMap.putError(ArPropertyConstants.EventFields.FOLLOW_UP_DATE, ArKeyConstants.CollectionActivityDocumentErrors.ERROR_FOLLOW_UP_DATE_REQUIRED);
             isValid = false;
         }
-        if (ObjectUtils.isNotNull(event.isCompleted()) && event.isCompleted() && event.getCompletedDate() == null) {
+        if (ObjectUtils.isNotNull(event.isCompletedInd()) && event.isCompletedInd() && event.getCompletedDate() == null) {
             errorMap.putError(ArPropertyConstants.EventFields.COMPLETED_DATE, ArKeyConstants.CollectionActivityDocumentErrors.ERROR_COMPLETED_DATE_REQUIRED);
             isValid = false;
         }

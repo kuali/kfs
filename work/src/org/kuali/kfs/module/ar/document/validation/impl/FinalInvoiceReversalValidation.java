@@ -124,7 +124,7 @@ public class FinalInvoiceReversalValidation {
             GlobalVariables.getMessageMap().putError(ArPropertyConstants.FINAL_INVOICE_REVERSAL_ENTRIES_PROPERTY_PATH, ArKeyConstants.FINAL_INVOICE_REVERSAL_EDOC_ERROR_KEY, INVOICE_NOT_FINALIZED_ERROR_MESSAGE);
             return false;
         }
-        if (!document.getInvoiceGeneralDetail().isFinalBill()) {
+        if (!document.getInvoiceGeneralDetail().isFinalBillIndicator()) {
             GlobalVariables.getMessageMap().putError(ArPropertyConstants.FINAL_INVOICE_REVERSAL_ENTRIES_PROPERTY_PATH, ArKeyConstants.FINAL_INVOICE_REVERSAL_EDOC_ERROR_KEY, INVOICE_NOT_FINAL_ERROR_MESSAGE);
             return false;
         }

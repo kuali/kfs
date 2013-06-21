@@ -26,7 +26,7 @@
 				<ref bean="InvoiceTemplate-invoiceTemplateDescription" />
 				<ref bean="InvoiceTemplate-filename" />
 				<ref bean="InvoiceTemplate-active" />
-				<ref bean="InvoiceTemplate-accessRestricted" />
+				<ref bean="InvoiceTemplate-accessRestrictedIndicator" />
 				<ref bean="InvoiceTemplate-billByChartOfAccountCode" />
 				<ref bean="InvoiceTemplate-billedByOrganizationCode" />
 				<ref bean="InvoiceTemplate-date" />
@@ -112,11 +112,11 @@
 		</property>
 	</bean>
 
-	<bean id="InvoiceTemplate-accessRestricted" parent="InvoiceTemplate-accessRestricted-parentBean" />
+	<bean id="InvoiceTemplate-accessRestrictedIndicator" parent="InvoiceTemplate-accessRestrictedIndicator-parentBean" />
 
-	<bean id="InvoiceTemplate-accessRestricted-parentBean" abstract="true"
+	<bean id="InvoiceTemplate-accessRestrictedIndicator-parentBean" abstract="true"
 		parent="AttributeDefinition">
-		<property name="name" value="accessRestricted" />
+		<property name="name" value="accessRestrictedIndicator" />
 		<property name="label" value="Access Restricted" />
 		<property name="shortLabel" value="Access Restricted" />
 		<property name="maxLength" value="1" />

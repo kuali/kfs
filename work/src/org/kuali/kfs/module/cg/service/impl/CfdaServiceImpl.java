@@ -97,8 +97,8 @@ public class CfdaServiceImpl implements CfdaService {
                 throw new IOException("FTP connection to server not established.");
             }
 
-            boolean loggedIn = ftp.login("anonymous", "");
-            if (!loggedIn) {
+            boolean isLoggedIn = ftp.login("anonymous", "");
+            if (!isLoggedIn) {
                 LOG.error("Could not login as anonymous.");
                 throw new IOException("Could not login as anonymous.");
             }

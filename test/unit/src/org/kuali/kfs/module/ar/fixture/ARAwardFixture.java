@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -51,13 +51,13 @@ public enum ARAwardFixture {
     private KualiDecimal awardDirectCostAmount;
     private KualiDecimal awardIndirectCostAmount;
     private KualiDecimal minInvoiceAmount;
-    private boolean suspendInvoicing;
+    private boolean suspendInvoicingIndicator;
     private String invoicingOptions;
     private boolean active;
     private String preferredBillingFrequency;
 
 
-    private ARAwardFixture(Long proposalNumber, String awardId, String awardBeginningDate, String awardEndingDate, Date lastBilledDate, KualiDecimal awardDirectCostAmount, KualiDecimal awardIndirectCostAmount, KualiDecimal minInvoiceAmount, boolean suspendInvoicing, String invoicingOptions, boolean active, String preferredBillingFrequency) {
+    private ARAwardFixture(Long proposalNumber, String awardId, String awardBeginningDate, String awardEndingDate, Date lastBilledDate, KualiDecimal awardDirectCostAmount, KualiDecimal awardIndirectCostAmount, KualiDecimal minInvoiceAmount, boolean suspendInvoicingIndicator, String invoicingOptions, boolean active, String preferredBillingFrequency) {
 
         this.proposalNumber = proposalNumber;
         this.awardId = awardId;
@@ -67,11 +67,11 @@ public enum ARAwardFixture {
         this.awardDirectCostAmount = awardDirectCostAmount;
         this.awardIndirectCostAmount = awardIndirectCostAmount;
         this.minInvoiceAmount = minInvoiceAmount;
-        this.suspendInvoicing = suspendInvoicing;
+        this.suspendInvoicingIndicator = suspendInvoicingIndicator;
         this.invoicingOptions = invoicingOptions;
         this.active = active;
         this.preferredBillingFrequency = preferredBillingFrequency;
-        
+
     }
 
     public Award createAward() {
@@ -84,11 +84,11 @@ public enum ARAwardFixture {
         award.setAwardDirectCostAmount(this.awardDirectCostAmount);
         award.setAwardIndirectCostAmount(this.awardIndirectCostAmount);
         award.setMinInvoiceAmount(this.minInvoiceAmount);
-        award.setSuspendInvoicing(this.suspendInvoicing);
+        award.setSuspendInvoicingIndicator(this.suspendInvoicingIndicator);
         award.setInvoicingOptions(this.invoicingOptions);
         award.setActive(this.active);
         award.setPreferredBillingFrequency(this.preferredBillingFrequency);
-        
+
         return award;
     }
 
@@ -97,7 +97,7 @@ public enum ARAwardFixture {
         award.setAgency(agency);
         return award;
     }
-    
+
     public Award setDunningCampaignFromFixture(Award award) {
         DunningCampaign dunningCampaign = DunningCampaignFixture.AR_DUNC1.createDunningCampaign();
         award.setDunningCampaign(dunningCampaign.getCampaignID());

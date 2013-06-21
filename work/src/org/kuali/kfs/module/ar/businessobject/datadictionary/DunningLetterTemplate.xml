@@ -35,7 +35,7 @@
 				<ref bean="DunningLetterTemplate-letterTemplateDescription" />
 				<ref bean="DunningLetterTemplate-filename" />
 				<ref bean="DunningLetterTemplate-active" />
-				<ref bean="DunningLetterTemplate-accessRestricted" />
+				<ref bean="DunningLetterTemplate-accessRestrictedInd" />
 				<ref bean="DunningLetterTemplate-billByChartOfAccountCode" />
 				<ref bean="DunningLetterTemplate-billedByOrganizationCode" />
 				<ref bean="DunningLetterTemplate-date" />
@@ -121,11 +121,11 @@
 		</property>
 	</bean>
 
-	<bean id="DunningLetterTemplate-accessRestricted" parent="DunningLetterTemplate-accessRestricted-parentBean" />
+	<bean id="DunningLetterTemplate-accessRestrictedInd" parent="DunningLetterTemplate-accessRestrictedInd-parentBean" />
 
-	<bean id="DunningLetterTemplate-accessRestricted-parentBean" abstract="true"
+	<bean id="DunningLetterTemplate-accessRestrictedInd-parentBean" abstract="true"
 		parent="AttributeDefinition">
-		<property name="name" value="accessRestricted" />
+		<property name="name" value="accessRestrictedInd" />
 		<property name="label" value="Access Restricted" />
 		<property name="shortLabel" value="Access Restricted" />
 		<property name="maxLength" value="1" />
@@ -177,7 +177,7 @@
 							<bean parent="FieldDefinition" p:attributeName="letterTemplateCode" />
 							<bean parent="FieldDefinition" p:attributeName="letterTemplateDescription" />
 							<bean parent="FieldDefinition" p:attributeName="active" />
-							<bean parent="FieldDefinition" p:attributeName="accessRestricted" />
+							<bean parent="FieldDefinition" p:attributeName="accessRestrictedInd" />
 						</list>
 					</property>
 				</bean>

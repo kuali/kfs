@@ -1,4 +1,4 @@
-Dear $!{travelerProfile.firstName} $!{travelerProfile.lastName}:
+Dear $!{travelerProfile.firstName} $!{travelerProfile.lastName}: 
 
 $!{notificationText}
 

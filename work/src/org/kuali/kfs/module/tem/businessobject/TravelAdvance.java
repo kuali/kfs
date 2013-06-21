@@ -273,6 +273,6 @@ public class TravelAdvance extends PersistableBusinessObjectBase {
      * @return true if any user-writable field on the advance has been written to; false otherwise
      */
     public boolean isAtLeastPartiallyFilledIn() {
-        return this.getTravelAdvanceRequested() != null || this.getDueDate() != null || !StringUtils.isBlank(this.getAdvancePaymentReasonCode()) || this.getTravelAdvancePolicy() || !StringUtils.isBlank(this.getAdditionalJustification());
+        return this.getTravelAdvanceRequested() != null || this.getDueDate() != null || this.getTravelAdvancePolicy() || !StringUtils.isBlank(this.getAdditionalJustification());
     }
 }

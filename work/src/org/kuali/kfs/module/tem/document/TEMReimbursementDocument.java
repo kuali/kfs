@@ -59,6 +59,7 @@ import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.beans.BeanUtils;
 
 public abstract class TEMReimbursementDocument extends TravelDocumentBase implements PaymentSource {
@@ -145,6 +146,21 @@ public abstract class TEMReimbursementDocument extends TravelDocumentBase implem
 
         // set up the default bank
         setDefaultBankCode();
+        updatePayeeTypeForReimbursable();
+    }
+
+    /**
+     * For reimbursable documents, sets the proper payee type code and profile id after a profile lookup
+     */
+    public void updatePayeeTypeForReimbursable() {
+        if (!ObjectUtils.isNull(getTraveler()) && !ObjectUtils.isNull(getTravelPayment()) && !StringUtils.isBlank(getTraveler().getTravelerTypeCode())) {
+            if (getTravelerService().isEmployee(getTraveler())){
+                getTravelPayment().setPayeeTypeCode(KFSConstants.PaymentPayeeTypes.EMPLOYEE);
+                setProfileId(getTemProfileId());
+            }else{
+                getTravelPayment().setPayeeTypeCode(KFSConstants.PaymentPayeeTypes.CUSTOMER);
+            }
+        }
     }
 
     /**

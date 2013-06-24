@@ -78,7 +78,6 @@ import org.kuali.kfs.module.tem.businessobject.TEMProfile;
 import org.kuali.kfs.module.tem.businessobject.TemDistributionAccountingLine;
 import org.kuali.kfs.module.tem.businessobject.TemSourceAccountingLine;
 import org.kuali.kfs.module.tem.businessobject.TravelerDetail;
-import org.kuali.kfs.module.tem.document.TEMReimbursementDocument;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.TravelDocumentBase;
@@ -1540,20 +1539,5 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
         Object[] args = { wireCharge.getDomesticChargeAmt(), wireCharge.getForeignChargeAmt() };
 
         return MessageFormat.format(message, args);
-    }
-
-    /**
-     * For reimbursable documents, sets the proper payee type code and profile id after a profile lookup
-     * @param document the reimbursable document to update
-     */
-    protected void updatePayeeTypeForReimbursable(TEMReimbursementDocument document) {
-        if (!ObjectUtils.isNull(document.getTraveler()) && !ObjectUtils.isNull(document.getTravelPayment())) {
-            if (getTravelerService().isEmployee(document.getTraveler())){
-                document.getTravelPayment().setPayeeTypeCode(KFSConstants.PaymentPayeeTypes.EMPLOYEE);
-                document.setProfileId(document.getTemProfileId());
-            }else{
-                document.getTravelPayment().setPayeeTypeCode(KFSConstants.PaymentPayeeTypes.CUSTOMER);
-            }
-        }
     }
 }

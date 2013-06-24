@@ -46,11 +46,6 @@
 			</list>
 		</property>
 	</bean>
-	
-	<bean id="TravelAuthorization-advanceAccountingLinesTotalValidation" parent="TravelAuthorization-advanceAccountingLinesTotalValidation-parentBean" scope="prototype"/>
-	<bean id="TravelAuthorization-advanceAccountingLinesTotalValidation-parentBean" class="org.kuali.kfs.module.tem.document.validation.impl.TravelAdvanceAccountingTotalsValidation" abstract="true">
-		<property name="debitDeterminerService" ref="debitDeterminerService"/>
-	</bean>
 
 	<bean id="TravelAuthorization-routeDocumentValidation" parent="TravelAuthorization-routeDocumentValidation-parentBean" />
 	<bean id="TravelAuthorization-routeDocumentValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">

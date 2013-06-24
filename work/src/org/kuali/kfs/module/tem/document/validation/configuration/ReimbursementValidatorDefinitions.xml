@@ -88,13 +88,11 @@
 				</bean>
 				<bean parent="NodeSpecificValidation" scope="prototype">
 					<property name="validation">
-						<bean parent="TravelPayment-dataDictionaryValidation" scope="prototype">
-							<property name="parameterProperties">
-								<list>
-									<bean parent="reimbursableTravelPaymentFieldConversion" />
-								</list>
-							</property>
-						</bean>
+						<bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype">
+		                    <property name="parameterProperties">
+		                        <bean parent="validationFieldConversion" p:sourceEventProperty="document.travelPayment" p:targetValidationProperty="businessObjectForValidation" />
+		                    </property>
+		                </bean>
 					</property>
 					<property name="validationNodes">
 						<list>

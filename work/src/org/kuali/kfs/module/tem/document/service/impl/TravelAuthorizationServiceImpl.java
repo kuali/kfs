@@ -37,6 +37,7 @@ import org.kuali.kfs.integration.ar.AccountsReceivableCustomerAddress;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomerInvoice;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomerInvoiceDetail;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomerInvoiceRecurrenceDetails;
+import org.kuali.kfs.integration.ar.AccountsReceivableCustomerType;
 import org.kuali.kfs.integration.ar.AccountsReceivableDocumentHeader;
 import org.kuali.kfs.integration.ar.AccountsReceivableModuleService;
 import org.kuali.kfs.integration.ar.AccountsReceivableOrganizationOptions;
@@ -59,6 +60,7 @@ import org.kuali.kfs.module.tem.document.service.TravelAuthorizationService;
 import org.kuali.kfs.module.tem.document.service.TravelDisbursementService;
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
 import org.kuali.kfs.module.tem.service.TemProfileService;
+import org.kuali.kfs.module.tem.service.TravelerService;
 import org.kuali.kfs.module.tem.util.MessageUtils;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -121,6 +123,18 @@ public class TravelAuthorizationServiceImpl implements TravelAuthorizationServic
         if (enableInvoice && travelAuthorizationDocument.shouldProcessAdvanceForDocument()) {
             KualiDecimal amount = travelAuthorizationDocument.getTravelAdvance().getTravelAdvanceRequested();
             if (KualiDecimal.ZERO.isLessThan(amount)) {
+                TEMProfile profile = travelAuthorizationDocument.getTemProfile();
+                if (profile == null){
+                    //Get the TEM Profile associated with this TA
+                    profile = temProfileService.findTemProfileById(travelAuthorizationDocument.getTemProfileId());
+                }
+                AccountsReceivableCustomer customer = profile.getCustomer();
+
+                if (ObjectUtils.isNull(customer)) {
+                  customer = createNewCustomer(profile);
+
+                }
+
                 createCustomerInvoiceFromAdvances(travelAuthorizationDocument, travelAuthorizationDocument.getTravelAdvance(), amount);
             }
         }
@@ -147,7 +161,7 @@ public class TravelAuthorizationServiceImpl implements TravelAuthorizationServic
                 public Object call() {
                     // need to refactor this so the customer id is stored on the doc, not in travel advances
                     Calendar cal = Calendar.getInstance();
-                    String customerNumber = travelAuthorizationDocument.getTraveler().getCustomerNumber();
+                    String customerNumber = travelAuthorizationDocument.getTemProfile().getCustomerNumber();
                     String orgInvoiceNumber = travelAuthorizationDocument.getTravelDocumentIdentifier();
                     java.util.Date billingDate = dateTimeService.getCurrentDate();
                     cal.setTime(travelAuthorizationDocument.getTripEnd());
@@ -232,7 +246,7 @@ public class TravelAuthorizationServiceImpl implements TravelAuthorizationServic
                     customerInvoiceDocument.setCustomerBillToAddress(customerBillToAddress);
                     customerInvoiceDocument.setCustomerBillToAddressIdentifier(customerBillToAddress.getCustomerAddressIdentifier());
                     customerInvoiceDocument.setBillingAddressTypeCodeAsPrimary();
-                    customerInvoiceDocument.setBillingAddressName(customerBillToAddress.getAccountsReceivableCustomer().getCustomerName());
+                    customerInvoiceDocument.setBillingAddressName(customer.getCustomerName());
                     customerInvoiceDocument.setBillingLine1StreetAddress(customerBillToAddress.getCustomerLine1StreetAddress());
                     customerInvoiceDocument.setBillingLine2StreetAddress(customerBillToAddress.getCustomerLine2StreetAddress());
                     customerInvoiceDocument.setBillingCityName(customerBillToAddress.getCustomerCityName());
@@ -544,6 +558,31 @@ public class TravelAuthorizationServiceImpl implements TravelAuthorizationServic
             LOG.error(e.getMessage(), e);
         }
         return authorizationClose;
+    }
+
+    protected AccountsReceivableCustomer createNewCustomer(TEMProfile profile) {
+        profile.setCustomer(accountsReceivableModuleService.createCustomer());
+        profile.getCustomer().setCustomerName(profile.getName());
+
+        String newCustNumber = accountsReceivableModuleService.getNextCustomerNumber(profile.getCustomer());
+        newCustNumber = newCustNumber.toUpperCase();
+        profile.setCustomerNumber(newCustNumber);
+        profile.getCustomer().setCustomerNumber(newCustNumber);
+
+        //Set to customer type code to travel and make the customer active
+        String customerTypeCode = "";
+        List<AccountsReceivableCustomerType> customerTypes = accountsReceivableModuleService.findByCustomerTypeDescription(TemConstants.CUSTOMER_TRAVLER_TYPE_CODE);
+        for (AccountsReceivableCustomerType customerType : customerTypes) {
+            customerTypeCode = customerType.getCustomerTypeCode();
+            break;
+        }
+        profile.getCustomer().setCustomerTypeCode(customerTypeCode);
+        profile.getCustomer().setActive(true);
+
+        SpringContext.getBean(TravelerService.class).copyTEMProfileToCustomer(profile, profile.getCustomer());
+        accountsReceivableModuleService.saveCustomer(profile.getCustomer());
+
+        return profile.getCustomer();
     }
 
     /**

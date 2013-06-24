@@ -25,8 +25,6 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomer;
-import org.kuali.kfs.integration.ar.AccountsReceivableCustomerAddress;
-import org.kuali.kfs.integration.ar.AccountsReceivableCustomerType;
 import org.kuali.kfs.integration.ar.AccountsReceivableModuleService;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
@@ -209,69 +207,69 @@ public class TEMProfileMaintainable extends FinancialSystemMaintainable {
      */
     @Override
     public void doRouteStatusChange(DocumentHeader documentHeader) {
-        if (documentHeader.getWorkflowDocument().isFinal()
-                || documentHeader.getWorkflowDocument().isProcessed()){
-            TEMProfile profile = (TEMProfile) businessObject;
-
-            if (profile.getCustomer() == null){
-                if (StringUtils.isEmpty(profile.getCustomerNumber())){
-                    profile.setCustomer(getAccountsReceivableModuleService().createCustomer());
-                    profile.getCustomer().setCustomerName(profile.getName());
-
-                    String newCustNumber = getAccountsReceivableModuleService().getNextCustomerNumber(profile.getCustomer());
-                    newCustNumber = newCustNumber.toUpperCase();
-                    profile.setCustomerNumber(newCustNumber);
-                    profile.getCustomer().setCustomerNumber(newCustNumber);
-
-                    //Set to customer type code to travel and make the customer active
-                    String customerTypeCode = "";
-                    List<AccountsReceivableCustomerType> customerTypes = getAccountsReceivableModuleService().findByCustomerTypeDescription(TemConstants.CUSTOMER_TRAVLER_TYPE_CODE);
-                    for (AccountsReceivableCustomerType customerType : customerTypes) {
-                    	customerTypeCode = customerType.getCustomerTypeCode();
-                    	break;
-                    }
-                    profile.getCustomer().setCustomerTypeCode(customerTypeCode);
-                    profile.getCustomer().setActive(true);
-
-                    getTravelerService().copyTEMProfileToCustomer(profile, profile.getCustomer());
-
-
-                    try {
-                    	//Add note to indicate a customer has been generated for this profile to the document
-                    	MaintenanceDocument document = (MaintenanceDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(getDocumentNumber());
-                    	document.addNote(addCustomerCreatedNote(profile));
-
-                    	//Update the document with the latest profile with the newly generated customer number
-                    	document.getNewMaintainableObject().setBusinessObject(profile);
-
-                    	//Save the document and generated customer
-                    	SpringContext.getBean(DocumentService.class).saveDocument(document);
-                    	getAccountsReceivableModuleService().saveCustomer(profile.getCustomer());
-
-                    	//Refresh all the reference objects after the save
-                    	List<AccountsReceivableCustomerAddress> customerAddresses = profile.getCustomer().getAccountsReceivableCustomerAddresses();
-                    	for(AccountsReceivableCustomerAddress address : customerAddresses) {
-                    		address.refresh();
-                    	}
-                    	profile.getCustomer().setAccountsReceivableCustomerAddresses(customerAddresses);
-
-                    	profile.refresh();
-                    	profile.getCustomer().refresh();
-					} catch (WorkflowException ex) {
-			            throw new RuntimeException(ex);
-					}
-
-                    documentHeader.setDocumentDescription(trimDescription(TemConstants.NEW_TEM_PROFILE_DESCRIPTION_PREFIX + profile.getCustomer().getCustomerName()));
-                }
-                else{
-                    profile.setCustomer(getAccountsReceivableModuleService().findCustomer(profile.getCustomerNumber()));
-                    getTravelerService().copyTEMProfileToCustomer(profile, profile.getCustomer());
-                }
-            }
-            else{
-                getTravelerService().copyTEMProfileToCustomer(profile, profile.getCustomer());
-            }
-        }
+//        if (documentHeader.getWorkflowDocument().isFinal()
+//                || documentHeader.getWorkflowDocument().isProcessed()){
+//            TEMProfile profile = (TEMProfile) businessObject;
+//
+//            if (profile.getCustomer() == null){
+//                if (StringUtils.isEmpty(profile.getCustomerNumber())){
+//                    profile.setCustomer(getAccountsReceivableModuleService().createCustomer());
+//                    profile.getCustomer().setCustomerName(profile.getName());
+//
+//                    String newCustNumber = getAccountsReceivableModuleService().getNextCustomerNumber(profile.getCustomer());
+//                    newCustNumber = newCustNumber.toUpperCase();
+//                    profile.setCustomerNumber(newCustNumber);
+//                    profile.getCustomer().setCustomerNumber(newCustNumber);
+//
+//                    //Set to customer type code to travel and make the customer active
+//                    String customerTypeCode = "";
+//                    List<AccountsReceivableCustomerType> customerTypes = getAccountsReceivableModuleService().findByCustomerTypeDescription(TemConstants.CUSTOMER_TRAVLER_TYPE_CODE);
+//                    for (AccountsReceivableCustomerType customerType : customerTypes) {
+//                    	customerTypeCode = customerType.getCustomerTypeCode();
+//                    	break;
+//                    }
+//                    profile.getCustomer().setCustomerTypeCode(customerTypeCode);
+//                    profile.getCustomer().setActive(true);
+//
+//                    getTravelerService().copyTEMProfileToCustomer(profile, profile.getCustomer());
+//
+//
+//                    try {
+//                    	//Add note to indicate a customer has been generated for this profile to the document
+//                    	MaintenanceDocument document = (MaintenanceDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(getDocumentNumber());
+//                    	document.addNote(addCustomerCreatedNote(profile));
+//
+//                    	//Update the document with the latest profile with the newly generated customer number
+//                    	document.getNewMaintainableObject().setBusinessObject(profile);
+//
+//                    	//Save the document and generated customer
+//                    	SpringContext.getBean(DocumentService.class).saveDocument(document);
+//                    	getAccountsReceivableModuleService().saveCustomer(profile.getCustomer());
+//
+//                    	//Refresh all the reference objects after the save
+//                    	List<AccountsReceivableCustomerAddress> customerAddresses = profile.getCustomer().getAccountsReceivableCustomerAddresses();
+//                    	for(AccountsReceivableCustomerAddress address : customerAddresses) {
+//                    		address.refresh();
+//                    	}
+//                    	profile.getCustomer().setAccountsReceivableCustomerAddresses(customerAddresses);
+//
+//                    	profile.refresh();
+//                    	profile.getCustomer().refresh();
+//					} catch (WorkflowException ex) {
+//			            throw new RuntimeException(ex);
+//					}
+//
+//                    documentHeader.setDocumentDescription(trimDescription(TemConstants.NEW_TEM_PROFILE_DESCRIPTION_PREFIX + profile.getCustomer().getCustomerName()));
+//                }
+//                else{
+//                    profile.setCustomer(getAccountsReceivableModuleService().findCustomer(profile.getCustomerNumber()));
+//                    getTravelerService().copyTEMProfileToCustomer(profile, profile.getCustomer());
+//                }
+//            }
+//            else{
+//                getTravelerService().copyTEMProfileToCustomer(profile, profile.getCustomer());
+//            }
+//        }
     }
 
     /**

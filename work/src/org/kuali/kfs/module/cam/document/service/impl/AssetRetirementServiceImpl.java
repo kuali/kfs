@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -56,7 +56,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
 public class AssetRetirementServiceImpl implements AssetRetirementService {
 
     protected enum AmountCategory {
-        
+
         CAPITALIZATION {
             void setParams(AssetGlpeSourceDetail postable, AssetPayment assetPayment, AssetObjectCode assetObjectCode) {
                 postable.setCapitalization(true);
@@ -273,9 +273,9 @@ public class AssetRetirementServiceImpl implements AssetRetirementService {
      */
     public boolean isAllowedRetireMultipleAssets(MaintenanceDocument maintenanceDocument) {
         FinancialSystemMaintenanceDocumentAuthorizerBase documentAuthorizer = (FinancialSystemMaintenanceDocumentAuthorizerBase) SpringContext.getBean(DocumentDictionaryService.class).getDocumentAuthorizer(maintenanceDocument);
-        boolean isAuthorized = documentAuthorizer.isAuthorized(maintenanceDocument, CamsConstants.CAM_MODULE_CODE, 
+        boolean isAuthorized = documentAuthorizer.isAuthorized(maintenanceDocument, CamsConstants.CAM_MODULE_CODE,
                 CamsConstants.PermissionNames.RETIRE_MULTIPLE, GlobalVariables.getUserSession().getPerson().getPrincipalId());
-        
+
         return isAuthorized;
     }
 
@@ -302,7 +302,7 @@ public class AssetRetirementServiceImpl implements AssetRetirementService {
 
     /**
      * Generate a collection of Postables for each payment.
-     * 
+     *
      * @param documentNumber
      * @param assetRetirementGlPoster
      * @param asset
@@ -331,7 +331,7 @@ public class AssetRetirementServiceImpl implements AssetRetirementService {
 
     /**
      * This method creates one postable and sets the values.
-     * 
+     *
      * @param category
      * @param asset
      * @param assetPayment
@@ -373,7 +373,7 @@ public class AssetRetirementServiceImpl implements AssetRetirementService {
 
     /**
      * Get the offset Object Code.
-     * 
+     *
      * @param asset
      * @return
      */
@@ -393,7 +393,7 @@ public class AssetRetirementServiceImpl implements AssetRetirementService {
 
     /**
      * Get the corresponding Plant Fund Account object based on the payment's financialObjectSubTypeCode.
-     * 
+     *
      * @param asset
      * @param payment
      * @return
@@ -420,10 +420,10 @@ public class AssetRetirementServiceImpl implements AssetRetirementService {
 
         return plantFundAccount;
     }
-    
+
     /**
      * This method generates the calculatedTotal amount based on salePrice + handlingFeeAmount + preventiveMaintenanceAmount.
-     * 
+     *
      * @param salePrice
      * @param handlingFeeAmount
      * @param preventiveMaintenanceAmount
@@ -459,7 +459,7 @@ public class AssetRetirementServiceImpl implements AssetRetirementService {
 
     /**
      * This method converts a String to a KualiDecimal via Double. Or else returns a Zero to invoke proper error message and to avoid breaking DWR call
-     * 
+     *
      * @param amount
      * @return
      */
@@ -474,3 +474,4 @@ public class AssetRetirementServiceImpl implements AssetRetirementService {
     }
 
 }
+

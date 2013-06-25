@@ -899,6 +899,7 @@ public class TemConstants {
 
     public static class EditModes {
         public static final String CHECK_AMOUNT_ENTRY = "checkAmountEntry";
+        public static final String ACTUAL_EXPENSE_TAXABLE_MODE = "actualExpenseTaxableEntry";
     }
 
     public static final String TRAVEL_PAYMENT_TAB_ERRORS = "TravelPaymentErrors,document.travelPayment.checkTotalAmount,document.travelPayment.dueDate,document.travelPayment.alienPaymentCode," + "document.travelPayment.payeeEmployeeCode,document.travelPayment.attachmentCode,document.travelPayment.specialHandlingCode,document.travelPayment.payeeW9CompleteCode" + "document.travelPayment.paymentMethodCode,document.travelPayment.paymentDocumentationLocationCode,document.travelPayment.checkStubText";

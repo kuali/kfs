@@ -169,14 +169,6 @@ public class TEMRoleServiceImpl implements TEMRoleService{
     }
 
     /**
-     * @see org.kuali.kfs.module.tem.service.TEMRoleService#isFiscalOfficer(org.kuali.rice.kim.bo.Person)
-     */
-    @Override
-    public boolean isFiscalOfficer(final Person user) {
-        return checkUserRole(user, KFSConstants.SysKimApiConstants.FISCAL_OFFICER_KIM_ROLE_NAME, KFSConstants.CoreModuleNamespaces.KFS, null);
-    }
-
-    /**
      * @see org.kuali.kfs.module.tem.service.TEMRoleService#checkUserTEMRole(org.kuali.rice.kim.bo.Person, java.lang.String)
      */
     @Override

@@ -22,7 +22,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.module.tem.TemConstants;
-import org.kuali.kfs.module.tem.TemConstants.TravelStatusCodeKeys;
 import org.kuali.kfs.module.tem.TemPropertyConstants.TEMProfileProperties;
 import org.kuali.kfs.module.tem.businessobject.TEMProfile;
 import org.kuali.kfs.module.tem.businessobject.TravelerDetail;
@@ -95,36 +94,6 @@ abstract public class TravelArrangeableAuthorizer extends AccountingDocumentAuth
     public boolean canEditDocument(Document document, Person user) {
      // override base implementation to only allow initiator to edit doc overview
         return isAuthorizedByTemplate(document, KRADConstants.KNS_NAMESPACE, KimConstants.PermissionTemplateNames.EDIT_DOCUMENT, user.getPrincipalId());
-    }
-
-    /**
-     * Only initiator, arranger and FO can save doc under the following criteria
-     *
-     * 1) Initiator/Arranger or Travel Manager - if the document is saved or initiated
-     *
-     * SW: why does FO need to save if all they do is changing accounting lines??
-     * 2) FO - if the document is enrouted
-     *           - on the Awaiting Fiscal Officer Review app doc status
-     *           - approval is requested
-     *
-     * @param travelDocument
-     * @param user
-     * @return
-     */
-    public boolean canSave(TravelDocument travelDocument, Person user) {
-        boolean canSave = false;
-
-        WorkflowDocument workflowDocument = travelDocument.getDocumentHeader().getWorkflowDocument();
-        if ((getTravelService().isUserInitiatorOrArranger(travelDocument, user) || getTemRoleService().isTravelManager(user))&&
-                (workflowDocument.isInitiated() ||  workflowDocument.isSaved())){
-            canSave = true;
-        }else if (getTravelDocumentService().isResponsibleForAccountsOn(travelDocument, user.getPrincipalId())
-                && workflowDocument.isEnroute() && TravelStatusCodeKeys.AWAIT_FISCAL.equals(workflowDocument.getApplicationDocumentStatus())
-                && workflowDocument.isApprovalRequested()){
-            canSave = true;
-        }
-
-        return canSave;
     }
 
     public boolean canTaxSelectable(final Person user){

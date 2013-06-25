@@ -659,7 +659,7 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
     @Override
     public boolean generateDocumentGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
         boolean success = super.generateDocumentGeneralLedgerPendingEntries(sequenceHelper);
-        if (!ObjectUtils.isNull(getTravelAdvance()) && getTravelAdvance().isAtLeastPartiallyFilledIn() && getTravelAdvance().getTravelAdvanceRequested() != null) {
+        if (shouldProcessAdvanceForDocument() && getTravelAdvance().getTravelAdvanceRequested() != null) {
             // generate wire entries
             if (!StringUtils.isBlank(getAdvanceTravelPayment().getPaymentMethodCode())) {
                 if (KFSConstants.PaymentSourceConstants.PAYMENT_METHOD_WIRE.equals(getAdvanceTravelPayment().getPaymentMethodCode()) && !getWireTransfer().isWireTransferFeeWaiverIndicator()) {

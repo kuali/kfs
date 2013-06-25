@@ -138,7 +138,7 @@
 						<map>
 							<entry>
 								<key><value>validateTravelAdvance</value></key>
-								<bean parent="TravelAuthorizationDocument-travelAdvanceAndPamentValidation" scope="prototype" />
+								<bean parent="TravelAuthorizationDocument-travelAdvanceAndPaymentValidation" scope="prototype" />
 							</entry>
 						</map>
 					</property>

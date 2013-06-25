@@ -24,9 +24,9 @@ import java.util.Map;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemConstants.TravelStatusCodeKeys;
 import org.kuali.kfs.module.tem.TemPropertyConstants.TEMProfileProperties;
+import org.kuali.kfs.module.tem.businessobject.TEMProfile;
 import org.kuali.kfs.module.tem.businessobject.TravelerDetail;
 import org.kuali.kfs.module.tem.document.TravelDocument;
-import org.kuali.kfs.module.tem.document.TravelDocumentBase;
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
 import org.kuali.kfs.module.tem.service.TEMRoleService;
 import org.kuali.kfs.module.tem.service.TravelService;
@@ -41,6 +41,7 @@ import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.role.RoleService;
 import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
 
@@ -51,7 +52,8 @@ import org.kuali.rice.krad.util.ObjectUtils;
  */
 abstract public class TravelArrangeableAuthorizer extends AccountingDocumentAuthorizerBase implements ReturnToFiscalOfficerAuthorizer {
 
-    private RoleService roleService;
+    private volatile RoleService roleService;
+    private volatile BusinessObjectService businessObjectService;
 
     /**
      * @see org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase#addRoleQualification(org.kuali.rice.kns.bo.BusinessObject,java.util.Map)
@@ -59,11 +61,19 @@ abstract public class TravelArrangeableAuthorizer extends AccountingDocumentAuth
     @Override
     protected void addRoleQualification(Object dataObject, Map<String, String> qualification) {
         super.addRoleQualification(dataObject, qualification);
-        TravelDocumentBase document = (TravelDocumentBase) dataObject;
-        // add the qualifications - profile and document type
-        if (ObjectUtils.isNotNull(document.getProfileId())) {
-            qualification.put(TEMProfileProperties.PROFILE_ID, document.getProfileId().toString());
-            qualification.put(KFSPropertyConstants.DOCUMENT_TYPE_NAME, document.getDocumentTypeName());
+        if (dataObject instanceof TravelDocument) {
+            TravelDocument document = (TravelDocument) dataObject;
+            // add the qualifications - profile and document type
+            if (ObjectUtils.isNotNull(document.getProfileId())) {
+                qualification.put(TEMProfileProperties.PROFILE_ID, document.getProfileId().toString());
+                qualification.put(KFSPropertyConstants.DOCUMENT_TYPE_NAME, document.getDocumentTypeName());
+
+                final TEMProfile profile = getBusinessObjectService().findBySinglePrimaryKey(TEMProfile.class, document.getProfileId());
+                if (profile != null) {
+                    qualification.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, profile.getHomeDeptChartOfAccountsCode());
+                    qualification.put(KFSPropertyConstants.ORGANIZATION_CODE, profile.getHomeDeptOrgCode());
+                }
+            }
         }
     }
 
@@ -223,6 +233,16 @@ abstract public class TravelArrangeableAuthorizer extends AccountingDocumentAuth
             roleService = SpringContext.getBean(RoleService.class);
         }
         return roleService;
+    }
+
+    /**
+     * @return the default implementation of the BusinessObjectService
+     */
+    protected BusinessObjectService getBusinessObjectService() {
+        if (businessObjectService == null) {
+            businessObjectService = SpringContext.getBean(BusinessObjectService.class);
+        }
+        return businessObjectService;
     }
 
 }

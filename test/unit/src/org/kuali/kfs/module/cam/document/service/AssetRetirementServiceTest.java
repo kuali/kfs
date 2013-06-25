@@ -105,3 +105,4 @@ public class AssetRetirementServiceTest extends KualiTestBase {
         assertNull(glPostable.getReferenceTypeCode());
     }
 }
+

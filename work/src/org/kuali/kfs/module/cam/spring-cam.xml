@@ -362,7 +362,7 @@
     	<property name="parameterService" ref="parameterService" />
     	<property name="assetService" ref="assetService" />
 	<property name="objectCodeService" ref="objectCodeService" />
-	<property naem="organizationService" ref="organizationService" />
+	<property name="organizationService" ref="organizationService" />
     </bean>
 
     <bean id="assetObjectCodeService"  parent="assetObjectCodeService-parentBean"/>

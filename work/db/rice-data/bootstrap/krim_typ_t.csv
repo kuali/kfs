@@ -1,41 +1,41 @@
-"KIM_TYP_ID","OBJ_ID","VER_NBR","NM","SRVC_NM","ACTV_IND","NMSPC_CD"
-"23","23","1","Contracts & Grants Responsibility","{http://kfs.kuali.org/kfs/v5_0}contractsAndGrantsResponsibilityRoleTypeService","Y","KFS-CG"
-"24","24","1","Research Risk & Document Type","{http://kfs.kuali.org/kfs/v5_0}researchRiskReviewRoleTypeService","Y","KFS-CG"
-"25","25","1","Chart","{http://kfs.kuali.org/kfs/v5_0}chartRoleTypeService","Y","KFS-COA"
-"26","26","1","Account","{http://kfs.kuali.org/kfs/v5_0}accountRoleTypeService","Y","KFS-COA"
-"27","27","1","Organization","{http://kfs.kuali.org/kfs/v5_0}organizationRoleTypeService","Y","KFS-COA"
-"28","28","1","Organization: Optionally Hierarchical","{http://kfs.kuali.org/kfs/v5_0}organizationOptionalHierarchyQualifierRoleTypeService","Y","KFS-SYS"
-"29","29","1","Organization: Always Hierarchical & Document Type","{http://kfs.kuali.org/kfs/v5_0}organizationHierarchyReviewRoleTypeService","Y","KFS-SYS"
-"30","30","1","Organization: Always Hierarchical, Document Type & Accounting","{http://kfs.kuali.org/kfs/v5_0}accountingOrganizationHierarchyReviewRoleTypeService","Y","KFS-SYS"
-"31","31","1","Sub-Fund & Document Type","{http://kfs.kuali.org/kfs/v5_0}subFundReviewRoleTypeService","Y","KFS-COA"
-"32","32","1","Customer","{http://kfs.kuali.org/kfs/v5_0}customerRoleTypeService","Y","KFS-PDP"
-"33","33","1","Commodity & Document Type","{http://kfs.kuali.org/kfs/v5_0}commodityReviewRoleTypeService","Y","KFS-VND"
-"34","34","1","Contract Manager","{http://kfs.kuali.org/kfs/v5_0}contractManagerRoleTypeService","Y","KFS-VND"
-"35","35","1","Sensitive Data","{http://kfs.kuali.org/kfs/v5_0}sensitiveDataRoleTypeService","Y","KFS-PURAP"
-"36","36","1","Financial System User","{http://kfs.kuali.org/kfs/v5_0}financialSystemUserRoleTypeService","Y","KFS-SYS"
-"37","37","1","Vendor Type","{http://kfs.kuali.org/kfs/v5_0}vendorTypeRoleTypeService","Y","KFS-VND"
-"38","38","1","Derived Role: Accounts Receivable Organization","{http://kfs.kuali.org/kfs/v5_0}accountsReceivableOrganizationDerivedRoleTypeService","Y","KFS-AR"
-"39","39","1","Derived Role: Account","{http://kfs.kuali.org/kfs/v5_0}accountDerivedRoleTypeService","Y","KFS-COA"
-"40","40","1","Derived Role: Chart","{http://kfs.kuali.org/kfs/v5_0}chartDerivedRoleTypeService","Y","KFS-COA"
-"41","41","1","Derived Role: Employee","{http://kfs.kuali.org/kfs/v5_0}employeeDerivedRoleTypeService","Y","KFS-SYS"
-"46","46","1","Payment Method","{http://kfs.kuali.org/kfs/v5_0}paymentMethodRoleTypeService","Y","KFS-SYS"
-"47","47","1","Sub-Account & Document Type","{http://kfs.kuali.org/kfs/v5_0}subAccountReviewRoleTypeService","Y","KFS-COA"
-"48","48","1","Derived Role: Purchasing Document","{http://kfs.kuali.org/kfs/v5_0}relatedDocumentDerivedRoleTypeService","Y","KFS-PURAP"
-"50","50","1","Derived Role: Asset Document","{http://kfs.kuali.org/kfs/v5_0}assetDerivedRoleTypeService","Y","KFS-CAM"
-"51","51","1","Financial System Document Type","{http://kfs.kuali.org/kfs/v5_0}financialSystemDocumentTypePermissionTypeService","Y","KFS-SYS"
-"53","53","1","Derived Role: Budget Construction Document","{http://kfs.kuali.org/kfs/v5_0}budgetConstructionDocumentDerivedRoleTypeService","Y","KFS-BC"
-"58","58","1","Derived Role: Permission (Modify Batch Job)","{http://kfs.kuali.org/kfs/v5_0}batchJobModifierRoleTypeService","Y","KFS-SYS"
-"6","6","1","Account Organization Hierarchy","{http://kfs.kuali.org/kfs/v5_0}budgetConstructionAccountOrganizationHierarchyRoleTypeService","Y","KFS-BC"
-"61","61","1","Derived Role: Payment Request Hold / Cancel Initiator","{http://kfs.kuali.org/kfs/v5_0}paymentRequestHoldCancelInitiatorDerivedRoleTypeService","Y","KFS-PURAP"
-"62","62","1","Sensitive Document Indicator","{http://kfs.kuali.org/kfs/v5_0}potentiallySensitiveDocumentRoleTypeService","Y","KFS-PURAP"
-"64","64","1","Derived Role: Invoice Recurrence","{http://kfs.kuali.org/kfs/v5_0}invoiceRecurrenceDerivedRoleTypeService","Y","KFS-AR"
-"65","65","1","Derived Role: Cash Receipt Initiator","{http://kfs.kuali.org/kfs/v5_0}cashReceiptInitiatorDerivedRoleTypeService","Y","KFS-FP"
-"KFS68","KFS68","1","Organization Group","{http://kfs.kuali.org/kfs/v5_0}organizationGroupTypeService","Y","KFS-COA"
-"KFS69","KFS69","1","Derived Role: Accounts Payable Document Reviewer","{http://kfs.kuali.org/kfs/v5_0}accountsPayableDocumentDerivedRoleTypeService","Y","KFS-PURAP"
-"KFSSEC1","KFSSEC1","1","Attribute Name & Document Type","{http://kfs.kuali.org/kfs/v5_0}securityAttributeDocTypePermissionTypeService","Y","KFS-SEC"
-"KFSSEC2","KFSSEC2","1","Attribute Name","{http://kfs.kuali.org/kfs/v5_0}securityAttributePermissionTypeService","Y","KFS-SEC"
-"KFSSEC3","KFSSEC3","1","Attribute Name & Namespace","{http://kfs.kuali.org/kfs/v5_0}securityAttributeNamespacePermissionTypeService","Y","KFS-SEC"
-"KFSSEC4","KFSSEC4","1","Constraint, Operator, & Value","{http://kfs.kuali.org/kfs/v5_0}securityAttributeRoleTypeService","Y","KFS-SEC"
+KIM_TYP_ID,OBJ_ID,VER_NBR,NM,SRVC_NM,ACTV_IND,NMSPC_CD
+23,23,1,Contracts & Grants Responsibility,{http://kfs.kuali.org/kfs/v5_0}contractsAndGrantsResponsibilityRoleTypeService,Y,KFS-CG
+24,24,1,Research Risk & Document Type,{http://kfs.kuali.org/kfs/v5_0}researchRiskReviewRoleTypeService,Y,KFS-CG
+25,25,1,Chart,{http://kfs.kuali.org/kfs/v5_0}chartRoleTypeService,Y,KFS-COA
+26,26,1,Account,{http://kfs.kuali.org/kfs/v5_0}accountRoleTypeService,Y,KFS-COA
+27,27,1,Organization,{http://kfs.kuali.org/kfs/v5_0}organizationRoleTypeService,Y,KFS-COA
+28,28,1,Organization: Optionally Hierarchical,{http://kfs.kuali.org/kfs/v5_0}organizationOptionalHierarchyQualifierRoleTypeService,Y,KFS-SYS
+29,29,1,Organization: Always Hierarchical & Document Type,{http://kfs.kuali.org/kfs/v5_0}organizationHierarchyReviewRoleTypeService,Y,KFS-SYS
+30,30,1,"Organization: Always Hierarchical, Document Type & Accounting",{http://kfs.kuali.org/kfs/v5_0}accountingOrganizationHierarchyReviewRoleTypeService,Y,KFS-SYS
+31,31,1,Sub-Fund & Document Type,{http://kfs.kuali.org/kfs/v5_0}subFundReviewRoleTypeService,Y,KFS-COA
+32,32,1,Customer,{http://kfs.kuali.org/kfs/v5_0}customerRoleTypeService,Y,KFS-PDP
+33,33,1,Commodity & Document Type,{http://kfs.kuali.org/kfs/v5_0}commodityReviewRoleTypeService,Y,KFS-VND
+34,34,1,Contract Manager,{http://kfs.kuali.org/kfs/v5_0}contractManagerRoleTypeService,Y,KFS-VND
+35,35,1,Sensitive Data,{http://kfs.kuali.org/kfs/v5_0}sensitiveDataRoleTypeService,Y,KFS-PURAP
+36,36,1,Financial System User,{http://kfs.kuali.org/kfs/v5_0}financialSystemUserRoleTypeService,Y,KFS-SYS
+37,37,1,Vendor Type,{http://kfs.kuali.org/kfs/v5_0}vendorTypeRoleTypeService,Y,KFS-VND
+38,38,1,Derived Role: Accounts Receivable Organization,{http://kfs.kuali.org/kfs/v5_0}accountsReceivableOrganizationDerivedRoleTypeService,Y,KFS-AR
+39,39,1,Derived Role: Account,{http://kfs.kuali.org/kfs/v5_0}accountDerivedRoleTypeService,Y,KFS-COA
+40,40,1,Derived Role: Chart,{http://kfs.kuali.org/kfs/v5_0}chartDerivedRoleTypeService,Y,KFS-COA
+41,41,1,Derived Role: Employee,{http://kfs.kuali.org/kfs/v5_0}employeeDerivedRoleTypeService,Y,KFS-SYS
+46,46,1,Payment Method,{http://kfs.kuali.org/kfs/v5_0}paymentMethodRoleTypeService,Y,KFS-SYS
+47,47,1,Sub-Account & Document Type,{http://kfs.kuali.org/kfs/v5_0}subAccountReviewRoleTypeService,Y,KFS-COA
+48,48,1,Derived Role: Purchasing Document,{http://kfs.kuali.org/kfs/v5_0}relatedDocumentDerivedRoleTypeService,Y,KFS-PURAP
+50,50,1,Derived Role: Asset Document,{http://kfs.kuali.org/kfs/v5_0}assetDerivedRoleTypeService,Y,KFS-CAM
+51,51,1,Financial System Document Type,{http://kfs.kuali.org/kfs/v5_0}financialSystemDocumentTypePermissionTypeService,Y,KFS-SYS
+53,53,1,Derived Role: Budget Construction Document,{http://kfs.kuali.org/kfs/v5_0}budgetConstructionDocumentDerivedRoleTypeService,Y,KFS-BC
+58,58,1,Derived Role: Permission (Modify Batch Job),{http://kfs.kuali.org/kfs/v5_0}batchJobModifierRoleTypeService,Y,KFS-SYS
+6,6,1,Account Organization Hierarchy,{http://kfs.kuali.org/kfs/v5_0}budgetConstructionAccountOrganizationHierarchyRoleTypeService,Y,KFS-BC
+61,61,1,Derived Role: Payment Request Hold / Cancel Initiator,{http://kfs.kuali.org/kfs/v5_0}paymentRequestHoldCancelInitiatorDerivedRoleTypeService,Y,KFS-PURAP
+62,62,1,Sensitive Document Indicator,{http://kfs.kuali.org/kfs/v5_0}potentiallySensitiveDocumentRoleTypeService,Y,KFS-PURAP
+64,64,1,Derived Role: Invoice Recurrence,{http://kfs.kuali.org/kfs/v5_0}invoiceRecurrenceDerivedRoleTypeService,Y,KFS-AR
+65,65,1,Derived Role: Cash Receipt Initiator,{http://kfs.kuali.org/kfs/v5_0}cashReceiptInitiatorDerivedRoleTypeService,Y,KFS-FP
+KFS68,KFS68,1,Organization Group,{http://kfs.kuali.org/kfs/v5_0}organizationGroupTypeService,Y,KFS-COA
+KFS69,KFS69,1,Derived Role: Accounts Payable Document Reviewer,{http://kfs.kuali.org/kfs/v5_0}accountsPayableDocumentDerivedRoleTypeService,Y,KFS-PURAP
+KFSSEC1,KFSSEC1,1,Attribute Name & Document Type,{http://kfs.kuali.org/kfs/v5_0}securityAttributeDocTypePermissionTypeService,Y,KFS-SEC
+KFSSEC2,KFSSEC2,1,Attribute Name,{http://kfs.kuali.org/kfs/v5_0}securityAttributePermissionTypeService,Y,KFS-SEC
+KFSSEC3,KFSSEC3,1,Attribute Name & Namespace,{http://kfs.kuali.org/kfs/v5_0}securityAttributeNamespacePermissionTypeService,Y,KFS-SEC
+KFSSEC4,KFSSEC4,1,"Constraint, Operator, & Value",{http://kfs.kuali.org/kfs/v5_0}securityAttributeRoleTypeService,Y,KFS-SEC
 KFSMI4553-1,KFSMI4553-1,1,Exclude Single Actor Separation Of Duties,{http://kfs.kuali.org/kfs/v5_0}excludeSingleActorSeparationOfDutiesRoleTypeService,Y,KFS-SYS
 KFSMI6886-TYP,KFSMI6886-TYP,1,Payee ACH Account,{http://kfs.kuali.org/kfs/v5_0}payeeACHAccountRoleTypeService,Y,KFS-PDP
 KFSCNTRB199-TYP1,KFSCNTRB199-TYP1,1,Namespace or File Path,{http://kfs.kuali.org/kfs/v5_0}namespaceOrFilePathPermissionTypeService,Y,KFS-SYS

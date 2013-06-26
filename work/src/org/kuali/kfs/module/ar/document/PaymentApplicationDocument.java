@@ -89,7 +89,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
 /**
  * Payment Application Document.
  */
-public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase implements GeneralLedgerPendingEntrySource, Correctable, Copyable {
+public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase implements GeneralLedgerPendingEntrySource, AmountTotaling, Correctable, Copyable {
 
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PaymentApplicationDocument.class);
 

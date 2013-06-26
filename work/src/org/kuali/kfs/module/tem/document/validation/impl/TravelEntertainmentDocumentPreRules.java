@@ -52,23 +52,32 @@ public class TravelEntertainmentDocumentPreRules extends PromptBeforeValidationB
             }
         }
 
+        boolean shouldAskQuestion = false;
         String question = "";
         String proceed=SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(TemKeyConstants.TEM_ENT_QUESTION_PROCEED);
         if(entDoc.getAttendeeListAttached()!=null&&entDoc.getAttendeeListAttached()&&!attendeelistAttached){
             question = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(TemKeyConstants.TEM_ENT_DOC_ATTENDEE_LIST_QUESTION);
+            shouldAskQuestion = true;
         }
         else if (entDoc.getNonEmployeeCertified()!=null&&entDoc.getNonEmployeeCertified()&&!nonEmployeeFormAttached){
             question = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(TemKeyConstants.TEM_ENT_NON_EMPLOYEE_FORM_QUESTION);
+            shouldAskQuestion = true;
         }
         else if (entDoc.getHostCertified()!=null&&entDoc.getHostCertified()&&!hostCertificationAttached){
             question = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(TemKeyConstants.TEM_ENT_HOST_CERTIFICATION_QUESTION);
+            shouldAskQuestion = true;
         }
 
-        boolean userClickedYes = super.askOrAnalyzeYesNoQuestion("ENT_WARNING", question + proceed);
-        if (!userClickedYes) {
-            this.event.setActionForwardName(KFSConstants.MAPPING_BASIC);
+        if (shouldAskQuestion) {
+            boolean userClickedYes = super.askOrAnalyzeYesNoQuestion("ENT_WARNING", question + proceed);
+            if (!userClickedYes) {
+                this.event.setActionForwardName(KFSConstants.MAPPING_BASIC);
+            }
+            return userClickedYes;
         }
-
-        return userClickedYes;
+        else {
+            //no question necessary- continue as normal
+            return true;
+        }
     }
 }

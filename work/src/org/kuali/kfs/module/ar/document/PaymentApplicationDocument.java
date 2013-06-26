@@ -49,6 +49,7 @@ import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.kfs.sys.document.GeneralLedgerPendingEntrySource;
 import org.kuali.kfs.sys.document.GeneralLedgerPostingDocumentBase;
 import org.kuali.kfs.sys.service.FinancialSystemUserService;
@@ -72,7 +73,7 @@ import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 
-public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase implements GeneralLedgerPendingEntrySource {
+public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase implements AmountTotaling, GeneralLedgerPendingEntrySource {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PaymentApplicationDocument.class);
 
     protected static final String LAUNCHED_FROM_BATCH = "LaunchedBySystemUser";
@@ -252,6 +253,14 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
         amount = amount.add(getSumOfNonInvoiceds());
         amount = amount.add(getNonAppliedHoldingAmount());
         return amount;
+    }
+
+    /**
+     * @see org.kuali.kfs.sys.document.AmountTotaling#getTotalDollarAmount()- added for KFSCNTRB-1533/ KFSMI-10308
+     */
+    @Override
+    public KualiDecimal getTotalDollarAmount() {
+        return getTotalApplied();
     }
 
     /**

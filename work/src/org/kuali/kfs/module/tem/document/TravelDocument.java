@@ -94,7 +94,6 @@ public interface TravelDocument extends AccountingDocument, TravelEntertainmentM
      */
     void setTravelDocumentLinkIdentifier(Integer travelDocumentLinkIdentifier);
 
-    @Override
     /**
      * Gets the traveler attribute.
      *

@@ -15,15 +15,16 @@
  */
 package org.kuali.kfs.module.tem.document.authorization;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import org.kuali.kfs.module.tem.TemConstants;
-import org.kuali.kfs.module.tem.TemConstants.TravelDocTypes;
+import org.kuali.kfs.module.tem.businessobject.TemSourceAccountingLine;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 public class TravelAuthorizationAuthorizer extends TravelArrangeableAuthorizer {
@@ -36,7 +37,7 @@ public class TravelAuthorizationAuthorizer extends TravelArrangeableAuthorizer {
      * @return
      */
     public boolean canClose(final TravelDocument taDoc, final Person user) {
-        return getActionPermission(taDoc, user, TemConstants.Permission.CLOSE_TA, true);
+        return getActionPermission(taDoc, user, TemConstants.Permission.CLOSE_TA);
     }
 
     /**
@@ -47,7 +48,7 @@ public class TravelAuthorizationAuthorizer extends TravelArrangeableAuthorizer {
      * @return
      */
     public boolean canAmend(final TravelDocument taDoc, final Person user) {
-        return getActionPermission(taDoc, user, TemConstants.Permission.AMEND_TA, true);
+        return getActionPermission(taDoc, user, TemConstants.Permission.AMEND_TA);
     }
 
     /**
@@ -57,7 +58,7 @@ public class TravelAuthorizationAuthorizer extends TravelArrangeableAuthorizer {
      * @return
      */
     public boolean canHold(TravelAuthorizationDocument travelDocument, Person user) {
-        return getActionPermission(travelDocument, user, TemConstants.Permission.HOLD_TA, false);
+        return getActionPermission(travelDocument, user, TemConstants.Permission.HOLD_TA);
     }
 
     /**
@@ -67,7 +68,7 @@ public class TravelAuthorizationAuthorizer extends TravelArrangeableAuthorizer {
      * @return
      */
     public boolean canRemoveHold(final TravelAuthorizationDocument travelDocument, final Person user) {
-        return getActionPermission(travelDocument, user, TemConstants.Permission.REMOVE_HOLD_TA, false);
+        return getActionPermission(travelDocument, user, TemConstants.Permission.REMOVE_HOLD_TA);
     }
 
     /**
@@ -77,7 +78,7 @@ public class TravelAuthorizationAuthorizer extends TravelArrangeableAuthorizer {
      * @return
      */
     public boolean canCancel(final TravelAuthorizationDocument travelDocument, final Person user) {
-        return getActionPermission(travelDocument, user, TemConstants.Permission.CANCEL_TA, true);
+        return getActionPermission(travelDocument, user, TemConstants.Permission.CANCEL_TA);
     }
 
     /**
@@ -87,7 +88,7 @@ public class TravelAuthorizationAuthorizer extends TravelArrangeableAuthorizer {
      * @return
      */
     public boolean hideButtons(final TravelAuthorizationDocument travelDocument, final Person user) {
-        return getActionPermission(travelDocument, user, TemConstants.Permission.HIDE_BUTTONS, false);
+        return getActionPermission(travelDocument, user, TemConstants.Permission.HIDE_BUTTONS);
     }
 
     /**
@@ -106,6 +107,60 @@ public class TravelAuthorizationAuthorizer extends TravelArrangeableAuthorizer {
     }
 
     /**
+     * If the current user is a fiscal officer on any accounting line on the document, add that qualification
+     * @see org.kuali.kfs.module.tem.document.authorization.TravelArrangeableAuthorizer#addRoleQualification(java.lang.Object, java.util.Map)
+     */
+    @Override
+    protected void addRoleQualification(Object dataObject, Map<String, String> qualification) {
+        if (dataObject instanceof TravelAuthorizationDocument) {
+            addAccountQualification((TravelAuthorizationDocument)dataObject, qualification);
+        }
+        super.addRoleQualification(dataObject, qualification);
+    }
+
+    /**
+     * Goes through the given List of accounting lines and fines one line where the current user is the fiscal officer; it uses that line to put chart of accounts
+     * code and account number qualifications into the given Map of attributes for role qualification
+     * @param accountingLines a List of AccountingLines
+     * @param attributes a Map of role qualification attributes
+     */
+    protected void addAccountQualification(TravelAuthorizationDocument authorizationDoc, Map<String, String> attributes) {
+        final Person currentUser = GlobalVariables.getUserSession().getPerson();
+        boolean foundQualification = false;
+        int count = 0;
+        while (!foundQualification && !ObjectUtils.isNull(authorizationDoc.getSourceAccountingLines()) && count < authorizationDoc.getSourceAccountingLines().size()) {
+            final TemSourceAccountingLine accountingLine = (TemSourceAccountingLine)authorizationDoc.getSourceAccountingLines().get(count);
+            foundQualification = addAccountQualificationForLine(accountingLine, attributes, currentUser);
+            count += 1;
+        }
+        count = 0;
+        while (!foundQualification && authorizationDoc.shouldProcessAdvanceForDocument() && !ObjectUtils.isNull(authorizationDoc.getAdvanceAccountingLines()) && count < authorizationDoc.getAdvanceAccountingLines().size()) {
+            final TemSourceAccountingLine accountingLine = authorizationDoc.getAdvanceAccountingLine(count);
+            foundQualification = addAccountQualificationForLine(accountingLine, attributes, currentUser);
+            count += 1;
+        }
+    }
+
+    /**
+     * If the given user is the fiscal officer of the account on the given accounting line, then add that account as a qualification
+     * @param line the accounting line to check
+     * @param attributes the role qualification to fill
+     * @param currentUser the currently logged in user, whom we are doing permission checks for
+     * @return true if qualifications were added based on the line, false otherwise
+     */
+    protected boolean addAccountQualificationForLine(TemSourceAccountingLine line, Map<String, String> attributes, Person currentUser) {
+        if (ObjectUtils.isNull(line.getAccount())) {
+            line.refreshReferenceObject(KFSPropertyConstants.ACCOUNT);
+        }
+        if (!ObjectUtils.isNull(line.getAccount()) && currentUser.getPrincipalId().equalsIgnoreCase(line.getAccount().getAccountFiscalOfficerSystemIdentifier())) {
+            attributes.put(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE, line.getChartOfAccountsCode());
+            attributes.put(KfsKimAttributes.ACCOUNT_NUMBER, line.getAccountNumber());
+            return true;
+        }
+        return false;
+    }
+
+    /**
      *
      * @param travelDocument
      * @param user
@@ -113,35 +168,11 @@ public class TravelAuthorizationAuthorizer extends TravelArrangeableAuthorizer {
      * @param canInitiatorAct
      * @return
      */
-    protected boolean getActionPermission(final TravelDocument travelDocument, final Person user, final String permission, final boolean canInitiatorAct){
-        boolean success = false;
-
-        //first check to see if the user is either the initiator (or the arranger) and if the initiator can perform this action
-        if(getTravelService().isUserInitiatorOrArranger(travelDocument, user)) {
-            success = true && canInitiatorAct;
-        }
-
-        // Check to see if they are a fiscal officer and that the fiscal officer role has this permission
-        if (getTravelDocumentService().isResponsibleForAccountsOn(travelDocument, user.getPrincipalId()) && isFiscalOfficerAuthorizedTo(permission)) {
-            return true;
-        }
-
+    protected boolean getActionPermission(final TravelDocument travelDocument, final Person user, final String permission){
         final String nameSpaceCode = TemConstants.PARAM_NAMESPACE;
-        final Map<String,String> permissionDetails = new HashMap<String,String>();
-        permissionDetails.put(KFSPropertyConstants.DOCUMENT_TYPE_NAME, TravelDocTypes.TRAVEL_AUTHORIZATION_DOCUMENT);
 
         //Return true if they have the correct permissions or they are the initiator and the initiator can perform this action.
-        return getPermissionService().isAuthorized(user.getPrincipalId(), nameSpaceCode, permission, permissionDetails) || success;
-    }
-
-    /**
-     * Determine if the Fiscal Officer Role has permission named by <code>action</code>
-     *
-     * @param action or name of the permission to check for Fiscal Officer authorization on. This is usually, "Amend TA", "Close TA", "Cancel TA", "Hold TA", or "Unhold TA"
-     * @boolean true if fiscal officer has rights or false otherwise
-     */
-    protected boolean isFiscalOfficerAuthorizedTo(final String action) {
-        return isFiscalOfficerAuthorizedTo(action, TravelDocTypes.TRAVEL_AUTHORIZATION_DOCUMENT);
+        return isAuthorized(travelDocument, nameSpaceCode, permission, user.getPrincipalId());
     }
 
 }

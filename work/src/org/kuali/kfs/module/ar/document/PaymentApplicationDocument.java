@@ -55,6 +55,7 @@ import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.kfs.sys.document.Correctable;
 import org.kuali.kfs.sys.document.GeneralLedgerPendingEntrySource;
 import org.kuali.kfs.sys.document.GeneralLedgerPostingDocumentBase;
@@ -284,9 +285,17 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
     }
 
     /**
-     * This method subtracts the sum of the invoice paid applieds, non-ar and unapplied totals from the outstanding amount received
-     * via the cash control document. NOTE this method is not useful for a non-cash control PayApp, as it doesnt have access to the
-     * control documents until it is saved. Use the same named method on the Form instead.
+     * @see org.kuali.kfs.sys.document.AmountTotaling#getTotalDollarAmount()- added for KFSCNTRB-1533/ KFSMI-10308
+     */
+    @Override
+    public KualiDecimal getTotalDollarAmount() {
+        return getTotalApplied();
+    }
+
+    /**
+     * This method subtracts the sum of the invoice paid applieds, non-ar and
+     * unapplied totals from the outstanding amount received via the cash
+     * control document.
      *
      * @return
      * @throws WorkflowException

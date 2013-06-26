@@ -15858,6 +15858,8 @@
         <column name="ACTV_CD" size="1" type="VARCHAR"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
+        <column name="COPIED_AGENCY_STAGING_ID" size="22" type="DECIMAL"/>
+        <column name="MANUAL_CRTD" size="1" type="VARCHAR"/>
         <unique name="TEM_AGENCY_STAGING_TC0">
             <unique-column name="OBJ_ID"/>
         </unique>
@@ -17273,9 +17275,9 @@
     <sequence name="TEM_PER_DIEM_EXP_ID_SEQ" nextval="1"/>
     <sequence name="TEM_PER_DIEM_ID_SEQ" nextval="1000"/>
     <sequence name="TEM_PROFILE_ACCOUNT_ID_SEQ" nextval="1"/>
-    <sequence name="TEM_PROFILE_ARRANGER_ID_SEQ" nextval="1"/>
-    <sequence name="TEM_PROFILE_EM_CONT_ID_SEQ" nextval="1"/>
-    <sequence name="TEM_PROFILE_ID_SEQ" nextval="1"/>
+    <sequence name="TEM_PROFILE_ARRANGER_ID_SEQ" nextval="2"/>
+    <sequence name="TEM_PROFILE_EM_CONT_ID_SEQ" nextval="2"/>
+    <sequence name="TEM_PROFILE_ID_SEQ" nextval="4"/>
     <sequence name="TEM_RELO_DOC_ID_SEQ" nextval="1"/>
     <sequence name="TEM_SPCL_CRCMSNCS_Q_ID_SEQ" nextval="8"/>
     <sequence name="TEM_SPCL_CRCMSNCS_S" nextval="1"/>

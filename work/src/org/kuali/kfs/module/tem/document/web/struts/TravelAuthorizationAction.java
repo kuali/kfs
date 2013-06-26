@@ -18,7 +18,9 @@ package org.kuali.kfs.module.tem.document.web.struts;
 import static org.kuali.kfs.module.tem.TemConstants.CERTIFICATION_STATEMENT_ATTRIBUTE;
 import static org.kuali.kfs.module.tem.TemConstants.EMPLOYEE_TEST_ATTRIBUTE;
 import static org.kuali.kfs.module.tem.TemConstants.KIM_PERSON_LOOKUPABLE;
+import static org.kuali.kfs.module.tem.TemConstants.SHOW_ACCOUNT_DISTRIBUTION_ATTRIBUTE;
 import static org.kuali.kfs.module.tem.TemConstants.TEM_PROFILE_LOOKUPABLE;
+import static org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters.DISPLAY_ACCOUNTING_DISTRIBUTION_TAB_IND;
 import static org.kuali.kfs.module.tem.TemPropertyConstants.NEW_EMERGENCY_CONTACT_LINE;
 import static org.kuali.kfs.sys.KFSPropertyConstants.FINANCIAL_OBJECT_CODE;
 import static org.kuali.kfs.sys.KFSPropertyConstants.NEW_SOURCE_LINE;
@@ -1272,6 +1274,20 @@ public class TravelAuthorizationAction extends TravelActionBase {
             catch (WorkflowException ex) {
                 ex.printStackTrace();
             }*/
+        }
+    }
+
+    /**
+     * Overridden to always return TravelAuthorizationDocument even if we're dealing with an amendment or a close
+     * @see org.kuali.kfs.module.tem.document.web.struts.TravelActionBase#showAccountDistribution(javax.servlet.http.HttpServletRequest, org.kuali.rice.krad.document.Document)
+     */
+    @Override
+    protected void showAccountDistribution(HttpServletRequest request, Document document) {
+        if (document instanceof TravelAuthorizationDocument) {
+            final boolean showAccountDistribution = getParameterService().getParameterValueAsBoolean(TravelAuthorizationDocument.class, DISPLAY_ACCOUNTING_DISTRIBUTION_TAB_IND);
+            request.setAttribute(SHOW_ACCOUNT_DISTRIBUTION_ATTRIBUTE, showAccountDistribution);
+        } else {
+            super.showAccountDistribution(request, document);
         }
     }
 

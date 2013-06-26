@@ -78,6 +78,7 @@
 			constraintName="TEM_AGENCY_SRVC_FEE_TP1" columnNames="ID" />
 		<createTable tableName="TEM_AGENCY_STAGING_T">
 			<column name="ID" type="NUMBER(22,0)" />
+			<column name="COPIED_AGENCY_STAGING_ID" type="NUMBER(22,0)" />
 			<column name="ERROR_CD" type="VARCHAR2(40)" />
 			<column name="DUP_REC_ID" type="NUMBER(22,0)" />
 			<column name="IMPORT_BY" type="VARCHAR2(3)" />
@@ -156,6 +157,7 @@
 			<column name="PROCESSING_TS" type="DATE" />
 			<column name="MV_TO_HISTORY" type="VARCHAR2(1)" />
 			<column name="ACTV_CD" size="1" type="VARCHAR"/>
+			<column name="MANUAL_CRTD" size="1" type="VARCHAR" />
 			<column name="VER_NBR" type="NUMBER(8,0)" defaultValueNumeric="1" />
 			<column name="OBJ_ID" type="VARCHAR2(36)" />
 		</createTable>

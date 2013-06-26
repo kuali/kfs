@@ -155,8 +155,6 @@ public class TravelReimbursementAction extends TravelActionBase {
             //document.setSourceAccountingLines(authorization.getSourceAccountingLines());
             //document.setTargetAccountingLines(authorization.getTargetAccountingLines());
 
-            addTravelAdvancesTo(reimbForm, authorization);
-
             initializePerDiem(document, authorization);
 
             document.setActualExpenses((List<ActualExpense>) getTravelDocumentService().copyActualExpenses(authorization.getActualExpenses(), document.getDocumentNumber()));
@@ -180,7 +178,6 @@ public class TravelReimbursementAction extends TravelActionBase {
             reimbursement.refreshReferenceObject(TemPropertyConstants.TRAVELER);
             reimbursement.refreshReferenceObject(TemPropertyConstants.TRIP_TYPE);
             reimbursement.refreshReferenceObject(TemPropertyConstants.ACTUAL_EXPENSES);
-            reimbursement.refreshReferenceObject(TemPropertyConstants.TRVL_ADV);
             reimbursement.refreshReferenceObject(TemPropertyConstants.PRIMARY_DESTINATION);
             reimbursement.refreshReferenceObject(TemPropertyConstants.SPECIAL_CIRCUMSTANCES);
         }
@@ -312,19 +309,6 @@ public class TravelReimbursementAction extends TravelActionBase {
 
     }
 
-    /**
-     * Adds travel advances from a {@link TravelAuthorizationDocument} instance to the {@link TravelReimbursementForm} for
-     * viewing.
-     *
-     * @param form to add travel advances to
-     * @param authorization {@link TravelAuthorization} instance to get travel advances from
-     */
-    protected void addTravelAdvancesTo(final TravelReimbursementForm form, final TravelAuthorizationDocument authorization) {
-        if (authorization != null) {
-            form.getInvoices().add(authorization.getTravelAdvance());
-        }
-    }
-
     protected void initializePerDiem(final TravelReimbursementDocument reimbursement, final TravelAuthorizationDocument authorization) {
         for (final PerDiemExpense estimate : authorization.getPerDiemExpenses()) {
             final PerDiemExpense mileage = getTravelDocumentService().copyPerDiemExpense(estimate);
@@ -407,7 +391,7 @@ public class TravelReimbursementAction extends TravelActionBase {
         }
         document.getTraveler().refreshReferenceObject(TemPropertyConstants.TRAVELER_TYPE);
 
-        updatePayeeTypeForReimbursable(document);
+        document.updatePayeeTypeForReimbursable();
         return null;
     }
 

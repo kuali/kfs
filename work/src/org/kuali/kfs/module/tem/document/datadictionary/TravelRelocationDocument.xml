@@ -483,6 +483,7 @@
                 <entry key="AccountingOrganizationHierarchy" value-ref="RoutingType-TravelRelocationDocument-AccountingOrganizationHierarchy" />
                 <entry key="SubFund" value-ref="RoutingType-AccountingDocument-SubFund" />
                 <entry key="Award" value-ref="RoutingType-AccountingDocument-Award" />
+                <entry key="PaymentMethod" value-ref="TravelReimbursable-RoutingType-PaymentMethod"/>
             </map>
         </property>
     </bean>

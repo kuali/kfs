@@ -306,6 +306,7 @@ public class TemConstants {
         public static final String AWAIT_AWARD = "Awaiting Award Review";
         public static final String AWAIT_SPCL = "Awaiting Special Request Review";
         public static final String AWAIT_SEP_DUTIES = "Awaiting Separation Of Duties Review";
+        public static final String AWAIT_DISBURSEMENT_METHOD = "Awaiting Disbursement Method Review";
 
         public static final String DAPRVD_TRVLR = "Disapproved - Traveler";
         public static final String DAPRVD_FISCAL = "Disapproved - Fiscal Officer";
@@ -316,6 +317,7 @@ public class TemConstants {
         public static final String DAPRVD_AWARD = "Disapproved - Award";
         public static final String DAPRVD_SPCL = "Disapproved - Special Request";
         public static final String DAPRVD_SEP_DUTIES = "Disapproved - Separation Of Duties";
+        public static final String DAPRVD_DISBURSEMENT_METHOD = "Disapproved - Disbursement Method";
     }
 
     public static class TravelAuthorizationStatusCodeKeys extends TravelStatusCodeKeys{
@@ -347,6 +349,7 @@ public class TemConstants {
             disapprovedAppDocStatusMap.put(AWAIT_SPCL, DAPRVD_SPCL);
             disapprovedAppDocStatusMap.put(AWAIT_TRVL_MGR, DAPRVD_TRVL);
             disapprovedAppDocStatusMap.put(AWAIT_SEP_DUTIES, DAPRVD_SEP_DUTIES);
+            disapprovedAppDocStatusMap.put(AWAIT_DISBURSEMENT_METHOD, DAPRVD_DISBURSEMENT_METHOD);
 
             return disapprovedAppDocStatusMap;
         }
@@ -383,6 +386,7 @@ public class TemConstants {
             disapprovedAppDocStatusMap.put(AWAIT_SPCL, DAPRVD_SPCL);
             disapprovedAppDocStatusMap.put(AWAIT_TAX_MANAGER, DAPRVD_TAX_MANAGER);
             disapprovedAppDocStatusMap.put(AWAIT_TRVL_MGR, DAPRVD_TRVL);
+            disapprovedAppDocStatusMap.put(AWAIT_DISBURSEMENT_METHOD, DAPRVD_DISBURSEMENT_METHOD);
             return disapprovedAppDocStatusMap;
         }
     }
@@ -407,6 +411,7 @@ public class TemConstants {
             disapprovedAppDocStatusMap.put(AWAIT_EXECUTIVE, DAPRVD_EXECUTIVE);
             disapprovedAppDocStatusMap.put(AWAIT_TAX_MANAGER, DAPRVD_TAX_MANAGER);
             disapprovedAppDocStatusMap.put(AWAIT_SEP_DUTIES, DAPRVD_SEP_DUTIES);
+            disapprovedAppDocStatusMap.put(AWAIT_DISBURSEMENT_METHOD, DAPRVD_DISBURSEMENT_METHOD);
             disapprovedAppDocStatusMap.put(AWAIT_RELO_MANAGER, DAPRVD_RELO_MANAGER);
 
             return disapprovedAppDocStatusMap;
@@ -431,6 +436,7 @@ public class TemConstants {
             disapprovedAppDocStatusMap.put(AWAIT_SPCL, DAPRVD_SPCL);
             disapprovedAppDocStatusMap.put(AWAIT_TAX_MANAGER, DAPRVD_TAX_MANAGER);
             disapprovedAppDocStatusMap.put(AWAIT_SEP_DUTIES, DAPRVD_SEP_DUTIES);
+            disapprovedAppDocStatusMap.put(AWAIT_DISBURSEMENT_METHOD, DAPRVD_DISBURSEMENT_METHOD);
             disapprovedAppDocStatusMap.put(AWAIT_ENT_MANAGER, DAPRVD_ENT_MANAGER);
 
             return disapprovedAppDocStatusMap;
@@ -447,7 +453,6 @@ public class TemConstants {
         public static final String RETURN_TO_FO = "Return to Fiscal Officer";
         public static final String EDIT_TAXABLE_IND = "Edit Taxable Indicator";
         public static final String CREATE_PROFILE = "Create TEM Profile";
-        public static final String FULL_EDIT_AGENCY_DATA = "Full Edit Agency Data";
 
         //Non-existing Permission
         public static final String HIDE_BUTTONS = "Hide Buttons TA";
@@ -526,7 +531,7 @@ public class TemConstants {
 
     public class PerDiemParameter {
         public static final String IN_STATE_TRIP_TYPE_CODE_PARAM_NAME = "IN_STATE_TRIP_TYPE_CODE";
-        public static final String OUT_STATE_TRIP_TYPE_CODE_PARAM_NAME = "OUT_STATE_TRIP_TYPE_CODE";
+        public static final String OUT_STATE_TRIP_TYPE_CODE_PARAM_NAME = "OUT_OF_STATE_TRIP_TYPE_CODE";
         public static final String INTERNATIONAL_TRIP_TYPE_CODE_PARAM_NAME = "INTERNATIONAL_TRIP_TYPE_CODE";
         public static final String INSTITUTION_STATE_PARAM_NAME = "INSTITUTION_STATE";
         public static final String OCONUS_MEAL_BREAKDOWN_PARAM_NAME = "OCONUS_MEAL_BREAKDOWN";
@@ -788,12 +793,6 @@ public class TemConstants {
         }
     }
 
-
-    public enum DisburseType {
-        corpCard,
-        reimbursable;
-    }
-
     public static final String CONUS = "CONUS";
     public static final String OTHER_PRIMARY_DESTINATION = "[OTHER]";
     public static final String BLANKET_IN_STATE = "BLN";
@@ -900,6 +899,7 @@ public class TemConstants {
 
     public static class EditModes {
         public static final String CHECK_AMOUNT_ENTRY = "checkAmountEntry";
+        public static final String ACTUAL_EXPENSE_TAXABLE_MODE = "actualExpenseTaxableEntry";
     }
 
     public static final String TRAVEL_PAYMENT_TAB_ERRORS = "TravelPaymentErrors,document.travelPayment.checkTotalAmount,document.travelPayment.dueDate,document.travelPayment.alienPaymentCode," + "document.travelPayment.payeeEmployeeCode,document.travelPayment.attachmentCode,document.travelPayment.specialHandlingCode,document.travelPayment.payeeW9CompleteCode" + "document.travelPayment.paymentMethodCode,document.travelPayment.paymentDocumentationLocationCode,document.travelPayment.checkStubText";

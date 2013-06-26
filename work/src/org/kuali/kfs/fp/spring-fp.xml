@@ -456,10 +456,7 @@
 	
     <bean id="fiscalYearFunctionControlFiscalYearMaker" parent="FiscalYearMaker">
 		<property name="businessObjectClass" value="org.kuali.kfs.fp.businessobject.FiscalYearFunctionControl" /> 
-	</bean>	
-	
-	<bean id="paymentMethodRoleTypeService"  parent="paymentMethodRoleTypeService-parentBean"/>
-	<bean id="paymentMethodRoleTypeService-parentBean" class="org.kuali.kfs.fp.identity.PaymentMethodRoleTypeServiceImpl" abstract="true"/>
+	</bean>
 	
 	<bean id="cashReceiptInitiatorDerivedRoleTypeService"  parent="cashReceiptInitiatorDerivedRoleTypeService-parentBean"/>
 	<bean id="cashReceiptInitiatorDerivedRoleTypeService-parentBean" class="org.kuali.kfs.fp.identity.CashReceiptInitiatorDerivedRoleTypeServiceImpl" abstract="true" />

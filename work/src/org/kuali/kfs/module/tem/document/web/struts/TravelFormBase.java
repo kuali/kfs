@@ -515,6 +515,9 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
 
     @Override
     public Map<String, List<Document>> getRelatedDocuments() {
+        if (relatedDocuments == null) {
+            relatedDocuments = new HashMap<String, List<Document>>();
+        }
         return this.relatedDocuments;
     }
 

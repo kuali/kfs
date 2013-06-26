@@ -78,7 +78,6 @@ import org.kuali.kfs.module.tem.businessobject.TEMProfile;
 import org.kuali.kfs.module.tem.businessobject.TemDistributionAccountingLine;
 import org.kuali.kfs.module.tem.businessobject.TemSourceAccountingLine;
 import org.kuali.kfs.module.tem.businessobject.TravelerDetail;
-import org.kuali.kfs.module.tem.document.TEMReimbursementDocument;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.TravelDocumentBase;
@@ -318,9 +317,11 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
         request.setAttribute(FISCAL_OFFICER_TEST_ATTRIBUTE, setFiscalOfficer((TravelFormBase) form));
         request.setAttribute(DELINQUENT_TEST_ATTRIBUTE, document.getDelinquentAction());
 
-        final Map<String, List<Document>> relatedDocuments = getTravelDocumentService().getDocumentsRelatedTo(document);
-        travelFormBase.setRelatedDocuments(relatedDocuments);
-        travelFormBase.setDistribution(getAccountingDistributionService().buildDistributionFrom(travelFormBase.getTravelDocument()));
+        if (!StringUtils.isBlank(document.getDocumentNumber())) {
+            final Map<String, List<Document>> relatedDocuments = getTravelDocumentService().getDocumentsRelatedTo(document); //we don't have a doc number yet...there's no related documents
+            travelFormBase.setRelatedDocuments(relatedDocuments);
+            travelFormBase.setDistribution(getAccountingDistributionService().buildDistributionFrom(travelFormBase.getTravelDocument())); // and likely, there's nothing to distribute either
+        }
 
         //reset accounting line sequence number
         if (document.getSourceAccountingLines().size() > 0){
@@ -1538,20 +1539,5 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
         Object[] args = { wireCharge.getDomesticChargeAmt(), wireCharge.getForeignChargeAmt() };
 
         return MessageFormat.format(message, args);
-    }
-
-    /**
-     * For reimbursable documents, sets the proper payee type code and profile id after a profile lookup
-     * @param document the reimbursable document to update
-     */
-    protected void updatePayeeTypeForReimbursable(TEMReimbursementDocument document) {
-        if (!ObjectUtils.isNull(document.getTraveler()) && !ObjectUtils.isNull(document.getTravelPayment())) {
-            if (getTravelerService().isEmployee(document.getTraveler())){
-                document.getTravelPayment().setPayeeTypeCode(KFSConstants.PaymentPayeeTypes.EMPLOYEE);
-                document.setProfileId(document.getTemProfileId());
-            }else{
-                document.getTravelPayment().setPayeeTypeCode(KFSConstants.PaymentPayeeTypes.CUSTOMER);
-            }
-        }
     }
 }

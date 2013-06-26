@@ -312,7 +312,7 @@ public class TravelEntertainmentAction extends TravelActionBase {
      * @param document the document to update
      */
     protected void performRequesterRefresh(TravelEntertainmentDocument document) {
-        updatePayeeTypeForReimbursable(document);
+        document.updatePayeeTypeForReimbursable();
     }
 
     public ActionForward printCoversheet(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {

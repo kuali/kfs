@@ -19,11 +19,13 @@
 <script language="javascript" src="dwr/interface/TravelReimbursementService.js"></script>
 <script language="javascript" src="scripts/module/tem/common.js"></script>
 
+<c:set var="canEdit" value="${KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" scope="request" />
 <c:set var="fullEntryMode" value="${KualiForm.editingMode['fullEntry']}" scope="request" />
 <c:set var="advancePaymentMode" value="${KualiForm.editingMode['advancePaymentEntry']}" scope="request"/>
+<c:set var="actualExpenseTaxableMode" value="${KualiForm.editingMode['actualExpenseTaxableEntry']}" scope="request"/>
 
 <kul:documentPage showDocumentInfo="true"
-    documentTypeName="TravelReimbursementDocument"
+    documentTypeName="TR"
     htmlFormAction="temTravelReimbursement" renderMultipart="true"
     showTabButtons="true">
        

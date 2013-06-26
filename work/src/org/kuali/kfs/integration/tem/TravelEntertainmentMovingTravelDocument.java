@@ -17,8 +17,6 @@ package org.kuali.kfs.integration.tem;
 
 import java.sql.Timestamp;
 
-import org.kuali.kfs.module.tem.businessobject.TravelerDetail;
-
 public interface TravelEntertainmentMovingTravelDocument {
 
 	public String getTravelDocumentIdentifier();
@@ -26,6 +24,4 @@ public interface TravelEntertainmentMovingTravelDocument {
 	public String getPrimaryDestinationName();
 
 	public Timestamp getTripBegin();
-
-	public TravelerDetail getTraveler();
 }

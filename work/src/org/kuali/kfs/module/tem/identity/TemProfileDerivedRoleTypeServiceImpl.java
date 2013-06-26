@@ -46,7 +46,6 @@ public class TemProfileDerivedRoleTypeServiceImpl extends DerivedRoleTypeService
         validateRequiredAttributesAgainstReceived(qualification);
         final List<RoleMembership> members = new ArrayList<RoleMembership>(1);
         if (qualification!=null && !qualification.isEmpty()) {
-
             // This is to allow users to create/edit their own profile. If the principalId from the profile
             // matches, the profile fields are unmasked. Otherwise the other roles will handle the appropriate
             // masking/unmasking of fields (see TemProfileOrganizationHierarchyRoleTypeServiceImpl).

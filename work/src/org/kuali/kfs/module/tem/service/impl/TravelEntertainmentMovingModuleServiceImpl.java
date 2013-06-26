@@ -20,6 +20,7 @@ import java.util.List;
 import org.kuali.kfs.integration.tem.TravelEntertainmentMovingModuleService;
 import org.kuali.kfs.integration.tem.TravelEntertainmentMovingTravelDocument;
 import org.kuali.kfs.module.tem.businessobject.AccountingDocumentRelationship;
+import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.TravelReimbursementDocument;
 import org.kuali.kfs.module.tem.document.service.AccountingDocumentRelationshipService;
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
@@ -66,7 +67,7 @@ public class TravelEntertainmentMovingModuleServiceImpl implements TravelEnterta
 
 	@Override
 	public boolean isTEMProfileEmployee(TravelEntertainmentMovingTravelDocument document) {
-		return travelerService.isEmployee(document.getTraveler());
+		return travelerService.isEmployee(((TravelDocument)document).getTraveler());
 	}
 
 	@Override

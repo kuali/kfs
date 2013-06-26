@@ -374,7 +374,7 @@ public class PurchaseOrderTabIdentifierServiceImpl implements PurchaseOrderTabId
     /**
      * Identifies whether the vendor tab has been modified
      *
-     * @see edu.msu.ebsp.kfs.module.purap.document.service.PurchaseOrderTabIdentifierService#isVendorTabModified(edu.msu.ebsp.kfs.module.purap.document.PurchaseOrderAmendmentDocument)
+     *
      */
     @Override
     public boolean isVendorTabModified(PurchaseOrderAmendmentDocument newDoc) {
@@ -386,7 +386,7 @@ public class PurchaseOrderTabIdentifierServiceImpl implements PurchaseOrderTabId
     /**
      * Identifies whether the stipulation tab has been modified
      *
-     * @see edu.msu.ebsp.kfs.module.purap.document.service.PurchaseOrderTabIdentifierService#isStipulationTabModified(edu.msu.ebsp.kfs.module.purap.document.PurchaseOrderAmendmentDocument)
+     *
      */
     @Override
     public boolean isStipulationTabModified(PurchaseOrderAmendmentDocument newDoc) {
@@ -622,7 +622,7 @@ public class PurchaseOrderTabIdentifierServiceImpl implements PurchaseOrderTabId
     /**
      * Checks whether any tab other than item tab is modified
      *
-     * @see edu.msu.ebsp.kfs.module.purap.document.service.PurchaseOrderTabIdentifierService#isAnyTabsModified(edu.msu.ebsp.kfs.module.purap.document.PurchaseOrderAmendmentDocument)
+     *
      */
     @Override
     public boolean isAnyTabsModified(PurchaseOrderAmendmentDocument newDoc) {
@@ -637,7 +637,7 @@ public class PurchaseOrderTabIdentifierServiceImpl implements PurchaseOrderTabId
     /**
      * Returns a list of modified tabs
      *
-     * @see edu.msu.ebsp.kfs.module.purap.document.service.PurchaseOrderTabIdentifierService#getModifiedTabs(edu.msu.ebsp.kfs.module.purap.document.PurchaseOrderAmendmentDocument)
+     *
      */
     @Override
     public List<String> getModifiedTabs(PurchaseOrderAmendmentDocument newDoc) {

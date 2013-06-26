@@ -17,6 +17,7 @@ package org.kuali.kfs.module.tem.identity;
 
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.api.exception.WorkflowException;
@@ -35,7 +36,7 @@ public class InternationalTravelManagerRoleTypeServiceImpl extends RoleTypeServi
         try {
             TravelDocument document = (TravelDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(inputAttributes.get(KRADPropertyConstants.DOCUMENT_NUMBER).toString());
             String travelerType = storedAttributes.get(TemKimAttributes.TRAVELER_TYPE_CODE);
-            if (travelerType.equals(document.getTraveler().getTravelerTypeCode())){
+            if (!StringUtils.isBlank(travelerType) && travelerType.equals(document.getTraveler().getTravelerTypeCode())){
                 return true;
             }
 

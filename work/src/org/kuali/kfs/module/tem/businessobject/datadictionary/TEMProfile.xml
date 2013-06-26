@@ -681,10 +681,10 @@
 								<property name="numberOfColumns" value="1" />
 								<property name="inquiryFields">
 									<list>
-										<bean parent="FieldDefinition" p:attributeName="id" />
 										<bean parent="FieldDefinition" p:attributeName="contactRelationTypeCode" />
 										<bean parent="FieldDefinition" p:attributeName="contactName" />
 										<bean parent="FieldDefinition" p:attributeName="phoneNumber" />
+										<bean parent="FieldDefinition" p:attributeName="emailAddress" />
 									</list>
 								</property>
 							</bean>
@@ -716,6 +716,8 @@
 										<bean parent="FieldDefinition" p:attributeName="principalName" />
 										<bean parent="FieldDefinition" p:attributeName="active" />
 										<bean parent="FieldDefinition" p:attributeName="primary" />
+										<bean parent="FieldDefinition" p:attributeName="taInd"/>
+										<bean parent="FieldDefinition" p:attributeName="trInd"/>
 									</list>
 								</property>
 							</bean>

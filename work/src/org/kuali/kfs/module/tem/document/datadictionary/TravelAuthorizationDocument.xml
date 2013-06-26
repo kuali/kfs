@@ -395,6 +395,15 @@
 
   <bean id="TravelAuthorizationDocument-workflowAttributes-parentBean" abstract="true" parent="TravelDocument-workflowAttributes">
     <property name="businessObjectClassName" value="org.kuali.kfs.module.tem.document.TravelAuthorizationDocument" />
+    <property name="routingTypeDefinitions">
+		<map>
+			<entry key="Account" value-ref="TravelAuthorization-RoutingType-Account" />
+			<entry key="AccountingOrganizationHierarchy" value-ref="RoutingType-TravelAuthorizationDocument-AccountingOrganizationHierarchy" />
+			<entry key="SubFund" value-ref="RoutingType-AccountingDocument-SubFund" />
+			<entry key="Award" value-ref="RoutingType-AccountingDocument-Award" />
+			<entry key="PaymentMethod" value-ref="TravelAuthorization-RoutingType-PaymentMethod"/>
+		</map>
+	</property>
   </bean>
 
 </beans>

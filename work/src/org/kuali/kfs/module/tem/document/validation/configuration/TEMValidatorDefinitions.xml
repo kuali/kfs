@@ -208,17 +208,16 @@
 	<bean id="TravelPayment-requiredNotesValidation" parent="TravelPayment-requiredNotesValidation-parentBean" scope="prototype"/>
 	<bean id="TravelPayment-requiredNotesValidation-parentBean" class="org.kuali.kfs.module.tem.document.validation.impl.TravelPaymentRequiredNotesValidation" abstract="true" />
 	
-	<bean id="TravelPayment-dataDictionaryValidation" parent="TravelPayment-dataDictionaryValidation-parentBean" scope="prototype"/>
-	<bean id="TravelPayment-dataDictionaryValidation-parentBean" class="org.kuali.kfs.module.tem.document.validation.impl.TravelPaymentDataDictionaryValidation" abstract="true">
-		<property name="dictionaryValidationService" ref="dictionaryValidationService"/>
-		<property name="travelPaymentPropertyName" value="travelPayment"/>
+	<bean id="TravelAuthorization-advanceAccountingLinesTotalValidation" parent="TravelAuthorization-advanceAccountingLinesTotalValidation-parentBean" scope="prototype"/>
+	<bean id="TravelAuthorization-advanceAccountingLinesTotalValidation-parentBean" class="org.kuali.kfs.module.tem.document.validation.impl.TravelAdvanceAccountingTotalsValidation" abstract="true">
+		<property name="debitDeterminerService" ref="debitDeterminerService"/>
 	</bean>
 	
 	<bean id="TravelAuthorizationDocument-travelAdvanceBranchingValidation" parent="TravelAuthorizationDocument-travelAdvanceBranchingValidation-parentBean" scope="prototype"/>
 	<bean id="TravelAuthorizationDocument-travelAdvanceBranchingValidation-parentBean" class="org.kuali.kfs.module.tem.document.validation.impl.TravelAdvanceBranchingValidation" abstract="true"/>
 	
-	<bean id="TravelAuthorizationDocument-travelAdvanceAndPamentValidation" parent="TravelAuthorizationDocument-travelAdvanceAndPamentValidation-parentBean" scope="prototype"/>
-	<bean id="TravelAuthorizationDocument-travelAdvanceAndPamentValidation-parentBean" abstract="true" parent="CompositeValidation">
+	<bean id="TravelAuthorizationDocument-travelAdvanceAndPaymentValidation" parent="TravelAuthorizationDocument-travelAdvanceAndPaymentValidation-parentBean" scope="prototype"/>
+	<bean id="TravelAuthorizationDocument-travelAdvanceAndPaymentValidation-parentBean" abstract="true" parent="CompositeValidation">
 		<property name="validations">
 			<list>
 				<bean parent="AccountingDocument-businessObjectDataDictionaryValidation">
@@ -229,13 +228,11 @@
 					</property>
 				</bean>
 				<bean parent="TravelModule-travelAdvanceValidation" scope="prototype" />
-				<bean parent="TravelPayment-dataDictionaryValidation" scope="prototype" p:travelPaymentPropertyName="advanceTravelPayment">
-					<property name="parameterProperties">
-						<list>
-							<bean parent="validationFieldConversion" p:sourceEventProperty="document.advanceTravelPayment" p:targetValidationProperty="travelPaymentForValidation"/>
-						</list>
-					</property>
-				</bean>
+				<bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype">
+                    <property name="parameterProperties">
+                        <bean parent="validationFieldConversion" p:sourceEventProperty="document.advanceTravelPayment" p:targetValidationProperty="businessObjectForValidation" />
+                    </property>
+                </bean>
 				<bean parent="TravelAuthorization-advanceAccountingLinesTotalValidation" scope="prototype"/>
 				<bean parent="PaymentSource-wireTransferValidation" scope="prototype">
 					<property name="parameterProperties">

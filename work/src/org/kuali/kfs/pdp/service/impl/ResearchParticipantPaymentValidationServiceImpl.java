@@ -42,9 +42,7 @@ public class ResearchParticipantPaymentValidationServiceImpl implements Research
 
     private ParameterService parameterService;
 
-    /**
-     * @see edu.msu.ebsp.kfs.pdp.service.ResearchParticipantPaymentValidationService#validatePaymentAccount(org.kuali.kfs.pdp.businessobject.PaymentFileLoad, org.kuali.rice.kns.util.MessageMap)
-     */
+
     @Override
     public boolean validatePaymentAccount(PaymentFileLoad paymentFile, MessageMap errorMap) {
         PaymentAccountDetail accountDetail = this.getPaymentAccountDetail(paymentFile);
@@ -58,9 +56,6 @@ public class ResearchParticipantPaymentValidationServiceImpl implements Research
         return isValid;
     }
 
-    /**
-     * @see edu.msu.ebsp.kfs.pdp.service.ResearchParticipantPaymentValidationService#getPaymentAccountDetail(org.kuali.kfs.pdp.businessobject.PaymentFileLoad)
-     */
     @Override
     public PaymentAccountDetail getPaymentAccountDetail(PaymentFileLoad paymentFile) {
 
@@ -116,6 +111,7 @@ public class ResearchParticipantPaymentValidationServiceImpl implements Research
         return true;
     }
 
+    @Override
     public boolean isResearchParticipantPayment(CustomerProfile customer) {
         boolean result = false;
         if (parameterService.parameterExists(PaymentDetail.class, PdpConstants.RESEARCH_PARTICIPANT_CUSTOMER_PROFILE)) {

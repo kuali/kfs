@@ -1,289 +1,289 @@
-PERM_ID,OBJ_ID,VER_NBR,PERM_TMPL_ID,NMSPC_CD,NM,DESC_TXT,ACTV_IND
-1,1,1,7,KFS-AR,Claim Electronic Payment CTRL,Allows access to the Electronic Fund Transfer interface for the claiming of electronic funds using the Cash Control Document (CTRL).,Y
-10,10,1,26,KFS-AR,Modify Maintenance Document Field Customer customerTaxNbr,Allows modification of the Customer Tax Number field on the Customer document.,Y
-100,100,1,16,KFS-PURAP,Edit Document REQS PreRoute,Edit permission for the Requisition document prior to the document being submitted.,Y
-101,101,1,16,KFS-PURAP,Edit Document PO PreRoute,Edit permission for the Purchase Order document prior to the document being submitted.,Y
-102,102,1,16,KFS-PURAP,Edit Document AP PreRoute,Edit permission for Accounts Payable Transactional documents prior to the document being submitted.,Y
-103,103,1,16,KFS-PURAP,Edit Document RCV PreRoute,Edit permission for Receiving Transactional documents prior to the document being submitted.,Y
-107,107,1,7,KFS-SYS,Claim Electronic Payment,Allows access to the Electronic Fund Transfer interface for the claiming of electronic funds.,Y
-108,108,1,6,KFS-SYS,Error Correct Document KFST,Allows access to the Error Correction button on KFS Transactional documents.,Y
-11,11,1,33,KFS-AR,Upload Batch Input File(s) customerLoadInputFileType,Allows access to the Customer Upload Batch Upload page.,Y
-1100,1100,1,3,KFS-SYS,Administer Routing for Document KFST,"Allows users to open Financial System Documents via the Super search option in Document Search and take Administrative workflow actions on them (such as approving the document, approving individual requests, or sending the document to a specified route node).",Y
-113,113,1,3,KFS-SYS,Administer Routing for Document KFS,"Allows users to open KFS documents via the Super search option in Document Search and take Administrative workflow actions on them (such as approving the document, approving individual requests, or sending the document to a specified route node).",Y
-114,114,1,4,KFS-SYS,Blanket Approve Document KFS,Allows access to the Blanket Approval button on KFS Financial System Documents.,Y
-115,115,1,10,KFS-SYS,Initiate Document KFS,Authorizes the initiation of Financial System Documents.,Y
-116,116,1,10,KFS-SYS,Initiate Document FSSM,Authorizes the initiation of Financial System Simple Maintenance documents.,Y
-117,117,1,10,KFS-SYS,Initiate Document BANK,Authorizes the initiation of the Bank Maintenance Document.,Y
-119,119,1,35,KFS-SYS,Assign Role KFS*,Authorizes users to modify the information on the Assignees Tab of the Role Document and the Roles section of the Membership Tab on the Person Document for roles with a Module Code beginning with KFS.,Y
-12,12,1,29,KFS-AR,Use Screen KFS-AR,"Allows users access to screens in the KFS-AR module that are not documents, lookups, inquiries, or batch uploads, i.e. this primarily provides access to AR reports",Y
-120,120,1,36,KFS-SYS,Grant Permission KFS*,Authorizes users to modify the information on the Permissions tab of the Role Document for roles with a module code beginning with KFS.,Y
-121,121,1,37,KFS-SYS,Grant Responsibility KFS*,Authorizes users to modify the information on the Responsibility tab of the Role Document for roles with a Module Code that begins with KFS.,Y
-122,122,1,38,KFS-SYS,Populate Group KFS*,Authorizes users to modify the information on the Assignees Tab of the Group Document and the Group section of the Membership Tab on the Person Document for groups with namespaces beginning with KFS.,Y
-128,128,1,27,KFS-SYS,Full Unmask Field Bank bankAccountNumber,Authorizes users to view the entire bank account number on the Bank document and Inquiry.,Y
-129,129,1,24,KFS-SYS,Inquire Into Records KFS*,Allows users to access KFS inquiries.,Y
-130,130,1,23,KFS-SYS,Look Up Records KFS*,Allow users to access KFS lookups.,Y
-131,131,1,34,KFS-SYS,Maintain System Parameter KFS*,Authorizes users to initiate and edit the Parameter document for pameters with a module code beginning with KFS.,Y
-132,132,1,32,KFS-SYS,Modify Batch Job KFS*,Allows users to access and run Batch Jobs associated with KFS modules via the Schedule link.,Y
-133,133,1,40,KFS-SYS,Open Document KFS,Authorizes users to open KFS Financial System Documents.,Y
-134,134,1,28,KFS-SYS,Partial Unmask Field Bank bankAccountNumber,Authorizes users to view the last four-digits of the bank account number on the Bank document and Inquiry.,Y
-135,135,1,29,KFS-SYS,Use Screen KFS*,"Allows users access to screens in the KFS that are not documents, lookups, inquiries, or batch uploads.",Y
-136,136,1,10,KFS-VND,Initiate Document PVEN,Authorizes users to initiate the Vendor Maintenance Document.,Y
-137,137,1,27,KFS-VND,Full Unmask Field VendorDetail vendorHeader.vendorTaxNumber,Authorizes users to view the entire Tax Number on the Vendor Maintenance Document and Inquiry.,Y
-138,138,1,26,KFS-VND,Modify Maintenance Document Field VendorDetail vendorHeader.vendorTaxNumber,Authorizes users to modify the Tax Number on a Vendor Maintenance Document.,Y
-139,139,1,44,KFS-VND,Modify Maintenance Document Section VendorDetail vendorContracts,Authorizes users to see and edit the Contracts Tab on the Vendor Maintenance Document.,Y
-15,15,1,29,KFS-CAB,Use Screen KFS-CAB,Allows users to access the Capital Asset Builder screens (Purchasing/Accounts Payable Transactions and Other General Ledger Transactions).,Y
-16,16,1,10,KFS-CAM,Initiate Document MPAY,Authorizes the initiation of the Asset Payments Document.,Y
-169,169,1,15,KFS-SYS,Save Document KFS,Authorizes user to save documents answering to the FinancialSystemDocument parent document Type.,Y
-17,17,1,10,KFS-CAM,Initiate Document BCIE,Authorizes the initiation of the Barcode Inventory Error Document.,Y
-18,18,1,10,KFS-CAM,Initiate Document CAM,Authorizes the initiation of the Capital Asset Management Transactional Documents.,Y
-184,184,1,44,KFS-VND,Modify Maintenance Document Section VendorDetail vendorCommodities,Allows users to modify the Vendor Commodity Codes tab on the Vendor document. ,Y
-185,185,1,16,KFS-FP,Edit Document CMD PreRoute,Authorizes users who can edit the Cash Management Document prior to it being submitted for routing.,Y
-187,187,1,27,KFS-FP,Full Unmask Field DisbursementPayee taxNumber,Allows users to view the tax id in the Disbursement Voucher.,Y
-188,188,1,41,KFS-AR,Modify Accounting Lines INV Account sourceAccountingLines,Allows users to modify the Source accounting lines on an Invoice document that has not yet been submitted for routing.,Y
-189,189,1,41,KFS-FP,Modify Accounting Lines SB PreRoute sourceAccountingLines,Allows users to modify the Target accounting lines on a Procurement Card Document that is at the Account Full Entry Node of routing.,Y
-19,19,1,10,KFS-CAM,Initiate Document CAMM,Authorizes the initiation of the Capital Asset Complex Maintenance Documents.,Y
-190,190,1,41,KFS-FP,Modify Accounting Lines FP Account sourceAccountingLines,Allows users to modify the Source accounting lines on documents answering to the parent document Financial Processing Transactional Document when a document is at the Account Node of routing.,Y
-191,191,1,41,KFS-FP,Modify Accounting Lines FP Account targetAccountingLines,Allows users to modify the Target accounting lines on documents answering to the parent document Financial Processing Transactional Document when a document is at the Account Node of routing.,Y
-192,192,1,41,KFS-FP,Modify Accounting Lines DV Campus sourceAccountingLines.financialObjectCode,Allows users to modify the object code of Source accounting lines on a Disbursement Voucher document that is at the Campus Node of routing.,Y
-193,193,1,41,KFS-FP,Modify Accounting Lines DV Tax sourceAccountingLines.amount,Allows users to modify the amount of Source accounting lines on a Disbursement Voucher document that is at the Tax Node of routing.,Y
-194,194,1,41,KFS-FP,Modify Accounting Lines DV Travel sourceAccountingLines.amount,Allows users to modify the amount of Source accounting lines on a Disbursement Voucher document that is at the Travel Node of routing.,Y
-195,195,1,41,KFS-FP,Modify Accounting Lines DV PaymentMethod sourceAccountingLines.amount,Allows users to modify the amount of Source accounting lines on a Disbursement Voucher document that is at the Payment Method Node of routing.,Y
-196,196,1,41,KFS-LD,Modify Accounting Lines LD Account targetAccountingLines,Allows users to modify the Target accounting lines on documents answering to the parent document Labor Distribution Transactional Document when a document is at the Account Node of routing.,Y
-197,197,1,41,KFS-LD,Modify Accounting Lines ST targetAccountingLines.financialObjectCode,Allows users to modify the object code on Target (To side) accounting lines of the Salary Expense Transfer document.,Y
-198,198,1,41,KFS-PURAP,Modify Accounting Lines PUR Account items.sourceAccountingLines,Allows users to modify the Source accounting lines on documents answering to the parent document Purchasing Transactional Document when a document is at the Account Node of routing.,Y
-199,199,1,41,KFS-PURAP,Modify Accounting Lines AP Account items.sourceAccountingLines,Allows users to modify the Source accounting lines on documents answering to the parent document Accounts PayableTransactional Document when a document is at the Account Node of routing.,Y
-20,20,1,1,KFS-CAM,Add Negative Payments,Allow the creation of negative payments when processing an Asset document. ,Y
-200,200,1,41,KFS-CAM,Modify Accounting Lines MPAY Account sourceAccountingLines,Allows users to modify the Source accounting lines on Asset Payment document at the Account Node of routing.,Y
-201,201,1,4,KFS-CG,Blanket Approve Document PRPL,Allows access to the Blanket Approval button on the Proposal Document.,Y
-202,202,1,10,KFS-LD,Initiate Document ST,Authorizes the initiation of the Salary Expense Transfer Document.,Y
-205,205,1,4,KFS-LD,Blanket Approve Document ST,Allows access to the Blanket Approval button on the Salary Expense Transfer Document.,Y
-206,206,1,31,KFS-EC,Use Transactional Document ECD detailTabEntry,Users who can access the Effort Detail Tab on the Effort Certification Document.,Y
-207,207,1,31,KFS-EC,Use Transactional Document ECD summaryTabEntry,Users who can access the Effort Summary Tab on the Effort Certification Document.,Y
-209,209,1,31,KFS-FP,Use Transactional Document DV taxEntry,Users who can complete the Nonresident Alien Tax Tab on the Disbursement Voucher document.,Y
-21,21,1,1,KFS-CAM,Merge,Users allowed to merge assets on the Asset Retirement document.,Y
-210,210,1,31,KFS-FP,Use Transactional Document DV frnEntry,Users who can modify the Foreign Draft tab and disbursement amount on Disbursement Voucher documents.,Y
-211,211,1,31,KFS-FP,Use Transactional Document DV wireEntry,Users who can modify Wire Transfer tab and disbursement amount on Disbursement Voucher documents.,Y
-212,212,1,31,KFS-FP,Use Transactional Document DV travelEntry,"Users who can modify Non-Employee Travel Expense tab, disbursement amount on Disbursement Voucher documents.",Y
-217,217,1,31,KFS-PURAP,Use Transactional Document AP editPreExtract,Users who can edit specific data on a Payment Request or Credit Memo before the document is extracted to PDP.,Y
-22,22,1,1,KFS-CAM,Override CAPITALIZATION_LIMIT_AMOUNT,Users allowed to capitalize assets with dollar amounts below the institution's Capitalization limit.,Y
-220,220,1,48,KFS-SYS,Edit Bank Code KFST,Users who can edit the Bank Code field on documents answering to the parent document Financial System Transactional Document.,Y
-225,225,1,40,KFS-BC,Open Document BC,Users who can open the Budget Construction document.,Y
-228,228,1,1,KFS-BC,Import / Export Payrate,Allows users to access the Import/Export Payrate screen in Budget Construction. By default granted to processors for the top level organization in the org hierarchy.,Y
-229,229,1,1,KFS-BC,Unlock,Allows users to access the Unlock screen in Budget Construction. By default granted to processors for the top level organization in the org hierarchy.,Y
-23,23,1,1,KFS-CAM,Raze,Users who can choose the Raze Asset Retirement Reason.,Y
-230,230,1,1,KFS-LD,Override Transfer Impacting Open Effort Certification,Users who receive an option to override the edit preventing the submission of Salary Expense Transfers involving an open Effort Certification Period.,Y
-233,233,1,28,KFS-PDP,Partial Unmask Field PayeeACHAccount bankAccountNumber,Authorizes users to view the last four-digits of the bank account number on the Payee ACH document and Inquiry.,Y
-234,234,1,27,KFS-PDP,Full Unmask Field ACHBank bankRoutingNumber,Authorizes users to view the entire bank routing number on the ACH Bank document and Inquiry.,Y
-235,235,1,27,KFS-PDP,Full Unmask Field PayeeACHAccount bankAccountNumber,Authorizes users to view the entire bank account number on the Payee ACH document and Inquiry.,Y
-236,236,1,27,KFS-PDP,Full Unmask Field PayeeACHAccount bankRoutingNumber,Authorizes users to view the entire bank routing number on the Payee ACH document and Inquiry.,Y
-238,238,1,41,KFS-FP,Modify Accounting Lines FP PreRoute sourceAccountingLines,Allows users to modify the Source accounting lines on documents answering to the parent document Accounts Financial Processing Transactional Document when a document has not yet been submitted for routing.,Y
-239,239,1,41,KFS-FP,Modify Accounting Lines FP PreRoute targetAccountingLines,Allows users to modify the Target accounting lines on documents answering to the parent document Financial Processing Transactional Document when a document has not yet been submitted for routing.,Y
-24,24,1,1,KFS-CAM,Retire Multiple,Users allowed to retire more than one asset on an Asset Retirement document.,Y
-240,240,1,41,KFS-LD,Modify Accounting Lines LD PreRoute targetAccountingLines,Allows users to modify the Target accounting lines on documents answering to the parent document Labor Distribution Transactional Document  when a document has not yet been submitted for routing.,Y
-241,241,1,41,KFS-PURAP,Modify Accounting Lines PUR PreRoute items.sourceAccountingLines,Allows users to modify the Source accounting lines on documents answering to the parent document Purchasing Transactional Document when a document has not yet been submitted for routing.,Y
-242,242,1,41,KFS-PURAP,Modify Accounting Lines AP PreRoute items.sourceAccountingLines,Allows users to modify the Source accounting lines on documents answering to the parent document Accounts PayableTransactional Document when a document has not yet been submitted for routing.,Y
-243,243,1,41,KFS-AR,Modify Accounting Lines INV PreRoute sourceAccountingLines,Allows users to modify the Source accounting lines on an Invoice document that has not yet been submitted for routing.,Y
-244,244,1,41,KFS-CAM,Modify Accounting Lines CAM PreRoute sourceAccountingLines,Allows users to modify the Source accounting lines on documents answering to the parent document Capital Asset ManagementTransactional Document  when a document has not yet been submitted for routing.,Y
-245,245,1,10,KFS-AR,Initiate Document CUS,Authorizes the initiation of the Customer Document.,Y
-246,246,1,10,KFS-AR,Initiate Document INV,Authorizes the initiation of the Invoice Document.,Y
-247,247,1,10,KFS-BC,Initiate Document BC,Authorizes the initiation of the Budget Construction Document.,Y
-248,248,1,42,KFS-AR,Create / Maintain Record(s) OOPT FALSE,Users allowed to create new and maintain existing records using the Organization Options document.,Y
-249,249,1,42,KFS-AR,Create / Maintain Record(s) OOPT TRUE,Users allowed to maintain existing (but not create new) records using the Organization Options document.,Y
-25,25,1,1,KFS-CAM,Retire Non-Movable Assets,Users authorized to retire non-movable assets.,Y
-250,250,1,42,KFS-CAM,Create / Maintain Record(s) CASM FALSE,Users allowed to create new and maintain existing  records using the Asset document.,Y
-251,251,1,29,KFS-BC,Use Screen KFS-BC,Allows users to access Budget Construction Selection.,Y
-256,256,1,23,KFS-SYS,Look Up Records BatchJobStatus,Allow users to access the Batch File lookup.,Y
-257,257,1,29,KFS-PURAP,Use Screen org.kuali.kfs.module.purap.web.struts.B2BAction,Authorizes users to take the Shop Catalogs (or B2B) action.,Y
-258,258,1,45,KFS-PURAP,Add Note / Attachment PREQ Invoice Image,Users who can add notes and attachments to the Payment Request document when it is at the Invoice Attachment route node.,Y
-26,26,1,1,KFS-CAM,Separate,Users authorized to separate assets.,Y
-260,260,1,46,KFS-PURAP,View Note / Attachment PREQ Invoice Image,"Authorizes users to view attachments with a type of ""Invoice Image"" on Payment Request documents.",Y
-263,263,1,47,KFS-SYS,Delete Note / Attachment KFS FALSE,Authorizes users to delete notes and attachments created by any user on documents answering to the Financial System Document parent document type.,Y
-266,266,1,16,KFS-BC,Edit Document BC F,"The budget construction document does not really use workflow, and all editing is done after the workflow status is final. This permission allows the derived, Budget Construction Document Editor role to allow access to edit the document based on other roles, e.g. Fiscal Officer for account, Organization Reveiwer for org.",Y
-268,268,1,16,KFS-PURAP,Edit Document PREQ R,Authorizes users who can edit Payment Request Documents that are in ENROUTE status.,Y
-269,269,1,40,KFS-PURAP,Open Document PRAP,Authorizes users to open Purchasing Accounts Payable Transactional documents.,Y
-27,27,1,1,KFS-CAM,Transfer Non-Movable Assets,Authorizes users who can transfer non-movable assets.,Y
-270,270,1,29,KFS-PURAP,Use Screen org.kuali.kfs.module.purap.document.web.struts.PrintAction,Authorizes users to take the Print action on a Purchase Order.,Y
-271,271,1,29,KFS-SYS,Use Screen org.kuali.kfs.sys.web.struts.ElectronicFundTransferAction,Allows users to access the Electronic Funds Transfer screen.,Y
-272,272,1,31,KFS-PURAP,Use Transactional Document PO printPurchaseOrder,Users who can print a Purchase Order document.,Y
-273,273,1,31,KFS-PURAP,Use Transactional Document PO previewPrintPurchaseOrder,Users who can preview a Purchase Order document before printing it.,Y
-274,274,1,31,KFS-PURAP,Use Transactional Document PO assignSensitiveData,Users who can assign sensitive data to a Purchase Order document which locks down who is allowed to view the PO and its related documents.,Y
-275,275,1,31,KFS-PURAP,Use Transactional Document PO resendPurchaseOrder,Users who can resend Purchase Order cxml to the B2B integrator.,Y
-276,276,1,31,KFS-PURAP,Use Transactional Document PREQ requestPaymentRequestCancel,Users authorized to take the Request Cancel action on Payment Request documents.,Y
-277,277,1,31,KFS-PURAP,Use Transactional Document PREQ paymentRequestHoldCancelRemoval,Authorizes users to remove Holds or Cancels on Payment Request documents.,Y
-279,279,1,41,KFS-LD,Modify Accounting Lines LD PreRoute sourceAccountingLines,Allows users to modify the Source accounting lines on documents answering to the parent document Labor Distribution Transactional Document  when a document has yet to be submitted for routing.,Y
-28,28,1,1,KFS-CAM,"Use Acquisition Type ""New""","Authorizes users who can use the Acquisition Type of ""New"" on the Asset document.",Y
-280,280,1,41,KFS-FP,Modify Accounting Lines PCDO AccountFullEdit sourceAccountingLines,Allows users to modify the Source accounting lines on a Procurement Card Document that is at the Account Full Entry Node of routing.,Y
-281,281,1,41,KFS-FP,Modify Accounting Lines PCDO AccountFullEdit targetAccountingLines,Allows users to modify the Target accounting lines on a Procurement Card Document that is at the Account Full Entry Node of routing.,Y
-282,282,1,31,KFS-PURAP,Use Transactional Document AP managerCancel,Users who can cancel Payment Request or Credit Memo documents at a manager level.,Y
-283,283,1,31,KFS-PURAP,Use Transactional Document AP processorCancel,Users who can cancel Payment Request or Credit Memo documents at a processor level.,Y
-284,284,1,40,KFS-PURAP,Open Document ACM,Authorizes users to open the Contract Manager Assignment Document.,Y
-285,285,1,29,KFS-PDP,Use Screen KFS-PDP,Allows users to access all Pre-Disbursement Processor screens.,Y
-286,286,1,31,KFS-PURAP,Use Transactional Document PREQ requestPaymentRequestHold,Authorizes users to put Payment Request documents on Hold.,Y
-287,287,1,29,KFS-GL,Use Screen org.kuali.kfs.gl.web.struts.BalanceInquiryAction,Allows users to access Balance Inquiry screens. ,Y
-29,29,1,1,KFS-CAM,Use Restricted Retirement Reason,Allows the use of restricted retirement reasons on the Asset or Asset Retirement Global documents.,Y
-291,291,1,40,KFS-PURAP,Open Document EIRT,Authorizes users to open the Electronic Invoice Reject Document.,Y
-292,292,1,33,KFS-PURAP,Upload Batch Input File(s) electronicInvoiceInputFileType,Authorizes users to upload eInvoice files.,Y
-293,293,1,31,KFS-PURAP,Use Transactional Document CM requestVendorCreditMemoHold,Authorizes users to put Credit Memo documents on Hold.,Y
-294,294,1,31,KFS-PURAP,Use Transactional Document CM vendorCreditMemoHoldRemoval,Authorizes users to remove a Hold from Credit Memo documents.,Y
-295,295,1,1,KFS-BC,Use Organization Salary Setting,Allows users to access Organizaton Salary Setting within Budget Construction.,Y
-296,296,1,1,KFS-BC,Edit Appointment Funding,Authorizes users to edit Appointment Funding Lines within Budget Construction Salary Setting.,Y
-297,297,1,1,KFS-BC,View Appointment Funding Amounts,Authorizes users to view Appointment Funding Lines within Budget Construction Salary Setting.,Y
-3,3,1,10,KFS-AR,Initiate Document ARM,Authorizes the initiation of the Accounts Receivable Complex Maintenance Documents.,Y
-301,301,1,29,KFS-GL,Use Screen org.kuali.kfs.sys.web.struts.KualiBalanceInquiryReportMenuAction,"Allows users to see menu of balance inquiries after hitting ""balance inquiry"" button on an accounting line in an accounting document.",Y
-302,302,1,10,KFS-CAM,Initiate Document DEPR,Authorizes the initiation of the Asset Depreciation Document.,Y
-303,303,1,23,KFS-CAB,Look Up Records KFS-CAB,Allows users to access the CAB AP and GL Transactions screens.,Y
-304,304,1,24,KFS-CAB,Inquire Into Records KFS-CAB,Allows users to access Capital Asset Builder inquiries.,Y
-305,305,1,42,KFS-AR,Create / Maintain Record(s) IICO FALSE,Users allowed to create new and maintain existing  records using the Customer Invoice Item Code document.,Y
-308,308,1,41,KFS-PURAP,Modify Accounting Lines REQS Initiator items.sourceAccountingLines,Allows users to modify the Source accounting lines on a Requisition Document that is at the Initiator Node of routing.,Y
-313,313,1,45,KFS-PURAP,Add Note / Attachment PO Contracts,"Authorizes users to add notes and attachments with a type of ""Contracts"" to the Purchase Order document. ",Y
-314,314,1,46,KFS-PURAP,View Note / Attachment PO Contracts,"Authorizes users to view attachments with a type of ""Contract"" on Purchase Order documents and documents answering to that document type.",Y
-315,315,1,45,KFS-PURAP,Add Note / Attachment PO Contract Ammendments,"Authorizes users to add notes and attachments with a type of ""Contract"" on Purchase Order documents and documents answering to that document type.",Y
-316,316,1,46,KFS-PURAP,View Note / Attachment PO Contract Ammendments,"Authorizes users to view attachments with a type of ""Contract Amendments"" on Purchase Order documents and documents answering to that document type.",Y
-317,317,1,45,KFS-PURAP,Add Note / Attachment PO Quotes,"Authorizes users to add notes and attachments with a type of ""Quotes"" on Purchase Order documents and documents answering to that document type.",Y
-318,318,1,46,KFS-PURAP,View Note / Attachment PO Quotes,"Authorizes users to view attachments with a type of ""Quotes"" on Purchase Order documents and documents answering to that document type.",Y
-319,319,1,45,KFS-PURAP,Add Note / Attachment PO RFPs,"Authorizes users to add notes and attachments with a type of ""RFPs"" on Purchase Order documents and documents answering to that document type.",Y
-32,32,1,26,KFS-CAM,Modify Maintenance Document Field Asset organizationOwnerChartOfAccountsCode,Users who can modify the Owner Chart of Accounts Code field on the Asset document.,Y
-320,320,1,46,KFS-PURAP,View Note / Attachment PO RFPs,"Authorizes users to view attachments with a type of ""RFPs"" on Purchase Order documents and documents answering to that document type.",Y
-321,321,1,45,KFS-PURAP,Add Note / Attachment PO RFP Responses,"Authorizes users to add notes and attachments with a type of ""RFP"" on Purchase Order documents and documents answering to that document type.",Y
-322,322,1,46,KFS-PURAP,View Note / Attachment PO RFP Responses,"Authorizes users to view attachments with a type of ""RFP"" on Purchase Order documents and documents answering to that document type.",Y
-323,323,1,45,KFS-PURAP,Add Note / Attachment PO Other - Restricted,"Authorizes users to add notes or attachments with a type of ""Other-Restricted"" on Purchase Order documents and documents answering to that document type.",Y
-324,324,1,46,KFS-PURAP,View Note / Attachment PO Other - Restricted,"Authorizes users to view attachments with a type of ""Other-Restricted"" on Purchase Order documents and documents answering to that document type.",Y
-325,325,1,45,KFS-PURAP,Add Note / Attachment CM Credit Memo Image,"Authorizes users to add notes or attachments with a type of ""Credit Memo Image"" on Credit Memo documents.",Y
-326,326,1,46,KFS-PURAP,View Note / Attachment CM Credit Memo Image,"Authorizes users to view attachments with a type of ""Credit Memo Image"" on Credit Memo documents.",Y
-327,327,1,1,KFS-CAM,Maintain Asset Location,Allows user to maintain the location of assets on the Asset document.,Y
-328,328,1,41,KFS-PURAP,Modify Accounting Lines REQS Organization items.sourceAccountingLines,Allows users to modify the Source accounting lines on a Requisition Document that is at the Organization Node of routing.,Y
-329,329,1,29,KFS-FP,Use Screen org.kuali.kfs.fp.document.web.struts.CashManagementStatusAction,Allows access to the Cash Management Document screen that a user sees when they try to initiate and a document is already open for their campus. The screen provides them a link to the existing document for their campus.,Y
-33,33,1,26,KFS-CAM,Modify Maintenance Document Field Asset organizationOwnerAccountNumber,Users who can modify the Owner Account Number field on the Asset document.,Y
-330,330,1,29,KFS-FP,Use Screen org.kuali.kfs.fp.document.web.struts.DepositWizardAction,Allows access to the Cash Management Document screen from which a user can create new deposits.,Y
-331,331,1,29,KFS-FP,Use Screen org.kuali.kfs.fp.web.struts.CashDrawerCorrectionAction,Allows access to the Cash Management Document screen from which a user can correct amounts on a closed cash drawer.,Y
-335,335,1,26,KFS-VND,Modify Maintenance Document Field VendorDetail vendorHeader.vendorTaxTypeCode,Authorizes users to modify the Tax Type Code on a Vendor Maintenance Document.,Y
-34,34,1,26,KFS-CAM,Modify Maintenance Document Field Asset capitalAssetInServiceDate,Users who can modify the Capital Asset In Service Date field on the Asset document.,Y
-342,342,1,26,KFS-CAM,Modify Maintenance Document Field Asset capitalAssetTypeCode,Users who can modify the Capital Asset Type Code field on the Asset document.,Y
-343,343,1,26,KFS-CAM,Modify Maintenance Document Field Asset capitalAssetDescription,Users who can modify the Capital Asset Description field on the Asset document.,Y
-344,344,1,26,KFS-CAM,Modify Maintenance Document Field Asset campusTagNumber,Users who can modify the Campus Tag Number field on the Asset document.,Y
-346,346,1,30,KFS-CAM,Perform Custom Maintenance Document Function calculateEqualSourceAmountsButton,,Y
-347,347,1,30,KFS-CAM,Perform Custom Maintenance Document Function calculateSeparateSourceRemainingAmountButton,,Y
-348,348,1,25,KFS-CAM,View Inquiry or Maintenance Document Field Asset oldTagNumber,Users who can view the Old Tag Number on the Asset document.,Y
-349,349,1,10,KFS-AR,Initiate Document IICO,Authorizes the initiation of Customer Invoice Item Code Documents.,Y
-35,35,1,26,KFS-CAM,Modify Maintenance Document Field Asset agencyNumber,Users who can modify the Agency Number field on the Asset document.,Y
-350,350,1,10,KFS-FP,Initiate Document CR,Authorizes the initiation of the Cash Receipt Document.,Y
-351,351,1,1,KFS-COA,Serve As Account Supervisor,Identifies users that can be Account Supervisors.,Y
-352,352,1,1,KFS-COA,Serve As Fiscal Officer,Identifies users that can be Account Fiscal Officers.,Y
-353,353,1,1,KFS-COA,Serve As Fiscal Officer Delegate,Identifies users that can be Account Fiscal Officer Delegates.,Y
-354,354,1,29,KFS-FP,Use Screen org.kuali.kfs.fp.document.web.struts.DisbursementVoucherHelpAction,???,Y
-355,355,1,41,KFS-PURAP,Modify Accounting Lines POA NewUnorderedItems items.sourceAccountingLines,Allows users to modify the Source accounting lines on a Purchase Order Amendment Document that is at the New Unordered Items Node of routing.,Y
-356,356,1,10,KFS-PURAP,Initiate Document CM,Authorizes the initiation of the Credit Memo Document.,Y
-357,357,1,4,KFS-AR,Blanket Approve Document APP,Allows access to the Blanket Approval button on the Application Document.,Y
-358,358,1,41,KFS-FP,Modify Accounting Lines DV Travel sourceAccountingLines.financialObjectCode,Allows users to modify the object code of Source accounting lines on a Disbursement Voucher Document that is at the Travel Node of routing.,Y
-36,36,1,26,KFS-CAM,Modify Maintenance Document Field Asset vendorName,Users who can modify the Vendor Name field on the Asset document.,Y
-360,360,1,10,KFS-AR,Initiate Document INVR,Authorizes the initiation of Invoice Recurrence Documents.,Y
-361,361,1,10,KFS-FP,Initiate Document CDS,Authorizes the initiation of the Cash Drawer Document.,Y
-362,362,1,50,KFS-SYS,View Batch File(s) KFS*,Authorizes users to view batch files using the Batch File lookup screen.,Y
-363,363,1,23,KFS-PDP,Look Up Records KFS-PDP PurchasingPaymentDetail,Allow users to access Pre Disbursement Processor lookups.,Y
-364,364,1,27,KFS-VND,Full Unmask Field VendorDetail vendorHeader.vendorTaxTypeCode,Authorizes users to view the entire Tax Number on the Vendor Maintenance Document and Inquiry.,Y
-365,365,1,16,KFS-PURAP,Edit Document PREQ P,Authorizes users who can edit Payment Request Documents that are in ENROUTE status.,Y
-366,366,1,16,KFS-PURAP,Edit Document PREQ F,Authorizes users who can edit Payment Request Documents that are in ENROUTE status.,Y
-367,367,1,16,KFS-PURAP,Edit Document CM P,Authorizes users who can edit Credit Memo Documents that are in PROCESSED status.,Y
-368,368,1,16,KFS-PURAP,Edit Document CM F,Authorizes users who can edit Credit Memo Documents that are in FINAL status.,Y
-369,369,1,42,KFS-AR,Create / Maintain Record(s) OADF FALSE,Users allowed to create new and maintain existing records using the Organization Accounting Default document.,Y
-37,37,1,26,KFS-CAM,Modify Maintenance Document Field Asset oldTagNumber,Users who can modify the Old Tag Number field on the Asset document.,Y
-371,371,1,41,KFS-AR,Modify Accounting Lines INV Recurrence sourceAccountingLines.invoiceItemDescription,Allows users to modify the Invoice Item Description of Source accounting lines on an Invoice document that is at the Recurrence Node of routing.,Y
-372,372,1,48,KFS-FP,Edit Bank Code CMD,Users who can edit the Bank Code field on the Cash Management Document.,Y
-373,373,1,48,KFS-PURAP,Edit Bank Code PREQ,Users who can edit the Bank Code field on the Payment Request Document.,Y
-374,374,1,48,KFS-FP,Edit Bank Code DV,Users who can edit the Bank Code field on the Disbursement Voucher Document.,Y
-375,375,1,23,KFS-CAB,Look Up Records Pretag,Allows users to access the Pre-Asset Tagging screens.,Y
-376,376,1,42,KFS-CAB,Create / Maintain Record(s) PTAG,Users allowed to create new and maintain existing records using the Pre-Asset Tagging document.,Y
-377,377,1,1,KFS-CAM,Edit When Tagged Prior Fiscal Year,Authorizes users to edit assets tagged in a prior fiscal year.,Y
-379,379,1,10,KFS-SYS,Initiate Document IdentityManagementGroupDocument,Authorizes the initiation of the KIM Group document.,Y
-38,38,1,26,KFS-CAM,Modify Maintenance Document Field Asset governmentTagNumber,Users who can modify the Government Tag Number field on the Asset document.,Y
-380,380,1,10,KFS-COA,Initiate Document GORV,Authorizes the initiation of the Organization Reversion Global Document.,Y
-381,381,1,27,KFS-FP,Full Unmask Field DisbursementVoucherWireTransfer disbVchrPayeeAccountNumber,Authorizes users to view the entire bank account number on the Wire Transfer tab of the Disbursement Voucher document.,Y
-382,382,1,16,KFS-SYS,Edit Document FSSM AdHoc R,Authorizes users to edit Simple Maintenance document at the AdHoc route node.,Y
-383,383,1,16,KFS-SYS,Edit Document KFSM AdHoc R,Authorizes users to edit Complex Maintenance document at the AdHoc route node.,Y
-385,385,1,33,KFS-GL,Upload Batch Input File(s) collectorFlatFileInputFileType,Authorizes user to access the Collector Flat File Upload page.,Y
-386,386,1,27,KFS-PDP,Full Unmask Field PaymentDetail achBankRoutingNbr,Authorizes users to view the entire bank routing number on the Payment Detail Inquiry.,Y
-387,387,1,27,KFS-PDP,Full Unmask Field PaymentDetail achBankAccountNbr,Authorizes users to view the entire bank account number on the Payment Detail Inquiry.,Y
-39,39,1,26,KFS-CAM,Modify Maintenance Document Field Asset nationalStockNumber,Users who can modify the National Stock Number field on the Asset document.,Y
-390,390,1,9,KFS-SYS,Ad Hoc Review Document KFS A,Authorizes users to take the Approve action on KFS documents Ad Hoc routed to them.,Y
-391,391,1,9,KFS-SYS,Ad Hoc Review Document KFS F,Authorizes users to take the FYI action on KFS documents Ad Hoc routed to them.,Y
-392,392,1,9,KFS-SYS,Ad Hoc Review Document KFS K,Authorizes users to take the Acknowledge action on KFS documents Ad Hoc routed to them.,Y
-40,40,1,26,KFS-CAM,Modify Maintenance Document Field Asset financialObjectSubTypeCode,Users who can modify the Financial Object Sub Type Code field on the Asset document.,Y
-42,42,1,33,KFS-CAM,Upload Batch Input File(s) assetBarcodeInventoryInputFileType,Authorizes users to access the Barcode Inventory Process upload page.,Y
-43,43,1,25,KFS-CAM,View Inquiry or Maintenance Document Field Asset replacementAmount,Users who can view the Replacement Amount field on the Asset document.,Y
-44,44,1,25,KFS-CAM,View Inquiry or Maintenance Document Field Asset estimatedSellingPrice,Users who can view the Estimated Selling Price field on the Asset document.,Y
-46,46,1,25,KFS-CAM,View Inquiry or Maintenance Document Field Asset conditionCode,Users who can view the Condition Code on the Asset document.,Y
-47,47,1,25,KFS-CAM,View Inquiry or Maintenance Document Field Asset landCountyName,Users who can view the Land County Name on the Asset document.,Y
-48,48,1,25,KFS-CAM,View Inquiry or Maintenance Document Field Asset landAcreageSize,Users who can view the Land Acreage Size on the Asset document.,Y
-49,49,1,25,KFS-CAM,View Inquiry or Maintenance Document Field Asset landParcelNumber,Users who can view the Land Parcel Number on the Asset document.,Y
-5,5,1,10,KFS-AR,Initiate Document APP,Authorizes the initiation of Application Documents.,Y
-51,51,1,10,KFS-CG,Initiate Document CLOS,Authorizes the initiation of the CFDA Close Document.,Y
-52,52,1,10,KFS-CG,Initiate Document PRPL,Authorizes the initiation of the Proposal Document.,Y
-54,54,1,43,KFS-CG,View Inquiry or Maintenance Document Section Proposal proposalResearchRisks,Authorizes users to vew the Research Risk tab on the Proposal document.,Y
-55,55,1,10,KFS-COA,Initiate Document GOBJ,Authorizes the initiation of the Global Object Code Document.,Y
-56,56,1,10,KFS-COA,Initiate Document ORGR,Authorizes the initiation of the Organization Reversion Document.,Y
-58,58,1,1,KFS-COA,Edit Inactive Account,Users who can edit Accounts that are inactive.,Y
-59,59,1,1,KFS-COA,Serve As Account Manager,Identifies users that can be Account Managers,Y
-6,6,1,10,KFS-AR,Initiate Document CTRL,Authorizes the initiation of the Cash Control Document.,Y
-60,60,1,26,KFS-COA,Modify Maintenance Document Field SubAccount a21SubAccount,Authorizes users to edit the Sub-Account Type Code on the Sub-Account document.,Y
-61,61,1,26,KFS-COA,Modify Maintenance Document Field Organization organizationPlantChartCode,Users who can edit the Organization Plant Chart Code on the Organization document.,Y
-62,62,1,26,KFS-COA,Modify Maintenance Document Field Organization organizationPlantAccountNumber,Users who can edit the Organization Plant Account Number on the Organization document.,Y
-63,63,1,26,KFS-COA,Modify Maintenance Document Field Organization campusPlantChartCode,Users who can edit the Campus Plant Chart Code on the Organization document.,Y
-64,64,1,26,KFS-COA,Modify Maintenance Document Field Organization campusPlantAccountNumber,Users who can edit the Campus Plant Account Number on the Organization document.,Y
-65,65,1,10,KFS-EC,Initiate Document ECD,Authorizes the initiation of the Effort Certification Document.,Y
-66,66,1,7,KFS-FP,Claim Electronic Payment DI,Users who can use a Distribution of Income and Expense document to claim Electronic Payments.,Y
-67,67,1,7,KFS-FP,Claim Electronic Payment YEDI,Users who can use a Year End Distribution of Income and Expense document to claim Electronic Payments.,Y
-69,69,1,10,KFS-FP,Initiate Document CMD,Authorizes the initiation of the Cash Management Document.,Y
-70,70,1,10,KFS-FP,Initiate Document SB,Authorizes the initiation of the Service Billing Document.,Y
-71,71,1,10,KFS-FP,Initiate Document JV,Authorizes the initiation of the Journal Voucher Document.,Y
-72,72,1,10,KFS-FP,Initiate Document PCDO,Authorizes the initiation of the  Procurement Card Document.,Y
-73,73,1,27,KFS-FP,Full Unmask Field ProcurementCardHolder transactionCreditCardNumber,Authorizes users to view the entire Credit Card number on the Procurement Card document and Inquiry.,Y
-74,74,1,33,KFS-FP,Upload Batch Input File(s) procurementCardInputFileType,Authorizes users to access the Procurement Card Upload page.,Y
-75,75,1,10,KFS-GL,Initiate Document GLCP,Authorizes the initiation of the  General Ledger Correction Process Document.,Y
-76,76,1,33,KFS-GL,Upload Batch Input File(s) collectorXmlInputFileType,Authorizes user to access the Collector XML Upload page.,Y
-77,77,1,33,KFS-GL,Upload Batch Input File(s) enterpriseFeederFileSetType,Authorizes user to access the Enterprise Feed Upload page.,Y
-78,78,1,10,KFS-LD,Initiate Document LLJV,Authorizes the initiation of the Labor Journal Voucher Document.,Y
-79,79,1,10,KFS-LD,Initiate Document LLCP,Authorizes the initiation of the  Labor Ledger Correction Process Document.,Y
-8,8,1,10,KFS-AR,Initiate Document AR,Authorizes the initiation of Accounts Receivable Transactional Documents.,Y
-80,80,1,1,KFS-PDP,Set as Immmediate Pay,Authorizes users to set and remove immediate status on payments in PDP.,Y
-81,81,1,10,KFS-PDP,Initiate Document PDSM,Authorizes the initiation of Pre-Disbursement Processor Simple Maintenance Documents.,Y
-82,82,1,1,KFS-PDP,Cancel Payment,Authorizes users to take the Cancel action on payments in PDP.,Y
-83,83,1,1,KFS-PDP,Format,Authorizes users to access and run the Format Checks /ACH screen in PDP,Y
-84,84,1,1,KFS-PDP,Hold Payment / Remove Non-Tax Payment Hold,Authorizes users to hold payments and remove non-tax related holds on payments in PDP.,Y
-86,86,1,1,KFS-PDP,Remove Format Lock,Users who can reset a format process in PDP.,Y
-87,87,1,1,KFS-PDP,Remove Payment Tax Hold,Authorizes users to remove payments held for tax review in PDP.,Y
-88,88,1,24,KFS-PDP,Inquire Into Records KFS-PDP,Allows users to access Pre Disbursement Processor inquiries.,Y
-89,89,1,23,KFS-PDP,Look Up Records KFS-PDP,Allow users to access Pre Disbursement Processor lookups.,Y
-9,9,1,27,KFS-AR,Full Unmask Field Customer customerTaxNbr,Authorizes users to view the entire Tax Number on the Customer document and Inquiry.,Y
-90,90,1,33,KFS-PDP,Upload Batch Input File(s) paymentInputFileType,Allows access to the Manually Upload Payment File screen in PDP.,Y
-91,91,1,4,KFS-PURAP,Blanket Approve Document PREQ,Allows access to the Blanket Approval button on the Payment Request Document.,Y
-92,92,1,10,KFS-PURAP,Initiate Document REQS,Authorizes the initiation of the Requisition Document.,Y
-93,93,1,10,KFS-PURAP,Initiate Document PUR,Authorizes the initiation of Purchasing Transactional Documents.,Y
-94,94,1,10,KFS-PURAP,Initiate Document PO,Authorizes the initiation of the Purchase Order Document.,Y
-95,95,1,10,KFS-PURAP,Initiate Document POC,Authorizes the initiation of the Purchase Order Close Document.,Y
-96,96,1,10,KFS-PURAP,Initiate Document PORT,Authorizes the initiation of the Purchase Order Retransmit Document.,Y
-97,97,1,10,KFS-PURAP,Initiate Document PREQ,Authorizes the initiation of the Payment Request Document.,Y
-98,98,1,10,KFS-PURAP,Initiate Document RCV,Authorizes the initiation of Receiving Transactional Documents.,Y
-99,99,1,10,KFS-PURAP,Initiate Document EIRT,Authorizes the initiation of the Electronic Invoice Reject Document.,Y
-1101,1101,1,2,KFS-SYS,Copy Document KFS,Allows access to the Copy button on KFS Financial System Documents.,Y
-1103,1103,1,51,KFS-SYS,Add Message to Route Log KFS,Allows user to enter a message on the route log,Y
-1104,1104,1,10,KFS-ENDOW,Initiate Document ETB,Authorizes the initiation of the Endowment Batch created documents.,Y
-1105,1105,1,33,KFS-LD,Upload Batch Input File(s) laborEnterpriseFeederFileSetType,Authorizes user to access the Labor Enterprise Feed Upload page.,Y
-1106,1106,1,10,KFS-COA,Initiate Document ACCT,Authorizes the initiation of KFS Account Maintenance Documents.,Y
-KFSSEC6001,KFSSEC6001,1,10,KFS-SEC,Initiate Document AccessSecuritySimpleMaintenanceDocument,Authorizes the initiation of Access Security Simple Maintenance Documents.,Y
-KFSSEC6002,KFSSEC6002,1,23,KFS-SEC,Look Up Records KFS-SEC,Authorizes the lookup of Access Security records.,Y
-KFSSEC6003,KFSSEC6003,1,24,KFS-SEC,Inquire Into Records KFS-SEC,Authorizes inquiry of Access Security records.,Y
-KFSSEC6004,KFSSEC6004,1,16,KFS-SEC,Edit Document AccessSecuritySimpleMaintenanceDocument PreRoute,Authorizes edit of Access Security Simple Maintenance Documents.,Y
-KFSENDOW6005,KFSENDOW6005,1,10,KFS-ENDOW,Initiate Document TicklerMaintenanceDocument,Authorizes the initiation of the Tickler document,Y
-KFSENDOW6007,KFSENDOW6007,1,9,KFS-ENDOW,Ad Hoc Review Document TicklerMaintenanceDocument F,Authorizes Kuali Users to take the FYI action on Tickler Document Ad Hoc routed to them.,Y
-KFSENDOW6008,KFSENDOW6008,1,29,KFS-ENDOW,Use Endowment Reporting Screens org.kuali.kfs.module.endow.web.struts.TrialBalanceAction,Authorizes the use of the Trial Balance reporting screen within the Endowment module.,Y
-KFSENDOW6009,KFSENDOW6009,1,29,KFS-ENDOW,Use Endowment Reporting Screens org.kuali.kfs.module.endow.web.struts.TransactionStatementAction,Authorizes the use of the Transaction Statement reporting screen within the Endowment module.,Y
-KFSENDOW6010,KFSENDOW6010,1,29,KFS-ENDOW,Use Endowment Reporting Screens org.kuali.kfs.module.endow.web.struts.TransactionSummaryAction,Authorizes the use of the Transaction Summary reporting screen within the Endowment module.,Y
-KFSENDOW6011,KFSENDOW6011,1,29,KFS-ENDOW,Use Endowment Reporting Screens org.kuali.kfs.module.endow.web.struts.AssetStatementAction,Authorizes the use of the Asset Statement reporting screen within the Endowment module.,Y
-KFSAR6012,KFSAR6012,1,33,KFS-AR,Upload Customer CSV Files,Allows access to the Customer Upload Batch Upload page.,Y
-KFSPURAP6940,KFSPURAP6940,1,27,KFS-PURAP,Unmask PO # On PO Document,Authorizes users to view the entire Purchase Order Number on the PO Document and Inquiry,Y
-KFSLD6987,KFSLD6987h,1,33,KFS-LD,Upload Labor Enterprise Feed Batch Files,Allows access to the Labor Enterprise Feed Upload Batch Upload page.,Y
-KFSSYS7145a,KFSSYS7145a,1,1,KFS-SYS,View Accounting Period,Users who can view the accounting period field when enabled for year end processing.,Y
-KFSSYS7145b,KFSSYS7145b,1,1,KFS-SYS,Edit Accounting Period,Users who can edit the accounting period field when enabled for year end processing.,Y
+"PERM_ID","OBJ_ID","VER_NBR","PERM_TMPL_ID","NMSPC_CD","NM","DESC_TXT","ACTV_IND"
+"1","1","1","7","KFS-AR","Claim Electronic Payment CTRL","Allows access to the Electronic Fund Transfer interface for the claiming of electronic funds using the Cash Control Document (CTRL).","Y"
+"10","10","1","26","KFS-AR","Modify Maintenance Document Field Customer customerTaxNbr","Allows modification of the Customer Tax Number field on the Customer document.","Y"
+"100","100","1","16","KFS-PURAP","Edit Document REQS PreRoute","Edit permission for the Requisition document prior to the document being submitted.","Y"
+"101","101","1","16","KFS-PURAP","Edit Document PO PreRoute","Edit permission for the Purchase Order document prior to the document being submitted.","Y"
+"102","102","1","16","KFS-PURAP","Edit Document AP PreRoute","Edit permission for Accounts Payable Transactional documents prior to the document being submitted.","Y"
+"103","103","1","16","KFS-PURAP","Edit Document RCV PreRoute","Edit permission for Receiving Transactional documents prior to the document being submitted.","Y"
+"107","107","1","7","KFS-SYS","Claim Electronic Payment","Allows access to the Electronic Fund Transfer interface for the claiming of electronic funds.","Y"
+"108","108","1","6","KFS-SYS","Error Correct Document KFST","Allows access to the Error Correction button on KFS Transactional documents.","Y"
+"11","11","1","33","KFS-AR","Upload Batch Input File(s) customerLoadInputFileType","Allows access to the Customer Upload Batch Upload page.","Y"
+"1100","1100","1","3","KFS-SYS","Administer Routing for Document KFST","Allows users to open Financial System Documents via the Super search option in Document Search and take Administrative workflow actions on them (such as approving the document, approving individual requests, or sending the document to a specified route node).","Y"
+"113","113","1","3","KFS-SYS","Administer Routing for Document KFS","Allows users to open KFS documents via the Super search option in Document Search and take Administrative workflow actions on them (such as approving the document, approving individual requests, or sending the document to a specified route node).","Y"
+"114","114","1","4","KFS-SYS","Blanket Approve Document KFS","Allows access to the Blanket Approval button on KFS Financial System Documents.","Y"
+"115","115","1","10","KFS-SYS","Initiate Document KFS","Authorizes the initiation of Financial System Documents.","Y"
+"116","116","1","10","KFS-SYS","Initiate Document FSSM","Authorizes the initiation of Financial System Simple Maintenance documents.","Y"
+"117","117","1","10","KFS-SYS","Initiate Document BANK","Authorizes the initiation of the Bank Maintenance Document.","Y"
+"119","119","1","35","KFS-SYS","Assign Role KFS*","Authorizes users to modify the information on the Assignees Tab of the Role Document and the Roles section of the Membership Tab on the Person Document for roles with a Module Code beginning with KFS.","Y"
+"12","12","1","29","KFS-AR","Use Screen KFS-AR","Allows users access to screens in the KFS-AR module that are not documents, lookups, inquiries, or batch uploads, i.e. this primarily provides access to AR reports","Y"
+"120","120","1","36","KFS-SYS","Grant Permission KFS*","Authorizes users to modify the information on the Permissions tab of the Role Document for roles with a module code beginning with KFS.","Y"
+"121","121","1","37","KFS-SYS","Grant Responsibility KFS*","Authorizes users to modify the information on the Responsibility tab of the Role Document for roles with a Module Code that begins with KFS.","Y"
+"122","122","1","38","KFS-SYS","Populate Group KFS*","Authorizes users to modify the information on the Assignees Tab of the Group Document and the Group section of the Membership Tab on the Person Document for groups with namespaces beginning with KFS.","Y"
+"128","128","1","27","KFS-SYS","Full Unmask Field Bank bankAccountNumber","Authorizes users to view the entire bank account number on the Bank document and Inquiry.","Y"
+"129","129","1","24","KFS-SYS","Inquire Into Records KFS*","Allows users to access KFS inquiries.","Y"
+"130","130","1","23","KFS-SYS","Look Up Records KFS*","Allow users to access KFS lookups.","Y"
+"131","131","1","34","KFS-SYS","Maintain System Parameter KFS*","Authorizes users to initiate and edit the Parameter document for pameters with a module code beginning with KFS.","Y"
+"132","132","1","32","KFS-SYS","Modify Batch Job KFS*","Allows users to access and run Batch Jobs associated with KFS modules via the Schedule link.","Y"
+"133","133","1","40","KFS-SYS","Open Document KFS","Authorizes users to open KFS Financial System Documents.","Y"
+"134","134","1","28","KFS-SYS","Partial Unmask Field Bank bankAccountNumber","Authorizes users to view the last four-digits of the bank account number on the Bank document and Inquiry.","Y"
+"135","135","1","29","KFS-SYS","Use Screen KFS*","Allows users access to screens in the KFS that are not documents, lookups, inquiries, or batch uploads.","Y"
+"136","136","1","10","KFS-VND","Initiate Document PVEN","Authorizes users to initiate the Vendor Maintenance Document.","Y"
+"137","137","1","27","KFS-VND","Full Unmask Field VendorDetail vendorHeader.vendorTaxNumber","Authorizes users to view the entire Tax Number on the Vendor Maintenance Document and Inquiry.","Y"
+"138","138","1","26","KFS-VND","Modify Maintenance Document Field VendorDetail vendorHeader.vendorTaxNumber","Authorizes users to modify the Tax Number on a Vendor Maintenance Document.","Y"
+"139","139","1","44","KFS-VND","Modify Maintenance Document Section VendorDetail vendorContracts","Authorizes users to see and edit the Contracts Tab on the Vendor Maintenance Document.","Y"
+"15","15","1","29","KFS-CAB","Use Screen KFS-CAB","Allows users to access the Capital Asset Builder screens (Purchasing/Accounts Payable Transactions and Other General Ledger Transactions).","Y"
+"16","16","1","10","KFS-CAM","Initiate Document MPAY","Authorizes the initiation of the Asset Payments Document.","Y"
+"169","169","1","15","KFS-SYS","Save Document KFS","Authorizes user to save documents answering to the FinancialSystemDocument parent document Type.","Y"
+"17","17","1","10","KFS-CAM","Initiate Document BCIE","Authorizes the initiation of the Barcode Inventory Error Document.","Y"
+"18","18","1","10","KFS-CAM","Initiate Document CAM","Authorizes the initiation of the Capital Asset Management Transactional Documents.","Y"
+"184","184","1","44","KFS-VND","Modify Maintenance Document Section VendorDetail vendorCommodities","Allows users to modify the Vendor Commodity Codes tab on the Vendor document. ","Y"
+"185","185","1","16","KFS-FP","Edit Document CMD PreRoute","Authorizes users who can edit the Cash Management Document prior to it being submitted for routing.","Y"
+"187","187","1","27","KFS-FP","Full Unmask Field DisbursementPayee taxNumber","Allows users to view the tax id in the Disbursement Voucher.","Y"
+"188","188","1","41","KFS-AR","Modify Accounting Lines INV Account sourceAccountingLines","Allows users to modify the Source accounting lines on an Invoice document that has not yet been submitted for routing.","Y"
+"189","189","1","41","KFS-FP","Modify Accounting Lines SB PreRoute sourceAccountingLines","Allows users to modify the Target accounting lines on a Procurement Card Document that is at the Account Full Entry Node of routing.","Y"
+"19","19","1","10","KFS-CAM","Initiate Document CAMM","Authorizes the initiation of the Capital Asset Complex Maintenance Documents.","Y"
+"190","190","1","41","KFS-FP","Modify Accounting Lines FP Account sourceAccountingLines","Allows users to modify the Source accounting lines on documents answering to the parent document Financial Processing Transactional Document when a document is at the Account Node of routing.","Y"
+"191","191","1","41","KFS-FP","Modify Accounting Lines FP Account targetAccountingLines","Allows users to modify the Target accounting lines on documents answering to the parent document Financial Processing Transactional Document when a document is at the Account Node of routing.","Y"
+"192","192","1","41","KFS-FP","Modify Accounting Lines DV Campus sourceAccountingLines.financialObjectCode","Allows users to modify the object code of Source accounting lines on a Disbursement Voucher document that is at the Campus Node of routing.","Y"
+"193","193","1","41","KFS-FP","Modify Accounting Lines DV Tax sourceAccountingLines.amount","Allows users to modify the amount of Source accounting lines on a Disbursement Voucher document that is at the Tax Node of routing.","Y"
+"194","194","1","41","KFS-FP","Modify Accounting Lines DV Travel sourceAccountingLines.amount","Allows users to modify the amount of Source accounting lines on a Disbursement Voucher document that is at the Travel Node of routing.","Y"
+"195","195","1","41","KFS-FP","Modify Accounting Lines DV PaymentMethod sourceAccountingLines.amount","Allows users to modify the amount of Source accounting lines on a Disbursement Voucher document that is at the Payment Method Node of routing.","Y"
+"196","196","1","41","KFS-LD","Modify Accounting Lines LD Account targetAccountingLines","Allows users to modify the Target accounting lines on documents answering to the parent document Labor Distribution Transactional Document when a document is at the Account Node of routing.","Y"
+"197","197","1","41","KFS-LD","Modify Accounting Lines ST targetAccountingLines.financialObjectCode","Allows users to modify the object code on Target (To side) accounting lines of the Salary Expense Transfer document.","Y"
+"198","198","1","41","KFS-PURAP","Modify Accounting Lines PUR Account items.sourceAccountingLines","Allows users to modify the Source accounting lines on documents answering to the parent document Purchasing Transactional Document when a document is at the Account Node of routing.","Y"
+"199","199","1","41","KFS-PURAP","Modify Accounting Lines AP Account items.sourceAccountingLines","Allows users to modify the Source accounting lines on documents answering to the parent document Accounts PayableTransactional Document when a document is at the Account Node of routing.","Y"
+"20","20","1","1","KFS-CAM","Add Negative Payments","Allow the creation of negative payments when processing an Asset document. ","Y"
+"200","200","1","41","KFS-CAM","Modify Accounting Lines MPAY Account sourceAccountingLines","Allows users to modify the Source accounting lines on Asset Payment document at the Account Node of routing.","Y"
+"201","201","1","4","KFS-CG","Blanket Approve Document PRPL","Allows access to the Blanket Approval button on the Proposal Document.","Y"
+"202","202","1","10","KFS-LD","Initiate Document ST","Authorizes the initiation of the Salary Expense Transfer Document.","Y"
+"205","205","1","4","KFS-LD","Blanket Approve Document ST","Allows access to the Blanket Approval button on the Salary Expense Transfer Document.","Y"
+"206","206","1","31","KFS-EC","Use Transactional Document ECD detailTabEntry","Users who can access the Effort Detail Tab on the Effort Certification Document.","Y"
+"207","207","1","31","KFS-EC","Use Transactional Document ECD summaryTabEntry","Users who can access the Effort Summary Tab on the Effort Certification Document.","Y"
+"209","209","1","31","KFS-FP","Use Transactional Document DV taxEntry","Users who can complete the Nonresident Alien Tax Tab on the Disbursement Voucher document.","Y"
+"21","21","1","1","KFS-CAM","Merge","Users allowed to merge assets on the Asset Retirement document.","Y"
+"210","210","1","31","KFS-FP","Use Transactional Document DV frnEntry","Users who can modify the Foreign Draft tab and disbursement amount on Disbursement Voucher documents.","Y"
+"211","211","1","31","KFS-FP","Use Transactional Document DV wireEntry","Users who can modify Wire Transfer tab and disbursement amount on Disbursement Voucher documents.","Y"
+"212","212","1","31","KFS-FP","Use Transactional Document DV travelEntry","Users who can modify Non-Employee Travel Expense tab, disbursement amount on Disbursement Voucher documents.","Y"
+"217","217","1","31","KFS-PURAP","Use Transactional Document AP editPreExtract","Users who can edit specific data on a Payment Request or Credit Memo before the document is extracted to PDP.","Y"
+"22","22","1","1","KFS-CAM","Override CAPITALIZATION_LIMIT_AMOUNT","Users allowed to capitalize assets with dollar amounts below the institution's Capitalization limit.","Y"
+"220","220","1","48","KFS-SYS","Edit Bank Code KFST","Users who can edit the Bank Code field on documents answering to the parent document Financial System Transactional Document.","Y"
+"225","225","1","40","KFS-BC","Open Document BC","Users who can open the Budget Construction document.","Y"
+"228","228","1","1","KFS-BC","Import / Export Payrate","Allows users to access the Import/Export Payrate screen in Budget Construction. By default granted to processors for the top level organization in the org hierarchy.","Y"
+"229","229","1","1","KFS-BC","Unlock","Allows users to access the Unlock screen in Budget Construction. By default granted to processors for the top level organization in the org hierarchy.","Y"
+"23","23","1","1","KFS-CAM","Raze","Users who can choose the Raze Asset Retirement Reason.","Y"
+"230","230","1","1","KFS-LD","Override Transfer Impacting Open Effort Certification","Users who receive an option to override the edit preventing the submission of Salary Expense Transfers involving an open Effort Certification Period.","Y"
+"233","233","1","28","KFS-PDP","Partial Unmask Field PayeeACHAccount bankAccountNumber","Authorizes users to view the last four-digits of the bank account number on the Payee ACH document and Inquiry.","Y"
+"234","234","1","27","KFS-PDP","Full Unmask Field ACHBank bankRoutingNumber","Authorizes users to view the entire bank routing number on the ACH Bank document and Inquiry.","Y"
+"235","235","1","27","KFS-PDP","Full Unmask Field PayeeACHAccount bankAccountNumber","Authorizes users to view the entire bank account number on the Payee ACH document and Inquiry.","Y"
+"236","236","1","27","KFS-PDP","Full Unmask Field PayeeACHAccount bankRoutingNumber","Authorizes users to view the entire bank routing number on the Payee ACH document and Inquiry.","Y"
+"238","238","1","41","KFS-FP","Modify Accounting Lines FP PreRoute sourceAccountingLines","Allows users to modify the Source accounting lines on documents answering to the parent document Accounts Financial Processing Transactional Document when a document has not yet been submitted for routing.","Y"
+"239","239","1","41","KFS-FP","Modify Accounting Lines FP PreRoute targetAccountingLines","Allows users to modify the Target accounting lines on documents answering to the parent document Financial Processing Transactional Document when a document has not yet been submitted for routing.","Y"
+"24","24","1","1","KFS-CAM","Retire Multiple","Users allowed to retire more than one asset on an Asset Retirement document.","Y"
+"240","240","1","41","KFS-LD","Modify Accounting Lines LD PreRoute targetAccountingLines","Allows users to modify the Target accounting lines on documents answering to the parent document Labor Distribution Transactional Document  when a document has not yet been submitted for routing.","Y"
+"241","241","1","41","KFS-PURAP","Modify Accounting Lines PUR PreRoute items.sourceAccountingLines","Allows users to modify the Source accounting lines on documents answering to the parent document Purchasing Transactional Document when a document has not yet been submitted for routing.","Y"
+"242","242","1","41","KFS-PURAP","Modify Accounting Lines AP PreRoute items.sourceAccountingLines","Allows users to modify the Source accounting lines on documents answering to the parent document Accounts PayableTransactional Document when a document has not yet been submitted for routing.","Y"
+"243","243","1","41","KFS-AR","Modify Accounting Lines INV PreRoute sourceAccountingLines","Allows users to modify the Source accounting lines on an Invoice document that has not yet been submitted for routing.","Y"
+"244","244","1","41","KFS-CAM","Modify Accounting Lines CAM PreRoute sourceAccountingLines","Allows users to modify the Source accounting lines on documents answering to the parent document Capital Asset ManagementTransactional Document  when a document has not yet been submitted for routing.","Y"
+"245","245","1","10","KFS-AR","Initiate Document CUS","Authorizes the initiation of the Customer Document.","Y"
+"246","246","1","10","KFS-AR","Initiate Document INV","Authorizes the initiation of the Invoice Document.","Y"
+"247","247","1","10","KFS-BC","Initiate Document BC","Authorizes the initiation of the Budget Construction Document.","Y"
+"248","248","1","42","KFS-AR","Create / Maintain Record(s) OOPT FALSE","Users allowed to create new and maintain existing records using the Organization Options document.","Y"
+"249","249","1","42","KFS-AR","Create / Maintain Record(s) OOPT TRUE","Users allowed to maintain existing (but not create new) records using the Organization Options document.","Y"
+"25","25","1","1","KFS-CAM","Retire Non-Movable Assets","Users authorized to retire non-movable assets.","Y"
+"250","250","1","42","KFS-CAM","Create / Maintain Record(s) CASM FALSE","Users allowed to create new and maintain existing  records using the Asset document.","Y"
+"251","251","1","29","KFS-BC","Use Screen KFS-BC","Allows users to access Budget Construction Selection.","Y"
+"256","256","1","23","KFS-SYS","Look Up Records BatchJobStatus","Allow users to access the Batch File lookup.","Y"
+"257","257","1","29","KFS-PURAP","Use Screen org.kuali.kfs.module.purap.web.struts.B2BAction","Authorizes users to take the Shop Catalogs (or B2B) action.","Y"
+"258","258","1","45","KFS-PURAP","Add Note / Attachment PREQ Invoice Image","Users who can add notes and attachments to the Payment Request document when it is at the Invoice Attachment route node.","Y"
+"26","26","1","1","KFS-CAM","Separate","Users authorized to separate assets.","Y"
+"260","260","1","46","KFS-PURAP","View Note / Attachment PREQ Invoice Image","Authorizes users to view attachments with a type of ""Invoice Image"" on Payment Request documents.","Y"
+"263","263","1","47","KFS-SYS","Delete Note / Attachment KFS FALSE","Authorizes users to delete notes and attachments created by any user on documents answering to the Financial System Document parent document type.","Y"
+"266","266","1","16","KFS-BC","Edit Document BC F","The budget construction document does not really use workflow, and all editing is done after the workflow status is final. This permission allows the derived, Budget Construction Document Editor role to allow access to edit the document based on other roles, e.g. Fiscal Officer for account, Organization Reveiwer for org.","Y"
+"268","268","1","16","KFS-PURAP","Edit Document PREQ R","Authorizes users who can edit Payment Request Documents that are in ENROUTE status.","Y"
+"269","269","1","40","KFS-PURAP","Open Document PRAP","Authorizes users to open Purchasing Accounts Payable Transactional documents.","Y"
+"27","27","1","1","KFS-CAM","Transfer Non-Movable Assets","Authorizes users who can transfer non-movable assets.","Y"
+"270","270","1","29","KFS-PURAP","Use Screen org.kuali.kfs.module.purap.document.web.struts.PrintAction","Authorizes users to take the Print action on a Purchase Order.","Y"
+"271","271","1","29","KFS-SYS","Use Screen org.kuali.kfs.sys.web.struts.ElectronicFundTransferAction","Allows users to access the Electronic Funds Transfer screen.","Y"
+"272","272","1","31","KFS-PURAP","Use Transactional Document PO printPurchaseOrder","Users who can print a Purchase Order document.","Y"
+"273","273","1","31","KFS-PURAP","Use Transactional Document PO previewPrintPurchaseOrder","Users who can preview a Purchase Order document before printing it.","Y"
+"274","274","1","31","KFS-PURAP","Use Transactional Document PO assignSensitiveData","Users who can assign sensitive data to a Purchase Order document which locks down who is allowed to view the PO and its related documents.","Y"
+"275","275","1","31","KFS-PURAP","Use Transactional Document PO resendPurchaseOrder","Users who can resend Purchase Order cxml to the B2B integrator.","Y"
+"276","276","1","31","KFS-PURAP","Use Transactional Document PREQ requestPaymentRequestCancel","Users authorized to take the Request Cancel action on Payment Request documents.","Y"
+"277","277","1","31","KFS-PURAP","Use Transactional Document PREQ paymentRequestHoldCancelRemoval","Authorizes users to remove Holds or Cancels on Payment Request documents.","Y"
+"279","279","1","41","KFS-LD","Modify Accounting Lines LD PreRoute sourceAccountingLines","Allows users to modify the Source accounting lines on documents answering to the parent document Labor Distribution Transactional Document  when a document has yet to be submitted for routing.","Y"
+"28","28","1","1","KFS-CAM","Use Acquisition Type ""New""","Authorizes users who can use the Acquisition Type of ""New"" on the Asset document.","Y"
+"280","280","1","41","KFS-FP","Modify Accounting Lines PCDO AccountFullEdit sourceAccountingLines","Allows users to modify the Source accounting lines on a Procurement Card Document that is at the Account Full Entry Node of routing.","Y"
+"281","281","1","41","KFS-FP","Modify Accounting Lines PCDO AccountFullEdit targetAccountingLines","Allows users to modify the Target accounting lines on a Procurement Card Document that is at the Account Full Entry Node of routing.","Y"
+"282","282","1","31","KFS-PURAP","Use Transactional Document AP managerCancel","Users who can cancel Payment Request or Credit Memo documents at a manager level.","Y"
+"283","283","1","31","KFS-PURAP","Use Transactional Document AP processorCancel","Users who can cancel Payment Request or Credit Memo documents at a processor level.","Y"
+"284","284","1","40","KFS-PURAP","Open Document ACM","Authorizes users to open the Contract Manager Assignment Document.","Y"
+"285","285","1","29","KFS-PDP","Use Screen KFS-PDP","Allows users to access all Pre-Disbursement Processor screens.","Y"
+"286","286","1","31","KFS-PURAP","Use Transactional Document PREQ requestPaymentRequestHold","Authorizes users to put Payment Request documents on Hold.","Y"
+"287","287","1","29","KFS-GL","Use Screen org.kuali.kfs.gl.web.struts.BalanceInquiryAction","Allows users to access Balance Inquiry screens. ","Y"
+"29","29","1","1","KFS-CAM","Use Restricted Retirement Reason","Allows the use of restricted retirement reasons on the Asset or Asset Retirement Global documents.","Y"
+"291","291","1","40","KFS-PURAP","Open Document EIRT","Authorizes users to open the Electronic Invoice Reject Document.","Y"
+"292","292","1","33","KFS-PURAP","Upload Batch Input File(s) electronicInvoiceInputFileType","Authorizes users to upload eInvoice files.","Y"
+"293","293","1","31","KFS-PURAP","Use Transactional Document CM requestVendorCreditMemoHold","Authorizes users to put Credit Memo documents on Hold.","Y"
+"294","294","1","31","KFS-PURAP","Use Transactional Document CM vendorCreditMemoHoldRemoval","Authorizes users to remove a Hold from Credit Memo documents.","Y"
+"295","295","1","1","KFS-BC","Use Organization Salary Setting","Allows users to access Organizaton Salary Setting within Budget Construction.","Y"
+"296","296","1","1","KFS-BC","Edit Appointment Funding","Authorizes users to edit Appointment Funding Lines within Budget Construction Salary Setting.","Y"
+"297","297","1","1","KFS-BC","View Appointment Funding Amounts","Authorizes users to view Appointment Funding Lines within Budget Construction Salary Setting.","Y"
+"3","3","1","10","KFS-AR","Initiate Document ARM","Authorizes the initiation of the Accounts Receivable Complex Maintenance Documents.","Y"
+"301","301","1","29","KFS-GL","Use Screen org.kuali.kfs.sys.web.struts.KualiBalanceInquiryReportMenuAction","Allows users to see menu of balance inquiries after hitting ""balance inquiry"" button on an accounting line in an accounting document.","Y"
+"302","302","1","10","KFS-CAM","Initiate Document DEPR","Authorizes the initiation of the Asset Depreciation Document.","Y"
+"303","303","1","23","KFS-CAB","Look Up Records KFS-CAB","Allows users to access the CAB AP and GL Transactions screens.","Y"
+"304","304","1","24","KFS-CAB","Inquire Into Records KFS-CAB","Allows users to access Capital Asset Builder inquiries.","Y"
+"305","305","1","42","KFS-AR","Create / Maintain Record(s) IICO FALSE","Users allowed to create new and maintain existing  records using the Customer Invoice Item Code document.","Y"
+"308","308","1","41","KFS-PURAP","Modify Accounting Lines REQS Initiator items.sourceAccountingLines","Allows users to modify the Source accounting lines on a Requisition Document that is at the Initiator Node of routing.","Y"
+"313","313","1","45","KFS-PURAP","Add Note / Attachment PO Contracts","Authorizes users to add notes and attachments with a type of ""Contracts"" to the Purchase Order document. ","Y"
+"314","314","1","46","KFS-PURAP","View Note / Attachment PO Contracts","Authorizes users to view attachments with a type of ""Contract"" on Purchase Order documents and documents answering to that document type.","Y"
+"315","315","1","45","KFS-PURAP","Add Note / Attachment PO Contract Ammendments","Authorizes users to add notes and attachments with a type of ""Contract"" on Purchase Order documents and documents answering to that document type.","Y"
+"316","316","1","46","KFS-PURAP","View Note / Attachment PO Contract Ammendments","Authorizes users to view attachments with a type of ""Contract Amendments"" on Purchase Order documents and documents answering to that document type.","Y"
+"317","317","1","45","KFS-PURAP","Add Note / Attachment PO Quotes","Authorizes users to add notes and attachments with a type of ""Quotes"" on Purchase Order documents and documents answering to that document type.","Y"
+"318","318","1","46","KFS-PURAP","View Note / Attachment PO Quotes","Authorizes users to view attachments with a type of ""Quotes"" on Purchase Order documents and documents answering to that document type.","Y"
+"319","319","1","45","KFS-PURAP","Add Note / Attachment PO RFPs","Authorizes users to add notes and attachments with a type of ""RFPs"" on Purchase Order documents and documents answering to that document type.","Y"
+"32","32","1","26","KFS-CAM","Modify Maintenance Document Field Asset organizationOwnerChartOfAccountsCode","Users who can modify the Owner Chart of Accounts Code field on the Asset document.","Y"
+"320","320","1","46","KFS-PURAP","View Note / Attachment PO RFPs","Authorizes users to view attachments with a type of ""RFPs"" on Purchase Order documents and documents answering to that document type.","Y"
+"321","321","1","45","KFS-PURAP","Add Note / Attachment PO RFP Responses","Authorizes users to add notes and attachments with a type of ""RFP"" on Purchase Order documents and documents answering to that document type.","Y"
+"322","322","1","46","KFS-PURAP","View Note / Attachment PO RFP Responses","Authorizes users to view attachments with a type of ""RFP"" on Purchase Order documents and documents answering to that document type.","Y"
+"323","323","1","45","KFS-PURAP","Add Note / Attachment PO Other - Restricted","Authorizes users to add notes or attachments with a type of ""Other-Restricted"" on Purchase Order documents and documents answering to that document type.","Y"
+"324","324","1","46","KFS-PURAP","View Note / Attachment PO Other - Restricted","Authorizes users to view attachments with a type of ""Other-Restricted"" on Purchase Order documents and documents answering to that document type.","Y"
+"325","325","1","45","KFS-PURAP","Add Note / Attachment CM Credit Memo Image","Authorizes users to add notes or attachments with a type of ""Credit Memo Image"" on Credit Memo documents.","Y"
+"326","326","1","46","KFS-PURAP","View Note / Attachment CM Credit Memo Image","Authorizes users to view attachments with a type of ""Credit Memo Image"" on Credit Memo documents.","Y"
+"327","327","1","1","KFS-CAM","Maintain Asset Location","Allows user to maintain the location of assets on the Asset document.","Y"
+"328","328","1","41","KFS-PURAP","Modify Accounting Lines REQS Organization items.sourceAccountingLines","Allows users to modify the Source accounting lines on a Requisition Document that is at the Organization Node of routing.","Y"
+"329","329","1","29","KFS-FP","Use Screen org.kuali.kfs.fp.document.web.struts.CashManagementStatusAction","Allows access to the Cash Management Document screen that a user sees when they try to initiate and a document is already open for their campus. The screen provides them a link to the existing document for their campus.","Y"
+"33","33","1","26","KFS-CAM","Modify Maintenance Document Field Asset organizationOwnerAccountNumber","Users who can modify the Owner Account Number field on the Asset document.","Y"
+"330","330","1","29","KFS-FP","Use Screen org.kuali.kfs.fp.document.web.struts.DepositWizardAction","Allows access to the Cash Management Document screen from which a user can create new deposits.","Y"
+"331","331","1","29","KFS-FP","Use Screen org.kuali.kfs.fp.web.struts.CashDrawerCorrectionAction","Allows access to the Cash Management Document screen from which a user can correct amounts on a closed cash drawer.","Y"
+"335","335","1","26","KFS-VND","Modify Maintenance Document Field VendorDetail vendorHeader.vendorTaxTypeCode","Authorizes users to modify the Tax Type Code on a Vendor Maintenance Document.","Y"
+"34","34","1","26","KFS-CAM","Modify Maintenance Document Field Asset capitalAssetInServiceDate","Users who can modify the Capital Asset In Service Date field on the Asset document.","Y"
+"342","342","1","26","KFS-CAM","Modify Maintenance Document Field Asset capitalAssetTypeCode","Users who can modify the Capital Asset Type Code field on the Asset document.","Y"
+"343","343","1","26","KFS-CAM","Modify Maintenance Document Field Asset capitalAssetDescription","Users who can modify the Capital Asset Description field on the Asset document.","Y"
+"344","344","1","26","KFS-CAM","Modify Maintenance Document Field Asset campusTagNumber","Users who can modify the Campus Tag Number field on the Asset document.","Y"
+"346","346","1","30","KFS-CAM","Perform Custom Maintenance Document Function calculateEqualSourceAmountsButton","","Y"
+"347","347","1","30","KFS-CAM","Perform Custom Maintenance Document Function calculateSeparateSourceRemainingAmountButton","","Y"
+"348","348","1","25","KFS-CAM","View Inquiry or Maintenance Document Field Asset oldTagNumber","Users who can view the Old Tag Number on the Asset document.","Y"
+"349","349","1","10","KFS-AR","Initiate Document IICO","Authorizes the initiation of Customer Invoice Item Code Documents.","Y"
+"35","35","1","26","KFS-CAM","Modify Maintenance Document Field Asset agencyNumber","Users who can modify the Agency Number field on the Asset document.","Y"
+"350","350","1","10","KFS-FP","Initiate Document CR","Authorizes the initiation of the Cash Receipt Document.","Y"
+"351","351","1","1","KFS-COA","Serve As Account Supervisor","Identifies users that can be Account Supervisors.","Y"
+"352","352","1","1","KFS-COA","Serve As Fiscal Officer","Identifies users that can be Account Fiscal Officers.","Y"
+"353","353","1","1","KFS-COA","Serve As Fiscal Officer Delegate","Identifies users that can be Account Fiscal Officer Delegates.","Y"
+"354","354","1","29","KFS-FP","Use Screen org.kuali.kfs.fp.document.web.struts.DisbursementVoucherHelpAction","???","Y"
+"355","355","1","41","KFS-PURAP","Modify Accounting Lines POA NewUnorderedItems items.sourceAccountingLines","Allows users to modify the Source accounting lines on a Purchase Order Amendment Document that is at the New Unordered Items Node of routing.","Y"
+"356","356","1","10","KFS-PURAP","Initiate Document CM","Authorizes the initiation of the Credit Memo Document.","Y"
+"357","357","1","4","KFS-AR","Blanket Approve Document APP","Allows access to the Blanket Approval button on the Application Document.","Y"
+"358","358","1","41","KFS-FP","Modify Accounting Lines DV Travel sourceAccountingLines.financialObjectCode","Allows users to modify the object code of Source accounting lines on a Disbursement Voucher Document that is at the Travel Node of routing.","Y"
+"36","36","1","26","KFS-CAM","Modify Maintenance Document Field Asset vendorName","Users who can modify the Vendor Name field on the Asset document.","Y"
+"360","360","1","10","KFS-AR","Initiate Document INVR","Authorizes the initiation of Invoice Recurrence Documents.","Y"
+"361","361","1","10","KFS-FP","Initiate Document CDS","Authorizes the initiation of the Cash Drawer Document.","Y"
+"362","362","1","50","KFS-SYS","View Batch File(s) KFS*","Authorizes users to view batch files using the Batch File lookup screen.","Y"
+"363","363","1","23","KFS-PDP","Look Up Records KFS-PDP PurchasingPaymentDetail","Allow users to access Pre Disbursement Processor lookups.","Y"
+"364","364","1","27","KFS-VND","Full Unmask Field VendorDetail vendorHeader.vendorTaxTypeCode","Authorizes users to view the entire Tax Number on the Vendor Maintenance Document and Inquiry.","Y"
+"365","365","1","16","KFS-PURAP","Edit Document PREQ P","Authorizes users who can edit Payment Request Documents that are in ENROUTE status.","Y"
+"366","366","1","16","KFS-PURAP","Edit Document PREQ F","Authorizes users who can edit Payment Request Documents that are in ENROUTE status.","Y"
+"367","367","1","16","KFS-PURAP","Edit Document CM P","Authorizes users who can edit Credit Memo Documents that are in PROCESSED status.","Y"
+"368","368","1","16","KFS-PURAP","Edit Document CM F","Authorizes users who can edit Credit Memo Documents that are in FINAL status.","Y"
+"369","369","1","42","KFS-AR","Create / Maintain Record(s) OADF FALSE","Users allowed to create new and maintain existing records using the Organization Accounting Default document.","Y"
+"37","37","1","26","KFS-CAM","Modify Maintenance Document Field Asset oldTagNumber","Users who can modify the Old Tag Number field on the Asset document.","Y"
+"371","371","1","41","KFS-AR","Modify Accounting Lines INV Recurrence sourceAccountingLines.invoiceItemDescription","Allows users to modify the Invoice Item Description of Source accounting lines on an Invoice document that is at the Recurrence Node of routing.","Y"
+"372","372","1","48","KFS-FP","Edit Bank Code CMD","Users who can edit the Bank Code field on the Cash Management Document.","Y"
+"373","373","1","48","KFS-PURAP","Edit Bank Code PREQ","Users who can edit the Bank Code field on the Payment Request Document.","Y"
+"374","374","1","48","KFS-FP","Edit Bank Code DV","Users who can edit the Bank Code field on the Disbursement Voucher Document.","Y"
+"375","375","1","23","KFS-CAB","Look Up Records Pretag","Allows users to access the Pre-Asset Tagging screens.","Y"
+"376","376","1","42","KFS-CAB","Create / Maintain Record(s) PTAG","Users allowed to create new and maintain existing records using the Pre-Asset Tagging document.","Y"
+"377","377","1","1","KFS-CAM","Edit When Tagged Prior Fiscal Year","Authorizes users to edit assets tagged in a prior fiscal year.","Y"
+"379","379","1","10","KFS-SYS","Initiate Document IdentityManagementGroupDocument","Authorizes the initiation of the KIM Group document.","Y"
+"38","38","1","26","KFS-CAM","Modify Maintenance Document Field Asset governmentTagNumber","Users who can modify the Government Tag Number field on the Asset document.","Y"
+"380","380","1","10","KFS-COA","Initiate Document GORV","Authorizes the initiation of the Organization Reversion Global Document.","Y"
+"381","381","1","27","KFS-SYS","Full Unmask Field PaymentSourceWireTransfer payeeAccountNumber","Authorizes users to view the entire bank account number on displays of wire transfer information on payment source documents (such as the Disbursement Voucher, the Travel Authorization, the Travel Reimbursement, etc).","Y"
+"382","382","1","16","KFS-SYS","Edit Document FSSM AdHoc R","Authorizes users to edit Simple Maintenance document at the AdHoc route node.","Y"
+"383","383","1","16","KFS-SYS","Edit Document KFSM AdHoc R","Authorizes users to edit Complex Maintenance document at the AdHoc route node.","Y"
+"385","385","1","33","KFS-GL","Upload Batch Input File(s) collectorFlatFileInputFileType","Authorizes user to access the Collector Flat File Upload page.","Y"
+"386","386","1","27","KFS-PDP","Full Unmask Field PaymentDetail achBankRoutingNbr","Authorizes users to view the entire bank routing number on the Payment Detail Inquiry.","Y"
+"387","387","1","27","KFS-PDP","Full Unmask Field PaymentDetail achBankAccountNbr","Authorizes users to view the entire bank account number on the Payment Detail Inquiry.","Y"
+"39","39","1","26","KFS-CAM","Modify Maintenance Document Field Asset nationalStockNumber","Users who can modify the National Stock Number field on the Asset document.","Y"
+"390","390","1","9","KFS-SYS","Ad Hoc Review Document KFS A","Authorizes users to take the Approve action on KFS documents Ad Hoc routed to them.","Y"
+"391","391","1","9","KFS-SYS","Ad Hoc Review Document KFS F","Authorizes users to take the FYI action on KFS documents Ad Hoc routed to them.","Y"
+"392","392","1","9","KFS-SYS","Ad Hoc Review Document KFS K","Authorizes users to take the Acknowledge action on KFS documents Ad Hoc routed to them.","Y"
+"40","40","1","26","KFS-CAM","Modify Maintenance Document Field Asset financialObjectSubTypeCode","Users who can modify the Financial Object Sub Type Code field on the Asset document.","Y"
+"42","42","1","33","KFS-CAM","Upload Batch Input File(s) assetBarcodeInventoryInputFileType","Authorizes users to access the Barcode Inventory Process upload page.","Y"
+"43","43","1","25","KFS-CAM","View Inquiry or Maintenance Document Field Asset replacementAmount","Users who can view the Replacement Amount field on the Asset document.","Y"
+"44","44","1","25","KFS-CAM","View Inquiry or Maintenance Document Field Asset estimatedSellingPrice","Users who can view the Estimated Selling Price field on the Asset document.","Y"
+"46","46","1","25","KFS-CAM","View Inquiry or Maintenance Document Field Asset conditionCode","Users who can view the Condition Code on the Asset document.","Y"
+"47","47","1","25","KFS-CAM","View Inquiry or Maintenance Document Field Asset landCountyName","Users who can view the Land County Name on the Asset document.","Y"
+"48","48","1","25","KFS-CAM","View Inquiry or Maintenance Document Field Asset landAcreageSize","Users who can view the Land Acreage Size on the Asset document.","Y"
+"49","49","1","25","KFS-CAM","View Inquiry or Maintenance Document Field Asset landParcelNumber","Users who can view the Land Parcel Number on the Asset document.","Y"
+"5","5","1","10","KFS-AR","Initiate Document APP","Authorizes the initiation of Application Documents.","Y"
+"51","51","1","10","KFS-CG","Initiate Document CLOS","Authorizes the initiation of the CFDA Close Document.","Y"
+"52","52","1","10","KFS-CG","Initiate Document PRPL","Authorizes the initiation of the Proposal Document.","Y"
+"54","54","1","43","KFS-CG","View Inquiry or Maintenance Document Section Proposal proposalResearchRisks","Authorizes users to vew the Research Risk tab on the Proposal document.","Y"
+"55","55","1","10","KFS-COA","Initiate Document GOBJ","Authorizes the initiation of the Global Object Code Document.","Y"
+"56","56","1","10","KFS-COA","Initiate Document ORGR","Authorizes the initiation of the Organization Reversion Document.","Y"
+"58","58","1","1","KFS-COA","Edit Inactive Account","Users who can edit Accounts that are inactive.","Y"
+"59","59","1","1","KFS-COA","Serve As Account Manager","Identifies users that can be Account Managers","Y"
+"6","6","1","10","KFS-AR","Initiate Document CTRL","Authorizes the initiation of the Cash Control Document.","Y"
+"60","60","1","26","KFS-COA","Modify Maintenance Document Field SubAccount a21SubAccount","Authorizes users to edit the Sub-Account Type Code on the Sub-Account document.","Y"
+"61","61","1","26","KFS-COA","Modify Maintenance Document Field Organization organizationPlantChartCode","Users who can edit the Organization Plant Chart Code on the Organization document.","Y"
+"62","62","1","26","KFS-COA","Modify Maintenance Document Field Organization organizationPlantAccountNumber","Users who can edit the Organization Plant Account Number on the Organization document.","Y"
+"63","63","1","26","KFS-COA","Modify Maintenance Document Field Organization campusPlantChartCode","Users who can edit the Campus Plant Chart Code on the Organization document.","Y"
+"64","64","1","26","KFS-COA","Modify Maintenance Document Field Organization campusPlantAccountNumber","Users who can edit the Campus Plant Account Number on the Organization document.","Y"
+"65","65","1","10","KFS-EC","Initiate Document ECD","Authorizes the initiation of the Effort Certification Document.","Y"
+"66","66","1","7","KFS-FP","Claim Electronic Payment DI","Users who can use a Distribution of Income and Expense document to claim Electronic Payments.","Y"
+"67","67","1","7","KFS-FP","Claim Electronic Payment YEDI","Users who can use a Year End Distribution of Income and Expense document to claim Electronic Payments.","Y"
+"69","69","1","10","KFS-FP","Initiate Document CMD","Authorizes the initiation of the Cash Management Document.","Y"
+"70","70","1","10","KFS-FP","Initiate Document SB","Authorizes the initiation of the Service Billing Document.","Y"
+"71","71","1","10","KFS-FP","Initiate Document JV","Authorizes the initiation of the Journal Voucher Document.","Y"
+"72","72","1","10","KFS-FP","Initiate Document PCDO","Authorizes the initiation of the  Procurement Card Document.","Y"
+"73","73","1","27","KFS-FP","Full Unmask Field ProcurementCardHolder transactionCreditCardNumber","Authorizes users to view the entire Credit Card number on the Procurement Card document and Inquiry.","Y"
+"74","74","1","33","KFS-FP","Upload Batch Input File(s) procurementCardInputFileType","Authorizes users to access the Procurement Card Upload page.","Y"
+"75","75","1","10","KFS-GL","Initiate Document GLCP","Authorizes the initiation of the  General Ledger Correction Process Document.","Y"
+"76","76","1","33","KFS-GL","Upload Batch Input File(s) collectorXmlInputFileType","Authorizes user to access the Collector XML Upload page.","Y"
+"77","77","1","33","KFS-GL","Upload Batch Input File(s) enterpriseFeederFileSetType","Authorizes user to access the Enterprise Feed Upload page.","Y"
+"78","78","1","10","KFS-LD","Initiate Document LLJV","Authorizes the initiation of the Labor Journal Voucher Document.","Y"
+"79","79","1","10","KFS-LD","Initiate Document LLCP","Authorizes the initiation of the  Labor Ledger Correction Process Document.","Y"
+"8","8","1","10","KFS-AR","Initiate Document AR","Authorizes the initiation of Accounts Receivable Transactional Documents.","Y"
+"80","80","1","1","KFS-PDP","Set as Immmediate Pay","Authorizes users to set and remove immediate status on payments in PDP.","Y"
+"81","81","1","10","KFS-PDP","Initiate Document PDSM","Authorizes the initiation of Pre-Disbursement Processor Simple Maintenance Documents.","Y"
+"82","82","1","1","KFS-PDP","Cancel Payment","Authorizes users to take the Cancel action on payments in PDP.","Y"
+"83","83","1","1","KFS-PDP","Format","Authorizes users to access and run the Format Checks /ACH screen in PDP","Y"
+"84","84","1","1","KFS-PDP","Hold Payment / Remove Non-Tax Payment Hold","Authorizes users to hold payments and remove non-tax related holds on payments in PDP.","Y"
+"86","86","1","1","KFS-PDP","Remove Format Lock","Users who can reset a format process in PDP.","Y"
+"87","87","1","1","KFS-PDP","Remove Payment Tax Hold","Authorizes users to remove payments held for tax review in PDP.","Y"
+"88","88","1","24","KFS-PDP","Inquire Into Records KFS-PDP","Allows users to access Pre Disbursement Processor inquiries.","Y"
+"89","89","1","23","KFS-PDP","Look Up Records KFS-PDP","Allow users to access Pre Disbursement Processor lookups.","Y"
+"9","9","1","27","KFS-AR","Full Unmask Field Customer customerTaxNbr","Authorizes users to view the entire Tax Number on the Customer document and Inquiry.","Y"
+"90","90","1","33","KFS-PDP","Upload Batch Input File(s) paymentInputFileType","Allows access to the Manually Upload Payment File screen in PDP.","Y"
+"91","91","1","4","KFS-PURAP","Blanket Approve Document PREQ","Allows access to the Blanket Approval button on the Payment Request Document.","Y"
+"92","92","1","10","KFS-PURAP","Initiate Document REQS","Authorizes the initiation of the Requisition Document.","Y"
+"93","93","1","10","KFS-PURAP","Initiate Document PUR","Authorizes the initiation of Purchasing Transactional Documents.","Y"
+"94","94","1","10","KFS-PURAP","Initiate Document PO","Authorizes the initiation of the Purchase Order Document.","Y"
+"95","95","1","10","KFS-PURAP","Initiate Document POC","Authorizes the initiation of the Purchase Order Close Document.","Y"
+"96","96","1","10","KFS-PURAP","Initiate Document PORT","Authorizes the initiation of the Purchase Order Retransmit Document.","Y"
+"97","97","1","10","KFS-PURAP","Initiate Document PREQ","Authorizes the initiation of the Payment Request Document.","Y"
+"98","98","1","10","KFS-PURAP","Initiate Document RCV","Authorizes the initiation of Receiving Transactional Documents.","Y"
+"99","99","1","10","KFS-PURAP","Initiate Document EIRT","Authorizes the initiation of the Electronic Invoice Reject Document.","Y"
+"1101","1101","1","2","KFS-SYS","Copy Document KFS","Allows access to the Copy button on KFS Financial System Documents.","Y"
+"1103","1103","1","51","KFS-SYS","Add Message to Route Log KFS","Allows user to enter a message on the route log","Y"
+"1104","1104","1","10","KFS-ENDOW","Initiate Document ETB","Authorizes the initiation of the Endowment Batch created documents.","Y"
+"1105","1105","1","33","KFS-LD","Upload Batch Input File(s) laborEnterpriseFeederFileSetType","Authorizes user to access the Labor Enterprise Feed Upload page.","Y"
+"1106","1106","1","10","KFS-COA","Initiate Document ACCT","Authorizes the initiation of KFS Account Maintenance Documents.","Y"
+"KFSSEC6001","KFSSEC6001","1","10","KFS-SEC","Initiate Document AccessSecuritySimpleMaintenanceDocument","Authorizes the initiation of Access Security Simple Maintenance Documents.","Y"
+"KFSSEC6002","KFSSEC6002","1","23","KFS-SEC","Look Up Records KFS-SEC","Authorizes the lookup of Access Security records.","Y"
+"KFSSEC6003","KFSSEC6003","1","24","KFS-SEC","Inquire Into Records KFS-SEC","Authorizes inquiry of Access Security records.","Y"
+"KFSSEC6004","KFSSEC6004","1","16","KFS-SEC","Edit Document AccessSecuritySimpleMaintenanceDocument PreRoute","Authorizes edit of Access Security Simple Maintenance Documents.","Y"
+"KFSENDOW6005","KFSENDOW6005","1","10","KFS-ENDOW","Initiate Document TicklerMaintenanceDocument","Authorizes the initiation of the Tickler document","Y"
+"KFSENDOW6007","KFSENDOW6007","1","9","KFS-ENDOW","Ad Hoc Review Document TicklerMaintenanceDocument F","Authorizes Kuali Users to take the FYI action on Tickler Document Ad Hoc routed to them.","Y"
+"KFSENDOW6008","KFSENDOW6008","1","29","KFS-ENDOW","Use Endowment Reporting Screens org.kuali.kfs.module.endow.web.struts.TrialBalanceAction","Authorizes the use of the Trial Balance reporting screen within the Endowment module.","Y"
+"KFSENDOW6009","KFSENDOW6009","1","29","KFS-ENDOW","Use Endowment Reporting Screens org.kuali.kfs.module.endow.web.struts.TransactionStatementAction","Authorizes the use of the Transaction Statement reporting screen within the Endowment module.","Y"
+"KFSENDOW6010","KFSENDOW6010","1","29","KFS-ENDOW","Use Endowment Reporting Screens org.kuali.kfs.module.endow.web.struts.TransactionSummaryAction","Authorizes the use of the Transaction Summary reporting screen within the Endowment module.","Y"
+"KFSENDOW6011","KFSENDOW6011","1","29","KFS-ENDOW","Use Endowment Reporting Screens org.kuali.kfs.module.endow.web.struts.AssetStatementAction","Authorizes the use of the Asset Statement reporting screen within the Endowment module.","Y"
+"KFSAR6012","KFSAR6012","1","33","KFS-AR","Upload Customer CSV Files","Allows access to the Customer Upload Batch Upload page.","Y"
+"KFSPURAP6940","KFSPURAP6940","1","27","KFS-PURAP","Unmask PO # On PO Document","Authorizes users to view the entire Purchase Order Number on the PO Document and Inquiry","Y"
+KFSLD6987,KFSLD6987h,1,33,KFS-LD,Upload Labor Enterprise Feed Batch Files,"Allows access to the Labor Enterprise Feed Upload Batch Upload page.",Y
+"KFSSYS7145a","KFSSYS7145a","1","1","KFS-SYS","View Accounting Period","Users who can view the accounting period field when enabled for year end processing.","Y"
+"KFSSYS7145b","KFSSYS7145b","1","1","KFS-SYS","Edit Accounting Period","Users who can edit the accounting period field when enabled for year end processing.","Y"
 KFSSYS6007,KFSSYS6007,1,31,KFS-FP,Allow DV Immediate Disbursement,Allow Disbursement Voucher to be marked for immediate disbursement by the Pre-Disbursement Processor.,Y
 KFSAR6732,KFSAR6732,1,16,KFS-AR,Edit APP Document-PreRoute,Edit permission for the Payment Application document prior to the document being submitted.,Y
 KFSAR5340P,KFSAR5340P,1,31,KFS-AR,Edit Invoice Processing Organization,Users who can edit the Processing Chart Code and the processing organization fields on the Customer Invoice Document.,Y

@@ -17,6 +17,7 @@ package org.kuali.kfs.module.tem.identity;
 
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.tem.document.TravelRelocationDocument;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.api.exception.WorkflowException;
@@ -35,7 +36,7 @@ public class ExecutiveManagerRoleTypeServiceImpl extends RoleTypeServiceBase{
         try {
             TravelRelocationDocument document = (TravelRelocationDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(inputAttributes.get(KRADPropertyConstants.DOCUMENT_NUMBER).toString());
             String jobClassification = storedAttributes.get(TemKimAttributes.JOB_CLASSIFICATION_CODE);
-            if (jobClassification.equals(document.getJobClsCode())){
+            if (!StringUtils.isBlank(jobClassification) && jobClassification.equals(document.getJobClsCode())){
                 return true;
             }
 

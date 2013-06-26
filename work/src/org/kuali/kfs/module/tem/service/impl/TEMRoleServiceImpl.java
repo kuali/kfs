@@ -165,15 +165,7 @@ public class TEMRoleServiceImpl implements TEMRoleService{
      */
     @Override
     public boolean isTravelManager(final Person user) {
-        return checkUserRole(user, TemConstants.TRAVEL_MANAGER, KFSConstants.CoreModuleNamespaces.FINANCIAL, null);
-    }
-
-    /**
-     * @see org.kuali.kfs.module.tem.service.TEMRoleService#isFiscalOfficer(org.kuali.rice.kim.bo.Person)
-     */
-    @Override
-    public boolean isFiscalOfficer(final Person user) {
-        return checkUserRole(user, KFSConstants.SysKimApiConstants.FISCAL_OFFICER_KIM_ROLE_NAME, KFSConstants.CoreModuleNamespaces.KFS, null);
+        return checkUserRole(user, TemConstants.TRAVEL_MANAGER, KFSConstants.CoreModuleNamespaces.KFS, null);
     }
 
     /**

@@ -110,14 +110,6 @@ public interface TEMRoleService {
     public boolean isTravelManager(final Person user);
 
     /**
-     * Check to see if the user has the fiscal officer role assigned to them
-     *
-     * @param user
-     * @return true if the user is a fiscal officer, false otherwise
-     */
-    public boolean isFiscalOfficer(final Person user);
-
-    /**
      * Check TEM specific user role w/o qualification
      *
      * @param user

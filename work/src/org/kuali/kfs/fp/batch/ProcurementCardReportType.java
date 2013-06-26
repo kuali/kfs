@@ -2,15 +2,12 @@ package org.kuali.kfs.fp.batch;
 
 import java.sql.Date;
 
-import org.apache.log4j.Logger;
 import org.kuali.rice.krad.bo.TransientBusinessObjectBase;
 
 /**
  * This class is created for generating Procurement Card Report object.
  */
 public class ProcurementCardReportType extends TransientBusinessObjectBase {
-    private static Logger LOG = Logger.getLogger(ProcurementCardReportType.class);
-
     private Date transactionPostingDate;
     private String formattedPostingDate;
     private int totalDocNumber;

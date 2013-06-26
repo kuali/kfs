@@ -42,7 +42,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         <ref bean="KfsKimAttributes-achTransactionTypeCode" />
         <ref bean="KfsKimAttributes-vendorTypeCode" />
         <ref bean="KfsKimAttributes-contractsAndGrantsAccountResponsibilityId" />
-        <ref bean="KfsKimAttributes-disbursementVoucherPaymentMethodCode" />
+        <ref bean="KfsKimAttributes-paymentMethodCode" />
         <ref bean="KfsKimAttributes-subAccountNumber" />
         <ref bean="KfsKimAttributes-filePath" />
       </list>
@@ -135,9 +135,9 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
   </bean>
   <bean id="KfsKimAttributes-contractsAndGrantsAccountResponsibilityId" parent="Account-contractsAndGrantsAccountResponsibilityId" />
 
-  <bean id="KfsKimAttributes-disbursementVoucherPaymentMethodCode" parent="KfsKimAttributes-disbursementVoucherPaymentMethodCode-parentBean" />
-  <bean id="KfsKimAttributes-disbursementVoucherPaymentMethodCode-parentBean" abstract="true" parent="DisbursementVoucherDocument-disbVchrPaymentMethodCode"
-  	p:name="disbursementVoucherPaymentMethodCode">
+  <bean id="KfsKimAttributes-paymentMethodCode" parent="KfsKimAttributes-paymentMethodCode-parentBean" />
+  <bean id="KfsKimAttributes-paymentMethodCode-parentBean" abstract="true" parent="DisbursementVoucherDocument-disbVchrPaymentMethodCode"
+  	p:name="paymentMethodCode">
   	<property name="required" value="true"/>
   </bean>
 

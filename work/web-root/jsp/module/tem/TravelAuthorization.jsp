@@ -16,11 +16,13 @@
 <%@ include file="/jsp/sys/kfsTldHeader.jsp"%>
 
 <c:set var="returnFromEmployeeLookup" value="${KualiForm.refreshCaller == 'travelerLookupable'}" scope="request" />
+<c:set var="canEdit" value="${KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" scope="request" />
 <c:set var="fullEntryMode" value="${KualiForm.editingMode['fullEntry']}" scope="request" />
 <c:set var="advancePaymentMode" value="${KualiForm.editingMode['advancePaymentEntry']}" scope="request"/>
-<c:set var="documentTitle" value="${KualiForm.docTypeName=='TA'?'TravelAuthorizationDocument':(KualiForm.docTypeName=='TAC'?'TravelAuthorizationCloseDocument':'TravelAuthorizationAmendmentDocument')}" />
+<c:set var="actualExpenseTaxableMode" value="${KualiForm.editingMode['actualExpenseTaxableEntry']}" scope="request"/>
+
 <kul:documentPage showDocumentInfo="true"
-    documentTypeName="${documentTitle}"
+    documentTypeName="${KualiForm.docTypeName}"
     htmlFormAction="temTravelAuthorization" renderMultipart="true"
     showTabButtons="true">
     

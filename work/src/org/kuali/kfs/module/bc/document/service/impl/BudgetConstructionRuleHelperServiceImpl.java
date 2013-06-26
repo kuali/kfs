@@ -263,13 +263,14 @@ public class BudgetConstructionRuleHelperServiceImpl implements BudgetConstructi
      *      java.lang.String, org.kuali.core.util.MessageMap, java.lang.String)
      */
     public boolean isValidIncumbent(BudgetConstructionIntendedIncumbent intendedIncumbent, String currentValue, MessageMap errorMap, String errorPropertyName) {
-        // if (BCConstants.VACANT_EMPLID.equalsIgnoreCase(currentValue)) {
-        // return true;
-        // }
-
         if (ObjectUtils.isNull(intendedIncumbent)) {
             String errorMessage = MessageBuilder.buildErrorMessageWithDataDictionary(BudgetConstructionIntendedIncumbent.class, KFSPropertyConstants.EMPLID, currentValue);
             errorMap.putError(errorPropertyName, KFSKeyConstants.ERROR_EXISTENCE, errorMessage);
+            return false;
+        }
+        if (!intendedIncumbent.isActive()) {
+            String errorMessage = MessageBuilder.buildErrorMessageWithDataDictionary(BudgetConstructionIntendedIncumbent.class, KFSPropertyConstants.EMPLID, currentValue);
+            errorMap.putError(errorPropertyName, KFSKeyConstants.ERROR_INACTIVE, errorMessage);
             return false;
         }
 

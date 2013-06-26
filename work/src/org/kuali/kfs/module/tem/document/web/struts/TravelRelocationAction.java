@@ -245,7 +245,7 @@ public class TravelRelocationAction extends TravelActionBase {
      * @param document the document to update
      */
     protected void performRequesterRefresh(TravelRelocationDocument document) {
-        updatePayeeTypeForReimbursable(document);
+        document.updatePayeeTypeForReimbursable();
     }
 
     protected TravelRelocationService getTravelRelocationService() {

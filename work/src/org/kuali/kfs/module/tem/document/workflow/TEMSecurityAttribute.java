@@ -53,7 +53,11 @@ public class TEMSecurityAttribute extends SensitiveDataSecurityAttribute {
      */
     public Boolean canOpen(Person currentUser, String docTypeName, String documentId) {
         DocumentAuthorizer docAuthorizer = getDocumentHelperService().getDocumentAuthorizer(docTypeName);
-        return docAuthorizer.canOpen(getDocument(documentId), currentUser);
+        final TravelDocument doc = getDocument(documentId);
+        if (doc == null) {
+            return true; // we're probably mid-creation here (becuase we have a workflow doc but not a travel doc yet), so let's just open the thing
+        }
+        return docAuthorizer.canOpen(doc, currentUser);
     }
 
     /**

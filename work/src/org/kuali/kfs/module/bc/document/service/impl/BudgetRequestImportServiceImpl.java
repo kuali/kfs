@@ -240,7 +240,7 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
             //BudgetConstructionRequestMove does not have any updatable references
             record.refreshNonUpdateableReferences();
 
-            String accountKey = record.getChartOfAccountsCode() + record.getAccountNumber();
+            String accountKey = record.getChartOfAccountsCode() + record.getAccountNumber() + record.getSubAccountNumber();
             BudgetConstructionHeader budgetConstructionHeader = null;
             if (retrievedHeaders.containsKey(accountKey)) {
                 budgetConstructionHeader = retrievedHeaders.get(accountKey);

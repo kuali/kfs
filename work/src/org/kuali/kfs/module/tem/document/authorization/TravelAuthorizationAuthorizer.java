@@ -21,6 +21,7 @@ import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.businessobject.TemSourceAccountingLine;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
 import org.kuali.kfs.module.tem.document.TravelDocument;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -149,7 +150,7 @@ public class TravelAuthorizationAuthorizer extends TravelArrangeableAuthorizer {
      */
     protected boolean addAccountQualificationForLine(TemSourceAccountingLine line, Map<String, String> attributes, Person currentUser) {
         if (ObjectUtils.isNull(line.getAccount())) {
-            line.refreshReferenceObject("account");
+            line.refreshReferenceObject(KFSPropertyConstants.ACCOUNT);
         }
         if (!ObjectUtils.isNull(line.getAccount()) && currentUser.getPrincipalId().equalsIgnoreCase(line.getAccount().getAccountFiscalOfficerSystemIdentifier())) {
             attributes.put(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE, line.getChartOfAccountsCode());

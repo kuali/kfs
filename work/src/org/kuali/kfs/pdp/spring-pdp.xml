@@ -462,6 +462,7 @@
 		<property name="bankService" ref="bankService" />
 		<property name="originationCodeService" ref="originationCodeService" />
 		<property name="documentTypeService" ref="rice.kew.documentTypeService" />
+		<property name="dataDictionaryService" ref="dataDictionaryService" />
 	</bean>
 	
 	<bean id="paymentInputFileType" parent="paymentInputFileType-parentBean"/>

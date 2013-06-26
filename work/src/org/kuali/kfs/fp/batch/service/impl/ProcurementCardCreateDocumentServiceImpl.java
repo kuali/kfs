@@ -157,7 +157,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
         }
 
         // send email notification
-        sentEmailNotification(documents);
+        sendEmailNotification(documents);
 
         return true;
     }
@@ -167,7 +167,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
      *
      * @param documents
      */
-    protected void sentEmailNotification(List<ProcurementCardDocument> documents) {
+    protected void sendEmailNotification(List<ProcurementCardDocument> documents) {
         List<ProcurementCardReportType> summaryList = getSortedReportSummaryList(documents);
         int totalBatchTransactions = getBatchTotalTransactionCnt(summaryList);
         DateFormat dateFormat = new SimpleDateFormat(KFSConstants.ProcurementCardEmailTimeFormat);
@@ -213,9 +213,9 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
 
         HashMap<String, String> totalDocMap;
 
-        HashMap<Date, HashMap<String, String>> docMapByPstDt = new HashMap<Date, HashMap<String, String>>();
-        HashMap<Date, Integer> transctionMapByPstDt = new HashMap<Date, Integer>();
-        HashMap<Date, KualiDecimal> totalAmountMapByPstDt = new HashMap<Date, KualiDecimal>();
+        Map<Date, HashMap<String, String>> docMapByPstDt = new HashMap<Date, HashMap<String, String>>();
+        Map<Date, Integer> transctionMapByPstDt = new HashMap<Date, Integer>();
+        Map<Date, KualiDecimal> totalAmountMapByPstDt = new HashMap<Date, KualiDecimal>();
         Iterator iter = null;
         Date keyDate = null;
 
@@ -223,7 +223,6 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
         for (ProcurementCardDocument pDoc : documents) {
             iter = pDoc.getTransactionEntries().iterator();
             while (iter.hasNext()) {
-                // totalBatchTransactions++;
                 ProcurementCardTransactionDetail pCardDetail = (ProcurementCardTransactionDetail) iter.next();
 
                 keyDate = pCardDetail.getTransactionPostingDate();
@@ -268,29 +267,23 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
      * @param totalAmountMapByPstDt
      * @return
      */
-    protected List<ProcurementCardReportType> buildBatchReportSummary(HashMap<Date, HashMap<String, String>> docMapByPstDt, HashMap<Date, Integer> transctionMapByPstDt, HashMap<Date, KualiDecimal> totalAmountMapByPstDt) {
+    protected List<ProcurementCardReportType> buildBatchReportSummary(Map<Date, HashMap<String, String>> docMapByPstDt, Map<Date, Integer> transctionMapByPstDt, Map<Date, KualiDecimal> totalAmountMapByPstDt) {
         List<ProcurementCardReportType> summaryList = new ArrayList<ProcurementCardReportType>();
-        Date keyDate;
         ProcurementCardReportType reportEntry;
 
         Formatter currencyFormatter = new CurrencyFormatter();
         DateFormat dateFormatter = new SimpleDateFormat(KFSConstants.ProcurementCardTransactionTimeFormat);
         dateFormatter.setLenient(false);
 
-        if (docMapByPstDt.keySet() != null) {
-            Iterator iter = docMapByPstDt.keySet().iterator();
+        for (Date keyDate : docMapByPstDt.keySet()) {
+            reportEntry = new ProcurementCardReportType();
+            reportEntry.setTransactionPostingDate(keyDate);
 
-            while (iter.hasNext()) {
-                keyDate = (Date) iter.next();
-                reportEntry = new ProcurementCardReportType();
-                reportEntry.setTransactionPostingDate(keyDate);
-
-                reportEntry.setFormattedPostingDate(dateFormatter.format(keyDate));
-                reportEntry.setTotalDocNumber(docMapByPstDt.get(keyDate).keySet().isEmpty() ? 0 : docMapByPstDt.get(keyDate).keySet().size());
-                reportEntry.setTotalTranNumber(transctionMapByPstDt.get(keyDate));
-                reportEntry.setTotalAmount(currencyFormatter.formatForPresentation(totalAmountMapByPstDt.get(keyDate)).toString());
-                summaryList.add(reportEntry);
-            }
+            reportEntry.setFormattedPostingDate(dateFormatter.format(keyDate));
+            reportEntry.setTotalDocNumber(docMapByPstDt.get(keyDate).keySet().isEmpty() ? 0 : docMapByPstDt.get(keyDate).keySet().size());
+            reportEntry.setTotalTranNumber(transctionMapByPstDt.get(keyDate));
+            reportEntry.setTotalAmount(currencyFormatter.formatForPresentation(totalAmountMapByPstDt.get(keyDate)).toString());
+            summaryList.add(reportEntry);
         }
         return summaryList;
     }

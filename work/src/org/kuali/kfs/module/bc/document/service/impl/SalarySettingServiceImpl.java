@@ -118,11 +118,17 @@ public class SalarySettingServiceImpl implements SalarySettingService {
     public KualiInteger calculateAnnualPayAmount(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
         LOG.debug("calculateAnnualPayAmount() start");
 
+        KualiInteger annualPayAmount = KualiInteger.ZERO;
         BigDecimal hourlyPayRate = appointmentFunding.getAppointmentRequestedPayRate();
         BigDecimal fteQuantity = this.calculateFteQuantityFromAppointmentFunding(appointmentFunding);
-        BigDecimal annualWorkingHours = BigDecimal.valueOf(BudgetParameterFinder.getAnnualWorkingHours());
-        BigDecimal totalPayHoursForYear = fteQuantity.multiply(annualWorkingHours);
-        KualiInteger annualPayAmount = new KualiInteger(hourlyPayRate.multiply(totalPayHoursForYear));
+        if (fteQuantity.compareTo(BigDecimal.ZERO) == 0){
+            // revert to entered amount for zero FTE to allow error message
+            annualPayAmount = appointmentFunding.getAppointmentRequestedAmount();
+        } else {
+            BigDecimal annualWorkingHours = BigDecimal.valueOf(BudgetParameterFinder.getAnnualWorkingHours());
+            BigDecimal totalPayHoursForYear = fteQuantity.multiply(annualWorkingHours);
+            annualPayAmount = new KualiInteger(hourlyPayRate.multiply(totalPayHoursForYear));
+        }
 
         return annualPayAmount;
     }
@@ -149,6 +155,8 @@ public class SalarySettingServiceImpl implements SalarySettingService {
             if (currentHourlyPayRate != null) {
                 KualiInteger annualPayAmount = this.calculateAnnualPayAmount(appointmentFunding);
                 appointmentFunding.setAppointmentRequestedAmount(annualPayAmount);
+            } else {
+                appointmentFunding.setAppointmentRequestedPayRate(BigDecimal.ZERO);
             }
         }
     }

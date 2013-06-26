@@ -102,7 +102,6 @@ import org.kuali.rice.kew.framework.postprocessor.ActionTakenEvent;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteLevelChange;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 import org.kuali.rice.kim.api.identity.Person;
-import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kns.service.DataDictionaryService;
@@ -668,7 +667,16 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
             }
         }
 
+
+
         if (shouldAdhocFyi()) {
+
+            try {
+                SpringContext.getBean(WorkflowDocumentService.class).saveRoutingData(this.getFinancialSystemDocumentHeader().getWorkflowDocument());
+            }
+            catch (WorkflowException ex) {
+                logAndThrowRuntimeException("Error saving routing data while saving document with id " + getDocumentNumber(), ex);
+            }
             SpringContext.getBean(PurchaseOrderService.class).sendAdhocFyi(this);
         }
     }
@@ -690,7 +698,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
         return false;
     }
 
-   
+
 
     /**
      * Returns the name of the current route node.

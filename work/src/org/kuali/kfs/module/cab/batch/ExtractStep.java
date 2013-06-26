@@ -62,7 +62,7 @@ public class ExtractStep extends AbstractStep {
             processLog.setSuccess(false);
             processLog.setErrorMessage("Unexpected error occured while performing CAB Extract. " + e.toString());
             LOG.error("Unexpected error occured while performing CAB Extract.", e);
-            new RuntimeException(e);
+            throw new RuntimeException(e);
         }
         finally {
             batchExtractReportService.generateStatusReportPDF(processLog);

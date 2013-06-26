@@ -22,9 +22,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.kuali.kfs.module.bc.document.web.struts.BudgetConstructionRequestImportAction;
-import org.kuali.kfs.module.bc.document.web.struts.MonthlyBudgetAction;
 import org.kuali.kfs.module.bc.document.web.struts.OrganizationSelectionTreeAction;
-import org.kuali.kfs.module.bc.document.web.struts.QuickSalarySettingAction;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.KFSConstants.ParameterValues;
@@ -150,11 +148,11 @@ public class BCConstants {
     public static final String BC_DOCUMENT_PULLUP_METHOD = "performAccountPullup";
     public static final String BC_DOCUMENT_PUSHDOWN_METHOD = "performAccountPushdown";
 
-    public static final String MONTHLY_BUDGET_REFRESH_CALLER = MonthlyBudgetAction.class.getName();
+    public static final String MONTHLY_BUDGET_REFRESH_CALLER = "MonthlyBudgetAction";
     public static final String MONTHLY_BUDGET_ACTION = "budgetMonthlyBudget.do";
     public static final String MONTHLY_BUDGET_METHOD = "loadExpansionScreen";
 
-    public static final String QUICK_SALARY_SETTING_REFRESH_CALLER = QuickSalarySettingAction.class.getName();
+    public static final String QUICK_SALARY_SETTING_REFRESH_CALLER = "QuickSalarySettingAction";
     public static final String QUICK_SALARY_SETTING_ACTION = "budgetQuickSalarySetting.do";
     public static final String QUICK_SALARY_SETTING_METHOD = "loadExpansionScreen";
 

@@ -892,15 +892,10 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         if (budgetConstructionForm.isEditAllowed() && !budgetConstructionForm.isSystemViewOnly()) {
             BudgetDocumentService budgetDocumentService = SpringContext.getBean(BudgetDocumentService.class);
 
-            // if the doc contains a 2plg line, turn off RI checking to allow cleanup.
+            // Regardless if the doc contains a 2plg line, turn off RI checking to allow cleanup.
             // The act of attempting to remove a 2plg (delete) forces a complete RI check.
             // The document is assumed inconsistent as long as a 2plg exists.
-            if (bcDocument.isContainsTwoPlug()) {
-                budgetDocumentService.saveDocumentNoWorkFlow(bcDocument, MonthSpreadDeleteType.EXPENDITURE, false);
-            }
-            else {
-                budgetDocumentService.saveDocumentNoWorkflow(bcDocument);
-            }
+            budgetDocumentService.saveDocumentNoWorkFlow(bcDocument, MonthSpreadDeleteType.EXPENDITURE, false);
 
             // init persisted property and get the current list of salary setting related rows
             budgetConstructionForm.initializePersistedRequestAmounts(true);
@@ -1200,7 +1195,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         }
         else {
             if (line.getFinancialObjectCode().equalsIgnoreCase(KFSConstants.BudgetConstructionConstants.OBJECT_CODE_2PLG)) {
-                bcDoc.setContainsTwoPlug(true);
+                bcDoc.setContainsTwoPlug(false);
             }
             bcDoc.getPendingBudgetConstructionGeneralLedgerExpenditureLines().remove(deleteIndex);
         }
@@ -1232,7 +1227,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         // typical refresh callers would be monthlyBudget or salarySetting or lookupable
         String refreshCaller = request.getParameter(KFSConstants.REFRESH_CALLER);
 
-        if (refreshCaller != null && refreshCaller.equalsIgnoreCase(BCConstants.MONTHLY_BUDGET_REFRESH_CALLER)) {
+        if (refreshCaller != null && refreshCaller.endsWith(BCConstants.MONTHLY_BUDGET_REFRESH_CALLER)) {
 
             // monthly process applies any changes to the DB and the form session object
             // including any override to the request amount which also changes the request total
@@ -1241,7 +1236,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
             budgetDocumentService.calculateBenefitsIfNeeded(budgetConstructionForm.getBudgetConstructionDocument());
 
         }
-        if (refreshCaller != null && refreshCaller.equalsIgnoreCase(BCConstants.QUICK_SALARY_SETTING_REFRESH_CALLER)) {
+        if (refreshCaller != null && refreshCaller.endsWith(BCConstants.QUICK_SALARY_SETTING_REFRESH_CALLER)) {
 
 
             BudgetDocumentService budgetDocumentService = SpringContext.getBean(BudgetDocumentService.class);

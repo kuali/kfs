@@ -970,6 +970,9 @@
 		<property name="budgetDocumentService">
 			<ref bean="budgetDocumentService" />
 		</property>
+		<property name="salarySettingService">
+			<ref bean="salarySettingService" />
+		</property>	
 	</bean>
 	
 	<bean id="payrateImportDao" parent="platformAwareDao" class="org.kuali.kfs.module.bc.document.dataaccess.impl.PayrateImportDaoOjb">

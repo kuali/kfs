@@ -2818,11 +2818,6 @@
        	<property name="preScrubberService" ref="preScrubberService" />
     </bean>
     
-    <bean id="temEncumbranceForwardStep" class="org.kuali.kfs.gl.batch.TemEncumbranceForwardStep" parent="step">
-        <property name="generalLedgerPendingEntryService" ref="generalLedgerPendingEntryService" />
-        <property name="parameterService" ref="parameterService" />
-    </bean> 
-    
     <bean id="glcpPreScrubberReportWriterService" parent="glcpPreScrubberReportWriterService-parentBean"/>
     <bean id="glcpPreScrubberReportWriterService-parentBean" abstract="true"  parent="preScrubberReportWriterService">
 		<property name="fileNamePrefix" value="glcp-scrubberReports-02-preScrubber"/>

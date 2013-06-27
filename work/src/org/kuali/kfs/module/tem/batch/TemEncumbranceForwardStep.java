@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.gl.batch;
+package org.kuali.kfs.module.tem.batch;
 
 import java.util.Collection;
 import java.util.Date;

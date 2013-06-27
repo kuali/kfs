@@ -55,6 +55,7 @@
 				<value>travelImportedExpenseNotificationJob</value>
 			  	<value>temProfileExportJob</value>
 			  	<value>travelPreDisbursementProcessorExtractJob</value>
+			  	<value>temEncumbranceForwardJob</value>
 			</list>
 		</property>
 		<property name="triggerNames">
@@ -1325,7 +1326,7 @@
         
         <property name="batchFileDirectoryName" value="${staging.directory}/tem/agencyData"/>
     </bean>
-
+    
 	<bean id="temProfileExportJob" parent="unscheduledJobDescriptor">
 		<property name="steps">
 			<list>
@@ -1340,6 +1341,21 @@
         <property name="fileDirectoryName" value="${staging.directory}/tem/profileExport" />
         <property name="fileName" value="temProfileExport" />
 	</bean>
+	
+	<bean id="temEncumbranceForwardJob" parent="temEncumbranceForwardJob-parentBean"/>
+	<bean id="temEncumbranceForwardJob-parentBean" parent="unscheduledJobDescriptor" abstract="true">
+		<property name="steps">
+			<list>
+				<ref bean="temEncumbranceForwardStep"/>
+			</list>
+		</property>
+	</bean>
+    
+    
+     <bean id="temEncumbranceForwardStep" class="org.kuali.kfs.module.tem.batch.TemEncumbranceForwardStep" parent="step">
+        <property name="generalLedgerPendingEntryService" ref="generalLedgerPendingEntryService" />
+        <property name="parameterService" ref="parameterService" />
+    </bean> 
 	
 	<bean id="travelEntertainmentMovingModuleService" class="org.kuali.kfs.module.tem.service.impl.TravelEntertainmentMovingModuleServiceImpl">
 		<property name="parameterService" ref="parameterService"/>

@@ -55,7 +55,7 @@
 				<value>travelImportedExpenseNotificationJob</value>
 			  	<value>temProfileExportJob</value>
 			  	<value>travelPreDisbursementProcessorExtractJob</value>
-			  	<value>temEncumbranceForwardJob</value>
+			  	<value>temReleaseHeldEncumbranceJob</value>
 			</list>
 		</property>
 		<property name="triggerNames">
@@ -1342,17 +1342,17 @@
         <property name="fileName" value="temProfileExport" />
 	</bean>
 	
-	<bean id="temEncumbranceForwardJob" parent="temEncumbranceForwardJob-parentBean"/>
-	<bean id="temEncumbranceForwardJob-parentBean" parent="unscheduledJobDescriptor" abstract="true">
+	<bean id="temReleaseHeldEncumbranceJob" parent="temReleaseHeldEncumbranceJob-parentBean"/>
+	<bean id="temReleaseHeldEncumbranceJob-parentBean" parent="unscheduledJobDescriptor" abstract="true">
 		<property name="steps">
 			<list>
-				<ref bean="temEncumbranceForwardStep"/>
+				<ref bean="temReleaseHeldEncumbranceStep"/>
 			</list>
 		</property>
 	</bean>
     
     
-     <bean id="temEncumbranceForwardStep" class="org.kuali.kfs.module.tem.batch.TemEncumbranceForwardStep" parent="step">
+     <bean id="temReleaseHeldEncumbranceStep" class="org.kuali.kfs.module.tem.batch.TemReleaseHeldEncumbranceStep" parent="step">
         <property name="generalLedgerPendingEntryService" ref="generalLedgerPendingEntryService" />
         <property name="parameterService" ref="parameterService" />
     </bean> 

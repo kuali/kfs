@@ -31,8 +31,8 @@ import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.springframework.util.StopWatch;
 
-public class TemEncumbranceForwardStep extends AbstractStep {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(TemEncumbranceForwardStep.class);
+public class TemReleaseHeldEncumbranceStep extends AbstractStep {
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(TemReleaseHeldEncumbranceStep.class);
     private GeneralLedgerPendingEntryService generalLedgerPendingEntryService;
     private ParameterService parameterService;
 
@@ -49,7 +49,7 @@ public class TemEncumbranceForwardStep extends AbstractStep {
 	@Override
     public boolean execute(String jobName, Date jobRunDate) {
 		StopWatch stopWatch = new StopWatch();
-        stopWatch.start("TemEncumbranceForwardStep");
+        stopWatch.start("TemReleaseHeldEncumbranceStep");
 
         //If the hold new fiscal year encumbrance indicator is false then change all the help gl pending entries from 'H' (Hold) to 'A' (Approved)
         if(!parameterService.getParameterValueAsBoolean(TravelAuthorizationDocument.class, TravelAuthorizationParameters.HOLD_NEW_FISCAL_YEAR_ENCUMBRANCES_IND)) {
@@ -66,7 +66,7 @@ public class TemEncumbranceForwardStep extends AbstractStep {
         }
 
         stopWatch.stop();
-        LOG.info("TemEncumbranceForwardStep took " + (stopWatch.getTotalTimeSeconds() / 60.0) + " minutes to complete");
+        LOG.info("TemReleaseHeldEncumbranceStep took " + (stopWatch.getTotalTimeSeconds() / 60.0) + " minutes to complete");
 
         return true;
     }

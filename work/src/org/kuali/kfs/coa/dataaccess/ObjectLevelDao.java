@@ -16,26 +16,16 @@
 package org.kuali.kfs.coa.dataaccess;
 
 import java.util.Collection;
-import java.util.List;
 
 import org.apache.ojb.broker.query.Criteria;
-import org.kuali.kfs.coa.businessobject.ObjectCode;
-
+import org.kuali.kfs.coa.businessobject.ObjectLevel;
+import org.kuali.kfs.module.ar.businessobject.Event;
 
 /**
- * This interface defines basic methods that ObjectCode Dao's must provide
+ * This interface defines basic methods that ObjLevel Dao's must provide
  */
-public interface ObjectCodeDao {
-
-    /**
-     * This method retrieves a list of years based on the chart of accounts code and object code passed in
-     * 
-     * @param chartOfAccountsCode
-     * @param financialObjectCode
-     * @return list of years that match the chart and object code passed in
-     */
-    public List getYearList(String chartOfAccountsCode, String financialObjectCode);
-
-    public Collection<ObjectCode> getObjectCodesByCriteria(Criteria criteria);
-
+public interface ObjectLevelDao {
+    
+    public Collection<ObjectLevel> getObjectLevelsByCriteria(Criteria criteria);
+    
 }

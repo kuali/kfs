@@ -21,8 +21,10 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.ojb.broker.query.Criteria;
+import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
+import org.kuali.kfs.coa.businessobject.ObjectLevel;
 import org.kuali.kfs.coa.dataaccess.ObjectCodeDao;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
@@ -51,7 +53,11 @@ public class ObjectCodeDaoOjb extends PlatformAwareDaoBaseOjb implements ObjectC
             }
         }
         return returnList;
-
-
+    }
+    
+    public Collection<ObjectCode> getObjectCodesByCriteria(Criteria criteria) {
+        QueryByCriteria qbc = QueryFactory.newQuery(ObjectLevel.class, criteria);
+        Collection<ObjectCode> objectCodes = getPersistenceBrokerTemplate().getCollectionByQuery(qbc);
+        return objectCodes;
     }
 }

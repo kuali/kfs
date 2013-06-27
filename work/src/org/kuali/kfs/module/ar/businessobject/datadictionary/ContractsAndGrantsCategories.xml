@@ -27,6 +27,8 @@
 				<ref bean="ContractsAndGrantsCategories-categoryName" />
 				<ref bean="ContractsAndGrantsCategories-categoryDescription" />
 				<ref bean="ContractsAndGrantsCategories-categoryObjectCodes" />
+				<ref bean="ContractsAndGrantsCategories-categoryConsolidations" />
+				<ref bean="ContractsAndGrantsCategories-categoryLevels" />
 				<ref bean="ContractsAndGrantsCategories-indirectCostIndicator" />
 				<ref bean="ContractsAndGrantsCategories-active" />
 			</list>
@@ -90,12 +92,43 @@
 		<property name="label" value="Category Object Codes" />
 		<property name="maxLength" value="256" />
 		<property name="required" value="true" />
+
+	    <property name="constraintText" value="Must be 10 digits"/>
+    	<property name="summary" value="Travel Account Number"/>
+    	<property name="description" value="Travel Account Number"/>
+    	
+
 		<property name="control">
 			<bean parent="TextControlDefinition" p:size="50" />
 		</property>
 	</bean>
 
+	<bean id="ContractsAndGrantsCategories-categoryConsolidations" parent="ContractsAndGrantsCategories-categoryConsolidations-parentBean" />
 
+	<bean id="ContractsAndGrantsCategories-categoryConsolidations-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="categoryConsolidations" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Category Consolidations" />
+		<property name="maxLength" value="256" />
+		<property name="required" value="true" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="50" />
+		</property>
+	</bean>
+
+	<bean id="ContractsAndGrantsCategories-categoryLevels" parent="ContractsAndGrantsCategories-categoryLevels-parentBean" />
+
+	<bean id="ContractsAndGrantsCategories-categoryLevels-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="categoryLevels" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Category Levels" />
+		<property name="maxLength" value="256" />
+		<property name="required" value="true" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="50" />
+		</property>
+	</bean>
+	
 	<bean id="ContractsAndGrantsCategories-indirectCostIndicator" parent="ContractsAndGrantsCategories-indirectCostIndicator-parentBean" />
 
 	<bean id="ContractsAndGrantsCategories-indirectCostIndicator-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">

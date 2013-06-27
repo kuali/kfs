@@ -16,9 +16,12 @@
 package org.kuali.kfs.coa.service.impl;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import org.apache.ojb.broker.query.Criteria;
 import org.kuali.kfs.coa.businessobject.ObjectLevel;
+import org.kuali.kfs.coa.dataaccess.ObjectLevelDao;
 import org.kuali.kfs.coa.service.ObjectLevelService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -32,6 +35,17 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 @NonTransactional
 public class ObjectLevelServiceImpl implements ObjectLevelService {
 
+    private ObjectLevelDao objectLevelDao;
+    
+    
+    public ObjectLevelDao getObjectLevelDao() {
+        return objectLevelDao;
+    }
+
+    public void setObjectLevelDao(ObjectLevelDao objectLevelDao) {
+        this.objectLevelDao = objectLevelDao;
+    }
+
     /**
      * @see org.kuali.kfs.coa.service.ObjectLevelService#getByPrimaryId(java.lang.String, java.lang.String)
      */
@@ -40,6 +54,18 @@ public class ObjectLevelServiceImpl implements ObjectLevelService {
         keys.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);
         keys.put(KFSPropertyConstants.FINANCIAL_OBJECT_LEVEL_CODE, objectLevelCode);
         return (ObjectLevel)SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(ObjectLevel.class, keys);
+    }
+
+    public List<ObjectLevel> getObjectLevelsByConsolidationsIds(List<String> consolidationIds) {
+        Criteria criteria = new Criteria();
+        criteria.addIn(KFSPropertyConstants.FINANCIAL_CONSOLIDATION_OBJECT_CODE,consolidationIds);
+        return (List<ObjectLevel>) objectLevelDao.getObjectLevelsByCriteria(criteria);
+    }
+
+    public List<ObjectLevel> getObjectLevelsByLevelIds(List<String> levelCodes) {
+        Criteria criteria = new Criteria();
+        criteria.addIn(KFSPropertyConstants.FINANCIAL_OBJECT_LEVEL_CODE,levelCodes);
+        return (List<ObjectLevel>) objectLevelDao.getObjectLevelsByCriteria(criteria);
     }
 
 }

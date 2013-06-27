@@ -37,6 +37,10 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
+import org.kuali.kfs.coa.businessobject.ObjectCode;
+import org.kuali.kfs.coa.businessobject.ObjectLevel;
+import org.kuali.kfs.coa.service.ObjectCodeService;
+import org.kuali.kfs.coa.service.ObjectLevelService;
 import org.kuali.kfs.gl.businessobject.Balance;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsAgencyAddress;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBill;
@@ -1426,83 +1430,114 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
      */
     public Set<String> getObjectCodeArrayFromSingleCategory(ContractsAndGrantsCategories category) throws IllegalArgumentException {
         Set<String> objectCodeArray = new HashSet<String>();
-        List<String> objectCodes = Arrays.asList(category.getCategoryObjectCodes().split(","));
+        Set<String> levels = new HashSet<String>();
+        if (ObjectUtils.isNotNull(category.getCategoryObjectCodes()) && StringUtils.isNotEmpty(category.getCategoryObjectCodes())) {
+            List<String> objectCodes = Arrays.asList(category.getCategoryObjectCodes().split(","));
 
-        // get a list of qualifying object codes listed in the categories
-        for (int j = 0; j < objectCodes.size(); j++) {
+            // get a list of qualifying object codes listed in the categories
+            for (int j = 0; j < objectCodes.size(); j++) {
 
-            // This is to check if the object codes are in a range of values like 1001-1009 or 100* or 10* or 1*. The wildcard
-            // should be included in the suffix only.
-            if (objectCodes.get(j).contains("-")) {// To check ranges like A000 - ZZZZ (includes A001, A002 .. A009 , A00A to A00Z
-                // and so on to ZZZZ)
-                String obCodeFirst = StringUtils.substringBefore(objectCodes.get(j), "-").trim();
-                String obCodeLast = StringUtils.substringAfter(objectCodes.get(j), "-").trim();
-                // To validate if the object Code formed is in proper format of [0-9a-zA-Z]{4}
+                // This is to check if the object codes are in a range of values like 1001-1009 or 100* or 10* or 1*. The wildcard
+                // should be included in the suffix only.
+                if (objectCodes.get(j).contains("-")) {// To check ranges like A000 - ZZZZ (includes A001, A002 .. A009 , A00A to
+                                                       // A00Z
+                    // and so on to ZZZZ)
+                    String obCodeFirst = StringUtils.substringBefore(objectCodes.get(j), "-").trim();
+                    String obCodeLast = StringUtils.substringAfter(objectCodes.get(j), "-").trim();
+                    // To validate if the object Code formed is in proper format of [0-9a-zA-Z]{4}
 
-                if (obCodeFirst.matches("[0-9a-zA-Z]{4}") && obCodeLast.matches("[0-9a-zA-Z]{4}")) {
-                    try {
+                    if (obCodeFirst.matches("[0-9a-zA-Z]{4}") && obCodeLast.matches("[0-9a-zA-Z]{4}")) {
+                        try {
 
-                        List<String> objectCodeValues = incrementAlphaNumericString(obCodeFirst, obCodeLast);
-                        // To Check for the first value as it is not being included in the array
-                        objectCodeArray.add(obCodeFirst);
+                            List<String> objectCodeValues = incrementAlphaNumericString(obCodeFirst, obCodeLast);
+                            // To Check for the first value as it is not being included in the array
+                            objectCodeArray.add(obCodeFirst);
 
-                        for (int i = 0; i < objectCodeValues.size(); i++) {
-                            objectCodeArray.add(objectCodeValues.get(i));
+                            for (int i = 0; i < objectCodeValues.size(); i++) {
+                                objectCodeArray.add(objectCodeValues.get(i));
+                            }
+                        }
+                        catch (Exception ex) {
+                            String msg = String.format("Failed to get Object Codes for Contracts and Grants Invoice", ex.getMessage());
+                            LOG.error(msg);
+                            throw new RuntimeException(msg, ex);
                         }
                     }
-                    catch (Exception ex) {
-                        String msg = String.format("Failed to get Object Codes for Contracts and Grants Invoice", ex.getMessage());
-                        LOG.error(msg);
-                        throw new RuntimeException(msg, ex);
+                    else {
+                        throw new IllegalArgumentException("Invalid Object Code range specification for the category:" + category.getCategoryName());
                     }
                 }
-                else {
-                    throw new IllegalArgumentException("Invalid Object Code range specification for the category:" + category.getCategoryName());
-                }
-            }
-            else if (objectCodes.get(j).contains("*")) {// To check for wildcard suffix
-                String obCodeFirst = StringUtils.substringBefore(objectCodes.get(j), "*").trim();
-                String obCodeLast = StringUtils.substringBefore(objectCodes.get(j), "*").trim(); // substringBefore is correct here
-                // To make the code work for wildcards like 1* 10* 100* etc
-                // 10* will give you from 100 - 10Z.
+                else if (objectCodes.get(j).contains("*")) {// To check for wildcard suffix
+                    String obCodeFirst = StringUtils.substringBefore(objectCodes.get(j), "*").trim();
+                    String obCodeLast = StringUtils.substringBefore(objectCodes.get(j), "*").trim(); // substringBefore is correct
+                                                                                                     // here
+                    // To make the code work for wildcards like 1* 10* 100* etc
+                    // 10* will give you from 100 - 10Z.
 
-                for (int x = obCodeFirst.length(); x < 4; x++) {
-                    obCodeFirst = obCodeFirst.concat("0");
-                }
+                    for (int x = obCodeFirst.length(); x < 4; x++) {
+                        obCodeFirst = obCodeFirst.concat("0");
+                    }
 
-                for (int x = obCodeLast.length(); x < 4; x++) {
-                    obCodeLast = obCodeLast.concat("Z");
-                }
-                if (obCodeFirst.matches("[0-9a-zA-Z]{4}") && obCodeLast.matches("[0-9a-zA-Z]{4}")) {
-                    try {
-                        List<String> obCodeValues = incrementAlphaNumericString(obCodeFirst, obCodeLast);
+                    for (int x = obCodeLast.length(); x < 4; x++) {
+                        obCodeLast = obCodeLast.concat("Z");
+                    }
+                    if (obCodeFirst.matches("[0-9a-zA-Z]{4}") && obCodeLast.matches("[0-9a-zA-Z]{4}")) {
+                        try {
+                            List<String> obCodeValues = incrementAlphaNumericString(obCodeFirst, obCodeLast);
 
-                        // To Check for the first value as it is not being included in the array
-                        objectCodeArray.add(obCodeFirst);
-                        for (int i = 0; i < obCodeValues.size(); i++) {
-                            objectCodeArray.add(obCodeValues.get(i));
+                            // To Check for the first value as it is not being included in the array
+                            objectCodeArray.add(obCodeFirst);
+                            for (int i = 0; i < obCodeValues.size(); i++) {
+                                objectCodeArray.add(obCodeValues.get(i));
+                            }
+                        }
+                        catch (Exception ex) {
+                            String msg = String.format("Failed to get Object Codes for Contracts and Grants Invoice for the category:" + category.getCategoryName(), ex.getMessage());
+                            LOG.error(msg);
+                            throw new RuntimeException(msg, ex);
                         }
                     }
-                    catch (Exception ex) {
-                        String msg = String.format("Failed to get Object Codes for Contracts and Grants Invoice for the category:" + category.getCategoryName(), ex.getMessage());
-                        LOG.error(msg);
-                        throw new RuntimeException(msg, ex);
+                    else {
+                        throw new IllegalArgumentException("Invalid Object Code range specification for the category:" + category.getCategoryName());
                     }
                 }
-                else {
-                    throw new IllegalArgumentException("Invalid Object Code range specification for the category:" + category.getCategoryName());
+                else {// If the object code is directly provided.
+                    if (objectCodes.get(j).trim().matches("[0-9a-zA-Z]{4}")) {
+
+                        objectCodeArray.add(objectCodes.get(j).trim());
+                    }
+                    else {
+                        throw new IllegalArgumentException("Invalid Object Code range specification for the category:" + category.getCategoryName());
+                    }
+                }
+
+            }
+        }
+        if (ObjectUtils.isNotNull(category.getCategoryConsolidations()) && StringUtils.isNotEmpty(category.getCategoryConsolidations())) {
+            List<String> consolidationCodes = Arrays.asList(category.getCategoryConsolidations().split(","));
+            List<ObjectLevel> objectLevels = SpringContext.getBean(ObjectLevelService.class).getObjectLevelsByConsolidationsIds(consolidationCodes);
+            if (ObjectUtils.isNotNull(objectLevels) && !objectLevels.isEmpty()) {
+                for (ObjectLevel level : objectLevels) {
+                    levels.add(level.getFinancialObjectLevelCode());
                 }
             }
-            else {// If the object code is directly provided.
-                if (objectCodes.get(j).trim().matches("[0-9a-zA-Z]{4}")) {
-
-                    objectCodeArray.add(objectCodes.get(j).trim());
-                }
-                else {
-                    throw new IllegalArgumentException("Invalid Object Code range specification for the category:" + category.getCategoryName());
+        }
+        if (ObjectUtils.isNotNull(category.getCategoryLevels()) && StringUtils.isNotEmpty(category.getCategoryLevels())) {
+            List<String> levelCodes = Arrays.asList(category.getCategoryLevels().split(","));
+            List<ObjectLevel> objectLevels = SpringContext.getBean(ObjectLevelService.class).getObjectLevelsByLevelIds(levelCodes);
+            if (ObjectUtils.isNotNull(objectLevels) && !objectLevels.isEmpty()) {
+                for (ObjectLevel level : objectLevels) {
+                    levels.add(level.getFinancialObjectLevelCode());
                 }
             }
-
+        }
+        if (ObjectUtils.isNotNull(levels) && !levels.isEmpty()) {
+            List<ObjectCode> objectCodes = SpringContext.getBean(ObjectCodeService.class).getObjectCodesByLevelIds(new ArrayList<String>(levels));
+            if (ObjectUtils.isNotNull(objectCodes) && !objectCodes.isEmpty()) {
+                for (ObjectCode objectCode : objectCodes) {
+                    objectCodeArray.add(objectCode.getFinancialObjectCode());
+                }
+            }
         }
         return objectCodeArray;
     }

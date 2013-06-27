@@ -649,5 +649,14 @@
 			<column name="STOP_WRK_IND" type="varchar(1)" defaultValue="N" />
 		</addColumn>
 	</changeSet>
-
+	
+	<changeSet author="KFS411CGB" id="KFSCNTRB1352_CATEGORIES_LEVEL_CONS">
+		<addColumn tableName="AR_CATEGORIES_T">
+			<column name="CONS_CDS" type="varchar(255)" />
+			<column name="LEVEL_CDS" type="varchar(255)"/>
+		</addColumn>
+		<modifySql dbms="oracle">
+			<replace replace="VARCHAR" with="VARCHAR2" />
+		</modifySql>
+	</changeSet>
 </databaseChangeLog>

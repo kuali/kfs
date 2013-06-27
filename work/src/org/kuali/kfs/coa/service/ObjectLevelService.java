@@ -15,6 +15,8 @@
  */
 package org.kuali.kfs.coa.service;
 
+import java.util.List;
+
 import org.kuali.kfs.coa.businessobject.ObjectLevel;
 
 /**
@@ -30,4 +32,8 @@ public interface ObjectLevelService {
      * @return An ObjLevel object instance.
      */
     public ObjectLevel getByPrimaryId(String chartOfAccountsCode, String ObjectLevelCode);
+    
+    public List<ObjectLevel> getObjectLevelsByConsolidationsIds(List<String> consolidationIds);
+
+    public List<ObjectLevel> getObjectLevelsByLevelIds(List<String> levelCodes);
 }

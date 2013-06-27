@@ -28,6 +28,8 @@ public class ContractsAndGrantsCategories extends PersistableBusinessObjectBase 
     private String categoryName;
     private String categoryDescription;
     private String categoryObjectCodes;
+    private String categoryConsolidations;
+    private String categoryLevels;
     private boolean indirectCostIndicator;
     private boolean active;
 
@@ -151,14 +153,35 @@ public class ContractsAndGrantsCategories extends PersistableBusinessObjectBase 
         this.indirectCostIndicator = indirectCostIndicator;
     }
 
-
     
+    public String getCategoryConsolidations() {
+        return categoryConsolidations;
+    }
+
+
+    public void setCategoryConsolidations(String categoryConsolidations) {
+        this.categoryConsolidations = categoryConsolidations;
+    }
+
+
+    public String getCategoryLevels() {
+        return categoryLevels;
+    }
+
+
+    public void setCategoryLevels(String categoryLevels) {
+        this.categoryLevels = categoryLevels;
+    }
+
+
     protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap<String, String> m = new LinkedHashMap<String, String>();
         m.put("categoryCode", this.categoryCode);
         m.put("categoryDescription", this.categoryDescription);
         m.put("categoryName", this.categoryName);
         m.put("categoryObjectCodes", this.categoryObjectCodes);
+        m.put("categoryConsolidations", this.categoryConsolidations);
+        m.put("categoryLevels", this.categoryLevels);
         return m;
     }
 

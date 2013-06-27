@@ -18,6 +18,7 @@ package org.kuali.kfs.coa.service;
 import java.util.List;
 
 import org.kuali.kfs.coa.businessobject.ObjectCode;
+import org.kuali.kfs.coa.businessobject.ObjectLevel;
 
 /**
  * This interface defines methods that an ObjectCode Service must provide.
@@ -67,4 +68,6 @@ public interface ObjectCodeService {
      * @return a String representation of the distinct names of the object codes
      */
     public String getObjectCodeNamesByCharts(Integer universityFiscalYear, String[] chartOfAccountCodes, String financialObjectCode);
+    
+    public List<ObjectCode> getObjectCodesByLevelIds(List<String> levelCodes);
 }

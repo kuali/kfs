@@ -1743,6 +1743,8 @@
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 		<field-descriptor name="categoryDescription" column="CTGRY_DESC" jdbc-type="VARCHAR" />
 		<field-descriptor name="categoryObjectCodes" column="OBJ_CDS" jdbc-type="VARCHAR" />
+		<field-descriptor name="categoryConsolidations" column="CONS_CDS" jdbc-type="VARCHAR" />
+		<field-descriptor name="categoryLevels" column="LEVEL_CDS" jdbc-type="VARCHAR" />
 		<field-descriptor name="indirectCostIndicator" column="IND_CST_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
 		<field-descriptor name="active" column="CTGRY_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
 	</class-descriptor>

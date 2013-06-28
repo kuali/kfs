@@ -105,9 +105,12 @@ public class CategoryRule extends KfsMaintenanceDocumentRuleBase {
     protected boolean checkSimpleRules() {
         GlobalVariables.getMessageMap().putInfo("EditCategory", ArKeyConstants.ContractsGrantsCategoryConstants.CATEGORY_INFO, null);
         boolean success = true;
-        if(!((ObjectUtils.isNotNull(newCategories.getCategoryObjectCodes()) && !StringUtils.isEmpty(newCategories.getCategoryObjectCodes())) ||
-        (ObjectUtils.isNotNull(newCategories.getCategoryConsolidations()) && !StringUtils.isEmpty(newCategories.getCategoryConsolidations()))) ||
-        (ObjectUtils.isNotNull(newCategories.getCategoryLevels()) && !StringUtils.isEmpty(newCategories.getCategoryLevels()))){
+
+        boolean isCategoryObjectCode =(ObjectUtils.isNotNull(newCategories.getCategoryObjectCodes()) && !StringUtils.isEmpty(newCategories.getCategoryObjectCodes()));
+        boolean isCategoryConsolidation = (ObjectUtils.isNotNull(newCategories.getCategoryConsolidations()) && !StringUtils.isEmpty(newCategories.getCategoryConsolidations()));
+        boolean isCategoryLevels = (ObjectUtils.isNotNull(newCategories.getCategoryLevels()) && !StringUtils.isEmpty(newCategories.getCategoryLevels()));
+        
+        if(!(isCategoryObjectCode || isCategoryConsolidation || isCategoryLevels)){
             GlobalVariables.getMessageMap().putError("EditCategory",ArKeyConstants.ContractsGrantsCategoryConstants.ERROR_ANY_ONE_REQUIRED);
             success &= false;
         }

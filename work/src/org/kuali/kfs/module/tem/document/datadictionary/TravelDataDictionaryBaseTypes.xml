@@ -65,6 +65,7 @@
 	    <property name="accountingLineClass" value="org.kuali.kfs.module.tem.businessobject.TemDistributionAccountingLine"/>
     	<property name="groupLabel" value="Assign Accounts"/>
         <property name="accountingLineAuthorizerClass" value="org.kuali.kfs.module.tem.document.authorization.TEMAccountingLineAuthorizer"/>
+      	<property name="accountingLineComparatorClass" value="org.kuali.kfs.module.tem.util.AccountingDistributionComparator" />
 	    <property name="importedLinePropertyPrefix" value="accountDistribution"/>	  
 	    <property name="errorKey" value="accountDistributionsourceAccountingLines*,accountDistributionnewSourceLine,accountDistribution*"/> 
 	    <property name="importingAllowed" value="true"/> 

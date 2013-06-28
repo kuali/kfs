@@ -11,9 +11,10 @@
 		express or implied. See the License for the specific language governing permissions 
 		and limitations under the License. -->
 
-	<bean id="CategoryMaintenanceDocument" parent="CategoryMaintenanceDocument-parentBean" />
+	<bean id="ContractsAndGrantsCategoriesMaintenanceDocument" parent="ContractsAndGrantsCategoriesMaintenanceDocument-parentBean" />
 
-	<bean id="CategoryMaintenanceDocument-parentBean" abstract="true"
+
+	<bean id="ContractsAndGrantsCategoriesMaintenanceDocument-parentBean" abstract="true"
 		parent="MaintenanceDocumentEntry">
 		<property name="businessObjectClass"
 			value="org.kuali.kfs.module.ar.businessobject.ContractsAndGrantsCategories" />
@@ -21,7 +22,7 @@
 			value="org.kuali.kfs.sys.document.FinancialSystemMaintainable" />
 		<property name="maintainableSections">
 			<list>
-				<ref bean="CategoryMaintenanceDocument-EditCategory" />
+				<ref bean="ContractsAndGrantsCategoriesMaintenanceDocument-EditCategory" />
 			</list>
 		</property>
 		<property name="lockingKeys">
@@ -30,24 +31,21 @@
 			</list>
 		</property>
 		<property name="documentTypeName" value="CGCT" />
-		<property name="businessRulesClass" value="org.kuali.kfs.module.ar.document.validation.CategoryRule"/>
 		<property name="documentAuthorizerClass"
 			value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
-		<property name="documentPresentationControllerClass"
-			value="org.kuali.kfs.module.ar.document.authorization.CategoryDocumentPresentationController" />
 		<property name="workflowAttributes">
-			<ref bean="CategoryMaintenanceDocument-workflowAttributes" />
+			<ref bean="ContractsAndGrantsCategoriesMaintenanceDocument-workflowAttributes" />
 		</property>
 	</bean>
 
 
 
 
-	<bean id="CategoryMaintenanceDocument-EditCategory" parent="CategoryMaintenanceDocument-EditCategory-parentBean" />
+	<bean id="ContractsAndGrantsCategoriesMaintenanceDocument-EditCategory" parent="ContractsAndGrantsCategoriesMaintenanceDocument-EditCategory-parentBean" />
 
-	<bean id="CategoryMaintenanceDocument-EditCategory-parentBean"
+	<bean id="ContractsAndGrantsCategoriesMaintenanceDocument-EditCategory-parentBean"
 		abstract="true" parent="MaintainableSectionDefinition">
-		<property name="id" value="EditCategory" />
+		<property name="id" value="Edit Category" />
 		<property name="title" value="Edit Category" />
 		<property name="maintainableItems">
 			<list>
@@ -56,9 +54,8 @@
 				<bean parent="MaintainableFieldDefinition" p:name="categoryName"
 					p:required="true" />
 				<bean parent="MaintainableFieldDefinition" p:name="categoryDescription" />
-				<bean parent="MaintainableFieldDefinition" p:name="categoryObjectCodes" />
-					<bean parent="MaintainableFieldDefinition" p:name="categoryConsolidations"  />
-					<bean parent="MaintainableFieldDefinition" p:name="categoryLevels"  />
+				<bean parent="MaintainableFieldDefinition" p:name="categoryObjectCodes"
+					p:required="true" />
 				<bean parent="MaintainableFieldDefinition" p:name="indirectCostIndicator" />
 				<bean parent="MaintainableFieldDefinition" p:name="active"
 					p:defaultValue="true" />
@@ -66,10 +63,10 @@
 		</property>
 	</bean>
 
-	<bean id="CategoryMaintenanceDocument-workflowAttributes"
-		parent="CategoryMaintenanceDocument-workflowAttributes-parentBean" />
+	<bean id="ContractsAndGrantsCategoriesMaintenanceDocument-workflowAttributes"
+		parent="ContractsAndGrantsCategoriesMaintenanceDocument-workflowAttributes-parentBean" />
 
-	<bean id="CategoryMaintenanceDocument-workflowAttributes-parentBean"
+	<bean id="ContractsAndGrantsCategoriesMaintenanceDocument-workflowAttributes-parentBean"
 		class="org.kuali.rice.krad.datadictionary.WorkflowAttributes" abstract="true" />
 
 </beans>

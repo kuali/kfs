@@ -18,11 +18,8 @@ package org.kuali.kfs.module.tem.document.validation.impl;
 import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants.ArrangerFields;
 import org.kuali.kfs.module.tem.document.TravelArrangerDocument;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
-import org.kuali.rice.kim.api.identity.Person;
-import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 
@@ -34,20 +31,21 @@ public class TravelArrangerUniqueTravelerArrangerValidation extends GenericValid
         TravelArrangerDocument document = (TravelArrangerDocument)event.getDocument();
         Integer profileId = document.getProfileId();
         String arrangerId = document.getArrangerId();
-        Person arranger = null;
 
         if(ObjectUtils.isNotNull(profileId)) {
             document.refreshReferenceObject("profile");
         }
 
-        if (ObjectUtils.isNull(document.getProfile())) {
+        if (ObjectUtils.isNull(document.getProfile()) ) {
             /** Route document does a validation of the DD and already put the error message on in the message map so we do not need to put another on the stack.
             * If we do not return here, we'll get a NPE down below.
             */
             return false;
         }
-        if(ObjectUtils.isNotNull(arrangerId)) {
-            arranger = SpringContext.getBean(PersonService.class).getPerson(arrangerId);
+
+        if (ObjectUtils.isNull(document.getProfile().getPrincipalId())) {
+            //Non KIM TEM profile
+            return true;
         }
 
         if(document.getProfile().getPrincipalId().equals(arrangerId)) {

@@ -34,7 +34,6 @@ import org.kuali.kfs.module.tem.dataaccess.TravelDocumentDao;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.TravelReimbursementDocument;
-import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.api.exception.WorkflowException;
@@ -357,13 +356,6 @@ public interface TravelDocumentService {
      * @return
      */
     List<KeyValue> getMileageRateKeyValues(Date searchDate);
-
-    /**
-     * Truncate the financial system document header to have maximum length (40)
-     *
-     * @param header
-     */
-    void trimFinancialSystemDocumentHeader(FinancialSystemDocumentHeader header);
 
     /**
      * Import {@link GroupTraveler} instances into a {@link TravelDocument} via CSV data

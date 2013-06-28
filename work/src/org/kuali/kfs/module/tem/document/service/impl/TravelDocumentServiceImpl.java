@@ -94,7 +94,6 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
-import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.businessobject.PaymentDocumentationLocation;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -2067,18 +2066,6 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
         }
 
         return documentType;
-    }
-
-    /**
-     * @see org.kuali.kfs.module.tem.document.service.TravelDocumentService#trimFinancialSystemDocumentHeader(org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader)
-     */
-    @Override
-    public void trimFinancialSystemDocumentHeader(FinancialSystemDocumentHeader header){
-        final int DOC_DESC_MAX_LEN = 40;
-        if (header.getDocumentDescription().length() >= DOC_DESC_MAX_LEN) {
-            String truncatedDocumentDescription = header.getDocumentDescription().substring(0, DOC_DESC_MAX_LEN - 1);
-            header.setDocumentDescription(truncatedDocumentDescription);
-        }
     }
 
     public PersistenceStructureService getPersistenceStructureService() {

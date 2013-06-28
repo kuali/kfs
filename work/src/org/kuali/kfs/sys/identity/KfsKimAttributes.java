@@ -41,6 +41,7 @@ public class KfsKimAttributes extends org.kuali.rice.kim.bo.impl.KimAttributes {
     public static final String PURCHASING_COMMODITY_CODE = "purchasingCommodityCode";
     public static final String CONTRACT_MANAGER_CODE = "contractManagerCode";
     public static final String CUSTOMER_PROFILE_ID = "customerProfileId";
+    public static final String PROFILE_ID = "profileId";
     public static final String ACH_TRANSACTION_TYPE_CODE = "achTransactionTypeCode";
     public static final String VENDOR_TYPE_CODE = "vendorTypeCode";
     public static final String CONTRACTS_AND_GRANTS_ACCOUNT_RESPONSIBILITY_ID = "contractsAndGrantsAccountResponsibilityId";

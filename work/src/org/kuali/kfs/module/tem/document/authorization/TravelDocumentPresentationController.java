@@ -20,13 +20,10 @@ import java.util.Set;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationParameters;
 import org.kuali.kfs.module.tem.TemConstants.TravelEditMode;
-import org.kuali.kfs.module.tem.TemConstants.TravelParameters;
 import org.kuali.kfs.module.tem.TemKeyConstants;
-import org.kuali.kfs.module.tem.TemParameterConstants;
 import org.kuali.kfs.module.tem.TemWorkflowConstants;
 import org.kuali.kfs.module.tem.businessobject.TEMProfile;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
-import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.service.TEMRoleService;
 import org.kuali.kfs.module.tem.service.TemProfileService;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -63,34 +60,6 @@ public class TravelDocumentPresentationController extends FinancialSystemTransac
     }
 
     /**
-     *
-     * @see org.kuali.rice.krad.document.DocumentPresentationControllerBase#canEdit(org.kuali.rice.krad.document.Document)
-     */
-    @Override
-    public boolean canEdit(Document document) {
-        Person currentUser = GlobalVariables.getUserSession().getPerson();
-        TravelDocument travelDocument = (TravelDocument) document;
-        WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
-
-        if ((workflowDocument.isInitiated() || workflowDocument.isSaved())) {
-            //check if the user can access the travel document as arranger
-            boolean arrangerAccess = getTemRoleService().canAccessTravelDocument(travelDocument, currentUser);
-            boolean isTraveler = currentUser.getPrincipalId().equals(travelDocument.getTraveler().getPrincipalId());
-
-            //if user does not have the access, user is not enabled as document manager throw doc exception with travel document edit error
-            // also check if user is NOT the traveler
-
-            //NOTE: it doesn't get to here if the edit permission is set correctly
-            //NOTE2: cannot add traveler to the edit permission as it creates a circular role lookup
-            if (!arrangerAccess && !isTraveler && !enableForDocumentManager(currentUser, false)){
-                throw new DocumentInitiationException(TemKeyConstants.ERROR_TRAVEL_DOCUMENT_EDIT, new String[] {travelDocument.getDocumentTypeName()}, true);
-            }
-        }
-
-        return super.canEdit(travelDocument);
-    }
-
-    /**
      * @see org.kuali.rice.krad.document.DocumentPresentationControllerBase#canInitiate(java.lang.String)
      */
     @Override
@@ -119,19 +88,19 @@ public class TravelDocumentPresentationController extends FinancialSystemTransac
         WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
         Person currentUser = GlobalVariables.getUserSession().getPerson();
 
+        DocumentAuthorizer authorizer = getDocumentHelperService().getDocumentAuthorizer(document);
+        TravelArrangeableAuthorizer travelAuthorizer = (TravelArrangeableAuthorizer)authorizer;
+
         //check edit permission when document is in init or saved
         if ((workflowDocument.isInitiated() || workflowDocument.isSaved())) {
-            DocumentAuthorizer authorizer = getDocumentHelperService().getDocumentAuthorizer(document);
-            TravelArrangeableAuthorizer travelAuthorizer = (TravelArrangeableAuthorizer)authorizer;
             //check for edit permission on the document
             if (travelAuthorizer.canEditDocument(document, currentUser)){
                 editModes.add(TravelEditMode.FULL_ENTRY);
             }
-        }
-
-        //Document manager will also get full entry edit mode on the approval node
-        if(isAtNode(workflowDocument, getDocumentManagerApprovalNode()) && enableForDocumentManager(currentUser)){
-            editModes.add(TravelEditMode.FULL_ENTRY);
+        } else if(isAtNode(workflowDocument, getDocumentManagerApprovalNode())){ //Document manager will also get full entry edit mode on the approval node
+            if (travelAuthorizer.canEditDocument(document, currentUser)){
+                editModes.add(TravelEditMode.FULL_ENTRY);
+            }
         }
     }
 
@@ -161,35 +130,6 @@ public class TravelDocumentPresentationController extends FinancialSystemTransac
      */
     public String getDocumentManagerApprovalNode(){
         return TemWorkflowConstants.RouteNodeNames.AP_TRAVEL;
-    }
-
-    /**
-     * Enable specifically for document manager, default to check for parameter setup
-     *
-     * @param workflowDocument
-     * @return
-     */
-    public boolean enableForDocumentManager(Person currentUser){
-        return enableForDocumentManager(currentUser, true);
-    }
-
-
-    /**
-     * Enable specifically for document manager
-     *
-     * 1) user is Travel Manager
-     * 2) parameter allow travel office has full edit
-     *
-     * @param workflowDocument
-     * @return
-     */
-    public boolean enableForDocumentManager(Person currentUser, boolean checkParameters){
-        boolean isTravelManager = getTemRoleService().isTravelManager(currentUser);
-        boolean allowUpdate = checkParameters? getParamService().getParameterValueAsBoolean(TemParameterConstants.TEM_DOCUMENT.class, TravelParameters.TRAVEL_OFFICE_MODIFY_ALL_FIELDS_IND) : true;
-
-        //specifically enabled on AP node on full edit
-        boolean isEnabled = isTravelManager && allowUpdate;
-        return isEnabled;
     }
 
     /**

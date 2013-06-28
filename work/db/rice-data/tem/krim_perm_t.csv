@@ -72,3 +72,17 @@ KFS10402,KFS-TEM-PERM-076,1,26,KFS-TEM,Modify Maintenance Document Field AgencyS
 KFS10403,KFS-TEM-PERM-077,1,26,KFS-TEM,Modify Maintenance Document Field AgencyStagingData travelerNetworkId,Grants the ability to edit the travelerNetworkId field on the Travel Agency Audit Report (Agency Staging Data) maintenence document.,Y
 KFS10404,KFS-TEM-PERM-078,1,26,KFS-TEM,Modify Maintenance Document Field AgencyStagingData tripExpenseAmount,Grants the ability to edit the tripExpenseAmount field on the Travel Agency Audit Report (Agency Staging Data) maintenence document.,Y
 KFS10405,KFS-TEM-PERM-079,1,26,KFS-TEM,Modify Maintenance Document Field AgencyStagingData tripArrangerName,Grants the ability to edit the tripArrangerName field on the Travel Agency Audit Report (Agency Staging Data) maintenence document.,Y
+KFS10445,KFS-TEM-PERM-080,1,KFS10444,KFS-TEM,View Record TravelerProfileForLookup,The ability to view a profile record being selected to act as a traveler.,Y
+KFS10451,KFS-TEM-PERM-081,1,10,KFS-TEM,Initiate Document TMCP,Permission to initiate a TEM Correction Process document.,Y
+KFS10454,KFS-TEM-PERM-082,1,10,KFS-TEM,Initiate Document TA,Permission to initiate a Travel Authorization or child document.,Y
+KFS10458,KFS-TEM-PERM-083,1,10,KFS-TEM,Initiate Document TR,Permission to initiate a Travel Reimbursement document.,Y
+KFS10462,KFS-TEM-PERM-084,1,10,KFS-TEM,Initiate Document RELO,Permission to initiate a Moving and Relocation document.,Y
+KFS10466,KFS-TEM-PERM-085,1,10,KFS-TEM,Initiate Document ENT,Permission to initiate an Entertainment document.,Y
+KFS10470,KFS-TEM-PERM-086,1,31,KFS-TEM,Use Transactional Document RELO actualExpenseTaxableEntry,Allows access to modify the taxable indicator on Travel Relocation (RELO) documents.,Y
+KFS10475,KFS-TEM-PERM-087,1,16,KFS-TEM,Edit Document TA Enroute,The ability to edit any field on the travel authorization (or child) document when the document is enroute.,Y
+KFS10482,KFS-TEM-PERM-088,1,16,KFS-TEM,Edit Document TR Enroute,The ability to edit any field on the travel reimbursement document when the document is enroute.,Y
+KFS10489,KFS-TEM-PERM-089,1,16,KFS-TEM,Edit Document ENT Enroute,The ability to edit any field on the entertainment document when the document is enroute.,Y
+KFS10496,KFS-TEM-PERM-090,1,16,KFS-TEM,Edit Document RELO Enroute,The ability to edit any field on the moving and relocation document when the document is enroute.,Y
+KFS10503,KFS-TEM-PERM-091,1,41,KFS-TEM,Modify Accounting Lines TA Account advanceAccountingLines,"The ability to modify accounting lines associated with the travel advance on travel authorization documents (though, if the parameters to fill in the accounting line is set, the line will still be ineditable).",Y
+KFS10508,KFS-TEM-PERM-092,1,41,KFS-TEM,Modify Accounting Lines TA Travel advanceAccountingLines,"The ability to modify accounting lines associated with the travel advance on travel authorization documents (though, if the parameters to fill in the accounting line is set, the line will still be ineditable).",Y
+KFS10513,KFS-TEM-PERM-093,1,41,KFS-TEM,Modify Accounting Lines TT Travel sourceAccountingLines,The ability to modify accounting lines associated with expenses on travel documents at the Travel node.,Y

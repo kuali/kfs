@@ -1206,7 +1206,8 @@ public class KFSConstants {
         EDIT_BANK_CODE(KFSConstants.CoreModuleNamespaces.KFS, "Edit Bank Code"),
         ADMINISTER_ROUTING_FOR_DOCUMENT(KRADConstants.KUALI_RICE_WORKFLOW_NAMESPACE, "Administer Routing for Document"),
         VIEW_BATCH_FILES(KFSConstants.CoreModuleNamespaces.KFS, "Administer Batch File"),
-        UPLOAD_BATCH_INPUT_FILES(KFSConstants.CoreModuleNamespaces.KFS, "Upload Batch Input File(s)");
+        UPLOAD_BATCH_INPUT_FILES(KFSConstants.CoreModuleNamespaces.KFS, "Upload Batch Input File(s)"),
+        VIEW_RECORD(KFSConstants.CoreModuleNamespaces.KFS, "View Record");
 
         public final String name;
         public final String namespace;

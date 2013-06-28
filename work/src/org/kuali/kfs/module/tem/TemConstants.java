@@ -34,6 +34,7 @@ public class TemConstants {
     public static final String PER_DIEM_LOOKUPABLE = "perDiemLookupable";
     public static final String KIM_PERSON_LOOKUPABLE = "kimPersonLookupable";
     public static final String TEM_PROFILE_LOOKUPABLE = "temProfileLookupable";
+    public static final String TRAVELER_PROFILE_DOC_LOOKUPABLE = "travelerProfileDocLookupable";
 
     public static final String NAMESPACE = "KFS-TEM";
     public static final String PARAM_NAMESPACE = NAMESPACE;

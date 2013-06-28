@@ -232,7 +232,7 @@ public class TravelRelocationAction extends TravelActionBase {
         if (!StringUtils.isBlank(refreshCaller)) {
             final TravelRelocationDocument document = (TravelRelocationDocument)((KualiDocumentFormBase)form).getDocument();
 
-            if (TemConstants.TEM_PROFILE_LOOKUPABLE.equals(refreshCaller)) {
+            if (TemConstants.TRAVELER_PROFILE_DOC_LOOKUPABLE.equals(refreshCaller)) {
                 performRequesterRefresh(document);
             }
         }

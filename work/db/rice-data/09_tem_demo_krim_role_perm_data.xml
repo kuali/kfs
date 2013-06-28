@@ -21,7 +21,10 @@
     <changeSet context="demo" author="kfs" id="KFS_TEM_DEMO_LOAD_KRIM_ROLE_ATTR_DATA_T">
         <loadData tableName="KRIM_ROLE_MBR_ATTR_DATA_T" file="tem/krim_role_mbr_attr_data_t.csv" />
     </changeSet>
-
+    
+    <changeSet context="demo" author="kfs" id="KFS_TEM_DEMO_LOAD_KRIM_PERM_TMPL_T">
+        <loadData tableName="KRIM_PERM_TMPL_T" file="tem/krim_perm_tmpl_t.csv" />
+    </changeSet>
     <changeSet context="demo" author="kfs" id="KFS_TEM_DEMO_LOAD_KRIM_PERM_T">
         <loadData tableName="KRIM_PERM_T" file="tem/krim_perm_t.csv" />
     </changeSet>

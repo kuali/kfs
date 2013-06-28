@@ -20,53 +20,16 @@ import java.util.Set;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
-import org.kuali.kfs.module.tem.TemWorkflowConstants;
-import org.kuali.kfs.module.tem.document.TravelDocumentBase;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizerBase;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kns.service.DocumentHelperService;
-import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 
 public class TEMAccountingLineAuthorizer extends AccountingLineAuthorizerBase {
     private static Log LOG = LogFactory.getLog(TEMAccountingLineAuthorizer.class);
-
-    /**
-     * @see org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizerBase#determineEditPermissionOnField(org.kuali.kfs.sys.document.AccountingDocument, org.kuali.kfs.sys.businessobject.AccountingLine, java.lang.String, java.lang.String, boolean)
-     */
-    @Override
-    public boolean determineEditPermissionOnField(AccountingDocument accountingDocument, AccountingLine accountingLine, String accountingLineCollectionProperty, String fieldName, boolean editablePage) {
-        TravelDocumentBase document = (TravelDocumentBase) accountingDocument;
-        boolean hasPermission = super.determineEditPermissionOnField(accountingDocument, accountingLine, accountingLineCollectionProperty, fieldName, editablePage);
-        TravelDocumentPresentationController documentPresentationController = (TravelDocumentPresentationController) getDocumentHelperService().getDocumentPresentationController(document);
-        boolean canUpdate = documentPresentationController.enableForDocumentManager(GlobalVariables.getUserSession().getPerson());
-
-        if (isAtNode(document.getDocumentHeader().getWorkflowDocument(), TemWorkflowConstants.RouteNodeNames.AP_TRAVEL)){
-            return hasPermission && canUpdate;
-        }
-        return hasPermission;
-
-    }
-
-    /**
-     * @see org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizerBase#determineEditPermissionOnLine(org.kuali.kfs.sys.document.AccountingDocument, org.kuali.kfs.sys.businessobject.AccountingLine, java.lang.String, boolean, boolean)
-     */
-    @Override
-    public boolean determineEditPermissionOnLine(AccountingDocument accountingDocument, AccountingLine accountingLine, String accountingLineCollectionProperty, boolean currentUserIsDocumentInitiator, boolean pageIsEditable) {
-        TravelDocumentBase document = (TravelDocumentBase) accountingDocument;
-        boolean hasPermission = super.determineEditPermissionOnLine(accountingDocument, accountingLine, accountingLineCollectionProperty, currentUserIsDocumentInitiator, pageIsEditable);
-        TravelDocumentPresentationController documentPresentationController = (TravelDocumentPresentationController) getDocumentHelperService().getDocumentPresentationController(document);
-        boolean canUpdate = documentPresentationController.enableForDocumentManager(GlobalVariables.getUserSession().getPerson());
-
-        if (isAtNode(document.getDocumentHeader().getWorkflowDocument(), TemWorkflowConstants.RouteNodeNames.AP_TRAVEL)){
-            return hasPermission && canUpdate;
-        }
-        return hasPermission;
-    }
 
     private DocumentHelperService getDocumentHelperService() {
         return SpringContext.getBean(DocumentHelperService.class);

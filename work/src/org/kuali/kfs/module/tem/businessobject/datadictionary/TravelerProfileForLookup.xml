@@ -1,0 +1,232 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:dd="http://rice.kuali.org/dd"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
+
+	<bean id="TravelerProfileForLookup" parent="TravelerProfileForLookup-parentBean" />
+	<bean id="TravelerProfileForLookup-parentBean" abstract="true" parent="BusinessObjectEntry">
+		<property name="businessObjectClass" value="org.kuali.kfs.module.tem.businessobject.TravelerProfileForLookup" />
+		<property name="boNotesEnabled" value="true"/>
+		<property name="lookupDefinition" ref="TravelerProfileForLookup-lookupDefinition" />
+		<property name="inquiryDefinition" ref="TravelerProfileForLookup-inquiryDefinition" />
+		<property name="titleAttribute" value="profileId" />
+		<property name="objectLabel" value="Travel Profile" />
+		<property name="attributes">
+			<list>
+				<ref bean="TravelerProfileForLookup-profileId" />
+				<ref bean="TravelerProfileForLookup-principalId" />
+				<ref bean="TravelerProfileForLookup-customerNumber" />
+				<ref bean="TravelerProfileForLookup-driversLicenseNumber" />
+				<ref bean="TravelerProfileForLookup-driversLicenseState" />
+				<ref bean="TravelerProfileForLookup-driversLicenseExpDate" />
+				<ref bean="TravelerProfileForLookup-citizenship" />
+				<ref bean="TravelerProfileForLookup-updatedBy" />
+				<ref bean="TravelerProfileForLookup-lastUpdate" />
+				<ref bean="TravelerProfileForLookup-travelerTypeCode" />
+				<ref bean="TravelerProfileForLookup-firstName" />
+				<ref bean="TravelerProfileForLookup-middleName" />
+				<ref bean="TravelerProfileForLookup-lastName" />
+				<ref bean="TravelerProfileForLookup-temProfileAddress.streetAddressLine1" />
+				<ref bean="TravelerProfileForLookup-temProfileAddress.streetAddressLine2" />
+				<ref bean="TravelerProfileForLookup-temProfileAddress.cityName" />
+				<ref bean="TravelerProfileForLookup-temProfileAddress.stateCode" />
+				<ref bean="TravelerProfileForLookup-temProfileAddress.zipCode" />
+				<ref bean="TravelerProfileForLookup-temProfileAddress.countryCode" />
+				<ref bean="TravelerProfileForLookup-emailAddress" />
+				<ref bean="TravelerProfileForLookup-phoneNumber" />
+				<ref bean="TravelerProfileForLookup-dateOfBirth" />
+				<ref bean="TravelerProfileForLookup-gender" />
+				<ref bean="TravelerProfileForLookup-nonResidentAlien" />
+				<ref bean="TravelerProfileForLookup-motorVehicleRecordCheck" />
+				<ref bean="TravelerProfileForLookup-notifyTAFinal" />
+				<ref bean="TravelerProfileForLookup-notifyTAStatusChange" />
+				<ref bean="TravelerProfileForLookup-notifyTERFinal" />
+				<ref bean="TravelerProfileForLookup-notifyTERStatusChange" />
+				<ref bean="TravelerProfileForLookup-employeeId" />
+				<ref bean="TravelerProfileForLookup-homeDepartment" />
+				<ref bean="TravelerProfileForLookup-homeDepartmentChartOfAccountsCode" />
+				<ref bean="TravelerProfileForLookup-homeDepartmentOrgCode" />
+				<ref bean="TravelerProfileForLookup-defaultChartCode" />
+				<ref bean="TravelerProfileForLookup-defaultAccount" />
+				<ref bean="TravelerProfileForLookup-defaultSubAccount" />
+				<ref bean="TravelerProfileForLookup-defaultProjectCode" />
+				<ref bean="TravelerProfileForLookup-principalName" />
+				<ref bean="TravelerProfileForLookup-achSignUp" />
+				<ref bean="TravelerProfileForLookup-achTransactionType" />
+				<ref bean="TravelerProfileForLookup-active" />
+				<ref bean="TravelerProfileForLookup-versionNumber" />
+			</list>
+		</property>
+	</bean>
+	<bean id="TravelerProfileForLookup-profileId" parent="TravelerProfileForLookup-profileId-parentBean" />
+	<bean id="TravelerProfileForLookup-profileId-parentBean" abstract="true" parent="TEMProfile-profileId"/>
+
+	<bean id="TravelerProfileForLookup-principalId" parent="TravelerProfileForLookup-principalId-parentBean" />
+	<bean id="TravelerProfileForLookup-principalId-parentBean" parent="TEMProfile-principalId" abstract="true"/>
+
+	<bean id="TravelerProfileForLookup-customerNumber" parent="TravelerProfileForLookup-customerNumber-parentBean" />
+	<bean id="TravelerProfileForLookup-customerNumber-parentBean" abstract="true" parent="TEMProfile-customerNumber"/>
+
+	<bean id="TravelerProfileForLookup-driversLicenseNumber" parent="TravelerProfileForLookup-driversLicenseNumber-parentBean" />
+	<bean id="TravelerProfileForLookup-driversLicenseNumber-parentBean" abstract="true" parent="TEMProfile-driversLicenseNumber"/>
+
+	<bean id="TravelerProfileForLookup-driversLicenseState" parent="TravelerProfileForLookup-driversLicenseState-parentBean" />
+	<bean id="TravelerProfileForLookup-driversLicenseState-parentBean" abstract="true" parent="TEMProfile-driversLicenseState"/>
+
+	<bean id="TravelerProfileForLookup-driversLicenseExpDate" parent="TravelerProfileForLookup-driversLicenseExpDate-parentBean" />
+	<bean id="TravelerProfileForLookup-driversLicenseExpDate-parentBean" abstract="true" parent="TEMProfile-driversLicenseExpDate"/>
+
+	<bean id="TravelerProfileForLookup-citizenship" parent="TravelerProfileForLookup-citizenship-parentBean" />
+	<bean id="TravelerProfileForLookup-citizenship-parentBean" abstract="true" parent="TEMProfile-citizenship"/>
+
+	<bean id="TravelerProfileForLookup-updatedBy" parent="TravelerProfileForLookup-updatedBy-parentBean" />
+	<bean id="TravelerProfileForLookup-updatedBy-parentBean" abstract="true" parent="TEMProfile-updatedBy"/>
+
+	<bean id="TravelerProfileForLookup-lastUpdate" parent="TravelerProfileForLookup-lastUpdate-parentBean" />
+	<bean id="TravelerProfileForLookup-lastUpdate-parentBean" abstract="true" parent="TEMProfile-lastUpdate"/>
+
+	<bean id="TravelerProfileForLookup-travelerTypeCode" parent="TravelerProfileForLookup-travelerTypeCode-parentBean" />
+	<bean id="TravelerProfileForLookup-travelerTypeCode-parentBean" abstract="true" parent="TEMProfile-travelerTypeCode"/>
+
+	<bean id="TravelerProfileForLookup-firstName" parent="TravelerProfileForLookup-firstName-parentBean" />
+	<bean id="TravelerProfileForLookup-firstName-parentBean" abstract="true" parent="TEMProfile-firstName"/>
+
+	<bean id="TravelerProfileForLookup-middleName" parent="TravelerProfileForLookup-middleName-parentBean" />
+	<bean id="TravelerProfileForLookup-middleName-parentBean" abstract="true" parent="TEMProfile-middleName"/>
+
+	<bean id="TravelerProfileForLookup-lastName" parent="TravelerProfileForLookup-lastName-parentBean" />
+	<bean id="TravelerProfileForLookup-lastName-parentBean" abstract="true" parent="TEMProfile-lastName"/>
+
+	<bean id="TravelerProfileForLookup-temProfileAddress.streetAddressLine1" parent="TravelerProfileForLookup-temProfileAddress.streetAddressLine1-parentBean" />
+	<bean id="TravelerProfileForLookup-temProfileAddress.streetAddressLine1-parentBean" abstract="true" parent="TEMProfile-temProfileAddress.streetAddressLine1"/>
+
+	<bean id="TravelerProfileForLookup-temProfileAddress.streetAddressLine2" parent="TravelerProfileForLookup-temProfileAddress.streetAddressLine2-parentBean" />
+	<bean id="TravelerProfileForLookup-temProfileAddress.streetAddressLine2-parentBean" abstract="true" parent="TEMProfile-temProfileAddress.streetAddressLine2"/>
+
+	<bean id="TravelerProfileForLookup-temProfileAddress.cityName" parent="TravelerProfileForLookup-temProfileAddress.cityName-ParentBean" />
+	<bean id="TravelerProfileForLookup-temProfileAddress.cityName-ParentBean"	abstract="true" parent="TEMProfile-temProfileAddress.cityName"/>
+
+	<bean id="TravelerProfileForLookup-temProfileAddress.stateCode" parent="TravelerProfileForLookup-temProfileAddress.stateCode-parentBean" />
+	<bean id="TravelerProfileForLookup-temProfileAddress.stateCode-parentBean" abstract="true" parent="TEMProfile-temProfileAddress.stateCode"/>
+
+	<bean id="TravelerProfileForLookup-temProfileAddress.zipCode" parent="TravelerProfileForLookup-temProfileAddress.zipCode-parentBean" />
+	<bean id="TravelerProfileForLookup-temProfileAddress.zipCode-parentBean" abstract="true" parent="TEMProfile-temProfileAddress.zipCode"/>
+
+	<bean id="TravelerProfileForLookup-temProfileAddress.countryCode" parent="TravelerProfileForLookup-temProfileAddress.countryCode-parentBean" />
+	<bean id="TravelerProfileForLookup-temProfileAddress.countryCode-parentBean" abstract="true" parent="TEMProfile-temProfileAddress.countryCode"/>
+
+	<bean id="TravelerProfileForLookup-emailAddress" parent="TravelerProfileForLookup-emailAddress-parentBean" />
+	<bean id="TravelerProfileForLookup-emailAddress-parentBean" abstract="true" parent="TEMProfile-emailAddress"/>
+
+	<bean id="TravelerProfileForLookup-phoneNumber" parent="TravelerProfileForLookup-phoneNumber-parentBean" />
+	<bean id="TravelerProfileForLookup-phoneNumber-parentBean" abstract="true" parent="TEMProfile-phoneNumber"/>
+
+	<bean id="TravelerProfileForLookup-achSignUp" parent="TravelerProfileForLookup-achSignUp-parentBean" />
+	<bean id="TravelerProfileForLookup-achSignUp-parentBean" abstract="true" parent="TEMProfile-achSignUp"/>
+
+	<bean id="TravelerProfileForLookup-achTransactionType" parent="TravelerProfileForLookup-achTransactionType-parentBean" />
+	<bean id="TravelerProfileForLookup-achTransactionType-parentBean" abstract="true" parent="TEMProfile-achTransactionType"/>
+
+	<bean id="TravelerProfileForLookup-dateOfBirth" parent="TravelerProfileForLookup-dateOfBirth-parentBean" />
+	<bean id="TravelerProfileForLookup-dateOfBirth-parentBean" abstract="true" parent="TEMProfile-dateOfBirth"/>
+
+	<bean id="TravelerProfileForLookup-gender" parent="TravelerProfileForLookup-gender-parentBean" />
+	<bean id="TravelerProfileForLookup-gender-parentBean" abstract="true" parent="TEMProfile-gender"/>
+
+	<bean id="TravelerProfileForLookup-nonResidentAlien" parent="TravelerProfileForLookup-nonResidentAlien-parentBean" />
+	<bean id="TravelerProfileForLookup-nonResidentAlien-parentBean" abstract="true" parent="TEMProfile-nonResidentAlien"/>
+
+	<bean id="TravelerProfileForLookup-motorVehicleRecordCheck" parent="TravelerProfileForLookup-motorVehicleRecordCheck-parentBean" />
+	<bean id="TravelerProfileForLookup-motorVehicleRecordCheck-parentBean" abstract="true" parent="TEMProfile-motorVehicleRecordCheck"/>
+
+	<bean id="TravelerProfileForLookup-notifyTAFinal" parent="TravelerProfileForLookup-notifyTAFinal-parentBean" />
+	<bean id="TravelerProfileForLookup-notifyTAFinal-parentBean" abstract="true" parent="TEMProfile-notifyTAFinal"/>
+
+	<bean id="TravelerProfileForLookup-notifyTAStatusChange" parent="TravelerProfileForLookup-notifyTAStatusChange-parentBean" />
+	<bean id="TravelerProfileForLookup-notifyTAStatusChange-parentBean" abstract="true" parent="TEMProfile-notifyTAStatusChange"/>
+
+	<bean id="TravelerProfileForLookup-notifyTERFinal" parent="TravelerProfileForLookup-notifyTERFinal-parentBean" />
+	<bean id="TravelerProfileForLookup-notifyTERFinal-parentBean" abstract="true" parent="TEMProfile-notifyTERFinal"/>
+
+	<bean id="TravelerProfileForLookup-notifyTERStatusChange" parent="TravelerProfileForLookup-notifyTERStatusChange-parentBean" />
+	<bean id="TravelerProfileForLookup-notifyTERStatusChange-parentBean" abstract="true" parent="TEMProfile-notifyTERStatusChange"/>
+
+	<bean id="TravelerProfileForLookup-employeeId" parent="TravelerProfileForLookup-employeeId-parentBean" />
+	<bean id="TravelerProfileForLookup-employeeId-parentBean" abstract="true" parent="TEMProfile-employeeId" />
+
+	<bean id="TravelerProfileForLookup-homeDepartment" parent="TravelerProfileForLookup-homeDepartment-parentBean" />
+	<bean id="TravelerProfileForLookup-homeDepartment-parentBean" abstract="true" parent="TEMProfile-homeDepartment"/>
+
+	<bean id="TravelerProfileForLookup-homeDepartmentChartOfAccountsCode" parent="TravelerProfileForLookup-homeDepartmentChartOfAccountsCode-parentBean" />
+	<bean id="TravelerProfileForLookup-homeDepartmentChartOfAccountsCode-parentBean" abstract="true" parent="TEMProfile-homeDepartmentChartOfAccountsCode"/>
+
+	<bean id="TravelerProfileForLookup-homeDepartmentOrgCode" parent="TravelerProfileForLookup-homeDepartmentOrgCode-parentBean" />
+	<bean id="TravelerProfileForLookup-homeDepartmentOrgCode-parentBean" abstract="true" parent="TEMProfile-homeDepartmentOrgCode"/>
+
+	<bean id="TravelerProfileForLookup-defaultChartCode" parent="TravelerProfileForLookup-defaultChartCode-parentBean" />
+	<bean id="TravelerProfileForLookup-defaultChartCode-parentBean" abstract="true" parent="TEMProfile-defaultChartCode"/>
+
+	<bean id="TravelerProfileForLookup-defaultAccount" parent="TravelerProfileForLookup-defaultAccount-parentBean" />
+	<bean id="TravelerProfileForLookup-defaultAccount-parentBean" abstract="true" parent="TEMProfile-defaultAccount"/>
+
+	<bean id="TravelerProfileForLookup-defaultSubAccount" parent="TravelerProfileForLookup-defaultSubAccount-parentBean" />
+	<bean id="TravelerProfileForLookup-defaultSubAccount-parentBean" abstract="true" parent="TEMProfile-defaultSubAccount"/>
+
+	<bean id="TravelerProfileForLookup-defaultProjectCode" parent="TravelerProfileForLookup-defaultProjectCode-parentBean" />
+	<bean id="TravelerProfileForLookup-defaultProjectCode-parentBean" abstract="true" parent="TEMProfile-defaultProjectCode"/>
+
+	<bean id="TravelerProfileForLookup-principalName" parent="TravelerProfileForLookup-principalName-parentBean" />
+	<bean id="TravelerProfileForLookup-principalName-parentBean" abstract="true" parent="TEMProfile-principalName"/>
+
+	<bean id="TravelerProfileForLookup-active" parent="TravelerProfileForLookup-active-parentBean" />
+	<bean id="TravelerProfileForLookup-active-parentBean" abstract="true" parent="TEMProfile-active"/>
+
+	<bean id="TravelerProfileForLookup-versionNumber" parent="TravelerProfileForLookup-versionNumber-parentBean" />
+	<bean id="TravelerProfileForLookup-versionNumber-parentBean" abstract="true" parent="TEMProfile-versionNumber" />
+
+	<bean id="TravelerProfileForLookup-inquiryDefinition" parent="TravelerProfileForLookup-inquiryDefinition-parentBean" />
+	<bean id="TravelerProfileForLookup-inquiryDefinition-parentBean" abstract="true" parent="TEMProfile-inquiryDefinition"/>
+
+	<bean id="TravelerProfileForLookup-lookupDefinition" parent="TravelerProfileForLookup-lookupDefinition-parentBean" />
+	<bean id="TravelerProfileForLookup-lookupDefinition-parentBean" abstract="true"
+		parent="LookupDefinition">
+		<property name="title" value="Profile Lookup" />
+		<property name="lookupableID" value="travelerProfileDocLookupable" />
+		<property name="defaultSort">
+			<bean parent="SortDefinition">
+				<property name="attributeNames">
+					<list>
+					</list>
+				</property>
+			</bean>
+		</property>
+		<property name="lookupFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="principalId" />
+				<bean parent="FieldDefinition" p:attributeName="profileId" />
+				<bean parent="FieldDefinition" p:attributeName="firstName" />
+				<bean parent="FieldDefinition" p:attributeName="lastName" />
+				<bean parent="FieldDefinition" p:attributeName="travelerTypeCode" p:noLookup="true" />
+				<bean parent="FieldDefinition" p:attributeName="homeDepartment" />
+                <bean parent="FieldDefinition" p:attributeName="defaultChartCode" />
+				<bean parent="FieldDefinition" p:attributeName="defaultAccount" />
+				<bean parent="FieldDefinition" p:attributeName="active" p:defaultValue="Y"/>
+			</list>
+		</property>
+		<property name="resultFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="profileId" />
+				<bean parent="FieldDefinition" p:attributeName="principalId" />
+				<bean parent="FieldDefinition" p:attributeName="firstName" />
+				<bean parent="FieldDefinition" p:attributeName="lastName" />
+				<bean parent="FieldDefinition" p:attributeName="temProfileAddress.streetAddressLine1" />
+				<bean parent="FieldDefinition" p:attributeName="temProfileAddress.cityName" />
+				<bean parent="FieldDefinition" p:attributeName="temProfileAddress.stateCode" />
+				<bean parent="FieldDefinition" p:attributeName="temProfileAddress.zipCode" />
+				<bean parent="FieldDefinition" p:attributeName="temProfileAddress.countryCode" />
+				<bean parent="FieldDefinition" p:attributeName="emailAddress" />
+				<bean parent="FieldDefinition" p:attributeName="phoneNumber" />
+			</list>
+		</property>
+	</bean>
+</beans>

@@ -1307,7 +1307,6 @@
 	<bean id="nightlyOutJob" parent="scheduledJobDescriptor">
 		<property name="steps">
 			<list>
-				<ref bean="temEncumbranceForwardStep" />
 				<ref bean="nightlyOutStep" />
 			</list>
 		</property>

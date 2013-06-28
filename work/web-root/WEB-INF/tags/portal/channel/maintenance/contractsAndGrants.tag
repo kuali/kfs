@@ -24,40 +24,80 @@
  		<li><portal:portalLink displayTitle="true" title="CG Account Default" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.external.kc.businessobject.AccountAutoCreateDefaults&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
     </c:when>
     <c:otherwise>
+			<li><portal:portalLink displayTitle="true"
+					title="Account Invoice Templates"
+					url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.cg.businessobject.InvoiceTemplate&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
+			</li>
 		<li>
 			<portal:portalLink displayTitle="true" title="Agency"
 				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.cg.businessobject.Agency&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
 		</li>
+			<li><portal:portalLink displayTitle="true"
+					title="Agency Activity"
+					url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.cg.businessobject.AgencyActivity&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
+			</li>
 		<li>
 			<portal:portalLink displayTitle="true" title="Agency Type"
 				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.cg.businessobject.AgencyType&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
 		</li>
-		
+			<li><portal:portalLink displayTitle="true"
+					title="Agency Address Type"
+					url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.cg.businessobject.AgencyAddressType&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
+			</li>		
 		<li>
 			<portal:portalLink displayTitle="true" title="Award Status"
 				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.cg.businessobject.AwardStatus&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
 		</li>
-	
+				<li><portal:portalLink displayTitle="true"
+					title="Billing Frequency"
+					url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.cg.businessobject.BillingFrequency&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
+			</li>
 		<li>
 			<portal:portalLink displayTitle="true" title="CFDA"
 				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.cg.businessobject.CFDA&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
 		</li>
-	
+			<li><portal:portalLink displayTitle="true"
+					title="Instrument Type"
+					url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.cg.businessobject.ContractGrantType&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
+			</li>
+			<li><portal:portalLink displayTitle="true"
+					title="Financial Form Templates"
+					url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.cg.businessobject.FinancialFormTemplate&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
+			</li>
+			<li><portal:portalLink displayTitle="true"
+					title="Financial Report Frequency"
+					url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.cg.businessobject.FinancialReportFrequencies&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
+			</li>	
 		<li>
 			<portal:portalLink displayTitle="true" title="Grant Description"
 				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.cg.businessobject.GrantDescription&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
 		</li>
-		
+			<li><portal:portalLink displayTitle="true"
+					title="Invoice Indicators"
+					url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.cg.businessobject.InvoiceIndicator&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
+			</li>		
 		<li>
 			<portal:portalLink displayTitle="true"
 				title="Letter of Credit Fund Group"
 				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.cg.businessobject.LetterOfCreditFundGroup&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
 		</li>
+			<li><portal:portalLink displayTitle="true"
+					title="Letter of Credit Fund"
+					url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.cg.businessobject.LetterOfCreditFund&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
+			</li>
+			<li><portal:portalLink displayTitle="true"
+					title="Milestone Schedule"
+					url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.cg.businessobject.MilestoneSchedule&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
+			</li>
 		<li>
 			<portal:portalLink displayTitle="true"
 				title="Proposal/Award Close"
 				url="cgClose.do?methodToCall=docHandler&command=initiate&docTypeName=CLOS" />
 		</li>
+			<li><portal:portalLink displayTitle="true"
+					title="Proposal Auto Creation Default"
+					url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.cg.businessobject.ProposalAutoCreateDefaults&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
+			</li>
 		<li>
 			<portal:portalLink displayTitle="true" title="Proposal Purpose"
 				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.cg.businessobject.ProposalPurpose&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
@@ -75,6 +115,10 @@
 			<portal:portalLink displayTitle="true" title="Research Risk Type"
 				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.cg.businessobject.ResearchRiskType&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
 		</li>
+			<li><portal:portalLink displayTitle="true"
+					title="Source of Funds"
+					url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.cg.businessobject.SourceOfFunds&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
+			</li>
 		
 		<li>
 			<portal:portalLink displayTitle="true" title="Sub-Contractor"

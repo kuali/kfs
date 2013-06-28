@@ -43,6 +43,49 @@
 					url="arTicklersReport.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.TicklersReport&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
 		</ul>
 	</c:if>
+	<c:if
+		test="${ConfigProperties['module.contracts.and.grants.enabled'] == 'true'}">
+		<strong>Contracts and Grants</strong>
+		</br>
+		<ul class="chan">
+			<li><portal:portalLink displayTitle="true"
+					title="Award Balances"
+					url="contractsGrantsAwardBalancesReport.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.cg.businessobject.ContractsGrantsAwardBalancesReport&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
+			</li>
+			<li><portal:portalLink displayTitle="true"
+					title="Invoice Report"
+					url="contractsGrantsInvoiceReport.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.ContractsGrantsInvoiceReport&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
+			</li>
+			<li><portal:portalLink displayTitle="true"
+					title="Payment History Report"
+					url="contractsGrantsPaymentHistoryReport.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.ContractsGrantsPaymentHistoryReport&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
+			</li>
+			<li><portal:portalLink displayTitle="true"
+					title="LOC Draw Details Report"
+					url="contractsGrantsLOCDrawDetailsReport.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.ContractsGrantsLOCDrawDetailsReport&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
+			</li>
+			<li><portal:portalLink displayTitle="true"
+					title="LOC Amounts Not Drawn Report"
+					url="contractsGrantsLOCAmountsNotDrawnReport.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.ContractsGrantsLOCAmountsNotDrawnReport&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
+			</li>
+			<li><portal:portalLink displayTitle="true"
+					title="Invoice Suspense Activity Report"
+					url="contractsGrantsInvoiceSuspenseActivityReport.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.ContractsGrantsInvoiceSuspenseActivityReport&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
+			</li>
+			<li><portal:portalLink displayTitle="true"
+					title="Suspended Invoice Report"
+					url="contractsGrantsSuspendedInvoiceReport.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.ContractsGrantsSuspendedInvoiceReport&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
+			</li>
+			<li><portal:portalLink displayTitle="true"
+					title="Milestone Report"
+					url="contractsGrantsMilestoneReport.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.ContractsGrantsMilestoneReport&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
+			</li>
+			<li><portal:portalLink displayTitle="true"
+					title="Billable but Not Invoiced Awards"
+					url="kr/lookup.do?methodToCall=search&businessObjectClassName=org.kuali.kfs.sys.batch.BatchFile&docFormKey=88888888&fileName=cgin_*_validation_err*&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
+			</li>
+		</ul>
+	</c:if>
 	<c:if test="${ConfigProperties.module.labor.distribution.enabled == 'true'}">
 		<strong>Effort Certification</strong></br>
 	    <ul class="chan">	

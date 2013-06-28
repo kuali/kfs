@@ -300,6 +300,45 @@
 			<ref bean="businessObjectService" />
 		</property>
 	</bean>
+
+	<bean id="contractsGrantsAwardBalancesReportService" class="org.kuali.kfs.module.cg.report.service.impl.ContractsGrantsAwardBalancesReportServiceImpl">
+		<property name="reportGenerationService">
+			<ref bean="reportGenerationService" />
+		</property>
+		<property name="contractsGrantsAwardBalancesReportInfo">
+			<ref bean="contractsGrantsAwardBalancesReportInfo" />
+		</property>
+	</bean>
+
+	<bean id="contractsGrantsAwardBalancesReportInfo" class="org.kuali.kfs.sys.report.ReportInfoHolder">
+		<property name="reportTitle" value="Contracts Grants Award Balances Report" />
+		<property name="reportFileName" value="award_balances_report" />
+		<property name="reportsDirectory" value="${reports.directory}/cg/" />
+		<property name="resourceBundleBaseName" value="org/kuali/kfs/module/cg/report/messages" />
+		<property name="reportTemplateClassPath" value="org/kuali/kfs/module/cg/report/" />
+		<property name="reportTemplateName" value="AwardBalances" />
+		<property name="subReportTemplateClassPath" value="org/kuali/kfs/module/cg/report/" />
+		<property name="subReports">
+			<map>
+				<entry key="awardBalancesDetails" value="AwardBalancesDetails" />
+				<entry key="searchCriteria" value="SearchCriteria" />
+			</map>
+		</property>
+	</bean>
+
+
+	<bean id="contractsGrantsAwardBalancesReportLookupableHelperService" class="org.kuali.kfs.module.cg.businessobject.lookup.ContractsGrantsAwardBalancesReportLookupableHelperServiceImpl"
+		scope="prototype">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+	</bean>
+
+	<bean id="contractsGrantsAwardBalancesReportLookupResultLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+		<property name="lookupableHelperService">
+			<ref bean="contractsGrantsAwardBalancesReportLookupableHelperService" />
+		</property>
+	</bean>
 	
 <bean id="routingFormResearchRiskService"  parent="routingFormResearchRiskService-parentBean"/>
 <bean id="routingFormResearchRiskService-parentBean" class="org.kuali.kfs.module.cg.document.service.impl.RoutingFormResearchRiskServiceImpl" abstract="true">

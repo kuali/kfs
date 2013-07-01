@@ -35,6 +35,7 @@ import org.kuali.kfs.sys.document.workflow.WorkflowTestUtils;
 import org.kuali.kfs.sys.fixture.UserNameFixture;
 import org.kuali.kfs.sys.monitor.ChangeMonitor;
 import org.kuali.kfs.sys.monitor.DocumentVersionMonitor;
+import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.service.DataDictionaryService;
@@ -48,6 +49,7 @@ import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.ErrorMessage;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
 
 public final class AccountingDocumentTestUtils {
     private static final Logger LOG = Logger.getLogger(AccountingDocumentTestUtils.class);
@@ -178,7 +180,9 @@ public final class AccountingDocumentTestUtils {
         Assert.assertFalse("Document was not in proper status for routing.  Was: " + document.getDocumentHeader().getWorkflowDocument().getStatus(),
                 DocumentStatus.ENROUTE.equals(document.getDocumentHeader().getWorkflowDocument().getStatus()));
         routeDocument(document, "saving copy source document", null, documentService);
-        if (!document.getDocumentHeader().getWorkflowDocument().isApproved()) {
+
+        WorkflowDocument workflowDocument = SpringContext.getBean(WorkflowDocumentService.class).loadWorkflowDocument(document.getDocumentNumber(), UserNameFixture.kfs.getPerson() );
+        if (!workflowDocument.isApproved()) {
             WorkflowTestUtils.waitForStatusChange(document.getDocumentNumber(), DocumentStatus.ENROUTE);
         }
     }

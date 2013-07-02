@@ -115,7 +115,11 @@
 		<field-descriptor name="customerTaxTypeCode" column="CUST_TAX_TYP_CD" jdbc-type="VARCHAR" />
 		<field-descriptor name="customerTaxNbr" column="CUST_TAX_NBR" jdbc-type="VARCHAR"
 			conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiEncryptDecryptFieldConversion" />
-
+		<field-descriptor name="bankruptcyType" column="BNKRPTCY_TYPE_CD" jdbc-type="VARCHAR" />
+		<field-descriptor name="bankruptcyDate" column="BNKRPTCY_DT" jdbc-type="DATE" />
+		<field-descriptor name="bankruptcyReviewDate" column="BNKRPTCY_REVIEW_DT" jdbc-type="DATE" />
+		<field-descriptor name="stopWorkIndicator" column="STOP_WRK_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+		<field-descriptor name="stopWorkReason" column="STOP_WRK_REASON_TXT" jdbc-type="VARCHAR" />
 		<reference-descriptor name="customerParentCompany" class-ref="org.kuali.kfs.module.ar.businessobject.Customer" auto-retrieve="true"
 			auto-update="none" auto-delete="none" proxy="true">
 			<foreignkey field-ref="customerParentCompanyNumber" />

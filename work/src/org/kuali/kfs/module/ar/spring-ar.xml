@@ -903,6 +903,9 @@
 		<property name="noteService">
 			<ref bean="noteService" />
 		</property>
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
 	</bean>
 	
 	<bean id="customerCollectorService" class="org.kuali.kfs.module.ar.document.service.impl.CustomerCollectorServiceImpl">

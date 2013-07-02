@@ -28,7 +28,8 @@
         <ref bean="CustomerMaintenanceDocument-CorporateInformation"/>
         <ref bean="CustomerMaintenanceDocument-ContactInformation"/>
         <ref bean="CustomerMaintenanceDocument-Addresses"/>
-        <ref bean="CustomerMaintenanceDocument-CustomerCollector"/>
+        <!-- <ref bean="CustomerMaintenanceDocument-CustomerCollector"/> -->
+        <ref bean="CustomerMaintenanceDocument-CollectionsMaintenance"/>
         <ref bean="CustomerMaintenanceDocument-CustomerNotes"/>
       </list>
     </property>
@@ -155,7 +156,7 @@
         </property>
         </bean>
         
-  <bean id="CustomerMaintenanceDocument-CustomerCollector" parent="CustomerMaintenanceDocument-CustomerCollector-parentBean"/>
+<!--   <bean id="CustomerMaintenanceDocument-CustomerCollector" parent="CustomerMaintenanceDocument-CustomerCollector-parentBean"/>
 
   <bean id="CustomerMaintenanceDocument-CustomerCollector-parentBean" abstract="true" parent="MaintainableSectionDefinition">
     <property name="id" value="Customer Collector"/>
@@ -169,8 +170,25 @@
 				p:unconditionallyReadOnly="true" />
       </list>
     </property>
-  </bean>
+  </bean> -->
         
+    <bean id="CustomerMaintenanceDocument-CollectionsMaintenance" parent="CustomerMaintenanceDocument-CollectionsMaintenance-parentBean" />
+
+	<bean id="CustomerMaintenanceDocument-CollectionsMaintenance-parentBean"
+		abstract="true" parent="MaintainableSectionDefinition">
+		<property name="id" value="Collections Maintenance" />
+		<property name="title" value="Collections Maintenance" />
+		<property name="maintainableItems">
+			<list>
+				<bean parent="MaintainableFieldDefinition" p:name="bankruptcyType" />
+				<bean parent="MaintainableFieldDefinition" p:name="bankruptcyDate" />
+				<bean parent="MaintainableFieldDefinition" p:name="bankruptcyReviewDate" />
+				<bean parent="MaintainableFieldDefinition" p:name="stopWorkIndicator" />
+				<bean parent="MaintainableFieldDefinition" p:name="stopWorkReason" />
+			</list>
+		</property>
+	</bean>
+	
   <bean id="CustomerMaintenanceDocument-CustomerNotes" parent="CustomerMaintenanceDocument-CustomerNotes-parentBean"/>
 
   <bean id="CustomerMaintenanceDocument-CustomerNotes-parentBean" abstract="true" parent="MaintainableSectionDefinition">

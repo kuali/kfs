@@ -203,11 +203,6 @@
 				<bean parent="MaintainableFieldDefinition" p:name="stateAgencyIndicator" />
 				<bean parent="MaintainableFieldDefinition" p:name="dunningCampaign"/>
 				<bean parent="MaintainableFieldDefinition" p:name="collectionStatus" />				
-				<bean parent="MaintainableFieldDefinition" p:name="bankruptcyType" />
-				<bean parent="MaintainableFieldDefinition" p:name="bankruptcyDate" />
-				<bean parent="MaintainableFieldDefinition" p:name="bankruptcyReviewDate" />
-				<bean parent="MaintainableFieldDefinition" p:name="stopWorkIndicator" />
-				<bean parent="MaintainableFieldDefinition" p:name="stopWorkReason" />
 				<bean parent="MaintainableFieldDefinition" p:name="notes" />
 			</list>
 		</property>

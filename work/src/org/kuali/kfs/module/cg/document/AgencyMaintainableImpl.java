@@ -127,7 +127,7 @@ public class AgencyMaintainableImpl extends FinancialSystemMaintainable {
                     awards = (List<Award>) SpringContext.getBean(BusinessObjectService.class).findMatching(Award.class, criteria);
                     for(Award award:awards){
                         award.setDunningCampaign(agency.getDunningCampaign());
-                        award.setStopWorkIndicator(agency.isStopWorkIndicator());
+                        award.setStopWorkIndicator(agency.getCustomer().isStopWorkIndicator());
                         SpringContext.getBean(BusinessObjectService.class).save(award);
                     }
 

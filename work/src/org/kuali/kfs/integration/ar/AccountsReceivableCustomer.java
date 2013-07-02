@@ -92,4 +92,6 @@ public interface AccountsReceivableCustomer extends ExternalizableBusinessObject
     public void setCustomerBirthDate(Date customerBirthDate);
 
     public void setCustomerParentCompanyNumber(String customerParentCompanyNumber);
+    
+    public boolean isStopWorkIndicator();
 }

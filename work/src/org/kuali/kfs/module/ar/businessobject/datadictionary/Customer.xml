@@ -54,11 +54,16 @@
 				<ref bean="Customer-customerAddresses.customerCityName" />
 				<ref bean="Customer-customerAddresses.customerStateCode" />
 				<ref bean="Customer-customerAddresses.customerZipCode" />
-				<ref
-					bean="Customer-customerAddresses.customerAddressInternationalProvinceName" />
+				<ref bean="Customer-customerAddresses.customerAddressInternationalProvinceName" />
 				<ref bean="Customer-customerAddresses.customerEmailAddress" />
 				<ref bean="Customer-customerTaxTypeCode" />
 				<ref bean="Customer-customerTaxNbr" />
+				
+				<ref bean="Customer-bankruptcyType"/>
+				<ref bean="Customer-bankruptcyDate"/>
+				<ref bean="Customer-bankruptcyReviewDate"/>
+				<ref bean="Customer-stopWorkIndicator"/>
+				<ref bean="Customer-stopWorkReason"/>
 			</list>
 		</property>
 		<property name="collections">
@@ -439,6 +444,68 @@
 		abstract="true" parent="CustomerAddress-customerEmailAddress">
 		<property name="name" value="customerAddresses.customerEmailAddress" />
 	</bean>
+	
+		<bean id="Customer-bankruptcyType" parent="Customer-bankruptcyType-parentBean" />
+
+	<bean id="Customer-bankruptcyType-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="name" value="bankruptcyType" />
+		<property name="label" value="Bankruptcy Type" />
+		<property name="shortLabel" value="Bankruptcy Type" />
+		<property name="control">
+			<bean parent="SelectControlDefinition"
+				p:valuesFinderClass="org.kuali.kfs.module.cg.businessobject.options.BankruptcyTypeOptionsValuesFinder"
+				p:includeKeyInLabel="false" />
+		</property>
+	</bean>
+
+	<bean id="Customer-bankruptcyDate" parent="Customer-bankruptcyDate-parentBean" />
+
+	<bean id="Customer-bankruptcyDate-parentBean" abstract="true"
+		parent="GenericAttributes-genericDate">
+		<property name="name" value="bankruptcyDate" />
+		<property name="label" value="Bankruptcy Date" />
+		<property name="shortLabel" value="Bankruptcy Date" />
+	</bean>
+	
+	<bean id="Customer-bankruptcyReviewDate" parent="Customer-bankruptcyReviewDate-parentBean" />
+
+	<bean id="Customer-bankruptcyReviewDate-parentBean" abstract="true"
+		parent="GenericAttributes-genericDate">
+		<property name="name" value="bankruptcyReviewDate" />
+		<property name="label" value="Bankruptcy Review Date" />
+		<property name="shortLabel" value="Bankruptcy Review Date" />
+	</bean>
+	
+	<bean id="Customer-stopWorkIndicator" parent="Customer-stopWorkIndicator-parentBean" />
+
+	<bean id="Customer-stopWorkIndicator-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="name" value="stopWorkIndicator" />
+		<property name="label" value="Stop Work" />
+		<property name="shortLabel" value="Stop Work" />
+		<property name="maxLength" value="1" />
+		<property name="control">
+			<bean parent="CheckboxControlDefinition" />
+		</property>
+	</bean>
+	
+	
+  <bean id="Customer-stopWorkReason" parent="Customer-stopWorkReason-parentBean"/>
+
+  <bean id="Customer-stopWorkReason-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="stopWorkReason"/>
+    <property name="label" value="Stop Work Reason"/>
+    <property name="shortLabel" value="stopWorkReason"/>
+    <property name="maxLength" value="120"/>
+    <property name="validationPattern">
+      <ref bean="AnyCharacterWithWhitespaceValidation" />
+    </property>
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="32"/>
+    </property>
+  </bean>
 
 	<!-- Business Object Inquiry Definition -->
 

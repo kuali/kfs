@@ -41,12 +41,7 @@
 		<field-descriptor name="dunningCampaign" column="CMPGN_ID" jdbc-type="VARCHAR" />
 		
 		<field-descriptor name="collectionStatus" column="CLCTN_STATUS_CD" jdbc-type="VARCHAR" />
-		<field-descriptor name="bankruptcyType" column="BNKRPTCY_TYPE_CD" jdbc-type="VARCHAR" />
-		<field-descriptor name="bankruptcyDate" column="BNKRPTCY_DT" jdbc-type="DATE" />
-		<field-descriptor name="bankruptcyReviewDate" column="BNKRPTCY_REVIEW_DT" jdbc-type="DATE" />
-		<field-descriptor name="stopWorkIndicator" column="STOP_WRK_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
 		<field-descriptor name="stateAgencyIndicator" column="STATE_AGENCY_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
-		<field-descriptor name="stopWorkReason" column="STOP_WRK_REASON_TXT" jdbc-type="VARCHAR" />
 		<field-descriptor name="notes" column="NTE_TXT" jdbc-type="VARCHAR" />
 		 
 		<reference-descriptor name="agencyType" class-ref="org.kuali.kfs.module.cg.businessobject.AgencyType" auto-retrieve="true"

@@ -68,11 +68,6 @@
 				<ref bean="Agency-sponsorCode" />
 				<ref bean="Agency-dunningCampaign" />
 				<ref bean="Agency-collectionStatus"/>
-				<ref bean="Agency-bankruptcyType"/>
-				<ref bean="Agency-bankruptcyDate"/>
-				<ref bean="Agency-bankruptcyReviewDate"/>
-				<ref bean="Agency-stopWorkIndicator"/>
-				<ref bean="Agency-stopWorkReason"/>
 				<ref bean="Agency-notes"/>
 				<ref bean="Agency-stateAgencyIndicator"/>
 			</list>
@@ -626,68 +621,6 @@
 		</property>
 	</bean>
 	
-	<bean id="Agency-bankruptcyType" parent="Agency-bankruptcyType-parentBean" />
-
-	<bean id="Agency-bankruptcyType-parentBean" abstract="true"
-		parent="AttributeDefinition">
-		<property name="name" value="bankruptcyType" />
-		<property name="label" value="Bankruptcy Type" />
-		<property name="shortLabel" value="Bankruptcy Type" />
-		<property name="control">
-			<bean parent="SelectControlDefinition"
-				p:valuesFinderClass="org.kuali.kfs.module.cg.businessobject.options.BankruptcyTypeOptionsValuesFinder"
-				p:includeKeyInLabel="false" />
-		</property>
-	</bean>
-
-	<bean id="Agency-bankruptcyDate" parent="Agency-bankruptcyDate-parentBean" />
-
-	<bean id="Agency-bankruptcyDate-parentBean" abstract="true"
-		parent="GenericAttributes-genericDate">
-		<property name="name" value="bankruptcyDate" />
-		<property name="label" value="Bankruptcy Date" />
-		<property name="shortLabel" value="Bankruptcy Date" />
-	</bean>
-	
-	<bean id="Agency-bankruptcyReviewDate" parent="Agency-bankruptcyReviewDate-parentBean" />
-
-	<bean id="Agency-bankruptcyReviewDate-parentBean" abstract="true"
-		parent="GenericAttributes-genericDate">
-		<property name="name" value="bankruptcyReviewDate" />
-		<property name="label" value="Bankruptcy Review Date" />
-		<property name="shortLabel" value="Bankruptcy Review Date" />
-	</bean>
-	
-	<bean id="Agency-stopWorkIndicator" parent="Agency-stopWorkIndicator-parentBean" />
-
-	<bean id="Agency-stopWorkIndicator-parentBean" abstract="true"
-		parent="AttributeDefinition">
-		<property name="name" value="stopWorkIndicator" />
-		<property name="label" value="Stop Work" />
-		<property name="shortLabel" value="Stop Work" />
-		<property name="maxLength" value="1" />
-		<property name="control">
-			<bean parent="CheckboxControlDefinition" />
-		</property>
-	</bean>
-	
-	
-  <bean id="Agency-stopWorkReason" parent="Agency-stopWorkReason-parentBean"/>
-
-  <bean id="Agency-stopWorkReason-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="stopWorkReason"/>
-    <property name="label" value="Stop Work Reason"/>
-    <property name="shortLabel" value="stopWorkReason"/>
-    <property name="maxLength" value="120"/>
-    <property name="validationPattern">
-      <ref bean="AnyCharacterWithWhitespaceValidation" />
-    </property>
-    <property name="required" value="true"/>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="32"/>
-    </property>
-  </bean>
-  
   <bean id="Agency-notes" parent="Agency-notes-parentBean"/>
 
   <bean id="Agency-notes-parentBean" abstract="true" parent="AttributeDefinition">
@@ -860,7 +793,6 @@
 				<bean parent="FieldDefinition" p:attributeName="agencyExpirationDate" />
 				<bean parent="FieldDefinition" p:attributeName="customerNumber" />
 				<bean parent="FieldDefinition" p:attributeName="sponsorCode" />
-				<bean parent="FieldDefinition" p:attributeName="bankruptcyReviewDate" />
 				<bean parent="FieldDefinition" p:defaultValue="Y"
 					p:attributeName="active" />
 				<bean parent="FieldDefinition" p:attributeName="agencyAddresses.agencyAddressName" />
@@ -874,8 +806,7 @@
 				<bean parent="FieldDefinition" p:attributeName="agencyAddresses.agencyZipCode" />
 				<bean parent="FieldDefinition" p:attributeName="agencyAddresses.agencyPhoneNumber" />
 				<bean parent="FieldDefinition" p:attributeName="agencyAddresses.agencyFaxNumber" />
-				<bean parent="FieldDefinition"
-					p:attributeName="agencyAddresses.agencyAddressInternationalProvinceName" />
+				<bean parent="FieldDefinition" p:attributeName="agencyAddresses.agencyAddressInternationalProvinceName" />
 				<bean parent="FieldDefinition" p:attributeName="agencyAddresses.agencyContactEmailAddress" />
 				<bean parent="FieldDefinition" p:attributeName="agencyAddresses.agencyInvoiceEmailAddress" />
 				<bean parent="FieldDefinition" p:attributeName="agencyAddresses.agencyInvoiceTemplateCode" />

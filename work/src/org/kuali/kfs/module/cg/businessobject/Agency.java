@@ -85,11 +85,6 @@ public class Agency extends PersistableBusinessObjectBase implements ContractsAn
 
     // Collections Maintenance
     private String collectionStatus;
-    private String bankruptcyType;
-    private Date bankruptcyDate;
-    private Date bankruptcyReviewDate;
-    private boolean stopWorkIndicator;
-    private String stopWorkReason;
     private String notes;
     private boolean stateAgencyIndicator;
 
@@ -731,96 +726,6 @@ public class Agency extends PersistableBusinessObjectBase implements ContractsAn
      */
     public void setCollectionStatus(String collectionStatus) {
         this.collectionStatus = collectionStatus;
-    }
-
-    /**
-     * Gets the bankruptcyType attribute.
-     *
-     * @return Returns the bankruptcyType.
-     */
-    public String getBankruptcyType() {
-        return bankruptcyType;
-    }
-
-    /**
-     * Sets the bankruptcyType attribute value.
-     *
-     * @param bankruptcyType The bankruptcyType to set.
-     */
-    public void setBankruptcyType(String bankruptcyType) {
-        this.bankruptcyType = bankruptcyType;
-    }
-
-    /**
-     * Gets the bankruptcyDate attribute.
-     *
-     * @return Returns the bankruptcyDate.
-     */
-    public Date getBankruptcyDate() {
-        return bankruptcyDate;
-    }
-
-    /**
-     * Sets the bankruptcyDate attribute value.
-     *
-     * @param bankruptcyDate The bankruptcyDate to set.
-     */
-    public void setBankruptcyDate(Date bankruptcyDate) {
-        this.bankruptcyDate = bankruptcyDate;
-    }
-
-    /**
-     * Gets the bankruptcyReviewDate attribute.
-     *
-     * @return Returns the bankruptcyReviewDate.
-     */
-    public Date getBankruptcyReviewDate() {
-        return bankruptcyReviewDate;
-    }
-
-    /**
-     * Sets the bankruptcyReviewDate attribute value.
-     *
-     * @param reviewDate The bankruptcyReviewDate to set.
-     */
-    public void setBankruptcyReviewDate(Date bankruptcyReviewDate) {
-        this.bankruptcyReviewDate = bankruptcyReviewDate;
-    }
-
-    /**
-     * Gets the stopWork attribute.
-     *
-     * @return Returns the stopWork.
-     */
-    public boolean isStopWorkIndicator() {
-        return stopWorkIndicator;
-    }
-
-    /**
-     * Sets the stopWorkIndicator attribute value.
-     *
-     * @param stopWorkIndicator The stopWorkIndicator to set.
-     */
-    public void setStopWorkIndicator(boolean stopWorkIndicator) {
-        this.stopWorkIndicator = stopWorkIndicator;
-    }
-
-    /**
-     * Gets the stopWorkReason attribute.
-     *
-     * @return Returns the stopWorkReason.
-     */
-    public String getStopWorkReason() {
-        return stopWorkReason;
-    }
-
-    /**
-     * Sets the stopWorkReason attribute value.
-     *
-     * @param stopWorkReason The stopWorkReason to set.
-     */
-    public void setStopWorkReason(String stopWorkReason) {
-        this.stopWorkReason = stopWorkReason;
     }
 
     /**

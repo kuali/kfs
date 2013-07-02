@@ -659,4 +659,31 @@
 			<replace replace="VARCHAR" with="VARCHAR2" />
 		</modifySql>
 	</changeSet>
+	
+	<changeSet author="KFS411CGB"
+		id="KFSCNTRB1354_COLLECTIONS_MAINTENANCE_REMOVE_AGENCY_01">
+		<dropColumn tableName="CG_AGENCY_T" columnName="BNKRPTCY_TYPE_CD"/>
+		<dropColumn tableName="CG_AGENCY_T" columnName="BNKRPTCY_DT"/>
+		<dropColumn tableName="CG_AGENCY_T" columnName="BNKRPTCY_REVIEW_DT"/>
+		<dropColumn tableName="CG_AGENCY_T" columnName="STOP_WRK_IND"/>
+		<dropColumn tableName="CG_AGENCY_T" columnName="STOP_WRK_REASON_TXT"/>
+	</changeSet>
+	
+	<changeSet author="KFS411CGB"
+		id="KFSCNTRB1355_COLLECTIONS_MAINTENANCE_IN_CUSTOMER_01">
+		<addColumn tableName="AR_CUST_T">
+			<column name="BNKRPTCY_TYPE_CD" type="varchar(5)" />
+			<column name="BNKRPTCY_DT" type="datetime" />
+			<column name="BNKRPTCY_REVIEW_DT" type="datetime" />
+			<column name="STOP_WRK_IND" type="varchar(1)" defaultValue="N" />
+			<column name="STOP_WRK_REASON_TXT" type="varchar(120)" />
+		</addColumn>
+
+		<modifySql dbms="oracle">
+			<replace replace="VARCHAR" with="VARCHAR2" />
+			<replace replace="DECIMAL" with="NUMBER" />
+			<replace replace="DATETIME" with="DATE" />
+		</modifySql>
+	</changeSet>
+	
 </databaseChangeLog>

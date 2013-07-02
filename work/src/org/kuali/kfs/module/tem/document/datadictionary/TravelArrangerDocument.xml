@@ -132,7 +132,7 @@
 		parent="GenericAttributes-genericBoolean">
 		<property name="name" value="trInd" />
 		<property name="label"
-			value="Please delegate authority to initiate the travel reimbursement document for your trip." />
+			value="Please delegate authority to initiate the travel Reimbursement, Entertainment and Relocation documents for your trip." />
 		<property name="shortLabel" value="TR Indicator" />
 		<property name="required" value="false" />
 		<property name="summary" value="TR" />

@@ -179,10 +179,6 @@ public class TEMProfileLookupableHelperServiceImpl extends KualiLookupableHelper
     @Override
     public String getSupplementalMenuBar() {
 
-        // Do not show the extra actions
-        if (ObjectUtils.isNotNull(parameters.get("docNum")))  {
-            return KFSConstants.EMPTY_STRING;
-        }
         // next we need to get the current user's info
         UserSession user = GlobalVariables.getUserSession();
 

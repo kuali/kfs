@@ -138,4 +138,10 @@ public class TravelerProfileDocLookupableHelperServiceImpl extends TEMProfileLoo
         return TEMProfile.class;
     }
 
+    @Override
+    public String getSupplementalMenuBar() {
+        // TODO Auto-generated method stub
+        return KFSConstants.EMPTY_STRING;
+    }
+
 }

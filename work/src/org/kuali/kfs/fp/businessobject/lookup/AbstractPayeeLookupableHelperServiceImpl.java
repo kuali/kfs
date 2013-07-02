@@ -34,13 +34,12 @@ import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kim.impl.KIMPropertyConstants;
+import org.kuali.rice.kns.document.authorization.BusinessObjectRestrictions;
+import org.kuali.rice.kns.document.authorization.FieldRestriction;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.lookup.Lookupable;
-import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.web.ui.ResultRow;
 import org.kuali.rice.krad.bo.BusinessObject;
-import org.kuali.rice.krad.datadictionary.AttributeSecurity;
-import org.kuali.rice.krad.util.ObjectUtils;
 
 public class AbstractPayeeLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
 
@@ -119,6 +118,9 @@ public class AbstractPayeeLookupableHelperServiceImpl extends KualiLookupableHel
 
         // TODO The following code has a bug: it doesn't handle blank first name right.
         if (StringUtils.isNotBlank(lastName)) {
+            if (StringUtils.isBlank(firstName)) {
+                firstName = KFSConstants.WILDCARD_CHARACTER;
+            }
             return lastName + VendorConstants.NAME_DELIM + firstName;
         }
         else if (StringUtils.isNotBlank(firstName)) {
@@ -132,13 +134,14 @@ public class AbstractPayeeLookupableHelperServiceImpl extends KualiLookupableHel
         DisbursementPayee payee = disbursementVoucherPayeeService.getPayeeFromVendor(vendorDetail);
         payee.setPaymentReasonCode(fieldValues.get(KFSPropertyConstants.PAYMENT_REASON_CODE));
 
+        //KFSCNTRB-1639 removing the following and replacing with a change to maskIfNecessary method
         //KFSMI-5497
         //get the attributeSecurity property and mask the field so that on results screen will be shown masked.
-        DataDictionaryService dataDictionaryService = SpringContext.getBean(DataDictionaryService.class);
-        AttributeSecurity attributeSecurity =  dataDictionaryService.getAttributeSecurity(DisbursementPayee.class.getName(), KFSPropertyConstants.TAX_NUMBER);
-        if (ObjectUtils.isNotNull(attributeSecurity)) {
-            attributeSecurity.setMask(true);
-        }
+        //DataDictionaryService dataDictionaryService = SpringContext.getBean(DataDictionaryService.class);
+        //AttributeSecurity attributeSecurity =  dataDictionaryService.getAttributeSecurity(DisbursementPayee.class.getName(), KFSPropertyConstants.TAX_NUMBER);
+        //if (ObjectUtils.isNotNull(attributeSecurity)) {
+        //    attributeSecurity.setMask(true);
+        //}
 
         return payee;
     }
@@ -177,13 +180,14 @@ public class AbstractPayeeLookupableHelperServiceImpl extends KualiLookupableHel
         DisbursementPayee payee = disbursementVoucherPayeeService.getPayeeFromPerson(personDetail);
         payee.setPaymentReasonCode(fieldValues.get(KFSPropertyConstants.PAYMENT_REASON_CODE));
 
+        //KFSCNTRB-1639 removing the following and replacing with a change to maskIfNecessary method
         //KFSMI-5497
         //get the attributeSecurity property and unmask the field so that on results screen, it will set as blank.
-        DataDictionaryService dataDictionaryService = SpringContext.getBean(DataDictionaryService.class);
-        AttributeSecurity attributeSecurity =  dataDictionaryService.getAttributeSecurity(DisbursementPayee.class.getName(), KFSPropertyConstants.TAX_NUMBER);
-        if (ObjectUtils.isNotNull(attributeSecurity)) {
-            attributeSecurity.setMask(false);
-        }
+        //DataDictionaryService dataDictionaryService = SpringContext.getBean(DataDictionaryService.class);
+        //AttributeSecurity attributeSecurity =  dataDictionaryService.getAttributeSecurity(DisbursementPayee.class.getName(), KFSPropertyConstants.TAX_NUMBER);
+        //if (ObjectUtils.isNotNull(attributeSecurity)) {
+        //    attributeSecurity.setMask(false);
+        //}
 
         return payee;
     }
@@ -198,6 +202,25 @@ public class AbstractPayeeLookupableHelperServiceImpl extends KualiLookupableHel
                 fieldValues.put(newKey, value);
             }
         }
+    }
+
+    /**
+     * Returns mask value if property should be masked and is not blank. Does not mask blank values.
+     *
+     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#maskValueIfNecessary(java.lang.Class, java.lang.String, java.lang.String, org.kuali.rice.kns.document.authorization.BusinessObjectRestrictions)
+     */
+    @Override
+    protected String maskValueIfNecessary(Class businessObjectClass, String propertyName, String propertyValue, BusinessObjectRestrictions businessObjectRestrictions) {
+        String maskedPropertyValue = propertyValue;
+        if (businessObjectRestrictions != null) {
+            FieldRestriction fieldRestriction = businessObjectRestrictions.getFieldRestriction(propertyName);
+            if (fieldRestriction != null
+            && (fieldRestriction.isMasked() || fieldRestriction.isPartiallyMasked())
+            && StringUtils.isNotBlank(propertyValue)) {
+                maskedPropertyValue = fieldRestriction.getMaskFormatter().maskValue(propertyValue);
+            }
+        }
+        return maskedPropertyValue;
     }
 
     /**

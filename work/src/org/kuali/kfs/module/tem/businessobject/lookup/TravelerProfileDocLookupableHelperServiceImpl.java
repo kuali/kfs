@@ -31,7 +31,6 @@ import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.permission.PermissionService;
-import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
@@ -45,6 +44,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
  * document traveler lookups - NOT the non-document TEMProfile lookup
  */
 public class TravelerProfileDocLookupableHelperServiceImpl extends TEMProfileLookupableHelperServiceImpl {
+    protected PermissionService permissionService;
 
     /**
      * Filters searched for profiles so they include only those the user should be able to access to use as a traveler on a travel, relocation, or entertainment document
@@ -52,7 +52,6 @@ public class TravelerProfileDocLookupableHelperServiceImpl extends TEMProfileLoo
      */
     @Override
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
-        final PermissionService permissionService = KimApiServiceLocator.getPermissionService();
         final Map<String, String> viewRecordPermissionDetails = getPermissionDetailsForViewRecordsCheck();
         final String currentUserPrincipalId = GlobalVariables.getUserSession().getPrincipalId();
         final String documentTypeName = updateAuthorizationDocumentType(getCurrentDocumentTypeName());
@@ -61,7 +60,7 @@ public class TravelerProfileDocLookupableHelperServiceImpl extends TEMProfileLoo
         List<TEMProfile> qualifyingProfiles = new ArrayList<TEMProfile>();
         for (TEMProfile profile : allProfiles) {
             final Map<String, String> roleQualifier = getRoleQualifierForViewRecordsCheck(profile, documentTypeName);
-            if (permissionService.isAuthorizedByTemplate(currentUserPrincipalId, KFSConstants.PermissionTemplate.VIEW_RECORD.namespace, KFSConstants.PermissionTemplate.VIEW_RECORD.name, viewRecordPermissionDetails, roleQualifier)) {
+            if (getPermissionService().isAuthorizedByTemplate(currentUserPrincipalId, KFSConstants.PermissionTemplate.VIEW_RECORD.namespace, KFSConstants.PermissionTemplate.VIEW_RECORD.name, viewRecordPermissionDetails, roleQualifier)) {
                 qualifyingProfiles.add(profile);
             }
         }
@@ -138,10 +137,28 @@ public class TravelerProfileDocLookupableHelperServiceImpl extends TEMProfileLoo
         return TEMProfile.class;
     }
 
+    /**
+     * This lookup only occurs within documents; it should never have a supplemental menu bar
+     * @see org.kuali.kfs.module.tem.businessobject.lookup.TEMProfileLookupableHelperServiceImpl#getSupplementalMenuBar()
+     */
     @Override
     public String getSupplementalMenuBar() {
-        // TODO Auto-generated method stub
         return KFSConstants.EMPTY_STRING;
+    }
+
+    /**
+     * @return the injected implementation KIM's PermissionService
+     */
+    public PermissionService getPermissionService() {
+        return permissionService;
+    }
+
+    /**
+     * Injects an implementation of KIM's PermissionService
+     * @param permissionService an implementation of KIM's PermissionService
+     */
+    public void setPermissionService(PermissionService permissionService) {
+        this.permissionService = permissionService;
     }
 
 }

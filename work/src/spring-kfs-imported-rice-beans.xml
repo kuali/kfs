@@ -89,6 +89,8 @@
  	<bean id="kimRoleService" p:serviceName="kimRoleService" parent="grlBeanImporter" />
  	<alias name="kimRoleService" alias="roleService" />
  	<bean id="kimGroupService" p:serviceName="kimGroupService" parent="grlBeanImporter" />
+ 	<bean id="kimPermissionService" p:serviceName="kimPermissionService" parent="grlBeanImporter"/>
+ 	
  	<!-- 
  	<bean id="kimUiDocumentService" p:serviceName="kimUiDocumentService" parent="grlBeanImporter" />
  	<alias name="kimUiDocumentService" alias="uiDocumentService" />

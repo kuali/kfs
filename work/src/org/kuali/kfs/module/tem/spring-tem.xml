@@ -187,15 +187,18 @@
 			<ref bean="temProfileFromKimLookupableHelperService" />
 		</property>
 	</bean>
-
-	<bean id="temProfileLookupHelperService" parent="temProfileLookupHelperService-parentBean" scope="prototype"/>
-	<bean id="temProfileLookupHelperService-parentBean" abstract="true" class="org.kuali.kfs.module.tem.businessobject.lookup.TEMProfileLookupableHelperServiceImpl">
+	
+	<bean id="baseProfileLookupableHelperService" parent="baseProfileLookupableHelperService-parentBean" abstract="true"/>
+	<bean id="baseProfileLookupableHelperService-parentBean" abstract="true">
 		<property name="temRoleService" ref="temRoleService" />
 		<property name="travelerService" ref="travelerService" />
 		<property name="personService" ref="personService" />
 		<property name="temProfileService" ref="temProfileService" />
         <property name="identityManagementService" ref="kimIdentityManagementService" />
 	</bean>
+
+	<bean id="temProfileLookupHelperService" parent="temProfileLookupHelperService-parentBean" scope="prototype"/>
+	<bean id="temProfileLookupHelperService-parentBean" abstract="true" parent="baseProfileLookupableHelperService" class="org.kuali.kfs.module.tem.businessobject.lookup.TEMProfileLookupableHelperServiceImpl"/>
 	<bean id="temProfileLookupable" parent="temProfileLookupable-parentBean" scope="prototype"/>
 	<bean id="temProfileLookupable-parentBean" abstract="true" class="org.kuali.rice.kns.lookup.KualiLookupableImpl">
 		<property name="lookupableHelperService">
@@ -204,12 +207,8 @@
 	</bean>
 	
 	<bean id="travelerProfileDocLookupHelperService" parent="travelerProfileDocLookupHelperService-parentBean" scope="prototype"/>
-	<bean id="travelerProfileDocLookupHelperService-parentBean" abstract="true" class="org.kuali.kfs.module.tem.businessobject.lookup.TravelerProfileDocLookupableHelperServiceImpl">
-		<property name="temRoleService" ref="temRoleService" />
-		<property name="travelerService" ref="travelerService" />
-		<property name="personService" ref="personService" />
-		<property name="temProfileService" ref="temProfileService" />
-        <property name="identityManagementService" ref="kimIdentityManagementService" />
+	<bean id="travelerProfileDocLookupHelperService-parentBean" abstract="true" parent="baseProfileLookupableHelperService" class="org.kuali.kfs.module.tem.businessobject.lookup.TravelerProfileDocLookupableHelperServiceImpl">
+        <property name="permissionService" ref="kimPermissionService"/>
 	</bean>
 	<bean id="travelerProfileDocLookupable" parent="travelerProfileDocLookupable-parentBean" scope="prototype"/>
 	<bean id="travelerProfileDocLookupable-parentBean" abstract="true" class="org.kuali.rice.kns.lookup.KualiLookupableImpl">

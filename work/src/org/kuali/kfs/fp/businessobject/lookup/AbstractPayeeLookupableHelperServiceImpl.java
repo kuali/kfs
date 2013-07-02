@@ -116,7 +116,6 @@ public class AbstractPayeeLookupableHelperServiceImpl extends KualiLookupableHel
         String firstName = vendorFieldValues.get(VendorPropertyConstants.VENDOR_FIRST_NAME);
         String lastName = vendorFieldValues.get(VendorPropertyConstants.VENDOR_LAST_NAME);
 
-        // TODO The following code has a bug: it doesn't handle blank first name right.
         if (StringUtils.isNotBlank(lastName)) {
             if (StringUtils.isBlank(firstName)) {
                 firstName = KFSConstants.WILDCARD_CHARACTER;
@@ -133,15 +132,6 @@ public class AbstractPayeeLookupableHelperServiceImpl extends KualiLookupableHel
     protected DisbursementPayee getPayeeFromVendor(VendorDetail vendorDetail, Map<String, String> fieldValues) {
         DisbursementPayee payee = disbursementVoucherPayeeService.getPayeeFromVendor(vendorDetail);
         payee.setPaymentReasonCode(fieldValues.get(KFSPropertyConstants.PAYMENT_REASON_CODE));
-
-        //KFSCNTRB-1639 removing the following and replacing with a change to maskIfNecessary method
-        //KFSMI-5497
-        //get the attributeSecurity property and mask the field so that on results screen will be shown masked.
-        //DataDictionaryService dataDictionaryService = SpringContext.getBean(DataDictionaryService.class);
-        //AttributeSecurity attributeSecurity =  dataDictionaryService.getAttributeSecurity(DisbursementPayee.class.getName(), KFSPropertyConstants.TAX_NUMBER);
-        //if (ObjectUtils.isNotNull(attributeSecurity)) {
-        //    attributeSecurity.setMask(true);
-        //}
 
         return payee;
     }
@@ -179,15 +169,6 @@ public class AbstractPayeeLookupableHelperServiceImpl extends KualiLookupableHel
     protected DisbursementPayee getPayeeFromPerson(Person personDetail, Map<String, String> fieldValues) {
         DisbursementPayee payee = disbursementVoucherPayeeService.getPayeeFromPerson(personDetail);
         payee.setPaymentReasonCode(fieldValues.get(KFSPropertyConstants.PAYMENT_REASON_CODE));
-
-        //KFSCNTRB-1639 removing the following and replacing with a change to maskIfNecessary method
-        //KFSMI-5497
-        //get the attributeSecurity property and unmask the field so that on results screen, it will set as blank.
-        //DataDictionaryService dataDictionaryService = SpringContext.getBean(DataDictionaryService.class);
-        //AttributeSecurity attributeSecurity =  dataDictionaryService.getAttributeSecurity(DisbursementPayee.class.getName(), KFSPropertyConstants.TAX_NUMBER);
-        //if (ObjectUtils.isNotNull(attributeSecurity)) {
-        //    attributeSecurity.setMask(false);
-        //}
 
         return payee;
     }

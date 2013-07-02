@@ -73,7 +73,7 @@ public class TravelRelocationAction extends TravelActionBase {
 
     /**
      * method used for doc handler actions. Typically assumes that this is the entry point for the document when it is first
-     * created. A number of things are done hear assuming the document is created at this point.
+     * created. A number of things are done here assuming the document is created at this point.
      */
     @Override
     public ActionForward docHandler(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {

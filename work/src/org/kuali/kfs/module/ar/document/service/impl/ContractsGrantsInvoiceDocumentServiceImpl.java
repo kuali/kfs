@@ -2946,7 +2946,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         Criteria subCriteria = new Criteria();
 
         Map<String, String> refFieldValues = new HashMap<String, String>();
-        refFieldValues.put(ArPropertyConstants.ReferralTypeFields.OUTSIDE_COLLECTION_AGENCY, "true");
+        refFieldValues.put(ArPropertyConstants.ReferralTypeFields.OUTSIDE_COLLECTION_AGENCY_IND, "true");
         refFieldValues.put(ArPropertyConstants.ReferralTypeFields.ACTIVE, "true");
         List<ReferralType> refTypes = (List<ReferralType>) SpringContext.getBean(BusinessObjectService.class).findMatching(ReferralType.class, refFieldValues);
         String outsideColAgencyCode = CollectionUtils.isNotEmpty(refTypes) ? refTypes.get(0).getReferralTypeCode() : null;

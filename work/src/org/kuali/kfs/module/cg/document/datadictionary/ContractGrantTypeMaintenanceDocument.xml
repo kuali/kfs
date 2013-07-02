@@ -33,7 +33,7 @@
 
 
 
-		<property name="documentTypeName" value="CGCG" />
+		<property name="documentTypeName" value="CGIT" />
 		<property name="documentAuthorizerClass"
 			value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
 		<property name="workflowAttributes">

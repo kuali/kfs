@@ -440,6 +440,7 @@ public class ArPropertyConstants{
     public static class ReferralTypeFields {
         public static final String REFERRAL_TYPE_CODE = "referralTypeCode";
         public static final String OUTSIDE_COLLECTION_AGENCY = "outsideCollectionAgency";
+        public static final String OUTSIDE_COLLECTION_AGENCY_IND = "outsideCollectionAgencyInd";
         public static final String ACTIVE = "active";
     }
 

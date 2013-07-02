@@ -1247,7 +1247,9 @@ public class TravelAuthorizationAction extends TravelActionBase {
      */
     @Override
     public ActionForward blanketApprove(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ((TravelAuthorizationForm)form).getTravelAuthorizationDocument().getTravelAdvance().setTravelAdvancePolicy(true);
+        if (((TravelAuthorizationForm)form).getTravelAuthorizationDocument().shouldProcessAdvanceForDocument()) {
+            ((TravelAuthorizationForm)form).getTravelAuthorizationDocument().getTravelAdvance().setTravelAdvancePolicy(true);
+        }
 
         return super.blanketApprove(mapping, form, request, response);
     }

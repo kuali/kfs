@@ -1259,12 +1259,9 @@
 
 	<changeSet author="kfs" id="AR_SYS_INFO_T">
 		<addColumn tableName="AR_SYS_INFO_T">
-			<column name="REFND_PMT_REAS_CD" type="varchar(1)"
-				defaultValue="NULL" />
-			<column name="REFND_FIN_OBJECT_CD" type="varchar(4)"
-				defaultValue="NULL" />
-			<column name="REFND_DOC_LOC_CD" type="varchar(2)"
-				defaultValue="NULL" />
+			<column name="REFND_PMT_REAS_CD" type="varchar(1)"/>
+			<column name="REFND_FIN_OBJECT_CD" type="varchar(4)"/>
+			<column name="REFND_DOC_LOC_CD" type="varchar(2)"/>
 		</addColumn>
 	</changeSet>
 
@@ -1276,7 +1273,7 @@
 
 	<changeSet author="kfs" id="AR_APPLICATION_DOC_T">
 		<addColumn tableName="AR_APPLICATION_DOC_T">
-			<column name="REFND_FDOC_NBR" type="varchar(14)" defaultValue="NULL" />
+			<column name="REFND_FDOC_NBR" type="varchar(14)" />
 		</addColumn>
 	</changeSet>
 

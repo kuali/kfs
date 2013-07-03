@@ -74,7 +74,7 @@ public class FinalInvoiceTest extends CGInvoiceDocumentSetupTest {
     }
 
     public void testMultipleInvoices() {
-        document.getInvoiceGeneralDetail().setFinalBill(true);
+        document.getInvoiceGeneralDetail().setFinalBillIndicator(true);
         assertTrue(document.getDocumentHeader().getWorkflowDocument().getStatus().equals("S"));
         document.doWhenFinalInvoice();
         Iterator iterator = document.getAccountDetails().iterator();
@@ -85,7 +85,7 @@ public class FinalInvoiceTest extends CGInvoiceDocumentSetupTest {
             mapKey.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, id.getChartOfAccountsCode());
             mapKey.put(KFSPropertyConstants.PROPOSAL_NUMBER, document.getProposalNumber());
             ContractsAndGrantsCGBAwardAccount awardAccount = (ContractsAndGrantsCGBAwardAccount) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsCGBAwardAccount.class).getExternalizableBusinessObject(ContractsAndGrantsCGBAwardAccount.class, mapKey);
-            assertTrue(awardAccount.isFinalBilled());
+            assertTrue(awardAccount.isFinalBilledIndicator());
         }
     }
 

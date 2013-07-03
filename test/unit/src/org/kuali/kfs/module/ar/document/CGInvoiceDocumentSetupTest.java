@@ -72,7 +72,7 @@ public class CGInvoiceDocumentSetupTest extends KualiTestBase {
 
             // creating invoice document directly without using the service to get over validations.
             for (ContractsAndGrantsCGBAwardAccount awardAccount : award.getActiveAwardAccounts()) {
-                if (!awardAccount.isFinalBilled()) {
+                if (!awardAccount.isFinalBilledIndicator()) {
                     List<ContractsAndGrantsCGBAwardAccount> list = new ArrayList<ContractsAndGrantsCGBAwardAccount>();
                     list.clear();
                     // only one account is added into the list to create cgin

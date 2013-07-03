@@ -53,7 +53,7 @@ public class InvoiceCorrectionTest extends CGInvoiceDocumentSetupTest {
 
     public void testGeneralCorrection() throws WorkflowException {
         document.correctContractsGrantsInvoiceDocument();
-        assertFalse(document.getInvoiceGeneralDetail().isFinalBill());
+        assertFalse(document.getInvoiceGeneralDetail().isFinalBillIndicator());
         Iterator iterator = document.getAccountDetails().iterator();
         while (iterator.hasNext()) {
             InvoiceAccountDetail id = (InvoiceAccountDetail) iterator.next();
@@ -62,7 +62,7 @@ public class InvoiceCorrectionTest extends CGInvoiceDocumentSetupTest {
             mapKey.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, id.getChartOfAccountsCode());
             mapKey.put(KFSPropertyConstants.PROPOSAL_NUMBER, document.getProposalNumber());
             ContractsAndGrantsCGBAwardAccount awardAccount = (ContractsAndGrantsCGBAwardAccount) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsCGBAwardAccount.class).getExternalizableBusinessObject(ContractsAndGrantsCGBAwardAccount.class, mapKey);
-            assertFalse(awardAccount.isFinalBilled());
+            assertFalse(awardAccount.isFinalBilledIndicator());
         }
     }
 

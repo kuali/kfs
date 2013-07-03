@@ -21,7 +21,7 @@
 	
 		
 <kul:documentPage showDocumentInfo="true"
-	documentTypeName="ContractsGrantsInvoiceDocument"
+	documentTypeName="CGIN"
 	htmlFormAction="arContractsGrantsInvoiceDocument"
 	renderMultipart="true" showTabButtons="true">
 

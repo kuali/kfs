@@ -66,7 +66,7 @@ public class DunningLetterTemplatesTest extends KualiTestBase {
         dunningLetterTemplate.setLetterTemplateCode(DUNNING_LETTER_TEMPLATE);
         dunningLetterTemplate.setLetterTemplateDescription(DUNNING_LETTER_DESCRIPTION);
         dunningLetterTemplate.setActive(ACTIVE);
-        dunningLetterTemplate.setAccessRestricted(ACCESS_RESTRICTED);
+        dunningLetterTemplate.setAccessRestrictedInd(ACCESS_RESTRICTED);
         
         document.getNewMaintainableObject().setBusinessObject(dunningLetterTemplate);
         document.getNewMaintainableObject().setBoClass(dunningLetterTemplate.getClass());

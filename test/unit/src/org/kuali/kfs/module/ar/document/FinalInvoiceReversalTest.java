@@ -39,7 +39,7 @@ public class FinalInvoiceReversalTest extends CGInvoiceDocumentSetupTest {
 
     protected void setUp() throws Exception {
         super.setUp();
-        document.getInvoiceGeneralDetail().setFinalBill(true);
+        document.getInvoiceGeneralDetail().setFinalBillIndicator(true);
         document.doWhenFinalInvoice();
     }
 
@@ -66,13 +66,13 @@ public class FinalInvoiceReversalTest extends CGInvoiceDocumentSetupTest {
             mapKey.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, id.getChartOfAccountsCode());
             mapKey.put(KFSPropertyConstants.PROPOSAL_NUMBER, document.getProposalNumber());
             ContractsAndGrantsCGBAwardAccount awardAccount = (ContractsAndGrantsCGBAwardAccount) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsCGBAwardAccount.class).getExternalizableBusinessObject(ContractsAndGrantsCGBAwardAccount.class, mapKey);
-            assertTrue(awardAccount.isFinalBilled());
+            assertTrue(awardAccount.isFinalBilledIndicator());
         }
 
         firDocument.updateContractsGrantsInvoiceDocument();
 
         document = (ContractsGrantsInvoiceDocument) documentService.getByDocumentHeaderId(document.getDocumentNumber());
-        assertFalse(document.getInvoiceGeneralDetail().isFinalBill());
+        assertFalse(document.getInvoiceGeneralDetail().isFinalBillIndicator());
         iterator = document.getAccountDetails().iterator();
         while (iterator.hasNext()) {
             InvoiceAccountDetail id = (InvoiceAccountDetail) iterator.next();
@@ -81,7 +81,7 @@ public class FinalInvoiceReversalTest extends CGInvoiceDocumentSetupTest {
             mapKey.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, id.getChartOfAccountsCode());
             mapKey.put(KFSPropertyConstants.PROPOSAL_NUMBER, document.getProposalNumber());
             ContractsAndGrantsCGBAwardAccount awardAccount = (ContractsAndGrantsCGBAwardAccount) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsCGBAwardAccount.class).getExternalizableBusinessObject(ContractsAndGrantsCGBAwardAccount.class, mapKey);
-            assertFalse(awardAccount.isFinalBilled());
+            assertFalse(awardAccount.isFinalBilledIndicator());
         }
     }
 }

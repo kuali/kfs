@@ -60,7 +60,7 @@ public class TravelAuthorizationDocumentCustomActionBuilder extends DocumentActi
         boolean hasInitAccess = true;
         if (getTemRoleService().canAccessTravelDocument(document, user) && document.getTemProfileId() != null){
             //check if user also can init other docs
-            hasInitAccess = user.getPrincipalId().equals(document.getTraveler().getPrincipalId()) || getTemRoleService().isTravelDocumentArrangerForProfile(documentType, user.getPrincipalId(), document.getTemProfileId());
+            hasInitAccess = user.getPrincipalId().equals(document.getTraveler().getPrincipalId()) || getTemRoleService().isTravelDocumentArrangerForProfile(documentType, user.getPrincipalId(), document.getTemProfileId()) || getTemRoleService().isTravelArranger(user, document.getTemProfile().getHomeDepartment() , document.getTemProfileId().toString(), documentType);
 
         }
         return statusCheck && hasInitAccess;

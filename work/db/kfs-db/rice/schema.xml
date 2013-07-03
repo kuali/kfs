@@ -3644,7 +3644,7 @@
     <sequence name="KRIM_ENTITY_EXT_ID_ID_S" nextval="10000"/>
     <sequence name="KRIM_ENTITY_ID_S" nextval="10000"/>
     <sequence name="KRIM_ENTITY_NM_ID_S" nextval="10000"/>
-    <sequence name="KRIM_ENTITY_PHONE_ID_S" nextval="10000"/>
+    <sequence name="KRIM_ENTITY_PHONE_ID_S" nextval="11646"/>
     <sequence name="KRIM_ENTITY_RESIDENCY_ID_S" nextval="10000"/>
     <sequence name="KRIM_ENTITY_VISA_ID_S" nextval="10000"/>
     <sequence name="KRIM_GRP_ATTR_DATA_ID_S" nextval="10000"/>

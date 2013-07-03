@@ -52,7 +52,7 @@ public class Customer implements MutableInactivatable, AccountsReceivableCustome
     private KualiDecimal customerCreditLimitAmount;
     private String customerCreditApprovedByName;
     private String customerEmailAddress;
-
+    private boolean stopWorkIndicator;
     private Customer customerParentCompany;
     private AccountsReceivableCustomerType customerType;
 
@@ -513,5 +513,14 @@ public class Customer implements MutableInactivatable, AccountsReceivableCustome
     public void setAccountsReceivableCustomerAddresses(List<AccountsReceivableCustomerAddress> customerAddresses) {
         // TODO Auto-generated method stub
 
+    }
+
+    /**
+     * Gets the stopWork attribute.
+     *
+     * @return Returns the stopWork.
+     */
+    public boolean isStopWorkIndicator() {
+        return stopWorkIndicator;
     }
 }

@@ -275,4 +275,14 @@ public class TravelAdvance extends PersistableBusinessObjectBase {
     public boolean isAtLeastPartiallyFilledIn() {
         return this.getTravelAdvanceRequested() != null || this.getDueDate() != null || this.getTravelAdvancePolicy() || !StringUtils.isBlank(this.getAdditionalJustification());
     }
+
+    /**
+     * Removes the user-filled in data from this advance, thereby making it blank
+     */
+    public void clear() {
+        setTravelAdvanceRequested(null);
+        setDueDate(null);
+        setTravelAdvancePolicy(false);
+        setAdditionalJustification(null);
+    }
 }

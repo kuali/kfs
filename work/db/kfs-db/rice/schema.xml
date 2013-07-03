@@ -3635,7 +3635,7 @@
     <sequence name="KRIM_ATTR_DEFN_ID_S" nextval="10003"/>
     <sequence name="KRIM_DLGN_ID_S" nextval="10000"/>
     <sequence name="KRIM_DLGN_MBR_ID_S" nextval="10000"/>
-    <sequence name="KRIM_ENTITY_ADDR_ID_S" nextval="10000"/>
+    <sequence name="KRIM_ENTITY_ADDR_ID_S" nextval="11647"/>
     <sequence name="KRIM_ENTITY_AFLTN_ID_S" nextval="10000"/>
     <sequence name="KRIM_ENTITY_CTZNSHP_ID_S" nextval="10000"/>
     <sequence name="KRIM_ENTITY_EMAIL_ID_S" nextval="10000"/>

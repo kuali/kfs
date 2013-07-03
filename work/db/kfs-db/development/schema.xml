@@ -782,7 +782,7 @@
         <column name="LTRCR_FND_CD" size="15" type="VARCHAR"/>
         <column name="LTRCR_FNDGRP_CD" size="4" type="VARCHAR"/>
         <column default="0" name="PRPSL_NBR" size="12" type="DECIMAL"/>
-        <column name="REFND_FDOC_NBR" size="14" type="VARCHAR"/>
+        <column default="null" name="REFND_FDOC_NBR" size="14" type="VARCHAR"/>
         <unique name="AR_APPLICATION_DOC_TC0">
             <unique-column name="OBJ_ID"/>
         </unique>
@@ -2090,9 +2090,9 @@
         <column name="ORG_REMIT_ZIP_CD" size="20" type="VARCHAR"/>
         <column name="ORG_CHCK_PAY_TO_NM" size="40" type="VARCHAR"/>
         <column name="FDOC_INITIATOR_ID" size="40" type="VARCHAR"/>
-        <column name="REFND_PMT_REAS_CD" size="1" type="VARCHAR"/>
-        <column name="REFND_FIN_OBJECT_CD" size="4" type="VARCHAR"/>
-        <column name="REFND_DOC_LOC_CD" size="2" type="VARCHAR"/>
+        <column default="null" name="REFND_PMT_REAS_CD" size="1" type="VARCHAR"/>
+        <column default="null" name="REFND_FIN_OBJECT_CD" size="4" type="VARCHAR"/>
+        <column default="null" name="REFND_DOC_LOC_CD" size="2" type="VARCHAR"/>
         <unique name="AR_SYS_INFO_TC0">
             <unique-column name="OBJ_ID"/>
         </unique>

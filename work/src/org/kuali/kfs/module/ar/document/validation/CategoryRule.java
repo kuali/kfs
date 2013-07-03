@@ -49,9 +49,10 @@ public class CategoryRule extends KfsMaintenanceDocumentRuleBase {
     protected ContractsAndGrantsCategories oldCategories;
     protected ContractsAndGrantsCategories newCategories;
 
-    
+
+    @Override
     public boolean processSaveDocument(Document document) {
-        GlobalVariables.getMessageMap().putInfo("EditCategory", ArKeyConstants.ContractsGrantsCategoryConstants.CATEGORY_INFO, null);
+        GlobalVariables.getMessageMap().putInfo("EditCategory", ArKeyConstants.ContractsGrantsCategoryConstants.CATEGORY_INFO);
         return super.processSaveDocument(document);
     }
 
@@ -103,18 +104,18 @@ public class CategoryRule extends KfsMaintenanceDocumentRuleBase {
     }
 
     protected boolean checkSimpleRules() {
-        GlobalVariables.getMessageMap().putInfo("EditCategory", ArKeyConstants.ContractsGrantsCategoryConstants.CATEGORY_INFO, null);
+        GlobalVariables.getMessageMap().putInfo("EditCategory", ArKeyConstants.ContractsGrantsCategoryConstants.CATEGORY_INFO);
         boolean success = true;
 
         boolean isCategoryObjectCode =(ObjectUtils.isNotNull(newCategories.getCategoryObjectCodes()) && !StringUtils.isEmpty(newCategories.getCategoryObjectCodes()));
         boolean isCategoryConsolidation = (ObjectUtils.isNotNull(newCategories.getCategoryConsolidations()) && !StringUtils.isEmpty(newCategories.getCategoryConsolidations()));
         boolean isCategoryLevels = (ObjectUtils.isNotNull(newCategories.getCategoryLevels()) && !StringUtils.isEmpty(newCategories.getCategoryLevels()));
-        
+
         if(!(isCategoryObjectCode || isCategoryConsolidation || isCategoryLevels)){
             GlobalVariables.getMessageMap().putError("EditCategory",ArKeyConstants.ContractsGrantsCategoryConstants.ERROR_ANY_ONE_REQUIRED);
             success &= false;
         }
-       
+
        return success;
     }
 }

@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -20,12 +20,12 @@ import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext; import org.kuali.rice.krad.service.DocumentService;
-import org.kuali.kfs.sys.document.MaintenanceDocumentTestUtils;
 import org.kuali.kfs.sys.fixture.UserNameFixture;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.krad.service.DocumentService;
-import org.kuali.kfs.sys.context.SpringContext; import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.kfs.sys.context.SpringContext; import org.kuali.kfs.sys.document.MaintenanceDocumentTestUtils;
+import org.kuali.rice.krad.service.DocumentService;
 
 /**
  * This class is used to test the Collection Activity MaintenanceDocument
@@ -44,6 +44,7 @@ public class CollectionActivityTypeTest extends KualiTestBase {
     /**
      * @see junit.framework.TestCase#setUp()
      */
+    @Override
     protected void setUp() throws Exception {
         super.setUp();
         document = (MaintenanceDocument) SpringContext.getBean(DocumentService.class).getNewDocument("CATP");
@@ -60,7 +61,7 @@ public class CollectionActivityTypeTest extends KualiTestBase {
 
     /**
      * This method calls testSaveDocument() method.
-     * 
+     *
      * @throws Exception
      */
     @ConfigureContext(session = khuntley, shouldCommitTransactions = true)
@@ -70,11 +71,11 @@ public class CollectionActivityTypeTest extends KualiTestBase {
 
     /**
      * This method tests getNewDocument() method for Collection Activity Type.
-     * 
+     *
      * @throws Exception
      */
     public void testGetNewDocument() throws Exception {
-        Document document = (Document) documentService.getNewDocument("CATP");
+        Document document = documentService.getNewDocument("CATP");
         // verify document was created
         assertNotNull(document);
         assertNotNull(document.getDocumentHeader());

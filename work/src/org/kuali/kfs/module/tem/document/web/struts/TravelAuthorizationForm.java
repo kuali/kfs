@@ -62,11 +62,11 @@ public class TravelAuthorizationForm extends TravelFormBase implements TravelAut
     private boolean travelArranger;
 
     private boolean allowIncidentals = true;
-    private String policyURL = getParameterService().getParameterValueAsString(TravelAuthorizationDocument.class, TravelAuthorizationParameters.TRAVEL_ADVANCES_POLICY_URL);
-    private boolean multipleAdvances =getParameterService().getParameterValueAsBoolean(TravelAuthorizationDocument.class, TravelAuthorizationParameters.MULTIPLE_CASH_ADVANCES_ALLOWED_IND);
+    private String policyURL;
+    private Boolean multipleAdvances;
     private boolean showPolicy;
     private boolean waitingOnTraveler;
-    private boolean showCorporateCardTotal = getParameterService().getParameterValueAsBoolean(TemParameterConstants.TEM_DOCUMENT.class, TravelParameters.AMOUNT_DUE_CORPORATE_CARD_TOTAL_LINE_IND);
+    private Boolean showCorporateCardTotal;
 
     protected transient FormFile advanceAccountingFile;
 
@@ -471,6 +471,9 @@ public class TravelAuthorizationForm extends TravelFormBase implements TravelAut
      * @return Returns the policyURL.
      */
     public String getPolicyURL() {
+        if (policyURL == null) {
+            policyURL = getParameterService().getParameterValueAsString(TravelAuthorizationDocument.class, TravelAuthorizationParameters.TRAVEL_ADVANCES_POLICY_URL);
+        }
         return MessageUtils.getMessage(TemKeyConstants.MESSAGE_TA_ADVANCE_POLICY, policyURL);
     }
 
@@ -479,7 +482,10 @@ public class TravelAuthorizationForm extends TravelFormBase implements TravelAut
      * @return Returns the multipleAdvances.
      */
     public boolean isMultipleAdvances() {
-        return multipleAdvances;
+        if (multipleAdvances == null) {
+            multipleAdvances = Boolean.valueOf(getParameterService().getParameterValueAsBoolean(TravelAuthorizationDocument.class, TravelAuthorizationParameters.MULTIPLE_CASH_ADVANCES_ALLOWED_IND, false));
+        }
+        return multipleAdvances.booleanValue();
     }
 
     /**
@@ -503,7 +509,10 @@ public class TravelAuthorizationForm extends TravelFormBase implements TravelAut
      * @return Returns the showCorporateCardTotal.
      */
     public boolean getShowCorporateCardTotal() {
-        return showCorporateCardTotal;
+        if (showCorporateCardTotal == null) {
+            showCorporateCardTotal = Boolean.valueOf(getParameterService().getParameterValueAsBoolean(TemParameterConstants.TEM_DOCUMENT.class, TravelParameters.AMOUNT_DUE_CORPORATE_CARD_TOTAL_LINE_IND, false));
+        }
+        return showCorporateCardTotal.booleanValue();
     }
 
     /**

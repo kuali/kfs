@@ -33,9 +33,23 @@ public class TemProfileAuthorizer extends FinancialSystemMaintenanceDocumentAuth
     @Override
     protected void addRoleQualification(Object dataObject, Map<String, String> attributes) {
         super.addRoleQualification(dataObject, attributes);
-        FinancialSystemMaintenanceDocument maintDoc = (FinancialSystemMaintenanceDocument) dataObject;
-        TEMProfile profile = (TEMProfile) maintDoc.getNewMaintainableObject().getBusinessObject();
+        if (dataObject instanceof FinancialSystemMaintenanceDocument) {
+            FinancialSystemMaintenanceDocument maintDoc = (FinancialSystemMaintenanceDocument) dataObject;
+            if (maintDoc.getNewMaintainableObject().getBusinessObject() instanceof TEMProfile) {
+                final TEMProfile profile = (TEMProfile) maintDoc.getNewMaintainableObject().getBusinessObject();
+                addRoleQualificationsFromProfile(profile, attributes);
+            }
+        } else if (dataObject instanceof TEMProfile) {
+            addRoleQualificationsFromProfile((TEMProfile)dataObject, attributes);
+        }
+    }
 
+    /**
+     * Adds role qualifiers harvested from the TEMProfile to the attributes Map
+     * @param profile the TEMProfile to harvest qualifiers from
+     * @param attributes the Map of qualifiers to add into
+     */
+    protected void addRoleQualificationsFromProfile(TEMProfile profile, Map<String, String> attributes) {
         // Add the principalId from the profile to grant permission to users modifying their own profile.
         if (!StringUtils.isBlank(profile.getPrincipalId())) {
             attributes.put(TemKimAttributes.PROFILE_PRINCIPAL_ID, profile.getPrincipalId());

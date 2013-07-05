@@ -33,7 +33,7 @@ import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.module.ar.document.ReferralToCollectionsDocument;
 import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService;
 import org.kuali.kfs.module.ar.document.service.CustomerService;
-import org.kuali.kfs.module.ar.web.struts.ReferralToCollectionsDocumentForm;
+import org.kuali.kfs.module.ar.document.web.struts.ReferralToCollectionsDocumentForm;
 import org.kuali.kfs.sys.FinancialSystemModuleConfiguration;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;

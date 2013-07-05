@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.module.ar.web.struts;
+package org.kuali.kfs.module.ar.document.web.struts;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;

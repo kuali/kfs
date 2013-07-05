@@ -120,7 +120,7 @@
 			type="org.kuali.kfs.module.ar.web.struts.CustomerInvoiceForm" />
 		<!-- AR and CG related -->
 		<form-bean name="ContractsGrantsInvoiceDocumentForm"
-			type="org.kuali.kfs.module.ar.web.struts.ContractsGrantsInvoiceDocumentForm" />
+			type="org.kuali.kfs.module.ar.document.web.struts.ContractsGrantsInvoiceDocumentForm" />
 
 		<form-bean name="ContractsGrantsInvoiceReportLookupForm"
 			type="org.kuali.kfs.module.ar.web.struts.ContractsGrantsInvoiceReportLookupForm" />
@@ -165,10 +165,10 @@
  			type="org.kuali.kfs.module.ar.web.struts.ReferralToCollectionsDocumentForm" />
 
 		<form-bean name="FinalInvoiceReversalDocumentForm"
-			type="org.kuali.kfs.module.ar.web.struts.FinalInvoiceReversalDocumentForm" />
+			type="org.kuali.kfs.module.ar.document.web.struts.FinalInvoiceReversalDocumentForm" />
 
 		<form-bean name="ContractsGrantsLOCReviewDocumentForm"
-			type="org.kuali.kfs.module.ar.web.struts.ContractsGrantsLOCReviewDocumentForm" />
+			type="org.kuali.kfs.module.ar.document.web.struts.ContractsGrantsLOCReviewDocumentForm" />
 
 		<form-bean name="FederalFinancialReportForm"
 			type="org.kuali.kfs.module.ar.web.struts.FederalFinancialReportForm" />
@@ -544,7 +544,7 @@
 
 		<action path="/arContractsGrantsInvoiceDocument" name="ContractsGrantsInvoiceDocumentForm"
 			scope="request" attribute="KualiForm" parameter="methodToCall"
-			type="org.kuali.kfs.module.ar.web.struts.ContractsGrantsInvoiceDocumentAction">
+			type="org.kuali.kfs.module.ar.document.web.struts.ContractsGrantsInvoiceDocumentAction">
 			<set-property property="cancellable" value="true" />
 			<forward name="basic"
 				path="/jsp/module/ar/ContractsGrantsInvoiceDocument.jsp" />
@@ -552,7 +552,7 @@
 
 		<action path="/arFinalInvoiceReversalDocument" name="FinalInvoiceReversalDocumentForm"
 			scope="request" attribute="KualiForm" parameter="methodToCall"
-			type="org.kuali.kfs.module.ar.web.struts.FinalInvoiceReversalDocumentAction">
+			type="org.kuali.kfs.module.ar.document.web.struts.FinalInvoiceReversalDocumentAction">
 			<set-property property="cancellable" value="true" />
 			<forward name="basic"
 				path="/jsp/module/ar/FinalInvoiceReversalDocument.jsp" />
@@ -624,7 +624,7 @@
 
  		<action path="/arReferralToCollectionsDocument" name="ReferralToCollectionsDocumentForm"
 			scope="request" attribute="KualiForm" parameter="methodToCall"
-			type="org.kuali.kfs.module.ar.web.struts.ReferralToCollectionsDocumentAction">
+			type="org.kuali.kfs.module.ar.document.web.struts.ReferralToCollectionsDocumentAction">
 			<set-property property="cancellable" value="true" />
 			<forward name="basic"
 				path="/jsp/module/ar/ReferralToCollectionsDocument.jsp" />
@@ -632,7 +632,7 @@
 
 		<action path="/arContractsGrantsLOCReviewDocument" name="ContractsGrantsLOCReviewDocumentForm"
 			scope="request" attribute="KualiForm" parameter="methodToCall"
-			type="org.kuali.kfs.module.ar.web.struts.ContractsGrantsLOCReviewDocumentAction">
+			type="org.kuali.kfs.module.ar.document.web.struts.ContractsGrantsLOCReviewDocumentAction">
 			<set-property property="cancellable" value="true" />
 			<forward name="basic"
 				path="/jsp/module/ar/ContractsGrantsLOCReviewDocument.jsp" />

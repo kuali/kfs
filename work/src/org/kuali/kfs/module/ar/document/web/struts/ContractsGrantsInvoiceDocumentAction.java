@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.module.ar.web.struts;
+package org.kuali.kfs.module.ar.document.web.struts;
 
 import java.math.BigDecimal;
 import java.sql.Date;
@@ -40,8 +40,6 @@ import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.CustomerAddressService;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService;
 import org.kuali.kfs.module.ar.document.service.CustomerService;
-import org.kuali.kfs.module.ar.document.web.struts.CustomerInvoiceDocumentAction;
-import org.kuali.kfs.module.ar.document.web.struts.CustomerInvoiceDocumentForm;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
 import org.kuali.kfs.module.bc.document.web.struts.PositionSalarySettingForm;
 import org.kuali.kfs.module.ar.businessobject.InvoiceAccountDetail;

@@ -172,18 +172,65 @@ public interface CustomerInvoiceDocumentService {
      */
     public CustomerInvoiceDocument getInvoiceByInvoiceDocumentNumber(String invoiceDocumentNumber);
 
+    /**
+     * Gets the printable customer invoice for the specified initiatorPrincipalName.   
+     *
+     * @param initiatorPrincipalName the specified initiatorPrincipalName
+     * @return the printable customer invoice for the specified initiatorPrincipalName
+     */
     public List<CustomerInvoiceDocument> getPrintableCustomerInvoiceDocumentsByInitiatorPrincipalName(String initiatorPrincipalName);
 
+    /**
+     * Gets the printable customer invoice for the specified chartOfAccountsCode and organizationCode.   
+     *
+     * @param chartOfAccountsCode
+     * @param organizationCode
+     * @return the printable customer invoice for the specified chartOfAccountsCode and organizationCode.
+     */
     public List<CustomerInvoiceDocument> getPrintableCustomerInvoiceDocumentsByBillingChartAndOrg(String chartOfAccountsCode, String organizationCode);
 
+    /**
+     * Gets the printable customer invoice for the BillingStatement by chartOfAccountsCode and organizationCode.   
+     *
+     * @param chartOfAccountsCode
+     * @param organizationCode
+     * @return the printable customer invoice for the BillingStatement.
+     */    
     public List<CustomerInvoiceDocument> getPrintableCustomerInvoiceDocumentsForBillingStatementByBillingChartAndOrg(String chartOfAccountsCode, String organizationCode);
 
+/**
+ * Gets the printable customer invoice for the specified chartOfAccountsCode and organizationCode. 
+ * 
+ * @param chartOfAccountsCode
+ * @param organizationCode
+ * @return the printable customer invoice
+ */
     public List<CustomerInvoiceDocument> getPrintableCustomerInvoiceDocumentsByProcessingChartAndOrg(String chartOfAccountsCode, String organizationCode);
 
+    /**
+     * Gets customer invoice for the specified chartOfAccountsCode and organizationCode. 
+     * 
+     * @param chartOfAccountsCode
+     * @param organizationCode
+     * @return customer invoice
+     */
     public List<CustomerInvoiceDocument> getCustomerInvoiceDocumentsByBillingChartAndOrg(String chartOfAccountsCode, String organizationCode);
 
+    /**
+     * Get list of customer invoice by processing chartOfAccountsCode and organizationCode.
+     * 
+     * @param chartOfAccountsCode
+     * @param organizationCode
+     * @return list of customer invoice
+     */
     public List<CustomerInvoiceDocument> getCustomerInvoiceDocumentsByProcessingChartAndOrg(String chartOfAccountsCode, String organizationCode);
 
+    /**
+     * Gets customer invoice by account number.
+     * 
+     * @param accountNumber
+     * @return collection of customer invoice.
+     */
     public Collection<CustomerInvoiceDocument> getCustomerInvoiceDocumentsByAccountNumber(String accountNumber);
 
     /**
@@ -245,8 +292,20 @@ public interface CustomerInvoiceDocumentService {
      */
     public KualiDecimal getOpenAmountForCustomerInvoiceDocument(CustomerInvoiceDocument customerInvoiceDocument);
 
+    /**
+     * get total amount of customer invoice by customer invoice.
+     * 
+     * @param customerInvoiceDocument
+     * @return
+     */
     public KualiDecimal getOriginalTotalAmountForCustomerInvoiceDocument(CustomerInvoiceDocument customerInvoiceDocument);
 
+    /**
+     * 
+     * 
+     * @param invDocumentNumber
+     * @return
+     */
     public boolean checkIfInvoiceNumberIsFinal(String invDocumentNumber);
 
     /**

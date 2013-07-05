@@ -25,7 +25,28 @@ import org.kuali.rice.core.api.util.type.KualiDecimal;
  */
 public interface CustomerInvoiceGLPEService {
     
+   /**
+    * This methode cretae and add generic invoice related GLPEs.
+    * 
+    * @param glpeSource
+    * @param glpeSourceDetail
+    * @param sequenceHelper
+    * @param isDebit
+    * @param hasClaimOnCashOffset
+    * @param amount
+    */
    public void createAndAddGenericInvoiceRelatedGLPEs(GeneralLedgerPendingEntrySource glpeSource, GeneralLedgerPendingEntrySourceDetail glpeSourceDetail, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, boolean isDebit, boolean hasClaimOnCashOffset, KualiDecimal amount);
 
+   /**
+    * This methode cretae and add generic invoice related GLPEs.
+    * 
+    * @param glpeSource
+    * @param glpeSourceDetail
+    * @param sequenceHelper
+    * @param isDebit
+    * @param hasReceivableClaimOnCashOffset
+    * @param writeoffTaxGenerationMethodDisallowFlag
+    * @param amount
+    */
    public void createAndAddGenericInvoiceRelatedGLPEs(GeneralLedgerPendingEntrySource glpeSource, GeneralLedgerPendingEntrySourceDetail glpeSourceDetail, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, boolean isDebit, boolean hasReceivableClaimOnCashOffset, boolean writeoffTaxGenerationMethodDisallowFlag, KualiDecimal amount);
 }

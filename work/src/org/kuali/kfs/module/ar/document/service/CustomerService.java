@@ -64,8 +64,19 @@ public interface CustomerService {
      */
     public Collection<CustomerInvoiceDocument> getInvoicesForCustomer(String customerNumber);
     
-    
+    /**
+     * This method create customer notes from customer notes for customer number.
+     * 
+     * @param customerNumber
+     * @param customerNote
+     */
     public void createCustomerNote( String customerNumber, String customerNote );
 
+    /**
+     * Gets list of notes for customer
+     * 
+     * @param customerNumber
+     * @return list of Notes.
+     */
     public List<Note> getCustomerNotes(String customerNumber) ;
 }

@@ -18,8 +18,41 @@ package org.kuali.kfs.module.ar.document.service;
 import org.kuali.kfs.module.ar.businessobject.SystemInformation;
 
 public interface SystemInformationService {
+    
+    /**
+     * Get system information by lockbox number for current fiscal year
+     * 
+     * @param lockboxNumber
+     * @return system information
+     */
     public SystemInformation getByLockboxNumberForCurrentFiscalYear(String lockboxNumber);
+    
+    /**
+     * Get system information by lock box number
+     * 
+     * @param lockboxNumber
+     * @param universityFiscalYear
+     * @return system information
+     */
     public SystemInformation getByLockboxNumber(String lockboxNumber, Integer universityFiscalYear);
+    
+    /**
+     * Get system information from chart code, org code and fiscal year.
+     * 
+     * @param chartCode
+     * @param orgCode
+     * @param fiscalYear
+     * @return system information
+     */
     public SystemInformation getByProcessingChartOrgAndFiscalYear(String chartCode, String orgCode, Integer fiscalYear);
+    
+    /**
+     * Get count from chartCode, orgCode and lockbox number
+     * 
+     * @param chartCode
+     * @param orgCode
+     * @param lockboxNumber
+     * @return
+     */
     public int getCountByChartOrgAndLockboxNumber(String chartCode, String orgCode, String lockboxNumber);
 }

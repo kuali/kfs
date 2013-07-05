@@ -19,6 +19,11 @@ import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 
 public interface ReceivableAccountingLineService {
 
+    /**
+     * This method set receivable accounting line for customer invoice.
+     * 
+     * @param customerInvoiceDocument
+     */
     public void setReceivableAccountingLineForCustomerInvoiceDocument( CustomerInvoiceDocument customerInvoiceDocument );
 
 }

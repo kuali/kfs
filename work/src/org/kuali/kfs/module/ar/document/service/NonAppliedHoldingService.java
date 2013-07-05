@@ -22,7 +22,21 @@ import org.kuali.kfs.module.ar.businessobject.Customer;
 import org.kuali.kfs.module.ar.businessobject.NonAppliedHolding;
 
 public interface NonAppliedHoldingService {
+    
+    /**
+     * Gets non applied holdings from customer number. 
+     * 
+     * @param customerNumber
+     * @return collection of NonAppliedHolding
+     */
     public Collection<NonAppliedHolding> getNonAppliedHoldingsForCustomer(String customerNumber);
+    
+    /**
+     * Gets non applied holdings for customer.
+     * 
+     * @param customer
+     * @return collection of NonAppliedHolding
+     */
     public Collection<NonAppliedHolding> getNonAppliedHoldingsForCustomer(Customer customer);
     
     /**

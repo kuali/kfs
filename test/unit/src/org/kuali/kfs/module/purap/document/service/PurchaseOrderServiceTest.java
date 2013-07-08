@@ -19,6 +19,7 @@ import static org.kuali.kfs.sys.fixture.UserNameFixture.appleton;
 import static org.kuali.kfs.sys.fixture.UserNameFixture.parke;
 
 import java.io.ByteArrayOutputStream;
+import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.purap.PurapConstants;
@@ -27,6 +28,7 @@ import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderDocTypes;
 import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderStatuses;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorQuote;
+import org.kuali.kfs.module.purap.businessobject.RequisitionItem;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocumentTest;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
@@ -36,6 +38,7 @@ import org.kuali.kfs.module.purap.fixture.PurchaseOrderDocumentFixture;
 import org.kuali.kfs.module.purap.fixture.PurchaseOrderDocumentWithCommodityCodeFixture;
 import org.kuali.kfs.module.purap.fixture.PurchaseOrderVendorQuoteFixture;
 import org.kuali.kfs.module.purap.fixture.RequisitionDocumentFixture;
+import org.kuali.kfs.module.purap.service.PurapAccountingService;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -60,6 +63,7 @@ public class PurchaseOrderServiceTest extends KualiTestBase {
 
     protected DocumentService docService;
     protected PurchaseOrderService poService;
+    private PurapAccountingService purapAccountingService;
 
     @Override
     protected void setUp() throws Exception {
@@ -69,6 +73,9 @@ public class PurchaseOrderServiceTest extends KualiTestBase {
         }
         if (null == poService) {
             poService = SpringContext.getBean(PurchaseOrderService.class);
+        }
+        if(purapAccountingService == null) {
+            purapAccountingService = SpringContext.getBean(PurapAccountingService.class);
         }
     }
 
@@ -286,9 +293,9 @@ public class PurchaseOrderServiceTest extends KualiTestBase {
         }
     }
 
-    protected void routePurchaseOrder( PurchaseOrderDocument poDoc ) {
+    protected void routePurchaseOrder( PurchaseOrderDocument poDoc ) throws Exception {
         try {
-            AccountingDocumentTestUtils.routeDocument(poDoc, SpringContext.getBean(DocumentService.class));
+            AccountingDocumentTestUtils.testRouteDocument(poDoc, SpringContext.getBean(DocumentService.class));
         } catch ( ValidationException ex ) {
             fail( "Validation problems routing document: " + dumpMessageMapErrors() );
         } catch (WorkflowException ex) {
@@ -329,9 +336,19 @@ public class PurchaseOrderServiceTest extends KualiTestBase {
      *
      * @throws Exception
      */
-    public void DISABLED_502_testCreateAndRoutePotentialChangeDocument() throws Exception {
+    public void testCreateAndRoutePotentialChangeDocument() throws Exception {
         //Need to create a requisition first to be used to create an APO
         RequisitionDocument req = RequisitionDocumentFixture.REQ_ALTERNATE_APO.createRequisitionDocument();
+
+        // this is a bit of a hack since a previous change to the RequisitionAccountingLineFixture.addTo method
+        // doesn't work well with uneven amounts that aren't a 50/50 split between accounting lines
+        // in this case 239.99 is split 120.00 and 119.99
+        // might want to revisit the RequisitionAccountingLineFixture.addTo change and the fixture amount problems
+        // it previously fixed at some point
+        for(RequisitionItem item : (List<RequisitionItem>)req.getItems()) {
+            purapAccountingService.updateItemAccountAmounts(item);
+        }
+
         routeRequisition(req);
         String docId = req.getDocumentNumber();
 
@@ -591,7 +608,7 @@ public class PurchaseOrderServiceTest extends KualiTestBase {
 //        assertTrue(KNSGlobalVariables.getMessageList().contains(PurapKeyConstants.B2B_PO_RETRANSMIT_SUCCESS));
 //    }
 
-    public void DISABLED_502_testIsPurchaseOrderOpenForProcessing_HappyPath() throws Exception {
+    public void testIsPurchaseOrderOpenForProcessing_HappyPath() throws Exception {
         //Create and route a basic PO to Open status.
         PurchaseOrderDocument poDocument = PurchaseOrderDocumentFixture.PO_ONLY_REQUIRED_FIELDS.createPurchaseOrderDocument();
         poDocument.prepareForSave();
@@ -604,7 +621,7 @@ public class PurchaseOrderServiceTest extends KualiTestBase {
     }
 
     @ConfigureContext(session = appleton, shouldCommitTransactions=true)
-    public void DISABLED_502_testIsPurchaseOrderOpenForProcessing_With_PREQ() throws Exception {
+    public void testIsPurchaseOrderOpenForProcessing_With_PREQ() throws Exception {
         PaymentRequestDocumentTest preqDocTest = new PaymentRequestDocumentTest();
         PurchaseOrderDocument purchaseOrderDocument = preqDocTest.createPurchaseOrderDocument(PurchaseOrderDocumentFixture.PO_APPROVAL_REQUIRED, true);
         purchaseOrderDocument.setAccountsPayablePurchasingDocumentLinkIdentifier(new Integer(SpringContext.getBean(SequenceAccessorService.class).getNextAvailableSequenceNumber("AP_PUR_DOC_LNK_ID").toString()));

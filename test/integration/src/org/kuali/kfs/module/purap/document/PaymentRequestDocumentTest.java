@@ -114,7 +114,7 @@ public class PaymentRequestDocumentTest extends KualiTestBase {
         paymentRequestDocument = createPaymentRequestDocument(PaymentRequestDocumentFixture.PREQ_APPROVAL_REQUIRED, purchaseOrderDocument, true, new KualiDecimal[] { new KualiDecimal(100) });
     }
 
-    @ConfigureContext(session = appleton, shouldCommitTransactions = true)
+    @ConfigureContext(session = appleton, shouldCommitTransactions = false)
     public final void testRouteDocument() throws Exception {
         purchaseOrderDocument = createPurchaseOrderDocument(PurchaseOrderDocumentFixture.PO_APPROVAL_REQUIRED, true);
         purchaseOrderDocument.setAccountDistributionMethod("S");

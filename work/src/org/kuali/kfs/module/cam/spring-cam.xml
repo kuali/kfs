@@ -71,14 +71,6 @@
             <ref bean="assetObjectCodeFiscalYearMaker" />
           </list>
         </property>
-		<!-- Asset Depreciation batch - START -->
-		<property name="triggerNames">
-			<list>
-				<!-- CSU 6702 BEGIN --><value>assetYearEndDepreciationBatchJobTrigger</value><!-- CSU 6702 END -->
-				<value>assetDepreciationBatchJobTrigger</value>
-			</list>
-		</property>
-		<!-- Asset Depreciation batch - END -->
 		<property name="batchFileDirectories">
          	<list>
             	<value>${reports.directory}/cam</value>
@@ -191,25 +183,13 @@
 		</property>
 	</bean>
 
-    <bean id="assetDepreciationBatchJobTrigger" parent="cronTrigger">
-        <property name="jobName" value="assetDepreciationBatchJob"/>
-        <!--  it will run on the 3rd=3 thursday=5 of the month-->
-        <property name="cronExpression" value="00 00 00 ? * 5#3"/>
-    </bean>
-
 	<!-- CSU 6702 BEGIN -->
-	<bean id="assetYearEndDepreciationBatchJob" parent="scheduledJobDescriptor">
+	<bean id="assetYearEndDepreciationBatchJob" parent="unscheduledJobDescriptor">
         <property name="steps">
             <list>
                 <ref bean="assetYearEndDepreciationStep"/>
             </list>
         </property>
-    </bean>
-    <!-- CSU 6702 END -->
-
-	<!-- CSU 6702 BEGIN -->
-    <bean id="assetYearEndDepreciationBatchJobTrigger" parent="cronTrigger">
-        <property name="jobName" value="assetYearEndDepreciationBatchJob"/>
     </bean>
     <!-- CSU 6702 END -->
 

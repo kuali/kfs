@@ -115,4 +115,11 @@
 				readOnly="${!fullEntryMode}" />
 		</td>
 	</tr>
+	<c:if test="${clearAdvanceMode}">
+		<tr>
+			<td class="datacell" colspan="2">
+				<div align="center"><html:image property="methodToCall.clearAdvance" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-clear1.gif" title="Clear Advance" alt="Clear Advance" styleClass="tinybutton" /></div>
+			</td>
+		</tr>
+	</c:if>
 </table>

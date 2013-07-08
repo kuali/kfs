@@ -18,6 +18,9 @@ package org.kuali.kfs.module.tem.document.authorization;
 import java.util.Set;
 
 import org.kuali.kfs.module.tem.TemConstants;
+import org.kuali.kfs.module.tem.TemWorkflowConstants;
+import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
+import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.krad.document.Document;
 
 /**
@@ -36,6 +39,18 @@ public class TravelAuthorizationDocumentPresentationController extends TravelDoc
         editModes.remove(TemConstants.EditModes.CHECK_AMOUNT_ENTRY);
         editModes.add(TemConstants.TravelEditMode.ADVANCE_PAYMENT_ENTRY);
         editModes.add(TemConstants.TravelEditMode.ADVANCE_POLICY_ENTRY);
+        if (document instanceof TravelAuthorizationDocument && ((TravelAuthorizationDocument)document).shouldProcessAdvanceForDocument() && isAtTravelNode(document.getDocumentHeader().getWorkflowDocument())) {
+            editModes.add(TemConstants.TravelEditMode.CLEAR_ADVANCE_MODE);
+        }
         return editModes;
+    }
+
+    /**
+     * Determines if the current workflow document is at the Travel node
+     * @param workflowDocument the workflow document to check the node of
+     * @return true if the document is at the Travel node, false otherwise
+     */
+    public boolean isAtTravelNode(WorkflowDocument workflowDocument) {
+        return workflowDocument.getCurrentNodeNames().contains(TemWorkflowConstants.RouteNodeNames.AP_TRAVEL);
     }
 }

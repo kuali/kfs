@@ -1413,4 +1413,28 @@ public class KFSConstants {
         public static final String SUBJECT_PAYMENT_VENDOR = "VSP";
         public static final String REVOLVING_FUND_VENDOR = "VRF";
     }
+
+    public static enum PaymentMethod {
+        ACH_CHECK("P", "Check/ACH"), FOREIGN_DRAFT("F", "Foreign Draft"), WIRE_TRANSFER("W", "Wire Transfer");
+
+        private String code;
+        private String name;
+
+        PaymentMethod(String code, String name) {
+            this.code = code;
+            this.name = name;
+        }
+
+        public String getCode() {
+            return this.code;
+        }
+
+        public String getName() {
+            return this.name;
+        }
+
+        public String getCodeAndName() {
+            return String.format("%s - %s", this.code, this.name);
+        }
+    }
 }

@@ -1255,6 +1255,29 @@ public class TravelAuthorizationAction extends TravelActionBase {
     }
 
     /**
+     * action which clears out an advance - this allows travel managers to clear advance as needed
+     */
+    public ActionForward clearAdvance(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        if (((TravelAuthorizationForm)form).getTravelAuthorizationDocument().shouldProcessAdvanceForDocument()) {
+            final TravelAuthorizationDocument doc = ((TravelAuthorizationForm)form).getTravelAuthorizationDocument();
+            doc.getTravelAdvance().clear();
+            // clean up due date and payment amount from travel payment
+            if (!ObjectUtils.isNull(doc.getAdvanceTravelPayment())) {
+                doc.getAdvanceTravelPayment().setDueDate(null);
+                doc.getAdvanceTravelPayment().setCheckTotalAmount(null);
+                doc.getAdvanceTravelPayment().setPaymentMethodCode(KFSConstants.PaymentMethod.ACH_CHECK.getCode()); // set to check, so that foreign draft or wire transfer is not processed
+            }
+            // clean up accounting lines
+            if (doc.allParametersForAdvanceSet()) {
+                doc.getAdvanceAccountingLine(0).setAmount(KualiDecimal.ZERO);
+            } else {
+                doc.setAdvanceAccountingLines(new ArrayList<TemSourceAccountingLine>());
+            }
+        }
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+
+    /**
      * Update the TA status if the amendment is canceled or closed and not saved.
      *
      * @param form

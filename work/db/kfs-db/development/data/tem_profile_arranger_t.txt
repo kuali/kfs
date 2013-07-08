@@ -1,0 +1,3 @@
+arranger_id|prncpl_id|profile_id|ta_ind|tr_ind|actv_ind|primary_ind|ver_nbr|obj_id|
+1.0|6162502038|3.0|Y|Y|Y|Y|1.0|DFB0EFA0AC4A8131E040E00ABCD62DC1|
+2.0|4161901639|1.0|Y|Y|Y|Y|1.0|E074D800797DAD17E040E00ABCD67056|

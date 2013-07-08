@@ -27,15 +27,6 @@
 		parent="CompositeValidation" scope="prototype" abstract="true">
 		<property name="validations">
 			<list>
-				<bean parent="AccountingDocument-businessObjectDataDictionaryValidation"
-					scope="prototype">
-					<property name="parameterProperties">
-						<bean parent="validationFieldConversion">
-							<property name="sourceEventProperty" value="document" />
-							<property name="targetValidationProperty" value="businessObjectForValidation" />
-						</bean>
-					</property>
-				</bean>
 				<bean parent="TravelArranger-uniqueTravelerAndArranger" scope="prototype">
 					<property name="quitOnFail" value="true" />
 				</bean>

@@ -19,7 +19,6 @@ import static org.kuali.kfs.module.tem.TemConstants.CERTIFICATION_STATEMENT_ATTR
 import static org.kuali.kfs.module.tem.TemConstants.EMPLOYEE_TEST_ATTRIBUTE;
 import static org.kuali.kfs.module.tem.TemConstants.KIM_PERSON_LOOKUPABLE;
 import static org.kuali.kfs.module.tem.TemConstants.SHOW_ACCOUNT_DISTRIBUTION_ATTRIBUTE;
-import static org.kuali.kfs.module.tem.TemConstants.TEM_PROFILE_LOOKUPABLE;
 import static org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters.DISPLAY_ACCOUNTING_DISTRIBUTION_TAB_IND;
 import static org.kuali.kfs.module.tem.TemPropertyConstants.NEW_EMERGENCY_CONTACT_LINE;
 import static org.kuali.kfs.sys.KFSPropertyConstants.FINANCIAL_OBJECT_CODE;
@@ -607,7 +606,7 @@ public class TravelAuthorizationAction extends TravelActionBase {
         String groupTravelerId = request.getParameter("newGroupTravelerLine.groupTravelerEmpId");
         TravelAuthorizationDocument document = authForm.getTravelAuthorizationDocument();
 
-        boolean isTravelerLookupable = StringUtils.equals(refreshCaller, TEM_PROFILE_LOOKUPABLE);
+        boolean isTravelerLookupable = StringUtils.equals(refreshCaller, TemConstants.TRAVELER_PROFILE_DOC_LOOKUPABLE);
 
         // if a cancel occurred on address lookup we need to reset the payee id and type, rest of fields will still have correct
         // information
@@ -1248,7 +1247,9 @@ public class TravelAuthorizationAction extends TravelActionBase {
      */
     @Override
     public ActionForward blanketApprove(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ((TravelAuthorizationForm)form).getTravelAuthorizationDocument().getTravelAdvance().setTravelAdvancePolicy(true);
+        if (((TravelAuthorizationForm)form).getTravelAuthorizationDocument().shouldProcessAdvanceForDocument()) {
+            ((TravelAuthorizationForm)form).getTravelAuthorizationDocument().getTravelAdvance().setTravelAdvancePolicy(true);
+        }
 
         return super.blanketApprove(mapping, form, request, response);
     }

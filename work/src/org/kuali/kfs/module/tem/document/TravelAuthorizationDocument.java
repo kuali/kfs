@@ -235,6 +235,18 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
     }
 
     /**
+     * cleans up the advance and accounting lines associated with it - those should be blank for the copy
+     * @see org.kuali.kfs.module.tem.document.TravelDocumentBase#toCopy()
+     */
+    @Override
+    public void toCopy() throws WorkflowException {
+        super.toCopy();
+        if (!(this instanceof TravelAuthorizationCloseDocument)) {  // TAC's don't have advances
+            initiateAdvancePaymentAndLines();
+        }
+    }
+
+    /**
      * Gets the perDiemAdjustment attribute.
      *
      * @return Returns the perDiemAdjustment.

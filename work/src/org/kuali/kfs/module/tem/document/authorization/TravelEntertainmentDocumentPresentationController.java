@@ -18,11 +18,7 @@ package org.kuali.kfs.module.tem.document.authorization;
 import java.util.Set;
 
 import org.kuali.kfs.module.tem.TemConstants;
-import org.kuali.kfs.module.tem.TemConstants.TEMRoleNames;
-import org.kuali.kfs.module.tem.TemConstants.TravelParameters;
-import org.kuali.kfs.module.tem.TemParameterConstants;
 import org.kuali.kfs.module.tem.TemWorkflowConstants;
-import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.document.Document;
 
 public class TravelEntertainmentDocumentPresentationController extends TravelDocumentPresentationController {
@@ -44,18 +40,6 @@ public class TravelEntertainmentDocumentPresentationController extends TravelDoc
     @Override
     public String getDocumentManagerApprovalNode(){
         return TemWorkflowConstants.RouteNodeNames.ENTERTAINMENT_MANAGER;
-    }
-
-    /**
-     * @see org.kuali.kfs.module.tem.document.authorization.TravelDocumentPresentationController#enableForDocumentManager(org.kuali.rice.kim.bo.Person, boolean)
-     */
-    @Override
-    public boolean enableForDocumentManager(Person currentUser, boolean checkParameters){
-        boolean isEntertainmentManager = getTemRoleService().checkUserTEMRole(currentUser, TEMRoleNames.ENTERTAINMENT_MANAGER);
-        boolean allowUpdate = checkParameters? getParamService().getParameterValueAsBoolean(TemParameterConstants.TEM_DOCUMENT.class, TravelParameters.TRAVEL_OFFICE_MODIFY_ALL_FIELDS_IND) : true;
-
-        boolean isEnabled = isEntertainmentManager && allowUpdate;
-        return isEnabled;
     }
 
 }

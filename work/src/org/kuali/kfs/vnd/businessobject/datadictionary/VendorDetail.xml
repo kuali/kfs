@@ -729,9 +729,14 @@
 		</property>
 	</bean>
 
-    <bean id="VendorDetail-vendorContracts.vendorContractGeneratedIdentifier" parent="VendorContract-vendorContractGeneratedIdentifier">
-  	    <property name="name" value="vendorContracts.vendorContractGeneratedIdentifier"/>
-    </bean>
+    <bean id="VendorDetail-vendorContracts.vendorContractGeneratedIdentifier" parent="VendorContract-vendorContractGeneratedIdentifier-parentBean" >
+      <property name="name" value="vendorContracts.vendorContractGeneratedIdentifier"/>
+  	</bean>
+  	  
+    <bean id="VendorDetail-vendorContracts.vendorContractGeneratedIdentifier-parentBean"  abstract="true" parent="VendorContract-vendorContractGeneratedIdentifier" />
+  	  
+    
+    
   
 	<!-- Business Object Inquiry Definition -->
 

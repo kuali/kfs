@@ -62,7 +62,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
 @SuppressWarnings("deprecation")
 public class TravelerLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
 
-    public static Logger LOG = Logger.getLogger(TEMProfileLookupableHelperServiceImpl.class);
+    public static Logger LOG = Logger.getLogger(TravelerLookupableHelperServiceImpl.class);
 
     private BusinessObjectService businessObjectService;
     private ParameterService parameterService;

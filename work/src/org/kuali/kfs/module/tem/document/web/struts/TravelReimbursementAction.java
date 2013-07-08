@@ -26,7 +26,6 @@ import static org.kuali.kfs.module.tem.TemConstants.SHOW_ACCOUNT_DISTRIBUTION_AT
 import static org.kuali.kfs.module.tem.TemConstants.SHOW_ADVANCES_ATTRIBUTE;
 import static org.kuali.kfs.module.tem.TemConstants.SHOW_ENCUMBRANCE_ATTRIBUTE;
 import static org.kuali.kfs.module.tem.TemConstants.SHOW_REPORTS_ATTRIBUTE;
-import static org.kuali.kfs.module.tem.TemConstants.TEM_PROFILE_LOOKUPABLE;
 import static org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters.DISPLAY_ACCOUNTING_DISTRIBUTION_TAB_IND;
 import static org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters.DISPLAY_ADVANCES_IN_REIMBURSEMENT_TOTAL_IND;
 import static org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters.DISPLAY_ENCUMBRANCE_IND;
@@ -380,7 +379,7 @@ public class TravelReimbursementAction extends TravelActionBase {
             return null;
         }
 
-        boolean isTravelerLookupable = TEM_PROFILE_LOOKUPABLE.equals(refreshCaller);
+        boolean isTravelerLookupable = TemConstants.TRAVELER_PROFILE_DOC_LOOKUPABLE.equals(refreshCaller);
         if (!isTravelerLookupable) {
             return null;
         }

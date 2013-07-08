@@ -1307,7 +1307,6 @@
 	<bean id="nightlyOutJob" parent="scheduledJobDescriptor">
 		<property name="steps">
 			<list>
-				<ref bean="temEncumbranceForwardStep" />
 				<ref bean="nightlyOutStep" />
 			</list>
 		</property>
@@ -2817,11 +2816,6 @@
        	<property name="aggregationModeOn" value="true"/>
        	<property name="preScrubberService" ref="preScrubberService" />
     </bean>
-    
-    <bean id="temEncumbranceForwardStep" class="org.kuali.kfs.gl.batch.TemEncumbranceForwardStep" parent="step">
-        <property name="generalLedgerPendingEntryService" ref="generalLedgerPendingEntryService" />
-        <property name="parameterService" ref="parameterService" />
-    </bean> 
     
     <bean id="glcpPreScrubberReportWriterService" parent="glcpPreScrubberReportWriterService-parentBean"/>
     <bean id="glcpPreScrubberReportWriterService-parentBean" abstract="true"  parent="preScrubberReportWriterService">

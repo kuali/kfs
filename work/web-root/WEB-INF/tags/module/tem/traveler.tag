@@ -29,7 +29,7 @@
             <th class="bord-l-b"><div align="right">Traveler Lookup:</div></th>
             <td class="datacell" colspan="3">
             	<div align="left">
-			    	<kul:lookup boClassName="org.kuali.kfs.module.tem.businessobject.TEMProfile" lookupParameters="document.traveler.travelerTypeCode:travelerTypeCode" />
+			    	<kul:lookup boClassName="org.kuali.kfs.module.tem.businessobject.TravelerProfileForLookup" lookupParameters="document.traveler.travelerTypeCode:travelerTypeCode" />
 				</div>
             </td>
         </tr>

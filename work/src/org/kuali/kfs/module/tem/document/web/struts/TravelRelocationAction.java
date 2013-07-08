@@ -73,7 +73,7 @@ public class TravelRelocationAction extends TravelActionBase {
 
     /**
      * method used for doc handler actions. Typically assumes that this is the entry point for the document when it is first
-     * created. A number of things are done hear assuming the document is created at this point.
+     * created. A number of things are done here assuming the document is created at this point.
      */
     @Override
     public ActionForward docHandler(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -232,7 +232,7 @@ public class TravelRelocationAction extends TravelActionBase {
         if (!StringUtils.isBlank(refreshCaller)) {
             final TravelRelocationDocument document = (TravelRelocationDocument)((KualiDocumentFormBase)form).getDocument();
 
-            if (TemConstants.TEM_PROFILE_LOOKUPABLE.equals(refreshCaller)) {
+            if (TemConstants.TRAVELER_PROFILE_DOC_LOOKUPABLE.equals(refreshCaller)) {
                 performRequesterRefresh(document);
             }
         }

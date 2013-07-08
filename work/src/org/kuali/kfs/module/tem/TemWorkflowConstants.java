@@ -38,7 +38,7 @@ public class TemWorkflowConstants {
     public static final String TAX_MANAGER = "TaxManager";
 
     public static class RouteNodeNames {
-        public static final String AP_TRAVEL = "APTravel";
+        public static final String AP_TRAVEL = "Travel";
         public static final String TRAVELER_REVIEW = "TravelerReview";
         public static final String ACCOUNT = "Account";
         public static final String ACCOUNTING_REVIEWER = "AccountingReviewer";

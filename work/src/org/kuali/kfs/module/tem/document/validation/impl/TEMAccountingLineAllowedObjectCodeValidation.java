@@ -19,19 +19,20 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.kuali.kfs.fp.businessobject.TravelCompanyCode;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants.TravelAuthorizationFields;
+import org.kuali.kfs.module.tem.TemWorkflowConstants;
 import org.kuali.kfs.module.tem.businessobject.AccountingDistribution;
 import org.kuali.kfs.module.tem.businessobject.ActualExpense;
 import org.kuali.kfs.module.tem.businessobject.TEMExpense;
 import org.kuali.kfs.module.tem.businessobject.TemSourceAccountingLine;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
 import org.kuali.kfs.module.tem.document.TravelDocument;
-import org.kuali.kfs.module.tem.document.authorization.TravelDocumentPresentationController;
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
 import org.kuali.kfs.module.tem.document.web.bean.AccountingLineDistributionKey;
 import org.kuali.kfs.module.tem.service.AccountingDistributionService;
@@ -46,6 +47,7 @@ import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.kfs.sys.document.validation.event.UpdateAccountingLineEvent;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.service.DocumentHelperService;
 import org.kuali.rice.krad.bo.Note;
@@ -74,8 +76,8 @@ public class TEMAccountingLineAllowedObjectCodeValidation extends GenericValidat
         GlobalVariables.getMessageMap().clearErrorPath();
         TravelDocument travelDocument = (TravelDocument) event.getDocument();
 
-        TravelDocumentPresentationController documentPresentationController = (TravelDocumentPresentationController) getDocumentHelperService().getDocumentPresentationController(travelDocument);
-        boolean canUpdate = documentPresentationController.enableForDocumentManager(GlobalVariables.getUserSession().getPerson());
+        final boolean canUpdate = isAtTravelNode(event.getDocument().getDocumentHeader().getWorkflowDocument());  // Are we at the travel node?  If so, there's a chance that accounting lines changed; if they did, that
+                            // was a permission granted to the travel manager so we should allow it
 
         boolean valid = true;
         String errorPath = TemPropertyConstants.NEW_SOURCE_ACCTG_LINE;
@@ -212,6 +214,23 @@ public class TEMAccountingLineAllowedObjectCodeValidation extends GenericValidat
 
     private DocumentHelperService getDocumentHelperService() {
         return SpringContext.getBean(DocumentHelperService.class);
+    }
+
+    /**
+     * Check if workflow is at the specific node
+     *
+     * @param workflowDocument
+     * @param nodeName
+     * @return
+     */
+    protected boolean isAtTravelNode(WorkflowDocument workflowDocument) {
+        Set<String> nodeNames = workflowDocument.getNodeNames();
+        for (String nodeNamesNode : nodeNames) {
+            if (TemWorkflowConstants.RouteNodeNames.AP_TRAVEL.equals(nodeNamesNode)) {
+                return true;
+            }
+        }
+        return false;
     }
 
 }

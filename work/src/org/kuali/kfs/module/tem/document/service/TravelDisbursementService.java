@@ -29,13 +29,6 @@ import org.kuali.rice.krad.exception.ValidationException;
  */
 public interface TravelDisbursementService {
 
-    /**
-     * Populate disbursement voucher fields for reimbursable expenses
-     *
-     * @param disbursementVoucherDocument
-     * @param document
-     */
-    public void populateReimbursableDisbursementVoucherFields(DisbursementVoucherDocument disbursementVoucherDocument, TravelDocument document);
 
     /**
      * Populate the disbursement voucher fields for imported copr card expenses

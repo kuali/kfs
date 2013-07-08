@@ -80,7 +80,6 @@ import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.TravelEntertainmentDocument;
 import org.kuali.kfs.module.tem.document.TravelReimbursementDocument;
 import org.kuali.kfs.module.tem.document.TravelRelocationDocument;
-import org.kuali.kfs.module.tem.document.authorization.TravelDocumentPresentationController;
 import org.kuali.kfs.module.tem.document.service.AccountingDocumentRelationshipService;
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
 import org.kuali.kfs.module.tem.document.service.TravelReimbursementService;
@@ -94,7 +93,6 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
-import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.businessobject.PaymentDocumentationLocation;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -110,6 +108,7 @@ import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.core.web.format.FormatException;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
@@ -1892,8 +1891,8 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
 
         List<SourceAccountingLine> currentLines = (List<SourceAccountingLine>) getBusinessObjectService().findMatching(SourceAccountingLine.class, fieldValues);
 
-        TravelDocumentPresentationController documentPresentationController = (TravelDocumentPresentationController) getDocumentHelperService().getDocumentPresentationController(travelDocument);
-        boolean canUpdate = documentPresentationController.enableForDocumentManager(GlobalVariables.getUserSession().getPerson());
+        final boolean canUpdate = isAtTravelNode(travelDocument.getDocumentHeader().getWorkflowDocument());  // Are we at the travel node?  If so, there's a chance that accounting lines changed; if they did, that
+                                        // was a permission granted to the travel manager so we should allow it
 
         for (int i=0;i<travelDocument.getSourceAccountingLines().size();i++){
             AccountingLine line = (AccountingLine) travelDocument.getSourceAccountingLines().get(i);
@@ -2070,15 +2069,20 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
     }
 
     /**
-     * @see org.kuali.kfs.module.tem.document.service.TravelDocumentService#trimFinancialSystemDocumentHeader(org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader)
+     * Check if workflow is at the specific node
+     *
+     * @param workflowDocument
+     * @param nodeName
+     * @return
      */
-    @Override
-    public void trimFinancialSystemDocumentHeader(FinancialSystemDocumentHeader header){
-        final int DOC_DESC_MAX_LEN = 40;
-        if (header.getDocumentDescription().length() >= DOC_DESC_MAX_LEN) {
-            String truncatedDocumentDescription = header.getDocumentDescription().substring(0, DOC_DESC_MAX_LEN - 1);
-            header.setDocumentDescription(truncatedDocumentDescription);
+    protected boolean isAtTravelNode(WorkflowDocument workflowDocument) {
+        Set<String> nodeNames = workflowDocument.getNodeNames();
+        for (String nodeNamesNode : nodeNames) {
+            if (TemWorkflowConstants.RouteNodeNames.AP_TRAVEL.equals(nodeNamesNode)) {
+                return true;
+            }
         }
+        return false;
     }
 
     public PersistenceStructureService getPersistenceStructureService() {

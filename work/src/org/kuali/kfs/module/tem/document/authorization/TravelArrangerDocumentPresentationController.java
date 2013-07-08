@@ -18,11 +18,11 @@ package org.kuali.kfs.module.tem.document.authorization;
 import java.util.Set;
 
 import org.kuali.kfs.module.tem.TemConstants;
+import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentPresentationControllerBase;
 import org.kuali.rice.kew.api.WorkflowDocument;
-import org.kuali.rice.kns.document.authorization.TransactionalDocumentPresentationControllerBase;
 import org.kuali.rice.krad.document.Document;
 
-public class TravelArrangerDocumentPresentationController extends TransactionalDocumentPresentationControllerBase {
+public class TravelArrangerDocumentPresentationController extends FinancialSystemTransactionalDocumentPresentationControllerBase {
 
     @Override
     public Set<String> getEditModes(Document document) {

@@ -61,7 +61,7 @@ public class ArrangerDerivedRoleTypeServiceImpl extends DerivedRoleTypeServiceBa
 
         //Because workflow (route/save/copy) would not pick up the qualifer from Document Authorizor, but ONLY base on the permission template, we will
         //simply check whether the person is an arranger (not particularly tied to a profile)
-        if(StringUtils.isNotBlank(principalId)) {
+        if(StringUtils.isNotBlank(principalId) && (qualification == null || !qualification.containsKey(TemKimAttributes.PROFILE_ID) || qualification.get(TemKimAttributes.PROFILE_ID) == null)) {
             Map fieldValues = new HashMap();
             fieldValues.put(TEMProfileProperties.PRINCIPAL_ID, principalId);
             List<TEMProfileArranger> profileArrangers = new ArrayList<TEMProfileArranger>( getBusinessObjectService().findMatching(TEMProfileArranger.class, fieldValues));

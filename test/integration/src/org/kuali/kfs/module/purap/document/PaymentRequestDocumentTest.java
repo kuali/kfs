@@ -115,7 +115,7 @@ public class PaymentRequestDocumentTest extends KualiTestBase {
     }
 
     @ConfigureContext(session = appleton, shouldCommitTransactions = false)
-    public final void DISABLED_502_testRouteDocument() throws Exception {
+    public final void testRouteDocument() throws Exception {
         purchaseOrderDocument = createPurchaseOrderDocument(PurchaseOrderDocumentFixture.PO_APPROVAL_REQUIRED, true);
         purchaseOrderDocument.setAccountDistributionMethod("S");
         paymentRequestDocument = createPaymentRequestDocument(PaymentRequestDocumentFixture.PREQ_APPROVAL_REQUIRED, purchaseOrderDocument, true, new KualiDecimal[] { new KualiDecimal(100) });
@@ -124,7 +124,7 @@ public class PaymentRequestDocumentTest extends KualiTestBase {
     }
 
     @ConfigureContext(session = appleton, shouldCommitTransactions = false)
-    public final void DISABLED_502_testRouteDocumentToFinal() throws Exception {
+    public final void testRouteDocumentToFinal() throws Exception {
         purchaseOrderDocument = createPurchaseOrderDocument(PurchaseOrderDocumentFixture.PO_APPROVAL_REQUIRED, true);
         paymentRequestDocument = createPaymentRequestDocument(PaymentRequestDocumentFixture.PREQ_APPROVAL_REQUIRED, purchaseOrderDocument, true, new KualiDecimal[] { new KualiDecimal(100) });
 
@@ -274,7 +274,7 @@ public class PaymentRequestDocumentTest extends KualiTestBase {
      * @throws Exception
      */
     @ConfigureContext(session = appleton, shouldCommitTransactions = false)
-    public final void DISABLED_502_testUseTax() throws Exception {
+    public final void testUseTax() throws Exception {
         purchaseOrderDocument = createPurchaseOrderDocument(PurchaseOrderDocumentFixture.PO_APPROVAL_REQUIRED, true);
         purchaseOrderDocument.setDeliveryBuildingCode("BL");
         purchaseOrderDocument.setDeliveryBuildingLine1Address("2332 Correa Rd");
@@ -446,6 +446,7 @@ public class PaymentRequestDocumentTest extends KualiTestBase {
         PurchaseOrderAccount poAccount = new PurchaseOrderAccount();
         poAccount.setAccountNumber("1031400");
         poAccount.setAccountLinePercent(BigDecimal.valueOf(70));
+        poAccount.setAmount(new KualiDecimal(70));
         poAccount.setChartOfAccountsCode(chart_code);
         poAccount.setFinancialObjectCode("5000");
         lines.add(poAccount);
@@ -453,12 +454,14 @@ public class PaymentRequestDocumentTest extends KualiTestBase {
         PurchaseOrderAccount poAccount1 = new PurchaseOrderAccount();
         poAccount1.setAccountNumber("1031420");
         poAccount1.setAccountLinePercent(BigDecimal.valueOf(30));
+        poAccount1.setAmount(new KualiDecimal(30));
         poAccount1.setChartOfAccountsCode(chart_code);
         poAccount1.setFinancialObjectCode("5000");
         lines.add(poAccount1);
 
         poi.setSourceAccountingLines(lines);
         poi.setItemActiveIndicator(true);
+        poi.refreshNonUpdateableReferences();
         return poi;
 
     }
@@ -623,7 +626,7 @@ public class PaymentRequestDocumentTest extends KualiTestBase {
             }
 
             for (PurApAccountingLine accountingLine : pri.getSourceAccountingLines()) {
-                accountingLine.setAmount(pri.getExtendedPrice());
+                accountingLine.setAmount(pri.getExtendedPrice().multiply(new KualiDecimal(accountingLine.getAccountLinePercent())).divide(new KualiDecimal(100)));
             }
         }
 

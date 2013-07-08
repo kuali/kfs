@@ -25,8 +25,8 @@ import java.util.Properties;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.module.tem.TemConstants;
-import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.TemConstants.Permission;
+import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants.TEMProfileProperties;
 import org.kuali.kfs.module.tem.businessobject.TEMProfile;
 import org.kuali.kfs.module.tem.businessobject.TemProfileFromCustomer;
@@ -79,10 +79,6 @@ public class TEMProfileLookupableHelperServiceImpl extends KualiLookupableHelper
             WorkflowDocument workflowDocument = SpringContext.getBean(SessionDocumentService.class).getDocumentFromSession(GlobalVariables.getUserSession(), docNum);
         	docType = workflowDocument.getDocumentTypeName();
         }
-        boolean isProfileAdmin = temRoleService.checkUserTEMRole(user, TemConstants.TEM_PROFILE_ADMIN);
-        boolean isAssignedArranger = temRoleService.checkUserTEMRole(user, TemConstants.TEM_ASSIGNED_PROFILE_ARRANGER);
-        boolean isOrgArranger = temRoleService.checkUserTEMRole(user, TemConstants.TEM_ORGANIZATION_PROFILE_ARRANGER);
-        boolean isRiskManagement = temRoleService.checkUserTEMRole(user, TemConstants.RISK_MANAGEMENT);
 
         boolean isArrangerDoc = false;
         if(TemConstants.TravelDocTypes.TRAVEL_ARRANGER_DOCUMENT.equals(docType)) {
@@ -107,10 +103,8 @@ public class TEMProfileLookupableHelperServiceImpl extends KualiLookupableHelper
         List<TEMProfile> searchResults = (List<TEMProfile>) super.getSearchResults(fieldValues);
         List<TEMProfile> profiles = new ArrayList<TEMProfile>();
         for (TEMProfile profile : searchResults){
-            if(getTravelerService().canIncludeProfileInSearch(profile, docType, user, isProfileAdmin, isAssignedArranger, isOrgArranger, isArrangerDoc, isRiskManagement)) {
-                getTravelerService().populateTEMProfile(profile);
-                profiles.add(profile);
-            }
+            getTravelerService().populateTEMProfile(profile);
+            profiles.add(profile);
         }
 
         // Need to also search kim. This is necessary because data could be different between kim and the tem profile,

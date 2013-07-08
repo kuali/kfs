@@ -55,6 +55,7 @@
 				<value>travelImportedExpenseNotificationJob</value>
 			  	<value>temProfileExportJob</value>
 			  	<value>travelPreDisbursementProcessorExtractJob</value>
+			  	<value>temReleaseHeldEncumbranceJob</value>
 			</list>
 		</property>
 		<property name="triggerNames">
@@ -186,20 +187,33 @@
 			<ref bean="temProfileFromKimLookupableHelperService" />
 		</property>
 	</bean>
-
-	<bean id="temProfileLookupHelperService"
-		class="org.kuali.kfs.module.tem.businessobject.lookup.TEMProfileLookupableHelperServiceImpl"
-		scope="prototype">
+	
+	<bean id="baseProfileLookupableHelperService" parent="baseProfileLookupableHelperService-parentBean" abstract="true"/>
+	<bean id="baseProfileLookupableHelperService-parentBean" abstract="true">
 		<property name="temRoleService" ref="temRoleService" />
 		<property name="travelerService" ref="travelerService" />
 		<property name="personService" ref="personService" />
 		<property name="temProfileService" ref="temProfileService" />
         <property name="identityManagementService" ref="kimIdentityManagementService" />
 	</bean>
-	<bean id="temProfileLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl"
-		scope="prototype">
+
+	<bean id="temProfileLookupHelperService" parent="temProfileLookupHelperService-parentBean" scope="prototype"/>
+	<bean id="temProfileLookupHelperService-parentBean" abstract="true" parent="baseProfileLookupableHelperService" class="org.kuali.kfs.module.tem.businessobject.lookup.TEMProfileLookupableHelperServiceImpl"/>
+	<bean id="temProfileLookupable" parent="temProfileLookupable-parentBean" scope="prototype"/>
+	<bean id="temProfileLookupable-parentBean" abstract="true" class="org.kuali.rice.kns.lookup.KualiLookupableImpl">
 		<property name="lookupableHelperService">
 			<ref bean="temProfileLookupHelperService" />
+		</property>
+	</bean>
+	
+	<bean id="travelerProfileDocLookupHelperService" parent="travelerProfileDocLookupHelperService-parentBean" scope="prototype"/>
+	<bean id="travelerProfileDocLookupHelperService-parentBean" abstract="true" parent="baseProfileLookupableHelperService" class="org.kuali.kfs.module.tem.businessobject.lookup.TravelerProfileDocLookupableHelperServiceImpl">
+        <property name="permissionService" ref="kimPermissionService"/>
+	</bean>
+	<bean id="travelerProfileDocLookupable" parent="travelerProfileDocLookupable-parentBean" scope="prototype"/>
+	<bean id="travelerProfileDocLookupable-parentBean" abstract="true" class="org.kuali.rice.kns.lookup.KualiLookupableImpl">
+		<property name="lookupableHelperService">
+			<ref bean="travelerProfileDocLookupHelperService" />
 		</property>
 	</bean>
 
@@ -214,12 +228,6 @@
 		</property>
 	</bean>
 
-	<bean id="travelerProfileLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl"
-		scope="prototype">
-		<property name="lookupableHelperService">
-			<ref bean="lookupableHelperService" />
-		</property>
-	</bean>
 	<bean id="travelerLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
 		<property name="lookupableHelperService" ref="travelerLookupableHelperService" />
 	</bean>
@@ -1325,7 +1333,7 @@
         
         <property name="batchFileDirectoryName" value="${staging.directory}/tem/agencyData"/>
     </bean>
-
+    
 	<bean id="temProfileExportJob" parent="unscheduledJobDescriptor">
 		<property name="steps">
 			<list>
@@ -1340,6 +1348,21 @@
         <property name="fileDirectoryName" value="${staging.directory}/tem/profileExport" />
         <property name="fileName" value="temProfileExport" />
 	</bean>
+	
+	<bean id="temReleaseHeldEncumbranceJob" parent="temReleaseHeldEncumbranceJob-parentBean"/>
+	<bean id="temReleaseHeldEncumbranceJob-parentBean" parent="unscheduledJobDescriptor" abstract="true">
+		<property name="steps">
+			<list>
+				<ref bean="temReleaseHeldEncumbranceStep"/>
+			</list>
+		</property>
+	</bean>
+    
+    
+     <bean id="temReleaseHeldEncumbranceStep" class="org.kuali.kfs.module.tem.batch.TemReleaseHeldEncumbranceStep" parent="step">
+        <property name="generalLedgerPendingEntryService" ref="generalLedgerPendingEntryService" />
+        <property name="parameterService" ref="parameterService" />
+    </bean> 
 	
 	<bean id="travelEntertainmentMovingModuleService" class="org.kuali.kfs.module.tem.service.impl.TravelEntertainmentMovingModuleServiceImpl">
 		<property name="parameterService" ref="parameterService"/>

@@ -3,7 +3,7 @@
 	
 	 <bean id="IntraAccountAdjustmentTargetAccountingLine" parent="IntraAccountAdjustmentTargetAccountingLine-parentBean"/>
 	
-	 <bean id="IntraAccountAdjustmentTargetAccountingLine-parentBean" parent="TargetAccountingLine-parentBean">
+	 <bean id="IntraAccountAdjustmentTargetAccountingLine-parentBean" abstract="true" parent="TargetAccountingLine-parentBean">
 		<property name="businessObjectClass" value="org.kuali.kfs.fp.businessobject.IntraAccountAdjustmentTargetAccountingLine"/>
 		<property name="attributes">
 			<list>
@@ -42,13 +42,13 @@
 	
 	<bean id="IntraAccountAdjustmentTargetAccountingLine-accountNumber" parent="IntraAccountAdjustmentTargetAccountingLine-accountNumber-parentBean"/>	
 	
-	<bean id="IntraAccountAdjustmentTargetAccountingLine-accountNumber-parentBean" parent="TargetAccountingLine-accountNumber">
+	<bean id="IntraAccountAdjustmentTargetAccountingLine-accountNumber-parentBean" abstract="true" parent="TargetAccountingLine-accountNumber">
 		<property name="required" value="true"/>
 	</bean>
 	
 	<bean id="IntraAccountAdjustmentTargetAccountingLine-referenceNumber" parent="IntraAccountAdjustmentTargetAccountingLine-referenceNumber-parentBean"/>
 	
-	<bean id="IntraAccountAdjustmentTargetAccountingLine-referenceNumber-parentBean" parent="TargetAccountingLine-referenceNumber">
+	<bean id="IntraAccountAdjustmentTargetAccountingLine-referenceNumber-parentBean" abstract="true" parent="TargetAccountingLine-referenceNumber">
 		<property name="required" value="true"/>
 	</bean>
 	

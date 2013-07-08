@@ -34,6 +34,7 @@ public class TemConstants {
     public static final String PER_DIEM_LOOKUPABLE = "perDiemLookupable";
     public static final String KIM_PERSON_LOOKUPABLE = "kimPersonLookupable";
     public static final String TEM_PROFILE_LOOKUPABLE = "temProfileLookupable";
+    public static final String TRAVELER_PROFILE_DOC_LOOKUPABLE = "travelerProfileDocLookupable";
 
     public static final String NAMESPACE = "KFS-TEM";
     public static final String PARAM_NAMESPACE = NAMESPACE;
@@ -193,7 +194,6 @@ public class TemConstants {
         public static final String ACCOUNTING_LINE_VALIDATION = "ACCOUNTING_LINE_VALIDATION";
         public static final String CORPORATE_CARD_BANK_PAYMENT_REASON_CODE = "CORPORATE_CARD_BANK_PAYMENT_REASON_CODE";
 
-        public static final String TRAVEL_OFFICE_MODIFY_ALL_FIELDS_IND = "TRAVEL_OFFICE_MODIFY_ALL_FIELDS_IND";
         public static final String ENTERTAINMENT_MANAGER_TO_EDIT_ALL_IND = "ENTERTAINMENT_MANAGER_TO_EDIT_ALL_IND";
         public static final String MOVING_RELOCATION_MANAGER_TO_EDIT_ALL_IND = "MOVING_RELOCATION_MANAGER_TO_EDIT_ALL_IND";
         public static final String INTERNATIONAL_TRIP_TYPES = "INTERNATIONAL_TRIP_TYPES";

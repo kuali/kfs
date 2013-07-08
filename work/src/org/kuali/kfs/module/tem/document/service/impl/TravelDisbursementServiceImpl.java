@@ -20,7 +20,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.module.tem.TemConstants;
@@ -83,83 +82,7 @@ public class TravelDisbursementServiceImpl implements TravelDisbursementService{
     protected KualiRuleService kualiRuleService;
     protected TravelDocumentService travelDocumentService;
 
-    /**
-     * @see org.kuali.kfs.module.tem.document.service.TravelDisbursementService#populateReimbursableDisbursementVoucherFields(org.kuali.kfs.fp.document.DisbursementVoucherDocument, org.kuali.kfs.module.tem.document.TravelDocument)
-     */
-    @Override
-    public void populateReimbursableDisbursementVoucherFields(DisbursementVoucherDocument disbursementVoucherDocument, TravelDocument document){
 
-        disbursementVoucherDocument.setDisbVchrCheckStubText(StringUtils.defaultString(document.getDocumentTitle()));
-        disbursementVoucherDocument.getDocumentHeader().setDocumentDescription("Generated for " + travelDocumentService.getDocumentType(document) +" doc: " + StringUtils.defaultString(document.getDocumentTitle(), document.getTravelDocumentIdentifier()));
-        travelDocumentService.trimFinancialSystemDocumentHeader(disbursementVoucherDocument.getFinancialSystemDocumentHeader());
-        disbursementVoucherDocument.getDvPayeeDetail().setDocumentNumber(disbursementVoucherDocument.getDocumentNumber());
-        disbursementVoucherDocument.getDocumentHeader().setOrganizationDocumentNumber(document.getTravelDocumentIdentifier());
-
-        //due date is set to the next day
-        setDVDocNextDueDay(disbursementVoucherDocument);
-        disbursementVoucherDocument.getDocumentHeader().getWorkflowDocument().setTitle("Disbursement Voucher - " + document.getDocumentHeader().getDocumentDescription());
-        disbursementVoucherDocument.initiateDocument();
-        Person initiator = SpringContext.getBean(PersonService.class).getPerson(document.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId());
-
-        disbursementVoucherDocument.setDisbVchrContactPersonName(initiator.getPrincipalName());
-        disbursementVoucherDocument.setDisbVchrContactPhoneNumber(initiator.getPhoneNumber());
-
-        //if traveler has is an employee data, default to use DV Payee Employee type and employee Id, otherwise use Customer type and customer number
-        if (travelerService.isEmployee(document.getTraveler())){
-            disbursementVoucherDocument.getDvPayeeDetail().setDisbursementVoucherPayeeTypeCode(KFSConstants.PaymentPayeeTypes.EMPLOYEE);
-            document.setProfileId(document.getTemProfileId());
-            disbursementVoucherDocument.getDvPayeeDetail().setDisbVchrPayeeIdNumber(document.getTemProfile().getEmployeeId());
-        }else{
-            disbursementVoucherDocument.getDvPayeeDetail().setDisbursementVoucherPayeeTypeCode(KFSConstants.PaymentPayeeTypes.CUSTOMER);
-            disbursementVoucherDocument.getDvPayeeDetail().setDisbVchrPayeeIdNumber(document.getTraveler().getCustomerNumber());
-        }
-        disbursementVoucherDocument.getDvPayeeDetail().setDisbVchrPayeePersonName(document.getTraveler().getFirstName() + " " + document.getTraveler().getLastName());
-        disbursementVoucherDocument.getDvPayeeDetail().setDisbVchrAlienPaymentCode(false);
-
-       // disbursementVoucherDocument.getDvPayeeDetail().setDisbVchrVendorAddressIdNumber(document.getTraveler().getCustomerAddressIdentifier().toString());
-        disbursementVoucherDocument.getDvPayeeDetail().setDisbVchrPayeeLine1Addr(document.getTraveler().getStreetAddressLine1());
-        disbursementVoucherDocument.getDvPayeeDetail().setDisbVchrPayeeLine2Addr(document.getTraveler().getStreetAddressLine2());
-        disbursementVoucherDocument.getDvPayeeDetail().setDisbVchrPayeeCityName(document.getTraveler().getCityName());
-        disbursementVoucherDocument.getDvPayeeDetail().setDisbVchrPayeeStateCode(document.getTraveler().getStateCode());
-        disbursementVoucherDocument.getDvPayeeDetail().setDisbVchrPayeeZipCode(document.getTraveler().getZipCode());
-        disbursementVoucherDocument.getDvPayeeDetail().setDisbVchrPayeeCountryCode(document.getTraveler().getCountryCode());
-        disbursementVoucherDocument.getDvPayeeDetail().setDisbVchrPayeeEmployeeCode(travelerService.isEmployee(document.getTraveler()));
-
-        disbursementVoucherDocument.setDisbVchrPaymentMethodCode(TemConstants.DisbursementVoucherPaymentMethods.CHECK_ACH_PAYMENT_METHOD_CODE);
-
-        //TA's advance payment is done with custom distribution
-        if (document.hasCustomDVDistribution()){
-            // disbursement voucher distribution will be set by the document in the caller function
-        }else {
-            // set accounting
-            KualiDecimal totalAmount = KualiDecimal.ZERO;
-            for (SourceAccountingLine line : document.getReimbursableSourceAccountingLines()) {
-//                SourceAccountingLine accountingLine = new SourceAccountingLine();
-//
-//                accountingLine.setChartOfAccountsCode(line.getChartOfAccountsCode());
-//                accountingLine.setAccountNumber(line.getAccountNumber());
-//                accountingLine.setFinancialObjectCode(line.getFinancialObjectCode());
-//                accountingLine.setFinancialSubObjectCode(line.getFinancialSubObjectCode());
-//                accountingLine.setSubAccountNumber(line.getSubAccountNumber());
-//                accountingLine.setAmount(line.getAmount());
-//                accountingLine.setPostingYear(disbursementVoucherDocument.getPostingYear());
-//                accountingLine.setDocumentNumber(disbursementVoucherDocument.getDocumentNumber());
-//
-//                disbursementVoucherDocument.addSourceAccountingLine(accountingLine);
-                totalAmount = totalAmount.add(line.getAmount());
-            }
-
-            //All of reimbursement will be paid to DV through the single DV clearing account
-            SourceAccountingLine accountingLine = getTravelClearingGLPESourceDetail();
-            accountingLine.setPostingYear(disbursementVoucherDocument.getPostingYear());
-            accountingLine.setDocumentNumber(disbursementVoucherDocument.getDocumentNumber());
-            accountingLine.setAmount(totalAmount);
-            disbursementVoucherDocument.addSourceAccountingLine(accountingLine);
-
-            //change the DV's total to the total of accounting lines
-            disbursementVoucherDocument.setDisbVchrCheckTotalAmount(totalAmount);
-        }
-    }
 
     /**
      * @see org.kuali.kfs.module.tem.document.service.TravelDisbursementService#getTravelClearingGLPESourceDetail()

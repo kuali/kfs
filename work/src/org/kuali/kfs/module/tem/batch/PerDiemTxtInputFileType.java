@@ -82,7 +82,7 @@ public class PerDiemTxtInputFileType extends BatchInputFileTypeBase {
         List<PerDiemForLoad> perDiemList = this.getPerDiemFileParsingService().buildPerDiemsFromFlatFile(reader, this.getDeliminator(), this.getPerDiemFieldsToPopulate());
 
         PerDiemLoadService perDiemLoadService = SpringContext.getBean(PerDiemLoadService.class);
-        perDiemLoadService.updatePerDiem(perDiemList);
+        perDiemList = perDiemLoadService.updatePerDiem(perDiemList);
 
         return perDiemList;
     }

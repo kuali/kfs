@@ -538,6 +538,7 @@ public class TemConstants {
         public static final String CONUS_MEAL_BREAKDOWN = "CONUS_MEAL_BREAKDOWN";
         public static final String REJECT_FILE_IND = "REJECT_FILE_IND";
         public static final String INACTIVATE_PREVIOUS_PER_DIEM_IND = "INACTIVATE_PREVIOUS_PER_DIEM_IND";
+        public static final String BYPASS_STATE_OR_COUNTRY_CODES = "BYPASS_STATE_OR_COUNTRY_CODES";
     }
 
     public static final class HostedMeals {

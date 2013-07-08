@@ -96,7 +96,7 @@ public class PerDiemXmlInputFileType extends XmlBatchInputFileTypeBase {
         List<PerDiemForLoad> perDiemList = (List<PerDiemForLoad>)(super.parse(fileByteContent));
 
         PerDiemLoadService perDiemLoadService = SpringContext.getBean(PerDiemLoadService.class);
-        perDiemLoadService.updatePerDiem(perDiemList);
+        perDiemList = perDiemLoadService.updatePerDiem(perDiemList);
 
         return perDiemList;
     }

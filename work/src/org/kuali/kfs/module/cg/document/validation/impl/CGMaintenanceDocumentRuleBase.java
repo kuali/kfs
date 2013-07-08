@@ -211,7 +211,7 @@ public class CGMaintenanceDocumentRuleBase extends MaintenanceDocumentRuleBase {
      */
     protected boolean checkAgencyNotEqualToFederalPassThroughAgency(Agency agency, Agency federalPassThroughAgency, String agencyPropertyName, String fedPassThroughAgencyPropertyName) {
         boolean success = true;
-        if (ObjectUtils.isNotNull(agency) && ObjectUtils.isNotNull(federalPassThroughAgency) && agency.equals(federalPassThroughAgency)) {
+        if (ObjectUtils.isNotNull(agency) && ObjectUtils.isNotNull(federalPassThroughAgency) && ObjectUtils.isNotNull(agency.getAgencyNumber()) && ObjectUtils.isNotNull(federalPassThroughAgency.getAgencyNumber()) &&  agency.equals(federalPassThroughAgency)) {
             putFieldError(agencyPropertyName, KFSKeyConstants.ERROR_AGENCY_EQUALS_FEDERAL_PASS_THROUGH_AGENCY);
             putFieldError(fedPassThroughAgencyPropertyName, KFSKeyConstants.ERROR_FEDERAL_PASS_THROUGH_AGENCY_EQUALS_AGENCY);
             success = false;

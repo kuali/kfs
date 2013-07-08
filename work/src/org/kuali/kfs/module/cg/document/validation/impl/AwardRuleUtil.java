@@ -35,8 +35,10 @@ public class AwardRuleUtil {
         if (ObjectUtils.isNull(award)) {
             return false;
         }
-
-        Award result = (Award) SpringContext.getBean(BusinessObjectService.class).findBySinglePrimaryKey(Award.class, award.getProposalNumber());
+        Award result = null;
+        if(ObjectUtils.isNotNull(award.getProposalNumber())) {
+            result = (Award) SpringContext.getBean(BusinessObjectService.class).findBySinglePrimaryKey(Award.class, award.getProposalNumber());
+        }
 
         // Make sure it exists and is not the same object
         return ObjectUtils.isNotNull(result) && !StringUtils.equals(award.getObjectId(), result.getObjectId());

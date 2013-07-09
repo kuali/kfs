@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -40,15 +40,16 @@ public class DunningLetterDistributionOnDemandLookupUtil {
 
     /**
      * This helper method returns a list of award lookup results based on the Dunning Letter Distribution on demand lookup
-     * 
+     *
      * @param award
      * @return
      */
     public static Collection<DunningLetterDistributionOnDemandLookupResult> getPopulatedDunningLetterDistributionOnDemandLookupResults(Collection<ContractsGrantsInvoiceDocument> invoices) {
         Collection<DunningLetterDistributionOnDemandLookupResult> populatedDunningLetterDistributionOnDemandLookupResults = new ArrayList<DunningLetterDistributionOnDemandLookupResult>();
 
-        if (CollectionUtils.isEmpty(invoices))
+        if (CollectionUtils.isEmpty(invoices)) {
             return populatedDunningLetterDistributionOnDemandLookupResults;
+        }
 
         Iterator iter = getInvoicesByAward(invoices).entrySet().iterator();
         DunningLetterDistributionOnDemandLookupResult dunningLetterDistributionOnDemandLookupResult = null;
@@ -58,18 +59,20 @@ public class DunningLetterDistributionOnDemandLookupUtil {
             List<ContractsGrantsInvoiceDocument> list = (List<ContractsGrantsInvoiceDocument>) entry.getValue();
 
             // Get data from first award for agency data
-            ContractsAndGrantsCGBAward award = ((ContractsGrantsInvoiceDocument) list.get(0)).getAward();
-            dunningLetterDistributionOnDemandLookupResult = new DunningLetterDistributionOnDemandLookupResult();
-            dunningLetterDistributionOnDemandLookupResult.setProposalNumber(award.getProposalNumber());
-            dunningLetterDistributionOnDemandLookupResult.setInvoiceDocumentNumber(list.get(0).getDocumentNumber());
-            dunningLetterDistributionOnDemandLookupResult.setAgencyNumber(award.getAgencyNumber());
-            dunningLetterDistributionOnDemandLookupResult.setCustomerNumber(list.get(0).getAccountsReceivableDocumentHeader().getCustomerNumber());
-            dunningLetterDistributionOnDemandLookupResult.setAwardTotal(award.getAwardTotalAmount());
-            dunningLetterDistributionOnDemandLookupResult.setCampaignID(award.getDunningCampaign());
-            dunningLetterDistributionOnDemandLookupResult.setAccountNumber(list.get(0).getAccountDetails().get(0).getAccountNumber());
-            dunningLetterDistributionOnDemandLookupResult.setInvoices(list);
+            ContractsAndGrantsCGBAward award = list.get(0).getAward();
+            if (!award.isStopWorkIndicator()) {
+                dunningLetterDistributionOnDemandLookupResult = new DunningLetterDistributionOnDemandLookupResult();
+                dunningLetterDistributionOnDemandLookupResult.setProposalNumber(award.getProposalNumber());
+                dunningLetterDistributionOnDemandLookupResult.setInvoiceDocumentNumber(list.get(0).getDocumentNumber());
+                dunningLetterDistributionOnDemandLookupResult.setAgencyNumber(award.getAgencyNumber());
+                dunningLetterDistributionOnDemandLookupResult.setCustomerNumber(list.get(0).getAccountsReceivableDocumentHeader().getCustomerNumber());
+                dunningLetterDistributionOnDemandLookupResult.setAwardTotal(award.getAwardTotalAmount());
+                dunningLetterDistributionOnDemandLookupResult.setCampaignID(award.getDunningCampaign());
+                dunningLetterDistributionOnDemandLookupResult.setAccountNumber(list.get(0).getAccountDetails().get(0).getAccountNumber());
+                dunningLetterDistributionOnDemandLookupResult.setInvoices(list);
 
-            populatedDunningLetterDistributionOnDemandLookupResults.add(dunningLetterDistributionOnDemandLookupResult);
+                populatedDunningLetterDistributionOnDemandLookupResults.add(dunningLetterDistributionOnDemandLookupResult);
+            }
         }
 
         return populatedDunningLetterDistributionOnDemandLookupResults;
@@ -78,7 +81,7 @@ public class DunningLetterDistributionOnDemandLookupUtil {
 
     /**
      * This helper method returns a map of a list of awards by agency
-     * 
+     *
      * @param awards
      * @return
      */
@@ -86,17 +89,17 @@ public class DunningLetterDistributionOnDemandLookupUtil {
         // use a map to sort awards by agency
         Map<Long, List<ContractsGrantsInvoiceDocument>> invoicesByAward = new HashMap<Long, List<ContractsGrantsInvoiceDocument>>();
         for (ContractsGrantsInvoiceDocument invoice : invoices) {
-            
+
                 Long proposalNumber = invoice.getProposalNumber();
                 if (invoicesByAward.containsKey(proposalNumber)) {
-                    ((List<ContractsGrantsInvoiceDocument>) invoicesByAward.get(proposalNumber)).add(invoice);
+                    invoicesByAward.get(proposalNumber).add(invoice);
                 }
                 else {
                     List<ContractsGrantsInvoiceDocument> invoicesByProposalNumber = new ArrayList<ContractsGrantsInvoiceDocument>();
                     invoicesByProposalNumber.add(invoice);
                     invoicesByAward.put(proposalNumber, invoicesByProposalNumber);
                 }
-            
+
         }
 
         return invoicesByAward;

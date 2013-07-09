@@ -203,7 +203,7 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
 
         FinancialSystemDocumentHeader documentHeader = new FinancialSystemDocumentHeader();
         documentHeader.setDocumentNumber(documentID);
-        BeanUtils.copyProperties(copyToDocument.getDocumentHeader(), documentHeader, new String[] {KFSPropertyConstants.DOCUMENT_NUMBER});
+        BeanUtils.copyProperties(copyToDocument.getDocumentHeader(), documentHeader, new String[] {KFSPropertyConstants.DOCUMENT_NUMBER, KFSPropertyConstants.OBJECT_ID, KFSPropertyConstants.VERSION_NUMBER});
         documentHeader.setOrganizationDocumentNumber(this.getDocumentHeader().getOrganizationDocumentNumber());
         copyToDocument.setDocumentHeader(documentHeader);
 
@@ -214,7 +214,6 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
         copyToDocument.setTraveler(getTravelerService().copyTravelerDetail(getTraveler(), documentID));
         copyToDocument.setGroupTravelers(getTravelDocumentService().copyGroupTravelers(getGroupTravelers(), documentID));
         copyToDocument.setImportedExpenses(new ArrayList<ImportedExpense>());
-        copyToDocument.setTravelAdvance(new TravelAdvance());
 
         copyToDocument.getNotes().clear();
         copyToDocument.getDocumentHeader().setDocumentDescription(getDocumentHeader().getDocumentDescription());
@@ -231,6 +230,7 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
             newList.add(line);
         }
         copyToDocument.setSourceAccountingLines(newList);
+        copyToDocument.setNextSourceLineNumber(new Integer(sequence));
 
         copyToDocument.initiateAdvancePaymentAndLines();// should we be reinitiating all travel advance info here?  Funcs will tell us if that's wrong....
     }

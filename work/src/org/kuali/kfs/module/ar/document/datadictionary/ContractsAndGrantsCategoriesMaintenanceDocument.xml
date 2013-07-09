@@ -13,7 +13,6 @@
 
 	<bean id="ContractsAndGrantsCategoriesMaintenanceDocument" parent="ContractsAndGrantsCategoriesMaintenanceDocument-parentBean" />
 
-
 	<bean id="ContractsAndGrantsCategoriesMaintenanceDocument-parentBean" abstract="true"
 		parent="MaintenanceDocumentEntry">
 		<property name="businessObjectClass"
@@ -31,8 +30,11 @@
 			</list>
 		</property>
 		<property name="documentTypeName" value="CGCT" />
+		<property name="businessRulesClass" value="org.kuali.kfs.module.ar.document.validation.CategoryRule"/>
 		<property name="documentAuthorizerClass"
 			value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
+		<property name="documentPresentationControllerClass"
+			value="org.kuali.kfs.module.ar.document.authorization.CategoryDocumentPresentationController" />
 		<property name="workflowAttributes">
 			<ref bean="ContractsAndGrantsCategoriesMaintenanceDocument-workflowAttributes" />
 		</property>
@@ -45,7 +47,7 @@
 
 	<bean id="ContractsAndGrantsCategoriesMaintenanceDocument-EditCategory-parentBean"
 		abstract="true" parent="MaintainableSectionDefinition">
-		<property name="id" value="Edit Category" />
+		<property name="id" value="EditCategory" />
 		<property name="title" value="Edit Category" />
 		<property name="maintainableItems">
 			<list>
@@ -54,8 +56,9 @@
 				<bean parent="MaintainableFieldDefinition" p:name="categoryName"
 					p:required="true" />
 				<bean parent="MaintainableFieldDefinition" p:name="categoryDescription" />
-				<bean parent="MaintainableFieldDefinition" p:name="categoryObjectCodes"
-					p:required="true" />
+				<bean parent="MaintainableFieldDefinition" p:name="categoryObjectCodes" />
+					<bean parent="MaintainableFieldDefinition" p:name="categoryConsolidations"  />
+					<bean parent="MaintainableFieldDefinition" p:name="categoryLevels"  />
 				<bean parent="MaintainableFieldDefinition" p:name="indirectCostIndicator" />
 				<bean parent="MaintainableFieldDefinition" p:name="active"
 					p:defaultValue="true" />

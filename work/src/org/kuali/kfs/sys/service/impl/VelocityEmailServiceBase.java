@@ -18,17 +18,18 @@ import org.kuali.rice.core.api.mail.EmailFrom;
 import org.kuali.rice.core.api.mail.EmailSubject;
 import org.kuali.rice.core.api.mail.EmailToList;
 import org.kuali.rice.core.api.mail.MailMessage;
-import org.kuali.rice.coreservice.framework.CoreFrameworkServiceLocator;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.service.MailService;
 import org.kuali.rice.krad.util.KRADConstants;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.velocity.VelocityEngineUtils;
 
+/**
+ * This is the base class for sending email using velocity email engine.
+ *
+ * Please note, this class is subject to code refactoring and redesign.
+ */
 public abstract class VelocityEmailServiceBase implements VelocityEmailService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(VelocityEmailServiceBase.class);
     protected MailService mailService;
@@ -41,17 +42,15 @@ public abstract class VelocityEmailServiceBase implements VelocityEmailService {
      * @see org.kuali.kfs.sys.service.VelocityEmailService#sendEmailNotification(java.util.Map)
      */
     @Override
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void sendEmailNotification(final Map<String, Object> templateVariables) {
         String body = "";
         // Allow template variables can be retrieved from extending class
         try {
             final MailMessage mailMessage = constructMailMessage(templateVariables);
-            body = VelocityEngineUtils.mergeTemplateIntoString(getVelocityEngine(), getTemplateUrl(), templateVariables);
             List<String> toList = new ArrayList<String>(mailMessage.getToAddresses());
             List<String> ccList = new ArrayList<String>(mailMessage.getCcAddresses());
             List<String> bccList = new ArrayList<String>(mailMessage.getBccAddresses());
-            CoreApiServiceLocator.getMailer().sendEmail(new EmailFrom(mailMessage.getFromAddress()), new EmailToList(toList), new EmailSubject(mailMessage.getSubject()), new EmailBody(body), new EmailCcList(ccList), new EmailBcList(bccList), true);
+            CoreApiServiceLocator.getMailer().sendEmail(new EmailFrom(mailMessage.getFromAddress()), new EmailToList(toList), new EmailSubject(mailMessage.getSubject()), new EmailBody(mailMessage.getMessage()), new EmailCcList(ccList), new EmailBcList(bccList), true);
         }
         catch (Exception ex) {
             LOG.error("Exception received when send email ", ex);
@@ -90,13 +89,20 @@ public abstract class VelocityEmailServiceBase implements VelocityEmailService {
      * @param message
      * @param bccEmailReceivers
      */
-    protected void setAndSplitBccEmailReceivers(MailMessage message, String bccEmailReceivers) {
-        if (StringUtils.isNotBlank(bccEmailReceivers)) {
-            // split email addresses
-            String[] emailAddresses = bccEmailReceivers.split(";");
-            for (int i = 0; i < emailAddresses.length; i++) {
-                message.addBccAddress(emailAddresses[i]);
-            }
+    protected void setAndSplitCcEmailReceivers(Collection<String> ccEmailReceivers, MailMessage message) {
+        for (String receiver : ccEmailReceivers) {
+            message.addCcAddress(receiver);
+        }
+    }
+    /**
+     * Add BCC email address
+     *
+     * @param message
+     * @param bccEmailReceivers
+     */
+    protected void setAndSplitBccEmailReceivers(Collection<String> bccEmailReceivers, MailMessage message) {
+        for (String receiver : bccEmailReceivers) {
+            message.addBccAddress(receiver);
         }
     }
 
@@ -116,29 +122,61 @@ public abstract class VelocityEmailServiceBase implements VelocityEmailService {
 
 
         boolean isProduction = StringUtils.equals(productionEnvironmentCode, environmentCode);
-        Collection<String> emailReceiver;
+        Collection<String> emailReceivers;
         if (isProduction) {
             message.setSubject(getEmailSubject());
-            emailReceiver = getProdEmailReceivers();
+            emailReceivers = getProdEmailReceivers();
+            if (emailReceivers != null && !emailReceivers.isEmpty()) {
+                setAndSplitEmailAddress(emailReceivers, message);
+            }
 
+            emailReceivers = getCcEmailReceivers();
+            if (emailReceivers != null && !emailReceivers.isEmpty()) {
+                setAndSplitCcEmailReceivers(emailReceivers, message);
+            }
+
+            emailReceivers = getBccEmailReceivers();
+            if (emailReceivers != null && !emailReceivers.isEmpty()) {
+                setAndSplitBccEmailReceivers(emailReceivers, message);
+            }
         }
         else {
             message.setSubject(environmentCode + ": " + getEmailSubject());
-            emailReceiver = getTestingEmailAddress();
+            emailReceivers = getTestingEmailAddress();
+            if (emailReceivers != null && !emailReceivers.isEmpty()) {
+                setAndSplitEmailAddress(emailReceivers, message);
+            }
         }
 
-        setAndSplitEmailAddress(emailReceiver, message);
 
         String body = VelocityEngineUtils.mergeTemplateIntoString(getVelocityEngine(), getTemplateUrl(), templateVariables);
         message.setMessage(body);
         return message;
     }
 
-    public ConfigurationService getConfigurationService() {
-        if (configurationService == null) {
-            configurationService = KRADServiceLocator.getKualiConfigurationService();
-        }
-        return configurationService;
+    @Override
+    public Collection<String> getProdEmailReceivers() {
+        return null;
+    }
+
+    @Override
+    public Collection<String> getCcEmailReceivers() {
+        return null;
+    }
+
+    @Override
+    public Collection<String> getBccEmailReceivers() {
+        return null;
+    }
+
+    /**
+     * Gets the mailService attribute.
+     *
+     * @return Returns the mailService
+     */
+
+    public MailService getMailService() {
+        return mailService;
     }
 
     /**
@@ -151,27 +189,60 @@ public abstract class VelocityEmailServiceBase implements VelocityEmailService {
     }
 
     /**
-     * ParameterService
+     * Gets the configurationService attribute.
      *
-     * @return
+     * @return Returns the configurationService
      */
-    protected ParameterService getParameterService() {
-        if (parameterService == null) {
-            parameterService = CoreFrameworkServiceLocator.getParameterService();
-        }
+
+    public ConfigurationService getConfigurationService() {
+        return configurationService;
+    }
+
+    /**
+     * Sets the configurationService attribute.
+     *
+     * @param configurationService The configurationService to set.
+     */
+    public void setConfigurationService(ConfigurationService configurationService) {
+        this.configurationService = configurationService;
+    }
+
+    /**
+     * Gets the parameterService attribute.
+     *
+     * @return Returns the parameterService
+     */
+
+    public ParameterService getParameterService() {
         return parameterService;
     }
 
     /**
-     * ParameterService
+     * Sets the parameterService attribute.
      *
-     * @return
+     * @param parameterService The parameterService to set.
      */
-    protected BusinessObjectService getBusinessObjectService() {
-        if (businessObjectService == null) {
-            businessObjectService = KRADServiceLocator.getBusinessObjectService();
-        }
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
+    }
+
+    /**
+     * Gets the businessObjectService attribute.
+     *
+     * @return Returns the businessObjectService
+     */
+
+    public BusinessObjectService getBusinessObjectService() {
         return businessObjectService;
+    }
+
+    /**
+     * Sets the businessObjectService attribute.
+     *
+     * @param businessObjectService The businessObjectService to set.
+     */
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
     }
 
     /**

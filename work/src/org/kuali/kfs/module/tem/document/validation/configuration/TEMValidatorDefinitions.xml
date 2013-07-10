@@ -228,7 +228,7 @@
 					</property>
 				</bean>
 				<bean parent="TravelModule-travelAdvanceValidation" scope="prototype" />
-				<bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype">
+				<bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype" p:attemptDeterminationOfErrorPrefix="true">
                     <property name="parameterProperties">
                         <bean parent="validationFieldConversion" p:sourceEventProperty="document.advanceTravelPayment" p:targetValidationProperty="businessObjectForValidation" />
                     </property>

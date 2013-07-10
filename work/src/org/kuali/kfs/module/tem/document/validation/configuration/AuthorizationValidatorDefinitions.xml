@@ -67,12 +67,12 @@
     			<bean parent="TravelModule-tripInformationValidation" scope="prototype" />
     			<bean parent="TravelModule-tripDetailMealsAndIncidentalsValidation" scope="prototype" />
     			<bean parent="TravelModule-emergencyContactRequiredValidation" scope="prototype" />
-    			<bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype">
+    			<bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype" p:attemptDeterminationOfErrorPrefix="true">
 					<property name="parameterProperties">
 						<bean parent="validationFieldConversion" p:sourceEventProperty="document.traveler" p:targetValidationProperty="businessObjectForValidation"/>
 					</property>
 				</bean>
-				<bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype">
+				<bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype" p:attemptDeterminationOfErrorPrefix="true">
 					<property name="parameterProperties">
 						<bean parent="validationFieldConversion" p:sourceEventProperty="document.specialCircumstances[0]" p:targetValidationProperty="businessObjectForValidation"/>
 					</property>

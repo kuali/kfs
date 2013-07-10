@@ -934,6 +934,9 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
         if (ObjectUtils.isNotNull(this.getTripTypeCode()) && getParameterService().getParameterValuesAsString(TemParameterConstants.TEM_DOCUMENT.class, TravelParameters.INTERNATIONAL_TRIP_TYPES).contains(this.getTripTypeCode())) {
             return true;
         }
+        if (!ObjectUtils.isNull(getTraveler()) && getTraveler().isLiabilityInsurance()) {
+            return true;
+        }
         return false;
     }
 

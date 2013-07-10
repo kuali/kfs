@@ -37,18 +37,18 @@ import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
 import org.kuali.kfs.module.tem.service.TemProfileService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentActionBase;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.Person;
-import org.kuali.rice.kns.web.struts.action.KualiTransactionalDocumentActionBase;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.krad.exception.AuthorizationException;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.UrlFactory;
 
-public class TemCardApplicationAction extends KualiTransactionalDocumentActionBase {
+public class TemCardApplicationAction extends FinancialSystemTransactionalDocumentActionBase {
 
     private final static String CTS_ACTION = "temCTSCardApplication.do";
     private final static String CORP_ACTION = "temCorporateCardApplication.do";
@@ -59,22 +59,10 @@ public class TemCardApplicationAction extends KualiTransactionalDocumentActionBa
     public ActionForward docHandler(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         Person currentUser = GlobalVariables.getUserSession().getPerson();
         TemCardApplicationForm applicationForm = (TemCardApplicationForm)form;
-        TEMProfile profile = null;
 
-        ActionForward forward  = super.docHandler(mapping, form, request, response);
-
-        CardApplicationDocument document = (CardApplicationDocument) applicationForm.getDocument();
         String command = applicationForm.getCommand();
-        if (!StringUtils.equals(KewApiConstants.INITIATE_COMMAND,command)) {
-            profile = document.getTemProfile();
-            //If not the user's profile, check if they are the FO or Travel Manager.
-            if (!currentUser.getPrincipalId().equals(profile.getPrincipalId())) {
-                if (!applicationForm.isTravelManager() || !applicationForm.isFiscalOfficer()) {
-                    throw new AuthorizationException(GlobalVariables.getUserSession().getPerson().getPrincipalName(), "view",this.getClass().getSimpleName());
-                }
-            }
-        } else {
-            profile = SpringContext.getBean(TemProfileService.class).findTemProfileByPrincipalId(currentUser.getPrincipalId());
+        if (StringUtils.equals(KewApiConstants.INITIATE_COMMAND,command)) {
+            final TEMProfile profile = SpringContext.getBean(TemProfileService.class).findTemProfileByPrincipalId(currentUser.getPrincipalId());
             if (profile == null){
                 applicationForm.setEmptyProfile(true);
                 return mapping.findForward(ERROR_FORWARD);
@@ -86,7 +74,7 @@ public class TemCardApplicationAction extends KualiTransactionalDocumentActionBa
             }
         }
 
-        return forward;
+        return super.docHandler(mapping, form, request, response);
     }
 
 
@@ -182,7 +170,7 @@ public class TemCardApplicationAction extends KualiTransactionalDocumentActionBa
         super.createDocument(kualiDocumentFormBase);
 
         TemCardApplicationForm applicationForm = (TemCardApplicationForm) kualiDocumentFormBase;
-        Person currentUser = GlobalVariables.getUserSession().getPerson();
+        final Person currentUser = GlobalVariables.getUserSession().getPerson();
         TEMProfile profile = SpringContext.getBean(TemProfileService.class).findTemProfileByPrincipalId(currentUser.getPrincipalId());
 
         CardApplicationDocument document = (CardApplicationDocument)applicationForm.getDocument();
@@ -191,7 +179,27 @@ public class TemCardApplicationAction extends KualiTransactionalDocumentActionBa
         document.setTemProfileId(profile.getProfileId());
         profile.getTravelerTypeCode();
         applicationForm.setInitiator(true);
+    }
 
+    /**
+     * Initializes the profile on the document
+     * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#loadDocument(org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase)
+     */
+    @Override
+    protected void loadDocument(KualiDocumentFormBase form) throws WorkflowException {
+        super.loadDocument(form);
+        final Person currentUser = GlobalVariables.getUserSession().getPerson();
+        TemCardApplicationForm applicationForm = (TemCardApplicationForm)form;
+        TEMProfile profile = null;
+        CardApplicationDocument document = (CardApplicationDocument) applicationForm.getDocument();
+
+        profile = document.getTemProfile();
+        //If not the user's profile, check if they are the FO or Travel Manager.
+        if (!currentUser.getPrincipalId().equals(profile.getPrincipalId())) {
+            if (!applicationForm.isTravelManager() || !applicationForm.isFiscalOfficer()) {
+                throw new AuthorizationException(GlobalVariables.getUserSession().getPerson().getPrincipalName(), "view",this.getClass().getSimpleName());
+            }
+        }
     }
 
 
@@ -201,6 +209,11 @@ public class TemCardApplicationAction extends KualiTransactionalDocumentActionBa
         TemCardApplicationForm applicationForm = (TemCardApplicationForm) form;
         Person currentUser = GlobalVariables.getUserSession().getPerson();
         TEMProfile profile = SpringContext.getBean(TemProfileService.class).findTemProfileByPrincipalId(currentUser.getPrincipalId());
+
+        if (profile == null) {
+            applicationForm.setEmptyProfile(true);
+            return mapping.findForward(ERROR_FORWARD);
+        }
 
         if (profile.getAccounts() != null && profile.getAccounts().size() > 0){
             boolean hasCardType = false;

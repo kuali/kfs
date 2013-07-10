@@ -20,8 +20,8 @@ import org.apache.commons.lang.text.StrBuilder;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemKeyConstants;
+import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.service.TEMRoleService;
-import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
@@ -69,7 +69,7 @@ public abstract class DocumentActionBuilderBase {
         }
         String linkPopup = "target=\"_blank\"";
 
-        String link = String.format("<a href=\"%s&" + KFSPropertyConstants.DOCUMENT_NUMBER + "=%s&travelDocumentIdentifier=%s&command=initiate&docTypeName=%s\" %s>%s</a>",
+        String link = String.format("<a href=\"%s&" + TemPropertyConstants.EntertainmentFields.FROM_DOCUMENT_NUMBER + "=%s&travelDocumentIdentifier=%s&command=initiate&docTypeName=%s\" %s>%s</a>",
                 docType.getResolvedDocumentHandlerUrl(),
                 documentSearchResult.getDocument().getDocumentId(),
                 travelDocumentIdentifier,

@@ -18,7 +18,6 @@ package org.kuali.kfs.module.tem.document.web.struts;
 import static org.kuali.kfs.module.tem.TemConstants.COVERSHEET_FILENAME_FORMAT;
 import static org.kuali.kfs.module.tem.TemConstants.REMAINING_DISTRIBUTION_ATTRIBUTE;
 import static org.kuali.kfs.module.tem.TemConstants.SHOW_REPORTS_ATTRIBUTE;
-import static org.kuali.kfs.module.tem.TemPropertyConstants.TRAVEL_DOCUMENT_IDENTIFIER;
 import static org.kuali.kfs.sys.KFSConstants.ReportGeneration.PDF_FILE_EXTENSION;
 import static org.kuali.kfs.sys.KFSConstants.ReportGeneration.PDF_MIME_TYPE;
 import static org.kuali.kfs.sys.KFSPropertyConstants.DOCUMENT_NUMBER;
@@ -72,55 +71,16 @@ public class TravelRelocationAction extends TravelActionBase {
     private static final String[] reloMethodToCallExclusionArray = { "recalculate", "calculate", "recalculateTripDetailTotal" };
 
     /**
-     * method used for doc handler actions. Typically assumes that this is the entry point for the document when it is first
-     * created. A number of things are done here assuming the document is created at this point.
+     * Refreshes collections on the document
+     * @see org.kuali.kfs.sys.web.struts.KualiAccountingDocumentActionBase#loadDocument(org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase)
      */
     @Override
-    public ActionForward docHandler(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        final ActionForward retval = super.docHandler(mapping, form, request, response);
+    protected void loadDocument(KualiDocumentFormBase form) throws WorkflowException {
+        super.loadDocument(form);
         final TravelRelocationForm reloForm = (TravelRelocationForm) form;
         final TravelRelocationDocument document = reloForm.getTravelRelocationDocument();
 
         refreshCollectionsFor(document);
-
-        final String identifierStr = request.getParameter(TRAVEL_DOCUMENT_IDENTIFIER);
-        if (identifierStr != null) {
-
-            LOG.debug("Creating relocation for document number " + identifierStr);
-
-            final TravelRelocationDocument oldRelocation = getTravelRelocation(identifierStr);
-            if (oldRelocation != null) {
-                LOG.debug("Setting traveler with id " + oldRelocation.getTravelerDetailId());
-                document.setTravelerDetailId(oldRelocation.getTravelerDetailId());
-                document.refreshReferenceObject(TemPropertyConstants.TRAVELER);
-                LOG.debug("Traveler is "+ document.getTraveler()+ " with customer number "+ document.getTraveler().getCustomerNumber());
-
-                if (document.getTraveler().getPrincipalId() != null) {
-                    document.getTraveler().setPrincipalName(getPersonService().getPerson(document.getTraveler().getPrincipalId()).getPrincipalName());
-                }
-
-                document.setTripDescription(oldRelocation.getTripDescription());
-                document.setTripType(oldRelocation.getTripType());
-                document.setTripTypeCode(oldRelocation.getTripTypeCode());
-                document.setPrimaryDestinationName(oldRelocation.getPrimaryDestinationName());
-                document.setTripBegin(oldRelocation.getTripBegin());
-                document.setTripEnd(oldRelocation.getTripEnd());
-                document.setJobClsCode(oldRelocation.getJobClsCode());
-                document.setReasonCode(oldRelocation.getReasonCode());
-                document.setFromAddress1(oldRelocation.getFromAddress1());
-                document.setFromAddress2(oldRelocation.getFromAddress2());
-                document.setFromCity(oldRelocation.getFromCity());
-                document.setFromCountryCode(oldRelocation.getFromCountryCode());
-                document.setFromStateCode(oldRelocation.getFromStateCode());
-                document.setToAddress1(oldRelocation.getToAddress1());
-                document.setToAddress2(oldRelocation.getToAddress2());
-                document.setToCity(oldRelocation.getToCity());
-                document.setToCountryCode(oldRelocation.getToCountryCode());
-                document.setToStateCode(oldRelocation.getToStateCode());
-            }
-        }
-
-        return retval;
     }
 
     /**
@@ -208,6 +168,41 @@ public class TravelRelocationAction extends TravelActionBase {
         final TravelRelocationForm travelForm = (TravelRelocationForm) kualiDocumentFormBase;
         final TravelRelocationDocument document = (TravelRelocationDocument) travelForm.getDocument();
         getTravelRelocationService().addListenersTo(document);
+
+        if (!StringUtils.isBlank(travelForm.getTravelDocumentIdentifier())) {
+            LOG.debug("Creating relocation for document number " + travelForm.getTravelDocumentIdentifier());
+
+            final TravelRelocationDocument oldRelocation = getTravelRelocation(travelForm.getTravelDocumentIdentifier());
+            if (oldRelocation != null) {
+                LOG.debug("Setting traveler with id " + oldRelocation.getTravelerDetailId());
+                document.setTravelerDetailId(oldRelocation.getTravelerDetailId());
+                document.refreshReferenceObject(TemPropertyConstants.TRAVELER);
+                LOG.debug("Traveler is "+ document.getTraveler()+ " with customer number "+ document.getTraveler().getCustomerNumber());
+
+                if (document.getTraveler().getPrincipalId() != null) {
+                    document.getTraveler().setPrincipalName(getPersonService().getPerson(document.getTraveler().getPrincipalId()).getPrincipalName());
+                }
+
+                document.setTripDescription(oldRelocation.getTripDescription());
+                document.setTripType(oldRelocation.getTripType());
+                document.setTripTypeCode(oldRelocation.getTripTypeCode());
+                document.setPrimaryDestinationName(oldRelocation.getPrimaryDestinationName());
+                document.setTripBegin(oldRelocation.getTripBegin());
+                document.setTripEnd(oldRelocation.getTripEnd());
+                document.setJobClsCode(oldRelocation.getJobClsCode());
+                document.setReasonCode(oldRelocation.getReasonCode());
+                document.setFromAddress1(oldRelocation.getFromAddress1());
+                document.setFromAddress2(oldRelocation.getFromAddress2());
+                document.setFromCity(oldRelocation.getFromCity());
+                document.setFromCountryCode(oldRelocation.getFromCountryCode());
+                document.setFromStateCode(oldRelocation.getFromStateCode());
+                document.setToAddress1(oldRelocation.getToAddress1());
+                document.setToAddress2(oldRelocation.getToAddress2());
+                document.setToCity(oldRelocation.getToCity());
+                document.setToCountryCode(oldRelocation.getToCountryCode());
+                document.setToStateCode(oldRelocation.getToStateCode());
+            }
+        }
     }
 
     protected void createDVDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {

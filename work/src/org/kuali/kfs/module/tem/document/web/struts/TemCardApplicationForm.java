@@ -26,6 +26,7 @@ import org.kuali.kfs.module.tem.businessobject.TEMProfile;
 import org.kuali.kfs.module.tem.document.CardApplicationDocument;
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentFormBase;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
@@ -72,24 +73,6 @@ public class TemCardApplicationForm extends FinancialSystemTransactionalDocument
         return extraButtons;
     }
 
-    @Override
-    public void setExtraButtons(List<ExtraButton> extraButtons) {
-        // TODO Auto-generated method stub
-        super.setExtraButtons(extraButtons);
-    }
-
-    @Override
-    public ExtraButton getExtraButton(int index) {
-        // TODO Auto-generated method stub
-        return super.getExtraButton(index);
-    }
-
-    @Override
-    public void setExtraButton(int index, ExtraButton extraButton) {
-        // TODO Auto-generated method stub
-        super.setExtraButton(index, extraButton);
-    }
-
     public ConfigurationService getConfigurationService() {
         if (ConfigurationService == null){
             ConfigurationService = SpringContext.getBean(ConfigurationService.class);
@@ -130,8 +113,8 @@ public class TemCardApplicationForm extends FinancialSystemTransactionalDocument
         if (profile != null){
             Account account = null;
             Map<String,String> fieldValues = new HashMap<String,String>();
-            fieldValues.put("chartOfAccountsCode", profile.getDefaultChartCode());
-            fieldValues.put("accountNumber", profile.getDefaultAccount());
+            fieldValues.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, profile.getDefaultChartCode());
+            fieldValues.put(KFSPropertyConstants.ACCOUNT_NUMBER, profile.getDefaultAccount());
             account = getBusinessObjectService().findByPrimaryKey(Account.class, fieldValues);
             return currentUser.getPrincipalId().equals(account.getAccountFiscalOfficerSystemIdentifier());
         }

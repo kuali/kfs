@@ -54,6 +54,8 @@ public class TravelRelocationForm extends TravelFormBase implements TravelReloca
     private boolean canCertify;
     private boolean canUnmask = false;
 
+    private String travelDocumentIdentifier;
+
     /**
      * Constructor
      */
@@ -248,6 +250,21 @@ public class TravelRelocationForm extends TravelFormBase implements TravelReloca
     @Override
     public String getTravelPaymentFormAction() {
         return TemConstants.TRAVEL_RELOCATION_ACTION_NAME;
+    }
+
+    /**
+     * @return the travel document identifier if it has been set
+     */
+    public String getTravelDocumentIdentifier() {
+        return travelDocumentIdentifier;
+    }
+
+    /**
+     * Sets the travel document identifier to populate from
+     * @param travelDocumentIdentifier the travel document identifier to populate from
+     */
+    public void setTravelDocumentIdentifier(String travelDocumentIdentifier) {
+        this.travelDocumentIdentifier = travelDocumentIdentifier;
     }
 
 }

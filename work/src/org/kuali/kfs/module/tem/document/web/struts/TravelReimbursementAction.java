@@ -30,7 +30,6 @@ import static org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameter
 import static org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters.DISPLAY_ADVANCES_IN_REIMBURSEMENT_TOTAL_IND;
 import static org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters.DISPLAY_ENCUMBRANCE_IND;
 import static org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters.FOREIGN_CURRENCY_URL;
-import static org.kuali.kfs.module.tem.TemPropertyConstants.TRAVEL_DOCUMENT_IDENTIFIER;
 import static org.kuali.kfs.sys.KFSConstants.ReportGeneration.PDF_FILE_EXTENSION;
 import static org.kuali.kfs.sys.KFSConstants.ReportGeneration.PDF_MIME_TYPE;
 import static org.kuali.kfs.sys.KFSPropertyConstants.DOCUMENT_NUMBER;
@@ -95,80 +94,18 @@ public class TravelReimbursementAction extends TravelActionBase {
     public static Logger LOG = Logger.getLogger(TravelReimbursementAction.class);
 
     /**
-     * method used for doc handler actions. Typically assumes that this is the entry point for the
-     * document when it is first created. A number of things are done hear assuming the document
-     * is created at this point.
+     * Refreshes all collections upon load
+     * @see org.kuali.kfs.sys.web.struts.KualiAccountingDocumentActionBase#loadDocument(org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase)
      */
     @Override
-    public ActionForward docHandler(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        final ActionForward retval = super.docHandler(mapping, form, request, response);
-        final TravelReimbursementForm reimbForm = (TravelReimbursementForm) form;
+    protected void loadDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
+        super.loadDocument(kualiDocumentFormBase);
+        final TravelReimbursementForm reimbForm = (TravelReimbursementForm) kualiDocumentFormBase;
         final TravelReimbursementDocument document = reimbForm.getTravelReimbursementDocument();
 
-        // Refreshes all the collections if this is not initiation
         refreshCollectionsFor(document);
-
-        final String identifierStr = request.getParameter(TRAVEL_DOCUMENT_IDENTIFIER);
-
-        if (!StringUtils.isBlank(identifierStr)) {
-            LOG.debug("Creating reimbursement for document number "+ identifierStr);
-            document.setTravelDocumentIdentifier(identifierStr);
-            TravelAuthorizationDocument authorization = (TravelAuthorizationDocument) getTravelDocumentService().findCurrentTravelAuthorization(document);
-
-            LOG.debug("Setting traveler with id "+ authorization.getTravelerDetailId());
-            document.setTravelerDetailId(authorization.getTravelerDetailId());
-            document.refreshReferenceObject(TemPropertyConstants.TRAVELER);
-            LOG.debug("Traveler is "+ document.getTraveler()+ " with customer number "+ document.getTraveler().getCustomerNumber());
-
-            if (document.getTraveler().getPrincipalId() != null) {
-                document.getTraveler().setPrincipalName(getPersonService().getPerson(document.getTraveler().getPrincipalId()).getPrincipalName());
-            }
-
-            document.setPrimaryDestinationId(authorization.getPrimaryDestinationId());
-            document.setPrimaryDestination(authorization.getPrimaryDestination());
-            document.setTripDescription(authorization.getTripDescription());
-            document.setTripType(authorization.getTripType());
-            document.setTripTypeCode(authorization.getTripTypeCode());
-            document.setPrimaryDestination(authorization.getPrimaryDestination());
-            document.setTripBegin(authorization.getTripBegin());
-            document.setTripEnd(authorization.getTripEnd());
-            document.setPrimaryDestinationName(authorization.getPrimaryDestinationName());
-            document.setPrimaryDestinationCounty(authorization.getPrimaryDestinationCounty());
-            document.setPrimaryDestinationCountryState(authorization.getPrimaryDestinationCountryState());
-            document.setGroupTravelers(getTravelDocumentService().copyGroupTravelers(authorization.getGroupTravelers(), document.getDocumentNumber()));
-            document.setDelinquentTRException(authorization.getDelinquentTRException());
-            document.setMealWithoutLodgingReason(authorization.getMealWithoutLodgingReason());
-            document.configureTraveler(authorization.getTemProfileId(), authorization.getTraveler());
-            document.setExpenseLimit(authorization.getExpenseLimit());
-            document.setPerDiemAdjustment(authorization.getPerDiemAdjustment());
-            document.getDocumentHeader().setOrganizationDocumentNumber(authorization.getDocumentHeader().getOrganizationDocumentNumber());
-
-            if (document.getPrimaryDestinationId() != null && document.getPrimaryDestinationId().intValue() == TemConstants.CUSTOM_PRIMARY_DESTINATION_ID){
-                document.getPrimaryDestination().setPrimaryDestinationName(document.getPrimaryDestinationName());
-                document.getPrimaryDestination().setCounty(document.getPrimaryDestinationCounty());
-                document.getPrimaryDestination().setCountryState(document.getPrimaryDestinationCountryState());
-                document.setPrimaryDestinationIndicator(true);
-            }
-
-            //KUALITEM-404 : Copying the accounting lines from the TA to the TR upon TR creation.
-            //document.setSourceAccountingLines(authorization.getSourceAccountingLines());
-            //document.setTargetAccountingLines(authorization.getTargetAccountingLines());
-
-            initializePerDiem(document, authorization);
-
-            document.setActualExpenses((List<ActualExpense>) getTravelDocumentService().copyActualExpenses(authorization.getActualExpenses(), document.getDocumentNumber()));
-
-            // add new detail for the copied actualExpenses
-            if (document.getActualExpenses() != null && !document.getActualExpenses().isEmpty()) {
-                for (int i = 0; i < document.getActualExpenses().size(); i++) {
-                    reimbForm.getNewActualExpenseLines().add(new ActualExpense());
-                }
-            }
-            //initializeSpecialCircumstances(document , authorization);
-        }
-
-        return retval;
     }
+
 
     protected void refreshCollectionsFor(final TravelReimbursementDocument reimbursement) {
         if (!reimbursement.getDocumentHeader().getWorkflowDocument().isInitiated()) {
@@ -489,6 +426,62 @@ public class TravelReimbursementAction extends TravelActionBase {
         final TravelReimbursementDocument document = (TravelReimbursementDocument) travelForm.getDocument();
         getTravelReimbursementService().addListenersTo(document);
         document.addContactInformation();
+
+        if (!StringUtils.isBlank(travelForm.getTravelDocumentIdentifier())) {
+            LOG.debug("Creating reimbursement for document number "+ travelForm.getTravelDocumentIdentifier());
+            document.setTravelDocumentIdentifier(travelForm.getTravelDocumentIdentifier());
+            TravelAuthorizationDocument authorization = (TravelAuthorizationDocument) getTravelDocumentService().findCurrentTravelAuthorization(document);
+
+            LOG.debug("Setting traveler with id "+ authorization.getTravelerDetailId());
+            document.setTravelerDetailId(authorization.getTravelerDetailId());
+            document.refreshReferenceObject(TemPropertyConstants.TRAVELER);
+            LOG.debug("Traveler is "+ document.getTraveler()+ " with customer number "+ document.getTraveler().getCustomerNumber());
+
+            if (document.getTraveler().getPrincipalId() != null) {
+                document.getTraveler().setPrincipalName(getPersonService().getPerson(document.getTraveler().getPrincipalId()).getPrincipalName());
+            }
+
+            document.setPrimaryDestinationId(authorization.getPrimaryDestinationId());
+            document.setPrimaryDestination(authorization.getPrimaryDestination());
+            document.setTripDescription(authorization.getTripDescription());
+            document.setTripType(authorization.getTripType());
+            document.setTripTypeCode(authorization.getTripTypeCode());
+            document.setPrimaryDestination(authorization.getPrimaryDestination());
+            document.setTripBegin(authorization.getTripBegin());
+            document.setTripEnd(authorization.getTripEnd());
+            document.setPrimaryDestinationName(authorization.getPrimaryDestinationName());
+            document.setPrimaryDestinationCounty(authorization.getPrimaryDestinationCounty());
+            document.setPrimaryDestinationCountryState(authorization.getPrimaryDestinationCountryState());
+            document.setGroupTravelers(getTravelDocumentService().copyGroupTravelers(authorization.getGroupTravelers(), document.getDocumentNumber()));
+            document.setDelinquentTRException(authorization.getDelinquentTRException());
+            document.setMealWithoutLodgingReason(authorization.getMealWithoutLodgingReason());
+            document.configureTraveler(authorization.getTemProfileId(), authorization.getTraveler());
+            document.setExpenseLimit(authorization.getExpenseLimit());
+            document.setPerDiemAdjustment(authorization.getPerDiemAdjustment());
+            document.getDocumentHeader().setOrganizationDocumentNumber(authorization.getDocumentHeader().getOrganizationDocumentNumber());
+
+            if (document.getPrimaryDestinationId() != null && document.getPrimaryDestinationId().intValue() == TemConstants.CUSTOM_PRIMARY_DESTINATION_ID){
+                document.getPrimaryDestination().setPrimaryDestinationName(document.getPrimaryDestinationName());
+                document.getPrimaryDestination().setCounty(document.getPrimaryDestinationCounty());
+                document.getPrimaryDestination().setCountryState(document.getPrimaryDestinationCountryState());
+                document.setPrimaryDestinationIndicator(true);
+            }
+
+            //KUALITEM-404 : Copying the accounting lines from the TA to the TR upon TR creation.
+            //document.setSourceAccountingLines(authorization.getSourceAccountingLines());
+            //document.setTargetAccountingLines(authorization.getTargetAccountingLines());
+
+            initializePerDiem(document, authorization);
+
+            document.setActualExpenses((List<ActualExpense>) getTravelDocumentService().copyActualExpenses(authorization.getActualExpenses(), document.getDocumentNumber()));
+
+            // add new detail for the copied actualExpenses
+            if (document.getActualExpenses() != null && !document.getActualExpenses().isEmpty()) {
+                for (int i = 0; i < document.getActualExpenses().size(); i++) {
+                    travelForm.getNewActualExpenseLines().add(new ActualExpense());
+                }
+            }
+        }
     }
 
     @Override

@@ -52,6 +52,8 @@ public class TravelReimbursementForm extends TravelFormBase implements TravelRei
     private boolean canUnmask = false;
     private TravelAdvance newTravelAdvanceLine;
 
+    private String travelDocumentIdentifier;
+
     /**
      * Constructor
      */
@@ -71,14 +73,6 @@ public class TravelReimbursementForm extends TravelFormBase implements TravelRei
 
         //populate new stuff
         super.populate(request);
-        /*if (getTravelReimbursementDocument().getActualExpenses() == null ||
-        getTravelReimbursementDocument().getActualExpenses().isEmpty()) {
-        if (!this.getMethodToCall().equals(KFSConstants.SAVE_METHOD)
-                && !this.getMethodToCall().equals(KFSConstants.ROUTE_METHOD)
-                && !this.getMethodToCall().equals(KFSConstants.BLANKET_APPROVE_METHOD)){
-            getDocument().refreshReferenceObject(TemPropertyConstants.OTHER_TRAVEL_EXPENSES);
-        }
-        }*/
 
         final Date currentStart = getTravelReimbursementDocument().getTripBegin();
         final Date currentEnd = getTravelReimbursementDocument().getTripEnd();
@@ -258,4 +252,18 @@ public class TravelReimbursementForm extends TravelFormBase implements TravelRei
         return TemConstants.TRAVEL_REIMBURESMENT_ACTION_NAME;
     }
 
+    /**
+     * @return the travel document identifier if it has been set
+     */
+    public String getTravelDocumentIdentifier() {
+        return travelDocumentIdentifier;
+    }
+
+    /**
+     * Sets the travel document identifier to populate from
+     * @param travelDocumentIdentifier the travel document identifier to populate from
+     */
+    public void setTravelDocumentIdentifier(String travelDocumentIdentifier) {
+        this.travelDocumentIdentifier = travelDocumentIdentifier;
+    }
 }

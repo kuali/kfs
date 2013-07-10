@@ -88,11 +88,13 @@ public class FinancialSystemTransactionalDocumentActionBase extends KualiTransac
         KualiTransactionalDocumentFormBase tmpForm = (KualiTransactionalDocumentFormBase) form;
         Document document = tmpForm.getDocument();
 
-        boolean exists = SpringContext.getBean(ParameterService.class).parameterExists(document.getClass(),KFSConstants.DOCUMENT_LOCKOUT_PARM_NM );
-        if(exists) {
-            boolean documentLockedOut = SpringContext.getBean(ParameterService.class).getParameterValueAsBoolean(document.getClass(),KFSConstants.DOCUMENT_LOCKOUT_PARM_NM );
-            if(documentLockedOut) {
-                return tmpForm.getDocumentActions().containsKey(KRADConstants.KUALI_ACTION_CAN_EDIT);
+        if (document != null) {
+            boolean exists = SpringContext.getBean(ParameterService.class).parameterExists(document.getClass(),KFSConstants.DOCUMENT_LOCKOUT_PARM_NM );
+            if(exists) {
+                boolean documentLockedOut = SpringContext.getBean(ParameterService.class).getParameterValueAsBoolean(document.getClass(),KFSConstants.DOCUMENT_LOCKOUT_PARM_NM );
+                if(documentLockedOut) {
+                    return tmpForm.getDocumentActions().containsKey(KRADConstants.KUALI_ACTION_CAN_EDIT);
+                }
             }
         }
 

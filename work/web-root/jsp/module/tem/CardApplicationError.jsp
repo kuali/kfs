@@ -17,7 +17,7 @@
 <%@ include file="/jsp/sys/kfsTldHeader.jsp"%>
 
 <kul:documentPage showDocumentInfo="true"
-    documentTypeName="${KualiForm.document.class.simpleName }"
+    documentTypeName="${KualiForm.docTypeName}"
     htmlFormAction="temCorporateCardApplication" renderMultipart="true"
     showTabButtons="true">
 <c:if test="${KualiForm.emptyProfile }">

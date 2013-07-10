@@ -49,6 +49,9 @@ public class TravelEntertainmentForm extends TravelFormBase implements TravelEnt
 
     private String attendesTagGroupLabelName = TemConstants.Attendee.ATTENDEES_GROUP_LABEL_NAME;
 
+    private String travelDocumentIdentifier;
+    private String fromDocumentNumber;
+
     public TravelEntertainmentForm() {
         super();
 
@@ -194,6 +197,36 @@ public class TravelEntertainmentForm extends TravelFormBase implements TravelEnt
     @Override
     public String getTravelPaymentFormAction() {
         return TemConstants.ENTERTAINMENT_ACTION_NAME;
+    }
+
+    /**
+     * @return the travel document identifier if it has been set
+     */
+    public String getTravelDocumentIdentifier() {
+        return travelDocumentIdentifier;
+    }
+
+    /**
+     * Sets the travel document identifier to populate from
+     * @param travelDocumentIdentifier the travel document identifier to populate from
+     */
+    public void setTravelDocumentIdentifier(String travelDocumentIdentifier) {
+        this.travelDocumentIdentifier = travelDocumentIdentifier;
+    }
+
+    /**
+     * @return the document number this entertainment reimbursement should be built from
+     */
+    public String getFromDocumentNumber() {
+        return fromDocumentNumber;
+    }
+
+    /**
+     * Sets the document number this entertainment reimbursement should be built from
+     * @param fromDocumentNumber the document number this entertainment reimbursement should be built from
+     */
+    public void setFromDocumentNumber(String fromDocumentNumber) {
+        this.fromDocumentNumber = fromDocumentNumber;
     }
 
 }

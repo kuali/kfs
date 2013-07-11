@@ -24,6 +24,7 @@
 	<bean id="TravelModule-travelAdvanceValidation"
 		class="org.kuali.kfs.module.tem.document.validation.impl.TravelAuthTravelAdvanceValidation">
 		<property name="temProfileService" ref="temProfileService" />
+		<property name="documentDictionaryService" ref="documentDictionaryService"/>
 	</bean>
 
 	<bean id="TravelModule-accommodationInfoRequiredValidation"
@@ -31,11 +32,6 @@
 
 	<bean id="TravelModule-emergencyContactRequiredValidation"
 		class="org.kuali.kfs.module.tem.document.validation.impl.TravelAuthEmergencyContactRequiredValidation" />
-		
-	<!-- bean id="TravelModule-customerExistValidation"
-        class="org.kuali.kfs.module.tem.document.validation.impl.TravelAuthCustomerExistValidation">
-      <property name="parameterService" ref="parameterService" />
-    </bean -->
 
 	<bean id="TravelModule-travelerValidation"
 		class="org.kuali.kfs.module.tem.document.validation.impl.TravelAuthTravelerValidation" />

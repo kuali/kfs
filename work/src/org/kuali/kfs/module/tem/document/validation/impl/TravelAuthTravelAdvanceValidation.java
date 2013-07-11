@@ -17,12 +17,15 @@ package org.kuali.kfs.module.tem.document.validation.impl;
 
 import static org.kuali.kfs.module.tem.TemKeyConstants.ERROR_TA_TRVL_REQ_GRTR_THAN_ZERO;
 
+import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationParameters;
 import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants.TravelAuthorizationFields;
@@ -42,11 +45,17 @@ import org.kuali.kfs.sys.document.validation.event.AttributedRouteDocumentEvent;
 import org.kuali.kfs.sys.util.KfsDateUtils;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizer;
+import org.kuali.rice.kns.document.authorization.TransactionalDocumentPresentationController;
+import org.kuali.rice.krad.document.DocumentAuthorizer;
+import org.kuali.rice.krad.document.DocumentPresentationController;
+import org.kuali.rice.krad.service.DocumentDictionaryService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADPropertyConstants;
 
 public class TravelAuthTravelAdvanceValidation extends GenericValidation {
-    private TemProfileService temProfileService;
+    protected TemProfileService temProfileService;
+    protected DocumentDictionaryService documentDictionaryService;
 
     @Override
     public boolean validate(AttributedDocumentEvent event) {
@@ -88,27 +97,8 @@ public class TravelAuthTravelAdvanceValidation extends GenericValidation {
             GlobalVariables.getMessageMap().putError(TravelAuthorizationFields.TRVL_ADV_REQUESTED, ERROR_TA_TRVL_REQ_GRTR_THAN_ZERO);
         }
 
-        if (advance.getDueDate() == null) {
-            GlobalVariables.getMessageMap().putError(TravelAuthorizationFields.TRVL_ADV_DUE_DATE, TemKeyConstants.ERROR_TA_TRVL_ADV_DUE_DATE_MISSING);
-            success = false;
-        }
-        else {
-            Date dueDate = KfsDateUtils.clearTimeFields(advance.getDueDate());
-            Date today = KfsDateUtils.clearTimeFields(new Date());
-
-            if (dueDate != null && dueDate.before(today)) {
-                GlobalVariables.getMessageMap().putError(KFSConstants.DOCUMENT_ERRORS, KFSKeyConstants.ERROR_CUSTOM, "The Payment Due Date cannot be in the past.");
-                success = false;
-            }
-        }
-
-        if (advance.getDueDate() != null && document.getTripEnd() == null){
-            GlobalVariables.getMessageMap().putError(TravelAuthorizationFields.TRIP_END_DT, TemKeyConstants.ERROR_TA_TRVL_TRIP_END_MISSING);
-            success = false;
-        }
-        else if (advance.getDueDate() != null && advance.getDueDate().after(document.getTripEnd())) {
-            GlobalVariables.getMessageMap().putError(TravelAuthorizationFields.TRVL_ADV_DUE_DATE, TemKeyConstants.ERROR_TA_TRVL_ADV_DUE_DATE_INVALID);
-            success = false;
+        if (canCurrentUserEditDocument(document)) {
+            success = success && validateDueDate(advance, document.getTripEnd());
         }
 
         String initiator = document.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId();
@@ -160,11 +150,74 @@ public class TravelAuthTravelAdvanceValidation extends GenericValidation {
         return success;
     }
 
+    /**
+     * Runs a number of rules against the due date of the advance: whether it has been filled it, that it's not in the past, that both it and the trip end must be filled in, and that the advance's due date is before the end of hte trip
+     * @param advance the travel advance to validate
+     * @param tripEnd the specified end of the trip
+     * @return true if the advance passed this gauntlet of validations, false otherwise
+     */
+    protected boolean validateDueDate(TravelAdvance advance, Timestamp tripEnd) {
+        boolean success = true;
+
+        if (advance.getDueDate() == null) {
+            GlobalVariables.getMessageMap().putError(TravelAuthorizationFields.TRVL_ADV_DUE_DATE, TemKeyConstants.ERROR_TA_TRVL_ADV_DUE_DATE_MISSING);
+            success = false;
+        }
+        else {
+            Date dueDate = KfsDateUtils.clearTimeFields(advance.getDueDate());
+            Date today = KfsDateUtils.clearTimeFields(new Date());
+
+            if (dueDate != null && dueDate.before(today)) {
+                GlobalVariables.getMessageMap().putError(KFSConstants.DOCUMENT_ERRORS, KFSKeyConstants.ERROR_CUSTOM, "The Payment Due Date cannot be in the past.");
+                success = false;
+            }
+        }
+
+        if (advance.getDueDate() != null && tripEnd == null){
+            GlobalVariables.getMessageMap().putError(TravelAuthorizationFields.TRIP_END_DT, TemKeyConstants.ERROR_TA_TRVL_TRIP_END_MISSING);
+            success = false;
+        }
+        else if (advance.getDueDate() != null && advance.getDueDate().after(tripEnd)) {
+            GlobalVariables.getMessageMap().putError(TravelAuthorizationFields.TRVL_ADV_DUE_DATE, TemKeyConstants.ERROR_TA_TRVL_ADV_DUE_DATE_INVALID);
+            success = false;
+        }
+        return success;
+    }
+
+    /**
+     * Uses the presentation controller and the authorizer for the travel auth doc to determine if the current user can edit the doc and if they have full edit edit mode
+     * @return true if the doc is editable for the current user, false otherwise
+     */
+    protected boolean canCurrentUserEditDocument(TravelAuthorizationDocument doc) {
+        // i hope no one tries to run this validation against something which isn't a TravelAuthDoc.  I mean...even if they do, they won't for very long
+        final String documentTypeName = getDocumentDictionaryService().getDocumentTypeByClass(doc.getClass());
+        final DocumentPresentationController presController = getDocumentDictionaryService().getDocumentPresentationController(documentTypeName);
+        final DocumentAuthorizer authorizer = getDocumentDictionaryService().getDocumentAuthorizer(documentTypeName);
+        final Set<String> presControllerEditModes = ((TransactionalDocumentPresentationController)presController).getEditModes(doc);
+        final Set<String> editModes = ((TransactionalDocumentAuthorizer)authorizer).getEditModes(doc, GlobalVariables.getUserSession().getPerson(), presControllerEditModes);
+        return editModes.contains(TemConstants.TravelEditMode.FULL_ENTRY) && presController.canEdit(doc) && authorizer.canEdit(doc, GlobalVariables.getUserSession().getPerson());
+    }
+
     public TemProfileService getTemProfileService() {
         return temProfileService;
     }
 
     public void setTemProfileService(TemProfileService temProfileService) {
         this.temProfileService = temProfileService;
+    }
+
+    /**
+     * @return the injected implementation of the DocumentDictionaryService
+     */
+    public DocumentDictionaryService getDocumentDictionaryService() {
+        return this.documentDictionaryService;
+    }
+
+    /**
+     * Injects an implementation of the document dictionary service
+     * @param documentDictionaryService an implementation of the document dictionary service to inject
+     */
+    public void setDocumentDictionaryService(DocumentDictionaryService documentDictionaryService) {
+        this.documentDictionaryService = documentDictionaryService;
     }
 }

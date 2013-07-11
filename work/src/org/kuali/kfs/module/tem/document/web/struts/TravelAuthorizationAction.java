@@ -1174,6 +1174,7 @@ public class TravelAuthorizationAction extends TravelActionBase {
         else {
             document.setTransportationModeCodes(new ArrayList<String>());
         }
+        document.propagateAdvanceAmountIfNeeded();
 
         return super.route(mapping, form, request, response);
     }

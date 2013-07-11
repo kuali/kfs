@@ -24,17 +24,6 @@
 		</property>
 	</bean>
 
-    <bean id="TravelAuthorization-addTravelAdvanceLineValidation" parent="TravelAuthorization-addTravelAdvanceLineValidation-parentBean" scope="prototype" />
-	<bean id="TravelAuthorization-addTravelAdvanceLineValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
-		<property name="validations">
-			<list>
-				<bean parent="TravelModule-travelAdvanceValidation" scope="prototype">
-					<property name="quitOnFail" value="true" />
-				</bean>
-			</list>
-		</property>
-	</bean>
-
 	<bean id="TravelAuthorization-updateTripDetailsValidation" parent="TravelAuthorization-updateTripDetailsValidation-parentBean" scope="prototype" />
 	<bean id="TravelAuthorization-updateTripDetailsValidation-parentBean"
 		parent="CompositeValidation" scope="prototype" abstract="true">

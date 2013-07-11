@@ -217,7 +217,6 @@ public class TemConstants {
         public static final String TRAVEL_ADVANCE_CHART = "TRAVEL_ADVANCE_CHART";
         public static final String TRAVEL_ADVANCE_ACCOUNT = "TRAVEL_ADVANCE_ACCOUNT";
         public static final String TRAVEL_ADVANCE_PAYMENT_REASON_CODE = "TRAVEL_ADVANCE_PAYMENT_REASON_CODE";
-        public static final String GENERATE_DV_FOR_TRAVEL_ADVANCE_IND = "GENERATE_DV_FOR_TRAVEL_ADVANCE_IND";
         public static final String DISPLAY_EMERGENCY_CONTACT_IND = "DISPLAY_EMERGENCY_CONTACT_IND";
         public static final String CUSTOMER_TYPE_CODE = "CUSTOMER_TYPE_CODE";
 

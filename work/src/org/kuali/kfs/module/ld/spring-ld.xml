@@ -72,13 +72,13 @@
 
             </list>
         </property>
-        <!-- <property name="fiscalYearMakers">
+        <property name="fiscalYearMakers">
             <list>
                 <ref bean="benefitsCalculationFiscalYearMaker" />
                 <ref bean="laborObjectDefinitionFiscalYearMaker" />
                 <ref bean="positionObjectBenefitDefinitionFiscalYearMaker" />
             </list>
-        </property> -->
+        </property>
         <property name="externalizableBusinessObjectImplementations">
             <map>
                 <entry key="org.kuali.kfs.integration.ld.LaborLedgerBenefitsCalculation" value="org.kuali.kfs.module.ld.businessobject.BenefitsCalculation" />

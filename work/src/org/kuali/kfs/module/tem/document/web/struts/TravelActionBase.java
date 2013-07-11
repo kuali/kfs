@@ -1173,10 +1173,6 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
-    public ActionForward createREQSForVendor(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        return mapping.findForward(KFSConstants.MAPPING_BASIC);
-    }
-
     public ActionForward addImportedExpenseLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         final TravelFormBase travelForm = (TravelFormBase) form;
         final TravelMvcWrapperBean mvcWrapper = newMvcDelegate(form);

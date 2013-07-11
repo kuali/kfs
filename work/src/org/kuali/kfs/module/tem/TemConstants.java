@@ -753,7 +753,6 @@ public class TemConstants {
         public static final String REQUISITION = "Requisition";
         public static final String AGENCY_SITES = "Agency&nbsp;Sites";
         public static final String DV_URL = "temDV.do?methodToCall=docHandler&command=initiate&docTypeName=DV&temDocID=";
-        public static final String REQ_URL = "temREQS.do?methodToCall=docHandler&command=initiate&docTypeName=REQS&temDocID=";
     }
 
     public static class TEMTripTypes {

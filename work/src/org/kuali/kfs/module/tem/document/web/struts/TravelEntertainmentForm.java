@@ -107,7 +107,7 @@ public class TravelEntertainmentForm extends TravelFormBase implements TravelEnt
     protected Map<String, ExtraButton> createButtonsMap() {
         final HashMap<String, ExtraButton> result = new HashMap<String, ExtraButton>();
 
-        result.putAll(createDVREQSExtraButtonMap());
+        result.putAll(createPaymentExtraButtonMap());
 
         return result;
     }
@@ -121,9 +121,6 @@ public class TravelEntertainmentForm extends TravelFormBase implements TravelEnt
         if (!SpringContext.getBean(TravelDocumentService.class).isUnsuccessful(this.getTravelDocument())) {
             if (getEntertainmentDocument().canPayDVToVendor()) {
                 extraButtons.add(buttonsMap.get("methodToCall.payDVToVendor"));
-            }
-            if (getEntertainmentDocument().canCreateREQSForVendor()) {
-                extraButtons.add(buttonsMap.get("methodToCall.createREQSForVendor"));
             }
         }
         return extraButtons;

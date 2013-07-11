@@ -654,11 +654,10 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
         }
     }
 
-    protected Map<String, ExtraButton> createDVREQSExtraButtonMap() {
+    protected Map<String, ExtraButton> createPaymentExtraButtonMap() {
         final HashMap<String, ExtraButton> result = new HashMap<String, ExtraButton>();
 
         result.putAll(createDVExtraButtonMap());
-        result.putAll(createREQSExtraButtonMap());
         return result;
     }
 
@@ -673,19 +672,6 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
 
         result.put(payDVToVendorButton.getExtraButtonProperty(), payDVToVendorButton);
         return result;
-    }
-
-    protected Map<String, ExtraButton> createREQSExtraButtonMap() {
-        final HashMap<String, ExtraButton> result = new HashMap<String, ExtraButton>();
-        ExtraButton createREQSForVendorButton = new ExtraButton();
-        createREQSForVendorButton.setExtraButtonProperty("methodToCall.createREQSForVendor");
-        createREQSForVendorButton.setExtraButtonSource("${" + EXTERNALIZABLE_IMAGES_URL_KEY + "}buttonsmall_create_reqs.gif");
-        createREQSForVendorButton.setExtraButtonAltText("Create REQS for Vendor");
-        createREQSForVendorButton.setExtraButtonOnclick("javascript: window.open('" + TravelCustomSearchLinks.REQ_URL + getDocument().getDocumentNumber() + "');");
-
-        result.put(createREQSForVendorButton.getExtraButtonProperty(), createREQSForVendorButton);
-        return result;
-
     }
 
     /**

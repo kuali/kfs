@@ -302,7 +302,7 @@ public class TravelAuthorizationForm extends TravelFormBase implements TravelAut
         result.put(cancelTravelButton.getExtraButtonProperty(), cancelTravelButton);
         result.put(closeTAButton.getExtraButtonProperty(), closeTAButton);
 
-        result.putAll(createDVREQSExtraButtonMap());
+        result.putAll(createPaymentExtraButtonMap());
         return result;
     }
 
@@ -331,9 +331,6 @@ public class TravelAuthorizationForm extends TravelFormBase implements TravelAut
         if (enablePayments && !SpringContext.getBean(TravelDocumentService.class).isUnsuccessful(this.getTravelDocument())){
             if (getTravelAuthorizationDocument().canPayDVToVendor()) {
                 extraButtons.add(buttonsMap.get("methodToCall.payDVToVendor"));
-            }
-            if (getTravelAuthorizationDocument().canCreateREQSForVendor()) {
-                extraButtons.add(buttonsMap.get("methodToCall.createREQSForVendor"));
             }
         }
 

@@ -323,27 +323,6 @@ public class TravelRelocationAction extends TravelActionBase {
     }
 
     /**
-     * This method...
-     *
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
-     */
-    @Override
-    public ActionForward createREQSForVendor(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        /*
-         * TravelRelocationForm reloForm = (TravelRelocationForm) form; TravelRelocationDocument relocation =
-         * (TravelRelocationDocument) reloForm.getDocument(); getTravelRelocationService().createREQS(relocation); return
-         * mapping.findForward(KFSConstants.MAPPING_BASIC);
-         */
-
-        return mapping.findForward(KFSConstants.MAPPING_BASIC);
-    }
-
-    /**
      * Action method for creating a {@link ExpenseSummaryReport} and producing a PDF from it
      */
     public ActionForward viewExpenseSummary(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {

@@ -412,11 +412,6 @@ public class TravelEntertainmentAction extends TravelActionBase {
         return super.route(mapping, form, request, response);
     }
 
-    @Override
-    public ActionForward createREQSForVendor(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        return mapping.findForward(KFSConstants.MAPPING_BASIC);
-    }
-
     public ActionForward addAttendeeLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         final TravelFormBase travelForm = (TravelFormBase) form;
         final TravelEntertainmentMvcWrapperBean mvcWrapper = newMvcDelegate(form);

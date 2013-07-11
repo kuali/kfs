@@ -86,27 +86,6 @@ public abstract class DocumentActionBuilderBase {
      * @param title
      * @return
      */
-    public String createRequisitionLink(DocumentSearchResult documentSearchResult) {
-        final DocumentType docType = getDocumentTypeService().getDocumentTypeByName(TemConstants.REQUISITION_DOCTYPE);
-
-        if (docType == null) {
-            throw new RuntimeException(String.format("DocType with name %s does not exist!", TemConstants.REQUISITION_DOCTYPE));
-        }
-        String linkPopup = "target=\"_blank\"";
-
-        String unresolvedREQSURL = "${application.url}/" + TemConstants.TravelCustomSearchLinks.REQ_URL + documentSearchResult.getDocument().getDocumentId();
-
-        String REQSURL = Utilities.substituteConfigParameters(docType.getApplicationId(), unresolvedREQSURL);
-        String link = String.format("<a href=\"%s\" %s>%s</a>", REQSURL, linkPopup, TemConstants.TravelCustomSearchLinks.REQUISITION);
-        return link;
-    }
-
-    /**
-     *
-     * @param docCriteriaDTO
-     * @param title
-     * @return
-     */
     public String createDisbursementVoucherLink(DocumentSearchResult documentSearchResult) {
         final DocumentType docType = getDocumentTypeService().getDocumentTypeByName(TemConstants.DISBURSEMENT_VOUCHER_DOCTYPE);
 
@@ -157,7 +136,6 @@ public abstract class DocumentActionBuilderBase {
         paymentHTML.setNewLineText("<br/>");
 
         paymentHTML.appendln(createDisbursementVoucherLink(documentSearchResult));
-        paymentHTML.appendln(createRequisitionLink(documentSearchResult));
         paymentHTML.appendln(createAgencySitesLinks(tripId));
         return paymentHTML.toString();
     }

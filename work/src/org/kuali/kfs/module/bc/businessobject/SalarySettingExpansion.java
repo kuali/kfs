@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -39,7 +39,7 @@ public class SalarySettingExpansion extends PendingBudgetConstructionGeneralLedg
 
     /**
      * Gets the pendingBudgetConstructionAppointmentFunding attribute.
-     * 
+     *
      * @return Returns the pendingBudgetConstructionAppointmentFunding.
      */
     public List<PendingBudgetConstructionAppointmentFunding> getPendingBudgetConstructionAppointmentFunding() {
@@ -48,7 +48,7 @@ public class SalarySettingExpansion extends PendingBudgetConstructionGeneralLedg
 
     /**
      * Sets the pendingBudgetConstructionAppointmentFunding attribute value.
-     * 
+     *
      * @param pendingBudgetConstructionAppointmentFunding The pendingBudgetConstructionAppointmentFunding to set.
      */
     @Deprecated
@@ -58,14 +58,14 @@ public class SalarySettingExpansion extends PendingBudgetConstructionGeneralLedg
 
     /**
      * determine whehter the salary is paid at hourly rate
-     * 
+     *
      * @return true if the salary is paid at hourly rate; otherwise, false
      */
     public boolean isHourlyPaid() {
         Integer fiscalYear = this.getUniversityFiscalYear();
         String chartOfAccountsCode = this.getChartOfAccountsCode();
         String objectCode = this.getFinancialObjectCode();
-        
+
         return SpringContext.getBean(SalarySettingService.class).isHourlyPaidObject(fiscalYear, chartOfAccountsCode, objectCode);
     }
 
@@ -83,9 +83,16 @@ public class SalarySettingExpansion extends PendingBudgetConstructionGeneralLedg
      */
     @Override
     public List buildListOfDeletionAwareLists() {
-        // return super.buildListOfDeletionAwareLists();
+
         List managedLists = super.buildListOfDeletionAwareLists();
         managedLists.add(this.getPendingBudgetConstructionAppointmentFunding());
+
+        List<BudgetConstructionAppointmentFundingReason> appointmentFundingReasons = new ArrayList<BudgetConstructionAppointmentFundingReason>();
+        for (PendingBudgetConstructionAppointmentFunding appointmentFunding: this.getPendingBudgetConstructionAppointmentFunding()){
+            appointmentFundingReasons.addAll(appointmentFunding.getBudgetConstructionAppointmentFundingReason());
+        }
+        managedLists.add(appointmentFundingReasons);
+
         return managedLists;
     }
 }

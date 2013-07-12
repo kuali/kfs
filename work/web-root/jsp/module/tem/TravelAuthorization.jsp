@@ -64,18 +64,20 @@
 	<sys:paymentMessages />
  
     <tem-ta:tripOverview/>
-	<kul:tab tabTitle="Travel Advance" defaultOpen="false" tabErrorKey="${TemKeyConstants.TRVL_AUTH_TRVL_ADVANCE_ERRORS}">
-		<div class="tab-container" align="left">
-			<h3>Travel Advance</h3>
-			<tem-ta:travelAdvance travelAdvanceProperty="document.travelAdvance" />
-			<kul:tab tabTitle="Travel Advance Accounting Lines" defaultOpen="true" tabErrorKey="${KFSConstants.ACCOUNTING_LINE_ERRORS}">
-				<sys-java:accountingLines>
-					<sys-java:accountingLineGroup newLinePropertyName="newAdvanceAccountingLine" collectionPropertyName="document.advanceAccountingLines" collectionItemPropertyName="document.advanceAccountingLine" attributeGroupName="advance" />
-				</sys-java:accountingLines>
-			</kul:tab>
-			<tem:travelPayment isForAdvance="true"/>
-		</div>
-	</kul:tab>
+	<c:if test="${KualiForm.docTypeName!=TemConstants.TravelDocTypes.TRAVEL_AUTHORIZATION_CLOSE_DOCUMENT}"> 
+		<kul:tab tabTitle="Travel Advance" defaultOpen="false" tabErrorKey="${TemKeyConstants.TRVL_AUTH_TRVL_ADVANCE_ERRORS}">
+			<div class="tab-container" align="left">
+				<h3>Travel Advance</h3>
+				<tem-ta:travelAdvance travelAdvanceProperty="document.travelAdvance" />
+				<kul:tab tabTitle="Travel Advance Accounting Lines" defaultOpen="true" tabErrorKey="${KFSConstants.ACCOUNTING_LINE_ERRORS}">
+					<sys-java:accountingLines>
+						<sys-java:accountingLineGroup newLinePropertyName="newAdvanceAccountingLine" collectionPropertyName="document.advanceAccountingLines" collectionItemPropertyName="document.advanceAccountingLine" attributeGroupName="advance" />
+					</sys-java:accountingLines>
+				</kul:tab>
+				<tem:travelPayment isForAdvance="true"/>
+			</div>
+		</kul:tab>
+	</c:if>
     <c:if test="${KualiForm.editingMode['displayEmergencyContactTab']}">
 	    <tem-ta:emergencyContact />
     </c:if>

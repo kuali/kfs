@@ -506,7 +506,7 @@
         	Master: Queries like that in org.kuali.kfs.module.tem.dataaccess.impl.TravelDocumentDaoOjb#getAuthorizationsAndAmendmentsByHeaderStatus?
         	Student: Yes, queries like....  *gains enlightenment*
          -->
-        <reference-descriptor name="advanceTravelPayment" class-ref="org.kuali.kfs.module.tem.businessobject.TravelPayment" auto-retrieve="true" auto-update="object" auto-delete="object">
+        <reference-descriptor name="advanceTravelPayment" class-ref="org.kuali.kfs.module.tem.businessobject.TravelPayment" auto-retrieve="false" auto-update="none" auto-delete="none">
         	<foreignkey field-ref="documentNumber"/>
         </reference-descriptor>
         <!--
@@ -537,10 +537,6 @@
             <query-customizer class="org.kuali.kfs.sys.dataaccess.impl.OjbQueryCustomizer">
             	<attribute attribute-name="temExpenseTypeCode" attribute-value="I" />
             </query-customizer>
-        </collection-descriptor>
-        <collection-descriptor name="travelAdvances" proxy="true" element-class-ref="org.kuali.kfs.module.tem.businessobject.TravelAdvance" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
-            <orderby name="financialDocumentLineNumber" sort="ASC" />
-            <inverse-foreignkey field-ref="documentNumber" />
         </collection-descriptor>
         <collection-descriptor name="sourceAccountingLines" proxy="true" element-class-ref="org.kuali.kfs.module.tem.businessobject.TemSourceAccountingLine" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
             <orderby name="sequenceNumber" sort="ASC" />

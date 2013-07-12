@@ -1059,13 +1059,15 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
     @Override
     public void prepareForSave(KualiDocumentEvent event) {
         super.prepareForSave(event);
-        if (!ObjectUtils.isNull(getTravelAdvance())) {
-            getTravelAdvance().setTravelDocumentIdentifier(getTravelDocumentIdentifier());
-            final String checkStubPrefix = getConfigurationService().getPropertyValueAsString(TemKeyConstants.MESSAGE_TA_ADVANCE_PAYMENT_CHECK_TEXT_PREFIX);
-            getAdvanceTravelPayment().setCheckStubText(checkStubPrefix+" "+getDocumentHeader().getDocumentDescription());
-            getAdvanceTravelPayment().setDueDate(getTravelAdvance().getDueDate());
-            getAdvanceTravelPayment().setDocumentNumber(getDocumentNumber());  // this should already be set but no harm in resetting...
-            updatePayeeTypeForAuthorization();
+        if (!(this instanceof TravelAuthorizationCloseDocument)) {
+            if (!ObjectUtils.isNull(getTravelAdvance())) {
+                getTravelAdvance().setTravelDocumentIdentifier(getTravelDocumentIdentifier());
+                final String checkStubPrefix = getConfigurationService().getPropertyValueAsString(TemKeyConstants.MESSAGE_TA_ADVANCE_PAYMENT_CHECK_TEXT_PREFIX);
+                getAdvanceTravelPayment().setCheckStubText(checkStubPrefix+" "+getDocumentHeader().getDocumentDescription());
+                getAdvanceTravelPayment().setDueDate(getTravelAdvance().getDueDate());
+                getAdvanceTravelPayment().setDocumentNumber(getDocumentNumber());  // this should already be set but no harm in resetting...
+                updatePayeeTypeForAuthorization();
+            }
         }
     }
 

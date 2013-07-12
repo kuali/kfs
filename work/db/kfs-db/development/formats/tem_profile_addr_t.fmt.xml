@@ -1,0 +1,12 @@
+<Record name="tem_profile_addr_t" type="delimited">
+  <Field name="tem_profile_id"                  type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="addr_line_1"                     type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="addr_line_2"                     type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="city_nm"                         type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="state_cd"                        type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="zip_cd"                          type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="country_cd"                      type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="ver_nbr"                         type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="obj_id"                          type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="cust_addr_id"                    type="numeric"    nullable="true"  trim="false" delimiter="|\r\n" />
+</Record>

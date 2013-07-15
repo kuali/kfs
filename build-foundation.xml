@@ -335,10 +335,11 @@ are intended for use only by Kuali Foundation developers.
 				<!-- remove the distribution build files -->
 				<include name="build/properties/distribution.properties" />
 				<!-- files we do not have the authority to distribute -->
-				<include name="build/svn*.jar" />    <!-- SVN libraries -->
-				<include name="build/ganymed.jar" /> <!-- SVN helper library -->
-				<include name="**/mysql*.jar" />     <!-- Mysql JDBC driver -->
-				<include name="**/ojdbc*.jar" />     <!-- Oracle JDBC Driver -->
+				<include name="build/svn*.jar" />         <!-- SVN libraries -->
+				<include name="build/ganymed.jar" />      <!-- SVN helper library -->
+				<include name="**/mysql*.jar" />          <!-- Mysql JDBC driver -->
+				<include name="**/ojdbc*.jar" />          <!-- Oracle JDBC Driver -->
+				<include name="test/lib/cobertura.jar" /> <!-- Cobertura code coverarage utility -->
 			</fileset>
 		</delete>
 		<!-- Incomplete Maven Build Files -->

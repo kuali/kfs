@@ -26,6 +26,20 @@ public interface VelocityEmailService {
     Collection<String> getProdEmailReceivers();
 
     /**
+     * customize cc email receiver in PROD environment
+     *
+     * @return
+     */
+    Collection<String> getCcEmailReceivers();
+
+    /**
+     * customize bcc email receiver in PROD environment
+     *
+     * @return
+     */
+    Collection<String> getBccEmailReceivers();
+
+    /**
      * retrieve the template file for velocity parsing
      *
      * @return

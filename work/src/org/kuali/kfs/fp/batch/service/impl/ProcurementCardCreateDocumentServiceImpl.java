@@ -170,8 +170,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
     protected void sendEmailNotification(List<ProcurementCardDocument> documents) {
         List<ProcurementCardReportType> summaryList = getSortedReportSummaryList(documents);
         int totalBatchTransactions = getBatchTotalTransactionCnt(summaryList);
-        DateFormat dateFormat = new SimpleDateFormat(KFSConstants.ProcurementCardEmailTimeFormat);
-        dateFormat.setLenient(false);
+        DateFormat dateFormat = getDateFormat(KFSConstants.CoreModuleNamespaces.FINANCIAL, KFSConstants.ProcurementCardParameters.PCARD_BATCH_CREATE_DOC_STEP, KFSConstants.ProcurementCardParameters.BATCH_SUMMARY_RUNNING_TIMESTAMP_FORMAT, KFSConstants.ProcurementCardEmailTimeFormat);
 
         // Create formatter for payment amounts and batch run time
         String batchRunTime = dateFormat.format(dateTimeService.getCurrentDate());
@@ -184,6 +183,30 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
 
         // Handle for email sending exception
         procurementCardCreateEmailService.sendEmailNotification(templateVariables);
+    }
+
+    /**
+     * Retrieve date formatter used to format batch running timestamp in report. System parameter has precedence over system default String.
+     *
+     * @return
+     */
+    protected DateFormat getDateFormat(String namespaceCode, String componentCode, String parameterName, String defaultValue) {
+        DateFormat dateFormat = new SimpleDateFormat(defaultValue);
+        if (getParameterService().parameterExists(namespaceCode, componentCode, parameterName)) {
+            String formatParmVal = getParameterService().getParameterValueAsString(namespaceCode, componentCode, parameterName, defaultValue);
+            if (StringUtils.isNotBlank(formatParmVal)) {
+                try {
+                    dateFormat = new SimpleDateFormat(formatParmVal);
+                }
+                catch (IllegalArgumentException e) {
+                    LOG.error("Parameter PCARD_BATCH_SUMMARY_RUNNING_TIMESTAMP_FORMAT used by ProcurementCardCreateDocumentsStep does not set up properly. Use system default timestamp format instead for generating report.");
+                    dateFormat = new SimpleDateFormat(defaultValue);
+                }
+            }
+        }
+
+        dateFormat.setLenient(false);
+        return dateFormat;
     }
 
     /**
@@ -272,8 +295,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
         ProcurementCardReportType reportEntry;
 
         Formatter currencyFormatter = new CurrencyFormatter();
-        DateFormat dateFormatter = new SimpleDateFormat(KFSConstants.ProcurementCardTransactionTimeFormat);
-        dateFormatter.setLenient(false);
+        DateFormat dateFormatter = getDateFormat(KFSConstants.CoreModuleNamespaces.FINANCIAL, KFSConstants.ProcurementCardParameters.PCARD_BATCH_CREATE_DOC_STEP, KFSConstants.ProcurementCardParameters.BATCH_SUMMARY_POSTING_DATE_FORMAT,KFSConstants.ProcurementCardTransactionTimeFormat);
 
         for (Date keyDate : docMapByPstDt.keySet()) {
             reportEntry = new ProcurementCardReportType();
@@ -287,6 +309,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
         }
         return summaryList;
     }
+
 
     /**
      * Sorting the report summary list by transaction posting date

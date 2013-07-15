@@ -1392,6 +1392,8 @@ public class KFSConstants {
 
     public static class ProcurementCardParameters {
         public static final String PCARD_BATCH_SUMMARY_TO_EMAIL_ADDRESSES = "PCARD_BATCH_SUMMARY_TO_EMAIL_ADDRESSES";
+        public static final String BATCH_SUMMARY_RUNNING_TIMESTAMP_FORMAT = "BATCH_SUMMARY_RUNNING_TIMESTAMP_FORMAT";
+        public static final String BATCH_SUMMARY_POSTING_DATE_FORMAT = "BATCH_SUMMARY_POSTING_DATE_FORMAT";
         public static final String PCARD_BATCH_LOAD_STEP = "ProcurementCardLoadStep";
         public static final String PCARD_BATCH_CREATE_DOC_STEP="ProcurementCardCreateDocumentsStep";
     }

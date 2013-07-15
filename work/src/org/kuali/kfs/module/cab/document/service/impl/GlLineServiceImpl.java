@@ -34,8 +34,8 @@ import org.kuali.kfs.module.cab.businessobject.GeneralLedgerEntry;
 import org.kuali.kfs.module.cab.businessobject.GeneralLedgerEntryAsset;
 import org.kuali.kfs.module.cab.document.service.GlLineService;
 import org.kuali.kfs.module.cam.CamsConstants;
-import org.kuali.kfs.module.cam.CamsConstants.DocumentTypeName;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
+import org.kuali.kfs.module.cam.CamsConstants.DocumentTypeName;
 import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.businessobject.AssetGlobal;
 import org.kuali.kfs.module.cam.businessobject.AssetGlobalDetail;
@@ -208,8 +208,6 @@ public class GlLineServiceImpl implements GlLineService {
      */
     @Override
     public List<CapitalAssetInformation> findCapitalAssetInformationForGLLine(GeneralLedgerEntry entry) {
-        String capitalAssetLineType = KFSConstants.GL_CREDIT_CODE.equals(entry.getTransactionDebitCreditCode()) ? KFSConstants.SOURCE_ACCT_LINE_TYPE_CODE : KFSConstants.TARGET_ACCT_LINE_TYPE_CODE;
-
         Map<String, String> primaryKeys = new HashMap<String, String>();
         primaryKeys.put(CabPropertyConstants.CapitalAssetInformation.DOCUMENT_NUMBER, entry.getDocumentNumber());
 
@@ -218,7 +216,7 @@ public class GlLineServiceImpl implements GlLineService {
         List<CapitalAssetInformation> matchingAssets = new ArrayList<CapitalAssetInformation>();
 
         for (CapitalAssetInformation capitalAsset : assetInformation) {
-            addToCapitalAssets(matchingAssets, capitalAsset, entry, capitalAssetLineType);
+            addToCapitalAssets(matchingAssets, capitalAsset, entry);
         }
 
         return matchingAssets;
@@ -232,7 +230,7 @@ public class GlLineServiceImpl implements GlLineService {
      * @param entry
      * @param capitalAssetLineType
      */
-    protected void addToCapitalAssets(List<CapitalAssetInformation> matchingAssets, CapitalAssetInformation capitalAsset, GeneralLedgerEntry entry, String capitalAssetLineType) {
+    protected void addToCapitalAssets(List<CapitalAssetInformation> matchingAssets, CapitalAssetInformation capitalAsset, GeneralLedgerEntry entry) {
         List<CapitalAssetAccountsGroupDetails> groupAccountLines = capitalAsset.getCapitalAssetAccountsGroupDetails();
 
         for (CapitalAssetAccountsGroupDetails groupAccountLine : groupAccountLines) {
@@ -323,12 +321,20 @@ public class GlLineServiceImpl implements GlLineService {
             }
         }
 
-        // compare lineTypeCode to debitCreditCode
+        /* KFSCNTRB-1657
+         * The following code assumes CapitalAssetAccountsGroupDetails.financialDocumentLineTypeCode corresponds to D/C code in GL entry,
+         * but that is inaccurate. In fact, financialDocumentLineTypeCode being F/T has nothing to do with D/C code; rather it comes from whether
+         * the asset accounting line was from a source or target accounting line on the FP document.
+         * On the other hand, the D/C code in GL entry is decided by the amount: positive amount corresponds to D; negative to C.
+         * At least this is what's observed through tracing here.
+         * Removing the following logic as it is unnecessary for matching the asset accounting line with GL entry, the rest of the criteria is good enough.
+         */
+/*        // compare lineTypeCode to debitCreditCode
         String capitalAssetLineTypeCode = KFSConstants.GL_CREDIT_CODE.equals(entry.getTransactionDebitCreditCode()) ? KFSConstants.SOURCE_ACCT_LINE_TYPE_CODE : KFSConstants.TARGET_ACCT_LINE_TYPE_CODE;
         if (!StringUtils.equals(capitalAssetLineTypeCode, accountingDetails.getFinancialDocumentLineTypeCode())) {
             return false;
         }
-
+*/
         return true;
     }
 

@@ -321,20 +321,6 @@ public class GlLineServiceImpl implements GlLineService {
             }
         }
 
-        /* KFSCNTRB-1657
-         * The following code assumes CapitalAssetAccountsGroupDetails.financialDocumentLineTypeCode corresponds to D/C code in GL entry,
-         * but that is inaccurate. In fact, financialDocumentLineTypeCode being F/T has nothing to do with D/C code; rather it comes from whether
-         * the asset accounting line was from a source or target accounting line on the FP document.
-         * On the other hand, the D/C code in GL entry is decided by the amount: positive amount corresponds to D; negative to C.
-         * At least this is what's observed through tracing here.
-         * Removing the following logic as it is unnecessary for matching the asset accounting line with GL entry, the rest of the criteria is good enough.
-         */
-/*        // compare lineTypeCode to debitCreditCode
-        String capitalAssetLineTypeCode = KFSConstants.GL_CREDIT_CODE.equals(entry.getTransactionDebitCreditCode()) ? KFSConstants.SOURCE_ACCT_LINE_TYPE_CODE : KFSConstants.TARGET_ACCT_LINE_TYPE_CODE;
-        if (!StringUtils.equals(capitalAssetLineTypeCode, accountingDetails.getFinancialDocumentLineTypeCode())) {
-            return false;
-        }
-*/
         return true;
     }
 

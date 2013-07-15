@@ -195,7 +195,9 @@ public class TravelAuthorizationAction extends TravelActionBase {
         processAccountingLineOverrides(((TravelAuthorizationForm)transForm).getNewAdvanceAccountingLine());
         if (transForm.hasDocumentId()) {
             TravelAuthorizationDocument authorizationDocument = (TravelAuthorizationDocument) transForm.getDocument();
-            processAccountingLineOverrides(authorizationDocument,authorizationDocument.getAdvanceAccountingLines());
+            if (!ObjectUtils.isNull(authorizationDocument.getAdvanceAccountingLines()) && !authorizationDocument.getAdvanceAccountingLines().isEmpty()) {
+                processAccountingLineOverrides(authorizationDocument,authorizationDocument.getAdvanceAccountingLines());
+            }
         }
     }
 

@@ -83,3 +83,4 @@ KFS10503,KFS-TEM-PERM-091,1,41,KFS-TEM,Modify Accounting Lines TA Account advanc
 KFS10508,KFS-TEM-PERM-092,1,41,KFS-TEM,Modify Accounting Lines TA Travel advanceAccountingLines,"The ability to modify accounting lines associated with the travel advance on travel authorization documents (though, if the parameters to fill in the accounting line is set, the line will still be ineditable).",Y
 KFS10513,KFS-TEM-PERM-093,1,41,KFS-TEM,Modify Accounting Lines TT Travel sourceAccountingLines,The ability to modify accounting lines associated with expenses on travel documents at the Travel node.,Y
 KFS10518,KFS-TEM-PERM-094,1,42,KFS-TEM,Create / Maintain Record(s) TEMProfile,The ability to edit an existing TEMProfile record.,Y
+KFS10544,KFS-TEM-PERM-095,1,2,KFS-TEM,Copy Document TA,The ability to copy a TA document.,Y

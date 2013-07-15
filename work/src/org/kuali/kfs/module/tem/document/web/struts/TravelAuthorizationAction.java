@@ -323,7 +323,6 @@ public class TravelAuthorizationAction extends TravelActionBase {
      */
     protected void setButtonPermissions(TravelAuthorizationForm authForm) {
         canSave(authForm);
-        canCopy(authForm);
         setCanCalculate(authForm);
         setCanAmend(authForm);
         setCanCancel(authForm);
@@ -345,20 +344,6 @@ public class TravelAuthorizationAction extends TravelActionBase {
             authForm.getDocumentActions().remove(KRADConstants.KUALI_ACTION_CAN_SEND_ADHOC_REQUESTS);
             authForm.getDocumentActions().remove(KRADConstants.KUALI_ACTION_CAN_COPY);
             authForm.getDocumentActions().remove(KRADConstants.KUALI_ACTION_CAN_RELOAD);
-        }
-    }
-
-    /**
-     *
-     * @param authForm
-     */
-    protected void canCopy(TravelAuthorizationForm authForm) {
-        TravelAuthorizationAuthorizer documentAuthorizer = getDocumentAuthorizer(authForm);
-        boolean can = documentAuthorizer.canCopy(authForm.getTravelAuthorizationDocument(), GlobalVariables.getUserSession().getPerson());
-        if(can){
-            authForm.getDocumentActions().put(KRADConstants.KUALI_ACTION_CAN_COPY, true);
-        }else{
-            authForm.getDocumentActions().remove(KRADConstants.KUALI_ACTION_CAN_COPY);
         }
     }
 

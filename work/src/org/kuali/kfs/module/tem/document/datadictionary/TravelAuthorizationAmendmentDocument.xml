@@ -4,7 +4,7 @@
 		<property name="documentTypeName" value="TAA" />
 		<property name="documentClass" value="org.kuali.kfs.module.tem.document.TravelAuthorizationAmendmentDocument" />
 		<property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase"/>
-		<property name="documentPresentationControllerClass" value="org.kuali.kfs.module.tem.document.authorization.TravelAuthorizationAmendmentDocumentPresentationController" />
+		<property name="documentPresentationControllerClass" value="org.kuali.kfs.module.tem.document.authorization.TravelAuthorizationDocumentPresentationController" />
 		<property name="documentAuthorizerClass" value="org.kuali.kfs.module.tem.document.authorization.TravelAuthorizationAuthorizer"/>
         <property name="sessionDocument" value="true"/>
 		<property name="allowsCopy" value="true"/>

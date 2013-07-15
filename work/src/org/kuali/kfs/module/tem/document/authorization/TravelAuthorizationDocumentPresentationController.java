@@ -53,4 +53,13 @@ public class TravelAuthorizationDocumentPresentationController extends TravelDoc
     public boolean isAtTravelNode(WorkflowDocument workflowDocument) {
         return workflowDocument.getCurrentNodeNames().contains(TemWorkflowConstants.RouteNodeNames.AP_TRAVEL);
     }
+
+    /**
+     * Overridden to allow copy on default
+     * @see org.kuali.rice.krad.document.DocumentPresentationControllerBase#canCopy(org.kuali.rice.krad.document.Document)
+     */
+    @Override
+    public boolean canCopy(Document document) {
+        return (document.getDocumentHeader().getWorkflowDocument().isProcessed() || document.getDocumentHeader().getWorkflowDocument().isFinal());
+    }
 }

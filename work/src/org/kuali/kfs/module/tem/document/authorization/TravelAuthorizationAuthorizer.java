@@ -92,21 +92,6 @@ public class TravelAuthorizationAuthorizer extends TravelArrangeableAuthorizer {
     }
 
     /**
-     * Initiator is not allow to copy document
-     *
-     * @param travelDocument
-     * @param user
-     * @return
-     */
-    public boolean canCopy(TravelAuthorizationDocument travelDocument, Person user) {
-        if(ObjectUtils.isNull(user)) {
-            return false;
-        }
-        //if user is initiator or the arrange, do not allow to copy
-        return getTravelService().isUserInitiatorOrArranger(travelDocument, user);
-    }
-
-    /**
      * If the current user is a fiscal officer on any accounting line on the document, add that qualification
      * @see org.kuali.kfs.module.tem.document.authorization.TravelArrangeableAuthorizer#addRoleQualification(java.lang.Object, java.util.Map)
      */

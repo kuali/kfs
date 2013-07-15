@@ -18,6 +18,7 @@
 <script language="javascript" src="scripts/module/tem/common.js"></script>
 
 <c:set var="fullEntryMode" value="${KualiForm.editingMode['fullEntry']}" scope="request" />
+<c:set var="travelerEntryMode" value="${KualiForm.editingMode['travelerEntry']}" scope="request" />
 <c:set var="documentTitle" value="${'TravelArrangerDocument'}" />
 
 <kul:documentPage showDocumentInfo="true"

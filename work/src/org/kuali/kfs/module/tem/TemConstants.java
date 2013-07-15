@@ -886,6 +886,7 @@ public class TemConstants {
         public static final String ADVANCE_PAYMENT_ENTRY = "advancePaymentEntry";
         public static final String ADVANCE_POLICY_ENTRY = "advancePolicyEntry";
         public static final String CLEAR_ADVANCE_MODE = "clearAdvanceMode";
+        public static final String TRAVELER_ENTRY = "travelerEntry";
     }
 
     public static final String GENERATE_CREDIT_CARD_NUMBER_IND = "GENERATE_CREDIT_CARD_NUMBER_IND";

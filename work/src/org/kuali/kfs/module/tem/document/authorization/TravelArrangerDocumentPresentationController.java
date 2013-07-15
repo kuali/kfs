@@ -30,6 +30,8 @@ public class TravelArrangerDocumentPresentationController extends FinancialSyste
 
         addFullEntryEntryMode(document, editModes);
 
+        addTravelerEntryMode(document, editModes);
+
         return editModes;
     }
 
@@ -38,6 +40,14 @@ public class TravelArrangerDocumentPresentationController extends FinancialSyste
 
         if ((workflowDocument.isInitiated() || workflowDocument.isSaved())) {
             editModes.add(TemConstants.TravelEditMode.FULL_ENTRY);
+        }
+    }
+
+    protected void addTravelerEntryMode(Document document, Set<String> editModes) {
+        WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
+
+        if (workflowDocument.isEnroute()) {
+            editModes.add(TemConstants.TravelEditMode.TRAVELER_ENTRY);
         }
     }
 

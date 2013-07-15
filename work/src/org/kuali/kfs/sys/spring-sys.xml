@@ -1154,6 +1154,9 @@
    <bean id="velocityEmailServiceBase-parentBean" abstract="true" class="org.kuali.kfs.sys.service.impl.VelocityEmailServiceBase">
    		<property name="mailService" ref="mailService" />
    		<property name="velocityEngine" ref="velocityEngine"/>
+   		<property name="businessObjectService" ref="businessObjectService"/>
+   		<property name="parameterService" ref="parameterService"/>
+   		<property name="configurationService" ref="kualiConfigurationService" />
    </bean>
     
     <bean id="customEditorConfigurer" 

@@ -323,15 +323,6 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
             travelFormBase.setDistribution(getAccountingDistributionService().buildDistributionFrom(travelFormBase.getTravelDocument())); // and likely, there's nothing to distribute either
         }
 
-        //reset accounting line sequence number
-        if (document.getSourceAccountingLines().size() > 0){
-            int counter = 1;
-            for (SourceAccountingLine line : (List<SourceAccountingLine>)document.getSourceAccountingLines()){
-                line.setSequenceNumber(new Integer(counter));
-                counter++;
-            }
-        }
-
         return retval;
     }
 
@@ -1179,10 +1170,6 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
     }
 
     public ActionForward payDVToVendor(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        return mapping.findForward(KFSConstants.MAPPING_BASIC);
-    }
-
-    public ActionForward createREQSForVendor(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 

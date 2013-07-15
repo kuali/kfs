@@ -26,6 +26,7 @@
             <object-create-rule classname="org.kuali.kfs.module.tem.batch.businessobject.PerDiemForLoad" />
 
 		 	<call-method-rule pattern="state_alpha" methodname="setCountryState" paramcount="0" />
+		 	<call-method-rule pattern="state_name" methodname="setCountryStateName" paramcount="0"/>
 			<call-method-rule pattern="country_code" methodname="setCountryState" paramcount="0" />
 			<call-method-rule pattern="country_name" methodname="setCountryStateName" paramcount="0" />
 		

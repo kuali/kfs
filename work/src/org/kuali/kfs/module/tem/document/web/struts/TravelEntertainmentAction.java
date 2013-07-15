@@ -17,7 +17,6 @@ package org.kuali.kfs.module.tem.document.web.struts;
 
 import static org.kuali.kfs.module.tem.TemConstants.COVERSHEET_FILENAME_FORMAT;
 import static org.kuali.kfs.module.tem.TemConstants.SHOW_REPORTS_ATTRIBUTE;
-import static org.kuali.kfs.module.tem.TemPropertyConstants.TRAVEL_DOCUMENT_IDENTIFIER;
 import static org.kuali.kfs.sys.KFSPropertyConstants.DOCUMENT_NUMBER;
 
 import java.io.ByteArrayOutputStream;
@@ -54,9 +53,9 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.util.WebUtils;
+import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.krad.util.KRADPropertyConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
@@ -82,14 +81,29 @@ public class TravelEntertainmentAction extends TravelActionBase {
         final TravelEntertainmentForm entForm = (TravelEntertainmentForm) form;
         final TravelEntertainmentDocument document = entForm.getEntertainmentDocument();
 
-        refreshCollectionsFor(document);
-
         initializeNewAttendeeLines(entForm.getNewAttendeeLines(), document.getAttendee());
-        //initializeTemProfiles(document);
-        final String identifierStr = request.getParameter(TRAVEL_DOCUMENT_IDENTIFIER);
-        final String fromDocumentNumber = request.getParameter(KRADPropertyConstants.DOCUMENT_NUMBER);
-        if (identifierStr != null){
-            if (fromDocumentNumber != null){
+        setEntHostCertificationWarning(document);
+
+        return retval;
+    }
+
+
+    /**
+     * Initiates the document based on another entertainment reimbursement if the expected query fields (needed: travelDocumentIdentifier; maybe: fromDocumentNumber) are filled in
+     * @see org.kuali.kfs.module.tem.document.web.struts.TravelActionBase#createDocument(org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase)
+     */
+    @Override
+    protected void createDocument(KualiDocumentFormBase form) throws WorkflowException {
+        super.createDocument(form);
+
+        final TravelEntertainmentForm entForm = (TravelEntertainmentForm) form;
+        final TravelEntertainmentDocument document = entForm.getEntertainmentDocument();
+
+        final String identifierStr = entForm.getTravelDocumentIdentifier();
+        final String fromDocumentNumber = entForm.getFromDocumentNumber();
+
+        if (!StringUtils.isBlank(identifierStr)){
+            if (!StringUtils.isBlank(fromDocumentNumber)){
                 LOG.debug("Creating reimbursement for document number "+ identifierStr);
                 document.setTravelDocumentIdentifier(identifierStr);
                 TravelDocument travelDocument = (TravelDocument) getDocumentService().getByDocumentHeaderId(fromDocumentNumber);
@@ -123,12 +137,20 @@ public class TravelEntertainmentAction extends TravelActionBase {
             else{
                 populateFromPreviousENTDoc(document, identifierStr);
             }
-
         }
+    }
 
-        setEntHostCertificationWarning(document);
+    /**
+     * Refreshes the collections on the document
+     * @see org.kuali.kfs.sys.web.struts.KualiAccountingDocumentActionBase#loadDocument(org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase)
+     */
+    @Override
+    protected void loadDocument(KualiDocumentFormBase form) throws WorkflowException {
+        super.loadDocument(form);
+        final TravelEntertainmentForm entForm = (TravelEntertainmentForm) form;
+        final TravelEntertainmentDocument document = entForm.getEntertainmentDocument();
 
-        return retval;
+        refreshCollectionsFor(document);
     }
 
     //TODO: is this really necessary?
@@ -388,11 +410,6 @@ public class TravelEntertainmentAction extends TravelActionBase {
         document.getTraveler().getEmergencyContacts().clear();
 
         return super.route(mapping, form, request, response);
-    }
-
-    @Override
-    public ActionForward createREQSForVendor(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     public ActionForward addAttendeeLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {

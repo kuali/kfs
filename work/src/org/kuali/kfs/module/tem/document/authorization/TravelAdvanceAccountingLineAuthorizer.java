@@ -79,6 +79,20 @@ public class TravelAdvanceAccountingLineAuthorizer extends TEMAccountingLineAuth
     }
 
     /**
+     * If the parameters for the advance are set, don't allow editing of chart, account, or object code
+     * @see org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizerBase#determineEditPermissionOnField(org.kuali.kfs.sys.document.AccountingDocument, org.kuali.kfs.sys.businessobject.AccountingLine, java.lang.String, java.lang.String, boolean)
+     */
+    @Override
+    public boolean determineEditPermissionOnField(AccountingDocument accountingDocument, AccountingLine accountingLine, String accountingLineCollectionProperty, String fieldName, boolean editablePage) {
+        if (((TravelAuthorizationDocument)accountingDocument).allParametersForAdvanceSet()) {
+            if (KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE.equals(fieldName) || KFSPropertyConstants.ACCOUNT_NUMBER.equals(fieldName) || KFSPropertyConstants.FINANCIAL_OBJECT_CODE.equals(fieldName)) {
+                return false;
+            }
+        }
+        return super.determineEditPermissionOnField(accountingDocument, accountingLine, accountingLineCollectionProperty, fieldName, editablePage);
+    }
+
+    /**
      * Determines if the accounting lines being asked to render are from another accounting document
      * @param accountingDocument the current accounting document being rendered
      * @param accountingLineRenderingContexts the accounting lines which are being rendered

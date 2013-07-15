@@ -167,7 +167,7 @@ public class TemPropertyConstants {
         public static final String POSTAL_CODE = "postalCode";
         public static final String STATE_CODE = "stateCode";
         public static final String HOST_CERTIFIED = "hostCertified";
-
+        public static final String FROM_DOCUMENT_NUMBER = "fromDocumentNumber";
     }
 
     public static class ArrangerFields {

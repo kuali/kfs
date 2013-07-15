@@ -302,8 +302,19 @@ public class PerDiemExpense extends PersistableBusinessObjectBase {
         return KualiDecimal.ZERO;
     }
 
-    public KualiDecimal getLodging(boolean defaultZero) {
-        return defaultZero? getLodging() : lodging;
+    /**
+     * @return the amount of lodging, without logic that may force it back to zero
+     */
+    public KualiDecimal getUnfilteredLodging() {
+        return lodging;
+    }
+
+    /**
+     * Matching setter for getUnfilteredLoding, functionally equivalent to setLodging
+     * @param lodging
+     */
+    public void setUnfilteredLodging(KualiDecimal lodging) {
+        this.lodging = lodging;
     }
 
     /**
@@ -324,11 +335,15 @@ public class PerDiemExpense extends PersistableBusinessObjectBase {
         return 0;
     }
 
-    public Integer getMiles(boolean defaultZero) {
-        return defaultZero? getMiles() : miles;
+    public void setMiles(Integer miles) {
+        this.miles = miles;
     }
 
-    public void setMiles(Integer miles) {
+    public Integer getUnfilteredMiles() {
+        return miles;
+    }
+
+    public void setUnfilteredMiles(Integer miles) {
         this.miles = miles;
     }
 
@@ -345,16 +360,20 @@ public class PerDiemExpense extends PersistableBusinessObjectBase {
         return KualiDecimal.ZERO;
     }
 
-    public KualiDecimal getBreakfastValue(boolean defaultZero) {
-        return defaultZero? getBreakfastValue() : breakfastValue;
-    }
-
     /**
      * Sets the breakfastValue attribute value.
      *
      * @param breakfastValue The breakfastValue to set.
      */
     public void setBreakfastValue(KualiDecimal breakfastValue) {
+        this.breakfastValue = breakfastValue;
+    }
+
+    public KualiDecimal getUnfilteredBreakfastValue() {
+        return this.breakfastValue;
+    }
+
+    public void setUnfilteredBreakfastValue(KualiDecimal breakfastValue) {
         this.breakfastValue = breakfastValue;
     }
 
@@ -371,16 +390,20 @@ public class PerDiemExpense extends PersistableBusinessObjectBase {
         return KualiDecimal.ZERO;
     }
 
-    public KualiDecimal getLunchValue(boolean defaultZero) {
-        return defaultZero? getLunchValue() : lunchValue;
-    }
-
     /**
      * Sets the lunchValue attribute value.
      *
      * @param lunchValue The lunchValue to set.
      */
     public void setLunchValue(KualiDecimal lunchValue) {
+        this.lunchValue = lunchValue;
+    }
+
+    public KualiDecimal getUnfilteredLunchValue() {
+        return this.lunchValue;
+    }
+
+    public void setUnfilteredLunchValue(KualiDecimal lunchValue) {
         this.lunchValue = lunchValue;
     }
 
@@ -397,16 +420,20 @@ public class PerDiemExpense extends PersistableBusinessObjectBase {
         return KualiDecimal.ZERO;
     }
 
-    public KualiDecimal getDinnerValue(boolean defaultZero) {
-        return defaultZero? getDinnerValue() : dinnerValue;
-    }
-
     /**
      * Sets the dinnerValue attribute value.
      *
      * @param dinnerValue The dinnerValue to set.
      */
     public void setDinnerValue(KualiDecimal dinnerValue) {
+        this.dinnerValue = dinnerValue;
+    }
+
+    public KualiDecimal getUnfilteredDinnerValue() {
+        return this.dinnerValue;
+    }
+
+    public void setUnfilteredDinnerValue(KualiDecimal dinnerValue) {
         this.dinnerValue = dinnerValue;
     }
 
@@ -649,11 +676,15 @@ public class PerDiemExpense extends PersistableBusinessObjectBase {
         return KualiDecimal.ZERO;
     }
 
-    public KualiDecimal getIncidentalsValue(boolean defaultZero) {
-        return defaultZero? getIncidentalsValue() : incidentalsValue;
+    public void setIncidentalsValue(KualiDecimal incidentalsValue) {
+        this.incidentalsValue = incidentalsValue;
     }
 
-    public void setIncidentalsValue(KualiDecimal incidentalsValue) {
+    public KualiDecimal getUnfilteredIncidentalsValue() {
+        return this.incidentalsValue;
+    }
+
+    public void setUnfilteredIncidentalsValue(KualiDecimal incidentalsValue) {
         this.incidentalsValue = incidentalsValue;
     }
 

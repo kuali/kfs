@@ -78,10 +78,14 @@ public class PerDiemExpenseValidation extends GenericValidation {
         boolean success = true;
 
         //this is calling the alternative getter functions which will return negative values
-        if (perDiemExpense.getBreakfastValue(false).isNegative() || perDiemExpense.getLunchValue(false).isNegative() ||
-                perDiemExpense.getDinnerValue(false).isNegative() || perDiemExpense.getIncidentalsValue(false).isNegative() ||
-                perDiemExpense.getLodging(false).isNegative() || perDiemExpense.getMiles(false) < 0) {
-            GlobalVariables.getMessageMap().putWarning(TemPropertyConstants.MILEAGE_DATE, TemKeyConstants.ERROR_PER_DIEM_LESS_THAN_ZERO);
+        if ((perDiemExpense.getUnfilteredBreakfastValue() != null && perDiemExpense.getUnfilteredBreakfastValue().isNegative())
+                || (perDiemExpense.getUnfilteredLunchValue() != null && perDiemExpense.getUnfilteredLunchValue().isNegative())
+                || (perDiemExpense.getUnfilteredDinnerValue() != null && perDiemExpense.getUnfilteredDinnerValue().isNegative())
+                || (perDiemExpense.getUnfilteredIncidentalsValue() != null && perDiemExpense.getUnfilteredIncidentalsValue().isNegative())
+                || (perDiemExpense.getUnfilteredLodging() != null && perDiemExpense.getUnfilteredLodging().isNegative())
+                || (perDiemExpense.getUnfilteredMiles() != null && perDiemExpense.getUnfilteredMiles() < 0)) {
+            GlobalVariables.getMessageMap().putError(TemPropertyConstants.MILEAGE_DATE, TemKeyConstants.ERROR_PER_DIEM_LESS_THAN_ZERO);
+            success = false;
         }
         return success;
     }

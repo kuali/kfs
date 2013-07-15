@@ -1430,6 +1430,8 @@ public class KFSConstants {
 
     public static class ProcurementCardParameters {
         public static final String PCARD_BATCH_SUMMARY_TO_EMAIL_ADDRESSES = "PCARD_BATCH_SUMMARY_TO_EMAIL_ADDRESSES";
+        public static final String BATCH_SUMMARY_RUNNING_TIMESTAMP_FORMAT = "BATCH_SUMMARY_RUNNING_TIMESTAMP_FORMAT";
+        public static final String BATCH_SUMMARY_POSTING_DATE_FORMAT = "BATCH_SUMMARY_POSTING_DATE_FORMAT";
         public static final String PCARD_BATCH_LOAD_STEP = "ProcurementCardLoadStep";
         public static final String PCARD_BATCH_CREATE_DOC_STEP="ProcurementCardCreateDocumentsStep";
     }
@@ -1452,4 +1454,27 @@ public class KFSConstants {
         public static final String REVOLVING_FUND_VENDOR = "VRF";
     }
 
+    public static enum PaymentMethod {
+        ACH_CHECK("P", "Check/ACH"), FOREIGN_DRAFT("F", "Foreign Draft"), WIRE_TRANSFER("W", "Wire Transfer");
+
+        private String code;
+        private String name;
+
+        PaymentMethod(String code, String name) {
+            this.code = code;
+            this.name = name;
+        }
+
+        public String getCode() {
+            return this.code;
+        }
+
+        public String getName() {
+            return this.name;
+        }
+
+        public String getCodeAndName() {
+            return String.format("%s - %s", this.code, this.name);
+        }
+    }
 }

@@ -323,7 +323,6 @@ public class TravelAuthorizationAction extends TravelActionBase {
      */
     protected void setButtonPermissions(TravelAuthorizationForm authForm) {
         canSave(authForm);
-        canCopy(authForm);
         setCanCalculate(authForm);
         setCanAmend(authForm);
         setCanCancel(authForm);
@@ -345,20 +344,6 @@ public class TravelAuthorizationAction extends TravelActionBase {
             authForm.getDocumentActions().remove(KRADConstants.KUALI_ACTION_CAN_SEND_ADHOC_REQUESTS);
             authForm.getDocumentActions().remove(KRADConstants.KUALI_ACTION_CAN_COPY);
             authForm.getDocumentActions().remove(KRADConstants.KUALI_ACTION_CAN_RELOAD);
-        }
-    }
-
-    /**
-     *
-     * @param authForm
-     */
-    protected void canCopy(TravelAuthorizationForm authForm) {
-        TravelAuthorizationAuthorizer documentAuthorizer = getDocumentAuthorizer(authForm);
-        boolean can = documentAuthorizer.canCopy(authForm.getTravelAuthorizationDocument(), GlobalVariables.getUserSession().getPerson());
-        if(can){
-            authForm.getDocumentActions().put(KRADConstants.KUALI_ACTION_CAN_COPY, true);
-        }else{
-            authForm.getDocumentActions().remove(KRADConstants.KUALI_ACTION_CAN_COPY);
         }
     }
 
@@ -669,70 +654,6 @@ public class TravelAuthorizationAction extends TravelActionBase {
 
         return null;
     }
-
-    /*private ActionForward refreshAfterPerDiemLookup(ActionMapping mapping, TravelAuthorizationForm authForm, HttpServletRequest request) {
-        String refreshCaller = authForm.getRefreshCaller();
-
-        TravelAuthorizationDocument document = authForm.getTravelAuthorizationDocument();
-
-        boolean isPerDiemLookupable = PER_DIEM_LOOKUPABLE.equals(refreshCaller);
-
-        // if a cancel occurred on address lookup we need to reset the payee id and type, rest of fields will still have correct
-        // information
-        if (refreshCaller == null) {
-            // authForm.setTravelerId(authForm.getTempTravelerId());
-
-            return null;
-        }
-
-        // do not execute the further refreshing logic if the refresh caller is not a per diem lookupable
-        if (!isPerDiemLookupable) {
-            return null;
-        }
-        Map<String, String> parameters = request.getParameterMap();
-        Set<String> parameterKeys = parameters.keySet();
-        for (String parameterKey : parameterKeys) {
-            if (StringUtils.containsIgnoreCase(parameterKey, TemPropertyConstants.PER_DIEM_EXP)) {
-                // its one of the numbered lines, lets
-                int estimateLineNum = getLineNumberFromParameter(parameterKey);
-                PerDiemExpense estimate = document.getPerDiemExpenses().get(estimateLineNum);
-                estimate.refreshReferenceObject("perDiem");
-                PerDiem perDiem = estimate.getPerDiem();
-
-                // now copy info over to estimate
-                estimate.setPrimaryDestination(perDiem.getPrimaryDestination());
-                estimate.setMealsAndIncidentals(perDiem.getMealsAndIncidentals());
-                estimate.setCountryState(perDiem.getCountryState());
-                estimate.setCounty(perDiem.getCounty());
-
-                break;
-            }
-        }
-
-        // do not execute the further refreshing logic if a profile is not selected
-        Integer perDiemId = document.getInitialPerDiemId();
-        if (perDiemId == null) {
-            return null;
-        }
-
-        if (isPerDiemLookupable) {
-            PerDiem perDiem = new PerDiem();
-            perDiem.setId(perDiemId);
-
-            perDiem = (PerDiem) SpringContext.getBean(BusinessObjectService.class).retrieve(perDiem);
-
-            document.setInitialPerDiem(perDiem);
-            document.setInitialPrimaryDestination(perDiem.getPrimaryDestination());
-            document.setTripType(perDiem.getTripType());
-            document.setTripTypeCode(perDiem.getTripTypeCode().toUpperCase());
-
-
-            return null;
-        }
-
-        return null;
-    }*/
-
 
     /**
      * This method removes an other travel expense from this collection
@@ -1238,6 +1159,7 @@ public class TravelAuthorizationAction extends TravelActionBase {
         else {
             document.setTransportationModeCodes(new ArrayList<String>());
         }
+        document.propagateAdvanceAmountIfNeeded();
 
         return super.route(mapping, form, request, response);
     }
@@ -1252,6 +1174,29 @@ public class TravelAuthorizationAction extends TravelActionBase {
         }
 
         return super.blanketApprove(mapping, form, request, response);
+    }
+
+    /**
+     * action which clears out an advance - this allows travel managers to clear advance as needed
+     */
+    public ActionForward clearAdvance(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        if (((TravelAuthorizationForm)form).getTravelAuthorizationDocument().shouldProcessAdvanceForDocument()) {
+            final TravelAuthorizationDocument doc = ((TravelAuthorizationForm)form).getTravelAuthorizationDocument();
+            doc.getTravelAdvance().clear();
+            // clean up due date and payment amount from travel payment
+            if (!ObjectUtils.isNull(doc.getAdvanceTravelPayment())) {
+                doc.getAdvanceTravelPayment().setDueDate(null);
+                doc.getAdvanceTravelPayment().setCheckTotalAmount(null);
+                doc.getAdvanceTravelPayment().setPaymentMethodCode(KFSConstants.PaymentMethod.ACH_CHECK.getCode()); // set to check, so that foreign draft or wire transfer is not processed
+            }
+            // clean up accounting lines
+            if (doc.allParametersForAdvanceSet()) {
+                doc.getAdvanceAccountingLine(0).setAmount(KualiDecimal.ZERO);
+            } else {
+                doc.setAdvanceAccountingLines(new ArrayList<TemSourceAccountingLine>());
+            }
+        }
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     /**

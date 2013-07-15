@@ -130,28 +130,28 @@
 										<input type="hidden" id="document.perDiemExpenses[${perDiemIndex.count - 1}].breakfastValue.holder" value="<bean:write name="KualiForm" property="document.perDiemExpenses[${perDiemIndex.count - 1}].breakfastValue" />" />
 										<kul:htmlControlAttribute
 											attributeEntry="${perDiemExpensesAttributes.breakfastValue}"
-											property="document.perDiemExpenses[${perDiemIndex.count - 1}].breakfastValue"
+											property="document.perDiemExpenses[${perDiemIndex.count - 1}].unfilteredBreakfastValue"
 											disabled="${!fullEntryMode || fn:contains(KualiForm.document.disabledProperties, breakfastDisabled)}" />
 									</td>
 									<td valign=top class="datacell">
 										<input type="hidden" id="document.perDiemExpenses[${perDiemIndex.count - 1}].lunchValue.holder" value="<bean:write name="KualiForm" property="document.perDiemExpenses[${perDiemIndex.count - 1}].lunchValue" />" />
 										<kul:htmlControlAttribute
 											attributeEntry="${perDiemExpensesAttributes.lunchValue}"
-											property="document.perDiemExpenses[${perDiemIndex.count - 1}].lunchValue"
+											property="document.perDiemExpenses[${perDiemIndex.count - 1}].unfilteredLunchValue"
 											disabled="${!fullEntryMode || fn:contains(KualiForm.document.disabledProperties, lunchDisabled)}" />
 									</td>
 									<td valign=top class="datacell">
 										<input type="hidden" id="document.perDiemExpenses[${perDiemIndex.count - 1}].dinnerValue.holder" value="<bean:write name="KualiForm" property="document.perDiemExpenses[${perDiemIndex.count - 1}].dinnerValue" />" />
 										<kul:htmlControlAttribute
 											attributeEntry="${perDiemExpensesAttributes.dinnerValue}"
-											property="document.perDiemExpenses[${perDiemIndex.count - 1}].dinnerValue"
+											property="document.perDiemExpenses[${perDiemIndex.count - 1}].unfilteredDinnerValue"
 											disabled="${!fullEntryMode || fn:contains(KualiForm.document.disabledProperties, dinnerDisabled)}" />
 									</td>
 									<td valign=top class="datacell">
 										<input type="hidden" id="document.perDiemExpenses[${perDiemIndex.count - 1}].incidentalsValue.holder" value="<bean:write name="KualiForm" property="document.perDiemExpenses[${perDiemIndex.count - 1}].incidentalsValue" />" />
 										<kul:htmlControlAttribute
 											attributeEntry="${perDiemExpensesAttributes.incidentalsValue}"
-											property="document.perDiemExpenses[${perDiemIndex.count - 1}].incidentalsValue"
+											property="document.perDiemExpenses[${perDiemIndex.count - 1}].unfilteredIncidentalsValue"
 											disabled="${!fullEntryMode || KualiForm.document.perDiemExpenses[perDiemIndex.count - 1].personal}" />
 									</td>								
 								</c:when>					
@@ -173,7 +173,7 @@
 									</td>
 									<td valign=top class="datacell"><kul:htmlControlAttribute
 											attributeEntry="${perDiemExpensesAttributes.incidentalsValue}"
-											property="document.perDiemExpenses[${perDiemIndex.count - 1}].incidentalsValue"
+											property="document.perDiemExpenses[${perDiemIndex.count - 1}].unfilteredIncidentalsValue"
 											disabled="true" />
 									</td>									
 								</c:when>
@@ -191,7 +191,7 @@
 								<input type="hidden" id="document.perDiemExpenses[${perDiemIndex.count - 1}].lodging.holder" value="<bean:write name="KualiForm" property="document.perDiemExpenses[${perDiemIndex.count - 1}].lodging" />" />                                    
 								<kul:htmlControlAttribute
 									attributeEntry="${perDiemExpensesAttributes.lodging}"
-									property="document.perDiemExpenses[${perDiemIndex.count - 1}].lodging"
+									property="document.perDiemExpenses[${perDiemIndex.count - 1}].unfilteredLodging"
 									disabled="${fn:contains(KualiForm.document.disabledProperties, lodgingDisabled)}"
 									readOnly="${!fullEntryMode}" />
 							</td>
@@ -201,7 +201,7 @@
 									<input type="hidden" id="document.perDiemExpenses[${perDiemIndex.count - 1}].miles.holder" value="<bean:write name="KualiForm" property="document.perDiemExpenses[${perDiemIndex.count - 1}].miles" />" />
 									<kul:htmlControlAttribute
 									attributeEntry="${perDiemExpensesAttributes.miles}"
-									property="document.perDiemExpenses[${perDiemIndex.count - 1}].miles"
+									property="document.perDiemExpenses[${perDiemIndex.count - 1}].unfilteredMiles"
 									readOnly="${!fullEntryMode}" />
 							</td>
 							<td valign=top class="datacell">

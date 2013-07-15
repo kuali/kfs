@@ -373,8 +373,6 @@
             type="org.kuali.kfs.module.tem.document.web.struts.TravelArrangerForm" />
         <form-bean name="TravelDisbursementVoucherForm"
             type="org.kuali.kfs.module.tem.document.web.struts.TravelDisbursementVoucherForm" />
-        <form-bean name="TravelRequisitionForm"
-            type="org.kuali.kfs.module.tem.document.web.struts.TravelRequisitionForm" />
         <form-bean name="TemCorrectionForm"
             type="org.kuali.kfs.module.tem.document.web.struts.TemCorrectionForm" />    
 
@@ -1099,23 +1097,6 @@
 			<forward name="basic" path="/jsp/fp/DisbursementVoucher.jsp" />
 		</action>
 		
-		<action path="/temREQS" name="TravelRequisitionForm"
-			input="/jsp/module/purap/Requisition.jsp"
-			type="org.kuali.kfs.module.tem.document.web.struts.TravelRequisitionAction"
-			scope="request" parameter="methodToCall" validate="true"
-			attribute="KualiForm">
-			<set-property property="cancellable" value="true" />
-			<forward name="basic" path="/jsp/module/purap/Requisition.jsp" />
-			<forward name="printPurchaseOrderPDF"
-				path="/jsp/module/purap/PrintForward.jsp" redirect="false" />
-			<forward name="retransmitPurchaseOrderPDF"
-				path="/jsp/module/purap/RetransmitForward.jsp" redirect="false" />
-			<forward name="printReceivingTicketPDF"
-				path="/jsp/module/purap/ReceivingTicketForward.jsp"
-				redirect="false" />
-			<forward name="printPOQuoteListPDF"
-				path="/jsp/module/purap/PrintPOQuoteListForward.jsp" redirect="false" />				
-		</action>
 		<action path="/temCorrectionDocument" name="KualiForm"
             input="/jsp/module/tem/TemCorrectionDocument.jsp"
             type="org.kuali.kfs.module.tem.document.web.struts.TemCorrectionAction" scope="request"

@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -27,14 +27,14 @@ public interface PerDiemLoadService {
 
     /**
      * create and populate per diem table from a specified external resource
-     * 
+     *
      * @return true if successfully create and populate per diem table from a specified external resource
      */
     public boolean loadPerDiem();
 
     /**
      * create and populate per diem table according to a specified input file type
-     * 
+     *
      * @param fileName the absolute file name
      * @param inputFileType the specified input file type
      * @return true if successfully create and populate per diem table from a specified input file type
@@ -43,14 +43,15 @@ public interface PerDiemLoadService {
 
     /**
      * update the given list of per diems
-     * 
+     *
      * @param perDiem the given list of per diems
+     * @return a List of PerDiem records which have been processed, with all records which should skip processing removed
      */
-    public void updatePerDiem(List<PerDiemForLoad> perDiemList);
+    public List<PerDiemForLoad> updatePerDiem(List<PerDiemForLoad> perDiemList);
 
     /**
      * update the given per diem
-     * 
+     *
      * @param perDiem the the given per diem
      */
     public void updatePerDiem(PerDiemForLoad perDiem);

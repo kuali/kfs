@@ -149,6 +149,7 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
         getAdvanceTravelPayment().setDocumentationLocationCode(getParameterService().getParameterValueAsString(TravelAuthorizationDocument.class, TravelParameters.DOCUMENTATION_LOCATION_CODE,
                 getParameterService().getParameterValueAsString(TemParameterConstants.TEM_DOCUMENT.class,TravelParameters.DOCUMENTATION_LOCATION_CODE)));
         getAdvanceTravelPayment().setCheckStubText(getConfigurationService().getPropertyValueAsString(TemKeyConstants.MESSAGE_TA_ADVANCE_PAYMENT_HOLD_TEXT));
+        updatePayeeTypeForAuthorization(); // if the traveler is already initialized, set up payee type on advance travel payment
         setWireTransfer(new PaymentSourceWireTransfer());
         getWireTransfer().setDocumentNumber(getDocumentNumber());
         setAdvanceAccountingLines(new ArrayList<TemSourceAccountingLine>());
@@ -202,7 +203,7 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
 
         FinancialSystemDocumentHeader documentHeader = new FinancialSystemDocumentHeader();
         documentHeader.setDocumentNumber(documentID);
-        BeanUtils.copyProperties(copyToDocument.getDocumentHeader(), documentHeader, new String[] {KFSPropertyConstants.DOCUMENT_NUMBER});
+        BeanUtils.copyProperties(copyToDocument.getDocumentHeader(), documentHeader, new String[] {KFSPropertyConstants.DOCUMENT_NUMBER, KFSPropertyConstants.OBJECT_ID, KFSPropertyConstants.VERSION_NUMBER});
         documentHeader.setOrganizationDocumentNumber(this.getDocumentHeader().getOrganizationDocumentNumber());
         copyToDocument.setDocumentHeader(documentHeader);
 
@@ -213,7 +214,6 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
         copyToDocument.setTraveler(getTravelerService().copyTravelerDetail(getTraveler(), documentID));
         copyToDocument.setGroupTravelers(getTravelDocumentService().copyGroupTravelers(getGroupTravelers(), documentID));
         copyToDocument.setImportedExpenses(new ArrayList<ImportedExpense>());
-        copyToDocument.setTravelAdvance(new TravelAdvance());
 
         copyToDocument.getNotes().clear();
         copyToDocument.getDocumentHeader().setDocumentDescription(getDocumentHeader().getDocumentDescription());
@@ -230,6 +230,7 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
             newList.add(line);
         }
         copyToDocument.setSourceAccountingLines(newList);
+        copyToDocument.setNextSourceLineNumber(new Integer(sequence));
 
         copyToDocument.initiateAdvancePaymentAndLines();// should we be reinitiating all travel advance info here?  Funcs will tell us if that's wrong....
     }
@@ -859,7 +860,7 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
      * (like that which creates TAA's)
      */
     protected void resetNextAdvanceLineNumber() {
-        this.nextAdvanceLineNumber = new Integer(0);
+        this.nextAdvanceLineNumber = new Integer(1);
     }
 
     /**
@@ -931,6 +932,9 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
     private boolean requiresRiskManagementReviewRouting() {
         // Right now this works just like International Travel Reviewer, but may change for next version
         if (ObjectUtils.isNotNull(this.getTripTypeCode()) && getParameterService().getParameterValuesAsString(TemParameterConstants.TEM_DOCUMENT.class, TravelParameters.INTERNATIONAL_TRIP_TYPES).contains(this.getTripTypeCode())) {
+            return true;
+        }
+        if (!ObjectUtils.isNull(getTraveler()) && getTraveler().isLiabilityInsurance()) {
             return true;
         }
         return false;
@@ -1055,13 +1059,15 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
     @Override
     public void prepareForSave(KualiDocumentEvent event) {
         super.prepareForSave(event);
-        if (!ObjectUtils.isNull(getTravelAdvance())) {
-            getTravelAdvance().setTravelDocumentIdentifier(getTravelDocumentIdentifier());
-            final String checkStubPrefix = getConfigurationService().getPropertyValueAsString(TemKeyConstants.MESSAGE_TA_ADVANCE_PAYMENT_CHECK_TEXT_PREFIX);
-            getAdvanceTravelPayment().setCheckStubText(checkStubPrefix+" "+getDocumentHeader().getDocumentDescription());
-            getAdvanceTravelPayment().setDueDate(getTravelAdvance().getDueDate());
-            getAdvanceTravelPayment().setDocumentNumber(getDocumentNumber());  // this should already be set but no harm in resetting...
-            updatePayeeTypeForAuthorization();
+        if (!(this instanceof TravelAuthorizationCloseDocument)) {
+            if (!ObjectUtils.isNull(getTravelAdvance())) {
+                getTravelAdvance().setTravelDocumentIdentifier(getTravelDocumentIdentifier());
+                final String checkStubPrefix = getConfigurationService().getPropertyValueAsString(TemKeyConstants.MESSAGE_TA_ADVANCE_PAYMENT_CHECK_TEXT_PREFIX);
+                getAdvanceTravelPayment().setCheckStubText(checkStubPrefix+" "+getDocumentHeader().getDocumentDescription());
+                getAdvanceTravelPayment().setDueDate(getTravelAdvance().getDueDate());
+                getAdvanceTravelPayment().setDocumentNumber(getDocumentNumber());  // this should already be set but no harm in resetting...
+                updatePayeeTypeForAuthorization();
+            }
         }
     }
 

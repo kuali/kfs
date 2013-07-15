@@ -30,6 +30,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
@@ -144,7 +145,18 @@ public class PerDiem extends PersistableBusinessObjectBase implements MutableIna
             List<PrimaryDestination> results = (List<PrimaryDestination>) service.findMatching(PrimaryDestination.class, tempFieldValues);
 
             if (results != null && !results.isEmpty()) {
-                this.countryStateName = results.get(0).getCountryStateName();
+                int i = 0;
+                while (StringUtils.isBlank(countryStateName) && i < results.size()) {
+                    final String name = results.get(i).getCountryStateName();
+                    if (!StringUtils.isBlank(name)) {
+                        this.countryStateName = name;
+                    }
+                    i += 1;
+                }
+                while (i < results.size()) {
+                    results.get(i); //traverse through the rest of the list, avoid result set leaks
+                    i += 1;
+                }
             }
         }
     }
@@ -162,7 +174,7 @@ public class PerDiem extends PersistableBusinessObjectBase implements MutableIna
      * @param countryStateName The countryStateName to set.
      */
     public void setCountryStateName(String countryStateName) {
-        if (countryStateName != null && countryStateName.trim().length() > 0) {
+        if (!StringUtils.isBlank(countryStateName)) {
             this.countryStateName = countryStateName;
         }
     }

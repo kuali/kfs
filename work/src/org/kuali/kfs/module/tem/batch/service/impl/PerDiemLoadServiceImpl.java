@@ -25,6 +25,7 @@ import java.text.MessageFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -159,12 +160,19 @@ public class PerDiemLoadServiceImpl implements PerDiemLoadService {
      * @see org.kuali.kfs.module.tem.batch.service.PerDiemLoadService#updatePerDiem(java.util.List)
      */
     @Override
-    public void updatePerDiem(List<PerDiemForLoad> perDiemList) {
+    public List<PerDiemForLoad> updatePerDiem(List<PerDiemForLoad> perDiemList) {
+        List<PerDiemForLoad> filteredPerDiemList = new ArrayList<PerDiemForLoad>();
+
         int lineNumber = 0;
         for (PerDiemForLoad perDiemForLoad : perDiemList) {
-            this.updatePerDiem(perDiemForLoad);
-            perDiemForLoad.setLineNumber(++lineNumber);
+            if (shouldProcess(perDiemForLoad)) {
+                updatePerDiem(perDiemForLoad);
+                perDiemForLoad.setLineNumber(++lineNumber);
+                filteredPerDiemList.add(perDiemForLoad);
+            }
         }
+
+        return filteredPerDiemList;
     }
 
     /**
@@ -449,6 +457,16 @@ public class PerDiemLoadServiceImpl implements PerDiemLoadService {
             LOG.error(errorMessage);
             throw new RuntimeException(errorMessage, e);
         }
+    }
+
+    /**
+     * Determines if the given PerDiem record should be processed at all; in the base implementation, it checks the KFS-TEM / PerDiemLoadStep / BYPASS_STATE_OR_COUNTRY_CODES to see if the perdiem should be skipped
+     * @param perDiem the PerDiem record
+     * @return true if the record should be validated and processed, false otherwise
+     */
+    protected <T extends PerDiem> boolean shouldProcess(T perDiem) {
+        final Collection<String> bypassStateCountryCodes = getParameterService().getParameterValuesAsString(PerDiemLoadStep.class, TemConstants.PerDiemParameter.BYPASS_STATE_OR_COUNTRY_CODES);
+        return (bypassStateCountryCodes == null || bypassStateCountryCodes.isEmpty() || !bypassStateCountryCodes.contains(perDiem.getCountryState()));
     }
 
     /**

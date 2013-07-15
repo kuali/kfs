@@ -42,7 +42,7 @@
             <kul:htmlAttributeLabel attributeEntry="${arrangerAttributes.taInd}" noColon="true"/>
             </th>
             <td class="datacell">
-                <kul:htmlControlAttribute attributeEntry="${arrangerAttributes.taInd}" property="document.taInd" readOnly="${!fullEntryMode}"/>          
+                <kul:htmlControlAttribute attributeEntry="${arrangerAttributes.taInd}" property="document.taInd" readOnly="${!(fullEntryMode || travelerEntryMode)}"/>          
             </td>
             
         </tr>
@@ -51,7 +51,7 @@
             <kul:htmlAttributeLabel attributeEntry="${arrangerAttributes.trInd}" noColon="true"/>
             </th>
             <td class="datacell">
-                <kul:htmlControlAttribute attributeEntry="${arrangerAttributes.trInd}" property="document.trInd" readOnly="${!fullEntryMode}"/>          
+                <kul:htmlControlAttribute attributeEntry="${arrangerAttributes.trInd}" property="document.trInd" readOnly="${!(fullEntryMode || travelerEntryMode)}"/>          
             </td>
             
         </tr>
@@ -60,7 +60,7 @@
             <kul:htmlAttributeLabel attributeEntry="${arrangerAttributes.primaryInd}" noColon="true"/>
             </th>
             <td class="datacell">
-                <kul:htmlControlAttribute attributeEntry="${arrangerAttributes.primaryInd}" property="document.primaryInd" readOnly="${!fullEntryMode}"/>          
+                <kul:htmlControlAttribute attributeEntry="${arrangerAttributes.primaryInd}" property="document.primaryInd" readOnly="${!(fullEntryMode || travelerEntryMode)}"/>          
             </td>
             
         </tr>

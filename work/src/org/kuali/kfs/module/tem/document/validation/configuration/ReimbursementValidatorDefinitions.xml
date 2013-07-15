@@ -88,7 +88,7 @@
 				</bean>
 				<bean parent="NodeSpecificValidation" scope="prototype">
 					<property name="validation">
-						<bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype">
+						<bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype" p:attemptDeterminationOfErrorPrefix="true">
 		                    <property name="parameterProperties">
 		                        <bean parent="validationFieldConversion" p:sourceEventProperty="document.travelPayment" p:targetValidationProperty="businessObjectForValidation" />
 		                    </property>

@@ -80,6 +80,7 @@ import org.kuali.kfs.module.tem.service.TravelService;
 import org.kuali.kfs.module.tem.service.TravelerService;
 import org.kuali.kfs.module.tem.util.GroupTravelerComparator;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
@@ -1209,7 +1210,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
             getTravelerService().populateTEMProfile(temProfile);
             if (temProfile.getTravelerType() == null){
                 Map<String, Object> fieldValues = new HashMap<String, Object>();
-                fieldValues.put("code", temProfile.getTravelerTypeCode());
+                fieldValues.put(KFSPropertyConstants.CODE, temProfile.getTravelerTypeCode());
                 List<TravelerType> types = (List<TravelerType>) getBusinessObjectService().findMatching(TravelerType.class, fieldValues);
                 temProfile.setTravelerType(types.get(0));
                 setTemProfileId(temProfile.getProfileId());
@@ -1947,10 +1948,6 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
     }
 
     public boolean canPayDVToVendor() {
-        return (getDocumentHeader() != null && !(getDocumentHeader().getWorkflowDocument().isCanceled() || getDocumentHeader().getWorkflowDocument().isInitiated() || getDocumentHeader().getWorkflowDocument().isException() || getDocumentHeader().getWorkflowDocument().isDisapproved() || getDocumentHeader().getWorkflowDocument().isSaved()));
-    }
-
-    public boolean canCreateREQSForVendor() {
         return (getDocumentHeader() != null && !(getDocumentHeader().getWorkflowDocument().isCanceled() || getDocumentHeader().getWorkflowDocument().isInitiated() || getDocumentHeader().getWorkflowDocument().isException() || getDocumentHeader().getWorkflowDocument().isDisapproved() || getDocumentHeader().getWorkflowDocument().isSaved()));
     }
 

@@ -260,6 +260,7 @@ public class KFSPropertyConstants {
     public static final String BUILDING_NAME = "buildingName";
     public static final String BUILDING_ROOM_NUMBER = "buildingRoomNumber";
     public static final String BURSAR_USER = "bursarUser";
+    public static final String BUSINESS_OBJECT_FOR_VALIDATION = "businessObjectForValidation";
     public static final String CAB_USER = "cabUser";
     public static final String CAMPUS = KRADPropertyConstants.CAMPUS;
     public static final String CAMPUS_CODE = KRADPropertyConstants.CAMPUS_CODE;

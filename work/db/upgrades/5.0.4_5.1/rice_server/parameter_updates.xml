@@ -38,6 +38,30 @@
 			<column name="EVAL_OPRTR_CD" value="A" />
 			<column name="APPL_ID" value="KFS" />
 		</insert>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-FP" />
+			<column name="CMPNT_CD" value="ProcurementCardCreateDocumentsStep" />
+			<column name="PARM_NM" value="BATCH_SUMMARY_RUNNING_TIMESTAMP_FORMAT" />
+			<column name="VAL" value="EEE, MMM d, yyyy HH:mm:ss z" />
+			<column name="OBJ_ID" valueComputed="SYS_GUID()" />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="PARM_TYP_CD" value="CONFG" />
+			<column name="PARM_DESC_TXT" value="A single date format string that will be used to format current batch running timestamp in the summary report generated when Procurement Card Load batch job completes of creating PCDO documents." />
+			<column name="EVAL_OPRTR_CD" value="A" />
+			<column name="APPL_ID" value="KFS" />
+		</insert>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-FP" />
+			<column name="CMPNT_CD" value="ProcurementCardCreateDocumentsStep" />
+			<column name="PARM_NM" value="BATCH_SUMMARY_POSTING_DATE_FORMAT" />
+			<column name="VAL" value="EEE, MMM d, yyyy" />
+			<column name="OBJ_ID" valueComputed="SYS_GUID()" />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="PARM_TYP_CD" value="CONFG" />
+			<column name="PARM_DESC_TXT" value="A single date format string that will be used to format PCDO transaction posting date in the summary report generated when Procurement Card Load batch job completes of creating PCDO documents." />
+			<column name="EVAL_OPRTR_CD" value="A" />
+			<column name="APPL_ID" value="KFS" />
+		</insert>
 		<modifySql dbms="mysql">
 			<replace replace="SYS_GUID()" with="UUID()" />
 		</modifySql>		

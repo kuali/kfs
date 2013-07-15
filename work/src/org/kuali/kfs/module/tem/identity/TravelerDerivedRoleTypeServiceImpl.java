@@ -31,6 +31,7 @@ import org.kuali.rice.kim.api.role.RoleMembership;
 import org.kuali.rice.kns.kim.role.DerivedRoleTypeServiceBase;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * Check for Traveler Derived Role base on document traveler (for Travel Document) or proflie (Travel Arranger Document)
@@ -68,10 +69,12 @@ public class TravelerDerivedRoleTypeServiceImpl extends DerivedRoleTypeServiceBa
                         String memberId = "";
                         if(TravelDocTypes.TRAVEL_ARRANGER_DOCUMENT.equals(document.getDocumentHeader().getWorkflowDocument().getDocumentTypeName())) {
                             memberId = ((TravelArrangerDocument)document).getProfile().getPrincipalId();
-                        } else {
+                        } else if (document instanceof TravelDocument && !ObjectUtils.isNull(((TravelDocument)document).getTraveler()) && !StringUtils.isBlank(((TravelDocument)document).getTraveler().getPrincipalId())) {
                             memberId = ((TravelDocument)document).getTraveler().getPrincipalId();
                         }
-                        members.add(RoleMembership.Builder.create("", "", memberId, MemberType.PRINCIPAL, null).build());
+                        if (!StringUtils.isBlank(memberId)) {
+                            members.add(RoleMembership.Builder.create("", "", memberId, MemberType.PRINCIPAL, null).build());
+                        }
                     }
                 } catch (WorkflowException e) {
                     throw new RuntimeException("Workflow problem while trying to get document using doc id '" + documentNumber + "'", e);

@@ -54,6 +54,8 @@ public class TravelRelocationForm extends TravelFormBase implements TravelReloca
     private boolean canCertify;
     private boolean canUnmask = false;
 
+    private String travelDocumentIdentifier;
+
     /**
      * Constructor
      */
@@ -91,7 +93,7 @@ public class TravelRelocationForm extends TravelFormBase implements TravelReloca
     protected Map<String, ExtraButton> createButtonsMap() {
         final HashMap<String, ExtraButton> result = new HashMap<String, ExtraButton>();
 
-        result.putAll(createDVREQSExtraButtonMap());
+        result.putAll(createPaymentExtraButtonMap());
         return result;
     }
 
@@ -104,9 +106,6 @@ public class TravelRelocationForm extends TravelFormBase implements TravelReloca
         if (!SpringContext.getBean(TravelDocumentService.class).isUnsuccessful(this.getTravelDocument())) {
             if (getTravelRelocationDocument().canPayDVToVendor()) {
                 extraButtons.add(buttonsMap.get("methodToCall.payDVToVendor"));
-            }
-            if (getTravelRelocationDocument().canCreateREQSForVendor()) {
-                extraButtons.add(buttonsMap.get("methodToCall.createREQSForVendor"));
             }
         }
 
@@ -248,6 +247,21 @@ public class TravelRelocationForm extends TravelFormBase implements TravelReloca
     @Override
     public String getTravelPaymentFormAction() {
         return TemConstants.TRAVEL_RELOCATION_ACTION_NAME;
+    }
+
+    /**
+     * @return the travel document identifier if it has been set
+     */
+    public String getTravelDocumentIdentifier() {
+        return travelDocumentIdentifier;
+    }
+
+    /**
+     * Sets the travel document identifier to populate from
+     * @param travelDocumentIdentifier the travel document identifier to populate from
+     */
+    public void setTravelDocumentIdentifier(String travelDocumentIdentifier) {
+        this.travelDocumentIdentifier = travelDocumentIdentifier;
     }
 
 }

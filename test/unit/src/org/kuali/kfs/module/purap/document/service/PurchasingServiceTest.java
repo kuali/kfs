@@ -69,7 +69,7 @@ public class PurchasingServiceTest extends KualiTestBase {
     }
 
     @ConfigureContext(session = khuntley, shouldCommitTransactions = true)
-    public void DISABLED_502_testDeleteCapitalAssetItems() {
+    public void testDeleteCapitalAssetItems() {
         RequisitionDocument requisition = RequisitionDocumentWithCapitalAssetItemsFixture.REQ_VALID_IND_NEW_CAPITAL_ASSET_ITEM.createRequisitionDocument();
         requisition.getDocumentHeader().setDocumentDescription("From PurchasingServiceTest)");
 
@@ -96,7 +96,7 @@ public class PurchasingServiceTest extends KualiTestBase {
         assertEquals(1, afterDeletion.size());
 
         for (PurchasingCapitalAssetItem camsItem : afterDeletion) {
-            assertEquals("PurchasingCapitalAssetSystem on " + camsItem + " should not have been null", null,camsItem.getPurchasingCapitalAssetSystem());
+            assertNotNull("PurchasingCapitalAssetSystem on " + camsItem + " should not have been null", camsItem.getPurchasingCapitalAssetSystem());
         }
     }
 

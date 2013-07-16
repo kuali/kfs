@@ -14,11 +14,6 @@
  limitations under the License.
 --%>
 <%@ include file="/jsp/sys/kfsTldHeader.jsp"%>
-<%@ tag import="org.kuali.kfs.sys.context.SpringContext,org.kuali.rice.coreservice.framework.parameter.ParameterService"%>
-<%
-    final boolean showTRLink = SpringContext.getBean(ParameterService.class).getParameterValueAsBoolean("KFS-TEM", "TravelReimbursement", "TRAVEL_AUTHORIZATION_REQUIRED_IND");
-    request.setAttribute("showTRLink", showTRLink);
-%>
 
 <channel:portalChannelTop channelTitle="Transactions" />
 <div class="body">
@@ -102,7 +97,7 @@
              <li><portal:portalLink displayTitle="true" title="Moving and Relocation Reimbursement" url="temTravelRelocation.do?methodToCall=docHandler&command=initiate&docTypeName=RELO" /></li>
              <li><portal:portalLink displayTitle="true" title="Travel Arranger" url="temTravelArranger.do?methodToCall=docHandler&command=initiate&docTypeName=TTA" /></li>
              <li><portal:portalLink displayTitle="true" title="Travel Authorization" url="temTravelAuthorization.do?methodToCall=docHandler&command=initiate&docTypeName=TA" /></li>
-             <c:if test="${showTRLink}">
+             <c:if test="${ConfigProperties.module.travel.reimbursement.initiatelink.enabled == 'true'}">
                  <li><portal:portalLink displayTitle="true" title="Travel Reimbursement" url="temTravelReimbursement.do?methodToCall=docHandler&command=initiate&docTypeName=TR" /></li>
              </c:if>
          </ul>

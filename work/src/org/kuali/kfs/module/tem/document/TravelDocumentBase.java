@@ -715,11 +715,11 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
             sb.append(format.format(this.getTripBegin()) + " ");
         }
 
-        if(this.getPrimaryDestination() != null && StringUtils.isNotEmpty(this.getPrimaryDestination().getPrimaryDestinationName())) {
-        	sb.append(this.getPrimaryDestination().getPrimaryDestinationName());
+        if(!ObjectUtils.isNull(getPrimaryDestination()) && StringUtils.isNotEmpty(getPrimaryDestination().getPrimaryDestinationName()) && getPrimaryDestination().getId().intValue() != TemConstants.CUSTOM_PER_DIEM_ID) {
+        	sb.append(getPrimaryDestination().getPrimaryDestinationName());
         } else  {
-            if (this.getPrimaryDestinationName() != null) {
-                sb.append(this.getPrimaryDestinationName());
+            if (getPrimaryDestinationName() != null) {
+                sb.append(getPrimaryDestinationName());
             }
         }
 

@@ -4,7 +4,7 @@
 	<classpathentry kind="src" output="test/classes" path="test/infrastructure/src"/>
 	<classpathentry kind="src" output="test/classes" path="test/unit/src"/>
 	<classpathentry kind="src" output="test/classes" path="test/integration/src"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6">
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7">
 		<accessrules>
 			<accessrule kind="nonaccessible" pattern="com/**"/>
 			<accessrule kind="nonaccessible" pattern="sun/**"/>

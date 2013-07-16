@@ -69,7 +69,7 @@ public class TravelDocumentActualExpenseLineValidation extends TEMDocumentExpens
     public boolean validateExpenses(ActualExpense expense, TravelDocument document, boolean isWarning) {
 
          boolean success = (validateGeneralRules(expense, document) &&
-                validateExpenseDetail(expense, true) &&
+                validateExpenseDetail(expense, isWarning) &&
                 validateAirfareRules(expense, document) &&
                 validateRentalCarRules(expense, document) &&
                 validateLodgingRules(expense, document) &&

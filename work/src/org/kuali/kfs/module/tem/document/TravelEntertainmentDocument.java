@@ -51,6 +51,7 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.api.document.DocumentStatus;
@@ -63,7 +64,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
 
 @Entity
 @Table(name = "TEM_ENT_DOC_T")
-public class TravelEntertainmentDocument extends TEMReimbursementDocument {
+public class TravelEntertainmentDocument extends TEMReimbursementDocument implements AmountTotaling {
 
     protected static Logger LOG = Logger.getLogger(TravelEntertainmentDocument.class);
 

@@ -162,11 +162,6 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
         return perDiemAdjustment;
     }
 
-    @Override
-    public KualiDecimal getTotalDollarAmount() {
-        return getReimbursableTotal();
-    }
-
     /**
      * Gets the travelAdvanceAmount attribute. This is the travel advance amount applied on this TR.
      * @return Returns the travelAdvanceAmount.

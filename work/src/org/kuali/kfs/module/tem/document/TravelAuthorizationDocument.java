@@ -70,6 +70,7 @@ import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.businessobject.PaymentSourceWireTransfer;
 import org.kuali.kfs.sys.businessobject.WireCharge;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.kfs.sys.document.PaymentSource;
 import org.kuali.kfs.sys.document.service.PaymentSourceHelperService;
 import org.kuali.kfs.sys.service.AccountingLineService;
@@ -93,7 +94,7 @@ import org.springframework.beans.BeanUtils;
 
 @Entity
 @Table(name = "TEM_TRVL_AUTH_DOC_T")
-public class TravelAuthorizationDocument extends TravelDocumentBase implements PaymentSource {
+public class TravelAuthorizationDocument extends TravelDocumentBase implements PaymentSource, AmountTotaling {
 
     protected static Logger LOG = Logger.getLogger(TravelAuthorizationDocument.class);
 

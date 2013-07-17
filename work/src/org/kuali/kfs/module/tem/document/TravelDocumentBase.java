@@ -107,7 +107,6 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.SequenceAccessorService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADPropertyConstants;
-import org.kuali.rice.krad.util.NoteType;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
 
@@ -1949,11 +1948,6 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
 
     public boolean canPayDVToVendor() {
         return (getDocumentHeader() != null && !(getDocumentHeader().getWorkflowDocument().isCanceled() || getDocumentHeader().getWorkflowDocument().isInitiated() || getDocumentHeader().getWorkflowDocument().isException() || getDocumentHeader().getWorkflowDocument().isDisapproved() || getDocumentHeader().getWorkflowDocument().isSaved()));
-    }
-
-    @Override
-    public NoteType getNoteType() {
-        return NoteType.BUSINESS_OBJECT;
     }
 
     /**

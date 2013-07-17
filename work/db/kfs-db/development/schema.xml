@@ -17007,19 +17007,6 @@
     <view name="END_KEMID_HIST_BAL_DET_V" viewdefinition="SELECT     B.KEMID     , B.HLDG_IP_IND     ,     CASE         WHEN B.HLDG_IP_IND = 'I'             THEN A.HIST_INC_CSH + SUM(B.HLDG_MVAL)             ELSE A.HIST_PRIN_CSH + SUM(B.HLDG_MVAL)     END AS VAL_AT_MARKET     , R.SEC_RPT_GRP AS SEC_RPT_GRP     , SUM(B.HLDG_ANNL_INC_EST) AS ANN_INC_EST     , SUM(B.HLDG_FY_REM_EST_INC) AS FY_REM_EST_INC     , SUM(B.HLDG_NEXT_FY_EST_INC) AS NEXT_FY_EST_INC     , B.ME_DT_ID FROM     END_HIST_CSH_T A     , END_HLDG_HIST_T B     , END_SEC_T S     , END_CLS_CD_T CL     , END_SEC_RPT_GRP_T R WHERE     S.SEC_ID = B.SEC_ID     AND S.SEC_CLS_CD = CL.SEC_CLS_CD     AND CL.SEC_RPT_GRP = R.SEC_RPT_GRP     AND A.KEMID = B.KEMID     AND A.ME_DT_ID = B.ME_DT_ID GROUP BY     B.KEMID     , R.SEC_RPT_GRP     , B.HLDG_IP_IND     , B.ME_DT_ID     , A.HIST_INC_CSH     , A.HIST_PRIN_CSH      &#xa;"/>
     <view name="END_KEMID_HIST_BAL_V" viewdefinition="SELECT     A.KEMID, A.ME_DT_ID     , A.HIST_INC_CSH + SUM( CASE WHEN E.HLDG_IP_IND = 'I' THEN E.HLDG_MVAL ELSE 0.00 END ) AS INC_AT_MARKET     , A.HIST_PRIN_CSH + SUM( CASE WHEN E.HLDG_IP_IND = 'P' THEN E.HLDG_MVAL ELSE 0.00 END ) AS PRIN_AT_MARKET     , A.HIST_PRIN_CSH + A.HIST_INC_CSH + SUM( E.HLDG_MVAL ) AS TOTAL_MARKET_VAL     , SUM(HLDG_ANNL_INC_EST) AS ANN_EST_INC     , SUM(HLDG_FY_REM_EST_INC) AS FY_REM_EST_INC     , SUM(HLDG_NEXT_FY_EST_INC) AS NEXT_FY_EST_INC FROM       END_HIST_CSH_T A     , END_HLDG_HIST_T E WHERE A.KEMID = E.KEMID   AND A.ME_DT_ID = E.ME_DT_ID GROUP BY A.KEMID, A.ME_DT_ID, A.HIST_PRIN_CSH, A.HIST_INC_CSH      &#xa;"/>
     <view name="END_KEMID_HIST_REP_GRP_V" viewdefinition="SELECT C.KEMID, CL.SEC_RPT_GRP, C.SEC_ID, C.REGIS_CD, C.HLDG_IP_IND, SUM(C.HLDG_UNITS) AS UNITS, SUM(HLDG_COST) AS CARRY_VAL, SUM(HLDG_MVAL) AS MARKET_VAL, SUM(HLDG_NEXT_FY_EST_INC) AS NEXT_FY_EST_INC, SUM(HLDG_FY_REM_EST_INC) AS FY_REM_EST_INC, SUM(HLDG_ANNL_INC_EST) AS ANNL_INC_EST, C.ME_DT_ID FROM END_HLDG_HIST_T C, END_SEC_T S, END_CLS_CD_T CL WHERE C.SEC_ID = S.SEC_ID AND S.SEC_CLS_CD = CL.SEC_CLS_CD GROUP BY C.KEMID, CL.SEC_RPT_GRP, C.HLDG_IP_IND, C.SEC_ID, C.REGIS_CD, C.ME_DT_ID      &#xa;"/>
-    <view name="KRIM_GRP_MBR_V" viewdefinition="SELECT G.NMSPC_CD , G.GRP_NM , G.GRP_ID , P.PRNCPL_NM , P.PRNCPL_ID , MG.GRP_NM AS MBR_GRP_NM , MG.GRP_ID AS MBR_GRP_ID FROM KRIM_GRP_MBR_T GM LEFT JOIN KRIM_GRP_T G ON G.GRP_ID = GM.GRP_ID LEFT OUTER JOIN KRIM_GRP_T MG ON MG.GRP_ID = GM.MBR_ID AND GM.MBR_TYP_CD = 'G' LEFT OUTER JOIN KRIM_PRNCPL_T P ON P.PRNCPL_ID = GM.MBR_ID AND GM.MBR_TYP_CD = 'P' LEFT OUTER JOIN KRIM_ENTITY_NM_T EN ON EN.ENTITY_ID = P.ENTITY_ID AND EN.DFLT_IND = 'Y' AND EN.ACTV_IND = 'Y' ORDER BY NMSPC_CD, GRP_NM, PRNCPL_NM            &#xa;"/>
-    <view name="KRIM_GRP_V" viewdefinition="SELECT G.NMSPC_CD , G.GRP_NM , G.GRP_ID , T.NM AS GRP_TYP_NM , A.NM AS ATTR_NM , D.ATTR_VAL AS ATTR_VAL FROM KRIM_GRP_T G LEFT OUTER JOIN KRIM_GRP_ATTR_DATA_T D ON D.GRP_ID = G.GRP_ID LEFT OUTER JOIN KRIM_ATTR_DEFN_T A ON A.KIM_ATTR_DEFN_ID = D.KIM_ATTR_DEFN_ID LEFT OUTER JOIN KRIM_TYP_T T ON G.KIM_TYP_ID = T.KIM_TYP_ID            &#xa;"/>
-    <view name="KRIM_PERM_ATTR_V" viewdefinition="SELECT T.NMSPC_CD AS TMPL_NMSPC_CD , T.NM AS TMPL_NM , T.PERM_TMPL_ID , P.NMSPC_CD AS PERM_NMSPC_CD , P.NM AS PERM_NM , P.PERM_ID , A.NM AS ATTR_NM , AD.ATTR_VAL AS ATTR_VAL FROM KRIM_PERM_T P LEFT JOIN KRIM_PERM_TMPL_T T ON P.PERM_TMPL_ID = T.PERM_TMPL_ID LEFT OUTER JOIN KRIM_PERM_ATTR_DATA_T AD ON P.PERM_ID = AD.PERM_ID LEFT OUTER JOIN KRIM_ATTR_DEFN_T A ON AD.KIM_ATTR_DEFN_ID = A.KIM_ATTR_DEFN_ID ORDER BY TMPL_NMSPC_CD, TMPL_NM, PERM_NMSPC_CD, PERM_ID, ATTR_NM            &#xa;"/>
-    <view name="KRIM_PERM_V" viewdefinition="SELECT T.NMSPC_CD AS TMPL_NMSPC_CD , T.NM AS TMPL_NM , T.PERM_TMPL_ID , P.NMSPC_CD AS PERM_NMSPC_CD , P.NM AS PERM_NM , P.PERM_ID , TYP.NM AS PERM_TYP_NM , TYP.SRVC_NM FROM KRIM_PERM_T P INNER JOIN KRIM_PERM_TMPL_T T ON P.PERM_TMPL_ID = T.PERM_TMPL_ID LEFT OUTER JOIN KRIM_TYP_T TYP ON T.KIM_TYP_ID = TYP.KIM_TYP_ID            &#xa;"/>
-    <view name="KRIM_PRNCPL_V" viewdefinition="SELECT P.PRNCPL_ID ,P.PRNCPL_NM ,EN.FIRST_NM ,EN.LAST_NM ,EA.AFLTN_TYP_CD ,EA.CAMPUS_CD ,EEI.EMP_STAT_CD ,EEI.EMP_TYP_CD FROM KRIM_PRNCPL_T P LEFT OUTER JOIN KRIM_ENTITY_EMP_INFO_T EEI ON EEI.ENTITY_ID = P.ENTITY_ID LEFT OUTER JOIN KRIM_ENTITY_AFLTN_T EA ON EA.ENTITY_ID = P.ENTITY_ID LEFT OUTER JOIN KRIM_ENTITY_NM_T EN ON P.ENTITY_ID = EN.ENTITY_ID AND 'Y' = EN.DFLT_IND            &#xa;"/>
-    <view name="KRIM_ROLE_GRP_V" viewdefinition="SELECT R.NMSPC_CD , R.ROLE_NM , R.ROLE_ID , G.NMSPC_CD AS GRP_NMSPC_CD , G.GRP_NM , RM.ROLE_MBR_ID , A.NM AS ATTR_NM , D.ATTR_VAL AS ATTR_VAL FROM KRIM_ROLE_MBR_T RM LEFT JOIN KRIM_ROLE_T R ON R.ROLE_ID = RM.ROLE_ID LEFT JOIN KRIM_GRP_T G ON G.GRP_ID = RM.MBR_ID LEFT OUTER JOIN KRIM_ROLE_MBR_ATTR_DATA_T D ON D.ROLE_MBR_ID = RM.ROLE_MBR_ID LEFT OUTER JOIN KRIM_ATTR_DEFN_T A ON A.KIM_ATTR_DEFN_ID = D.KIM_ATTR_DEFN_ID WHERE RM.MBR_TYP_CD = 'G' ORDER BY NMSPC_CD, ROLE_NM, GRP_NMSPC_CD, GRP_NM, ROLE_MBR_ID, ATTR_NM            &#xa;"/>
-    <view name="KRIM_ROLE_PERM_V" viewdefinition="SELECT R.NMSPC_CD , R.ROLE_NM , R.ROLE_ID , PT.NMSPC_CD AS TMPL_NMSPC_CD , PT.NM AS TMPL_NM , PT.PERM_TMPL_ID , P.NMSPC_CD AS PERM_NMPSC_CD , P.NM AS PERM_NM , P.PERM_ID , A.NM AS ATTR_NM , AD.ATTR_VAL AS ATTR_VAL FROM KRIM_PERM_T P LEFT JOIN KRIM_PERM_TMPL_T PT ON P.PERM_TMPL_ID = PT.PERM_TMPL_ID LEFT OUTER JOIN KRIM_PERM_ATTR_DATA_T AD ON P.PERM_ID = AD.PERM_ID LEFT OUTER JOIN KRIM_ATTR_DEFN_T A ON AD.KIM_ATTR_DEFN_ID = A.KIM_ATTR_DEFN_ID LEFT OUTER JOIN KRIM_ROLE_PERM_T RP ON RP.PERM_ID = P.PERM_ID LEFT OUTER JOIN KRIM_ROLE_T R ON RP.ROLE_ID = R.ROLE_ID ORDER BY NMSPC_CD, ROLE_NM, TMPL_NMSPC_CD, TMPL_NM, PERM_ID, ATTR_NM            &#xa;"/>
-    <view name="KRIM_ROLE_PRNCPL_V" viewdefinition="SELECT R.NMSPC_CD , R.ROLE_NM , R.ROLE_ID , P.PRNCPL_NM , P.PRNCPL_ID , EN.FIRST_NM , EN.LAST_NM , RM.ROLE_MBR_ID , AD.NM AS ATTR_NM , RMAD.ATTR_VAL AS ATTR_VAL FROM KRIM_ROLE_T R LEFT OUTER JOIN KRIM_ROLE_MBR_T RM ON R.ROLE_ID = RM.ROLE_ID LEFT OUTER JOIN KRIM_ROLE_MBR_ATTR_DATA_T RMAD ON RM.ROLE_MBR_ID = RMAD.ROLE_MBR_ID LEFT OUTER JOIN KRIM_ATTR_DEFN_T AD ON RMAD.KIM_ATTR_DEFN_ID = AD.KIM_ATTR_DEFN_ID LEFT OUTER JOIN KRIM_PRNCPL_T P ON RM.MBR_ID = P.PRNCPL_ID AND RM.MBR_TYP_CD = 'P' LEFT OUTER JOIN KRIM_ENTITY_NM_T EN ON P.ENTITY_ID = EN.ENTITY_ID WHERE (EN.DFLT_IND = 'Y') ORDER BY NMSPC_CD, ROLE_NM, PRNCPL_NM, RM.ROLE_MBR_ID, ATTR_NM            &#xa;"/>
-    <view name="KRIM_ROLE_ROLE_V" viewdefinition="SELECT R.NMSPC_CD , R.ROLE_NM , R.ROLE_ID , MR.NMSPC_CD AS MBR_ROLE_NMSPC_CD , MR.ROLE_NM AS MBR_ROLE_NM , MR.ROLE_ID AS MBR_ROLE_ID , RM.ROLE_MBR_ID , A.NM AS ATTR_NM , D.ATTR_VAL AS ATTR_VAL FROM KRIM_ROLE_MBR_T RM LEFT JOIN KRIM_ROLE_T R ON R.ROLE_ID = RM.ROLE_ID LEFT JOIN KRIM_ROLE_T MR ON MR.ROLE_ID = RM.MBR_ID LEFT OUTER JOIN KRIM_ROLE_MBR_ATTR_DATA_T D ON D.ROLE_MBR_ID = RM.ROLE_MBR_ID LEFT OUTER JOIN KRIM_ATTR_DEFN_T A ON A.KIM_ATTR_DEFN_ID = D.KIM_ATTR_DEFN_ID WHERE RM.MBR_TYP_CD = 'R' ORDER BY NMSPC_CD, ROLE_NM, MBR_ROLE_NMSPC_CD, MBR_ROLE_NM, ROLE_MBR_ID, ATTR_NM            &#xa;"/>
-    <view name="KRIM_ROLE_V" viewdefinition="SELECT R.NMSPC_CD , R.ROLE_NM , R.ROLE_ID , T.NM AS ROLE_TYP_NM , T.SRVC_NM , T.KIM_TYP_ID FROM KRIM_ROLE_T R , KRIM_TYP_T T WHERE T.KIM_TYP_ID = R.KIM_TYP_ID AND R.ACTV_IND = 'Y' ORDER BY NMSPC_CD , ROLE_NM            &#xa;"/>
-    <view name="KRIM_RSP_ATTR_V" viewdefinition="SELECT KRIM_TYP_T.NM AS RESPONSIBILITY_TYPE_NAME , KRIM_RSP_TMPL_T.NM AS RSP_TEMPLATE_NAME , KRIM_RSP_T.NMSPC_CD AS RSP_NAMESPACE_CODE , KRIM_RSP_T.NM AS RSP_NAME , KRIM_RSP_T.RSP_ID AS RSP_ID , KRIM_ATTR_DEFN_T.NM AS ATTRIBUTE_NAME , KRIM_RSP_ATTR_DATA_T.ATTR_VAL AS ATTRIBUTE_VALUE FROM KRIM_RSP_T KRIM_RSP_T INNER JOIN KRIM_RSP_ATTR_DATA_T KRIM_RSP_ATTR_DATA_T ON KRIM_RSP_T.RSP_ID = KRIM_RSP_ATTR_DATA_T.RSP_ID INNER JOIN KRIM_ATTR_DEFN_T KRIM_ATTR_DEFN_T ON KRIM_RSP_ATTR_DATA_T.KIM_ATTR_DEFN_ID = KRIM_ATTR_DEFN_T.KIM_ATTR_DEFN_ID INNER JOIN KRIM_RSP_TMPL_T KRIM_RSP_TMPL_T ON KRIM_RSP_T.RSP_TMPL_ID = KRIM_RSP_TMPL_T.RSP_TMPL_ID INNER JOIN KRIM_TYP_T KRIM_TYP_T ON KRIM_RSP_TMPL_T.KIM_TYP_ID = KRIM_TYP_T.KIM_TYP_ID ORDER BY RSP_TEMPLATE_NAME, RSP_NAME, ATTRIBUTE_NAME            &#xa;"/>
-    <view name="KRIM_RSP_ROLE_ACTN_V" viewdefinition="SELECT RSP.NMSPC_CD AS RSP_NMSPC_CD , RSP.RSP_ID , R.NMSPC_CD , R.ROLE_NM , RR.ROLE_ID , RM.MBR_ID , RM.MBR_TYP_CD , RM.ROLE_MBR_ID , ACTN.ACTN_TYP_CD , ACTN.ACTN_PLCY_CD , ACTN.FRC_ACTN , ACTN.PRIORITY_NBR FROM KRIM_RSP_T RSP LEFT JOIN KRIM_RSP_TMPL_T RSPT ON RSP.RSP_TMPL_ID = RSPT.RSP_TMPL_ID LEFT OUTER JOIN KRIM_ROLE_RSP_T RR ON RR.RSP_ID = RSP.RSP_ID LEFT OUTER JOIN KRIM_ROLE_MBR_T RM ON RM.ROLE_ID = RR.ROLE_ID LEFT OUTER JOIN KRIM_ROLE_RSP_ACTN_T ACTN ON ACTN.ROLE_RSP_ID = RR.ROLE_RSP_ID AND (ACTN.ROLE_MBR_ID = RM.ROLE_MBR_ID OR ACTN.ROLE_MBR_ID = '*') LEFT OUTER JOIN KRIM_ROLE_T R ON RR.ROLE_ID = R.ROLE_ID ORDER BY RSP_NMSPC_CD , RSP_ID , ROLE_ID , ROLE_MBR_ID            &#xa;"/>
-    <view name="KRIM_RSP_ROLE_V" viewdefinition="SELECT RSPT.NMSPC_CD AS RSP_TMPL_NMSPC_CD , RSPT.NM AS RSP_TMPL_NM , RSP.NMSPC_CD AS RSP_NMSPC_CD , RSP.NM AS RSP_NM , RSP.RSP_ID , A.NM AS ATTR_NM , D.ATTR_VAL , R.NMSPC_CD , R.ROLE_NM , RR.ROLE_ID FROM KRIM_RSP_T RSP LEFT JOIN KRIM_RSP_TMPL_T RSPT ON RSP.RSP_TMPL_ID = RSPT.RSP_TMPL_ID LEFT OUTER JOIN KRIM_RSP_ATTR_DATA_T D ON RSP.RSP_ID = D.RSP_ID LEFT OUTER JOIN KRIM_ATTR_DEFN_T A ON D.KIM_ATTR_DEFN_ID = A.KIM_ATTR_DEFN_ID LEFT OUTER JOIN KRIM_ROLE_RSP_T RR ON RR.RSP_ID = RSP.RSP_ID LEFT OUTER JOIN KRIM_ROLE_T R ON RR.ROLE_ID = R.ROLE_ID ORDER BY RSP_TMPL_NMSPC_CD, RSP_TMPL_NM, RSP_NMSPC_CD, RSP_NM, RSP_ID, ATTR_NM, ATTR_VAL            &#xa;"/>
     <view name="PUR_PO_ITM_TOT_AMT_V" viewdefinition="(SELECT FDOC_NBR, SUM(                      CASE                      WHEN ITM_ACTV_IND = 'Y' AND ITM_ORD_QTY IS NULL THEN ITM_UNIT_PRC                      WHEN ITM_ACTV_IND = 'Y' AND ITM_ORD_QTY IS NOT NULL THEN ITM_ORD_QTY * ITM_UNIT_PRC                      WHEN ITM_ACTV_IND IS NULL AND ITM_ORD_QTY IS NULL THEN ITM_UNIT_PRC                      WHEN ITM_ACTV_IND IS NULL AND ITM_ORD_QTY IS NOT NULL THEN ITM_ORD_QTY * ITM_UNIT_PRC                      WHEN ITM_ACTV_IND ='N' THEN 0                      ELSE 0                        END) AS TOTAL_AMOUNT        FROM PUR_PO_ITM_T GROUP BY FDOC_NBR)    &#xa;"/>
     <view name="PUR_PO_ITM_TOT_ENC_V" viewdefinition="(SELECT A.FDOC_NBR AS FDOC_NBR,         SUM(A.ITM_OSTND_ENC_AMT) AS TOTAL_ENCUMBRANCE FROM PUR_PO_ITM_T A GROUP BY A.FDOC_NBR)      &#xa;"/>
     <view name="PUR_PO_V" viewdefinition="SELECT P.AP_PUR_DOC_LNK_ID,             P.PO_ID,             P.PO_CUR_IND,             P.FDOC_NBR,             P.OBJ_ID,             P.PO_STAT_CD,             P.RECUR_PMT_TYP_CD,             P.PO_VNDR_CHC_CD,             P.PO_END_DT,             E.TOTAL_ENCUMBRANCE,             SUMMATION.TOTAL_AMOUNT   FROM PUR_PO_T P,            PUR_PO_ITM_TOT_ENC_V E,            PUR_PO_ITM_TOT_AMT_V SUMMATION WHERE P.FDOC_NBR = E.FDOC_NBR    AND P.FDOC_NBR = SUMMATION.FDOC_NBR       &#xa;"/>
@@ -17080,110 +17067,6 @@
     <sequence name="INV_MLSTN_ID_SEQ" nextval="1"/>
     <sequence name="INV_RJT_ITM_ID" nextval="1002"/>
     <sequence name="INV_RJT_REAS_ID" nextval="1002"/>
-    <sequence name="KREN_CHNL_S" nextval="1000"/>
-    <sequence name="KREN_CHNL_SUBSCRP_S" nextval="1020"/>
-    <sequence name="KREN_CNTNT_TYP_S" nextval="1000"/>
-    <sequence name="KREN_MSG_DELIV_S" nextval="1000"/>
-    <sequence name="KREN_MSG_S" nextval="1000"/>
-    <sequence name="KREN_NTFCTN_MSG_DELIV_S" nextval="1000"/>
-    <sequence name="KREN_NTFCTN_S" nextval="1000"/>
-    <sequence name="KREN_PRIO_S" nextval="1000"/>
-    <sequence name="KREN_PRODCR_S" nextval="1000"/>
-    <sequence name="KREN_RECIP_DELIV_S" nextval="1000"/>
-    <sequence name="KREN_RECIP_LIST_S" nextval="1000"/>
-    <sequence name="KREN_RECIP_PREF_S" nextval="1000"/>
-    <sequence name="KREN_RECIP_S" nextval="1000"/>
-    <sequence name="KREN_RVWER_S" nextval="1000"/>
-    <sequence name="KREN_SNDR_S" nextval="1000"/>
-    <sequence name="KREW_ACTN_ITM_S" nextval="10226"/>
-    <sequence name="KREW_ACTN_LIST_OPTN_S" nextval="1269"/>
-    <sequence name="KREW_ACTN_RQST_S" nextval="2369"/>
-    <sequence name="KREW_ACTN_TKN_S" nextval="2329"/>
-    <sequence name="KREW_ATTR_DEFN_S" nextval="10000"/>
-    <sequence name="KREW_DOC_HDR_S" nextval="3421"/>
-    <sequence name="KREW_DOC_LNK_S" nextval="2000"/>
-    <sequence name="KREW_DOC_NTE_S" nextval="2020"/>
-    <sequence name="KREW_DOC_TYP_ATTR_S" nextval="2025"/>
-    <sequence name="KREW_EDL_FLD_DMP_S" nextval="5000"/>
-    <sequence name="KREW_EDL_S" nextval="2022"/>
-    <sequence name="KREW_OUT_BOX_ITM_S" nextval="10043"/>
-    <sequence name="KREW_PPL_FLW_ATTR_S" nextval="10000"/>
-    <sequence name="KREW_PPL_FLW_DLGT_S" nextval="10000"/>
-    <sequence name="KREW_PPL_FLW_MBR_S" nextval="10000"/>
-    <sequence name="KREW_PPL_FLW_S" nextval="10000"/>
-    <sequence name="KREW_RSP_S" nextval="2065"/>
-    <sequence name="KREW_RTE_NODE_CFG_PARM_S" nextval="3940"/>
-    <sequence name="KREW_RTE_NODE_S" nextval="3628"/>
-    <sequence name="KREW_RTE_TMPL_S" nextval="1658"/>
-    <sequence name="KREW_RULE_EXPR_S" nextval="2002"/>
-    <sequence name="KREW_RULE_TMPL_OPTN_S" nextval="2020"/>
-    <sequence name="KREW_SRCH_ATTR_S" nextval="2060"/>
-    <sequence name="KREW_TYP_ATTR_S" nextval="10000"/>
-    <sequence name="KREW_TYP_S" nextval="10000"/>
-    <sequence name="KREW_USR_S" nextval="100000000000"/>
-    <sequence name="KRIM_ATTR_DATA_ID_S" nextval="10000"/>
-    <sequence name="KRIM_ATTR_DEFN_ID_S" nextval="10003"/>
-    <sequence name="KRIM_DLGN_ID_S" nextval="10000"/>
-    <sequence name="KRIM_DLGN_MBR_ID_S" nextval="10000"/>
-    <sequence name="KRIM_ENTITY_ADDR_ID_S" nextval="10000"/>
-    <sequence name="KRIM_ENTITY_AFLTN_ID_S" nextval="10000"/>
-    <sequence name="KRIM_ENTITY_CTZNSHP_ID_S" nextval="10000"/>
-    <sequence name="KRIM_ENTITY_EMAIL_ID_S" nextval="10000"/>
-    <sequence name="KRIM_ENTITY_EMP_ID_S" nextval="10000"/>
-    <sequence name="KRIM_ENTITY_ETHNIC_ID_S" nextval="10000"/>
-    <sequence name="KRIM_ENTITY_EXT_ID_ID_S" nextval="10000"/>
-    <sequence name="KRIM_ENTITY_ID_S" nextval="10000"/>
-    <sequence name="KRIM_ENTITY_NM_ID_S" nextval="10000"/>
-    <sequence name="KRIM_ENTITY_PHONE_ID_S" nextval="10000"/>
-    <sequence name="KRIM_ENTITY_RESIDENCY_ID_S" nextval="10000"/>
-    <sequence name="KRIM_ENTITY_VISA_ID_S" nextval="10000"/>
-    <sequence name="KRIM_GRP_ATTR_DATA_ID_S" nextval="10000"/>
-    <sequence name="KRIM_GRP_ID_S" nextval="10000"/>
-    <sequence name="KRIM_GRP_MBR_ID_S" nextval="10000"/>
-    <sequence name="KRIM_PERM_ID_S" nextval="10003"/>
-    <sequence name="KRIM_PERM_RQRD_ATTR_ID_S" nextval="10000"/>
-    <sequence name="KRIM_PERM_TMPL_ID_S" nextval="10002"/>
-    <sequence name="KRIM_PRNCPL_ID_S" nextval="10000"/>
-    <sequence name="KRIM_ROLE_ID_S" nextval="10003"/>
-    <sequence name="KRIM_ROLE_MBR_ID_S" nextval="10003"/>
-    <sequence name="KRIM_ROLE_PERM_ID_S" nextval="10000"/>
-    <sequence name="KRIM_ROLE_RSP_ACTN_ID_S" nextval="10000"/>
-    <sequence name="KRIM_ROLE_RSP_ID_S" nextval="10000"/>
-    <sequence name="KRIM_RSP_ID_S" nextval="10000"/>
-    <sequence name="KRIM_RSP_RQRD_ATTR_ID_S" nextval="10000"/>
-    <sequence name="KRIM_RSP_TMPL_ID_S" nextval="10000"/>
-    <sequence name="KRIM_TYP_ATTR_ID_S" nextval="10000"/>
-    <sequence name="KRIM_TYP_ID_S" nextval="10002"/>
-    <sequence name="KRMS_ACTN_ATTR_S" nextval="10000"/>
-    <sequence name="KRMS_ACTN_S" nextval="10000"/>
-    <sequence name="KRMS_AGENDA_ATTR_S" nextval="10000"/>
-    <sequence name="KRMS_AGENDA_ITM_S" nextval="10000"/>
-    <sequence name="KRMS_AGENDA_S" nextval="10000"/>
-    <sequence name="KRMS_ATTR_DEFN_S" nextval="10000"/>
-    <sequence name="KRMS_CMPND_PROP_PROPS_S" nextval="10000"/>
-    <sequence name="KRMS_CNTXT_ATTR_S" nextval="10000"/>
-    <sequence name="KRMS_CNTXT_S" nextval="10000"/>
-    <sequence name="KRMS_CNTXT_VLD_ACTN_TYP_S" nextval="10000"/>
-    <sequence name="KRMS_CNTXT_VLD_AGENDA_TYP_S" nextval="10000"/>
-    <sequence name="KRMS_CNTXT_VLD_FUNC_S" nextval="10000"/>
-    <sequence name="KRMS_CNTXT_VLD_RULE_TYP_S" nextval="10000"/>
-    <sequence name="KRMS_CNTXT_VLD_TERM_SPEC_S" nextval="10000"/>
-    <sequence name="KRMS_CTGRY_S" nextval="1"/>
-    <sequence name="KRMS_FUNC_PARM_S" nextval="10000"/>
-    <sequence name="KRMS_FUNC_S" nextval="10000"/>
-    <sequence name="KRMS_PROP_PARM_S" nextval="10000"/>
-    <sequence name="KRMS_PROP_S" nextval="10000"/>
-    <sequence name="KRMS_RULE_ATTR_S" nextval="10000"/>
-    <sequence name="KRMS_RULE_S" nextval="10000"/>
-    <sequence name="KRMS_TERM_PARM_S" nextval="10000"/>
-    <sequence name="KRMS_TERM_RSLVR_ATTR_S" nextval="10000"/>
-    <sequence name="KRMS_TERM_RSLVR_INPUT_SPEC_S" nextval="10000"/>
-    <sequence name="KRMS_TERM_RSLVR_PARM_SPEC_S" nextval="10000"/>
-    <sequence name="KRMS_TERM_RSLVR_S" nextval="10000"/>
-    <sequence name="KRMS_TERM_S" nextval="10000"/>
-    <sequence name="KRMS_TERM_SPEC_S" nextval="10000"/>
-    <sequence name="KRMS_TYP_ATTR_S" nextval="10000"/>
-    <sequence name="KRMS_TYP_S" nextval="10000"/>
     <sequence name="KRNS_DOC_TYP_ATTR_S" nextval="1580"/>
     <sequence name="KRNS_LOCK_S" nextval="2000"/>
     <sequence name="KRNS_LOOKUP_RSLT_S" nextval="2040"/>
@@ -17193,8 +17076,6 @@
     <sequence name="KRSB_BAM_PARM_S" nextval="30000"/>
     <sequence name="KRSB_BAM_S" nextval="30000"/>
     <sequence name="KRSB_MSG_QUE_S" nextval="30000"/>
-    <sequence name="KRSB_SVC_DEF_S" nextval="10105"/>
-    <sequence name="KRSB_SVC_DSCRPTR_S" nextval="10105"/>
     <sequence name="LOC_RVW_DTL_ID_SEQ" nextval="1"/>
     <sequence name="MLSTN_ID_SEQ" nextval="1"/>
     <sequence name="ORIGIN_ENTRY_ID_SEQ" nextval="2060"/>

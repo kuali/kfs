@@ -1253,6 +1253,8 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
 
     public ActionForward insertDistributionLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         TravelFormBase travelForm = (TravelFormBase) form;
+        TravelDocument travelDocument = travelForm.getTravelDocument();
+        travelForm.getAccountDistributionnewSourceLine().setCardType(travelDocument.getDefaultAccountingLineCardAgencyType());
         travelForm.setAnchor(TemConstants.DISTRIBUTION_ANCHOR);
         final TravelMvcWrapperBean mvcWrapper = newMvcDelegate(form);
 
@@ -1529,4 +1531,5 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
 
         return MessageFormat.format(message, args);
     }
+
 }

@@ -647,10 +647,6 @@
     <bean id="removeAttendeeEvent" class="org.kuali.kfs.module.tem.document.web.struts.RemoveAttendeeEvent">
     </bean>
     
-	<bean id="temBatchService" parent="temBatchService-parentBean" />
-	<bean id="temBatchService-parentBean" class="org.kuali.kfs.module.tem.batch.service.impl.TemBatchServiceImpl">
-	</bean>
-
     <bean id="uploadGroupTravelersEvent" class="org.kuali.kfs.module.tem.document.web.struts.UploadGroupTravelersEvent">
         <property name="travelDocumentService" ref="temTravelDocumentService" />        
         <property name="ruleService" ref="kualiRuleService" />
@@ -928,7 +924,6 @@
 		<property name="batchInputFileService" ref="batchInputFileService"/>
 		<property name="expenseImportByTravelerService" ref="expenseImportByTravelerService" />
 		<property name="expenseImportByTripService" ref="expenseImportByTripService"/>
-		<property name="temBatchService" ref="temBatchService"/>
 		<property name="travelExpenseService" ref="travelExpenseService" />
 		<property name="agencyDataFileErrorDirectory" value="${staging.directory}/tem/agencyData/error" />
 		<property name="agencyDataReportDirectory" value="${reports.directory}/tem" />
@@ -1049,7 +1044,6 @@
 	<bean id="creditCardDataImportService-parentBean" class="org.kuali.kfs.module.tem.batch.service.impl.CreditCardDataImportServiceImpl">
 		<property name="businessObjectService" ref="businessObjectService" />
 		<property name="batchInputFileService" ref="batchInputFileService"/>
-		<property name="temBatchService" ref="temBatchService"/>
 		<property name="temProfileService" ref="temProfileService" />
 		<property name="travelExpenseService" ref="travelExpenseService" />
         <property name="creditCardAgencyService" ref="creditCardAgencyService" />

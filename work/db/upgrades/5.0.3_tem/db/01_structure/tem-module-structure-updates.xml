@@ -156,8 +156,8 @@
 			<column name="CREATION_TS" type="DATE" />
 			<column name="PROCESSING_TS" type="DATE" />
 			<column name="MV_TO_HISTORY" type="VARCHAR2(1)" />
-			<column name="ACTV_CD" size="1" type="VARCHAR"/>
-			<column name="MANUAL_CRTD" size="1" type="VARCHAR" />
+			<column name="ACTV_CD" type="VARCHAR2(1)"/>
+			<column name="MANUAL_CRTD" type="VARCHAR2(1)" />
 			<column name="VER_NBR" type="NUMBER(8,0)" defaultValueNumeric="1" />
 			<column name="OBJ_ID" type="VARCHAR2(36)" />
 		</createTable>

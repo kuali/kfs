@@ -25,22 +25,23 @@
 	    	<include method="checkNonEmployeeTravelerTypeCode" />
 	    	<include method="getAllStates" />
 	    </create>
-	</allow>	
-	<allow>
 	    <create creator="spring" javascript="TravelAuthorizationService">
 	    	<param name="beanName" value="temTravelAuthorizationService" />
 	    	<include method="checkNonReimbursable" />	    	
 	    </create>
-	</allow>
-	<allow>
 	    <create creator="spring" javascript="TravelReimbursementService">
 	    	<param name="beanName" value="temTravelReimbursementService" />
 	    </create>
-	</allow>	
-	<allow>
 	    <create creator="spring" javascript="TravelExpenseTypeService">
 	    	<param name="beanName" value="temTravelExpenseTypeService" />
 	    	<include method="getCompanyNameMapFrom" />
+	    </create>
+			<convert converter="bean" match="org.kuali.kfs.module.tem.businessobject.CreditCardAgency">
+	   		<param name="include" value="id,creditCardOrAgencyCode,travelCardTypeCode,paymentIndicator,creditCardOrAgencyName,address1,address2,city,state,zipCode,email,phone,contactName,typeCode,preReconciled,enableNonReimbursable,vendorNumber,foreignCompany,active" />
+		</convert>	
+	    <create creator="spring" javascript="CreditCardAgencyService">
+	    	<param name="beanName" value="creditCardAgencyService" />
+	    	<include method="getCreditCardAgencyByCode" />
 	    </create>
 	</allow>	
 </dwr>

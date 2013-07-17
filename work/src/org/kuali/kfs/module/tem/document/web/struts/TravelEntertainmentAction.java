@@ -214,6 +214,7 @@ public class TravelEntertainmentAction extends TravelActionBase {
 
         initializeNames(entForm, document);
         setEntHostCertificationWarning(document);
+        setButtonPermissions(entForm);
 
         if(ObjectUtils.isNotNull(document.getActualExpenses())){
             document.enableExpenseTypeSpecificFields(document.getActualExpenses());
@@ -444,6 +445,14 @@ public class TravelEntertainmentAction extends TravelActionBase {
         travelForm.getObservable().notifyObservers(new Object[] { mvcWrapper, new String(travelForm.getAttendeesImportFile().getFileData()) });
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+
+    /**
+     * This method sets all the boolean properties on the form to determine what buttons can be displayed depending on what is going
+     * on
+     */
+    protected void setButtonPermissions(TravelEntertainmentForm form) {
+        setCanCalculate(form);
     }
 
     @Override

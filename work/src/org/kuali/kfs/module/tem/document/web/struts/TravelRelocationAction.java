@@ -145,6 +145,7 @@ public class TravelRelocationAction extends TravelActionBase {
     protected void setButtonPermissions(TravelRelocationForm form) {
         final TravelRelocationAuthorizer authorizer = getDocumentAuthorizer(form);
         form.setCanCertify(authorizer.canCertify(form.getTravelRelocationDocument(), GlobalVariables.getUserSession().getPerson()));
+        setCanCalculate(form);
     }
 
     protected void setTaxSelectable(final TravelRelocationForm form) {

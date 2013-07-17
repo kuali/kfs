@@ -134,16 +134,6 @@ public class TravelEntertainmentForm extends TravelFormBase implements TravelEnt
         this.canUnmask = canUnmask;
     }
 
-    /**
-     * disable calculate on ENT doc
-     *
-     * @see org.kuali.kfs.module.tem.document.web.struts.TravelFormBase#canCalculate()
-     */
-    @Override
-    public boolean canCalculate(){
-        return false;
-    }
-
     @Override
     public Attendee getNewAttendeeLine() {
         return newAttendeeLine;

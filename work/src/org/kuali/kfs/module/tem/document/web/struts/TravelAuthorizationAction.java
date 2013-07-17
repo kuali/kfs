@@ -435,21 +435,21 @@ public class TravelAuthorizationAction extends TravelActionBase {
         authForm.setCanAmend(can);
     }
 
-    /**
-     * Determines whether or not someone can calculate a travel authorization
-     *
-     * @param authForm
-     */
-    protected void setCanCalculate(TravelAuthorizationForm authForm) {
-        boolean can = !(isFinal(authForm) || isProcessed(authForm));
-
-        if (can) {
-            TravelAuthorizationAuthorizer documentAuthorizer = getDocumentAuthorizer(authForm);
-            can = documentAuthorizer.canCalculate(authForm.getTravelAuthorizationDocument(), GlobalVariables.getUserSession().getPerson());
-        }
-
-        authForm.setCanCalculate(can);
-    }
+//    /**
+//     * Determines whether or not someone can calculate a travel authorization
+//     *
+//     * @param authForm
+//     */
+//    protected void setCanCalculate(TravelAuthorizationForm authForm) {
+//        boolean can = !(isFinal(authForm) || isProcessed(authForm));
+//
+//        if (can) {
+//            TravelAuthorizationAuthorizer documentAuthorizer = getDocumentAuthorizer(authForm);
+//            can = documentAuthorizer.canCalculate(authForm.getTravelAuthorizationDocument(), GlobalVariables.getUserSession().getPerson());
+//        }
+//
+//        authForm.setCanCalculate(can);
+//    }
 
     /**
      * This method determines if the user can or cannot close a TA based on permissions and state

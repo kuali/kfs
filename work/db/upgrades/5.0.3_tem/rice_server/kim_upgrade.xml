@@ -9,7 +9,7 @@
 		</update>
 		<update tableName="krim_typ_t">
 			<column name="nmspc_cd" value="KFS-SYS"/>
-			<where>nmspc_cd = 'KFS-FP' and role_nm = 'Payment Method'</where>
+			<where>nmspc_cd = 'KFS-FP' and nm = 'Payment Method'</where>
 		</update>
 		<update tableName="krim_attr_defn_t">
 			<column name="nm" value="paymentMethodCode"/>

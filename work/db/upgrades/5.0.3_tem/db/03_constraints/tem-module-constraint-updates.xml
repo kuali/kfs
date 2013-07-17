@@ -751,7 +751,7 @@
 		<addPrimaryKey tableName="TEM_TRVL_PMT_T" constraintName="TEM_TRVL_PMT_TP1" columnNames="FDOC_NBR" />
 		<addNotNullConstraint tableName="TEM_TRVL_PMT_T" columnName="VER_NBR" />
 		<addNotNullConstraint tableName="TEM_TRVL_PMT_T" columnName="OBJ_ID" />
-		<addNotNullConstraint tableName="TEM_TRVL_PMT_T" columnName="EXCPT_IND""/>
+		<addNotNullConstraint tableName="TEM_TRVL_PMT_T" columnName="EXCPT_IND"/>
 		<addUniqueConstraint tableName="TEM_TRVL_PMT_T" constraintName="TEM_TRVL_PMT_TC0" columnNames="OBJ_ID" />
 		<addForeignKeyConstraint constraintName="TEM_TRVL_PMT_TR1" baseTableName="TEM_TRVL_PMT_T" baseColumnNames="DOC_LOC_CD" referencedTableName="FS_PMT_DOC_LOC_T" referencedColumnNames="PMT_DOC_LOC_CD" />
 		<addPrimaryKey tableName="TEM_CC_IMP_EXP_CLR_T" constraintName="TEM_CC_IMP_EXP_CLR_TP1" columnNames="FDOC_NBR" />

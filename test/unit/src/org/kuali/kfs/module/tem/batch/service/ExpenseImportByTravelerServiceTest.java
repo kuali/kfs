@@ -73,7 +73,7 @@ public class ExpenseImportByTravelerServiceTest extends KualiTestBase {
         TEMProfile profile = createTemProfile();
         // parameter is defaulted to 6000, but there are no valid combos that
         // will work with 6000. Set it to 5000 for testing purposes.
-        Parameter param = parameterService.getParameter(TemParameterConstants.TEM_ALL.class, AgencyMatchProcessParameter.TRAVEL_CREDIT_CARD_AIR_OBJECT_CODE);
+        Parameter param = parameterService.getParameter(TemParameterConstants.TEM_ALL.class, AgencyMatchProcessParameter.TRAVEL_CREDIT_CARD_AIRFARE_OBJECT_CODE);
         Parameter.Builder builder = Parameter.Builder.create(param);
         builder.setValue("5000");
         parameterService.updateParameter(builder.build());

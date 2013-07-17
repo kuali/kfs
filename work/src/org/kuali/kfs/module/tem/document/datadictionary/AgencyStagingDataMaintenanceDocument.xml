@@ -29,6 +29,12 @@
         <property name="documentAuthorizerClass" value="org.kuali.kfs.module.tem.document.authorization.AgencyStagingDataAuthorizer"/>
 		<property name="businessRulesClass" value="org.kuali.kfs.module.tem.document.validation.impl.AgencyStagingDataValidation" />
 		<property name="documentPresentationControllerClass" value="org.kuali.kfs.module.tem.document.authorization.AgencyStagingDataPresentationController" />
+		<property name="webScriptFiles" >
+      		<list>
+        		<value>../dwr/interface/CreditCardAgencyService.js</value>
+       			 <value>../scripts/module/tem/objectInfo.js</value>
+     		</list>
+    </property>
 	</bean>
 
 	<bean id="AgencyStagingDataOverview-Section" parent="AgencyStagingDataOverview-Section-parentBean" />
@@ -40,7 +46,13 @@
 			    <bean parent="MaintainableSubSectionHeaderDefinition" p:name="Travel Agency Data"/>
                 <bean parent="MaintainableFieldDefinition" p:name="id" p:unconditionallyReadOnly="true"/>
                 <bean parent="MaintainableFieldDefinition" p:name="importBy" p:required="true" />
-                <bean parent="MaintainableFieldDefinition" p:name="creditCardOrAgencyCode" p:required="true" />
+                <bean parent="MaintainableFieldDefinition" p:name="creditCardOrAgencyCode" p:required="true"  p:webUILeaveFieldFunction="loadAgencyName">
+                	<property name="webUILeaveFieldFunctionParameters">
+						<list>
+							<value>agency</value>
+						</list>
+					</property> 
+                </bean>
                 <bean parent="MaintainableFieldDefinition" p:name="agency" p:unconditionallyReadOnly="true" />
                 <bean parent="MaintainableFieldDefinition" p:name="agencyDataId" />
                 <bean parent="MaintainableFieldDefinition" p:name="otherCompanyName" />

@@ -99,12 +99,13 @@ public class TransportationModeDetail extends PersistableBusinessObjectBase {
      */
     @Override
     public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+
         TransportationModeDetail detail = (TransportationModeDetail)obj;
 
-        if(this.transportationModeCode.equals(detail.getTransportationModeCode()) && this.documentNumber.equals(detail.getDocumentNumber())) {
-            return true;
-        }
-        return false;
+        return (this.transportationModeCode.equals(detail.getTransportationModeCode()) && this.documentNumber.equals(detail.getDocumentNumber()));
     }
 
 

@@ -158,7 +158,7 @@ public class ExpenseImportServiceBase {
 
         String objectCodeParam = null;
         if (StringUtils.isNotEmpty(agencyData.getAirTicketNumber())) {
-            objectCodeParam = AgencyMatchProcessParameter.TRAVEL_CREDIT_CARD_AIR_OBJECT_CODE;
+            objectCodeParam = AgencyMatchProcessParameter.TRAVEL_CREDIT_CARD_AIRFARE_OBJECT_CODE;
         }
         else if (StringUtils.isNotEmpty(agencyData.getLodgingItineraryNumber())) {
             objectCodeParam = AgencyMatchProcessParameter.TRAVEL_CREDIT_CARD_LODGING_OBJECT_CODE;

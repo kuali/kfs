@@ -24,8 +24,6 @@ public class AccountingDistributionComparator implements Comparator<AccountingDi
 
     @Override
     public int compare(AccountingDistribution accountingDistribution1, AccountingDistribution accountingDistribution2) {
-        String name1 = accountingDistribution1.getObjectCodeName();
-        String name2 = accountingDistribution2.getObjectCodeName();
         return accountingDistribution1.getObjectCodeName().compareTo(accountingDistribution2.getObjectCodeName());
     }
 

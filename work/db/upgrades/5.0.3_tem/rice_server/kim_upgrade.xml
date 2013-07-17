@@ -5,43 +5,43 @@
 	<changeSet author="KFSTEM" id="KFSMI-8898">
 		<update tableName="krim_role_t">
 			<column name="nmspc_cd" value="KFS-SYS"/>
-			<whereClause>nmspc_cd = 'KFS-FP' and role_nm = 'Travel Manager'</whereClause>
+			<where>nmspc_cd = 'KFS-FP' and role_nm = 'Travel Manager'</where>
 		</update>
 		<update tableName="krim_typ_t">
 			<column name="nmspc_cd" value="KFS-SYS"/>
-			<whereClause>nmspc_cd = 'KFS-FP' and role_nm = 'Payment Method'</whereClause>
+			<where>nmspc_cd = 'KFS-FP' and role_nm = 'Payment Method'</where>
 		</update>
 		<update tableName="krim_attr_defn_t">
 			<column name="nm" value="paymentMethodCode"/>
 			<column name="nmspc_cd" value="KFS-SYS"/>
-			<whereClause>nmspc_cd = 'KFS-FP' and nm = 'disbursementVoucherPaymentMethodCode'</whereClause>
+			<where>nmspc_cd = 'KFS-FP' and nm = 'disbursementVoucherPaymentMethodCode'</where>
 		</update>
 		<update tableName="krim_role_t">
 			<column name="nmspc_cd" value="KFS-SYS"/>
-			<whereClause>nmspc_cd = 'KFS-FP' and role_nm = 'Disbursement Method Reviewerr'</whereClause>
+			<where>nmspc_cd = 'KFS-FP' and role_nm = 'Disbursement Method Reviewerr'</where>
 		</update>
 		<update tableName="krim_rsp_attr_data_t">
 			<column name="attr_val" value="KFS"/>
-			<whereClause>kim_attr_defn_id = (select kim_attr_defn_id from krim_attr_defn_t where nmspc_cd = 'KR-WKFLW' and nm = 'documentTypeName') and rsp_id = (select rsp_id from krim_rsp_t where nmspc_cd = 'KFS-FP' and nm = 'Review DV PaymentMethod')</whereClause>
+			<where>kim_attr_defn_id = (select kim_attr_defn_id from krim_attr_defn_t where nmspc_cd = 'KR-WKFLW' and nm = 'documentTypeName') and rsp_id = (select rsp_id from krim_rsp_t where nmspc_cd = 'KFS-FP' and nm = 'Review DV PaymentMethod')</where>
 		</update>
 		<update tableName="krim_rsp_t">
 			<column name="nmspc_cd" value="KFS-SYS"/>
 			<column name="nm" value="Review KFS PaymentMethod"/>
-			<whereClause>nmspc_cd = 'KFS-FP' and nm = 'Review DV PaymentMethod'</whereClause>
+			<where>nmspc_cd = 'KFS-FP' and nm = 'Review DV PaymentMethod'</where>
 		</update>
 		<update tableName="krim_perm_attr_data_t">
 			<column name="attr_val" value="PaymentSourceWireTransfer"/>
-			<whereClause>perm_id = (select perm_id from krim_perm_t where nmspc_cd = 'KFS-FP' and nm = 'Full Unmask Field DisbursementVoucherWireTransfer disbVchrPayeeAccountNumber') and kim_attr_defn_id = (select kim_attr_defn_id from krim_attr_defn_t where nmspc_cd = 'KR-NS' and nm = 'componentName')</whereClause>
+			<where>perm_id = (select perm_id from krim_perm_t where nmspc_cd = 'KFS-FP' and nm = 'Full Unmask Field DisbursementVoucherWireTransfer disbVchrPayeeAccountNumber') and kim_attr_defn_id = (select kim_attr_defn_id from krim_attr_defn_t where nmspc_cd = 'KR-NS' and nm = 'componentName')</where>
 		</update>
 		<update tableName="krim_perm_attr_data_t">
 			<column name="attr_val" value="payeeAccountNumber"/>
-			<whereClause>perm_id = (select perm_id from krim_perm_t where nmspc_cd = 'KFS-FP' and nm = 'Full Unmask Field DisbursementVoucherWireTransfer disbVchrPayeeAccountNumber') and kim_attr_defn_id = (select kim_attr_defn_id from krim_attr_defn_t where nmspc_cd = 'KR-NS' and nm = 'propertyName')</whereClause>
+			<where>perm_id = (select perm_id from krim_perm_t where nmspc_cd = 'KFS-FP' and nm = 'Full Unmask Field DisbursementVoucherWireTransfer disbVchrPayeeAccountNumber') and kim_attr_defn_id = (select kim_attr_defn_id from krim_attr_defn_t where nmspc_cd = 'KR-NS' and nm = 'propertyName')</where>
 		</update>
 		<update tableName="krim_perm_t">
 			<column name="nmspc_cd" value="KFS-SYS"/>
 			<column name="nm" value="Full Unmask Field PaymentSourceWireTransfer payeeAccountNumber"/>
 			<column name="desc_txt" value="Authorizes users to view the entire bank account number on displays of wire transfer information on payment source documents (such as the Disbursement Voucher, the Travel Authorization, the Travel Reimbursement, etc)."/>
-			<whereClause>nmspc_cd = 'KFS-FP' and nm = 'Full Unmask Field DisbursementVoucherWireTransfer disbVchrPayeeAccountNumber'</whereClause>
+			<where>nmspc_cd = 'KFS-FP' and nm = 'Full Unmask Field DisbursementVoucherWireTransfer disbVchrPayeeAccountNumber'</where>
 		</update>
 	</changeSet>
 	

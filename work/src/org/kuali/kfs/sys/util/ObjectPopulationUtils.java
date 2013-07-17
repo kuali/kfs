@@ -140,7 +140,7 @@ public class ObjectPopulationUtils {
      * @param target target
      */
     public static void populateFromBaseClass(Class base, BusinessObject src, BusinessObject target, Map<String, Class<?>> uncopyableFields) {
-        populateFromBaseClass(base, src, target, new HashMap());
+        populateFromBaseClass(base, src, target, new HashMap(), uncopyableFields);
     }
 
     /**

@@ -637,7 +637,7 @@ public class TemConstants {
 
     public static final class AgencyMatchProcessParameter {
         public static final String AGENCY_MATCH_DTL_TYPE = "AgencyMatchProcess";
-        public static final String TRAVEL_CREDIT_CARD_AIR_OBJECT_CODE = "TRAVEL_CREDIT_CARD_AIRFARE_OBJECT_CODE";
+        public static final String TRAVEL_CREDIT_CARD_AIRFARE_OBJECT_CODE = "TRAVEL_CREDIT_CARD_AIRFARE_OBJECT_CODE";
         public static final String TRAVEL_CREDIT_CARD_RENTAL_CAR_OBJECT_CODE = "TRAVEL_CREDIT_CARD_RENTAL_CAR_OBJECT_CODE";
         public static final String TRAVEL_CREDIT_CARD_LODGING_OBJECT_CODE = "TRAVEL_CREDIT_CARD_LODGING_OBJECT_CODE";
         public static final String TRAVEL_CREDIT_CARD_CLEARING_CHART = "TRAVEL_CREDIT_CARD_CLEARING_CHART";

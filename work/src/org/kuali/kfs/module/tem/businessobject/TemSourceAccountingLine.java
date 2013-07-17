@@ -64,7 +64,7 @@ public class TemSourceAccountingLine extends SourceAccountingLine implements Tem
      */
     @Override
     public boolean equals(Object obj) {
-        if (!(obj instanceof AccountingLine)) {
+        if (obj == null || !(obj instanceof AccountingLine)) {
             return false;
         }
         AccountingLine accountingLine = (AccountingLine) obj;

@@ -173,7 +173,7 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
                     e.printStackTrace();
                 }
 
-                ObjectPopulationUtils.populateFromBaseClass(AccountingLineBase.class, accountingLine, newAccountingLine);
+                ObjectPopulationUtils.populateFromBaseClass(AccountingLineBase.class, accountingLine, newAccountingLine, PurapConstants.KNOWN_UNCOPYABLE_FIELDS);
                 newAccountingLine.setAccountLinePercent(pct);
                 if (LOG.isDebugEnabled()) {
                     LOG.debug(methodName + " adding " + newAccountingLine.getAccountLinePercent());

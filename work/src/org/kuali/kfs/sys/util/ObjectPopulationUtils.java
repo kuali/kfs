@@ -27,7 +27,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.web.format.FormatException;
 import org.kuali.rice.krad.bo.BusinessObject;
@@ -37,7 +36,6 @@ import org.kuali.rice.krad.service.ModuleService;
 import org.kuali.rice.krad.service.PersistenceService;
 import org.kuali.rice.krad.util.ExternalizableBusinessObjectUtils;
 import org.kuali.rice.krad.util.ObjectUtils;
-
 
 public class ObjectPopulationUtils {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ObjectPopulationUtils.class);
@@ -51,7 +49,7 @@ public class ObjectPopulationUtils {
      * @param target the target class
      * @param supplementalUncopyable a list of fields to never copy
      */
-    public static void populateFromBaseClass(Class base, BusinessObject src, BusinessObject target, Map supplementalUncopyable) {
+    public static void populateFromBaseClass(Class base, BusinessObject src, BusinessObject target, Map supplementalUncopyable, Map<String, Class<?>> uncopyableFields) {
         List<String> fieldNames = new ArrayList<String>();
         Field[] fields = base.getDeclaredFields();
 
@@ -68,7 +66,7 @@ public class ObjectPopulationUtils {
         }
         int counter = 0;
         for (String fieldName : fieldNames) {
-            if ((isProcessableField(base, fieldName, PurapConstants.KNOWN_UNCOPYABLE_FIELDS)) && (isProcessableField(base, fieldName, supplementalUncopyable))) {
+            if ((isProcessableField(base, fieldName, uncopyableFields)) && (isProcessableField(base, fieldName, supplementalUncopyable))) {
                 attemptCopyOfFieldName(base.getName(), fieldName, src, target, supplementalUncopyable);
                 counter++;
             }
@@ -141,7 +139,7 @@ public class ObjectPopulationUtils {
      * @param src source
      * @param target target
      */
-    public static void populateFromBaseClass(Class base, BusinessObject src, BusinessObject target) {
+    public static void populateFromBaseClass(Class base, BusinessObject src, BusinessObject target, Map<String, Class<?>> uncopyableFields) {
         populateFromBaseClass(base, src, target, new HashMap());
     }
 

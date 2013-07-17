@@ -18,7 +18,6 @@ package org.kuali.kfs.integration.ar;
 import java.sql.Date;
 
 import org.kuali.kfs.coa.businessobject.Account;
-import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.bo.DocumentHeader;

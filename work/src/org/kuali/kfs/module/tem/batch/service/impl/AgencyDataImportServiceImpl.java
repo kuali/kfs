@@ -17,10 +17,12 @@ package org.kuali.kfs.module.tem.batch.service.impl;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.tem.TemConstants;
@@ -31,7 +33,6 @@ import org.kuali.kfs.module.tem.batch.service.AgencyDataImportService;
 import org.kuali.kfs.module.tem.batch.service.DataReportService;
 import org.kuali.kfs.module.tem.batch.service.ExpenseImportByTravelerService;
 import org.kuali.kfs.module.tem.batch.service.ExpenseImportByTripService;
-import org.kuali.kfs.module.tem.batch.service.TemBatchService;
 import org.kuali.kfs.module.tem.businessobject.AgencyImportData;
 import org.kuali.kfs.module.tem.businessobject.AgencyStagingData;
 import org.kuali.kfs.module.tem.service.TravelExpenseService;
@@ -55,7 +56,6 @@ public class AgencyDataImportServiceImpl implements AgencyDataImportService {
     private BusinessObjectService businessObjectService;
     private ExpenseImportByTravelerService expenseImportByTravelerService;
     private ExpenseImportByTripService expenseImportByTripService;
-    private TemBatchService temBatchService;
     private TravelExpenseService travelExpenseService;
     private static ConfigurationService configurationService;
 
@@ -96,10 +96,6 @@ public class AgencyDataImportServiceImpl implements AgencyDataImportService {
     @Override
     public boolean importAgencyDataFile(String dataFileName, BatchInputFileType inputFileType) {
 
-        String fileExtension = "." + inputFileType.getFileExtension();
-        String doneFileName = temBatchService.getCompanionFileName(dataFileName, fileExtension, TemConstants.DONE_FILE_SUFFIX);
-        File doneFile = temBatchService.getFileByAbsolutePath(doneFileName);
-
         try {
             FileInputStream fileContents = new FileInputStream(dataFileName);
 
@@ -119,13 +115,45 @@ public class AgencyDataImportServiceImpl implements AgencyDataImportService {
         }
         catch (Exception ex) {
             LOG.error("Failed to process the file : " + dataFileName, ex);
-            temBatchService.moveErrorFile(dataFileName, this.getAgencyDataFileErrorDirectory(), agencyDataFileErrorDirectory);
+            moveErrorFile(dataFileName, this.getAgencyDataFileErrorDirectory());
             return false;
         }
         finally {
-            boolean doneFileDeleted = doneFile.delete();
+         // boolean doneFileDeleted = doneFile.delete();
+            removeDoneFiles(dataFileName);
+
         }
         return true;
+    }
+
+
+    public void moveErrorFile(String dataFileName, String agencyDataFileErrordirectory) {
+        File dataFile = new File(dataFileName);
+
+        if (!dataFile.exists() || !dataFile.canRead()) {
+            LOG.error("Cannot find/read data file " + dataFileName);
+
+        }
+        else {
+
+            try {
+                FileUtils.moveToDirectory(dataFile, new File(agencyDataFileErrordirectory), true);
+            }
+            catch (IOException ex) {
+                LOG.error("Cannot move the file:" + dataFile + " to the directory: " + agencyDataFileErrordirectory, ex);
+            }
+        }
+    }
+
+    /**
+     * Clears out associated .done files for the processed data files.
+     */
+    protected void removeDoneFiles(String dataFileName) {
+            File doneFile = new File(StringUtils.substringBeforeLast(dataFileName, ".") + TemConstants.DONE_FILE_SUFFIX);
+            if (doneFile.exists()) {
+                doneFile.delete();
+            }
+
     }
 
     /**
@@ -352,21 +380,7 @@ public class AgencyDataImportServiceImpl implements AgencyDataImportService {
         this.expenseImportByTripService = expenseImportByTripService;
     }
 
-    /**
-     * Gets the temBatchService attribute.
-     * @return Returns the temBatchService.
-     */
-    public TemBatchService getTemBatchService() {
-        return temBatchService;
-    }
 
-    /**
-     * Sets the temBatchService attribute value.
-     * @param temBatchService The temBatchService to set.
-     */
-    public void setTemBatchService(TemBatchService temBatchService) {
-        this.temBatchService = temBatchService;
-    }
 
     /**
      * Gets the travelExpenseService attribute.

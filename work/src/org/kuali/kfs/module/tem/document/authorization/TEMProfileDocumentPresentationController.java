@@ -38,6 +38,7 @@ public class TEMProfileDocumentPresentationController extends MaintenanceDocumen
         if (!StringUtils.isBlank(profile.getPrincipalId())){
             readOnlyPropertyNames.addAll(TemPropertyConstants.KIMReadOnly().keySet());
         }
+        readOnlyPropertyNames.add(TemPropertyConstants.TEMProfileProperties.TRAVELER_TYPE_CODE);
         return readOnlyPropertyNames;
     }
 

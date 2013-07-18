@@ -64,6 +64,7 @@ import org.kuali.kfs.sys.document.validation.event.DeleteAccountingLineEvent;
 import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.api.util.RiceConstants;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
@@ -74,6 +75,7 @@ import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.krad.bo.AdHocRouteRecipient;
 import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.dao.DocumentDao;
+import org.kuali.rice.krad.document.Copyable;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.exception.ValidationException;
 import org.kuali.rice.krad.service.DataDictionaryService;
@@ -1210,18 +1212,6 @@ public class TravelAuthorizationAction extends TravelActionBase {
         if (form.getTravelAuthorizationDocument() instanceof TravelAuthorizationAmendmentDocument) {
             TravelDocument travelDocument = form.getTravelAuthorizationDocument();
             getTravelDocumentService().revertOriginalDocument(travelDocument, TravelAuthorizationStatusCodeKeys.OPEN_REIMB);
-            /*String docID = form.getTravelAuthorizationDocument().getDocumentHeader().getDocumentNumber();
-            try {
-                TravelAuthorizationAmendmentDocument document = (TravelAuthorizationAmendmentDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(docID);
-                // If TAA doesn't exist yet, or is only in SAVED status, change TA back to OPEN status
-                if (document == null || document.getDocumentHeader().getWorkflowDocument().isSaved()) {
-                    getTravelDocumentService().revertOriginalDocument(form, TravelAuthorizationStatusCodeKeys.OPEN_REIMB);
-                }
-
-            }
-            catch (WorkflowException ex) {
-                ex.printStackTrace();
-            }*/
         }
     }
 
@@ -1237,6 +1227,31 @@ public class TravelAuthorizationAction extends TravelActionBase {
         } else {
             super.showAccountDistribution(request, document);
         }
+    }
+
+    /**
+     * Overridden so that if a TAA is copied, it actually generates a new TA
+     * @see org.kuali.rice.kns.web.struts.action.KualiTransactionalDocumentActionBase#copy(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @Override
+    public ActionForward copy(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        TravelAuthorizationForm travelAuthForm = (TravelAuthorizationForm) form;
+        TravelAuthorizationDocument doc = travelAuthForm.getTravelAuthorizationDocument();
+
+        if (!travelAuthForm.getDocumentActions().containsKey(KRADConstants.KUALI_ACTION_CAN_COPY)) {
+            throw buildAuthorizationException("copy", doc);
+        }
+
+        if (doc instanceof TravelAuthorizationAmendmentDocument) {
+            TravelAuthorizationAmendmentDocument taaDoc = (TravelAuthorizationAmendmentDocument)doc;
+            TravelAuthorizationDocument newTaDoc = taaDoc.toCopyTA();
+            travelAuthForm.setDocument(newTaDoc);
+            travelAuthForm.setDocTypeName(TemConstants.TravelDocTypes.TRAVEL_AUTHORIZATION_DOCUMENT);
+        } else {
+            ((Copyable) travelAuthForm.getTransactionalDocument()).toCopy();
+        }
+
+        return mapping.findForward(RiceConstants.MAPPING_BASIC);
     }
 
     /**

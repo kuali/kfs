@@ -20,14 +20,17 @@ import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationStatusCodeKeys;
 import org.kuali.kfs.module.tem.TemConstants.TravelDocTypes;
 import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.BankService;
 import org.kuali.rice.kew.api.document.DocumentStatus;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.service.DocumentService;
 
 
 @Entity
@@ -68,5 +71,23 @@ public class TravelAuthorizationAmendmentDocument extends TravelAuthorizationDoc
             setFinancialDocumentBankCode(defaultBank.getBankCode());
             setBank(defaultBank);
         }
+    }
+
+    /**
+     * Creates a TA which is a copy of this TAA document
+     *
+     * @return the copied TravelAuthorizationDocument
+     * @throws WorkflowException thrown if the new TA could not be correctly instantiated
+     */
+    public TravelAuthorizationDocument toCopyTA() throws WorkflowException {
+        TravelAuthorizationDocument doc = (TravelAuthorizationDocument) SpringContext.getBean(DocumentService.class).getNewDocument(TemConstants.TravelDocTypes.TRAVEL_AUTHORIZATION_DOCUMENT);
+        toCopyTravelAuthorizationDocument(doc);
+
+        doc.getDocumentHeader().setDocumentDescription(TemConstants.PRE_FILLED_DESCRIPTION);
+        doc.setAppDocStatus(TravelAuthorizationStatusCodeKeys.IN_PROCESS);
+
+        doc.initiateAdvancePaymentAndLines();
+
+        return doc;
     }
 }

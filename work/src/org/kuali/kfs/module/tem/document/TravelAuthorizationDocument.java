@@ -196,7 +196,7 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
      * @param doc
      * @param documentID
      */
-    private void toCopyTravelAuthorizationDocument(TravelAuthorizationDocument copyToDocument) {
+    protected void toCopyTravelAuthorizationDocument(TravelAuthorizationDocument copyToDocument) {
         String documentID = copyToDocument.getDocumentNumber();
 
         //copy over all possible elements from this self to TravelAuthorizationDocument except document header

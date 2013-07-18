@@ -253,6 +253,7 @@
 		<property name="label" value="Citizenship" />
 		<property name="shortLabel" value="Citizenship" />
 		<property name="maxLength" value="40" />
+		<property name="required" value="true" />
 		<property name="summary" value="Citizenship" />
 		<property name="description" value="Citizenship" />
 		<property name="control">

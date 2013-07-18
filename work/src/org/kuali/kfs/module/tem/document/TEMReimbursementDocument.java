@@ -156,7 +156,6 @@ public abstract class TEMReimbursementDocument extends TravelDocumentBase implem
         if (!ObjectUtils.isNull(getTraveler()) && !ObjectUtils.isNull(getTravelPayment()) && !StringUtils.isBlank(getTraveler().getTravelerTypeCode())) {
             if (getTravelerService().isEmployee(getTraveler())){
                 getTravelPayment().setPayeeTypeCode(KFSConstants.PaymentPayeeTypes.EMPLOYEE);
-                setProfileId(getTemProfileId());
             }else{
                 getTravelPayment().setPayeeTypeCode(KFSConstants.PaymentPayeeTypes.CUSTOMER);
             }

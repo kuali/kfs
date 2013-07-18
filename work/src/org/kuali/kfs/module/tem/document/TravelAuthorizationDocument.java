@@ -1080,7 +1080,6 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
         if (!ObjectUtils.isNull(getTraveler()) && !ObjectUtils.isNull(getAdvanceTravelPayment())) {
             if (getTravelerService().isEmployee(getTraveler())){
                 getAdvanceTravelPayment().setPayeeTypeCode(KFSConstants.PaymentPayeeTypes.EMPLOYEE);
-                setProfileId(getTemProfileId());
             }else{
                 getAdvanceTravelPayment().setPayeeTypeCode(KFSConstants.PaymentPayeeTypes.CUSTOMER);
             }

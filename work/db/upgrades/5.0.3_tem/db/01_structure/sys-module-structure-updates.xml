@@ -23,7 +23,7 @@
 		<renameColumn tableName="FS_PMT_SRC_WIRE_TRNFR_T" oldColumnName="DV_FCRNCY_TYP_NM" newColumnName="FCRNCY_TYP_NM"/>
 		<renameColumn tableName="FS_PMT_SRC_WIRE_TRNFR_T" oldColumnName="DV_FCRNCY_TYP_CD" newColumnName="FCRNCY_TYP_CD"/>
 		<addUniqueConstraint tableName="FS_PMT_SRC_WIRE_TRNFR_T" constraintName="FS_PMT_SRC_WIRE_TRNFR_TC0" columnNames="OBJ_ID"/>
-		<dropUniqueConstraint tableName="FP_DV_DOC_LOC_TC0"/>
+		<dropUniqueConstraint tableName="FP_DV_DOC_LOC_T" constraintName="FP_DV_DOC_LOC_TC0"/>
 		<renameTable oldTableName="FP_DV_DOC_LOC_T" newTableName="FS_PMT_DOC_LOC_T"/>
 		<renameColumn tableName="FS_PMT_DOC_LOC_T" oldColumnName="DV_DOC_LOC_CD" newColumnName="PMT_DOC_LOC_CD"/>
 		<renameColumn tableName="FS_PMT_DOC_LOC_T" oldColumnName="DV_DOC_LOC_NM" newColumnName="PMT_DOC_LOC_NM"/>

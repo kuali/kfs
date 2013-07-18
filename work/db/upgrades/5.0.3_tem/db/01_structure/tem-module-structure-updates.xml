@@ -493,7 +493,7 @@
 			<column name="OBJ_ID" type="VARCHAR2(36)" />
 		</createTable>
 		<addPrimaryKey tableName="TEM_PER_DIEM_MIE_BREAK_DOWN_T"
-			constraintName="TEM_PER_DIEM_MIE_BREAK_DOWN_TP1" columnNames="MEALS_INC" />
+			constraintName="TEM_PER_DIEM_MIE_BRK_DWN_TP1" columnNames="MEALS_INC" />
 		<createTable tableName="TEM_PER_DIEM_T">
 			<column name="ID" type="NUMBER(22,0)" />
 			<column name="TRIP_TYP_CD" type="VARCHAR2(3)" />

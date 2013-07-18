@@ -328,7 +328,7 @@
 			columnName="FDOC_NBR" columnDataType="VARCHAR2(14)" />
 		<addNotNullConstraint tableName="TEM_PER_DIEM_EXP_T"
 			columnName="MILEAGE_RT_ID" columnDataType="NUMBER(22,0)" />
-		<addUniqueConstraint tableName="TEM_PER_DIEM_MIE_BRK_DWN_T"
+		<addUniqueConstraint tableName="TEM_PER_DIEM_MIE_BREAK_DOWN_T"
 			constraintName="TEM_PER_DIEM_MIE_BRK_DWN_TC0" columnNames="OBJ_ID" />
 		<addNotNullConstraint tableName="TEM_PER_DIEM_MIE_BREAK_DOWN_T"
 			columnName="VER_NBR" columnDataType="NUMBER(8,0)" />

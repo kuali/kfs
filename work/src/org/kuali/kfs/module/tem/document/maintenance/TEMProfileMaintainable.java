@@ -50,7 +50,6 @@ import org.kuali.rice.kns.maintenance.Maintainable;
 import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.Row;
 import org.kuali.rice.kns.web.ui.Section;
-import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.datadictionary.mask.Mask;
@@ -203,76 +202,6 @@ public class TEMProfileMaintainable extends FinancialSystemMaintainable {
     }
 
     /**
-     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#doRouteStatusChange(org.kuali.rice.kns.bo.DocumentHeader)
-     */
-    @Override
-    public void doRouteStatusChange(DocumentHeader documentHeader) {
-//        if (documentHeader.getWorkflowDocument().isFinal()
-//                || documentHeader.getWorkflowDocument().isProcessed()){
-//            TEMProfile profile = (TEMProfile) businessObject;
-//
-//            if (profile.getCustomer() == null){
-//                if (StringUtils.isEmpty(profile.getCustomerNumber())){
-//                    profile.setCustomer(getAccountsReceivableModuleService().createCustomer());
-//                    profile.getCustomer().setCustomerName(profile.getName());
-//
-//                    String newCustNumber = getAccountsReceivableModuleService().getNextCustomerNumber(profile.getCustomer());
-//                    newCustNumber = newCustNumber.toUpperCase();
-//                    profile.setCustomerNumber(newCustNumber);
-//                    profile.getCustomer().setCustomerNumber(newCustNumber);
-//
-//                    //Set to customer type code to travel and make the customer active
-//                    String customerTypeCode = "";
-//                    List<AccountsReceivableCustomerType> customerTypes = getAccountsReceivableModuleService().findByCustomerTypeDescription(TemConstants.CUSTOMER_TRAVLER_TYPE_CODE);
-//                    for (AccountsReceivableCustomerType customerType : customerTypes) {
-//                    	customerTypeCode = customerType.getCustomerTypeCode();
-//                    	break;
-//                    }
-//                    profile.getCustomer().setCustomerTypeCode(customerTypeCode);
-//                    profile.getCustomer().setActive(true);
-//
-//                    getTravelerService().copyTEMProfileToCustomer(profile, profile.getCustomer());
-//
-//
-//                    try {
-//                    	//Add note to indicate a customer has been generated for this profile to the document
-//                    	MaintenanceDocument document = (MaintenanceDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(getDocumentNumber());
-//                    	document.addNote(addCustomerCreatedNote(profile));
-//
-//                    	//Update the document with the latest profile with the newly generated customer number
-//                    	document.getNewMaintainableObject().setBusinessObject(profile);
-//
-//                    	//Save the document and generated customer
-//                    	SpringContext.getBean(DocumentService.class).saveDocument(document);
-//                    	getAccountsReceivableModuleService().saveCustomer(profile.getCustomer());
-//
-//                    	//Refresh all the reference objects after the save
-//                    	List<AccountsReceivableCustomerAddress> customerAddresses = profile.getCustomer().getAccountsReceivableCustomerAddresses();
-//                    	for(AccountsReceivableCustomerAddress address : customerAddresses) {
-//                    		address.refresh();
-//                    	}
-//                    	profile.getCustomer().setAccountsReceivableCustomerAddresses(customerAddresses);
-//
-//                    	profile.refresh();
-//                    	profile.getCustomer().refresh();
-//					} catch (WorkflowException ex) {
-//			            throw new RuntimeException(ex);
-//					}
-//
-//                    documentHeader.setDocumentDescription(trimDescription(TemConstants.NEW_TEM_PROFILE_DESCRIPTION_PREFIX + profile.getCustomer().getCustomerName()));
-//                }
-//                else{
-//                    profile.setCustomer(getAccountsReceivableModuleService().findCustomer(profile.getCustomerNumber()));
-//                    getTravelerService().copyTEMProfileToCustomer(profile, profile.getCustomer());
-//                }
-//            }
-//            else{
-//                getTravelerService().copyTEMProfileToCustomer(profile, profile.getCustomer());
-//            }
-//        }
-    }
-
-    /**
      *
      * @see org.kuali.kfs.sys.document.FinancialSystemMaintainable#answerSplitNodeQuestion(java.lang.String)
      */
@@ -308,6 +237,10 @@ public class TEMProfileMaintainable extends FinancialSystemMaintainable {
         // If NRA is selected, route to tax manager
         if (newTemProfile.isNonResidentAlien()) {
             return true;
+        }
+
+        if (newTemProfile.getCitizenship().equals(KFSConstants.COUNTRY_CODE_UNITED_STATES) || StringUtils.isBlank(newTemProfile.getCitizenship())) {
+            return false;
         }
 
         // for now assuming that during initial creation of a doc, the oldTemProfile object is null

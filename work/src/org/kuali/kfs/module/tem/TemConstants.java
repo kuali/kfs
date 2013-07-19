@@ -747,7 +747,6 @@ public class TemConstants {
         public static final String NEW_REIMBURSEMENT = "New&nbsp;Reimbursement";
         public static final String NEW_ENTERTAINMENT = "New&nbsp;Entertainment";
         public static final String NEW_RELOCATION = "New&nbsp;Relocation";
-        public static final String PRE_TRIP_VENDOR_PAYMENT = "Pre-Trip&nbsp;Vendor&nbsp;Payment";
         public static final String VENDOR_PAYMENT = "Vendor&nbsp;Payment";
         public static final String REQUISITION = "Requisition";
         public static final String AGENCY_SITES = "Agency&nbsp;Sites";

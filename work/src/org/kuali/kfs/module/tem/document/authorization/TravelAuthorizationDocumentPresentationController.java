@@ -147,7 +147,7 @@ public class TravelAuthorizationDocumentPresentationController extends TravelDoc
      * @return true if the authroziation can be closed, false otherwise
      */
     public boolean canCloseAuthorization(TravelAuthorizationDocument document) {
-        return isOpen(document) && (isFinalOrProcessed(document));
+        return isOpen(document) && (isFinalOrProcessed(document)) && hasReimbursements(document);
     }
 
     /**
@@ -160,8 +160,7 @@ public class TravelAuthorizationDocumentPresentationController extends TravelDoc
 
         // verify that there are no reimbursements out there for this doc
         if (can) {
-            List<TravelReimbursementDocument> reimbursements = getTravelDocumentService().findReimbursementDocuments(document.getTravelDocumentIdentifier());
-            if (!reimbursements.isEmpty()) {
+            if (hasReimbursements(document)) {
                 can = false;
             }
         }
@@ -220,6 +219,16 @@ public class TravelAuthorizationDocumentPresentationController extends TravelDoc
      */
     protected boolean isRetired(TravelAuthorizationDocument document) {
         return TemConstants.TravelAuthorizationStatusCodeKeys.RETIRED_VERSION.equals(document.getAppDocStatus());
+    }
+
+    /**
+     * Determines if the given TravelAuthorizationDocument has reimbursements or not
+     * @param document the authorization to check
+     * @return true if the authorization has reimbursements against it, false otherwise
+     */
+    protected boolean hasReimbursements(TravelAuthorizationDocument document) {
+        List<TravelReimbursementDocument> reimbursements = getTravelDocumentService().findReimbursementDocuments(document.getTravelDocumentIdentifier());
+        return reimbursements != null && !reimbursements.isEmpty();
     }
 
     /**

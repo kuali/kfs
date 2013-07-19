@@ -54,6 +54,10 @@
 		<addForeignKeyConstraint constraintName="FS_WIRE_CHRG_TR5"
 			baseTableName="FS_WIRE_CHRG_T" baseColumnNames="FIN_COA_CD,ACCOUNT_NBR"
 			referencedTableName="CA_ACCOUNT_T" referencedColumnNames="FIN_COA_CD,ACCOUNT_NBR" />
+		<modifySql dbms="mysql">
+			<replace replace="VARCHAR2" with="VARCHAR" />
+			<replace replace="NUMBER" with="DECIMAL" />
+		</modifySql>
 	</changeSet>
 </databaseChangeLog>
 	

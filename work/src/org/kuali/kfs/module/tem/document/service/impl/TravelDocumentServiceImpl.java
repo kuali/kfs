@@ -1189,9 +1189,9 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
      * @throws WorkflowException
      */
     @Override
-    public TravelDocument findCurrentTravelAuthorization(TravelDocument document) throws WorkflowException{
+    public TravelAuthorizationDocument findCurrentTravelAuthorization(TravelDocument document) throws WorkflowException{
 
-        TravelDocument travelDocument = null;
+        TravelAuthorizationDocument travelDocument = null;
 
         final Map<String, List<Document>> relatedDocuments = getDocumentsRelatedTo(document);
         List<Document> taDocs  = relatedDocuments.get(TravelDocTypes.TRAVEL_AUTHORIZATION_DOCUMENT);
@@ -1259,7 +1259,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
         KualiDecimal taTotal = KualiDecimal.ZERO;
         TravelAuthorizationDocument taDoc = null;
         try {
-            taDoc = (TravelAuthorizationDocument) findCurrentTravelAuthorization(document);
+            taDoc = findCurrentTravelAuthorization(document);
         }
         catch (WorkflowException ex) {
             ex.printStackTrace();
@@ -1795,7 +1795,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
     public void showNoTravelAuthorizationError(TravelReimbursementDocument document){
         if (document.getTripType() != null && document.getTripType().getTravelAuthorizationRequired()){
             try {
-                TravelAuthorizationDocument authorization = (TravelAuthorizationDocument) findCurrentTravelAuthorization(document);
+                TravelAuthorizationDocument authorization = findCurrentTravelAuthorization(document);
                 if (authorization == null){
                     GlobalVariables.getMessageMap().putError(KRADPropertyConstants.DOCUMENT + "." + TemPropertyConstants.TRIP_TYPE_CODE, TemKeyConstants.ERROR_TRIP_TYPE_TA_REQUIRED, document.getTripType().getName());
                 }
@@ -1815,7 +1815,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
         KualiDecimal retval = KualiDecimal.ZERO;
         TravelAuthorizationDocument authorization = null;
         try {
-            authorization = (TravelAuthorizationDocument) findCurrentTravelAuthorization(travelDocument);
+            authorization = findCurrentTravelAuthorization(travelDocument);
         }
         catch (WorkflowException ex) {
             ex.printStackTrace();

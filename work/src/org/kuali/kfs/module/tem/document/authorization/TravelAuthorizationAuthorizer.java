@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.tem.document.authorization;
 
 import java.util.Map;
+import java.util.Set;
 
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.businessobject.TemSourceAccountingLine;
@@ -24,6 +25,7 @@ import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 
@@ -158,6 +160,32 @@ public class TravelAuthorizationAuthorizer extends TravelArrangeableAuthorizer {
 
         //Return true if they have the correct permissions or they are the initiator and the initiator can perform this action.
         return isAuthorized(travelDocument, nameSpaceCode, permission, user.getPrincipalId());
+    }
+
+    /**
+     * Overridden to handle travel authorization specific actions
+     * @see org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentAuthorizerBase#getDocumentActions(org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person, java.util.Set)
+     */
+    @Override
+    public Set<String> getDocumentActions(Document document, Person user, Set<String> documentActionsFromPresentationController) {
+        Set<String> actions = super.getDocumentActions(document, user, documentActionsFromPresentationController);
+        final TravelAuthorizationDocument travelAuth = (TravelAuthorizationDocument)document;
+        if (actions.contains(TemConstants.TravelAuthorizationActions.CAN_AMEND) && !canAmend(travelAuth, user)) {
+            actions.remove(TemConstants.TravelAuthorizationActions.CAN_AMEND);
+        }
+        if (actions.contains(TemConstants.TravelAuthorizationActions.CAN_HOLD) && !canHold(travelAuth, user)) {
+            actions.remove(TemConstants.TravelAuthorizationActions.CAN_HOLD);
+        }
+        if (actions.contains(TemConstants.TravelAuthorizationActions.CAN_REMOVE_HOLD) && !canRemoveHold(travelAuth, user)) {
+            actions.remove(TemConstants.TravelAuthorizationActions.CAN_REMOVE_HOLD);
+        }
+        if (actions.contains(TemConstants.TravelAuthorizationActions.CAN_CLOSE_TA) && !canClose(travelAuth, user)) {
+            actions.remove(TemConstants.TravelAuthorizationActions.CAN_CLOSE_TA);
+        }
+        if (actions.contains(TemConstants.TravelAuthorizationActions.CAN_CANCEL_TA) && !canCancel(travelAuth, user)) {
+            actions.remove(TemConstants.TravelAuthorizationActions.CAN_CANCEL_TA);
+        }
+        return actions;
     }
 
 }

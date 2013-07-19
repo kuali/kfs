@@ -42,7 +42,6 @@ import org.kuali.kfs.module.purap.SingleConfirmationQuestion;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationParameters;
 import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationStatusCodeKeys;
-import org.kuali.kfs.module.tem.TemConstants.TravelDocTypes;
 import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.businessobject.TemSourceAccountingLine;
@@ -51,7 +50,6 @@ import org.kuali.kfs.module.tem.document.TravelAuthorizationAmendmentDocument;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.TravelDocumentBase;
-import org.kuali.kfs.module.tem.document.TravelReimbursementDocument;
 import org.kuali.kfs.module.tem.document.authorization.TravelAuthorizationAuthorizer;
 import org.kuali.kfs.module.tem.document.validation.event.AddEmergencyContactLineEvent;
 import org.kuali.kfs.module.tem.document.web.bean.TravelAuthorizationMvcWrapperBean;
@@ -63,7 +61,6 @@ import org.kuali.kfs.sys.document.validation.event.AddAccountingLineEvent;
 import org.kuali.kfs.sys.document.validation.event.DeleteAccountingLineEvent;
 import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
-import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.RiceConstants;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kim.api.identity.Person;
@@ -328,11 +325,6 @@ public class TravelAuthorizationAction extends TravelActionBase {
     protected void setButtonPermissions(TravelAuthorizationForm authForm) {
         canSave(authForm);
         setCanCalculate(authForm);
-        setCanAmend(authForm);
-        setCanCancel(authForm);
-        setCanClose(authForm);
-        setCanHold(authForm);
-        setCanRemoveHold(authForm);
         setCanReturnToFisicalOfficer(authForm);
         hideButtons(authForm);
     }
@@ -373,146 +365,6 @@ public class TravelAuthorizationAction extends TravelActionBase {
         else{
             authForm.getDocumentActions().remove(KRADConstants.KUALI_ACTION_CAN_SAVE);
         }
-    }
-
-    /**
-     * Determines whether or not they can remove a hold on a TA
-     *
-     * @param authForm
-     */
-    protected void setCanRemoveHold(TravelAuthorizationForm authForm) {
-        boolean can = isHeld(authForm) && (isFinal(authForm) || isProcessed(authForm));
-
-        if (can) {
-            TravelAuthorizationAuthorizer documentAuthorizer = getDocumentAuthorizer(authForm);
-            can = documentAuthorizer.canRemoveHold(authForm.getTravelAuthorizationDocument(), GlobalVariables.getUserSession().getPerson());
-        }
-
-        authForm.setCanRemoveHold(can);
-    }
-
-    /**
-     * Determines whether or not they can hold a TA
-     *
-     * @param authForm
-     */
-    protected void setCanHold(TravelAuthorizationForm authForm) {
-        // first check to see if the document is open and final
-        boolean can = isOpen(authForm) && (isFinal(authForm) || isProcessed(authForm));
-
-        if (can) {
-            TravelAuthorizationAuthorizer documentAuthorizer = getDocumentAuthorizer(authForm);
-            can = documentAuthorizer.canHold(authForm.getTravelAuthorizationDocument(), GlobalVariables.getUserSession().getPerson());
-        }
-
-        authForm.setCanHold(can);
-    }
-
-    /**
-     * Determines whether or not someone can amend a travel authorization
-     *
-     * @param authForm
-     */
-    protected void setCanAmend(TravelAuthorizationForm authForm) {
-        boolean can = isOpen(authForm) && (isFinal(authForm) || isProcessed(authForm));
-        DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
-        java.util.Date today = dateTimeService.getCurrentDate();
-
-        if (authForm.getTravelAuthorizationDocument().getTripBegin() != null) {
-            can &= today.before(authForm.getTravelAuthorizationDocument().getTripBegin());
-        }
-
-        if (can && authForm.getRelatedDocuments() == null) {
-            //If there are TR's, disabled amend
-            List<Document> trRelatedDocumentList = getTravelDocumentService().getDocumentsRelatedTo(authForm.getTravelDocument(), TravelDocTypes.TRAVEL_REIMBURSEMENT_DOCUMENT);
-            can = trRelatedDocumentList.isEmpty();
-        }
-
-        if (can) {
-            // Find if they have the permissions
-            TravelAuthorizationAuthorizer documentAuthorizer = getDocumentAuthorizer(authForm);
-            can = documentAuthorizer.canAmend(authForm.getTravelAuthorizationDocument(), GlobalVariables.getUserSession().getPerson());
-        }
-
-        authForm.setCanAmend(can);
-    }
-
-//    /**
-//     * Determines whether or not someone can calculate a travel authorization
-//     *
-//     * @param authForm
-//     */
-//    protected void setCanCalculate(TravelAuthorizationForm authForm) {
-//        boolean can = !(isFinal(authForm) || isProcessed(authForm));
-//
-//        if (can) {
-//            TravelAuthorizationAuthorizer documentAuthorizer = getDocumentAuthorizer(authForm);
-//            can = documentAuthorizer.canCalculate(authForm.getTravelAuthorizationDocument(), GlobalVariables.getUserSession().getPerson());
-//        }
-//
-//        authForm.setCanCalculate(can);
-//    }
-
-    /**
-     * This method determines if the user can or cannot close a TA based on permissions and state
-     *
-     * @return true if they can close  a TA
-     */
-    protected void setCanClose(TravelAuthorizationForm authForm) {
-        // first check to see if the document is open and final
-        boolean can = isOpen(authForm) && (isFinal(authForm) || isProcessed(authForm));
-
-        if (can) {
-            // Find if they have the permissions
-            TravelAuthorizationAuthorizer documentAuthorizer = getDocumentAuthorizer(authForm);
-            can = documentAuthorizer.canClose(authForm.getTravelAuthorizationDocument(), GlobalVariables.getUserSession().getPerson());
-        }
-        authForm.setCanCloseTA(can);
-    }
-
-    /**
-     * This method determines if the user can or cannot cancel a TA based on permissions and state
-     *
-     * @return true if they can cancel a TA
-     */
-    protected void setCanCancel(TravelAuthorizationForm authForm) {
-        // first check to see if the document is open and final
-        boolean can = isOpen(authForm) && (isFinal(authForm) || isProcessed(authForm));
-
-        // next, verify that there are no reimbursements out there for this doc
-        if (can) {
-            List<TravelReimbursementDocument> reimbursements = getTravelDocumentService().findReimbursementDocuments(authForm.getTravelAuthorizationDocument().getTravelDocumentIdentifier());
-            if (!reimbursements.isEmpty()) {
-                can = false;
-            }
-        }
-
-        if (can) {
-            // Find if they have the permissions
-            TravelAuthorizationAuthorizer documentAuthorizer = getDocumentAuthorizer(authForm);
-            can = documentAuthorizer.canCancel(authForm.getTravelAuthorizationDocument(), GlobalVariables.getUserSession().getPerson());
-        }
-        authForm.setCanCancelTA(can);
-    }
-
-    /**
-     * is this document in an open for reimbursement workflow state?
-     *
-     * @param authForm
-     * @return
-     */
-    protected boolean isOpen(TravelAuthorizationForm authForm) {
-        return authForm.getTravelAuthorizationDocument().getAppDocStatus().equals(TemConstants.TravelAuthorizationStatusCodeKeys.OPEN_REIMB);
-    }
-
-    /**
-     * is this document on hold for reimbursement workflow state?
-     *
-     * @param authForm
-     * @return
-     */
-    protected boolean isHeld(TravelAuthorizationForm authForm) {
-        return authForm.getTravelAuthorizationDocument().getAppDocStatus().equals(TemConstants.TravelAuthorizationStatusCodeKeys.REIMB_HELD);
     }
 
     /**

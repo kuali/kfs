@@ -15,11 +15,17 @@
  */
 package org.kuali.kfs.module.tem.document.authorization;
 
+import java.util.List;
 import java.util.Set;
 
 import org.kuali.kfs.module.tem.TemConstants;
+import org.kuali.kfs.module.tem.TemConstants.TravelDocTypes;
 import org.kuali.kfs.module.tem.TemWorkflowConstants;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
+import org.kuali.kfs.module.tem.document.TravelReimbursementDocument;
+import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.krad.document.Document;
 
@@ -28,6 +34,7 @@ import org.kuali.rice.krad.document.Document;
  *
  */
 public class TravelAuthorizationDocumentPresentationController extends TravelDocumentPresentationController{
+    protected TravelDocumentService travelDocumentService; // not volatile because this object should never be accessible to more than one thread
 
     /**
      * @see org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentPresentationControllerBase#getEditModes(org.kuali.rice.kns.document.Document)
@@ -55,11 +62,173 @@ public class TravelAuthorizationDocumentPresentationController extends TravelDoc
     }
 
     /**
-     * Overridden to allow copy on default
+     * Overridden to allow copy on default, if the document is processed or final
      * @see org.kuali.rice.krad.document.DocumentPresentationControllerBase#canCopy(org.kuali.rice.krad.document.Document)
      */
     @Override
     public boolean canCopy(Document document) {
         return (document.getDocumentHeader().getWorkflowDocument().isProcessed() || document.getDocumentHeader().getWorkflowDocument().isFinal());
+    }
+
+    /**
+     * Overridden to handle travel authorization specific actions, such as amend, hold, remove hold, close TA, cancel TA, and pay vendor
+     * @see org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentPresentationControllerBase#getDocumentActions(org.kuali.rice.krad.document.Document)
+     */
+    @Override
+    public Set<String> getDocumentActions(Document document) {
+        Set<String> actions = super.getDocumentActions(document);
+        final TravelAuthorizationDocument travelAuth = (TravelAuthorizationDocument)document;
+        if (canAmend(travelAuth)) {
+            actions.add(TemConstants.TravelAuthorizationActions.CAN_AMEND);
+        }
+        if (canHold(travelAuth)) {
+            actions.add(TemConstants.TravelAuthorizationActions.CAN_HOLD);
+        }
+        if (canRemoveHold(travelAuth)) {
+            actions.add(TemConstants.TravelAuthorizationActions.CAN_REMOVE_HOLD);
+        }
+        if (canCloseAuthorization(travelAuth)) {
+            actions.add(TemConstants.TravelAuthorizationActions.CAN_CLOSE_TA);
+        }
+        if (canCancelAuthorization(travelAuth)) {
+            actions.add(TemConstants.TravelAuthorizationActions.CAN_CANCEL_TA);
+        }
+        if (canPayVendor(travelAuth)) {
+            actions.add(TemConstants.TravelAuthorizationActions.CAN_PAY_VENDOR);
+        }
+        return actions;
+    }
+
+    /**
+     * Determines whether the authorization is in a state where it can be amended
+     * @param document the authorization to test
+     * @return true if the authorization can be amended, false otherwise
+     */
+    public boolean canAmend(TravelAuthorizationDocument document) {
+        boolean can = isOpen(document) && (isFinalOrProcessed(document));
+        final DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
+        java.util.Date today = dateTimeService.getCurrentDate();
+
+        if (document.getTripBegin() != null) {
+            can &= today.before(document.getTripBegin());
+        }
+
+        if (can) {
+            //If there are TR's, disabled amend
+            final TravelDocumentService travelDocumentService = SpringContext.getBean(TravelDocumentService.class);
+            final List<Document> trRelatedDocumentList = travelDocumentService.getDocumentsRelatedTo(document, TravelDocTypes.TRAVEL_REIMBURSEMENT_DOCUMENT);
+            can = trRelatedDocumentList == null || trRelatedDocumentList.isEmpty();
+        }
+
+        return can;
+    }
+
+    /**
+     * Determines if the authorization can be held
+     * @param document the authorization to check
+     * @return true if the authorization can be held, false otherwise
+     */
+    public boolean canHold(TravelAuthorizationDocument document) {
+        return isOpen(document) && (isFinalOrProcessed(document));
+    }
+
+    /**
+     * Determines if the authorization can remove a hold on it
+     * @param document the authorization to check
+     * @return true if the authorization is held and that hold can be removed, false otherwise
+     */
+    public boolean canRemoveHold(TravelAuthorizationDocument document) {
+        return isHeld(document) && (isFinalOrProcessed(document));
+    }
+
+    /**
+     * Determines if the authorization can be closed
+     * @param document the authorization to check
+     * @return true if the authroziation can be closed, false otherwise
+     */
+    public boolean canCloseAuthorization(TravelAuthorizationDocument document) {
+        return isOpen(document) && (isFinalOrProcessed(document));
+    }
+
+    /**
+     * Determines if the authorization can be canceled.  Default logic verifies that the authorization is open and has not yet been reimbursed
+     * @param document the authorization to check
+     * @return true if the authorization can be canceled, false otherwise
+     */
+    public boolean canCancelAuthorization(TravelAuthorizationDocument document) {
+        boolean can = isOpen(document) && (isFinalOrProcessed(document));
+
+        // verify that there are no reimbursements out there for this doc
+        if (can) {
+            List<TravelReimbursementDocument> reimbursements = getTravelDocumentService().findReimbursementDocuments(document.getTravelDocumentIdentifier());
+            if (!reimbursements.isEmpty()) {
+                can = false;
+            }
+        }
+        return can;
+    }
+
+    /**
+     * Determines if the vendor can be paid for this authorization
+     * @param document the authorization to check
+     * @return true if the vendor can be paid, false otherwise
+     */
+    public boolean canPayVendor(TravelAuthorizationDocument document) {
+        if (getTravelDocumentService().isUnsuccessful(document)) {
+            return false;
+        }
+        boolean enablePayments = getParameterService().getParameterValueAsBoolean(TravelAuthorizationDocument.class, TemConstants.TravelAuthorizationParameters.VENDOR_PAYMENT_ALLOWED_BEFORE_FINAL_APPROVAL_IND);
+        if (enablePayments) {
+            return !isRetired(document) && (document.getDocumentHeader() != null && !(document.getDocumentHeader().getWorkflowDocument().isCanceled() || document.getDocumentHeader().getWorkflowDocument().isInitiated() || document.getDocumentHeader().getWorkflowDocument().isException() || document.getDocumentHeader().getWorkflowDocument().isDisapproved() || document.getDocumentHeader().getWorkflowDocument().isSaved()));
+        } else {
+            return isOpen(document) && isFinalOrProcessed(document);
+        }
+    }
+
+    /**
+     * Determines if the travel authorization is open for reimbursement or amendment
+     * @param document the authorization to check
+     * @return true if the authorization is open, false otherwise
+     */
+    protected boolean isOpen(TravelAuthorizationDocument document) {
+        return TemConstants.TravelAuthorizationStatusCodeKeys.OPEN_REIMB.equals(document.getAppDocStatus());
+    }
+
+    /**
+     * Determines if the document is in processed workflow state
+     * @param document the document to check
+     * @return true if the document is in processed workflow state, false otherwise
+     */
+    protected boolean isFinalOrProcessed(TravelAuthorizationDocument document) {
+        return document.getDocumentHeader().getWorkflowDocument().isProcessed() || document.getDocumentHeader().getWorkflowDocument().isFinal();
+    }
+
+    /**
+     * is this document on hold for reimbursement workflow state?
+     *
+     * @param document the travel authorization to check
+     * @return true if the document is in held status, false otherwise
+     */
+    protected boolean isHeld(TravelAuthorizationDocument document) {
+        return TemConstants.TravelAuthorizationStatusCodeKeys.REIMB_HELD.equals(document.getAppDocStatus());
+    }
+
+    /**
+     * Determines if the document is in retired mode or not
+     * @param document the document to check
+     * @return true if the document is retired, false otherwise
+     */
+    protected boolean isRetired(TravelAuthorizationDocument document) {
+        return TemConstants.TravelAuthorizationStatusCodeKeys.RETIRED_VERSION.equals(document.getAppDocStatus());
+    }
+
+    /**
+     * @return the default implementation of the TravelDocumentService
+     */
+    protected TravelDocumentService getTravelDocumentService() {
+        if (travelDocumentService == null) {
+            travelDocumentService = SpringContext.getBean(TravelDocumentService.class);
+        }
+        return travelDocumentService;
     }
 }

@@ -50,12 +50,19 @@ public class TravelAuthorizationAmendmentDocument extends TravelAuthorizationDoc
 
             List<Document> relatedDocs = getTravelDocumentService().getDocumentsRelatedTo(this, TravelDocTypes.TRAVEL_AUTHORIZATION_DOCUMENT,
                     TravelDocTypes.TRAVEL_AUTHORIZATION_AMEND_DOCUMENT);
+            final DocumentService documentService = SpringContext.getBean(DocumentService.class);
 
             //updating the related's document appDocStatus to be retired
-            for (Document document : relatedDocs){
-                if (!document.getDocumentNumber().equals(this.getDocumentNumber())) {
-                    ((TravelAuthorizationDocument) document).updateAppDocStatus(TravelAuthorizationStatusCodeKeys.RETIRED_VERSION);
+            try {
+                for (Document document : relatedDocs){
+                    if (!document.getDocumentNumber().equals(this.getDocumentNumber())) {
+                        ((TravelAuthorizationDocument) document).updateAppDocStatus(TravelAuthorizationStatusCodeKeys.RETIRED_VERSION);
+                        documentService.saveDocument(document);
+                    }
                 }
+            }
+            catch (WorkflowException we) {
+                throw new RuntimeException("Workflow document exception while updating related documents", we);
             }
             getTravelEncumbranceService().adjustEncumbranceForAmendment(this);
         }

@@ -903,6 +903,15 @@ public class TemConstants {
         public static final String ACTUAL_EXPENSE_TAXABLE_MODE = "actualExpenseTaxableEntry";
     }
 
+    public static class TravelAuthorizationActions {
+        public static final String CAN_AMEND = "canAmend";
+        public static final String CAN_HOLD = "canHold";
+        public static final String CAN_REMOVE_HOLD = "canRemoveHold";
+        public static final String CAN_CLOSE_TA = "canCloseTA";
+        public static final String CAN_CANCEL_TA = "canCancelTA";
+        public static final String CAN_PAY_VENDOR = "canPayVendor";
+    }
+
     public static final String TRAVEL_PAYMENT_TAB_ERRORS = "TravelPaymentErrors,document.travelPayment.checkTotalAmount,document.travelPayment.dueDate,document.travelPayment.alienPaymentCode,document.travelPayment.payeeEmployeeCode,document.travelPayment.attachmentCode,document.travelPayment.specialHandlingCode,document.travelPayment.payeeW9CompleteCode,document.travelPayment.paymentMethodCode,document.travelPayment.paymentDocumentationLocationCode,document.travelPayment.checkStubText";
     public static final String ADVANCE_TRAVEL_PAYMENT_TAB_ERRORS = "TravelPaymentErrors,document.advanceTravelPayment.checkTotalAmount,document.advanceTravelPayment.dueDate,document.advanceTravelPayment.alienPaymentCode,document.advanceTravelPayment.payeeEmployeeCode,document.advanceTravelPayment.attachmentCode,document.advanceTravelPayment.specialHandlingCode,document.advanceTravelPayment.payeeW9CompleteCode,document.advanceTravelPayment.paymentMethodCode,document.advanceTravelPayment.paymentDocumentationLocationCode,document.travelPayment.checkStubText";
     public static final String ADVANCE_TRVL_SPECHAND_TAB_ERRORS = "TravelPaymentSpecialHandlingErrors,document.advanceTravelPayment.specialHandlingPersonName,document.advanceTravelPayment.specialHandlingCityName,document.advanceTravelPayment.specialHandlingLine1Addr,document.advanceTravelPayment.specialHandlingStateCode,document.advanceTravelPayment.specialHandlingLine2Addr,document.advanceTravelPayment.specialHandlingZipCode,document.advanceTravelPayment.specialHandlingCountryName";

@@ -15,23 +15,28 @@
  */
 package org.kuali.kfs.module.tem.document.lookup;
 
-import java.util.Date;
-
 import org.apache.commons.lang.text.StrBuilder;
 import org.apache.log4j.Logger;
-import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationStatusCodeKeys;
 import org.kuali.kfs.module.tem.TemConstants.TravelDocTypes;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
 import org.kuali.kfs.module.tem.document.TravelDocument;
+import org.kuali.kfs.module.tem.document.authorization.TravelAuthorizationDocumentPresentationController;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kew.api.document.search.DocumentSearchResult;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kns.service.DocumentHelperService;
+import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 public class TravelAuthorizationDocumentCustomActionBuilder extends DocumentActionBuilderBase implements TravelDocumentCustomActionBuilder{
 
     protected static Logger LOG = Logger.getLogger(TravelAuthorizationDocumentCustomActionBuilder.class);
+
+    protected volatile DocumentService documentService;
+    protected volatile DocumentHelperService documentHelperService;
 
     /**
      * Determines if the url column for actions should be rendered. This is done for {@link TravelAuthorizationDocument} instances
@@ -72,11 +77,14 @@ public class TravelAuthorizationDocumentCustomActionBuilder extends DocumentActi
      * @param documentSearchResult
      * @return
      */
-    private boolean otherPaymentMethodsAllowed(DocumentSearchResult documentSearchResult) {
-        final DocumentStatus status = documentSearchResult.getDocument().getStatus();
-        return getParameterService().getParameterValueAsBoolean(TravelAuthorizationDocument.class, TemConstants.TravelAuthorizationParameters.VENDOR_PAYMENT_ALLOWED_BEFORE_FINAL_APPROVAL_IND)
-                || status.equals(DocumentStatus.FINAL)
-                || status.equals(DocumentStatus.PROCESSED);
+    protected boolean canPayVendor(DocumentSearchResult documentSearchResult) {
+        try {
+            final TravelAuthorizationDocument document = (TravelAuthorizationDocument)getDocumentService().getByDocumentHeaderId(documentSearchResult.getDocument().getDocumentId());
+            return ((TravelAuthorizationDocumentPresentationController)getDocumentHelperService().getDocumentPresentationController(document)).canPayVendor(document);
+        }
+        catch (WorkflowException we) {
+            throw new RuntimeException("Could not open document #"+documentSearchResult.getDocument().getDocumentId());
+        }
     }
 
     /**
@@ -93,12 +101,32 @@ public class TravelAuthorizationDocumentCustomActionBuilder extends DocumentActi
         if (showNewDocumentURL(documentSearchResult, TravelDocTypes.TRAVEL_REIMBURSEMENT_DOCUMENT, document)) {
             actionsHTML.appendln(createReimbursementLink(tripId));
         }
+
         //last action does not need an additional line break
-        if (otherPaymentMethodsAllowed(documentSearchResult) || !document.getTripBegin().before(new Date())) {
+        if (canPayVendor(documentSearchResult)) {
             actionsHTML.append(createPaymentsURL(documentSearchResult, tripId));
         }
 
         return actionsHTML.toString();
     }
 
+    /**
+     * @return the default implementation of DocumentService
+     */
+    protected DocumentService getDocumentService() {
+        if (documentService == null) {
+            documentService = SpringContext.getBean(DocumentService.class);
+        }
+        return documentService;
+    }
+
+    /**
+     * @return the default implementation of the DocumentHelperService
+     */
+    protected DocumentHelperService getDocumentHelperService() {
+        if (documentHelperService == null) {
+            documentHelperService = SpringContext.getBean(DocumentHelperService.class);
+        }
+        return documentHelperService;
+    }
 }

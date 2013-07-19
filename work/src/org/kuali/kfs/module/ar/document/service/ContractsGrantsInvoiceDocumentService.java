@@ -20,6 +20,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.kuali.kfs.coa.businessobject.Account;
@@ -27,6 +28,7 @@ import org.kuali.kfs.gl.businessobject.Balance;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAward;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAwardAccount;
 import org.kuali.kfs.module.ar.businessobject.AwardAccountObjectCodeTotalBilled;
+import org.kuali.kfs.module.ar.businessobject.ContractsAndGrantsCategories;
 import org.kuali.kfs.module.ar.businessobject.DunningLetterDistributionOnDemandLookupResult;
 import org.kuali.kfs.module.ar.businessobject.InvoiceAccountDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoiceBill;
@@ -526,4 +528,13 @@ public interface ContractsGrantsInvoiceDocumentService extends CustomerInvoiceDo
      * @param award The associated award that the invoice will be linked to.
      */
     public void populateInvoiceFromAward(ContractsAndGrantsCGBAward award, List<ContractsAndGrantsCGBAwardAccount> awardAccounts,ContractsGrantsInvoiceDocument document);
+    
+    /**
+     * This method takes a ContractsAndGrantsCategory, retrieves the specified object code or object code range. It then parses this
+     * string, and returns all the possible object codes specified by this range.
+     *
+     * @param category
+     * @return Set<String> objectCodes
+     */
+    public Set<String> getObjectCodeArrayFromSingleCategory(ContractsAndGrantsCategories category,ContractsGrantsInvoiceDocument document) throws IllegalArgumentException;
 }

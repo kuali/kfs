@@ -101,7 +101,7 @@
     <kul:adHocRecipients />
 
     <kul:routeLog />
-
+	<kul:superUserActions />
     <kul:panelFooter />
     
     <c:if test="${KualiForm.docTypeName!=TemConstants.TravelDocTypes.TRAVEL_AUTHORIZATION_CLOSE_DOCUMENT}"> 

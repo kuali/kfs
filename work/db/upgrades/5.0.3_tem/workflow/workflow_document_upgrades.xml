@@ -696,16 +696,8 @@
 			         	</branch>	
 			         	<join name="JoinRequiresSeparationOfDuties" />	         		
 	     			</split>
-	     			<role name="PaymentMethod" nextNode="RequiresTravel" nextAppDocStatus="Awaiting Travel Manager Review" />
-	     			<split name="RequiresTravel" nextAppDocStatus="Awaiting Travel Manager Review">
-						<branch name="True">
-							<role name="Travel" nextNode="JoinRequiresTravel" nextAppDocStatus="Department Approved" />
-						</branch>
-						<branch name="False">
-							<simple name="NoOpTravel" nextNode="JoinRequiresTravel" nextAppDocStatus="Department Approved" />
-						</branch>
-						<join name="JoinRequiresTravel" />
-					</split>   
+	     			<role name="PaymentMethod" nextNode="Travel" nextAppDocStatus="Awaiting Travel Manager Review" />
+	     			<role name="Travel" nextAppDocStatus="Department Approved" />
                 </routePath>
             </routePaths>
             <routeNodes>
@@ -832,14 +824,7 @@
                     <qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
                     <activationType>P</activationType>
                 </role>
-	     			
-	     		<join name="JoinRequiresTravel" />
-				<simple name="NoOpTravel">
-					<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
-				</simple>
-				<split name="RequiresTravel">
-					<type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
-				</split>
+                
                 <role name="Travel">
                     <qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
                     <activationType>P</activationType>

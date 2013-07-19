@@ -21,7 +21,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
-import org.kuali.kfs.module.cg.businessobject.Award;
 import org.kuali.rice.krad.bo.BusinessObject;
 
 /**

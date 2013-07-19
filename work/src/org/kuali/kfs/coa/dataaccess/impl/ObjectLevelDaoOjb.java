@@ -22,7 +22,6 @@ import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.kfs.coa.businessobject.ObjectLevel;
 import org.kuali.kfs.coa.dataaccess.ObjectLevelDao;
-import org.kuali.kfs.module.ar.businessobject.Event;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
 /**

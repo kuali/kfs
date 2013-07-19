@@ -19,7 +19,6 @@ import java.util.Collection;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.kuali.kfs.coa.businessobject.ObjectLevel;
-import org.kuali.kfs.module.ar.businessobject.Event;
 
 /**
  * This interface defines basic methods that ObjLevel Dao's must provide

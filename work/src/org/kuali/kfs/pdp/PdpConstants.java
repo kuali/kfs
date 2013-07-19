@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.pdp;
 
-import org.kuali.kfs.module.tem.TemConstants.EditModes;
 
 
 /**
@@ -122,9 +121,9 @@ public class PdpConstants {
     public static final String MAPPING_CONTINUE = "continue";
     public static final String MAPPING_FINISHED = "finished";
     
-    public static class PDPEditMode extends EditModes {
+/*    public static class PDPEditMode extends EditModes {
         public static final String ENTRY = "entry";
-    }
+    }*/
     
     public static class AchBankOfficeCodes {
         public static final String AchBankOfficeCode_O = "O";

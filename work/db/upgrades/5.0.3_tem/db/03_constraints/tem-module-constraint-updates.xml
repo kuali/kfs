@@ -761,7 +761,7 @@
 		<addPrimaryKey tableName="TEM_CC_IMP_EXP_CLR_DTL_T" constraintName="TEM_CC_IMP_EXP_CLR_DTL_TP1" columnNames="FDOC_NBR,CC_STG_DAT_ID" />
 		<addNotNullConstraint tableName="TEM_CC_IMP_EXP_CLR_DTL_T" columnName="VER_NBR" columnDataType="NUMBER(8,0)" />
 		<addNotNullConstraint tableName="TEM_CC_IMP_EXP_CLR_DTL_T" columnName="OBJ_ID" columnDataType="VARCHAR2(36)" />
-		<addUniqueConstraint tableName="TEM_CC_IMP_EXP_CLR_DTL_T" constraintName="TEM_CC_IMP_EXP_CLR_DTL_TC0" columnNames="OBJ_ID" />\
+		<addUniqueConstraint tableName="TEM_CC_IMP_EXP_CLR_DTL_T" constraintName="TEM_CC_IMP_EXP_CLR_DTL_TC0" columnNames="OBJ_ID" />
 		<modifySql dbms="mysql">
 			<replace replace="VARCHAR2" with="VARCHAR" />
 			<replace replace="NUMBER" with="DECIMAL" />

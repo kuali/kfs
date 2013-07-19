@@ -28,6 +28,7 @@ import org.kuali.kfs.integration.cg.ContractsAndGrantsBill;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAwardAccount;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsMilestone;
 import org.kuali.kfs.module.ar.businessobject.InvoiceAccountDetail;
+import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -54,7 +55,7 @@ public class FinalInvoiceTest extends CGInvoiceDocumentSetupTest {
         assertTrue(document.getDocumentHeader().getWorkflowDocument().getStatus().equals("S"));
         Map<String, Object> map = new HashMap<String, Object>();
         map.put(KFSPropertyConstants.PROPOSAL_NUMBER, document.getProposalNumber());
-        document.updateBillsAndMilestones(KFSConstants.ParameterValues.STRING_YES);
+        SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class).updateBillsAndMilestones(KFSConstants.ParameterValues.STRING_YES,document.getInvoiceMilestones(),document.getInvoiceBills());
 
         List<ContractsAndGrantsMilestone> milestones = (List) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsMilestone.class).getExternalizableBusinessObjectsList(ContractsAndGrantsMilestone.class, map);
 
@@ -76,7 +77,7 @@ public class FinalInvoiceTest extends CGInvoiceDocumentSetupTest {
     public void testMultipleInvoices() {
         document.getInvoiceGeneralDetail().setFinalBillIndicator(true);
         assertTrue(document.getDocumentHeader().getWorkflowDocument().getStatus().equals("S"));
-        document.doWhenFinalInvoice();
+        SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class).doWhenFinalInvoice(document);
         Iterator iterator = document.getAccountDetails().iterator();
         while (iterator.hasNext()) {
             InvoiceAccountDetail id = (InvoiceAccountDetail) iterator.next();

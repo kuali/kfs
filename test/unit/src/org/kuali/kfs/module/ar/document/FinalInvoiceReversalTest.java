@@ -24,6 +24,7 @@ import java.util.Map;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAwardAccount;
 import org.kuali.kfs.module.ar.businessobject.FinalInvoiceReversalEntry;
 import org.kuali.kfs.module.ar.businessobject.InvoiceAccountDetail;
+import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService;
 import org.kuali.kfs.module.ar.document.validation.impl.FinalInvoiceReversalValidation;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -40,7 +41,7 @@ public class FinalInvoiceReversalTest extends CGInvoiceDocumentSetupTest {
     protected void setUp() throws Exception {
         super.setUp();
         document.getInvoiceGeneralDetail().setFinalBillIndicator(true);
-        document.doWhenFinalInvoice();
+        SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class).doWhenFinalInvoice(document);
     }
 
     public void testFinalInvoiceDocumentValidation() throws WorkflowException {

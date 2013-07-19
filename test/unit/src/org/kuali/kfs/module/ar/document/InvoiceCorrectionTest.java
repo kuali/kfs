@@ -31,6 +31,7 @@ import org.kuali.kfs.module.ar.businessobject.InvoiceBill;
 import org.kuali.kfs.module.ar.businessobject.InvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoiceDetailAccountObjectCode;
 import org.kuali.kfs.module.ar.businessobject.InvoiceMilestone;
+import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -52,7 +53,7 @@ public class InvoiceCorrectionTest extends CGInvoiceDocumentSetupTest {
     }
 
     public void testGeneralCorrection() throws WorkflowException {
-        document.correctContractsGrantsInvoiceDocument();
+        SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class).correctContractsGrantsInvoiceDocument(document);
         assertFalse(document.getInvoiceGeneralDetail().isFinalBillIndicator());
         Iterator iterator = document.getAccountDetails().iterator();
         while (iterator.hasNext()) {
@@ -69,7 +70,7 @@ public class InvoiceCorrectionTest extends CGInvoiceDocumentSetupTest {
     public void testCorrectedMilestones() throws WorkflowException {
         if (document.getInvoiceGeneralDetail().getBillingFrequency().equals(ArPropertyConstants.MILESTONE_BILLING_SCHEDULE_CODE)) {
             List<InvoiceMilestone> milestones = document.getInvoiceMilestones();
-            document.correctContractsGrantsInvoiceDocument();
+            SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class).correctContractsGrantsInvoiceDocument(document);
             List<InvoiceMilestone> correctedMilestones = document.getInvoiceMilestones();
             Iterator iterator = milestones.iterator();
             Iterator correctedIterator = correctedMilestones.iterator();
@@ -85,7 +86,7 @@ public class InvoiceCorrectionTest extends CGInvoiceDocumentSetupTest {
     public void testCorrectedBills() throws WorkflowException {
         if (document.getInvoiceGeneralDetail().getBillingFrequency().equals(ArPropertyConstants.PREDETERMINED_BILLING_SCHEDULE_CODE)) {
             List<InvoiceBill> bills = document.getInvoiceBills();
-            document.correctContractsGrantsInvoiceDocument();
+            SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class).correctContractsGrantsInvoiceDocument(document);
             List<InvoiceBill> correctedBills = document.getInvoiceBills();
             Iterator iterator = bills.iterator();
             Iterator correctedIterator = correctedBills.iterator();
@@ -100,7 +101,7 @@ public class InvoiceCorrectionTest extends CGInvoiceDocumentSetupTest {
 
     public void testCorrectedInvoiceDetails() throws WorkflowException {
         List<InvoiceDetail> invoiceDetail = document.getInvoiceDetails();
-        document.correctContractsGrantsInvoiceDocument();
+        SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class).correctContractsGrantsInvoiceDocument(document);
         List<InvoiceDetail> correctedInvoiceDetail = document.getInvoiceDetails();
         Iterator iterator = invoiceDetail.iterator();
         Iterator correctedIterator = correctedInvoiceDetail.iterator();
@@ -113,7 +114,7 @@ public class InvoiceCorrectionTest extends CGInvoiceDocumentSetupTest {
 
     public void testCorrectedInvoiceDetailAccounts() throws WorkflowException {
         List<InvoiceDetailAccountObjectCode> invoiceDetailAccountObjectCode = document.getInvoiceDetailAccountObjectCodes();
-        document.correctContractsGrantsInvoiceDocument();
+        SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class).correctContractsGrantsInvoiceDocument(document);
         List<InvoiceDetailAccountObjectCode> correctedInvoiceDetailAccountObjectCode = document.getInvoiceDetailAccountObjectCodes();
         Iterator iterator = invoiceDetailAccountObjectCode.iterator();
         Iterator correctedIterator = correctedInvoiceDetailAccountObjectCode.iterator();
@@ -126,7 +127,7 @@ public class InvoiceCorrectionTest extends CGInvoiceDocumentSetupTest {
 
     public void testCorrectedAccountDetails() throws WorkflowException {
         List<InvoiceAccountDetail> accountDetail = document.getAccountDetails();
-        document.correctContractsGrantsInvoiceDocument();
+        SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class).correctContractsGrantsInvoiceDocument(document);
         List<InvoiceAccountDetail> correctedAccountDetail = document.getAccountDetails();
         Iterator iterator = accountDetail.iterator();
         Iterator correctedIterator = correctedAccountDetail.iterator();

@@ -33,6 +33,7 @@ import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleUpdateService;
 import org.kuali.kfs.module.ar.businessobject.ContractsAndGrantsCategories;
 import org.kuali.kfs.module.ar.businessobject.InvoiceAccountDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoiceGeneralDetail;
+import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService;
 import org.kuali.kfs.module.ar.fixture.ARAwardAccountFixture;
 import org.kuali.kfs.module.ar.fixture.ARAwardFixture;
 import org.kuali.kfs.module.ar.fixture.ARProposalFixture;
@@ -66,7 +67,8 @@ public class ContractsGrantsInvoiceDocumentTest extends KualiTestBase {
     }
 
     public void testGetObjectCodeArrayFromSingleCategory() {
-        Set<String> resultSet = contractsGrantsInvoiceDocument.getObjectCodeArrayFromSingleCategory(category);
+        ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService = SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class);
+        Set<String> resultSet =  contractsGrantsInvoiceDocumentService.getObjectCodeArrayFromSingleCategory (category,contractsGrantsInvoiceDocument);
         Set<String> expectedResult = new HashSet<String>();
         expectedResult.add("5000");
 
@@ -152,7 +154,7 @@ public class ContractsGrantsInvoiceDocumentTest extends KualiTestBase {
 
     public void testUpdateLastBilledDate() {
 
-
+        ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService = SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class);
         DocumentService documentService = SpringContext.getBean(DocumentService.class);
         ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument_1 = ContractsGrantsInvoiceDocumentFixture.CG_INV_DOC1.createContractsGrantsInvoiceDocument(documentService);
         ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument_2 = ContractsGrantsInvoiceDocumentFixture.CG_INV_DOC1.createContractsGrantsInvoiceDocument(documentService);
@@ -198,7 +200,7 @@ public class ContractsGrantsInvoiceDocumentTest extends KualiTestBase {
 
         String invoiceStatus = "FINAL";
         // 1. invoice 1 is set to final.
-        contractsGrantsInvoiceDocument_1.updateLastBilledDate(invoiceStatus);
+        contractsGrantsInvoiceDocumentService.updateLastBilledDate(invoiceStatus,contractsGrantsInvoiceDocument_1);
         // Now to retrieve the Award Account and check the values.
 
         Map<String, Object> mapKey = new HashMap<String, Object>();
@@ -216,7 +218,7 @@ public class ContractsGrantsInvoiceDocumentTest extends KualiTestBase {
         assertEquals(null, award.getLastBilledDate());
 
         // 2. invoice 2 is set to final.
-        contractsGrantsInvoiceDocument_2.updateLastBilledDate(invoiceStatus);
+        contractsGrantsInvoiceDocumentService.updateLastBilledDate(invoiceStatus,contractsGrantsInvoiceDocument_2);
         mapKey = new HashMap<String, Object>();
         mapKey.put(KFSPropertyConstants.ACCOUNT_NUMBER, awardAccount_1.getAccountNumber());
         mapKey.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, awardAccount_1.getChartOfAccountsCode());
@@ -234,7 +236,7 @@ public class ContractsGrantsInvoiceDocumentTest extends KualiTestBase {
 
         invoiceStatus = "CORRECTED";
         // 3. invoice 1 or 2 is corrected.
-        contractsGrantsInvoiceDocument_1.updateLastBilledDate(invoiceStatus);
+        contractsGrantsInvoiceDocumentService.updateLastBilledDate(invoiceStatus,contractsGrantsInvoiceDocument_1);
         mapKey = new HashMap<String, Object>();
         mapKey.put(KFSPropertyConstants.ACCOUNT_NUMBER, awardAccount_1.getAccountNumber());
         mapKey.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, awardAccount_1.getChartOfAccountsCode());

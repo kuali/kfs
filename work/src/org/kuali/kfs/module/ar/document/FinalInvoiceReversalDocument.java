@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kfs.module.ar.businessobject.FinalInvoiceReversalEntry;
+import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.document.TransactionalDocumentBase;
 import org.kuali.kfs.sys.context.SpringContext; import org.kuali.rice.krad.service.DocumentService;
@@ -61,7 +62,8 @@ public class FinalInvoiceReversalDocument extends TransactionalDocumentBase {
             invoiceDocument = (ContractsGrantsInvoiceDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(entry.getInvoiceDocumentNumber());
             if (ObjectUtils.isNotNull(invoiceDocument)) {
                 invoiceDocument.getInvoiceGeneralDetail().setFinalBillIndicator(false);
-                invoiceDocument.updateUnfinalizationToAwardAccount();
+                ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService = SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class);
+                contractsGrantsInvoiceDocumentService.updateUnfinalizationToAwardAccount(invoiceDocument.getAccountDetails(),invoiceDocument.getProposalNumber());
                 SpringContext.getBean(DocumentService.class).updateDocument(invoiceDocument);
             }
         }

@@ -28,11 +28,13 @@ import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAward;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAwardAccount;
 import org.kuali.kfs.module.ar.businessobject.AwardAccountObjectCodeTotalBilled;
 import org.kuali.kfs.module.ar.businessobject.DunningLetterDistributionOnDemandLookupResult;
+import org.kuali.kfs.module.ar.businessobject.InvoiceAccountDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoiceBill;
 import org.kuali.kfs.module.ar.businessobject.InvoiceDetailAccountObjectCode;
 import org.kuali.kfs.module.ar.businessobject.InvoiceMilestone;
 import org.kuali.kfs.module.ar.businessobject.ReferralToCollectionsLookupResult;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 
@@ -464,4 +466,64 @@ public interface ContractsGrantsInvoiceDocumentService extends CustomerInvoiceDo
      * @return Returns the list of ReferralToCollectionsLookupResult.
      */
     public Collection<ReferralToCollectionsLookupResult> getInvoiceDocumentsForReferralToCollectionsLookup(Map<String, String> fieldValues);
+    
+    /**
+     * This method updates the awardAccounts when the final invoice is generated.
+     */
+    public void doWhenFinalInvoice(ContractsGrantsInvoiceDocument document);
+    
+    /**
+     * This method sets the last billed date to Award and Award Account objects based on the status of the invoice. Final or
+     * Corrected.
+     *
+     * @param invoiceStatus
+     */
+    public void updateLastBilledDate(String invoiceStatus,ContractsGrantsInvoiceDocument document);
+    
+    /**
+     * This method updates the Bills and Milestone objects isItBilles Field.
+     *
+     * @param string
+     */
+    public void updateBillsAndMilestones(String string,List<InvoiceMilestone> invoiceMilestones,List<InvoiceBill> invoiceBills);
+    
+    /**
+     * This method generates the attached invoices for the agency addresses in the Contracts and Grants Invoice Document.
+     */
+    public void generateInvoicesForAgencyAddresses(ContractsGrantsInvoiceDocument document);
+    
+    
+    /**
+     * This method updates AwardAccounts
+     */
+    public void updateUnfinalizationToAwardAccount(List<InvoiceAccountDetail> accountDetails,Long proposalNumber);
+    
+    /**
+     * Corrects the Contracts and Grants Invoice Document.
+     *
+     * @throws WorkflowException
+     */
+    public void correctContractsGrantsInvoiceDocument(ContractsGrantsInvoiceDocument document) throws WorkflowException;
+    
+    /**
+     * This method corrects the Maintenance Document for Predetermined Billing
+     *
+     * @throws WorkflowException
+     */
+    public void correctBills(List<InvoiceBill> invoiceBills) throws WorkflowException;
+
+    /**
+     * This method corrects the Maintenance Document for milestones
+     *
+     * @throws WorkflowException
+     */
+    public void correctMilestones(List<InvoiceMilestone> invoiceMilestones) throws WorkflowException;
+    
+    /**
+     * This method takes all the applicable attributes from the associated award object and sets those attributes into their
+     * corresponding invoice attributes.
+     *
+     * @param award The associated award that the invoice will be linked to.
+     */
+    public void populateInvoiceFromAward(ContractsAndGrantsCGBAward award, List<ContractsAndGrantsCGBAwardAccount> awardAccounts,ContractsGrantsInvoiceDocument document);
 }

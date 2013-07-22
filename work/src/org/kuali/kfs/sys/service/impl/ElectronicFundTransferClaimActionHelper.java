@@ -26,9 +26,11 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.businessobject.ElectronicPaymentClaim;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ElectronicFundTransferActionHelper;
 import org.kuali.kfs.sys.service.ElectronicPaymentClaimingDocumentGenerationStrategy;
 import org.kuali.kfs.sys.service.ElectronicPaymentClaimingService;
+import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.kfs.sys.web.struts.ElectronicFundTransferForm;
 import org.kuali.kfs.sys.web.struts.ElectronicPaymentClaimClaimedHelper;
 import org.kuali.rice.kim.api.identity.Person;
@@ -59,6 +61,7 @@ public class ElectronicFundTransferClaimActionHelper implements ElectronicFundTr
      * Claims the ElectronicPaymentClaim records with a document and then redirects to that docment.
      * @see org.kuali.kfs.sys.service.ElectronicFundTransferActionHelper#performAction(org.kuali.rice.kns.web.struts.form.KualiForm, org.apache.struts.action.ActionMapping)
      */
+    @Override
     public ActionForward performAction(ElectronicFundTransferForm form, ActionMapping mapping, Map paramMap, String basePath) {
         // can the user claim electronic payments at all?
         Person currentUser = GlobalVariables.getUserSession().getPerson();
@@ -90,9 +93,12 @@ public class ElectronicFundTransferClaimActionHelper implements ElectronicFundTr
         // put any remaining claims into a claiming doc
         String chosenDoc = form.getChosenElectronicPaymentClaimingDocumentCode();
         continueClaiming &= checkChosenDocumentType(chosenDoc);
+        if (continueClaiming && "YEDI".equalsIgnoreCase(chosenDoc)) {
+            continueClaiming &= checkYEDIclaims(claims);
+        }
+
         // get the requested document claiming helper
         if (continueClaiming) {
-            
             ElectronicPaymentClaimingDocumentGenerationStrategy documentCreationHelper = getRequestedClaimingHelper(form.getChosenElectronicPaymentClaimingDocumentCode(), form.getAvailableClaimingDocumentStrategies(), currentUser);
             // take the claims from the form, create a document, and redirect to the given URL...which is easy
             String redirectURL = electronicPaymentClaimingService.createPaymentClaimingDocument(form.getClaims(), documentCreationHelper, currentUser);
@@ -112,6 +118,31 @@ public class ElectronicFundTransferClaimActionHelper implements ElectronicFundTr
         if (StringUtils.isBlank(chosenDoc)) {
             GlobalVariables.getMessageMap().putError(ElectronicFundTransferClaimActionHelper.CHOSEN_DOCUMENT_PROPERTY, KFSKeyConstants.ElectronicPaymentClaim.ERROR_EFT_NO_CHOSEN_CLAIMING_DOCTYPE, new String[]{});
             result = false;
+        }
+        return result;
+    }
+
+    /** Verifies that if Year End Distribution of Income and Expense (YEDI) is
+     * the chosenElectronicPaymentClaimingDocumentCode, all claims selected are
+     * not posted in the the current fiscal year.
+     * @param claims the list of selected claims
+     * @return true if the validation resulted in no errors, false if otherwise
+     */
+    protected boolean checkYEDIclaims(List<ElectronicPaymentClaim> claims) {
+        boolean result = true;
+        final Integer currentFiscalYear = SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear();
+        int count = 0;
+
+        for (ElectronicPaymentClaim claim: claims) {
+            if (currentFiscalYear.equals(claim.getFinancialDocumentPostingYear())) {
+                GlobalVariables.getMessageMap().putError(
+                        ElectronicFundTransferClaimActionHelper.CLAIM_PROPERTY+"["+count+"]",
+                        KFSKeyConstants.ElectronicPaymentClaim.ERROR_EFT_CHOSEN_CLAIMING_DOCTYPE,
+                        new String[]{});
+                result = false;
+                break;
+            }
+            count += 1;
         }
         return result;
     }

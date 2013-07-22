@@ -20,11 +20,11 @@ import java.util.Set;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.businessobject.TEMProfile;
+import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentPresentationControllerBase;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.document.authorization.MaintenanceDocumentPresentationControllerBase;
 import org.kuali.rice.krad.document.Document;
 
-public class TEMProfileDocumentPresentationController extends MaintenanceDocumentPresentationControllerBase {
+public class TEMProfileDocumentPresentationController extends FinancialSystemMaintenanceDocumentPresentationControllerBase {
 
     /**
      * @see org.kuali.rice.kns.document.authorization.MaintenanceDocumentPresentationControllerBase#getConditionallyReadOnlyPropertyNames(org.kuali.rice.kns.document.MaintenanceDocument)

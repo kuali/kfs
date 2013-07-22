@@ -453,7 +453,6 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
      * @return all travel advances associated with the trip this document is reimbursing
      */
     public List<TravelAdvance> getTravelAdvances() {
-        // TODO should be via ojb?
         if (travelAdvances == null) {
             List<TravelAdvance> advances = getTravelReimbursementService().getTravelAdvancesForTrip(getTravelDocumentIdentifier());
             travelAdvances = new ArrayList<TravelAdvance>();

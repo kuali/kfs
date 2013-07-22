@@ -23,7 +23,7 @@
 		<routePaths>
 			<routePath>
 				<start name="AdHoc" nextNode="ProfileIsTaxManagerRequired"/>
-	     		<split name="ProfileIsTaxManagerRequired">
+	     		<split name="ProfileIsTaxManagerRequired" nextNode="Traveler">
 		         	<branch name="True">
 		            	<role name="Tax" nextNode="JoinRequiresTaxManagerReview"/>
 		         	</branch>
@@ -32,6 +32,7 @@
 		         	</branch>
 		         	<join name="JoinRequiresTaxManagerReview"/>
 	     		</split>
+	     		<role name="Traveler" />
 			</routePath>
 		</routePaths>
 		<routeNodes>
@@ -48,6 +49,12 @@
 		            org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
 		        </qualifierResolverClass>
 		        <activationType>P</activationType>
+			</role>
+			<role name="Traveler">
+				<qualifierResolverClass>
+					org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
+				</qualifierResolverClass>
+				<activationType>P</activationType>
 			</role>
 		</routeNodes>
     

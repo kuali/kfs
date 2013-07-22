@@ -19,6 +19,7 @@
 <c:set var="documentAttributes"	value="${DataDictionary.TemCorporateCardApplicationDocument.attributes}" />
 
 <c:set var="documentTypeName" value="TemCorporateCardApplicationDocument"/>
+<c:set var="canEdit" value="${KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" scope="request" />
 
 <c:set var="fullEntryMode" value="${KualiForm.editingMode['fullEntry']}" scope="request" />
 <c:set var="documentTitle" value="" />
@@ -28,8 +29,8 @@
     showTabButtons="true">
     <sys:documentOverview editingMode="${KualiForm.editingMode}" />
     <tem:profileTab />
-    <tem:agreementTab property="userAgreement" documentAttribute="${documentAttributes.userAgreement}" text="${KualiForm.document.userAgreementText }" title="User Agreement" enable="${KualiForm.initiator }" open="${KualiForm.initiator}" />
-    <tem:agreementTab property="departmentHeadAgreement" documentAttribute="${documentAttributes.departmentHeadAgreement}" text="${KualiForm.document.departmentHeadAgreementText }" title="Department Head Agreement" enable="${KualiForm.fiscalOfficer }" open="${KualiForm.fiscalOfficer }" />
+    <tem:agreementTab property="userAgreement" documentAttribute="${documentAttributes.userAgreement}" text="${KualiForm.document.userAgreementText}" title="User Agreement" enable="${KualiForm.initiator && canEdit}" open="${KualiForm.initiator}" />
+    <tem:agreementTab property="departmentHeadAgreement" documentAttribute="${documentAttributes.departmentHeadAgreement}" text="${KualiForm.document.departmentHeadAgreementText}" title="Department Head Agreement" enable="${KualiForm.fiscalOfficer && canEdit}" open="${KualiForm.fiscalOfficer}" />
     <c:if test="${KualiForm.appliedToBank }" >
     <kul:tab tabTitle="Banking Information" defaultOpen="true">
     <div class="tab-container" align="center">

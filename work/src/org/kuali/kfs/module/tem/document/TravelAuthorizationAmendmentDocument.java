@@ -92,6 +92,7 @@ public class TravelAuthorizationAmendmentDocument extends TravelAuthorizationDoc
 
         doc.getDocumentHeader().setDocumentDescription(TemConstants.PRE_FILLED_DESCRIPTION);
         doc.setAppDocStatus(TravelAuthorizationStatusCodeKeys.IN_PROCESS);
+        doc.setTravelDocumentIdentifier(null); // reset, so it regenerates
 
         doc.initiateAdvancePaymentAndLines();
 

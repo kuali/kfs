@@ -128,7 +128,7 @@ public class TransactionalAnnotationTest extends KualiTestBase {
             }
             if (bean != null) {
                 Class<? extends Object> beanClass = bean.getClass();
-                if (beanClass.getName().startsWith("$Proxy")) {
+                if (beanClass.getName().matches(".*\\$Proxy.*")) {
                     beanClass = AopUtils.getTargetClass(bean);
                 }
                 if (beanClass.getName().startsWith("org.kuali")

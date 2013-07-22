@@ -40,6 +40,11 @@
         $0.cust_email_addr := replace(nvl($cust_email_addr, ""), "~!~", "|" );
         $0.cust_tax_typ_cd := replace(nvl($cust_tax_typ_cd, ""), "~!~", "|" );
         $0.cust_tax_nbr := replace(nvl($cust_tax_nbr, ""), "~!~", "|" );
+        $0.bnkrptcy_type_cd := replace(nvl($bnkrptcy_type_cd, ""), "~!~", "|" );
+        $0.bnkrptcy_dt := $bnkrptcy_dt;
+        $0.bnkrptcy_review_dt := $bnkrptcy_review_dt;
+        $0.stop_wrk_ind := replace(nvl($stop_wrk_ind, ""), "~!~", "|" );
+        $0.stop_wrk_reason_txt := replace(nvl($stop_wrk_reason_txt, ""), "~!~", "|" );
    }
       ]]></attr>
     </Node>

@@ -20,5 +20,10 @@
   <Field name="cust_crdt_aprv_nm"               type="string"     nullable="true"  trim="false" delimiter="|"  />
   <Field name="cust_email_addr"                 type="string"     nullable="true"  trim="false" delimiter="|"  />
   <Field name="cust_tax_typ_cd"                 type="string"     nullable="true"  trim="false" delimiter="|"  />
-  <Field name="cust_tax_nbr"                    type="string"     nullable="true"  trim="false" delimiter="|\r\n" />
+  <Field name="cust_tax_nbr"                    type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="bnkrptcy_type_cd"                type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="bnkrptcy_dt"                     type="date"       nullable="true"  trim="false" delimiter="|"  format="yyyyMMddHHmmss" />
+  <Field name="bnkrptcy_review_dt"              type="date"       nullable="true"  trim="false" delimiter="|"  format="yyyyMMddHHmmss" />
+  <Field name="stop_wrk_ind"                    type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="stop_wrk_reason_txt"             type="string"     nullable="true"  trim="false" delimiter="|\r\n" />
 </Record>

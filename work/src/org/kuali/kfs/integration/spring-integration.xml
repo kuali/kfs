@@ -151,6 +151,8 @@
 					value="org.kuali.kfs.integration.ar.businessobject.Customer" />
 				<entry key="org.kuali.kfs.integration.ar.AccountsReceivableCustomerType"
 					value="org.kuali.kfs.integration.ar.businessobject.CustomerType" />
+				<entry key="org.kuali.kfs.integration.ar.AccountsReceivableCustomerAddressType"
+					value="org.kuali.kfs.integration.ar.businessobject.CustomerAddressType" />
 				<entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsUnit"
 					value="org.kuali.kfs.integration.cg.businessobject.UnitDTO" />
 				<entry

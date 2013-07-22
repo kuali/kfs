@@ -105,7 +105,7 @@
 		</property>
 		<property name="control">
 			<bean parent="SelectControlDefinition"
-				p:valuesFinderClass="org.kuali.kfs.module.cg.businessobject.options.AgencyAddressTypeValuesFinder"
+				p:valuesFinderClass="org.kuali.kfs.module.cg.businessobject.options.CustomerAddressTypeValuesFinder"
 				p:includeKeyInLabel="false" />
 		</property>
 	</bean>

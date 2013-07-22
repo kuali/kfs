@@ -20,6 +20,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import org.kuali.kfs.integration.ar.AccountsReceivableCustomerAddressType;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsAgencyAddress;
 import org.kuali.kfs.module.cg.CGConstants;
 import org.kuali.kfs.module.cg.document.service.AgencyAddressService;
@@ -60,7 +61,7 @@ public class AgencyAddress extends PersistableBusinessObjectBase implements Comp
     private String agencyAddressTypeCode;
     private Date agencyAddressEndDate;
 
-    private AgencyAddressType agencyAddressType;
+    private AccountsReceivableCustomerAddressType customerAddressType;
     private Agency agency;
     private CountryEbo agencyCountry;
 
@@ -453,23 +454,23 @@ public class AgencyAddress extends PersistableBusinessObjectBase implements Comp
     }
 
     /**
-     * Gets the agencyAddressType attribute.
+     * Gets the customerAddressType attribute.
      *
-     * @return Returns the agencyAddressType
+     * @return Returns the customerAddressType
      */
-    public AgencyAddressType getAgencyAddressType() {
-        return agencyAddressType;
+    public AccountsReceivableCustomerAddressType getCustomerAddressType() {
+        return customerAddressType;
     }
 
     /**
-     * Sets the agencyAddressType attribute.
+     * Sets the customerAddressType attribute.
      *
-     * @param agencyAddressType The agencyAddressType to set.
+     * @param customerAddressType The customerAddressType to set.
      * @deprecated
      */
     @Deprecated
-    public void setAgencyAddressType(AgencyAddressType agencyAddressType) {
-        this.agencyAddressType = agencyAddressType;
+    public void setCustomerAddressType(AccountsReceivableCustomerAddressType customerAddressType) {
+        this.customerAddressType = customerAddressType;
     }
 
 

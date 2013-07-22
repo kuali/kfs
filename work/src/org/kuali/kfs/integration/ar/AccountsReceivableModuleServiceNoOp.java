@@ -23,8 +23,6 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAgency;
-import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
-import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
 import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
 import org.kuali.kfs.sys.businessobject.ElectronicPaymentClaim;
 import org.kuali.kfs.sys.service.ElectronicPaymentClaimingDocumentGenerationStrategy;
@@ -240,11 +238,13 @@ public class AccountsReceivableModuleServiceNoOp implements AccountsReceivableMo
         return null;
     }
 
+    @Override
     public String createAndSaveCustomer(String description, ContractsAndGrantsCGBAgency agency) throws WorkflowException {
         // TODO Auto-generated method stub
         return null;
     }
 
+    @Override
     public String retrieveGLPEReceivableParameterValue() {
         // TODO Auto-generated method stub
         return null;
@@ -253,6 +253,7 @@ public class AccountsReceivableModuleServiceNoOp implements AccountsReceivableMo
     /**
      * @see org.kuali.kfs.integration.ar.AccountsReceivableModuleService#getAwardBilledToDateByProposalNumber(java.lang.Long)
      */
+    @Override
     public KualiDecimal getAwardBilledToDateByProposalNumber(Long proposalNumber) {
         LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
         return null;
@@ -261,6 +262,7 @@ public class AccountsReceivableModuleServiceNoOp implements AccountsReceivableMo
     /**
      * @see org.kuali.kfs.integration.ar.AccountsReceivableModuleService#calculateTotalPaymentsToDateByAward(java.lang.Long)
      */
+    @Override
     public KualiDecimal calculateTotalPaymentsToDateByAward(Long proposalNumber) {
         LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
         return null;

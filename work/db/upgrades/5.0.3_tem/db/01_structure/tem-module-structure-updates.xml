@@ -156,8 +156,8 @@
 			<column name="CREATION_TS" type="DATE" />
 			<column name="PROCESSING_TS" type="DATE" />
 			<column name="MV_TO_HISTORY" type="VARCHAR2(1)" />
-			<column name="ACTV_CD" size="1" type="VARCHAR"/>
-			<column name="MANUAL_CRTD" size="1" type="VARCHAR" />
+			<column name="ACTV_CD" type="VARCHAR2(1)"/>
+			<column name="MANUAL_CRTD" type="VARCHAR2(1)" />
 			<column name="VER_NBR" type="NUMBER(8,0)" defaultValueNumeric="1" />
 			<column name="OBJ_ID" type="VARCHAR2(36)" />
 		</createTable>
@@ -336,7 +336,7 @@
 			<column name="ATTENDEE_LIST_ATTACHED" type="VARCHAR2(1)" />
 			<column name="NUMBER_ATTENDEES" type="NUMBER(22,0)" />
 			<column name="FDOC_NXT_EXP_NBR" type="NUMBER(7,0)" />
-			<column default="0" name="EXP_LMT" type="NUMBER(19,2)" />
+			<column name="EXP_LMT" type="NUMBER(19,2)" defaultValueNumeric="0" />
 			<column name="FDOC_BNK_CD" type="VARCHAR2(4)" />
 			<column name="VER_NBR" type="NUMBER(8,0)" defaultValueNumeric="1" />
 			<column name="OBJ_ID" type="VARCHAR2(36)" />
@@ -460,14 +460,14 @@
 			<column name="LUNCH_IND" type="VARCHAR2(1)" />
 			<column name="DINNER_IND" type="VARCHAR2(1)" />
 			<column name="SINGLE_DAY_IND" type="VARCHAR2(1)" />
-			<column default="0" name="BREAKFAST_VAL" type="NUMBER(19,2)" />
-			<column default="0" name="LUNCH_VAL" type="NUMBER(19,2)" />
-			<column default="0" name="DINNER_VAL" type="NUMBER(19,2)" />
-			<column default="0" name="INCIDENTALS_VAL" type="NUMBER(19,2)" />
+			<column name="BREAKFAST_VAL" type="NUMBER(19,2)" defaultValueNumeric="0" />
+			<column name="LUNCH_VAL" type="NUMBER(19,2)" defaultValueNumeric="0" />
+			<column name="DINNER_VAL" type="NUMBER(19,2)" defaultValueNumeric="0" />
+			<column name="INCIDENTALS_VAL" type="NUMBER(19,2)" defaultValueNumeric="0" />
 			<column name="PERSONAL" type="VARCHAR2(1)" />
 			<column name="MILES" type="NUMBER(22,0)" />
 			<column name="MILEAGE_RT_ID" type="NUMBER(22,0)" />
-			<column default="0" name="LODGING" type="NUMBER(19,2)" />
+			<column name="LODGING" type="NUMBER(19,2)" defaultValueNumeric="0" />
 			<column name="ACCOM_TYP_CD" type="VARCHAR2(4)" />
 			<column name="ACCOM_NM" type="VARCHAR2(255)" />
 			<column name="ACCOM_PH" type="VARCHAR2(20)" />
@@ -493,7 +493,7 @@
 			<column name="OBJ_ID" type="VARCHAR2(36)" />
 		</createTable>
 		<addPrimaryKey tableName="TEM_PER_DIEM_MIE_BREAK_DOWN_T"
-			constraintName="TEM_PER_DIEM_MIE_BREAK_DOWN_TP1" columnNames="MEALS_INC" />
+			constraintName="TEM_PER_DIEM_MIE_BRK_DWN_TP1" columnNames="MEALS_INC" />
 		<createTable tableName="TEM_PER_DIEM_T">
 			<column name="ID" type="NUMBER(22,0)" />
 			<column name="TRIP_TYP_CD" type="VARCHAR2(3)" />
@@ -739,7 +739,7 @@
 			<column name="TRVL_ID" type="VARCHAR2(19)" />
 			<column name="TRVL_DTL_ID" type="NUMBER(22,0)" />
 			<column name="TRVL_ADV_FDOC_NBR" type="VARCHAR(14)" />
-			<column name="AR_INV_DOC_NBR" rtype="VARCHAR2(14)" />
+			<column name="AR_INV_DOC_NBR" type="VARCHAR2(14)" />
 			<column name="TAX_RAM_NTC" type="VARCHAR2(2000)" />
 			<column name="INV_AMT" type="NUMBER(22,0)" />
 			<column name="OPN_AMT" type="NUMBER(22,0)" />
@@ -1076,8 +1076,8 @@
 		</createTable>
 		<createTable tableName="TEM_TRVL_PMT_T">
 			<column name="FDOC_NBR" type="VARCHAR2(14)"/>
-			<column name="OBJ_ID" required="true" type="VARCHAR2(36)"/>
-			<column name="VER_NBR" required="true" type="DECIMAL(8,0)" defaultValueNumeric="1"/>
+			<column name="OBJ_ID" type="VARCHAR2(36)"/>
+			<column name="VER_NBR" type="DECIMAL(8,0)" defaultValueNumeric="1"/>
 			<column name="CHK_TOT_AMT" type="DECIMAL(19,2)"/>
 			<column name="DUE_DT" type="DATE"/>
 			<column name="ATTCH_IND" type="CHAR(1)" defaultValue="N"/>
@@ -1099,12 +1099,19 @@
 			<column name="RMT_CNTRY_CD" type="VARCHAR2(2)"/>
 			<column name="W9_CMPLT_IND" type="CHAR(1)" defaultValue="N"/>
 			<column name="PAYEE_TYP_CD" type="VARCHAR2(1)"/>
-			<column default="N" name="EXCPT_IND" required="true" type="VARCHAR2(1)"/>
-			<foreign-key foreignTable="FS_PMT_DOC_LOC_T" name="TEM_TRVL_PMT_TR1">
-				<reference foreign="PMT_DOC_LOC_CD" local="DOC_LOC_CD"/>
-			</foreign-key>
-		</table>
-		<addPrimaryKey tableName="TEM_TRVL_PMT_T" constraintName="TEM_TRVL_PMT_TP1" columnNames="FDOC_NBR" />
+			<column name="EXCPT_IND" type="VARCHAR2(1)" defaultValue="N"/>
+		</createTable>
+		<createTable tableName="TEM_CC_IMP_EXP_CLR_T">
+			<column name="FDOC_NBR" type="VARCHAR2(14)"/>
+	        <column name="OBJ_ID" type="VARCHAR2(36)"/>
+			<column name="VER_NBR" type="DECIMAL(8,0)" defaultValueNumeric="1"/>
+		</createTable>
+		<createTable tableName="TEM_CC_IMP_EXP_CLR_DTL_T">
+			<column name="FDOC_NBR" type="VARCHAR2(14)"/>
+			<column name="CC_STG_DAT_ID" type="DECIMAL(8,0)" />
+	        <column name="OBJ_ID" type="VARCHAR2(36)"/>
+			<column name="VER_NBR" type="DECIMAL(8,0)" defaultValueNumeric="1"/>
+		</createTable>
 		<createSequence sequenceName="TEM_ACCT_DOC_REL_ID_SEQ"
 			startValue="1" />
 		<createSequence sequenceName="TEM_ACCT_LINES_ID_SEQ"

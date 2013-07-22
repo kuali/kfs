@@ -181,28 +181,6 @@ public class TemCardApplicationAction extends FinancialSystemTransactionalDocume
         applicationForm.setInitiator(true);
     }
 
-    /**
-     * Initializes the profile on the document
-     * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#loadDocument(org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase)
-     */
-    @Override
-    protected void loadDocument(KualiDocumentFormBase form) throws WorkflowException {
-        super.loadDocument(form);
-        final Person currentUser = GlobalVariables.getUserSession().getPerson();
-        TemCardApplicationForm applicationForm = (TemCardApplicationForm)form;
-        TEMProfile profile = null;
-        CardApplicationDocument document = (CardApplicationDocument) applicationForm.getDocument();
-
-        profile = document.getTemProfile();
-        //If not the user's profile, check if they are the FO or Travel Manager.
-        if (!currentUser.getPrincipalId().equals(profile.getPrincipalId())) {
-            if (!applicationForm.isTravelManager() || !applicationForm.isFiscalOfficer()) {
-                throw new AuthorizationException(GlobalVariables.getUserSession().getPerson().getPrincipalName(), "view",this.getClass().getSimpleName());
-            }
-        }
-    }
-
-
     public ActionForward checkExistingCard(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ActionForward forward = null;
 

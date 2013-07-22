@@ -15885,6 +15885,23 @@
             <unique-column name="OBJ_ID"/>
         </unique>
     </table>
+    <table name="TEM_CC_IMP_EXP_CLR_DTL_T">
+        <column name="FDOC_NBR" primaryKey="true" size="14" type="VARCHAR"/>
+        <column name="CC_STG_DAT_ID" primaryKey="true" size="22" type="DECIMAL"/>
+        <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
+        <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
+        <unique name="TEM_CC_IMP_EXP_CLR_DTL_T_TC0">
+            <unique-column name="OBJ_ID"/>
+        </unique>
+    </table>
+    <table name="TEM_CC_IMP_EXP_CLR_T">
+        <column name="FDOC_NBR" primaryKey="true" size="14" type="VARCHAR"/>
+        <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
+        <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
+        <unique name="TEM_CC_IMP_EXP_CLR_T_TC0">
+            <unique-column name="OBJ_ID"/>
+        </unique>
+    </table>
     <table name="TEM_CLASS_SVC_T">
         <column name="CODE" primaryKey="true" size="10" type="VARCHAR"/>
         <column name="DV_EXP_CD" required="true" size="2" type="VARCHAR"/>
@@ -16298,6 +16315,9 @@
         <unique name="TEM_PER_DIEM_TC0">
             <unique-column name="OBJ_ID"/>
         </unique>
+        <index name="TEM_PER_DIEM_TI1">
+            <index-column name="COUNTRY"/>
+        </index>
     </table>
     <table name="TEM_PROFILE_ACCOUNT_T">
         <column name="ACCOUNT_ID" primaryKey="true" size="22" type="DECIMAL"/>

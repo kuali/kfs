@@ -83,6 +83,7 @@ import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.TravelDocumentBase;
 import org.kuali.kfs.module.tem.document.TravelReimbursementDocument;
 import org.kuali.kfs.module.tem.document.authorization.ReturnToFiscalOfficerAuthorizer;
+import org.kuali.kfs.module.tem.document.authorization.TravelArrangeableAuthorizer;
 import org.kuali.kfs.module.tem.document.service.AccountingDocumentRelationshipService;
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
 import org.kuali.kfs.module.tem.document.service.TravelEncumbranceService;
@@ -1253,6 +1254,8 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
 
     public ActionForward insertDistributionLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         TravelFormBase travelForm = (TravelFormBase) form;
+        TravelDocument travelDocument = travelForm.getTravelDocument();
+        travelForm.getAccountDistributionnewSourceLine().setCardType(travelDocument.getDefaultAccountingLineCardAgencyType());
         travelForm.setAnchor(TemConstants.DISTRIBUTION_ANCHOR);
         final TravelMvcWrapperBean mvcWrapper = newMvcDelegate(form);
 
@@ -1529,4 +1532,21 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
 
         return MessageFormat.format(message, args);
     }
+
+    /**
+     * Determines whether or not someone can calculate a travel document
+     *
+     * @param authForm
+     */
+    protected void setCanCalculate(TravelFormBase form) {
+        boolean can = !(isFinal(form) || isProcessed(form));
+
+        if (can) {
+            TravelArrangeableAuthorizer documentAuthorizer = getDocumentAuthorizer(form);
+            can = documentAuthorizer.canCalculate(form.getTravelDocument(), GlobalVariables.getUserSession().getPerson());
+        }
+
+        form.setCanCalculate(can);
+    }
+
 }

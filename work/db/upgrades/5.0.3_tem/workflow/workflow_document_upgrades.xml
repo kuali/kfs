@@ -1,37 +1,36 @@
 <data xmlns="ns:workflow" xsi:schemaLocation="ns:workflow resource:WorkflowData"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<ruleAttributes xmlns="ns:workflow/RuleAttribute"
+		xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
+		<ruleAttribute>
+			<name>TravelDocumentSearchCustomizer</name>
+			<label>TEM Document Search Customizer</label>
+			<className>{http://kfs.kuali.org/kfs/v5_0}TravelDocumentSearchCustomizer
+			</className>
+			<type>DocumentSearchCustomizer</type>
+			<applicationId>KFS</applicationId>
+		</ruleAttribute>
+		<ruleAttribute>
+			<name>TemFinancialSystemSearchableAttribute</name>
+			<className>{http://kfs.kuali.org/kfs/v5_0}TemFinancialSystemSearchableAttribute
+			</className>
+			<label>TEM Searchable Attribute</label>
+			<description>TEM Searchable Attribute</description>
+			<type>SearchableAttribute</type>
+			<applicationId>KFS</applicationId>
+		</ruleAttribute>
+		<ruleAttribute>
+			<name>TemSecurityAttribute</name>
+			<className>org.kuali.kfs.module.tem.document.workflow.TEMSecurityAttribute
+			</className>
+			<label>Travel &amp; Entertainment Security Attribute</label>
+			<description>Hides from document search unless user is allowed to open document according to KIM</description>
+			<type>DocumentSecurityAttribute</type>
+			<applicationId>KFS</applicationId>
+		</ruleAttribute>
+	</ruleAttributes>
 	<documentTypes xmlns="ns:workflow/DocumentType"
 		xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
-		<ruleAttributes xmlns="ns:workflow/RuleAttribute"
-			xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
-			<ruleAttribute>
-				<name>TravelDocumentSearchCustomizer</name>
-				<label>TEM Document Search Customizer</label>
-				<className>{http://kfs.kuali.org/kfs/v5_0}TravelDocumentSearchCustomizer
-				</className>
-				<type>DocumentSearchCustomizer</type>
-				<applicationId>KFS</applicationId>
-			</ruleAttribute>
-			<ruleAttribute>
-				<name>TemFinancialSystemSearchableAttribute</name>
-				<className>{http://kfs.kuali.org/kfs/v5_0}TemFinancialSystemSearchableAttribute
-				</className>
-				<label>TEM Searchable Attribute</label>
-				<description>TEM Searchable Attribute</description>
-				<type>SearchableAttribute</type>
-				<applicationId>KFS</applicationId>
-			</ruleAttribute>
-			<ruleAttribute>
-				<name>TemSecurityAttribute</name>
-				<className>org.kuali.kfs.module.tem.document.workflow.TEMSecurityAttribute
-				</className>
-				<label>Travel &amp; Entertainment Security Attribute</label>
-				<description>Hides from document search unless user is allowed to
-					open document according to KIM</description>
-				<type>DocumentSecurityAttribute</type>
-				<applicationId>KFS</applicationId>
-			</ruleAttribute>
-		</ruleAttributes>
 		<documentType>
 			<name>
 				TTSM
@@ -697,16 +696,8 @@
 			         	</branch>	
 			         	<join name="JoinRequiresSeparationOfDuties" />	         		
 	     			</split>
-	     			<role name="PaymentMethod" nextNode="RequiresTravel" nextAppDocStatus="Awaiting Travel Manager Review" />
-	     			<split name="RequiresTravel" nextAppDocStatus="Awaiting Travel Manager Review">
-						<branch name="True">
-							<role name="Travel" nextNode="JoinRequiresTravel" nextAppDocStatus="Department Approved" />
-						</branch>
-						<branch name="False">
-							<simple name="NoOpTravel" nextNode="JoinRequiresTravel" nextAppDocStatus="Department Approved" />
-						</branch>
-						<join name="JoinRequiresTravel" />
-					</split>   
+	     			<role name="PaymentMethod" nextNode="Travel" nextAppDocStatus="Awaiting Travel Manager Review" />
+	     			<role name="Travel" nextAppDocStatus="Department Approved" />
                 </routePath>
             </routePaths>
             <routeNodes>
@@ -833,14 +824,7 @@
                     <qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
                     <activationType>P</activationType>
                 </role>
-	     			
-	     		<join name="JoinRequiresTravel" />
-				<simple name="NoOpTravel">
-					<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
-				</simple>
-				<split name="RequiresTravel">
-					<type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
-				</split>
+                
                 <role name="Travel">
                     <qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
                     <activationType>P</activationType>

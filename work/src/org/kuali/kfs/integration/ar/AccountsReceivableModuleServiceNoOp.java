@@ -17,7 +17,6 @@ package org.kuali.kfs.integration.ar;
 
 import java.sql.Date;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -28,14 +27,11 @@ import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
 import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
 import org.kuali.kfs.sys.businessobject.ElectronicPaymentClaim;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ElectronicPaymentClaimingDocumentGenerationStrategy;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.document.Document;
-import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.krad.util.ObjectUtils;
 
 public class AccountsReceivableModuleServiceNoOp implements AccountsReceivableModuleService {
 
@@ -103,8 +99,7 @@ public class AccountsReceivableModuleServiceNoOp implements AccountsReceivableMo
     @Override
     public AccountsReceivableCustomerInvoice getOpenCustomerInvoice(String customerInvoiceDocumentNumber) {
         LOG.warn( "Using No-Op " + getClass().getSimpleName() + " service." );
-
-        return SpringContext.getBean(BusinessObjectService.class).findBySinglePrimaryKey(CustomerInvoiceDocument.class, customerInvoiceDocumentNumber);
+        return null;
     }
 
     /**
@@ -113,23 +108,7 @@ public class AccountsReceivableModuleServiceNoOp implements AccountsReceivableMo
     @Override
     public Map<String, KualiDecimal> getCustomerInvoiceOpenAmount(List<String> customerTypeCodes, Integer customerInvoiceAge, Date invoiceBillingDateFrom) {
         LOG.warn( "Using No-Op " + getClass().getSimpleName() + " service." );
-
-        Map<String, KualiDecimal> customerInvoiceOpenAmountMap = new HashMap<String, KualiDecimal>();
-
-        Collection<? extends AccountsReceivableCustomerInvoice> customerInvoiceDocuments = this.getOpenCustomerInvoices(customerTypeCodes, customerInvoiceAge, invoiceBillingDateFrom);
-        if(ObjectUtils.isNull(customerInvoiceDocuments)){
-            return customerInvoiceOpenAmountMap;
-        }
-
-        for(AccountsReceivableCustomerInvoice invoiceDocument : customerInvoiceDocuments){
-            KualiDecimal openAmount = invoiceDocument.getOpenAmount();
-
-            if(ObjectUtils.isNotNull(openAmount) && openAmount.isPositive()){
-                customerInvoiceOpenAmountMap.put(invoiceDocument.getDocumentNumber(), openAmount);
-            }
-        }
-
-        return customerInvoiceOpenAmountMap;
+        return null;
     }
 
     /**
@@ -138,165 +117,126 @@ public class AccountsReceivableModuleServiceNoOp implements AccountsReceivableMo
     @Override
     public Collection<? extends AccountsReceivableCustomerInvoice> getOpenCustomerInvoices(List<String> customerTypeCodes, Integer customerInvoiceAge, Date invoiceBillingDateFrom) {
         LOG.warn( "Using No-Op " + getClass().getSimpleName() + " service." );
-
-        CustomerInvoiceDocumentService customerInvoiceDocumentService = SpringContext.getBean(CustomerInvoiceDocumentService.class);
-
-        return customerInvoiceDocumentService.getAllAgingInvoiceDocumentsByCustomerTypes(customerTypeCodes, customerInvoiceAge, invoiceBillingDateFrom);
+        return null;
     }
 
     @Override
     public AccountsReceivableCustomer createCustomer() {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public AccountsReceivableCustomerAddress createCustomerAddress() {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public String getNextCustomerNumber(AccountsReceivableCustomer newCustomer) {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public void saveCustomer(AccountsReceivableCustomer customer) {
-        // TODO Auto-generated method stub
-
-    }
+    public void saveCustomer(AccountsReceivableCustomer customer) {}
 
     @Override
     public List<AccountsReceivableCustomerType> findByCustomerTypeDescription(String customerTypeDescription) {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public AccountsReceivableOrganizationOptions getOrgOptionsIfExists(String chartOfAccountsCode, String organizationCode) {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public AccountsReceivableOrganizationOptions getOrganizationOptionsByPrimaryKey(Map<String, String> criteria) {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public void saveCustomerInvoiceDocument(AccountsReceivableCustomerInvoice customerInvoiceDocument) throws WorkflowException {
-        // TODO Auto-generated method stub
-
-    }
+    public void saveCustomerInvoiceDocument(AccountsReceivableCustomerInvoice customerInvoiceDocument) throws WorkflowException {}
 
     @Override
     public Document blanketApproveCustomerInvoiceDocument(AccountsReceivableCustomerInvoice customerInvoiceDocument) throws WorkflowException {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public AccountsReceivableCustomerInvoiceRecurrenceDetails createCustomerInvoiceRecurrenceDetails() {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public AccountsReceivableDocumentHeader createAccountsReceivableDocumentHeader() {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public ChartOrgHolder getPrimaryOrganization() {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public AccountsReceivableSystemInformation getSystemInformationByProcessingChartOrgAndFiscalYear(String chartOfAccountsCode, String organizationCode, Integer currentFiscalYear) {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public boolean isUsingReceivableFAU() {
-        // TODO Auto-generated method stub
         return false;
     }
 
     @Override
-    public void setReceivableAccountingLineForCustomerInvoiceDocument(AccountsReceivableCustomerInvoice document) {
-        // TODO Auto-generated method stub
-
-    }
+    public void setReceivableAccountingLineForCustomerInvoiceDocument(AccountsReceivableCustomerInvoice document) {}
 
     @Override
     public AccountsReceivableCustomerInvoiceDetail getCustomerInvoiceDetailFromCustomerInvoiceItemCode(String invoiceItemCode, String processingChartCode, String processingOrgCode) {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public String getAccountsReceivableObjectCodeBasedOnReceivableParameter(AccountsReceivableCustomerInvoiceDetail customerInvoiceDetail) {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public void recalculateCustomerInvoiceDetail(AccountsReceivableCustomerInvoice customerInvoiceDocument, AccountsReceivableCustomerInvoiceDetail detail) {
-        // TODO Auto-generated method stub
-
-    }
+    public void recalculateCustomerInvoiceDetail(AccountsReceivableCustomerInvoice customerInvoiceDocument, AccountsReceivableCustomerInvoiceDetail detail) {}
 
     @Override
-    public void prepareCustomerInvoiceDetailForAdd(AccountsReceivableCustomerInvoiceDetail detail, AccountsReceivableCustomerInvoice customerInvoiceDocument) {
-        // TODO Auto-generated method stub
-
-    }
+    public void prepareCustomerInvoiceDetailForAdd(AccountsReceivableCustomerInvoiceDetail detail, AccountsReceivableCustomerInvoice customerInvoiceDocument) {}
 
     @Override
     public KualiDecimal getOpenAmountForCustomerInvoiceDocument(AccountsReceivableCustomerInvoice invoice) {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public Collection<AccountsReceivableCustomerInvoice> getOpenInvoiceDocumentsByCustomerNumberForTrip(String customerNumber, String travelDocId) {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public AccountsReceivableDocumentHeader getNewAccountsReceivableDocumentHeader(String processingChart, String processingOrg) {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public AccountsReceivableCustomerInvoice createCustomerInvoiceDocument() {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public AccountsReceivableCustomerCreditMemo createCustomerCreditMemoDocument() {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public Document blanketApproveCustomerCreditMemoDocument(AccountsReceivableCustomerCreditMemo creditMemoDocument, String annotation) throws WorkflowException {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public AccountsReceivableCustomerCreditMemo populateCustomerCreditMemoDocumentDetails(AccountsReceivableCustomerCreditMemo crmDocument, String invoiceNumber, KualiDecimal creditAmount) {
-        // TODO Auto-generated method stub
         return null;
     }
 

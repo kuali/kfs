@@ -48,6 +48,7 @@ import org.kuali.kfs.module.ar.document.service.PaymentApplicationDocumentServic
 import org.kuali.kfs.module.ar.document.service.SystemInformationService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
@@ -81,7 +82,8 @@ import com.lowagie.text.pdf.PdfWriter;
  * there will be one Cash-Control document. Each record within this set will create one Application document.
  *
  */
-@Transactional
+
+
 public class LockboxServiceImpl implements LockboxService {
     private static Logger LOG = org.apache.log4j.Logger.getLogger(LockboxServiceImpl.class);;
 
@@ -105,6 +107,7 @@ public class LockboxServiceImpl implements LockboxService {
 
 
     @Override
+    @NonTransactional
     public boolean processLockboxes() throws WorkflowException {
 
         ctrlLockbox = new Lockbox();
@@ -169,12 +172,14 @@ public class LockboxServiceImpl implements LockboxService {
 
     }
 
+    @Transactional
     protected Collection<Lockbox> getAllLockboxes() {
         Collection<Lockbox> itr = lockboxDao.getAllLockboxes();
         return itr;
     }
 
     @Override
+    @Transactional
     public void processLockbox(Lockbox lockbox, com.lowagie.text.Document pdfdoc) {
         anyRecordsFoundInd = true;
         LOG.info("LOCKBOX: '" + lockbox.getLockboxNumber() + "'");
@@ -676,34 +681,42 @@ public class LockboxServiceImpl implements LockboxService {
     }
 
     @Override
+    @NonTransactional
     public Long getMaxLockboxSequenceNumber() {
         return lockboxDao.getMaxLockboxSequenceNumber();
     }
 
+    @NonTransactional
     public LockboxDao getLockboxDao() {
         return lockboxDao;
     }
 
+    @NonTransactional
     public void setLockboxDao(LockboxDao lockboxDao) {
         this.lockboxDao = lockboxDao;
     }
 
+    @NonTransactional
     public SystemInformationService getSystemInformationService() {
         return systemInformationService;
     }
 
+    @NonTransactional
     public void setSystemInformationService(SystemInformationService systemInformationService) {
         this.systemInformationService = systemInformationService;
     }
 
+    @NonTransactional
     public AccountsReceivableDocumentHeaderService getAccountsReceivableDocumentHeaderService() {
         return accountsReceivableDocumentHeaderService;
     }
 
+    @NonTransactional
     public void setAccountsReceivableDocumentHeaderService(AccountsReceivableDocumentHeaderService accountsReceivableDocumentHeaderService) {
         this.accountsReceivableDocumentHeaderService = accountsReceivableDocumentHeaderService;
     }
 
+    @NonTransactional
     public void setPaymentApplicationDocumentService(PaymentApplicationDocumentService paymentApplicationDocumentService) {
         this.payAppDocService = paymentApplicationDocumentService;
     }
@@ -712,6 +725,7 @@ public class LockboxServiceImpl implements LockboxService {
      * Gets the documentService attribute.
      * @return Returns the documentService.
      */
+    @NonTransactional
     public DocumentService getDocumentService() {
         return documentService;
     }
@@ -720,6 +734,7 @@ public class LockboxServiceImpl implements LockboxService {
      * Sets the documentService attribute value.
      * @param documentService The documentService to set.
      */
+    @NonTransactional
     public void setDocumentService(DocumentService documentService) {
         this.documentService = documentService;
     }
@@ -728,26 +743,32 @@ public class LockboxServiceImpl implements LockboxService {
      * Sets the dataDictionaryService attribute value.
      * @param dataDictionaryService The dataDictionaryService to set.
      */
+    @NonTransactional
     public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
         this.dataDictionaryService = dataDictionaryService;
     }
 
+    @NonTransactional
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;
     }
 
+    @NonTransactional
     public CashControlDocumentService getCashControlDocumentService() {
         return cashControlDocumentService;
     }
 
+    @NonTransactional
     public void setCashControlDocumentService(CashControlDocumentService cashControlDocumentService) {
         this.cashControlDocumentService = cashControlDocumentService;
     }
 
+    @NonTransactional
     public void setReportsDirectory(String reportsDirectory) {
         this.reportsDirectory = reportsDirectory;
     }
 
+    @NonTransactional
     public void setBoService(BusinessObjectService boService) {
         this.boService = boService;
     }
@@ -757,7 +778,7 @@ public class LockboxServiceImpl implements LockboxService {
      *
      * @return Returns the customerService
      */
-
+    @NonTransactional
     public CustomerService getCustomerService() {
         return customerService;
     }
@@ -767,6 +788,7 @@ public class LockboxServiceImpl implements LockboxService {
      *
      * @param customerService The customerService to set.
      */
+    @NonTransactional
     public void setCustomerService(CustomerService customerService) {
         this.customerService = customerService;
     }

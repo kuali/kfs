@@ -162,11 +162,6 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
         return perDiemAdjustment;
     }
 
-    @Override
-    public KualiDecimal getTotalDollarAmount() {
-        return getReimbursableTotal();
-    }
-
     /**
      * Gets the travelAdvanceAmount attribute. This is the travel advance amount applied on this TR.
      * @return Returns the travelAdvanceAmount.
@@ -330,9 +325,7 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
         if (nodeName.equals(TemWorkflowConstants.REQUIRES_TRAVELER_REVIEW)){
             return requiresTravelerApprovalRouting();
         }
-        if (nodeName.equals(TemWorkflowConstants.REQUIRES_AWARD)
-                || nodeName.equals(TemWorkflowConstants.REQUIRES_SUB_FUND)
-                || nodeName.equals(TemWorkflowConstants.REQUIRES_AP_TRAVEL)) {
+        if (nodeName.equals(TemWorkflowConstants.REQUIRES_AWARD) || nodeName.equals(TemWorkflowConstants.REQUIRES_SUB_FUND)) {
             return isNotAutomaticReimbursement();
         }
         throw new UnsupportedOperationException("Cannot answer split question for this node you call \"" + nodeName + "\"");

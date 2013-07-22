@@ -180,7 +180,7 @@
 
 	<bean id="TEMProfile-principalId" parent="TEMProfile-principalId-parentBean" />
 	<bean id="TEMProfile-principalId-parentBean" parent="KimBaseBeans-principalId">
-		<property name="label" value="KIM Principal Id" />
+		<property name="label" value="KIM Principal Name" />
 	</bean>
 
 	<bean id="TEMProfile-customerNumber" parent="TEMProfile-customerNumber-parentBean" />

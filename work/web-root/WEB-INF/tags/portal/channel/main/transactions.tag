@@ -14,18 +14,6 @@
  limitations under the License.
 --%>
 <%@ include file="/jsp/sys/kfsTldHeader.jsp"%>
-<%@ tag
-	import="org.kuali.kfs.sys.context.SpringContext,org.kuali.rice.coreservice.framework.parameter.ParameterService"%>
-<%
-	Boolean showTRLink = SpringContext.getBean(ParameterService.class)
-			.getParameterValueAsBoolean("KFS-TEM",
-					"TravelReimbursement",
-					"TRAVEL_AUTHORIZATION_REQUIRED_IND");
-	if (showTRLink == null) {
-		showTRLink = false;
-	}
-	request.setAttribute("showTRLink", showTRLink);
-%>
 
 <channel:portalChannelTop channelTitle="Transactions" />
 <div class="body">
@@ -113,85 +101,44 @@
 	</c:if>
 
 	<c:if test="${ConfigProperties.module.purchasing.enabled == 'true'}">
-		<strong>Purchasing/Accounts Payable</strong>
-		<br />
-		<ul class="chan">
-			<li><portal:portalLink displayTitle="true"
-					title="Bulk Receiving"
-					url="purapBulkReceiving.do?methodToCall=docHandler&command=initiate&docTypeName=RCVB" /></li>
-			<li><portal:portalLink displayTitle="true"
-					title="Contract Manager Assignment"
-					url="purapContractManagerAssignment.do?methodToCall=docHandler&command=initiate&docTypeName=ACM" /></li>
-			<li><portal:portalLink displayTitle="true"
-					title="Payment Request"
-					url="purapPaymentRequest.do?methodToCall=docHandler&command=initiate&docTypeName=PREQ" /></li>
-			<li><portal:portalLink displayTitle="true" title="Receiving"
-					url="purapLineItemReceiving.do?methodToCall=docHandler&command=initiate&docTypeName=RCVL" /></li>
-			<li><portal:portalLink displayTitle="true" title="Requisition"
-					url="purapRequisition.do?methodToCall=docHandler&command=initiate&docTypeName=REQS" /></li>
-			<li><portal:portalLink displayTitle="true" title="Shop Catalogs"
-					url="b2b.do?methodToCall=shopCatalogs" /></li>
-			<li><portal:portalLink displayTitle="true"
-					title="Vendor Credit Memo"
-					url="purapVendorCreditMemo.do?methodToCall=docHandler&command=initiate&docTypeName=CM" /></li>
-		</ul>
-	</c:if>
-
-	<c:if test="${ConfigProperties.module.endowment.enabled == 'true'}">
-		<strong>Endowment</strong>
-		<br />
-		<ul class="chan">
-			<li><portal:portalLink displayTitle="true"
-					title="Asset Decrease"
-					url="endowAssetDecreaseDocument.do?methodToCall=docHandler&command=initiate&docTypeName=EAD" /></li>
-			<li><portal:portalLink displayTitle="true"
-					title="Asset Increase"
-					url="endowAssetIncreaseDocument.do?methodToCall=docHandler&command=initiate&docTypeName=EAI" /></li>
-			<li><portal:portalLink displayTitle="true" title="Cash Decrease"
-					url="endowCashDecreaseDocument.do?methodToCall=docHandler&command=initiate&docTypeName=ECDD" /></li>
-			<li><portal:portalLink displayTitle="true" title="Cash Increase"
-					url="endowCashIncreaseDocument.do?methodToCall=docHandler&command=initiate&docTypeName=ECI" /></li>
-			<li><portal:portalLink displayTitle="true" title="Cash Transfer"
-					url="endowCashTransferDocument.do?methodToCall=docHandler&command=initiate&docTypeName=ECT" /></li>
-			<li><portal:portalLink displayTitle="true"
-					title="Endowment To GL Transfer Of Funds"
-					url="endowEndowmentToGLTransferOfFundsDocument.do?methodToCall=docHandler&command=initiate&docTypeName=EGLT" /></li>
-			<li><portal:portalLink displayTitle="true"
-					title="GL To Endowment Transfer Of Funds"
-					url="endowGLToEndowmentTransferOfFundsDocument.do?methodToCall=docHandler&command=initiate&docTypeName=GLET" /></li>
-			<li><portal:portalLink displayTitle="true"
-					title="Liability Decrease"
-					url="endowLiabilityDecreaseDocument.do?methodToCall=docHandler&command=initiate&docTypeName=ELD" /></li>
-			<li><portal:portalLink displayTitle="true"
-					title="Liability Increase"
-					url="endowLiabilityIncreaseDocument.do?methodToCall=docHandler&command=initiate&docTypeName=ELI" /></li>
-			<li><portal:portalLink displayTitle="true"
-					title="Security Transfer"
-					url="endowSecurityTransferDocument.do?methodToCall=docHandler&command=initiate&docTypeName=EST" /></li>
-		</ul>
-	</c:if>
-	<c:if test="${ConfigProperties.module.travel.enabled == 'true'}">
-		<strong>Travel</strong>
-		<br />
-		<ul class="chan">
-			<li><portal:portalLink displayTitle="true"
-					title="Entertainment Reimbursement"
-					url="temTravelEntertainment.do?methodToCall=docHandler&command=initiate&docTypeName=ENT" /></li>
-			<li><portal:portalLink displayTitle="true"
-					title="Moving and Relocation Reimbursement"
-					url="temTravelRelocation.do?methodToCall=docHandler&command=initiate&docTypeName=RELO" /></li>
-			<li><portal:portalLink displayTitle="true"
-					title="Travel Arranger"
-					url="temTravelArranger.do?methodToCall=docHandler&command=initiate&docTypeName=TTA" /></li>
-			<li><portal:portalLink displayTitle="true"
-					title="Travel Authorization"
-					url="temTravelAuthorization.do?methodToCall=docHandler&command=initiate&docTypeName=TA" /></li>
-			<c:if test="${showTRLink}">
-				<li><portal:portalLink displayTitle="true"
-						title="Travel Reimbursement"
-						url="temTravelReimbursement.do?methodToCall=docHandler&command=initiate&docTypeName=TR" /></li>
-			</c:if>
-		</ul>
-	</c:if>
+		<strong>Purchasing/Accounts Payable</strong><br />
+	    <ul class="chan">
+	        <li><portal:portalLink displayTitle="true" title="Bulk Receiving" url="purapBulkReceiving.do?methodToCall=docHandler&command=initiate&docTypeName=RCVB" /></li>
+	        <li><portal:portalLink displayTitle="true" title="Contract Manager Assignment" url="purapContractManagerAssignment.do?methodToCall=docHandler&command=initiate&docTypeName=ACM" /></li>
+			<li><portal:portalLink displayTitle="true" title="Payment Request" url="purapPaymentRequest.do?methodToCall=docHandler&command=initiate&docTypeName=PREQ" /></li>
+			<li><portal:portalLink displayTitle="true" title="Receiving" url="purapLineItemReceiving.do?methodToCall=docHandler&command=initiate&docTypeName=RCVL" /></li>
+	        <li><portal:portalLink displayTitle="true" title="Requisition" url="purapRequisition.do?methodToCall=docHandler&command=initiate&docTypeName=REQS" /></li>
+	        <li><portal:portalLink displayTitle="true" title="Shop Catalogs" url="b2b.do?methodToCall=shopCatalogs" /></li>
+	        <li><portal:portalLink displayTitle="true" title="Vendor Credit Memo" url="purapVendorCreditMemo.do?methodToCall=docHandler&command=initiate&docTypeName=CM" /></li>
+	    </ul>
+    </c:if>
+    
+    <c:if test="${ConfigProperties.module.endowment.enabled == 'true'}">
+	    <strong>Endowment</strong><br />
+	    <ul class="chan">
+	        <li><portal:portalLink displayTitle="true" title="Asset Decrease" url="endowAssetDecreaseDocument.do?methodToCall=docHandler&command=initiate&docTypeName=EAD" /></li>
+	        <li><portal:portalLink displayTitle="true" title="Asset Increase" url="endowAssetIncreaseDocument.do?methodToCall=docHandler&command=initiate&docTypeName=EAI" /></li>
+	        <li><portal:portalLink displayTitle="true" title="Cash Decrease" url="endowCashDecreaseDocument.do?methodToCall=docHandler&command=initiate&docTypeName=ECDD" /></li>
+	        <li><portal:portalLink displayTitle="true" title="Cash Increase" url="endowCashIncreaseDocument.do?methodToCall=docHandler&command=initiate&docTypeName=ECI" /></li>
+	        <li><portal:portalLink displayTitle="true" title="Cash Transfer" url="endowCashTransferDocument.do?methodToCall=docHandler&command=initiate&docTypeName=ECT" /></li>
+	        <li><portal:portalLink displayTitle="true" title="Endowment To GL Transfer Of Funds" url="endowEndowmentToGLTransferOfFundsDocument.do?methodToCall=docHandler&command=initiate&docTypeName=EGLT" /></li>
+	        <li><portal:portalLink displayTitle="true" title="GL To Endowment Transfer Of Funds" url="endowGLToEndowmentTransferOfFundsDocument.do?methodToCall=docHandler&command=initiate&docTypeName=GLET" /></li>        
+	  		<li><portal:portalLink displayTitle="true" title="Liability Decrease" url="endowLiabilityDecreaseDocument.do?methodToCall=docHandler&command=initiate&docTypeName=ELD" /></li>
+	        <li><portal:portalLink displayTitle="true" title="Liability Increase" url="endowLiabilityIncreaseDocument.do?methodToCall=docHandler&command=initiate&docTypeName=ELI" /></li>
+	        <li><portal:portalLink displayTitle="true" title="Security Transfer" url="endowSecurityTransferDocument.do?methodToCall=docHandler&command=initiate&docTypeName=EST" /></li>
+	     </ul>
+	 </c:if>
+     <c:if test="${ConfigProperties.module.travel.enabled == 'true'}">
+         <strong>Travel</strong><br />
+         <ul class="chan">
+             <li><portal:portalLink displayTitle="true" title="Entertainment Reimbursement" url="temTravelEntertainment.do?methodToCall=docHandler&command=initiate&docTypeName=ENT" /></li>
+             <li><portal:portalLink displayTitle="true" title="Moving and Relocation Reimbursement" url="temTravelRelocation.do?methodToCall=docHandler&command=initiate&docTypeName=RELO" /></li>
+             <li><portal:portalLink displayTitle="true" title="Travel Arranger" url="temTravelArranger.do?methodToCall=docHandler&command=initiate&docTypeName=TTA" /></li>
+             <li><portal:portalLink displayTitle="true" title="Travel Authorization" url="temTravelAuthorization.do?methodToCall=docHandler&command=initiate&docTypeName=TA" /></li>
+             <c:if test="${ConfigProperties.module.travel.reimbursement.initiatelink.enabled == 'true'}">
+                 <li><portal:portalLink displayTitle="true" title="Travel Reimbursement" url="temTravelReimbursement.do?methodToCall=docHandler&command=initiate&docTypeName=TR" /></li>
+             </c:if>
+         </ul>
+   	 </c:if>
 </div>
 <channel:portalChannelBottom />

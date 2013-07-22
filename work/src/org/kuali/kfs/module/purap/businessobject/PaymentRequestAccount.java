@@ -16,6 +16,7 @@
 
 package org.kuali.kfs.module.purap.businessobject;
 
+import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.AccountingLineBase;
 import org.kuali.kfs.sys.util.ObjectPopulationUtils;
@@ -45,7 +46,7 @@ public class PaymentRequestAccount extends PurApAccountingLineBase {
      */
     public PaymentRequestAccount(PaymentRequestItem item, PurchaseOrderAccount poa) {
         // copy base attributes
-        ObjectPopulationUtils.populateFromBaseClass(AccountingLineBase.class, poa, this);
+        ObjectPopulationUtils.populateFromBaseClass(AccountingLineBase.class, poa, this, PurapConstants.KNOWN_UNCOPYABLE_FIELDS);
         // copy percent
         this.setSequenceNumber(poa.getSequenceNumber());
         this.setAccountLinePercent(poa.getAccountLinePercent());

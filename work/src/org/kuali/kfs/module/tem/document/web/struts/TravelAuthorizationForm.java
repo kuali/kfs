@@ -37,7 +37,6 @@ import org.kuali.kfs.module.tem.businessobject.TravelerDetail;
 import org.kuali.kfs.module.tem.businessobject.TravelerDetailEmergencyContact;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
 import org.kuali.kfs.module.tem.document.TravelDocument;
-import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
 import org.kuali.kfs.module.tem.document.service.TravelReimbursementService;
 import org.kuali.kfs.module.tem.document.web.bean.TravelAuthorizationMvcWrapperBean;
 import org.kuali.kfs.module.tem.service.TravelService;
@@ -311,118 +310,26 @@ public class TravelAuthorizationForm extends TravelFormBase implements TravelAut
         super.getExtraButtons();
         Map<String, ExtraButton> buttonsMap = createButtonsMap();
 
-        if (canAmend()) {
+        if (getDocumentActions().keySet().contains(TemConstants.TravelAuthorizationActions.CAN_AMEND)) {
             extraButtons.add(buttonsMap.get("methodToCall.amendTa"));
         }
-        if (canHold()) {
+        if (getDocumentActions().keySet().contains(TemConstants.TravelAuthorizationActions.CAN_HOLD)) {
             extraButtons.add(buttonsMap.get("methodToCall.holdTa"));
         }
-        if (canRemoveHold()) {
+        if (getDocumentActions().keySet().contains(TemConstants.TravelAuthorizationActions.CAN_REMOVE_HOLD)) {
             extraButtons.add(buttonsMap.get("methodToCall.removeHoldTa"));
         }
-        if (canCloseTA()) {
+        if (getDocumentActions().keySet().contains(TemConstants.TravelAuthorizationActions.CAN_CLOSE_TA)) {
             extraButtons.add(buttonsMap.get("methodToCall.closeTa"));
         }
-        if (canCancelTA()) {
+        if (getDocumentActions().keySet().contains(TemConstants.TravelAuthorizationActions.CAN_CANCEL_TA)) {
             extraButtons.add(buttonsMap.get("methodToCall.cancelTa"));
         }
-
-        boolean enablePayments = getParameterService().getParameterValueAsBoolean(TravelAuthorizationDocument.class, TemConstants.TravelAuthorizationParameters.VENDOR_PAYMENT_ALLOWED_BEFORE_FINAL_APPROVAL_IND);
-        if (enablePayments && !SpringContext.getBean(TravelDocumentService.class).isUnsuccessful(this.getTravelDocument())){
-            if (getTravelAuthorizationDocument().canPayDVToVendor()) {
-                extraButtons.add(buttonsMap.get("methodToCall.payDVToVendor"));
-            }
+        if (getDocumentActions().keySet().contains(TemConstants.TravelAuthorizationActions.CAN_PAY_VENDOR)) {
+            extraButtons.add(buttonsMap.get("methodToCall.payDVToVendor"));
         }
 
         return extraButtons;
-    }
-
-    /**
-     * Gets the canCloseTA attribute.
-     * @return Returns the canCloseTA.
-     */
-    @Override
-    public boolean canCloseTA() {
-        return canCloseTA;
-    }
-
-    /**
-     * Sets the canCloseTA attribute value.
-     * @param canCloseTA The canCloseTA to set.
-     */
-    @Override
-    public void setCanCloseTA(boolean canCloseTA) {
-        this.canCloseTA = canCloseTA;
-    }
-
-    /**
-     * Sets the canCloseTA attribute value.
-     * @param canCloseTA The canCloseTA to set.
-     */
-    @Override
-    public void setCanCancelTA(boolean canCancelTA) {
-        this.canCancelTA = canCancelTA;
-    }
-
-    /**
-     * Gets the canCancelTA attribute.
-     * @return Returns the canCancelTA.
-     */
-    @Override
-    public boolean canCancelTA() {
-        return canCancelTA;
-    }
-
-    /**
-     * Gets the canAmend attribute.
-     * @return Returns the canAmend.
-     */
-    @Override
-    public boolean canAmend() {
-        return canAmend;
-    }
-
-    /**
-     * Sets the canAmend attribute value.
-     * @param canAmend The canAmend to set.
-     */
-    @Override
-    public void setCanAmend(boolean canAmend) {
-        this.canAmend = canAmend;
-    }
-
-    /**
-     *
-     * Sets the canHold attribute value
-     * @param canHold
-     */
-    @Override
-    public void setCanHold(boolean canHold) {
-        this.canHold = canHold;
-
-    }
-
-    /**
-     * This method determines if the user can or cannot hold a TA based on permissions and state
-     *
-     * @return true if they can hold a TA
-     */
-    private boolean canHold() {
-        return this.canHold;
-    }
-
-    @Override
-    public void setCanRemoveHold(boolean canRemoveHold) {
-        this.canRemoveHold = canRemoveHold;
-    }
-
-    /**
-     * This method determines if the user can or cannot remove a hold on a TA based on permissions and state
-     *
-     * @return true if they can hold a TA
-     */
-    private boolean canRemoveHold() {
-        return this.canRemoveHold;
     }
 
     @Override

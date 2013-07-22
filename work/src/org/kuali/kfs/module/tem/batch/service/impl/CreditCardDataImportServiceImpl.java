@@ -17,6 +17,7 @@ package org.kuali.kfs.module.tem.batch.service.impl;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.PrintStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -25,6 +26,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.tem.TemConstants;
@@ -35,7 +37,6 @@ import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.batch.service.CreditCardDataImportService;
 import org.kuali.kfs.module.tem.batch.service.DataReportService;
-import org.kuali.kfs.module.tem.batch.service.TemBatchService;
 import org.kuali.kfs.module.tem.businessobject.CreditCardAgency;
 import org.kuali.kfs.module.tem.businessobject.CreditCardImportData;
 import org.kuali.kfs.module.tem.businessobject.CreditCardStagingData;
@@ -61,7 +62,6 @@ public class CreditCardDataImportServiceImpl implements CreditCardDataImportServ
     private BatchInputFileService batchInputFileService;
     private BusinessObjectService businessObjectService;
     private DateTimeService dateTimeService;
-    private TemBatchService temBatchService;
     private TemProfileService temProfileService;
     private TravelExpenseService travelExpenseService;
     private CreditCardAgencyService creditCardAgencyService;
@@ -98,9 +98,6 @@ public class CreditCardDataImportServiceImpl implements CreditCardDataImportServ
      */
     @Override
     public boolean importCreditCardDataFile(String dataFileName, BatchInputFileType inputFileType) {
-        String fileExtension = "." + inputFileType.getFileExtension();
-        String doneFileName = temBatchService.getCompanionFileName(dataFileName, fileExtension, TemConstants.DONE_FILE_SUFFIX);
-        File doneFile = temBatchService.getFileByAbsolutePath(doneFileName);
 
         try {
             FileInputStream fileContents = new FileInputStream(dataFileName);
@@ -117,13 +114,43 @@ public class CreditCardDataImportServiceImpl implements CreditCardDataImportServ
         }
         catch (Exception ex) {
             LOG.error("Failed to process the file : " + dataFileName, ex);
-            temBatchService.moveErrorFile(dataFileName, creditCardDataFileErrorDirectory, creditCardDataFileErrorDirectory);
+            moveErrorFile(dataFileName, creditCardDataFileErrorDirectory);
             return false;
         }
         finally {
-            boolean doneFileDeleted = doneFile.delete();
+           removeDoneFiles(dataFileName);
         }
         return true;
+    }
+
+    public void moveErrorFile(String dataFileName, String creditCardDataFileErrorDirectory) {
+        File dataFile = new File(dataFileName);
+
+        if (!dataFile.exists() || !dataFile.canRead()) {
+            LOG.error("Cannot find/read data file " + dataFileName);
+
+        }
+        else {
+
+            try {
+                FileUtils.moveToDirectory(dataFile, new File(creditCardDataFileErrorDirectory), true);
+            }
+            catch (IOException ex) {
+                LOG.error("Cannot move the file:" + dataFile + " to the directory: " + creditCardDataFileErrorDirectory, ex);
+            }
+        }
+    }
+
+
+    /**
+     * Clears out associated .done files for the processed data files.
+     */
+    protected void removeDoneFiles(String dataFileName) {
+            File doneFile = new File(StringUtils.substringBeforeLast(dataFileName, ".") + TemConstants.DONE_FILE_SUFFIX);
+            if (doneFile.exists()) {
+                doneFile.delete();
+            }
+
     }
 
     /**
@@ -335,13 +362,7 @@ public class CreditCardDataImportServiceImpl implements CreditCardDataImportServ
         this.creditCardDataFileErrorDirectory = creditCardDataFileErrorDirectory;
     }
 
-    /**
-     * Sets the temBatchService attribute value.
-     * @param temBatchService The temBatchService to set.
-     */
-    public void setTemBatchService(TemBatchService temBatchService) {
-        this.temBatchService = temBatchService;
-    }
+
 
     /**
      * Sets the temProfileService attribute value.

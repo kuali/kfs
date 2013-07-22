@@ -31,14 +31,8 @@
 		<td class="datacell" ><kul:htmlControlAttribute
 				attributeEntry="${documentAttributes.reasonCode}"
 				property="document.reasonCode" readOnly="${!fullEntryMode}" /></td>
-		<th class="bord-l-b">
-			<div align="right">
-				<kul:htmlAttributeLabel
-					attributeEntry="${documentAttributes.paymentMethod}" />
-			</div></th>
-		<td class="datacell" ><kul:htmlControlAttribute
-				attributeEntry="${documentAttributes.paymentMethod}"
-				property="document.paymentMethod" readOnly="${!fullEntryMode}" /></td>
+		<th class="bord-l-b" />
+		<td class="datacell" />
 	</tr>
 	<tr>
 		<th width="25%">

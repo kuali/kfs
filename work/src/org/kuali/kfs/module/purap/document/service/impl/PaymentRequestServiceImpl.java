@@ -76,6 +76,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.service.FinancialSystemDocumentService;
 import org.kuali.kfs.sys.service.BankService;
 import org.kuali.kfs.sys.service.FinancialSystemWorkflowHelperService;
+import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.kfs.vnd.VendorConstants;
@@ -113,7 +114,7 @@ import org.springframework.transaction.annotation.Transactional;
 /**
  * This class provides services of use to a payment request document
  */
-@Transactional
+
 public class PaymentRequestServiceImpl implements PaymentRequestService {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PaymentRequestServiceImpl.class);
 
@@ -146,6 +147,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
      */
     @Override
     @Deprecated
+    @NonTransactional
     public Collection<PaymentRequestDocument> getPaymentRequestsToExtractByCM(String campusCode, VendorCreditMemoDocument cmd) {
         LOG.debug("getPaymentRequestsByCM() started");
         Date currentSqlDateMidnight = dateTimeService.getCurrentSqlDateMidnight();
@@ -162,6 +164,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
      *      org.kuali.kfs.module.purap.util.VendorGroupingHelper, java.sql.Date)
      */
     @Override
+    @NonTransactional
     public Collection<PaymentRequestDocument> getPaymentRequestsToExtractByVendor(String campusCode, VendorGroupingHelper vendor, Date onOrBeforePaymentRequestPayDate) {
         LOG.debug("getPaymentRequestsByVendor() started");
         Collection<PaymentRequestDocument> paymentRequestDocuments = paymentRequestDao.getPaymentRequestsToExtractForVendor(campusCode, vendor, onOrBeforePaymentRequestPayDate);
@@ -175,6 +178,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
      * @see org.kuali.module.purap.server.PaymentRequestService.getPaymentRequestsToExtract(Date)
      */
     @Override
+    @NonTransactional
     public Collection<PaymentRequestDocument> getPaymentRequestsToExtract(Date onOrBeforePaymentRequestPayDate) {
         LOG.debug("getPaymentRequestsToExtract() started");
 
@@ -188,6 +192,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
      *      java.sql.Date)
      */
     @Override
+    @NonTransactional
     public Collection<PaymentRequestDocument> getPaymentRequestsToExtractSpecialPayments(String chartCode, Date onOrBeforePaymentRequestPayDate) {
         LOG.debug("getPaymentRequestsToExtractSpecialPayments() started");
 
@@ -200,6 +205,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
      * @see org.kuali.kfs.module.purap.document.service.PaymentRequestService#getImmediatePaymentRequestsToExtract(java.lang.String)
      */
     @Override
+    @NonTransactional
     public Collection<PaymentRequestDocument> getImmediatePaymentRequestsToExtract(String chartCode) {
         LOG.debug("getImmediatePaymentRequestsToExtract() started");
 
@@ -213,6 +219,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
      *      java.sql.Date)
      */
     @Override
+    @NonTransactional
     public Collection<PaymentRequestDocument> getPaymentRequestToExtractByChart(String chartCode, Date onOrBeforePaymentRequestPayDate) {
         LOG.debug("getPaymentRequestToExtractByChart() started");
 
@@ -225,6 +232,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
      * @see org.kuali.kfs.module.purap.document.service.PaymentRequestService.autoApprovePaymentRequests()
      */
     @Override
+    @NonTransactional
     public boolean autoApprovePaymentRequests() {
         if ( LOG.isInfoEnabled() ) {
             LOG.info("Starting autoApprovePaymentRequests.");
@@ -264,6 +272,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
      *      org.kuali.rice.core.api.util.type.KualiDecimal)
      */
     @Override
+    @NonTransactional
     public boolean autoApprovePaymentRequest(String docNumber, KualiDecimal defaultMinimumLimit) {
         PaymentRequestDocument paymentRequestDocument = null;
         try {
@@ -307,6 +316,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
      *      org.kuali.rice.core.api.util.type.KualiDecimal)
      */
     @Override
+    @Transactional
     public boolean autoApprovePaymentRequest(PaymentRequestDocument doc, KualiDecimal defaultMinimumLimit) {
         if (isEligibleForAutoApproval(doc, defaultMinimumLimit)) {
             try {
@@ -477,6 +487,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
      * @return List of payment request document.
      */
     @Override
+    @NonTransactional
     public List getPaymentRequestsByVendorNumber(Integer vendorHeaderGeneratedId, Integer vendorDetailAssignedId) {
         LOG.debug("getActivePaymentRequestsByVendorNumber() started");
         return paymentRequestDao.getActivePaymentRequestsByVendorNumber(vendorHeaderGeneratedId, vendorDetailAssignedId);
@@ -491,6 +502,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
      * @return List of payment request document.
      */
     @Override
+    @NonTransactional
     public List getPaymentRequestsByVendorNumberInvoiceNumber(Integer vendorHeaderGeneratedId, Integer vendorDetailAssignedId, String invoiceNumber) {
         LOG.debug("getActivePaymentRequestsByVendorNumberInvoiceNumber() started");
         return paymentRequestDao.getActivePaymentRequestsByVendorNumberInvoiceNumber(vendorHeaderGeneratedId, vendorDetailAssignedId, invoiceNumber);
@@ -500,6 +512,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
      * @see org.kuali.kfs.module.purap.document.service.PaymentRequestService#paymentRequestDuplicateMessages(org.kuali.kfs.module.purap.document.PaymentRequestDocument)
      */
     @Override
+    @NonTransactional
     public HashMap<String, String> paymentRequestDuplicateMessages(PaymentRequestDocument document) {
         HashMap<String, String> msgs;
         msgs = new HashMap<String, String>();
@@ -604,6 +617,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
      * @see org.kuali.kfs.module.purap.document.service.PaymentRequestService#getPaymentRequestByDocumentNumber(java.lang.String)
      */
     @Override
+    @NonTransactional
     public PaymentRequestDocument getPaymentRequestByDocumentNumber(String documentNumber) {
         LOG.debug("getPaymentRequestByDocumentNumber() started");
 
@@ -625,6 +639,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
      * @see org.kuali.kfs.module.purap.document.service.PaymentRequestService#getPaymentRequestById(java.lang.Integer)
      */
     @Override
+    @NonTransactional
     public PaymentRequestDocument getPaymentRequestById(Integer poDocId) {
         return getPaymentRequestByDocumentNumber(paymentRequestDao.getDocumentNumberByPaymentRequestId(poDocId));
     }
@@ -633,6 +648,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
      * @see org.kuali.kfs.module.purap.document.service.PaymentRequestService#getPaymentRequestsByPurchaseOrderId(java.lang.Integer)
      */
     @Override
+    @NonTransactional
     public List<PaymentRequestDocument> getPaymentRequestsByPurchaseOrderId(Integer poDocId) {
         List<PaymentRequestDocument> preqs = new ArrayList<PaymentRequestDocument>();
         List<String> docNumbers = paymentRequestDao.getDocumentNumbersByPurchaseOrderId(poDocId);
@@ -649,6 +665,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
      * @see org.kuali.kfs.module.purap.document.service.PaymentRequestService#getPaymentRequestsByStatusAndPurchaseOrderId(java.lang.String, java.lang.Integer)
      */
     @Override
+    @NonTransactional
     public Map <String, String> getPaymentRequestsByStatusAndPurchaseOrderId(String applicationDocumentStatus, Integer purchaseOrderId) {
         List<String> paymentRequestDocNumbers = paymentRequestDao.getDocumentNumbersByPurchaseOrderId(purchaseOrderId);
 
@@ -675,6 +692,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
      *      org.kuali.rice.core.api.util.type.KualiDecimal, java.sql.Date)
      */
     @Override
+    @NonTransactional
     public List<PaymentRequestDocument> getPaymentRequestsByPOIdInvoiceAmountInvoiceDate(Integer poId, KualiDecimal invoiceAmount, Date invoiceDate) {
         LOG.debug("getPaymentRequestsByPOIdInvoiceAmountInvoiceDate() started");
         return paymentRequestDao.getActivePaymentRequestsByPOIdInvoiceAmountInvoiceDate(poId, invoiceAmount, invoiceDate);
@@ -684,6 +702,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
      * @see org.kuali.kfs.module.purap.document.service.PaymentRequestService#isInvoiceDateAfterToday(java.sql.Date)
      */
     @Override
+    @NonTransactional
     public boolean isInvoiceDateAfterToday(Date invoiceDate) {
         // Check invoice date to make sure it is today or before
         Calendar now = Calendar.getInstance();
@@ -708,6 +727,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
      *      org.kuali.kfs.vnd.businessobject.PaymentTermType)
      */
     @Override
+    @NonTransactional
     public java.sql.Date calculatePayDate(Date invoiceDate, PaymentTermType terms) {
         LOG.debug("calculatePayDate() started");
         // calculate the invoice + processed calendar
@@ -800,6 +820,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
      *      boolean)
      */
     @Override
+    @NonTransactional
     public void calculatePaymentRequest(PaymentRequestDocument paymentRequest, boolean updateDiscount) {
         LOG.debug("calculatePaymentRequest() started");
 
@@ -896,6 +917,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
 
 
     @Override
+    @NonTransactional
     public void clearTax(PaymentRequestDocument document) {
         // remove all existing tax items added by previous calculation
         removeTaxItems(document);
@@ -919,6 +941,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
      * @see org.kuali.kfs.module.purap.document.service.PaymentRequestService#calculateTaxArea(org.kuali.kfs.module.purap.document.PaymentRequestDocument)
      */
     @Override
+    @NonTransactional
     public void calculateTaxArea(PaymentRequestDocument preq) {
         LOG.debug("calculateTaxArea() started");
 
@@ -1251,6 +1274,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
      *      java.lang.String)
      */
     @Override
+    @NonTransactional
     public PaymentRequestDocument addHoldOnPaymentRequest(PaymentRequestDocument document, String note) throws Exception {
         // save the note
         Note noteObj = documentService.createNoteFromDocument(document, note);
@@ -1268,6 +1292,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
      * @see org.kuali.kfs.module.purap.document.service.PaymentRequestService#removeHoldOnPaymentRequest(org.kuali.kfs.module.purap.document.PaymentRequestDocument)
      */
     @Override
+    @NonTransactional
     public PaymentRequestDocument removeHoldOnPaymentRequest(PaymentRequestDocument document, String note) throws Exception {
         // save the note
         Note noteObj = documentService.createNoteFromDocument(document, note);
@@ -1286,6 +1311,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
      *      java.lang.String)
      */
     @Override
+    @NonTransactional
     public void requestCancelOnPaymentRequest(PaymentRequestDocument document, String note) throws Exception {
         // save the note
         Note noteObj = documentService.createNoteFromDocument(document, note);
@@ -1302,6 +1328,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
      * @see org.kuali.kfs.module.purap.document.service.PaymentRequestService#removeHoldOnPaymentRequest(org.kuali.kfs.module.purap.document.PaymentRequestDocument)
      */
     @Override
+    @NonTransactional
     public void removeRequestCancelOnPaymentRequest(PaymentRequestDocument document, String note) throws Exception {
         // save the note
         Note noteObj = documentService.createNoteFromDocument(document, note);
@@ -1329,6 +1356,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
      * @see org.kuali.kfs.module.purap.document.service.PaymentRequestService#isExtracted(org.kuali.kfs.module.purap.document.PaymentRequestDocument)
      */
     @Override
+    @NonTransactional
     public boolean isExtracted(PaymentRequestDocument document) {
         return (ObjectUtils.isNull(document.getExtractedTimestamp()) ? false : true);
     }
@@ -1342,6 +1370,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
      *      java.lang.String)
      */
     @Override
+    @NonTransactional
     public void cancelExtractedPaymentRequest(PaymentRequestDocument paymentRequest, String note) {
         LOG.debug("cancelExtractedPaymentRequest() started");
         if (PaymentRequestStatuses.CANCELLED_STATUSES.contains(paymentRequest.getApplicationDocumentStatus())) {
@@ -1375,6 +1404,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
      *      java.lang.String)
      */
     @Override
+    @NonTransactional
     public void resetExtractedPaymentRequest(PaymentRequestDocument paymentRequest, String note) {
         LOG.debug("resetExtractedPaymentRequest() started");
         if (PaymentRequestStatuses.CANCELLED_STATUSES.contains(paymentRequest.getApplicationDocumentStatus())) {
@@ -1402,6 +1432,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
      * @see org.kuali.kfs.module.purap.document.service.PaymentRequestService#populatePaymentRequest(org.kuali.kfs.module.purap.document.PaymentRequestDocument)
      */
     @Override
+    @NonTransactional
     public void populatePaymentRequest(PaymentRequestDocument paymentRequestDocument) {
 
         PurchaseOrderDocument purchaseOrderDocument = paymentRequestDocument.getPurchaseOrderDocument();
@@ -1440,6 +1471,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
      *      java.lang.String)
      */
     @Override
+    @NonTransactional
     public String createPreqDocumentDescription(Integer purchaseOrderIdentifier, String vendorName) {
         StringBuffer descr = new StringBuffer("");
         descr.append("PO: ");
@@ -1460,6 +1492,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
      * @see org.kuali.kfs.module.purap.document.service.PaymentRequestService#populateAndSavePaymentRequest(org.kuali.kfs.module.purap.document.PaymentRequestDocument)
      */
     @Override
+    @NonTransactional
     public void populateAndSavePaymentRequest(PaymentRequestDocument preq) throws WorkflowException {
         try {
             preq.updateAndSaveAppDocStatus(PurapConstants.PaymentRequestStatuses.APPDOC_IN_PROCESS);
@@ -1487,6 +1520,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
      *      (org.kuali.kfs.module.purap.document.AccountsPayableDocument)
      */
     @Override
+    @NonTransactional
     public boolean shouldPurchaseOrderBeReversed(AccountsPayableDocument apDoc) {
         PurchaseOrderDocument po = apDoc.getPurchaseOrderDocument();
         if (ObjectUtils.isNull(po)) {
@@ -1503,6 +1537,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
      * @see org.kuali.kfs.module.purap.document.service.AccountsPayableDocumentSpecificService#getPersonForCancel(org.kuali.kfs.module.purap.document.AccountsPayableDocument)
      */
     @Override
+    @NonTransactional
     public Person getPersonForCancel(AccountsPayableDocument apDoc) {
         PaymentRequestDocument preqDoc = (PaymentRequestDocument) apDoc;
         Person user = null;
@@ -1516,6 +1551,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
      * @see org.kuali.kfs.module.purap.document.service.AccountsPayableDocumentSpecificService#takePurchaseOrderCancelAction(org.kuali.kfs.module.purap.document.AccountsPayableDocument)
      */
     @Override
+    @NonTransactional
     public void takePurchaseOrderCancelAction(AccountsPayableDocument apDoc) {
         PaymentRequestDocument preqDocument = (PaymentRequestDocument) apDoc;
         if (preqDocument.isReopenPurchaseOrderIndicator()) {
@@ -1529,6 +1565,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
      *      org.kuali.kfs.module.purap.document.AccountsPayableDocument)
      */
     @Override
+    @NonTransactional
     public String updateStatusByNode(String currentNodeName, AccountsPayableDocument apDoc) {
         return updateStatusByNode(currentNodeName, (PaymentRequestDocument) apDoc);
     }
@@ -1574,6 +1611,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
      *      java.sql.Date)
      */
     @Override
+    @NonTransactional
     public void markPaid(PaymentRequestDocument pr, Date processDate) {
         LOG.debug("markPaid() started");
 
@@ -1585,6 +1623,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
      * @see org.kuali.kfs.module.purap.document.service.PaymentRequestService#hasDiscountItem(org.kuali.kfs.module.purap.document.PaymentRequestDocument)
      */
     @Override
+    @NonTransactional
     public boolean hasDiscountItem(PaymentRequestDocument preq) {
         return ObjectUtils.isNotNull(findDiscountItem(preq));
     }
@@ -1594,6 +1633,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
      *      org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem)
      */
     @Override
+    @NonTransactional
     public boolean poItemEligibleForAp(AccountsPayableDocument apDoc, PurchaseOrderItem poi) {
         if (ObjectUtils.isNull(poi)) {
             throw new RuntimeException("item null in purchaseOrderItemEligibleForPayment ... this should never happen");
@@ -1626,6 +1666,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
     }
 
     @Override
+    @NonTransactional
     public void removeIneligibleAdditionalCharges(PaymentRequestDocument document) {
 
         List<PaymentRequestItem> itemsToRemove = new ArrayList<PaymentRequestItem>();
@@ -1660,6 +1701,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
     }
 
     @Override
+    @NonTransactional
     public void changeVendor(PaymentRequestDocument preq, Integer headerId, Integer detailId) {
 
         VendorDetail primaryVendor = vendorService.getVendorDetail(preq.getOriginalVendorHeaderGeneratedIdentifier(), preq.getOriginalVendorDetailAssignedIdentifier());
@@ -1763,6 +1805,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
      * @see org.kuali.kfs.module.purap.document.service.AccountsPayableDocumentSpecificService#generateGLEntriesCreateAccountsPayableDocument(org.kuali.kfs.module.purap.document.AccountsPayableDocument)
      */
     @Override
+    @NonTransactional
     public void generateGLEntriesCreateAccountsPayableDocument(AccountsPayableDocument apDocument) {
         PaymentRequestDocument paymentRequest = (PaymentRequestDocument) apDocument;
         // JHK: this is not being injected because it would cause a circular reference in the Spring definitions
@@ -1773,6 +1816,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
      * @see org.kuali.kfs.module.purap.document.service.PaymentRequestService#hasActivePaymentRequestsForPurchaseOrder(java.lang.Integer)
      */
     @Override
+    @NonTransactional
     public boolean hasActivePaymentRequestsForPurchaseOrder(Integer purchaseOrderIdentifier) {
 
         boolean hasActivePreqs = false;
@@ -2039,6 +2083,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
      * @see org.kuali.kfs.module.purap.document.service.PaymentRequestService#processPaymentRequestInReceivingStatus()
      */
     @Override
+    @NonTransactional
     public void processPaymentRequestInReceivingStatus() {
         List<PaymentRequestDocument> preqs = paymentRequestDao.getPaymentRequestInReceivingStatus();
        // docNumbers = filterPaymentRequestByAppDocStatus(docNumbers, PurapConstants.PaymentRequestStatuses.APPDOC_AWAITING_RECEIVING_REVIEW);
@@ -2069,6 +2114,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
      * @see org.kuali.kfs.module.purap.document.service.PaymentRequestService#allowBackpost(org.kuali.kfs.module.purap.document.PaymentRequestDocument)
      */
     @Override
+    @NonTransactional
     public boolean allowBackpost(PaymentRequestDocument paymentRequestDocument) {
         int allowBackpost = (Integer.parseInt(parameterService.getParameterValueAsString(PaymentRequestDocument.class, PurapRuleConstants.ALLOW_BACKPOST_DAYS)));
 
@@ -2098,6 +2144,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
     }
 
     @Override
+    @NonTransactional
     public boolean isPurchaseOrderValidForPaymentRequestDocumentCreation(PaymentRequestDocument paymentRequestDocument, PurchaseOrderDocument po) {
         Integer POID = paymentRequestDocument.getPurchaseOrderIdentifier();
         boolean valid = true;
@@ -2125,6 +2172,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
     }
 
     @Override
+    @NonTransactional
     public boolean encumberedItemExistsForInvoicing(PurchaseOrderDocument document) {
         boolean zeroDollar = true;
         GlobalVariables.getMessageMap().clearErrorPath();
@@ -2151,85 +2199,102 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         return !zeroDollar;
     }
 
+    @NonTransactional
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;
     }
 
+    @NonTransactional
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
     }
 
+    @NonTransactional
     public void setConfigurationService(ConfigurationService configurationService) {
         this.configurationService = configurationService;
     }
 
+    @NonTransactional
     public void setDocumentService(DocumentService documentService) {
         this.documentService = documentService;
     }
 
+    @NonTransactional
     public void setNoteService(NoteService noteService) {
         this.noteService = noteService;
     }
 
+    @NonTransactional
     public void setPurapService(PurapService purapService) {
         this.purapService = purapService;
     }
 
+    @NonTransactional
     public void setPaymentRequestDao(PaymentRequestDao paymentRequestDao) {
         this.paymentRequestDao = paymentRequestDao;
     }
 
+    @NonTransactional
     public void setNegativePaymentRequestApprovalLimitService(NegativePaymentRequestApprovalLimitService negativePaymentRequestApprovalLimitService) {
         this.negativePaymentRequestApprovalLimitService = negativePaymentRequestApprovalLimitService;
     }
 
+    @NonTransactional
     public void setPurapAccountingService(PurapAccountingService purapAccountingService) {
         this.purapAccountingService = purapAccountingService;
     }
 
+    @NonTransactional
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
 
+    @NonTransactional
     public void setPurapWorkflowIntegrationService(PurApWorkflowIntegrationService purapWorkflowIntegrationService) {
         this.purapWorkflowIntegrationService = purapWorkflowIntegrationService;
     }
 
+    @NonTransactional
     public void setWorkflowDocumentService(WorkflowDocumentService workflowDocumentService) {
         this.workflowDocumentService = workflowDocumentService;
     }
 
+    @NonTransactional
     public void setAccountsPayableService(AccountsPayableService accountsPayableService) {
         this.accountsPayableService = accountsPayableService;
     }
 
+    @NonTransactional
     public void setVendorService(VendorService vendorService) {
         this.vendorService = vendorService;
     }
 
+    @NonTransactional
     public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
         this.dataDictionaryService = dataDictionaryService;
     }
 
+    @NonTransactional
     public void setUniversityDateService(UniversityDateService universityDateService) {
         this.universityDateService = universityDateService;
     }
 
-
+    @NonTransactional
     public void setBankService(BankService bankService) {
         this.bankService = bankService;
     }
 
-
+    @NonTransactional
     public void setPurchaseOrderService(PurchaseOrderService purchaseOrderService) {
         this.purchaseOrderService = purchaseOrderService;
     }
 
+    @NonTransactional
     public void setFinancialSystemWorkflowHelperService(FinancialSystemWorkflowHelperService financialSystemWorkflowHelperService) {
         this.financialSystemWorkflowHelperService = financialSystemWorkflowHelperService;
     }
 
-
+    @NonTransactional
     public void setKualiRuleService(KualiRuleService kualiRuleService) {
         this.kualiRuleService = kualiRuleService;
     }
@@ -2239,7 +2304,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
      *
      * @return Returns the accountsPayableService
      */
-
+    @NonTransactional
     public AccountsPayableService getAccountsPayableService() {
         return SpringContext.getBean(AccountsPayableService.class);
     }

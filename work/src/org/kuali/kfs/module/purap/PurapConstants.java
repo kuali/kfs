@@ -957,8 +957,8 @@ public class PurapConstants {
 
     }
 
-    private static final HashMap<String, Class> uncopyableFields() {
-        HashMap<String, Class> fields = new HashMap<String, Class>();
+    private static final Map<String, Class<?>> uncopyableFields() {
+        Map<String, Class<?>> fields = new HashMap<String, Class<?>>();
         fields.put(KFSConstants.VERSION_NUMBER, null);
         fields.put("LOG", null);
         fields.put(KFSPropertyConstants.GENERAL_LEDGER_PENDING_ENTRIES, null);
@@ -972,10 +972,10 @@ public class PurapConstants {
      * Fields that shouldn't be copied by our reflective copy method. This should only contain fields that are known throughout
      * objects not item/doc specific ones
      */
-    public static final HashMap<String, Class> KNOWN_UNCOPYABLE_FIELDS = uncopyableFields();
+    public static final Map<String, Class<?>> KNOWN_UNCOPYABLE_FIELDS = uncopyableFields();
 
-    private static final HashMap<String, Class> uncopyableItemFields() {
-        HashMap<String, Class> fields = new HashMap<String, Class>();
+    private static final Map<String, Class<?>> uncopyableItemFields() {
+        Map<String, Class<?>> fields = new HashMap<String, Class<?>>();
         fields.put(PurapPropertyConstants.ITEM_IDENTIFIER, null);
         fields.put(PurapPropertyConstants.ACCOUNTS, null);
         return fields;
@@ -985,10 +985,10 @@ public class PurapConstants {
      * Fields that shouldn't be copied by our reflective copy method. This should only contain fields that are known throughout
      * objects not item/doc specific ones
      */
-    public static final HashMap<String, Class> ITEM_UNCOPYABLE_FIELDS = uncopyableItemFields();
+    public static final Map<String, Class<?>> ITEM_UNCOPYABLE_FIELDS = uncopyableItemFields();
 
-    private static final HashMap<String, Class> uncopyablePREQItemFields() {
-        HashMap<String, Class> fields = new HashMap<String, Class>(ITEM_UNCOPYABLE_FIELDS);
+    private static final Map<String, Class<?>> uncopyablePREQItemFields() {
+        Map<String, Class<?>> fields = new HashMap<String, Class<?>>(ITEM_UNCOPYABLE_FIELDS);
         fields.put(PurapPropertyConstants.QUANTITY, null);
         fields.put(PurapPropertyConstants.EXTENDED_PRICE, null);
         fields.put(PurapPropertyConstants.ITEM_TAX_AMOUNT, null);
@@ -999,7 +999,7 @@ public class PurapConstants {
     /*
      * fields that shouldn't be copied on PREQ item
      */
-    public static final HashMap<String, Class> PREQ_ITEM_UNCOPYABLE_FIELDS = uncopyablePREQItemFields();
+    public static final Map<String, Class<?>> PREQ_ITEM_UNCOPYABLE_FIELDS = uncopyablePREQItemFields();
 
     public static final Map<String, Class> uncopyableFieldsForPurchaseOrder() {
         Map<String, Class> returnMap = new HashMap<String, Class>();

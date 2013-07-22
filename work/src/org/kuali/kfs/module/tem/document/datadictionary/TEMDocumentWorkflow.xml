@@ -337,14 +337,12 @@
         </property>
         <property name="documentValuePathGroups">
             <list>
-                <ref
-                    bean="DocumentValuePathGroup-TravelAuthorizationDocument-AccountingOrganizationHierarchy-accountingLines" />
+                <ref bean="DocumentValuePathGroup-TravelAuthorizationDocument-AccountingOrganizationHierarchy-accountingLines" />
             </list>
         </property>
     </bean>
 
-    <bean id="DocumentValuePathGroup-TravelAuthorizationDocument-AccountingOrganizationHierarchy-accountingLines"
-        parent="DocumentValuePathGroup-AccountingDocument-financialDocumentTotalAmount">
+    <bean id="DocumentValuePathGroup-TravelAuthorizationDocument-AccountingOrganizationHierarchy-accountingLines" parent="DocumentValuePathGroup-AccountingDocument-financialDocumentTotalAmount">
         <property name="documentCollectionPath">
             <bean class="org.kuali.rice.krad.datadictionary.DocumentCollectionPath">
                 <property name="collectionPath" value="sourceAccountingLines" />

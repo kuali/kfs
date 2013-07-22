@@ -179,7 +179,7 @@
 		<property name="summary" value="Agency Card Code" />
 		<property name="description" value="Agency Card Code" />
 		<property name="control">
-	       <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.tem.businessobject.options.CreditCardAgencyTypeValuesFinder" p:includeKeyInLabel="false"/>
+	       <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.tem.businessobject.options.CreditCardAgencyTypeValuesFinder" p:includeKeyInLabel="false"  p:includeBlankRow="true" p:keyAttribute="creditCardOrAgencyCode" p:labelAttribute="creditCardOrAgencyName"/>
 	    </property>
 	</bean>
 	<bean id="AgencyStagingData-agency" parent="AgencyStagingData-agency-parentBean" />

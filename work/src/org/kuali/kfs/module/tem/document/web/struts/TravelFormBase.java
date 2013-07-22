@@ -656,7 +656,6 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
 
     protected Map<String, ExtraButton> createPaymentExtraButtonMap() {
         final HashMap<String, ExtraButton> result = new HashMap<String, ExtraButton>();
-
         result.putAll(createDVExtraButtonMap());
         return result;
     }

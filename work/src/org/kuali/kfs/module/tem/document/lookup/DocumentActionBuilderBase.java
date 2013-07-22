@@ -97,7 +97,7 @@ public abstract class DocumentActionBuilderBase {
         String unresolvedDVURL = "${application.url}/" + TemConstants.TravelCustomSearchLinks.DV_URL + documentSearchResult.getDocument().getDocumentId();
 
         String DVURL = Utilities.substituteConfigParameters(docType.getApplicationId(), unresolvedDVURL);
-        String link = String.format("<a href=\"%s\" %s>%s</a>", DVURL, linkPopup, TemConstants.TravelCustomSearchLinks.PRE_TRIP_VENDOR_PAYMENT);
+        String link = String.format("<a href=\"%s\" %s>%s</a>", DVURL, linkPopup, docType.getLabel());
         return link;
     }
 

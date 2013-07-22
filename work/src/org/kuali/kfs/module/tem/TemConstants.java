@@ -637,11 +637,11 @@ public class TemConstants {
 
     public static final class AgencyMatchProcessParameter {
         public static final String AGENCY_MATCH_DTL_TYPE = "AgencyMatchProcess";
-        public static final String TRAVEL_CREDIT_CARD_AIR_OBJECT_CODE = "TRAVEL_CREDIT_CARD_AIR_OBJECT_CODE";
+        public static final String TRAVEL_CREDIT_CARD_AIRFARE_OBJECT_CODE = "TRAVEL_CREDIT_CARD_AIRFARE_OBJECT_CODE";
         public static final String TRAVEL_CREDIT_CARD_RENTAL_CAR_OBJECT_CODE = "TRAVEL_CREDIT_CARD_RENTAL_CAR_OBJECT_CODE";
         public static final String TRAVEL_CREDIT_CARD_LODGING_OBJECT_CODE = "TRAVEL_CREDIT_CARD_LODGING_OBJECT_CODE";
         public static final String TRAVEL_CREDIT_CARD_CLEARING_CHART = "TRAVEL_CREDIT_CARD_CLEARING_CHART";
-        public static final String TRAVEL_CREDIT_CARD_CLEARING_ACCOUNT = "TRAVEL_CREDIT_CARD_CLEARING_CHART";
+        public static final String TRAVEL_CREDIT_CARD_CLEARING_ACCOUNT = "TRAVEL_CREDIT_CARD_CLEARING_ACCOUNT";
         public static final String TRAVEL_CREDIT_CARD_CLEARING_OBJECT_CODE = "TRAVEL_CREDIT_CARD_CLEARING_OBJECT_CODE";
     }
 
@@ -747,7 +747,6 @@ public class TemConstants {
         public static final String NEW_REIMBURSEMENT = "New&nbsp;Reimbursement";
         public static final String NEW_ENTERTAINMENT = "New&nbsp;Entertainment";
         public static final String NEW_RELOCATION = "New&nbsp;Relocation";
-        public static final String PRE_TRIP_VENDOR_PAYMENT = "Pre-Trip&nbsp;Vendor&nbsp;Payment";
         public static final String VENDOR_PAYMENT = "Vendor&nbsp;Payment";
         public static final String REQUISITION = "Requisition";
         public static final String AGENCY_SITES = "Agency&nbsp;Sites";
@@ -901,6 +900,15 @@ public class TemConstants {
     public static class EditModes {
         public static final String CHECK_AMOUNT_ENTRY = "checkAmountEntry";
         public static final String ACTUAL_EXPENSE_TAXABLE_MODE = "actualExpenseTaxableEntry";
+    }
+
+    public static class TravelAuthorizationActions {
+        public static final String CAN_AMEND = "canAmend";
+        public static final String CAN_HOLD = "canHold";
+        public static final String CAN_REMOVE_HOLD = "canRemoveHold";
+        public static final String CAN_CLOSE_TA = "canCloseTA";
+        public static final String CAN_CANCEL_TA = "canCancelTA";
+        public static final String CAN_PAY_VENDOR = "canPayVendor";
     }
 
     public static final String TRAVEL_PAYMENT_TAB_ERRORS = "TravelPaymentErrors,document.travelPayment.checkTotalAmount,document.travelPayment.dueDate,document.travelPayment.alienPaymentCode,document.travelPayment.payeeEmployeeCode,document.travelPayment.attachmentCode,document.travelPayment.specialHandlingCode,document.travelPayment.payeeW9CompleteCode,document.travelPayment.paymentMethodCode,document.travelPayment.paymentDocumentationLocationCode,document.travelPayment.checkStubText";

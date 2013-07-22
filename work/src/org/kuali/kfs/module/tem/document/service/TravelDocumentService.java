@@ -228,7 +228,7 @@ public interface TravelDocumentService {
 
     public KualiDecimal getAmountDueFromInvoice(String documentNumber, KualiDecimal requestedAmount);
 
-    public TravelDocument findCurrentTravelAuthorization(TravelDocument document) throws WorkflowException;
+    public TravelAuthorizationDocument findCurrentTravelAuthorization(TravelDocument document) throws WorkflowException;
 
     public KualiDecimal getTotalCumulativeReimbursements(TravelDocument document);
 

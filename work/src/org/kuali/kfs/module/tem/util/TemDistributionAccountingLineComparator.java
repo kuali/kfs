@@ -19,7 +19,6 @@ import java.util.Comparator;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.tem.businessobject.TemDistributionAccountingLine;
-import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  *
@@ -28,16 +27,16 @@ public class TemDistributionAccountingLineComparator implements Comparator<TemDi
 
     @Override
     public int compare(TemDistributionAccountingLine dee, TemDistributionAccountingLine dum) {
-        if (ObjectUtils.isNull(dee.getObjectCode()) || StringUtils.isBlank(dee.getObjectCode().getFinancialObjectCodeName())) {
-            if (ObjectUtils.isNull(dum.getObjectCode()) || StringUtils.isBlank(dum.getObjectCode().getFinancialObjectCodeName())) {
+        if (StringUtils.isBlank(dee.getFinancialObjectCode())) {
+            if (StringUtils.isBlank(dum.getFinancialObjectCode())) {
                 return 0; // they're both effectively null, so they're equal
             }
             return 1; // dee's still empty, it should go to the top
         }
-        if (ObjectUtils.isNull(dum.getObjectCode()) || StringUtils.isBlank(dum.getObjectCode().getFinancialObjectCodeName())) {
+        if (StringUtils.isBlank(dum.getFinancialObjectCode())) {
             return -1; // dum's empty; it should go to the top
         }
-        return dee.getObjectCode().getFinancialObjectCodeName().compareTo(dum.getObjectCode().getFinancialObjectCodeName());
+        return dee.getFinancialObjectCode().compareTo(dum.getFinancialObjectCode());
     }
 
 }

@@ -21,12 +21,13 @@ import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationStatusCodeKeys;
 import org.kuali.kfs.module.tem.TemConstants.TravelDocTypes;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
 import org.kuali.kfs.module.tem.document.TravelDocument;
-import org.kuali.kfs.module.tem.document.authorization.TravelAuthorizationDocumentPresentationController;
+import org.kuali.kfs.module.tem.document.authorization.TravelAuthorizationFamilyDocumentPresentationController;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kew.api.document.search.DocumentSearchResult;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kns.document.authorization.DocumentPresentationController;
 import org.kuali.rice.kns.service.DocumentHelperService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -80,7 +81,11 @@ public class TravelAuthorizationDocumentCustomActionBuilder extends DocumentActi
     protected boolean canPayVendor(DocumentSearchResult documentSearchResult) {
         try {
             final TravelAuthorizationDocument document = (TravelAuthorizationDocument)getDocumentService().getByDocumentHeaderId(documentSearchResult.getDocument().getDocumentId());
-            return ((TravelAuthorizationDocumentPresentationController)getDocumentHelperService().getDocumentPresentationController(document)).canPayVendor(document);
+            final DocumentPresentationController presController = getDocumentHelperService().getDocumentPresentationController(document);
+            if (!(presController instanceof TravelAuthorizationFamilyDocumentPresentationController)) {
+                return false; // doesn't use a travel auth family doc presentation controller?  Then it can't pay to dv...
+            }
+            return ((TravelAuthorizationFamilyDocumentPresentationController)presController).canPayVendor(document);
         }
         catch (WorkflowException we) {
             throw new RuntimeException("Could not open document #"+documentSearchResult.getDocument().getDocumentId());

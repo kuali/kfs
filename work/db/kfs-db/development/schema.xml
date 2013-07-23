@@ -811,6 +811,8 @@
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
         <column name="IND_CST_IND" size="1" type="VARCHAR"/>
+        <column name="CONS_CDS" size="255" type="VARCHAR"/>
+        <column name="LEVEL_CDS" size="255" type="VARCHAR"/>
         <unique name="SYS_C0010102964">
             <unique-column name="OBJ_ID"/>
         </unique>

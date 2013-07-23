@@ -146,6 +146,14 @@
             <bean parent="EmailAddressValidationPattern"/>
         </property>
         <property name="control"><bean parent="TextControlDefinition" p:size="50"/></property>
+         <property name="attributeSecurity">
+			<bean parent="AttributeSecurity">
+	  			<property name="mask" value="true" /> 
+				<property name="maskFormatter">
+	  			<bean parent="MaskFormatterLiteral" p:literal="*********" /> 
+	  			</property>
+	  		</bean>
+	  	</property>
     </bean>
 	<bean id="EmergencyContact-primary" parent="EmergencyContact-primary-parentBean" />
 	<bean id="EmergencyContact-primary-parentBean" parent="GenericAttributes-genericBoolean">

@@ -243,13 +243,6 @@ public class ImportedExpensePendingEntryServiceImpl implements ImportedExpensePe
     public boolean generateDocumentImportedExpenseGeneralLedgerPendingEntries(TravelDocument travelDocument, GeneralLedgerPendingEntrySourceDetail glpeSourceDetail, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, boolean isCredit, String docType){
         LOG.debug("processGenerateGeneralLedgerPendingEntries(TravelDocument, AccountingLine, GeneralLedgerPendingEntrySequenceHelper, boolean) - start");
 
-        /*Map<String,Object> fieldValues = new HashMap<String, Object>();
-        fieldValues.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE,glpeSourceDetail.getFinancialObjectCode());
-        fieldValues.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE,glpeSourceDetail.getChartOfAccountsCode());
-        fieldValues.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR,((GeneralLedgerPendingEntrySource)travelDocument).getPostingYear());
-        BusinessObjectService service = SpringContext.getBean(BusinessObjectService.class);
-        ObjectCode objectCode = (ObjectCode) service.findByPrimaryKey(ObjectCode.class, fieldValues);*/
-
         glpeSourceDetail.getObjectCode().setChartOfAccountsCode(glpeSourceDetail.getChartOfAccountsCode());
         glpeSourceDetail.getObjectCode().setFinancialObjectCode(glpeSourceDetail.getFinancialObjectCode());
         glpeSourceDetail.getObjectCode().setUniversityFiscalYear(glpeSourceDetail.getPostingYear());

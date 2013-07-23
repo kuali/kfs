@@ -79,7 +79,7 @@
 					<td class="datacell">
 						<kul:htmlControlAttribute attributeEntry="${groupTravelerAttributes.groupTravelerEmpId}" property="newGroupTravelerLine.groupTravelerEmpId" readOnly="true" />
 						<div style="display:inline;" id="personLookupButton">
-							<kul:lookup boClassName="org.kuali.rice.kim.bo.Person"
+							<kul:lookup boClassName="org.kuali.rice.kim.api.identity.Person"
 										fieldConversions="principalId:newGroupTravelerLine.groupTravelerEmpId,name:newGroupTravelerLine.name"
 										lookupParameters="newGroupTravelerLine.groupTravelerEmpId:principalId" />
 						</div>

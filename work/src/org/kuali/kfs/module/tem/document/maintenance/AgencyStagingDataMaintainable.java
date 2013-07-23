@@ -15,16 +15,21 @@
  */
 package org.kuali.kfs.module.tem.document.maintenance;
 
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemConstants.AgencyStagingDataErrorCodes;
 import org.kuali.kfs.module.tem.TemConstants.ExpenseImportTypes;
 import org.kuali.kfs.module.tem.batch.service.AgencyDataImportService;
+import org.kuali.kfs.module.tem.batch.service.ExpenseImportByTravelerService;
+import org.kuali.kfs.module.tem.batch.service.ExpenseImportByTripService;
 import org.kuali.kfs.module.tem.businessobject.AgencyStagingData;
 import org.kuali.kfs.module.tem.businessobject.CreditCardAgency;
 import org.kuali.kfs.module.tem.service.CreditCardAgencyService;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemMaintainable;
@@ -32,6 +37,9 @@ import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.service.SequenceAccessorService;
+import org.kuali.rice.krad.util.ErrorMessage;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.MessageMap;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
@@ -39,7 +47,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
  *
  */
 public class AgencyStagingDataMaintainable extends FinancialSystemMaintainable {
-
+    private static final Logger LOG = Logger.getLogger(AgencyStagingDataMaintainable.class);
     /**
      * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#processAfterNew(org.kuali.rice.kns.document.MaintenanceDocument, java.util.Map)
      */
@@ -122,8 +130,26 @@ public class AgencyStagingDataMaintainable extends FinancialSystemMaintainable {
      */
     @Override
     public void processAfterEdit(MaintenanceDocument document, Map<String, String[]> parameters) {
+        List<ErrorMessage>  errorMessages = null;
+        AgencyStagingData  agency = (AgencyStagingData)document.getOldMaintainableObject().getBusinessObject();
+        if(TemConstants.ExpenseImportTypes.IMPORT_BY_TRIP.equals(agency.getImportBy())) {
+           ExpenseImportByTripService expenseImportByTripService =   SpringContext.getBean(ExpenseImportByTripService.class);
+           expenseImportByTripService.validateAgencyData(agency);
+            errorMessages = expenseImportByTripService.getErrorMessages();
+        }
+        else if (TemConstants.ExpenseImportTypes.IMPORT_BY_TRAVELLER.equals(agency.getImportBy())) {
+            ExpenseImportByTravelerService expenseImportByTravelerService =  SpringContext.getBean(ExpenseImportByTravelerService.class);
+            expenseImportByTravelerService.validateAgencyData(agency);
+            errorMessages = expenseImportByTravelerService.getErrorMessages();
+        }
+
+       MessageMap messageMap = GlobalVariables.getMessageMap();
+       for(ErrorMessage message : errorMessages ){
+           messageMap.putError(KFSConstants.GLOBAL_ERRORS, message.getErrorKey(), message.getMessageParameters());
+       }
         updateCreditCardAgency((AgencyStagingData)document.getOldMaintainableObject().getBusinessObject());
         updateCreditCardAgency((AgencyStagingData)document.getNewMaintainableObject().getBusinessObject());
+
         super.processAfterEdit(document, parameters);
     }
 
@@ -156,6 +182,10 @@ public class AgencyStagingDataMaintainable extends FinancialSystemMaintainable {
 
         super.saveBusinessObject();
 	}
+
+
+
+
 
 	/**
 	 *

@@ -53,10 +53,10 @@
 								<c:choose>
 									<c:when
 										test="${param.invoiceTemplateCode == invoiceTemplate.key}">
-										<option value="${invoiceTemplate.key}" selected="selected">${invoiceTemplate.label}</option>
+										<option value="${invoiceTemplate.key}" selected="selected">${invoiceTemplate.value}</option>
 									</c:when>
 									<c:otherwise>
-										<option value="${invoiceTemplate.key}">${invoiceTemplate.label}</option>
+										<option value="${invoiceTemplate.key}">${invoiceTemplate.value}</option>
 									</c:otherwise>
 								</c:choose>
 							</c:forEach>

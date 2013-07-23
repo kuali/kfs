@@ -20,7 +20,6 @@ import java.util.List;
 
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomerInvoice;
 import org.kuali.kfs.module.tem.businessobject.ActualExpense;
-import org.kuali.kfs.module.tem.businessobject.TravelAdvance;
 import org.kuali.kfs.module.tem.document.TEMReimbursementDocument;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
 import org.kuali.kfs.module.tem.document.TravelReimbursementDocument;
@@ -160,13 +159,4 @@ public interface TravelReimbursementService {
      * @param actualExpense
      */
     public void enableDuplicateExpenses(TravelReimbursementDocument trDocument, ActualExpense actualExpense);
-
-    /**
-     * Returns all travel advances associated with the passed in trip id
-     * @param travelDocumentIdentifier the trip id of the reimbursement
-     * @return a List of all TravelAdvances associated with that trip
-     */
-    public List<TravelAdvance> getTravelAdvancesForTrip(String travelDocumentIdentifier);
-
-
 }

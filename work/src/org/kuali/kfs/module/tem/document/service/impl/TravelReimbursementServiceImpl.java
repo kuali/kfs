@@ -50,7 +50,6 @@ import org.kuali.kfs.module.tem.businessobject.AccountingDocumentRelationship;
 import org.kuali.kfs.module.tem.businessobject.ActualExpense;
 import org.kuali.kfs.module.tem.businessobject.PerDiemExpense;
 import org.kuali.kfs.module.tem.businessobject.TemTravelExpenseTypeCode;
-import org.kuali.kfs.module.tem.businessobject.TravelAdvance;
 import org.kuali.kfs.module.tem.businessobject.TravelerDetail;
 import org.kuali.kfs.module.tem.document.TEMReimbursementDocument;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
@@ -912,19 +911,6 @@ public class TravelReimbursementServiceImpl implements TravelReimbursementServic
      */
     public void setPropertyChangeListeners(final List<PropertyChangeListener> propertyChangeListeners) {
         this.propertyChangeListeners = propertyChangeListeners;
-    }
-
-    /**
-     * Returns all travel advances associated with the given trip id
-     * @see org.kuali.kfs.module.tem.document.service.TravelReimbursementService#getTravelAdvancesForTrip(java.lang.String)
-     */
-    @Override
-    public List<TravelAdvance> getTravelAdvancesForTrip(String travelDocumentIdentifier) {
-        Map<String, String> criteria = new HashMap<String, String>();
-        criteria.put(TemPropertyConstants.TRAVEL_DOCUMENT_IDENTIFIER, travelDocumentIdentifier);
-        List<TravelAdvance> advances = new ArrayList<TravelAdvance>();
-        advances.addAll(businessObjectService.findMatchingOrderBy(TravelAdvance.class, criteria, KFSPropertyConstants.DOCUMENT_NUMBER, true));
-        return advances;
     }
 
     /**

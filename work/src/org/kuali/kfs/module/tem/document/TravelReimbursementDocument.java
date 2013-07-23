@@ -18,7 +18,6 @@ package org.kuali.kfs.module.tem.document;
 import static org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters.TRAVEL_AUTHORIZATION_REQUIRED_IND;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -454,13 +453,7 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
      */
     public List<TravelAdvance> getTravelAdvances() {
         if (travelAdvances == null) {
-            List<TravelAdvance> advances = getTravelReimbursementService().getTravelAdvancesForTrip(getTravelDocumentIdentifier());
-            travelAdvances = new ArrayList<TravelAdvance>();
-            for (TravelAdvance advance: advances) {
-                if (advance.isAtLeastPartiallyFilledIn()) {
-                    travelAdvances.add(advance);
-                }
-            }
+            travelAdvances = getTravelDocumentService().getTravelAdvancesForTrip(getTravelDocumentIdentifier());
         }
         return travelAdvances;
     }

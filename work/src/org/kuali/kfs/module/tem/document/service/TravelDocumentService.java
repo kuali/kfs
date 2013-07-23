@@ -378,4 +378,11 @@ public interface TravelDocumentService {
     <T> List<T> importFile(final String fileContents, final Class<T> c, final String[] attributeNames,
                            final Map<String,List<String>> defaultValues, final Integer[] attributeMaxLength, final String tabErrorKey);
 
+    /**
+     * Returns all travel advances associated with the passed in trip id
+     * @param travelDocumentIdentifier the trip id of the reimbursement
+     * @return a List of all TravelAdvances associated with that trip
+     */
+    public List<TravelAdvance> getTravelAdvancesForTrip(String travelDocumentIdentifier);
+
 }

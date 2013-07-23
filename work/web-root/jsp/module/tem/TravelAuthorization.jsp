@@ -78,6 +78,9 @@
 			</div>
 		</kul:tab>
 	</c:if>
+	<c:if test="${KualiForm.showTravelAdvancesForTrip}">
+		<tem:travelAdvances />
+	</c:if>
     <c:if test="${KualiForm.editingMode['displayEmergencyContactTab']}">
 	    <tem-ta:emergencyContact />
     </c:if>

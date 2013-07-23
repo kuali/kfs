@@ -1,0 +1,391 @@
+<databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog'
+	xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+	xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd'>
+
+	<!-- Inserting CGB Enhancements Indicator in to the System Parameters table -->
+
+	<changeSet author="kfs" id="KRCR_PARM_T_ADD_CG_VALIDATION_SWITCH">
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-CG" />
+			<column name="CMPNT_CD" value="All" />
+			<column name="PARM_NM" value="ENABLE_CG_BILLING_ENHANCEMENTS_IND" />
+			<column name="OBJ_ID" value="KFSCG03" />
+			<column name="VER_NBR" value="1" />
+			<column name="PARM_TYP_CD" value="CONFG" />
+			<column name="VAL" value="Y" />
+			<column name="PARM_DESC_TXT"
+				value="Set this value to Y if your institution is using the Contracts and Grants Billing enhancements. This setting will control if the validations associated with the enhancements are executed for documents." />
+			<column name="EVAL_OPRTR_CD" value="A" />
+			<column name="APPL_ID" value="KFS" />
+		</insert>
+	</changeSet>
+
+	<changeSet author="kfs" id="KRCR_PARM_T_ADD_CG_MIN_INVOICE_AMOUNT">
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-CG" />
+			<column name="CMPNT_CD" value="Award" />
+			<column name="PARM_NM" value="MINIMUM_INVOICE_AMOUNT" />
+			<column name="OBJ_ID" value="28A1B9C6-5FF2-1224-3B7F-7D0E67D984D1" />
+			<column name="VER_NBR" value="1" />
+			<column name="PARM_TYP_CD" value="CONFG" />
+			<column name="VAL" value="60" />
+			<column name="PARM_DESC_TXT"
+				value="Minimum dollar amount required on an award for Contracts and Grants Invoicing." />
+			<column name="EVAL_OPRTR_CD" value="A" />
+			<column name="APPL_ID" value="KFS" />
+		</insert>
+	</changeSet>
+
+	
+	<!-- Inserting Default processing chart code and org code to be used for 
+		Cash control in to the System Parameters table -->
+
+	<changeSet author="kfs" id="KRCR_PARM_T_ADD_03">
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-AR" />
+			<column name="CMPNT_CD" value="CashControl" />
+			<column name="PARM_NM" value="DEFAULT_PROCESSING_CHART" />
+			<column name="OBJ_ID" value="KFSAR01" />
+			<column name="VER_NBR" value="1" />
+			<column name="PARM_TYP_CD" value="CONFG" />
+			<column name="VAL" value="UA" />
+			<column name="PARM_DESC_TXT"
+				value="Default value for Processing Chart code - used by LOC Batch process to set AR DOC HDR for the Cash Control Document." />
+			<column name="EVAL_OPRTR_CD" value="A" />
+			<column name="APPL_ID" value="KFS" />
+		</insert>
+	</changeSet>
+
+	<changeSet author="kfs" id="KRCR_PARM_T_ADD_01">
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-AR" />
+			<column name="CMPNT_CD" value="CashControl" />
+			<column name="PARM_NM" value="DEFAULT_PROCESSING_ORG" />
+			<column name="OBJ_ID" value="KFSAR02" />
+			<column name="VER_NBR" value="1" />
+			<column name="PARM_TYP_CD" value="CONFG" />
+			<column name="VAL" value="VPIT" />
+			<column name="PARM_DESC_TXT"
+				value="Default value for Processing Organization code - used by LOC Batch process to set AR DOC HDR for the Cash Control Document." />
+			<column name="EVAL_OPRTR_CD" value="A" />
+			<column name="APPL_ID" value="KFS" />
+		</insert>
+	</changeSet>
+
+
+
+	<changeSet author="kfs"
+		id="KRCR_PARM_T_ADD_CG_DEFAULT_INVOICE_TEMPLATE">
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-CG" />
+			<column name="CMPNT_CD" value="Agency" />
+			<column name="PARM_NM" value="DEFAULT_INVOICE_TEMPLATE" />
+			<column name="OBJ_ID" value="CG-DEFAULT-INV-TMPLT-PARM" />
+			<column name="VER_NBR" value="1" />
+			<column name="PARM_TYP_CD" value="CONFG" />
+			<column name="VAL" value="STD" />
+			<column name="PARM_DESC_TXT"
+				value="Invoice templates can be configured for each Agency Address. This defines the default template name for new Agency Addresses." />
+			<column name="EVAL_OPRTR_CD" value="A" />
+			<column name="APPL_ID" value="KFS" />
+		</insert>
+	</changeSet>
+
+	<changeSet author="kfs" id="KRCR_PARM_T_ADD_DEFAULT_FUND_MANAGER_ID">
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-CG" />
+			<column name="CMPNT_CD" value="Award" />
+			<column name="PARM_NM" value="DEFAULT_FUND_MANAGER_ID" />
+			<column name="OBJ_ID" value="CG-DEFAULT-FUND-MNGR-ID" />
+			<column name="VER_NBR" value="1" />
+			<column name="PARM_TYP_CD" value="CONFG" />
+			<column name="VAL" value="khuntley" />
+			<column name="PARM_DESC_TXT"
+				value="The principal name of the default fund manager for awards." />
+			<column name="EVAL_OPRTR_CD" value="A" />
+			<column name="APPL_ID" value="KFS" />
+		</insert>
+	</changeSet>
+
+	<!-- To insert values in to the System Parameters table to help in document 
+		validation of Invoice eDoc -->
+
+	<changeSet author="kfs" id="KRCR_PARM_T_ADD_02">
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-CG" />
+			<column name="CMPNT_CD" value="AgencyAddress" />
+			<column name="PARM_NM" value="DEFAULT_NUMBER_OF_COPIES_TO_PRINT" />
+			<column name="OBJ_ID" value="KFSCG02" />
+			<column name="VER_NBR" value="1" />
+			<column name="PARM_TYP_CD" value="CONFG" />
+			<column name="VAL" value="1" />
+			<column name="PARM_DESC_TXT"
+				value="The number of invoice copies to be printed can be configured for each Agency Address. This sets the default number of copies to print for a new Agency Address." />
+			<column name="EVAL_OPRTR_CD" value="A" />
+			<column name="APPL_ID" value="KFS" />
+		</insert>
+	</changeSet>
+
+
+	<changeSet author="kfs" id="KRCR_PARM_T1">
+		<update tableName="KRCR_PARM_T">
+			<column name="CMPNT_CD" value="CGInvoice" />
+			<where>NMSPC_CD='KFS-CG' and CMPNT_CD='Invoice' and
+				PARM_NM='Categories'
+			</where>
+		</update>
+	</changeSet>
+
+	<!-- Inserting CGB Enhancements Indicator in to the System Parameters table -->
+
+	<changeSet author="kfs" id="KRCR_PARM_T_ADD_CG_VALIDATION_SWITCH_1">
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-CG" />
+			<column name="CMPNT_CD" value="All" />
+			<column name="PARM_NM" value="ENABLE_CG_PRORATE_BILL_IND" />
+			<column name="OBJ_ID" value="KFSCG04" />
+			<column name="VER_NBR" value="1" />
+			<column name="PARM_TYP_CD" value="CONFG" />
+			<column name="VAL" value="Y" />
+			<column name="PARM_DESC_TXT"
+				value="Set this value to Y if your institution is using the Contracts and Grants Billing Prorate Bill function.  N otherwise." />
+			<column name="EVAL_OPRTR_CD" value="A" />
+			<column name="APPL_ID" value="KFS" />
+		</insert>
+	</changeSet>
+
+	<!-- Inserting Parameters for Upcoming milestones Notification job to the 
+		System Parameters table -->
+
+	<changeSet author="kfs" id="KRCR_PARM_T_1">
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-CG" />
+			<column name="CMPNT_CD" value="UpcomingMilestoneNotificationStep" />
+			<column name="PARM_NM" value="AWARD_MILESTONE_REMINDER_EMAIL_SUBJECT" />
+			<column name="OBJ_ID" value="KFSCG05" />
+			<column name="VER_NBR" value="1" />
+			<column name="PARM_TYP_CD" value="CONFG" />
+			<column name="VAL" value="Upcoming Milestones Notification for Award." />
+			<column name="PARM_DESC_TXT"
+				value="Email subject line for upcoming Milestones for Award" />
+			<column name="EVAL_OPRTR_CD" value="A" />
+			<column name="APPL_ID" value="KFS" />
+		</insert>
+	</changeSet>
+
+	<changeSet author="kfs" id="KRCR_PARM_T_2">
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-CG" />
+			<column name="CMPNT_CD" value="UpcomingMilestoneNotificationStep" />
+			<column name="PARM_NM" value="AWARD_MILESTONE_CHECK_LIMIT_DAYS" />
+			<column name="OBJ_ID" value="KFSCG06" />
+			<column name="VER_NBR" value="1" />
+			<column name="PARM_TYP_CD" value="CONFG" />
+			<column name="VAL" value="10" />
+			<column name="PARM_DESC_TXT"
+				value="No of days (limit) to check for the Upcoming Milestones for the Award." />
+			<column name="EVAL_OPRTR_CD" value="A" />
+			<column name="APPL_ID" value="KFS" />
+		</insert>
+	</changeSet>
+
+	<!-- Insert parameter for default invoicing option for awards -->
+
+	<changeSet author="kfs" id="KRCR_PARM_ADD_DEFAULT_INVOICE_OPTION">
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-CG" />
+			<column name="CMPNT_CD" value="Award" />
+			<column name="PARM_NM" value="DEFAULT_INVOICING_OPTION" />
+			<column name="OBJ_ID" value="KFSCG07" /> <!--what goes here? -->
+			<column name="VER_NBR" value="1" />
+			<column name="PARM_TYP_CD" value="CONFG" />
+			<column name="VAL" value="2" />
+			<column name="PARM_DESC_TXT"
+				value="The default invoicing option for new Awards, where 1 = Invoice by Award, 2 = Invoice by Account, 3 = Invoice by Contract Control Account." />
+			<column name="EVAL_OPRTR_CD" value="A" />
+			<column name="APPL_ID" value="KFS" />
+		</insert>
+	</changeSet>
+
+	<changeSet author="kfs" id="KRCR_PARM_T_ADD_CG_INVOICE_EMAIL_SUBJECT">
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-AR" />
+			<column name="CMPNT_CD" value="ContractsGrantsInvoiceEmailReportsBatchStep" />
+			<column name="PARM_NM" value="CG_INVOICE_EMAIL_SUBJECT" />
+			<column name="OBJ_ID" value="CG-INVOICE-EMAIL-SUBJECT" />
+			<column name="VER_NBR" value="1" />
+			<column name="PARM_TYP_CD" value="CONFG" />
+			<column name="VAL"
+				value="Invoice Submittal for Grant Number: #grantNumber / Proposal Number: #proposalNumber , Invoice Number: #invoiceNumber ." />
+			<column name="PARM_DESC_TXT"
+				value="Subject for Invoice Report Email. Sets the email subject for the Invoice Reports that are sent out by the Invoice Report Delivery process. The {#value} tags are replaced by actual values for the individual Reports." />
+			<column name="EVAL_OPRTR_CD" value="A" />
+			<column name="APPL_ID" value="KFS" />
+		</insert>
+	</changeSet>
+
+	<changeSet author="kfs" id="KRCR_PARM_T_ADD_CG_INVOICE_EMAIL_SENDER">
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-AR" />
+			<column name="CMPNT_CD" value="ContractsGrantsInvoiceEmailReportsBatchStep" />
+			<column name="PARM_NM" value="CG_INVOICE_FROM_EMAIL_ADDRESS" />
+			<column name="OBJ_ID" value="CG-INVOICE-FROM-EMAIL-ADDRESS" />
+			<column name="VER_NBR" value="1" />
+			<column name="PARM_TYP_CD" value="CONFG" />
+			<column name="VAL" value="knoreceipt-l@indiana.edu" />
+			<column name="PARM_DESC_TXT" value="Sender email address for Invoice Report." />
+			<column name="EVAL_OPRTR_CD" value="A" />
+			<column name="APPL_ID" value="KFS" />
+		</insert>
+	</changeSet>
+
+	<changeSet author="kfs" id="KRCR_PARM_T_ADD_CG_INVOICE_EMAIL_BODY">
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-AR" />
+			<column name="CMPNT_CD" value="ContractsGrantsInvoiceEmailReportsBatchStep" />
+			<column name="PARM_NM" value="CG_INVOICE_EMAIL_BODY" />
+			<column name="OBJ_ID" value="CG-INVOICE-EMAIL-BODY" />
+			<column name="VER_NBR" value="1" />
+			<column name="PARM_TYP_CD" value="CONFG" />
+			<column name="VAL"
+				value="Dear #agencyName , #addressName: \n\n
+Attached please find our invoice for payment processing, a hardcopy will not be sent. \n\n
+Please contact me if you have any questions. \n\n
+Thank you, \n
+Fund Manager Principal \n
+#name , #title \n
+#department \n
+#phone \n
+#email" />
+			<column name="PARM_DESC_TXT"
+				value="Body for Email to be sent for Invoice Reports. Set the Email's body that is sent out by the Invoice Report Delivery process. The {#value} tags will be replaced by actual values for the individual report." />
+			<column name="EVAL_OPRTR_CD" value="A" />
+			<column name="APPL_ID" value="KFS" />
+		</insert>
+	</changeSet>
+
+	<!-- To insert values in to the System Parameters table -->
+
+	<changeSet author="kfs" id="KRCR_PARM_T_ADD_206">
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-AR" />
+			<column name="CMPNT_CD" value="All" />
+			<column name="PARM_NM" value="DEFAULT_BASIS_OF_ACCOUNTING_FOR_BILLING" />
+			<column name="OBJ_ID" value="KFSCG603" />
+			<column name="VER_NBR" value="1" />
+			<column name="PARM_TYP_CD" value="CONFG" />
+			<column name="VAL" value="1" />
+			<column name="PARM_DESC_TXT"
+				value="This parameter defines the Basis of Accounting for filling federal forms. Value of 1 corresponds to Cash and value of 2 corresponds to Accrual." />
+			<column name="EVAL_OPRTR_CD" value="A" />
+			<column name="APPL_ID" value="KFS" />
+		</insert>
+	</changeSet>
+
+	<!-- To insert values in to the System Parameters table for defaulting Preferred Billing Frequency on Agency edoc -->
+
+	<changeSet author="kfs"
+		id="KRCR_PARM_T_ADD_DEFAULT_PREFERRED_BILLING_FREQUENCY">
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-CG" />
+			<column name="CMPNT_CD" value="Agency" />
+			<column name="PARM_NM" value="DEFAULT_PREFERRED_BILLING_FREQUENCY" />
+			<column name="OBJ_ID" value="KFSCG100" />
+			<column name="VER_NBR" value="1" />
+			<column name="PARM_TYP_CD" value="CONFG" />
+			<column name="VAL" value="MON" />
+			<column name="PARM_DESC_TXT"
+				value="The default value for the preferred billing frequency code for Agencies." />
+			<column name="EVAL_OPRTR_CD" value="A" />
+			<column name="APPL_ID" value="KFS" />
+		</insert>
+	</changeSet>
+
+	<changeSet author="kfs" id="KRCR_PARM_T_ADD_AGENCY_TYPE_DEFUALT">
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-CG" />
+			<column name="CMPNT_CD" value="AgencyType" />
+			<column name="PARM_NM" value="DEFAULT_AGENCY_TYPE_CODE" />
+			<column name="OBJ_ID" value="KFS-CG-PARM-01" />
+			<column name="VER_NBR" value="1" />
+			<column name="PARM_TYP_CD" value="CONFG" />
+			<column name="VAL" value="X" />
+			<column name="PARM_DESC_TXT"
+				value="Default Agency Code used to auto create Agency from external system." />
+			<column name="EVAL_OPRTR_CD" value="A" />
+			<column name="APPL_ID" value="KFS" />
+		</insert>
+	</changeSet>
+	
+	<!-- script to add new parameter for FINAL Days past due for Dunning Letter Distribtuion -->
+	<changeSet author="KFS411CGB"
+		id="KFSCNTRB908_DUNNING_CAMPAIGN_MAINTENANCE_DOCUMENT_10">
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-AR" />
+			<column name="CMPNT_CD" value="DunningCampaign" />
+			<column name="PARM_NM" value="DUNNING_LETTERS_FINAL_DAYS_PAST_DUE" />
+			<column name="OBJ_ID" valueNumeric="SYS_GUID" />
+			<column name="VER_NBR" value="1" />
+			<column name="PARM_TYP_CD" value="CONFG" />
+			<column name="VAL" value="150" />
+			<column name="PARM_DESC_TXT"
+				value="To set the value for FINAL days past due value used for sending strongly worded Dunning Letter requesting for payment." />
+			<column name="EVAL_OPRTR_CD" value="A" />
+			<column name="APPL_ID" value="KFS" />
+		</insert>
+		<modifySql dbms="mysql">
+			<replace replace="SYS_GUID" with="uuid()" />
+		</modifySql>
+		<modifySql dbms='oracle'>
+			<replace replace='SYS_GUID' with='sys_guid()' />
+		</modifySql>
+	</changeSet>
+
+	<changeSet author="KFS411CGB"
+		id="KFSCNTRB908_DUNNING_CAMPAIGN_MAINTENANCE_DOCUMENT_11">
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-AR" />
+			<column name="CMPNT_CD" value="DunningCampaign" />
+			<column name="PARM_NM"
+				value="DUNNING_LETTERS_STATE_AGENCY_FINAL_DAYS_PAST_DUE" />
+			<column name="OBJ_ID" valueNumeric="SYS_GUID" />
+			<column name="VER_NBR" value="1" />
+			<column name="PARM_TYP_CD" value="CONFG" />
+			<column name="VAL" value="150" />
+			<column name="PARM_DESC_TXT"
+				value="To set the value for STATE AGENCY FINAL days past due value used for sending strongly worded Dunning Letter requesting for payment." />
+			<column name="EVAL_OPRTR_CD" value="A" />
+			<column name="APPL_ID" value="KFS" />
+		</insert>
+		<modifySql dbms="mysql">
+			<replace replace="SYS_GUID" with="uuid()" />
+		</modifySql>
+		<modifySql dbms='oracle'>
+			<replace replace='SYS_GUID' with='sys_guid()' />
+		</modifySql>
+	</changeSet>
+
+	<changeSet author="KFS411CGB"
+		id="KFSCNTRB908_DUNNING_CAMPAIGN_MAINTENANCE_DOCUMENT_12">
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-CG" />
+			<column name="CMPNT_CD" value="Agency" />
+			<column name="PARM_NM" value="DEFAULT_DUNNING_CAMPAIGN" />
+			<column name="OBJ_ID" value="SYS_GUID" />
+			<column name="VER_NBR" value="1" />
+			<column name="PARM_TYP_CD" value="CONFG" />
+			<column name="VAL" value="" />
+			<column name="PARM_DESC_TXT"
+				value="The default value for the Dunning Campaign code for Agencies." />
+			<column name="EVAL_OPRTR_CD" value="A" />
+			<column name="APPL_ID" value="KFS" />
+		</insert>
+		<modifySql dbms="mysql">
+			<replace replace="SYS_GUID" with="uuid()" />
+		</modifySql>
+		<modifySql dbms='oracle'>
+			<replace replace='SYS_GUID' with='sys_guid()' />
+		</modifySql>
+	</changeSet>
+	
+</databaseChangeLog>

@@ -54,12 +54,12 @@
 					</property> 
                 </bean>
                 <bean parent="MaintainableFieldDefinition" p:name="agency" p:unconditionallyReadOnly="true" />
-                <bean parent="MaintainableFieldDefinition" p:name="agencyDataId" />
-                <bean parent="MaintainableFieldDefinition" p:name="otherCompanyName" />
-                <bean parent="MaintainableFieldDefinition" p:name="agencyFileName" />
+                <bean parent="MaintainableFieldDefinition" p:name="agencyDataId" p:unconditionallyReadOnly="true" />
+                <bean parent="MaintainableFieldDefinition" p:name="otherCompanyName" p:unconditionallyReadOnly="true"/>
+                <bean parent="MaintainableFieldDefinition" p:name="agencyFileName" p:unconditionallyReadOnly="true"/>
                 <bean parent="MaintainableFieldDefinition" p:name="stagingFileName" p:unconditionallyReadOnly="true" />
-                <bean parent="MaintainableFieldDefinition" p:name="merchantName"  />
-                <bean parent="MaintainableFieldDefinition" p:name="billingCycleDate"  />
+                <bean parent="MaintainableFieldDefinition" p:name="merchantName"  p:unconditionallyReadOnly="true"/>
+                <bean parent="MaintainableFieldDefinition" p:name="billingCycleDate" p:unconditionallyReadOnly="true" />
                 <bean parent="MaintainableFieldDefinition" p:name="transactionPostingDate"  p:required="true" />
                 <bean parent="MaintainableFieldDefinition" p:name="processingTimestamp"  p:unconditionallyReadOnly="true" />
 				<bean parent="MaintainableFieldDefinition" p:name="duplicateRecordId" p:unconditionallyReadOnly="true" />
@@ -78,7 +78,7 @@
             <list>
                 <bean parent="MaintainableFieldDefinition" p:name="tripId" />
                 <bean parent="MaintainableFieldDefinition" p:name="tripInvoiceNumber" p:required="true" />
-                <bean parent="MaintainableFieldDefinition" p:name="tripTravelerTypeId"  />
+                <bean parent="MaintainableFieldDefinition" p:name="tripTravelerTypeId"  p:unconditionallyReadOnly="true"/>
                 <bean parent="MaintainableFieldDefinition" p:name="otherAmount"  />
                 
             </list>
@@ -93,10 +93,10 @@
             <list>
                 <bean parent="MaintainableFieldDefinition" p:name="travelerName" p:required="true" />
                 <bean parent="MaintainableFieldDefinition" p:name="travelerId" />
-                <bean parent="MaintainableFieldDefinition" p:name="travelerNetworkId" />
+                <bean parent="MaintainableFieldDefinition" p:name="travelerNetworkId" p:unconditionallyReadOnly="true" />
                 <bean parent="MaintainableFieldDefinition" p:name="tripExpenseAmount" />
                 <bean parent="MaintainableFieldDefinition" p:name="alternateTripId" />
-                <bean parent="MaintainableFieldDefinition" p:name="tripArrangerName" />
+                <bean parent="MaintainableFieldDefinition" p:name="tripArrangerName" p:unconditionallyReadOnly="true"/>
                 
             </list>
         </property>
@@ -123,16 +123,16 @@
 		<property name="maintainableItems">
 			<list>
 			    <bean parent="MaintainableSubSectionHeaderDefinition" p:name="Lodging"/>
-			 	<bean parent="MaintainableFieldDefinition" p:name="lodgingPropertyName" />
-				<bean parent="MaintainableFieldDefinition" p:name="lodgingAmount"   />
-				<bean parent="MaintainableFieldDefinition" p:name="lodgingPrepayDate"  />
-				<bean parent="MaintainableFieldDefinition" p:name="lodgingPrepayDaysNumber" />
-				<bean parent="MaintainableFieldDefinition" p:name="lodgingPropertyCityName"  />
-				<bean parent="MaintainableFieldDefinition" p:name="tripLodgingArrivalDate"  />
-				<bean parent="MaintainableFieldDefinition" p:name="lodgingBookingDate" />
-                <bean parent="MaintainableFieldDefinition" p:name="lodgingDepartureDate"  />
-				<bean parent="MaintainableFieldDefinition" p:name="lodgingPropertyStateCode"  />
-				<bean parent="MaintainableFieldDefinition" p:name="lodgingCountryName" />
+			 	<bean parent="MaintainableFieldDefinition" p:name="lodgingPropertyName" p:unconditionallyReadOnly="true"  />
+				<bean parent="MaintainableFieldDefinition" p:name="lodgingAmount"  p:unconditionallyReadOnly="true"  />
+				<bean parent="MaintainableFieldDefinition" p:name="lodgingPrepayDate"  p:unconditionallyReadOnly="true" />
+				<bean parent="MaintainableFieldDefinition" p:name="lodgingPrepayDaysNumber" p:unconditionallyReadOnly="true"  />
+				<bean parent="MaintainableFieldDefinition" p:name="lodgingPropertyCityName"  p:unconditionallyReadOnly="true"  />
+				<bean parent="MaintainableFieldDefinition" p:name="tripLodgingArrivalDate" p:unconditionallyReadOnly="true"  />
+				<bean parent="MaintainableFieldDefinition" p:name="lodgingBookingDate" p:unconditionallyReadOnly="true" />
+                <bean parent="MaintainableFieldDefinition" p:name="lodgingDepartureDate" p:unconditionallyReadOnly="true"  />
+				<bean parent="MaintainableFieldDefinition" p:name="lodgingPropertyStateCode"  p:unconditionallyReadOnly="true" />
+				<bean parent="MaintainableFieldDefinition" p:name="lodgingCountryName" p:unconditionallyReadOnly="true"  />
 			</list>
 		</property>
 	</bean>
@@ -143,22 +143,22 @@
 		<property name="maintainableItems">
 			<list>
 			    <bean parent="MaintainableSubSectionHeaderDefinition" p:name="Airline"/>
-                <bean parent="MaintainableFieldDefinition" p:name="airBookDate" />
-                <bean parent="MaintainableFieldDefinition" p:name="pnrNumber" />
-			    <bean parent="MaintainableFieldDefinition" p:name="airServiceFeeNumber" />
-			 	<bean parent="MaintainableFieldDefinition" p:name="airServiceFeeAmount"  />
-			 	<bean parent="MaintainableFieldDefinition" p:name="airCarrierCode" />
-				<bean parent="MaintainableFieldDefinition" p:name="tripDepartureDate" />
-				<bean parent="MaintainableFieldDefinition" p:name="airTransactionAmount" />
-				<bean parent="MaintainableFieldDefinition" p:name="tripReturnDate" />
-				<bean parent="MaintainableFieldDefinition" p:name="airBaseFareAmount" />
-				<bean parent="MaintainableFieldDefinition" p:name="fareSaverCode"  />
-				<bean parent="MaintainableFieldDefinition" p:name="airTaxAmount" />
-				<bean parent="MaintainableFieldDefinition" p:name="airLowFareAmount" />
-				<bean parent="MaintainableFieldDefinition" p:name="airSegmentId"  />
-				<bean parent="MaintainableFieldDefinition" p:name="airTicketClass" />
-				<bean parent="MaintainableFieldDefinition" p:name="airReasonCode"   />
-                <bean parent="MaintainableFieldDefinition" p:name="transactionUniqueId"   />
+                <bean parent="MaintainableFieldDefinition" p:name="airBookDate" p:unconditionallyReadOnly="true"  />
+                <bean parent="MaintainableFieldDefinition" p:name="pnrNumber" p:unconditionallyReadOnly="true"  />
+			    <bean parent="MaintainableFieldDefinition" p:name="airServiceFeeNumber" p:unconditionallyReadOnly="true"  />
+			 	<bean parent="MaintainableFieldDefinition" p:name="airServiceFeeAmount" p:unconditionallyReadOnly="true"  />
+			 	<bean parent="MaintainableFieldDefinition" p:name="airCarrierCode" p:unconditionallyReadOnly="true"  />
+				<bean parent="MaintainableFieldDefinition" p:name="tripDepartureDate" p:unconditionallyReadOnly="true"  />
+				<bean parent="MaintainableFieldDefinition" p:name="airTransactionAmount" p:unconditionallyReadOnly="true"  />
+				<bean parent="MaintainableFieldDefinition" p:name="tripReturnDate" p:unconditionallyReadOnly="true"  />
+				<bean parent="MaintainableFieldDefinition" p:name="airBaseFareAmount" p:unconditionallyReadOnly="true"  />
+				<bean parent="MaintainableFieldDefinition" p:name="fareSaverCode"  p:unconditionallyReadOnly="true"  />
+				<bean parent="MaintainableFieldDefinition" p:name="airTaxAmount" p:unconditionallyReadOnly="true"  />
+				<bean parent="MaintainableFieldDefinition" p:name="airLowFareAmount" p:unconditionallyReadOnly="true"  />
+				<bean parent="MaintainableFieldDefinition" p:name="airSegmentId" p:unconditionallyReadOnly="true"  />
+				<bean parent="MaintainableFieldDefinition" p:name="airTicketClass" p:unconditionallyReadOnly="true" />
+				<bean parent="MaintainableFieldDefinition" p:name="airReasonCode" p:unconditionallyReadOnly="true"   />
+                <bean parent="MaintainableFieldDefinition" p:name="transactionUniqueId" p:unconditionallyReadOnly="true"   />
 			</list>
 		</property>
 	</bean>
@@ -169,18 +169,18 @@
 		<property name="maintainableItems">
 			<list>
 				<bean parent="MaintainableSubSectionHeaderDefinition" p:name="Rental Car"/>
-			  	<bean parent="MaintainableFieldDefinition" p:name="rentalCarCompanyName" />
-                <bean parent="MaintainableFieldDefinition" p:name="rentalCarOpenDate"  />
-				<bean parent="MaintainableFieldDefinition" p:name="rentalCarAmount"  />
-				<bean parent="MaintainableFieldDefinition" p:name="rentalCarBillAmount"   />
-				<bean parent="MaintainableFieldDefinition" p:name="rentalCarNumberOfDays"  />
-				<bean parent="MaintainableFieldDefinition" p:name="rentalCarFuelAmount" />
-				<bean parent="MaintainableFieldDefinition" p:name="rentalCarAdditionalAmount"   />
-				<bean parent="MaintainableFieldDefinition" p:name="rentalCarCloseDate" />
-				<bean parent="MaintainableFieldDefinition" p:name="rentalCarTaxAmount"  />
-				<bean parent="MaintainableFieldDefinition" p:name="rentalCarDetailText"  />
-				<bean parent="MaintainableFieldDefinition" p:name="rentalCarSurchargeAmount" />
-				<bean parent="MaintainableFieldDefinition" p:name="rentalCarGovernmentSurchargeAmount" />
+			  	<bean parent="MaintainableFieldDefinition" p:name="rentalCarCompanyName" p:unconditionallyReadOnly="true"  />
+                <bean parent="MaintainableFieldDefinition" p:name="rentalCarOpenDate"  p:unconditionallyReadOnly="true" />
+				<bean parent="MaintainableFieldDefinition" p:name="rentalCarAmount" p:unconditionallyReadOnly="true"  />
+				<bean parent="MaintainableFieldDefinition" p:name="rentalCarBillAmount"  p:unconditionallyReadOnly="true"  />
+				<bean parent="MaintainableFieldDefinition" p:name="rentalCarNumberOfDays"  p:unconditionallyReadOnly="true" />
+				<bean parent="MaintainableFieldDefinition" p:name="rentalCarFuelAmount" p:unconditionallyReadOnly="true" />
+				<bean parent="MaintainableFieldDefinition" p:name="rentalCarAdditionalAmount" p:unconditionallyReadOnly="true"   />
+				<bean parent="MaintainableFieldDefinition" p:name="rentalCarCloseDate" p:unconditionallyReadOnly="true" />
+				<bean parent="MaintainableFieldDefinition" p:name="rentalCarTaxAmount" p:unconditionallyReadOnly="true"  />
+				<bean parent="MaintainableFieldDefinition" p:name="rentalCarDetailText" p:unconditionallyReadOnly="true"  />
+				<bean parent="MaintainableFieldDefinition" p:name="rentalCarSurchargeAmount" p:unconditionallyReadOnly="true" />
+				<bean parent="MaintainableFieldDefinition" p:name="rentalCarGovernmentSurchargeAmount" p:unconditionallyReadOnly="true" />
 				
 			</list>
 		</property>

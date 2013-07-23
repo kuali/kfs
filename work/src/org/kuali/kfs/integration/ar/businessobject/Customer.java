@@ -21,7 +21,7 @@ import java.util.List;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomer;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomerAddress;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomerType;
-import org.kuali.kfs.module.ar.document.service.CustomerAddressService;
+import org.kuali.kfs.integration.ar.AccountsReceivableModuleService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
@@ -469,7 +469,7 @@ public class Customer implements MutableInactivatable, AccountsReceivableCustome
 
     /* Start TEM REFUND merge */
     public AccountsReceivableCustomerAddress getPrimaryAddress() {
-        return SpringContext.getBean(CustomerAddressService.class).getPrimaryAddress(getCustomerNumber());
+        return SpringContext.getBean(AccountsReceivableModuleService.class).getPrimaryAddress(getCustomerNumber());
     }
 
     /* End TEM REFUND merge */

@@ -50,12 +50,13 @@ import org.kuali.kfs.module.ar.document.CustomerCreditMemoDocument;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.AccountsReceivableDocumentHeaderService;
 import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService;
+import org.kuali.kfs.module.ar.document.service.CustomerAddressService;
 import org.kuali.kfs.module.ar.document.service.CustomerCreditMemoDetailService;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
 import org.kuali.kfs.module.ar.document.service.CustomerService;
-import org.kuali.kfs.module.ar.document.service.SystemInformationService;
 import org.kuali.kfs.module.ar.document.service.ReceivableAccountingLineService;
+import org.kuali.kfs.module.ar.document.service.SystemInformationService;
 import org.kuali.kfs.module.ar.service.CustomerDocumentService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
@@ -546,5 +547,9 @@ public class AccountsReceivableModuleServiceImpl implements AccountsReceivableMo
 
         return contractsGrantsInvoiceDocumentService.calculateTotalPaymentsToDateByAward(award);
 
+    }
+    
+    public CustomerAddress getPrimaryAddress(String customerNumber) {
+        return SpringContext.getBean(CustomerAddressService.class).getPrimaryAddress(customerNumber);
     }
 }

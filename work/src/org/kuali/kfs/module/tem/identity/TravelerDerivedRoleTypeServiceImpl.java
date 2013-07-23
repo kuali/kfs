@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemConstants.TravelDocTypes;
 import org.kuali.kfs.module.tem.businessobject.TEMProfile;
 import org.kuali.kfs.module.tem.document.TravelArrangerDocument;
@@ -75,7 +76,9 @@ public class TravelerDerivedRoleTypeServiceImpl extends DerivedRoleTypeServiceBa
                             memberId = ((TravelDocument)document).getTraveler().getPrincipalId();
                         } else if (TravelDocTypes.TRAVEL_PROFILE_DOCUMENT.equals(document.getDocumentHeader().getWorkflowDocument().getDocumentTypeName())) {
                             TEMProfile profile = (TEMProfile)((MaintenanceDocument)document).getNewMaintainableObject().getBusinessObject();
-                            memberId = profile.getPrincipalId();
+                            if (profile.getTravelerTypeCode().equals(TemConstants.EMP_TRAVELER_TYP_CD)) {
+                                memberId = profile.getPrincipalId();
+                            }
                         }
                         if (!StringUtils.isBlank(memberId)) {
                             members.add(RoleMembership.Builder.create("", "", memberId, MemberType.PRINCIPAL, null).build());

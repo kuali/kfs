@@ -104,7 +104,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
     protected AccountsReceivableDocumentHeader accountsReceivableDocumentHeader;
     protected String refundDocumentNumber;
     protected String invoiceDocumentType;// this document type variable would help in differentiating Customer and CG Invoices
-    protected String locCreationType;// To categorize the CG Invoices based on Award LOC Type
+    protected String letterOfCreditCreationType;// To categorize the CG Invoices based on Award LOC Type
     protected Long proposalNumber;// For loc creation type = Award
     protected String letterOfCreditFundGroupCode;// for loc creation type = LOC fund
     protected String letterOfCreditFundCode;// for loc creation type = LOC fund group
@@ -1555,21 +1555,21 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
     }
 
     /**
-     * Gets the locCreationType attribute.
+     * Gets the letterOfCreditCreationType attribute.
      *
-     * @return Returns the locCreationType.
+     * @return Returns the letterOfCreditCreationType.
      */
-    public String getLocCreationType() {
-        return locCreationType;
+    public String getLetterOfCreditCreationType() {
+        return letterOfCreditCreationType;
     }
 
     /**
-     * Sets the locCreationType attribute value.
+     * Sets the letterOfCreditCreationType attribute value.
      *
-     * @param locCreationType The locCreationType to set.
+     * @param letterOfCreditCreationType The letterOfCreditCreationType to set.
      */
-    public void setLocCreationType(String locCreationType) {
-        this.locCreationType = locCreationType;
+    public void setLetterOfCreditCreationType(String letterOfCreditCreationType) {
+        this.letterOfCreditCreationType = letterOfCreditCreationType;
     }
 
     /**

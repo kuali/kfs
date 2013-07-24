@@ -2105,4 +2105,18 @@
 		</modifySql>
 	</changeSet>
 	
+	<changeSet author="KFS511CGB" id="KFSMI8723_CGB_CODE_REVIEW">
+		<!-- from ar package -->
+		<renameColumn tableName="AR_CSH_CTRL_T" oldColumnName="LOC_CRTN_TYP" newColumnName="LTRCR_CRTN_TYP" columnDataType="VARCHAR(45)" />
+		<renameColumn tableName="AR_APPLICATION_DOC_T" oldColumnName="LOC_CRTN_TYP" newColumnName="LTRCR_CRTN_TYP" columnDataType="VARCHAR(45)" />
+		<renameColumn tableName="AR_INV_DOC_T" oldColumnName="LOC_CRTN_TYP" newColumnName="LTRCR_CRTN_TYP" columnDataType="VARCHAR(45)" />
+		<renameTable oldTableName="AR_LOC_RVW_DTL_T" newTableName="AR_LTRCR_RVW_DTL_T"/>
+		<renameColumn tableName="AR_LTRCR_RVW_DTL_T" oldColumnName="LOC_RVW_DTL_ID" newColumnName="LTRCR_RVW_DTL_ID" columnDataType="DECIMAL(12,0)" />
+		<renameColumn tableName="AR_LTRCR_RVW_DTL_T" oldColumnName="LOC_AMT" newColumnName="LTRCR_AMT" columnDataType="DECIMAL(19,2)" />
+
+		<!-- from cg package -->
+		<renameColumn tableName="CG_AWD_T" oldColumnName="LOC_CRTN_TYP" newColumnName="LTRCR_CRTN_TYP" columnDataType="VARCHAR(45)" />
+		<renameColumn tableName="CG_AWD_ACCT_T" oldColumnName="LOC_RVW_IND" newColumnName="LTRCR_RVW_IND" columnDataType="VARCHAR(1)" />
+	</changeSet>
+	
 </databaseChangeLog>

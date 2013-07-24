@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<!--
+ Copyright 2008-2009 The Kuali Foundation
+ 
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl2.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+	<bean id="ContractsGrantsLetterOfCreditReviewDetail" parent="ContractsGrantsLetterOfCreditReviewDetail-parentBean" />
+	<bean id="ContractsGrantsLetterOfCreditReviewDetail-parentBean" abstract="true" parent="BusinessObjectEntry">
+		<property name="businessObjectClass" value="org.kuali.kfs.module.ar.businessobject.ContractsGrantsLetterOfCreditReviewDetail" />
+		<property name="objectLabel" value="Contracts Grants Letter Of Credit Review Detail" />
+		<property name="attributes">
+			<list>
+				<ref bean="ContractsGrantsLetterOfCreditReviewDetail-documentNumber" />
+				<ref bean="ContractsGrantsLetterOfCreditReviewDetail-proposalNumber" />
+				<ref bean="ContractsGrantsLetterOfCreditReviewDetail-awardDocumentNumber" />
+				<ref bean="ContractsGrantsLetterOfCreditReviewDetail-chartOfAccountsCode" />
+				<ref bean="ContractsGrantsLetterOfCreditReviewDetail-agencyNumber" />
+				<ref bean="ContractsGrantsLetterOfCreditReviewDetail-customerNumber" />
+				<ref bean="ContractsGrantsLetterOfCreditReviewDetail-awardBeginningDate" />
+				<ref bean="ContractsGrantsLetterOfCreditReviewDetail-awardEndingDate" />
+				<ref bean="ContractsGrantsLetterOfCreditReviewDetail-accountNumber" />
+				<ref bean="ContractsGrantsLetterOfCreditReviewDetail-accountExpirationDate" />
+				<ref bean="ContractsGrantsLetterOfCreditReviewDetail-accountDescription" />
+				<ref bean="ContractsGrantsLetterOfCreditReviewDetail-awardBudgetAmount" />
+				<ref bean="ContractsGrantsLetterOfCreditReviewDetail-claimOnCashBalance" />
+				<ref bean="ContractsGrantsLetterOfCreditReviewDetail-fundsNotDrawn" />
+				<ref bean="ContractsGrantsLetterOfCreditReviewDetail-hiddenAmountToDraw" />
+				<ref bean="ContractsGrantsLetterOfCreditReviewDetail-amountToDraw" />
+				<ref bean="ContractsGrantsLetterOfCreditReviewDetail-letterOfCreditAmount" />
+				<ref bean="ContractsGrantsLetterOfCreditReviewDetail-amountAvailableToDraw" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="ContractsGrantsLetterOfCreditReviewDetail-documentNumber" parent="ContractsGrantsLetterOfCreditReviewDetail-documentNumber-parentBean" />
+
+	<bean id="ContractsGrantsLetterOfCreditReviewDetail-documentNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber">
+		<property name="forceUppercase" value="true" />
+	</bean>
+
+	<bean id="ContractsGrantsLetterOfCreditReviewDetail-proposalNumber" parent="ContractsGrantsLetterOfCreditReviewDetail-proposalNumber-parentBean" />
+
+	<bean id="ContractsGrantsLetterOfCreditReviewDetail-proposalNumber-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="proposalNumber" />
+		<property name="label" value="Proposal Number" />
+		<property name="shortLabel" value="Proposal Number" />
+		<property name="maxLength" value="10" />
+		<property name="required" value="false" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="12" />
+		</property>
+	</bean>
+
+	<bean id="ContractsGrantsLetterOfCreditReviewDetail-awardDocumentNumber" parent="ContractsGrantsLetterOfCreditReviewDetail-awardDocumentNumber-parentBean" />
+
+	<bean id="ContractsGrantsLetterOfCreditReviewDetail-awardDocumentNumber-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="awardDocumentNumber" />
+		<property name="label" value="Award Document Number" />
+		<property name="shortLabel" value="Number" />
+		<property name="maxLength" value="12" />
+		<property name="validationPattern">
+			<ref bean="AnyCharacterValidation" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="14" />
+		</property>
+	</bean>
+
+	<bean id="ContractsGrantsLetterOfCreditReviewDetail-chartOfAccountsCode" parent="ContractsGrantsLetterOfCreditReviewDetail-chartOfAccountsCode-parentBean" />
+	<bean id="ContractsGrantsLetterOfCreditReviewDetail-chartOfAccountsCode-parentBean" abstract="true" parent="ChartAttribute-TextControl">
+		<property name="required" value="false" />
+	</bean>
+
+	<bean id="ContractsGrantsLetterOfCreditReviewDetail-accountNumber" parent="ContractsGrantsLetterOfCreditReviewDetail-accountNumber-parentBean" />
+
+	<bean id="ContractsGrantsLetterOfCreditReviewDetail-accountNumber-parentBean" parent="AccountAttribute">
+		<property name="name" value="accountNumber" />
+		<property name="label" value="Account Number" />
+		<property name="shortLabel" value="CntrctAcct" />
+		<property name="required" value="false" />
+	</bean>
+	<bean id="ContractsGrantsLetterOfCreditReviewDetail-accountExpirationDate" parent="ContractsGrantsLetterOfCreditReviewDetail-accountExpirationDate-parentBean" />
+
+	<bean id="ContractsGrantsLetterOfCreditReviewDetail-accountExpirationDate-parentBean" abstract="true" parent="GenericAttributes-genericTimestamp">
+		<property name="name" value="accountExpirationDate" />
+		<property name="label" value="Account Expiration Date" />
+		<property name="shortLabel" value="ExpDate" />
+	</bean>
+	<bean id="ContractsGrantsLetterOfCreditReviewDetail-accountDescription" parent="ContractsGrantsLetterOfCreditReviewDetail-accountDescription-parentBean" />
+
+	<bean id="ContractsGrantsLetterOfCreditReviewDetail-accountDescription-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="accountDescription" />
+		<property name="label" value="Account Description" />
+		<property name="shortLabel" value="Account Description" />
+		<property name="maxLength" value="45" />
+		<property name="required" value="false" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="45" />
+		</property>
+	</bean>
+
+	<bean id="ContractsGrantsLetterOfCreditReviewDetail-agencyNumber" parent="ContractsGrantsLetterOfCreditReviewDetail-agencyNumber-parentBean" />
+
+	<bean id="ContractsGrantsLetterOfCreditReviewDetail-agencyNumber-parentBean" abstract="true" parent="GenericAttributes-agencyNumber">
+	</bean>
+
+	<bean id="ContractsGrantsLetterOfCreditReviewDetail-customerNumber" parent="ContractsGrantsLetterOfCreditReviewDetail-customerNumber-parentBean" />
+
+	<bean id="ContractsGrantsLetterOfCreditReviewDetail-customerNumber-parentBean" abstract="true" parent="Customer-customerNumber">
+		<property name="name" value="customerNumber" />
+		<property name="label" value="Customer Number" />
+		<property name="shortLabel" value="Customer Number" />
+	</bean>
+
+	<bean id="ContractsGrantsLetterOfCreditReviewDetail-awardBeginningDate" parent="ContractsGrantsLetterOfCreditReviewDetail-awardBeginningDate-parentBean" />
+
+	<bean id="ContractsGrantsLetterOfCreditReviewDetail-awardBeginningDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
+		<property name="name" value="awardBeginningDate" />
+		<property name="label" value="Award Start Date" />
+		<property name="shortLabel" value="Start" />
+	</bean>
+
+	<bean id="ContractsGrantsLetterOfCreditReviewDetail-awardEndingDate" parent="ContractsGrantsLetterOfCreditReviewDetail-awardEndingDate-parentBean" />
+
+	<bean id="ContractsGrantsLetterOfCreditReviewDetail-awardEndingDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
+		<property name="name" value="awardEndingDate" />
+		<property name="label" value="Award Stop Date" />
+		<property name="shortLabel" value="Stop" />
+	</bean>
+
+	<bean id="ContractsGrantsLetterOfCreditReviewDetail-awardBudgetAmount" parent="ContractsGrantsLetterOfCreditReviewDetail-awardBudgetAmount-parentBean" />
+	<bean id="ContractsGrantsLetterOfCreditReviewDetail-awardBudgetAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+		<property name="name" value="awardBudgetAmount" />
+		<property name="label" value="Award Budget Amount" />
+		<property name="shortLabel" value="Award Budget Amount" />
+		<property name="required" value="false" />
+	</bean>
+
+	<bean id="ContractsGrantsLetterOfCreditReviewDetail-claimOnCashBalance" parent="ContractsGrantsLetterOfCreditReviewDetail-claimOnCashBalance-parentBean" />
+	<bean id="ContractsGrantsLetterOfCreditReviewDetail-claimOnCashBalance-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+		<property name="name" value="claimOnCashBalance" />
+		<property name="label" value="Claim On Cash Balance" />
+		<property name="shortLabel" value="Claim On Cash Balance" />
+		<property name="required" value="false" />
+	</bean>
+
+	<bean id="ContractsGrantsLetterOfCreditReviewDetail-fundsNotDrawn" parent="ContractsGrantsLetterOfCreditReviewDetail-fundsNotDrawn-parentBean" />
+	<bean id="ContractsGrantsLetterOfCreditReviewDetail-fundsNotDrawn-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+		<property name="name" value="fundsNotDrawn" />
+		<property name="label" value="Funds Not Drawn" />
+		<property name="shortLabel" value="Funds Not Drawn" />
+		<property name="required" value="false" />
+	</bean>
+
+	<bean id="ContractsGrantsLetterOfCreditReviewDetail-amountToDraw" parent="ContractsGrantsLetterOfCreditReviewDetail-amountToDraw-parentBean" />
+	<bean id="ContractsGrantsLetterOfCreditReviewDetail-amountToDraw-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+		<property name="name" value="amountToDraw" />
+		<property name="label" value="Amount To Draw" />
+		<property name="shortLabel" value="Amount To Draw" />
+		<property name="required" value="false" />
+	</bean>
+
+
+	<bean id="ContractsGrantsLetterOfCreditReviewDetail-hiddenAmountToDraw" parent="ContractsGrantsLetterOfCreditReviewDetail-hiddenAmountToDraw-parentBean" />
+	<bean id="ContractsGrantsLetterOfCreditReviewDetail-hiddenAmountToDraw-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+		<property name="name" value="hiddenAmountToDraw" />
+		<property name="label" value="hidden Amount To Draw" />
+		<property name="shortLabel" value="hidden Amount To Draw" />
+		<property name="required" value="false" />
+	</bean>
+
+	<bean id="ContractsGrantsLetterOfCreditReviewDetail-letterOfCreditAmount" parent="ContractsGrantsLetterOfCreditReviewDetail-letterOfCreditAmount-parentBean" />
+	<bean id="ContractsGrantsLetterOfCreditReviewDetail-letterOfCreditAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+		<property name="name" value="letterOfCreditAmount" />
+		<property name="label" value="LOC Amount" />
+		<property name="shortLabel" value="LOC Amount" />
+		<property name="required" value="false" />
+	</bean>
+
+	<bean id="ContractsGrantsLetterOfCreditReviewDetail-amountAvailableToDraw" parent="ContractsGrantsLetterOfCreditReviewDetail-amountAvailableToDraw-parentBean" />
+	<bean id="ContractsGrantsLetterOfCreditReviewDetail-amountAvailableToDraw-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+		<property name="name" value="amountAvailableToDraw" />
+		<property name="label" value="Award Amount Available To Draw" />
+		<property name="shortLabel" value="Award Amount Available To Draw" />
+		<property name="required" value="false" />
+	</bean>
+  
+</beans>

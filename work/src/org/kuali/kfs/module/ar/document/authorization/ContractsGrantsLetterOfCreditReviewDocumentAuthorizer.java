@@ -20,5 +20,5 @@ import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocu
 /**
  * Uses defaults.
  */
-public class ContractsGrantsLOCReviewDocumentAuthorizer extends FinancialSystemTransactionalDocumentAuthorizerBase {
+public class ContractsGrantsLetterOfCreditReviewDocumentAuthorizer extends FinancialSystemTransactionalDocumentAuthorizerBase {
 }

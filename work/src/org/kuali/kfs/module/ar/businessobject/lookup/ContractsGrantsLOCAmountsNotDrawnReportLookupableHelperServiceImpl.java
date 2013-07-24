@@ -24,8 +24,8 @@ import java.util.Map;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kfs.module.ar.businessobject.ContractsGrantsLOCAmountsNotDrawnReport;
-import org.kuali.kfs.module.ar.businessobject.ContractsGrantsLOCReviewDetail;
-import org.kuali.kfs.module.ar.document.ContractsGrantsLOCReviewDocument;
+import org.kuali.kfs.module.ar.businessobject.ContractsGrantsLetterOfCreditReviewDetail;
+import org.kuali.kfs.module.ar.document.ContractsGrantsLetterOfCreditReviewDocument;
 import org.kuali.kfs.module.ar.report.ContractsGrantsReportUtils;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.api.WorkflowDocument;
@@ -61,13 +61,13 @@ public class ContractsGrantsLOCAmountsNotDrawnReportLookupableHelperServiceImpl 
         setDocFormKey((String) lookupForm.getFieldsForLookup().get(KRADConstants.DOC_FORM_KEY));
 
         Collection<ContractsGrantsLOCAmountsNotDrawnReport> displayList = new ArrayList<ContractsGrantsLOCAmountsNotDrawnReport>();
-        Collection<ContractsGrantsLOCReviewDocument> cgLOCReviewDocs = businessObjectService.findAll(ContractsGrantsLOCReviewDocument.class);
+        Collection<ContractsGrantsLetterOfCreditReviewDocument> cgLOCReviewDocs = businessObjectService.findAll(ContractsGrantsLetterOfCreditReviewDocument.class);
 
-        for (ContractsGrantsLOCReviewDocument cgLOCReviewDoc : cgLOCReviewDocs) {
-            ContractsGrantsLOCReviewDocument cgLOCReviewDocWithHeader;
+        for (ContractsGrantsLetterOfCreditReviewDocument cgLOCReviewDoc : cgLOCReviewDocs) {
+            ContractsGrantsLetterOfCreditReviewDocument cgLOCReviewDocWithHeader;
             // Docs that have a problem to get documentHeader won't be on the report
             try {
-                cgLOCReviewDocWithHeader = (ContractsGrantsLOCReviewDocument) documentService.getByDocumentHeaderId(cgLOCReviewDoc.getDocumentNumber());
+                cgLOCReviewDocWithHeader = (ContractsGrantsLetterOfCreditReviewDocument) documentService.getByDocumentHeaderId(cgLOCReviewDoc.getDocumentNumber());
             }
             catch (WorkflowException e) {
                 LOG.debug("WorkflowException happened while retrives documentHeader");
@@ -95,8 +95,8 @@ public class ContractsGrantsLOCAmountsNotDrawnReportLookupableHelperServiceImpl 
                 continue;
             }
 
-            List<ContractsGrantsLOCReviewDetail> headerReviewDetails = cgLOCReviewDoc.getHeaderReviewDetails();
-            List<ContractsGrantsLOCReviewDetail> accountReviewDetails = cgLOCReviewDoc.getAccountReviewDetails();
+            List<ContractsGrantsLetterOfCreditReviewDetail> headerReviewDetails = cgLOCReviewDoc.getHeaderReviewDetails();
+            List<ContractsGrantsLetterOfCreditReviewDetail> accountReviewDetails = cgLOCReviewDoc.getAccountReviewDetails();
             if (accountReviewDetails.size() > 0) {
 
                 KualiDecimal totalAmountAvailableToDraw = KualiDecimal.ZERO;
@@ -106,7 +106,7 @@ public class ContractsGrantsLOCAmountsNotDrawnReportLookupableHelperServiceImpl 
 
                 ContractsGrantsLOCAmountsNotDrawnReport cgLOCAmountNotDrawnReport = new ContractsGrantsLOCAmountsNotDrawnReport();
 
-                for (ContractsGrantsLOCReviewDetail accountReviewDetailEntry : accountReviewDetails) {
+                for (ContractsGrantsLetterOfCreditReviewDetail accountReviewDetailEntry : accountReviewDetails) {
                     KualiDecimal claimOnCashBalance = ObjectUtils.isNull(accountReviewDetailEntry.getClaimOnCashBalance()) ? KualiDecimal.ZERO : accountReviewDetailEntry.getClaimOnCashBalance();
                     // PreviousDraw should be sum of amountToDraw?
                     KualiDecimal previousDraw = ObjectUtils.isNull(accountReviewDetailEntry.getAmountToDraw()) ? KualiDecimal.ZERO : accountReviewDetailEntry.getAmountToDraw();
@@ -117,7 +117,7 @@ public class ContractsGrantsLOCAmountsNotDrawnReportLookupableHelperServiceImpl 
                     totalFundsNotDrawn = totalFundsNotDrawn.add(fundsNotDrawn);
                 }
 
-                for (ContractsGrantsLOCReviewDetail accountReviewDetailEntry : headerReviewDetails) {
+                for (ContractsGrantsLetterOfCreditReviewDetail accountReviewDetailEntry : headerReviewDetails) {
                     KualiDecimal amountAvailableToDraw = ObjectUtils.isNull(accountReviewDetailEntry.getAmountAvailableToDraw()) ? KualiDecimal.ZERO : accountReviewDetailEntry.getAmountAvailableToDraw();
                     totalAmountAvailableToDraw = totalAmountAvailableToDraw.add(amountAvailableToDraw);
                 }

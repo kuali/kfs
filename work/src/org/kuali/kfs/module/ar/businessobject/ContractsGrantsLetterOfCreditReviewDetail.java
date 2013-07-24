@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -19,7 +19,7 @@ import java.sql.Date;
 import java.util.LinkedHashMap;
 
 import org.kuali.kfs.module.ar.ArPropertyConstants;
-import org.kuali.kfs.module.ar.document.ContractsGrantsLOCReviewDocument;
+import org.kuali.kfs.module.ar.document.ContractsGrantsLetterOfCreditReviewDocument;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
@@ -27,11 +27,11 @@ import org.kuali.rice.core.api.util.type.KualiDecimal;
 /**
  * Defines a detail in the Contracts and Grants Letter of Credit Review Document.
  */
-public class ContractsGrantsLOCReviewDetail extends PersistableBusinessObjectBase {
+public class ContractsGrantsLetterOfCreditReviewDetail extends PersistableBusinessObjectBase {
 
     private String documentNumber;
     private Long proposalNumber;
-    private Long locReviewDetailIdentifier;
+    private Long letterOfCreditReviewDetailIdentifier;
     private Date awardBeginningDate;
     private Date awardEndingDate;
     private String agencyNumber;
@@ -47,14 +47,14 @@ public class ContractsGrantsLOCReviewDetail extends PersistableBusinessObjectBas
     private KualiDecimal hiddenAmountToDraw = KualiDecimal.ZERO;// This would be used for comparision with AmountToDraw field when
                                                                 // user modifies it - not persisted
     private KualiDecimal fundsNotDrawn = KualiDecimal.ZERO; // Difference between amountToDraw and hiddenAmountToDraw.
-    private KualiDecimal locAmount = KualiDecimal.ZERO;// This field would be visible only for the contract control account row.
+    private KualiDecimal letterOfCreditAmount = KualiDecimal.ZERO;// This field would be visible only for the contract control account row.
     private KualiDecimal amountAvailableToDraw = KualiDecimal.ZERO;// This field would be visible only for the contract control
                                                                    // account row.
-    private ContractsGrantsLOCReviewDocument contractsGrantsLOCReviewDocument;
+    private ContractsGrantsLetterOfCreditReviewDocument contractsGrantsLOCReviewDocument;
 
     /**
      * Gets the documentNumber attribute.
-     * 
+     *
      * @return Returns the documentNumber.
      */
     public String getDocumentNumber() {
@@ -64,7 +64,7 @@ public class ContractsGrantsLOCReviewDetail extends PersistableBusinessObjectBas
 
     /**
      * Sets the documentNumber attribute value.
-     * 
+     *
      * @param documentNumber The documentNumber to set.
      */
     public void setDocumentNumber(String documentNumber) {
@@ -74,7 +74,7 @@ public class ContractsGrantsLOCReviewDetail extends PersistableBusinessObjectBas
 
     /**
      * Gets the proposalNumber attribute.
-     * 
+     *
      * @return Returns the proposalNumber.
      */
     public Long getProposalNumber() {
@@ -84,7 +84,7 @@ public class ContractsGrantsLOCReviewDetail extends PersistableBusinessObjectBas
 
     /**
      * Sets the proposalNumber attribute value.
-     * 
+     *
      * @param proposalNumber The proposalNumber to set.
      */
     public void setProposalNumber(Long proposalNumber) {
@@ -94,7 +94,7 @@ public class ContractsGrantsLOCReviewDetail extends PersistableBusinessObjectBas
 
     /**
      * Gets the chartOfAccountsCode attribute.
-     * 
+     *
      * @return Returns the chartOfAccountsCode.
      */
     public String getChartOfAccountsCode() {
@@ -104,7 +104,7 @@ public class ContractsGrantsLOCReviewDetail extends PersistableBusinessObjectBas
 
     /**
      * Sets the chartOfAccountsCode attribute value.
-     * 
+     *
      * @param chartOfAccountsCode The chartOfAccountsCode to set.
      */
     public void setChartOfAccountsCode(String chartOfAccountsCode) {
@@ -114,7 +114,7 @@ public class ContractsGrantsLOCReviewDetail extends PersistableBusinessObjectBas
 
     /**
      * Gets the accountNumber attribute.
-     * 
+     *
      * @return Returns the accountNumber.
      */
     public String getAccountNumber() {
@@ -124,7 +124,7 @@ public class ContractsGrantsLOCReviewDetail extends PersistableBusinessObjectBas
 
     /**
      * Sets the accountNumber attribute value.
-     * 
+     *
      * @param accountNumber The accountNumber to set.
      */
     public void setAccountNumber(String accountNumber) {
@@ -134,7 +134,7 @@ public class ContractsGrantsLOCReviewDetail extends PersistableBusinessObjectBas
 
     /**
      * Gets the awardBudgetAmount attribute.
-     * 
+     *
      * @return Returns the awardBudgetAmount.
      */
     public KualiDecimal getAwardBudgetAmount() {
@@ -144,7 +144,7 @@ public class ContractsGrantsLOCReviewDetail extends PersistableBusinessObjectBas
 
     /**
      * Sets the awardBudgetAmount attribute value.
-     * 
+     *
      * @param awardBudgetAmount The awardBudgetAmount to set.
      */
     public void setAwardBudgetAmount(KualiDecimal awardBudgetAmount) {
@@ -154,7 +154,7 @@ public class ContractsGrantsLOCReviewDetail extends PersistableBusinessObjectBas
 
     /**
      * Gets the amountToDraw attribute.
-     * 
+     *
      * @return Returns the amountToDraw.
      */
     public KualiDecimal getAmountToDraw() {
@@ -164,7 +164,7 @@ public class ContractsGrantsLOCReviewDetail extends PersistableBusinessObjectBas
 
     /**
      * Sets the amountToDraw attribute value.
-     * 
+     *
      * @param amountToDraw The amountToDraw to set.
      */
     public void setAmountToDraw(KualiDecimal amountToDraw) {
@@ -174,7 +174,7 @@ public class ContractsGrantsLOCReviewDetail extends PersistableBusinessObjectBas
 
     /**
      * Gets the hiddenAmountToDraw attribute.
-     * 
+     *
      * @return Returns the hiddenAmountToDraw.
      */
     public KualiDecimal getHiddenAmountToDraw() {
@@ -184,7 +184,7 @@ public class ContractsGrantsLOCReviewDetail extends PersistableBusinessObjectBas
 
     /**
      * Sets the hiddenAmountToDraw attribute value.
-     * 
+     *
      * @param hiddenAmountToDraw The hiddenAmountToDraw to set.
      */
     public void setHiddenAmountToDraw(KualiDecimal hiddenAmountToDraw) {
@@ -194,7 +194,7 @@ public class ContractsGrantsLOCReviewDetail extends PersistableBusinessObjectBas
 
     /**
      * Gets the amountAvailableToDraw attribute.
-     * 
+     *
      * @return Returns the amountAvailableToDraw.
      */
     public KualiDecimal getAmountAvailableToDraw() {
@@ -204,7 +204,7 @@ public class ContractsGrantsLOCReviewDetail extends PersistableBusinessObjectBas
 
     /**
      * Sets the amountAvailableToDraw attribute value.
-     * 
+     *
      * @param amountAvailableToDraw The amountAvailableToDraw to set.
      */
     public void setAmountAvailableToDraw(KualiDecimal amountAvailableToDraw) {
@@ -214,47 +214,47 @@ public class ContractsGrantsLOCReviewDetail extends PersistableBusinessObjectBas
 
     /**
      * Gets the contractsGrantsLOCReviewDocument attribute.
-     * 
+     *
      * @return Returns the contractsGrantsLOCReviewDocument.
      */
-    public ContractsGrantsLOCReviewDocument getContractsGrantsLOCReviewDocument() {
+    public ContractsGrantsLetterOfCreditReviewDocument getContractsGrantsLOCReviewDocument() {
         return contractsGrantsLOCReviewDocument;
     }
 
 
     /**
      * Sets the contractsGrantsLOCReviewDocument attribute value.
-     * 
+     *
      * @param contractsGrantsLOCReviewDocument The contractsGrantsLOCReviewDocument to set.
      */
-    public void setContractsGrantsLOCReviewDocument(ContractsGrantsLOCReviewDocument contractsGrantsLOCReviewDocument) {
+    public void setContractsGrantsLOCReviewDocument(ContractsGrantsLetterOfCreditReviewDocument contractsGrantsLOCReviewDocument) {
         this.contractsGrantsLOCReviewDocument = contractsGrantsLOCReviewDocument;
     }
 
 
     /**
-     * Gets the locAmount attribute.
-     * 
-     * @return Returns the locAmount.
+     * Gets the letterOfCreditAmount attribute.
+     *
+     * @return Returns the letterOfCreditAmount.
      */
-    public KualiDecimal getLocAmount() {
-        return locAmount;
+    public KualiDecimal getLetterOfCreditAmount() {
+        return letterOfCreditAmount;
     }
 
 
     /**
-     * Sets the locAmount attribute value.
-     * 
-     * @param locAmount The locAmount to set.
+     * Sets the letterOfCreditAmount attribute value.
+     *
+     * @param letterOfCreditAmount The letterOfCreditAmount to set.
      */
-    public void setLocAmount(KualiDecimal locAmount) {
-        this.locAmount = locAmount;
+    public void setLetterOfCreditAmount(KualiDecimal letterOfCreditAmount) {
+        this.letterOfCreditAmount = letterOfCreditAmount;
     }
 
 
     /**
      * Gets the accountDescription attribute.
-     * 
+     *
      * @return Returns the accountDescription.
      */
     public String getAccountDescription() {
@@ -264,7 +264,7 @@ public class ContractsGrantsLOCReviewDetail extends PersistableBusinessObjectBas
 
     /**
      * Sets the accountDescription attribute value.
-     * 
+     *
      * @param accountDescription The accountDescription to set.
      */
     public void setAccountDescription(String accountDescription) {
@@ -274,7 +274,7 @@ public class ContractsGrantsLOCReviewDetail extends PersistableBusinessObjectBas
 
     /**
      * Gets the awardDocumentNumber attribute.
-     * 
+     *
      * @return Returns the awardDocumentNumber.
      */
     public String getAwardDocumentNumber() {
@@ -284,7 +284,7 @@ public class ContractsGrantsLOCReviewDetail extends PersistableBusinessObjectBas
 
     /**
      * Sets the awardDocumentNumber attribute value.
-     * 
+     *
      * @param awardDocumentNumber The awardDocumentNumber to set.
      */
     public void setAwardDocumentNumber(String awardDocumentNumber) {
@@ -294,7 +294,7 @@ public class ContractsGrantsLOCReviewDetail extends PersistableBusinessObjectBas
 
     /**
      * Gets the accountExpirationDate attribute.
-     * 
+     *
      * @return Returns the accountExpirationDate.
      */
     public Date getAccountExpirationDate() {
@@ -304,7 +304,7 @@ public class ContractsGrantsLOCReviewDetail extends PersistableBusinessObjectBas
 
     /**
      * Sets the accountExpirationDate attribute value.
-     * 
+     *
      * @param accountExpirationDate The accountExpirationDate to set.
      */
     public void setAccountExpirationDate(Date accountExpirationDate) {
@@ -314,7 +314,7 @@ public class ContractsGrantsLOCReviewDetail extends PersistableBusinessObjectBas
 
     /**
      * Gets the claimOnCashBalance attribute.
-     * 
+     *
      * @return Returns the claimOnCashBalance.
      */
     public KualiDecimal getClaimOnCashBalance() {
@@ -324,7 +324,7 @@ public class ContractsGrantsLOCReviewDetail extends PersistableBusinessObjectBas
 
     /**
      * Sets the claimOnCashBalance attribute value.
-     * 
+     *
      * @param claimOnCashBalance The claimOnCashBalance to set.
      */
     public void setClaimOnCashBalance(KualiDecimal claimOnCashBalance) {
@@ -334,7 +334,7 @@ public class ContractsGrantsLOCReviewDetail extends PersistableBusinessObjectBas
 
     /**
      * Gets the fundsNotDrawn attribute.
-     * 
+     *
      * @return Returns the fundsNotDrawn.
      */
     public KualiDecimal getFundsNotDrawn() {
@@ -344,7 +344,7 @@ public class ContractsGrantsLOCReviewDetail extends PersistableBusinessObjectBas
 
     /**
      * Sets the fundsNotDrawn attribute value.
-     * 
+     *
      * @param fundsNotDrawn The fundsNotDrawn to set.
      */
     public void setFundsNotDrawn(KualiDecimal fundsNotDrawn) {
@@ -354,7 +354,7 @@ public class ContractsGrantsLOCReviewDetail extends PersistableBusinessObjectBas
 
     /**
      * Gets the awardBeginningDate attribute.
-     * 
+     *
      * @return Returns the awardBeginningDate.
      */
     public Date getAwardBeginningDate() {
@@ -364,7 +364,7 @@ public class ContractsGrantsLOCReviewDetail extends PersistableBusinessObjectBas
 
     /**
      * Sets the awardBeginningDate attribute value.
-     * 
+     *
      * @param awardBeginningDate The awardBeginningDate to set.
      */
     public void setAwardBeginningDate(Date awardBeginningDate) {
@@ -374,7 +374,7 @@ public class ContractsGrantsLOCReviewDetail extends PersistableBusinessObjectBas
 
     /**
      * Gets the awardEndingDate attribute.
-     * 
+     *
      * @return Returns the awardEndingDate.
      */
     public Date getAwardEndingDate() {
@@ -384,7 +384,7 @@ public class ContractsGrantsLOCReviewDetail extends PersistableBusinessObjectBas
 
     /**
      * Sets the awardEndingDate attribute value.
-     * 
+     *
      * @param awardEndingDate The awardEndingDate to set.
      */
     public void setAwardEndingDate(Date awardEndingDate) {
@@ -394,7 +394,7 @@ public class ContractsGrantsLOCReviewDetail extends PersistableBusinessObjectBas
 
     /**
      * Gets the agencyNumber attribute.
-     * 
+     *
      * @return Returns the agencyNumber.
      */
     public String getAgencyNumber() {
@@ -404,7 +404,7 @@ public class ContractsGrantsLOCReviewDetail extends PersistableBusinessObjectBas
 
     /**
      * Sets the agencyNumber attribute value.
-     * 
+     *
      * @param agencyNumber The agencyNumber to set.
      */
     public void setAgencyNumber(String agencyNumber) {
@@ -414,7 +414,7 @@ public class ContractsGrantsLOCReviewDetail extends PersistableBusinessObjectBas
 
     /**
      * Gets the customerNumber attribute.
-     * 
+     *
      * @return Returns the customerNumber.
      */
     public String getCustomerNumber() {
@@ -424,7 +424,7 @@ public class ContractsGrantsLOCReviewDetail extends PersistableBusinessObjectBas
 
     /**
      * Sets the customerNumber attribute value.
-     * 
+     *
      * @param customerNumber The customerNumber to set.
      */
     public void setCustomerNumber(String customerNumber) {
@@ -433,22 +433,22 @@ public class ContractsGrantsLOCReviewDetail extends PersistableBusinessObjectBas
 
 
     /**
-     * Gets the locReviewDetailIdentifier attribute.
-     * 
-     * @return Returns the locReviewDetailIdentifier.
+     * Gets the letterOfCreditReviewDetailIdentifier attribute.
+     *
+     * @return Returns the letterOfCreditReviewDetailIdentifier.
      */
-    public Long getLocReviewDetailIdentifier() {
-        return locReviewDetailIdentifier;
+    public Long getLetterOfCreditReviewDetailIdentifier() {
+        return letterOfCreditReviewDetailIdentifier;
     }
 
 
     /**
-     * Sets the locReviewDetailIdentifier attribute value.
-     * 
-     * @param locReviewDetailIdentifier The locReviewDetailIdentifier to set.
+     * Sets the letterOfCreditReviewDetailIdentifier attribute value.
+     *
+     * @param letterOfCreditReviewDetailIdentifier The letterOfCreditReviewDetailIdentifier to set.
      */
-    public void setLocReviewDetailIdentifier(Long locReviewDetailIdentifier) {
-        this.locReviewDetailIdentifier = locReviewDetailIdentifier;
+    public void setLetterOfCreditReviewDetailIdentifier(Long letterOfCreditReviewDetailIdentifier) {
+        this.letterOfCreditReviewDetailIdentifier = letterOfCreditReviewDetailIdentifier;
     }
 
 
@@ -467,8 +467,8 @@ public class ContractsGrantsLOCReviewDetail extends PersistableBusinessObjectBas
         if (this.proposalNumber != null) {
             m.put(KFSPropertyConstants.PROPOSAL_NUMBER, this.proposalNumber.toString());
         }
-        if (this.locReviewDetailIdentifier != null) {
-            m.put("locReviewDetailIdentifier", this.locReviewDetailIdentifier.toString());
+        if (this.letterOfCreditReviewDetailIdentifier != null) {
+            m.put("letterOfCreditReviewDetailIdentifier", this.letterOfCreditReviewDetailIdentifier.toString());
         }
         if (this.awardBeginningDate != null) {
             m.put("awardBeginningDate", this.awardBeginningDate.toString());
@@ -491,8 +491,8 @@ public class ContractsGrantsLOCReviewDetail extends PersistableBusinessObjectBas
         if (this.fundsNotDrawn != null) {
             m.put("fundsNotDrawn", this.fundsNotDrawn.toString());
         }
-        if (this.locAmount != null) {
-            m.put("locAmount", this.locAmount.toString());
+        if (this.letterOfCreditAmount != null) {
+            m.put("letterOfCreditAmount", this.letterOfCreditAmount.toString());
         }
         if (this.amountAvailableToDraw != null) {
             m.put("amountAvailableToDraw", this.amountAvailableToDraw.toString());

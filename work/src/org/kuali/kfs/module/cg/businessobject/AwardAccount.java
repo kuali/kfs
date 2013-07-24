@@ -47,7 +47,7 @@ public class AwardAccount extends PersistableBusinessObjectBase implements CGPro
     private Date currentLastBilledDate;
     private Date previousLastBilledDate;
     private KualiDecimal amountToDraw = KualiDecimal.ZERO;// Amount to Draw when awards are pulled up for review.
-    private boolean locReviewIndicator;// The indicator set if the award account amountToDraw is modified by the user.
+    private boolean letterOfCreditReviewIndicator;// The indicator set if the award account amountToDraw is modified by the user.
     private String invoiceDocumentStatus; // This would the status of the invoice document associated with the award account.
 
     private Account account;
@@ -238,7 +238,7 @@ public class AwardAccount extends PersistableBusinessObjectBase implements CGPro
         m.put("currentLastBilledDate", this.currentLastBilledDate);
         m.put("previousLastBilledDate", this.previousLastBilledDate);
         m.put("amountToDraw", this.amountToDraw);
-        m.put("locReviewIndicator", this.locReviewIndicator);
+        m.put("letterOfCreditReviewIndicator", this.letterOfCreditReviewIndicator);
         m.put("invoiceDocumentStatus", this.invoiceDocumentStatus);
         return m;
     }
@@ -276,22 +276,22 @@ public class AwardAccount extends PersistableBusinessObjectBase implements CGPro
     }
 
     /**
-     * Gets the locReviewIndicator attribute.
+     * Gets the letterOfCreditReviewIndicator attribute.
      *
-     * @return Returns the locReviewIndicator.
+     * @return Returns the letterOfCreditReviewIndicator.
      */
     @Override
-    public boolean isLocReviewIndicator() {
-        return locReviewIndicator;
+    public boolean isLetterOfCreditReviewIndicator() {
+        return letterOfCreditReviewIndicator;
     }
 
     /**
-     * Sets the locReviewIndicator attribute value.
+     * Sets the letterOfCreditReviewIndicator attribute value.
      *
-     * @param locReviewIndicator The locReviewIndicator to set.
+     * @param letterOfCreditReviewIndicator The letterOfCreditReviewIndicator to set.
      */
-    public void setLocReviewIndicator(boolean locReviewIndicator) {
-        this.locReviewIndicator = locReviewIndicator;
+    public void setLetterOfCreditReviewIndicator(boolean letterOfCreditReviewIndicator) {
+        this.letterOfCreditReviewIndicator = letterOfCreditReviewIndicator;
     }
 
     /**

@@ -489,7 +489,7 @@
 		<field-descriptor name="minInvoiceAmount" column="CG_MIN_INV_AMT" jdbc-type="DECIMAL"
 			conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
 		<field-descriptor name="invoicingOptions" column="CG_INV_OPT" jdbc-type="VARCHAR" />
-		<field-descriptor name="locCreationType" column="LOC_CRTN_TYP" jdbc-type="VARCHAR" />
+		<field-descriptor name="letterOfCreditCreationType" column="LTRCR_CRTN_TYP" jdbc-type="VARCHAR" />
 		<field-descriptor name="autoApproveIndicator" column="AUTO_APP" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
 		<field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
 				<field-descriptor name="preferredBillingFrequency" column="PRFRD_BILL_FREQ_CD" jdbc-type="VARCHAR" />
@@ -663,7 +663,7 @@
 		<field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
 		<field-descriptor name="finalBilledIndicator" column="FINAL_BILLED" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
 		<field-descriptor name="amountToDraw" column="AMT_DRW" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
-		<field-descriptor name="locReviewIndicator" column="LOC_RVW_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+		<field-descriptor name="letterOfCreditReviewIndicator" column="LTRCR_RVW_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
 		<field-descriptor name="currentLastBilledDate" column="CURR_LST_BLD_DT" jdbc-type="DATE" />
 		<field-descriptor name="previousLastBilledDate" column="PREV_LST_BLD_DT" jdbc-type="DATE" />
 		<field-descriptor name="invoiceDocumentStatus" column="INV_DOC_STS" jdbc-type="VARCHAR" index="true" />

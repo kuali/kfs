@@ -38,7 +38,7 @@ public class AwardAccount implements ContractsAndGrantsAccountAwardInformation, 
     private Date previousLastBilledDate;
     private boolean finalBilledIndicator;
     private KualiDecimal amountToDraw = KualiDecimal.ZERO;
-    private boolean locReviewIndicator;
+    private boolean letterOfCreditReviewIndicator;
     private boolean active = true;
     private String invoiceDocumentStatus;
 
@@ -63,22 +63,22 @@ public class AwardAccount implements ContractsAndGrantsAccountAwardInformation, 
     }
 
     /**
-     * Gets the locReviewIndicator attribute.
+     * Gets the letterOfCreditReviewIndicator attribute.
      *
-     * @return Returns the locReviewIndicator.
+     * @return Returns the letterOfCreditReviewIndicator.
      */
     @Override
-    public boolean isLocReviewIndicator() {
-        return locReviewIndicator;
+    public boolean isLetterOfCreditReviewIndicator() {
+        return letterOfCreditReviewIndicator;
     }
 
     /**
-     * Sets the locReviewIndicator attribute value.
+     * Sets the letterOfCreditReviewIndicator attribute value.
      *
-     * @param locReviewIndicator The locReviewIndicator to set.
+     * @param letterOfCreditReviewIndicator The letterOfCreditReviewIndicator to set.
      */
-    public void setLocReviewIndicator(boolean locReviewIndicator) {
-        this.locReviewIndicator = locReviewIndicator;
+    public void setLetterOfCreditReviewIndicator(boolean letterOfCreditReviewIndicator) {
+        this.letterOfCreditReviewIndicator = letterOfCreditReviewIndicator;
     }
 
 

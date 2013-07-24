@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.module.ar.document.web.struts;
+package org.kuali.kfs.module.ar.web.struts;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -31,8 +31,8 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.module.ar.ArKeyConstants;
-import org.kuali.kfs.module.ar.businessobject.ContractsGrantsLOCReviewDetail;
-import org.kuali.kfs.module.ar.document.ContractsGrantsLOCReviewDocument;
+import org.kuali.kfs.module.ar.businessobject.ContractsGrantsLetterOfCreditReviewDetail;
+import org.kuali.kfs.module.ar.document.ContractsGrantsLetterOfCreditReviewDocument;
 import org.kuali.kfs.module.ar.report.service.ContractsGrantsInvoiceReportService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
@@ -52,23 +52,23 @@ import com.lowagie.text.pdf.PdfReader;
 import com.lowagie.text.pdf.SimpleBookmark;
 
 /**
- * Action class for Contracts Grants LOC Review Document.
+ * Action class for Contracts Grants LetterOfCredit Review Document.
  */
-public class ContractsGrantsLOCReviewDocumentAction extends KualiTransactionalDocumentActionBase {
+public class ContractsGrantsLetterOfCreditReviewDocumentAction extends KualiTransactionalDocumentActionBase {
 
-    public ContractsGrantsLOCReviewDocumentAction() {
+    public ContractsGrantsLetterOfCreditReviewDocumentAction() {
         super();
     }
 
     /**
-     * Do initialization for a new Contracts Grants LOC Review Document
+     * Do initialization for a new Contracts Grants LetterOfCredit Review Document
      *
      * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#createDocument(org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase)
      */
     @Override
     protected void createDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
         super.createDocument(kualiDocumentFormBase);
-        ((ContractsGrantsLOCReviewDocument) kualiDocumentFormBase.getDocument()).initiateDocument();
+        ((ContractsGrantsLetterOfCreditReviewDocument) kualiDocumentFormBase.getDocument()).initiateDocument();
     }
 
 
@@ -84,16 +84,16 @@ public class ContractsGrantsLOCReviewDocumentAction extends KualiTransactionalDo
      */
     public ActionForward clearInitTab(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        ContractsGrantsLOCReviewDocumentForm contractsGrantsLOCReviewDocumentForm = (ContractsGrantsLOCReviewDocumentForm) form;
-        ContractsGrantsLOCReviewDocument contractsGrantsLOCReviewDocument = (ContractsGrantsLOCReviewDocument) contractsGrantsLOCReviewDocumentForm.getDocument();
-        contractsGrantsLOCReviewDocument.clearInitFields();
+        ContractsGrantsLetterOfCreditReviewDocumentForm contractsGrantsLetterOfCreditReviewDocumentForm = (ContractsGrantsLetterOfCreditReviewDocumentForm) form;
+        ContractsGrantsLetterOfCreditReviewDocument contractsGrantsLetterOfCreditReviewDocument = (ContractsGrantsLetterOfCreditReviewDocument) contractsGrantsLetterOfCreditReviewDocumentForm.getDocument();
+        contractsGrantsLetterOfCreditReviewDocument.clearInitFields();
 
         return super.refresh(mapping, form, request, response);
     }
 
     /**
      * Handles continue request. This request comes from the initial screen which gives Letter of Credit Fund Group and other
-     * details Based on that, the contracts grants LOC Review document is initially populated.
+     * details Based on that, the contracts grants LetterOfCredit Review document is initially populated.
      *
      * @param mapping An ActionMapping
      * @param form An ActionForm
@@ -104,18 +104,18 @@ public class ContractsGrantsLOCReviewDocumentAction extends KualiTransactionalDo
      */
     public ActionForward continueLOCReview(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        ContractsGrantsLOCReviewDocumentForm contractsGrantsLOCReviewDocumentForm = (ContractsGrantsLOCReviewDocumentForm) form;
-        ContractsGrantsLOCReviewDocument contractsGrantsLOCReviewDocument = (ContractsGrantsLOCReviewDocument) contractsGrantsLOCReviewDocumentForm.getDocument();
+        ContractsGrantsLetterOfCreditReviewDocumentForm contractsGrantsLetterOfCreditReviewDocumentForm = (ContractsGrantsLetterOfCreditReviewDocumentForm) form;
+        ContractsGrantsLetterOfCreditReviewDocument contractsGrantsLetterOfCreditReviewDocument = (ContractsGrantsLetterOfCreditReviewDocument) contractsGrantsLetterOfCreditReviewDocumentForm.getDocument();
 
-        if (StringUtils.isEmpty(contractsGrantsLOCReviewDocument.getLetterOfCreditFundGroupCode()) || StringUtils.isBlank(contractsGrantsLOCReviewDocument.getLetterOfCreditFundGroupCode())) {
+        if (StringUtils.isEmpty(contractsGrantsLetterOfCreditReviewDocument.getLetterOfCreditFundGroupCode()) || StringUtils.isBlank(contractsGrantsLetterOfCreditReviewDocument.getLetterOfCreditFundGroupCode())) {
             GlobalVariables.getMessageMap().putError("letterOfCreditFundGroup", KFSKeyConstants.ERROR_REQUIRED, "Letter of Credit Fund Group");
         }
         else {
-            ContractsGrantsLOCReviewDocument document = (ContractsGrantsLOCReviewDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(contractsGrantsLOCReviewDocument.getDocumentNumber());
+            ContractsGrantsLetterOfCreditReviewDocument document = (ContractsGrantsLetterOfCreditReviewDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(contractsGrantsLetterOfCreditReviewDocument.getDocumentNumber());
             if (ObjectUtils.isNull(document)) {
-                contractsGrantsLOCReviewDocument.getDocumentHeader().setDocumentDescription("LOC Review Document.");
-                contractsGrantsLOCReviewDocument.populateContractsGrantsLOCReviewDetails();
-                SpringContext.getBean(DocumentService.class).saveDocument(contractsGrantsLOCReviewDocument);
+                contractsGrantsLetterOfCreditReviewDocument.getDocumentHeader().setDocumentDescription("Letter Of Credit Review Document.");
+                contractsGrantsLetterOfCreditReviewDocument.populateContractsGrantsLOCReviewDetails();
+                SpringContext.getBean(DocumentService.class).saveDocument(contractsGrantsLetterOfCreditReviewDocument);
             }
             // To set the initial view to hide details.
         }
@@ -136,24 +136,24 @@ public class ContractsGrantsLOCReviewDocumentAction extends KualiTransactionalDo
      */
     public ActionForward recalculateAmountToDraw(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        ContractsGrantsLOCReviewDocumentForm contractsGrantsLOCReviewDocumentForm = (ContractsGrantsLOCReviewDocumentForm) form;
-        ContractsGrantsLOCReviewDocument contractsGrantsLOCReviewDocument = (ContractsGrantsLOCReviewDocument) contractsGrantsLOCReviewDocumentForm.getDocument();
+        ContractsGrantsLetterOfCreditReviewDocumentForm contractsGrantsLetterOfCreditReviewDocumentForm = (ContractsGrantsLetterOfCreditReviewDocumentForm) form;
+        ContractsGrantsLetterOfCreditReviewDocument contractsGrantsLetterOfCreditReviewDocument = (ContractsGrantsLetterOfCreditReviewDocument) contractsGrantsLetterOfCreditReviewDocumentForm.getDocument();
 
         int indexOfLineToRecalculate = getSelectedLine(request);
-        ContractsGrantsLOCReviewDetail contractsGrantsLOCReviewDetail = contractsGrantsLOCReviewDocument.getHeaderReviewDetails().get(indexOfLineToRecalculate);
-        contractsGrantsLOCReviewDetail.setAmountToDraw(KualiDecimal.ZERO);// clear the cca amount to draw.
-        contractsGrantsLOCReviewDetail.setClaimOnCashBalance(KualiDecimal.ZERO);// clear the cca claim on cash balance
-        for (ContractsGrantsLOCReviewDetail detail : contractsGrantsLOCReviewDocument.getAccountReviewDetails()) {
+        ContractsGrantsLetterOfCreditReviewDetail contractsGrantsLetterOfCreditReviewDetail = contractsGrantsLetterOfCreditReviewDocument.getHeaderReviewDetails().get(indexOfLineToRecalculate);
+        contractsGrantsLetterOfCreditReviewDetail.setAmountToDraw(KualiDecimal.ZERO);// clear the cca amount to draw.
+        contractsGrantsLetterOfCreditReviewDetail.setClaimOnCashBalance(KualiDecimal.ZERO);// clear the cca claim on cash balance
+        for (ContractsGrantsLetterOfCreditReviewDetail detail : contractsGrantsLetterOfCreditReviewDocument.getAccountReviewDetails()) {
             // To set amount to Draw to 0 if there are blank values, to avoid exceptions.
             if (ObjectUtils.isNull(detail.getAmountToDraw()) || detail.getAmountToDraw().isNegative()) {
                 detail.setAmountToDraw(KualiDecimal.ZERO);
             }
 
-            if (detail.getProposalNumber().equals(contractsGrantsLOCReviewDetail.getProposalNumber())) {// To get the appropriate
+            if (detail.getProposalNumber().equals(contractsGrantsLetterOfCreditReviewDetail.getProposalNumber())) {// To get the appropriate
                                                                                                         // individual award account
                                                                                                         // rows.
-                contractsGrantsLOCReviewDetail.setAmountToDraw(contractsGrantsLOCReviewDetail.getAmountToDraw().add(detail.getAmountToDraw()));
-                contractsGrantsLOCReviewDetail.setClaimOnCashBalance(contractsGrantsLOCReviewDetail.getClaimOnCashBalance().add(detail.getClaimOnCashBalance()));
+                contractsGrantsLetterOfCreditReviewDetail.setAmountToDraw(contractsGrantsLetterOfCreditReviewDetail.getAmountToDraw().add(detail.getAmountToDraw()));
+                contractsGrantsLetterOfCreditReviewDetail.setClaimOnCashBalance(contractsGrantsLetterOfCreditReviewDetail.getClaimOnCashBalance().add(detail.getClaimOnCashBalance()));
 
             }
 
@@ -180,8 +180,8 @@ public class ContractsGrantsLOCReviewDocumentAction extends KualiTransactionalDo
      * @throws Exception
      */
     public ActionForward export(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ContractsGrantsLOCReviewDocumentForm locForm = (ContractsGrantsLOCReviewDocumentForm) form;
-        ContractsGrantsLOCReviewDocument document = (ContractsGrantsLOCReviewDocument) locForm.getDocument();
+        ContractsGrantsLetterOfCreditReviewDocumentForm locForm = (ContractsGrantsLetterOfCreditReviewDocumentForm) form;
+        ContractsGrantsLetterOfCreditReviewDocument document = (ContractsGrantsLetterOfCreditReviewDocument) locForm.getDocument();
         String docId = document.getDocumentNumber();
         String fundCode = document.getLetterOfCreditFundCode();
         String groupCode = document.getLetterOfCreditFundGroupCode();
@@ -189,7 +189,7 @@ public class ContractsGrantsLOCReviewDocumentAction extends KualiTransactionalDo
             GlobalVariables.getMessageMap().putError("letterOfCreditFundGroup", KFSKeyConstants.ERROR_REQUIRED, "Letter of Credit Fund Group");
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
-        ContractsGrantsLOCReviewDocument contractsGrantsLOCReviewDocument = (ContractsGrantsLOCReviewDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(docId);
+        ContractsGrantsLetterOfCreditReviewDocument contractsGrantsLOCReviewDocument = (ContractsGrantsLetterOfCreditReviewDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(docId);
         if (ObjectUtils.isNull(contractsGrantsLOCReviewDocument)) {
             document.getDocumentHeader().setDocumentDescription("LOC Review Document");
             document.populateContractsGrantsLOCReviewDetails();
@@ -225,8 +225,8 @@ public class ContractsGrantsLOCReviewDocumentAction extends KualiTransactionalDo
      */
     public ActionForward print(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         String basePath = getApplicationBaseUrl();
-        ContractsGrantsLOCReviewDocumentForm locForm = (ContractsGrantsLOCReviewDocumentForm) form;
-        ContractsGrantsLOCReviewDocument document = (ContractsGrantsLOCReviewDocument) locForm.getDocument();
+        ContractsGrantsLetterOfCreditReviewDocumentForm locForm = (ContractsGrantsLetterOfCreditReviewDocumentForm) form;
+        ContractsGrantsLetterOfCreditReviewDocument document = (ContractsGrantsLetterOfCreditReviewDocument) locForm.getDocument();
         String docId = document.getDocumentNumber();
         String fundCode = document.getLetterOfCreditFundCode();
         String groupCode = document.getLetterOfCreditFundGroupCode();
@@ -234,7 +234,7 @@ public class ContractsGrantsLOCReviewDocumentAction extends KualiTransactionalDo
             GlobalVariables.getMessageMap().putError("letterOfCreditFundGroup", KFSKeyConstants.ERROR_REQUIRED, "Letter of Credit Fund Group");
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
-        ContractsGrantsLOCReviewDocument contractsGrantsLOCReviewDocument = (ContractsGrantsLOCReviewDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(docId);
+        ContractsGrantsLetterOfCreditReviewDocument contractsGrantsLOCReviewDocument = (ContractsGrantsLetterOfCreditReviewDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(docId);
         if (ObjectUtils.isNull(contractsGrantsLOCReviewDocument)) {
             document.getDocumentHeader().setDocumentDescription("LOC Review Document");
             document.populateContractsGrantsLOCReviewDetails();
@@ -263,7 +263,7 @@ public class ContractsGrantsLOCReviewDocumentAction extends KualiTransactionalDo
      */
     public ActionForward printInvoicePDF(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         String invoiceDocId = request.getParameter(KFSConstants.PARAMETER_DOC_ID);
-        ContractsGrantsLOCReviewDocument contractsGrantsLOCReviewDocument = (ContractsGrantsLOCReviewDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(invoiceDocId);
+        ContractsGrantsLetterOfCreditReviewDocument contractsGrantsLOCReviewDocument = (ContractsGrantsLetterOfCreditReviewDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(invoiceDocId);
         if (ObjectUtils.isNotNull(contractsGrantsLOCReviewDocument)) {
             ContractsGrantsInvoiceReportService reportService = SpringContext.getBean(ContractsGrantsInvoiceReportService.class);
             byte[] report = reportService.generateInvoice(contractsGrantsLOCReviewDocument);

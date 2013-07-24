@@ -20,16 +20,16 @@ import java.util.Set;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.ar.ArAuthorizationConstants;
 import org.kuali.kfs.module.ar.ArConstants;
-import org.kuali.kfs.module.ar.document.ContractsGrantsLOCReviewDocument;
+import org.kuali.kfs.module.ar.document.ContractsGrantsLetterOfCreditReviewDocument;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentPresentationControllerBase;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
- * Contracts Grants LOC Review Document Presentation Controller.
+ * Contracts Grants Letter Of Credit Review Document Presentation Controller.
  */
-public class ContractsGrantsLOCReviewDocumentPresentationController extends FinancialSystemTransactionalDocumentPresentationControllerBase {
+public class ContractsGrantsLetterOfCreditReviewDocumentPresentationController extends FinancialSystemTransactionalDocumentPresentationControllerBase {
 
     /**
      * @see org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentPresentationControllerBase#getEditModes(org.kuali.rice.krad.document.Document)
@@ -38,7 +38,7 @@ public class ContractsGrantsLOCReviewDocumentPresentationController extends Fina
     public Set<String> getEditModes(Document document) {
 
         Set<String> editModes = super.getEditModes(document);
-        ContractsGrantsLOCReviewDocument contractsGrantsLOCReviewDocument = (ContractsGrantsLOCReviewDocument) document;
+        ContractsGrantsLetterOfCreditReviewDocument contractsGrantsLOCReviewDocument = (ContractsGrantsLetterOfCreditReviewDocument) document;
 
         if (StringUtils.equals(contractsGrantsLOCReviewDocument.getStatusCode(), ArConstants.CustomerCreditMemoStatuses.INITIATE)) {
             editModes.add(ArAuthorizationConstants.CustomerCreditMemoEditMode.DISPLAY_INIT_TAB);
@@ -87,7 +87,7 @@ public class ContractsGrantsLOCReviewDocumentPresentationController extends Fina
      * Returns true if the document passed in is in initiated status.
      */
     protected boolean isDocStatusCodeInitiated(Document document) {
-        ContractsGrantsLOCReviewDocument contractsGrantsLOCReviewDocument = (ContractsGrantsLOCReviewDocument) document;
+        ContractsGrantsLetterOfCreditReviewDocument contractsGrantsLOCReviewDocument = (ContractsGrantsLetterOfCreditReviewDocument) document;
         return (StringUtils.equals(contractsGrantsLOCReviewDocument.getStatusCode(), ArConstants.CustomerCreditMemoStatuses.INITIATE));
     }
 

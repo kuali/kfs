@@ -117,11 +117,11 @@ public interface ContractsAndGrantsCGBAwardAccount extends MutableInactivatable,
     public KualiDecimal getAmountToDraw();
 
     /**
-     * Gets the locReviewIndicator attribute.
+     * Gets the letterOfCreditReviewIndicator attribute.
      *
-     * @return Returns the locReviewIndicator.
+     * @return Returns the letterOfCreditReviewIndicator.
      */
-    public boolean isLocReviewIndicator();
+    public boolean isLetterOfCreditReviewIndicator();
 
     public String getInvoiceDocumentStatus();
 }

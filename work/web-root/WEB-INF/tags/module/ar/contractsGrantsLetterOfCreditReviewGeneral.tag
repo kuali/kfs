@@ -16,7 +16,7 @@
 <%@ include file="/jsp/sys/kfsTldHeader.jsp"%>
 
 
-<c:set var="documentAttributes" value="${DataDictionary.ContractsGrantsLOCReviewDocument.attributes}" />
+<c:set var="documentAttributes" value="${DataDictionary.ContractsGrantsLetterOfCreditReviewDocument.attributes}" />
 <c:set var="awardAttributes" value="${DataDictionary.Award.attributes}" />
 
 <kul:tab tabTitle="General" defaultOpen="true">

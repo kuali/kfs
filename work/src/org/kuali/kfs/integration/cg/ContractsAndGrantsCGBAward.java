@@ -232,11 +232,11 @@ public interface ContractsAndGrantsCGBAward extends ExternalizableBusinessObject
     public String getAgencyNumber();
 
     /**
-     * Gets the locCreationType attribute.
+     * Gets the letterOfCreditCreationType attribute.
      *
-     * @return Returns the locCreationType.
+     * @return Returns the letterOfCreditCreationType.
      */
-    public String getLocCreationType();
+    public String getLetterOfCreditCreationType();
 
     /**
      * Gets the federalPassThroughAgencyNumber attribute.

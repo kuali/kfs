@@ -17,11 +17,11 @@
 
 
 <!-- If there are no bills, this section should not be displayed -->
-<kul:tab tabTitle="Award Accounts" defaultOpen="true" tabErrorKey="document.contractsGrantsLOCReviewDetails*">
-	<c:set var="contractsGrantsLOCReviewDetailAttributes" value="${DataDictionary.ContractsGrantsLOCReviewDetail.attributes}" />
+<kul:tab tabTitle="Award Accounts" defaultOpen="true" tabErrorKey="document.contractsGrantsLetterOfCreditReviewDetails*">
+	<c:set var="contractsGrantsLetterOfCreditReviewDetailAttributes" value="${DataDictionary.ContractsGrantsLetterOfCreditReviewDetail.attributes}" />
 	<%@ attribute name="invPropertyName" required="true" description="Name of form property containing the customer invoice source accounting line."%>
 	<c:set var="readOnly" value="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />
-	<c:set var="detailPropertyName" value="document.contractsGrantsLOCReviewDetails[${ctr}]" />
+	<c:set var="detailPropertyName" value="document.contractsGrantsLetterOfCreditReviewDetails[${ctr}]" />
 
 	<div class="tab-container" align="center">
 		<h3>Award Accounts</h3>
@@ -30,7 +30,7 @@
 			<logic:iterate indexId="counter" name="KualiForm" property="proposalNumbers" id="proposalNumber">
 				<tr>
 					<th width="5%" align="center">Award (${KualiForm.proposalNumbers[counter] }):</th>
-					<td><ar:contractsGrantsLOCReviewDetail proposalNumberValue="${KualiForm.proposalNumbers[counter] }" /></td>
+					<td><ar:contractsGrantsLetterOfCreditReviewDetail proposalNumberValue="${KualiForm.proposalNumbers[counter] }" /></td>
 				</tr>
 			</logic:iterate>
 		</table>

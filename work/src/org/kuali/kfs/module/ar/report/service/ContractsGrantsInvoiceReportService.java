@@ -27,7 +27,7 @@ import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAgency;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAward;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
-import org.kuali.kfs.module.ar.document.ContractsGrantsLOCReviewDocument;
+import org.kuali.kfs.module.ar.document.ContractsGrantsLetterOfCreditReviewDocument;
 import org.kuali.kfs.module.ar.report.ContractsGrantsReportDataHolder;
 
 import com.lowagie.text.DocumentException;
@@ -52,7 +52,7 @@ public interface ContractsGrantsInvoiceReportService extends ContractsGrantsRepo
      * @param document
      * @return Byte array is returned so a file is not created on the server.
      */
-    public byte[] generateInvoice(ContractsGrantsLOCReviewDocument document);
+    public byte[] generateInvoice(ContractsGrantsLetterOfCreditReviewDocument document);
 
     /**
      * This method generates the federal financial forms (425 and 425A) for Contracts and Grants.
@@ -101,5 +101,5 @@ public interface ContractsGrantsInvoiceReportService extends ContractsGrantsRepo
      * @param contractsGrantsLOCReviewDocument
      * @return Byte array is returned so a file is not created on the server.
      */
-    public byte[] generateCSVToExport(ContractsGrantsLOCReviewDocument contractsGrantsLOCReviewDocument);
+    public byte[] generateCSVToExport(ContractsGrantsLetterOfCreditReviewDocument contractsGrantsLOCReviewDocument);
 }

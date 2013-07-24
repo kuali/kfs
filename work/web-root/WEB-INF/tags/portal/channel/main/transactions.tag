@@ -32,7 +32,7 @@
 					url="arContractsGrantsInvoiceOnDemandLookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.ContractsGrantsInvoiceOnDemandLookupResult&docFormKey=88888888&returnLocation=portal.do&hideReturnLink=true" /></li>
 			<li><portal:portalLink displayTitle="true"
 					title="Contracts Grants LOC Review"
-					url="arContractsGrantsLOCReviewDocument.do?methodToCall=docHandler&command=initiate&docTypeName=CGLR" /></li>			
+					url="arContractsGrantsLetterOfCreditReviewDocument.do?methodToCall=docHandler&command=initiate&docTypeName=CGLR" /></li>			
 			<li><portal:portalLink displayTitle="true"
 					title="Customer Credit Memo"
 					url="arCustomerCreditMemoDocument.do?methodToCall=docHandler&command=initiate&docTypeName=CRM" /></li>

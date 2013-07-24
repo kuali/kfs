@@ -40,12 +40,12 @@ import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAward;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAwardAccount;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
-import org.kuali.kfs.module.ar.businessobject.ContractsGrantsLOCReviewDetail;
+import org.kuali.kfs.module.ar.businessobject.ContractsGrantsLetterOfCreditReviewDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoiceAgencyAddressDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoicePaidApplied;
 import org.kuali.kfs.module.ar.businessobject.SystemInformation;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
-import org.kuali.kfs.module.ar.document.ContractsGrantsLOCReviewDocument;
+import org.kuali.kfs.module.ar.document.ContractsGrantsLetterOfCreditReviewDocument;
 import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService;
 import org.kuali.kfs.module.ar.report.ContractsGrantsReportDataHolder;
 import org.kuali.kfs.module.ar.report.service.ContractsGrantsInvoiceReportService;
@@ -121,7 +121,7 @@ public class ContractsGrantsInvoiceReportServiceImpl extends ContractsGrantsRepo
      * @see org.kuali.kfs.module.ar.report.service.ContractsGrantsInvoiceReportService#generateInvoice(org.kuali.kfs.module.ar.document.ContractsGrantsLOCReviewDocument)
      */
     @Override
-    public byte[] generateInvoice(ContractsGrantsLOCReviewDocument document) {
+    public byte[] generateInvoice(ContractsGrantsLetterOfCreditReviewDocument document) {
         Date runDate = new Date();
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         this.generateInvoiceInPdf(baos, document);
@@ -134,7 +134,7 @@ public class ContractsGrantsInvoiceReportServiceImpl extends ContractsGrantsRepo
      * @param os
      * @param LOCDocument
      */
-    private void generateInvoiceInPdf(OutputStream os, ContractsGrantsLOCReviewDocument LOCDocument) {
+    private void generateInvoiceInPdf(OutputStream os, ContractsGrantsLetterOfCreditReviewDocument LOCDocument) {
         try {
             Document document = new Document(new Rectangle(1350, 595));
             PdfWriter.getInstance(document, os);
@@ -183,7 +183,7 @@ public class ContractsGrantsInvoiceReportServiceImpl extends ContractsGrantsRepo
             table.setHorizontalAlignment(0);
             addAwardHeaders(table);
             if (CollectionUtils.isNotEmpty(LOCDocument.getHeaderReviewDetails()) && CollectionUtils.isNotEmpty(LOCDocument.getAccountReviewDetails())) {
-                for (ContractsGrantsLOCReviewDetail item : LOCDocument.getHeaderReviewDetails()) {
+                for (ContractsGrantsLetterOfCreditReviewDetail item : LOCDocument.getHeaderReviewDetails()) {
                     table.addCell(returnProperStringValue(item.getProposalNumber()));
                     table.addCell(returnProperStringValue(item.getAwardDocumentNumber()));
                     table.addCell(returnProperStringValue(item.getAgencyNumber()));
@@ -191,7 +191,7 @@ public class ContractsGrantsInvoiceReportServiceImpl extends ContractsGrantsRepo
                     table.addCell(returnProperStringValue(item.getAwardBeginningDate()));
                     table.addCell(returnProperStringValue(item.getAwardEndingDate()));
                     table.addCell(returnProperStringValue(item.getAwardBudgetAmount()));
-                    table.addCell(returnProperStringValue(item.getLocAmount()));
+                    table.addCell(returnProperStringValue(item.getLetterOfCreditAmount()));
                     table.addCell(returnProperStringValue(item.getClaimOnCashBalance()));
                     table.addCell(returnProperStringValue(item.getAmountToDraw()));
                     table.addCell(returnProperStringValue(item.getAmountAvailableToDraw()));
@@ -209,7 +209,7 @@ public class ContractsGrantsInvoiceReportServiceImpl extends ContractsGrantsRepo
                     newTable.setWidths(newWidths);
                     newTable.setHorizontalAlignment(0);
                     addAccountsHeaders(newTable);
-                    for (ContractsGrantsLOCReviewDetail newItem : LOCDocument.getAccountReviewDetails()) {
+                    for (ContractsGrantsLetterOfCreditReviewDetail newItem : LOCDocument.getAccountReviewDetails()) {
                         if (item.getProposalNumber().equals(newItem.getProposalNumber())) {
                             newTable.addCell(returnProperStringValue(newItem.getAccountDescription()));
                             newTable.addCell(returnProperStringValue(newItem.getChartOfAccountsCode()));
@@ -882,7 +882,7 @@ public class ContractsGrantsInvoiceReportServiceImpl extends ContractsGrantsRepo
      * @see org.kuali.kfs.module.ar.report.service.ContractsGrantsInvoiceReportService#generateCSVToExport(org.kuali.kfs.module.ar.document.ContractsGrantsLOCReviewDocument)
      */
     @Override
-    public byte[] generateCSVToExport(ContractsGrantsLOCReviewDocument LOCDocument) {
+    public byte[] generateCSVToExport(ContractsGrantsLetterOfCreditReviewDocument LOCDocument) {
         try {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             OutputStreamWriter writer = new OutputStreamWriter(baos);
@@ -899,11 +899,11 @@ public class ContractsGrantsInvoiceReportServiceImpl extends ContractsGrantsRepo
             writer.append('\n');
 
             if (CollectionUtils.isNotEmpty(LOCDocument.getHeaderReviewDetails()) && CollectionUtils.isNotEmpty(LOCDocument.getAccountReviewDetails())) {
-                for (ContractsGrantsLOCReviewDetail item : LOCDocument.getHeaderReviewDetails()) {
+                for (ContractsGrantsLetterOfCreditReviewDetail item : LOCDocument.getHeaderReviewDetails()) {
                     String proposalNumber = returnProperStringValue(item.getProposalNumber());
                     String awardDocumentNumber = returnProperStringValue(item.getAwardDocumentNumber());
 
-                    for (ContractsGrantsLOCReviewDetail newItem : LOCDocument.getAccountReviewDetails()) {
+                    for (ContractsGrantsLetterOfCreditReviewDetail newItem : LOCDocument.getAccountReviewDetails()) {
                         if (item.getProposalNumber().equals(newItem.getProposalNumber())) {
                             writer.append("\"" + proposalNumber + "\"");
                             writer.append(',');

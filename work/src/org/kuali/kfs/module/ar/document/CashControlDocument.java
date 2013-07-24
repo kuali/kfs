@@ -83,7 +83,7 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
 
     protected String referenceFinancialDocumentNumber;
     protected String invoiceDocumentType;// this document type variable would help in differentiating Customer and CG Invoices
-    protected String locCreationType;// To categorize the CG Invoices based on Award LOC Type
+    protected String letterOfCreditCreationType;// To categorize the CG Invoices based on Award LOC Type
     protected Long proposalNumber;// When LOC Type = Award
     protected String letterOfCreditFundGroupCode;// When LOC Type = LOC Fund
     protected String letterOfCreditFundCode;// When LOC Type = LOC Fund Group
@@ -798,21 +798,21 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
     }
 
     /**
-     * Gets the locCreationType attribute.
+     * Gets the letterOfCreditCreationType attribute.
      *
-     * @return Returns the locCreationType.
+     * @return Returns the letterOfCreditCreationType.
      */
-    public String getLocCreationType() {
-        return locCreationType;
+    public String getLetterOfCreditCreationType() {
+        return letterOfCreditCreationType;
     }
 
     /**
-     * Sets the locCreationType attribute value.
+     * Sets the letterOfCreditCreationType attribute value.
      *
-     * @param locCreationType The locCreationType to set.
+     * @param letterOfCreditCreationType The letterOfCreditCreationType to set.
      */
-    public void setLocCreationType(String locCreationType) {
-        this.locCreationType = locCreationType;
+    public void setLetterOfCreditCreationType(String letterOfCreditCreationType) {
+        this.letterOfCreditCreationType = letterOfCreditCreationType;
     }
 
     /**
@@ -998,7 +998,7 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
             accountsReceivableDocumentHeader.setProcessingChartOfAccountCode(this.getAccountsReceivableDocumentHeader().getProcessingChartOfAccountCode());
             accountsReceivableDocumentHeader.setProcessingOrganizationCode(this.getAccountsReceivableDocumentHeader().getProcessingOrganizationCode());
 
-            cashControlDoc.setLocCreationType(this.getLocCreationType());
+            cashControlDoc.setLetterOfCreditCreationType(this.getLetterOfCreditCreationType());
             cashControlDoc.setLetterOfCreditFundGroupCode(this.getLetterOfCreditFundGroupCode());
             cashControlDoc.setLetterOfCreditFundCode(this.getLetterOfCreditFundCode());
 

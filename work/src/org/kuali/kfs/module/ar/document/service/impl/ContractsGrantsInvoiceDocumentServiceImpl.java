@@ -141,7 +141,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
     private CollectorHierarchyDao collectorHierarchyDao;
     public static final String REPORT_LINE_DIVIDER = "--------------------------------------------------------------------------------------------------------------";
     private static final SimpleDateFormat FILE_NAME_TIMESTAMP = new SimpleDateFormat("MM-dd-yyyy");
-    
+
     public void setVerifyBillingFrequencyService(VerifyBillingFrequencyService verifyBillingFrequencyService) {
         this.verifyBillingFrequencyService = verifyBillingFrequencyService;
     }
@@ -3008,11 +3008,12 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             }
         }
     }
-    
+
 
     /**
      * This method generates the attached invoices for the agency addresses in the Contracts and Grants Invoice Document.
      */
+    @Override
     public void generateInvoicesForAgencyAddresses(ContractsGrantsInvoiceDocument document) {
         ContractsAndGrantsInvoiceTemplate invoiceTemplate = null;
         Iterator<InvoiceAgencyAddressDetail> iterator = document.getAgencyAddressDetails().iterator();
@@ -3119,7 +3120,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             }
         }
     }
-    
+
     /**
      * Returns a proper String Value. Also returns proper value for currency (USD)
      *
@@ -3136,7 +3137,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         }
         return "";
     }
-    
+
     /**
      * This method generated the template parameter list to populate the pdf invoices that are attached to the Document.
      *
@@ -3400,7 +3401,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             }
             return parameterMap;
     }
-    
+
     /**
      * Returns true if the billing Frequency is Predetermined Billing.
      *
@@ -3412,7 +3413,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         }
         return false;
     }
-    
+
     /**
      * iText compatible boolean value converter.
      *
@@ -3425,7 +3426,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         }
         return "Off";
     }
-    
+
     /**
      * returns proper contract control Account Number.
      *
@@ -3437,10 +3438,11 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         }
         return accountDetails.get(0).getContractControlAccountNumber();
     }
-    
+
     /**
      * This method updates the awardAccounts when the final invoice is generated.
      */
+    @Override
     public void doWhenFinalInvoice(ContractsGrantsInvoiceDocument document) {
         if (document.getInvoiceGeneralDetail().isFinalBillIndicator()) {
             Iterator it = document.getAccountDetails().iterator();
@@ -3450,13 +3452,14 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             }
         }
     }
-    
+
     /**
      * This method sets the last billed date to Award and Award Account objects based on the status of the invoice. Final or
      * Corrected.
      *
      * @param invoiceStatus
      */
+    @Override
     public void updateLastBilledDate(String invoiceStatus,ContractsGrantsInvoiceDocument document) {
         // To calculate and update Last Billed Date based on the status of the invoice. Final or Corrected.
         // 1. Set last Billed Date to Award Accounts
@@ -3510,6 +3513,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
      *
      * @param string
      */
+    @Override
     public void updateBillsAndMilestones(String string,List<InvoiceMilestone> invoiceMilestones,List<InvoiceBill> invoiceBills) {
         updateMilestonesIsItBilled(string,invoiceMilestones);
         updateBillsIsItBilled(string,invoiceBills);
@@ -3563,7 +3567,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             }
         }
     }
-    
+
     /**
      * This method updates the ContractsAndGrantsCGBAwardAccount object's FinalBilled Variable with the value provided
      *
@@ -3579,10 +3583,11 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         // To set final Billed to award Account
         SpringContext.getBean(ContractsAndGrantsModuleUpdateService.class).setFinalBilledToAwardAccount(mapKey, value);
     }
-    
+
     /**
      * This method updates AwardAccounts
      */
+    @Override
     public void updateUnfinalizationToAwardAccount(List<InvoiceAccountDetail> accountDetails,Long proposalNumber) {
         Iterator iterator = accountDetails.iterator();
         while (iterator.hasNext()) {
@@ -3590,12 +3595,13 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             setAwardAccountFinalBilledValue(id, false,proposalNumber);
         }
     }
-    
+
     /**
      * Corrects the Contracts and Grants Invoice Document.
      *
      * @throws WorkflowException
      */
+    @Override
     public void correctContractsGrantsInvoiceDocument(ContractsGrantsInvoiceDocument document) throws WorkflowException {
         Iterator iterator = document.getInvoiceDetails().iterator();
         // correct Invoice Details.
@@ -3669,12 +3675,13 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         document.setDateReportProcessed(null);
 
     }
-    
+
     /**
      * This method corrects the Maintenance Document for Predetermined Billing
      *
      * @throws WorkflowException
      */
+    @Override
     public void correctBills(List<InvoiceBill> invoiceBills) throws WorkflowException {
         updateBillsIsItBilled(KFSConstants.ParameterValues.STRING_NO,invoiceBills);
     }
@@ -3684,16 +3691,18 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
      *
      * @throws WorkflowException
      */
+    @Override
     public void correctMilestones(List<InvoiceMilestone> invoiceMilestones) throws WorkflowException {
         updateMilestonesIsItBilled(KFSConstants.ParameterValues.STRING_NO,invoiceMilestones);
     }
-    
+
     /**
      * This method takes all the applicable attributes from the associated award object and sets those attributes into their
      * corresponding invoice attributes.
      *
      * @param award The associated award that the invoice will be linked to.
      */
+    @Override
     public void populateInvoiceFromAward(ContractsAndGrantsCGBAward award, List<ContractsAndGrantsCGBAwardAccount> awardAccounts,ContractsGrantsInvoiceDocument document) {
         List<ContractsAndGrantsMilestone> milestones = new ArrayList<ContractsAndGrantsMilestone>();
         List<ContractsAndGrantsBill> bills = new ArrayList<ContractsAndGrantsBill>();
@@ -3834,7 +3843,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
         }
     }
-    
+
 
     /**
      * This method helps in setting up basic values for Contracts Grants Invoice Document
@@ -3853,8 +3862,8 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         document.setOpenInvoiceIndicator(true);
 
         // To set LOC creation type and appropriate values from award.
-        if (StringUtils.isNotEmpty(award.getLocCreationType())) {
-            document.setLocCreationType(award.getLocCreationType());
+        if (StringUtils.isNotEmpty(award.getLetterOfCreditCreationType())) {
+            document.setLetterOfCreditCreationType(award.getLetterOfCreditCreationType());
         }
         // To set up values for Letter of Credit Fund and Fund Group irrespective of the LOC Creation type.
         if (StringUtils.isNotEmpty(award.getLetterOfCreditFundCode())) {
@@ -3942,7 +3951,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             invAcctD.setExpenditureAmount(currentExpenditureAmount);
             // overwriting account detail expenditure amount if locReview Indicator is true - and award belongs to LOC Billing
             for (ContractsAndGrantsCGBAwardAccount awardAccount : award.getActiveAwardAccounts()) {
-                if (awardAccount.getAccountNumber().equals(invAcctD.getAccountNumber()) && awardAccount.isLocReviewIndicator() && award.getPreferredBillingFrequency().equalsIgnoreCase(ArPropertyConstants.LOC_BILLING_SCHEDULE_CODE)) {
+                if (awardAccount.getAccountNumber().equals(invAcctD.getAccountNumber()) && awardAccount.isLetterOfCreditReviewIndicator() && award.getPreferredBillingFrequency().equalsIgnoreCase(ArPropertyConstants.LOC_BILLING_SCHEDULE_CODE)) {
                     currentExpenditureAmount = awardAccount.getAmountToDraw();
                     invAcctD.setExpenditureAmount(currentExpenditureAmount);
                 }
@@ -3963,7 +3972,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         }
 
     }
-    
+
     /**
      * @param awardAccounts
      * @param award
@@ -4066,7 +4075,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         // accounting more than one fiscal years.
 
         for (ContractsAndGrantsCGBAwardAccount awdAcct : awardAccounts) {
-            if (awdAcct.isLocReviewIndicator() && award.getPreferredBillingFrequency().equalsIgnoreCase(ArPropertyConstants.LOC_BILLING_SCHEDULE_CODE)) {
+            if (awdAcct.isLetterOfCreditReviewIndicator() && award.getPreferredBillingFrequency().equalsIgnoreCase(ArPropertyConstants.LOC_BILLING_SCHEDULE_CODE)) {
                 KualiDecimal amountToDrawForObjectCodes = KualiDecimal.ZERO;
 
                 List<InvoiceDetailAccountObjectCode> invoiceDetailAccountObjectCodeList = new ArrayList<InvoiceDetailAccountObjectCode>();
@@ -4109,7 +4118,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
         }
     }
-    
+
     /**
      * 1. This method is responsible to populate categories column for the ContractsGrantsInvoice Document. 2. The categories are
      * retrieved from the Maintenance document as a collection and then a logic with conditions to handle ranges of Object Codes. 3.
@@ -4257,7 +4266,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         document.getTotalInvoiceDetails().add(totalInvDetail);
 
     }
-    
+
     /**
      * This method takes a ContractsAndGrantsCategory, retrieves the specified object code or object code range. It then parses this
      * string, and returns all the possible object codes specified by this range.
@@ -4265,6 +4274,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
      * @param category
      * @return Set<String> objectCodes
      */
+    @Override
     public Set<String> getObjectCodeArrayFromSingleCategory(ContractsAndGrantsCategories category,ContractsGrantsInvoiceDocument document) throws IllegalArgumentException {
         Set<String> objectCodeArray = new HashSet<String>();
         Set<String> levels = new HashSet<String>();

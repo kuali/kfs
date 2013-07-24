@@ -887,7 +887,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
             // then the account is not valid.
             // To make sure that the LOC Review indicator is false so the amounts can be updated.
             for (ContractsAndGrantsCGBAwardAccount awdAcct : awardAccounts) {
-                if (!awdAcct.isLocReviewIndicator()) {
+                if (!awdAcct.isLetterOfCreditReviewIndicator()) {
                     awdAcctsToCheck.add(awdAcct);
                 }
             }

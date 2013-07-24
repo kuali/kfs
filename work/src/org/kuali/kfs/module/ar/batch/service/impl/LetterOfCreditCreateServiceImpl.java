@@ -77,6 +77,7 @@ public class LetterOfCreditCreateServiceImpl implements LetterOfCreditCreateServ
      * @return
      */
 
+    @Override
     public String createCashControlDocuments(String customerNumber, String locCreationType, String locValue, KualiDecimal totalAmount, PrintStream outputFileStream) {
         String documentNumber = null;
 
@@ -92,14 +93,14 @@ public class LetterOfCreditCreateServiceImpl implements LetterOfCreditCreateServ
             accountsReceivableDocumentHeader.setProcessingChartOfAccountCode(defaultProcessingChartCode);
             accountsReceivableDocumentHeader.setProcessingOrganizationCode(defaultProcessingOrgCode);
             if (ObjectUtils.isNotNull(locCreationType) && ObjectUtils.isNotNull(locValue)) {
-                cashControlDoc.setLocCreationType(locCreationType);
-                if (cashControlDoc.getLocCreationType().equalsIgnoreCase(ArConstants.LOC_BY_AWARD)) {
+                cashControlDoc.setLetterOfCreditCreationType(locCreationType);
+                if (cashControlDoc.getLetterOfCreditCreationType().equalsIgnoreCase(ArConstants.LOC_BY_AWARD)) {
                     cashControlDoc.setProposalNumber(new Long(locValue));
                 }
-                else if (cashControlDoc.getLocCreationType().equalsIgnoreCase(ArConstants.LOC_BY_LOC_FUND)) {
+                else if (cashControlDoc.getLetterOfCreditCreationType().equalsIgnoreCase(ArConstants.LOC_BY_LOC_FUND)) {
                     cashControlDoc.setLetterOfCreditFundCode(locValue);
                 }
-                else if (cashControlDoc.getLocCreationType().equalsIgnoreCase(ArConstants.LOC_BY_LOC_FUND_GRP)) {
+                else if (cashControlDoc.getLetterOfCreditCreationType().equalsIgnoreCase(ArConstants.LOC_BY_LOC_FUND_GRP)) {
                     cashControlDoc.setLetterOfCreditFundGroupCode(locValue);
                 }
             }
@@ -153,6 +154,7 @@ public class LetterOfCreditCreateServiceImpl implements LetterOfCreditCreateServ
      * @param outputFileStream
      * @return
      */
+    @Override
     public boolean validatecashControlDocument(String customerNumber, String locCreationType, String locValue, PrintStream outputFileStream) {
         boolean isExists = false;
         Criteria criteria = new Criteria();
@@ -209,6 +211,7 @@ public class LetterOfCreditCreateServiceImpl implements LetterOfCreditCreateServ
      * @return True if the routing was performed successfully. A runtime exception will be thrown if any errors occur while routing.
      *
      */
+    @Override
     public boolean routeLOCDocuments() {
         List<String> cashControlDocumentIdList = null;
         List<String> payAppDocumentIdList = null;

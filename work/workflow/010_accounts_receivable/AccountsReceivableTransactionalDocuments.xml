@@ -409,7 +409,7 @@
 				Contracts and Grants Letter of Credit Review 
       </label>
 			<docHandler>
-				${application.url}/arContractsGrantsLOCReviewDocument.do?methodToCall=docHandler
+				${application.url}/arContractsGrantsLetterOfCreditReviewDocument.do?methodToCall=docHandler
       </docHandler>
 			<helpDefinitionURL>
 				default.htm?turl=WordDocuments%2FContractsGrantsLOCReview.htm

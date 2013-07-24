@@ -16,8 +16,8 @@
 <%@ include file="/jsp/sys/kfsTldHeader.jsp"%>
 
 <kul:documentPage showDocumentInfo="true"
-	documentTypeName="ContractsGrantsLOCReviewDocument"
-	htmlFormAction="arContractsGrantsLOCReviewDocument"
+	documentTypeName="ContractsGrantsLetterOfCreditReviewDocument"
+	htmlFormAction="arContractsGrantsLetterOfCreditReviewDocument"
 	renderMultipart="true" showTabButtons="true">
 
 	<c:set var="readOnly"
@@ -30,7 +30,7 @@
 
 	<!--  Display 1st screen -->
 	<c:if test="${displayInitTab}">
-		<ar:contractsGrantsLOCReviewInit />
+		<ar:contractsGrantsLetterOfCreditReviewInit />
 		<kul:panelFooter />
 	</c:if>
 
@@ -38,10 +38,10 @@
 	<c:if test="${not displayInitTab}">
 		<kul:documentOverview editingMode="${KualiForm.editingMode}" />
 
-		<ar:contractsGrantsLOCReviewGeneral />
+		<ar:contractsGrantsLetterOfCreditReviewGeneral />
 
 
-		<ar:contractsGrantsLOCReviewDetails
+		<ar:contractsGrantsLetterOfCreditReviewDetails
 			invPropertyName="document.ccaReviewDetails[${ctr}]" />
 		<kul:notes />
 		<kul:adHocRecipients />

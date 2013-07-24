@@ -18,33 +18,33 @@
 
 <!-- If there are no bills, this section should not be displayed -->
 
-<c:set var="contractsGrantsLOCReviewDetailAttributes" value="${DataDictionary.ContractsGrantsLOCReviewDetail.attributes}" />
+<c:set var="contractsGrantsLetterOfCreditReviewDetailAttributes" value="${DataDictionary.ContractsGrantsLetterOfCreditReviewDetail.attributes}" />
 
 <%@ attribute name="proposalNumberValue" required="true" description="Name of form property containing the customer invoice source accounting line."%>
 <c:set var="readOnly" value="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />
 
 <table style="width: 100%; border: none" cellpadding="0" cellspacing="0" class="datatable">
 
-	<kul:htmlAttributeHeaderCell attributeEntry="${contractsGrantsLOCReviewDetailAttributes.awardDocumentNumber}" useShortLabel="false"
+	<kul:htmlAttributeHeaderCell attributeEntry="${contractsGrantsLetterOfCreditReviewDetailAttributes.awardDocumentNumber}" useShortLabel="false"
 		hideRequiredAsterisk="true" align="center" />
-	<kul:htmlAttributeHeaderCell attributeEntry="${contractsGrantsLOCReviewDetailAttributes.agencyNumber}" useShortLabel="false"
+	<kul:htmlAttributeHeaderCell attributeEntry="${contractsGrantsLetterOfCreditReviewDetailAttributes.agencyNumber}" useShortLabel="false"
 		hideRequiredAsterisk="true" align="center" />
-	<kul:htmlAttributeHeaderCell attributeEntry="${contractsGrantsLOCReviewDetailAttributes.customerNumber}" useShortLabel="false"
+	<kul:htmlAttributeHeaderCell attributeEntry="${contractsGrantsLetterOfCreditReviewDetailAttributes.customerNumber}" useShortLabel="false"
 		hideRequiredAsterisk="true" width="5%" align="center" />
-	<kul:htmlAttributeHeaderCell attributeEntry="${contractsGrantsLOCReviewDetailAttributes.awardBeginningDate}" useShortLabel="false"
+	<kul:htmlAttributeHeaderCell attributeEntry="${contractsGrantsLetterOfCreditReviewDetailAttributes.awardBeginningDate}" useShortLabel="false"
 		hideRequiredAsterisk="true" align="center" />
-	<kul:htmlAttributeHeaderCell attributeEntry="${contractsGrantsLOCReviewDetailAttributes.awardEndingDate}" useShortLabel="false"
+	<kul:htmlAttributeHeaderCell attributeEntry="${contractsGrantsLetterOfCreditReviewDetailAttributes.awardEndingDate}" useShortLabel="false"
 		hideRequiredAsterisk="true" align="center" />
-	<kul:htmlAttributeHeaderCell attributeEntry="${contractsGrantsLOCReviewDetailAttributes.awardBudgetAmount}" useShortLabel="false"
+	<kul:htmlAttributeHeaderCell attributeEntry="${contractsGrantsLetterOfCreditReviewDetailAttributes.awardBudgetAmount}" useShortLabel="false"
 		hideRequiredAsterisk="true" align="center" />
-	<kul:htmlAttributeHeaderCell attributeEntry="${contractsGrantsLOCReviewDetailAttributes.locAmount}" useShortLabel="false" hideRequiredAsterisk="true"
+	<kul:htmlAttributeHeaderCell attributeEntry="${contractsGrantsLetterOfCreditReviewDetailAttributes.letterOfCreditAmount}" useShortLabel="false" hideRequiredAsterisk="true"
 		align="center" />
 
-	<kul:htmlAttributeHeaderCell attributeEntry="${contractsGrantsLOCReviewDetailAttributes.claimOnCashBalance}" useShortLabel="false"
+	<kul:htmlAttributeHeaderCell attributeEntry="${contractsGrantsLetterOfCreditReviewDetailAttributes.claimOnCashBalance}" useShortLabel="false"
 		hideRequiredAsterisk="true" align="center" />
-	<kul:htmlAttributeHeaderCell attributeEntry="${contractsGrantsLOCReviewDetailAttributes.amountToDraw}" useShortLabel="false"
+	<kul:htmlAttributeHeaderCell attributeEntry="${contractsGrantsLetterOfCreditReviewDetailAttributes.amountToDraw}" useShortLabel="false"
 		hideRequiredAsterisk="true" align="center" />
-	<kul:htmlAttributeHeaderCell attributeEntry="${contractsGrantsLOCReviewDetailAttributes.amountAvailableToDraw}" useShortLabel="false"
+	<kul:htmlAttributeHeaderCell attributeEntry="${contractsGrantsLetterOfCreditReviewDetailAttributes.amountAvailableToDraw}" useShortLabel="false"
 		hideRequiredAsterisk="true" align="center" />
 
 	<logic:iterate indexId="ctr" name="KualiForm" property="document.headerReviewDetails" id="headerReviewDetail">
@@ -53,26 +53,26 @@
 
 			<tr>
 
-				<td class="datacell"><kul:htmlControlAttribute attributeEntry="${contractsGrantsLOCReviewDetailAttributes.awardDocumentNumber}"
+				<td class="datacell"><kul:htmlControlAttribute attributeEntry="${contractsGrantsLetterOfCreditReviewDetailAttributes.awardDocumentNumber}"
 						property="document.headerReviewDetails[${ctr}].awardDocumentNumber" readOnly="true" /></td>
-				<td class="datacell"><kul:htmlControlAttribute attributeEntry="${contractsGrantsLOCReviewDetailAttributes.agencyNumber}"
+				<td class="datacell"><kul:htmlControlAttribute attributeEntry="${contractsGrantsLetterOfCreditReviewDetailAttributes.agencyNumber}"
 						property="document.headerReviewDetails[${ctr}].agencyNumber" readOnly="true" /></td>
-				<td class="datacell" width="5%"><kul:htmlControlAttribute attributeEntry="${contractsGrantsLOCReviewDetailAttributes.customerNumber}"
+				<td class="datacell" width="5%"><kul:htmlControlAttribute attributeEntry="${contractsGrantsLetterOfCreditReviewDetailAttributes.customerNumber}"
 						property="document.headerReviewDetails[${ctr}].customerNumber" readOnly="true" /></td>
-				<td class="datacell"><kul:htmlControlAttribute attributeEntry="${contractsGrantsLOCReviewDetailAttributes.awardBeginningDate}"
+				<td class="datacell"><kul:htmlControlAttribute attributeEntry="${contractsGrantsLetterOfCreditReviewDetailAttributes.awardBeginningDate}"
 						property="document.headerReviewDetails[${ctr}].awardBeginningDate" readOnly="true" /></td>
-				<td class="datacell"><kul:htmlControlAttribute attributeEntry="${contractsGrantsLOCReviewDetailAttributes.awardEndingDate}"
+				<td class="datacell"><kul:htmlControlAttribute attributeEntry="${contractsGrantsLetterOfCreditReviewDetailAttributes.awardEndingDate}"
 						property="document.headerReviewDetails[${ctr}].awardEndingDate" readOnly="true" /></td>
-				<td class="datacell"><kul:htmlControlAttribute attributeEntry="${contractsGrantsLOCReviewDetailAttributes.awardBudgetAmount}"
+				<td class="datacell"><kul:htmlControlAttribute attributeEntry="${contractsGrantsLetterOfCreditReviewDetailAttributes.awardBudgetAmount}"
 						property="document.headerReviewDetails[${ctr}].awardBudgetAmount" readOnly="true" /></td>
-				<td class="datacell"><kul:htmlControlAttribute attributeEntry="${contractsGrantsLOCReviewDetailAttributes.locAmount}"
-						property="document.headerReviewDetails[${ctr}].locAmount" readOnly="true" /></td>
+				<td class="datacell"><kul:htmlControlAttribute attributeEntry="${contractsGrantsLetterOfCreditReviewDetailAttributes.letterOfCreditAmount}"
+						property="document.headerReviewDetails[${ctr}].letterOfCreditAmount" readOnly="true" /></td>
 
-				<td class="datacell"><kul:htmlControlAttribute attributeEntry="${contractsGrantsLOCReviewDetailAttributes.claimOnCashBalance}"
+				<td class="datacell"><kul:htmlControlAttribute attributeEntry="${contractsGrantsLetterOfCreditReviewDetailAttributes.claimOnCashBalance}"
 						property="document.headerReviewDetails[${ctr}].claimOnCashBalance" readOnly="true" /></td>
-				<td class="datacell"><kul:htmlControlAttribute attributeEntry="${contractsGrantsLOCReviewDetailAttributes.amountToDraw}"
+				<td class="datacell"><kul:htmlControlAttribute attributeEntry="${contractsGrantsLetterOfCreditReviewDetailAttributes.amountToDraw}"
 						property="document.headerReviewDetails[${ctr}].amountToDraw" readOnly="true" /></td>
-				<td class="datacell"><kul:htmlControlAttribute attributeEntry="${contractsGrantsLOCReviewDetailAttributes.amountAvailableToDraw}"
+				<td class="datacell"><kul:htmlControlAttribute attributeEntry="${contractsGrantsLetterOfCreditReviewDetailAttributes.amountAvailableToDraw}"
 						property="document.headerReviewDetails[${ctr}].amountAvailableToDraw" readOnly="true" /></td>
 
 
@@ -123,21 +123,21 @@
 
 <table style="width: 100%; border: none" cellpadding="0" cellspacing="0" class="datatable" border="0">
 
-	<kul:htmlAttributeHeaderCell attributeEntry="${contractsGrantsLOCReviewDetailAttributes.accountDescription}" useShortLabel="false"
+	<kul:htmlAttributeHeaderCell attributeEntry="${contractsGrantsLetterOfCreditReviewDetailAttributes.accountDescription}" useShortLabel="false"
 		hideRequiredAsterisk="true" align="center" />
-	<kul:htmlAttributeHeaderCell attributeEntry="${contractsGrantsLOCReviewDetailAttributes.chartOfAccountsCode}" useShortLabel="false"
+	<kul:htmlAttributeHeaderCell attributeEntry="${contractsGrantsLetterOfCreditReviewDetailAttributes.chartOfAccountsCode}" useShortLabel="false"
 		hideRequiredAsterisk="true" width="5%" align="center" />
-	<kul:htmlAttributeHeaderCell attributeEntry="${contractsGrantsLOCReviewDetailAttributes.accountNumber}" useShortLabel="false"
+	<kul:htmlAttributeHeaderCell attributeEntry="${contractsGrantsLetterOfCreditReviewDetailAttributes.accountNumber}" useShortLabel="false"
 		hideRequiredAsterisk="true" align="center" />
-	<kul:htmlAttributeHeaderCell attributeEntry="${contractsGrantsLOCReviewDetailAttributes.accountExpirationDate}" useShortLabel="false"
+	<kul:htmlAttributeHeaderCell attributeEntry="${contractsGrantsLetterOfCreditReviewDetailAttributes.accountExpirationDate}" useShortLabel="false"
 		hideRequiredAsterisk="true" align="center" />
-	<kul:htmlAttributeHeaderCell attributeEntry="${contractsGrantsLOCReviewDetailAttributes.awardBudgetAmount}" useShortLabel="false"
+	<kul:htmlAttributeHeaderCell attributeEntry="${contractsGrantsLetterOfCreditReviewDetailAttributes.awardBudgetAmount}" useShortLabel="false"
 		hideRequiredAsterisk="true" align="center" />
-	<kul:htmlAttributeHeaderCell attributeEntry="${contractsGrantsLOCReviewDetailAttributes.claimOnCashBalance}" useShortLabel="false"
+	<kul:htmlAttributeHeaderCell attributeEntry="${contractsGrantsLetterOfCreditReviewDetailAttributes.claimOnCashBalance}" useShortLabel="false"
 		hideRequiredAsterisk="true" align="center" />
-	<kul:htmlAttributeHeaderCell attributeEntry="${contractsGrantsLOCReviewDetailAttributes.amountToDraw}" useShortLabel="false"
+	<kul:htmlAttributeHeaderCell attributeEntry="${contractsGrantsLetterOfCreditReviewDetailAttributes.amountToDraw}" useShortLabel="false"
 		hideRequiredAsterisk="true" align="center" />
-	<kul:htmlAttributeHeaderCell attributeEntry="${contractsGrantsLOCReviewDetailAttributes.fundsNotDrawn}" useShortLabel="false"
+	<kul:htmlAttributeHeaderCell attributeEntry="${contractsGrantsLetterOfCreditReviewDetailAttributes.fundsNotDrawn}" useShortLabel="false"
 		hideRequiredAsterisk="true" align="center" />
 
 
@@ -147,22 +147,22 @@
 			<tr>
 
 				</td>
-				<td class="datacell"><kul:htmlControlAttribute attributeEntry="${contractsGrantsLOCReviewDetailAttributes.accountDescription}"
+				<td class="datacell"><kul:htmlControlAttribute attributeEntry="${contractsGrantsLetterOfCreditReviewDetailAttributes.accountDescription}"
 						property="document.accountReviewDetails[${ctr}].accountDescription" readOnly="true" /></td>
-				<td class="datacell" width="5%"><kul:htmlControlAttribute attributeEntry="${contractsGrantsLOCReviewDetailAttributes.chartOfAccountsCode}"
+				<td class="datacell" width="5%"><kul:htmlControlAttribute attributeEntry="${contractsGrantsLetterOfCreditReviewDetailAttributes.chartOfAccountsCode}"
 						property="document.accountReviewDetails[${ctr}].chartOfAccountsCode" readOnly="true" /></td>
-				<td class="datacell"><kul:htmlControlAttribute attributeEntry="${contractsGrantsLOCReviewDetailAttributes.accountNumber}"
+				<td class="datacell"><kul:htmlControlAttribute attributeEntry="${contractsGrantsLetterOfCreditReviewDetailAttributes.accountNumber}"
 						property="document.accountReviewDetails[${ctr}].accountNumber" readOnly="true" /></td>
-				<td class="datacell"><kul:htmlControlAttribute attributeEntry="${contractsGrantsLOCReviewDetailAttributes.accountExpirationDate}"
+				<td class="datacell"><kul:htmlControlAttribute attributeEntry="${contractsGrantsLetterOfCreditReviewDetailAttributes.accountExpirationDate}"
 						property="document.accountReviewDetails[${ctr}].accountExpirationDate" readOnly="true" />
-				<td class="datacell"><kul:htmlControlAttribute attributeEntry="${contractsGrantsLOCReviewDetailAttributes.awardBudgetAmount}"
+				<td class="datacell"><kul:htmlControlAttribute attributeEntry="${contractsGrantsLetterOfCreditReviewDetailAttributes.awardBudgetAmount}"
 						property="document.accountReviewDetails[${ctr}].awardBudgetAmount" readOnly="true" /></td>
-				<td class="datacell"><kul:htmlControlAttribute attributeEntry="${contractsGrantsLOCReviewDetailAttributes.claimOnCashBalance}"
+				<td class="datacell"><kul:htmlControlAttribute attributeEntry="${contractsGrantsLetterOfCreditReviewDetailAttributes.claimOnCashBalance}"
 						property="document.accountReviewDetails[${ctr}].claimOnCashBalance" readOnly="true" /></td>
 
-				<td class="datacell"><kul:htmlControlAttribute attributeEntry="${contractsGrantsLOCReviewDetailAttributes.amountToDraw}"
+				<td class="datacell"><kul:htmlControlAttribute attributeEntry="${contractsGrantsLetterOfCreditReviewDetailAttributes.amountToDraw}"
 						property="document.accountReviewDetails[${ctr}].amountToDraw" readOnly="false" /></td>
-				<td class="datacell"><kul:htmlControlAttribute attributeEntry="${contractsGrantsLOCReviewDetailAttributes.fundsNotDrawn}"
+				<td class="datacell"><kul:htmlControlAttribute attributeEntry="${contractsGrantsLetterOfCreditReviewDetailAttributes.fundsNotDrawn}"
 						property="document.accountReviewDetails[${ctr}].fundsNotDrawn" readOnly="true" /></td>
 			</tr>
 		</c:if>

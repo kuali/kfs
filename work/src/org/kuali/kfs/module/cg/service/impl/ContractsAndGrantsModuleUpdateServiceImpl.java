@@ -138,7 +138,7 @@ public class ContractsAndGrantsModuleUpdateServiceImpl implements ContractsAndGr
     public void setLOCCreationTypeToAward(Long proposalNumber, String locCreationType) {
         Award award = getBusinessObjectService().findBySinglePrimaryKey(Award.class, proposalNumber);
 
-        award.setLocCreationType(locCreationType);
+        award.setLetterOfCreditCreationType(locCreationType);
         getBusinessObjectService().save(award);
     }
 
@@ -164,7 +164,7 @@ public class ContractsAndGrantsModuleUpdateServiceImpl implements ContractsAndGr
     @Override
     public void setLOCReviewIndicatorToAwardAccount(Map<String, Object> criteria, boolean locReviewIndicator) {
         AwardAccount awardAccount = getBusinessObjectService().findByPrimaryKey(AwardAccount.class, criteria);
-        awardAccount.setLocReviewIndicator(locReviewIndicator);
+        awardAccount.setLetterOfCreditReviewIndicator(locReviewIndicator);
         getBusinessObjectService().save(awardAccount);
     }
 

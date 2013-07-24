@@ -36,7 +36,7 @@ import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.batch.service.ContractsGrantsInvoiceCreateDocumentService;
-import org.kuali.kfs.module.ar.businessobject.ContractsGrantsLOCReviewDetail;
+import org.kuali.kfs.module.ar.businessobject.ContractsGrantsLetterOfCreditReviewDetail;
 import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService;
 import org.kuali.kfs.sys.FinancialSystemModuleConfiguration;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -54,21 +54,21 @@ import java.util.ArrayList;
 /**
  * Contracts Grants LOC Review Document.
  */
-public class ContractsGrantsLOCReviewDocument extends FinancialSystemTransactionalDocumentBase {
+public class ContractsGrantsLetterOfCreditReviewDocument extends FinancialSystemTransactionalDocumentBase {
 
-    private static final Logger LOG = Logger.getLogger(ContractsGrantsLOCReviewDocument.class);
+    private static final Logger LOG = Logger.getLogger(ContractsGrantsLetterOfCreditReviewDocument.class);
 
     protected String statusCode;
     private String letterOfCreditFundCode;
     private ContractsAndGrantsLetterOfCreditFund letterOfCreditFund;
     private String letterOfCreditFundGroupCode;
     private ContractsAndGrantsLetterOfCreditFundGroup letterOfCreditFundGroup;
-    private List<ContractsGrantsLOCReviewDetail> headerReviewDetails;
-    private List<ContractsGrantsLOCReviewDetail> accountReviewDetails;
+    private List<ContractsGrantsLetterOfCreditReviewDetail> headerReviewDetails;
+    private List<ContractsGrantsLetterOfCreditReviewDetail> accountReviewDetails;
 
-    public ContractsGrantsLOCReviewDocument() {
-        headerReviewDetails = new ArrayList<ContractsGrantsLOCReviewDetail>();
-        accountReviewDetails = new ArrayList<ContractsGrantsLOCReviewDetail>();
+    public ContractsGrantsLetterOfCreditReviewDocument() {
+        headerReviewDetails = new ArrayList<ContractsGrantsLetterOfCreditReviewDetail>();
+        accountReviewDetails = new ArrayList<ContractsGrantsLetterOfCreditReviewDetail>();
     }
 
     /**
@@ -169,10 +169,10 @@ public class ContractsGrantsLOCReviewDocument extends FinancialSystemTransaction
      *
      * @return Returns the CcaReviewDetails.
      */
-    public List<ContractsGrantsLOCReviewDetail> getHeaderReviewDetails() {
+    public List<ContractsGrantsLetterOfCreditReviewDetail> getHeaderReviewDetails() {
         // To get the list of invoice Details for total cost
-        List<ContractsGrantsLOCReviewDetail> hdrDetails = new ArrayList<ContractsGrantsLOCReviewDetail>();
-        for (ContractsGrantsLOCReviewDetail hdrD : headerReviewDetails) {
+        List<ContractsGrantsLetterOfCreditReviewDetail> hdrDetails = new ArrayList<ContractsGrantsLetterOfCreditReviewDetail>();
+        for (ContractsGrantsLetterOfCreditReviewDetail hdrD : headerReviewDetails) {
             if (ObjectUtils.isNull(hdrD.getAccountDescription())) {
                 hdrDetails.add(hdrD);
             }
@@ -186,7 +186,7 @@ public class ContractsGrantsLOCReviewDocument extends FinancialSystemTransaction
      *
      * @param CcaReviewDetails The CcaReviewDetails to set.
      */
-    public void setHeaderReviewDetails(List<ContractsGrantsLOCReviewDetail> headerReviewDetails) {
+    public void setHeaderReviewDetails(List<ContractsGrantsLetterOfCreditReviewDetail> headerReviewDetails) {
         this.headerReviewDetails = headerReviewDetails;
     }
 
@@ -195,10 +195,10 @@ public class ContractsGrantsLOCReviewDocument extends FinancialSystemTransaction
      *
      * @return Returns the AccountReviewDetails.
      */
-    public List<ContractsGrantsLOCReviewDetail> getAccountReviewDetails() {
+    public List<ContractsGrantsLetterOfCreditReviewDetail> getAccountReviewDetails() {
         // To get the list of invoice Details for total cost
-        List<ContractsGrantsLOCReviewDetail> acctDetails = new ArrayList<ContractsGrantsLOCReviewDetail>();
-        for (ContractsGrantsLOCReviewDetail acctD : accountReviewDetails) {
+        List<ContractsGrantsLetterOfCreditReviewDetail> acctDetails = new ArrayList<ContractsGrantsLetterOfCreditReviewDetail>();
+        for (ContractsGrantsLetterOfCreditReviewDetail acctD : accountReviewDetails) {
             if (ObjectUtils.isNotNull(acctD.getAccountDescription())) {
                 if (acctD.getAccountDescription().equalsIgnoreCase(ArConstants.ACCOUNT) || acctD.getAccountDescription().equalsIgnoreCase(ArConstants.CONTRACT_CONTROL_ACCOUNT)) {
                     acctDetails.add(acctD);
@@ -214,7 +214,7 @@ public class ContractsGrantsLOCReviewDocument extends FinancialSystemTransaction
      *
      * @param AccountReviewDetails The AccountReviewDetails to set.
      */
-    public void setAccountReviewDetails(List<ContractsGrantsLOCReviewDetail> accountReviewDetails) {
+    public void setAccountReviewDetails(List<ContractsGrantsLetterOfCreditReviewDetail> accountReviewDetails) {
         this.accountReviewDetails = accountReviewDetails;
     }
 
@@ -262,7 +262,7 @@ public class ContractsGrantsLOCReviewDocument extends FinancialSystemTransaction
         DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
         ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService = SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class);
         ContractsGrantsInvoiceCreateDocumentService contractsGrantsInvoiceCreateDocumentService = SpringContext.getBean(ContractsGrantsInvoiceCreateDocumentService.class);
-        ContractsGrantsLOCReviewDetail locReviewDtl;
+        ContractsGrantsLetterOfCreditReviewDetail locReviewDtl;
         Map<String, Object> criteria = new HashMap<String, Object>();
         if (ObjectUtils.isNotNull(this.getLetterOfCreditFundGroupCode())) {
             criteria.put("letterOfCreditFund.letterOfCreditFundGroupCode", this.getLetterOfCreditFundGroupCode());
@@ -308,7 +308,7 @@ public class ContractsGrantsLOCReviewDocument extends FinancialSystemTransaction
                     KualiDecimal totalClaimOnCashBalance = KualiDecimal.ZERO;
                     KualiDecimal totalAwardBudgetAmount = KualiDecimal.ZERO;
                     // Creating the header row here.
-                    locReviewDtl = new ContractsGrantsLOCReviewDetail();
+                    locReviewDtl = new ContractsGrantsLetterOfCreditReviewDetail();
                     locReviewDtl.setDocumentNumber(this.documentNumber);
                     locReviewDtl.setProposalNumber(award.getProposalNumber());
                     locReviewDtl.setAwardDocumentNumber(award.getAwardDocumentNumber());
@@ -319,7 +319,7 @@ public class ContractsGrantsLOCReviewDocument extends FinancialSystemTransaction
                     amountAvailableToDraw = contractsGrantsInvoiceDocumentService.getAmountAvailableToDraw(award.getAwardTotalAmount(), award.getActiveAwardAccounts());
                     locReviewDtl.setAmountAvailableToDraw(amountAvailableToDraw);
                     if (ObjectUtils.isNotNull(award.getLetterOfCreditFund())) {
-                        locReviewDtl.setLocAmount(award.getLetterOfCreditFund().getLetterOfCreditFundAmount());
+                        locReviewDtl.setLetterOfCreditAmount(award.getLetterOfCreditFund().getLetterOfCreditFundAmount());
                     }
 
 
@@ -327,7 +327,7 @@ public class ContractsGrantsLOCReviewDocument extends FinancialSystemTransaction
 
                     // Creating sub rows for the individual accounts.
                     for (ContractsAndGrantsCGBAwardAccount awardAccount : award.getActiveAwardAccounts()) {
-                        locReviewDtl = new ContractsGrantsLOCReviewDetail();
+                        locReviewDtl = new ContractsGrantsLetterOfCreditReviewDetail();
                         locReviewDtl.setDocumentNumber(this.documentNumber);
                         locReviewDtl.setProposalNumber(award.getProposalNumber());
                         locReviewDtl.setChartOfAccountsCode(awardAccount.getChartOfAccountsCode());
@@ -350,7 +350,7 @@ public class ContractsGrantsLOCReviewDocument extends FinancialSystemTransaction
 
                     }
                     // Amount to Draw for Header = Sum(Amount of Draw for individual accounts)
-                    for (ContractsGrantsLOCReviewDetail detail : getHeaderReviewDetails()) {// To identify the header row
+                    for (ContractsGrantsLetterOfCreditReviewDetail detail : getHeaderReviewDetails()) {// To identify the header row
                         if (ObjectUtils.isNotNull(detail.getAgencyNumber()) && ObjectUtils.isNull(detail.getAccountDescription()) && detail.getProposalNumber().equals(award.getProposalNumber())) {
                             detail.setAmountToDraw(totalAmountToDraw);
                             detail.setHiddenAmountToDraw(totalAmountToDraw);
@@ -380,7 +380,7 @@ public class ContractsGrantsLOCReviewDocument extends FinancialSystemTransaction
         super.prepareForSave();
 
         // 1. compare the hiddenamountodraw and amount to draw field.
-        for (ContractsGrantsLOCReviewDetail detail : getAccountReviewDetails()) {
+        for (ContractsGrantsLetterOfCreditReviewDetail detail : getAccountReviewDetails()) {
 
             Map<String, Object> map = new HashMap<String, Object>();
             map.put(KFSPropertyConstants.PROPOSAL_NUMBER, detail.getProposalNumber());
@@ -421,7 +421,7 @@ public class ContractsGrantsLOCReviewDocument extends FinancialSystemTransaction
 
         // To sum up amount to draw values.
         Set<Long> proposalNumberSet = new HashSet<Long>();
-        for (ContractsGrantsLOCReviewDetail detail : getHeaderReviewDetails()) {
+        for (ContractsGrantsLetterOfCreditReviewDetail detail : getHeaderReviewDetails()) {
             // Adding the awards to a set, to get unique values.
             proposalNumberSet.add(detail.getProposalNumber());
 
@@ -436,7 +436,7 @@ public class ContractsGrantsLOCReviewDocument extends FinancialSystemTransaction
         while (iterator.hasNext()) {
             KualiDecimal totalAmountToDraw = KualiDecimal.ZERO;
             Long proposalNumber = iterator.next();
-            for (ContractsGrantsLOCReviewDetail detail : getAccountReviewDetails()) {// To identify the header row
+            for (ContractsGrantsLetterOfCreditReviewDetail detail : getAccountReviewDetails()) {// To identify the header row
                 if (ObjectUtils.isNotNull(detail.getAccountDescription()) && detail.getProposalNumber().equals(proposalNumber)) {
                     totalAmountToDraw = totalAmountToDraw.add(detail.getAmountToDraw());
 
@@ -444,7 +444,7 @@ public class ContractsGrantsLOCReviewDocument extends FinancialSystemTransaction
             }
 
 
-            for (ContractsGrantsLOCReviewDetail detail : getHeaderReviewDetails()) {// To identify the header row
+            for (ContractsGrantsLetterOfCreditReviewDetail detail : getHeaderReviewDetails()) {// To identify the header row
                 if (ObjectUtils.isNotNull(detail.getAgencyNumber()) && ObjectUtils.isNull(detail.getAccountDescription()) && detail.getProposalNumber().equals(proposalNumber)) {
                     detail.setAmountToDraw(totalAmountToDraw);
 
@@ -472,7 +472,7 @@ public class ContractsGrantsLOCReviewDocument extends FinancialSystemTransaction
         if (getDocumentHeader().getWorkflowDocument().isFinal()) {
 
             // 1. compare the hiddenamountodraw and amount to draw field.
-            for (ContractsGrantsLOCReviewDetail detail : getHeaderReviewDetails()) {
+            for (ContractsGrantsLetterOfCreditReviewDetail detail : getHeaderReviewDetails()) {
                 // Adding the awards to a set, to get unique values.
                 proposalNumberSet.add(detail.getProposalNumber());
 

@@ -83,7 +83,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
     private String letterOfCreditFundGroupCode;
     private String grantDescriptionCode;
     private String agencyNumber;
-    private String locCreationType; // To create LOC
+    private String letterOfCreditCreationType; // To create LOC
     private String federalPassThroughAgencyNumber;
     private String agencyAnalystName;
     private String analystTelephoneNumber;
@@ -1895,22 +1895,22 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
     }
 
     /**
-     * Gets the locCreationType attribute.
+     * Gets the letterOfCreditCreationType attribute.
      *
-     * @return Returns the locCreationType.
+     * @return Returns the letterOfCreditCreationType.
      */
     @Override
-    public String getLocCreationType() {
-        return locCreationType;
+    public String getLetterOfCreditCreationType() {
+        return letterOfCreditCreationType;
     }
 
     /**
-     * Sets the locCreationType attribute value.
+     * Sets the letterOfCreditCreationType attribute value.
      *
-     * @param locCreationType The locCreationType to set.
+     * @param letterOfCreditCreationType The letterOfCreditCreationType to set.
      */
-    public void setLocCreationType(String locCreationType) {
-        this.locCreationType = locCreationType;
+    public void setLetterOfCreditCreationType(String letterOfCreditCreationType) {
+        this.letterOfCreditCreationType = letterOfCreditCreationType;
     }
 
 

@@ -11,49 +11,49 @@
 		express or implied. See the License for the specific language governing permissions 
 		and limitations under the License. -->
 
-	<bean id="ContractsGrantsLOCReviewDocument" parent="ContractsGrantsLOCReviewDocument-parentBean" />
+	<bean id="ContractsGrantsLetterOfCreditReviewDocument" parent="ContractsGrantsLetterOfCreditReviewDocument-parentBean" />
 
-	<bean id="ContractsGrantsLOCReviewDocument-parentBean" abstract="true"
+	<bean id="ContractsGrantsLetterOfCreditReviewDocument-parentBean" abstract="true"
 		parent="TransactionalDocumentEntry">
 
 
 		<property name="documentTypeName" value="CGLR" />
 		<property name="documentClass"
-			value="org.kuali.kfs.module.ar.document.ContractsGrantsLOCReviewDocument" />
+			value="org.kuali.kfs.module.ar.document.ContractsGrantsLetterOfCreditReviewDocument" />
 		<property name="businessRulesClass"
 			value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase" />
 		<property name="documentAuthorizerClass"
-			value="org.kuali.kfs.module.ar.document.authorization.ContractsGrantsLOCReviewDocumentAuthorizer" />
+			value="org.kuali.kfs.module.ar.document.authorization.ContractsGrantsLetterOfCreditReviewDocumentAuthorizer" />
 		<property name="documentPresentationControllerClass"
-			value="org.kuali.kfs.module.ar.document.authorization.ContractsGrantsLOCReviewDocumentPresentationController" />
+			value="org.kuali.kfs.module.ar.document.authorization.ContractsGrantsLetterOfCreditReviewDocumentPresentationController" />
 
 		<property name="attributes">
 			<list>
 
-				<ref bean="ContractsGrantsLOCReviewDocument-documentNumber" />
-				<ref bean="ContractsGrantsLOCReviewDocument-letterOfCreditFundGroupCode" />
-				<ref bean="ContractsGrantsLOCReviewDocument-letterOfCreditFundCode" />
+				<ref bean="ContractsGrantsLetterOfCreditReviewDocument-documentNumber" />
+				<ref bean="ContractsGrantsLetterOfCreditReviewDocument-letterOfCreditFundGroupCode" />
+				<ref bean="ContractsGrantsLetterOfCreditReviewDocument-letterOfCreditFundCode" />
 			</list>
 		</property>
 		<property name="workflowAttributes">
-			<ref bean="ContractsGrantsLOCReviewDocument-workflowAttributes" />
+			<ref bean="ContractsGrantsLetterOfCreditReviewDocument-workflowAttributes" />
 		</property>
 	</bean>
 
 
 	<!-- Attribute Definitions -->
 
-	<bean id="ContractsGrantsLOCReviewDocument-documentNumber"
-		parent="ContractsGrantsLOCReviewDocument-documentNumber-parentBean" />
+	<bean id="ContractsGrantsLetterOfCreditReviewDocument-documentNumber"
+		parent="ContractsGrantsLetterOfCreditReviewDocument-documentNumber-parentBean" />
 
-	<bean id="ContractsGrantsLOCReviewDocument-documentNumber-parentBean"
+	<bean id="ContractsGrantsLetterOfCreditReviewDocument-documentNumber-parentBean"
 		abstract="true" parent="DocumentHeader-documentNumber" />
 
-	<bean id="ContractsGrantsLOCReviewDocument-letterOfCreditFundGroupCode"
-		parent="ContractsGrantsLOCReviewDocument-letterOfCreditFundGroupCode-parentBean" />
+	<bean id="ContractsGrantsLetterOfCreditReviewDocument-letterOfCreditFundGroupCode"
+		parent="ContractsGrantsLetterOfCreditReviewDocument-letterOfCreditFundGroupCode-parentBean" />
 
 	<bean
-		id="ContractsGrantsLOCReviewDocument-letterOfCreditFundGroupCode-parentBean"
+		id="ContractsGrantsLetterOfCreditReviewDocument-letterOfCreditFundGroupCode-parentBean"
 		abstract="true" parent="GenericAttributes-letterOfCreditFundGroupCode">
 		<property name="label" value="Letter Of Credit Fund Group" />
 		<property name="control">
@@ -63,11 +63,11 @@
 		</property>
 	</bean>
 
-	<bean id="ContractsGrantsLOCReviewDocument-letterOfCreditFundCode"
-		parent="ContractsGrantsLOCReviewDocument-letterOfCreditFundCode-parentBean" />
+	<bean id="ContractsGrantsLetterOfCreditReviewDocument-letterOfCreditFundCode"
+		parent="ContractsGrantsLetterOfCreditReviewDocument-letterOfCreditFundCode-parentBean" />
 
 	<bean
-		id="ContractsGrantsLOCReviewDocument-letterOfCreditFundCode-parentBean"
+		id="ContractsGrantsLetterOfCreditReviewDocument-letterOfCreditFundCode-parentBean"
 		abstract="true" parent="GenericAttributes-letterOfCreditFundCode">
 		<property name="label" value="Letter Of Credit Fund" />
 		<property name="control">
@@ -78,9 +78,9 @@
 	</bean>
 
 	<!-- Workflow Attributes -->
-	<bean id="ContractsGrantsLOCReviewDocument-workflowAttributes"
-		parent="ContractsGrantsLOCReviewDocument-workflowAttributes-parentBean" />
-	<bean id="ContractsGrantsLOCReviewDocument-workflowAttributes-parentBean"
+	<bean id="ContractsGrantsLetterOfCreditReviewDocument-workflowAttributes"
+		parent="ContractsGrantsLetterOfCreditReviewDocument-workflowAttributes-parentBean" />
+	<bean id="ContractsGrantsLetterOfCreditReviewDocument-workflowAttributes-parentBean"
 		abstract="true" parent="WorkflowAttributes">
 	</bean>
 

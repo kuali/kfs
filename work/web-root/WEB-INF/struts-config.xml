@@ -167,8 +167,10 @@
 		<form-bean name="FinalInvoiceReversalDocumentForm"
 			type="org.kuali.kfs.module.ar.document.web.struts.FinalInvoiceReversalDocumentForm" />
 
-		<form-bean name="ContractsGrantsLOCReviewDocumentForm"
-			type="org.kuali.kfs.module.ar.document.web.struts.ContractsGrantsLOCReviewDocumentForm" />
+		<form-bean name="ContractsGrantsLetterOfCreditReviewDocumentForm"
+			type="org.kuali.kfs.module.ar.web.struts.ContractsGrantsLetterOfCreditReviewDocumentForm" />
+		<form-bean name="ContractsGrantsLetterOfCreditReviewDocumentForm"
+			type="org.kuali.kfs.module.ar.document.web.struts.ContractsGrantsLetterOfCreditReviewDocumentForm" />
 
 		<form-bean name="FederalFinancialReportForm"
 			type="org.kuali.kfs.module.ar.web.struts.FederalFinancialReportForm" />
@@ -628,12 +630,12 @@
 				path="/jsp/module/ar/ReferralToCollectionsDocument.jsp" />
 		</action>
 
-		<action path="/arContractsGrantsLOCReviewDocument" name="ContractsGrantsLOCReviewDocumentForm"
+		<action path="/arContractsGrantsLetterOfCreditReviewDocument" name="ContractsGrantsLetterOfCreditReviewDocumentForm"
 			scope="request" attribute="KualiForm" parameter="methodToCall"
-			type="org.kuali.kfs.module.ar.document.web.struts.ContractsGrantsLOCReviewDocumentAction">
+			type="org.kuali.kfs.module.ar.document.web.struts.ContractsGrantsLetterOfCreditReviewDocumentAction">
 			<set-property property="cancellable" value="true" />
 			<forward name="basic"
-				path="/jsp/module/ar/ContractsGrantsLOCReviewDocument.jsp" />
+				path="/jsp/module/ar/ContractsGrantsLetterOfCreditReviewDocument.jsp" />
 			<forward name="arPrintPDF" path="/jsp/module/ar/ArPrintForward.jsp"
 				redirect="false" />
 		</action>

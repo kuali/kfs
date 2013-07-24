@@ -117,7 +117,7 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
     private ContractsAndGrantsCGBAward award;
     private static final SimpleDateFormat FILE_NAME_TIMESTAMP = new SimpleDateFormat("MM-dd-yyyy");
 
-    protected String locCreationType;// To categorize the CG Invoices based on Award LOC Type
+    protected String letterOfCreditCreationType;// To categorize the CG Invoices based on Award LOC Type
     protected String letterOfCreditFundGroupCode;
     protected String letterOfCreditFundCode;
 
@@ -288,7 +288,7 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
         }
     }
 
-   
+
     /**
      * This method updates the ContractsAndGrantsCGBAwardAccount object's invoiceDocumentStatus Variable with the value provided
      *
@@ -457,7 +457,7 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
         m.put("invoiceGeneralDetail", invoiceGeneralDetail);
         m.put("letterOfCreditFundGroupCode", letterOfCreditFundGroupCode);
         m.put("award", award);
-        m.put("locCreationType", locCreationType);
+        m.put("letterOfCreditCreationType", letterOfCreditCreationType);
         return m;
     }
 
@@ -555,21 +555,21 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
     }
 
     /**
-     * Gets the locCreationType attribute.
+     * Gets the letterOfCreditCreationType attribute.
      *
-     * @return Returns the locCreationType.
+     * @return Returns the letterOfCreditCreationType.
      */
-    public String getLocCreationType() {
-        return locCreationType;
+    public String getLetterOfCreditCreationType() {
+        return letterOfCreditCreationType;
     }
 
     /**
-     * Sets the locCreationType attribute value.
+     * Sets the letterOfCreditCreationType attribute value.
      *
-     * @param locCreationType The locCreationType to set.
+     * @param letterOfCreditCreationType The letterOfCreditCreationType to set.
      */
-    public void setLocCreationType(String locCreationType) {
-        this.locCreationType = locCreationType;
+    public void setLetterOfCreditCreationType(String letterOfCreditCreationType) {
+        this.letterOfCreditCreationType = letterOfCreditCreationType;
     }
 
     /**

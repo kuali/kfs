@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.module.ar.document.web.struts;
+package org.kuali.kfs.module.ar.web.struts;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -26,8 +26,8 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.ar.ArAuthorizationConstants;
 import org.kuali.kfs.module.ar.document.CustomerCreditMemoDocument;
-import org.kuali.kfs.module.ar.businessobject.ContractsGrantsLOCReviewDetail;
-import org.kuali.kfs.module.ar.document.ContractsGrantsLOCReviewDocument;
+import org.kuali.kfs.module.ar.businessobject.ContractsGrantsLetterOfCreditReviewDetail;
+import org.kuali.kfs.module.ar.document.ContractsGrantsLetterOfCreditReviewDocument;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentFormBase;
@@ -38,13 +38,13 @@ import org.kuali.rice.kns.service.DocumentHelperService;
 import org.kuali.rice.kns.web.ui.ExtraButton;
 
 /**
- * Form Class for Contracts Grants LOC Review Document.
+ * Form Class for Contracts Grants LetterOfCredit Review Document.
  */
-public class ContractsGrantsLOCReviewDocumentForm extends FinancialSystemTransactionalDocumentFormBase {
+public class ContractsGrantsLetterOfCreditReviewDocumentForm extends FinancialSystemTransactionalDocumentFormBase {
 
     private List<Long> proposalNumbers;
 
-    public ContractsGrantsLOCReviewDocumentForm() {
+    public ContractsGrantsLetterOfCreditReviewDocumentForm() {
         super();
     }
 
@@ -78,10 +78,10 @@ public class ContractsGrantsLOCReviewDocumentForm extends FinancialSystemTransac
         // clear out the extra buttons array
         extraButtons.clear();
 
-        ContractsGrantsLOCReviewDocument contractsGrantsLOCReviewDocument = (ContractsGrantsLOCReviewDocument) getDocument();
+        ContractsGrantsLetterOfCreditReviewDocument contractsGrantsLetterOfCreditReviewDocument = (ContractsGrantsLetterOfCreditReviewDocument) getDocument();
         DocumentHelperService docHelperService = SpringContext.getBean(DocumentHelperService.class);
-        TransactionalDocumentPresentationController presoController = (TransactionalDocumentPresentationController) docHelperService.getDocumentPresentationController(contractsGrantsLOCReviewDocument);
-        Set<String> editModes = presoController.getEditModes(contractsGrantsLOCReviewDocument);
+        TransactionalDocumentPresentationController presoController = (TransactionalDocumentPresentationController) docHelperService.getDocumentPresentationController(contractsGrantsLetterOfCreditReviewDocument);
+        Set<String> editModes = presoController.getEditModes(contractsGrantsLetterOfCreditReviewDocument);
 
         // special buttons for the first 'init' screen
         if (editModes.contains(ArAuthorizationConstants.CustomerCreditMemoEditMode.DISPLAY_INIT_TAB)) {
@@ -143,10 +143,10 @@ public class ContractsGrantsLOCReviewDocumentForm extends FinancialSystemTransac
      */
     public List<Long> getProposalNumbers() {
         // To get the list of all proposal numbers from the review details.
-        ContractsGrantsLOCReviewDocument contractsGrantsLOCReviewDocument = (ContractsGrantsLOCReviewDocument) getDocument();
+        ContractsGrantsLetterOfCreditReviewDocument contractsGrantsLetterOfCreditReviewDocument = (ContractsGrantsLetterOfCreditReviewDocument) getDocument();
         Set<Long> pps = new HashSet<Long>();
 
-        for (ContractsGrantsLOCReviewDetail detail : contractsGrantsLOCReviewDocument.getAccountReviewDetails()) {
+        for (ContractsGrantsLetterOfCreditReviewDetail detail : contractsGrantsLetterOfCreditReviewDocument.getAccountReviewDetails()) {
             pps.add(detail.getProposalNumber());
         }
 

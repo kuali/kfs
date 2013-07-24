@@ -53,10 +53,10 @@
 								<c:choose>
 									<c:when
 										test="${param.letterTemplateCode == letterTemplate.key}">
-										<option value="${letterTemplate.key}" selected="selected">${letterTemplate.label}</option>
+										<option value="${letterTemplate.key}" selected="selected">${letterTemplate.value}</option>
 									</c:when>
 									<c:otherwise>
-										<option value="${letterTemplate.key}">${letterTemplate.label}</option>
+										<option value="${letterTemplate.key}">${letterTemplate.value}</option>
 									</c:otherwise>
 								</c:choose>
 							</c:forEach>

@@ -777,7 +777,7 @@
         <column name="FDOC_NBR" primaryKey="true" size="14" type="VARCHAR"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
-        <column name="LOC_CRTN_TYP" size="45" type="VARCHAR"/>
+        <column name="LTRCR_CRTN_TYP" size="45" type="VARCHAR"/>
         <column name="INV_DOC_TYP" size="4" type="VARCHAR"/>
         <column name="LTRCR_FND_CD" size="15" type="VARCHAR"/>
         <column name="LTRCR_FNDGRP_CD" size="4" type="VARCHAR"/>
@@ -957,7 +957,7 @@
         <column name="CUST_PMT_MEDIUM_CD" size="2" type="VARCHAR"/>
         <column name="AR_CSHCTRL_TOT_AMT" scale="2" size="19" type="DECIMAL"/>
         <column name="BNK_CD" size="4" type="VARCHAR"/>
-        <column name="LOC_CRTN_TYP" size="45" type="VARCHAR"/>
+        <column name="LTRCR_CRTN_TYP" size="45" type="VARCHAR"/>
         <column name="INV_DOC_TYP" size="4" type="VARCHAR"/>
         <column name="LTRCR_FND_CD" size="15" type="VARCHAR"/>
         <column name="LTRCR_FNDGRP_CD" size="4" type="VARCHAR"/>
@@ -1368,7 +1368,7 @@
         <column name="REPORTED_DT" type="DATE"/>
         <column name="AGING_RPT_SENT_TM" type="DATE"/>
         <column default="0" name="PRPSL_NBR" size="12" type="DECIMAL"/>
-        <column name="LOC_CRTN_TYP" size="45" type="VARCHAR"/>
+        <column name="LTRCR_CRTN_TYP" size="45" type="VARCHAR"/>
         <column name="LTRCR_FND_CD" size="15" type="VARCHAR"/>
         <column name="LTRCR_FNDGRP_CD" size="4" type="VARCHAR"/>
         <column name="MRKD_FOR_PRCSSNG" size="45" type="VARCHAR"/>
@@ -1687,9 +1687,9 @@
         <column name="LTRCR_FND_CD" size="15" type="VARCHAR"/>
         <column name="LTRCR_FNDGRP_CD" size="4" type="VARCHAR"/>
     </table>
-    <table name="AR_LOC_RVW_DTL_T">
+    <table name="AR_LTRCR_RVW_DTL_T">
         <column name="FDOC_NBR" primaryKey="true" size="14" type="VARCHAR"/>
-        <column default="0" name="LOC_RVW_DTL_ID" primaryKey="true" size="12" type="DECIMAL"/>
+        <column default="0" name="LTRCR_RVW_DTL_ID" primaryKey="true" size="12" type="DECIMAL"/>
         <column default="0" name="PRPSL_NBR" size="12" type="DECIMAL"/>
         <column name="FIN_COA_CD" size="2" type="VARCHAR"/>
         <column name="ACCOUNT_NBR" size="7" type="VARCHAR"/>
@@ -1703,7 +1703,7 @@
         <column name="ACCT_EXPIRATION_DT" type="TIMESTAMP"/>
         <column default="0" name="CLM_ON_CSH" scale="2" size="19" type="DECIMAL"/>
         <column default="0" name="FND_NT_DRWN" scale="2" size="19" type="DECIMAL"/>
-        <column default="0" name="LOC_AMT" scale="2" size="19" type="DECIMAL"/>
+        <column default="0" name="LTRCR_AMT" scale="2" size="19" type="DECIMAL"/>
         <column default="0" name="HDN_AMT_TO_DRW" scale="2" size="19" type="DECIMAL"/>
         <column name="AWD_BEG_DT" type="TIMESTAMP"/>
         <column name="AWD_END_DT" type="TIMESTAMP"/>
@@ -4191,7 +4191,7 @@
         <column name="FINAL_BILLED" size="1" type="VARCHAR"/>
         <column name="INV_DOC_STS" size="45" type="VARCHAR"/>
         <column default="0" name="AMT_DRW" scale="2" size="19" type="DECIMAL"/>
-        <column name="LOC_RVW_IND" size="1" type="VARCHAR"/>
+        <column name="LTRCR_RVW_IND" size="1" type="VARCHAR"/>
         <column name="CURR_LST_BLD_DT" type="TIMESTAMP"/>
         <column name="PREV_LST_BLD_DT" type="TIMESTAMP"/>
         <foreign-key foreignTable="CA_ACCOUNT_T" name="CG_AWD_ACCT_TR1">
@@ -4412,7 +4412,7 @@
         <column name="COMMENT_TXT" size="800" type="VARCHAR"/>
         <column name="CG_INV_OPT" size="120" type="VARCHAR"/>
         <column name="LST_BLD_DT" type="TIMESTAMP"/>
-        <column name="LOC_CRTN_TYP" size="45" type="VARCHAR"/>
+        <column name="LTRCR_CRTN_TYP" size="45" type="VARCHAR"/>
         <column name="SUSP_REASON" size="255" type="VARCHAR"/>
         <column name="STATE_TRNSFR" size="1" type="VARCHAR"/>
         <column name="CMPGN_ID" size="4" type="VARCHAR"/>

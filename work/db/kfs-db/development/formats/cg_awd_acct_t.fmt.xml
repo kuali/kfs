@@ -9,7 +9,7 @@
   <Field name="final_billed"                    type="string"     nullable="true"  trim="false" delimiter="|"  />
   <Field name="inv_doc_sts"                     type="string"     nullable="true"  trim="false" delimiter="|"  />
   <Field name="amt_drw"                         type="numeric"    nullable="true"  trim="false" delimiter="|"  />
-  <Field name="loc_rvw_ind"                     type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="ltrcr_rvw_ind"                   type="string"     nullable="true"  trim="false" delimiter="|"  />
   <Field name="curr_lst_bld_dt"                 type="date"       nullable="true"  trim="false" delimiter="|"  format="yyyyMMddHHmmss" />
   <Field name="prev_lst_bld_dt"                 type="date"       nullable="true"  trim="false" delimiter="|\r\n" format="yyyyMMddHHmmss" />
 </Record>

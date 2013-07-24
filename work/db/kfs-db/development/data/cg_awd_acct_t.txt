@@ -1,4 +1,4 @@
-cgprpsl_nbr|fin_coa_cd|account_nbr|obj_id|ver_nbr|person_unvl_id|row_actv_ind|final_billed|inv_doc_sts|amt_drw|loc_rvw_ind|curr_lst_bld_dt|prev_lst_bld_dt|
+cgprpsl_nbr|fin_coa_cd|account_nbr|obj_id|ver_nbr|person_unvl_id|row_actv_ind|final_billed|inv_doc_sts|amt_drw|ltrcr_rvw_ind|curr_lst_bld_dt|prev_lst_bld_dt|
 11.0|BL|4624763|49D358CCEFE85F7AE0404F8189D8263A|1.0|5951409987|Y|||0.0||||
 11.0|BL|5431400|49D358CCE9C15F7AE0404F8189D8263A|1.0|3880605325|Y|||0.0||||
 37.0|BL|4031440|49D358CCE9C25F7AE0404F8189D8263A|1.0|3880605325|Y|||0.0||||

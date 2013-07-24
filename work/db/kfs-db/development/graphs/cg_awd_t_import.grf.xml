@@ -70,7 +70,7 @@
         $0.comment_txt := replace(nvl($comment_txt, ""), "~!~", "|" );
         $0.cg_inv_opt := replace(nvl($cg_inv_opt, ""), "~!~", "|" );
         $0.lst_bld_dt := $lst_bld_dt;
-        $0.loc_crtn_typ := replace(nvl($loc_crtn_typ, ""), "~!~", "|" );
+        $0.ltrcr_crtn_typ := replace(nvl($ltrcr_crtn_typ, ""), "~!~", "|" );
         $0.susp_reason := replace(nvl($susp_reason, ""), "~!~", "|" );
         $0.state_trnsfr := replace(nvl($state_trnsfr, ""), "~!~", "|" );
         $0.cmpgn_id := replace(nvl($cmpgn_id, ""), "~!~", "|" );

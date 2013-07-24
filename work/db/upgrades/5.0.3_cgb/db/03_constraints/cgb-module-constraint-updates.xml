@@ -3,7 +3,7 @@
 	xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd'>
 
 	<changeSet author="KFSCGB" id="KFSMI">
-	<sql>set foreign_key_checks=0</sql>
+	
 	 	<addForeignKeyConstraint constraintName="CG_AGENCY_FK1"
 			referencedTableName="CG_BILL_FREQ_T" baseColumnNames="CG_AGENCY_BILL_FREQ_CD"
 			baseTableName="CG_AGENCY_T" referencedColumnNames="BILL_FREQ_CD" />
@@ -112,21 +112,21 @@
 	<!-- To modify foreign key constraints from Invoice Detail, Invoice Account 
 		Detail and Invoice Agency Address Detail to Customer Invoice Table -->
 	<changeSet author="kfs" id="AR_CG_INV_DTL_T_DROP_FK">
-		<sql>set foreign_key_checks=0</sql>
+		
 		<addForeignKeyConstraint constraintName="AR_CG_INV_DTL_FK1"
 			referencedTableName="AR_INV_DOC_T" baseColumnNames="FDOC_NBR"
 			baseTableName="AR_CG_INV_DTL_T" referencedColumnNames="FDOC_NBR" />
 	</changeSet>
 
 	<changeSet author="kfs" id="AR_INV_AGENCY_ADDR_DTL_T_DROP_FK">
-		<sql>set foreign_key_checks=0</sql>
+		
 		<addForeignKeyConstraint constraintName="AR_INV_AGENCY_ADDR_DTL_TR1"
 			referencedTableName="AR_INV_DOC_T" baseColumnNames="FDOC_NBR"
 			baseTableName="AR_INV_AGENCY_ADDR_DTL_T" referencedColumnNames="FDOC_NBR" />
 	</changeSet>
 
 	<changeSet author="kfs" id="AR_INV_ACCT_DTL_T_DROP_FK">
-		<sql>set foreign_key_checks=0</sql>
+		
 		<addForeignKeyConstraint constraintName="AR_INV_ACCT_DTL_TR1"
 			referencedTableName="AR_INV_DOC_T" baseColumnNames="FDOC_NBR"
 			baseTableName="AR_INV_ACCT_DTL_T" referencedColumnNames="FDOC_NBR" />

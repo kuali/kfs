@@ -223,7 +223,7 @@
 		in agency table -->
 
 	<changeSet author="kfs" id="CG_AGENCY_T_ADD_FIELDS">
-		<sql>set foreign_key_checks=0</sql>
+		
 		<addColumn tableName="CG_AGENCY_T">
 			<column name="CG_AGENCY_BILL_FREQ_CD" type="varchar(10)" />
 			<column name="CG_AGENCY_FIN_FORM_TYP_CD" type="varchar(10)" />
@@ -310,7 +310,7 @@
 
 	<!-- Create Bills table -->
 	<changeSet author="kfs" id="CG_BILL_T">
-		<sql>set foreign_key_checks=0</sql>
+		
 		<createTable tableName="CG_BILL_T">
 			<column name="BILL_NBR" type="decimal(12,0)" defaultValue="0">
 				<constraints primaryKey="true" nullable="false" />
@@ -380,7 +380,7 @@
 
 	<!-- Create Table CG_AWD_FNDMGR_T to accommodate AWARD FUND MANAGER -->
 	<changeSet author="kfs" id="AWARD_FUND_MANAGER">
-		<sql>set foreign_key_checks=0</sql>
+		
 		<createTable tableName="CG_AWD_FNDMGR_T">
 			<column name="PERSON_UNVL_ID" type="varchar(40)">
 				<constraints primaryKey="true" nullable="false" />
@@ -405,7 +405,7 @@
 	<!-- Milestone Schedule table -->
 
 	<changeSet author="kfs" id="CG_MLSTN_SCHDL_T">
-		<sql>set foreign_key_checks=0</sql>
+		
 		<createTable tableName="CG_MLSTN_SCHDL_T">
 			<column name="CGPRPSL_NBR" type="decimal(12,0)" defaultValue="0">
 				<constraints primaryKey="true" nullable="false" />
@@ -441,7 +441,7 @@
 
 
 	<changeSet author="kfs" id="CG_MLSTN_MOD1">
-		<sql>set foreign_key_checks=0</sql>
+		
 		<addColumn tableName="CG_MLSTN_T">
 			<column name="MLSTN_NBR" type="decimal(12,0)" defaultValue="0" />
 			<column name="CGPRPSL_NBR" type="decimal(12,0)" defaultValue="0" />
@@ -628,7 +628,7 @@
 
 	<!--Create Leter of Credit table -->
 	<changeSet author="kfs" id="CG_LTRCR_FND_T">
-		<sql>set foreign_key_checks=0</sql>
+		
 		<createTable tableName="cg_ltrcr_fnd_t">
 			<column name="CG_LTRCR_FND_CD" type="varchar(15)">
 				<constraints primaryKey="true" nullable="false" />
@@ -660,7 +660,7 @@
 	</changeSet>
 
 	<changeSet author="kfs" id="CG_AWD_INV_ACCT_T">
-		<sql>set foreign_key_checks=0</sql>
+		
 		<createTable tableName="CG_AWD_INV_ACCT_T">
 			<column name="CGPRPSL_NBR" type="decimal(12,0)">
 				<constraints primaryKey="true" nullable="false" />
@@ -683,7 +683,7 @@
 	<!-- To add letter of credit fund column in award table -->
 
 	<changeSet author="kfs" id="CG_AWD_T_ADD_FIELDS">
-		<sql>set foreign_key_checks=0</sql>
+		
 		<addColumn tableName="CG_AWD_T">
 			<column name="CG_LTRCR_FND_CD" type="varchar(15)" />
 			<column name="AWD_ID" type="varchar(42)" />
@@ -741,7 +741,7 @@
 
 	<!-- Create AR_INV_MLSTN_T table -->
 	<changeSet author="kfs" id="AR_INV_MLSTN_T">
-		<sql>set foreign_key_checks=0</sql>
+		
 		<createTable tableName="AR_INV_MLSTN_T">
 			<column name="FDOC_NBR" type="varchar(14)">
 				<constraints primaryKey="true" nullable="false" />
@@ -788,7 +788,7 @@
 
 	<!-- Create AR_INV_BILL_T table -->
 	<changeSet author="kfs" id="AR_INV_BILL_T">
-		<sql>set foreign_key_checks=0</sql>
+		
 		<createTable tableName="AR_INV_BILL_T">
 			<column name="FDOC_NBR" type="varchar(14)">
 				<constraints primaryKey="true" nullable="false" />
@@ -948,7 +948,7 @@
 	<!-- This document helps in creating InvoiceDetailAccountObjectCode table -->
 
 	<changeSet author="kfs" id="AR_INV_DTL_ACCT_OBJ_CD_T">
-		<sql>set foreign_key_checks=0</sql>
+		
 		<createTable tableName="AR_INV_DTL_ACCT_OBJ_CD_T">
 			<column name="FDOC_NBR" type="varchar(14)">
 				<constraints primaryKey="true" nullable="false" />
@@ -987,7 +987,7 @@
 	<!-- This document helps in creating InvoiceDetailAccountObjectCode table -->
 
 	<changeSet author="kfs" id="AR_AWD_ACCT_OBJ_CD_TTL_BILLED_T">
-		<sql>set foreign_key_checks=0</sql>
+		
 		<createTable tableName="AR_AWDACCT_OBJCD_TL_BLD_T">
 			<column name="PRPSL_NBR" type="decimal(12,0)" defaultValue="0">
 				<constraints primaryKey="true" nullable="false" />
@@ -1057,7 +1057,7 @@
 		change to the table -->
 	<changeSet author="kfs" id="CG_AWD_INV_ACCT_T_RECREATE">
 		<dropTable tableName="CG_AWD_INV_ACCT_T" />
-		<sql>set foreign_key_checks=0</sql>
+		
 		<createTable tableName="CG_AWD_INV_ACCT_T">
 			<column name="CGPRPSL_NBR" type="decimal(12,0)" defaultValue="0">
 				<constraints primaryKey="true" nullable="false" />
@@ -1303,7 +1303,7 @@
 	</changeSet>
 
 	<changeSet author="kfs" id="AR_LOC_RVW_DTL_T_RECREATE">
-<!--<sql>set foreign_key_checks=0</sql>-->
+<!---->
 		<createTable tableName="AR_LOC_RVW_DTL_T">
 			<column name="FDOC_NBR" type="varchar(14)">
 				<constraints primaryKey="true" nullable="false" />

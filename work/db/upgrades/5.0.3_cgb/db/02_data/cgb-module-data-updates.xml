@@ -172,7 +172,7 @@
 	</changeSet>
 
 	<changeSet author="kfs" id="CG_UPDT_FIELDS">
-		<!-- <sql>set foreign_key_checks=0</sql> -->
+		<!--  -->
 		<delete tableName="cg_bill_freq_t">
 			<where>BILL_FREQ_CD='ATSTART'</where>
 		</delete>

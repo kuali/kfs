@@ -25,7 +25,6 @@ KFS-AR,OrganizationOptions,REMIT_TO_NAME_EDITABLE_IND,KFS17,1,CONFG,N,"This para
 KFS-AR,LockboxLoadStep,CONTACTS_TEXT,KFSCNTRB1343-1,1,CONFG,SEE END OF MESSAGE FOR TRANSMISSION STATUS REPORT. {INSERT AR CONTACT INFORMATION HERE} (Primary contact listed above can revise recipients or contents of this message.),This parameter is to store the details for AR lockbox contacts.,A,KFS,
 KFS-AR,LockboxLoadStep,SUMMARY_AND_ERROR_NOTIFICATION_EMAIL_SUBJECT,KFSCNTRB1343-2,1,CONFG,Account Receivable Lock Box Payments,Email subject line for the lockbox load summary and error notification email.,A,KFS,
 KFS-AR,LockboxLoadStep,SUMMARY_AND_ERROR_NOTIFICATION_TO_EMAIL_ADDRESSES,KFSCNTRB1343-3,1,CONFG,ar-lock-box-pmts-l@kuali.org,Email address to receive lockbox load summary and error notification email.,A,KFS,
-KFS-BC,All,OLTP_LOCKOUT_ACTIVE_IND,KFSCNTRB65-2,1,CONFG,N,Y/N indicator showing if the budget construction module is currently unavailable for Online Transaction Processing (OLTP). Y means the module is currently locked and cannot be used. N means the module is unlocked and available for use.,A,KFS,
 KFS-AR,Contracts Grants Invoice Email Reports Batch Step,CG_INVOICE_EMAIL_BODY,KFSAR001,1,CONFG,"Dear #agencyName , #addressName : 
 
 
@@ -53,6 +52,7 @@ KFS-AR,Cash Control,DEFAULT_PROCESSING_CHART,KFSAR005,1,CONFG,UA,Default value f
 KFS-AR,Cash Control,DEFAULT_PROCESSING_ORG,KFSAR006,1,CONFG,VPIT,Default value for Processing Organization code - used by LOC Batch process to set AR DOC HDR for the Cash Control Document.,A,KFS,
 KFS-AR,Dunning Campaign,DUNNING_LETTERS_FINAL_DAYS_PAST_DUE,KFSAR007,1,CONFG,150,To set the value for FINAL days past due value used for sending strongly worded Dunning Letter requesting for payment.,A,KFS,
 KFS-AR,Dunning Campaign,DUNNING_LETTERS_STATE_AGENCY_FINAL_DAYS_PAST_DUE,KFSAR008,1,CONFG,150,To set the value for STATE AGENCY FINAL days past due value used for sending strongly worded Dunning Letter requesting for payment.,A,KFS,
+KFS-BC,All,OLTP_LOCKOUT_ACTIVE_IND,KFSCNTRB65-2,1,CONFG,N,Y/N indicator showing if the budget construction module is currently unavailable for Online Transaction Processing (OLTP). Y means the module is currently locked and cannot be used. N means the module is unlocked and available for use.,A,KFS,
 KFS-BC,BudgetConstruction,ANNUAL_WORKING_HOURS,KFS18,1,CONFG,2080,The total working hours in a year,A,KFS,
 KFS-BC,BudgetConstruction,BIWEEKLY_PAY_TYPE_CODES,KFS19,1,CONFG,B,The Labor Object table pay type code for hourly/biweekly pay.,A,KFS,
 KFS-BC,BudgetConstruction,BUDGET_AGGREGATION_CODES,KFS20,1,VALID,O,Allowed Object Budget Aggregation Code(s),A,KFS,

@@ -549,7 +549,7 @@ public class AccountsReceivableModuleServiceImpl implements AccountsReceivableMo
 
     }
     
-    public CustomerAddress getPrimaryAddress(String customerNumber) {
+    public AccountsReceivableCustomerAddress getPrimaryAddress(String customerNumber) {
         return SpringContext.getBean(CustomerAddressService.class).getPrimaryAddress(customerNumber);
     }
 }

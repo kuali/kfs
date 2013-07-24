@@ -23,11 +23,8 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAgency;
-import org.kuali.kfs.module.ar.businessobject.CustomerAddress;
-import org.kuali.kfs.module.ar.document.service.CustomerAddressService;
 import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
 import org.kuali.kfs.sys.businessobject.ElectronicPaymentClaim;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ElectronicPaymentClaimingDocumentGenerationStrategy;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.api.exception.WorkflowException;
@@ -273,8 +270,9 @@ public class AccountsReceivableModuleServiceNoOp implements AccountsReceivableMo
     }
     
 
-    public CustomerAddress getPrimaryAddress(String customerNumber) {
-        return SpringContext.getBean(CustomerAddressService.class).getPrimaryAddress(customerNumber);
+    public AccountsReceivableCustomerAddress getPrimaryAddress(String customerNumber) {
+        LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
+        return null;
     }
 
 }

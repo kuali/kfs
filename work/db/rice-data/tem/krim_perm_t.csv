@@ -46,7 +46,7 @@ KFS10326,KFS-TEM-PERM-050,1,41,KFS-TEM,Modify Accounting Lines RELO MovingAndRel
 KFS10327,KFS-TEM-PERM-051,1,10,KFS-AR,Initiate Document CRM,Authorizes the initiation of the Customer Credit Memo Document.,Y
 KFS10328,KFS-TEM-PERM-052,1,40,KFS-TEM,Open Document TT,Authorizes users to open TT TEM Transactional Documents.,Y
 KFS10329,KFS-TEM-PERM-053,1,41,KFS-TEM,Modify Accounting Lines TT PreRoute sourceAccountingLines,Allows access to Modify the Accounting Lines on a TT doc that has not yet been submitted for routing.,Y
-KFS10330,KFS-TEM-PERM-054,1,16,KFS-TEM,Edit Document TT P,Edit permission for the TT document in PreRoute status.,Y
+KFS10330,KFS-TEM-PERM-054,1,16,KFS-TEM,Edit Document TT PreRoute,Edit permission for the TT document in PreRoute status.,Y
 KFS10331,KFS-TEM-PERM-055,1,41,KFS-TEM,Modify Accounting Lines TR PreRoute sourceAccountingLines,Allows access to Modify the Accounting Lines on a TR doc that has not yet been submitted for routing.,Y
 KFS10332,KFS-TEM-PERM-056,1,1,KFS-TEM,Full Edit Agency Data,Allows full edit on Agency Data,Y
 KFS10333,KFS-TEM-PERM-057,1,44,KFS-TEM,Modify Maintenance Document Section AgencyStagingData airline,Authorizes users to see and edit the airline section on Agency Audit Maintenance Document.,Y
@@ -54,9 +54,9 @@ KFS10334,KFS-TEM-PERM-058,1,44,KFS-TEM,Modify Maintenance Document Section Agenc
 KFS10335,KFS-TEM-PERM-059,1,44,KFS-TEM,Modify Maintenance Document Section AgencyStagingData rentalcar,Authorizes users to see and edit the car rental section on Agency Audit Maintenance Document.,Y
 KFS10336,KFS-TEM-PERM-060,1,23,KFS-TEM,Look Up Records TEMProfileAccount,Authorizes specific roles to view the TEM Profile lookup.,Y
 KFS10337,KFS-TEM-PERM-061,1,40,KFS-TEM,Open Document ENT,Authorizes users to open ENT documents.,Y
-KFS10338,KFS-TEM-PERM-062,1,16,KFS-TEM,Edit Document ENT P,Edit permission for the ENT document in PreRoute status.,Y
+KFS10338,KFS-TEM-PERM-062,1,16,KFS-TEM,Edit Document ENT PreRoute,Edit permission for the ENT document in PreRoute status.,Y
 KFS10339,KFS-TEM-PERM-063,1,40,KFS-TEM,Open Document RELO,Authorizes users to open RELO documents.,Y
-KFS10340,KFS-TEM-PERM-064,1,16,KFS-TEM,Edit Document RELO P,Edit permission for the RELO document in PreRoute status.,Y
+KFS10340,KFS-TEM-PERM-064,1,16,KFS-TEM,Edit Document RELO PreRoute,Edit permission for the RELO document in PreRoute status.,Y
 KFS10341,KFS-TEM-PERM-065,1,10,KFS-TEM,Initiate CTS Card Application,Authorizes users to initiate a CTS Card Application.,Y
 KFS10342,KFS-TEM-PERM-066,1,10,KFS-TEM,Initiate Credit Card Imported Expense Clearing Document,Authorizes users to initiate a Credit Card Imported Expense Clearing Document.,Y
 KFS10372,KFS-TEM-PERM-067,1,4,KFS-AR,Blanket Approve Document INV,Authorizes users to blanket approve an Invoice document.,Y

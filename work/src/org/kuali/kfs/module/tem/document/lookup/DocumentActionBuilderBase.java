@@ -33,6 +33,10 @@ import org.kuali.rice.kew.util.Utilities;
 public abstract class DocumentActionBuilderBase {
 
     public static Logger LOG = Logger.getLogger(DocumentActionBuilderBase.class);
+    protected volatile ConfigurationService configurationService;
+    protected volatile ParameterService parameterService;
+    protected volatile DocumentTypeService documentTypeService;
+    protected volatile TEMRoleService superEvilTemRoleService;
 
     /**
      *
@@ -86,7 +90,7 @@ public abstract class DocumentActionBuilderBase {
      * @param title
      * @return
      */
-    public String createDisbursementVoucherLink(DocumentSearchResult documentSearchResult) {
+    public String createVendorPaymentLink(DocumentSearchResult documentSearchResult) {
         final DocumentType docType = getDocumentTypeService().getDocumentTypeByName(TemConstants.DISBURSEMENT_VOUCHER_DOCTYPE);
 
         if (docType == null) {
@@ -97,7 +101,7 @@ public abstract class DocumentActionBuilderBase {
         String unresolvedDVURL = "${application.url}/" + TemConstants.TravelCustomSearchLinks.DV_URL + documentSearchResult.getDocument().getDocumentId();
 
         String DVURL = Utilities.substituteConfigParameters(docType.getApplicationId(), unresolvedDVURL);
-        String link = String.format("<a href=\"%s\" %s>%s</a>", DVURL, linkPopup, docType.getLabel());
+        String link = String.format("<a href=\"%s\" %s>%s</a>", DVURL, linkPopup, getConfigurationService().getPropertyValueAsString(TemKeyConstants.MESSAGE_DOCUMENT_VENDOR_PAYMENT_LINK));
         return link;
     }
 
@@ -135,26 +139,49 @@ public abstract class DocumentActionBuilderBase {
         StrBuilder paymentHTML = new StrBuilder();
         paymentHTML.setNewLineText("<br/>");
 
-        paymentHTML.appendln(createDisbursementVoucherLink(documentSearchResult));
+        paymentHTML.appendln(createVendorPaymentLink(documentSearchResult));
         paymentHTML.appendln(createAgencySitesLinks(tripId));
         return paymentHTML.toString();
     }
 
-
+    /**
+     * @return the default implementation of Rice's parameter service
+     */
     protected ParameterService getParameterService() {
-        return SpringContext.getBean(ParameterService.class);
+        if (parameterService == null) {
+            parameterService = SpringContext.getBean(ParameterService.class);
+        }
+        return parameterService;
     }
 
+    /**
+     * @return the default implementation of Rice's DocumentTypeService
+     */
     protected DocumentTypeService getDocumentTypeService() {
-        return SpringContext.getBean(DocumentTypeService.class);
+        if (documentTypeService == null) {
+            documentTypeService = SpringContext.getBean(DocumentTypeService.class);
+        }
+        return documentTypeService;
     }
 
-    protected ConfigurationService getConfigurationService() {
-        return SpringContext.getBean(ConfigurationService.class);
-    }
-
+    /**
+     * @return the default implementation of TEM's Role Service
+     */
     protected TEMRoleService getTemRoleService() {
-        return SpringContext.getBean(TEMRoleService.class);
+        if (superEvilTemRoleService == null) {
+            superEvilTemRoleService = SpringContext.getBean(TEMRoleService.class);
+        }
+        return superEvilTemRoleService;
+    }
+
+    /**
+     * @return the default implementation of the ConfigurationService
+     */
+    protected ConfigurationService getConfigurationService() {
+        if (configurationService == null) {
+            configurationService = SpringContext.getBean(ConfigurationService.class);
+        }
+        return configurationService;
     }
 
 }

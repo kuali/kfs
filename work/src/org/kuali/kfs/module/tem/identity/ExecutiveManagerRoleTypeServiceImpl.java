@@ -18,12 +18,7 @@ package org.kuali.kfs.module.tem.identity;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.module.tem.document.TravelRelocationDocument;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.kim.role.RoleTypeServiceBase;
-import org.kuali.rice.krad.service.DocumentService;
-import org.kuali.rice.krad.util.KRADPropertyConstants;
 
 @SuppressWarnings("deprecation")
 public class ExecutiveManagerRoleTypeServiceImpl extends RoleTypeServiceBase{
@@ -33,16 +28,12 @@ public class ExecutiveManagerRoleTypeServiceImpl extends RoleTypeServiceBase{
      */
     @Override
     protected boolean performMatch(Map<String, String> inputAttributes, Map<String, String> storedAttributes) {
-        try {
-            TravelRelocationDocument document = (TravelRelocationDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(inputAttributes.get(KRADPropertyConstants.DOCUMENT_NUMBER).toString());
-            String jobClassification = storedAttributes.get(TemKimAttributes.JOB_CLASSIFICATION_CODE);
-            if (!StringUtils.isBlank(jobClassification) && jobClassification.equals(document.getJobClsCode())){
-                return true;
-            }
-
-        }
-        catch (WorkflowException ex) {
-            ex.printStackTrace();
+        final String jobClassificationFromCheckInput = inputAttributes.get(TemKimAttributes.JOB_CLASSIFICATION_CODE);
+        final String jobClassificationFromRoleQualification = storedAttributes.get(TemKimAttributes.JOB_CLASSIFICATION_CODE);
+        if (StringUtils.isBlank(jobClassificationFromRoleQualification)) {
+            return true; // members with blank role qualifications always match
+        } else if (jobClassificationFromRoleQualification.equals(jobClassificationFromCheckInput)){
+            return true; // the classification codes matched
         }
         return false;
     }

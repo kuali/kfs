@@ -4,5 +4,4 @@ KFS10249,KFS-TEM-TYP-002,1,Derived Role: TEM Profile,temProfileDerivedRoleTypeSe
 KFS10250,KFS-TEM-TYP-003,1,TEM Profile Organization Hierarchy,temProfileOrganizationHierarchyRoleTypeService,Y,KFS-TEM
 KFS10251,KFS-TEM-TYP-004,1,TEM Profile Arranger Organization Hierarchy,temProfileArrangerOrganizationHierarchyRoleTypeService,Y,KFS-TEM
 KFS10252,KFS-TEM-TYP-005,1,Derived Role: TEM Profile Arranger,arrangerDerivedRoleTypeService,Y,KFS-TEM
-KFS10253,KFS-TEM-TYP-006,1,Traveler Type,internationalTravelManagerRoleTypeService,Y,KFS-TEM
 KFS10254,KFS-TEM-TYP-007,1,Job Classification,temExecutiveManagerRoleTypeService,Y,KFS-TEM

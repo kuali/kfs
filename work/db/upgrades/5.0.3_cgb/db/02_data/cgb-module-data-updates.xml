@@ -193,7 +193,6 @@
 		</update>
 	</changeSet>
 	
-	<!-- This is for demo data -->
 	
 	<changeSet author="kfs" id="CG_AGENCY_TYP_T_ADD_DEFAULT">
 		<insert tableName="CG_AGENCY_TYP_T">
@@ -205,20 +204,4 @@
 		</insert>
 	</changeSet>
 	
-	<changeSet author="KFS511CGB" id="CG_AWD_FNDMGR_T_DEMO_DATA">
-		<loadData tableName="cg_awd_fndmgr_t" file="cg_awd_fndmgr_t.csv" />
-	</changeSet>
-
-	<changeSet author="KFS511CGB" id="CG_AWD_PRJDR_T_DEMO_DATA">
-		<loadData tableName="cg_awd_prjdr_t" file="cg_awd_prjdr_t.csv" />
-	</changeSet>
-
-	<!--
-		<changeSet author="KFS511CGB" id="GL_BALANCE_T_DEMO_DATA">
-			<loadData tableName="gl_balance_t" file="gl_balance_t-1.csv" />
-			<loadData tableName="gl_balance_t" file="gl_balance_t-2.csv" />
-			<loadData tableName="gl_balance_t" file="gl_balance_t-3.csv" />
-			<loadData tableName="gl_balance_t" file="gl_balance_t-4.csv" />
-		</changeSet>
-	-->
 </databaseChangeLog>

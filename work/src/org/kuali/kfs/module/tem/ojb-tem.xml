@@ -1239,7 +1239,7 @@
 	</class-descriptor>
 	
 	<class-descriptor class="org.kuali.kfs.module.tem.businessobject.AgencyStagingData" table="TEM_AGENCY_STAGING_T">
-		<field-descriptor name="id" primarykey="true" sequence-name="TEM_AGENCY_STAGING_ID_SEQ" autoincrement="true" column="id" jdbc-type="INTEGER"/>
+		<field-descriptor name="id" primarykey="true" column="ID" jdbc-type="INTEGER"/>
 		<field-descriptor name="copiedFromId" column="COPIED_AGENCY_STAGING_ID" jdbc-type="INTEGER"/>
 		<field-descriptor name="errorCode" column="ERROR_CD" jdbc-type="VARCHAR"/>
 		<field-descriptor name="duplicateRecordId" column="DUP_REC_ID" jdbc-type="INTEGER"/>

@@ -72,6 +72,8 @@ import org.kuali.rice.krad.util.ObjectUtils;
  * Base class for travel documents
  */
 public abstract class TravelFormBase extends KualiAccountingDocumentFormBase implements TravelMvcWrapperBean {
+    protected static final String VENDOR_PAYMENT_BUTTON_IMAGE_NAME = "buttonsmall_vendorpayment.gif";
+
     private Integer travelerId;
     private Integer tempTravelerId;
     private String empPrincipalId;
@@ -665,7 +667,7 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
         // Pay DV to Vendor Button
         ExtraButton payDVToVendorButton = new ExtraButton();
         payDVToVendorButton.setExtraButtonProperty("methodToCall.payDVToVendor");
-        payDVToVendorButton.setExtraButtonSource("${" + EXTERNALIZABLE_IMAGES_URL_KEY + "}buttonsmall_pay_dv.gif");
+        payDVToVendorButton.setExtraButtonSource("${" + EXTERNALIZABLE_IMAGES_URL_KEY + "}"+VENDOR_PAYMENT_BUTTON_IMAGE_NAME);
         payDVToVendorButton.setExtraButtonAltText("Pay DV to Vendor");
         payDVToVendorButton.setExtraButtonOnclick("javascript: window.open('" + TravelCustomSearchLinks.DV_URL + getDocument().getDocumentNumber() + "');");
 

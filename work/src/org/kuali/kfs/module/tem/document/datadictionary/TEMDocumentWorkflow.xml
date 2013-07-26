@@ -13,9 +13,22 @@
     <bean id="TravelDocument-workflowAttributes" parent="TravelDocument-workflowAttributes-parentBean" />
 
     <bean id="TravelDocument-workflowAttributes-parentBean" abstract="true" parent="Tem-WorkflowAttributes">
-        <property name="searchingTypeDefinitions">
-            <list>
-                <bean parent="TravelModule-SearchingTypeDefinition-applicationDocumentStatus" />
+        <property name="searchingTypeDefinitions" ref="TravelDocument-workflowAttributes-standardSearchingDefinitions" />
+        <property name="routingTypeDefinitions">
+            <map>
+                <entry key="Account" value-ref="RoutingType-AccountingDocument-Account-sourceOnly" />
+                <entry key="AccountingOrganizationHierarchy" value-ref="RoutingType-TravelAuthorizationDocument-AccountingOrganizationHierarchy" />
+                <entry key="SubFund" value-ref="RoutingType-AccountingDocument-SubFund" />
+                <entry key="Award" value-ref="RoutingType-AccountingDocument-Award" />
+            </map>
+        </property>
+    </bean>
+    
+    <bean id="TravelDocument-workflowAttributes-standardSearchingDefinitions" parent="TravelDocument-workflowAttributes-standardSearchingDefinitions-parentBean"/>
+    <bean id="TravelDocument-workflowAttributes-standardSearchingDefinitions-parentBean" class="org.springframework.beans.factory.config.ListFactoryBean" abstract="true">
+    	<property name="sourceList">
+			<list>
+				<bean parent="TravelModule-SearchingTypeDefinition-applicationDocumentStatus" />
                 <bean parent="TravelModule-SearchingTypeDefinition-travelDocumentIdentifier" />
                 <bean parent="TravelModule-SearchingTypeDefinition-tripBegin" />
                 <bean parent="TravelModule-SearchingTypeDefinition-tripEnd" />
@@ -26,16 +39,8 @@
                 <bean parent="TravelModule-SearchingTypeDefinition-traveler.lastName" />
                 <bean parent="TravelModule-SearchingTypeDefinition-primaryDestinationCountryState" />
                 <bean parent="TravelModule-SearchingTypeDefinition-sourceAccountingLines.financialObjectCode" />
-            </list>
-        </property>
-        <property name="routingTypeDefinitions">
-            <map>
-                <entry key="Account" value-ref="RoutingType-AccountingDocument-Account-sourceOnly" />
-                <entry key="AccountingOrganizationHierarchy" value-ref="RoutingType-TravelAuthorizationDocument-AccountingOrganizationHierarchy" />
-                <entry key="SubFund" value-ref="RoutingType-AccountingDocument-SubFund" />
-                <entry key="Award" value-ref="RoutingType-AccountingDocument-Award" />
-            </map>
-        </property>
+			</list>
+		</property>
     </bean>
 
     <bean id="TravelModule-SearchingTypeDefinition-travelDocumentIdentifier" class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">

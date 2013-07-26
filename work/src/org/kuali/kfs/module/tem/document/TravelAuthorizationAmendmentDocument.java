@@ -26,7 +26,9 @@ import org.kuali.kfs.module.tem.TemConstants.TravelDocTypes;
 import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.BankService;
+import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.document.DocumentStatus;
+import org.kuali.rice.kew.api.document.attribute.DocumentAttributeIndexingQueue;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 import org.kuali.rice.krad.document.Document;
@@ -50,14 +52,14 @@ public class TravelAuthorizationAmendmentDocument extends TravelAuthorizationDoc
 
             List<Document> relatedDocs = getTravelDocumentService().getDocumentsRelatedTo(this, TravelDocTypes.TRAVEL_AUTHORIZATION_DOCUMENT,
                     TravelDocTypes.TRAVEL_AUTHORIZATION_AMEND_DOCUMENT);
-            final DocumentService documentService = SpringContext.getBean(DocumentService.class);
 
             //updating the related's document appDocStatus to be retired
+            final DocumentAttributeIndexingQueue documentAttributeIndexingQueue = KewApiServiceLocator.getDocumentAttributeIndexingQueue();
             try {
                 for (Document document : relatedDocs){
-                    if (!document.getDocumentNumber().equals(this.getDocumentNumber())) {
-                        ((TravelAuthorizationDocument) document).updateAppDocStatus(TravelAuthorizationStatusCodeKeys.RETIRED_VERSION);
-                        documentService.saveDocument(document);
+                    if (!document.getDocumentNumber().equals(this.getDocumentNumber()) && document instanceof TravelAuthorizationDocument) {
+                        ((TravelAuthorizationDocument) document).updateAndSaveAppDocStatus(TravelAuthorizationStatusCodeKeys.RETIRED_VERSION);
+                        documentAttributeIndexingQueue.indexDocument(document.getDocumentNumber());
                     }
                 }
             }

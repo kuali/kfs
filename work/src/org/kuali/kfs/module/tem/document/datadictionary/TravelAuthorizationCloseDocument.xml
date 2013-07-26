@@ -109,25 +109,7 @@
       parent="TravelAuthorizationCloseDocument-workflowAttributes-parentBean"/>
 
     <bean id="TravelAuthorizationCloseDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
-        <property name="searchingTypeDefinitions">
-            <list>
-                <bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">                    
-                    <property name="searchingAttribute">
-                        <bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
-                            <property name="businessObjectClassName" value="org.kuali.kfs.module.tem.document.TravelAuthorizationDocument"/>
-                            <property name="attributeName" value="travelDocumentIdentifier"/>
-                            <property name="showAttributeInSearchCriteria" value="true"/>
-                            <property name="showAttributeInResultSet" value="true"/>
-                        </bean>
-                    </property>
-                    <property name="documentValues">
-                        <list>
-                            <value>travelDocumentIdentifier</value>
-                        </list>
-                    </property>
-                </bean>
-            </list>
-        </property>     
+        <property name="searchingTypeDefinitions" ref="TravelDocument-workflowAttributes-standardSearchingDefinitions" />  
     </bean> 
 
 </beans>

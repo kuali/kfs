@@ -107,9 +107,7 @@
 	<kul:superUserActions />
     <kul:panelFooter />
     
-    <c:if test="${KualiForm.docTypeName!=TemConstants.TravelDocTypes.TRAVEL_AUTHORIZATION_CLOSE_DOCUMENT}"> 
     <sys:documentControls transactionalDocument="${documentEntry.transactionalDocument}" extraButtons="${KualiForm.extraButtons}"/>
-    </c:if>
 
 <script>
 	$(document).ready(function() {

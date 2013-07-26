@@ -659,27 +659,6 @@
 		</createTable>
 	</changeSet>
 
-	<changeSet author="kfs" id="CG_AWD_INV_ACCT_T">
-		
-		<createTable tableName="CG_AWD_INV_ACCT_T">
-			<column name="CGPRPSL_NBR" type="decimal(12,0)">
-				<constraints primaryKey="true" nullable="false" />
-			</column>
-			<column name="FIN_COA_CD" type="varchar(2)" />
-			<column name="UNIV_FISCAL_YR" type="decimal(4,0)" />
-			<column name="ACCOUNT_NBR" type="varchar(7)" />
-			<column name="FIN_OBJECT_CD" type="varchar(4)" />
-			<column name="SUB_ACCT_NBR" type="varchar(5)" />
-			<column name="FIN_SUB_OBJ_CD" type="varchar(3)" />
-			<column name="ACCT_TYP" type="varchar(45)" />
-			<column name="ROW_ACTV_IND" type="varchar(1)" />
-			<column name="OBJ_ID" type="varchar(36)">
-				<constraints unique="true" nullable="false" />
-			</column>
-			<column name="VER_NBR" type="decimal(8,0)" defaultValue="1" />
-		</createTable>
-	</changeSet>
-
 	<!-- To add letter of credit fund column in award table -->
 
 	<changeSet author="kfs" id="CG_AWD_T_ADD_FIELDS">
@@ -1055,9 +1034,7 @@
 	<!-- To make char code, account number primary to differentiate one account 
 		from another. Dropping the table and creating again as this would be a crucial 
 		change to the table -->
-	<changeSet author="kfs" id="CG_AWD_INV_ACCT_T_RECREATE">
-		<dropTable tableName="CG_AWD_INV_ACCT_T" />
-		
+	<changeSet author="kfs" id="CG_AWD_INV_ACCT_T_CREATE">
 		<createTable tableName="CG_AWD_INV_ACCT_T">
 			<column name="CGPRPSL_NBR" type="decimal(12,0)" defaultValue="0">
 				<constraints primaryKey="true" nullable="false" />
@@ -1443,8 +1420,8 @@
 		</createTable>
 
 		<modifySql dbms="oracle">
-			<replace replace="VARCHAR" with="VARCHAR2" />
-			<replace replace="DECIMAL" with="NUMBER" />
+			<replace replace="varchar" with="varchar2" />
+			<replace replace="decimal" with="number" />
 		</modifySql>
 	</changeSet>
 
@@ -1471,9 +1448,9 @@
 		</createTable>
 
 		<modifySql dbms="oracle">
-			<replace replace="VARCHAR" with="VARCHAR2" />
-			<replace replace="DECIMAL" with="NUMBER" />
-			<replace replace="DATETIME" with="DATE" />
+			<replace replace="varchar" with="varchar2" />
+			<replace replace="decimal" with="number" />
+			<replace replace="datetime" with="date" />
 		</modifySql>
 	</changeSet>
 
@@ -1519,8 +1496,8 @@
 			</column>
 		</createTable>
 		<modifySql dbms="oracle">
-			<replace replace="VARCHAR" with="VARCHAR2" />
-			<replace replace="DECIMAL" with="NUMBER" />
+			<replace replace="varchar" with="varchar2" />
+			<replace replace="decimal" with="number" />
 		</modifySql>
 	</changeSet>
 
@@ -1550,8 +1527,8 @@
 		</createTable>
 
 		<modifySql dbms="oracle">
-			<replace replace="VARCHAR" with="VARCHAR2" />
-			<replace replace="DECIMAL" with="NUMBER" />
+			<replace replace="varchar" with="varchar2" />
+			<replace replace="decimal" with="number" />
 		</modifySql>
 	</changeSet>
 
@@ -1581,8 +1558,8 @@
 		</createTable>
 
 		<modifySql dbms="oracle">
-			<replace replace="VARCHAR" with="VARCHAR2" />
-			<replace replace="DECIMAL" with="NUMBER" />
+			<replace replace="varchar" with="varchar2" />
+			<replace replace="decimal" with="number" />
 		</modifySql>
 	</changeSet>
 
@@ -1605,8 +1582,8 @@
 		</createTable>
 
 		<modifySql dbms="oracle">
-			<replace replace="VARCHAR" with="VARCHAR2" />
-			<replace replace="DECIMAL" with="NUMBER" />
+			<replace replace="varchar" with="varchar2" />
+			<replace replace="decimal" with="number" />
 		</modifySql>
 
 	</changeSet>
@@ -1636,8 +1613,8 @@
 		</createTable>
 
 		<modifySql dbms="oracle">
-			<replace replace="VARCHAR" with="VARCHAR2" />
-			<replace replace="DECIMAL" with="NUMBER" />
+			<replace replace="varchar" with="varchar2" />
+			<replace replace="decimal" with="number" />
 		</modifySql>
 	</changeSet>
 
@@ -1666,7 +1643,7 @@
 			<column name="AGENCY_NBR" type="varchar(5)" />
 		</addColumn>
 		<modifySql dbms="oracle">
-			<replace replace="VARCHAR" with="VARCHAR2" />
+			<replace replace="varchar" with="varchar2" />
 		</modifySql>
 	</changeSet>
 
@@ -1678,7 +1655,7 @@
 				defaultValue="N" />
 		</addColumn>
 		<modifySql dbms="oracle">
-			<replace replace="VARCHAR" with="VARCHAR2" />
+			<replace replace="varchar" with="varchar2" />
 		</modifySql>
 	</changeSet>
 
@@ -1689,7 +1666,7 @@
 		</addColumn>
 
 		<modifySql dbms="oracle">
-			<replace replace="VARCHAR" with="VARCHAR2" />
+			<replace replace="varchar" with="varchar2" />
 		</modifySql>
 	</changeSet>
 
@@ -1701,8 +1678,8 @@
 			<column name="DUN_LTR_SNT_DT" type="datetime" />
 		</addColumn>
 		<modifySql dbms="oracle">
-			<replace replace="VARCHAR" with="VARCHAR2" />
-			<replace replace="DATETIME" with="DATE" />
+			<replace replace="varchar" with="varchar2" />
+			<replace replace="datetime" with="date" />
 		</modifySql>
 	</changeSet>
 
@@ -1727,8 +1704,8 @@
 		</createTable>
 
 		<modifySql dbms="oracle">
-			<replace replace="VARCHAR" with="VARCHAR2" />
-			<replace replace="DECIMAL" with="NUMBER" />
+			<replace replace="varchar" with="varchar2" />
+			<replace replace="decimal" with="number" />
 		</modifySql>
 	</changeSet>
 
@@ -1764,9 +1741,9 @@
 		</createTable>
 
 		<modifySql dbms="oracle">
-			<replace replace="VARCHAR" with="VARCHAR2" />
-			<replace replace="DECIMAL" with="NUMBER" />
-			<replace replace="DATETIME" with="DATE" />
+			<replace replace="varchar" with="varchar2" />
+			<replace replace="decimal" with="number" />
+			<replace replace="datetime" with="date" />
 		</modifySql>
 	</changeSet>
 
@@ -1798,7 +1775,7 @@
 			<column name="CUST_NM" type="varchar(60)" />
 		</addColumn>
 		<modifySql dbms="oracle">
-			<replace replace="VARCHAR" with="VARCHAR2" />
+			<replace replace="varchar" with="varchar2" />
 		</modifySql>
 	</changeSet>
 
@@ -1820,8 +1797,8 @@
 		</createTable>
 
 		<modifySql dbms="oracle">
-			<replace replace="VARCHAR" with="VARCHAR2" />
-			<replace replace="DECIMAL" with="NUMBER" />
+			<replace replace="varchar" with="varchar2" />
+			<replace replace="decimal" with="number" />
 		</modifySql>
 	</changeSet>
 
@@ -1846,8 +1823,8 @@
 		</createTable>
 
 		<modifySql dbms="oracle">
-			<replace replace="VARCHAR" with="VARCHAR2" />
-			<replace replace="DECIMAL" with="NUMBER" />
+			<replace replace="varchar" with="varchar2" />
+			<replace replace="decimal" with="number" />
 		</modifySql>
 	</changeSet>
 
@@ -1875,8 +1852,8 @@
 		</createTable>
 
 		<modifySql dbms="oracle">
-			<replace replace="VARCHAR" with="VARCHAR2" />
-			<replace replace="DECIMAL" with="NUMBER" />
+			<replace replace="varchar" with="varchar2" />
+			<replace replace="decimal" with="number" />
 		</modifySql>
 	</changeSet>
 
@@ -1910,9 +1887,9 @@
 		</createTable>
 
 		<modifySql dbms="oracle">
-			<replace replace="VARCHAR" with="VARCHAR2" />
-			<replace replace="DECIMAL" with="NUMBER" />
-			<replace replace="DATETIME" with="DATE" />
+			<replace replace="varchar" with="varchar2" />
+			<replace replace="decimal" with="number" />
+			<replace replace="datetime" with="date" />
 		</modifySql>
 	</changeSet>
 
@@ -1942,8 +1919,8 @@
 		</addColumn>
 
 		<modifySql dbms="oracle">
-			<replace replace="VARCHAR" with="VARCHAR2" />
-			<replace replace="DECIMAL" with="NUMBER" />
+			<replace replace="varchar" with="varchar2" />
+			<replace replace="decimal" with="number" />
 		</modifySql>
 	</changeSet>
 
@@ -1966,8 +1943,8 @@
 		</createTable>
 
 		<modifySql dbms="oracle">
-			<replace replace="VARCHAR" with="VARCHAR2" />
-			<replace replace="DECIMAL" with="NUMBER" />
+			<replace replace="varchar" with="varchar2" />
+			<replace replace="decimal" with="number" />
 		</modifySql>
 	</changeSet>
 
@@ -1985,9 +1962,9 @@
 		</addColumn>
 
 		<modifySql dbms="oracle">
-			<replace replace="VARCHAR" with="VARCHAR2" />
-			<replace replace="DECIMAL" with="NUMBER" />
-			<replace replace="DATETIME" with="DATE" />
+			<replace replace="varchar" with="varchar2" />
+			<replace replace="decimal" with="number" />
+			<replace replace="datetime" with="date" />
 		</modifySql>
 	</changeSet>
 
@@ -2014,9 +1991,9 @@
 		</createTable>
 
 		<modifySql dbms="oracle">
-			<replace replace="VARCHAR" with="VARCHAR2" />
-			<replace replace="DECIMAL" with="NUMBER" />
-			<replace replace="DATETIME" with="DATE" />
+			<replace replace="varchar" with="varchar2" />
+			<replace replace="decimal" with="number" />
+			<replace replace="datetime" with="date" />
 		</modifySql>
 	</changeSet>
 
@@ -2058,8 +2035,8 @@
 		</createTable>
 
 		<modifySql dbms="oracle">
-			<replace replace="VARCHAR" with="VARCHAR2" />
-			<replace replace="DECIMAL" with="NUMBER" />
+			<replace replace="varchar" with="varchar2" />
+			<replace replace="decimal" with="number" />
 		</modifySql>
 	</changeSet>
 
@@ -2075,7 +2052,7 @@
 			<column name="LEVEL_CDS" type="varchar(255)"/>
 		</addColumn>
 		<modifySql dbms="oracle">
-			<replace replace="VARCHAR" with="VARCHAR2" />
+			<replace replace="varchar" with="varchar2" />
 		</modifySql>
 	</changeSet>
 	
@@ -2099,9 +2076,9 @@
 		</addColumn>
 
 		<modifySql dbms="oracle">
-			<replace replace="VARCHAR" with="VARCHAR2" />
-			<replace replace="DECIMAL" with="NUMBER" />
-			<replace replace="DATETIME" with="DATE" />
+			<replace replace="varchar" with="varchar2" />
+			<replace replace="decimal" with="number" />
+			<replace replace="datetime" with="date" />
 		</modifySql>
 	</changeSet>
 	

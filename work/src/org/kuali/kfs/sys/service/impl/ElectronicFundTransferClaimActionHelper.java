@@ -93,7 +93,7 @@ public class ElectronicFundTransferClaimActionHelper implements ElectronicFundTr
         // put any remaining claims into a claiming doc
         String chosenDoc = form.getChosenElectronicPaymentClaimingDocumentCode();
         continueClaiming &= checkChosenDocumentType(chosenDoc);
-        if (continueClaiming && "YEDI".equalsIgnoreCase(chosenDoc)) {
+        if (continueClaiming && KFSConstants.FinancialDocumentTypeCodes.YEAR_END_DISTRIBUTION_OF_INCOME_AND_EXPENSE.equalsIgnoreCase(chosenDoc)) {
             continueClaiming &= checkYEDIclaims(claims);
         }
 

@@ -257,7 +257,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
     @Override
     public String getAppDocStatus() {
         String status = getDocumentHeader().getWorkflowDocument().getApplicationDocumentStatus();
-        return StringUtils.defaultIfEmpty(status, TemConstants.TRAVEL_DOC_APP_DOC_STATUS_INIT);
+        return status;
     }
 
     /**

@@ -608,14 +608,6 @@ public class TravelAuthorizationAction extends TravelActionBase {
         TravelAuthorizationDocument travelReqDoc = authForm.getTravelAuthorizationDocument();
         String tripTypeCode = travelReqDoc.getTripTypeCode();
 
-        /**
-         * KUALITEM-360 Need to call updateAppDocStatus to save the document status if the document is in initial state or if it
-         * currently doesn't have a status code to prevent errors further down the process.
-         **/
-        if (ObjectUtils.isNull(travelReqDoc.getAppDocStatus()) || travelReqDoc.getDocumentHeader().getWorkflowDocument().isInitiated()) {
-            travelReqDoc.updateAppDocStatus(TravelAuthorizationStatusCodeKeys.IN_PROCESS);
-        }
-
         LOG.debug("Got special circumstances "+ authForm.getTravelAuthorizationDocument().getSpecialCircumstances());
         LOG.debug("Save Called on "+ getClass().getSimpleName()+ " for "+ authForm.getDocument().getClass().getSimpleName());
         LOG.debug("Saving document traveler detail "+ travelReqDoc.getTravelerDetailId());

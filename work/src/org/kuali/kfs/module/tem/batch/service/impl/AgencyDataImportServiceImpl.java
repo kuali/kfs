@@ -171,8 +171,7 @@ public class AgencyDataImportServiceImpl implements AgencyDataImportService {
             int count = 1;
             NextAgencyStagingDataIdFinder idFinder = new NextAgencyStagingDataIdFinder();
             for (AgencyStagingData agency : agencyData.getAgencies()) {
-
-                agency.setId(Integer.getInteger(idFinder.getValue()));
+                agency.setId(Integer.valueOf(idFinder.getValue()));
                 agency.setImportBy(agencyData.getImportBy());
                 agency.setStagingFileName(StringUtils.substringAfterLast(dataFileName, "\\"));
 

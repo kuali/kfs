@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -24,6 +24,7 @@ import java.util.Set;
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.businessobject.ElectronicPaymentClaim;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -49,7 +50,7 @@ public class ElectronicFundTransferClaimActionHelper implements ElectronicFundTr
     private DataDictionaryService ddService;
     private BusinessObjectService boService;
     private DocumentService documentService;
-    
+
     protected static final String ACTION_NAME = "claim";
     protected static final String CHOSEN_DOCUMENT_PROPERTY = "chosenElectronicPaymentClaimingDocumentCode";
     protected static final String CLAIM_PROPERTY = "claims";
@@ -69,14 +70,14 @@ public class ElectronicFundTransferClaimActionHelper implements ElectronicFundTr
         if (!form.hasAvailableClaimingDocumentStrategies()) {
             throw new AuthorizationException(currentUser.getPrincipalName(), ElectronicFundTransferClaimActionHelper.ACTION_NAME, ddService.getDataDictionary().getBusinessObjectEntry(ElectronicPaymentClaim.class.getName()).getTitleAttribute());
         }
-        
+
         // did the user say they have documentation?  If not, give an error...
         boolean continueClaiming = true;
         continueClaiming = handleDocumentationForClaim(form.getHasDocumentation());
-        
+
         // process admin's pre-claimed records
         List<ElectronicPaymentClaim> claims = form.getClaims();
-        
+
         boolean isAuthorized = form.isAllowElectronicFundsTransferAdministration();
         if (isAuthorized) {
             claims = handlePreClaimedRecords(claims, generatePreClaimedByCheckboxSet(form.getClaimedByCheckboxHelpers()), form.getAvailableClaimingDocumentStrategies());
@@ -89,7 +90,7 @@ public class ElectronicFundTransferClaimActionHelper implements ElectronicFundTr
                 return mapping.findForward(PORTAL_FORWARD);
             }
         }
-        
+
         // put any remaining claims into a claiming doc
         String chosenDoc = form.getChosenElectronicPaymentClaimingDocumentCode();
         continueClaiming &= checkChosenDocumentType(chosenDoc);
@@ -107,7 +108,7 @@ public class ElectronicFundTransferClaimActionHelper implements ElectronicFundTr
             return mapping.findForward(ElectronicFundTransferClaimActionHelper.BASIC_FORWARD);
         }
     }
-    
+
     /**
      * Verifies that the chosenElectronicPaymentClaimingDocumentCode has been filled in.
      * @param chosenDoc the value of chosenElectronicPaymentClaimingDocumentCode from the form
@@ -148,7 +149,7 @@ public class ElectronicFundTransferClaimActionHelper implements ElectronicFundTr
     }
 
     /**
-     * Using user entered form values, determines which of the available ElectronicPaymentClaimingDocumentGenerationStrategy implementations to use. 
+     * Using user entered form values, determines which of the available ElectronicPaymentClaimingDocumentGenerationStrategy implementations to use.
      * @param chosenDoc the document type code for the doc that the user selected
      * @param availableClaimingDocs a List of ElectronicPaymentClaimingDocumentGenerationStrategy implementations that can be used by the given user
      * @param currentUser the currently logged in user
@@ -170,11 +171,11 @@ public class ElectronicFundTransferClaimActionHelper implements ElectronicFundTr
         }
         return chosenDocHelper;
     }
-    
+
     /**
      * Administrative users can fill in a field that says that a given electronic payment claim has already been claimed by another document.  This method
      * traverses through the list of electronic payment claims, checks if it is pre-claimed, and saves it if it is pre-claimed
-     * @param claims the list of electronic payment claims 
+     * @param claims the list of electronic payment claims
      * @return the list of electronic payment claims with all pre-claimed records removed
      */
     protected List<ElectronicPaymentClaim> handlePreClaimedRecords(List<ElectronicPaymentClaim> claims, Set<String> preClaimedByCheckbox, List<ElectronicPaymentClaimingDocumentGenerationStrategy> documentGenerationStrategies) {
@@ -209,7 +210,7 @@ public class ElectronicFundTransferClaimActionHelper implements ElectronicFundTr
         }
         return stillToClaim;
     }
-    
+
     /**
      * Uses the list of checked pre-claimed checkbox helpers to create a Set of representations of electronic payment claim records that were marked as "pre-claimed"
      * @param checkboxHelpers the list of checked ElectronicPaymentClaimClaimedHelpers from the form
@@ -222,7 +223,7 @@ public class ElectronicFundTransferClaimActionHelper implements ElectronicFundTr
         }
         return claimedByCheckboxRepresentations;
     }
-    
+
     /**
      * Checks that the user was able to answer the "has documentation?" question correctly
      * @param hasDocumentation the user's response to the "has documentation" question
@@ -234,7 +235,7 @@ public class ElectronicFundTransferClaimActionHelper implements ElectronicFundTr
             GlobalVariables.getMessageMap().putError(ElectronicFundTransferClaimActionHelper.HAS_DOCUMENTATION_PROPERTY, KFSKeyConstants.ElectronicPaymentClaim.ERROR_NO_DOCUMENTATION, new String[] {});
             success = false;
         }
-        
+
         return success;
     }
 
@@ -269,6 +270,6 @@ public class ElectronicFundTransferClaimActionHelper implements ElectronicFundTr
     public void setDocumentService(DocumentService documentService) {
         this.documentService = documentService;
     }
-    
+
 }
 

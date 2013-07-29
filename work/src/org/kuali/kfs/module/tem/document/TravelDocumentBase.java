@@ -714,10 +714,10 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
             sb.append(format.format(this.getTripBegin()) + " ");
         }
 
-        if(!ObjectUtils.isNull(getPrimaryDestination()) && StringUtils.isNotEmpty(getPrimaryDestination().getPrimaryDestinationName()) && getPrimaryDestination().getId().intValue() != TemConstants.CUSTOM_PER_DIEM_ID) {
+        if(!ObjectUtils.isNull(getPrimaryDestination()) && !StringUtils.isBlank(getPrimaryDestination().getPrimaryDestinationName()) && getPrimaryDestinationId() != null && getPrimaryDestinationId().intValue() != TemConstants.CUSTOM_PER_DIEM_ID) {
         	sb.append(getPrimaryDestination().getPrimaryDestinationName());
         } else  {
-            if (getPrimaryDestinationName() != null) {
+            if (!StringUtils.isBlank(getPrimaryDestinationName())) {
                 sb.append(getPrimaryDestinationName());
             }
         }
@@ -1366,7 +1366,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
     /**
      * Get all Actual expenses with details
      *
-     * If expenses have details, use that information instead of the original expense
+     * If expenses have details, use them too
      *
      * @return
      */
@@ -1374,10 +1374,10 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
         List<TEMExpense> expenseList = new ArrayList<TEMExpense>();
         if (ObjectUtils.isNotNull(getActualExpenses())) {
             for (ActualExpense ae : getActualExpenses()) {
-                if (ae.getExpenseDetails().isEmpty()) {
+                expenseList.add(ae);
+
+                if (!ae.getExpenseDetails().isEmpty()) {
                     expenseList.addAll(ae.getExpenseDetails());
-                } else {
-                    expenseList.add(ae);
                 }
             }
         }

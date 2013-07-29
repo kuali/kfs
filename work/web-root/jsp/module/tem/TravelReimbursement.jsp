@@ -65,7 +65,7 @@
 	<sys:paymentMessages />
 	
     <tem-tr:tripOverview />
-    <tem-tr:travelAdvances />
+    <tem:travelAdvances />
 
     <!-- Expenses related -->
     <c:if test="${not empty KualiForm.document.primaryDestinationName}"> 

@@ -103,7 +103,10 @@ public class TEMProfileLookupableHelperServiceImpl extends KualiLookupableHelper
         List<TEMProfile> searchResults = (List<TEMProfile>) super.getSearchResults(fieldValues);
         List<TEMProfile> profiles = new ArrayList<TEMProfile>();
         for (TEMProfile profile : searchResults){
-            getTravelerService().populateTEMProfile(profile);
+            //only repopulate kim based tem profiles
+            if (!StringUtils.isBlank(profile.getPrincipalId())) {
+                getTravelerService().populateTEMProfile(profile);
+            }
             profiles.add(profile);
         }
 

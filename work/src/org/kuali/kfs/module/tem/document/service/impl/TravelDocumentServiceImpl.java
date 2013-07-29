@@ -2085,6 +2085,24 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
         return false;
     }
 
+    /**
+     * Returns all travel advances associated with the given trip id
+     * @see org.kuali.kfs.module.tem.document.service.TravelReimbursementService#getTravelAdvancesForTrip(java.lang.String)
+     */
+    @Override
+    public List<TravelAdvance> getTravelAdvancesForTrip(String travelDocumentIdentifier) {
+        Map<String, String> criteria = new HashMap<String, String>();
+        criteria.put(TemPropertyConstants.TRAVEL_DOCUMENT_IDENTIFIER, travelDocumentIdentifier);
+        List<TravelAdvance> advances = new ArrayList<TravelAdvance>();
+        final Collection<TravelAdvance> foundAdvances = getBusinessObjectService().findMatchingOrderBy(TravelAdvance.class, criteria, KFSPropertyConstants.DOCUMENT_NUMBER, true);
+        for (TravelAdvance foundAdvance: foundAdvances) {
+            if (foundAdvance.isAtLeastPartiallyFilledIn()) {
+                advances.add(foundAdvance);
+            }
+        }
+        return advances;
+    }
+
     public PersistenceStructureService getPersistenceStructureService() {
         return persistenceStructureService;
     }

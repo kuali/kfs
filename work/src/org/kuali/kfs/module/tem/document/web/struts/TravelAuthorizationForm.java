@@ -66,6 +66,7 @@ public class TravelAuthorizationForm extends TravelFormBase implements TravelAut
     private boolean showPolicy;
     private boolean waitingOnTraveler;
     private Boolean showCorporateCardTotal;
+    private boolean showTravelAdvancesForTrip;
 
     protected transient FormFile advanceAccountingFile;
 
@@ -382,14 +383,19 @@ public class TravelAuthorizationForm extends TravelFormBase implements TravelAut
     }
 
     /**
-     * Gets the multipleAdvances attribute.
-     * @return Returns the multipleAdvances.
+     * @return true if travel advances for trip should be shown, false otherwise
      */
-    public boolean isMultipleAdvances() {
-        if (multipleAdvances == null) {
-            multipleAdvances = Boolean.valueOf(getParameterService().getParameterValueAsBoolean(TravelAuthorizationDocument.class, TravelAuthorizationParameters.MULTIPLE_CASH_ADVANCES_ALLOWED_IND, false));
-        }
-        return multipleAdvances.booleanValue();
+    public boolean isShowTravelAdvancesForTrip() {
+        return showTravelAdvancesForTrip;
+    }
+
+    /**
+     * Sets whether the travel advances for the rest of the trip (ie, not this document's travel advance, but other completed advances related to this trip)
+     * should be shown
+     * @param showTravelAdvancesForTrip true if travel advances for trip should be shown, false otherwise
+     */
+    public void setShowTravelAdvancesForTrip(boolean showTravelAdvancesForTrip) {
+        this.showTravelAdvancesForTrip = showTravelAdvancesForTrip;
     }
 
     /**

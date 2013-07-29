@@ -65,6 +65,8 @@ public class TemKeyConstants {
     public static final String WARNING_NOTES_JUSTIFICATION             = "warning.document.tem.actualexpense.notesJustification";
     public static final String WARNING_PERDIEM_EXPENSE_LODGING_ENTERED = "warning.document.tem.perdiemexpense.lodgingentered";
 
+    public static final String MESSAGE_DOCUMENT_VENDOR_PAYMENT_LINK = "message.document.vendor.payment.link";
+
     // errors
     public static final String TRVL_AUTH_TRVL_ADVANCE_ERRORS = "document.travelAdvance*,travelAdvance.*,advanceAccountingLines*,advanceTravelPayment.*,document.advanceTravelPayment.*,document.advanceAccountingLines*,newAdvanceAccountingLine*";
 

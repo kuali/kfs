@@ -19,6 +19,7 @@
 <c:set var="documentAttributes"	value="${DataDictionary.TemCTSCardApplicationDocument.attributes}" />
 
 <c:set var="documentTypeName" value="TemCTSCardApplicationDocument"/>
+<c:set var="canEdit" value="${KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" scope="request" />
 
 <c:set var="fullEntryMode" value="${KualiForm.editingMode['fullEntry']}" scope="request" />
 <c:set var="documentTitle" value="" />
@@ -28,7 +29,7 @@
     showTabButtons="true">
     <sys:documentOverview editingMode="${KualiForm.editingMode}" />
     <tem:profileTab />
-    <tem:agreementTab property="userAgreement" documentAttribute="${documentAttributes.userAgreement}" text="${KualiForm.document.userAgreementText}" title="User Agreement" enable="${KualiForm.initiator }" open="${KualiForm.initiator}" />
+    <tem:agreementTab property="userAgreement" documentAttribute="${documentAttributes.userAgreement}" text="${KualiForm.document.userAgreementText}" title="User Agreement" enable="${KualiForm.initiator && canEdit}" open="${KualiForm.initiator}" />
     <kul:tab tabTitle="Banking Information" defaultOpen="true">
     <div class="tab-container" align="center">
 	    <table cellpadding=0 class="datatable" summary="Banking Information">

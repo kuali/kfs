@@ -311,80 +311,42 @@
 					</c:if>
 				</c:forEach>
 			</table>
-			<c:if test="${fullEntryMode}">
-				<div id="perdiem-buttons" align="center" valign="bottom">
-					<c:choose>
-						<c:when test="${fn:length(KualiForm.document.perDiemExpenses) < 1}">							
-							<c:if test="${KualiForm.document.tripType.usePerDiem}">
+			<div id="perdiem-buttons" align="center" valign="bottom">
+				<c:choose>
+					<c:when test="${fullEntryMode}">
+						<c:choose>
+							<c:when test="${fn:length(KualiForm.document.perDiemExpenses) < 1}">							
+								<c:if test="${KualiForm.document.tripType.usePerDiem}">
+									<html:image
+										src="${ConfigProperties.externalizable.images.url}tinybutton-createperdiem.gif"
+										styleClass="tinybutton"
+										property="methodToCall.updatePerDiemExpenses"
+										alt="Create Per Diem Rows" title="Create Per Diem Rows" />
+								</c:if>
+								<c:if test="${!KualiForm.document.tripType.usePerDiem}">
+									<div>Per Diem entry is not allowed for this Trip Type [${KualiForm.document.tripType.code}].</div>
+								</c:if>
+							</c:when>
+							<c:otherwise>
+								<tem:perDiemExpenseTotals/>
 								<html:image
-									src="${ConfigProperties.externalizable.images.url}tinybutton-createperdiem.gif"
+									src="${ConfigProperties.externalizable.images.url}tinybutton-updateperdiem.gif"
 									styleClass="tinybutton"
 									property="methodToCall.updatePerDiemExpenses"
 									alt="Create Per Diem Rows" title="Create Per Diem Rows" />
-							</c:if>
-							<c:if test="${!KualiForm.document.tripType.usePerDiem}">
-								<div>Per Diem entry is not allowed for this Trip Type [${KualiForm.document.tripType.code}].</div>
-							</c:if>
-						</c:when>
-						<c:otherwise>
-							<table cellpadding="0" class="datatable" summary="Per Diem Totals">
-								<tr>
-									<td colspan="10" class="subhead"><span
-										class="subhead-left">Grand Totals</span>
-									</td>
-								</tr>
-								<tr>
-									<td colspan="5" class="total-line">
-										<div class="right">
-											<strong>Grand Totals:</strong>
-										</div>
-									</td>
-									<td class="total-line">
-										<div align="right">
-											Meals & Incidentals:
-											<bean:write name="KualiForm" property="document.mealsAndIncidentalsGrandTotal" />
-										</div>
-									</td>
-									<td class="total-line">
-										<div align="right">
-											Lodging:
-											<bean:write name="KualiForm" property="document.lodgingGrandTotal" />
-										</div>
-									</td>
-									<td class="total-line">
-										<div align="right">
-											Miles:
-											<bean:write name="KualiForm" property="document.milesGrandTotal" />
-										</div>
-									</td>
-									<td class="total-line">
-										<div align="right">
-											Mileage Total:
-											<bean:write name="KualiForm" property="document.mileageTotalGrandTotal" />
-										</div>
-									</td>
-									<td class="total-line">
-										<div align="right">
-											Daily Total:
-											<bean:write name="KualiForm" property="document.dailyTotalGrandTotal" />
-										</div>
-									</td>
-								</tr>
-							</table>
-							<html:image
-								src="${ConfigProperties.externalizable.images.url}tinybutton-updateperdiem.gif"
-								styleClass="tinybutton"
-								property="methodToCall.updatePerDiemExpenses"
-								alt="Create Per Diem Rows" title="Create Per Diem Rows" />
-							<html:image
-								src="${ConfigProperties.externalizable.images.url}tinybutton-removeperdiem.gif"
-								styleClass="tinybutton"
-								property="methodToCall.clearPerDiemExpenses"
-								alt="Remove Per Diem Rows" title="Remove Per Diem Rows" />
-						</c:otherwise>
-					</c:choose>
-				</div>
-			</c:if>
+								<html:image
+									src="${ConfigProperties.externalizable.images.url}tinybutton-removeperdiem.gif"
+									styleClass="tinybutton"
+									property="methodToCall.clearPerDiemExpenses"
+									alt="Remove Per Diem Rows" title="Remove Per Diem Rows" />
+							</c:otherwise>
+						</c:choose>
+					</c:when>
+					<c:otherwise>
+						<tem:perDiemExpenseTotals/>
+					</c:otherwise>
+				</c:choose>
+			</div>
 
 		</div>
 	</kul:tab>

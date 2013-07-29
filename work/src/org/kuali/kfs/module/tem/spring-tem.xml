@@ -1220,8 +1220,6 @@
         <property name="travelAuthorizationService" ref="temTravelAuthorizationService" />
 		<property name="dataDictionaryService" ref="dataDictionaryService" />
 	</bean>
-
-	<bean id="internationalTravelManagerRoleTypeService" class="org.kuali.kfs.module.tem.identity.InternationalTravelManagerRoleTypeServiceImpl" />
     
     <bean id="temExecutiveManagerRoleTypeService" class="org.kuali.kfs.module.tem.identity.ExecutiveManagerRoleTypeServiceImpl" />
     

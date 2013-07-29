@@ -21,13 +21,16 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemConstants.TravelDocTypes;
+import org.kuali.kfs.module.tem.businessobject.TEMProfile;
 import org.kuali.kfs.module.tem.document.TravelArrangerDocument;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.rice.core.api.membership.MemberType;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.role.RoleMembership;
+import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.kim.role.DerivedRoleTypeServiceBase;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.DocumentService;
@@ -71,6 +74,11 @@ public class TravelerDerivedRoleTypeServiceImpl extends DerivedRoleTypeServiceBa
                             memberId = ((TravelArrangerDocument)document).getProfile().getPrincipalId();
                         } else if (document instanceof TravelDocument && !ObjectUtils.isNull(((TravelDocument)document).getTraveler()) && !StringUtils.isBlank(((TravelDocument)document).getTraveler().getPrincipalId())) {
                             memberId = ((TravelDocument)document).getTraveler().getPrincipalId();
+                        } else if (TravelDocTypes.TRAVEL_PROFILE_DOCUMENT.equals(document.getDocumentHeader().getWorkflowDocument().getDocumentTypeName())) {
+                            TEMProfile profile = (TEMProfile)((MaintenanceDocument)document).getNewMaintainableObject().getBusinessObject();
+                            if (profile.getTravelerTypeCode().equals(TemConstants.EMP_TRAVELER_TYP_CD)) {
+                                memberId = profile.getPrincipalId();
+                            }
                         }
                         if (!StringUtils.isBlank(memberId)) {
                             members.add(RoleMembership.Builder.create("", "", memberId, MemberType.PRINCIPAL, null).build());

@@ -17,6 +17,7 @@ package org.kuali.kfs.module.tem.util;
 
 import java.util.Comparator;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.tem.businessobject.AccountingDistribution;
 
 
@@ -24,7 +25,16 @@ public class AccountingDistributionComparator implements Comparator<AccountingDi
 
     @Override
     public int compare(AccountingDistribution accountingDistribution1, AccountingDistribution accountingDistribution2) {
-        return accountingDistribution1.getObjectCodeName().compareTo(accountingDistribution2.getObjectCodeName());
+        if (StringUtils.isBlank(accountingDistribution1.getObjectCode())) {
+            if (StringUtils.isBlank(accountingDistribution2.getObjectCode())) {
+                return 0; // they're both effectively null, so they're equal
+            }
+            return 1; // dee's still empty, it should go to the top
+        }
+        if (StringUtils.isBlank(accountingDistribution2.getObjectCode())) {
+            return -1; // dum's empty; it should go to the top
+        }
+        return accountingDistribution1.getObjectCode().compareTo(accountingDistribution2.getObjectCode());
     }
 
 }

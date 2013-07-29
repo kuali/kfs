@@ -33,9 +33,7 @@ import org.kuali.rice.krad.document.Document;
  * Travel Reimbursement Document Presentation Controller
  *
  */
-public class TravelAuthorizationDocumentPresentationController extends TravelDocumentPresentationController{
-    protected TravelDocumentService travelDocumentService; // not volatile because this object should never be accessible to more than one thread
-
+public class TravelAuthorizationDocumentPresentationController extends TravelAuthorizationFamilyDocumentPresentationController {
     /**
      * @see org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentPresentationControllerBase#getEditModes(org.kuali.rice.kns.document.Document)
      */
@@ -168,41 +166,6 @@ public class TravelAuthorizationDocumentPresentationController extends TravelDoc
     }
 
     /**
-     * Determines if the vendor can be paid for this authorization
-     * @param document the authorization to check
-     * @return true if the vendor can be paid, false otherwise
-     */
-    public boolean canPayVendor(TravelAuthorizationDocument document) {
-        if (getTravelDocumentService().isUnsuccessful(document)) {
-            return false;
-        }
-        boolean enablePayments = getParameterService().getParameterValueAsBoolean(TravelAuthorizationDocument.class, TemConstants.TravelAuthorizationParameters.VENDOR_PAYMENT_ALLOWED_BEFORE_FINAL_APPROVAL_IND);
-        if (enablePayments) {
-            return !isRetired(document) && (document.getDocumentHeader() != null && !(document.getDocumentHeader().getWorkflowDocument().isCanceled() || document.getDocumentHeader().getWorkflowDocument().isInitiated() || document.getDocumentHeader().getWorkflowDocument().isException() || document.getDocumentHeader().getWorkflowDocument().isDisapproved() || document.getDocumentHeader().getWorkflowDocument().isSaved()));
-        } else {
-            return isOpen(document) && isFinalOrProcessed(document);
-        }
-    }
-
-    /**
-     * Determines if the travel authorization is open for reimbursement or amendment
-     * @param document the authorization to check
-     * @return true if the authorization is open, false otherwise
-     */
-    protected boolean isOpen(TravelAuthorizationDocument document) {
-        return TemConstants.TravelAuthorizationStatusCodeKeys.OPEN_REIMB.equals(document.getAppDocStatus());
-    }
-
-    /**
-     * Determines if the document is in processed workflow state
-     * @param document the document to check
-     * @return true if the document is in processed workflow state, false otherwise
-     */
-    protected boolean isFinalOrProcessed(TravelAuthorizationDocument document) {
-        return document.getDocumentHeader().getWorkflowDocument().isProcessed() || document.getDocumentHeader().getWorkflowDocument().isFinal();
-    }
-
-    /**
      * is this document on hold for reimbursement workflow state?
      *
      * @param document the travel authorization to check
@@ -210,15 +173,6 @@ public class TravelAuthorizationDocumentPresentationController extends TravelDoc
      */
     protected boolean isHeld(TravelAuthorizationDocument document) {
         return TemConstants.TravelAuthorizationStatusCodeKeys.REIMB_HELD.equals(document.getAppDocStatus());
-    }
-
-    /**
-     * Determines if the document is in retired mode or not
-     * @param document the document to check
-     * @return true if the document is retired, false otherwise
-     */
-    protected boolean isRetired(TravelAuthorizationDocument document) {
-        return TemConstants.TravelAuthorizationStatusCodeKeys.RETIRED_VERSION.equals(document.getAppDocStatus());
     }
 
     /**
@@ -231,13 +185,5 @@ public class TravelAuthorizationDocumentPresentationController extends TravelDoc
         return reimbursements != null && !reimbursements.isEmpty();
     }
 
-    /**
-     * @return the default implementation of the TravelDocumentService
-     */
-    protected TravelDocumentService getTravelDocumentService() {
-        if (travelDocumentService == null) {
-            travelDocumentService = SpringContext.getBean(TravelDocumentService.class);
-        }
-        return travelDocumentService;
-    }
+
 }

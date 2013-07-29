@@ -484,6 +484,7 @@
                 <entry key="SubFund" value-ref="RoutingType-AccountingDocument-SubFund" />
                 <entry key="Award" value-ref="RoutingType-AccountingDocument-Award" />
                 <entry key="PaymentMethod" value-ref="TravelReimbursable-RoutingType-PaymentMethod"/>
+                <entry key="ExecutiveApproval" value-ref="TravelRelocationDocument-RoutingType-JobClassification"/>
             </map>
         </property>
     </bean>
@@ -519,5 +520,28 @@
             </bean>
         </property>
     </bean>
+    
+    <bean id="TravelRelocationDocument-RoutingType-JobClassification" class="org.kuali.rice.krad.datadictionary.RoutingTypeDefinition">
+        <property name="routingAttributes">
+            <list>
+                <ref bean="RoutingAttribute-jobClassificationCode" />
+            </list>
+        </property>
+        <property name="documentValuePathGroups">
+            <list>
+                <ref bean="DocumentValuePathGroup-TravelRelocationDocument-jobClassificationCode" />
+            </list>
+        </property>
+    </bean>
+    <bean id="RoutingAttribute-jobClassificationCode"  class="org.kuali.rice.krad.datadictionary.RoutingAttribute" >
+  	  <property name="qualificationAttributeName" value="jobClsCode" />
+    </bean>
+    <bean id="DocumentValuePathGroup-TravelRelocationDocument-jobClassificationCode" class="org.kuali.rice.krad.datadictionary.DocumentValuePathGroup">
+    	<property name="documentValues">
+    		<list>
+    			<value>jobClsCode</value>
+    		</list>
+    	</property>
+   	</bean>
 
 </beans>

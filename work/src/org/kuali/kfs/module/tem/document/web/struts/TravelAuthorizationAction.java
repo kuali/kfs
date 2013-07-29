@@ -160,6 +160,10 @@ public class TravelAuthorizationAction extends TravelActionBase {
 
         travelAuthDocument.propagateAdvanceAmountIfNeeded();
 
+        if (travelAuthDocument.getTravelAdvances() != null && !travelAuthDocument.getTravelAdvances().isEmpty()) {
+            authForm.setShowTravelAdvancesForTrip(true);
+        }
+
         return retval;
     }
 
@@ -1026,6 +1030,7 @@ public class TravelAuthorizationAction extends TravelActionBase {
     @Override
     public ActionForward blanketApprove(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         if (((TravelAuthorizationForm)form).getTravelAuthorizationDocument().shouldProcessAdvanceForDocument()) {
+            ((TravelAuthorizationForm)form).getTravelAuthorizationDocument().propagateAdvanceAmountIfNeeded();
             ((TravelAuthorizationForm)form).getTravelAuthorizationDocument().getTravelAdvance().setTravelAdvancePolicy(true);
         }
 

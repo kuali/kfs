@@ -110,6 +110,7 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
     private TravelPayment advanceTravelPayment;
     private PaymentSourceWireTransfer wireTransfer;
     private List<TemSourceAccountingLine> advanceAccountingLines;
+    private List<TravelAdvance> travelAdvancesForTrip;
     private Integer nextAdvanceLineNumber  = new Integer(1);
 
     protected volatile static PersonService personService;
@@ -243,6 +244,7 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
     @Override
     public void toCopy() throws WorkflowException {
         super.toCopy();
+        setTravelDocumentIdentifier(null);
         if (!(this instanceof TravelAuthorizationCloseDocument)) {  // TAC's don't have advances
             initiateAdvancePaymentAndLines();
         }
@@ -1299,6 +1301,22 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
      */
     protected List getPersistedAdvanceAccountingLinesForComparison() {
         return SpringContext.getBean(AccountingLineService.class).getByDocumentHeaderIdAndLineType(getAdvanceAccountingLineClass(), getDocumentNumber(), TemConstants.TRAVEL_ADVANCE_ACCOUNTING_LINE_TYPE_CODE);
+    }
+
+    /**
+     * @return all travel advances associated with the trip, save for the one associated with this document
+     */
+    public List<TravelAdvance> getTravelAdvances() {
+        if (travelAdvancesForTrip == null) {
+            travelAdvancesForTrip = new ArrayList<TravelAdvance>();
+            List<TravelAdvance> travelAdvances = getTravelDocumentService().getTravelAdvancesForTrip(getTravelDocumentIdentifier());
+            for (TravelAdvance travelAdvance : travelAdvances) {
+                if (!travelAdvance.getDocumentNumber().equals(getDocumentNumber())) {
+                    travelAdvancesForTrip.add(travelAdvance);
+                }
+            }
+        }
+        return travelAdvancesForTrip;
     }
 
     /**

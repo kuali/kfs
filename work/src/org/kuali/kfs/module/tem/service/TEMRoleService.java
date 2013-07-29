@@ -15,10 +15,12 @@
  */
 package org.kuali.kfs.module.tem.service;
 
+import java.util.Collection;
 import java.util.Map;
 
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.role.RoleMembership;
 
 public interface TEMRoleService {
 
@@ -138,5 +140,8 @@ public interface TEMRoleService {
      * @return
      */
     public boolean checkOrganizationRole(final Person user, String role, String parameterNamespace, String primaryDepartmentCode);
+
+    public Collection<RoleMembership> getTravelArrangers(String chartCode, String orgCode);
+
 
 }

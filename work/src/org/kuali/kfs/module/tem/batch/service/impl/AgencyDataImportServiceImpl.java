@@ -35,6 +35,7 @@ import org.kuali.kfs.module.tem.batch.service.ExpenseImportByTravelerService;
 import org.kuali.kfs.module.tem.batch.service.ExpenseImportByTripService;
 import org.kuali.kfs.module.tem.businessobject.AgencyImportData;
 import org.kuali.kfs.module.tem.businessobject.AgencyStagingData;
+import org.kuali.kfs.module.tem.businessobject.options.NextAgencyStagingDataIdFinder;
 import org.kuali.kfs.module.tem.service.TravelExpenseService;
 import org.kuali.kfs.sys.batch.BatchInputFileType;
 import org.kuali.kfs.sys.batch.service.BatchInputFileService;
@@ -168,8 +169,10 @@ public class AgencyDataImportServiceImpl implements AgencyDataImportService {
         try {
             dataReportService.writeReportHeader(reportDataStream, dataFileName, TemKeyConstants.MESSAGE_AGENCY_DATA_REPORT_HEADER, reportHelper);
             int count = 1;
+            NextAgencyStagingDataIdFinder idFinder = new NextAgencyStagingDataIdFinder();
             for (AgencyStagingData agency : agencyData.getAgencies()) {
 
+                agency.setId(Integer.getInteger(idFinder.getValue()));
                 agency.setImportBy(agencyData.getImportBy());
                 agency.setStagingFileName(StringUtils.substringAfterLast(dataFileName, "\\"));
 

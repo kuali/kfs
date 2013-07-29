@@ -28,8 +28,8 @@ import org.kuali.kfs.integration.ar.AccountsReceivableCustomer;
 import org.kuali.kfs.integration.ar.AccountsReceivableModuleService;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
-import org.kuali.kfs.module.tem.TemPropertyConstants.TEMProfileProperties;
 import org.kuali.kfs.module.tem.TemWorkflowConstants;
+import org.kuali.kfs.module.tem.TemPropertyConstants.TEMProfileProperties;
 import org.kuali.kfs.module.tem.businessobject.TEMProfile;
 import org.kuali.kfs.module.tem.businessobject.TEMProfileAccount;
 import org.kuali.kfs.module.tem.datadictionary.mask.CreditCardMaskFormatter;
@@ -225,26 +225,20 @@ public class TEMProfileMaintainable extends FinancialSystemMaintainable {
     /**
      *
      * This method returns true if:<br/>
-     * 1. The non-resident alien property is set<br/>
-     * 2. The non-resident alien property has changed<br/>
-     * 3. The citizenship property has changed<br/>
+     * When editing a profile
+     * 1. The non-resident alien property has changed<br/>
+     * 2. The citizenship property has changed<br/>
+     * When creating a new profile
+     * 3. The non-resident alien property is set<br/>
+     * 4. The citizenship is not US or blank<br/>
      * @return
      */
     protected boolean taxManagerRequiredRouting() {
         TEMProfile newTemProfile = (TEMProfile) getParentMaintDoc().getNewMaintainableObject().getBusinessObject();
         TEMProfile oldTemProfile = (TEMProfile) getParentMaintDoc().getOldMaintainableObject().getBusinessObject();
 
-        // If NRA is selected, route to tax manager
-        if (newTemProfile.isNonResidentAlien()) {
-            return true;
-        }
-
-        if (newTemProfile.getCitizenship().equals(KFSConstants.COUNTRY_CODE_UNITED_STATES) || StringUtils.isBlank(newTemProfile.getCitizenship())) {
-            return false;
-        }
-
-        // for now assuming that during initial creation of a doc, the oldTemProfile object is null
-        if (ObjectUtils.isNotNull(oldTemProfile)) {
+        //edit profile
+        if (ObjectUtils.isNotNull(oldTemProfile.getProfileId())) {
             // If NRA changed, route to tax manager
             if (newTemProfile.isNonResidentAlien() != oldTemProfile.isNonResidentAlien()) {
                 return true;
@@ -254,6 +248,20 @@ public class TEMProfileMaintainable extends FinancialSystemMaintainable {
             if (!StringUtils.equalsIgnoreCase(newTemProfile.getCitizenship(), oldTemProfile.getCitizenship())) {
                 return true;
             }
+        }
+        //new profile
+        else {
+
+            // If NRA is selected, route to tax manager
+            if (newTemProfile.isNonResidentAlien()) {
+                return true;
+            }
+
+            //if citizenship is something other than US or blank, route to tax manager
+            if (!StringUtils.isBlank(newTemProfile.getCitizenship()) && !newTemProfile.getCitizenship().equals(KFSConstants.COUNTRY_CODE_UNITED_STATES)) {
+                return true;
+            }
+
         }
 
         return false;

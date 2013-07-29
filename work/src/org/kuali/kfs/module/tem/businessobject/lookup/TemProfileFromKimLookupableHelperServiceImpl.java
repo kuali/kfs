@@ -26,9 +26,11 @@ import java.util.Properties;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.module.tem.businessobject.TEMProfile;
 import org.kuali.kfs.module.tem.businessobject.TemProfileFromKimPerson;
+import org.kuali.kfs.module.tem.service.TEMRoleService;
 import org.kuali.kfs.module.tem.service.TemProfileService;
 import org.kuali.kfs.module.tem.service.TravelerService;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kim.impl.identity.PersonImpl;
@@ -41,6 +43,7 @@ import org.kuali.rice.kns.web.struts.form.LookupForm;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.lookup.CollectionIncomplete;
 import org.kuali.rice.krad.util.BeanPropertyComparator;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.UrlFactory;
 
 @SuppressWarnings("rawtypes")
@@ -143,6 +146,14 @@ public class TemProfileFromKimLookupableHelperServiceImpl extends KualiLookupabl
     @Override
     public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
         List<HtmlData> htmlDataList = super.getCustomActionUrls(businessObject, pkNames);
+
+
+        TEMRoleService temRoleService = SpringContext.getBean(TEMRoleService.class);
+        boolean profileAdmin = temRoleService.isProfileAdmin(GlobalVariables.getUserSession().getPerson(), ((TemProfileFromKimPerson)businessObject).getPrimaryDepartmentCode());
+
+        if (!profileAdmin) {
+            return htmlDataList;
+        }
 
         String principalId = ((TemProfileFromKimPerson) businessObject).getPrincipalId();
 

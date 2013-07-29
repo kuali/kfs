@@ -70,7 +70,7 @@ public class AccountingDistributionServiceImpl implements AccountingDistribution
 
     @SuppressWarnings("deprecation")
     @Override
-    public List<TemSourceAccountingLine> distributionToSouceAccountingLines(List<TemDistributionAccountingLine> distributionAccountingLines, List<AccountingDistribution> accountingDistributionList, Integer sequenceNumber){
+    public List<TemSourceAccountingLine> distributionToSouceAccountingLines(List<TemDistributionAccountingLine> distributionAccountingLines, List<AccountingDistribution> accountingDistributionList){
         List<TemSourceAccountingLine> sourceAccountingList = new ArrayList<TemSourceAccountingLine>();
         Map<String, AccountingDistribution> distributionMap = new HashMap<String, AccountingDistribution>();
         KualiDecimal total = KualiDecimal.ZERO;
@@ -106,8 +106,6 @@ public class AccountingDistributionServiceImpl implements AccountingDistribution
                     fieldValues.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear());
                     ObjectCode objCode = getBusinessObjectService().findByPrimaryKey(ObjectCode.class, fieldValues);
                     newLine.setObjectCode(objCode);
-                    newLine.setSequenceNumber(sequenceNumber);
-                    sequenceNumber = new Integer(sequenceNumber.intValue()+1);
                     newLine.setFinancialObjectCode(accountingDistribution.getObjectCode());
                     tempSourceAccountingList.add(newLine);
                 }

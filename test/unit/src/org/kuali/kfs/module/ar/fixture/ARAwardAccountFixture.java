@@ -62,7 +62,7 @@ public enum ARAwardAccountFixture {
         awardAccount.setCurrentLastBilledDate(this.currentLastBilledDate);
         awardAccount.setPreviousLastBilledDate(this.previousLastBilledDate);
         awardAccount.setAmountToDraw(this.amountToDraw);
-        awardAccount.setLocReviewIndicator(this.locReviewIndicator);
+        awardAccount.setLetterOfCreditReviewIndicator(this.locReviewIndicator);
         return awardAccount;
     }
 }

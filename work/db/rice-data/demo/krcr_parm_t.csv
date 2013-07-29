@@ -880,3 +880,41 @@ dress is a PO type address.","A","KFS"
 "KFS-PDP","ProcessPdPCancelsAndPaidStep","PAYMENT_SOURCE_DOCUMENT_TYPES","KFS-TEM-PARM-154","1","CONFG","DVCA;TACA;TRCA;ENCA;RECA","List of ledger-only document types representing check/ACH payments made by payment source documents, which PDP should pay and cancel.","A","KFS"
 "KFS-TEM","Document","INCLUDE_TRAVELER_TYPE_IN_TRIP_ID_IND","KFS-TEM-PARM-155","1","CONFG","N","If true, the traveler type (""EMP"" for Employee, ""NON"" for Non-Employee) will be included as part of generated trip ids.","A","KFS"
 "KFS-TEM","PerDiemLoadStep","BYPASS_STATE_OR_COUNTRY_CODES","KFS-TEM-PARM-156","1","CONFG","RC;RES","List of per diem codes (state_alpha for CONUS records, country_code for OCONUS records) which will be skipped during the load process.","D","KFS"
+"KFS-CG","Agency","DEFAULT_INVOICE_TEMPLATE","CG-DEFAULT-INV-TMPLT-PARM","1","CONFG","STD","Invoice templates can be configured for each Agency Address. This defines the default template name for new Agency Addresses.","A","KFS"
+"KFS-CG","Agency","DEFAULT_PREFERRED_BILLING_FREQUENCY","KFSCG100","1","CONFG","MON","The default value for the preferred billing frequency code for Agencies.","A","KFS"
+"KFS-CG","AgencyAddress","DEFAULT_NUMBER_OF_COPIES_TO_PRINT","KFSCG02","1","CONFG","1","The number of invoice copies to be printed can be configured for each Agency Address. This sets the default number of copies to print for a new Agency Address.","A","KFS"
+"KFS-CG","AgencyType","DEFAULT_AGENCY_TYPE_CODE","KFS-CG-PARM-01","1","CONFG","X","Default Agency Code used to auto create Agency from external system.","A","KFS"
+"KFS-CG","All","ENABLE_CG_BILLING_ENHANCEMENTS_IND","KFSCG03","1","CONFG","Y","Set this value to Y if your institution is using the Contracts and Grants Billing enhancements. This setting will control if the validations associated with the enhancements are executed for documents.","A","KFS"
+"KFS-CG","All","ENABLE_CG_PRORATE_BILL_IND","KFSCG04","1","CONFG","Y","Set this value to Y if your institution is using the Contracts and Grants Billing Prorate Bill function.  N otherwise.","A","KFS"
+"KFS-CG","Award","DEFAULT_FUND_MANAGER_ID","CG-DEFAULT-FUND-MNGR-ID","1","CONFG","khuntley","The principal name of the default fund manager for awards.","A","KFS"
+"KFS-CG","Award","DEFAULT_INVOICING_OPTION","KFSCG07","1","CONFG","2","The default invoicing option for new Awards where 1 = Invoice by Award 2 = Invoice by Account 3 = Invoice by Contract Control Account.","A","KFS"
+"KFS-CG","Award","MINIMUM_INVOICE_AMOUNT","28A1B9C6-5FF2-1224-3B7F-7D0E67D984D1","1","CONFG","60","Minimum dollar amount required on an award for Contracts and Grants Invoicing.","A","KFS"
+"KFS-CG","UpcomingMilestoneNotificationStep","AWARD_MILESTONE_CHECK_LIMIT_DAYS","KFSCG06","1","CONFG","10","No of days (limit) to check for the Upcoming Milestones for the Award.","A","KFS"
+"KFS-CG","UpcomingMilestoneNotificationStep","AWARD_MILESTONE_REMINDER_EMAIL_SUBJECT","KFSCG05","1","CONFG","Upcoming Milestones Notification for Award.","Email subject line for upcoming Milestones for Award","A","KFS"
+"KFS-AR","Contracts Grants Invoice Email Reports Batch Step","CG_INVOICE_EMAIL_BODY","KFSAR001","1","CONFG","Dear #agencyName , #addressName : 
+
+
+Attached please find our invoice for payment processing, a hardcopy will not be sent. 
+
+
+Please contact me if you have any questions. 
+
+
+Thank you, 
+	
+Fund Manager Principal 
+	
+#name , #title 
+	
+#department 
+	
+#phone 
+	
+#email","Body for Email to be sent for Invoice Reports. Set the Email's body that is sent out by the Invoice Report Delivery process. The {#value} tags will be replaced by actual values for the individual report.","A","KFS"
+"KFS-AR","Contracts Grants Invoice Email Reports Batch Step","CG_INVOICE_EMAIL_SUBJECT","KFSAR002","1","CONFG","Invoice Submittal for Grant Number: #grantNumber / Proposal Number: #proposalNumber / Invoice Number: #invoiceNumber  .","Subject for Invoice Report Email. Sets the email subject for the Invoice Reports that are sent out by the Invoice Report Delivery process. The {#value} tags are replaced by actual values for the individual Reports.","A","KFS"
+"KFS-AR","Contracts Grants Invoice Email Reports Batch Step","CG_INVOICE_FROM_EMAIL_ADDRESS","KFSAR003","1","CONFG","knoreceipt-l@indiana.edu","Sender's email address for emails sent out by the Invoice Report Delivery process.","A","KFS"
+"KFS-AR","All","DEFAULT_BASIS_OF_ACCOUNTING_FOR_BILLING","KFSAR004","1","CONFG","1","This parameter defines the Basis of Accounting for filling federal forms. Value of 1 corresponds to Cash and value of 2 corresponds to Accrual.","A","KFS"
+"KFS-AR","Cash Control","DEFAULT_PROCESSING_CHART","KFSAR005","1","CONFG","UA","Default value for Processing Chart code - used by LOC Batch process to set AR DOC HDR for the Cash Control Document.","A","KFS"
+"KFS-AR","Cash Control","DEFAULT_PROCESSING_ORG","KFSAR006","1","CONFG","VPIT","Default value for Processing Organization code - used by LOC Batch process to set AR DOC HDR for the Cash Control Document.","A","KFS"
+"KFS-AR","Dunning Campaign","DUNNING_LETTERS_FINAL_DAYS_PAST_DUE","KFSAR007","1","CONFG","150","To set the value for FINAL days past due value used for sending strongly worded Dunning Letter requesting for payment.","A","KFS"
+"KFS-AR","Dunning Campaign","DUNNING_LETTERS_STATE_AGENCY_FINAL_DAYS_PAST_DUE","KFSAR008","1","CONFG","150","To set the value for STATE AGENCY FINAL days past due value used for sending strongly worded Dunning Letter requesting for payment.","A","KFS"

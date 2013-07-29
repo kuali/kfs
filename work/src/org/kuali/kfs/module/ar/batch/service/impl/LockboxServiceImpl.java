@@ -681,7 +681,7 @@ public class LockboxServiceImpl implements LockboxService {
     }
 
     @Override
-    @NonTransactional
+    @Transactional
     public Long getMaxLockboxSequenceNumber() {
         return lockboxDao.getMaxLockboxSequenceNumber();
     }

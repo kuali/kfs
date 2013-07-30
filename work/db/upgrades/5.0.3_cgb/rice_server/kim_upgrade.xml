@@ -29,7 +29,6 @@
 				value="This role defines the list of users that may be selected as Collectors on the Customer document." />
 			<column name="KIM_TYP_ID" value="1" />
 			<column name="ACTV_IND" value="Y" />
-			<column name="LAST_UPDT_DT" valueDate="now()" />
 			<column name="OBJ_ID" valueNumeric="SYS_GUID" />
 			<column name="VER_NBR" value="1" />
 		</insert>
@@ -210,7 +209,6 @@
 				value="This role derives its members from the funds manager listed on the Award Document" />
 			<column name="KIM_TYP_ID" value="KFSCG20111101" />
 			<column name="ACTV_IND" value="Y" />
-			<column name="LAST_UPDT_DT" value="NULL" />
 		</insert>
 	</changeSet>
 

@@ -293,7 +293,7 @@
 	<bean id="Account-responsibilityCenterCode" parent="Account-responsibilityCenterCode-parentBean"/>
     <bean id="Account-responsibilityCenterCode-parentBean" abstract="true" parent="Organization-responsibilityCenterCode">
 		<property name="name" value="organization.responsibilityCenterCode" />
-		<property name="label" value="RC Code"/>
+		<property name="label" value="Responsibility Center Code"/>
 	</bean>
 	
 	
@@ -314,8 +314,8 @@
 	<bean id="Account-responsibilityCenterName" parent="Account-responsibilityCenterName-parentBean"/>
     <bean id="Account-responsibilityCenterName-parentBean" abstract="true" parent="ResponsibilityCenter-responsibilityCenterName">
 		<property name="name" value="organization.responsibilityCenter.responsibilityCenterName" />
-		<property name="label" value="RC Name"/>
-		<property name="shortLabel" value="RC Name"/>
+		<property name="label" value="Responsibility Center Name"/>
+		<property name="shortLabel" value="Responsibility Center Name"/>
 	</bean>	
 
 	<bean id="Account-organization.codeAndDescription" parent="Account-organization.codeAndDescription-parentBean" />

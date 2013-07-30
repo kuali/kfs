@@ -102,12 +102,13 @@ public class ImportedExpensePendingEntryServiceImpl implements ImportedExpensePe
             String chartCode, String objectCode, KualiDecimal amount, String glCredtiDebitCode){
 
         GeneralLedgerPendingEntry glpe = new GeneralLedgerPendingEntry();
-        ObjectCode object = SpringContext.getBean(ObjectCodeService.class).getByPrimaryIdForCurrentYear(chartCode, objectCode);
-        if (ObjectUtils.isNull(object)) {
+        ObjectCode objectCd = SpringContext.getBean(ObjectCodeService.class).getByPrimaryIdForCurrentYear(chartCode, objectCode);
+        if (ObjectUtils.isNull(objectCd)) {
             LOG.error("ERROR: Could not get an ObjectCode for chart code: " + chartCode + " object code: " + objectCode);
             //set glpe as null
             glpe = null;
-        }else{
+        }
+        else{
 
             final String DIST_INCOME_DOC_TYPE = SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(DistributionOfIncomeAndExpenseDocument.class);
 
@@ -131,7 +132,7 @@ public class ImportedExpensePendingEntryServiceImpl implements ImportedExpensePe
             glpe.setChartOfAccountsCode(chartCode);
             glpe.setFinancialObjectCode(objectCode);
             glpe.setFinancialSubObjectCode(StringUtils.defaultIfEmpty(info.getSubObjectCode(), GENERAL_LEDGER_PENDING_ENTRY_CODE.getBlankFinancialSubObjectCode()));
-            glpe.setFinancialObjectTypeCode(object.getFinancialObjectTypeCode());
+            glpe.setFinancialObjectTypeCode(objectCd.getFinancialObjectTypeCode());
             glpe.setTransactionLedgerEntryAmount(amount);
             glpe.setTransactionDebitCreditCode(glCredtiDebitCode);
             glpe.setFinancialDocumentApprovedCode(KFSConstants.PENDING_ENTRY_APPROVED_STATUS_CODE.APPROVED);
@@ -149,14 +150,16 @@ public class ImportedExpensePendingEntryServiceImpl implements ImportedExpensePe
         List<GeneralLedgerPendingEntry> entryList = new ArrayList<GeneralLedgerPendingEntry>();
 
         GeneralLedgerPendingEntry pendingEntry = buildGeneralLedgerPendingEntry(agencyData, info, sequenceHelper, info.getTripChartCode(), objectCode, amount, KFSConstants.GL_DEBIT_CODE);
-        pendingEntry.setAccountNumber(info.getTripAccountNumber());
-        pendingEntry.setSubAccountNumber(StringUtils.defaultIfEmpty(info.getTripSubAccountNumber(), GENERAL_LEDGER_PENDING_ENTRY_CODE.getBlankSubAccountNumber()));
+        if(ObjectUtils.isNotNull(pendingEntry )) {
+            pendingEntry.setAccountNumber(info.getTripAccountNumber());
+            pendingEntry.setSubAccountNumber(StringUtils.defaultIfEmpty(info.getTripSubAccountNumber(), GENERAL_LEDGER_PENDING_ENTRY_CODE.getBlankSubAccountNumber()));
+        }
 
         LOG.info("Created DEBIT GLPE: " + pendingEntry.getDocumentNumber() + " for AGENCY Import Expense: " + agencyData.getId() + " TripId: " + agencyData.getTripId()
                 + "\n\n" + ReflectionToStringBuilder.reflectionToString(pendingEntry, ToStringStyle.MULTI_LINE_STYLE));
 
         //add to list if entry was created successfully
-        if (pendingEntry != null){
+        if (ObjectUtils.isNotNull(pendingEntry)) {
             entryList.add(pendingEntry);
             //handling offset
             if (generateOffset){
@@ -177,14 +180,16 @@ public class ImportedExpensePendingEntryServiceImpl implements ImportedExpensePe
         String chartCode = parameterService.getParameterValueAsString(TemParameterConstants.TEM_ALL.class, AgencyMatchProcessParameter.TRAVEL_CREDIT_CARD_CLEARING_CHART);
 
         GeneralLedgerPendingEntry pendingEntry = buildGeneralLedgerPendingEntry(agencyData, info, sequenceHelper, chartCode, objectCode, amount, KFSConstants.GL_CREDIT_CODE);
-        pendingEntry.setAccountNumber(parameterService.getParameterValueAsString(TemParameterConstants.TEM_ALL.class, AgencyMatchProcessParameter.TRAVEL_CREDIT_CARD_CLEARING_ACCOUNT));
-        pendingEntry.setSubAccountNumber(GENERAL_LEDGER_PENDING_ENTRY_CODE.getBlankSubAccountNumber());
+        if(ObjectUtils.isNotNull(pendingEntry )) {
+            pendingEntry.setAccountNumber(parameterService.getParameterValueAsString(TemParameterConstants.TEM_ALL.class, AgencyMatchProcessParameter.TRAVEL_CREDIT_CARD_CLEARING_ACCOUNT));
+            pendingEntry.setSubAccountNumber(GENERAL_LEDGER_PENDING_ENTRY_CODE.getBlankSubAccountNumber());
+        }
 
         LOG.info("Created CREDIT GLPE: " + pendingEntry.getDocumentNumber() + " for AGENCY Import Expense: " + agencyData.getId() + " TripId: " + agencyData.getTripId()
                 + "\n\n" + ReflectionToStringBuilder.reflectionToString(pendingEntry, ToStringStyle.MULTI_LINE_STYLE));
 
         //add to list if entry was created successfully
-        if (pendingEntry != null){
+        if (ObjectUtils.isNotNull(pendingEntry)) {
             entryList.add(pendingEntry);
             //handling offset
             if (generateOffset){
@@ -203,13 +208,15 @@ public class ImportedExpensePendingEntryServiceImpl implements ImportedExpensePe
         List<GeneralLedgerPendingEntry> entryList = new ArrayList<GeneralLedgerPendingEntry>();
 
         GeneralLedgerPendingEntry pendingEntry = buildGeneralLedgerPendingEntry(agencyData, info, sequenceHelper, serviceFee.getCreditChartCode(), serviceFee.getCreditObjectCode(), amount, KFSConstants.GL_CREDIT_CODE);
-        pendingEntry.setAccountNumber(serviceFee.getCreditAccountNumber());
+        if(ObjectUtils.isNotNull(pendingEntry )) {
+            pendingEntry.setAccountNumber(serviceFee.getCreditAccountNumber());
+        }
 
         LOG.info("Created ServiceFee CREDIT GLPE: " + pendingEntry.getDocumentNumber() + " for AGENCY Import Expense: " + agencyData.getId() + " TripId: " + agencyData.getTripId()
                 + "\n\n" + ReflectionToStringBuilder.reflectionToString(pendingEntry, ToStringStyle.MULTI_LINE_STYLE));
 
         //add to list if entry was created successfully
-        if (pendingEntry != null){
+        if (ObjectUtils.isNotNull(pendingEntry)) {
             entryList.add(pendingEntry);
             //handling offset
             if (generateOffset){

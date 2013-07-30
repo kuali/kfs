@@ -19,7 +19,9 @@ import java.util.Map;
 import java.util.Set;
 
 import org.kuali.kfs.module.tem.TemConstants;
+import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.businessobject.TemSourceAccountingLine;
+import org.kuali.kfs.module.tem.document.TravelArrangerDocument;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -101,10 +103,18 @@ public class TravelAuthorizationAuthorizer extends TravelArrangeableAuthorizer {
     protected void addRoleQualification(Object dataObject, Map<String, String> qualification) {
         if (dataObject instanceof TravelAuthorizationDocument) {
             addAccountQualification((TravelAuthorizationDocument)dataObject, qualification);
+            addTemProfileQualification((TravelAuthorizationDocument)dataObject, qualification);
         }
+
         super.addRoleQualification(dataObject, qualification);
     }
 
+    protected void addTemProfileQualification(TravelAuthorizationDocument document, Map<String, String> attributes) {
+        if (ObjectUtils.isNotNull(document.getTemProfileId())){
+            attributes.put(TemPropertyConstants.TEMProfileProperties.PROFILE_ID, document.getTemProfileId().toString());
+        }
+    }
+    
     /**
      * Goes through the given List of accounting lines and fines one line where the current user is the fiscal officer; it uses that line to put chart of accounts
      * code and account number qualifications into the given Map of attributes for role qualification

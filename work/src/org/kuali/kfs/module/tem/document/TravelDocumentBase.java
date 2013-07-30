@@ -1862,20 +1862,6 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
         //pre filled descriptions
         getDocumentHeader().setDocumentDescription(TemConstants.PRE_FILLED_DESCRIPTION);
 
-        //set traveler to employee if null
-        if (this.getTraveler() == null) {
-            this.setTraveler(new TravelerDetail());
-            this.getTraveler().setTravelerTypeCode(TemConstants.EMP_TRAVELER_TYP_CD);
-        }
-
-        //set profile to current user
-        Person currentUser = GlobalVariables.getUserSession().getPerson();
-        if (!getTemRoleService().isTravelArranger(currentUser)) {
-            TEMProfile temProfile = getTemProfileService().findTemProfileByPrincipalId(currentUser.getPrincipalId());
-            if (temProfile != null) {
-                setTemProfile(temProfile);
-            }
-        }
     }
 
     /**

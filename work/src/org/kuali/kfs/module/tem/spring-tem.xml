@@ -569,7 +569,7 @@
 
 	<bean id="travelerDerivedRoleTypeService"
 		class="org.kuali.kfs.module.tem.identity.TravelerDerivedRoleTypeServiceImpl">
-		<property name="documentService" ref="documentService" />
+		<property name="temProfileService" ref="temProfileService" />
 	</bean>
 
 	<bean id="temProfileDerivedRoleTypeService" class="org.kuali.kfs.module.tem.identity.TemProfileDerivedRoleTypeServiceImpl" />

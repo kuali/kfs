@@ -15,7 +15,12 @@
  */
 package org.kuali.kfs.module.cg.service.impl;
 
-import org.apache.velocity.util.StringUtils;
+import java.text.MessageFormat;
+import java.util.List;
+
+import javax.mail.MessagingException;
+
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.cg.CGConstants;
 import org.kuali.kfs.module.cg.CGKeyConstants;
 import org.kuali.kfs.module.cg.batch.UpcomingMilestoneNotificationStep;
@@ -23,9 +28,14 @@ import org.kuali.kfs.module.cg.businessobject.Award;
 import org.kuali.kfs.module.cg.businessobject.Milestone;
 import org.kuali.kfs.module.cg.service.CGEmailService;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
-
-import com.lowagie.text.List;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.api.mail.MailMessage;
+import org.kuali.rice.core.api.mail.Mailer;
+import org.kuali.rice.core.mail.MailerImpl;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.krad.exception.InvalidAddressException;
+import org.kuali.rice.krad.service.MailService;
 
 /**
  * This class implements the services in CGEmailservice.
@@ -50,7 +60,7 @@ public class CGEmailServiceImpl extends MailerImpl implements CGEmailService {
         MailMessage message = new MailMessage();
 
         message.setFromAddress(mailService.getBatchMailingList());
-        message.setSubject(getEmailSubject(parameterService.getParameterValueAsString(KfsParameterConstants.CONTRACTS_AND_GRANTS_BATCH.class, CGConstants.CGEmailConstants.AWARD_MILESTONE_REMINDER_EMAIL_SUBJECT)));
+        message.setSubject(getEmailSubject(CGConstants.CGEmailConstants.AWARD_MILESTONE_REMINDER_EMAIL_SUBJECT));
         message.getToAddresses().add(award.getAwardPrimaryFundManager().getFundManager().getEmailAddress());
         StringBuffer body = new StringBuffer();
 

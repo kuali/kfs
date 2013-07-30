@@ -49,6 +49,8 @@ import org.apache.log4j.Logger;
 import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.kfs.gl.service.EncumbranceService;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomerInvoice;
+import org.kuali.kfs.integration.ar.AccountsReceivableModuleService;
+import org.kuali.kfs.integration.ar.AccountsReceivableOrganizationOptions;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationParameters;
@@ -162,6 +164,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
     private UniversityDateService universityDateService;
     private List<String> defaultAcceptableFileExtensions;
     private CsvRecordFactory<GroupTravelerCsvRecord> csvRecordFactory;
+    protected volatile AccountsReceivableModuleService accountsReceivableModuleService;
 
     /**
      * Creates and populates an individual per diem item.
@@ -608,7 +611,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
      */
     @Override
     public List<TravelAuthorizationDocument> findAuthorizationDocuments(final String travelDocumentNumber){
-        final List<String> ids = getTravelDocumentDao().findDocumentNumbers(TravelAuthorizationDocument.class, travelDocumentNumber);
+        final List<String> ids = findAuthorizationDocumentNumbers(travelDocumentNumber);
 
         List<TravelAuthorizationDocument> resultDocumentLists = new ArrayList<TravelAuthorizationDocument>();
         //retrieve the actual documents
@@ -622,6 +625,16 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
             LOG.error(wfe.getMessage(), wfe);
         }
         return resultDocumentLists;
+    }
+
+    /**
+     * Gets the document numbers from the TravelDocumentDao for the given trip id
+     * @see org.kuali.kfs.module.tem.document.service.TravelDocumentService#findAuthorizationDocumentNumbers(java.lang.String)
+     */
+    @Override
+    public List<String> findAuthorizationDocumentNumbers(final String travelDocumentNumber) {
+        final List<String> ids = getTravelDocumentDao().findDocumentNumbers(TravelAuthorizationDocument.class, travelDocumentNumber);
+        return ids;
     }
 
     /**
@@ -2103,6 +2116,21 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
         return advances;
     }
 
+    /**
+     * Gets the {@link OrganizationOptions} to create a {@link AccountsReceivableDocumentHeader} for
+     * {@link PaymentApplicationDocument}
+     *
+     * @return OrganizationOptions
+     */
+    @Override
+    public AccountsReceivableOrganizationOptions getOrgOptions() {
+        final Map<String, String> criteria = new HashMap<String, String>();
+        criteria.put("chartOfAccountsCode", parameterService.getParameterValueAsString(TravelAuthorizationDocument.class, TravelAuthorizationParameters.TRAVEL_ADVANCE_BILLING_CHART));
+        criteria.put("organizationCode", parameterService.getParameterValueAsString(TravelAuthorizationDocument.class, TravelAuthorizationParameters.TRAVEL_ADVANCE_BILLING_ORGANIZATION));
+
+        return getAccountsReceivableModuleService().getOrganizationOptionsByPrimaryKey(criteria);
+    }
+
     public PersistenceStructureService getPersistenceStructureService() {
         return persistenceStructureService;
     }
@@ -2184,5 +2212,15 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
 
     public CsvRecordFactory<GroupTravelerCsvRecord> getCsvRecordFactory() {
         return this.csvRecordFactory;
+    }
+
+    /**
+     * @return the system-ste implementation of the AccountsReceivableModuleService
+     */
+    public AccountsReceivableModuleService getAccountsReceivableModuleService() {
+        if (accountsReceivableModuleService == null) {
+            accountsReceivableModuleService = SpringContext.getBean(AccountsReceivableModuleService.class);
+        }
+        return accountsReceivableModuleService;
     }
 }

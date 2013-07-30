@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.kuali.kfs.integration.ar.AccountsReceivableOrganizationOptions;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.module.tem.businessobject.ActualExpense;
 import org.kuali.kfs.module.tem.businessobject.ExpenseTypeAware;
@@ -56,6 +57,13 @@ public interface TravelDocumentService {
     List<SpecialCircumstances> findActiveSpecialCircumstances(String documentNumber, String documentType);
 
     List<TravelAuthorizationDocument> findAuthorizationDocuments(final String travelDocumentNumber);
+
+    /**
+     * Retrieves the numbers of any Travel Authorization (or child) documents associated with the given trip id
+     * @param travelDocumentNumber the trip id to find authorizations related to
+     * @return a List of TravelAuthorization (or child!) document numbers for authorizations associated with the given trip id
+     */
+    List<String> findAuthorizationDocumentNumbers(final String travelDocumentNumber);
 
     List<TravelReimbursementDocument> findReimbursementDocuments(final String travelDocumentNumber);
 
@@ -385,4 +393,8 @@ public interface TravelDocumentService {
      */
     public List<TravelAdvance> getTravelAdvancesForTrip(String travelDocumentIdentifier);
 
+    /**
+     * @return the default AR organization options for TEM documents
+     */
+    public AccountsReceivableOrganizationOptions getOrgOptions();
 }

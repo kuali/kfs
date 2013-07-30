@@ -38,6 +38,7 @@ public class TemKeyConstants {
     public static final String TA_MESSAGE_RETIRED_DOCUMENT_TEXT = "travelAuthorization.message.retired.text";
     public static final String TA_MESSAGE_CLOSE_DOCUMENT_TEXT = "travelAuthorization.message.close.text";
     public static final String TA_MESSAGE_ADVANCE_ACCOUNTING_LINES_GLPE_DESCRIPTION = "travelAuthorization.message.advanceAccountingLines.glpeDescription";
+    public static final String TA_MESSAGE_ADVANCE_PAYMENT_CANCELLED = "travelAuthorization.message.advance.paymentCanceled";
 
     public static final String AGENCY_SITES_URL       = "url.document.travelRelocation.agencySites";
     public static final String ENABLE_AGENCY_SITES_URL  = "config.document.travelRelocation.agencySites.enable";

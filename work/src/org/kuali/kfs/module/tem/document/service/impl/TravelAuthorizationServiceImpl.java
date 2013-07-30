@@ -78,6 +78,7 @@ import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.dao.DocumentDao;
@@ -108,6 +109,7 @@ public class TravelAuthorizationServiceImpl implements TravelAuthorizationServic
     private TemProfileService temProfileService;
     private TravelDocumentService travelDocumentService;
     private DocumentDao documentDao;
+    protected DataDictionaryService dataDictionaryService;
 
     private List<PropertyChangeListener> propertyChangeListeners;
 
@@ -135,7 +137,7 @@ public class TravelAuthorizationServiceImpl implements TravelAuthorizationServic
 
                 }
 
-                createCustomerInvoiceFromAdvances(travelAuthorizationDocument, travelAuthorizationDocument.getTravelAdvance(), amount);
+                createCustomerInvoiceFromAdvance(travelAuthorizationDocument, travelAuthorizationDocument.getTravelAdvance(), amount);
             }
         }
     }
@@ -147,7 +149,7 @@ public class TravelAuthorizationServiceImpl implements TravelAuthorizationServic
      * @param advances
      * @param amount
      */
-    protected void createCustomerInvoiceFromAdvances(final TravelAuthorizationDocument travelAuthorizationDocument, final TravelAdvance advance, final KualiDecimal amount) {
+    protected void createCustomerInvoiceFromAdvance(final TravelAuthorizationDocument travelAuthorizationDocument, final TravelAdvance advance, final KualiDecimal amount) {
 
         final int numDaysDue = Integer.parseInt(parameterService.getParameterValueAsString(TravelAuthorizationDocument.class, TravelAuthorizationParameters.DUE_DATE_DAYS));
         final String invoiceItemCode = parameterService.getParameterValueAsString(TravelAuthorizationDocument.class, TravelAuthorizationParameters.TRAVEL_ADVANCE_INVOICE_ITEM_CODE);
@@ -175,12 +177,12 @@ public class TravelAuthorizationServiceImpl implements TravelAuthorizationServic
 
                     setupDefaultValuesForNewCustomerInvoiceDocument(customerInvoiceDocument, processingChartCode, processingOrgCode);
 
-                    customerInvoiceDocument.getDocumentHeader().setOrganizationDocumentNumber(travelAuthorizationDocument.getTravelDocumentIdentifier() + "");
+                    customerInvoiceDocument.getDocumentHeader().setOrganizationDocumentNumber(travelAuthorizationDocument.getTravelDocumentIdentifier());
                     customerInvoiceDocument.getDocumentHeader().setDocumentDescription("Travel Advance - " + travelAuthorizationDocument.getTravelDocumentIdentifier() + " - " + travelAuthorizationDocument.getTraveler().getFirstName() + " " + travelAuthorizationDocument.getTraveler().getLastName());
-                    // KUALITEM-490 fix. I would have thought that perhaps the CustomerInvoiceDocument would have provided a max length for the
-                    // CustomerInvoiceDocument-invoiceHeaderText
-                    if (customerInvoiceDocument.getDocumentHeader().getDocumentDescription().length() >= 40) {
-                        String truncatedDocumentDescription = customerInvoiceDocument.getDocumentHeader().getDocumentDescription().substring(0, 39);
+
+                    final int documentDescriptionMaxLength = getDataDictionaryService().getAttributeMaxLength(customerInvoiceDocument.getDocumentHeader().getClass(), KFSPropertyConstants.DOCUMENT_DESCRIPTION);
+                    if (customerInvoiceDocument.getDocumentHeader().getDocumentDescription().length() >= documentDescriptionMaxLength) {
+                        String truncatedDocumentDescription = customerInvoiceDocument.getDocumentHeader().getDocumentDescription().substring(0, documentDescriptionMaxLength-1);
                         customerInvoiceDocument.getDocumentHeader().setDocumentDescription(truncatedDocumentDescription);
                     }
                     customerInvoiceDocument.getAccountsReceivableDocumentHeader().setCustomerNumber(customerNumber);
@@ -676,4 +678,18 @@ public class TravelAuthorizationServiceImpl implements TravelAuthorizationServic
         this.documentDao = documentDao;
     }
 
+    /**
+     * @return the injected implementation of the data dictionary service
+     */
+    public DataDictionaryService getDataDictionaryService() {
+        return dataDictionaryService;
+    }
+
+    /**
+     * Injects an implementation of the DataDictionaryService
+     * @param dataDictionaryService an implementation of the DataDictionaryService to inject
+     */
+    public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
+        this.dataDictionaryService = dataDictionaryService;
+    }
 }

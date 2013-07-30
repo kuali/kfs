@@ -21,6 +21,7 @@ import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Callable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -52,8 +53,10 @@ import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
+import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.dao.DocumentDao;
@@ -72,6 +75,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
 public class TravelReimbursementDocument extends TEMReimbursementDocument implements AmountTotaling {
 
     public static Logger LOG = Logger.getLogger(TravelReimbursementDocument.class);
+    private volatile static IdentityService identityService;
 
     @Column(name = "final_reimb_ind", nullable = false, length = 1)
     private Boolean finalReimbursement = Boolean.FALSE;
@@ -208,7 +212,7 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
             }
 
             try {
-                TravelAuthorizationDocument openAuthorization = getTravelReimbursementService().getRelatedOpenTravelAuthorizationDocument(this);
+                final TravelAuthorizationDocument openAuthorization = getTravelReimbursementService().getRelatedOpenTravelAuthorizationDocument(this);
                 List<Document> authorizations = getTravelDocumentService().getDocumentsRelatedTo(this, TravelDocTypes.TRAVEL_AUTHORIZATION_DOCUMENT);
 
                 // 2. if there is an authorization and there isn't a TAC then we process dis-encumbrance
@@ -225,14 +229,16 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
                         // 3. No TAC - then if it is indicated as final TR - we will spawn the TAC doc
                         if (getFinalReimbursement()) {
                             // store this so we can reset after we're finished
-                            UserSession originalUser = GlobalVariables.getUserSession();
-
-                            String initiatorId = getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId();
-                            Person initiator = getPersonService().getPerson(initiatorId);
-
-                            //close the authorization
-                            getTravelAuthorizationService().closeAuthorization(openAuthorization, getTripDescription(), initiator.getPrincipalName());
-                            GlobalVariables.setUserSession(originalUser);
+                            final String initiatorId = getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId();
+                            GlobalVariables.doInNewGlobalVariables(new UserSession(initiatorId), new Callable<Object>(){
+                                @Override
+                                public Object call() {
+                                    //close the authorization
+                                    final Principal initiator = getIdentityService().getPrincipal(initiatorId);
+                                    getTravelAuthorizationService().closeAuthorization(openAuthorization, getTripDescription(), initiator.getPrincipalName());
+                                    return null;
+                                }
+                            });
                         }
                     }
                 }
@@ -593,6 +599,16 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
 
     protected AccountingDocumentRelationshipService getAccountingDocumentRelationshipService() {
         return SpringContext.getBean(AccountingDocumentRelationshipService.class);
+    }
+
+    /**
+     * @return the default implementation of IdentityService
+     */
+    protected IdentityService getIdentityService() {
+        if (identityService == null) {
+            identityService = SpringContext.getBean(IdentityService.class);
+        }
+        return identityService;
     }
 
     /**

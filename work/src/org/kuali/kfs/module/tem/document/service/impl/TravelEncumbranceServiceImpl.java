@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.tem.document.service.impl;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -25,8 +26,10 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.gl.businessobject.Encumbrance;
 import org.kuali.kfs.gl.service.EncumbranceService;
+import org.kuali.kfs.integration.ar.AccountsReceivableModuleService;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemConstants.TravelDocTypes;
+import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.businessobject.TemSourceAccountingLine;
 import org.kuali.kfs.module.tem.businessobject.TripType;
@@ -37,6 +40,10 @@ import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.TravelReimbursementDocument;
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
 import org.kuali.kfs.module.tem.document.service.TravelEncumbranceService;
+import org.kuali.kfs.pdp.PdpConstants;
+import org.kuali.kfs.pdp.PdpPropertyConstants;
+import org.kuali.kfs.pdp.businessobject.PaymentDetail;
+import org.kuali.kfs.pdp.service.PaymentMaintenanceService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLineBase;
@@ -44,9 +51,13 @@ import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -57,26 +68,28 @@ public class TravelEncumbranceServiceImpl implements TravelEncumbranceService {
 
     protected static Logger LOG = Logger.getLogger(TravelEncumbranceServiceImpl.class);
 
-    private BusinessObjectService businessObjectService;
-    private TravelDocumentService travelDocumentService;
-    private DocumentService documentService;
-    private EncumbranceService encumbranceService;
-    private GeneralLedgerPendingEntryService generalLedgerPendingEntryService;
+    protected BusinessObjectService businessObjectService;
+    protected TravelDocumentService travelDocumentService;
+    protected DocumentService documentService;
+    protected EncumbranceService encumbranceService;
+    protected GeneralLedgerPendingEntryService generalLedgerPendingEntryService;
+    protected volatile AccountsReceivableModuleService accountsReceivableModuleService;
+    protected PaymentMaintenanceService paymentMaintenanceService;
+    protected PersonService personService;
+    protected ConfigurationService configurationService;
 
     /**
      * @see org.kuali.kfs.module.tem.document.service.TravelEncumbranceService#liquidateEncumbranceForCancelTA(org.kuali.kfs.module.tem.document.TravelAuthorizationDocument)
      */
     @Override
     public void liquidateEncumbranceForCancelTA(TravelAuthorizationDocument travelAuthDocument) {
-
         //perform base on trip type
         if (travelAuthDocument.getTripType().isGenerateEncumbrance()) {
-
-            //TODO: if all we do are liquidation, why are we deleting the old GLPEs...
-            //generalLedgerPendingEntryService.delete(travelAuthDocument.getDocumentNumber());
-
+            travelAuthDocument.refreshReferenceObject(KFSPropertyConstants.GENERAL_LEDGER_PENDING_ENTRIES);
             //start GLPE sequence from the current GLPEs
             GeneralLedgerPendingEntrySequenceHelper sequenceHelper = new GeneralLedgerPendingEntrySequenceHelper(travelAuthDocument.getGeneralLedgerPendingEntries().size() + 1);
+
+            deletePendingEntriesForTripCancellation(travelAuthDocument.getTravelDocumentIdentifier());
 
             // Get encumbrances for the document
             final Map<String, Object> criteria = new HashMap<String, Object>();
@@ -115,15 +128,12 @@ public class TravelEncumbranceServiceImpl implements TravelEncumbranceService {
      */
     @Override
     public void liquidateEncumbrance(final Encumbrance encumbrance, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, TravelDocument document) {
-        GeneralLedgerPendingEntry pendingEntry = null;
-        GeneralLedgerPendingEntry offsetEntry = null;
-
-        pendingEntry = this.setupPendingEntry(encumbrance, sequenceHelper, document);
-        sequenceHelper.increment();
-        offsetEntry = this.setupOffsetEntry(encumbrance, sequenceHelper, document, pendingEntry);
-        sequenceHelper.increment();
-
         if (encumbrance.getAccountLineEncumbranceOutstandingAmount().isGreaterThan(KualiDecimal.ZERO)) {
+            GeneralLedgerPendingEntry pendingEntry = this.setupPendingEntry(encumbrance, sequenceHelper, document);
+            sequenceHelper.increment();
+            GeneralLedgerPendingEntry offsetEntry = this.setupOffsetEntry(encumbrance, sequenceHelper, document, pendingEntry);
+            sequenceHelper.increment();
+
             final KualiDecimal amount = encumbrance.getAccountLineEncumbranceOutstandingAmount();
             pendingEntry.setTransactionLedgerEntryAmount(amount);
             offsetEntry.setTransactionLedgerEntryAmount(amount);
@@ -137,7 +147,7 @@ public class TravelEncumbranceServiceImpl implements TravelEncumbranceService {
      */
     @Override
     public GeneralLedgerPendingEntry setupPendingEntry(Encumbrance encumbrance, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, TravelDocument document) {
-        final GeneralLedgerPendingEntrySourceDetail sourceDetail = convertTo(encumbrance);
+        final GeneralLedgerPendingEntrySourceDetail sourceDetail = convertTo(document, encumbrance);
 
         GeneralLedgerPendingEntry pendingEntry = new GeneralLedgerPendingEntry();
         generalLedgerPendingEntryService.populateExplicitGeneralLedgerPendingEntry(document, sourceDetail, sequenceHelper, pendingEntry);
@@ -182,12 +192,10 @@ public class TravelEncumbranceServiceImpl implements TravelEncumbranceService {
     public void disencumberTravelAuthorizationClose(TravelAuthorizationCloseDocument document) {
 
         //Get rid of all pending entries relating to encumbrance.
-        clearAuthroizationEncumbranceGLPE(document);
+        clearAuthorizationEncumbranceGLPE(document);
 
         final Map<String, Object> criteria = new HashMap<String, Object>();
         criteria.put(KFSPropertyConstants.DOCUMENT_NUMBER, document.getTravelDocumentIdentifier());
-
-        final Map<String, Encumbrance> openEncumbranceMap = new HashMap<String, Encumbrance>();
 
         //calculate the previous dis-encumber funds from the related TR
         //TODO: do open encumbrance incluing the pending entries?? if it does, then
@@ -195,25 +203,11 @@ public class TravelEncumbranceServiceImpl implements TravelEncumbranceService {
         //look for the open enc with pending EX entries from TR, then update the map by the reimbursement encumbrance
 
         // Create encumbrance map based on account numbers
-        while (encumbranceIterator.hasNext()) {
-            Encumbrance encumbrance = encumbranceIterator.next();
-            StringBuffer key = new StringBuffer();
-            key.append(encumbrance.getAccountNumber());
-            key.append(encumbrance.getSubAccountNumber());
-            key.append(encumbrance.getObjectCode());
-            key.append(encumbrance.getSubObjectCode());
-            key.append(encumbrance.getDocumentNumber());
-            openEncumbranceMap.put(key.toString(), encumbrance);
-        }
-
         int counter = document.getGeneralLedgerPendingEntries().size() + 1;
         GeneralLedgerPendingEntrySequenceHelper sequenceHelper = new GeneralLedgerPendingEntrySequenceHelper(counter);
-
-        if (!openEncumbranceMap.isEmpty()) {
-            //Loop trough and create a glpe to liquidate remaining outstanding encumbrance.
-            for (final Encumbrance encumbrance : openEncumbranceMap.values()) {
-                liquidateEncumbrance(encumbrance, sequenceHelper, document);
-            }
+        while (encumbranceIterator.hasNext()) {
+            Encumbrance encumbrance = encumbranceIterator.next();
+            liquidateEncumbrance(encumbrance, sequenceHelper, document);
         }
     }
 
@@ -364,7 +358,7 @@ public class TravelEncumbranceServiceImpl implements TravelEncumbranceService {
      * @param travelAuthDocument
      */
     @SuppressWarnings("deprecation")
-    public void clearAuthroizationEncumbranceGLPE(TravelAuthorizationCloseDocument travelAuthCloseDocument) {
+    public void clearAuthorizationEncumbranceGLPE(TravelAuthorizationCloseDocument travelAuthCloseDocument) {
         List<Document> relatedDocs = travelDocumentService.getDocumentsRelatedTo(travelAuthCloseDocument,
                 TravelDocTypes.TRAVEL_AUTHORIZATION_DOCUMENT,
                 TravelDocTypes.TRAVEL_AUTHORIZATION_AMEND_DOCUMENT);
@@ -422,7 +416,7 @@ public class TravelEncumbranceServiceImpl implements TravelEncumbranceService {
         try {
             relatedDocuments = travelDocumentService.getDocumentsRelatedTo(travelReimbursementDocument);
             List<Document> trDocs = relatedDocuments.get(TravelDocTypes.TRAVEL_REIMBURSEMENT_DOCUMENT);
-            taDocument = (TravelAuthorizationDocument) travelDocumentService.findCurrentTravelAuthorization(travelReimbursementDocument);
+            taDocument = travelDocumentService.findCurrentTravelAuthorization(travelReimbursementDocument);
 
             for (TemSourceAccountingLine line : taDocument.getEncumbranceSourceAccountingLines()){
                 encumbranceTotal = encumbranceTotal.add(line.getAmount());
@@ -551,13 +545,13 @@ public class TravelEncumbranceServiceImpl implements TravelEncumbranceService {
      */
     @SuppressWarnings("deprecation")
     @Override
-    public GeneralLedgerPendingEntrySourceDetail convertTo(final Encumbrance encumbrance) {
+    public GeneralLedgerPendingEntrySourceDetail convertTo(final TravelDocument document, final Encumbrance encumbrance) {
 
         AccountingLineBase accountLine = new SourceAccountingLine();
         accountLine.setChartOfAccountsCode(encumbrance.getChartOfAccountsCode());
         accountLine.setAccountNumber(encumbrance.getAccountNumber());
         accountLine.setAccount(encumbrance.getAccount());
-        accountLine.setDocumentNumber(encumbrance.getDocumentNumber());
+        accountLine.setDocumentNumber(document.getDocumentNumber());
         accountLine.setFinancialObjectCode(encumbrance.getObjectCode());
         accountLine.setObjectCode(encumbrance.getFinancialObject());
         accountLine.setReferenceNumber(encumbrance.getDocumentNumber());
@@ -568,148 +562,42 @@ public class TravelEncumbranceServiceImpl implements TravelEncumbranceService {
         accountLine.setPostingYear(encumbrance.getUniversityFiscalYear());
         accountLine.setBalanceTypeCode(encumbrance.getBalanceTypeCode());
         return accountLine;
+    }
 
-//        return new AccountingLineBase() {
-//            /**
-//             * @return Returns the chartOfAccountsCode.
-//             */
-//            @Override
-//            public String getChartOfAccountsCode() {
-//                return encumbrance.getChartOfAccountsCode();
-//            }
-//
-//            /**
-//             * @return Returns the accountNumber.
-//             */
-//            @Override
-//            public String getAccountNumber() {
-//                return encumbrance.getAccountNumber();
-//            }
-//
-//            /**
-//             * @return Returns the account.
-//             */
-//            @Override
-//            public Account getAccount() {
-//                return encumbrance.getAccount();
-//            }
-//
-//            /**
-//             * @return Returns the documentNumber.
-//             */
-//            @Override
-//            public String getDocumentNumber() {
-//                return encumbrance.getDocumentNumber();
-//            }
-//
-//            /**
-//             * @return Returns the financialObjectCode.
-//             */
-//            @Override
-//            public String getFinancialObjectCode() {
-//                return encumbrance.getObjectCode();
-//            }
-//
-//            /**
-//             * @return Returns the objectCode.
-//             */
-//            @Override
-//            public ObjectCode getObjectCode() {
-//                return encumbrance.getFinancialObject();
-//            }
-//
-//            /**
-//             * @return Returns the referenceNumber.
-//             */
-//            @Override
-//            public String getReferenceNumber() {
-//                return encumbrance.getDocumentNumber();
-//            }
-//
-//            /**
-//             * @return Returns the subAccountNumber.
-//             */
-//            @Override
-//            public String getSubAccountNumber() {
-//                return encumbrance.getSubAccountNumber();
-//            }
-//
-//            /**
-//             * @return Returns the financialSubObjectCode.
-//             */
-//            @Override
-//            public String getFinancialSubObjectCode() {
-//                return encumbrance.getSubObjectCode();
-//            }
-//
-//            /**
-//             * @return Returns the financialDocumentLineDescription.
-//             */
-//            @Override
-//            public String getFinancialDocumentLineDescription() {
-//                return encumbrance.getTransactionEncumbranceDescription();
-//            }
-//
-//            /**
-//             * @return Returns the amount.
-//             */
-//            @Override
-//            public KualiDecimal getAmount() {
-//                return encumbrance.getAccountLineEncumbranceOutstandingAmount();
-//            }
-//
-//            /**
-//             * @return Returns the postingYear.
-//             */
-//            @Override
-//            public Integer getPostingYear() {
-//                return encumbrance.getUniversityFiscalYear();
-//            }
-//
-//            /**
-//             * @return Returns the balanceTypeCode.
-//             */
-//            @Override
-//            public String getBalanceTypeCode() {
-//                return encumbrance.getBalanceTypeCode();
-//            }
-//
-//            /**
-//             * @return Returns the documentTypeCode.
-//             */
-//            public String getFinancialDocumentTypeCode() {
-//                return encumbrance.getDocumentTypeCode();
-//            }
-//
-//            /**
-//             * @return Returns the originCode.
-//             */
-//            public String getFinancialSystemOriginationCode() {
-//                return encumbrance.getOriginCode();
-//            }
-//
-//            /**
-//             * @return Returns the originCode.
-//             */
-//            public String getReferenceFinancialDocumentTypeCode() {
-//                return encumbrance.getDocumentTypeCode();
-//            }
-//
-//            /**
-//             * @return Returns the originCode.
-//             */
-//            public String getReferenceFinancialSystemOriginationCode() {
-//                return encumbrance.getOriginCode();
-//            }
-//
-//            /**
-//             * @return Returns the originCode.
-//             */
-//            public String getReferenceFinancialDocumentNumber() {
-//                return encumbrance.getDocumentNumber();
-//            }
-//
-//        };
+    /**
+     * To be safe, we look up all document numbers associated with a trip (ie, look up any TA or TAA associated with the trip), and then remove all GLPEs associated with those document entries
+     * Then lookup any invoices created for this trip, remove those glpe's, and finally find any checks associated with the trip and remove those pending entries
+     * @see org.kuali.kfs.module.tem.document.service.TravelEncumbranceService#deletePendingEntriesForTrip(java.lang.String)
+     */
+    @Override
+    public void deletePendingEntriesForTripCancellation(String travelDocumentIdentifier) {
+        final Person kfsSystemUser = getPersonService().getPersonByPrincipalName(KFSConstants.SYSTEM_USER);
+
+        List<String> tripDocumentNumbers = travelDocumentService.findAuthorizationDocumentNumbers(travelDocumentIdentifier);
+        for (String documentNumber : tripDocumentNumbers) {
+            generalLedgerPendingEntryService.delete(documentNumber); // delete glpe's if they exist
+            cancelPaymentDetailForDocument(documentNumber, kfsSystemUser);
+        }
+
+        getAccountsReceivableModuleService().cancelInvoicesForTrip(travelDocumentIdentifier, travelDocumentService.getOrgOptions());
+    }
+
+    /**
+     * Cancels the PDP payment detail for the document, if it exists (ie, the authorization would need to be extracted after it after it had an advance to extract...)
+     * @param documentNumber the document number of the authorization to cancel payment details of
+     * @param kfsSystemUser the KFS system user, responsible for cancelling the payment
+     */
+    protected void cancelPaymentDetailForDocument(String documentNumber, Person kfsSystemUser) {
+        Map<String, String> keyMap = new HashMap<String, String>();
+        keyMap.put(PdpPropertyConstants.PaymentDetail.PAYMENT_CUSTOMER_DOC_NUMBER, documentNumber);
+        keyMap.put(PdpPropertyConstants.PaymentDetail.PAYMENT_GROUP+"."+PdpPropertyConstants.PaymentGroup.PAYMENT_GROUP_PAYMENT_STATUS_CODE, PdpConstants.PaymentStatusCodes.OPEN); // only try to cancel open payments
+
+        final Collection<PaymentDetail> paymentDetails = businessObjectService.findMatching(PaymentDetail.class, keyMap);
+        if (paymentDetails != null && !paymentDetails.isEmpty()) {
+            for (PaymentDetail paymentDetail: paymentDetails) {
+                getPaymentMaintenanceService().cancelPendingPayment(paymentDetail.getPaymentGroupId().intValue(), paymentDetail.getId().intValue(), getConfigurationService().getPropertyValueAsString(TemKeyConstants.TA_MESSAGE_ADVANCE_PAYMENT_CANCELLED), kfsSystemUser);
+            }
+        }
     }
 
     public void setDocumentService(DocumentService documentService) {
@@ -732,4 +620,58 @@ public class TravelEncumbranceServiceImpl implements TravelEncumbranceService {
         this.encumbranceService = encumbranceService;
     }
 
+    /**
+     * @return the system-ste implementation of the AccountsReceivableModuleService
+     */
+    public AccountsReceivableModuleService getAccountsReceivableModuleService() {
+        if (accountsReceivableModuleService == null) {
+            accountsReceivableModuleService = SpringContext.getBean(AccountsReceivableModuleService.class);
+        }
+        return accountsReceivableModuleService;
+    }
+
+    /**
+     * @return the injected implementation of the PaymentMaintenanceService
+     */
+    public PaymentMaintenanceService getPaymentMaintenanceService() {
+        return paymentMaintenanceService;
+    }
+
+    /**
+     * Injects an implementation of the PaymentMaintenanceService
+     * @param paymentMaintenanceService the implementation of the PaymentMaintenanceService to inject
+     */
+    public void setPaymentMaintenanceService(PaymentMaintenanceService paymentMaintenanceService) {
+        this.paymentMaintenanceService = paymentMaintenanceService;
+    }
+
+    /**
+     * @return the injected implementation of the PersonService
+     */
+    public PersonService getPersonService() {
+        return personService;
+    }
+
+    /**
+     * Injects an implementation of the PersonService
+     * @param personService the implementation of the PersonService to inject
+     */
+    public void setPersonService(PersonService personService) {
+        this.personService = personService;
+    }
+
+    /**
+     * @return the injected implementation of the ConfigurationService
+     */
+    public ConfigurationService getConfigurationService() {
+        return configurationService;
+    }
+
+    /**
+     * Injects an implementation of the ConfigurationService
+     * @param configurationService the implementation of the ConfigurationService to inject
+     */
+    public void setConfigurationService(ConfigurationService configurationService) {
+        this.configurationService = configurationService;
+    }
 }

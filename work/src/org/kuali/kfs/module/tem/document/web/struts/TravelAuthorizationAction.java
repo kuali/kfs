@@ -55,8 +55,10 @@ import org.kuali.kfs.module.tem.document.validation.event.AddEmergencyContactLin
 import org.kuali.kfs.module.tem.document.web.bean.TravelAuthorizationMvcWrapperBean;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.validation.event.AccountingDocumentSaveWithNoLedgerEntryGenerationEvent;
 import org.kuali.kfs.sys.document.validation.event.AddAccountingLineEvent;
 import org.kuali.kfs.sys.document.validation.event.DeleteAccountingLineEvent;
 import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
@@ -310,15 +312,17 @@ public class TravelAuthorizationAction extends TravelActionBase {
     private void getMessages(TravelAuthorizationForm authForm) {
         TravelAuthorizationDocument document = authForm.getTravelAuthorizationDocument();
 
-        if (document.getAppDocStatus().equals(TravelAuthorizationStatusCodeKeys.REIMB_HELD)) {
-            String name = SpringContext.getBean(PersonService.class).getPerson(GlobalVariables.getUserSession().getPrincipalId()).getName();
-            KNSGlobalVariables.getMessageList().add(TemKeyConstants.TA_MESSAGE_HOLD_DOCUMENT_TEXT, new String[] { name });
-        }
-        else if (document.getAppDocStatus().equals(TravelAuthorizationStatusCodeKeys.RETIRED_VERSION)) {
-            KNSGlobalVariables.getMessageList().add(TemKeyConstants.TA_MESSAGE_RETIRED_DOCUMENT_TEXT);
-        }
-        else if (document.getAppDocStatus().equals(TravelAuthorizationStatusCodeKeys.PEND_AMENDMENT)) {
-            KNSGlobalVariables.getMessageList().add(TemKeyConstants.TA_MESSAGE_AMEND_DOCUMENT_TEXT);
+        if (!StringUtils.isBlank(document.getAppDocStatus())) {
+            if (document.getAppDocStatus().equals(TravelAuthorizationStatusCodeKeys.REIMB_HELD)) {
+                String name = SpringContext.getBean(PersonService.class).getPerson(GlobalVariables.getUserSession().getPrincipalId()).getName();
+                KNSGlobalVariables.getMessageList().add(TemKeyConstants.TA_MESSAGE_HOLD_DOCUMENT_TEXT, new String[] { name });
+            }
+            else if (document.getAppDocStatus().equals(TravelAuthorizationStatusCodeKeys.RETIRED_VERSION)) {
+                KNSGlobalVariables.getMessageList().add(TemKeyConstants.TA_MESSAGE_RETIRED_DOCUMENT_TEXT);
+            }
+            else if (document.getAppDocStatus().equals(TravelAuthorizationStatusCodeKeys.PEND_AMENDMENT)) {
+                KNSGlobalVariables.getMessageList().add(TemKeyConstants.TA_MESSAGE_AMEND_DOCUMENT_TEXT);
+            }
         }
     }
 
@@ -840,13 +844,15 @@ public class TravelAuthorizationAction extends TravelActionBase {
         TravelAuthorizationForm taForm = (TravelAuthorizationForm) form;
         TravelAuthorizationDocument taDocument = taForm.getTravelAuthorizationDocument();
 
+        taDocument.refreshReferenceObject(KFSPropertyConstants.GENERAL_LEDGER_PENDING_ENTRIES);
+
         final Note newNote = getDocumentService().createNoteFromDocument(taDocument, TemConstants.TA_CANCELLED_MESSAGE);
-        //newNote.setNoteTypeCode(KFSConstants.NoteTypeEnum.DOCUMENT_HEADER_NOTE_TYPE.getCode());
         taDocument.addNote(newNote);
 
         taDocument.updateAppDocStatus(TravelAuthorizationStatusCodeKeys.CANCELLED);
         getTravelEncumbranceService().liquidateEncumbranceForCancelTA(taDocument);
-        SpringContext.getBean(DocumentService.class).saveDocument(taDocument);
+        SpringContext.getBean(DocumentService.class).saveDocument(taDocument, AccountingDocumentSaveWithNoLedgerEntryGenerationEvent.class);
+        taDocument.refreshReferenceObject(KFSPropertyConstants.GENERAL_LEDGER_PENDING_ENTRIES);
 
         // send FYI for to initiator and traveler
         getTravelDocumentService().addAdHocFYIRecipient(taDocument, taDocument.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId());

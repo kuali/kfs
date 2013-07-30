@@ -102,6 +102,13 @@ public interface AccountsReceivableModuleService {
     public Collection<? extends AccountsReceivableCustomerInvoice> getOpenCustomerInvoices(List<String> customerTypeCodes, Integer customerInvoiceAge, Date invoiceBillingDateFrom);
 
     /**
+     * Undoes the actions for any invoices which were created for the given trip id (since KFS TEM uses invoices to handle accounting for travel advances)
+     * @param tripId the id of the trip to remove entries for
+     * @organizationOptions the organization options which the trip used
+     */
+    public void cancelInvoicesForTrip(String tripId, AccountsReceivableOrganizationOptions organizationOptions);
+
+    /**
      * Create new Customer object
      *
      * @return AccountsReceivableCustomer instance with the new customer

@@ -28,12 +28,11 @@ import org.kuali.kfs.integration.ar.AccountsReceivableCustomer;
 import org.kuali.kfs.integration.ar.AccountsReceivableModuleService;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
-import org.kuali.kfs.module.tem.TemWorkflowConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants.TEMProfileProperties;
+import org.kuali.kfs.module.tem.TemWorkflowConstants;
 import org.kuali.kfs.module.tem.businessobject.TEMProfile;
 import org.kuali.kfs.module.tem.businessobject.TEMProfileAccount;
 import org.kuali.kfs.module.tem.datadictionary.mask.CreditCardMaskFormatter;
-import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
 import org.kuali.kfs.module.tem.service.TEMRoleService;
 import org.kuali.kfs.module.tem.service.TemProfileService;
 import org.kuali.kfs.module.tem.service.TravelerService;
@@ -108,7 +107,6 @@ public class TEMProfileMaintainable extends FinancialSystemMaintainable {
         }
 
         travelerService.populateTEMProfile(temProfile);
-        addAdHocFYIRecipient(document);
         if (document.isNew()) {
             if (StringUtils.isNotBlank(principalId)) {
                 document.getDocumentHeader().setDocumentDescription(trimDescription(TemConstants.NEW_TEM_PROFILE_DESCRIPTION_PREFIX + temProfile.getPrincipal().getName()));
@@ -210,6 +208,9 @@ public class TEMProfileMaintainable extends FinancialSystemMaintainable {
         if (nodeName.equals(TemWorkflowConstants.TAX_MANAGER_REQUIRED)) {
             return taxManagerRequiredRouting();
         }
+        if (nodeName.equals(TemWorkflowConstants.REQUIRES_TRAVELER_REVIEW)) {
+            return travelerRequiredRouting();
+        }
         throw new UnsupportedOperationException("Cannot answer split question for this node you call \"" + nodeName + "\"");
     }
 
@@ -267,6 +268,15 @@ public class TEMProfileMaintainable extends FinancialSystemMaintainable {
         return false;
     }
 
+    protected boolean travelerRequiredRouting() {
+        TEMProfile newTemProfile = (TEMProfile) getParentMaintDoc().getNewMaintainableObject().getBusinessObject();
+        String initiator = getParentMaintDoc().getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId();
+        if (newTemProfile.getPrincipalId() != null &&!newTemProfile.getPrincipalId().equals(initiator)) {
+            return true;
+        }
+        return false;
+    }
+
     protected FinancialSystemMaintenanceDocument getParentMaintDoc() {
         FinancialSystemMaintenanceDocument maintDoc = null;
         try {
@@ -311,17 +321,6 @@ public class TEMProfileMaintainable extends FinancialSystemMaintainable {
         }
 
         return newReference;
-    }
-
-    /**
-     * Add send FYI after post
-     */
-    protected void addAdHocFYIRecipient(MaintenanceDocument document) {
-        TEMProfile profile = (TEMProfile) super.getBusinessObject();
-        String initiatorUserId = document.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId();
-        if(!initiatorUserId.equals(profile.getPrincipalId())){
-            SpringContext.getBean(TravelDocumentService.class).addAdHocFYIRecipient(document, profile.getPrincipalId());
-        }
     }
 
     @Override

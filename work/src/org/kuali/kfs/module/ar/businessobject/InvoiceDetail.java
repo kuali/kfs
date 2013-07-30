@@ -352,7 +352,7 @@ public class InvoiceDetail extends PersistableBusinessObjectBase {
                 String obCode = it.next();
 
                 for (Balance glBalance : glBalances) {
-                    if (!StringUtils.equalsIgnoreCase(glBalance.getSubAccount().getA21SubAccount().getSubAccountTypeCode(), KFSConstants.SubAccountType.COST_SHARE)) {
+                    if (ObjectUtils.isNotNull(glBalance.getSubAccount().getA21SubAccount()) && !StringUtils.equalsIgnoreCase(glBalance.getSubAccount().getA21SubAccount().getSubAccountTypeCode(), KFSConstants.SubAccountType.COST_SHARE)) {
                         if (glBalance.getObjectCode().equals(obCode)) {
                             balAmt = glBalance.getContractsGrantsBeginningBalanceAmount().add(glBalance.getAccountLineAnnualBalanceAmount());
                             budAmt = budAmt.add(balAmt);

@@ -793,15 +793,16 @@
 		<property name="description" value="Creation Timestamp" />
 	</bean>
 	<bean id="AgencyStagingData-processingTimestamp" parent="AgencyStagingData-processingTimestamp-parentBean" />
-	<bean id="AgencyStagingData-processingTimestamp-parentBean" parent="GenericAttributes-genericDate">
+	<bean id="AgencyStagingData-processingTimestamp-parentBean" parent="GenericAttributes-genericTimestamp">
 		<property name="name" value="processingTimestamp" />
 		<property name="label" value="Processing Timestamp" />
 		<property name="shortLabel" value="Processing Timestamp" />
 		<property name="summary" value="Processing Timestamp" />
 		<property name="description" value="Processing Timestamp" />
         <property name="control">
-            <bean parent="DateControl" p:ranged="false"/>
+            <bean parent="DateControl" />
         </property>
+        <property name="formatterClass" value="org.kuali.rice.core.web.format.DateViewTimestampObjectFormatter"/>
 	</bean>
 	<bean id="AgencyStagingData-moveToHistoryIndicator" parent="AgencyStagingData-moveToHistoryIndicator-parentBean" />
 	<bean id="AgencyStagingData-moveToHistoryIndicator-parentBean" parent="GenericAttributes-genericBoolean">

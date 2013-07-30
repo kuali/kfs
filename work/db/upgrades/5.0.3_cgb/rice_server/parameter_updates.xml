@@ -160,7 +160,7 @@
 	<changeSet author="kfs" id="KRCR_PARM_T_1">
 		<insert tableName="KRCR_PARM_T">
 			<column name="NMSPC_CD" value="KFS-CG" />
-			<column name="CMPNT_CD" value="UpcomingMilestoneNotificationStep" />
+			<column name="CMPNT_CD" value="Batch" />
 			<column name="PARM_NM" value="AWARD_MILESTONE_REMINDER_EMAIL_SUBJECT" />
 			<column name="OBJ_ID" value="KFSCG05" />
 			<column name="VER_NBR" value="1" />
@@ -176,7 +176,7 @@
 	<changeSet author="kfs" id="KRCR_PARM_T_2">
 		<insert tableName="KRCR_PARM_T">
 			<column name="NMSPC_CD" value="KFS-CG" />
-			<column name="CMPNT_CD" value="UpcomingMilestoneNotificationStep" />
+			<column name="CMPNT_CD" value="Batch" />
 			<column name="PARM_NM" value="AWARD_MILESTONE_CHECK_LIMIT_DAYS" />
 			<column name="OBJ_ID" value="KFSCG06" />
 			<column name="VER_NBR" value="1" />

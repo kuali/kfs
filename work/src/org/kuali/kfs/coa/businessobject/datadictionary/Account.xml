@@ -1130,13 +1130,13 @@
 				<bean parent="FieldDefinition" p:attributeName="organization.reportsToOrganizationCode" />
 				<bean parent="FieldDefinition" p:attributeName="organization.reportsToChartOfAccountsCode" p:noLookup="true" />
 				<bean parent="FieldDefinition" p:attributeName="accountTypeCode" />
+				<bean parent="FieldDefinition" p:attributeName="subFundGroup.fundGroupCode" />	
 				<bean parent="FieldDefinition" p:attributeName="subFundGroupCode" />
 				<bean parent="FieldDefinition" p:attributeName="accountFiscalOfficerUser.principalName" />
 				<bean parent="FieldDefinition" p:attributeName="accountManagerUser.principalName" />
 				<bean parent="FieldDefinition" p:attributeName="accountSupervisoryUser.principalName" />
 				<bean parent="FieldDefinition" p:attributeName="closed"
 					p:defaultValue="N" />
-				<bean parent="FieldDefinition" p:attributeName="subFundGroup.fundGroupCode" />	
 			</list>
 		</property>
 		<property name="resultFields">
@@ -1148,6 +1148,7 @@
 				<bean parent="FieldDefinition" p:attributeName="organization.responsibilityCenterCode" />
 				<bean parent="FieldDefinition" p:attributeName="organization.reportsToOrganizationCode" />	
 				<bean parent="FieldDefinition" p:attributeName="accountTypeCode" />
+				<bean parent="FieldDefinition" p:attributeName="subFundGroup.fundGroupCode" />
 				<bean parent="FieldDefinition" p:attributeName="subFundGroupCode" />
 				<bean parent="FieldDefinition" p:attributeName="accountFiscalOfficerUser.name"
 					p:forceInquiry="true" />
@@ -1158,7 +1159,6 @@
 				<bean parent="FieldDefinition" p:attributeName="closed" />
 				<bean parent="FieldDefinition" p:attributeName="accountCreateDate" />
 				<bean parent="FieldDefinition" p:attributeName="accountExpirationDate" />
-				<bean parent="FieldDefinition" p:attributeName="subFundGroup.fundGroupCode" />
 			</list>
 		</property>
 		<property name="multipleValuesResultSetLimit" value="-1"/>

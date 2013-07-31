@@ -88,8 +88,27 @@
  	<bean id="personService" p:serviceName="personService" parent="grlBeanImporter" />
  	<bean id="kimRoleService" p:serviceName="kimRoleService" parent="grlBeanImporter" />
  	<alias name="kimRoleService" alias="roleService" />
+ 	<!-- hey! -->
+ 	<!-- hey you! -->
+ 	<!-- want to know a secret? -->
+ 	<!-- specifically, do you want to know the secret of why kimRoleService is aliased as roleService? -->
+ 	<!-- so it always injects correctly?  yeah, i thought that too once -->
+ 	<!-- but something else is going on here -->
+ 	<!-- lean closer to the monitor -->
+ 	<!-- when SpringContext.getBean looks for this service, it is handed RoleService.class -->
+ 	<!-- and it decides that the bean should be named "roleService" -->
+ 	<!-- so if there was no alias, SpringContext would never find this bean -->
+ 	<!-- which would suck -->
+ 	<!-- that's why we've added aliases for kimPermissionService and kimIdentityService too -->
+ 	<!-- we didn't add one for kimGroupService because we kind of doubt anyone is really using that -->
+ 	<!-- but it probably needs one -->
+ 	<!-- so now you know -->
+ 	<!-- keep it a secret! -->
  	<bean id="kimGroupService" p:serviceName="kimGroupService" parent="grlBeanImporter" />
  	<bean id="kimPermissionService" p:serviceName="kimPermissionService" parent="grlBeanImporter"/>
+ 	<alias name="kimPermissionService" alias="permissionService"/>
+ 	<bean id="kimIdentityService" p:serviceName="kimIdentityService" parent="grlBeanImporter"/>
+ 	<alias name="kimIdentityService" alias="identityService"/>
  	
  	<!-- 
  	<bean id="kimUiDocumentService" p:serviceName="kimUiDocumentService" parent="grlBeanImporter" />

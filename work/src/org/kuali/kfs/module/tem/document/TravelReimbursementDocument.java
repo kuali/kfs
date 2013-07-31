@@ -31,7 +31,6 @@ import javax.persistence.Transient;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.gl.service.EncumbranceService;
-import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemConstants.TravelDocTypes;
 import org.kuali.kfs.module.tem.TemConstants.TravelParameters;
@@ -230,11 +229,11 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
                         if (getFinalReimbursement()) {
                             // store this so we can reset after we're finished
                             final String initiatorId = getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId();
-                            GlobalVariables.doInNewGlobalVariables(new UserSession(initiatorId), new Callable<Object>(){
+                            final Principal initiator = getIdentityService().getPrincipal(initiatorId);
+                            GlobalVariables.doInNewGlobalVariables(new UserSession(initiator.getPrincipalName()), new Callable<Object>(){
                                 @Override
                                 public Object call() {
                                     //close the authorization
-                                    final Principal initiator = getIdentityService().getPrincipal(initiatorId);
                                     getTravelAuthorizationService().closeAuthorization(openAuthorization, getTripDescription(), initiator.getPrincipalName());
                                     return null;
                                 }
@@ -510,13 +509,6 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
     public KualiDecimal getReimbursableGrandTotal() {
         KualiDecimal grandTotal = super.getReimbursableGrandTotal();
         return grandTotal.subtract(getAdvancesTotal());
-    }
-
-    /**
-     * @see org.kuali.kfs.module.tem.document.TravelDocumentBase#populateRequisitionFields(org.kuali.kfs.module.purap.document.RequisitionDocument, org.kuali.kfs.module.tem.document.TravelDocument)
-     */
-    @Override
-    public void populateRequisitionFields(RequisitionDocument reqsDoc, TravelDocument document) {
     }
 
     /**

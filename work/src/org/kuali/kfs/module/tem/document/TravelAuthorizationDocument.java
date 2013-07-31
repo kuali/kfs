@@ -34,7 +34,6 @@ import javax.persistence.Transient;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
-import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationParameters;
 import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationStatusCodeKeys;
@@ -1002,10 +1001,6 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
         managedLists.add(getTransportationModes());
 
         return managedLists;
-    }
-
-    @Override
-    public void populateRequisitionFields(RequisitionDocument reqsDoc, TravelDocument document) {
     }
 
     /**

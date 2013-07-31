@@ -42,7 +42,6 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomer;
-import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemConstants.ExpenseType;
 import org.kuali.kfs.module.tem.TemConstants.TravelDocTypes;
@@ -1096,14 +1095,6 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
             index++;
         }
         return -1;
-    }
-
-    /**
-     *
-     * @param reqsDoc
-     * @param document
-     */
-    public void populateRequisitionFields(RequisitionDocument reqsDoc, TravelDocument document) {
     }
 
     /**

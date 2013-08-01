@@ -3377,7 +3377,6 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
                 parameterMap.put("#award.additionalFormsRequired", convertBooleanValue(award.isAdditionalFormsRequiredIndicator()));
                 parameterMap.put("#award.additionalFormsDescription", returnProperStringValue(award.getAdditionalFormsDescription()));
                 parameterMap.put("#award.contractGrantType", returnProperStringValue(award.getContractGrantType()));
-                parameterMap.put("#award.awardsourceOfFundsCode", returnProperStringValue(award.getAwardsourceOfFundsCode()));
                 parameterMap.put("#award.minInvoiceAmount", returnProperStringValue(award.getMinInvoiceAmount()));
                 parameterMap.put("#award.autoApprove", returnProperStringValue(award.getAutoApproveIndicator()));
                 parameterMap.put("#award.lookupPersonUniversalIdentifier", returnProperStringValue(award.getLookupPersonUniversalIdentifier()));

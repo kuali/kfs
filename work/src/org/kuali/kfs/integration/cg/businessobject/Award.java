@@ -122,7 +122,6 @@ public class Award implements ContractsAndGrantsCGBAward, ContractsAndGrantsAwar
     private String additionalFormsDescription;
     private String suspensionReason;
     private String contractGrantType;
-    private String awardsourceOfFundsCode;
 
     private String invoicingOptions;
 
@@ -1177,28 +1176,6 @@ public class Award implements ContractsAndGrantsCGBAward, ContractsAndGrantsAwar
     public void setContractGrantType(String contractGrantType) {
         this.contractGrantType = contractGrantType;
     }
-
-
-    /**
-     * Gets the awardsourceOfFundsCode attribute.
-     *
-     * @return Returns the awardsourceOfFundsCode.
-     */
-    @Override
-    public String getAwardsourceOfFundsCode() {
-        return awardsourceOfFundsCode;
-    }
-
-
-    /**
-     * Sets the awardsourceOfFundsCode attribute value.
-     *
-     * @param awardsourceOfFundsCode The awardsourceOfFundsCode to set.
-     */
-    public void setAwardsourceOfFundsCode(String awardsourceOfFundsCode) {
-        this.awardsourceOfFundsCode = awardsourceOfFundsCode;
-    }
-
 
     /**
      * Gets the invoicingOptions attribute.

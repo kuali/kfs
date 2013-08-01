@@ -129,8 +129,6 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
     private String additionalFormsDescription;
     private String suspensionReason;
     private String contractGrantType;
-    private String awardsourceOfFundsCode;
-    private SourceOfFunds sourceOfFunds;
     private String invoicingOptions;
 
     private KualiDecimal minInvoiceAmount = KualiDecimal.ZERO;
@@ -1588,44 +1586,6 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
      */
     public void setPreferredReportTemplate(String preferredReportTemplate) {
         this.preferredReportTemplate = preferredReportTemplate;
-    }
-
-
-    /**
-     * Gets the awardsourceOfFundsCode attribute.
-     *
-     * @return Returns the awardsourceOfFundsCode.
-     */
-    @Override
-    public String getAwardsourceOfFundsCode() {
-        return awardsourceOfFundsCode;
-    }
-
-    /**
-     * Sets the awardsourceOfFundsCode attribute value.
-     *
-     * @param awardsourceOfFundsCode The awardsourceOfFundsCode to set.
-     */
-    public void setAwardsourceOfFundsCode(String awardsourceOfFundsCode) {
-        this.awardsourceOfFundsCode = awardsourceOfFundsCode;
-    }
-
-    /**
-     * Gets the sourceOfFunds attribute.
-     *
-     * @return Returns the sourceOfFunds.
-     */
-    public SourceOfFunds getSourceOfFunds() {
-        return sourceOfFunds;
-    }
-
-    /**
-     * Sets the sourceOfFunds attribute value.
-     *
-     * @param sourceOfFunds The sourceOfFunds to set.
-     */
-    public void setSourceOfFunds(SourceOfFunds sourceOfFunds) {
-        this.sourceOfFunds = sourceOfFunds;
     }
 
     /**

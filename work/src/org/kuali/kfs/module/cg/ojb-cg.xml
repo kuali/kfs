@@ -494,7 +494,6 @@
 		<field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
 				<field-descriptor name="preferredBillingFrequency" column="PRFRD_BILL_FREQ_CD" jdbc-type="VARCHAR" />
 		<field-descriptor name="preferredReportFrequency" column="PRFRD_RPRT_FREQ" jdbc-type="VARCHAR" />
-		<field-descriptor name="awardsourceOfFundsCode" column="AWRD_SRC_OF_FNDS" jdbc-type="VARCHAR" />
 		<field-descriptor name="preferredReportTemplate" column="PRFRD_RPRT_TYP" jdbc-type="VARCHAR" />
 		<field-descriptor name="stateTransferIndicator" column="STATE_TRNSFR" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
 		<field-descriptor name="suspendInvoicingIndicator" column="SUSPND_INVCNG" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
@@ -563,11 +562,6 @@
 			<foreignkey field-ref="preferredReportFrequency" />
 		</reference-descriptor>
 
-		<!-- Source of Funds Link -->
-		<reference-descriptor name="sourceOfFunds" class-ref="org.kuali.kfs.module.cg.businessobject.SourceOfFunds" auto-retrieve="true"
-			auto-update="none" auto-delete="none" proxy="false">
-			<foreignkey field-ref="awardsourceOfFundsCode" />
-		</reference-descriptor>
 		<collection-descriptor name="awardProjectDirectors" element-class-ref="org.kuali.kfs.module.cg.businessobject.AwardProjectDirector"
 			collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" proxy="true" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<orderby name="principalId" sort="ASC" />
@@ -860,30 +854,6 @@
 		<field-descriptor name="gracePeriodDays" column="GRACE_PERIOD" jdbc-type="VARCHAR" nullable="false" />
 		<field-descriptor name="active" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
 	</class-descriptor>
-
-	<!-- SOURCE OF FUNDs -->
-
-	<class-descriptor class="org.kuali.kfs.module.cg.businessobject.SourceOfFunds" table="CG_SRC_OF_FNDS_T">
-		<field-descriptor name="sourceOfFunds" column="SRC_OF_FNDS_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
-
-		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
-		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-		<field-descriptor name="sourceOfFundDescription" column="SRC_OF_FNDS_DESC" jdbc-type="VARCHAR" />
-		<field-descriptor name="active" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
-	</class-descriptor>
-
-	<!-- AGENCY ACTIVITY -->
-
-	<class-descriptor class="org.kuali.kfs.module.cg.businessobject.AgencyActivity" table="CG_AGENCY_ACTVTY_T">
-		<field-descriptor name="agencyActivity" column="AGENCY_ACT_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
-
-		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
-		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-		<field-descriptor name="activityDescription" column="AGENCY_ACT_DESC" jdbc-type="VARCHAR" />
-		<field-descriptor name="active" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
-	</class-descriptor>
-
-
 
 	<!-- MILESTONES -->
 

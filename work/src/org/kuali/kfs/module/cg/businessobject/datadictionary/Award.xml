@@ -102,7 +102,6 @@
 				<ref bean="Award-additionalFormsRequiredIndicator" />
 				<ref bean="Award-additionalFormsDescription" />
 				<ref bean="Award-contractGrantType" />
-				<ref bean="Award-awardsourceOfFundsCode" />
 				<ref bean="Award-minInvoiceAmount" />
 				<ref bean="Award-invoicingOptions" />
 				<ref bean="Award-autoApproveIndicator" />
@@ -1082,21 +1081,6 @@
 		</property>
 	</bean>
 
-
-	<bean id="Award-awardsourceOfFundsCode" parent="Award-awardsourceOfFundsCode-parentBean" />
-
-	<bean id="Award-awardsourceOfFundsCode-parentBean" abstract="true"
-		parent="SourceOfFunds-sourceOfFunds">
-		<property name="name" value="awardsourceOfFundsCode" />
-		<property name="label" value="Source Of Funds" />
-		<property name="shortLabel" value="Source Of Funds" />
-		<property name="control">
-			<bean parent="SelectControlDefinition"
-				p:valuesFinderClass="org.kuali.kfs.module.cg.businessobject.options.SourceOfFundsValuesFinder"
-				p:includeKeyInLabel="false" />
-		</property>
-	</bean>
-
 	<bean id="Award-minInvoiceAmount" parent="Award-minInvoiceAmount-parentBean" />
 
 	<bean id="Award-minInvoiceAmount-parentBean" abstract="true"
@@ -1306,7 +1290,6 @@
 							<bean parent="FieldDefinition" p:attributeName="additionalFormsRequiredIndicator" />
 							<bean parent="FieldDefinition" p:attributeName="additionalFormsDescription" />
 							<bean parent="FieldDefinition" p:attributeName="contractGrantType" />
-							<bean parent="FieldDefinition" p:attributeName="awardsourceOfFundsCode" />
 							<bean parent="FieldDefinition" p:attributeName="autoApproveIndicator" />
 							<bean parent="FieldDefinition" p:attributeName="minInvoiceAmount" />
 							<bean parent="FieldDefinition" p:attributeName="invoicingOptions" />
@@ -1573,7 +1556,6 @@
 				<bean parent="FieldDefinition" p:attributeName="additionalFormsRequiredIndicator" />
 				<bean parent="FieldDefinition" p:attributeName="additionalFormsDescription" />
 				<bean parent="FieldDefinition" p:attributeName="contractGrantType" />
-				<bean parent="FieldDefinition" p:attributeName="awardsourceOfFundsCode" />
 				<bean parent="FieldDefinition" p:attributeName="minInvoiceAmount" />
 				<bean parent="FieldDefinition" p:attributeName="fundingExpirationDate" />
 				<bean parent="FieldDefinition" p:attributeName="drawNumber" />
@@ -1606,7 +1588,6 @@
 				<bean parent="FieldDefinition" p:attributeName="additionalFormsRequiredIndicator" />
 				<bean parent="FieldDefinition" p:attributeName="additionalFormsDescription" />
 				<bean parent="FieldDefinition" p:attributeName="contractGrantType" />
-				<bean parent="FieldDefinition" p:attributeName="awardsourceOfFundsCode" />
 				<bean parent="FieldDefinition" p:attributeName="autoApproveIndicator" />
 				<bean parent="FieldDefinition" p:attributeName="minInvoiceAmount" />
 				<bean parent="FieldDefinition" p:attributeName="fundingExpirationDate" />

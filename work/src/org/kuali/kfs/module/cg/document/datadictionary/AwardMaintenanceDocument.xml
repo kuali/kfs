@@ -386,7 +386,6 @@
 				<bean parent="MaintainableFieldDefinition" p:name="suspensionReason" />
 				<bean parent="MaintainableFieldDefinition" p:name="additionalFormsRequiredIndicator" />
 				<bean parent="MaintainableFieldDefinition" p:name="additionalFormsDescription" />
-				<bean parent="MaintainableFieldDefinition" p:name="awardsourceOfFundsCode" />
 				<bean parent="MaintainableFieldDefinition" p:name="autoApproveIndicator" />
 				<bean parent="MaintainableFieldDefinition" p:name="minInvoiceAmount" />
 				<bean parent="MaintainableFieldDefinition" p:name="invoicingOptions" />

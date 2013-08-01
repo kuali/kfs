@@ -386,13 +386,6 @@ public interface ContractsAndGrantsCGBAward extends ExternalizableBusinessObject
     public String getContractGrantType();
 
     /**
-     * Gets the awardsourceOfFundsCode attribute.
-     *
-     * @return Returns the awardsourceOfFundsCode.
-     */
-    public String getAwardsourceOfFundsCode();
-
-    /**
      * Gets the invoicingOptions attribute.
      *
      * @return Returns the invoicingOptions.

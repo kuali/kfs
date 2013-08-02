@@ -20,7 +20,7 @@ import java.util.Map;
 import org.kuali.kfs.pdp.businessobject.PayeeACHAccount;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
-import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.kns.document.MaintenanceDocument;
 
 public class PayeeACHAccountMaintenanceDocumentAuthorizer extends FinancialSystemMaintenanceDocumentAuthorizerBase {
 
@@ -31,6 +31,11 @@ public class PayeeACHAccountMaintenanceDocumentAuthorizer extends FinancialSyste
     @Override
     protected void addRoleQualification(Object businessObject, Map<String, String> qualifications) {
         super.addRoleQualification(businessObject, qualifications);
+
+        // KFSCNTRB-1672: Necessary for "Open Document" permission
+        if (businessObject instanceof MaintenanceDocument) {
+            businessObject = ((MaintenanceDocument) businessObject).getNewMaintainableObject().getBusinessObject();
+        }
 
         if (businessObject instanceof PayeeACHAccount) {
             final PayeeACHAccount payeeACHAccount = (PayeeACHAccount)businessObject;

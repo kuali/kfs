@@ -1682,7 +1682,7 @@
             <unique-column name="OBJ_ID"/>
         </unique>
     </table>
-    <table name="AR_LTRCR_RVW_DOC_T">
+    <table name="AR_LOC_RVW_DOC_T">
         <column name="FDOC_NBR" primaryKey="true" size="14" type="VARCHAR"/>
         <column name="LTRCR_FND_CD" size="15" type="VARCHAR"/>
         <column name="LTRCR_FNDGRP_CD" size="4" type="VARCHAR"/>
@@ -1709,7 +1709,7 @@
         <column name="AWD_END_DT" type="TIMESTAMP"/>
         <column name="AGENCY_NBR" size="5" type="VARCHAR"/>
         <column name="CUST_NBR" size="9" type="VARCHAR"/>
-        <foreign-key foreignTable="AR_LTRCR_RVW_DOC_T" name="AR_LTRCR_RVW_DTL_FK1">
+        <foreign-key foreignTable="AR_LOC_RVW_DOC_T" name="AR_LOC_RVW_DTL_FK1">
             <reference foreign="FDOC_NBR" local="FDOC_NBR"/>
         </foreign-key>
         <unique name="SYS_C0010103049">

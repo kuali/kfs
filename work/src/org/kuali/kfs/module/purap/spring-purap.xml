@@ -570,8 +570,7 @@
 		<property name="cronExpression" value="00 00 11,15 ? * *" />
 	</bean>
 
-	<bean id="beginningOfBusinessDayJobTrigger" parent="beginningOfBusinessDayJobTrigger-parentBean" />
-	<bean id="beginningOfBusinessDayJobTrigger-parentBean" parent="cronTrigger">
+	<bean id="beginningOfBusinessDayJobTrigger" parent="cronTrigger">
 		<property name="jobName" value="receivingPaymentRequestJob" />
 		<property name="cronExpression" value="00 01 00 ? * *" />
 	</bean>

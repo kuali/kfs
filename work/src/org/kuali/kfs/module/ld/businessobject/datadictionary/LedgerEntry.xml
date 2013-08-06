@@ -324,7 +324,7 @@
 		<property name="shortLabel" value="Number" />
 		<property name="maxLength" value="10" />
 		<property name="validationPattern">
-			<ref bean="AnyCharacterValidation" />
+			<ref bean="AnyCharacterWithWhitespaceValidation" />
 		</property>
 		<property name="control">
 			<ref bean="StandardShortNameTextControl" />

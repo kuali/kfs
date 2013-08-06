@@ -213,6 +213,17 @@
 	</changeSet>
 
 	<changeSet author="kfs" id="ADD_RSP_TO_FUNDS_MANAGER_DERIVED_ROLE">
+		<insert tableName="KRIM_RSP_T">
+			<column name="RSP_ID" value="169" />
+			<column name="OBJ_ID" value="KFS169" />
+			<column name="VER_NBR" value="1" />
+			<column name="RSP_TMPL_ID" value="1" />
+			<column name="NMSPC_CD" value="KFS-CG" />
+			<column name="NM" value="Funds Manager Review" />
+			<column name="DESC_TXT" value="Funds Manager Review" />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+	
 		<insert tableName="KRIM_ROLE_RSP_T">
 			<column name="ROLE_RSP_ID" value="KFS1127" />
 			<column name="OBJ_ID" value="KFSCG20111101" />

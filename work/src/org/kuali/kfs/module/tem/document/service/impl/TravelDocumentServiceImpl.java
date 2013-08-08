@@ -95,6 +95,7 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
+import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.businessobject.PaymentDocumentationLocation;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -2109,11 +2110,21 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
         List<TravelAdvance> advances = new ArrayList<TravelAdvance>();
         final Collection<TravelAdvance> foundAdvances = getBusinessObjectService().findMatchingOrderBy(TravelAdvance.class, criteria, KFSPropertyConstants.DOCUMENT_NUMBER, true);
         for (TravelAdvance foundAdvance: foundAdvances) {
-            if (foundAdvance.isAtLeastPartiallyFilledIn()) {
+            if (foundAdvance.isAtLeastPartiallyFilledIn() && isDocumentApproved(foundAdvance.getDocumentNumber())) {
                 advances.add(foundAdvance);
             }
         }
         return advances;
+    }
+
+    /**
+     * Determines if the document with the given document number has been approved or not
+     * @param documentNumber the document number of the document to check
+     * @return true if the document has been approved, false otherwise
+     */
+    protected boolean isDocumentApproved(String documentNumber) {
+        final FinancialSystemDocumentHeader documentHeader = getBusinessObjectService().findBySinglePrimaryKey(FinancialSystemDocumentHeader.class, documentNumber);
+        return KFSConstants.DocumentStatusCodes.APPROVED.equals(documentHeader.getFinancialDocumentStatusCode());
     }
 
     /**
@@ -2124,11 +2135,10 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
      */
     @Override
     public AccountsReceivableOrganizationOptions getOrgOptions() {
-        final Map<String, String> criteria = new HashMap<String, String>();
-        criteria.put("chartOfAccountsCode", parameterService.getParameterValueAsString(TravelAuthorizationDocument.class, TravelAuthorizationParameters.TRAVEL_ADVANCE_BILLING_CHART));
-        criteria.put("organizationCode", parameterService.getParameterValueAsString(TravelAuthorizationDocument.class, TravelAuthorizationParameters.TRAVEL_ADVANCE_BILLING_ORGANIZATION));
+        final String chartOfAccountsCode = parameterService.getParameterValueAsString(TravelAuthorizationDocument.class, TravelAuthorizationParameters.TRAVEL_ADVANCE_BILLING_CHART);
+        final String organizationCode = parameterService.getParameterValueAsString(TravelAuthorizationDocument.class, TravelAuthorizationParameters.TRAVEL_ADVANCE_BILLING_ORGANIZATION);
 
-        return getAccountsReceivableModuleService().getOrganizationOptionsByPrimaryKey(criteria);
+        return getAccountsReceivableModuleService().getOrgOptionsIfExists(chartOfAccountsCode, organizationCode);
     }
 
     public PersistenceStructureService getPersistenceStructureService() {

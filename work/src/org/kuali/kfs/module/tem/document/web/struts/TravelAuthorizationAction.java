@@ -142,7 +142,7 @@ public class TravelAuthorizationAction extends TravelActionBase {
         // update the list of related documents
         refreshRelatedDocuments(authForm);
 
-        if (((TravelFormBase) form).getMethodToCall().equalsIgnoreCase("docHandler") && travelAuthDocument.getPrimaryDestinationId() != null){
+        if (((TravelFormBase) form).getMethodToCall().equalsIgnoreCase(KFSConstants.DOC_HANDLER_METHOD) && travelAuthDocument.getPrimaryDestinationId() != null){
             if (travelAuthDocument.getPrimaryDestinationId().intValue() == TemConstants.CUSTOM_PRIMARY_DESTINATION_ID){
                 travelAuthDocument.getPrimaryDestination().setPrimaryDestinationName(travelAuthDocument.getPrimaryDestinationName());
                 travelAuthDocument.getPrimaryDestination().setCounty(travelAuthDocument.getPrimaryDestinationCounty());

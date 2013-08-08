@@ -155,13 +155,6 @@ public interface AccountsReceivableModuleService {
 
     /**
      *
-     * @param criteria
-     * @return
-     */
-    public AccountsReceivableOrganizationOptions getOrganizationOptionsByPrimaryKey(Map<String, String> criteria);
-
-    /**
-     *
      * @param customerInvoiceDocument
      * @throws WorkflowException
      */

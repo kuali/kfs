@@ -337,14 +337,6 @@ public class AccountsReceivableModuleServiceImpl implements AccountsReceivableMo
     }
 
     /**
-     * @see org.kuali.kfs.integration.ar.AccountsReceivableModuleService#getOrganizationOptionsByPrimaryKey(java.util.Map)
-     */
-    @Override
-    public AccountsReceivableOrganizationOptions getOrganizationOptionsByPrimaryKey(Map<String, String> criteria) {
-        return getBusinessObjectService().findByPrimaryKey(OrganizationOptions.class, criteria);
-    }
-
-    /**
      * @see org.kuali.kfs.integration.ar.AccountsReceivableModuleService#saveCustomerInvoiceDocument(org.kuali.kfs.integration.ar.AccountsReceivableCustomerInvoice)
      */
     @Override

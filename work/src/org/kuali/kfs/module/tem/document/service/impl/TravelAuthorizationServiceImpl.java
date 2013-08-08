@@ -381,10 +381,7 @@ public class TravelAuthorizationServiceImpl implements TravelAuthorizationServic
         // recurrenceDetails.setCustomerNumber(document.getCustomer().getCustomerNumber());
         document.setCustomerInvoiceRecurrenceDetails(recurrenceDetails);
 
-        Map<String, String> criteria = new HashMap<String, String>();
-        criteria.put("chartOfAccountsCode", document.getBillByChartOfAccountCode());
-        criteria.put("organizationCode", document.getBilledByOrganizationCode());
-        AccountsReceivableOrganizationOptions organizationOptions = accountsReceivableModuleService.getOrganizationOptionsByPrimaryKey(criteria);
+        AccountsReceivableOrganizationOptions organizationOptions = accountsReceivableModuleService.getOrgOptionsIfExists(document.getBillByChartOfAccountCode(), document.getBilledByOrganizationCode());
 
         if (ObjectUtils.isNotNull(organizationOptions)) {
             document.setPrintInvoiceIndicator(organizationOptions.getPrintInvoiceIndicator());

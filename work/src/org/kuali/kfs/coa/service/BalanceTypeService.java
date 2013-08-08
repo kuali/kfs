@@ -1,12 +1,12 @@
 /*
  * Copyright 2005-2006 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -31,14 +31,19 @@ public interface BalanceTypeService {
 
     /**
      * This method retrieves all valid balance types in the system.
-     * 
+     *
      * @return A list of active balance types in Kuali.
      */
     public Collection<BalanceType> getAllBalanceTypes();
-    
+
+    /**
+     * @return a List of balance types for encumbrances, regardless of how they're used in the current fiscal year
+     */
+    public Collection<BalanceType> getAllEncumbranceBalanceTypes();
+
     /**
      * This method retrieves a BalanceType instance from the Kuali database by its primary key - the balance type's code.
-     * 
+     *
      * @param code The primary key in the database for this data type.
      * @return A fully populated object instance.
      */
@@ -47,7 +52,7 @@ public interface BalanceTypeService {
 
     /**
      * Returns the list of encumbrance-related balance types from options table for a given university fiscal year
-     * 
+     *
      * @param universityFiscalYear
      * @return
      */
@@ -55,7 +60,7 @@ public interface BalanceTypeService {
 
     /**
      * Returns the cost share encumbrance balance type from options table for a given university fiscal year
-     * 
+     *
      * @param universityFiscalYear
      * @return
      */
@@ -64,7 +69,7 @@ public interface BalanceTypeService {
 
     /**
      * Returns the list of encumbrance-related balance types from options table for the current university fiscal year
-     * 
+     *
      * @param universityFiscalYear
      * @return
      */
@@ -72,7 +77,7 @@ public interface BalanceTypeService {
 
     /**
      * Returns the cost share encumbrance balance type from options table for the current university fiscal year
-     * 
+     *
      * @param universityFiscalYear
      * @return
      */

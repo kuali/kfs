@@ -526,10 +526,12 @@
       <property name="travelDocumentService" ref="temTravelDocumentService" />
       <property name="documentService" ref="documentService" />
       <property name="encumbranceService" ref="glEncumbranceService" />
+      <property name="encumbranceCalculator" ref="glPostEncumbrance" />
       <property name="generalLedgerPendingEntryService" ref="generalLedgerPendingEntryService" />
       <property name="personService" ref="personService"/>
       <property name="paymentMaintenanceService" ref="pdpPaymentMaintenanceService" />
       <property name="configurationService" ref="configurationService"/>
+      <property name="balanceTypeService" ref="balanceTypService"/>
     </bean>
 
 	<bean id="temTravelAuthorizationService" parent="temTravelAuthorizationService-parentBean" />

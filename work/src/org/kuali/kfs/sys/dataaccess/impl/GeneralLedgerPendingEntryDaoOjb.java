@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,7 +17,6 @@ package org.kuali.kfs.sys.dataaccess.impl;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -30,6 +29,8 @@ import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.coa.businessobject.BalanceType;
+import org.kuali.kfs.coa.dataaccess.BalanceTypeDao;
 import org.kuali.kfs.gl.OJBUtility;
 import org.kuali.kfs.gl.businessobject.Balance;
 import org.kuali.kfs.gl.businessobject.Encumbrance;
@@ -44,8 +45,8 @@ import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb
 import org.kuali.rice.kns.lookup.LookupUtils;
 
 /**
- * 
- * 
+ *
+ *
  */
 public class GeneralLedgerPendingEntryDaoOjb extends PlatformAwareDaoBaseOjb implements GeneralLedgerPendingEntryDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(GeneralLedgerPendingEntryDaoOjb.class);
@@ -58,10 +59,13 @@ public class GeneralLedgerPendingEntryDaoOjb extends PlatformAwareDaoBaseOjb imp
     protected final static String CHART_FINANCIAL_CASH_OBJECT_CODE = "chart.financialCashObjectCode";
     protected final static String OBJECT_TYPE_FIN_OBJECT_TYPE_DEBITCREDIT_CD = "objectType.finObjectTypeDebitcreditCd";
 
+    protected BalanceTypeDao balanceTypeDao;
+
     /**
      * @see org.kuali.module.gl.dao.GeneralLedgerPendingEntryDao#getTransactionSummary(java.lang.Integer, java.lang.String,
      *      java.lang.String, java.util.Collection, java.util.Collection, java.lang.String, boolean)
      */
+    @Override
     public KualiDecimal getTransactionSummary(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, Collection objectTypeCodes, Collection balanceTypeCodes, String acctSufficientFundsFinObjCd, boolean isYearEnd) {
         LOG.debug("getTransactionSummary() started");
 
@@ -101,6 +105,7 @@ public class GeneralLedgerPendingEntryDaoOjb extends PlatformAwareDaoBaseOjb imp
      * @see org.kuali.module.gl.dao.GeneralLedgerPendingEntryDao#getTransactionSummary(java.lang.Integer, java.lang.String,
      *      java.lang.String, java.util.Collection, java.util.Collection, boolean, boolean)
      */
+    @Override
     public KualiDecimal getTransactionSummary(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, Collection objectTypeCodes, Collection balanceTypeCodes, String acctSufficientFundsFinObjCd, boolean isDebit, boolean isYearEnd) {
         LOG.debug("getTransactionSummary() started");
 
@@ -147,6 +152,7 @@ public class GeneralLedgerPendingEntryDaoOjb extends PlatformAwareDaoBaseOjb imp
      * @see org.kuali.module.gl.dao.GeneralLedgerPendingEntryDao#getTransactionSummary(java.util.Collection, java.lang.String,
      *      java.lang.String, java.util.Collection, java.util.Collection, boolean)
      */
+    @Override
     public KualiDecimal getTransactionSummary(Collection universityFiscalYears, String chartOfAccountsCode, String accountNumber, Collection objectCodes, Collection balanceTypeCodes, boolean isDebit) {
         LOG.debug("getTransactionSummary() started");
 
@@ -185,6 +191,7 @@ public class GeneralLedgerPendingEntryDaoOjb extends PlatformAwareDaoBaseOjb imp
      * (non-Javadoc)
      * @see org.kuali.dao.GeneralLedgerPendingEntryDao#delete(Long)
      */
+    @Override
     public void delete(String documentHeaderId) {
         LOG.debug("delete() started");
 
@@ -197,6 +204,7 @@ public class GeneralLedgerPendingEntryDaoOjb extends PlatformAwareDaoBaseOjb imp
         }
     }
 
+    @Override
     public void deleteByFinancialDocumentApprovedCode(String financialDocumentApprovedCode) {
         LOG.debug("deleteByFinancialDocumentApprovedCode() started");
 
@@ -211,6 +219,7 @@ public class GeneralLedgerPendingEntryDaoOjb extends PlatformAwareDaoBaseOjb imp
     /**
      * @see org.kuali.module.gl.dao.GeneralLedgerPendingEntryDao#findApprovedPendingLedgerEntries()
      */
+    @Override
     public Iterator findApprovedPendingLedgerEntries() {
         LOG.debug("findApprovedPendingLedgerEntries() started");
 
@@ -225,6 +234,7 @@ public class GeneralLedgerPendingEntryDaoOjb extends PlatformAwareDaoBaseOjb imp
     /**
      * @see org.kuali.module.gl.dao.GeneralLedgerPendingEntryDao#countPendingLedgerEntries(org.kuali.kfs.coa.businessobject.Account)
      */
+    @Override
     public int countPendingLedgerEntries(Account account) {
         LOG.debug("findPendingLedgerEntries(Account) started");
 
@@ -253,6 +263,7 @@ public class GeneralLedgerPendingEntryDaoOjb extends PlatformAwareDaoBaseOjb imp
      * @see org.kuali.module.gl.dao.GeneralLedgerPendingEntryDao#findPendingLedgerEntries(org.kuali.kfs.gl.businessobject.Encumbrance,
      *      boolean)
      */
+    @Override
     public Iterator findPendingLedgerEntries(Encumbrance encumbrance, boolean isApproved) {
         LOG.debug("findPendingLedgerEntries(Encumbrance, boolean) started");
 
@@ -289,6 +300,7 @@ public class GeneralLedgerPendingEntryDaoOjb extends PlatformAwareDaoBaseOjb imp
      * @see org.kuali.module.gl.dao.GeneralLedgerPendingEntryDao#findPendingLedgerEntries(org.kuali.kfs.gl.businessobject.Balance,
      *      boolean, boolean)
      */
+    @Override
     public Iterator findPendingLedgerEntries(Balance balance, boolean isApproved, boolean isConsolidated) {
         LOG.debug("findPendingLedgerEntries(Balance, boolean, boolean) started");
 
@@ -315,6 +327,7 @@ public class GeneralLedgerPendingEntryDaoOjb extends PlatformAwareDaoBaseOjb imp
      * @see org.kuali.kfs.sys.dataaccess.GeneralLedgerPendingEntryDao#findPendingLedgerEntriesForEntry(java.util.Map, boolean,
      *      java.lang.String, int)
      */
+    @Override
     public Iterator findPendingLedgerEntriesForEntry(Map fieldValues, boolean isApproved, String currentFiscalPeriodCode, int currentFY, List<String> encumbranceBalanceTypes) {
         LOG.debug("findPendingLedgerEntriesForEntry started");
 
@@ -333,6 +346,7 @@ public class GeneralLedgerPendingEntryDaoOjb extends PlatformAwareDaoBaseOjb imp
      * @see org.kuali.kfs.sys.dataaccess.GeneralLedgerPendingEntryDao#findPendingLedgerEntriesForBalance(java.util.Map, boolean,
      *      java.lang.String, int)
      */
+    @Override
     public Iterator findPendingLedgerEntriesForBalance(Map fieldValues, boolean isApproved, String currentFiscalPeriodCode, int currentFY, List<String> encumbranceBalanceTypes) {
         LOG.debug("findPendingLedgerEntriesForBalance started");
 
@@ -349,6 +363,7 @@ public class GeneralLedgerPendingEntryDaoOjb extends PlatformAwareDaoBaseOjb imp
      * @see org.kuali.kfs.sys.dataaccess.GeneralLedgerPendingEntryDao#findPendingLedgerEntriesForCashBalance(java.util.Map, boolean,
      *      java.lang.String, int)
      */
+    @Override
     public Iterator findPendingLedgerEntriesForCashBalance(Map fieldValues, boolean isApproved, String currentFiscalPeriodCode, int currentFiscalYear, List<String> encumbranceBalanceType) {
         LOG.debug("findPendingLedgerEntriesForCashBalance started");
 
@@ -368,9 +383,10 @@ public class GeneralLedgerPendingEntryDaoOjb extends PlatformAwareDaoBaseOjb imp
      * @see org.kuali.kfs.sys.dataaccess.GeneralLedgerPendingEntryDao#findPendingLedgerEntriesForEncumbrance(java.util.Map, boolean,
      *      java.lang.String, int, org.kuali.kfs.sys.businessobject.SystemOptions, java.util.List)
      */
+    @Override
     public Iterator findPendingLedgerEntriesForEncumbrance(Map fieldValues, boolean isApproved, String currentFiscalPeriodCode, int currentFiscalYear, SystemOptions currentYearOptions, List<String> encumbranceBalanceTypes) {
         LOG.debug("findPendingLedgerEntriesForEncumbrance started");
-        
+
         String docNumber = (String)fieldValues.get(DOC_NUMBER);
         Criteria subCriteria1 = new Criteria();
         boolean docNbrCriteriaNeeded = false;
@@ -380,30 +396,30 @@ public class GeneralLedgerPendingEntryDaoOjb extends PlatformAwareDaoBaseOjb imp
             subCriteria1.addEqualTo(KFSPropertyConstants.TRANSACTION_ENCUMBRANCE_UPDT_CD, KFSConstants.ENCUMB_UPDT_REFERENCE_DOCUMENT_CD);
             Criteria subCriteria1b = new Criteria();
             subCriteria1b.addEqualTo(KFSPropertyConstants.REFERENCE_FINANCIAL_DOCUMENT_NUMBER, docNumber);
-            subCriteria1.addAndCriteria(subCriteria1b);           
+            subCriteria1.addAndCriteria(subCriteria1b);
             Criteria subCriteria2 = new Criteria();
             subCriteria2.addEqualTo(KFSPropertyConstants.TRANSACTION_ENCUMBRANCE_UPDT_CD, KFSConstants.ENCUMB_UPDT_DOCUMENT_CD);
             Criteria subCriteria2b = new Criteria();
             subCriteria2b.addEqualTo(DOC_NUMBER, docNumber);
-            subCriteria2.addAndCriteria(subCriteria2b);           
+            subCriteria2.addAndCriteria(subCriteria2b);
             subCriteria1.addOrCriteria(subCriteria2);
             docNbrCriteriaNeeded = true;
         }
 
         Criteria criteria = buildCriteriaFromMap(fieldValues, this.getEntryClassInstance(), currentFiscalPeriodCode, currentFiscalYear, encumbranceBalanceTypes);
-        criteria.addIn(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, Arrays.asList(KFSConstants.ENCUMBRANCE_BALANCE_TYPE));
+        criteria.addIn(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, harvestCodesFromEncumbranceBalanceTypes());
 
         List encumbranceUpdateCodeList = new ArrayList();
         encumbranceUpdateCodeList.add(KFSConstants.ENCUMB_UPDT_REFERENCE_DOCUMENT_CD);
         encumbranceUpdateCodeList.add(KFSConstants.ENCUMB_UPDT_DOCUMENT_CD);
         criteria.addIn(KFSPropertyConstants.TRANSACTION_ENCUMBRANCE_UPDT_CD, encumbranceUpdateCodeList);
-       
+
         // add the status codes into the criteria
         this.addStatusCode(criteria, isApproved);
 
         // add criteria to exclude fund balance object type code
         criteria.addAndCriteria(buildCriteriaToExcludeFundBalance(currentYearOptions));
-        
+
         if (docNbrCriteriaNeeded) {
             criteria.addAndCriteria(subCriteria1);
         }
@@ -413,8 +429,20 @@ public class GeneralLedgerPendingEntryDaoOjb extends PlatformAwareDaoBaseOjb imp
     }
 
     /**
+     * @return returns only the codes from encumbrance balance types
+     */
+    protected List<String> harvestCodesFromEncumbranceBalanceTypes() {
+        List<String> balanceTypeCodes = new ArrayList<String>();
+        Collection<BalanceType> encumbranceBalanceTypes = getBalanceTypeDao().getEncumbranceBalanceTypes();
+        for (BalanceType encumbranceBalanceType : encumbranceBalanceTypes) {
+            balanceTypeCodes.add(encumbranceBalanceType.getCode());
+        }
+        return balanceTypeCodes;
+    }
+
+    /**
      * This method creates Criteria that exclude the fund balance object type from the result.
-     * 
+     *
      * @return Criteria
      */
     protected Criteria buildCriteriaToExcludeFundBalance(SystemOptions currentYearOptions) {
@@ -431,6 +459,7 @@ public class GeneralLedgerPendingEntryDaoOjb extends PlatformAwareDaoBaseOjb imp
      * @see org.kuali.kfs.sys.dataaccess.GeneralLedgerPendingEntryDao#findPendingLedgerEntriesForAccountBalance(Map, boolean,
      *      String, int, List)
      */
+    @Override
     public Iterator findPendingLedgerEntriesForAccountBalance(Map fieldValues, boolean isApproved, String currentFiscalPeriodCode, int currentFiscalYear, List<String> encumbranceBalanceTypes) {
         LOG.debug("findPendingLedgerEntriesForAccountBalance started");
 
@@ -448,6 +477,7 @@ public class GeneralLedgerPendingEntryDaoOjb extends PlatformAwareDaoBaseOjb imp
      * @see org.kuali.kfs.sys.dataaccess.GeneralLedgerPendingEntryDao#findPendingLedgerEntrySummaryForAccountBalance(java.util.Map,
      *      boolean, java.lang.String, int, java.util.List)
      */
+    @Override
     public Iterator findPendingLedgerEntrySummaryForAccountBalance(Map fieldValues, boolean isApproved, String currentFiscalPeriodCode, int currentFiscalYear, List<String> encumbranceBalanceTypes) {
         LOG.debug("findPendingLedgerEntrySummaryForAccountBalance started");
 
@@ -474,7 +504,7 @@ public class GeneralLedgerPendingEntryDaoOjb extends PlatformAwareDaoBaseOjb imp
 
     /**
      * This method builds the atrribute list used by balance searching
-     * 
+     *
      * @return List an attribute list
      */
     protected List buildAttributeList() {
@@ -485,7 +515,7 @@ public class GeneralLedgerPendingEntryDaoOjb extends PlatformAwareDaoBaseOjb imp
 
     /**
      * This method builds group by attribute list used by balance searching
-     * 
+     *
      * @return List an group by attribute list
      */
     protected List buildGroupList() {
@@ -500,7 +530,7 @@ public class GeneralLedgerPendingEntryDaoOjb extends PlatformAwareDaoBaseOjb imp
 
     /**
      * add the status code into the given criteria. The status code can be categorized into approved and all.
-     * 
+     *
      * @param criteria the given criteria
      * @param isApproved the flag that indictates if only approved status code can be added into the given searach criteria
      */
@@ -524,7 +554,7 @@ public class GeneralLedgerPendingEntryDaoOjb extends PlatformAwareDaoBaseOjb imp
 
     /**
      * build a status code list including the legal approval codes
-     * 
+     *
      * @return an approval code list
      */
     protected List buildApprovalCodeList() {
@@ -536,7 +566,7 @@ public class GeneralLedgerPendingEntryDaoOjb extends PlatformAwareDaoBaseOjb imp
 
     /**
      * This method builds an OJB query criteria based on the input field map
-     * 
+     *
      * @param fieldValues the input field map
      * @param businessObject the given business object
      * @return an OJB query criteria
@@ -621,6 +651,7 @@ public class GeneralLedgerPendingEntryDaoOjb extends PlatformAwareDaoBaseOjb imp
      * @see org.kuali.kfs.sys.dataaccess.GeneralLedgerPendingEntryDao#findPendingEntries(java.util.Map, boolean, java.lang.String,
      *      int, java.util.List)
      */
+    @Override
     public Collection findPendingEntries(Map fieldValues, boolean isApproved, String currentFiscalPeriodCode, int currentFiscalYear, List<String> encumbranceBalanceTypes) {
         LOG.debug("findPendingEntries(Map, boolean) started");
 
@@ -637,7 +668,7 @@ public class GeneralLedgerPendingEntryDaoOjb extends PlatformAwareDaoBaseOjb imp
 
     /**
      * Gets the entryClass attribute.
-     * 
+     *
      * @return Returns the entryClass.
      */
     public Class getEntryClass() {
@@ -655,5 +686,20 @@ public class GeneralLedgerPendingEntryDaoOjb extends PlatformAwareDaoBaseOjb imp
             }
         }
         return entryObject;
+    }
+
+    /**
+     * @return the injected implementation of balance type dao
+     */
+    public BalanceTypeDao getBalanceTypeDao() {
+        return balanceTypeDao;
+    }
+
+    /**
+     * Injects an implementation of BalanceTypeDao
+     * @param balanceTypeDao the implementation of BalanceTypeDao to inject
+     */
+    public void setBalanceTypeDao(BalanceTypeDao balanceTypeDao) {
+        this.balanceTypeDao = balanceTypeDao;
     }
 }

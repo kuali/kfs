@@ -233,8 +233,6 @@ public class KFSConstants {
     public static final String ORIGIN_CODE_KUALI = "01";
     @Deprecated
     public static final String TRANSFER_FUNDS = "TF";
-    @Deprecated
-    public static final String[] ENCUMBRANCE_BALANCE_TYPE = new String[] { BALANCE_TYPE_EXTERNAL_ENCUMBRANCE, BALANCE_TYPE_INTERNAL_ENCUMBRANCE, BALANCE_TYPE_PRE_ENCUMBRANCE };
     public static final String OVERRIDE_KEYS = "overrideKeys";
     public static final String PERCENTAGE_SIGN = "%";
     public static final String RICE_PATH_PREFIX = "kr/";

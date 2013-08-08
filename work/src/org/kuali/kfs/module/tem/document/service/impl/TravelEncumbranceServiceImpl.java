@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.module.tem.document.service.impl;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -24,6 +24,9 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.kuali.kfs.coa.businessobject.BalanceType;
+import org.kuali.kfs.coa.service.BalanceTypeService;
+import org.kuali.kfs.gl.batch.service.EncumbranceCalculator;
 import org.kuali.kfs.gl.businessobject.Encumbrance;
 import org.kuali.kfs.gl.service.EncumbranceService;
 import org.kuali.kfs.integration.ar.AccountsReceivableModuleService;
@@ -72,11 +75,13 @@ public class TravelEncumbranceServiceImpl implements TravelEncumbranceService {
     protected TravelDocumentService travelDocumentService;
     protected DocumentService documentService;
     protected EncumbranceService encumbranceService;
+    protected EncumbranceCalculator encumbranceCalculator;
     protected GeneralLedgerPendingEntryService generalLedgerPendingEntryService;
     protected volatile AccountsReceivableModuleService accountsReceivableModuleService;
     protected PaymentMaintenanceService paymentMaintenanceService;
     protected PersonService personService;
     protected ConfigurationService configurationService;
+    protected BalanceTypeService balanceTypeService;
 
     /**
      * @see org.kuali.kfs.module.tem.document.service.TravelEncumbranceService#liquidateEncumbranceForCancelTA(org.kuali.kfs.module.tem.document.TravelAuthorizationDocument)
@@ -194,13 +199,7 @@ public class TravelEncumbranceServiceImpl implements TravelEncumbranceService {
         //Get rid of all pending entries relating to encumbrance.
         clearAuthorizationEncumbranceGLPE(document);
 
-        final Map<String, Object> criteria = new HashMap<String, Object>();
-        criteria.put(KFSPropertyConstants.DOCUMENT_NUMBER, document.getTravelDocumentIdentifier());
-
-        //calculate the previous dis-encumber funds from the related TR
-        //TODO: do open encumbrance incluing the pending entries?? if it does, then
-        final Iterator<Encumbrance> encumbranceIterator = encumbranceService.findOpenEncumbrance(criteria, false);
-        //look for the open enc with pending EX entries from TR, then update the map by the reimbursement encumbrance
+        final Iterator<Encumbrance> encumbranceIterator = getEncumbrancesForTrip(document.getTravelDocumentIdentifier());
 
         // Create encumbrance map based on account numbers
         int counter = document.getGeneralLedgerPendingEntries().size() + 1;
@@ -209,6 +208,38 @@ public class TravelEncumbranceServiceImpl implements TravelEncumbranceService {
             Encumbrance encumbrance = encumbranceIterator.next();
             liquidateEncumbrance(encumbrance, sequenceHelper, document);
         }
+    }
+
+    /**
+     * Find both posted and pending encumbrances associated with a trip
+     * @param travelDocumentIdentifier the trip id, which acts as the document id of the encumbrance
+     * @return an Iterator of encumbrances
+     */
+    protected Iterator<Encumbrance> getEncumbrancesForTrip(String travelDocumentIdentifier) {
+        Map<String, Object> criteria = new HashMap<String, Object>();
+        criteria.put(KFSPropertyConstants.DOCUMENT_NUMBER, travelDocumentIdentifier);
+        Iterator<Encumbrance> encumbranceIterator = encumbranceService.findOpenEncumbrance(criteria, false);
+
+        // now get glpes which would create encumbrance
+        Map<String, String> glpeCriteria = new HashMap<String, String>();
+        glpeCriteria.put(KFSPropertyConstants.REFERENCE_DOCUMENT_NUMBER, travelDocumentIdentifier);
+        glpeCriteria.put(KFSPropertyConstants.TRANSACTION_ENCUMBRANCE_UPDT_CD, KFSConstants.ENCUMB_UPDT_REFERENCE_DOCUMENT_CD);
+        Iterator<GeneralLedgerPendingEntry> pendingEntriesIterator = generalLedgerPendingEntryService.findPendingLedgerEntriesForEncumbrance(glpeCriteria, true); // find all approved entries with the criteria
+
+        // now return single iterator
+        List<Encumbrance> allEncumbrances = new ArrayList<Encumbrance>();
+        while (encumbranceIterator.hasNext()) {
+            allEncumbrances.add(encumbranceIterator.next());
+        }
+        while (pendingEntriesIterator.hasNext()) {
+            final GeneralLedgerPendingEntry pendingEntry = pendingEntriesIterator.next();
+            Encumbrance encumbrance = getEncumbranceCalculator().findEncumbrance(allEncumbrances, pendingEntry); // thank you, dear genius who extracted EncumbranceCalculator!
+            if (encumbrance != null) {
+                getEncumbranceCalculator().updateEncumbrance(pendingEntry, encumbrance);
+            }
+        }
+
+        return allEncumbrances.iterator();
     }
 
     /**
@@ -359,6 +390,8 @@ public class TravelEncumbranceServiceImpl implements TravelEncumbranceService {
      */
     @SuppressWarnings("deprecation")
     public void clearAuthorizationEncumbranceGLPE(TravelAuthorizationCloseDocument travelAuthCloseDocument) {
+        final List<String> encumbranceBalanceTypes = harvestCodesFromEncumbranceBalanceTypes();
+
         List<Document> relatedDocs = travelDocumentService.getDocumentsRelatedTo(travelAuthCloseDocument,
                 TravelDocTypes.TRAVEL_AUTHORIZATION_DOCUMENT,
                 TravelDocTypes.TRAVEL_AUTHORIZATION_AMEND_DOCUMENT);
@@ -377,7 +410,7 @@ public class TravelEncumbranceServiceImpl implements TravelEncumbranceService {
             //if it has been processed and there are GLPEs, remove those which are encumbrance balance type
             if (travelDocumentService.isTravelAuthorizationProcessed(authorizationDocument)){
                 for (GeneralLedgerPendingEntry glpe : authorizationDocument.getGeneralLedgerPendingEntries()){
-                    if (Arrays.asList(KFSConstants.ENCUMBRANCE_BALANCE_TYPE).contains(glpe.getFinancialBalanceTypeCode())){
+                    if (encumbranceBalanceTypes.contains(glpe.getFinancialBalanceTypeCode())){
                         businessObjectService.delete(glpe);
                         hasRemovedGLPE = true;
                     }
@@ -397,16 +430,22 @@ public class TravelEncumbranceServiceImpl implements TravelEncumbranceService {
     }
 
     /**
+     * @return returns only the codes from encumbrance balance types
+     */
+    protected List<String> harvestCodesFromEncumbranceBalanceTypes() {
+        List<String> balanceTypeCodes = new ArrayList<String>();
+        Collection<BalanceType> encumbranceBalanceTypes = getBalanceTypeService().getAllEncumbranceBalanceTypes();
+        for (BalanceType encumbranceBalanceType : encumbranceBalanceTypes) {
+            balanceTypeCodes.add(encumbranceBalanceType.getCode());
+        }
+        return balanceTypeCodes;
+    }
+
+    /**
      * @see org.kuali.kfs.module.tem.document.service.TravelEncumbranceService#disencumberTravelReimbursementFunds(org.kuali.kfs.module.tem.document.TravelReimbursementDocument)
      */
     @Override
     public void disencumberTravelReimbursementFunds(TravelReimbursementDocument travelReimbursementDocument) {
-
-        //final Map<String, Object> criteria = new HashMap<String, Object>();
-        //criteria.put("referenceFinancialDocumentNumber", trDocument.getTravelDocumentIdentifier());
-        //criteria.put("financialDocumentTypeCode", TemConstants.TravelDocTypes.TRAVEL_REIMBURSEMENT_DOCUMENT);
-        //List<GeneralLedgerPendingEntry> tripPendingEntryList = (List<GeneralLedgerPendingEntry>) this.getBusinessObjectService().findMatching(GeneralLedgerPendingEntry.class, criteria);
-
         //Need to find out encumbrance and reimbursement totals from related documents
         KualiDecimal reimbursementTotal = new KualiDecimal(0);
         KualiDecimal encumbranceTotal = new KualiDecimal(0);
@@ -621,6 +660,21 @@ public class TravelEncumbranceServiceImpl implements TravelEncumbranceService {
     }
 
     /**
+     * @return the injected encumbrance calculator
+     */
+    public EncumbranceCalculator getEncumbranceCalculator() {
+        return encumbranceCalculator;
+    }
+
+    /**
+     * Injects an encumbrance calculator into this service
+     * @param encumbranceCalculator the implementation of EncumbranceCalculator to use
+     */
+    public void setEncumbranceCalculator(EncumbranceCalculator encumbranceCalculator) {
+        this.encumbranceCalculator = encumbranceCalculator;
+    }
+
+    /**
      * @return the system-ste implementation of the AccountsReceivableModuleService
      */
     public AccountsReceivableModuleService getAccountsReceivableModuleService() {
@@ -674,4 +728,20 @@ public class TravelEncumbranceServiceImpl implements TravelEncumbranceService {
     public void setConfigurationService(ConfigurationService configurationService) {
         this.configurationService = configurationService;
     }
+
+    /**
+     * @return the injected implementation of the BalanceTypeService
+     */
+    public BalanceTypeService getBalanceTypeService() {
+        return balanceTypeService;
+    }
+
+    /**
+     * Injects an implementation of the BalanceTypeService
+     * @param balanceTypeService the implementation of the BalanceTypeService to inject
+     */
+    public void setBalanceTypeService(BalanceTypeService balanceTypeService) {
+        this.balanceTypeService = balanceTypeService;
+    }
+
 }

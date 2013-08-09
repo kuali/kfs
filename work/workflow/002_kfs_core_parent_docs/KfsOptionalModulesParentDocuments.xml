@@ -390,14 +390,10 @@
       <parent>
         KFST
       </parent>
-      <label>TravelTransactionalDocument</label>
+      <label>TEMTransactionalDocument</label>
       <active>
         true
       </active>
-      <!-- DOES THIS STILL WORK IN RICE 2.0? -->
-      <!-- security>
-        <securityAttribute class="org.kuali.kfs.module.tem.document.workflow.TEMSecurityAttribute"/>
-      </security -->
       <routingVersion>
         2
       </routingVersion>

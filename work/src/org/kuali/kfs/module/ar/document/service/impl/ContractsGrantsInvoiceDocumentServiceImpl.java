@@ -1105,7 +1105,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         glBalances.addAll(SpringContext.getBean(BusinessObjectService.class).findMatching(Balance.class, balanceKeys));
         }
         for (Balance bal : glBalances) {
-            if(!StringUtils.equalsIgnoreCase(bal.getSubAccount().getA21SubAccount().getSubAccountTypeCode(),KFSConstants.SubAccountType.COST_SHARE)){
+            if(ObjectUtils.isNotNull(bal.getSubAccount().getA21SubAccount()) && !StringUtils.equalsIgnoreCase(bal.getSubAccount().getA21SubAccount().getSubAccountTypeCode(),KFSConstants.SubAccountType.COST_SHARE)){
             balAmt = bal.getContractsGrantsBeginningBalanceAmount().add(bal.getAccountLineAnnualBalanceAmount());
             balanceAmount = balanceAmount.add(balAmt);
             }

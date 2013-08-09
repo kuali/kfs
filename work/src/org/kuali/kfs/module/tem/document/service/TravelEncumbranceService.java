@@ -21,7 +21,6 @@ import org.kuali.kfs.module.tem.document.TravelAuthorizationCloseDocument;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.TravelReimbursementDocument;
-import org.kuali.kfs.sys.businessobject.AccountingLineBase;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
@@ -156,7 +155,7 @@ public interface TravelEncumbranceService {
      * @param taDocument The document the entries are added to.
      * @return pendingEntry The completed pending entry.
      */
-    public GeneralLedgerPendingEntry setupPendingEntry(AccountingLineBase line, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, TravelDocument document);
+    public GeneralLedgerPendingEntry setupPendingEntry(GeneralLedgerPendingEntrySourceDetail line, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, TravelDocument document);
 
     /**
      * This method creates the offset entry based on the pending entry, document, and encumbrance

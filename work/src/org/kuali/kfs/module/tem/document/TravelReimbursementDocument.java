@@ -44,6 +44,7 @@ import org.kuali.kfs.module.tem.businessobject.TripType;
 import org.kuali.kfs.module.tem.document.service.AccountingDocumentRelationshipService;
 import org.kuali.kfs.module.tem.document.service.TravelAuthorizationService;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AmountTotaling;
@@ -221,10 +222,6 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
 
                     // Trip is encumbrance and no TAC(TAC doc would have handled dis encumbrance)
                     if (relatedCloseDocuments.isEmpty()) {
-                        if (isTripGenerateEncumbrance()) {
-                            getTravelEncumbranceService().disencumberTravelReimbursementFunds(this);
-                        }
-
                         // 3. No TAC - then if it is indicated as final TR - we will spawn the TAC doc
                         if (getFinalReimbursement()) {
                             // store this so we can reset after we're finished
@@ -567,6 +564,19 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
     @Override
     public String getWireTransferOrForeignDraftDocumentType() {
         return TemConstants.TravelDocTypes.TRAVEL_REIMBURSEMENT_WIRE_OR_FOREIGN_DRAFT_DOCUMENT;
+    }
+
+    /**
+     * Generate TR disencumbrance glpe's
+     * @see org.kuali.kfs.module.tem.document.TEMReimbursementDocument#generateDocumentGeneralLedgerPendingEntries(org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper)
+     */
+    @Override
+    public boolean generateDocumentGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
+        boolean result = super.generateDocumentGeneralLedgerPendingEntries(sequenceHelper);
+        if (isTripGenerateEncumbrance()) {
+            getTravelEncumbranceService().disencumberTravelReimbursementFunds(this);
+        }
+        return result;
     }
 
     protected PersonService getPersonService() {

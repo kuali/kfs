@@ -55,8 +55,7 @@
 			<td class="datacell" colspan="3">
 				<div align="left">
 					&nbsp;
-					<kul:lookup boClassName="org.kuali.kfs.module.tem.businessobject.TEMProfile"
-						lookupParameters="document.traveler.travelerTypeCode:travelerTypeCode" />
+					<kul:lookup boClassName="org.kuali.kfs.module.tem.businessobject.TravelerProfileForLookup" lookupParameters="document.traveler.travelerTypeCode:travelerTypeCode" />
 				</div>
 			</td>
 		</tr>

@@ -408,13 +408,13 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
                     tmpAwards.add(award);
                 }
                 else {
-                    errorList.add(ArConstants.BatchFileSystem.CGINVOICE_CREATION_BILLING_FREQUENCY_MISSING_ERROR);
+                    errorList.add(SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(ArConstants.BatchFileSystem.CGINVOICE_CREATION_BILLING_FREQUENCY_MISSING_ERROR));
                     invalidGroup.put(award, errorList);
                 }
             }
             else {
                 // 1.Award start date is missing
-                errorList.add(ArConstants.BatchFileSystem.CGINVOICE_CREATION_AWARD_START_DATE_MISSING_ERROR);
+                errorList.add(SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(ArConstants.BatchFileSystem.CGINVOICE_CREATION_AWARD_START_DATE_MISSING_ERROR));
                 invalidGroup.put(award, errorList);
             }
 
@@ -431,7 +431,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
                 awardsToBill.add(awd);
             }
             else {
-                errorList.add(ArConstants.BatchFileSystem.CGINVOICE_CREATION_AWARD_INVALID_BILLING_PERIOD);
+                errorList.add(SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(ArConstants.BatchFileSystem.CGINVOICE_CREATION_AWARD_INVALID_BILLING_PERIOD));
                 invalidGroup.put(awd, errorList);
             }
 
@@ -449,14 +449,14 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
 
                 // 1. Award Invoicing suspended by user.
                 if (contractsGrantsInvoiceDocumentService.isAwardInvoicingSuspendedByUser(award)) {
-                    errorList.add(ArConstants.BatchFileSystem.CGINVOICE_CREATION_USER_SUSPENDED_ERROR);
+                    errorList.add(SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(ArConstants.BatchFileSystem.CGINVOICE_CREATION_USER_SUSPENDED_ERROR));
                     invalidGroup.put(award, errorList);
 
                     isInvalid = true;
                 }
                 // 2. Award is Inactive
                 if (!award.isActive()) {
-                    errorList.add(ArConstants.BatchFileSystem.CGINVOICE_CREATION_AWARD_INACTIVE_ERROR);
+                    errorList.add(SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(ArConstants.BatchFileSystem.CGINVOICE_CREATION_AWARD_INACTIVE_ERROR));
                     invalidGroup.put(award, errorList);
 
                     isInvalid = true;
@@ -464,7 +464,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
 
                 // 4. Award invoicing option is missing
                 if (contractsGrantsInvoiceDocumentService.isAwardInvoicingOptionMissing(award)) {
-                    errorList.add(ArConstants.BatchFileSystem.CGINVOICE_CREATION_INVOICING_OPTION_MISSING_ERROR);
+                    errorList.add(SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(ArConstants.BatchFileSystem.CGINVOICE_CREATION_INVOICING_OPTION_MISSING_ERROR));
                     invalidGroup.put(award, errorList);
 
                     isInvalid = true;
@@ -472,7 +472,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
 
                 // 5. Award preferred billing frequency is not set correctly
                 if (!contractsGrantsInvoiceDocumentService.isPreferredBillingFrequencySetCorrectly(award)) {
-                    errorList.add(ArConstants.BatchFileSystem.CGINVOICE_CREATION_SINGLE_ACCOUNT_ERROR);
+                    errorList.add(SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(ArConstants.BatchFileSystem.CGINVOICE_CREATION_SINGLE_ACCOUNT_ERROR));
                     invalidGroup.put(award, errorList);
 
                     isInvalid = true;
@@ -480,7 +480,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
 
                 // 6. Award has no accounts assigned
                 if (contractsGrantsInvoiceDocumentService.hasNoActiveAccountsAssigned(award)) {
-                    errorList.add(ArConstants.BatchFileSystem.CGINVOICE_CREATION_NO_ACCOUNT_ASSIGNED_ERROR);
+                    errorList.add(SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(ArConstants.BatchFileSystem.CGINVOICE_CREATION_NO_ACCOUNT_ASSIGNED_ERROR));
                     invalidGroup.put(award, errorList);
 
                     isInvalid = true;
@@ -491,7 +491,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
                 if (ObjectUtils.isNotNull(expAccounts) && !expAccounts.isEmpty()) {
 
                     StringBuilder line = new StringBuilder();
-                    line.append(ArConstants.BatchFileSystem.CGINVOICE_CREATION_CONAINS_EXPIRED_ACCOUNTS_ERROR);
+                    line.append(SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(ArConstants.BatchFileSystem.CGINVOICE_CREATION_CONAINS_EXPIRED_ACCOUNTS_ERROR));
 
                     for (Account expAccount : expAccounts) {
                         line.append(" (expired account: " + expAccount.getAccountNumber() + " expiration date " + expAccount.getAccountExpirationDate() + ") ");
@@ -503,7 +503,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
                 }
                 // 8. Award has final invoice Billed already
                 if (contractsGrantsInvoiceDocumentService.isAwardFinalInvoiceAlreadyBuilt(award)) {
-                    errorList.add(ArConstants.BatchFileSystem.CGINVOICE_CREATION_AWARD_FINAL_BILLED_ERROR);
+                    errorList.add(SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(ArConstants.BatchFileSystem.CGINVOICE_CREATION_AWARD_FINAL_BILLED_ERROR));
                     invalidGroup.put(award, errorList);
 
                     isInvalid = true;
@@ -512,21 +512,21 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
 
                 // 9. Award has no valid milestones to invoice
                 if (contractsGrantsInvoiceDocumentService.hasNoMilestonesToInvoice(award)) {
-                    errorList.add(ArConstants.BatchFileSystem.CGINVOICE_CREATION_AWARD_NO_VALID_MILESTONES);
+                    errorList.add(SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(ArConstants.BatchFileSystem.CGINVOICE_CREATION_AWARD_NO_VALID_MILESTONES));
                     invalidGroup.put(award, errorList);
 
                     isInvalid = true;
                 }
                 // 10. All has no valid bills to invoice
                 if (contractsGrantsInvoiceDocumentService.hasNoBillsToInvoice(award)) {
-                    errorList.add(ArConstants.BatchFileSystem.CGINVOICE_CREATION_AWARD_NO_VALID_BILLS);
+                    errorList.add(SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(ArConstants.BatchFileSystem.CGINVOICE_CREATION_AWARD_NO_VALID_BILLS));
                     invalidGroup.put(award, errorList);
 
                     isInvalid = true;
                 }
                 // 11. Agency has no matching Customer record
                 if (contractsGrantsInvoiceDocumentService.owningAgencyHasNoCustomerRecord(award)) {
-                    errorList.add(ArConstants.BatchFileSystem.CGINVOICE_CREATION_AWARD_AGENCY_NO_CUSTOMER_RECORD);
+                    errorList.add(SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(ArConstants.BatchFileSystem.CGINVOICE_CREATION_AWARD_AGENCY_NO_CUSTOMER_RECORD));
                     invalidGroup.put(award, errorList);
 
                     isInvalid = true;
@@ -534,7 +534,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
 
                 // 12. All accounts of an Award have zero$ to invoice
                 if (!CollectionUtils.isEmpty(award.getActiveAwardAccounts()) && CollectionUtils.isEmpty(getValidAwardAccounts(award.getActiveAwardAccounts(), award))) {
-                    errorList.add(ArConstants.BatchFileSystem.CGINVOICE_CREATION_AWARD_NO_VALID_ACCOUNTS);
+                    errorList.add(SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(ArConstants.BatchFileSystem.CGINVOICE_CREATION_AWARD_NO_VALID_ACCOUNTS));
                     invalidGroup.put(award, errorList);
 
                     isInvalid = true;
@@ -549,7 +549,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
                 }
                 // 14. System Information and ORganization Accounting Default not setup.
                 if (contractsGrantsInvoiceDocumentService.isChartAndOrgNotSetupForInvoicing(award)) {
-                    errorList.add(ArConstants.BatchFileSystem.CGINVOICE_CREATION_SYS_INFO_OADF_NOT_SETUP);
+                    errorList.add(SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(ArConstants.BatchFileSystem.CGINVOICE_CREATION_SYS_INFO_OADF_NOT_SETUP));
                     invalidGroup.put(award, errorList);
 
                     isInvalid = true;
@@ -557,7 +557,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
 
                 // 15. if there is no AR Invoice Account present when the GLPE is 3.
                 if (!contractsGrantsInvoiceDocumentService.hasARInvoiceAccountAssigned(award)) {
-                    errorList.add(ArConstants.BatchFileSystem.CGINVOICE_CREATION_AWARD_NO_AR_INV_ACCOUNT);
+                    errorList.add(SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(ArConstants.BatchFileSystem.CGINVOICE_CREATION_AWARD_NO_AR_INV_ACCOUNT));
                     invalidGroup.put(award, errorList);
 
                     isInvalid = true;
@@ -565,7 +565,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
 
                 // 16. If all accounts of award has invoices in progress.
                 if ((award.getPreferredBillingFrequency().equalsIgnoreCase(ArPropertyConstants.MILESTONE_BILLING_SCHEDULE_CODE) || award.getPreferredBillingFrequency().equalsIgnoreCase(ArPropertyConstants.PREDETERMINED_BILLING_SCHEDULE_CODE)) && contractsGrantsInvoiceDocumentService.isInvoiceInProgress(award)) {
-                    errorList.add(ArConstants.BatchFileSystem.CGINVOICE_CREATION_AWARD_INVOICES_IN_PROGRESS);
+                    errorList.add(SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(ArConstants.BatchFileSystem.CGINVOICE_CREATION_AWARD_INVOICES_IN_PROGRESS));
                     invalidGroup.put(award, errorList);
 
                     isInvalid = true;
@@ -573,7 +573,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
 
                 // 17. Offset Definition is not available when the GLPE is 3.
                 if (contractsGrantsInvoiceDocumentService.isOffsetDefNotSetupForInvoicing(award)) {
-                    errorList.add(ArConstants.BatchFileSystem.CGINVOICE_CREATION_AWARD_OFFSET_DEF_NOT_SETUP);
+                    errorList.add(SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(ArConstants.BatchFileSystem.CGINVOICE_CREATION_AWARD_OFFSET_DEF_NOT_SETUP));
                     invalidGroup.put(award, errorList);
 
                     isInvalid = true;

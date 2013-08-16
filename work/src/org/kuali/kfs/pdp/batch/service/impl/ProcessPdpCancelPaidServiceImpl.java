@@ -53,7 +53,7 @@ public class ProcessPdpCancelPaidServiceImpl implements ProcessPdpCancelPaidServ
     protected ParameterService parameterService;
     protected DateTimeService dateTimeService;
     protected PurchasingAccountsPayableModuleService purchasingAccountsPayableModuleService;
-    protected PaymentSourceExtractionService dvExtractService;
+    protected PaymentSourceExtractionService paymentSourceExtractService;
     protected DocumentService documentService;
 
     protected volatile Set<String> paymentSourceCheckACHDocumentTypes;
@@ -93,9 +93,9 @@ public class ProcessPdpCancelPaidServiceImpl implements ProcessPdpCancelPaidServ
                     PaymentSource dv = (PaymentSource)getDocumentService().getByDocumentHeaderId(documentNumber);
                     if (dv != null) {
                         if (disbursedPayment || primaryCancel) {
-                            dvExtractService.cancelExtractedPaymentSource(dv, processDate);
+                            paymentSourceExtractService.cancelExtractedPaymentSource(dv, processDate);
                         } else {
-                            dvExtractService.resetExtractedPaymentSource(dv, processDate);
+                            paymentSourceExtractService.resetExtractedPaymentSource(dv, processDate);
                         }
                     }
                 } catch (WorkflowException we) {
@@ -141,7 +141,7 @@ public class ProcessPdpCancelPaidServiceImpl implements ProcessPdpCancelPaidServ
             else if (getPaymentSourceCheckACHDocumentTypes().contains(documentTypeCode)) {
                 try {
                     PaymentSource dv = (PaymentSource)getDocumentService().getByDocumentHeaderId(documentNumber);
-                    dvExtractService.markPaymentSourceAsPaid(dv, processDate);
+                    paymentSourceExtractService.markPaymentSourceAsPaid(dv, processDate);
                 } catch (WorkflowException we) {
                     throw new RuntimeException("Could not retrieve document #"+documentNumber, we);
                 }
@@ -197,11 +197,11 @@ public class ProcessPdpCancelPaidServiceImpl implements ProcessPdpCancelPaidServ
     }
 
     /**
-     * Sets the dvExtractService attribute value.
-     * @param dvExtractService The dvExtractService to set.
+     * Sets the paymentSourceExtractService attribute value.
+     * @param paymentSourceExtractService The paymentSourceExtractService to set.
      */
-    public void setDvExtractService(PaymentSourceExtractionService dvExtractService) {
-        this.dvExtractService = dvExtractService;
+    public void setPaymentSourceExtractService(PaymentSourceExtractionService dvExtractService) {
+        this.paymentSourceExtractService = dvExtractService;
     }
 
     /**

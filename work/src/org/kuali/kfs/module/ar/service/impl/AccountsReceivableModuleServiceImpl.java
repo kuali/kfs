@@ -21,6 +21,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Callable;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomer;
@@ -58,6 +59,7 @@ import org.kuali.kfs.module.ar.document.service.CustomerService;
 import org.kuali.kfs.module.ar.document.service.ReceivableAccountingLineService;
 import org.kuali.kfs.module.ar.document.service.SystemInformationService;
 import org.kuali.kfs.module.ar.service.CustomerDocumentService;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -67,6 +69,7 @@ import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.lookup.Lookupable;
+import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -237,6 +240,84 @@ public class AccountsReceivableModuleServiceImpl implements AccountsReceivableMo
     }
 
     /**
+     *
+     * @see org.kuali.kfs.integration.ar.AccountsReceivableModuleService#cancelInvoicesForTrip(java.lang.String)
+     */
+    @Override
+    public void cancelInvoicesForTrip(String tripId, AccountsReceivableOrganizationOptions organizationOptions) {
+        for (CustomerInvoiceDocument invoice : getInvoicesForTrip(tripId)) {
+            final CustomerCreditMemoDocument creditMemo = createCreditMemoForTripInvoice(invoice, tripId, organizationOptions);
+            blanketApproveCreditMemoForTripInvoice(creditMemo, tripId);
+        }
+    }
+
+    /**
+     * Finds all the customer invoice documents associated with the given trip id
+     * @param tripId the trip id to find customer invoice documetns for
+     * @return a Collection of invoice documents
+     */
+    protected Collection<CustomerInvoiceDocument> getInvoicesForTrip(String tripId) {
+        Map<String, String> query = new HashMap<String, String>();
+        query.put(KFSPropertyConstants.DOCUMENT_HEADER+"."+KFSPropertyConstants.ORGANIZATION_DOCUMENT_NUMBER, tripId);
+
+        return getBusinessObjectService().findMatching(CustomerInvoiceDocument.class, query);
+    }
+
+    /**
+     * Creates a credit memo to reverse the effects of a customer invoice that paid off an advance
+     * @param invoice the invoice to reverse
+     * @param tripId the trip id of the trip to reverse
+     * @param organizationOptions the organization options from the travel module
+     * @return a CustomerCreditMemo document which will reverse the effect the given invoice
+     */
+    protected CustomerCreditMemoDocument createCreditMemoForTripInvoice(CustomerInvoiceDocument invoice, String tripId, AccountsReceivableOrganizationOptions organizationOptions) {
+        CustomerCreditMemoDocument creditMemo;
+        try {
+            creditMemo = (CustomerCreditMemoDocument)getDocumentService().getNewDocument(CustomerCreditMemoDocument.class);
+        }
+        catch (WorkflowException we) {
+            throw new RuntimeException("Could not create Customer Credit Memo for trip invoice, trip: "+tripId+"; invoice document #"+invoice.getDocumentNumber(), we);
+        }
+
+        AccountsReceivableDocumentHeader arDocHeader = SpringContext.getBean(AccountsReceivableDocumentHeaderService.class).getNewAccountsReceivableDocumentHeader(organizationOptions.getProcessingChartOfAccountCode(), organizationOptions.getProcessingOrganizationCode());
+        arDocHeader.setDocumentNumber(creditMemo.getDocumentNumber());
+        arDocHeader.setCustomerNumber(invoice.getAccountsReceivableDocumentHeader().getCustomerNumber());
+        creditMemo.setAccountsReceivableDocumentHeader(arDocHeader);
+        creditMemo.getFinancialSystemDocumentHeader().setDocumentDescription(invoice.getDocumentHeader().getDocumentDescription());
+        creditMemo.getFinancialSystemDocumentHeader().setOrganizationDocumentNumber(tripId);
+        populateCustomerCreditMemoDocumentDetails(creditMemo, invoice.getDocumentNumber(), invoice.getTotalDollarAmount());
+
+        return creditMemo;
+    }
+
+    /**
+     * Blanket approves the given credit memo as the KFS system user
+     * @param creditMemo the credit memo to blanket approve
+     * @param tripId the trip id of the credit memo
+     */
+    protected void blanketApproveCreditMemoForTripInvoice(final CustomerCreditMemoDocument creditMemo, final String tripId) {
+        final String blanketApproveAnnotation= String.format("Blanket Approved CRM Doc # %s by Trip ID # %s", creditMemo.getDocumentNumber(), tripId);
+        try {
+        GlobalVariables.doInNewGlobalVariables(new UserSession(KFSConstants.SYSTEM_USER), new Callable<Object>() {
+                /**
+                 * Blanket approves the credit memo
+                 * @see java.util.concurrent.Callable#call()
+                 */
+                @Override
+                public Object call() {
+                    try {
+                    blanketApproveCustomerCreditMemoDocument(creditMemo, blanketApproveAnnotation);
+                    return null;
+                    } catch (WorkflowException we) {
+                        throw new RuntimeException("Could not blanket approve credit memo (doc #"+creditMemo.getDocumentNumber()+")to reverse invoice for trip: "+tripId, we);
+                    }
+                }});
+        } catch (Exception e) {
+            throw new RuntimeException("Could not blanket approve credit memo (doc #"+creditMemo.getDocumentNumber()+")to reverse invoice for trip: "+tripId, e);
+        }
+    }
+
+    /**
      * @see org.kuali.kfs.integration.ar.AccountsReceivableModuleService#createCustomer()
      */
     @Override
@@ -297,14 +378,6 @@ public class AccountsReceivableModuleServiceImpl implements AccountsReceivableMo
         Map<String, String> criteria = new HashMap<String, String>();
         criteria.put(OrganizationOptionsFields.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);
         criteria.put(OrganizationOptionsFields.ORGANIZATION_CODE, organizationCode);
-        return getBusinessObjectService().findByPrimaryKey(OrganizationOptions.class, criteria);
-    }
-
-    /**
-     * @see org.kuali.kfs.integration.ar.AccountsReceivableModuleService#getOrganizationOptionsByPrimaryKey(java.util.Map)
-     */
-    @Override
-    public AccountsReceivableOrganizationOptions getOrganizationOptionsByPrimaryKey(Map<String, String> criteria) {
         return getBusinessObjectService().findByPrimaryKey(OrganizationOptions.class, criteria);
     }
 

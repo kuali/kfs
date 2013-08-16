@@ -227,6 +227,7 @@ public class TemPropertyConstants {
         public static final String ACCOUNTING_INFO = "accountingInfo";
         public static final String TRIP_ID = "tripId";
         public static final String LODGING_NUMBER = "lodgingItineraryNumber";
+        public static final String TRAVELER_DATA = "traveler";
     }
 
     @SuppressWarnings("rawtypes")

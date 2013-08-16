@@ -42,7 +42,6 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomer;
-import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemConstants.ExpenseType;
 import org.kuali.kfs.module.tem.TemConstants.TravelDocTypes;
@@ -257,7 +256,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
     @Override
     public String getAppDocStatus() {
         String status = getDocumentHeader().getWorkflowDocument().getApplicationDocumentStatus();
-        return StringUtils.defaultIfEmpty(status, TemConstants.TRAVEL_DOC_APP_DOC_STATUS_INIT);
+        return status;
     }
 
     /**
@@ -1100,14 +1099,6 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
 
     /**
      *
-     * @param reqsDoc
-     * @param document
-     */
-    public void populateRequisitionFields(RequisitionDocument reqsDoc, TravelDocument document) {
-    }
-
-    /**
-     *
      * @return
      */
     @Transient
@@ -1862,20 +1853,6 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
         //pre filled descriptions
         getDocumentHeader().setDocumentDescription(TemConstants.PRE_FILLED_DESCRIPTION);
 
-        //set traveler to employee if null
-        if (this.getTraveler() == null) {
-            this.setTraveler(new TravelerDetail());
-            this.getTraveler().setTravelerTypeCode(TemConstants.EMP_TRAVELER_TYP_CD);
-        }
-
-        //set profile to current user
-        Person currentUser = GlobalVariables.getUserSession().getPerson();
-        if (!getTemRoleService().isTravelArranger(currentUser)) {
-            TEMProfile temProfile = getTemProfileService().findTemProfileByPrincipalId(currentUser.getPrincipalId());
-            if (temProfile != null) {
-                setTemProfile(temProfile);
-            }
-        }
     }
 
     /**

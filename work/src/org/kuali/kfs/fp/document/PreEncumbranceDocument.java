@@ -28,7 +28,6 @@ import org.kuali.kfs.sys.businessobject.SufficientFundsItem;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocumentBase;
 import org.kuali.kfs.sys.document.AmountTotaling;
-import org.kuali.kfs.sys.document.Correctable;
 import org.kuali.kfs.sys.document.service.DebitDeterminerService;
 import org.kuali.kfs.sys.service.HomeOriginationService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
@@ -40,7 +39,7 @@ import org.kuali.rice.krad.document.Copyable;
  * Plant work orders. These transactions are for the use of the account manager to earmark funds for which unofficial commitments
  * have already been made.
  */
-public class PreEncumbranceDocument extends AccountingDocumentBase implements Copyable, Correctable, AmountTotaling {
+public class PreEncumbranceDocument extends AccountingDocumentBase implements Copyable, AmountTotaling {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PreEncumbranceDocument.class);
 
     protected java.sql.Date reversalDate;
@@ -115,16 +114,16 @@ public class PreEncumbranceDocument extends AccountingDocumentBase implements Co
     @Override
      public boolean isDebit(GeneralLedgerPendingEntrySourceDetail postable) {
         AccountingLine accountingLine = (AccountingLine)postable;
-        
+
         DebitDeterminerService isDebitUtils = SpringContext.getBean(DebitDeterminerService.class);
-        
-       
+
+
         if (isDebitUtils.isErrorCorrection(this) == accountingLine.getAmount().isPositive()) {
             throw new IllegalStateException(isDebitUtils.getDebitCalculationIllegalStateExceptionMessage());
         }
-        
+
         boolean isDebit = false;
-        
+
         if(isDebitUtils.isIncome(postable))
         {
             isDebit = isDebitUtils.isDebitConsideringSection(this, accountingLine);

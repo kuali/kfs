@@ -22,8 +22,6 @@ KFS10301,KFS-TEM-PERM-019,1,10,KFS-TEM,Initiate Own TEM Profile,Authorizes users
 KFS10302,KFS-TEM-PERM-020,1,1,KFS-TEM,Inactivate TEM Profile,Authorizes users to inactivate a TEM Profile.,Y
 KFS10303,KFS-TEM-PERM-021,1,1,KFS-TEM,Edit TEM Profile,Authorizes users to edit TEM Profile Documents.,Y
 KFS10304,KFS-TEM-PERM-022,1,44,KFS-TEM,Modify Maintenance Document Section TEMProfile TEMProfileAdministrator,Allows users access to the Administration Only Tab.,Y
-KFS10305,KFS-TEM-PERM-023,1,1,KFS-TEM,Initiate TA or TR,Authorizes users to initiate a TA or TR from a TEM Profile.,Y
-KFS10306,KFS-TEM-PERM-024,1,1,KFS-TEM,Approve TA or TR,Authorizes users to approve a TA or TR from a TEM Profile.,Y
 KFS10307,KFS-TEM-PERM-025,1,27,KFS-TEM,Full Unmask Field TEMProfile dateOfBirth,Allows users to view unmasked the birth date in the TEM Profile maintenance document.,Y
 KFS10308,KFS-TEM-PERM-026,1,27,KFS-TEM,Full Unmask Field TEMProfile gender,Allows users to view unmasked the gender in the TEM Profile maintenance document.,Y
 KFS10309,KFS-TEM-PERM-027,1,27,KFS-TEM,Full Unmask Field TEMProfile driversLicenseNumber,Allows users to view unmasked the drivers license number in the TEM Profile maintenance document.,Y
@@ -74,8 +72,7 @@ KFS10404,KFS-TEM-PERM-078,1,26,KFS-TEM,Modify Maintenance Document Field AgencyS
 KFS10405,KFS-TEM-PERM-079,1,26,KFS-TEM,Modify Maintenance Document Field AgencyStagingData tripArrangerName,Grants the ability to edit the tripArrangerName field on the Travel Agency Audit Report (Agency Staging Data) maintenence document.,Y
 KFS10445,KFS-TEM-PERM-080,1,KFS10444,KFS-TEM,View Record TravelerProfileForLookup,The ability to view a profile record being selected to act as a traveler.,Y
 KFS10451,KFS-TEM-PERM-081,1,10,KFS-TEM,Initiate Document TMCP,Permission to initiate a TEM Correction Process document.,Y
-KFS10454,KFS-TEM-PERM-082,1,10,KFS-TEM,Initiate Document TA,Permission to initiate a Travel Authorization or child document.,Y
-KFS10458,KFS-TEM-PERM-083,1,10,KFS-TEM,Initiate Document TR,Permission to initiate a Travel Reimbursement document.,Y
+KFS10454,KFS-TEM-PERM-082,1,10,KFS-TEM,Initiate Document TRV,Permission to initiate a travel document.,Y
 KFS10462,KFS-TEM-PERM-084,1,10,KFS-TEM,Initiate Document RELO,Permission to initiate a Moving and Relocation document.,Y
 KFS10466,KFS-TEM-PERM-085,1,10,KFS-TEM,Initiate Document ENT,Permission to initiate an Entertainment document.,Y
 KFS10470,KFS-TEM-PERM-086,1,31,KFS-TEM,Use Transactional Document RELO actualExpenseTaxableEntry,Allows access to modify the taxable indicator on Travel Relocation (RELO) documents.,Y

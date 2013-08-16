@@ -18,7 +18,6 @@ package org.kuali.kfs.module.tem.document;
 import java.beans.PropertyChangeEvent;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,7 +32,6 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomer;
-import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemConstants.EntertainmentStatusCodeKeys;
 import org.kuali.kfs.module.tem.TemConstants.TravelParameters;
@@ -296,20 +294,6 @@ public class TravelEntertainmentDocument extends TEMReimbursementDocument implem
     public void prepareForSave(KualiDocumentEvent event) {
         super.prepareForSave(event);
         getTravelPayment().setCheckStubText(getTravelDocumentIdentifier() + " " + StringUtils.defaultString(getEventTitle()) + getTripBegin());
-    }
-
-    /**
-     * @see org.kuali.kfs.module.tem.document.TravelDocumentBase#populateRequisitionFields(org.kuali.kfs.module.purap.document.RequisitionDocument, org.kuali.kfs.module.tem.document.TravelDocument)
-     */
-    @Override
-    public void populateRequisitionFields(RequisitionDocument reqsDoc, TravelDocument document) {
-        super.populateRequisitionFields(reqsDoc, document);
-        TravelEntertainmentDocument entDocument = (TravelEntertainmentDocument) document;
-        reqsDoc.getDocumentHeader().setDocumentDescription("Generated for ENT doc: " + StringUtils.defaultString(entDocument.getEventTitle()));
-        reqsDoc.getDocumentHeader().setOrganizationDocumentNumber(entDocument.getTravelDocumentIdentifier());
-        Calendar calendar = getDateTimeService().getCurrentCalendar();
-        calendar.setTime(entDocument.getTripBegin());
-        reqsDoc.setPostingYear(calendar.get(Calendar.YEAR));
     }
 
     /**

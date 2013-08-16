@@ -67,7 +67,7 @@ public class TravelerDerivedRoleTypeServiceImpl extends DerivedRoleTypeServiceBa
             if ( StringUtils.isNotBlank( documentNumber ) ) {
 
                 try{
-                    Document document = documentService.getByDocumentHeaderId(documentNumber);
+                    Document document = documentService.getByDocumentHeaderIdSessionless(documentNumber);
                     if (document != null){
                         String memberId = "";
                         if(TravelDocTypes.TRAVEL_ARRANGER_DOCUMENT.equals(document.getDocumentHeader().getWorkflowDocument().getDocumentTypeName())) {
@@ -93,10 +93,11 @@ public class TravelerDerivedRoleTypeServiceImpl extends DerivedRoleTypeServiceBa
     }
 
     /**
-     *
-     * @param documentService
-     */
-    public void setDocumentService(DocumentService documentService) {
-        this.documentService = documentService;
-    }
+    *
+    * @param documentService
+    */
+   public void setDocumentService(DocumentService documentService) {
+       this.documentService = documentService;
+   }
+
 }

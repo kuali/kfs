@@ -655,6 +655,7 @@
 	<bean id="VendorCreditMemo-purchaseOrderForInvoicedItemsValidation" class="org.kuali.kfs.module.purap.document.validation.impl.VendorCreditMemoPurchaseOrderForInvoicedItemsValidation" abstract="true">
 		<property name="purchaseOrderService" ref="purchaseOrderService" />
 		<property name="creditMemoService" ref="creditMemoService" />
+		<property name="paymentRequestService" ref="paymentRequestService" />		
 	</bean>
 
 	<bean id="VendorCreditMemo-cancelValidation" class="org.kuali.kfs.module.purap.document.validation.impl.VendorCreditMemoCancelValidation" abstract="true">

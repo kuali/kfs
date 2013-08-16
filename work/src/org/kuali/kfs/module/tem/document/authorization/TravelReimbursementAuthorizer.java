@@ -15,8 +15,10 @@
  */
 package org.kuali.kfs.module.tem.document.authorization;
 
+import org.kuali.kfs.module.tem.businessobject.TravelerDetail;
 import org.kuali.kfs.module.tem.document.TravelReimbursementDocument;
 import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public class TravelReimbursementAuthorizer extends TravelArrangeableAuthorizer implements ReturnToFiscalOfficerAuthorizer{
 
@@ -27,6 +29,13 @@ public class TravelReimbursementAuthorizer extends TravelArrangeableAuthorizer i
      * @return
      */
     public boolean canCertify(final TravelReimbursementDocument reimbursement, Person user) {
-        return user.getPrincipalId().equals(reimbursement.getTraveler().getPrincipalId()) || !isEmployee(reimbursement.getTraveler());
+        boolean canCertify = false;
+        TravelerDetail traveler = reimbursement.getTraveler();
+        if (ObjectUtils.isNull(traveler) || !isEmployee(traveler)) {
+            canCertify = false;
+        } else if (user.getPrincipalId().equals(traveler.getPrincipalId())) {
+            canCertify = true;
+        }
+        return canCertify;
     }
 }

@@ -17,8 +17,10 @@ package org.kuali.kfs.pdp.batch.service.impl;
 
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.sql.Timestamp;
 import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
@@ -274,7 +276,8 @@ public class ExtractPaymentServiceImpl extends InitiateDirectoryBase implements 
         }
 
         try {
-            os = new BufferedWriter(new FileWriter(filename));
+            OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(filename), "UTF-8");
+            os = new BufferedWriter(writer);
             os.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
             writeOpenTagAttribute(os, 0, "checks", "processId", processId.toString(), "campusCode", p.getCampusCode());
 
@@ -385,7 +388,8 @@ public class ExtractPaymentServiceImpl extends InitiateDirectoryBase implements 
     protected void writeExtractAchFile(PaymentStatus extractedStatus, String filename, Date processDate, SimpleDateFormat sdf) {
         BufferedWriter os = null;
         try {
-            os = new BufferedWriter(new FileWriter(filename));
+            OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(filename), "UTF-8");
+            os = new BufferedWriter(writer);
             os.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
             writeOpenTag(os, 0, "achPayments");
 

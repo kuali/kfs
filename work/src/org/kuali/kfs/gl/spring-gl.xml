@@ -1193,7 +1193,9 @@
 
 	<bean id="glBalancingDao" parent="platformAwareDaoJdbc" class="org.kuali.kfs.gl.dataaccess.impl.BalancingDaoJdbc" />
 
-	<bean id="glEncumbranceDao" parent="platformAwareDao" class="org.kuali.kfs.gl.dataaccess.impl.EncumbranceDaoOjb" />
+	<bean id="glEncumbranceDao" parent="platformAwareDao" class="org.kuali.kfs.gl.dataaccess.impl.EncumbranceDaoOjb">
+		<property name="balanceTypeDao" ref="balanceTypeDao"/>
+	</bean>
 
 	<bean id="originEntryDao" parent="platformAwareDao" class="org.kuali.kfs.gl.dataaccess.impl.OriginEntryDaoOjb">
 		<property name="entryClass" value="org.kuali.kfs.gl.businessobject.OriginEntryFull"/>

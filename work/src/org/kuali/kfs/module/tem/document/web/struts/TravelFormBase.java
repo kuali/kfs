@@ -298,7 +298,7 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
         if (ObjectUtils.isNotNull(travelDoc.getTravelDocumentIdentifier())) {
             identifier = "" + travelDoc.getTravelDocumentIdentifier();
         }
-        status = travelDoc.getAppDocStatus();
+        status = workflowDocument.getApplicationDocumentStatus();
 
         getDocInfo().add(new HeaderField(getDataDictionaryAttributeName(getDocumentIdentifierFieldName()), identifier));
         getDocInfo().add(new HeaderField(getDataDictionaryAttributeName(getStatusCodeFieldName()), status));

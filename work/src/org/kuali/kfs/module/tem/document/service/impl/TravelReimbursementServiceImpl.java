@@ -41,7 +41,6 @@ import org.kuali.kfs.integration.ar.AccountsReceivableDocumentHeader;
 import org.kuali.kfs.integration.ar.AccountsReceivableModuleService;
 import org.kuali.kfs.integration.ar.AccountsReceivableOrganizationOptions;
 import org.kuali.kfs.module.tem.TemConstants;
-import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationParameters;
 import org.kuali.kfs.module.tem.TemConstants.TravelDocTypes;
 import org.kuali.kfs.module.tem.TemConstants.TravelParameters;
 import org.kuali.kfs.module.tem.TemParameterConstants;
@@ -334,19 +333,7 @@ public class TravelReimbursementServiceImpl implements TravelReimbursementServic
         documentDao.save(reimbursement);
     }
 
-    /**
-     * Gets the {@link OrganizationOptions} to create a {@link AccountsReceivableDocumentHeader} for
-     * {@link PaymentApplicationDocument}
-     *
-     * @return OrganizationOptions
-     */
-    protected AccountsReceivableOrganizationOptions getOrgOptions() {
-        final Map<String, String> criteria = new HashMap<String, String>();
-        criteria.put("chartOfAccountsCode", parameterService.getParameterValueAsString(TravelAuthorizationDocument.class, TravelAuthorizationParameters.TRAVEL_ADVANCE_BILLING_CHART));
-        criteria.put("organizationCode", parameterService.getParameterValueAsString(TravelAuthorizationDocument.class, TravelAuthorizationParameters.TRAVEL_ADVANCE_BILLING_ORGANIZATION));
 
-        return accountsReceivableModuleService.getOrganizationOptionsByPrimaryKey(criteria);
-    }
 
     /**
      *     TA may have the above information related to reimbursable amount and (invoice?)
@@ -544,7 +531,7 @@ public class TravelReimbursementServiceImpl implements TravelReimbursementServic
      */
     public AccountsReceivableDocumentHeader createAccountsReceivableDocumentHeader(String documentNumber, String customerNumber){
 
-        final AccountsReceivableOrganizationOptions orgOptions = getOrgOptions();
+        final AccountsReceivableOrganizationOptions orgOptions = travelDocumentService.getOrgOptions();
         final String processingChart = orgOptions.getProcessingChartOfAccountCode();
         final String processingOrg = orgOptions.getProcessingOrganizationCode();
 

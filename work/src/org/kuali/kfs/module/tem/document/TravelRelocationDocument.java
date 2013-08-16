@@ -16,7 +16,6 @@
 package org.kuali.kfs.module.tem.document;
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 
@@ -27,7 +26,6 @@ import javax.persistence.Table;
 
 import org.apache.log4j.Logger;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
-import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemConstants.TravelParameters;
 import org.kuali.kfs.module.tem.TemConstants.TravelRelocationStatusCodeKeys;
@@ -36,9 +34,7 @@ import org.kuali.kfs.module.tem.TemWorkflowConstants;
 import org.kuali.kfs.module.tem.businessobject.JobClassification;
 import org.kuali.kfs.module.tem.businessobject.RelocationReason;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AmountTotaling;
-import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
@@ -349,20 +345,6 @@ public class TravelRelocationDocument extends TEMReimbursementDocument implement
         }
 
         return retval;
-    }
-
-    /**
-     * @see org.kuali.kfs.module.tem.document.TravelDocumentBase#populateRequisitionFields(org.kuali.kfs.module.purap.document.RequisitionDocument, org.kuali.kfs.module.tem.document.TravelDocument)
-     */
-    @Override
-    public void populateRequisitionFields(RequisitionDocument reqsDocument, TravelDocument document) {
-        super.populateRequisitionFields(reqsDocument, document);
-        TravelRelocationDocument reloDocument = (TravelRelocationDocument) document;
-        reqsDocument.getDocumentHeader().setDocumentDescription("Requisition for Moving And Relocation");
-        reqsDocument.getDocumentHeader().setOrganizationDocumentNumber(reloDocument.getTravelDocumentIdentifier());
-        Calendar calendar = getDateTimeService().getCurrentCalendar();
-        calendar.setTime(reloDocument.getTripBegin());
-        reqsDocument.setPostingYear(SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear());
     }
 
     /**

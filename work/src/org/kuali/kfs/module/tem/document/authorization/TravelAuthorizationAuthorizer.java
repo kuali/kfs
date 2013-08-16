@@ -102,6 +102,7 @@ public class TravelAuthorizationAuthorizer extends TravelArrangeableAuthorizer {
         if (dataObject instanceof TravelAuthorizationDocument) {
             addAccountQualification((TravelAuthorizationDocument)dataObject, qualification);
         }
+
         super.addRoleQualification(dataObject, qualification);
     }
 

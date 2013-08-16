@@ -229,28 +229,51 @@
 				<activationType>P</activationType>
 			</role>
 		</routeNodes>
-    
-    </documentType>
-		<documentType>
-			<name>TA</name>
-			<parent>TT</parent>
-			<docHandler>${application.url}/temTravelAuthorization.do?methodToCall=docHandler
-			</docHandler>
-			<label>Travel Authorization</label>
-			<attributes>
+    	</documentType>
+    	<documentType>
+	      <name>TT</name>
+	      <parent>KFST</parent>
+	      <label>TEMTransactionalDocument</label>
+	      <active>true</active>
+	      <routingVersion>2</routingVersion>
+    	</documentType>
+    	<documentType>
+	      <name>TRV</name>
+	      <parent>KFST</parent>
+	      <label>TravelTransactionalDocument</label>
+	      <attributes>
 				<attribute>
 					<name>TemFinancialSystemSearchableAttribute</name>
 				</attribute>
 				<attribute>
 					<name>TravelDocumentSearchCustomizer</name>
 				</attribute>
-			</attributes>
+		  </attributes>
+	      <active>true</active>
+	      <security>
+                <securityAttribute name="TemSecurityAttribute"/>
+          </security>
+	      <routingVersion>2</routingVersion>
+	      <policies>
+                <policy>
+                    <name>DEFAULT_APPROVE</name>
+                    <value>false</value>
+                </policy>
+                <policy>
+                    <name>DOCUMENT_STATUS_POLICY</name>
+                    <stringValue>app</stringValue>
+                </policy>
+          </policies>
+    	</documentType>
+		<documentType>
+			<name>TA</name>
+			<parent>TRV</parent>
+			<docHandler>${application.url}/temTravelAuthorization.do?methodToCall=docHandler
+			</docHandler>
+			<label>Travel Authorization</label>
 			<active>
 				true
             </active>
-            <security>
-                <securityAttribute name="TemSecurityAttribute"/>
-            </security>
 			<routingVersion>
 				2
             </routingVersion>
@@ -288,16 +311,6 @@
 				<status>Change in Process</status>
 				<status>Retired Version</status>
 			</validApplicationStatuses>
-			<policies>
-				<policy>
-					<name>DEFAULT_APPROVE</name>
-					<value>true</value>
-				</policy>
-				<policy>
-					<name>DOCUMENT_STATUS_POLICY</name>
-					<stringValue>app</stringValue>
-				</policy>
-			</policies>
 			<routePaths>
 				<routePath>
 					<start name="AdHoc" nextNode="TravelRequiresTravelerApproval" nextAppDocStatus="Awaiting Traveler Review" />
@@ -550,24 +563,13 @@
 		</documentType>
 		<documentType>
             <name>TR</name>
-            <parent>TT</parent>
+            <parent>TRV</parent>
             <docHandler>${application.url}/temTravelReimbursement.do?methodToCall=docHandler
             </docHandler>
             <label>Travel Reimbursement</label>
-            <attributes>
-				<attribute>
-					<name>TemFinancialSystemSearchableAttribute</name>
-				</attribute>
-				<attribute>
-					<name>TravelDocumentSearchCustomizer</name>
-				</attribute>
-			</attributes>
             <active>
                 true
             </active>
-            <security>
-                <securityAttribute name="TemSecurityAttribute"/>
-            </security>
             <routingVersion>
                 2
             </routingVersion>
@@ -600,16 +602,6 @@
                 <status>Disapproved - Travel</status>
                 <status>Cancelled</status>
             </validApplicationStatuses>
-            <policies>
-                <policy>
-                    <name>DEFAULT_APPROVE</name>
-                    <value>false</value>
-                </policy>
-                <policy>
-                    <name>DOCUMENT_STATUS_POLICY</name>
-                    <stringValue>app</stringValue>
-                </policy>
-            </policies>
             <routePaths>
                 <routePath>
                     <start name="AdHoc" nextNode="TravelRequiresTravelerApproval" nextAppDocStatus="Awaiting Traveler Review"/>

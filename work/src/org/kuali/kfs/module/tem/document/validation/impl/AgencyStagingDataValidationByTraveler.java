@@ -15,12 +15,18 @@
  */
 package org.kuali.kfs.module.tem.document.validation.impl;
 
+import static org.kuali.kfs.module.tem.TemPropertyConstants.TravelAgencyAuditReportFields.ACCOUNTING_INFO;
+import static org.kuali.kfs.module.tem.TemPropertyConstants.TravelAgencyAuditReportFields.TRAVELER_DATA;
+
+import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.batch.service.ExpenseImportByTravelerService;
 import org.kuali.kfs.module.tem.businessobject.AgencyStagingData;
+import org.kuali.kfs.module.tem.businessobject.TEMProfile;
 import org.kuali.kfs.module.tem.document.service.AgencyStagingDataValidationHelper;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * Business rules validation for the Travel Agency Audit and Correction using the UCD method of importing
@@ -43,8 +49,25 @@ public class AgencyStagingDataValidationByTraveler implements AgencyStagingDataV
         boolean result = true;
         final AgencyStagingData data = (AgencyStagingData) document.getNewMaintainableObject().getBusinessObject();
         if (data.isActive()) {
-            result &= getExpenseImportByTravelerService().areMandatoryFieldsPresent(data);
+            if(!getExpenseImportByTravelerService().areMandatoryFieldsPresent(data)){
+                result &= false;
+            }
+
+            TEMProfile profile = getExpenseImportByTravelerService().validateTraveler(data);
+            if(ObjectUtils.isNull(profile)) {
+                putFieldError(TRAVELER_DATA, TemKeyConstants.MESSAGE_AGENCY_DATA_INVALID_TRAVELER);
+                result &= false;
+            }
+
+
+            if(ObjectUtils.isNull(data.getTripAccountingInformation()) || data.getTripAccountingInformation().isEmpty()  ) {
+                    putFieldError(ACCOUNTING_INFO, TemKeyConstants.MESSAGE_AGENCY_DATA_INVALID_ACCTG_INFO);
+                    result &= false;
+                }
+
+
         }
+
         return result;
     }
 
@@ -56,7 +79,23 @@ public class AgencyStagingDataValidationByTraveler implements AgencyStagingDataV
         boolean result = true;
         final AgencyStagingData data = (AgencyStagingData) document.getNewMaintainableObject().getBusinessObject();
         if (data.isActive()) {
-            result &= getExpenseImportByTravelerService().areMandatoryFieldsPresent(data);
+            if(!getExpenseImportByTravelerService().areMandatoryFieldsPresent(data)){
+                result &= false;
+            }
+
+            TEMProfile profile = getExpenseImportByTravelerService().validateTraveler(data);
+            if(ObjectUtils.isNull(profile)) {
+                putFieldError(TRAVELER_DATA, TemKeyConstants.MESSAGE_AGENCY_DATA_INVALID_TRAVELER);
+                result &= false;
+            }
+
+
+            if(ObjectUtils.isNull(data.getTripAccountingInformation()) || data.getTripAccountingInformation().isEmpty()  ) {
+                    putFieldError(ACCOUNTING_INFO, TemKeyConstants.MESSAGE_AGENCY_DATA_INVALID_ACCTG_INFO);
+                    result &= false;
+                }
+
+
         }
         return result;
     }

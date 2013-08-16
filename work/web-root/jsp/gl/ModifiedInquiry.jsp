@@ -89,6 +89,14 @@
 	<table width="100%" cellspacing="0" cellpadding="0">
 		<tr>
 			<td><c:if test="${!empty reqSearchResultsSize}">
+				<%-- If results size isn't the same as the actual size, it
+				     means that the result set was truncated (see
+				     LookupDaoOjb.executeSearch), so display the total amount
+				     of matching records. --%>
+				<c:if test="${reqSearchResultsSize != fn:length(reqSearchResults)}">
+					<c:out value="${reqSearchResultsSize}" /> items found.
+					Please refine your search criteria to narrow down your search.
+				</c:if>
 
 				<c:set var="exporting" value="${!empty param['d-16544-e']}"
 					scope="request" />

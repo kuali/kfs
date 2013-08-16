@@ -537,9 +537,10 @@
 		<property name="dateTimeService">
 			<ref bean="dateTimeService"/>
 		</property>
-		<property name="dvExtractService">
+		<property name="paymentSourceExtractService">
 			<ref bean="disbursementVoucherExtractService" />
 		</property>
+		<property name="documentService" ref="documentService" />
 	</bean>
     <bean id="batchLookupableHelperService" parent="batchLookupableHelperService-parentBean"  scope="prototype"/>
 

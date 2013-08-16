@@ -119,7 +119,7 @@
 			<li><portal:portalLink displayTitle="true" title="Trial Balance" url="reportEndowTrialBalance.do?methodToCall=start"/></li>
 		</ul>
 	</c:if>
-	<strong>Balance</strong></br>
+	<strong>General Ledger</strong></br>
 	<ul class="chan">
 		<li><portal:portalLink displayTitle="true" title="Trial Balance" url="glTrialBalance.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.gl.businessobject.TrialBalanceReport&docFormKey=88888888&returnLocation=portal.do&hideReturnLink=true" /></li>
 	</ul>

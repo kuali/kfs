@@ -27,11 +27,11 @@ import org.kuali.kfs.coa.service.ObjectCodeService;
 import org.kuali.kfs.coa.service.ProjectCodeService;
 import org.kuali.kfs.coa.service.SubAccountService;
 import org.kuali.kfs.coa.service.SubObjectCodeService;
+import org.kuali.kfs.module.tem.TemConstants.AgencyMatchProcessParameter;
+import org.kuali.kfs.module.tem.TemConstants.AgencyStagingDataErrorCodes;
 import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.TemParameterConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
-import org.kuali.kfs.module.tem.TemConstants.AgencyMatchProcessParameter;
-import org.kuali.kfs.module.tem.TemConstants.AgencyStagingDataErrorCodes;
 import org.kuali.kfs.module.tem.batch.service.ExpenseImportByTravelerService;
 import org.kuali.kfs.module.tem.batch.service.ImportedExpensePendingEntryService;
 import org.kuali.kfs.module.tem.businessobject.AgencyStagingData;
@@ -185,6 +185,8 @@ public class ExpenseImportByTravelerServiceImpl extends ExpenseImportServiceBase
         return null;
     }
 
+
+
     /**
      *
      * @see org.kuali.kfs.module.tem.batch.service.ExpenseImportByTravelerService#validateAccountingInfo(org.kuali.kfs.module.tem.businessobject.TEMProfile, org.kuali.kfs.module.tem.businessobject.AgencyStagingData)
@@ -254,7 +256,7 @@ public class ExpenseImportByTravelerServiceImpl extends ExpenseImportServiceBase
      */
     @Override
     public boolean isDuplicate(final AgencyStagingData agencyData) {
-
+        boolean isDuplicate = false;
         // Verify that this isn't a duplicate entry based on the following:
         // Traveler ID, Ticket Number, Agency Name, Transaction Date, Transaction Amount, Invoice Number
 
@@ -280,16 +282,25 @@ public class ExpenseImportByTravelerServiceImpl extends ExpenseImportServiceBase
         }
 
         List<AgencyStagingData> agencyDataList = (List<AgencyStagingData>) businessObjectService.findMatching(AgencyStagingData.class, fieldValues);
-        if (ObjectUtils.isNull(agencyDataList) || agencyDataList.size() == 0) {
-            return false;
+        if (ObjectUtils.isNotNull(agencyDataList) || agencyDataList.size() != 0) {
+            for(AgencyStagingData agency : agencyDataList) {
+                if (!(ObjectUtils.isNotNull(agencyData.getId()) && agency.getId().equals(agencyData.getId()))){
+                    isDuplicate = true;
+                }
+            }
         }
-        LOG.error("Found a duplicate entry for agencyData with travelerId: "+ agencyData.getTravelerId()+ " matching agency id: "+ agencyDataList.get(0).getId());
+        if (isDuplicate) {
+            LOG.error("Found a duplicate entry for agencyData with travelerId: "+ agencyData.getTravelerId()+ " matching agency id: "+ agencyDataList.get(0).getId());
 
-        ErrorMessage error = new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_DATA_TRAVELER_DUPLICATE_RECORD,
+            ErrorMessage error = new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_DATA_TRAVELER_DUPLICATE_RECORD,
                 agencyData.getTravelerId(), agencyData.getAirTicketNumber(), agencyData.getCreditCardOrAgencyCode(),
                 agencyData.getTransactionPostingDate().toString(), agencyData.getTripExpenseAmount().toString(), agencyData.getTripInvoiceNumber());
-        errorMessages.add(error);
-        return true;
+            errorMessages.add(error);
+
+        }
+
+        return isDuplicate;
+
     }
 
     /**

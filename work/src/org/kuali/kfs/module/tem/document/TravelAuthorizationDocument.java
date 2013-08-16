@@ -34,7 +34,6 @@ import javax.persistence.Transient;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
-import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationParameters;
 import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationStatusCodeKeys;
@@ -674,6 +673,10 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
      */
     @Override
     public boolean generateDocumentGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
+        if (TemConstants.TravelAuthorizationStatusCodeKeys.CLOSED.equals(getAppDocStatus()) || TemConstants.TravelAuthorizationStatusCodeKeys.CANCELLED.equals(getAppDocStatus())) {
+            return true; // we're closed or cancelled.  skip normal entry generation
+        }
+
         boolean success = super.generateDocumentGeneralLedgerPendingEntries(sequenceHelper);
         if (shouldProcessAdvanceForDocument() && getTravelAdvance().getTravelAdvanceRequested() != null) {
             // generate wire entries
@@ -771,6 +774,18 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
             }
         }
         return encumbranceLines;
+    }
+
+    /**
+     * Only return something if the document is not closed or cancelled
+     * @see org.kuali.kfs.module.tem.document.TravelDocumentBase#getGeneralLedgerPendingEntrySourceDetails()
+     */
+    @Override
+    public List<GeneralLedgerPendingEntrySourceDetail> getGeneralLedgerPendingEntrySourceDetails() {
+        if (TemConstants.TravelAuthorizationStatusCodeKeys.CLOSED.equals(getAppDocStatus()) || TemConstants.TravelAuthorizationStatusCodeKeys.CANCELLED.equals(getAppDocStatus())) {
+            return new ArrayList<GeneralLedgerPendingEntrySourceDetail>(); // hey, we're closed or cancelled.  Let's not generate entries
+        }
+        return super.getGeneralLedgerPendingEntrySourceDetails();
     }
 
     /**
@@ -988,10 +1003,6 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
         return managedLists;
     }
 
-    @Override
-    public void populateRequisitionFields(RequisitionDocument reqsDoc, TravelDocument document) {
-    }
-
     /**
      *
      * @see org.kuali.kfs.module.tem.document.TravelDocument#getReimbursableTotal()
@@ -1105,6 +1116,10 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
         this.wireTransfer = wireTransfer;
     }
 
+    /**
+     * Generates a payment group to pay the advance if this authorization has one
+     * @see org.kuali.kfs.sys.document.PaymentSource#generatePaymentGroup(java.sql.Date)
+     */
     @Override
     public PaymentGroup generatePaymentGroup(Date processRunDate) {
         if (shouldProcessAdvanceForDocument()) {

@@ -47,6 +47,7 @@ public class TravelAuthorizationDocumentPresentationController extends TravelAut
         if (document instanceof TravelAuthorizationDocument && ((TravelAuthorizationDocument)document).shouldProcessAdvanceForDocument() && isAtTravelNode(document.getDocumentHeader().getWorkflowDocument())) {
             editModes.add(TemConstants.TravelEditMode.CLEAR_ADVANCE_MODE);
         }
+
         return editModes;
     }
 

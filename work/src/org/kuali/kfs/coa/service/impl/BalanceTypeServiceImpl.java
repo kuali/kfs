@@ -62,6 +62,12 @@ public class BalanceTypeServiceImpl implements BalanceTypeService {
         return businessObjectService.findAll(BalanceType.class);
     }
 
+    @Cacheable(value=BalanceType.CACHE_NAME, key="'{getAllEncumbranceBalanceTypes}'")
+    @Override
+    public Collection<BalanceType> getAllEncumbranceBalanceTypes() {
+        return balanceTypeDao.getEncumbranceBalanceTypes();
+    }
+
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }

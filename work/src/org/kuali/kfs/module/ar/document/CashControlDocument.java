@@ -94,7 +94,6 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
         UniversityDateService universityDateService = SpringContext.getBean(UniversityDateService.class);
         universityFiscalYear = universityDateService.getCurrentUniversityDate().getUniversityFiscalYear();
         universityFiscalPeriod = universityDateService.getCurrentUniversityDate().getAccountingPeriod();
-        universityFiscalPeriodCode = universityDateService.getCurrentUniversityDate().getUniversityFiscalAccountingPeriod();
 
         cashControlDetails = new ArrayList<CashControlDetail>();
         generalLedgerPendingEntries = new ArrayList<GeneralLedgerPendingEntry>();

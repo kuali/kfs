@@ -895,11 +895,9 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
             // 1. To check the amounts for all accounts, even if they are set from LOC Review Document.
             // 2. TO check if there are invoices in progress.
             for (ContractsAndGrantsCGBAwardAccount awardAccount : awardAccounts) {
-                if (awardAccount.getAmountToDraw().isGreaterThan(KualiDecimal.ZERO)) {
                     if (StringUtils.isBlank(awardAccount.getInvoiceDocumentStatus()) || awardAccount.getInvoiceDocumentStatus().equalsIgnoreCase("FINAL") || awardAccount.getInvoiceDocumentStatus().equalsIgnoreCase("CANCELED") || awardAccount.getInvoiceDocumentStatus().equalsIgnoreCase("DISAPPROVED")) {
                         validAwardAccounts.add(awardAccount);
                     }
-                }
             }
 
             return validAwardAccounts;

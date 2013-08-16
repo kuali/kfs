@@ -178,7 +178,7 @@ public class CollectorReportServiceImpl implements CollectorReportService {
         collectorReportWriterService.writeFormattedMessageLine("      Total GLE Debits        %19s", new KualiDecimalFormatter(aggregateOriginEntryTotals.getDebitAmount()));
         collectorReportWriterService.writeFormattedMessageLine("      Debit Count             %09d", aggregateOriginEntryTotals.getNumDebitEntries());
         collectorReportWriterService.writeFormattedMessageLine("      Total GLE Credits       %19s", new KualiDecimalFormatter(aggregateOriginEntryTotals.getCreditAmount()));
-        collectorReportWriterService.writeFormattedMessageLine("      Debit Count             %09d", aggregateOriginEntryTotals.getNumCreditEntries());
+        collectorReportWriterService.writeFormattedMessageLine("      Credit Count             %09d", aggregateOriginEntryTotals.getNumCreditEntries());
         collectorReportWriterService.writeFormattedMessageLine("      Total GLE Not C or D    %19s", new KualiDecimalFormatter(aggregateOriginEntryTotals.getOtherAmount()));
         collectorReportWriterService.writeFormattedMessageLine("      Not C or D Count        %09d", aggregateOriginEntryTotals.getNumOtherEntries());
         collectorReportWriterService.writeNewLines(1);

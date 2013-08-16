@@ -75,20 +75,6 @@ public class PreEncumbranceDocumentTest extends KualiTestBase {
 
     public final void testConvertIntoCopy_copyDisallowed() throws Exception {
         AccountingDocumentTestUtils.testConvertIntoCopy_copyDisallowed(buildDocument(), SpringContext.getBean(DataDictionaryService.class));
-
-    }
-
-    public final void testConvertIntoErrorCorrection_documentAlreadyCorrected() throws Exception {
-        AccountingDocumentTestUtils.testConvertIntoErrorCorrection_documentAlreadyCorrected(buildDocument(), SpringContext.getBean(TransactionalDocumentDictionaryService.class));
-    }
-
-    public final void testConvertIntoErrorCorrection_invalidYear() throws Exception {
-        AccountingDocumentTestUtils.testConvertIntoErrorCorrection_invalidYear(buildDocument(), SpringContext.getBean(TransactionalDocumentDictionaryService.class), SpringContext.getBean(AccountingPeriodService.class));
-    }
-
-    @ConfigureContext(session = khuntley, shouldCommitTransactions = true)
-    public final void testConvertIntoErrorCorrection() throws Exception {
-        AccountingDocumentTestUtils.testConvertIntoErrorCorrection(buildDocument(), getExpectedPrePeCount(), SpringContext.getBean(DocumentService.class), SpringContext.getBean(TransactionalDocumentDictionaryService.class));
     }
 
     @ConfigureContext(session = khuntley, shouldCommitTransactions = true)
@@ -104,10 +90,6 @@ public class PreEncumbranceDocumentTest extends KualiTestBase {
     @ConfigureContext(session = khuntley, shouldCommitTransactions = true)
     public final void testConvertIntoCopy() throws Exception {
         AccountingDocumentTestUtils.testConvertIntoCopy(buildDocument(), SpringContext.getBean(DocumentService.class), getExpectedPrePeCount());
-    }
-
-    public final void testConvertIntoErrorCorrection_errorCorrectionDisallowed() throws Exception {
-        AccountingDocumentTestUtils.testConvertIntoErrorCorrection_errorCorrectionDisallowed(buildDocument(), SpringContext.getBean(DataDictionaryService.class));
     }
 
     // test util methods

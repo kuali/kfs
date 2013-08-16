@@ -287,6 +287,7 @@ public class PurapKeyConstants {
     public static final String ERROR_CREDIT_MEMO_ITEM_QUANTITY_TOOMUCH = "errors.creditMemo.item.quantity.tooMuch";
     public static final String ERROR_CREDIT_MEMO_ITEM_EXTENDEDPRICE_TOOMUCH = "errors.creditMemo.item.extendedPrice.tooMuch";
     public static final String ERROR_CREDIT_MEMO_LINE_PERCENT = "errors.creditMemo.line.percent";
+    public static final String ERROR_CREDIT_MEMO_TOTAL_GREATERTHAN_APPROVED_PO_TOTAL = "errors.creditMemo.total.greaterThan.approved.po.total";
 
     public static final String CREDIT_MEMO_QUESTION_HOLD_DOCUMENT = "creditMemo.question.hold.text";
     public static final String CREDIT_MEMO_QUESTION_CANCEL_DOCUMENT = "creditMemo.question.cancel.text";

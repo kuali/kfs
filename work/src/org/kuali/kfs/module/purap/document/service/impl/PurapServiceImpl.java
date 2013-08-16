@@ -106,18 +106,18 @@ import org.kuali.rice.krad.util.ObjectUtils;
 public class PurapServiceImpl implements PurapService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurapServiceImpl.class);
 
-    private BusinessObjectService businessObjectService;
-    private DataDictionaryService dataDictionaryService;
-    private DateTimeService dateTimeService;
-    private DocumentService documentService;
-    private NoteService noteService;
-    private ParameterService parameterService;
-    private PersistenceService persistenceService;
-    private PurchaseOrderService purchaseOrderService;
-    private UniversityDateService universityDateService;
-    private VendorService vendorService;
-    private TaxService taxService;
-    private PurapAccountingService purapAccountingService;
+    protected BusinessObjectService businessObjectService;
+    protected DataDictionaryService dataDictionaryService;
+    protected DateTimeService dateTimeService;
+    protected DocumentService documentService;
+    protected NoteService noteService;
+    protected ParameterService parameterService;
+    protected PersistenceService persistenceService;
+    protected PurchaseOrderService purchaseOrderService;
+    protected UniversityDateService universityDateService;
+    protected VendorService vendorService;
+    protected TaxService taxService;
+    protected PurapAccountingService purapAccountingService;
 
     public void setBusinessObjectService(BusinessObjectService boService) {
         this.businessObjectService = boService;

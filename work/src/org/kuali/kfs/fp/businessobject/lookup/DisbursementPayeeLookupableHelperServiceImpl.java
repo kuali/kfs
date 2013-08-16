@@ -29,18 +29,13 @@ import org.kuali.kfs.integration.ar.AccountsReceivableModuleService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.vnd.VendorPropertyConstants;
-import org.kuali.kfs.vnd.businessobject.VendorDetail;
-import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.impl.KIMPropertyConstants;
-import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.util.MessageList;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
 import org.kuali.rice.kns.web.ui.ResultRow;
 import org.kuali.rice.krad.bo.BusinessObject;
-import org.kuali.rice.krad.datadictionary.AttributeSecurity;
 import org.kuali.rice.krad.exception.ValidationException;
 import org.kuali.rice.krad.lookup.CollectionIncomplete;
 import org.kuali.rice.krad.util.BeanPropertyComparator;
@@ -296,38 +291,6 @@ public class DisbursementPayeeLookupableHelperServiceImpl extends AbstractPayeeL
      */
     protected boolean containsLookupWildcard(String s) {
         return StringUtils.contains(s, "*") || StringUtils.contains(s, "%");
-    }
-
-
-    @Override
-    protected DisbursementPayee getPayeeFromVendor(VendorDetail vendorDetail, Map<String, String> fieldValues) {
-        DisbursementPayee payee = disbursementVoucherPayeeService.getPayeeFromVendor(vendorDetail);
-        payee.setPaymentReasonCode(fieldValues.get(KFSPropertyConstants.PAYMENT_REASON_CODE));
-
-        //KFSMI-5497
-        //get the attributeSecurity property and mask the field so that on results screen will be shown masked.
-        DataDictionaryService dataDictionaryService = SpringContext.getBean(DataDictionaryService.class);
-        AttributeSecurity attributeSecurity =  dataDictionaryService.getAttributeSecurity(DisbursementPayee.class.getName(), "taxNumber");
-        if (attributeSecurity != null) {
-            attributeSecurity.setMask(true);
-        }
-
-        return payee;
-    }
-
-    @Override
-    protected DisbursementPayee getPayeeFromPerson(Person personDetail, Map<String, String> fieldValues) {
-        DisbursementPayee payee = disbursementVoucherPayeeService.getPayeeFromPerson(personDetail);
-        payee.setPaymentReasonCode(fieldValues.get(KFSPropertyConstants.PAYMENT_REASON_CODE));
-
-        //KFSMI-5497
-        //get the attributeSecurity property and unmask the field so that on results screen, it will set as blank.
-        DataDictionaryService dataDictionaryService = SpringContext.getBean(DataDictionaryService.class);
-        AttributeSecurity attributeSecurity =  dataDictionaryService.getAttributeSecurity(DisbursementPayee.class.getName(), "taxNumber");
-        if (attributeSecurity != null) {
-            attributeSecurity.setMask(false);
-        }
-        return payee;
     }
 
     /**

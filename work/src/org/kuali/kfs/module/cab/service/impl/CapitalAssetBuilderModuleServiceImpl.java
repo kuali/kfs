@@ -408,15 +408,14 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         boolean valid = true;
         if (asset.getCapitalAssetNumber() == null) {
             valid = false;
-        }
-        else {
+        } else {
             valid = dictionaryValidationService.isBusinessObjectValid(asset);
         }
         if (!valid) {
             String propertyName = "newPurchasingItemCapitalAssetLine." + PurapPropertyConstants.CAPITAL_ASSET_NUMBER;
             String errorKey = PurapKeyConstants.ERROR_CAPITAL_ASSET_ASSET_NUMBER_MUST_BE_LONG_NOT_NULL;
             GlobalVariables.getMessageMap().putError(propertyName, errorKey);
-        }else{
+        } else {
             Map<String, String> params = new HashMap<String, String>();
             params.put(KFSPropertyConstants.CAPITAL_ASSET_NUMBER, asset.getCapitalAssetNumber().toString());
             Asset retrievedAsset = businessObjectService.findByPrimaryKey(Asset.class, params);
@@ -425,8 +424,16 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
                 valid = false;
                 String label = this.getDataDictionaryService().getAttributeLabel(CapitalAssetInformation.class, KFSPropertyConstants.CAPITAL_ASSET_NUMBER);
                 GlobalVariables.getMessageMap().putError("newPurchasingItemCapitalAssetLine." + KFSPropertyConstants.CAPITAL_ASSET_NUMBER, KFSKeyConstants.ERROR_EXISTENCE, label);
-            }
+            } else {
+                boolean isCapitalAsset = assetService.isCapitalAsset(retrievedAsset) && !assetService.isAssetRetired(retrievedAsset);
 
+                if (!isCapitalAsset) {
+                    valid = false;
+                    String propertyName = "newPurchasingItemCapitalAssetLine." + PurapPropertyConstants.CAPITAL_ASSET_NUMBER;
+                    String errorKey = CabKeyConstants.CapitalAssetInformation.ERROR_ASSET_ACTIVE_CAPITAL_ASSET_REQUIRED;
+                    GlobalVariables.getMessageMap().putError(propertyName, errorKey);
+                }
+            }
         }
         return valid;
     }

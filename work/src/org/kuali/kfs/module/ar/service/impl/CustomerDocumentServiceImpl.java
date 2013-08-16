@@ -20,6 +20,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsAgencyAddress;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAgency;
 import org.kuali.kfs.module.ar.businessobject.Customer;
@@ -35,6 +36,7 @@ import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.service.MaintenanceDocumentDictionaryService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.KualiModuleService;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
 
 /**
@@ -82,6 +84,9 @@ public class CustomerDocumentServiceImpl implements CustomerDocumentService {
         // to set the primary agency address to the customer
         for (ContractsAndGrantsAgencyAddress agencyAddress : agencyAddresses) {
             if (agencyAddress.isPrimary()) {
+                if(CollectionUtils.isEmpty(customer.getCustomerAddresses())){
+                    customer.getCustomerAddresses().add(new CustomerAddress());
+                }
                 CustomerAddress customerAddress = customer.getCustomerAddresses().get(0);
                 customerAddress.setCustomerAddressName(agencyAddress.getAgencyAddressName());
                 customerAddress.setCustomerAddressTypeCode(agencyAddress.getAgencyAddressTypeCode());
@@ -93,7 +98,7 @@ public class CustomerDocumentServiceImpl implements CustomerDocumentService {
                 customerAddress.setCustomerZipCode(agencyAddress.getAgencyZipCode());
                 customerAddress.setCustomerAddressInternationalProvinceName(agencyAddress.getAgencyAddressInternationalProvinceName());
                 customerAddress.setCustomerInternationalMailCode(agencyAddress.getAgencyInternationalMailCode());
-
+                
             }
         }
 

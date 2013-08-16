@@ -23,6 +23,7 @@ import java.util.List;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public class AssetPaymentAssetDetail extends PersistableBusinessObjectBase {
     private String documentNumber;
@@ -137,14 +138,18 @@ public class AssetPaymentAssetDetail extends PersistableBusinessObjectBase {
 		return allocatedUserValue;
 	}
 
-
-	/**
-	 * Return the New total allocation amount
-	 * @return
-	 */
-	public KualiDecimal getNewTotal() {
-		return getAllocatedAmount().add(getPreviousTotalCostAmount());
-	}
+    /**
+     * Return the New total allocation amount
+     * @return
+     */
+    public KualiDecimal getNewTotal() {
+        KualiDecimal previousCostAmount = getPreviousTotalCostAmount();
+        // KFSCNTRB-1667: if previous cost doesn't exist, regard the previous total as 0 amount
+        if (ObjectUtils.isNull(previousCostAmount)) {
+            previousCostAmount = new KualiDecimal(0);
+        }
+        return getAllocatedAmount().add(previousCostAmount);
+    }
 
     /**
      * Return the percent invariant value if percentages are used

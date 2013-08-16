@@ -144,12 +144,17 @@ public class EntryLookupableHelperServiceImpl extends AbstractGeneralLedgerLooku
 
         // get the search result collection
         Collection searchResultsCollection = getLookupService().findCollectionBySearch(getBusinessObjectClass(), fieldValues);
+        int searchResultsCollectionSize = searchResultsCollection.size();
 
         // update search results according to the selected pending entry option
         updateByPendingLedgerEntry(searchResultsCollection, fieldValues, pendingEntryOption, false, false);
 
         // get the actual size of all qualified search results
         Long actualSize = new Long(entryService.getEntryRecordCount(fieldValues));
+        
+        // calculate how many pending entries were included in the original results
+        int numPendingEntriesAdded = searchResultsCollection.size() - searchResultsCollectionSize;
+        actualSize += numPendingEntriesAdded;
 
         return this.buildSearchResultList(searchResultsCollection, actualSize);
     }

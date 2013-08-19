@@ -28,8 +28,6 @@ import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsConstants;
 import org.kuali.kfs.integration.cg.dto.AwardCreationStatusDTO;
 import org.kuali.kfs.integration.cg.dto.AwardParametersDTO;
-import org.kuali.kfs.integration.cg.dto.ProposalCreationStatusDTO;
-import org.kuali.kfs.integration.cg.dto.ProposalParametersDTO;
 import org.kuali.kfs.integration.cg.service.AwardCreationService;
 import org.kuali.kfs.module.cg.CGConstants;
 import org.kuali.kfs.module.cg.businessobject.Agency;
@@ -43,7 +41,6 @@ import org.kuali.kfs.module.cg.businessobject.Proposal;
 import org.kuali.kfs.module.cg.businessobject.ProposalAwardType;
 import org.kuali.kfs.module.cg.businessobject.ProposalOrganization;
 import org.kuali.kfs.module.cg.businessobject.ProposalPurpose;
-import org.kuali.kfs.module.cg.service.ProposalCreationService;
 import org.kuali.kfs.module.external.kc.util.GlobalVariablesExtractHelper;
 import org.kuali.kfs.module.external.kc.util.KcUtils;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -79,88 +76,11 @@ public class AwardCreationServiceImpl implements AwardCreationService {
 
     private DocumentService documentService;
     private BusinessObjectService businessObjectService;
-    private ProposalCreationService proposalCreationService;
     private DateTimeService dateTimeService;
     private MaintenanceDocumentService maintenanceDocumentService;
     private AccountService accountService;
 
-    /**
-     * @see org.kuali.kfs.integration.cg.service.AwardCreationService#createAward(org.kuali.kfs.integration.cg.dto.AwardParametersDTO)
-     */
-    @Override
-    public AwardCreationStatusDTO createAward(AwardParametersDTO awardParameters) {
-
-        AwardCreationStatusDTO awardCreationStatus = new AwardCreationStatusDTO();
-        awardCreationStatus.setErrorMessages(new ArrayList<String>());
-        awardCreationStatus.setStatus(ContractsAndGrantsConstants.KcWebService.STATUS_KC_SUCCESS);
-
-
-        // check to see if the user has the permission to create award
-        String principalId = awardParameters.getPrincipalId();
-        if(!isValidUser(principalId)) {
-            this.setFailStatus(awardCreationStatus, KcUtils.getErrorMessage(ContractsAndGrantsConstants.AwardCreationService.ERROR_KC_DOCUMENT_INVALID_USER, new String[] {principalId} ));
-            return awardCreationStatus;
-        }
-
-        // check to see if agency exist
-        String sponsorCode = awardParameters.getSponsorCode();
-        if(!isValidSponsorCode(sponsorCode)){
-            this.setFailStatus(awardCreationStatus, KcUtils.getErrorMessage(ContractsAndGrantsConstants.AwardCreationService.ERROR_SPONSOR_CODE_DOES_NOT_EXIST, new String[] {sponsorCode} ));
-            return awardCreationStatus;
-        }
-
-        String accountNumber = awardParameters.getAccountNumber();
-        String chartCode = awardParameters.getChartCode();
-
-        // if accountNumber is not provided or does not exist in KFS then return with fail message
-        if(StringUtils.isBlank(accountNumber) || StringUtils.isBlank(chartCode)){
-            this.setFailStatus(awardCreationStatus, ContractsAndGrantsConstants.AwardCreationService.ACCOUNT_NUMBER_AND_CHART_CODE_CANNOT_BE_BLANK);
-            return awardCreationStatus;
-        }
-
-        // if account does not exist, return with fail message
-        Account account = accountService.getByPrimaryId(chartCode, accountNumber);
-        if( account==null ) {
-            this.setFailStatus(awardCreationStatus, KcUtils.getErrorMessage(ContractsAndGrantsConstants.AwardCreationService.ACCOUNT_NUMBER_AND_CHART_CODE_CANNOT_DOES_NOT_EXIST, new String[]{accountNumber, chartCode}));
-            return awardCreationStatus;
-        }
-
-        // if award exists and is not finalize, we cannot edit the award,
-        try {
-            String unfinalizedDocumentNumber = "";
-            unfinalizedDocumentNumber = getAwardDocumentNumberNotFinal(awardParameters.getAwardId());
-
-            if(StringUtils.isNotBlank(unfinalizedDocumentNumber)) {
-                this.setFailStatus(awardCreationStatus, KcUtils.getErrorMessage(ContractsAndGrantsConstants.AwardCreationService.ERROR_CG_AWARD_TO_UPDATE_NOT_YET_FINAL, new String[]{unfinalizedDocumentNumber} ));
-                return awardCreationStatus;
-            }
-        }
-        catch (WorkflowException ex) {
-            LOG.error("Error while retrieving results from document search.");
-            ex.printStackTrace();
-        }
-
-        // if awardId already exist, then update award instead.
-        if(isAwardExists(awardParameters.getAwardId())) {
-            return updateAward(awardParameters);
-       } else {
-            // create proposal first
-            ProposalParametersDTO proposalParameters = getProposalCreationService().getProposalParametersDtoFromAwardParametersDto(awardParameters, getAgencyNumberFromSponsorCode(sponsorCode));
-            ProposalCreationStatusDTO proposalCreationStatusDTO = getProposalCreationService().createProposal(proposalParameters);
-            Proposal proposal = (Proposal) proposalCreationStatusDTO.getProposal();
-
-            if(proposal==null){
-                this.setFailStatus(awardCreationStatus, KcUtils.getErrorMessage(ContractsAndGrantsConstants.AwardCreationService.ERROR_CG_PROPOSAL_CREATION_FAILED, null));
-                return awardCreationStatus;
-            }
-
-            Award award = createAwardObject(awardParameters, proposal, account);
-            createAutomaticCGAwardMaintenanceDocument(award, awardCreationStatus);
-            return awardCreationStatus;
-       }
-    }
-
-    /**
+      /**
      * @see org.kuali.kfs.integration.cg.service.AwardCreationService#updateAward(org.kuali.kfs.integration.cg.dto.AwardParametersDTO)
      */
     @Override
@@ -589,15 +509,6 @@ public class AwardCreationServiceImpl implements AwardCreationService {
     protected BusinessObjectService getBusinessObjectService() {
         return businessObjectService;
     }
-
-    protected ProposalCreationService getProposalCreationService() {
-        return proposalCreationService;
-    }
-
-    public void setProposalCreationService(ProposalCreationService proposalCreationService) {
-        this.proposalCreationService = proposalCreationService;
-    }
-
 
     /**
      * Retrieve the Date Time Service

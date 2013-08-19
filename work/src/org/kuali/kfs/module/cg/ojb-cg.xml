@@ -947,40 +947,4 @@
 		<field-descriptor name="active" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
 	</class-descriptor>
 
-	<!-- PROPOSAL DEFAULTS -->
-
-	<class-descriptor class="org.kuali.kfs.module.cg.businessobject.ProposalAutoCreateDefaults" table="CG_PRPSL_CRT_DFLT_T">
-		<field-descriptor name="proposalDefaultId" column="PRPSL_DFLT_ID" jdbc-type="INTEGER" primarykey="true" index="true" autoincrement="true"
-			sequence-name="CG_PRPSL_CRT_DFLT_SEQ" />
-		<field-descriptor name="kcUnit" column="KC_UNIT" jdbc-type="VARCHAR" />
-		<field-descriptor name="proposalIndirectCostAmount" column="PRPSL_INDRCS_AMT" jdbc-type="DECIMAL"
-			conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
-		<field-descriptor name="proposalAwardTypeCode" column="CGPRPSL_AWD_TYP_CD" jdbc-type="VARCHAR" index="true" />
-		<field-descriptor name="proposalPurposeCode" column="CGPRPSL_PURPOSE_CD" jdbc-type="VARCHAR" index="true" />
-		<field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" />
-		<field-descriptor name="organizationCode" column="ORG_CD" jdbc-type="VARCHAR" />
-		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
-		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-		<field-descriptor name="principalId" column="PRPSL_PRJ_DRTR_ID" jdbc-type="VARCHAR" index="true" />
-		<reference-descriptor name="organization" class-ref="org.kuali.kfs.coa.businessobject.Organization" auto-retrieve="true"
-			auto-update="none" auto-delete="none" proxy="true">
-			<foreignkey field-ref="chartOfAccountsCode" />
-			<foreignkey field-ref="organizationCode" />
-		</reference-descriptor>
-		<reference-descriptor name="chartOfAccounts" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true"
-			auto-update="none" auto-delete="none" proxy="true">
-			<foreignkey field-ref="chartOfAccountsCode" />
-		</reference-descriptor>
-		<reference-descriptor name="proposalAwardType" class-ref="org.kuali.kfs.module.cg.businessobject.ProposalAwardType"
-			auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
-			<foreignkey field-ref="proposalAwardTypeCode" />
-		</reference-descriptor>
-		<reference-descriptor name="proposalPurpose" class-ref="org.kuali.kfs.module.cg.businessobject.ProposalPurpose" auto-retrieve="true"
-			auto-update="none" auto-delete="none" proxy="true">
-			<foreignkey field-ref="proposalPurposeCode" />
-		</reference-descriptor>
-		
-	</class-descriptor>
-
-
 </descriptor-repository>

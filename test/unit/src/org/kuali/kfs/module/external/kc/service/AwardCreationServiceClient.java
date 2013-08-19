@@ -90,26 +90,4 @@ public class AwardCreationServiceClient extends TestCase {
         super.tearDown();
     }
 
-    /**
-     * This method tests the remote Service without using KSB so the server should be up before testing
-     */
-    public void testCreateAwardServiceSoap() {
-        try {
-            URL url = new URL("http://localhost:8080/kfs-dev/remoting/awardCreationServiceSOAP?wsdl");
-
-            QName qName = new QName("KFS", "awardCreationServiceSOAP");
-
-            Service service = Service.create(url, qName);
-            AwardCreationService awardService = (AwardCreationService) service.getPort(AwardCreationService.class);
-
-            AwardCreationStatusDTO creationStatus = awardService.createAward(awardParameters);
-            System.out.println("document number: " + creationStatus.getDocumentNumber());
-            assertTrue(creationStatus.getStatus().equals(ContractsAndGrantsConstants.KcWebService.STATUS_KC_SUCCESS));
-
-        }
-        catch (Exception e) {
-            System.out.println("error: " + e.getMessage());
-        }
-    }
-
 }

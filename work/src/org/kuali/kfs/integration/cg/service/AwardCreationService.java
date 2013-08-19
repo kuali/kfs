@@ -27,7 +27,5 @@ import org.kuali.kfs.integration.cg.dto.AwardParametersDTO;
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 public interface AwardCreationService {
 
-    public AwardCreationStatusDTO createAward(@WebParam(name = "awardParametersDTO") AwardParametersDTO awardParametersDTO);
-
     public AwardCreationStatusDTO updateAward(@WebParam(name = "awardParametersDTO") AwardParametersDTO awardParametersDTO);
 }

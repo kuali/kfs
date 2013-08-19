@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -29,6 +29,7 @@ import org.apache.log4j.Logger;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.integration.cam.CapitalAssetManagementModuleService;
 import org.kuali.kfs.module.cab.CabConstants;
+import org.kuali.kfs.module.cab.CabConstants.ActivityStatusCode;
 import org.kuali.kfs.module.cab.CabPropertyConstants;
 import org.kuali.kfs.module.cab.businessobject.GeneralLedgerEntry;
 import org.kuali.kfs.module.cab.businessobject.Pretag;
@@ -63,6 +64,7 @@ public class PurApLineServiceImpl implements PurApLineService {
     /**
      * @see org.kuali.kfs.module.cab.document.service.PurApLineService#mergeLinesHasDifferentObjectSubTypes(java.util.List)
      */
+    @Override
     public boolean mergeLinesHasDifferentObjectSubTypes(List<PurchasingAccountsPayableItemAsset> mergeLines) {
         boolean invalid = false;
         List<String> objectSubTypeList = new ArrayList<String>();
@@ -89,6 +91,7 @@ public class PurApLineServiceImpl implements PurApLineService {
      * @see org.kuali.kfs.module.cab.document.service.PurApLineService#allocateLinesHasDifferentObjectSubTypes(java.util.List,
      *      org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableItemAsset)
      */
+    @Override
     public boolean allocateLinesHasDifferentObjectSubTypes(List<PurchasingAccountsPayableItemAsset> targetLines, PurchasingAccountsPayableItemAsset sourceLine) {
         boolean invalid = false;
         List<String> objectSubTypeList = new ArrayList<String>();
@@ -125,6 +128,7 @@ public class PurApLineServiceImpl implements PurApLineService {
     /**
      * @see org.kuali.kfs.module.cab.document.service.PurApLineDocumentService#inActivateDocument(org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableDocument)
      */
+    @Override
     public void conditionallyUpdateDocumentStatusAsProcessed(PurchasingAccountsPayableDocument selectedDoc) {
         for (PurchasingAccountsPayableItemAsset item : selectedDoc.getPurchasingAccountsPayableItemAssets()) {
             if (item.isActive()) {
@@ -138,6 +142,7 @@ public class PurApLineServiceImpl implements PurApLineService {
     /**
      * @see org.kuali.kfs.module.cab.document.service.PurApLineService#resetSelectedValue(java.util.List)
      */
+    @Override
     public void resetSelectedValue(List<PurchasingAccountsPayableDocument> purApDocs) {
         for (PurchasingAccountsPayableDocument purApDoc : purApDocs) {
             for (PurchasingAccountsPayableItemAsset item : purApDoc.getPurchasingAccountsPayableItemAssets()) {
@@ -150,12 +155,13 @@ public class PurApLineServiceImpl implements PurApLineService {
      * @see org.kuali.kfs.module.cab.document.service.PurApLineService#processAllocate(org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableItemAsset,
      *      java.util.List, org.kuali.kfs.module.cab.document.web.PurApLineSession, java.util.List)
      */
-    public boolean processAllocate(PurchasingAccountsPayableItemAsset allocateSourceLine, 
-            List<PurchasingAccountsPayableItemAsset> allocateTargetLines, 
-            List<PurchasingAccountsPayableActionHistory> actionsTakeHistory, 
-            List<PurchasingAccountsPayableDocument> purApDocs, 
+    @Override
+    public boolean processAllocate(PurchasingAccountsPayableItemAsset allocateSourceLine,
+            List<PurchasingAccountsPayableItemAsset> allocateTargetLines,
+            List<PurchasingAccountsPayableActionHistory> actionsTakeHistory,
+            List<PurchasingAccountsPayableDocument> purApDocs,
             boolean initiateFromBatch) {
-        
+
         boolean allocatedIndicator = true;
         // indicator of additional charge allocation
         boolean allocateAddlChrgIndicator = allocateSourceLine.isAdditionalChargeNonTradeInIndicator() | allocateSourceLine.isTradeInAllowance();
@@ -164,7 +170,7 @@ public class PurApLineServiceImpl implements PurApLineService {
 
         // For each account in the source item, allocate it to the target items.
         for (PurchasingAccountsPayableLineAssetAccount sourceAccount : allocateSourceLine.getPurchasingAccountsPayableLineAssetAccounts()) {
-            sourceAccount.refresh();           
+            sourceAccount.refresh();
             // Get allocate to target account list
             List<PurchasingAccountsPayableLineAssetAccount> targetAccounts = getAllocateTargetAccounts(sourceAccount, allocateTargetLines, allocateAddlChrgIndicator);
             if (!targetAccounts.isEmpty()) {
@@ -187,7 +193,7 @@ public class PurApLineServiceImpl implements PurApLineService {
 
     /**
      * Process after allocate.
-     * 
+     *
      * @param selectedLineItem
      * @param allocateTargetLines
      * @param purApDocs
@@ -216,7 +222,8 @@ public class PurApLineServiceImpl implements PurApLineService {
         // update status code as user modified for allocate target lines
         if (!initiateFromBatch) {
             for (PurchasingAccountsPayableItemAsset allocateTargetItem : allocateTargetLines) {
-                updateItemStatusAsUserModified(allocateTargetItem);
+                // KFSCNTRB-1676 / FSKD-5487
+                updateItemStatusAsUserModified(allocateTargetItem, true);
             }
         }
     }
@@ -224,7 +231,7 @@ public class PurApLineServiceImpl implements PurApLineService {
     /**
      * Build removable asset lock map from the processedItems list. We need to remove all asset locks hold be items which has been
      * merged or allocated to other lines.
-     * 
+     *
      * @param processedItems
      * @return
      */
@@ -275,7 +282,7 @@ public class PurApLineServiceImpl implements PurApLineService {
 
     /**
      * Reset item total cost and unit cost for each item.
-     * 
+     *
      * @param allocateTargetLines
      */
     protected void updateLineItemsCost(List<PurchasingAccountsPayableItemAsset> lineItems) {
@@ -287,7 +294,7 @@ public class PurApLineServiceImpl implements PurApLineService {
 
     /**
      * update account list for each line item
-     * 
+     *
      * @param updatedAccountList
      */
     protected void addNewAccountToItemList(List<PurchasingAccountsPayableLineAssetAccount> newAccountList) {
@@ -302,7 +309,7 @@ public class PurApLineServiceImpl implements PurApLineService {
 
     /**
      * Set line item total cost and unit cost.
-     * 
+     *
      * @param item
      */
     protected void setLineItemCost(PurchasingAccountsPayableItemAsset item) {
@@ -313,7 +320,7 @@ public class PurApLineServiceImpl implements PurApLineService {
 
     /**
      * Allocate one account line to target account lines percentage based on the account line amount.
-     * 
+     *
      * @param sourceAccount Account line to be allocated.
      * @param targetAccounts Account lines which accept amount.
      */
@@ -330,7 +337,7 @@ public class PurApLineServiceImpl implements PurApLineService {
         }
 
         for (Iterator<PurchasingAccountsPayableLineAssetAccount> iterator = targetAccounts.iterator(); iterator.hasNext();) {
-            PurchasingAccountsPayableLineAssetAccount targetAccount = (PurchasingAccountsPayableLineAssetAccount) iterator.next();
+            PurchasingAccountsPayableLineAssetAccount targetAccount = iterator.next();
             if (iterator.hasNext()) {
                 // Not working on the last node. Calculate additional charge amount by percentage. Ignore the sign of the account
                 // amount when proportionally allocate based on account amount
@@ -344,7 +351,7 @@ public class PurApLineServiceImpl implements PurApLineService {
 
             // Code below mainly handle grouping account lines if they're from the same GL.
             PurchasingAccountsPayableLineAssetAccount newAccount = getMatchingFromAccountList(targetAccounts, sourceAccount.getGeneralLedgerAccountIdentifier(), targetAccount);
-            if (newAccount != null) {               
+            if (newAccount != null) {
                 // If exists the same account line and GL entry, update its itemAccountTotalAmount. This account line could be other
                 // than targetAccount, but must belong to the same line item.
                 updateAccountAmount(additionalAmount, newAccount);
@@ -371,7 +378,7 @@ public class PurApLineServiceImpl implements PurApLineService {
 
     /**
      * Save allocate action into session object.
-     * 
+     *
      * @param sourceAccount
      * @param actionsTakeHistory
      * @param additionalAmount
@@ -388,7 +395,7 @@ public class PurApLineServiceImpl implements PurApLineService {
 
     /**
      * Search matching account in targetAccounts by glIdentifier.
-     * 
+     *
      * @param targetAccounts
      * @param glIdentifier
      * @return
@@ -404,7 +411,7 @@ public class PurApLineServiceImpl implements PurApLineService {
 
     /**
      * Update targetAccount by additionalAmount.
-     * 
+     *
      * @param additionalAmount
      * @param targetAccount
      */
@@ -416,7 +423,7 @@ public class PurApLineServiceImpl implements PurApLineService {
 
     /**
      * Searching in accountList by glIdentifier for matching account which associated with the same item as targetAccount.
-     * 
+     *
      * @param accountList
      * @param glIdentifier
      * @param targetAccount
@@ -433,7 +440,7 @@ public class PurApLineServiceImpl implements PurApLineService {
 
     /**
      * Get the target account lines which will be used for allocate.
-     * 
+     *
      * @param sourceAccount
      * @param lineItems
      * @param addtionalCharge
@@ -452,14 +459,14 @@ public class PurApLineServiceImpl implements PurApLineService {
                 //KFSMI-5122: We need to refresh account general ledger entry so that the gl entries become visible as candidateEntry
                 account.refreshReferenceObject("generalLedgerEntry");
                 candidateEntry = account.getGeneralLedgerEntry();
-                
+
                 if (ObjectUtils.isNotNull(candidateEntry)) {
                     // For additional charge, select matching account when account number and object code both match.
                     if (addtionalCharge && StringUtils.equalsIgnoreCase(sourceEntry.getChartOfAccountsCode(), candidateEntry.getChartOfAccountsCode()) && StringUtils.equalsIgnoreCase(sourceEntry.getAccountNumber(), candidateEntry.getAccountNumber()) && StringUtils.equalsIgnoreCase(sourceEntry.getFinancialObjectCode(), candidateEntry.getFinancialObjectCode())) {
                         matchingAccounts.add(account);
                     }
                 }
-                
+
                 allAccounts.add(account);
             }
         }
@@ -471,6 +478,7 @@ public class PurApLineServiceImpl implements PurApLineService {
      * @see org.kuali.kfs.module.cab.document.service.PurApLineService#getAllocateTargetLines(org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableItemAsset,
      *      java.util.List)
      */
+    @Override
     public List<PurchasingAccountsPayableItemAsset> getAllocateTargetLines(PurchasingAccountsPayableItemAsset selectedLineItem, List<PurchasingAccountsPayableDocument> purApDocs) {
         List<PurchasingAccountsPayableItemAsset> targetLineItems = new ArrayList<PurchasingAccountsPayableItemAsset>();
 
@@ -490,9 +498,10 @@ public class PurApLineServiceImpl implements PurApLineService {
     /**
      * Get selected merge lines. If this is merge all action, we need to manually append all additional charge lines since no select
      * box associated with them.
-     * 
+     *
      * @see org.kuali.kfs.module.cab.document.service.PurApLineService#getSelectedMergeLines(boolean, java.util.List)
      */
+    @Override
     public List<PurchasingAccountsPayableItemAsset> getSelectedMergeLines(boolean isMergeAll, List<PurchasingAccountsPayableDocument> purApDocs) {
         List<PurchasingAccountsPayableItemAsset> mergeLines = new ArrayList<PurchasingAccountsPayableItemAsset>();
         boolean excludeTradeInAllowance = false;
@@ -519,11 +528,13 @@ public class PurApLineServiceImpl implements PurApLineService {
     /**
      * @see org.kuali.kfs.module.cab.document.service.PurApLineService#isTradeInAllowanceExist(java.util.List)
      */
+    @Override
     public boolean isTradeInAllowanceExist(List<PurchasingAccountsPayableDocument> purApDocs) {
         boolean tradeInAllowance = false;
         for (PurchasingAccountsPayableDocument purApDoc : purApDocs) {
             for (PurchasingAccountsPayableItemAsset item : purApDoc.getPurchasingAccountsPayableItemAssets()) {
-                if (item.isTradeInAllowance()) {
+                // KFSCNTRB-1676/FSKD-5487
+                if (item.isTradeInAllowance() && item.isActive()) {
                     tradeInAllowance = true;
                     break;
                 }
@@ -534,7 +545,7 @@ public class PurApLineServiceImpl implements PurApLineService {
 
     /**
      * Check if TI indicator exists in all form lines
-     * 
+     *
      * @param purApDocs
      * @return
      */
@@ -542,7 +553,8 @@ public class PurApLineServiceImpl implements PurApLineService {
         boolean tradeInIndicator = false;
         for (PurchasingAccountsPayableDocument purApDoc : purApDocs) {
             for (PurchasingAccountsPayableItemAsset item : purApDoc.getPurchasingAccountsPayableItemAssets()) {
-                if (item.isItemAssignedToTradeInIndicator()) {
+                // KFSCNTRB-1676/FSKD-5487
+                if (item.isItemAssignedToTradeInIndicator() && item.isActive()) {
                     tradeInIndicator = true;
                     break;
                 }
@@ -554,6 +566,7 @@ public class PurApLineServiceImpl implements PurApLineService {
     /**
      * @see org.kuali.kfs.module.cab.document.service.PurApLineService#isTradeInIndicatorExist(java.util.List)
      */
+    @Override
     public boolean isTradeInIndExistInSelectedLines(List<PurchasingAccountsPayableItemAsset> itemAssets) {
         boolean tradeInIndicator = false;
         for (PurchasingAccountsPayableItemAsset item : itemAssets) {
@@ -567,9 +580,10 @@ public class PurApLineServiceImpl implements PurApLineService {
 
     /**
      * If item assets are from the same document, we can ignore additional charges pending.
-     * 
+     *
      * @see org.kuali.kfs.module.cab.document.service.PurApLineService#isAdditionalChargePending(java.util.List)
      */
+    @Override
     public boolean isAdditionalChargePending(List<PurchasingAccountsPayableItemAsset> itemAssets) {
         boolean additionalChargePending = false;
         Boolean diffDocment = false;
@@ -601,9 +615,10 @@ public class PurApLineServiceImpl implements PurApLineService {
 
     /**
      * Check if the merge action is merge all.
-     * 
+     *
      * @see org.kuali.kfs.module.cab.document.service.PurApLineService#isMergeAllAction(java.util.List)
      */
+    @Override
     public boolean isMergeAllAction(List<PurchasingAccountsPayableDocument> purApDocs) {
         for (PurchasingAccountsPayableDocument purApDoc : purApDocs) {
             for (PurchasingAccountsPayableItemAsset item : purApDoc.getPurchasingAccountsPayableItemAssets()) {
@@ -619,10 +634,12 @@ public class PurApLineServiceImpl implements PurApLineService {
     /**
      * @see org.kuali.kfs.module.cab.document.service.PurApLineService#isAdditionalChargeExistInAllLines(java.util.List)
      */
+    @Override
     public boolean isAdditionalChargeExistInAllLines(List<PurchasingAccountsPayableDocument> purApDocs) {
         for (PurchasingAccountsPayableDocument purApDoc : purApDocs) {
             for (PurchasingAccountsPayableItemAsset item : purApDoc.getPurchasingAccountsPayableItemAssets()) {
-                if (item.isAdditionalChargeNonTradeInIndicator()) {
+                // KFSCNTRB-1676/FSKD-5487
+                if (item.isAdditionalChargeNonTradeInIndicator() && item.isActive()) {
                     return true;
                 }
             }
@@ -633,6 +650,7 @@ public class PurApLineServiceImpl implements PurApLineService {
     /**
      * @see org.kuali.kfs.module.cab.document.service.PurApLineService#processMerge(java.util.List)
      */
+    @Override
     public void processMerge(List<PurchasingAccountsPayableItemAsset> mergeLines, List<PurchasingAccountsPayableActionHistory> actionsTakeHistory, boolean isMergeAll) {
         PurchasingAccountsPayableItemAsset sourceItem = null;
         PurchasingAccountsPayableLineAssetAccount targetAccount = null;
@@ -666,7 +684,7 @@ public class PurApLineServiceImpl implements PurApLineService {
 
     /**
      * Process after merge.
-     * 
+     *
      * @param mergeLines
      * @param purApLineSession
      * @param isMergeAll
@@ -707,12 +725,13 @@ public class PurApLineServiceImpl implements PurApLineService {
         updateAssetIndicatorAfterMerge(mergeLines);
 
         // update activity status code as modified
-        updateItemStatusAsUserModified(targetItem);
+        // KFSCNTRB-1676 / FSKD-5487
+        updateItemStatusAsUserModified(targetItem, false);
     }
 
     /**
      * Update create asset and apply payment indicators after merge.
-     * 
+     *
      * @param mergeLines
      */
     protected void updateAssetIndicatorAfterMerge(List<PurchasingAccountsPayableItemAsset> mergeLines) {
@@ -731,7 +750,7 @@ public class PurApLineServiceImpl implements PurApLineService {
 
     /**
      * Get the first pre-tag for given itemLines
-     * 
+     *
      * @param itemLines
      * @param purchaseOrderIdentifier
      * @return
@@ -740,8 +759,9 @@ public class PurApLineServiceImpl implements PurApLineService {
         for (PurchasingAccountsPayableItemAsset item : itemLines) {
             Pretag newTag = getPreTagLineItem(purchaseOrderIdentifier, item.getItemLineNumber());
 
-            if (isPretaggingExisting(newTag))
+            if (isPretaggingExisting(newTag)) {
                 return newTag;
+            }
         }
 
         return null;
@@ -750,6 +770,7 @@ public class PurApLineServiceImpl implements PurApLineService {
     /**
      * @see org.kuali.kfs.module.cab.document.service.PurApLineService#isPretaggingExisting(org.kuali.kfs.module.cab.businessobject.Pretag)
      */
+    @Override
     public boolean isPretaggingExisting(Pretag newTag) {
         return ObjectUtils.isNotNull(newTag) && newTag.getPretagDetails() != null && !newTag.getPretagDetails().isEmpty();
     }
@@ -758,13 +779,14 @@ public class PurApLineServiceImpl implements PurApLineService {
     /**
      * @see org.kuali.kfs.module.cab.document.service.PurApLineService#isMultipleTagExisting(java.lang.Integer, java.util.Set)
      */
+    @Override
     public boolean isMultipleTagExisting(Integer purchaseOrderIdentifier, Set<Integer> itemLineNumbers) {
         Pretag firstTag = null;
         for (Iterator iterator = itemLineNumbers.iterator(); iterator.hasNext();) {
             Integer itemLineNumber = (Integer) iterator.next();
             Pretag newTag = getPreTagLineItem(purchaseOrderIdentifier, itemLineNumber);
 
-            if (isPretaggingExisting(newTag))
+            if (isPretaggingExisting(newTag)) {
                 if (firstTag != null) {
                     // find the second preTagging item
                     return true;
@@ -772,6 +794,7 @@ public class PurApLineServiceImpl implements PurApLineService {
                 else {
                     firstTag = newTag;
                 }
+            }
         }
 
         return false;
@@ -779,7 +802,7 @@ public class PurApLineServiceImpl implements PurApLineService {
 
     /**
      * Add merge action to the action history.
-     * 
+     *
      * @param purApLineSession
      * @param isMergeAllAction
      * @param firstItem
@@ -800,6 +823,7 @@ public class PurApLineServiceImpl implements PurApLineService {
     /**
      * @see org.kuali.kfs.module.cab.document.service.PurApLineService#processPercentPayment(org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableItemAsset)
      */
+    @Override
     public void processPercentPayment(PurchasingAccountsPayableItemAsset itemAsset, List<PurchasingAccountsPayableActionHistory> actionsTakenHistory) {
         KualiDecimal oldQty = itemAsset.getAccountsPayableItemQuantity();
         KualiDecimal newQty = new KualiDecimal(1);
@@ -810,18 +834,29 @@ public class PurApLineServiceImpl implements PurApLineService {
             // add to action history
             addPercentPaymentHistory(actionsTakenHistory, itemAsset, oldQty);
             // update status code
-            updateItemStatusAsUserModified(itemAsset);
+            // KFSCNTRB-1676 / FSKD-5487
+            updateItemStatusAsUserModified(itemAsset, false);
         }
     }
 
-
     /**
-     * Update activity status code when percent payment/split/allocate/merge action taken.
-     * 
-     * @param itemAsset
+     * KFSCNTRB-1676 / FSKD-5487
+     * Updates activity status code when percent payment/split/allocate/merge action taken,
+     * based on whether or not the current action is an allocation.
+     * @param itemAsset itemAsset for which action status is to be modified
+     * @param performingAllocate indicates whether the current action is an allocation.
      */
-    protected void updateItemStatusAsUserModified(PurchasingAccountsPayableItemAsset itemAsset) {
-        itemAsset.setActivityStatusCode(CabConstants.ActivityStatusCode.MODIFIED);
+    protected void updateItemStatusAsUserModified(PurchasingAccountsPayableItemAsset itemAsset, boolean performingAllocate) {
+        // if current action is an allocation, always set to MODIFIED (allocated)
+        if (performingAllocate) {
+            itemAsset.setActivityStatusCode(CabConstants.ActivityStatusCode.MODIFIED);
+        }
+        // otherwise if the previous status is NEW, set it to MODIFIED_NOT_ALLOCATED
+        else if (StringUtils.endsWithIgnoreCase(itemAsset.getActivityStatusCode(), CabConstants.ActivityStatusCode.NEW)) {
+            itemAsset.setActivityStatusCode(CabConstants.ActivityStatusCode.MODIFIED_NOT_ALLOCATED);
+        }
+        // otherwise the previous status could be MODIFIED_NOT_ALLOCATED or MODIFIED, and we just leave it as is
+
         for (PurchasingAccountsPayableLineAssetAccount account : itemAsset.getPurchasingAccountsPayableLineAssetAccounts()) {
             account.setActivityStatusCode(CabConstants.ActivityStatusCode.MODIFIED);
         }
@@ -832,7 +867,7 @@ public class PurApLineServiceImpl implements PurApLineService {
 
     /**
      * Update action history for the percent payment action.
-     * 
+     *
      * @param actionsTaken
      * @param item
      * @param oldQty
@@ -848,10 +883,12 @@ public class PurApLineServiceImpl implements PurApLineService {
     /**
      * @see org.kuali.kfs.module.cab.document.service.PurApLineService#processSplit(org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableItemAsset)
      */
+    @Override
     public void processSplit(PurchasingAccountsPayableItemAsset splitItemAsset, List<PurchasingAccountsPayableActionHistory> actionsTakeHistory) {
         PurchasingAccountsPayableDocument purApDoc = splitItemAsset.getPurchasingAccountsPayableDocument();
         // update activity status code for split item. it will be propogated to new created item and its accounts.
-        updateItemStatusAsUserModified(splitItemAsset);
+        // KFSCNTRB-1676 / FSKD-5487
+        updateItemStatusAsUserModified(splitItemAsset, false);
 
         // create a new item asset from the current item asset.
         PurchasingAccountsPayableItemAsset newItemAsset = new PurchasingAccountsPayableItemAsset(splitItemAsset);
@@ -884,7 +921,7 @@ public class PurApLineServiceImpl implements PurApLineService {
 
     /**
      * Get the max cab line #. As part of the primary key, it should be the max value among the form item list and DB.
-     * 
+     *
      * @param splitItemAsset
      * @param purApDoc
      * @return
@@ -903,7 +940,7 @@ public class PurApLineServiceImpl implements PurApLineService {
 
     /**
      * Search the current active items and return the max CAB line # for split new item .
-     * 
+     *
      * @param purApDoc
      * @param currentItemAsset
      * @return
@@ -921,7 +958,7 @@ public class PurApLineServiceImpl implements PurApLineService {
 
     /**
      * Update action history for a split action.
-     * 
+     *
      * @param currentItemAsset
      * @param newItemAsset
      * @param actionsTaken
@@ -944,6 +981,7 @@ public class PurApLineServiceImpl implements PurApLineService {
      * @see org.kuali.kfs.module.cab.document.service.PurApLineService#processSaveBusinessObjects(java.util.List,
      *      org.kuali.kfs.module.cab.document.web.PurApLineSession)
      */
+    @Override
     public void processSaveBusinessObjects(List<PurchasingAccountsPayableDocument> purApDocs, PurApLineSession purApLineSession) {
         // Get removable asset locks which could be generated by allocate or merge when items removed and the lock should be
         // released.
@@ -983,7 +1021,7 @@ public class PurApLineServiceImpl implements PurApLineService {
 
     /**
      * Create asset account list for new item asset and update the current account amount.
-     * 
+     *
      * @param oldItemAsset old line item.
      * @param newItemAsset new line item.
      */
@@ -1007,7 +1045,7 @@ public class PurApLineServiceImpl implements PurApLineService {
 
     /**
      * Set object code by the first one from the accounting lines.
-     * 
+     *
      * @param item Selected line item.
      */
     protected void setFirstFinancialObjectCode(PurchasingAccountsPayableItemAsset item) {
@@ -1025,10 +1063,11 @@ public class PurApLineServiceImpl implements PurApLineService {
     /**
      * @see org.kuali.kfs.module.cab.document.service.PurApLineService#buildPurApItemAssetList(java.util.List)
      */
+    @Override
     public void buildPurApItemAssetList(List<PurchasingAccountsPayableDocument> purApDocs) {
         for (PurchasingAccountsPayableDocument purApDoc : purApDocs) {
             for (PurchasingAccountsPayableItemAsset item : purApDoc.getPurchasingAccountsPayableItemAssets()) {
-                
+
                 // set item non-persistent fields from PurAp PREQ/CM item tables
                 purApInfoService.setAccountsPayableItemsFromPurAp(item, purApDoc.getDocumentTypeCode());
 
@@ -1037,7 +1076,7 @@ public class PurApLineServiceImpl implements PurApLineService {
 
                 // set financial object code
                 setFirstFinancialObjectCode(item);
-                
+
                 // KFSMI-5337
                 // Adding the following code to populate item description from PreAsset tagging
                 updateAssetDescriptionFromPreTag(item, purApDoc);
@@ -1052,7 +1091,7 @@ public class PurApLineServiceImpl implements PurApLineService {
         // set create asset/apply payment indicator which are used to control display two buttons.
         setAssetIndicator(purApDocs);
     }
-    
+
     private void updateAssetDescriptionFromPreTag(PurchasingAccountsPayableItemAsset item, PurchasingAccountsPayableDocument purApDoc){
         Pretag preTag = null;
         if (item.isActive()) {
@@ -1067,6 +1106,7 @@ public class PurApLineServiceImpl implements PurApLineService {
     /**
      * @see org.kuali.kfs.module.cab.document.service.PurApLineService#getPreTagLineItem(java.lang.String, java.lang.Integer)
      */
+    @Override
     public Pretag getPreTagLineItem(Integer purchaseOrderIdentifier, Integer lineItemNumber) {
 
         if (purchaseOrderIdentifier == null || lineItemNumber == null) {
@@ -1077,62 +1117,87 @@ public class PurApLineServiceImpl implements PurApLineService {
 
         pKeys.put(CabPropertyConstants.Pretag.PURCHASE_ORDER_NUMBER, purchaseOrderIdentifier);
         pKeys.put(CabPropertyConstants.Pretag.ITEM_LINE_NUMBER, lineItemNumber);
-        return (Pretag) businessObjectService.findByPrimaryKey(Pretag.class, pKeys);
+        return businessObjectService.findByPrimaryKey(Pretag.class, pKeys);
     }
 
     /**
-     * Set create asset and apply payment indicator. These two indicators are referenced by jsp to control display of these two
-     * buttons. How to set these two indicators is based on the business rules. We need to put the following situations into
-     * consideration. Since we move allocate additional charge allocation to CAB batch, we bring over addl charge lines only when
-     * they are the only items in the document or they are from the FO changes. To accommodate this, we relax the rules and defined
-     * as:
-     * <p>
-     * 1. If the line is trade-in allowance and without trade-in indicator items, we open these two buttons.
-     * <p>
-     * 2. For line items, if it has trade-in indicator set, there must be no trade-in allowance pending for allocation. Trade-in
-     * allowance could from other document but share the same po_id.
-     * 
+     * KFSCNTRB-1676/FSKD-5487
+     * Sets create asset and apply payment indicators. These two indicators are referenced by jsp to control display of these two
+     * action links. How to set these two indicators is based on the business rules. We need to put the following situations into
+     * consideration. Since we move allocate additional charge allocation to CAB batch, we bring over additional charge lines only
+     * when they are the only items in the document, or they are trade-in allowances, or they are from cancelled PREQ or FO changes.
+     * To accommodate this, we relax the rules and defined as:
+     *
+1. If the PREQ has only ITEM type lines, then display the 2 actions (create/pay) for these lines.
+2. If the PREQ has only ADDITIONAL type lines, then display the 2 actions (create/pay) for these lines.
+3. If the PREQ has both ITEM and ADDITIONAL item lines:
+3.1 An ADDITIONAL line will be allocated during the cab extract batch job, if both of the following 2 conditions are met:
+a) The ADDITIONAL line is NOT TRDI, and
+b) The PREQ has no FO changes and is not cancelled.
+    If all ADDITIONAL lines in the PREQ fall into above category, then there will be no pending allocation on any ITEM line, so
+all ITEM lines and ADDITIONAL lines shall have the 2 actions showing.
+3.2 If there's any ADDITIONAL line in the PREQ that's not allocated during the batch, i.e. it falls into one of the 2 cases below:
+a) The ADDITIONAL line is TRDI, or
+b) The PREQ has FO changes or it's cancelled.
+3.2.1 In this case, these un-allocated ADDITIONAL lines will need to be allocated manually first, before the create & pay actions show up for them.
+3.2.2 Meanwhile, for all ITEM lines, the create & pay actions will not show up either until after the above ADDITIONAL lines are allocated.
+     *
      * @param purApDocs
      */
     protected void setAssetIndicator(List<PurchasingAccountsPayableDocument> purApDocs) {
-        // get the trade-in allowance in the form-wise
-        boolean existTradeInAllowance = isTradeInAllowanceExist(purApDocs);
-        // get the trade-in indicator in the form-wise
-        boolean existTradeInIndicator = isTradeInIndicatorExistInAllLines(purApDocs);
+        // we should check pending allocation per document, instead of all documents under same PO; since the rule applies
+        // to each document independently; pending allocations in other documents should not block current document.
         for (PurchasingAccountsPayableDocument purApDoc : purApDocs) {
-            boolean existAdditionalCharge = false;
-            // check if within the same document, exist both additional charge lines and normal line items.
-            for (PurchasingAccountsPayableItemAsset item : purApDoc.getPurchasingAccountsPayableItemAssets()) {
-                existAdditionalCharge |= item.isAdditionalChargeNonTradeInIndicator();
-            }
-            for (PurchasingAccountsPayableItemAsset item : purApDoc.getPurchasingAccountsPayableItemAssets()) {
-                // when the indicator is not set yet...
-                if (!item.isCreateAssetIndicator() || !item.isApplyPaymentIndicator()) {
-                    // If the lines on the purchase order are all additional charge lines, or trade-in allowance then we can apply
-                    // payment, or create asset.
-                    existTradeInIndicator = item.isItemAssignedToTradeInIndicator();
-                    
-                    if (item.isAdditionalChargeNonTradeInIndicator() || (item.isTradeInAllowance() && !existTradeInIndicator)) {
-                        item.setCreateAssetIndicator(true);
-                        item.setApplyPaymentIndicator(true);
-                    }
-                    // For line item(not additional charge line), if there is no pending additional charges and itself not a
-                    // trade-in indicator or it has trade-in indicator but no trade-in allowance, we allow apply payment or create
-                    // asset.
-                    else if (!existAdditionalCharge && (!item.isAdditionalChargeNonTradeInIndicator() && !item.isTradeInAllowance() && (!item.isItemAssignedToTradeInIndicator() || !existTradeInAllowance))) {
+            // Based on the business rules above, we can simplify the checking to the following:
+            // The only case in which we shouldn't display create asset or apply payment action for any line is when there're un-allocated
+            // additional lines, as well as ITEM type lines in the documents; otherwise, display both for all active lines.
+            boolean existUnAllocatedAdditionalLines = existUnAllocatedAdditionalLines(purApDoc);
+            boolean existActiveItemLines = existActiveItemLines(purApDoc);
+            if (!existUnAllocatedAdditionalLines || !existActiveItemLines) {
+                for (PurchasingAccountsPayableItemAsset item : purApDoc.getPurchasingAccountsPayableItemAssets()) {
+                    // set the indicators to true for all active lines
+                    if (item.isActive()) {
                         item.setCreateAssetIndicator(true);
                         item.setApplyPaymentIndicator(true);
                     }
                 }
             }
         }
+    }
 
+    /**
+     * KFSCNTRB-1676/FSKD-5487
+     * Checks whether there exists any un-allocated additional charge asset line in the specified documents.
+     */
+    protected boolean existUnAllocatedAdditionalLines(PurchasingAccountsPayableDocument purApDoc) {
+        for (PurchasingAccountsPayableItemAsset item : purApDoc.getPurchasingAccountsPayableItemAssets()) {
+            // We use activityStatusCode being NEW or MODIFIED_NOT_ALLOCATED to indicate the line hasn't been allocated yet
+            if ((item.isAdditionalChargeNonTradeInIndicator() || item.isTradeInAllowance()) &&
+                    (ActivityStatusCode.NEW.equalsIgnoreCase(item.getActivityStatusCode()) ||
+                            ActivityStatusCode.MODIFIED_NOT_ALLOCATED.equalsIgnoreCase(item.getActivityStatusCode()))) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * KFSCNTRB-1676/FSKD-5487
+     * Checks whether there exists any active ITEM type asset line in the specified documents.
+     */
+    protected boolean existActiveItemLines(PurchasingAccountsPayableDocument purApDoc) {
+        for (PurchasingAccountsPayableItemAsset item : purApDoc.getPurchasingAccountsPayableItemAssets()) {
+            if (item.isActive() && !item.isAdditionalChargeNonTradeInIndicator() && !item.isTradeInAllowance()) {
+                return true;
+            }
+        }
+        return false;
     }
 
 
     /**
      * Set item asset unit cost.
-     * 
+     *
      * @param item line item
      * @param totalCost total cost for this line item.
      */
@@ -1146,7 +1211,7 @@ public class PurApLineServiceImpl implements PurApLineService {
 
     /**
      * Calculate item asset total cost
-     * 
+     *
      * @param item
      * @return line item total cost
      */
@@ -1164,7 +1229,7 @@ public class PurApLineServiceImpl implements PurApLineService {
 
     /**
      * Gets the businessObjectService attribute.
-     * 
+     *
      * @return Returns the businessObjectService.
      */
     public BusinessObjectService getBusinessObjectService() {
@@ -1174,7 +1239,7 @@ public class PurApLineServiceImpl implements PurApLineService {
 
     /**
      * Sets the businessObjectService attribute value.
-     * 
+     *
      * @param businessObjectService The businessObjectService to set.
      */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
@@ -1184,7 +1249,7 @@ public class PurApLineServiceImpl implements PurApLineService {
 
     /**
      * Gets the purApLineDao attribute.
-     * 
+     *
      * @return Returns the purApLineDao.
      */
     public PurApLineDao getPurApLineDao() {
@@ -1194,7 +1259,7 @@ public class PurApLineServiceImpl implements PurApLineService {
 
     /**
      * Sets the purApLineDao attribute value.
-     * 
+     *
      * @param purApLineDao The purApLineDao to set.
      */
     public void setPurApLineDao(PurApLineDao purApLineDao) {
@@ -1203,7 +1268,7 @@ public class PurApLineServiceImpl implements PurApLineService {
 
     /**
      * Gets the purApInfoService attribute.
-     * 
+     *
      * @return Returns the purApInfoService.
      */
     public PurApInfoService getPurApInfoService() {
@@ -1212,7 +1277,7 @@ public class PurApLineServiceImpl implements PurApLineService {
 
     /**
      * Sets the purApInfoService attribute value.
-     * 
+     *
      * @param purApInfoService The purApInfoService to set.
      */
     public void setPurApInfoService(PurApInfoService purApInfoService) {
@@ -1221,7 +1286,7 @@ public class PurApLineServiceImpl implements PurApLineService {
 
     /**
      * get CAMS AssetService.
-     * 
+     *
      * @return
      */
     protected AssetService getAssetService() {
@@ -1230,7 +1295,7 @@ public class PurApLineServiceImpl implements PurApLineService {
 
     /**
      * Gets the capitalAssetManagementModuleService attribute.
-     * 
+     *
      * @return Returns the capitalAssetManagementModuleService.
      */
     public CapitalAssetManagementModuleService getCapitalAssetManagementModuleService() {
@@ -1239,7 +1304,7 @@ public class PurApLineServiceImpl implements PurApLineService {
 
     /**
      * Sets the capitalAssetManagementModuleService attribute value.
-     * 
+     *
      * @param capitalAssetManagementModuleService The capitalAssetManagementModuleService to set.
      */
     public void setCapitalAssetManagementModuleService(CapitalAssetManagementModuleService capitalAssetManagementModuleService) {

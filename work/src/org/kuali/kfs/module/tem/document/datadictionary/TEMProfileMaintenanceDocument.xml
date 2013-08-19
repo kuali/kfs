@@ -25,7 +25,6 @@
 		<property name="documentTypeName" value="TTP" />
         <property name="documentAuthorizerClass" value="org.kuali.kfs.module.tem.document.authorization.TemProfileAuthorizer"/>
 		<property name="businessRulesClass" value="org.kuali.kfs.module.tem.document.validation.impl.TEMProfileValidation" />
-		<property name="promptBeforeValidationClass" value="org.kuali.kfs.module.tem.document.validation.impl.TemProfilePreRules"/>
 		<property name="documentPresentationControllerClass" value="org.kuali.kfs.module.tem.document.authorization.TEMProfileDocumentPresentationController" />
 		<property name="attachmentTypesValuesFinderClass" value="org.kuali.kfs.module.tem.businessobject.options.TEMProfileAttachmentTypeValuesFinder"/>
 	</bean>

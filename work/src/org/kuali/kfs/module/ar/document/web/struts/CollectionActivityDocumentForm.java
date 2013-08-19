@@ -51,6 +51,42 @@ public class CollectionActivityDocumentForm extends FinancialSystemTransactional
     protected transient ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService;
 
     /**
+     * @see org.kuali.rice.kns.web.struts.action.KualiMultipleValueLookupAction#search(org.apache.struts.action.ActionMapping,
+     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+
+    protected String lookupResultsSequenceNumber; // Indicates which result set we are using when refreshing/returning from a
+    // multi-value lookup.
+    protected String lookupResultsBOClassName; // Type of result returned by the multi-value lookup. ?to be persisted in the lookup
+    // results service instead?
+    protected String lookedUpCollectionName; // The name of the collection looked up (by a multiple value lookup)
+
+    public String getLookupResultsSequenceNumber() {
+        return lookupResultsSequenceNumber;
+    }
+
+    public void setLookupResultsSequenceNumber(String lookupResultsSequenceNumber) {
+        this.lookupResultsSequenceNumber = lookupResultsSequenceNumber;
+    }
+
+    public String getLookupResultsBOClassName() {
+        return lookupResultsBOClassName;
+    }
+
+    public void setLookupResultsBOClassName(String lookupResultsBOClassName) {
+        this.lookupResultsBOClassName = lookupResultsBOClassName;
+    }
+
+    public String getLookedUpCollectionName() {
+        return lookedUpCollectionName;
+    }
+
+    public void setLookedUpCollectionName(String lookedUpCollectionName) {
+        this.lookedUpCollectionName = lookedUpCollectionName;
+    }
+
+    
+    /**
      * Default constructor for CollectionActivityDocumentForm.
      */
     public CollectionActivityDocumentForm() {

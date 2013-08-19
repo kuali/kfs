@@ -20,6 +20,7 @@
 		<property name="attributes">
 			<list>
 				<ref bean="CollectionActivityDocument-proposalNumber" />
+				<ref bean="CollectionActivityDocument-selectedInvoiceDocumentNumberList" />
 			</list>
 		</property>
 
@@ -32,6 +33,17 @@
 		<property name="name" value="proposalNumber" />
 		<property name="label" value="Proposal Number" />
 		<property name="shortLabel" value="Proposal Number" />
+	</bean>
+	
+	<bean id="CollectionActivityDocument-selectedInvoiceDocumentNumberList" parent="CollectionActivityDocument-selectedInvoiceDocumentNumberList-parentBean" />
+	<bean id="CollectionActivityDocument-selectedInvoiceDocumentNumberList-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="selectedInvoiceDocumentNumberList" />
+		<property name="label" value="Invoices Selected" />
+		<property name="shortLabel" value="Invoices Selected" />
+		<property name="required" value="false" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="50" />
+		</property>
 	</bean>
 	
 	<bean id="CollectionActivityDocument-validations" parent="CollectionActivityDocument-validations-parentBean" />

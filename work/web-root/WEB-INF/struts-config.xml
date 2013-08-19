@@ -148,7 +148,10 @@
 
 		<form-bean name="ContractsGrantsInvoiceOnDemandSummaryForm"
 			type="org.kuali.kfs.module.ar.web.struts.ContractsGrantsInvoiceOnDemandSummaryForm" />
-			
+
+		<form-bean name="CollectionActivityInvoiceLookupForm"
+ 			type="org.kuali.kfs.module.ar.web.struts.CollectionActivityInvoiceLookupForm" />
+ 						
 		<form-bean name="DunningLetterDistributionOnDemandLookupForm"
 			type="org.kuali.kfs.module.ar.web.struts.DunningLetterDistributionOnDemandLookupForm" />
 
@@ -523,6 +526,14 @@
 			type="org.kuali.kfs.module.ar.web.struts.ContractsGrantsAgingReportAction">
 			<set-property property="cancellable" value="true" />
 			<forward name="basic" path="/jsp/module/ar/ContractsGrantsAgingReportLookup.jsp" />
+		</action>
+		
+		<action path="/collectionActivityInvoiceLookup" name="CollectionActivityInvoiceLookupForm"
+			scope="request" attribute="KualiForm" parameter="methodToCall"
+			type="org.kuali.kfs.module.ar.web.struts.CollectionActivityInvoiceLookupAction">
+			<set-property property="cancellable" value="true" />
+			<forward name="basic"
+				path="/jsp/module/ar/CollectionActivityInvoiceLookup.jsp" />
 		</action>
 		
 		<action path="/ar*" name="{1}Form" input="/jsp/module/ar/{1}.jsp"

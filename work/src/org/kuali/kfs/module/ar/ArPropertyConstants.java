@@ -216,6 +216,7 @@ public class ArPropertyConstants{
     public static class CollectionActivityDocumentFields {
         public static final String SELECTED_PROPOSAL_NUMBER = "selectedProposalNumber";
         public static final String SELECTED_INVOICE_DOCUMENT_NUMBER = "selectedInvoiceDocumentNumber";
+        public static final String PROPOSAL_NUMBER = "proposalNumber";
     }
 
     // OrganizationOptions

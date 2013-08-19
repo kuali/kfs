@@ -1807,5 +1807,15 @@
 		</property>
 	</bean>
 	
+	<bean id="collectionActivityInvoiceLookupableHelperService" class="org.kuali.kfs.module.ar.businessobject.lookup.CollectionActivityInvoiceLookupableHelperServiceImpl"
+		scope="prototype">
+	</bean>
+
+	<bean id="collectionActivityInvoiceLookupResultLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+		<property name="lookupableHelperService">
+			<ref bean="collectionActivityInvoiceLookupableHelperService" />
+		</property>
+	</bean>
+	
 </beans>
 

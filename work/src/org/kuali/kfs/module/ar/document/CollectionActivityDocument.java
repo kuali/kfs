@@ -27,6 +27,7 @@ import java.util.Map;
 import org.apache.commons.collections.CollectionUtils;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAward;
 import org.kuali.kfs.module.ar.ArConstants;
+import org.kuali.kfs.module.ar.businessobject.CollectionActivityInvoiceLookup;
 import org.kuali.kfs.module.ar.businessobject.Customer;
 import org.kuali.kfs.module.ar.businessobject.Event;
 import org.kuali.kfs.module.ar.document.service.CollectionActivityDocumentService;
@@ -59,6 +60,8 @@ public class CollectionActivityDocument extends FinancialSystemTransactionalDocu
     protected transient ContractsAndGrantsCGBAward award;
     protected transient Customer customer;
     protected Event newEvent;
+    protected Event globalEvent;
+    private String selectedInvoiceDocumentNumberList;
 
     private List<ContractsGrantsInvoiceDocument> invoices;
     private List<Event> events;
@@ -68,6 +71,7 @@ public class CollectionActivityDocument extends FinancialSystemTransactionalDocu
      */
     public CollectionActivityDocument() {
         super();
+        globalEvent = new Event();
         invoices = new ArrayList<ContractsGrantsInvoiceDocument>();
         events = new ArrayList<Event>();
     }
@@ -303,6 +307,14 @@ public class CollectionActivityDocument extends FinancialSystemTransactionalDocu
         this.selectedInvoiceDocumentNumber = selectedInvoiceDocumentNumber;
     }
 
+    public Event getGlobalEvent() {
+        return globalEvent;
+    }
+
+    public void setGlobalEvent(Event globalEvent) {
+        this.globalEvent = globalEvent;
+    }
+
     /**
      * @return Returns the selected invoice application.
      */
@@ -458,5 +470,13 @@ public class CollectionActivityDocument extends FinancialSystemTransactionalDocu
 
     public String getFinancialDocumentTypeCode() {
         return SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(this.getClass());
+    }
+
+    public String getSelectedInvoiceDocumentNumberList() {
+        return selectedInvoiceDocumentNumberList;
+    }
+
+    public void setSelectedInvoiceDocumentNumberList(String selectedInvoiceDocumentNumberList) {
+        this.selectedInvoiceDocumentNumberList = selectedInvoiceDocumentNumberList;
     }
 }

@@ -16,12 +16,18 @@
 package org.kuali.kfs.module.ar.document.web.struts;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.bind.annotation.XmlElementDecl.GLOBAL;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
@@ -37,15 +43,17 @@ import org.kuali.kfs.module.ar.document.validation.event.AddCollectionActivityDo
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentActionBase;
+import org.kuali.kfs.sys.service.SegmentedLookupResultsService;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.rules.rule.event.SaveDocumentEvent;
 import org.kuali.rice.krad.service.DocumentService;
-import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.krad.service.KualiRuleService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
-import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 
 /**
  * Action file for Collection Activity Document.
@@ -104,7 +112,7 @@ public class CollectionActivityDocumentAction extends FinancialSystemTransaction
 
     /**
      * This method updates the customer invoice details when a new invoice is selected
-     *
+     * 
      * @param mapping
      * @param form
      * @param request
@@ -120,7 +128,7 @@ public class CollectionActivityDocumentAction extends FinancialSystemTransaction
 
     /**
      * This method updates customer invoice details when next invoice is selected
-     *
+     * 
      * @param mapping
      * @param form
      * @param request
@@ -136,7 +144,7 @@ public class CollectionActivityDocumentAction extends FinancialSystemTransaction
 
     /**
      * This method updates customer invoice details when previous invoice is selected
-     *
+     * 
      * @param mapping
      * @param form
      * @param request
@@ -152,7 +160,7 @@ public class CollectionActivityDocumentAction extends FinancialSystemTransaction
 
     /**
      * Retrieve all invoices for the selected customer.
-     *
+     * 
      * @param mapping
      * @param form
      * @param request
@@ -170,7 +178,7 @@ public class CollectionActivityDocumentAction extends FinancialSystemTransaction
 
     /**
      * This method loads the invoices for currently selected customer
-     *
+     * 
      * @param applicationDocumentForm
      */
     @SuppressWarnings("unused")
@@ -203,7 +211,7 @@ public class CollectionActivityDocumentAction extends FinancialSystemTransaction
 
     /**
      * This method loads the events for selected invoice number.
-     *
+     * 
      * @param colActForm The form object of Collection Activity.
      * @param currentInvoiceNumber The invoice number of which, events are to be loaded.
      */
@@ -230,7 +238,7 @@ public class CollectionActivityDocumentAction extends FinancialSystemTransaction
 
     /**
      * Get an error to display in the UI for a certain field.
-     *
+     * 
      * @param propertyName
      * @param errorKey
      */
@@ -242,7 +250,7 @@ public class CollectionActivityDocumentAction extends FinancialSystemTransaction
 
     /**
      * Get an error to display at the global level, for the whole document.
-     *
+     * 
      * @param errorKey
      */
     protected void addGlobalError(String errorKey) {
@@ -251,7 +259,7 @@ public class CollectionActivityDocumentAction extends FinancialSystemTransaction
 
     /**
      * This method adds a new event.
-     *
+     * 
      * @param mapping action mapping
      * @param form action form
      * @param request
@@ -291,7 +299,7 @@ public class CollectionActivityDocumentAction extends FinancialSystemTransaction
 
     /**
      * This method adds a new event
-     *
+     * 
      * @param mapping action mapping
      * @param form action form
      * @param request
@@ -328,6 +336,54 @@ public class CollectionActivityDocumentAction extends FinancialSystemTransaction
             collectionActivityDocumentService.editEvent(kualiConfiguration.getPropertyValueAsString(ArKeyConstants.CollectionActivityDocumentConstants.CREATED_BY_COLLECTION_ACTIVITY_DOC), colActDoc, selectedEvent);
         }
 
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+
+    @Override
+    public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        super.refresh(mapping, form, request, response);
+
+        CollectionActivityDocumentForm collectionActivityDocumentForm = (CollectionActivityDocumentForm) form;
+        CollectionActivityDocument colActDoc = collectionActivityDocumentForm.getCollectionActivityDocument();
+        Collection<PersistableBusinessObject> rawValues = null;
+        Map<String, Set<String>> segmentedSelection = new HashMap<String, Set<String>>();
+
+        // If multiple asset lookup was used to select the assets, then....
+        if (StringUtils.equals(KFSConstants.MULTIPLE_VALUE, collectionActivityDocumentForm.getRefreshCaller())) {
+            String lookupResultsSequenceNumber = collectionActivityDocumentForm.getLookupResultsSequenceNumber();
+            Set<String> selectedIds = SpringContext.getBean(SegmentedLookupResultsService.class).retrieveSetOfSelectedObjectIds(lookupResultsSequenceNumber, GlobalVariables.getUserSession().getPerson().getPrincipalId());
+            colActDoc.setSelectedInvoiceDocumentNumberList(StringUtils.join(selectedIds.toArray(), ","));
+        }
+
+            return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+
+    public ActionForward addGlobalEvent(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        CollectionActivityDocumentForm colActDocForm = (CollectionActivityDocumentForm) form;
+        CollectionActivityDocument colActDoc = colActDocForm.getCollectionActivityDocument();
+        List<String> selectedInvoiceList = Arrays.asList(colActDoc.getSelectedInvoiceDocumentNumberList().split(","));
+        Event newGlobalEvent = colActDoc.getGlobalEvent();
+
+        ConfigurationService kualiConfiguration = SpringContext.getBean(ConfigurationService.class);
+
+        KualiRuleService ruleService = SpringContext.getBean(KualiRuleService.class);
+     for(String invoiceNumber : selectedInvoiceList){
+        boolean rulePassed = true;
+        newGlobalEvent.setInvoiceNumber(invoiceNumber);
+        // apply save rules for the doc
+        rulePassed &= ruleService.applyRules(new SaveDocumentEvent(KFSConstants.DOCUMENT_HEADER_ERRORS, colActDoc));
+        
+        // apply rules for the new collection activity document detail
+        rulePassed &= ruleService.applyRules(new AddCollectionActivityDocumentEvent(ArConstants.NEW_COLLECTION_ACTIVITY_EVENT_ERROR_PATH_PREFIX, colActDoc, newGlobalEvent));
+
+        if (rulePassed) {
+            collectionActivityDocumentService.addNewEvent(kualiConfiguration.getPropertyValueAsString(ArKeyConstants.CollectionActivityDocumentConstants.CREATED_BY_COLLECTION_ACTIVITY_DOC), colActDoc, newGlobalEvent);
+            colActDoc.setGlobalEvent(new Event());
+            colActDoc.setSelectedInvoiceDocumentNumberList("");
+        }
+    }
+        
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 }

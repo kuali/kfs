@@ -31,6 +31,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
@@ -38,6 +39,7 @@ import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.CustomerOpenItemReportDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoicePaidApplied;
 import org.kuali.kfs.module.ar.businessobject.NonAppliedHolding;
+import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.module.ar.document.CustomerCreditMemoDocument;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceWriteoffDocument;
@@ -200,6 +202,10 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
     protected void populateReportDetailsForInvoices(List invoiceIds, List results, Hashtable details) {
         CustomerInvoiceDocumentService customerInvoiceDocumentService = SpringContext.getBean(CustomerInvoiceDocumentService.class);
         Collection invoices = getDocuments(CustomerInvoiceDocument.class, invoiceIds);
+        Collection cgInvoices = getDocuments(ContractsGrantsInvoiceDocument.class, invoiceIds);
+        if (CollectionUtils.isNotEmpty(cgInvoices)) {
+            invoices.addAll(cgInvoices);
+        }
 
         for (Iterator itr = invoices.iterator(); itr.hasNext();) {
             CustomerInvoiceDocument invoice = (CustomerInvoiceDocument) itr.next();

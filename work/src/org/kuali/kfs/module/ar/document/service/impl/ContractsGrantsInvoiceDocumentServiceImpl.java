@@ -157,7 +157,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
     /**
      * Gets the customerInvoiceDetailService attribute.
-     *
+     * 
      * @return Returns the customerInvoiceDetailService.
      */
     public CustomerInvoiceDetailService getCustomerInvoiceDetailService() {
@@ -166,7 +166,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
     /**
      * Sets the customerInvoiceDetailService attribute value.
-     *
+     * 
      * @param customerInvoiceDetailService The customerInvoiceDetailService to set.
      */
     @Override
@@ -205,6 +205,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
     /**
      * Gets the collectorHierarchyDao attribute.
+     * 
      * @return Returns the collectorHierarchyDao.
      */
     public CollectorHierarchyDao getCollectorHierarchyDao() {
@@ -213,6 +214,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
     /**
      * Sets the collectorHierarchyDao attribute value.
+     * 
      * @param collectorHierarchyDao The collectorHierarchyDao to set.
      */
     public void setCollectorHierarchyDao(CollectorHierarchyDao collectorHierarchyDao) {
@@ -225,11 +227,11 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
     @Override
     public void createSourceAccountingLinesAndGLPEs(ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument) throws WorkflowException {
         List<ContractsGrantsAwardInvoiceAccountInformation> awardInvoiceAccounts = new ArrayList<ContractsGrantsAwardInvoiceAccountInformation>();
-        if (ObjectUtils.isNotNull(contractsGrantsInvoiceDocument.getAward())){
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put(KFSPropertyConstants.PROPOSAL_NUMBER, contractsGrantsInvoiceDocument.getAward().getProposalNumber());
-        map.put(KFSPropertyConstants.ACTIVE, true);
-        awardInvoiceAccounts = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsGrantsAwardInvoiceAccountInformation.class).getExternalizableBusinessObjectsList(ContractsGrantsAwardInvoiceAccountInformation.class, map);
+        if (ObjectUtils.isNotNull(contractsGrantsInvoiceDocument.getAward())) {
+            Map<String, Object> map = new HashMap<String, Object>();
+            map.put(KFSPropertyConstants.PROPOSAL_NUMBER, contractsGrantsInvoiceDocument.getAward().getProposalNumber());
+            map.put(KFSPropertyConstants.ACTIVE, true);
+            awardInvoiceAccounts = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsGrantsAwardInvoiceAccountInformation.class).getExternalizableBusinessObjectsList(ContractsGrantsAwardInvoiceAccountInformation.class, map);
         }
         boolean awardBillByControlAccountInd = false;
         boolean awardBillByInvoicingAccountInd = false;
@@ -405,8 +407,8 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
         cid.setInvoiceItemUnitPrice(totalAmount);
         cid.setAmount(totalAmount);
-        if(totalAmount.isNegative()){
-           cid.setInvoiceItemDiscountLineNumber(seqNum);
+        if (totalAmount.isNegative()) {
+            cid.setInvoiceItemDiscountLineNumber(seqNum);
         }
         // To get AR Object codes for the GLPEs .... as it is not being called implicitly..
 
@@ -532,7 +534,8 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
                     invD.setExpenditures(newKualiDecimalValue);
                     amountToBill = amountToBill.add(newKualiDecimalValue);
                 }
-                // There will be some amount left, since we are rounding down.  Display warning for user to manually correct/distribute where they want to put the remainder
+                // There will be some amount left, since we are rounding down. Display warning for user to manually
+                // correct/distribute where they want to put the remainder
                 if (!amountToBill.equals(amountEligibleForBilling)) {
                     KualiDecimal remaining = amountEligibleForBilling.subtract(amountToBill);
                     LOG.info("Amount Set for Billing does not match Total Amount Eligible For Billing.  There is " + remaining.toString() + " remaining for billing.");
@@ -615,7 +618,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         // figure out if any of the current expenditures for the category has been changed. If yes, then update the
         // invoiceDetailObjectCode
         // and update account details
-        for (InvoiceDetail invoiceDetail : contractsGrantsInvoiceDocument.getInvoiceDetailsWithIndirectCosts()){
+        for (InvoiceDetail invoiceDetail : contractsGrantsInvoiceDocument.getInvoiceDetailsWithIndirectCosts()) {
             KualiDecimal total = getSumOfExpendituresOfCategory(invoiceDetailAccountObjectCodeMap.get(invoiceDetail.getCategoryCode()));
             // To set expenditures to zero if its blank - to avoid exceptions.
             if (ObjectUtils.isNull(invoiceDetail.getExpenditures())) {
@@ -648,7 +651,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
     /**
      * This method recalculates the invoiceDetailAccountObjectCode in one category that sits behind the scenes of the invoice
      * document.
-     *
+     * 
      * @param contractsGrantsInvoiceDocument
      * @param invoiceDetail
      * @param total is the sum of the current expenditures from all the object codes in that category
@@ -735,7 +738,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
             for (InvoiceAccountDetail invoiceAccountDetail : contractsGrantsInvoiceDocument.getAccountDetails()) {
                 // get the first object code from this category
-                String objectCode = (String) getObjectCodeArrayFromSingleCategory(category,contractsGrantsInvoiceDocument).toArray()[0];
+                String objectCode = (String) getObjectCodeArrayFromSingleCategory(category, contractsGrantsInvoiceDocument).toArray()[0];
                 InvoiceDetailAccountObjectCode invoiceDetailAccountObjectCode = new InvoiceDetailAccountObjectCode();
                 invoiceDetailAccountObjectCode.setDocumentNumber(contractsGrantsInvoiceDocument.getDocumentNumber());
                 invoiceDetailAccountObjectCode.setProposalNumber(contractsGrantsInvoiceDocument.getProposalNumber());
@@ -856,7 +859,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         Collection<ContractsGrantsInvoiceDocument> docs = new ArrayList<ContractsGrantsInvoiceDocument>();
         try {
             for (Document doc : documentService.getDocumentsByListOfDocumentHeaderIds(ContractsGrantsInvoiceDocument.class, documentHeaderIds)) {
-                docs.add( (ContractsGrantsInvoiceDocument) doc);
+                docs.add((ContractsGrantsInvoiceDocument) doc);
             }
         }
         catch (WorkflowException e) {
@@ -883,7 +886,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
     /**
      * This method retrieves all CG invoice document that match the given criteria
-     *
+     * 
      * @param criteria
      * @return
      */
@@ -899,7 +902,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
     /**
      * This method retrieves all invoices with open and with final status based on loc creation type = LOC fund
-     *
+     * 
      * @param locFund
      * @param errorFileName
      * @return
@@ -923,7 +926,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
     /**
      * This method retrieves all invoices with open and with final status based on loc creation type = LOC fund group
-     *
+     * 
      * @param locFundGroup
      * @param errorFileName
      * @return
@@ -947,7 +950,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
     /**
      * This method retrieves all invoices with open and with final status based on customer number
-     *
+     * 
      * @param customerNumber
      * @param errorFileName
      * @return
@@ -968,7 +971,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
     /**
      * This method validates invoices and output an error file including unqualified invoices with reason stated.
-     *
+     * 
      * @param cgInvoices
      * @param outputFileStream
      * @return
@@ -1042,7 +1045,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
     /**
      * This method would write errors to the error file
-     *
+     * 
      * @param line
      * @param printStream
      * @throws IOException
@@ -1058,7 +1061,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
     /**
      * This method would write new line argument to the error file.
-     *
+     * 
      * @param newline
      * @param printStream
      * @throws IOException
@@ -1074,7 +1077,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
     /**
      * This method calculates the Budget and cumulative amount for Award Account
-     *
+     * 
      * @param awardAccount
      * @return
      */
@@ -1090,24 +1093,24 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
         Integer fiscalYear = SpringContext.getBean(UniversityDateService.class).getFiscalYear(awardBeginningDate);
 
-        for(Integer i = fiscalYear; i<= currentYear; i++ ){
-         fiscalYears.add(i);
+        for (Integer i = fiscalYear; i <= currentYear; i++) {
+            fiscalYears.add(i);
         }
 
-        for(Integer eachFiscalYr: fiscalYears){
+        for (Integer eachFiscalYr : fiscalYears) {
 
-        Map<String, Object> balanceKeys = new HashMap<String, Object>();
-        balanceKeys.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, awardAccount.getChartOfAccountsCode());
-        balanceKeys.put(KFSPropertyConstants.ACCOUNT_NUMBER, awardAccount.getAccountNumber());
-        balanceKeys.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, eachFiscalYr);
-        balanceKeys.put("balanceTypeCode", balanceTypeCode);
-        balanceKeys.put("objectTypeCode", ArPropertyConstants.EXPENSE_OBJECT_TYPE);
-        glBalances.addAll(SpringContext.getBean(BusinessObjectService.class).findMatching(Balance.class, balanceKeys));
+            Map<String, Object> balanceKeys = new HashMap<String, Object>();
+            balanceKeys.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, awardAccount.getChartOfAccountsCode());
+            balanceKeys.put(KFSPropertyConstants.ACCOUNT_NUMBER, awardAccount.getAccountNumber());
+            balanceKeys.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, eachFiscalYr);
+            balanceKeys.put("balanceTypeCode", balanceTypeCode);
+            balanceKeys.put("objectTypeCode", ArPropertyConstants.EXPENSE_OBJECT_TYPE);
+            glBalances.addAll(SpringContext.getBean(BusinessObjectService.class).findMatching(Balance.class, balanceKeys));
         }
         for (Balance bal : glBalances) {
-            if(ObjectUtils.isNotNull(bal.getSubAccount()) && ObjectUtils.isNotNull(bal.getSubAccount().getA21SubAccount()) && !StringUtils.equalsIgnoreCase(bal.getSubAccount().getA21SubAccount().getSubAccountTypeCode(),KFSConstants.SubAccountType.COST_SHARE)){
-            balAmt = bal.getContractsGrantsBeginningBalanceAmount().add(bal.getAccountLineAnnualBalanceAmount());
-            balanceAmount = balanceAmount.add(balAmt);
+            if (ObjectUtils.isNotNull(bal.getSubAccount()) && ObjectUtils.isNotNull(bal.getSubAccount().getA21SubAccount()) && !StringUtils.equalsIgnoreCase(bal.getSubAccount().getA21SubAccount().getSubAccountTypeCode(), KFSConstants.SubAccountType.COST_SHARE)) {
+                balAmt = bal.getContractsGrantsBeginningBalanceAmount().add(bal.getAccountLineAnnualBalanceAmount());
+                balanceAmount = balanceAmount.add(balAmt);
             }
         }
         return balanceAmount;
@@ -1115,7 +1118,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
     /**
      * This method retrieves the amount to draw for the award account based on teh criteria passed
-     *
+     * 
      * @param awardaccounts
      * @return
      */
@@ -1156,7 +1159,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
     /**
      * This method calculates the claim on cash balance for every award account.
-     *
+     * 
      * @param awardaccount
      * @return
      */
@@ -1176,30 +1179,30 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
         Integer fiscalYear = SpringContext.getBean(UniversityDateService.class).getFiscalYear(awardBeginningDate);
 
-        for(Integer i = fiscalYear; i<= currentYear; i++ ){
-         fiscalYears.add(i);
+        for (Integer i = fiscalYear; i <= currentYear; i++) {
+            fiscalYears.add(i);
         }
 
-        for(Integer eachFiscalYr: fiscalYears){
-        Map<String, Object> balanceKeys = new HashMap<String, Object>();
-        balanceKeys.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, awardAccount.getChartOfAccountsCode());
-        balanceKeys.put(KFSPropertyConstants.ACCOUNT_NUMBER, awardAccount.getAccountNumber());
-        balanceKeys.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, eachFiscalYr);
-        balanceKeys.put("balanceTypeCode", ArPropertyConstants.ACTUAL_BALANCE_TYPE);
-        glBalances.addAll(SpringContext.getBean(BusinessObjectService.class).findMatching(Balance.class, balanceKeys));
+        for (Integer eachFiscalYr : fiscalYears) {
+            Map<String, Object> balanceKeys = new HashMap<String, Object>();
+            balanceKeys.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, awardAccount.getChartOfAccountsCode());
+            balanceKeys.put(KFSPropertyConstants.ACCOUNT_NUMBER, awardAccount.getAccountNumber());
+            balanceKeys.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, eachFiscalYr);
+            balanceKeys.put("balanceTypeCode", ArPropertyConstants.ACTUAL_BALANCE_TYPE);
+            glBalances.addAll(SpringContext.getBean(BusinessObjectService.class).findMatching(Balance.class, balanceKeys));
         }
         for (Balance bal : glBalances) {
-            if(ObjectUtils.isNotNull(bal.getSubAccount()) && ObjectUtils.isNotNull(bal.getSubAccount().getA21SubAccount()) && !StringUtils.equalsIgnoreCase(bal.getSubAccount().getA21SubAccount().getSubAccountTypeCode(),KFSConstants.SubAccountType.COST_SHARE)){
-            if (bal.getObjectTypeCode().equalsIgnoreCase(ArPropertyConstants.EXPENSE_OBJECT_TYPE)) {
-                balAmt = bal.getContractsGrantsBeginningBalanceAmount().add(bal.getAccountLineAnnualBalanceAmount());
+            if (ObjectUtils.isNotNull(bal.getSubAccount()) && ObjectUtils.isNotNull(bal.getSubAccount().getA21SubAccount()) && !StringUtils.equalsIgnoreCase(bal.getSubAccount().getA21SubAccount().getSubAccountTypeCode(), KFSConstants.SubAccountType.COST_SHARE)) {
+                if (bal.getObjectTypeCode().equalsIgnoreCase(ArPropertyConstants.EXPENSE_OBJECT_TYPE)) {
+                    balAmt = bal.getContractsGrantsBeginningBalanceAmount().add(bal.getAccountLineAnnualBalanceAmount());
 
-                expAmt = expAmt.add(balAmt);
-            }
-            else if (bal.getObjectTypeCode().equalsIgnoreCase(ArPropertyConstants.INCOME_OBJECT_TYPE)) {
-                balAmt = bal.getContractsGrantsBeginningBalanceAmount().add(bal.getAccountLineAnnualBalanceAmount());
+                    expAmt = expAmt.add(balAmt);
+                }
+                else if (bal.getObjectTypeCode().equalsIgnoreCase(ArPropertyConstants.INCOME_OBJECT_TYPE)) {
+                    balAmt = bal.getContractsGrantsBeginningBalanceAmount().add(bal.getAccountLineAnnualBalanceAmount());
 
-                incAmt = incAmt.add(balAmt);
-            }
+                    incAmt = incAmt.add(balAmt);
+                }
             }
         }
 
@@ -1210,7 +1213,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
     /**
      * This method retrieves the amount available to draw for the award accounts
-     *
+     * 
      * @param awardTotalAmount
      * @param awardAccount
      */
@@ -1233,7 +1236,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
      * This method serves as a create and update. When it is first called, the List<InvoiceSuspensionCategory> is empty. This list
      * then gets populated with invoiceSuspensionCategories where the test fails. Each time the document goes through validation,
      * and this method gets called, it will update the list by adding or remvoing the suspension categories
-     *
+     * 
      * @see org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService#updateSuspensionCategoriesOnDocument(org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument)
      */
     @Override
@@ -1459,7 +1462,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
      * @return
      */
     public boolean isReportNotAttachedButRequiredByAward(ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument) {
-        if( contractsGrantsInvoiceDocument.getAward().isAdditionalFormsRequiredIndicator()){
+        if (contractsGrantsInvoiceDocument.getAward().isAdditionalFormsRequiredIndicator()) {
             return true;
         }
         return false;
@@ -1541,6 +1544,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         }
 
     }
+
     /**
      * @param award
      * @return
@@ -1562,10 +1566,9 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
      * @param contractsGrantsInvoiceDocument
      * @return
      */
-    public boolean isLocAmountNotSufficent(ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument){
-        if(ArPropertyConstants.LOC_BILLING_SCHEDULE_CODE.equals(contractsGrantsInvoiceDocument.getAward().getBillingFrequency().getFrequency())){
-            if(contractsGrantsInvoiceDocument.getAward().getLetterOfCreditFund().getLetterOfCreditFundAmount()
-                    .isLessThan(contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getNewTotalBilled())){
+    public boolean isLocAmountNotSufficent(ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument) {
+        if (ArPropertyConstants.LOC_BILLING_SCHEDULE_CODE.equals(contractsGrantsInvoiceDocument.getAward().getBillingFrequency().getFrequency())) {
+            if (contractsGrantsInvoiceDocument.getAward().getLetterOfCreditFund().getLetterOfCreditFundAmount().isLessThan(contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getNewTotalBilled())) {
                 return true;
             }
         }
@@ -1664,7 +1667,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
     /**
      * This method would make sure the amounts of the currrent period are not included. So it calculates the cumulative and
      * subtracts the current period values. This would be done for Billing Frequencies - Monthly, Quarterly, Semi-Annual and Annual.
-     *
+     * 
      * @param glBalance
      * @return balanceAmount
      */
@@ -1803,7 +1806,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
     /**
      * This method calculates the Cumulative Disbursement amount for an awardAccount
-     *
+     * 
      * @param awardAccount
      * @return
      */
@@ -1819,23 +1822,23 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
         Integer fiscalYear = SpringContext.getBean(UniversityDateService.class).getFiscalYear(awardBeginningDate);
 
-        for(Integer i = fiscalYear; i<= currentYear; i++ ){
-         fiscalYears.add(i);
+        for (Integer i = fiscalYear; i <= currentYear; i++) {
+            fiscalYears.add(i);
         }
 
-        for(Integer eachFiscalYr: fiscalYears){
-        Map<String, Object> balanceKeys = new HashMap<String, Object>();
-        balanceKeys.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, awardAccount.getChartOfAccountsCode());
-        balanceKeys.put(KFSPropertyConstants.ACCOUNT_NUMBER, awardAccount.getAccountNumber());
-        balanceKeys.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, eachFiscalYr);
-        balanceKeys.put("balanceTypeCode", ArPropertyConstants.ACTUAL_BALANCE_TYPE);
-        balanceKeys.put("objectTypeCode", ArPropertyConstants.EXPENSE_OBJECT_TYPE);
-        glBalances.addAll(SpringContext.getBean(BusinessObjectService.class).findMatching(Balance.class, balanceKeys));
+        for (Integer eachFiscalYr : fiscalYears) {
+            Map<String, Object> balanceKeys = new HashMap<String, Object>();
+            balanceKeys.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, awardAccount.getChartOfAccountsCode());
+            balanceKeys.put(KFSPropertyConstants.ACCOUNT_NUMBER, awardAccount.getAccountNumber());
+            balanceKeys.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, eachFiscalYr);
+            balanceKeys.put("balanceTypeCode", ArPropertyConstants.ACTUAL_BALANCE_TYPE);
+            balanceKeys.put("objectTypeCode", ArPropertyConstants.EXPENSE_OBJECT_TYPE);
+            glBalances.addAll(SpringContext.getBean(BusinessObjectService.class).findMatching(Balance.class, balanceKeys));
         }
         for (Balance bal : glBalances) {
-            if(ObjectUtils.isNotNull(bal.getSubAccount()) && ObjectUtils.isNotNull(bal.getSubAccount().getA21SubAccount()) && !StringUtils.equalsIgnoreCase(bal.getSubAccount().getA21SubAccount().getSubAccountTypeCode(),KFSConstants.SubAccountType.COST_SHARE)){
-            balAmt = bal.getContractsGrantsBeginningBalanceAmount().add(bal.getAccountLineAnnualBalanceAmount());
-            cumAmt = cumAmt.add(balAmt);
+            if (ObjectUtils.isNotNull(bal.getSubAccount()) && ObjectUtils.isNotNull(bal.getSubAccount().getA21SubAccount()) && !StringUtils.equalsIgnoreCase(bal.getSubAccount().getA21SubAccount().getSubAccountTypeCode(), KFSConstants.SubAccountType.COST_SHARE)) {
+                balAmt = bal.getContractsGrantsBeginningBalanceAmount().add(bal.getAccountLineAnnualBalanceAmount());
+                cumAmt = cumAmt.add(balAmt);
             }
         }
         return cumAmt;
@@ -1931,7 +1934,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
     /**
      * Check if Preferred Billing Frequency is set correctly.
-     *
+     * 
      * @param award
      * @return False if preferred billing schedule is null, or set as perdetermined billing schedule or milestone billing schedule
      *         and award has no award account or more than 1 award accounts assigned.
@@ -1948,7 +1951,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
     /**
      * Check if the value of PreferredBillingFrequency is in the BillingFrequency value set.
-     *
+     * 
      * @param award
      * @return
      */
@@ -2031,7 +2034,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
     /**
      * Sets the BusinessObjectService. Provides Spring compatibility.
-     *
+     * 
      * @param businessObjectService
      */
     @Override
@@ -2041,7 +2044,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
     /**
      * Sets the dateTimeService attribute value.
-     *
+     * 
      * @param dateTimeService The dateTimeService to set.
      */
     @Override
@@ -2052,7 +2055,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
     /**
      * Gets the dateTimeService attribute.
-     *
+     * 
      * @return Returns the dateTimeService.
      */
     @Override
@@ -2084,7 +2087,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
     /**
      * this method checks If all accounts of award has invoices in progress.
-     *
+     * 
      * @param award
      * @return
      */
@@ -2223,7 +2226,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
     /**
      * This method checks if the System Information and ORganization Accounting Default are setup for the Chart Code and Org Code
      * from the award accounts.
-     *
+     * 
      * @param award
      * @return
      */
@@ -2247,9 +2250,9 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
                     orgCode = awardAccount.getAccount().getOrganizationCode();
                     criteria.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, coaCode);
                     criteria.put(KFSPropertyConstants.ORGANIZATION_CODE, orgCode);
-                    //To retrieve processing codes based on billing codes using organization options
-                    List<String> procCodes =  getProcessingFromBillingCodes(coaCode, orgCode);
-                    if(CollectionUtils.isEmpty(procCodes)){
+                    // To retrieve processing codes based on billing codes using organization options
+                    List<String> procCodes = getProcessingFromBillingCodes(coaCode, orgCode);
+                    if (CollectionUtils.isEmpty(procCodes)) {
                         return true;
                     }
                     sysCriteria.put("processingChartOfAccountCode", procCodes.get(0));
@@ -2271,9 +2274,9 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
                     orgCode = controlAccount.getOrganizationCode();
                     criteria.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, coaCode);
                     criteria.put(KFSPropertyConstants.ORGANIZATION_CODE, orgCode);
-                    //To retrieve processing codes based on billing codes using organization options
-                    List<String> procCodes =  getProcessingFromBillingCodes(coaCode, orgCode);
-                    if(CollectionUtils.isEmpty(procCodes)){
+                    // To retrieve processing codes based on billing codes using organization options
+                    List<String> procCodes = getProcessingFromBillingCodes(coaCode, orgCode);
+                    if (CollectionUtils.isEmpty(procCodes)) {
                         return true;
                     }
                     sysCriteria.put("processingChartOfAccountCode", procCodes.get(0));
@@ -2294,9 +2297,9 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
                     orgCode = controlAccount.getOrganizationCode();
                     criteria.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, coaCode);
                     criteria.put(KFSPropertyConstants.ORGANIZATION_CODE, orgCode);
-                    //To retrieve processing codes based on billing codes using organization options
-                    List<String> procCodes =  getProcessingFromBillingCodes(coaCode, orgCode);
-                    if(CollectionUtils.isEmpty(procCodes)){
+                    // To retrieve processing codes based on billing codes using organization options
+                    List<String> procCodes = getProcessingFromBillingCodes(coaCode, orgCode);
+                    if (CollectionUtils.isEmpty(procCodes)) {
                         return true;
                     }
                     sysCriteria.put("processingChartOfAccountCode", procCodes.get(0));
@@ -2315,16 +2318,17 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
     /**
      * To retrieve processing chart code and org code from the billing chart code and org code
+     * 
      * @param cgInvoiceDocument
      * @param billingChartOfAccountsCode
      * @param billingOrganizationCode
      * @return
      */
     @Override
-    public List<String> getProcessingFromBillingCodes(String billingChartCode, String billingOrgCode ) {
+    public List<String> getProcessingFromBillingCodes(String billingChartCode, String billingOrgCode) {
 
         List<String> procCodes = new ArrayList<String>();
-        //To access Organization Options to find the billing values based on procesing codes
+        // To access Organization Options to find the billing values based on procesing codes
         Map<String, String> criteria = new HashMap<String, String>();
         criteria.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, billingChartCode);
         criteria.put(KFSPropertyConstants.ORGANIZATION_CODE, billingOrgCode);
@@ -2339,9 +2343,8 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
     }
 
     /**
-     * This method checks if the Offset Definition is setup for the Chart Code
-     * from the award accounts.
-     *
+     * This method checks if the Offset Definition is setup for the Chart Code from the award accounts.
+     * 
      * @param award
      * @return
      */
@@ -2351,50 +2354,50 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         Integer currentYear = SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear();
         String receivableOffsetOption = SpringContext.getBean(ParameterService.class).getParameterValueAsString(CustomerInvoiceDocument.class, ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD);
         boolean isUsingReceivableFAU = receivableOffsetOption.equals("3");
-        //This condition is validated only if GLPE is 3 and CG enhancements is ON
-        if (isUsingReceivableFAU ) {
-        Map<String, Object> criteria = new HashMap<String, Object>();
-        Map<String, Object> sysCriteria = new HashMap<String, Object>();
-        criteria.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, currentYear);
-        criteria.put(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, ArPropertyConstants.ACTUAL_BALANCE_TYPE);
-        criteria.put(KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE, ArConstants.CGIN_DOCUMENT_TYPE);
-        // 1. To get the chart code and org code for invoicing depending on the invoicing options.
-        if (ObjectUtils.isNotNull(award.getInvoicingOptions())) {
-            if (award.getInvoicingOptions().equalsIgnoreCase(ArPropertyConstants.INV_ACCOUNT)) {
-                for (ContractsAndGrantsCGBAwardAccount awardAccount : award.getActiveAwardAccounts()) {
-                    coaCode = awardAccount.getAccount().getChartOfAccountsCode();
-                    criteria.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, coaCode);
-                    OffsetDefinition offset = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(OffsetDefinition.class, criteria);
-                    if (ObjectUtils.isNull(offset)) {
-                        return true;
+        // This condition is validated only if GLPE is 3 and CG enhancements is ON
+        if (isUsingReceivableFAU) {
+            Map<String, Object> criteria = new HashMap<String, Object>();
+            Map<String, Object> sysCriteria = new HashMap<String, Object>();
+            criteria.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, currentYear);
+            criteria.put(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, ArPropertyConstants.ACTUAL_BALANCE_TYPE);
+            criteria.put(KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE, ArConstants.CGIN_DOCUMENT_TYPE);
+            // 1. To get the chart code and org code for invoicing depending on the invoicing options.
+            if (ObjectUtils.isNotNull(award.getInvoicingOptions())) {
+                if (award.getInvoicingOptions().equalsIgnoreCase(ArPropertyConstants.INV_ACCOUNT)) {
+                    for (ContractsAndGrantsCGBAwardAccount awardAccount : award.getActiveAwardAccounts()) {
+                        coaCode = awardAccount.getAccount().getChartOfAccountsCode();
+                        criteria.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, coaCode);
+                        OffsetDefinition offset = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(OffsetDefinition.class, criteria);
+                        if (ObjectUtils.isNull(offset)) {
+                            return true;
+                        }
                     }
                 }
-            }
-            if (award.getInvoicingOptions().equalsIgnoreCase(ArPropertyConstants.INV_CONTRACT_CONTROL_ACCOUNT)) {
-                List<Account> controlAccounts = (List<Account>) getContractControlAccounts(award);
+                if (award.getInvoicingOptions().equalsIgnoreCase(ArPropertyConstants.INV_CONTRACT_CONTROL_ACCOUNT)) {
+                    List<Account> controlAccounts = (List<Account>) getContractControlAccounts(award);
 
-                for (Account controlAccount : controlAccounts) {
-                    coaCode = controlAccount.getChartOfAccountsCode();
-                    criteria.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, coaCode);
-                    OffsetDefinition offset = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(OffsetDefinition.class, criteria);
-                    if (ObjectUtils.isNull(offset)) {
-                        return true;
+                    for (Account controlAccount : controlAccounts) {
+                        coaCode = controlAccount.getChartOfAccountsCode();
+                        criteria.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, coaCode);
+                        OffsetDefinition offset = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(OffsetDefinition.class, criteria);
+                        if (ObjectUtils.isNull(offset)) {
+                            return true;
+                        }
                     }
                 }
-            }
-            if (award.getInvoicingOptions().equalsIgnoreCase(ArPropertyConstants.INV_AWARD)) {
-                List<Account> controlAccounts = (List<Account>) getContractControlAccounts(award);
+                if (award.getInvoicingOptions().equalsIgnoreCase(ArPropertyConstants.INV_AWARD)) {
+                    List<Account> controlAccounts = (List<Account>) getContractControlAccounts(award);
 
-                for (Account controlAccount : controlAccounts) {
-                    coaCode = controlAccount.getChartOfAccountsCode();
-                    criteria.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, coaCode);
-                    OffsetDefinition offset = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(OffsetDefinition.class, criteria);
-                    if (ObjectUtils.isNull(offset)) {
-                        return true;
+                    for (Account controlAccount : controlAccounts) {
+                        coaCode = controlAccount.getChartOfAccountsCode();
+                        criteria.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, coaCode);
+                        OffsetDefinition offset = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(OffsetDefinition.class, criteria);
+                        if (ObjectUtils.isNull(offset)) {
+                            return true;
+                        }
                     }
                 }
             }
-        }
         }
         return false;
     }
@@ -2402,7 +2405,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
     /**
      * Gets the accountingPeriodService attribute.
-     *
+     * 
      * @return Returns the accountingPeriodService.
      */
     public AccountingPeriodService getAccountingPeriodService() {
@@ -2411,7 +2414,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
     /**
      * Sets the accountingPeriodService attribute value.
-     *
+     * 
      * @param accountingPeriodService The accountingPeriodService to set.
      */
     public void setAccountingPeriodService(AccountingPeriodService accountingPeriodService) {
@@ -2420,7 +2423,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
     /**
      * Gets the verifyBillingFrequencyService attribute.
-     *
+     * 
      * @return Returns the verifyBillingFrequencyService.
      */
     public VerifyBillingFrequencyService getVerifyBillingFrequencyService() {
@@ -2429,7 +2432,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
     /**
      * Sets the verifyBillingFrequencyService attribute value.
-     *
+     * 
      * @param verifyBillingFrequencyService The verifyBillingFrequencyService to set.
      */
     public void setVerifyBillingFrequencyServuce(VerifyBillingFrequencyService verifyBillingFrequencyService) {
@@ -2483,24 +2486,25 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
     /**
      * This method checks if there is atleast one AR Invoice Account present when the GLPE is 3.
+     * 
      * @param award
      * @return
      */
     @Override
-    public boolean hasARInvoiceAccountAssigned(ContractsAndGrantsCGBAward award){
+    public boolean hasARInvoiceAccountAssigned(ContractsAndGrantsCGBAward award) {
         boolean isValid = true;
         String receivableOffsetOption = SpringContext.getBean(ParameterService.class).getParameterValueAsString(CustomerInvoiceDocument.class, ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD);
         boolean isUsingReceivableFAU = receivableOffsetOption.equals("3");
-        //This condition is validated only if GLPE is 3 and CG enhancements is ON
-        if (isUsingReceivableFAU ) {
+        // This condition is validated only if GLPE is 3 and CG enhancements is ON
+        if (isUsingReceivableFAU) {
             if (ObjectUtils.isNull(award.getActiveAwardInvoiceAccounts()) || CollectionUtils.isEmpty(award.getActiveAwardInvoiceAccounts())) {
                 isValid = false;
             }
-            else{
+            else {
                 int arCount = 0;
                 for (ContractsGrantsAwardInvoiceAccountInformation awardInvoiceAccount : award.getActiveAwardInvoiceAccounts()) {
                     if (awardInvoiceAccount.getAccountType().equals(ArPropertyConstants.AR_ACCOUNT)) {
-                            arCount++;
+                        arCount++;
 
                     }
                 }
@@ -2513,363 +2517,366 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
     }
 
 
-     @Override
+    @Override
     public Collection<DunningLetterDistributionOnDemandLookupResult> getInvoiceDocumentsForDunningLetterOnDemandLookup(Map<String, String> fieldValues) {
 
-            //  to get the search criteria
-            String proposalNumber = fieldValues.get(KFSPropertyConstants.PROPOSAL_NUMBER);
-            String customerNumber = fieldValues.get(ArPropertyConstants.CustomerInvoiceWriteoffLookupResultFields.CUSTOMER_NUMBER);
-            String invoiceDocumentNumber = fieldValues.get("invoiceDocumentNumber");
-            String awardTotal = fieldValues.get("awardTotal");
-            String accountNumber = fieldValues.get(KFSPropertyConstants.ACCOUNT_NUMBER);
+        // to get the search criteria
+        String proposalNumber = fieldValues.get(KFSPropertyConstants.PROPOSAL_NUMBER);
+        String customerNumber = fieldValues.get(ArPropertyConstants.CustomerInvoiceWriteoffLookupResultFields.CUSTOMER_NUMBER);
+        String invoiceDocumentNumber = fieldValues.get("invoiceDocumentNumber");
+        String awardTotal = fieldValues.get("awardTotal");
+        String accountNumber = fieldValues.get(KFSPropertyConstants.ACCOUNT_NUMBER);
 
 
-
-            Collection<ContractsGrantsInvoiceDocument> cgInvoiceDocuments;
-            Criteria criteria = new Criteria();
-            if(ObjectUtils.isNotNull(proposalNumber)&& StringUtils.isNotBlank(proposalNumber.toString()) && StringUtils.isNotEmpty(proposalNumber.toString())){
-                criteria.addEqualTo(KFSPropertyConstants.PROPOSAL_NUMBER, proposalNumber);
-            }
-            if(ObjectUtils.isNotNull(customerNumber) && StringUtils.isNotBlank(customerNumber) && StringUtils.isNotEmpty(customerNumber)){
-                criteria.addEqualTo(ArPropertyConstants.CustomerInvoiceDocumentFields.CUSTOMER_NUMBER, customerNumber);
-            }
-            if(ObjectUtils.isNotNull(invoiceDocumentNumber) && StringUtils.isNotBlank(invoiceDocumentNumber) && StringUtils.isNotEmpty(invoiceDocumentNumber)){
-                criteria.addEqualTo("documentNumber", invoiceDocumentNumber);
-            }
-            if(ObjectUtils.isNotNull(awardTotal) && StringUtils.isNotBlank(awardTotal) && StringUtils.isNotEmpty(awardTotal)){
-                criteria.addEqualTo("invoiceGeneralDetail.awardTotal", awardTotal);
-            }
-            if(ObjectUtils.isNotNull(accountNumber) && StringUtils.isNotBlank(accountNumber) && StringUtils.isNotEmpty(accountNumber)){
-            criteria.addIn("accountDetails.accountNumber", Arrays.asList(new String[] {accountNumber}));
-             }
-            criteria.addEqualTo(ArPropertyConstants.OPEN_INVOICE_IND, "true");
-            criteria.addEqualTo(ArPropertyConstants.DOCUMENT_STATUS_CODE, KFSConstants.DocumentStatusCodes.APPROVED);
-
-
-                cgInvoiceDocuments = retrieveAllCGInvoicesByCriteria(criteria);
+        Collection<ContractsGrantsInvoiceDocument> cgInvoiceDocuments;
+        Criteria criteria = new Criteria();
+        if (ObjectUtils.isNotNull(proposalNumber) && StringUtils.isNotBlank(proposalNumber.toString()) && StringUtils.isNotEmpty(proposalNumber.toString())) {
+            criteria.addEqualTo(KFSPropertyConstants.PROPOSAL_NUMBER, proposalNumber);
+        }
+        if (ObjectUtils.isNotNull(customerNumber) && StringUtils.isNotBlank(customerNumber) && StringUtils.isNotEmpty(customerNumber)) {
+            criteria.addEqualTo(ArPropertyConstants.CustomerInvoiceDocumentFields.CUSTOMER_NUMBER, customerNumber);
+        }
+        if (ObjectUtils.isNotNull(invoiceDocumentNumber) && StringUtils.isNotBlank(invoiceDocumentNumber) && StringUtils.isNotEmpty(invoiceDocumentNumber)) {
+            criteria.addEqualTo("documentNumber", invoiceDocumentNumber);
+        }
+        if (ObjectUtils.isNotNull(awardTotal) && StringUtils.isNotBlank(awardTotal) && StringUtils.isNotEmpty(awardTotal)) {
+            criteria.addEqualTo("invoiceGeneralDetail.awardTotal", awardTotal);
+        }
+        if (ObjectUtils.isNotNull(accountNumber) && StringUtils.isNotBlank(accountNumber) && StringUtils.isNotEmpty(accountNumber)) {
+            criteria.addIn("accountDetails.accountNumber", Arrays.asList(new String[] { accountNumber }));
+        }
+        criteria.addEqualTo(ArPropertyConstants.OPEN_INVOICE_IND, "true");
+        criteria.addEqualTo(ArPropertyConstants.DOCUMENT_STATUS_CODE, KFSConstants.DocumentStatusCodes.APPROVED);
 
 
-            // attach headers
-            cgInvoiceDocuments = attachWorkflowHeadersToCGInvoices(cgInvoiceDocuments);
-
-            //To validate the invoices for any additional parameters.
-
-            Collection<ContractsGrantsInvoiceDocument> eligibleInvoiceDocuments = validateInvoicesForDunningLetters(fieldValues, cgInvoiceDocuments);
+        cgInvoiceDocuments = retrieveAllCGInvoicesByCriteria(criteria);
 
 
-            return DunningLetterDistributionOnDemandLookupUtil.getPopulatedDunningLetterDistributionOnDemandLookupResults(eligibleInvoiceDocuments);
+        // attach headers
+        cgInvoiceDocuments = attachWorkflowHeadersToCGInvoices(cgInvoiceDocuments);
+
+        // To validate the invoices for any additional parameters.
+
+        Collection<ContractsGrantsInvoiceDocument> eligibleInvoiceDocuments = validateInvoicesForDunningLetters(fieldValues, cgInvoiceDocuments);
+
+
+        return DunningLetterDistributionOnDemandLookupUtil.getPopulatedDunningLetterDistributionOnDemandLookupResults(eligibleInvoiceDocuments);
+    }
+
+
+    private Collection<ContractsGrantsInvoiceDocument> validateInvoicesForDunningLetters(Map<String, String> fieldValues, Collection<ContractsGrantsInvoiceDocument> cgInvoiceDocuments) {
+        Integer agingBucketStartValue = null;
+        Integer agingBucketEndValue = null;
+        Integer cutoffdate0 = 0;
+        Integer cutoffdate30 = 30;
+        Integer cutoffdate60 = 60;
+        Integer cutoffdate90 = 90;
+        Integer cutoffdate120 = 120;
+
+        // To get value for FINAL days past due.
+        String stateAgencyFinalCutOffDate = null;
+        String finalCutOffDate = SpringContext.getBean(ParameterService.class).getParameterValueAsString(DunningCampaign.class, ArConstants.DunningLetters.DYS_PST_DUE_FINAL_PARM);
+        if (ObjectUtils.isNull(finalCutOffDate)) {
+            finalCutOffDate = "0";
+        }
+        Integer cutoffdateFinal = new Integer(finalCutOffDate);
+        String agencyNumber = fieldValues.get(KFSPropertyConstants.AGENCY_NUMBER);
+        String campaignID = fieldValues.get("campaignID");
+        String collector = fieldValues.get("principalId");
+        String agingBucket = fieldValues.get("agingBucket");
+        String collectorPrincName = fieldValues.get(ArPropertyConstants.COLLECTOR_PRINC_NAME);
+
+        boolean checkAgingBucket = ObjectUtils.isNotNull(agingBucket) && StringUtils.isNotBlank(agingBucket) && StringUtils.isNotEmpty(agingBucket);
+
+
+        if (checkAgingBucket && agingBucket.equalsIgnoreCase(ArConstants.DunningLetters.DYS_PST_DUE_CURRENT)) {
+            agingBucketStartValue = 0;
+            agingBucketEndValue = 30;
+        }
+        // Including State agency final here just to get some default value in place. The value will be overriden later after
+        // checking with the agency.
+        else if (checkAgingBucket && (agingBucket.equalsIgnoreCase(ArConstants.DunningLetters.DYS_PST_DUE_FINAL) || agingBucket.equalsIgnoreCase(ArConstants.DunningLetters.DYS_PST_DUE_STATE_AGENCY_FINAL))) {
+            agingBucketStartValue = cutoffdateFinal + 1;
+            agingBucketEndValue = 0;
+        }
+        else if (checkAgingBucket && agingBucket.equalsIgnoreCase(ArConstants.DunningLetters.DYS_PST_DUE_121)) {
+            agingBucketStartValue = 121;
+            agingBucketEndValue = cutoffdateFinal;
+        }
+        else if (checkAgingBucket && StringUtils.isNotBlank(agingBucket)) {
+            agingBucketStartValue = new Integer(agingBucket.split("-")[0]);
+            agingBucketEndValue = new Integer(agingBucket.split("-")[1]);
         }
 
+        // check other categories
+        boolean checkAgencyNumber = ObjectUtils.isNotNull(agencyNumber) && StringUtils.isNotBlank(agencyNumber) && StringUtils.isNotEmpty(agencyNumber);
 
-     private Collection<ContractsGrantsInvoiceDocument> validateInvoicesForDunningLetters(Map<String, String> fieldValues, Collection<ContractsGrantsInvoiceDocument> cgInvoiceDocuments){
-         Integer agingBucketStartValue = null;
-         Integer agingBucketEndValue = null;
-         Integer cutoffdate0 = 0;
-         Integer cutoffdate30 = 30;
-         Integer cutoffdate60 = 60;
-         Integer cutoffdate90 = 90;
-         Integer cutoffdate120 = 120;
+        boolean checkDunningCampaign = ObjectUtils.isNotNull(campaignID) && StringUtils.isNotBlank(campaignID) && StringUtils.isNotEmpty(campaignID);
+        boolean checkCollector = ObjectUtils.isNotNull(collector) && StringUtils.isNotBlank(collector) && StringUtils.isNotEmpty(collector);
+        boolean isCollector = true;
 
-         //To get value for FINAL days past due.
-         String stateAgencyFinalCutOffDate = null;
-         String finalCutOffDate = SpringContext.getBean(ParameterService.class).getParameterValueAsString(DunningCampaign.class, ArConstants.DunningLetters.DYS_PST_DUE_FINAL_PARM);
-         if(ObjectUtils.isNull(finalCutOffDate)){
-             finalCutOffDate = "0";
-         }
-         Integer cutoffdateFinal = new Integer(finalCutOffDate);
-         String agencyNumber = fieldValues.get(KFSPropertyConstants.AGENCY_NUMBER);
-         String campaignID = fieldValues.get("campaignID");
-         String collector = fieldValues.get("principalId");
-         String agingBucket = fieldValues.get("agingBucket");
-         String collectorPrincName = fieldValues.get(ArPropertyConstants.COLLECTOR_PRINC_NAME);
+        if (ObjectUtils.isNotNull(collectorPrincName) && StringUtils.isNotEmpty(collectorPrincName.trim())) {
+            checkCollector = true;
+            Person collectorObj = getPersonService().getPersonByPrincipalName(collectorPrincName);
+            if (collectorObj != null) {
+                collector = collectorObj.getPrincipalId();
+            }
+            else {
+                isCollector = false;
+            }
+        }
 
-         boolean checkAgingBucket = ObjectUtils.isNotNull(agingBucket) && StringUtils.isNotBlank(agingBucket) && StringUtils.isNotEmpty(agingBucket);
-
-
-         if(checkAgingBucket && agingBucket.equalsIgnoreCase(ArConstants.DunningLetters.DYS_PST_DUE_CURRENT)){
-             agingBucketStartValue = 0;
-             agingBucketEndValue = 30;
-         }
-         //Including State agency final here just to get some default value in place. The value will be overriden later after checking with the agency.
-         else if(checkAgingBucket && (agingBucket.equalsIgnoreCase(ArConstants.DunningLetters.DYS_PST_DUE_FINAL) || agingBucket.equalsIgnoreCase(ArConstants.DunningLetters.DYS_PST_DUE_STATE_AGENCY_FINAL))){
-             agingBucketStartValue = cutoffdateFinal + 1;
-             agingBucketEndValue = 0;
-         }
-         else if(checkAgingBucket && agingBucket.equalsIgnoreCase(ArConstants.DunningLetters.DYS_PST_DUE_121)){
-             agingBucketStartValue = 121;
-             agingBucketEndValue = cutoffdateFinal;
-         }
-         else if(checkAgingBucket && StringUtils.isNotBlank(agingBucket)){
-             agingBucketStartValue = new Integer(agingBucket.split("-")[0]);
-             agingBucketEndValue = new Integer(agingBucket.split("-")[1]);
-         }
-
-         //check other categories
-         boolean checkAgencyNumber = ObjectUtils.isNotNull(agencyNumber) && StringUtils.isNotBlank(agencyNumber) && StringUtils.isNotEmpty(agencyNumber);
-
-         boolean checkDunningCampaign = ObjectUtils.isNotNull(campaignID) && StringUtils.isNotBlank(campaignID) && StringUtils.isNotEmpty(campaignID);
-         boolean checkCollector = ObjectUtils.isNotNull(collector) && StringUtils.isNotBlank(collector) && StringUtils.isNotEmpty(collector);
-         boolean isCollector = true;
-
-         if(ObjectUtils.isNotNull(collectorPrincName) && StringUtils.isNotEmpty(collectorPrincName.trim())) {
-             checkCollector = true;
-             Person collectorObj = getPersonService().getPersonByPrincipalName(collectorPrincName);
-             if(collectorObj != null) {
-                 collector = collectorObj.getPrincipalId();
-             } else {
-                 isCollector = false;
-             }
-         }
-
-         // Here add logic to check if selected collector exists as collector head or collector information.
-         if(isCollector && checkCollector) {
+        // Here add logic to check if selected collector exists as collector head or collector information.
+        if (isCollector && checkCollector) {
             isCollector = collectorHierarchyDao.isCollector(collector);
-         }
+        }
 
-         // walk through what we have, and do any extra filtering based on age and dunning campaign, if necessary
-         boolean eligibleInvoiceFlag;
-         Collection<ContractsGrantsInvoiceDocument> eligibleInvoices = new ArrayList<ContractsGrantsInvoiceDocument>();
-         for (ContractsGrantsInvoiceDocument invoice : cgInvoiceDocuments) {
-             eligibleInvoiceFlag = false;
-             if (ObjectUtils.isNotNull(invoice.getAge())) {
-                 if(invoice.getAward() == null || invoice.getAward().getDunningCampaign() == null){
-                     eligibleInvoiceFlag = false;
-                     continue;
-                 }
-             String dunningCampaignCode = invoice.getAward().getDunningCampaign();
+        // walk through what we have, and do any extra filtering based on age and dunning campaign, if necessary
+        boolean eligibleInvoiceFlag;
+        Collection<ContractsGrantsInvoiceDocument> eligibleInvoices = new ArrayList<ContractsGrantsInvoiceDocument>();
+        for (ContractsGrantsInvoiceDocument invoice : cgInvoiceDocuments) {
+            eligibleInvoiceFlag = false;
+            if (ObjectUtils.isNotNull(invoice.getAge())) {
+                if (invoice.getAward() == null || invoice.getAward().getDunningCampaign() == null) {
+                    eligibleInvoiceFlag = false;
+                    continue;
+                }
+                String dunningCampaignCode = invoice.getAward().getDunningCampaign();
 
-             DunningCampaign dunningCampaign = SpringContext.getBean(BusinessObjectService.class).findBySinglePrimaryKey(DunningCampaign.class, dunningCampaignCode);
-             if(ObjectUtils.isNull(dunningCampaign) || !dunningCampaign.isActive()){
-                 eligibleInvoiceFlag = false;
-                 continue;
-             }
-             if (checkCollector) {
-                 if(isCollector) {
-                     if ((invoice.getCustomer().getCustomerCollector() == null || invoice.getCustomer().getCustomerCollector().getPrincipalId() == null || !invoice.getCustomer().getCustomerCollector().getPrincipalId().equalsIgnoreCase(collector))) {
+                DunningCampaign dunningCampaign = SpringContext.getBean(BusinessObjectService.class).findBySinglePrimaryKey(DunningCampaign.class, dunningCampaignCode);
+                if (ObjectUtils.isNull(dunningCampaign) || !dunningCampaign.isActive()) {
+                    eligibleInvoiceFlag = false;
+                    continue;
+                }
+                if (checkCollector) {
+                    if (isCollector) {
+                        if ((invoice.getCustomer().getCustomerCollector() == null || invoice.getCustomer().getCustomerCollector().getPrincipalId() == null || !invoice.getCustomer().getCustomerCollector().getPrincipalId().equalsIgnoreCase(collector))) {
 
-                         // chk if customer collector is assigned to head
-                         Criteria collectorCriteria = new Criteria();
-                         collectorCriteria.addEqualTo(ArPropertyConstants.COLLECTOR_HEAD, collector);
-                         collectorCriteria.addEqualTo(KFSPropertyConstants.ACTIVE, true);
+                            // chk if customer collector is assigned to head
+                            Criteria collectorCriteria = new Criteria();
+                            collectorCriteria.addEqualTo(ArPropertyConstants.COLLECTOR_HEAD, collector);
+                            collectorCriteria.addEqualTo(KFSPropertyConstants.ACTIVE, true);
 
-                         Collection<CollectorHierarchy> collectorHierarchies = collectorHierarchyDao.getCollectorHierarchyByCriteria(collectorCriteria);
-                         if (ObjectUtils.isNotNull(collectorHierarchies) && !collectorHierarchies.isEmpty()) {
-                             CollectorHierarchy collectorHead = new ArrayList<CollectorHierarchy>(collectorHierarchies).get(0);
-                             if (ObjectUtils.isNotNull(collectorHead)) {
-                                 // check principal ids of collector
-                                 if (ObjectUtils.isNotNull(collectorHead.getCollectorInformations()) && CollectionUtils.isNotEmpty(collectorHead.getCollectorInformations())) {
-                                     for (CollectorInformation collectorInfo : collectorHead.getCollectorInformations()) {
-                                         if ((collectorInfo.isActive() && ObjectUtils.isNotNull(collectorInfo.getPrincipalId()) && ObjectUtils.isNotNull(invoice.getCustomer().getCustomerCollector()) && collectorInfo.getPrincipalId().equalsIgnoreCase(invoice.getCustomer().getCustomerCollector().getPrincipalId()))) {
-                                             eligibleInvoiceFlag = true;
-                                             break;
-                                         } else {
-                                             eligibleInvoiceFlag = false;
-                                         }
-                                     }
-                                 }
-                             }
-                         }
-                         if(!eligibleInvoiceFlag) {
-                             continue;
-                         }
-                     }
-                 } else {
-                     eligibleInvoiceFlag = false;
-                     continue;
-                 }
-             }
-             if (checkAgencyNumber && ((invoice.getAward().getAgencyNumber() == null || !invoice.getAward().getAgencyNumber().equals(agencyNumber)))) {
-                 eligibleInvoiceFlag = false;
-                 continue;
-             }
-             if (checkDunningCampaign && ((invoice.getAward().getDunningCampaign() == null || !invoice.getAward().getDunningCampaign().equals(campaignID)))) {
-                 eligibleInvoiceFlag = false;
-                 continue;
-             }
+                            Collection<CollectorHierarchy> collectorHierarchies = collectorHierarchyDao.getCollectorHierarchyByCriteria(collectorCriteria);
+                            if (ObjectUtils.isNotNull(collectorHierarchies) && !collectorHierarchies.isEmpty()) {
+                                CollectorHierarchy collectorHead = new ArrayList<CollectorHierarchy>(collectorHierarchies).get(0);
+                                if (ObjectUtils.isNotNull(collectorHead)) {
+                                    // check principal ids of collector
+                                    if (ObjectUtils.isNotNull(collectorHead.getCollectorInformations()) && CollectionUtils.isNotEmpty(collectorHead.getCollectorInformations())) {
+                                        for (CollectorInformation collectorInfo : collectorHead.getCollectorInformations()) {
+                                            if ((collectorInfo.isActive() && ObjectUtils.isNotNull(collectorInfo.getPrincipalId()) && ObjectUtils.isNotNull(invoice.getCustomer().getCustomerCollector()) && collectorInfo.getPrincipalId().equalsIgnoreCase(invoice.getCustomer().getCustomerCollector().getPrincipalId()))) {
+                                                eligibleInvoiceFlag = true;
+                                                break;
+                                            }
+                                            else {
+                                                eligibleInvoiceFlag = false;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            if (!eligibleInvoiceFlag) {
+                                continue;
+                            }
+                        }
+                    }
+                    else {
+                        eligibleInvoiceFlag = false;
+                        continue;
+                    }
+                }
+                if (checkAgencyNumber && ((invoice.getAward().getAgencyNumber() == null || !invoice.getAward().getAgencyNumber().equals(agencyNumber)))) {
+                    eligibleInvoiceFlag = false;
+                    continue;
+                }
+                if (checkDunningCampaign && ((invoice.getAward().getDunningCampaign() == null || !invoice.getAward().getDunningCampaign().equals(campaignID)))) {
+                    eligibleInvoiceFlag = false;
+                    continue;
+                }
 
-             //To override agingBucketStartValue and agingBucketEndValue if State Agency Final is true.
+                // To override agingBucketStartValue and agingBucketEndValue if State Agency Final is true.
 
-             ContractsAndGrantsCGBAgency agency = invoice.getAward().getAgency();
-             if(agency.isStateAgencyIndicator()){
-                 stateAgencyFinalCutOffDate = SpringContext.getBean(ParameterService.class).getParameterValueAsString(DunningCampaign.class, ArConstants.DunningLetters.DYS_PST_DUE_STATE_AGENCY_FINAL_PARM);
-             }
-             if(ObjectUtils.isNotNull(stateAgencyFinalCutOffDate) && agingBucket.equalsIgnoreCase(ArConstants.DunningLetters.DYS_PST_DUE_STATE_AGENCY_FINAL)){
+                ContractsAndGrantsCGBAgency agency = invoice.getAward().getAgency();
+                if (agency.isStateAgencyIndicator()) {
+                    stateAgencyFinalCutOffDate = SpringContext.getBean(ParameterService.class).getParameterValueAsString(DunningCampaign.class, ArConstants.DunningLetters.DYS_PST_DUE_STATE_AGENCY_FINAL_PARM);
+                }
+                if (ObjectUtils.isNotNull(stateAgencyFinalCutOffDate) && agingBucket.equalsIgnoreCase(ArConstants.DunningLetters.DYS_PST_DUE_STATE_AGENCY_FINAL)) {
 
-                 agingBucketStartValue = new Integer(stateAgencyFinalCutOffDate) +1;
-                 agingBucketEndValue = 0;
-             }
-             else if(ObjectUtils.isNotNull(stateAgencyFinalCutOffDate) && agingBucket.equalsIgnoreCase(ArConstants.DunningLetters.DYS_PST_DUE_121)){
+                    agingBucketStartValue = new Integer(stateAgencyFinalCutOffDate) + 1;
+                    agingBucketEndValue = 0;
+                }
+                else if (ObjectUtils.isNotNull(stateAgencyFinalCutOffDate) && agingBucket.equalsIgnoreCase(ArConstants.DunningLetters.DYS_PST_DUE_121)) {
 
-                 agingBucketStartValue = 121;
-                 agingBucketEndValue = new Integer(stateAgencyFinalCutOffDate);
-             }
-             //Now to validate based on agingbucket and make sure the agency = stateagency is applied.
-             if(ObjectUtils.isNotNull(agingBucketStartValue) && ObjectUtils.isNotNull(agingBucketStartValue)){
-                 if(agingBucket.equalsIgnoreCase(ArConstants.DunningLetters.DYS_PST_DUE_FINAL)){
-                     if(agency.isStateAgencyIndicator()){
-                         eligibleInvoiceFlag = false;
-                         continue;
-                     }
-                     else{
-                        if((invoice.getAge().compareTo(agingBucketStartValue) <0)){
+                    agingBucketStartValue = 121;
+                    agingBucketEndValue = new Integer(stateAgencyFinalCutOffDate);
+                }
+                // Now to validate based on agingbucket and make sure the agency = stateagency is applied.
+                if (ObjectUtils.isNotNull(agingBucketStartValue) && ObjectUtils.isNotNull(agingBucketStartValue)) {
+                    if (agingBucket.equalsIgnoreCase(ArConstants.DunningLetters.DYS_PST_DUE_FINAL)) {
+                        if (agency.isStateAgencyIndicator()) {
                             eligibleInvoiceFlag = false;
                             continue;
                         }
-                     }
-                 }
-                 else if(agingBucket.equalsIgnoreCase(ArConstants.DunningLetters.DYS_PST_DUE_STATE_AGENCY_FINAL)){
-                     if(!agency.isStateAgencyIndicator()){
-                         eligibleInvoiceFlag = false;
-                         continue;
-                     }
-                     else{
-                        if((invoice.getAge().compareTo(agingBucketStartValue) <0)){
+                        else {
+                            if ((invoice.getAge().compareTo(agingBucketStartValue) < 0)) {
+                                eligibleInvoiceFlag = false;
+                                continue;
+                            }
+                        }
+                    }
+                    else if (agingBucket.equalsIgnoreCase(ArConstants.DunningLetters.DYS_PST_DUE_STATE_AGENCY_FINAL)) {
+                        if (!agency.isStateAgencyIndicator()) {
                             eligibleInvoiceFlag = false;
                             continue;
                         }
-                     }
-                 }
-                 else{
-                     if((invoice.getAge().compareTo(agingBucketStartValue) <0) || (invoice.getAge().compareTo(agingBucketEndValue) >0)){
-                         eligibleInvoiceFlag = false;
-                         continue;
-                     }
-                 }
-             }
+                        else {
+                            if ((invoice.getAge().compareTo(agingBucketStartValue) < 0)) {
+                                eligibleInvoiceFlag = false;
+                                continue;
+                            }
+                        }
+                    }
+                    else {
+                        if ((invoice.getAge().compareTo(agingBucketStartValue) < 0) || (invoice.getAge().compareTo(agingBucketEndValue) > 0)) {
+                            eligibleInvoiceFlag = false;
+                            continue;
+                        }
+                    }
+                }
 
-             List<DunningLetterDistribution> dunningLetterDistributions = dunningCampaign.getDunningLetterDistributions();
-             if(dunningLetterDistributions.isEmpty() ){
-                 eligibleInvoiceFlag = false;
-                 continue;
-             }
-             for(DunningLetterDistribution dunningLetterDistribution: dunningLetterDistributions){
+                List<DunningLetterDistribution> dunningLetterDistributions = dunningCampaign.getDunningLetterDistributions();
+                if (dunningLetterDistributions.isEmpty()) {
+                    eligibleInvoiceFlag = false;
+                    continue;
+                }
+                for (DunningLetterDistribution dunningLetterDistribution : dunningLetterDistributions) {
 
-                 DunningLetterTemplate dunningLetterTemplate = SpringContext.getBean(BusinessObjectService.class).findBySinglePrimaryKey(DunningLetterTemplate.class, dunningLetterDistribution.getDunningLetterTemplate());
+                    DunningLetterTemplate dunningLetterTemplate = SpringContext.getBean(BusinessObjectService.class).findBySinglePrimaryKey(DunningLetterTemplate.class, dunningLetterDistribution.getDunningLetterTemplate());
 
-                 if(dunningLetterDistribution.getDaysPastDue().equalsIgnoreCase(ArConstants.DunningLetters.DYS_PST_DUE_CURRENT)){
-                     if((invoice.getAge().compareTo(cutoffdate0) >=0) && (invoice.getAge().compareTo(cutoffdate30) <=0)){
-                         if(dunningLetterDistribution.isActiveIndicator() && dunningLetterDistribution.isSendDunningLetterIndicator() && dunningLetterTemplate.isActive() && ObjectUtils.isNotNull(dunningLetterTemplate.getFilepath())){
-                             eligibleInvoiceFlag = true;
-                             invoice.getInvoiceGeneralDetail().setDunningLetterTemplateAssigned(dunningLetterDistribution.getDunningLetterTemplate());
-                             break;
-                         }
-                     }
-                 }
-                 else if(dunningLetterDistribution.getDaysPastDue().equalsIgnoreCase(ArConstants.DunningLetters.DYS_PST_DUE_31_60)){
-                     if((invoice.getAge().compareTo(cutoffdate30) >0) && (invoice.getAge().compareTo(cutoffdate60) <=0)){
-                         if(dunningLetterDistribution.isActiveIndicator() && dunningLetterDistribution.isSendDunningLetterIndicator() && dunningLetterTemplate.isActive() && ObjectUtils.isNotNull(dunningLetterTemplate.getFilepath())){
-                             eligibleInvoiceFlag = true;
-                             invoice.getInvoiceGeneralDetail().setDunningLetterTemplateAssigned(dunningLetterDistribution.getDunningLetterTemplate());
-                             break;
-                         }
-                     }
-                 }
-                 else if(dunningLetterDistribution.getDaysPastDue().equalsIgnoreCase(ArConstants.DunningLetters.DYS_PST_DUE_61_90)){
-                     if((invoice.getAge().compareTo(cutoffdate60) >0) && (invoice.getAge().compareTo(cutoffdate90) <=0)){
-                         if(dunningLetterDistribution.isActiveIndicator() && dunningLetterDistribution.isSendDunningLetterIndicator() && dunningLetterTemplate.isActive() && ObjectUtils.isNotNull(dunningLetterTemplate.getFilepath())){
-                             eligibleInvoiceFlag = true;
-                             invoice.getInvoiceGeneralDetail().setDunningLetterTemplateAssigned(dunningLetterDistribution.getDunningLetterTemplate());
-                             break;
-                         }
-                     }
-                 }
-                 else if(dunningLetterDistribution.getDaysPastDue().equalsIgnoreCase(ArConstants.DunningLetters.DYS_PST_DUE_91_120)){
-                     if((invoice.getAge().compareTo(cutoffdate90) >0) && (invoice.getAge().compareTo(cutoffdate120) <=0)){
-                         if(dunningLetterDistribution.isActiveIndicator() && dunningLetterDistribution.isSendDunningLetterIndicator() && dunningLetterTemplate.isActive() && ObjectUtils.isNotNull(dunningLetterTemplate.getFilepath())){
-                             eligibleInvoiceFlag = true;
-                             invoice.getInvoiceGeneralDetail().setDunningLetterTemplateAssigned(dunningLetterDistribution.getDunningLetterTemplate());
-                             break;
-                         }
-                     }
-                 }
-                 else if(dunningLetterDistribution.getDaysPastDue().equalsIgnoreCase(ArConstants.DunningLetters.DYS_PST_DUE_121)){
-                     if(agency.isStateAgencyIndicator()){//To replace final with state agency final value
-                         cutoffdateFinal = new Integer(stateAgencyFinalCutOffDate);
-                     }
-                     if((invoice.getAge().compareTo(cutoffdate120) >0) && (invoice.getAge().compareTo(cutoffdateFinal) <=0)){
-                         if(dunningLetterDistribution.isActiveIndicator() && dunningLetterDistribution.isSendDunningLetterIndicator() && dunningLetterTemplate.isActive() && ObjectUtils.isNotNull(dunningLetterTemplate.getFilepath())){
-                             eligibleInvoiceFlag = true;
-                             invoice.getInvoiceGeneralDetail().setDunningLetterTemplateAssigned(dunningLetterDistribution.getDunningLetterTemplate());
-                             break;
-                         }
+                    if (dunningLetterDistribution.getDaysPastDue().equalsIgnoreCase(ArConstants.DunningLetters.DYS_PST_DUE_CURRENT)) {
+                        if ((invoice.getAge().compareTo(cutoffdate0) >= 0) && (invoice.getAge().compareTo(cutoffdate30) <= 0)) {
+                            if (dunningLetterDistribution.isActiveIndicator() && dunningLetterDistribution.isSendDunningLetterIndicator() && dunningLetterTemplate.isActive() && ObjectUtils.isNotNull(dunningLetterTemplate.getFilepath())) {
+                                eligibleInvoiceFlag = true;
+                                invoice.getInvoiceGeneralDetail().setDunningLetterTemplateAssigned(dunningLetterDistribution.getDunningLetterTemplate());
+                                break;
+                            }
+                        }
+                    }
+                    else if (dunningLetterDistribution.getDaysPastDue().equalsIgnoreCase(ArConstants.DunningLetters.DYS_PST_DUE_31_60)) {
+                        if ((invoice.getAge().compareTo(cutoffdate30) > 0) && (invoice.getAge().compareTo(cutoffdate60) <= 0)) {
+                            if (dunningLetterDistribution.isActiveIndicator() && dunningLetterDistribution.isSendDunningLetterIndicator() && dunningLetterTemplate.isActive() && ObjectUtils.isNotNull(dunningLetterTemplate.getFilepath())) {
+                                eligibleInvoiceFlag = true;
+                                invoice.getInvoiceGeneralDetail().setDunningLetterTemplateAssigned(dunningLetterDistribution.getDunningLetterTemplate());
+                                break;
+                            }
+                        }
+                    }
+                    else if (dunningLetterDistribution.getDaysPastDue().equalsIgnoreCase(ArConstants.DunningLetters.DYS_PST_DUE_61_90)) {
+                        if ((invoice.getAge().compareTo(cutoffdate60) > 0) && (invoice.getAge().compareTo(cutoffdate90) <= 0)) {
+                            if (dunningLetterDistribution.isActiveIndicator() && dunningLetterDistribution.isSendDunningLetterIndicator() && dunningLetterTemplate.isActive() && ObjectUtils.isNotNull(dunningLetterTemplate.getFilepath())) {
+                                eligibleInvoiceFlag = true;
+                                invoice.getInvoiceGeneralDetail().setDunningLetterTemplateAssigned(dunningLetterDistribution.getDunningLetterTemplate());
+                                break;
+                            }
+                        }
+                    }
+                    else if (dunningLetterDistribution.getDaysPastDue().equalsIgnoreCase(ArConstants.DunningLetters.DYS_PST_DUE_91_120)) {
+                        if ((invoice.getAge().compareTo(cutoffdate90) > 0) && (invoice.getAge().compareTo(cutoffdate120) <= 0)) {
+                            if (dunningLetterDistribution.isActiveIndicator() && dunningLetterDistribution.isSendDunningLetterIndicator() && dunningLetterTemplate.isActive() && ObjectUtils.isNotNull(dunningLetterTemplate.getFilepath())) {
+                                eligibleInvoiceFlag = true;
+                                invoice.getInvoiceGeneralDetail().setDunningLetterTemplateAssigned(dunningLetterDistribution.getDunningLetterTemplate());
+                                break;
+                            }
+                        }
+                    }
+                    else if (dunningLetterDistribution.getDaysPastDue().equalsIgnoreCase(ArConstants.DunningLetters.DYS_PST_DUE_121)) {
+                        if (agency.isStateAgencyIndicator()) {// To replace final with state agency final value
+                            cutoffdateFinal = new Integer(stateAgencyFinalCutOffDate);
+                        }
+                        if ((invoice.getAge().compareTo(cutoffdate120) > 0) && (invoice.getAge().compareTo(cutoffdateFinal) <= 0)) {
+                            if (dunningLetterDistribution.isActiveIndicator() && dunningLetterDistribution.isSendDunningLetterIndicator() && dunningLetterTemplate.isActive() && ObjectUtils.isNotNull(dunningLetterTemplate.getFilepath())) {
+                                eligibleInvoiceFlag = true;
+                                invoice.getInvoiceGeneralDetail().setDunningLetterTemplateAssigned(dunningLetterDistribution.getDunningLetterTemplate());
+                                break;
+                            }
 
-                     }
-                 }
-                 else if(dunningLetterDistribution.getDaysPastDue().equalsIgnoreCase(ArConstants.DunningLetters.DYS_PST_DUE_FINAL)){
-                     if(agency.isStateAgencyIndicator()){//to proceed only if agency is not state agency
-                         continue;
-                     }
-                     else{
-                     if((invoice.getAge().compareTo(cutoffdateFinal) >0)){
-                         if(dunningLetterDistribution.isActiveIndicator() && dunningLetterDistribution.isSendDunningLetterIndicator() && dunningLetterTemplate.isActive() && ObjectUtils.isNotNull(dunningLetterTemplate.getFilepath())){
-                             eligibleInvoiceFlag = true;
-                             invoice.getInvoiceGeneralDetail().setDunningLetterTemplateAssigned(dunningLetterDistribution.getDunningLetterTemplate());
-                             break;
-                         }
-                     }
-                     }
-                 }
-                 else if(dunningLetterDistribution.getDaysPastDue().equalsIgnoreCase(ArConstants.DunningLetters.DYS_PST_DUE_STATE_AGENCY_FINAL)){
-                     if(agency.isStateAgencyIndicator()){//to replace final with state agency final value
-                         cutoffdateFinal = new Integer(stateAgencyFinalCutOffDate);
-                     }
-                     else{//If the agency is not state agency - nothing to calculate.
-                         continue;
-                     }
-                     if((invoice.getAge().compareTo(cutoffdateFinal) >0)){
-                         if(dunningLetterDistribution.isActiveIndicator() && dunningLetterDistribution.isSendDunningLetterIndicator() && dunningLetterTemplate.isActive() && ObjectUtils.isNotNull(dunningLetterTemplate.getFilepath())){
-                             eligibleInvoiceFlag = true;
-                             invoice.getInvoiceGeneralDetail().setDunningLetterTemplateAssigned(dunningLetterDistribution.getDunningLetterTemplate());
-                             break;
-                         }
-                     }
-                 }
-             }
-             } else {
-                 eligibleInvoiceFlag = false;
-             }
+                        }
+                    }
+                    else if (dunningLetterDistribution.getDaysPastDue().equalsIgnoreCase(ArConstants.DunningLetters.DYS_PST_DUE_FINAL)) {
+                        if (agency.isStateAgencyIndicator()) {// to proceed only if agency is not state agency
+                            continue;
+                        }
+                        else {
+                            if ((invoice.getAge().compareTo(cutoffdateFinal) > 0)) {
+                                if (dunningLetterDistribution.isActiveIndicator() && dunningLetterDistribution.isSendDunningLetterIndicator() && dunningLetterTemplate.isActive() && ObjectUtils.isNotNull(dunningLetterTemplate.getFilepath())) {
+                                    eligibleInvoiceFlag = true;
+                                    invoice.getInvoiceGeneralDetail().setDunningLetterTemplateAssigned(dunningLetterDistribution.getDunningLetterTemplate());
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    else if (dunningLetterDistribution.getDaysPastDue().equalsIgnoreCase(ArConstants.DunningLetters.DYS_PST_DUE_STATE_AGENCY_FINAL)) {
+                        if (agency.isStateAgencyIndicator()) {// to replace final with state agency final value
+                            cutoffdateFinal = new Integer(stateAgencyFinalCutOffDate);
+                        }
+                        else {// If the agency is not state agency - nothing to calculate.
+                            continue;
+                        }
+                        if ((invoice.getAge().compareTo(cutoffdateFinal) > 0)) {
+                            if (dunningLetterDistribution.isActiveIndicator() && dunningLetterDistribution.isSendDunningLetterIndicator() && dunningLetterTemplate.isActive() && ObjectUtils.isNotNull(dunningLetterTemplate.getFilepath())) {
+                                eligibleInvoiceFlag = true;
+                                invoice.getInvoiceGeneralDetail().setDunningLetterTemplateAssigned(dunningLetterDistribution.getDunningLetterTemplate());
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+            else {
+                eligibleInvoiceFlag = false;
+            }
 
-             if (eligibleInvoiceFlag) {
-                 SpringContext.getBean(BusinessObjectService.class).save(invoice.getInvoiceGeneralDetail());
-                 eligibleInvoices.add(invoice);
-             }
-         }
-         return eligibleInvoices;
-     }
+            if (eligibleInvoiceFlag) {
+                SpringContext.getBean(BusinessObjectService.class).save(invoice.getInvoiceGeneralDetail());
+                eligibleInvoices.add(invoice);
+            }
+        }
+        return eligibleInvoices;
+    }
 
     /**
-     *
      * @see org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService#attachWorkflowHeadersToCGInvoices(java.util.Collection)
      */
     @Override
     public Collection<ContractsGrantsInvoiceDocument> attachWorkflowHeadersToCGInvoices(Collection<ContractsGrantsInvoiceDocument> invoices) {
-         List<ContractsGrantsInvoiceDocument> docs = new ArrayList<ContractsGrantsInvoiceDocument>();
-         if (invoices == null || invoices.isEmpty()) {
-             return docs;
-         }
+        List<ContractsGrantsInvoiceDocument> docs = new ArrayList<ContractsGrantsInvoiceDocument>();
+        if (invoices == null || invoices.isEmpty()) {
+            return docs;
+        }
 
-         // make a list of necessary workflow docs to retrieve
-         List<String> documentHeaderIds = new ArrayList<String>();
-         for (ContractsGrantsInvoiceDocument invoice : invoices) {
-             documentHeaderIds.add(invoice.getDocumentNumber());
-         }
+        // make a list of necessary workflow docs to retrieve
+        List<String> documentHeaderIds = new ArrayList<String>();
+        for (ContractsGrantsInvoiceDocument invoice : invoices) {
+            documentHeaderIds.add(invoice.getDocumentNumber());
+        }
 
-         // get all of our docs with full workflow headers
-         try {
-             for(Document doc : documentService.getDocumentsByListOfDocumentHeaderIds(ContractsGrantsInvoiceDocument.class, documentHeaderIds)){
-             docs.add((ContractsGrantsInvoiceDocument) doc);
-             }
-         }
-         catch (WorkflowException e) {
-             throw new InfrastructureException("Unable to retrieve ContractsGrants Invoice Documents", e);
-         }
+        // get all of our docs with full workflow headers
+        try {
+            for (Document doc : documentService.getDocumentsByListOfDocumentHeaderIds(ContractsGrantsInvoiceDocument.class, documentHeaderIds)) {
+                docs.add((ContractsGrantsInvoiceDocument) doc);
+            }
+        }
+        catch (WorkflowException e) {
+            throw new InfrastructureException("Unable to retrieve ContractsGrants Invoice Documents", e);
+        }
 
-         return docs;
-     }
+        return docs;
+    }
 
     /**
      * This method retrieves all invoices with open and with final status based on proposal number
-     *
+     * 
      * @param proposalNumber
      * @param outputFileStream
      * @return
@@ -2881,7 +2888,9 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         criteria.addIsNull(ArPropertyConstants.DOCUMENT_HEADER_FINANCIAL_DOCUMENT_IN_ERROR_NUMBER);
 
         Collection<String> invoiceNumbers = contractsGrantsInvoiceDocumentDao.getFinancialDocumentInErrorNumbers();
-        criteria.addNotIn(ArPropertyConstants.CustomerInvoiceDocumentFields.DOCUMENT_NUMBER, invoiceNumbers);
+        if (ObjectUtils.isNotNull(invoiceNumbers) && CollectionUtils.isNotEmpty(invoiceNumbers)) {
+            criteria.addNotIn(ArPropertyConstants.CustomerInvoiceDocumentFields.DOCUMENT_NUMBER, invoiceNumbers);
+        }
 
         Collection<ContractsGrantsInvoiceDocument> cgInvoices = new ArrayList<ContractsGrantsInvoiceDocument>();
         cgInvoices = contractsGrantsInvoiceDocumentDao.getInvoicesByCriteria(criteria);
@@ -2920,7 +2929,6 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
     }
 
     /**
-     *
      * @see org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService#getInvoiceDocumentsForReferralToCollectionsLookup(java.util.Map)
      */
     @Override
@@ -2936,22 +2944,24 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
         Collection<ContractsGrantsInvoiceDocument> invoices;
         Criteria criteria = new Criteria();
-//        if(ObjectUtils.isNotNull(agencyNumber)&& StringUtils.isNotBlank(agencyNumber.toString()) && StringUtils.isNotEmpty(agencyNumber.toString())){
-//            criteria.addIn(ArPropertyConstants.ReferralToCollectionsFields.AGENCY_ADDRESS_DETAILS_AGENCY_NUMBER, Arrays.asList(new String[] {agencyNumber}));
-//        }
-        if(ObjectUtils.isNotNull(proposalNumber)&& StringUtils.isNotBlank(proposalNumber.toString()) && StringUtils.isNotEmpty(proposalNumber.toString())){
+        // if(ObjectUtils.isNotNull(agencyNumber)&& StringUtils.isNotBlank(agencyNumber.toString()) &&
+        // StringUtils.isNotEmpty(agencyNumber.toString())){
+        // criteria.addIn(ArPropertyConstants.ReferralToCollectionsFields.AGENCY_ADDRESS_DETAILS_AGENCY_NUMBER, Arrays.asList(new
+        // String[] {agencyNumber}));
+        // }
+        if (ObjectUtils.isNotNull(proposalNumber) && StringUtils.isNotBlank(proposalNumber.toString()) && StringUtils.isNotEmpty(proposalNumber.toString())) {
             criteria.addEqualTo(KFSPropertyConstants.PROPOSAL_NUMBER, proposalNumber);
         }
-        if(ObjectUtils.isNotNull(accountNumber)&& StringUtils.isNotBlank(accountNumber.toString()) && StringUtils.isNotEmpty(accountNumber.toString())){
-            criteria.addIn(ArPropertyConstants.ReferralToCollectionsFields.ACCOUNT_DETAILS_ACCOUNT_NUMBER, Arrays.asList(new String[] {accountNumber}));
+        if (ObjectUtils.isNotNull(accountNumber) && StringUtils.isNotBlank(accountNumber.toString()) && StringUtils.isNotEmpty(accountNumber.toString())) {
+            criteria.addIn(ArPropertyConstants.ReferralToCollectionsFields.ACCOUNT_DETAILS_ACCOUNT_NUMBER, Arrays.asList(new String[] { accountNumber }));
         }
-        if(ObjectUtils.isNotNull(invoiceDocumentNumber) && StringUtils.isNotBlank(invoiceDocumentNumber) && StringUtils.isNotEmpty(invoiceDocumentNumber)){
+        if (ObjectUtils.isNotNull(invoiceDocumentNumber) && StringUtils.isNotBlank(invoiceDocumentNumber) && StringUtils.isNotEmpty(invoiceDocumentNumber)) {
             criteria.addEqualTo(KFSPropertyConstants.DOCUMENT_NUMBER, invoiceDocumentNumber);
         }
-        if(ObjectUtils.isNotNull(customerNumber) && StringUtils.isNotBlank(customerNumber) && StringUtils.isNotEmpty(customerNumber)){
+        if (ObjectUtils.isNotNull(customerNumber) && StringUtils.isNotBlank(customerNumber) && StringUtils.isNotEmpty(customerNumber)) {
             criteria.addEqualTo(ArPropertyConstants.CustomerInvoiceDocumentFields.CUSTOMER_NUMBER, customerNumber);
         }
-        if(ObjectUtils.isNotNull(customerName) && StringUtils.isNotBlank(customerName) && StringUtils.isNotEmpty(customerName)){
+        if (ObjectUtils.isNotNull(customerName) && StringUtils.isNotBlank(customerName) && StringUtils.isNotEmpty(customerName)) {
             criteria.addEqualTo(ArPropertyConstants.ReferralToCollectionsFields.ACCOUNTS_RECEIVABLE_CUSTOMER_NAME, customerName);
         }
 
@@ -2978,8 +2988,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
         invoices = this.retrieveAllCGInvoicesByCriteria(criteria);
 
-        if((ObjectUtils.isNotNull(awardDocumentNumber) && StringUtils.isNotBlank(awardDocumentNumber) && StringUtils.isNotEmpty(awardDocumentNumber)) ||
-                ObjectUtils.isNotNull(agencyNumber)&& StringUtils.isNotBlank(agencyNumber.toString()) && StringUtils.isNotEmpty(agencyNumber.toString())) {
+        if ((ObjectUtils.isNotNull(awardDocumentNumber) && StringUtils.isNotBlank(awardDocumentNumber) && StringUtils.isNotEmpty(awardDocumentNumber)) || ObjectUtils.isNotNull(agencyNumber) && StringUtils.isNotBlank(agencyNumber.toString()) && StringUtils.isNotEmpty(agencyNumber.toString())) {
             this.filterInvoicesByAwardDocumentNumber(invoices, agencyNumber, awardDocumentNumber);
         }
 
@@ -2988,20 +2997,18 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
     /**
      * removes the invoices from list which does not match the given award document number.
-     *
+     * 
      * @param invoices list of invoices.
      * @param awardDocumentNumber award document number to filter invoices.
      */
     private void filterInvoicesByAwardDocumentNumber(Collection<ContractsGrantsInvoiceDocument> invoices, String agencyNumber, String awardDocumentNumber) {
         boolean checkAwardNumber = ObjectUtils.isNotNull(awardDocumentNumber) && StringUtils.isNotBlank(awardDocumentNumber) && StringUtils.isNotEmpty(awardDocumentNumber);
-        boolean checkAgencyNumber = ObjectUtils.isNotNull(agencyNumber)&& StringUtils.isNotBlank(agencyNumber.toString()) && StringUtils.isNotEmpty(agencyNumber.toString());
+        boolean checkAgencyNumber = ObjectUtils.isNotNull(agencyNumber) && StringUtils.isNotBlank(agencyNumber.toString()) && StringUtils.isNotEmpty(agencyNumber.toString());
         if (invoices != null && !invoices.isEmpty()) {
             Iterator<ContractsGrantsInvoiceDocument> itr = invoices.iterator();
             while (itr.hasNext()) {
                 ContractsGrantsInvoiceDocument invoice = itr.next();
-                if (invoice.getAward() == null
-                        || (checkAwardNumber && (invoice.getAward().getAwardDocumentNumber() == null || !invoice.getAward().getAwardDocumentNumber().equals(awardDocumentNumber)))
-                        || (checkAgencyNumber && (invoice.getAward().getAgencyNumber() == null || !invoice.getAward().getAgencyNumber().equals(agencyNumber)))) {
+                if (invoice.getAward() == null || (checkAwardNumber && (invoice.getAward().getAwardDocumentNumber() == null || !invoice.getAward().getAwardDocumentNumber().equals(awardDocumentNumber))) || (checkAgencyNumber && (invoice.getAward().getAgencyNumber() == null || !invoice.getAward().getAgencyNumber().equals(agencyNumber)))) {
                     itr.remove();
                 }
             }
@@ -3122,7 +3129,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
     /**
      * Returns a proper String Value. Also returns proper value for currency (USD)
-     *
+     * 
      * @param string
      * @return
      */
@@ -3139,270 +3146,270 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
     /**
      * This method generated the template parameter list to populate the pdf invoices that are attached to the Document.
-     *
+     * 
      * @return
      */
     private Map<String, String> getTemplateParameterList(ContractsGrantsInvoiceDocument document) {
-            ContractsAndGrantsCGBAward award = document.getAward();
-            Map<String, String> parameterMap = new HashMap<String, String>();
-            Map primaryKeys = new HashMap<String, Object>();
-            primaryKeys.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, document.getAccountingPeriod().getUniversityFiscalYear());
-            primaryKeys.put("processingChartOfAccountCode", document.getAccountsReceivableDocumentHeader().getProcessingChartOfAccountCode());
-            primaryKeys.put("processingOrganizationCode", document.getAccountsReceivableDocumentHeader().getProcessingOrganizationCode());
-            SystemInformation sysInfo = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(SystemInformation.class, primaryKeys);
-            parameterMap.put("#documentNumber", returnProperStringValue(document.getDocumentNumber()));
-            if (ObjectUtils.isNotNull(document.getDocumentHeader().getWorkflowDocument().getDateCreated())) {
-                parameterMap.put("#date", returnProperStringValue(FILE_NAME_TIMESTAMP.format(document.getDocumentHeader().getWorkflowDocument().getDateCreated())));
+        ContractsAndGrantsCGBAward award = document.getAward();
+        Map<String, String> parameterMap = new HashMap<String, String>();
+        Map primaryKeys = new HashMap<String, Object>();
+        primaryKeys.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, document.getAccountingPeriod().getUniversityFiscalYear());
+        primaryKeys.put("processingChartOfAccountCode", document.getAccountsReceivableDocumentHeader().getProcessingChartOfAccountCode());
+        primaryKeys.put("processingOrganizationCode", document.getAccountsReceivableDocumentHeader().getProcessingOrganizationCode());
+        SystemInformation sysInfo = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(SystemInformation.class, primaryKeys);
+        parameterMap.put("#documentNumber", returnProperStringValue(document.getDocumentNumber()));
+        if (ObjectUtils.isNotNull(document.getDocumentHeader().getWorkflowDocument().getDateCreated())) {
+            parameterMap.put("#date", returnProperStringValue(FILE_NAME_TIMESTAMP.format(document.getDocumentHeader().getWorkflowDocument().getDateCreated())));
+        }
+        if (ObjectUtils.isNotNull(new Date(document.getDocumentHeader().getWorkflowDocument().getDateFinalized().getMillis()))) {
+            parameterMap.put("#finalStatusDate", returnProperStringValue(FILE_NAME_TIMESTAMP.format(new Date(document.getDocumentHeader().getWorkflowDocument().getDateFinalized().getMillis()))));
+        }
+        parameterMap.put("#proposalNumber", returnProperStringValue(document.getProposalNumber()));
+        parameterMap.put("#payee.name", returnProperStringValue(document.getBillingAddressName()));
+        parameterMap.put("#payee.addressLine1", returnProperStringValue(document.getBillingLine1StreetAddress()));
+        parameterMap.put("#payee.addressLine2", returnProperStringValue(document.getBillingLine2StreetAddress()));
+        parameterMap.put("#payee.city", returnProperStringValue(document.getBillingCityName()));
+        parameterMap.put("#payee.state", returnProperStringValue(document.getBillingStateCode()));
+        parameterMap.put("#payee.zipcode", returnProperStringValue(document.getBillingZipCode()));
+        parameterMap.put("#advanceFlag", convertBooleanValue(isAdvance(document)));
+        parameterMap.put("#reimbursementFlag", convertBooleanValue(!(isAdvance(document))));
+        parameterMap.put("#accountDetails.contractControlAccountNumber", returnProperStringValue(getRecipientAccountNumber(document.getAccountDetails())));
+        if (ObjectUtils.isNotNull(sysInfo)) {
+            parameterMap.put("#systemInformation.feinNumber", returnProperStringValue(sysInfo.getUniversityFederalEmployerIdentificationNumber()));
+            parameterMap.put("#systemInformation.name", returnProperStringValue(sysInfo.getOrganizationRemitToAddressName()));
+            parameterMap.put("#systemInformation.addressLine1", returnProperStringValue(sysInfo.getOrganizationRemitToLine1StreetAddress()));
+            parameterMap.put("#systemInformation.addressLine2", returnProperStringValue(sysInfo.getOrganizationRemitToLine2StreetAddress()));
+            parameterMap.put("#systemInformation.city", returnProperStringValue(sysInfo.getOrganizationRemitToCityName()));
+            parameterMap.put("#systemInformation.state", returnProperStringValue(sysInfo.getOrganizationRemitToStateCode()));
+            parameterMap.put("#systemInformation.zipcode", returnProperStringValue(sysInfo.getOrganizationRemitToZipCode()));
+        }
+        if (CollectionUtils.isNotEmpty(document.getInvoiceDetails())) {
+            for (int i = 0; i < document.getInvoiceDetails().size(); i++) {
+                parameterMap.put("#invoiceDetail[" + i + "].invoiceDetailIdentifier", returnProperStringValue(document.getInvoiceDetails().get(i).getInvoiceDetailIdentifier()));
+                parameterMap.put("#invoiceDetail[" + i + "].documentNumber", returnProperStringValue(document.getInvoiceDetails().get(i).getDocumentNumber()));
+                parameterMap.put("#invoiceDetail[" + i + "].categories", returnProperStringValue(document.getInvoiceDetails().get(i).getCategory()));
+                parameterMap.put("#invoiceDetail[" + i + "].budget", returnProperStringValue(document.getInvoiceDetails().get(i).getBudget()));
+                parameterMap.put("#invoiceDetail[" + i + "].expenditure", returnProperStringValue(document.getInvoiceDetails().get(i).getExpenditures()));
+                parameterMap.put("#invoiceDetail[" + i + "].cumulative", returnProperStringValue(document.getInvoiceDetails().get(i).getCumulative()));
+                parameterMap.put("#invoiceDetail[" + i + "].balance", returnProperStringValue(document.getInvoiceDetails().get(i).getBalance()));
+                parameterMap.put("#invoiceDetail[" + i + "].billed", returnProperStringValue(document.getInvoiceDetails().get(i).getBilled()));
+                parameterMap.put("#invoiceDetail[" + i + "].adjustedCumulativeExpenditures", returnProperStringValue(document.getInvoiceDetails().get(i).getAdjustedCumExpenditures()));
+                parameterMap.put("#invoiceDetail[" + i + "].adjustedBalance", returnProperStringValue(document.getInvoiceDetails().get(0).getAdjustedBalance()));
             }
-            if (ObjectUtils.isNotNull(new Date(document.getDocumentHeader().getWorkflowDocument().getDateFinalized().getMillis()))) {
-                parameterMap.put("#finalStatusDate", returnProperStringValue(FILE_NAME_TIMESTAMP.format(new Date(document.getDocumentHeader().getWorkflowDocument().getDateFinalized().getMillis()))));
+        }
+        if (CollectionUtils.isNotEmpty(document.getDirectCostInvoiceDetails())) {
+            parameterMap.put("#directCostInvoiceDetail.invoiceDetailIdentifier", returnProperStringValue(document.getDirectCostInvoiceDetails().get(0).getInvoiceDetailIdentifier()));
+            parameterMap.put("#directCostInvoiceDetail.documentNumber", returnProperStringValue(document.getDirectCostInvoiceDetails().get(0).getDocumentNumber()));
+            parameterMap.put("#directCostInvoiceDetail.categories", returnProperStringValue(document.getDirectCostInvoiceDetails().get(0).getCategory()));
+            parameterMap.put("#directCostInvoiceDetail.budget", returnProperStringValue(document.getDirectCostInvoiceDetails().get(0).getBudget()));
+            parameterMap.put("#directCostInvoiceDetail.expenditure", returnProperStringValue(document.getDirectCostInvoiceDetails().get(0).getExpenditures()));
+            parameterMap.put("#directCostInvoiceDetail.cumulative", returnProperStringValue(document.getDirectCostInvoiceDetails().get(0).getCumulative()));
+            parameterMap.put("#directCostInvoiceDetail.balance", returnProperStringValue(document.getDirectCostInvoiceDetails().get(0).getBalance()));
+            parameterMap.put("#directCostInvoiceDetail.billed", returnProperStringValue(document.getDirectCostInvoiceDetails().get(0).getBilled()));
+            parameterMap.put("#directCostInvoiceDetail.adjustedCumulativeExpenditures", returnProperStringValue(document.getDirectCostInvoiceDetails().get(0).getAdjustedCumExpenditures()));
+            parameterMap.put("#directCostInvoiceDetail.adjustedBalance", returnProperStringValue(document.getDirectCostInvoiceDetails().get(0).getAdjustedBalance()));
+        }
+        if (CollectionUtils.isNotEmpty(document.getInDirectCostInvoiceDetails())) {
+            parameterMap.put("#inDirectCostInvoiceDetail.invoiceDetailIdentifier", returnProperStringValue(document.getInDirectCostInvoiceDetails().get(0).getInvoiceDetailIdentifier()));
+            parameterMap.put("#inDirectCostInvoiceDetail.documentNumber", returnProperStringValue(document.getInDirectCostInvoiceDetails().get(0).getDocumentNumber()));
+            parameterMap.put("#inDirectCostInvoiceDetail.categories", returnProperStringValue(document.getInDirectCostInvoiceDetails().get(0).getCategory()));
+            parameterMap.put("#inDirectCostInvoiceDetail.budget", returnProperStringValue(document.getInDirectCostInvoiceDetails().get(0).getBudget()));
+            parameterMap.put("#inDirectCostInvoiceDetail.expenditure", returnProperStringValue(document.getInDirectCostInvoiceDetails().get(0).getExpenditures()));
+            parameterMap.put("#inDirectCostInvoiceDetail.cumulative", returnProperStringValue(document.getInDirectCostInvoiceDetails().get(0).getCumulative()));
+            parameterMap.put("#inDirectCostInvoiceDetail.balance", returnProperStringValue(document.getInDirectCostInvoiceDetails().get(0).getBalance()));
+            parameterMap.put("#inDirectCostInvoiceDetail.billed", returnProperStringValue(document.getInDirectCostInvoiceDetails().get(0).getBilled()));
+            parameterMap.put("#inDirectCostInvoiceDetail.adjustedCumulativeExpenditures", returnProperStringValue(document.getInDirectCostInvoiceDetails().get(0).getAdjustedCumExpenditures()));
+            parameterMap.put("#inDirectCostInvoiceDetail.adjustedBalance", returnProperStringValue(document.getInDirectCostInvoiceDetails().get(0).getAdjustedBalance()));
+        }
+        if (CollectionUtils.isNotEmpty(document.getTotalInvoiceDetails())) {
+            parameterMap.put("#totalInvoiceDetail.invoiceDetailIdentifier", returnProperStringValue(document.getTotalInvoiceDetails().get(0).getInvoiceDetailIdentifier()));
+            parameterMap.put("#totalInvoiceDetail.documentNumber", returnProperStringValue(document.getTotalInvoiceDetails().get(0).getDocumentNumber()));
+            parameterMap.put("#totalInvoiceDetail.categories", returnProperStringValue(document.getTotalInvoiceDetails().get(0).getCategory()));
+            parameterMap.put("#totalInvoiceDetail.budget", returnProperStringValue(document.getTotalInvoiceDetails().get(0).getBudget()));
+            parameterMap.put("#totalInvoiceDetail.expenditure", returnProperStringValue(document.getTotalInvoiceDetails().get(0).getExpenditures()));
+            parameterMap.put("#totalInvoiceDetail.cumulative", returnProperStringValue(document.getTotalInvoiceDetails().get(0).getCumulative()));
+            parameterMap.put("#totalInvoiceDetail.balance", returnProperStringValue(document.getTotalInvoiceDetails().get(0).getBalance()));
+            parameterMap.put("#totalInvoiceDetail.billed", returnProperStringValue(document.getTotalInvoiceDetails().get(0).getBilled()));
+            parameterMap.put("#totalInvoiceDetail.estimatedCost", returnProperStringValue(document.getTotalInvoiceDetails().get(0).getBilled().add(document.getTotalInvoiceDetails().get(0).getExpenditures())));
+            parameterMap.put("#totalInvoiceDetail.adjustedCumulativeExpenditures", returnProperStringValue(document.getTotalInvoiceDetails().get(0).getAdjustedCumExpenditures()));
+            parameterMap.put("#totalInvoiceDetail.adjustedBalance", returnProperStringValue(document.getTotalInvoiceDetails().get(0).getAdjustedBalance()));
+        }
+        if (CollectionUtils.isNotEmpty(document.getAgencyAddressDetails())) {
+            for (int i = 0; i < document.getAgencyAddressDetails().size(); i++) {
+                parameterMap.put("#agencyAddressDetails[" + i + "].documentNumber", returnProperStringValue(document.getAgencyAddressDetails().get(i).getDocumentNumber()));
+                parameterMap.put("#agencyAddressDetails[" + i + "].agencyNumber", returnProperStringValue(document.getAgencyAddressDetails().get(i).getAgencyNumber()));
+                parameterMap.put("#agencyAddressDetails[" + i + "].agencyAddressIdentifier", returnProperStringValue(document.getAgencyAddressDetails().get(i).getAgencyAddressIdentifier()));
+                parameterMap.put("#agencyAddressDetails[" + i + "].agencyAddressTypeCode", returnProperStringValue(document.getAgencyAddressDetails().get(i).getAgencyAddressTypeCode()));
+                parameterMap.put("#agencyAddressDetails[" + i + "].agencyAddressName", returnProperStringValue(document.getAgencyAddressDetails().get(i).getAgencyAddressName()));
+                parameterMap.put("#agencyAddressDetails[" + i + "].agencyInvoiceTemplateCode", returnProperStringValue(document.getAgencyAddressDetails().get(i).getAgencyInvoiceTemplateCode()));
+                parameterMap.put("#agencyAddressDetails[" + i + "].preferredAgencyInvoiceTemplateCode", returnProperStringValue(document.getAgencyAddressDetails().get(i).getPreferredAgencyInvoiceTemplateCode()));
             }
-            parameterMap.put("#proposalNumber", returnProperStringValue(document.getProposalNumber()));
-            parameterMap.put("#payee.name", returnProperStringValue(document.getBillingAddressName()));
-            parameterMap.put("#payee.addressLine1", returnProperStringValue(document.getBillingLine1StreetAddress()));
-            parameterMap.put("#payee.addressLine2", returnProperStringValue(document.getBillingLine2StreetAddress()));
-            parameterMap.put("#payee.city", returnProperStringValue(document.getBillingCityName()));
-            parameterMap.put("#payee.state", returnProperStringValue(document.getBillingStateCode()));
-            parameterMap.put("#payee.zipcode", returnProperStringValue(document.getBillingZipCode()));
-            parameterMap.put("#advanceFlag", convertBooleanValue(isAdvance(document)));
-            parameterMap.put("#reimbursementFlag", convertBooleanValue(!(isAdvance(document))));
-            parameterMap.put("#accountDetails.contractControlAccountNumber", returnProperStringValue(getRecipientAccountNumber(document.getAccountDetails())));
-            if (ObjectUtils.isNotNull(sysInfo)) {
-                parameterMap.put("#systemInformation.feinNumber", returnProperStringValue(sysInfo.getUniversityFederalEmployerIdentificationNumber()));
-                parameterMap.put("#systemInformation.name", returnProperStringValue(sysInfo.getOrganizationRemitToAddressName()));
-                parameterMap.put("#systemInformation.addressLine1", returnProperStringValue(sysInfo.getOrganizationRemitToLine1StreetAddress()));
-                parameterMap.put("#systemInformation.addressLine2", returnProperStringValue(sysInfo.getOrganizationRemitToLine2StreetAddress()));
-                parameterMap.put("#systemInformation.city", returnProperStringValue(sysInfo.getOrganizationRemitToCityName()));
-                parameterMap.put("#systemInformation.state", returnProperStringValue(sysInfo.getOrganizationRemitToStateCode()));
-                parameterMap.put("#systemInformation.zipcode", returnProperStringValue(sysInfo.getOrganizationRemitToZipCode()));
-            }
-            if (CollectionUtils.isNotEmpty(document.getInvoiceDetails())) {
-                for (int i = 0; i < document.getInvoiceDetails().size(); i++) {
-                    parameterMap.put("#invoiceDetail[" + i + "].invoiceDetailIdentifier", returnProperStringValue(document.getInvoiceDetails().get(i).getInvoiceDetailIdentifier()));
-                    parameterMap.put("#invoiceDetail[" + i + "].documentNumber", returnProperStringValue(document.getInvoiceDetails().get(i).getDocumentNumber()));
-                    parameterMap.put("#invoiceDetail[" + i + "].categories", returnProperStringValue(document.getInvoiceDetails().get(i).getCategory()));
-                    parameterMap.put("#invoiceDetail[" + i + "].budget", returnProperStringValue(document.getInvoiceDetails().get(i).getBudget()));
-                    parameterMap.put("#invoiceDetail[" + i + "].expenditure", returnProperStringValue(document.getInvoiceDetails().get(i).getExpenditures()));
-                    parameterMap.put("#invoiceDetail[" + i + "].cumulative", returnProperStringValue(document.getInvoiceDetails().get(i).getCumulative()));
-                    parameterMap.put("#invoiceDetail[" + i + "].balance", returnProperStringValue(document.getInvoiceDetails().get(i).getBalance()));
-                    parameterMap.put("#invoiceDetail[" + i + "].billed", returnProperStringValue(document.getInvoiceDetails().get(i).getBilled()));
-                    parameterMap.put("#invoiceDetail[" + i + "].adjustedCumulativeExpenditures", returnProperStringValue(document.getInvoiceDetails().get(i).getAdjustedCumExpenditures()));
-                    parameterMap.put("#invoiceDetail[" + i + "].adjustedBalance", returnProperStringValue(document.getInvoiceDetails().get(0).getAdjustedBalance()));
+        }
+        if (CollectionUtils.isNotEmpty(document.getAccountDetails())) {
+            for (int i = 0; i < document.getAccountDetails().size(); i++) {
+                parameterMap.put("#accountDetails[" + i + "].documentNumber", returnProperStringValue(document.getAccountDetails().get(i).getDocumentNumber()));
+                parameterMap.put("#accountDetails[" + i + "].accountNumber", returnProperStringValue(document.getAccountDetails().get(i).getAccountNumber()));
+                parameterMap.put("#accountDetails[" + i + "].proposalNumber", returnProperStringValue(document.getAccountDetails().get(i).getProposalNumber()));
+                parameterMap.put("#accountDetails[" + i + "].universityFiscalYear", returnProperStringValue(document.getAccountDetails().get(i).getUniversityFiscalYear()));
+                parameterMap.put("#accountDetails[" + i + "].chartOfAccountsCode", returnProperStringValue(document.getAccountDetails().get(i).getChartOfAccountsCode()));
+                parameterMap.put("#accountDetails[" + i + "].budgetAmount", returnProperStringValue(document.getAccountDetails().get(i).getBudgetAmount()));
+                parameterMap.put("#accountDetails[" + i + "].expenditureAmount", returnProperStringValue(document.getAccountDetails().get(i).getExpenditureAmount()));
+                parameterMap.put("#accountDetails[" + i + "].balanceAmount", returnProperStringValue(document.getAccountDetails().get(i).getBalanceAmount()));
+                Map map = new HashMap<String, Object>();
+                map.put(KFSPropertyConstants.ACCOUNT_NUMBER, document.getAccountDetails().get(i).getAccountNumber());
+                map.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, document.getAccountDetails().get(i).getChartOfAccountsCode());
+                Account account = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Account.class, map);
+                if (ObjectUtils.isNotNull(account)) {
+                    parameterMap.put("#accountDetails[" + i + "].account.responsibilityID", returnProperStringValue(account.getContractsAndGrantsAccountResponsibilityId()));
                 }
             }
-            if (CollectionUtils.isNotEmpty(document.getDirectCostInvoiceDetails())) {
-                parameterMap.put("#directCostInvoiceDetail.invoiceDetailIdentifier", returnProperStringValue(document.getDirectCostInvoiceDetails().get(0).getInvoiceDetailIdentifier()));
-                parameterMap.put("#directCostInvoiceDetail.documentNumber", returnProperStringValue(document.getDirectCostInvoiceDetails().get(0).getDocumentNumber()));
-                parameterMap.put("#directCostInvoiceDetail.categories", returnProperStringValue(document.getDirectCostInvoiceDetails().get(0).getCategory()));
-                parameterMap.put("#directCostInvoiceDetail.budget", returnProperStringValue(document.getDirectCostInvoiceDetails().get(0).getBudget()));
-                parameterMap.put("#directCostInvoiceDetail.expenditure", returnProperStringValue(document.getDirectCostInvoiceDetails().get(0).getExpenditures()));
-                parameterMap.put("#directCostInvoiceDetail.cumulative", returnProperStringValue(document.getDirectCostInvoiceDetails().get(0).getCumulative()));
-                parameterMap.put("#directCostInvoiceDetail.balance", returnProperStringValue(document.getDirectCostInvoiceDetails().get(0).getBalance()));
-                parameterMap.put("#directCostInvoiceDetail.billed", returnProperStringValue(document.getDirectCostInvoiceDetails().get(0).getBilled()));
-                parameterMap.put("#directCostInvoiceDetail.adjustedCumulativeExpenditures", returnProperStringValue(document.getDirectCostInvoiceDetails().get(0).getAdjustedCumExpenditures()));
-                parameterMap.put("#directCostInvoiceDetail.adjustedBalance", returnProperStringValue(document.getDirectCostInvoiceDetails().get(0).getAdjustedBalance()));
+        }
+        if (CollectionUtils.isNotEmpty(document.getInvoiceMilestones())) {
+            for (int i = 0; i < document.getInvoiceMilestones().size(); i++) {
+                parameterMap.put("#invoiceMilestones[" + i + "].proposalNumber", returnProperStringValue(document.getInvoiceMilestones().get(i).getProposalNumber()));
+                parameterMap.put("#invoiceMilestones[" + i + "].milestoneNumber", returnProperStringValue(document.getInvoiceMilestones().get(i).getMilestoneNumber()));
+                parameterMap.put("#invoiceMilestones[" + i + "].milestoneIdentifier", returnProperStringValue(document.getInvoiceMilestones().get(i).getMilestoneIdentifier()));
+                parameterMap.put("#invoiceMilestones[" + i + "].milestoneDescription", returnProperStringValue(document.getInvoiceMilestones().get(i).getMilestoneDescription()));
+                parameterMap.put("#invoiceMilestones[" + i + "].milestoneAmount", returnProperStringValue(document.getInvoiceMilestones().get(i).getMilestoneAmount()));
+                parameterMap.put("#invoiceMilestones[" + i + "].milestoneExpectedCompletionDate", returnProperStringValue(document.getInvoiceMilestones().get(i).getMilestoneExpectedCompletionDate()));
+                parameterMap.put("#invoiceMilestones[" + i + "].milestoneCompletionDate", returnProperStringValue(document.getInvoiceMilestones().get(i).getMilestoneActualCompletionDate()));
+                parameterMap.put("#invoiceMilestones[" + i + "].isItBilled", returnProperStringValue(document.getInvoiceMilestones().get(i).getIsItBilled()));
             }
-            if (CollectionUtils.isNotEmpty(document.getInDirectCostInvoiceDetails())) {
-                parameterMap.put("#inDirectCostInvoiceDetail.invoiceDetailIdentifier", returnProperStringValue(document.getInDirectCostInvoiceDetails().get(0).getInvoiceDetailIdentifier()));
-                parameterMap.put("#inDirectCostInvoiceDetail.documentNumber", returnProperStringValue(document.getInDirectCostInvoiceDetails().get(0).getDocumentNumber()));
-                parameterMap.put("#inDirectCostInvoiceDetail.categories", returnProperStringValue(document.getInDirectCostInvoiceDetails().get(0).getCategory()));
-                parameterMap.put("#inDirectCostInvoiceDetail.budget", returnProperStringValue(document.getInDirectCostInvoiceDetails().get(0).getBudget()));
-                parameterMap.put("#inDirectCostInvoiceDetail.expenditure", returnProperStringValue(document.getInDirectCostInvoiceDetails().get(0).getExpenditures()));
-                parameterMap.put("#inDirectCostInvoiceDetail.cumulative", returnProperStringValue(document.getInDirectCostInvoiceDetails().get(0).getCumulative()));
-                parameterMap.put("#inDirectCostInvoiceDetail.balance", returnProperStringValue(document.getInDirectCostInvoiceDetails().get(0).getBalance()));
-                parameterMap.put("#inDirectCostInvoiceDetail.billed", returnProperStringValue(document.getInDirectCostInvoiceDetails().get(0).getBilled()));
-                parameterMap.put("#inDirectCostInvoiceDetail.adjustedCumulativeExpenditures", returnProperStringValue(document.getInDirectCostInvoiceDetails().get(0).getAdjustedCumExpenditures()));
-                parameterMap.put("#inDirectCostInvoiceDetail.adjustedBalance", returnProperStringValue(document.getInDirectCostInvoiceDetails().get(0).getAdjustedBalance()));
+        }
+        if (ObjectUtils.isNotNull(document.getInvoiceGeneralDetail())) {
+            parameterMap.put("#invoiceGeneralDetail.documentNumber", returnProperStringValue(document.getInvoiceGeneralDetail().getDocumentNumber()));
+            parameterMap.put("#invoiceGeneralDetail.awardDateRange", returnProperStringValue(document.getInvoiceGeneralDetail().getAwardDateRange()));
+            parameterMap.put("#invoiceGeneralDetail.billingFrequency", returnProperStringValue(document.getInvoiceGeneralDetail().getBillingFrequency()));
+            parameterMap.put("#invoiceGeneralDetail.finalBill", convertBooleanValue(document.getInvoiceGeneralDetail().isFinalBillIndicator()));
+            parameterMap.put("#invoiceGeneralDetail.finalInvoice", convertBooleanValue(document.getInvoiceGeneralDetail().isFinalBillIndicator()));
+            if (document.getInvoiceGeneralDetail().isFinalBillIndicator()) {
+                parameterMap.put("#invoiceGeneralDetail.finalInvoiceYesNo", "Yes");
             }
-            if (CollectionUtils.isNotEmpty(document.getTotalInvoiceDetails())) {
-                parameterMap.put("#totalInvoiceDetail.invoiceDetailIdentifier", returnProperStringValue(document.getTotalInvoiceDetails().get(0).getInvoiceDetailIdentifier()));
-                parameterMap.put("#totalInvoiceDetail.documentNumber", returnProperStringValue(document.getTotalInvoiceDetails().get(0).getDocumentNumber()));
-                parameterMap.put("#totalInvoiceDetail.categories", returnProperStringValue(document.getTotalInvoiceDetails().get(0).getCategory()));
-                parameterMap.put("#totalInvoiceDetail.budget", returnProperStringValue(document.getTotalInvoiceDetails().get(0).getBudget()));
-                parameterMap.put("#totalInvoiceDetail.expenditure", returnProperStringValue(document.getTotalInvoiceDetails().get(0).getExpenditures()));
-                parameterMap.put("#totalInvoiceDetail.cumulative", returnProperStringValue(document.getTotalInvoiceDetails().get(0).getCumulative()));
-                parameterMap.put("#totalInvoiceDetail.balance", returnProperStringValue(document.getTotalInvoiceDetails().get(0).getBalance()));
-                parameterMap.put("#totalInvoiceDetail.billed", returnProperStringValue(document.getTotalInvoiceDetails().get(0).getBilled()));
-                parameterMap.put("#totalInvoiceDetail.estimatedCost", returnProperStringValue(document.getTotalInvoiceDetails().get(0).getBilled().add(document.getTotalInvoiceDetails().get(0).getExpenditures())));
-                parameterMap.put("#totalInvoiceDetail.adjustedCumulativeExpenditures", returnProperStringValue(document.getTotalInvoiceDetails().get(0).getAdjustedCumExpenditures()));
-                parameterMap.put("#totalInvoiceDetail.adjustedBalance", returnProperStringValue(document.getTotalInvoiceDetails().get(0).getAdjustedBalance()));
+            else {
+                parameterMap.put("#invoiceGeneralDetail.finalInvoiceYesNo", "No");
             }
-            if (CollectionUtils.isNotEmpty(document.getAgencyAddressDetails())) {
-                for (int i = 0; i < document.getAgencyAddressDetails().size(); i++) {
-                    parameterMap.put("#agencyAddressDetails[" + i + "].documentNumber", returnProperStringValue(document.getAgencyAddressDetails().get(i).getDocumentNumber()));
-                    parameterMap.put("#agencyAddressDetails[" + i + "].agencyNumber", returnProperStringValue(document.getAgencyAddressDetails().get(i).getAgencyNumber()));
-                    parameterMap.put("#agencyAddressDetails[" + i + "].agencyAddressIdentifier", returnProperStringValue(document.getAgencyAddressDetails().get(i).getAgencyAddressIdentifier()));
-                    parameterMap.put("#agencyAddressDetails[" + i + "].agencyAddressTypeCode", returnProperStringValue(document.getAgencyAddressDetails().get(i).getAgencyAddressTypeCode()));
-                    parameterMap.put("#agencyAddressDetails[" + i + "].agencyAddressName", returnProperStringValue(document.getAgencyAddressDetails().get(i).getAgencyAddressName()));
-                    parameterMap.put("#agencyAddressDetails[" + i + "].agencyInvoiceTemplateCode", returnProperStringValue(document.getAgencyAddressDetails().get(i).getAgencyInvoiceTemplateCode()));
-                    parameterMap.put("#agencyAddressDetails[" + i + "].preferredAgencyInvoiceTemplateCode", returnProperStringValue(document.getAgencyAddressDetails().get(i).getPreferredAgencyInvoiceTemplateCode()));
-                }
+            parameterMap.put("#invoiceGeneralDetail.billingPeriod", returnProperStringValue(document.getInvoiceGeneralDetail().getBillingPeriod()));
+            parameterMap.put("#invoiceGeneralDetail.contractGrantType", returnProperStringValue(document.getInvoiceGeneralDetail().getContractGrantType()));
+            parameterMap.put("#invoiceGeneralDetail.awardTotal", returnProperStringValue(document.getInvoiceGeneralDetail().getAwardTotal()));
+            parameterMap.put("#invoiceGeneralDetail.newTotalBilled", returnProperStringValue(document.getInvoiceGeneralDetail().getNewTotalBilled()));
+            parameterMap.put("#invoiceGeneralDetail.amountRemainingToBill", returnProperStringValue(document.getInvoiceGeneralDetail().getAmountRemainingToBill()));
+            parameterMap.put("#invoiceGeneralDetail.billedToDate", returnProperStringValue(document.getInvoiceGeneralDetail().getBilledToDate()));
+            parameterMap.put("#invoiceGeneralDetail.costShareAmount", returnProperStringValue(document.getInvoiceGeneralDetail().getCostShareAmount()));
+            parameterMap.put("#invoiceGeneralDetail.lastBilledDate", returnProperStringValue(document.getInvoiceGeneralDetail().getLastBilledDate()));
+            String strArray[] = document.getInvoiceGeneralDetail().getBillingPeriod().split(" to ");
+            if (ObjectUtils.isNotNull(strArray[0])) {
+                parameterMap.put("#invoiceGeneralDetail.invoicingPeriodStartDate", returnProperStringValue(strArray[0]));
             }
-            if (CollectionUtils.isNotEmpty(document.getAccountDetails())) {
-                for (int i = 0; i < document.getAccountDetails().size(); i++) {
-                    parameterMap.put("#accountDetails[" + i + "].documentNumber", returnProperStringValue(document.getAccountDetails().get(i).getDocumentNumber()));
-                    parameterMap.put("#accountDetails[" + i + "].accountNumber", returnProperStringValue(document.getAccountDetails().get(i).getAccountNumber()));
-                    parameterMap.put("#accountDetails[" + i + "].proposalNumber", returnProperStringValue(document.getAccountDetails().get(i).getProposalNumber()));
-                    parameterMap.put("#accountDetails[" + i + "].universityFiscalYear", returnProperStringValue(document.getAccountDetails().get(i).getUniversityFiscalYear()));
-                    parameterMap.put("#accountDetails[" + i + "].chartOfAccountsCode", returnProperStringValue(document.getAccountDetails().get(i).getChartOfAccountsCode()));
-                    parameterMap.put("#accountDetails[" + i + "].budgetAmount", returnProperStringValue(document.getAccountDetails().get(i).getBudgetAmount()));
-                    parameterMap.put("#accountDetails[" + i + "].expenditureAmount", returnProperStringValue(document.getAccountDetails().get(i).getExpenditureAmount()));
-                    parameterMap.put("#accountDetails[" + i + "].balanceAmount", returnProperStringValue(document.getAccountDetails().get(i).getBalanceAmount()));
-                    Map map = new HashMap<String, Object>();
-                    map.put(KFSPropertyConstants.ACCOUNT_NUMBER, document.getAccountDetails().get(i).getAccountNumber());
-                    map.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, document.getAccountDetails().get(i).getChartOfAccountsCode());
-                    Account account = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Account.class, map);
-                    if(ObjectUtils.isNotNull(account)) {
-                        parameterMap.put("#accountDetails[" + i + "].account.responsibilityID", returnProperStringValue(account.getContractsAndGrantsAccountResponsibilityId()));
-                    }
-                }
+            if (ObjectUtils.isNotNull(strArray[1])) {
+                parameterMap.put("#invoiceGeneralDetail.invoicingPeriodEndDate", returnProperStringValue(strArray[1]));
+                parameterMap.put("#award.cumulativePeriod", returnProperStringValue(award.getAwardBeginningDate().toString() + " to " + strArray[1]));
             }
-            if (CollectionUtils.isNotEmpty(document.getInvoiceMilestones())) {
-                for (int i = 0; i < document.getInvoiceMilestones().size(); i++) {
-                    parameterMap.put("#invoiceMilestones[" + i + "].proposalNumber", returnProperStringValue(document.getInvoiceMilestones().get(i).getProposalNumber()));
-                    parameterMap.put("#invoiceMilestones[" + i + "].milestoneNumber", returnProperStringValue(document.getInvoiceMilestones().get(i).getMilestoneNumber()));
-                    parameterMap.put("#invoiceMilestones[" + i + "].milestoneIdentifier", returnProperStringValue(document.getInvoiceMilestones().get(i).getMilestoneIdentifier()));
-                    parameterMap.put("#invoiceMilestones[" + i + "].milestoneDescription", returnProperStringValue(document.getInvoiceMilestones().get(i).getMilestoneDescription()));
-                    parameterMap.put("#invoiceMilestones[" + i + "].milestoneAmount", returnProperStringValue(document.getInvoiceMilestones().get(i).getMilestoneAmount()));
-                    parameterMap.put("#invoiceMilestones[" + i + "].milestoneExpectedCompletionDate", returnProperStringValue(document.getInvoiceMilestones().get(i).getMilestoneExpectedCompletionDate()));
-                    parameterMap.put("#invoiceMilestones[" + i + "].milestoneCompletionDate", returnProperStringValue(document.getInvoiceMilestones().get(i).getMilestoneActualCompletionDate()));
-                    parameterMap.put("#invoiceMilestones[" + i + "].isItBilled", returnProperStringValue(document.getInvoiceMilestones().get(i).getIsItBilled()));
-                }
+        }
+
+        if (CollectionUtils.isNotEmpty(document.getInvoiceBills())) {
+            for (int i = 0; i < document.getInvoiceBills().size(); i++) {
+                parameterMap.put("#invoiceBills[" + i + "].proposalNumber", returnProperStringValue(document.getInvoiceBills().get(i).getProposalNumber()));
+                parameterMap.put("#invoiceBills[" + i + "].billNumber", returnProperStringValue(document.getInvoiceBills().get(i).getBillNumber()));
+                parameterMap.put("#invoiceBills[" + i + "].billDescription", returnProperStringValue(document.getInvoiceBills().get(i).getBillDescription()));
+                parameterMap.put("#invoiceBills[" + i + "].billIdentifier", returnProperStringValue(document.getInvoiceBills().get(i).getBillIdentifier()));
+                parameterMap.put("#invoiceBills[" + i + "].billDate", returnProperStringValue(document.getInvoiceBills().get(i).getBillDate()));
+                parameterMap.put("#invoiceBills[" + i + "].amount", returnProperStringValue(document.getInvoiceBills().get(i).getEstimatedAmount()));
+                parameterMap.put("#invoiceBills[" + i + "].isItBilled", returnProperStringValue(document.getInvoiceBills().get(i).getIsItBilled()));
+            }
+        }
+        if (ObjectUtils.isNotNull(award)) {
+            KualiDecimal billing = SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class).getAwardBilledToDateByProposalNumber(award.getProposalNumber());
+            KualiDecimal payments = SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class).calculateTotalPaymentsToDateByAward(award);
+            KualiDecimal receivable = billing.subtract(payments);
+            parameterMap.put("#award.billings", returnProperStringValue(billing));
+            parameterMap.put("#award.payments", returnProperStringValue(payments));
+            parameterMap.put("#award.receivables", returnProperStringValue(receivable));
+            parameterMap.put("#award.proposalNumber", returnProperStringValue(award.getProposalNumber()));
+            parameterMap.put("#award.awardId", returnProperStringValue(award.getAwardId()));
+            if (ObjectUtils.isNotNull(award.getAwardBeginningDate())) {
+                parameterMap.put("#award.awardBeginningDate", returnProperStringValue(FILE_NAME_TIMESTAMP.format(award.getAwardBeginningDate())));
+            }
+            if (ObjectUtils.isNotNull(award.getAwardEndingDate())) {
+                parameterMap.put("#award.awardEndingDate", returnProperStringValue(FILE_NAME_TIMESTAMP.format(award.getAwardEndingDate())));
+            }
+            parameterMap.put("#award.awardTotalAmount", returnProperStringValue(award.getAwardTotalAmount()));
+            parameterMap.put("#award.awardAddendumNumber", returnProperStringValue(award.getAwardAddendumNumber()));
+            parameterMap.put("#award.awardAllocatedUniversityComputingServicesAmount", returnProperStringValue(award.getAwardAllocatedUniversityComputingServicesAmount()));
+            parameterMap.put("#award.federalPassThroughFundedAmount", returnProperStringValue(award.getFederalPassThroughFundedAmount()));
+            if (ObjectUtils.isNotNull(award.getAwardEntryDate())) {
+                parameterMap.put("#award.awardEntryDate", returnProperStringValue(FILE_NAME_TIMESTAMP.format(award.getAwardEntryDate())));
+            }
+            parameterMap.put("#award.agencyFuture1Amount", returnProperStringValue(award.getAgencyFuture1Amount()));
+            parameterMap.put("#award.agencyFuture2Amount", returnProperStringValue(award.getAgencyFuture2Amount()));
+            parameterMap.put("#award.agencyFuture3Amount", returnProperStringValue(award.getAgencyFuture3Amount()));
+            parameterMap.put("#award.awardDocumentNumber", returnProperStringValue(award.getAwardDocumentNumber()));
+            if (ObjectUtils.isNotNull(award.getAwardLastUpdateDate())) {
+                parameterMap.put("#award.awardLastUpdateDate", returnProperStringValue(FILE_NAME_TIMESTAMP.format(award.getAwardLastUpdateDate())));
+            }
+            parameterMap.put("#award.federalPassthroughIndicator", convertBooleanValue(award.getFederalPassThroughIndicator()));
+            parameterMap.put("#award.oldProposalNumber", returnProperStringValue(award.getOldProposalNumber()));
+            parameterMap.put("#award.awardDirectCostAmount", returnProperStringValue(award.getAwardDirectCostAmount()));
+            parameterMap.put("#award.awardIndirectCostAmount", returnProperStringValue(award.getAwardIndirectCostAmount()));
+            parameterMap.put("#award.federalFundedAmount", returnProperStringValue(award.getFederalFundedAmount()));
+            parameterMap.put("#award.awardCreateTimestamp", returnProperStringValue(award.getAwardCreateTimestamp()));
+            if (ObjectUtils.isNotNull(award.getAwardClosingDate())) {
+                parameterMap.put("#award.awardClosingDate", returnProperStringValue(FILE_NAME_TIMESTAMP.format(award.getAwardClosingDate())));
+            }
+            parameterMap.put("#award.proposalAwardTypeCode", returnProperStringValue(award.getProposalAwardTypeCode()));
+            parameterMap.put("#award.awardStatusCode", returnProperStringValue(award.getAwardStatusCode()));
+            if (ObjectUtils.isNotNull(award.getLetterOfCreditFund())) {
+                parameterMap.put("#award.letterOfCreditFundGroupCode", returnProperStringValue(award.getLetterOfCreditFund().getLetterOfCreditFundGroupCode()));
+            }
+            parameterMap.put("#award.letterOfCreditFundCode", returnProperStringValue(award.getLetterOfCreditFundCode()));
+            parameterMap.put("#award.grantDescriptionCode", returnProperStringValue(award.getGrantDescriptionCode()));
+            if (ObjectUtils.isNotNull(award.getProposal())) {
+                parameterMap.put("#award.grantNumber", returnProperStringValue(award.getProposal().getGrantNumber()));
+            }
+            parameterMap.put("#agencyNumber", returnProperStringValue(award.getAgencyNumber()));
+            parameterMap.put("#agency.fullName", returnProperStringValue(award.getAgency().getFullName()));
+            parameterMap.put("#award.federalPassThroughAgencyNumber", returnProperStringValue(award.getFederalPassThroughAgencyNumber()));
+            parameterMap.put("#award.agencyAnalystName", returnProperStringValue(award.getAgencyAnalystName()));
+            parameterMap.put("#award.analystTelephoneNumber;", returnProperStringValue(award.getAnalystTelephoneNumber()));
+            parameterMap.put("#award.preferredBillingFrequency", returnProperStringValue(award.getPreferredBillingFrequency()));
+            parameterMap.put("#award.preferredReportTemplate", returnProperStringValue(award.getPreferredReportTemplate()));
+            parameterMap.put("#award.preferredReportFrequency", returnProperStringValue(award.getPreferredReportFrequency()));
+            parameterMap.put("#award.awardProjectTitle", returnProperStringValue(award.getAwardProjectTitle()));
+            parameterMap.put("#award.awardCommentText", returnProperStringValue(award.getAwardCommentText()));
+            parameterMap.put("#award.awardPurposeCode", returnProperStringValue(award.getAwardPurposeCode()));
+            parameterMap.put("#award.active", convertBooleanValue(award.isActive()));
+            parameterMap.put("#award.kimGroupNames", returnProperStringValue(award.getKimGroupNames()));
+            parameterMap.put("#award.routingOrg", returnProperStringValue(award.getRoutingOrg()));
+            parameterMap.put("#award.routingChart", returnProperStringValue(award.getRoutingChart()));
+            parameterMap.put("#award.suspendInvoicing", convertBooleanValue(award.isSuspendInvoicingIndicator()));
+            parameterMap.put("#award.additionalFormsRequired", convertBooleanValue(award.isAdditionalFormsRequiredIndicator()));
+            parameterMap.put("#award.additionalFormsDescription", returnProperStringValue(award.getAdditionalFormsDescription()));
+            parameterMap.put("#award.contractGrantType", returnProperStringValue(award.getContractGrantType()));
+            parameterMap.put("#award.minInvoiceAmount", returnProperStringValue(award.getMinInvoiceAmount()));
+            parameterMap.put("#award.autoApprove", returnProperStringValue(award.getAutoApproveIndicator()));
+            parameterMap.put("#award.lookupPersonUniversalIdentifier", returnProperStringValue(award.getLookupPersonUniversalIdentifier()));
+            parameterMap.put("#award.lookupPerson", returnProperStringValue(award.getLookupPerson().getPrincipalName()));
+            parameterMap.put("#award.userLookupRoleNamespaceCode", returnProperStringValue(award.getUserLookupRoleNamespaceCode()));
+            parameterMap.put("#award.userLookupRoleName", returnProperStringValue(award.getUserLookupRoleName()));
+            parameterMap.put("#award.fundingExpirationDate", returnProperStringValue(award.getFundingExpirationDate()));
+            parameterMap.put("#award.drawNumber", returnProperStringValue(award.getDrawNumber()));
+            parameterMap.put("#award.commentText", returnProperStringValue(award.getCommentText()));
+            parameterMap.put("#award.awardProjectDirector.name", returnProperStringValue(award.getAwardPrimaryProjectDirector().getProjectDirector().getName()));
+            parameterMap.put("#award.letterOfCreditFundCode", returnProperStringValue(award.getLetterOfCreditFundCode()));
+            if (ObjectUtils.isNotNull(award.getAwardPrimaryFundManager())) {
+                parameterMap.put("#award.primaryFundManager.name", returnProperStringValue(award.getAwardPrimaryFundManager().getFundManager().getName()));
+                parameterMap.put("#award.primaryFundManager.email", returnProperStringValue(award.getAwardPrimaryFundManager().getFundManager().getEmailAddress()));
+                parameterMap.put("#award.primaryFundManager.phone", returnProperStringValue(award.getAwardPrimaryFundManager().getFundManager().getPhoneNumber()));
             }
             if (ObjectUtils.isNotNull(document.getInvoiceGeneralDetail())) {
-                parameterMap.put("#invoiceGeneralDetail.documentNumber", returnProperStringValue(document.getInvoiceGeneralDetail().getDocumentNumber()));
-                parameterMap.put("#invoiceGeneralDetail.awardDateRange", returnProperStringValue(document.getInvoiceGeneralDetail().getAwardDateRange()));
-                parameterMap.put("#invoiceGeneralDetail.billingFrequency", returnProperStringValue(document.getInvoiceGeneralDetail().getBillingFrequency()));
-                parameterMap.put("#invoiceGeneralDetail.finalBill", convertBooleanValue(document.getInvoiceGeneralDetail().isFinalBillIndicator()));
-                parameterMap.put("#invoiceGeneralDetail.finalInvoice", convertBooleanValue(document.getInvoiceGeneralDetail().isFinalBillIndicator()));
-                if (document.getInvoiceGeneralDetail().isFinalBillIndicator()) {
-                    parameterMap.put("#invoiceGeneralDetail.finalInvoiceYesNo", "Yes");
-                }
-                else {
-                    parameterMap.put("#invoiceGeneralDetail.finalInvoiceYesNo", "No");
-                }
-                parameterMap.put("#invoiceGeneralDetail.billingPeriod", returnProperStringValue(document.getInvoiceGeneralDetail().getBillingPeriod()));
-                parameterMap.put("#invoiceGeneralDetail.contractGrantType", returnProperStringValue(document.getInvoiceGeneralDetail().getContractGrantType()));
-                parameterMap.put("#invoiceGeneralDetail.awardTotal", returnProperStringValue(document.getInvoiceGeneralDetail().getAwardTotal()));
-                parameterMap.put("#invoiceGeneralDetail.newTotalBilled", returnProperStringValue(document.getInvoiceGeneralDetail().getNewTotalBilled()));
-                parameterMap.put("#invoiceGeneralDetail.amountRemainingToBill", returnProperStringValue(document.getInvoiceGeneralDetail().getAmountRemainingToBill()));
-                parameterMap.put("#invoiceGeneralDetail.billedToDate", returnProperStringValue(document.getInvoiceGeneralDetail().getBilledToDate()));
-                parameterMap.put("#invoiceGeneralDetail.costShareAmount", returnProperStringValue(document.getInvoiceGeneralDetail().getCostShareAmount()));
-                parameterMap.put("#invoiceGeneralDetail.lastBilledDate", returnProperStringValue(document.getInvoiceGeneralDetail().getLastBilledDate()));
-                String strArray[] = document.getInvoiceGeneralDetail().getBillingPeriod().split(" to ");
-                if (ObjectUtils.isNotNull(strArray[0])) {
-                    parameterMap.put("#invoiceGeneralDetail.invoicingPeriodStartDate", returnProperStringValue(strArray[0]));
-                }
-                if (ObjectUtils.isNotNull(strArray[1])){
-                    parameterMap.put("#invoiceGeneralDetail.invoicingPeriodEndDate", returnProperStringValue(strArray[1]));
-                    parameterMap.put("#award.cumulativePeriod", returnProperStringValue(award.getAwardBeginningDate().toString() + " to " + strArray[1]));
-                }
+                parameterMap.put("#totalAmountDue", returnProperStringValue(receivable.add(document.getInvoiceGeneralDetail().getNewTotalBilled())));
             }
-
-            if (CollectionUtils.isNotEmpty(document.getInvoiceBills())) {
-                for (int i = 0; i < document.getInvoiceBills().size(); i++) {
-                    parameterMap.put("#invoiceBills[" + i + "].proposalNumber", returnProperStringValue(document.getInvoiceBills().get(i).getProposalNumber()));
-                    parameterMap.put("#invoiceBills[" + i + "].billNumber", returnProperStringValue(document.getInvoiceBills().get(i).getBillNumber()));
-                    parameterMap.put("#invoiceBills[" + i + "].billDescription", returnProperStringValue(document.getInvoiceBills().get(i).getBillDescription()));
-                    parameterMap.put("#invoiceBills[" + i + "].billIdentifier", returnProperStringValue(document.getInvoiceBills().get(i).getBillIdentifier()));
-                    parameterMap.put("#invoiceBills[" + i + "].billDate", returnProperStringValue(document.getInvoiceBills().get(i).getBillDate()));
-                    parameterMap.put("#invoiceBills[" + i + "].amount", returnProperStringValue(document.getInvoiceBills().get(i).getEstimatedAmount()));
-                    parameterMap.put("#invoiceBills[" + i + "].isItBilled", returnProperStringValue(document.getInvoiceBills().get(i).getIsItBilled()));
-                }
-            }
-            if (ObjectUtils.isNotNull(award)) {
-                KualiDecimal billing = SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class).getAwardBilledToDateByProposalNumber(award.getProposalNumber());
-                KualiDecimal payments = SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class).calculateTotalPaymentsToDateByAward(award);
-                KualiDecimal receivable = billing.subtract(payments);
-                parameterMap.put("#award.billings", returnProperStringValue(billing));
-                parameterMap.put("#award.payments", returnProperStringValue(payments));
-                parameterMap.put("#award.receivables", returnProperStringValue(receivable));
-                parameterMap.put("#award.proposalNumber", returnProperStringValue(award.getProposalNumber()));
-                parameterMap.put("#award.awardId", returnProperStringValue(award.getAwardId()));
-                if (ObjectUtils.isNotNull(award.getAwardBeginningDate())) {
-                    parameterMap.put("#award.awardBeginningDate", returnProperStringValue(FILE_NAME_TIMESTAMP.format(award.getAwardBeginningDate())));
-                }
-                if (ObjectUtils.isNotNull(award.getAwardEndingDate())) {
-                    parameterMap.put("#award.awardEndingDate", returnProperStringValue(FILE_NAME_TIMESTAMP.format(award.getAwardEndingDate())));
-                }
-                parameterMap.put("#award.awardTotalAmount", returnProperStringValue(award.getAwardTotalAmount()));
-                parameterMap.put("#award.awardAddendumNumber", returnProperStringValue(award.getAwardAddendumNumber()));
-                parameterMap.put("#award.awardAllocatedUniversityComputingServicesAmount", returnProperStringValue(award.getAwardAllocatedUniversityComputingServicesAmount()));
-                parameterMap.put("#award.federalPassThroughFundedAmount", returnProperStringValue(award.getFederalPassThroughFundedAmount()));
-                if (ObjectUtils.isNotNull(award.getAwardEntryDate())) {
-                    parameterMap.put("#award.awardEntryDate", returnProperStringValue(FILE_NAME_TIMESTAMP.format(award.getAwardEntryDate())));
-                }
-                parameterMap.put("#award.agencyFuture1Amount", returnProperStringValue(award.getAgencyFuture1Amount()));
-                parameterMap.put("#award.agencyFuture2Amount", returnProperStringValue(award.getAgencyFuture2Amount()));
-                parameterMap.put("#award.agencyFuture3Amount", returnProperStringValue(award.getAgencyFuture3Amount()));
-                parameterMap.put("#award.awardDocumentNumber", returnProperStringValue(award.getAwardDocumentNumber()));
-                if (ObjectUtils.isNotNull(award.getAwardLastUpdateDate())) {
-                    parameterMap.put("#award.awardLastUpdateDate", returnProperStringValue(FILE_NAME_TIMESTAMP.format(award.getAwardLastUpdateDate())));
-                }
-                parameterMap.put("#award.federalPassthroughIndicator", convertBooleanValue(award.getFederalPassThroughIndicator()));
-                parameterMap.put("#award.oldProposalNumber", returnProperStringValue(award.getOldProposalNumber()));
-                parameterMap.put("#award.awardDirectCostAmount", returnProperStringValue(award.getAwardDirectCostAmount()));
-                parameterMap.put("#award.awardIndirectCostAmount", returnProperStringValue(award.getAwardIndirectCostAmount()));
-                parameterMap.put("#award.federalFundedAmount", returnProperStringValue(award.getFederalFundedAmount()));
-                parameterMap.put("#award.awardCreateTimestamp", returnProperStringValue(award.getAwardCreateTimestamp()));
-                if (ObjectUtils.isNotNull(award.getAwardClosingDate())) {
-                    parameterMap.put("#award.awardClosingDate", returnProperStringValue(FILE_NAME_TIMESTAMP.format(award.getAwardClosingDate())));
-                }
-                parameterMap.put("#award.proposalAwardTypeCode", returnProperStringValue(award.getProposalAwardTypeCode()));
-                parameterMap.put("#award.awardStatusCode", returnProperStringValue(award.getAwardStatusCode()));
-                if (ObjectUtils.isNotNull(award.getLetterOfCreditFund())) {
-                    parameterMap.put("#award.letterOfCreditFundGroupCode", returnProperStringValue(award.getLetterOfCreditFund().getLetterOfCreditFundGroupCode()));
-                }
-                parameterMap.put("#award.letterOfCreditFundCode", returnProperStringValue(award.getLetterOfCreditFundCode()));
-                parameterMap.put("#award.grantDescriptionCode", returnProperStringValue(award.getGrantDescriptionCode()));
-                if(ObjectUtils.isNotNull(award.getProposal())) {
-                    parameterMap.put("#award.grantNumber", returnProperStringValue(award.getProposal().getGrantNumber()));
-                }
-                parameterMap.put("#agencyNumber", returnProperStringValue(award.getAgencyNumber()));
-                parameterMap.put("#agency.fullName", returnProperStringValue(award.getAgency().getFullName()));
-                parameterMap.put("#award.federalPassThroughAgencyNumber", returnProperStringValue(award.getFederalPassThroughAgencyNumber()));
-                parameterMap.put("#award.agencyAnalystName", returnProperStringValue(award.getAgencyAnalystName()));
-                parameterMap.put("#award.analystTelephoneNumber;", returnProperStringValue(award.getAnalystTelephoneNumber()));
-                parameterMap.put("#award.preferredBillingFrequency", returnProperStringValue(award.getPreferredBillingFrequency()));
-                parameterMap.put("#award.preferredReportTemplate", returnProperStringValue(award.getPreferredReportTemplate()));
-                parameterMap.put("#award.preferredReportFrequency", returnProperStringValue(award.getPreferredReportFrequency()));
-                parameterMap.put("#award.awardProjectTitle", returnProperStringValue(award.getAwardProjectTitle()));
-                parameterMap.put("#award.awardCommentText", returnProperStringValue(award.getAwardCommentText()));
-                parameterMap.put("#award.awardPurposeCode", returnProperStringValue(award.getAwardPurposeCode()));
-                parameterMap.put("#award.active", convertBooleanValue(award.isActive()));
-                parameterMap.put("#award.kimGroupNames", returnProperStringValue(award.getKimGroupNames()));
-                parameterMap.put("#award.routingOrg", returnProperStringValue(award.getRoutingOrg()));
-                parameterMap.put("#award.routingChart", returnProperStringValue(award.getRoutingChart()));
-                parameterMap.put("#award.suspendInvoicing", convertBooleanValue(award.isSuspendInvoicingIndicator()));
-                parameterMap.put("#award.additionalFormsRequired", convertBooleanValue(award.isAdditionalFormsRequiredIndicator()));
-                parameterMap.put("#award.additionalFormsDescription", returnProperStringValue(award.getAdditionalFormsDescription()));
-                parameterMap.put("#award.contractGrantType", returnProperStringValue(award.getContractGrantType()));
-                parameterMap.put("#award.minInvoiceAmount", returnProperStringValue(award.getMinInvoiceAmount()));
-                parameterMap.put("#award.autoApprove", returnProperStringValue(award.getAutoApproveIndicator()));
-                parameterMap.put("#award.lookupPersonUniversalIdentifier", returnProperStringValue(award.getLookupPersonUniversalIdentifier()));
-                parameterMap.put("#award.lookupPerson", returnProperStringValue(award.getLookupPerson().getPrincipalName()));
-                parameterMap.put("#award.userLookupRoleNamespaceCode", returnProperStringValue(award.getUserLookupRoleNamespaceCode()));
-                parameterMap.put("#award.userLookupRoleName", returnProperStringValue(award.getUserLookupRoleName()));
-                parameterMap.put("#award.fundingExpirationDate", returnProperStringValue(award.getFundingExpirationDate()));
-                parameterMap.put("#award.drawNumber", returnProperStringValue(award.getDrawNumber()));
-                parameterMap.put("#award.commentText", returnProperStringValue(award.getCommentText()));
-                parameterMap.put("#award.awardProjectDirector.name", returnProperStringValue(award.getAwardPrimaryProjectDirector().getProjectDirector().getName()));
-                parameterMap.put("#award.letterOfCreditFundCode", returnProperStringValue(award.getLetterOfCreditFundCode()));
-                if(ObjectUtils.isNotNull(award.getAwardPrimaryFundManager())){
-                    parameterMap.put("#award.primaryFundManager.name", returnProperStringValue(award.getAwardPrimaryFundManager().getFundManager().getName()));
-                    parameterMap.put("#award.primaryFundManager.email", returnProperStringValue(award.getAwardPrimaryFundManager().getFundManager().getEmailAddress()));
-                    parameterMap.put("#award.primaryFundManager.phone", returnProperStringValue(award.getAwardPrimaryFundManager().getFundManager().getPhoneNumber()));
-                }
-                if (ObjectUtils.isNotNull(document.getInvoiceGeneralDetail())) {
-                    parameterMap.put("#totalAmountDue", returnProperStringValue(receivable.add(document.getInvoiceGeneralDetail().getNewTotalBilled())));
-                }
-            }
-            return parameterMap;
+        }
+        return parameterMap;
     }
 
     /**
      * Returns true if the billing Frequency is Predetermined Billing.
-     *
+     * 
      * @return
      */
     private boolean isAdvance(ContractsGrantsInvoiceDocument document) {
@@ -3414,7 +3421,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
     /**
      * iText compatible boolean value converter.
-     *
+     * 
      * @param bool
      * @return
      */
@@ -3427,7 +3434,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
     /**
      * returns proper contract control Account Number.
-     *
+     * 
      * @return
      */
     private String getRecipientAccountNumber(List<InvoiceAccountDetail> accountDetails) {
@@ -3446,7 +3453,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             Iterator it = document.getAccountDetails().iterator();
             while (it.hasNext()) {
                 InvoiceAccountDetail id = (InvoiceAccountDetail) it.next();
-                setAwardAccountFinalBilledValue(id, true,document.getProposalNumber());
+                setAwardAccountFinalBilledValue(id, true, document.getProposalNumber());
             }
         }
     }
@@ -3454,18 +3461,18 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
     /**
      * This method sets the last billed date to Award and Award Account objects based on the status of the invoice. Final or
      * Corrected.
-     *
+     * 
      * @param invoiceStatus
      */
     @Override
-    public void updateLastBilledDate(String invoiceStatus,ContractsGrantsInvoiceDocument document) {
+    public void updateLastBilledDate(String invoiceStatus, ContractsGrantsInvoiceDocument document) {
         // To calculate and update Last Billed Date based on the status of the invoice. Final or Corrected.
         // 1. Set last Billed Date to Award Accounts
 
         Iterator<InvoiceAccountDetail> iterator = document.getAccountDetails().iterator();
         while (iterator.hasNext()) {
             InvoiceAccountDetail id = iterator.next();
-            this.calculateAwardAccountLastBilledDate(id, invoiceStatus, document.getInvoiceGeneralDetail().getLastBilledDate(),document.getProposalNumber());
+            this.calculateAwardAccountLastBilledDate(id, invoiceStatus, document.getInvoiceGeneralDetail().getLastBilledDate(), document.getProposalNumber());
         }
 
         // 2. Set last Billed to Award = least of last billed date of award account.
@@ -3492,11 +3499,11 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
     /**
      * This method updates the AwardAccount object's last billed Variable with the value provided
-     *
+     * 
      * @param id
      * @param value
      */
-    private void calculateAwardAccountLastBilledDate(InvoiceAccountDetail id, String invoiceStatus, java.sql.Date lastBilledDate,Long proposalNumber) {
+    private void calculateAwardAccountLastBilledDate(InvoiceAccountDetail id, String invoiceStatus, java.sql.Date lastBilledDate, Long proposalNumber) {
         Map<String, Object> mapKey = new HashMap<String, Object>();
         mapKey.put(KFSPropertyConstants.ACCOUNT_NUMBER, id.getAccountNumber());
         mapKey.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, id.getChartOfAccountsCode());
@@ -3508,21 +3515,21 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
     /**
      * This method updates the Bills and Milestone objects isItBilles Field.
-     *
+     * 
      * @param string
      */
     @Override
-    public void updateBillsAndMilestones(String string,List<InvoiceMilestone> invoiceMilestones,List<InvoiceBill> invoiceBills) {
-        updateMilestonesIsItBilled(string,invoiceMilestones);
-        updateBillsIsItBilled(string,invoiceBills);
+    public void updateBillsAndMilestones(String string, List<InvoiceMilestone> invoiceMilestones, List<InvoiceBill> invoiceBills) {
+        updateMilestonesIsItBilled(string, invoiceMilestones);
+        updateBillsIsItBilled(string, invoiceBills);
     }
 
     /**
      * Update Milestone objects isItBilled value.
-     *
+     * 
      * @param string
      */
-    protected void updateMilestonesIsItBilled(String string,List<InvoiceMilestone> invoiceMilestones) {
+    protected void updateMilestonesIsItBilled(String string, List<InvoiceMilestone> invoiceMilestones) {
         // Get a list of invoiceMilestones from the CGIN document. Then search for the actual Milestone object in this list through
         // dao
         // Finally, set these milestones to billed
@@ -3547,10 +3554,10 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
     /**
      * Update Bill objects isItBilled value.
-     *
+     * 
      * @param string
      */
-    protected void updateBillsIsItBilled(String string,List<InvoiceBill> invoiceBills) {
+    protected void updateBillsIsItBilled(String string, List<InvoiceBill> invoiceBills) {
         /* update Bill */
 
         if (invoiceBills != null && !invoiceBills.isEmpty()) {
@@ -3568,11 +3575,11 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
     /**
      * This method updates the ContractsAndGrantsCGBAwardAccount object's FinalBilled Variable with the value provided
-     *
+     * 
      * @param id
      * @param value
      */
-    private void setAwardAccountFinalBilledValue(InvoiceAccountDetail id, boolean value,Long proposalNumber) {
+    private void setAwardAccountFinalBilledValue(InvoiceAccountDetail id, boolean value, Long proposalNumber) {
         Map<String, Object> mapKey = new HashMap<String, Object>();
         mapKey.put(KFSPropertyConstants.ACCOUNT_NUMBER, id.getAccountNumber());
         mapKey.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, id.getChartOfAccountsCode());
@@ -3586,17 +3593,17 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
      * This method updates AwardAccounts
      */
     @Override
-    public void updateUnfinalizationToAwardAccount(List<InvoiceAccountDetail> accountDetails,Long proposalNumber) {
+    public void updateUnfinalizationToAwardAccount(List<InvoiceAccountDetail> accountDetails, Long proposalNumber) {
         Iterator iterator = accountDetails.iterator();
         while (iterator.hasNext()) {
             InvoiceAccountDetail id = (InvoiceAccountDetail) iterator.next();
-            setAwardAccountFinalBilledValue(id, false,proposalNumber);
+            setAwardAccountFinalBilledValue(id, false, proposalNumber);
         }
     }
 
     /**
      * Corrects the Contracts and Grants Invoice Document.
-     *
+     * 
      * @throws WorkflowException
      */
     @Override
@@ -3642,7 +3649,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
         ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService = SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class);
         // set the billed to Date Field
-        if (document.getInvoiceGeneralDetail().getBillingFrequency().equalsIgnoreCase(ArPropertyConstants.MILESTONE_BILLING_SCHEDULE_CODE) && CollectionUtils.isNotEmpty(document.getInvoiceMilestones())){// To
+        if (document.getInvoiceGeneralDetail().getBillingFrequency().equalsIgnoreCase(ArPropertyConstants.MILESTONE_BILLING_SCHEDULE_CODE) && CollectionUtils.isNotEmpty(document.getInvoiceMilestones())) {// To
             // check
             // if
             // award
@@ -3652,7 +3659,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             // update the new total billed for the invoice.
             document.getInvoiceGeneralDetail().setNewTotalBilled(document.getInvoiceGeneralDetail().getNewTotalBilled().add(totalMilestonesAmount));
         }
-        else if (document.getInvoiceGeneralDetail().getBillingFrequency().equalsIgnoreCase(ArPropertyConstants.PREDETERMINED_BILLING_SCHEDULE_CODE) && CollectionUtils.isNotEmpty(document.getInvoiceBills())){// To
+        else if (document.getInvoiceGeneralDetail().getBillingFrequency().equalsIgnoreCase(ArPropertyConstants.PREDETERMINED_BILLING_SCHEDULE_CODE) && CollectionUtils.isNotEmpty(document.getInvoiceBills())) {// To
             // check
             // if
             // award
@@ -3662,13 +3669,13 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             // update the new total billed for the invoice.
             document.getInvoiceGeneralDetail().setNewTotalBilled(document.getInvoiceGeneralDetail().getNewTotalBilled().add(totalBillingAmount));
         }
-        else{
+        else {
             document.getInvoiceGeneralDetail().setBilledToDate(contractsGrantsInvoiceDocumentService.getAwardBilledToDateByProposalNumber(document.getProposalNumber()));
             // update the new total billed for the invoice.
             document.getInvoiceGeneralDetail().setNewTotalBilled(document.getInvoiceGeneralDetail().getNewTotalBilled().add(document.getTotalInvoiceDetails().get(0).getExpenditures()));
         }
 
-        //to set Marked for processing and Date report processed to null.
+        // to set Marked for processing and Date report processed to null.
         document.setMarkedForProcessing(null);
         document.setDateReportProcessed(null);
 
@@ -3676,32 +3683,32 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
     /**
      * This method corrects the Maintenance Document for Predetermined Billing
-     *
+     * 
      * @throws WorkflowException
      */
     @Override
     public void correctBills(List<InvoiceBill> invoiceBills) throws WorkflowException {
-        updateBillsIsItBilled(KFSConstants.ParameterValues.STRING_NO,invoiceBills);
+        updateBillsIsItBilled(KFSConstants.ParameterValues.STRING_NO, invoiceBills);
     }
 
     /**
      * This method corrects the Maintenance Document for milestones
-     *
+     * 
      * @throws WorkflowException
      */
     @Override
     public void correctMilestones(List<InvoiceMilestone> invoiceMilestones) throws WorkflowException {
-        updateMilestonesIsItBilled(KFSConstants.ParameterValues.STRING_NO,invoiceMilestones);
+        updateMilestonesIsItBilled(KFSConstants.ParameterValues.STRING_NO, invoiceMilestones);
     }
 
     /**
      * This method takes all the applicable attributes from the associated award object and sets those attributes into their
      * corresponding invoice attributes.
-     *
+     * 
      * @param award The associated award that the invoice will be linked to.
      */
     @Override
-    public void populateInvoiceFromAward(ContractsAndGrantsCGBAward award, List<ContractsAndGrantsCGBAwardAccount> awardAccounts,ContractsGrantsInvoiceDocument document) {
+    public void populateInvoiceFromAward(ContractsAndGrantsCGBAward award, List<ContractsAndGrantsCGBAwardAccount> awardAccounts, ContractsGrantsInvoiceDocument document) {
         List<ContractsAndGrantsMilestone> milestones = new ArrayList<ContractsAndGrantsMilestone>();
         List<ContractsAndGrantsBill> bills = new ArrayList<ContractsAndGrantsBill>();
         Map<String, Object> map = new HashMap<String, Object>();
@@ -3816,8 +3823,8 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             else {
 
                 // To set values for categories and populate invoice details section
-                generateValuesForAccountObjectCodes(awardAccounts, award,document);
-                generateValuesForCategories(awardAccounts,document);
+                generateValuesForAccountObjectCodes(awardAccounts, award, document);
+                generateValuesForCategories(awardAccounts, document);
             }
 
             // copy award's accounts to invoice account details
@@ -3837,7 +3844,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
                 document.getAccountDetails().add(invoiceAccountDetail);
             }
             // Set some basic values to invoice Document
-            setUpValuesForContractsGrantsInvoiceDocument(award,document);
+            setUpValuesForContractsGrantsInvoiceDocument(award, document);
 
         }
     }
@@ -3846,7 +3853,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
     /**
      * This method helps in setting up basic values for Contracts Grants Invoice Document
      */
-    public void setUpValuesForContractsGrantsInvoiceDocument(ContractsAndGrantsCGBAward award,ContractsGrantsInvoiceDocument document) {
+    public void setUpValuesForContractsGrantsInvoiceDocument(ContractsAndGrantsCGBAward award, ContractsGrantsInvoiceDocument document) {
         if (ObjectUtils.isNotNull(award.getAgency())) {
             if (ObjectUtils.isNotNull(document.getAccountsReceivableDocumentHeader())) {
                 document.getAccountsReceivableDocumentHeader().setCustomerNumber(award.getAgency().getCustomerNumber());
@@ -3989,21 +3996,22 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         // get the categories and create a new arraylist for each one
         for (ContractsAndGrantsCategories category : contractsAndGrantsCategories) {
             // populate the category object code maps
-            objectCodeFromCategoriesMap.put(category.getCategoryCode(), getObjectCodeArrayFromSingleCategory(category,document));
+            objectCodeFromCategoriesMap.put(category.getCategoryCode(), getObjectCodeArrayFromSingleCategory(category, document));
 
         }
         for (ContractsAndGrantsCGBAwardAccount awardAccount : awardAccounts) {
-            //Changes made to retrieve balances of previous years (useful when the award is billed for the first time and in case of fiscal year change)
-            //1. If award is billed for the first time.
+            // Changes made to retrieve balances of previous years (useful when the award is billed for the first time and in case
+            // of fiscal year change)
+            // 1. If award is billed for the first time.
 
 
             Integer fiscalYear = SpringContext.getBean(UniversityDateService.class).getFiscalYear(award.getAwardBeginningDate());
 
-            for(Integer i = fiscalYear; i<= currentYear; i++ ){
-             fiscalYears.add(i);
+            for (Integer i = fiscalYear; i <= currentYear; i++) {
+                fiscalYears.add(i);
             }
 
-            for(Integer eachFiscalYr: fiscalYears){
+            for (Integer eachFiscalYr : fiscalYears) {
                 Map<String, Object> balanceKeys = new HashMap<String, Object>();
                 balanceKeys.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, awardAccount.getChartOfAccountsCode());
                 balanceKeys.put(KFSPropertyConstants.ACCOUNT_NUMBER, awardAccount.getAccountNumber());
@@ -4017,56 +4025,58 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
 
         for (Balance bal : glBalances) {
-           if(ObjectUtils.isNotNull(bal.getSubAccount()) && ObjectUtils.isNotNull(bal.getSubAccount().getA21SubAccount()) && !StringUtils.equalsIgnoreCase(bal.getSubAccount().getA21SubAccount().getSubAccountTypeCode(),KFSConstants.SubAccountType.COST_SHARE)){
+            if (ObjectUtils.isNotNull(bal.getSubAccount()) && ObjectUtils.isNotNull(bal.getSubAccount().getA21SubAccount()) && !StringUtils.equalsIgnoreCase(bal.getSubAccount().getA21SubAccount().getSubAccountTypeCode(), KFSConstants.SubAccountType.COST_SHARE)) {
 
-            ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService = SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class);
+                ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService = SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class);
 
-            for (ContractsAndGrantsCategories category : contractsAndGrantsCategories) {
-                Set<String> objectCodeFromCategoriesSet = objectCodeFromCategoriesMap.get(category.getCategoryCode());
+                for (ContractsAndGrantsCategories category : contractsAndGrantsCategories) {
+                    Set<String> objectCodeFromCategoriesSet = objectCodeFromCategoriesMap.get(category.getCategoryCode());
 
-                // if the object code from this balance is in the list of object code retrieved from the category, then include in
-                // the detail
-                if (objectCodeFromCategoriesSet.contains(bal.getObjectCode())) {
-                    InvoiceDetailAccountObjectCode invoiceDetailAccountObjectCode;
-                    //Check if there is an existing invoice detail account object code existing (if there are more than one fiscal years)
-                    Map<String, Object> invDtlKeys = new HashMap<String, Object>();
-                    invDtlKeys.put(KFSPropertyConstants.PROPOSAL_NUMBER, document.getProposalNumber());
-                    invDtlKeys.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, bal.getChartOfAccountsCode());
-                    invDtlKeys.put(KFSPropertyConstants.ACCOUNT_NUMBER, bal.getAccountNumber());
-                    invDtlKeys.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, bal.getObjectCode());
-                    invDtlKeys.put(KFSPropertyConstants.DOCUMENT_NUMBER, document.getDocumentHeader().getDocumentNumber());
-                    invoiceDetailAccountObjectCode = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(InvoiceDetailAccountObjectCode.class, invDtlKeys);
+                    // if the object code from this balance is in the list of object code retrieved from the category, then include
+                    // in
+                    // the detail
+                    if (objectCodeFromCategoriesSet.contains(bal.getObjectCode())) {
+                        InvoiceDetailAccountObjectCode invoiceDetailAccountObjectCode;
+                        // Check if there is an existing invoice detail account object code existing (if there are more than one
+                        // fiscal years)
+                        Map<String, Object> invDtlKeys = new HashMap<String, Object>();
+                        invDtlKeys.put(KFSPropertyConstants.PROPOSAL_NUMBER, document.getProposalNumber());
+                        invDtlKeys.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, bal.getChartOfAccountsCode());
+                        invDtlKeys.put(KFSPropertyConstants.ACCOUNT_NUMBER, bal.getAccountNumber());
+                        invDtlKeys.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, bal.getObjectCode());
+                        invDtlKeys.put(KFSPropertyConstants.DOCUMENT_NUMBER, document.getDocumentHeader().getDocumentNumber());
+                        invoiceDetailAccountObjectCode = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(InvoiceDetailAccountObjectCode.class, invDtlKeys);
 
-                    if(ObjectUtils.isNull(invoiceDetailAccountObjectCode)){
-                    invoiceDetailAccountObjectCode = new InvoiceDetailAccountObjectCode();
-                    invoiceDetailAccountObjectCode.setDocumentNumber(document.getDocumentHeader().getDocumentNumber());
-                    invoiceDetailAccountObjectCode.setProposalNumber(document.getProposalNumber());
-                    invoiceDetailAccountObjectCode.setFinancialObjectCode(bal.getObjectCode());
-                    invoiceDetailAccountObjectCode.setCategoryCode(category.getCategoryCode());
-                    invoiceDetailAccountObjectCode.setAccountNumber(bal.getAccountNumber());
-                    invoiceDetailAccountObjectCode.setChartOfAccountsCode(bal.getChartOfAccountsCode());
-                    document.getInvoiceDetailAccountObjectCodes().add(invoiceDetailAccountObjectCode);
+                        if (ObjectUtils.isNull(invoiceDetailAccountObjectCode)) {
+                            invoiceDetailAccountObjectCode = new InvoiceDetailAccountObjectCode();
+                            invoiceDetailAccountObjectCode.setDocumentNumber(document.getDocumentHeader().getDocumentNumber());
+                            invoiceDetailAccountObjectCode.setProposalNumber(document.getProposalNumber());
+                            invoiceDetailAccountObjectCode.setFinancialObjectCode(bal.getObjectCode());
+                            invoiceDetailAccountObjectCode.setCategoryCode(category.getCategoryCode());
+                            invoiceDetailAccountObjectCode.setAccountNumber(bal.getAccountNumber());
+                            invoiceDetailAccountObjectCode.setChartOfAccountsCode(bal.getChartOfAccountsCode());
+                            document.getInvoiceDetailAccountObjectCodes().add(invoiceDetailAccountObjectCode);
+                        }
+                        // Retrieve cumulative amounts based on the biling period.
+
+                        if (document.getInvoiceGeneralDetail().getBillingFrequency().equalsIgnoreCase(ArPropertyConstants.MONTHLY_BILLING_SCHEDULE_CODE) || document.getInvoiceGeneralDetail().getBillingFrequency().equalsIgnoreCase(ArPropertyConstants.QUATERLY_BILLING_SCHEDULE_CODE) || document.getInvoiceGeneralDetail().getBillingFrequency().equalsIgnoreCase(ArPropertyConstants.SEMI_ANNUALLY_BILLING_SCHEDULE_CODE) || document.getInvoiceGeneralDetail().getBillingFrequency().equalsIgnoreCase(ArPropertyConstants.ANNUALLY_BILLING_SCHEDULE_CODE)) {
+                            invoiceDetailAccountObjectCode.setCumulativeExpenditures(invoiceDetailAccountObjectCode.getCumulativeExpenditures().add(contractsGrantsInvoiceDocumentService.retrieveAccurateBalanceAmount(document.getInvoiceGeneralDetail().getLastBilledDate(), bal)));
+                        }
+                        else if (document.getInvoiceGeneralDetail().getBillingFrequency().equalsIgnoreCase(ArPropertyConstants.BILLED_AT_TERM)) {
+                            invoiceDetailAccountObjectCode.setCumulativeExpenditures(invoiceDetailAccountObjectCode.getCumulativeExpenditures().add(bal.getContractsGrantsBeginningBalanceAmount().add(bal.getAccountLineAnnualBalanceAmount())));
+                        }
+                        else {// This code should be removed. This is temporary - just to make sure the amounts are pulled up.
+                            invoiceDetailAccountObjectCode.setCumulativeExpenditures(invoiceDetailAccountObjectCode.getCumulativeExpenditures().add(bal.getContractsGrantsBeginningBalanceAmount().add(bal.getAccountLineAnnualBalanceAmount())));
+                        }
+
+                        // add this single account object code item to the list in the Map
+                        SpringContext.getBean(BusinessObjectService.class).save(invoiceDetailAccountObjectCode);
+
+
+                        break; // found a match into which category, we can stop and move on to next balance entry
                     }
-                    // Retrieve cumulative amounts based on the biling period.
-
-                    if (document.getInvoiceGeneralDetail().getBillingFrequency().equalsIgnoreCase(ArPropertyConstants.MONTHLY_BILLING_SCHEDULE_CODE) || document.getInvoiceGeneralDetail().getBillingFrequency().equalsIgnoreCase(ArPropertyConstants.QUATERLY_BILLING_SCHEDULE_CODE) || document.getInvoiceGeneralDetail().getBillingFrequency().equalsIgnoreCase(ArPropertyConstants.SEMI_ANNUALLY_BILLING_SCHEDULE_CODE) || document.getInvoiceGeneralDetail().getBillingFrequency().equalsIgnoreCase(ArPropertyConstants.ANNUALLY_BILLING_SCHEDULE_CODE)) {
-                        invoiceDetailAccountObjectCode.setCumulativeExpenditures(invoiceDetailAccountObjectCode.getCumulativeExpenditures().add(contractsGrantsInvoiceDocumentService.retrieveAccurateBalanceAmount(document.getInvoiceGeneralDetail().getLastBilledDate(), bal)));
-                    }
-                    else if (document.getInvoiceGeneralDetail().getBillingFrequency().equalsIgnoreCase(ArPropertyConstants.BILLED_AT_TERM)) {
-                        invoiceDetailAccountObjectCode.setCumulativeExpenditures(invoiceDetailAccountObjectCode.getCumulativeExpenditures().add(bal.getContractsGrantsBeginningBalanceAmount().add(bal.getAccountLineAnnualBalanceAmount())));
-                    }
-                    else {// This code should be removed. This is temporary - just to make sure the amounts are pulled up.
-                        invoiceDetailAccountObjectCode.setCumulativeExpenditures(invoiceDetailAccountObjectCode.getCumulativeExpenditures().add(bal.getContractsGrantsBeginningBalanceAmount().add(bal.getAccountLineAnnualBalanceAmount())));
-                    }
-
-                    // add this single account object code item to the list in the Map
-                    SpringContext.getBean(BusinessObjectService.class).save(invoiceDetailAccountObjectCode);
-
-
-                    break; // found a match into which category, we can stop and move on to next balance entry
                 }
             }
-        }
         }
 
         // Modifying the code to set invoiceDetailaccountobject codes calculation here checking with loc review indicator and also
@@ -4100,18 +4110,18 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
                 List<AwardAccountObjectCodeTotalBilled> awardAccountObjectCodeTotalBilledList = (List<AwardAccountObjectCodeTotalBilled>) SpringContext.getBean(BusinessObjectService.class).findMatching(AwardAccountObjectCodeTotalBilled.class, totalBilledKeys);
 
-                    for (InvoiceDetailAccountObjectCode invoiceDetailAccountObjectCode : document.getInvoiceDetailAccountObjectCodes()) {
-                        if (CollectionUtils.isNotEmpty(awardAccountObjectCodeTotalBilledList)) {
+                for (InvoiceDetailAccountObjectCode invoiceDetailAccountObjectCode : document.getInvoiceDetailAccountObjectCodes()) {
+                    if (CollectionUtils.isNotEmpty(awardAccountObjectCodeTotalBilledList)) {
                         for (AwardAccountObjectCodeTotalBilled awardAccountObjectCodeTotalBilled : awardAccountObjectCodeTotalBilledList) {
                             if (invoiceDetailAccountObjectCode.getFinancialObjectCode().equalsIgnoreCase(awardAccountObjectCodeTotalBilled.getFinancialObjectCode())) {
                                 invoiceDetailAccountObjectCode.setTotalBilled(awardAccountObjectCodeTotalBilled.getTotalBilled());
                             }
                         }
-                        }
-                        // Set current expenditures
-                        invoiceDetailAccountObjectCode.setCurrentExpenditures(invoiceDetailAccountObjectCode.getCumulativeExpenditures().subtract(invoiceDetailAccountObjectCode.getTotalBilled()));
-
                     }
+                    // Set current expenditures
+                    invoiceDetailAccountObjectCode.setCurrentExpenditures(invoiceDetailAccountObjectCode.getCumulativeExpenditures().subtract(invoiceDetailAccountObjectCode.getTotalBilled()));
+
+                }
             }
 
         }
@@ -4123,7 +4133,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
      * Once the object codes are retrieved and categories are set the performAccountingCalculations method of InvoiceDetail BO will
      * do all the accounting calculations.
      */
-    public void generateValuesForCategories(List<ContractsAndGrantsCGBAwardAccount> awardAccounts,ContractsGrantsInvoiceDocument document) {
+    public void generateValuesForCategories(List<ContractsAndGrantsCGBAwardAccount> awardAccounts, ContractsGrantsInvoiceDocument document) {
 
         Set<String> categoryArray = new HashSet<String>();
 
@@ -4148,7 +4158,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             invDetail.setCategoryCode(category.getCategoryCode());
             invDetail.setIndirectCostIndicator(category.isIndirectCostIndicator());
             // calculate total billed first
-            Set<String> completeObjectCodeArrayForSingleCategory = getObjectCodeArrayFromSingleCategory(category,document);
+            Set<String> completeObjectCodeArrayForSingleCategory = getObjectCodeArrayFromSingleCategory(category, document);
             invDetail.performTotalBilledCalculation(awardAccountObjectCodeTotalBilleds, completeObjectCodeArrayForSingleCategory);
 
 
@@ -4157,7 +4167,8 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             invDetail.performCurrentExpenditureCalculation(document.getInvoiceDetailAccountObjectCodes(), completeObjectCodeArrayForSingleCategory);
 
             // calculate the rest using billed to date
-            invDetail.performBudgetCalculations(awardAccounts, completeObjectCodeArrayForSingleCategory, document.getAward().getAwardBeginningDate());// accounting calculations
+            invDetail.performBudgetCalculations(awardAccounts, completeObjectCodeArrayForSingleCategory, document.getAward().getAwardBeginningDate());// accounting
+                                                                                                                                                      // calculations
             // happening here
 
             document.getInvoiceDetails().add(invDetail);
@@ -4268,12 +4279,12 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
     /**
      * This method takes a ContractsAndGrantsCategory, retrieves the specified object code or object code range. It then parses this
      * string, and returns all the possible object codes specified by this range.
-     *
+     * 
      * @param category
      * @return Set<String> objectCodes
      */
     @Override
-    public Set<String> getObjectCodeArrayFromSingleCategory(ContractsAndGrantsCategories category,ContractsGrantsInvoiceDocument document) throws IllegalArgumentException {
+    public Set<String> getObjectCodeArrayFromSingleCategory(ContractsAndGrantsCategories category, ContractsGrantsInvoiceDocument document) throws IllegalArgumentException {
         Set<String> objectCodeArray = new HashSet<String>();
         Set<String> levels = new HashSet<String>();
         if (ObjectUtils.isNotNull(category.getCategoryObjectCodes()) && StringUtils.isNotEmpty(category.getCategoryObjectCodes())) {
@@ -4389,7 +4400,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
     /**
      * This method returns the complete set of object codes for ALL ContractsAndGrantsCategories.
-     *
+     * 
      * @return Set<String> objectCodes
      */
     public Set<String> getObjectCodeArrayFromContractsAndGrantsCategories(ContractsGrantsInvoiceDocument document) {
@@ -4401,7 +4412,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
         while (contractsAndGrantsCategoriesIterator.hasNext()) {
             ContractsAndGrantsCategories category = contractsAndGrantsCategoriesIterator.next();
-            objectCodeArray.addAll(getObjectCodeArrayFromSingleCategory(category,document));
+            objectCodeArray.addAll(getObjectCodeArrayFromSingleCategory(category, document));
         }
 
         return objectCodeArray;
@@ -4410,7 +4421,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
     /**
      * This method returns a list of character strings that represent base 36 integers from start(non-inclusive) to limit
      * (inclusive).
-     *
+     * 
      * @param start the starting point of the list. This value is not included in the list.
      * @param limit the ending point of the list. This value is included in the list
      * @return the list of strings

@@ -1125,35 +1125,93 @@ public class PurApLineServiceImpl implements PurApLineService {
      * Sets create asset and apply payment indicators. These two indicators are referenced by jsp to control display of these two
      * action links. How to set these two indicators is based on the business rules. We need to put the following situations into
      * consideration. Since we move allocate additional charge allocation to CAB batch, we bring over additional charge lines only
-     * when they are the only items in the document, or they are trade-in allowances, or they are from cancelled PREQ or FO changes.
+     * when they are the only items in the document, or they are trade-in allowances, or they are from cancelled AP docs or FO changes.
      * To accommodate this, we relax the rules and defined as:
+     * NOTE: AP docs below refer to PREQs/CMs for the same PO; these docs will be processed in CAB on the same screen.
      *
-1. If the PREQ has only ITEM type lines, then display the 2 actions (create/pay) for these lines.
-2. If the PREQ has only ADDITIONAL type lines, then display the 2 actions (create/pay) for these lines.
-3. If the PREQ has both ITEM and ADDITIONAL item lines:
+1. If the AP docs have only ITEM type lines, then display the 2 actions (create/pay) for these lines.
+2. If the AP docs have only ADDITIONAL type lines, then display the 2 actions (create/pay) for these lines.
+3. If the AP docs have both ITEM and ADDITIONAL item lines:
+
 3.1 An ADDITIONAL line will be allocated during the cab extract batch job, if both of the following 2 conditions are met:
 a) The ADDITIONAL line is NOT TRDI, and
-b) The PREQ has no FO changes and is not cancelled.
-    If all ADDITIONAL lines in the PREQ fall into above category, then there will be no pending allocation on any ITEM line, so
+b) The AP docs have no FO changes and are not cancelled.
+    If all ADDITIONAL lines in the AP docs fall into above category, then there will be no pending allocation on any ITEM line, so
 all ITEM lines and ADDITIONAL lines shall have the 2 actions showing.
-3.2 If there's any ADDITIONAL line in the PREQ that's not allocated during the batch, i.e. it falls into one of the 2 cases below:
+
+3.2 If there's any ADDITIONAL line in the AP docs that's not allocated during the batch, i.e. it falls into one of the 2 cases below:
 a) The ADDITIONAL line is TRDI, or
-b) The PREQ has FO changes or it's cancelled.
+b) The AP docs have FO changes or are cancelled.
 3.2.1 In this case, these un-allocated ADDITIONAL lines will need to be allocated manually first, before the create & pay actions show up for them.
 3.2.2 Meanwhile, for all ITEM lines, the create & pay actions will not show up either until after the above ADDITIONAL lines are allocated.
+
+3.3 Special exception for 3.2, when all of the following conditions are met:
+a) The AP docs have active TRDI lines; and
+b) The TRDI lines are the only active additional charges in the AP docs; and
+c) The AP docs have no active trade-in ITEM lines that the TRDI lines could allocate to.
+    The above scenario is not desirable, but it could happen if PREQs with only trade-in ITEMs but no TRDI lines were extracted and submitted
+first, and become inactive, then later other PREQs with only TRDI lines but no trade-in ITEMs for the same PO are created and extracted.
+At that point, the later PREQs are stuck, since the TRDI lines have no target trade-in ITEM lines to allocate to, and if we don't display the
+2 process buttons, none of the ITEM and TRDI lines will have any possible action to take. In order to avoid this, we will make an exception here
+to allow the 2 buttons to show for both TRDI and ITEM lines, so they can be submitted, even though the TRDI lines missed the allocation.
+
      *
      * @param purApDocs
      */
     protected void setAssetIndicator(List<PurchasingAccountsPayableDocument> purApDocs) {
-        // we should check pending allocation per document, instead of all documents under same PO; since the rule applies
-        // to each document independently; pending allocations in other documents should not block current document.
+        // Parse active AP documents list for the same PO, set various indicators for deciding if allocation is needeed and can be done first.
+        boolean existUnallocatedAdditionalTRDI = false;
+        boolean existUnallocatedAdditionalNonTRDI = false;
+        boolean existActiveITEMTradeIn = false;
+        boolean existActiveITEMNonTradeIn = false;
+
+        // Note: We shall check pending allocation across all AP documents for the same PO, since they are processed together
+        // on the same screen, and additional charges can be allocated to ITEMs across different documents in this list.
         for (PurchasingAccountsPayableDocument purApDoc : purApDocs) {
-            // Based on the business rules above, we can simplify the checking to the following:
-            // The only case in which we shouldn't display create asset or apply payment action for any line is when there're un-allocated
-            // additional lines, as well as ITEM type lines in the documents; otherwise, display both for all active lines.
-            boolean existUnAllocatedAdditionalLines = existUnAllocatedAdditionalLines(purApDoc);
-            boolean existActiveItemLines = existActiveItemLines(purApDoc);
-            if (!existUnAllocatedAdditionalLines || !existActiveItemLines) {
+            for (PurchasingAccountsPayableItemAsset item : purApDoc.getPurchasingAccountsPayableItemAssets()) {
+                // TRDI additional charge line
+                if (item.isTradeInAllowance()) {
+                    // un-allocated
+                    if (ActivityStatusCode.NEW.equalsIgnoreCase(item.getActivityStatusCode()) || ActivityStatusCode.MODIFIED_NOT_ALLOCATED.equalsIgnoreCase(item.getActivityStatusCode())) {
+                        existUnallocatedAdditionalTRDI = true;
+                    }
+                }
+                // Non-TRDI additional charge line
+                else if (item.isAdditionalChargeNonTradeInIndicator()) {
+                    // un-allocated
+                    if (ActivityStatusCode.NEW.equalsIgnoreCase(item.getActivityStatusCode()) || ActivityStatusCode.MODIFIED_NOT_ALLOCATED.equalsIgnoreCase(item.getActivityStatusCode())) {
+                        existUnallocatedAdditionalNonTRDI = true;
+                    }
+                }
+                // TradeIn ITEM line
+                else if (item.isItemAssignedToTradeInIndicator()) {
+                    // active
+                    if (item.isActive()) {
+                        existActiveITEMTradeIn = true;
+                    }
+                }
+                // Non-TradeIn ITEM line
+                else {
+                    // active
+                    if (item.isActive()) {
+                        existActiveITEMNonTradeIn = true;
+                    }
+                }
+            }
+        }
+
+        // Based on the business rules above, we can simplify the display process actions criteria to the following:
+        // The only case in which we shouldn't display the process action links for any line is when
+        // there're un-allocated additional lines, as well as ITEM type lines to be allocated to in the documents;
+        // In another word, if there's no unallocated additional line, or no active ITEM line, or
+        // there're unallocated TRDI but no active trade-in ITEM to allocate to, display the actions.
+        boolean existUnallocatedAdditional = existUnallocatedAdditionalTRDI || existUnallocatedAdditionalNonTRDI;
+        boolean existActiveITEM = existActiveITEMTradeIn || existActiveITEMNonTradeIn;
+        boolean displayActions = !existUnallocatedAdditional || !existActiveITEM || (existUnallocatedAdditionalTRDI && !existActiveITEMTradeIn);
+
+        // display both create asset or apply payment action links for all active lines.
+        if (displayActions) {
+            for (PurchasingAccountsPayableDocument purApDoc : purApDocs) {
                 for (PurchasingAccountsPayableItemAsset item : purApDoc.getPurchasingAccountsPayableItemAssets()) {
                     // set the indicators to true for all active lines
                     if (item.isActive()) {
@@ -1164,36 +1222,6 @@ b) The PREQ has FO changes or it's cancelled.
             }
         }
     }
-
-    /**
-     * KFSCNTRB-1676/FSKD-5487
-     * Checks whether there exists any un-allocated additional charge asset line in the specified documents.
-     */
-    protected boolean existUnAllocatedAdditionalLines(PurchasingAccountsPayableDocument purApDoc) {
-        for (PurchasingAccountsPayableItemAsset item : purApDoc.getPurchasingAccountsPayableItemAssets()) {
-            // We use activityStatusCode being NEW or MODIFIED_NOT_ALLOCATED to indicate the line hasn't been allocated yet
-            if ((item.isAdditionalChargeNonTradeInIndicator() || item.isTradeInAllowance()) &&
-                    (ActivityStatusCode.NEW.equalsIgnoreCase(item.getActivityStatusCode()) ||
-                            ActivityStatusCode.MODIFIED_NOT_ALLOCATED.equalsIgnoreCase(item.getActivityStatusCode()))) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
-     * KFSCNTRB-1676/FSKD-5487
-     * Checks whether there exists any active ITEM type asset line in the specified documents.
-     */
-    protected boolean existActiveItemLines(PurchasingAccountsPayableDocument purApDoc) {
-        for (PurchasingAccountsPayableItemAsset item : purApDoc.getPurchasingAccountsPayableItemAssets()) {
-            if (item.isActive() && !item.isAdditionalChargeNonTradeInIndicator() && !item.isTradeInAllowance()) {
-                return true;
-            }
-        }
-        return false;
-    }
-
 
     /**
      * Set item asset unit cost.

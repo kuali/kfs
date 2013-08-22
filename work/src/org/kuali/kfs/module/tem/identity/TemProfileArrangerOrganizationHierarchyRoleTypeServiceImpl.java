@@ -15,6 +15,29 @@
  */
 package org.kuali.kfs.module.tem.identity;
 
+import java.util.Map;
+
+import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.sys.identity.KfsKimAttributes;
+
 
 public class TemProfileArrangerOrganizationHierarchyRoleTypeServiceImpl extends TemProfileOrganizationHierarchyRoleTypeServiceImpl {
+
+    /**
+     * @see org.kuali.rice.kns.kim.type.DataDictionaryTypeServiceBase#performMatch(java.util.Map, java.util.Map)
+     */
+    @Override
+    protected boolean performMatch(Map<String, String> inputAttributes, Map<String, String> storedAttributes) {
+
+        if (inputAttributes == null) {
+            return true;
+        }
+        String orgChartOfAccountsCode = inputAttributes.get(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE);
+        String organizationCode = inputAttributes.get(KfsKimAttributes.ORGANIZATION_CODE);
+        String roleChartOfAccountsCode = storedAttributes.get(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE);
+        String roleOrganizationCode = storedAttributes.get(KfsKimAttributes.ORGANIZATION_CODE);
+        boolean descendHierarchy = StringUtils.equalsIgnoreCase(storedAttributes.get(KfsKimAttributes.DESCEND_HIERARCHY), DESCEND_HIERARCHY_TRUE_VALUE);
+
+        return isParentOrg(orgChartOfAccountsCode, organizationCode, roleChartOfAccountsCode, roleOrganizationCode, descendHierarchy);
+    }
 }

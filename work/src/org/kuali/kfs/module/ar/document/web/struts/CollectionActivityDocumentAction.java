@@ -29,18 +29,21 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.bind.annotation.XmlElementDecl.GLOBAL;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArKeyConstants;
+import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.Event;
 import org.kuali.kfs.module.ar.document.CollectionActivityDocument;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.CollectionActivityDocumentService;
 import org.kuali.kfs.module.ar.document.validation.event.AddCollectionActivityDocumentEvent;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.ObjectUtil;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentActionBase;
 import org.kuali.kfs.sys.service.SegmentedLookupResultsService;
@@ -53,6 +56,7 @@ import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.KualiRuleService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.MessageMap;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
@@ -352,38 +356,44 @@ public class CollectionActivityDocumentAction extends FinancialSystemTransaction
         if (StringUtils.equals(KFSConstants.MULTIPLE_VALUE, collectionActivityDocumentForm.getRefreshCaller())) {
             String lookupResultsSequenceNumber = collectionActivityDocumentForm.getLookupResultsSequenceNumber();
             Set<String> selectedIds = SpringContext.getBean(SegmentedLookupResultsService.class).retrieveSetOfSelectedObjectIds(lookupResultsSequenceNumber, GlobalVariables.getUserSession().getPerson().getPrincipalId());
-            colActDoc.setSelectedInvoiceDocumentNumberList(StringUtils.join(selectedIds.toArray(), ","));
+            if (ObjectUtils.isNotNull(selectedIds) && CollectionUtils.isNotEmpty(selectedIds)) {
+                colActDoc.setSelectedInvoiceDocumentNumberList(StringUtils.join(selectedIds.toArray(), ","));
+            }
         }
 
-            return mapping.findForward(KFSConstants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     public ActionForward addGlobalEvent(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-
+        MessageMap errorMap = GlobalVariables.getMessageMap();
         CollectionActivityDocumentForm colActDocForm = (CollectionActivityDocumentForm) form;
         CollectionActivityDocument colActDoc = colActDocForm.getCollectionActivityDocument();
-        List<String> selectedInvoiceList = Arrays.asList(colActDoc.getSelectedInvoiceDocumentNumberList().split(","));
+        if (ObjectUtils.isNull(colActDoc.getSelectedInvoiceDocumentNumberList())) {
+            errorMap.putError("document."+ArPropertyConstants.EventFields.SELECTED_INVOICES, ArKeyConstants.CollectionActivityDocumentErrors.ERROR_COMPLETED_DATE_REQUIRED);
+            return mapping.findForward(KFSConstants.MAPPING_BASIC);
+        }
+        List<String> selectedInvoiceList = new ArrayList(Arrays.asList(colActDoc.getSelectedInvoiceDocumentNumberList().split(",")));
         Event newGlobalEvent = colActDoc.getGlobalEvent();
 
         ConfigurationService kualiConfiguration = SpringContext.getBean(ConfigurationService.class);
 
         KualiRuleService ruleService = SpringContext.getBean(KualiRuleService.class);
-     for(String invoiceNumber : selectedInvoiceList){
-        boolean rulePassed = true;
-        newGlobalEvent.setInvoiceNumber(invoiceNumber);
-        // apply save rules for the doc
-        rulePassed &= ruleService.applyRules(new SaveDocumentEvent(KFSConstants.DOCUMENT_HEADER_ERRORS, colActDoc));
-        
-        // apply rules for the new collection activity document detail
-        rulePassed &= ruleService.applyRules(new AddCollectionActivityDocumentEvent(ArConstants.NEW_COLLECTION_ACTIVITY_EVENT_ERROR_PATH_PREFIX, colActDoc, newGlobalEvent));
+        for (String invoiceNumber : selectedInvoiceList) {
+            boolean rulePassed = true;
+            newGlobalEvent.setInvoiceNumber(invoiceNumber);
+            // apply save rules for the doc
+            rulePassed &= ruleService.applyRules(new SaveDocumentEvent(KFSConstants.DOCUMENT_HEADER_ERRORS, colActDoc));
 
-        if (rulePassed) {
-            collectionActivityDocumentService.addNewEvent(kualiConfiguration.getPropertyValueAsString(ArKeyConstants.CollectionActivityDocumentConstants.CREATED_BY_COLLECTION_ACTIVITY_DOC), colActDoc, newGlobalEvent);
-            colActDoc.setGlobalEvent(new Event());
-            colActDoc.setSelectedInvoiceDocumentNumberList("");
+            // apply rules for the new collection activity document detail
+            rulePassed &= ruleService.applyRules(new AddCollectionActivityDocumentEvent(ArConstants.NEW_COLLECTION_ACTIVITY_EVENT_ERROR_PATH_PREFIX, colActDoc, newGlobalEvent));
+
+            if (rulePassed) {
+                collectionActivityDocumentService.addNewEvent(kualiConfiguration.getPropertyValueAsString(ArKeyConstants.CollectionActivityDocumentConstants.CREATED_BY_COLLECTION_ACTIVITY_DOC), colActDoc, newGlobalEvent);
+                colActDoc.setGlobalEvent(new Event());
+                colActDoc.setSelectedInvoiceDocumentNumberList("");
+            }
         }
-    }
-        
+
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 }

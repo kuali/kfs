@@ -128,7 +128,19 @@
 		</table>
 
 
-		<table>
+		<c:choose>
+			<c:when
+				test="${empty KualiForm.selectedProposalNumber || KualiForm.methodToCall == 'refresh'}">
+			</c:when>
+			<c:otherwise>
+				<c:choose>
+					<c:when test="${empty KualiForm.selectedInvoiceApplication}">
+						<div>
+							<br /> No Invoices Found
+						</div>
+					</c:when>
+					<c:otherwise>
+							<table>
 			<tr>
 				<td colspan='2' class='tab-subhead'><label
 					for="selectedInvoiceDocumentNumber">Global Events</label></td>
@@ -174,8 +186,8 @@
 										eventAttributes="${eventAttributes}" addLine="true"
 										readOnly="false" rowHeading="add" cssClass="infoline"
 										actionMethod="addGlobalEvent"
-										actionAlt="Select Invoices to Apply"
-										actionImage="${ConfigProperties.kr.externalizable.images.url}tinybutton-add11.gif" />
+										actionAlt="Add"
+										actionImage="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" />
 								</c:if>
 							</table>
 						</td>
@@ -183,18 +195,7 @@
 				</c:choose>
 			</tr>
 		</table>
-		<c:choose>
-			<c:when
-				test="${empty KualiForm.selectedProposalNumber || KualiForm.methodToCall == 'refresh'}">
-			</c:when>
-			<c:otherwise>
-				<c:choose>
-					<c:when test="${empty KualiForm.selectedInvoiceApplication}">
-						<div>
-							<br /> No Invoices Found
-						</div>
-					</c:when>
-					<c:otherwise>
+
 						<table width="100%" cellpadding="0" cellspacing="0"
 							class="datatable">
 							<tr id='beta_zeta'>

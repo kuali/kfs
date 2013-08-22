@@ -211,6 +211,7 @@ public class ArPropertyConstants{
         public static final String COMPLETED = "completedInd";
         public static final String EVENT_ROUTE_STATUS = "eventRouteStatus";
         public static final String DOCUMENT_NUMBER = "documentNumber";
+        public static final String SELECTED_INVOICES = "selectedInvoiceDocumentNumberList";
     }
 
     public static class CollectionActivityDocumentFields {

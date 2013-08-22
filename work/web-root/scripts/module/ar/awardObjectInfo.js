@@ -14,8 +14,10 @@
  * limitations under the License.
  */
 function loadAwardInfo( proposalNumberFieldName ) {
-    var proposalNumber = DWRUtil.getValue( proposalNumberFieldName ).toUpperCase();
-
+	alert(2);
+    var proposalNumber = 67;
+    var proposalNumber = dwr.util.getValue(proposalNumberFieldName).toUpperCase();
+    alert(1);
 	if (proposalNumber=='') {
 		clearRecipients( "document.agencyNumber" );
 		clearRecipients( "document.agencyName" );
@@ -24,7 +26,9 @@ function loadAwardInfo( proposalNumberFieldName ) {
 	} else {
 		var dwrReply = {
 			callback:function(data) {
+				alert(data);
 			if ( data != null && typeof data == 'object' ) {
+				alert(data.agency.agencyNumber);
 				setRecipientValue( "document.agencyNumber", data.agency.agencyNumber );
 				setRecipientValue( "document.agencyName", data.agency.fullName );
 				setRecipientValue( "document.customerNumber", data.agency.customer.customerNumber );
@@ -47,7 +51,7 @@ function loadAwardInfo( proposalNumberFieldName ) {
 }
 
 function clearDate(booleanFieldName, dateFieldName) {
-	var clearDate = DWRUtil.getValue( booleanFieldName );
+	var clearDate = dwr.util.getValue( booleanFieldName );
 	if (!clearDate) {
 		document.getElementById(dateFieldName).value = "";
 	}

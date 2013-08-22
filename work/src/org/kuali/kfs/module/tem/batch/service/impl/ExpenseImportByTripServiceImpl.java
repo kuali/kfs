@@ -470,6 +470,7 @@ public class ExpenseImportByTripServiceImpl extends ExpenseImportServiceBase imp
                         businessObjectService.save(entries);
                         businessObjectService.save(expense);
                         ccData.setErrorCode(CreditCardStagingDataErrorCodes.CREDIT_CARD_MOVED_TO_HISTORICAL);
+                        ccData.setMoveToHistoryIndicator(true);
                         businessObjectService.save(ccData);
                         agencyData.setMoveToHistoryIndicator(true);
                         agencyData.setErrorCode(AgencyStagingDataErrorCodes.AGENCY_MOVED_TO_HISTORICAL);

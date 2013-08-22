@@ -555,8 +555,6 @@
 		<addNotNullConstraint tableName="TEM_TRAVELER_DTL_T"
 			columnName="LIABILITY_INSURANCE" columnDataType="VARCHAR2(1)" />
 		<addNotNullConstraint tableName="TEM_TRAVELER_DTL_T"
-			columnName="TRAVELER_TYP_CD" columnDataType="VARCHAR2(3)" />
-		<addNotNullConstraint tableName="TEM_TRAVELER_DTL_T"
 			columnName="ACTV_IND" columnDataType="VARCHAR2(1)" />
 		<addForeignKeyConstraint constraintName="TEM_TRAVELER_PROF_TR1"
 			baseTableName="TEM_TRAVELER_PROF_T" baseColumnNames="TRAVELER_TYP_CD"

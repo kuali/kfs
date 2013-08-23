@@ -735,27 +735,8 @@ public class TravelReimbursementServiceImpl implements TravelReimbursementServic
             if (invoicePayment.isGreaterThan(KualiDecimal.ZERO)) {
                 final TravelAdvance advance = getAdvanceForInvoice(invoice);
                 if (advance != null) {
-                    final List<TemSourceAccountingLine> advanceAccountingLines = getAccountingLinesForAdvance(advance);
-                    final List<TemSourceAccountingLineTotalPercentage> advanceAccountingLineTotalPercentages = getDistributionForLines(advanceAccountingLines);
-                    final List<TemSourceAccountingLine> creditLines = createCreditLines(advanceAccountingLineTotalPercentages, invoicePayment, trDocument.getDocumentNumber());
-                    takeAPennyLeaveAPenny(creditLines, invoicePayment);
-
-                    for (TemSourceAccountingLine creditLine : creditLines) {
-                        // create clearing entry and offset
-                        TemSourceAccountingLine clearingLine = new TemSourceAccountingLine();
-                        clearingLine.copyFrom(creditLine); // make a copy so we can change object code but leave credit line untouched for generation of advance crediting glpe's
-                        final OffsetDefinition offsetDefinition = this.getOffsetDefinitionForAdvanceClearing(trDocument, clearingLine);
-                        clearingLine.setFinancialObjectCode(offsetDefinition.getFinancialObjectCode());
-                        clearingLine.setFinancialDocumentLineTypeCode(TemConstants.TRAVEL_ADVANCE_CLEARING_LINE_TYPE_CODE); // set the line type code to a special value that will alert customize entry to change the credit/debit codes
-                        trDocument.generateGeneralLedgerPendingEntries(clearingLine, sequenceHelper);
-                        sequenceHelper.increment();
-                    }
-                    for (TemSourceAccountingLine creditLine : creditLines) {
-                        // credit advance
-                        creditLine.setFinancialDocumentLineTypeCode(TemConstants.TRAVEL_ADVANCE_CREDITING_LINE_TYPE_CODE);
-                        trDocument.generateGeneralLedgerPendingEntries(creditLine, sequenceHelper);
-                        sequenceHelper.increment();
-                    }
+                    generatePendingEntriesForAdvanceClearing(trDocument, invoicePayment, sequenceHelper);
+                    generatePendingEntriesForAdvanceCrediting(trDocument, advance, invoicePayment, sequenceHelper);
                 }
             }
             remainingReimbursableTotal = remainingReimbursableTotal.subtract(invoicePayment);
@@ -799,6 +780,53 @@ public class TravelReimbursementServiceImpl implements TravelReimbursementServic
     }
 
     /**
+     * Adds to the travel reimbursement the pending entries for clearing the advance
+     * @param reimbursement the reimbursement which is crediting advances
+     * @param paymentAmount the amount of the advance we're crediting
+     * @param sequenceHelper the sequence helper to assign sequences to pending entries
+     */
+    protected void generatePendingEntriesForAdvanceClearing(TravelReimbursementDocument reimbursement, KualiDecimal paymentAmount, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
+        final List<TemSourceAccountingLine> expenseAccountingLines = reimbursement.getSourceAccountingLines();
+        if (!ObjectUtils.isNull(expenseAccountingLines) && !expenseAccountingLines.isEmpty()) {
+            final List<TemSourceAccountingLineTotalPercentage> expenseAccountingLinesTotalPercentages = getPercentagesForLines(expenseAccountingLines);
+            final List<TemSourceAccountingLine> clearingLines = createAccountingLinesFromPercentages(expenseAccountingLinesTotalPercentages, paymentAmount, reimbursement.getDocumentNumber());
+
+            for (TemSourceAccountingLine clearingLine : clearingLines) {
+                // create clearing entry and offset
+                final OffsetDefinition offsetDefinition = this.getOffsetDefinitionForAdvanceClearing(reimbursement, clearingLine);
+                clearingLine.setFinancialObjectCode(offsetDefinition.getFinancialObjectCode());
+                clearingLine.setFinancialSubObjectCode(null);
+                clearingLine.setFinancialDocumentLineTypeCode(TemConstants.TRAVEL_ADVANCE_CLEARING_LINE_TYPE_CODE); // set the line type code to a special value that will alert customize entry to change the credit/debit codes
+                reimbursement.generateGeneralLedgerPendingEntries(clearingLine, sequenceHelper);
+                sequenceHelper.increment();
+            }
+        }
+    }
+
+    /**
+     * Adds to the travel reimbursement the pending entries for crediting the advance
+     * @param reimbursement the reimbursement which is crediting advances
+     * @param advance the advance we're crediting
+     * @param paymentAmount the amount of the advance we're crediting
+     * @param sequenceHelper the sequence helper to assign sequences to pending entries
+     */
+    protected void generatePendingEntriesForAdvanceCrediting(TravelReimbursementDocument reimbursement, TravelAdvance advance, KualiDecimal paymentAmount, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
+        final List<TemSourceAccountingLine> advanceAccountingLines = getAccountingLinesForAdvance(advance);
+        if (!ObjectUtils.isNull(advanceAccountingLines) && !advanceAccountingLines.isEmpty()) {
+            final List<TemSourceAccountingLineTotalPercentage> advanceAccountingLineTotalPercentages = getPercentagesForLines(advanceAccountingLines);
+            final List<TemSourceAccountingLine> creditLines = createAccountingLinesFromPercentages(advanceAccountingLineTotalPercentages, paymentAmount, reimbursement.getDocumentNumber());
+            takeAPennyLeaveAPenny(creditLines, paymentAmount);
+
+            for (TemSourceAccountingLine creditLine : creditLines) {
+                // credit advance
+                creditLine.setFinancialDocumentLineTypeCode(TemConstants.TRAVEL_ADVANCE_CREDITING_LINE_TYPE_CODE);
+                reimbursement.generateGeneralLedgerPendingEntries(creditLine, sequenceHelper);
+                sequenceHelper.increment();
+            }
+        }
+    }
+
+    /**
      * Finds the accounting lines associated with the given advance
      * @param advance the travel advance to find accounting lines for
      * @return the associated accounting lines, ordered by sequence number
@@ -817,7 +845,7 @@ public class TravelReimbursementServiceImpl implements TravelReimbursementServic
      * @param accountingLines the accounting lines to find the percentage contribution of each of
      * @return a List of the accounting lines and their corresponding percentages
      */
-    protected List<TemSourceAccountingLineTotalPercentage> getDistributionForLines(List<TemSourceAccountingLine> accountingLines) {
+    protected List<TemSourceAccountingLineTotalPercentage> getPercentagesForLines(List<TemSourceAccountingLine> accountingLines) {
         final BigDecimal total = calculateLinesTotal(accountingLines).bigDecimalValue();
         List<TemSourceAccountingLineTotalPercentage> linePercentages = new ArrayList<TemSourceAccountingLineTotalPercentage>();
         for (TemSourceAccountingLine accountingLine : accountingLines) {
@@ -855,7 +883,7 @@ public class TravelReimbursementServiceImpl implements TravelReimbursementServic
      * @param documentNumber the document number of the reimbursement which is crediting the advance we're paying back here
      * @return a List of TemSourceAccountingLines which will be source details to generate GLPEs
      */
-    protected List<TemSourceAccountingLine> createCreditLines(List<TemSourceAccountingLineTotalPercentage> linePercentages, KualiDecimal paymentAmount, String documentNumber) {
+    protected List<TemSourceAccountingLine> createAccountingLinesFromPercentages(List<TemSourceAccountingLineTotalPercentage> linePercentages, KualiDecimal paymentAmount, String documentNumber) {
         List<TemSourceAccountingLine> creditLines = new ArrayList<TemSourceAccountingLine>();
         for (TemSourceAccountingLineTotalPercentage linePercentage : linePercentages) {
             final KualiDecimal amountForLine = new KualiDecimal(paymentAmount.bigDecimalValue().multiply(linePercentage.getPercentage()));

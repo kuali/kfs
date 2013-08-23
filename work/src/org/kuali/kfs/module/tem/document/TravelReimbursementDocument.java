@@ -592,7 +592,7 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
         if (postable instanceof AccountingLine) {
             final AccountingLine accountingLine = (AccountingLine)postable;
             if (TemConstants.TRAVEL_ADVANCE_CLEARING_LINE_TYPE_CODE.equals(accountingLine.getFinancialDocumentLineTypeCode())) {
-                explicitEntry.setTransactionDebitCreditCode(KFSConstants.GL_CREDIT_CODE);
+                explicitEntry.setTransactionDebitCreditCode(KFSConstants.GL_DEBIT_CODE);
                 explicitEntry.setFinancialDocumentTypeCode(TemConstants.TravelDocTypes.TRAVEL_REIMBURSEMENT_TRAVEL_ADVANCES_DOCUMENT);
             } else if (TemConstants.TRAVEL_ADVANCE_CREDITING_LINE_TYPE_CODE.equals(accountingLine.getFinancialDocumentLineTypeCode())) {
                 explicitEntry.setTransactionDebitCreditCode(KFSConstants.GL_CREDIT_CODE);

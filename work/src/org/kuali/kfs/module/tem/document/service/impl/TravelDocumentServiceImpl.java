@@ -393,7 +393,9 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
             fieldValues.put(TemPropertyConstants.TRIP_TYPE_CODE, document.getTripTypeCode());
         }
         fieldValues.put(KFSPropertyConstants.DOCUMENT_TYPE, documentType);
-        fieldValues.put(TemPropertyConstants.TRVL_DOC_TRAVELER_TYP_CD, document.getTraveler().getTravelerTypeCode());
+        if (ObjectUtils.isNotNull(document.getTraveler().getTravelerTypeCode())) {
+            fieldValues.put(TemPropertyConstants.TRVL_DOC_TRAVELER_TYP_CD, document.getTraveler().getTravelerTypeCode());
+        }
         fieldValues.put(KFSPropertyConstants.ACTIVE, KFSConstants.ACTIVE_INDICATOR);
 
         final Collection<MileageRateObjCode> mileageRateObjectCodes = SpringContext.getBean(BusinessObjectService.class).findMatching(MileageRateObjCode.class,fieldValues);

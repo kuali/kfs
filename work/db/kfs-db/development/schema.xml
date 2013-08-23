@@ -15795,7 +15795,7 @@
         <column name="PHONE_NBR" size="20" type="VARCHAR"/>
         <column name="CITIZENSHIP" size="40" type="VARCHAR"/>
         <column name="LIABILITY_INSURANCE" required="true" size="1" type="VARCHAR"/>
-        <column name="TRAVELER_TYP_CD" required="true" size="3" type="VARCHAR"/>
+        <column name="TRAVELER_TYP_CD" size="3" type="VARCHAR"/>
         <column name="ACTV_IND" required="true" size="1" type="VARCHAR"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>

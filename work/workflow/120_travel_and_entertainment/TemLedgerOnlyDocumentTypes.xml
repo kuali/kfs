@@ -159,5 +159,23 @@
       </routingVersion>
       <routePaths/>
     </documentType>
+    <documentType>
+      <name>
+        TRTA
+      </name>
+      <parent>
+        FSLO
+      </parent>
+      <label>
+        Travel Reimbursement Travel Advances
+      </label>
+      <active>
+        true
+      </active>
+      <routingVersion>
+        2
+      </routingVersion>
+      <routePaths/>
+    </documentType>
   </documentTypes>
 </data>

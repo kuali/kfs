@@ -349,7 +349,7 @@
             </entry>  
             <entry>
                 <key><value>org.kuali.kfs.sys.document.validation.event.AddAccountingLineEvent</value></key>
-                <value>TravelModule-addAccountingLineValidation</value>
+                <value>TravelAuthorizationDocument-addAccountingLineValidation</value>
             </entry> 
             <entry>
                 <key><value>org.kuali.kfs.sys.document.validation.event.DeleteAccountingLineEvent</value></key>

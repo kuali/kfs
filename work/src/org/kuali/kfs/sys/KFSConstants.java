@@ -100,6 +100,9 @@ public class KFSConstants {
 
     public static final String LOOKUP_RESULTS_LIMIT_URL_KEY = "RESULTS_LIMIT";
 
+    /**
+     * @deprecated please use the version in KFSPropertyConstants.ACCOUNT_NUMBER
+     */
     @Deprecated
     public static final String ACCOUNT_NUMBER_PROPERTY_NAME = "accountNumber";
     public static final String ACCOUNTING_PERIOD_ACTIVE_INDICATOR_FIELD = "active";
@@ -107,6 +110,9 @@ public class KFSConstants {
     public static final String ADD_LINE_METHOD = "addLine";
     public static final String ADD_PREFIX = "add";
     public static final String ACTIVE_INDICATOR = "Y";
+    /**
+     * @deprecated pull from SystemOptions table
+     */
     @Deprecated
     public static final String AGGREGATE_ENCUMBRANCE_BALANCE_TYPE_CODE = "EN";
     public static final String AMOUNT_PROPERTY_NAME = "amount";
@@ -118,18 +124,39 @@ public class KFSConstants {
     @Deprecated // Move to GL constants
     public static final String BALANCE_INQUIRY_REPORT_MENU_ACTION = "balanceInquiryReportMenu.do";
     public static final String ASSET_INQUIRY_MENU_ACTION = "camsAssetPayment.do";
+    /**
+     * @deprecated pull from SystemOptions table
+     */
     @Deprecated
     public static final String BALANCE_TYPE_CURRENT_BUDGET = "CB";
+    /**
+     * @deprecated pull from SystemOptions table
+     */
     @Deprecated
     public static final String BALANCE_TYPE_BASE_BUDGET = "BB";
+    /**
+     * @deprecated pull from SystemOptions table
+     */
     @Deprecated
     public static final String BALANCE_TYPE_MONTHLY_BUDGET = "MB";
+    /**
+     * @deprecated pull from SystemOptions table
+     */
     @Deprecated
     public static final String BALANCE_TYPE_EXTERNAL_ENCUMBRANCE = "EX";
+    /**
+     * @deprecated pull from SystemOptions table
+     */
     @Deprecated
     public static final String BALANCE_TYPE_INTERNAL_ENCUMBRANCE = "IE";
+    /**
+     * @deprecated pull from SystemOptions table
+     */
     @Deprecated
     public static final String BALANCE_TYPE_COST_SHARE_ENCUMBRANCE = "CE";
+    /**
+     * @deprecated pull from SystemOptions table
+     */
     @Deprecated
     public static final String BALANCE_TYPE_ACTUAL = "AC";
     @Deprecated

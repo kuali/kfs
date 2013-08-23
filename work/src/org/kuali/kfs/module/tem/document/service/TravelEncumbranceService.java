@@ -45,8 +45,9 @@ public interface TravelEncumbranceService {
      * disencumber values.
      *
      * @param document
+     * @param sequenceHelper the sequence helper which assigns sequence values to glpe's
      */
-    public void disencumberTravelReimbursementFunds(TravelReimbursementDocument document);
+    public void disencumberTravelReimbursementFunds(TravelReimbursementDocument document, GeneralLedgerPendingEntrySequenceHelper sequenceHelper);
 
     /**
      * This method creates GLPE to disencumber the funds that had already been encumbered.

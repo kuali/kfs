@@ -418,7 +418,7 @@
     			<bean parent="DocumentValuePathGroup-AccountingDocument-financialDocumentTotalAmount">
 			    	<property name="documentCollectionPath">
 			    		<bean parent="DocumentCollectionPath-AccountingLine-chartAndAccountNumber">
-			    			<property name="collectionPath" value="accountingLinesForReview" />
+			    			<property name="collectionPath" value="sourceAccountingLines" />
 			    		</bean>
 			    	</property>
 			    </bean>

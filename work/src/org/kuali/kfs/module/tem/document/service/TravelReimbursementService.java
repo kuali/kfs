@@ -24,6 +24,7 @@ import org.kuali.kfs.module.tem.document.TEMReimbursementDocument;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
 import org.kuali.kfs.module.tem.document.TravelReimbursementDocument;
 import org.kuali.kfs.module.tem.pdf.Coversheet;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 
@@ -159,4 +160,11 @@ public interface TravelReimbursementService {
      * @param actualExpense
      */
     public void enableDuplicateExpenses(TravelReimbursementDocument trDocument, ActualExpense actualExpense);
+
+    /**
+     * Generates pending entries to balance out non-balanced out travel advances; the generated pending entries will be added to the document directly
+     * @param trDocument the reimbursement document of the trip to balance out non-balanced out advances for
+     * @param sequenceHelper the pending entry sequence generator for this generation process
+     */
+    public void generateEntriesForAdvances(TravelReimbursementDocument trDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper);
 }

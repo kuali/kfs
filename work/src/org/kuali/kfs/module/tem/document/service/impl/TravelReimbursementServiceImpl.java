@@ -24,17 +24,23 @@ import static org.kuali.kfs.module.tem.TemPropertyConstants.PER_DIEM_EXPENSE_DIS
 import static org.kuali.kfs.sys.KFSConstants.EXTERNALIZABLE_HELP_URL_KEY;
 
 import java.beans.PropertyChangeListener;
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.log4j.Logger;
+import org.kuali.kfs.coa.businessobject.OffsetDefinition;
 import org.kuali.kfs.coa.service.ObjectCodeService;
+import org.kuali.kfs.coa.service.OffsetDefinitionService;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomerCreditMemo;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomerInvoice;
 import org.kuali.kfs.integration.ar.AccountsReceivableDocumentHeader;
@@ -48,7 +54,10 @@ import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.businessobject.AccountingDocumentRelationship;
 import org.kuali.kfs.module.tem.businessobject.ActualExpense;
 import org.kuali.kfs.module.tem.businessobject.PerDiemExpense;
+import org.kuali.kfs.module.tem.businessobject.TemSourceAccountingLine;
+import org.kuali.kfs.module.tem.businessobject.TemSourceAccountingLineTotalPercentage;
 import org.kuali.kfs.module.tem.businessobject.TemTravelExpenseTypeCode;
+import org.kuali.kfs.module.tem.businessobject.TravelAdvance;
 import org.kuali.kfs.module.tem.businessobject.TravelerDetail;
 import org.kuali.kfs.module.tem.document.TEMReimbursementDocument;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
@@ -62,7 +71,10 @@ import org.kuali.kfs.module.tem.document.service.TravelReimbursementService;
 import org.kuali.kfs.module.tem.pdf.Coversheet;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
+import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
+import org.kuali.kfs.sys.service.OptionsService;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
@@ -86,24 +98,26 @@ public class TravelReimbursementServiceImpl implements TravelReimbursementServic
 
     protected static Logger LOG = Logger.getLogger(TravelReimbursementServiceImpl.class);
 
-    private KualiRuleService kualiRuleService;
-    private BusinessObjectService businessObjectService;
-    private DataDictionaryService dataDictionaryService;
-    private ObjectCodeService objectCodeService;
-    private DocumentService documentService;
-    private ConfigurationService ConfigurationService;
-    private TravelDocumentService travelDocumentService;
-    private TravelDisbursementService travelDisbursementService;
-    private TravelAuthorizationService travelAuthorizationService;
-    private ParameterService parameterService;
-    private WorkflowDocumentService workflowDocumentService;
-    private PersonService personService;
-    private DocumentDao documentDao;
-    private AccountingDocumentRelationshipService accountingDocumentRelationshipService;
-    private AccountsReceivableModuleService accountsReceivableModuleService;
-    private GeneralLedgerPendingEntryService generalLedgerPendingEntryService;
+    protected KualiRuleService kualiRuleService;
+    protected BusinessObjectService businessObjectService;
+    protected DataDictionaryService dataDictionaryService;
+    protected ObjectCodeService objectCodeService;
+    protected DocumentService documentService;
+    protected ConfigurationService ConfigurationService;
+    protected TravelDocumentService travelDocumentService;
+    protected TravelDisbursementService travelDisbursementService;
+    protected TravelAuthorizationService travelAuthorizationService;
+    protected ParameterService parameterService;
+    protected WorkflowDocumentService workflowDocumentService;
+    protected PersonService personService;
+    protected DocumentDao documentDao;
+    protected AccountingDocumentRelationshipService accountingDocumentRelationshipService;
+    protected AccountsReceivableModuleService accountsReceivableModuleService;
+    protected GeneralLedgerPendingEntryService generalLedgerPendingEntryService;
+    protected OffsetDefinitionService offsetDefinitionService;
+    protected OptionsService optionsService;
 
-    private List<PropertyChangeListener> propertyChangeListeners;
+    protected List<PropertyChangeListener> propertyChangeListeners;
 
     /**
      * @see org.kuali.kfs.module.tem.document.service.TravelReimbursementService#findByTravelId(java.lang.String)
@@ -382,7 +396,7 @@ public class TravelReimbursementServiceImpl implements TravelReimbursementServic
             //if there is invoice to pay, we will pay the invoice first and then reimburse the rest
             if (invoicesTotal.isNonZero()){
                 //loop through invoices and spawn credit memos for each
-                for (AccountsReceivableCustomerInvoice invoice : openInvoiceMap.keySet()){
+                for (AccountsReceivableCustomerInvoice invoice : orderInvoices(openInvoiceMap.keySet())){
                     spawnCustomerCreditMemoDocument(reimbursement, invoice, openInvoiceMap.get(invoice));
                 }
             }
@@ -393,7 +407,7 @@ public class TravelReimbursementServiceImpl implements TravelReimbursementServic
         //reimbursable < invoice (owe more than reimbursable, then all will go into owed invoice)
         else{
             //loop through the invoices, but only spawn CRM up until the reimbursable total
-            for (AccountsReceivableCustomerInvoice invoice : openInvoiceMap.keySet()){
+            for (AccountsReceivableCustomerInvoice invoice : orderInvoices(openInvoiceMap.keySet())){
 
                 KualiDecimal invoiceAmount = openInvoiceMap.get(invoice);
                 if (invoiceAmount.isGreaterEqual(reimbursableTotal)){
@@ -406,6 +420,18 @@ public class TravelReimbursementServiceImpl implements TravelReimbursementServic
                 }
             }
         }
+    }
+
+    /**
+     * Orders a Set of Invoices
+     * @param invoices a Set of AccountsReceivableCustomerInvoice objects
+     * @return a List with all of the elements of the Set in an order
+     */
+    protected List<AccountsReceivableCustomerInvoice> orderInvoices(Set<AccountsReceivableCustomerInvoice> invoices) {
+        List<AccountsReceivableCustomerInvoice> orderedInvoices = new ArrayList<AccountsReceivableCustomerInvoice>();
+        orderedInvoices.addAll(invoices);
+        Collections.sort(orderedInvoices, getCustomerInvoiceComparator());
+        return orderedInvoices;
     }
 
     /**
@@ -561,199 +587,6 @@ public class TravelReimbursementServiceImpl implements TravelReimbursementServic
         return invoiceOpenAmountMap;
     }
 
-//    /**
-//     * Calculates the value to apply for payment with. If the reimbursementTotal exceeds the amount of the invoices, then a nonAr
-//     * record is created that becomes a refund.
-//     *
-//     * @param invoicesTotal
-//     * @param reimbursementTotal
-//     */
-//    protected KualiDecimal calculateApplicationTotal(final KualiDecimal invoicesTotal, final KualiDecimal reimbursementTotal) {
-//        if (invoicesTotal.equals(reimbursementTotal)
-//                || invoicesTotal.isGreaterThan(reimbursementTotal)) {
-//            return reimbursementTotal;
-//        }
-//
-//        return reimbursementTotal.subtract(invoicesTotal);
-//    }
-//
-//    /**
-//     * @see org.kuali.kfs.module.tem.document.service.TravelReimbursementService#disencumberFunds(org.kuali.kfs.module.tem.document.TravelReimbursementDocument)
-//     */
-//    @Override
-//    public void disencumberFunds(TravelReimbursementDocument trDocument) {
-//        if (trDocument.getTripType().isGenerateEncumbrance()) {
-//
-//            final Map<String, Object> criteria = new HashMap<String, Object>();
-//
-//            KualiDecimal totalAmount = new KualiDecimal(0);
-//
-//            //criteria.put("referenceFinancialDocumentNumber", trDocument.getTravelDocumentIdentifier());
-//            //criteria.put("financialDocumentTypeCode", TemConstants.TravelDocTypes.TRAVEL_REIMBURSEMENT_DOCUMENT);
-//            //List<GeneralLedgerPendingEntry> tripPendingEntryList = (List<GeneralLedgerPendingEntry>) this.getBusinessObjectService().findMatching(GeneralLedgerPendingEntry.class, criteria);
-//            KualiDecimal trTotal = new KualiDecimal(0);
-//            KualiDecimal taEncTotal = new KualiDecimal(0);
-//            Map<String, List<Document>> relatedDocuments = null;
-//            TravelAuthorizationDocument taDocument = new TravelAuthorizationDocument();
-//            //Find the document that this TR is for
-//            try {
-//                relatedDocuments = travelDocumentService.getDocumentsRelatedTo(trDocument);
-//                List<Document> trDocs = relatedDocuments.get(TravelDocTypes.TRAVEL_REIMBURSEMENT_DOCUMENT);
-//                taDocument = (TravelAuthorizationDocument) travelDocumentService.findCurrentTravelAuthorization(trDocument);
-//                for (int i=0;i<taDocument.getSourceAccountingLines().size();i++){
-//                    taEncTotal = taEncTotal.add(taDocument.getSourceAccountingLine(i).getAmount());
-//                }
-//
-//                //Get total of all TR's that aren't disapproved not including this one.
-//                if (trDocs != null) {
-//                    for (Document tempDocument : trDocs) {
-//                        if (!tempDocument.getDocumentNumber().equals(trDocument.getDocumentNumber())) {
-//                            if (!travelDocumentService.isUnsuccessful((TravelDocument) tempDocument)) {
-//                                TravelReimbursementDocument tempTR = (TravelReimbursementDocument) tempDocument;
-//                                KualiDecimal temp = tempTR.getReimbursableTotal();
-//                                trTotal = trTotal.add(temp);
-//                            }
-//                        }
-//                    }
-//                }
-//            }
-//            catch (WorkflowException ex) {
-//                ex.printStackTrace();
-//            }
-//
-//            KualiDecimal factor = new KualiDecimal(1);
-//            KualiDecimal totalReimbursement = trDocument.getReimbursableTotal();
-//            if (!trDocument.getFinalReimbursement()){
-//                if (totalReimbursement.isGreaterThan(taEncTotal.subtract(trTotal))){
-//                    factor = taEncTotal.subtract(trTotal);
-//                    factor = factor.divide(totalReimbursement);
-//                }
-//            }
-//            else{
-//                //in the case of the final reimbursement, total reimbursement becomes the remaining amount
-//                totalReimbursement = taEncTotal.subtract(trTotal);
-//            }
-//
-//            int counter = trDocument.getPendingLedgerEntriesForSufficientFundsChecking().size() + 1;
-//            GeneralLedgerPendingEntrySequenceHelper sequenceHelper = new GeneralLedgerPendingEntrySequenceHelper(counter);
-//
-//            /*
-//             * factor becomes 0 when then encumbrance is equal to the total reimbursed from all TR doc's
-//             * factor will never be < 0
-//             */
-//            if (factor.isGreaterThan(KualiDecimal.ZERO)){
-//                //Create disencumbering GLPE's for the TA document
-//                  for (int i=0;i<taDocument.getSourceAccountingLines().size();i++){
-//                      GeneralLedgerPendingEntry pendingEntry = null;
-//                      GeneralLedgerPendingEntry offsetEntry = null;
-//
-//                      pendingEntry = setupPendingEntry((AccountingLineBase) taDocument.getSourceAccountingLine(i), sequenceHelper, trDocument);
-//                      pendingEntry.setReferenceFinancialDocumentTypeCode(taDocument.getFinancialDocumentTypeCode());
-//                      sequenceHelper.increment();
-//                      offsetEntry = setupOffsetEntry(sequenceHelper, trDocument, pendingEntry);
-//                      offsetEntry.setReferenceFinancialDocumentTypeCode(taDocument.getFinancialDocumentTypeCode());
-//                      sequenceHelper.increment();
-//
-//                      KualiDecimal tempAmount = new KualiDecimal(0);
-//                      KualiDecimal calculatedTotal = new KualiDecimal(0);
-//                      KualiDecimal tempTRTotal = totalReimbursement.multiply(factor);
-//
-//                      if (i == taDocument.getSourceAccountingLines().size()-1){
-//                          tempAmount = totalReimbursement.subtract(calculatedTotal);
-//                      }
-//                      else {
-//                          tempAmount = tempTRTotal.divide(taEncTotal);
-//                          tempAmount = tempAmount.multiply(taDocument.getSourceAccountingLine(i).getAmount());
-//                          calculatedTotal = calculatedTotal.add(tempTRTotal);
-//                      }
-//
-//                      pendingEntry.setTransactionLedgerEntryAmount(tempAmount);
-//                      offsetEntry.setTransactionLedgerEntryAmount(tempAmount);
-//                      trDocument.addPendingEntry(pendingEntry);
-//                      trDocument.addPendingEntry(offsetEntry);
-//                  }
-//              }
-//
-//          }
-//      }
-//
-//    /**
-//     * This method creates the pending entry based on the document and encumbrance
-//     *
-//     * @param encumbrance The encumbrance record that will be updated. This object never gets persisted, but is used for passing
-//     *        LOG.info
-//     * @param sequenceHelper The current sequence
-//     * @param taDocument The document the entries are added to.
-//     * @return pendingEntry The completed pending entry.
-//     */
-//    public GeneralLedgerPendingEntry setupPendingEntry(AccountingLineBase line, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, TravelDocument document) {
-//        final GeneralLedgerPendingEntrySourceDetail sourceDetail = line;
-//        GeneralLedgerPendingEntry pendingEntry = new GeneralLedgerPendingEntry();
-//
-//        String balanceType = "";
-//        document.refreshReferenceObject(TemPropertyConstants.TRIP_TYPE);
-//        TripType tripType = document.getTripType();
-//        if (ObjectUtils.isNotNull(tripType)) {
-//            balanceType = tripType.getEncumbranceBalanceType();
-//        }
-//        generalLedgerPendingEntryService.populateExplicitGeneralLedgerPendingEntry(document, sourceDetail, sequenceHelper, pendingEntry);
-//        pendingEntry.setTransactionEncumbranceUpdateCode(KFSConstants.ENCUMB_UPDT_REFERENCE_DOCUMENT_CD);
-//        pendingEntry.setReferenceFinancialDocumentNumber(document.getTravelDocumentIdentifier());
-//        pendingEntry.setFinancialBalanceTypeCode(balanceType);
-//        pendingEntry.setFinancialDocumentApprovedCode(KFSConstants.PENDING_ENTRY_APPROVED_STATUS_CODE.APPROVED);
-//        pendingEntry.setTransactionDebitCreditCode(KFSConstants.GL_CREDIT_CODE);
-//        pendingEntry.setReferenceFinancialSystemOriginationCode("01");
-//
-//        return pendingEntry;
-//    }
-//
-//    /**
-//     * This method creates the offset entry based on the pending entry, document, and encumbrance
-//     *
-//     * @param encumbrance The encumbrance record that will be updated. This object never gets persisted, but is used for passing info
-//     * @param sequenceHelper The current sequence
-//     * @param taDocument The document the entries are added to.
-//     * @param pendingEntry The pending entry that will accompany the offset entry.
-//     * @return offsetEntry The completed offset entry.
-//     */
-//    public GeneralLedgerPendingEntry setupOffsetEntry(GeneralLedgerPendingEntrySequenceHelper sequenceHelper, TravelDocument document, GeneralLedgerPendingEntry pendingEntry) {
-//        String balanceType = "";
-//        document.refreshReferenceObject(TemPropertyConstants.TRIP_TYPE);
-//        TripType tripType = document.getTripType();
-//        if (ObjectUtils.isNotNull(tripType)) {
-//            balanceType = tripType.getEncumbranceBalanceType();
-//        }
-//
-//        GeneralLedgerPendingEntry offsetEntry = new GeneralLedgerPendingEntry(pendingEntry);
-//        generalLedgerPendingEntryService.populateOffsetGeneralLedgerPendingEntry(pendingEntry.getUniversityFiscalYear(), pendingEntry, sequenceHelper, offsetEntry);
-//        offsetEntry.setTransactionEncumbranceUpdateCode(KFSConstants.ENCUMB_UPDT_REFERENCE_DOCUMENT_CD);
-//        offsetEntry.setFinancialDocumentApprovedCode(KFSConstants.PENDING_ENTRY_APPROVED_STATUS_CODE.APPROVED);
-//        offsetEntry.setFinancialBalanceTypeCode(balanceType);
-//        offsetEntry.setTransactionDebitCreditCode(KFSConstants.GL_DEBIT_CODE);
-//        offsetEntry.setReferenceFinancialSystemOriginationCode(pendingEntry.getReferenceFinancialSystemOriginationCode());
-//
-//        return offsetEntry;
-//    }
-
-    //unused
-//    private Map<String, KualiDecimal> calculateEncumbranceRecentages(TravelAuthorizationDocument taDocument) {
-//        Map<String, KualiDecimal> percentageMap = new HashMap<String, KualiDecimal>();
-//        Iterator lines = taDocument.getSourceAccountingLines().iterator();
-//
-//        while (lines.hasNext()){
-//            SourceAccountingLine line = (SourceAccountingLine) lines.next();
-//            StringBuffer key = new StringBuffer();
-//            key.append(line.getAccountNumber());
-//            key.append(line.getSubAccountNumber());
-//            key.append(line.getObjectCode());
-//            key.append(line.getSubObjectCode());
-//            key.append(taDocument.getTravelDocumentIdentifier());
-//            KualiDecimal percentage = line.getAmount().divide(taDocument.getEncumbranceTotal());
-//            percentageMap.put(key.toString(), percentage);
-//        }
-//        return percentageMap;
-//    }
-
     /**
      * @see org.kuali.kfs.module.tem.document.service.TravelReimbursementService#disableDuplicateExpenses(org.kuali.kfs.module.tem.document.TravelReimbursementDocument, org.kuali.kfs.module.tem.businessobject.ActualExpense)
      */
@@ -890,6 +723,199 @@ public class TravelReimbursementServiceImpl implements TravelReimbursementServic
         return success;
     }
 
+    /**
+     * @see org.kuali.kfs.module.tem.document.service.TravelReimbursementService#generateEntriesForAdvances(org.kuali.kfs.module.tem.document.TravelReimbursementDocument)
+     */
+    @Override
+    public void generateEntriesForAdvances(TravelReimbursementDocument trDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
+        final Map<AccountsReceivableCustomerInvoice, KualiDecimal> openInvoiceMap = getInvoicesOpenAmountMapFor (trDocument.getTraveler().getCustomerNumber(), trDocument.getTravelDocumentIdentifier());
+        KualiDecimal remainingReimbursableTotal = trDocument.getReimbursableTotal();
+        for (AccountsReceivableCustomerInvoice invoice : orderInvoices(openInvoiceMap.keySet())) {
+            final KualiDecimal invoicePayment = rollReimbursementForInvoiceAmount(invoice, remainingReimbursableTotal);
+            if (invoicePayment.isGreaterThan(KualiDecimal.ZERO)) {
+                final TravelAdvance advance = getAdvanceForInvoice(invoice);
+                if (advance != null) {
+                    final List<TemSourceAccountingLine> advanceAccountingLines = getAccountingLinesForAdvance(advance);
+                    final List<TemSourceAccountingLineTotalPercentage> advanceAccountingLineTotalPercentages = getDistributionForLines(advanceAccountingLines);
+                    final List<TemSourceAccountingLine> creditLines = createCreditLines(advanceAccountingLineTotalPercentages, invoicePayment, trDocument.getDocumentNumber());
+                    takeAPennyLeaveAPenny(creditLines, invoicePayment);
+
+                    for (TemSourceAccountingLine creditLine : creditLines) {
+                        // create clearing entry and offset
+                        TemSourceAccountingLine clearingLine = new TemSourceAccountingLine();
+                        clearingLine.copyFrom(creditLine); // make a copy so we can change object code but leave credit line untouched for generation of advance crediting glpe's
+                        final OffsetDefinition offsetDefinition = this.getOffsetDefinitionForAdvanceClearing(trDocument, clearingLine);
+                        clearingLine.setFinancialObjectCode(offsetDefinition.getFinancialObjectCode());
+                        clearingLine.setFinancialDocumentLineTypeCode(TemConstants.TRAVEL_ADVANCE_CLEARING_LINE_TYPE_CODE); // set the line type code to a special value that will alert customize entry to change the credit/debit codes
+                        trDocument.generateGeneralLedgerPendingEntries(clearingLine, sequenceHelper);
+                        sequenceHelper.increment();
+                    }
+                    for (TemSourceAccountingLine creditLine : creditLines) {
+                        // credit advance
+                        creditLine.setFinancialDocumentLineTypeCode(TemConstants.TRAVEL_ADVANCE_CREDITING_LINE_TYPE_CODE);
+                        trDocument.generateGeneralLedgerPendingEntries(creditLine, sequenceHelper);
+                        sequenceHelper.increment();
+                    }
+                }
+            }
+            remainingReimbursableTotal = remainingReimbursableTotal.subtract(invoicePayment);
+        }
+    }
+
+    /**
+     * Figures out how much of the remaining reimbursement amount we can devote to the current invoice
+     * @param invoice the invoice to credit out
+     * @param remainingReimbursementAmount the remaining amount available on the reimbursement to pay invoices out of
+     * @return the amount that will be paid for the current invoice
+     */
+    protected KualiDecimal rollReimbursementForInvoiceAmount(AccountsReceivableCustomerInvoice invoice, KualiDecimal remainingReimbursementAmount) {
+        if (invoice.getOpenAmount().isLessEqual(remainingReimbursementAmount)) {
+            return invoice.getOpenAmount();
+        }
+        return remainingReimbursementAmount;
+    }
+
+    /**
+     * Retrieves the travel advance associated with an invoice
+     * @param invoice the invoice to find an associated travel advance for
+     * @return the Travel Advance associated, or null if no advance could be found
+     */
+    protected TravelAdvance getAdvanceForInvoice(AccountsReceivableCustomerInvoice invoice) {
+        Map<String, String> fieldValues = new HashMap<String, String>();
+        fieldValues.put(TemPropertyConstants.AR_INVOICE_DOC_NUMBER, invoice.getDocumentNumber());
+        Collection<TravelAdvance> advances = businessObjectService.findMatching(TravelAdvance.class, fieldValues);
+        if (advances == null || advances.isEmpty()) {
+            return null;
+        }
+        if (advances.size() > 1) {
+            // huh...that should not have happened.  Let's throw an exception
+            throw new RuntimeException("Attempted to find advance for AR invoice identified by: "+invoice.getDocumentNumber()+" but multiple advances returned.  That condition should not exist in the system and the advances should be cleaned up.");
+        }
+        TravelAdvance advance = null;
+        for (TravelAdvance adv : advances) {
+            advance = adv;
+        }
+        return advance;
+    }
+
+    /**
+     * Finds the accounting lines associated with the given advance
+     * @param advance the travel advance to find accounting lines for
+     * @return the associated accounting lines, ordered by sequence number
+     */
+    protected List<TemSourceAccountingLine> getAccountingLinesForAdvance(TravelAdvance advance) {
+        Map<String, String> fieldValues = new HashMap<String, String>();
+        fieldValues.put(KFSPropertyConstants.DOCUMENT_NUMBER, advance.getDocumentNumber());
+        fieldValues.put(KFSPropertyConstants.FINANCIAL_DOCUMENT_LINE_TYPE_CODE, TemConstants.TRAVEL_ADVANCE_ACCOUNTING_LINE_TYPE_CODE);
+        List<TemSourceAccountingLine> advanceAccountingLines = new ArrayList<TemSourceAccountingLine>();
+        advanceAccountingLines.addAll(businessObjectService.findMatchingOrderBy(TemSourceAccountingLine.class, fieldValues, KFSPropertyConstants.SEQUENCE_NUMBER, true));
+        return advanceAccountingLines;
+    }
+
+    /**
+     * Calculates how much each of the given accounting lines contributes to the total of the accounting lines
+     * @param accountingLines the accounting lines to find the percentage contribution of each of
+     * @return a List of the accounting lines and their corresponding percentages
+     */
+    protected List<TemSourceAccountingLineTotalPercentage> getDistributionForLines(List<TemSourceAccountingLine> accountingLines) {
+        final BigDecimal total = calculateLinesTotal(accountingLines).bigDecimalValue();
+        List<TemSourceAccountingLineTotalPercentage> linePercentages = new ArrayList<TemSourceAccountingLineTotalPercentage>();
+        for (TemSourceAccountingLine accountingLine : accountingLines) {
+            BigDecimal percentage = accountingLine.getAmount().bigDecimalValue().divide(total, getDistributionScale(), BigDecimal.ROUND_HALF_UP);
+            TemSourceAccountingLineTotalPercentage linePercentage = new TemSourceAccountingLineTotalPercentage(accountingLine, percentage);
+            linePercentages.add(linePercentage);
+        }
+        return linePercentages;
+    }
+
+    /**
+     * Calculates the sum of a list of AccountingLines
+     * @param accountingLines the accounting lines to add together
+     * @return the sum of those accounting lines
+     */
+    protected KualiDecimal calculateLinesTotal(List<TemSourceAccountingLine> accountingLines) {
+        KualiDecimal sum = KualiDecimal.ZERO;
+        for (TemSourceAccountingLine accountingLine : accountingLines) {
+            sum = sum.add(accountingLine.getAmount());
+        }
+        return sum;
+    }
+
+    /**
+     * @return the scale of the distribution division
+     */
+    protected int getDistributionScale() {
+        return 5;
+    }
+
+    /**
+     * Generates accounting lines which will act as source details to generate the crediting glpes to pay back the advance
+     * @param linePercentages the accounting lines which paid for the advance and the amount they
+     * @param paymentAmount the total amount of the current invoice which is being paid back
+     * @param documentNumber the document number of the reimbursement which is crediting the advance we're paying back here
+     * @return a List of TemSourceAccountingLines which will be source details to generate GLPEs
+     */
+    protected List<TemSourceAccountingLine> createCreditLines(List<TemSourceAccountingLineTotalPercentage> linePercentages, KualiDecimal paymentAmount, String documentNumber) {
+        List<TemSourceAccountingLine> creditLines = new ArrayList<TemSourceAccountingLine>();
+        for (TemSourceAccountingLineTotalPercentage linePercentage : linePercentages) {
+            final KualiDecimal amountForLine = new KualiDecimal(paymentAmount.bigDecimalValue().multiply(linePercentage.getPercentage()));
+            TemSourceAccountingLine creditLine = createAccountingLineForClearing(linePercentage.getTemSourceAccountingLine(), amountForLine, documentNumber);
+            creditLine.setSequenceNumber(creditLines.size() + 1);
+            creditLines.add(creditLine);
+        }
+        return creditLines;
+    }
+
+    /**
+     * Copies the given tem source accounting line to create a glpe source detail that will create the glpe to credit the invoice for this amount
+     * @param progenitorLine the line to copy to create new accounting line
+     * @param amountForLine the amount on the line
+     * @param documentNumber the document number of the reimbursement which is crediting the advance we're paying back here
+     * @return the newly created TemSourceAccountingLine
+     */
+    protected TemSourceAccountingLine createAccountingLineForClearing(TemSourceAccountingLine progenitorLine, KualiDecimal amountForLine, String documentNumber) {
+        TemSourceAccountingLine copiedLine = new TemSourceAccountingLine();
+        copiedLine.copyFrom(progenitorLine);
+        copiedLine.setAmount(amountForLine);
+        copiedLine.setDocumentNumber(documentNumber);
+        return copiedLine;
+    }
+
+    /**
+     * Since we're dealing with percentages, we want to make sure that the generated accounting lines equal the payment amount exactly and we'll do that by removing or adding differences to the first accounting line.
+     * So named because that difference should never be more than a penny (if getDistributionScale() is set high enough)
+     * @param generatedLines the generated accounting lines to pay back the invoice amount
+     * @param paymentAmount the amount of the invoice we're paying back on this TR
+     */
+    protected void takeAPennyLeaveAPenny(List<TemSourceAccountingLine> generatedLines, KualiDecimal paymentAmount) {
+        final KualiDecimal linesTotal = calculateLinesTotal(generatedLines);
+        if (linesTotal.isLessThan(paymentAmount)) {
+            final KualiDecimal delta = paymentAmount.subtract(linesTotal);
+            final KualiDecimal updatedAmount = generatedLines.get(0).getAmount().add(delta); // leave a penny!
+            generatedLines.get(0).setAmount(updatedAmount);
+        } else if (linesTotal.isGreaterThan(paymentAmount)) {
+            final KualiDecimal delta = linesTotal.subtract(paymentAmount);
+            final KualiDecimal updatedAmount = generatedLines.get(0).getAmount().subtract(delta); // hey...take a penny...sweet!
+            generatedLines.get(0).setAmount(updatedAmount);
+        }
+    }
+
+    /**
+     * Looks up the offset definition for the given advance clearing accounting line and travel reimbursement document
+     * @param reimbursement the reimbursement document clearing advances
+     * @param accountingLine the accounting line representing the amount of advance we are clearing
+     * @return the offset definition associated with that amount
+     */
+    protected OffsetDefinition getOffsetDefinitionForAdvanceClearing(TravelReimbursementDocument reimbursement, TemSourceAccountingLine accountingLine) {
+        final String documentType = reimbursement.getPaymentDocumentType();
+        final Integer postingYear = reimbursement.getPostingYear();
+        final String chart = accountingLine.getChartOfAccountsCode();
+        final SystemOptions postingYearOptions = getOptionsService().getOptions(postingYear);
+        final String balanceType = postingYearOptions.getActualFinancialBalanceTypeCd();
+
+        final OffsetDefinition result = getOffsetDefinitionService().getByPrimaryId(postingYear, chart, documentType, balanceType);
+        return result;
+    }
 
     /**
      * Sets the propertyChangeListener attribute value.
@@ -898,6 +924,19 @@ public class TravelReimbursementServiceImpl implements TravelReimbursementServic
      */
     public void setPropertyChangeListeners(final List<PropertyChangeListener> propertyChangeListeners) {
         this.propertyChangeListeners = propertyChangeListeners;
+    }
+
+    /**
+     * @return a Comparator which will let us order sets of AccountsReceivableCustomerInvoice objects
+     */
+    protected Comparator<AccountsReceivableCustomerInvoice> getCustomerInvoiceComparator() {
+        return new Comparator<AccountsReceivableCustomerInvoice>() {
+            /** Compare by document number */
+            @Override
+            public int compare(AccountsReceivableCustomerInvoice blur, AccountsReceivableCustomerInvoice oasis) {
+                return blur.getDocumentNumber().compareTo(oasis.getDocumentNumber());
+            }
+        };
     }
 
     /**
@@ -995,4 +1034,35 @@ public class TravelReimbursementServiceImpl implements TravelReimbursementServic
     public void setTravelDisbursementService(TravelDisbursementService travelDisbursementService) {
         this.travelDisbursementService = travelDisbursementService;
     }
+
+    /**
+     * @return the injected implementation of OffsetDefinitionService
+     */
+    public OffsetDefinitionService getOffsetDefinitionService() {
+        return offsetDefinitionService;
+    }
+
+    /**
+     * Injects an implementation of the OffsetDefinitionService for use
+     * @param offsetDefinitionService the implementation of the OffsetDefinitionService to use
+     */
+    public void setOffsetDefinitionService(OffsetDefinitionService offsetDefinitionService) {
+        this.offsetDefinitionService = offsetDefinitionService;
+    }
+
+    /**
+     * @return the injected implementation of OptionsService
+     */
+    public OptionsService getOptionsService() {
+        return optionsService;
+    }
+
+    /**
+     * Injects an implementation of the OptionsService for use
+     * @param optionsService the implementation of the OptionsService to use
+     */
+    public void setOptionsService(OptionsService optionsService) {
+        this.optionsService = optionsService;
+    }
+
 }

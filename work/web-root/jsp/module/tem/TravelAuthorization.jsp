@@ -79,7 +79,7 @@
 		</kul:tab>
 	</c:if>
 	<c:if test="${KualiForm.showTravelAdvancesForTrip}">
-		<tem:travelAdvances />
+		<tem:travelAdvances tabTitle="All Advances"/>
 	</c:if>
     <c:if test="${KualiForm.editingMode['displayEmergencyContactTab']}">
 	    <tem-ta:emergencyContact />

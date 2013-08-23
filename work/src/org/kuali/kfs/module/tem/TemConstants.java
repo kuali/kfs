@@ -137,6 +137,7 @@ public class TemConstants {
         public static final String TRAVEL_AUTHORIZATION_WIRE_OR_FOREIGN_DRAFT_DOCUMENT = "TAWF";
         public static final String TRAVEL_REIMBURSEMENT_CHECK_ACH_DOCUMENT = "TRCA";
         public static final String TRAVEL_REIMBURSEMENT_WIRE_OR_FOREIGN_DRAFT_DOCUMENT = "TRWF";
+        public static final String TRAVEL_REIMBURSEMENT_TRAVEL_ADVANCES_DOCUMENT = "TRTA";
         public static final String ENTERTAINMENT_CHECK_ACH_DOCUMENT = "ENCA";
         public static final String ENTERTAINMENT_WIRE_OR_FOREIGN_DRAFT_DOCUMENT = "ENWF";
         public static final String RELOCATION_CHECK_ACH_DOCUMENT = "RECA";
@@ -354,6 +355,9 @@ public class TemConstants {
         }
     }
     public static final String TRAVEL_ADVANCE_ACCOUNTING_LINE_TYPE_CODE = "A";
+    public static final String TRAVEL_ADVANCE_ACCOUNTING_LINE_GROUP_NAME = "advance";
+    public static final String TRAVEL_ADVANCE_CLEARING_LINE_TYPE_CODE = "B";
+    public static final String TRAVEL_ADVANCE_CREDITING_LINE_TYPE_CODE = "C";
 
     public static final Map<String, Class> uncopyableFieldsForTravelAuthorization() {
         Map<String, Class> returnMap = new HashMap<String, Class>();
@@ -915,4 +919,14 @@ public class TemConstants {
     public static final String ADVANCE_TRAVEL_PAYMENT_TAB_ERRORS = "TravelPaymentErrors,document.advanceTravelPayment.checkTotalAmount,document.advanceTravelPayment.dueDate,document.advanceTravelPayment.alienPaymentCode,document.advanceTravelPayment.payeeEmployeeCode,document.advanceTravelPayment.attachmentCode,document.advanceTravelPayment.specialHandlingCode,document.advanceTravelPayment.payeeW9CompleteCode,document.advanceTravelPayment.paymentMethodCode,document.advanceTravelPayment.paymentDocumentationLocationCode,document.travelPayment.checkStubText";
     public static final String ADVANCE_TRVL_SPECHAND_TAB_ERRORS = "TravelPaymentSpecialHandlingErrors,document.advanceTravelPayment.specialHandlingPersonName,document.advanceTravelPayment.specialHandlingCityName,document.advanceTravelPayment.specialHandlingLine1Addr,document.advanceTravelPayment.specialHandlingStateCode,document.advanceTravelPayment.specialHandlingLine2Addr,document.advanceTravelPayment.specialHandlingZipCode,document.advanceTravelPayment.specialHandlingCountryName";
     public static final String GENERAL_TRAVEL_PAYMENT_TAB_KEY = "TravelPaymentErrors";
+
+    public enum PermissionAttributeValue {
+        ADVANCE_ACCOUNTING_LINES("advanceAccountingLines");
+
+        public final String value;
+
+        private PermissionAttributeValue(String value) {
+            this.value = value;
+        }
+    }
 }

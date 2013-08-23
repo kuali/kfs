@@ -14,16 +14,19 @@
  limitations under the License.
 --%>
 <%@ include file="/jsp/sys/kfsTldHeader.jsp"%>
+<%@ attribute name="tabTitle" required="false" type="java.lang.String" description="The title of this tab; defaults to: Travel Advances."%>
+<c:set var="tabTitleVar" value="${tabTitle}"/>
+<c:if test="${empty tabTitleVar}"><c:set var="tabTitleVar" value="Travel Advances"/></c:if>
 
 <c:set var="travelAdvanceAttributes" value="${DataDictionary.TravelAdvance.attributes}" />
-<kul:tab tabTitle="Travel Advances" defaultOpen="true">
+<kul:tab tabTitle="${tabTitleVar}" defaultOpen="true">
 	<div id="TravelAdvances" class="tab-container">
 		<div align="right">
 			<a target="_blank" class="portal_link"
 				href="portal.do?channelTitle=Customer Report&channelUrl=kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.Customer&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true&customerNumber=${KualiForm.document.traveler.customer.customerNumber}&customerTypeCode=${KualiForm.document.traveler.customer.customerTypeCode}"
 				title="Customer Report">Customer Report</a>
 		</div>
-		<h3>Travel Advances</h3>
+		<h3><c:out value="${tabTitleVar}"/></h3>
 		<table style="border: none;">
 			<c:forEach items="${KualiForm.document.travelAdvances}" var="travelAdvance">
 				<tr>

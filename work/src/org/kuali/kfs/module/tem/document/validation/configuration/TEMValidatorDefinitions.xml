@@ -107,6 +107,15 @@
 		<property name="parameterEvaluatorService" ref="parameterEvaluatorService" />
         <property name="parameterService" ref="parameterService" />
 	</bean>
+	
+	<bean id="TravelAuthorizationDocument-advanceObjectCodeValidation" parent="TravelAuthorizationDocument-advanceObjectCodeValidation-parentBean" />
+	<bean id="TravelAuthorizationDocument-advanceObjectCodeValidation-parentBean" abstract="true" class="org.kuali.kfs.module.tem.document.validation.impl.TravelAdvanceObjectCodeParameterValidation">
+        <property name="parameterService" ref="parameterService" />
+	</bean>
+	
+	<bean id="TravelAuthorizationDocument-accountingLineAccessibleValidation" parent="TravelAuthorizationDocument-accountingLineAccessibleValidation-parentBean"/>
+	<bean id="TravelAuthorizationDocument-accountingLineAccessibleValidation-parentBean" abstract="true" class="org.kuali.kfs.module.tem.document.validation.impl.TravelAuthorizationAccountingLineAccessibleValidation" parent="AccountingDocument-accountingLineAccessibleValidation"/>
+	
 
 	<!-- Add Accounting Line Event -->
     <bean id="TravelModule-addAccountingLine-failFastValidation" abstract="true" parent="CompositeValidation" scope="prototype">

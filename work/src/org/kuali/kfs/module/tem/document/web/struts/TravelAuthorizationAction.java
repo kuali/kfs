@@ -159,8 +159,8 @@ public class TravelAuthorizationAction extends TravelActionBase {
         }
 
         setupTravelAdvances(authForm);
-
-        travelAuthDocument.propagateAdvanceAmountIfNeeded();
+        travelAuthDocument.propagateAdvanceInformationIfNeeded();
+        populateAnyMissingAdvanceAccountingLineObjectCodes(authForm);
 
         if (travelAuthDocument.getTravelAdvances() != null && !travelAuthDocument.getTravelAdvances().isEmpty()) {
             authForm.setShowTravelAdvancesForTrip(true);
@@ -169,6 +169,10 @@ public class TravelAuthorizationAction extends TravelActionBase {
         return retval;
     }
 
+    /**
+     * Decides whether to show the tab which allows the traveler to accept the rules with receiving a travel advance
+     * @param form the form for the travel authorization
+     */
     private void setupTravelAdvances(TravelAuthorizationForm form) {
         TravelAuthorizationDocument document = form.getTravelAuthorizationDocument();
         boolean waitingOnTraveler = document.getAppDocStatus().equals(TemConstants.TravelAuthorizationStatusCodeKeys.AWAIT_TRVLR);
@@ -202,6 +206,25 @@ public class TravelAuthorizationAction extends TravelActionBase {
             TravelAuthorizationDocument authorizationDocument = (TravelAuthorizationDocument) transForm.getDocument();
             if (!ObjectUtils.isNull(authorizationDocument.getAdvanceAccountingLines()) && !authorizationDocument.getAdvanceAccountingLines().isEmpty()) {
                 processAccountingLineOverrides(authorizationDocument,authorizationDocument.getAdvanceAccountingLines());
+            }
+        }
+    }
+
+    /**
+     * If the parameter KFS-TEM / TravelAuthorization / TRAVEL_ADVANCE_OBJECT_CODE is set and some of the advance accounting lines do not have object codes set, fill the object codes in
+     * @param form the form with the document to update
+     */
+    protected void populateAnyMissingAdvanceAccountingLineObjectCodes(TravelAuthorizationForm form) {
+        final String advanceAccountingLineObjectCode = getParameterService().getParameterValueAsString(TravelAuthorizationDocument.class, TemConstants.TravelAuthorizationParameters.TRAVEL_ADVANCE_OBJECT_CODE, KFSConstants.EMPTY_STRING);
+
+        if (!StringUtils.isBlank(advanceAccountingLineObjectCode)) {
+            final TravelAuthorizationDocument authorizationDocument = form.getTravelAuthorizationDocument();
+            if (authorizationDocument.getAdvanceAccountingLines() != null && !authorizationDocument.getAdvanceAccountingLines().isEmpty()) {
+                for (TemSourceAccountingLine accountingLine : authorizationDocument.getAdvanceAccountingLines()) {
+                    if (StringUtils.isBlank(accountingLine.getFinancialObjectCode())) {
+                        accountingLine.setFinancialObjectCode(advanceAccountingLineObjectCode);
+                    }
+                }
             }
         }
     }
@@ -1017,7 +1040,7 @@ public class TravelAuthorizationAction extends TravelActionBase {
         else {
             document.setTransportationModeCodes(new ArrayList<String>());
         }
-        document.propagateAdvanceAmountIfNeeded();
+        document.propagateAdvanceInformationIfNeeded();
 
         return super.route(mapping, form, request, response);
     }
@@ -1028,7 +1051,7 @@ public class TravelAuthorizationAction extends TravelActionBase {
     @Override
     public ActionForward blanketApprove(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         if (((TravelAuthorizationForm)form).getTravelAuthorizationDocument().shouldProcessAdvanceForDocument()) {
-            ((TravelAuthorizationForm)form).getTravelAuthorizationDocument().propagateAdvanceAmountIfNeeded();
+            ((TravelAuthorizationForm)form).getTravelAuthorizationDocument().propagateAdvanceInformationIfNeeded();
             ((TravelAuthorizationForm)form).getTravelAuthorizationDocument().getTravelAdvance().setTravelAdvancePolicy(true);
         }
 
@@ -1049,7 +1072,7 @@ public class TravelAuthorizationAction extends TravelActionBase {
                 doc.getAdvanceTravelPayment().setPaymentMethodCode(KFSConstants.PaymentMethod.ACH_CHECK.getCode()); // set to check, so that foreign draft or wire transfer is not processed
             }
             // clean up accounting lines
-            if (doc.allParametersForAdvanceSet()) {
+            if (doc.allParametersForAdvanceAccountingLinesSet()) {
                 doc.getAdvanceAccountingLine(0).setAmount(KualiDecimal.ZERO);
             } else {
                 doc.setAdvanceAccountingLines(new ArrayList<TemSourceAccountingLine>());

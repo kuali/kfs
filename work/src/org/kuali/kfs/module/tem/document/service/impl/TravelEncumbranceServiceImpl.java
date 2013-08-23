@@ -433,13 +433,10 @@ public class TravelEncumbranceServiceImpl implements TravelEncumbranceService {
     }
 
     /**
-     * @see org.kuali.kfs.module.tem.document.service.TravelEncumbranceService#disencumberTravelReimbursementFunds(org.kuali.kfs.module.tem.document.TravelReimbursementDocument)
+     * @see org.kuali.kfs.module.tem.document.service.TravelEncumbranceService#disencumberTravelReimbursementFunds(org.kuali.kfs.module.tem.document.TravelReimbursementDocument, org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper)
      */
     @Override
-    public void disencumberTravelReimbursementFunds(TravelReimbursementDocument travelReimbursementDocument) {
-        final int counter = travelReimbursementDocument.getGeneralLedgerPendingEntries().size() + 1;
-        GeneralLedgerPendingEntrySequenceHelper sequenceHelper = new GeneralLedgerPendingEntrySequenceHelper(counter);
-
+    public void disencumberTravelReimbursementFunds(TravelReimbursementDocument travelReimbursementDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
         List<Encumbrance> tripEncumbrances = getEncumbrancesForTrip(travelReimbursementDocument.getTravelDocumentIdentifier());
         for (TemSourceAccountingLine accountingLine : ((List<TemSourceAccountingLine>)travelReimbursementDocument.getSourceAccountingLines())) {
             Encumbrance encumbrance = findMatchingEncumbrance(accountingLine, tripEncumbrances);

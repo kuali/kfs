@@ -66,13 +66,6 @@ public interface TravelDisbursementService {
     public void redistributeDisbursementAccountingLine(DisbursementVoucherDocument disbursementVoucherDocument, List<SourceAccountingLine> sourceAccountingLines);
 
     /**
-     * Return TravelDVClearing source accounting line from parameters
-     *
-     * @return
-     */
-    public SourceAccountingLine getTravelClearingGLPESourceDetail();
-
-    /**
      * This is a special blanket approve route for DV so that even when the payee is the initialer, we can still issue the DV
      *
      *  NOTE: this mimic the DocumentService's blanketApproveDocument and change the specific event

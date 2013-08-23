@@ -33,9 +33,9 @@ public class PerDiemMealIncidentalBreakDown extends PersistableBusinessObjectBas
 
     private KualiDecimal mealsAndIncidentals;
 
-    private Integer breakfast;
-    private Integer lunch;
-    private Integer dinner;
+    private KualiDecimal breakfast;
+    private KualiDecimal lunch;
+    private KualiDecimal dinner;
     private KualiDecimal incidentals;
     private KualiDecimal firstOrLastDayAmount;
 
@@ -54,33 +54,33 @@ public class PerDiemMealIncidentalBreakDown extends PersistableBusinessObjectBas
     }
 
     @Column(name="BKFST",nullable=false)
-    public Integer getBreakfast() {
+    public KualiDecimal getBreakfast() {
         return breakfast;
     }
 
 
-    public void setBreakfast(Integer breakfast) {
+    public void setBreakfast(KualiDecimal breakfast) {
         this.breakfast = breakfast;
     }
 
 
     @Column(name="LUNCH",nullable=false)
-    public Integer getLunch() {
+    public KualiDecimal getLunch() {
         return lunch;
     }
 
 
-    public void setLunch(Integer lunch) {
+    public void setLunch(KualiDecimal lunch) {
         this.lunch = lunch;
     }
 
     @Column(name="DIN",nullable=false)
-    public Integer getDinner() {
+    public KualiDecimal getDinner() {
         return dinner;
     }
 
 
-    public void setDinner(Integer dinner) {
+    public void setDinner(KualiDecimal dinner) {
         this.dinner = dinner;
     }
 

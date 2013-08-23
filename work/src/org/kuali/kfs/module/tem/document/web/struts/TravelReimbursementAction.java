@@ -442,7 +442,7 @@ public class TravelReimbursementAction extends TravelActionBase {
             if (document.getPrimaryDestinationId() != null && document.getPrimaryDestinationId().intValue() == TemConstants.CUSTOM_PRIMARY_DESTINATION_ID){
                 document.getPrimaryDestination().setPrimaryDestinationName(document.getPrimaryDestinationName());
                 document.getPrimaryDestination().setCounty(document.getPrimaryDestinationCounty());
-                document.getPrimaryDestination().setCountryState(document.getPrimaryDestinationCountryState());
+                document.getPrimaryDestination().getRegion().setRegionName(document.getPrimaryDestinationCountryState());
                 document.setPrimaryDestinationIndicator(true);
             }
 

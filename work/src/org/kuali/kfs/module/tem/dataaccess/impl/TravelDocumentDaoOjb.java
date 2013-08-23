@@ -28,7 +28,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
@@ -96,9 +95,7 @@ public class TravelDocumentDaoOjb extends PlatformAwareDaoBaseOjb implements Tra
 	    //Add all field values but the date
 	    for (String key : fieldValues.keySet()){
 	        if (!key.equals(TemPropertyConstants.PER_DIEM_LOOKUP_DATE)){
-	            if (StringUtils.isNotBlank((String)fieldValues.get(key))){
-	                criteria.addEqualTo(""+key+"", ""+fieldValues.get(key)+"");
-	            }
+	            criteria.addEqualTo(""+key+"", ""+fieldValues.get(key)+"");
 	        }
 	    }
 
@@ -160,7 +157,7 @@ public class TravelDocumentDaoOjb extends PlatformAwareDaoBaseOjb implements Tra
         else if (tripType.equals(TemConstants.TEMTripTypes.DOMESTIC)){
             criteria.addNotEqualTo("tripType", TemConstants.TEMTripTypes.INTERNATIONAL);
         }
-        Query query = QueryFactory.newQuery(PrimaryDestination.class, criteria,true);
+        QueryByCriteria query = QueryFactory.newQuery(PrimaryDestination.class, criteria,true);
         List<PrimaryDestination> results = (List<PrimaryDestination>) getPersistenceBrokerTemplate().getCollectionByQuery(query);
 
         return results;
@@ -184,7 +181,7 @@ public class TravelDocumentDaoOjb extends PlatformAwareDaoBaseOjb implements Tra
                 }
                 else if (object instanceof PerDiem){
                     PerDiem temp = (PerDiem) object;
-                    temp.setPrimaryDestination(temp.getPrimaryDestination().replace("[", "").replace("]", ""));
+                    temp.getPrimaryDestination().getPrimaryDestinationName().replace("[", "").replace("]", "");
                 }
             }
         }

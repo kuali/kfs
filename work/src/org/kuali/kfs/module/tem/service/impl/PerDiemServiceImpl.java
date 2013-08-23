@@ -78,6 +78,9 @@ public class PerDiemServiceImpl extends ExpenseServiceBase implements PerDiemSer
     private Map<String, MealBreakDownStrategy> mealBreakDownStrategies;
     private String allStateCodes;
 
+    Collection<PerDiem> persistedPerDiems;
+
+
     /**
      * @see org.kuali.kfs.module.tem.service.PerDiemService#breakDownMealsIncidental(java.util.List)
      */
@@ -201,17 +204,17 @@ public class PerDiemServiceImpl extends ExpenseServiceBase implements PerDiemSer
      */
     @Override
     public <T extends PerDiem> void updateTripType(T perDiem) {
-        String countryState = perDiem.getCountryState();
+        String region = perDiem.getPrimaryDestination().getRegion().getRegionCode();
         String institutionState = this.getInstitutionState();
 
         String tripTypeCode = this.getInternationalTripTypeCode();
-        if(StringUtils.equals(countryState, institutionState)) {
+        if(StringUtils.equals(region, institutionState)) {
         	tripTypeCode = this.getInStateTripTypeCode();
-        } else if(getAllStateCodes().contains( ";" + countryState.toUpperCase() +  ";")) {
+        } else if(getAllStateCodes().contains( ";" + region.toUpperCase() +  ";")) {
         	tripTypeCode = this.getOutStateTripTypeCode();
         }
 
-        perDiem.setTripTypeCode(tripTypeCode);
+        perDiem.getPrimaryDestination().getRegion().setTripTypeCode(tripTypeCode);
     }
 
     /**
@@ -249,11 +252,8 @@ public class PerDiemServiceImpl extends ExpenseServiceBase implements PerDiemSer
     @Override
     public <T extends PerDiem> List<PerDiem> retrievePreviousPerDiem(T perDiem) {
         Map<String, Object> fieldValues = new HashMap<String, Object>();
-        fieldValues.put(TemPropertyConstants.COUNTRY_STATE, perDiem.getCountryState());
-        fieldValues.put(TemPropertyConstants.COUNTY, perDiem.getCounty());
-        fieldValues.put(TemPropertyConstants.PRIMARY_DESTINATION, perDiem.getPrimaryDestination());
+        fieldValues.put(TemPropertyConstants.PRIMARY_DESTINATION_ID, perDiem.getPrimaryDestinationId());
         fieldValues.put(TemPropertyConstants.SEASON_BEGIN_MONTH_AND_DAY, perDiem.getSeasonBeginMonthAndDay());
-        fieldValues.put(TemPropertyConstants.TRIP_TYPE, perDiem.getTripTypeCode());
         fieldValues.put(KFSPropertyConstants.ACTIVE, Boolean.TRUE);
 
         return (List) this.getBusinessObjectService().findMatching(PerDiem.class, fieldValues);
@@ -307,88 +307,14 @@ public class PerDiemServiceImpl extends ExpenseServiceBase implements PerDiemSer
      */
     @Override
     public <T extends PerDiem> boolean hasExistingPerDiem(T perDiem) {
-    	Map<String, Object> fieldValues = new HashMap<String, Object>();
-    	boolean atLeastOneNull = false;
+        if (ObjectUtils.isNull(persistedPerDiems)) {
+            persistedPerDiems = businessObjectService.findAll(PerDiem.class);
+        }
 
-        if(StringUtils.isNotEmpty(perDiem.getCountryState())) {
-        	fieldValues.put(TemPropertyConstants.COUNTRY_STATE, perDiem.getCountryState());
-        } else {
-        	atLeastOneNull = true;
-        }
-        if(StringUtils.isNotEmpty(perDiem.getCounty())) {
-        	fieldValues.put(TemPropertyConstants.COUNTY, perDiem.getCounty());
-        } else {
-        	atLeastOneNull = true;
-        }
-        if(StringUtils.isNotEmpty(perDiem.getPrimaryDestination())) {
-        	fieldValues.put(TemPropertyConstants.PRIMARY_DESTINATION, perDiem.getPrimaryDestination());
-        } else {
-        	atLeastOneNull = true;
-        }
-        if(StringUtils.isNotEmpty(perDiem.getSeasonBeginMonthAndDay())) {
-        	fieldValues.put(TemPropertyConstants.SEASON_BEGIN_MONTH_AND_DAY, perDiem.getSeasonBeginMonthAndDay());
-        } else {
-        	atLeastOneNull = true;
-        }
-        if(ObjectUtils.isNotNull(perDiem.getEffectiveFromDate())) {
-        	fieldValues.put(TemPropertyConstants.EFFECTIVE_FROM_DATE, perDiem.getEffectiveFromDate());
-        } else {
-        	atLeastOneNull = true;
-        }
-        fieldValues.put(TemPropertyConstants.TRIP_TYPE, perDiem.getTripTypeCode());
+        boolean retval = persistedPerDiems.contains(perDiem);
 
-        if (atLeastOneNull) {
-        	List<PerDiem> results = (List<PerDiem>) this.getBusinessObjectService().findMatching(PerDiem.class, fieldValues);
+        return retval;
 
-        	boolean existing = false;
-	    	for(PerDiem result : results) {
-	    		existing = false;
-	        	if(!fieldValues.containsKey(TemPropertyConstants.COUNTRY_STATE)) {
-	        		if(StringUtils.isEmpty(result.getCountryState())) {
-	        			existing = true;
-	        		} else {
-	        			existing = false;
-	        		}
-	        	}
-	        	if(!fieldValues.containsKey(TemPropertyConstants.COUNTY)) {
-	        		if(StringUtils.isEmpty(result.getCounty())) {
-	        			existing = true;
-	        		} else {
-	        			existing = false;
-	        		}
-	            }
-	            if(!fieldValues.containsKey(TemPropertyConstants.PRIMARY_DESTINATION)) {
-	            	if(StringUtils.isEmpty(result.getPrimaryDestination())) {
-	        			existing = true;
-	        		} else {
-	        			existing = false;
-	        		}
-	            }
-	            if(!fieldValues.containsKey(TemPropertyConstants.SEASON_BEGIN_MONTH_AND_DAY)) {
-	            	if(StringUtils.isEmpty(result.getSeasonBeginMonthAndDay())) {
-	        			existing = true;
-	        		} else {
-	        			existing = false;
-	        		}
-	            }
-	            if(!fieldValues.containsKey(TemPropertyConstants.EFFECTIVE_FROM_DATE)) {
-	            	if(ObjectUtils.isNull(result.getEffectiveFromDate())) {
-	        			existing = true;
-	        		} else {
-	        			existing = false;
-	        		}
-	            }
-	            if(existing) {
-	            	return existing;
-	            }
-	        }
-
-	        return existing;
-        } else {
-        	int count = this.getBusinessObjectService().countMatching(PerDiem.class, fieldValues);
-
-            return count > 0;
-        }
     }
 
     /**

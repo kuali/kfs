@@ -47,19 +47,19 @@ public class DefaultMealBreakDownStrategy implements MealBreakDownStrategy {
             throw new RuntimeException("The given mealsAndIncidentals cannot be null or negative.");
         }
 
-        Integer breakfastPercent = this.getMealPercentByMealCode(MEAL_CODE.BREAKFAST.mealCode);
-        Integer breakfast = mealsAndIncidentals.intValue() * breakfastPercent / 100;
+        KualiDecimal breakfastPercent = this.getMealPercentByMealCode(MEAL_CODE.BREAKFAST.mealCode);
+        KualiDecimal breakfast = mealsAndIncidentals.multiply(breakfastPercent).divide(new KualiDecimal(100));
         perDiem.setBreakfast(breakfast);
 
-        Integer lunchPercent = this.getMealPercentByMealCode(MEAL_CODE.LUNCH.mealCode);
-        Integer lunch = mealsAndIncidentals.intValue() * lunchPercent / 100;
+        KualiDecimal lunchPercent = this.getMealPercentByMealCode(MEAL_CODE.LUNCH.mealCode);
+        KualiDecimal lunch = mealsAndIncidentals.multiply(lunchPercent).divide(new KualiDecimal(100));
         perDiem.setLunch(lunch);
 
-        Integer dinnerPercent = this.getMealPercentByMealCode(MEAL_CODE.DINNER.mealCode);
-        Integer dinner = mealsAndIncidentals.intValue() * dinnerPercent / 100;
+        KualiDecimal dinnerPercent = this.getMealPercentByMealCode(MEAL_CODE.DINNER.mealCode);
+        KualiDecimal dinner = mealsAndIncidentals.multiply(dinnerPercent).divide(new KualiDecimal(100));
         perDiem.setDinner(dinner);
 
-        KualiDecimal meals = new KualiDecimal(breakfast + lunch + dinner);
+        KualiDecimal meals = breakfast.add(lunch).add(dinner);
         KualiDecimal incidentals = mealsAndIncidentals.subtract(meals);
         perDiem.setIncidentals(incidentals);
     }
@@ -69,13 +69,13 @@ public class DefaultMealBreakDownStrategy implements MealBreakDownStrategy {
      *
      * @return meal percentage by meal code defined as an application parameter
      */
-    protected Integer getMealPercentByMealCode(String mealCode) {
-        Integer mealPercent = null;
+    protected KualiDecimal getMealPercentByMealCode(String mealCode) {
+        KualiDecimal mealPercent = null;
 
         try {
             String mealPercentString = getMealPercent(mealCode);
 
-            mealPercent = Integer.parseInt(mealPercentString);
+            mealPercent =  new KualiDecimal(mealPercentString);
         }
         catch (Exception e) {
             String error = this.getParameterName() + "is not setup correctly";

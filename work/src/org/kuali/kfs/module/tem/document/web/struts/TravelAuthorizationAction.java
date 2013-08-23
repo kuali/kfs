@@ -146,7 +146,7 @@ public class TravelAuthorizationAction extends TravelActionBase {
             if (travelAuthDocument.getPrimaryDestinationId().intValue() == TemConstants.CUSTOM_PRIMARY_DESTINATION_ID){
                 travelAuthDocument.getPrimaryDestination().setPrimaryDestinationName(travelAuthDocument.getPrimaryDestinationName());
                 travelAuthDocument.getPrimaryDestination().setCounty(travelAuthDocument.getPrimaryDestinationCounty());
-                travelAuthDocument.getPrimaryDestination().setCountryState(travelAuthDocument.getPrimaryDestinationCountryState());
+                travelAuthDocument.getPrimaryDestination().getRegion().setRegionName(travelAuthDocument.getPrimaryDestinationCountryState());
             }
         }
 

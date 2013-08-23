@@ -21,8 +21,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.kfs.module.tem.TemConstants;
-import org.kuali.kfs.module.tem.businessobject.PrimaryDestination;
+import org.kuali.kfs.module.tem.businessobject.TemRegion;
 import org.kuali.kfs.module.tem.service.TravelService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
@@ -30,7 +29,7 @@ import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
-public class PrimaryDestinationValuesFinder extends KeyValuesBase {
+public class TemRegionValuesFinder extends KeyValuesBase {
 
     /**
      * @see org.kuali.rice.krad.keyvalues.KeyValuesFinder#getKeyValues()
@@ -42,38 +41,45 @@ public class PrimaryDestinationValuesFinder extends KeyValuesBase {
         keyValues.add(new ConcreteKeyValue("", ""));
         BusinessObjectService service = SpringContext.getBean(BusinessObjectService.class);
         TravelService travelService = SpringContext.getBean(TravelService.class);
-        Map<String,String> fieldValues = new HashMap<String, String>();
 
-        List<PrimaryDestination> primaryDestinationsInternational = travelService.findAllDistinctPrimaryDestinations(TemConstants.TEMTripTypes.INTERNATIONAL);
+        Map<String, String> fieldValues = new HashMap<String, String>();
+        fieldValues.put("tripTypeCode", "IN");
+        List<TemRegion> inRegions = (List<TemRegion>) service.findMatching(TemRegion.class, fieldValues);
+        fieldValues.put("tripTypeCode", "BLN");
+        List<TemRegion> blnRegions = (List<TemRegion>) service.findMatching(TemRegion.class, fieldValues);
+        fieldValues.put("tripTypeCode", "OUT");
+        List<TemRegion> outRegions = (List<TemRegion>) service.findMatching(TemRegion.class, fieldValues);
+        fieldValues.put("tripTypeCode", "INT");
+        List<TemRegion> intRegions = (List<TemRegion>) service.findMatching(TemRegion.class, fieldValues);
+      //  Collections.sort(temCountries);
 
-        List<PrimaryDestination> primaryDestinationsDomestic = travelService.findAllDistinctPrimaryDestinations(TemConstants.TEMTripTypes.DOMESTIC);
+        List<TemRegion> usRegions = new ArrayList<TemRegion>();
+        usRegions.addAll(inRegions);
+        usRegions.addAll(blnRegions);
+        usRegions.addAll(outRegions);
 
-
-        Iterator<PrimaryDestination> it = primaryDestinationsDomestic.iterator();
+        Iterator<TemRegion> it = usRegions.iterator();
 
         String key = "";
         while (it.hasNext()){
-            PrimaryDestination primaryDestination = it.next();
+            TemRegion temRegion = it.next();
 
-            String tempKey = primaryDestination.getPrimaryDestinationName();
+            String tempKey = temRegion.getRegionName();
             if (!tempKey.equals(key)){
-                keyValues.add(new ConcreteKeyValue(primaryDestination.getPrimaryDestinationName().toUpperCase(), primaryDestination.getPrimaryDestinationName().toUpperCase()));
+                keyValues.add(new ConcreteKeyValue(temRegion.getRegionCode().toUpperCase(), temRegion.getRegionName().toUpperCase()));
             }
             key = tempKey;
         }
         keyValues.add(new ConcreteKeyValue("---", "------------------------------------------"));
-        it =primaryDestinationsInternational.iterator();
-        while (it.hasNext()){
-            PrimaryDestination primaryDestination = it.next();
-            //skip dummy value for custom expenses
-
-            String tempKey = primaryDestination.getPrimaryDestinationName();
-            if (!tempKey.equals(key)){
-                keyValues.add(new ConcreteKeyValue(primaryDestination.getPrimaryDestinationName().toUpperCase(), primaryDestination.getPrimaryDestinationName().toUpperCase()));
+        it = intRegions.iterator();
+        while (it.hasNext()) {
+            TemRegion temRegion = it.next();
+            String tempKey = temRegion.getRegionName();
+            if (!tempKey.equals(key)) {
+                keyValues.add(new ConcreteKeyValue(temRegion.getRegionCode().toUpperCase(), temRegion.getRegionName().toUpperCase()));
             }
             key = tempKey;
         }
-
 
         return keyValues;
     }

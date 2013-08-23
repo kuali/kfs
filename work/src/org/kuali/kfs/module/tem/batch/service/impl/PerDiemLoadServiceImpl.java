@@ -26,6 +26,7 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -41,6 +42,8 @@ import org.kuali.kfs.module.tem.batch.businessobject.PerDiemForLoad;
 import org.kuali.kfs.module.tem.batch.service.PerDiemLoadService;
 import org.kuali.kfs.module.tem.batch.service.PerDiemLoadValidationService;
 import org.kuali.kfs.module.tem.businessobject.PerDiem;
+import org.kuali.kfs.module.tem.businessobject.PrimaryDestination;
+import org.kuali.kfs.module.tem.businessobject.TemRegion;
 import org.kuali.kfs.module.tem.service.PerDiemService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.Message;
@@ -81,6 +84,9 @@ public class PerDiemLoadServiceImpl implements PerDiemLoadService {
     private String perDiemReportDirectory;
     private String perDiemReportFilePrefix;
 
+    Collection<TemRegion> persistedRegions;
+    Collection<PrimaryDestination> persistedPrimaryDestinations;
+
     /**
      * @see org.kuali.kfs.module.tem.batch.service.PerDiemLoadService#loadPerDiem()
      */
@@ -118,19 +124,36 @@ public class PerDiemLoadServiceImpl implements PerDiemLoadService {
             List<PerDiemForLoad> perDiemList = (List<PerDiemForLoad>) batchInputFileService.parse(inputFileType, fileByteContent);
             IOUtils.closeQuietly(fileContents);
 
+            persistedRegions = businessObjectService.findAll(TemRegion.class);
+            persistedPrimaryDestinations = businessObjectService.findAll(PrimaryDestination.class);
+
             List<PerDiemForLoad> validPerDiemList = this.validatePerDiem(perDiemList, dataFileName);
+
+            Map<String, TemRegion> regions = this.extractTemCountries(validPerDiemList);
+            Collection<PrimaryDestination> primaryDestinations = this.extractPrimaryDestinations(validPerDiemList);
 
             boolean isAllValid = validPerDiemList.size() == perDiemList.size();
             if (!isAllValid && this.isRejectAllWhenError()) {
                 String error = "The per diem records to be loaded are rejected due to data problem. Please check the per diem load report.";
-                throw new RuntimeException(error);
+                return false;
             }
 
-            boolean isDeactivatePerDiem = this.isDeactivatePerDiem();
-            List<PerDiem> perDiemsForExpriation =  this.getPerDiemService().retrieveExpireDeactivatePreviousPerDiem(validPerDiemList, isDeactivatePerDiem);
+//            boolean isDeactivatePerDiem = this.isDeactivatePerDiem();
+//            List<PerDiem> perDiemsForExpriation =  this.getPerDiemService().retrieveExpireDeactivatePreviousPerDiem(validPerDiemList, isDeactivatePerDiem);
 
-            businessObjectService.save(perDiemsForExpriation);
-            businessObjectService.save(validPerDiemList);
+            for (TemRegion region : regions.values()) {
+                businessObjectService.save(region);
+            }
+            for (PrimaryDestination primaryDestination : primaryDestinations) {
+                businessObjectService.save(primaryDestination);
+            }
+
+            for (PerDiem perDiem : validPerDiemList) {
+                perDiem.setPrimaryDestinationId(perDiem.getPrimaryDestination().getId());
+                businessObjectService.save(perDiem);
+            }
+        //    businessObjectService.save(perDiemsForExpriation);
+           // businessObjectService.save(validPerDiemList);
         }
         catch (Exception ex) {
             LOG.error("Failed to process the file : " + dataFileName, ex);
@@ -143,6 +166,29 @@ public class PerDiemLoadServiceImpl implements PerDiemLoadService {
         }
 
         return true;
+    }
+
+    private Collection<PrimaryDestination> extractPrimaryDestinations(List<PerDiemForLoad> validPerDiemList) {
+        Map<String, PrimaryDestination> primaryDests = new HashMap<String, PrimaryDestination>();
+        for (PerDiem perDiem : validPerDiemList) {
+            PrimaryDestination primaryDest = perDiem.getPrimaryDestination();
+            primaryDest.setRegionCode(primaryDest.getRegion().getRegionCode());
+            if (!persistedPrimaryDestinations.contains(primaryDest)) {
+                primaryDests.put(primaryDest.getRegionCode()+":"+primaryDest.getCounty()+":"+primaryDest.getPrimaryDestinationName(), primaryDest);
+            }
+        }
+        return primaryDests.values();
+    }
+
+    private Map<String,TemRegion> extractTemCountries(List<PerDiemForLoad> validPerDiemList) {
+        Map<String, TemRegion> regions = new HashMap<String,TemRegion>();
+        for (PerDiem perDiem : validPerDiemList) {
+            TemRegion region = perDiem.getPrimaryDestination().getRegion();
+            if (!persistedRegions.contains(region)) {
+                regions.put(region.getRegionCode(), region);
+            }
+        }
+        return regions;
     }
 
     protected boolean isDeactivatePerDiem() {
@@ -188,16 +234,6 @@ public class PerDiemLoadServiceImpl implements PerDiemLoadService {
 
         Date loadDate = this.getDateTimeService().getCurrentSqlDate();
         perDiem.setLoadDate(loadDate);
-
-        String primaryDestination = perDiem.getPrimaryDestination();
-        if(StringUtils.isBlank(primaryDestination)){
-            perDiem.setPrimaryDestination(StringUtils.EMPTY);
-        }
-
-        String county = perDiem.getCounty();
-        if(StringUtils.isBlank(county)){
-            perDiem.setCounty(StringUtils.EMPTY);
-        }
 
         this.getPerDiemService().updateTripType(perDiem);
         this.getPerDiemService().breakDownMealsIncidental(perDiem);
@@ -466,7 +502,7 @@ public class PerDiemLoadServiceImpl implements PerDiemLoadService {
      */
     protected <T extends PerDiem> boolean shouldProcess(T perDiem) {
         final Collection<String> bypassStateCountryCodes = getParameterService().getParameterValuesAsString(PerDiemLoadStep.class, TemConstants.PerDiemParameter.BYPASS_STATE_OR_COUNTRY_CODES);
-        return (bypassStateCountryCodes == null || bypassStateCountryCodes.isEmpty() || !bypassStateCountryCodes.contains(perDiem.getCountryState()));
+        return (bypassStateCountryCodes == null || bypassStateCountryCodes.isEmpty() || !bypassStateCountryCodes.contains(perDiem.getPrimaryDestination().getRegion().getRegionName()));
     }
 
     /**

@@ -48,13 +48,13 @@ public class MealBreakDownStrategyForContinental extends DefaultMealBreakDownStr
      * break down meal and incidental by the given break down object
      */
     protected void breakDown(PerDiem perDiem, PerDiemMealIncidentalBreakDown breakDown) {
-        Integer breakfast =  breakDown.getBreakfast();
+        KualiDecimal breakfast =  breakDown.getBreakfast();
         perDiem.setBreakfast(breakfast);
 
-        Integer lunch = breakDown.getLunch();
+        KualiDecimal lunch = breakDown.getLunch();
         perDiem.setLunch(lunch);
 
-        Integer dinner = breakDown.getDinner();
+        KualiDecimal dinner = breakDown.getDinner();
         perDiem.setDinner(dinner);
 
         KualiDecimal incidentals = breakDown.getIncidentals();

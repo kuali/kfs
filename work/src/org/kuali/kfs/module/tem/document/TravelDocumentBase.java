@@ -351,7 +351,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
     public void setPrimaryDestination(PrimaryDestination primaryDestination) {
         this.primaryDestination = primaryDestination;
         if (primaryDestination !=  null){
-            this.setPrimaryDestinationCountryState(primaryDestination.getCountryState());
+            this.setPrimaryDestinationCountryState(primaryDestination.getRegionCode());
             this.setPrimaryDestinationCounty(primaryDestination.getCounty());
             this.setPrimaryDestinationName(primaryDestination.getPrimaryDestinationName());
 

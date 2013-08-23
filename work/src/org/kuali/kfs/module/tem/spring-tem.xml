@@ -802,9 +802,9 @@
 		<property name="orderedPropertyNameToHeaderLabelMap">
 			<map>
 				<entry key="lineNumber" value="LINE NUMBER" />
-				<entry key="countryState" value="COUNTRY/STATE" />
-				<entry key="county" value="COUNTY" />
-				<entry key="primaryDestination" value="PRIMARY DESTINATION" />
+				<entry key="regionNameForReport" value="REGION" />
+				<entry key="countyForReport" value="COUNTY" />
+				<entry key="primaryDestinationForReport" value="PRIMARY DESTINATION" />
 				<entry key="seasonBeginDate" value="SEASON BEGIN" />
 				<entry key="effectiveFromDate" value="EFFECTIVE DATE" />
 			</map>
@@ -815,12 +815,12 @@
 	<bean id="perDiemFieldsToPopulate" class="java.util.ArrayList">
 		<constructor-arg>
 			<list>
-				<value>countryState</value>
-				<value>countryStateName</value>
+				<value>primaryDestination.region.regionCode</value>
+				<value>primaryDestination.region.regionName</value>
 				<value>conusIndicator</value>
 
-				<value>primaryDestination</value>
-				<value>county</value>
+				<value>primaryDestination.primaryDestinationName</value>
+				<value>primaryDestination.county</value>
 				<value>unusedValueHolder</value>
 				<value>unusedValueHolder</value>
 				<value>unusedValueHolder</value>

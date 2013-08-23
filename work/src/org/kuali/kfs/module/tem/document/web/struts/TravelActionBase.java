@@ -440,7 +440,7 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
             PrimaryDestination destination = travelDocument.getPrimaryDestination();
             destination.setPrimaryDestinationName(travelDocument.getPrimaryDestinationName());
             destination.setCounty(travelDocument.getPrimaryDestinationCounty());
-            destination.setCountryState(travelDocument.getPrimaryDestinationCountryState());
+            destination.getRegion().setRegionName(travelDocument.getPrimaryDestinationCountryState());
             travelDocument.setPrimaryDestinationIndicator(true);
         }
     }
@@ -491,10 +491,10 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
             document.setPrimaryDestination(new PrimaryDestination());
             document.getPrimaryDestination().setId(TemConstants.CUSTOM_PRIMARY_DESTINATION_ID);
             document.getPrimaryDestination().setPrimaryDestinationName(document.getPrimaryDestinationName());
-            document.getPrimaryDestination().setCountryState(document.getPrimaryDestinationCountryState());
+            document.getPrimaryDestination().getRegion().setRegionName(document.getPrimaryDestinationCountryState());
             document.getPrimaryDestination().setCounty(document.getPrimaryDestinationCounty());
-            document.getPrimaryDestination().setTripTypeCode(document.getTripTypeCode());
-            document.getPrimaryDestination().setTripType(document.getTripType());
+            document.getPrimaryDestination().getRegion().setTripTypeCode(document.getTripTypeCode());
+            document.getPrimaryDestination().getRegion().setTripType(document.getTripType());
         }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
@@ -756,23 +756,19 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
 
         PerDiem perDiem = new PerDiem();
         perDiem.setId(TemConstants.CUSTOM_PER_DIEM_ID);
-        perDiem.setCountryState(document.getPrimaryDestination().getCountryState());
-        perDiem.setCounty(document.getPrimaryDestination().getCounty());
-        perDiem.setPrimaryDestination(document.getPrimaryDestination().getPrimaryDestinationName());
-        perDiem.setTripType(document.getPrimaryDestination().getTripType());
-        perDiem.setTripTypeCode(document.getPrimaryDestination().getTripTypeCode());
+        perDiem.setPrimaryDestination(document.getPrimaryDestination());
 
         // now copy info over to expense
         expense.setPerDiem(perDiem);
         expense.setPerDiemId(perDiem.getId());
-        expense.setPrimaryDestination(perDiem.getPrimaryDestination());
-        expense.setCountryState(perDiem.getCountryState());
-        expense.setCounty(perDiem.getCounty());
+        expense.setPrimaryDestination(perDiem.getPrimaryDestination().getPrimaryDestinationName());
+        expense.setCountryState(perDiem.getPrimaryDestination().getRegion().getRegionName());
+        expense.setCounty(perDiem.getPrimaryDestination().getCounty());
         expense.setLodging(perDiem.getLodging());
         expense.setIncidentalsValue(perDiem.getIncidentals());
-        expense.setBreakfastValue(new KualiDecimal(perDiem.getBreakfast()));
-        expense.setLunchValue(new KualiDecimal(perDiem.getLunch()));
-        expense.setDinnerValue(new KualiDecimal(perDiem.getDinner()));
+        expense.setBreakfastValue(perDiem.getBreakfast());
+        expense.setLunchValue(perDiem.getLunch());
+        expense.setDinnerValue(perDiem.getDinner());
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
@@ -808,13 +804,13 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
 
                 // now copy info over to estimate
                 expense.setPerDiem(perDiem);
-                expense.setPrimaryDestination(perDiem.getPrimaryDestination());
+                expense.setPrimaryDestination(perDiem.getPrimaryDestination().getPrimaryDestinationName());
                 expense.setIncidentalsValue(perDiem.getIncidentals());
-                expense.setCountryState(perDiem.getCountryState());
-                expense.setCounty(perDiem.getCounty());
-                expense.setBreakfastValue(new KualiDecimal(perDiem.getBreakfast()));
-                expense.setLunchValue(new KualiDecimal(perDiem.getLunch()));
-                expense.setDinnerValue(new KualiDecimal(perDiem.getDinner()));
+                expense.setCountryState(perDiem.getPrimaryDestination().getRegion().getRegionName());
+                expense.setCounty(perDiem.getPrimaryDestination().getCounty());
+                expense.setBreakfastValue(perDiem.getBreakfast());
+                expense.setLunchValue(perDiem.getLunch());
+                expense.setDinnerValue(perDiem.getDinner());
                 expense.setLodging(perDiem.getLodging());
                 return null;
             }
@@ -840,8 +836,8 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
 
             document.setPrimaryDestination(primaryDestination);
             document.setPrimaryDestinationId(primaryDestination.getId());
-            document.setTripType(primaryDestination.getTripType());
-            document.setTripTypeCode(primaryDestination.getTripTypeCode().toUpperCase());
+            document.setTripType(primaryDestination.getRegion().getTripType());
+            document.setTripTypeCode(primaryDestination.getRegion().getTripTypeCode().toUpperCase());
             return null;
         }
 

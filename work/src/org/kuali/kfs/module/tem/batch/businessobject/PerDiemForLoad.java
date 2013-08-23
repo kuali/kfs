@@ -18,6 +18,8 @@ package org.kuali.kfs.module.tem.batch.businessobject;
 import java.util.LinkedHashMap;
 
 import org.kuali.kfs.module.tem.businessobject.PerDiem;
+import org.kuali.kfs.module.tem.businessobject.PrimaryDestination;
+import org.kuali.kfs.module.tem.businessobject.TemRegion;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 public class PerDiemForLoad extends PerDiem {
@@ -28,6 +30,14 @@ public class PerDiemForLoad extends PerDiem {
     private String seasonEndDateAsString;
     private String expirationDateAsString;
     private String unusedValueHolder;
+    private String regionNameForReport;
+    private String countyForReport;
+    private String primaryDestinationForReport;
+
+    public PerDiemForLoad() {
+        setPrimaryDestination(new PrimaryDestination());
+        getPrimaryDestination().setRegion(new TemRegion());
+    }
 
     /**
      * Gets the unusedValueHolder attribute.
@@ -152,4 +162,81 @@ public class PerDiemForLoad extends PerDiem {
 
         return map;
     }
+
+
+
+    /**
+     * Gets the regionNameForReport attribute.
+     *
+     * @return Returns the regionNameForReport
+     */
+
+    public String getRegionNameForReport() {
+        return regionNameForReport;
+    }
+
+    /**
+     * Sets the regionNameForReport attribute.
+     *
+     * @param regionNameForReport The regionNameForReport to set.
+     */
+    public void setRegionNameForReport(String regionNameForReport) {
+        this.regionNameForReport = regionNameForReport;
+    }
+
+    /**
+     * Gets the countyForReport attribute.
+     *
+     * @return Returns the countyForReport
+     */
+
+    public String getCountyForReport() {
+        return countyForReport;
+    }
+
+    /**
+     * Sets the countyForReport attribute.
+     *
+     * @param countyForReport The countyForReport to set.
+     */
+    public void setCountyForReport(String countyForReport) {
+        this.countyForReport = countyForReport;
+    }
+
+    /**
+     * Gets the primaryDestinationForReport attribute.
+     *
+     * @return Returns the primaryDestinationForReport
+     */
+
+    public String getPrimaryDestinationForReport() {
+        return primaryDestinationForReport;
+    }
+
+    /**
+     * Sets the primaryDestinationForReport attribute.
+     *
+     * @param primaryDestinationForReport The primaryDestinationForReport to set.
+     */
+    public void setPrimaryDestinationForReport(String primaryDestinationForReport) {
+        this.primaryDestinationForReport = primaryDestinationForReport;
+    }
+
+    public void setRegionName(String regionName) {
+        getPrimaryDestination().getRegion().setRegionName(regionName);
+    }
+
+    public void setRegionCode(String regionCode) {
+        getPrimaryDestination().getRegion().setRegionCode(regionCode);
+
+    }
+
+    public void setPrimaryDestinationName(String primaryDestinationName) {
+        getPrimaryDestination().setPrimaryDestinationName(primaryDestinationName);
+    }
+
+    public void setCounty(String county) {
+        getPrimaryDestination().setCounty(county);
+    }
+
 }

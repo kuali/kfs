@@ -16,27 +16,22 @@
 package org.kuali.kfs.module.tem.businessobject;
 
 import java.sql.Date;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 @Entity
 @Table(name="TEM_PER_DIEM_T")
@@ -46,62 +41,50 @@ public class PerDiem extends PersistableBusinessObjectBase implements MutableIna
     @GeneratedValue(generator="TEM_PER_DIEM_ID_SEQ")
     @SequenceGenerator(name="TEM_PER_DIEM_ID_SEQ",sequenceName="TEM_PER_DIEM_ID_SEQ", allocationSize=5)
     @Column(name="id",nullable=false)
-    private Integer id;
+    protected Integer id;
 
-    @ManyToOne
-    @JoinColumn(name="trip_typ_cd")
-    private TripType tripType;
+    @JoinColumn(name="PRI_DEST_ID")
+    @Column(name="PRI_DEST_ID",length=100, nullable=false)
+    protected PrimaryDestination primaryDestination;
 
-    @Column(name="trip_typ_cd",length=3,nullable=false)
-    private String tripTypeCode;
-
-    @Column(name="COUNTRY",length=100, nullable=false)
-    private String countryState;
-
-    @Column(name="COUNTRY_NM",length=100, nullable=false)
-    private String countryStateName;
-
-    @Column(name="COUNTY_CD",length=100, nullable=false)
-    private String county;
-
-    @Column(name="PRI_DEST",length=100, nullable=false)
-    private String primaryDestination;
+    @Column(name="PRI_DEST_ID",length=100, nullable=false)
+    protected Integer primaryDestinationId;
 
     @Column(name="SSN_BGN_DT")
-    private Date seasonBeginDate;
+    protected Date seasonBeginDate;
 
     @Column(name="BKFST",nullable=false)
-    private Integer breakfast;
+    protected KualiDecimal breakfast = KualiDecimal.ZERO;
 
     @Column(name="LUNCH",nullable=false)
-    private Integer lunch = 0;
+    protected KualiDecimal lunch = KualiDecimal.ZERO;
 
     @Column(name="DIN",nullable=false)
-    private Integer dinner = 0;
+    protected KualiDecimal dinner = KualiDecimal.ZERO;
 
     @Column(name="lodging",nullable=false)
-    private KualiDecimal lodging = KualiDecimal.ZERO;
+    protected KualiDecimal lodging = KualiDecimal.ZERO;
 
     @Column(name="INC",precision=19,scale=2,nullable=false)
-    private KualiDecimal incidentals = KualiDecimal.ZERO;
+    protected KualiDecimal incidentals = KualiDecimal.ZERO;
 
     @Column(name="MEALS_INC",precision=19,scale=2,nullable=false)
-    private KualiDecimal mealsAndIncidentals = KualiDecimal.ZERO;
+    protected KualiDecimal mealsAndIncidentals = KualiDecimal.ZERO;
 
     @Column(name="ACTV_IND",nullable=false,length=1)
-    private Boolean active = Boolean.TRUE;
+    protected Boolean active = Boolean.TRUE;
 
-    private String seasonBeginMonthAndDay;
+    protected String seasonBeginMonthAndDay;
 
-    private Date loadDate;
+    protected Date loadDate;
 
     @Column(name="EFFECT_FROM_DT")
-    private Date effectiveFromDate;
+    protected Date effectiveFromDate;
 
-    private Date effectiveToDate;
+    protected Date effectiveToDate;
 
-    private String conusIndicator;
-    private int lineNumber;
+    protected String conusIndicator;
+    protected int lineNumber;
 
     @Id
     @GeneratedValue(generator="TEM_PER_DIEM_ID_SEQ")
@@ -115,85 +98,62 @@ public class PerDiem extends PersistableBusinessObjectBase implements MutableIna
         this.id = id;
     }
 
-    public TripType getTripType() {
-        return tripType;
-    }
-
-    public void setTripType(TripType tripType) {
-        this.tripType = tripType;
-    }
-
-    public String getTripTypeCode() {
-        return tripTypeCode;
-    }
-
-    public void setTripTypeCode(String tripTypeCode) {
-        this.tripTypeCode = tripTypeCode;
-    }
-
-    public String getCountryState() {
-        return countryState;
-    }
-
-    public void setCountryState(String countryState) {
-        this.countryState = countryState;
-
-        if (countryState != null) {
-            Map<String, String> tempFieldValues = new HashMap<String, String>();
-            BusinessObjectService service = SpringContext.getBean(BusinessObjectService.class);
-            tempFieldValues.put(TemPropertyConstants.PER_DIEM_COUNTRY_STATE, countryState);
-            List<PrimaryDestination> results = (List<PrimaryDestination>) service.findMatching(PrimaryDestination.class, tempFieldValues);
-
-            if (results != null && !results.isEmpty()) {
-                int i = 0;
-                while (StringUtils.isBlank(countryStateName) && i < results.size()) {
-                    final String name = results.get(i).getCountryStateName();
-                    if (!StringUtils.isBlank(name)) {
-                        this.countryStateName = name;
-                    }
-                    i += 1;
-                }
-                while (i < results.size()) {
-                    results.get(i); //traverse through the rest of the list, avoid result set leaks
-                    i += 1;
-                }
-            }
-        }
-    }
 
     /**
-     * Gets the countryStateName attribute.
-     * @return Returns the countryStateName.
+     * Gets the primaryDestination attribute.
+     *
+     * @return Returns the primaryDestination
      */
-    public String getCountryStateName() {
-        return countryStateName;
-    }
 
-    /**
-     * Sets the countryStateName attribute value.
-     * @param countryStateName The countryStateName to set.
-     */
-    public void setCountryStateName(String countryStateName) {
-        if (!StringUtils.isBlank(countryStateName)) {
-            this.countryStateName = countryStateName;
-        }
-    }
-
-    public String getCounty() {
-        return county;
-    }
-
-    public void setCounty(String county) {
-        this.county = county;
-    }
-
-    public String getPrimaryDestination() {
+    public PrimaryDestination getPrimaryDestination() {
         return primaryDestination;
     }
 
-
-    public void setPrimaryDestination(String primaryDestination) {
+    /**
+     * Sets the primaryDestination attribute.
+     *
+     * @param primaryDestination The primaryDestination to set.
+     */
+    public void setPrimaryDestination(PrimaryDestination primaryDestination) {
         this.primaryDestination = primaryDestination;
+    }
+
+    /**
+     * Gets the primaryDestinationId attribute.
+     *
+     * @return Returns the primaryDestinationId
+     */
+
+    public Integer getPrimaryDestinationId() {
+        return primaryDestinationId;
+    }
+
+    /**
+     * Sets the primaryDestinationId attribute.
+     *
+     * @param primaryDestinationId The primaryDestinationId to set.
+     */
+    public void setPrimaryDestinationId(Integer primaryDestinationId) {
+        this.primaryDestinationId = primaryDestinationId;
+    }
+
+    /**
+     * Gets the active attribute.
+     *
+     * @return Returns the active
+     */
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    /**
+     * Sets the active attribute.
+     *
+     * @param active The active to set.
+     */
+    public void setActive(Boolean active) {
+        this.active = active;
     }
 
     @Deprecated
@@ -211,30 +171,30 @@ public class PerDiem extends PersistableBusinessObjectBase implements MutableIna
     }
 
 
-    public Integer getBreakfast() {
-        return breakfast != null ? breakfast : 0;
+    public KualiDecimal getBreakfast() {
+        return breakfast != null ? breakfast : KualiDecimal.ZERO;
     }
 
 
-    public void setBreakfast(Integer breakfast) {
+    public void setBreakfast(KualiDecimal breakfast) {
         this.breakfast = breakfast;
     }
 
-    public Integer getLunch() {
-        return lunch != null ? lunch : 0;
+    public KualiDecimal getLunch() {
+        return lunch != null ? lunch : KualiDecimal.ZERO;
     }
 
 
-    public void setLunch(Integer lunch) {
+    public void setLunch(KualiDecimal lunch) {
         this.lunch = lunch;
     }
 
-    public Integer getDinner() {
-        return dinner != null ? dinner : 0;
+    public KualiDecimal getDinner() {
+        return dinner != null ? dinner : KualiDecimal.ZERO;
     }
 
 
-    public void setDinner(Integer dinner) {
+    public void setDinner(KualiDecimal dinner) {
         this.dinner = dinner;
     }
 
@@ -368,10 +328,8 @@ public class PerDiem extends PersistableBusinessObjectBase implements MutableIna
     @SuppressWarnings("rawtypes")
     protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap map = new LinkedHashMap();
-        map.put(TemPropertyConstants.TRIP_TYPE, this.tripTypeCode);
-        map.put(TemPropertyConstants.COUNTRY_STATE, this.countryState);
-        map.put(TemPropertyConstants.COUNTY, this.county);
-        map.put(TemPropertyConstants.PRIMARY_DESTINATION, this.primaryDestination);
+
+        map.put(TemPropertyConstants.PRIMARY_DESTINATION, this.primaryDestinationId);
         map.put(TemPropertyConstants.EFFECTIVE_FROM_DATE, this.effectiveFromDate);
         map.put(TemPropertyConstants.EFFECTIVE_TO_DATE, this.effectiveToDate);
 
@@ -382,5 +340,28 @@ public class PerDiem extends PersistableBusinessObjectBase implements MutableIna
         map.put(TemPropertyConstants.MEALS_AND_INCIDENTALS, this.getMealsAndIncidentals());
 
         return map;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        boolean equal = false;
+
+        if (obj != null) {
+            if (obj instanceof PerDiem) {
+                PerDiem other = (PerDiem) obj;
+
+                if (ObjectUtils.isNotNull(this.getPrimaryDestination()) && ObjectUtils.isNotNull(other.getPrimaryDestination()) ) {
+                    if (StringUtils.equals(this.getPrimaryDestination().getPrimaryDestinationName(), other.getPrimaryDestination().getPrimaryDestinationName())) {
+                        if (StringUtils.equals(this.getSeasonBeginMonthAndDay(), other.getSeasonBeginMonthAndDay())) {
+                            if (this.getEffectiveFromDate().equals(other.getEffectiveFromDate())) {
+                                equal = true;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return equal;
     }
 }

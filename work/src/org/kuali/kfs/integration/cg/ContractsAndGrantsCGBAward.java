@@ -491,13 +491,6 @@ public interface ContractsAndGrantsCGBAward extends ExternalizableBusinessObject
     public Date getFundingExpirationDate();
 
     /**
-     * Gets the drawNumber attribute.
-     *
-     * @return Returns the drawNumber.
-     */
-    public String getDrawNumber();
-
-    /**
      * Gets the commentText attribute.
      *
      * @return Returns the commentText.

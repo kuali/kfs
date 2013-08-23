@@ -91,7 +91,6 @@ public class ContractsGrantsAwardBalancesReportLookupableHelperServiceImpl exten
             awardBalancesReportEntry.setAwardStatusCode(award.getAwardStatusCode());
             awardBalancesReportEntry.setAwardBeginningDate(award.getAwardBeginningDate());
             awardBalancesReportEntry.setAwardEndingDate(award.getAwardEndingDate());
-            awardBalancesReportEntry.setDrawNumber(award.getDrawNumber());
             String primaryProjectDirectorName = (ObjectUtils.isNull(award.getAwardPrimaryProjectDirector())) || (ObjectUtils.isNull(award.getAwardPrimaryProjectDirector().getProjectDirector())) ? "" : award.getAwardPrimaryProjectDirector().getProjectDirector().getName();
             awardBalancesReportEntry.setAwardPrimaryProjectDirectorName(primaryProjectDirectorName);
 

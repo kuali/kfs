@@ -3391,7 +3391,6 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             parameterMap.put("#award.userLookupRoleNamespaceCode", returnProperStringValue(award.getUserLookupRoleNamespaceCode()));
             parameterMap.put("#award.userLookupRoleName", returnProperStringValue(award.getUserLookupRoleName()));
             parameterMap.put("#award.fundingExpirationDate", returnProperStringValue(award.getFundingExpirationDate()));
-            parameterMap.put("#award.drawNumber", returnProperStringValue(award.getDrawNumber()));
             parameterMap.put("#award.commentText", returnProperStringValue(award.getCommentText()));
             parameterMap.put("#award.awardProjectDirector.name", returnProperStringValue(award.getAwardPrimaryProjectDirector().getProjectDirector().getName()));
             parameterMap.put("#award.letterOfCreditFundCode", returnProperStringValue(award.getLetterOfCreditFundCode()));

@@ -59,8 +59,6 @@ public class ContractsGrantsAwardBalancesReport extends TransientBusinessObjectB
     private Agency agency;
 
 
-    private String drawNumber;
-
     /**
      * @return
      */
@@ -227,14 +225,6 @@ public class ContractsGrantsAwardBalancesReport extends TransientBusinessObjectB
 
     public void setAgency(Agency agency) {
         this.agency = agency;
-    }
-
-    public String getDrawNumber() {
-        return drawNumber;
-    }
-
-    public void setDrawNumber(String drawNumber) {
-        this.drawNumber = drawNumber;
     }
 
     /**

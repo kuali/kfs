@@ -47,22 +47,3 @@ function onblur_letterOfCreditFundCode(letterOfCreditFundCodeField) {
 			"letterOfCreditFundGroupDescription");
 
 }
-
-/**
- * Defaults the Draw Number to Award Document Number, if not already 
- */
-function onblur_awardSetDrawNumber(awardDocNbrField) {
-	var awardDocNumber = getElementValue(awardDocNbrField.name);
-	var drawNumber = getElementValue("document.newMaintainableObject.drawNumber");
-
-	// If the draw number was not empty or same as before,
-	// notify the user that the draw number will be changed
-	if (drawNumber != "" && awardDocNumber != drawNumber) {
-		// The previous value of the draw number will be replaced
-		alert("Please note that the draw number will be updated with the new Award Document Number.");
-	}
-
-	// Set the draw number to the award ID
-	setRecipientValue("document.newMaintainableObject.drawNumber",
-			awardDocNumber);
-}

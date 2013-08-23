@@ -503,7 +503,6 @@
 		<field-descriptor name="additionalFormsDescription" column="ADDTNL_FRM_DESC" jdbc-type="VARCHAR" />
 		<field-descriptor name="contractGrantType" column="CNTRCT_GRNT_TYP" jdbc-type="VARCHAR" />
 		<field-descriptor name="fundingExpirationDate" column="FUNDING_EXP_DT" jdbc-type="DATE" />
-		<field-descriptor name="drawNumber" column="DRAW_NBR" jdbc-type="VARCHAR" />
 		<field-descriptor name="commentText" column="COMMENT_TXT" jdbc-type="VARCHAR" />
 		<field-descriptor name="dunningCampaign" column="CMPGN_ID" jdbc-type="VARCHAR" />
 		<field-descriptor name="stopWorkIndicator" column="STOP_WRK_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>

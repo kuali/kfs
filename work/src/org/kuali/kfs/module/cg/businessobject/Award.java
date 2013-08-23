@@ -138,7 +138,6 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
     private MilestoneSchedule milestoneSchedule;
 
     private Date fundingExpirationDate;
-    private String drawNumber;
     private String commentText;
     private String dunningCampaign;
     private boolean stopWorkIndicator;
@@ -1891,27 +1890,6 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
      */
     public void setFundingExpirationDate(Date fundingExpirationDate) {
         this.fundingExpirationDate = fundingExpirationDate;
-    }
-
-    /**
-     * Gets the drawNumber attribute.
-     *
-     * @return Returns the drawNumber
-     */
-    @Override
-    public String getDrawNumber() {
-        return drawNumber;
-    }
-
-
-    /**
-     * Sets the drawNumber attribute.
-     *
-     * @param drawNumber The drawNumber to set.
-     */
-
-    public void setDrawNumber(String drawNumber) {
-        this.drawNumber = drawNumber;
     }
 
     /**

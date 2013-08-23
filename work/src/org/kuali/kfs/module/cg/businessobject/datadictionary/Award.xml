@@ -106,7 +106,6 @@
 				<ref bean="Award-invoicingOptions" />
 				<ref bean="Award-autoApproveIndicator" />
 				<ref bean="Award-fundingExpirationDate" />
-				<ref bean="Award-drawNumber" />
 				<ref bean="Award-commentText" />
 				<ref bean="Award-dunningCampaign" />
 				<ref bean="Award-stopWorkIndicator"/>
@@ -1127,22 +1126,6 @@
 		<property name="shortLabel" value="Funding Expiration" />
 	</bean>
 
-	<bean id="Award-drawNumber" parent="Award-drawNumber-parentBean" />
-
-	<bean id="Award-drawNumber-parentBean" abstract="true"
-		parent="AttributeDefinition">
-		<property name="name" value="drawNumber" />
-		<property name="label" value="Draw Number" />
-		<property name="shortLabel" value="Draw" />
-		<property name="maxLength" value="12" />
-		<property name="validationPattern">
-			<ref bean="AnyCharacterValidation" />
-		</property>
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="14" />
-		</property>
-	</bean>
-
 	<bean id="Award-commentText" parent="Award-commentText-parentBean" />
 
 	<bean id="Award-commentText-parentBean" abstract="true"
@@ -1239,7 +1222,6 @@
 							<bean parent="FieldDefinition" p:attributeName="awardDocumentNumber" />
 							<bean parent="FieldDefinition" p:attributeName="awardCommentText" />
 							<bean parent="FieldDefinition" p:attributeName="fundingExpirationDate" />
-							<bean parent="FieldDefinition" p:attributeName="drawNumber" />
 							<bean parent="FieldDefinition" p:attributeName="active" />
 						</list>
 					</property>
@@ -1558,7 +1540,6 @@
 				<bean parent="FieldDefinition" p:attributeName="contractGrantType" />
 				<bean parent="FieldDefinition" p:attributeName="minInvoiceAmount" />
 				<bean parent="FieldDefinition" p:attributeName="fundingExpirationDate" />
-				<bean parent="FieldDefinition" p:attributeName="drawNumber" />
 				<bean parent="FieldDefinition" p:attributeName="active" />
 			</list>
 		</property>
@@ -1591,7 +1572,6 @@
 				<bean parent="FieldDefinition" p:attributeName="autoApproveIndicator" />
 				<bean parent="FieldDefinition" p:attributeName="minInvoiceAmount" />
 				<bean parent="FieldDefinition" p:attributeName="fundingExpirationDate" />
-				<bean parent="FieldDefinition" p:attributeName="drawNumber" />
 				<bean parent="FieldDefinition" p:attributeName="active" />
 			</list>
 		</property>

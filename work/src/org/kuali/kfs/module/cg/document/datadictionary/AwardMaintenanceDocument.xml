@@ -142,8 +142,7 @@
 				<bean parent="MaintainableFieldDefinition" p:name="awardAllocatedUniversityComputingServicesAmount" />
 				<bean parent="MaintainableFieldDefinition" p:name="awardAddendumNumber" />
 				<bean parent="MaintainableFieldDefinition" p:name="letterOfCreditFundGroupCode"/>
-				<bean parent="MaintainableFieldDefinition" p:name="awardDocumentNumber"
-					p:webUILeaveFieldFunction="onblur_awardSetDrawNumber" />
+				<bean parent="MaintainableFieldDefinition" p:name="awardDocumentNumber" />
 				<bean parent="MaintainableFieldDefinition" p:name="contractGrantType" />
 				<bean parent="MaintainableFieldDefinition" p:name="agencyAnalystName" />
 				<bean parent="MaintainableFieldDefinition" p:name="analystTelephoneNumber" />
@@ -374,7 +373,7 @@
 				<bean parent="MaintainableFieldDefinition"
 					p:name="letterOfCreditFund.letterOfCreditFundGroup.letterOfCreditFundGroupDescription"
 					p:unconditionallyReadOnly="true" />
-				<bean parent="MaintainableFieldDefinition" p:name="drawNumber" />
+		<!-- 		<bean parent="MaintainableFieldDefinition" p:name="drawNumber" /> -->
 				<bean parent="MaintainableFieldDefinition" p:name="fundingExpirationDate" />
 				<bean parent="MaintainableFieldDefinition" p:name="preferredBillingFrequency"
 					p:webUILeaveFieldFunction="onblur_preferredBillingFrequency"

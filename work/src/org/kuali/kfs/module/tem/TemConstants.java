@@ -121,7 +121,7 @@ public class TemConstants {
         public static final String TEMPLATE_CLASSPATH = "org/kuali/kfs/module/tem/report/";
         public static final String TEMPLATE_PATH_FORMAT = TEMPLATE_CLASSPATH + "%s";
         public static final String MESSAGES_CLASSPATH = TEMPLATE_CLASSPATH + "TravelExpenseReport";
-        public static final String TRAVEL_REPORT_INSTITUTION_NAME = "TRAVEL_REPORT_INSTITUTION_NAME";
+
     }
 
     public static class TravelDocTypes {

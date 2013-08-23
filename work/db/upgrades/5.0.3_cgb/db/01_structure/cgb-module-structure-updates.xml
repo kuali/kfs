@@ -2081,4 +2081,9 @@
 		</modifySql>
 	</changeSet>
 	
+	<changeSet author="KFS411CGB"
+		id="KFSCNTRB1356_DRAW_NBR_REMOVE_AWD">
+		<dropColumn tableName="CG_AWD_T" columnName="DRAW_NBR"/>
+	</changeSet>
+	
 </databaseChangeLog>

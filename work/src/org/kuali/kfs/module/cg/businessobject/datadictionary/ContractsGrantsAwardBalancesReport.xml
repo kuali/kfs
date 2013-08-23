@@ -39,7 +39,6 @@
 				<ref bean="ContractsGrantsAwardBalancesReport-totalBilledToDate" />
 				<ref bean="ContractsGrantsAwardBalancesReport-totalPaymentsToDate" />
 				<ref bean="ContractsGrantsAwardBalancesReport-amountCurrentlyDue" />
-				<!-- <ref bean="ContractsGrantsAwardBalancesReport-drawNumber" /> -->
 			</list>
 		</property>
 				<property name="relationships">
@@ -251,23 +250,6 @@
 		<property name="exclusiveMin" value="-0.001" />
 	</bean>
 
-
-	<!-- <bean id="ContractsGrantsAwardBalancesReport-drawNumber"
-		parent="ContractsGrantsAwardBalancesReport-drawNumber-parentBean" />
-	<bean id="ContractsGrantsAwardBalancesReport-drawNumber-parentBean"
-		abstract="true" parent="AttributeDefinition">
-		<property name="name" value="drawNumber" />
-		<property name="label" value="Draw Number" />
-		<property name="shortLabel" value="Number" />
-		<property name="maxLength" value="12" />
-		<property name="validationPattern">
-			<ref bean="AnyCharacterValidation" />
-		</property>
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="14" />
-		</property>
-	</bean> -->
-
 	<!-- Business Object Inquiry Definition -->
 
 	<!-- Business Object Lookup Definition -->
@@ -287,7 +269,6 @@
 				<bean parent="FieldDefinition" p:attributeName="proposalNumber" />
 				<bean parent="FieldDefinition" p:attributeName="agencyNumber" />
 				<bean parent="FieldDefinition" p:attributeName="awardId" />
-			<!-- 	<bean parent="FieldDefinition" p:attributeName="drawNumber" /> -->
 				<bean parent="FieldDefinition" p:attributeName="awardProjectTitle" />
 				<bean parent="FieldDefinition" p:attributeName="awardBeginningDate" />
 				<bean parent="FieldDefinition" p:attributeName="awardEndingDate" />				
@@ -302,7 +283,6 @@
 				<bean parent="FieldDefinition" p:attributeName="proposalNumber" />
 				<bean parent="FieldDefinition" p:attributeName="agencyNumber" />
 				<bean parent="FieldDefinition" p:attributeName="awardId" />
-			<!-- 	<bean parent="FieldDefinition" p:attributeName="drawNumber" /> -->
 				<bean parent="FieldDefinition" p:attributeName="awardProjectTitle" />
 				<bean parent="FieldDefinition" p:attributeName="awardStatusCode" />
 				<bean parent="FieldDefinition" p:attributeName="awardBeginningDate" />

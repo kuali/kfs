@@ -131,7 +131,6 @@ public class Award implements ContractsAndGrantsCGBAward, ContractsAndGrantsAwar
 
 
     private Date fundingExpirationDate;
-//    private String drawNumber;
     private String commentText;
     private boolean stopWorkIndicator;
     private String dunningCampaign;
@@ -1464,25 +1463,6 @@ public class Award implements ContractsAndGrantsCGBAward, ContractsAndGrantsAwar
     public void setFundingExpirationDate(Date fundingExpirationDate) {
         this.fundingExpirationDate = fundingExpirationDate;
     }
-
-//    /**
-//     * Gets the drawNumber attribute.
-//     *
-//     * @return Returns the drawNumber.
-//     */
-//    @Override
-//    public String getDrawNumber() {
-//        return drawNumber;
-//    }
-
-//    /**
-//     * Sets the drawNumber attribute value.
-//     *
-//     * @param drawNumber The drawNumber to set.
-//     */
-//    public void setDrawNumber(String drawNumber) {
-//        this.drawNumber = drawNumber;
-//    }
 
     /**
      * Gets the commentText attribute.

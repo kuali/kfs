@@ -496,19 +496,15 @@
 			constraintName="TEM_PER_DIEM_MIE_BRK_DWN_TP1" columnNames="MEALS_INC" />
 		<createTable tableName="TEM_PER_DIEM_T">
 			<column name="ID" type="NUMBER(22,0)" />
-			<column name="TRIP_TYP_CD" type="VARCHAR2(3)" />
-			<column name="COUNTRY" type="VARCHAR2(100)" />
-			<column name="COUNTRY_NM" type="VARCHAR2(100)" />
-			<column name="COUNTY_CD" type="VARCHAR2(100)" />
 			<column name="PRI_DEST" type="VARCHAR2(100)" />
 			<column name="SSN_BGN_DT" type="DATE" />
 			<column name="EFFECT_FROM_DT" type="DATE" />
 			<column name="EFFECT_TO_DT" type="DATE" />
 			<column name="LOAD_DT" type="DATE" />
 			<column name="SSN_BGN_MONTH_DAY" type="VARCHAR2(5)" />
-			<column name="BKFST" type="NUMBER(22,0)" />
-			<column name="LUNCH" type="NUMBER(22,0)" />
-			<column name="DIN" type="NUMBER(22,0)" />
+			<column name="BKFST" type="NUMBER(19,2)" />
+			<column name="LUNCH" type="NUMBER(19,2)" />
+			<column name="DIN" type="NUMBER(19,2)" />
 			<column name="LODGING" type="NUMBER(19,2)"
 				defaultValueNumeric="0" />
 			<column name="INC" type="NUMBER(19,2)" defaultValueNumeric="0" />
@@ -520,6 +516,27 @@
 		</createTable>
 		<addPrimaryKey tableName="TEM_PER_DIEM_T"
 			constraintName="TEM_PER_DIEM_TP1" columnNames="ID" />
+		<createTable tableName="TEM_PRI_DEST_T">
+        	<column name="ID" type="DECIMAL(22)"/>
+       		<column name="PRI_DEST_NM" type="VARCHAR2(100)"/>
+        	<column name="REGION_CD" type="VARCHAR2(100)"/>
+        	<column name="COUNTY_CD" type="VARCHAR2(100)"/>
+			<column name="ACTV_IND" type="VARCHAR2(1)" />
+			<column name="OBJ_ID" type="VARCHAR2(36)" />
+			<column name="VER_NBR" type="NUMBER(8,0)" defaultValueNumeric="1" />
+    	</createTable>
+    	<addPrimaryKey tableName="TEM_PRI_DEST_T"
+			constraintName="TEM_PRI_DEST_TP1" columnNames="ID" />
+    	<createTable tableName="TEM_PER_DIEM_REGION_T">
+        	<column name="REGION_CD" type="VARCHAR2(100)"/>
+        	<column name="TRIP_TYP_CD" type="VARCHAR2(3)"/>
+        	<column name="REGION_NM" type="VARCHAR2(100)"/>
+			<column name="ACTV_IND" type="VARCHAR2(1)" />
+			<column name="OBJ_ID" type="VARCHAR2(36)" />
+			<column name="VER_NBR" type="NUMBER(8,0)" defaultValueNumeric="1" />
+   		</createTable>	
+		<addPrimaryKey tableName="TEM_PER_DIEM_REGION_T"
+			constraintName="TEM_PER_DIEM_REGION_TP1" columnNames="REGION_CD" />
 		<createTable tableName="TEM_PROFILE_ACCOUNT_T">
 			<column name="ACCOUNT_ID" type="NUMBER(22,0)" />
 			<column name="PROFILE_ID" type="NUMBER(22,0)" />

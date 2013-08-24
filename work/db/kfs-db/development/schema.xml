@@ -15457,64 +15457,49 @@
             <unique-column name="OBJ_ID"/>
         </unique>
     </table>
-    
-     <table name="TEM_PER_DIEM_T">
-        <column name="ID" primaryKey="true" size="22" type="DECIMAL"/>
-        <column name="PRI_DEST_ID" size="22" type="DECIMAL"/>
-        <column name="SSN_BGN_DT" type="DATE"/>
-        <column name="EFFECT_FROM_DT" type="DATE"/>
-        <column name="EFFECT_TO_DT" type="DATE"/>
-        <column name="LOAD_DT" type="DATE"/>
-        <column name="SSN_BGN_MONTH_DAY" size="5" type="VARCHAR"/>
-        <column name="BKFST" size="22" type="DECIMAL"/>
-        <column name="LUNCH" size="22" type="DECIMAL"/>
-        <column name="DIN" size="22" type="DECIMAL"/>
-        <column default="0" name="LODGING" scale="2" size="19" type="DECIMAL"/>
-        <column default="0" name="INC" scale="2" size="19" type="DECIMAL"/>
-        <column default="0" name="MEALS_INC" scale="2" size="19" type="DECIMAL"/>
-        <column name="ACTV_IND" required="true" size="1" type="VARCHAR"/>
-        <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
-        <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
-        <foreign-key foreignTable="TEM_PRI_DEST_T" name="TEM_PER_DIEM_TR1">
-            <reference foreign="ID" local="PRI_DEST_ID"/>
-        </foreign-key>
-        <unique name="TEM_PER_DIEM_TC0">
-            <unique-column name="OBJ_ID"/>
-        </unique>
-    </table>
-    
-    <table name="TEM_PRI_DEST_T">
-        <column name="ID" primaryKey="true" size="22" type="DECIMAL"/>
-        <column name="PRI_DEST_NM" size="100" type="VARCHAR"/>
-        <column name="REGION_CD" size="100" type="VARCHAR"/>
-        <column name="COUNTY_CD" size="100" type="VARCHAR"/>
-    	<column name="ACTV_IND" required="true" size="1" type="VARCHAR"/>
-        <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
-        <column name="VER_NBR" default="1" required="true" size="8" type="DECIMAL"/>
-         <foreign-key foreignTable="TEM_PER_DIEM_REGION_T" name="TEM_PRI_DEST_TR1">
-            <reference foreign="REGION_CD" local="REGION_CD"/>
-        </foreign-key>
-        <unique name="TEM_PRI_DEST_TC0">
-            <unique-column name="OBJ_ID"/>
-        </unique>
-    </table>
-    
     <table name="TEM_PER_DIEM_REGION_T">
         <column name="REGION_CD" primaryKey="true" size="100" type="VARCHAR"/>
         <column name="TRIP_TYP_CD" required="true" size="3" type="VARCHAR"/>
         <column name="REGION_NM" size="100" type="VARCHAR"/>
         <column name="ACTV_IND" required="true" size="1" type="VARCHAR"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
-        <column name="VER_NBR" default="1" required="true" size="8" type="DECIMAL"/>
-        <foreign-key foreignTable="TEM_TRIP_TYP_T" name="TEM_PER_DIEM_REGION_TR1">
-            <reference foreign="CODE" local="TRIP_TYP_CD"/>
-        </foreign-key>
+        <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
         <unique name="TEM_PER_DIEM_REGION_TC0">
             <unique-column name="OBJ_ID"/>
         </unique>
-        <index name="TEM_PER_DIEM_REGION_TI1">
-            <index-column name="REGION_CD"/>
-        </index>
+    </table>
+    <table name="TEM_PER_DIEM_T">
+        <column name="ID" primaryKey="true" size="22" type="DECIMAL"/>
+        <column name="SSN_BGN_DT" type="DATE"/>
+        <column name="EFFECT_FROM_DT" type="DATE"/>
+        <column name="EFFECT_TO_DT" type="DATE"/>
+        <column name="LOAD_DT" type="DATE"/>
+        <column name="SSN_BGN_MONTH_DAY" size="5" type="VARCHAR"/>
+        <column default="0" name="BKFST" scale="2" size="19" type="DECIMAL"/>
+        <column default="0" name="LUNCH" scale="2" size="19" type="DECIMAL"/>
+        <column default="0" name="DIN" scale="2" size="19" type="DECIMAL"/>
+        <column default="0" name="LODGING" scale="2" size="19" type="DECIMAL"/>
+        <column default="0" name="INC" scale="2" size="19" type="DECIMAL"/>
+        <column default="0" name="MEALS_INC" scale="2" size="19" type="DECIMAL"/>
+        <column name="ACTV_IND" required="true" size="1" type="VARCHAR"/>
+        <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
+        <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
+        <column name="PRI_DEST_ID" size="22" type="DECIMAL"/>
+        <unique name="TEM_PER_DIEM_TC0">
+            <unique-column name="OBJ_ID"/>
+        </unique>
+    </table>
+    <table name="TEM_PRI_DEST_T">
+        <column name="ID" primaryKey="true" size="22" type="DECIMAL"/>
+        <column name="PRI_DEST_NM" size="100" type="VARCHAR"/>
+        <column name="REGION_CD" size="100" type="VARCHAR"/>
+        <column name="COUNTY_CD" size="100" type="VARCHAR"/>
+        <column name="ACTV_IND" required="true" size="1" type="VARCHAR"/>
+        <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
+        <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
+        <unique name="TEM_PRI_DEST_TC0">
+            <unique-column name="OBJ_ID"/>
+        </unique>
     </table>
     <table name="TEM_PROFILE_ACCOUNT_T">
         <column name="ACCOUNT_ID" primaryKey="true" size="22" type="DECIMAL"/>
@@ -16358,7 +16343,6 @@
     <sequence name="TEM_MILEAGE_RT_OBJ_CD_ID_SEQ" nextval="1024"/>
     <sequence name="TEM_PER_DIEM_EXP_ID_SEQ" nextval="1"/>
     <sequence name="TEM_PER_DIEM_ID_SEQ" nextval="1000"/>
-    <sequence name="TEM_PRI_DEST_ID_SEQ" nextval="1000"/>
     <sequence name="TEM_PROFILE_ACCOUNT_ID_SEQ" nextval="1"/>
     <sequence name="TEM_PROFILE_ARRANGER_ID_SEQ" nextval="3"/>
     <sequence name="TEM_PROFILE_EM_CONT_ID_SEQ" nextval="3"/>

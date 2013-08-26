@@ -90,7 +90,7 @@ public interface TravelEncumbranceService {
      */
     public void disencumberTravelAuthorizationClose(TravelAuthorizationCloseDocument document);
 
-    public void adjustEncumbranceForAmendment(TravelAuthorizationAmendmentDocument taDocument);
+    public void adjustEncumbranceForAmendment(TravelAuthorizationAmendmentDocument taDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper);
 
     /**
      * Find All related TA, TAA glpe's. Make sure they are not offsets(???) and not the current doc (this will be

@@ -197,7 +197,7 @@ public class TravelEncumbranceServiceImpl implements TravelEncumbranceService {
         //Get rid of all pending entries relating to encumbrance.
         clearAuthorizationEncumbranceGLPE(document);
 
-        final List<Encumbrance> encumbrances = getEncumbrancesForTrip(document.getTravelDocumentIdentifier());
+        final List<Encumbrance> encumbrances = getEncumbrancesForTrip(document.getTravelDocumentIdentifier(), null);
 
         // Create encumbrance map based on account numbers
         int counter = document.getGeneralLedgerPendingEntries().size() + 1;
@@ -210,9 +210,10 @@ public class TravelEncumbranceServiceImpl implements TravelEncumbranceService {
     /**
      * Find both posted and pending encumbrances associated with a trip
      * @param travelDocumentIdentifier the trip id, which acts as the document id of the encumbrance
+     * @param skipDocumentNumber if not null, pending entries with the given document number will be skipped in the calculation
      * @return an Iterator of encumbrances
      */
-    protected List<Encumbrance> getEncumbrancesForTrip(String travelDocumentIdentifier) {
+    protected List<Encumbrance> getEncumbrancesForTrip(String travelDocumentIdentifier, String skipDocumentNumber) {
         Map<String, Object> criteria = new HashMap<String, Object>();
         criteria.put(KFSPropertyConstants.DOCUMENT_NUMBER, travelDocumentIdentifier);
         Iterator<Encumbrance> encumbranceIterator = encumbranceService.findOpenEncumbrance(criteria, false);
@@ -229,9 +230,11 @@ public class TravelEncumbranceServiceImpl implements TravelEncumbranceService {
         }
         while (pendingEntriesIterator.hasNext()) {
             final GeneralLedgerPendingEntry pendingEntry = pendingEntriesIterator.next();
-            Encumbrance encumbrance = getEncumbranceCalculator().findEncumbrance(allEncumbrances, pendingEntry); // thank you, dear genius who extracted EncumbranceCalculator!
-            if (encumbrance != null) {
-                getEncumbranceCalculator().updateEncumbrance(pendingEntry, encumbrance);
+            if (StringUtils.isBlank(skipDocumentNumber) || skipDocumentNumber.equals(pendingEntry.getDocumentNumber())) {
+                Encumbrance encumbrance = getEncumbranceCalculator().findEncumbrance(allEncumbrances, pendingEntry); // thank you, dear genius who extracted EncumbranceCalculator!
+                if (encumbrance != null) {
+                    getEncumbranceCalculator().updateEncumbrance(pendingEntry, encumbrance);
+                }
             }
         }
 
@@ -244,30 +247,18 @@ public class TravelEncumbranceServiceImpl implements TravelEncumbranceService {
      * @param taDoc The document who pending entries need to be disencumbered.
      */
     @Override
-    public void adjustEncumbranceForAmendment(TravelAuthorizationAmendmentDocument document) {
+    public void adjustEncumbranceForAmendment(TravelAuthorizationAmendmentDocument document, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
         if (document.getTripType().isGenerateEncumbrance()) {
-            final Map<String, Object> criteria = new HashMap<String, Object>();
-            criteria.put(KFSPropertyConstants.DOCUMENT_NUMBER, document.getTravelDocumentIdentifier());
-
-            int counter = document.getGeneralLedgerPendingEntries().size() + 1;
-            GeneralLedgerPendingEntrySequenceHelper sequenceHelper = new GeneralLedgerPendingEntrySequenceHelper(counter);
-
-            final Map<String, Encumbrance> encumbranceMap = new HashMap<String, Encumbrance>();
-            final Iterator<Encumbrance> encumbrance_it = encumbranceService.findOpenEncumbrance(criteria, false);
+            Map<String, Encumbrance> encumbranceMap = new HashMap<String, Encumbrance>();
+            final List<Encumbrance> encumbrances = getEncumbrancesForTrip(document.getTravelDocumentIdentifier(), document.getDocumentNumber());
 
             // Create encumbrance map based on account numbers
-            while (encumbrance_it.hasNext()) {
-                Encumbrance encumbrance = encumbrance_it.next();
-                StringBuffer key = new StringBuffer();
-                key.append(encumbrance.getAccountNumber());
-                key.append(encumbrance.getSubAccountNumber());
-                key.append(encumbrance.getObjectCode());
-                key.append(encumbrance.getSubObjectCode());
-                key.append(encumbrance.getDocumentNumber());
-                encumbranceMap.put(key.toString(), encumbrance);
+            for (Encumbrance encumbrance : encumbrances) {
+                final String key = buildKey(encumbrance);
+                encumbranceMap.put(key, encumbrance);
             }
 
-            processRelatedDocuments(document);
+            //processRelatedDocuments(document);
 
 
             //Adjust current encumbrances with the new amounts If new pending entry is found in encumbrance map, create a pending
@@ -278,13 +269,8 @@ public class TravelEncumbranceServiceImpl implements TravelEncumbranceService {
                 GeneralLedgerPendingEntry pendingEntry = pendingEntriesIterator.next();
 
                 if (! StringUtils.defaultString(pendingEntry.getOrganizationReferenceId()).contains(TemConstants.IMPORTED_FLAG)){
-                    StringBuffer key = new StringBuffer();
-                    key.append(pendingEntry.getAccountNumber());
-                    key.append(pendingEntry.getSubAccountNumber());
-                    key.append(pendingEntry.getFinancialObjectCode());
-                    key.append(pendingEntry.getFinancialSubObjectCode());
-                    key.append(pendingEntry.getReferenceFinancialDocumentNumber());
-                    Encumbrance encumbrance = encumbranceMap.get(key.toString());
+                    final String key = buildKey(pendingEntry);
+                    Encumbrance encumbrance = encumbranceMap.get(key);
 
                      //If encumbrance found, find and calculate difference. If the difference is zero don't add to new list of glpe's If
                      // encumbrance is not found and glpe is not an offset glpe, add it and it's offset to the new list
@@ -301,7 +287,7 @@ public class TravelEncumbranceServiceImpl implements TravelEncumbranceService {
                             pendingEntriesIterator.next().setTransactionLedgerEntryAmount(difference);
                         }
                         else if (difference.isLessEqual(KualiDecimal.ZERO)) {
-                            difference = difference.multiply(new KualiDecimal(-1));
+                            difference = difference.negated();
                             pendingEntry.setTransactionLedgerEntryAmount(difference);
                             pendingEntriesIterator.next().setTransactionLedgerEntryAmount(difference);
                         }
@@ -312,16 +298,9 @@ public class TravelEncumbranceServiceImpl implements TravelEncumbranceService {
              //Loop through and remove encumbrances from map. This is done here because there is a possibility of pending entries
              //with the same account number.
             for (GeneralLedgerPendingEntry pendingEntry : document.getGeneralLedgerPendingEntries()) {
-                if (!StringUtils.defaultString(pendingEntry.getOrganizationReferenceId()).contains(TemConstants.IMPORTED_FLAG)){
-                    if (!pendingEntry.isTransactionEntryOffsetIndicator()) {
-                        StringBuffer key = new StringBuffer();
-                        key.append(pendingEntry.getAccountNumber());
-                        key.append(pendingEntry.getSubAccountNumber());
-                        key.append(pendingEntry.getFinancialObjectCode());
-                        key.append(pendingEntry.getFinancialSubObjectCode());
-                        key.append(pendingEntry.getReferenceFinancialDocumentNumber());
-                        encumbranceMap.remove(key.toString());
-                    }
+                if (!StringUtils.defaultString(pendingEntry.getOrganizationReferenceId()).contains(TemConstants.IMPORTED_FLAG) && !pendingEntry.isTransactionEntryOffsetIndicator()) {
+                    final String key = buildKey(pendingEntry);
+                    encumbranceMap.remove(key);
                 }
             }
 
@@ -333,6 +312,36 @@ public class TravelEncumbranceServiceImpl implements TravelEncumbranceService {
             }
 
         }
+    }
+
+    /**
+     * Builds a key to represent an encumbrance
+     * @param e the encumbrance to build a Map key for
+     * @return the key for the encumbrance
+     */
+    protected String buildKey(Encumbrance e) {
+        StringBuilder key = new StringBuilder();
+        key.append(e.getAccountNumber());
+        key.append(e.getSubAccountNumber());
+        key.append(e.getObjectCode());
+        key.append(e.getSubObjectCode());
+        key.append(e.getDocumentNumber());
+        return key.toString();
+    }
+
+    /**
+     * Builds a key to represent an encumbrance, based on the general ledger pending entry which would update it
+     * @param pendingEntry the pending entry which would update an encumbrance
+     * @return the key representing the encumbrance
+     */
+    protected String buildKey(GeneralLedgerPendingEntry pendingEntry) {
+        StringBuilder key = new StringBuilder();
+        key.append(pendingEntry.getAccountNumber());
+        key.append(pendingEntry.getSubAccountNumber());
+        key.append(pendingEntry.getFinancialObjectCode());
+        key.append(pendingEntry.getFinancialSubObjectCode());
+        key.append(pendingEntry.getReferenceFinancialDocumentNumber());
+        return key.toString();
     }
 
     /**
@@ -379,7 +388,6 @@ public class TravelEncumbranceServiceImpl implements TravelEncumbranceService {
      *
      * @param travelAuthDocument
      */
-    @SuppressWarnings("deprecation")
     public void clearAuthorizationEncumbranceGLPE(TravelAuthorizationCloseDocument travelAuthCloseDocument) {
         final List<String> encumbranceBalanceTypes = harvestCodesFromEncumbranceBalanceTypes();
 
@@ -437,7 +445,7 @@ public class TravelEncumbranceServiceImpl implements TravelEncumbranceService {
      */
     @Override
     public void disencumberTravelReimbursementFunds(TravelReimbursementDocument travelReimbursementDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
-        List<Encumbrance> tripEncumbrances = getEncumbrancesForTrip(travelReimbursementDocument.getTravelDocumentIdentifier());
+        List<Encumbrance> tripEncumbrances = getEncumbrancesForTrip(travelReimbursementDocument.getTravelDocumentIdentifier(), null);
         for (TemSourceAccountingLine accountingLine : ((List<TemSourceAccountingLine>)travelReimbursementDocument.getSourceAccountingLines())) {
             Encumbrance encumbrance = findMatchingEncumbrance(accountingLine, tripEncumbrances);
             if (encumbrance != null && encumbrance.getAccountLineEncumbranceOutstandingAmount().isPositive()) {

@@ -57,8 +57,7 @@
 						</c:otherwise>
 					</c:choose> <kul:htmlControlAttribute readOnly="true"
 						attributeEntry="${awardAttributes.proposalNumber}"
-						property="selectedProposalNumber" onblur="${onblurForInvoice}"
-						onchange="${onblurForInvoice}" forceRequired="true" /> <c:if
+						property="selectedProposalNumber" forceRequired="true" /> <c:if
 						test="${readOnly ne true}">
 						<kul:lookup
 							boClassName="org.kuali.kfs.module.cg.businessobject.Award"

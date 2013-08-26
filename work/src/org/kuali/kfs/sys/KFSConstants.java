@@ -579,6 +579,7 @@ public class KFSConstants {
     public static final String EDIT_ACCOUNTING_LINES_FOR_CAPITALIZATION_ERRORS = "document.capitalAccountingLines*";
 
     public static final String MULTIPLE_VALUE = "multipleValues";
+    public static final String AWARD_LOOKUP = "awardLookupable";
 
     // special chars that I don't know how to put into string literals in JSP expression language
     public static final String NEWLINE = "\n";

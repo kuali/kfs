@@ -27,13 +27,13 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.xml.bind.annotation.XmlElementDecl.GLOBAL;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAward;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
@@ -43,7 +43,6 @@ import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.CollectionActivityDocumentService;
 import org.kuali.kfs.module.ar.document.validation.event.AddCollectionActivityDocumentEvent;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.ObjectUtil;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentActionBase;
 import org.kuali.kfs.sys.service.SegmentedLookupResultsService;
@@ -346,7 +345,6 @@ public class CollectionActivityDocumentAction extends FinancialSystemTransaction
     @Override
     public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         super.refresh(mapping, form, request, response);
-
         CollectionActivityDocumentForm collectionActivityDocumentForm = (CollectionActivityDocumentForm) form;
         CollectionActivityDocument colActDoc = collectionActivityDocumentForm.getCollectionActivityDocument();
         Collection<PersistableBusinessObject> rawValues = null;
@@ -360,7 +358,25 @@ public class CollectionActivityDocumentAction extends FinancialSystemTransaction
                 colActDoc.setSelectedInvoiceDocumentNumberList(StringUtils.join(selectedIds.toArray(), ","));
             }
         }
-
+        if (StringUtils.equals(KFSConstants.AWARD_LOOKUP, collectionActivityDocumentForm.getRefreshCaller())) {
+            if (ObjectUtils.isNotNull(colActDoc.getProposalNumber())) {
+                ContractsAndGrantsCGBAward award = collectionActivityDocumentService.retrieveAwardByProposalNumber(colActDoc.getProposalNumber());
+                if (ObjectUtils.isNotNull(award)) {
+                    colActDoc.setAgencyNumber(award.getAgencyNumber());
+                    colActDoc.setAgencyName(award.getAgency().getFullName());
+                    if (ObjectUtils.isNotNull(award.getAgency().getCustomer())) {
+                        colActDoc.setCustomerNumber(award.getAgency().getCustomer().getCustomerNumber());
+                        colActDoc.setCustomerName(award.getAgency().getCustomer().getCustomerName());
+                    }
+                }
+                else {
+                    colActDoc.setAgencyNumber("Award not found");
+                    colActDoc.setAgencyName("");
+                    colActDoc.setCustomerNumber("");
+                    colActDoc.setCustomerName("");
+                }
+            }
+        }
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
@@ -369,7 +385,7 @@ public class CollectionActivityDocumentAction extends FinancialSystemTransaction
         CollectionActivityDocumentForm colActDocForm = (CollectionActivityDocumentForm) form;
         CollectionActivityDocument colActDoc = colActDocForm.getCollectionActivityDocument();
         if (ObjectUtils.isNull(colActDoc.getSelectedInvoiceDocumentNumberList())) {
-            errorMap.putError("document."+ArPropertyConstants.EventFields.SELECTED_INVOICES, ArKeyConstants.CollectionActivityDocumentErrors.ERROR_COMPLETED_DATE_REQUIRED);
+            errorMap.putError("document." + ArPropertyConstants.EventFields.SELECTED_INVOICES, ArKeyConstants.CollectionActivityDocumentErrors.ERROR_COMPLETED_DATE_REQUIRED);
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
         List<String> selectedInvoiceList = new ArrayList(Arrays.asList(colActDoc.getSelectedInvoiceDocumentNumberList().split(",")));

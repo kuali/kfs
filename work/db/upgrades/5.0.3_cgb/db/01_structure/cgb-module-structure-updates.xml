@@ -668,7 +668,6 @@
 			<column name="AWD_ID" type="varchar(42)" />
 			<column name="AUTO_APP" type="varchar(1)" />
 			<column name="FUNDING_EXP_DT" type="datetime" />
-			<column name="DRAW_NBR" type="VARCHAR(12)" defaultValue="" />
 			<column name="COMMENT_TXT" type="VARCHAR(800)" defaultValue="" />
 		</addColumn>
 	</changeSet>
@@ -2079,11 +2078,6 @@
 			<replace replace="decimal" with="number" />
 			<replace replace="datetime" with="date" />
 		</modifySql>
-	</changeSet>
-	
-	<changeSet author="KFS411CGB"
-		id="KFSCNTRB1356_DRAW_NBR_REMOVE_AWD">
-		<dropColumn tableName="CG_AWD_T" columnName="DRAW_NBR"/>
 	</changeSet>
 	
 </databaseChangeLog>

@@ -38,7 +38,6 @@
 <c:set var="amendmentEntry" value="${(not empty KualiForm.editingMode['amendmentEntry'])}" />
 <c:set var="lockB2BEntry" value="${(not empty KualiForm.editingMode['lockB2BEntry'])}" />
 <c:set var="editPreExtract"	value="${(not empty KualiForm.editingMode['editPreExtract'])}" />
-<c:set var="tabEdited" value="${(not empty KualiForm.editingMode['vendorTabEdited'])}" />
 <c:set var="currentUserCampusCode" value="${UserSession.person.campusCode}" />
 <c:set var="tabindexOverrideBase" value="30" />
 
@@ -82,7 +81,7 @@
   </c:otherwise> 
 </c:choose>  
 
-<kul:tab tabTitle="Vendor" defaultOpen="true" highlightTab="${tabEdited}" tabErrorKey="${PurapConstants.VENDOR_ERRORS}">
+<kul:tab tabTitle="Vendor" defaultOpen="true" tabErrorKey="${PurapConstants.VENDOR_ERRORS}">
     <div class="tab-container" align=center>
 		
         <table cellpadding="0" cellspacing="0" class="datatable" summary="Vendor Section">

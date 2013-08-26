@@ -19,12 +19,12 @@ import static org.kuali.kfs.sys.fixture.UserNameFixture.parke;
 
 import org.kuali.kfs.module.purap.fixture.BulkReceivingDocumentFixture;
 import org.kuali.kfs.module.purap.fixture.PurchaseOrderDocumentFixture;
-import org.kuali.kfs.module.purap.fixture.RequisitionDocumentFixture;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocumentTestUtils;
 import org.kuali.kfs.sys.document.workflow.WorkflowTestUtils;
+import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.exception.ValidationException;
@@ -56,13 +56,10 @@ public class BulkReceivingDocumentTest extends KualiTestBase {
     }
 
     @ConfigureContext(session = parke, shouldCommitTransactions=true)
-    public final void testRouteDocumentWithPO()   throws Exception {
-        DocumentService documentService = SpringContext.getBean(DocumentService.class);
-        RequisitionDocument requisition =RequisitionDocumentFixture.REQ_ONLY_REQUIRED_FIELDS.createRequisitionDocument();
-        requisition.prepareForSave();
-        AccountingDocumentTestUtils.routeDocument(requisition, "saving copy source document", null, documentService);
+    public final void testRouteDocumentWithPO()
+    throws Exception {
         PurchaseOrderDocument po = PurchaseOrderDocumentFixture.PO_ONLY_REQUIRED_FIELDS.createPurchaseOrderDocument();
-        po.setRequisitionIdentifier(requisition.getPurapDocumentIdentifier());
+        DocumentService documentService = SpringContext.getBean(DocumentService.class);
         po.prepareForSave();
         AccountingDocumentTestUtils.routeDocument(po, "saving copy source document", null, documentService);
         WorkflowTestUtils.waitForDocumentApproval(po.getDocumentNumber());

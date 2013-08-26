@@ -18,6 +18,7 @@ package org.kuali.kfs.module.purap.document;
 
 import static org.kuali.kfs.sys.KFSConstants.GL_DEBIT_CODE;
 import static org.kuali.rice.core.api.util.type.KualiDecimal.ZERO;
+import static org.kuali.rice.core.api.util.type.KualiDecimal.ZERO;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -35,7 +36,6 @@ import org.kuali.kfs.module.purap.businessobject.PurchaseOrderAccount;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
 import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
-import org.kuali.kfs.module.purap.document.service.PurchaseOrderTabIdentifierService;
 import org.kuali.kfs.module.purap.document.service.ReceivingService;
 import org.kuali.kfs.module.purap.service.PurapAccountingService;
 import org.kuali.kfs.module.purap.service.PurapGeneralLedgerService;
@@ -47,15 +47,13 @@ import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
-import org.kuali.rice.coreservice.framework.parameter.ParameterService;
-import org.kuali.rice.kew.api.action.ActionRequestType;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
-import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
+import org.kuali.rice.krad.service.SequenceAccessorService;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
-
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 /**
  * Purchase Order Amendment Document
  */
@@ -175,7 +173,11 @@ public class PurchaseOrderAmendmentDocument extends PurchaseOrderDocument {
         this.receivingDeliveryCampusCode = receivingDeliveryCampusCode;
     }
 
-
+    @Override
+    public boolean answerSplitNodeQuestion(String nodeName) throws UnsupportedOperationException {
+        if (nodeName.equals(PurapWorkflowConstants.HAS_NEW_UNORDERED_ITEMS)) return isNewUnorderedItem();
+        throw new UnsupportedOperationException("Cannot answer split question for this node you call \""+nodeName+"\"");
+    }
 
     @Override
     public Class<? extends AccountingDocument> getDocumentClassForAccountingLineValueAllowedValidation() {
@@ -257,49 +259,6 @@ public class PurchaseOrderAmendmentDocument extends PurchaseOrderDocument {
         }
         return false;
     }
-
-
-
-
-    @Override
-    public boolean answerSplitNodeQuestion(String nodeName) throws UnsupportedOperationException {
-        if (nodeName.equals(PurapWorkflowConstants.HAS_NEW_UNORDERED_ITEMS)) {
-            return isNewUnorderedItem();
-        }
-        else if (nodeName.equals(PurapWorkflowConstants.ITEMS_TAB_EDITED)) {
-            return getPurchaseOrderTabIdentifierService().isItemsTabModified(this);
-        }
-        else if (nodeName.equals(PurapWorkflowConstants.OTHER_TABS_EDITED)) {
-            return getPurchaseOrderTabIdentifierService().isAnyTabsModified(this);
-        }
-        else if (nodeName.equals(PurapWorkflowConstants.CONTRACT_MANAGEMENT_REVIEW_REQUIRED)
-                || nodeName.equals(PurapWorkflowConstants.CONTRACT_MANAGEMENT_FYI_REQUIRED)) {
-            return isContractManagementReviewRequired();
-        }
-        else if (nodeName.equals(PurapWorkflowConstants.AWARD_REVIEW_REQUIRED) ||
-                nodeName.equals(PurapWorkflowConstants.AWARD_FYI_REQUIRED)) {
-            return isAwardReviewRequired();
-        }
-        else if (nodeName.equals(PurapWorkflowConstants.BUDGET_REVIEW_REQUIRED) ||
-                nodeName.equals(PurapWorkflowConstants.BUDGET_FYI_REQUIRED)) {
-            return isBudgetReviewRequired();
-        }
-        else if (nodeName.equals(PurapWorkflowConstants.VENDOR_IS_EMPLOYEE_OR_NON_RESIDENT_ALIEN) ||
-                nodeName.equals(PurapWorkflowConstants.VENDOR_IS_EMPLOYEE_ALIEN_FYI_REQUIRED)) {
-            return isVendorEmployeeOrNonResidentAlien();
-        }
-        else {
-            return super.answerSplitNodeQuestion(nodeName);
-        }
-    }
-
-
-
-
-    private PurchaseOrderTabIdentifierService getPurchaseOrderTabIdentifierService(){
-        return SpringContext.getBean(PurchaseOrderTabIdentifierService.class);
-    }
-
 
 
 

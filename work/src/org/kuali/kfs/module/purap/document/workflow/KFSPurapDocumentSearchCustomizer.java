@@ -63,12 +63,10 @@ public class KFSPurapDocumentSearchCustomizer extends KFSDocumentSearchCustomize
         for (DocumentSearchResult result : defaultResults) {
             List<DocumentAttribute.AbstractBuilder<?>> custAttrBuilders = new ArrayList<DocumentAttribute.AbstractBuilder<?>>();
             Document document = result.getDocument();
-
+            
             for (DocumentAttribute documentAttribute : result.getDocumentAttributes()) {
                 if (KFSPropertyConstants.PURAP_DOC_ID.equals(documentAttribute.getName())) {
-                    if (!isAuthorizedToViewPurapDocId && !document.getStatus().getCategory().equals(DocumentStatusCategory.SUCCESSFUL) &&
-                            (PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_DOCUMENT.equalsIgnoreCase(document.getDocumentTypeName())
-                            || PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_SPLIT_DOCUMENT.equalsIgnoreCase(document.getDocumentTypeName())) ){
+                    if (!isAuthorizedToViewPurapDocId && !document.getStatus().getCategory().equals(DocumentStatusCategory.SUCCESSFUL) ) {
                         DocumentAttributeString.Builder builder = DocumentAttributeString.Builder.create(KFSPropertyConstants.PURAP_DOC_ID);
                         builder.setValue("********");
                         custAttrBuilders.add(builder);

@@ -20,10 +20,10 @@ import java.util.Set;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocument;
-import org.kuali.kfs.sys.document.authorization.AccountingDocumentPresentationControllerBase;
+import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentPresentationControllerBase;
 import org.kuali.rice.krad.document.Document;
 
-public class CreditCardReceiptDocumentPresentationController extends AccountingDocumentPresentationControllerBase{
+public class CreditCardReceiptDocumentPresentationController extends FinancialSystemTransactionalDocumentPresentationControllerBase{
 
     @Override
     public Set<String> getDocumentActions(Document document) {

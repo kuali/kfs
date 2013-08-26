@@ -8125,7 +8125,6 @@
         <column name="FDOC_TOTAL_AMT" scale="2" size="19" type="DECIMAL"/>
         <column name="FDOC_IN_ERR_NBR" size="14" type="VARCHAR"/>
         <column name="TEMP_DOC_FNL_DT" type="DATE"/>
-        <column name="SECURE_FIELD" size="255" type="VARCHAR"/>
         <index name="FS_DOC_HEADER_TI1">
             <index-column name="FDOC_IN_ERR_NBR"/>
         </index>

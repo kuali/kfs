@@ -24,7 +24,6 @@
 <%@ attribute name="isRequisition" required="false" description="Determines if this is a requisition document"%>
 <%@ attribute name="isPurchaseOrder" required="false" description="Determines if this is a requisition document"%>
 
-<c:set var="tabEdited" value="${(not empty KualiForm.editingMode['camsTabEdited'])}" />
 <c:set var="fullEntryMode" value="${KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT] && (empty KualiForm.editingMode['restrictFiscalEntry'])}" />
 <c:set var="tabindexOverrideBase" value="60" />
 
@@ -36,7 +35,7 @@
 	<c:set var="isPurchaseOrder" value="false"/>
 </c:if>
 
-<kul:tab tabTitle="Capital Asset" defaultOpen="false" highlightTab="${tabEdited}" tabErrorKey="${PurapConstants.CAPITAL_ASSET_TAB_ERRORS}">
+<kul:tab tabTitle="Capital Asset" defaultOpen="false" tabErrorKey="${PurapConstants.CAPITAL_ASSET_TAB_ERRORS}">
 	<c:set var="systemSelectionReadOnly" value="${not empty KualiForm.document.capitalAssetSystemTypeCode && not empty KualiForm.document.capitalAssetSystemStateCode}" />
 	<div class="tab-container" align=center>
 		

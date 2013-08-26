@@ -77,7 +77,7 @@ public class KFSConstants {
     }
 
     // special user used in the post-processor
-    // TODO: eventually this should be removed and the system user should be pulled from a parameter
+    //TODO: eventually this should be removed and the system user should be pulled from a parameter
     // right now, you HAVE to make sure that a 'kfs' user exists in your system, either in the DB
     // or in an external system such as LDAP if implemented
     public static final String SYSTEM_USER = "kfs";
@@ -736,7 +736,7 @@ public class KFSConstants {
          */
         public static final String PURGE_PENDING_ATTACHMENTS_STEP_MAX_AGE = "MAX_AGE";
 
-        public static final String NUMBER_OF_DAYS_SINCE_LAST_UPDATE = "NUMBER_OF_DAYS_SINCE_LAST_UPDATE";
+        public static final String NUMBER_OF_DAYS_SINCE_LAST_UPDATE  = "NUMBER_OF_DAYS_SINCE_LAST_UPDATE";
 
         public static final String ACCOUNTS_CAN_CROSS_CHARTS_IND = "ACCOUNTS_CAN_CROSS_CHARTS_IND";
 
@@ -927,9 +927,9 @@ public class KFSConstants {
         return DASH_PROJECT_CODE;
     }
 
-    // AR TAB ERROR KEYS
+    //AR TAB ERROR KEYS
 
-    // Customer Invoice Document
+    //Customer Invoice Document
     @Deprecated
     public static final String CUSTOMER_INVOICE_DOCUMENT_ORGANIZATION_ERRORS = "document.billByChartOfAccountCode,document.billedByOrganizationCode,document.accountsReceivableDocumentHeader.processingChartOfAccountCode";
     @Deprecated
@@ -942,7 +942,7 @@ public class KFSConstants {
     public static final String CUSTOMER_INVOICE_DOCUMENT_RECURRENCE_DETAILS_ERRORS = "document.customerInvoiceRecurrenceDetails,document.customerInvoiceRecurrenceDetails.*,document.customerInvoiceRecurrenceDetails.document*";
 
 
-    // Cash Control Document
+    //Cash Control Document
     public static final String CASH_CONTROL_DOCUMENT_ERRORS = "document.accountsReceivableDocumentHeader.processingChartOfAccountCode,document.referenceFinancialDocumentNumber,document.customerPaymentMediumCode,document.organizationCode,document.bankCode";
     public static final String CASH_CONTROL_DETAILS_ERRORS = "newCashControl*,document.cashControlDetail*";
 
@@ -962,7 +962,7 @@ public class KFSConstants {
     @Deprecated
     public static final String CUSTOMER_INVOICE_WRITEOFF_LOOKUP_RESULT_ERRORS = "customerInvoiceWriteoffLookupResults";
 
-    public static final class ReportGeneration {
+    public static final class ReportGeneration{
         public final static String PARAMETER_NAME_SUBREPORT_DIR = "SUBREPORT_DIR";
         public final static String PARAMETER_NAME_SUBREPORT_TEMPLATE_NAME = "SUBREPORT_TEMPLATE_NAMES";
         public final static String DESIGN_FILE_EXTENSION = ".jrxml";
@@ -1092,7 +1092,7 @@ public class KFSConstants {
 
         public static final List<String> ELIGIBLE_SUB_ACCOUNT_TYPE_CODES = getEligibleSubAccountTypeCodes();
 
-        private static final List<String> getEligibleSubAccountTypeCodes() {
+        private static final List<String> getEligibleSubAccountTypeCodes(){
             List<String> subAccountTypeCodesList = new ArrayList<String>();
             subAccountTypeCodesList.add(KFSConstants.SubAccountType.COST_SHARE);
             subAccountTypeCodesList.add(KFSConstants.SubAccountType.EXPENSE);
@@ -1143,7 +1143,6 @@ public class KFSConstants {
 
     @Deprecated
     public static final String PAYMENT_APPLICATION_DOCUMENT_ERRORS = "document";
-
     @Deprecated
     public static class PaymentApplicationTabErrorCodes {
         public static final String NON_AR_TAB = "nonInvoicedAddLine*";
@@ -1152,7 +1151,7 @@ public class KFSConstants {
     }
 
     // define a set of indicators related to payments, including payee types, tax review requirements and others
-    public static class AdHocPaymentIndicator {
+    public static class AdHocPaymentIndicator{
         public static final String EMPLOYEE_VENDOR = "E";
         public static final String ALIEN_VENDOR = "A";
         public static final String EMPLOYEE_PAYEE = "E";
@@ -1162,7 +1161,7 @@ public class KFSConstants {
         public static final String OTHER = "N";
     }
 
-    public static class SysKimApiConstants {
+    public static class SysKimApiConstants{
         public static final String ACCOUNT_SUPERVISOR_KIM_ROLE_NAME = "Account Supervisor";
         public static final String CONTRACTS_AND_GRANTS_PROJECT_DIRECTOR = "Contracts & Grants Project Director";
         public static final String FISCAL_OFFICER_KIM_ROLE_NAME = "Fiscal Officer";
@@ -1204,7 +1203,6 @@ public class KFSConstants {
 
         public final String name;
         public final String namespace;
-
         private PermissionTemplate(String namespace, String name) {
             this.namespace = namespace;
             this.name = name;
@@ -1234,6 +1232,7 @@ public class KFSConstants {
     public static final String BANK_ENTRY_VIEWABLE_EDITING_MODE = "bankEntryViewable";
     public static final String BANK_ENTRY_EDITABLE_EDITING_MODE = "bankEntry";
 
+
     public class RouteLevelNames {
         public static final String ACCOUNT = "Account";
         public static final String ACCOUNTING_ORGANIZATION_HIERARCHY = "AccountingOrganizationHierarchy";
@@ -1248,7 +1247,7 @@ public class KFSConstants {
     public static final String FINANCIAL_SYSTEM_SIMPLE_MAINTENANCE_DOCUMENT = "FSSM";
     public static final String FINANCIAL_SYSTEM_LEDGER_ONLY_ROOT_DOCUMENT_TYPE = "FSLO";
 
-    public static class COAConstants {
+    public static class COAConstants{
         public static final String ORG_REVIEW_ROLE_ORG_ACC_ONLY_CODE = "A";
         public static final String ORG_REVIEW_ROLE_ORG_ACC_ONLY_TEXT = "Organization Accounting Only";
         public static final String ORG_REVIEW_ROLE_ORG_ONLY_CODE = "O";
@@ -1259,13 +1258,13 @@ public class KFSConstants {
 
     }
 
-    public static class ReportConstants {
+    public static class ReportConstants{
         public static final String EMPTY_CELL_ENTRY_KEY_PREFIX = "EMPTY_CELL";
 
         public static final String TABLE_HEADER_LINE_KEY = "tableHeaderLine";
         public static final String SEPARATOR_LINE_KEY = "separatorLine";
         public static final String TABLE_CELL_FORMAT_KEY = "tableCellFormat";
-        public static final String[] FORMAT_ESCAPE_CHARACTERS = new String[] { "%", "\\" };
+        public static final String[] FORMAT_ESCAPE_CHARACTERS = new String[]{"%", "\\"};
     }
 
     public static final String REQUIRES_WORKSTUDY_REVIEW = "RequiresWorkstudyReview";
@@ -1279,6 +1278,8 @@ public class KFSConstants {
     // System Parameters
     public static final String RESULT_SUMMARY_TO_EMAIL_ADDRESSES = "RESULT_SUMMARY_TO_EMAIL_ADDRESSES";
     public static final String SOURCE_URL_PARAMETER = "SOURCE_URL";
+
+
 
 
     public static final String REPORT_WRITER_SERVICE_PAGE_NUMBER_PLACEHOLDER = "${pageNumber}";
@@ -1298,7 +1299,7 @@ public class KFSConstants {
     }
 
     public static class CapitalAssets {
-        // C ==> create asset action, M ==> modify asset action
+        //C ==> create asset action, M ==> modify asset action
         public static final String CAPITAL_ASSET_CREATE_ACTION_INDICATOR = "C";
         public static final String CAPITAL_ASSET_MODIFY_ACTION_INDICATOR = "M";
         public static final String CAPITAL_ASSET_TAB_STATE_OPEN = "OPEN";
@@ -1331,31 +1332,6 @@ public class KFSConstants {
 
     public static final String OVERRIDE_ACCOUNT_FOR_EXPIRED_QUESTION_ID = "OverrideAccountForExpiredQuestion";
 
-    public static final String MASS_IMPORT_HELP_URL = "MASS_IMPORT_HELP_URL";
-
-    public static final String MAX_NUM_SUB_OBJ_CODE = "MAX_NUM_SUB_OBJ_CODE";
-
-    public static final String IMPORT_LINE = "Import Line";
-
-    public static class SubAccountImportConstants {
-        public static final String IMPORT_DETAILS_TAB_ERRORS = "document.subAccountImportDetail*";
-        public static final String IMPORT_LINE_ERROR_PREFIX = "document.subAccountImportDetail[";
-        public static final String IMPORT_LINE_ERROR_SUFFIX = "]";
-        public static final String SUB_ACCOUNT = "Sub-Account";
-    }
-
-    public static class SubObjectCodeImportConstants {
-        public static final String IMPORT_DETAILS_TAB_ERRORS = "document.subObjectCodeImportDetail*";
-        public static final String IMPORT_LINE_ERROR_PREFIX = "document.subObjectCodeImportDetail[";
-        public static final String SUB_OBJECT_CODE = "Sub-Object Code";
-	}
-
-    public static class ProjectCodeImportConstants {
-        public static final String IMPORT_DETAILS_TAB_ERRORS = "document.projectCodeImportDetail*";
-        public static final String IMPORT_LINE_ERROR_PREFIX = "document.projectCodeImportDetail[";
-        public static final String PROJECT_CODE = "Project Code";
-    }
-
     static final public String TRIAL_BAL_LOOKUPABLE_ID = "glTrialBalanceReportLookupable";
     static final public String TRIAL_BAL_SELECT_SUB_SECTION = "selectionConditions";
     static final public String TRIAL_BAL_DISPLAY_SUB_SECTION = "displayFields";
@@ -1379,6 +1355,5 @@ public class KFSConstants {
     }
     public static final String BATCH_LOGGER_DEFAULT_CONVERSION_PATTERN = "%d [%t] u:%X{user}/d:%X{docId} %-5p %c :: %m%n";
     public static final Layout BATCH_LOGGER_DEFAULT_PATTERN_LAYOUT = new PatternLayout(BATCH_LOGGER_DEFAULT_CONVERSION_PATTERN);
-
-
 }
+

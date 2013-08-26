@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- *
+ * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
+ * 
  * http://www.opensource.org/licenses/ecl2.php
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -311,10 +311,10 @@ public class KFSPropertyConstants {
     public static final String CODE = "code";
     public static final String CODE_RETRIEVED = "codeRetrieved";
     public static final String COLLECTOR_DETAIL_SEQUENCE_NUMBER = "collectorDetailSequenceNumber";
-    public static final String COLLECTOR_DETAIL_GL_CREDIT_CODE = "glCreditCode";
+    public static final String COLLECTOR_DETAIL_GL_CREDIT_CODE = "glCreditCode";    
     public static final String COLLECTOR_DETAIL_AMOUNT = "collectorDetailItemAmount";
     public static final String COLLECTOR_DETAIL_NOTE_TEXT = "collectorDetailNoteText";
-    public static final String COLLECTOR_BATCH_PERSON_USER_ID = "personUserID";
+    public static final String COLLECTOR_BATCH_PERSON_USER_ID = "personUserID";    
     public static final String COMPLETE = "complete";
     public static final String COMPONENT_CLASS = "componentClass";
     public static final String COMPONENT_LABEL = "componentLabel";
@@ -748,7 +748,7 @@ public class KFSPropertyConstants {
     public static final String INDIRECT_COST_RECOVERY_RATE_DETAILS = "indirectCostRecoveryRateDetails";
     public static final String INDIRECT_COST_RECOVERY_TYPE = "indirectCostRecoveryType";
     public static final String INDIRECT_COST_RECOVERY_TYPE_CODE = "indirectCostRecoveryTypeCode";
-
+    
     public static final String INDIRECT_COST_RECOVERY_ACCOUNTS = "indirectCostRecoveryAccounts";
     public static final String A21INDIRECT_COST_RECOVERY_ACCOUNTS = "a21SubAccount.a21IndirectCostRecoveryAccounts";
     public static final String ICR_ACCOUNT = "indirectCostRecoveryAccount";
@@ -756,7 +756,7 @@ public class KFSPropertyConstants {
     public static final String ICR_CHART_OF_ACCOUNTS = "indirectCostRecoveryChartOfAccounts";
     public static final String ICR_CHART_OF_ACCOUNTS_CODE = "indirectCostRecoveryFinCoaCode";
     public static final String ICR_ACCOUNT_LINE_PERCENT = "accountLinePercent";
-
+    
     public static final String INITIATOR_NETWORK_ID = KRADPropertyConstants.INITIATOR_NETWORK_ID;
     public static final String INQUIRE_ONLY_USER = "inquireOnlyUser";
     public static final String INTER_DEPARTMENTAL_BILLING_SEQUENCE_NUMBER = "interDepartmentalBillingSequenceNumber";
@@ -1010,7 +1010,7 @@ public class KFSPropertyConstants {
     public static final String PROCESSING_ORG = "processingOrg";
     public static final String PROCESSING_ORGANIZATION_CODE = "processingOrganizationCode";
     public static final String CONTACT_DEPARTMENT_NAME = "contactDepartmentName";
-    public static final String CONTACT_MAILING_ADDRESS = "contactMailingAddress";
+    public static final String CONTACT_MAILING_ADDRESS= "contactMailingAddress";
     public static final String CONTACT_PERSON_PHONE_NUMBER = "contactPersonPhoneNumber";
     public static final String PROCUREMENT_CARD_HOLDER_LINE1_ADDRESS = "cardHolderLine1Address";
     public static final String PROCUREMENT_CARD_HOLDER_LINE2_ADDRESS = "cardHolderLine2Address";
@@ -1019,7 +1019,7 @@ public class KFSPropertyConstants {
     public static final String PROCUREMENT_CARD_HOLDER_ZIP_CODE = "cardHolderZipCode";
     public static final String PROCUREMENT_CARD_HOLDER_WORK_PHONE_NUMBER = "cardHolderWorkPhoneNumber";
     public static final String PROCUREMENT_CARD_LIMIT = "cardLimit";
-    public static final String PROCUREMENT_CARD_CYCLE_AMOUNT_LIMIT = "cardCycleAmountLimit";
+    public static final String PROCUREMENT_CARD_CYCLE_AMOUNT_LIMIT = "cardCycleAmountLimit";    
     public static final String PROCUREMENT_CARD_CYCLE_VOLUME_LIMIT = "cardCycleVolumeLimit";
     public static final String PROCUREMENT_CARD_STATUS_CODE = "cardStatusCode";
     public static final String PROCUREMENT_CARD_NOTE_TEXT = "cardNoteText";
@@ -1234,7 +1234,7 @@ public class KFSPropertyConstants {
     public static final String POSTAL_COUNTRY_RESTRICTED_INDICATOR = "postalCountryRestrictedIndicator";
     public static final String CAPITAL_ASSET_INFORMATION = "capitalAssetInformation";
     public static final String CAPITAL_ASSET_MODIFY_INFORMATION = "capitalAssetModify";
-
+    
     public static final String CAPITAL_ACCOUNTING_LINES = "capitalAccountingLines";
     public static final String CAPITAL_ASSET_INFORMATION_DETAILS = "capitalAssetInformationDetails";
     public static final String CLOSED = "closed";
@@ -1256,43 +1256,5 @@ public class KFSPropertyConstants {
     public static final String PURCHASE_ORDER_DOCUMENT_SIMPLE_NAME = "PurchaseOrderDocument";
     public static final String CAPITAL_ASSET_LINE_AMOUNT = "capitalAssetLineAmount";
     public static final String APPLICATION_DOCUMENT_STATUS = "applicationDocumentStatus";
-
-    public static class SubAccountImport {
-        public static final String CHART_OF_ACCOUNTS_CODE = "chartOfAccountsCode";
-        public static final String ACCOUNT_NUMBER = "accountNumber";
-        public static final String SUB_ACCOUNT_NUMBER = "subAccountNumber";
-        public static final String SUB_ACCOUNT_NAME = "subAccountName";
-        public static final String ACTIVE = "active";
-        public static final String FINANCIAL_REPORT_CHART_CODE = "financialReportChartCode";
-        public static final String FIN_REPORT_ORGANIZATION_CODE = "finReportOrganizationCode";
-        public static final String FINANCIAL_REPORTING_CODE = "financialReportingCode";
-        public static final String SUB_ACCOUNT_IMPORT_DETAILS = "subAccountImportDetails";
-
-    }
-
-    public static class SubObjectCodeImport {
-        public static final String UNIVERSITY_FISCAL_YEAR = "universityFiscalYear";
-        public static final String CHART_OF_ACCOUNTS_CODE = "chartOfAccountsCode";
-        public static final String ACCOUNT_NUMBER = "accountNumber";
-        public static final String FIN_OBJECT_CODE = "financialObjectCode";
-        public static final String ACTIVE = "active";
-        public static final String FIN_SUB_OBJECT_CODE = "financialSubObjectCode";
-        public static final String FIN_SUB_OBJECT_CODE_NAME = "financialSubObjectCodeName";
-        public static final String FIN_SUB_OBJECT_CODE_SHORT_NAME = "financialSubObjectCdshortNm";
-        public static final String SUB_OBJECT_CODE_IMPORT_DETAILS = "subObjectCodeImportDetails";
-
-    }
-
-    // ASR 2590 mass upload project code
-    public static class ProjectCodeImport {
-        public static final String PROJECT_CODE = "projectCode";
-        public static final String CHART_OF_ACCOUNTS_CODE = "chartOfAccountsCode";
-        public static final String PROJECT_NAME = "projectName";
-        public static final String PROJECT_DESCRIPTION = "projectDescription";
-        public static final String ACTIVE = "active";
-        public static final String ORGANIZATION_CODE = "organizationCode";
-        public static final String PROJECT_MANAGER_UNIVERSAL_ID = "projectManagerUniversalId";
-        public static final String PROJECT_MANAGER_PRINCIPAL_NAME = "projectManagerPrincipalName";
-        public static final String PROJECT_CODE_IMPORT_DETAILS = "projectCodeImportDetails";
-    }
 }
+

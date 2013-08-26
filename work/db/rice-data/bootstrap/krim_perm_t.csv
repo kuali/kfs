@@ -314,4 +314,3 @@ KFSMI8906-PRM,KFSMI8906-PRM,"1","41","KFS-PURAP","Modify Acct Lines PO Pur Proce
 "KFSCNTRB705-PRM6","KFSCNTRB705-PRM6",1,"27","KFS-PDP","Full Unmask Field Payment Detail Payee Zip Code","Authorizes users to view the Payee Zip Code on the Payment Detail Inquiry","Y"
 "KFSCNTRB705-PRM7","KFSCNTRB705-PRM7",1,"50","KFS-PDP","Download Research Participant Check File(s)","Authorizes users to download the Check File created for Research Participant Upload","Y"
 "KFSCNTRB-762-PRM1","KFSCNTRB-762-PRM1",1,"29","KFS-GL","Use Trial Balance Screen","Allows users to access Trial Balance Report screen.","Y"
-"KFSCNTRB-737-PRM1","KFSCNTRB-737-PRM1","1","16","KFS-COA","Edit Document CATR AdHoc R","Authorizes users to edit COA Transactional document at the AdHoc route node.","Y"

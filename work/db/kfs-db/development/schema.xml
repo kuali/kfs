@@ -15247,6 +15247,9 @@
         <column name="FDOC_BNK_CD" size="4" type="VARCHAR"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
+        <foreign-key foreignTable="TEM_PRI_DEST_T" name="TEM_ENT_DOC_T">
+            <reference foreign="ID" local="PRIMARY_DEST_ID"/>
+        </foreign-key>
         <foreign-key foreignTable="TEM_TRAVELER_DTL_T" name="TEM_ENT_DOC_TR1">
             <reference foreign="ID" local="TRAVELER_DTL_ID"/>
         </foreign-key>
@@ -15255,9 +15258,6 @@
         </foreign-key>
         <foreign-key foreignTable="TEM_PURPOSE_T" name="TEM_ENT_DOC_TR3">
             <reference foreign="PURPOSE_CODE" local="PURPOSE_CODE"/>
-        </foreign-key>
-        <foreign-key foreignTable="TEM_PER_DIEM_T" name="TEM_ENT_DOC_TR4">
-            <reference foreign="ID" local="PRIMARY_DEST_ID"/>
         </foreign-key>
         <foreign-key foreignTable="FP_BANK_T" name="TEM_ENT_DOC_TR5">
             <reference foreign="BNK_CD" local="FDOC_BNK_CD"/>
@@ -15711,7 +15711,7 @@
         <foreign-key foreignTable="TEM_JOB_CLASS_T" name="TEM_RELO_DOC_TR4">
             <reference foreign="JOB_CLS_CD" local="JOB_CLS_CD"/>
         </foreign-key>
-        <foreign-key foreignTable="TEM_PER_DIEM_T" name="TEM_RELO_DOC_TR5">
+        <foreign-key foreignTable="TEM_PRI_DEST_T" name="TEM_RELO_DOC_TR5">
             <reference foreign="ID" local="PRIMARY_DEST_ID"/>
         </foreign-key>
         <foreign-key foreignTable="FP_BANK_T" name="TEM_RELO_DOC_TR6">
@@ -15992,7 +15992,7 @@
         <foreign-key foreignTable="TEM_TRIP_TYP_T" name="TEM_TRVL_AUTH_AMEND_DOC_TR2">
             <reference foreign="CODE" local="TRIP_TYP_CD"/>
         </foreign-key>
-        <foreign-key foreignTable="TEM_PER_DIEM_T" name="TEM_TRVL_AUTH_AMEND_DOC_TR3">
+        <foreign-key foreignTable="TEM_PRI_DEST_T" name="TEM_TRVL_AUTH_AMEND_DOC_TR3">
             <reference foreign="ID" local="PRIMARY_DEST_ID"/>
         </foreign-key>
         <unique name="TEM_TRVL_AUTH_AMEND_DOC_TC0">
@@ -16066,7 +16066,7 @@
         <foreign-key foreignTable="TEM_TRIP_TYP_T" name="TEM_TRVL_AUTH_DOC_TR2">
             <reference foreign="CODE" local="TRIP_TYP_CD"/>
         </foreign-key>
-        <foreign-key foreignTable="TEM_PER_DIEM_T" name="TEM_TRVL_AUTH_DOC_TR3">
+        <foreign-key foreignTable="TEM_PRI_DEST_T" name="TEM_TRVL_AUTH_DOC_TR3">
             <reference foreign="ID" local="PRIMARY_DEST_ID"/>
         </foreign-key>
         <foreign-key foreignTable="FP_BANK_T" name="TEM_TRVL_AUTH_DOC_TR4">
@@ -16193,7 +16193,7 @@
         <foreign-key foreignTable="TEM_TRIP_TYP_T" name="TEM_TRVL_REIMB_DOC_TR2">
             <reference foreign="CODE" local="TRIP_TYP_CD"/>
         </foreign-key>
-        <foreign-key foreignTable="TEM_PER_DIEM_T" name="TEM_TRVL_REIMB_DOC_TR3">
+        <foreign-key foreignTable="TEM_PRI_DEST_T" name="TEM_TRVL_REIMB_DOC_TR3">
             <reference foreign="ID" local="PRIMARY_DEST_ID"/>
         </foreign-key>
         <foreign-key foreignTable="FP_BANK_T" name="TEM_TRVL_REIMB_DOC_TR4">
@@ -16343,6 +16343,7 @@
     <sequence name="TEM_MILEAGE_RT_OBJ_CD_ID_SEQ" nextval="1024"/>
     <sequence name="TEM_PER_DIEM_EXP_ID_SEQ" nextval="1"/>
     <sequence name="TEM_PER_DIEM_ID_SEQ" nextval="1000"/>
+    <sequence name="TEM_PRI_DEST_ID_SEQ" nextval="1"/>
     <sequence name="TEM_PROFILE_ACCOUNT_ID_SEQ" nextval="1"/>
     <sequence name="TEM_PROFILE_ARRANGER_ID_SEQ" nextval="3"/>
     <sequence name="TEM_PROFILE_EM_CONT_ID_SEQ" nextval="3"/>

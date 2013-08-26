@@ -207,8 +207,8 @@
 			baseTableName="TEM_ENT_DOC_T" baseColumnNames="PURPOSE_CODE"
 			referencedTableName="TEM_PURPOSE_T" referencedColumnNames="PURPOSE_CODE" />
 		<addForeignKeyConstraint constraintName="TEM_ENT_DOC_TR4"
-			baseTableName="TEM_ENT_DOC_T" baseColumnNames="PRI_DEST_ID"
-			referencedTableName="TEM_PER_DIEM_T" referencedColumnNames="ID" />
+			baseTableName="TEM_ENT_DOC_T" baseColumnNames="PRIMARY_DEST_ID"
+			referencedTableName="TEM_PER_DIEM_T" referencedColumnNames="PRI_DEST_ID" />
 		<addForeignKeyConstraint constraintName="TEM_ENT_DOC_TR5"
 			baseTableName="TEM_ENT_DOC_T" baseColumnNames="FDOC_BNK_CD"
 			referencedTableName="FP_BANK_T" referencedColumnNames="BNK_CD" />
@@ -465,8 +465,8 @@
 			baseTableName="TEM_RELO_DOC_T" baseColumnNames="JOB_CLS_CD"
 			referencedTableName="TEM_JOB_CLASS_T" referencedColumnNames="JOB_CLS_CD" />
 		<addForeignKeyConstraint constraintName="TEM_RELO_DOC_TR5"
-			baseTableName="TEM_RELO_DOC_T" baseColumnNames="PRI_DEST_ID"
-			referencedTableName="TEM_PER_DIEM_T" referencedColumnNames="ID" />
+			baseTableName="TEM_RELO_DOC_T" baseColumnNames="PRIMARY_DEST_ID"
+			referencedTableName="TEM_PER_DIEM_T" referencedColumnNames="PRI_DEST_ID" />
 		<addForeignKeyConstraint constraintName="TEM_RELO_DOC_TR6"
 			baseTableName="TEM_RELO_DOC_T" baseColumnNames="FDOC_BNK_CD"
 			referencedTableName="FP_BANK_T" referencedColumnNames="BNK_CD" />
@@ -659,8 +659,8 @@
 			baseTableName="TEM_TRVL_AUTH_AMEND_DOC_T" baseColumnNames="TRIP_TYP_CD"
 			referencedTableName="TEM_TRIP_TYP_T" referencedColumnNames="CODE" />
 		<addForeignKeyConstraint constraintName="TEM_TRVL_AUTH_AMEND_DOC_TR3"
-			baseTableName="TEM_TRVL_AUTH_AMEND_DOC_T" baseColumnNames="PRI_DEST_ID"
-			referencedTableName="TEM_PER_DIEM_T" referencedColumnNames="ID" />
+			baseTableName="TEM_TRVL_AUTH_AMEND_DOC_T" baseColumnNames="PRIMARY_DEST_ID"
+			referencedTableName="TEM_PER_DIEM_T" referencedColumnNames="PRI_DEST_ID" />
 		<addUniqueConstraint tableName="TEM_TRVL_AUTH_AMEND_DOC_T"
 			constraintName="TEM_TRVL_AUTH_AMEND_DOC_TC0" columnNames="OBJ_ID" />
 		<addNotNullConstraint tableName="TEM_TRVL_AUTH_AMEND_DOC_T"
@@ -674,8 +674,8 @@
 			baseTableName="TEM_TRVL_AUTH_CLOSE_DOC_T" baseColumnNames="TRIP_TYP_CD"
 			referencedTableName="TEM_TRIP_TYP_T" referencedColumnNames="CODE" />
 		<addForeignKeyConstraint constraintName="TEM_TRVL_AUTH_CLOSE_DOC_TR3"
-			baseTableName="TEM_TRVL_AUTH_CLOSE_DOC_T" baseColumnNames="PRI_DEST_ID"
-			referencedTableName="TEM_PER_DIEM_T" referencedColumnNames="ID" />
+			baseTableName="TEM_TRVL_AUTH_CLOSE_DOC_T" baseColumnNames="PRIMARY_DEST_ID"
+			referencedTableName="TEM_PER_DIEM_T" referencedColumnNames="PRI_DEST_ID" />
 		<addUniqueConstraint tableName="TEM_TRVL_AUTH_CLOSE_DOC_T"
 			constraintName="TEM_TRVL_AUTH_CLOSE_DOC_TC0" columnNames="OBJ_ID" />
 		<addNotNullConstraint tableName="TEM_TRVL_AUTH_CLOSE_DOC_T"
@@ -689,8 +689,8 @@
 			baseTableName="TEM_TRVL_AUTH_DOC_T" baseColumnNames="TRIP_TYP_CD"
 			referencedTableName="TEM_TRIP_TYP_T" referencedColumnNames="CODE" />
 		<addForeignKeyConstraint constraintName="TEM_TRVL_AUTH_DOC_TR3"
-			baseTableName="TEM_TRVL_AUTH_DOC_T" baseColumnNames="PRI_DEST_ID"
-			referencedTableName="TEM_PER_DIEM_T" referencedColumnNames="ID" />
+			baseTableName="TEM_TRVL_AUTH_DOC_T" baseColumnNames="PRIMARY_DEST_ID"
+			referencedTableName="TEM_PER_DIEM_T" referencedColumnNames="PRI_DEST_ID" />
 		<addForeignKeyConstraint constraintName="TEM_TRVL_AUTH_DOC_TR4"
 			baseTableName="TEM_TRVL_AUTH_DOC_T" baseColumnNames="FDOC_BNK_CD"
 			referencedTableName="FP_BANK_T" referencedColumnNames="BNK_CD" />
@@ -735,8 +735,8 @@
 			baseTableName="TEM_TRVL_REIMB_DOC_T" baseColumnNames="TRIP_TYP_CD"
 			referencedTableName="TEM_TRIP_TYP_T" referencedColumnNames="CODE" />
 		<addForeignKeyConstraint constraintName="TEM_TRVL_REIMB_DOC_TR3"
-			baseTableName="TEM_TRVL_REIMB_DOC_T" baseColumnNames="PRI_DEST_ID"
-			referencedTableName="TEM_PER_DIEM_T" referencedColumnNames="ID" />
+			baseTableName="TEM_TRVL_REIMB_DOC_T" baseColumnNames="PRIMARY_DEST_ID"
+			referencedTableName="TEM_PER_DIEM_T" referencedColumnNames="PRI_DEST_ID" />
 		<addForeignKeyConstraint constraintName="TEM_TRVL_REIMB_DOC_TR4"
 			baseTableName="TEM_TRVL_REIMB_DOC_T" baseColumnNames="FDOC_BNK_CD"
 			referencedTableName="FP_BANK_T" referencedColumnNames="BNK_CD" />

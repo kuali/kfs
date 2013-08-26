@@ -21,9 +21,8 @@
 <c:set var="fullEntryMode" value="${KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />
 <c:set var="stipulationAttributes" value="${DataDictionary.PurchaseOrderVendorStipulation.attributes}" />
 <c:set var="tabindexOverrideBase" value="40" />
-<c:set var="tabEdited" value="${(not empty KualiForm.editingMode['stipulationTabEdited'])}" />
 
-<kul:tab tabTitle="Stipulations" defaultOpen="false" highlightTab="${tabEdited}" tabErrorKey="${PurapConstants.STIPULATIONS_TAB_ERRORS}">
+<kul:tab tabTitle="Stipulations" defaultOpen="false" tabErrorKey="${PurapConstants.STIPULATIONS_TAB_ERRORS}">
     <div class="tab-container" align=center>
             <h3>Vendor Stipulations and Information</h3>
         <table cellpadding="0" cellspacing="0" class="datatable" summary="Stipulations & Info Section">

@@ -1,12 +1,12 @@
 /*
  * Copyright 2010 The Kuali Foundation.
- *
+ * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
+ * 
  * http://www.opensource.org/licenses/ecl2.php
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -27,7 +27,7 @@ import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 public enum PurchaseOrderAmendmentDocumentFixture {
-
+       
     PO_AMEND_STATUS_AMENDMENT(
             PO.CREATE_DATE, // purchaseOrderCreateDate
             PO.REQ_ID, // requisitionIdentifier
@@ -85,7 +85,7 @@ public enum PurchaseOrderAmendmentDocumentFixture {
             null, // newQuoteVendorHeaderGeneratedIdentifier
             null, // newQuoteVendorDetailAssignedIdentifier
             null, // alternateVendorName
-            false, // purchaseOrderCurrentIndicator
+            true, // purchaseOrderCurrentIndicator
             false, // pendingActionIndicator
             null, // purchaseOrderFirstTransmissionTimestamp
             PurchaseOrderStatuses.APPDOC_OPEN,
@@ -93,7 +93,7 @@ public enum PurchaseOrderAmendmentDocumentFixture {
             PurchasingDocumentFixture.PO_ONLY_REQUIRED_FIELDS, // purchasingDocumentFixture
             new PurchaseOrderItemFixture[] { // purchaseOrderItemMultiFixtures
                     PurchaseOrderItemFixture.PO_QTY_UNRESTRICTED_ITEM_1 }
-    ),
+    ),    
     ;
 
     public final Timestamp purchaseOrderCreateDate;
@@ -125,7 +125,7 @@ public enum PurchaseOrderAmendmentDocumentFixture {
     public final String status;
     private PurchasingAccountsPayableDocumentFixture purapDocumentFixture;
     private PurchasingDocumentFixture purchasingDocumentFixture;
-    private PurchaseOrderItemFixture[] purchaseOrderItemFixtures;
+    private PurchaseOrderItemFixture[] purchaseOrderItemFixtures;    
 
     private PurchaseOrderAmendmentDocumentFixture(Timestamp purchaseOrderCreateDate, Integer requisitionIdentifier, String purchaseOrderVendorChoiceCode, String recurringPaymentFrequencyCode, KualiDecimal recurringPaymentAmount, Date recurringPaymentDate, KualiDecimal initialPaymentAmount, Date initialPaymentDate, KualiDecimal finalPaymentAmount, Date finalPaymentDate, Timestamp purchaseOrderInitialOpenTimestamp, Timestamp purchaseOrderLastTransmitTimestamp, Date purchaseOrderQuoteDueDate, String purchaseOrderQuoteTypeCode, String purchaseOrderQuoteVendorNoteText, boolean purchaseOrderConfirmedIndicator, String purchaseOrderCommodityDescription, Integer purchaseOrderPreviousIdentifier, Integer alternateVendorHeaderGeneratedIdentifier, Integer alternateVendorDetailAssignedIdentifier, Integer newQuoteVendorHeaderGeneratedIdentifier, Integer newQuoteVendorDetailAssignedIdentifier, String alternateVendorName, boolean purchaseOrderCurrentIndicator, boolean pendingActionIndicator, Timestamp purchaseOrderFirstTransmissionTimestamp, String status,
             PurchasingAccountsPayableDocumentFixture purapDocumentFixture, PurchasingDocumentFixture purchasingDocumentFixture, PurchaseOrderItemFixture[] purchaseOrderItemFixtures) {
@@ -160,7 +160,7 @@ public enum PurchaseOrderAmendmentDocumentFixture {
         this.purchasingDocumentFixture = purchasingDocumentFixture;
         this.purchaseOrderItemFixtures = purchaseOrderItemFixtures;
     }
-
+    
     public PurchaseOrderAmendmentDocument createPurchaseOrderAmendmentDocument() {
         PurchaseOrderAmendmentDocument doc = purchasingDocumentFixture.createPurchaseOrderAmendmentDocument(purapDocumentFixture);
         doc.setPurchaseOrderCreateTimestamp(this.purchaseOrderCreateDate);
@@ -190,7 +190,7 @@ public enum PurchaseOrderAmendmentDocumentFixture {
         doc.setPendingActionIndicator(this.pendingActionIndicator);
         doc.setPurchaseOrderFirstTransmissionTimestamp(this.purchaseOrderFirstTransmissionTimestamp);
         doc.setApplicationDocumentStatus(status);
-
+        
         for (PurchaseOrderItemFixture purchaseOrderItemFixture : purchaseOrderItemFixtures) {
             purchaseOrderItemFixture.addTo(doc);
         }
@@ -199,12 +199,12 @@ public enum PurchaseOrderAmendmentDocumentFixture {
         //vendor service and set it to this PO.
         Integer vendorHeaderGeneratedId = doc.getVendorHeaderGeneratedIdentifier();
         Integer vendorDetailAssignedId = doc.getVendorDetailAssignedIdentifier();
-
+        
         if (vendorHeaderGeneratedId != null && vendorDetailAssignedId != null) {
-            VendorDetail vendorDetail = SpringContext.getBean(VendorService.class).getVendorDetail(vendorHeaderGeneratedId, vendorDetailAssignedId);
+            VendorDetail vendorDetail = SpringContext.getBean(VendorService.class).getVendorDetail(vendorHeaderGeneratedId, vendorDetailAssignedId);   
             doc.setVendorDetail(vendorDetail);
         }
-
+        
         return doc;
     }
 }

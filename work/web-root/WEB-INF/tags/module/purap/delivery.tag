@@ -26,7 +26,6 @@
 <c:set var="notOtherDeliveryBuilding" value="${not KualiForm.document.deliveryBuildingOtherIndicator}" />
 <c:set var="contentReadOnly" value="${(not empty KualiForm.editingMode['lockContentEntry'])}" />
 <c:set var="amendmentEntry" value="${(not empty KualiForm.editingMode['amendmentEntry'])}" />
-<c:set var="tabEdited" value="${(not empty KualiForm.editingMode['deliveryTabEdited'])}" />
 <c:set var="lockB2BEntry" value="${(not empty KualiForm.editingMode['lockB2BEntry'])}" />
 <c:if test="${empty deliveryReadOnly}">
 	<c:set var="deliveryReadOnly" value="false" />
@@ -35,7 +34,7 @@
 <c:set var="lockAddressToVendor" value="${(not empty KualiForm.editingMode['lockAddressToVendor'])}" />
 <c:set var="tabindexOverrideBase" value="20" />
 
-<kul:tab tabTitle="Delivery" defaultOpen="true" highlightTab="${tabEdited}" tabErrorKey="${PurapConstants.DELIVERY_TAB_ERRORS}">
+<kul:tab tabTitle="Delivery" defaultOpen="true" tabErrorKey="${PurapConstants.DELIVERY_TAB_ERRORS}">
     <div class="tab-container" align=center>
     
     	<!---- Final Delivery ---->

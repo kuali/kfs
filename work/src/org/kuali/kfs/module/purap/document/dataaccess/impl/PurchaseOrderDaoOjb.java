@@ -17,7 +17,6 @@ package org.kuali.kfs.module.purap.document.dataaccess.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 
 import org.apache.ojb.broker.query.Criteria;
@@ -110,7 +109,7 @@ public class PurchaseOrderDaoOjb extends PlatformAwareDaoBaseOjb implements Purc
             relatedPurchaseOrderDocNumForPO.add((String)res[0]);
         }
         // We want the oldest purchase order because the notes remoteobjectid is set to the object id of the oldest purchase order document.
-        // KFSMI-8394
+        //KFSMI-8394
         // later on changed for KFSCNTRB-1642
         for(String docId : relatedPurchaseOrderDocNumForPO){
             Document wd = KewApiServiceLocator.getWorkflowDocumentService().getDocument(docId);
@@ -122,6 +121,7 @@ public class PurchaseOrderDaoOjb extends PlatformAwareDaoBaseOjb implements Purc
                 }
             }
         }
+
         return oldestDocumentNumber;
     }
 
@@ -251,38 +251,4 @@ public class PurchaseOrderDaoOjb extends PlatformAwareDaoBaseOjb implements Purc
 
         return l;
    }
-
-    /**
-     * This method document number of the POA to be used for document comparison
-     *
-     */
-
-
-
-    @Override
-    public List<String> getPurchaseOrderDocumentNumbersForComparison(Integer id, String documentNumber) {
-        String oldestDocumentNumber = null;
-        Criteria criteria = new Criteria();
-        criteria.addEqualTo(PurapPropertyConstants.PURAP_DOC_ID, id);
-
-
-        ReportQueryByCriteria rqbc = new ReportQueryByCriteria(PurchaseOrderDocument.class, criteria);
-        rqbc.setAttributes(new String[] { KFSPropertyConstants.DOCUMENT_NUMBER });
-        rqbc.addOrderByDescending(KFSPropertyConstants.DOCUMENT_NUMBER);
-        Iterator<Object[]> iter = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(rqbc);
-
-        List <String> purchaseOrderDocumentNumbers = new ArrayList<String>();
-
-        while(iter.hasNext()){
-            String docNumber =(String)(iter.next())[0];
-            if(!documentNumber.equalsIgnoreCase(docNumber)) {
-                purchaseOrderDocumentNumbers.add(docNumber);
-            }
-        }
-
-        return purchaseOrderDocumentNumbers;
-    }
-
-
-
 }

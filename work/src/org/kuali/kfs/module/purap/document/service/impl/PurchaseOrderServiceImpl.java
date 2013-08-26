@@ -1639,19 +1639,13 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
         RequisitionDocument req = po.getPurApSourceDocumentIfPossible();
 
-        String reqInitiator=null;
-
-        if(ObjectUtils.isNotNull(req)){
-            reqInitiator =req.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId();
-        }
-
+        String reqInitiator =req.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId();
         String currentDocumentTypeName = po.getDocumentHeader().getWorkflowDocument().getDocumentTypeName();
         Set<String> fiscalOfficerIds = new HashSet<String>();
         Set<Account> accounts = new HashSet<Account>();
         try {
-            if(reqInitiator!=null) {
-                po.appSpecificRouteDocumentToUser(po.getDocumentHeader().getWorkflowDocument(), reqInitiator, getAdhocFyiAnnotation(po) + KFSConstants.BLANK_SPACE + req.getPurapDocumentIdentifier() + KFSConstants.BLANK_SPACE + "(document Id " + req.getDocumentNumber() + ")", "Requisition Routed By User");
-            }
+            po.appSpecificRouteDocumentToUser(po.getDocumentHeader().getWorkflowDocument(), reqInitiator, getAdhocFyiAnnotation(po) + KFSConstants.BLANK_SPACE + req.getPurapDocumentIdentifier() + KFSConstants.BLANK_SPACE + "(document Id " + req.getDocumentNumber() + ")", "Requisition Routed By User");
+
 
             if(!PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_AMENDMENT_DOCUMENT.equalsIgnoreCase(currentDocumentTypeName)){
                 List<PurchaseOrderItem> items = po.getItemsActiveOnly();
@@ -1661,7 +1655,6 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                         accounts.add(line.getAccount());
                     }
                 }
-
                 for (Account account : accounts) {
                     String principalId = account.getAccountFiscalOfficerUser().getPrincipalId();
 
@@ -1681,12 +1674,6 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
                     }
                 }
-            }
-
-            if(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_AMENDMENT_DOCUMENT.equalsIgnoreCase(currentDocumentTypeName)){
-                String poInitiator =po.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId();
-                 po.appSpecificRouteDocumentToUser(po.getDocumentHeader().getWorkflowDocument(), poInitiator, "Notification of PurchaseOrder Initiator" + KFSConstants.BLANK_SPACE + po.getPurapDocumentIdentifier() + KFSConstants.BLANK_SPACE + "(document Id " + po.getDocumentNumber() + ")", "PurchaseOrder Routed By User");
-
             }
 
 
@@ -1849,6 +1836,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
      * @param vendor The VendorDetail object whose default address we'll obtain and set the fields.
      */
     protected void updateDefaultVendorAddress(VendorDetail vendor) {
+       
         VendorAddress defaultAddress = vendorService.getVendorDefaultAddress(vendor.getVendorHeaderGeneratedIdentifier(),vendor.getVendorDetailAssignedIdentifier(), vendor.getVendorHeader().getVendorType().getAddressType().getVendorAddressTypeCode(), "",false);
         if (defaultAddress != null) {
             if (defaultAddress.getVendorState() != null) {
@@ -2352,39 +2340,6 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         // reindex the document so that the app doc status gets updated in the results for the PO lookups.
         final DocumentAttributeIndexingQueue documentAttributeIndexingQueue = KewApiServiceLocator.getDocumentAttributeIndexingQueue();
         documentAttributeIndexingQueue.indexDocument(po.getDocumentNumber());
-
-    }
-
-    /**
-     * This method returns the document that can be used for comparison to determine the tabs that are edited
-     *
-     */
-    @Override
-    public PurchaseOrderDocument getPurchaseOrderDocumentForComparison(Integer id, String docNumber){
-        PurchaseOrderDocument result = null;
-        List<String> docNumbers =purchaseOrderDao.getPurchaseOrderDocumentNumbersForComparison(id, docNumber);
-         for(int i=0; i< docNumbers.size();i++) {
-
-                try {
-                    result= (PurchaseOrderDocument)SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(docNumbers.get(i));
-                    if(result.getDocumentHeader().getWorkflowDocument().isFinal() &&
-                            ((!result.getDocumentHeader().getWorkflowDocument().isDisapproved()) || ((!result.getDocumentHeader().getWorkflowDocument().isException())) ||
-                                    (!result.getDocumentHeader().getWorkflowDocument().isCanceled()))){
-                        return result;
-
-                    }
-                }
-                catch (WorkflowException ex) {
-                    LOG.error("getPurchaseOrderDocumentForComparison " + ex.getMessage(), ex);
-                    throw new RuntimeException("Exception encountered when performing getPurchaseOrderDocumentForComparison ",ex);
-                }
-
-
-        }
-
-        return null;
-
-
 
     }
 

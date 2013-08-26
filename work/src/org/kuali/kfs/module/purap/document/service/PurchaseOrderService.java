@@ -443,12 +443,4 @@ public interface PurchaseOrderService extends PurchasingDocumentSpecificService 
     */
 
     public void sendAdhocFyi(PurchaseOrderDocument po);
-
-    /**
-     *
-     * This method retrieves the Purchaser order document to determine whether the current PO is edited
-     * @param id the PO id of the current Purchaser Order Document
-     * @return
-     */
-    public PurchaseOrderDocument getPurchaseOrderDocumentForComparison(Integer id, String docNumber);
 }

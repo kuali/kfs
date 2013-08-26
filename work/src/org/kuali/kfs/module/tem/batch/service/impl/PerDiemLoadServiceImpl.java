@@ -502,7 +502,7 @@ public class PerDiemLoadServiceImpl implements PerDiemLoadService {
      */
     protected <T extends PerDiem> boolean shouldProcess(T perDiem) {
         final Collection<String> bypassStateCountryCodes = getParameterService().getParameterValuesAsString(PerDiemLoadStep.class, TemConstants.PerDiemParameter.BYPASS_STATE_OR_COUNTRY_CODES);
-        return (bypassStateCountryCodes == null || bypassStateCountryCodes.isEmpty() || !bypassStateCountryCodes.contains(perDiem.getPrimaryDestination().getRegion().getRegionName()));
+        return (bypassStateCountryCodes == null || bypassStateCountryCodes.isEmpty() || !bypassStateCountryCodes.contains(perDiem.getPrimaryDestination().getRegion().getRegionCode()));
     }
 
     /**

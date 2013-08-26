@@ -134,7 +134,8 @@ public class TravelAuthorizationServiceImpl implements TravelAuthorizationServic
 
                 if (ObjectUtils.isNull(customer)) {
                   customer = createNewCustomer(profile);
-
+                  // associate customer with traveler
+                  travelAuthorizationDocument.getTraveler().setCustomerNumber(customer.getCustomerNumber());
                 }
 
                 createCustomerInvoiceFromAdvance(travelAuthorizationDocument, travelAuthorizationDocument.getTravelAdvance(), amount);
@@ -567,6 +568,7 @@ public class TravelAuthorizationServiceImpl implements TravelAuthorizationServic
         newCustNumber = newCustNumber.toUpperCase();
         profile.setCustomerNumber(newCustNumber);
         profile.getCustomer().setCustomerNumber(newCustNumber);
+        businessObjectService.save(profile);
 
         //Set to customer type code to travel and make the customer active
         String customerTypeCode = "";

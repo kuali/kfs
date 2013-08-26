@@ -598,13 +598,13 @@ public class PerDiemExpense extends PersistableBusinessObjectBase {
         refreshPerDiem();
         if (!personal && this.perDiem != null) {
             if (breakfast) {
-                total = total.add(new KualiDecimal(this.perDiem.getBreakfast()));
+                total = total.add(this.perDiem.getBreakfast());
             }
             if (lunch) {
-                total = total.add(new KualiDecimal(this.perDiem.getLunch()));
+                total = total.add(this.perDiem.getLunch());
             }
             if (dinner) {
-                total = total.add(new KualiDecimal(this.perDiem.getDinner()));
+                total = total.add(this.perDiem.getDinner());
             }
 
             // finally add in the incidentals

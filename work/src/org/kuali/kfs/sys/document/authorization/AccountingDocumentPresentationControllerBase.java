@@ -24,13 +24,11 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSConstants.RouteLevelNames;
-import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.KfsAuthorizationConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
-import org.kuali.kfs.sys.document.AccountingDocumentBase;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.document.Document;
@@ -50,47 +48,6 @@ public class AccountingDocumentPresentationControllerBase extends LedgerPostingD
 
         return editModes;
     }
-
-    /**
-     * Overrides the method in FinancialSystemTransactionalDocumentPresentationControllerBase
-     * to add that if the user is not an initiator of the document, but is a fiscal officer
-     * of at least one of the accounting lines used in the document, then the user can view
-     * the secured field without any masking.
-     *
-     * @see org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentPresentationControllerBase#canViewSecuredField(org.kuali.rice.kns.document.Document)
-     */
-    @Override
-    public boolean canViewSecuredField(Document document) {
-        if (super.canViewSecuredField(document)) {
-            return true;
-        }
-        else if(document instanceof AccountingDocumentBase) {
-            String currentUser = GlobalVariables.getUserSession().getPrincipalId();
-            List<AccountingLine> sourceAccountingLines = ((AccountingDocument) document).getSourceAccountingLines();
-            for (AccountingLine accountingLine : sourceAccountingLines) {
-                if(ObjectUtils.isNull(accountingLine.getAccount().getAccountFiscalOfficerSystemIdentifier())){
-                    accountingLine.refreshReferenceObject(KFSPropertyConstants.ACCOUNT);
-                }
-                if (accountingLine.getAccount().getAccountFiscalOfficerUser().getPrincipalId().equals(currentUser)) {
-                    return true;
-                }
-            }
-            List<AccountingLine> targetAccountingLines = ((AccountingDocument) document).getTargetAccountingLines();
-            for (AccountingLine accountingLine : targetAccountingLines) {
-                if(ObjectUtils.isNull(accountingLine.getAccount().getAccountFiscalOfficerSystemIdentifier())){
-                    accountingLine.refreshReferenceObject(KFSPropertyConstants.ACCOUNT);
-                }
-                if (accountingLine.getAccount().getAccountFiscalOfficerUser().getPrincipalId().equals(currentUser)) {
-                    return true;
-                }
-            }
-            return false;
-        }else{
-            return false;
-        }
-    }
-
-
 
     // add expense entry edit mode when the given document is enroute for account review
     protected void addExpenseEntryEditMode(Document document, Set<String> editModes) {

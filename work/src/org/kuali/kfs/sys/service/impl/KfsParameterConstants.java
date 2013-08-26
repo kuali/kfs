@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.sys.service.impl;
 
-import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants.COMPONENT;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants.NAMESPACE;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -49,7 +48,7 @@ public class KfsParameterConstants  {
     @COMPONENT(component = BATCH_COMPONENT)
     public final class NERVOUS_SYSTEM_BATCH {
     }
-    
+
     public static final String FINANCIAL_NAMESPACE_PREFIX = "KFS-";
     public static final String FINANCIAL_SYSTEM_NAMESPACE = FINANCIAL_NAMESPACE_PREFIX + "SYS";
     public static final String ACCOUNTS_RECEIVABLE_NAMESPACE = FINANCIAL_NAMESPACE_PREFIX + "AR";
@@ -208,7 +207,7 @@ public class KfsParameterConstants  {
     @COMPONENT(component = BATCH_COMPONENT)
     public final class CHART_BATCH {
     }
-    
+
     @NAMESPACE(namespace = EFFORT_REPORTING_NAMESPACE)
     @COMPONENT(component = ALL_COMPONENT)
     public final class EFFORT_REPORTING_ALL {
@@ -248,7 +247,7 @@ public class KfsParameterConstants  {
     @COMPONENT(component = BATCH_COMPONENT)
     public final class ENDOWMENT_BATCH {
     }
-    
+
     @NAMESPACE(namespace = FINANCIAL_PROCESSING_NAMESPACE)
     @COMPONENT(component = ALL_COMPONENT)
     public final class FINANCIAL_PROCESSING_ALL {
@@ -376,4 +375,6 @@ public class KfsParameterConstants  {
         public static final String FISCAL_PERIOD_SELECTION_DOCUMENT_TYPES = "FISCAL_PERIOD_SELECTION_DOCUMENT_TYPES";
         public static final String NUMBER_OF_POSTBACK_PERIODS = "NUMBER_OF_POSTBACK_PERIODS";
     }
+
+    public static final String INSTITUTION_NAME = "INSTITUTION_NAME";
 }

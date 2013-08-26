@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.module.tem.report.service.impl;
 
-import static org.kuali.kfs.module.tem.TemConstants.Report.TRAVEL_REPORT_INSTITUTION_NAME;
 import static org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters.FAX_NUMBER;
 import static org.kuali.kfs.sys.KFSConstants.ReportGeneration.PDF_FILE_EXTENSION;
 
@@ -48,6 +47,7 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.report.ReportInfo;
 import org.kuali.kfs.sys.service.ReportGenerationService;
+import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kim.api.identity.Person;
@@ -71,7 +71,7 @@ public class NonEmployeeCertificationReportServiceImpl implements NonEmployeeCer
 
         report.setTripId(travelDocument.getTravelDocumentIdentifier().toString());
         report.setPurpose(travelDocument.getReportPurpose() == null ? "" : travelDocument.getReportPurpose());
-        report.setInstitution(getParameterService().getParameterValueAsString(TravelReimbursementDocument.class, TRAVEL_REPORT_INSTITUTION_NAME));
+        report.setInstitution(getParameterService().getParameterValueAsString(KfsParameterConstants.FINANCIAL_SYSTEM_ALL.class, KfsParameterConstants.INSTITUTION_NAME));
         report.setCertificationDescription(getTravelDocumentService().getMessageFrom(TemKeyConstants.TEM_NON_EMPLOYEE_CERTIFICATION,report.getInstitution() ));
 
         report.setDocumentId(travelDocument.getTravelDocumentIdentifier().toString());

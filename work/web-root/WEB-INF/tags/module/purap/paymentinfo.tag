@@ -24,10 +24,9 @@
 <c:set var="fullEntryMode" value="${KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT] && (empty KualiForm.editingMode['restrictFiscalEntry'])}" />
 <c:set var="amendmentEntry" value="${(!empty KualiForm.editingMode['amendmentEntry'])}" />
 <c:set var="lockB2BEntry" value="${(not empty KualiForm.editingMode['lockB2BEntry'])}" />
-<c:set var="tabEdited" value="${(not empty KualiForm.editingMode['paymentTabEdited'])}" />
 <c:set var="tabindexOverrideBase" value="70" />
 
-<kul:tab tabTitle="Payment Info" defaultOpen="false" highlightTab="${tabEdited}" tabErrorKey="${PurapConstants.PAYMENT_INFO_TAB_ERRORS}">
+<kul:tab tabTitle="Payment Info" defaultOpen="false" tabErrorKey="${PurapConstants.PAYMENT_INFO_TAB_ERRORS}">
     <div class="tab-container" align=center>
 
     <c:if test="${!lockB2BEntry}" >

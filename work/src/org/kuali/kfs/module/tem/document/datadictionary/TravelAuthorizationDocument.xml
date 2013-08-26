@@ -135,7 +135,7 @@
 	</bean>
   
 	<bean id="TravelAuthorizationDocument-tripTypeCode" parent="TravelAuthorizationDocument-tripTypeCode-parentBean" />
-	<bean id="TravelAuthorizationDocument-tripTypeCode-parentBean" abstract="true" parent="PrimaryDestination-tripTypeCode">
+	<bean id="TravelAuthorizationDocument-tripTypeCode-parentBean" abstract="true" parent="TemRegion-tripTypeCode">
 		<property name="control">
 			<bean parent="SelectControlDefinition"
 				p:valuesFinderClass="org.kuali.kfs.module.tem.businessobject.options.TripTypeValuesFinder"
@@ -180,7 +180,7 @@
     <bean id="TravelAuthorizationDocument-primaryDestinationName-parentBean" abstract="true" parent="PrimaryDestination-primaryDestinationName" />
     
     <bean id="TravelAuthorizationDocument-primaryDestinationCountryState" parent="TravelAuthorizationDocument-primaryDestinationCountryState-parentBean" />
-    <bean id="TravelAuthorizationDocument-primaryDestinationCountryState-parentBean" abstract="true" parent="PrimaryDestination-countryState">
+    <bean id="TravelAuthorizationDocument-primaryDestinationCountryState-parentBean" abstract="true" parent="TemRegion-regionName">
         <property name="name" value="primaryDestinationCountryState" />
         <property name="label" value="Primary Destination Country/State" />
         <property name="shortLabel" value="Primary Destination Country/State" />
@@ -349,7 +349,7 @@
             </entry>  
             <entry>
                 <key><value>org.kuali.kfs.sys.document.validation.event.AddAccountingLineEvent</value></key>
-                <value>TravelModule-addAccountingLineValidation</value>
+                <value>TravelAuthorizationDocument-addAccountingLineValidation</value>
             </entry> 
             <entry>
                 <key><value>org.kuali.kfs.sys.document.validation.event.DeleteAccountingLineEvent</value></key>

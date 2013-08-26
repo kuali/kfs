@@ -68,7 +68,7 @@ public class TEMSecurityAttribute extends SensitiveDataSecurityAttribute {
     public TravelDocument getDocument(String documentNumber) {
         TravelDocument document = null;
         try {
-            document = (TravelDocument) getDocumentService().getByDocumentHeaderId(documentNumber);
+            document = (TravelDocument) getDocumentService().getByDocumentHeaderIdSessionless(documentNumber);
         }
         catch (WorkflowException ex) {
             throw new RuntimeException(ex);

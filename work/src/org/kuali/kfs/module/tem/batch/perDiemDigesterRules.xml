@@ -25,13 +25,13 @@
         <pattern value="record">  
             <object-create-rule classname="org.kuali.kfs.module.tem.batch.businessobject.PerDiemForLoad" />
 
-		 	<call-method-rule pattern="state_alpha" methodname="setCountryState" paramcount="0" />
-		 	<call-method-rule pattern="state_name" methodname="setCountryStateName" paramcount="0"/>
-			<call-method-rule pattern="country_code" methodname="setCountryState" paramcount="0" />
-			<call-method-rule pattern="country_name" methodname="setCountryStateName" paramcount="0" />
+		 	<call-method-rule pattern="state_alpha" methodname="setRegionCode" paramcount="0" />
+		 	<call-method-rule pattern="state_name" methodname="setRegionName" paramcount="0"/>
+			<call-method-rule pattern="country_code" methodname="setRegionCode" paramcount="0" />
+			<call-method-rule pattern="country_name" methodname="setRegionName" paramcount="0" />
 		
 			<call-method-rule pattern="conus_ind" methodname="setConusIndicator" paramcount="0" />
-			<call-method-rule pattern="location_name" methodname="setPrimaryDestination" paramcount="0" />
+			<call-method-rule pattern="location_name" methodname="setPrimaryDestinationName" paramcount="0" />
 			<call-method-rule pattern="other_location" methodname="setCounty" paramcount="0" />
 		
 			<call-method-rule pattern="eff_date" methodname="setEffectiveDateAsString" paramcount="0" />

@@ -17,6 +17,7 @@ package org.kuali.kfs.module.tem.document.authorization;
 
 import org.kuali.kfs.module.tem.document.TravelRelocationDocument;
 import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 
 public class TravelRelocationAuthorizer extends TravelArrangeableAuthorizer implements ReturnToFiscalOfficerAuthorizer {
@@ -28,10 +29,14 @@ public class TravelRelocationAuthorizer extends TravelArrangeableAuthorizer impl
      * @return
      */
     public boolean canCertify(final TravelRelocationDocument relocation, Person user) {
-        if (user.getPrincipalId().equals(relocation.getTraveler().getPrincipalId())
+        if(ObjectUtils.isNull(relocation.getTraveler())) {
+            return false;
+        }
+        else if (user.getPrincipalId().equals(relocation.getTraveler().getPrincipalId())
             || !isEmployee(relocation.getTraveler())) {
             return true;
         }
+
         return false;
     }
 

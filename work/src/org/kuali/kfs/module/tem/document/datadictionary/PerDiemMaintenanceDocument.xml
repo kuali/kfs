@@ -31,11 +31,7 @@
 		<property name="title" value="Edit PerDiem" />
 		<property name="maintainableItems"><list>
 			<bean parent="MaintainableFieldDefinition" p:name="id" p:required="false"/>
-			<bean parent="MaintainableFieldDefinition" p:name="tripTypeCode" p:required="true"/>
-			<bean parent="MaintainableFieldDefinition" p:name="countryState" p:required="true"/>
-			<!-- <bean parent="MaintainableFieldDefinition" p:name="countryStateName" p:required="true"/> -->
-			<bean parent="MaintainableFieldDefinition" p:name="county" p:required="true"/>
-			<bean parent="MaintainableFieldDefinition" p:name="primaryDestination" p:required="true"/>
+			<bean parent="MaintainableFieldDefinition" p:name="primaryDestinationId" p:required="true"/>
 			<bean parent="MaintainableFieldDefinition" p:name="seasonBeginDate" p:required="false"/>
 			<bean parent="MaintainableFieldDefinition" p:name="effectiveFromDate" p:required="false"/>
 			<bean parent="MaintainableFieldDefinition" p:name="effectiveToDate" p:required="false"/>

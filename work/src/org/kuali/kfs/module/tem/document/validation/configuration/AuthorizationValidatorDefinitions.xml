@@ -40,6 +40,7 @@
 	<bean id="TravelAuthorization-routeDocumentValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
 		<property name="validations">
 			<list>
+				<bean parent="TravelAuthorizationDocument-advanceObjectCodeValidation" scope="prototype"/>
                 <bean parent="TravelAuthorization-oneSidedRequiredAccountingLinesCountValidation" scope="prototype" />
 				<bean parent="TravelModule-accommodationInfoRequiredValidation" scope="prototype" />
 				<bean parent="TravelModule-tripDetailEstimateGreaterThanZeroValidation" scope="prototype" />
@@ -195,10 +196,22 @@
     	</property>
     </bean>
     
+    <!-- Add Accounting Line Event -->  
+    <bean id="TravelAuthorizationDocument-addAccountingLineValidation" parent="TravelAuthorizationDocument-addAccountingLineValidation-parentBean" scope="prototype" />
+    <bean id="TravelAuthorizationDocument-addAccountingLineValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
+        <property name="validations">
+            <list>
+            	<bean parent="TravelAuthorizationDocument-advanceObjectCodeValidation" scope="prototype"/>
+                <bean parent="TravelModule-addAccountingLine-failFastValidation" scope="prototype" />
+            </list>
+        </property>
+    </bean> 
+    
     <!-- Update Accounting Line Event -->
     <bean id="TravelAuthorization-updateAccountingLine-failFastValidation" abstract="true" parent="CompositeValidation" scope="prototype">
         <property name="validations">
             <list>
+            	<bean parent="TravelAuthorizationDocument-advanceObjectCodeValidation" scope="prototype"/>
                 <bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype">
                     <property name="parameterProperties">
                         <bean parent="updatedAccountingLineToBusinessObjectFieldConversion" />
@@ -222,11 +235,11 @@
         <property name="validations">
             <list>
                 <bean parent="TravelAuthorization-updateAccountingLine-failFastValidation" scope="prototype" />
-                <bean parent="AccountingDocument-accountingLineAccessibleValidation" scope="prototype">
+                <bean parent="TravelAuthorizationDocument-accountingLineAccessibleValidation" scope="prototype">
                     <property name="parameterProperties">
                         <list>
                             <bean parent="accountingDocumentFieldConversion" />
-                            <bean parent="accountingLineFieldConversion" />
+                            <bean parent="updatedAccountingLineFieldConversion" />
                         </list>
                     </property>
                 </bean>                                        

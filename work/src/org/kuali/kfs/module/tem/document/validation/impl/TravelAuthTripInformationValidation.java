@@ -87,7 +87,7 @@ public class TravelAuthTripInformationValidation extends GenericValidation {
             if (!document.getPrimaryDestinationIndicator()){
                 PrimaryDestination destination = document.getPrimaryDestination();
                 //primary destination trip type code should match the document
-                if (!document.getTripTypeCode().equals(destination.getTripTypeCode())) {
+                if (!document.getTripTypeCode().equals(destination.getRegion().getTripTypeCode())) {
                     GlobalVariables.getMessageMap().putError(KFSConstants.DOCUMENT_PROPERTY_NAME + "." + TravelAuthorizationFields.TRIP_TYPE, TemKeyConstants.ERROR_TRIP_TYPE_CD_PRI_DEST_MISMATCH);
                     rulePassed = false;
                 }
@@ -96,7 +96,7 @@ public class TravelAuthTripInformationValidation extends GenericValidation {
             if (document.getDocumentHeader().getWorkflowDocument().getDocumentTypeName().equals(TemConstants.TravelDocTypes.TRAVEL_REIMBURSEMENT_DOCUMENT)) {
                 if (document.getTripType().getTravelAuthorizationRequired()) {
                     try {
-                        TravelAuthorizationDocument taDoc = (TravelAuthorizationDocument) getTravelDocumentService().findCurrentTravelAuthorization(document);
+                        TravelAuthorizationDocument taDoc = getTravelDocumentService().findCurrentTravelAuthorization(document);
                         if (taDoc == null) {
                             GlobalVariables.getMessageMap().putError(KFSConstants.DOCUMENT_ERRORS, KFSKeyConstants.ERROR_CUSTOM, "Travel Authorization Document is required for this Trip Type [" + document.getTripType().getCode() + "].");
                             rulePassed = false;

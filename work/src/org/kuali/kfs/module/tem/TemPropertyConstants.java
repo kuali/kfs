@@ -98,9 +98,7 @@ public class TemPropertyConstants {
     public static final String PRIMARY_DESTINATION_NAME = "primaryDestinationName";
 
     public static final String PER_DIEM_NAME = "primaryDestination";
-    public static final String PER_DIEM_COUNTY = "county";
     public static final String PER_DIEM_COUNTRY_STATE = "countryState";
-    public static final String PER_DIEM_COUNTRY_STATE_NAME = "countryStateName";
     //Temporary property key for lookup use
     public static final String PER_DIEM_LOOKUP_DATE = "perDiemDate";
 
@@ -289,6 +287,7 @@ public class TemPropertyConstants {
     public static final String SEASON_BEGIN_DATE = "seasonBeginDate";
     public static final String EFFECTIVE_FROM_DATE = "effectiveFromDate";
     public static final String PRIMARY_DESTINATION = "primaryDestination";
+    public static final String PRIMARY_DESTINATION_ID = "primaryDestinationId";
     public static final String COUNTY = "county";
     public static final String COUNTRY_STATE = "countryState";
     public static final String TRIP_TYPE = "tripType";

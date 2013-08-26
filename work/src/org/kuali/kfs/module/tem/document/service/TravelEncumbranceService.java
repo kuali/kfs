@@ -45,8 +45,9 @@ public interface TravelEncumbranceService {
      * disencumber values.
      *
      * @param document
+     * @param sequenceHelper the sequence helper which assigns sequence values to glpe's
      */
-    public void disencumberTravelReimbursementFunds(TravelReimbursementDocument document);
+    public void disencumberTravelReimbursementFunds(TravelReimbursementDocument document, GeneralLedgerPendingEntrySequenceHelper sequenceHelper);
 
     /**
      * This method creates GLPE to disencumber the funds that had already been encumbered.
@@ -89,7 +90,7 @@ public interface TravelEncumbranceService {
      */
     public void disencumberTravelAuthorizationClose(TravelAuthorizationCloseDocument document);
 
-    public void adjustEncumbranceForAmendment(TravelAuthorizationAmendmentDocument taDocument);
+    public void adjustEncumbranceForAmendment(TravelAuthorizationAmendmentDocument taDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper);
 
     /**
      * Find All related TA, TAA glpe's. Make sure they are not offsets(???) and not the current doc (this will be

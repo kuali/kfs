@@ -25,14 +25,14 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KfsAuthorizationConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.document.authorization.AccountingDocumentPresentationControllerBase;
+import org.kuali.kfs.sys.document.authorization.LedgerPostingDocumentPresentationControllerBase;
 import org.kuali.kfs.sys.service.FinancialSystemWorkflowHelperService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.util.GlobalVariables;
 
-public class CashReceiptDocumentPresentationController extends AccountingDocumentPresentationControllerBase {
+public class CashReceiptDocumentPresentationController extends LedgerPostingDocumentPresentationControllerBase {
     private static final String CASH_MANAGEMENT_NODE_NAME = "CashManagement";
 
     /**

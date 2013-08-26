@@ -43,7 +43,9 @@ import org.kuali.kfs.module.tem.businessobject.TravelAdvance;
 import org.kuali.kfs.module.tem.businessobject.TripType;
 import org.kuali.kfs.module.tem.document.service.AccountingDocumentRelationshipService;
 import org.kuali.kfs.module.tem.document.service.TravelAuthorizationService;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -574,9 +576,29 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
     public boolean generateDocumentGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
         boolean result = super.generateDocumentGeneralLedgerPendingEntries(sequenceHelper);
         if (isTripGenerateEncumbrance()) {
-            getTravelEncumbranceService().disencumberTravelReimbursementFunds(this);
+            getTravelEncumbranceService().disencumberTravelReimbursementFunds(this, sequenceHelper);
         }
+        getTravelReimbursementService().generateEntriesForAdvances(this, sequenceHelper);
         return result;
+    }
+
+    /**
+     * Overridden to handle the explicit entries generated for travel advance clearing and crediting accounting lines
+     * @see org.kuali.kfs.module.tem.document.TEMReimbursementDocument#customizeExplicitGeneralLedgerPendingEntry(org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail, org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry)
+     */
+    @Override
+    public void customizeExplicitGeneralLedgerPendingEntry(GeneralLedgerPendingEntrySourceDetail postable, GeneralLedgerPendingEntry explicitEntry) {
+        super.customizeExplicitGeneralLedgerPendingEntry(postable, explicitEntry);
+        if (postable instanceof AccountingLine) {
+            final AccountingLine accountingLine = (AccountingLine)postable;
+            if (TemConstants.TRAVEL_ADVANCE_CLEARING_LINE_TYPE_CODE.equals(accountingLine.getFinancialDocumentLineTypeCode())) {
+                explicitEntry.setTransactionDebitCreditCode(KFSConstants.GL_DEBIT_CODE);
+                explicitEntry.setFinancialDocumentTypeCode(TemConstants.TravelDocTypes.TRAVEL_REIMBURSEMENT_TRAVEL_ADVANCES_DOCUMENT);
+            } else if (TemConstants.TRAVEL_ADVANCE_CREDITING_LINE_TYPE_CODE.equals(accountingLine.getFinancialDocumentLineTypeCode())) {
+                explicitEntry.setTransactionDebitCreditCode(KFSConstants.GL_CREDIT_CODE);
+                explicitEntry.setFinancialDocumentTypeCode(TemConstants.TravelDocTypes.TRAVEL_REIMBURSEMENT_TRAVEL_ADVANCES_DOCUMENT);
+            }
+        }
     }
 
     protected PersonService getPersonService() {

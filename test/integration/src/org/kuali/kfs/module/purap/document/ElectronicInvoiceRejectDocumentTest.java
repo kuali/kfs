@@ -22,7 +22,6 @@ import org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceLoadSummary;
 import org.kuali.kfs.module.purap.fixture.ElectronicInvoiceLoadSummaryFixture;
 import org.kuali.kfs.module.purap.fixture.ElectronicInvoiceRejectDocumentFixture;
 import org.kuali.kfs.module.purap.fixture.PurchaseOrderDocumentFixture;
-import org.kuali.kfs.module.purap.fixture.RequisitionDocumentFixture;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -226,14 +225,10 @@ public class ElectronicInvoiceRejectDocumentTest extends KualiTestBase {
 
     private Integer routePO() {
         PurchaseOrderDocumentTest purchaseOrderDocumentTest = new PurchaseOrderDocumentTest();
-        DocumentService documentService = SpringContext.getBean(DocumentService.class);
         PurchaseOrderDocument poDocument;
         try {
-            RequisitionDocument requisition =RequisitionDocumentFixture.REQ_ONLY_REQUIRED_FIELDS.createRequisitionDocument();
-            requisition.prepareForSave();
-            AccountingDocumentTestUtils.routeDocument(requisition, "saving copy source document", null, documentService);
             poDocument = PurchaseOrderDocumentFixture.PO_ONLY_REQUIRED_FIELDS.createPurchaseOrderDocument();
-            poDocument.setRequisitionIdentifier(requisition.getPurapDocumentIdentifier());
+            DocumentService documentService = SpringContext.getBean(DocumentService.class);
             poDocument.prepareForSave();
             AccountingDocumentTestUtils.routeDocument(poDocument, "saving copy source document", null, documentService);
             WorkflowTestUtils.waitForDocumentApproval(poDocument.getDocumentNumber());
@@ -248,14 +243,10 @@ public class ElectronicInvoiceRejectDocumentTest extends KualiTestBase {
 
     private Integer routeMatchingPO() {
         PurchaseOrderDocumentTest purchaseOrderDocumentTest = new PurchaseOrderDocumentTest();
-        DocumentService documentService = SpringContext.getBean(DocumentService.class);
         PurchaseOrderDocument poDocument;
         try {
-            RequisitionDocument requisition =RequisitionDocumentFixture.REQ_ONLY_REQUIRED_FIELDS.createRequisitionDocument();
-            requisition.prepareForSave();
-            AccountingDocumentTestUtils.routeDocument(requisition, "saving copy source document", null, documentService);
             poDocument = PurchaseOrderDocumentFixture.EINVOICE_PO.createPurchaseOrderDocument();
-            poDocument.setRequisitionIdentifier(requisition.getPurapDocumentIdentifier());
+            DocumentService documentService = SpringContext.getBean(DocumentService.class);
             poDocument.prepareForSave();
             AccountingDocumentTestUtils.routeDocument(poDocument, "saving copy source document", null, documentService);
             WorkflowTestUtils.waitForDocumentApproval(poDocument.getDocumentNumber());

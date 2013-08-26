@@ -15,8 +15,14 @@
  */
 package org.kuali.kfs.fp.document.authorization;
 
-import org.kuali.kfs.sys.document.authorization.AccountingDocumentPresentationControllerBase;
+import java.util.Set;
 
-public class TransferOfFundsDocumentPresentationController extends AccountingDocumentPresentationControllerBase{
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.document.AmountTotaling;
+import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocument;
+import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentPresentationControllerBase;
+import org.kuali.rice.krad.document.Document;
+
+public class TransferOfFundsDocumentPresentationController extends FinancialSystemTransactionalDocumentPresentationControllerBase{
 
 }

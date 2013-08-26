@@ -16,7 +16,7 @@
 <%@ include file="/jsp/sys/kfsTldHeader.jsp"%>
 
 <kul:documentPage showDocumentInfo="true"
-    documentTypeName="${KualiForm.document.class.simpleName}"
+    documentTypeName="PurchaseOrderDocument"
     htmlFormAction="purapPurchaseOrder" renderMultipart="true"
     showTabButtons="true">
 
@@ -41,25 +41,7 @@
     <c:if test="${!empty KualiForm.editingMode['splittingItemSelection']}">
     	<c:set var="splittingItemSelectionMode" value="true" scope="request"/>
     </c:if>
-    
-    <c:set var="itemsTabEdited" value="${!empty KualiForm.editingMode['itemsTabEdited']}" scope="request"/>
-	
-	<c:set var="camsTabEdited" value="${!empty KualiForm.editingMode['camsTabEdited']}" scope="request"/>
-
-	<c:set var="stipulationTabEdited" value="${!empty KualiForm.editingMode['stipulationTabEdited']}" scope="request"/>
-
-	
-    <c:set var="additionalTabEdited" value="${!empty KualiForm.editingMode['additionalTabEdited']}" scope="request"/>
-
-	<c:set var="deliveryTabEdited" value="${!empty KualiForm.editingMode['deliveryTabEdited']}" scope="request"/>
-	
-	<c:set var="vendorTabEdited" value="${!empty KualiForm.editingMode['vendorTabEdited']}" scope="request"/>
-	
-	<c:set var="paymentTabEdited" value="${!empty KualiForm.editingMode['paymentTabEdited']}" scope="request"/>
-	
-	<c:set var="quoteTabEdited" value="${!empty KualiForm.editingMode['quoteTabEdited']}" scope="request"/>
-	
-	     
+         
     <c:if test="${KualiForm.document.needWarning}">
     	<font color="black"><bean:message key="${PurapConstants.WARNING_PURCHASEORDER_NUMBER_DONT_DISCLOSE}" /></font>
     	<br><br>

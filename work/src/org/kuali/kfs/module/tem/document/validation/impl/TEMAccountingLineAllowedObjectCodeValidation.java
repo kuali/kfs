@@ -72,7 +72,8 @@ public class TEMAccountingLineAllowedObjectCodeValidation extends GenericValidat
         else{
             line = (TemSourceAccountingLine) ((AccountingLineEvent)event).getAccountingLine();
         }
-        List errors = GlobalVariables.getMessageMap().getErrorPath();
+        List<String> holdErrors = new ArrayList<String>();
+        holdErrors.addAll(GlobalVariables.getMessageMap().getErrorPath());
         GlobalVariables.getMessageMap().clearErrorPath();
         TravelDocument travelDocument = (TravelDocument) event.getDocument();
 
@@ -207,7 +208,7 @@ public class TEMAccountingLineAllowedObjectCodeValidation extends GenericValidat
 
 
         GlobalVariables.getMessageMap().clearErrorPath();
-        GlobalVariables.getMessageMap().getErrorPath().addAll(errors);
+        GlobalVariables.getMessageMap().getErrorPath().addAll(holdErrors);
 
         return valid;
     }

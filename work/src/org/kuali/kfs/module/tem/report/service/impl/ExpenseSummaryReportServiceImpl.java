@@ -15,9 +15,8 @@
  */
 package org.kuali.kfs.module.tem.report.service.impl;
 
-import static org.kuali.kfs.module.tem.TemConstants.Report.TRAVEL_REPORT_INSTITUTION_NAME;
-import static org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters.LODGING_TYPE_CODES;
 import static org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters.DISPLAY_TRAVEL_AUTHORIZATION_ESTIMATE_IN_SUMMARY_REPORT_IND;
+import static org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters.LODGING_TYPE_CODES;
 import static org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters.TRANSPORTATION_TYPE_CODES;
 
 import java.util.ArrayList;
@@ -38,6 +37,7 @@ import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
 import org.kuali.kfs.module.tem.report.ExpenseSummaryReport;
 import org.kuali.kfs.module.tem.report.service.ExpenseSummaryReportService;
 import org.kuali.kfs.module.tem.service.AccountingDistributionService;
+import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.kfs.sys.util.KfsDateUtils;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
@@ -95,7 +95,7 @@ public class ExpenseSummaryReportServiceImpl implements ExpenseSummaryReportServ
         retval.setLocations(travelDocument.getPrimaryDestinationName());
         retval.setPurpose(travelDocument.getReportPurpose() == null ? "" : travelDocument.getReportPurpose());
         retval.setTripId(travelDocument.getTravelDocumentIdentifier() + "");
-        retval.setInstitution(getParameterService().getParameterValueAsString(TravelReimbursementDocument.class, TRAVEL_REPORT_INSTITUTION_NAME));
+        retval.setInstitution(getParameterService().getParameterValueAsString(KfsParameterConstants.FINANCIAL_SYSTEM_ALL.class, KfsParameterConstants.INSTITUTION_NAME));
 
         final Collection<ExpenseSummaryReport.Detail> expenses = new ArrayList<ExpenseSummaryReport.Detail>();
         final Collection<ExpenseSummaryReport.Detail> summary = new ArrayList<ExpenseSummaryReport.Detail>();

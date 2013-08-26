@@ -182,14 +182,14 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
         expense.setMileageDate(ts);
 
         PerDiem perDiem = expense.getPerDiem();
-        expense.setPrimaryDestination(perDiem.getPrimaryDestination());
-        expense.setCountryState(perDiem.getCountryState());
-        expense.setCounty(perDiem.getCounty());
+        expense.setPrimaryDestination(perDiem.getPrimaryDestination().getPrimaryDestinationName());
+        expense.setCountryState(perDiem.getPrimaryDestination().getRegion().getRegionName());
+        expense.setCounty(perDiem.getPrimaryDestination().getCounty());
 
         //default first to per diem's values
-        expense.setBreakfastValue(new KualiDecimal(perDiem.getBreakfast()));
-        expense.setLunchValue(new KualiDecimal(perDiem.getLunch()));
-        expense.setDinnerValue(new KualiDecimal(perDiem.getDinner()));
+        expense.setBreakfastValue(perDiem.getBreakfast());
+        expense.setLunchValue(perDiem.getLunch());
+        expense.setDinnerValue(perDiem.getDinner());
         expense.setIncidentalsValue(perDiem.getIncidentals());
         // if prorated, recalculate the values
         if(expense.isProrated()){
@@ -264,10 +264,10 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
 
         Map<String,Object> fieldValues = new HashMap<String, Object>();
         // Gather all primary destination info
-        fieldValues.put(TemPropertyConstants.PER_DIEM_NAME, document.getPrimaryDestinationName());
-        fieldValues.put(TemPropertyConstants.PER_DIEM_COUNTRY_STATE, document.getPrimaryDestinationCountryState());
-        fieldValues.put(TemPropertyConstants.PER_DIEM_COUNTY, document.getPrimaryDestinationCounty());
-        fieldValues.put(TemPropertyConstants.TRIP_TYPE, document.getTripTypeCode());
+        fieldValues.put(TemPropertyConstants.PRIMARY_DESTINATION_ID, document.getPrimaryDestinationId());
+//        fieldValues.put(TemPropertyConstants.PER_DIEM_COUNTRY_STATE, document.getPrimaryDestinationCountryState());
+//        fieldValues.put(TemPropertyConstants.PER_DIEM_COUNTY_CODE, document.getPrimaryDestinationCounty());
+        //fieldValues.put(TemPropertyConstants.TRIP_TYPE_CODE, document.getTripTypeCode());
         fieldValues.put(KFSPropertyConstants.ACTIVE, KFSConstants.ACTIVE_INDICATOR);
 
         // find a valid per diem for each date.  If per diem is null, make it a custom per diem.
@@ -277,11 +277,11 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
             if (perDiem == null){
                 perDiem = new PerDiem();
                 perDiem.setId(TemConstants.CUSTOM_PER_DIEM_ID);
-                perDiem.setCountryState(document.getPrimaryDestinationCountryState());
-                perDiem.setCounty(document.getPrimaryDestinationCounty());
-                perDiem.setPrimaryDestination(document.getPrimaryDestinationName());
-                perDiem.setTripType(document.getTripType());
-                perDiem.setTripTypeCode(document.getTripTypeCode());
+                perDiem.getPrimaryDestination().getRegion().setRegionName(document.getPrimaryDestinationCountryState());
+                perDiem.getPrimaryDestination().setCounty(document.getPrimaryDestinationCounty());
+                perDiem.setPrimaryDestination(document.getPrimaryDestination());
+                perDiem.getPrimaryDestination().getRegion().setTripType(document.getTripType());
+                perDiem.getPrimaryDestination().getRegion().setTripTypeCode(document.getTripTypeCode());
             }
             perDiemList.add(perDiem);
         }
@@ -393,7 +393,9 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
             fieldValues.put(TemPropertyConstants.TRIP_TYPE_CODE, document.getTripTypeCode());
         }
         fieldValues.put(KFSPropertyConstants.DOCUMENT_TYPE, documentType);
-        fieldValues.put(TemPropertyConstants.TRVL_DOC_TRAVELER_TYP_CD, document.getTraveler().getTravelerTypeCode());
+        if (ObjectUtils.isNotNull(document.getTraveler().getTravelerTypeCode())) {
+            fieldValues.put(TemPropertyConstants.TRVL_DOC_TRAVELER_TYP_CD, document.getTraveler().getTravelerTypeCode());
+        }
         fieldValues.put(KFSPropertyConstants.ACTIVE, KFSConstants.ACTIVE_INDICATOR);
 
         final Collection<MileageRateObjCode> mileageRateObjectCodes = SpringContext.getBean(BusinessObjectService.class).findMatching(MileageRateObjCode.class,fieldValues);
@@ -480,7 +482,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
         if (!documentNumbers.isEmpty()) {
             for (String documentHeaderId : documentNumbers) {
                 try{
-                    Document doc = documentService.getByDocumentHeaderId(documentHeaderId);
+                    Document doc = documentService.getByDocumentHeaderIdSessionless(documentHeaderId);
                     if (doc != null) {
                         Class<? extends Document> clazz = doc.getClass();
 

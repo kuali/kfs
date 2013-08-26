@@ -53,8 +53,6 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.kew.api.WorkflowDocument;
-import org.kuali.rice.kew.api.doctype.DocumentType;
-import org.kuali.rice.kew.api.doctype.DocumentTypeService;
 import org.kuali.rice.kew.api.document.DocumentStatusCategory;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.services.IdentityManagementService;
@@ -323,7 +321,6 @@ public class PurchaseOrderForm extends PurchasingFormBase {
 
         //KFSMI-4576 masking/unmasking PO number...
         //If the document status is not FINAL then check for permissions
-        DocumentTypeService documentTypeService = SpringContext.getBean(DocumentTypeService.class);
         if (!workflowDocument.getStatus().getCategory().equals(DocumentStatusCategory.SUCCESSFUL)) {
             String principalId = GlobalVariables.getUserSession().getPerson().getPrincipalId();
             String namespaceCode = KFSConstants.ParameterNamespaces.KNS;
@@ -337,11 +334,9 @@ public class PurchaseOrderForm extends PurchasingFormBase {
 
             IdentityManagementService identityManagementService = SpringContext.getBean(IdentityManagementService.class);
             Boolean isAuthorized = identityManagementService.isAuthorizedByTemplateName(principalId, namespaceCode, permissionTemplateName, permissionDetails, roleQualifiers);
-            DocumentType docType=documentTypeService.getDocumentTypeById(workflowDocument.getDocumentTypeId());
 
             //principalId is not authorized to see the PO number so mask the value.
-            if (!isAuthorized && ObjectUtils.isNotNull(docType) && (PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_DOCUMENT.equalsIgnoreCase(docType.getName())
-                    || PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_SPLIT_DOCUMENT.equalsIgnoreCase(docType.getName()))) {
+            if (!isAuthorized) {
                 DataDictionaryService dataDictionaryService = SpringContext.getBean(DataDictionaryService.class);
                 if (ObjectUtils.isNotNull(getPurchaseOrderDocument().getPurapDocumentIdentifier())) {
                     poIDstr = "";
@@ -582,9 +577,8 @@ public class PurchaseOrderForm extends PurchasingFormBase {
         }
         else {
             // for NON_APO use authorization for PurchaseOrderDocument, which is purchasing user
-              can = (documentAuthorizer.canInitiate(KFSConstants.FinancialDocumentTypeCodes.PURCHASE_ORDER, GlobalVariables.getUserSession().getPerson()) ||
+            can = (documentAuthorizer.canInitiate(KFSConstants.FinancialDocumentTypeCodes.PURCHASE_ORDER, GlobalVariables.getUserSession().getPerson()) ||
                     documentAuthorizer.canInitiate(KFSConstants.FinancialDocumentTypeCodes.CONTRACT_MANAGER_ASSIGNMENT, GlobalVariables.getUserSession().getPerson()));        }
-     
 
         return can;
     }
@@ -634,8 +628,6 @@ public class PurchaseOrderForm extends PurchasingFormBase {
 
         // can't split a SplitPO Document, according to new specs
         can = can && !(getPurchaseOrderDocument() instanceof PurchaseOrderSplitDocument);
-
-        can = can && !(getPurchaseOrderDocument() instanceof PurchaseOrderAmendmentDocument);
 
         // can't initiate another split during the splitting process.
         can = can && !editingMode.containsKey(PurapAuthorizationConstants.PurchaseOrderEditMode.SPLITTING_ITEM_SELECTION);
@@ -810,12 +802,6 @@ public class PurchaseOrderForm extends PurchasingFormBase {
         cancelSensitiveDataButton.setExtraButtonSource("${" + KFSConstants.RICE_EXTERNALIZABLE_IMAGES_URL_KEY + "}buttonsmall_cancel.gif");
         cancelSensitiveDataButton.setExtraButtonAltText("Cancel sensitive data assignment");
 
-        ExtraButton disapprovePOAButton = new ExtraButton();
-        disapprovePOAButton.setExtraButtonProperty("methodToCall.disapprove");
-        disapprovePOAButton.setExtraButtonSource("${" + KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY + "}buttonsmall_disapprovePOA.gif");
-        disapprovePOAButton.setExtraButtonAltText("Disapprove POA");
-
-
         result.put(retransmitButton.getExtraButtonProperty(), retransmitButton);
         result.put(printingRetransmitButton.getExtraButtonProperty(), printingRetransmitButton);
         result.put(printingPreviewButton.getExtraButtonProperty(), printingPreviewButton);
@@ -834,8 +820,6 @@ public class PurchaseOrderForm extends PurchasingFormBase {
         result.put(submitSensitiveDataButton.getExtraButtonProperty(), submitSensitiveDataButton);
         result.put(cancelSensitiveDataButton.getExtraButtonProperty(), cancelSensitiveDataButton);
         result.put(resendPoCxmlButton.getExtraButtonProperty(), resendPoCxmlButton);
-        result.put(disapprovePOAButton.getExtraButtonProperty(), disapprovePOAButton);
-
 
         return result;
     }
@@ -921,24 +905,7 @@ public class PurchaseOrderForm extends PurchasingFormBase {
             extraButtons.add((ExtraButton) buttonsMap.get("methodToCall.cancelPurchaseOrderSplit"));
         }
 
-        if (canDisapprovePOA()) {
-            extraButtons.add((ExtraButton) buttonsMap.get("methodToCall.disapprove"));
-            this.getDocumentActions().remove(KRADConstants.KUALI_ACTION_CAN_DISAPPROVE);
-        }
-
-
-
         return extraButtons;
-    }
-
-
-    protected boolean canDisapprovePOA() {
-        if (getEditingMode().containsKey("disapprovePOA")) {
-            return true;
-        }
-        else {
-            return false;
-        }
     }
 
 }

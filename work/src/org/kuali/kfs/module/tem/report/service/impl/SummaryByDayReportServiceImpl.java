@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.module.tem.report.service.impl;
 
-import static org.kuali.kfs.module.tem.TemConstants.Report.TRAVEL_REPORT_INSTITUTION_NAME;
 import static org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters.LODGING_TYPE_CODES;
 import static org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters.TRANSPORTATION_TYPE_CODES;
 
@@ -37,6 +36,7 @@ import org.kuali.kfs.module.tem.document.TravelReimbursementDocument;
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
 import org.kuali.kfs.module.tem.report.SummaryByDayReport;
 import org.kuali.kfs.module.tem.report.service.SummaryByDayReportService;
+import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.kfs.sys.util.KfsDateUtils;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
@@ -85,7 +85,7 @@ public class SummaryByDayReportServiceImpl implements SummaryByDayReportService 
         retval.setEndDate(travelDocument.getTripEnd() != null ? KfsDateUtils.clearTimeFields(travelDocument.getTripEnd()) : new Date());
         retval.setTripId(travelDocument.getTravelDocumentIdentifier().toString());
         retval.setPurpose(travelDocument.getReportPurpose() == null ? "" : travelDocument.getReportPurpose());
-        retval.setInstitution(getParameterService().getParameterValueAsString(TravelReimbursementDocument.class, TRAVEL_REPORT_INSTITUTION_NAME));
+        retval.setInstitution(getParameterService().getParameterValueAsString(KfsParameterConstants.FINANCIAL_SYSTEM_ALL.class, KfsParameterConstants.INSTITUTION_NAME));
 
         travelDocument.refreshReferenceObject(TemPropertyConstants.ACTUAL_EXPENSES);
 

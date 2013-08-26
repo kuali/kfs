@@ -31,7 +31,6 @@
 <script language="javascript" src="dwr/interface/TravelAuthorizationService.js"></script>     
 <script language="javascript" src="scripts/module/tem/common.js"></script>
 
-	<tem-ta:dvNotFinalizedMessage/>
     <sys:documentOverview editingMode="${KualiForm.editingMode}" includeBankCode="true"
 	  bankProperty="document.financialDocumentBankCode" 
 	  bankObjectProperty="document.bank"
@@ -79,7 +78,7 @@
 		</kul:tab>
 	</c:if>
 	<c:if test="${KualiForm.showTravelAdvancesForTrip}">
-		<tem:travelAdvances />
+		<tem:travelAdvances tabTitle="All Advances"/>
 	</c:if>
     <c:if test="${KualiForm.editingMode['displayEmergencyContactTab']}">
 	    <tem-ta:emergencyContact />

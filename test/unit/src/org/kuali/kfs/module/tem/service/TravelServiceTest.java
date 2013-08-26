@@ -73,9 +73,9 @@ public class TravelServiceTest extends KualiTestBase{
                                 this.setMileageRate(rate);
                             } else if(refObject.equals("perDiem")) {
                                 PerDiem perDiem = new PerDiem();
-                                perDiem.setBreakfast(12);
-                                perDiem.setLunch(13);
-                                perDiem.setDinner(25);
+                                perDiem.setBreakfast(new KualiDecimal(12));
+                                perDiem.setLunch(new KualiDecimal(13));
+                                perDiem.setDinner(new KualiDecimal(25));
                                 perDiem.setIncidentals(new KualiDecimal(10));
                                 this.setPerDiem(perDiem);
                             }

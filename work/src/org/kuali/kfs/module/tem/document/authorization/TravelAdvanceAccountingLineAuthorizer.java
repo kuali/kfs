@@ -40,15 +40,10 @@ public class TravelAdvanceAccountingLineAuthorizer extends TEMAccountingLineAuth
      */
     @Override
     public boolean isGroupEditable(AccountingDocument accountingDocument, List<? extends AccountingLineRenderingContext> accountingLineRenderingContexts, Person currentUser) {
-        // do the doc numbers of the accounting lines match the doc number of the given document?  If not, these accounting lines
-        // are from a different document; they are not editable
-        if (areLinesFromAnotherDocument(accountingDocument, accountingLineRenderingContexts)) {
-            return false;
+        if (TemConstants.TravelStatusCodeKeys.AWAIT_FISCAL.equals(accountingDocument.getFinancialSystemDocumentHeader().getApplicationDocumentStatus())) {
+            return super.isGroupEditable(accountingDocument, accountingLineRenderingContexts, currentUser);
         }
-        if (((TravelAuthorizationDocument)accountingDocument).allParametersForAdvanceSet()) {
-            return false;
-        }
-        return super.isGroupEditable(accountingDocument, accountingLineRenderingContexts, currentUser);
+        return false;
     }
 
     /**
@@ -57,10 +52,10 @@ public class TravelAdvanceAccountingLineAuthorizer extends TEMAccountingLineAuth
      */
     @Override
     public boolean renderNewLine(AccountingDocument accountingDocument, String accountingGroupProperty) {
-        if (((TravelAuthorizationDocument)accountingDocument).allParametersForAdvanceSet() && accountingGroupProperty.startsWith(KFSPropertyConstants.DOCUMENT+"."+TemPropertyConstants.ADVANCE_ACCOUNTING_LINES)) {
-            return false;
+        if (TemConstants.TravelStatusCodeKeys.AWAIT_FISCAL.equals(accountingDocument.getFinancialSystemDocumentHeader().getApplicationDocumentStatus())) {
+            return super.renderNewLine(accountingDocument, accountingGroupProperty);
         }
-        return super.renderNewLine(accountingDocument, accountingGroupProperty);
+        return false;
     }
 
     /**
@@ -69,13 +64,10 @@ public class TravelAdvanceAccountingLineAuthorizer extends TEMAccountingLineAuth
      */
     @Override
     public boolean determineEditPermissionOnLine(AccountingDocument accountingDocument, AccountingLine accountingLine, String accountingLineCollectionProperty, boolean currentUserIsDocumentInitiator, boolean pageIsEditable) {
-        if (accountingLine.getDocumentNumber() != null && !accountingLine.getDocumentNumber().equals(accountingDocument.getDocumentNumber())) {
-            return false;
+        if (TemConstants.TravelStatusCodeKeys.AWAIT_FISCAL.equals(accountingDocument.getFinancialSystemDocumentHeader().getApplicationDocumentStatus())) {
+            return super.determineEditPermissionOnLine(accountingDocument, accountingLine, accountingLineCollectionProperty, currentUserIsDocumentInitiator, pageIsEditable);
         }
-        if (((TravelAuthorizationDocument)accountingDocument).allParametersForAdvanceSet()) {
-            return false;
-        }
-        return super.determineEditPermissionOnLine(accountingDocument, accountingLine, accountingLineCollectionProperty, currentUserIsDocumentInitiator, pageIsEditable);
+        return false;
     }
 
     /**
@@ -84,22 +76,17 @@ public class TravelAdvanceAccountingLineAuthorizer extends TEMAccountingLineAuth
      */
     @Override
     public boolean determineEditPermissionOnField(AccountingDocument accountingDocument, AccountingLine accountingLine, String accountingLineCollectionProperty, String fieldName, boolean editablePage) {
-        if (((TravelAuthorizationDocument)accountingDocument).allParametersForAdvanceSet()) {
-            if (KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE.equals(fieldName) || KFSPropertyConstants.ACCOUNT_NUMBER.equals(fieldName) || KFSPropertyConstants.FINANCIAL_OBJECT_CODE.equals(fieldName)) {
-                return false;
-            }
+        if (KFSPropertyConstants.FINANCIAL_OBJECT_CODE.equals(fieldName)) {
+            return false; // you can never change the object code
         }
-        return super.determineEditPermissionOnField(accountingDocument, accountingLine, accountingLineCollectionProperty, fieldName, editablePage);
-    }
-
-    /**
-     * Determines if the accounting lines being asked to render are from another accounting document
-     * @param accountingDocument the current accounting document being rendered
-     * @param accountingLineRenderingContexts the accounting lines which are being rendered
-     * @return true if the accounting lines are from another document, false otherwise
-     */
-    protected boolean areLinesFromAnotherDocument(AccountingDocument accountingDocument, List<? extends AccountingLineRenderingContext> accountingLineRenderingContexts) {
-        return accountingLineRenderingContexts != null && !accountingLineRenderingContexts.isEmpty() && accountingLineRenderingContexts.get(0).getAccountingLine().getDocumentNumber() != null && !accountingLineRenderingContexts.get(0).getAccountingLine().getDocumentNumber().equals(accountingDocument.getDocumentNumber());
+        if (((TravelAuthorizationDocument)accountingDocument).allParametersForAdvanceAccountingLinesSet()) {
+            return !(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE.equals(fieldName) || KFSPropertyConstants.ACCOUNT_NUMBER.equals(fieldName) || KFSPropertyConstants.AMOUNT.equals(fieldName)); //chart, account, and amount are not editable, everything else is
+        }
+        // parameters aren't set - so only fiscal officer should check
+        if (TemConstants.TravelStatusCodeKeys.AWAIT_FISCAL.equals(accountingDocument.getFinancialSystemDocumentHeader().getApplicationDocumentStatus())) {
+            return super.determineEditPermissionOnField(accountingDocument, accountingLine, accountingLineCollectionProperty, fieldName, editablePage);
+        }
+        return false; // we're not at fiscal officer note...so, no editing
     }
 
     /**

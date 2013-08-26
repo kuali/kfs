@@ -8967,7 +8967,6 @@
         <column name="FDOC_TOTAL_AMT" scale="2" size="19" type="DECIMAL"/>
         <column name="FDOC_IN_ERR_NBR" size="14" type="VARCHAR"/>
         <column name="TEMP_DOC_FNL_DT" type="DATE"/>
-        <column name="SECURE_FIELD" size="255" type="VARCHAR"/>
         <index name="FS_DOC_HEADER_TI1">
             <index-column name="FDOC_IN_ERR_NBR"/>
         </index>
@@ -16070,6 +16069,9 @@
         <column name="FDOC_BNK_CD" size="4" type="VARCHAR"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
+        <foreign-key foreignTable="TEM_PRI_DEST_T" name="TEM_ENT_DOC_T">
+            <reference foreign="ID" local="PRIMARY_DEST_ID"/>
+        </foreign-key>
         <foreign-key foreignTable="TEM_TRAVELER_DTL_T" name="TEM_ENT_DOC_TR1">
             <reference foreign="ID" local="TRAVELER_DTL_ID"/>
         </foreign-key>
@@ -16078,9 +16080,6 @@
         </foreign-key>
         <foreign-key foreignTable="TEM_PURPOSE_T" name="TEM_ENT_DOC_TR3">
             <reference foreign="PURPOSE_CODE" local="PURPOSE_CODE"/>
-        </foreign-key>
-        <foreign-key foreignTable="TEM_PER_DIEM_T" name="TEM_ENT_DOC_TR4">
-            <reference foreign="ID" local="PRIMARY_DEST_ID"/>
         </foreign-key>
         <foreign-key foreignTable="FP_BANK_T" name="TEM_ENT_DOC_TR5">
             <reference foreign="BNK_CD" local="FDOC_BNK_CD"/>
@@ -16280,31 +16279,47 @@
             <unique-column name="OBJ_ID"/>
         </unique>
     </table>
+    <table name="TEM_PER_DIEM_REGION_T">
+        <column name="REGION_CD" primaryKey="true" size="100" type="VARCHAR"/>
+        <column name="TRIP_TYP_CD" required="true" size="3" type="VARCHAR"/>
+        <column name="REGION_NM" size="100" type="VARCHAR"/>
+        <column name="ACTV_IND" required="true" size="1" type="VARCHAR"/>
+        <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
+        <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
+        <unique name="TEM_PER_DIEM_REGION_TC0">
+            <unique-column name="OBJ_ID"/>
+        </unique>
+    </table>
     <table name="TEM_PER_DIEM_T">
         <column name="ID" primaryKey="true" size="22" type="DECIMAL"/>
-        <column name="TRIP_TYP_CD" required="true" size="3" type="VARCHAR"/>
-        <column name="COUNTRY" size="100" type="VARCHAR"/>
-        <column name="COUNTRY_NM" size="100" type="VARCHAR"/>
-        <column name="COUNTY_CD" size="100" type="VARCHAR"/>
-        <column name="PRI_DEST" size="100" type="VARCHAR"/>
         <column name="SSN_BGN_DT" type="DATE"/>
         <column name="EFFECT_FROM_DT" type="DATE"/>
         <column name="EFFECT_TO_DT" type="DATE"/>
         <column name="LOAD_DT" type="DATE"/>
         <column name="SSN_BGN_MONTH_DAY" size="5" type="VARCHAR"/>
-        <column name="BKFST" size="22" type="DECIMAL"/>
-        <column name="LUNCH" size="22" type="DECIMAL"/>
-        <column name="DIN" size="22" type="DECIMAL"/>
+        <column default="0" name="BKFST" scale="2" size="19" type="DECIMAL"/>
+        <column default="0" name="LUNCH" scale="2" size="19" type="DECIMAL"/>
+        <column default="0" name="DIN" scale="2" size="19" type="DECIMAL"/>
         <column default="0" name="LODGING" scale="2" size="19" type="DECIMAL"/>
         <column default="0" name="INC" scale="2" size="19" type="DECIMAL"/>
         <column default="0" name="MEALS_INC" scale="2" size="19" type="DECIMAL"/>
         <column name="ACTV_IND" required="true" size="1" type="VARCHAR"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
-        <foreign-key foreignTable="TEM_TRIP_TYP_T" name="TEM_PER_DIEM_TR1">
-            <reference foreign="CODE" local="TRIP_TYP_CD"/>
-        </foreign-key>
+        <column name="PRI_DEST_ID" size="22" type="DECIMAL"/>
         <unique name="TEM_PER_DIEM_TC0">
+            <unique-column name="OBJ_ID"/>
+        </unique>
+    </table>
+    <table name="TEM_PRI_DEST_T">
+        <column name="ID" primaryKey="true" size="22" type="DECIMAL"/>
+        <column name="PRI_DEST_NM" size="100" type="VARCHAR"/>
+        <column name="REGION_CD" size="100" type="VARCHAR"/>
+        <column name="COUNTY_CD" size="100" type="VARCHAR"/>
+        <column name="ACTV_IND" required="true" size="1" type="VARCHAR"/>
+        <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
+        <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
+        <unique name="TEM_PRI_DEST_TC0">
             <unique-column name="OBJ_ID"/>
         </unique>
     </table>
@@ -16518,7 +16533,7 @@
         <foreign-key foreignTable="TEM_JOB_CLASS_T" name="TEM_RELO_DOC_TR4">
             <reference foreign="JOB_CLS_CD" local="JOB_CLS_CD"/>
         </foreign-key>
-        <foreign-key foreignTable="TEM_PER_DIEM_T" name="TEM_RELO_DOC_TR5">
+        <foreign-key foreignTable="TEM_PRI_DEST_T" name="TEM_RELO_DOC_TR5">
             <reference foreign="ID" local="PRIMARY_DEST_ID"/>
         </foreign-key>
         <foreign-key foreignTable="FP_BANK_T" name="TEM_RELO_DOC_TR6">
@@ -16615,7 +16630,7 @@
         <column name="PHONE_NBR" size="20" type="VARCHAR"/>
         <column name="CITIZENSHIP" size="40" type="VARCHAR"/>
         <column name="LIABILITY_INSURANCE" required="true" size="1" type="VARCHAR"/>
-        <column name="TRAVELER_TYP_CD" required="true" size="3" type="VARCHAR"/>
+        <column name="TRAVELER_TYP_CD" size="3" type="VARCHAR"/>
         <column name="ACTV_IND" required="true" size="1" type="VARCHAR"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
@@ -16799,7 +16814,7 @@
         <foreign-key foreignTable="TEM_TRIP_TYP_T" name="TEM_TRVL_AUTH_AMEND_DOC_TR2">
             <reference foreign="CODE" local="TRIP_TYP_CD"/>
         </foreign-key>
-        <foreign-key foreignTable="TEM_PER_DIEM_T" name="TEM_TRVL_AUTH_AMEND_DOC_TR3">
+        <foreign-key foreignTable="TEM_PRI_DEST_T" name="TEM_TRVL_AUTH_AMEND_DOC_TR3">
             <reference foreign="ID" local="PRIMARY_DEST_ID"/>
         </foreign-key>
         <unique name="TEM_TRVL_AUTH_AMEND_DOC_TC0">
@@ -16871,7 +16886,7 @@
         <foreign-key foreignTable="TEM_TRIP_TYP_T" name="TEM_TRVL_AUTH_DOC_TR2">
             <reference foreign="CODE" local="TRIP_TYP_CD"/>
         </foreign-key>
-        <foreign-key foreignTable="TEM_PER_DIEM_T" name="TEM_TRVL_AUTH_DOC_TR3">
+        <foreign-key foreignTable="TEM_PRI_DEST_T" name="TEM_TRVL_AUTH_DOC_TR3">
             <reference foreign="ID" local="PRIMARY_DEST_ID"/>
         </foreign-key>
         <foreign-key foreignTable="FP_BANK_T" name="TEM_TRVL_AUTH_DOC_TR4">
@@ -16998,7 +17013,7 @@
         <foreign-key foreignTable="TEM_TRIP_TYP_T" name="TEM_TRVL_REIMB_DOC_TR2">
             <reference foreign="CODE" local="TRIP_TYP_CD"/>
         </foreign-key>
-        <foreign-key foreignTable="TEM_PER_DIEM_T" name="TEM_TRVL_REIMB_DOC_TR3">
+        <foreign-key foreignTable="TEM_PRI_DEST_T" name="TEM_TRVL_REIMB_DOC_TR3">
             <reference foreign="ID" local="PRIMARY_DEST_ID"/>
         </foreign-key>
         <foreign-key foreignTable="FP_BANK_T" name="TEM_TRVL_REIMB_DOC_TR4">
@@ -17162,6 +17177,7 @@
     <sequence name="TEM_MILEAGE_RT_OBJ_CD_ID_SEQ" nextval="1024"/>
     <sequence name="TEM_PER_DIEM_EXP_ID_SEQ" nextval="1"/>
     <sequence name="TEM_PER_DIEM_ID_SEQ" nextval="1000"/>
+    <sequence name="TEM_PRI_DEST_ID_SEQ" nextval="1"/>
     <sequence name="TEM_PROFILE_ACCOUNT_ID_SEQ" nextval="1"/>
     <sequence name="TEM_PROFILE_ARRANGER_ID_SEQ" nextval="1"/>
     <sequence name="TEM_PROFILE_EM_CONT_ID_SEQ" nextval="1"/>

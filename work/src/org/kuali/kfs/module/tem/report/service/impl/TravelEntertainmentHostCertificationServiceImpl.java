@@ -15,9 +15,8 @@
  */
 package org.kuali.kfs.module.tem.report.service.impl;
 
-import static org.kuali.kfs.module.tem.TemConstants.Report.TRAVEL_REPORT_INSTITUTION_NAME;
-import static org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters.LODGING_TYPE_CODES;
 import static org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters.FAX_NUMBER;
+import static org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters.LODGING_TYPE_CODES;
 import static org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters.TRANSPORTATION_TYPE_CODES;
 
 import java.io.File;
@@ -45,6 +44,7 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.report.ReportInfo;
 import org.kuali.kfs.sys.service.ReportGenerationService;
+import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
@@ -92,7 +92,7 @@ public class TravelEntertainmentHostCertificationServiceImpl implements TravelEn
 
         report.setTripId(document.getTravelDocumentIdentifier().toString());
         report.setPurpose(ObjectUtils.isNull(document.getPurpose())?KFSConstants.EMPTY_STRING:document.getPurpose().getPurposeDescription());
-        report.setInstitution(getParameterService().getParameterValueAsString(TravelReimbursementDocument.class, TRAVEL_REPORT_INSTITUTION_NAME));
+        report.setInstitution(getParameterService().getParameterValueAsString(KfsParameterConstants.FINANCIAL_SYSTEM_ALL.class, KfsParameterConstants.INSTITUTION_NAME));
         report.setTemFaxNumber(getParameterService().getParameterValueAsString(TravelReimbursementDocument.class, FAX_NUMBER));
         report.setDocumentId(document.getDocumentNumber());
         report.setBeginDate(document.getTripBegin());

@@ -86,6 +86,7 @@ import org.kuali.rice.krad.exception.InfrastructureException;
 import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.location.api.country.Country;
 import org.kuali.rice.location.api.country.CountryService;
@@ -155,11 +156,8 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
         getWireTransfer().setDocumentNumber(getDocumentNumber());
         setAdvanceAccountingLines(new ArrayList<TemSourceAccountingLine>());
         resetNextAdvanceLineNumber();
-        if (allParametersForAdvanceSet()) {
-            // we can initiate the travel advance accounting line
-            TemSourceAccountingLine accountingLine = initiateAdvanceAccountingLine();
-            addAdvanceAccountingLine(accountingLine);
-        }
+        TemSourceAccountingLine accountingLine = initiateAdvanceAccountingLine();
+        addAdvanceAccountingLine(accountingLine);
     }
 
     public TravelAuthorizationCloseDocument toCopyTAC() throws WorkflowException {
@@ -491,10 +489,12 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
             accountingLine.setDocumentNumber(getDocumentNumber());
             accountingLine.setFinancialDocumentLineTypeCode(TemConstants.TRAVEL_ADVANCE_ACCOUNTING_LINE_TYPE_CODE);
             accountingLine.setSequenceNumber(new Integer(1));
-            accountingLine.setChartOfAccountsCode(getParameterService().getParameterValueAsString(TravelAuthorizationDocument.class, TemConstants.TravelAuthorizationParameters.TRAVEL_ADVANCE_CHART));
-            accountingLine.setAccountNumber(getParameterService().getParameterValueAsString(TravelAuthorizationDocument.class, TemConstants.TravelAuthorizationParameters.TRAVEL_ADVANCE_ACCOUNT));
-            accountingLine.setFinancialObjectCode(getParameterService().getParameterValueAsString(TravelAuthorizationDocument.class, TemConstants.TravelAuthorizationParameters.TRAVEL_ADVANCE_OBJECT_CODE));
             accountingLine.setCardType(TemConstants.ADVANCE);
+            if (this.allParametersForAdvanceAccountingLinesSet()) {
+                accountingLine.setChartOfAccountsCode(getParameterService().getParameterValueAsString(TravelAuthorizationDocument.class, TemConstants.TravelAuthorizationParameters.TRAVEL_ADVANCE_CHART));
+                accountingLine.setAccountNumber(getParameterService().getParameterValueAsString(TravelAuthorizationDocument.class, TemConstants.TravelAuthorizationParameters.TRAVEL_ADVANCE_ACCOUNT));
+                accountingLine.setFinancialObjectCode(getParameterService().getParameterValueAsString(TravelAuthorizationDocument.class, TemConstants.TravelAuthorizationParameters.TRAVEL_ADVANCE_OBJECT_CODE));
+            }
             return accountingLine;
         }
         catch (InstantiationException ie) {
@@ -700,9 +700,12 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
                 }
             }
             // generate entries for advance accounting lines
-            for (TemSourceAccountingLine advanceAccountingLine : getAdvanceAccountingLines()) {
-                generateGeneralLedgerPendingEntries(advanceAccountingLine, sequenceHelper);
-                sequenceHelper.increment();
+            if (!GlobalVariables.getMessageMap().hasErrors()) {
+                // skip generation of advance accounting line if any errors exist on the document
+                for (TemSourceAccountingLine advanceAccountingLine : getAdvanceAccountingLines()) {
+                    generateGeneralLedgerPendingEntries(advanceAccountingLine, sequenceHelper);
+                    sequenceHelper.increment();
+                }
             }
         }
         return success;
@@ -852,6 +855,7 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
             TemSourceAccountingLine accountingLine = getAdvanceAccountingLineClass().newInstance();
             accountingLine.setFinancialDocumentLineTypeCode(TemConstants.TRAVEL_ADVANCE_ACCOUNTING_LINE_TYPE_CODE);
             accountingLine.setCardType(TemConstants.ADVANCE); // really, card type is ignored but it is validated so we have to set something
+            accountingLine.setFinancialObjectCode(this.getParameterService().getParameterValueAsString(TravelAuthorizationDocument.class, TemConstants.TravelAuthorizationParameters.TRAVEL_ADVANCE_OBJECT_CODE, KFSConstants.EMPTY_STRING));
             return accountingLine;
         }
         catch (Exception e) {
@@ -1246,28 +1250,78 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
         return toAddresses;
     }
 
-    public boolean allParametersForAdvanceSet() {
-        return (!StringUtils.isBlank(getParameterService().getParameterValueAsString(TravelAuthorizationDocument.class, TemConstants.TravelAuthorizationParameters.TRAVEL_ADVANCE_ACCOUNT, "")) &&
-                !StringUtils.isBlank(getParameterService().getParameterValueAsString(TravelAuthorizationDocument.class, TemConstants.TravelAuthorizationParameters.TRAVEL_ADVANCE_CHART)) &&
-                        !StringUtils.isBlank(getParameterService().getParameterValueAsString(TravelAuthorizationDocument.class, TemConstants.TravelAuthorizationParameters.TRAVEL_ADVANCE_OBJECT_CODE)));
+    /**
+     * Determines whether the parameters which fill in the advance accounting line are set
+     * @return true if the parameters for the advance's accounting lines chart and account are set; false otherwise
+     */
+    public boolean allParametersForAdvanceAccountingLinesSet() {
+        // not checking the object code because that will need to be set no matter what - every advance accounting line will use that
+        return (!StringUtils.isBlank(getParameterService().getParameterValueAsString(TravelAuthorizationDocument.class, TemConstants.TravelAuthorizationParameters.TRAVEL_ADVANCE_ACCOUNT, KFSConstants.EMPTY_STRING)) &&
+                !StringUtils.isBlank(getParameterService().getParameterValueAsString(TravelAuthorizationDocument.class, TemConstants.TravelAuthorizationParameters.TRAVEL_ADVANCE_CHART, KFSConstants.EMPTY_STRING)));
     }
 
     /**
      * Propagates the amount from the advance to the travel payment and to the accounting line if the accounting line is read only
      */
-    public void propagateAdvanceAmountIfNeeded() {
+    public void propagateAdvanceInformationIfNeeded() {
         if (!ObjectUtils.isNull(getTravelAdvance()) && getTravelAdvance().getTravelAdvanceRequested() != null) {
             if (!ObjectUtils.isNull(getAdvanceTravelPayment())) {
                 getAdvanceTravelPayment().setCheckTotalAmount(getTravelAdvance().getTravelAdvanceRequested());
             }
-            if (allParametersForAdvanceSet()) {
+            final TemSourceAccountingLine maxAmountLine = getAccountingLineWithLargestAmount();
+            if (allParametersForAdvanceAccountingLinesSet() || (!TemConstants.TravelStatusCodeKeys.AWAIT_FISCAL.equals(getFinancialSystemDocumentHeader().getApplicationDocumentStatus()) && !advanceAccountingLinesHaveBeenModified(maxAmountLine))) {
                 getAdvanceAccountingLines().get(0).setAmount(getTravelAdvance().getTravelAdvanceRequested());
+            }
+            if (!allParametersForAdvanceAccountingLinesSet() && !TemConstants.TravelStatusCodeKeys.AWAIT_FISCAL.equals(getFinancialSystemDocumentHeader().getApplicationDocumentStatus()) && !advanceAccountingLinesHaveBeenModified(maxAmountLine)) {
+                // we need to set chart, account, sub-account, and sub-object from account with largest amount from regular source lines
+                if (maxAmountLine != null) {
+                    getAdvanceAccountingLines().get(0).setChartOfAccountsCode(maxAmountLine.getChartOfAccountsCode());
+                    getAdvanceAccountingLines().get(0).setAccountNumber(maxAmountLine.getAccountNumber());
+                    getAdvanceAccountingLines().get(0).setSubAccountNumber(maxAmountLine.getSubAccountNumber());
+                }
             }
             // let's also propogate the due date
             if (getTravelAdvance().getDueDate() != null && !ObjectUtils.isNull(getAdvanceTravelPayment())) {
                 getAdvanceTravelPayment().setDueDate(getTravelAdvance().getDueDate());
             }
         }
+    }
+
+    /**
+     * @return the source accounting line on this document with the largest amount
+     */
+    protected TemSourceAccountingLine getAccountingLineWithLargestAmount() {
+        if (getSourceAccountingLines() == null || getSourceAccountingLines().isEmpty()) {
+            return null;
+        }
+        TemSourceAccountingLine max = (TemSourceAccountingLine)getSourceAccountingLines().get(0);
+        int count = 1;
+        while (count < getSourceAccountingLines().size()) {
+            TemSourceAccountingLine curr = (TemSourceAccountingLine)getSourceAccountingLines().get(count);
+            if (curr.getAmount().isGreaterThan(max.getAmount())) {
+                max = curr;
+            }
+            count += 1;
+        }
+        return max;
+    }
+
+    /**
+     * @return true if we think the fiscal officer modified the accounting lines, false otherwise
+     */
+    protected boolean advanceAccountingLinesHaveBeenModified(TemSourceAccountingLine maxAmountLine) {
+        if (getAdvanceAccountingLines() == null || getAdvanceAccountingLines().isEmpty()) {
+            return true; // just skip out
+        }
+        if (getAdvanceAccountingLines().size() > 1) {
+            return true; // we have more than one accounting line?  Then the fiscal officer must have modified
+        }
+        // so we've got one accounting line.  Does its chart, account and sub-account match the source line with the most amount?
+        if (maxAmountLine == null) {
+            return false; // only fiscal officers can change lines - and without source accounting lines, we couldn't have gotten that far yet...so, no, the advance accounting lines haven't been modified
+        }
+        return StringUtils.equals(getAdvanceAccountingLines().get(0).getChartOfAccountsCode(), maxAmountLine.getChartOfAccountsCode()) && StringUtils.equals(getAdvanceAccountingLines().get(0).getAccountNumber(), maxAmountLine.getAccountNumber()) && StringUtils.equals(getAdvanceAccountingLines().get(0).getSubAccountNumber(), maxAmountLine.getSubAccountNumber());
+
     }
 
     /**
@@ -1278,7 +1332,7 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
     public List generateSaveEvents() {
         List events = super.generateSaveEvents();
 
-        if (!ObjectUtils.isNull(getTravelAdvance()) && getTravelAdvance().isAtLeastPartiallyFilledIn()) {
+        if (!ObjectUtils.isNull(getTravelAdvance()) && getTravelAdvance().isAtLeastPartiallyFilledIn() && !(getDocumentHeader().getWorkflowDocument().isInitiated() || getDocumentHeader().getWorkflowDocument().isSaved())) {
             // only check advance accounting lines if the travel advance is filled in
             final List persistedAdvanceAccountingLines = getPersistedAdvanceAccountingLinesForComparison();
             final List currentAdvanceAccountingLines = getAdvanceAccountingLinesForComparison();
@@ -1298,18 +1352,6 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
     }
 
     /**
-     * @return all accounting lines which fiscal officers reviewing this document should review - which means: source accounting lines and then the advance accounting lines if the advance is filled in
-     */
-    public List<? extends AccountingLine> getAccountingLinesForReview() {
-        List<AccountingLine> lines = new ArrayList<AccountingLine>();
-        lines.addAll(getSourceAccountingLines());
-        if (shouldProcessAdvanceForDocument()) {
-            lines.addAll(getAdvanceAccountingLines());
-        }
-        return lines;
-    }
-
-    /**
      * This method gets the Persisted advance Accounting Lines that will be used in comparisons
      *
      * @return
@@ -1323,13 +1365,7 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
      */
     public List<TravelAdvance> getTravelAdvances() {
         if (travelAdvancesForTrip == null) {
-            travelAdvancesForTrip = new ArrayList<TravelAdvance>();
-            List<TravelAdvance> travelAdvances = getTravelDocumentService().getTravelAdvancesForTrip(getTravelDocumentIdentifier());
-            for (TravelAdvance travelAdvance : travelAdvances) {
-                if (!travelAdvance.getDocumentNumber().equals(getDocumentNumber())) {
-                    travelAdvancesForTrip.add(travelAdvance);
-                }
-            }
+            travelAdvancesForTrip = getTravelDocumentService().getTravelAdvancesForTrip(getTravelDocumentIdentifier());
         }
         return travelAdvancesForTrip;
     }

@@ -118,7 +118,7 @@
         </reference-descriptor>
     </class-descriptor>
     
-	<class-descriptor class="org.kuali.kfs.module.tem.businessobject.PerDiem" table="TEM_PER_DIEM_T">
+	<!-- <class-descriptor class="org.kuali.kfs.module.tem.businessobject.PerDiem" table="TEM_PER_DIEM_T">
         <field-descriptor name="id" 					column="ID" 				jdbc-type="INTEGER" primarykey="true" sequence-name="TEM_PER_DIEM_ID_SEQ" autoincrement="true"/>
         <field-descriptor name="tripTypeCode" 			column="TRIP_TYP_CD" 		jdbc-type="VARCHAR"/>
         <field-descriptor name="countryState" 			column="COUNTRY" 			jdbc-type="VARCHAR"/>
@@ -142,15 +142,48 @@
         <reference-descriptor name="tripType" class-ref="org.kuali.kfs.module.tem.businessobject.TripType" auto-retrieve="true" auto-update="none" auto-delete="none">
             <foreignkey field-ref="tripTypeCode"/>
         </reference-descriptor>
+    </class-descriptor> -->
+    
+    <class-descriptor class="org.kuali.kfs.module.tem.businessobject.PerDiem" table="TEM_PER_DIEM_T">
+        <field-descriptor name="id" 					column="ID" 				jdbc-type="INTEGER" primarykey="true" sequence-name="TEM_PER_DIEM_ID_SEQ" autoincrement="true"/>
+        <field-descriptor name="primaryDestinationId" 	column="PRI_DEST_ID" 		jdbc-type="INTEGER"/>
+        <field-descriptor name="seasonBeginDate" 		column="SSN_BGN_DT" 		jdbc-type="DATE"/>
+		<field-descriptor name="seasonBeginMonthAndDay" column="SSN_BGN_MONTH_DAY" 	jdbc-type="VARCHAR"/>
+        <field-descriptor name="effectiveFromDate" 		column="EFFECT_FROM_DT"		jdbc-type="DATE"/>
+        <field-descriptor name="effectiveToDate" 		column="EFFECT_TO_DT" 		jdbc-type="DATE"/>
+        <field-descriptor name="loadDate" 				column="LOAD_DT" 			jdbc-type="DATE"/>
+        <field-descriptor name="breakfast" 				column="BKFST" 				jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
+        <field-descriptor name="lunch" 					column="LUNCH" 				jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
+        <field-descriptor name="dinner" 				column="DIN" 				jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
+        <field-descriptor name="incidentals" 			column="INC" 				jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
+        <field-descriptor name="mealsAndIncidentals"	column="MEALS_INC" 			jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
+        <field-descriptor name="lodging"				column="LODGING" 			jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
+        <field-descriptor name="active" 				column="ACTV_IND" 			jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+        <field-descriptor name="objectId" 				column="OBJ_ID" 			jdbc-type="VARCHAR"/>
+        <field-descriptor name="versionNumber" 			column="VER_NBR" 			jdbc-type="BIGINT" locking="true"/>
+        
+        <reference-descriptor name="primaryDestination" class-ref="org.kuali.kfs.module.tem.businessobject.PrimaryDestination" auto-retrieve="true" auto-update="none" auto-delete="none">
+            <foreignkey field-ref="primaryDestinationId"/>
+        </reference-descriptor>
     </class-descriptor>
 	
-	<class-descriptor class="org.kuali.kfs.module.tem.businessobject.PrimaryDestination" table="TEM_PER_DIEM_T">
-        <field-descriptor name="id"                         column="ID"             jdbc-type="INTEGER" primarykey="true" sequence-name="TEM_PER_DIEM_ID_SEQ" autoincrement="true"/>
-        <field-descriptor name="tripTypeCode"               column="TRIP_TYP_CD"    jdbc-type="VARCHAR"/>
-        <field-descriptor name="countryState"               column="COUNTRY"        jdbc-type="VARCHAR"/>
-        <field-descriptor name="countryStateName" 			column="COUNTRY_NM" 	jdbc-type="VARCHAR"/>
+	<class-descriptor class="org.kuali.kfs.module.tem.businessobject.PrimaryDestination" table="TEM_PRI_DEST_T">
+        <field-descriptor name="id"                         column="ID"             jdbc-type="INTEGER" primarykey="true" sequence-name="TEM_PRI_DEST_ID_SEQ" autoincrement="true"/>
+        <field-descriptor name="primaryDestinationName"     column="PRI_DEST_NM"    jdbc-type="VARCHAR"/>
+        <field-descriptor name="regionCode"          		column="REGION_CD"      jdbc-type="VARCHAR"/>
         <field-descriptor name="county"                     column="COUNTY_CD"      jdbc-type="VARCHAR"/>
-        <field-descriptor name="primaryDestinationName"     column="PRI_DEST"       jdbc-type="VARCHAR"/>
+        <field-descriptor name="active"                     column="ACTV_IND"       jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+        <field-descriptor name="objectId"                   column="OBJ_ID"         jdbc-type="VARCHAR"/>
+        <field-descriptor name="versionNumber"              column="VER_NBR"        jdbc-type="BIGINT" locking="true"/>
+        <reference-descriptor name="region" class-ref="org.kuali.kfs.module.tem.businessobject.TemRegion" auto-retrieve="true" auto-update="none" auto-delete="none">
+            <foreignkey field-ref="regionCode"/>
+        </reference-descriptor>
+    </class-descriptor>
+    
+    <class-descriptor class="org.kuali.kfs.module.tem.businessobject.TemRegion" table="TEM_PER_DIEM_REGION_T">
+        <field-descriptor name="regionCode"                 column="REGION_CD"      jdbc-type="VARCHAR" primarykey="true"/>
+        <field-descriptor name="tripTypeCode"               column="TRIP_TYP_CD"    jdbc-type="VARCHAR"/>
+        <field-descriptor name="regionName" 				column="REGION_NM" 	    jdbc-type="VARCHAR"/>
         <field-descriptor name="active"                     column="ACTV_IND"       jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
         <field-descriptor name="objectId"                   column="OBJ_ID"         jdbc-type="VARCHAR"/>
         <field-descriptor name="versionNumber"              column="VER_NBR"        jdbc-type="BIGINT" locking="true"/>
@@ -1165,9 +1198,9 @@
     
 	<class-descriptor class="org.kuali.kfs.module.tem.businessobject.PerDiemMealIncidentalBreakDown" table="TEM_PER_DIEM_MIE_BREAK_DOWN_T">
 		<field-descriptor name="mealsAndIncidentals" column="MEALS_INC" jdbc-type="DECIMAL" primarykey="true" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>		
-		<field-descriptor name="breakfast" column="BKFST" jdbc-type="INTEGER"/>
-		<field-descriptor name="lunch" column="LUNCH" jdbc-type="INTEGER"/>
-		<field-descriptor name="dinner" column="DIN" jdbc-type="INTEGER"/>
+		<field-descriptor name="breakfast" column="BKFST" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
+		<field-descriptor name="lunch" column="LUNCH" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
+		<field-descriptor name="dinner" column="DIN" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
 		<field-descriptor name="incidentals" column="INC" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
 		<field-descriptor name="firstOrLastDayAmount" column="FIRST_LAST_DAY_AMOUNT" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
 		<field-descriptor name="lastUpdateDate" column="LAST_UPD_DT" jdbc-type="DATE"/>

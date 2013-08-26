@@ -11,10 +11,7 @@
 		<list>
 			<ref bean="PerDiemForLoad-lineNumber" />
 			<ref bean="PerDiemForLoad-id" />
-			<ref bean="PerDiemForLoad-tripTypeCode" />
-			<ref bean="PerDiemForLoad-countryState" />
-			<ref bean="PerDiemForLoad-county" />
-			<ref bean="PerDiemForLoad-primaryDestination" />
+			<ref bean="PerDiemForLoad-primaryDestinationId" />
 			<ref bean="PerDiemForLoad-seasonBeginDate" />
 			<ref bean="PerDiemForLoad-effectiveFromDate" />
             <ref bean="PerDiemForLoad-effectiveToDate" />
@@ -25,6 +22,9 @@
 			<ref bean="PerDiemForLoad-mealsAndIncidentals" />
 			<ref bean="PerDiemForLoad-active" />
 			<ref bean="PerDiemForLoad-versionNumber" />
+			<ref bean="PerDiemForLoad-regionNameForReport" />
+			<ref bean="PerDiemForLoad-countyForReport" />
+			<ref bean="PerDiemForLoad-primaryDestinationForReport" />
 		</list>
 		</property>
 	</bean>
@@ -33,18 +33,11 @@
 	
 	<bean id="PerDiemForLoad-lineNumber" parent="PerDiem-lineNumber" />
 	
-	<bean id="PerDiemForLoad-tripTypeCode" parent="PerDiem-tripTypeCode" />
-	
-	<bean id="PerDiemForLoad-countryState" parent="PerDiem-countryState" />
-	
-	<bean id="PerDiemForLoad-county" parent="PerDiem-county" >
+	<bean id="PerDiemForLoad-primaryDestinationId" parent="PerDiem-primaryDestinationId" >
 		<property name="required" value="false" />
 	</bean>
 	
-	<bean id="PerDiemForLoad-primaryDestination" parent="PerDiem-primaryDestination" />
-	
 	<bean id="PerDiemForLoad-seasonBeginDate" parent="PerDiem-seasonBeginDate"/>
-	
 	
 	<bean id="PerDiemForLoad-effectiveFromDate" parent="PerDiem-effectiveFromDate" >
 		<property name="required" value="true" />		
@@ -65,4 +58,19 @@
 	<bean id="PerDiemForLoad-active" parent="PerDiem-active" />
 	
 	<bean id="PerDiemForLoad-versionNumber" parent="PerDiem-versionNumber" />
+	
+	<bean id="PerDiemForLoad-regionNameForReport" parent="TemRegion-regionName">
+		<property name="name" value="regionNameForReport"/>
+		<property name="required" value="false" />
+	</bean>
+	
+	<bean id="PerDiemForLoad-countyForReport" parent="PrimaryDestination-county">
+		<property name="name" value="countyForReport"/>
+		<property name="required" value="false" />
+	</bean>
+	
+	<bean id="PerDiemForLoad-primaryDestinationForReport" parent="PrimaryDestination-primaryDestinationName">
+		<property name="name" value="primaryDestinationForReport"/>
+		<property name="required" value="false" />
+	</bean>
 </beans>

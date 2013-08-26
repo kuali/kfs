@@ -24,6 +24,7 @@ import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationStatusCodeKeys;
 import org.kuali.kfs.module.tem.TemConstants.TravelDocTypes;
 import org.kuali.kfs.sys.businessobject.Bank;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.BankService;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
@@ -66,7 +67,6 @@ public class TravelAuthorizationAmendmentDocument extends TravelAuthorizationDoc
             catch (WorkflowException we) {
                 throw new RuntimeException("Workflow document exception while updating related documents", we);
             }
-            getTravelEncumbranceService().adjustEncumbranceForAmendment(this);
         }
     }
 
@@ -100,4 +100,16 @@ public class TravelAuthorizationAmendmentDocument extends TravelAuthorizationDoc
 
         return doc;
     }
+
+    /**
+     * Overridden to adjust the encumbrance for this amendment
+     * @see org.kuali.kfs.module.tem.document.TravelAuthorizationDocument#generateDocumentGeneralLedgerPendingEntries(org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper)
+     */
+    @Override
+    public boolean generateDocumentGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
+        boolean result = super.generateDocumentGeneralLedgerPendingEntries(sequenceHelper);
+        getTravelEncumbranceService().adjustEncumbranceForAmendment(this, sequenceHelper);
+        return result;
+    }
+
 }

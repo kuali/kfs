@@ -24,12 +24,10 @@ import org.apache.log4j.Logger;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemConstants.TravelParameters;
-import org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters;
 import org.kuali.kfs.module.tem.TemParameterConstants;
 import org.kuali.kfs.module.tem.businessobject.HistoricalTravelExpense;
 import org.kuali.kfs.module.tem.businessobject.TemSourceAccountingLine;
 import org.kuali.kfs.module.tem.document.TravelDocument;
-import org.kuali.kfs.module.tem.document.TravelReimbursementDocument;
 import org.kuali.kfs.module.tem.document.service.AccountingDocumentRelationshipService;
 import org.kuali.kfs.module.tem.document.service.TravelDisbursementService;
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
@@ -81,27 +79,6 @@ public class TravelDisbursementServiceImpl implements TravelDisbursementService{
     protected WorkflowDocumentService workflowDocumentService;
     protected KualiRuleService kualiRuleService;
     protected TravelDocumentService travelDocumentService;
-
-
-
-    /**
-     * @see org.kuali.kfs.module.tem.document.service.TravelDisbursementService#getTravelClearingGLPESourceDetail()
-     */
-    @Override
-    public SourceAccountingLine getTravelClearingGLPESourceDetail() {
-
-        SourceAccountingLine sourceDetail = new SourceAccountingLine();
-
-        final String dvClearingChart = parameterService.getParameterValueAsString(TravelReimbursementDocument.class, TravelReimbursementParameters.TRAVEL_REIMBURSEMENTS_CLEARING_CHART);
-        final String dvClearingAccount = parameterService.getParameterValueAsString(TravelReimbursementDocument.class, TravelReimbursementParameters.TRAVEL_REIMBURSEMENTS_CLEARING_ACCOUNT);
-        final String dvClearingObject = parameterService.getParameterValueAsString(TravelReimbursementDocument.class, TravelReimbursementParameters.TRAVEL_REIMBURSEMENTS_CLEARING_OBJECT_CODE);
-
-        sourceDetail.setChartOfAccountsCode(dvClearingChart);
-        sourceDetail.setAccountNumber(dvClearingAccount);
-        sourceDetail.setFinancialObjectCode(dvClearingObject);
-
-        return sourceDetail;
-    }
 
     /**
      * @see org.kuali.kfs.module.tem.document.service.TravelDisbursementService#populateImportedCorpCardDisbursementVoucherFields(org.kuali.kfs.fp.document.DisbursementVoucherDocument, org.kuali.kfs.module.tem.document.TravelDocument, java.lang.String)

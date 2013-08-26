@@ -36,7 +36,6 @@ import org.kuali.kfs.module.tem.TemConstants.DisbursementVoucherPaymentMethods;
 import org.kuali.kfs.module.tem.TemParameterConstants;
 import org.kuali.kfs.module.tem.businessobject.ActualExpense;
 import org.kuali.kfs.module.tem.businessobject.PerDiemExpense;
-import org.kuali.kfs.module.tem.businessobject.TemSourceAccountingLine;
 import org.kuali.kfs.module.tem.businessobject.TravelPayment;
 import org.kuali.kfs.module.tem.document.service.ReimbursableDocumentPaymentService;
 import org.kuali.kfs.pdp.businessobject.PaymentGroup;
@@ -60,7 +59,6 @@ import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.ObjectUtils;
-import org.springframework.beans.BeanUtils;
 
 public abstract class TEMReimbursementDocument extends TravelDocumentBase implements PaymentSource {
 
@@ -178,20 +176,7 @@ public abstract class TEMReimbursementDocument extends TravelDocumentBase implem
 
         success = super.generateDocumentGeneralLedgerPendingEntries(sequenceHelper);
 
-        KualiDecimal reimbursableToTraveler = getTravelReimbursementService().getReimbursableToTraveler(this);
-
-        //if there is any at all reimbursable to the traveler, there will be a DV generated later, so we need to funnel through
-        // the travel clearing
-        if (reimbursableToTraveler.isPositive()){
-            //get a source accounting line for DV clearing details
-            SourceAccountingLine sourceDetail = getTravelDisbursementService().getTravelClearingGLPESourceDetail();
-            sourceDetail.setAmount(reimbursableToTraveler);
-            TemSourceAccountingLine temSouceDetail = new TemSourceAccountingLine();
-            BeanUtils.copyProperties(sourceDetail, temSouceDetail);
-
-            success &= super.generateGeneralLedgerPendingEntries(temSouceDetail, sequenceHelper);
-            sequenceHelper.increment();
-        }
+        KualiDecimal reimbursableToTraveler = getAmountForTravelClearing();
 
         if (KFSConstants.PaymentSourceConstants.PAYMENT_METHOD_WIRE.equals(getTravelPayment().getPaymentMethodCode()) && !getWireTransfer().isWireTransferFeeWaiverIndicator()) {
             LOG.debug("generating wire charge gl pending entries.");
@@ -217,32 +202,36 @@ public abstract class TEMReimbursementDocument extends TravelDocumentBase implem
     }
 
     /**
+     * @return the amount that should be used in the travel clearing pending entries
+     */
+    protected KualiDecimal getAmountForTravelClearing() {
+        KualiDecimal reimbursableToTraveler = getTravelReimbursementService().getReimbursableToTraveler(this);
+        return reimbursableToTraveler;
+    }
+
+    /**
      * @see org.kuali.kfs.sys.document.AccountingDocumentBase#customizeExplicitGeneralLedgerPendingEntry(org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail, org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry)
      */
     @Override
     public void customizeExplicitGeneralLedgerPendingEntry(GeneralLedgerPendingEntrySourceDetail postable, GeneralLedgerPendingEntry explicitEntry) {
-        //if the GLPE is an entry for the Travel Clearing Account, the explicit entry should be a credit
-        SourceAccountingLine sourceDetail = getTravelDisbursementService().getTravelClearingGLPESourceDetail();
-        if (postable.getChartOfAccountsCode().equals(sourceDetail.getChartOfAccountsCode()) &&
-                postable.getAccountNumber().equals(sourceDetail.getAccountNumber()) && postable.getFinancialObjectCode().equals(sourceDetail.getFinancialObjectCode())){
-            explicitEntry.setTransactionDebitCreditCode(KFSConstants.GL_CREDIT_CODE);
-        }
-
         /* change document type based on payment method to pick up different offsets; if payment method code is blank, use the normal doc type name */
+        explicitEntry.setFinancialDocumentTypeCode(getPaymentDocumentType());
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("changing doc type on pending entry " + explicitEntry.getTransactionLedgerEntrySequenceNumber() + " to " + explicitEntry.getFinancialDocumentTypeCode());
+        }
+    }
+
+    /**
+     * @return the document type to use for entries associated with this document, which is based, if possible, on the payment type
+     */
+    public String getPaymentDocumentType() {
         if (!StringUtils.isBlank(getTravelPayment().getPaymentMethodCode())) {
             if (KFSConstants.PaymentSourceConstants.PAYMENT_METHOD_CHECK.equals(getTravelPayment().getPaymentMethodCode())) {
-                if (LOG.isDebugEnabled()) {
-                    LOG.debug("changing doc type on pending entry " + explicitEntry.getTransactionLedgerEntrySequenceNumber() + " to " + getAchCheckDocumentType());
-                }
-                explicitEntry.setFinancialDocumentTypeCode(getAchCheckDocumentType());
+                return getAchCheckDocumentType();
             }
-            else {
-                if (LOG.isDebugEnabled()) {
-                    LOG.debug("changing doc type on pending entry " + explicitEntry.getTransactionLedgerEntrySequenceNumber() + " to " + getWireTransferOrForeignDraftDocumentType());
-                }
-                explicitEntry.setFinancialDocumentTypeCode(getWireTransferOrForeignDraftDocumentType());
-            }
+            return getWireTransferOrForeignDraftDocumentType();
         }
+        return getDocumentTypeName();
     }
 
     /**
@@ -359,7 +348,7 @@ public abstract class TEMReimbursementDocument extends TravelDocumentBase implem
         KualiDecimal grandTotal = KualiDecimal.ZERO;
         grandTotal = getApprovedAmount().add(getTotalPaidAmountToVendor()).add(getTotalPaidAmountToRequests());
 
-        if (KualiDecimal.ZERO.isGreaterThan(grandTotal)) {
+        if (!grandTotal.isPositive()) {
             return KualiDecimal.ZERO;
         }
 

@@ -55,14 +55,14 @@ public class TravelUpdateTripDetailsValidation extends GenericValidation {
         GlobalVariables.getMessageMap().clearErrorPath();
         GlobalVariables.getMessageMap().addToErrorPath(KFSConstants.DOCUMENT_PROPERTY_NAME);
 
-        if (errors.containsKeyMatchingPattern(KFSConstants.DOCUMENT_PROPERTY_NAME + "." + TemPropertyConstants.PER_DIEM_NAME + "." + TemPropertyConstants.TravelAuthorizationFields.TRIP_TYPE)
-                && errors.containsKeyMatchingPattern(KFSConstants.DOCUMENT_PROPERTY_NAME + "." + TemPropertyConstants.TravelAuthorizationFields.TRIP_TYPE)){
-            errors.removeAllErrorMessagesForProperty(KFSConstants.DOCUMENT_PROPERTY_NAME + "." + TemPropertyConstants.PER_DIEM_NAME + "." + TemPropertyConstants.TravelAuthorizationFields.TRIP_TYPE);
-        }
-        else if (errors.containsKeyMatchingPattern(KFSConstants.DOCUMENT_PROPERTY_NAME + "." + TemPropertyConstants.PER_DIEM_NAME + "." + TemPropertyConstants.TravelAuthorizationFields.TRIP_TYPE)
-                && !doc.getTripTypeCode().isEmpty()){
-            errors.removeAllErrorMessagesForProperty(KFSConstants.DOCUMENT_PROPERTY_NAME + "." + TemPropertyConstants.PER_DIEM_NAME + "." + TemPropertyConstants.TravelAuthorizationFields.TRIP_TYPE);
-        }
+//        if (errors.containsKeyMatchingPattern(KFSConstants.DOCUMENT_PROPERTY_NAME + "." + TemPropertyConstants.PER_DIEM_NAME + "." + TemPropertyConstants.TravelAuthorizationFields.TRIP_TYPE)
+//                && errors.containsKeyMatchingPattern(KFSConstants.DOCUMENT_PROPERTY_NAME + "." + TemPropertyConstants.TravelAuthorizationFields.TRIP_TYPE)){
+//            errors.removeAllErrorMessagesForProperty(KFSConstants.DOCUMENT_PROPERTY_NAME + "." + TemPropertyConstants.PER_DIEM_NAME + "." + TemPropertyConstants.TravelAuthorizationFields.TRIP_TYPE);
+//        }
+//        else if (errors.containsKeyMatchingPattern(KFSConstants.DOCUMENT_PROPERTY_NAME + "." + TemPropertyConstants.PER_DIEM_NAME + "." + TemPropertyConstants.TravelAuthorizationFields.TRIP_TYPE)
+//                && !doc.getTripTypeCode().isEmpty()){
+//            errors.removeAllErrorMessagesForProperty(KFSConstants.DOCUMENT_PROPERTY_NAME + "." + TemPropertyConstants.PER_DIEM_NAME + "." + TemPropertyConstants.TravelAuthorizationFields.TRIP_TYPE);
+//        }
 
         int postCount = GlobalVariables.getMessageMap().getErrorCount();
         if (postCount > preCount) {

@@ -212,7 +212,7 @@
 	</bean>
 	
   <bean id="TravelReimbursementDocument-tripTypeCode" parent="TravelReimbursementDocument-tripTypeCode-parentBean" />
-	<bean id="TravelReimbursementDocument-tripTypeCode-parentBean" abstract="true" parent="PrimaryDestination-tripTypeCode">
+	<bean id="TravelReimbursementDocument-tripTypeCode-parentBean" abstract="true" parent="TemRegion-tripTypeCode">
 		<property name="control">
 			<bean parent="SelectControlDefinition"
 				p:valuesFinderClass="org.kuali.kfs.module.tem.businessobject.options.TripTypeValuesFinder"
@@ -260,7 +260,7 @@
     <bean id="TravelReimbursementDocument-primaryDestinationName-parentBean" abstract="true" parent="PrimaryDestination-primaryDestinationName" />
     
     <bean id="TravelReimbursementDocument-primaryDestinationCountryState" parent="TravelReimbursementDocument-primaryDestinationCountryState-parentBean" />
-    <bean id="TravelReimbursementDocument-primaryDestinationCountryState-parentBean" abstract="true" parent="PrimaryDestination-countryState">
+    <bean id="TravelReimbursementDocument-primaryDestinationCountryState-parentBean" abstract="true" parent="TemRegion-regionName">
         <property name="name" value="primaryDestinationCountryState" />
         <property name="label" value="Primary Destination Country/State" />
         <property name="shortLabel" value="Primary Destination Country/State" />

@@ -177,6 +177,27 @@ public class TEMProfileLookupableHelperServiceImpl extends KualiLookupableHelper
     }
 
     /**
+     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getCustomActionUrls(org.kuali.rice.kns.bo.BusinessObject, java.util.List)
+     */
+//    @Override
+//    public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
+//       String blah = "";
+//
+//        List<HtmlData> htmlDataList = super.getCustomActionUrls(businessObject, pkNames);
+//
+//
+//        TEMRoleService temRoleService = SpringContext.getBean(TEMRoleService.class);
+//        boolean profileAdmin = temRoleService.isProfileAdmin(GlobalVariables.getUserSession().getPerson(), ((TemProfileFromKimPerson)businessObject).getPrimaryDepartmentCode());
+//
+//        if (!profileAdmin) {
+//            return new ArrayList<HtmlData>();
+//        }
+//
+//        return htmlDataList;
+//    }
+
+
+    /**
      * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getSupplementalMenuBar()
      */
     @Override

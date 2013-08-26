@@ -13,11 +13,7 @@
 		<list>
 			<ref bean="PerDiem-lineNumber" />
 			<ref bean="PerDiem-id" />
-			<ref bean="PerDiem-tripTypeCode" />
-			<ref bean="PerDiem-countryState" />
-			<ref bean="PerDiem-countryStateName" />
-			<ref bean="PerDiem-county" />
-			<ref bean="PerDiem-primaryDestination" />
+			<ref bean="PerDiem-primaryDestinationId" />
 			<ref bean="PerDiem-seasonBeginDate" />
 			<ref bean="PerDiem-effectiveFromDate" />
 			<ref bean="PerDiem-effectiveToDate" />			
@@ -35,10 +31,10 @@
 		<property name="relationships">
 		<list>
 			<bean parent="RelationshipDefinition">
-				<property name="objectAttributeName" value="tripType" />
+				<property name="objectAttributeName" value="primaryDestination" />
 				<property name="primitiveAttributes">
 				<list>
-					<bean parent="PrimitiveAttributeDefinition" p:sourceName="tripTypeCode" p:targetName="code" />
+					<bean parent="PrimitiveAttributeDefinition" p:sourceName="primaryDestinationId" p:targetName="id" />
 				</list>
 				</property>
 				<property name="supportAttributes">
@@ -61,60 +57,16 @@
 		<property name="control"><bean parent="HiddenControlDefinition" /></property>
 		<property name="validationPattern"><bean parent="NumericValidationPattern" /></property>
 	</bean>
-	<bean id="PerDiem-tripTypeCode" parent="PerDiem-tripTypeCode-parentBean" />
-	<bean id="PerDiem-tripTypeCode-parentBean" parent="AttributeDefinition">
-		<property name="name" value="tripTypeCode" />
-		<property name="label" value="Trip Type Code" />
-		<property name="shortLabel" value="Trip Type Code" />
-		<property name="maxLength" value="3" />
-		<property name="required" value="true" />
-		<property name="summary" value="Trip Type Code" />
-		<property name="description" value="Trip Type Code" />
-		<property name="control"><bean parent="TextControlDefinition" p:size="3"/></property>
-	</bean>
-	<bean id="PerDiem-countryState" parent="PerDiem-countryState-parentBean" />
-	<bean id="PerDiem-countryState-parentBean" parent="AttributeDefinition">
-		<property name="name" value="countryState" />
-		<property name="label" value="Country State Code" />
-		<property name="shortLabel" value="Country State Code" />
-		<property name="maxLength" value="100" />
-		<property name="required" value="true" />
-		<property name="summary" value="Country State Code" />
-		<property name="description" value="Country State Code" />
-		<property name="control"><bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.tem.businessobject.options.PrimaryDestinationValuesFinder" p:includeKeyInLabel="false"/></property>
-	</bean>
-	<bean id="PerDiem-countryStateName" parent="PerDiem-countryStateName-parentBean" />
-	<bean id="PerDiem-countryStateName-parentBean" parent="AttributeDefinition">
-		<property name="name" value="countryStateName" />
-		<property name="label" value="Country State Name" />
-		<property name="shortLabel" value="Country State Name" />
-		<property name="maxLength" value="100" />
-		<property name="required" value="true" />
-		<property name="summary" value="Country State Name" />
-		<property name="description" value="Country State Name" />
-		<property name="control"><bean parent="TextControlDefinition" p:size="100"/></property>
-	</bean>		
-	<bean id="PerDiem-county" parent="PerDiem-county-parentBean" />
-	<bean id="PerDiem-county-parentBean" parent="AttributeDefinition">
-		<property name="name" value="county" />
-		<property name="label" value="County" />
-		<property name="shortLabel" value="County" />
-		<property name="maxLength" value="100" />
-		<property name="required" value="false" />
-		<property name="summary" value="County" />
-		<property name="description" value="County" />
-		<property name="control"><bean parent="TextControlDefinition" p:size="100"/></property>
-	</bean>
-	<bean id="PerDiem-primaryDestination" parent="PerDiem-primaryDestination-parentBean" />
-	<bean id="PerDiem-primaryDestination-parentBean" parent="AttributeDefinition">
-		<property name="name" value="primaryDestination" />
+	<bean id="PerDiem-primaryDestinationId" parent="PerDiem-primaryDestinationId-parentBean" />
+	<bean id="PerDiem-primaryDestinationId-parentBean" parent="AttributeDefinition">
+		<property name="name" value="primaryDestinationId" />
 		<property name="label" value="Primary Destination" />
 		<property name="shortLabel" value="Primary Destination" />
 		<property name="maxLength" value="100" />
 		<property name="required" value="true" />
 		<property name="summary" value="Primary Destination" />
 		<property name="description" value="Primary Destination" />
-		<property name="control"><bean parent="TextControlDefinition" p:size="100"/></property>
+		<property name="control"><bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.tem.businessobject.options.PrimaryDestinationValuesFinder" p:includeKeyInLabel="false"/></property>
 	</bean>
 	<bean id="PerDiem-seasonBeginDate" parent="PerDiem-seasonBeginDate-parentBean" />
 	<bean id="PerDiem-seasonBeginDate-parentBean" parent="GenericAttributes-genericDate">
@@ -249,10 +201,7 @@
 				<property name="inquiryFields">
 				<list>
 					<bean parent="FieldDefinition" p:attributeName="id" />
-					<bean parent="FieldDefinition" p:attributeName="tripTypeCode" />
-					<bean parent="FieldDefinition" p:attributeName="countryState" />
-					<bean parent="FieldDefinition" p:attributeName="county" />
-					<bean parent="FieldDefinition" p:attributeName="primaryDestination" />
+					<bean parent="FieldDefinition" p:attributeName="primaryDestinationId" />
 					<bean parent="FieldDefinition" p:attributeName="seasonBeginDate" />
 					<bean parent="FieldDefinition" p:attributeName="effectiveFromDate" />
                     <bean parent="FieldDefinition" p:attributeName="effectiveToDate" />
@@ -280,10 +229,7 @@
 		</property>
 		<property name="lookupFields"><list>
 			<bean parent="FieldDefinition" p:attributeName="id" />
-			<bean parent="FieldDefinition" p:attributeName="tripTypeCode" />
-			<bean parent="FieldDefinition" p:attributeName="countryState" p:required="true" />
-			<bean parent="FieldDefinition" p:attributeName="county" />
-			<bean parent="FieldDefinition" p:attributeName="primaryDestination" />
+			<bean parent="FieldDefinition" p:attributeName="primaryDestinationId" />
             <bean parent="FieldDefinition" p:attributeName="effectiveFromDate" />
 			<bean parent="FieldDefinition" p:attributeName="active" />
 		</list>
@@ -291,10 +237,7 @@
 		<property name="resultFields">
 		<list>
 			<bean parent="FieldDefinition" p:attributeName="id" />
-			<bean parent="FieldDefinition" p:attributeName="tripTypeCode" />
-			<bean parent="FieldDefinition" p:attributeName="countryState" />
-			<bean parent="FieldDefinition" p:attributeName="county" />
-			<bean parent="FieldDefinition" p:attributeName="primaryDestination" />
+			<bean parent="FieldDefinition" p:attributeName="primaryDestinationId" />
 			<bean parent="FieldDefinition" p:attributeName="seasonBeginDate" />
 			<bean parent="FieldDefinition" p:attributeName="effectiveFromDate" />
             <bean parent="FieldDefinition" p:attributeName="effectiveToDate" />		

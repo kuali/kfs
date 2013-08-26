@@ -257,27 +257,6 @@ public class TravelReimbursementAction extends TravelActionBase {
         }
     }
 
-//    /**
-//     * Adds special circumstances answers from a {@link TravelAuthorizationDocument} instance to the {@link TravelReimbursementDocument} for
-//     * viewing.
-//     *
-//     * @param reimbursement to add special circumstances answers
-//     * @param authorization {@link TravelAuthorization} instance to get travel advances from
-//     */
-//    protected void initializeSpecialCircumstances(final TravelReimbursementDocument reimbursement, final TravelAuthorizationDocument authorization) {
-//        for (SpecialCircumstances authSpCircumstances : authorization.getSpecialCircumstances()) {
-//            Long authQuestionId = authSpCircumstances.getQuestionId();
-//
-//            for(SpecialCircumstances reimSpCircumstances : reimbursement.getSpecialCircumstances()) {
-//                Long reimQuestionId =  reimSpCircumstances.getQuestionId();
-//
-//                if(reimQuestionId != null && reimQuestionId.equals(authQuestionId)){
-//                    reimSpCircumstances.setText(authSpCircumstances.getText());
-//                }
-//            }
-//        }
-//    }
-
     /**
      * @see org.kuali.rice.kns.web.struts.action.KualiAction#refresh(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
@@ -430,7 +409,7 @@ public class TravelReimbursementAction extends TravelActionBase {
         if (!StringUtils.isBlank(travelForm.getTravelDocumentIdentifier())) {
             LOG.debug("Creating reimbursement for document number "+ travelForm.getTravelDocumentIdentifier());
             document.setTravelDocumentIdentifier(travelForm.getTravelDocumentIdentifier());
-            TravelAuthorizationDocument authorization = (TravelAuthorizationDocument) getTravelDocumentService().findCurrentTravelAuthorization(document);
+            TravelAuthorizationDocument authorization = getTravelDocumentService().findCurrentTravelAuthorization(document);
 
             LOG.debug("Setting traveler with id "+ authorization.getTravelerDetailId());
             document.setTravelerDetailId(authorization.getTravelerDetailId());
@@ -463,7 +442,7 @@ public class TravelReimbursementAction extends TravelActionBase {
             if (document.getPrimaryDestinationId() != null && document.getPrimaryDestinationId().intValue() == TemConstants.CUSTOM_PRIMARY_DESTINATION_ID){
                 document.getPrimaryDestination().setPrimaryDestinationName(document.getPrimaryDestinationName());
                 document.getPrimaryDestination().setCounty(document.getPrimaryDestinationCounty());
-                document.getPrimaryDestination().setCountryState(document.getPrimaryDestinationCountryState());
+                document.getPrimaryDestination().getRegion().setRegionName(document.getPrimaryDestinationCountryState());
                 document.setPrimaryDestinationIndicator(true);
             }
 
@@ -510,7 +489,7 @@ public class TravelReimbursementAction extends TravelActionBase {
 
         //Set request variable that will determine whether to show the "Final Reimbursement" checkbox.
         //If TAC exists, no need to create another.
-        TravelAuthorizationDocument authorization = (TravelAuthorizationDocument) getTravelDocumentService().findCurrentTravelAuthorization(document);
+        TravelAuthorizationDocument authorization = getTravelDocumentService().findCurrentTravelAuthorization(document);
         if (authorization instanceof TravelAuthorizationCloseDocument){
             request.setAttribute("isClose", true);
         }
@@ -662,7 +641,7 @@ public class TravelReimbursementAction extends TravelActionBase {
         TravelReimbursementDocument trDoc = reqForm.getTravelReimbursementDocument();
         String docId = trDoc.getTravelDocumentIdentifier();
         if (ObjectUtils.isNotNull(docId)) {
-            TravelAuthorizationDocument taDoc = (TravelAuthorizationDocument) getTravelDocumentService().findCurrentTravelAuthorization(trDoc);
+            TravelAuthorizationDocument taDoc = getTravelDocumentService().findCurrentTravelAuthorization(trDoc);
             if (ObjectUtils.isNotNull(taDoc)) {
                 // add relationship
                 String relationDescription = "TA - TR";
@@ -764,7 +743,7 @@ public class TravelReimbursementAction extends TravelActionBase {
         TravelReimbursementDocument travelReqDoc = reqForm.getTravelReimbursementDocument();
         String docId = travelReqDoc.getTravelDocumentIdentifier();
         if (ObjectUtils.isNotNull(docId)) {
-            TravelAuthorizationDocument taDoc = (TravelAuthorizationDocument) getTravelDocumentService().findCurrentTravelAuthorization(travelReqDoc);
+            TravelAuthorizationDocument taDoc = getTravelDocumentService().findCurrentTravelAuthorization(travelReqDoc);
             if (ObjectUtils.isNotNull(taDoc)) {
                 getTravelReimbursementService().addDateChangedNote(travelReqDoc, taDoc);
             }

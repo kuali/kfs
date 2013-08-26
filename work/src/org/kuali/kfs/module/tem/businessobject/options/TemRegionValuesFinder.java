@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.tem.businessobject.options;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -45,17 +46,22 @@ public class TemRegionValuesFinder extends KeyValuesBase {
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put("tripTypeCode", "IN");
         List<TemRegion> inRegions = (List<TemRegion>) service.findMatching(TemRegion.class, fieldValues);
+        Collections.sort(inRegions);
         fieldValues.put("tripTypeCode", "BLN");
         List<TemRegion> blnRegions = (List<TemRegion>) service.findMatching(TemRegion.class, fieldValues);
         fieldValues.put("tripTypeCode", "OUT");
         List<TemRegion> outRegions = (List<TemRegion>) service.findMatching(TemRegion.class, fieldValues);
+        Collections.sort(blnRegions);
         fieldValues.put("tripTypeCode", "INT");
         List<TemRegion> intRegions = (List<TemRegion>) service.findMatching(TemRegion.class, fieldValues);
-      //  Collections.sort(temCountries);
+        Collections.sort(intRegions);
+
 
         List<TemRegion> usRegions = new ArrayList<TemRegion>();
         usRegions.addAll(inRegions);
+        Collections.sort(blnRegions);
         usRegions.addAll(blnRegions);
+        Collections.sort(outRegions);
         usRegions.addAll(outRegions);
 
         Iterator<TemRegion> it = usRegions.iterator();

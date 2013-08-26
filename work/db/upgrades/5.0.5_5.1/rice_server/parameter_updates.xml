@@ -206,22 +206,6 @@
 		</insert>
      <modifySql dbms="mysql"><replace with="UUID()" replace="SYS_GUID()"/></modifySql>
    </changeSet>
-   <changeSet author="KFS52" id="KFSCNTRB-734">
-		<comment>KFSCNTRB-734:Secured Field in Overview Tab</comment> 
-		 <insert tableName="KRCR_PARM_T">
-		  <column name="NMSPC_CD" value="KR-NS"/> 
-		  <column name="CMPNT_CD" value="All"/> 
-		  <column name="PARM_NM" value="SECURE_FIELD_DATA_WARNING_IND"/> 
-		  <column name="VAL" value="Y"/>   
-		  <column name="OBJ_ID" valueComputed="SYS_GUID()"/>
-		  <column name="VER_NBR" valueNumeric="1"/> 
-		  <column name="PARM_TYP_CD" value="CONFG"/> 
-		  <column name="PARM_DESC_TXT" value="If set to Y when sensitive data is found  in the Secure Field the user will be prompted with an error message  ,If this is set to N then the user will not be prompted irrespective of the data ."/> 
-		  <column name="EVAL_OPRTR_CD" value="A"/> 
-		  <column name="APPL_ID" value="KFS"/> 
-		</insert>
-<modifySql dbms="mysql"><replace with="UUID()" replace="SYS_GUID()"/></modifySql>
-</changeSet>
 
  <changeSet author="KFS52" id="KFSCNTRB-1276">
 		<comment>KFSCNTRB-1276 Need this column to hold number of days after the creation of a requisition in which it can be copied.The value 9999 would indicate that a copy would be allowed for an infinite number of days and the value 0 would indicate that copy is not allowed</comment>		

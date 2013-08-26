@@ -36,7 +36,6 @@ public class FinancialSystemDocumentHeader extends DocumentHeader {
     protected String correctedByDocumentId;
     protected String financialDocumentInErrorNumber;
     protected String financialDocumentStatusCode;
-    protected String securedField;
 
     /**
      * Constructor - creates empty instances of dependent objects
@@ -185,14 +184,6 @@ public class FinancialSystemDocumentHeader extends DocumentHeader {
     public void updateAndSaveAppDocStatus(String applicationDocumentStatus) throws WorkflowException {
        setApplicationDocumentStatus(applicationDocumentStatus);
        SpringContext.getBean(WorkflowDocumentService.class).saveRoutingData(getWorkflowDocument());
-    }
-
-    public String getSecuredField() {
-        return securedField;
-    }
-
-    public void setSecuredField(String securedField) {
-        this.securedField = securedField;
     }
 
 }

@@ -478,10 +478,6 @@
    		</property>
    	</bean>
    	
-   	<bean id="SecureFieldDataValidationPattern"
-		class="org.kuali.rice.krad.datadictionary.validation.fieldlevel.SecureFieldDataValidationPattern"
-               abstract="true" />
-   	
    	<bean id="RoutingAttribute-financialObjectCode" class="org.kuali.rice.krad.datadictionary.RoutingAttribute">
 		<property name="qualificationAttributeName" value="financialObjectCode" />
 	</bean>

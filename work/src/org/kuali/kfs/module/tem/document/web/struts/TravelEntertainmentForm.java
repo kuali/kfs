@@ -113,6 +113,14 @@ public class TravelEntertainmentForm extends TravelFormBase implements TravelEnt
     }
 
     @Override
+    public boolean isDefaultOpenPaymentInfoTab() {
+      if(TemConstants.EntertainmentStatusCodeKeys.AWAIT_ENT_MANAGER.equals(getDocument().getDocumentHeader().getWorkflowDocument().getApplicationDocumentStatus())) {
+          return true;
+      }
+        return super.isDefaultOpenPaymentInfoTab();
+    }
+
+    @Override
     public List<ExtraButton> getExtraButtons() {
         super.getExtraButtons();
         final Map<String, ExtraButton> buttonsMap = createButtonsMap();

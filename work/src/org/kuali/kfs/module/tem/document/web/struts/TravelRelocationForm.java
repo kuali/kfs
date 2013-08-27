@@ -112,6 +112,18 @@ public class TravelRelocationForm extends TravelFormBase implements TravelReloca
         return extraButtons;
     }
 
+
+    @Override
+    public boolean isDefaultOpenPaymentInfoTab() {
+      String appDocStatus = getDocument().getDocumentHeader().getWorkflowDocument().getApplicationDocumentStatus();
+      if(TemConstants.TravelRelocationStatusCodeKeys.AWAIT_RELO_MANAGER.equals(appDocStatus)) {
+          return true;
+      }
+
+      return super.isDefaultOpenPaymentInfoTab();
+
+    }
+
     @Override
     public boolean canCertify() {
         return canCertify;

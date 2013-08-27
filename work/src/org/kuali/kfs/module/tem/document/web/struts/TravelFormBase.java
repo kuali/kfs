@@ -997,6 +997,16 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
         this.lookedUpCollectionName = lookedUpCollectionName;
     }
 
+
+    public boolean isDefaultOpenPaymentInfoTab() {
+        boolean  initiated =  getTravelDocument().getDocumentHeader().getWorkflowDocument().isInitiated();
+        if(initiated) {
+            return true;
+        }
+        return false;
+
+   }
+
     /**
      * Gets the accountDistributionsourceAccountingLines attribute.
      *

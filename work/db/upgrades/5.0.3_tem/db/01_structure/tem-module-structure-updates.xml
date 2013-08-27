@@ -1165,6 +1165,8 @@
 			startValue="1" />
 		<createSequence sequenceName="TEM_PER_DIEM_ID_SEQ"
 			startValue="1000" />
+		<createSequence sequenceName="TEM_PRI_DEST_ID_SEQ"
+			startValue="1" />
 		<createSequence sequenceName="TEM_PROFILE_ACCOUNT_ID_SEQ"
 			startValue="1" />
 		<createSequence sequenceName="TEM_PROFILE_ARRANGER_ID_SEQ"

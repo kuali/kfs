@@ -15,13 +15,18 @@
  */
 package org.kuali.kfs.module.tem.document.lookup;
 
+import java.util.List;
+
 import org.apache.commons.lang.text.StrBuilder;
 import org.apache.log4j.Logger;
+import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationStatusCodeKeys;
 import org.kuali.kfs.module.tem.TemConstants.TravelDocTypes;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
 import org.kuali.kfs.module.tem.document.TravelDocument;
+import org.kuali.kfs.module.tem.document.TravelReimbursementDocument;
 import org.kuali.kfs.module.tem.document.authorization.TravelAuthorizationFamilyDocumentPresentationController;
+import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kew.api.document.search.DocumentSearchResult;
@@ -29,6 +34,7 @@ import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.document.authorization.DocumentPresentationController;
 import org.kuali.rice.kns.service.DocumentHelperService;
+import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
@@ -38,11 +44,13 @@ public class TravelAuthorizationDocumentCustomActionBuilder extends DocumentActi
 
     protected volatile DocumentService documentService;
     protected volatile DocumentHelperService documentHelperService;
+    protected volatile TravelDocumentService travelDocumentService;
 
     /**
      * Determines if the url column for actions should be rendered. This is done for {@link TravelAuthorizationDocument} instances
      * in the search results that have a workflow document status of FINAL or PROCESSED and on documents that do not have a workflow
-     * App Doc Status of REIMB_HELD, CANCELLED, PEND_AMENDMENT, CLOSED, or RETIRED_VERSION.
+     * App Doc Status of REIMB_HELD, CANCELLED, PEND_AMENDMENT, CLOSED, or RETIRED_VERSION. Also checks if the person has permission to
+     * initiate the target documents. Will not show the new Reimbursement link if a TA already has a TR enroute.
      *
      * check status of document and don't create if the status is not final or processed
      *
@@ -67,9 +75,20 @@ public class TravelAuthorizationDocumentCustomActionBuilder extends DocumentActi
         if (getTemRoleService().canAccessTravelDocument(document, user) && document.getTemProfileId() != null){
             //check if user also can init other docs
             hasInitAccess = user.getPrincipalId().equals(document.getTraveler().getPrincipalId()) || getTemRoleService().isTravelDocumentArrangerForProfile(documentType, user.getPrincipalId(), document.getTemProfileId()) || getTemRoleService().isTravelArranger(user, document.getTemProfile().getHomeDepartment() , document.getTemProfileId().toString(), documentType);
-
         }
-        return statusCheck && hasInitAccess;
+
+        boolean checkRelatedDocs = true;
+        if (documentType.equals(TemConstants.TravelDocTypes.TRAVEL_REIMBURSEMENT_DOCUMENT)) {
+            List<Document> docs = getTravelDocumentService().getDocumentsRelatedTo(document, documentType);
+            for (Document doc : docs) {
+                TravelReimbursementDocument trDoc = (TravelReimbursementDocument)doc;
+                if (trDoc.getDocumentHeader().getWorkflowDocument().isEnroute()) {
+                    checkRelatedDocs &= false;
+                }
+            }
+        }
+
+        return statusCheck && hasInitAccess && checkRelatedDocs;
     }
 
     /**
@@ -80,7 +99,7 @@ public class TravelAuthorizationDocumentCustomActionBuilder extends DocumentActi
      */
     protected boolean canPayVendor(DocumentSearchResult documentSearchResult) {
         try {
-            final TravelAuthorizationDocument document = (TravelAuthorizationDocument)getDocumentService().getByDocumentHeaderId(documentSearchResult.getDocument().getDocumentId());
+            final TravelAuthorizationDocument document = (TravelAuthorizationDocument)getDocumentService().getByDocumentHeaderIdSessionless(documentSearchResult.getDocument().getDocumentId());
             final DocumentPresentationController presController = getDocumentHelperService().getDocumentPresentationController(document);
             if (!(presController instanceof TravelAuthorizationFamilyDocumentPresentationController)) {
                 return false; // doesn't use a travel auth family doc presentation controller?  Then it can't pay to dv...
@@ -133,5 +152,12 @@ public class TravelAuthorizationDocumentCustomActionBuilder extends DocumentActi
             documentHelperService = SpringContext.getBean(DocumentHelperService.class);
         }
         return documentHelperService;
+    }
+
+    protected TravelDocumentService getTravelDocumentService() {
+        if (travelDocumentService == null) {
+            travelDocumentService = SpringContext.getBean(TravelDocumentService.class);
+        }
+        return travelDocumentService;
     }
 }

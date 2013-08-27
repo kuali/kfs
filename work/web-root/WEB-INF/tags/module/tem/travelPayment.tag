@@ -143,7 +143,7 @@
             </tr>
             <tr>
               <th scope="row"><div align="right"><kul:htmlAttributeLabel attributeEntry="${travelPaymentAttributes.checkStubText}"/></div></th>
-              <td colspan="3"><kul:htmlControlAttribute attributeEntry="${travelPaymentAttributes.checkStubText}" property="document.${paymentPropertyName}.checkStubText" readOnly="${(!fullEntryMode) || advancePaymentMode}"/></td>
+              <td colspan="3"><kul:htmlControlAttribute attributeEntry="${travelPaymentAttributes.checkStubText}" property="document.${paymentPropertyName}.checkStubText" readOnly="true"/></td>
             </tr>
         </table>
 		<%-- SPECIAL HANDLING --%>

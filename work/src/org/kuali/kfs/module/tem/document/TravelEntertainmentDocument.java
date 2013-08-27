@@ -293,7 +293,7 @@ public class TravelEntertainmentDocument extends TEMReimbursementDocument implem
     @Override
     public void prepareForSave(KualiDocumentEvent event) {
         super.prepareForSave(event);
-        getTravelPayment().setCheckStubText(getTravelDocumentIdentifier() + " " + StringUtils.defaultString(getEventTitle()) + getTripBegin());
+        getTravelPayment().setCheckStubText(getTravelDocumentIdentifier() + " " + StringUtils.defaultString(getEventTitle()) + " " + getTripBegin());
     }
 
     /**
@@ -340,7 +340,7 @@ public class TravelEntertainmentDocument extends TEMReimbursementDocument implem
     @Override
     public void initiateDocument() {
         super.initiateDocument();
-        updateAppDocStatus(EntertainmentStatusCodeKeys.IN_PROCESS);
+        setAppDocStatus(EntertainmentStatusCodeKeys.IN_PROCESS);
         getTravelPayment().setDocumentationLocationCode(getParameterService().getParameterValueAsString(TravelEntertainmentDocument.class, TravelParameters.DOCUMENTATION_LOCATION_CODE,
                 getParameterService().getParameterValueAsString(TemParameterConstants.TEM_DOCUMENT.class,TravelParameters.DOCUMENTATION_LOCATION_CODE)));
     }

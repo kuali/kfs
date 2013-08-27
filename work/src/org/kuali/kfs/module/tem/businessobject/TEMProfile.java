@@ -149,26 +149,6 @@ public class TEMProfile extends BaseTemProfile {
         this.lastUpdate = lastUpdate;
     }
 
-    /**
-     * Gets the nonResIdentAlien attribute.
-     *
-     * @return Returns the nonResIdentAlien.
-     */
-    @Override
-    @Column(name = "non_res_alien", length = 1, nullable = true)
-    public boolean isNonResidentAlien() {
-        return nonResidentAlien;
-    }
-
-    /**
-     * Sets the nonResIdentAlien attribute value.
-     *
-     * @param nonResIdentAlien The nonResIdentAlien to set.
-     */
-    public void setNonResidentAlien(Boolean nonResidentAlien) {
-        this.nonResidentAlien = nonResidentAlien;
-    }
-
     @Override
     @ManyToOne
     @JoinColumn(name = "traveler_typ_cd")

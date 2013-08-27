@@ -25,7 +25,6 @@ import java.util.Properties;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.module.tem.TemConstants;
-import org.kuali.kfs.module.tem.TemConstants.Permission;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants.TEMProfileProperties;
 import org.kuali.kfs.module.tem.businessobject.TEMProfile;
@@ -39,6 +38,7 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kim.api.services.IdentityManagementService;
@@ -208,7 +208,13 @@ public class TEMProfileLookupableHelperServiceImpl extends KualiLookupableHelper
 
         boolean canCreateNewProfile = false;
         boolean canCreateMyProfile = false;
-        if (getIdentityManagementService().hasPermission(user.getPrincipalId(), TemConstants.NAMESPACE, Permission.CREATE_PROFILE)) {
+
+        Map<String,String> roleQualifiers = new HashMap<String,String>();
+
+        Map<String,String> permissionDetails = new HashMap<String,String>();
+        permissionDetails.put(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME, TemConstants.TravelDocTypes.TRAVEL_PROFILE_DOCUMENT);
+
+        if (getIdentityManagementService().isAuthorizedByTemplateName(user.getPrincipalId(), KFSConstants.CoreModuleNamespaces.KNS, KimConstants.PermissionTemplateNames.CREATE_MAINTAIN_RECORDS, permissionDetails, roleQualifiers)) {
             canCreateNewProfile = true;
         }
 

@@ -1639,13 +1639,19 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
         RequisitionDocument req = po.getPurApSourceDocumentIfPossible();
 
-        String reqInitiator =req.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId();
+        String reqInitiator=null;
+
+        if(ObjectUtils.isNotNull(req)){
+            reqInitiator =req.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId();
+        }
+
         String currentDocumentTypeName = po.getDocumentHeader().getWorkflowDocument().getDocumentTypeName();
         Set<String> fiscalOfficerIds = new HashSet<String>();
         Set<Account> accounts = new HashSet<Account>();
         try {
-            po.appSpecificRouteDocumentToUser(po.getDocumentHeader().getWorkflowDocument(), reqInitiator, getAdhocFyiAnnotation(po) + KFSConstants.BLANK_SPACE + req.getPurapDocumentIdentifier() + KFSConstants.BLANK_SPACE + "(document Id " + req.getDocumentNumber() + ")", "Requisition Routed By User");
-
+            if(reqInitiator!=null) {
+                po.appSpecificRouteDocumentToUser(po.getDocumentHeader().getWorkflowDocument(), reqInitiator, getAdhocFyiAnnotation(po) + KFSConstants.BLANK_SPACE + req.getPurapDocumentIdentifier() + KFSConstants.BLANK_SPACE + "(document Id " + req.getDocumentNumber() + ")", "Requisition Routed By User");
+            }
 
             if(!PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_AMENDMENT_DOCUMENT.equalsIgnoreCase(currentDocumentTypeName)){
                 List<PurchaseOrderItem> items = po.getItemsActiveOnly();
@@ -1836,7 +1842,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
      * @param vendor The VendorDetail object whose default address we'll obtain and set the fields.
      */
     protected void updateDefaultVendorAddress(VendorDetail vendor) {
-       
+
         VendorAddress defaultAddress = vendorService.getVendorDefaultAddress(vendor.getVendorHeaderGeneratedIdentifier(),vendor.getVendorDetailAssignedIdentifier(), vendor.getVendorHeader().getVendorType().getAddressType().getVendorAddressTypeCode(), "",false);
         if (defaultAddress != null) {
             if (defaultAddress.getVendorState() != null) {

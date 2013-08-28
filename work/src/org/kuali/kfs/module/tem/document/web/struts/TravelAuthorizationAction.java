@@ -1009,6 +1009,15 @@ public class TravelAuthorizationAction extends TravelActionBase {
         return super.cancel(mapping, form, request, response);
     }
 
+    @Override
+    public ActionForward disapprove(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        Object buttonClicked = request.getParameter(KRADConstants.QUESTION_CLICKED_BUTTON);
+        if (ConfirmationQuestion.YES.equals(buttonClicked)) {
+            reverseAmendment((TravelAuthorizationForm) form);
+        }
+        return super.disapprove(mapping, form, request, response);
+    }
+
     /**
      * @see org.kuali.kfs.module.tem.document.web.struts.TravelActionBase#close(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */

@@ -2050,7 +2050,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
                 taDoc.updateAppDocStatus(status);
 
                 try {
-                    Note cancelNote = getDocumentService().createNoteFromDocument(taDoc, ((ConfigurationService) SpringContext.getService("ConfigurationService")).getPropertyValueAsString(TemKeyConstants.TA_MESSAGE_AMEND_DOCUMENT_CANCELLED_TEXT));
+                    Note cancelNote = getDocumentService().createNoteFromDocument(taDoc, "Amemdment Canceled");
                     taDoc.addNote(cancelNote);
                     getDocumentService().saveDocument(taDoc);
                 }

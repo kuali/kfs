@@ -66,8 +66,9 @@
 		<property name="required" value="true" />
 		<property name="summary" value="Primary Destination" />
 		<property name="description" value="Primary Destination" />
-		<property name="control"><bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.tem.businessobject.options.PrimaryDestinationValuesFinder" p:includeKeyInLabel="false"/></property>
-	</bean>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="40"/>
+		</property>	</bean>
 	<bean id="PerDiem-seasonBeginDate" parent="PerDiem-seasonBeginDate-parentBean" />
 	<bean id="PerDiem-seasonBeginDate-parentBean" parent="GenericAttributes-genericDate">
 		<property name="name" value="seasonBeginDate" />

@@ -71,11 +71,14 @@ import org.kuali.kfs.module.tem.businessobject.MileageRate;
 import org.kuali.kfs.module.tem.businessobject.MileageRateObjCode;
 import org.kuali.kfs.module.tem.businessobject.PerDiem;
 import org.kuali.kfs.module.tem.businessobject.PerDiemExpense;
+import org.kuali.kfs.module.tem.businessobject.PrimaryDestination;
 import org.kuali.kfs.module.tem.businessobject.SpecialCircumstances;
 import org.kuali.kfs.module.tem.businessobject.SpecialCircumstancesQuestion;
 import org.kuali.kfs.module.tem.businessobject.TEMExpense;
+import org.kuali.kfs.module.tem.businessobject.TemRegion;
 import org.kuali.kfs.module.tem.businessobject.TransportationModeDetail;
 import org.kuali.kfs.module.tem.businessobject.TravelAdvance;
+import org.kuali.kfs.module.tem.businessobject.TripType;
 import org.kuali.kfs.module.tem.dataaccess.TravelDocumentDao;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
 import org.kuali.kfs.module.tem.document.TravelDocument;
@@ -265,9 +268,6 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
         Map<String,Object> fieldValues = new HashMap<String, Object>();
         // Gather all primary destination info
         fieldValues.put(TemPropertyConstants.PRIMARY_DESTINATION_ID, document.getPrimaryDestinationId());
-//        fieldValues.put(TemPropertyConstants.PER_DIEM_COUNTRY_STATE, document.getPrimaryDestinationCountryState());
-//        fieldValues.put(TemPropertyConstants.PER_DIEM_COUNTY_CODE, document.getPrimaryDestinationCounty());
-        //fieldValues.put(TemPropertyConstants.TRIP_TYPE_CODE, document.getTripTypeCode());
         fieldValues.put(KFSPropertyConstants.ACTIVE, KFSConstants.ACTIVE_INDICATOR);
 
         // find a valid per diem for each date.  If per diem is null, make it a custom per diem.
@@ -276,10 +276,12 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
             PerDiem perDiem = getTravelDocumentDao().findPerDiem(fieldValues);
             if (perDiem == null){
                 perDiem = new PerDiem();
+                perDiem.setPrimaryDestination(new PrimaryDestination());
+                perDiem.getPrimaryDestination().setRegion(new TemRegion());
+                perDiem.getPrimaryDestination().getRegion().setTripType(new TripType());
                 perDiem.setId(TemConstants.CUSTOM_PER_DIEM_ID);
                 perDiem.getPrimaryDestination().getRegion().setRegionName(document.getPrimaryDestinationCountryState());
                 perDiem.getPrimaryDestination().setCounty(document.getPrimaryDestinationCounty());
-                perDiem.setPrimaryDestination(document.getPrimaryDestination());
                 perDiem.getPrimaryDestination().getRegion().setTripType(document.getTripType());
                 perDiem.getPrimaryDestination().getRegion().setTripTypeCode(document.getTripTypeCode());
             }

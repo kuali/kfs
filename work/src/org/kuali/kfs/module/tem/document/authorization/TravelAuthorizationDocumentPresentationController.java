@@ -113,10 +113,12 @@ public class TravelAuthorizationDocumentPresentationController extends TravelAut
         }
 
         if (can) {
-            //If there are TR's, disabled amend
+            //If there are TR's that are not canceled or disapproved, disabled amend
             final TravelDocumentService travelDocumentService = SpringContext.getBean(TravelDocumentService.class);
             final List<Document> trRelatedDocumentList = travelDocumentService.getDocumentsRelatedTo(document, TravelDocTypes.TRAVEL_REIMBURSEMENT_DOCUMENT);
-            can = trRelatedDocumentList == null || trRelatedDocumentList.isEmpty();
+            for (Document trDocument : trRelatedDocumentList) {
+                can &= trDocument.getDocumentHeader().getWorkflowDocument().isCanceled() || trDocument.getDocumentHeader().getWorkflowDocument().isDisapproved();
+            }
         }
 
         return can;
@@ -143,7 +145,7 @@ public class TravelAuthorizationDocumentPresentationController extends TravelAut
     /**
      * Determines if the authorization can be closed
      * @param document the authorization to check
-     * @return true if the authroziation can be closed, false otherwise
+     * @return true if the authorization can be closed, false otherwise
      */
     public boolean canCloseAuthorization(TravelAuthorizationDocument document) {
         return isOpen(document) && (isFinalOrProcessed(document)) && hasReimbursements(document);

@@ -4415,7 +4415,6 @@
         <column name="AWD_ID" size="42" type="VARCHAR"/>
         <column name="AUTO_APP" size="1" type="VARCHAR"/>
         <column name="FUNDING_EXP_DT" type="TIMESTAMP"/>
-        <column name="DRAW_NBR" size="12" type="VARCHAR"/>
         <column name="COMMENT_TXT" size="800" type="VARCHAR"/>
         <column name="CG_INV_OPT" size="120" type="VARCHAR"/>
         <column name="LST_BLD_DT" type="TIMESTAMP"/>

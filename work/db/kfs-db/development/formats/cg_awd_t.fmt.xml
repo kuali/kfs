@@ -47,7 +47,6 @@
   <Field name="awd_id"                          type="string"     nullable="true"  trim="false" delimiter="|"  />
   <Field name="auto_app"                        type="string"     nullable="true"  trim="false" delimiter="|"  />
   <Field name="funding_exp_dt"                  type="date"       nullable="true"  trim="false" delimiter="|"  format="yyyyMMddHHmmss" />
-  <Field name="draw_nbr"                        type="string"     nullable="true"  trim="false" delimiter="|"  />
   <Field name="comment_txt"                     type="string"     nullable="true"  trim="false" delimiter="|"  />
   <Field name="cg_inv_opt"                      type="string"     nullable="true"  trim="false" delimiter="|"  />
   <Field name="lst_bld_dt"                      type="date"       nullable="true"  trim="false" delimiter="|"  format="yyyyMMddHHmmss" />

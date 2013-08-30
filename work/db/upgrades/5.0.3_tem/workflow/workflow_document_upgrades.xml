@@ -239,7 +239,7 @@
     	</documentType>
     	<documentType>
 	      <name>TRV</name>
-	      <parent>KFST</parent>
+	      <parent>TT</parent>
 	      <label>TravelTransactionalDocument</label>
 	      <attributes>
 				<attribute>

@@ -39,7 +39,7 @@
 		xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
 		<documentType>
 	      <name>TRV</name>
-	      <parent>KFST</parent>
+	      <parent>TT</parent>
 	      <label>TravelTransactionalDocument</label>
 	      <attributes>
 				<attribute>

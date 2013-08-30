@@ -21,7 +21,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.kuali.kfs.module.tem.businessobject.PerDiem;
-import org.kuali.kfs.module.tem.businessobject.PrimaryDestination;
 import org.kuali.kfs.module.tem.businessobject.TravelAdvance;
 import org.kuali.kfs.module.tem.document.TEMReimbursementDocument;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
@@ -58,10 +57,6 @@ public interface TravelDocumentDao {
      */
 
     List<TravelAdvance> getOutstandingTravelAdvanceByInvoice(Set<String> arInvoiceDocNumber);
-
-    public List<PrimaryDestination> findAllDistinctPrimaryDestinations(String tripType);
-
-    public List findDefaultPrimaryDestinations(Class clazz, String countryCode);
 
     /**
      * find the latest taxable ramification notification date

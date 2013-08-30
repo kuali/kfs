@@ -34,10 +34,8 @@ import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
-import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.businessobject.PerDiem;
-import org.kuali.kfs.module.tem.businessobject.PrimaryDestination;
 import org.kuali.kfs.module.tem.businessobject.TravelAdvance;
 import org.kuali.kfs.module.tem.dataaccess.TravelDocumentDao;
 import org.kuali.kfs.module.tem.document.TEMReimbursementDocument;
@@ -146,53 +144,6 @@ public class TravelDocumentDaoOjb extends PlatformAwareDaoBaseOjb implements Tra
         Query query = QueryFactory.newQuery(TravelAdvance.class, criteria);
 
         return (List<TravelAdvance>)getPersistenceBrokerTemplate().getCollectionByQuery(query);
-    }
-
-    @Override
-    public List<PrimaryDestination> findAllDistinctPrimaryDestinations(String tripType) {
-        Criteria criteria = new Criteria();
-        if (tripType.equals(TemConstants.TEMTripTypes.INTERNATIONAL)){
-            criteria.addEqualTo("tripType", tripType);
-        }
-        else if (tripType.equals(TemConstants.TEMTripTypes.DOMESTIC)){
-            criteria.addNotEqualTo("tripType", TemConstants.TEMTripTypes.INTERNATIONAL);
-        }
-        QueryByCriteria query = QueryFactory.newQuery(PrimaryDestination.class, criteria,true);
-        List<PrimaryDestination> results = (List<PrimaryDestination>) getPersistenceBrokerTemplate().getCollectionByQuery(query);
-
-        return results;
-    }
-
-    @Override
-    public List findDefaultPrimaryDestinations(Class clazz, String countryCode) {
-        Criteria criteria = new Criteria();
-        criteria.addEqualTo(TemPropertyConstants.PER_DIEM_COUNTRY_STATE, countryCode);
-        Criteria likeCriteria = new Criteria();
-        likeCriteria.addLike(TemPropertyConstants.PER_DIEM_NAME + (clazz.getSimpleName().equals(TemConstants.PRIMARY_DESTINATION_CLASS_NAME)?"Name":""), "%" + TemConstants.OTHER_PRIMARY_DESTINATION+ "%");
-        criteria.addAndCriteria(likeCriteria);
-
-        Query query = QueryFactory.newQuery(clazz, criteria,true);
-        List results = (List) getPersistenceBrokerTemplate().getCollectionByQuery(query);
-        if (results.size() > 0){
-            for (Object object : results){
-                if (object instanceof PrimaryDestination){
-                    PrimaryDestination temp = (PrimaryDestination) object;
-                    temp.setPrimaryDestinationName(temp.getPrimaryDestinationName().replace("[", "").replace("]", ""));
-                }
-                else if (object instanceof PerDiem){
-                    PerDiem temp = (PerDiem) object;
-                    temp.getPrimaryDestination().getPrimaryDestinationName().replace("[", "").replace("]", "");
-                }
-            }
-        }
-        else{
-            criteria = new Criteria();
-            criteria.addEqualTo(TemPropertyConstants.PER_DIEM_COUNTRY_STATE, TemConstants.ALL_STATES);
-            query = QueryFactory.newQuery(clazz, criteria,true);
-            results = (List) getPersistenceBrokerTemplate().getCollectionByQuery(query);
-        }
-
-        return results;
     }
 
     /**

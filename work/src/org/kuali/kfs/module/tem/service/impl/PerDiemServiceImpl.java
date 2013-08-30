@@ -20,14 +20,15 @@ import static org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameter
 
 import java.sql.Date;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.time.DateUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.module.tem.TemConstants.PerDiemParameter;
@@ -46,6 +47,7 @@ import org.kuali.kfs.module.tem.businessobject.PerDiemExpense;
 import org.kuali.kfs.module.tem.businessobject.TEMExpense;
 import org.kuali.kfs.module.tem.businessobject.TravelerDetail;
 import org.kuali.kfs.module.tem.businessobject.TripType;
+import org.kuali.kfs.module.tem.dataaccess.PerDiemDao;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.TravelReimbursementDocument;
@@ -62,7 +64,6 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.location.api.state.State;
 import org.kuali.rice.location.api.state.StateService;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
  * implement the service method calls defined in PerDiemService
@@ -75,6 +76,7 @@ public class PerDiemServiceImpl extends ExpenseServiceBase implements PerDiemSer
     private ParameterService parameterService;
     private BusinessObjectService businessObjectService;
     private StateService stateService;
+    private PerDiemDao perDiemDao;
     private Map<String, MealBreakDownStrategy> mealBreakDownStrategies;
     private String allStateCodes;
 
@@ -110,84 +112,66 @@ public class PerDiemServiceImpl extends ExpenseServiceBase implements PerDiemSer
     /**
      * @see org.kuali.kfs.module.tem.service.PerDiemService#retrieveActivePerDiem()
      */
-    @Override
-    public <T extends PerDiem> List<T> retrieveActivePerDiem() {
+    public <T extends PerDiem> List<T> retrieveInactivePerDiem() {
         Map<String, Object> fieldValues = new HashMap<String, Object>();
-        fieldValues.put(KFSPropertyConstants.ACTIVE, Boolean.TRUE);
+        fieldValues.put(KFSPropertyConstants.ACTIVE, Boolean.FALSE);
 
         return (List<T>) this.getBusinessObjectService().findMatching(PerDiem.class, fieldValues);
     }
 
-    /**
-     * @see org.kuali.kfs.module.tem.service.PerDiemService#deactivateAndSavePerDiem()
-     */
+
     @Override
-    @Transactional
-    public void deactivateAndSavePerDiem() {
-        List<PerDiem> perDiemList = this.retrieveActivePerDiem();
+    public void processPerDiem() {
+        Date today = dateTimeService.getCurrentSqlDate();
+        Collection<PerDiem> perDiems = perDiemDao.findAllPerDiemsOrderedBySeasonAndDest();
+        PerDiem lastPerDiem = perDiems.iterator().next();
+        List<PerDiem> group = new ArrayList<PerDiem>();
+        for (PerDiem pd : perDiems) {
+            if (lastPerDiem.getPrimaryDestinationId().equals(pd.getPrimaryDestinationId())) {
+                group.add(pd);
+            } else {
+                //process the group
+                processPerDiem(group, today);
 
-        if (ObjectUtils.isNotNull(perDiemList) && !perDiemList.isEmpty()) {
-            this.deactivatePerDiemBySeasonEndDate(perDiemList);
-
-            this.getBusinessObjectService().save(perDiemList);
+                group.clear();
+                group.add(pd);
+            }
+            lastPerDiem = pd;
         }
     }
 
-    /**
-     * @see org.kuali.kfs.module.tem.service.PerDiemService#deactivatePerDiemBySeasonEndDate(java.util.List)
-     */
-    @Override
-    public <T extends PerDiem> void deactivatePerDiemBySeasonEndDate(List<T> perDiemList) {
-        Date date = dateTimeService.getCurrentSqlDate();
+    protected void processPerDiem(List<PerDiem> perDiems, Date today) {
 
-        this.deactivatePerDiemBySeasonEndDate(perDiemList, date);
-    }
+        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+        PerDiem foundActivePerDiem = null;
+        for (PerDiem perDiem : perDiems) {
+            String season = perDiem.getSeasonBeginMonthAndDay()+"/"+Calendar.getInstance().get(Calendar.YEAR);
+            java.util.Date seasonDate;
+            try {
+                seasonDate = sdf.parse(season);
 
-    /**
-     * @see org.kuali.kfs.module.tem.service.PerDiemService#deactivatePerDiemBySeasonEndDate(java.util.List, java.sql.Date)
-     */
-    @Override
-    public <T extends PerDiem> void deactivatePerDiemBySeasonEndDate(List<T> perDiemList, Date date) {
-        for (PerDiem perDiem : perDiemList) {
-            this.deactivatePerDiemSeasonEndDate(perDiem, date);
+                if (today.after(seasonDate)) {
+                    perDiem.setActive(Boolean.TRUE);
+                    if (foundActivePerDiem == null) {
+                        foundActivePerDiem = perDiem;
+                    } else {
+                        foundActivePerDiem.setActive(Boolean.FALSE);
+                        businessObjectService.save(foundActivePerDiem);
+                    }
+                } else {
+                    perDiem.setActive(Boolean.FALSE);
+                }
+
+                businessObjectService.save(perDiem);
+            }
+            catch (ParseException ex) {
+                // TODO Auto-generated catch block
+                ex.printStackTrace();
+            }
         }
     }
 
-    /**
-     * @see org.kuali.kfs.module.tem.service.PerDiemService#deactivatePerDiemBySeasonEndDate(org.kuali.kfs.module.tem.businessobject.PerDiem,
-     *      java.sql.Date)
-     */
-    @Override
-    public <T extends PerDiem> void deactivatePerDiemSeasonEndDate(T perDiem, Date date) {
-        /*Date seasonEndDate = perDiem.getSeasonEndDate();
 
-        if (ObjectUtils.isNotNull(seasonEndDate) && seasonEndDate.before(date)) {
-            //perDiem.setActive(false);
-        }*/
-    }
-
-    /**
-     * @see org.kuali.kfs.module.tem.service.PerDiemService#deactivatePerDiemByEffectiveDate(java.util.List, java.sql.Date)
-     */
-    @Override
-    public <T extends PerDiem> void deactivatePerDiemByEffectiveDate(List<T> perDiemList, Date date) {
-        for (PerDiem perDiem : perDiemList) {
-            this.deactivatePerDiemByEffectiveDate(perDiem, date);
-        }
-    }
-
-    /**
-     * @see org.kuali.kfs.module.tem.service.PerDiemService#deactivatePerByDiemEffectiveDate(org.kuali.kfs.module.tem.businessobject.PerDiem,
-     *      java.sql.Date)
-     */
-    @Override
-    public <T extends PerDiem> void deactivatePerDiemByEffectiveDate(T perDiem, Date date) {
-        Date effectiveDate = perDiem.getEffectiveFromDate();
-
-        if (ObjectUtils.isNotNull(effectiveDate) && effectiveDate.before(date)) {
-            perDiem.setActive(false);
-        }
-    }
 
     /**
      * @see org.kuali.kfs.module.tem.service.PerDiemService#updateTripType(java.util.List)
@@ -259,45 +243,6 @@ public class PerDiemServiceImpl extends ExpenseServiceBase implements PerDiemSer
         return (List) this.getBusinessObjectService().findMatching(PerDiem.class, fieldValues);
     }
 
-    /**
-     * @see org.kuali.kfs.module.tem.service.PerDiemService#retrieveExpireDeactivatePreviousPerDiem(java.util.List, boolean)
-     */
-    @Override
-    public <T extends PerDiem> List<PerDiem> retrieveExpireDeactivatePreviousPerDiem(List<T> perDiemList, boolean isDeactivate) {
-        List<PerDiem> previousPerDiemList = new ArrayList<PerDiem>();
-
-        for (T perDiem : perDiemList) {
-            List<PerDiem> previousPerDiems = this.retrieveExpireDeactivatePreviousPerDiem(perDiem, isDeactivate);
-
-            if (ObjectUtils.isNotNull(previousPerDiems) && !previousPerDiems.isEmpty()) {
-                previousPerDiemList.addAll(previousPerDiems);
-            }
-        }
-
-        return previousPerDiemList;
-    }
-
-    /**
-     * @see org.kuali.kfs.module.tem.service.PerDiemService#retrieveExpireDeactivatePreviousPerDiem(org.kuali.kfs.module.tem.businessobject.PerDiem,
-     *      boolean)
-     */
-    @Override
-    public <T extends PerDiem> List<PerDiem> retrieveExpireDeactivatePreviousPerDiem(T perDiem, boolean isDeactivate) {
-        List<PerDiem> perviousPerDiems = this.retrievePreviousPerDiem(perDiem);
-
-        Date effectiveDate = perDiem.getEffectiveFromDate();
-        String expirationDateAsString = this.getDateTimeService().toDateString(DateUtils.addDays(effectiveDate, -1));
-
-        try {
-            Date expirationDate = this.getDateTimeService().convertToSqlDate(expirationDateAsString);
-            this.expireOrDeactivate(perviousPerDiems, expirationDate, isDeactivate);
-        }
-        catch (ParseException ex) {
-            throw new RuntimeException("failed to parse the date: " + expirationDateAsString);
-        }
-
-        return perviousPerDiems;
-    }
 
     /**
      * check whether the given per diem exists in the database
@@ -315,21 +260,6 @@ public class PerDiemServiceImpl extends ExpenseServiceBase implements PerDiemSer
 
         return retval;
 
-    }
-
-    /**
-     * set expiration date of the given per diems
-     */
-    protected void expireOrDeactivate(List<PerDiem> perDiemList, Date expirationDate, boolean isDeactivate) {
-        for (PerDiem perDiem : perDiemList) {
-            if (ObjectUtils.isNotNull(expirationDate)) {
-                perDiem.setEffectiveToDate(expirationDate);
-            }
-
-            if (isDeactivate) {
-                perDiem.setActive(false);
-            }
-        }
     }
 
     /**
@@ -419,6 +349,25 @@ public class PerDiemServiceImpl extends ExpenseServiceBase implements PerDiemSer
      */
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;
+    }
+
+    /**
+     * Gets the perDiemDao attribute.
+     *
+     * @return Returns the perDiemDao
+     */
+
+    public PerDiemDao getPerDiemDao() {
+        return perDiemDao;
+    }
+
+    /**
+     * Sets the perDiemDao attribute.
+     *
+     * @param perDiemDao The perDiemDao to set.
+     */
+    public void setPerDiemDao(PerDiemDao perDiemDao) {
+        this.perDiemDao = perDiemDao;
     }
 
     /**

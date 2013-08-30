@@ -21,7 +21,6 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.integration.ar.AccountsReceivableModuleService;
 import org.kuali.kfs.module.tem.TemConstants;
-import org.kuali.kfs.module.tem.businessobject.PrimaryDestination;
 import org.kuali.kfs.module.tem.businessobject.TEMProfile;
 import org.kuali.kfs.module.tem.businessobject.TravelCardType;
 import org.kuali.kfs.module.tem.dataaccess.TravelDocumentDao;
@@ -114,14 +113,6 @@ public class TravelServiceImpl implements TravelService {
     }
 
     /**
-     * @see org.kuali.kfs.module.tem.service.TravelService#findAllDistinctPrimaryDestinations(java.lang.String)
-     */
-    @Override
-    public List<PrimaryDestination> findAllDistinctPrimaryDestinations(String tripType){
-        return travelDocumentDao.findAllDistinctPrimaryDestinations(tripType);
-    }
-
-    /**
      * @see org.kuali.kfs.module.tem.service.TravelService#getTravelCardTypes()
      */
     @Override
@@ -131,15 +122,6 @@ public class TravelServiceImpl implements TravelService {
             travelCardTypes.add(cardType.getCode());
         }
         return travelCardTypes;
-    }
-
-    /**
-     * @see org.kuali.kfs.module.tem.service.TravelService#findDefaultPrimaryDestinations(java.lang.Class, java.lang.String)
-     */
-    @SuppressWarnings("rawtypes")
-    @Override
-    public List findDefaultPrimaryDestinations(Class clazz, String countryCode) {
-        return travelDocumentDao.findDefaultPrimaryDestinations(clazz, countryCode);
     }
 
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {

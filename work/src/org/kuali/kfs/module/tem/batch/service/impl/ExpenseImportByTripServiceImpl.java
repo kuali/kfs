@@ -327,12 +327,18 @@ public class ExpenseImportByTripServiceImpl extends ExpenseImportServiceBase imp
     public boolean isDuplicate(AgencyStagingData agencyData) {
 
         // Verify that this isn't a duplicate entry based on the following:
-        // Trip ID, Agency Name, Transaction Date, Transaction Amount
+        // Trip ID, Invoice Number, traveler type id, Agency Name, Transaction Date, Transaction Amount
 
         Map<String, Object> fieldValues = new HashMap<String, Object>();
 
         if (StringUtils.isNotEmpty(agencyData.getTripId())) {
             fieldValues.put(TemPropertyConstants.TRIP_ID, agencyData.getTripId());
+        }
+        if (StringUtils.isNotEmpty(agencyData.getTripInvoiceNumber())) {
+            fieldValues.put(TemPropertyConstants.TRIP_INVOICE_NUMBER, agencyData.getTripInvoiceNumber());
+        }
+        if (StringUtils.isNotEmpty(agencyData.getTripTravelerTypeId())) {
+            fieldValues.put(TemPropertyConstants.TRIP_TRAVELER_TYPE_ID, agencyData.getTripTravelerTypeId());
         }
         if (StringUtils.isNotEmpty(agencyData.getCreditCardOrAgencyCode())) {
             fieldValues.put(TemPropertyConstants.CREDIT_CARD_AGENCY_CODE, agencyData.getCreditCardOrAgencyCode());

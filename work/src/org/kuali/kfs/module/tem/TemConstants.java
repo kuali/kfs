@@ -757,6 +757,9 @@ public class TemConstants {
     public static class TEMTripTypes {
         public static final String DOMESTIC = "DOM";
         public static final String INTERNATIONAL = "INT";
+        public static final String IN_STATE = "IN";
+        public static final String BLANKET_IN_STATE = "BLN";
+        public static final String OUT_OF_STATE = "OUT";
     }
 
     public static class TEMExpenseTypes {

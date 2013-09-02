@@ -33,11 +33,11 @@ import org.apache.log4j.Logger;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomer;
 import org.kuali.kfs.module.tem.TemConstants;
-import org.kuali.kfs.module.tem.TemConstants.EntertainmentStatusCodeKeys;
-import org.kuali.kfs.module.tem.TemConstants.TravelParameters;
 import org.kuali.kfs.module.tem.TemParameterConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.TemWorkflowConstants;
+import org.kuali.kfs.module.tem.TemConstants.EntertainmentStatusCodeKeys;
+import org.kuali.kfs.module.tem.TemConstants.TravelParameters;
 import org.kuali.kfs.module.tem.businessobject.Attendee;
 import org.kuali.kfs.module.tem.businessobject.Purpose;
 import org.kuali.kfs.module.tem.businessobject.TEMProfile;
@@ -284,6 +284,17 @@ public class TravelEntertainmentDocument extends TEMReimbursementDocument implem
         }
 
         return false;
+    }
+
+    /**
+     *
+     * @see org.kuali.kfs.module.tem.document.TravelDocumentBase#requiresTaxManagerApprovalRouting()
+     */
+    @Override
+    protected boolean requiresTaxManagerApprovalRouting() {
+        boolean requiresTaxManagerApprovalRouting = super.requiresTaxManagerApprovalRouting();
+
+        return requiresTaxManagerApprovalRouting || getTraveler().getNonResidentAlien();
     }
 
     /**

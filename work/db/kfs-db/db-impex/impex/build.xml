@@ -973,7 +973,7 @@ OUTPUT_DUMPS = false
          ================================= -->
 	<target name="export-data" depends="create-clover-format-graph-files,run-export-graphs" />
 
-	<target name="truncate-tables">
+	<target name="truncate-tables" depends="inittasks">
 		<sql driver="${import.torque.database.driver}"
 		     password="${import.torque.database.password}"
 		     url="${import.torque.database.url}"

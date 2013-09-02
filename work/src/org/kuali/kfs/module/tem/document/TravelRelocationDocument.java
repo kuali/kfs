@@ -27,10 +27,10 @@ import javax.persistence.Table;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.module.tem.TemConstants;
-import org.kuali.kfs.module.tem.TemConstants.TravelParameters;
-import org.kuali.kfs.module.tem.TemConstants.TravelRelocationStatusCodeKeys;
 import org.kuali.kfs.module.tem.TemParameterConstants;
 import org.kuali.kfs.module.tem.TemWorkflowConstants;
+import org.kuali.kfs.module.tem.TemConstants.TravelParameters;
+import org.kuali.kfs.module.tem.TemConstants.TravelRelocationStatusCodeKeys;
 import org.kuali.kfs.module.tem.businessobject.JobClassification;
 import org.kuali.kfs.module.tem.businessobject.RelocationReason;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
@@ -379,7 +379,9 @@ public class TravelRelocationDocument extends TEMReimbursementDocument implement
      */
     @Override
     protected boolean requiresTaxManagerApprovalRouting() {
-        return true;
+        boolean requiresTaxManagerApprovalRouting =  super.requiresTaxManagerApprovalRouting();
+
+        return requiresTaxManagerApprovalRouting || getTraveler().getNonResidentAlien();
     }
 
     /**

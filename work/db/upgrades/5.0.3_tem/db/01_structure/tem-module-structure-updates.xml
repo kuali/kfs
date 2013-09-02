@@ -799,6 +799,7 @@
 			<column name="EMAIL_ADDR" type="VARCHAR2(50)" />
 			<column name="PHONE_NBR" type="VARCHAR2(20)" />
 			<column name="CITIZENSHIP" type="VARCHAR2(40)" />
+			<column name="NON_RES_ALIEN" type="VARCHAR2(1)" />
 			<column name="LIABILITY_INSURANCE" type="VARCHAR2(1)" />
 			<column name="TRAVELER_TYP_CD" type="VARCHAR2(3)" />
 			<column name="ACTV_IND" type="VARCHAR2(1)" />

@@ -218,7 +218,8 @@
 	    <field-descriptor name="liabilityInsurance" column="LIABILITY_INSURANCE" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
         <field-descriptor name="travelerTypeCode" column="TRAVELER_TYP_CD" jdbc-type="VARCHAR"/>
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR"/>       
-		<field-descriptor name="citizenship" column="CITIZENSHIP" jdbc-type="VARCHAR"/>               
+		<field-descriptor name="citizenship" column="CITIZENSHIP" jdbc-type="VARCHAR"/>
+		<field-descriptor name="nonResidentAlien" column="NON_RES_ALIEN" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>               
 		<field-descriptor name="active" column="ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/> 
         <field-descriptor name="versionNumber" locking="true" column="VER_NBR" jdbc-type="BIGINT"/>
         <reference-descriptor name="travelerType" class-ref="org.kuali.kfs.module.tem.businessobject.TravelerType" auto-retrieve="true" auto-update="none" auto-delete="none">

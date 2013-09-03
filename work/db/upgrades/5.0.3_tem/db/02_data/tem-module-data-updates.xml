@@ -19086,12 +19086,8 @@
 			<column name="OBJ_ID" valueComputed="SYS_GUID()"/>
 		</insert>
 		<insert tableName="TEM_PER_DIEM_T">
-			<column name="ID" valueNumeric="2"/>
+			<column name="ID" valueNumeric="2147483647"/>
 			<column name="TRIP_TYP_CD" value="IN"/>
-			<column name="COUNTRY" value="***"/>
-			<column name="COUNTRY_NM" value="***"/>
-			<column name="COUNTY_CD" value="***"/>
-			<column name="PRI_DEST" value="Record used for custom per diems"/>
 			<column name="BKFST" valueNumeric="0.0"/>
 			<column name="LUNCH" valueNumeric="0.0"/>
 			<column name="DIN" valueNumeric="0.0"/>

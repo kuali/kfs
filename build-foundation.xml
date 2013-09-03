@@ -45,40 +45,48 @@ are intended for use only by Kuali Foundation developers.
 	</target>
 
 	<!-- REMOVE FROM DISTRIBUTION -->
-	<target name="modularization-test" depends="init-additional-properties,make-source">
-        <javac destdir="${war.classes.directory}" debug="true" nowarn="true" optimize="true" fork="true" memoryinitialsize="${compile.min.memory}" memorymaximumsize="${compile.max.memory}">
-            <classpath refid="compile.tests.classpath" />
-            <src path="${test.infrastructure.source.directory}" />
-            <src path="${test.unit.source.directory}" />
-            <src path="${test.integration.source.directory}" />
-        </javac>
-        <copy todir="${war.classes.directory}">
-            <fileset dir="${test.infrastructure.source.directory}" includes="${non.java.resources}" />
-            <fileset dir="${test.unit.source.directory}" includes="${non.java.resources}" />
-            <fileset dir="${test.integration.source.directory}" includes="${non.java.resources}" />
-        </copy>
+	<target name="modularization-prep" depends="init-additional-properties,make-source">
+
+		<echo message="Reading Properties: ${properties.directory}/checkmodularization.properties" />
+		<property file="${properties.directory}/checkmodularization.properties" />
+
+		<echo message="coreservice.override.spring.files: ${checkmodularization.coreservice.override.spring.files}" />
+		
+		<propertyfile file="${classes.directory}/${configuration.file}">
+			<entry key="module.endowment.enabled" default="" operation="=" value="${checkmodularization.module.endowment.enabled}"/>
+			<entry key="module.access.security.enabled" default="" operation="=" value="${checkmodularization.module.access.security.enabled}"/>
+			<entry key="rice.coreservice.additionalSpringFiles" default="" operation="+" value=",${checkmodularization.coreservice.override.spring.files}"/>
+			<entry key="rice.kim.additionalSpringFiles" default="" operation="+" value=",${checkmodularization.kim.override.spring.files}"/>
+			<entry key="rice.kew.additionalSpringFiles" default="" operation="+" value=",${checkmodularization.kew.override.spring.files}"/>
+			<entry key="rice.location.additionalSpringFiles" default="" operation="+" value=",${checkmodularization.location.override.spring.files}"/>
+		</propertyfile>
+	</target>
+
+	<target name="modularization-test" depends="modularization-prep">
     	<java classname="org.kuali.kfs.sys.context.CheckModularization" fork="true" resultproperty="context.test.results">
 			<jvmarg value="-Xms512m" />
 			<jvmarg value="-Xmx2g" />
 			<jvmarg value="-XX:MaxPermSize=256m" />
 			<classpath>
-				<pathelement location="${war.classes.directory}" />
+				<pathelement location="${classes.directory}" />
 				<path refid="compile.source.classpath" />
+				<path refid="database.drivers.classpath" />
 			</classpath>
 		</java>
-		<!--
- 		<verifydesign design="work/src/design.xml">
-			<path>
-				<fileset dir="${war.classes.directory}/org/kuali/kfs" includes="**/*.class" excludes="**/*Test.class,**/*Fixture.class" />
-      		</path>
-    	</verifydesign>
 		<condition property="context.test.failed" value="true">
 			<equals arg1="${context.test.results}" arg2="1" />
 		</condition>
-		-->
 	</target>
 
-	<target name="check-modularization" depends="modularization-test">
+	<target name="verify-design" depends="modularization-prep">
+		<verifydesign design="work/src/design.xml">
+			<path>
+				<fileset dir="${classes.directory}/org/kuali/kfs" includes="**/*.class" excludes="**/*Test.class,**/*Fixture.class" />
+	  		</path>
+		</verifydesign>
+	</target>
+
+	<target name="check-modularization" depends="modularization-test, verify-design">
 		<fail if="context.test.failed" message="CheckModularization.java failed" />
   	</target>
 	<!-- END REMOVE FROM DISTRIBUTION -->
@@ -334,6 +342,8 @@ are intended for use only by Kuali Foundation developers.
 			<fileset dir="${all.temp.directory}/kfs">
 				<!-- remove the distribution build files -->
 				<include name="build/properties/distribution.properties" />
+				<!-- remove the check modularization build files -->
+				<include name="build/properties/checkmodularization.properties" />
 				<!-- files we do not have the authority to distribute -->
 				<include name="build/svn*.jar" />         <!-- SVN libraries -->
 				<include name="build/ganymed.jar" />      <!-- SVN helper library -->

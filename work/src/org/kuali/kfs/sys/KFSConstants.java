@@ -1364,6 +1364,17 @@ public class KFSConstants {
 
     public static final String OVERRIDE_ACCOUNT_FOR_EXPIRED_QUESTION_ID = "OverrideAccountForExpiredQuestion";
 
+	public static final String NOTIFICATION_TEXT_KEY = "notificationText";
+    public static final int NOTIFICATION_TEXT_LINE_LENGTH = 80;
+
+    private static Integer MAX_LENGTH_OF_DOCUMENT_DESCRIPTION = null;
+    public static Integer getMaxLengthOfDocumentDescription() {
+        if (MAX_LENGTH_OF_DOCUMENT_DESCRIPTION == null) {
+            MAX_LENGTH_OF_DOCUMENT_DESCRIPTION = SpringContext.getBean(DataDictionaryService.class).getAttributeMaxLength(DocumentHeader.class, KFSPropertyConstants.DOCUMENT_DESCRIPTION);
+        }
+        return MAX_LENGTH_OF_DOCUMENT_DESCRIPTION;
+    }
+
     static final public String TRIAL_BAL_LOOKUPABLE_ID = "glTrialBalanceReportLookupable";
     static final public String TRIAL_BAL_SELECT_SUB_SECTION = "selectionConditions";
     static final public String TRIAL_BAL_DISPLAY_SUB_SECTION = "displayFields";
@@ -1387,12 +1398,11 @@ public class KFSConstants {
     }
     public static final String BATCH_LOGGER_DEFAULT_CONVERSION_PATTERN = "%d [%t] u:%X{user}/d:%X{docId} %-5p %c :: %m%n";
     public static final Layout BATCH_LOGGER_DEFAULT_PATTERN_LAYOUT = new PatternLayout(BATCH_LOGGER_DEFAULT_CONVERSION_PATTERN);
-}
 
     public static class PaymentSourceConstants {
-        public static String PAYMENT_METHOD_CHECK = "P";
-        public static String PAYMENT_METHOD_WIRE = "W";
-        public static String PAYMENT_METHOD_DRAFT = "F";
+        public static final String PAYMENT_METHOD_CHECK = "P";
+        public static final String PAYMENT_METHOD_WIRE = "W";
+        public static final String PAYMENT_METHOD_DRAFT = "F";
     }
 
     public static final int MAX_NOTE_LINE_SIZE = 90;

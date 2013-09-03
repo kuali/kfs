@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.module.tem.service;
 
-import java.sql.Date;
 import java.util.List;
 
 import org.kuali.kfs.module.tem.businessobject.PerDiem;
@@ -59,53 +58,7 @@ public interface PerDiemService {
     /**
      * deactivate the active per diem and save the changes if today's date is beyond the season end date
      */
-    public void deactivateAndSavePerDiem();
-
-    /**
-     * retrieve all active per diem
-     *
-     * @return all active per diem
-     */
-    public <T extends PerDiem> List<T> retrieveActivePerDiem();
-
-    /**
-     * deactivate the active per diem if today's date is beyond the season end date
-     *
-     * @param perDiemList the given list of per diem records
-     */
-    public <T extends PerDiem> void deactivatePerDiemBySeasonEndDate(List<T> perDiemList);
-
-    /**
-     * deactivate the per diem if the given date is later than the season end date
-     *
-     * @param perDiemList the given list of per diem records
-     * @param date the given date
-     */
-    public <T extends PerDiem> void deactivatePerDiemBySeasonEndDate(List<T> perDiemList, Date date);
-
-    /**
-     * deactivate the per diem if the given date is later than the season end date
-     *
-     * @param perDiem the given per diem record
-     * @param date the given date
-     */
-    public <T extends PerDiem> void deactivatePerDiemSeasonEndDate(T perDiem, Date date);
-
-    /**
-     * deactivate the per diem if the given date is later than the effective date
-     *
-     * @param perDiemList the given list of per diem records
-     * @param date the given date
-     */
-    public <T extends PerDiem> void deactivatePerDiemByEffectiveDate(List<T> perDiemList, Date date);
-
-    /**
-     * deactivate the per diem if the given date is later than the effective date
-     *
-     * @param perDiem the given per diem record
-     * @param date the given date
-     */
-    public <T extends PerDiem> void deactivatePerDiemByEffectiveDate(T perDiem, Date date);
+    public void processPerDiem();
 
     /**
      * find the previous per diems for the given new per diems
@@ -123,25 +76,7 @@ public interface PerDiemService {
      */
     public <T extends PerDiem> List<PerDiem> retrievePreviousPerDiem(T perDiem);
 
-    /**
-     * find the previous per diems for the given new per diems and reset their expiration dates to the dates before the effective
-     * dates of the new per diems
-     *
-     * @param perDiemList the given list of per diems
-     * @param isDeactivate detemine whether the per diem has to be deactivated
-     * @return the previous per diems of the given new per diems
-     */
-    public <T extends PerDiem> List<PerDiem> retrieveExpireDeactivatePreviousPerDiem(List<T> perDiemList, boolean isDeactivate);
 
-    /**
-     * find the previous per diem for the given new per diem and reset its expiration date to the date before the effective date of
-     * the new per diem
-     *
-     * @param perDiem the given new per diem
-     * @param isDeactivate detemine whether the per diem has to be deactivated
-     * @return the previous per diem of the given new per diem
-     */
-    public <T extends PerDiem> List<PerDiem> retrieveExpireDeactivatePreviousPerDiem(T perDiem, boolean isDeactivate);
 
     /**
      * check whether the given per diem exists in the database

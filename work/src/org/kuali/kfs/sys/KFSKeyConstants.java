@@ -72,7 +72,7 @@ public class KFSKeyConstants {
     public static final String ERROR_DOCUMENT_INCORRECT_OBJ_CODE_WITH_SUB_TYPE_OBJ_LEVEL_AND_OBJ_TYPE = "error.document.incorrectObjCodeWithSubTypeObjLevelAndObjType";
     public static final String ERROR_DOCUMENT_NO_ACCOUNTING_LINES = "error.document.noAccountingLines";
     public static final String ERROR_DOCUMENT_SOURCE_SECTION_NO_ACCOUNTING_LINES = "error.document.sourceSectionNoAccountingLines";
-    public static final String ERROR_DOCUMENT_ACCOUNTING_LINES_NO_SINGLE_SECTION_ACCOUNTING_LINES = "error.document.singleSectionAccountingLines.NoAccountingLines";
+    public static final String ERROR_DOCUMENT_ACCOUNTING_LINES_NO_SINGLE_SECTION_ACCOUNTING_LINES="error.document.singleSectionAccountingLines.NoAccountingLines";
     public static final String ERROR_DOCUMENT_OPTIONAL_ONE_SIDED_DOCUMENT_REQUIRED_NUMBER_OF_ACCOUNTING_LINES_NOT_MET = "error.document.optionalOneSidedDocument.requiredNumberOfAccountingLinesNotMet";
     public static final String ERROR_DOCUMENT_PC_TRANSACTION_TOTAL_ACCTING_LINE_TOTAL_NOT_EQUAL = "error.document.pc.transactionTotal.accountingLineTotal.notEqual";
     public static final String ERROR_DOCUMENT_TARGET_SECTION_NO_ACCOUNTING_LINES = "error.document.targetSectionNoAccountingLines";
@@ -139,14 +139,14 @@ public class KFSKeyConstants {
 
     public static final String ERROR_NONUNIQUE_CAPITAL_ASSET_ACCOUNTING_LINE = "error.document.capital.asset.nonunique.accountingLine";
 
-    // capital asset information errors
+    //capital asset information errors
     public static final String ERROR_DOCUMENT_CAPITAL_ASSET_NUMBER_REQUIRED = "error.document.capitalAsset.capitalAssetNumber.required";
     public static final String ERROR_DOCUMENT_CAPITAL_ASSET_QUANTITY_REQUIRED = "error.document.capitalAsset.quantity.notEntered";
 
     public static final String ERROR_DOCUMENT_CAPITAL_ASSET_DETAIL_INACTIVE_BUILDING_NOT_ALLOWED = "error.document.capitalAssetDetail.inactive.building.notAllowed";
     public static final String ERROR_DOCUMENT_CAPITAL_ASSET_DETAIL_INACTIVE_ROOM_NOT_ALLOWED = "error.document.capitalAssetDetail.inactive.room.notAllowed";
 
-    public static final String ERROR_DOCUMENT_PRE_ENCUMBRANCE_SINGLE_SECTION_NO_ACCOUNTING_LINES = "error.document.singleSectionNoAccountingLines";
+    public static final String ERROR_DOCUMENT_PRE_ENCUMBRANCE_SINGLE_SECTION_NO_ACCOUNTING_LINES="error.document.singleSectionNoAccountingLines";
 
     // General Maintenance Document Error Messages
     public static final String ERROR_DOCUMENT_AUTHORIZATION_RESTRICTED_FIELD_CHANGED = "error.document.maintenance.authorization.restrictedFieldChanged";
@@ -194,10 +194,10 @@ public class KFSKeyConstants {
     public static final String ERROR_DOCUMENT_GLOBAL_ACCOUNT_NO_ACCOUNTS = "error.document.accountGlobalDetails.noAccountsEntered";
     public static final String ERROR_DOCUMENT_GLOBAL_ACCOUNT_INVALID_ACCOUNT = "error.document.accountGlobalDetails.invalidAccount";
     public static final String ERROR_DOCUMENT_GLOBAL_ACCOUNT_INVALID_ORG = "error.document.accountGlobal.invalidOrganization";
-    public static final String ERROR_DOCUMENT_GLOBAL_ACCOUNT_PRINCPAL_NAME_FISCAL_OFFICER_SUPER_INVALID = "error.document.accountGlobal.principalnameFiscalOfficerSupervisorInvalid";
-    public static final String ERROR_DOCUMENT_GLOBAL_ACCOUNT_PRINCPAL_NAME_ACCOUNT_SUPER_INVALID = "error.document.accountGlobal.principalnameAccountSupervisorInvalid";
-    public static final String ERROR_DOCUMENT_GLOBAL_ACCOUNT_PRINCPAL_NAME_ACCOUNT_MANAGER_INVALID = "error.document.accountGlobal.principalnameAccountManagerInvalid";
-    public static final String ERROR_DOCUMENT_GLOBAL_ACCOUNT_CFDA_NUMBER_INVALID = "error.document.accountGlobal.cfdaNumberInvalid";
+    public static final String ERROR_DOCUMENT_GLOBAL_ACCOUNT_PRINCPAL_NAME_FISCAL_OFFICER_SUPER_INVALID="error.document.accountGlobal.principalnameFiscalOfficerSupervisorInvalid";
+    public static final String ERROR_DOCUMENT_GLOBAL_ACCOUNT_PRINCPAL_NAME_ACCOUNT_SUPER_INVALID="error.document.accountGlobal.principalnameAccountSupervisorInvalid";
+    public static final String ERROR_DOCUMENT_GLOBAL_ACCOUNT_PRINCPAL_NAME_ACCOUNT_MANAGER_INVALID="error.document.accountGlobal.principalnameAccountManagerInvalid";
+    public static final String ERROR_DOCUMENT_GLOBAL_ACCOUNT_CFDA_NUMBER_INVALID="error.document.accountGlobal.cfdaNumberInvalid";
     public static final String ERROR_DOCUMENT_ACCMAINT_ACCOUNT_CLOSED_PENDING_LABOR_LEDGER_ENTRIES = "error.document.accountMaintenance.closedAccount.noPendingLaborLedgerEntriesAllowed";
     public static final String ERROR_DOCUMENT_ACCMAINT_REPORTING_USER_MUST_BE_CHART_MANAGER_OR_ROOT_MANAGER = "error.document.accountMaintenance.userMustBeChartManagerOrRootManager";
     public static final String ERROR_DOCUMENT_ACCMAINT_CG_FIELDS_FILLED_FOR_NON_CG_ACCOUNT = "error.document.accountMaintenance.cgFieldsFilledInForNonCGAccount";
@@ -301,7 +301,7 @@ public class KFSKeyConstants {
     public static final String ERROR_DOCUMENT_KUALIUSERMAINT_CANNOT_MARK_INACTIVE = "error.document.kualiUserMaintenance.cannotMarkInactive";
     public static final String ERROR_DOCUMENT_KUALIUSERMAINT_INVALID_EMP_STATUS = "error.document.kualiUserMaintenance.invalidEmpStatus";
 
-    // Tax Errors
+    //Tax Errors
     public static final String ERROR_DOCUMENT_TAX_REGION_CANT_ADD_PAST_OR_CURRENT_DATE_FOR_TAX_DISTRICT = "error.document.taxRegionMaintenance.cannotAddPastOrCurrentDateForTaxDistrict";
     public static final String ERROR_DOCUMENT_TAX_REGION_TAX_RATE_BETWEEN0AND1 = "error.document.taxRegionMaintenance.taxRateShouldBeBetween0And1";
     public static final String ERROR_DOCUMENT_TAX_REGION_INVALID_STATE = "error.document.taxRegionMaintenance.invalidState";
@@ -664,7 +664,7 @@ public class KFSKeyConstants {
         public static final String DESCRIPTION_GLPE_BANK_OFFSET = "description.glpe.bankOffset.advanceDeposit";
     }
 
-    public static final class budget {
+    public static final class budget{
         public static final String MSG_REPORT_ACCOUNT_LIST = "message.budget.report.accountList";
         public static final String MSG_REPORT_EMPTY_ACCOUNT_LIST = "message.budget.report.emptyAccountList";
         public static final String MSG_ACCOUNT_LIST = "message.budget.accountList";
@@ -697,7 +697,7 @@ public class KFSKeyConstants {
         public static final String ERROR_EXCESSIVE_TOTAL = "error.document.cashReceipt.invalidTotal";
         public static final String ERROR_NEGATIVE_TOTAL = "error.document.cashReceipt.negativeTotal";
         public static final String ERROR_ZERO_TOTAL = "error.document.cashReceipt.zeroTotal";
-        public static final String ERROR_CONFIRMED_TOTAL = "error.document.cashReceipt.incorrectConfirmedTotal";
+		public static final String ERROR_CONFIRMED_TOTAL = "error.document.cashReceipt.incorrectConfirmedTotal";
         public static final String ERROR_CASH_DRAWER_DOES_NOT_EXIST = "error.document.cashReceipt.cashDrawerDoesNotExist";
         public static final String ERROR_CHANGE_REQUEST = "error.document.cashReceipt.invalidChangeRequest";
     }
@@ -798,7 +798,7 @@ public class KFSKeyConstants {
         public static final String ERROR_DOCUMENT_ICR_WILDCARDS_MUST_MATCH = "error.document.IndirectCostRecovery.wildcardsMustMatch";
         public static final String ERROR_DOCUMENT_ICR_WILDCARDS_MUST_MATCH_OBJCD_SUBACCT = "error.document.IndirectCostRecovery.wildcardsMustMatchObjCdSubAcct";
         public static final String ERROR_DOCUMENT_ICR_WILDCARD_NOT_VALID = "error.document.IndirectCostRecovery.wildcardNotValid";
-        public static final String ERROR_DOCUMENT_ICR_WILDCARDS_NOT_VALID_OBJCD_ACCOUNT = "error.document.IndirectCostRecovery.wildcardsNotValidObjCdAccount";
+        public static final String ERROR_DOCUMENT_ICR_WILDCARDS_NOT_VALID_OBJCD_ACCOUNT= "error.document.IndirectCostRecovery.wildcardsNotValidObjCdAccount";
         public static final String ERROR_DOCUMENT_ICR_MULTIPLE_WILDCARDS_ON_ITEM = "error.document.IndirectCostRecovery.multipleWildcardsOnItem";
         public static final String ERROR_DOCUMENT_ICR_SUB_OBJ_ACTUAL_VALUE_WITH_WILDCARDS = "error.document.IndirectCostRecovery.subObjActualValueOnlyIfNoWildcards";
         public static final String ERROR_DOCUMENT_ICR_CANNOT_BE_WILDCARD = "error.document.IndirectCostRecovery.cannotBeWildcard";
@@ -926,9 +926,9 @@ public class KFSKeyConstants {
 
     public static final String ERROR_DV_LOOKUP_NEEDS_SOME_FIELD = "error.dv.lookupNeedsSomeField";
     public static final String ERROR_DV_VENDOR_EMPLOYEE_CONFUSION = "error.dv.vendorEmployeeConfusion";
-    // public static final String ERROR_DV_LAST_FIRST_NAME_NOT_FILLED = "error.dv.lastFirstNameNotFilled";
+    //public static final String ERROR_DV_LAST_FIRST_NAME_NOT_FILLED = "error.dv.lastFirstNameNotFilled";
     public static final String ERROR_DV_NAME_NOT_FILLED_ENOUGH = "error.dv.nameNotFilledEnough";
-    // public static final String WARNING_DV_PAYEE_ID_UNIQUE = "warning.dv.payeeIdUnique";
+    //public static final String WARNING_DV_PAYEE_ID_UNIQUE = "warning.dv.payeeIdUnique";
     public static final String ERROR_DV_VENDOR_NAME_PERSON_NAME_CONFUSION = "error.dv.vendorNamePersonNameConfusion";
     public static final String ERROR_DV_LOOKUP_TAX_NUMBER_EMPLOYEE_DETAILS_CONFUSION = "error.dv.vendorTaxNumberEmployeeDetailsConfusion";
 
@@ -1012,7 +1012,7 @@ public class KFSKeyConstants {
     public static final String MESSAGE_BATCH_FILE_ADMIN_DELETE_CANCELLED = "message.batch.file.admin.delete.cancelled";
 
     public static final String MESSAGE_BATCH_FILE_LOG_EMAIL_BODY = "message.batch.log.email.body";
-    public static final String SALARY_TRANSFER_FRINGE_BENEFIT_INQUIRY_LABEL = "salary.transfer.fringe.benefit.inquiry.label";
+    public static final String SALARY_TRANSFER_FRINGE_BENEFIT_INQUIRY_LABEL =  "salary.transfer.fringe.benefit.inquiry.label";
 
     public static final String ERROR_ACCOUNTING_DOCUMENT_ACCOUNTING_LINE_IMPORT_GENERAL = "error.accountingdocument.accountinglineimport.general";
 
@@ -1039,32 +1039,11 @@ public class KFSKeyConstants {
         public static final String ERROR_BATCH_UPLOAD_DELETE_DONE_FILE = "error.sys.batch.semaphore.upload.deleteDoneFile";
     }
 
-    // capital asset information specific errors...
+    //capital asset information specific errors...
     public static final String ERROR_ASSET_ACCOUNT_NUMBER_LINE_NOT_IN_SOURCE_OR_TARGET_ACCOUNTING_LINES = "error.asset.accounting.lines.not.in.source.or.target.accountLines";
     public static final String ERROR_ASSET_LINE_AMOUNT_NOT_EQUAL_TO_DISTRIBUTED_ACCOUNTING_LINES = "error.asset.amount.not.equalDistributedAccountingLines";
 
     public static final String QUESTION_NEED_OVERRIDE_ACCOUNT_FOR_EXPIRED = "question.need.override.account.for.expired";
-
-    public static final String ERROR_MASSIMPORT_FILEUPLOAD_GENERAL = "error.massImport.fileUpload.general";
-    public static final String ERROR_MASSIMPORT_INVALID_FILE_FORMAT = "error.massImport.invalidFileFormat";
-    public static final String ERROR_MASSIMPORT_SINGLELINE = "error.massImport.singleLine";
-    public static final String ERROR_MASSIMPORT_WRONGPROPERTYNUMBER = "error.massImport.wrongPropertyNumber";
-    public static final String ERROR_MASSIMPORT_INVALIDPROPERTYVALUE = "error.massImport.invalidPropertyValue";
-    public static final String ERROR_MASSIMPORT_INVALIDCLASSNAME = "error.massImport.invalidClassName";
-    public static final String ERROR_MASSIMPORT_REQUIRED = "error.massImport.required";
-    public static final String ERROR_MASSIMPORT_EXISTENCE = "error.massImport.existence";
-    public static final String ERROR_MASSIMPORT_EXPIRED = "error.massImport.expired";
-    public static final String ERROR_MASSIMPORT_CLOSED = "error.massImport.closed";
-    public static final String ERROR_MASSIMPORT_MINLENGTH = "error.massImport.minLength";
-    public static final String ERROR_MASSIMPORT_MAXLENGTH = "error.massImport.maxLength";
-    public static final String ERROR_MASSIMPORT_EXCLUSIVEMIN = "error.massImport.exclusiveMin";
-    public static final String ERROR_MASSIMPORT_INCLUSIVEMAX = "error.massImport.inclusiveMax";
-    public static final String ERROR_MASSIMPORT_DUPLICATEENTRYINFILE = "error.massImport.duplicateEntryInFile";
-    public static final String ERROR_MASSIMPORT_DUPLICATEENTRYINTABLE = "error.massImport.duplicateEntryInTable";
-    public static final String ERROR_SUBACCOUNTIMPORT_PARTIALREPORTINGCODEFIELDSENTERED = "error.subAccountImport.partialReportingCodeFieldsEntered";
-    public static final String ERROR_SUBOBJECTCODEIMPORT_ACCOUNTMAYNOTBECLOSED = "error.subObjectCodeImport.accountMayNotBeClosed";
-    public static final String ERROR_PROJECTCODEIMPORT_LEADINGZERONOTALLOWED = "error.projectCodeImport.leadingZeroNotAllowed";
-    public static final String ERROR_PROJECTCODEIMPORT_PROJECTMANAGER_INVALID = "error.projectCodeImport.project.manager.invalid";
 
     public static final class IntraAccountAdjustment {
         public static final String ERROR_NOT_BALANCED_PER_ACC_OBJECT = "error.iaa.al.not.balanced.per.acc.per.object";

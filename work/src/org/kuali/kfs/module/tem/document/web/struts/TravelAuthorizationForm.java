@@ -23,7 +23,6 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.upload.FormFile;
-import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationParameters;
 import org.kuali.kfs.module.tem.TemConstants.TravelParameters;
@@ -43,9 +42,7 @@ import org.kuali.kfs.module.tem.service.TravelService;
 import org.kuali.kfs.module.tem.util.MessageUtils;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kns.web.ui.ExtraButton;
-import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DataDictionaryService;
 
@@ -92,7 +89,7 @@ public class TravelAuthorizationForm extends TravelFormBase implements TravelAut
 
         TravelDocument travelDocument = (TravelDocument)getDocument();
 
-        //TA doc - always deselected the expesne type (ENCUMBRANCE) so it does not get distributed automatically
+        //TA doc - always deselected the expense type (ENCUMBRANCE) so it does not get distributed automatically
         for (AccountingDistribution accountdistribution : this.distribution){
             if (accountdistribution.getCardType().equals(travelDocument.getExpenseTypeCode())){
                 accountdistribution.setSelected(Boolean.FALSE);
@@ -441,28 +438,6 @@ public class TravelAuthorizationForm extends TravelFormBase implements TravelAut
         this.showPolicy = showPolicy;
     }
 
-    /**
-     *
-     * @return a list of all the DV doc numbers related to this TA that have not been finalized
-     */
-    public List<String> getDVDocNumbersNotFinalized() {
-        List<String> docNumbers = new ArrayList<String>();
-        String docTypeName = getDataDictionaryService().getDocumentTypeNameByClass(DisbursementVoucherDocument.class);
-
-        if(this.getRelatedDocuments().containsKey(docTypeName)) {
-            for(Document document : this.getRelatedDocuments().get(docTypeName)) {
-                if(document instanceof DisbursementVoucherDocument) {
-                    WorkflowDocument workflow = document.getDocumentHeader().getWorkflowDocument();
-                    if((workflow.isEnroute() || workflow.isInitiated() || workflow.isSaved()) && !workflow.isApproved()) {
-                        docNumbers.add(document.getDocumentNumber());
-                    }
-                }
-            }
-        }
-
-        return docNumbers;
-    }
-
     protected DataDictionaryService getDataDictionaryService() {
         return SpringContext.getBean(DataDictionaryService.class);
     }
@@ -498,4 +473,5 @@ public class TravelAuthorizationForm extends TravelFormBase implements TravelAut
     public void setAdvanceAccountingFile(FormFile advanceFile) {
         this.advanceAccountingFile = advanceFile;
     }
+
 }

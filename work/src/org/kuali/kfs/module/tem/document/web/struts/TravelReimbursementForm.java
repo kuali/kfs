@@ -85,6 +85,15 @@ public class TravelReimbursementForm extends TravelFormBase implements TravelRei
 
    }
 
+    @Override
+    public boolean isDefaultOpenPaymentInfoTab() {
+        if(TemConstants.TravelReimbursementStatusCodeKeys.AWAIT_TRVL_MGR.equals(getDocument().getDocumentHeader().getWorkflowDocument().getApplicationDocumentStatus())) {
+            return true;
+        }
+
+        return super.isDefaultOpenPaymentInfoTab();
+    }
+
     /**
      * Creates a MAP for all the buttons to appear on the Travel Authorization Form, and sets the attributes of these buttons.
      *
@@ -206,6 +215,8 @@ public class TravelReimbursementForm extends TravelFormBase implements TravelRei
             e.printStackTrace();
         }
     }
+
+
 
     protected TravelService getTravelService() {
         return SpringContext.getBean(TravelService.class);

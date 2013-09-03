@@ -31,12 +31,6 @@
 			type="org.kuali.kfs.sys.web.struts.KualiBatchInputFileSetForm" />
 		<form-bean name="ElectronicFundTransferForm"
 			type="org.kuali.kfs.sys.web.struts.ElectronicFundTransferForm" />
-		<form-bean name="SubAccountImportForm" 
-			type="org.kuali.kfs.coa.document.web.struts.SubAccountImportForm" />
-		<form-bean name="SubObjectCodeImportForm" 
-			type="org.kuali.kfs.coa.document.web.struts.SubObjectCodeImportForm" />
-		<form-bean name="ProjectCodeImportForm" 
-			type="org.kuali.kfs.coa.document.web.struts.ProjectCodeImportForm" />
 
 		<!--  Financial Module Bean Definitions -->
 		
@@ -392,7 +386,7 @@
 
         <!-- VND Module Bean Definitions -->
 	    <form-bean name="VendorExclusionForm"
-			type="org.kuali.kfs.vnd.web.struts.VendorExclusionForm" />       			
+			type="org.kuali.kfs.vnd.web.struts.VendorExclusionForm" />     			
 	</form-beans>
 
 	<global-exceptions>
@@ -733,7 +727,10 @@
 			<set-property property="cancellable" value="true" />
 			<forward name="basic" path="/jsp/fp/{1}.jsp" />
 		</action>
-
+		
+		
+		
+		
 		<action path="/financialCashManagement" name="CashManagementForm"
 			input="/jsp/fp/CashManagement.jsp" type="org.kuali.kfs.fp.document.web.struts.CashManagementAction"
 			scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
@@ -1083,7 +1080,7 @@
 			<forward name="selection" path="/jsp/pdp/format/formatSelection.jsp" />
 			<forward name="continue" path="/jsp/pdp/format/formatContinue.jsp" />
 		</action>
-
+		
 		<action path="/glTrialBalance"
 		    name="TrialBalanceReportForm"
 		    type="org.kuali.kfs.gl.web.struts.TrialBalanceReportAction"
@@ -1136,13 +1133,6 @@
 			scope="request" parameter="methodToCall" validate="false"
 			attribute="KualiForm" />
 			
-		<action path="/coa*" name="{1}Form" input="/jsp/coa/{1}.jsp" 
-        		type="org.kuali.kfs.coa.document.web.struts.{1}Action" 
-        		scope="request" parameter="methodToCall" attribute="KualiForm">
-            <set-property property="cancellable" value="true" />
-            <forward name="basic" path="/jsp/coa/{1}.jsp" />
-        </action>
-
 		<action path="/SessionInvalidateAction" name="KualiForm"
 			type="org.kuali.rice.kns.web.struts.action.KualiSimpleAction">
 			<forward name="basic" path="/jsp/sys/SessionExpiration.jsp" />

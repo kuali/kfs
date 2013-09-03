@@ -73,7 +73,7 @@ public abstract class BaseTemProfile extends PersistableBusinessObjectBase {
     protected boolean notifyTERStatusChange = Boolean.FALSE;
 
     protected boolean active = Boolean.TRUE;
-    protected boolean nonResidentAlien = Boolean.FALSE;
+    protected Boolean nonResidentAlien;
     protected boolean motorVehicleRecordCheck = Boolean.FALSE;
 
     /**
@@ -560,7 +560,7 @@ public abstract class BaseTemProfile extends PersistableBusinessObjectBase {
      * @return Returns the nonResIdentAlien.
      */
     @Column(name = "non_res_alien", length = 1, nullable = true)
-    public boolean isNonResidentAlien() {
+    public Boolean getNonResidentAlien() {
         return nonResidentAlien;
     }
 
@@ -569,7 +569,7 @@ public abstract class BaseTemProfile extends PersistableBusinessObjectBase {
      *
      * @param nonResIdentAlien The nonResIdentAlien to set.
      */
-    public void setNonResidentAlien(boolean nonResidentAlien) {
+    public void setNonResidentAlien(Boolean nonResidentAlien) {
         this.nonResidentAlien = nonResidentAlien;
     }
 

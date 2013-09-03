@@ -419,6 +419,7 @@ public class TravelReimbursementAction extends TravelActionBase {
             if (document.getTraveler().getPrincipalId() != null) {
                 document.getTraveler().setPrincipalName(getPersonService().getPerson(document.getTraveler().getPrincipalId()).getPrincipalName());
             }
+            document.updatePayeeTypeForReimbursable();
 
             document.setPrimaryDestinationId(authorization.getPrimaryDestinationId());
             document.setPrimaryDestination(authorization.getPrimaryDestination());

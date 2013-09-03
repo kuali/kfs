@@ -19085,13 +19085,27 @@
 			<column name="VER_NBR" valueNumeric="1"/>
 			<column name="OBJ_ID" valueComputed="SYS_GUID()"/>
 		</insert>
+		<insert tableName="TEM_PER_DIEM_REGION_T">
+			<column name="REGION_CD" valueNumeric="XXX"/>
+			<column name="TRIP_TYP_CD" value="OUT" />
+			<column name="REGION_NM" value="Region Not Found"/>
+			<column name="ACTV_IND" value="Y"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="OBJ_ID" valueComputed="SYS_GUID()"/>
+		</insert>
+		<insert tableName="TEM_PRI_DEST_T">
+			<column name="ID" valueNumeric="2147483647"/>
+			<column name="PRI_DEST_NM" value="Primary Destination Not Found"/>
+			<column name="REGION_CD" value="XXX"/>
+			<column name="COUNTY_CD" value=""/>
+			<column name="ACTV_IND" value="Y"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="OBJ_ID" valueComputed="SYS_GUID()"/>
+		</insert>
 		<insert tableName="TEM_PER_DIEM_T">
-			<column name="ID" valueNumeric="2"/>
+			<column name="ID" valueNumeric="2147483647"/>
+			<column name="PRI_DEST_ID" valueNumeric="2147483647"/>
 			<column name="TRIP_TYP_CD" value="IN"/>
-			<column name="COUNTRY" value="***"/>
-			<column name="COUNTRY_NM" value="***"/>
-			<column name="COUNTY_CD" value="***"/>
-			<column name="PRI_DEST" value="Record used for custom per diems"/>
 			<column name="BKFST" valueNumeric="0.0"/>
 			<column name="LUNCH" valueNumeric="0.0"/>
 			<column name="DIN" valueNumeric="0.0"/>

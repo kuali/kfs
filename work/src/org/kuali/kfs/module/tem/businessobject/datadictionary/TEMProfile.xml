@@ -15,6 +15,7 @@
 			<list>
 				<ref bean="TEMProfile-profileId" />
 				<ref bean="TEMProfile-principalId" />
+				<ref bean="TEMProfile-principal.principalName" />
 				<ref bean="TEMProfile-customerNumber" />
 				<ref bean="TEMProfile-driversLicenseNumber" />
 				<ref bean="TEMProfile-driversLicenseState" />
@@ -50,8 +51,7 @@
 				<ref bean="TEMProfile-defaultAccount" />
 				<ref bean="TEMProfile-defaultSubAccount" />
 				<ref bean="TEMProfile-defaultProjectCode" />
-				<ref bean="TEMProfile-principalName" />
-				<ref bean="TEMProfile-achSignUp" />
+ 				<ref bean="TEMProfile-achSignUp" />
 				<ref bean="TEMProfile-achTransactionType" />
 				<ref bean="TEMProfile-active" />
 				<ref bean="TEMProfile-versionNumber" />
@@ -180,7 +180,13 @@
 
 	<bean id="TEMProfile-principalId" parent="TEMProfile-principalId-parentBean" />
 	<bean id="TEMProfile-principalId-parentBean" parent="KimBaseBeans-principalId">
+		<property name="label" value="KIM Principal Id" />
+	</bean>
+	
+	<bean id="TEMProfile-principal.principalName" parent="TEMProfile-principal.principalName-parentBean" />
+	<bean id="TEMProfile-principal.principalName-parentBean" parent="PersonImpl-principalName">
 		<property name="label" value="KIM Principal Name" />
+		<property name="name" value="principal.principalName" />
 	</bean>
 
 	<bean id="TEMProfile-customerNumber" parent="TEMProfile-customerNumber-parentBean" />
@@ -602,15 +608,6 @@
 		<property name="required" value="false" />
 	</bean>
 
-	<bean id="TEMProfile-principalName" parent="TEMProfile-principalName-parentBean" />
-	<bean id="TEMProfile-principalName-parentBean" parent="KimBaseBeans-principalName"
-		abstract="true">
-		<property name="required" value="false" />
-		<property name="control">
-			<bean parent="LookupReadonlyControlDefinition" />
-		</property>
-	</bean>
-
 	<bean id="TEMProfile-active" parent="TEMProfile-active-parentBean" />
 	<bean id="TEMProfile-active-parentBean" parent="GenericAttributes-genericBoolean">
 		<property name="name" value="active" />
@@ -636,7 +633,7 @@
 					<property name="inquiryFields">
 						<list>
 							<bean parent="FieldDefinition" p:attributeName="profileId" />
-							<bean parent="FieldDefinition" p:attributeName="principalId" />
+							<bean parent="FieldDefinition" p:attributeName="principalName" />
 							<bean parent="FieldDefinition" p:attributeName="customerNumber" />
 							<bean parent="FieldDefinition" p:attributeName="driversLicenseNumber" />
 							<bean parent="FieldDefinition" p:attributeName="driversLicenseState" />
@@ -801,7 +798,7 @@
 		</property>
 		<property name="lookupFields">
 			<list>
-				<bean parent="FieldDefinition" p:attributeName="principalId" />
+				<bean parent="FieldDefinition" p:attributeName="principal.principalName" />
 				<bean parent="FieldDefinition" p:attributeName="profileId" />
 				<bean parent="FieldDefinition" p:attributeName="firstName" />
 				<bean parent="FieldDefinition" p:attributeName="lastName" />
@@ -815,7 +812,7 @@
 		<property name="resultFields">
 			<list>
 				<bean parent="FieldDefinition" p:attributeName="profileId" />
-				<bean parent="FieldDefinition" p:attributeName="principalId" />
+				<bean parent="FieldDefinition" p:attributeName="principal.principalName" />
 				<bean parent="FieldDefinition" p:attributeName="firstName" />
 				<bean parent="FieldDefinition" p:attributeName="lastName" />
 				<bean parent="FieldDefinition" p:attributeName="temProfileAddress.streetAddressLine1" />

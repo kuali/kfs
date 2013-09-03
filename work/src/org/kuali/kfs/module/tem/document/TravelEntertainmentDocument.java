@@ -33,11 +33,11 @@ import org.apache.log4j.Logger;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomer;
 import org.kuali.kfs.module.tem.TemConstants;
-import org.kuali.kfs.module.tem.TemConstants.EntertainmentStatusCodeKeys;
-import org.kuali.kfs.module.tem.TemConstants.TravelParameters;
 import org.kuali.kfs.module.tem.TemParameterConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.TemWorkflowConstants;
+import org.kuali.kfs.module.tem.TemConstants.EntertainmentStatusCodeKeys;
+import org.kuali.kfs.module.tem.TemConstants.TravelParameters;
 import org.kuali.kfs.module.tem.businessobject.Attendee;
 import org.kuali.kfs.module.tem.businessobject.Purpose;
 import org.kuali.kfs.module.tem.businessobject.TEMProfile;
@@ -287,13 +287,24 @@ public class TravelEntertainmentDocument extends TEMReimbursementDocument implem
     }
 
     /**
+     *
+     * @see org.kuali.kfs.module.tem.document.TravelDocumentBase#requiresTaxManagerApprovalRouting()
+     */
+    @Override
+    protected boolean requiresTaxManagerApprovalRouting() {
+        boolean requiresTaxManagerApprovalRouting = super.requiresTaxManagerApprovalRouting();
+
+        return requiresTaxManagerApprovalRouting || getTraveler().getNonResidentAlien();
+    }
+
+    /**
      * Checks the check stub text for the payment
      * @see org.kuali.kfs.module.tem.document.TravelDocumentBase#prepareForSave(org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent)
      */
     @Override
     public void prepareForSave(KualiDocumentEvent event) {
         super.prepareForSave(event);
-        getTravelPayment().setCheckStubText(getTravelDocumentIdentifier() + " " + StringUtils.defaultString(getEventTitle()) + getTripBegin());
+        getTravelPayment().setCheckStubText(getTravelDocumentIdentifier() + " " + StringUtils.defaultString(getEventTitle()) + " " + getTripBegin());
     }
 
     /**
@@ -340,7 +351,7 @@ public class TravelEntertainmentDocument extends TEMReimbursementDocument implem
     @Override
     public void initiateDocument() {
         super.initiateDocument();
-        updateAppDocStatus(EntertainmentStatusCodeKeys.IN_PROCESS);
+        setAppDocStatus(EntertainmentStatusCodeKeys.IN_PROCESS);
         getTravelPayment().setDocumentationLocationCode(getParameterService().getParameterValueAsString(TravelEntertainmentDocument.class, TravelParameters.DOCUMENTATION_LOCATION_CODE,
                 getParameterService().getParameterValueAsString(TemParameterConstants.TEM_DOCUMENT.class,TravelParameters.DOCUMENTATION_LOCATION_CODE)));
     }

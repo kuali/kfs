@@ -48,6 +48,7 @@
 		<property name="jobNames">
 			<list>
 			  	<value>perDiemLoadJob</value>
+			  	<value>perDiemDeactivationJob</value>
 			  	<value>taxableRamificationNotificationJob</value>
 				<value>agencyDataImportJob</value>
 				<value>creditCardDataImportJob</value>
@@ -56,11 +57,6 @@
 			  	<value>temProfileExportJob</value>
 			  	<value>travelPreDisbursementProcessorExtractJob</value>
 			  	<value>temReleaseHeldEncumbranceJob</value>
-			</list>
-		</property>
-		<property name="triggerNames">
-			<list>
-				<value>perDiemLoadTrigger</value>
 			</list>
 		</property>
 		<property name="batchFileDirectories">
@@ -563,6 +559,9 @@
 	<bean id="travelDocumentDao" parent="platformAwareDao"
 		class="org.kuali.kfs.module.tem.dataaccess.impl.TravelDocumentDaoOjb" />
 
+	<bean id="perDiemDao" parent="platformAwareDao"
+		class="org.kuali.kfs.module.tem.dataaccess.impl.PerDiemDaoOjb" />	
+
 	<bean id="temAccountingDocumentRelationshipService" parent="temAccountingDocumentRelationshipService-parentBean" />
 
 	<bean id="temAccountingDocumentRelationshipService-parentBean"
@@ -696,7 +695,7 @@
 		<property name="perDiemService" ref="perDiemService" />
 	</bean>
 
-	<bean id="perDiemLoadJob" parent="scheduledJobDescriptor">
+	<bean id="perDiemLoadJob" parent="unscheduledJobDescriptor">
 		<property name="steps">
 			<list>
 				<ref bean="perDiemLoadStep" />
@@ -734,12 +733,12 @@
 	<bean id="perDiemFileParsingService"
 		class="org.kuali.kfs.module.tem.batch.service.impl.PerDiemFileParsingServiceImpl" />
 
-	<bean id="perDiemService"
-		class="org.kuali.kfs.module.tem.service.impl.PerDiemServiceImpl">
+	<bean id="perDiemService" class="org.kuali.kfs.module.tem.service.impl.PerDiemServiceImpl">
 		<property name="businessObjectService" ref="businessObjectService" />
 		<property name="dateTimeService" ref="dateTimeService" />
 		<property name="parameterService" ref="parameterService" />
 		<property name="stateService" ref="stateService" />
+		<property name="perDiemDao" ref="perDiemDao" />
 		<property name="mealBreakDownStrategies">
 			<map>
 				<entry key="DEFAULT">
@@ -1298,11 +1297,6 @@
     
 	<import resource="document/validation/configuration/TEMValidatorDefinitions.xml" /> 
 	
-	<bean id="perDiemLoadTrigger" parent="simpleTrigger"> 
-		<property name="jobName" value="perDiemLoadJob" /> 
-		<property name="startDelay" value="60000" /> 
-		<property name="repeatCount" value="0" /> 
-	</bean>
 	<!-- Spring beans for TMCP document/action -->
 	<bean id="agencyEntryService" class="org.kuali.kfs.module.tem.service.impl.AgencyEntryServiceImpl">
         <property name="agencyEntryGroupService">

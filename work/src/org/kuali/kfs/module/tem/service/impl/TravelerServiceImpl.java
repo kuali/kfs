@@ -17,8 +17,8 @@ package org.kuali.kfs.module.tem.service.impl;
 
 import static org.kuali.kfs.module.tem.TemConstants.EMP_TRAVELER_TYP_CD;
 import static org.kuali.kfs.module.tem.TemConstants.NONEMP_TRAVELER_TYP_CD;
-import static org.kuali.kfs.module.tem.TemConstants.TemProfileParameters.VALID_TRAVELER_TYPE_BY_CUSTOMER_TYPE;
 import static org.kuali.kfs.module.tem.TemConstants.TemProfileParameters.VALID_KIM_TYPE_AFFILIATION_BY_TRAVER_TYPE;
+import static org.kuali.kfs.module.tem.TemConstants.TemProfileParameters.VALID_TRAVELER_TYPE_BY_CUSTOMER_TYPE;
 import static org.kuali.kfs.module.tem.TemConstants.TravelParameters.EMPLOYEE_TRAVELER_TYPE_CODES;
 
 import java.sql.Date;
@@ -193,8 +193,9 @@ public class TravelerServiceImpl implements TravelerService {
             detail.setNotifyTAStatusChange(profile.isNotifyTAStatusChange());
             detail.setNotifyTERFinal(profile.isNotifyTERFinal());
             detail.setNotifyTERStatusChange(profile.isNotifyTERStatusChange());
+            detail.setNonResidentAlien(profile.getNonResidentAlien());
 
-            //reset traverl detail's emergency contact list
+            //reset traveler detail's emergency contact list
             detail.resetEmergencyContacts();
 
             if (ObjectUtils.isNotNull(profile.getEmergencyContacts())){

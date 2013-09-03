@@ -51,7 +51,7 @@
 				<bean parent="MaintainableFieldDefinition" p:name="motorVehicleRecordCheck" p:required="false" />
 				<bean parent="MaintainableFieldDefinition" p:name="dateOfBirth" p:required="true" />
 				<bean parent="MaintainableFieldDefinition" p:name="citizenship" p:required="true" />
-				<bean parent="MaintainableFieldDefinition" p:name="nonResidentAlien" p:required="true" p:defaultValue="" />
+				<bean parent="MaintainableFieldDefinition" p:name="nonResidentAlien" p:required="true"/>
 				<bean parent="MaintainableFieldDefinition" p:name="gender" p:required="true" />
 				<bean parent="MaintainableSubSectionHeaderDefinition" p:name="Default Accounting"/>
 				<bean parent="MaintainableFieldDefinition" p:name="defaultChartCode" p:required="true" />

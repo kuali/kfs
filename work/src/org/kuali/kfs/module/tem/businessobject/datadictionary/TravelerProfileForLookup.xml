@@ -176,7 +176,7 @@
 	<bean id="TravelerProfileForLookup-defaultProjectCode-parentBean" abstract="true" parent="TEMProfile-defaultProjectCode"/>
 
 	<bean id="TravelerProfileForLookup-principalName" parent="TravelerProfileForLookup-principalName-parentBean" />
-	<bean id="TravelerProfileForLookup-principalName-parentBean" abstract="true" parent="TEMProfile-principalName"/>
+	<bean id="TravelerProfileForLookup-principalName-parentBean" abstract="true" parent="TEMProfile-principal.principalName"/>
 
 	<bean id="TravelerProfileForLookup-active" parent="TravelerProfileForLookup-active-parentBean" />
 	<bean id="TravelerProfileForLookup-active-parentBean" abstract="true" parent="TEMProfile-active"/>

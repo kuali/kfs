@@ -241,6 +241,7 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
     @Override
     public void toCopy() throws WorkflowException {
         super.toCopy();
+        travelAdvancesForTrip = null;
         setTravelDocumentIdentifier(null);
         if (!(this instanceof TravelAuthorizationCloseDocument)) {  // TAC's don't have advances
             initiateAdvancePaymentAndLines();

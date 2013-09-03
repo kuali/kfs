@@ -28,8 +28,7 @@ public class PerDiemDeactivationStep extends AbstractStep {
      */
     @Override
     public boolean execute(String jobName, Date jobRunDate) throws InterruptedException {
-        this.getPerDiemService().deactivateAndSavePerDiem();
-
+        this.getPerDiemService().processPerDiem();
         return true;
     }
 

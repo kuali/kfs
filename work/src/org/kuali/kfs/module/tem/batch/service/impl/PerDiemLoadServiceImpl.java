@@ -147,9 +147,24 @@ public class PerDiemLoadServiceImpl implements PerDiemLoadService {
             for (PrimaryDestination primaryDestination : primaryDestinations) {
                 businessObjectService.save(primaryDestination);
             }
-
+            Map<String, String> fieldValues = new HashMap<String, String>();
             for (PerDiem perDiem : validPerDiemList) {
-                perDiem.setPrimaryDestinationId(perDiem.getPrimaryDestination().getId());
+                if (perDiem.getPrimaryDestination().getId() == null) {
+                    fieldValues.put("primaryDestinationName", perDiem.getPrimaryDestination().getPrimaryDestinationName());
+                    fieldValues.put("regionCode", perDiem.getPrimaryDestination().getRegionCode());
+                    if (perDiem.getPrimaryDestination().getCounty() != null) {
+                        fieldValues.put("county", perDiem.getPrimaryDestination().getCounty());
+                    }
+                    Collection<PrimaryDestination>dests = businessObjectService.findMatching(PrimaryDestination.class, fieldValues);
+                    for (PrimaryDestination pd : dests) {
+                        if (pd.equals(perDiem.getPrimaryDestination())) {
+                            perDiem.setPrimaryDestinationId(pd.getId());
+                        }
+                    }
+                    fieldValues.clear();
+                } else {
+                    perDiem.setPrimaryDestinationId(perDiem.getPrimaryDestination().getId());
+                }
                 businessObjectService.save(perDiem);
             }
         //    businessObjectService.save(perDiemsForExpriation);

@@ -20,19 +20,19 @@
     documentTypeName="${KualiForm.docTypeName}"
     htmlFormAction="temCorporateCardApplication" renderMultipart="true"
     showTabButtons="true">
-<c:if test="${KualiForm.emptyProfile }">
-<div align="center" style="color:#ff0000">
-	This user doesn't have a TEM Profile.  The application cannot be completed until a TEM Profile is created for this user.
-</div>
-</c:if>
-<c:if test="${KualiForm.emptyAccount}">
-<div align="center" style="color:#ff0000">
-	This user's TEM Profile doesn't have an Account associated with it.  The application cannot be completed without an Account.
-</div>
-</c:if>
-<c:if test="${KualiForm.multipleApplications}">
-<div align="center" style="color:#ff0000">
-	This user already has an application that is either enroute, or already approved.  Please contact Travel Office for more information.
-</div>
-</c:if>
+	<c:if test="${KualiForm.emptyProfile }">
+		<div align="center" style="color:#ff0000">
+			This user doesn't have a TEM Profile.  The application cannot be completed until a TEM Profile is created for this user.
+		</div>
+	</c:if>
+	<c:if test="${KualiForm.emptyAccount}">
+		<div align="center" style="color:#ff0000">
+			This user's TEM Profile is missing Default Accounting information. In order to initiate an application, the Default Accounting section of the TEM Profile must be completed.
+		</div>
+	</c:if>
+	<c:if test="${KualiForm.multipleApplications}">
+		<div align="center" style="color:#ff0000">
+			This user already has an application that is either enroute, or already approved.  Please contact Travel Office for more information.
+		</div>
+	</c:if>
 </kul:documentPage>

@@ -241,7 +241,7 @@ public class TEMProfileMaintainable extends FinancialSystemMaintainable {
         //edit profile
         if (ObjectUtils.isNotNull(oldTemProfile.getProfileId())) {
             // If NRA changed, route to tax manager
-            if (newTemProfile.isNonResidentAlien() != oldTemProfile.isNonResidentAlien()) {
+            if (newTemProfile.getNonResidentAlien().equals(oldTemProfile.getNonResidentAlien())) {
                 return true;
             }
 
@@ -254,7 +254,7 @@ public class TEMProfileMaintainable extends FinancialSystemMaintainable {
         else {
 
             // If NRA is selected, route to tax manager
-            if (newTemProfile.isNonResidentAlien()) {
+            if (newTemProfile.getNonResidentAlien()) {
                 return true;
             }
 

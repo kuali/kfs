@@ -85,7 +85,7 @@ public class TEMProfileTest extends KualiTestBase {
             assertTrue(profile.getUpdatedBy().equals(profileList.get(0).getUpdatedBy()));
             assertTrue(profile.getLastUpdate().equals(profileList.get(0).getLastUpdate()));
             assertTrue(profile.getGender().equals(profileList.get(0).getGender()));
-            assertTrue(profile.isNonResidentAlien() == profileList.get(0).isNonResidentAlien());
+            assertTrue(profile.getNonResidentAlien().equals(profileList.get(0).getNonResidentAlien()));
             assertTrue(profile.getHomeDepartment().equals(profileList.get(0).getHomeDepartment()));
         }
         catch(Exception e){

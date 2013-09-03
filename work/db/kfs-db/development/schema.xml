@@ -2312,14 +2312,6 @@
             <unique-column name="OBJ_ID"/>
         </unique>
     </table>
-    <table name="CA_MASS_IMPORT_DOC_T">
-        <column name="FDOC_NBR" primaryKey="true" size="14" type="VARCHAR"/>
-        <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
-        <column name="VER_NBR" required="true" size="8" type="DECIMAL"/>
-        <unique name="CA_MASS_IMPORT_DOC_TC0">
-            <unique-column name="OBJ_ID"/>
-        </unique>
-    </table>
     <table name="CA_MNXFR_ELIM_T">
         <column name="FOBJ_MNXFR_ELIM_CD" primaryKey="true" size="1" type="VARCHAR"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
@@ -3033,32 +3025,6 @@
             <index-column name="RPTS_TO_ORG_CD"/>
         </index>
     </table>
-    <table name="CA_PROJECT_IMPORT_DTL_T">
-        <column name="FDOC_NBR" primaryKey="true" size="14" type="VARCHAR"/>
-        <column name="PROJECT_CD" primaryKey="true" size="10" type="VARCHAR"/>
-        <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
-        <column name="VER_NBR" required="true" size="8" type="DECIMAL"/>
-        <column name="PROJ_MGR_UNVL_ID" size="40" type="VARCHAR"/>
-        <column name="PROJECT_NM" size="40" type="VARCHAR"/>
-        <column name="FIN_COA_CD" size="2" type="VARCHAR"/>
-        <column name="ORG_CD" size="4" type="VARCHAR"/>
-        <column name="PROJECT_DESC" size="400" type="VARCHAR"/>
-        <column name="ITM_SEQ_NBR" required="true" size="5" type="DECIMAL"/>
-        <column name="ROW_ACTV_IND" size="1" type="VARCHAR"/>
-        <foreign-key foreignTable="CA_MASS_IMPORT_DOC_T" name="CA_PROJECT_IMPORT_DTL_TR1">
-            <reference foreign="FDOC_NBR" local="FDOC_NBR"/>
-        </foreign-key>
-        <foreign-key foreignTable="CA_CHART_T" name="CA_PROJECT_IMPORT_DTL_TR2">
-            <reference foreign="FIN_COA_CD" local="FIN_COA_CD"/>
-        </foreign-key>
-        <foreign-key foreignTable="CA_ORG_T" name="CA_PROJECT_IMPORT_DTL_TR3">
-            <reference foreign="FIN_COA_CD" local="FIN_COA_CD"/>
-            <reference foreign="ORG_CD" local="ORG_CD"/>
-        </foreign-key>
-        <unique name="CA_PROJECT_IMPORT_DTL_TC0">
-            <unique-column name="OBJ_ID"/>
-        </unique>
-    </table>
     <table name="CA_PROJECT_T">
         <column name="PROJECT_CD" primaryKey="true" size="10" type="VARCHAR"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
@@ -3105,41 +3071,6 @@
         <column name="ACCT_RSTRC_STAT_NM" size="40" type="VARCHAR"/>
         <column default="Y" name="ROW_ACTV_IND" required="true" size="1" type="VARCHAR"/>
         <unique name="CA_RESTRICT_STAT_TC0">
-            <unique-column name="OBJ_ID"/>
-        </unique>
-    </table>
-    <table name="CA_SUB_ACCT_IMPORT_DTL_T">
-        <column name="FDOC_NBR" primaryKey="true" size="14" type="VARCHAR"/>
-        <column name="FIN_COA_CD" primaryKey="true" size="2" type="VARCHAR"/>
-        <column name="ACCOUNT_NBR" primaryKey="true" size="7" type="VARCHAR"/>
-        <column name="SUB_ACCT_NBR" primaryKey="true" size="5" type="VARCHAR"/>
-        <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
-        <column name="VER_NBR" required="true" size="8" type="DECIMAL"/>
-        <column name="ITM_SEQ_NBR" required="true" size="5" type="DECIMAL"/>
-        <column name="SUB_ACCT_NM" size="40" type="VARCHAR"/>
-        <column name="FIN_RPT_CHRT_CD" size="2" type="VARCHAR"/>
-        <column name="FIN_RPT_ORG_CD" size="32" type="VARCHAR"/>
-        <column name="FIN_RPT_CD" size="10" type="VARCHAR"/>
-        <column name="ROW_ACTV_IND" size="1" type="VARCHAR"/>
-        <foreign-key foreignTable="CA_MASS_IMPORT_DOC_T" name="CA_SUB_ACCT_IMPORT_DTL_TR1">
-            <reference foreign="FDOC_NBR" local="FDOC_NBR"/>
-        </foreign-key>
-        <foreign-key foreignTable="CA_CHART_T" name="CA_SUB_ACCT_IMPORT_DTL_TR2">
-            <reference foreign="FIN_COA_CD" local="FIN_COA_CD"/>
-        </foreign-key>
-        <foreign-key foreignTable="CA_ORG_T" name="CA_SUB_ACCT_IMPORT_DTL_TR3">
-            <reference foreign="FIN_COA_CD" local="FIN_RPT_CHRT_CD"/>
-            <reference foreign="ORG_CD" local="FIN_RPT_ORG_CD"/>
-        </foreign-key>
-        <foreign-key foreignTable="CA_CHART_T" name="CA_SUB_ACCT_IMPORT_DTL_TR4">
-            <reference foreign="FIN_COA_CD" local="FIN_RPT_CHRT_CD"/>
-        </foreign-key>
-        <foreign-key foreignTable="FP_RPT_CD_T" name="CA_SUB_ACCT_IMPORT_DTL_TR5">
-            <reference foreign="FIN_RPT_CHRT_CD" local="FIN_RPT_CHRT_CD"/>
-            <reference foreign="FIN_RPT_ORG_CD" local="FIN_RPT_ORG_CD"/>
-            <reference foreign="FIN_RPT_CD" local="FIN_RPT_CD"/>
-        </foreign-key>
-        <unique name="CA_SUB_ACCT_IMPORT_DTL_TC0">
             <unique-column name="OBJ_ID"/>
         </unique>
     </table>
@@ -3283,41 +3214,6 @@
             <reference foreign="FIN_COA_CD" local="FIN_COA_CD"/>
         </foreign-key>
         <unique name="CA_SUB_OBJ_CD_CHG_DTL_TC0">
-            <unique-column name="OBJ_ID"/>
-        </unique>
-    </table>
-    <table name="CA_SUB_OBJ_CD_IMPORT_DTL_T">
-        <column name="FDOC_NBR" primaryKey="true" size="14" type="VARCHAR"/>
-        <column name="UNIV_FISCAL_YR" primaryKey="true" size="4" type="DECIMAL"/>
-        <column name="FIN_COA_CD" primaryKey="true" size="2" type="VARCHAR"/>
-        <column name="ACCOUNT_NBR" primaryKey="true" size="7" type="VARCHAR"/>
-        <column name="FIN_OBJECT_CD" primaryKey="true" size="4" type="VARCHAR"/>
-        <column name="FIN_SUB_OBJ_CD" primaryKey="true" size="3" type="VARCHAR"/>
-        <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
-        <column name="VER_NBR" required="true" size="8" type="DECIMAL"/>
-        <column name="FIN_SUB_OBJ_CD_NM" size="40" type="VARCHAR"/>
-        <column name="FIN_SUBOBJ_SHRT_NM" size="12" type="VARCHAR"/>
-        <column name="ITM_SEQ_NBR" required="true" size="5" type="DECIMAL"/>
-        <column name="ROW_ACTV_IND" size="1" type="VARCHAR"/>
-        <foreign-key foreignTable="CA_MASS_IMPORT_DOC_T" name="CA_SUB_OBJ_CD_IMPORT_DTL_TR1">
-            <reference foreign="FDOC_NBR" local="FDOC_NBR"/>
-        </foreign-key>
-        <foreign-key foreignTable="CA_CHART_T" name="CA_SUB_OBJ_CD_IMPORT_DTL_TR2">
-            <reference foreign="FIN_COA_CD" local="FIN_COA_CD"/>
-        </foreign-key>
-        <foreign-key foreignTable="CA_OBJECT_CODE_T" name="CA_SUB_OBJ_CD_IMPORT_DTL_TR3">
-            <reference foreign="UNIV_FISCAL_YR" local="UNIV_FISCAL_YR"/>
-            <reference foreign="FIN_COA_CD" local="FIN_COA_CD"/>
-            <reference foreign="FIN_OBJECT_CD" local="FIN_OBJECT_CD"/>
-        </foreign-key>
-        <foreign-key foreignTable="FS_OPTION_T" name="CA_SUB_OBJ_CD_IMPORT_DTL_TR4">
-            <reference foreign="UNIV_FISCAL_YR" local="UNIV_FISCAL_YR"/>
-        </foreign-key>
-        <foreign-key foreignTable="CA_ACCOUNT_T" name="CA_SUB_OBJ_CD_IMPORT_DTL_TR5">
-            <reference foreign="FIN_COA_CD" local="FIN_COA_CD"/>
-            <reference foreign="ACCOUNT_NBR" local="ACCOUNT_NBR"/>
-        </foreign-key>
-        <unique name="CA_SUB_OBJ_CD_IMPORT_DTL_TC0">
             <unique-column name="OBJ_ID"/>
         </unique>
     </table>

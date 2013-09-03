@@ -13,7 +13,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
-<!DOCTYPE dwr PUBLIC "-//GetAhead Limited//DTD Direct Web Remoting 3.0//EN" "http://getahead.org/dwr/dwr30.dtd">
+<!DOCTYPE dwr PUBLIC "-//GetAhead Limited//DTD Direct Web Remoting 3.0//EN" "http://directwebremoting.org/schema/dwr30.dtd">
 <dwr>
     <init>
         <creator id="spring" class= "org.kuali.rice.kns.web.servlet.dwr.GlobalResourceDelegatingSpringCreator" />

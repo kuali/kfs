@@ -92,7 +92,6 @@ import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.parameter.ParameterEvaluatorService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
-import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.WorkflowDocument;
@@ -102,6 +101,7 @@ import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.framework.postprocessor.ActionTakenEvent;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteLevelChange;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
+import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kns.service.DataDictionaryService;
@@ -115,6 +115,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.NoteType;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
+
 /**
  * Purchase Order Document
  */
@@ -667,7 +668,15 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
         }
 
 
+
         if (shouldAdhocFyi()) {
+
+            try {
+                SpringContext.getBean(WorkflowDocumentService.class).saveRoutingData(this.getFinancialSystemDocumentHeader().getWorkflowDocument());
+            }
+            catch (WorkflowException ex) {
+                logAndThrowRuntimeException("Error saving routing data while saving document with id " + getDocumentNumber(), ex);
+            }
             SpringContext.getBean(PurchaseOrderService.class).sendAdhocFyi(this);
         }
     }

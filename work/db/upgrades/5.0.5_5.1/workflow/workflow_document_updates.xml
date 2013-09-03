@@ -25,32 +25,6 @@
           <activationType>P</activationType>
         </role>               
       </routeNodes>
-    </documentType>
-		<documentType>
-			<name>CATR</name>
-			<parent>KFST</parent>
-			<label>COA Transactional Document</label>
-		</documentType>
-		<documentType>
-			<name>SAIP</name>
-			<parent>CATR</parent>
-			<label>Sub-Account Import</label>
-			<docHandler>${kfs.url}/coaSubAccountImport.do?methodToCall=docHandler</docHandler>
-			<active>true</active>
-		</documentType>
-		<documentType>
-			<name>SOIP</name>
-			<parent>CATR</parent>
-			<label>Sub-Object Code Import</label>
-			<docHandler>${kfs.url}/coaSubObjectCodeImport.do?methodToCall=docHandler</docHandler>
-			<active>true</active>
-		</documentType>
-		<documentType>
-			<name>PCIP</name>
-			<parent>CATR</parent>
-			<label>Project Code Import</label>
-			<docHandler>${kfs.url}/coaProjectCodeImport.do?methodToCall=docHandler</docHandler>
-			<active>true</active>
-		</documentType>
+     </documentType>
 	</documentTypes>
 </data>

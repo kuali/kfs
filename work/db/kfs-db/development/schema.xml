@@ -16199,6 +16199,7 @@
         <column name="ACTV_IND" required="true" size="1" type="VARCHAR"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
+        <column name="PRI_DEST_ID" size="22" type="DECIMAL"/>
         <foreign-key foreignTable="TEM_TRIP_TYP_T" name="TEM_PER_DIEM_TR1">
             <reference foreign="CODE" local="TRIP_TYP_CD"/>
         </foreign-key>

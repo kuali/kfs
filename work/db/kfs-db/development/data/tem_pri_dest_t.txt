@@ -1,0 +1,2 @@
+id|pri_dest_nm|region_cd|county_cd|actv_ind|obj_id|ver_nbr|
+2.147483647E9|Primary Destination Not Found|XXX||Y|E57DE145DB6556EFE040E00ABCD653FA|1.0|

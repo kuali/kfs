@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -22,39 +22,35 @@ import org.apache.log4j.Logger;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.module.tem.businessobject.AccountingDistribution;
 import org.kuali.kfs.module.tem.businessobject.TEMExpense;
-import org.kuali.kfs.module.tem.businessobject.TemTravelExpenseTypeCode;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.service.TEMExpenseService;
-import org.kuali.kfs.module.tem.service.TravelExpenseService;
 import org.kuali.kfs.module.tem.util.ExpenseUtils;
-import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public class ActualExpenseServiceImpl extends ExpenseServiceBase implements TEMExpenseService {
-    
+
     public static Logger LOG = Logger.getLogger(ActualExpenseServiceImpl.class);
-    
+
     /**
      * @see org.kuali.kfs.module.tem.service.impl.ExpenseServiceBase#calculateDistributionTotals(org.kuali.kfs.module.tem.document.TravelDocument, java.util.Map, java.util.List)
      */
+    @Override
     public void calculateDistributionTotals(TravelDocument document, Map<String, AccountingDistribution> distributionMap, List<? extends TEMExpense> expenses){
-        
+
         //calculate the distribution map for all actual expenses
         for (TEMExpense expense : expenses) {
-            
+
             if (expense.getExpenseDetails() != null && expense.getExpenseDetails().size() > 0){
                 //calculate using detail as it might have different details' object code
                 calculateDistributionTotals(document, distributionMap, expense.getExpenseDetails());
             }
             else {
-                if (expense.getTravelExpenseTypeCodeId() != null && !expense.getTravelExpenseTypeCode().isPrepaidExpense() && !expense.getNonReimbursable()) {
+                if (!ObjectUtils.isNull(expense.getExpenseTypeObjectCode()) && !expense.getExpenseTypeObjectCode().getExpenseType().isPrepaidExpense() && !expense.getNonReimbursable()) {
 
                     boolean skipDistribution = false;
-                    TemTravelExpenseTypeCode code = SpringContext.getBean(TravelExpenseService.class).getExpenseType(expense.getTravelExpenseTypeCodeId());
-                    expense.setTravelExpenseTypeCode(code);
-                    
                     String financialObjectCode = null;
-                    
+
                     if (document.isTravelAuthorizationDoc()) {
                         //check trip generate encumbrance
                         if (((TravelAuthorizationDocument)document).isTripGenerateEncumbrance()) {
@@ -64,11 +60,11 @@ public class ActualExpenseServiceImpl extends ExpenseServiceBase implements TEME
                             skipDistribution = true;
                         }
                     }else {
-                        financialObjectCode = expense.getTravelExpenseTypeCode() != null ? expense.getTravelExpenseTypeCode().getFinancialObjectCode() : null;
+                        financialObjectCode = !ObjectUtils.isNull(expense.getExpenseTypeObjectCode()) ? expense.getExpenseTypeObjectCode().getFinancialObjectCode() : null;
                     }
 
                     final ObjectCode objCode = getObjectCodeService().getByPrimaryIdForCurrentYear(ExpenseUtils.getDefaultChartCode(document), financialObjectCode);
-                    if (objCode != null && !skipDistribution) {                    
+                    if (objCode != null && !skipDistribution) {
                         AccountingDistribution distribution = null;
 
                         String key = objCode.getCode() + "-" + document.getExpenseTypeCode();
@@ -97,10 +93,10 @@ public class ActualExpenseServiceImpl extends ExpenseServiceBase implements TEME
      * @see org.kuali.kfs.module.tem.service.TEMExpenseService#getExpenseDetails(org.kuali.kfs.module.tem.document.TravelDocument)
      */
     @Override
-    public List<? extends TEMExpense> getExpenseDetails(TravelDocument document) {       
+    public List<? extends TEMExpense> getExpenseDetails(TravelDocument document) {
         return document.getActualExpenses();
     }
-    
+
     /**
      * @see org.kuali.kfs.module.tem.service.impl.ExpenseServiceBase#processExpense(org.kuali.kfs.module.tem.document.TravelDocument)
      */

@@ -112,26 +112,24 @@
 				readOnly="${!actualExpenseTaxableMode || !fullEntryMode }" />
     	</div>
     </td>
-	<c:if test="${detailObject.expenseTypeObjectCode.receiptRequired}">
+	<c:if test="${!empty detailObject.expenseTypeObjectCode && detailObject.expenseTypeObjectCode.receiptRequired}">
 		<td valign="top" nowrap class="infoline">
             <div align="center">
-            	<c:if test="${! empty detailObject.expenseTypeObjectCode}" >
 				<kul:htmlControlAttribute
 					attributeEntry="${DataDictionary.ExpenseTypeObjectCode.attributes.receiptRequired}"
-					property="${expense}.expenseTypeObjectCode.receiptRequired" readOnly="true" />
-				</c:if>
+					property="${detail}.expenseTypeObjectCode.receiptRequired" readOnly="true" />
 			</div>
 		</td>
 	</c:if>
 	<td valign="top" class="infoline">
 		<div align="center">
-			<c:if test="${detailObject.expenseTypeObjectCode.receiptRequired}">
+			<c:if test="${!empty detailObject.expenseTypeObjectCode && detailObject.expenseTypeObjectCode.receiptRequired}">
 				<kul:htmlControlAttribute
 					attributeEntry="${otherExpenseAttributes.missingReceipt}"
 					property="${detail}.missingReceipt"
 					readOnly="${!fullEntryMode}" />
 			</c:if>
-			<c:if test="${!detailObject.expenseTypeObjectCode.receiptRequired}">
+			<c:if test="${empty detailObject.expenseTypeObjectCode || !detailObject.expenseTypeObjectCode.receiptRequired}">
 				N/A
 			</c:if>
 		</div>

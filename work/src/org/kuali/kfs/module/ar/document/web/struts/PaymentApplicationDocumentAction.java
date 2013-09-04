@@ -354,10 +354,7 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
         // add only entries that do not have the loaded customer number
         String currentCustomerNumber = findCustomerNumber(paymentApplicationDocumentForm);
         for (InvoicePaidApplied invoicePaidApplied : invoicePaidApplieds) {
-//          We removed the filtering on current customer number, which caused it trying to save new payment to the DB while an identical payment already exists in the DB.
-//            if (! currentCustomerNumber.equals( invoicePaidApplied.getCustomerInvoiceDocument().getCustomer().getCustomerNumber())) {
                 filteredInvoicePaidApplieds.add(invoicePaidApplied);
-//            }
         }
         return filteredInvoicePaidApplieds;
     }
@@ -406,7 +403,6 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
         boolean identicalFlag = false;
         String custRefInvoiceDocNumber = customerInvoiceDetail.getDocumentNumber();
         Integer custInvoiceSequenceNumber = customerInvoiceDetail.getInvoiceItemNumber();
-//        KualiDecimal custAppliedAmount = customerInvoiceDetail.getAmountApplied(); -- detailApplication.amountApplied should be used here
 
         for (InvoicePaidApplied invoicePaidApplied : invoicePaidApplieds) {
             String payAppDocNumber = invoicePaidApplied.getDocumentNumber();

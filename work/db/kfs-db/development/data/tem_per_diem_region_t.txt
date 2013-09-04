@@ -1,0 +1,2 @@
+region_cd|trip_typ_cd|region_nm|actv_ind|obj_id|ver_nbr|
+XXX|OUT|Region Not Found|Y|E57CF064A1957D06E040E00ABCD64592|1.0|

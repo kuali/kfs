@@ -112,7 +112,7 @@
 							<c:if test="${fullEntryMode}">
 								<kul:lookup
 									boClassName="org.kuali.kfs.module.tem.businessobject.PrimaryDestination"
-									fieldConversions="id:document.perDiemExpenses[${perDiemIndex.count - 1}].perDiemId"
+									fieldConversions="id:document.perDiemExpenses[${perDiemIndex.count - 1}].perDiem.primaryDestination.id"
 									readOnlyFields="tripTypeCode"
 									lookupParameters="document.perDiemExpenses[${perDiemIndex.count - 1}].countryState:countryState,document.perDiemExpenses[${perDiemIndex.count - 1}].county:county,document.perDiemExpenses[${perDiemIndex.count - 1}].primaryDestination:primaryDestinationName,document.tripTypeCode:tripTypeCode" />
 								<c:if test="${!isCustom && enablePrimaryDestination}">

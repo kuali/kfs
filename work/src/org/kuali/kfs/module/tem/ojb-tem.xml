@@ -351,14 +351,14 @@
             <orderby name="documentLineNumber" sort="ASC" />
             <inverse-foreignkey field-ref="documentNumber" />
             <query-customizer class="org.kuali.kfs.sys.dataaccess.impl.OjbQueryCustomizer">
-            	<attribute attribute-name="temExpenseTypeCode" attribute-value="A" />
+            	<attribute attribute-name="expenseLineTypeCode" attribute-value="A" />
             </query-customizer>
         </collection-descriptor>
         <collection-descriptor name="importedExpenses" proxy="true" element-class-ref="org.kuali.kfs.module.tem.businessobject.ImportedExpense" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
             <orderby name="documentLineNumber" sort="ASC" />
             <inverse-foreignkey field-ref="documentNumber" />
             <query-customizer class="org.kuali.kfs.sys.dataaccess.impl.OjbQueryCustomizer">
-            	<attribute attribute-name="temExpenseTypeCode" attribute-value="I" />
+            	<attribute attribute-name="expenseLineTypeCode" attribute-value="I" />
             </query-customizer>
         </collection-descriptor>
         <collection-descriptor name="advanceAccountingLines" proxy="true" element-class-ref="org.kuali.kfs.module.tem.businessobject.TemSourceAccountingLine" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
@@ -452,14 +452,14 @@
             <orderby name="documentLineNumber" sort="ASC" />
             <inverse-foreignkey field-ref="documentNumber" />
             <query-customizer class="org.kuali.kfs.sys.dataaccess.impl.OjbQueryCustomizer">
-            	<attribute attribute-name="temExpenseTypeCode" attribute-value="A" />
+            	<attribute attribute-name="expenseLineTypeCode" attribute-value="A" />
             </query-customizer>
         </collection-descriptor>
         <collection-descriptor name="importedExpenses" proxy="true" element-class-ref="org.kuali.kfs.module.tem.businessobject.ImportedExpense" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
             <orderby name="documentLineNumber" sort="ASC" />
             <inverse-foreignkey field-ref="documentNumber" />
             <query-customizer class="org.kuali.kfs.sys.dataaccess.impl.OjbQueryCustomizer">
-            	<attribute attribute-name="temExpenseTypeCode" attribute-value="I" />
+            	<attribute attribute-name="expenseLineTypeCode" attribute-value="I" />
             </query-customizer>
         </collection-descriptor>
         <collection-descriptor name="advanceAccountingLines" proxy="true" element-class-ref="org.kuali.kfs.module.tem.businessobject.TemSourceAccountingLine" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
@@ -562,14 +562,14 @@
             <orderby name="documentLineNumber" sort="ASC" />
             <inverse-foreignkey field-ref="documentNumber" />
             <query-customizer class="org.kuali.kfs.sys.dataaccess.impl.OjbQueryCustomizer">
-            	<attribute attribute-name="temExpenseTypeCode" attribute-value="A" />
+            	<attribute attribute-name="expenseLineTypeCode" attribute-value="A" />
             </query-customizer>
         </collection-descriptor>
         <collection-descriptor name="importedExpenses" proxy="true" element-class-ref="org.kuali.kfs.module.tem.businessobject.ImportedExpense" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
             <orderby name="documentLineNumber" sort="ASC" />
             <inverse-foreignkey field-ref="documentNumber" />
             <query-customizer class="org.kuali.kfs.sys.dataaccess.impl.OjbQueryCustomizer">
-            	<attribute attribute-name="temExpenseTypeCode" attribute-value="I" />
+            	<attribute attribute-name="expenseLineTypeCode" attribute-value="I" />
             </query-customizer>
         </collection-descriptor>
         <collection-descriptor name="sourceAccountingLines" proxy="true" element-class-ref="org.kuali.kfs.module.tem.businessobject.TemSourceAccountingLine" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
@@ -700,14 +700,14 @@
             <orderby name="documentLineNumber" sort="ASC" />
             <inverse-foreignkey field-ref="documentNumber" />
             <query-customizer class="org.kuali.kfs.sys.dataaccess.impl.OjbQueryCustomizer">
-            	<attribute attribute-name="temExpenseTypeCode" attribute-value="A" />
+            	<attribute attribute-name="expenseLineTypeCode" attribute-value="A" />
             </query-customizer>
         </collection-descriptor>
         <collection-descriptor name="importedExpenses" proxy="true" element-class-ref="org.kuali.kfs.module.tem.businessobject.ImportedExpense" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
             <orderby name="documentLineNumber" sort="ASC" />
             <inverse-foreignkey field-ref="documentNumber" />
             <query-customizer class="org.kuali.kfs.sys.dataaccess.impl.OjbQueryCustomizer">
-            	<attribute attribute-name="temExpenseTypeCode" attribute-value="I" />
+            	<attribute attribute-name="expenseLineTypeCode" attribute-value="I" />
             </query-customizer>
         </collection-descriptor>
 		 <reference-descriptor name="traveler" class-ref="org.kuali.kfs.module.tem.businessobject.TravelerDetail" auto-retrieve="true" auto-update="object" auto-delete="object">
@@ -824,14 +824,14 @@
             <orderby name="documentLineNumber" sort="ASC" />
             <inverse-foreignkey field-ref="documentNumber" />
             <query-customizer class="org.kuali.kfs.sys.dataaccess.impl.OjbQueryCustomizer">
-            	<attribute attribute-name="temExpenseTypeCode" attribute-value="A" />
+            	<attribute attribute-name="expenseLineTypeCode" attribute-value="A" />
             </query-customizer>
         </collection-descriptor>
         <collection-descriptor name="importedExpenses" proxy="true" element-class-ref="org.kuali.kfs.module.tem.businessobject.ImportedExpense" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
             <orderby name="documentLineNumber" sort="ASC" />
             <inverse-foreignkey field-ref="documentNumber" />
             <query-customizer class="org.kuali.kfs.sys.dataaccess.impl.OjbQueryCustomizer">
-            	<attribute attribute-name="temExpenseTypeCode" attribute-value="I" />
+            	<attribute attribute-name="expenseLineTypeCode" attribute-value="I" />
             </query-customizer>
         </collection-descriptor>
         <collection-descriptor name="specialCircumstances" element-class-ref="org.kuali.kfs.module.tem.businessobject.SpecialCircumstances" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="true">
@@ -919,14 +919,14 @@
             <orderby name="documentLineNumber" sort="ASC" />
             <inverse-foreignkey field-ref="documentNumber" />
             <query-customizer class="org.kuali.kfs.sys.dataaccess.impl.OjbQueryCustomizer">
-            	<attribute attribute-name="temExpenseTypeCode" attribute-value="A" />
+            	<attribute attribute-name="expenseLineTypeCode" attribute-value="A" />
             </query-customizer>
         </collection-descriptor>
         <collection-descriptor name="importedExpenses" proxy="true" element-class-ref="org.kuali.kfs.module.tem.businessobject.ImportedExpense" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
             <orderby name="documentLineNumber" sort="ASC" />
             <inverse-foreignkey field-ref="documentNumber" />
             <query-customizer class="org.kuali.kfs.sys.dataaccess.impl.OjbQueryCustomizer">
-            	<attribute attribute-name="temExpenseTypeCode" attribute-value="I" />
+            	<attribute attribute-name="expenseLineTypeCode" attribute-value="I" />
             </query-customizer>
         </collection-descriptor>
         <reference-descriptor name="reason" class-ref="org.kuali.kfs.module.tem.businessobject.RelocationReason" auto-retrieve="true" auto-update="none" auto-delete="none">
@@ -991,7 +991,7 @@
         <field-descriptor name="id"                        	column="ID"             		jdbc-type="BIGINT" primarykey="true" sequence-name="TEM_TRVL_EXP_ID_SEQ" autoincrement="true" />
         <field-descriptor name="documentNumber"            	column="fdoc_nbr"       		jdbc-type="VARCHAR"/>
         <field-descriptor name="documentLineNumber"        	column="FDOC_LINE_NBR"  		jdbc-type="INTEGER"/>
-        <field-descriptor name="temExpenseTypeCode"     	column="EXP_TYPE_CD"  			jdbc-type="VARCHAR" />
+        <field-descriptor name="expenseLineTypeCode"     	column="EXP_TYPE_CD"  			jdbc-type="VARCHAR" />
         <field-descriptor name="expenseParentId"           	column="EXP_PARENT_ID"  		jdbc-type="BIGINT"/>
         <field-descriptor name="description"               	column="EXP_DESC"       		jdbc-type="VARCHAR"/>
         <field-descriptor name="expenseDate"               	column="EXP_DT"         		jdbc-type="DATE"/>
@@ -1510,7 +1510,7 @@
         <field-descriptor name="id"                        	column="ID"             		jdbc-type="BIGINT" primarykey="true" sequence-name="TEM_TRVL_EXP_ID_SEQ" autoincrement="true" />
         <field-descriptor name="documentNumber"            	column="FDOC_NBR"       		jdbc-type="VARCHAR"/>
         <field-descriptor name="documentLineNumber"        	column="FDOC_LINE_NBR"  		jdbc-type="INTEGER"/>
-        <field-descriptor name="temExpenseTypeCode"     	column="EXP_TYPE_CD"  			jdbc-type="VARCHAR" />
+        <field-descriptor name="expenseLineTypeCode"     	column="EXP_TYPE_CD"  			jdbc-type="VARCHAR" />
         <field-descriptor name="expenseParentId"           	column="EXP_PARENT_ID"  		jdbc-type="BIGINT"/>
         <field-descriptor name="description"               	column="EXP_DESC"       		jdbc-type="VARCHAR"/>
         <field-descriptor name="expenseDate"               	column="EXP_DT"         		jdbc-type="DATE"/>

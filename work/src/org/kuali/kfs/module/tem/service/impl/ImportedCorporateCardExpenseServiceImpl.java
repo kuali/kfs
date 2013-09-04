@@ -80,7 +80,7 @@ public class ImportedCorporateCardExpenseServiceImpl extends ExpenseServiceBase 
                         && !expense.getCardType().equals(TemConstants.TRAVEL_TYPE_CTS)
                         && !expense.getNonReimbursable()){
                     expense.refreshReferenceObject(TemPropertyConstants.EXPENSE_TYPE_OBJECT_CODE);
-                    ExpenseTypeObjectCode code = SpringContext.getBean(TravelExpenseService.class).getExpenseType(expense.getTravelExpenseTypeCodeCode(),
+                    ExpenseTypeObjectCode code = SpringContext.getBean(TravelExpenseService.class).getExpenseType(expense.getExpenseTypeCode(),
                             document.getFinancialDocumentTypeCode(), document.getTripTypeCode(), document.getTraveler().getTravelerTypeCode());
 
                     expense.setTravelExpenseTypeCode(code);

@@ -112,10 +112,10 @@ public class TravelDocumentActualExpenseLineValidation extends TEMDocumentExpens
         if (isDuplicateEntry(actualExpense, document)) {
             success = false;
             if (expenseTypeCode != null && expenseTypeCode.isPerDaily()) {
-                GlobalVariables.getMessageMap().putError(TemPropertyConstants.EXPENSE_AMOUNT, TemKeyConstants.ERROR_ACTUAL_EXPENSE_DUPLICATE_ENTRY_DAILY, actualExpense.getTravelExpenseTypeCodeCode());
+                GlobalVariables.getMessageMap().putError(TemPropertyConstants.EXPENSE_AMOUNT, TemKeyConstants.ERROR_ACTUAL_EXPENSE_DUPLICATE_ENTRY_DAILY, actualExpense.getExpenseTypeCode());
             }
             else {
-                GlobalVariables.getMessageMap().putError(TemPropertyConstants.EXPENSE_AMOUNT, TemKeyConstants.ERROR_ACTUAL_EXPENSE_DUPLICATE_ENTRY, actualExpense.getTravelExpenseTypeCodeCode(), actualExpense.getExpenseDate().toString());
+                GlobalVariables.getMessageMap().putError(TemPropertyConstants.EXPENSE_AMOUNT, TemKeyConstants.ERROR_ACTUAL_EXPENSE_DUPLICATE_ENTRY, actualExpense.getExpenseTypeCode(), actualExpense.getExpenseDate().toString());
             }
         }
 
@@ -356,7 +356,7 @@ public class TravelDocumentActualExpenseLineValidation extends TEMDocumentExpens
         KualiDecimal totalExpenseAmount = KualiDecimal.ZERO;
 
         for (ActualExpense actualExpense : document.getActualExpenses()) {
-            if ((!ote.equals(actualExpense)) && ote.getTravelExpenseTypeCodeCode().equals(actualExpense.getTravelExpenseTypeCodeCode())) {
+            if ((!ote.equals(actualExpense)) && ote.getExpenseTypeCode().equals(actualExpense.getExpenseTypeCode())) {
                 totalExpenseAmount = totalExpenseAmount.add(actualExpense.getExpenseAmount());
             }
         }

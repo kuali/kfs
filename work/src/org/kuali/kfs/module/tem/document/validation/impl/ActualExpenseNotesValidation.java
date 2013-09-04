@@ -46,7 +46,7 @@ public class ActualExpenseNotesValidation extends GenericValidation {
         //validate note required - but if we're just adding this line, don't require it yet
         if (ObjectUtils.isNotNull(expenseTypeCode) && expenseTypeCode.isNoteRequired() && !expenseOrDetailHasNotes(getActualExpenseForValidation())) {
             success = false;
-            GlobalVariables.getMessageMap().putError(TemPropertyConstants.TEM_ACTUAL_EXPENSE_NOTCE, KFSKeyConstants.ERROR_REQUIRED, "Notes for expense type " + getActualExpenseForValidation().getTravelExpenseTypeCodeCode());
+            GlobalVariables.getMessageMap().putError(TemPropertyConstants.TEM_ACTUAL_EXPENSE_NOTCE, KFSKeyConstants.ERROR_REQUIRED, "Notes for expense type " + getActualExpenseForValidation().getExpenseTypeCode());
         }
         return success;
     }

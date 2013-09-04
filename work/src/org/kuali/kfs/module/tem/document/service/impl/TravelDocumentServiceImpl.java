@@ -908,7 +908,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
     public KualiDecimal calculateMileage(ActualExpense actualExpense) {
         KualiDecimal mileageTotal = KualiDecimal.ZERO;
 
-        if (ObjectUtils.isNotNull(actualExpense.getTravelExpenseTypeCodeCode()) && actualExpense.isMileage()) {
+        if (ObjectUtils.isNotNull(actualExpense.getExpenseTypeCode()) && actualExpense.isMileage()) {
             mileageTotal = actualExpense.getMileageTotal();
         }
 

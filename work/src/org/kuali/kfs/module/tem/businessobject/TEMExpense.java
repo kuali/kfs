@@ -106,14 +106,6 @@ public interface TEMExpense {
     public void setExpenseAmount(KualiDecimal expenseAmount);
 
     /**
-     * Gets the value of travelExpenseTypeCodeCode
-     *
-     * @return the value of travelExpenseTypeCodeCode
-     */
-    @Column(name = "DV_EXP_CD", nullable = false)
-    public String getTravelExpenseTypeCodeCode();
-
-    /**
      * Gets the value of description
      *
      * @return the value of description
@@ -229,9 +221,9 @@ public interface TEMExpense {
 
     public String getSequenceName();
 
-    public String getTemExpenseTypeCode();
+    public String getExpenseLineTypeCode();
 
-    public void setTemExpenseTypeCode(String temExpenseTypeCode);
+    public void setExpenseLineTypeCode(String expenseLineTypeCode);
 
     public String getClassOfServiceCode();
 

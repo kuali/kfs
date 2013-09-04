@@ -69,7 +69,7 @@ public class AddActualExpenseEvent implements Observer {
                 newExpense.setExpenseParentId(newExpense.getId());
                 newExpense.setId(null);
                 newExpense.setNotes(null);
-                newExpense.setTemExpenseTypeCode(null);
+                newExpense.setExpenseLineTypeCode(null);
             }
             catch (IllegalAccessException ex) {
                 LOG.error(ex.getMessage(), ex);

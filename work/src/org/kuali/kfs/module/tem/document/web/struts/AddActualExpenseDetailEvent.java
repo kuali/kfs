@@ -72,7 +72,7 @@ public class AddActualExpenseDetailEvent implements Observer {
 
         if (rulePassed){
             if(newActualExpenseLine != null && line != null){
-                newActualExpenseLine.setTemExpenseTypeCode(null);
+                newActualExpenseLine.setExpenseLineTypeCode(null);
                 document.addExpenseDetail(newActualExpenseLine, index);
                 newActualExpenseLine.setExpenseDetails(null);
             }

@@ -73,7 +73,7 @@ public class AddImportedExpenseEvent implements Observer {
                 newExpense.setExpenseParentId(newExpense.getId());
                 newExpense.setId(null);
                 newExpense.setNotes(null);
-                newExpense.setTemExpenseTypeCode(null);
+                newExpense.setExpenseLineTypeCode(null);
             }
             catch (IllegalAccessException ex) {
                 // TODO Auto-generated catch block

@@ -225,12 +225,12 @@ public class SummaryByDayReportServiceImpl implements SummaryByDayReportService 
 
     protected boolean isTransportationExpense(final ActualExpense expense) {
         LOG.debug("Checking if "+ expense+ " is a transportation ");
-        return expenseTypeCodeMatchesParameter(expense.getTravelExpenseTypeCodeCode(), TRANSPORTATION_TYPE_CODES);
+        return expenseTypeCodeMatchesParameter(expense.getExpenseTypeCode(), TRANSPORTATION_TYPE_CODES);
     }
 
     protected boolean isLodgingExpense(final ActualExpense expense) {
         LOG.debug("Checking if "+ expense+ " is a lodging ");
-        return expenseTypeCodeMatchesParameter(expense.getTravelExpenseTypeCodeCode(), LODGING_TYPE_CODES);
+        return expenseTypeCodeMatchesParameter(expense.getExpenseTypeCode(), LODGING_TYPE_CODES);
     }
 
     protected boolean isMealsExpense(final ActualExpense expense) {

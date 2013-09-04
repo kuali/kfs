@@ -210,20 +210,6 @@ public abstract class AbstractExpense extends PersistableBusinessObjectBase impl
     }
 
     /**
-     * Gets the value of travelExpenseTypeCodeCode
-     *
-     * @return the value of travelExpenseTypeCodeCode
-     */
-    @Override
-    public String getTravelExpenseTypeCodeCode() {
-        ExpenseTypeObjectCode ttetc = getExpenseTypeObjectCode();
-        if (ttetc != null) {
-            return ttetc.getExpenseTypeCode();
-        }
-        return null;
-    }
-
-    /**
      * Gets the value of travelExpenseTypeCode
      *
      * @return the value of travelExpenseTypeCode

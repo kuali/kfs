@@ -37,7 +37,6 @@ import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
 import org.kuali.kfs.module.tem.document.web.bean.AccountingLineDistributionKey;
 import org.kuali.kfs.module.tem.service.AccountingDistributionService;
-import org.kuali.kfs.module.tem.util.SourceAccountingLineComparator;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -189,18 +188,8 @@ public class TEMAccountingLineAllowedObjectCodeValidation extends GenericValidat
                     //figure out where the new accounting line will be added and set the error to that line #
                     if (newLine) {
                         GlobalVariables.getMessageMap().clearErrorPath();
-                        SourceAccountingLineComparator comparator = new SourceAccountingLineComparator();
 
-                        int newIndex = 0;
-                        for (TemSourceAccountingLine sourceLine : (List<TemSourceAccountingLine>)document.getSourceAccountingLines()){
-                            if (comparator.compare(line,sourceLine) < 0){
-                                newIndex = sourceLine.getSequenceNumber().intValue() - 1;
-                                break;
-                            }
-                            else{
-                                newIndex++;
-                            }
-                        }
+                        int newIndex = document.getSourceAccountingLine(document.getSourceAccountingLines().size() - 1).getSequenceNumber() + 1;
                         errorPath = "document." + TemPropertyConstants.SOURCE_ACCOUNTING_LINE + "[" + newIndex + "]";
                         GlobalVariables.getMessageMap().addToErrorPath(errorPath);
                     }

@@ -991,7 +991,7 @@
         <field-descriptor name="id"                        	column="ID"             		jdbc-type="BIGINT" primarykey="true" sequence-name="TEM_TRVL_EXP_ID_SEQ" autoincrement="true" />
         <field-descriptor name="documentNumber"            	column="fdoc_nbr"       		jdbc-type="VARCHAR"/>
         <field-descriptor name="documentLineNumber"        	column="FDOC_LINE_NBR"  		jdbc-type="INTEGER"/>
-        <field-descriptor name="expenseLineTypeCode"     	column="EXP_TYPE_CD"  			jdbc-type="VARCHAR" />
+        <field-descriptor name="expenseLineTypeCode"     	column="EXP_LN_TYP_CD" 			jdbc-type="VARCHAR" />
         <field-descriptor name="expenseParentId"           	column="EXP_PARENT_ID"  		jdbc-type="BIGINT"/>
         <field-descriptor name="description"               	column="EXP_DESC"       		jdbc-type="VARCHAR"/>
         <field-descriptor name="expenseDate"               	column="EXP_DT"         		jdbc-type="DATE"/>
@@ -1510,7 +1510,7 @@
         <field-descriptor name="id"                        	column="ID"             		jdbc-type="BIGINT" primarykey="true" sequence-name="TEM_TRVL_EXP_ID_SEQ" autoincrement="true" />
         <field-descriptor name="documentNumber"            	column="FDOC_NBR"       		jdbc-type="VARCHAR"/>
         <field-descriptor name="documentLineNumber"        	column="FDOC_LINE_NBR"  		jdbc-type="INTEGER"/>
-        <field-descriptor name="expenseLineTypeCode"     	column="EXP_TYPE_CD"  			jdbc-type="VARCHAR" />
+        <field-descriptor name="expenseLineTypeCode"     	column="EXP_LN_TYP_CD" 			jdbc-type="VARCHAR" />
         <field-descriptor name="expenseParentId"           	column="EXP_PARENT_ID"  		jdbc-type="BIGINT"/>
         <field-descriptor name="description"               	column="EXP_DESC"       		jdbc-type="VARCHAR"/>
         <field-descriptor name="expenseDate"               	column="EXP_DT"         		jdbc-type="DATE"/>

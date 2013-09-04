@@ -52,7 +52,7 @@ public class ActualExpenseListener implements PropertyChangeListener, java.io.Se
             int i = 0;
             String disabled = "";
 
-            String actualExpenseLineCode = newActualExpenseLine.getExpenseTypeObjectCode().getExpenseTypeCode();
+            String actualExpenseLineCode = newActualExpenseLine.getExpenseTypeCode();
             Map<String, String> disabledProperties = new HashMap<String, String>();
             for (final PerDiemExpense perDiemExpense : document.getPerDiemExpenses()) {
                 final String mileageDate = new SimpleDateFormat("MM/dd/yyyy").format(perDiemExpense.getMileageDate());

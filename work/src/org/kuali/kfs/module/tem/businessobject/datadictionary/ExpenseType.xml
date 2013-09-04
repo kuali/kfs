@@ -119,7 +119,7 @@
 	<bean id="ExpenseType-inquiryDefinition" parent="ExpenseType-inquiryDefinition-parentBean" />
 	<bean id="ExpenseType-inquiryDefinition-parentBean"
 		abstract="true" parent="InquiryDefinition">
-		<property name="title" value="Travel Expense Type Inquiry" />
+		<property name="title" value="Expense Type Inquiry" />
 		<property name="inquirySections">
 			<list>
 				<bean parent="InquirySectionDefinition">
@@ -143,7 +143,7 @@
 	
 	<bean id="ExpenseType-lookupDefinition" parent="ExpenseType-lookupDefinition-parentBean" />
 	<bean id="ExpenseType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-		<property name="title" value="Travel Expense Type Lookup" />
+		<property name="title" value="Expense Type Lookup" />
 		<property name="defaultSort">
 			<bean parent="SortDefinition">
 				<property name="attributeNames">

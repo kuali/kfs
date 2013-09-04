@@ -25,6 +25,7 @@ import org.kuali.kfs.module.tem.TemConstants.TravelDocTypes;
 import org.kuali.kfs.module.tem.TemPropertyConstants.TEMProfileProperties;
 import org.kuali.kfs.module.tem.businessobject.TEMProfileArranger;
 import org.kuali.kfs.module.tem.document.service.TravelArrangerDocumentService;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.role.RoleMembership;
 import org.kuali.rice.kns.kim.role.DerivedRoleTypeServiceBase;
@@ -64,6 +65,7 @@ public class ArrangerDerivedRoleTypeServiceImpl extends DerivedRoleTypeServiceBa
         if(StringUtils.isNotBlank(principalId) && (qualification == null || !qualification.containsKey(TemKimAttributes.PROFILE_ID) || qualification.get(TemKimAttributes.PROFILE_ID) == null)) {
             Map fieldValues = new HashMap();
             fieldValues.put(TEMProfileProperties.PRINCIPAL_ID, principalId);
+            fieldValues.put(KFSPropertyConstants.ACTIVE, "Y");
             List<TEMProfileArranger> profileArrangers = new ArrayList<TEMProfileArranger>( getBusinessObjectService().findMatching(TEMProfileArranger.class, fieldValues));
             return ObjectUtils.isNotNull(profileArrangers) && !profileArrangers.isEmpty();
         }

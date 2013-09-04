@@ -357,7 +357,7 @@ public class PurapConstants {
         public static final HashMap<String, String> getPurchaseOrderAppDocDisapproveStatuses(){
 
             HashMap<String, String> poAppDocStatusMap = new HashMap<String, String>();
-            
+
             poAppDocStatusMap.put(NODE_ADHOC_REVIEW, PurchaseOrderStatuses.APPDOC_CANCELLED);
             poAppDocStatusMap.put(NODE_AWAIT_NEW_UNORDERED_ITEM_REVIEW,PurchaseOrderStatuses.APPDOC_DAPRVD_UNORDERED_ITEM);
             poAppDocStatusMap.put(NODE_INTERNAL_PURCHASING_REVIEW, PurchaseOrderStatuses.APPDOC_DAPRVD_PURCHASING);
@@ -535,7 +535,7 @@ public class PurapConstants {
         public static final String MANUAL_STATUS_CHANGE_QUESTION = "manualStatusChangeQuestion";
         public static final String WAITING_FOR_VENDOR = "WVEN";
         public static final String WAITING_FOR_DEPARTMENT = "WDPT";
-        
+
         public static final String OPEN_STATUS = "Open";
 
         public static final String POSTAL_CODE = "Postal Code";
@@ -737,7 +737,7 @@ public class PurapConstants {
         public static final HashMap<String, String> getPaymentRequestAppDocDisapproveStatuses(){
 
             HashMap<String, String> appDocStatusMap = new HashMap<String, String>();
-            
+
             appDocStatusMap.put(NODE_ADHOC_REVIEW, PaymentRequestStatuses.APPDOC_CANCELLED_IN_PROCESS);
             appDocStatusMap.put(AccountsPayableStatuses.NODE_ACCOUNT_PAYABLE_REVIEW, PaymentRequestStatuses.APPDOC_CANCELLED_IN_PROCESS);
             appDocStatusMap.put(NODE_AWAITING_RECEIVING_REVIEW, PaymentRequestStatuses.APPDOC_CANCELLED_POST_AP_APPROVE);
@@ -1404,13 +1404,6 @@ public class PurapConstants {
         public static final String BOTH_WITH_DEFAULT_SEQUENTIAL_DESCRIPTION = "Both, with Sequential as default";
     }
 
-    // CSU 6702 BEGIN
-    public static class ParameterConstants {
-        public static String INCLUDE_RETIRED_ASSETS_IND = "INCLUDE_RETIRED_ASSETS_IND";
-    }
-    // CSU 6702 BEGIN
-    
-
     public static final String PURAP_APPLICATION_DOCUMENT_ID_NOT_AVAILABLE = "Not Available";
     public static final String PURAP_APPLICATION_DOCUMENT_STATUS_NOT_AVAILABLE = "Not Available";
 
@@ -1418,11 +1411,11 @@ public class PurapConstants {
     public static final String DELIVERY_ROOM_NUMBER_INACTIVE_ERROR   = "document.deliveryBuildingRoomNumber";
 
     public static final String PURAP_REQS_ORG_CD   = "document.organizationCode";
-    
+
     public static final String PO_RETRANSMIT_SELECT_TAB_ERRORS = "document.items";
-    
+
     public static final String ITEM_PURCHASING_COMMODITY_CODE = "distributePurchasingCommodityCode";
-    
+
     public static final String ITEM_TYPE_QTY = "Qty";
     public static final String ITEM_TYPE_NO_QTY = "No Qty";
 }

@@ -284,6 +284,8 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
                 perDiem.getPrimaryDestination().setCounty(document.getPrimaryDestinationCounty());
                 perDiem.getPrimaryDestination().getRegion().setTripType(document.getTripType());
                 perDiem.getPrimaryDestination().getRegion().setTripTypeCode(document.getTripTypeCode());
+                //perDiem.getPrimaryDestination().getRegion().setRegionCode(document.getPrimaryDestinationCountryState());
+                perDiem.getPrimaryDestination().setPrimaryDestinationName(document.getPrimaryDestinationName());
             }
             perDiemList.add(perDiem);
         }

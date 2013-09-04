@@ -15,6 +15,7 @@
 			<ref bean="PerDiemExpense-documentNumber" />
 			<ref bean="PerDiemExpense-mileageDate" />
 			<ref bean="PerDiemExpense-countryState" />
+			<ref bean="PerDiemExpense-countryStateText" />
 			<ref bean="PerDiemExpense-county" />
 			<ref bean="PerDiemExpense-primaryDestination" />
 			<ref bean="PerDiemExpense-personal" />
@@ -94,6 +95,11 @@
 		<property name="summary" value="Country State" />
 		<property name="description" value="Country State" />
 		<property name="control"><bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.sys.businessobject.options.StateCodeValuesFinder" p:includeKeyInLabel="false"/></property>
+	</bean>
+	<bean id="PerDiemExpense-countryStateText" parent="PerDiemExpense-countryStateText-parentBean" />
+	<bean id="PerDiemExpense-countryStateText-parentBean" parent="PerDiemExpense-countryState-parentBean">
+		<property name="name" value="countryStateText" />
+		<property name="control"><bean parent="TextControlDefinition" p:size="20"/></property>
 	</bean>
 	<bean id="PerDiemExpense-county" parent="PerDiemExpense-county-parentBean" />
 	<bean id="PerDiemExpense-county-parentBean" parent="AttributeDefinition">

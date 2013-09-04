@@ -343,34 +343,6 @@
 		</createTable>
 		<addPrimaryKey tableName="TEM_ENT_DOC_T" constraintName="TEM_ENT_DOC_TP1"
 			columnNames="FDOC_NBR" />
-		<createTable tableName="TEM_EXP_TYP_T">
-			<column name="TEM_EXP_TYP_ID" type="NUMBER(22,0)" />
-			<column name="TRAVEL_EXP_CD" type="VARCHAR2(2)" />
-			<column name="TRAVEL_EXP_NM" type="VARCHAR2(25)" />
-			<column name="TRAVEL_EXP_PRPY_IND" type="VARCHAR2(1)" />
-			<column name="FIN_OBJECT_CD" type="VARCHAR2(4)" />
-			<column name="HST_ML_IND" type="VARCHAR2(1)" />
-			<column name="LNG_DESC" type="VARCHAR2(1000)" />
-			<column name="INDV_IND" type="VARCHAR2(1)" />
-			<column name="GRP_TRVL_IND" type="VARCHAR2(1)" />
-			<column name="TRIP_TYP_CD" type="VARCHAR2(3)" />
-			<column name="TRAVELER_TYP_CD" type="VARCHAR2(3)" />
-			<column name="DOCUMENT_TYPE" type="VARCHAR2(4)" />
-			<column name="MAX_AMT" type="NUMBER(9,2)" />
-			<column name="MAX_AMT_PER" type="VARCHAR2(1)" />
-			<column name="ERR_TYP_CD" type="VARCHAR2(1)" />
-			<column name="NOTE_REQ_IND" type="VARCHAR2(1)" />
-			<column name="RCPT_REQ_IND" type="VARCHAR2(1)" />
-			<column name="RCPT_REQ_THRSH" type="NUMBER(22,0)" />
-			<column name="TAXABLE_IND" type="VARCHAR2(1)" />
-			<column name="SPCL_RQST_REQ_IND" type="VARCHAR2(1)" />
-			<column name="ACTV_IND" type="VARCHAR2(1)" />
-			<column name="VER_NBR" type="NUMBER(8,0)" defaultValueNumeric="1" />
-			<column name="OBJ_ID" type="VARCHAR2(36)" />
-			<column name="EXP_DETAIL_REQ_IND" type="VARCHAR2(1)" />
-		</createTable>
-		<addPrimaryKey tableName="TEM_EXP_TYP_T" constraintName="TEM_EXP_TYP_TP1"
-			columnNames="TRAVEL_EXP_CD,TRIP_TYP_CD,TRAVELER_TYP_CD,DOCUMENT_TYPE" />
 		<createTable tableName="TEM_GRP_TRVLR_T">
 			<column name="ID" type="NUMBER(22,0)" />
 			<column name="FDOC_NBR" type="VARCHAR2(255)" />
@@ -1024,11 +996,45 @@
 		</createTable>
 		<addPrimaryKey tableName="TEM_TRVL_CARD_TYP_T"
 			constraintName="TEM_TRVL_CARD_TYP_TP1" columnNames="CODE" />
+		<createTable tableName="TEM_EXP_TYP_T">
+			<column name="EXP_TYP_CD" type="VARCHAR(2)"/>
+			<column name="OBJ_ID" type="VARCHAR(36)"/>
+			<column name="VER_NBR" type="NUMBER(8,0)"/>
+			<column name="EXP_TYP_NM" type="VARCHAR(100)"/>
+			<column name="GRP_TRVL_IND" type="VARCHAR(1)"/>
+			<column name="EXP_DETAIL_REQ_IND" type="VARCHAR(1)"/>
+			<column name="EXP_PRPY_IND" type="VARCHAR(1)"/>
+			<column name="PER_DIEM_IND" type="VARCHAR(1)"/>
+			<column name="ACTV_IND" type="VARCHAR(1)"/>
+		</createTable>
+		<addPrimaryKey tableName="TEM_EXP_TYP_T"
+			constraintName="TEM_EXP_TYP_TP1" columnNames="EXP_TYP_CD"/>
+		<createTable tableName="TEM_EXP_TYP_FIN_OBJ_CD_T">
+			<column name="EXP_TYP_OBJ_CD_ID" type="NUMBER(22,0)"/>
+			<column name="EXP_TYP_CD" type="VARCHAR(2)"/>
+			<column name="TRIP_TYP_CD" type="VARCHAR(3)"/>
+			<column name="TRAVELER_TYP_CD" type="VARCHAR(3)"/>
+			<column name="DOC_TYP_NM" type="VARCHAR(4)"/>
+			<column name="OBJ_ID" type="VARCHAR(36)"/>
+			<column name="VER_NBR" type="NUMBER(8,0)"/>
+			<column name="FIN_OBJECT_CD" type="VARCHAR(4)"/>
+			<column name="MAX_AMT" type="DECIMAL(19,2)"/>
+			<column name="MAX_AMT_SUM_CD" type="VARCHAR(1)"/>
+			<column name="ERR_TYP_CD" type="VARCHAR(1)"/>
+			<column name="NOTE_REQ_IND" type="VARCHAR(1)"/>
+			<column name="RCPT_REQ_IND" type="VARCHAR(1)"/>
+			<column name="RCPT_REQ_THRSH" type="NUMBER(19,2)"/>
+			<column name="TAXABLE_IND" type="VARCHAR(1)"/>
+			<column name="SPCL_RQST_REQ_IND" type="VARCHAR(1)"/>
+			<column name="ACTV_IND" type="VARCHAR(1)"/>
+		</createTable>
+		<addPrimaryKey tableName="TEM_EXP_TYP_FIN_OBJ_CD_T"
+			constraintName="TEM_EXP_TYP_FIN_OBJ_CD_TP1" columnNames="EXP_TYP_OBJ_CD_ID"/>
 		<createTable tableName="TEM_TRVL_EXP_T">
 			<column name="ID" type="NUMBER(22,0)" />
 			<column name="FDOC_NBR" type="VARCHAR2(14)" />
 			<column name="FDOC_LINE_NBR" type="NUMBER(22,0)" />
-			<column name="EXP_TYPE_CD" type="VARCHAR2(1)" />
+			<column name="EXP_LN_TYP_CD" type="VARCHAR2(1)" />
 			<column name="EXP_PARENT_ID" type="NUMBER(22,0)" />
 			<column name="HIST_EXP_ID" type="NUMBER(22,0)" />
 			<column name="EXP_DT" type="DATE" />
@@ -1039,7 +1045,7 @@
 			<column name="CUR_COUNTRY_CD" type="VARCHAR2(100)" />
 			<column name="CONVERTED_AMT" type="NUMBER(7,2)"
 				defaultValueNumeric="0" />
-			<column name="TEM_EXP_TYP_ID" type="NUMBER(22,0)" />
+			<column name="EXP_TYP_OBJ_CD_ID" type="NUMBER(22,0)" />
 			<column name="DV_EXP_CO_NM" type="VARCHAR2(40)" />
 			<column name="AIRFARE_SRC_CD" type="VARCHAR2(10)" />
 			<column name="CLASS_SVC_CODE" type="VARCHAR2(10)" />
@@ -1053,6 +1059,7 @@
 			<column name="TAXABLE_IND" type="VARCHAR2(1)" />
 			<column name="MISG_RCPT_IND" type="VARCHAR2(1)" />
 			<column name="RCPT_RQD_IND" type="VARCHAR2(1)" />
+			<column name="EXP_TYP_CD" type="VARCHAR2(2)"/>
 			<column name="VER_NBR" type="NUMBER(8,0)" defaultValueNumeric="1" />
 			<column name="OBJ_ID" type="VARCHAR2(36)" />
 		</createTable>
@@ -1152,8 +1159,8 @@
 			startValue="1" />
 		<createSequence sequenceName="TEM_EXP_OBJ_CD_ID_SEQ"
 			startValue="1" />
-		<createSequence sequenceName="TEM_EXP_TYP_ID_SEQ"
-			startValue="865" />
+		<createSequence sequenceName="TEM_EXP_TYP_FIN_OJB_CD_ID_SEQ"
+			startValue="100" />
 		<createSequence sequenceName="TEM_GRP_TRVLR_ID_SEQ"
 			startValue="1" />
 		<createSequence sequenceName="TEM_HIST_EXP_ID_SEQ"

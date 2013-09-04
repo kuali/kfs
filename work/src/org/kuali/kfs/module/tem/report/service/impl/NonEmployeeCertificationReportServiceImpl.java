@@ -108,10 +108,10 @@ public class NonEmployeeCertificationReportServiceImpl implements NonEmployeeCer
 
         if (travelDocument.getActualExpenses() != null) {
             for (final ActualExpense expense : travelDocument.getActualExpenses()) {
-                expense.refreshReferenceObject(TemPropertyConstants.TRAVEL_EXEPENSE_TYPE_CODE);
+                expense.refreshReferenceObject(TemPropertyConstants.EXPENSE_TYPE_OBJECT_CODE);
                 final String expenseDate = new SimpleDateFormat("MM/dd").format(expense.getExpenseDate());
-                final NonEmployeeCertificationReport.Detail detail = new NonEmployeeCertificationReport.Detail(expense.getTravelExpenseTypeCode().getName()==null?
-                        "":expense.getTravelExpenseTypeCode().getName(), expense.getExpenseAmount().multiply(expense.getCurrencyRate()), expenseDate);
+                final NonEmployeeCertificationReport.Detail detail = new NonEmployeeCertificationReport.Detail(expense.getExpenseTypeObjectCode().getExpenseType().getName()==null?
+                        "":expense.getExpenseTypeObjectCode().getExpenseType().getName(), expense.getExpenseAmount().multiply(expense.getCurrencyRate()), expenseDate);
 
                 other.add(detail);
                 incrementSummary(summaryData, expense);

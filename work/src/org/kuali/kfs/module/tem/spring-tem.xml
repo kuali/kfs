@@ -600,10 +600,14 @@
 		<property name="businessObjectService" ref="businessObjectService" />
 	</bean>
 	
+	<bean id="expenseTypeObjectCodeDao" parent="expenseTypeObjectCodeDao-parentBean"/>
+	<bean id="expenseTypeObjectCodeDao-parentBean" parent="platformAwareDao" abstract="true" class="org.kuali.kfs.module.tem.dataaccess.impl.ExpenseTypeObjectCodeDaoOjb" />
+	
 	<bean id="travelExpenseService" parent="travelExpenseService-parentBean" />
 	<bean id="travelExpenseService-parentBean" class="org.kuali.kfs.module.tem.service.impl.TravelExpenseServiceImpl">
 		<property name="businessObjectService" ref="businessObjectService" />
 		<property name="dateTimeService" ref="dateTimeService" />
+		<property name="expenseTypeObjectCodeDao" ref="expenseTypeObjectCodeDao"/>
 	</bean>
 	
 	<!-- Struts Events -->

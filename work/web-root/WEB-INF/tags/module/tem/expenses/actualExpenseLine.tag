@@ -39,25 +39,25 @@
 			</td>
 			<td valign="top" class="infoline">
 				<c:choose>
-					<c:when test="${lineNumber == null }">
+					<c:when test="${empty lineNumber }">
 						<c:set target="${paramMap}" property="groupTravelCount" value="${fn:length(KualiForm.document.groupTravelers)}" />
-						<html:select property="${expense}.travelCompanyCodeCode" 
-							styleId="${expense}.travelCompanyCodeCode"
+						<html:select property="${expense}.expenseTypeCode" 
+							styleId="${expense}.expenseTypeCode"
 							onchange="checkDirectBilled('${expense}');disableExpenseAmount(this)">
 							<c:forEach items="${temfunc:getOptionList('org.kuali.kfs.module.tem.businessobject.options.TravelExpenseTypeValuesFinder', paramMap)}" var="option">						
-								<c:set var="isSelected" value="${detailObject.travelCompanyCodeCode == option.key}" />
+								<c:set var="isSelected" value="${detailObject.expenseTypeCode == option.key}" />
 								<%-- Populate the value that was previously selected before error occurred --%>
 								<option value="${option.key}" ${isSelected?'selected=true':'' }>${option.value}</option>
 							</c:forEach>
 						</html:select>
 						<c:forEach items="${ErrorPropertyList}" var="key">
-							<c:if test="${key == 'newActualExpenseLine.travelCompanyCodeCode'}">
+							<c:if test="${key == 'newActualExpenseLine.expenseTypeCode'}">
 								<kul:fieldShowErrorIcon />
 							</c:if>
 						</c:forEach>
 					</c:when>
 					<c:otherwise>
-						<c:out value="${detailObject.travelExpenseTypeCode.name}" />
+						<c:out value="${detailObject.expenseType.name}" />
 					</c:otherwise>
 				</c:choose>	
 			</td>
@@ -66,10 +66,10 @@
 					<c:when test="${lineNumber == null }">
 						<kul:htmlControlAttribute attributeEntry="${otherExpenseAttributes.travelCompanyCodeName}" property="${expense}.travelCompanyCodeName"/>
                 		<kul:lookup boClassName="org.kuali.kfs.fp.businessobject.TravelCompanyCode" 
-                			fieldConversions="name:${expense}.travelCompanyCodeName,code:${expense}.travelCompanyCodeCode" 
+                			fieldConversions="name:${expense}.travelCompanyCodeName,code:${expense}.expenseTypeCode" 
                 			fieldLabel="${otherExpenseAttributes.travelCompanyCodeName.label}" 
-                			lookupParameters="${expense}.travelCompanyCodeCode:code,${expense}.travelCompanyCodeName:name" 
-                			readOnlyFields="travelExpenseTypeCode.prepaidExpense"/>
+                			lookupParameters="${expense}.expenseTypeCode:code,${expense}.travelCompanyCodeName:name" 
+                			readOnlyFields="expenseType.prepaidExpense"/>
 					</c:when>
 					<c:otherwise>
 						<c:out value="${detailObject.travelCompanyCodeName}" />&nbsp;
@@ -80,7 +80,7 @@
 				<div align="center" id="div_${expense}.expenseAmount">
 					<kul:htmlControlAttribute
 						attributeEntry="${otherExpenseAttributes.expenseAmount}"
-						property="${expense}.expenseAmount" readOnly="${!fullEntryMode || detailObject.travelCompanyCodeCode == TemConstants.MILEAGE_EXPENSE}" />
+						property="${expense}.expenseAmount" readOnly="${!fullEntryMode || detailObject.expenseTypeCode == TemConstants.MILEAGE_EXPENSE}" />
 				</div>
 			</td>
 			<td valign="top" nowrap class="infoline">
@@ -88,7 +88,7 @@
 					<kul:htmlControlAttribute
 						attributeEntry="${otherExpenseAttributes.currencyRate}"
 						property="${expense}.currencyRate"
-						readOnly="${lineNumber != null || !fullEntryMode}" />
+						readOnly="${lineNumber != null || !fullEntryMode || !empty detailObject.expenseDetails || detailObject.expenseTypeObjectCode.expenseType.expenseDetailRequired}" />
 					<br/>
 					<c:if test="${lineNumber == null}" >
 						<a href="${currencyUrl}">Rate Conversion Site</a>
@@ -100,7 +100,7 @@
 					<kul:htmlControlAttribute
 						attributeEntry="${otherExpenseAttributes.nonReimbursable}"
 						property="${expense}.nonReimbursable"
-						readOnly="${!fullEntryMode}" />
+						readOnly="${!fullEntryMode || !empty detailObject.expenseDetails || detailObject.expenseTypeObjectCode.expenseType.expenseDetailRequired}" />
             	</div>
             </td>
             <td valign="top" nowrap class="infoline">
@@ -108,28 +108,28 @@
 					<kul:htmlControlAttribute
 						attributeEntry="${otherExpenseAttributes.taxable}"
 						property="${expense}.taxable"
-						readOnly="${!actualExpenseTaxableMode || !fullEntryMode || lineNumber !=null }" />
+						readOnly="${!actualExpenseTaxableMode || !fullEntryMode || !empty detailObject.expenseDetails || detailObject.expenseTypeObjectCode.expenseType.expenseDetailRequired }" />
             	</div>
             </td>
             <td valign="top" nowrap class="infoline">
             	<div align="center">
-            		<c:if test="${! empty detailObject.travelExpenseTypeCode}" >
+            		<c:if test="${! empty detailObject.expenseTypeObjectCode}" >
 					<kul:htmlControlAttribute
-						attributeEntry="${DataDictionary.TemTravelExpenseTypeCode.attributes.receiptRequired}"
-						property="${expense}.travelExpenseTypeCode.receiptRequired" readOnly="true" />
+						attributeEntry="${DataDictionary.ExpenseTypeObjectCode.attributes.receiptRequired}"
+						property="${expense}.expenseTypeObjectCode.receiptRequired" readOnly="true" />
 					</c:if>
 				</div>
             </td>
 			
 			<td class="infoline" valign="top">
 				<div align="center">
-					<c:if test="${detailObject.travelExpenseTypeCode.receiptRequired}">
+					<c:if test="${detailObject.expenseTypeObjectCode.receiptRequired}">
 						<kul:htmlControlAttribute
 							attributeEntry="${otherExpenseAttributes.missingReceipt}"
 							property="${expense}.missingReceipt"
 							readOnly="${!fullEntryMode}" />
 					</c:if>
-					<c:if test="${!detailObject.travelExpenseTypeCode.receiptRequired}">
+					<c:if test="${!detailObject.expenseTypeObjectCode.receiptRequired}">
 						N/A
 					</c:if>
 				</div>

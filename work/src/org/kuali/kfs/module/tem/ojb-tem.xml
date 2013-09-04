@@ -997,7 +997,8 @@
         <field-descriptor name="expenseDate"               	column="EXP_DT"         		jdbc-type="DATE"/>
         <field-descriptor name="expenseAmount"             	column="EXP_AMT"        		jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
         <field-descriptor name="currencyRate"              	column="CUR_RT"         		jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
-        <field-descriptor name="travelExpenseTypeCodeId" 	column="TEM_EXP_TYP_ID"      	jdbc-type="BIGINT" /> 
+        <field-descriptor name="expenseTypeCode"			column="EXP_TYP_CD"				jdbc-type="VARCHAR"/>
+        <field-descriptor name="expenseTypeObjectCodeId" 	column="EXP_TYP_OBJ_CD_ID"    	jdbc-type="BIGINT" /> 
         <field-descriptor name="travelCompanyCodeName"     	column="DV_EXP_CO_NM"  			jdbc-type="VARCHAR" />
         <field-descriptor name="nonReimbursable"     		column="NON_REIMB_IND"   		jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />        
         <field-descriptor name="taxable"     				column="TAXABLE_IND"   			jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
@@ -1011,6 +1012,9 @@
         <field-descriptor name="rentalCarInsurance"     	column="RENTAL_CAR_INSURANCE"   jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />        
         <field-descriptor name="objectId"                   column="OBJ_ID"         		jdbc-type="VARCHAR"/>
         <field-descriptor name="versionNumber"              column="VER_NBR"        		jdbc-type="BIGINT"  locking="true" />
+        <reference-descriptor name="expenseTypeObjectCode" class-ref="org.kuali.kfs.module.tem.businessobject.ExpenseTypeObjectCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+			<foreignkey field-ref="expenseTypeObjectCodeId"/>
+		</reference-descriptor>
         <reference-descriptor name="mileageRate" class-ref="org.kuali.kfs.module.tem.businessobject.MileageRate" auto-retrieve="true" auto-update="none" auto-delete="none">
             <foreignkey field-ref="mileageRateId"/>
         </reference-descriptor>
@@ -1024,32 +1028,41 @@
       <extent-class class-ref="org.kuali.kfs.module.tem.businessobject.ActualExpense" />
     </class-descriptor>
     
-    <class-descriptor class="org.kuali.kfs.module.tem.businessobject.TemTravelExpenseTypeCode" table="TEM_EXP_TYP_T">
-    	<field-descriptor name="travelExpenseTypeCodeId" sequence-name="TEM_EXP_TYP_ID_SEQ" autoincrement="true" column="TEM_EXP_TYP_ID" jdbc-type="BIGINT"/>
-	    <field-descriptor name="code" column="TRAVEL_EXP_CD" jdbc-type="VARCHAR" primarykey="true" />
-		<field-descriptor name="tripType" column="TRIP_TYP_CD" jdbc-type="VARCHAR" primarykey="true" />
-		<field-descriptor name="travelerType" column="TRAVELER_TYP_CD" jdbc-type="VARCHAR" primarykey="true" />
-		<field-descriptor name="documentType" column="DOCUMENT_TYPE" jdbc-type="VARCHAR" primarykey="true" />	    
-	    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-	    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-	    <field-descriptor name="name" column="TRAVEL_EXP_NM" jdbc-type="VARCHAR" />
-	    <field-descriptor name="financialObjectCode" column="FIN_OBJECT_CD" jdbc-type="VARCHAR" />
-	    <field-descriptor name="prepaidExpense" column="TRAVEL_EXP_PRPY_IND" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" jdbc-type="CHAR" />
-		<field-descriptor name="hostedMeal" column="HST_ML_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
-		<field-descriptor name="longDescription" column="LNG_DESC" jdbc-type="VARCHAR"/>		
-		<field-descriptor name="individual" column="INDV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+    <class-descriptor class="org.kuali.kfs.module.tem.businessobject.ExpenseType" table="TEM_EXP_TYP_T">
+		<field-descriptor name="code" column="EXP_TYP_CD" jdbc-type="VARCHAR" primarykey="true" />   
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="name" column="EXP_TYP_NM" jdbc-type="VARCHAR" />
 		<field-descriptor name="groupTravel" column="GRP_TRVL_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+		<field-descriptor name="expenseDetailRequired" column="EXP_DETAIL_REQ_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+		<field-descriptor name="prepaidExpense" column="EXP_PRPY_IND" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" jdbc-type="VARCHAR" />
+		<field-descriptor name="perDiemExpense" column="PER_DIEM_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+		<field-descriptor name="active" column="ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+	</class-descriptor>
+	
+	<class-descriptor class="org.kuali.kfs.module.tem.businessobject.ExpenseTypeObjectCode" table="TEM_EXP_TYP_FIN_OBJ_CD_T">
+		<field-descriptor name="expenseTypeObjectCodeId" column="EXP_TYP_OBJ_CD_ID" jdbc-type="BIGINT" primarykey="true" />
+		<field-descriptor name="expenseTypeCode" column="EXP_TYP_CD" jdbc-type="VARCHAR" />
+		<field-descriptor name="tripTypeCode" column="TRIP_TYP_CD" jdbc-type="VARCHAR" />
+		<field-descriptor name="travelerTypeCode" column="TRAVELER_TYP_CD" jdbc-type="VARCHAR" />
+		<field-descriptor name="documentTypeName" column="DOC_TYP_NM" jdbc-type="VARCHAR" />	    
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="financialObjectCode" column="FIN_OBJECT_CD" jdbc-type="VARCHAR" />
 		<field-descriptor name="maximumAmount" column="MAX_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
-		<field-descriptor name="maximumAmountPer" column="MAX_AMT_PER" jdbc-type="VARCHAR"/>
+		<field-descriptor name="maximumAmountSummationCode" column="MAX_AMT_SUM_CD" jdbc-type="VARCHAR"/>
 		<field-descriptor name="errorTypeCode" column="ERR_TYP_CD" jdbc-type="VARCHAR"/>
 		<field-descriptor name="noteRequired" column="NOTE_REQ_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
 		<field-descriptor name="receiptRequired" column="RCPT_REQ_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
-		<field-descriptor name="receiptRequirementThreshold" column="RCPT_REQ_THRSH" jdbc-type="INTEGER"/>
+		<field-descriptor name="receiptRequirementThreshold" column="RCPT_REQ_THRSH" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
 		<field-descriptor name="taxable" column="TAXABLE_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
 		<field-descriptor name="specialRequestRequired" column="SPCL_RQST_REQ_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
-        <field-descriptor name="expenseDetailRequired" column="EXP_DETAIL_REQ_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
 		<field-descriptor name="active" column="ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
-    </class-descriptor>    
+		
+		<reference-descriptor name="expenseType" class-ref="org.kuali.kfs.module.tem.businessobject.ExpenseType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+			<foreignkey field-ref="expenseTypeCode"/>
+		</reference-descriptor>
+	</class-descriptor>
     
     <class-descriptor class="org.kuali.kfs.module.tem.businessobject.TEMProfile" table="TEM_PROFILE_T">
 		<field-descriptor name="profileId" primarykey="true" column="PROFILE_ID" jdbc-type="INTEGER" sequence-name="TEM_PROFILE_ID_SEQ" auto-increment="true"/>
@@ -1503,7 +1516,8 @@
         <field-descriptor name="expenseDate"               	column="EXP_DT"         		jdbc-type="DATE"/>
         <field-descriptor name="expenseAmount"             	column="EXP_AMT"        		jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
         <field-descriptor name="currencyRate"              	column="CUR_RT"         		jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
-        <field-descriptor name="travelExpenseTypeCodeId" 	column="TEM_EXP_TYP_ID"      	jdbc-type="BIGINT" /> 
+        <field-descriptor name="expenseTypeCode"			column="EXP_TYP_CD"				jdbc-type="VARCHAR"/>
+        <field-descriptor name="expenseTypeObjectCodeId" 	column="EXP_TYP_OBJ_CD_ID"     	jdbc-type="BIGINT" /> 
         <field-descriptor name="travelCompanyCodeName"     	column="DV_EXP_CO_NM"  			jdbc-type="VARCHAR" />
         <field-descriptor name="nonReimbursable"     		column="NON_REIMB_IND"   		jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />       
         <field-descriptor name="taxable"     				column="TAXABLE_IND"   			jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
@@ -1514,6 +1528,9 @@
         <field-descriptor name="historicalTravelExpenseId"  column="HIST_EXP_ID"  			jdbc-type="BIGINT"/>
         <field-descriptor name="objectId"                   column="OBJ_ID"         		jdbc-type="VARCHAR"/>
         <field-descriptor name="versionNumber"              column="VER_NBR"        		jdbc-type="BIGINT"  locking="true" />
+        <reference-descriptor name="expenseTypeObjectCode" class-ref="org.kuali.kfs.module.tem.businessobject.ExpenseTypeObjectCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+			<foreignkey field-ref="expenseTypeObjectCodeId"/>
+		</reference-descriptor>
         <collection-descriptor name="expenseDetails" proxy="true" element-class-ref="org.kuali.kfs.module.tem.businessobject.ImportedExpense" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
             <orderby name="documentLineNumber" sort="ASC" />
             <inverse-foreignkey field-ref="expenseParentId" />

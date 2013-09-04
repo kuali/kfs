@@ -51,6 +51,7 @@ import org.kuali.kfs.module.tem.TemParameterConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.businessobject.ActualExpense;
 import org.kuali.kfs.module.tem.businessobject.ClassOfService;
+import org.kuali.kfs.module.tem.businessobject.ExpenseTypeObjectCode;
 import org.kuali.kfs.module.tem.businessobject.GroupTraveler;
 import org.kuali.kfs.module.tem.businessobject.HistoricalTravelExpense;
 import org.kuali.kfs.module.tem.businessobject.ImportedExpense;
@@ -60,7 +61,6 @@ import org.kuali.kfs.module.tem.businessobject.SpecialCircumstances;
 import org.kuali.kfs.module.tem.businessobject.TEMExpense;
 import org.kuali.kfs.module.tem.businessobject.TEMProfile;
 import org.kuali.kfs.module.tem.businessobject.TemSourceAccountingLine;
-import org.kuali.kfs.module.tem.businessobject.TemTravelExpenseTypeCode;
 import org.kuali.kfs.module.tem.businessobject.TransportationModeDetail;
 import org.kuali.kfs.module.tem.businessobject.TravelerDetail;
 import org.kuali.kfs.module.tem.businessobject.TravelerType;
@@ -787,7 +787,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
                 KualiDecimal detailAmount = actualExpense.getTotalDetailExpenseAmount();
                 GlobalVariables.getMessageMap().addToErrorPath(KRADPropertyConstants.DOCUMENT);
                 GlobalVariables.getMessageMap().addToErrorPath(TemPropertyConstants.ACTUAL_EXPENSES + "[" + counter + "]");
-                if(detailAmount.isGreaterThan(actualExpense.getExpenseAmount()) && !actualExpense.getTravelExpenseTypeCode().getCode().equals(TemConstants.ExpenseTypes.MILEAGE)){
+                if(detailAmount.isGreaterThan(actualExpense.getExpenseAmount()) && !actualExpense.getExpenseTypeObjectCode().getExpenseTypeCode().equals(TemConstants.ExpenseTypes.MILEAGE)){
                     GlobalVariables.getMessageMap().putError(TemPropertyConstants.EXPENSE_AMOUNT, TemKeyConstants.ERROR_ACTUAL_EXPENSE_DETAIL_AMOUNT_EXCEED, detailAmount.toString(), actualExpense.getExpenseAmount().toString());
                     return false;
                 }
@@ -1533,8 +1533,8 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
         }
 
         //check if the expense type code requires special request
-        TemTravelExpenseTypeCode expenseTypeCode = expense.getTravelExpenseTypeCode();
-        if (expenseTypeCode.getSpecialRequestRequired() != null && expenseTypeCode.getSpecialRequestRequired()) {
+        ExpenseTypeObjectCode expenseTypeCode = expense.getExpenseTypeObjectCode();
+        if (expenseTypeCode.isSpecialRequestRequired()) {
             return true;
         }
 
@@ -2042,4 +2042,31 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
         return TravelDocTypes.getAuthorizationDocTypes().contains(getDocumentTypeName());
     }
 
+    /**
+     * Determines if this document should attempt to refresh the expense type object codes for expenses or not
+     * @return true of expense type object codes on expenses should be refreshed; false otherwise
+     */
+    @Override
+    public boolean shouldRefreshExpenseTypeObjectCode() {
+        if (!StringUtils.isBlank(getDocumentHeader().getDocumentNumber()) && !ObjectUtils.isNull(getDocumentHeader()) && getDocumentHeader().getWorkflowDocument() != null) {
+            if (getDocumentHeader().getWorkflowDocument().isInitiated() || getDocumentHeader().getWorkflowDocument().isSaved()) {
+                // can we refresh the expenses?  For that to occur, we need trip and traveler type set
+                return !ObjectUtils.isNull(getTraveler()) && !StringUtils.isBlank(getTraveler().getTravelerTypeCode()) && !StringUtils.isBlank(getTripTypeCode());
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Refreshes expense type object code values for actual and imported expenses on the document
+     */
+    @Override
+    public void refreshExpenseTypeObjectCodesForExpenses() {
+        for (ActualExpense expense : getActualExpenses()) {
+            expense.refreshExpenseTypeObjectCode(getDocumentTypeName(), getTraveler().getTravelerTypeCode(), getTripTypeCode());
+        }
+        for (ImportedExpense expense : getImportedExpenses()) {
+            expense.refreshExpenseTypeObjectCode(getDocumentTypeName(), getTraveler().getTravelerTypeCode(), getTripTypeCode());
+        }
+    }
 }

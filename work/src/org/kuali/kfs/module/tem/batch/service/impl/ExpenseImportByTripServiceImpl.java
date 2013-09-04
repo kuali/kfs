@@ -38,9 +38,9 @@ import org.kuali.kfs.module.tem.batch.service.ImportedExpensePendingEntryService
 import org.kuali.kfs.module.tem.businessobject.AgencyServiceFee;
 import org.kuali.kfs.module.tem.businessobject.AgencyStagingData;
 import org.kuali.kfs.module.tem.businessobject.CreditCardStagingData;
+import org.kuali.kfs.module.tem.businessobject.ExpenseTypeObjectCode;
 import org.kuali.kfs.module.tem.businessobject.HistoricalTravelExpense;
 import org.kuali.kfs.module.tem.businessobject.TEMProfile;
-import org.kuali.kfs.module.tem.businessobject.TemTravelExpenseTypeCode;
 import org.kuali.kfs.module.tem.businessobject.TripAccountingInformation;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
 import org.kuali.kfs.module.tem.document.service.TravelAuthorizationService;
@@ -410,7 +410,7 @@ public class ExpenseImportByTripServiceImpl extends ExpenseImportServiceBase imp
 
                 if (ObjectUtils.isNotNull(ccData)) {
                     LOG.debug("Found a match for Agency: "+ agencyData.getId()+ " Credit Card: "+ ccData.getId()+ " tripId: "+ agencyData.getTripId());
-                    TemTravelExpenseTypeCode travelExpenseType = getTravelExpenseType(expenseTypeParamCode, agencyData.getTripId());
+                    ExpenseTypeObjectCode travelExpenseType = getTravelExpenseType(expenseTypeParamCode, agencyData.getTripId());
                     HistoricalTravelExpense expense = travelExpenseService.createHistoricalTravelExpense(agencyData, ccData, travelExpenseType);
                     AgencyServiceFee serviceFee = getAgencyServiceFee(agencyData.getDistributionCode());
 
@@ -510,7 +510,7 @@ public class ExpenseImportByTripServiceImpl extends ExpenseImportServiceBase imp
      * @param travelDocumentIdentifier
      * @return
      */
-    protected TemTravelExpenseTypeCode getTravelExpenseType(String expenseTypeParamCode, String travelDocumentIdentifier) {
+    protected ExpenseTypeObjectCode getTravelExpenseType(String expenseTypeParamCode, String travelDocumentIdentifier) {
         // get the expense type parameter
         String expenseTypeCode = getParameterService().getParameterValueAsString(TemParameterConstants.TEM_DOCUMENT.class, expenseTypeParamCode);
         if (StringUtils.isNotEmpty(expenseTypeCode)) {
@@ -523,7 +523,7 @@ public class ExpenseImportByTripServiceImpl extends ExpenseImportServiceBase imp
             }
         }
         LOG.error("Unable to retrieve TemTravelExpenseTypeCode");
-        return new TemTravelExpenseTypeCode();
+        return new ExpenseTypeObjectCode();
 
     }
 

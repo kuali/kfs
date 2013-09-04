@@ -33,6 +33,8 @@ public class TravelDocumentTypeValuesFinder extends KeyValuesBase {
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
 
         keyValues.add(new ConcreteKeyValue("", ""));
+        keyValues.add(new ConcreteKeyValue(TemConstants.TravelDocTypes.TEM_TRANSACTIONAL_DOCUMENT, TemConstants.TravelDocTypes.TEM_TRANSACTIONAL_DOCUMENT));
+        keyValues.add(new ConcreteKeyValue(TemConstants.TravelDocTypes.TRAVEL_TRANSACTIONAL_DOCUMENT, TemConstants.TravelDocTypes.TRAVEL_TRANSACTIONAL_DOCUMENT));
         keyValues.add(new ConcreteKeyValue(TemConstants.TravelDocTypes.TRAVEL_AUTHORIZATION_DOCUMENT, TemConstants.TravelDocTypes.TRAVEL_AUTHORIZATION_DOCUMENT));
         keyValues.add(new ConcreteKeyValue(TemConstants.TravelDocTypes.TRAVEL_REIMBURSEMENT_DOCUMENT, TemConstants.TravelDocTypes.TRAVEL_REIMBURSEMENT_DOCUMENT));
         keyValues.add(new ConcreteKeyValue(TemConstants.TravelDocTypes.TRAVEL_ENTERTAINMENT_DOCUMENT, TemConstants.TravelDocTypes.TRAVEL_ENTERTAINMENT_DOCUMENT));

@@ -46,22 +46,8 @@
 			property="${detail}.expenseDate" readOnly="${!fullEntryMode}" />
 	</td>
 	<td valign="top" class="infoline">
-		<c:choose>
-			<c:when test="${!fullEntryMode || parentObject.mileage}">
-				<c:out value="${detailObject.travelExpenseTypeCode.name}" />
-			</c:when>
-			<c:otherwise>
-				<c:set target="${paramMap}" property="groupTravelCount" value="${fn:length(KualiForm.document.groupTravelers)}" /> 
-				<html:select
-					property="${detail}.travelCompanyCodeCode">
-					<c:forEach items="${temfunc:getOptionList('org.kuali.kfs.module.tem.businessobject.options.TravelExpenseTypeValuesFinder', paramMap)}" var="option">
-						<c:set var="isSelected" value="${detailObject.travelCompanyCodeCode == option.key}" />
-						<option value="${option.key}" ${isSelected?'selected=true':'' }>${option.value}</option>
-					</c:forEach>
-				</html:select>
-			</c:otherwise>
-		</c:choose>
-		<c:set var="strKey" value="${detail}.travelCompanyCodeCode" /> 
+		<c:out value="${detailObject.expenseTypeObjectCode.expenseType.name}" />
+		<c:set var="strKey" value="${detail}.expenseTypeCode" /> 
 		<c:forEach items="${ErrorPropertyList}" var="key">
 			<c:if test="${key == strKey}">
 				<kul:fieldShowErrorIcon />
@@ -126,15 +112,26 @@
 				readOnly="${!actualExpenseTaxableMode || !fullEntryMode }" />
     	</div>
     </td>
+	<c:if test="${detailObject.expenseTypeObjectCode.receiptRequired}">
+		<td valign="top" nowrap class="infoline">
+            <div align="center">
+            	<c:if test="${! empty detailObject.expenseTypeObjectCode}" >
+				<kul:htmlControlAttribute
+					attributeEntry="${DataDictionary.ExpenseTypeObjectCode.attributes.receiptRequired}"
+					property="${expense}.expenseTypeObjectCode.receiptRequired" readOnly="true" />
+				</c:if>
+			</div>
+		</td>
+	</c:if>
 	<td valign="top" class="infoline">
 		<div align="center">
-			<c:if test="${detailObject.travelExpenseTypeCode.receiptRequired}">
+			<c:if test="${detailObject.expenseTypeObjectCode.receiptRequired}">
 				<kul:htmlControlAttribute
 					attributeEntry="${otherExpenseAttributes.missingReceipt}"
 					property="${detail}.missingReceipt"
 					readOnly="${!fullEntryMode}" />
 			</c:if>
-			<c:if test="${!detailObject.travelExpenseTypeCode.receiptRequired}">
+			<c:if test="${!detailObject.expenseTypeObjectCode.receiptRequired}">
 				N/A
 			</c:if>
 		</div>
@@ -150,7 +147,7 @@
 		<td valign="top" class="infoline">
 			<c:choose>
 				<c:when test="${fullEntryMode}">
-					<c:set target="${paramMap}" property="expenseTypeCode" value="${parentObject.travelExpenseTypeCodeCode}" />
+					<c:set target="${paramMap}" property="expenseTypeCode" value="${parentObject.expenseTypeCode}" />
 					<html:select property="${detail}.classOfServiceCode" disabled="${!fullEntryMode}">
 						<c:forEach items="${temfunc:getOptionList('org.kuali.kfs.module.tem.businessobject.options.ClassOfServiceValuesFinder', paramMap)}" var="option">
 							<c:set var="isSelected" value="${detailObject.classOfServiceCode == option.key}" />
@@ -169,7 +166,7 @@
 		<td valign="top" class="infoline">
 			<c:choose>
 				<c:when test="${fullEntryMode}">
-					<c:set target="${paramMap}" property="expenseTypeCode" value="${parentObject.travelExpenseTypeCodeCode}" />
+					<c:set target="${paramMap}" property="expenseTypeCode" value="${parentObject.expenseTypeCode}" />
 					<html:select property="${detail}.classOfServiceCode" disabled="${!fullEntryMode}">
 						<c:forEach items="${temfunc:getOptionList('org.kuali.kfs.module.tem.businessobject.options.ClassOfServiceValuesFinder', paramMap)}" var="option">
 							<c:set var="isSelected" value="${detailObject.classOfServiceCode == option.key}" />

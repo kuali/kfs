@@ -29,6 +29,7 @@ import java.util.Observable;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.struts.upload.FormFile;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationParameters;
@@ -143,6 +144,9 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
         request.setAttribute(ENABLE_PRIMARY_DESTINATION_ATTRIBUTE, enablePrimaryDestination);
         final boolean enablePerDiemLookupLinks = getParameterService().getParameterValueAsBoolean(TravelAuthorizationDocument.class, TravelAuthorizationParameters.DISPLAY_PER_DIEM_URL_IND);
         request.setAttribute(ENABLE_PER_DIEM_LOOKUP_LINKS_ATTRIBUTE, enablePerDiemLookupLinks);
+        if (getDocument() != null && !StringUtils.isBlank(getDocument().getDocumentNumber())) {
+            getNewActualExpenseLine().setDocumentNumber(getDocument().getDocumentNumber());
+        }
     }
 
     /**

@@ -16,7 +16,7 @@
 <%@ include file="/jsp/sys/kfsTldHeader.jsp"%>
 <%@ taglib uri="/WEB-INF/tlds/temfunc.tld" prefix="temfunc"%>
 <c:set var="importedExpenseAttributes" value="${DataDictionary.ImportedExpense.attributes}" />
-<c:set var="temExtension" value="${DataDictionary.TemTravelExpenseTypeCode.attributes}" />
+<c:set var="temExtension" value="${DataDictionary.ExpenseTypeObjectCode.attributes}" />
 
 <jsp:useBean id="paramMap" class="java.util.HashMap" />
   
@@ -54,7 +54,7 @@
 		  			<c:if test="${(currentLine.cardType != TemConstants.CARD_TYPE_CTS && KualiForm.canShowImportExpenseDetails)}">
 		  				<kul:subtab lookedUpCollectionName="details${ctr}" 
 					  		width="${tableWidth}" 
-					  		subTabTitle="Imported Expense Details - ${currentLine.travelExpenseTypeCode.name} - ${lineCounter}" 
+					  		subTabTitle="Imported Expense Details - ${currentLine.expenseTypeObjectCode.expenseType.name} - ${lineCounter}" 
 					  		noShowHideButton="false"
 					  		open="${'' }${(fn:length(KualiForm.document.importedExpenses[ctr].expenseDetails) > 0) }">
 					  		<table cellpadding="0" cellspacing="0" class="datatable">

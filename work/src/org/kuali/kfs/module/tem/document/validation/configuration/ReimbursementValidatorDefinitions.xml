@@ -86,6 +86,20 @@
 						</list>
 					</property>
 				</bean>
+				<bean parent="CollectionValidation" scope="prototype">
+					<property name="collectionProperty" value="document.actualExpenses" />
+					<property name="validations">
+						<list>
+							<bean parent="TravelDocument-actualExpenseNotesValidation" scope="prototype">
+								<property name="parameterProperties">
+									<list>
+										<bean parent="validationFieldConversion" p:sourceEventProperty="iterationSubject" p:targetValidationProperty="actualExpenseForValidation"/>
+									</list>
+								</property>
+							</bean>
+						</list>
+					</property>
+				</bean>
 				<bean parent="NodeSpecificValidation" scope="prototype">
 					<property name="validation">
 						<bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype" p:attemptDeterminationOfErrorPrefix="true">

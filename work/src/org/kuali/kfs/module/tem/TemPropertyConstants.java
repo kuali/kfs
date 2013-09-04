@@ -48,6 +48,7 @@ public class TemPropertyConstants {
     public static final String NEW_ADVANCE_ACCOUNTING_LINE = "newAdvanceAccountingLine";
     public static final String NEW_ADVANCE_ACCOUNTING_LINE_GROUP_NAME = "AdvanceAccounting";
     public static final String TRAVELER_TYPE = "travelerType";
+    public static final String TRAVELER_TYPE_CODE = "travelerTypeCode";
     public static final String CUSTOMER = "customer";
 
     public static final String NEW_IMPORTED_EXPENSE_LINE = "newImportedExpenseLine";
@@ -72,8 +73,8 @@ public class TemPropertyConstants {
 
     public static final String CONTACT_CELL_PHONENUMBER = "cellPhoneNumber";
 
-    public static final String TRAVEL_EXEPENSE_TYPE_CODE_ID = "travelExpenseTypeCodeId";
-    public static final String TRAVEL_EXEPENSE_TYPE_CODE = "travelExpenseTypeCode";
+    public static final String EXEPENSE_TYPE_OBJECT_CODE_ID = "expenseTypeObjectCodeId";
+    public static final String EXPENSE_TYPE_OBJECT_CODE = "expenseTypeObjectCode";
     public static final String EXPENSE_AMOUNT = "expenseAmount";
     public static final String CURRENCY_RATE = "currencyRate";
     public static final String TRVL_AUTH_OTHER_EXP_DATE = "expenseDate";
@@ -82,6 +83,8 @@ public class TemPropertyConstants {
     public static final String TEM_ACTUAL_EXPENSE_MILE_RATE = "mileageRateId";
     public static final String TEM_ACTUAL_EXPENSE_NOTCE = "description";
     public static final String TEM_ACTUAL_EXPENSE_DETAIL = "detail";
+    public static final String MAXIMUM_AMOUNT = "maximumAmount";
+    public static final String MAXIMUM_AMOUNT_SUMMATION_CODE = "maximumAmountSummationCode";
 
     public static final String TRVL_DOC_TRAVELER_TYP_CD = "travelerTypeCode";
     public static final String TRVL_DOC_JOB_CLASSIFICATION_CD = "jobClsCode";
@@ -358,6 +361,7 @@ public class TemPropertyConstants {
     public static final String EXPENSE_NOTIFICATION_DATE = "expenseNotificationDate";
 
     public static final String EXPENSE_TYPE_CODE = "expenseTypeCode";
+    public static final String EXPENSE_TYPE = "expenseType";
     public static final String NAME = "name";
 
     public static final String TRAVEL_PAYMENT = "travelPayment";

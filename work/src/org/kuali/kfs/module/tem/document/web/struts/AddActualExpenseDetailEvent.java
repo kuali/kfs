@@ -61,7 +61,7 @@ public class AddActualExpenseDetailEvent implements Observer {
         final ActualExpense newActualExpenseLine = wrapper.getNewActualExpenseLines().get(index);
 
         if(newActualExpenseLine != null){
-            newActualExpenseLine.refreshReferenceObject(TemPropertyConstants.TRAVEL_EXEPENSE_TYPE_CODE);
+            newActualExpenseLine.refreshReferenceObject(TemPropertyConstants.EXPENSE_TYPE_OBJECT_CODE);
         }
 
         ActualExpense line = document.getActualExpenses().get(index);

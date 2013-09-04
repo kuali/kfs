@@ -275,4 +275,8 @@ public class TemKeyConstants {
     public static final String ERROR_TEM_CARD_APP_NO_AGREEMENT = "error.tem.card.application.agreement.not.checked";
 
     public static final String MESSAGE_CARD_EXISTS_PROMPT = "message.tem.card.exists";
+
+    public static final String ERROR_EXPENSE_TYPE_OBJECT_CODE_INVALID_MAXIMUM_AMOUNT = "error.etoc.invalid.maximum.amount";
+    public static final String ERROR_EXPENSE_TYPE_OBJECT_CODE_INVALID_SUMMATION_CODE = "error.etoc.invalid.summation.code";
+    public static final String ERROR_EXPENSE_TYPE_OBJECT_CODE_REOCRD_NOT_UNIQUE = "error.etoc.record.not.unique";
 }

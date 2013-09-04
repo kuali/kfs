@@ -49,7 +49,7 @@ public class AddActualExpenseEvent implements Observer {
         final ActualExpense newActualExpenseLine = wrapper.getNewActualExpenseLine();
 
         if(newActualExpenseLine != null){
-            newActualExpenseLine.refreshReferenceObject(TemPropertyConstants.TRAVEL_EXEPENSE_TYPE_CODE);
+            newActualExpenseLine.refreshReferenceObject(TemPropertyConstants.EXPENSE_TYPE_OBJECT_CODE);
         }
 
         boolean rulePassed = true;

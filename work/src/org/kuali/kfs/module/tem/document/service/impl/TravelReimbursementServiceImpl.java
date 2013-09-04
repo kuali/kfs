@@ -53,10 +53,10 @@ import org.kuali.kfs.module.tem.TemParameterConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.businessobject.AccountingDocumentRelationship;
 import org.kuali.kfs.module.tem.businessobject.ActualExpense;
+import org.kuali.kfs.module.tem.businessobject.ExpenseTypeObjectCode;
 import org.kuali.kfs.module.tem.businessobject.PerDiemExpense;
 import org.kuali.kfs.module.tem.businessobject.TemSourceAccountingLine;
 import org.kuali.kfs.module.tem.businessobject.TemSourceAccountingLineTotalPercentage;
-import org.kuali.kfs.module.tem.businessobject.TemTravelExpenseTypeCode;
 import org.kuali.kfs.module.tem.businessobject.TravelAdvance;
 import org.kuali.kfs.module.tem.businessobject.TravelerDetail;
 import org.kuali.kfs.module.tem.document.TEMReimbursementDocument;
@@ -192,15 +192,15 @@ public class TravelReimbursementServiceImpl implements TravelReimbursementServic
         if (document.getActualExpenses() != null) {
             for (final ActualExpense expense : document.getActualExpenses()) {
                 final Map<String, String> expenseMap = new HashMap<String, String>();
-                expense.refreshReferenceObject(TemPropertyConstants.TRAVEL_EXEPENSE_TYPE_CODE);
-                expenseMap.put("expenseType", expense.getTravelExpenseTypeCode().getName());
+                expense.refreshReferenceObject(TemPropertyConstants.EXPENSE_TYPE_OBJECT_CODE);
+                expenseMap.put("expenseType", expense.getExpenseTypeObjectCode().getExpenseType().getName());
 
                 final KualiDecimal rate = expense.getCurrencyRate();
                 final KualiDecimal amount = expense.getExpenseAmount();
 
                 expenseMap.put("amount", amount.multiply(rate) + "");
 
-                expenseMap.put("receipt", getReceiptRequired(expense.getTravelExpenseTypeCode()));
+                expenseMap.put("receipt", getReceiptRequired(expense.getExpenseTypeObjectCode()));
                 expenses.add(expenseMap);
             }
         }
@@ -242,7 +242,7 @@ public class TravelReimbursementServiceImpl implements TravelReimbursementServic
         primaryKeys.put(TemPropertyConstants.TRAVELER_TYPE, document.getTraveler().getTravelerTypeCode());
         primaryKeys.put(KFSPropertyConstants.DOCUMENT_TYPE, document.getDocumentTypeName());
 
-        return getReceiptRequired(businessObjectService.findByPrimaryKey(TemTravelExpenseTypeCode.class, primaryKeys));
+        return getReceiptRequired(businessObjectService.findByPrimaryKey(ExpenseTypeObjectCode.class, primaryKeys));
     }
 
     /**
@@ -250,10 +250,10 @@ public class TravelReimbursementServiceImpl implements TravelReimbursementServic
      * @param expenseTypeCode
      * @return
      */
-    protected String getReceiptRequired(TemTravelExpenseTypeCode expenseTypeCode) {
+    protected String getReceiptRequired(ExpenseTypeObjectCode expenseTypeCode) {
         String receipt = "-";
-        if(ObjectUtils.isNotNull(expenseTypeCode) && ObjectUtils.isNotNull(expenseTypeCode.getReceiptRequired())) {
-        	if(expenseTypeCode.getReceiptRequired()) {
+        if(ObjectUtils.isNotNull(expenseTypeCode) && ObjectUtils.isNotNull(expenseTypeCode.isReceiptRequired())) {
+        	if(expenseTypeCode.isReceiptRequired()) {
         		receipt = "Yes";
         	} else {
         		receipt = "No";
@@ -593,8 +593,8 @@ public class TravelReimbursementServiceImpl implements TravelReimbursementServic
     @Override
     public void disableDuplicateExpenses(TravelReimbursementDocument trDocument, ActualExpense actualExpense) {
         int i = 0;
-        TemTravelExpenseTypeCode travelExpenseTypeCode = actualExpense.getTravelExpenseTypeCode();
-        String otherExpenseLineCode = travelExpenseTypeCode != null ? travelExpenseTypeCode.getCode() : null;
+        ExpenseTypeObjectCode travelExpenseTypeCode = actualExpense.getExpenseTypeObjectCode();
+        String otherExpenseLineCode = travelExpenseTypeCode != null ? travelExpenseTypeCode.getExpenseTypeCode() : null;
 
         for (final PerDiemExpense perDiemExpense : trDocument.getPerDiemExpenses()) {
             final String mileageDate = new SimpleDateFormat("MM/dd/yyyy").format(perDiemExpense.getMileageDate());
@@ -661,7 +661,7 @@ public class TravelReimbursementServiceImpl implements TravelReimbursementServic
         else{
             boolean canRemove = !expenseStillExists(trDocument.getActualExpenses(), actualExpense);
 
-            if (actualExpense.getTravelExpenseTypeCode().getCode().equals(TemConstants.ExpenseTypes.AIRFARE) && canRemove){
+            if (actualExpense.getExpenseTypeObjectCode().getExpenseTypeCode().equals(TemConstants.ExpenseTypes.AIRFARE) && canRemove){
                 trDocument.getDisabledProperties().remove(AIRFARE_EXPENSE_DISABLED);
             }
             else{
@@ -676,19 +676,19 @@ public class TravelReimbursementServiceImpl implements TravelReimbursementServic
                     LOG.debug("Comparing " + mileageDate + " to " + expenseDate);
                     if (mileageDate.equals(expenseDate)) {
                         String temp = "";
-                        if (actualExpense.getTravelExpenseTypeCode().getCode().equals(TemConstants.ExpenseTypes.HOSTED_BREAKFAST) && canRemove){
+                        if (actualExpense.getExpenseTypeObjectCode().getExpenseTypeCode().equals(TemConstants.ExpenseTypes.HOSTED_BREAKFAST) && canRemove){
                             temp = String.format(PER_DIEM_EXPENSE_DISABLED, i, TemConstants.HostedMeals.HOSTED_BREAKFAST);
                             trDocument.getDisabledProperties().remove(temp);
                         }
-                        else if (actualExpense.getTravelExpenseTypeCode().getCode().equals(TemConstants.ExpenseTypes.HOSTED_LUNCH) && canRemove){
+                        else if (actualExpense.getExpenseTypeObjectCode().getExpenseTypeCode().equals(TemConstants.ExpenseTypes.HOSTED_LUNCH) && canRemove){
                             temp = String.format(PER_DIEM_EXPENSE_DISABLED, i, TemConstants.HostedMeals.HOSTED_LUNCH);
                             trDocument.getDisabledProperties().remove(temp);
                         }
-                        else if (actualExpense.getTravelExpenseTypeCode().getCode().equals(TemConstants.ExpenseTypes.HOSTED_DINNER) && canRemove){
+                        else if (actualExpense.getExpenseTypeObjectCode().getExpenseTypeCode().equals(TemConstants.ExpenseTypes.HOSTED_DINNER) && canRemove){
                             temp = String.format(PER_DIEM_EXPENSE_DISABLED, i, TemConstants.HostedMeals.HOSTED_DINNER);
                             trDocument.getDisabledProperties().remove(temp);
                         }
-                        else if (actualExpense.getTravelExpenseTypeCode().getCode().equals(TemConstants.ExpenseTypes.LODGING) && canRemove){
+                        else if (actualExpense.getExpenseTypeObjectCode().getExpenseTypeCode().equals(TemConstants.ExpenseTypes.LODGING) && canRemove){
                             temp = String.format(PER_DIEM_EXPENSE_DISABLED, i, TemConstants.LODGING.toLowerCase());
                             trDocument.getDisabledProperties().remove(temp);
                         }
@@ -715,7 +715,7 @@ public class TravelReimbursementServiceImpl implements TravelReimbursementServic
         boolean success = false;
         for (ActualExpense temp : actualExpenses){
             if (!temp.equals(actualExpense)){
-                if (temp.getTravelExpenseTypeCode().getCode().equals(actualExpense.getTravelExpenseTypeCode().getCode())){
+                if (temp.getExpenseTypeObjectCode().getExpenseTypeCode().equals(actualExpense.getExpenseTypeObjectCode().getExpenseTypeCode())){
                     success = true;
                 }
             }

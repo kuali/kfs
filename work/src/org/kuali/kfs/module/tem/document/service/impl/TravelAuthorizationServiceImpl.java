@@ -46,8 +46,8 @@ import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationParameters;
 import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationStatusCodeKeys;
 import org.kuali.kfs.module.tem.businessobject.AccountingDocumentRelationship;
+import org.kuali.kfs.module.tem.businessobject.ExpenseTypeObjectCode;
 import org.kuali.kfs.module.tem.businessobject.TEMProfile;
-import org.kuali.kfs.module.tem.businessobject.TemTravelExpenseTypeCode;
 import org.kuali.kfs.module.tem.businessobject.TravelAdvance;
 import org.kuali.kfs.module.tem.businessobject.TravelerDetail;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationAmendmentDocument;
@@ -613,10 +613,10 @@ public class TravelAuthorizationServiceImpl implements TravelAuthorizationServic
         boolean nonReimbursable = false;
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put("travelExpenseTypeCodeId", travelExpenseTypeCodeId);
-        Collection<TemTravelExpenseTypeCode> keyValueList = SpringContext.getBean(KeyValuesService.class).findMatching(TemTravelExpenseTypeCode.class, fieldValues);
+        Collection<ExpenseTypeObjectCode> keyValueList = SpringContext.getBean(KeyValuesService.class).findMatching(ExpenseTypeObjectCode.class, fieldValues);
         //should only return 1
-        for (TemTravelExpenseTypeCode typeCode : keyValueList) {
-            nonReimbursable = typeCode.isPrepaidExpense();
+        for (ExpenseTypeObjectCode typeCode : keyValueList) {
+            nonReimbursable = typeCode.getExpenseType().isPrepaidExpense();
         }
         return nonReimbursable;
     }

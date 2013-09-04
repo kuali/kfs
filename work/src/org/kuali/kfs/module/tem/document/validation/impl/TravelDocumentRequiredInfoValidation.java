@@ -19,8 +19,8 @@ import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants.TravelAuthorizationFields;
 import org.kuali.kfs.module.tem.businessobject.ActualExpense;
+import org.kuali.kfs.module.tem.businessobject.ExpenseTypeObjectCode;
 import org.kuali.kfs.module.tem.businessobject.ImportedExpense;
-import org.kuali.kfs.module.tem.businessobject.TemTravelExpenseTypeCode;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.service.TravelExpenseService;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -59,8 +59,8 @@ public class TravelDocumentRequiredInfoValidation extends GenericValidation{
     private boolean isReceiptRequired(TravelDocument document){
 
         for(ActualExpense actualExpense: document.getActualExpenses()){
-            TemTravelExpenseTypeCode expenseTypeCode = actualExpense.getTravelExpenseTypeCode();
-            if(expenseTypeCode!=null && expenseTypeCode.getReceiptRequired() != null && expenseTypeCode.getReceiptRequired()
+            ExpenseTypeObjectCode expenseTypeCode = actualExpense.getExpenseTypeObjectCode();
+            if(expenseTypeCode!=null && expenseTypeCode.isReceiptRequired()
                     && getTravelExpenseService().isTravelExpenseExceedReceiptRequirementThreshold(actualExpense)){
                 return true;
             }
@@ -86,8 +86,8 @@ public class TravelDocumentRequiredInfoValidation extends GenericValidation{
 
     private boolean isMissingReceiptSelected(TravelDocument document){
         for(ActualExpense actualExpense: document.getActualExpenses()){
-            TemTravelExpenseTypeCode expenseTypeCode = actualExpense.getTravelExpenseTypeCode();
-            if(expenseTypeCode.getReceiptRequired() != null && expenseTypeCode.getReceiptRequired() && getTravelExpenseService().isTravelExpenseExceedReceiptRequirementThreshold(actualExpense) && actualExpense.getMissingReceipt() != null && actualExpense.getMissingReceipt()){
+            ExpenseTypeObjectCode expenseTypeCode = actualExpense.getExpenseTypeObjectCode();
+            if(expenseTypeCode.isReceiptRequired() && getTravelExpenseService().isTravelExpenseExceedReceiptRequirementThreshold(actualExpense) && actualExpense.getMissingReceipt() != null && actualExpense.getMissingReceipt()){
                 return true;
             }
         }

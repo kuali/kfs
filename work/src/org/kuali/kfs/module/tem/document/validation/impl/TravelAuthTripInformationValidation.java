@@ -39,6 +39,7 @@ import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.service.DictionaryValidationService;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public class TravelAuthTripInformationValidation extends GenericValidation {
     private TravelService travelService;
@@ -87,7 +88,7 @@ public class TravelAuthTripInformationValidation extends GenericValidation {
             if (!document.getPrimaryDestinationIndicator()){
                 PrimaryDestination destination = document.getPrimaryDestination();
                 //primary destination trip type code should match the document
-                if (!document.getTripTypeCode().equals(destination.getRegion().getTripTypeCode())) {
+                if (!ObjectUtils.isNull(destination.getRegion()) && !document.getTripTypeCode().equals(destination.getRegion().getTripTypeCode())) {
                     GlobalVariables.getMessageMap().putError(KFSConstants.DOCUMENT_PROPERTY_NAME + "." + TravelAuthorizationFields.TRIP_TYPE, TemKeyConstants.ERROR_TRIP_TYPE_CD_PRI_DEST_MISMATCH);
                     rulePassed = false;
                 }

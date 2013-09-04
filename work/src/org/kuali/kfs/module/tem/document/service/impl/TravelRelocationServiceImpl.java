@@ -128,8 +128,8 @@ public class TravelRelocationServiceImpl implements TravelRelocationService{
         if (document.getActualExpenses() != null) {
             for (final ActualExpense expense : document.getActualExpenses()) {
                 final Map<String, String> expenseMap = new HashMap<String, String>();
-                expense.refreshReferenceObject(TemPropertyConstants.TRAVEL_EXEPENSE_TYPE_CODE);
-                expenseMap.put("expenseType", expense.getTravelExpenseTypeCode().getName());
+                expense.refreshReferenceObject(TemPropertyConstants.EXPENSE_TYPE_OBJECT_CODE);
+                expenseMap.put("expenseType", expense.getExpenseTypeObjectCode().getExpenseType().getName());
 
                 final KualiDecimal rate = expense.getCurrencyRate();
                 final KualiDecimal amount = expense.getExpenseAmount();

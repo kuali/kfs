@@ -975,7 +975,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
             if (isHostedMeal(newActualExpenseLine)) {
                 KNSGlobalVariables.getMessageList().add(TemKeyConstants.MESSAGE_HOSTED_MEAL_ADDED,
                         new SimpleDateFormat("MM/dd/yyyy").format(newActualExpenseLine.getExpenseDate()),
-                        newActualExpenseLine.getTravelExpenseTypeCode().getName());
+                        newActualExpenseLine.getExpenseTypeObjectCode().getExpenseType().getName());
                 newActualExpenseLine.setNonReimbursable(true);
             }
         }
@@ -991,11 +991,11 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
      */
     @Override
     public boolean isHostedMeal(final ExpenseTypeAware havingExpenseType) {
-        if (ObjectUtils.isNull(havingExpenseType) || ObjectUtils.isNull(havingExpenseType.getTravelExpenseTypeCode())) {
+        if (ObjectUtils.isNull(havingExpenseType) || ObjectUtils.isNull(havingExpenseType.getExpenseTypeObjectCode())) {
             return false;
         }
 
-        final String code = havingExpenseType.getTravelExpenseTypeCode().getCode();
+        final String code = havingExpenseType.getExpenseTypeObjectCode().getExpenseTypeCode();
         final String hostedCodes = getParameterService().getParameterValueAsString(TemParameterConstants.TEM_DOCUMENT.class, TravelParameters.HOSTED_MEAL_EXPENSE_TYPES);
 
         for (final String hostedSet : hostedCodes.split(";")) {

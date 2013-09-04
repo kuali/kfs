@@ -32,11 +32,11 @@ import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.batch.service.ImportedExpensePendingEntryService;
 import org.kuali.kfs.module.tem.businessobject.AccountingDistribution;
 import org.kuali.kfs.module.tem.businessobject.AccountingDocumentRelationship;
+import org.kuali.kfs.module.tem.businessobject.ExpenseTypeObjectCode;
 import org.kuali.kfs.module.tem.businessobject.HistoricalTravelExpense;
 import org.kuali.kfs.module.tem.businessobject.ImportedExpense;
 import org.kuali.kfs.module.tem.businessobject.TEMExpense;
 import org.kuali.kfs.module.tem.businessobject.TemSourceAccountingLine;
-import org.kuali.kfs.module.tem.businessobject.TemTravelExpenseTypeCode;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.TravelRelocationDocument;
 import org.kuali.kfs.module.tem.document.service.AccountingDocumentRelationshipService;
@@ -79,18 +79,18 @@ public class ImportedCorporateCardExpenseServiceImpl extends ExpenseServiceBase 
                 if (expense.getCardType() != null
                         && !expense.getCardType().equals(TemConstants.TRAVEL_TYPE_CTS)
                         && !expense.getNonReimbursable()){
-                    expense.refreshReferenceObject(TemPropertyConstants.TRAVEL_EXEPENSE_TYPE_CODE);
-                    TemTravelExpenseTypeCode code = SpringContext.getBean(TravelExpenseService.class).getExpenseType(expense.getTravelExpenseTypeCodeCode(),
+                    expense.refreshReferenceObject(TemPropertyConstants.EXPENSE_TYPE_OBJECT_CODE);
+                    ExpenseTypeObjectCode code = SpringContext.getBean(TravelExpenseService.class).getExpenseType(expense.getTravelExpenseTypeCodeCode(),
                             document.getFinancialDocumentTypeCode(), document.getTripTypeCode(), document.getTraveler().getTravelerTypeCode());
 
                     expense.setTravelExpenseTypeCode(code);
-                    String financialObjectCode = expense.getTravelExpenseTypeCode() != null ? expense.getTravelExpenseTypeCode().getFinancialObjectCode() : null;
+                    String financialObjectCode = expense.getExpenseTypeObjectCode() != null ? expense.getExpenseTypeObjectCode().getFinancialObjectCode() : null;
 
-                    LOG.debug("Refreshed importedExpense with expense type code " + expense.getTravelExpenseTypeCode() +
+                    LOG.debug("Refreshed importedExpense with expense type code " + expense.getExpenseTypeObjectCode() +
                             " and financialObjectCode " + financialObjectCode);
 
                     final ObjectCode objCode = getObjectCodeService().getByPrimaryIdForCurrentYear(defaultChartCode, financialObjectCode);
-                    if (objCode != null && code != null && !code.isPrepaidExpense()){
+                    if (objCode != null && code != null && !code.getExpenseType().isPrepaidExpense()){
                         AccountingDistribution distribution = null;
                         String key = objCode.getCode() + "-" + expense.getCardType();
                         if (distributionMap.containsKey(key)){

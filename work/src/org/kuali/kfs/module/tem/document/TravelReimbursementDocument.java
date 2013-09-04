@@ -348,7 +348,7 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
         }
         if (getActualExpenses() != null && getActualExpenses().size() > 0) {
             for (ActualExpense expense : getActualExpenses()) {
-                if (expense.getTravelExpenseTypeCode() != null && expense.getTravelExpenseTypeCode().getReceiptRequired()
+                if (expense.getExpenseTypeObjectCode() != null && expense.getExpenseTypeObjectCode().isReceiptRequired()
                         && getTravelExpenseService().isTravelExpenseExceedReceiptRequirementThreshold(expense) ) {
                     return true;
                 }

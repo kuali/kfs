@@ -308,6 +308,10 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
             request.setAttribute(DELINQUENT_TEST_ATTRIBUTE, document.getDelinquentAction());
         }
 
+        if (document.shouldRefreshExpenseTypeObjectCode()) {
+            document.refreshExpenseTypeObjectCodesForExpenses();
+        }
+
         ExpenseUtils.calculateMileage(document.getActualExpenses());
 
         final ActionForward retval = super.execute(mapping, form, request, response);
@@ -456,7 +460,7 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
             for (ActualExpense actualExpense : actualExpenses) {
                 ActualExpense newActualExpenseLine = new ActualExpense();
                 newActualExpenseLine.setExpenseDate(actualExpense.getExpenseDate());
-                newActualExpenseLine.setTravelExpenseTypeCodeId(actualExpense.getTravelExpenseTypeCodeId());
+                newActualExpenseLine.setExpenseTypeObjectCodeId(actualExpense.getExpenseTypeObjectCodeId());
                 newActualExpenseLine.setExpenseParentId(actualExpense.getId());
 
                 newActualExpenseLines.add(newActualExpenseLine);

@@ -21,7 +21,7 @@
 	type="org.kuali.kfs.module.tem.businessobject.ActualExpense"%>
 
 <c:set var="otherExpenseAttributes" value="${DataDictionary.ActualExpense.attributes}" />
-<c:set var="temExtension" value="${DataDictionary.TemTravelExpenseTypeCode.attributes}" />
+<c:set var="temExtension" value="${DataDictionary.ExpenseTypeObjectCode.attributes}" />
 <c:set var="isTA" value="${KualiForm.isTravelAuthorizationDoc}" />
 
 <jsp:useBean id="paramMap" class="java.util.HashMap" />
@@ -44,7 +44,7 @@
 	<th>
 		<div align="left">
 			<kul:htmlAttributeLabel
-				attributeEntry="${otherExpenseAttributes.travelCompanyCodeCode}"
+				attributeEntry="${otherExpenseAttributes.expenseTypeCode}"
 				noColon="true" />
 		</div>
 	</th>

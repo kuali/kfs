@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
+<!--
+ Copyright 2006-2009 The Kuali Foundation
+ 
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl2.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+    <bean id="ExpenseTypeMaintenanceDocument" parent="ExpenseTypeMaintenanceDocument-parentBean" />
+    <bean id="ExpenseTypeMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+        <property name="businessObjectClass" value="org.kuali.kfs.module.tem.businessobject.ExpenseType" />
+        <property name="maintainableClass" value="org.kuali.kfs.sys.document.FinancialSystemMaintainable"/>
+        <property name="documentTypeName" value="ETC" />
+        <property name="maintainableSections">
+            <list merge="false">
+                <ref bean="ExpenseTypeMaintenanceDocument-EditExpenseType" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="ExpenseTypeMaintenanceDocument-EditExpenseType" parent="ExpenseTypeMaintenanceDocument-EditExpenseType-parentBean" />
+    <bean id="ExpenseTypeMaintenanceDocument-EditExpenseType-parentBean" abstract="true" parent="MaintainableSectionDefinition" >
+        <property name="id" value="Edit Expense Type" />
+        <property name="title" value="Edit Expense Type" />
+        <property name="maintainableItems">
+            <list>
+                <bean parent="MaintainableFieldDefinition" p:name="code" p:required="true" />
+                <bean parent="MaintainableFieldDefinition" p:name="name" p:required="true" />
+                <bean parent="MaintainableFieldDefinition" p:name="groupTravel" />
+                <bean parent="MaintainableFieldDefinition" p:name="expenseDetailRequired" />
+                <bean parent="MaintainableFieldDefinition" p:name="prepaidExpense" />
+                <bean parent="MaintainableFieldDefinition" p:name="perDiemExpense" />               
+                <bean parent="MaintainableFieldDefinition" p:defaultValue="true" p:name="active" />
+            </list>
+        </property>
+    </bean>
+</beans>

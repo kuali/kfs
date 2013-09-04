@@ -160,9 +160,9 @@ public class SummaryByDayReportServiceImpl implements SummaryByDayReportService 
         }
 
         for (final ActualExpense expense : travelDocument.getActualExpenses()) {
-            expense.refreshReferenceObject(TemPropertyConstants.TRAVEL_EXEPENSE_TYPE_CODE);
+            expense.refreshReferenceObject(TemPropertyConstants.EXPENSE_TYPE_OBJECT_CODE);
             final String expenseDate = monthDay.format(expense.getExpenseDate());
-            final SummaryByDayReport.Detail detail = new SummaryByDayReport.Detail(expense.getTravelExpenseTypeCode().getName()==null?"":expense.getTravelExpenseTypeCode().getName(), expense.getExpenseAmount().multiply(expense.getCurrencyRate()), expenseDate);
+            final SummaryByDayReport.Detail detail = new SummaryByDayReport.Detail(expense.getExpenseTypeObjectCode().getExpenseType().getName()==null?"":expense.getExpenseTypeObjectCode().getExpenseType().getName(), expense.getExpenseAmount().multiply(expense.getCurrencyRate()), expenseDate);
 
             if (isTransportationExpense(expense)) {
                 transportation.add(detail);

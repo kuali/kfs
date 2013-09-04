@@ -32,7 +32,6 @@ import org.apache.log4j.Logger;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemConstants.TravelParameters;
 import org.kuali.kfs.module.tem.TemParameterConstants;
-import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
@@ -72,23 +71,8 @@ public class ActualExpense extends AbstractExpense implements OtherExpense, Expe
         // details = new ArrayList<OtherExpenseDetail>();
     }
 
-    /**
-     * Override refreshReferenceObject for travelExpenseTypeCode because its primary key is not the code
-     *
-     * @see org.kuali.rice.krad.bo.PersistableBusinessObjectBase#refreshReferenceObject(java.lang.String)
-     */
-    @Override
-    public void refreshReferenceObject(String referenceObjectName) {
-        //we will retrieve with the service instead if there is a request to refresh the travelExpenseTypeCode
-        if (TemPropertyConstants.TRAVEL_EXEPENSE_TYPE_CODE.equals(referenceObjectName)){
-            if (getTravelExpenseTypeCodeId() != null){
-                getTravelExpenseTypeCode();
-            }
-        }
-    }
-
     public boolean getDefaultTabOpen(){
-        return !getExpenseDetails().isEmpty() || getMileageIndicator() || getAirfareIndicator() || getRentalCarIndicator() || getTravelExpenseTypeCode().getExpenseDetailRequired();
+        return !getExpenseDetails().isEmpty() || getMileageIndicator() || getAirfareIndicator() || getRentalCarIndicator() || (getExpenseTypeObjectCode() != null && getExpenseTypeObjectCode().getExpenseType().isExpenseDetailRequired());
     }
 
     /**
@@ -283,8 +267,8 @@ public class ActualExpense extends AbstractExpense implements OtherExpense, Expe
     }
 
     public void enableExpenseTypeSpecificFields(){
-        if (getTravelExpenseTypeCode() != null){
-            setTaxable(getTravelExpenseTypeCode().getTaxable());
+        if (getExpenseTypeObjectCode() != null){
+            setTaxable(getExpenseTypeObjectCode().isTaxable());
         }
         setAirfareIndicator(isAirfare());
         setMileageIndicator(isMileage());
@@ -351,7 +335,7 @@ public class ActualExpense extends AbstractExpense implements OtherExpense, Expe
             if (mealType.startsWith(meal)) {
                 final String[] typeCodes = mealType.split("=")[1].split(",");
                 for (final String typeCode : typeCodes) {
-                    if (getTravelExpenseTypeCode() != null && typeCode.equals(getTravelExpenseTypeCode().getCode())) {
+                    if (getExpenseTypeObjectCode() != null && typeCode.equals(getExpenseTypeObjectCode().getExpenseTypeCode())) {
                         return true;
                     }
                 }

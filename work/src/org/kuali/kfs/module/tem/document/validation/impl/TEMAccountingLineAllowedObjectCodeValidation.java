@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.fp.businessobject.TravelCompanyCode;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemKeyConstants;
@@ -109,12 +110,15 @@ public class TEMAccountingLineAllowedObjectCodeValidation extends GenericValidat
                 // check to make sure they're the same
                 List<AccountingDistribution> list = SpringContext.getBean(AccountingDistributionService.class).buildDistributionFrom(travelDocument);
                 List<AccountingLineDistributionKey> distributionList = new ArrayList<AccountingLineDistributionKey>();
+                List<String> expectedObjectCodes = new ArrayList<String>();
                 for (AccountingDistribution dist : list) {
                     distributionList.add(new AccountingLineDistributionKey(dist.getObjectCode(), dist.getCardType()));
+                    expectedObjectCodes.add(dist.getObjectCode());
                 }
+                final String expectedObjectCodesString = StringUtils.join(expectedObjectCodes, ", ");
 
                 if (!distributionList.contains(new AccountingLineDistributionKey(line.getFinancialObjectCode(), line.getCardType()))) {
-                    GlobalVariables.getMessageMap().putError(TravelAuthorizationFields.FIN_OBJ_CD, TemKeyConstants.ERROR_TEM_ACCOUNTING_LINES_OBJECT_CODE_CARD_TYPE, line.getFinancialObjectCode(), line.getCardType());
+                    GlobalVariables.getMessageMap().putError(TravelAuthorizationFields.FIN_OBJ_CD, TemKeyConstants.ERROR_TEM_ACCOUNTING_LINES_OBJECT_CODE_CARD_TYPE, line.getFinancialObjectCode(), line.getCardType(), expectedObjectCodesString);
                     valid &= false;
                 }
             }
@@ -144,13 +148,13 @@ public class TEMAccountingLineAllowedObjectCodeValidation extends GenericValidat
                 boolean isCGEnabled = SpringContext.getBean(ParameterService.class).getParameterValueAsBoolean(KFSConstants.CoreModuleNamespaces.CHART, KFSConstants.RouteLevelNames.ACCOUNT, KFSConstants.ChartApcParms.ACCOUNT_FUND_GROUP_DENOTES_CG);
                 if (isCGEnabled){
                     for (TEMExpense expense : allExpenses){
-                        if (expense.getTravelCompanyCodeCode().equals(TemConstants.ExpenseTypes.AIRFARE)){
+                        if (expense.getExpenseTypeCode().equals(TemConstants.ExpenseTypes.AIRFARE)){
                             Map<String,Object> fieldValues = new HashMap<String, Object>();
                             fieldValues.put(KRADPropertyConstants.CODE,TemConstants.ExpenseTypes.AIRFARE);
                             fieldValues.put(KRADPropertyConstants.NAME,expense.getTravelCompanyCodeName());
                             TravelCompanyCode travelCompany = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(TravelCompanyCode.class, fieldValues);
                             if (travelCompany != null && travelCompany.isForeignCompany()){
-                                String financialObjectCode = expense.getTravelExpenseTypeCode() != null ? expense.getTravelExpenseTypeCode().getFinancialObjectCode() : null;
+                                String financialObjectCode = expense.getExpenseTypeObjectCode() != null ? expense.getExpenseTypeObjectCode().getFinancialObjectCode() : null;
                                 if (travelDocument instanceof TravelAuthorizationDocument && expense instanceof ActualExpense){
                                     if (document.getTripType() != null) {
                                         financialObjectCode = document.getTripType().getEncumbranceObjCode();

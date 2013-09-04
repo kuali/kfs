@@ -114,22 +114,6 @@ public interface TEMExpense {
     public String getTravelExpenseTypeCodeCode();
 
     /**
-     * Gets the value of travelExpenseTypeCode
-     *
-     * @return the value of travelExpenseTypeCode
-     */
-    @ManyToOne
-    @JoinColumn(name = "DV_EXP_CD", nullable = false)
-    public TemTravelExpenseTypeCode getTravelExpenseTypeCode();
-
-    /**
-     * Sets the value of travelExpenseTypeCode
-     *
-     * @param argTravelExpenseTypeCode Value to assign to this.travelExpenseTypeCode
-     */
-    public void setTravelExpenseTypeCode(final TemTravelExpenseTypeCode argTravelExpenseTypeCode);
-
-    /**
      * Gets the value of description
      *
      * @return the value of description
@@ -255,9 +239,19 @@ public interface TEMExpense {
 
     public Boolean getRentalCarInsurance();
 
-    public String getTravelCompanyCodeCode();
+    public String getExpenseTypeCode();
 
-    public Long getTravelExpenseTypeCodeId();
+    public Long getExpenseTypeObjectCodeId();
 
-    public void setTravelExpenseTypeCodeId(Long travelExpenseTypeCodeId);
+    public void setExpenseTypeObjectCodeId(Long expenseTypeObjectCodeId);
+
+    public ExpenseTypeObjectCode getExpenseTypeObjectCode();
+
+    /**
+     * Requests that this expense refresh its expense type object code (and, by implication, expenseTypeObjectCodeId) based on the values passed in
+     * @param documentTypeName the document type name of the document owning this expense
+     * @param travelerTypeCode the traveler type code of the traveler associated with the document which owns this expense
+     * @param tripCode the trip type code associated with teh document which owns this expense
+     */
+    public void refreshExpenseTypeObjectCode(String documentTypeName, String travelerTypeCode, String tripTypeCode);
 }

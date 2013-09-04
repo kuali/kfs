@@ -49,23 +49,23 @@
 					<c:choose>
 						<c:when test="${fullEntryMode}">
 							<c:set target="${paramMap}" property="groupTravelCount" value="${fn:length(KualiForm.document.groupTravelers)}" />
-							<html:select property="${expense}.travelCompanyCodeCode" 
-								styleId="${expense}.travelCompanyCodeCode"
+							<html:select property="${expense}.expenseTypeCode" 
+								styleId="${expense}.expenseTypeCode"
 								onchange="checkDirectBilled('${expense}')">
 								<c:forEach items="${temfunc:getOptionList('org.kuali.kfs.module.tem.businessobject.options.TravelExpenseTypeValuesFinder', paramMap)}" var="option">						
-									<c:set var="isSelected" value="${detailObject.travelCompanyCodeCode == option.key}" />
+									<c:set var="isSelected" value="${detailObject.expenseTypeCode == option.key}" />
 									<%-- Populate the value that was previously selected before error occurred --%>
 									<option value="${option.key}" ${isSelected?'selected=true':'' }>${option.value}</option>
 								</c:forEach>
 							</html:select>
 							<c:forEach items="${ErrorPropertyList}" var="key">
-								<c:if test="${key == 'newImportedExpenseLine.travelCompanyCodeCode'}">
+								<c:if test="${key == 'newImportedExpenseLine.expenseTypeCode'}">
 									<kul:fieldShowErrorIcon />
 								</c:if>
 							</c:forEach>
 						</c:when>
 						<c:otherwise>
-							<c:out value="${detailObject.travelExpenseTypeCode.name}" />
+							<c:out value="${detailObject.expenseTypeObjectCode.expenseType.name}" />
 						</c:otherwise>
 					</c:choose>	
 				</td>
@@ -77,10 +77,10 @@
 					<c:if test="${fullEntryMode }">
 			            <kul:lookup 
 			            	boClassName="org.kuali.kfs.fp.businessobject.TravelCompanyCode" 
-			            	fieldConversions="name:${expense}.travelCompanyCodeName,code:${expense}.travelCompanyCodeCode" 
+			            	fieldConversions="name:${expense}.travelCompanyCodeName,code:${expense}.expenseTypeCode" 
 			            	fieldLabel="${importedExpenseAttributes.travelCompanyCodeName.label}" 
-			            	lookupParameters="${expense}.travelCompanyCodeCode:code,${expense}.travelCompanyCodeName:name" 
-			            	readOnlyFields="travelExpenseTypeCode.prepaidExpense"/> 	
+			            	lookupParameters="${expense}.expenseTypeCode:code,${expense}.travelCompanyCodeName:name" 
+			            	readOnlyFields="expenseTypeObjectCode.expenseType.prepaidExpense"/> 	
 			    	</c:if>
 				</td>
 				<td valign="top" nowrap class="infoline">

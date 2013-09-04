@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.businessobject.TravelerType;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
@@ -35,6 +36,7 @@ public class TravelerTypeValuesFinder extends KeyValuesBase {
     public List<KeyValue> getKeyValues() {
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
 
+        keyValues.add(new ConcreteKeyValue(TemConstants.ALL_EXPENSE_TYPE_OBJECT_CODE_TRAVELER_TYPE, TemConstants.ALL_EXPENSE_TYPE_OBJECT_CODE_TRAVELER_TYPE));
         final Collection<TravelerType> bos = SpringContext.getBean(BusinessObjectService.class).findAll(TravelerType.class);
 
         for (TravelerType typ : bos) {

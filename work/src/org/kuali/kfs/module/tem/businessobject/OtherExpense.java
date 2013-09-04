@@ -80,14 +80,14 @@ public interface OtherExpense extends BusinessObject {
      *
      * @return the value of travelExpenseTypeCode
      */
-    TemTravelExpenseTypeCode getTravelExpenseTypeCode();
+    ExpenseTypeObjectCode getExpenseTypeObjectCode();
 
     /**
      * Sets the value of travelExpenseTypeCode
      *
      * @param argTravelExpenseTypeCode Value to assign to this.travelExpenseTypeCode
      */
-    void setTravelExpenseTypeCode(final TemTravelExpenseTypeCode argTravelExpenseTypeCode);
+    void setTravelExpenseTypeCode(final ExpenseTypeObjectCode argTravelExpenseTypeCode);
 
     String getSequenceName();
 

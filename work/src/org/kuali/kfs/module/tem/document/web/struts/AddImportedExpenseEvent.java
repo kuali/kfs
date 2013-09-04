@@ -53,7 +53,7 @@ public class AddImportedExpenseEvent implements Observer {
         final ImportedExpense newImportedExpenseLine = wrapper.getNewImportedExpenseLine();
 
         if(newImportedExpenseLine != null){
-            newImportedExpenseLine.refreshReferenceObject(TemPropertyConstants.TRAVEL_EXEPENSE_TYPE_CODE);
+            newImportedExpenseLine.refreshReferenceObject(TemPropertyConstants.EXPENSE_TYPE_OBJECT_CODE);
         }
 
         boolean rulePassed = true;

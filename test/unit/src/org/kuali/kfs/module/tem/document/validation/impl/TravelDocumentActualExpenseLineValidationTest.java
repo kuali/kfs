@@ -22,7 +22,7 @@ import java.util.List;
 
 import org.junit.Test;
 import org.kuali.kfs.module.tem.businessobject.ActualExpense;
-import org.kuali.kfs.module.tem.businessobject.TemTravelExpenseTypeCode;
+import org.kuali.kfs.module.tem.businessobject.ExpenseTypeObjectCode;
 import org.kuali.kfs.module.tem.document.TravelReimbursementDocument;
 import org.kuali.kfs.module.tem.document.validation.event.AddActualExpenseLineEvent;
 import org.kuali.kfs.sys.ConfigureContext;
@@ -81,11 +81,11 @@ public class TravelDocumentActualExpenseLineValidationTest extends KualiTestBase
         List<ActualExpense> actualExpenses = new ArrayList<ActualExpense>();
         ActualExpense airFareEntry = new ActualExpense();
         ActualExpense mileageEntry = new ActualExpense();
-        TemTravelExpenseTypeCode aTravelExpenseTypeCode = new TemTravelExpenseTypeCode();
+        ExpenseTypeObjectCode aTravelExpenseTypeCode = new ExpenseTypeObjectCode();
 
         document.setActualExpenses(actualExpenses);
 
-        aTravelExpenseTypeCode.setCode(AIRFARE_EXPENSE_TYPE_CODE);
+        aTravelExpenseTypeCode.setExpenseTypeCode(AIRFARE_EXPENSE_TYPE_CODE);
 
       //Testing expense amount required validation since expense type is not mileage
         airFareEntry.setTravelExpenseTypeCode(aTravelExpenseTypeCode);
@@ -108,8 +108,8 @@ public class TravelDocumentActualExpenseLineValidationTest extends KualiTestBase
         assertFalse(validation.validateGeneralRules(duplicateAirfareEntry, document));
 
         //Testing expense amount not required validation when expense type is mileage
-        TemTravelExpenseTypeCode mTravelExpenseTypeCode = new TemTravelExpenseTypeCode();
-        mTravelExpenseTypeCode.setCode(MILEAGE_EXPENSE_TYPE_CODE);
+        ExpenseTypeObjectCode mTravelExpenseTypeCode = new ExpenseTypeObjectCode();
+        mTravelExpenseTypeCode.setExpenseTypeCode(MILEAGE_EXPENSE_TYPE_CODE);
         mileageEntry.setExpenseAmount(KualiDecimal.ZERO);
         mileageEntry.setTravelExpenseTypeCode(mTravelExpenseTypeCode);
         assertTrue(validation.validateGeneralRules(mileageEntry, document));

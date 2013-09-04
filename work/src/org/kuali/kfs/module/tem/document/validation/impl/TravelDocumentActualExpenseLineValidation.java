@@ -17,12 +17,11 @@ package org.kuali.kfs.module.tem.document.validation.impl;
 
 import java.sql.Timestamp;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.businessobject.ActualExpense;
+import org.kuali.kfs.module.tem.businessobject.ExpenseTypeObjectCode;
 import org.kuali.kfs.module.tem.businessobject.PerDiemExpense;
-import org.kuali.kfs.module.tem.businessobject.TemTravelExpenseTypeCode;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.validation.event.AddActualExpenseLineEvent;
 import org.kuali.kfs.sys.KFSKeyConstants;
@@ -33,7 +32,6 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 public class TravelDocumentActualExpenseLineValidation extends TEMDocumentExpenseLineValidation {
-
     /**
      *
      */
@@ -94,14 +92,7 @@ public class TravelDocumentActualExpenseLineValidation extends TEMDocumentExpens
      */
     public boolean validateGeneralRules(ActualExpense actualExpense, TravelDocument document) {
         boolean success = true;
-        TemTravelExpenseTypeCode expenseTypeCode = actualExpense.getTravelExpenseTypeCode();
-
-        //validate note required
-        if (ObjectUtils.isNotNull(expenseTypeCode) && ObjectUtils.isNotNull(expenseTypeCode.getNoteRequired())
-                && expenseTypeCode.getNoteRequired() && StringUtils.isEmpty(actualExpense.getDescription())) {
-            success = false;
-            GlobalVariables.getMessageMap().putError(TemPropertyConstants.TEM_ACTUAL_EXPENSE_NOTCE, KFSKeyConstants.ERROR_REQUIRED, "Notes for expense type " + actualExpense.getTravelExpenseTypeCodeCode());
-        }
+        final ExpenseTypeObjectCode expenseTypeCode = actualExpense.getExpenseTypeObjectCode();
 
         //validate expense amount greater than 0
         if (!actualExpense.isMileage()) {
@@ -142,16 +133,16 @@ public class TravelDocumentActualExpenseLineValidation extends TEMDocumentExpens
      */
     public boolean validateExpenseDetail(ActualExpense actualExpense, boolean isWarning) {
         boolean success = true;
-        actualExpense.refreshReferenceObject(TemPropertyConstants.TRAVEL_EXEPENSE_TYPE_CODE);
-        TemTravelExpenseTypeCode expenseType = actualExpense.getTravelExpenseTypeCode();
+        actualExpense.refreshReferenceObject(TemPropertyConstants.EXPENSE_TYPE_OBJECT_CODE);
+        ExpenseTypeObjectCode expenseType = actualExpense.getExpenseTypeObjectCode();
 
         if (ObjectUtils.isNotNull(expenseType)){
-            if (expenseType.getExpenseDetailRequired() && actualExpense.getExpenseDetails().isEmpty()){
+            if (expenseType.getExpenseType().isExpenseDetailRequired() && actualExpense.getExpenseDetails().isEmpty()){
                 //detail is required when adding the expense
                 if (isWarning){
-                    GlobalVariables.getMessageMap().putWarning(TemPropertyConstants.TEM_ACTUAL_EXPENSE_DETAIL, TemKeyConstants.ERROR_ACTUAL_EXPENSE_DETAIL_REQUIRED, expenseType.getName());
+                    GlobalVariables.getMessageMap().putWarning(TemPropertyConstants.TEM_ACTUAL_EXPENSE_DETAIL, TemKeyConstants.ERROR_ACTUAL_EXPENSE_DETAIL_REQUIRED, expenseType.getExpenseType().getName());
                 }else{
-                    GlobalVariables.getMessageMap().putError(TemPropertyConstants.TEM_ACTUAL_EXPENSE_DETAIL, TemKeyConstants.ERROR_ACTUAL_EXPENSE_DETAIL_REQUIRED, expenseType.getName());
+                    GlobalVariables.getMessageMap().putError(TemPropertyConstants.TEM_ACTUAL_EXPENSE_DETAIL, TemKeyConstants.ERROR_ACTUAL_EXPENSE_DETAIL_REQUIRED, expenseType.getExpenseType().getName());
                     success = false;
                 }
             }
@@ -169,7 +160,7 @@ public class TravelDocumentActualExpenseLineValidation extends TEMDocumentExpens
      */
     public boolean validateMaximumAmountRules(ActualExpense actualExpense, TravelDocument document) {
         boolean success = true;
-        TemTravelExpenseTypeCode expenseTypeCode = actualExpense.getTravelExpenseTypeCode();
+        ExpenseTypeObjectCode expenseTypeCode = actualExpense.getExpenseTypeObjectCode();
 
         KualiDecimal maxAmount = getMaximumAmount(actualExpense, document);
         if (maxAmount.isNonZero() && maxAmount.subtract(getTotalExpenseAmount(actualExpense, document)).isNegative()) {
@@ -227,7 +218,7 @@ public class TravelDocumentActualExpenseLineValidation extends TEMDocumentExpens
         boolean success = true;
 
         if (actualExpense.isLodgingAllowance()) {
-            TemTravelExpenseTypeCode expenseTypeCode = actualExpense.getTravelExpenseTypeCode();
+            ExpenseTypeObjectCode expenseTypeCode = actualExpense.getExpenseTypeObjectCode();
 
             KualiDecimal maxAmount = ObjectUtils.isNotNull(expenseTypeCode) && ObjectUtils.isNotNull(expenseTypeCode.getMaximumAmount()) ? expenseTypeCode.getMaximumAmount() : KualiDecimal.ZERO;
             GlobalVariables.getMessageMap().putInfo(TemPropertyConstants.TEM_ACTUAL_EXPENSE_NOTCE, TemKeyConstants.INFO_TEM_ACTUAL_EXPENSE_LODGING_ALLOWANCE, maxAmount.toString());
@@ -251,7 +242,7 @@ public class TravelDocumentActualExpenseLineValidation extends TEMDocumentExpens
      * @param document
      * @return
      */
-    private Boolean isLodgingAllowanceEntered(ActualExpense ote, TravelDocument document) {
+    private boolean isLodgingAllowanceEntered(ActualExpense ote, TravelDocument document) {
         for (ActualExpense actualExpense : document.getActualExpenses()) {
             if (actualExpense.isLodgingAllowance()
                     && (!ote.equals(actualExpense))
@@ -278,17 +269,17 @@ public class TravelDocumentActualExpenseLineValidation extends TEMDocumentExpens
      * @param document
      * @return
      */
-    private Boolean isLodgingEntered(ActualExpense ote, TravelDocument document) {
+    private boolean isLodgingEntered(ActualExpense ote, TravelDocument document) {
         for (ActualExpense actualExpense : document.getActualExpenses()) {
             if (actualExpense.isLodging()
                     && (!ote.equals(actualExpense))
                     && (ote.getExpenseDate() != null
                             && ote.getExpenseDate().equals(actualExpense.getExpenseDate()))) {
-                return Boolean.TRUE;
+                return true;
             }
         }
 
-        return Boolean.FALSE;
+        return false;
     }
 
     /**
@@ -298,29 +289,32 @@ public class TravelDocumentActualExpenseLineValidation extends TEMDocumentExpens
      * @param document
      * @return
      */
-    private Boolean isDuplicateEntry(ActualExpense expense, TravelDocument document) {
-        TemTravelExpenseTypeCode expenseTypeCode = expense.getTravelExpenseTypeCode();
+    private boolean isDuplicateEntry(ActualExpense expense, TravelDocument document) {
+        if (document.shouldRefreshExpenseTypeObjectCode()) {
+            expense.refreshExpenseTypeObjectCode(document.getDocumentTypeName(), document.getTraveler().getTravelerTypeCode(), document.getTripTypeCode());
+        }
+        ExpenseTypeObjectCode expenseTypeCode = expense.getExpenseTypeObjectCode();
 
         //do a check if its coming out of the document expense list - this will happen during route validation
         if (!document.getActualExpenses().contains(expense)){
             for (ActualExpense actualExpense : document.getActualExpenses()) {
 
                 if (expenseTypeCode != null && expenseTypeCode.isPerDaily()) {
-                    if (actualExpense.getTravelExpenseTypeCodeCode().equals(expense.getTravelExpenseTypeCodeCode())) {
-                        return Boolean.TRUE;
+                    if (actualExpense.getExpenseTypeCode().equals(expense.getExpenseTypeCode())) {
+                        return true;
                     }
                 }
                 else {
                     if (expense.getExpenseDate() != null
                             && expense.getExpenseDate().equals(actualExpense.getExpenseDate())
-                            && actualExpense.getTravelExpenseTypeCodeCode().equals(expense.getTravelExpenseTypeCodeCode())) {
-                        return Boolean.TRUE;
+                            && actualExpense.getExpenseTypeCode().equals(expense.getExpenseTypeCode())) {
+                        return true;
                     }
                 }
             }
         }
 
-        return Boolean.FALSE;
+        return false;
     }
 
     /**
@@ -332,7 +326,7 @@ public class TravelDocumentActualExpenseLineValidation extends TEMDocumentExpens
      */
     private KualiDecimal getMaximumAmount(ActualExpense actualExpense, TravelDocument document) {
         KualiDecimal maxAmount = KualiDecimal.ZERO;
-        TemTravelExpenseTypeCode expenseTypeCode = actualExpense.getTravelExpenseTypeCode();
+        ExpenseTypeObjectCode expenseTypeCode = actualExpense.getExpenseTypeObjectCode();
 
         if (expenseTypeCode != null && expenseTypeCode.getMaximumAmount() != null) {
             if (expenseTypeCode.isPerDaily()) {
@@ -368,4 +362,5 @@ public class TravelDocumentActualExpenseLineValidation extends TEMDocumentExpens
         }
         return totalExpenseAmount.add(ote.getExpenseAmount());
     }
+
 }

@@ -28,6 +28,7 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.gl.service.EncumbranceService;
@@ -63,6 +64,7 @@ import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.dao.DocumentDao;
 import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -641,5 +643,15 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
     @Override
     public Map<String, String> getDisapprovedAppDocStatusMap() {
         return TravelReimbursementStatusCodeKeys.getDisapprovedAppDocStatusMap();
+    }
+
+    /**
+     * Checks the check stub text for the payment
+     * @see org.kuali.kfs.module.tem.document.TravelDocumentBase#prepareForSave(org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent)
+     */
+    @Override
+    public void prepareForSave(KualiDocumentEvent event) {
+        super.prepareForSave(event);
+        getTravelPayment().setCheckStubText(getTravelDocumentIdentifier() + " " + StringUtils.defaultString(getTripDescription()) + " " + getTripBegin());
     }
 }

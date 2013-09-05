@@ -1087,7 +1087,7 @@
 			<column name="DOC_TYP_NM" value="TRV"/>
 			<column name="OBJ_ID" valueComputed="SYS_GUID()"/>
 			<column name="VER_NBR" valueNumeric="1"/>
-			<column name="FIN_OBJECT_CD" value="4076"/>
+			<column name="FIN_OBJECT_CD" value="4088"/>
 			<column name="NOTE_REQ_IND" value="N"/>
 			<column name="RCPT_REQ_IND" value="N"/>
 			<column name="TAXABLE_IND" value="N"/>
@@ -1102,7 +1102,7 @@
 			<column name="DOC_TYP_NM" value="TRV"/>
 			<column name="OBJ_ID" valueComputed="SYS_GUID()"/>
 			<column name="VER_NBR" valueNumeric="1"/>
-			<column name="FIN_OBJECT_CD" value="4076"/>
+			<column name="FIN_OBJECT_CD" value="4088"/>
 			<column name="NOTE_REQ_IND" value="N"/>
 			<column name="RCPT_REQ_IND" value="N"/>
 			<column name="TAXABLE_IND" value="N"/>
@@ -1117,7 +1117,7 @@
 			<column name="DOC_TYP_NM" value="TRV"/>
 			<column name="OBJ_ID" valueComputed="SYS_GUID()"/>
 			<column name="VER_NBR" valueNumeric="1"/>
-			<column name="FIN_OBJECT_CD" value="4076"/>
+			<column name="FIN_OBJECT_CD" value="4088"/>
 			<column name="MAX_AMT" value="64.0"/>
 			<column name="MAX_AMT_SUM_CD" value="D"/>
 			<column name="ERR_TYP_CD" value="2"/>
@@ -1135,7 +1135,7 @@
 			<column name="DOC_TYP_NM" value="TRV"/>
 			<column name="OBJ_ID" valueComputed="SYS_GUID()"/>
 			<column name="VER_NBR" valueNumeric="1"/>
-			<column name="FIN_OBJECT_CD" value="4076"/>
+			<column name="FIN_OBJECT_CD" value="4088"/>
 			<column name="NOTE_REQ_IND" value="N"/>
 			<column name="RCPT_REQ_IND" value="N"/>
 			<column name="TAXABLE_IND" value="N"/>
@@ -1150,7 +1150,7 @@
 			<column name="DOC_TYP_NM" value="TRV"/>
 			<column name="OBJ_ID" valueComputed="SYS_GUID()"/>
 			<column name="VER_NBR" valueNumeric="1"/>
-			<column name="FIN_OBJECT_CD" value="4076"/>
+			<column name="FIN_OBJECT_CD" value="4088"/>
 			<column name="NOTE_REQ_IND" value="N"/>
 			<column name="RCPT_REQ_IND" value="N"/>
 			<column name="TAXABLE_IND" value="N"/>
@@ -1165,7 +1165,7 @@
 			<column name="DOC_TYP_NM" value="TRV"/>
 			<column name="OBJ_ID" valueComputed="SYS_GUID()"/>
 			<column name="VER_NBR" valueNumeric="1"/>
-			<column name="FIN_OBJECT_CD" value="4076"/>
+			<column name="FIN_OBJECT_CD" value="4088"/>
 			<column name="NOTE_REQ_IND" value="Y"/>
 			<column name="RCPT_REQ_IND" value="N"/>
 			<column name="TAXABLE_IND" value="N"/>
@@ -1180,7 +1180,7 @@
 			<column name="DOC_TYP_NM" value="TRV"/>
 			<column name="OBJ_ID" valueComputed="SYS_GUID()"/>
 			<column name="VER_NBR" valueNumeric="1"/>
-			<column name="FIN_OBJECT_CD" value="4076"/>
+			<column name="FIN_OBJECT_CD" value="4088"/>
 			<column name="NOTE_REQ_IND" value="N"/>
 			<column name="RCPT_REQ_IND" value="N"/>
 			<column name="TAXABLE_IND" value="N"/>

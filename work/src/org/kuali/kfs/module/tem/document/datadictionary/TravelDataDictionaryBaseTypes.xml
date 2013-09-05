@@ -72,12 +72,13 @@
     
     <bean id="TravelAuthorization-travelAdvanceAccountingLineGroup" parent="TravelAuthorization-travelAdvanceAccountingLineGroup-parentBean" />
 	<bean id="TravelAuthorization-travelAdvanceAccountingLineGroup-parentBean" abstract="true" parent="AccountingLineGroup" >
+		<property name="accountingLineGroupClass" value="org.kuali.kfs.module.tem.document.datadictionary.AdvanceAccountingLineGroupImpl" />
 		<property name="accountingLineView" ref="TravelAuthorizationDocument-advanceAccountingLineView" />
 		<property name="accountingLineClass" value="org.kuali.kfs.module.tem.businessobject.TemSourceAccountingLine" />
 		<property name="groupLabel" value="Travel Advance Accounting Lines" />
 		<property name="accountingLineAuthorizerClass" value="org.kuali.kfs.module.tem.document.authorization.TravelAdvanceAccountingLineAuthorizer" />
 		<property name="importedLinePropertyPrefix" value="advanceAccounting" />
-		<property name="totals" ref="AccountingDocument-sourceGroupTotals" />
+		<property name="totals" ref="TravelDocument-advanceGroupTotals" />
 		<property name="errorKey" value="document.travelAdvance.accounting*,travelAdvance.accountingLines,newTravelAdvanceAccountingLine*" />
 	</bean>
     
@@ -271,6 +272,16 @@
 				<bean parent="AccountingLineView-field" p:name="amount"
 					p:required="true" />
 				<bean parent="AccountingLineView-actions" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="TravelDocument-advanceGroupTotals"
+		class="org.springframework.beans.factory.config.ListFactoryBean">
+		<property name="sourceList">
+			<list>
+				<bean parent="AccountingLineView-groupTotal"
+					p:totalProperty="currencyFormattedAdvanceTotal" p:representedProperty="amount"/>
 			</list>
 		</property>
 	</bean>

@@ -887,6 +887,19 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
     }
 
     /**
+     * @return the total of the advance accounting lines
+     */
+    public KualiDecimal getAdvanceTotal() {
+        KualiDecimal total = KualiDecimal.ZERO;
+        for (TemSourceAccountingLine accountingLine : getAdvanceAccountingLines()) {
+            if (accountingLine.getAmount() != null) {
+                total = total.add(accountingLine.getAmount());
+            }
+        }
+        return total;
+    }
+
+    /**
      * Provides answers to the following splits: PurchaseWasReceived VendorIsEmployeeOrNonResidentAlien
      *
      * @see org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase#answerSplitNodeQuestion(java.lang.String)

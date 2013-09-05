@@ -210,13 +210,23 @@ public abstract class AbstractExpense extends PersistableBusinessObjectBase impl
     }
 
     /**
-     * Gets the value of travelExpenseTypeCode
+     * Gets the value of expense type object code
      *
-     * @return the value of travelExpenseTypeCode
+     * @return the value of expense type object code
      */
     @Override
     public ExpenseTypeObjectCode getExpenseTypeObjectCode() {
         return this.expenseTypeObjectCode;
+    }
+
+    /**
+     * Sets the value of the expense type object code
+     * @param expenseTypeObjectCode the expense type object code value to set
+     * @see org.kuali.kfs.module.tem.businessobject.TEMExpense#setExpenseTypeObjectCode(org.kuali.kfs.module.tem.businessobject.ExpenseTypeObjectCode)
+     */
+    @Override
+    public void setExpenseTypeObjectCode(ExpenseTypeObjectCode expenseTypeObjectCode) {
+        this.expenseTypeObjectCode = expenseTypeObjectCode;
     }
 
     /**
@@ -393,6 +403,12 @@ public abstract class AbstractExpense extends PersistableBusinessObjectBase impl
         if (expenseTypeObjectCode != null) {
             this.expenseTypeObjectCodeId = expenseTypeObjectCode.getExpenseTypeObjectCodeId();
             this.expenseTypeObjectCode = expenseTypeObjectCode;
+
+            // and set this on details
+            for (TEMExpense detail : getExpenseDetails()) {
+                detail.setExpenseTypeObjectCodeId(expenseTypeObjectCode.getExpenseTypeObjectCodeId());
+                detail.setExpenseTypeObjectCode(expenseTypeObjectCode);
+            }
         }
     }
 

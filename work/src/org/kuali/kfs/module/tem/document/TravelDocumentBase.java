@@ -1026,10 +1026,16 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
 
         if (line instanceof ActualExpense){
             getActualExpenses().get(index).addExpenseDetails(line);
+            if (!ObjectUtils.isNull(getTraveler()) && !StringUtils.isBlank(getTraveler().getTravelerTypeCode()) && !StringUtils.isBlank(getTripTypeCode())) {
+                getActualExpenses().get(index).refreshExpenseTypeObjectCode(getDocumentTypeName(), getTraveler().getTravelerTypeCode(), getTripTypeCode());
+            }
             notifyChangeListeners(new PropertyChangeEvent(this, TemPropertyConstants.ACTUAL_EXPENSES, null, line));
         }
         else{
             getImportedExpenses().get(index).addExpenseDetails(line);
+            if (!ObjectUtils.isNull(getTraveler()) && !StringUtils.isBlank(getTraveler().getTravelerTypeCode()) && !StringUtils.isBlank(getTripTypeCode())) {
+                getImportedExpenses().get(index).refreshExpenseTypeObjectCode(getDocumentTypeName(), getTraveler().getTravelerTypeCode(), getTripTypeCode());
+            }
             notifyChangeListeners(new PropertyChangeEvent(this, TemPropertyConstants.IMPORTED_EXPENSES, null, line));
         }
     }

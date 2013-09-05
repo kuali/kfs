@@ -239,6 +239,8 @@ public interface TEMExpense {
 
     public ExpenseTypeObjectCode getExpenseTypeObjectCode();
 
+    public void setExpenseTypeObjectCode(ExpenseTypeObjectCode expenseTypeObjectCode);
+
     /**
      * Requests that this expense refresh its expense type object code (and, by implication, expenseTypeObjectCodeId) based on the values passed in
      * @param documentTypeName the document type name of the document owning this expense

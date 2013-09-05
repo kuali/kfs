@@ -15993,7 +15993,7 @@
         <column name="ID" primaryKey="true" size="22" type="DECIMAL"/>
         <column name="FDOC_NBR" required="true" size="14" type="VARCHAR"/>
         <column name="FDOC_LINE_NBR" size="22" type="DECIMAL"/>
-        <column name="EXP_TYPE_CD" size="1" type="VARCHAR"/>
+        <column name="EXP_LN_TYP_CD" size="1" type="VARCHAR"/>
         <column name="EXP_PARENT_ID" size="22" type="DECIMAL"/>
         <column name="HIST_EXP_ID" size="22" type="DECIMAL"/>
         <column name="EXP_DT" type="DATE"/>

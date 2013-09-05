@@ -279,4 +279,5 @@ public class TemKeyConstants {
     public static final String ERROR_EXPENSE_TYPE_OBJECT_CODE_INVALID_MAXIMUM_AMOUNT = "error.etoc.invalid.maximum.amount";
     public static final String ERROR_EXPENSE_TYPE_OBJECT_CODE_INVALID_SUMMATION_CODE = "error.etoc.invalid.summation.code";
     public static final String ERROR_EXPENSE_TYPE_OBJECT_CODE_REOCRD_NOT_UNIQUE = "error.etoc.record.not.unique";
+    public static final String ERROR_EXPENSE_TYPE_OBJECT_CODE_INVALID_TRIP_TYPE_FOR_DOC_TYPE = "error.etoc.invalid.trip.type.considering.document.type";
 }

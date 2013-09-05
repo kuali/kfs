@@ -50,6 +50,7 @@ public class ExpenseTypeObjectCodeRule extends MaintenanceDocumentRuleBase {
         result &= checkValidValues(bo);
         result &= validMaximumAmount(bo);
         result &= validSummationCode(bo);
+        result &= validTripTypeByDocumentType(bo);
         result &= canExpenseTypeObjectCodeBeChosen(bo);
         if (document.isNew()) {
             result &= checkRecordIsUnique(bo);
@@ -170,6 +171,22 @@ public class ExpenseTypeObjectCodeRule extends MaintenanceDocumentRuleBase {
         if (!StringUtils.isBlank(expenseTypeObjectCode.getMaximumAmountSummationCode()) && !ExpenseTypeAmountSummation.PER_DAILY.getCode().equals(expenseTypeObjectCode.getMaximumAmountSummationCode()) && !ExpenseTypeAmountSummation.PER_OCCURRENCE.getCode().equals(expenseTypeObjectCode.getMaximumAmountSummationCode())) {
             success = false;
             GlobalVariables.getMessageMap().putError(TemPropertyConstants.MAXIMUM_AMOUNT_SUMMATION_CODE, TemKeyConstants.ERROR_EXPENSE_TYPE_OBJECT_CODE_INVALID_SUMMATION_CODE, new String[] { expenseTypeObjectCode.getMaximumAmountSummationCode() });
+        }
+        return success;
+    }
+
+    /**
+     * Validates that if the document type is "ENT" or "RELO", the trip type is "All" - it can be no other value
+     * @param expenseTypeObjectCode the expense type object code to validate
+     * @return true if the trip type is valid considering the document type, false otherwise
+     */
+    protected boolean validTripTypeByDocumentType(ExpenseTypeObjectCode expenseTypeObjectCode) {
+        boolean success = true;
+        if (TemConstants.TravelDocTypes.TRAVEL_ENTERTAINMENT_DOCUMENT.equals(expenseTypeObjectCode.getDocumentTypeName()) || TemConstants.TravelDocTypes.TRAVEL_RELOCATION_DOCUMENT.equals(expenseTypeObjectCode.getDocumentTypeName())) {
+            if (!TemConstants.ALL_EXPENSE_TYPE_OBJECT_CODE_TRIP_TYPE.equals(expenseTypeObjectCode.getTripTypeCode())) {
+                success = false;
+                GlobalVariables.getMessageMap().putError(TemPropertyConstants.TRIP_TYPE_CODE, TemKeyConstants.ERROR_EXPENSE_TYPE_OBJECT_CODE_INVALID_TRIP_TYPE_FOR_DOC_TYPE, expenseTypeObjectCode.getDocumentTypeName(), TemConstants.ALL_EXPENSE_TYPE_OBJECT_CODE_TRIP_TYPE);
+            }
         }
         return success;
     }

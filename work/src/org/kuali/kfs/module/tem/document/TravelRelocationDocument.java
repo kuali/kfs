@@ -27,10 +27,10 @@ import javax.persistence.Table;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.module.tem.TemConstants;
-import org.kuali.kfs.module.tem.TemParameterConstants;
-import org.kuali.kfs.module.tem.TemWorkflowConstants;
 import org.kuali.kfs.module.tem.TemConstants.TravelParameters;
 import org.kuali.kfs.module.tem.TemConstants.TravelRelocationStatusCodeKeys;
+import org.kuali.kfs.module.tem.TemParameterConstants;
+import org.kuali.kfs.module.tem.TemWorkflowConstants;
 import org.kuali.kfs.module.tem.businessobject.JobClassification;
 import org.kuali.kfs.module.tem.businessobject.RelocationReason;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
@@ -417,6 +417,15 @@ public class TravelRelocationDocument extends TEMReimbursementDocument implement
     @Override
     protected String getTripIdPrefix() {
         return TemConstants.TripIdPrefix.RELOCATION_PREFIX;
+    }
+
+    /**
+     * The trip type code for a RELO is always "All"
+     * @see org.kuali.kfs.module.tem.document.TravelDocumentBase#getTripTypeCode()
+     */
+    @Override
+    public String getTripTypeCode() {
+        return TemConstants.ALL_EXPENSE_TYPE_OBJECT_CODE_TRIP_TYPE;
     }
 
 }

@@ -126,8 +126,8 @@ public class TemRegion extends PersistableBusinessObjectBase implements MutableI
     @Override
     public int compareTo(TemRegion o) {
         TemRegion country = o;
-        if (this.getRegionCode() != null && country.getRegionCode() != null){
-            return this.getRegionCode().compareTo(country.getRegionCode());
+        if (this.getRegionName() != null && country.getRegionName() != null){
+            return this.getRegionName().compareTo(country.getRegionName());
         }
         else{
             return 0;

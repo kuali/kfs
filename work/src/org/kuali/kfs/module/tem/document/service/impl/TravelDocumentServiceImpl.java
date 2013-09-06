@@ -91,6 +91,7 @@ import org.kuali.kfs.module.tem.document.service.TravelReimbursementService;
 import org.kuali.kfs.module.tem.document.web.struts.TravelFormBase;
 import org.kuali.kfs.module.tem.exception.UploadParserException;
 import org.kuali.kfs.module.tem.service.CsvRecordFactory;
+import org.kuali.kfs.module.tem.service.PerDiemService;
 import org.kuali.kfs.module.tem.service.TEMRoleService;
 import org.kuali.kfs.module.tem.service.TravelerService;
 import org.kuali.kfs.module.tem.util.ExpenseUtils;
@@ -169,6 +170,8 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
     private List<String> defaultAcceptableFileExtensions;
     private CsvRecordFactory<GroupTravelerCsvRecord> csvRecordFactory;
     protected volatile AccountsReceivableModuleService accountsReceivableModuleService;
+    protected PerDiemService perDiemService;
+
 
     /**
      * Creates and populates an individual per diem item.
@@ -202,7 +205,8 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
             expense.setBreakfastValue(PerDiemExpense.calculateMealsAndIncidentalsProrated(expense.getBreakfastValue(), perDiemPercent));
             expense.setIncidentalsValue(PerDiemExpense.calculateMealsAndIncidentalsProrated(expense.getIncidentalsValue(), perDiemPercent));
         }
-        expense.setLodging(perDiem.getLodging());
+        final KualiDecimal lodgingAmount = getPerDiemService().isPerDiemHandlingLodging() ? perDiem.getLodging() : KualiDecimal.ZERO;
+        expense.setLodging(lodgingAmount);
         return expense;
     }
 
@@ -2239,4 +2243,13 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
         }
         return accountsReceivableModuleService;
     }
+
+    public PerDiemService getPerDiemService() {
+        return perDiemService;
+    }
+
+    public void setPerDiemService(PerDiemService perDiemService) {
+        this.perDiemService = perDiemService;
+    }
+
 }

@@ -478,9 +478,6 @@
 	<bean id="temTravelDocumentService-parentBean"
 		class="org.kuali.kfs.module.tem.document.service.impl.TravelDocumentServiceImpl"
 		abstract="true">
-		<!-- <property name="personService" ref="personService" /> -->
-		<!-- <property name="documentHelperService" ref="documentHelperService" 
-			/> -->
 		<property name="businessObjectService" ref="businessObjectService" />
 		<property name="documentService" ref="documentService" />
 		<property name="dataDictionaryService" ref="dataDictionaryService" />
@@ -495,12 +492,13 @@
 		<property name="stateService" ref="stateService" />
 		<property name="persistenceStructureService" ref="persistenceStructureService"/>
 		<property name="universityDateService" ref="universityDateService" />
-	     	<property name="defaultAcceptableFileExtensions">
-     	            <list>
-       	                 <value>csv</value>
-    	            </list>
-    		</property>
-                <property name="csvRecordFactory" ref="groupTravelerCsvRecordFactory" />
+		<property name="defaultAcceptableFileExtensions">
+			<list>
+				<value>csv</value>
+			</list>
+		</property>
+    	<property name="csvRecordFactory" ref="groupTravelerCsvRecordFactory" />
+    	<property name="perDiemService" ref="perDiemService"/>
 	</bean>
   
     <bean id="travelDisbursementService" parent="travelDisbursementService-parentBean" />
@@ -756,6 +754,7 @@
 				</entry>
 			</map>
 		</property>
+		<property name="parameterEvaluatorService" ref="parameterEvaluatorService"/>
 	</bean>
 
 	<bean id="importedCTSExpenseService"

@@ -80,13 +80,13 @@ public abstract class TEMDocumentExpenseLineValidation extends GenericValidation
      * @param perDiemExpenses
      * @return
      */
-    protected Boolean isPerDiemMileageEntered(List<PerDiemExpense> perDiemExpenses) {
+    protected boolean isPerDiemMileageEntered(List<PerDiemExpense> perDiemExpenses) {
         for (PerDiemExpense perDiemExpenseLine : perDiemExpenses) {
             if (ObjectUtils.isNotNull(perDiemExpenseLine.getMiles()) && perDiemExpenseLine.getMiles() > 0) {
-                return Boolean.TRUE;
+                return true;
             }
         }
-        return Boolean.FALSE;
+        return false;
     }
 
     /**
@@ -95,15 +95,15 @@ public abstract class TEMDocumentExpenseLineValidation extends GenericValidation
      * @param perDiemExpenses
      * @return
      */
-    protected Boolean isPerDiemMealsEntered(List<PerDiemExpense> perDiemExpenses) {
+    protected boolean isPerDiemMealsEntered(List<PerDiemExpense> perDiemExpenses) {
         for (PerDiemExpense perDiemExpenseLine : perDiemExpenses) {
             if (ObjectUtils.isNotNull(perDiemExpenseLine.getMealsAndIncidentals()) &&
                     (perDiemExpenseLine.getMealsAndIncidentals().isGreaterThan(KualiDecimal.ZERO) ||
                     perDiemExpenseLine.getMealsTotal().isGreaterThan(KualiDecimal.ZERO))) {
-                return Boolean.TRUE;
+                return true;
             }
         }
-        return Boolean.FALSE;
+        return false;
     }
 
     /**
@@ -112,14 +112,14 @@ public abstract class TEMDocumentExpenseLineValidation extends GenericValidation
      * @param perDiemExpenses
      * @return
      */
-    protected Boolean isPerDiemLodgingEntered(List<PerDiemExpense> perDiemExpenses) {
+    protected boolean isPerDiemLodgingEntered(List<PerDiemExpense> perDiemExpenses) {
         for (PerDiemExpense perDiemExpenseLine : perDiemExpenses) {
             if (ObjectUtils.isNotNull(perDiemExpenseLine.getLodgingTotal())
                     && perDiemExpenseLine.getLodgingTotal().isGreaterThan(KualiDecimal.ZERO)) {
-                return Boolean.TRUE;
+                return true;
             }
         }
-        return Boolean.FALSE;
+        return false;
     }
 
     /**
@@ -128,13 +128,13 @@ public abstract class TEMDocumentExpenseLineValidation extends GenericValidation
      * @param perDiemExpenses
      * @return
      */
-    protected Boolean isPerDiemIncidentalEntered(List<PerDiemExpense> perDiemExpenses) {
+    protected boolean isPerDiemIncidentalEntered(List<PerDiemExpense> perDiemExpenses) {
         for (PerDiemExpense perDiemExpenseLine : perDiemExpenses) {
             if (perDiemExpenseLine.getLodgingTotal().isGreaterThan(KualiDecimal.ZERO)) {
-                return Boolean.TRUE;
+                return true;
             }
         }
-        return Boolean.FALSE;
+        return false;
     }
 
     /**

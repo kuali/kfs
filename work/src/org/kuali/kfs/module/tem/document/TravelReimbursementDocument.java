@@ -422,16 +422,9 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
         if (trTotal.isGreaterThan(taTotal)) {
             KualiDecimal subAmount = trTotal.subtract(taTotal);
             KualiDecimal percentOver = (subAmount.divide(taTotal)).multiply(new KualiDecimal(100));
-            if (percentOver.isGreaterThan(new KualiDecimal(percent))) {
-                return true;
-            }
-            else {
-                return false;
-            }
+            return (percentOver.isGreaterThan(new KualiDecimal(percent)));
         }
-        else {
-            return false;
-        }
+        return false;
     }
 
     /**

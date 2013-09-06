@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.tem.identity;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -47,14 +48,23 @@ public class ArrangerDerivedRoleTypeServiceImpl extends DerivedRoleTypeServiceBa
         if(qualification!=null && !qualification.isEmpty()){
             final String profileId = qualification.get(TEMProfileProperties.PROFILE_ID);
             final String documentType = qualification.get(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME);
-            if(!StringUtils.isBlank(profileId) && !StringUtils.isBlank(documentType)) {
+            if(!StringUtils.isBlank(profileId)) {
+
                 final Integer profIdAsInt = new Integer(profileId);
                 final TEMProfileArranger arranger = getArrangerDocumentService().findTemProfileArranger(principalId, profIdAsInt);
                 if (arranger != null){
-                    if (TravelDocTypes.getAuthorizationDocTypes().contains(documentType)){
-                        return arranger.getTaInd();
-                    }else if (TravelDocTypes.getReimbursementDocTypes().contains(documentType)){
-                        return arranger.getTrInd();
+                    if (!StringUtils.isBlank(documentType)) {
+                        if (TravelDocTypes.getAuthorizationDocTypes().contains(documentType)){
+                            return arranger.getTaInd();
+                        }else if (TravelDocTypes.getReimbursementDocTypes().contains(documentType)){
+                            return arranger.getTrInd();
+                        }
+
+                    } else {
+                        // we are coming from the TEM Profile lookup and are checking if we are an arranger and therefore can edit this profile.
+                        if (arranger.getPrincipalId().equals(principalId)) {
+                            return true;
+                        }
                     }
                 }
             }
@@ -66,8 +76,9 @@ public class ArrangerDerivedRoleTypeServiceImpl extends DerivedRoleTypeServiceBa
             Map fieldValues = new HashMap();
             fieldValues.put(TEMProfileProperties.PRINCIPAL_ID, principalId);
             fieldValues.put(KFSPropertyConstants.ACTIVE, "Y");
-            List<TEMProfileArranger> profileArrangers = new ArrayList<TEMProfileArranger>( getBusinessObjectService().findMatching(TEMProfileArranger.class, fieldValues));
-            return ObjectUtils.isNotNull(profileArrangers) && !profileArrangers.isEmpty();
+            Collection<TEMProfileArranger> arrangers = getBusinessObjectService().findMatching(TEMProfileArranger.class, fieldValues);
+            //List<TEMProfileArranger> profileArrangers = new ArrayList<TEMProfileArranger>( getBusinessObjectService().findMatching(TEMProfileArranger.class, fieldValues));
+            return ObjectUtils.isNotNull(arrangers) && !arrangers.isEmpty();
         }
         return false;
     }

@@ -94,7 +94,7 @@
 		<property name="required" value="false" />
 		<property name="summary" value="Country State" />
 		<property name="description" value="Country State" />
-		<property name="control"><bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.sys.businessobject.options.StateCodeValuesFinder" p:includeKeyInLabel="false"/></property>
+		<property name="control"><bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.tem.businessobject.options.TemRegionValuesFinder" p:includeKeyInLabel="false"/></property>
 	</bean>
 	<bean id="PerDiemExpense-countryStateText" parent="PerDiemExpense-countryStateText-parentBean" />
 	<bean id="PerDiemExpense-countryStateText-parentBean" parent="PerDiemExpense-countryState-parentBean">

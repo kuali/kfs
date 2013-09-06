@@ -361,7 +361,7 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
         if (authorizations != null && !authorizations.isEmpty()) {
             for (Document doc : authorizations) {
                 TravelAuthorizationDocument auth = (TravelAuthorizationDocument)doc;
-                if (!ObjectUtils.isNull(auth.getTravelAdvance()) && auth.shouldProcessAdvanceForDocument() && (TemConstants.DisbursementVoucherPaymentMethods.WIRE_TRANSFER_PAYMENT_METHOD_CODE.equals(auth.getAdvanceTravelPayment().getPaymentMethodCode()) || TemConstants.DisbursementVoucherPaymentMethods.FOREIGN_DRAFT_PAYMENT_METHOD_CODE.equals(auth.getAdvanceTravelPayment().getPaymentMethodCode()))) {
+                if (!ObjectUtils.isNull(auth.getTravelAdvance()) && auth.shouldProcessAdvanceForDocument() && (KFSConstants.PaymentSourceConstants.PAYMENT_METHOD_WIRE.equals(auth.getAdvanceTravelPayment().getPaymentMethodCode()) || KFSConstants.PaymentSourceConstants.PAYMENT_METHOD_DRAFT.equals(auth.getAdvanceTravelPayment().getPaymentMethodCode()))) {
                     return true;
                 }
             }

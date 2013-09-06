@@ -1141,6 +1141,8 @@
 		<property name="generalLedgerPendingEntryService" ref="generalLedgerPendingEntryService"/>
 		<property name="businessObjectService" ref="businessObjectService"/>
 		<property name="accountingDocumentRuleHelperService" ref="accountingDocumentRuleHelperService"/>
+		<property name="parameterService" ref="parameterService"/>
+		<property name="configurationService" ref="configurationService"/>
 	</bean>
     
 	<bean id="velocityEngine" parent="velocityEngine-parentBean" />

@@ -476,7 +476,7 @@ public class TravelEntertainmentDocument extends TEMReimbursementDocument implem
         String locationCode = getParameterService().getParameterValueAsString(TravelEntertainmentDocument.class, TravelParameters.DOCUMENTATION_LOCATION_CODE, getParameterService().getParameterValueAsString(TemParameterConstants.TEM_DOCUMENT.class,TravelParameters.DOCUMENTATION_LOCATION_CODE));
         String checkStubText = this.getTravelDocumentIdentifier() + ", " + this.getEventTitle();
 
-        disbursementVoucherDocument.setDisbVchrPaymentMethodCode(TemConstants.DisbursementVoucherPaymentMethods.CHECK_ACH_PAYMENT_METHOD_CODE);
+        disbursementVoucherDocument.setDisbVchrPaymentMethodCode(KFSConstants.PaymentSourceConstants.PAYMENT_METHOD_CHECK);
         disbursementVoucherDocument.setDisbursementVoucherDocumentationLocationCode(locationCode);
         disbursementVoucherDocument.setDisbVchrCheckStubText(checkStubText);
 

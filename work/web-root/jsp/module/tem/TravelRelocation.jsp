@@ -68,6 +68,7 @@
     <tem:assignAccounts />
     <tem:accountingLines />
 	<tem:travelPayment/>
+	<tem:travelPaymentPDPStatus travelPaymentProperty="travelPayment" pdpPaymentDocumentType="${KualiForm.document.paymentDocumentType}"/>
     <gl:generalLedgerPendingEntries />
     <tem:relatedDocuments />
     

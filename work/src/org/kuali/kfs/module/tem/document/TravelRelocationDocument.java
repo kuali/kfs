@@ -33,6 +33,7 @@ import org.kuali.kfs.module.tem.TemParameterConstants;
 import org.kuali.kfs.module.tem.TemWorkflowConstants;
 import org.kuali.kfs.module.tem.businessobject.JobClassification;
 import org.kuali.kfs.module.tem.businessobject.RelocationReason;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
@@ -367,7 +368,7 @@ public class TravelRelocationDocument extends TEMReimbursementDocument implement
         String endDate = new SimpleDateFormat("MM/dd/yyyy").format(getTripEnd());
         String checkStubText = getTravelDocumentIdentifier() + ", " + startDate + " - " + endDate + ", " + getToCity() + ", " + getToStateCode();
 
-        disbursementVoucherDocument.setDisbVchrPaymentMethodCode(TemConstants.DisbursementVoucherPaymentMethods.CHECK_ACH_PAYMENT_METHOD_CODE);
+        disbursementVoucherDocument.setDisbVchrPaymentMethodCode(KFSConstants.PaymentSourceConstants.PAYMENT_METHOD_CHECK);
         disbursementVoucherDocument.setDisbursementVoucherDocumentationLocationCode(locationCode);
         disbursementVoucherDocument.setDisbVchrCheckStubText(checkStubText);
     }

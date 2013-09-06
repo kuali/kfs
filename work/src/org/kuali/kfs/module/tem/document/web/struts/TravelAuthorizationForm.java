@@ -483,4 +483,11 @@ public class TravelAuthorizationForm extends TravelFormBase implements TravelAut
         return (String) new CurrencyFormatter().format(getTravelAuthorizationDocument().getAdvanceTotal());
     }
 
+    public boolean isAdvancePdpStatusTabShown() {
+        if (getTravelDocument() != null) {
+            return getTravelAuthorizationDocument().shouldProcessAdvanceForDocument();
+        }
+        return false;
+    }
+
 }

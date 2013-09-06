@@ -877,12 +877,6 @@ public class TemConstants {
     public static final String TRAVEL_EXPENSES_KEY = "travelExpenses";
     public static final String TRAVELER_PROFILE_KEY = "travelerProfile";
 
-    public static final class DisbursementVoucherPaymentMethods {
-        public static final String CHECK_ACH_PAYMENT_METHOD_CODE = "P";
-        public static final String WIRE_TRANSFER_PAYMENT_METHOD_CODE = "W";
-        public static final String FOREIGN_DRAFT_PAYMENT_METHOD_CODE = "F";
-    }
-
     public static final class ExpenseTypeReimbursementCodes {
         public static final String ALL = "A";
         public static final String NON_REIMBURSABLE = "N";

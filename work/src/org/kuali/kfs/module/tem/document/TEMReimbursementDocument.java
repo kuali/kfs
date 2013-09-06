@@ -32,7 +32,6 @@ import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.module.purap.util.PurApRelatedViews;
 import org.kuali.kfs.module.tem.TemConstants;
-import org.kuali.kfs.module.tem.TemConstants.DisbursementVoucherPaymentMethods;
 import org.kuali.kfs.module.tem.TemParameterConstants;
 import org.kuali.kfs.module.tem.businessobject.ActualExpense;
 import org.kuali.kfs.module.tem.businessobject.PerDiemExpense;
@@ -62,7 +61,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
 
 public abstract class TEMReimbursementDocument extends TravelDocumentBase implements PaymentSource {
 
-    private String paymentMethod = DisbursementVoucherPaymentMethods.CHECK_ACH_PAYMENT_METHOD_CODE;
+    private String paymentMethod = KFSConstants.PaymentSourceConstants.PAYMENT_METHOD_CHECK;
     private TravelPayment travelPayment;
     private PaymentSourceWireTransfer wireTransfer;
     private volatile transient Person initiator;

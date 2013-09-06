@@ -98,6 +98,9 @@
     <c:if test="${KualiForm.displayAccountingLines}">
     	<tem:accountingLines />
     </c:if>
+	<c:if test="${KualiForm.advancePdpStatusTabShown}">
+		<tem:travelPaymentPDPStatus travelPaymentProperty="advanceTravelPayment" pdpPaymentDocumentType="${KualiForm.document.travelAdvancePaymentDocumentType}"/>
+	</c:if>
     <gl:generalLedgerPendingEntries />
 	<tem:relatedDocuments />
     <kul:notes attachmentTypesValuesFinderClass="${DataDictionary.TravelEntertainmentDocument.attachmentTypesValuesFinderClass}" />

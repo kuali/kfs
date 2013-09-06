@@ -603,7 +603,8 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
      * @param explicitEntry the explicit entry to customize
      */
     protected void customizeAdvanceExplicitGeneralLedgerPendingEntry(GeneralLedgerPendingEntrySourceDetail postable, GeneralLedgerPendingEntry explicitEntry) {
-        explicitEntry.setFinancialDocumentTypeCode(TemConstants.TravelDocTypes.TRAVEL_AUTHORIZATION_CHECK_ACH_DOCUMENT);
+        final String paymentDocumentType = StringUtils.isBlank(getTravelAdvancePaymentDocumentType()) ? TemConstants.TravelDocTypes.TRAVEL_AUTHORIZATION_CHECK_ACH_DOCUMENT : getTravelAdvancePaymentDocumentType();
+        explicitEntry.setFinancialDocumentTypeCode(paymentDocumentType);
         final String description = MessageFormat.format(getConfigurationService().getPropertyValueAsString(TemKeyConstants.TA_MESSAGE_ADVANCE_ACCOUNTING_LINES_GLPE_DESCRIPTION), getDataDictionaryService().getDocumentTypeNameByClass(getClass()), getDocumentNumber());
         final int maxLength = getDataDictionaryService().getAttributeMaxLength(GeneralLedgerPendingEntry.class, KFSPropertyConstants.TRANSACTION_LEDGER_ENTRY_DESC);
         explicitEntry.setTransactionLedgerEntryDescription(StringUtils.abbreviate(description, maxLength));
@@ -664,8 +665,23 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
      * @return true if customization has completed successfully, false otherwise
      */
     public boolean customizeAdvanceOffsetGeneralLedgerPendingEntry(GeneralLedgerPendingEntrySourceDetail accountingLine, GeneralLedgerPendingEntry explicitEntry, GeneralLedgerPendingEntry offsetEntry) {
-        offsetEntry.setFinancialDocumentTypeCode(TemConstants.TravelDocTypes.TRAVEL_AUTHORIZATION_CHECK_ACH_DOCUMENT);
+        final String paymentDocumentType = StringUtils.isBlank(getTravelAdvancePaymentDocumentType()) ? TemConstants.TravelDocTypes.TRAVEL_AUTHORIZATION_CHECK_ACH_DOCUMENT : getTravelAdvancePaymentDocumentType();
+        offsetEntry.setFinancialDocumentTypeCode(paymentDocumentType);
         return true;
+    }
+
+    /**
+     * @return the document type associated with the travel payment for the advance on this document
+     */
+    public String getTravelAdvancePaymentDocumentType() {
+        if (shouldProcessAdvanceForDocument()) {
+            if (KFSConstants.PaymentSourceConstants.PAYMENT_METHOD_CHECK.equals(getAdvanceTravelPayment().getPaymentMethodCode())) {
+                return TemConstants.TravelDocTypes.TRAVEL_AUTHORIZATION_CHECK_ACH_DOCUMENT;
+            } else if (KFSConstants.PaymentSourceConstants.PAYMENT_METHOD_DRAFT.equals(getAdvanceTravelPayment().getPaymentMethodCode()) || KFSConstants.PaymentSourceConstants.PAYMENT_METHOD_WIRE.equals(getAdvanceTravelPayment().getPaymentMethodCode())) {
+                return TemConstants.TravelDocTypes.TRAVEL_AUTHORIZATION_WIRE_OR_FOREIGN_DRAFT_DOCUMENT;
+            }
+        }
+        return KFSConstants.EMPTY_STRING;
     }
 
     /**

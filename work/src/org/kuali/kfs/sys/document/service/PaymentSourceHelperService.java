@@ -72,4 +72,10 @@ public interface PaymentSourceHelperService {
      */
     public abstract boolean generateDocumentBankOffsetEntries(PaymentSource paymentSource, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, String wireTransferOrForeignDraftEntryDocumentType, KualiDecimal bankOffsetAmount);
 
+    /**
+     * Builds the URL where disbursement info for a given disbursement can be looked up
+     * @return the disbursement info URL
+     */
+    public abstract String getDisbursementInfoUrl();
+
 }

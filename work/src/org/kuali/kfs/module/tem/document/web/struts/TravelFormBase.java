@@ -53,6 +53,7 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
+import org.kuali.kfs.sys.document.service.PaymentSourceHelperService;
 import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
@@ -1082,4 +1083,12 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
      * @return the name of the action which the current form should return to
      */
     public abstract String getTravelPaymentFormAction();
+
+    /**
+     * @return the URL where payment details post-extraction for this payment can be looked up
+     */
+    public String getDisbursementInfoUrl() {
+        final PaymentSourceHelperService paymentSourceHelperService = SpringContext.getBean(PaymentSourceHelperService.class);
+        return paymentSourceHelperService.getDisbursementInfoUrl();
+    }
 }

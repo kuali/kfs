@@ -1,12 +1,12 @@
 /*
  * Copyright 2005 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -18,7 +18,6 @@ package org.kuali.kfs.fp.document.web.struts;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -30,22 +29,16 @@ import org.kuali.kfs.fp.businessobject.TravelPerDiem;
 import org.kuali.kfs.fp.document.DisbursementVoucherConstants;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.fp.document.service.DisbursementVoucherCoverSheetService;
-import org.kuali.kfs.pdp.PdpPropertyConstants;
-import org.kuali.kfs.pdp.businessobject.PurchasingPaymentDetail;
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSParameterKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.service.PaymentSourceHelperService;
 import org.kuali.kfs.sys.service.UniversityDateService;
-import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
-import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.web.format.SimpleBooleanFormatter;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.service.BusinessObjectDictionaryService;
 import org.kuali.rice.krad.service.KeyValuesService;
 import org.kuali.rice.krad.util.KRADConstants;
-import org.kuali.rice.krad.util.UrlFactory;
 /**
  * This class is the action form for the Disbursement Voucher.
  */
@@ -58,20 +51,20 @@ public class DisbursementVoucherForm extends KualiAccountingDocumentFormBase {
     protected String vendorHeaderGeneratedIdentifier = StringUtils.EMPTY;
     protected String vendorDetailAssignedIdentifier = StringUtils.EMPTY;
     protected String vendorAddressGeneratedIdentifier;
-    
+
     protected String tempPayeeIdNumber;
     protected String tempVendorHeaderGeneratedIdentifier = StringUtils.EMPTY;
     protected String tempVendorDetailAssignedIdentifier = StringUtils.EMPTY;
     protected String tempVendorAddressGeneratedIdentifier;
     protected String oldPayeeType = StringUtils.EMPTY;
-    
+
     protected boolean hasMultipleAddresses = false;
 
     protected DisbursementVoucherNonEmployeeExpense newNonEmployeeExpenseLine;
     protected DisbursementVoucherNonEmployeeExpense newPrePaidNonEmployeeExpenseLine;
     protected DisbursementVoucherPreConferenceRegistrant newPreConferenceRegistrantLine;
     protected String wireChargeMessage;
-    
+
     protected boolean canExport = false;
 
     /**
@@ -86,7 +79,7 @@ public class DisbursementVoucherForm extends KualiAccountingDocumentFormBase {
     protected String getDefaultDocumentTypeName() {
         return "DV";
     }
-    
+
     /**
      * @return Returns the newNonEmployeeExpenseLine.
      */
@@ -145,7 +138,7 @@ public class DisbursementVoucherForm extends KualiAccountingDocumentFormBase {
 
     /**
      * determines if the DV document is in a state that allows printing of the cover sheet
-     * 
+     *
      * @return true if the DV document is in a state that allows printing of the cover sheet; otherwise, return false
      */
     public boolean getCanPrintCoverSheet() {
@@ -172,7 +165,7 @@ public class DisbursementVoucherForm extends KualiAccountingDocumentFormBase {
 
     /**
      * Gets the payeeIdNumber attribute.
-     * 
+     *
      * @return Returns the payeeIdNumber.
      */
     public String getPayeeIdNumber() {
@@ -181,7 +174,7 @@ public class DisbursementVoucherForm extends KualiAccountingDocumentFormBase {
 
     /**
      * Sets the payeeIdNumber attribute value.
-     * 
+     *
      * @param payeeIdNumber The payeeIdNumber to set.
      */
     public void setPayeeIdNumber(String payeeIdNumber) {
@@ -193,10 +186,10 @@ public class DisbursementVoucherForm extends KualiAccountingDocumentFormBase {
 
         this.payeeIdNumber = payeeIdNumber;
     }
-    
+
     /**
      * Gets the payeeIdNumber attribute.
-     * 
+     *
      * @return Returns the payeeIdNumber.
      */
     public String getTempPayeeIdNumber() {
@@ -205,7 +198,7 @@ public class DisbursementVoucherForm extends KualiAccountingDocumentFormBase {
 
     /**
      * Sets the payeeIdNumber attribute value.
-     * 
+     *
      * @param payeeIdNumber The payeeIdNumber to set.
      */
     public void setTempPayeeIdNumber(String payeeIdNumber) {
@@ -217,11 +210,11 @@ public class DisbursementVoucherForm extends KualiAccountingDocumentFormBase {
 
         this.tempPayeeIdNumber = payeeIdNumber;
     }
-    
+
 
     /**
      * Gets the hasMultipleAddresses attribute.
-     * 
+     *
      * @return Returns the hasMultipleAddresses.
      */
     public boolean hasMultipleAddresses() {
@@ -230,7 +223,7 @@ public class DisbursementVoucherForm extends KualiAccountingDocumentFormBase {
 
     /**
      * Gets the hasMultipleAddresses attribute.
-     * 
+     *
      * @return Returns the hasMultipleAddresses.
      */
     public boolean getHasMultipleAddresses() {
@@ -239,7 +232,7 @@ public class DisbursementVoucherForm extends KualiAccountingDocumentFormBase {
 
     /**
      * Sets the hasMultipleAddresses attribute value.
-     * 
+     *
      * @param hasMultipleAddresses The hasMultipleAddresses to set.
      */
     public void setHasMultipleAddresses(boolean hasMultipleAddresses) {
@@ -248,7 +241,7 @@ public class DisbursementVoucherForm extends KualiAccountingDocumentFormBase {
 
     /**
      * Gets the vendorHeaderGeneratedIdentifier attribute.
-     * 
+     *
      * @return Returns the vendorHeaderGeneratedIdentifier.
      */
     public String getVendorHeaderGeneratedIdentifier() {
@@ -257,7 +250,7 @@ public class DisbursementVoucherForm extends KualiAccountingDocumentFormBase {
 
     /**
      * Sets the vendorHeaderGeneratedIdentifier attribute value.
-     * 
+     *
      * @param vendorHeaderGeneratedIdentifier The vendorHeaderGeneratedIdentifier to set.
      */
     public void setVendorHeaderGeneratedIdentifier(String vendorHeaderGeneratedIdentifier) {
@@ -266,7 +259,7 @@ public class DisbursementVoucherForm extends KualiAccountingDocumentFormBase {
 
     /**
      * Gets the vendorDetailAssignedIdentifier attribute.
-     * 
+     *
      * @return Returns the vendorDetailAssignedIdentifier.
      */
     public String getVendorDetailAssignedIdentifier() {
@@ -275,7 +268,7 @@ public class DisbursementVoucherForm extends KualiAccountingDocumentFormBase {
 
     /**
      * Sets the vendorDetailAssignedIdentifier attribute value.
-     * 
+     *
      * @param vendorDetailAssignedIdentifier The vendorDetailAssignedIdentifier to set.
      */
     public void setVendorDetailAssignedIdentifier(String vendorDetailAssignedIdentifier) {
@@ -284,7 +277,7 @@ public class DisbursementVoucherForm extends KualiAccountingDocumentFormBase {
 
     /**
      * Gets the vendorAddressGeneratedIdentifier attribute.
-     * 
+     *
      * @return Returns the vendorAddressGeneratedIdentifier.
      */
     public String getVendorAddressGeneratedIdentifier() {
@@ -293,18 +286,18 @@ public class DisbursementVoucherForm extends KualiAccountingDocumentFormBase {
 
     /**
      * Sets the vendorAddressGeneratedIdentifier attribute value.
-     * 
+     *
      * @param vendorAddressGeneratedIdentifier The vendorAddressGeneratedIdentifier to set.
      */
     public void setVendorAddressGeneratedIdentifier(String vendorAddressGeneratedIdentifier) {
         this.vendorAddressGeneratedIdentifier = vendorAddressGeneratedIdentifier;
     }
-    
+
     public DisbursementVoucherDocument getDisbursementVoucherDocument() {
        return (DisbursementVoucherDocument) getDocument();
-     
+
        }
-    /** 
+    /**
      * @see org.kuali.rice.kns.web.struts.form.KualiTransactionalDocumentFormBase#populate(javax.servlet.http.HttpServletRequest)
      */
     @Override
@@ -313,12 +306,12 @@ public class DisbursementVoucherForm extends KualiAccountingDocumentFormBase {
         DisbursementVoucherPayeeDetail payeeDetail = getDisbursementVoucherDocument().getDvPayeeDetail();
         SpringContext.getBean(BusinessObjectDictionaryService.class).performForceUppercase(payeeDetail);
         }
-   
 
-    
+
+
 
     /**
-     * Gets the tempVendorHeaderGeneratedIdentifier attribute. 
+     * Gets the tempVendorHeaderGeneratedIdentifier attribute.
      * @return Returns the tempVendorHeaderGeneratedIdentifier.
      */
     public String getTempVendorHeaderGeneratedIdentifier() {
@@ -334,7 +327,7 @@ public class DisbursementVoucherForm extends KualiAccountingDocumentFormBase {
     }
 
     /**
-     * Gets the tempVendorDetailAssignedIdentifier attribute. 
+     * Gets the tempVendorDetailAssignedIdentifier attribute.
      * @return Returns the tempVendorDetailAssignedIdentifier.
      */
     public String getTempVendorDetailAssignedIdentifier() {
@@ -350,7 +343,7 @@ public class DisbursementVoucherForm extends KualiAccountingDocumentFormBase {
     }
 
     /**
-     * Gets the tempVendorAddressGeneratedIdentifier attribute. 
+     * Gets the tempVendorAddressGeneratedIdentifier attribute.
      * @return Returns the tempVendorAddressGeneratedIdentifier.
      */
     public String getTempVendorAddressGeneratedIdentifier() {
@@ -364,11 +357,11 @@ public class DisbursementVoucherForm extends KualiAccountingDocumentFormBase {
     public void setTempVendorAddressGeneratedIdentifier(String tempVendorAddressGeneratedIdentifier) {
         this.tempVendorAddressGeneratedIdentifier = tempVendorAddressGeneratedIdentifier;
     }
-    
-    
+
+
 
     /**
-     * Gets the oldPayeeType attribute. 
+     * Gets the oldPayeeType attribute.
      * @return Returns the oldPayeeType.
      */
     public String getOldPayeeType() {
@@ -398,7 +391,7 @@ public class DisbursementVoucherForm extends KualiAccountingDocumentFormBase {
         DisbursementVoucherDocument disbursementVoucherDocument = (DisbursementVoucherDocument) this.getDocument();
         return disbursementVoucherDocument.getDvPayeeDetail().isVendor();
     }
-    
+
     /**
      * determine whether the selected payee is a customer
      */
@@ -424,6 +417,7 @@ public class DisbursementVoucherForm extends KualiAccountingDocumentFormBase {
     /**
      * @see org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase#getExcludedmethodToCall()
      */
+    @Override
     protected List<String> getExcludedmethodToCall() {
         List<String> execludedMethodToCall = super.getExcludedmethodToCall();
         execludedMethodToCall.add("printDisbursementVoucherCoverSheet");
@@ -431,9 +425,9 @@ public class DisbursementVoucherForm extends KualiAccountingDocumentFormBase {
 
         return execludedMethodToCall;
     }
-    
+
     /**
-     * Gets the canExport attribute. 
+     * Gets the canExport attribute.
      * @return Returns the canExport.
      */
     public boolean isCanExport() {
@@ -447,32 +441,18 @@ public class DisbursementVoucherForm extends KualiAccountingDocumentFormBase {
     public void setCanExport(boolean canExport) {
         this.canExport = canExport;
     }
-    
+
     /**
      * RQ_AP_0760 : Ability to view disbursement information on the
      * Disbursement Voucher Document.
-     * 
+     *
      * This method composes the url to be used when we want to look up
      * the payment details from the disbursementInfo.tag.
-     * 
+     *
      * @return
      */
     public String getDisbursementInfoUrl() {
-        String basePath = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(KFSConstants.APPLICATION_URL_KEY);
-        ParameterService parameterService = SpringContext.getBean(ParameterService.class);
-
-        String orgCode = parameterService.getParameterValueAsString(KfsParameterConstants.PURCHASING_BATCH.class, KFSParameterKeyConstants.PurapPdpParameterConstants.PURAP_PDP_ORG_CODE);
-
-        Properties parameters = new Properties();
-        parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.SEARCH_METHOD);
-        parameters.put(KFSConstants.BACK_LOCATION, basePath + "/" + KFSConstants.MAPPING_PORTAL + ".do");
-        parameters.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, PurchasingPaymentDetail.class.getName());
-        parameters.put(KFSConstants.HIDE_LOOKUP_RETURN_LINK, "true");
-        parameters.put(KFSConstants.SUPPRESS_ACTIONS, "false");
-        parameters.put(PdpPropertyConstants.PaymentDetail.PAYMENT_UNIT_CODE, orgCode);
-
-        String lookupUrl = UrlFactory.parameterizeUrl(basePath + "/" + KFSConstants.LOOKUP_ACTION, parameters);
-
-        return lookupUrl;
+        final PaymentSourceHelperService paymentSourceHelperService = SpringContext.getBean(PaymentSourceHelperService.class);
+        return paymentSourceHelperService.getDisbursementInfoUrl();
     }
 }

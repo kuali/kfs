@@ -56,6 +56,7 @@ import org.kuali.kfs.module.cam.document.service.AssetDateService;
 import org.kuali.kfs.module.cam.document.service.AssetService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.batch.service.SchedulerService;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
@@ -81,7 +82,6 @@ import org.kuali.rice.krad.service.MailService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
-import org.quartz.CronExpression;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -114,6 +114,7 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
     protected MailService mailService;
     protected volatile WorkflowDocumentService workflowDocumentService;
     private AssetDateService assetDateService;
+    private SchedulerService schedulerService;
 
     /**
      * @see org.kuali.kfs.module.cam.batch.service.AssetDepreciationService#runDepreciation()
@@ -399,12 +400,9 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
                 }
         }
         else {
-            CronExpression cronExpression = new CronExpression(this.cronExpression);
-            Date validTimeAfter = cronExpression.getNextValidTimeAfter(dateTimeService.getCurrentDate());
-            String scheduleJobDate = dateTimeService.toString(validTimeAfter, CamsConstants.DateFormats.MONTH_DAY_YEAR);
-            if(scheduleJobDate.equals(dateTimeService.toString(currentDate, CamsConstants.DateFormats.MONTH_DAY_YEAR))){
+            if (getSchedulerService().cronConditionMet(this.cronExpression)) {
                 executeJob = true;
-            }else {
+            } else {
                 LOG.info("Cron condition not met. executeJob not set to true");
             }
         }
@@ -1268,5 +1266,13 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
 
     public void setUniversityDateService(UniversityDateService universityDateService) {
         this.universityDateService = universityDateService;
+    }
+
+    public SchedulerService getSchedulerService() {
+        return schedulerService;
+    }
+
+    public void setSchedulerService(SchedulerService schedulerService) {
+        this.schedulerService = schedulerService;
     }
 }

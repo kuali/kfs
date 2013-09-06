@@ -98,7 +98,7 @@
 				<kul:htmlControlAttribute
 					attributeEntry="${travelAdvanceAttributes.travelAdvancePolicy}"
 					property="${travelAdvanceProperty}.travelAdvancePolicy"
-					readOnly="${!fullEntryMode}" />${KualiForm.policyURL}
+					readOnly="${!advancePolicyMode}" />${KualiForm.policyURL}
 			</td>
 		</tr>
 	</c:if>

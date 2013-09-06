@@ -712,7 +712,9 @@ public class AssetGlobalMaintainableImpl extends LedgerPostingMaintainable {
         if (workflowDoc.isCanceled()) {
             if (ObjectUtils.isNotNull(assetGlobal)) {
                 List<AssetGlobalDetail> assetGlobalDetailsList = assetGlobal.getAssetGlobalDetails();
-                SpringContext.getBean(CapitalAssetBuilderModuleService.class).reactivatePretagDetails(assetGlobalDetailsList);
+                for (AssetGlobalDetail assetGlobalDetails : assetGlobalDetailsList) {
+                    SpringContext.getBean(CapitalAssetBuilderModuleService.class).reactivatePretagDetails(assetGlobalDetails.getCampusTagNumber());
+                }
             }
         }
 

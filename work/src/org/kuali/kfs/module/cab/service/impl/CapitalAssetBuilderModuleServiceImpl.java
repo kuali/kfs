@@ -2897,17 +2897,15 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
     }
 
     @Override
-    public void reactivatePretagDetails(List<AssetGlobalDetail> assetGlobalDetailsList) {
-        for (AssetGlobalDetail assetGlobaldetails : assetGlobalDetailsList) {
-            if (assetGlobaldetails.getCampusTagNumber() != null && !assetGlobaldetails.getCampusTagNumber().isEmpty()) {
-                Map<String, String> map = new HashMap<String, String>();
-                map.put(CamsPropertyConstants.AssetGlobalDetail.CAMPUS_TAG_NUMBER, assetGlobaldetails.getCampusTagNumber());
-                List<PretagDetail> pretagDetailList = (List<PretagDetail>) SpringContext.getBean(BusinessObjectService.class).findMatching(PretagDetail.class, map);
-                if (ObjectUtils.isNotNull(pretagDetailList)) {
-                    for (PretagDetail pretagDetail : pretagDetailList) {
-                        pretagDetail.setActive(true);
-                        SpringContext.getBean(BusinessObjectService.class).save(pretagDetail);
-                    }
+    public void reactivatePretagDetails(String campusTagNumber) {
+        if (campusTagNumber != null && !campusTagNumber.isEmpty()) {
+            Map<String, String> map = new HashMap<String, String>();
+            map.put(CabPropertyConstants.PretagDetail.CAMPUS_TAG_NUMBER, campusTagNumber);
+            List<PretagDetail> pretagDetailList = (List<PretagDetail>) SpringContext.getBean(BusinessObjectService.class).findMatching(PretagDetail.class, map);
+            if (ObjectUtils.isNotNull(pretagDetailList)) {
+                for (PretagDetail pretagDetail : pretagDetailList) {
+                    pretagDetail.setActive(true);
+                    SpringContext.getBean(BusinessObjectService.class).save(pretagDetail);
                 }
             }
         }

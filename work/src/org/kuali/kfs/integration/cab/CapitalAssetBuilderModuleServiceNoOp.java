@@ -22,7 +22,6 @@ import org.apache.log4j.Logger;
 import org.kuali.kfs.fp.businessobject.CapitalAssetInformation;
 import org.kuali.kfs.integration.purap.ExternalPurApItem;
 import org.kuali.kfs.integration.purap.ItemCapitalAsset;
-import org.kuali.kfs.module.cam.businessobject.AssetGlobalDetail;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.rice.krad.bo.DocumentHeader;
@@ -176,7 +175,7 @@ public class CapitalAssetBuilderModuleServiceNoOp implements CapitalAssetBuilder
     }
 
     @Override
-    public void reactivatePretagDetails(List<AssetGlobalDetail> assetGlobalDetailsList) {
+    public void reactivatePretagDetails(String campusTagNumber) {
         LOG.warn( "Using No-Op " + getClass().getSimpleName() + " service." );
     }
 }

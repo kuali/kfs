@@ -20,7 +20,6 @@ import java.util.List;
 import org.kuali.kfs.fp.businessobject.CapitalAssetInformation;
 import org.kuali.kfs.integration.purap.ExternalPurApItem;
 import org.kuali.kfs.integration.purap.ItemCapitalAsset;
-import org.kuali.kfs.module.cam.businessobject.AssetGlobalDetail;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.rice.krad.bo.DocumentHeader;
@@ -137,10 +136,10 @@ public interface CapitalAssetBuilderModuleService {
     public boolean markProcessedGLEntryLine(String documentNumber);
 
     /**
-     * Sets the PretagDetails to active that are associated with any of the AssetGlobalDetail records
+     * Sets the PretagDetails to active that are associated with the campusTagNumber
      * passed in as a parameter. This needs to be done when the AssetGlobalDocument is cancelled.
      *
-     * @param assetGlobalDetailsList list of assetGlobalDetails used to find pretagDetails to reactivate
+     * @param campusTagNumber String key used to find pretagDetails to reactivate
      */
-    public void reactivatePretagDetails(List<AssetGlobalDetail> assetGlobalDetailsList);
+    public void reactivatePretagDetails(String campusTagNumber);
 }

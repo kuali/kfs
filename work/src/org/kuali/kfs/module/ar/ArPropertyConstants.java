@@ -465,4 +465,14 @@ public class ArPropertyConstants{
     public static final String ORGANIZATION_OPTIONS = "organizationOptions";
     public static final String AGING_REPORT_SENT_TIME = "agingReportSentTime";
 
+    // Collector Hierarchy
+    public static class CollectorHierarchyFields {
+        public static final String COLLECTOR = "principalId";
+        public static final String COLLECTOR_HEAD_ACTIVE = "collectorHead.active";
+        public static final String COLLECTOR_PRINC_NAME = "collector.principalName";
+        public static final String COLLECTOR_NAME = "collector.name";
+        public static final String COLLECTOR_INFORMATIONS = "collectorInformations";
+
+    }
+
 }

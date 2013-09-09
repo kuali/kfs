@@ -57,7 +57,6 @@ import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAgency;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAward;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAwardAccount;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsInvoiceTemplate;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsMilestone;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleUpdateService;
 import org.kuali.kfs.integration.cg.ContractsGrantsAwardInvoiceAccountInformation;
 import org.kuali.kfs.module.ar.ArConstants;
@@ -65,7 +64,6 @@ import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.batch.service.VerifyBillingFrequencyService;
 import org.kuali.kfs.module.ar.businessobject.AwardAccountObjectCodeTotalBilled;
-import org.kuali.kfs.module.ar.businessobject.CollectorHierarchy;
 import org.kuali.kfs.module.ar.businessobject.CollectorInformation;
 import org.kuali.kfs.module.ar.businessobject.ContractsAndGrantsCategories;
 import org.kuali.kfs.module.ar.businessobject.Customer;
@@ -83,6 +81,7 @@ import org.kuali.kfs.module.ar.businessobject.InvoiceGeneralDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoiceMilestone;
 import org.kuali.kfs.module.ar.businessobject.InvoicePaidApplied;
 import org.kuali.kfs.module.ar.businessobject.InvoiceSuspensionCategory;
+import org.kuali.kfs.module.ar.businessobject.Milestone;
 import org.kuali.kfs.module.ar.businessobject.OrganizationAccountingDefault;
 import org.kuali.kfs.module.ar.businessobject.OrganizationOptions;
 import org.kuali.kfs.module.ar.businessobject.ReferralToCollectionsLookupResult;
@@ -92,8 +91,8 @@ import org.kuali.kfs.module.ar.businessobject.SystemInformation;
 import org.kuali.kfs.module.ar.businessobject.lookup.DunningLetterDistributionOnDemandLookupUtil;
 import org.kuali.kfs.module.ar.businessobject.lookup.ReferralToCollectionsDocumentUtil;
 import org.kuali.kfs.module.ar.dataaccess.AwardAccountObjectCodeTotalBilledDao;
-import org.kuali.kfs.module.ar.dataaccess.CollectorHierarchyDao;
 import org.kuali.kfs.module.ar.dataaccess.ContractsGrantsInvoiceDocumentDao;
+import org.kuali.kfs.module.ar.dataaccess.MilestoneDao;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.PaymentApplicationDocument;
@@ -138,7 +137,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
     private VerifyBillingFrequencyService verifyBillingFrequencyService;
     private DateTimeService dateTimeService;
     private InvoicePaidAppliedService invoicePaidAppliedService;
-    private CollectorHierarchyDao collectorHierarchyDao;
+    private MilestoneDao milestoneDao;
     public static final String REPORT_LINE_DIVIDER = "--------------------------------------------------------------------------------------------------------------";
     private static final SimpleDateFormat FILE_NAME_TIMESTAMP = new SimpleDateFormat("MM-dd-yyyy");
 
@@ -157,7 +156,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
     /**
      * Gets the customerInvoiceDetailService attribute.
-     * 
+     *
      * @return Returns the customerInvoiceDetailService.
      */
     public CustomerInvoiceDetailService getCustomerInvoiceDetailService() {
@@ -166,7 +165,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
     /**
      * Sets the customerInvoiceDetailService attribute value.
-     * 
+     *
      * @param customerInvoiceDetailService The customerInvoiceDetailService to set.
      */
     @Override
@@ -202,23 +201,22 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         this.awardAccountObjectCodeTotalBilledDao = awardAccountObjectCodeTotalBilledDao;
     }
 
-
     /**
-     * Gets the collectorHierarchyDao attribute.
-     * 
-     * @return Returns the collectorHierarchyDao.
+     * Gets the milestoneDao attribute.
+     *
+     * @return Returns the milestoneDao.
      */
-    public CollectorHierarchyDao getCollectorHierarchyDao() {
-        return collectorHierarchyDao;
+    public MilestoneDao getMilestoneDao() {
+        return milestoneDao;
     }
 
     /**
-     * Sets the collectorHierarchyDao attribute value.
-     * 
-     * @param collectorHierarchyDao The collectorHierarchyDao to set.
+     * Sets the milestoneDao attribute value.
+     *
+     * @param milestoneDao The milestoneDao to set.
      */
-    public void setCollectorHierarchyDao(CollectorHierarchyDao collectorHierarchyDao) {
-        this.collectorHierarchyDao = collectorHierarchyDao;
+    public void setMilestoneDao(MilestoneDao milestoneDao) {
+        this.milestoneDao = milestoneDao;
     }
 
     /**
@@ -651,7 +649,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
     /**
      * This method recalculates the invoiceDetailAccountObjectCode in one category that sits behind the scenes of the invoice
      * document.
-     * 
+     *
      * @param contractsGrantsInvoiceDocument
      * @param invoiceDetail
      * @param total is the sum of the current expenditures from all the object codes in that category
@@ -886,7 +884,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
     /**
      * This method retrieves all CG invoice document that match the given criteria
-     * 
+     *
      * @param criteria
      * @return
      */
@@ -902,7 +900,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
     /**
      * This method retrieves all invoices with open and with final status based on loc creation type = LOC fund
-     * 
+     *
      * @param locFund
      * @param errorFileName
      * @return
@@ -926,7 +924,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
     /**
      * This method retrieves all invoices with open and with final status based on loc creation type = LOC fund group
-     * 
+     *
      * @param locFundGroup
      * @param errorFileName
      * @return
@@ -950,7 +948,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
     /**
      * This method retrieves all invoices with open and with final status based on customer number
-     * 
+     *
      * @param customerNumber
      * @param errorFileName
      * @return
@@ -971,7 +969,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
     /**
      * This method validates invoices and output an error file including unqualified invoices with reason stated.
-     * 
+     *
      * @param cgInvoices
      * @param outputFileStream
      * @return
@@ -1045,7 +1043,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
     /**
      * This method would write errors to the error file
-     * 
+     *
      * @param line
      * @param printStream
      * @throws IOException
@@ -1061,7 +1059,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
     /**
      * This method would write new line argument to the error file.
-     * 
+     *
      * @param newline
      * @param printStream
      * @throws IOException
@@ -1077,7 +1075,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
     /**
      * This method calculates the Budget and cumulative amount for Award Account
-     * 
+     *
      * @param awardAccount
      * @return
      */
@@ -1118,7 +1116,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
     /**
      * This method retrieves the amount to draw for the award account based on teh criteria passed
-     * 
+     *
      * @param awardaccounts
      * @return
      */
@@ -1159,7 +1157,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
     /**
      * This method calculates the claim on cash balance for every award account.
-     * 
+     *
      * @param awardaccount
      * @return
      */
@@ -1213,7 +1211,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
     /**
      * This method retrieves the amount available to draw for the award accounts
-     * 
+     *
      * @param awardTotalAmount
      * @param awardAccount
      */
@@ -1236,7 +1234,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
      * This method serves as a create and update. When it is first called, the List<InvoiceSuspensionCategory> is empty. This list
      * then gets populated with invoiceSuspensionCategories where the test fails. Each time the document goes through validation,
      * and this method gets called, it will update the list by adding or remvoing the suspension categories
-     * 
+     *
      * @see org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService#updateSuspensionCategoriesOnDocument(org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument)
      */
     @Override
@@ -1667,7 +1665,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
     /**
      * This method would make sure the amounts of the currrent period are not included. So it calculates the cumulative and
      * subtracts the current period values. This would be done for Billing Frequencies - Monthly, Quarterly, Semi-Annual and Annual.
-     * 
+     *
      * @param glBalance
      * @return balanceAmount
      */
@@ -1744,7 +1742,27 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         }
         // This method get the milestones with the criteria defined and set value to isItBilled.
 
-        SpringContext.getBean(ContractsAndGrantsModuleUpdateService.class).setMilestonesisItBilled(invoiceMilestones.get(0).getProposalNumber(), milestoneIds, string);
+        this.setMilestonesisItBilled(invoiceMilestones.get(0).getProposalNumber(), milestoneIds, string);
+    }
+
+    /**
+     * This method updates value of isItBilled in Milestone BO to Yes
+     *
+     * @param criteria
+     */
+    @SuppressWarnings("null")
+    public void setMilestonesisItBilled(Long proposalNumber, List<Long> milestoneIds, String value) {
+        Collection<Milestone> milestones = null;
+        try {
+            milestones = getMilestoneDao().getMatchingMilestoneByProposalIdAndInListOfMilestoneId(proposalNumber, milestoneIds);
+        }
+        catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        for (Milestone milestone : milestones) {
+            milestone.setIsItBilled(value);
+            getBusinessObjectService().save(milestone);
+        }
     }
 
 
@@ -1806,7 +1824,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
     /**
      * This method calculates the Cumulative Disbursement amount for an awardAccount
-     * 
+     *
      * @param awardAccount
      * @return
      */
@@ -1934,7 +1952,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
     /**
      * Check if Preferred Billing Frequency is set correctly.
-     * 
+     *
      * @param award
      * @return False if preferred billing schedule is null, or set as perdetermined billing schedule or milestone billing schedule
      *         and award has no award account or more than 1 award accounts assigned.
@@ -1951,7 +1969,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
     /**
      * Check if the value of PreferredBillingFrequency is in the BillingFrequency value set.
-     * 
+     *
      * @param award
      * @return
      */
@@ -2034,7 +2052,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
     /**
      * Sets the BusinessObjectService. Provides Spring compatibility.
-     * 
+     *
      * @param businessObjectService
      */
     @Override
@@ -2044,7 +2062,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
     /**
      * Sets the dateTimeService attribute value.
-     * 
+     *
      * @param dateTimeService The dateTimeService to set.
      */
     @Override
@@ -2055,7 +2073,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
     /**
      * Gets the dateTimeService attribute.
-     * 
+     *
      * @return Returns the dateTimeService.
      */
     @Override
@@ -2087,7 +2105,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
     /**
      * this method checks If all accounts of award has invoices in progress.
-     * 
+     *
      * @param award
      * @return
      */
@@ -2126,12 +2144,12 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
     public boolean hasNoMilestonesToInvoice(ContractsAndGrantsCGBAward award) {
         boolean isValid = false;
         if (award.getPreferredBillingFrequency().equalsIgnoreCase(ArPropertyConstants.MILESTONE_BILLING_SCHEDULE_CODE)) {
-            List<ContractsAndGrantsMilestone> milestones = new ArrayList<ContractsAndGrantsMilestone>();
-            List<ContractsAndGrantsMilestone> validMilestones = new ArrayList<ContractsAndGrantsMilestone>();
+            List<Milestone> milestones = new ArrayList<Milestone>();
+            List<Milestone> validMilestones = new ArrayList<Milestone>();
 
             Map<String, Object> map = new HashMap<String, Object>();
             map.put(KFSPropertyConstants.PROPOSAL_NUMBER, award.getProposalNumber());
-            milestones = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsMilestone.class).getExternalizableBusinessObjectsList(ContractsAndGrantsMilestone.class, map);
+            milestones = (List<Milestone>) SpringContext.getBean(BusinessObjectService.class).findMatching(Milestone.class, map);
 
             // To retrieve the previous period end Date to check for milestones and billing schedule.
 
@@ -2142,7 +2160,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             java.sql.Date invoiceDate = pair[1];
 
 
-            for (ContractsAndGrantsMilestone awdMilestone : milestones) {
+            for (Milestone awdMilestone : milestones) {
                 if (awdMilestone.getMilestoneActualCompletionDate() != null && !invoiceDate.before(awdMilestone.getMilestoneActualCompletionDate()) && awdMilestone.getIsItBilled().equals(KFSConstants.ParameterValues.STRING_NO) && awdMilestone.getMilestoneAmount().isGreaterThan(KualiDecimal.ZERO)) {
                     validMilestones.add(awdMilestone);
                 }
@@ -2226,7 +2244,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
     /**
      * This method checks if the System Information and ORganization Accounting Default are setup for the Chart Code and Org Code
      * from the award accounts.
-     * 
+     *
      * @param award
      * @return
      */
@@ -2318,7 +2336,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
     /**
      * To retrieve processing chart code and org code from the billing chart code and org code
-     * 
+     *
      * @param cgInvoiceDocument
      * @param billingChartOfAccountsCode
      * @param billingOrganizationCode
@@ -2344,7 +2362,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
     /**
      * This method checks if the Offset Definition is setup for the Chart Code from the award accounts.
-     * 
+     *
      * @param award
      * @return
      */
@@ -2405,7 +2423,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
     /**
      * Gets the accountingPeriodService attribute.
-     * 
+     *
      * @return Returns the accountingPeriodService.
      */
     public AccountingPeriodService getAccountingPeriodService() {
@@ -2414,7 +2432,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
     /**
      * Sets the accountingPeriodService attribute value.
-     * 
+     *
      * @param accountingPeriodService The accountingPeriodService to set.
      */
     public void setAccountingPeriodService(AccountingPeriodService accountingPeriodService) {
@@ -2423,7 +2441,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
     /**
      * Gets the verifyBillingFrequencyService attribute.
-     * 
+     *
      * @return Returns the verifyBillingFrequencyService.
      */
     public VerifyBillingFrequencyService getVerifyBillingFrequencyService() {
@@ -2432,7 +2450,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
     /**
      * Sets the verifyBillingFrequencyService attribute value.
-     * 
+     *
      * @param verifyBillingFrequencyService The verifyBillingFrequencyService to set.
      */
     public void setVerifyBillingFrequencyServuce(VerifyBillingFrequencyService verifyBillingFrequencyService) {
@@ -2448,11 +2466,11 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         totalBilledKeys.put(KFSPropertyConstants.PROPOSAL_NUMBER, proposalNumber);
         KualiDecimal billedToDate = KualiDecimal.ZERO;
 
-        List<ContractsAndGrantsMilestone> milestones = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsAgencyAddress.class).getExternalizableBusinessObjectsList(ContractsAndGrantsMilestone.class, totalBilledKeys);
+        List<Milestone> milestones = (List<Milestone>) SpringContext.getBean(BusinessObjectService.class).findMatching(Milestone.class, totalBilledKeys);
         if (CollectionUtils.isNotEmpty(milestones)) {
-            Iterator<ContractsAndGrantsMilestone> iterator = milestones.iterator();
+            Iterator<Milestone> iterator = milestones.iterator();
             while (iterator.hasNext()) {
-                ContractsAndGrantsMilestone milestone = iterator.next();
+                Milestone milestone = iterator.next();
                 if (KFSConstants.ParameterValues.STRING_YES.equals(milestone.getIsItBilled())) {
                     billedToDate = billedToDate.add(milestone.getMilestoneAmount());
                 }
@@ -2486,7 +2504,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
     /**
      * This method checks if there is atleast one AR Invoice Account present when the GLPE is 3.
-     * 
+     *
      * @param award
      * @return
      */
@@ -2626,10 +2644,10 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             }
         }
 
-        // Here add logic to check if selected collector exists as collector head or collector information.
-        if (isCollector && checkCollector) {
-            isCollector = collectorHierarchyDao.isCollector(collector);
-        }
+//         // Here add logic to check if selected collector exists as collector head or collector information.
+//         if(isCollector && checkCollector) {
+//            isCollector = collectorHierarchyDao.isCollector(collector);
+//         }
 
         // walk through what we have, and do any extra filtering based on age and dunning campaign, if necessary
         boolean eligibleInvoiceFlag;
@@ -2643,56 +2661,54 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
                 }
                 String dunningCampaignCode = invoice.getAward().getDunningCampaign();
 
-                DunningCampaign dunningCampaign = SpringContext.getBean(BusinessObjectService.class).findBySinglePrimaryKey(DunningCampaign.class, dunningCampaignCode);
-                if (ObjectUtils.isNull(dunningCampaign) || !dunningCampaign.isActive()) {
-                    eligibleInvoiceFlag = false;
-                    continue;
-                }
-                if (checkCollector) {
-                    if (isCollector) {
-                        if ((invoice.getCustomer().getCustomerCollector() == null || invoice.getCustomer().getCustomerCollector().getPrincipalId() == null || !invoice.getCustomer().getCustomerCollector().getPrincipalId().equalsIgnoreCase(collector))) {
-
-                            // chk if customer collector is assigned to head
-                            Criteria collectorCriteria = new Criteria();
-                            collectorCriteria.addEqualTo(ArPropertyConstants.COLLECTOR_HEAD, collector);
-                            collectorCriteria.addEqualTo(KFSPropertyConstants.ACTIVE, true);
-
-                            Collection<CollectorHierarchy> collectorHierarchies = collectorHierarchyDao.getCollectorHierarchyByCriteria(collectorCriteria);
-                            if (ObjectUtils.isNotNull(collectorHierarchies) && !collectorHierarchies.isEmpty()) {
-                                CollectorHierarchy collectorHead = new ArrayList<CollectorHierarchy>(collectorHierarchies).get(0);
-                                if (ObjectUtils.isNotNull(collectorHead)) {
-                                    // check principal ids of collector
-                                    if (ObjectUtils.isNotNull(collectorHead.getCollectorInformations()) && CollectionUtils.isNotEmpty(collectorHead.getCollectorInformations())) {
-                                        for (CollectorInformation collectorInfo : collectorHead.getCollectorInformations()) {
-                                            if ((collectorInfo.isActive() && ObjectUtils.isNotNull(collectorInfo.getPrincipalId()) && ObjectUtils.isNotNull(invoice.getCustomer().getCustomerCollector()) && collectorInfo.getPrincipalId().equalsIgnoreCase(invoice.getCustomer().getCustomerCollector().getPrincipalId()))) {
-                                                eligibleInvoiceFlag = true;
-                                                break;
-                                            }
-                                            else {
-                                                eligibleInvoiceFlag = false;
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                            if (!eligibleInvoiceFlag) {
-                                continue;
-                            }
-                        }
-                    }
-                    else {
-                        eligibleInvoiceFlag = false;
-                        continue;
-                    }
-                }
-                if (checkAgencyNumber && ((invoice.getAward().getAgencyNumber() == null || !invoice.getAward().getAgencyNumber().equals(agencyNumber)))) {
-                    eligibleInvoiceFlag = false;
-                    continue;
-                }
-                if (checkDunningCampaign && ((invoice.getAward().getDunningCampaign() == null || !invoice.getAward().getDunningCampaign().equals(campaignID)))) {
-                    eligibleInvoiceFlag = false;
-                    continue;
-                }
+             DunningCampaign dunningCampaign = SpringContext.getBean(BusinessObjectService.class).findBySinglePrimaryKey(DunningCampaign.class, dunningCampaignCode);
+             if(ObjectUtils.isNull(dunningCampaign) || !dunningCampaign.isActive()){
+                 eligibleInvoiceFlag = false;
+                 continue;
+             }
+//             if (checkCollector) {
+//                 if(isCollector) {
+//                     if ((invoice.getCustomer().getCustomerCollector() == null || invoice.getCustomer().getCustomerCollector().getPrincipalId() == null || !invoice.getCustomer().getCustomerCollector().getPrincipalId().equalsIgnoreCase(collector))) {
+//
+//                         // chk if customer collector is assigned to head
+//                         Criteria collectorCriteria = new Criteria();
+//                         collectorCriteria.addEqualTo(ArPropertyConstants.COLLECTOR_HEAD, collector);
+//                         collectorCriteria.addEqualTo(KFSPropertyConstants.ACTIVE, true);
+//
+//                         Collection<CollectorHierarchy> collectorHierarchies = collectorHierarchyDao.getCollectorHierarchyByCriteria(collectorCriteria);
+//                         if (ObjectUtils.isNotNull(collectorHierarchies) && !collectorHierarchies.isEmpty()) {
+//                             CollectorHierarchy collectorHead = new ArrayList<CollectorHierarchy>(collectorHierarchies).get(0);
+//                             if (ObjectUtils.isNotNull(collectorHead)) {
+//                                 // check principal ids of collector
+//                                 if (ObjectUtils.isNotNull(collectorHead.getCollectorInformations()) && CollectionUtils.isNotEmpty(collectorHead.getCollectorInformations())) {
+//                                     for (CollectorInformation collectorInfo : collectorHead.getCollectorInformations()) {
+//                                         if ((collectorInfo.isActive() && ObjectUtils.isNotNull(collectorInfo.getPrincipalId()) && ObjectUtils.isNotNull(invoice.getCustomer().getCustomerCollector()) && collectorInfo.getPrincipalId().equalsIgnoreCase(invoice.getCustomer().getCustomerCollector().getPrincipalId()))) {
+//                                             eligibleInvoiceFlag = true;
+//                                             break;
+//                                         } else {
+//                                             eligibleInvoiceFlag = false;
+//                                         }
+//                                     }
+//                                 }
+//                             }
+//                         }
+//                         if(!eligibleInvoiceFlag) {
+//                             continue;
+//                         }
+//                     }
+//                 } else {
+//                     eligibleInvoiceFlag = false;
+//                     continue;
+//                 }
+//             }
+             if (checkAgencyNumber && ((invoice.getAward().getAgencyNumber() == null || !invoice.getAward().getAgencyNumber().equals(agencyNumber)))) {
+                 eligibleInvoiceFlag = false;
+                 continue;
+             }
+             if (checkDunningCampaign && ((invoice.getAward().getDunningCampaign() == null || !invoice.getAward().getDunningCampaign().equals(campaignID)))) {
+                 eligibleInvoiceFlag = false;
+                 continue;
+             }
 
                 // To override agingBucketStartValue and agingBucketEndValue if State Agency Final is true.
 
@@ -2876,7 +2892,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
     /**
      * This method retrieves all invoices with open and with final status based on proposal number
-     * 
+     *
      * @param proposalNumber
      * @param outputFileStream
      * @return
@@ -2997,7 +3013,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
     /**
      * removes the invoices from list which does not match the given award document number.
-     * 
+     *
      * @param invoices list of invoices.
      * @param awardDocumentNumber award document number to filter invoices.
      */
@@ -3129,7 +3145,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
     /**
      * Returns a proper String Value. Also returns proper value for currency (USD)
-     * 
+     *
      * @param string
      * @return
      */
@@ -3146,7 +3162,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
     /**
      * This method generated the template parameter list to populate the pdf invoices that are attached to the Document.
-     * 
+     *
      * @return
      */
     private Map<String, String> getTemplateParameterList(ContractsGrantsInvoiceDocument document) {
@@ -3408,7 +3424,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
     /**
      * Returns true if the billing Frequency is Predetermined Billing.
-     * 
+     *
      * @return
      */
     private boolean isAdvance(ContractsGrantsInvoiceDocument document) {
@@ -3420,7 +3436,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
     /**
      * iText compatible boolean value converter.
-     * 
+     *
      * @param bool
      * @return
      */
@@ -3433,7 +3449,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
     /**
      * returns proper contract control Account Number.
-     * 
+     *
      * @return
      */
     private String getRecipientAccountNumber(List<InvoiceAccountDetail> accountDetails) {
@@ -3460,7 +3476,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
     /**
      * This method sets the last billed date to Award and Award Account objects based on the status of the invoice. Final or
      * Corrected.
-     * 
+     *
      * @param invoiceStatus
      */
     @Override
@@ -3498,7 +3514,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
     /**
      * This method updates the AwardAccount object's last billed Variable with the value provided
-     * 
+     *
      * @param id
      * @param value
      */
@@ -3514,7 +3530,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
     /**
      * This method updates the Bills and Milestone objects isItBilles Field.
-     * 
+     *
      * @param string
      */
     @Override
@@ -3525,7 +3541,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
     /**
      * Update Milestone objects isItBilled value.
-     * 
+     *
      * @param string
      */
     protected void updateMilestonesIsItBilled(String string, List<InvoiceMilestone> invoiceMilestones) {
@@ -3553,7 +3569,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
     /**
      * Update Bill objects isItBilled value.
-     * 
+     *
      * @param string
      */
     protected void updateBillsIsItBilled(String string, List<InvoiceBill> invoiceBills) {
@@ -3574,7 +3590,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
     /**
      * This method updates the ContractsAndGrantsCGBAwardAccount object's FinalBilled Variable with the value provided
-     * 
+     *
      * @param id
      * @param value
      */
@@ -3602,7 +3618,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
     /**
      * Corrects the Contracts and Grants Invoice Document.
-     * 
+     *
      * @throws WorkflowException
      */
     @Override
@@ -3682,7 +3698,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
     /**
      * This method corrects the Maintenance Document for Predetermined Billing
-     * 
+     *
      * @throws WorkflowException
      */
     @Override
@@ -3692,7 +3708,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
     /**
      * This method corrects the Maintenance Document for milestones
-     * 
+     *
      * @throws WorkflowException
      */
     @Override
@@ -3703,16 +3719,16 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
     /**
      * This method takes all the applicable attributes from the associated award object and sets those attributes into their
      * corresponding invoice attributes.
-     * 
+     *
      * @param award The associated award that the invoice will be linked to.
      */
     @Override
     public void populateInvoiceFromAward(ContractsAndGrantsCGBAward award, List<ContractsAndGrantsCGBAwardAccount> awardAccounts, ContractsGrantsInvoiceDocument document) {
-        List<ContractsAndGrantsMilestone> milestones = new ArrayList<ContractsAndGrantsMilestone>();
+        List<Milestone> milestones = new ArrayList<Milestone>();
         List<ContractsAndGrantsBill> bills = new ArrayList<ContractsAndGrantsBill>();
         Map<String, Object> map = new HashMap<String, Object>();
         map.put(KFSPropertyConstants.PROPOSAL_NUMBER, award.getProposalNumber());
-        milestones = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsMilestone.class).getExternalizableBusinessObjectsList(ContractsAndGrantsMilestone.class, map);
+        milestones = (List<Milestone>) SpringContext.getBean(BusinessObjectService.class).findMatching(Milestone.class, map);
         bills = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsBill.class).getExternalizableBusinessObjectsList(ContractsAndGrantsBill.class, map);
 
 
@@ -3776,7 +3792,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
                 // copy award milestones to invoice milestones
                 document.getInvoiceMilestones().clear();
-                for (ContractsAndGrantsMilestone awdMilestone : milestones) {
+                for (Milestone awdMilestone : milestones) {
                     // To consider the completed milestones only.
                     // To check for null - Milestone Completion date.
 
@@ -4278,7 +4294,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
     /**
      * This method takes a ContractsAndGrantsCategory, retrieves the specified object code or object code range. It then parses this
      * string, and returns all the possible object codes specified by this range.
-     * 
+     *
      * @param category
      * @return Set<String> objectCodes
      */
@@ -4399,7 +4415,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
     /**
      * This method returns the complete set of object codes for ALL ContractsAndGrantsCategories.
-     * 
+     *
      * @return Set<String> objectCodes
      */
     public Set<String> getObjectCodeArrayFromContractsAndGrantsCategories(ContractsGrantsInvoiceDocument document) {
@@ -4420,7 +4436,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
     /**
      * This method returns a list of character strings that represent base 36 integers from start(non-inclusive) to limit
      * (inclusive).
-     * 
+     *
      * @param start the starting point of the list. This value is not included in the list.
      * @param limit the ending point of the list. This value is included in the list
      * @return the list of strings

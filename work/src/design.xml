@@ -48,6 +48,9 @@
 	</package>
 	<package name="vnd" package="org.kuali.kfs.vnd" subpackages="include" needdeclarations="false"/>
 	<package name="integration" package="org.kuali.kfs.integration" subpackages="include" needdeclarations="false"/>
+
+  <!-- Core Kuali packages that optional modules should not depend on -->
+	<package name="sec" package="org.kuali.kfs.sec" subpackages="include"/>
   
   <!-- Optional module packages -->
 	<package name="ar" package="org.kuali.kfs.module.ar" subpackages="include"/>
@@ -66,6 +69,5 @@
 	<package name="kc" package="org.kuali.kfs.module.external.kc" subpackages="include">
 		<depends>kra</depends>
 	</package>
-	<package name="sec" package="org.kuali.kfs.sec" subpackages="include"/>
 	
 </design>

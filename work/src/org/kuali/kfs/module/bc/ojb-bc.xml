@@ -51,11 +51,6 @@
 		<foreignkey field-ref="organizationLevelOrganizationCode" />
 	</reference-descriptor>
 
-<!-- remove for now, need to add some of this back in and add the BC reports to tables
-	<reference-descriptor name="chartOfAccounts" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
-		<foreignkey field-ref="chartOfAccountsCode" />
-	</reference-descriptor>
--->
     <collection-descriptor name="pendingBudgetConstructionGeneralLedgerRevenueLines" proxy="true" element-class-ref="org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionGeneralLedger" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
         <orderby name="financialObjectCode" sort="ASC" />
         <orderby name="financialSubObjectCode" sort="ASC" />
@@ -157,13 +152,6 @@
 		<inverse-foreignkey field-ref="financialSubObjectCode" />
 	</collection-descriptor>  
     
-<!-- lifted from PBGL definition but could probably turn this on since all PBGL salary setting lines are in LaborObject
-    <reference-descriptor name="laborObject" class-ref="org.kuali.kfs.module.ld.businessobject.LaborObject" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
-		<foreignkey field-ref="universityFiscalYear" />
-		<foreignkey field-ref="chartOfAccountsCode" />
-		<foreignkey field-ref="financialObjectCode" />
-    </reference-descriptor>
--->
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.module.bc.businessobject.BudgetConstructionHeader" table="LD_BCNSTR_HDR_T">
@@ -238,15 +226,6 @@
 	<field-descriptor name="financialDocumentMonth10LineAmount" column="FDOC_LN_MO10_AMT" jdbc-type="BIGINT" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiIntegerFieldConversion"/>
 	<field-descriptor name="financialDocumentMonth11LineAmount" column="FDOC_LN_MO11_AMT" jdbc-type="BIGINT" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiIntegerFieldConversion"/>
 	<field-descriptor name="financialDocumentMonth12LineAmount" column="FDOC_LN_MO12_AMT" jdbc-type="BIGINT" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiIntegerFieldConversion"/>
-<!-- this should probably be removed
-	<reference-descriptor name="budgetConstructionHeader" class-ref="org.kuali.kfs.module.bc.businessobject.BudgetConstructionHeader" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
-		<foreignkey field-ref="documentNumber" />
-		<foreignkey field-ref="universityFiscalYear" />
-		<foreignkey field-ref="chartOfAccountsCode" />
-		<foreignkey field-ref="accountNumber" />
-		<foreignkey field-ref="subAccountNumber" />
-	</reference-descriptor>
--->
 	<reference-descriptor name="pendingBudgetConstructionGeneralLedger" class-ref="org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionGeneralLedger" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
 		<foreignkey field-ref="documentNumber" />
 		<foreignkey field-ref="universityFiscalYear" />
@@ -361,17 +340,6 @@
 	<field-descriptor name="accountLineAnnualBalanceAmount" column="ACLN_ANNL_BAL_AMT" jdbc-type="BIGINT" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiIntegerFieldConversion"/>
 	<field-descriptor name="financialBeginningBalanceLineAmount" column="FIN_BEG_BAL_LN_AMT" jdbc-type="BIGINT" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiIntegerFieldConversion"/>
 
-<!-- should not be needed and would be a problem since it uses the candidate key relationship without documentNumber
-	<collection-descriptor name="pendingBudgetConstructionAppointmentFunding" element-class-ref="org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" proxy="true" auto-retrieve="true" auto-update="none" auto-delete="none">
-		<orderby name="positionNumber" sort="ASC" />
-		<inverse-foreignkey field-ref="universityFiscalYear" />
-		<inverse-foreignkey field-ref="chartOfAccountsCode" />
-		<inverse-foreignkey field-ref="accountNumber" />
-		<inverse-foreignkey field-ref="subAccountNumber" />
-		<inverse-foreignkey field-ref="financialObjectCode" />
-		<inverse-foreignkey field-ref="financialSubObjectCode" />
-	</collection-descriptor>
--->
 	<collection-descriptor name="budgetConstructionMonthly" element-class-ref="org.kuali.kfs.module.bc.businessobject.BudgetConstructionMonthly" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" proxy="true" auto-retrieve="true" auto-update="none" auto-delete="true">
 		<inverse-foreignkey field-ref="documentNumber" />
 		<inverse-foreignkey field-ref="universityFiscalYear" />
@@ -421,13 +389,6 @@
         <foreignkey field-ref="financialObjectTypeCode" />
     </reference-descriptor>
     
-<!-- labor module may not be loaded and most objects do not exist in labor object so we handle this manually returning null when needed
-    <reference-descriptor name="laborObject" class-ref="org.kuali.kfs.module.ld.businessobject.LaborObject" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
-		<foreignkey field-ref="universityFiscalYear" />
-		<foreignkey field-ref="chartOfAccountsCode" />
-		<foreignkey field-ref="financialObjectCode" />
-    </reference-descriptor>
--->
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.module.bc.businessobject.BudgetConstructionPositionFunding" table="LD_BCN_POS_FND_T">
@@ -1883,4 +1844,3 @@
 	</reference-descriptor>	
 </class-descriptor>
 </descriptor-repository>
-

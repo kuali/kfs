@@ -26,7 +26,7 @@ public class ArConstants {
     public static final String WRITEOFF_DOC_TYPE = "Writeoff";
 
     //System Parameters
-    public static final String INSTITUTION_NAME = "INSTITUTION_NAME";
+
     public static final String GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD = "GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD";
     public static final String GLPE_WRITEOFF_GENERATION_METHOD = "GLPE_WRITEOFF_GENERATION_METHOD";
     public static final String ALLOW_SALES_TAX_LIABILITY_ADJUSTMENT_IND = "ALLOW_SALES_TAX_LIABILITY_ADJUSTMENT_IND";

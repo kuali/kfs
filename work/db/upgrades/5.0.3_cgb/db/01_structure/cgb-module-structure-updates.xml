@@ -872,12 +872,6 @@
 		</addColumn>
 	</changeSet>
 
-	<changeSet author="kfs" id="AR_INV_GNRL_DTL_T_ADD_TRANSFER_NUMBER">
-		<addColumn tableName="AR_INV_GNRL_DTL_T">
-			<column name="TRNSFR_NBR" type="VARCHAR(16)" />
-		</addColumn>
-	</changeSet>
-
 	<changeSet author="kfs" id="CG_AWD_T_ADD_STATE_TRANSFER">
 		<addColumn tableName="CG_AWD_T">
 			<column name="STATE_TRNSFR" type="VARCHAR(1)" />

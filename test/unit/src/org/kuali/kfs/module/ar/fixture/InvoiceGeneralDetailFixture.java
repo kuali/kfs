@@ -25,8 +25,8 @@ import org.kuali.rice.core.api.util.type.KualiDecimal;
  */
 public enum InvoiceGeneralDetailFixture {
 
-    INV_GNRL_DTL1("5678", "comment", "2011-05-02 - 2012-04-30", "MS", false, null, "GMS - Grant - Milestone", new KualiDecimal(100000.00), new KualiDecimal(1), new KualiDecimal(99987.00), KualiDecimal.ZERO, KualiDecimal.ZERO, null, null), INV_GNRL_DTL2("5680", "comment", "2011-05-02 - 2012-04-30", "ANNUALLY", false, null, "GMS - Grant - Milestone", new KualiDecimal(100000.00), new KualiDecimal(13.00), new KualiDecimal(99987.00), KualiDecimal.ZERO, KualiDecimal.ZERO, null, null), INV_GNRL_DTL3("5678", "comment", "2011-05-02 - 2012-04-30", "MON", false, null, "GMS - Grant - Milestone", new KualiDecimal(100000.00), new KualiDecimal(1), new KualiDecimal(99999.00), KualiDecimal.ZERO, KualiDecimal.ZERO, null, null), INV_GNRL_DTL4("5678", "comment", "2011-05-02 - 2012-04-30", "PDBS", false, null, "GMS - Grant - Milestone", new KualiDecimal(100000.00), new KualiDecimal(1), new KualiDecimal(99999.00), KualiDecimal.ZERO, KualiDecimal.ZERO, null, null), INV_GNRL_DTL5("5678", "comment",
-            "2011-05-02 - 2012-04-30", "MS", false, null, "GMS - Grant - Milestone", new KualiDecimal(100000.00), KualiDecimal.ZERO, new KualiDecimal(99987.00), KualiDecimal.ZERO, KualiDecimal.ZERO, null, null);
+    INV_GNRL_DTL1("5678", "comment", "2011-05-02 - 2012-04-30", "MS", false, null, "GMS - Grant - Milestone", new KualiDecimal(100000.00), new KualiDecimal(1), new KualiDecimal(99987.00), KualiDecimal.ZERO, KualiDecimal.ZERO, null), INV_GNRL_DTL2("5680", "comment", "2011-05-02 - 2012-04-30", "ANNUALLY", false, null, "GMS - Grant - Milestone", new KualiDecimal(100000.00), new KualiDecimal(13.00), new KualiDecimal(99987.00), KualiDecimal.ZERO, KualiDecimal.ZERO, null), INV_GNRL_DTL3("5678", "comment", "2011-05-02 - 2012-04-30", "MON", false, null, "GMS - Grant - Milestone", new KualiDecimal(100000.00), new KualiDecimal(1), new KualiDecimal(99999.00), KualiDecimal.ZERO, KualiDecimal.ZERO, null), INV_GNRL_DTL4("5678", "comment", "2011-05-02 - 2012-04-30", "PDBS", false, null, "GMS - Grant - Milestone", new KualiDecimal(100000.00), new KualiDecimal(1), new KualiDecimal(99999.00), KualiDecimal.ZERO, KualiDecimal.ZERO, null), INV_GNRL_DTL5("5678", "comment",
+            "2011-05-02 - 2012-04-30", "MS", false, null, "GMS - Grant - Milestone", new KualiDecimal(100000.00), KualiDecimal.ZERO, new KualiDecimal(99987.00), KualiDecimal.ZERO, KualiDecimal.ZERO, null);
 
     private String documentNumber;
     private String comment;
@@ -41,9 +41,8 @@ public enum InvoiceGeneralDetailFixture {
     private KualiDecimal billedToDate = KualiDecimal.ZERO;
     private KualiDecimal costShareAmount = KualiDecimal.ZERO;
     private Date lastBilledDate;
-    private Integer transferNumber;
 
-    private InvoiceGeneralDetailFixture(String documentNumber, String comment, String awardDateRange, String billingFrequency, boolean finalBillIndicator, String billingPeriod, String contractGrantType, KualiDecimal awardTotal, KualiDecimal newTotalBilled, KualiDecimal amountRemainingToBill, KualiDecimal billedToDate, KualiDecimal costShareAmount, Date lastBilledDate, Integer transferNumber) {
+    private InvoiceGeneralDetailFixture(String documentNumber, String comment, String awardDateRange, String billingFrequency, boolean finalBillIndicator, String billingPeriod, String contractGrantType, KualiDecimal awardTotal, KualiDecimal newTotalBilled, KualiDecimal amountRemainingToBill, KualiDecimal billedToDate, KualiDecimal costShareAmount, Date lastBilledDate) {
         this.documentNumber = documentNumber;
         this.comment = comment;
         this.awardDateRange = awardDateRange;
@@ -57,7 +56,6 @@ public enum InvoiceGeneralDetailFixture {
         this.billedToDate = billedToDate;
         this.costShareAmount = costShareAmount;
         this.lastBilledDate = lastBilledDate;
-        this.transferNumber = transferNumber;
     }
 
     public InvoiceGeneralDetail createInvoiceGeneralDetail() {
@@ -75,7 +73,6 @@ public enum InvoiceGeneralDetailFixture {
         invoiceGeneralDetail.setBilledToDate(billedToDate);
         invoiceGeneralDetail.setCostShareAmount(costShareAmount);
         invoiceGeneralDetail.setLastBilledDate(lastBilledDate);
-        invoiceGeneralDetail.setTransferNumber(transferNumber);
         return invoiceGeneralDetail;
     }
 }

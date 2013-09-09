@@ -1637,7 +1637,6 @@
 		<field-descriptor name="billedToDate" column="BILLED_TO_DT" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
 		<field-descriptor name="costShareAmount" column="COST_SHR_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
 		<field-descriptor name="lastBilledDate" column="LST_BLD_DT" jdbc-type="DATE" />
-		<field-descriptor name="transferNumber" column="TRNSFR_NBR" jdbc-type="VARCHAR" />
 		<field-descriptor name="dunningLetterTemplateAssigned" column="DUN_LTR_ASSGNED" jdbc-type="VARCHAR" />
 		<field-descriptor name="dunningLetterTemplateSentDate" column="DUN_LTR_SNT_DT" jdbc-type="DATE" />
 	</class-descriptor>

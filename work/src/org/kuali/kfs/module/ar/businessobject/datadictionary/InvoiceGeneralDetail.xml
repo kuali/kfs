@@ -37,7 +37,6 @@
 				<ref bean="InvoiceGeneralDetail-costShareAmount" />
 				<ref bean="InvoiceGeneralDetail-lastBilledDate" />
 				<ref bean="InvoiceGeneralDetail-dunningLetterTemplateSentDate" />
-				<ref bean="InvoiceGeneralDetail-transferNumber" />
 			</list>
 		</property>
 	</bean>
@@ -202,18 +201,5 @@
 		<property name="required" value="false" />
 		<property name="maxLength" value="15" />
 	</bean>
-	<bean id="InvoiceGeneralDetail-transferNumber" parent="InvoiceGeneralDetail-transferNumber-parentBean" />
-
-	<bean id="InvoiceGeneralDetail-transferNumber-parentBean" abstract="true" parent="AttributeDefinition">
-		<property name="name" value="transferNumber" />
-		<property name="forceUppercase" value="false" />
-		<property name="label" value="State Transfer Number" />
-		<property name="shortLabel" value="State Transfer Number" />
-		<property name="maxLength" value="15" />
-		<property name="required" value="false" />
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="16" />
-		</property>
-	</bean>    
   
 </beans>

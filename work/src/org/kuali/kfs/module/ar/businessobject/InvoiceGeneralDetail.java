@@ -47,7 +47,6 @@ public class InvoiceGeneralDetail extends PersistableBusinessObjectBase {
     private KualiDecimal billedToDate = KualiDecimal.ZERO;
     private KualiDecimal costShareAmount = KualiDecimal.ZERO;
     private Date lastBilledDate;
-    private Integer transferNumber;
     private String dunningLetterTemplateAssigned;
     private Date dunningLetterTemplateSentDate;
 
@@ -66,24 +65,6 @@ public class InvoiceGeneralDetail extends PersistableBusinessObjectBase {
      */
     public String getComment() {
         return comment;
-    }
-
-    /**
-     * Gets the transferNumber attribute.
-     *
-     * @return Returns the transferNumber.
-     */
-    public Integer getTransferNumber() {
-        return transferNumber;
-    }
-
-    /**
-     * Sets the transferNumber attribute value.
-     *
-     * @param transferNumber The transferNumber to set.
-     */
-    public void setTransferNumber(Integer transferNumber) {
-        this.transferNumber = transferNumber;
     }
 
     /**
@@ -357,9 +338,6 @@ public class InvoiceGeneralDetail extends PersistableBusinessObjectBase {
         }
         if (ObjectUtils.isNotNull(this.lastBilledDate)) {
             m.put("lastBilledDate", this.lastBilledDate.toString());
-        }
-        if (ObjectUtils.isNotNull(this.transferNumber)) {
-            m.put("transferNumber", this.transferNumber.toString());
         }
         return m;
     }

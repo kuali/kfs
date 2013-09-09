@@ -37,7 +37,6 @@ import org.kuali.kfs.module.tem.service.TravelerService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
-import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
@@ -48,7 +47,6 @@ import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.bo.BusinessObject;
-import org.kuali.rice.krad.service.SessionDocumentService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -71,19 +69,7 @@ public class TEMProfileLookupableHelperServiceImpl extends KualiLookupableHelper
      */
     @Override
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
-        // first we need to flag the user searching to see if they are a Profile Admin or Arranger
-        Person user = GlobalVariables.getUserSession().getPerson();
-        String docNum = fieldValues.get("docNum");
-        String docType = null;
-        if(StringUtils.isNotEmpty(docNum)) {
-            WorkflowDocument workflowDocument = SpringContext.getBean(SessionDocumentService.class).getDocumentFromSession(GlobalVariables.getUserSession(), docNum);
-        	docType = workflowDocument.getDocumentTypeName();
-        }
 
-        boolean isArrangerDoc = false;
-        if(TemConstants.TravelDocTypes.TRAVEL_ARRANGER_DOCUMENT.equals(docType)) {
-            isArrangerDoc = true;
-        }
         // split homeDepartment field value into org code and coa code for TEMProfile lookup
         if (fieldValues != null) {
             String homeDepartment = fieldValues.get(TemConstants.TEM_PROFILE_HOME_DEPARTMENT);
@@ -177,31 +163,15 @@ public class TEMProfileLookupableHelperServiceImpl extends KualiLookupableHelper
     }
 
     /**
-     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getCustomActionUrls(org.kuali.rice.kns.bo.BusinessObject, java.util.List)
-     */
-//    @Override
-//    public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
-//       String blah = "";
-//
-//        List<HtmlData> htmlDataList = super.getCustomActionUrls(businessObject, pkNames);
-//
-//
-//        TEMRoleService temRoleService = SpringContext.getBean(TEMRoleService.class);
-//        boolean profileAdmin = temRoleService.isProfileAdmin(GlobalVariables.getUserSession().getPerson(), ((TemProfileFromKimPerson)businessObject).getPrimaryDepartmentCode());
-//
-//        if (!profileAdmin) {
-//            return new ArrayList<HtmlData>();
-//        }
-//
-//        return htmlDataList;
-//    }
-
-
-    /**
      * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getSupplementalMenuBar()
      */
     @Override
     public String getSupplementalMenuBar() {
+
+        // we are coming from a document; bail.
+        if (parameters.containsKey("docNum")) {
+            return "";
+        }
 
         // next we need to get the current user's info
         UserSession user = GlobalVariables.getUserSession();
@@ -223,7 +193,7 @@ public class TEMProfileLookupableHelperServiceImpl extends KualiLookupableHelper
         criteria.put("active", "true");
 
         // If an active TEM Profile doesn't exist, allow the user to create their profile
-        if (getTemProfileService().findTemProfile(criteria) == null) {
+        if (getTemProfileService().findTemProfile(criteria) == null ) {
             canCreateMyProfile = true;
         }
 

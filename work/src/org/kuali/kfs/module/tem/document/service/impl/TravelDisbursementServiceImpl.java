@@ -152,7 +152,7 @@ public class TravelDisbursementServiceImpl implements TravelDisbursementService{
         disbursementVoucherDocument.getDvPayeeDetail().setDisbVchrPaymentReasonCode(parameterService.getParameterValueAsString(TemParameterConstants.TEM_DOCUMENT.class, TravelParameters.CORPORATE_CARD_BANK_PAYMENT_REASON_CODE));
         disbursementVoucherDocument.setDisbVchrContactPersonName(principal.getPrincipalName());
         disbursementVoucherDocument.setDisbVchrContactPhoneNumber(principal.getPhoneNumber());
-        disbursementVoucherDocument.setDisbVchrPaymentMethodCode(TemConstants.DisbursementVoucherPaymentMethods.CHECK_ACH_PAYMENT_METHOD_CODE);
+        disbursementVoucherDocument.setDisbVchrPaymentMethodCode(KFSConstants.PaymentSourceConstants.PAYMENT_METHOD_CHECK);
         disbursementVoucherDocument.setDisbursementVoucherDocumentationLocationCode(parameterService.getParameterValueAsString(TemParameterConstants.TEM_DOCUMENT.class, TravelParameters.DOCUMENTATION_LOCATION_CODE));
 
     }
@@ -216,8 +216,8 @@ public class TravelDisbursementServiceImpl implements TravelDisbursementService{
             Note dvNote = documentService.createNoteFromDocument(disbursementVoucherDocument, note);
             disbursementVoucherDocument.addNote(dvNote);
 
-            if (!(TemConstants.DisbursementVoucherPaymentMethods.WIRE_TRANSFER_PAYMENT_METHOD_CODE.equals(disbursementVoucherDocument.getDisbVchrPaymentMethodCode())
-                    || TemConstants.DisbursementVoucherPaymentMethods.FOREIGN_DRAFT_PAYMENT_METHOD_CODE.equals(disbursementVoucherDocument.getDisbVchrPaymentMethodCode()))) {
+            if (!(KFSConstants.PaymentSourceConstants.PAYMENT_METHOD_WIRE.equals(disbursementVoucherDocument.getDisbVchrPaymentMethodCode())
+                    || KFSConstants.PaymentSourceConstants.PAYMENT_METHOD_DRAFT.equals(disbursementVoucherDocument.getDisbVchrPaymentMethodCode()))) {
 
                 WorkflowDocument originalWorkflowDocument = disbursementVoucherDocument.getDocumentHeader().getWorkflowDocument();
 

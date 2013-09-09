@@ -33,11 +33,11 @@ import org.apache.log4j.Logger;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomer;
 import org.kuali.kfs.module.tem.TemConstants;
+import org.kuali.kfs.module.tem.TemConstants.EntertainmentStatusCodeKeys;
+import org.kuali.kfs.module.tem.TemConstants.TravelParameters;
 import org.kuali.kfs.module.tem.TemParameterConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.TemWorkflowConstants;
-import org.kuali.kfs.module.tem.TemConstants.EntertainmentStatusCodeKeys;
-import org.kuali.kfs.module.tem.TemConstants.TravelParameters;
 import org.kuali.kfs.module.tem.businessobject.Attendee;
 import org.kuali.kfs.module.tem.businessobject.Purpose;
 import org.kuali.kfs.module.tem.businessobject.TEMProfile;
@@ -476,7 +476,7 @@ public class TravelEntertainmentDocument extends TEMReimbursementDocument implem
         String locationCode = getParameterService().getParameterValueAsString(TravelEntertainmentDocument.class, TravelParameters.DOCUMENTATION_LOCATION_CODE, getParameterService().getParameterValueAsString(TemParameterConstants.TEM_DOCUMENT.class,TravelParameters.DOCUMENTATION_LOCATION_CODE));
         String checkStubText = this.getTravelDocumentIdentifier() + ", " + this.getEventTitle();
 
-        disbursementVoucherDocument.setDisbVchrPaymentMethodCode(TemConstants.DisbursementVoucherPaymentMethods.CHECK_ACH_PAYMENT_METHOD_CODE);
+        disbursementVoucherDocument.setDisbVchrPaymentMethodCode(KFSConstants.PaymentSourceConstants.PAYMENT_METHOD_CHECK);
         disbursementVoucherDocument.setDisbursementVoucherDocumentationLocationCode(locationCode);
         disbursementVoucherDocument.setDisbVchrCheckStubText(checkStubText);
 
@@ -517,5 +517,14 @@ public class TravelEntertainmentDocument extends TEMReimbursementDocument implem
     @Override
     protected String getTripIdPrefix() {
         return TemConstants.TripIdPrefix.ENTERTAINMENT_PREFIX;
+    }
+
+    /**
+     * The trip type code for an ENT is always "All"
+     * @see org.kuali.kfs.module.tem.document.TravelDocumentBase#getTripTypeCode()
+     */
+    @Override
+    public String getTripTypeCode() {
+        return TemConstants.ALL_EXPENSE_TYPE_OBJECT_CODE_TRIP_TYPE;
     }
 }

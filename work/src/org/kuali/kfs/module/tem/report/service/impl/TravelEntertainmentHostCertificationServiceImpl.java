@@ -110,10 +110,10 @@ public class TravelEntertainmentHostCertificationServiceImpl implements TravelEn
         final Map<String,KualiDecimal> summaryData = new HashMap<String,KualiDecimal>();
         if(document.getActualExpenses().size()>0){
             for (final ActualExpense expense : document.getActualExpenses()) {
-                expense.refreshReferenceObject(TemPropertyConstants.TRAVEL_EXEPENSE_TYPE_CODE);
+                expense.refreshReferenceObject(TemPropertyConstants.EXPENSE_TYPE_OBJECT_CODE);
                 final String expenseDate = new SimpleDateFormat("MM/dd/yyyy").format(expense.getExpenseDate());
-                final NonEmployeeCertificationReport.Detail detail = new NonEmployeeCertificationReport.Detail(expense.getTravelExpenseTypeCode().getName()==null?
-                        "":expense.getTravelExpenseTypeCode().getName(),expense.getExpenseAmount().multiply(expense.getCurrencyRate()), expenseDate);
+                final NonEmployeeCertificationReport.Detail detail = new NonEmployeeCertificationReport.Detail(expense.getExpenseTypeObjectCode().getExpenseType().getName()==null?
+                        "":expense.getExpenseTypeObjectCode().getExpenseType().getName(),expense.getExpenseAmount().multiply(expense.getCurrencyRate()), expenseDate);
                 expenseDetails.add(detail);
                 incrementSummary(summaryData, expense);
             }
@@ -158,7 +158,7 @@ public class TravelEntertainmentHostCertificationServiceImpl implements TravelEn
 
     protected boolean isTransportationExpense(final ActualExpense expense) {
         LOG.debug("Checking if "+ expense+ " is a transportation ");
-        return expenseTypeCodeMatchesParameter(expense.getTravelExpenseTypeCodeCode(), TRANSPORTATION_TYPE_CODES);
+        return expenseTypeCodeMatchesParameter(expense.getExpenseTypeCode(), TRANSPORTATION_TYPE_CODES);
     }
 
     protected boolean isMealsExpense(final ActualExpense expense) {
@@ -167,7 +167,7 @@ public class TravelEntertainmentHostCertificationServiceImpl implements TravelEn
 
     protected boolean isLodgingExpense(final ActualExpense expense) {
         LOG.debug("Checking if "+ expense+ " is a lodging ");
-        return expenseTypeCodeMatchesParameter(expense.getTravelExpenseTypeCodeCode(), LODGING_TYPE_CODES);
+        return expenseTypeCodeMatchesParameter(expense.getExpenseTypeCode(), LODGING_TYPE_CODES);
     }
 
     protected boolean expenseTypeCodeMatchesParameter(final String expenseTypeCode, final String parameter) {

@@ -81,7 +81,7 @@ public class AddActualExpenseEventTest extends KualiTestBase {
 
         // Test expense!
         final ActualExpense testExpense = new ActualExpense();
-        testExpense.setTravelExpenseTypeCodeId(new Long(1));
+        testExpense.setExpenseTypeObjectCodeId(new Long(1));
 
         final TravelReimbursementDocument testDocument = new TravelReimbursementDocument() {
             };

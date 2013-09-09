@@ -404,4 +404,15 @@ public interface TravelDocument extends AccountingDocument, TravelEntertainmentM
      * @return
      */
     public boolean isTravelAuthorizationDoc();
+
+    /**
+     * Determines if this document should attempt to refresh the expense type object codes for expenses or not
+     * @return true of expense type object codes on expenses should be refreshed; false otherwise
+     */
+    public boolean shouldRefreshExpenseTypeObjectCode();
+
+    /**
+     * Refreshes expense type object code values for actual and imported expenses on the document
+     */
+    public void refreshExpenseTypeObjectCodesForExpenses();
 }

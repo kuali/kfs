@@ -28,11 +28,11 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemConstants.TravelParameters;
 import org.kuali.kfs.module.tem.TemParameterConstants;
-import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
@@ -66,29 +66,14 @@ public class ActualExpense extends AbstractExpense implements OtherExpense, Expe
     private Boolean lodgingIndicator = Boolean.FALSE;
     private Boolean lodgingAllowanceIndicator = Boolean.FALSE;
 
-    private String temExpenseTypeCode = TemConstants.EXPENSE_ACTUAL;
+    private String expenseLineTypeCode = TemConstants.EXPENSE_ACTUAL;
 
     public ActualExpense() {
         // details = new ArrayList<OtherExpenseDetail>();
     }
 
-    /**
-     * Override refreshReferenceObject for travelExpenseTypeCode because its primary key is not the code
-     *
-     * @see org.kuali.rice.krad.bo.PersistableBusinessObjectBase#refreshReferenceObject(java.lang.String)
-     */
-    @Override
-    public void refreshReferenceObject(String referenceObjectName) {
-        //we will retrieve with the service instead if there is a request to refresh the travelExpenseTypeCode
-        if (TemPropertyConstants.TRAVEL_EXEPENSE_TYPE_CODE.equals(referenceObjectName)){
-            if (getTravelExpenseTypeCodeId() != null){
-                getTravelExpenseTypeCode();
-            }
-        }
-    }
-
     public boolean getDefaultTabOpen(){
-        return !getExpenseDetails().isEmpty() || getMileageIndicator() || getAirfareIndicator() || getRentalCarIndicator() || getTravelExpenseTypeCode().getExpenseDetailRequired();
+        return !getExpenseDetails().isEmpty() || getMileageIndicator() || getAirfareIndicator() || getRentalCarIndicator() || (getExpenseTypeObjectCode() != null && getExpenseTypeObjectCode().getExpenseType().isExpenseDetailRequired());
     }
 
     /**
@@ -283,8 +268,8 @@ public class ActualExpense extends AbstractExpense implements OtherExpense, Expe
     }
 
     public void enableExpenseTypeSpecificFields(){
-        if (getTravelExpenseTypeCode() != null){
-            setTaxable(getTravelExpenseTypeCode().getTaxable());
+        if (getExpenseTypeObjectCode() != null){
+            setTaxable(getExpenseTypeObjectCode().isTaxable());
         }
         setAirfareIndicator(isAirfare());
         setMileageIndicator(isMileage());
@@ -308,37 +293,33 @@ public class ActualExpense extends AbstractExpense implements OtherExpense, Expe
     public boolean isAirfare(){
         final String airfareType = getParameterService().getParameterValueAsString(TemParameterConstants.TEM_DOCUMENT.class, TravelParameters.AIRFARE_EXPENSE_TYPE);
 
-        if ( getTravelExpenseTypeCodeCode() != null && getTravelExpenseTypeCodeCode().equals(airfareType)) {
-            return true;
-        }
-
-        return false;
+        return ( !StringUtils.isBlank(getExpenseTypeCode()) && getExpenseTypeCode().equals(airfareType));
     }
 
     public boolean isMileage(){
         final String mileageType = getParameterService().getParameterValueAsString(TemParameterConstants.TEM_DOCUMENT.class, TravelParameters.MILEAGE_EXPENSE_TYPE);
-        return getTravelExpenseTypeCodeCode() != null && getTravelExpenseTypeCodeCode().equals(mileageType);
+        return getExpenseTypeCode() != null && getExpenseTypeCode().equals(mileageType);
     }
 
     @Override
     public boolean isRentalCar(){
         final String rentalCarType = getParameterService().getParameterValueAsString(TemParameterConstants.TEM_DOCUMENT.class, TravelParameters.RENTAL_CAR_EXPENSE_TYPE);
-        return getTravelExpenseTypeCodeCode() != null && getTravelExpenseTypeCodeCode().equals(rentalCarType);
+        return getExpenseTypeCode() != null && getExpenseTypeCode().equals(rentalCarType);
     }
 
     public boolean isLodging(){
         final String lodgingType = getParameterService().getParameterValueAsString(TemParameterConstants.TEM_DOCUMENT.class, TravelParameters.LODGING_EXPENSE_TYPE);
-        return getTravelExpenseTypeCodeCode() != null && getTravelExpenseTypeCodeCode().equals(lodgingType);
+        return getExpenseTypeCode() != null && getExpenseTypeCode().equals(lodgingType);
     }
 
     public boolean isLodgingAllowance(){
         final String lodgingAllowanceType = getParameterService().getParameterValueAsString(TemParameterConstants.TEM_DOCUMENT.class, TravelParameters.LODGING_ALLOWANCE_EXPENSE_TYPE);
-        return getTravelExpenseTypeCodeCode() != null && getTravelExpenseTypeCodeCode().equals(lodgingAllowanceType);
+        return getExpenseTypeCode() != null && getExpenseTypeCode().equals(lodgingAllowanceType);
     }
 
     public boolean isIncidental(){
         final Collection<String> incidentalType = getParameterService().getParameterValuesAsString(TemParameterConstants.TEM_DOCUMENT.class, TravelParameters.INCIDENTAL_EXPENSE_TYPES);
-        return getTravelExpenseTypeCodeCode() != null && incidentalType.contains(getTravelExpenseTypeCodeCode());
+        return getExpenseTypeCode() != null && incidentalType.contains(getExpenseTypeCode());
     }
 
     public boolean isHostedMeal(){
@@ -351,7 +332,7 @@ public class ActualExpense extends AbstractExpense implements OtherExpense, Expe
             if (mealType.startsWith(meal)) {
                 final String[] typeCodes = mealType.split("=")[1].split(",");
                 for (final String typeCode : typeCodes) {
-                    if (getTravelExpenseTypeCode() != null && typeCode.equals(getTravelExpenseTypeCode().getCode())) {
+                    if (getExpenseTypeObjectCode() != null && typeCode.equals(getExpenseTypeObjectCode().getExpenseTypeCode())) {
                         return true;
                     }
                 }
@@ -474,12 +455,12 @@ public class ActualExpense extends AbstractExpense implements OtherExpense, Expe
     }
 
     @Override
-    public String getTemExpenseTypeCode(){
-        return temExpenseTypeCode;
+    public String getExpenseLineTypeCode(){
+        return expenseLineTypeCode;
     }
 
     @Override
-    public void setTemExpenseTypeCode(String temExpenseTypeCode) {
-        this.temExpenseTypeCode = temExpenseTypeCode;
+    public void setExpenseLineTypeCode(String expenseLineTypeCode) {
+        this.expenseLineTypeCode = expenseLineTypeCode;
     }
 }

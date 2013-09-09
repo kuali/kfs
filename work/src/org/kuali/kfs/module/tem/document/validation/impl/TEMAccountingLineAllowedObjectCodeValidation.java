@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.fp.businessobject.TravelCompanyCode;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemKeyConstants;
@@ -36,7 +37,6 @@ import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
 import org.kuali.kfs.module.tem.document.web.bean.AccountingLineDistributionKey;
 import org.kuali.kfs.module.tem.service.AccountingDistributionService;
-import org.kuali.kfs.module.tem.util.SourceAccountingLineComparator;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -109,12 +109,15 @@ public class TEMAccountingLineAllowedObjectCodeValidation extends GenericValidat
                 // check to make sure they're the same
                 List<AccountingDistribution> list = SpringContext.getBean(AccountingDistributionService.class).buildDistributionFrom(travelDocument);
                 List<AccountingLineDistributionKey> distributionList = new ArrayList<AccountingLineDistributionKey>();
+                List<String> expectedObjectCodes = new ArrayList<String>();
                 for (AccountingDistribution dist : list) {
                     distributionList.add(new AccountingLineDistributionKey(dist.getObjectCode(), dist.getCardType()));
+                    expectedObjectCodes.add(dist.getObjectCode());
                 }
+                final String expectedObjectCodesString = StringUtils.join(expectedObjectCodes, ", ");
 
                 if (!distributionList.contains(new AccountingLineDistributionKey(line.getFinancialObjectCode(), line.getCardType()))) {
-                    GlobalVariables.getMessageMap().putError(TravelAuthorizationFields.FIN_OBJ_CD, TemKeyConstants.ERROR_TEM_ACCOUNTING_LINES_OBJECT_CODE_CARD_TYPE, line.getFinancialObjectCode(), line.getCardType());
+                    GlobalVariables.getMessageMap().putError(TravelAuthorizationFields.FIN_OBJ_CD, TemKeyConstants.ERROR_TEM_ACCOUNTING_LINES_OBJECT_CODE_CARD_TYPE, line.getFinancialObjectCode(), line.getCardType(), expectedObjectCodesString);
                     valid &= false;
                 }
             }
@@ -144,13 +147,13 @@ public class TEMAccountingLineAllowedObjectCodeValidation extends GenericValidat
                 boolean isCGEnabled = SpringContext.getBean(ParameterService.class).getParameterValueAsBoolean(KFSConstants.CoreModuleNamespaces.CHART, KFSConstants.RouteLevelNames.ACCOUNT, KFSConstants.ChartApcParms.ACCOUNT_FUND_GROUP_DENOTES_CG);
                 if (isCGEnabled){
                     for (TEMExpense expense : allExpenses){
-                        if (expense.getTravelCompanyCodeCode().equals(TemConstants.ExpenseTypes.AIRFARE)){
+                        if (expense.getExpenseTypeCode().equals(TemConstants.ExpenseTypes.AIRFARE)){
                             Map<String,Object> fieldValues = new HashMap<String, Object>();
                             fieldValues.put(KRADPropertyConstants.CODE,TemConstants.ExpenseTypes.AIRFARE);
                             fieldValues.put(KRADPropertyConstants.NAME,expense.getTravelCompanyCodeName());
                             TravelCompanyCode travelCompany = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(TravelCompanyCode.class, fieldValues);
                             if (travelCompany != null && travelCompany.isForeignCompany()){
-                                String financialObjectCode = expense.getTravelExpenseTypeCode() != null ? expense.getTravelExpenseTypeCode().getFinancialObjectCode() : null;
+                                String financialObjectCode = expense.getExpenseTypeObjectCode() != null ? expense.getExpenseTypeObjectCode().getFinancialObjectCode() : null;
                                 if (travelDocument instanceof TravelAuthorizationDocument && expense instanceof ActualExpense){
                                     if (document.getTripType() != null) {
                                         financialObjectCode = document.getTripType().getEncumbranceObjCode();
@@ -185,18 +188,8 @@ public class TEMAccountingLineAllowedObjectCodeValidation extends GenericValidat
                     //figure out where the new accounting line will be added and set the error to that line #
                     if (newLine) {
                         GlobalVariables.getMessageMap().clearErrorPath();
-                        SourceAccountingLineComparator comparator = new SourceAccountingLineComparator();
 
-                        int newIndex = 0;
-                        for (TemSourceAccountingLine sourceLine : (List<TemSourceAccountingLine>)document.getSourceAccountingLines()){
-                            if (comparator.compare(line,sourceLine) < 0){
-                                newIndex = sourceLine.getSequenceNumber().intValue() - 1;
-                                break;
-                            }
-                            else{
-                                newIndex++;
-                            }
-                        }
+                        int newIndex = document.getSourceAccountingLine(document.getSourceAccountingLines().size() - 1).getSequenceNumber() + 1;
                         errorPath = "document." + TemPropertyConstants.SOURCE_ACCOUNTING_LINE + "[" + newIndex + "]";
                         GlobalVariables.getMessageMap().addToErrorPath(errorPath);
                     }

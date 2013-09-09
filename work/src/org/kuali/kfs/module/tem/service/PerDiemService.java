@@ -103,4 +103,9 @@ public interface PerDiemService {
     public KualiDecimal getDailyTotalGrandTotal(TravelDocument travelDocument);
 
     public Integer getMilesGrandTotal(TravelDocument travelDocument);
+
+    /**
+     * @return true if the KFS-TEM / Document / PER_DIEM_CATEGORIES says that per diem is handling lodging; false otherwise
+     */
+    public boolean isPerDiemHandlingLodging();
 }

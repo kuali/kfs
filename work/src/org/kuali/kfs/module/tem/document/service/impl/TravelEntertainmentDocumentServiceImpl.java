@@ -34,7 +34,7 @@ import org.kuali.kfs.module.tem.TemParameterConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.businessobject.ActualExpense;
 import org.kuali.kfs.module.tem.businessobject.Attendee;
-import org.kuali.kfs.module.tem.businessobject.TemTravelExpenseTypeCode;
+import org.kuali.kfs.module.tem.businessobject.ExpenseTypeObjectCode;
 import org.kuali.kfs.module.tem.businessobject.TravelerDetail;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.TravelEntertainmentDocument;
@@ -125,14 +125,14 @@ public class TravelEntertainmentDocumentServiceImpl implements TravelEntertainme
         if (document.getActualExpenses() != null) {
             for (final ActualExpense expense : document.getActualExpenses()) {
                 final Map<String, String> expenseMap = new HashMap<String, String>();
-                expense.refreshReferenceObject(TemPropertyConstants.TRAVEL_EXEPENSE_TYPE_CODE);
-                expenseMap.put("expenseType", expense.getTravelExpenseTypeCode().getName());
+                expense.refreshReferenceObject(TemPropertyConstants.EXPENSE_TYPE_OBJECT_CODE);
+                expenseMap.put("expenseType", expense.getExpenseTypeObjectCode().getExpenseType().getName());
 
                 final KualiDecimal rate = expense.getCurrencyRate();
                 final KualiDecimal amount = expense.getExpenseAmount();
 
                 expenseMap.put("amount", amount.multiply(rate) + "");
-                expenseMap.put("receipt", getReceiptRequired(expense.getTravelExpenseTypeCode()));
+                expenseMap.put("receipt", getReceiptRequired(expense.getExpenseTypeObjectCode()));
                 expenses.add(expenseMap);
             }
         }
@@ -149,13 +149,13 @@ public class TravelEntertainmentDocumentServiceImpl implements TravelEntertainme
         primaryKeys.put(TemPropertyConstants.TRAVELER_TYPE, document.getTraveler().getTravelerTypeCode());
         primaryKeys.put(KFSPropertyConstants.DOCUMENT_TYPE, document.getDocumentTypeName());
 
-        return getReceiptRequired(businessObjectService.findByPrimaryKey(TemTravelExpenseTypeCode.class, primaryKeys));
+        return getReceiptRequired(businessObjectService.findByPrimaryKey(ExpenseTypeObjectCode.class, primaryKeys));
     }
 
-    protected String getReceiptRequired(TemTravelExpenseTypeCode expenseTypeCode) {
+    protected String getReceiptRequired(ExpenseTypeObjectCode expenseTypeCode) {
         String receipt = "-";
-        if(ObjectUtils.isNotNull(expenseTypeCode) && ObjectUtils.isNotNull(expenseTypeCode.getReceiptRequired())) {
-            if(expenseTypeCode.getReceiptRequired()) {
+        if(ObjectUtils.isNotNull(expenseTypeCode) && ObjectUtils.isNotNull(expenseTypeCode.isReceiptRequired())) {
+            if(expenseTypeCode.isReceiptRequired()) {
                 receipt = "Yes";
             } else {
                 receipt = "No";

@@ -18,9 +18,15 @@ package org.kuali.kfs.sys.document.service.impl;
 import static org.kuali.kfs.sys.KFSConstants.GL_CREDIT_CODE;
 import static org.kuali.kfs.sys.KFSConstants.GL_DEBIT_CODE;
 
+import java.util.Properties;
+
 import org.kuali.kfs.coa.businessobject.ObjectCode;
+import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
+import org.kuali.kfs.pdp.PdpPropertyConstants;
+import org.kuali.kfs.pdp.businessobject.PurchasingPaymentDetail;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.KFSParameterKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
@@ -35,9 +41,12 @@ import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.sys.service.HomeOriginationService;
 import org.kuali.kfs.sys.service.OptionsService;
 import org.kuali.kfs.sys.service.UniversityDateService;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.UrlFactory;
 
 public class PaymentSourceHelperServiceImpl implements PaymentSourceHelperService {
     org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PaymentSourceHelperServiceImpl.class);
@@ -47,6 +56,8 @@ public class PaymentSourceHelperServiceImpl implements PaymentSourceHelperServic
     protected GeneralLedgerPendingEntryService generalLedgerPendingEntryService;
     protected BankService bankService;
     protected AccountingDocumentRuleHelperService accountingDocumentRuleHelperService;
+    protected ParameterService parameterService;
+    protected ConfigurationService configurationService;
 
     /**
      * Retrieves the wire transfer information for the current fiscal year.
@@ -227,6 +238,28 @@ public class PaymentSourceHelperServiceImpl implements PaymentSourceHelperServic
     }
 
     /**
+     * Builds a link to a PurchasingPaymentDetail object
+     * @see org.kuali.kfs.sys.document.service.PaymentSourceHelperService#getDisbursementInfoUrl()
+     */
+    @Override
+    public String getDisbursementInfoUrl() {
+        final String basePath = getConfigurationService().getPropertyValueAsString(KFSConstants.APPLICATION_URL_KEY);
+        final String orgCode = getParameterService().getParameterValueAsString(DisbursementVoucherDocument.class, KFSParameterKeyConstants.PdpExtractBatchParameters.PDP_SBUNT_CODE);
+
+        Properties parameters = new Properties();
+        parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.SEARCH_METHOD);
+        parameters.put(KFSConstants.BACK_LOCATION, basePath + "/" + KFSConstants.MAPPING_PORTAL + ".do");
+        parameters.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, PurchasingPaymentDetail.class.getName());
+        parameters.put(KFSConstants.HIDE_LOOKUP_RETURN_LINK, "true");
+        parameters.put(KFSConstants.SUPPRESS_ACTIONS, "false");
+        parameters.put(PdpPropertyConstants.PaymentDetail.PAYMENT_UNIT_CODE, orgCode);
+
+        String lookupUrl = UrlFactory.parameterizeUrl(basePath + "/" + KFSConstants.LOOKUP_ACTION, parameters);
+
+        return lookupUrl;
+    }
+
+    /**
      * @return the implementation of the UniversityDateService to use
      */
     public UniversityDateService getUniversityDateService() {
@@ -250,7 +283,7 @@ public class PaymentSourceHelperServiceImpl implements PaymentSourceHelperServic
 
     /**
      * Sets the implementation of the BusinessObjectService to use
-     * @param universityDateService the implementation of the BusinessObjectService to use
+     * @param businessObjectService the implementation of the BusinessObjectService to use
      */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
@@ -265,7 +298,7 @@ public class PaymentSourceHelperServiceImpl implements PaymentSourceHelperServic
 
     /**
      * Sets the implementation of the GeneralLedgerPendingEntryService to use
-     * @param universityDateService the implementation of the GeneralLedgerPendingEntryService to use
+     * @param generalLedgerPendingEntryService the implementation of the GeneralLedgerPendingEntryService to use
      */
     public void setGeneralLedgerPendingEntryService(GeneralLedgerPendingEntryService generalLedgerPendingEntryService) {
         this.generalLedgerPendingEntryService = generalLedgerPendingEntryService;
@@ -280,7 +313,7 @@ public class PaymentSourceHelperServiceImpl implements PaymentSourceHelperServic
 
     /**
      * Sets the implementation of the BankService to use
-     * @param universityDateService the implementation of the BankService to use
+     * @param bankService the implementation of the BankService to use
      */
     public void setBankService(BankService bankService) {
         this.bankService = bankService;
@@ -295,9 +328,40 @@ public class PaymentSourceHelperServiceImpl implements PaymentSourceHelperServic
 
     /**
      * Sets the implementation of the AccountingDocumentRuleHelperService to use
-     * @param universityDateService the implementation of the AccountingDocumentRuleHelperService to use
+     * @param accountingDocumentRuleService the implementation of the AccountingDocumentRuleHelperService to use
      */
     public void setAccountingDocumentRuleHelperService(AccountingDocumentRuleHelperService accountingDocumentRuleService) {
         this.accountingDocumentRuleHelperService = accountingDocumentRuleService;
     }
+
+    /**
+     * @return the implementation of the ParameterService to use
+     */
+    public ParameterService getParameterService() {
+        return parameterService;
+    }
+
+    /**
+     * Sets the implementation of the ParameterService to use
+     * @param parameterService the implementation of the ParameterService to use
+     */
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
+    }
+
+    /**
+     * @return the implementation of the ConfigurationService to use
+     */
+    public ConfigurationService getConfigurationService() {
+        return configurationService;
+    }
+
+    /**
+     * Sets the implementation of the ConfigurationService to use
+     * @param configurationService the implementation of the ConfigurationService to use
+     */
+    public void setConfigurationService(ConfigurationService configurationService) {
+        this.configurationService = configurationService;
+    }
+
 }

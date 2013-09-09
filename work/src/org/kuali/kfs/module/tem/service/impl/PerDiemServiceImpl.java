@@ -31,6 +31,7 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
+import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemConstants.PerDiemParameter;
 import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationParameters;
 import org.kuali.kfs.module.tem.TemConstants.TravelDocTypes;
@@ -58,6 +59,8 @@ import org.kuali.kfs.module.tem.util.ExpenseUtils;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.api.parameter.ParameterEvaluator;
+import org.kuali.rice.core.api.parameter.ParameterEvaluatorService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -79,6 +82,7 @@ public class PerDiemServiceImpl extends ExpenseServiceBase implements PerDiemSer
     private PerDiemDao perDiemDao;
     private Map<String, MealBreakDownStrategy> mealBreakDownStrategies;
     private String allStateCodes;
+    protected ParameterEvaluatorService parameterEvaluatorService;
 
     Collection<PerDiem> persistedPerDiems;
 
@@ -701,6 +705,12 @@ public class PerDiemServiceImpl extends ExpenseServiceBase implements PerDiemSer
     }
 
     @Override
+    public boolean isPerDiemHandlingLodging() {
+        final ParameterEvaluator evaluator = getParameterEvaluatorService().getParameterEvaluator(TemParameterConstants.TEM_DOCUMENT.class, TemConstants.TravelParameters.PER_DIEM_CATEGORIES, TemConstants.PerDiemType.lodging.name().toUpperCase());
+        return evaluator.evaluationSucceeds();
+    }
+
+    @Override
     public void processExpense(TravelDocument travelDocument) {
         //do nothing
     }
@@ -737,4 +747,11 @@ public class PerDiemServiceImpl extends ExpenseServiceBase implements PerDiemSer
         form.setShowPerDiemBreakdown(showPerDiemBreakdown);
     }
 
+    public ParameterEvaluatorService getParameterEvaluatorService() {
+        return parameterEvaluatorService;
+    }
+
+    public void setParameterEvaluatorService(ParameterEvaluatorService parameterEvaluatorService) {
+        this.parameterEvaluatorService = parameterEvaluatorService;
+    }
 }

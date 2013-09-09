@@ -101,7 +101,7 @@ public class TravelEncumbranceServiceImpl implements TravelEncumbranceService {
 
             final Iterator<Encumbrance> encumbranceIterator = encumbranceService.findOpenEncumbrance(criteria, false);
             while (encumbranceIterator.hasNext()) {
-                liquidateEncumbrance(encumbranceIterator.next(), sequenceHelper, travelAuthDocument);
+                liquidateEncumbrance(encumbranceIterator.next(), sequenceHelper, travelAuthDocument, true);
             }
         }
     }
@@ -128,14 +128,20 @@ public class TravelEncumbranceServiceImpl implements TravelEncumbranceService {
     }
 
     /**
-     * @see org.kuali.kfs.module.tem.document.service.TravelEncumbranceService#liquidateEncumbrance(org.kuali.kfs.gl.businessobject.Encumbrance, org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper, org.kuali.kfs.module.tem.document.TravelDocument)
+     * @see org.kuali.kfs.module.tem.document.service.TravelEncumbranceService#liquidateEncumbrance(org.kuali.kfs.gl.businessobject.Encumbrance, org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper, org.kuali.kfs.module.tem.document.TravelDocument, boolean)
      */
     @Override
-    public void liquidateEncumbrance(final Encumbrance encumbrance, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, TravelDocument document) {
+    public void liquidateEncumbrance(final Encumbrance encumbrance, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, TravelDocument document, boolean approveImmediately) {
         if (encumbrance.getAccountLineEncumbranceOutstandingAmount().isGreaterThan(KualiDecimal.ZERO)) {
             GeneralLedgerPendingEntry pendingEntry = this.setupPendingEntry(encumbrance, sequenceHelper, document);
+            if (!approveImmediately) {
+                pendingEntry.setFinancialDocumentApprovedCode(null);
+            }
             sequenceHelper.increment();
             GeneralLedgerPendingEntry offsetEntry = this.setupOffsetEntry(encumbrance, sequenceHelper, document, pendingEntry);
+            if (!approveImmediately) {
+                offsetEntry.setFinancialDocumentApprovedCode(null);
+            }
             sequenceHelper.increment();
 
             final KualiDecimal amount = encumbrance.getAccountLineEncumbranceOutstandingAmount();
@@ -203,7 +209,7 @@ public class TravelEncumbranceServiceImpl implements TravelEncumbranceService {
         int counter = document.getGeneralLedgerPendingEntries().size() + 1;
         GeneralLedgerPendingEntrySequenceHelper sequenceHelper = new GeneralLedgerPendingEntrySequenceHelper(counter);
         for (Encumbrance encumbrance : encumbrances) {
-            liquidateEncumbrance(encumbrance, sequenceHelper, document);
+            liquidateEncumbrance(encumbrance, sequenceHelper, document, true);
         }
     }
 
@@ -230,7 +236,7 @@ public class TravelEncumbranceServiceImpl implements TravelEncumbranceService {
         }
         while (pendingEntriesIterator.hasNext()) {
             final GeneralLedgerPendingEntry pendingEntry = pendingEntriesIterator.next();
-            if (StringUtils.isBlank(skipDocumentNumber) || skipDocumentNumber.equals(pendingEntry.getDocumentNumber())) {
+            if (StringUtils.isBlank(skipDocumentNumber) || !skipDocumentNumber.equals(pendingEntry.getDocumentNumber())) {
                 Encumbrance encumbrance = getEncumbranceCalculator().findEncumbrance(allEncumbrances, pendingEntry); // thank you, dear genius who extracted EncumbranceCalculator!
                 if (encumbrance != null) {
                     getEncumbranceCalculator().updateEncumbrance(pendingEntry, encumbrance);
@@ -307,7 +313,7 @@ public class TravelEncumbranceServiceImpl implements TravelEncumbranceService {
             //Find any remaining encumbrances that no longer should exist in the new TAA.
             if (!encumbranceMap.isEmpty()) {
                 for (final Encumbrance encumbrance : encumbranceMap.values()) {
-                    liquidateEncumbrance(encumbrance, sequenceHelper, document);
+                    liquidateEncumbrance(encumbrance, sequenceHelper, document, false);
                 }
             }
 

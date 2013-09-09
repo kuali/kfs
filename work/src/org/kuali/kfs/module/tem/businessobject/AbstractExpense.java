@@ -30,12 +30,15 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.fp.businessobject.TravelCompanyCode;
 import org.kuali.kfs.module.tem.service.TravelExpenseService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 @Entity
 @Table(name="tem_trvl_exp_t")
@@ -51,18 +54,18 @@ public abstract class AbstractExpense extends PersistableBusinessObjectBase impl
     private Date expenseDate;
     private KualiDecimal expenseAmount = new KualiDecimal(0.00);
     private Boolean nonReimbursable = Boolean.FALSE;
-    private Long travelExpenseTypeCodeId;
-    private TemTravelExpenseTypeCode travelExpenseTypeCode;
+    private Long expenseTypeObjectCodeId;
+    private ExpenseTypeObjectCode expenseTypeObjectCode;
+    private ExpenseType expenseType;
     private Long expenseParentId;
     private String description;
     private KualiDecimal currencyRate = new KualiDecimal(1.00);
     private String travelCompanyCodeName;
     private TravelCompanyCode travelCompanyCode;
-    private String travelCompanyCodeCode;
+    private String expenseTypeCode;
     private Boolean taxable = Boolean.FALSE;
     private Boolean missingReceipt = Boolean.FALSE;
     private KualiDecimal convertedAmount;
-    private String temExpenseTypeCode = "";
     private List<TEMExpense> expenseDetails = new ArrayList<TEMExpense>();
 
     @Override
@@ -196,35 +199,34 @@ public abstract class AbstractExpense extends PersistableBusinessObjectBase impl
         this.expenseAmount = expenseAmount;
     }
 
-    /**
-     * Gets the value of travelExpenseTypeCodeCode
-     *
-     * @return the value of travelExpenseTypeCodeCode
-     */
     @Override
-    public String getTravelExpenseTypeCodeCode() {
-        TemTravelExpenseTypeCode ttetc = getTravelExpenseTypeCode();
-        if (ttetc != null) {
-            return ttetc.getCode();
-        }
-        return null;
+    public Long getExpenseTypeObjectCodeId() {
+        return expenseTypeObjectCodeId;
+    }
+
+    @Override
+    public void setExpenseTypeObjectCodeId(Long expenseTypeObjectCodeId) {
+        this.expenseTypeObjectCodeId = expenseTypeObjectCodeId;
     }
 
     /**
-     * Gets the value of travelExpenseTypeCode
+     * Gets the value of expense type object code
      *
-     * @return the value of travelExpenseTypeCode
+     * @return the value of expense type object code
      */
     @Override
-    @ManyToOne
-    @JoinColumn(name="DV_EXP_CD",nullable=false)
-    public TemTravelExpenseTypeCode getTravelExpenseTypeCode() {
-        if (travelExpenseTypeCodeId != null && travelExpenseTypeCode == null) {
-            travelExpenseTypeCode = SpringContext.getBean(TravelExpenseService.class).getExpenseType(travelExpenseTypeCodeId);
-        } else if (travelExpenseTypeCodeId == null){
-            this.travelExpenseTypeCode = null;
-        }
-        return this.travelExpenseTypeCode;
+    public ExpenseTypeObjectCode getExpenseTypeObjectCode() {
+        return this.expenseTypeObjectCode;
+    }
+
+    /**
+     * Sets the value of the expense type object code
+     * @param expenseTypeObjectCode the expense type object code value to set
+     * @see org.kuali.kfs.module.tem.businessobject.TEMExpense#setExpenseTypeObjectCode(org.kuali.kfs.module.tem.businessobject.ExpenseTypeObjectCode)
+     */
+    @Override
+    public void setExpenseTypeObjectCode(ExpenseTypeObjectCode expenseTypeObjectCode) {
+        this.expenseTypeObjectCode = expenseTypeObjectCode;
     }
 
     /**
@@ -232,10 +234,10 @@ public abstract class AbstractExpense extends PersistableBusinessObjectBase impl
      *
      * @param argTravelExpenseTypeCode Value to assign to this.travelExpenseTypeCode
      */
-    @Override
-    public void setTravelExpenseTypeCode(final TemTravelExpenseTypeCode argTravelExpenseTypeCode) {
-        this.travelExpenseTypeCode = argTravelExpenseTypeCode;
+    public void setTravelExpenseTypeCode(final ExpenseTypeObjectCode argTravelExpenseTypeCode) {
+        this.expenseTypeObjectCode = argTravelExpenseTypeCode;
     }
+
 
     /**
      * Gets the value of description
@@ -375,34 +377,38 @@ public abstract class AbstractExpense extends PersistableBusinessObjectBase impl
     }
 
     /**
-     * Gets the travelCompanyCodeCode attribute.
-     * @return Returns the travelCompanyCodeCode.
+     * Gets the expenseTypeCode attribute.
+     * @return Returns the expenseTypeCode.
      */
     @Override
-    public String getTravelCompanyCodeCode() {
-        if (travelCompanyCodeCode == null && travelExpenseTypeCode != null){
-            travelCompanyCodeCode = travelExpenseTypeCode.getCode();
-        }
-        else if (travelExpenseTypeCodeId != null && travelCompanyCodeCode == null){
-            setTravelCompanyCodeCode(getTravelExpenseTypeCode().getCode());
-        }
-        return travelCompanyCodeCode;
+    public String getExpenseTypeCode() {
+        return expenseTypeCode;
     }
 
     /**
-     * Sets the travelCompanyCodeCode attribute value.
-     * @param travelCompanyCodeCode The travelCompanyCodeCode to set.
+     * Sets the expenseTypeCode attribute value.
+     * @param expenseTypeCode The expenseTypeCode to set.
      */
-    public void setTravelCompanyCodeCode(String travelCompanyCodeCode) {
-        this.travelCompanyCodeCode = travelCompanyCodeCode;
-        if (travelCompanyCodeCode != null){
-            TravelExpenseService service = SpringContext.getBean(TravelExpenseService.class);
-            Long id = service.getExpenseTypeId(travelCompanyCodeCode, documentNumber);
-            this.travelExpenseTypeCodeId = id;
-        }
-        else{
-            travelExpenseTypeCode = null;
-            this.travelExpenseTypeCodeId = null;
+    public void setExpenseTypeCode(String travelCompanyCodeCode) {
+        this.expenseTypeCode = travelCompanyCodeCode;
+    }
+
+    /**
+     *
+     * @see org.kuali.kfs.module.tem.businessobject.TEMExpense#refreshExpenseTypeObjectCode(java.lang.String, java.lang.String)
+     */
+    @Override
+    public void refreshExpenseTypeObjectCode(String documentTypeName, String travelerTypeCode, String tripTypeCode) {
+        final ExpenseTypeObjectCode expenseTypeObjectCode = SpringContext.getBean(TravelExpenseService.class).getExpenseType(expenseTypeCode, documentTypeName, tripTypeCode, travelerTypeCode);
+        if (expenseTypeObjectCode != null) {
+            this.expenseTypeObjectCodeId = expenseTypeObjectCode.getExpenseTypeObjectCodeId();
+            this.expenseTypeObjectCode = expenseTypeObjectCode;
+
+            // and set this on details
+            for (TEMExpense detail : getExpenseDetails()) {
+                detail.setExpenseTypeObjectCodeId(expenseTypeObjectCode.getExpenseTypeObjectCodeId());
+                detail.setExpenseTypeObjectCode(expenseTypeObjectCode);
+            }
         }
     }
 
@@ -434,6 +440,23 @@ public abstract class AbstractExpense extends PersistableBusinessObjectBase impl
     @Override
     public void setExpenseDetails(List<TEMExpense> expenseDetails) {
         this.expenseDetails = expenseDetails;
+    }
+
+    /**
+     * @return the expense type associated with this expense.  expenseTypeCode is not persisted, so we first look at what is persisted:
+     * expenseTypeObjectCode; then it tries to pull back via the expenseTypeCode
+     */
+    public ExpenseType getExpenseType() {
+        if (ObjectUtils.isNull(expenseType) || !expenseType.getCode().equals(expenseTypeCode)) {
+            if (!ObjectUtils.isNull(expenseTypeObjectCode)) {
+                expenseType = expenseTypeObjectCode.getExpenseType();
+            } else if (!StringUtils.isBlank(expenseTypeCode)) {
+                expenseType = SpringContext.getBean(BusinessObjectService.class).findBySinglePrimaryKey(ExpenseType.class, expenseTypeCode);
+            } else {
+                expenseType = null;
+            }
+        }
+        return expenseType;
     }
 
     @SuppressWarnings("rawtypes")
@@ -485,16 +508,6 @@ public abstract class AbstractExpense extends PersistableBusinessObjectBase impl
     protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         // TODO Auto-generated method stub
         return null;
-    }
-
-    @Override
-    public Long getTravelExpenseTypeCodeId() {
-        return travelExpenseTypeCodeId;
-    }
-
-    @Override
-    public void setTravelExpenseTypeCodeId(Long travelExpenseTypeCodeId) {
-        this.travelExpenseTypeCodeId = travelExpenseTypeCodeId;
     }
 
     /**

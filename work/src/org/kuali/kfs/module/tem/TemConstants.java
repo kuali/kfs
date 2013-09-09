@@ -144,6 +144,8 @@ public class TemConstants {
         public static final String RELOCATION_WIRE_OR_FOREIGN_DRAFT_DOCUMENT = "REWF";
         public static final String TRAVEL_CTS_CARD_DOCUMENT = "CTAP";
         public static final String TRAVEL_CORP_CARD_DOCUMENT = "CCAP";
+        public static final String TEM_TRANSACTIONAL_DOCUMENT = "TT";
+        public static final String TRAVEL_TRANSACTIONAL_DOCUMENT = "TRV";
 
         public static List<String> getAuthorizationDocTypes(){
             List<String> authorizationDocTypes = new ArrayList<String>();
@@ -355,6 +357,9 @@ public class TemConstants {
     public static final String TRAVEL_ADVANCE_ACCOUNTING_LINE_GROUP_NAME = "advance";
     public static final String TRAVEL_ADVANCE_CLEARING_LINE_TYPE_CODE = "B";
     public static final String TRAVEL_ADVANCE_CREDITING_LINE_TYPE_CODE = "C";
+
+    public static final String ALL_EXPENSE_TYPE_OBJECT_CODE_TRIP_TYPE = "All";
+    public static final String ALL_EXPENSE_TYPE_OBJECT_CODE_TRAVELER_TYPE = "All";
 
     public static final Map<String, Class> uncopyableFieldsForTravelAuthorization() {
         Map<String, Class> returnMap = new HashMap<String, Class>();
@@ -871,12 +876,6 @@ public class TemConstants {
 
     public static final String TRAVEL_EXPENSES_KEY = "travelExpenses";
     public static final String TRAVELER_PROFILE_KEY = "travelerProfile";
-
-    public static final class DisbursementVoucherPaymentMethods {
-        public static final String CHECK_ACH_PAYMENT_METHOD_CODE = "P";
-        public static final String WIRE_TRANSFER_PAYMENT_METHOD_CODE = "W";
-        public static final String FOREIGN_DRAFT_PAYMENT_METHOD_CODE = "F";
-    }
 
     public static final class ExpenseTypeReimbursementCodes {
         public static final String ALL = "A";

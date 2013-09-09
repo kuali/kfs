@@ -34,10 +34,10 @@ import org.junit.Test;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemConstants.TravelParameters;
 import org.kuali.kfs.module.tem.businessobject.ActualExpense;
+import org.kuali.kfs.module.tem.businessobject.ExpenseTypeObjectCode;
 import org.kuali.kfs.module.tem.businessobject.MileageRate;
 import org.kuali.kfs.module.tem.businessobject.PerDiem;
 import org.kuali.kfs.module.tem.businessobject.PerDiemExpense;
-import org.kuali.kfs.module.tem.businessobject.TemTravelExpenseTypeCode;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.service.impl.TravelDocumentServiceImpl;
@@ -60,8 +60,8 @@ public class TravelDocumentServiceTest extends KualiTestBase {
     private TravelDocumentService travelDocumentService;
     private ParameterService parameterService;
     private DateTimeService dateTimeService;
-    private TemTravelExpenseTypeCode mileageType = new TemTravelExpenseTypeCode();
-    private TemTravelExpenseTypeCode airfareType = new TemTravelExpenseTypeCode();
+    private ExpenseTypeObjectCode mileageType = new ExpenseTypeObjectCode();
+    private ExpenseTypeObjectCode airfareType = new ExpenseTypeObjectCode();
 
     private static final int ONE_DAY = 86400;
     private static final int EXPENSE_AMOUNT = 100;
@@ -79,8 +79,8 @@ public class TravelDocumentServiceTest extends KualiTestBase {
     protected void setUp() throws Exception {
         super.setUp();
 
-        mileageType.setCode(TravelParameters.MILEAGE_EXPENSE_TYPE);
-        airfareType.setCode(TravelParameters.AIRFARE_EXPENSE_TYPE);
+        mileageType.setExpenseTypeCode(TravelParameters.MILEAGE_EXPENSE_TYPE);
+        airfareType.setExpenseTypeCode(TravelParameters.AIRFARE_EXPENSE_TYPE);
 
         final TravelDocumentService travelDocumentServiceTemp = SpringContext.getBean(TravelDocumentServiceImpl.class);
         parameterService = SpringContext.getBean(ParameterService.class);
@@ -820,16 +820,16 @@ public class TravelDocumentServiceTest extends KualiTestBase {
         assertFalse(isHostedMeal);
 
         ActualExpense ote = new ActualExpense();
-        TemTravelExpenseTypeCode travelExpenseTypeCode = new TemTravelExpenseTypeCode();
+        ExpenseTypeObjectCode travelExpenseTypeCode = new ExpenseTypeObjectCode();
 
         // test with HOSTED_BREAKFAST travelExpenseTypeCode
-        travelExpenseTypeCode.setCode(HOSTED_BREAKFAST);
+        travelExpenseTypeCode.setExpenseTypeCode(HOSTED_BREAKFAST);
         ote.setTravelExpenseTypeCode(travelExpenseTypeCode);
         isHostedMeal = travelDocumentService.isHostedMeal(ote);
         assertTrue(isHostedMeal);
 
         // test with AIRLINE_EXPENSE_TYPE_CODE travelExpenseTypeCode
-        travelExpenseTypeCode.setCode(AIRLINE_EXPENSE_TYPE_CODE);
+        travelExpenseTypeCode.setExpenseTypeCode(AIRLINE_EXPENSE_TYPE_CODE);
         isHostedMeal = travelDocumentService.isHostedMeal(ote);
         assertFalse(isHostedMeal);
     }

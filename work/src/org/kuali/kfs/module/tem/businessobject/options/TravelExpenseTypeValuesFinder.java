@@ -18,103 +18,56 @@ package org.kuali.kfs.module.tem.businessobject.options;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.tem.TemConstants;
-import org.kuali.kfs.module.tem.TemPropertyConstants;
-import org.kuali.kfs.module.tem.businessobject.TemTravelExpenseTypeCode;
+import org.kuali.kfs.module.tem.businessobject.ExpenseType;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
 import org.kuali.kfs.module.tem.document.web.struts.TravelFormBase;
+import org.kuali.kfs.module.tem.service.TravelExpenseService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.kns.web.struts.form.KualiForm;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
-import org.kuali.rice.krad.service.KeyValuesService;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 @SuppressWarnings("deprecation")
 public class TravelExpenseTypeValuesFinder extends KeyValuesBase {
-
-    private String groupTravelCount;
-    private String tripType;
-    private String travelerType;
-    private String documentType;
-
     /**
      * @see org.kuali.rice.krad.keyvalues.KeyValuesFinder#getKeyValues()
      */
     @Override
     public List<KeyValue> getKeyValues() {
-        List<TemTravelExpenseTypeCode> boList = (List<TemTravelExpenseTypeCode>) SpringContext.getBean(KeyValuesService.class).findAllOrderBy(TemTravelExpenseTypeCode.class, TemPropertyConstants.NAME, true);
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
         keyValues.add(new ConcreteKeyValue("", ""));
 
-        // defaults
-        if (groupTravelCount == null) {
-            groupTravelCount = "0";
-        }
+        final KualiForm kualiForm = KNSGlobalVariables.getKualiForm();
+        String documentType = TemConstants.TravelDocTypes.TEM_TRANSACTIONAL_DOCUMENT;
+        String tripType = null;
+        String travelerType = null;
+        boolean groupOnly = false;
+        if (kualiForm != null && kualiForm instanceof TravelFormBase) {
+            final TravelFormBase travelDocForm = (TravelFormBase)kualiForm;
+            final TravelDocument travelDocument = travelDocForm.getTravelDocument();
 
-        if (tripType == null) {
-            tripType = TemConstants.BLANKET_IN_STATE;
-        }
+            documentType = SpringContext.getBean(TravelDocumentService.class).getDocumentType(travelDocument);
 
-        if (travelerType == null) {
-            travelerType = TemConstants.EMP_TRAVELER_TYP_CD;
-        }
-
-        if (documentType == null) {
-            TravelFormBase form = (TravelFormBase) KNSGlobalVariables.getKualiForm();
-            TravelDocument travelDocument = form != null ? form.getTravelDocument() : null;
-
-            String documentType = SpringContext.getBean(TravelDocumentService.class).getDocumentType(travelDocument);
-        }
-
-        if (documentType != null && (documentType.equals(TemConstants.TravelDocTypes.TRAVEL_AUTHORIZATION_AMEND_DOCUMENT) || documentType.equals(TemConstants.TravelDocTypes.TRAVEL_AUTHORIZATION_CLOSE_DOCUMENT))) {
-            documentType = TemConstants.TravelDocTypes.TRAVEL_AUTHORIZATION_DOCUMENT;
-        }
-
-        for (TemTravelExpenseTypeCode temTravelExpenseTypeCode : boList) {
-            if (temTravelExpenseTypeCode.isActive()) {
-                if (temTravelExpenseTypeCode.getIndividual() || (temTravelExpenseTypeCode.getGroupTravel() && groupTravelCount != null && Integer.parseInt(groupTravelCount) > 0)) {
-                    if (temTravelExpenseTypeCode.getTripType().equals(tripType) && temTravelExpenseTypeCode.getTravelerType().equals(travelerType) && temTravelExpenseTypeCode.getDocumentType().equals(documentType)) {
-                        keyValues.add(new ConcreteKeyValue(temTravelExpenseTypeCode.getCode(), temTravelExpenseTypeCode.getCodeAndDescription()));
-                    }
-                }
+            if (!StringUtils.isBlank(travelDocument.getTripTypeCode())) {
+                tripType = travelDocument.getTripTypeCode();
+            }
+            if (!ObjectUtils.isNull(travelDocument.getTraveler()) && !StringUtils.isBlank(travelDocument.getTraveler().getTravelerTypeCode())) {
+                travelerType = travelDocument.getTraveler().getTravelerTypeCode();
             }
         }
 
+        final List<ExpenseType> expenseTypes = SpringContext.getBean(TravelExpenseService.class).getExpenseTypesForDocument(documentType, tripType, travelerType, groupOnly);
+        for (ExpenseType expenseType : expenseTypes) {
+            keyValues.add(new ConcreteKeyValue(expenseType.getCode(), expenseType.getCodeAndDescription()));
+        }
+
         return keyValues;
-    }
-
-    public String getGroupTravelCount() {
-        return groupTravelCount;
-    }
-
-    public void setGroupTravelCount(String groupTravelCount) {
-        this.groupTravelCount = groupTravelCount;
-    }
-
-    public String getTripType() {
-        return tripType;
-    }
-
-    public void setTripType(String tripType) {
-        this.tripType = tripType;
-    }
-
-    public String getTravelerType() {
-        return travelerType;
-    }
-
-    public void setTravelerType(String travelerType) {
-        this.travelerType = travelerType;
-    }
-
-    public String getDocumentType() {
-        return documentType;
-    }
-
-    public void setDocumentType(String documentType) {
-        this.documentType = documentType;
     }
 
 }

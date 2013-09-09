@@ -112,8 +112,9 @@ public interface TravelEncumbranceService {
      *        info
      * @param sequenceHelper The current sequence
      * @param taDocument The document the entries are added to.
+     * @param approveImmediately determines whether the generated GLPEs will be preset to approved or will wait until the document has routed to processed
      */
-    public void liquidateEncumbrance(final Encumbrance encumbrance, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, TravelDocument document);
+    public void liquidateEncumbrance(final Encumbrance encumbrance, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, TravelDocument document, boolean approveImmediately);
 
     /**
      * Converts an {@link Encumbrance} instance to a {@link GeneralLedgerPendingEntrySourceDetail}. The purpose is to create

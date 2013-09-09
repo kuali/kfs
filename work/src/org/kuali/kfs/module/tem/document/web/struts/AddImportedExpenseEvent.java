@@ -53,7 +53,7 @@ public class AddImportedExpenseEvent implements Observer {
         final ImportedExpense newImportedExpenseLine = wrapper.getNewImportedExpenseLine();
 
         if(newImportedExpenseLine != null){
-            newImportedExpenseLine.refreshReferenceObject(TemPropertyConstants.TRAVEL_EXEPENSE_TYPE_CODE);
+            newImportedExpenseLine.refreshReferenceObject(TemPropertyConstants.EXPENSE_TYPE_OBJECT_CODE);
         }
 
         boolean rulePassed = true;
@@ -73,7 +73,7 @@ public class AddImportedExpenseEvent implements Observer {
                 newExpense.setExpenseParentId(newExpense.getId());
                 newExpense.setId(null);
                 newExpense.setNotes(null);
-                newExpense.setTemExpenseTypeCode(null);
+                newExpense.setExpenseLineTypeCode(null);
             }
             catch (IllegalAccessException ex) {
                 // TODO Auto-generated catch block

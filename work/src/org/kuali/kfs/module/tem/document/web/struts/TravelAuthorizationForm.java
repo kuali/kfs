@@ -42,6 +42,7 @@ import org.kuali.kfs.module.tem.service.TravelService;
 import org.kuali.kfs.module.tem.util.MessageUtils;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.core.web.format.CurrencyFormatter;
 import org.kuali.rice.kns.web.ui.ExtraButton;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DataDictionaryService;
@@ -472,6 +473,21 @@ public class TravelAuthorizationForm extends TravelFormBase implements TravelAut
      */
     public void setAdvanceAccountingFile(FormFile advanceFile) {
         this.advanceAccountingFile = advanceFile;
+    }
+
+    /**
+     * Retrieves the advance accounting lines total in a currency format with commas.
+     * @return the currency formatted total
+     */
+    public String getCurrencyFormattedAdvanceTotal() {
+        return (String) new CurrencyFormatter().format(getTravelAuthorizationDocument().getAdvanceTotal());
+    }
+
+    public boolean isAdvancePdpStatusTabShown() {
+        if (getTravelDocument() != null) {
+            return getTravelAuthorizationDocument().shouldProcessAdvanceForDocument();
+        }
+        return false;
     }
 
 }

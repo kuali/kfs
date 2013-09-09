@@ -25,19 +25,12 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.businessobject.TemRegion;
-import org.kuali.kfs.module.tem.document.TravelDocument;
-import org.kuali.kfs.module.tem.document.web.struts.TravelFormBase;
 import org.kuali.kfs.module.tem.service.TravelService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.kew.api.exception.WorkflowException;
-import org.kuali.rice.kns.util.KNSGlobalVariables;
-import org.kuali.rice.kns.web.struts.form.KualiForm;
-import org.kuali.rice.kns.web.struts.form.LookupForm;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.krad.service.DocumentService;
 
 public class TemRegionValuesFinder extends KeyValuesBase {
 
@@ -48,28 +41,28 @@ public class TemRegionValuesFinder extends KeyValuesBase {
     @Override
     public List<KeyValue> getKeyValues() {
 
-        KualiForm form = KNSGlobalVariables.getKualiForm();
+   //     KualiForm form = KNSGlobalVariables.getKualiForm();
         String tripTypeCode = "";
 
-        if (form instanceof LookupForm) {
-            LookupForm lookupForm = (LookupForm)form;
-            final String docNum = lookupForm.getDocNum();
-            if(!StringUtils.isBlank(docNum)) {
-               TravelDocument document = null;
-               try {
-                   document = (TravelDocument)SpringContext.getBean(DocumentService.class).getByDocumentHeaderIdSessionless(docNum);
-               } catch (WorkflowException ex) {
-                // TODO Auto-generated catch block
-                ex.printStackTrace();
-               }
-        //       tripTypeCode = document.getTripTypeCode();
-            }
-        }
-        if (form instanceof TravelFormBase) {
-
-            TravelDocument document = ((TravelFormBase)form).getTravelDocument();
-            tripTypeCode = document.getTripTypeCode();
-        }
+//        if (form instanceof LookupForm) {
+//            LookupForm lookupForm = (LookupForm)form;
+//            final String docNum = lookupForm.getDocNum();
+//            if(!StringUtils.isBlank(docNum)) {
+//               TravelDocument document = null;
+//               try {
+//                   document = (TravelDocument)SpringContext.getBean(DocumentService.class).getByDocumentHeaderIdSessionless(docNum);
+//               } catch (WorkflowException ex) {
+//                // TODO Auto-generated catch block
+//                ex.printStackTrace();
+//               }
+//        //       tripTypeCode = document.getTripTypeCode();
+//            }
+//        }
+//        if (form instanceof TravelFormBase) {
+//
+//            TravelDocument document = ((TravelFormBase)form).getTravelDocument();
+//            tripTypeCode = document.getTripTypeCode();
+//        }
 
 
 

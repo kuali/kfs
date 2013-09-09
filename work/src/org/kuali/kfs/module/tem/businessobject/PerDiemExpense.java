@@ -699,4 +699,25 @@ public class PerDiemExpense extends PersistableBusinessObjectBase {
     public void setProrated(boolean prorated) {
         this.prorated = prorated;
     }
+
+    /**
+     * Gets the countryStateText attribute.
+     *
+     * @return Returns the countryStateText
+     */
+
+    public String getCountryStateText() {
+        return countryState;
+    }
+
+    /**
+     * Sets the countryStateText attribute.
+     *
+     * @param countryStateText The countryStateText to set.
+     */
+    public void setCountryStateText(String countryState) {
+        this.countryState = countryState;
+    }
+
+
 }

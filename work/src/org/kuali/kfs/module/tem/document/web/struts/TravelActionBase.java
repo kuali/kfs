@@ -308,6 +308,10 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
             request.setAttribute(DELINQUENT_TEST_ATTRIBUTE, document.getDelinquentAction());
         }
 
+        if (document.shouldRefreshExpenseTypeObjectCode()) {
+            document.refreshExpenseTypeObjectCodesForExpenses();
+        }
+
         ExpenseUtils.calculateMileage(document.getActualExpenses());
 
         final ActionForward retval = super.execute(mapping, form, request, response);
@@ -456,7 +460,7 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
             for (ActualExpense actualExpense : actualExpenses) {
                 ActualExpense newActualExpenseLine = new ActualExpense();
                 newActualExpenseLine.setExpenseDate(actualExpense.getExpenseDate());
-                newActualExpenseLine.setTravelExpenseTypeCodeId(actualExpense.getTravelExpenseTypeCodeId());
+                newActualExpenseLine.setExpenseTypeObjectCodeId(actualExpense.getExpenseTypeObjectCodeId());
                 newActualExpenseLine.setExpenseParentId(actualExpense.getId());
 
                 newActualExpenseLines.add(newActualExpenseLine);
@@ -792,15 +796,28 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
             return null;
         }
 
-        Map<String, String> parameters = request.getParameterMap();
+        Map parameters = request.getParameterMap();
         Set<String> parameterKeys = parameters.keySet();
         for (String parameterKey : parameterKeys) {
             if (StringUtils.containsIgnoreCase(parameterKey, TemPropertyConstants.PER_DIEM_EXP)) {
                 // its one of the numbered lines, lets
                 int estimateLineNum = getLineNumberFromParameter(parameterKey);
                 PerDiemExpense expense = document.getPerDiemExpenses().get(estimateLineNum);
-                expense.refreshReferenceObject("perDiem");
-                PerDiem perDiem = expense.getPerDiem();
+
+                String[] priDestId = (String[])parameters.get(parameterKey);
+                PerDiem perDiem = null;
+                if (expense.getPerDiem().getPrimaryDestinationId().equals(new Integer(priDestId[0]))) {
+
+                    expense.refreshReferenceObject("perDiem");
+                    perDiem = expense.getPerDiem();
+                } else {
+                  BusinessObjectService boService =  SpringContext.getBean(BusinessObjectService.class);
+                  Map<String, String> fieldValues = new HashMap<String, String>();
+                  fieldValues.put("active", "Y");
+                  fieldValues.put("primaryDestinationId", priDestId[0]);
+
+                  perDiem = boService.findMatching(PerDiem.class, fieldValues).iterator().next();
+                }
 
                 // now copy info over to estimate
                 expense.setPerDiem(perDiem);

@@ -160,9 +160,9 @@ public class SummaryByDayReportServiceImpl implements SummaryByDayReportService 
         }
 
         for (final ActualExpense expense : travelDocument.getActualExpenses()) {
-            expense.refreshReferenceObject(TemPropertyConstants.TRAVEL_EXEPENSE_TYPE_CODE);
+            expense.refreshReferenceObject(TemPropertyConstants.EXPENSE_TYPE_OBJECT_CODE);
             final String expenseDate = monthDay.format(expense.getExpenseDate());
-            final SummaryByDayReport.Detail detail = new SummaryByDayReport.Detail(expense.getTravelExpenseTypeCode().getName()==null?"":expense.getTravelExpenseTypeCode().getName(), expense.getExpenseAmount().multiply(expense.getCurrencyRate()), expenseDate);
+            final SummaryByDayReport.Detail detail = new SummaryByDayReport.Detail(expense.getExpenseTypeObjectCode().getExpenseType().getName()==null?"":expense.getExpenseTypeObjectCode().getExpenseType().getName(), expense.getExpenseAmount().multiply(expense.getCurrencyRate()), expenseDate);
 
             if (isTransportationExpense(expense)) {
                 transportation.add(detail);
@@ -225,12 +225,12 @@ public class SummaryByDayReportServiceImpl implements SummaryByDayReportService 
 
     protected boolean isTransportationExpense(final ActualExpense expense) {
         LOG.debug("Checking if "+ expense+ " is a transportation ");
-        return expenseTypeCodeMatchesParameter(expense.getTravelExpenseTypeCodeCode(), TRANSPORTATION_TYPE_CODES);
+        return expenseTypeCodeMatchesParameter(expense.getExpenseTypeCode(), TRANSPORTATION_TYPE_CODES);
     }
 
     protected boolean isLodgingExpense(final ActualExpense expense) {
         LOG.debug("Checking if "+ expense+ " is a lodging ");
-        return expenseTypeCodeMatchesParameter(expense.getTravelExpenseTypeCodeCode(), LODGING_TYPE_CODES);
+        return expenseTypeCodeMatchesParameter(expense.getExpenseTypeCode(), LODGING_TYPE_CODES);
     }
 
     protected boolean isMealsExpense(final ActualExpense expense) {

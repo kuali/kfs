@@ -91,6 +91,7 @@ import org.kuali.kfs.module.tem.document.service.TravelReimbursementService;
 import org.kuali.kfs.module.tem.document.web.struts.TravelFormBase;
 import org.kuali.kfs.module.tem.exception.UploadParserException;
 import org.kuali.kfs.module.tem.service.CsvRecordFactory;
+import org.kuali.kfs.module.tem.service.PerDiemService;
 import org.kuali.kfs.module.tem.service.TEMRoleService;
 import org.kuali.kfs.module.tem.service.TravelerService;
 import org.kuali.kfs.module.tem.util.ExpenseUtils;
@@ -169,6 +170,8 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
     private List<String> defaultAcceptableFileExtensions;
     private CsvRecordFactory<GroupTravelerCsvRecord> csvRecordFactory;
     protected volatile AccountsReceivableModuleService accountsReceivableModuleService;
+    protected PerDiemService perDiemService;
+
 
     /**
      * Creates and populates an individual per diem item.
@@ -202,7 +205,8 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
             expense.setBreakfastValue(PerDiemExpense.calculateMealsAndIncidentalsProrated(expense.getBreakfastValue(), perDiemPercent));
             expense.setIncidentalsValue(PerDiemExpense.calculateMealsAndIncidentalsProrated(expense.getIncidentalsValue(), perDiemPercent));
         }
-        expense.setLodging(perDiem.getLodging());
+        final KualiDecimal lodgingAmount = getPerDiemService().isPerDiemHandlingLodging() ? perDiem.getLodging() : KualiDecimal.ZERO;
+        expense.setLodging(lodgingAmount);
         return expense;
     }
 
@@ -284,6 +288,8 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
                 perDiem.getPrimaryDestination().setCounty(document.getPrimaryDestinationCounty());
                 perDiem.getPrimaryDestination().getRegion().setTripType(document.getTripType());
                 perDiem.getPrimaryDestination().getRegion().setTripTypeCode(document.getTripTypeCode());
+                //perDiem.getPrimaryDestination().getRegion().setRegionCode(document.getPrimaryDestinationCountryState());
+                perDiem.getPrimaryDestination().setPrimaryDestinationName(document.getPrimaryDestinationName());
             }
             perDiemList.add(perDiem);
         }
@@ -906,7 +912,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
     public KualiDecimal calculateMileage(ActualExpense actualExpense) {
         KualiDecimal mileageTotal = KualiDecimal.ZERO;
 
-        if (ObjectUtils.isNotNull(actualExpense.getTravelExpenseTypeCodeCode()) && actualExpense.isMileage()) {
+        if (ObjectUtils.isNotNull(actualExpense.getExpenseTypeCode()) && actualExpense.isMileage()) {
             mileageTotal = actualExpense.getMileageTotal();
         }
 
@@ -975,7 +981,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
             if (isHostedMeal(newActualExpenseLine)) {
                 KNSGlobalVariables.getMessageList().add(TemKeyConstants.MESSAGE_HOSTED_MEAL_ADDED,
                         new SimpleDateFormat("MM/dd/yyyy").format(newActualExpenseLine.getExpenseDate()),
-                        newActualExpenseLine.getTravelExpenseTypeCode().getName());
+                        newActualExpenseLine.getExpenseTypeObjectCode().getExpenseType().getName());
                 newActualExpenseLine.setNonReimbursable(true);
             }
         }
@@ -991,11 +997,11 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
      */
     @Override
     public boolean isHostedMeal(final ExpenseTypeAware havingExpenseType) {
-        if (ObjectUtils.isNull(havingExpenseType) || ObjectUtils.isNull(havingExpenseType.getTravelExpenseTypeCode())) {
+        if (ObjectUtils.isNull(havingExpenseType) || ObjectUtils.isNull(havingExpenseType.getExpenseTypeObjectCode())) {
             return false;
         }
 
-        final String code = havingExpenseType.getTravelExpenseTypeCode().getCode();
+        final String code = havingExpenseType.getExpenseTypeObjectCode().getExpenseTypeCode();
         final String hostedCodes = getParameterService().getParameterValueAsString(TemParameterConstants.TEM_DOCUMENT.class, TravelParameters.HOSTED_MEAL_EXPENSE_TYPES);
 
         for (final String hostedSet : hostedCodes.split(";")) {
@@ -2237,4 +2243,13 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
         }
         return accountsReceivableModuleService;
     }
+
+    public PerDiemService getPerDiemService() {
+        return perDiemService;
+    }
+
+    public void setPerDiemService(PerDiemService perDiemService) {
+        this.perDiemService = perDiemService;
+    }
+
 }

@@ -17,7 +17,7 @@
 <%@ taglib uri="/WEB-INF/tlds/temfunc.tld" prefix="temfunc"%>
 
 <c:set var="otherExpenseAttributes" value="${DataDictionary.ActualExpense.attributes}" />
-<c:set var="temExtension" value="${DataDictionary.TemTravelExpenseTypeCode.attributes}" />
+<c:set var="temExtension" value="${DataDictionary.ExpenseTypeObjectCode.attributes}" />
 <c:set var="isTA" value="${KualiForm.isTravelAuthorizationDoc}" />
 
 <jsp:useBean id="paramMap" class="java.util.HashMap" />
@@ -49,7 +49,7 @@
 				<tr>
 				  	<td colspan="12">
 			  			<kul:subtab lookedUpCollectionName="expenseDetails${ctr}" width="${tableWidth}" 
-			  				subTabTitle="${KualiForm.expenseLabel} Details - ${KualiForm.document.actualExpenses[ctr].travelExpenseTypeCode.name} - ${lineCounter}" 
+			  				subTabTitle="${KualiForm.expenseLabel} Details - ${KualiForm.document.actualExpenses[ctr].expenseTypeObjectCode.expenseType.name} - ${lineCounter}" 
 			  				noShowHideButton="false" 
 			  				open="${KualiForm.document.actualExpenses[ctr].defaultTabOpen}">
 			  				<table cellpadding="0" cellspacing="0" class="datatable">

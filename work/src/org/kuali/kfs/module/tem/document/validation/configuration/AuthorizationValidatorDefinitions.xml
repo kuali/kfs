@@ -92,6 +92,13 @@
 									</list>
 								</property>
 							</bean>
+							<bean parent="TravelDocument-actualExpenseNotesValidation" scope="prototype">
+								<property name="parameterProperties">
+									<list>
+										<bean parent="validationFieldConversion" p:sourceEventProperty="iterationSubject" p:targetValidationProperty="actualExpenseForValidation"/>
+									</list>
+								</property>
+							</bean>
 						</list>
 					</property>
 				</bean>

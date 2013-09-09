@@ -15980,42 +15980,49 @@
             <unique-column name="OBJ_ID"/>
         </unique>
     </table>
-    <table name="TEM_EXP_TYP_T">
-        <column name="TEM_EXP_TYP_ID" required="true" size="22" type="DECIMAL"/>
-        <column name="TRAVEL_EXP_CD" primaryKey="true" size="2" type="VARCHAR"/>
-        <column name="TRAVEL_EXP_NM" required="true" size="25" type="VARCHAR"/>
-        <column name="TRAVEL_EXP_PRPY_IND" required="true" size="1" type="VARCHAR"/>
+    <table name="TEM_EXP_TYP_FIN_OBJ_CD_T">
+        <column name="EXP_TYP_OBJ_CD_ID" primaryKey="true" size="22" type="DECIMAL"/>
+        <column name="EXP_TYP_CD" size="2" type="VARCHAR"/>
+        <column name="TRIP_TYP_CD" size="3" type="VARCHAR"/>
+        <column name="TRAVELER_TYP_CD" size="3" type="VARCHAR"/>
+        <column name="DOC_TYP_NM" size="4" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="VER_NBR" size="8" type="DECIMAL"/>
         <column name="FIN_OBJECT_CD" size="4" type="VARCHAR"/>
-        <column name="HST_ML_IND" size="1" type="VARCHAR"/>
-        <column name="LNG_DESC" size="1000" type="VARCHAR"/>
-        <column name="INDV_IND" size="1" type="VARCHAR"/>
-        <column name="GRP_TRVL_IND" size="1" type="VARCHAR"/>
-        <column name="TRIP_TYP_CD" primaryKey="true" size="3" type="VARCHAR"/>
-        <column name="TRAVELER_TYP_CD" primaryKey="true" size="3" type="VARCHAR"/>
-        <column name="DOCUMENT_TYPE" primaryKey="true" size="4" type="VARCHAR"/>
-        <column name="MAX_AMT" scale="2" size="9" type="DECIMAL"/>
-        <column name="MAX_AMT_PER" size="1" type="VARCHAR"/>
+        <column name="MAX_AMT" scale="2" size="19" type="DECIMAL"/>
+        <column name="MAX_AMT_SUM_CD" size="1" type="VARCHAR"/>
         <column name="ERR_TYP_CD" size="1" type="VARCHAR"/>
         <column name="NOTE_REQ_IND" size="1" type="VARCHAR"/>
         <column name="RCPT_REQ_IND" size="1" type="VARCHAR"/>
-        <column name="RCPT_REQ_THRSH" size="22" type="DECIMAL"/>
+        <column name="RCPT_REQ_THRSH" scale="2" size="19" type="DECIMAL"/>
         <column name="TAXABLE_IND" size="1" type="VARCHAR"/>
         <column name="SPCL_RQST_REQ_IND" size="1" type="VARCHAR"/>
-        <column name="ACTV_IND" required="true" size="1" type="VARCHAR"/>
-        <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
-        <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
-        <column name="EXP_DETAIL_REQ_IND" size="1" type="VARCHAR"/>
-        <foreign-key foreignTable="TEM_TRIP_TYP_T" name="TEM_EXP_TYP_TR1">
-            <reference foreign="CODE" local="TRIP_TYP_CD"/>
+        <column name="ACTV_IND" size="1" type="VARCHAR"/>
+        <foreign-key foreignTable="TEM_EXP_TYP_T" name="TEM_EXP_TYP_FIN_OBJ_CD_TR1">
+            <reference foreign="EXP_TYP_CD" local="EXP_TYP_CD"/>
         </foreign-key>
-        <foreign-key foreignTable="TEM_TRAVELER_TYP_T" name="TEM_EXP_TYP_TR2">
-            <reference foreign="CODE" local="TRAVELER_TYP_CD"/>
-        </foreign-key>
-        <unique name="TEM_EXP_TYP_TC0">
+        <unique name="TEM_EXP_TYP_FIN_OBJ_CD_TC0">
             <unique-column name="OBJ_ID"/>
         </unique>
-        <unique name="TEM_EXP_TYP_TC1">
-            <unique-column name="TEM_EXP_TYP_ID"/>
+        <unique name="TEM_EXP_TYP_FIN_OBJ_CD_TI1">
+            <unique-column name="EXP_TYP_CD"/>
+            <unique-column name="TRIP_TYP_CD"/>
+            <unique-column name="TRAVELER_TYP_CD"/>
+            <unique-column name="DOC_TYP_NM"/>
+        </unique>
+    </table>
+    <table name="TEM_EXP_TYP_T">
+        <column name="EXP_TYP_CD" primaryKey="true" size="2" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="VER_NBR" size="8" type="DECIMAL"/>
+        <column name="EXP_TYP_NM" size="100" type="VARCHAR"/>
+        <column name="GRP_TRVL_IND" size="1" type="VARCHAR"/>
+        <column name="EXP_DETAIL_REQ_IND" size="1" type="VARCHAR"/>
+        <column name="EXP_PRPY_IND" size="1" type="VARCHAR"/>
+        <column name="PER_DIEM_IND" size="1" type="VARCHAR"/>
+        <column name="ACTV_IND" size="1" type="VARCHAR"/>
+        <unique name="TEM_EXP_TYP_TC0">
+            <unique-column name="OBJ_ID"/>
         </unique>
     </table>
     <table name="TEM_GRP_TRVLR_T">
@@ -16807,7 +16814,7 @@
         <column name="ID" primaryKey="true" size="22" type="DECIMAL"/>
         <column name="FDOC_NBR" required="true" size="14" type="VARCHAR"/>
         <column name="FDOC_LINE_NBR" size="22" type="DECIMAL"/>
-        <column name="EXP_TYPE_CD" size="1" type="VARCHAR"/>
+        <column name="EXP_LN_TYP_CD" size="1" type="VARCHAR"/>
         <column name="EXP_PARENT_ID" size="22" type="DECIMAL"/>
         <column name="HIST_EXP_ID" size="22" type="DECIMAL"/>
         <column name="EXP_DT" type="DATE"/>
@@ -16816,7 +16823,6 @@
         <column default="0" name="CUR_RT" scale="6" size="7" type="DECIMAL"/>
         <column name="CUR_COUNTRY_CD" size="100" type="VARCHAR"/>
         <column default="0" name="CONVERTED_AMT" scale="2" size="7" type="DECIMAL"/>
-        <column name="TEM_EXP_TYP_ID" required="true" size="22" type="DECIMAL"/>
         <column name="DV_EXP_CO_NM" size="40" type="VARCHAR"/>
         <column name="AIRFARE_SRC_CD" size="10" type="VARCHAR"/>
         <column name="CLASS_SVC_CODE" size="10" type="VARCHAR"/>
@@ -16831,6 +16837,8 @@
         <column name="RCPT_RQD_IND" size="1" type="VARCHAR"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
+        <column name="EXP_TYP_OBJ_CD_ID" size="22" type="DECIMAL"/>
+        <column name="EXP_TYP_CD" size="2" type="VARCHAR"/>
         <foreign-key foreignTable="TEM_AIRFARE_SRC_T" name="TEM_TRVL_EXP_TR1">
             <reference foreign="CODE" local="AIRFARE_SRC_CD"/>
         </foreign-key>
@@ -17067,7 +17075,7 @@
     <sequence name="TEM_EM_CONT_ID_SEQ" nextval="1"/>
     <sequence name="TEM_ENTERTAINMENT_ID_SEQ" nextval="1"/>
     <sequence name="TEM_EXP_OBJ_CD_ID_SEQ" nextval="1"/>
-    <sequence name="TEM_EXP_TYP_ID_SEQ" nextval="865"/>
+    <sequence name="TEM_EXP_TYP_FIN_OJB_CD_ID_SEQ" nextval="100"/>
     <sequence name="TEM_GRP_TRVLR_ID_SEQ" nextval="1"/>
     <sequence name="TEM_HIST_EXP_ID_SEQ" nextval="1"/>
     <sequence name="TEM_MILEAGE_RT_ID_SEQ" nextval="13"/>

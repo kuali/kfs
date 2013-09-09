@@ -50,29 +50,7 @@
 											readOnly="${!fullEntryMode}" />
 									</td>
 									<td valign="top" class="infoline">
-										<c:choose>
-											<c:when test="${fullEntryMode}">
-												<c:set target="${paramMap}" property="groupTravelCount" value="${fn:length(KualiForm.document.groupTravelers)}" />
-												<html:select property="${detail}.travelCompanyCodeCode" 
-													styleId="${detail}.travelCompanyCodeCode"
-													onchange="checkDirectBilled('${detail}')">
-													<c:forEach items="${temfunc:getOptionList('org.kuali.kfs.module.tem.businessobject.options.TravelExpenseTypeValuesFinder', paramMap)}" var="option">						
-														<c:set var="isSelected" value="${detailObject.travelCompanyCodeCode == option.key}" />
-														<%-- Populate the value that was previously selected before error occurred --%>
-														<option value="${option.key}" ${isSelected?'selected=true':'' }>${option.value}</option>
-													</c:forEach>
-												</html:select>
-												<c:set var="strKey" value="${detail}.travelCompanyCodeCode" /> 
-												<c:forEach items="${ErrorPropertyList}" var="key">
-													<c:if test="${key == strKey}">
-														<kul:fieldShowErrorIcon />
-													</c:if>
-												</c:forEach>
-											</c:when>
-											<c:otherwise>
-												<c:out value="${detailObject.travelExpenseTypeCode.name}" />
-											</c:otherwise>
-										</c:choose>	
+										<c:out value="${detailObject.expenseTypeObjectCode.expenseType.name}" />
 									</td>
 									<td valign="top" nowrap class="infoline">
 										<div align="center">

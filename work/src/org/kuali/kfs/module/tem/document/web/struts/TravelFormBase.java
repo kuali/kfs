@@ -29,6 +29,7 @@ import java.util.Observable;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.struts.upload.FormFile;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationParameters;
@@ -52,6 +53,7 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
+import org.kuali.kfs.sys.document.service.PaymentSourceHelperService;
 import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
@@ -143,6 +145,9 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
         request.setAttribute(ENABLE_PRIMARY_DESTINATION_ATTRIBUTE, enablePrimaryDestination);
         final boolean enablePerDiemLookupLinks = getParameterService().getParameterValueAsBoolean(TravelAuthorizationDocument.class, TravelAuthorizationParameters.DISPLAY_PER_DIEM_URL_IND);
         request.setAttribute(ENABLE_PER_DIEM_LOOKUP_LINKS_ATTRIBUTE, enablePerDiemLookupLinks);
+        if (getDocument() != null && !StringUtils.isBlank(getDocument().getDocumentNumber())) {
+            getNewActualExpenseLine().setDocumentNumber(getDocument().getDocumentNumber());
+        }
     }
 
     /**
@@ -1078,4 +1083,12 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
      * @return the name of the action which the current form should return to
      */
     public abstract String getTravelPaymentFormAction();
+
+    /**
+     * @return the URL where payment details post-extraction for this payment can be looked up
+     */
+    public String getDisbursementInfoUrl() {
+        final PaymentSourceHelperService paymentSourceHelperService = SpringContext.getBean(PaymentSourceHelperService.class);
+        return paymentSourceHelperService.getDisbursementInfoUrl();
+    }
 }

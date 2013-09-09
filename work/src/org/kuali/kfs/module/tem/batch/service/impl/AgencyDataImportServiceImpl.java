@@ -37,7 +37,7 @@ import org.kuali.kfs.module.tem.batch.service.ExpenseImportByTravelerService;
 import org.kuali.kfs.module.tem.batch.service.ExpenseImportByTripService;
 import org.kuali.kfs.module.tem.businessobject.AgencyImportData;
 import org.kuali.kfs.module.tem.businessobject.AgencyStagingData;
-import org.kuali.kfs.module.tem.businessobject.options.NextAgencyStagingDataIdFinder;
+import org.kuali.kfs.module.tem.businessobject.defaultvalue.NextAgencyStagingDataIdFinder;
 import org.kuali.kfs.module.tem.service.TravelExpenseService;
 import org.kuali.kfs.sys.batch.BatchInputFileType;
 import org.kuali.kfs.sys.batch.service.BatchInputFileService;

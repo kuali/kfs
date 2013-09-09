@@ -44,7 +44,7 @@
 				</th>
 				<th>
 					<div align="left">
-						<kul:htmlAttributeLabel attributeEntry="${importedExpenseAttributes.travelExpenseTypeCodeId}" noColon="true" />
+						<kul:htmlAttributeLabel attributeEntry="${importedExpenseAttributes.expenseTypeObjectCodeId}" noColon="true" />
 					</div>
 				</th>
 				<th>

@@ -95,11 +95,11 @@
 	</bean>
 	<bean id="TemRegion-inquiryDefinition" parent="TemRegion-inquiryDefinition-parentBean" />
 	<bean id="TemRegion-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-		<property name="title" value="Tem Country Inquiry"/>
+		<property name="title" value="Tem Region Inquiry"/>
 		<property name="inquirySections">
 		<list>
 			<bean parent="InquirySectionDefinition">
-				<property name="title" value="Tem Country Inquiry"/>
+				<property name="title" value="Tem Region Inquiry"/>
 				<property name="numberOfColumns" value="1"/>
 				<property name="inquiryFields">
 				<list>
@@ -115,7 +115,7 @@
 	</bean>
 	<bean id="TemRegion-lookupDefinition" parent="TemRegion-lookupDefinition-parentBean" />
 	<bean id="TemRegion-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-		<property name="title" value="Tem Country Lookup" />
+		<property name="title" value="Tem Region Lookup" />
 		<!-- <property name="lookupableID" value="TemRegionLookupable"/> -->
 		<property name="defaultSort">
 		<bean parent="SortDefinition">

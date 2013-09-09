@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -26,7 +26,6 @@ import org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService;
 import org.kuali.kfs.integration.purap.CapitalAssetLocation;
 import org.kuali.kfs.integration.purap.CapitalAssetSystem;
 import org.kuali.kfs.module.cam.CamsKeyConstants;
-import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
@@ -62,7 +61,7 @@ public class PurchasingServiceImpl extends PersistenceServiceStructureImplBase i
     private PurapAccountingService purapAccountingService;
     private CapitalAssetBuilderModuleService capitalAssetBuilderModuleService;
     private PostalCodeValidationService postalCodeValidationService;
-    
+
     public void setPurapAccountingService(PurapAccountingService purapAccountingService) {
         this.purapAccountingService = purapAccountingService;
     }
@@ -83,6 +82,7 @@ public class PurchasingServiceImpl extends PersistenceServiceStructureImplBase i
         this.postalCodeValidationService = postalCodeValidationService;
     }
 
+    @Override
     public void setupCapitalAssetItems(PurchasingDocument purDoc) {
 
         List<PurchasingCapitalAssetItem> camsItemsList = purDoc.getPurchasingCapitalAssetItems();
@@ -99,7 +99,7 @@ public class PurchasingServiceImpl extends PersistenceServiceStructureImplBase i
                         PurchasingCapitalAssetItem newCamsItem = createCamsItem(purDoc, purapItem);
                         newCamsItemsList.add(newCamsItem);
                     }
-                    else {                        
+                    else {
                         camsItem.setPurchasingDocument(purDoc);
                         newCamsItemsList.add(camsItem);
                     }
@@ -114,7 +114,7 @@ public class PurchasingServiceImpl extends PersistenceServiceStructureImplBase i
         }
 
         purDoc.setPurchasingCapitalAssetItems(newCamsItemsList);
-        
+
         if (purDoc.getPurchasingCapitalAssetItems().isEmpty()) {
             purDoc.setCapitalAssetSystemStateCode(null);
             purDoc.setCapitalAssetSystemTypeCode(null);
@@ -126,7 +126,7 @@ public class PurchasingServiceImpl extends PersistenceServiceStructureImplBase i
         if (purapItem.getItemIdentifier() == null) {
             ClassDescriptor cd = this.getClassDescriptor(purapItem.getClass());
             String sequenceName = cd.getFieldDescriptorByName(PurapPropertyConstants.ITEM_IDENTIFIER).getSequenceName();
-                        
+
             Integer itemIdentifier = sequenceAccessorService.getNextAvailableSequenceNumber(sequenceName, PurApItem.class).intValue();
             purapItem.setItemIdentifier(itemIdentifier);
         }
@@ -146,6 +146,7 @@ public class PurchasingServiceImpl extends PersistenceServiceStructureImplBase i
     }
 
 
+    @Override
     public void deleteCapitalAssetItems(PurchasingDocument purDoc, Integer itemIdentifier) {
         // delete the corresponding CAMS items.
         int index = 0;
@@ -158,6 +159,7 @@ public class PurchasingServiceImpl extends PersistenceServiceStructureImplBase i
         purDoc.getPurchasingCapitalAssetItems().remove(index);
     }
 
+    @Override
     public void setupCapitalAssetSystem(PurchasingDocument purDoc) {
         CapitalAssetSystem resultSystem = purDoc.getDocumentSpecificService().createCapitalAssetSystem();
         if (purDoc.getCapitalAssetSystemTypeCode() != null && (purDoc.getCapitalAssetSystemTypeCode().equals(PurapConstants.CapitalAssetTabStrings.ONE_SYSTEM) || purDoc.getCapitalAssetSystemTypeCode().equals(PurapConstants.CapitalAssetTabStrings.MULTIPLE_SYSTEMS))) {
@@ -167,10 +169,11 @@ public class PurchasingServiceImpl extends PersistenceServiceStructureImplBase i
         }
     }
 
+    @Override
     public boolean getDefaultUseTaxIndicatorValue(PurchasingDocument purDoc) {
-        
+
         purDoc.refreshReferenceObject("vendorDetail");
-        VendorDetail vendor = purDoc.getVendorDetail();        
+        VendorDetail vendor = purDoc.getVendorDetail();
         if (vendor != null) {
             String vendorStateCode = vendor.getDefaultAddressStateCode();
             String billingStateCode = purDoc.getBillingStateCode();
@@ -186,17 +189,19 @@ public class PurchasingServiceImpl extends PersistenceServiceStructureImplBase i
         return true;
     }
 
+    @Override
     public String getDefaultAssetTypeCodeNotThisFiscalYear() {
         //FIXME (hjs) is this breaking modularization??
         return parameterService.getParameterValueAsString(KfsParameterConstants.CAPITAL_ASSET_BUILDER_DOCUMENT.class, PurapParameterConstants.CapitalAsset.PURCHASING_DEFAULT_ASSET_TYPE_WHEN_NOT_THIS_FISCAL_YEAR);
     }
 
+    @Override
     public boolean checkCapitalAssetLocation(CapitalAssetLocation location) {
         // if any of the date fields have a value AND one of them does not have a value...
         if (ObjectUtils.isNotNull(location) &&
                 (StringUtils.isEmpty(location.getCapitalAssetLine1Address()) ||
                 StringUtils.isEmpty(location.getCapitalAssetCityName()) ||
-                StringUtils.isEmpty(location.getCapitalAssetCountryCode()) )) { 
+                StringUtils.isEmpty(location.getCapitalAssetCountryCode()) )) {
                 String missingFields = "";
                 if (StringUtils.isEmpty(location.getCapitalAssetLine1Address())) {
                     missingFields = "Address";
@@ -214,16 +219,17 @@ public class PurchasingServiceImpl extends PersistenceServiceStructureImplBase i
         }
         return true;
     }
-    
-    
+
+
+    @Override
     public boolean checkValidRoomNumber(CapitalAssetLocation location){
         boolean valid = true;
         if (StringUtils.isNotBlank(location.getBuildingCode()) && StringUtils.isNotBlank(location.getBuildingRoomNumber())) {
             Map objectKeys = new HashMap();
-            objectKeys.put(CamsPropertyConstants.AssetGlobalDetail.CAMPUS_CODE, location.getCampusCode());
-            objectKeys.put(CamsPropertyConstants.AssetGlobalDetail.BUILDING_CODE, location.getBuildingCode());
-            objectKeys.put(CamsPropertyConstants.AssetGlobalDetail.BUILDING_ROOM_NUMBER, location.getBuildingRoomNumber());
-            Room room = (Room) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Room.class, objectKeys);
+            objectKeys.put(PurapPropertyConstants.CAPITAL_ASSET_LOCATION_CAMPUS, location.getCampusCode());
+            objectKeys.put(PurapPropertyConstants.CAPITAL_ASSET_LOCATION_BUILDING, location.getBuildingCode());
+            objectKeys.put(PurapPropertyConstants.CAPITAL_ASSET_LOCATION_ROOM, location.getBuildingRoomNumber());
+            Room room = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Room.class, objectKeys);
 
             if (ObjectUtils.isNull(room)) {
                 GlobalVariables.getMessageMap().addToErrorPath(PurapPropertyConstants.NEW_PURCHASING_CAPITAL_ASSET_LOCATION_LINE);
@@ -241,9 +247,9 @@ public class PurchasingServiceImpl extends PersistenceServiceStructureImplBase i
             }
         }else if (StringUtils.isBlank(location.getBuildingCode()) && StringUtils.isNotBlank(location.getBuildingRoomNumber())){
             Map objectKeys = new HashMap();
-            objectKeys.put(CamsPropertyConstants.AssetGlobalDetail.CAMPUS_CODE, location.getCampusCode());
-            objectKeys.put(CamsPropertyConstants.AssetGlobalDetail.BUILDING_ROOM_NUMBER, location.getBuildingRoomNumber());
-            Room room = (Room) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Room.class, objectKeys);
+            objectKeys.put(PurapPropertyConstants.CAPITAL_ASSET_LOCATION_CAMPUS, location.getCampusCode());
+            objectKeys.put(PurapPropertyConstants.CAPITAL_ASSET_LOCATION_ROOM, location.getBuildingRoomNumber());
+            Room room = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Room.class, objectKeys);
 
             if (ObjectUtils.isNull(room)) {
                 GlobalVariables.getMessageMap().addToErrorPath(PurapPropertyConstants.NEW_PURCHASING_CAPITAL_ASSET_LOCATION_LINE);
@@ -262,22 +268,22 @@ public class PurchasingServiceImpl extends PersistenceServiceStructureImplBase i
         }
         return valid;
     }
-    
+
     /**
      * Gets the dataDictionaryService attribute.
-     * 
+     *
      * @return an implementation of the dataDictionaryService.
      */
     public DataDictionaryService getDataDictionaryService() {
         return SpringContext.getBean(DataDictionaryService.class);
     }
-    
+
     public void addErrorToCapitalAssetLocation(String path, String field) {
-        
+
         GlobalVariables.getMessageMap().addToErrorPath(PurapPropertyConstants.NEW_PURCHASING_CAPITAL_ASSET_LOCATION_LINE);
         GlobalVariables.getMessageMap().putError(path,PurapKeyConstants.ERROR_CAPITAL_ASSET_INCOMPLETE_ADDRESS,field);
         GlobalVariables.getMessageMap().removeFromErrorPath(PurapPropertyConstants.NEW_PURCHASING_CAPITAL_ASSET_LOCATION_LINE);
    }
-    
-    
+
+
 }

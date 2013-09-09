@@ -107,8 +107,6 @@ public class AmendQuestionHandler implements QuestionHandler<TravelDocument> {
             final Note newNote = getDocumentService().createNoteFromDocument(document, noteText.toString());
             newNote.setNoteText(noteText.toString());
             document.updateAppDocStatus(TravelAuthorizationStatusCodeKeys.PEND_AMENDMENT);
-            getDocumentDao().save(document);
-            String headerID = document.getDocumentHeader().getDocumentNumber();
 
             TravelAuthorizationAmendmentDocument taaDocument = ((TravelAuthorizationDocument) document).toCopyTAA();
             taaDocument.addNote(newNote);

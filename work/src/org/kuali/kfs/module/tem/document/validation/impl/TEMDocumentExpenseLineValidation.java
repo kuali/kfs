@@ -30,8 +30,8 @@ import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
-import org.kuali.rice.krad.service.DictionaryValidationService;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.DictionaryValidationService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -68,7 +68,7 @@ public abstract class TEMDocumentExpenseLineValidation extends GenericValidation
         }
 
         if (perDiem != null){
-            GlobalVariables.getMessageMap().putWarning(TemPropertyConstants.TRAVEL_EXEPENSE_TYPE_CODE_ID, TemKeyConstants.WARNING_DUPLICATE_EXPENSE, perDiem.label);
+            GlobalVariables.getMessageMap().putWarning(TemPropertyConstants.EXEPENSE_TYPE_OBJECT_CODE_ID, TemKeyConstants.WARNING_DUPLICATE_EXPENSE, perDiem.label);
         }
 
         return success;
@@ -80,13 +80,13 @@ public abstract class TEMDocumentExpenseLineValidation extends GenericValidation
      * @param perDiemExpenses
      * @return
      */
-    protected Boolean isPerDiemMileageEntered(List<PerDiemExpense> perDiemExpenses) {
+    protected boolean isPerDiemMileageEntered(List<PerDiemExpense> perDiemExpenses) {
         for (PerDiemExpense perDiemExpenseLine : perDiemExpenses) {
             if (ObjectUtils.isNotNull(perDiemExpenseLine.getMiles()) && perDiemExpenseLine.getMiles() > 0) {
-                return Boolean.TRUE;
+                return true;
             }
         }
-        return Boolean.FALSE;
+        return false;
     }
 
     /**
@@ -95,15 +95,15 @@ public abstract class TEMDocumentExpenseLineValidation extends GenericValidation
      * @param perDiemExpenses
      * @return
      */
-    protected Boolean isPerDiemMealsEntered(List<PerDiemExpense> perDiemExpenses) {
+    protected boolean isPerDiemMealsEntered(List<PerDiemExpense> perDiemExpenses) {
         for (PerDiemExpense perDiemExpenseLine : perDiemExpenses) {
             if (ObjectUtils.isNotNull(perDiemExpenseLine.getMealsAndIncidentals()) &&
                     (perDiemExpenseLine.getMealsAndIncidentals().isGreaterThan(KualiDecimal.ZERO) ||
                     perDiemExpenseLine.getMealsTotal().isGreaterThan(KualiDecimal.ZERO))) {
-                return Boolean.TRUE;
+                return true;
             }
         }
-        return Boolean.FALSE;
+        return false;
     }
 
     /**
@@ -112,14 +112,14 @@ public abstract class TEMDocumentExpenseLineValidation extends GenericValidation
      * @param perDiemExpenses
      * @return
      */
-    protected Boolean isPerDiemLodgingEntered(List<PerDiemExpense> perDiemExpenses) {
+    protected boolean isPerDiemLodgingEntered(List<PerDiemExpense> perDiemExpenses) {
         for (PerDiemExpense perDiemExpenseLine : perDiemExpenses) {
             if (ObjectUtils.isNotNull(perDiemExpenseLine.getLodgingTotal())
                     && perDiemExpenseLine.getLodgingTotal().isGreaterThan(KualiDecimal.ZERO)) {
-                return Boolean.TRUE;
+                return true;
             }
         }
-        return Boolean.FALSE;
+        return false;
     }
 
     /**
@@ -128,13 +128,13 @@ public abstract class TEMDocumentExpenseLineValidation extends GenericValidation
      * @param perDiemExpenses
      * @return
      */
-    protected Boolean isPerDiemIncidentalEntered(List<PerDiemExpense> perDiemExpenses) {
+    protected boolean isPerDiemIncidentalEntered(List<PerDiemExpense> perDiemExpenses) {
         for (PerDiemExpense perDiemExpenseLine : perDiemExpenses) {
             if (perDiemExpenseLine.getLodgingTotal().isGreaterThan(KualiDecimal.ZERO)) {
-                return Boolean.TRUE;
+                return true;
             }
         }
-        return Boolean.FALSE;
+        return false;
     }
 
     /**
@@ -176,7 +176,7 @@ public abstract class TEMDocumentExpenseLineValidation extends GenericValidation
         MessageMap message = GlobalVariables.getMessageMap();
 
         // Check to see care rental needs special request approval
-        if (ObjectUtils.isNotNull(expense.getTravelExpenseTypeCode()) && expense.getTravelExpenseTypeCode().getSpecialRequestRequired()) {
+        if (ObjectUtils.isNotNull(expense.getExpenseTypeObjectCode()) && expense.getExpenseTypeObjectCode().isSpecialRequestRequired()) {
             if (StringUtils.isBlank(expense.getDescription())) {
                 if (!message.containsMessageKey(TemPropertyConstants.TEM_ACTUAL_EXPENSE_NOTCE)){
                     message.putWarning(TemPropertyConstants.TEM_ACTUAL_EXPENSE_NOTCE, TemKeyConstants.WARNING_NOTES_JUSTIFICATION);

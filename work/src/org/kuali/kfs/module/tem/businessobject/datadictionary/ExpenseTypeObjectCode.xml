@@ -1,0 +1,309 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:dd="http://rice.kuali.org/dd"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
+	<!-- Copyright 2005-2008 The Kuali Foundation Licensed under the Educational 
+		Community License, Version 2.0 (the "License"); you may not use this file 
+		except in compliance with the License. You may obtain a copy of the License 
+		at http://www.opensource.org/licenses/ecl2.php Unless required by applicable 
+		law or agreed to in writing, software distributed under the License is distributed 
+		on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either 
+		express or implied. See the License for the specific language governing permissions 
+		and limitations under the License. -->
+
+	<bean id="ExpenseTypeObjectCode" parent="ExpenseTypeObjectCode-parentBean"/>
+	<bean id="ExpenseTypeObjectCode-parentBean" abstract="true" parent="BusinessObjectEntry">
+		<property name="businessObjectClass" value="org.kuali.kfs.module.tem.businessobject.ExpenseTypeObjectCode" />
+		<property name="objectLabel" value="Expense Type Object Code" />
+		<property name="titleAttribute" value="expenseTypeObjectCodeId"/>
+		<property name="inactivationBlockingDefinitions">
+			<list>
+				<bean parent="InactivationBlockingDefinition" p:blockedReferencePropertyName="expenseType"/>
+
+			</list>
+		</property>
+		<property name="inquiryDefinition">
+			<ref bean="ExpenseTypeObjectCode-inquiryDefinition" />
+		</property>
+		<property name="lookupDefinition">
+			<ref bean="ExpenseTypeObjectCode-lookupDefinition" />
+		</property>
+		<property name="attributes">
+			<list>
+				<ref bean="ExpenseTypeObjectCode-expenseTypeObjectCodeId"/>
+				<ref bean="ExpenseTypeObjectCode-expenseTypeCode" />
+				<ref bean="ExpenseTypeObjectCode-tripTypeCode" />
+				<ref bean="ExpenseTypeObjectCode-travelerTypeCode" />
+				<ref bean="ExpenseTypeObjectCode-documentTypeName" />	
+				<ref bean="ExpenseTypeObjectCode-financialObjectCode" />
+				<ref bean="ExpenseTypeObjectCode-maximumAmount" />
+				<ref bean="ExpenseTypeObjectCode-maximumAmountSummationCode" />
+				<ref bean="ExpenseTypeObjectCode-errorTypeCode" />
+				<ref bean="ExpenseTypeObjectCode-noteRequired" />
+				<ref bean="ExpenseTypeObjectCode-receiptRequired" />
+				<ref bean="ExpenseTypeObjectCode-receiptRequirementThreshold" />
+				<ref bean="ExpenseTypeObjectCode-taxable" />
+				<ref bean="ExpenseTypeObjectCode-specialRequestRequired" />			
+                <ref bean="ExpenseTypeObjectCode-active" />
+				<ref bean="ExpenseTypeObjectCode-versionNumber" />
+			</list>
+		</property>
+		<property name="relationships">
+			<bean parent="RelationshipDefinition">
+				<property name="objectAttributeName" value="documentType" />
+				<property name="primitiveAttributes">
+					<list>
+						<bean parent="PrimitiveAttributeDefinition" p:sourceName="documentTypeName" p:targetName="name" />
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="ExpenseTypeObjectCode-expenseTypeObjectCodeId" parent="ExpenseTypeObjectCode-expenseTypeObjectCodeId-parentBean"/>
+	<bean id="ExpenseTypeObjectCode-expenseTypeObjectCodeId-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="expenseTypeObjectCodeId" />
+		<property name="label" value="Expense Type Object Code ID" />
+		<property name="shortLabel" value="ID" />
+		<property name="maxLength" value="32" />
+		<property name="required" value="true" />
+		<property name="summary" value="Expense Type Object Code ID" />
+		<property name="description" value="Expense Type Object Code ID" />
+		<property name="control"><bean parent="HiddenControlDefinition" /></property>
+        <property name="validationPattern"><bean parent="NumericValidationPattern" /></property>	
+	</bean>
+	
+	<bean id="ExpenseTypeObjectCode-expenseTypeCode" parent="ExpenseTypeObjectCode-expenseTypeCode-parentBean"/>
+	<bean id="ExpenseTypeObjectCode-expenseTypeCode-parentBean" abstract="true" parent="ExpenseType-code">
+		<property name="name" value="expenseTypeCode"/>
+	</bean>
+	<bean id="ExpenseTypeObjectCode-tripTypeCode" parent="ExpenseTypeObjectCode-tripTypeCode-parentBean" />
+	<bean id="ExpenseTypeObjectCode-tripTypeCode-parentBean" parent="AttributeDefinition">
+		<property name="name" value="tripTypeCode" />
+		<property name="label" value="Trip Type" />
+		<property name="shortLabel" value="Trip Type" />
+		<property name="required" value="false" />
+		<property name="maxLength" value="3" />
+		<property name="summary" value="Trip Type" />
+		<property name="description" value="Trip Type" />
+		<property name="control">
+			<bean parent="SelectControlDefinition"
+				p:valuesFinderClass="org.kuali.kfs.module.tem.businessobject.options.ExpenseTypeObjectCodeTripTypeValuesFinder"
+				p:includeKeyInLabel="false" />
+		</property>
+	</bean>	
+	<bean id="ExpenseTypeObjectCode-travelerTypeCode" parent="ExpenseTypeObjectCode-travelerTypeCode-parentBean" />
+	<bean id="ExpenseTypeObjectCode-travelerTypeCode-parentBean" parent="AttributeDefinition">
+		<property name="name" value="travelerTypeCode" />
+		<property name="label" value="Traveler Type" />
+		<property name="shortLabel" value="Traveler Type" />
+		<property name="maxLength" value="3" />
+		<property name="required" value="false" />
+		<property name="summary" value="Traveler Type" />
+		<property name="description" value="Traveler Type" />
+		<property name="control">
+			<bean parent="SelectControlDefinition"
+				p:valuesFinderClass="org.kuali.kfs.module.tem.businessobject.options.TravelerTypeValuesFinder"
+				p:includeKeyInLabel="false" />
+		</property>
+	</bean>	
+	<bean id="ExpenseTypeObjectCode-documentTypeName" parent="ExpenseTypeObjectCode-documentTypeName-parentBean" />
+	<bean id="ExpenseTypeObjectCode-documentTypeName-parentBean" parent="AttributeDefinition">
+		<property name="name" value="documentTypeName" />
+		<property name="label" value="Document Type" />
+		<property name="shortLabel" value="Document Type" />
+		<property name="maxLength" value="4" />
+		<property name="required" value="false" />
+		<property name="summary" value="Document Type" />
+		<property name="description" value="Document Type" />
+		<property name="control">
+            <bean parent="SelectControlDefinition"
+                p:valuesFinderClass="org.kuali.kfs.module.tem.businessobject.options.TravelDocumentTypeValuesFinder"
+                p:includeKeyInLabel="false" />
+        </property>
+	</bean>
+	
+	<bean id="ExpenseTypeObjectCode-financialObjectCode" parent="ExpenseTypeObjectCode-financialObjectCode-parentBean"/>
+	<bean id="ExpenseTypeObjectCode-financialObjectCode-parentBean" abstract="true" parent="ObjectCode-financialObjectCode"/>
+	
+	<bean id="ExpenseTypeObjectCode-maximumAmount" parent="ExpenseTypeObjectCode-maximumAmount-parentBean" />
+	<bean id="ExpenseTypeObjectCode-maximumAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+		<property name="name" value="maximumAmount" />
+		<property name="label" value="Maximum Amount" />
+		<property name="shortLabel" value="Maximum Amount" />
+		<property name="summary" value="Maximum Amount" />
+		<property name="description" value="Maximum Amount" />
+	</bean>
+	<bean id="ExpenseTypeObjectCode-maximumAmountSummationCode" parent="ExpenseTypeObjectCode-maximumAmountSummationCode-parentBean" />
+	<bean id="ExpenseTypeObjectCode-maximumAmountSummationCode-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="maximumAmountSummationCode" />
+		<property name="label" value="Maximum Amount Summation" />
+		<property name="shortLabel" value="Max Amt. Sum." />
+		<property name="maxLength" value="1" />
+		<property name="summary" value="Maximum Amount Summation" />
+		<property name="description" value="Maximum Amount Summation" />
+		<property name="control">
+			<bean parent="SelectControlDefinition"
+                p:valuesFinderClass="org.kuali.kfs.module.tem.businessobject.options.ExpenseTypeAmountSummationValuesFinder"
+                p:includeKeyInLabel="false" />
+		</property>
+	</bean>
+	<bean id="ExpenseTypeObjectCode-errorTypeCode" parent="ExpenseTypeObjectCode-errorTypeCode-parentBean" />
+	<bean id="ExpenseTypeObjectCode-errorTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="errorTypeCode" />
+		<property name="label" value="Error Type Code" />
+		<property name="shortLabel" value="Error Type Code" />
+		<property name="maxLength" value="1" />
+		<property name="summary" value="Error Type Code" />
+		<property name="description" value="Error Type Code" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="1" />
+		</property>
+	</bean>
+	<bean id="ExpenseTypeObjectCode-noteRequired" parent="ExpenseTypeObjectCode-noteRequired-parentBean" />
+	<bean id="ExpenseTypeObjectCode-noteRequired-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
+		<property name="name" value="noteRequired" />
+		<property name="label" value="Note Required" />
+		<property name="shortLabel" value="Note Required" />
+		<property name="summary" value="Note Required" />
+		<property name="description" value="Note Required" />
+	</bean>
+	<bean id="ExpenseTypeObjectCode-receiptRequired" parent="ExpenseTypeObjectCode-receiptRequired-parentBean" />
+	<bean id="ExpenseTypeObjectCode-receiptRequired-parentBean" abstract="true"	parent="GenericAttributes-genericBoolean">
+		<property name="name" value="receiptRequired" />
+		<property name="label" value="Receipt Required" />
+		<property name="shortLabel" value="Receipt Required" />
+		<property name="summary" value="Receipt Required" />
+		<property name="description" value="Receipt Required" />
+	</bean>
+	<bean id="ExpenseTypeObjectCode-receiptRequirementThreshold" parent="ExpenseTypeObjectCode-receiptRequirementThreshold-parentBean" />
+	<bean id="ExpenseTypeObjectCode-receiptRequirementThreshold-parentBean" abstract="true"	parent="AttributeDefinition">
+		<property name="name" value="receiptRequirementThreshold" />
+		<property name="label" value="Receipt Requirement Threshold" />
+		<property name="shortLabel" value="Receipt Requirement Threshold" />
+		<property name="maxLength" value="32" />
+		<property name="summary" value="Receipt Requirement Threshold" />
+		<property name="description" value="Receipt Requirement Threshold" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="32" />
+		</property>
+		<property name="validationPattern">
+			<bean parent="NumericValidationPattern" />
+		</property>
+	</bean>
+	<bean id="ExpenseTypeObjectCode-taxable" parent="ExpenseTypeObjectCode-taxable-parentBean" />
+	<bean id="ExpenseTypeObjectCode-taxable-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
+		<property name="name" value="taxable" />
+		<property name="label" value="Taxable" />
+		<property name="shortLabel" value="Taxable" />
+		<property name="summary" value="Taxable" />
+		<property name="description" value="Taxable" />
+	</bean>
+	<bean id="ExpenseTypeObjectCode-specialRequestRequired" parent="ExpenseTypeObjectCode-specialRequestRequired-parentBean" />
+	<bean id="ExpenseTypeObjectCode-specialRequestRequired-parentBean" abstract="true"	parent="GenericAttributes-genericBoolean">
+		<property name="name" value="specialRequestRequired" />
+		<property name="label" value="Special Request Approval Required" />
+		<property name="shortLabel" value="Special Request Approval Required" />
+		<property name="summary" value="Special Request Approval Required" />
+		<property name="description" value="Special Request Approval Required" />
+	</bean>
+	<bean id="ExpenseTypeObjectCode-active" parent="ExpenseTypeObjectCode-active-parentBean" />
+	<bean id="ExpenseTypeObjectCode-active-parentBean" parent="GenericAttributes-genericBoolean">
+		<property name="name" value="active" />
+		<property name="label" value="Active" />
+		<property name="shortLabel" value="Active" />
+		<property name="maxLength" value="1" />
+		<property name="summary" value="Active" />
+		<property name="description" value="Active" />
+	</bean>
+	<bean id="ExpenseTypeObjectCode-versionNumber" parent="ExpenseTypeObjectCode-versionNumber-parentBean" />
+	<bean id="ExpenseTypeObjectCode-versionNumber-parentBean" parent="GenericAttributes-versionNumber">
+		<property name="name" value="versionNumber" />
+		<property name="label" value="Version Number" />
+		<property name="shortLabel" value="Version Number" />
+		<property name="summary" value="Version Number" />
+		<property name="description" value="Version Number" />
+	</bean>
+	
+	<bean id="ExpenseTypeObjectCode-inquiryDefinition" parent="ExpenseTypeObjectCode-inquiryDefinition-parentBean" />
+	<bean id="ExpenseTypeObjectCode-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+		<property name="title" value="Expense Type Object Code Inquiry" />
+		<property name="inquirySections">
+			<list>
+				<bean parent="InquirySectionDefinition">
+					<property name="title" value="Travel Expense Type Inquiry" />
+					<property name="numberOfColumns" value="1" />
+					<property name="inquiryFields">
+						<list>
+							<bean parent="FieldDefinition" p:attributeName="expenseTypeObjectCodeId"/>
+					        <bean parent="FieldDefinition" p:attributeName="expenseTypeCode"/>
+					        <bean parent="FieldDefinition" p:attributeName="tripTypeCode" />
+							<bean parent="FieldDefinition" p:attributeName="travelerTypeCode" />
+							<bean parent="FieldDefinition" p:attributeName="documentTypeName" />
+					        <bean parent="FieldDefinition" p:attributeName="financialObjectCode"/>
+							<bean parent="FieldDefinition" p:attributeName="maximumAmount" />
+							<bean parent="FieldDefinition" p:attributeName="maximumAmountSummationCode" />
+							<bean parent="FieldDefinition" p:attributeName="errorTypeCode" />
+							<bean parent="FieldDefinition" p:attributeName="noteRequired" />
+							<bean parent="FieldDefinition" p:attributeName="receiptRequired" />
+							<bean parent="FieldDefinition" p:attributeName="receiptRequirementThreshold" />
+							<bean parent="FieldDefinition" p:attributeName="taxable" />
+							<bean parent="FieldDefinition" p:attributeName="specialRequestRequired" />
+							<bean parent="FieldDefinition" p:attributeName="active" />
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+	<bean id="ExpenseTypeObjectCode-lookupDefinition" parent="ExpenseTypeObjectCode-lookupDefinition-parentBean" />
+	<bean id="ExpenseTypeObjectCode-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+		<property name="title" value="Expense Type Object Code Lookup" />
+		<property name="defaultSort">
+			<bean parent="SortDefinition">
+				<property name="attributeNames">
+					<list>
+					</list>
+				</property>
+			</bean>
+		</property>
+		<property name="lookupFields">
+			<list>
+		        <bean parent="FieldDefinition" p:attributeName="expenseTypeCode"/>
+		        <bean parent="FieldDefinition" p:attributeName="tripTypeCode" />
+				<bean parent="FieldDefinition" p:attributeName="travelerTypeCode" />
+				<bean parent="FieldDefinition" p:attributeName="documentTypeName" />
+		        <bean parent="FieldDefinition" p:attributeName="financialObjectCode"/>
+				<bean parent="FieldDefinition" p:attributeName="maximumAmount" />
+				<bean parent="FieldDefinition" p:attributeName="maximumAmountSummationCode" />
+				<bean parent="FieldDefinition" p:attributeName="errorTypeCode" />
+				<bean parent="FieldDefinition" p:attributeName="noteRequired" />
+				<bean parent="FieldDefinition" p:attributeName="receiptRequired" />
+				<bean parent="FieldDefinition" p:attributeName="receiptRequirementThreshold" />
+				<bean parent="FieldDefinition" p:attributeName="taxable" />
+				<bean parent="FieldDefinition" p:attributeName="specialRequestRequired" />
+				<bean parent="FieldDefinition" p:attributeName="active" />
+			</list>
+		</property>
+		<property name="resultFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="expenseTypeObjectCodeId"/>
+		        <bean parent="FieldDefinition" p:attributeName="expenseTypeCode"/>
+		        <bean parent="FieldDefinition" p:attributeName="tripTypeCode" />
+				<bean parent="FieldDefinition" p:attributeName="travelerTypeCode" />
+				<bean parent="FieldDefinition" p:attributeName="documentTypeName" />
+		        <bean parent="FieldDefinition" p:attributeName="financialObjectCode"/>
+				<bean parent="FieldDefinition" p:attributeName="maximumAmount" />
+				<bean parent="FieldDefinition" p:attributeName="maximumAmountSummationCode" />
+				<bean parent="FieldDefinition" p:attributeName="errorTypeCode" />
+				<bean parent="FieldDefinition" p:attributeName="noteRequired" />
+				<bean parent="FieldDefinition" p:attributeName="receiptRequired" />
+				<bean parent="FieldDefinition" p:attributeName="receiptRequirementThreshold" />
+				<bean parent="FieldDefinition" p:attributeName="taxable" />
+				<bean parent="FieldDefinition" p:attributeName="specialRequestRequired" />
+				<bean parent="FieldDefinition" p:attributeName="active" />
+			</list>
+		</property>
+	</bean>
+</beans>

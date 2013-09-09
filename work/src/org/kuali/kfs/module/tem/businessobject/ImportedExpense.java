@@ -39,7 +39,7 @@ public class ImportedExpense extends AbstractExpense implements TEMExpense, Expe
     }
 
     @Override
-    public String getTemExpenseTypeCode(){
+    public String getExpenseLineTypeCode(){
         return temExpenseTypeCode;
     }
 
@@ -124,8 +124,8 @@ public class ImportedExpense extends AbstractExpense implements TEMExpense, Expe
     }
 
     @Override
-    public void setTemExpenseTypeCode(String temExpenseTypeCode) {
-        this.temExpenseTypeCode = temExpenseTypeCode;
+    public void setExpenseLineTypeCode(String expenseLineTypeCode) {
+        this.temExpenseTypeCode = expenseLineTypeCode;
     }
 
     @Override

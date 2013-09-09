@@ -22,7 +22,7 @@
 	type="org.kuali.kfs.module.tem.businessobject.ActualExpense"%>
 
 <c:set var="otherExpenseAttributes"	value="${DataDictionary.ActualExpense.attributes}" />
-<c:set var="temExtension" value="${DataDictionary.TemTravelExpenseTypeCode.attributes}" />
+<c:set var="temExtension" value="${DataDictionary.ExpenseTypeObjectCode.attributes}" />
 
 
 <tr>
@@ -45,7 +45,7 @@
 	<th>
 		<div align="left">
 			<kul:htmlAttributeLabel
-				attributeEntry="${otherExpenseAttributes.travelCompanyCodeCode}"
+				attributeEntry="${otherExpenseAttributes.expenseTypeCode}"
 				noColon="true" />
 		</div>
 	</th>

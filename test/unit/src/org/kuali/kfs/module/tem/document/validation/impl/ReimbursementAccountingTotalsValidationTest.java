@@ -30,8 +30,8 @@ import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.service.ObjectCodeService;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.businessobject.ActualExpense;
+import org.kuali.kfs.module.tem.businessobject.ExpenseTypeObjectCode;
 import org.kuali.kfs.module.tem.businessobject.PerDiemExpense;
-import org.kuali.kfs.module.tem.businessobject.TemTravelExpenseTypeCode;
 import org.kuali.kfs.module.tem.businessobject.TravelerDetail;
 import org.kuali.kfs.module.tem.businessobject.TripType;
 import org.kuali.kfs.module.tem.document.TravelReimbursementDocument;
@@ -103,8 +103,8 @@ public class ReimbursementAccountingTotalsValidationTest extends KualiTestBase {
         actualExpense.setExpenseAmount(new KualiDecimal(EXPENSE_AMOUNT));
 
         //setup actualExpense
-        TemTravelExpenseTypeCode travelExpenseTypeCode = new TemTravelExpenseTypeCode();
-        travelExpenseTypeCode.setCode(AIRLINE_EXPENSE_TYPE_CODE);
+        ExpenseTypeObjectCode travelExpenseTypeCode = new ExpenseTypeObjectCode();
+        travelExpenseTypeCode.setExpenseTypeCode(AIRLINE_EXPENSE_TYPE_CODE);
         travelExpenseTypeCode.setFinancialObjectCode(FINANCIAL_OBJECT_CODE);
         actualExpense.setTravelExpenseTypeCode(travelExpenseTypeCode);
 

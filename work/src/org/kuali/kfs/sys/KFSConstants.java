@@ -1438,6 +1438,8 @@ public class KFSConstants {
     public static final String BATCH_LOGGER_DEFAULT_CONVERSION_PATTERN = "%d [%t] u:%X{user}/d:%X{docId} %-5p %c :: %m%n";
     public static final Layout BATCH_LOGGER_DEFAULT_PATTERN_LAYOUT = new PatternLayout(BATCH_LOGGER_DEFAULT_CONVERSION_PATTERN);
 
+	    public static final String MONTH_DAY_YEAR_DATE_FORMAT = "MM/dd/yyyy";
+
     public static class PaymentSourceConstants {
         public static final String PAYMENT_METHOD_CHECK = "P";
         public static final String PAYMENT_METHOD_WIRE = "W";

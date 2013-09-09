@@ -136,11 +136,11 @@ public class ExpenseSummaryReportServiceImpl implements ExpenseSummaryReportServ
         LOG.info("Adding details from other expenses");
         LOG.debug("There are "+ travelDocument.getActualExpenses().size() + " other expenses");
         for (final ActualExpense expense : travelDocument.getActualExpenses()) {
-            expense.refreshReferenceObject(TemPropertyConstants.TRAVEL_EXEPENSE_TYPE_CODE);
+            expense.refreshReferenceObject(TemPropertyConstants.EXPENSE_TYPE_OBJECT_CODE);
 
             if (expense.getNonReimbursable()) {
                 LOG.debug("Adding detail for non reimbursable item");
-                expenses.add(new ExpenseSummaryReport.Detail(expense.getTravelExpenseTypeCode().getName(), "NONREIMBURSABLE", expense.getConvertedAmount(), expense.getExpenseDate()));
+                expenses.add(new ExpenseSummaryReport.Detail(expense.getExpenseTypeObjectCode().getExpenseType().getName(), "NONREIMBURSABLE", expense.getConvertedAmount(), expense.getExpenseDate()));
             }
 
             String expenseType = "OTHER";
@@ -154,7 +154,7 @@ public class ExpenseSummaryReportServiceImpl implements ExpenseSummaryReportServ
                 expenseType = "MEALS";
             }
 
-            expenses.add(new ExpenseSummaryReport.Detail(expense.getTravelExpenseTypeCode().getName(), expenseType, expense.getConvertedAmount(), expense.getExpenseDate()));
+            expenses.add(new ExpenseSummaryReport.Detail(expense.getExpenseTypeObjectCode().getExpenseType().getName(), expenseType, expense.getConvertedAmount(), expense.getExpenseDate()));
         }
 
         final KualiDecimal expenseLimit = travelDocument.getExpenseLimit() == null ? KualiDecimal.ZERO : travelDocument.getExpenseLimit();
@@ -217,7 +217,7 @@ public class ExpenseSummaryReportServiceImpl implements ExpenseSummaryReportServ
 
     protected boolean isTransportationExpense(final ActualExpense expense) {
         LOG.debug("Checking if " + expense+ " is a transportation ");
-        return expenseTypeCodeMatchesParameter(expense.getTravelExpenseTypeCodeCode(), TRANSPORTATION_TYPE_CODES);
+        return expenseTypeCodeMatchesParameter(expense.getExpenseTypeCode(), TRANSPORTATION_TYPE_CODES);
     }
 
     protected boolean isMealsExpense(final ActualExpense expense) {
@@ -226,7 +226,7 @@ public class ExpenseSummaryReportServiceImpl implements ExpenseSummaryReportServ
 
     protected boolean isLodgingExpense(final ActualExpense expense) {
         LOG.debug("Checking if " + expense + " is a lodging ");
-        return expenseTypeCodeMatchesParameter(expense.getTravelExpenseTypeCodeCode(), LODGING_TYPE_CODES);
+        return expenseTypeCodeMatchesParameter(expense.getExpenseTypeCode(), LODGING_TYPE_CODES);
     }
 
     protected boolean expenseTypeCodeMatchesParameter(final String expenseTypeCode, final String parameter) {

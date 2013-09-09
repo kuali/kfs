@@ -44,7 +44,7 @@
 		<property name="maintainableItems">
 			<list>
 			    <bean parent="MaintainableSubSectionHeaderDefinition" p:name="Travel Agency Data"/>
-                <bean parent="MaintainableFieldDefinition" p:name="id" p:unconditionallyReadOnly="true" p:required="true" p:defaultValueFinderClass="org.kuali.kfs.module.tem.businessobject.options.NextAgencyStagingDataIdFinder"/>
+                <bean parent="MaintainableFieldDefinition" p:name="id" p:unconditionallyReadOnly="true" p:required="true" p:defaultValueFinderClass="org.kuali.kfs.module.tem.businessobject.defaultvalue.NextAgencyStagingDataIdFinder"/>
                 <bean parent="MaintainableFieldDefinition" p:name="importBy" p:required="true" />
                 <bean parent="MaintainableFieldDefinition" p:name="creditCardOrAgencyCode" p:required="true"  p:webUILeaveFieldFunction="loadAgencyName">
                 	<property name="webUILeaveFieldFunctionParameters">

@@ -218,14 +218,13 @@
 			columnName="VER_NBR" columnDataType="NUMBER(8,0)" />
 		<addNotNullConstraint tableName="TEM_ENT_DOC_T"
 			columnName="OBJ_ID" columnDataType="VARCHAR2(36)" />
-		<addForeignKeyConstraint constraintName="TEM_EXP_TYP_TR1"
-			baseTableName="TEM_EXP_TYP_T" baseColumnNames="TRIP_TYP_CD"
-			referencedTableName="TEM_TRIP_TYP_T" referencedColumnNames="CODE" />
-		<addForeignKeyConstraint constraintName="TEM_EXP_TYP_TR2"
-			baseTableName="TEM_EXP_TYP_T" baseColumnNames="TRAVELER_TYP_CD"
-			referencedTableName="TEM_TRAVELER_TYP_T" referencedColumnNames="CODE" />
+		<addForeignKeyConstraint constraintName="TEM_EXP_TYP_FIN_OBJ_CD_TR1"
+			baseTableName="TEM_EXP_TYP_FIN_OBJ_CD_T" baseColumnNames="EXP_TYP_CD"
+			referencedTableName="TEM_EXP_TYP_T" referencedColumnNames="EXP_TYP_CD" />
 		<addUniqueConstraint tableName="TEM_EXP_TYP_T"
 			constraintName="TEM_EXP_TYP_TC0" columnNames="OBJ_ID" />
+		<addUniqueConstraint tableName="TEM_EXP_TYP_FIN_OBJ_CD_T"
+			constraintName="TEM_EXP_TYP_FIN_OBJ_CD_TC0" columnNames="OBJ_ID" />
 		<addUniqueConstraint tableName="TEM_EXP_TYP_T"
 			constraintName="TEM_EXP_TYP_TC1" columnNames="TEM_EXP_TYP_ID" />
 		<addNotNullConstraint tableName="TEM_EXP_TYP_T"

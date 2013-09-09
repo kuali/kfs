@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" language="java" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="NonEmployeeCertification" pageWidth="612" pageHeight="850" columnWidth="552" leftMargin="30" rightMargin="30" topMargin="20" bottomMargin="20">
+<!DOCTYPE jasperReport PUBLIC "//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
+<jasperReport name="NonEmployeeCertification" pageWidth="612" pageHeight="850" columnWidth="552" leftMargin="30" rightMargin="30" topMargin="20" bottomMargin="20">
 	<property name="ireport.scriptlethandling" value="0"/>
 	<property name="ireport.encoding" value="UTF-8"/>
 	<property name="ireport.zoom" value="1.5"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
-	<import value="org.kuali.rice.kns.util.KualiDecimal"/>
+	<import value="org.kuali.rice.core.api.util.type.KualiDecimal"/>
 	<import value="net.sf.jasperreports.engine.*"/>
 	<import value="java.util.*"/>
 	<import value="net.sf.jasperreports.engine.data.*"/>
@@ -15,10 +16,10 @@
 	<field name="date" class="java.lang.String"/>
 	<field name="amount" class="java.math.BigDecimal"/>
 	<background>
-		<band splitType="Stretch"/>
+		<band />
 	</background>
 	<title>
-		<band height="120" splitType="Stretch">
+		<band height="120" >
 			<image>
 				<reportElement x="162" y="0" width="316" height="110"/>
 				<imageExpression class="java.awt.Image"><![CDATA[$P{report}.getBarcodeImage()]]></imageExpression>
@@ -26,7 +27,7 @@
 		</band>
 	</title>
 	<columnHeader>
-		<band height="290" splitType="Stretch">
+		<band height="290" >
 			<staticText>
 				<reportElement x="148" y="0" width="261" height="20"/>
 				<textElement>
@@ -48,7 +49,7 @@
 			</staticText>
 			<staticText>
 				<reportElement mode="Transparent" x="178" y="56" width="118" height="20" forecolor="#000000" backcolor="#FFFFFF"/>
-				<textElement textAlignment="Left" verticalAlignment="Top" rotation="None" markup="none">
+				<textElement textAlignment="Left" verticalAlignment="Top" rotation="None" >
 					<font fontName="Arial" size="14" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 				</textElement>
 				<text><![CDATA[Report Summary]]></text>
@@ -65,7 +66,7 @@
 			</textField>
 			<staticText>
 				<reportElement x="77" y="86" width="118" height="20"/>
-				<textElement>
+				<textElement >
 					<font fontName="Arial" size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Trip/Event Name :]]></text>
@@ -77,56 +78,56 @@
 			</textField>
 			<staticText>
 				<reportElement x="77" y="106" width="111" height="20"/>
-				<textElement>
+				<textElement >
 					<font fontName="Arial" size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Trip/Event Type :]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="77" y="126" width="58" height="20"/>
-				<textElement>
+				<textElement >
 					<font fontName="Arial" size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Name :]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="77" y="146" width="152" height="20"/>
-				<textElement>
+				<textElement >
 					<font fontName="Arial" size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Approving Department :]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="77" y="166" width="83" height="20"/>
-				<textElement>
+				<textElement >
 					<font fontName="Arial" size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Destination :]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="77" y="186" width="78" height="20"/>
-				<textElement>
+				<textElement >
 					<font fontName="Arial" size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Start Date :]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="77" y="206" width="75" height="20"/>
-				<textElement>
+				<textElement >
 					<font fontName="Arial" size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[End Date :]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="77" y="226" width="104" height="20"/>
-				<textElement>
+				<textElement >
 					<font fontName="Arial" size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Total Expense :]]></text>
 			</staticText>
 			<staticText>
 				<reportElement mode="Transparent" x="187" y="246" width="146" height="20" forecolor="#000000" backcolor="#FFFFFF"/>
-				<textElement textAlignment="Left" verticalAlignment="Top" rotation="None" markup="none">
+				<textElement textAlignment="Left" verticalAlignment="Top" rotation="None" >
 					<font fontName="Arial" size="14" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 				</textElement>
 				<text><![CDATA[Report Expenses]]></text>
@@ -168,21 +169,21 @@
 			</textField>
 			<staticText>
 				<reportElement mode="Transparent" x="87" y="270" width="118" height="20" forecolor="#000000" backcolor="#FFFFFF"/>
-				<textElement textAlignment="Left" verticalAlignment="Top" rotation="None" markup="none">
+				<textElement textAlignment="Left" verticalAlignment="Top" rotation="None" >
 					<font fontName="Arial" size="12" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 				</textElement>
 				<text><![CDATA[Date of Expense]]></text>
 			</staticText>
 			<staticText>
 				<reportElement mode="Transparent" x="208" y="270" width="73" height="20" forecolor="#000000" backcolor="#FFFFFF"/>
-				<textElement textAlignment="Left" verticalAlignment="Top" rotation="None" markup="none">
+				<textElement textAlignment="Left" verticalAlignment="Top" rotation="None" >
 					<font fontName="Arial" size="12" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 				</textElement>
 				<text><![CDATA[Expenses]]></text>
 			</staticText>
 			<staticText>
 				<reportElement mode="Transparent" x="405" y="270" width="73" height="20" forecolor="#000000" backcolor="#FFFFFF"/>
-				<textElement textAlignment="Left" verticalAlignment="Top" rotation="None" markup="none">
+				<textElement textAlignment="Left" verticalAlignment="Top" rotation="None" >
 					<font fontName="Arial" size="12" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 				</textElement>
 				<text><![CDATA[Amount]]></text>
@@ -190,7 +191,7 @@
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="24" splitType="Stretch">
+		<band height="24" >
 			<textField>
 				<reportElement x="87" y="0" width="100" height="20"/>
 				<textElement/>
@@ -209,10 +210,10 @@
 		</band>
 	</detail>
 	<pageFooter>
-		<band height="147" splitType="Stretch">
+		<band height="147" >
 			<staticText>
 				<reportElement mode="Transparent" x="8" y="13" width="535" height="121" forecolor="#000000" backcolor="#FFFFFF"/>
-				<textElement textAlignment="Left" verticalAlignment="Top" rotation="None" markup="none">
+				<textElement textAlignment="Left" verticalAlignment="Top" rotation="None" >
 					<font fontName="Arial" size="12" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 				</textElement>
 				<text><![CDATA[]]></text>
@@ -230,7 +231,7 @@
 			</line>
 			<staticText>
 				<reportElement mode="Transparent" x="27" y="122" width="196" height="20" forecolor="#000000" backcolor="#FFFFFF"/>
-				<textElement textAlignment="Left" verticalAlignment="Top" rotation="None" markup="none">
+				<textElement textAlignment="Left" verticalAlignment="Top" rotation="None" >
 					<font fontName="Arial" size="12" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 				</textElement>
 				<text><![CDATA[Non Employee signature]]></text>

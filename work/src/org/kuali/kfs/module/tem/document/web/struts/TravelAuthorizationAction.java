@@ -814,7 +814,7 @@ public class TravelAuthorizationAction extends TravelActionBase {
         final Inquisitive<TravelAuthorizationDocument, ActionForward> inq = getInquisitive(mapping, form, request, response);
         if (inq.wasQuestionAsked()) {
             if (request.getParameterMap().containsKey(KFSConstants.QUESTION_REASON_ATTRIBUTE_NAME)){
-                this.save(mapping, form, request, response);
+                getDocumentService().saveDocument(((TravelAuthorizationForm)form).getDocument(), AccountingDocumentSaveWithNoLedgerEntryGenerationEvent.class);
             }
         }
         ActionForward forward = askQuestionsAndPerformDocumentAction(inq, TemConstants.AMENDMENT_TA_QUESTION);

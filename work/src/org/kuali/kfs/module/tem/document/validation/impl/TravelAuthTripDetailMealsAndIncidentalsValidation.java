@@ -17,11 +17,13 @@ package org.kuali.kfs.module.tem.document.validation.impl;
 
 import java.text.SimpleDateFormat;
 
+import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemConstants.TravelParameters;
 import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.TemParameterConstants;
 import org.kuali.kfs.module.tem.businessobject.ActualExpense;
 import org.kuali.kfs.module.tem.businessobject.PerDiemExpense;
+import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.TravelDocumentBase;
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
 import org.kuali.kfs.sys.KFSKeyConstants;
@@ -100,7 +102,7 @@ public class TravelAuthTripDetailMealsAndIncidentalsValidation extends GenericVa
                 }
 
                 // check for meal without lodging
-                if (document.checkMealWithoutLodging(estimate) && (document.getMealWithoutLodgingReason() == null || document.getMealWithoutLodgingReason().trim().length() == 0)) {
+                if (document.checkMealWithoutLodging(estimate) && !hasLodgingActualExpense(document) && (document.getMealWithoutLodgingReason() == null || document.getMealWithoutLodgingReason().trim().length() == 0)) {
                     GlobalVariables.getMessageMap().putError("document.mealWithoutLodgingReason", KFSKeyConstants.ERROR_CUSTOM, "Justification for meals without lodging is required.");
                     rulePassed = false;
                     break;
@@ -117,6 +119,20 @@ public class TravelAuthTripDetailMealsAndIncidentalsValidation extends GenericVa
         }
 
         return rulePassed;
+    }
+
+    /**
+     * Determines whether the given document has any actual expenses associated which are lodging expenses
+     * @param document the document to look for lodging expenses on
+     * @return true if there are lodging expenses on the document, false otherwise
+     */
+    protected boolean hasLodgingActualExpense(TravelDocument document) {
+        for (ActualExpense expense : document.getActualExpenses()) {
+            if (TemConstants.ExpenseTypes.LODGING.equals(expense.getExpenseTypeCode())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public void setTravelDocumentService(TravelDocumentService travelDocumentService) {

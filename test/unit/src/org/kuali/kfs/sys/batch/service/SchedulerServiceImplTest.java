@@ -322,4 +322,18 @@ public class SchedulerServiceImplTest extends KualiTestBase {
             assertFalse("Job was expected to be unscheduled so dropDependenciesNotScheduled should have removed this dependency.", "dailyEmailJob".equals(dependencyJobName));
         }
     }
+
+    public void testCronConditionMet() {
+        SchedulerService schedulerService = SpringContext.getBean(SchedulerService.class);
+
+        //Set year to 2199 for this cron expression so it won't match, at least not for almost two centuries
+        // and if KFS is still running by then, I'm guessing there are larger concerns than just this test.
+        String cronExpression = "0 * * ? * 5#3 2199";
+        assertFalse(schedulerService.cronConditionMet(cronExpression));
+
+        // The next valid date for this cron expression should be today so it should always match
+        cronExpression = "0 * * ? * 1-7";
+        assertTrue(schedulerService.cronConditionMet(cronExpression));
+
+    }
 }

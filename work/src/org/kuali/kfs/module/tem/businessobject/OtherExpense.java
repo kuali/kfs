@@ -69,25 +69,18 @@ public interface OtherExpense extends BusinessObject {
     public void setConvertedAmount(KualiDecimal convertedAmount);
 
     /**
-     * Gets the value of travelExpenseTypeCodeCode
-     *
-     * @return the value of travelExpenseTypeCodeCode
-     */
-    String getTravelExpenseTypeCodeCode();
-
-    /**
      * Gets the value of travelExpenseTypeCode
      *
      * @return the value of travelExpenseTypeCode
      */
-    TemTravelExpenseTypeCode getTravelExpenseTypeCode();
+    ExpenseTypeObjectCode getExpenseTypeObjectCode();
 
     /**
      * Sets the value of travelExpenseTypeCode
      *
      * @param argTravelExpenseTypeCode Value to assign to this.travelExpenseTypeCode
      */
-    void setTravelExpenseTypeCode(final TemTravelExpenseTypeCode argTravelExpenseTypeCode);
+    void setTravelExpenseTypeCode(final ExpenseTypeObjectCode argTravelExpenseTypeCode);
 
     String getSequenceName();
 

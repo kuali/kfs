@@ -17,7 +17,7 @@
 				<ref bean="ImportedExpense-expenseAmount" />
 				<ref bean="ImportedExpense-expenseDate" />
 				<ref bean="ImportedExpense-currencyRate" />
-				<ref bean="ImportedExpense-travelExpenseTypeCodeId" />
+				<ref bean="ImportedExpense-expenseTypeObjectCodeId" />
 				<ref bean="ImportedExpense-travelCompanyCodeName" />
 				<ref bean="ImportedExpense-versionNumber" />			
 				<ref bean="ImportedExpense-documentLineNumber" />
@@ -118,16 +118,16 @@
 		<property name="description" value="Notes" />
 		<property name="control"><bean parent="TextControlDefinition" p:size="40"/></property>
 	</bean>
-	<bean id="ImportedExpense-travelExpenseTypeCodeId" parent="ImportedExpense-travelExpenseTypeCodeId-parentBean" />
-	<bean id="ImportedExpense-travelExpenseTypeCodeId-parentBean" parent="TravelExpenseTypeCode-code-parentBean">
-		<property name="name" value="travelExpenseTypeCodeId" />
+	<bean id="ImportedExpense-expenseTypeObjectCodeId" parent="ImportedExpense-expenseTypeObjectCodeId-parentBean" />
+	<bean id="ImportedExpense-expenseTypeObjectCodeId-parentBean" parent="ExpenseTypeObjectCode-expenseTypeObjectCodeId-parentBean">
+		<property name="name" value="expenseTypeObjectCodeId" />
 		<property name="label" value="Expense Type" />
 		<property name="shortLabel" value="Expense Type" />
 		<property name="maxLength" value="32" />
-		<property name="required" value="true" />
 		<property name="summary" value="Travel Expense Type Code" />
 		<property name="description" value="Travel Expense Type Code" />
-      <property name="control"><bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.tem.businessobject.options.TravelExpenseTypeValuesFinder" p:includeKeyInLabel="false"/></property>
+		<property name="required" value="false"/>
+		<property name="control"><bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.tem.businessobject.options.TravelExpenseTypeValuesFinder" p:includeKeyInLabel="false"/></property>
 	</bean>
     <bean id="ImportedExpense-travelCompanyCodeName" parent="TravelCompanyCode-name-parentBean">
       <property name="name" value="travelCompanyCodeName" />

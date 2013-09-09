@@ -18,7 +18,6 @@ package org.kuali.kfs.fp.document.web.struts;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -30,22 +29,16 @@ import org.kuali.kfs.fp.businessobject.TravelPerDiem;
 import org.kuali.kfs.fp.document.DisbursementVoucherConstants;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.fp.document.service.DisbursementVoucherCoverSheetService;
-import org.kuali.kfs.pdp.PdpPropertyConstants;
-import org.kuali.kfs.pdp.businessobject.PurchasingPaymentDetail;
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSParameterKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.service.PaymentSourceHelperService;
 import org.kuali.kfs.sys.service.UniversityDateService;
-import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
-import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.web.format.SimpleBooleanFormatter;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.service.BusinessObjectDictionaryService;
 import org.kuali.rice.krad.service.KeyValuesService;
 import org.kuali.rice.krad.util.KRADConstants;
-import org.kuali.rice.krad.util.UrlFactory;
 
 /**
  * This class is the action form for the Disbursement Voucher.
@@ -483,21 +476,7 @@ public class DisbursementVoucherForm extends KualiAccountingDocumentFormBase {
      * @return
      */
     public String getDisbursementInfoUrl() {
-        String basePath = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(KFSConstants.APPLICATION_URL_KEY);
-        ParameterService parameterService = SpringContext.getBean(ParameterService.class);
-
-        String orgCode = parameterService.getParameterValueAsString(KfsParameterConstants.PURCHASING_BATCH.class, KFSParameterKeyConstants.PurapPdpParameterConstants.PURAP_PDP_ORG_CODE);
-
-        Properties parameters = new Properties();
-        parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.SEARCH_METHOD);
-        parameters.put(KFSConstants.BACK_LOCATION, basePath + "/" + KFSConstants.MAPPING_PORTAL + ".do");
-        parameters.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, PurchasingPaymentDetail.class.getName());
-        parameters.put(KFSConstants.HIDE_LOOKUP_RETURN_LINK, "true");
-        parameters.put(KFSConstants.SUPPRESS_ACTIONS, "false");
-        parameters.put(PdpPropertyConstants.PaymentDetail.PAYMENT_UNIT_CODE, orgCode);
-
-        String lookupUrl = UrlFactory.parameterizeUrl(basePath + "/" + KFSConstants.LOOKUP_ACTION, parameters);
-
-        return lookupUrl;
+        final PaymentSourceHelperService paymentSourceHelperService = SpringContext.getBean(PaymentSourceHelperService.class);
+        return paymentSourceHelperService.getDisbursementInfoUrl();
     }
 }

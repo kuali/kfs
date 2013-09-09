@@ -53,9 +53,10 @@
 						</td>
 					</tr>
 					<tr>
-						<kul:htmlAttributeHeaderCell attributeEntry="${perDiemAttributes.countryState}" />
-						<kul:htmlAttributeHeaderCell attributeEntry="${perDiemAttributes.county}" />
-						<kul:htmlAttributeHeaderCell attributeEntry="${perDiemAttributes.primaryDestination}" />
+			
+						<kul:htmlAttributeHeaderCell attributeEntry="${perDiemExpensesAttributes.countryState}" />
+						<kul:htmlAttributeHeaderCell attributeEntry="${perDiemExpensesAttributes.county}" />
+						<kul:htmlAttributeHeaderCell attributeEntry="${perDiemExpensesAttributes.primaryDestination}" />
 						<kul:htmlAttributeHeaderCell attributeEntry="${perDiemExpensesAttributes.personal}" />
 
 						<c:if test="${showPerDiemBreakdown || isCustom || isTR}">
@@ -82,24 +83,36 @@
 						<th colspan="1" rowspan="1">&nbsp;Daily Total</th>
 					</tr>
 					<tr>
-						<td valign=top class="datacell"><kul:htmlControlAttribute
+					<td valign=top class="datacell">
+						<c:choose>
+						<c:when test="${isCustom}">
+							<kul:htmlControlAttribute
+								attributeEntry="${perDiemExpensesAttributes.countryStateText}"
+								property="document.perDiemExpenses[${perDiemIndex.count - 1}].countryState"
+								readOnly="${!isCustom && !fullEntryMode}" />
+							
+						</c:when>
+						<c:otherwise>
+							<kul:htmlControlAttribute
 								attributeEntry="${perDiemExpensesAttributes.countryState}"
 								property="document.perDiemExpenses[${perDiemIndex.count - 1}].countryState"
-								readOnly="${!isCustom || !fullEntryMode}" />
+								readOnly="${!isCustom && !fullEntryMode}" />
+						</c:otherwise>
+						</c:choose>
 						</td>
 						<td valign=top class="datacell"><kul:htmlControlAttribute
 								attributeEntry="${perDiemExpensesAttributes.county}"
 								property="document.perDiemExpenses[${perDiemIndex.count - 1}].county"
-								readOnly="${!isCustom || !fullEntryMode}" />
+								readOnly="${!isCustom && !fullEntryMode}" />
 						</td>
 						<td valign=top class="datacell"><kul:htmlControlAttribute
 								attributeEntry="${perDiemExpensesAttributes.perDiemId}"
 								property="document.perDiemExpenses[${perDiemIndex.count - 1}].primaryDestination"
-								readOnly="${!isCustom || !fullEntryMode}" /> 
+								readOnly="${!isCustom && !fullEntryMode}" /> 
 							<c:if test="${fullEntryMode}">
 								<kul:lookup
 									boClassName="org.kuali.kfs.module.tem.businessobject.PrimaryDestination"
-									fieldConversions="id:document.perDiemExpenses[${perDiemIndex.count - 1}].perDiemId"
+									fieldConversions="id:document.perDiemExpenses[${perDiemIndex.count - 1}].perDiem.primaryDestination.id"
 									readOnlyFields="tripTypeCode"
 									lookupParameters="document.perDiemExpenses[${perDiemIndex.count - 1}].countryState:countryState,document.perDiemExpenses[${perDiemIndex.count - 1}].county:county,document.perDiemExpenses[${perDiemIndex.count - 1}].primaryDestination:primaryDestinationName,document.tripTypeCode:tripTypeCode" />
 								<c:if test="${!isCustom && enablePrimaryDestination}">

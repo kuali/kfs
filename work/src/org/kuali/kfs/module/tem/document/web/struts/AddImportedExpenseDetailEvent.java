@@ -60,7 +60,7 @@ public class AddImportedExpenseDetailEvent implements Observer {
         final ImportedExpense newImportedExpenseLine = wrapper.getNewImportedExpenseLines().get(index);
 
         if(newImportedExpenseLine != null){
-            newImportedExpenseLine.refreshReferenceObject(TemPropertyConstants.TRAVEL_EXEPENSE_TYPE_CODE);
+            newImportedExpenseLine.refreshReferenceObject(TemPropertyConstants.EXPENSE_TYPE_OBJECT_CODE);
         }
 
         ImportedExpense line = document.getImportedExpenses().get(index);
@@ -71,7 +71,7 @@ public class AddImportedExpenseDetailEvent implements Observer {
 
         if (rulePassed){
             if(newImportedExpenseLine != null && line != null){
-                newImportedExpenseLine.setTemExpenseTypeCode(null);
+                newImportedExpenseLine.setExpenseLineTypeCode(null);
                 newImportedExpenseLine.setCardType(line.getCardType());
                 document.addExpenseDetail(newImportedExpenseLine, index);
                 newImportedExpenseLine.setExpenseDetails(null);

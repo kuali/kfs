@@ -17,23 +17,42 @@ package org.kuali.kfs.module.tem.service;
 
 import java.util.List;
 
-import org.kuali.kfs.module.tem.TemConstants.ExpenseType;
+import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.businessobject.AgencyStagingData;
 import org.kuali.kfs.module.tem.businessobject.CreditCardStagingData;
+import org.kuali.kfs.module.tem.businessobject.ExpenseType;
+import org.kuali.kfs.module.tem.businessobject.ExpenseTypeObjectCode;
 import org.kuali.kfs.module.tem.businessobject.HistoricalTravelExpense;
 import org.kuali.kfs.module.tem.businessobject.OtherExpense;
-import org.kuali.kfs.module.tem.businessobject.TemTravelExpenseTypeCode;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 public interface TravelExpenseService {
 
     /**
      *
-     * This method returns the {@link TemTravelExpenseTypeCode} for the Expense.
+     * This method returns the {@link ExpenseTypeObjectCode} for the Expense.
      * @param expense
      * @return
      */
-    public TemTravelExpenseTypeCode getExpenseType(String expense, String documentType, String tripType, String travelerType);
+    public ExpenseTypeObjectCode getExpenseType(String expense, String documentType, String tripType, String travelerType);
+
+    /**
+     * Looks up the ExpenseTypeObjectCode by the expense type and a document (which supplies document type, traveler type, and trip type)
+     * @param travelExpenseCode the expense type code of the ExpenseTypeObjectCode to look up
+     * @param documentNumber the document number of the document to find the ExpenseTypeObjectCode for
+     * @return the most matching ExpenseTypeObjectCode
+     */
+    public ExpenseTypeObjectCode getExpenseTypeObjectCode(String travelExpenseCode, String documentNumber);
+
+    /**
+     * Finds a list of ExpenseType records which can be used on a given document type
+     * @param documentTypeName the name of the document type to find ExpenseType records for
+     * @param tripType the trip type to find expense types for; if null or empty, trip type will not be consulted into which expense types to pull back
+     * @param travelerType the traveler type to find expense types for; if null or empty, the traveler type will not be consulted into which expense types to pull back
+     * @param groupOnly if true, only group expense types will be returned
+     * @return a List, sorted in alphabetical order, of ExpenseType records
+     */
+    public List<ExpenseType> getExpenseTypesForDocument(String documentTypeName, String tripType, String travelerType, boolean groupOnly);
 
     /**
      *
@@ -59,7 +78,7 @@ public interface TravelExpenseService {
      * @param travelExpenseType
      * @return
      */
-    public HistoricalTravelExpense createHistoricalTravelExpense(AgencyStagingData agency, CreditCardStagingData creditCard, TemTravelExpenseTypeCode travelExpenseType);
+    public HistoricalTravelExpense createHistoricalTravelExpense(AgencyStagingData agency, CreditCardStagingData creditCard, ExpenseTypeObjectCode travelExpenseType);
 
     /**
      *
@@ -93,11 +112,7 @@ public interface TravelExpenseService {
      * @param expenseType
      * @return
      */
-    public TEMExpenseService getExpenseServiceByType(ExpenseType expenseType);
-
-    public TemTravelExpenseTypeCode getExpenseType(Long travelExpenseTypeCodeId);
-
-    public Long getExpenseTypeId(String travelExpenseCode, String documentNumber);
+    public TEMExpenseService getExpenseServiceByType(TemConstants.ExpenseType expenseType);
 
     /**
      * Check the expense amount against the travel expense threshold value (if provided)

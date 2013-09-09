@@ -50,7 +50,9 @@
         </property>
         <property name="externalizableBusinessObjectImplementations">
             <map>
-                <entry key="org.kuali.kfs.integration.ld.LaborBenefitRateCategory" value="org.kuali.kfs.integration.ld.businessobject.BenefitRateCategory" />             </map>
+                <entry key="org.kuali.kfs.integration.ld.LaborBenefitRateCategory" value="org.kuali.kfs.integration.ld.businessobject.BenefitRateCategory" />             
+                <entry key="org.kuali.kfs.integration.ld.LaborLedgerPositionObjectGroup" value="org.kuali.kfs.integration.ld.businessobject.PositionObjectGroup" />
+            </map>
         </property>
     </bean>
     <bean id="laborModuleService"  parent="laborModuleService-parentBean"/>

@@ -1,12 +1,12 @@
 /*
  * Copyright 2007-2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -30,8 +30,6 @@ import org.kuali.kfs.coa.service.ObjectCodeService;
 import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService;
 import org.kuali.kfs.integration.cam.CapitalAssetManagementModuleService;
-import org.kuali.kfs.module.cab.CabPropertyConstants;
-import org.kuali.kfs.module.cab.businessobject.PretagDetail;
 import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.businessobject.Asset;
@@ -79,7 +77,7 @@ public class AssetGlobalMaintainableImpl extends LedgerPostingMaintainable {
 
     /**
      * Lock on purchase order document since post processor will update PO document by adding notes.
-     * 
+     *
      * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#getWorkflowEngineDocumentIdsToLock()
      */
     @Override
@@ -101,7 +99,9 @@ public class AssetGlobalMaintainableImpl extends LedgerPostingMaintainable {
      */
     @Override
     protected boolean answerSplitNodeQuestion(String nodeName) throws UnsupportedOperationException {
-        if (REQUIRES_REVIEW.equals(nodeName)) return !isAccountAndOrganizationReviewRequired();
+        if (REQUIRES_REVIEW.equals(nodeName)) {
+            return !isAccountAndOrganizationReviewRequired();
+        }
         throw new UnsupportedOperationException("Cannot answer split question for this node you call \"" + nodeName + "\"");
     }
 
@@ -115,7 +115,7 @@ public class AssetGlobalMaintainableImpl extends LedgerPostingMaintainable {
 
     /**
      * Get Asset from AssetGlobal
-     * 
+     *
      * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#processAfterNew(org.kuali.rice.kns.document.MaintenanceDocument,
      *      java.util.Map)
      */
@@ -166,20 +166,20 @@ public class AssetGlobalMaintainableImpl extends LedgerPostingMaintainable {
             String closingDate = getClosingDate(closingYear);
             try {
                 updateAssetGlobalForPeriod13(assetGlobal, closingYear, closingDate);
-                assetGlobal.refreshNonUpdateableReferences();                   
+                assetGlobal.refreshNonUpdateableReferences();
             } catch (Exception e) {
                 LOG.error(e);
-            }  
+            }
         }
         // CSU 6702 END
-        
+
         assetGlobal.setLastInventoryDate(getDateTimeService().getCurrentSqlDate());
     }
 
 
     /**
      * Get Asset from AssetGlobal
-     * 
+     *
      * @param assetGlobal
      * @return Asset
      */
@@ -189,7 +189,7 @@ public class AssetGlobalMaintainableImpl extends LedgerPostingMaintainable {
 
     /**
      * Get AssetOrganization from AssetGlobal
-     * 
+     *
      * @param assetGlobal
      * @return AssetOrganization
      */
@@ -199,7 +199,7 @@ public class AssetGlobalMaintainableImpl extends LedgerPostingMaintainable {
 
     /**
      * Populate Asset Details for Asset Separate document
-     * 
+     *
      * @param assetGlobal
      * @param asset
      * @param assetOrganization
@@ -235,7 +235,7 @@ public class AssetGlobalMaintainableImpl extends LedgerPostingMaintainable {
         // CSU 6702 BEGIN
         doPeriod13Changes(assetGlobal);
         // CSU 6702 END
-        
+
         assetGlobal.refreshReferenceObject(CamsPropertyConstants.AssetGlobal.ORGANIZATION_OWNER_ACCOUNT);
     }
 
@@ -243,7 +243,7 @@ public class AssetGlobalMaintainableImpl extends LedgerPostingMaintainable {
      * Populate Asset Payment Details for Asset Separate document. It will do this whether we are separating by asset or payment. If
      * it is by asset it picks up all the payments and sets the total amount on the document of that per the asset. If it is by
      * payment it picks only the payment out we are interested in and set the document total amount to that payment only.
-     * 
+     *
      * @param assetGlobal
      * @param asset
      */
@@ -295,7 +295,7 @@ public class AssetGlobalMaintainableImpl extends LedgerPostingMaintainable {
 
     /**
      * Set capital asset number and payment sequence number from URL on the AssetGlobal BO. It only does so if each is available.
-     * 
+     *
      * @see org.kuali.module.cams.lookup.AssetLookupableHelperServiceImpl#getSeparateUrl(BusinessObject)
      * @see org.kuali.module.cams.lookup.AssetPaymentLookupableHelperServiceImpl#getSeparateUrl(BusinessObject)
      * @param assetGlobal
@@ -315,7 +315,7 @@ public class AssetGlobalMaintainableImpl extends LedgerPostingMaintainable {
 
     /**
      * Set document type code from URL.
-     * 
+     *
      * @see org.kuali.module.cams.lookup.AssetLookupableHelperServiceImpl#getSeparateUrl(BusinessObject)
      * @param assetGlobal
      * @param parameters
@@ -329,7 +329,7 @@ public class AssetGlobalMaintainableImpl extends LedgerPostingMaintainable {
 
     /**
      * Hook for quantity and setting asset numbers.
-     * 
+     *
      * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#addNewLineToCollection(java.lang.String)
      */
     @Override
@@ -351,7 +351,7 @@ public class AssetGlobalMaintainableImpl extends LedgerPostingMaintainable {
 
     /**
      * Sets required fields with specific values when an individual unique asset added.
-     * 
+     *
      * @param collectionName
      */
     private void handleAssetUniqueCollection(String collectionName, AssetGlobal assetGlobal) {
@@ -382,7 +382,7 @@ public class AssetGlobalMaintainableImpl extends LedgerPostingMaintainable {
 
     /**
      * Sets required fields with specific values when multiple unique assets added (i.e. field "Quantity Of Assets To Be Created").
-     * 
+     *
      * @param collectionName
      * @param assetGlobal
      */
@@ -409,7 +409,7 @@ public class AssetGlobalMaintainableImpl extends LedgerPostingMaintainable {
 
     /**
      * Sets the default values in some of the fields of the asset payment section
-     * 
+     *
      * @param collectionName
      * @param assetGlobal
      */
@@ -423,13 +423,13 @@ public class AssetGlobalMaintainableImpl extends LedgerPostingMaintainable {
                 assetPaymentDetail.setExpenditureFinancialDocumentTypeCode(CamsConstants.DocumentTypeName.ASSET_ADD_GLOBAL);
                 assetPaymentDetail.setExpenditureFinancialSystemOriginationCode(KFSConstants.ORIGIN_CODE_KUALI);
             }
-            
+
             // CSU 6702 BEGIN
             //year end logic
-            if (isPeriod13(assetGlobal)) {                
+            if (isPeriod13(assetGlobal)) {
                 assetPaymentDetail.setPostingPeriodCode(assetGlobal.getFinancialDocumentPostingPeriodCode());
                 assetPaymentDetail.setPostingYear(assetGlobal.getFinancialDocumentPostingYear());
-            }                
+            }
             // CSU 6702 END
         }
     }
@@ -437,7 +437,7 @@ public class AssetGlobalMaintainableImpl extends LedgerPostingMaintainable {
     /**
      * We are using a substitute mechanism for asset locking which can lock on assets when rule check passed. Return empty list from
      * this method.
-     * 
+     *
      * @see org.kuali.rice.kns.maintenance.Maintainable#generateMaintenanceLocks()
      */
     @Override
@@ -457,13 +457,13 @@ public class AssetGlobalMaintainableImpl extends LedgerPostingMaintainable {
     public void prepareForSave() {
         super.prepareForSave();
         AssetGlobal assetGlobal = (AssetGlobal) this.getBusinessObject();
-        
+
         //we need to set the posting period and posting year from the value of the drop-down box...
-        if (StringUtils.isNotBlank(assetGlobal.getUniversityFiscalPeriodName())) {        
+        if (StringUtils.isNotBlank(assetGlobal.getUniversityFiscalPeriodName())) {
             assetGlobal.setFinancialDocumentPostingPeriodCode(StringUtils.left(assetGlobal.getUniversityFiscalPeriodName(), 2));
             assetGlobal.setFinancialDocumentPostingYear(new Integer(StringUtils.right(assetGlobal.getUniversityFiscalPeriodName(), 4)));
         }
-        
+
         List<AssetGlobalDetail> assetSharedDetails = assetGlobal.getAssetSharedDetails();
         List<AssetGlobalDetail> newDetails = new ArrayList<AssetGlobalDetail>();
         AssetGlobalDetail newAssetGlobalDetail = null;
@@ -521,7 +521,7 @@ public class AssetGlobalMaintainableImpl extends LedgerPostingMaintainable {
 
     /**
      * computes depreciation date
-     * 
+     *
      * @param assetGlobal
      */
     private void computeDepreciationDate(AssetGlobal assetGlobal) {
@@ -534,7 +534,7 @@ public class AssetGlobalMaintainableImpl extends LedgerPostingMaintainable {
             if (ObjectUtils.isNotNull(objectCode)) {
                 Map<String, String> primaryKeys = new HashMap<String, String>();
                 primaryKeys.put(CamsPropertyConstants.AssetDepreciationConvention.FINANCIAL_OBJECT_SUB_TYPE_CODE, objectCode.getFinancialObjectSubTypeCode());
-                AssetDepreciationConvention depreciationConvention = (AssetDepreciationConvention) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(AssetDepreciationConvention.class, primaryKeys);
+                AssetDepreciationConvention depreciationConvention = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(AssetDepreciationConvention.class, primaryKeys);
                 Date depreciationDate = SpringContext.getBean(AssetDateService.class).computeDepreciationDate(assetGlobal.getCapitalAssetType(), depreciationConvention, assetGlobal.getCapitalAssetInServiceDate());
                 assetGlobal.setCapitalAssetDepreciationDate(depreciationDate);
             }
@@ -561,7 +561,7 @@ public class AssetGlobalMaintainableImpl extends LedgerPostingMaintainable {
             assetGlobal.setLastInventoryDate(getDateTimeService().getCurrentSqlDate());
             // CSU 6702 BEGIN
             doPeriod13Changes(assetGlobal);
-            // CSU 6702 END            
+            // CSU 6702 END
         }
         List<AssetGlobalDetail> assetGlobalDetails = assetGlobal.getAssetGlobalDetails();
         AssetGlobalDetail currLocationDetail = null;
@@ -602,7 +602,7 @@ public class AssetGlobalMaintainableImpl extends LedgerPostingMaintainable {
 
     /**
      * Generates a unique using location fields to keep track of user changes
-     * 
+     *
      * @param location Location
      * @return Key String
      */
@@ -670,7 +670,7 @@ public class AssetGlobalMaintainableImpl extends LedgerPostingMaintainable {
 
     /**
      * Recalculate amounts in the Recalculate Total Amount Tab
-     * 
+     *
      * @param assetGlobal
      */
     protected void recalculateTotalAmount(AssetGlobal assetGlobal) {
@@ -682,7 +682,7 @@ public class AssetGlobalMaintainableImpl extends LedgerPostingMaintainable {
 
     /**
      * Separates the current asset amount equally into new unique assets.
-     * 
+     *
      * @param kualiDecimalArray
      * @param assetGlobal
      */
@@ -696,7 +696,7 @@ public class AssetGlobalMaintainableImpl extends LedgerPostingMaintainable {
         }
     }
 
-    /** 
+    /**
      * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#doRouteStatusChange(org.kuali.rice.kns.bo.DocumentHeader)
      */
     @Override
@@ -712,20 +712,8 @@ public class AssetGlobalMaintainableImpl extends LedgerPostingMaintainable {
         if (workflowDoc.isCanceled()) {
             if (ObjectUtils.isNotNull(assetGlobal)) {
                 List<AssetGlobalDetail> assetGlobalDetailsList = assetGlobal.getAssetGlobalDetails();
-                if (ObjectUtils.isNotNull(assetGlobalDetailsList)) {
-                    for (AssetGlobalDetail assetGlobaldetails : assetGlobalDetailsList) {
-                        if (assetGlobaldetails.getCampusTagNumber() != null && !assetGlobaldetails.getCampusTagNumber().isEmpty()) {
-                            Map<String, String> map = new HashMap<String, String>();
-                            map.put(CabPropertyConstants.PretagDetail.CAMPUS_TAG_NUMBER, assetGlobaldetails.getCampusTagNumber());
-                            List<PretagDetail> pretagDetailList = (List<PretagDetail>) SpringContext.getBean(BusinessObjectService.class).findMatching(PretagDetail.class, map);
-                            if (ObjectUtils.isNotNull(pretagDetailList)) {
-                                for (PretagDetail pretagDetail : pretagDetailList) {
-                                    pretagDetail.setActive(true);
-                                    SpringContext.getBean(BusinessObjectService.class).save(pretagDetail);
-                                }
-                            }
-                        }
-                    }
+                for (AssetGlobalDetail assetGlobalDetails : assetGlobalDetailsList) {
+                    SpringContext.getBean(CapitalAssetBuilderModuleService.class).reactivatePretagDetails(assetGlobalDetails.getCampusTagNumber());
                 }
             }
         }
@@ -752,7 +740,7 @@ public class AssetGlobalMaintainableImpl extends LedgerPostingMaintainable {
 
     /**
      * Returns the AssetGlobalService from context
-     * 
+     *
      * @return AssetGlobalService
      */
     private AssetGlobalService getAssetGlobalService() {
@@ -761,7 +749,7 @@ public class AssetGlobalMaintainableImpl extends LedgerPostingMaintainable {
 
     /**
      * populates the asset location information (add new section)
-     * 
+     *
      * @param asset
      */
     private void populateAssetLocationTabInformation(Asset asset) {
@@ -777,26 +765,26 @@ public class AssetGlobalMaintainableImpl extends LedgerPostingMaintainable {
      * @return true if the accountingPeriod in assetGlobal is 13.
      * TODO Remove hardcoding
      */
-    private boolean isPeriod13(AssetGlobal assetGlobal) {        
+    private boolean isPeriod13(AssetGlobal assetGlobal) {
         if (ObjectUtils.isNull(assetGlobal.getAccountingPeriod())) {
             return false;
         }
         return "13".equals(assetGlobal.getAccountingPeriod().getUniversityFiscalPeriodCode());
     }
-    
+
     /**
-     * Return the closing date as mm/dd/yyyy 
+     * Return the closing date as mm/dd/yyyy
      * @param closingYear
      * @return the closing date as mm/dd/yyyy
 
      */
-    private String getClosingDate(Integer closingYear) {           
+    private String getClosingDate(Integer closingYear) {
         return getAssetGlobalService().getFiscalYearEndDayAndMonth() + closingYear.toString();
     }
 
-    
+
     /**
-     * Return the calendar Date for the closing year 
+     * Return the calendar Date for the closing year
      * @param closingYear
      * @return 01/01/[closing year]
      * TODO Remove hardcoding
@@ -806,7 +794,7 @@ public class AssetGlobalMaintainableImpl extends LedgerPostingMaintainable {
     }
 
     /**
-     * Convenience method to reduce clutter 
+     * Convenience method to reduce clutter
      * @return {@link DateTimeService}
      */
     private DateTimeService getDateTimeService() {
@@ -814,7 +802,7 @@ public class AssetGlobalMaintainableImpl extends LedgerPostingMaintainable {
     }
 
     /**
-     * Perform changes to assetGlobal on period 13. 
+     * Perform changes to assetGlobal on period 13.
      * @param assetGlobal
      */
     private void doPeriod13Changes(AssetGlobal assetGlobal) {
@@ -830,7 +818,7 @@ public class AssetGlobalMaintainableImpl extends LedgerPostingMaintainable {
     }
 
     /**
-     * Update assetGlobal fields for period 13 
+     * Update assetGlobal fields for period 13
      * @param assetGlobal
      * @param closingYear
      * @param closingDate
@@ -847,30 +835,30 @@ public class AssetGlobalMaintainableImpl extends LedgerPostingMaintainable {
 
     /**
      * @see org.kuali.kfs.sys.document.FinancialSystemMaintainable#populateChartOfAccountsCodeFields()
-     * 
-     * Special treatment is needed to populate the chart code from the account number field in AssetPaymentDetails, 
-     * as these fields aren't PKs of BO class in the collection.  
+     *
+     * Special treatment is needed to populate the chart code from the account number field in AssetPaymentDetails,
+     * as these fields aren't PKs of BO class in the collection.
      */
     @Override
     protected void populateChartOfAccountsCodeFields() {
         super.populateChartOfAccountsCodeFields();
-              
-        AccountService acctService = SpringContext.getBean(AccountService.class);    
+
+        AccountService acctService = SpringContext.getBean(AccountService.class);
         PersistableBusinessObject newAccount = getNewCollectionLine(CamsPropertyConstants.AssetGlobal.ASSET_PAYMENT_DETAILS);
         String accountNumber = (String)ObjectUtils.getPropertyValue(newAccount, KFSPropertyConstants.ACCOUNT_NUMBER);
         String coaCode = null;
-        
-        Account account = acctService.getUniqueAccountForAccountNumber(accountNumber);            
+
+        Account account = acctService.getUniqueAccountForAccountNumber(accountNumber);
         if (ObjectUtils.isNotNull(account)) {
             coaCode = account.getChartOfAccountsCode();
         }
-        
+
         try {
-            ObjectUtils.setObjectProperty(newAccount, KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, coaCode); 
+            ObjectUtils.setObjectProperty(newAccount, KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, coaCode);
         }
         catch (Exception e) {
             LOG.error("Error in setting property value for " + KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
-        } 
-    }        
+        }
+    }
 
 }

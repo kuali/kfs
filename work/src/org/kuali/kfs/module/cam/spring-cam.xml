@@ -143,6 +143,9 @@
 		<property name="universityDateService">
 			<ref bean="universityDateService" />
 		</property>
+		<property name="schedulerService">
+			<ref bean="schedulerService" />
+		</property>
     </bean>
 
 	<bean id="depreciableAssetsDao" parent="platformAwareDao" class="org.kuali.kfs.module.cam.document.dataaccess.impl.DepreciableAssetsDaoOjb">

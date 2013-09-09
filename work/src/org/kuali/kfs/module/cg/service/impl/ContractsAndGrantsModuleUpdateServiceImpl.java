@@ -28,10 +28,8 @@ import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleUpdateService;
 import org.kuali.kfs.module.cg.businessobject.Award;
 import org.kuali.kfs.module.cg.businessobject.AwardAccount;
 import org.kuali.kfs.module.cg.businessobject.Bill;
-import org.kuali.kfs.module.cg.businessobject.Milestone;
 import org.kuali.kfs.module.cg.businessobject.Proposal;
 import org.kuali.kfs.module.cg.dataaccess.BillDao;
-import org.kuali.kfs.module.cg.dataaccess.MilestoneDao;
 import org.kuali.kfs.module.cg.service.AwardService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -48,7 +46,6 @@ public class ContractsAndGrantsModuleUpdateServiceImpl implements ContractsAndGr
     private AwardService awardService;
     private BillDao billDao;
     private BusinessObjectService businessObjectService;
-    private MilestoneDao milestoneDao;
 
     /**
      * This method sets last Billed Date to award Account.
@@ -105,28 +102,6 @@ public class ContractsAndGrantsModuleUpdateServiceImpl implements ContractsAndGr
             getBusinessObjectService().save(bill);
         }
     }
-
-    /**
-     * This method updates value of isItBilled in Milestone BO to Yes
-     *
-     * @param criteria
-     */
-    @Override
-    @SuppressWarnings("null")
-    public void setMilestonesisItBilled(Long proposalNumber, List<Long> milestoneIds, String value) {
-        Collection<Milestone> milestones = null;
-        try {
-            milestones = getMilestoneDao().getMatchingMilestoneByProposalIdAndInListOfMilestoneId(proposalNumber, milestoneIds);
-        }
-        catch (Exception ex) {
-            ex.printStackTrace();
-        }
-        for (Milestone milestone : milestones) {
-            milestone.setIsItBilled(value);
-            getBusinessObjectService().save(milestone);
-        }
-    }
-
 
     /**
      * This method sets value of LOC Creation Type to Award
@@ -303,24 +278,4 @@ public class ContractsAndGrantsModuleUpdateServiceImpl implements ContractsAndGr
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
-
-    /**
-     * Gets the milestoneDao attribute.
-     *
-     * @return Returns the milestoneDao.
-     */
-    public MilestoneDao getMilestoneDao() {
-        return milestoneDao;
-    }
-
-    /**
-     * Sets the milestoneDao attribute value.
-     *
-     * @param milestoneDao The milestoneDao to set.
-     */
-    public void setMilestoneDao(MilestoneDao milestoneDao) {
-        this.milestoneDao = milestoneDao;
-    }
-
-
 }

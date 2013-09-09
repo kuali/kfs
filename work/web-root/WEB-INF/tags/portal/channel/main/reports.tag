@@ -36,6 +36,10 @@
 					title="Invoice Report Delivery"
 					url="arInvoiceReportDelivery.do?methodToCall=start" /></li>
 			<li><portal:portalLink displayTitle="true"
+					title="Milestone Report"
+					url="contractsGrantsMilestoneReport.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.ContractsGrantsMilestoneReport&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
+			</li>
+			<li><portal:portalLink displayTitle="true"
 					title="Referral To Collections Report - P2*"
 					url="referralToCollectionsReportLookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.ReferralToCollectionsReport" /></li>
 			<li><portal:portalLink displayTitle="true"
@@ -75,10 +79,6 @@
 			<li><portal:portalLink displayTitle="true"
 					title="Suspended Invoice Report"
 					url="contractsGrantsSuspendedInvoiceReport.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.ContractsGrantsSuspendedInvoiceReport&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
-			</li>
-			<li><portal:portalLink displayTitle="true"
-					title="Milestone Report"
-					url="contractsGrantsMilestoneReport.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.ContractsGrantsMilestoneReport&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
 			</li>
 			<li><portal:portalLink displayTitle="true"
 					title="Billable but Not Invoiced Awards"

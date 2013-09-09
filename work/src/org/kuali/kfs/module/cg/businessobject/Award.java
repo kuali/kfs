@@ -23,6 +23,9 @@ import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.kuali.kfs.integration.ar.AccountsReceivableMilestone;
+import org.kuali.kfs.integration.ar.AccountsReceivableMilestoneSchedule;
+import org.kuali.kfs.integration.ar.AccountsReceivableModuleService;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsAward;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAward;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAwardAccount;
@@ -106,7 +109,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
     private List<AwardInvoiceAccount> awardInvoiceAccounts;
     private List<AwardSubcontractor> awardSubcontractors;
     private List<AwardOrganization> awardOrganizations;
-    private List<Milestone> milestones;
+    private List<AccountsReceivableMilestone> milestones;
     private List<Bill> bills;
 
 
@@ -135,7 +138,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
 
     private boolean autoApproveIndicator;
 
-    private MilestoneSchedule milestoneSchedule;
+    private AccountsReceivableMilestoneSchedule milestoneSchedule;
 
     private Date fundingExpirationDate;
     private String commentText;
@@ -162,7 +165,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
         awardAccounts = new ArrayList<AwardAccount>();
         awardSubcontractors = new ArrayList<AwardSubcontractor>();
         awardOrganizations = new ArrayList<AwardOrganization>();
-        milestones = new ArrayList<Milestone>();
+        milestones = new ArrayList<AccountsReceivableMilestone>();
         bills = new ArrayList<Bill>();
         awardInvoiceAccounts = new ArrayList<AwardInvoiceAccount>();
     }
@@ -1642,10 +1645,10 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
         this.financialReportFrequencies = financialReportFrequencies;
     }
 
-    public List<Milestone> getMilestones() {
+    public List<AccountsReceivableMilestone> getMilestones() {
         // To get completed milestones only - Milestones that have a completion date filled
-        List<Milestone> milestonesCompleted = new ArrayList<Milestone>();
-        for (Milestone mlstn : milestones) {
+        List<AccountsReceivableMilestone> milestonesCompleted = new ArrayList<AccountsReceivableMilestone>();
+        for (AccountsReceivableMilestone mlstn : milestones) {
             if (mlstn.getMilestoneActualCompletionDate() != null) {
                 milestonesCompleted.add(mlstn);
             }
@@ -1654,7 +1657,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
         return milestonesCompleted;
     }
 
-    public void setMilestones(List<Milestone> milestones) {
+    public void setMilestones(List<AccountsReceivableMilestone> milestones) {
         this.milestones = milestones;
     }
 
@@ -1741,9 +1744,10 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
      *
      * @return Returns the milestoneSchedule.
      */
-    public MilestoneSchedule getMilestoneSchedule() {
+    public AccountsReceivableMilestoneSchedule getMilestoneSchedule() {
         if (milestoneSchedule != null) {
-            milestoneSchedule.setProposalNumber(proposalNumber);
+//            milestoneSchedule.setProposalNumber(proposalNumber);
+            SpringContext.getBean(AccountsReceivableModuleService.class).setProposalNumber(milestoneSchedule, proposalNumber);
         }
         return milestoneSchedule;
     }
@@ -1753,7 +1757,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
      *
      * @param milestoneSchedule The milestoneSchedule to set.
      */
-    public void setMilestoneSchedule(MilestoneSchedule milestoneSchedule) {
+    public void setMilestoneSchedule(AccountsReceivableMilestoneSchedule milestoneSchedule) {
         this.milestoneSchedule = milestoneSchedule;
     }
 

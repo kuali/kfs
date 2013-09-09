@@ -140,10 +140,6 @@ public class CGConstants{
         static final public String PREDETERMINED_SCHEDULE = "Predetermined Billing Schedule";
     }
 
-    public static class CGEmailConstants {
-        static final public String AWARD_MILESTONE_REMINDER_EMAIL_SUBJECT = "AWARD_MILESTONE_REMINDER_EMAIL_SUBJECT";
-    }
-
     public static class CGKimApiConstants {
         public static final String AWARD_ROUTING_NODE_NAME = "Award";
         public static final String MANAGEMENT_ROUTING_NODE_NAME = "Management";

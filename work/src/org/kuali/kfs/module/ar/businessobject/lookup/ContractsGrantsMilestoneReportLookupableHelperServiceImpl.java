@@ -26,7 +26,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAward;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAwardAccount;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsMilestone;
+import org.kuali.kfs.module.ar.businessobject.Milestone;
 import org.kuali.kfs.module.ar.businessobject.ContractsGrantsMilestoneReport;
 import org.kuali.kfs.module.ar.report.ContractsGrantsReportUtils;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -74,19 +74,19 @@ public class ContractsGrantsMilestoneReportLookupableHelperServiceImpl extends C
         setDocFormKey((String) lookupForm.getFieldsForLookup().get(KRADConstants.DOC_FORM_KEY));
 
         Collection<ContractsGrantsMilestoneReport> displayList = new ArrayList<ContractsGrantsMilestoneReport>();
-        Collection<ContractsAndGrantsMilestone> milestones;
+        Collection<Milestone> milestones;
 
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("isItBilled", "Yes");
-        milestones = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsMilestone.class).getExternalizableBusinessObjectsList(ContractsAndGrantsMilestone.class, map);
+        milestones = SpringContext.getBean(BusinessObjectService.class).findMatching(Milestone.class, map);
         map.clear();
         map.put("isItBilled", "No");
-        Collection<ContractsAndGrantsMilestone> notBilledMilestones = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsMilestone.class).getExternalizableBusinessObjectsList(ContractsAndGrantsMilestone.class, map);
+        Collection<Milestone> notBilledMilestones = SpringContext.getBean(BusinessObjectService.class).findMatching(Milestone.class, map);
 
         milestones.addAll(notBilledMilestones);
 
         // build search result fields
-        for (ContractsAndGrantsMilestone milestone : milestones) {
+        for (Milestone milestone : milestones) {
 
             ContractsGrantsMilestoneReport cgMilestoneReport = new ContractsGrantsMilestoneReport();
             cgMilestoneReport.setProposalNumber(milestone.getProposalNumber());
@@ -169,10 +169,12 @@ public class ContractsGrantsMilestoneReportLookupableHelperServiceImpl extends C
     }
 
 
+    @Override
     public BusinessObjectService getBusinessObjectService() {
         return businessObjectService;
     }
 
+    @Override
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }

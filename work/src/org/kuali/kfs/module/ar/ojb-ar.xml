@@ -2062,19 +2062,6 @@
 	</class-descriptor>
 	
 	
-   <!--  Collector Hierarchy -->
-	<class-descriptor class="org.kuali.kfs.module.ar.businessobject.CollectorHierarchy" table="AR_CLCTR_HEAD_T">
-		<field-descriptor name="principalId" column="CLCTR_HEAD_PRNCPL_ID" jdbc-type="VARCHAR" primarykey="true" index="true" />
-		<field-descriptor name="active" column="ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
-		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
-		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-		<collection-descriptor name="collectorInformations" proxy="true" element-class-ref="org.kuali.kfs.module.ar.businessobject.CollectorInformation"
-			collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
-			<inverse-foreignkey field-ref="headPrincipalId" />
-		</collection-descriptor> 
-		
-	</class-descriptor>
-	
 	<!--  Collector Information -->
 	<class-descriptor class="org.kuali.kfs.module.ar.businessobject.CollectorInformation" table="AR_CLCTR_INFO_T">
 		<field-descriptor name="principalId" column="CLCTR_PRNCPL_ID" jdbc-type="VARCHAR" primarykey="true" index="true" />
@@ -2082,10 +2069,6 @@
 		<field-descriptor name="active" column="ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
- 		<reference-descriptor name="collectorHead" class-ref="org.kuali.kfs.module.ar.businessobject.CollectorHierarchy" auto-retrieve="true"
-			auto-update="none" auto-delete="none" proxy="true">
-			<foreignkey field-ref="headPrincipalId" />
-		</reference-descriptor> 
 	</class-descriptor>
 	
 	<!-- Final Disposition  -->
@@ -2106,4 +2089,46 @@
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 	</class-descriptor>
+	
+	<!-- MILESTONES -->
+
+
+
+	<class-descriptor class="org.kuali.kfs.module.ar.businessobject.Milestone" table="AR_MLSTN_T">
+		<field-descriptor name="proposalNumber" column="CGPRPSL_NBR" jdbc-type="BIGINT" primarykey="true" index="true" />
+		<field-descriptor name="milestoneNumber" column="MLSTN_NBR" jdbc-type="BIGINT" />
+		<field-descriptor name="milestoneIdentifier" column="MLSTN_ID" jdbc-type="BIGINT" primarykey="true" index="true" autoincrement="true"
+			sequence-name="MLSTN_ID_SEQ" />
+		<field-descriptor name="milestoneDescription" column="MLSTN_DESC" jdbc-type="VARCHAR" index="true" />
+		<field-descriptor name="milestoneAmount" column="MLSTN_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
+		<field-descriptor name="milestoneExpectedCompletionDate" column="MLSTN_EXPCTD_COMPLTN_DT" jdbc-type="DATE" />
+		<field-descriptor name="milestoneActualCompletionDate" column="MLSTN_COMPLTN_DT" jdbc-type="DATE" />
+		<field-descriptor name="isItBilled" column="IS_IT_BLD" jdbc-type="VARCHAR" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+
+	</class-descriptor>
+
+
+	<!-- MILESTONE SCHEDULE -->
+
+	<class-descriptor class="org.kuali.kfs.module.ar.businessobject.MilestoneSchedule" table="AR_MLSTN_SCHDL_T">
+		<field-descriptor name="proposalNumber" column="CGPRPSL_NBR" jdbc-type="BIGINT" primarykey="true" index="true" />
+		<field-descriptor name="totalAmountScheduled" column="TOT_AMT_SCHDL" jdbc-type="DECIMAL"
+			conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
+		<field-descriptor name="totalAmountRemaining" column="TOT_AWD_REMNG" jdbc-type="DECIMAL"
+			conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+
+		<collection-descriptor name="milestones" element-class-ref="org.kuali.kfs.module.ar.businessobject.Milestone"
+			collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
+
+			<orderby name="milestoneIdentifier" sort="ASC" />
+
+			<inverse-foreignkey field-ref="proposalNumber" />
+		</collection-descriptor>
+
+	</class-descriptor>
+	
 </descriptor-repository>

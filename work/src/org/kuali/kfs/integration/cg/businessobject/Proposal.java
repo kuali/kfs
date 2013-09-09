@@ -1,12 +1,12 @@
 /*
  * Copyright 2006-2009 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -25,7 +25,7 @@ import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
- * Integration class for Milestone - See functional documentation.
+ * Integration class for Proposal - See functional documentation.
  */
 public class Proposal implements ContractAndGrantsProposal {
 
@@ -56,16 +56,17 @@ public class Proposal implements ContractAndGrantsProposal {
 
     /**
      * Gets the proposalNumber attribute.
-     * 
+     *
      * @return Returns the proposalNumber
      */
+    @Override
     public Long getProposalNumber() {
         return proposalNumber;
     }
 
     /**
      * Sets the proposalNumber attribute.
-     * 
+     *
      * @param proposalNumber The proposalNumber to set.
      */
     public void setProposalNumber(Long proposalNumber) {
@@ -74,16 +75,17 @@ public class Proposal implements ContractAndGrantsProposal {
 
     /**
      * Gets the proposalBeginningDate attribute.
-     * 
+     *
      * @return Returns the proposalBeginningDate
      */
+    @Override
     public Date getProposalBeginningDate() {
         return proposalBeginningDate;
     }
 
     /**
      * Sets the proposalBeginningDate attribute.
-     * 
+     *
      * @param proposalBeginningDate The proposalBeginningDate to set.
      */
     public void setProposalBeginningDate(Date proposalBeginningDate) {
@@ -92,16 +94,17 @@ public class Proposal implements ContractAndGrantsProposal {
 
     /**
      * Gets the proposalEndingDate attribute.
-     * 
+     *
      * @return Returns the proposalEndingDate
      */
+    @Override
     public Date getProposalEndingDate() {
         return proposalEndingDate;
     }
 
     /**
      * Sets the proposalEndingDate attribute.
-     * 
+     *
      * @param proposalEndingDate The proposalEndingDate to set.
      */
     public void setProposalEndingDate(Date proposalEndingDate) {
@@ -110,9 +113,10 @@ public class Proposal implements ContractAndGrantsProposal {
 
     /**
      * Gets the proposalTotalAmount attribute.
-     * 
+     *
      * @return Returns the proposalTotalAmount
      */
+    @Override
     public KualiDecimal getProposalTotalAmount() {
         KualiDecimal direct = getProposalDirectCostAmount();
         KualiDecimal indirect = getProposalIndirectCostAmount();
@@ -121,16 +125,17 @@ public class Proposal implements ContractAndGrantsProposal {
 
     /**
      * Gets the proposalDirectCostAmount attribute.
-     * 
+     *
      * @return Returns the proposalDirectCostAmount
      */
+    @Override
     public KualiDecimal getProposalDirectCostAmount() {
         return proposalDirectCostAmount;
     }
 
     /**
      * Sets the proposalDirectCostAmount attribute.
-     * 
+     *
      * @param proposalDirectCostAmount The proposalDirectCostAmount to set.
      */
     public void setProposalDirectCostAmount(KualiDecimal proposalDirectCostAmount) {
@@ -139,16 +144,17 @@ public class Proposal implements ContractAndGrantsProposal {
 
     /**
      * Gets the proposalIndirectCostAmount attribute.
-     * 
+     *
      * @return Returns the proposalIndirectCostAmount
      */
+    @Override
     public KualiDecimal getProposalIndirectCostAmount() {
         return proposalIndirectCostAmount;
     }
 
     /**
      * Sets the proposalIndirectCostAmount attribute.
-     * 
+     *
      * @param proposalIndirectCostAmount The proposalIndirectCostAmount to set.
      */
     public void setProposalIndirectCostAmount(KualiDecimal proposalIndirectCostAmount) {
@@ -157,16 +163,17 @@ public class Proposal implements ContractAndGrantsProposal {
 
     /**
      * Gets the proposalRejectedDate attribute.
-     * 
+     *
      * @return Returns the proposalRejectedDate
      */
+    @Override
     public Date getProposalRejectedDate() {
         return proposalRejectedDate;
     }
 
     /**
      * Sets the proposalRejectedDate attribute.
-     * 
+     *
      * @param proposalRejectedDate The proposalRejectedDate to set.
      */
     public void setProposalRejectedDate(Date proposalRejectedDate) {
@@ -175,16 +182,17 @@ public class Proposal implements ContractAndGrantsProposal {
 
     /**
      * Gets the proposalLastUpdateDate attribute.
-     * 
+     *
      * @return Returns the proposalLastUpdateDate
      */
+    @Override
     public Timestamp getProposalLastUpdateDate() {
         return proposalLastUpdateDate;
     }
 
     /**
      * Sets the proposalLastUpdateDate attribute.
-     * 
+     *
      * @param proposalLastUpdateDate The proposalLastUpdateDate to set.
      */
     public void setProposalLastUpdateDate(Timestamp proposalLastUpdateDate) {
@@ -193,16 +201,17 @@ public class Proposal implements ContractAndGrantsProposal {
 
     /**
      * Gets the proposalDueDate attribute.
-     * 
+     *
      * @return Returns the proposalDueDate
      */
+    @Override
     public Date getProposalDueDate() {
         return proposalDueDate;
     }
 
     /**
      * Sets the proposalDueDate attribute.
-     * 
+     *
      * @param proposalDueDate The proposalDueDate to set.
      */
     public void setProposalDueDate(Date proposalDueDate) {
@@ -211,16 +220,17 @@ public class Proposal implements ContractAndGrantsProposal {
 
     /**
      * Gets the proposalTotalProjectAmount attribute.
-     * 
+     *
      * @return Returns the proposalTotalProjectAmount
      */
+    @Override
     public KualiDecimal getProposalTotalProjectAmount() {
         return proposalTotalProjectAmount;
     }
 
     /**
      * Sets the proposalTotalProjectAmount attribute.
-     * 
+     *
      * @param proposalTotalProjectAmount The proposalTotalProjectAmount to set.
      */
     public void setProposalTotalProjectAmount(KualiDecimal proposalTotalProjectAmount) {
@@ -229,16 +239,17 @@ public class Proposal implements ContractAndGrantsProposal {
 
     /**
      * Gets the proposalSubmissionDate attribute.
-     * 
+     *
      * @return Returns the proposalSubmissionDate
      */
+    @Override
     public Date getProposalSubmissionDate() {
         return proposalSubmissionDate;
     }
 
     /**
      * Sets the proposalSubmissionDate attribute.
-     * 
+     *
      * @param proposalSubmissionDate The proposalSubmissionDate to set.
      */
     public void setProposalSubmissionDate(Date proposalSubmissionDate) {
@@ -247,16 +258,17 @@ public class Proposal implements ContractAndGrantsProposal {
 
     /**
      * Gets the proposalFederalPassThroughIndicator attribute.
-     * 
+     *
      * @return Returns the proposalFederalPassThroughIndicator
      */
+    @Override
     public boolean getProposalFederalPassThroughIndicator() {
         return proposalFederalPassThroughIndicator;
     }
 
     /**
      * Sets the proposalFederalPassThroughIndicator attribute.
-     * 
+     *
      * @param proposalFederalPassThroughIndicator The proposalFederalPassThroughIndicator to set.
      */
     public void setProposalFederalPassThroughIndicator(boolean proposalFederalPassThroughIndicator) {
@@ -265,16 +277,17 @@ public class Proposal implements ContractAndGrantsProposal {
 
     /**
      * Gets the oldProposalNumber attribute.
-     * 
+     *
      * @return Returns the oldProposalNumber
      */
+    @Override
     public String getOldProposalNumber() {
         return oldProposalNumber;
     }
 
     /**
      * Sets the oldProposalNumber attribute.
-     * 
+     *
      * @param oldProposalNumber The oldProposalNumber to set.
      */
     public void setOldProposalNumber(String oldProposalNumber) {
@@ -283,16 +296,17 @@ public class Proposal implements ContractAndGrantsProposal {
 
     /**
      * Gets the grantNumber attribute.
-     * 
+     *
      * @return Returns the grantNumber
      */
+    @Override
     public String getGrantNumber() {
         return grantNumber;
     }
 
     /**
      * Sets the grantNumber attribute.
-     * 
+     *
      * @param grantNumber The grantNumber to set.
      */
     public void setGrantNumber(String grantNumber) {
@@ -301,16 +315,17 @@ public class Proposal implements ContractAndGrantsProposal {
 
     /**
      * Gets the proposalClosingDate attribute.
-     * 
+     *
      * @return Returns the proposalClosingDate
      */
+    @Override
     public Date getProposalClosingDate() {
         return proposalClosingDate;
     }
 
     /**
      * Sets the proposalClosingDate attribute.
-     * 
+     *
      * @param proposalClosingDate The proposalClosingDate to set.
      */
     public void setProposalClosingDate(Date proposalClosingDate) {
@@ -319,16 +334,17 @@ public class Proposal implements ContractAndGrantsProposal {
 
     /**
      * Gets the proposalAwardTypeCode attribute.
-     * 
+     *
      * @return Returns the proposalAwardTypeCode
      */
+    @Override
     public String getProposalAwardTypeCode() {
         return proposalAwardTypeCode;
     }
 
     /**
      * Sets the proposalAwardTypeCode attribute.
-     * 
+     *
      * @param proposalAwardTypeCode The proposalAwardTypeCode to set.
      */
     public void setProposalAwardTypeCode(String proposalAwardTypeCode) {
@@ -337,16 +353,17 @@ public class Proposal implements ContractAndGrantsProposal {
 
     /**
      * Gets the agencyNumber attribute.
-     * 
+     *
      * @return Returns the agencyNumber
      */
+    @Override
     public String getAgencyNumber() {
         return agencyNumber;
     }
 
     /**
      * Sets the agencyNumber attribute.
-     * 
+     *
      * @param agencyNumber The agencyNumber to set.
      */
     public void setAgencyNumber(String agencyNumber) {
@@ -355,16 +372,17 @@ public class Proposal implements ContractAndGrantsProposal {
 
     /**
      * Gets the proposalStatusCode attribute.
-     * 
+     *
      * @return Returns the proposalStatusCode
      */
+    @Override
     public String getProposalStatusCode() {
         return proposalStatusCode;
     }
 
     /**
      * Sets the proposalStatusCode attribute.
-     * 
+     *
      * @param proposalStatusCode The proposalStatusCode to set.
      */
     public void setProposalStatusCode(String proposalStatusCode) {
@@ -373,16 +391,17 @@ public class Proposal implements ContractAndGrantsProposal {
 
     /**
      * Gets the federalPassThroughAgencyNumber attribute.
-     * 
+     *
      * @return Returns the federalPassThroughAgencyNumber
      */
+    @Override
     public String getFederalPassThroughAgencyNumber() {
         return federalPassThroughAgencyNumber;
     }
 
     /**
      * Sets the federalPassThroughAgencyNumber attribute.
-     * 
+     *
      * @param federalPassThroughAgencyNumber The federalPassThroughAgencyNumber to set.
      */
     public void setFederalPassThroughAgencyNumber(String federalPassThroughAgencyNumber) {
@@ -391,16 +410,17 @@ public class Proposal implements ContractAndGrantsProposal {
 
     /**
      * Gets the cfdaNumber attribute.
-     * 
+     *
      * @return Returns the cfdaNumber
      */
+    @Override
     public String getCfdaNumber() {
         return cfdaNumber;
     }
 
     /**
      * Sets the cfdaNumber attribute.
-     * 
+     *
      * @param cfdaNumber The cfdaNumber to set.
      */
     public void setCfdaNumber(String cfdaNumber) {
@@ -409,16 +429,17 @@ public class Proposal implements ContractAndGrantsProposal {
 
     /**
      * Gets the proposalFellowName attribute.
-     * 
+     *
      * @return Returns the proposalFellowName
      */
+    @Override
     public String getProposalFellowName() {
         return proposalFellowName;
     }
 
     /**
      * Sets the proposalFellowName attribute.
-     * 
+     *
      * @param proposalFellowName The proposalFellowName to set.
      */
     public void setProposalFellowName(String proposalFellowName) {
@@ -427,16 +448,17 @@ public class Proposal implements ContractAndGrantsProposal {
 
     /**
      * Gets the proposalPurposeCode attribute.
-     * 
+     *
      * @return Returns the proposalPurposeCode
      */
+    @Override
     public String getProposalPurposeCode() {
         return proposalPurposeCode;
     }
 
     /**
      * Sets the proposalPurposeCode attribute.
-     * 
+     *
      * @param proposalPurposeCode The proposalPurposeCode to set.
      */
     public void setProposalPurposeCode(String proposalPurposeCode) {
@@ -445,16 +467,17 @@ public class Proposal implements ContractAndGrantsProposal {
 
     /**
      * Gets the proposalProjectTitle attribute.
-     * 
+     *
      * @return Returns the proposalProjectTitle
      */
+    @Override
     public String getProposalProjectTitle() {
         return proposalProjectTitle;
     }
 
     /**
      * Sets the proposalProjectTitle attribute.
-     * 
+     *
      * @param proposalProjectTitle The proposalProjectTitle to set.
      */
     public void setProposalProjectTitle(String proposalProjectTitle) {
@@ -463,16 +486,17 @@ public class Proposal implements ContractAndGrantsProposal {
 
     /**
      * Gets the active attribute.
-     * 
+     *
      * @return Returns the active.
      */
+    @Override
     public boolean isActive() {
         return active;
     }
 
     /**
      * Sets the active attribute value.
-     * 
+     *
      * @param active The active to set.
      */
     public void setActive(boolean active) {
@@ -482,9 +506,11 @@ public class Proposal implements ContractAndGrantsProposal {
     public void prepareForWorkflow() {
     }
 
+    @Override
     public void refresh() {
     }
 
+    @Override
     public ContractsAndGrantsAward getAward() {
         return null;
     }

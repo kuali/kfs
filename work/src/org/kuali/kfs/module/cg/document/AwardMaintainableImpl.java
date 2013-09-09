@@ -42,8 +42,7 @@ import org.kuali.kfs.module.cg.businessobject.AwardSubcontractor;
 import org.kuali.kfs.module.cg.businessobject.Bill;
 import org.kuali.kfs.module.cg.businessobject.CGFundManager;
 import org.kuali.kfs.module.cg.businessobject.CGProjectDirector;
-import org.kuali.kfs.module.cg.businessobject.Milestone;
-import org.kuali.kfs.module.cg.businessobject.MilestoneSchedule;
+import org.kuali.kfs.integration.ar.AccountsReceivableMilestone;
 import org.kuali.kfs.module.cg.businessobject.Proposal;
 import org.kuali.kfs.module.cg.document.validation.impl.AwardRuleUtil;
 import org.kuali.kfs.sys.KFSConstants;
@@ -108,8 +107,9 @@ public class AwardMaintainableImpl extends FinancialSystemMaintainable {
     public void processAfterCopy(MaintenanceDocument document, Map<String, String[]> parameters) {
         super.processAfterCopy(document, parameters);
         getAward().setAwardAccounts(new ArrayList<AwardAccount>());
-        getAward().setMilestones(new ArrayList<Milestone>());
-        getAward().setMilestoneSchedule(new MilestoneSchedule());
+        getAward().setMilestones(new ArrayList<AccountsReceivableMilestone>());
+//        getAward().setMilestoneSchedule(new MilestoneSchedule());
+        getAward().setMilestoneSchedule(SpringContext.getBean(AccountsReceivableModuleService.class).getMilestoneSchedule());
         getAward().setBills(new ArrayList<Bill>());
         getAward().setLastBilledDate(null);
     }
@@ -517,6 +517,7 @@ public class AwardMaintainableImpl extends FinancialSystemMaintainable {
 
     }
 
+    @Override
     public List<MaintenanceLock> generateMaintenanceLocks() {
         List<MaintenanceLock> locks = super.generateMaintenanceLocks();
         return locks;

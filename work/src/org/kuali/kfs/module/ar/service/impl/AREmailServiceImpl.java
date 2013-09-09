@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.ar.service.impl;
 
 import java.io.IOException;
+import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -37,15 +38,21 @@ import javax.mail.util.ByteArrayDataSource;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsAgencyAddress;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAward;
 import org.kuali.kfs.module.ar.ArConstants;
+import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.batch.ContractsGrantsInvoiceEmailReportsBatchStep;
+import org.kuali.kfs.module.ar.batch.UpcomingMilestoneNotificationStep;
 import org.kuali.kfs.module.ar.businessobject.InvoiceAgencyAddressDetail;
+import org.kuali.kfs.module.ar.businessobject.Milestone;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.module.ar.service.AREmailService;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.api.mail.MailMessage;
 import org.kuali.rice.core.api.mail.Mailer;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.core.mail.MailerImpl;
@@ -53,6 +60,7 @@ import org.kuali.rice.core.web.format.CurrencyFormatter;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.bo.Note;
+import org.kuali.rice.krad.exception.InvalidAddressException;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.KualiModuleService;
@@ -70,12 +78,14 @@ public class AREmailServiceImpl extends MailerImpl implements AREmailService {
     protected ParameterService parameterService;
     private DataDictionaryService dataDictionaryService;
     private Mailer mailer;
+    private ConfigurationService kualiConfigurationService;
 
     /**
      * This method is used to send emails to the agency
      *
      * @param invoices
      */
+    @Override
     public void sendInvoicesViaEmail(List<ContractsGrantsInvoiceDocument> invoices) throws AddressException, MessagingException {
         LOG.debug("sendInvoicesViaEmail() starting.");
 
@@ -256,5 +266,83 @@ public class AREmailServiceImpl extends MailerImpl implements AREmailService {
     private Properties getConfigProperties() {
         return ConfigContext.getCurrentContextConfig().getProperties();
     }
+
+    /**
+     * This method sends out emails for upcoming milestones.
+     *
+     * @see org.kuali.kfs.module.ar.service.CGEmailService#sendEmail(java.util.List, org.kuali.kfs.module.ar.businessobject.Award)
+     */
+    @Override
+    public void sendEmail(List<Milestone> milestones, ContractsAndGrantsCGBAward award) {
+        LOG.debug("sendEmail() starting");
+
+        MailMessage message = new MailMessage();
+
+        message.setFromAddress(mailService.getBatchMailingList());
+        message.setSubject(getEmailSubject(ArConstants.AWARD_MILESTONE_REMINDER_EMAIL_SUBJECT));
+        message.getToAddresses().add(award.getAwardPrimaryFundManager().getFundManager().getEmailAddress());
+        StringBuffer body = new StringBuffer();
+
+
+        String messageKey = kualiConfigurationService.getPropertyValueAsString(ArKeyConstants.MESSAGE_CG_UPCOMING_MILESTONES_EMAIL_LINE_1);
+        body.append(MessageFormat.format(messageKey, new Object[] { null }));
+
+        body.append(award.getProposalNumber() + ".\n\n");
+
+        for (Milestone milestone : milestones) {
+
+            String milestoneNumber = dataDictionaryService.getAttributeLabel(Milestone.class, "milestoneNumber");
+            String milestoneDescription = dataDictionaryService.getAttributeLabel(Milestone.class, "milestoneDescription");
+            String milestoneAmount = dataDictionaryService.getAttributeLabel(Milestone.class, "milestoneAmount");
+            String milestoneExpectedCompletionDate = dataDictionaryService.getAttributeLabel(Milestone.class, "milestoneExpectedCompletionDate");
+            String milestoneActualCompletionDate = dataDictionaryService.getAttributeLabel(Milestone.class, "milestoneActualCompletionDate");
+
+
+            body.append(milestoneNumber + ": " + milestone.getMilestoneNumber() + " \n");
+            body.append(milestoneDescription + ": " + milestone.getMilestoneDescription() + " \n");
+            body.append(milestoneAmount + ": " + milestone.getMilestoneAmount() + " \n");
+            body.append(milestoneExpectedCompletionDate + ": " + milestone.getMilestoneExpectedCompletionDate() + " \n");
+
+            body.append("\n\n");
+        }
+        body.append("\n\n");
+
+        messageKey = kualiConfigurationService.getPropertyValueAsString(ArKeyConstants.MESSAGE_CG_UPCOMING_MILESTONES_EMAIL_LINE_2);
+        body.append(MessageFormat.format(messageKey, new Object[] { null }) + "\n\n");
+
+        message.setMessage(body.toString());
+
+        try {
+            mailService.sendMessage(message);
+        }
+        catch (InvalidAddressException ex) {
+            // TODO Auto-generated catch block
+            ex.printStackTrace();
+        }
+        catch (MessagingException ex) {
+            // TODO Auto-generated catch block
+            ex.printStackTrace();
+        }
+    }
+
+    /**
+     * Retrieves the email subject text from system parameter then checks environment code and prepends to message if not
+     * production.
+     *
+     * @param subjectParmaterName name of parameter giving the subject text
+     * @return subject text
+     */
+    protected String getEmailSubject(String subjectParmaterName) {
+        String subject = parameterService.getParameterValueAsString(UpcomingMilestoneNotificationStep.class, subjectParmaterName);
+
+        String productionEnvironmentCode = kualiConfigurationService.getPropertyValueAsString(KFSConstants.PROD_ENVIRONMENT_CODE_KEY);
+        String environmentCode = kualiConfigurationService.getPropertyValueAsString(KFSConstants.ENVIRONMENT_KEY);
+        if (!StringUtils.equals(productionEnvironmentCode, environmentCode)) {
+            subject = environmentCode + ": " + subject;
+        }
+
+        return subject;
+    }
+
 
 }

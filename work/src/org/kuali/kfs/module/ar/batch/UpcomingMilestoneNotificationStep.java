@@ -1,19 +1,19 @@
 /*
  * Copyright 2007-2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.module.cg.batch;
+package org.kuali.kfs.module.ar.batch;
 
 import java.sql.Date;
 import java.sql.Timestamp;
@@ -21,9 +21,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.kuali.kfs.module.cg.CGConstants;
-import org.kuali.kfs.module.cg.batch.service.UpcomingMilestoneNotificationService;
-import org.kuali.kfs.module.cg.businessobject.Milestone;
+import org.kuali.kfs.module.ar.ArConstants;
+import org.kuali.kfs.module.ar.batch.service.UpcomingMilestoneNotificationService;
+import org.kuali.kfs.module.ar.businessobject.Milestone;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.batch.AbstractStep;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -43,7 +43,7 @@ public class UpcomingMilestoneNotificationStep extends AbstractStep {
 
     /**
      * Gets the upcomingMilestoneNotificationService attribute.
-     * 
+     *
      * @return Returns the upcomingMilestoneNotificationService.
      */
     public UpcomingMilestoneNotificationService getUpcomingMilestoneNotificationService() {
@@ -52,7 +52,7 @@ public class UpcomingMilestoneNotificationStep extends AbstractStep {
 
     /**
      * Sets the upcomingMilestoneNotificationService attribute value.
-     * 
+     *
      * @param upcomingMilestoneNotificationService The upcomingMilestoneNotificationService to set.
      */
     public void setUpcomingMilestoneNotificationService(UpcomingMilestoneNotificationService upcomingMilestoneNotificationService) {
@@ -61,21 +61,23 @@ public class UpcomingMilestoneNotificationStep extends AbstractStep {
 
     /**
      * Sets the parameterService attribute value.
-     * 
+     *
      * @param parameterService The parameterService to set.
      */
+    @Override
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
     }
 
     /**
-     * 
+     *
      * @see org.kuali.kfs.sys.batch.Step#execute(java.lang.String, java.util.Date)
      */
+    @Override
     public boolean execute(String jobName, java.util.Date jobRunDate) throws InterruptedException {
         LOG.debug("UpcomingMilestoneNotificationStep: execute() started");
         // Get the limit value to check for upcoming milestones
-        double limitDays = new Double(parameterService.getParameterValueAsString(UpcomingMilestoneNotificationStep.class, CGConstants.AWARD_MILESTONE_CHECK_LIMIT_DAYS));
+        double limitDays = new Double(parameterService.getParameterValueAsString(UpcomingMilestoneNotificationStep.class, ArConstants.AWARD_MILESTONE_CHECK_LIMIT_DAYS));
 
         // Get todays date for comparison.
         Timestamp ts = new Timestamp(new java.util.Date().getTime());

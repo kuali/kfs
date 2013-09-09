@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -18,8 +18,9 @@ package org.kuali.kfs.module.ar.businessobject;
 import java.sql.Date;
 import java.util.LinkedHashMap;
 
+import org.kuali.kfs.integration.ar.AccountsReceivableMilestone;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAward;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsMilestone;
+import org.kuali.kfs.module.ar.businessobject.Milestone;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.sys.KFSConstants;
@@ -35,7 +36,7 @@ import org.kuali.rice.core.api.util.type.KualiDecimal;
  * key.
  */
 
-public class InvoiceMilestone extends PersistableBusinessObjectBase implements ContractsAndGrantsMilestone {
+public class InvoiceMilestone extends PersistableBusinessObjectBase implements AccountsReceivableMilestone {
 
     private String documentNumber;
     private Long proposalNumber;
@@ -60,16 +61,17 @@ public class InvoiceMilestone extends PersistableBusinessObjectBase implements C
 
     /**
      * Gets the award attribute.
-     * 
+     *
      * @return Returns the award.
      */
+    @Override
     public ContractsAndGrantsCGBAward getAward() {
-        return award = (ContractsAndGrantsCGBAward) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsCGBAward.class).retrieveExternalizableBusinessObjectIfNecessary(this, award, "award");
+        return award = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsCGBAward.class).retrieveExternalizableBusinessObjectIfNecessary(this, award, "award");
     }
 
     /**
      * Gets the documentNumber attribute.
-     * 
+     *
      * @return Returns the documentNumber.
      */
     public String getDocumentNumber() {
@@ -78,7 +80,7 @@ public class InvoiceMilestone extends PersistableBusinessObjectBase implements C
 
     /**
      * Gets the invoiceDocument attribute.
-     * 
+     *
      * @return Returns the invoiceDocument.
      */
     public ContractsGrantsInvoiceDocument getInvoiceDocument() {
@@ -87,79 +89,87 @@ public class InvoiceMilestone extends PersistableBusinessObjectBase implements C
 
     /**
      * Gets the isItBilled attribute.
-     * 
+     *
      * @return Returns the isItBilled.
      */
+    @Override
     public String getIsItBilled() {
         return isItBilled;
     }
 
     /**
      * Gets the milestoneActualCompletionDate attribute.
-     * 
+     *
      * @return Returns the milestoneActualCompletionDate.
      */
+    @Override
     public Date getMilestoneActualCompletionDate() {
         return milestoneActualCompletionDate;
     }
 
     /**
      * Gets the milestoneAmount attribute.
-     * 
+     *
      * @return Returns the milestoneAmount.
      */
+    @Override
     public KualiDecimal getMilestoneAmount() {
         return milestoneAmount;
     }
 
     /**
      * Gets the milestoneDescription attribute.
-     * 
+     *
      * @return Returns the milestoneDescription.
      */
+    @Override
     public String getMilestoneDescription() {
         return milestoneDescription;
     }
 
     /**
      * Gets the milestoneExpectedCompletionDate attribute.
-     * 
+     *
      * @return Returns the milestoneExpectedCompletionDate.
      */
+    @Override
     public Date getMilestoneExpectedCompletionDate() {
         return milestoneExpectedCompletionDate;
     }
 
     /**
      * Gets the milestoneIdentifier attribute.
-     * 
+     *
      * @return Returns the milestoneIdentifier.
      */
+    @Override
     public Long getMilestoneIdentifier() {
         return milestoneIdentifier;
     }
 
     /**
      * Gets the milestoneNumber attribute.
-     * 
+     *
      * @return Returns the milestoneNumber.
      */
+    @Override
     public Long getMilestoneNumber() {
         return milestoneNumber;
     }
 
     /**
      * Gets the proposalNumber attribute.
-     * 
+     *
      * @return Returns the proposalNumber.
      */
+    @Override
     public Long getProposalNumber() {
         return proposalNumber;
     }
 
     /**
      * Sets the award attribute value.
-     * 
+     *
      * @param award The award to set.
      */
     public void setAward(ContractsAndGrantsCGBAward award) {
@@ -168,7 +178,7 @@ public class InvoiceMilestone extends PersistableBusinessObjectBase implements C
 
     /**
      * Sets the documentNumber attribute value.
-     * 
+     *
      * @param documentNumber The documentNumber to set.
      */
     public void setDocumentNumber(String documentNumber) {
@@ -177,7 +187,7 @@ public class InvoiceMilestone extends PersistableBusinessObjectBase implements C
 
     /**
      * Sets the invoiceDocument attribute value.
-     * 
+     *
      * @param invoiceDocument The invoiceDocument to set.
      */
     public void setInvoiceDocument(ContractsGrantsInvoiceDocument invoiceDocument) {
@@ -186,7 +196,7 @@ public class InvoiceMilestone extends PersistableBusinessObjectBase implements C
 
     /**
      * Sets the isItBilled attribute value.
-     * 
+     *
      * @param isItBilled The isItBilled to set.
      */
     public void setIsItBilled(String isItBilled) {
@@ -195,7 +205,7 @@ public class InvoiceMilestone extends PersistableBusinessObjectBase implements C
 
     /**
      * Sets the milestoneActualCompletionDate attribute value.
-     * 
+     *
      * @param milestoneActualCompletionDate The milestoneActualCompletionDate to set.
      */
     public void setMilestoneActualCompletionDate(Date milestoneActualCompletionDate) {
@@ -204,7 +214,7 @@ public class InvoiceMilestone extends PersistableBusinessObjectBase implements C
 
     /**
      * Sets the milestoneAmount attribute value.
-     * 
+     *
      * @param milestoneAmount The milestoneAmount to set.
      */
     public void setMilestoneAmount(KualiDecimal milestoneAmount) {
@@ -214,7 +224,7 @@ public class InvoiceMilestone extends PersistableBusinessObjectBase implements C
 
     /**
      * Sets the milestoneDescription attribute value.
-     * 
+     *
      * @param milestoneDescription The milestoneDescription to set.
      */
     public void setMilestoneDescription(String milestoneDescription) {
@@ -224,7 +234,7 @@ public class InvoiceMilestone extends PersistableBusinessObjectBase implements C
 
     /**
      * Sets the milestoneExpectedCompletionDate attribute value.
-     * 
+     *
      * @param milestoneExpectedCompletionDate The milestoneExpectedCompletionDate to set.
      */
     public void setMilestoneExpectedCompletionDate(Date milestoneExpectedCompletionDate) {
@@ -234,7 +244,7 @@ public class InvoiceMilestone extends PersistableBusinessObjectBase implements C
 
     /**
      * Sets the milestoneIdentifier attribute value.
-     * 
+     *
      * @param milestoneIdentifier The milestoneIdentifier to set.
      */
     public void setMilestoneIdentifier(Long milestoneIdentifier) {
@@ -244,7 +254,7 @@ public class InvoiceMilestone extends PersistableBusinessObjectBase implements C
 
     /**
      * Sets the milestoneNumber attribute value.
-     * 
+     *
      * @param milestoneNumber The milestoneNumber to set.
      */
     public void setMilestoneNumber(Long milestoneNumber) {
@@ -253,7 +263,7 @@ public class InvoiceMilestone extends PersistableBusinessObjectBase implements C
 
     /**
      * Sets the proposalNumber attribute value.
-     * 
+     *
      * @param proposalNumber The proposalNumber to set.
      */
     public void setProposalNumber(Long proposalNumber) {
@@ -263,7 +273,7 @@ public class InvoiceMilestone extends PersistableBusinessObjectBase implements C
     /**
      * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    
+
     protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         m.put(ArPropertyConstants.CustomerInvoiceDocumentFields.DOCUMENT_NUMBER, this.documentNumber);

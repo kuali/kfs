@@ -37,7 +37,6 @@ public class AllCGTests {
         suite.addTestSuite(AgencyAddressTypeTest.class);
         suite.addTestSuite(ContractGrantTypeTest.class);
         suite.addTestSuite(BillingFrequencyTest.class);
-        suite.addTestSuite(MilestoneScheduleTest.class);
         suite.addTestSuite(FinancialReportFrequenciesTest.class);
         suite.addTestSuite(InvoiceTemplateTest.class);
         suite.addTestSuite(LetterOfCreditFundTest.class);

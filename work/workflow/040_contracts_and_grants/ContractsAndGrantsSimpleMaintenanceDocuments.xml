@@ -357,46 +357,6 @@
 		</documentType>
 		<documentType>
 			<name>
-				CGAA
-			</name>
-			<parent>
-				CGSM
-			</parent>
-			<label>
-				Agency Activity
-			</label>
-			<helpDefinitionURL>
-				default.htm?turl=WordDocuments%2Fagencyactivity.htm
-			</helpDefinitionURL>
-			<active>
-				true
-			</active>
-			<routingVersion>
-				2
-			</routingVersion>
-		</documentType>
-		<documentType>
-			<name>
-				CGSF
-			</name>
-			<parent>
-				CGSM
-			</parent>
-			<label>
-				Source of Funds
-			</label>
-			<helpDefinitionURL>
-				default.htm?turl=WordDocuments%2Fsourceoffunds.htm
-			</helpDefinitionURL>
-			<active>
-				true
-			</active>
-			<routingVersion>
-				2
-			</routingVersion>
-		</documentType>
-		<documentType>
-			<name>
 				CGBF
 			</name>
 			<parent>
@@ -467,26 +427,6 @@
 			</label>
 			<helpDefinitionURL>
 				default.htm?turl=WordDocuments%2Ffinancialformtemplate.htm
-			</helpDefinitionURL>
-			<active>
-				true
-			</active>
-			<routingVersion>
-				2
-			</routingVersion>
-		</documentType>
-		<documentType>
-			<name>
-				CGMS
-			</name>
-			<parent>
-				CGSM
-			</parent>
-			<label>
-				Milestone Schedule
-			</label>
-			<helpDefinitionURL>
-				default.htm?turl=WordDocuments%2Fmilestoneschedule.htm
 			</helpDefinitionURL>
 			<active>
 				true

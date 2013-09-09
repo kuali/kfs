@@ -32,6 +32,7 @@ import org.kuali.kfs.integration.ar.AccountsReceivableCustomerInvoiceDetail;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomerInvoiceRecurrenceDetails;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomerType;
 import org.kuali.kfs.integration.ar.AccountsReceivableDocumentHeader;
+import org.kuali.kfs.integration.ar.AccountsReceivableMilestoneSchedule;
 import org.kuali.kfs.integration.ar.AccountsReceivableModuleService;
 import org.kuali.kfs.integration.ar.AccountsReceivableOrganizationOptions;
 import org.kuali.kfs.integration.ar.AccountsReceivableSystemInformation;
@@ -46,6 +47,7 @@ import org.kuali.kfs.module.ar.businessobject.CustomerCreditMemoDetail;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceRecurrenceDetails;
 import org.kuali.kfs.module.ar.businessobject.CustomerType;
+import org.kuali.kfs.module.ar.businessobject.MilestoneSchedule;
 import org.kuali.kfs.module.ar.businessobject.OrganizationOptions;
 import org.kuali.kfs.module.ar.document.CustomerCreditMemoDocument;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
@@ -621,8 +623,18 @@ public class AccountsReceivableModuleServiceImpl implements AccountsReceivableMo
         return contractsGrantsInvoiceDocumentService.calculateTotalPaymentsToDateByAward(award);
 
     }
-    
+
+    @Override
     public AccountsReceivableCustomerAddress getPrimaryAddress(String customerNumber) {
         return SpringContext.getBean(CustomerAddressService.class).getPrimaryAddress(customerNumber);
+    }
+
+    @Override
+    public AccountsReceivableMilestoneSchedule getMilestoneSchedule() {
+        return new MilestoneSchedule();
+    }
+
+    public void setProposalNumber(AccountsReceivableMilestoneSchedule milestoneSchedule, Long proposalNumber) {
+        ((MilestoneSchedule) milestoneSchedule).setProposalNumber(proposalNumber);
     }
 }

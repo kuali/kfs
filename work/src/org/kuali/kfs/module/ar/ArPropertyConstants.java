@@ -428,16 +428,6 @@ public class ArPropertyConstants{
         public static final String FINAL_DISPOSITION_CODE = "dispositionCode";
     }
 
-    // Collector Hierarchy
-    public static class CollectorHierarchyFields {
-        public static final String COLLECTOR = "principalId";
-        public static final String COLLECTOR_HEAD_ACTIVE = "collectorHead.active";
-        public static final String COLLECTOR_PRINC_NAME = "collector.principalName";
-        public static final String COLLECTOR_NAME = "collector.name";
-        public static final String COLLECTOR_INFORMATIONS = "collectorInformations";
-
-    }
-
     // Referral Type
     public static class ReferralTypeFields {
         public static final String REFERRAL_TYPE_CODE = "referralTypeCode";

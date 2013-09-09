@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAgency;
+import org.kuali.kfs.module.ar.businessobject.MilestoneSchedule;
 import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
 import org.kuali.kfs.sys.service.ElectronicPaymentClaimingDocumentGenerationStrategy;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
@@ -331,13 +332,17 @@ public interface AccountsReceivableModuleService {
      * @return
      */
     public KualiDecimal calculateTotalPaymentsToDateByAward(Long proposalNumber);
-    
+
     /**
-     * 
+     *
      * This method returns the CustomerAddress specified as the primary address for a Customer.
      * @param customerNumber
      * @return
      */
-    
+
     public AccountsReceivableCustomerAddress getPrimaryAddress(String customerNumber);
+
+    public AccountsReceivableMilestoneSchedule getMilestoneSchedule();
+
+    public void setProposalNumber(AccountsReceivableMilestoneSchedule milestoneSchedule, Long proposalNumber);
 }

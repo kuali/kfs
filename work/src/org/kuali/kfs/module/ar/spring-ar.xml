@@ -50,6 +50,8 @@
                 <entry key="org.kuali.kfs.integration.ar.AccountsReceivableDocumentHeader" value="org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader" />
                 <entry key="org.kuali.kfs.integration.ar.AccountsReceivableDunningCampaign" value="org.kuali.kfs.module.ar.businessobject.DunningCampaign" />
 				<entry key="org.kuali.kfs.integration.ar.AccountsReceivableCollectionStatus" value="org.kuali.kfs.module.ar.businessobject.CollectionStatus" />
+				<entry key="org.kuali.kfs.integration.ar.AccountsReceivableMilestone" value="org.kuali.kfs.module.ar.businessobject.Milestone" />
+				<entry key="org.kuali.kfs.integration.ar.AccountsReceivableMilestoneSchedule" value="org.kuali.kfs.module.ar.businessobject.MilestoneSchedule" />
             </map>
         </property>  
 		<property name="dataDictionaryPackages">
@@ -70,6 +72,7 @@
 				<value>invoiceRecurrenceJob</value>
 				<value>customerInvoiceWriteoffBatchJob</value>
 				<value>customerAgingReportNotificationJob</value>
+				<value>upcomingMilestoneNotificationJob</value>
 			</list>
 		</property>
 		<property name="triggerNames">
@@ -122,16 +125,6 @@
 		</property>
 	</bean>
 	
-	<bean id="collectorHierarchyLookupableHelperService" class="org.kuali.kfs.module.ar.businessobject.lookup.CollectorHierarchyLookupableHelperServiceImpl"
-		scope="prototype" parent="lookupableHelperService">
-	</bean>
-
-	<bean id="collectorHierarchyLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
-		<property name="lookupableHelperService">
-			<ref bean="collectorHierarchyLookupableHelperService" />
-		</property>
-	</bean>
-	
 	<!--  AR DAOs  -->
 	<bean id="customerDao" parent="platformAwareDao" class="org.kuali.kfs.module.ar.dataaccess.impl.CustomerDaoOjb" />
 	<bean id="customerAddressDao" parent="platformAwareDao" class="org.kuali.kfs.module.ar.dataaccess.impl.CustomerAddressDaoOjb" />
@@ -148,9 +141,9 @@
 	<bean id="eventDao" parent="platformAwareDao" class="org.kuali.kfs.module.ar.dataaccess.impl.EventDaoOjb" />
 	<bean id="awardAccountObjectCodeTotalBilledDao" parent="platformAwareDao" class="org.kuali.kfs.module.ar.dataaccess.impl.AwardAccountObjectCodeTotalBilledDaoOjb" />
 	<bean id="cashControlDocumentDao" parent="platformAwareDao" class="org.kuali.kfs.module.ar.document.dataaccess.impl.CashControlDocumentDaoOjb" />
-	<bean id="collectorHierarchyDao" parent="platformAwareDao" class="org.kuali.kfs.module.ar.dataaccess.impl.CollectorHierarchyDaoOjb" />
 	<bean id="customerCollectorDao" parent="platformAwareDao" class="org.kuali.kfs.module.ar.dataaccess.impl.CustomerCollectorDaoOjb" />
 	<bean id="referralToCollectionsDao" parent="platformAwareDao" class="org.kuali.kfs.module.ar.dataaccess.impl.ReferralToCollectionsDaoOjb" />
+	<bean id="milestoneDao" parent="platformAwareDao" class="org.kuali.kfs.module.ar.dataaccess.impl.MilestoneDaoOjb" />	
 	
 	<bean id="contractsGrantsInvoiceCreateDocumentService" class="org.kuali.kfs.module.ar.batch.service.impl.ContractsGrantsInvoiceCreateDocumentServiceImpl">
 		<property name="accountingPeriodService">
@@ -267,9 +260,7 @@
 		<property name="invoicePaidAppliedService">
 			<ref bean="invoicePaidAppliedService" />
 		</property>
-		<property name="collectorHierarchyDao">
-			<ref bean="collectorHierarchyDao" />
-		</property>
+		<property name="milestoneDao" ref="milestoneDao" />
 	</bean>
 
 	<bean id="verifyBillingFrequencyService" class="org.kuali.kfs.module.ar.batch.service.impl.VerifyBillingFrequencyServiceImpl">
@@ -685,9 +676,6 @@
 		</property>
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
-		</property>
-		<property name="collectorHierarchyDao">
-			<ref bean="collectorHierarchyDao" />
 		</property>
 		<property name="customerCollectorDao">
 			<ref bean="customerCollectorDao" />
@@ -1608,9 +1596,6 @@
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
-		<property name="collectorHierarchyDao">
-			<ref bean="collectorHierarchyDao" />
-		</property>
 		<property name="customerCollectorDao">
 			<ref bean="customerCollectorDao" />
 		</property>
@@ -1644,9 +1629,6 @@
 		</property>
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
-		</property>
-		<property name="collectorHierarchyDao">
-			<ref bean="collectorHierarchyDao" />
 		</property>
 		<property name="customerCollectorDao">
 			<ref bean="customerCollectorDao" />

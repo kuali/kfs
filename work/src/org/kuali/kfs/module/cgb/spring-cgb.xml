@@ -53,7 +53,6 @@
 				<entry key="org.kuali.kfs.integration.cg.ContractsGrantsAwardInvoiceAccountInformation" value="org.kuali.kfs.module.cg.businessobject.AwardInvoiceAccount" />
 				<entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAward" value="org.kuali.kfs.module.cg.businessobject.Award" />
 				<entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAgency" value="org.kuali.kfs.module.cg.businessobject.Agency" />
-				<entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsMilestone" value="org.kuali.kfs.module.cg.businessobject.Milestone" />
 				<entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsBill" value="org.kuali.kfs.module.cg.businessobject.Bill" />
 				<entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsLetterOfCreditFundGroup" value="org.kuali.kfs.module.cg.businessobject.LetterOfCreditFundGroup" />
 				<entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsLetterOfCreditFund" value="org.kuali.kfs.module.cg.businessobject.LetterOfCreditFund" />
@@ -78,6 +77,8 @@
                 <entry key="org.kuali.kfs.integration.ar.AccountsReceivableDocumentHeader" value="org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader" />
 				<entry key="org.kuali.kfs.integration.ar.AccountsReceivableDunningCampaign" value="org.kuali.kfs.module.ar.businessobject.DunningCampaign" />
 				<entry key="org.kuali.kfs.integration.ar.AccountsReceivableCollectionStatus" value="org.kuali.kfs.module.ar.businessobject.CollectionStatus" />
+				<entry key="org.kuali.kfs.integration.ar.AccountsReceivableMilestone" value="org.kuali.kfs.module.ar.businessobject.Milestone" />
+				<entry key="org.kuali.kfs.integration.ar.AccountsReceivableMilestoneSchedule" value="org.kuali.kfs.module.ar.businessobject.MilestoneSchedule" />
 			</map>
 		</property>
 		<property name="externalizableBusinessObjectServiceImplementations">

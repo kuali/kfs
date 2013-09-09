@@ -3,6 +3,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
 	xmlns:dd="http://rice.kuali.org/dd"
 	xsi:schemaLocation=" http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
+
 	<!-- Copyright 2007-2009 The Kuali Foundation Licensed under the Educational 
 		Community License, Version 2.0 (the "License"); you may not use this file 
 		except in compliance with the License. You may obtain a copy of the License 
@@ -12,11 +13,19 @@
 		express or implied. See the License for the specific language governing permissions 
 		and limitations under the License. -->
 
+
+
 	<bean id="Milestone" parent="Milestone-parentBean" />
 
 	<bean id="Milestone-parentBean" abstract="true" parent="BusinessObjectEntry">
 		<property name="businessObjectClass"
-			value="org.kuali.kfs.integration.cg.businessobject.Milestone" />
+			value="org.kuali.kfs.module.ar.businessobject.Milestone" />
+		<property name="inquiryDefinition">
+			<ref bean="Milestone-inquiryDefinition" />
+		</property>
+		<property name="lookupDefinition">
+			<ref bean="Milestone-lookupDefinition" />
+		</property>
 		<property name="titleAttribute" value="milestoneNumber" />
 		<property name="objectLabel" value="Milestone" />
 		<property name="attributes">
@@ -140,8 +149,82 @@
 		<property name="validationPattern">
 			<ref bean="AnyCharacterValidation" />
 		</property>
+		<property name="control">
+			<bean parent="RadioControlDefinition"
+				p:valuesFinderClass="org.kuali.kfs.module.ar.businessobject.options.YesNoValuesFinder"
+				p:includeKeyInLabel="false" />
+		</property>
 	</bean>
 
 
 
+
+
+	<!-- Business Object Inquiry Definition -->
+
+
+	<bean id="Milestone-inquiryDefinition" parent="Milestone-inquiryDefinition-parentBean" />
+
+	<bean id="Milestone-inquiryDefinition-parentBean" abstract="true"
+		parent="InquiryDefinition">
+		<property name="title" value="Milestones Inquiry" />
+		<property name="inquirySections">
+			<list>
+				<bean parent="InquirySectionDefinition">
+					<property name="title" value="" />
+					<property name="numberOfColumns" value="1" />
+					<property name="inquiryFields">
+						<list>
+							<bean parent="FieldDefinition" p:attributeName="milestoneNumber" />
+							<bean parent="FieldDefinition" p:attributeName="milestoneIdentifier" />
+							<bean parent="FieldDefinition" p:attributeName="milestoneDescription" />
+							<bean parent="FieldDefinition" p:attributeName="milestoneAmount" />
+							<bean parent="FieldDefinition" p:attributeName="milestoneExpectedCompletionDate" />
+							<bean parent="FieldDefinition" p:attributeName="milestoneActualCompletionDate" />
+							<bean parent="FieldDefinition" p:attributeName="isItBilled" />
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<!-- Business Object Lookup Definition -->
+
+
+	<bean id="Milestone-lookupDefinition" parent="Milestone-lookupDefinition-parentBean" />
+
+	<bean id="Milestone-lookupDefinition-parentBean" abstract="true"
+		parent="LookupDefinition">
+		<property name="title" value="Milestone Lookup" />
+
+		<property name="defaultSort">
+			<bean parent="SortDefinition">
+			</bean>
+		</property>
+		<property name="lookupFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="proposalNumber" />
+				<bean parent="FieldDefinition" p:attributeName="milestoneNumber" />
+				<bean parent="FieldDefinition" p:attributeName="milestoneIdentifier" />
+				<bean parent="FieldDefinition" p:attributeName="milestoneDescription" />
+				<bean parent="FieldDefinition" p:attributeName="milestoneAmount" />
+				<bean parent="FieldDefinition" p:attributeName="milestoneExpectedCompletionDate" />
+				<bean parent="FieldDefinition" p:attributeName="milestoneActualCompletionDate" />
+				<bean parent="FieldDefinition" p:attributeName="isItBilled" />
+			</list>
+		</property>
+		<property name="resultFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="proposalNumber" />
+				<bean parent="FieldDefinition" p:attributeName="milestoneNumber" />
+				<bean parent="FieldDefinition" p:attributeName="milestoneIdentifier" />
+				<bean parent="FieldDefinition" p:attributeName="milestoneDescription" />
+				<bean parent="FieldDefinition" p:attributeName="milestoneAmount" />
+				<bean parent="FieldDefinition" p:attributeName="milestoneExpectedCompletionDate" />
+				<bean parent="FieldDefinition" p:attributeName="milestoneActualCompletionDate" />
+				<bean parent="FieldDefinition" p:attributeName="isItBilled" />
+			</list>
+		</property>
+	</bean>
 </beans>

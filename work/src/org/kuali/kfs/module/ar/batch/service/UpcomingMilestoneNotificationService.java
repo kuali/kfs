@@ -13,15 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.module.cg.service;
+package org.kuali.kfs.module.ar.batch.service;
 
 import java.util.List;
 
-/**
- * Defines methods for sending AR emails.
- */
-public interface CGEmailService {
+import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAward;
+import org.kuali.kfs.module.ar.businessobject.Milestone;
 
+
+/**
+ * Provides methods for sending ACH advice notifications
+ */
+public interface UpcomingMilestoneNotificationService {
+
+    /**
+     * Sends advice notifications to award primary fund manager on upcoming milestones.
+     */
+    public void sendAdviceNotifications(List<Milestone> milestones, ContractsAndGrantsCGBAward award);
 
 
 }

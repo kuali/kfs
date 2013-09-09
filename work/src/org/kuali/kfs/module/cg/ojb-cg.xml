@@ -596,11 +596,6 @@
 			<orderby name="organizationCode" sort="ASC" />
 			<inverse-foreignkey field-ref="proposalNumber" />
 		</collection-descriptor>
-		<collection-descriptor name="milestones" element-class-ref="org.kuali.kfs.module.cg.businessobject.Milestone"
-			collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
-			<orderby name="milestoneIdentifier" sort="ASC" />
-			<inverse-foreignkey field-ref="proposalNumber" />
-		</collection-descriptor>
 		<collection-descriptor name="bills" element-class-ref="org.kuali.kfs.module.cg.businessobject.Bill" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"
 			auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
 			<orderby name="billIdentifier" sort="ASC" />
@@ -853,63 +848,6 @@
 		<field-descriptor name="gracePeriodDays" column="GRACE_PERIOD" jdbc-type="VARCHAR" nullable="false" />
 		<field-descriptor name="active" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
 	</class-descriptor>
-
-	<!-- MILESTONES -->
-
-
-
-	<class-descriptor class="org.kuali.kfs.module.cg.businessobject.Milestone" table="CG_MLSTN_T">
-		<field-descriptor name="proposalNumber" column="CGPRPSL_NBR" jdbc-type="BIGINT" primarykey="true" index="true" />
-		<field-descriptor name="milestoneNumber" column="MLSTN_NBR" jdbc-type="BIGINT" />
-		<field-descriptor name="milestoneIdentifier" column="MLSTN_ID" jdbc-type="BIGINT" primarykey="true" index="true" autoincrement="true"
-			sequence-name="MLSTN_ID_SEQ" />
-		<field-descriptor name="milestoneDescription" column="MLSTN_DESC" jdbc-type="VARCHAR" index="true" />
-		<field-descriptor name="milestoneAmount" column="MLSTN_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
-		<field-descriptor name="milestoneExpectedCompletionDate" column="MLSTN_EXPCTD_COMPLTN_DT" jdbc-type="DATE" />
-		<field-descriptor name="milestoneActualCompletionDate" column="MLSTN_COMPLTN_DT" jdbc-type="DATE" />
-		<field-descriptor name="isItBilled" column="IS_IT_BLD" jdbc-type="VARCHAR" />
-		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
-		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-
-
-		<reference-descriptor name="award" class-ref="org.kuali.kfs.module.cg.businessobject.Award" auto-retrieve="true" auto-update="none"
-			auto-delete="none" proxy="true">
-			<foreignkey field-ref="proposalNumber" />
-		</reference-descriptor>
-
-	</class-descriptor>
-
-
-	<!-- MILESTONE SCHEDULE -->
-
-
-
-	<class-descriptor class="org.kuali.kfs.module.cg.businessobject.MilestoneSchedule" table="CG_MLSTN_SCHDL_T">
-		<field-descriptor name="proposalNumber" column="CGPRPSL_NBR" jdbc-type="BIGINT" primarykey="true" index="true" />
-		<field-descriptor name="totalAmountScheduled" column="TOT_AMT_SCHDL" jdbc-type="DECIMAL"
-			conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
-		<field-descriptor name="totalAmountRemaining" column="TOT_AWD_REMNG" jdbc-type="DECIMAL"
-			conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
-		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
-		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-
-		<reference-descriptor name="award" class-ref="org.kuali.kfs.module.cg.businessobject.Award" auto-retrieve="true" auto-update="none"
-			auto-delete="none" proxy="true">
-			<foreignkey field-ref="proposalNumber" />
-		</reference-descriptor>
-
-
-
-		<collection-descriptor name="milestones" element-class-ref="org.kuali.kfs.module.cg.businessobject.Milestone"
-			collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
-
-			<orderby name="milestoneIdentifier" sort="ASC" />
-
-			<inverse-foreignkey field-ref="proposalNumber" />
-		</collection-descriptor>
-
-	</class-descriptor>
-
 
 
 	<!-- BILLS -->

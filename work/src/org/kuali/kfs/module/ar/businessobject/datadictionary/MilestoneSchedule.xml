@@ -17,7 +17,7 @@
 	<bean id="MilestoneSchedule-parentBean" abstract="true"
 		parent="BusinessObjectEntry">
 		<property name="businessObjectClass"
-			value="org.kuali.kfs.module.cg.businessobject.MilestoneSchedule" />
+			value="org.kuali.kfs.module.ar.businessobject.MilestoneSchedule" />
 		<property name="inquiryDefinition">
 			<ref bean="MilestoneSchedule-inquiryDefinition" />
 		</property>
@@ -55,7 +55,7 @@
 		<property name="relationships">
 			<list>
 				<bean parent="RelationshipDefinition" p:objectAttributeName="award"
-					p:targetClass="org.kuali.kfs.integration.cg.ContractsAndGrantsAward">
+					p:targetClass="org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAward">
 					<property name="primitiveAttributes">
 						<list>
 							<bean parent="PrimitiveAttributeDefinition" p:sourceName="proposalNumber"
@@ -255,7 +255,7 @@
 							<bean parent="InquiryCollectionDefinition">
 								<property name="attributeName" value="milestones" />
 								<property name="businessObjectClass"
-									value="org.kuali.kfs.module.cg.businessobject.Milestone" />
+									value="org.kuali.kfs.module.ar.businessobject.Milestone" />
 								<property name="numberOfColumns" value="1" />
 								<property name="inquiryFields">
 									<list>

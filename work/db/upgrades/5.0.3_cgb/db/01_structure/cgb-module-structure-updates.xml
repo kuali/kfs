@@ -179,46 +179,6 @@
 		</createTable>
 	</changeSet>
 
-	<!-- SOURCE OF FUNDS -->
-	<!-- Creating table -->
-	<changeSet author="kfs" id="CG_SRC_OF_FNDS_T">
-		<createTable tableName="CG_SRC_OF_FNDS_T">
-			<column name="SRC_OF_FNDS_CD" type="varchar(10)">
-				<constraints primaryKey="true" nullable="false" />
-			</column>
-			<column name="OBJ_ID" type="varchar(36)">
-				<constraints unique="true" nullable="false" />
-			</column>
-			<column name="VER_NBR" type="decimal(8,0)" defaultValue="1">
-				<constraints nullable="false" />
-			</column>
-			<column name="SRC_OF_FNDS_DESC" type="varchar(45)" />
-			<column name="DOBJ_MAINT_CD_ACTV_IND" type="varchar(1)">
-				<constraints nullable="false" />
-			</column>
-		</createTable>
-	</changeSet>
-
-	<!-- AGENCY ACTIVITY -->
-	<!-- Creating table -->
-	<changeSet author="kfs" id="CG_AGENCY_ACTVTY_T">
-		<createTable tableName="CG_AGENCY_ACTVTY_T">
-			<column name="AGENCY_ACT_CD" type="varchar(10)">
-				<constraints primaryKey="true" nullable="false" />
-			</column>
-			<column name="OBJ_ID" type="varchar(36)">
-				<constraints unique="true" nullable="false" />
-			</column>
-			<column name="VER_NBR" type="decimal(8,0)" defaultValue="1">
-				<constraints nullable="false" />
-			</column>
-			<column name="AGENCY_ACT_DESC" type="varchar(45)" />
-			<column name="DOBJ_MAINT_CD_ACTV_IND" type="varchar(1)">
-				<constraints nullable="false" />
-			</column>
-		</createTable>
-	</changeSet>
-
 	<!-- To add Billing frequency, Financial Report and Invoice Type column 
 		in agency table -->
 
@@ -275,8 +235,8 @@
 	</changeSet>
 
 	<!-- Create Milestones table -->
-	<changeSet author="kfs" id="CG_MLSTN_T">
-		<createTable tableName="CG_MLSTN_T">
+	<changeSet author="kfs" id="AR_MLSTN_T">
+		<createTable tableName="AR_MLSTN_T">
 			<column name="MLSTN_ID" type="decimal(12,0)" defaultValue="0">
 			</column>
 			<column name="OBJ_ID" type="varchar(36)">
@@ -404,9 +364,9 @@
 
 	<!-- Milestone Schedule table -->
 
-	<changeSet author="kfs" id="CG_MLSTN_SCHDL_T">
+	<changeSet author="kfs" id="AR_MLSTN_SCHDL_T">
 		
-		<createTable tableName="CG_MLSTN_SCHDL_T">
+		<createTable tableName="AR_MLSTN_SCHDL_T">
 			<column name="CGPRPSL_NBR" type="decimal(12,0)" defaultValue="0">
 				<constraints primaryKey="true" nullable="false" />
 			</column>
@@ -440,13 +400,13 @@
 	</changeSet>
 
 
-	<changeSet author="kfs" id="CG_MLSTN_MOD1">
+	<changeSet author="kfs" id="AR_MLSTN_MOD1">
 		
-		<addColumn tableName="CG_MLSTN_T">
+		<addColumn tableName="AR_MLSTN_T">
 			<column name="MLSTN_NBR" type="decimal(12,0)" defaultValue="0" />
 			<column name="CGPRPSL_NBR" type="decimal(12,0)" defaultValue="0" />
 		</addColumn>
-		<addPrimaryKey tableName="CG_MLSTN_T" columnNames="CGPRPSL_NBR,MLSTN_ID" />
+		<addPrimaryKey tableName="AR_MLSTN_T" columnNames="CGPRPSL_NBR,MLSTN_ID" />
 	</changeSet>
 
 	<changeSet author="kfs" id="AR_INV_AGENCY_ADDR_DTL_T">
@@ -549,8 +509,8 @@
 	</changeSet>
 
 	<!-- alter Milestones table -->
-	<changeSet author="kfs" id="CG_MLSTN_T_MODIFY_COLUMNS">
-		<addColumn tableName="CG_MLSTN_T">
+	<changeSet author="kfs" id="AR_MLSTN_T_MODIFY_COLUMNS">
+		<addColumn tableName="AR_MLSTN_T">
 			<column name="MLSTN_COMPLTN_DT" type="datetime">
 			</column>
 		</addColumn>
@@ -1175,8 +1135,8 @@
 	</changeSet>
 
 
-	<changeSet author="kfs" id="CG_MLSTN_T_EXPECTED_COMPLETION_DATE_ADD">
-		<addColumn tableName="CG_MLSTN_T">
+	<changeSet author="kfs" id="AR_MLSTN_T_EXPECTED_COMPLETION_DATE_ADD">
+		<addColumn tableName="AR_MLSTN_T">
 			<column name="MLSTN_EXPCTD_COMPLTN_DT" type="datetime" />
 		</addColumn>
 	</changeSet>

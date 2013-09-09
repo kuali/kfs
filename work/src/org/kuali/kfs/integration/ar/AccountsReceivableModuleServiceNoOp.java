@@ -267,13 +267,26 @@ public class AccountsReceivableModuleServiceNoOp implements AccountsReceivableMo
     public KualiDecimal calculateTotalPaymentsToDateByAward(Long proposalNumber) {
         LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
         return null;
-        
-    }
-    
 
+    }
+
+
+    @Override
     public AccountsReceivableCustomerAddress getPrimaryAddress(String customerNumber) {
         LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
         return null;
+    }
+
+    @Override
+    public AccountsReceivableMilestoneSchedule getMilestoneSchedule() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public void setProposalNumber(AccountsReceivableMilestoneSchedule milestoneSchedule, Long proposalNumber) {
+        // TODO Auto-generated method stub
+
     }
 
 }

@@ -432,4 +432,6 @@ public class ArConstants{
     public static final String INVOICE_TEMPLATE_NOT_FOUND_ERROR = "error.invoice.templete.not.found";
     public static final String CORRECTED_INVOICE_NOT_FOUND_ERROR = "error.invoice.not.correct";
 
+    static final public String AWARD_MILESTONE_REMINDER_EMAIL_SUBJECT = "AWARD_MILESTONE_REMINDER_EMAIL_SUBJECT";
+
 }

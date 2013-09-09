@@ -206,7 +206,7 @@
 						</list>
 					</property>
 				</bean>
-				<bean parent="RelationshipDefinition">
+				<!--bean parent="RelationshipDefinition">
 					<property name="objectAttributeName" value="milestoneSchedule" />
 					<property name="primitiveAttributes">
 						<list>
@@ -214,7 +214,7 @@
 								p:targetName="proposalNumber" />
 						</list>
 					</property>
-				</bean>
+				</bean-->
 			</list>
 		</property>
 		<property name="inactivationBlockingDefinitions">
@@ -1441,7 +1441,7 @@
 					<property name="inquiryFields">
 						<list>
 							<bean parent="InquiryCollectionDefinition" p:attributeName="milestones"
-								p:businessObjectClass="org.kuali.kfs.module.cg.businessobject.Milestone">
+								p:businessObjectClass="org.kuali.kfs.integration.ar.businessobject.Milestone">
 								<property name="inquiryFields">
 									<list>
 										<bean parent="FieldDefinition" p:attributeName="milestoneNumber" />

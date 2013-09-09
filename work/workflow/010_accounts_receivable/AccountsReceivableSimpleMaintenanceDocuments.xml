@@ -239,26 +239,6 @@
 		</documentType>
 		<documentType>
 			<name>
-				CLHR
-			</name>
-			<parent>
-				ARSM
-			</parent>
-			<label>
-				Collector Hierarchy
-			</label>
-			<helpDefinitionURL>
-				default.htm?turl=WordDocuments%2Fcollectorhierarchy.htm
-			</helpDefinitionURL>
-			<active>
-				true
-			</active>
-			<routingVersion>
-				2
-			</routingVersion>
-		</documentType>
-		<documentType>
-			<name>
 				FDSP
 			</name>
 			<parent>
@@ -289,6 +269,26 @@
 			</label>
 			<helpDefinitionURL>
 				default.htm?turl=WordDocuments%2FreferralType.htm
+			</helpDefinitionURL>
+			<active>
+				true
+			</active>
+			<routingVersion>
+				2
+			</routingVersion>
+		</documentType>
+		<documentType>
+			<name>
+				CGMS
+			</name>
+			<parent>
+				CGSM
+			</parent>
+			<label>
+				Milestone Schedule
+			</label>
+			<helpDefinitionURL>
+				default.htm?turl=WordDocuments%2Fmilestoneschedule.htm
 			</helpDefinitionURL>
 			<active>
 				true

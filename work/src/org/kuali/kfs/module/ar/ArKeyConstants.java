@@ -309,9 +309,12 @@ public class ArKeyConstants {
         public static final String ERROR_LOCKBOX_NON_NUMERIC_INVOICE_PAID_AMOUNT = "error.lockbox.non.numeric.invoice.paid.amount";
         public static final String MESSAGE_BATCH_UPLOAD_TITLE_LOCKBOX = "message.batchUpload.title.lockboxLoad";
     }
-     
+
      public static class ContractsGrantsCategoryConstants {
          public static final String ERROR_ANY_ONE_REQUIRED = "error.any.one.required";
          public static final String CATEGORY_INFO = "error.cgcategory.info";
      }
+
+     public static final String MESSAGE_CG_UPCOMING_MILESTONES_EMAIL_LINE_1 = "message.cg.upcoming.milestones.email.line1";
+     public static final String MESSAGE_CG_UPCOMING_MILESTONES_EMAIL_LINE_2 = "message.cg.upcoming.milestones.email.line2";
 }

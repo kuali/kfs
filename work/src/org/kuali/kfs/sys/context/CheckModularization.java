@@ -68,6 +68,8 @@ public class CheckModularization {
      *
      */
     private static final Map<String, String> OPTIONAL_NAMESPACE_CODES_TO_SPRING_FILE_SUFFIX = new HashMap<String, String>();
+    // NOTE: Access Security (KFS-SEC) is considered a "core" module, but one which other modules shouldn't depend
+    // upon, so it's included in this group to verify that no other modules depend upon it.
     static {
         OPTIONAL_NAMESPACE_CODES_TO_SPRING_FILE_SUFFIX.put("KFS-AR", "ar");
         OPTIONAL_NAMESPACE_CODES_TO_SPRING_FILE_SUFFIX.put("KFS-BC", "bc");
@@ -77,6 +79,7 @@ public class CheckModularization {
         OPTIONAL_NAMESPACE_CODES_TO_SPRING_FILE_SUFFIX.put("KFS-EC", "ec");
         OPTIONAL_NAMESPACE_CODES_TO_SPRING_FILE_SUFFIX.put("KFS-LD", "ld");
         OPTIONAL_NAMESPACE_CODES_TO_SPRING_FILE_SUFFIX.put("KFS-PURAP", "purap");
+        OPTIONAL_NAMESPACE_CODES_TO_SPRING_FILE_SUFFIX.put("KFS-SEC", "sec");
     }
 
     private static final Map<String, String> OPTIONAL_SPRING_FILE_SUFFIX_TO_NAMESPACE_CODES =
@@ -97,6 +100,7 @@ public class CheckModularization {
     private static Map<String,List<String>> DWR_FILES_BY_MODULE = new HashMap<String, List<String>>();
 
     private static String MODULE_SPRING_PATH_PATTERN = "org/kuali/kfs/module/{0}/spring-{0}.xml";
+    private static String KFS_SEC_MODULE_SPRING_PATH_PATTERN = "org/kuali/kfs/{0}/spring-{0}.xml";
 
     /*
      * open up classpath:configuration.properties - get locations of spring files?
@@ -193,12 +197,27 @@ public class CheckModularization {
 
     protected String buildOptionalModuleSpringFileList( ModuleGroup moduleGroup ) {
         StringBuffer sb = new StringBuffer();
-        sb.append( MessageFormat.format(MODULE_SPRING_PATH_PATTERN, OPTIONAL_NAMESPACE_CODES_TO_SPRING_FILE_SUFFIX.get( moduleGroup.namespaceCode ) ) );
+        sb.append( MessageFormat.format(getModuleSpringPathPattern(moduleGroup.namespaceCode), OPTIONAL_NAMESPACE_CODES_TO_SPRING_FILE_SUFFIX.get( moduleGroup.namespaceCode ) ) );
         for ( String depMod : moduleGroup.optionalModuleDependencyNamespaceCodes ) {
             sb.append( ',' );
-            sb.append( MessageFormat.format(MODULE_SPRING_PATH_PATTERN, OPTIONAL_NAMESPACE_CODES_TO_SPRING_FILE_SUFFIX.get( depMod ) ) );
+            sb.append( MessageFormat.format(getModuleSpringPathPattern(depMod), OPTIONAL_NAMESPACE_CODES_TO_SPRING_FILE_SUFFIX.get( depMod ) ) );
         }
         return sb.toString();
+    }
+
+    /**
+     * Since we're treating Access Security like an optional module for modularization validation purposes
+     * but it follows the core package naming convention, we have to account for that, which this method does.
+     *
+     * @param moduleNamespaceCode
+     * @return String the correct module string path pattern for this module
+     */
+    private String getModuleSpringPathPattern(String moduleNamespaceCode) {
+        if (moduleNamespaceCode.equals(KFSConstants.CoreModuleNamespaces.ACCESS_SECURITY)) {
+            return KFS_SEC_MODULE_SPRING_PATH_PATTERN;
+        } else {
+            return MODULE_SPRING_PATH_PATTERN;
+        }
     }
 
     StringBuffer dwrErrorMessage = new StringBuffer("The following optional modules have interdependencies in DWR configuration:");

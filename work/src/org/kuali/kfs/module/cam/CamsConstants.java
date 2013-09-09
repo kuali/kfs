@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -104,7 +104,7 @@ public class CamsConstants {
         public static final String ASSET_PAYMENT_FROM_CAB = "MPAYCAB";
         public static final String ASSET_FP_INQUIRY = "AFPINQ";
         public static final String ASSET_PREQ_INQUIRY = "APREQINQ";
-        // Below used for view related document links 
+        // Below used for view related document links
         public static final String COMPLEX_MAINTENANCE_DOC_BASE = "CAMM";
     }
 
@@ -149,9 +149,12 @@ public class CamsConstants {
         public static final String BLANK_OUT_BEGIN_MMDD = "BLANK_OUT_BEGIN_MMDD";
         public static final String BLANK_OUT_PERIOD_RUN_DATE = "BLANK_OUT_PERIOD_RUN_DATE";
         public static final String RUN_DATE_NOTIFICATION_EMAIL_ADDRESSES = "RUN_DATE_NOTIFICATION_EMAIL_ADDRESSES";
-        
+
         public static final String BLANK_OUT_END_MMDD = "BLANK_OUT_END_MMDD";
         public static final String MANUFACTURER_REQUIRED_FOR_NON_MOVEABLE_ASSET_IND = "MANUFACTURER_REQUIRED_FOR_NON_MOVEABLE_ASSET_IND";
+        // CSU 6702 BEGIN
+        public static String INCLUDE_RETIRED_ASSETS_IND = "INCLUDE_RETIRED_ASSETS_IND";
+        // CSU 6702 BEGIN
     }
 
     public static class Report {
@@ -212,11 +215,11 @@ public class CamsConstants {
         public static final String BORROWER_STORAGE = "BS";
         public static final String RETIREMENT = "R";
     }
-    
+
     public static class AssetLocationGlobal {
         public static final String SECTION_ID_EDIT_LIST_OF_ASSETS = "Edit List of Assets";
     }
-    
+
     public static class AssetRetirementGlobal {
         public static final String ASSET_LOOKUPABLE_ID = "assetLookupable";
         public static final String DOCUMENT_HEADER = "documentHeader";

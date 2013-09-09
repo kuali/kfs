@@ -63,6 +63,7 @@ import org.kuali.kfs.module.cab.CabPropertyConstants;
 import org.kuali.kfs.module.cab.businessobject.AssetTransactionType;
 import org.kuali.kfs.module.cab.businessobject.GeneralLedgerEntry;
 import org.kuali.kfs.module.cab.businessobject.GeneralLedgerEntryAsset;
+import org.kuali.kfs.module.cab.businessobject.PretagDetail;
 import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableDocument;
 import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableItemAsset;
 import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableLineAssetAccount;
@@ -101,6 +102,7 @@ import org.kuali.kfs.sys.businessobject.Building;
 import org.kuali.kfs.sys.businessobject.Room;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.businessobject.TargetAccountingLine;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
@@ -2896,5 +2898,20 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
 
     public void setPurchasingAccountsPayableModuleService(PurchasingAccountsPayableModuleService purchasingAccountsPayableModuleService) {
         this.purchasingAccountsPayableModuleService = purchasingAccountsPayableModuleService;
+    }
+
+    @Override
+    public void reactivatePretagDetails(String campusTagNumber) {
+        if (campusTagNumber != null && !campusTagNumber.isEmpty()) {
+            Map<String, String> map = new HashMap<String, String>();
+            map.put(CabPropertyConstants.PretagDetail.CAMPUS_TAG_NUMBER, campusTagNumber);
+            List<PretagDetail> pretagDetailList = (List<PretagDetail>) SpringContext.getBean(BusinessObjectService.class).findMatching(PretagDetail.class, map);
+            if (ObjectUtils.isNotNull(pretagDetailList)) {
+                for (PretagDetail pretagDetail : pretagDetailList) {
+                    pretagDetail.setActive(true);
+                    SpringContext.getBean(BusinessObjectService.class).save(pretagDetail);
+                }
+            }
+        }
     }
 }

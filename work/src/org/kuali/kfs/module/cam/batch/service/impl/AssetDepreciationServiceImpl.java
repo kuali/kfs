@@ -54,9 +54,9 @@ import org.kuali.kfs.module.cam.document.dataaccess.DepreciableAssetsDao;
 import org.kuali.kfs.module.cam.document.dataaccess.DepreciationBatchDao;
 import org.kuali.kfs.module.cam.document.service.AssetDateService;
 import org.kuali.kfs.module.cam.document.service.AssetService;
-import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.batch.service.SchedulerService;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
@@ -82,7 +82,6 @@ import org.kuali.rice.krad.service.MailService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
-import org.quartz.CronExpression;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -115,6 +114,7 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
     protected MailService mailService;
     protected volatile WorkflowDocumentService workflowDocumentService;
     private AssetDateService assetDateService;
+    private SchedulerService schedulerService;
 
     /**
      * @see org.kuali.kfs.module.cam.batch.service.AssetDepreciationService#runDepreciation()
@@ -279,13 +279,13 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
             LOG.info("*******YEAR END DEPRECIATION - HAS BEGUN *******");
 
             //
-            // Getting the system parameter "YEARENDDEPR_INCLUDE_RETIRED" When this parameter is used to determine whether
+            // Getting the system parameter "INCLUDE_RETIRED_ASSETS_IND" When this parameter is used to determine whether
             // to include retired assets in the depreciation
             //
             if ( LOG.isInfoEnabled() ) {
-                LOG.info("parameterService.getParameterValueAsString(KfsParameterConstants.CAPITAL_ASSETS_BATCH.class, PurapConstants.ParameterConstants.YEARENDDEPR_INCLUDE_RETIRED) = " + parameterService.getParameterValueAsString(KfsParameterConstants.CAPITAL_ASSETS_BATCH.class, PurapConstants.ParameterConstants.INCLUDE_RETIRED_ASSETS_IND));
+                LOG.info("parameterService.getParameterValueAsString(KfsParameterConstants.CAPITAL_ASSETS_BATCH.class, CamsConstants.Parameters.INCLUDE_RETIRED_ASSETS_IND) = " + parameterService.getParameterValueAsString(KfsParameterConstants.CAPITAL_ASSETS_BATCH.class, CamsConstants.Parameters.INCLUDE_RETIRED_ASSETS_IND));
             }
-            includeRetired=parameterService.getParameterValueAsBoolean(KfsParameterConstants.CAPITAL_ASSETS_BATCH.class, PurapConstants.ParameterConstants.INCLUDE_RETIRED_ASSETS_IND);
+            includeRetired=parameterService.getParameterValueAsBoolean(KfsParameterConstants.CAPITAL_ASSETS_BATCH.class, CamsConstants.Parameters.INCLUDE_RETIRED_ASSETS_IND);
 
             UniversityDate universityDate = businessObjectService.findBySinglePrimaryKey(UniversityDate.class, new java.sql.Date(depreciationDate.getTimeInMillis()));
             if (universityDate == null) {
@@ -400,12 +400,9 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
                 }
         }
         else {
-            CronExpression cronExpression = new CronExpression(this.cronExpression);
-            Date validTimeAfter = cronExpression.getNextValidTimeAfter(dateTimeService.getCurrentDate());
-            String scheduleJobDate = dateTimeService.toString(validTimeAfter, CamsConstants.DateFormats.MONTH_DAY_YEAR);
-            if(scheduleJobDate.equals(dateTimeService.toString(currentDate, CamsConstants.DateFormats.MONTH_DAY_YEAR))){
+            if (getSchedulerService().cronConditionMet(this.cronExpression)) {
                 executeJob = true;
-            }else {
+            } else {
                 LOG.info("Cron condition not met. executeJob not set to true");
             }
         }
@@ -1269,5 +1266,13 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
 
     public void setUniversityDateService(UniversityDateService universityDateService) {
         this.universityDateService = universityDateService;
+    }
+
+    public SchedulerService getSchedulerService() {
+        return schedulerService;
+    }
+
+    public void setSchedulerService(SchedulerService schedulerService) {
+        this.schedulerService = schedulerService;
     }
 }

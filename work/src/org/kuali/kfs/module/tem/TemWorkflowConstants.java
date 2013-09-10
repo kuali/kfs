@@ -22,7 +22,7 @@ public class TemWorkflowConstants {
     public static final String INTL_TRAVEL = "TravelIsInternational";
     public static final String RISK_MANAGEMENT = "TravelNeedsRiskManagement";
     public static final String TRVL_ADV_REQUESTED = "TravelAdvanceRequested";
-    public static final String ACCTG_APPROVAL_REQUIRED = "TravelRequiresAccountingOrganizationHierarchy";
+    //public static final String ACCTG_APPROVAL_REQUIRED = "TravelRequiresAccountingOrganizationHierarchy";
     public static final String DIVISION_APPROVAL_REQUIRED = "TravelRequiresDivisionApproval";
     public static final String ACCOUNT_APPROVAL_REQUIRED = "TravelRequiresAccountApproval";
     public static final String SEPARATION_OF_DUTIES = "RequiresSeparationOfDuties";

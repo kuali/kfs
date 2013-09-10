@@ -41,6 +41,9 @@
 
     <bean parent="roleTypeServiceCallback" 
         p:callbackService-ref="temExecutiveManagerRoleTypeService" p:localServiceName="temExecutiveManagerRoleTypeService" />
+        
+    <bean parent="roleTypeServiceCallback" 
+        p:callbackService-ref="reimbursementOverageOrganizationHierarchyRoleTypeService" p:localServiceName="reimbursementOverageOrganizationHierarchyRoleTypeService" />
        	 
  	<bean parent="documentSearchCustomizerCallback" 
 		p:callbackService-ref="TravelDocumentSearchCustomizer" p:localServiceName="TravelDocumentSearchCustomizer" />

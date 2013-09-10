@@ -1422,6 +1422,11 @@
 		<property name="travelDocumentDao" ref="travelDocumentDao"/>
 		<property name="travelPaymentsHelperService" ref="travelPaymentsHelperService"/>
 	</bean>
+	
+	<bean id="reimbursementOverageOrganizationHierarchyRoleTypeService" class="org.kuali.kfs.module.tem.identity.ReimbursementOverageOrganizationHierarchyRoleTypeServiceImpl">
+		<property name="chartService" ref="chartService"/>
+		<property name="organizationService" ref="organizationService"/>
+	</bean>
 
     <import resource="spring-tem-bus-exports.xml"/>
 	

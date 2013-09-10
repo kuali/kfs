@@ -331,6 +331,7 @@
         </property>
     </bean>
     
+    <!-- Routing Types -->
     <bean id="RoutingType-TravelAuthorizationDocument-AccountingOrganizationHierarchy" class="org.kuali.rice.krad.datadictionary.RoutingTypeDefinition">
         <property name="routingAttributes">
             <list>
@@ -362,7 +363,45 @@
         </property>
     </bean>
     
-    <!-- Routing Types -->
+    <bean id="RoutingType-TravelReimbursement-ReimbursementOverage" class="org.kuali.rice.krad.datadictionary.RoutingTypeDefinition">
+    	<property name="routingAttributes">
+            <list>
+                <bean class="org.kuali.rice.krad.datadictionary.RoutingAttribute">
+			    	<property name="qualificationAttributeName" value="authorizationAmount"/>
+			    </bean>
+			    <bean class="org.kuali.rice.krad.datadictionary.RoutingAttribute">
+			    	<property name="qualificationAttributeName" value="reimbursementAmount"/>
+			    </bean>
+                <ref bean="RoutingAttribute-chartOfAccountsCode" />
+                <ref bean="RoutingAttribute-organizationCode" />
+            </list>
+        </property>
+        <property name="documentValuePathGroups">
+            <list>
+                <ref bean="DocumentValuePathGroup-TravelReimbursement-ReimbursementOverage-accountingLines" />
+            </list>
+        </property>
+    </bean>
+    <bean id="DocumentValuePathGroup-TravelReimbursement-ReimbursementOverage-accountingLines" class="org.kuali.rice.krad.datadictionary.DocumentValuePathGroup">
+    	<property name="documentValues">
+    		<list>
+    			<value>totalAuthorizedEncumbrance</value>
+    			<value>totalCumulativeReimbursements</value>
+			</list>
+		</property>
+        <property name="documentCollectionPath">
+            <bean class="org.kuali.rice.krad.datadictionary.DocumentCollectionPath">
+                <property name="collectionPath" value="sourceAccountingLines" />
+                <property name="documentValues">
+                    <list>
+                        <value>chartOfAccountsCode</value>
+                        <value>account.organizationCode</value>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+    
 	<bean id="TravelReimbursable-RoutingType-PaymentMethod" class="org.kuali.rice.krad.datadictionary.RoutingTypeDefinition">
     	<property name="routingAttributes">
     		<list>

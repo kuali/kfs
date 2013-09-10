@@ -377,6 +377,7 @@
                 <status>In Process</status>
                 <status>Awaiting Traveler Review</status>
                 <status>Awaiting Fiscal Officer Review</status>
+                <status>Awaiting Organization Review</status>
                 <status>Awaiting Travel Accounting Review</status>
                 <status>Awaiting Division Review</status>
                 <status>Awaiting Special Request Review</status>
@@ -414,24 +415,17 @@
                         </branch>
                         <join name="JoinTravelRequiresTravelerApproval"/>
                     </split>
-                    <split name="TravelRequiresAccountApproval" nextNode="TravelRequiresAccountingOrganizationHierarchy" nextAppDocStatus="Awaiting Fiscal Officer Review">
+                    <split name="TravelRequiresAccountApproval" nextNode="AccountingOrganizationHierarchy" nextAppDocStatus="Awaiting Fiscal Officer Review">
 						<branch name="True">
-							<role name="Account" nextNode="JoinRequiresAccountApproval" nextAppDocStatus="Awaiting Travel Accounting Review" />
+							<role name="Account" nextNode="JoinRequiresAccountApproval" nextAppDocStatus="Awaiting Organization Review" />
 						</branch>
 						<branch name="False">
-							<simple name="NoOpAccountApproval" nextNode="JoinRequiresAccountApproval" nextAppDocStatus="Awaiting Travel Accounting Review" />
+							<simple name="NoOpAccountApproval" nextNode="JoinRequiresAccountApproval" nextAppDocStatus="Awaiting Organization Review" />
 						</branch>
 						<join name="JoinRequiresAccountApproval" />
 					</split>
-                    <split name="TravelRequiresAccountingOrganizationHierarchy" nextNode="TravelRequiresDivisionApproval" nextAppDocStatus="Awaiting Travel Accounting Review">
-                        <branch name="True">
-                            <role name="AccountingOrganizationHierarchy" nextNode="JoinRequiresAccountingOrganizationHierarchy" nextAppDocStatus="Awaiting Division Review" />
-                        </branch>
-                        <branch name="False">
-                            <simple name="NoOpAccountingOrganizationHierarchy" nextNode="JoinRequiresAccountingOrganizationHierarchy" nextAppDocStatus="Awaiting Division Review" />
-                        </branch>
-                        <join name="JoinRequiresAccountingOrganizationHierarchy"/>
-                    </split>
+					<role name="AccountingOrganizationHierarchy" nextNode="ReimbursementOverage" nextAppDocStatus="Awaiting Travel Accounting Review" />
+					<role name="ReimbursementOverage" nextNode="TravelRequiresDivisionApproval" nextAppDocStatus="Awaiting Division Review"/>
                     <split name="TravelRequiresDivisionApproval" nextNode="TravelHasSpecialRequest" nextAppDocStatus="Awaiting Division Review">
                         <branch name="True">
                             <role name="Division" nextNode="JoinTravelRequiresDivisionApproval" nextAppDocStatus="Awaiting Special Request Review" />
@@ -524,14 +518,12 @@
                     <activationType>P</activationType>
                 </role>
                 
-				<join name="JoinRequiresAccountingOrganizationHierarchy" />
-				<simple name="NoOpAccountingOrganizationHierarchy">
-					<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
-				</simple>
-				<split name="TravelRequiresAccountingOrganizationHierarchy">
-					<type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
-				</split>
                 <role name="AccountingOrganizationHierarchy">
+                    <qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+                    <activationType>P</activationType>
+                </role>
+                
+                <role name="ReimbursementOverage">
                     <qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
                     <activationType>P</activationType>
                 </role>

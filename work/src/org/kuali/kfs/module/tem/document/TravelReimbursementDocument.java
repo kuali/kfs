@@ -309,9 +309,6 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
         if (nodeName.equals(TemWorkflowConstants.ACCOUNT_APPROVAL_REQUIRED)) {
             return requiresAccountApprovalRouting();
         }
-        if (nodeName.equals(TemWorkflowConstants.ACCTG_APPROVAL_REQUIRED)) {
-            return requiresAccountingReviewRouting();
-        }
         if (nodeName.equals(TemWorkflowConstants.DIVISION_APPROVAL_REQUIRED)) {
             return requiresDivisionApprovalRouting() && isNotAutomaticReimbursement();
         }
@@ -399,6 +396,22 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
         KualiDecimal trTotal = getTravelDocumentService().getTotalCumulativeReimbursements(this);
         KualiDecimal divApprovalMax = new KualiDecimal(getParameterService().getParameterValueAsString(TemParameterConstants.TEM_DOCUMENT.class, TravelParameters.CUMULATIVE_REIMBURSABLE_AMOUNT_WITHOUT_DIVISION_APPROVAL));
         return (trTotal.isGreaterThan(divApprovalMax)) && requiresAccountingReviewRouting();
+    }
+
+    /**
+     * @return the current open amount of the encumbrance(s) created by the related travel authorizations
+     */
+    public KualiDecimal getTotalAuthorizedEncumbrance() {
+        final KualiDecimal taTotal = getTravelDocumentService().getTotalAuthorizedEncumbrance(this);
+        return taTotal;
+    }
+
+    /**
+     * @return the total cumulative reimbursements so far
+     */
+    public KualiDecimal getTotalCumulativeReimbursements() {
+        final KualiDecimal trTotal = getTravelDocumentService().getTotalCumulativeReimbursements(this);
+        return trTotal;
     }
 
     /**

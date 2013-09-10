@@ -31,6 +31,9 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
         <ref bean="TemKimAttributes-profilePrincipalId" />
         <ref bean="TemKimAttributes-travelerTypeCode"/>
         <ref bean="TemKimAttributes-jobClassificationCode"/>
+        <ref bean="TemKimAttributes-reimbursementAmount"/>
+        <ref bean="TemKimAttributes-authorizationAmount"/>
+        <ref bean="TemKimAttributes-reimbursementOveragePercentage"/>
       </list>
     </property>
     <property name="relationships">
@@ -61,5 +64,23 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 	
 	<bean id="TemKimAttributes-jobClassificationCode" parent="TemKimAttributes-jobClassificationCode-parentBean"/>
 	<bean id="TemKimAttributes-jobClassificationCode-parentBean" parent="JobClassification-jobClassCode" abstract="true"/>
+	
+	<bean id="TemKimAttributes-reimbursementAmount" parent="TemKimAttributes-reimbursementAmount-parentBean"/>
+	<bean id="TemKimAttributes-reimbursementAmount-parentBean" parent="GenericAttributes-genericAmount" abstract="true">
+		<property name="name" value="reimbursementAmount"/>
+		<property name="label" value="Reimbursement Amount"/>
+	</bean>
+	
+	<bean id="TemKimAttributes-authorizationAmount" parent="TemKimAttributes-authorizationAmount-parentBean"/>
+	<bean id="TemKimAttributes-authorizationAmount-parentBean" parent="GenericAttributes-genericAmount" abstract="true">
+		<property name="name" value="authorizationAmount"/>
+		<property name="label" value="Authorization Amount"/>
+	</bean>
+	
+	<bean id="TemKimAttributes-reimbursementOveragePercentage" parent="TemKimAttributes-reimbursementOveragePercentage-parentBean"/>
+	<bean id="TemKimAttributes-reimbursementOveragePercentage-parentBean" parent="GenericAttributes-genericAmount" abstract="true">
+		<property name="name" value="reimbursementOveragePercentage"/>
+		<property name="label" value="Reimbursement Overage Percentage"/>
+	</bean>
 
 </beans>

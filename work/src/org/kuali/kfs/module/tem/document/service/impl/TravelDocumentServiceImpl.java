@@ -1259,9 +1259,12 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
 
         List<Document> relatedTravelReimbursementDocuments = getDocumentsRelatedTo(document, TravelDocTypes.TRAVEL_REIMBURSEMENT_DOCUMENT);
         for(Document trDoc: relatedTravelReimbursementDocuments) {
-            List<AccountingLine> lines = ((TravelReimbursementDocument)trDoc).getSourceAccountingLines();
-            for(AccountingLine line: lines) {
-                trTotal = trTotal.add(line.getAmount());
+            final TravelReimbursementDocument tr = (TravelReimbursementDocument)trDoc;
+            if (!KFSConstants.DocumentStatusCodes.CANCELLED.equals(tr.getFinancialSystemDocumentHeader().getFinancialDocumentStatusCode()) && !KFSConstants.DocumentStatusCodes.DISAPPROVED.equals(tr.getFinancialSystemDocumentHeader().getFinancialDocumentStatusCode())) {
+                List<AccountingLine> lines = tr.getSourceAccountingLines();
+                for(AccountingLine line: lines) {
+                    trTotal = trTotal.add(line.getAmount());
+                }
             }
         }
 

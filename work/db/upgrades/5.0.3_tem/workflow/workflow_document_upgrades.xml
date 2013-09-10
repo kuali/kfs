@@ -188,14 +188,14 @@
 			<label>Credit Card Imported Expense Clearing Document</label>
 			<parent>TTSM</parent>
 		</documentType>
-		   <documentType>
+		<documentType>
       <name>TTP</name>
       <label>TEM Profile</label>
       <parent>TTCM</parent>
 		<routePaths>
 			<routePath>
 				<start name="AdHoc" nextNode="ProfileIsTaxManagerRequired"/>
-	     		<split name="ProfileIsTaxManagerRequired" nextNode="Traveler">
+	     		<split name="ProfileIsTaxManagerRequired" nextNode="TravelRequiresTravelerApproval">
 		         	<branch name="True">
 		            	<role name="Tax" nextNode="JoinRequiresTaxManagerReview"/>
 		         	</branch>
@@ -204,7 +204,15 @@
 		         	</branch>
 		         	<join name="JoinRequiresTaxManagerReview"/>
 	     		</split>
-	     		<role name="Traveler" />
+	     		<split name="TravelRequiresTravelerApproval" >
+		         	<branch name="True">
+		            	<role name="Traveler" nextNode="JoinRequiresTravelerReview"/>
+		         	</branch>
+		         	<branch name="False">
+		            	<simple name="NoOpTraveler" nextNode="JoinRequiresTravelerReview"/>
+		         	</branch>
+		         	<join name="JoinRequiresTravelerReview"/>
+	     		</split>
 			</routePath>
 		</routePaths>
 		<routeNodes>
@@ -222,6 +230,13 @@
 		        </qualifierResolverClass>
 		        <activationType>P</activationType>
 			</role>
+			<split name="TravelRequiresTravelerApproval">
+			    <type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+			</split>
+			<simple name="NoOpTraveler">
+			    <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+			</simple>
+			<join name="JoinRequiresTravelerReview" />
 			<role name="Traveler">
 				<qualifierResolverClass>
 					org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
@@ -229,7 +244,7 @@
 				<activationType>P</activationType>
 			</role>
 		</routeNodes>
-    	</documentType>
+    </documentType>
     	<documentType>
 	      <name>TT</name>
 	      <parent>KFST</parent>

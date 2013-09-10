@@ -148,7 +148,12 @@
               <bean parent="MaintainableFieldDefinition" p:name="customerInternationalMailCode"/>
               <bean parent="MaintainableFieldDefinition" p:name="customerCountryCode" p:required="true"/> 
               <bean parent="MaintainableFieldDefinition" p:name="customerEmailAddress"/>
-              <bean parent="MaintainableFieldDefinition" p:name="customerAddressEndDate"/>     
+              <bean parent="MaintainableFieldDefinition" p:name="customerAddressEndDate"/>
+              
+              <bean parent="MaintainableFieldDefinition" p:name="agencyInvoiceTemplateCode"/>
+              <bean parent="MaintainableFieldDefinition" p:name="invoiceIndicatorCode"/>
+              <bean parent="MaintainableFieldDefinition" p:name="agencyCopiesToPrint"/>
+              <bean parent="MaintainableFieldDefinition" p:name="agencyPrintEnvelopesNumber"/>     
             </list>
           </property>
         </bean>

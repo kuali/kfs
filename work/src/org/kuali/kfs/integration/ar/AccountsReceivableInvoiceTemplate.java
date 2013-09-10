@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.integration.cg;
+package org.kuali.kfs.integration.ar;
 
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.Organization;
@@ -23,7 +23,7 @@ import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 /**
  * Integration interface for InvoiceTemplate
  */
-public interface ContractsAndGrantsInvoiceTemplate extends MutableInactivatable, ExternalizableBusinessObject {
+public interface AccountsReceivableInvoiceTemplate extends MutableInactivatable, ExternalizableBusinessObject {
 
 
     /**

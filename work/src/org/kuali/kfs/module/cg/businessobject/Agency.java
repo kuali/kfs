@@ -17,20 +17,21 @@
 package org.kuali.kfs.module.cg.businessobject;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.kfs.integration.ar.AccountsReceivableCollectionStatus;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomer;
+import org.kuali.kfs.integration.ar.AccountsReceivableInvoiceTemplate;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsAgency;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAgency;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.krad.service.KualiModuleService;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
-import java.util.ArrayList;
 
 /**
  * This class defines an agency as it is used and referenced within the Contracts and Grants portion of a college or university
@@ -66,7 +67,7 @@ public class Agency extends PersistableBusinessObjectBase implements ContractsAn
     // Invoice Types link
 
     private String agencyInvoiceTemplateCode;
-    private InvoiceTemplate agencyInvoiceTemplate;
+    private AccountsReceivableInvoiceTemplate agencyInvoiceTemplate;
 
     // Financial Report Type link
 
@@ -204,7 +205,7 @@ public class Agency extends PersistableBusinessObjectBase implements ContractsAn
      *
      * @return Returns the agencyInvoiceTemplate.
      */
-    public InvoiceTemplate getAgencyInvoiceTemplate() {
+    public AccountsReceivableInvoiceTemplate getAgencyInvoiceTemplate() {
         return agencyInvoiceTemplate;
     }
 
@@ -213,7 +214,7 @@ public class Agency extends PersistableBusinessObjectBase implements ContractsAn
      *
      * @param agencyInvoiceTemplate The agencyInvoiceTemplate to set.
      */
-    public void setAgencyInvoiceTemplate(InvoiceTemplate agencyInvoiceTemplate) {
+    public void setAgencyInvoiceTemplate(AccountsReceivableInvoiceTemplate agencyInvoiceTemplate) {
         this.agencyInvoiceTemplate = agencyInvoiceTemplate;
     }
 

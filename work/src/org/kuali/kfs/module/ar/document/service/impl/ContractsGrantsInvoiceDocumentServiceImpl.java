@@ -39,7 +39,6 @@ import java.util.Set;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.query.Criteria;
-import org.jacorb.idl.runtime.double_token;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
@@ -56,7 +55,6 @@ import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingFrequency;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAgency;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAward;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAwardAccount;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsInvoiceTemplate;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleUpdateService;
 import org.kuali.kfs.integration.cg.ContractsGrantsAwardInvoiceAccountInformation;
 import org.kuali.kfs.module.ar.ArConstants;
@@ -81,6 +79,7 @@ import org.kuali.kfs.module.ar.businessobject.InvoiceGeneralDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoiceMilestone;
 import org.kuali.kfs.module.ar.businessobject.InvoicePaidApplied;
 import org.kuali.kfs.module.ar.businessobject.InvoiceSuspensionCategory;
+import org.kuali.kfs.module.ar.businessobject.InvoiceTemplate;
 import org.kuali.kfs.module.ar.businessobject.Milestone;
 import org.kuali.kfs.module.ar.businessobject.OrganizationAccountingDefault;
 import org.kuali.kfs.module.ar.businessobject.OrganizationOptions;
@@ -3037,7 +3036,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
      */
     @Override
     public void generateInvoicesForAgencyAddresses(ContractsGrantsInvoiceDocument document) {
-        ContractsAndGrantsInvoiceTemplate invoiceTemplate = null;
+        InvoiceTemplate invoiceTemplate = null;
         Iterator<InvoiceAgencyAddressDetail> iterator = document.getAgencyAddressDetails().iterator();
         while (iterator.hasNext()) {
             InvoiceAgencyAddressDetail invoiceAgencyAddressDetail = iterator.next();
@@ -3045,17 +3044,10 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             byte[] copyReportStream;
             // validating the invoice template
             if (ObjectUtils.isNotNull(invoiceAgencyAddressDetail.getPreferredAgencyInvoiceTemplateCode())) {
-
-                Map<String, Object> map = new HashMap<String, Object>();
-                map.put("invoiceTemplateCode", invoiceAgencyAddressDetail.getPreferredAgencyInvoiceTemplateCode());
-                invoiceTemplate = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsInvoiceTemplate.class).getExternalizableBusinessObject(ContractsAndGrantsInvoiceTemplate.class, map);
-
+                invoiceTemplate = SpringContext.getBean(BusinessObjectService.class).findBySinglePrimaryKey(InvoiceTemplate.class, invoiceAgencyAddressDetail.getPreferredAgencyInvoiceTemplateCode());
             }
             else if (ObjectUtils.isNotNull(invoiceAgencyAddressDetail.getAgencyInvoiceTemplateCode())) {
-
-                Map<String, Object> map = new HashMap<String, Object>();
-                map.put("invoiceTemplateCode", invoiceAgencyAddressDetail.getAgencyInvoiceTemplateCode());
-                invoiceTemplate = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsInvoiceTemplate.class).getExternalizableBusinessObject(ContractsAndGrantsInvoiceTemplate.class, map);
+                invoiceTemplate = SpringContext.getBean(BusinessObjectService.class).findBySinglePrimaryKey(InvoiceTemplate.class, invoiceAgencyAddressDetail.getAgencyInvoiceTemplateCode());
             }
             else {
                 GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_FILE_UPLOAD_NO_PDF_FILE_SELECTED_FOR_SAVE, ArConstants.ACTIVE_INVOICE_TEMPLATE_ERROR);

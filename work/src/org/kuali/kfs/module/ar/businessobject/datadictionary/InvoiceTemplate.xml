@@ -21,7 +21,7 @@
 	<bean id="InvoiceTemplate-parentBean" abstract="true"
 		parent="BusinessObjectEntry">
 		<property name="businessObjectClass"
-			value="org.kuali.kfs.module.cg.businessobject.InvoiceTemplate" />
+			value="org.kuali.kfs.module.ar.businessobject.InvoiceTemplate" />
 		<property name="inquiryDefinition">
 			<ref bean="InvoiceTemplate-inquiryDefinition" />
 		</property>

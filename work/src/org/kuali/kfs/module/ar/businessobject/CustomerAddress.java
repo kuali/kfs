@@ -24,8 +24,10 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomer;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomerAddress;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomerAddressType;
+import org.kuali.kfs.integration.ar.AccountsReceivableInvoiceTemplate;
 import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.document.service.CustomerAddressService;
+import org.kuali.kfs.module.cg.businessobject.InvoiceIndicator;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
@@ -59,6 +61,19 @@ public class CustomerAddress extends PersistableBusinessObjectBase implements Co
     private Customer customer;
     private CountryEbo customerCountry;
 
+    // Invoice Template link
+
+    private String agencyInvoiceTemplateCode;
+    private AccountsReceivableInvoiceTemplate agencyInvoiceTemplate;
+
+    // Invoice Indicator link
+
+    private String invoiceIndicatorCode;
+    private InvoiceIndicator invoiceIndicator;
+
+    private String agencyCopiesToPrint;
+    private String agencyPrintEnvelopesNumber;
+    
     /**
      * Default constructor.
      */
@@ -389,6 +404,96 @@ public class CustomerAddress extends PersistableBusinessObjectBase implements Co
         this.customer = customer;
     }
 
+    /**
+     * Gets the agencyInvoiceTemplateCode attribute.
+     *
+     * @return Returns the agencyInvoiceTemplateCode.
+     */
+    public String getAgencyInvoiceTemplateCode() {
+
+        return agencyInvoiceTemplateCode;
+    }
+
+    /**
+     * Sets the agencyInvoiceTemplateCode attribute value.
+     *
+     * @param agencyInvoiceTemplateCode The agencyInvoiceTemplateCode to set.
+     */
+    public void setAgencyInvoiceTemplateCode(String agencyInvoiceTemplateCode) {
+        this.agencyInvoiceTemplateCode = agencyInvoiceTemplateCode;
+    }
+    
+    /**
+     * Gets the agencyInvoiceTemplate attribute.
+     *
+     * @return Returns the agencyInvoiceTemplate.
+     */
+    public AccountsReceivableInvoiceTemplate getAgencyInvoiceTemplate() {
+        return agencyInvoiceTemplate;
+    }
+
+    /**
+     * Sets the agencyInvoiceTemplate attribute value.
+     *
+     * @param agencyInvoiceTemplate The agencyInvoiceTemplate to set.
+     */
+    public void setAgencyInvoiceTemplate(AccountsReceivableInvoiceTemplate agencyInvoiceTemplate) {
+        this.agencyInvoiceTemplate = agencyInvoiceTemplate;
+    }
+
+    /**
+     * Gets the agencyCopiesToPrint attribute.
+     *
+     * @return Returns the agencyCopiesToPrint.
+     */
+    public String getAgencyCopiesToPrint() {
+        return agencyCopiesToPrint;
+    }
+
+    /**
+     * Sets the agencyCopiesToPrint attribute value.
+     *
+     * @param agencyCopiesToPrint The agencyCopiesToPrint to set.
+     */
+    public void setAgencyCopiesToPrint(String agencyCopiesToPrint) {
+        this.agencyCopiesToPrint = agencyCopiesToPrint;
+    }
+
+    /**
+     * Gets the agencyPrintEnvelopes attribute.
+     *
+     * @return Returns the agencyPrintEnvelopes.
+     */
+    public String getAgencyPrintEnvelopesNumber() {
+        return agencyPrintEnvelopesNumber;
+    }
+
+    /**
+     * Sets the agencyPrintEnvelopes attribute value.
+     *
+     * @param agencyPrintEnvelopes The agencyPrintEnvelopes to set.
+     */
+    public void setAgencyPrintEnvelopesNumber(String agencyPrintEnvelopesNumber) {
+        this.agencyPrintEnvelopesNumber = agencyPrintEnvelopesNumber;
+    }
+    
+    /**
+     * Gets the invoiceIndicatorCode attribute.
+     *
+     * @return Returns the invoiceIndicatorCode.
+     */
+    public String getInvoiceIndicatorCode() {
+        return invoiceIndicatorCode;
+    }
+
+    /**
+     * Sets the invoiceIndicatorCode attribute value.
+     *
+     * @param invoiceIndicatorCode The invoiceIndicatorCode to set.
+     */
+    public void setInvoiceIndicatorCode(String invoiceIndicatorCode) {
+        this.invoiceIndicatorCode = invoiceIndicatorCode;
+    }
     /**
      * Gets the customerCountry attribute.
      *

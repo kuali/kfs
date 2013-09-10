@@ -23,8 +23,10 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomer;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomerAddress;
+import org.kuali.kfs.integration.ar.AccountsReceivableInvoiceTemplate;
 import org.kuali.kfs.module.ar.document.service.CustomerAddressService;
 import org.kuali.kfs.module.ar.document.service.CustomerService;
+import org.kuali.kfs.module.cg.businessobject.InvoiceIndicator;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
@@ -694,5 +696,7 @@ public class Customer extends PersistableBusinessObjectBase implements MutableIn
             }
         }
     }
+    
+  
 }
 

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.module.cg.web.struts;
+package org.kuali.kfs.module.ar.web.struts;
 
 import java.util.List;
 
@@ -25,7 +25,7 @@ import org.kuali.rice.kns.web.struts.form.KualiForm;
 /**
  * This class represents the form for the ContractsGrantsInvoiceTemplateDocument.
  */
-public class ContractsGrantsInvoiceTemplateUploadForm extends KualiForm {
+public class AccountsReceivableInvoiceTemplateUploadForm extends KualiForm {
 
     private FormFile uploadedFile;
     private boolean active;
@@ -132,7 +132,7 @@ public class ContractsGrantsInvoiceTemplateUploadForm extends KualiForm {
      * @param document
      * @param uploadedFile
      */
-    public ContractsGrantsInvoiceTemplateUploadForm() {
+    public AccountsReceivableInvoiceTemplateUploadForm() {
         super();
 
     }

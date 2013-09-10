@@ -18,6 +18,8 @@ package org.kuali.kfs.module.cg.document;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
+import org.kuali.kfs.module.ar.document.InvoiceTemplateTest;
+
 /**
  * Basic CG Tests
  */

@@ -41,7 +41,7 @@
     <c:when test="${ConfigProperties['module.contracts.and.grants.enabled'] == 'true'}">
     	<maintenanceChannel:contractsAndGrants />
     </c:when>
-    <c:when test="${ConfigProperties['module.external.kuali.coeus.enabled'] == 'true'}"> 
+    <c:when test="${ConfigProperties['module.external.kuali.coeus.enabled'] == 'true'}">
      	<maintenanceChannel:contractsAndGrants />
     </c:when>
    	</c:choose>

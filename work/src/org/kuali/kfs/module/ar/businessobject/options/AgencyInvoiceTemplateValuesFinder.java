@@ -18,9 +18,10 @@ package org.kuali.kfs.module.ar.businessobject.options;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.kfs.integration.cg.ContractsAndGrantsInvoiceTemplate;
+import org.kuali.kfs.module.ar.businessobject.InvoiceTemplate;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.core.api.util.KeyValue; import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 import org.kuali.rice.krad.service.KeyValuesService;
 
@@ -38,9 +39,9 @@ public class AgencyInvoiceTemplateValuesFinder extends KeyValuesBase {
     @SuppressWarnings("unchecked")
     public List<KeyValue> getKeyValues() {
 
-        List<ContractsAndGrantsInvoiceTemplate> boList = (List<ContractsAndGrantsInvoiceTemplate>) SpringContext.getBean(KeyValuesService.class).findAll(ContractsAndGrantsInvoiceTemplate.class);
+        List<InvoiceTemplate> boList = (List<InvoiceTemplate>) SpringContext.getBean(KeyValuesService.class).findAll(InvoiceTemplate.class);
         keyValues.add(new ConcreteKeyValue("", ""));
-        for (ContractsAndGrantsInvoiceTemplate element : boList) {
+        for (InvoiceTemplate element : boList) {
             if (element.isActive()) {
                 if (!element.isAccessRestrictedIndicator()) {
                     keyValues.add(new ConcreteKeyValue(element.getInvoiceTemplateCode(), element.getInvoiceTemplateDescription()));

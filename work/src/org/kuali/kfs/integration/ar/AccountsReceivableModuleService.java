@@ -342,6 +342,10 @@ public interface AccountsReceivableModuleService {
 
     public AccountsReceivableCustomerAddress getPrimaryAddress(String customerNumber);
 
+    public AccountsReceivableInvoiceTemplate findInvoiceTemplate(String invoiceTemplateCode);
+
+    public void saveInvoiceTemplate(AccountsReceivableInvoiceTemplate invoiceTemplate);
+
     public AccountsReceivableMilestoneSchedule getMilestoneSchedule();
 
     public void setProposalNumber(AccountsReceivableMilestoneSchedule milestoneSchedule, Long proposalNumber);

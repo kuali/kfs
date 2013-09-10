@@ -32,6 +32,7 @@ import org.kuali.kfs.integration.ar.AccountsReceivableCustomerInvoiceDetail;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomerInvoiceRecurrenceDetails;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomerType;
 import org.kuali.kfs.integration.ar.AccountsReceivableDocumentHeader;
+import org.kuali.kfs.integration.ar.AccountsReceivableInvoiceTemplate;
 import org.kuali.kfs.integration.ar.AccountsReceivableMilestoneSchedule;
 import org.kuali.kfs.integration.ar.AccountsReceivableModuleService;
 import org.kuali.kfs.integration.ar.AccountsReceivableOrganizationOptions;
@@ -47,6 +48,7 @@ import org.kuali.kfs.module.ar.businessobject.CustomerCreditMemoDetail;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceRecurrenceDetails;
 import org.kuali.kfs.module.ar.businessobject.CustomerType;
+import org.kuali.kfs.module.ar.businessobject.InvoiceTemplate;
 import org.kuali.kfs.module.ar.businessobject.MilestoneSchedule;
 import org.kuali.kfs.module.ar.businessobject.OrganizationOptions;
 import org.kuali.kfs.module.ar.document.CustomerCreditMemoDocument;
@@ -628,7 +630,26 @@ public class AccountsReceivableModuleServiceImpl implements AccountsReceivableMo
     public AccountsReceivableCustomerAddress getPrimaryAddress(String customerNumber) {
         return SpringContext.getBean(CustomerAddressService.class).getPrimaryAddress(customerNumber);
     }
-
+    
+    /**
+     * @see org.kuali.kfs.integration.ar.AccountsReceivableModuleService#ffindInvoiceTemplate(java.lang.String)
+     */
+    @Override
+    public AccountsReceivableInvoiceTemplate findInvoiceTemplate(String invoiceTemplateCode) {
+        Map<String, Object> primaryKey = new HashMap<String, Object>();
+        primaryKey.put(KFSPropertyConstants.INVOICE_TEMPLATE_CODE, invoiceTemplateCode);
+        InvoiceTemplate invoiceTemplate = getKualiModuleService().getResponsibleModuleService(InvoiceTemplate.class).getExternalizableBusinessObject(InvoiceTemplate.class, primaryKey);
+        return invoiceTemplate;
+    }
+    
+    /**
+     * @see org.kuali.kfs.integration.ar.AccountsReceivableModuleService#saveCustomer(org.kuali.kfs.integration.ar.AccountsReceivableCustomer)
+     */
+    @Override
+    public void saveInvoiceTemplate(AccountsReceivableInvoiceTemplate invoiceTemplate) {
+        getBusinessObjectService().save((InvoiceTemplate) invoiceTemplate);
+    }
+    
     @Override
     public AccountsReceivableMilestoneSchedule getMilestoneSchedule() {
         return new MilestoneSchedule();

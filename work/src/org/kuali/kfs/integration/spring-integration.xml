@@ -140,8 +140,8 @@
 					key="org.kuali.kfs.integration.cg.ContractsAndGrantsInvoiceIndicator"
 					value="org.kuali.kfs.integration.cg.businessobject.InvoiceIndicator" />
 				<entry
-					key="org.kuali.kfs.integration.cg.ContractsAndGrantsInvoiceTemplate"
-					value="org.kuali.kfs.integration.cg.businessobject.InvoiceTemplate" />
+					key="org.kuali.kfs.integration.ar.AccountsReceivableInvoiceTemplate"
+					value="org.kuali.kfs.integration.ar.businessobject.InvoiceTemplate" />
 				<entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsOrganization"
 					value="org.kuali.kfs.integration.cg.businessobject.AwardOrganization" />
 				<entry

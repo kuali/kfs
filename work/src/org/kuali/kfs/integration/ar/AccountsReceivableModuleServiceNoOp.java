@@ -277,6 +277,15 @@ public class AccountsReceivableModuleServiceNoOp implements AccountsReceivableMo
         return null;
     }
 
+    public AccountsReceivableInvoiceTemplate findInvoiceTemplate(String invoiceTemplateCode) {
+        LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
+        return null;
+    }
+
+    public void saveInvoiceTemplate(AccountsReceivableInvoiceTemplate invoiceTemplate) {
+        LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
+    }
+
     @Override
     public AccountsReceivableMilestoneSchedule getMilestoneSchedule() {
         // TODO Auto-generated method stub

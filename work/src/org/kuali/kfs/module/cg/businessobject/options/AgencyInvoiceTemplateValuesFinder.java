@@ -18,12 +18,15 @@ package org.kuali.kfs.module.cg.businessobject.options;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.kfs.module.cg.businessobject.InvoiceTemplate;
+import org.kuali.kfs.integration.ar.AccountsReceivableInvoiceTemplate;
+import org.kuali.kfs.module.ar.businessobject.InvoiceTemplate;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.KeyValuesService;
+import org.kuali.rice.krad.service.KualiModuleService;
 
 /**
  * This class defines the link for Billing Frequency
@@ -38,10 +41,9 @@ public class AgencyInvoiceTemplateValuesFinder extends KeyValuesBase {
     @Override
     @SuppressWarnings("unchecked")
     public List<KeyValue> getKeyValues() {
-
-        List<InvoiceTemplate> boList = (List<InvoiceTemplate>) SpringContext.getBean(BusinessObjectService.class).findAll(InvoiceTemplate.class);
+        List<AccountsReceivableInvoiceTemplate> boList = (List<AccountsReceivableInvoiceTemplate>) SpringContext.getBean(KeyValuesService.class).findAll(AccountsReceivableInvoiceTemplate.class);
         keyValues.add(new ConcreteKeyValue("", ""));
-        for (InvoiceTemplate element : boList) {
+        for (AccountsReceivableInvoiceTemplate element : boList) {
             if (!element.isAccessRestrictedIndicator() && element.isActive()) {
                 keyValues.add(new ConcreteKeyValue(element.getInvoiceTemplateCode(), element.getInvoiceTemplateDescription()));
             }

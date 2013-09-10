@@ -592,7 +592,7 @@
 			</list>
 		</property>
 	</bean>
-
+	
 	<bean id="Customer-inquiryCollectionDefinition-customerAddresses"
 		parent="Customer-inquiryCollectionDefinition-customerAddresses-parentBean" />
 	<bean

@@ -17,7 +17,7 @@
 	<bean id="InvoiceTemplate-parentBean" abstract="true"
 		parent="BusinessObjectEntry">
 		<property name="businessObjectClass"
-			value="org.kuali.kfs.integration.cg.businessobject.InvoiceTemplate" />
+			value="org.kuali.kfs.integration.ar.businessobject.InvoiceTemplate" />
 		<property name="titleAttribute" value="invoiceTemplateCode" />
 		<property name="objectLabel" value="Invoice Templates" />
 		<property name="attributes">

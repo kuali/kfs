@@ -97,7 +97,6 @@ public class CollectionActivityInvoiceLookupableHelperServiceImpl extends KualiL
      */
     @Override
     public List getSearchResults(Map fieldValues) {
-        System.out.println("Here>>>>");
         List<CollectionActivityInvoiceLookup> results = new ArrayList<CollectionActivityInvoiceLookup>();
         setBackLocation((String) fieldValues.get(KFSConstants.BACK_LOCATION));
         setDocFormKey((String) fieldValues.get(KFSConstants.DOC_FORM_KEY));
@@ -120,8 +119,7 @@ public class CollectionActivityInvoiceLookupableHelperServiceImpl extends KualiL
      */
     @Override
     public List getSearchResultsUnbounded(Map fieldValues) {
-        System.out.println("Here Callelled >>>>>");
-        List<ReferralToCollectionsReport> results = new ArrayList<ReferralToCollectionsReport>();
+       List<ReferralToCollectionsReport> results = new ArrayList<ReferralToCollectionsReport>();
         setBackLocation((String) fieldValues.get(KFSConstants.BACK_LOCATION));
         setDocFormKey((String) fieldValues.get(KFSConstants.DOC_FORM_KEY));
         results = referralToCollectionsReportService.filterRecordsForReferralToCollections(fieldValues, true);
@@ -163,7 +161,6 @@ public class CollectionActivityInvoiceLookupableHelperServiceImpl extends KualiL
     @Override
     public Collection performLookup(LookupForm lookupForm, Collection resultTable, boolean bounded) {
         Collection displayList;
-        System.out.println("\n\t--> in search click");
         for (Object key : lookupForm.getFieldsForLookup().keySet()) {
             System.out.println("Key : " + key.toString() + " Value : " + lookupForm.getFieldsForLookup().get(key));
         }
@@ -243,13 +240,9 @@ public class CollectionActivityInvoiceLookupableHelperServiceImpl extends KualiL
                     lookupForm.setLookupObjectId(((CollectionActivityInvoiceLookup) element).getInvoiceNumber());
                     HtmlData returnUrl = getReturnUrl(element, lookupForm, returnKeys, businessObjectRestrictions);
                     CollectionActivityInvoiceResultRow row = new CollectionActivityInvoiceResultRow((List<Column>) columns, returnUrl.constructCompleteHtmlTag(), getActionUrls(element, pkNames, businessObjectRestrictions));
-                    System.out.println("\n\t-- ele "+element.getClass());
-                        System.out.println("\n\t---> in else "+((CollectionActivityInvoiceLookup) element).getInvoiceNumber());
                         row.setObjectId(((CollectionActivityInvoiceLookup) element).getInvoiceNumber());
                         row.setRowId(returnUrl.getName());
                         row.setReturnUrlHtmlData(returnUrl);
-                        
-                        System.out.println("Return url is >> "+returnUrl.getDisplayText());
                     boolean isRowReturnable = isResultReturnable(element);
                     row.setRowReturnable(isRowReturnable);
                     if (isRowReturnable) {
@@ -258,7 +251,6 @@ public class CollectionActivityInvoiceLookupableHelperServiceImpl extends KualiL
 
                     resultTable.add(row);
                 }
-                System.out.println("\n\t--->" +hasReturnableRow);
                 lookupForm.setHasReturnableRow(hasReturnableRow);
             }
         }

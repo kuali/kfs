@@ -50,6 +50,7 @@
                 <entry key="org.kuali.kfs.integration.ar.AccountsReceivableDocumentHeader" value="org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader" />
                 <entry key="org.kuali.kfs.integration.ar.AccountsReceivableDunningCampaign" value="org.kuali.kfs.module.ar.businessobject.DunningCampaign" />
 				<entry key="org.kuali.kfs.integration.ar.AccountsReceivableCollectionStatus" value="org.kuali.kfs.module.ar.businessobject.CollectionStatus" />
+				<entry key="org.kuali.kfs.integration.ar.AccountsReceivableInvoiceTemplate" value="org.kuali.kfs.module.ar.businessobject.InvoiceTemplate" />
 				<entry key="org.kuali.kfs.integration.ar.AccountsReceivableMilestone" value="org.kuali.kfs.module.ar.businessobject.Milestone" />
 				<entry key="org.kuali.kfs.integration.ar.AccountsReceivableMilestoneSchedule" value="org.kuali.kfs.module.ar.businessobject.MilestoneSchedule" />
             </map>
@@ -124,6 +125,11 @@
 			<ref bean="letterTemplateLookupableHelperService" />
 		</property>
 	</bean>
+	
+	<bean id="invoiceTemplateLookupableHelperService" class="org.kuali.kfs.module.ar.businessobject.lookup.InvoiceTemplateLookupableHelperServiceImpl"
+		scope="prototype" parent="lookupableHelperService">
+	</bean>
+	
 	
 	<!--  AR DAOs  -->
 	<bean id="customerDao" parent="platformAwareDao" class="org.kuali.kfs.module.ar.dataaccess.impl.CustomerDaoOjb" />

@@ -13,22 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.module.cg.document;
+package org.kuali.kfs.module.ar.document;
 
 import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 
 import org.kuali.kfs.coa.businessobject.defaultvalue.CurrentUserChartValueFinder;
 import org.kuali.kfs.coa.businessobject.defaultvalue.CurrentUserOrgValueFinder;
-import org.kuali.kfs.module.cg.businessobject.InvoiceTemplate;
+import org.kuali.kfs.module.ar.businessobject.InvoiceTemplate;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
-import org.kuali.kfs.sys.context.SpringContext; import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.MaintenanceDocumentTestUtils;
 import org.kuali.kfs.sys.fixture.UserNameFixture;
-import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.DocumentService;
-import org.kuali.kfs.sys.context.SpringContext; import org.kuali.rice.krad.service.DocumentService;
 
 /**
  * This class is used to test Invoice template class

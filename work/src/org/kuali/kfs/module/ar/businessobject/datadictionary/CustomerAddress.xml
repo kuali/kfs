@@ -44,6 +44,11 @@
 				<ref bean="CustomerAddress-customerZipCode" />
 				<ref bean="CustomerAddress-customerCountryCode" />
 				<ref bean="CustomerAddress-customerAddressInternationalProvinceName" />
+				
+				<ref bean="CustomerAddress-agencyInvoiceTemplateCode" />
+				<ref bean="CustomerAddress-invoiceIndicatorCode" />
+				<ref bean="CustomerAddress-agencyCopiesToPrint" />
+				<ref bean="CustomerAddress-agencyPrintEnvelopesNumber" />
 			</list>
 		</property>
 		<property name="relationships">
@@ -270,6 +275,80 @@
 		</property>
 	</bean>
 
+
+<!-- Link to Invoice Template -->
+	<bean id="CustomerAddress-agencyInvoiceTemplateCode" parent="CustomerAddress-agencyInvoiceTemplateCode-parentBean" />
+
+	<bean id="CustomerAddress-agencyInvoiceTemplateCode-parentBean"
+		abstract="true" parent="AttributeDefinition">
+		<property name="name" value="agencyInvoiceTemplateCode" />
+		<property name="forceUppercase" value="true" />
+		<property name="label" value="Invoice Template" />
+		<property name="shortLabel" value="InvType" />
+		<property name="maxLength" value="10" />
+		<property name="validationPattern">
+			<ref bean="AnyCharacterValidation" />
+		</property>
+		<property name="control">
+			<bean parent="SelectControlDefinition"
+				p:valuesFinderClass="org.kuali.kfs.module.cg.businessobject.options.AgencyInvoiceTemplateValuesFinder"
+				p:includeKeyInLabel="false" />
+		</property>
+	</bean>
+
+	<!-- Invoice Indicator Link -->
+	<bean id="CustomerAddress-invoiceIndicatorCode" parent="CustomerAddress-invoiceIndicatorCode-parentBean" />
+
+	<bean id="CustomerAddress-invoiceIndicatorCode-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="name" value="invoiceIndicatorCode" />
+		<property name="forceUppercase" value="true" />
+		<property name="label" value="Print Invoice Indicator" />
+		<property name="shortLabel" value="InvInd" />
+		<property name="maxLength" value="10" />
+		<property name="validationPattern">
+			<ref bean="AnyCharacterValidation" />
+		</property>
+		<property name="control">
+			<bean parent="SelectControlDefinition"
+				p:valuesFinderClass="org.kuali.kfs.module.cg.businessobject.options.InvoiceIndicatorValuesFinder"
+				p:includeKeyInLabel="false" />
+		</property>
+	</bean>
+
+	<bean id="CustomerAddress-agencyCopiesToPrint" parent="CustomerAddress-agencyCopiesToPrint-parentBean" />
+
+	<bean id="CustomerAddress-agencyCopiesToPrint-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="name" value="agencyCopiesToPrint" />
+		<property name="label" value="Copies to Print" />
+		<property name="shortLabel" value="CopiesPrnt" />
+		<property name="maxLength" value="5" />
+		<property name="validationPattern">
+			<bean parent="NumericValidationPattern" />
+		</property>
+		<property name="required" value="false" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="5" />
+		</property>
+	</bean>
+
+	<bean id="CustomerAddress-agencyPrintEnvelopesNumber" parent="CustomerAddress-agencyPrintEnvelopesNumber-parentBean" />
+
+	<bean id="CustomerAddress-agencyPrintEnvelopesNumber-parentBean"
+		abstract="true" parent="AttributeDefinition">
+		<property name="name" value="agencyPrintEnvelopesNumber" />
+		<property name="label" value="Number of Envelopes to print" />
+		<property name="shortLabel" value="PrintEnvNum" />
+		<property name="maxLength" value="5" />
+		<property name="validationPattern">
+			<bean parent="NumericValidationPattern" />
+		</property>
+		<property name="required" value="false" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="5" />
+		</property>
+	</bean>
 
 	<!-- Business Object Inquiry Definition -->
 

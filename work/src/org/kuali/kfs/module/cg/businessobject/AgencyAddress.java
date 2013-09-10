@@ -21,7 +21,9 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomerAddressType;
+import org.kuali.kfs.integration.ar.AccountsReceivableInvoiceTemplate;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsAgencyAddress;
+//import org.kuali.kfs.module.ar.businessobject.InvoiceTemplate;
 import org.kuali.kfs.module.cg.CGConstants;
 import org.kuali.kfs.module.cg.document.service.AgencyAddressService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -31,8 +33,6 @@ import org.kuali.rice.krad.service.KualiModuleService;
 import org.kuali.rice.krad.service.ModuleService;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.location.api.LocationConstants;
-import org.kuali.rice.location.api.country.Country;
-import org.kuali.rice.location.api.country.CountryService;
 import org.kuali.rice.location.framework.country.CountryEbo;
 
 /**
@@ -68,7 +68,7 @@ public class AgencyAddress extends PersistableBusinessObjectBase implements Comp
     // Invoice Template link
 
     private String agencyInvoiceTemplateCode;
-    private InvoiceTemplate agencyInvoiceTemplate;
+    private AccountsReceivableInvoiceTemplate agencyInvoiceTemplate;
 
     // Invoice Indicator link
 
@@ -544,7 +544,7 @@ public class AgencyAddress extends PersistableBusinessObjectBase implements Comp
      *
      * @return Returns the agencyInvoiceTemplate.
      */
-    public InvoiceTemplate getAgencyInvoiceTemplate() {
+    public AccountsReceivableInvoiceTemplate getAgencyInvoiceTemplate() {
         return agencyInvoiceTemplate;
     }
 
@@ -553,7 +553,7 @@ public class AgencyAddress extends PersistableBusinessObjectBase implements Comp
      *
      * @param agencyInvoiceTemplate The agencyInvoiceTemplate to set.
      */
-    public void setAgencyInvoiceTemplate(InvoiceTemplate agencyInvoiceTemplate) {
+    public void setAgencyInvoiceTemplate(AccountsReceivableInvoiceTemplate agencyInvoiceTemplate) {
         this.agencyInvoiceTemplate = agencyInvoiceTemplate;
     }
 

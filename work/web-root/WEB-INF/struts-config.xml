@@ -268,8 +268,8 @@
 		<form-bean name="ContractsGrantsAwardBalancesReportLookupForm"
 			type="org.kuali.kfs.module.cg.web.struts.ContractsGrantsAwardBalancesReportLookupForm" />
 
-		<form-bean name="ContractsGrantsInvoiceTemplateUploadForm"
-			type="org.kuali.kfs.module.cg.web.struts.ContractsGrantsInvoiceTemplateUploadForm" />
+		<form-bean name="AccountsReceivableInvoiceTemplateUploadForm"
+			type="org.kuali.kfs.module.ar.web.struts.AccountsReceivableInvoiceTemplateUploadForm" />
 
 		<!-- AR Module Bean Definitions -->
 		<form-bean name="AccountsReceivableLetterTemplateUploadForm"

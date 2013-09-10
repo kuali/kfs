@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.module.cg.web.struts;
+package org.kuali.kfs.module.ar.web.struts;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -34,27 +34,28 @@ import org.apache.struts.action.ActionMapping;
 import org.apache.struts.upload.FormFile;
 import org.kuali.kfs.coa.businessobject.defaultvalue.CurrentUserChartValueFinder;
 import org.kuali.kfs.coa.businessobject.defaultvalue.CurrentUserOrgValueFinder;
-import org.kuali.kfs.module.cg.businessobject.InvoiceTemplate;
+import org.kuali.kfs.module.ar.businessobject.InvoiceTemplate;
 import org.kuali.kfs.sys.FinancialSystemModuleConfiguration;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.exception.FileStorageException;
 import org.kuali.kfs.sys.web.struts.KualiBatchInputFileSetAction;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.kns.web.struts.action.KualiAction;
 import org.kuali.rice.krad.bo.ModuleConfiguration;
 import org.kuali.rice.krad.exception.AuthorizationException;
 import org.kuali.rice.krad.exception.ValidationException;
 import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.krad.service.KualiModuleService;
-import org.kuali.rice.krad.util.GlobalVariables; import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
-import org.kuali.rice.kns.web.struts.action.KualiAction;
 
 /**
  * Action Class for Contracts Grants Invoice Template Upload Action.
  */
-public class ContractsGrantsInvoiceTemplateUploadAction extends KualiAction {
+public class AccountsReceivableInvoiceTemplateUploadAction extends KualiAction {
 
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(KualiBatchInputFileSetAction.class);
     private static CurrentUserChartValueFinder currentUserChartValueFinder;
@@ -66,7 +67,7 @@ public class ContractsGrantsInvoiceTemplateUploadAction extends KualiAction {
     /**
      * Constructs a ContractsGrantsInvoiceTemplateUploadAction.java.
      */
-    public ContractsGrantsInvoiceTemplateUploadAction() {
+    public AccountsReceivableInvoiceTemplateUploadAction() {
         super();
         boService = SpringContext.getBean(BusinessObjectService.class);
         kualiConfigurationService = SpringContext.getBean(ConfigurationService.class);
@@ -142,7 +143,7 @@ public class ContractsGrantsInvoiceTemplateUploadAction extends KualiAction {
      * GlobalVariables.errorMap, which is checked and set for display by the request processor.
      */
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ContractsGrantsInvoiceTemplateUploadForm newForm = (ContractsGrantsInvoiceTemplateUploadForm) form;
+        AccountsReceivableInvoiceTemplateUploadForm newForm = (AccountsReceivableInvoiceTemplateUploadForm) form;
         FormFile uploadedFile = newForm.getUploadedFile();
 
         // validations performed on the required values for saving the template
@@ -233,7 +234,7 @@ public class ContractsGrantsInvoiceTemplateUploadAction extends KualiAction {
      * @throws Exception
      */
     public ActionForward download(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ContractsGrantsInvoiceTemplateUploadForm fileAdminForm = (ContractsGrantsInvoiceTemplateUploadForm) form;
+        AccountsReceivableInvoiceTemplateUploadForm fileAdminForm = (AccountsReceivableInvoiceTemplateUploadForm) form;
         String filePath = fileAdminForm.getFilePath();
         File file = new File(filePath).getAbsoluteFile();
         if (!file.exists() || !file.isFile()) {

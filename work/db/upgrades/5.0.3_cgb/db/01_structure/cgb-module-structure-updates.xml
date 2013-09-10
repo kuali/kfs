@@ -2034,4 +2034,12 @@
 		</modifySql>
 	</changeSet>
 	
+		<changeSet author="kfs" id="KFSCNTRB13556_AR_CUST_ADDR_T_ADD">
+		<addColumn tableName="AR_CUST_ADDR_T">
+			<column name="INV_TYP_CD" type="varchar(10)" />
+			<column name="CP_TO_PRNT" type="varchar(5)" />
+			<column name="INV_IND_CD" type="VARCHAR(10)" />
+			<column name="PRNT_ENV_NBR" type="varchar(5)" />
+		</addColumn>
+	</changeSet>
 </databaseChangeLog>

@@ -61,7 +61,7 @@ public class TEMRoleServiceImpl implements TEMRoleService{
         String initiatorId = travelDocument.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId();
 
         //check user is not the initiator
-        if (!initiatorId.equals(currentUser.getPrincipalId())) {
+        if (!initiatorId.equals(currentUser.getPrincipalId()) && !ObjectUtils.isNull(travelDocument.getTemProfileId())) {
 
             //Get the profile from the document
             TEMProfile profile = SpringContext.getBean(BusinessObjectService.class).findBySinglePrimaryKey(TEMProfile.class, travelDocument.getTemProfileId());
@@ -237,6 +237,7 @@ public class TEMRoleServiceImpl implements TEMRoleService{
      * This method gets the contract manager user identifier.
      * @return contractManagerId
      */
+    @Override
     public Collection<RoleMembership> getTravelArrangers(String chartCode, String orgCode) {
        // String contractManagerId = null;
         Map<String,String> qualification = new HashMap<String,String>();

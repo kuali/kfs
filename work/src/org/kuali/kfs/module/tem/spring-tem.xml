@@ -755,7 +755,6 @@
 				</entry>
 			</map>
 		</property>
-		<property name="parameterEvaluatorService" ref="parameterEvaluatorService"/>
 	</bean>
 
 	<bean id="importedCTSExpenseService"

@@ -57,11 +57,12 @@ public class TEMRoleServiceImpl implements TEMRoleService{
     @Override
     public boolean canAccessTravelDocument(TravelDocument travelDocument, Person currentUser){
 
-        boolean canAccess = true;
+        boolean canAccess = false;
         String initiatorId = travelDocument.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId();
 
-        //check user is not the initiator
-        if (!initiatorId.equals(currentUser.getPrincipalId()) && !ObjectUtils.isNull(travelDocument.getTemProfileId())) {
+        if (initiatorId.equals(currentUser.getPrincipalId())) {
+            canAccess = true;
+        } else if (!ObjectUtils.isNull(travelDocument.getTemProfileId())) {
 
             //Get the profile from the document
             TEMProfile profile = SpringContext.getBean(BusinessObjectService.class).findBySinglePrimaryKey(TEMProfile.class, travelDocument.getTemProfileId());
@@ -71,8 +72,8 @@ public class TEMRoleServiceImpl implements TEMRoleService{
                 String documentType = travelDocument.getDocumentTypeName();
 
                 //profile exists and user does not have access as the arranger
-                if(!isTravelArranger(currentUser, profile.getHomeDepartment(), profileId, documentType)) {
-                    canAccess = false;
+                if(isTravelArranger(currentUser, profile.getHomeDepartment(), profileId, documentType)) {
+                    canAccess = true;
                 }
             }
         }

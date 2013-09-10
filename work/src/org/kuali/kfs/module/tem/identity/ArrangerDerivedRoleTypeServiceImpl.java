@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemConstants.TravelDocTypes;
 import org.kuali.kfs.module.tem.TemPropertyConstants.TEMProfileProperties;
 import org.kuali.kfs.module.tem.businessobject.TEMProfileArranger;
@@ -56,10 +57,13 @@ public class ArrangerDerivedRoleTypeServiceImpl extends DerivedRoleTypeServiceBa
                     if (!StringUtils.isBlank(documentType)) {
                         if (TravelDocTypes.getAuthorizationDocTypes().contains(documentType)){
                             return arranger.getTaInd();
-                        }else if (TravelDocTypes.getReimbursementDocTypes().contains(documentType)){
+                        } else if (TravelDocTypes.getReimbursementDocTypes().contains(documentType)){
                             return arranger.getTrInd();
+                        } else if (documentType.equals(TemConstants.TravelDocTypes.TRAVEL_PROFILE_DOCUMENT)) {
+                            if (arranger.getPrincipalId().equals(principalId)) {
+                                return true;
+                            }
                         }
-
                     } else {
                         // we are coming from the TEM Profile lookup and are checking if we are an arranger and therefore can edit this profile.
                         if (arranger.getPrincipalId().equals(principalId)) {

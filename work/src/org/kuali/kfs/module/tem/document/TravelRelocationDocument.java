@@ -24,6 +24,7 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.Table;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.module.tem.TemConstants;
@@ -220,10 +221,13 @@ public class TravelRelocationDocument extends TEMReimbursementDocument implement
      */
     @Override
     public void prepareForSave(KualiDocumentEvent event) {
+
         if(getFromCity() != null){
             getPrimaryDestination().setPrimaryDestinationName(getFromCity());
         }
         super.prepareForSave(event);
+        getTravelPayment().setCheckStubText(getTravelDocumentIdentifier() + " " + StringUtils.defaultString(getTripDescription()) + " " + getTripBegin());
+
     }
 
     /**

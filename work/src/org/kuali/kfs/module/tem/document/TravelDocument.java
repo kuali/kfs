@@ -130,6 +130,11 @@ public interface TravelDocument extends AccountingDocument, TravelEntertainmentM
      */
     void setTripDescription(String tripDescription);
 
+    /**
+     * @return
+     */
+    public String getTripDescription();
+
     public Integer getPrimaryDestinationId();
 
     public void setPrimaryDestinationId(Integer primaryDestinationId);
@@ -404,6 +409,11 @@ public interface TravelDocument extends AccountingDocument, TravelEntertainmentM
      * @return
      */
     public boolean isTravelAuthorizationDoc();
+
+    /**
+     * @return
+     */
+    public Boolean getDelinquentTRException();
 
     /**
      * Determines if this document should attempt to refresh the expense type object codes for expenses or not

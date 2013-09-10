@@ -167,4 +167,9 @@ public interface TravelReimbursementService {
      * @param sequenceHelper the pending entry sequence generator for this generation process
      */
     public void generateEntriesForAdvances(TravelReimbursementDocument trDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper);
+
+    /**
+     * @return true if Travel Authorization Required is set to true for all Trip Types
+     */
+    public boolean doAllReimbursementTripTypesRequireTravelAuthorization();
 }

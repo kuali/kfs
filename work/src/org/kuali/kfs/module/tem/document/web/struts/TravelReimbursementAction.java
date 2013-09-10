@@ -63,7 +63,6 @@ import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.TravelReimbursementDocument;
 import org.kuali.kfs.module.tem.document.authorization.TravelReimbursementAuthorizer;
-import org.kuali.kfs.module.tem.document.service.AccountingDocumentRelationshipService;
 import org.kuali.kfs.module.tem.document.service.TravelAuthorizationService;
 import org.kuali.kfs.module.tem.document.service.TravelReimbursementService;
 import org.kuali.kfs.module.tem.document.web.bean.TravelReimbursementMvcWrapperBean;
@@ -409,10 +408,11 @@ public class TravelReimbursementAction extends TravelActionBase {
         if (!StringUtils.isBlank(travelForm.getTravelDocumentIdentifier())) {
             LOG.debug("Creating reimbursement for document number "+ travelForm.getTravelDocumentIdentifier());
             document.setTravelDocumentIdentifier(travelForm.getTravelDocumentIdentifier());
-            TravelAuthorizationDocument authorization = getTravelDocumentService().findCurrentTravelAuthorization(document);
 
-            LOG.debug("Setting traveler with id "+ authorization.getTravelerDetailId());
-            document.setTravelerDetailId(authorization.getTravelerDetailId());
+            TravelDocument rootDocument = getTravelDocumentService().findRootForTravelReimbursement(document.getTravelDocumentIdentifier());
+
+            LOG.debug("Setting traveler with id "+ rootDocument.getTravelerDetailId());
+            document.setTravelerDetailId(rootDocument.getTravelerDetailId());
             document.refreshReferenceObject(TemPropertyConstants.TRAVELER);
             LOG.debug("Traveler is "+ document.getTraveler()+ " with customer number "+ document.getTraveler().getCustomerNumber());
 
@@ -421,24 +421,24 @@ public class TravelReimbursementAction extends TravelActionBase {
             }
             document.updatePayeeTypeForReimbursable();
 
-            document.setPrimaryDestinationId(authorization.getPrimaryDestinationId());
-            document.setPrimaryDestination(authorization.getPrimaryDestination());
-            document.setTripDescription(authorization.getTripDescription());
-            document.setTripType(authorization.getTripType());
-            document.setTripTypeCode(authorization.getTripTypeCode());
-            document.setPrimaryDestination(authorization.getPrimaryDestination());
-            document.setTripBegin(authorization.getTripBegin());
-            document.setTripEnd(authorization.getTripEnd());
-            document.setPrimaryDestinationName(authorization.getPrimaryDestinationName());
-            document.setPrimaryDestinationCounty(authorization.getPrimaryDestinationCounty());
-            document.setPrimaryDestinationCountryState(authorization.getPrimaryDestinationCountryState());
-            document.setGroupTravelers(getTravelDocumentService().copyGroupTravelers(authorization.getGroupTravelers(), document.getDocumentNumber()));
-            document.setDelinquentTRException(authorization.getDelinquentTRException());
-            document.setMealWithoutLodgingReason(authorization.getMealWithoutLodgingReason());
-            document.configureTraveler(authorization.getTemProfileId(), authorization.getTraveler());
-            document.setExpenseLimit(authorization.getExpenseLimit());
-            document.setPerDiemAdjustment(authorization.getPerDiemAdjustment());
-            document.getDocumentHeader().setOrganizationDocumentNumber(authorization.getDocumentHeader().getOrganizationDocumentNumber());
+            document.setPrimaryDestinationId(rootDocument.getPrimaryDestinationId());
+            document.setPrimaryDestination(rootDocument.getPrimaryDestination());
+            document.setTripDescription(rootDocument.getTripDescription());
+            document.setTripType(rootDocument.getTripType());
+            document.setTripTypeCode(rootDocument.getTripTypeCode());
+            document.setPrimaryDestination(rootDocument.getPrimaryDestination());
+            document.setTripBegin(rootDocument.getTripBegin());
+            document.setTripEnd(rootDocument.getTripEnd());
+            document.setPrimaryDestinationName(rootDocument.getPrimaryDestinationName());
+            document.setPrimaryDestinationCounty(rootDocument.getPrimaryDestinationCounty());
+            document.setPrimaryDestinationCountryState(rootDocument.getPrimaryDestinationCountryState());
+            document.setGroupTravelers(getTravelDocumentService().copyGroupTravelers(rootDocument.getGroupTravelers(), document.getDocumentNumber()));
+            document.setDelinquentTRException(rootDocument.getDelinquentTRException());
+            document.setMealWithoutLodgingReason(rootDocument.getMealWithoutLodgingReason());
+            document.configureTraveler(rootDocument.getTemProfileId(), rootDocument.getTraveler());
+            document.setExpenseLimit(rootDocument.getExpenseLimit());
+            document.setPerDiemAdjustment(rootDocument.getPerDiemAdjustment());
+            document.getDocumentHeader().setOrganizationDocumentNumber(rootDocument.getDocumentHeader().getOrganizationDocumentNumber());
 
             if (document.getPrimaryDestinationId() != null && document.getPrimaryDestinationId().intValue() == TemConstants.CUSTOM_PRIMARY_DESTINATION_ID){
                 document.getPrimaryDestination().setPrimaryDestinationName(document.getPrimaryDestinationName());
@@ -448,19 +448,22 @@ public class TravelReimbursementAction extends TravelActionBase {
             }
 
             //KUALITEM-404 : Copying the accounting lines from the TA to the TR upon TR creation.
-            //document.setSourceAccountingLines(authorization.getSourceAccountingLines());
-            //document.setTargetAccountingLines(authorization.getTargetAccountingLines());
+            //document.setSourceAccountingLines(rootDocument.getSourceAccountingLines());
+            //document.setTargetAccountingLines(rootDocument.getTargetAccountingLines());
 
-            initializePerDiem(document, authorization);
+            //only initialize per diem and copy expenses for a TR created from a TA
+            if (rootDocument instanceof TravelAuthorizationDocument) {
+                initializePerDiem(document, (TravelAuthorizationDocument)rootDocument);
 
-            document.setActualExpenses((List<ActualExpense>) getTravelDocumentService().copyActualExpenses(authorization.getActualExpenses(), document.getDocumentNumber()));
-
-            // add new detail for the copied actualExpenses
-            if (document.getActualExpenses() != null && !document.getActualExpenses().isEmpty()) {
-                for (int i = 0; i < document.getActualExpenses().size(); i++) {
-                    travelForm.getNewActualExpenseLines().add(new ActualExpense());
+                document.setActualExpenses((List<ActualExpense>) getTravelDocumentService().copyActualExpenses(rootDocument.getActualExpenses(), document.getDocumentNumber()));
+                // add new detail for the copied actualExpenses
+                if (document.getActualExpenses() != null && !document.getActualExpenses().isEmpty()) {
+                    for (int i = 0; i < document.getActualExpenses().size(); i++) {
+                        travelForm.getNewActualExpenseLines().add(new ActualExpense());
+                    }
                 }
             }
+
         }
     }
 
@@ -632,24 +635,24 @@ public class TravelReimbursementAction extends TravelActionBase {
 
     @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        addTATRRelationship(form);
+        addAccountingDocumentRelationship(form);
 
         return super.save(mapping, form, request, response);
     }
 
-    private void addTATRRelationship(ActionForm form) throws WorkflowException {
+    private void addAccountingDocumentRelationship(ActionForm form) throws WorkflowException {
         TravelReimbursementForm reqForm = (TravelReimbursementForm) form;
         TravelReimbursementDocument trDoc = reqForm.getTravelReimbursementDocument();
-        String docId = trDoc.getTravelDocumentIdentifier();
-        if (ObjectUtils.isNotNull(docId)) {
-            TravelAuthorizationDocument taDoc = getTravelDocumentService().findCurrentTravelAuthorization(trDoc);
-            if (ObjectUtils.isNotNull(taDoc)) {
-                // add relationship
-                String relationDescription = "TA - TR";
-                SpringContext.getBean(AccountingDocumentRelationshipService.class).save(new AccountingDocumentRelationship(taDoc.getDocumentNumber(), trDoc.getDocumentNumber(), relationDescription));
-            }
+        String travelDocumentIdentifier = trDoc.getTravelDocumentIdentifier();
+
+        if (ObjectUtils.isNotNull(travelDocumentIdentifier)) {
+            TravelDocument rootDocument = getTravelDocumentService().findRootForTravelReimbursement(travelDocumentIdentifier);
+
+            String relationshipDescription = rootDocument.getDocumentTypeName() +" - "+ trDoc.getDocumentTypeName();
+            getAccountingDocumentRelationshipService().save(new AccountingDocumentRelationship(rootDocument.getDocumentNumber(), trDoc.getDocumentNumber(), relationshipDescription));
         }
     }
+
 
     /**
      * Parses the method to call attribute to pick off the line number which should have an action performed on it.
@@ -682,7 +685,7 @@ public class TravelReimbursementAction extends TravelActionBase {
 
         addDateChangedNote(form);
 
-        addTATRRelationship(form);
+        addAccountingDocumentRelationship(form);
 
         if (GlobalVariables.getMessageMap().getErrorCount() == 0){
             TravelReimbursementForm travelReimbursementForm = (TravelReimbursementForm) form;
@@ -711,7 +714,7 @@ public class TravelReimbursementAction extends TravelActionBase {
 
         addDateChangedNote(form);
 
-        addTATRRelationship(form);
+        addAccountingDocumentRelationship(form);
 
 
         if (GlobalVariables.getMessageMap().getErrorCount() == 0){

@@ -15,24 +15,44 @@
  */
 package org.kuali.kfs.module.tem.document.lookup;
 
+import java.util.List;
+
 import org.apache.commons.lang.text.StrBuilder;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.module.tem.TemConstants;
+import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.TemConstants.TravelDocTypes;
 import org.kuali.kfs.module.tem.TemConstants.TravelReimbursementStatusCodeKeys;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.TravelReimbursementDocument;
+import org.kuali.kfs.module.tem.document.service.AccountingDocumentRelationshipService;
+import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
+import org.kuali.kfs.module.tem.document.service.TravelReimbursementService;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kew.api.document.search.DocumentSearchResult;
 import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 public class TravelReimbursementDocumentCustomActionBuilder extends DocumentActionBuilderBase implements TravelDocumentCustomActionBuilder{
+    protected volatile TravelDocumentService travelDocumentService;
+    protected volatile AccountingDocumentRelationshipService accountingDocumentRelationshipService;
+    protected volatile ConfigurationService configurationService;
+    protected volatile TravelReimbursementService travelReimbursementService;
 
     protected static Logger LOG = Logger.getLogger(TravelReimbursementDocumentCustomActionBuilder.class);
 
     /**
-     * This method determines whether a reimbursement has been completely approved.
+     * Determines if the URL column for actions should be rendered. This is done for {@link TravelReimbursementDocument} instances
+     * in the search results that have a workflow document status of FINAL or PROCESSED and on documents that have a workflow
+     * App Doc Status of DEPT_APPROVED. Also checks if the person has permission to initiate the target documents.
+     * Will not show the new Reimbursement link if the TR already has a TR enroute.
+     * Will not show the new Reimbursement link if the TR is not the root document.
+     * Will not show the new Reimbursement link if a TA is required to initiate a TR.
+     * Will not show the new Reimbursement link if all the Trip Types require a TA to initiate a TR.
      *
      * @param documentSearchResult
      * @param documentType
@@ -47,12 +67,37 @@ public class TravelReimbursementDocumentCustomActionBuilder extends DocumentActi
                 && (appDocStatus.equals(TravelReimbursementStatusCodeKeys.DEPT_APPROVED));
 
         Person user = GlobalVariables.getUserSession().getPerson();
-        boolean hasInitAccess = true;
+        boolean hasInitAccess = false;
         if (getTemRoleService().canAccessTravelDocument(document, user) && document.getTemProfileId() != null){
             //check if user also can init other docs
-            hasInitAccess = user.getPrincipalId().equals(document.getTraveler().getPrincipalId()) || getTemRoleService().isTravelDocumentArrangerForProfile(documentType, user.getPrincipalId(), document.getTemProfileId());
+            hasInitAccess = user.getPrincipalId().equals(document.getTraveler().getPrincipalId()) || getTemRoleService().isTravelDocumentArrangerForProfile(documentType, user.getPrincipalId(), document.getTemProfileId()) || getTemRoleService().isTravelArranger(user, document.getTemProfile().getHomeDepartment() , document.getTemProfileId().toString(), documentType);
         }
-        return statusCheck && hasInitAccess;
+
+        boolean checkRelatedDocs = true;
+        boolean originalDocumentCheck = true;
+        boolean initiateReimbursementWithoutAuthorization = true;
+
+        if (documentType.equals(TravelDocTypes.TRAVEL_REIMBURSEMENT_DOCUMENT)) {
+            //don't display link if there are enroute TRs
+            List<Document> docs = getTravelDocumentService().getDocumentsRelatedTo(document, documentType);
+            for (Document doc : docs) {
+                TravelReimbursementDocument trDoc = (TravelReimbursementDocument)doc;
+                if (trDoc.getDocumentHeader().getWorkflowDocument().isEnroute()) {
+                    checkRelatedDocs &= false;
+                }
+            }
+
+            //only allow the link to display if the TR is the root document
+            originalDocumentCheck = document.getDocumentNumber().equals(getAccountingDocumentRelationshipService().getRootDocumentNumber(document.getDocumentNumber()));
+
+            //only allow the link to display if a TR can be initiated without a TA
+            initiateReimbursementWithoutAuthorization = getConfigurationService().getPropertyValueAsBoolean(TemKeyConstants.CONFIG_PROPERTY_REIMBURSEMENT_INITIATELINK_ENABLED);
+
+            //check Trip Types to verify at least one type can initiate TR without TA
+            initiateReimbursementWithoutAuthorization &= !getTravelReimbursementService().doAllReimbursementTripTypesRequireTravelAuthorization();
+        }
+
+        return statusCheck && hasInitAccess && checkRelatedDocs && originalDocumentCheck && initiateReimbursementWithoutAuthorization;
     }
 
     /**
@@ -87,6 +132,45 @@ public class TravelReimbursementDocumentCustomActionBuilder extends DocumentActi
             actionsHTML.append(createPaymentsURL(documentSearchResult, tripId));
         }
         return actionsHTML.toString();
+    }
+
+    /**
+     * @return the default implementation of TEM's TravelDocument Service
+     */
+    protected TravelDocumentService getTravelDocumentService() {
+        if (travelDocumentService == null) {
+            travelDocumentService = SpringContext.getBean(TravelDocumentService.class);
+        }
+        return travelDocumentService;
+    }
+
+    /**
+     * @return the default implementation of TEM's AccountingDocumentRelationship Service
+     */
+    protected AccountingDocumentRelationshipService getAccountingDocumentRelationshipService() {
+        if (accountingDocumentRelationshipService == null) {
+            accountingDocumentRelationshipService = SpringContext.getBean(AccountingDocumentRelationshipService.class);
+        }
+        return accountingDocumentRelationshipService;
+    }
+
+    /**
+     * @return the default implementation of KRAD's Configuration Service
+     */
+    @Override
+    protected ConfigurationService getConfigurationService() {
+        if (configurationService == null) {
+            configurationService = KRADServiceLocator.getKualiConfigurationService();
+        }
+        return configurationService;
+    }
+
+    protected TravelReimbursementService getTravelReimbursementService() {
+        if (travelReimbursementService == null) {
+            travelReimbursementService = SpringContext.getBean(TravelReimbursementService.class);
+        }
+
+        return travelReimbursementService;
     }
 
 }

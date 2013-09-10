@@ -43,12 +43,12 @@ import org.apache.log4j.Logger;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomer;
 import org.kuali.kfs.module.tem.TemConstants;
-import org.kuali.kfs.module.tem.TemConstants.ExpenseType;
-import org.kuali.kfs.module.tem.TemConstants.TravelDocTypes;
-import org.kuali.kfs.module.tem.TemConstants.TravelParameters;
 import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.TemParameterConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
+import org.kuali.kfs.module.tem.TemConstants.ExpenseType;
+import org.kuali.kfs.module.tem.TemConstants.TravelDocTypes;
+import org.kuali.kfs.module.tem.TemConstants.TravelParameters;
 import org.kuali.kfs.module.tem.businessobject.ActualExpense;
 import org.kuali.kfs.module.tem.businessobject.ClassOfService;
 import org.kuali.kfs.module.tem.businessobject.ExpenseTypeObjectCode;
@@ -325,6 +325,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
     }
 
     @Column(name = "TRIP_DESC")
+    @Override
     public String getTripDescription() {
         return tripDescription;
     }
@@ -1385,6 +1386,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
      *
      * @return
      */
+    @Override
     public Boolean getDelinquentTRException() {
         return delinquentTRException != null ? delinquentTRException : false;
     }

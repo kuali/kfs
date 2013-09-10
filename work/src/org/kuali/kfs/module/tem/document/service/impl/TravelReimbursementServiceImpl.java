@@ -47,10 +47,10 @@ import org.kuali.kfs.integration.ar.AccountsReceivableDocumentHeader;
 import org.kuali.kfs.integration.ar.AccountsReceivableModuleService;
 import org.kuali.kfs.integration.ar.AccountsReceivableOrganizationOptions;
 import org.kuali.kfs.module.tem.TemConstants;
-import org.kuali.kfs.module.tem.TemConstants.TravelDocTypes;
-import org.kuali.kfs.module.tem.TemConstants.TravelParameters;
 import org.kuali.kfs.module.tem.TemParameterConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
+import org.kuali.kfs.module.tem.TemConstants.TravelDocTypes;
+import org.kuali.kfs.module.tem.TemConstants.TravelParameters;
 import org.kuali.kfs.module.tem.businessobject.AccountingDocumentRelationship;
 import org.kuali.kfs.module.tem.businessobject.ActualExpense;
 import org.kuali.kfs.module.tem.businessobject.ExpenseTypeObjectCode;
@@ -59,6 +59,7 @@ import org.kuali.kfs.module.tem.businessobject.TemSourceAccountingLine;
 import org.kuali.kfs.module.tem.businessobject.TemSourceAccountingLineTotalPercentage;
 import org.kuali.kfs.module.tem.businessobject.TravelAdvance;
 import org.kuali.kfs.module.tem.businessobject.TravelerDetail;
+import org.kuali.kfs.module.tem.businessobject.TripType;
 import org.kuali.kfs.module.tem.document.TEMReimbursementDocument;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
 import org.kuali.kfs.module.tem.document.TravelDocument;
@@ -966,6 +967,24 @@ public class TravelReimbursementServiceImpl implements TravelReimbursementServic
             }
         };
     }
+
+    /**
+     * @see org.kuali.kfs.module.tem.document.service.TravelReimbursementService#doAllReimbursementTripTypesRequireTravelAuthorization()
+     */
+    public boolean doAllReimbursementTripTypesRequireTravelAuthorization() {
+        Collection<TripType> tripTypes = businessObjectService.findAll(TripType.class);
+
+        //return the first time TA required is false
+        boolean requiresAuthorization = true;
+        for(TripType tripType : tripTypes) {
+            requiresAuthorization = tripType.getTravelAuthorizationRequired();
+            if (!requiresAuthorization) {
+                return requiresAuthorization;
+            }
+        }
+        return requiresAuthorization;
+    }
+
 
     /**
      * Sets the parameterService attribute value.

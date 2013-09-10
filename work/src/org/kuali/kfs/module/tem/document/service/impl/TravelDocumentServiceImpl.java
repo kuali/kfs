@@ -53,14 +53,14 @@ import org.kuali.kfs.integration.ar.AccountsReceivableModuleService;
 import org.kuali.kfs.integration.ar.AccountsReceivableOrganizationOptions;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.module.tem.TemConstants;
-import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationParameters;
-import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationStatusCodeKeys;
-import org.kuali.kfs.module.tem.TemConstants.TravelDocTypes;
-import org.kuali.kfs.module.tem.TemConstants.TravelParameters;
 import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.TemParameterConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.TemWorkflowConstants;
+import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationParameters;
+import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationStatusCodeKeys;
+import org.kuali.kfs.module.tem.TemConstants.TravelDocTypes;
+import org.kuali.kfs.module.tem.TemConstants.TravelParameters;
 import org.kuali.kfs.module.tem.businessobject.ActualExpense;
 import org.kuali.kfs.module.tem.businessobject.ExpenseTypeAware;
 import org.kuali.kfs.module.tem.businessobject.GroupTraveler;
@@ -86,6 +86,7 @@ import org.kuali.kfs.module.tem.document.TravelEntertainmentDocument;
 import org.kuali.kfs.module.tem.document.TravelReimbursementDocument;
 import org.kuali.kfs.module.tem.document.TravelRelocationDocument;
 import org.kuali.kfs.module.tem.document.service.AccountingDocumentRelationshipService;
+import org.kuali.kfs.module.tem.document.service.TravelAuthorizationService;
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
 import org.kuali.kfs.module.tem.document.service.TravelReimbursementService;
 import org.kuali.kfs.module.tem.document.web.struts.TravelFormBase;
@@ -157,6 +158,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
     private DocumentService documentService;
     private BusinessObjectService businessObjectService;
     private TravelDocumentDao travelDocumentDao;
+    private TravelAuthorizationService travelAuthorizationService;
     private DateTimeService dateTimeService;
     private ParameterService parameterService;
     private TravelerService travelerService;
@@ -621,8 +623,8 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
      * @see org.kuali.kfs.module.tem.document.service.TravelDocumentService#findAuthorizationDocuments(java.lang.String)
      */
     @Override
-    public List<TravelAuthorizationDocument> findAuthorizationDocuments(final String travelDocumentNumber){
-        final List<String> ids = findAuthorizationDocumentNumbers(travelDocumentNumber);
+    public List<TravelAuthorizationDocument> findAuthorizationDocuments(final String travelDocumentIdentifier){
+        final List<String> ids = findAuthorizationDocumentNumbers(travelDocumentIdentifier);
 
         List<TravelAuthorizationDocument> resultDocumentLists = new ArrayList<TravelAuthorizationDocument>();
         //retrieve the actual documents
@@ -643,8 +645,8 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
      * @see org.kuali.kfs.module.tem.document.service.TravelDocumentService#findAuthorizationDocumentNumbers(java.lang.String)
      */
     @Override
-    public List<String> findAuthorizationDocumentNumbers(final String travelDocumentNumber) {
-        final List<String> ids = getTravelDocumentDao().findDocumentNumbers(TravelAuthorizationDocument.class, travelDocumentNumber);
+    public List<String> findAuthorizationDocumentNumbers(final String travelDocumentIdentifier) {
+        final List<String> ids = getTravelDocumentDao().findDocumentNumbers(TravelAuthorizationDocument.class, travelDocumentIdentifier);
         return ids;
     }
 
@@ -652,8 +654,8 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
      * @see org.kuali.kfs.module.tem.document.service.TravelDocumentService#findReimbursementDocuments(java.lang.String)
      */
     @Override
-    public List<TravelReimbursementDocument> findReimbursementDocuments(final String travelDocumentNumber) {
-        final List<String> ids = getTravelDocumentDao().findDocumentNumbers(TravelReimbursementDocument.class, travelDocumentNumber);
+    public List<TravelReimbursementDocument> findReimbursementDocuments(final String travelDocumentIdentifier) {
+        final List<String> ids = getTravelDocumentDao().findDocumentNumbers(TravelReimbursementDocument.class, travelDocumentIdentifier);
 
         List<TravelReimbursementDocument> resultDocumentLists = new ArrayList<TravelReimbursementDocument>();
         // retrieve the actual documents
@@ -1251,6 +1253,53 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
             }
         }
         return travelDocument;
+    }
+
+    /**
+     * Find the root document for creating a travel reimbursement from a previous document.
+     *
+     * @param trDocument
+     * @return
+     * @throws WorkflowException
+     */
+    @Override
+    public TravelDocument findRootForTravelReimbursement(String travelDocumentIdentifier) throws WorkflowException {
+
+        TravelDocument rootTravelDocument = null;
+
+        //look for a current authorization first
+
+        //use the travelDocumentIdentifier to find any saved authorization
+        final Collection<TravelAuthorizationDocument> tempTaDocs = getTravelAuthorizationService().find(travelDocumentIdentifier);
+
+        if (!tempTaDocs.isEmpty()) {
+            TravelAuthorizationDocument taDoc = null;
+            for(TravelAuthorizationDocument tempTaDoc : tempTaDocs) {
+                taDoc = tempTaDoc;
+                break;
+            }
+
+            //find the current travel authorization
+            rootTravelDocument = findCurrentTravelAuthorization(taDoc);
+        }
+
+        //no authorizations exist so the root should be a reimbursement
+        else {
+            final List<TravelReimbursementDocument> tempTrDocs = findReimbursementDocuments(travelDocumentIdentifier);
+            //if there is only one document then that is the root
+            if (tempTrDocs.size() == 1) {
+                rootTravelDocument = tempTrDocs.get(0);
+            }
+            else {
+                //the root document can be found using any document in the list; just use the first one
+                String rootDocumentNumber = getAccountingDocumentRelationshipService().getRootDocumentNumber(tempTrDocs.get(0).getDocumentNumber());
+                TravelDocument tempDoc = (TravelDocument)documentService.getByDocumentHeaderIdSessionless(rootDocumentNumber);
+
+                rootTravelDocument = tempDoc;
+            }
+        }
+
+        return rootTravelDocument;
     }
 
     @Override
@@ -2245,6 +2294,14 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
             accountsReceivableModuleService = SpringContext.getBean(AccountsReceivableModuleService.class);
         }
         return accountsReceivableModuleService;
+    }
+
+    public TravelAuthorizationService getTravelAuthorizationService() {
+        return travelAuthorizationService;
+    }
+
+    public void setTravelAuthorizationService(TravelAuthorizationService travelAuthorizationService) {
+        this.travelAuthorizationService = travelAuthorizationService;
     }
 
     public PerDiemService getPerDiemService() {

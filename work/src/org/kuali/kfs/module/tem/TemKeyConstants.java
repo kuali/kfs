@@ -206,6 +206,7 @@ public class TemKeyConstants {
     public static final String ERROR_TRVL_GROUP_TRVL_EMP_NOT_FOUND = "error.document.tem.travel.groupTraveler.employeeNotFound";
     public static final String HOST_CERTIFICATION_REQUIRED_IND = "tem.entertainment.host.certification.required";
     public static final String ERROR_TRIP_TYPE_TA_REQUIRED = "error.document.tem.triptype.ta.required";
+    public static final String ERROR_TA_REQUIRED_FOR_TR_INIT="error.document.tem.reimbursement.init.ta.required";
 
     public static final String TEM_NON_EMPLOYEE_CERTIFICATION  = "tem.non.employee.certification";
 
@@ -282,5 +283,9 @@ public class TemKeyConstants {
     public static final String ERROR_EXPENSE_TYPE_OBJECT_CODE_INVALID_TRIP_TYPE_FOR_DOC_TYPE = "error.etoc.invalid.trip.type.considering.document.type";
 
     public static final String ERROR_REIMBURSEMENT_OVERAGE_ORGANIZATION_HIERARCHY_ROLE_NON_NUMERIC = "error.reimbursement.overage.organization.hierarchy.role.non.numeric";
-    public static final String ERROR_REIMBURSEMENT_OVERAGE_ORGANIZATION_HIERARCHY_ROLE_NEGATIVE = "error.reimbursement.overage.organization.hierarchy.role.negative";
+    public static final String ERROR_REIMBURSEMENT_OVERAGE_ORGANIZATION_HIERARCHY_ROLE_NEGATIVE = "error.reimbursement.overage.organization.hierarchy.role.negative";    
+
+    //Configuration properties
+    public static final String CONFIG_PROPERTY_REIMBURSEMENT_INITIATELINK_ENABLED = "module.travel.reimbursement.initiatelink.enabled";
+    
 }

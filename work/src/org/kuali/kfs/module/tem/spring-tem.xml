@@ -483,6 +483,7 @@
 		<property name="dataDictionaryService" ref="dataDictionaryService" />
 		<property name="dateTimeService" ref="dateTimeService" />
 		<property name="travelDocumentDao" ref="travelDocumentDao" />
+		<property name="travelAuthorizationService" ref="temTravelAuthorizationService" />
 		<property name="parameterService" ref="parameterService" />
 		<property name="accountingDocumentRelationshipService" ref="temAccountingDocumentRelationshipService" />
 		<property name="temRoleService" ref="temRoleService" />

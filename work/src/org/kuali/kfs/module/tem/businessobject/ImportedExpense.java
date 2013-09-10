@@ -34,13 +34,14 @@ public class ImportedExpense extends AbstractExpense implements TEMExpense, Expe
     private String temExpenseTypeCode = TemConstants.EXPENSE_IMPORTED;
     private Long historicalTravelExpenseId;
     private Boolean enableNonReimbursable = Boolean.TRUE;
+    private String expenseLineTypeCode = TemConstants.EXPENSE_IMPORTED;
 
     public ImportedExpense(){
     }
 
     @Override
     public String getExpenseLineTypeCode(){
-        return temExpenseTypeCode;
+        return expenseLineTypeCode;
     }
 
     /**
@@ -125,7 +126,7 @@ public class ImportedExpense extends AbstractExpense implements TEMExpense, Expe
 
     @Override
     public void setExpenseLineTypeCode(String expenseLineTypeCode) {
-        this.temExpenseTypeCode = expenseLineTypeCode;
+        this.expenseLineTypeCode = expenseLineTypeCode;
     }
 
     @Override

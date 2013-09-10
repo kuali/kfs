@@ -697,6 +697,7 @@ public class TemConstants {
         public static final String CREDIT_CARD_INVALID_CARD = "CRDC";
         public static final String CREDIT_CARD_MOVED_TO_HISTORICAL = "HIS";
         public static final String CREDIT_CARD_INVALID_CC_AGENCY = "CCA";
+        public static final String CREDIT_CARD_INVALID_EXPENSE_TYPE_CODE = "ETC";
     }
 
     public static class ExpenseImportTypes {

@@ -1531,7 +1531,6 @@
         <column name="COST_SHR_AMT" scale="2" size="19" type="DECIMAL"/>
         <column name="LST_BLD_DT" type="TIMESTAMP"/>
         <column name="COMMNT" size="50" type="VARCHAR"/>
-        <column name="TRNSFR_NBR" size="16" type="VARCHAR"/>
         <column name="AGENCY_NBR" size="5" type="VARCHAR"/>
         <column name="DUN_LTR_ASSGNED" size="20" type="VARCHAR"/>
         <column name="DUN_LTR_SNT_DT" type="TIMESTAMP"/>

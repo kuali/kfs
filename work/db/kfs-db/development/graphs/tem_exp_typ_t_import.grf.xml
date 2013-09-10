@@ -18,30 +18,15 @@
       <attr name="transform"><![CDATA[
 //#TL
     function transform() {
-        $0.tem_exp_typ_id := $tem_exp_typ_id;
-        $0.travel_exp_cd := replace(nvl($travel_exp_cd, ""), "~!~", "|" );
-        $0.travel_exp_nm := replace(nvl($travel_exp_nm, ""), "~!~", "|" );
-        $0.travel_exp_prpy_ind := replace(nvl($travel_exp_prpy_ind, ""), "~!~", "|" );
-        $0.fin_object_cd := replace(nvl($fin_object_cd, ""), "~!~", "|" );
-        $0.hst_ml_ind := replace(nvl($hst_ml_ind, ""), "~!~", "|" );
-        $0.lng_desc := replace(nvl($lng_desc, ""), "~!~", "|" );
-        $0.indv_ind := replace(nvl($indv_ind, ""), "~!~", "|" );
-        $0.grp_trvl_ind := replace(nvl($grp_trvl_ind, ""), "~!~", "|" );
-        $0.trip_typ_cd := replace(nvl($trip_typ_cd, ""), "~!~", "|" );
-        $0.traveler_typ_cd := replace(nvl($traveler_typ_cd, ""), "~!~", "|" );
-        $0.document_type := replace(nvl($document_type, ""), "~!~", "|" );
-        $0.max_amt := $max_amt;
-        $0.max_amt_per := replace(nvl($max_amt_per, ""), "~!~", "|" );
-        $0.err_typ_cd := replace(nvl($err_typ_cd, ""), "~!~", "|" );
-        $0.note_req_ind := replace(nvl($note_req_ind, ""), "~!~", "|" );
-        $0.rcpt_req_ind := replace(nvl($rcpt_req_ind, ""), "~!~", "|" );
-        $0.rcpt_req_thrsh := $rcpt_req_thrsh;
-        $0.taxable_ind := replace(nvl($taxable_ind, ""), "~!~", "|" );
-        $0.spcl_rqst_req_ind := replace(nvl($spcl_rqst_req_ind, ""), "~!~", "|" );
-        $0.actv_ind := replace(nvl($actv_ind, ""), "~!~", "|" );
-        $0.ver_nbr := $ver_nbr;
+        $0.exp_typ_cd := replace(nvl($exp_typ_cd, ""), "~!~", "|" );
         $0.obj_id := replace(nvl($obj_id, ""), "~!~", "|" );
+        $0.ver_nbr := $ver_nbr;
+        $0.exp_typ_nm := replace(nvl($exp_typ_nm, ""), "~!~", "|" );
+        $0.grp_trvl_ind := replace(nvl($grp_trvl_ind, ""), "~!~", "|" );
         $0.exp_detail_req_ind := replace(nvl($exp_detail_req_ind, ""), "~!~", "|" );
+        $0.exp_prpy_ind := replace(nvl($exp_prpy_ind, ""), "~!~", "|" );
+        $0.per_diem_ind := replace(nvl($per_diem_ind, ""), "~!~", "|" );
+        $0.actv_ind := replace(nvl($actv_ind, ""), "~!~", "|" );
    }
       ]]></attr>
     </Node>

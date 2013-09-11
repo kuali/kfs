@@ -1,0 +1,156 @@
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
+
+    <bean id="GroupTravelerForLookup" parent="GroupTravelerForLookup-parentBean" />
+    <bean id="GroupTravelerForLookup-parentBean" abstract="true" parent="BusinessObjectEntry" >
+        <property name="businessObjectClass" value="org.kuali.kfs.module.tem.businessobject.GroupTravelerForLookup" />
+        <property name="lookupDefinition" ref="GroupTravelerForLookup-lookupDefinition" />
+        <property name="inquiryDefinition" ref="GroupTravelerForLookup-inquiryDefinition" />
+        <property name="objectLabel" value="Group Traveler" />
+        <property name="attributes">
+	        <list>
+	            <ref bean="GroupTravelerForLookup-customerNumber" />
+	            <ref bean="GroupTravelerForLookup-customerName" />
+	            <ref bean="GroupTravelerForLookup-principalName" />
+	            <ref bean="GroupTravelerForLookup-firstName" />
+	            <ref bean="GroupTravelerForLookup-lastName" />
+	            <ref bean="GroupTravelerForLookup-employeeId" />
+	            <ref bean="GroupTravelerForLookup-active"/>
+	        </list>
+        </property>
+        <property name="relationships">
+			<list>
+				<bean parent="RelationshipDefinition">
+					<property name="objectAttributeName" value="person" />
+					<property name="primitiveAttributes">
+						<list>
+
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="principalName"
+								p:targetName="principalName" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="RelationshipDefinition">
+					<property name="objectAttributeName" value="customer" />
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="customerNumber"
+								p:targetName="customerNumber" />
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+    </bean>
+    
+    <bean id="GroupTravelerForLookup-customerNumber" parent="GroupTravelerForLookup-customerNumber-parentBean" />
+    <bean id="GroupTravelerForLookup-customerNumber-parentBean" parent="AttributeDefinition">
+		<property name="name" value="customerNumber" />
+		<property name="forceUppercase" value="true" />
+		<property name="label" value="Customer Number" />
+		<property name="shortLabel" value="Number" />
+		<property name="maxLength" value="40" />
+		<property name="validationPattern">
+			<ref bean="AnyCharacterValidation" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="11" />
+		</property>
+    </bean>
+    <bean id="GroupTravelerForLookup-customerName" parent="GroupTravelerForLookup-customerName-parentBean" />
+    <bean id="GroupTravelerForLookup-customerName-parentBean" parent="AttributeDefinition">
+        <property name="name" value="customerName" />
+		<property name="forceUppercase" value="true" />
+		<property name="label" value="Customer Name" />
+		<property name="shortLabel" value="Name" />
+		<property name="maxLength" value="60" />
+		<property name="validationPattern">
+			<ref bean="AnyCharacterWithWhitespaceValidation" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="62" />
+		</property>
+    </bean>
+    <bean id="GroupTravelerForLookup-principalName" parent="GroupTravelerForLookup-principalName-parentBean" />
+    <bean id="GroupTravelerForLookup-principalName-parentBean" parent="PersonImpl-principalName" abstract="true">
+        <property name="label" value="Principal Name" />
+    </bean>
+    <bean id="GroupTravelerForLookup-firstName" parent="GroupTravelerForLookup-firstName-parentBean" />
+    <bean id="GroupTravelerForLookup-firstName-parentBean" parent="PersonImpl-firstName" abstract="true">
+        <property name="name" value="firstName"/>
+    	<property name="required" value="false"/>
+    	<property name="label" value="Person First Name"/>
+    	<property name="shortLabel" value="First Name"/>
+    </bean>
+    <bean id="GroupTravelerForLookup-lastName" parent="GroupTravelerForLookup-lastName-parentBean" />
+    <bean id="GroupTravelerForLookup-lastName-parentBean" parent="PersonImpl-lastName" abstract="true">
+        <property name="name" value="lastName"/>
+        <property name="required" value="false"/>
+        <property name="label" value="Person Last Name"/>
+        <property name="shortLabel" value="Last Name"/>
+    </bean>
+    <bean id="GroupTravelerForLookup-employeeId" parent="GroupTravelerForLookup-employeeId-parentBean" />
+    <bean id="GroupTravelerForLookup-employeeId-parentBean" parent="PersonImpl-employeeId" abstract="true"/>
+    <bean id="GroupTravelerForLookup-active" parent="GroupTravelerForLookup-active-parentBean" />
+    <bean id="GroupTravelerForLookup-active-parentBean" parent="GenericAttributes-activeIndicator" abstract="true">
+    	<property name="name" value="active"/>
+    </bean>
+    
+    
+    <bean id="GroupTravelerForLookup-inquiryDefinition" parent="GroupTravelerForLookup-inquiryDefinition-parentBean" />
+    <bean id="GroupTravelerForLookup-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+        <property name="title" value="Group Traveler Inquiry"/>
+        <property name="inquirySections">
+        <list>
+            <bean parent="InquirySectionDefinition">
+                <property name="title" value="Group Traveler Inquiry"/>
+                <property name="numberOfColumns" value="1"/>
+                <property name="inquiryFields">
+                <list>
+                    <bean parent="FieldDefinition" p:attributeName="customerNumber" />
+                    <bean parent="FieldDefinition" p:attributeName="customerName" />
+                    <bean parent="FieldDefinition" p:attributeName="principalName" />
+                    <bean parent="FieldDefinition" p:attributeName="firstName" />
+                    <bean parent="FieldDefinition" p:attributeName="lastName" />
+                    <bean parent="FieldDefinition" p:attributeName="employeeId" />
+                    <bean parent="FieldDefinition" p:attributeName="active"/>
+                </list>
+                </property>
+            </bean>
+        </list>
+        </property>
+    </bean>
+    <bean id="GroupTravelerForLookup-lookupDefinition" parent="GroupTravelerForLookup-lookupDefinition-parentBean" />
+    <bean id="GroupTravelerForLookup-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+        <property name="title" value="Group Traveler Lookup" />
+        <property name="lookupableID" value="groupTravelerForLookupLookupable"/>
+        <property name="defaultSort">
+        <bean parent="SortDefinition">
+            <property name="attributeNames"><list>
+            </list></property>
+        </bean>
+        </property>
+        <property name="lookupFields"><list>
+            <bean parent="FieldDefinition" p:attributeName="customerNumber" />
+            <bean parent="FieldDefinition" p:attributeName="customerName" />
+            <bean parent="FieldDefinition" p:attributeName="principalName" />
+            <bean parent="FieldDefinition" p:attributeName="firstName" />
+            <bean parent="FieldDefinition" p:attributeName="lastName" />
+            <bean parent="FieldDefinition" p:attributeName="employeeId" />
+            <bean parent="FieldDefinition" p:attributeName="active"/>
+        </list>
+        </property>
+        <property name="resultFields">
+        <list>
+            <bean parent="FieldDefinition" p:attributeName="customerNumber" />
+            <bean parent="FieldDefinition" p:attributeName="customerName" />
+            <bean parent="FieldDefinition" p:attributeName="principalName" />
+            <bean parent="FieldDefinition" p:attributeName="firstName" />
+            <bean parent="FieldDefinition" p:attributeName="lastName" />
+            <bean parent="FieldDefinition" p:attributeName="employeeId" />
+            <bean parent="FieldDefinition" p:attributeName="active"/>
+        </list>
+        </property>
+    </bean>
+</beans>

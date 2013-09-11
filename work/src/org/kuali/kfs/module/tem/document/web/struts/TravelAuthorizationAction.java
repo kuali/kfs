@@ -17,7 +17,6 @@ package org.kuali.kfs.module.tem.document.web.struts;
 
 import static org.kuali.kfs.module.tem.TemConstants.CERTIFICATION_STATEMENT_ATTRIBUTE;
 import static org.kuali.kfs.module.tem.TemConstants.EMPLOYEE_TEST_ATTRIBUTE;
-import static org.kuali.kfs.module.tem.TemConstants.KIM_PERSON_LOOKUPABLE;
 import static org.kuali.kfs.module.tem.TemConstants.SHOW_ACCOUNT_DISTRIBUTION_ATTRIBUTE;
 import static org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters.DISPLAY_ACCOUNTING_DISTRIBUTION_TAB_IND;
 import static org.kuali.kfs.module.tem.TemPropertyConstants.NEW_EMERGENCY_CONTACT_LINE;
@@ -26,9 +25,7 @@ import static org.kuali.kfs.sys.KFSPropertyConstants.NEW_SOURCE_LINE;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -65,7 +62,6 @@ import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.util.RiceConstants;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
-import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
@@ -431,11 +427,6 @@ public class TravelAuthorizationAction extends TravelActionBase {
             return actionAfterTravelerLookup;
         }
 
-        ActionForward actionAfterGroupTravelerLookup = this.refreshAfterGroupTravelerLookup(mapping, authForm, request);
-        if (actionAfterGroupTravelerLookup != null) {
-            return actionAfterGroupTravelerLookup;
-        }
-
         ActionForward actionAfterPrimaryDestinationLookup = this.refreshAfterPrimaryDestinationLookup(mapping, authForm, request);
         if (actionAfterPrimaryDestinationLookup != null) {
             return actionAfterPrimaryDestinationLookup;
@@ -505,41 +496,6 @@ public class TravelAuthorizationAction extends TravelActionBase {
         document.updatePayeeTypeForAuthorization();
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
-    }
-
-    /**
-     * This method is called during a refresh from lookup, it checks to see if it is being called for Group Traveler or the initial
-     * Traveler lookup
-     *
-     * @param mapping
-     * @param authForm
-     * @param request
-     * @return null, no special page to return to
-     */
-    private ActionForward refreshAfterGroupTravelerLookup(ActionMapping mapping, TravelAuthorizationForm authForm, HttpServletRequest request) {
-        String refreshCaller = authForm.getRefreshCaller();
-
-        LOG.debug("refresh call is: "+ refreshCaller);
-        String groupTravelerId = request.getParameter("newGroupTravelerLine.groupTravelerEmpId");
-        TravelDocumentBase document = authForm.getTravelAuthorizationDocument();
-
-        boolean isGroupTravelerLookupable = StringUtils.equals(refreshCaller, KIM_PERSON_LOOKUPABLE);
-
-        // do not execute the further refreshing logic if the refresh caller is not a traveler profile lookupable
-        if (!isGroupTravelerLookupable) {
-            return null;
-        }
-
-        // We are dealing with either a group traveler or regular traveler lookup return
-        if (isGroupTravelerLookupable && StringUtils.isNotBlank(groupTravelerId)) {
-            Map<String, String> fieldsForLookup = new HashMap<String, String>();
-            fieldsForLookup.put("principalId", groupTravelerId);
-
-            Person person = getPersonService().findPeople(fieldsForLookup).get(0);
-            authForm.getNewGroupTravelerLine().setName(person.getNameUnmasked());
-        }
-
-        return null;
     }
 
     /**

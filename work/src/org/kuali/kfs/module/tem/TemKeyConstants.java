@@ -283,9 +283,11 @@ public class TemKeyConstants {
     public static final String ERROR_EXPENSE_TYPE_OBJECT_CODE_INVALID_TRIP_TYPE_FOR_DOC_TYPE = "error.etoc.invalid.trip.type.considering.document.type";
 
     public static final String ERROR_REIMBURSEMENT_OVERAGE_ORGANIZATION_HIERARCHY_ROLE_NON_NUMERIC = "error.reimbursement.overage.organization.hierarchy.role.non.numeric";
-    public static final String ERROR_REIMBURSEMENT_OVERAGE_ORGANIZATION_HIERARCHY_ROLE_NEGATIVE = "error.reimbursement.overage.organization.hierarchy.role.negative";    
+    public static final String ERROR_REIMBURSEMENT_OVERAGE_ORGANIZATION_HIERARCHY_ROLE_NEGATIVE = "error.reimbursement.overage.organization.hierarchy.role.negative";
+
+    public static final String ERROR_GROUP_TRAVELER_LOOKUP_NEEDS_SOME_FIELD = "error.groupTraveler.lookupNeedsSomeField";
 
     //Configuration properties
     public static final String CONFIG_PROPERTY_REIMBURSEMENT_INITIATELINK_ENABLED = "module.travel.reimbursement.initiatelink.enabled";
-    
+
 }

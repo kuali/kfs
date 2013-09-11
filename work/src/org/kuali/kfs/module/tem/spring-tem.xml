@@ -253,6 +253,17 @@
             <ref bean="creditCardStagingDataLookupableHelperService" />
         </property>
     </bean>
+    
+    <bean id="groupTravelerForLookupLookupableHelperService" parent="groupTravelerForLookupLookupableHelperService-parentBean" scope="prototype"/>
+	<bean id="groupTravelerForLookupLookupableHelperService-parentBean" abstract="true" class="org.kuali.kfs.module.tem.businessobject.lookup.GroupTravelerForLookupLookupableHelperServiceImpl">
+		<property name="accountsReceivableModuleService" ref="accountsReceivableModuleService"/>
+	</bean>
+	<bean id="groupTravelerForLookupLookupable" parent="groupTravelerForLookupLookupable-parentBean" scope="prototype"/>
+	<bean id="groupTravelerForLookupLookupable-parentBean" abstract="true" class="org.kuali.rice.kns.lookup.KualiLookupableImpl">
+		<property name="lookupableHelperService">
+			<ref bean="groupTravelerForLookupLookupableHelperService" />
+		</property>
+	</bean>
 
 	<bean id="travelerDao" parent="platformAwareDao" class="org.kuali.kfs.module.tem.dataaccess.impl.TravelerDaoOjb">
 		<property name="lookupDao" ref="lookupDao" />

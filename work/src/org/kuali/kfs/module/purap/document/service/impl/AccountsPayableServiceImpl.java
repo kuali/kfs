@@ -60,6 +60,8 @@ import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.action.DocumentActionParameters;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.kim.api.identity.principal.Principal;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.bo.Note;
@@ -235,6 +237,8 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
         if (sb.toString().length() > 0) {
             try {
                 Note resetNote = documentService.createNoteFromDocument(document, sb.toString());
+                Principal kfs = KimApiServiceLocator.getIdentityService().getPrincipalByPrincipalName(KFSConstants.SYSTEM_USER);
+                resetNote.setAuthorUniversalIdentifier(kfs.getPrincipalId());
                 document.addNote(resetNote);
             }
             catch (Exception e) {

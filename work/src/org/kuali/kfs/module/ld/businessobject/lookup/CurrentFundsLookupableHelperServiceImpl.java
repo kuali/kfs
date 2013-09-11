@@ -28,12 +28,12 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.gl.Constant;
 import org.kuali.kfs.gl.businessobject.TransientBalanceInquiryAttributes;
 import org.kuali.kfs.integration.ld.LaborLedgerObject;
+import org.kuali.kfs.integration.ld.businessobject.inquiry.AbstractPositionDataDetailsInquirableImpl;
 import org.kuali.kfs.module.ld.LaborKeyConstants;
 import org.kuali.kfs.module.ld.businessobject.AccountStatusCurrentFunds;
 import org.kuali.kfs.module.ld.businessobject.July1PositionFunding;
 import org.kuali.kfs.module.ld.businessobject.LaborObject;
 import org.kuali.kfs.module.ld.businessobject.LedgerBalance;
-import org.kuali.kfs.module.ld.businessobject.inquiry.AbstractLaborInquirableImpl;
 import org.kuali.kfs.module.ld.businessobject.inquiry.CurrentFundsInquirableImpl;
 import org.kuali.kfs.module.ld.businessobject.inquiry.PositionDataDetailsInquirableImpl;
 import org.kuali.kfs.module.ld.dataaccess.LaborDao;
@@ -46,7 +46,6 @@ import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
-import org.kuali.rice.kns.web.ui.Row;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.lookup.CollectionIncomplete;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -71,7 +70,7 @@ public class CurrentFundsLookupableHelperServiceImpl extends AbstractLookupableH
     public HtmlData getInquiryUrl(BusinessObject bo, String propertyName) {
         if (KFSPropertyConstants.POSITION_NUMBER.equals(propertyName)) {
             LedgerBalance balance = (LedgerBalance) bo;
-            AbstractLaborInquirableImpl positionDataDetailsInquirable = new PositionDataDetailsInquirableImpl();
+            AbstractPositionDataDetailsInquirableImpl positionDataDetailsInquirable = new PositionDataDetailsInquirableImpl();
 
             Map<String, String> fieldValues = new HashMap<String, String>();
             fieldValues.put(propertyName, balance.getPositionNumber());
@@ -100,16 +99,16 @@ public class CurrentFundsLookupableHelperServiceImpl extends AbstractLookupableH
         boolean unbounded = false;
         Long actualCountIfTruncated = new Long(0);
 
-        setBackLocation((String) fieldValues.get(KFSConstants.BACK_LOCATION));
-        setDocFormKey((String) fieldValues.get(KFSConstants.DOC_FORM_KEY));
+        setBackLocation(fieldValues.get(KFSConstants.BACK_LOCATION));
+        setDocFormKey(fieldValues.get(KFSConstants.DOC_FORM_KEY));
 
         // get the pending entry option. This method must be prior to the get search results
         String pendingEntryOption = laborInquiryOptionsService.getSelectedPendingEntryOption(fieldValues);
 
         // get the consolidation option
-        boolean isConsolidated = laborInquiryOptionsService.isConsolidationSelected(fieldValues, (Collection<Row>) getRows());
+        boolean isConsolidated = laborInquiryOptionsService.isConsolidationSelected(fieldValues, getRows());
 
-        String searchObjectCodeVal = (String) fieldValues.get(KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
+        String searchObjectCodeVal = fieldValues.get(KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
         // Check for a valid labor object code for this inquiry
         if (StringUtils.isNotBlank(searchObjectCodeVal)) {
             Map objectCodeFieldValues = new HashMap();
@@ -117,7 +116,7 @@ public class CurrentFundsLookupableHelperServiceImpl extends AbstractLookupableH
             objectCodeFieldValues.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, fieldValues.get(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE));
             objectCodeFieldValues.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, searchObjectCodeVal);
 
-            LaborLedgerObject foundObjectCode = (LaborLedgerObject) businessObjectService.findByPrimaryKey(LaborObject.class, objectCodeFieldValues);
+            LaborLedgerObject foundObjectCode = businessObjectService.findByPrimaryKey(LaborObject.class, objectCodeFieldValues);
 
             if (foundObjectCode == null) {
                 GlobalVariables.getMessageMap().putError(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, LaborKeyConstants.ERROR_INVALID_LABOR_OBJECT_CODE, "2");

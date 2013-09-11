@@ -21,12 +21,13 @@ import java.util.LinkedHashMap;
 
 import org.kuali.kfs.gl.Constant;
 import org.kuali.kfs.gl.businessobject.TransientBalanceInquiryAttributes;
+import org.kuali.kfs.integration.ld.LaborLedgerPositionData;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
  * Labor business object for PositionData
  */
-public class PositionData extends PersistableBusinessObjectBase {
+public class PositionData extends PersistableBusinessObjectBase implements LaborLedgerPositionData {
     private String positionNumber;
     private String jobCode;
     private Date effectiveDate;
@@ -60,6 +61,7 @@ public class PositionData extends PersistableBusinessObjectBase {
      * 
      * @return Returns the positionNumber
      */
+    @Override
     public String getPositionNumber() {
         return positionNumber;
     }
@@ -78,6 +80,7 @@ public class PositionData extends PersistableBusinessObjectBase {
      * 
      * @return Returns the jobCode
      */
+    @Override
     public String getJobCode() {
         return jobCode;
     }
@@ -96,6 +99,7 @@ public class PositionData extends PersistableBusinessObjectBase {
      * 
      * @return Returns the effectiveDate
      */
+    @Override
     public Date getEffectiveDate() {
         return effectiveDate;
     }
@@ -114,6 +118,7 @@ public class PositionData extends PersistableBusinessObjectBase {
      * 
      * @return Returns the positionEffectiveStatus
      */
+    @Override
     public String getPositionEffectiveStatus() {
         return positionEffectiveStatus;
     }
@@ -132,6 +137,7 @@ public class PositionData extends PersistableBusinessObjectBase {
      * 
      * @return Returns the description
      */
+    @Override
     public String getDescription() {
         return description;
     }
@@ -150,6 +156,7 @@ public class PositionData extends PersistableBusinessObjectBase {
      * 
      * @return Returns the shortDescription
      */
+    @Override
     public String getShortDescription() {
         return shortDescription;
     }
@@ -168,6 +175,7 @@ public class PositionData extends PersistableBusinessObjectBase {
      * 
      * @return Returns the businessUnit
      */
+    @Override
     public String getBusinessUnit() {
         return businessUnit;
     }
@@ -186,6 +194,7 @@ public class PositionData extends PersistableBusinessObjectBase {
      * 
      * @return Returns the departmentId
      */
+    @Override
     public String getDepartmentId() {
         return departmentId;
     }
@@ -204,6 +213,7 @@ public class PositionData extends PersistableBusinessObjectBase {
      * 
      * @return Returns the positionStatus
      */
+    @Override
     public String getPositionStatus() {
         return positionStatus;
     }
@@ -222,6 +232,7 @@ public class PositionData extends PersistableBusinessObjectBase {
      * 
      * @return Returns the statusDate
      */
+    @Override
     public Date getStatusDate() {
         return statusDate;
     }
@@ -240,6 +251,7 @@ public class PositionData extends PersistableBusinessObjectBase {
      * 
      * @return Returns the budgetedPosition
      */
+    @Override
     public String getBudgetedPosition() {
         return budgetedPosition;
     }
@@ -276,6 +288,7 @@ public class PositionData extends PersistableBusinessObjectBase {
      * 
      * @return Returns the standardHoursFrequency
      */
+    @Override
     public String getStandardHoursFrequency() {
         return standardHoursFrequency;
     }
@@ -294,6 +307,7 @@ public class PositionData extends PersistableBusinessObjectBase {
      * 
      * @return Returns the positionRegularTemporary
      */
+    @Override
     public String getPositionRegularTemporary() {
         return positionRegularTemporary;
     }
@@ -312,6 +326,7 @@ public class PositionData extends PersistableBusinessObjectBase {
      * 
      * @return Returns the positionFullTimeEquivalency
      */
+    @Override
     public BigDecimal getPositionFullTimeEquivalency() {
         return positionFullTimeEquivalency;
     }
@@ -330,6 +345,7 @@ public class PositionData extends PersistableBusinessObjectBase {
      * 
      * @return Returns the positionSalaryPlanDefault
      */
+    @Override
     public String getPositionSalaryPlanDefault() {
         return positionSalaryPlanDefault;
     }
@@ -348,6 +364,7 @@ public class PositionData extends PersistableBusinessObjectBase {
      * 
      * @return Returns the positionGradeDefault
      */
+    @Override
     public String getPositionGradeDefault() {
         return positionGradeDefault;
     }
@@ -381,6 +398,7 @@ public class PositionData extends PersistableBusinessObjectBase {
      * 
      * @return Returns the dummyBusinessObject.
      */
+    @Override
     public TransientBalanceInquiryAttributes getDummyBusinessObject() {
         return dummyBusinessObject;
     }

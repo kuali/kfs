@@ -29,9 +29,9 @@ import java.util.Map;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.gl.Constant;
+import org.kuali.kfs.integration.ld.businessobject.inquiry.AbstractPositionDataDetailsInquirableImpl;
 import org.kuali.kfs.module.ld.businessobject.EmployeeFunding;
 import org.kuali.kfs.module.ld.businessobject.LaborLedgerPendingEntry;
-import org.kuali.kfs.module.ld.businessobject.inquiry.AbstractLaborInquirableImpl;
 import org.kuali.kfs.module.ld.businessobject.inquiry.EmployeeFundingInquirableImpl;
 import org.kuali.kfs.module.ld.businessobject.inquiry.PositionDataDetailsInquirableImpl;
 import org.kuali.kfs.module.ld.service.LaborInquiryOptionsService;
@@ -66,7 +66,7 @@ public class EmployeeFundingLookupableHelperServiceImpl extends AbstractLookupab
     public HtmlData getInquiryUrl(BusinessObject bo, String propertyName) {
         if (KFSPropertyConstants.POSITION_NUMBER.equals(propertyName)) {
             EmployeeFunding employeeFunding = (EmployeeFunding) bo;
-            AbstractLaborInquirableImpl positionDataDetailsInquirable = new PositionDataDetailsInquirableImpl();
+            AbstractPositionDataDetailsInquirableImpl positionDataDetailsInquirable = new PositionDataDetailsInquirableImpl();
 
             Map<String, String> fieldValues = new HashMap<String, String>();
             fieldValues.put(propertyName, employeeFunding.getPositionNumber());
@@ -84,8 +84,8 @@ public class EmployeeFundingLookupableHelperServiceImpl extends AbstractLookupab
      */
     @Override
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
-        setBackLocation((String) fieldValues.get(KFSConstants.BACK_LOCATION));
-        setDocFormKey((String) fieldValues.get(KFSConstants.DOC_FORM_KEY));
+        setBackLocation(fieldValues.get(KFSConstants.BACK_LOCATION));
+        setDocFormKey(fieldValues.get(KFSConstants.DOC_FORM_KEY));
 
         boolean showBlankLine = this.showBlankLines(fieldValues);
         fieldValues.remove(Constant.BLANK_LINE_OPTION);

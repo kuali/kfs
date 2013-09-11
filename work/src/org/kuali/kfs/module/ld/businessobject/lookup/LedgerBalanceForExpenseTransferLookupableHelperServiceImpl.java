@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -27,8 +27,8 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kfs.integration.ld.SegmentedBusinessObject;
+import org.kuali.kfs.integration.ld.businessobject.inquiry.AbstractPositionDataDetailsInquirableImpl;
 import org.kuali.kfs.module.ld.businessobject.LedgerBalance;
-import org.kuali.kfs.module.ld.businessobject.inquiry.AbstractLaborInquirableImpl;
 import org.kuali.kfs.module.ld.businessobject.inquiry.LedgerBalanceForExpenseTransferInquirableImpl;
 import org.kuali.kfs.module.ld.businessobject.inquiry.PositionDataDetailsInquirableImpl;
 import org.kuali.kfs.sys.KFSConstants;
@@ -62,7 +62,7 @@ public abstract class LedgerBalanceForExpenseTransferLookupableHelperServiceImpl
     public HtmlData getInquiryUrl(BusinessObject bo, String propertyName) {
         if (KFSPropertyConstants.POSITION_NUMBER.equals(propertyName)) {
             LedgerBalance balance = (LedgerBalance) bo;
-            AbstractLaborInquirableImpl positionDataDetailsInquirable = new PositionDataDetailsInquirableImpl();
+            AbstractPositionDataDetailsInquirableImpl positionDataDetailsInquirable = new PositionDataDetailsInquirableImpl();
 
             Map<String, String> fieldValues = new HashMap<String, String>();
             fieldValues.put(propertyName, balance.getPositionNumber());
@@ -84,17 +84,18 @@ public abstract class LedgerBalanceForExpenseTransferLookupableHelperServiceImpl
 
     /**
      * This method performs the lookup and returns a collection of lookup items
-     * 
+     *
      * @param lookupForm
      * @param lookupable
      * @param resultTable
      * @param bounded
      * @return
-     * 
+     *
      * KRAD Conversion: Lookupable performs customization of the search results.
-     * 
+     *
      * Uses data dictionary for meta data.
      */
+    @Override
     public Collection performLookup(LookupForm lookupForm, Collection resultTable, boolean bounded) {
         Collection<BusinessObject> displayList;
 
@@ -115,7 +116,7 @@ public abstract class LedgerBalanceForExpenseTransferLookupableHelperServiceImpl
                 LOG.debug("Doing lookup for " + element.getClass());
             }
             BusinessObjectRestrictions businessObjectRestrictions = getBusinessObjectAuthorizationService().getLookupResultRestrictions(element, user);
-            String returnUrl = 
+            String returnUrl =
                 getReturnUrl(element, lookupForm, returnKeys, businessObjectRestrictions).constructCompleteHtmlTag();
 
             if (element instanceof PersistableBusinessObject) {
@@ -129,13 +130,13 @@ public abstract class LedgerBalanceForExpenseTransferLookupableHelperServiceImpl
                     for (String propertyName : ((SegmentedBusinessObject) element).getSegmentedPropertyNames()) {
                         columns.add(setupResultsColumn(element, propertyName, businessObjectRestrictions));
                     }
-                    
+
                     row.setObjectId(((PersistableBusinessObject) element).getObjectId());
                     resultTable.add(row);
                 }
                 else {
                     Collection<Column> columns = getColumns(element, businessObjectRestrictions);
-                    
+
                     ResultRow row = new ResultRow((List<Column>) columns, returnUrl, getActionUrls(element, pkNames, businessObjectRestrictions));
                     row.setObjectId(((PersistableBusinessObject) element).getObjectId());
                     resultTable.add(row);
@@ -150,9 +151,9 @@ public abstract class LedgerBalanceForExpenseTransferLookupableHelperServiceImpl
      * @param element
      * @param attributeName
      * @return Column
-     * 
+     *
      * KRAD Conversion: Performs customization of the results columns.
-     * 
+     *
      * Uses data dictionary to get column properties.
      */
     protected Column setupResultsColumn(BusinessObject element, String attributeName, BusinessObjectRestrictions businessObjectRestrictions) {
@@ -232,12 +233,12 @@ public abstract class LedgerBalanceForExpenseTransferLookupableHelperServiceImpl
 
     /**
      * Constructs the list of columns for the search results. All properties for the column objects come from the DataDictionary.
-     * 
+     *
      * @param bo
      * @return Collection<Column>
-     * 
+     *
      * KRAD Conversion: Performs customization of the columns.
-     * 
+     *
      * No uses data dictionary.
      */
     protected Collection<Column> getColumns(BusinessObject bo, BusinessObjectRestrictions businessObjectRestrictions) {

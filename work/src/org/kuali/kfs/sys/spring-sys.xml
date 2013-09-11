@@ -1123,6 +1123,7 @@
    		<property name="businessObjectService" ref="businessObjectService"/>
    		<property name="parameterService" ref="parameterService"/>
    		<property name="configurationService" ref="kualiConfigurationService" />
+   		<property name="htmlMessage" value="false" />
    </bean>
     
     <bean id="customEditorConfigurer" 

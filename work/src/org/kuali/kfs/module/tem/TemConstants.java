@@ -247,7 +247,6 @@ public class TemConstants {
         public static final String DISPLAY_ENCUMBRANCE_IND = "DISPLAY_ENCUMBRANCE_IND";
         public static final String DISPLAY_ADVANCES_IN_REIMBURSEMENT_TOTAL_IND = "DISPLAY_ADVANCES_IN_REIMBURSEMENT_TOTAL_IND";
         public static final String TRAVEL_PAYMENT_MEDIUM = "TRAVEL_PAYMENT_MEDIUM_TYPE_CODE";
-        public static final String TRAVEL_AUTHORIZATION_REQUIRED_IND = "TRAVEL_AUTHORIZATION_REQUIRED_IND";
         public static final String PER_DIEM_OBJECT_CODE = "PER_DIEM_OBJECT_CODE";
         public static final String LODGING_OBJECT_CODE = "LODGING_OBJECT_CODE";
         public static final String DEFAULT_CHART = "DEFAULT_CHART";

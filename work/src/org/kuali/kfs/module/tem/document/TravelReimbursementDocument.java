@@ -15,8 +15,6 @@
  */
 package org.kuali.kfs.module.tem.document;
 
-import static org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters.TRAVEL_AUTHORIZATION_REQUIRED_IND;
-
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
@@ -33,12 +31,12 @@ import org.apache.log4j.Logger;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.gl.service.EncumbranceService;
 import org.kuali.kfs.module.tem.TemConstants;
+import org.kuali.kfs.module.tem.TemParameterConstants;
+import org.kuali.kfs.module.tem.TemWorkflowConstants;
 import org.kuali.kfs.module.tem.TemConstants.TravelDocTypes;
 import org.kuali.kfs.module.tem.TemConstants.TravelParameters;
 import org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters;
 import org.kuali.kfs.module.tem.TemConstants.TravelReimbursementStatusCodeKeys;
-import org.kuali.kfs.module.tem.TemParameterConstants;
-import org.kuali.kfs.module.tem.TemWorkflowConstants;
 import org.kuali.kfs.module.tem.businessobject.ActualExpense;
 import org.kuali.kfs.module.tem.businessobject.TravelAdvance;
 import org.kuali.kfs.module.tem.businessobject.TripType;
@@ -263,11 +261,6 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
     public void toCopy() throws WorkflowException {
         super.toCopy();
 
-        //TODO?? super class already performed the cleanTravelDocument, this part seems to do nothing (unless it is moved to the base)
-        final boolean isTaRequired = getParameterService().getParameterValueAsBoolean(TravelReimbursementDocument.class, TRAVEL_AUTHORIZATION_REQUIRED_IND);
-        if (!isTaRequired) {
-            cleanTravelDocument();
-        }
         getNotes().clear();
         addContactInformation();
     }

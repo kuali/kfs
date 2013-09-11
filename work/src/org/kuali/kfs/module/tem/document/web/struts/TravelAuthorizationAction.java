@@ -25,6 +25,7 @@ import static org.kuali.kfs.sys.KFSPropertyConstants.NEW_SOURCE_LINE;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -37,10 +38,12 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.module.purap.SingleConfirmationQuestion;
 import org.kuali.kfs.module.tem.TemConstants;
+import org.kuali.kfs.module.tem.TemKeyConstants;
+import org.kuali.kfs.module.tem.TemParameterConstants;
+import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationParameters;
 import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationStatusCodeKeys;
-import org.kuali.kfs.module.tem.TemKeyConstants;
-import org.kuali.kfs.module.tem.TemPropertyConstants;
+import org.kuali.kfs.module.tem.TemConstants.TravelParameters;
 import org.kuali.kfs.module.tem.businessobject.TemSourceAccountingLine;
 import org.kuali.kfs.module.tem.businessobject.TravelerDetailEmergencyContact;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationAmendmentDocument;
@@ -65,8 +68,10 @@ import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.kns.web.struts.form.BlankFormFile;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
+import org.kuali.rice.kns.web.struts.form.KualiForm;
 import org.kuali.rice.krad.bo.AdHocRouteRecipient;
 import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.dao.DocumentDao;
@@ -161,6 +166,8 @@ public class TravelAuthorizationAction extends TravelActionBase {
         if (travelAuthDocument.getTravelAdvances() != null && !travelAuthDocument.getTravelAdvances().isEmpty()) {
             authForm.setShowTravelAdvancesForTrip(true);
         }
+
+        setTabStateForEmergencyContacts(authForm);
 
         return retval;
     }
@@ -1095,6 +1102,24 @@ public class TravelAuthorizationAction extends TravelActionBase {
         }
 
         return mapping.findForward(RiceConstants.MAPPING_BASIC);
+    }
+
+    protected void setTabStateForEmergencyContacts(TravelAuthorizationForm form) {
+        TravelAuthorizationDocument travelAuthDocument = (TravelAuthorizationDocument) form.getDocument();
+
+        boolean openTab = false;
+        Collection<String> internationalTrips = getParameterService().getParameterValuesAsString(TemParameterConstants.TEM_DOCUMENT.class, TravelParameters.INTERNATIONAL_TRIP_TYPES);
+        if (travelAuthDocument.getTripTypeCode() != null) {
+            if (internationalTrips.contains(travelAuthDocument.getTripTypeCode())){
+                openTab = true;
+            }
+
+            if (openTab) {
+                String tabKey = WebUtils.generateTabKey(TemConstants.TabTitles.EMERGENCY_CONTACT_INFORMATION_TAB_TITLE);
+                form.getTabStates().put(tabKey, KualiForm.TabState.OPEN.name());
+            }
+        }
+        return;
     }
 
     /**

@@ -929,4 +929,8 @@ public class TemConstants {
             this.value = value;
         }
     }
+
+    public static class TabTitles {
+        public static final String EMERGENCY_CONTACT_INFORMATION_TAB_TITLE = "Emergency Contact Information";
+    }
 }

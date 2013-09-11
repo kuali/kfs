@@ -43,12 +43,12 @@ import org.apache.log4j.Logger;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomer;
 import org.kuali.kfs.module.tem.TemConstants;
-import org.kuali.kfs.module.tem.TemKeyConstants;
-import org.kuali.kfs.module.tem.TemParameterConstants;
-import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.TemConstants.ExpenseType;
 import org.kuali.kfs.module.tem.TemConstants.TravelDocTypes;
 import org.kuali.kfs.module.tem.TemConstants.TravelParameters;
+import org.kuali.kfs.module.tem.TemKeyConstants;
+import org.kuali.kfs.module.tem.TemParameterConstants;
+import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.businessobject.ActualExpense;
 import org.kuali.kfs.module.tem.businessobject.ClassOfService;
 import org.kuali.kfs.module.tem.businessobject.ExpenseTypeObjectCode;
@@ -1213,10 +1213,11 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
                 setTemProfileId(temProfile.getProfileId());
             }
 
-            if (traveler != null) {
-                traveler.setDocumentNumber(this.documentNumber);
-                getTravelerService().convertTEMProfileToTravelerDetail(temProfile,(traveler == null?new TravelerDetail():traveler));
+            if (traveler == null) {
+                setTraveler(new TravelerDetail());
             }
+            traveler.setDocumentNumber(this.documentNumber);
+            getTravelerService().convertTEMProfileToTravelerDetail(temProfile,(traveler == null?new TravelerDetail():traveler));
         }
     }
 
@@ -1861,6 +1862,13 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
         //pre filled descriptions
         getDocumentHeader().setDocumentDescription(TemConstants.PRE_FILLED_DESCRIPTION);
 
+        Person currentUser = GlobalVariables.getUserSession().getPerson();
+        if (!getTemRoleService().isTravelArranger(currentUser)) {
+            TEMProfile temProfile = getTemProfileService().findTemProfileByPrincipalId(currentUser.getPrincipalId());
+            if (temProfile != null) {
+                setTemProfile(temProfile);
+            }
+        }
     }
 
     /**

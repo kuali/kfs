@@ -5,4 +5,4 @@ KFS10250,KFS-TEM-TYP-003,1,TEM Profile Organization Hierarchy,temProfileOrganiza
 KFS10251,KFS-TEM-TYP-004,1,TEM Profile Arranger Organization Hierarchy,temProfileArrangerOrganizationHierarchyRoleTypeService,Y,KFS-TEM
 KFS10252,KFS-TEM-TYP-005,1,Derived Role: TEM Profile Arranger,arrangerDerivedRoleTypeService,Y,KFS-TEM
 KFS10254,KFS-TEM-TYP-007,1,Job Classification,temExecutiveManagerRoleTypeService,Y,KFS-TEM
-KFS10681,KFS-TEM-TYP-008,1,,"Chart, Organization, and Reimburesment Overage Percentage",reimbursementOverageOrganizationHierarchyRoleTypeService,Y,KFS-TEM
+KFS10681,KFS-TEM-TYP-008,1,"Chart, Organization, and Reimburesment Overage Percentage",reimbursementOverageOrganizationHierarchyRoleTypeService,Y,KFS-TEM

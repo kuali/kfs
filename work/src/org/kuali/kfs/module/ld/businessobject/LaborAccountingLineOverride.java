@@ -18,10 +18,12 @@ package org.kuali.kfs.module.ld.businessobject;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.kuali.kfs.integration.ld.LaborModuleService;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.AccountingLineOverride;
 import org.kuali.kfs.sys.businessobject.AccountingLineOverride.COMPONENT;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
+import org.kuali.kfs.sys.context.SpringContext;
 
 /**
  * Labor business object for Labor Accounting Line Override
@@ -85,18 +87,7 @@ public class LaborAccountingLineOverride {
      * @return what overrides the given line needs.
      */
     public static AccountingLineOverride determineNeededOverrides(AccountingLine line) {
-        Set<Integer> neededOverrideComponents = new HashSet<Integer>();
-        if (AccountingLineOverride.needsExpiredAccountOverride(line.getAccount())) {
-            neededOverrideComponents.add(COMPONENT.EXPIRED_ACCOUNT);
-        }
-        if (AccountingLineOverride.needsObjectBudgetOverride(line.getAccount(), line.getObjectCode())) {
-            neededOverrideComponents.add(COMPONENT.NON_BUDGETED_OBJECT);
-        }
-        if (AccountingLineOverride.needsNonFringAccountOverride(line.getAccount())) {
-            neededOverrideComponents.add(COMPONENT.NON_FRINGE_ACCOUNT_USED);
-        }
-        Integer[] inputComponentArray = neededOverrideComponents.toArray(new Integer[neededOverrideComponents.size()]);
-
-        return AccountingLineOverride.valueOf(inputComponentArray);
+        LaborModuleService laborModuleService = SpringContext.getBean(LaborModuleService.class);
+        return laborModuleService.determineNeededOverrides(line);
     }
 }

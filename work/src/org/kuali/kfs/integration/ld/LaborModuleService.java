@@ -22,6 +22,8 @@ import java.util.Set;
 
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.gl.businessobject.Entry;
+import org.kuali.kfs.sys.businessobject.AccountingLine;
+import org.kuali.kfs.sys.businessobject.AccountingLineOverride;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.lookup.HtmlData;
@@ -190,9 +192,12 @@ public interface LaborModuleService {
      * @return the inquiry HtmlData for the given general ledger entry
      */
     public HtmlData getInquiryUrlForGeneralLedgerEntryDocumentNumber(Entry entry);
-    
+
     public String getBenefitRateCategoryCode(String chartOfAccountsCode, String accountNumber, String subAccountNumber);
     public String getCostSharingSourceAccountNumber();
     public String getCostSharingSourceSubAccountNumber();
     public String getCostSharingSourceChartOfAccountsCode();
+
+    public AccountingLineOverride determineNeededOverrides(AccountingLine line);
+
 }

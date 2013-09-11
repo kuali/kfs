@@ -74,6 +74,7 @@
 			<active>
 				true
             </active>
+            <authorizer>org.kuali.kfs.module.tem.document.authorization.TravelWorkflowDocumentAuthorizer</authorizer>
 			<routingVersion>
 				2
             </routingVersion>

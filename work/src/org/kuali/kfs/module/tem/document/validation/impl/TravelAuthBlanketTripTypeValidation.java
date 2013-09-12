@@ -21,6 +21,7 @@ import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public class TravelAuthBlanketTripTypeValidation extends GenericValidation {
 
@@ -29,16 +30,16 @@ public class TravelAuthBlanketTripTypeValidation extends GenericValidation {
     public boolean validate(AttributedDocumentEvent event) {
         boolean rulePassed = true;
         TravelAuthorizationDocument taDocument = (TravelAuthorizationDocument)event.getDocument();
-        if (taDocument.getTripType() != null) {
+        if (!ObjectUtils.isNull(taDocument.getTripType())) {
             if (taDocument.getTripType().isBlanketTravel()) {
              // If the user selects Blanket Trip Type, airfare amount and the Trip Detail Estimate should not be completed. (Note:
                 // Blanket Travel implies in-state travel)
-                if (taDocument.getPerDiemExpenses() != null && taDocument.getPerDiemExpenses().size() > 0) {
+                if (!ObjectUtils.isNull(taDocument.getPerDiemExpenses()) && !taDocument.getPerDiemExpenses().isEmpty()) {
                     GlobalVariables.getMessageMap().putError(TemPropertyConstants.PER_DIEM_EXP, TemKeyConstants.ERROR_TA_BLANKET_TYPE_NO_ESTIMATE);
                     taDocument.logErrors();
                     rulePassed = false;
                 }
-                if (taDocument.getActualExpenses() != null && taDocument.getActualExpenses().size() > 0) {
+                if (!ObjectUtils.isNull(taDocument.getActualExpenses()) && !taDocument.getActualExpenses().isEmpty()) {
                     GlobalVariables.getMessageMap().putError(TemPropertyConstants.NEW_ACTUAL_EXPENSE_LINE, TemKeyConstants.ERROR_TA_BLANKET_TYPE_NO_EXPENSES);
                     taDocument.logErrors();
                     rulePassed = false;
@@ -48,5 +49,4 @@ public class TravelAuthBlanketTripTypeValidation extends GenericValidation {
 
         return rulePassed;
     }
-
 }

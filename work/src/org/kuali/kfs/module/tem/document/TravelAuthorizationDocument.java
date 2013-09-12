@@ -151,6 +151,8 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
         getAdvanceTravelPayment().setDocumentationLocationCode(getParameterService().getParameterValueAsString(TravelAuthorizationDocument.class, TravelParameters.DOCUMENTATION_LOCATION_CODE,
                 getParameterService().getParameterValueAsString(TemParameterConstants.TEM_DOCUMENT.class,TravelParameters.DOCUMENTATION_LOCATION_CODE)));
         getAdvanceTravelPayment().setCheckStubText(getConfigurationService().getPropertyValueAsString(TemKeyConstants.MESSAGE_TA_ADVANCE_PAYMENT_HOLD_TEXT));
+        final java.sql.Date currentDate = getDateTimeService().getCurrentSqlDate();
+        getAdvanceTravelPayment().setDueDate(currentDate);
         updatePayeeTypeForAuthorization(); // if the traveler is already initialized, set up payee type on advance travel payment
         setWireTransfer(new PaymentSourceWireTransfer());
         getWireTransfer().setDocumentNumber(getDocumentNumber());

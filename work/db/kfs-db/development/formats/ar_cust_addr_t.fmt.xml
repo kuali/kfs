@@ -14,5 +14,9 @@
   <Field name="cust_intl_mail_cd"               type="string"     nullable="true"  trim="false" delimiter="|"  />
   <Field name="cust_email_addr"                 type="string"     nullable="true"  trim="false" delimiter="|"  />
   <Field name="cust_addr_type_cd"               type="string"     nullable="true"  trim="false" delimiter="|"  />
-  <Field name="cust_addr_end_dt"                type="date"       nullable="true"  trim="false" delimiter="|\r\n" format="yyyyMMddHHmmss" />
+  <Field name="cust_addr_end_dt"                type="date"       nullable="true"  trim="false" delimiter="|"  format="yyyyMMddHHmmss" />
+  <Field name="inv_typ_cd"                      type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="cp_to_prnt"                      type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="inv_ind_cd"                      type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="prnt_env_nbr"                    type="string"     nullable="true"  trim="false" delimiter="|\r\n" />
 </Record>

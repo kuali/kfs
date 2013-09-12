@@ -993,6 +993,10 @@
         <column name="CUST_EMAIL_ADDR" size="60" type="VARCHAR"/>
         <column name="CUST_ADDR_TYPE_CD" size="2" type="VARCHAR"/>
         <column name="CUST_ADDR_END_DT" type="DATE"/>
+        <column name="INV_TYP_CD" size="10" type="VARCHAR"/>
+        <column name="CP_TO_PRNT" size="5" type="VARCHAR"/>
+        <column name="INV_IND_CD" size="10" type="VARCHAR"/>
+        <column name="PRNT_ENV_NBR" size="5" type="VARCHAR"/>
         <foreign-key foreignTable="AR_CUST_ADDR_TYP_T" name="AR_CUST_ADDR_TR1">
             <reference foreign="CUST_ADDR_TYPE_CD" local="CUST_ADDR_TYPE_CD"/>
         </foreign-key>
@@ -1719,6 +1723,40 @@
             <unique-column name="LTRCR_RVW_DTL_ID"/>
         </unique>
         <unique name="SYS_C0010103049">
+            <unique-column name="OBJ_ID"/>
+        </unique>
+    </table>
+    <table name="AR_MLSTN_SCHDL_T">
+        <column default="0" name="PRPSL_NBR" primaryKey="true" size="12" type="DECIMAL"/>
+        <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
+        <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
+        <column name="TOT_AMT_SCHDL" scale="2" size="19" type="DECIMAL"/>
+        <column name="TOT_AWD_REMNG" scale="2" size="19" type="DECIMAL"/>
+        <foreign-key foreignTable="CG_AWD_T" name="CG_MLSTN_SCHDL_FK1">
+            <reference foreign="CGPRPSL_NBR" local="PRPSL_NBR"/>
+        </foreign-key>
+        <unique name="SYS_C0010102934">
+            <unique-column name="OBJ_ID"/>
+        </unique>
+    </table>
+    <table name="AR_MLSTN_T">
+        <column default="0" name="MLSTN_ID" primaryKey="true" size="12" type="DECIMAL"/>
+        <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
+        <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
+        <column name="MLSTN_DESC" size="45" type="VARCHAR"/>
+        <column name="MLSTN_AMT" scale="2" size="19" type="DECIMAL"/>
+        <column name="IS_IT_BLD" size="5" type="VARCHAR"/>
+        <column default="0" name="MLSTN_NBR" size="12" type="DECIMAL"/>
+        <column default="0" name="PRPSL_NBR" primaryKey="true" size="12" type="DECIMAL"/>
+        <column name="MLSTN_COMPLTN_DT" type="TIMESTAMP"/>
+        <column name="MLSTN_EXPCTD_COMPLTN_DT" type="TIMESTAMP"/>
+        <foreign-key foreignTable="CG_AWD_T" name="CG_MLSTN_FK1">
+            <reference foreign="CGPRPSL_NBR" local="PRPSL_NBR"/>
+        </foreign-key>
+        <foreign-key foreignTable="AR_MLSTN_SCHDL_T" name="CG_MLSTN_FK2">
+            <reference foreign="PRPSL_NBR" local="PRPSL_NBR"/>
+        </foreign-key>
+        <unique name="SYS_C0010102914">
             <unique-column name="OBJ_ID"/>
         </unique>
     </table>
@@ -4496,40 +4534,6 @@
         <foreign-key foreignTable="CG_LTRCR_FNDGRP_T" name="CG_LTRCR_FND_FK">
             <reference foreign="CG_LTRCR_FNDGRP_CD" local="CG_LTRCR_FNDGRP_CD"/>
         </foreign-key>
-    </table>
-    <table name="CG_MLSTN_SCHDL_T">
-        <column default="0" name="CGPRPSL_NBR" primaryKey="true" size="12" type="DECIMAL"/>
-        <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
-        <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
-        <column name="TOT_AMT_SCHDL" scale="2" size="19" type="DECIMAL"/>
-        <column name="TOT_AWD_REMNG" scale="2" size="19" type="DECIMAL"/>
-        <foreign-key foreignTable="CG_AWD_T" name="CG_MLSTN_SCHDL_FK1">
-            <reference foreign="CGPRPSL_NBR" local="CGPRPSL_NBR"/>
-        </foreign-key>
-        <unique name="SYS_C0010102934">
-            <unique-column name="OBJ_ID"/>
-        </unique>
-    </table>
-    <table name="CG_MLSTN_T">
-        <column default="0" name="MLSTN_ID" primaryKey="true" size="12" type="DECIMAL"/>
-        <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
-        <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
-        <column name="MLSTN_DESC" size="45" type="VARCHAR"/>
-        <column name="MLSTN_AMT" scale="2" size="19" type="DECIMAL"/>
-        <column name="IS_IT_BLD" size="5" type="VARCHAR"/>
-        <column default="0" name="MLSTN_NBR" size="12" type="DECIMAL"/>
-        <column default="0" name="CGPRPSL_NBR" primaryKey="true" size="12" type="DECIMAL"/>
-        <column name="MLSTN_COMPLTN_DT" type="TIMESTAMP"/>
-        <column name="MLSTN_EXPCTD_COMPLTN_DT" type="TIMESTAMP"/>
-        <foreign-key foreignTable="CG_AWD_T" name="CG_MLSTN_FK1">
-            <reference foreign="CGPRPSL_NBR" local="CGPRPSL_NBR"/>
-        </foreign-key>
-        <foreign-key foreignTable="CG_MLSTN_SCHDL_T" name="CG_MLSTN_FK2">
-            <reference foreign="CGPRPSL_NBR" local="CGPRPSL_NBR"/>
-        </foreign-key>
-        <unique name="SYS_C0010102914">
-            <unique-column name="OBJ_ID"/>
-        </unique>
     </table>
     <table name="CG_PRPSL_AWD_TYP_T">
         <column name="CGPRPSL_AWD_TYP_CD" primaryKey="true" size="1" type="VARCHAR"/>

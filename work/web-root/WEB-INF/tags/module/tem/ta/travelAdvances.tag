@@ -20,7 +20,7 @@
 <c:set var="docType" value="${KualiForm.document.dataDictionaryEntry.documentTypeName }" />
 <c:set var="policyDisabled" value="${!KualiForm.waitingOnTraveler && !fullEntryMode}" />
 
-<kul:tab tabTitle="Travel Advances" defaultOpen="${fn:length(KualiForm.document.travelAdvances) > 0}" tabErrorKey="${TemKeyConstants.TRVL_AUTH_TRVL_ADVANCE_ERRORS}">
+<kul:tab tabTitle="Travel Advances" defaultOpen="${fn:length(KualiForm.document.travelAdvances) > 0}">
 	<div class="tab-container" align="left">
 		<h3>Travel Advances</h3>
 		<c:if

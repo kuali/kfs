@@ -159,11 +159,7 @@ public class TravelAuthTravelAdvanceValidation extends GenericValidation {
     protected boolean validateDueDate(TravelAdvance advance, Timestamp tripEnd) {
         boolean success = true;
 
-        if (advance.getDueDate() == null) {
-            GlobalVariables.getMessageMap().putError(TravelAuthorizationFields.TRVL_ADV_DUE_DATE, TemKeyConstants.ERROR_TA_TRVL_ADV_DUE_DATE_MISSING);
-            success = false;
-        }
-        else {
+        if (advance.getDueDate() != null) {
             Date dueDate = KfsDateUtils.clearTimeFields(advance.getDueDate());
             Date today = KfsDateUtils.clearTimeFields(new Date());
 

@@ -69,7 +69,8 @@ public class TemKeyConstants {
     public static final String MESSAGE_DOCUMENT_VENDOR_PAYMENT_LINK = "message.document.vendor.payment.link";
 
     // errors
-    public static final String TRVL_AUTH_TRVL_ADVANCE_ERRORS = "document.travelAdvance*,travelAdvance.*,advanceAccountingLines*,advanceTravelPayment.*,document.advanceTravelPayment.*,document.advanceAccountingLines*,newAdvanceAccountingLine*";
+    public static final String TRVL_AUTH_TRVL_ADVANCE_ERRORS = "document.travelAdvance*,travelAdvance.*";
+    public static final String TRVL_AUTH_ADV_ACCT_LINES_ERRORS = "advanceAccountingLines*,document.advanceAccountingLines*,newAdvanceAccountingLine*";
 
     public static final String TRVL_AUTH_TRIP_OVERVIEW_ERRORS = "tripInfoUpdateTripDetails.*,document.tripBegin,document.tripEnd,document.tripTypeCode,document.primaryDestinationName," +
                                                                 "document.travelerTypeCode,document.firstName,document.lastName,document.streetAddressLine1,"+
@@ -108,7 +109,6 @@ public class TemKeyConstants {
     public static final String ERROR_TA_TRVL_ADV_DUE_DATE_INVALID = "error.document.tem.travel.advance.due.date.invalid";
     public static final String ERROR_TA_TRVL_ADV_POLICY = "error.document.tem.travel.advance.policy";
     public static final String ERROR_TA_TRVL_ADV_ADD_JUST = "error.document.tem.travel.advance.additional.justification";
-    public static final String ERROR_TA_TRVL_ADV_DUE_DATE_MISSING = "error.document.tem.travel.advance.due.date.missing";
     public static final String ERROR_TA_TRIP_BEGIN_EMPTY = "error.document.tem.tripBeginEmpty";
     public static final String ERROR_TA_TRIP_END_EMPTY= "error.document.tem.tripEndEmpty";
     public static final String ERROR_TA_TRIP_TYPE_CD_EMPTY = "error.document.tem.tripTypeCodeEmpty";

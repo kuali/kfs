@@ -227,7 +227,7 @@
 	<bean id="TravelAuthorizationDocument-travelAdvanceAndPaymentValidation-parentBean" abstract="true" parent="CompositeValidation">
 		<property name="validations">
 			<list>
-				<bean parent="AccountingDocument-businessObjectDataDictionaryValidation">
+				<bean parent="AccountingDocument-businessObjectDataDictionaryValidation" p:attemptDeterminationOfErrorPrefix="true">
 					<property name="parameterProperties">
 						<list>
 								<bean parent="validationFieldConversion" p:sourceEventProperty="document.travelAdvance" p:targetValidationProperty="businessObjectForValidation"/>

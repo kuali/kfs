@@ -32,8 +32,8 @@ import org.kuali.kfs.pdp.businessobject.PaymentDetail;
 import org.kuali.kfs.pdp.service.PaymentDetailService;
 import org.kuali.kfs.pdp.service.PaymentGroupService;
 import org.kuali.kfs.sys.KFSParameterKeyConstants;
-import org.kuali.kfs.sys.batch.service.PaymentSourceExtractionService;
 import org.kuali.kfs.sys.document.PaymentSource;
+import org.kuali.kfs.sys.document.service.PaymentSourceHelperService;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
@@ -53,7 +53,7 @@ public class ProcessPdpCancelPaidServiceImpl implements ProcessPdpCancelPaidServ
     protected ParameterService parameterService;
     protected DateTimeService dateTimeService;
     protected PurchasingAccountsPayableModuleService purchasingAccountsPayableModuleService;
-    protected PaymentSourceExtractionService paymentSourceExtractService;
+    protected PaymentSourceHelperService paymentSourceHelperService;
     protected DocumentService documentService;
 
     protected volatile Set<String> paymentSourceCheckACHDocumentTypes;
@@ -93,9 +93,9 @@ public class ProcessPdpCancelPaidServiceImpl implements ProcessPdpCancelPaidServ
                     PaymentSource dv = (PaymentSource)getDocumentService().getByDocumentHeaderId(documentNumber);
                     if (dv != null) {
                         if (disbursedPayment || primaryCancel) {
-                            paymentSourceExtractService.cancelExtractedPaymentSource(dv, processDate);
+                            getPaymentSourceHelperService().cancelExtractedPaymentSource(dv, processDate);
                         } else {
-                            paymentSourceExtractService.resetExtractedPaymentSource(dv, processDate);
+                            getPaymentSourceHelperService().resetExtractedPaymentSource(dv, processDate);
                         }
                     }
                 } catch (WorkflowException we) {
@@ -141,7 +141,7 @@ public class ProcessPdpCancelPaidServiceImpl implements ProcessPdpCancelPaidServ
             else if (getPaymentSourceCheckACHDocumentTypes().contains(documentTypeCode)) {
                 try {
                     PaymentSource dv = (PaymentSource)getDocumentService().getByDocumentHeaderId(documentNumber);
-                    paymentSourceExtractService.markPaymentSourceAsPaid(dv, processDate);
+                    getPaymentSourceHelperService().markPaymentSourceAsPaid(dv, processDate);
                 } catch (WorkflowException we) {
                     throw new RuntimeException("Could not retrieve document #"+documentNumber, we);
                 }
@@ -197,14 +197,6 @@ public class ProcessPdpCancelPaidServiceImpl implements ProcessPdpCancelPaidServ
     }
 
     /**
-     * Sets the paymentSourceExtractService attribute value.
-     * @param paymentSourceExtractService The paymentSourceExtractService to set.
-     */
-    public void setPaymentSourceExtractService(PaymentSourceExtractionService dvExtractService) {
-        this.paymentSourceExtractService = dvExtractService;
-    }
-
-    /**
      * @return the implementation of the DocumentService to use
      */
     public DocumentService getDocumentService() {
@@ -219,4 +211,18 @@ public class ProcessPdpCancelPaidServiceImpl implements ProcessPdpCancelPaidServ
         this.documentService = documentService;
     }
 
+    /**
+     * @return an implementation of the PaymentSourceHelperService
+     */
+    public PaymentSourceHelperService getPaymentSourceHelperService() {
+        return paymentSourceHelperService;
+    }
+
+    /**
+     * Sets the implementation of the PaymentSourceHelperService for this service to use
+     * @param paymentSourceHelperService an implementation of PaymentSourceHelperService
+     */
+    public void setPaymentSourceHelperService(PaymentSourceHelperService paymentSourceHelperService) {
+        this.paymentSourceHelperService = paymentSourceHelperService;
+    }
 }

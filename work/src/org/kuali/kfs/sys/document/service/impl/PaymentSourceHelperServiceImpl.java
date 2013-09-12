@@ -18,34 +18,42 @@ package org.kuali.kfs.sys.document.service.impl;
 import static org.kuali.kfs.sys.KFSConstants.GL_CREDIT_CODE;
 import static org.kuali.kfs.sys.KFSConstants.GL_DEBIT_CODE;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.WordUtils;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
-import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
-import org.kuali.kfs.pdp.PdpPropertyConstants;
+import org.kuali.kfs.pdp.PdpParameterConstants;
+import org.kuali.kfs.pdp.businessobject.PaymentNoteText;
 import org.kuali.kfs.pdp.businessobject.PurchasingPaymentDetail;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
-import org.kuali.kfs.sys.KFSParameterKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.businessobject.WireCharge;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.PaymentSource;
 import org.kuali.kfs.sys.document.service.AccountingDocumentRuleHelperService;
 import org.kuali.kfs.sys.document.service.PaymentSourceHelperService;
+import org.kuali.kfs.sys.document.validation.event.AccountingDocumentSaveWithNoLedgerEntryGenerationEvent;
 import org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBaseConstants.GENERAL_LEDGER_PENDING_ENTRY_CODE;
 import org.kuali.kfs.sys.service.BankService;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.sys.service.HomeOriginationService;
 import org.kuali.kfs.sys.service.OptionsService;
 import org.kuali.kfs.sys.service.UniversityDateService;
+import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiInteger;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.krad.util.UrlFactory;
 
 public class PaymentSourceHelperServiceImpl implements PaymentSourceHelperService {
@@ -58,6 +66,9 @@ public class PaymentSourceHelperServiceImpl implements PaymentSourceHelperServic
     protected AccountingDocumentRuleHelperService accountingDocumentRuleHelperService;
     protected ParameterService parameterService;
     protected ConfigurationService configurationService;
+    protected DocumentService documentService;
+    protected OptionsService optionsService;
+    protected HomeOriginationService homeOriginationService;
 
     /**
      * Retrieves the wire transfer information for the current fiscal year.
@@ -98,10 +109,10 @@ public class PaymentSourceHelperServiceImpl implements PaymentSourceHelperServic
         explicitEntry.setFinancialSubObjectCode(GENERAL_LEDGER_PENDING_ENTRY_CODE.getBlankFinancialSubObjectCode());
         explicitEntry.setTransactionDebitCreditCode(GL_DEBIT_CODE);
 
-        String objectTypeCode = SpringContext.getBean(OptionsService.class).getCurrentYearOptions().getFinObjTypeExpenditureexpCd();
+        String objectTypeCode = getOptionsService().getCurrentYearOptions().getFinObjTypeExpenditureexpCd();
         explicitEntry.setFinancialObjectTypeCode(objectTypeCode);
 
-        String originationCode = SpringContext.getBean(HomeOriginationService.class).getHomeOrigination().getFinSystemHomeOriginationCode();
+        String originationCode = getHomeOriginationService().getHomeOrigination().getFinSystemHomeOriginationCode();
         explicitEntry.setFinancialSystemOriginationCode(originationCode);
 
         if (KFSConstants.COUNTRY_CODE_UNITED_STATES.equals(paymentSource.getWireTransfer().getBankCountryCode())) {
@@ -244,7 +255,6 @@ public class PaymentSourceHelperServiceImpl implements PaymentSourceHelperServic
     @Override
     public String getDisbursementInfoUrl() {
         final String basePath = getConfigurationService().getPropertyValueAsString(KFSConstants.APPLICATION_URL_KEY);
-        final String orgCode = getParameterService().getParameterValueAsString(DisbursementVoucherDocument.class, KFSParameterKeyConstants.PdpExtractBatchParameters.PDP_SBUNT_CODE);
 
         Properties parameters = new Properties();
         parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.SEARCH_METHOD);
@@ -252,12 +262,219 @@ public class PaymentSourceHelperServiceImpl implements PaymentSourceHelperServic
         parameters.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, PurchasingPaymentDetail.class.getName());
         parameters.put(KFSConstants.HIDE_LOOKUP_RETURN_LINK, "true");
         parameters.put(KFSConstants.SUPPRESS_ACTIONS, "false");
-        parameters.put(PdpPropertyConstants.PaymentDetail.PAYMENT_UNIT_CODE, orgCode);
 
         String lookupUrl = UrlFactory.parameterizeUrl(basePath + "/" + KFSConstants.LOOKUP_ACTION, parameters);
 
         return lookupUrl;
     }
+    /**
+    *
+    * @see org.kuali.kfs.sys.batch.service.PaymentSourceExtractionService#buildNoteForCheckStubText(java.lang.String)
+    */
+   @Override
+   public PaymentNoteText buildNoteForCheckStubText(String text, int previousLineCount) {
+       PaymentNoteText pnt = null;
+       final String maxNoteLinesParam = parameterService.getParameterValueAsString(KfsParameterConstants.PRE_DISBURSEMENT_ALL.class, PdpParameterConstants.MAX_NOTE_LINES);
+
+       int maxNoteLines;
+       try {
+           maxNoteLines = Integer.parseInt(maxNoteLinesParam);
+       }
+       catch (NumberFormatException nfe) {
+           throw new IllegalArgumentException("Invalid Max Notes Lines parameter, value: "+maxNoteLinesParam+" cannot be converted to an integer");
+       }
+
+       // The WordUtils should be sufficient for the majority of cases.  This method will
+       // word wrap the whole string based on the MAX_NOTE_LINE_SIZE, separating each wrapped
+       // word by a newline character.  The 'wrap' method adds line feeds to the end causing
+       // the character length to exceed the max length by 1, hence the need for the replace
+       // method before splitting.
+       String   wrappedText = WordUtils.wrap(text, KFSConstants.MAX_NOTE_LINE_SIZE);
+       String[] noteLines   = wrappedText.replaceAll("[\r]", "").split("\\n");
+
+       // Loop through all the note lines.
+       for (String noteLine : noteLines) {
+           if (previousLineCount < (maxNoteLines - 3) && !StringUtils.isEmpty(noteLine)) {
+
+               // This should only happen if we encounter a word that is greater than the max length.
+               // The only concern I have for this occurring is with URLs/email addresses.
+               if (noteLine.length() >KFSConstants.MAX_NOTE_LINE_SIZE) {
+                   for (String choppedWord : chopWord(noteLine, KFSConstants.MAX_NOTE_LINE_SIZE)) {
+
+                       // Make sure we're still under the maximum number of note lines.
+                       if (previousLineCount < (maxNoteLines - 3) && !StringUtils.isEmpty(choppedWord)) {
+                           pnt = new PaymentNoteText();
+                           pnt.setCustomerNoteLineNbr(new KualiInteger(previousLineCount++));
+                           pnt.setCustomerNoteText(choppedWord.replaceAll("\\n", "").trim());
+                       }
+                       // We can't add any additional note lines, or we'll exceed the maximum, therefore
+                       // just break out of the loop early - there's nothing left to do.
+                       else {
+                           break;
+                       }
+                   }
+               }
+               // This should be the most common case.  Simply create a new PaymentNoteText,
+               // add the line at the correct line location.
+               else {
+                   pnt = new PaymentNoteText();
+                   pnt.setCustomerNoteLineNbr(new KualiInteger(previousLineCount++));
+                   pnt.setCustomerNoteText(noteLine.replaceAll("\\n", "").trim());
+               }
+           }
+       }
+       return pnt;
+   }
+
+   /**
+    * This method will take a word and simply chop into smaller
+    * text segments that satisfy the limit requirements.  All words
+    * brute force chopped, with no regard to preserving whole words.
+    *
+    * For example:
+    *
+    *      "Java is a fun programming language!"
+    *
+    * Might be chopped into:
+    *
+    *      "Java is a fun prog"
+    *      "ramming language!"
+    *
+    * @param word The word that needs chopping
+    * @param limit Number of character that should represent a chopped word
+    * @return String [] of chopped words
+    */
+   protected String[] chopWord(String word, int limit) {
+       StringBuilder builder = new StringBuilder();
+       if (word != null && word.trim().length() > 0) {
+
+           char[] chars = word.toCharArray();
+           int index = 0;
+
+           // First process all the words that fit into the limit.
+           for (int i = 0; i < chars.length/limit; i++) {
+               builder.append(String.copyValueOf(chars, index, limit));
+               builder.append("\n");
+
+               index += limit;
+           }
+
+           // Not all words will fit perfectly into the limit amount, so
+           // calculate the modulus value to determine any remaining characters.
+           int modValue =  chars.length%limit;
+           if (modValue > 0) {
+               builder.append(String.copyValueOf(chars, index, modValue));
+           }
+
+       }
+
+       // Split the chopped words into individual segments.
+       return builder.toString().split("\\n");
+   }
+
+   /**
+    * @see org.kuali.kfs.sys.document.service.PaymentSourceHelperService#oppositifyAndSaveEntry(org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry, org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper)
+    */
+   @Override
+   public void oppositifyAndSaveEntry(GeneralLedgerPendingEntry glpe, GeneralLedgerPendingEntrySequenceHelper glpeSeqHelper) {
+       if (glpe.getTransactionDebitCreditCode().equals(KFSConstants.GL_CREDIT_CODE)) {
+           glpe.setTransactionDebitCreditCode(KFSConstants.GL_DEBIT_CODE);
+       }
+       else if (glpe.getTransactionDebitCreditCode().equals(KFSConstants.GL_DEBIT_CODE)) {
+           glpe.setTransactionDebitCreditCode(KFSConstants.GL_CREDIT_CODE);
+       }
+       glpe.setTransactionLedgerEntrySequenceNumber(glpeSeqHelper.getSequenceCounter());
+       glpeSeqHelper.increment();
+       glpe.setFinancialDocumentApprovedCode(KFSConstants.PENDING_ENTRY_APPROVED_STATUS_CODE.APPROVED);
+       businessObjectService.save(glpe);
+   }
+
+   /**
+    *
+    * @see org.kuali.kfs.sys.document.service.PaymentSourceHelperService#handleEntryCancellation(org.kuali.kfs.sys.document.PaymentSource)
+    */
+   @Override
+   public void handleEntryCancellation(PaymentSource paymentSource) {
+       if (ObjectUtils.isNull(paymentSource.getGeneralLedgerPendingEntries()) || paymentSource.getGeneralLedgerPendingEntries().size() == 0) {
+           // generate all the pending entries for the document
+           getGeneralLedgerPendingEntryService().generateGeneralLedgerPendingEntries(paymentSource);
+           // for each pending entry, opposite-ify it and reattach it to the document
+           GeneralLedgerPendingEntrySequenceHelper glpeSeqHelper = new GeneralLedgerPendingEntrySequenceHelper();
+           for (GeneralLedgerPendingEntry glpe : paymentSource.getGeneralLedgerPendingEntries()) {
+               oppositifyAndSaveEntry(glpe, glpeSeqHelper);
+           }
+       }
+       else {
+           List<GeneralLedgerPendingEntry> newGLPEs = new ArrayList<GeneralLedgerPendingEntry>();
+           GeneralLedgerPendingEntrySequenceHelper glpeSeqHelper = new GeneralLedgerPendingEntrySequenceHelper(paymentSource.getGeneralLedgerPendingEntries().size() + 1);
+           for (GeneralLedgerPendingEntry glpe : paymentSource.getGeneralLedgerPendingEntries()) {
+               glpe.refresh();
+               if (glpe.getFinancialDocumentApprovedCode().equals(KFSConstants.PENDING_ENTRY_APPROVED_STATUS_CODE.PROCESSED)) {
+                   // damn! it got processed! well, make a copy, oppositify, and save
+                   GeneralLedgerPendingEntry undoer = new GeneralLedgerPendingEntry(glpe);
+                   oppositifyAndSaveEntry(undoer, glpeSeqHelper);
+                   newGLPEs.add(undoer);
+               }
+               else {
+                   // just delete the GLPE before anything happens to it
+                   businessObjectService.delete(glpe);
+               }
+           }
+           paymentSource.setGeneralLedgerPendingEntries(newGLPEs);
+       }
+   }
+
+   /**
+    * This cancels the disbursement voucher
+    *
+    * @param dv the disbursement voucher document to cancel
+    * @param processDate the date of the cancelation
+    * @see org.kuali.kfs.fp.batch.service.DisbursementVoucherExtractService#cancelExtractedDisbursementVoucher(org.kuali.kfs.fp.document.DisbursementVoucherDocument)
+    */
+   @Override
+   public void cancelExtractedPaymentSource(PaymentSource paymentSource, java.sql.Date processDate) {
+       paymentSource.cancelPayment(processDate);
+   }
+
+   /**
+    * This updates the disbursement voucher so that when it is re-extracted, information about it will be accurate
+    *
+    * @param dv the disbursement voucher document to reset
+    * @param processDate the date of the reseting
+    * @see org.kuali.kfs.fp.batch.service.DisbursementVoucherExtractService#resetExtractedDisbursementVoucher(org.kuali.kfs.fp.document.DisbursementVoucherDocument)
+    */
+   @Override
+   public void resetExtractedPaymentSource(PaymentSource paymentSource, java.sql.Date processDate) {
+       try {
+           paymentSource.resetFromExtraction();
+           paymentSource.getFinancialSystemDocumentHeader().setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.APPROVED);
+           getDocumentService().saveDocument(paymentSource, AccountingDocumentSaveWithNoLedgerEntryGenerationEvent.class);
+       }
+       catch (WorkflowException we) {
+           LOG.error("encountered workflow exception while attempting to save Disbursement Voucher: " + paymentSource.getDocumentNumber() + " " + we);
+           throw new RuntimeException(we);
+       }
+   }
+
+   /**
+    * Marks the disbursement voucher as paid by setting its paid date
+    *
+    * @param dv the dv document to mark as paid
+    * @param processDate the date when the dv was paid
+    * @see org.kuali.kfs.fp.batch.service.DisbursementVoucherExtractService#markDisbursementVoucherAsPaid(org.kuali.kfs.fp.document.DisbursementVoucherDocument)
+    */
+   @Override
+   public void markPaymentSourceAsPaid(PaymentSource paymentSource, java.sql.Date processDate) {
+       try {
+           paymentSource.markAsPaid(processDate);
+           getDocumentService().saveDocument(paymentSource, AccountingDocumentSaveWithNoLedgerEntryGenerationEvent.class);
+       }
+       catch (WorkflowException we) {
+           LOG.error("encountered workflow exception while attempting to save Disbursement Voucher: " + paymentSource.getDocumentNumber() + " " + we);
+           throw new RuntimeException(we);
+       }
+   }
+
 
     /**
      * @return the implementation of the UniversityDateService to use
@@ -364,4 +581,48 @@ public class PaymentSourceHelperServiceImpl implements PaymentSourceHelperServic
         this.configurationService = configurationService;
     }
 
+    /**
+     * @return the injected implementation of the DocumentService to use
+     */
+    public DocumentService getDocumentService() {
+        return documentService;
+    }
+
+    /**
+     * Injects the implementation of DocumentService to use
+     * @param documentService an implementation of DocumentService
+     */
+    public void setDocumentService(DocumentService documentService) {
+        this.documentService = documentService;
+    }
+
+    /**
+     * @return the injected implementation of OptionsService to use
+     */
+    public OptionsService getOptionsService() {
+        return optionsService;
+    }
+
+    /**
+     * Injects the implementation of OptionsService to use
+     * @param optionsService an implementation of OptionsService
+     */
+    public void setOptionsService(OptionsService optionsService) {
+        this.optionsService = optionsService;
+    }
+
+    /**
+     * @return the injected implementation of HomeOriginationSerice to use
+     */
+    public HomeOriginationService getHomeOriginationService() {
+        return homeOriginationService;
+    }
+
+    /**
+     * Injects the implementation of HomeOriginationService to use
+     * @param homeOriginationService an implementation of HomeOriginationService
+     */
+    public void setHomeOriginationService(HomeOriginationService homeOriginationService) {
+        this.homeOriginationService = homeOriginationService;
+    }
 }

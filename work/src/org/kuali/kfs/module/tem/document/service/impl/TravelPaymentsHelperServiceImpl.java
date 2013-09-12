@@ -31,8 +31,8 @@ import org.kuali.kfs.pdp.businessobject.PaymentDetail;
 import org.kuali.kfs.pdp.businessobject.PaymentGroup;
 import org.kuali.kfs.pdp.businessobject.PaymentNoteText;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.batch.service.PaymentSourceExtractionService;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
+import org.kuali.kfs.sys.document.service.PaymentSourceHelperService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.core.api.util.type.KualiInteger;
 import org.kuali.rice.kew.api.WorkflowDocument;
@@ -51,7 +51,7 @@ public class TravelPaymentsHelperServiceImpl implements TravelPaymentsHelperServ
 
     protected PersonService personService;
     protected WorkflowDocumentService workflowDocumentService;
-    protected PaymentSourceExtractionService paymentSourceExtractionService;
+    protected PaymentSourceHelperService paymentSourceHelperService;
 
     /**
      * Retrieves the campus code associated with the initiator of a passed in authorization document
@@ -208,7 +208,7 @@ public class TravelPaymentsHelperServiceImpl implements TravelPaymentsHelperServ
 
         final String text = travelPayment.getCheckStubText();
         if (!StringUtils.isBlank(text)) {
-            pnt = getPaymentSourceExtractionService().buildNoteForCheckStubText(text, line);
+            pnt = getPaymentSourceHelperService().buildNoteForCheckStubText(text, line);
             if (LOG.isDebugEnabled()) {
                 LOG.debug("Creating check stub text note: " + pnt.getCustomerNoteText());
             }
@@ -287,17 +287,17 @@ public class TravelPaymentsHelperServiceImpl implements TravelPaymentsHelperServ
     }
 
     /**
-     * @return an implementation of the PaymentSourceExtractionService
+     * @return an implementation of the PaymentSourceHelperService
      */
-    public PaymentSourceExtractionService getPaymentSourceExtractionService() {
-        return paymentSourceExtractionService;
+    public PaymentSourceHelperService getPaymentSourceHelperService() {
+        return paymentSourceHelperService;
     }
 
     /**
-     * Sets the implementation of the PaymentSourceExtractionService for this service to use
-     * @param parameterService an implementation of PaymentSourceExtractionService
+     * Sets the implementation of the PaymentSourceHelperService for this service to use
+     * @param paymentSourceHelperService an implementation of PaymentSourceHelperService
      */
-    public void setPaymentSourceExtractionService(PaymentSourceExtractionService paymentSourceExtractionService) {
-        this.paymentSourceExtractionService = paymentSourceExtractionService;
+    public void setPaymentSourceHelperService(PaymentSourceHelperService paymentSourceHelperService) {
+        this.paymentSourceHelperService = paymentSourceHelperService;
     }
 }

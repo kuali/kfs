@@ -764,7 +764,7 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
                 }
 
                 if (shouldProcessAdvanceForDocument() && this.getAdvanceTravelPayment().isImmediatePaymentIndicator()) {
-                    SpringContext.getBean(PaymentSourceExtractionService.class).extractSingleImmediatePayment(this);
+                    SpringContext.getBean(PaymentSourceExtractionService.class, TemConstants.AUTHORIZATION_PAYMENT_SOURCE_EXTRACTION_SERVICE).extractSingleImmediatePayment(this);
                 }
             }
         }

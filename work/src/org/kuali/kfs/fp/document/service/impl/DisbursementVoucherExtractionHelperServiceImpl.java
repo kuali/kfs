@@ -40,13 +40,14 @@ import org.kuali.kfs.pdp.businessobject.PaymentDetail;
 import org.kuali.kfs.pdp.businessobject.PaymentGroup;
 import org.kuali.kfs.pdp.businessobject.PaymentNoteText;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSParameterKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.batch.service.PaymentSourceExtractionService;
 import org.kuali.kfs.sys.batch.service.PaymentSourceToExtractService;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.document.PaymentSource;
+import org.kuali.kfs.sys.document.service.PaymentSourceHelperService;
 import org.kuali.kfs.sys.document.validation.event.AccountingDocumentSaveWithNoLedgerEntryGenerationEvent;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
@@ -70,8 +71,8 @@ public class DisbursementVoucherExtractionHelperServiceImpl implements Disbursem
     protected ParameterService parameterService;
     protected ParameterEvaluatorService parameterEvaluatorService;
     protected VendorService vendorService;
-    protected PaymentSourceExtractionService paymentSourceExtractionService;
     protected DisbursementVoucherDao disbursementVoucherDao;
+    protected PaymentSourceHelperService paymentSourceHelperService;
 
     @Override
     public void cancelDisbursementVoucher(DisbursementVoucherDocument dv, Date cancelDate) {
@@ -80,7 +81,7 @@ public class DisbursementVoucherExtractionHelperServiceImpl implements Disbursem
                 // set the canceled date
                 dv.setCancelDate(cancelDate);
                 dv.refreshReferenceObject("generalLedgerPendingEntries");
-                getPaymentSourceExtractionService().handleEntryCancellation(dv);
+                getPaymentSourceHelperService().handleEntryCancellation(dv);
                 // set the financial document status to canceled
                 dv.getFinancialSystemDocumentHeader().setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.CANCELLED);
                 // save the document
@@ -441,7 +442,7 @@ public class DisbursementVoucherExtractionHelperServiceImpl implements Disbursem
         // Get the original, raw form, note text from the DV document.
         final String text = document.getDisbVchrCheckStubText();
         if (!StringUtils.isBlank(text)) {
-            pnt = this.getPaymentSourceExtractionService().buildNoteForCheckStubText(text, line);
+            pnt = this.getPaymentSourceHelperService().buildNoteForCheckStubText(text, line);
             // Logging...
             if (LOG.isDebugEnabled()) {
                 LOG.debug("Creating check stub text note: " + pnt.getCustomerNoteText());
@@ -450,6 +451,27 @@ public class DisbursementVoucherExtractionHelperServiceImpl implements Disbursem
         }
 
         return pd;
+    }
+
+    /**
+     * Uses the value in the KFS-FP / DisbursementVoucher / PRE_DISBURSEMENT_EXTRACT_ORGANIZATION parameter
+     * @see org.kuali.kfs.sys.document.PaymentSource#getPreDisbursementCustomerProfileUnit()
+     */
+    @Override
+    public String getPreDisbursementCustomerProfileUnit() {
+        final String unit = getParameterService().getParameterValueAsString(DisbursementVoucherDocument.class, KFSParameterKeyConstants.PdpExtractBatchParameters.PDP_ORG_CODE);
+        return unit;
+    }
+
+
+    /**
+     * Uses the value in the KFS-FP / DisbursementVoucher / PRE_DISBURSEMENT_EXTRACT_SUB_UNIT
+     * @see org.kuali.kfs.sys.document.PaymentSource#getPreDisbursementCustomerProfileSubUnit()
+     */
+    @Override
+    public String getPreDisbursementCustomerProfileSubUnit() {
+        final String subUnit = getParameterService().getParameterValueAsString(DisbursementVoucherDocument.class, KFSParameterKeyConstants.PdpExtractBatchParameters.PDP_SBUNT_CODE);
+        return subUnit;
     }
 
     /**
@@ -537,21 +559,6 @@ public class DisbursementVoucherExtractionHelperServiceImpl implements Disbursem
     }
 
     /**
-     * @return an implementation of the PaymentSourceExtractionService
-     */
-    public PaymentSourceExtractionService getPaymentSourceExtractionService() {
-        return paymentSourceExtractionService;
-    }
-
-    /**
-     * Sets the implementation of the PaymentSourceExtractionService for this service to use
-     * @param parameterService an implementation of PaymentSourceExtractionService
-     */
-    public void setPaymentSourceExtractionService(PaymentSourceExtractionService paymentSourceExtractionService) {
-        this.paymentSourceExtractionService = paymentSourceExtractionService;
-    }
-
-    /**
      * @return an implementation of the DocumentService
      */
     public DocumentService getDocumentService() {
@@ -566,4 +573,18 @@ public class DisbursementVoucherExtractionHelperServiceImpl implements Disbursem
         this.documentService = documentService;
     }
 
+    /**
+     * @return an implementation of the PaymentSourceHelperService
+     */
+    public PaymentSourceHelperService getPaymentSourceHelperService() {
+        return paymentSourceHelperService;
+    }
+
+    /**
+     * Sets the implementation of the PaymentSourceHelperService for this service to use
+     * @param paymentSourceHelperService an implementation of PaymentSourceHelperService
+     */
+    public void setPaymentSourceHelperService(PaymentSourceHelperService paymentSourceHelperService) {
+        this.paymentSourceHelperService = paymentSourceHelperService;
+    }
 }

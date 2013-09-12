@@ -53,14 +53,14 @@ import org.kuali.kfs.integration.ar.AccountsReceivableModuleService;
 import org.kuali.kfs.integration.ar.AccountsReceivableOrganizationOptions;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.module.tem.TemConstants;
-import org.kuali.kfs.module.tem.TemKeyConstants;
-import org.kuali.kfs.module.tem.TemParameterConstants;
-import org.kuali.kfs.module.tem.TemPropertyConstants;
-import org.kuali.kfs.module.tem.TemWorkflowConstants;
 import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationParameters;
 import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationStatusCodeKeys;
 import org.kuali.kfs.module.tem.TemConstants.TravelDocTypes;
 import org.kuali.kfs.module.tem.TemConstants.TravelParameters;
+import org.kuali.kfs.module.tem.TemKeyConstants;
+import org.kuali.kfs.module.tem.TemParameterConstants;
+import org.kuali.kfs.module.tem.TemPropertyConstants;
+import org.kuali.kfs.module.tem.TemWorkflowConstants;
 import org.kuali.kfs.module.tem.businessobject.ActualExpense;
 import org.kuali.kfs.module.tem.businessobject.ExpenseTypeAware;
 import org.kuali.kfs.module.tem.businessobject.GroupTraveler;
@@ -191,7 +191,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
 
         PerDiem perDiem = expense.getPerDiem();
         expense.setPrimaryDestination(perDiem.getPrimaryDestination().getPrimaryDestinationName());
-        expense.setCountryState(perDiem.getPrimaryDestination().getRegion().getRegionName());
+        expense.setCountryState(perDiem.getPrimaryDestination().getRegion().getRegionCode());
         expense.setCounty(perDiem.getPrimaryDestination().getCounty());
 
         //default first to per diem's values

@@ -930,6 +930,9 @@ public class TemConstants {
         }
     }
 
+    public final static String AUTHORIZATION_PAYMENT_SOURCE_EXTRACTION_SERVICE = "travelAuthorizationsExtractService";
+    public final static String REIMBURSABLE_PAYMENT_SOURCE_EXTRACTION_SERVICE = "travelReimbursementsExtractService";
+
     public static class TabTitles {
         public static final String EMERGENCY_CONTACT_INFORMATION_TAB_TITLE = "Emergency Contact Information";
     }

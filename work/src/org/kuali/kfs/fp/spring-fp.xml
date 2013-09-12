@@ -152,7 +152,7 @@
 		<property name="parameterService" ref="parameterService"/>
 		<property name="parameterEvaluatorService" ref="parameterEvaluatorService"/>
 		<property name="vendorService" ref="vendorService"/>
-		<property name="paymentSourceExtractionService" ref="paymentSourceExtractService"/>
+		<property name="paymentSourceHelperService" ref="paymentSourceHelperService"/>
 		<property name="disbursementVoucherDao" ref="disbursementVoucherDao"/>
 	</bean>
 	
@@ -288,7 +288,7 @@
 	</bean>
 	
 	<bean id="disbursementVoucherExtractService"  parent="disbursementVoucherExtractService-parentBean"/>
-	<bean id="disbursementVoucherExtractService-parentBean" parent="paymentSourceExtractService-parentBean" abstract="true">
+	<bean id="disbursementVoucherExtractService-parentBean" parent="paymentSourceExtractionService-parentBean" abstract="true">
 		<property name="paymentSourceToExtractService" ref="disbursementVoucherExtractionHelperService"/>
 	</bean>
 

@@ -28,14 +28,15 @@ public class TravelArrangerDocumentPresentationController extends FinancialSyste
     public Set<String> getEditModes(Document document) {
         Set<String> editModes = super.getEditModes(document);
 
-        addFullEntryEntryMode(document, editModes);
+        addFullEntryEditMode(document, editModes);
 
-        addTravelerEntryMode(document, editModes);
+        addTravelerEntryEditMode(document, editModes);
 
         return editModes;
     }
 
-    protected void addFullEntryEntryMode(Document document, Set<String> editModes) {
+
+    protected void addFullEntryEditMode(Document document, Set<String> editModes) {
         WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
 
         if ((workflowDocument.isInitiated() || workflowDocument.isSaved())) {
@@ -43,12 +44,11 @@ public class TravelArrangerDocumentPresentationController extends FinancialSyste
         }
     }
 
-    protected void addTravelerEntryMode(Document document, Set<String> editModes) {
+    protected void addTravelerEntryEditMode(Document document, Set<String> editModes) {
         WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
 
         if (workflowDocument.isEnroute()) {
             editModes.add(TemConstants.TravelEditMode.TRAVELER_ENTRY);
         }
     }
-
 }

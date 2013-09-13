@@ -85,6 +85,28 @@ public abstract class DocumentActionBuilderBase {
     }
 
     /**
+    *
+    * @param travelDocumentIdentifier
+    * @return
+    */
+   public String createRelocationLink(String travelDocumentIdentifier) {
+       final DocumentType docType = getDocumentTypeService().getDocumentTypeByName(TemConstants.TravelDocTypes.TRAVEL_RELOCATION_DOCUMENT);
+       if (docType == null) {
+           throw new RuntimeException(String.format("DocType with name %s does not exist!", TemConstants.TravelDocTypes.TRAVEL_RELOCATION_DOCUMENT));
+       }
+       String linkPopup = "target=\"_blank\"";
+
+       String link = String.format("<a href=\"%s&travelDocumentIdentifier=%s&command=initiate&docTypeName=%s\" %s>%s</a>",
+               docType.getResolvedDocumentHandlerUrl(),
+               travelDocumentIdentifier,
+               TemConstants.TravelDocTypes.TRAVEL_RELOCATION_DOCUMENT,
+               linkPopup,
+               TemConstants.TravelCustomSearchLinks.NEW_RELOCATION);
+
+       return link;
+   }
+
+    /**
      *
      * @param docCriteriaDTO
      * @param title

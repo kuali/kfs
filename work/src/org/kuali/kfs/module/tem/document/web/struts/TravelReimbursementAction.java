@@ -453,13 +453,19 @@ public class TravelReimbursementAction extends TravelActionBase {
 
             //only initialize per diem and copy expenses for a TR created from a TA
             if (rootDocument instanceof TravelAuthorizationDocument) {
-                initializePerDiem(document, (TravelAuthorizationDocument)rootDocument);
 
-                document.setActualExpenses((List<ActualExpense>) getTravelDocumentService().copyActualExpenses(rootDocument.getActualExpenses(), document.getDocumentNumber()));
-                // add new detail for the copied actualExpenses
-                if (document.getActualExpenses() != null && !document.getActualExpenses().isEmpty()) {
-                    for (int i = 0; i < document.getActualExpenses().size(); i++) {
-                        travelForm.getNewActualExpenseLines().add(new ActualExpense());
+                //only initialize per diem and copy expenses on the first TR
+                List<TravelReimbursementDocument> reimbursementDocuments = getTravelDocumentService().findReimbursementDocuments(document.getTravelDocumentIdentifier());
+                if (reimbursementDocuments.isEmpty()) {
+
+                    initializePerDiem(document, (TravelAuthorizationDocument)rootDocument);
+
+                    document.setActualExpenses((List<ActualExpense>) getTravelDocumentService().copyActualExpenses(rootDocument.getActualExpenses(), document.getDocumentNumber()));
+                    // add new detail for the copied actualExpenses
+                    if (document.getActualExpenses() != null && !document.getActualExpenses().isEmpty()) {
+                        for (int i = 0; i < document.getActualExpenses().size(); i++) {
+                            travelForm.getNewActualExpenseLines().add(new ActualExpense());
+                        }
                     }
                 }
             }

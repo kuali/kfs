@@ -121,9 +121,6 @@ public class TravelReimbursementDocumentCustomActionBuilder extends DocumentActi
         String tripId = document.getTravelDocumentIdentifier();
         StrBuilder actionsHTML = new StrBuilder();
         actionsHTML.setNewLineText("<br/>");
-        if (showNewDocumentURL(documentSearchResult, TravelDocTypes.TRAVEL_ENTERTAINMENT_DOCUMENT, document)) {
-            actionsHTML.appendln(createEntertainmentLink(tripId, documentSearchResult));
-        }
         if (showNewDocumentURL(documentSearchResult, TravelDocTypes.TRAVEL_REIMBURSEMENT_DOCUMENT, document)) {
             actionsHTML.appendln(createReimbursementLink(tripId));
         }

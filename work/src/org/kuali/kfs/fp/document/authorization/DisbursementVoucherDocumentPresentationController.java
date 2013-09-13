@@ -57,7 +57,7 @@ public class DisbursementVoucherDocumentPresentationController extends Accountin
         editModes.add(KfsAuthorizationConstants.DisbursementVoucherEditMode.TAX_ENTRY);
         editModes.add(KfsAuthorizationConstants.DisbursementVoucherEditMode.FRN_ENTRY);
         editModes.add(KfsAuthorizationConstants.DisbursementVoucherEditMode.WIRE_ENTRY);
-        editModes.add(KfsAuthorizationConstants.DisbursementVoucherEditMode.IMMEDIATE_DISBURSEMENT_ENTRY);
+        editModes.add(KfsAuthorizationConstants.TransactionalEditMode.IMMEDIATE_DISBURSEMENT_ENTRY);
 
         addFullEntryEntryMode(document, editModes);
         addPayeeEditEntryMode(document, editModes);

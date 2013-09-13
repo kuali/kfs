@@ -788,7 +788,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
                 KualiDecimal detailAmount = actualExpense.getTotalDetailExpenseAmount();
                 GlobalVariables.getMessageMap().addToErrorPath(KRADPropertyConstants.DOCUMENT);
                 GlobalVariables.getMessageMap().addToErrorPath(TemPropertyConstants.ACTUAL_EXPENSES + "[" + counter + "]");
-                if(detailAmount.isGreaterThan(actualExpense.getExpenseAmount()) && !actualExpense.getExpenseTypeObjectCode().getExpenseTypeCode().equals(TemConstants.ExpenseTypes.MILEAGE)){
+                if(detailAmount.isGreaterThan(actualExpense.getExpenseAmount()) && !TemConstants.ExpenseTypes.MILEAGE.equals(actualExpense.getExpenseTypeCode())){
                     GlobalVariables.getMessageMap().putError(TemPropertyConstants.EXPENSE_AMOUNT, TemKeyConstants.ERROR_ACTUAL_EXPENSE_DETAIL_AMOUNT_EXCEED, detailAmount.toString(), actualExpense.getExpenseAmount().toString());
                     return false;
                 }
@@ -1845,7 +1845,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
             for (TemSourceAccountingLine line : (List<TemSourceAccountingLine>)getSourceAccountingLines()){
                 //we are generating source accounting lines on document's expense type code
                 // could be either OUT OF POCKET  or ENCUMBRANCE
-                if (line.getCardType().equals(getExpenseTypeCode())){
+                if (line.getCardType().equals(getDefaultCardTypeCode())){
                     accountingLines.add(line);
                 }
             }
@@ -1988,7 +1988,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
      */
     @Override
     public String getDefaultAccountingLineCardAgencyType(){
-        return getExpenseTypeCode();
+        return getDefaultCardTypeCode();
     }
 
     /**

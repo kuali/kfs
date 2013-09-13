@@ -400,4 +400,14 @@ public interface TravelDocumentService {
      * @return the default AR organization options for TEM documents
      */
     public AccountsReceivableOrganizationOptions getOrgOptions();
+
+    /**
+     * This method searches to make sure that the expense entered doesn't already exist
+     * If they exist, disable them in the per diem table and notify the user.
+     * @param trDocument
+     *          the current doc.
+     * @param actualExpense
+     *          the expense in question
+     */
+    public void disableDuplicateExpenses(TravelDocument trDocument, ActualExpense actualExpense);
 }

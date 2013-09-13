@@ -499,7 +499,7 @@ public class TravelReimbursementAction extends TravelActionBase {
         }
 
         for (ActualExpense actualExpense : document.getActualExpenses()){
-            getTravelReimbursementService().disableDuplicateExpenses(document, actualExpense);
+            getTravelDocumentService().disableDuplicateExpenses(document, actualExpense);
         }
 
         //Display any messages

@@ -15,15 +15,11 @@
  */
 package org.kuali.kfs.module.tem.document.listener;
 
-import static org.kuali.kfs.module.tem.TemKeyConstants.MESSAGE_TR_LODGING_ALREADY_CLAIMED;
-import static org.kuali.kfs.module.tem.TemKeyConstants.MESSAGE_TR_MEAL_ALREADY_CLAIMED;
 import static org.kuali.kfs.module.tem.TemPropertyConstants.PER_DIEM_EXPENSE_DISABLED;
-import static org.kuali.kfs.sys.context.SpringContext.getBean;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.text.SimpleDateFormat;
-import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
@@ -31,7 +27,7 @@ import org.kuali.kfs.module.tem.businessobject.ActualExpense;
 import org.kuali.kfs.module.tem.businessobject.PerDiemExpense;
 import org.kuali.kfs.module.tem.document.TravelDocumentBase;
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.kfs.sys.context.SpringContext;
 
 
 /**
@@ -41,6 +37,7 @@ import org.kuali.rice.core.api.util.type.KualiDecimal;
 public class ActualExpenseListener implements PropertyChangeListener, java.io.Serializable {
 
     public static Logger LOG = Logger.getLogger(ActualExpenseListener.class);
+    protected volatile TravelDocumentService travelDocumentService;
 
     @Override
     public void propertyChange(final PropertyChangeEvent event) {
@@ -49,52 +46,7 @@ public class ActualExpenseListener implements PropertyChangeListener, java.io.Se
         if (event.getNewValue() instanceof ActualExpense) {
             final ActualExpense newActualExpenseLine = (ActualExpense) event.getNewValue();
 
-            int i = 0;
-            String disabled = "";
-
-            String actualExpenseLineCode = newActualExpenseLine.getExpenseTypeCode();
-            Map<String, String> disabledProperties = new HashMap<String, String>();
-            for (final PerDiemExpense perDiemExpense : document.getPerDiemExpenses()) {
-                final String mileageDate = new SimpleDateFormat("MM/dd/yyyy").format(perDiemExpense.getMileageDate());
-                final String expenseDate = new SimpleDateFormat("MM/dd/yyyy").format(newActualExpenseLine.getExpenseDate());
-                String meal = "";
-                boolean valid = true;
-
-                if (mileageDate.equals(expenseDate)) {
-                    if (perDiemExpense.getBreakfast() && newActualExpenseLine.isHostedBreakfast()) {
-                        meal = "breakfast";
-                        perDiemExpense.setBreakfast(false);
-                        valid = false;
-                    }
-                    else if (perDiemExpense.getLunch() && newActualExpenseLine.isHostedLunch()) {
-                        meal = "lunch";
-                        perDiemExpense.setLunch(false);
-                        valid = false;
-                    }
-                    else if (perDiemExpense.getDinner() && newActualExpenseLine.isHostedDinner()) {
-                        meal = "dinner";
-                        perDiemExpense.setDinner(false);
-                        valid = false;
-                    }
-
-                    if (!valid) {
-                        String mealMessage = getTravelDocumentService().getMessageFrom(MESSAGE_TR_MEAL_ALREADY_CLAIMED, expenseDate, meal);
-                        disabledProperties.put(String.format(PER_DIEM_EXPENSE_DISABLED, i, meal), mealMessage);
-                        // getMessageList().add();
-                        // disabled += "," + String.format(PER_DIEM_EXPENSE_DISABLED, i, meal);
-                    }
-
-                    // KUALITEM-483 add in check for lodging
-                    if (perDiemExpense.getLodging().isGreaterThan(KualiDecimal.ZERO) && actualExpenseLineCode.equals("L")) {
-                        String lodgingMessage = getTravelDocumentService().getMessageFrom(MESSAGE_TR_LODGING_ALREADY_CLAIMED, expenseDate);
-                        disabledProperties.put(String.format(PER_DIEM_EXPENSE_DISABLED, i, "lodging"), lodgingMessage);
-                        // getMessageList().add(MESSAGE_TR_LODGING_ALREADY_CLAIMED, expenseDate);
-                        // disabled += "," + String.format(PER_DIEM_EXPENSE_DISABLED, i, "lodging");
-                    }
-                    i++;
-                }
-                document.setDisabledProperties(disabledProperties);
-            }
+            getTravelDocumentService().disableDuplicateExpenses(document, newActualExpenseLine);
         }
 
         else if (event.getOldValue() instanceof ActualExpense) { // expense is being removed
@@ -123,6 +75,9 @@ public class ActualExpenseListener implements PropertyChangeListener, java.io.Se
     }
 
     protected TravelDocumentService getTravelDocumentService() {
-        return getBean(TravelDocumentService.class);
+        if (travelDocumentService == null) {
+            travelDocumentService = SpringContext.getBean(TravelDocumentService.class);
+        }
+        return travelDocumentService;
     }
 }

@@ -386,7 +386,7 @@ public abstract class TEMReimbursementDocument extends TravelDocumentBase implem
      * @see org.kuali.kfs.module.tem.document.TravelDocument#getExpenseTypeCode()
      */
     @Override
-    public String getExpenseTypeCode() {
+    public String getDefaultCardTypeCode() {
         return TemConstants.ACTUAL_EXPENSE;
     }
 

@@ -359,7 +359,7 @@ public interface TravelDocument extends AccountingDocument, TravelEntertainmentM
      *
      * @return
      */
-    public String getExpenseTypeCode();
+    public String getDefaultCardTypeCode();
 
     /**
      * Return true if the travel document has custom distribution for the DV doc
@@ -425,4 +425,10 @@ public interface TravelDocument extends AccountingDocument, TravelEntertainmentM
      * Refreshes expense type object code values for actual and imported expenses on the document
      */
     public void refreshExpenseTypeObjectCodesForExpenses();
+
+    /**
+     * Gets the disabledProperties attribute.
+     * @return Returns the disabledProperties.
+     */
+    public Map<String, String> getDisabledProperties();
 }

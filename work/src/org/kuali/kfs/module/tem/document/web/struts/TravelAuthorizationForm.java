@@ -92,7 +92,7 @@ public class TravelAuthorizationForm extends TravelFormBase implements TravelAut
 
         //TA doc - always deselected the expense type (ENCUMBRANCE) so it does not get distributed automatically
         for (AccountingDistribution accountdistribution : this.distribution){
-            if (accountdistribution.getCardType().equals(travelDocument.getExpenseTypeCode())){
+            if (accountdistribution.getCardType().equals(travelDocument.getDefaultCardTypeCode())){
                 accountdistribution.setSelected(Boolean.FALSE);
                 accountdistribution.setDisabled(Boolean.TRUE);
             }

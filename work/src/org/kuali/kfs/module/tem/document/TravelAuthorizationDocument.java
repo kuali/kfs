@@ -1070,7 +1070,7 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
      * @see org.kuali.kfs.module.tem.document.TravelDocument#getExpenseTypeCode()
      */
     @Override
-    public String getExpenseTypeCode() {
+    public String getDefaultCardTypeCode() {
         return isTripGenerateEncumbrance()? TemConstants.ENCUMBRANCE : "";
     }
 

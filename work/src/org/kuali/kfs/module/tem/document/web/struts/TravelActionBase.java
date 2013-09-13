@@ -894,11 +894,13 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
         KualiDecimal encTotal = travelDocument.getEncumbranceTotal();
         KualiDecimal expenseTotal = travelDocument.getExpenseLimit();
 
-        List<SourceAccountingLine> accountingLines = travelDocument.getSourceAccountingLines();
+        final List<TemSourceAccountingLine> accountingLines = travelDocument.getSourceAccountingLines();
 
         KualiDecimal accountingTotal = new KualiDecimal(0);
-        for (SourceAccountingLine accountingLine : accountingLines) {
-            accountingTotal = accountingTotal.add(accountingLine.getAmount());
+        for (TemSourceAccountingLine accountingLine : accountingLines) {
+            if (travelDocument.getDefaultCardTypeCode().equals(accountingLine.getCardType())) {
+                accountingTotal = accountingTotal.add(accountingLine.getAmount());
+            }
         }
 
         if (ObjectUtils.isNull(expenseTotal)) {

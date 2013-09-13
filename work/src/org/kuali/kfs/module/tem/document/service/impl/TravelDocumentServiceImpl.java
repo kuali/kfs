@@ -19,8 +19,11 @@ import static org.kuali.kfs.module.tem.TemKeyConstants.ERROR_UPLOADPARSER_INVALI
 import static org.kuali.kfs.module.tem.TemKeyConstants.ERROR_UPLOADPARSER_LINE;
 import static org.kuali.kfs.module.tem.TemKeyConstants.ERROR_UPLOADPARSER_PROPERTY;
 import static org.kuali.kfs.module.tem.TemKeyConstants.ERROR_UPLOADPARSER_WRONG_PROPERTY_NUMBER;
+import static org.kuali.kfs.module.tem.TemKeyConstants.MESSAGE_TR_LODGING_ALREADY_CLAIMED;
+import static org.kuali.kfs.module.tem.TemKeyConstants.MESSAGE_TR_MEAL_ALREADY_CLAIMED;
 import static org.kuali.kfs.module.tem.TemKeyConstants.MESSAGE_UPLOADPARSER_EXCEEDED_MAX_LENGTH;
 import static org.kuali.kfs.module.tem.TemKeyConstants.MESSAGE_UPLOADPARSER_INVALID_VALUE;
+import static org.kuali.kfs.module.tem.TemPropertyConstants.PER_DIEM_EXPENSE_DISABLED;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -2201,6 +2204,113 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
         final String organizationCode = parameterService.getParameterValueAsString(TravelAuthorizationDocument.class, TravelAuthorizationParameters.TRAVEL_ADVANCE_BILLING_ORGANIZATION);
 
         return getAccountsReceivableModuleService().getOrgOptionsIfExists(chartOfAccountsCode, organizationCode);
+    }
+
+    /**
+     * @see org.kuali.kfs.module.tem.document.service.TravelDocumentService#disableDuplicateExpenses(org.kuali.kfs.module.tem.document.TravelReimbursementDocument, org.kuali.kfs.module.tem.businessobject.ActualExpense)
+     */
+    @Override
+    public void disableDuplicateExpenses(TravelDocument trDocument, ActualExpense actualExpense) {
+        if (trDocument.getPerDiemExpenses() != null && !trDocument.getPerDiemExpenses().isEmpty()) {  // no per diems? then let's not bother
+            if (actualExpense.getExpenseDetails() != null && !actualExpense.getExpenseDetails().isEmpty()) {
+                for (TEMExpense detail : actualExpense.getExpenseDetails()) {
+                    checkActualExpenseAgainstPerDiems(trDocument, (ActualExpense)detail);
+                }
+            } else {
+                checkActualExpenseAgainstPerDiems(trDocument, actualExpense);
+            }
+        }
+    }
+
+    /**
+     * Checks the given actual expense (or detail) against each of the per diems on the TR document to disable
+     * @param trDocument the travel reimbursement with per diems to check against
+     * @param actualExpense
+     */
+    protected void checkActualExpenseAgainstPerDiems(TravelDocument trDocument, ActualExpense actualExpense) {
+        int i = 0;
+        for (final PerDiemExpense perDiemExpense : trDocument.getPerDiemExpenses()) {
+            List<DisabledPropertyMessage> messages = disableDuplicateExpenseForPerDiem(actualExpense, perDiemExpense, i);
+            if (messages != null && !messages.isEmpty()) {
+                for (DisabledPropertyMessage message : messages) {
+                    message.addToProperties(trDocument.getDisabledProperties());
+                }
+            }
+            i+=1;
+        }
+    }
+
+    /**
+     * Given one actual expense and one per diem, determines if any of fields on the per diem should be disabled because the actual expense is already covering it
+     * @param actualExpense the actual expense to check
+     * @param perDiemExpense the per diem to check the actual expense against
+     * @param otherExpenseLineCode the expense type code of the actual epxnese
+     * @param perDiemCount the count of the per diems we have worked through
+     * @return a List of any messages about disabled properties which occurred
+     */
+    protected List<DisabledPropertyMessage> disableDuplicateExpenseForPerDiem(ActualExpense actualExpense, PerDiemExpense perDiemExpense, int perDiemCount) {
+        List<DisabledPropertyMessage> disabledPropertyMessages = new ArrayList<DisabledPropertyMessage>();
+
+        final String mileageDate = new SimpleDateFormat("MM/dd/yyyy").format(perDiemExpense.getMileageDate());
+        if (actualExpense.getExpenseDate() == null){
+            return disabledPropertyMessages;
+        }
+        final String expenseDate = new SimpleDateFormat("MM/dd/yyyy").format(actualExpense.getExpenseDate());
+        String meal = "";
+        boolean valid = true;
+
+        if (mileageDate.equals(expenseDate)) {
+            if (perDiemExpense.getBreakfast() && actualExpense.isHostedBreakfast()) {
+                meal = TemConstants.HostedMeals.HOSTED_BREAKFAST;
+                perDiemExpense.setBreakfast(false);
+                perDiemExpense.setBreakfastValue(KualiDecimal.ZERO);
+                valid = false;
+            }
+            else if (perDiemExpense.getLunch() && actualExpense.isHostedLunch()) {
+                meal = TemConstants.HostedMeals.HOSTED_LUNCH;
+                perDiemExpense.setLunch(false);
+                perDiemExpense.setLunchValue(KualiDecimal.ZERO);
+                valid = false;
+            }
+            else if (perDiemExpense.getDinner() && actualExpense.isHostedDinner()) {
+                meal = TemConstants.HostedMeals.HOSTED_DINNER;
+                perDiemExpense.setDinner(false);
+                perDiemExpense.setDinnerValue(KualiDecimal.ZERO);
+                valid = false;
+            }
+
+            if (!valid) {
+                String temp = String.format(PER_DIEM_EXPENSE_DISABLED, perDiemCount, meal);
+                String message = getMessageFrom(MESSAGE_TR_MEAL_ALREADY_CLAIMED, expenseDate, meal);
+                disabledPropertyMessages.add(new DisabledPropertyMessage(temp, message));
+            }
+
+            // KUALITEM-483 add in check for lodging
+            if (perDiemExpense.getLodging().isGreaterThan(KualiDecimal.ZERO) && !StringUtils.isBlank(actualExpense.getExpenseTypeCode()) && TemConstants.ExpenseTypes.LODGING.equals(actualExpense.getExpenseTypeCode())) {
+                String temp = String.format(PER_DIEM_EXPENSE_DISABLED, perDiemCount, TemConstants.LODGING.toLowerCase());
+                String message = getMessageFrom(MESSAGE_TR_LODGING_ALREADY_CLAIMED, expenseDate);
+                perDiemExpense.setLodging(KualiDecimal.ZERO);
+                disabledPropertyMessages.add(new DisabledPropertyMessage(temp, message));
+            }
+        }
+        return disabledPropertyMessages;
+    }
+
+    /**
+     * Inner class to hold keys & messages for disabled properties
+     */
+    class DisabledPropertyMessage {
+        private String key;
+        private String message;
+
+        DisabledPropertyMessage(String key, String message) {
+            this.key = key;
+            this.message = message;
+        }
+
+        void addToProperties(Map<String, String> messageMap) {
+            messageMap.put(key, message);
+        }
     }
 
     public PersistenceStructureService getPersistenceStructureService() {

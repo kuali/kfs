@@ -67,7 +67,7 @@ public class ActualExpenseServiceImpl extends ExpenseServiceBase implements TEME
                     if (objCode != null && !skipDistribution) {
                         AccountingDistribution distribution = null;
 
-                        String key = objCode.getCode() + "-" + document.getExpenseTypeCode();
+                        String key = objCode.getCode() + "-" + document.getDefaultCardTypeCode();
                         if (distributionMap.containsKey(key)){
                             distributionMap.get(key).setSubTotal(distributionMap.get(key).getSubTotal().add(expense.getConvertedAmount()));
                             distributionMap.get(key).setRemainingAmount(distributionMap.get(key).getRemainingAmount().add(expense.getConvertedAmount()));
@@ -76,7 +76,7 @@ public class ActualExpenseServiceImpl extends ExpenseServiceBase implements TEME
                             distribution = new AccountingDistribution();
                             distribution.setObjectCode(objCode.getCode());
                             distribution.setObjectCodeName(objCode.getName());
-                            distribution.setCardType(document.getExpenseTypeCode());
+                            distribution.setCardType(document.getDefaultCardTypeCode());
                             distribution.setRemainingAmount(expense.getConvertedAmount());
                             distribution.setSubTotal(expense.getConvertedAmount());
                             distributionMap.put(key, distribution);

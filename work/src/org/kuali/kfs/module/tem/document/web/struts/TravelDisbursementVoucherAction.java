@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.module.tem.document.web.struts;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -53,21 +52,15 @@ public class TravelDisbursementVoucherAction extends org.kuali.kfs.fp.document.w
             if (document.getTemProfile() != null) {
                 travelDisbursementVoucherForm.getNewSourceLine().setChartOfAccountsCode(document.getTemProfile().getDefaultChartCode());
                 travelDisbursementVoucherForm.getNewSourceLine().setAccountNumber(document.getTemProfile().getDefaultAccount());
-
-                SourceAccountingLine line = new SourceAccountingLine();
-                disbursementVoucherDocument.addSourceAccountingLine(line);
             }
             if (document.getSourceAccountingLines() != null) {
-                List<TemSourceAccountingLine> newList = new ArrayList<TemSourceAccountingLine>();
-                int sequence = 1;
                 for (TemSourceAccountingLine line : (List<TemSourceAccountingLine>)document.getSourceAccountingLines()){
                     if (!line.getCardType().equals(TemConstants.TRAVEL_TYPE_CTS)){
-                        line.setSequenceNumber(new Integer(sequence));
-                        sequence++;
-                        newList.add(line);
+                        final SourceAccountingLine newLine = convertAccountingLine(line);
+                        newLine.setDocumentNumber(disbursementVoucherDocument.getDocumentNumber());
+                        disbursementVoucherDocument.addSourceAccountingLine(newLine);
                     }
                 }
-                disbursementVoucherDocument.setSourceAccountingLines(newList);
             }
 
             String relationDescription = document.getDocumentHeader().getWorkflowDocument().getDocumentTypeName() + " - DV";
@@ -76,4 +69,31 @@ public class TravelDisbursementVoucherAction extends org.kuali.kfs.fp.document.w
         return forward;
     }
 
+    /**
+     * Converts an accounting line from a TEM document into a SourceAccountingLine, like the ones that DV's use
+     * @param travelAccountingLine the travel accounting line to copy
+     * @return a SourceAccountingLine to be added to the DV document
+     */
+    protected SourceAccountingLine convertAccountingLine(TemSourceAccountingLine travelAccountingLine) {
+        SourceAccountingLine accountingLine = new SourceAccountingLine();
+        accountingLine.setPostingYear(travelAccountingLine.getPostingYear());
+        accountingLine.setChartOfAccountsCode(travelAccountingLine.getChartOfAccountsCode());
+        accountingLine.setAccountNumber(travelAccountingLine.getAccountNumber());
+        accountingLine.setSubAccountNumber(travelAccountingLine.getSubAccountNumber());
+        accountingLine.setFinancialObjectCode(travelAccountingLine.getFinancialObjectCode());
+        accountingLine.setFinancialSubObjectCode(travelAccountingLine.getFinancialSubObjectCode());
+        accountingLine.setProjectCode(travelAccountingLine.getProjectCode());
+        accountingLine.setBalanceTypeCode(travelAccountingLine.getBalanceTypeCode());
+        accountingLine.setAmount(travelAccountingLine.getAmount());
+        accountingLine.setReferenceOriginCode(travelAccountingLine.getReferenceOriginCode());
+        accountingLine.setReferenceNumber(travelAccountingLine.getReferenceNumber());
+        accountingLine.setReferenceTypeCode(travelAccountingLine.getReferenceTypeCode());
+        accountingLine.setOverrideCode(travelAccountingLine.getOverrideCode());
+        accountingLine.setAccountExpiredOverride(travelAccountingLine.getAccountExpiredOverride());
+        accountingLine.setNonFringeAccountOverride(travelAccountingLine.getNonFringeAccountOverride());
+        accountingLine.setObjectBudgetOverride(travelAccountingLine.isObjectBudgetOverride());
+        accountingLine.setOrganizationReferenceId(travelAccountingLine.getOrganizationReferenceId());
+        accountingLine.setFinancialDocumentLineDescription(travelAccountingLine.getFinancialDocumentLineDescription());
+        return accountingLine;
+    }
 }

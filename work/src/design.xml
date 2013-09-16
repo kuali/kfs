@@ -66,5 +66,6 @@
 	<package name="kc" package="org.kuali.kfs.module.external.kc" subpackages="include">
 		<depends>kra</depends>
 	</package>
+	<package name="tem" package="org.kuali.kfs.module.tem" subpackages="include"/>
 	
 </design>

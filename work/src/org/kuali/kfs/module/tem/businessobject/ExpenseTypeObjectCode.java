@@ -45,6 +45,14 @@ public class ExpenseTypeObjectCode extends PersistableBusinessObjectBase impleme
     private boolean specialRequestRequired;
     private boolean active;
 
+    /* fields for lookup, set to access="readonly" in ojb descriptor */
+    private String tripTypeCodeForLookup;
+    private String travelerTypeCodeForLookup;
+    private String documentTypeNameForLookup;
+    private transient DocumentTypeEBO documentTypeForLookup;
+    private transient TripType tripTypeForLookup;
+    private transient TravelerType travelerTypeForLookup;
+
     private transient DocumentTypeEBO documentType;
 
     private ExpenseType expenseType;
@@ -148,6 +156,46 @@ public class ExpenseTypeObjectCode extends PersistableBusinessObjectBase impleme
     public void setExpenseType(ExpenseType expenseType) {
         this.expenseType = expenseType;
     }
+
+    /* fields for lookup */
+    public String getTripTypeCodeForLookup() {
+        return tripTypeCodeForLookup;
+    }
+    public void setTripTypeCodeForLookup(String tripTypeCodeForLookup) {
+        this.tripTypeCodeForLookup = tripTypeCodeForLookup;
+    }
+    public String getTravelerTypeCodeForLookup() {
+        return travelerTypeCodeForLookup;
+    }
+    public void setTravelerTypeCodeForLookup(String travelerTypeCodeForLookup) {
+        this.travelerTypeCodeForLookup = travelerTypeCodeForLookup;
+    }
+    public String getDocumentTypeNameForLookup() {
+        return documentTypeNameForLookup;
+    }
+    public void setDocumentTypeNameForLookup(String documentTypeNameForLookup) {
+        this.documentTypeNameForLookup = documentTypeNameForLookup;
+    }
+    public DocumentTypeEBO getDocumentTypeForLookup() {
+        return documentTypeForLookup;
+    }
+    public void setDocumentTypeForLookup(DocumentTypeEBO documentTypeForLookup) {
+        this.documentTypeForLookup = documentTypeForLookup;
+    }
+    public TripType getTripTypeForLookup() {
+        return tripTypeForLookup;
+    }
+    public void setTripTypeForLookup(TripType tripTypeForLookup) {
+        this.tripTypeForLookup = tripTypeForLookup;
+    }
+    public TravelerType getTravelerTypeForLookup() {
+        return travelerTypeForLookup;
+    }
+    public void setTravelerTypeForLookup(TravelerType travelerTypeForLookup) {
+        this.travelerTypeForLookup = travelerTypeForLookup;
+    }
+
+    /* calculated properties */
     @Transient
     public boolean isPerDaily(){
         return !StringUtils.isBlank(getMaximumAmountSummationCode()) && ExpenseTypeAmountSummation.PER_DAILY.getCode().equals(getMaximumAmountSummationCode());

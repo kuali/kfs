@@ -1059,6 +1059,11 @@
 		<field-descriptor name="specialRequestRequired" column="SPCL_RQST_REQ_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
 		<field-descriptor name="active" column="ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
 		
+		<!-- special fields for lookup -->
+		<field-descriptor name="tripTypeCodeForLookup" column="TRIP_TYP_CD" jdbc-type="VARCHAR" access="readonly"/>
+		<field-descriptor name="travelerTypeCodeForLookup" column="TRAVELER_TYP_CD" jdbc-type="VARCHAR" access="readonly"/>
+		<field-descriptor name="documentTypeNameForLookup" column="DOC_TYP_NM" jdbc-type="VARCHAR" access="readonly"/>
+		
 		<reference-descriptor name="expenseType" class-ref="org.kuali.kfs.module.tem.businessobject.ExpenseType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
 			<foreignkey field-ref="expenseTypeCode"/>
 		</reference-descriptor>

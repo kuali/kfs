@@ -46,18 +46,47 @@
 				<ref bean="ExpenseTypeObjectCode-taxable" />
 				<ref bean="ExpenseTypeObjectCode-specialRequestRequired" />			
                 <ref bean="ExpenseTypeObjectCode-active" />
+                <ref bean="ExpenseTypeObjectCode-tripTypeCodeForLookup"/>
+                <ref bean="ExpenseTypeObjectCode-travelerTypeCodeForLookup"/>
+                <ref bean="ExpenseTypeObjectCode-documentTypeNameForLookup"/>
 				<ref bean="ExpenseTypeObjectCode-versionNumber" />
 			</list>
 		</property>
 		<property name="relationships">
-			<bean parent="RelationshipDefinition">
-				<property name="objectAttributeName" value="documentType" />
-				<property name="primitiveAttributes">
-					<list>
-						<bean parent="PrimitiveAttributeDefinition" p:sourceName="documentTypeName" p:targetName="name" />
-					</list>
-				</property>
-			</bean>
+			<list>
+				<bean parent="RelationshipDefinition">
+					<property name="objectAttributeName" value="documentType" />
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="documentTypeName" p:targetName="name" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="RelationshipDefinition">
+					<property name="objectAttributeName" value="documentTypeForLookup" />
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="documentTypeNameForLookup" p:targetName="name" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="RelationshipDefinition">
+					<property name="objectAttributeName" value="tripTypeForLookup" />
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="tripTypeCodeForLookup" p:targetName="code" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="RelationshipDefinition">
+					<property name="objectAttributeName" value="travelerTypeForLookup" />
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="travelerTypeCodeForLookup" p:targetName="code" />
+						</list>
+					</property>
+				</bean>
+			</list>
 		</property>
 	</bean>
 	
@@ -208,6 +237,28 @@
 		<property name="summary" value="Special Request Approval Required" />
 		<property name="description" value="Special Request Approval Required" />
 	</bean>
+	<bean id="ExpenseTypeObjectCode-tripTypeCodeForLookup" parent="ExpenseTypeObjectCode-tripTypeCodeForLookup-parentBean" />
+	<bean id="ExpenseTypeObjectCode-tripTypeCodeForLookup-parentBean" abstract="true" parent="ExpenseTypeObjectCode-tripTypeCode">
+		<property name="name" value="tripTypeCodeForLookup" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="2" />
+		</property>
+	</bean>
+	<bean id="ExpenseTypeObjectCode-travelerTypeCodeForLookup" parent="ExpenseTypeObjectCode-travelerTypeCodeForLookup-parentBean" />
+	<bean id="ExpenseTypeObjectCode-travelerTypeCodeForLookup-parentBean" abstract="true" parent="ExpenseTypeObjectCode-travelerTypeCode">
+		<property name="name" value="travelerTypeCodeForLookup" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="3" />
+		</property>
+	</bean>
+	<bean id="ExpenseTypeObjectCode-documentTypeNameForLookup" parent="ExpenseTypeObjectCode-documentTypeNameForLookup-parentBean" />
+	<bean id="ExpenseTypeObjectCode-documentTypeNameForLookup-parentBean" abstract="true" parent="ExpenseTypeObjectCode-documentTypeName">
+		<property name="name" value="documentTypeNameForLookup" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="4" />
+		</property>
+	</bean>
+	
 	<bean id="ExpenseTypeObjectCode-active" parent="ExpenseTypeObjectCode-active-parentBean" />
 	<bean id="ExpenseTypeObjectCode-active-parentBean" parent="GenericAttributes-genericBoolean">
 		<property name="name" value="active" />
@@ -271,9 +322,9 @@
 		<property name="lookupFields">
 			<list>
 		        <bean parent="FieldDefinition" p:attributeName="expenseTypeCode"/>
-		        <bean parent="FieldDefinition" p:attributeName="tripTypeCode" />
-				<bean parent="FieldDefinition" p:attributeName="travelerTypeCode" />
-				<bean parent="FieldDefinition" p:attributeName="documentTypeName" />
+		        <bean parent="FieldDefinition" p:attributeName="tripTypeCodeForLookup" />
+				<bean parent="FieldDefinition" p:attributeName="travelerTypeCodeForLookup" />
+				<bean parent="FieldDefinition" p:attributeName="documentTypeNameForLookup" />
 		        <bean parent="FieldDefinition" p:attributeName="financialObjectCode"/>
 				<bean parent="FieldDefinition" p:attributeName="maximumAmount" />
 				<bean parent="FieldDefinition" p:attributeName="maximumAmountSummationCode" />

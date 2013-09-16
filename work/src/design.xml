@@ -17,7 +17,6 @@
   <!-- Non-kuali packages that all modules can depend on (javax, org.apache, etc) -->
 	<package name="apache" package="org.apache" subpackages="include" needdeclarations="false"/>
 	<package name="displaytag" package="org.displaytag" subpackages="include" needdeclarations="false"/>
-	<package name="edu" package="edu" subpackages="include" needdeclarations="false"/>
 	<package name="javax" package="javax" subpackages="include" needdeclarations="false"/>
 	<package name="lowagie" package="com.lowagie" subpackages="include" needdeclarations="false"/>
 	<package name="rice" package="org.kuali.rice" subpackages="include" needdeclarations="false"/>
@@ -26,8 +25,6 @@
 	<package name="w3c" package="org.w3c" subpackages="include" needdeclarations="false"/>
 	<package name="jasper" package="net.sf.jasperreports" subpackages="include" needdeclarations="false" />
 	<package name="sax" package="org.xml" subpackages="include" needdeclarations="false"/>
-	<package name="opensymphony" package="com.opensymphony" subpackages="include" needdeclarations="false"/>
-    <package name="junit" package="junit" subpackages="include" needdeclarations="false"/>
     <package name="joda" package="org.joda" subpackages="include" needdeclarations="false"/>
 	<package name="opencsv" package="au.com.bytecode.opencsv" subpackages="include" needdeclarations="false"/>
 

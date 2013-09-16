@@ -25,15 +25,15 @@ public class IntraAccountAdjustmentSubAccountValidation extends GenericValidatio
     public boolean validate(AttributedDocumentEvent event) {
         AccountingLineBase accountingLineBase= (AccountingLineBase) this.getAccountingLineForValidation();
         A21SubAccount a21SubAccount=null;
-        if(ObjectUtils.isNotNull(accountingLineBase)&&ObjectUtils.isNotNull(accountingLineBase.getSubAccount())){
+        if(ObjectUtils.isNotNull(accountingLineBase) && ObjectUtils.isNotNull(accountingLineBase.getSubAccountNumber()) && ObjectUtils.isNotNull(accountingLineBase.getSubAccount())){
             a21SubAccount=accountingLineBase.getSubAccount().getA21SubAccount();
-
-            if (ObjectUtils.isNotNull(a21SubAccount)&&(ObjectUtils.isNotNull(a21SubAccount.getCostShareChartOfAccountCode())||
+             if (ObjectUtils.isNotNull(a21SubAccount)&&(ObjectUtils.isNotNull(a21SubAccount.getCostShareChartOfAccountCode())||
                     ObjectUtils.isNotNull(a21SubAccount.getCostShareSourceAccountNumber()) ||(a21SubAccount.getA21ActiveIndirectCostRecoveryAccounts().size() > 0) ||
                             ObjectUtils.isNotNull(a21SubAccount.getCostShareSourceSubAccount()))) {
                 GlobalVariables.getMessageMap().putError(KFSConstants.ACCOUNTING_LINE_ERRORS, KFSKeyConstants.IntraAccountAdjustment.ERROR_CS_ICR_SUBACCOUNTS_NOT_ALLOWED);
                 return false;
             }
+
         }
        return true;
     }

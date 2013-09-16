@@ -161,7 +161,7 @@
 	  <column name="OBJ_ID" valueComputed="SYS_GUID()"/>
 	  <column name="VER_NBR" valueNumeric="1"/> 
 	  <column name="PARM_TYP_CD" value="VALID"/> 
-	  <column name="PARM_DESC_TXT" value="Object Code Types permitted in IAA document."/> 
+	  <column name="PARM_DESC_TXT" value="Allowed object type code(s) for use on the Intra-Account Adjustment document."/> 
 	  <column name="EVAL_OPRTR_CD" value="A"/> 
 	  <column name="APPL_ID" value="KFS" /> 
 	  </insert>
@@ -173,7 +173,7 @@
 	   <column name="OBJ_ID" valueComputed="SYS_GUID()"/>
 	  <column name="VER_NBR" valueNumeric="1" /> 
 	  <column name="PARM_TYP_CD" value="VALID" /> 
-	  <column name="PARM_DESC_TXT" value="Object Sub-Type(s) restricted from use on the Pre Encumbrance document." /> 
+	  <column name="PARM_DESC_TXT" value="Object Sub-Type(s) restricted from use on the Intra-Account Adjustment document." /> 
 	  <column name="EVAL_OPRTR_CD" value="D" /> 
 	  <column name="APPL_ID" value="KFS" /> 
 	  </insert>

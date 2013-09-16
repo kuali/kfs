@@ -149,31 +149,7 @@
 	<bean id="IntraAccountAdjustment-saveDocumentValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" 
 		scope="prototype" abstract="true">
 		<property name="validations">
-			<list>
-				<bean parent="AccountingDocument-requiredAccountingLinesCountValidation" scope="prototype">
-					<property name="accountingLineGroupName" value="source" />
-					<property name="minimumNumber" value="1" />
-					<property name="parameterProperties">
-						<list>
-							<bean parent="validationFieldConversion">
-								<property name="sourceEventProperty" value="document" />
-								<property name="targetValidationProperty" value="accountingDocumentForValidation" />
-							</bean>
-						</list>
-					</property>
-				</bean>
-				<bean parent="AccountingDocument-requiredAccountingLinesCountValidation" scope="prototype">
-					<property name="accountingLineGroupName" value="target" />
-					<property name="minimumNumber" value="1" />
-					<property name="parameterProperties">
-						<list>
-							<bean parent="validationFieldConversion">
-								<property name="sourceEventProperty" value="document" />
-								<property name="targetValidationProperty" value="accountingDocumentForValidation" />
-							</bean>
-						</list>
-					</property>
-				</bean>
+			<list>				
 				<bean parent="IntraAccountAdjustment-transferTotalsBalanceValidation" scope="prototype"/>	
 			</list>
 		</property>

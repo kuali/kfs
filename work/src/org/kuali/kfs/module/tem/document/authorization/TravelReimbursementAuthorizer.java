@@ -15,9 +15,15 @@
  */
 package org.kuali.kfs.module.tem.document.authorization;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.kuali.kfs.module.tem.businessobject.TravelerDetail;
 import org.kuali.kfs.module.tem.document.TravelReimbursementDocument;
+import org.kuali.kfs.module.tem.identity.TemKimAttributes;
+import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 public class TravelReimbursementAuthorizer extends TravelArrangeableAuthorizer implements ReturnToFiscalOfficerAuthorizer{
@@ -37,5 +43,16 @@ public class TravelReimbursementAuthorizer extends TravelArrangeableAuthorizer i
             canCertify = true;
         }
         return canCertify;
+    }
+
+    @Override
+    public boolean canInitiate(String documentTypeName, Person user) {
+        String nameSpaceCode = KRADConstants.KUALI_RICE_SYSTEM_NAMESPACE;
+        Map<String, String> permissionDetails = new HashMap<String, String>();
+        Map<String, String> qualificationDetails = new HashMap<String, String>();
+        qualificationDetails.put(TemKimAttributes.PROFILE_PRINCIPAL_ID, user.getPrincipalId());
+        permissionDetails.put(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME, documentTypeName);
+        return getPermissionService().isAuthorizedByTemplate(user.getPrincipalId(), nameSpaceCode,
+                KimConstants.PermissionTemplateNames.INITIATE_DOCUMENT, permissionDetails, qualificationDetails);
     }
 }

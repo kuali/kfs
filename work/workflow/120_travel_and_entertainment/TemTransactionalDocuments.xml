@@ -54,6 +54,7 @@
                 <securityAttribute name="TemSecurityAttribute"/>
           </security>
 	      <routingVersion>2</routingVersion>
+	      <authorizer>org.kuali.kfs.module.tem.document.authorization.TravelWorkflowDocumentAuthorizer</authorizer>
 	      <policies>
                 <policy>
                     <name>DEFAULT_APPROVE</name>
@@ -74,7 +75,6 @@
 			<active>
 				true
             </active>
-            <authorizer>org.kuali.kfs.module.tem.document.authorization.TravelWorkflowDocumentAuthorizer</authorizer>
 			<routingVersion>
 				2
             </routingVersion>

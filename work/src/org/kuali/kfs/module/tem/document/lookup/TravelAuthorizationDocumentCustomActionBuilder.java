@@ -71,7 +71,7 @@ public class TravelAuthorizationDocumentCustomActionBuilder extends DocumentActi
                 && (!appDocStatus.equals(TravelAuthorizationStatusCodeKeys.CLOSED));
 
         Person user = GlobalVariables.getUserSession().getPerson();
-        boolean hasInitAccess = true;
+        boolean hasInitAccess = false;
         if (getTemRoleService().canAccessTravelDocument(document, user) && document.getTemProfileId() != null){
             //check if user also can init other docs
             hasInitAccess = user.getPrincipalId().equals(document.getTraveler().getPrincipalId()) || getTemRoleService().isTravelDocumentArrangerForProfile(documentType, user.getPrincipalId(), document.getTemProfileId()) || getTemRoleService().isTravelArranger(user, document.getTemProfile().getHomeDepartment() , document.getTemProfileId().toString(), documentType);
@@ -79,6 +79,7 @@ public class TravelAuthorizationDocumentCustomActionBuilder extends DocumentActi
 
         boolean checkRelatedDocs = true;
         if (documentType.equals(TemConstants.TravelDocTypes.TRAVEL_REIMBURSEMENT_DOCUMENT)) {
+
             List<Document> docs = getTravelDocumentService().getDocumentsRelatedTo(document, documentType);
             for (Document doc : docs) {
                 TravelReimbursementDocument trDoc = (TravelReimbursementDocument)doc;
@@ -119,9 +120,6 @@ public class TravelAuthorizationDocumentCustomActionBuilder extends DocumentActi
         String tripId = document.getTravelDocumentIdentifier();
         StrBuilder actionsHTML = new StrBuilder();
         actionsHTML.setNewLineText("<br/>");
-        if (showNewDocumentURL(documentSearchResult, TravelDocTypes.TRAVEL_ENTERTAINMENT_DOCUMENT, document)) {
-            actionsHTML.appendln(createEntertainmentLink(tripId, documentSearchResult));
-        }
         if (showNewDocumentURL(documentSearchResult, TravelDocTypes.TRAVEL_REIMBURSEMENT_DOCUMENT, document)) {
             actionsHTML.appendln(createReimbursementLink(tripId));
         }

@@ -15,7 +15,7 @@
 --%>
 <%@ include file="/jsp/sys/kfsTldHeader.jsp"%>
 
-<kul:tab tabTitle="Emergency Contact Information" defaultOpen="${KualiForm.document.emergencyContactDefaultOpen}" tabErrorKey="${TemKeyConstants.TRVL_AUTH_EMERGENCY_CONTACT_ERRORS}">
+<kul:tab tabTitle="${TemConstants.TabTitles.EMERGENCY_CONTACT_INFORMATION_TAB_TITLE}" defaultOpen="${KualiForm.document.emergencyContactDefaultOpen}" tabErrorKey="${TemKeyConstants.TRVL_AUTH_EMERGENCY_CONTACT_ERRORS}">
 	<div class="tab-container" align="center">
 		<c:set var="documentAttributes" value="${DataDictionary.TravelAuthorizationDocument.attributes}" />
 		<c:set var="travelerAttributes" value="${DataDictionary.TravelerDetail.attributes}" /> 

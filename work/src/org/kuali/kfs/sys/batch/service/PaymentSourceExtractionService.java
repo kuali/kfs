@@ -15,9 +15,6 @@
  */
 package org.kuali.kfs.sys.batch.service;
 
-import org.kuali.kfs.pdp.businessobject.PaymentNoteText;
-import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
-import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.document.PaymentSource;
 
 /**
@@ -40,49 +37,8 @@ public interface PaymentSourceExtractionService {
     public void extractImmediatePayments();
 
     /**
-     * Cancels a disbursement voucher completely, because its payment has been canceled
-     * @param dv the disbursement voucher to cancel
-     */
-    public abstract void cancelExtractedPaymentSource(PaymentSource paymentSource, java.sql.Date processDate);
-
-    /**
-     * Resets the disbursement voucher so that it can be reextracted
-     * @param dv the disbursement voucher to reset for reextraction
-     */
-    public abstract void resetExtractedPaymentSource(PaymentSource paymentSource, java.sql.Date processDate);
-
-    /**
-     * Marks a disbursement voucher as paid
-     * @param dv the disbursement voucher to mark
-     * @param processDate the date when the dv was paid
-     */
-    public abstract void markPaymentSourceAsPaid(PaymentSource paymentSource, java.sql.Date processDate);
-
-    /**
      * Creates a batch payment for a single disbursement voucher
      * @param disbursementVoucher the voucher to immediately extract
      */
     public abstract void extractSingleImmediatePayment(PaymentSource paymentSource);
-
-    /**
-     * Builds a note for the check stub text, wrapping words appropriately
-     * @param checkStubText the text for the check note
-     * @param previousLineCount the number of lines already on this document
-     * @return a PDP PaymentNoteText with the check stub text well-formatted
-     */
-    public abstract PaymentNoteText buildNoteForCheckStubText(String checkStubText, int previousLineCount);
-
-    /**
-     * When a payment source is cancelled, its entries need to be reversed under certain circumstances.  This method will reverse those entries
-     * @param paymentSource the cancelled payment source to reverse entries for
-     */
-    public abstract void handleEntryCancellation(PaymentSource paymentSource);
-
-    /**
-     * Updates the given general ledger pending entry so that it will have the opposite effect of what it was created to do; this,
-     * in effect, undoes the entries that were already posted for this document
-     *
-     * @param glpe the general ledger pending entry to undo
-     */
-    public abstract void oppositifyAndSaveEntry(GeneralLedgerPendingEntry glpe, GeneralLedgerPendingEntrySequenceHelper glpeSeqHelper);
 }

@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -26,15 +26,15 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
  * General constants for the effort reporting module.
  */
 public class EffortConstants {
-    
+
     public static final String EFFORT_NAMESPACE_CODE = "KFS-EC";
-    
+
     /**
      * hold constants used by extract process
      */
     public class ExtractProcess {
         public static final String EXPENSE_OBJECT_TYPE = "EXPENSE_OBJECT_TYPE";
-        
+
         // the following constants used as the key of the statistics entries for the working progress report
         public static final String NUM_BALANCES_READ = "numOfBalancesRead";
         public static final String NUM_BALANCES_SELECTED = "numOfBalancesSelected";
@@ -59,7 +59,7 @@ public class EffortConstants {
 
         public static final String RUN_IND = "RUN_IND";
         public static final String RUN_REPORT_NUMBER = "RUN_REPORT_NUMBER";
-        
+
         public static final String FEDERAL_ONLY_ROUTE_IND = "FEDERAL_ONLY_ROUTE_IND";
     }
 
@@ -76,26 +76,26 @@ public class EffortConstants {
         List<String> balanceTypeList = new ArrayList<String>();
         balanceTypeList.add(KFSConstants.BALANCE_TYPE_ACTUAL);
         balanceTypeList.add(KFSConstants.BALANCE_TYPE_A21);
-        
+
         return balanceTypeList;
     }
-    
+
     public static final List<String> ELIGIBLE_COST_SHARE_SUB_ACCOUNT_TYPE_CODES = getEligibleCostShareSubAccountTypeCodes();
-    
+
     private static final List<String> getEligibleCostShareSubAccountTypeCodes(){
         List<String> costShareSubAccountTypeCodesList = new ArrayList<String>();
         costShareSubAccountTypeCodesList.add(KFSConstants.SubAccountType.COST_SHARE);
         return costShareSubAccountTypeCodesList;
     }
-    
+
     public static final List<String> ELIGIBLE_EXPENSE_SUB_ACCOUNT_TYPE_CODES = getEligibleExpenseSubAccountTypeCodes();
-    
+
     private static final List<String> getEligibleExpenseSubAccountTypeCodes(){
         List<String> expenseSubAccountTypeCodesList = new ArrayList<String>();
         expenseSubAccountTypeCodesList.add(KFSConstants.SubAccountType.EXPENSE);
         return expenseSubAccountTypeCodesList;
     }
-    
+
     public static final double PERCENT_LIMIT_OF_LINE_SALARY_CHANGE = 0.005;
     public static final double AMOUNT_LIMIT_OF_TOTAL_SALARY_CHANGE = 0.009;
 
@@ -109,11 +109,11 @@ public class EffortConstants {
 
     public static final String GENERATE_EFFORT_CERTIFICATION_REPORT_DEFINITION_QUESTION_ID = "GenerateDefinitionQuestion";
 
-    public static class EffortCertificationEditMode {        
-        public static final String DETAIL_TAB_ENTRY = "detailTabEntry";      
+    public static class EffortCertificationEditMode {
+        public static final String DETAIL_TAB_ENTRY = "detailTabEntry";
         public static final String SUMMARY_TAB_ENTRY = "summaryTabEntry";
     }
-    
+
     public static final List<String> DETAIL_LINES_CONSOLIDATION_FILEDS = getDetailLinesConsolidationFields();
     private static final List<String> getDetailLinesConsolidationFields() {
         List<String> consolidationFields = new ArrayList<String>();
@@ -123,7 +123,7 @@ public class EffortConstants {
 
         return consolidationFields;
     }
-    
+
     public static final List<String> DETAIL_LINES_GROUPING_FILEDS = getDetailLinesGroupingFields();
     private static final List<String> getDetailLinesGroupingFields() {
         List<String> groupingFields = new ArrayList<String>();
@@ -134,10 +134,15 @@ public class EffortConstants {
 
         return groupingFields;
     }
-    
+
     public static final String SORT_DETAIL_LINE_BY_COLUMN_METHOD_NAME = "sortDetailLineByColumn";
-    
+
     public static class EffortDocumentTypes {
         public static final String EFFORT_CERTIFICATION_DOCUMENT = "ECD";
     }
+
+    public static class BalanceInquiries {
+        public static final String BALANCE_TYPE_AC_AND_A21 = "AC&A2";
+    }
+
 }

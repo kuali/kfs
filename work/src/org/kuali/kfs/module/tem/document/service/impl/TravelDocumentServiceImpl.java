@@ -19,8 +19,11 @@ import static org.kuali.kfs.module.tem.TemKeyConstants.ERROR_UPLOADPARSER_INVALI
 import static org.kuali.kfs.module.tem.TemKeyConstants.ERROR_UPLOADPARSER_LINE;
 import static org.kuali.kfs.module.tem.TemKeyConstants.ERROR_UPLOADPARSER_PROPERTY;
 import static org.kuali.kfs.module.tem.TemKeyConstants.ERROR_UPLOADPARSER_WRONG_PROPERTY_NUMBER;
+import static org.kuali.kfs.module.tem.TemKeyConstants.MESSAGE_TR_LODGING_ALREADY_CLAIMED;
+import static org.kuali.kfs.module.tem.TemKeyConstants.MESSAGE_TR_MEAL_ALREADY_CLAIMED;
 import static org.kuali.kfs.module.tem.TemKeyConstants.MESSAGE_UPLOADPARSER_EXCEEDED_MAX_LENGTH;
 import static org.kuali.kfs.module.tem.TemKeyConstants.MESSAGE_UPLOADPARSER_INVALID_VALUE;
+import static org.kuali.kfs.module.tem.TemPropertyConstants.PER_DIEM_EXPENSE_DISABLED;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -86,6 +89,7 @@ import org.kuali.kfs.module.tem.document.TravelEntertainmentDocument;
 import org.kuali.kfs.module.tem.document.TravelReimbursementDocument;
 import org.kuali.kfs.module.tem.document.TravelRelocationDocument;
 import org.kuali.kfs.module.tem.document.service.AccountingDocumentRelationshipService;
+import org.kuali.kfs.module.tem.document.service.TravelAuthorizationService;
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
 import org.kuali.kfs.module.tem.document.service.TravelReimbursementService;
 import org.kuali.kfs.module.tem.document.web.struts.TravelFormBase;
@@ -157,6 +161,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
     private DocumentService documentService;
     private BusinessObjectService businessObjectService;
     private TravelDocumentDao travelDocumentDao;
+    private TravelAuthorizationService travelAuthorizationService;
     private DateTimeService dateTimeService;
     private ParameterService parameterService;
     private TravelerService travelerService;
@@ -189,7 +194,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
 
         PerDiem perDiem = expense.getPerDiem();
         expense.setPrimaryDestination(perDiem.getPrimaryDestination().getPrimaryDestinationName());
-        expense.setCountryState(perDiem.getPrimaryDestination().getRegion().getRegionName());
+        expense.setCountryState(perDiem.getPrimaryDestination().getRegion().getRegionCode());
         expense.setCounty(perDiem.getPrimaryDestination().getCounty());
 
         //default first to per diem's values
@@ -621,8 +626,8 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
      * @see org.kuali.kfs.module.tem.document.service.TravelDocumentService#findAuthorizationDocuments(java.lang.String)
      */
     @Override
-    public List<TravelAuthorizationDocument> findAuthorizationDocuments(final String travelDocumentNumber){
-        final List<String> ids = findAuthorizationDocumentNumbers(travelDocumentNumber);
+    public List<TravelAuthorizationDocument> findAuthorizationDocuments(final String travelDocumentIdentifier){
+        final List<String> ids = findAuthorizationDocumentNumbers(travelDocumentIdentifier);
 
         List<TravelAuthorizationDocument> resultDocumentLists = new ArrayList<TravelAuthorizationDocument>();
         //retrieve the actual documents
@@ -643,8 +648,8 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
      * @see org.kuali.kfs.module.tem.document.service.TravelDocumentService#findAuthorizationDocumentNumbers(java.lang.String)
      */
     @Override
-    public List<String> findAuthorizationDocumentNumbers(final String travelDocumentNumber) {
-        final List<String> ids = getTravelDocumentDao().findDocumentNumbers(TravelAuthorizationDocument.class, travelDocumentNumber);
+    public List<String> findAuthorizationDocumentNumbers(final String travelDocumentIdentifier) {
+        final List<String> ids = getTravelDocumentDao().findDocumentNumbers(TravelAuthorizationDocument.class, travelDocumentIdentifier);
         return ids;
     }
 
@@ -652,8 +657,8 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
      * @see org.kuali.kfs.module.tem.document.service.TravelDocumentService#findReimbursementDocuments(java.lang.String)
      */
     @Override
-    public List<TravelReimbursementDocument> findReimbursementDocuments(final String travelDocumentNumber) {
-        final List<String> ids = getTravelDocumentDao().findDocumentNumbers(TravelReimbursementDocument.class, travelDocumentNumber);
+    public List<TravelReimbursementDocument> findReimbursementDocuments(final String travelDocumentIdentifier) {
+        final List<String> ids = getTravelDocumentDao().findDocumentNumbers(TravelReimbursementDocument.class, travelDocumentIdentifier);
 
         List<TravelReimbursementDocument> resultDocumentLists = new ArrayList<TravelReimbursementDocument>();
         // retrieve the actual documents
@@ -1253,15 +1258,65 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
         return travelDocument;
     }
 
+    /**
+     * Find the root document for creating a travel reimbursement from a previous document.
+     *
+     * @param trDocument
+     * @return
+     * @throws WorkflowException
+     */
+    @Override
+    public TravelDocument findRootForTravelReimbursement(String travelDocumentIdentifier) throws WorkflowException {
+
+        TravelDocument rootTravelDocument = null;
+
+        //look for a current authorization first
+
+        //use the travelDocumentIdentifier to find any saved authorization
+        final Collection<TravelAuthorizationDocument> tempTaDocs = getTravelAuthorizationService().find(travelDocumentIdentifier);
+
+        if (!tempTaDocs.isEmpty()) {
+            TravelAuthorizationDocument taDoc = null;
+            for(TravelAuthorizationDocument tempTaDoc : tempTaDocs) {
+                taDoc = tempTaDoc;
+                break;
+            }
+
+            //find the current travel authorization
+            rootTravelDocument = findCurrentTravelAuthorization(taDoc);
+        }
+
+        //no authorizations exist so the root should be a reimbursement
+        else {
+            final List<TravelReimbursementDocument> tempTrDocs = findReimbursementDocuments(travelDocumentIdentifier);
+            //if there is only one document then that is the root
+            if (tempTrDocs.size() == 1) {
+                rootTravelDocument = tempTrDocs.get(0);
+            }
+            else {
+                //the root document can be found using any document in the list; just use the first one
+                String rootDocumentNumber = getAccountingDocumentRelationshipService().getRootDocumentNumber(tempTrDocs.get(0).getDocumentNumber());
+                TravelDocument tempDoc = (TravelDocument)documentService.getByDocumentHeaderIdSessionless(rootDocumentNumber);
+
+                rootTravelDocument = tempDoc;
+            }
+        }
+
+        return rootTravelDocument;
+    }
+
     @Override
     public KualiDecimal getTotalCumulativeReimbursements(TravelDocument document) {
         KualiDecimal trTotal = KualiDecimal.ZERO;
 
         List<Document> relatedTravelReimbursementDocuments = getDocumentsRelatedTo(document, TravelDocTypes.TRAVEL_REIMBURSEMENT_DOCUMENT);
         for(Document trDoc: relatedTravelReimbursementDocuments) {
-            List<AccountingLine> lines = ((TravelReimbursementDocument)trDoc).getSourceAccountingLines();
-            for(AccountingLine line: lines) {
-                trTotal = trTotal.add(line.getAmount());
+            final TravelReimbursementDocument tr = (TravelReimbursementDocument)trDoc;
+            if (!KFSConstants.DocumentStatusCodes.CANCELLED.equals(tr.getFinancialSystemDocumentHeader().getFinancialDocumentStatusCode()) && !KFSConstants.DocumentStatusCodes.DISAPPROVED.equals(tr.getFinancialSystemDocumentHeader().getFinancialDocumentStatusCode())) {
+                List<AccountingLine> lines = tr.getSourceAccountingLines();
+                for(AccountingLine line: lines) {
+                    trTotal = trTotal.add(line.getAmount());
+                }
             }
         }
 
@@ -2151,6 +2206,113 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
         return getAccountsReceivableModuleService().getOrgOptionsIfExists(chartOfAccountsCode, organizationCode);
     }
 
+    /**
+     * @see org.kuali.kfs.module.tem.document.service.TravelDocumentService#disableDuplicateExpenses(org.kuali.kfs.module.tem.document.TravelReimbursementDocument, org.kuali.kfs.module.tem.businessobject.ActualExpense)
+     */
+    @Override
+    public void disableDuplicateExpenses(TravelDocument trDocument, ActualExpense actualExpense) {
+        if (trDocument.getPerDiemExpenses() != null && !trDocument.getPerDiemExpenses().isEmpty()) {  // no per diems? then let's not bother
+            if (actualExpense.getExpenseDetails() != null && !actualExpense.getExpenseDetails().isEmpty()) {
+                for (TEMExpense detail : actualExpense.getExpenseDetails()) {
+                    checkActualExpenseAgainstPerDiems(trDocument, (ActualExpense)detail);
+                }
+            } else {
+                checkActualExpenseAgainstPerDiems(trDocument, actualExpense);
+            }
+        }
+    }
+
+    /**
+     * Checks the given actual expense (or detail) against each of the per diems on the TR document to disable
+     * @param trDocument the travel reimbursement with per diems to check against
+     * @param actualExpense
+     */
+    protected void checkActualExpenseAgainstPerDiems(TravelDocument trDocument, ActualExpense actualExpense) {
+        int i = 0;
+        for (final PerDiemExpense perDiemExpense : trDocument.getPerDiemExpenses()) {
+            List<DisabledPropertyMessage> messages = disableDuplicateExpenseForPerDiem(actualExpense, perDiemExpense, i);
+            if (messages != null && !messages.isEmpty()) {
+                for (DisabledPropertyMessage message : messages) {
+                    message.addToProperties(trDocument.getDisabledProperties());
+                }
+            }
+            i+=1;
+        }
+    }
+
+    /**
+     * Given one actual expense and one per diem, determines if any of fields on the per diem should be disabled because the actual expense is already covering it
+     * @param actualExpense the actual expense to check
+     * @param perDiemExpense the per diem to check the actual expense against
+     * @param otherExpenseLineCode the expense type code of the actual epxnese
+     * @param perDiemCount the count of the per diems we have worked through
+     * @return a List of any messages about disabled properties which occurred
+     */
+    protected List<DisabledPropertyMessage> disableDuplicateExpenseForPerDiem(ActualExpense actualExpense, PerDiemExpense perDiemExpense, int perDiemCount) {
+        List<DisabledPropertyMessage> disabledPropertyMessages = new ArrayList<DisabledPropertyMessage>();
+
+        final String mileageDate = new SimpleDateFormat("MM/dd/yyyy").format(perDiemExpense.getMileageDate());
+        if (actualExpense.getExpenseDate() == null){
+            return disabledPropertyMessages;
+        }
+        final String expenseDate = new SimpleDateFormat("MM/dd/yyyy").format(actualExpense.getExpenseDate());
+        String meal = "";
+        boolean valid = true;
+
+        if (mileageDate.equals(expenseDate)) {
+            if (perDiemExpense.getBreakfast() && actualExpense.isHostedBreakfast()) {
+                meal = TemConstants.HostedMeals.HOSTED_BREAKFAST;
+                perDiemExpense.setBreakfast(false);
+                perDiemExpense.setBreakfastValue(KualiDecimal.ZERO);
+                valid = false;
+            }
+            else if (perDiemExpense.getLunch() && actualExpense.isHostedLunch()) {
+                meal = TemConstants.HostedMeals.HOSTED_LUNCH;
+                perDiemExpense.setLunch(false);
+                perDiemExpense.setLunchValue(KualiDecimal.ZERO);
+                valid = false;
+            }
+            else if (perDiemExpense.getDinner() && actualExpense.isHostedDinner()) {
+                meal = TemConstants.HostedMeals.HOSTED_DINNER;
+                perDiemExpense.setDinner(false);
+                perDiemExpense.setDinnerValue(KualiDecimal.ZERO);
+                valid = false;
+            }
+
+            if (!valid) {
+                String temp = String.format(PER_DIEM_EXPENSE_DISABLED, perDiemCount, meal);
+                String message = getMessageFrom(MESSAGE_TR_MEAL_ALREADY_CLAIMED, expenseDate, meal);
+                disabledPropertyMessages.add(new DisabledPropertyMessage(temp, message));
+            }
+
+            // KUALITEM-483 add in check for lodging
+            if (perDiemExpense.getLodging().isGreaterThan(KualiDecimal.ZERO) && !StringUtils.isBlank(actualExpense.getExpenseTypeCode()) && TemConstants.ExpenseTypes.LODGING.equals(actualExpense.getExpenseTypeCode())) {
+                String temp = String.format(PER_DIEM_EXPENSE_DISABLED, perDiemCount, TemConstants.LODGING.toLowerCase());
+                String message = getMessageFrom(MESSAGE_TR_LODGING_ALREADY_CLAIMED, expenseDate);
+                perDiemExpense.setLodging(KualiDecimal.ZERO);
+                disabledPropertyMessages.add(new DisabledPropertyMessage(temp, message));
+            }
+        }
+        return disabledPropertyMessages;
+    }
+
+    /**
+     * Inner class to hold keys & messages for disabled properties
+     */
+    class DisabledPropertyMessage {
+        private String key;
+        private String message;
+
+        DisabledPropertyMessage(String key, String message) {
+            this.key = key;
+            this.message = message;
+        }
+
+        void addToProperties(Map<String, String> messageMap) {
+            messageMap.put(key, message);
+        }
+    }
+
     public PersistenceStructureService getPersistenceStructureService() {
         return persistenceStructureService;
     }
@@ -2242,6 +2404,14 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
             accountsReceivableModuleService = SpringContext.getBean(AccountsReceivableModuleService.class);
         }
         return accountsReceivableModuleService;
+    }
+
+    public TravelAuthorizationService getTravelAuthorizationService() {
+        return travelAuthorizationService;
+    }
+
+    public void setTravelAuthorizationService(TravelAuthorizationService travelAuthorizationService) {
+        this.travelAuthorizationService = travelAuthorizationService;
     }
 
     public PerDiemService getPerDiemService() {

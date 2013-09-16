@@ -253,6 +253,17 @@
             <ref bean="creditCardStagingDataLookupableHelperService" />
         </property>
     </bean>
+    
+    <bean id="groupTravelerForLookupLookupableHelperService" parent="groupTravelerForLookupLookupableHelperService-parentBean" scope="prototype"/>
+	<bean id="groupTravelerForLookupLookupableHelperService-parentBean" abstract="true" class="org.kuali.kfs.module.tem.businessobject.lookup.GroupTravelerForLookupLookupableHelperServiceImpl">
+		<property name="accountsReceivableModuleService" ref="accountsReceivableModuleService"/>
+	</bean>
+	<bean id="groupTravelerForLookupLookupable" parent="groupTravelerForLookupLookupable-parentBean" scope="prototype"/>
+	<bean id="groupTravelerForLookupLookupable-parentBean" abstract="true" class="org.kuali.rice.kns.lookup.KualiLookupableImpl">
+		<property name="lookupableHelperService">
+			<ref bean="groupTravelerForLookupLookupableHelperService" />
+		</property>
+	</bean>
 
 	<bean id="travelerDao" parent="platformAwareDao" class="org.kuali.kfs.module.tem.dataaccess.impl.TravelerDaoOjb">
 		<property name="lookupDao" ref="lookupDao" />
@@ -483,6 +494,7 @@
 		<property name="dataDictionaryService" ref="dataDictionaryService" />
 		<property name="dateTimeService" ref="dateTimeService" />
 		<property name="travelDocumentDao" ref="travelDocumentDao" />
+		<property name="travelAuthorizationService" ref="temTravelAuthorizationService" />
 		<property name="parameterService" ref="parameterService" />
 		<property name="accountingDocumentRelationshipService" ref="temAccountingDocumentRelationshipService" />
 		<property name="temRoleService" ref="temRoleService" />
@@ -754,7 +766,6 @@
 				</entry>
 			</map>
 		</property>
-		<property name="parameterEvaluatorService" ref="parameterEvaluatorService"/>
 	</bean>
 
 	<bean id="importedCTSExpenseService"
@@ -1284,7 +1295,7 @@
 	</bean>
 	
 	<bean id="travelReimbursementsExtractService"  parent="travelReimbursementsExtractService-parentBean"/>
-	<bean id="travelReimbursementsExtractService-parentBean" parent="paymentSourceExtractService-parentBean" abstract="true">
+	<bean id="travelReimbursementsExtractService-parentBean" parent="paymentSourceExtractionService-parentBean" abstract="true">
 		<property name="paymentSourceToExtractService" ref="temReimbursableDocumentExtractionHelperService"/>
 	</bean>
 	
@@ -1294,7 +1305,7 @@
 	</bean>
 	
 	<bean id="travelAuthorizationsExtractService"  parent="travelAuthorizationsExtractService-parentBean"/>
-	<bean id="travelAuthorizationsExtractService-parentBean" parent="paymentSourceExtractService-parentBean" abstract="true">
+	<bean id="travelAuthorizationsExtractService-parentBean" parent="paymentSourceExtractionService-parentBean" abstract="true">
 		<property name="paymentSourceToExtractService" ref="temAuthorizationDocumentExtractionHelperService"/>
 	</bean>
     
@@ -1402,25 +1413,32 @@
 	<bean id="travelPaymentsHelperService-parentBean" class="org.kuali.kfs.module.tem.document.service.impl.TravelPaymentsHelperServiceImpl" abstract="true">
 		<property name="personService" ref="personService"/>
 		<property name="workflowDocumentService" ref="workflowDocumentService"/>
-		<property name="paymentSourceExtractionService" ref="paymentSourceExtractService"/>
+		<property name="paymentSourceHelperService" ref="paymentSourceHelperService"/>
 	</bean>
 	
 	<bean id="temReimbursableDocumentExtractionHelperService" parent="temReimbursableDocumentExtractionHelperService-parentBean"/>
 	<bean id="temReimbursableDocumentExtractionHelperService-parentBean" class="org.kuali.kfs.module.tem.document.service.impl.ReimbursableDocumentExtractionHelperServiceImpl" abstract="true">
 		<property name="documentService" ref="documentService"/>
 		<property name="travelerService" ref="travelerService"/>
-		<property name="paymentSourceExtractionService" ref="paymentSourceExtractService"/>
+		<property name="paymentSourceHelperService" ref="paymentSourceHelperService"/>
 		<property name="travelDocumentDao" ref="travelDocumentDao"/>
 		<property name="travelPaymentsHelperService" ref="travelPaymentsHelperService"/>
+		<property name="parameterService" ref="parameterService"/>
 	</bean>
 	
 	<bean id="temAuthorizationDocumentExtractionHelperService" parent="temAuthorizationDocumentExtractionHelperService-parentBean"/>
 	<bean id="temAuthorizationDocumentExtractionHelperService-parentBean" class="org.kuali.kfs.module.tem.document.service.impl.TravelAuthorizationDocumentExtractionHelperServiceImpl" abstract="true">
 		<property name="documentService" ref="documentService"/>
 		<property name="travelerService" ref="travelerService"/>
-		<property name="paymentSourceExtractionService" ref="paymentSourceExtractService"/>
+		<property name="paymentSourceHelperService" ref="paymentSourceHelperService"/>
 		<property name="travelDocumentDao" ref="travelDocumentDao"/>
 		<property name="travelPaymentsHelperService" ref="travelPaymentsHelperService"/>
+		<property name="parameterService" ref="parameterService"/>
+	</bean>
+	
+	<bean id="reimbursementOverageOrganizationHierarchyRoleTypeService" class="org.kuali.kfs.module.tem.identity.ReimbursementOverageOrganizationHierarchyRoleTypeServiceImpl">
+		<property name="chartService" ref="chartService"/>
+		<property name="organizationService" ref="organizationService"/>
 	</bean>
 
     <import resource="spring-tem-bus-exports.xml"/>

@@ -22,8 +22,8 @@
       <parent>TTCM</parent>
 		<routePaths>
 			<routePath>
-				<start name="AdHoc" nextNode="TravelRequiresTravelerApproval"/>
-	     		<split name="ProfileIsTaxManagerRequired" nextNode="Traveler">
+				<start name="AdHoc" nextNode="ProfileIsTaxManagerRequired"/>
+	     		<split name="ProfileIsTaxManagerRequired" nextNode="TravelRequiresTravelerApproval">
 		         	<branch name="True">
 		            	<role name="Tax" nextNode="JoinRequiresTaxManagerReview"/>
 		         	</branch>

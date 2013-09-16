@@ -60,7 +60,6 @@ import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 public abstract class TEMReimbursementDocument extends TravelDocumentBase implements PaymentSource {
-
     private String paymentMethod = KFSConstants.PaymentSourceConstants.PAYMENT_METHOD_CHECK;
     private TravelPayment travelPayment;
     private PaymentSourceWireTransfer wireTransfer;
@@ -387,7 +386,7 @@ public abstract class TEMReimbursementDocument extends TravelDocumentBase implem
      * @see org.kuali.kfs.module.tem.document.TravelDocument#getExpenseTypeCode()
      */
     @Override
-    public String getExpenseTypeCode() {
+    public String getDefaultCardTypeCode() {
         return TemConstants.ACTUAL_EXPENSE;
     }
 
@@ -545,7 +544,7 @@ public abstract class TEMReimbursementDocument extends TravelDocumentBase implem
      */
     public static PaymentSourceExtractionService getPaymentSourceExtractionService() {
         if (paymentSourceExtractionService == null) {
-            paymentSourceExtractionService = SpringContext.getBean(PaymentSourceExtractionService.class);
+            paymentSourceExtractionService = SpringContext.getBean(PaymentSourceExtractionService.class, TemConstants.REIMBURSABLE_PAYMENT_SOURCE_EXTRACTION_SERVICE);
         }
         return paymentSourceExtractionService;
     }

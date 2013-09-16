@@ -18,7 +18,6 @@ package org.kuali.kfs.module.tem.document.maintenance;
 import static org.kuali.kfs.module.tem.TemConstants.EMP_TRAVELER_TYP_CD;
 import static org.kuali.kfs.module.tem.TemConstants.NONEMP_TRAVELER_TYP_CD;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -28,7 +27,6 @@ import org.kuali.kfs.integration.ar.AccountsReceivableCustomer;
 import org.kuali.kfs.integration.ar.AccountsReceivableModuleService;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
-import org.kuali.kfs.module.tem.TemPropertyConstants.TEMProfileProperties;
 import org.kuali.kfs.module.tem.TemWorkflowConstants;
 import org.kuali.kfs.module.tem.businessobject.TEMProfile;
 import org.kuali.kfs.module.tem.businessobject.TEMProfileAccount;
@@ -241,7 +239,7 @@ public class TEMProfileMaintainable extends FinancialSystemMaintainable {
         //edit profile
         if (ObjectUtils.isNotNull(oldTemProfile.getProfileId())) {
             // If NRA changed, route to tax manager
-            if (newTemProfile.getNonResidentAlien().equals(oldTemProfile.getNonResidentAlien())) {
+            if (!newTemProfile.getNonResidentAlien().equals(oldTemProfile.getNonResidentAlien())) {
                 return true;
             }
 
@@ -328,30 +326,30 @@ public class TEMProfileMaintainable extends FinancialSystemMaintainable {
         super.processAfterPost(document, parameters);
     }
 
-    @SuppressWarnings("rawtypes")
-    @Override
-    public Map populateBusinessObject(Map<String, String> fieldValues, MaintenanceDocument maintenanceDocument, String methodToCall) {
-
-        //populate maintenanceDocument with notes from the BO
-        List<Note> documentNotes = maintenanceDocument.getNotes();
-        if (documentNotes == null){
-            documentNotes = new ArrayList<Note>();
-        }else{
-            documentNotes.clear();
-        }
-
-        List<Note> boNotes = new ArrayList<Note>();
-        if (maintenanceDocument.getOldMaintainableObject().getBusinessObject().getObjectId() != null) {
-            boNotes = getNoteService().getByRemoteObjectId(this.getBusinessObject().getObjectId());
-        }
-        documentNotes.addAll(boNotes);
-
-        if(fieldValues.containsKey(TEMProfileProperties.PROFILE_ID)) {
-        	fieldValues.remove(TEMProfileProperties.PROFILE_ID);
-        }
-
-        return super.populateBusinessObject(fieldValues, maintenanceDocument, methodToCall);
-    }
+//    @SuppressWarnings("rawtypes")
+//    @Override
+//    public Map populateBusinessObject(Map<String, String> fieldValues, MaintenanceDocument maintenanceDocument, String methodToCall) {
+//
+//        //populate maintenanceDocument with notes from the BO
+//        List<Note> documentNotes = maintenanceDocument.getNotes();
+//        if (documentNotes == null){
+//            documentNotes = new ArrayList<Note>();
+//        }else{
+//            documentNotes.clear();
+//        }
+//
+//        List<Note> boNotes = new ArrayList<Note>();
+//        if (maintenanceDocument.getOldMaintainableObject().getBusinessObject().getObjectId() != null) {
+//            boNotes = getNoteService().getByRemoteObjectId(this.getBusinessObject().getObjectId());
+//        }
+//        documentNotes.addAll(boNotes);
+//
+//        if(fieldValues.containsKey(TEMProfileProperties.PROFILE_ID)) {
+//        	fieldValues.remove(TEMProfileProperties.PROFILE_ID);
+//        }
+//
+//        return super.populateBusinessObject(fieldValues, maintenanceDocument, methodToCall);
+//    }
 
     @Override
     public void prepareForSave() {

@@ -145,16 +145,6 @@ public interface TravelReimbursementService {
     public KualiDecimal getReimbursableToTraveler(TEMReimbursementDocument reimbursementDocument);
 
     /**
-     * This method searches to make sure that the expense entered doesn't already exist
-     * If they exist, disable them in the per diem table and notify the user.
-     * @param trDocument
-     *          the current doc.
-     * @param actualExpense
-     *          the expense in question
-     */
-    public void disableDuplicateExpenses(TravelReimbursementDocument trDocument, ActualExpense actualExpense);
-
-    /**
      * This checks to see if the expense no longer exists, and if it doesn't, enables the expense that was disabled
      * @param trDocument
      * @param actualExpense
@@ -167,4 +157,9 @@ public interface TravelReimbursementService {
      * @param sequenceHelper the pending entry sequence generator for this generation process
      */
     public void generateEntriesForAdvances(TravelReimbursementDocument trDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper);
+
+    /**
+     * @return true if Travel Authorization Required is set to true for all Trip Types
+     */
+    public boolean doAllReimbursementTripTypesRequireTravelAuthorization();
 }

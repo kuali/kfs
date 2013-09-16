@@ -69,7 +69,8 @@ public class TemKeyConstants {
     public static final String MESSAGE_DOCUMENT_VENDOR_PAYMENT_LINK = "message.document.vendor.payment.link";
 
     // errors
-    public static final String TRVL_AUTH_TRVL_ADVANCE_ERRORS = "document.travelAdvance*,travelAdvance.*,advanceAccountingLines*,advanceTravelPayment.*,document.advanceTravelPayment.*,document.advanceAccountingLines*,newAdvanceAccountingLine*";
+    public static final String TRVL_AUTH_TRVL_ADVANCE_ERRORS = "document.travelAdvance*,travelAdvance.*";
+    public static final String TRVL_AUTH_ADV_ACCT_LINES_ERRORS = "advanceAccountingLines*,document.advanceAccountingLines*,newAdvanceAccountingLine*";
 
     public static final String TRVL_AUTH_TRIP_OVERVIEW_ERRORS = "tripInfoUpdateTripDetails.*,document.tripBegin,document.tripEnd,document.tripTypeCode,document.primaryDestinationName," +
                                                                 "document.travelerTypeCode,document.firstName,document.lastName,document.streetAddressLine1,"+
@@ -108,7 +109,6 @@ public class TemKeyConstants {
     public static final String ERROR_TA_TRVL_ADV_DUE_DATE_INVALID = "error.document.tem.travel.advance.due.date.invalid";
     public static final String ERROR_TA_TRVL_ADV_POLICY = "error.document.tem.travel.advance.policy";
     public static final String ERROR_TA_TRVL_ADV_ADD_JUST = "error.document.tem.travel.advance.additional.justification";
-    public static final String ERROR_TA_TRVL_ADV_DUE_DATE_MISSING = "error.document.tem.travel.advance.due.date.missing";
     public static final String ERROR_TA_TRIP_BEGIN_EMPTY = "error.document.tem.tripBeginEmpty";
     public static final String ERROR_TA_TRIP_END_EMPTY= "error.document.tem.tripEndEmpty";
     public static final String ERROR_TA_TRIP_TYPE_CD_EMPTY = "error.document.tem.tripTypeCodeEmpty";
@@ -206,6 +206,7 @@ public class TemKeyConstants {
     public static final String ERROR_TRVL_GROUP_TRVL_EMP_NOT_FOUND = "error.document.tem.travel.groupTraveler.employeeNotFound";
     public static final String HOST_CERTIFICATION_REQUIRED_IND = "tem.entertainment.host.certification.required";
     public static final String ERROR_TRIP_TYPE_TA_REQUIRED = "error.document.tem.triptype.ta.required";
+    public static final String ERROR_TA_REQUIRED_FOR_TR_INIT="error.document.tem.reimbursement.init.ta.required";
 
     public static final String TEM_NON_EMPLOYEE_CERTIFICATION  = "tem.non.employee.certification";
 
@@ -280,4 +281,13 @@ public class TemKeyConstants {
     public static final String ERROR_EXPENSE_TYPE_OBJECT_CODE_INVALID_SUMMATION_CODE = "error.etoc.invalid.summation.code";
     public static final String ERROR_EXPENSE_TYPE_OBJECT_CODE_REOCRD_NOT_UNIQUE = "error.etoc.record.not.unique";
     public static final String ERROR_EXPENSE_TYPE_OBJECT_CODE_INVALID_TRIP_TYPE_FOR_DOC_TYPE = "error.etoc.invalid.trip.type.considering.document.type";
+
+    public static final String ERROR_REIMBURSEMENT_OVERAGE_ORGANIZATION_HIERARCHY_ROLE_NON_NUMERIC = "error.reimbursement.overage.organization.hierarchy.role.non.numeric";
+    public static final String ERROR_REIMBURSEMENT_OVERAGE_ORGANIZATION_HIERARCHY_ROLE_NEGATIVE = "error.reimbursement.overage.organization.hierarchy.role.negative";
+
+    public static final String ERROR_GROUP_TRAVELER_LOOKUP_NEEDS_SOME_FIELD = "error.groupTraveler.lookupNeedsSomeField";
+
+    //Configuration properties
+    public static final String CONFIG_PROPERTY_REIMBURSEMENT_INITIATELINK_ENABLED = "module.travel.reimbursement.initiatelink.enabled";
+
 }

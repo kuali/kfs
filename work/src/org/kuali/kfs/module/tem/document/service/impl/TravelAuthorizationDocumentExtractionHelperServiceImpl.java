@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.module.tem.TemParameterConstants;
 import org.kuali.kfs.module.tem.dataaccess.TravelDocumentDao;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
 import org.kuali.kfs.module.tem.document.service.TravelAuthorizationDocumentPaymentService;
@@ -32,10 +33,12 @@ import org.kuali.kfs.pdp.businessobject.PaymentAccountDetail;
 import org.kuali.kfs.pdp.businessobject.PaymentDetail;
 import org.kuali.kfs.pdp.businessobject.PaymentGroup;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.batch.service.PaymentSourceExtractionService;
+import org.kuali.kfs.sys.KFSParameterKeyConstants;
 import org.kuali.kfs.sys.batch.service.PaymentSourceToExtractService;
 import org.kuali.kfs.sys.document.PaymentSource;
+import org.kuali.kfs.sys.document.service.PaymentSourceHelperService;
 import org.kuali.kfs.sys.document.validation.event.AccountingDocumentSaveWithNoLedgerEntryGenerationEvent;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.service.DocumentService;
 
@@ -48,8 +51,9 @@ public class TravelAuthorizationDocumentExtractionHelperServiceImpl implements T
     protected TravelDocumentDao travelDocumentDao;
     protected TravelPaymentsHelperService travelPaymentsHelperService;
     protected DocumentService documentService;
-    protected PaymentSourceExtractionService paymentSourceExtractionService;
+    protected PaymentSourceHelperService paymentSourceHelperService;
     protected TravelerService travelerService;
+    protected ParameterService parameterService;
 
     /**
      *
@@ -103,7 +107,7 @@ public class TravelAuthorizationDocumentExtractionHelperServiceImpl implements T
         if (authorizationDoc.getAdvanceTravelPayment().getCancelDate() == null) {
             try {
                 authorizationDoc.getAdvanceTravelPayment().setCancelDate(cancelDate);
-                getPaymentSourceExtractionService().handleEntryCancellation(authorizationDoc);
+                getPaymentSourceHelperService().handleEntryCancellation(authorizationDoc);
                 authorizationDoc.getFinancialSystemDocumentHeader().setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.CANCELLED);
                 // save the document
                 getDocumentService().saveDocument(authorizationDoc, AccountingDocumentSaveWithNoLedgerEntryGenerationEvent.class);
@@ -161,6 +165,27 @@ public class TravelAuthorizationDocumentExtractionHelperServiceImpl implements T
     }
 
     /**
+     * Uses the value in the KFS-TEM / Document / PRE_DISBURSEMENT_EXTRACT_ORGANIZATION parameter
+     * @see org.kuali.kfs.sys.document.PaymentSource#getPreDisbursementCustomerProfileUnit()
+     */
+    @Override
+    public String getPreDisbursementCustomerProfileUnit() {
+        final String unit = getParameterService().getParameterValueAsString(TemParameterConstants.TEM_DOCUMENT.class, KFSParameterKeyConstants.PdpExtractBatchParameters.PDP_ORG_CODE);
+        return unit;
+    }
+
+
+    /**
+     * Uses the value in the KFS-TEM / Document / PRE_DISBURSEMENT_EXTRACT_SUB_UNIT
+     * @see org.kuali.kfs.sys.document.PaymentSource#getPreDisbursementCustomerProfileSubUnit()
+     */
+    @Override
+    public String getPreDisbursementCustomerProfileSubUnit() {
+        final String subUnit = getParameterService().getParameterValueAsString(TemParameterConstants.TEM_DOCUMENT.class, KFSParameterKeyConstants.PdpExtractBatchParameters.PDP_SBUNT_CODE);
+        return subUnit;
+    }
+
+    /**
      * @return an implementation of the DAO for TravelDocuments
      */
     public TravelDocumentDao getTravelDocumentDao() {
@@ -206,18 +231,18 @@ public class TravelAuthorizationDocumentExtractionHelperServiceImpl implements T
     }
 
     /**
-     * @return an implementation of the PaymentSourceExtractionService
+     * @return an implementation of the PaymentSourceHelperService
      */
-    public PaymentSourceExtractionService getPaymentSourceExtractionService() {
-        return paymentSourceExtractionService;
+    public PaymentSourceHelperService getPaymentSourceHelperService() {
+        return paymentSourceHelperService;
     }
 
     /**
-     * Sets the implementation of the PaymentSourceExtractionService for this service to use
-     * @param parameterService an implementation of PaymentSourceExtractionService
+     * Sets the implementation of the PaymentSourceHelperService for this service to use
+     * @param parameterService an implementation of PaymentSourceHelperService
      */
-    public void setPaymentSourceExtractionService(PaymentSourceExtractionService paymentSourceExtractionService) {
-        this.paymentSourceExtractionService = paymentSourceExtractionService;
+    public void setPaymentSourceHelperService(PaymentSourceHelperService paymentSourceHelperService) {
+        this.paymentSourceHelperService = paymentSourceHelperService;
     }
 
     /**
@@ -233,5 +258,20 @@ public class TravelAuthorizationDocumentExtractionHelperServiceImpl implements T
      */
     public void setTravelerService(TravelerService travelerService) {
         this.travelerService = travelerService;
+    }
+
+    /**
+     * @return the injected implementation of the ParameterService
+     */
+    public ParameterService getParameterService() {
+        return parameterService;
+    }
+
+    /**
+     * Injects an implementation of the ParameterService
+     * @param parameterService the implementation of the ParameterService
+     */
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
     }
 }

@@ -79,13 +79,10 @@
 					<td class="datacell">
 						<kul:htmlControlAttribute attributeEntry="${groupTravelerAttributes.groupTravelerEmpId}" property="newGroupTravelerLine.groupTravelerEmpId" readOnly="true" />
 						<div style="display:inline;" id="personLookupButton">
-							<kul:lookup boClassName="org.kuali.rice.kim.api.identity.Person"
-										fieldConversions="principalId:newGroupTravelerLine.groupTravelerEmpId,name:newGroupTravelerLine.name"
+							<kul:lookup boClassName="org.kuali.kfs.module.tem.businessobject.GroupTravelerForLookup"
+										fieldConversions="groupTravelerId:newGroupTravelerLine.groupTravelerEmpId,name:newGroupTravelerLine.name,travelerTypeCode:newGroupTravelerLine.travelerTypeCode"
 										lookupParameters="newGroupTravelerLine.groupTravelerEmpId:principalId" />
 						</div>
-						<div style="display:none;" id="customerLookupButton">
-		                 	<kul:lookup boClassName="org.kuali.kfs.module.ar.businessobject.Customer" fieldConversions="customerNumber:newGroupTravelerLine.groupTravelerEmpId,customerName:newGroupTravelerLine.name" />
-		                </div> 
 					</td>
 					<th class="bord-l-b">
 						<div align="right"><kul:htmlAttributeLabel attributeEntry="${groupTravelerAttributes.name}" /></div>

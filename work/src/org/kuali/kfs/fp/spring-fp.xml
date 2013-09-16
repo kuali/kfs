@@ -152,7 +152,7 @@
 		<property name="parameterService" ref="parameterService"/>
 		<property name="parameterEvaluatorService" ref="parameterEvaluatorService"/>
 		<property name="vendorService" ref="vendorService"/>
-		<property name="paymentSourceExtractionService" ref="paymentSourceExtractService"/>
+		<property name="paymentSourceHelperService" ref="paymentSourceHelperService"/>
 		<property name="disbursementVoucherDao" ref="disbursementVoucherDao"/>
 	</bean>
 	
@@ -231,7 +231,7 @@
 
 	<bean id="procurementCardCreateEmailService"  parent="procurementCardCreateEmailService-parentBean"/>
 	<bean id="procurementCardCreateEmailService-parentBean" parent="velocityEmailServiceBase" class="org.kuali.kfs.fp.batch.service.impl.ProcurementCardCreateEmailServiceImpl" abstract="true">
-		<property name="templateUrl" value="org/kuali/kfs/fp/batch/template/pcard-create-doc-summary-email.vm"/>	
+		<property name="templateUrl" value="org/kuali/kfs/fp/batch/template/pcard-create-doc-summary-email-plain-text.vm"/>	
 	</bean>
 
 	<bean id="procurementCardLoadTransactionsService"  parent="procurementCardLoadTransactionsService-parentBean"/>
@@ -288,7 +288,7 @@
 	</bean>
 	
 	<bean id="disbursementVoucherExtractService"  parent="disbursementVoucherExtractService-parentBean"/>
-	<bean id="disbursementVoucherExtractService-parentBean" parent="paymentSourceExtractService-parentBean" abstract="true">
+	<bean id="disbursementVoucherExtractService-parentBean" parent="paymentSourceExtractionService-parentBean" abstract="true">
 		<property name="paymentSourceToExtractService" ref="disbursementVoucherExtractionHelperService"/>
 	</bean>
 

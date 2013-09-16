@@ -37,6 +37,7 @@ public abstract class VelocityEmailServiceBase implements VelocityEmailService {
     protected ParameterService parameterService;
     protected VelocityEngine velocityEngine;
     protected BusinessObjectService businessObjectService;
+    protected boolean htmlMessage;
 
     /**
      * @see org.kuali.kfs.sys.service.VelocityEmailService#sendEmailNotification(java.util.Map)
@@ -50,12 +51,31 @@ public abstract class VelocityEmailServiceBase implements VelocityEmailService {
             List<String> toList = new ArrayList<String>(mailMessage.getToAddresses());
             List<String> ccList = new ArrayList<String>(mailMessage.getCcAddresses());
             List<String> bccList = new ArrayList<String>(mailMessage.getBccAddresses());
-            CoreApiServiceLocator.getMailer().sendEmail(new EmailFrom(mailMessage.getFromAddress()), new EmailToList(toList), new EmailSubject(mailMessage.getSubject()), new EmailBody(mailMessage.getMessage()), new EmailCcList(ccList), new EmailBcList(bccList), true);
+            CoreApiServiceLocator.getMailer().sendEmail(new EmailFrom(mailMessage.getFromAddress()), new EmailToList(toList), new EmailSubject(mailMessage.getSubject()), new EmailBody(mailMessage.getMessage()), new EmailCcList(ccList), new EmailBcList(bccList), isHtmlMessage());
         }
         catch (Exception ex) {
             LOG.error("Exception received when send email ", ex);
             LOG.error(body);
         }
+    }
+
+    /**
+     * Gets the htmlMessage attribute.
+     *
+     * @return Returns the htmlMessage
+     */
+
+    public boolean isHtmlMessage() {
+        return htmlMessage;
+    }
+
+    /**
+     * Sets the htmlMessage attribute.
+     *
+     * @param htmlMessage The htmlMessage to set.
+     */
+    public void setHtmlMessage(boolean htmlMessage) {
+        this.htmlMessage = htmlMessage;
     }
 
     /**

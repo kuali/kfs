@@ -26,6 +26,7 @@ import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.integration.ld.LaborLedgerBalance;
+import org.kuali.kfs.integration.ld.LaborLedgerBalanceForEffortCertification;
 import org.kuali.kfs.integration.ld.LaborModuleService;
 import org.kuali.kfs.module.ec.EffortConstants;
 import org.kuali.kfs.module.ec.EffortConstants.ExtractProcess;
@@ -44,7 +45,6 @@ import org.kuali.kfs.module.ec.util.EffortCertificationParameterFinder;
 import org.kuali.kfs.module.ec.util.ExtractProcessReportDataHolder;
 import org.kuali.kfs.module.ec.util.LedgerBalanceConsolidationHelper;
 import org.kuali.kfs.module.ec.util.LedgerBalanceWithMessage;
-import org.kuali.kfs.module.ld.businessobject.LedgerBalance;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.Message;
 import org.kuali.kfs.sys.MessageBuilder;
@@ -85,6 +85,7 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
      * @see org.kuali.kfs.module.ec.batch.service.EffortCertificationExtractService#extract()
      */
 
+    @Override
     public void extract() {
         Integer fiscalYear = EffortCertificationParameterFinder.getExtractReportFiscalYear();
         String reportNumber = EffortCertificationParameterFinder.getExtractReportNumber();
@@ -96,6 +97,7 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
      * @see org.kuali.kfs.module.ec.batch.service.EffortCertificationExtractService#extract(java.lang.Integer, java.lang.String)
      */
 
+    @Override
     public void extract(Integer fiscalYear, String reportNumber) {
         Map<String, String> fieldValues = EffortCertificationReportDefinition.buildKeyMap(fiscalYear, reportNumber);
 
@@ -127,6 +129,7 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
      *      org.kuali.kfs.module.ec.businessobject.EffortCertificationReportDefinition)
      */
 
+    @Override
     public EffortCertificationDocumentBuild extract(String emplid, EffortCertificationReportDefinition reportDefinition) {
         Map<String, Collection<String>> parameters = this.getSystemParameters();
         parameters.put(ExtractProcess.EXPENSE_OBJECT_TYPE, getExpenseObjectTypeCodes(reportDefinition.getUniversityFiscalYear()));
@@ -143,6 +146,7 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
      *      org.kuali.kfs.module.ec.businessobject.EffortCertificationReportDefinition)
      */
 
+    @Override
     public boolean isEmployeeEligibleForEffortCertification(String emplid, EffortCertificationReportDefinition reportDefinition) {
         Map<String, Set<String>> earnCodePayGroups = effortCertificationReportDefinitionService.findReportEarnCodePayGroups(reportDefinition);
         List<String> balanceTypeList = EffortConstants.ELIGIBLE_BALANCE_TYPES_FOR_EFFORT_REPORT;
@@ -155,6 +159,7 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
      * @see org.kuali.kfs.module.ec.batch.service.EffortCertificationExtractService#findEmployeesEligibleForEffortCertification(org.kuali.kfs.module.ec.businessobject.EffortCertificationReportDefinition)
      */
 
+    @Override
     public List<String> findEmployeesEligibleForEffortCertification(EffortCertificationReportDefinition reportDefinition) {
         Map<String, Set<String>> earnCodePayGroups = effortCertificationReportDefinitionService.findReportEarnCodePayGroups(reportDefinition);
         List<String> balanceTypeList = EffortConstants.ELIGIBLE_BALANCE_TYPES_FOR_EFFORT_REPORT;
@@ -416,7 +421,7 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
 
     // add an error entry into error map
     protected void reportEmployeeWithoutValidBalances(List<LedgerBalanceWithMessage> ledgerBalancesWithMessage, Message message, String emplid) {
-        LaborLedgerBalance ledgerBalance = new LedgerBalance();
+        LaborLedgerBalance ledgerBalance = kualiModuleService.getResponsibleModuleService(LaborLedgerBalanceForEffortCertification.class).createNewObjectFromExternalizableClass(LaborLedgerBalanceForEffortCertification.class);
         ledgerBalance.setEmplid(emplid);
         this.reportInvalidLedgerBalance(ledgerBalancesWithMessage, ledgerBalance, message);
     }

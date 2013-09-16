@@ -188,14 +188,14 @@
 			<label>Credit Card Imported Expense Clearing Document</label>
 			<parent>TTSM</parent>
 		</documentType>
-		   <documentType>
+		<documentType>
       <name>TTP</name>
       <label>TEM Profile</label>
       <parent>TTCM</parent>
 		<routePaths>
 			<routePath>
 				<start name="AdHoc" nextNode="ProfileIsTaxManagerRequired"/>
-	     		<split name="ProfileIsTaxManagerRequired" nextNode="Traveler">
+	     		<split name="ProfileIsTaxManagerRequired" nextNode="TravelRequiresTravelerApproval">
 		         	<branch name="True">
 		            	<role name="Tax" nextNode="JoinRequiresTaxManagerReview"/>
 		         	</branch>
@@ -204,7 +204,15 @@
 		         	</branch>
 		         	<join name="JoinRequiresTaxManagerReview"/>
 	     		</split>
-	     		<role name="Traveler" />
+	     		<split name="TravelRequiresTravelerApproval" >
+		         	<branch name="True">
+		            	<role name="Traveler" nextNode="JoinRequiresTravelerReview"/>
+		         	</branch>
+		         	<branch name="False">
+		            	<simple name="NoOpTraveler" nextNode="JoinRequiresTravelerReview"/>
+		         	</branch>
+		         	<join name="JoinRequiresTravelerReview"/>
+	     		</split>
 			</routePath>
 		</routePaths>
 		<routeNodes>
@@ -222,6 +230,13 @@
 		        </qualifierResolverClass>
 		        <activationType>P</activationType>
 			</role>
+			<split name="TravelRequiresTravelerApproval">
+			    <type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+			</split>
+			<simple name="NoOpTraveler">
+			    <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+			</simple>
+			<join name="JoinRequiresTravelerReview" />
 			<role name="Traveler">
 				<qualifierResolverClass>
 					org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
@@ -229,7 +244,7 @@
 				<activationType>P</activationType>
 			</role>
 		</routeNodes>
-    	</documentType>
+    </documentType>
     	<documentType>
 	      <name>TT</name>
 	      <parent>KFST</parent>
@@ -274,6 +289,7 @@
 			<active>
 				true
             </active>
+            <authorizer>org.kuali.kfs.module.tem.document.authorization.TravelWorkflowDocumentAuthorizer</authorizer>
 			<routingVersion>
 				2
             </routingVersion>
@@ -577,6 +593,7 @@
                 <status>In Process</status>
                 <status>Awaiting Traveler Review</status>
                 <status>Awaiting Fiscal Officer Review</status>
+                <status>Awaiting Organization Review</status>
                 <status>Awaiting Travel Accounting Review</status>
                 <status>Awaiting Division Review</status>
                 <status>Awaiting Special Request Review</status>
@@ -614,24 +631,17 @@
                         </branch>
                         <join name="JoinTravelRequiresTravelerApproval"/>
                     </split>
-                    <split name="TravelRequiresAccountApproval" nextNode="TravelRequiresAccountingOrganizationHierarchy" nextAppDocStatus="Awaiting Fiscal Officer Review">
+                    <split name="TravelRequiresAccountApproval" nextNode="AccountingOrganizationHierarchy" nextAppDocStatus="Awaiting Fiscal Officer Review">
 						<branch name="True">
-							<role name="Account" nextNode="JoinRequiresAccountApproval" nextAppDocStatus="Awaiting Travel Accounting Review" />
+							<role name="Account" nextNode="JoinRequiresAccountApproval" nextAppDocStatus="Awaiting Organization Review" />
 						</branch>
 						<branch name="False">
-							<simple name="NoOpAccountApproval" nextNode="JoinRequiresAccountApproval" nextAppDocStatus="Awaiting Travel Accounting Review" />
+							<simple name="NoOpAccountApproval" nextNode="JoinRequiresAccountApproval" nextAppDocStatus="Awaiting Organization Review" />
 						</branch>
 						<join name="JoinRequiresAccountApproval" />
 					</split>
-                    <split name="TravelRequiresAccountingOrganizationHierarchy" nextNode="TravelRequiresDivisionApproval" nextAppDocStatus="Awaiting Travel Accounting Review">
-                        <branch name="True">
-                            <role name="AccountingOrganizationHierarchy" nextNode="JoinRequiresAccountingOrganizationHierarchy" nextAppDocStatus="Awaiting Division Review" />
-                        </branch>
-                        <branch name="False">
-                            <simple name="NoOpAccountingOrganizationHierarchy" nextNode="JoinRequiresAccountingOrganizationHierarchy" nextAppDocStatus="Awaiting Division Review" />
-                        </branch>
-                        <join name="JoinRequiresAccountingOrganizationHierarchy"/>
-                    </split>
+					<role name="AccountingOrganizationHierarchy" nextNode="ReimbursementOverage" nextAppDocStatus="Awaiting Travel Accounting Review" />
+					<role name="ReimbursementOverage" nextNode="TravelRequiresDivisionApproval" nextAppDocStatus="Awaiting Division Review"/>
                     <split name="TravelRequiresDivisionApproval" nextNode="TravelHasSpecialRequest" nextAppDocStatus="Awaiting Division Review">
                         <branch name="True">
                             <role name="Division" nextNode="JoinTravelRequiresDivisionApproval" nextAppDocStatus="Awaiting Special Request Review" />
@@ -696,7 +706,7 @@
 			         	<join name="JoinRequiresSeparationOfDuties" />	         		
 	     			</split>
 	     			<role name="PaymentMethod" nextNode="Travel" nextAppDocStatus="Awaiting Travel Manager Review" />
-	     			<role name="Travel" nextAppDocStatus="Department Approved" />
+					<role name="Travel" nextAppDocStatus="Department Approved" />
                 </routePath>
             </routePaths>
             <routeNodes>
@@ -724,14 +734,12 @@
                     <activationType>P</activationType>
                 </role>
                 
-				<join name="JoinRequiresAccountingOrganizationHierarchy" />
-				<simple name="NoOpAccountingOrganizationHierarchy">
-					<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
-				</simple>
-				<split name="TravelRequiresAccountingOrganizationHierarchy">
-					<type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
-				</split>
                 <role name="AccountingOrganizationHierarchy">
+                    <qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+                    <activationType>P</activationType>
+                </role>
+                
+                <role name="ReimbursementOverage">
                     <qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
                     <activationType>P</activationType>
                 </role>
@@ -823,7 +831,7 @@
                     <qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
                     <activationType>P</activationType>
                 </role>
-                
+	     			
                 <role name="Travel">
                     <qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
                     <activationType>P</activationType>

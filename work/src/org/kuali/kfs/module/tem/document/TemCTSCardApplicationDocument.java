@@ -15,8 +15,9 @@
  */
 package org.kuali.kfs.module.tem.document;
 
+import java.sql.Date;
 import java.text.MessageFormat;
-import java.util.Date;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -54,12 +55,14 @@ public class TemCTSCardApplicationDocument extends CardApplicationDocumentBase i
 
     @Override
     public void applyToBank() {
-        setBankAppliedDate(new Date());
+        Calendar cal = Calendar.getInstance();
+        setBankAppliedDate(new java.sql.Date(cal.getTimeInMillis()));
     }
 
     @Override
     public void approvedByBank() {
-        setBankApprovedDate(new Date());
+        Calendar cal = Calendar.getInstance();
+        setBankApprovedDate(new java.sql.Date(cal.getTimeInMillis()));
     }
 
     @Override
@@ -68,8 +71,8 @@ public class TemCTSCardApplicationDocument extends CardApplicationDocumentBase i
         DocumentStatus status = getDocumentHeader().getWorkflowDocument().getStatus();
         if (status.equals(DocumentStatus.FINAL) || status.equals(DocumentStatus.PROCESSED)){
             TEMProfileAccount profileAccount = new TEMProfileAccount();
-            Date now = new Date();
-            profileAccount.setEffectiveDate(new java.sql.Date(now.getTime()));
+            Calendar cal = Calendar.getInstance();
+            profileAccount.setEffectiveDate(new java.sql.Date(cal.getTimeInMillis()));
             String code = getParameterService().getParameterValueAsString(TemCTSCardApplicationDocument.class, TemConstants.CENTRAL_TRAVEL_SYSTEM_CARD_CODE);
             Map<String, String> fieldValues = new HashMap<String, String>();
             fieldValues.put(TemPropertyConstants.CREDIT_CARD_AGENCY_CODE, code);
@@ -82,7 +85,7 @@ public class TemCTSCardApplicationDocument extends CardApplicationDocumentBase i
             profileAccount.setAccountNumber(temProfile.getEmployeeId());
             String text = getConfigurationService().getPropertyValueAsString(TemKeyConstants.CARD_NOTE_TEXT);
             DateFormatter formatter = new DateFormatter();
-            String note = MessageFormat.format(text, formatter.format(now), getDocumentHeader().getDocumentNumber());
+            String note = MessageFormat.format(text, formatter.format(new java.util.Date()), getDocumentHeader().getDocumentNumber());
             profileAccount.setNote(note);
             getTemProfile().getAccounts().add(profileAccount);
             getBusinessObjectService().save(temProfile);

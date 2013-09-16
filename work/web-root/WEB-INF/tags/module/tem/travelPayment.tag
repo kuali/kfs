@@ -28,6 +28,8 @@
 </c:if>
 
 <c:set var="checkAmountEntry" value="${KualiForm.editingMode['checkAmountEntry']}" />
+<c:set var="canEdit" value="${KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}"/>
+<c:set var="immediateDisbursementEntryMode" value="${canEdit && KualiForm.editingMode['immediateDisbursementEntryMode']}"/>
 
 <kul:tab tabTitle="${travelPaymentLabel}" defaultOpen="${KualiForm.defaultOpenPaymentInfoTab}" tabErrorKey="${tabErrorKey}">
     <div class="tab-container" align=center > 

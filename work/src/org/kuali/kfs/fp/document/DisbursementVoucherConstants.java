@@ -229,4 +229,6 @@ public interface DisbursementVoucherConstants {
     }
     
     public static final String DV_DOC_NAME = "Disbursement Voucher";
+
+    public static final String DISBURSEMENT_VOUCHER_PAYMENT_SOURCE_EXTRACTION_SERVICE = "disbursementVoucherExtractService";
 }

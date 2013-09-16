@@ -17,37 +17,12 @@ package org.kuali.kfs.module.tem.document.lookup;
 
 import org.apache.commons.lang.text.StrBuilder;
 import org.apache.log4j.Logger;
-import org.kuali.kfs.module.tem.TemConstants;
-import org.kuali.kfs.module.tem.TemConstants.TravelCustomSearchLinks;
-import org.kuali.kfs.module.tem.TemConstants.TravelDocTypes;
 import org.kuali.kfs.module.tem.document.TravelDocument;
-import org.kuali.rice.kew.api.doctype.DocumentType;
 import org.kuali.rice.kew.api.document.search.DocumentSearchResult;
 
 public class TravelRelocationDocumentCustomActionBuilder extends DocumentActionBuilderBase implements TravelDocumentCustomActionBuilder{
 
     protected static Logger LOG = Logger.getLogger(TravelRelocationDocumentCustomActionBuilder.class);
-
-
-    /**
-   * @param travelDocumentIdentifier
-   * @return
-   */
-  public String createRelocationLink(String travelDocumentIdentifier) {
-          final DocumentType docType = getDocumentTypeService().getDocumentTypeByName(TemConstants.TravelDocTypes.TRAVEL_RELOCATION_DOCUMENT);
-          if (docType == null) {
-              throw new RuntimeException(String.format("DocType with name %s does not exist!", TemConstants.TravelDocTypes.TRAVEL_RELOCATION_DOCUMENT));
-          }
-          String linkPopup = "target=\"_blank\"";
-
-          String link = String.format("<a href=\"%s&travelDocumentIdentifier=%s&command=initiate&docTypeName=%s\" %s>%s</a>",
-                  docType.getResolvedDocumentHandlerUrl(),
-                  travelDocumentIdentifier,
-                  TravelDocTypes.TRAVEL_RELOCATION_DOCUMENT,
-                  linkPopup,
-                  TravelCustomSearchLinks.NEW_RELOCATION);
-          return link;
-      }
 
   /**
    * @see org.kuali.kfs.module.tem.document.lookup.TravelDocumentCustomActionBuilder#buildCustomActionHTML(org.kuali.rice.kew.api.document.search.DocumentSearchResult, org.kuali.kfs.module.tem.document.TravelDocument)

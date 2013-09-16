@@ -59,8 +59,6 @@ import org.kuali.kfs.module.tem.util.ExpenseUtils;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.core.api.datetime.DateTimeService;
-import org.kuali.rice.core.api.parameter.ParameterEvaluator;
-import org.kuali.rice.core.api.parameter.ParameterEvaluatorService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -82,7 +80,6 @@ public class PerDiemServiceImpl extends ExpenseServiceBase implements PerDiemSer
     private PerDiemDao perDiemDao;
     private Map<String, MealBreakDownStrategy> mealBreakDownStrategies;
     private String allStateCodes;
-    protected ParameterEvaluatorService parameterEvaluatorService;
 
     Collection<PerDiem> persistedPerDiems;
 
@@ -496,12 +493,12 @@ public class PerDiemServiceImpl extends ExpenseServiceBase implements PerDiemSer
             AccountingDistribution accountingDistribution = new AccountingDistribution();
 
             if (perDiemObjCode != null) {
-                String key = perDiemObjCode.getCode() + "-" + document.getExpenseTypeCode();
+                String key = perDiemObjCode.getCode() + "-" + document.getDefaultCardTypeCode();
 
                 for(PerDiemExpense expense : document.getPerDiemExpenses()){
                     if (!expense.getPersonal()){
                         if (!distributionMap.containsKey(key)){
-                            accountingDistribution.setCardType(document.getExpenseTypeCode());
+                            accountingDistribution.setCardType(document.getDefaultCardTypeCode());
                             accountingDistribution.setObjectCode(perDiemObjCode.getCode());
                             accountingDistribution.setObjectCodeName(perDiemObjCode.getName());
                             distributionMap.put(key, accountingDistribution);
@@ -544,12 +541,12 @@ public class PerDiemServiceImpl extends ExpenseServiceBase implements PerDiemSer
         LOG.debug("Got lodging object code "+ lodgingObjCode);
 
         AccountingDistribution accountingDistribution = new AccountingDistribution();
-        String key = lodgingObjCode.getCode() + "-" + document.getExpenseTypeCode();
+        String key = lodgingObjCode.getCode() + "-" + document.getDefaultCardTypeCode();
 
         if (document.getPerDiemExpenses() != null) {
             for(PerDiemExpense expense : document.getPerDiemExpenses()){
                 if (!distributionMap.containsKey(key)){
-                    accountingDistribution.setCardType(document.getExpenseTypeCode());
+                    accountingDistribution.setCardType(document.getDefaultCardTypeCode());
                     accountingDistribution.setObjectCode(lodgingObjCode.getCode());
                     accountingDistribution.setObjectCodeName(lodgingObjCode.getName());
                     distributionMap.put(key, accountingDistribution);
@@ -580,10 +577,10 @@ public class PerDiemServiceImpl extends ExpenseServiceBase implements PerDiemSer
                     LOG.debug("Looking up Object Code for chart = "+ defaultChartCode+ " mileageCode = "+ mileageCode);
                     final ObjectCode mileageObjCode = getObjectCodeService().getByPrimaryIdForCurrentYear(defaultChartCode, mileageCode);
                     LOG.debug("Got mileage object code "+ mileageObjCode);
-                    String key = mileageObjCode.getCode() + "-" + document.getExpenseTypeCode();
+                    String key = mileageObjCode.getCode() + "-" + document.getDefaultCardTypeCode();
 
                     if (!distributionMap.containsKey(key)){
-                        accountingDistribution.setCardType(document.getExpenseTypeCode());
+                        accountingDistribution.setCardType(document.getDefaultCardTypeCode());
                         accountingDistribution.setObjectCode(mileageObjCode.getCode());
                         accountingDistribution.setObjectCodeName(mileageObjCode.getName());
                         distributionMap.put(key, accountingDistribution);
@@ -706,8 +703,16 @@ public class PerDiemServiceImpl extends ExpenseServiceBase implements PerDiemSer
 
     @Override
     public boolean isPerDiemHandlingLodging() {
-        final ParameterEvaluator evaluator = getParameterEvaluatorService().getParameterEvaluator(TemParameterConstants.TEM_DOCUMENT.class, TemConstants.TravelParameters.PER_DIEM_CATEGORIES, TemConstants.PerDiemType.lodging.name().toUpperCase());
-        return evaluator.evaluationSucceeds();
+        final Collection<String> perDiemCategoryValues = getParameterService().getParameterValuesAsString(TemParameterConstants.TEM_DOCUMENT.class, TemConstants.TravelParameters.PER_DIEM_CATEGORIES);
+        for (String perDiemCategoryValue : perDiemCategoryValues) {
+            final String[] keyValueSplit = perDiemCategoryValue.split("=");
+            if (keyValueSplit.length == 2) {
+                if (TemConstants.PerDiemType.lodging.name().equalsIgnoreCase(keyValueSplit[0])) {
+                    return KFSConstants.ParameterValues.YES.equalsIgnoreCase(keyValueSplit[1]);
+                }
+            }
+        }
+        return false;
     }
 
     @Override
@@ -745,13 +750,5 @@ public class PerDiemServiceImpl extends ExpenseServiceBase implements PerDiemSer
             showPerDiemBreakdown = parameterService.getParameterValueAsBoolean(TravelReimbursementDocument.class, TravelReimbursementParameters.PER_DIEM_AMOUNT_EDITABLE_IND);
         }
         form.setShowPerDiemBreakdown(showPerDiemBreakdown);
-    }
-
-    public ParameterEvaluatorService getParameterEvaluatorService() {
-        return parameterEvaluatorService;
-    }
-
-    public void setParameterEvaluatorService(ParameterEvaluatorService parameterEvaluatorService) {
-        this.parameterEvaluatorService = parameterEvaluatorService;
     }
 }

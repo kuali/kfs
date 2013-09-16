@@ -775,8 +775,6 @@
 								</property>
 							</bean>
 			                <bean parent="FieldDefinition" p:attributeName="principalId" />
-			                <bean parent="FieldDefinition" p:attributeName="customerNumber" />
-			                <bean parent="FieldDefinition" p:attributeName="active" />
 						</list>
 					</property>
 				</bean>

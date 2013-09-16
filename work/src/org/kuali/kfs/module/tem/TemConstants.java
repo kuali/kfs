@@ -35,6 +35,7 @@ public class TemConstants {
     public static final String KIM_PERSON_LOOKUPABLE = "kimPersonLookupable";
     public static final String TEM_PROFILE_LOOKUPABLE = "temProfileLookupable";
     public static final String TRAVELER_PROFILE_DOC_LOOKUPABLE = "travelerProfileDocLookupable";
+    public static final String GROUP_TRAVELER_FOR_LOOKUP_LOOKUPABLE = "groupTravelerForLookupLookupable";
 
     public static final String NAMESPACE = "KFS-TEM";
     public static final String PARAM_NAMESPACE = NAMESPACE;
@@ -247,7 +248,6 @@ public class TemConstants {
         public static final String DISPLAY_ENCUMBRANCE_IND = "DISPLAY_ENCUMBRANCE_IND";
         public static final String DISPLAY_ADVANCES_IN_REIMBURSEMENT_TOTAL_IND = "DISPLAY_ADVANCES_IN_REIMBURSEMENT_TOTAL_IND";
         public static final String TRAVEL_PAYMENT_MEDIUM = "TRAVEL_PAYMENT_MEDIUM_TYPE_CODE";
-        public static final String TRAVEL_AUTHORIZATION_REQUIRED_IND = "TRAVEL_AUTHORIZATION_REQUIRED_IND";
         public static final String PER_DIEM_OBJECT_CODE = "PER_DIEM_OBJECT_CODE";
         public static final String LODGING_OBJECT_CODE = "LODGING_OBJECT_CODE";
         public static final String DEFAULT_CHART = "DEFAULT_CHART";
@@ -697,6 +697,7 @@ public class TemConstants {
         public static final String CREDIT_CARD_INVALID_CARD = "CRDC";
         public static final String CREDIT_CARD_MOVED_TO_HISTORICAL = "HIS";
         public static final String CREDIT_CARD_INVALID_CC_AGENCY = "CCA";
+        public static final String CREDIT_CARD_INVALID_EXPENSE_TYPE_CODE = "ETC";
     }
 
     public static class ExpenseImportTypes {
@@ -927,5 +928,12 @@ public class TemConstants {
         private PermissionAttributeValue(String value) {
             this.value = value;
         }
+    }
+
+    public final static String AUTHORIZATION_PAYMENT_SOURCE_EXTRACTION_SERVICE = "travelAuthorizationsExtractService";
+    public final static String REIMBURSABLE_PAYMENT_SOURCE_EXTRACTION_SERVICE = "travelReimbursementsExtractService";
+
+    public static class TabTitles {
+        public static final String EMERGENCY_CONTACT_INFORMATION_TAB_TITLE = "Emergency Contact Information";
     }
 }

@@ -24,10 +24,13 @@ import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.TemWorkflowConstants;
 import org.kuali.kfs.module.tem.businessobject.TEMProfile;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
+import org.kuali.kfs.module.tem.document.service.TravelReimbursementService;
 import org.kuali.kfs.module.tem.service.TEMRoleService;
 import org.kuali.kfs.module.tem.service.TemProfileService;
+import org.kuali.kfs.sys.KfsAuthorizationConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentPresentationControllerBase;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kim.api.identity.Person;
@@ -54,6 +57,7 @@ public class TravelDocumentPresentationController extends FinancialSystemTransac
             editModes.add(TemConstants.DISPLAY_EMERGENCY_CONTACT_TAB);
         }
 
+        editModes.add(KfsAuthorizationConstants.TransactionalEditMode.IMMEDIATE_DISBURSEMENT_ENTRY);
         editModes.add(TemConstants.EditModes.CHECK_AMOUNT_ENTRY);
         editModes.add(TemConstants.EditModes.ACTUAL_EXPENSE_TAXABLE_MODE);
         return editModes;
@@ -70,6 +74,14 @@ public class TravelDocumentPresentationController extends FinancialSystemTransac
             if (temProfile == null) {
                 throw new DocumentInitiationException(TemKeyConstants.ERROR_TRAVEL_DOCUMENT_INITIATION, new String[] { documentTypeName }, true);
             }
+        }
+
+        //only allow if a TR can be initiated without a TA
+        boolean initiateReimbursementWithoutAuthorization = getConfigurationService().getPropertyValueAsBoolean(TemKeyConstants.CONFIG_PROPERTY_REIMBURSEMENT_INITIATELINK_ENABLED);
+        //check Trip Types to verify at least one type can initiate TR without TA
+        initiateReimbursementWithoutAuthorization &= !getTravelReimbursementService().doAllReimbursementTripTypesRequireTravelAuthorization();
+        if (!initiateReimbursementWithoutAuthorization) {
+            throw new DocumentInitiationException(TemKeyConstants.ERROR_TA_REQUIRED_FOR_TR_INIT,new String[] {},true);
         }
 
         return super.canInitiate(documentTypeName);
@@ -158,6 +170,14 @@ public class TravelDocumentPresentationController extends FinancialSystemTransac
 
     protected DocumentHelperService getDocumentHelperService() {
         return SpringContext.getBean(DocumentHelperService.class);
+    }
+
+    protected ConfigurationService getConfigurationService() {
+        return SpringContext.getBean(ConfigurationService.class);
+    }
+
+    protected TravelReimbursementService getTravelReimbursementService() {
+        return SpringContext.getBean(TravelReimbursementService.class);
     }
 
 }

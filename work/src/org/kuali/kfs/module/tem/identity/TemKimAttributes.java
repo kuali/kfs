@@ -18,16 +18,23 @@ package org.kuali.kfs.module.tem.identity;
 import org.kuali.kfs.module.tem.businessobject.JobClassification;
 import org.kuali.kfs.module.tem.businessobject.TravelerType;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 public class TemKimAttributes extends KfsKimAttributes {
 
     public static final String PROFILE_PRINCIPAL_ID = "profilePrincipalId";
     public static final String TRAVELER_TYPE_CODE = "travelerTypeCode";
     public static final String JOB_CLASSIFICATION_CODE = "jobClsCode";
+    public static final String REIMBURSEMENT_AMOUNT = "reimbursementAmount";
+    public static final String AUTHORIZATION_AMOUNT = "authorizationAmount";
+    public static final String REIMBURESEMENT_OVERAGE_PERCENTAGE = "reimbursementOveragePercentage";
 
     protected Integer profilePrincipalId;
     protected String travelerTypeCode;
     protected String jobClsCode;
+    protected KualiDecimal reimbursementAmount;
+    protected KualiDecimal authorizationAmount;
+    protected KualiDecimal reimbursementOveragePercentage;
 
     protected TravelerType travelerType;
     protected JobClassification jobClassification;
@@ -76,6 +83,51 @@ public class TemKimAttributes extends KfsKimAttributes {
      */
     public void setJobClsCode(String jobClassificationCode) {
         this.jobClsCode = jobClassificationCode;
+    }
+
+    /**
+     * @return the reimbursement amount
+     */
+    public KualiDecimal getReimbursementAmount() {
+        return reimbursementAmount;
+    }
+
+    /**
+     * Sets the amounted being reimbursed
+     * @param reimbursementAmount the reimbursement amount
+     */
+    public void setReimbursementAmount(KualiDecimal reimbursementAmount) {
+        this.reimbursementAmount = reimbursementAmount;
+    }
+
+    /**
+     * @return the authorization amount
+     */
+    public KualiDecimal getAuthorizationAmount() {
+        return authorizationAmount;
+    }
+
+    /**
+     * Sets the total amount authorized
+     * @param authorizationAmount the authorization amount
+     */
+    public void setAuthorizationAmount(KualiDecimal authorizationAmount) {
+        this.authorizationAmount = authorizationAmount;
+    }
+
+    /**
+     * @return the reimbursement overage percentage
+     */
+    public KualiDecimal getReimbursementOveragePercentage() {
+        return reimbursementOveragePercentage;
+    }
+
+    /**
+     * Sets the reimbursement overage percentage
+     * @param reimbursementOveragePercentage the positive reimbursement overage percentage
+     */
+    public void setReimbursementOveragePercentage(KualiDecimal reimbursementOveragePercentage) {
+        this.reimbursementOveragePercentage = reimbursementOveragePercentage;
     }
 
     /**

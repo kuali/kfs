@@ -89,7 +89,7 @@ public interface TravelDocumentService {
     Map<String, List<Document>> getDocumentsRelatedTo(final TravelDocument document) throws WorkflowException;
 
     /**
-     *  Get DV, TA, TAA, TAC, TR, and AV documents related to the given <code>travelDocumentIdentifier</code>. travel document either
+     *  Get DV, TA, TAA, TAC, TR, and AV documents related to the given <code>documentNumber</code>. travel document either
      * have a TEM document number or they have the value of the <code>travelDocumentIdentifier</code> in their organization doc
      * ids.
      *
@@ -107,6 +107,7 @@ public interface TravelDocumentService {
      * @return
      */
     List<Document> getDocumentsRelatedTo(final TravelDocument document, String... documentType);
+
 
     /**
      * This method will add fyi notes to initiator when document is cancelled, closed, etc.
@@ -237,6 +238,8 @@ public interface TravelDocumentService {
     public KualiDecimal getAmountDueFromInvoice(String documentNumber, KualiDecimal requestedAmount);
 
     public TravelAuthorizationDocument findCurrentTravelAuthorization(TravelDocument document) throws WorkflowException;
+
+    public TravelDocument findRootForTravelReimbursement(String travelDocumentIdentifier) throws WorkflowException;
 
     public KualiDecimal getTotalCumulativeReimbursements(TravelDocument document);
 
@@ -397,4 +400,14 @@ public interface TravelDocumentService {
      * @return the default AR organization options for TEM documents
      */
     public AccountsReceivableOrganizationOptions getOrgOptions();
+
+    /**
+     * This method searches to make sure that the expense entered doesn't already exist
+     * If they exist, disable them in the per diem table and notify the user.
+     * @param trDocument
+     *          the current doc.
+     * @param actualExpense
+     *          the expense in question
+     */
+    public void disableDuplicateExpenses(TravelDocument trDocument, ActualExpense actualExpense);
 }

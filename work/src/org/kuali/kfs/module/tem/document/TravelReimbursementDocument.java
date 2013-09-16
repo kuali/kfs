@@ -15,8 +15,6 @@
  */
 package org.kuali.kfs.module.tem.document;
 
-import static org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters.TRAVEL_AUTHORIZATION_REQUIRED_IND;
-
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
@@ -33,12 +31,12 @@ import org.apache.log4j.Logger;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.gl.service.EncumbranceService;
 import org.kuali.kfs.module.tem.TemConstants;
+import org.kuali.kfs.module.tem.TemParameterConstants;
+import org.kuali.kfs.module.tem.TemWorkflowConstants;
 import org.kuali.kfs.module.tem.TemConstants.TravelDocTypes;
 import org.kuali.kfs.module.tem.TemConstants.TravelParameters;
 import org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters;
 import org.kuali.kfs.module.tem.TemConstants.TravelReimbursementStatusCodeKeys;
-import org.kuali.kfs.module.tem.TemParameterConstants;
-import org.kuali.kfs.module.tem.TemWorkflowConstants;
 import org.kuali.kfs.module.tem.businessobject.ActualExpense;
 import org.kuali.kfs.module.tem.businessobject.TravelAdvance;
 import org.kuali.kfs.module.tem.businessobject.TripType;
@@ -263,11 +261,6 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
     public void toCopy() throws WorkflowException {
         super.toCopy();
 
-        //TODO?? super class already performed the cleanTravelDocument, this part seems to do nothing (unless it is moved to the base)
-        final boolean isTaRequired = getParameterService().getParameterValueAsBoolean(TravelReimbursementDocument.class, TRAVEL_AUTHORIZATION_REQUIRED_IND);
-        if (!isTaRequired) {
-            cleanTravelDocument();
-        }
         getNotes().clear();
         addContactInformation();
     }
@@ -308,9 +301,6 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
     public boolean answerSplitNodeQuestion(String nodeName) throws UnsupportedOperationException {
         if (nodeName.equals(TemWorkflowConstants.ACCOUNT_APPROVAL_REQUIRED)) {
             return requiresAccountApprovalRouting();
-        }
-        if (nodeName.equals(TemWorkflowConstants.ACCTG_APPROVAL_REQUIRED)) {
-            return requiresAccountingReviewRouting();
         }
         if (nodeName.equals(TemWorkflowConstants.DIVISION_APPROVAL_REQUIRED)) {
             return requiresDivisionApprovalRouting() && isNotAutomaticReimbursement();
@@ -399,6 +389,22 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
         KualiDecimal trTotal = getTravelDocumentService().getTotalCumulativeReimbursements(this);
         KualiDecimal divApprovalMax = new KualiDecimal(getParameterService().getParameterValueAsString(TemParameterConstants.TEM_DOCUMENT.class, TravelParameters.CUMULATIVE_REIMBURSABLE_AMOUNT_WITHOUT_DIVISION_APPROVAL));
         return (trTotal.isGreaterThan(divApprovalMax)) && requiresAccountingReviewRouting();
+    }
+
+    /**
+     * @return the current open amount of the encumbrance(s) created by the related travel authorizations
+     */
+    public KualiDecimal getTotalAuthorizedEncumbrance() {
+        final KualiDecimal taTotal = getTravelDocumentService().getTotalAuthorizedEncumbrance(this);
+        return taTotal;
+    }
+
+    /**
+     * @return the total cumulative reimbursements so far
+     */
+    public KualiDecimal getTotalCumulativeReimbursements() {
+        final KualiDecimal trTotal = getTravelDocumentService().getTotalCumulativeReimbursements(this);
+        return trTotal;
     }
 
     /**

@@ -31,4 +31,14 @@ public interface PaymentSourceToExtractService {
      * @return a Map, where the key is the campus code and the value is a List of PaymentSource documents to be extracted
      */
     public Map<String, List<? extends PaymentSource>> retrievePaymentSourcesByCampus(boolean immediatesOnly);
+
+    /**
+     * @return the unit of the customer profile associated with this payment source
+     */
+    public abstract String getPreDisbursementCustomerProfileUnit();
+
+    /**
+     * @return the sub-unit of the customer profile associated with this payment source
+     */
+    public abstract String getPreDisbursementCustomerProfileSubUnit();
 }

@@ -1986,7 +1986,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
      */
     public static PaymentSourceExtractionService getDisbursementVoucherExtractService() {
         if (paymentSourceExtractionService == null) {
-            paymentSourceExtractionService = SpringContext.getBean(PaymentSourceExtractionService.class);
+            paymentSourceExtractionService = SpringContext.getBean(PaymentSourceExtractionService.class, DisbursementVoucherConstants.DISBURSEMENT_VOUCHER_PAYMENT_SOURCE_EXTRACTION_SERVICE);
         }
         return paymentSourceExtractionService;
     }

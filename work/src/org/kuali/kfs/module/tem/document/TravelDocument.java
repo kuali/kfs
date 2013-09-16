@@ -130,6 +130,11 @@ public interface TravelDocument extends AccountingDocument, TravelEntertainmentM
      */
     void setTripDescription(String tripDescription);
 
+    /**
+     * @return
+     */
+    public String getTripDescription();
+
     public Integer getPrimaryDestinationId();
 
     public void setPrimaryDestinationId(Integer primaryDestinationId);
@@ -354,7 +359,7 @@ public interface TravelDocument extends AccountingDocument, TravelEntertainmentM
      *
      * @return
      */
-    public String getExpenseTypeCode();
+    public String getDefaultCardTypeCode();
 
     /**
      * Return true if the travel document has custom distribution for the DV doc
@@ -406,6 +411,11 @@ public interface TravelDocument extends AccountingDocument, TravelEntertainmentM
     public boolean isTravelAuthorizationDoc();
 
     /**
+     * @return
+     */
+    public Boolean getDelinquentTRException();
+
+    /**
      * Determines if this document should attempt to refresh the expense type object codes for expenses or not
      * @return true of expense type object codes on expenses should be refreshed; false otherwise
      */
@@ -415,4 +425,10 @@ public interface TravelDocument extends AccountingDocument, TravelEntertainmentM
      * Refreshes expense type object code values for actual and imported expenses on the document
      */
     public void refreshExpenseTypeObjectCodesForExpenses();
+
+    /**
+     * Gets the disabledProperties attribute.
+     * @return Returns the disabledProperties.
+     */
+    public Map<String, String> getDisabledProperties();
 }

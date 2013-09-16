@@ -22,7 +22,6 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
-import org.kuali.rice.kim.api.type.KimAttributeField;
 
 @SuppressWarnings("deprecation")
 public class TemProfileOrganizationHierarchyRoleTypeServiceImpl extends TemOrganizationHierarchyRoleTypeService {
@@ -48,7 +47,7 @@ public class TemProfileOrganizationHierarchyRoleTypeServiceImpl extends TemOrgan
     @Override
     protected boolean performMatch(Map<String, String> inputAttributes, Map<String, String> storedAttributes) {
 
-    	if (inputAttributes == null || !Boolean.parseBoolean(inputAttributes.get(PERFORM_QUALIFIER_MATCH))) {
+        if (inputAttributes == null  || (inputAttributes.containsKey(PERFORM_QUALIFIER_MATCH) && !Boolean.parseBoolean(inputAttributes.get(PERFORM_QUALIFIER_MATCH)) )) {
             return true;
         }
         String orgChartOfAccountsCode = inputAttributes.get(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE);
@@ -59,14 +58,4 @@ public class TemProfileOrganizationHierarchyRoleTypeServiceImpl extends TemOrgan
 
         return isParentOrg(orgChartOfAccountsCode, organizationCode, roleChartOfAccountsCode, roleOrganizationCode, descendHierarchy);
     }
-
-    /**
-     * @see org.kuali.rice.kns.kim.type.DataDictionaryTypeServiceBase#getAttributeDefinitions(java.lang.String)
-     */
-    @Override
-    public List<KimAttributeField> getAttributeDefinitions(String kimTypeId) {
-        return super.getAttributeDefinitions(kimTypeId);
-    }
-
-
 }

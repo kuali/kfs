@@ -442,7 +442,7 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
      * Gets the canImportExpenses attribute.
      * @return Returns the canImportExpenses.
      */
-    public boolean getCanShowImportExpenseDetails() {
+    public boolean isCanShowImportExpenseDetails() {
         return getParameterService().getParameterValueAsBoolean(TemParameterConstants.TEM_DOCUMENT.class, TravelParameters.IMPORTED_EXPENSE_DETAIL_IND);
     }
 

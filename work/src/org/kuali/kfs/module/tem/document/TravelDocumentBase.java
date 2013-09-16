@@ -325,6 +325,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
     }
 
     @Column(name = "TRIP_DESC")
+    @Override
     public String getTripDescription() {
         return tripDescription;
     }
@@ -787,7 +788,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
                 KualiDecimal detailAmount = actualExpense.getTotalDetailExpenseAmount();
                 GlobalVariables.getMessageMap().addToErrorPath(KRADPropertyConstants.DOCUMENT);
                 GlobalVariables.getMessageMap().addToErrorPath(TemPropertyConstants.ACTUAL_EXPENSES + "[" + counter + "]");
-                if(detailAmount.isGreaterThan(actualExpense.getExpenseAmount()) && !actualExpense.getExpenseTypeObjectCode().getExpenseTypeCode().equals(TemConstants.ExpenseTypes.MILEAGE)){
+                if(detailAmount.isGreaterThan(actualExpense.getExpenseAmount()) && !TemConstants.ExpenseTypes.MILEAGE.equals(actualExpense.getExpenseTypeCode())){
                     GlobalVariables.getMessageMap().putError(TemPropertyConstants.EXPENSE_AMOUNT, TemKeyConstants.ERROR_ACTUAL_EXPENSE_DETAIL_AMOUNT_EXCEED, detailAmount.toString(), actualExpense.getExpenseAmount().toString());
                     return false;
                 }
@@ -1212,10 +1213,11 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
                 setTemProfileId(temProfile.getProfileId());
             }
 
-            if (traveler != null) {
-                traveler.setDocumentNumber(this.documentNumber);
-                getTravelerService().convertTEMProfileToTravelerDetail(temProfile,(traveler == null?new TravelerDetail():traveler));
+            if (traveler == null) {
+                setTraveler(new TravelerDetail());
             }
+            traveler.setDocumentNumber(this.documentNumber);
+            getTravelerService().convertTEMProfileToTravelerDetail(temProfile,(traveler == null?new TravelerDetail():traveler));
         }
     }
 
@@ -1385,6 +1387,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
      *
      * @return
      */
+    @Override
     public Boolean getDelinquentTRException() {
         return delinquentTRException != null ? delinquentTRException : false;
     }
@@ -1842,7 +1845,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
             for (TemSourceAccountingLine line : (List<TemSourceAccountingLine>)getSourceAccountingLines()){
                 //we are generating source accounting lines on document's expense type code
                 // could be either OUT OF POCKET  or ENCUMBRANCE
-                if (line.getCardType().equals(getExpenseTypeCode())){
+                if (line.getCardType().equals(getDefaultCardTypeCode())){
                     accountingLines.add(line);
                 }
             }
@@ -1859,6 +1862,13 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
         //pre filled descriptions
         getDocumentHeader().setDocumentDescription(TemConstants.PRE_FILLED_DESCRIPTION);
 
+        Person currentUser = GlobalVariables.getUserSession().getPerson();
+        if (!getTemRoleService().isTravelArranger(currentUser)) {
+            TEMProfile temProfile = getTemProfileService().findTemProfileByPrincipalId(currentUser.getPrincipalId());
+            if (temProfile != null) {
+                setTemProfile(temProfile);
+            }
+        }
     }
 
     /**
@@ -1978,7 +1988,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
      */
     @Override
     public String getDefaultAccountingLineCardAgencyType(){
-        return getExpenseTypeCode();
+        return getDefaultCardTypeCode();
     }
 
     /**

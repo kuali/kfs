@@ -40,6 +40,7 @@ import org.kuali.kfs.module.tem.batch.service.DataReportService;
 import org.kuali.kfs.module.tem.businessobject.CreditCardAgency;
 import org.kuali.kfs.module.tem.businessobject.CreditCardImportData;
 import org.kuali.kfs.module.tem.businessobject.CreditCardStagingData;
+import org.kuali.kfs.module.tem.businessobject.ExpenseType;
 import org.kuali.kfs.module.tem.businessobject.HistoricalTravelExpense;
 import org.kuali.kfs.module.tem.businessobject.TEMProfileAccount;
 import org.kuali.kfs.module.tem.service.CreditCardAgencyService;
@@ -194,6 +195,12 @@ public class CreditCardDataImportServiceImpl implements CreditCardDataImportServ
                             //Set expense type code to O-Other if null
                             if(creditCardData.getExpenseTypeCode() == null){
                                 creditCardData.setExpenseTypeCode(ExpenseTypes.OTHER);
+                            }
+                            // write an error if the expense type code is not valid
+                            final ExpenseType expenseType = businessObjectService.findBySinglePrimaryKey(ExpenseType.class, creditCardData.getExpenseTypeCode());
+                            if (expenseType == null) {
+                                LOG.error("Invalid expense type code "+creditCardData.getExpenseTypeCode()+" in Credit Card Data record");
+                                creditCardData.setErrorCode(CreditCardStagingDataErrorCodes.CREDIT_CARD_INVALID_EXPENSE_TYPE_CODE);
                             }
 
                             //Set Credit Card Key(traveler Id + Credit Card Agency + Credit Card number

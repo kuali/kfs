@@ -1118,17 +1118,13 @@
 		<property name="mailService" ref="mailService" />	
 	</bean>
     
-    <bean id="paymentSourceExtractService"  parent="paymentSourceExtractService-parentBean"/>
-	<bean id="paymentSourceExtractService-parentBean" class="org.kuali.kfs.sys.batch.service.impl.PaymentSourceExtractionServiceImpl" abstract="true">
-		<property name="parameterService" ref="parameterService"/>
+    <bean id="paymentSourceExtractionService"  parent="paymentSourceExtractionService-parentBean"/>
+	<bean id="paymentSourceExtractionService-parentBean" class="org.kuali.kfs.sys.batch.service.impl.PaymentSourceExtractionServiceImpl" abstract="true">
 		<property name="dateTimeService" ref="dateTimeService"/>
 		<property name="customerProfileService" ref="pdpCustomerProfileService"/>
-		<property name="paymentFileService" ref="paymentFileService"/>
-		<property name="paymentGroupService" ref="pdpPaymentGroupService"/>
 		<property name="businessObjectService" ref="businessObjectService"/>
 		<property name="paymentFileEmailService" ref="pdpEmailService"/>
 		<property name="documentService" ref="documentService"/>
-		<property name="generalLedgerPendingEntryService" ref="generalLedgerPendingEntryService"/>
 	</bean>
 	
 	<bean id="paymentSourceToPdpExtractStep" parent="paymentSourceToPdpExtractStep-parentBean"/>
@@ -1143,6 +1139,9 @@
 		<property name="accountingDocumentRuleHelperService" ref="accountingDocumentRuleHelperService"/>
 		<property name="parameterService" ref="parameterService"/>
 		<property name="configurationService" ref="configurationService"/>
+		<property name="documentService" ref="documentService"/>
+		<property name="optionsService" ref="optionsService"/>
+		<property name="homeOriginationService" ref="homeOriginationService"/>
 	</bean>
     
 	<bean id="velocityEngine" parent="velocityEngine-parentBean" />
@@ -1161,6 +1160,7 @@
    		<property name="businessObjectService" ref="businessObjectService"/>
    		<property name="parameterService" ref="parameterService"/>
    		<property name="configurationService" ref="kualiConfigurationService" />
+   		<property name="htmlMessage" value="false" />
    </bean>
     
     <bean id="customEditorConfigurer" 

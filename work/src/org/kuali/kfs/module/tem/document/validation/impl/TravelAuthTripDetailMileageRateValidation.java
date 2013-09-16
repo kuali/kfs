@@ -48,7 +48,7 @@ public class TravelAuthTripDetailMileageRateValidation extends GenericValidation
                 showMileage = true;
             }
         }
-        if (showMileage == true) {
+        if (showMileage) {
             for (PerDiemExpense estimate : document.getPerDiemExpenses()) {
                 if (estimate.getMileageRateId() == null) {
                     GlobalVariables.getMessageMap().putError("document.perDiemExpenses", TemKeyConstants.ERROR_TA_NO_MILEAGE_RATE);

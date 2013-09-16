@@ -1092,9 +1092,8 @@ public class TravelAuthorizationAction extends TravelActionBase {
             throw buildAuthorizationException("copy", doc);
         }
 
-        if (doc instanceof TravelAuthorizationAmendmentDocument) {
-            TravelAuthorizationAmendmentDocument taaDoc = (TravelAuthorizationAmendmentDocument)doc;
-            TravelAuthorizationDocument newTaDoc = taaDoc.toCopyTA();
+        if (doc.shouldRevertToOriginalAuthorizationOnCopy()) {
+            TravelAuthorizationDocument newTaDoc = doc.toCopyTA();
             travelAuthForm.setDocument(newTaDoc);
             travelAuthForm.setDocTypeName(TemConstants.TravelDocTypes.TRAVEL_AUTHORIZATION_DOCUMENT);
         } else {

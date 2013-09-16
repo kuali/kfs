@@ -15,9 +15,13 @@
  */
 package org.kuali.kfs.module.tem.document;
 
+import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationStatusCodeKeys;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
+import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.document.DocumentStatus;
+import org.kuali.rice.kew.api.document.attribute.DocumentAttributeIndexingQueue;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 
 public class TravelAuthorizationCloseDocument extends TravelAuthorizationDocument {
@@ -41,6 +45,17 @@ public class TravelAuthorizationCloseDocument extends TravelAuthorizationDocumen
             if (isTripGenerateEncumbrance()){
                 getTravelEncumbranceService().disencumberTravelAuthorizationClose(this);
             }
+
+            retirePreviousAuthorizations();
+
+            final DocumentAttributeIndexingQueue documentAttributeIndexingQueue = KewApiServiceLocator.getDocumentAttributeIndexingQueue();
+            try {
+                updateAndSaveAppDocStatus(TravelAuthorizationStatusCodeKeys.CLOSED);
+                documentAttributeIndexingQueue.indexDocument(getDocumentNumber());
+            }
+            catch (WorkflowException we) {
+                throw new RuntimeException("Workflow document exception while updating related documents", we);
+            }
         }
     }
 
@@ -50,4 +65,13 @@ public class TravelAuthorizationCloseDocument extends TravelAuthorizationDocumen
      */
     @Override
     protected void initiateAdvancePaymentAndLines() {}
+
+    /**
+     * Always return true - we always need to do extra work on document copy to revert this to the original TA
+     * @see org.kuali.kfs.module.tem.document.TravelAuthorizationDocument#shouldRevertToOriginalAuthorizationOnCopy()
+     */
+    @Override
+    public boolean shouldRevertToOriginalAuthorizationOnCopy() {
+        return true;
+    }
 }

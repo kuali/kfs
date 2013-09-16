@@ -353,6 +353,16 @@
 	      <parent>TA</parent>
 	      <docHandler>${application.url}/temTravelAuthorization.do?methodToCall=docHandler</docHandler>
 	      <label>Travel Authorization Close</label>
+	      <policies>
+                <policy>
+                    <name>DEFAULT_APPROVE</name>
+                    <value>true</value>
+                </policy>
+                <policy>
+                    <name>DOCUMENT_STATUS_POLICY</name>
+                    <stringValue>app</stringValue>
+                </policy>
+          </policies>
 	      <routePaths>
 	        <routePath>
 	          <start name="AdHoc"/>

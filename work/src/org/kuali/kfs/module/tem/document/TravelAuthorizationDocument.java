@@ -77,11 +77,14 @@ import org.kuali.kfs.sys.service.OptionsService;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.document.DocumentStatus;
+import org.kuali.rice.kew.api.document.attribute.DocumentAttributeIndexingQueue;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.exception.InfrastructureException;
 import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -170,6 +173,25 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
     }
 
     /**
+     * Creates a TA which is a copy of this TAA document
+     *
+     * @return the copied TravelAuthorizationDocument
+     * @throws WorkflowException thrown if the new TA could not be correctly instantiated
+     */
+    public TravelAuthorizationDocument toCopyTA() throws WorkflowException {
+        TravelAuthorizationDocument doc = (TravelAuthorizationDocument) SpringContext.getBean(DocumentService.class).getNewDocument(TemConstants.TravelDocTypes.TRAVEL_AUTHORIZATION_DOCUMENT);
+        toCopyTravelAuthorizationDocument(doc);
+
+        doc.getDocumentHeader().setDocumentDescription(TemConstants.PRE_FILLED_DESCRIPTION);
+        doc.setAppDocStatus(TravelAuthorizationStatusCodeKeys.IN_PROCESS);
+        doc.setTravelDocumentIdentifier(null); // reset, so it regenerates
+
+        doc.initiateAdvancePaymentAndLines();
+
+        return doc;
+    }
+
+    /**
      * @see org.kuali.kfs.module.tem.document.TravelDocumentBase#updateAppDocStatus(java.lang.String)
      */
     @Override
@@ -248,6 +270,15 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
         if (!(this instanceof TravelAuthorizationCloseDocument)) {  // TAC's don't have advances
             initiateAdvancePaymentAndLines();
         }
+    }
+
+    /**
+     * Determines if this document should do the extra work on a document copy associated with reverting to a TA document
+     * Of course, in this implementation, we return false always because a TA doesn't have to do the extra work.  But TAA's and TAC's do.
+     * @return true if extra work should be done on document copy to revert to original authorization, false otherwise
+     */
+    public boolean shouldRevertToOriginalAuthorizationOnCopy() {
+        return false;
     }
 
     /**
@@ -769,6 +800,28 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
                     SpringContext.getBean(PaymentSourceExtractionService.class, TemConstants.AUTHORIZATION_PAYMENT_SOURCE_EXTRACTION_SERVICE).extractSingleImmediatePayment(this);
                 }
             }
+        }
+    }
+
+    /**
+     * Sets the doc status for previous authorizations to "Retired"
+     */
+    protected void retirePreviousAuthorizations() {
+        List<Document> relatedDocs = getTravelDocumentService().getDocumentsRelatedTo(this, TravelDocTypes.TRAVEL_AUTHORIZATION_DOCUMENT,
+                TravelDocTypes.TRAVEL_AUTHORIZATION_AMEND_DOCUMENT);
+
+        //updating the related's document appDocStatus to be retired
+        final DocumentAttributeIndexingQueue documentAttributeIndexingQueue = KewApiServiceLocator.getDocumentAttributeIndexingQueue();
+        try {
+            for (Document document : relatedDocs){
+                if (!document.getDocumentNumber().equals(this.getDocumentNumber())) {
+                    ((TravelAuthorizationDocument) document).updateAndSaveAppDocStatus(TravelAuthorizationStatusCodeKeys.RETIRED_VERSION);
+                    documentAttributeIndexingQueue.indexDocument(document.getDocumentNumber());
+                }
+            }
+        }
+        catch (WorkflowException we) {
+            throw new RuntimeException("Workflow document exception while updating related documents", we);
         }
     }
 

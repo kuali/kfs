@@ -166,8 +166,7 @@ public class PerDiemServiceImpl extends ExpenseServiceBase implements PerDiemSer
                 businessObjectService.save(perDiem);
             }
             catch (ParseException ex) {
-                // TODO Auto-generated catch block
-                ex.printStackTrace();
+                throw new RuntimeException(ex);
             }
         }
     }
@@ -241,7 +240,7 @@ public class PerDiemServiceImpl extends ExpenseServiceBase implements PerDiemSer
         fieldValues.put(TemPropertyConstants.SEASON_BEGIN_MONTH_AND_DAY, perDiem.getSeasonBeginMonthAndDay());
         fieldValues.put(KFSPropertyConstants.ACTIVE, Boolean.TRUE);
 
-        return (List) this.getBusinessObjectService().findMatching(PerDiem.class, fieldValues);
+        return (List<PerDiem>) this.getBusinessObjectService().findMatching(PerDiem.class, fieldValues);
     }
 
 
@@ -641,15 +640,6 @@ public class PerDiemServiceImpl extends ExpenseServiceBase implements PerDiemSer
      */
     @Override
     public KualiDecimal getNonReimbursableExpenseTotal(TravelDocument document) {
-//        KualiDecimal total = KualiDecimal.ZERO;
-//
-//        for (PerDiemExpense expense : document.getPerDiemExpenses()){
-//            if (expense.getPersonal().booleanValue()){
-//                total = total.add(expense.getDailyTotal());
-//            }
-//        }
-//        return total;
-
         // This is because for per diem, when the personal checkbox is checked the amount is already excluded from the total.
         return KualiDecimal.ZERO;
     }
@@ -701,6 +691,10 @@ public class PerDiemServiceImpl extends ExpenseServiceBase implements PerDiemSer
         return milesTotal;
     }
 
+    /**
+     * Determines if per diem is handling lodging based on KFS-TEM / Document / PER_DIEM_CATEGORIES
+     * @see org.kuali.kfs.module.tem.service.PerDiemService#isPerDiemHandlingLodging()
+     */
     @Override
     public boolean isPerDiemHandlingLodging() {
         final Collection<String> perDiemCategoryValues = getParameterService().getParameterValuesAsString(TemParameterConstants.TEM_DOCUMENT.class, TemConstants.TravelParameters.PER_DIEM_CATEGORIES);

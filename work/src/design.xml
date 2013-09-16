@@ -32,6 +32,7 @@
 	<package name="quartz" package="org.quartz" subpackages="include" />
 	<package name="dwr" package="uk.ltd.getahead.dwr" subpackages="include" />
 	<package name="directwebremoting" package="org.directwebremoting" subpackages="include" />
+	<package name="barcode4j" package="org.krysalis.barcode4j" subpackages="include"/>
 
   <!-- Core Kuali packages that all optional modules can depend on -->
 	<package name="coa" package="org.kuali.kfs.coa" subpackages="include" needdeclarations="false" />

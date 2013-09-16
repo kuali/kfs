@@ -1059,7 +1059,7 @@
 		<field-descriptor name="specialRequestRequired" column="SPCL_RQST_REQ_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
 		<field-descriptor name="active" column="ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
 		
-		<!-- special fields for lookup -->
+		<!-- special fields for lookup; at KRAD/JPA migration turn into overridden controls for lookup in KRAD layer rather than attempting to do this in the JPA layer -->
 		<field-descriptor name="tripTypeCodeForLookup" column="TRIP_TYP_CD" jdbc-type="VARCHAR" access="readonly"/>
 		<field-descriptor name="travelerTypeCodeForLookup" column="TRAVELER_TYP_CD" jdbc-type="VARCHAR" access="readonly"/>
 		<field-descriptor name="documentTypeNameForLookup" column="DOC_TYP_NM" jdbc-type="VARCHAR" access="readonly"/>

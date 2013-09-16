@@ -233,7 +233,7 @@
 	<bean id="TravelAuthorizationDocument-cellPhoneNumber" parent="TravelAuthorizationDocument-cellPhoneNumber-parentBean" />
 	<bean id="TravelAuthorizationDocument-cellPhoneNumber-parentBean" parent="AttributeDefinition">
 		<property name="name" value="cellPhoneNumber" />
-		<property name="label" value="* Traveler's Cell or Other Contact Number During Trip" />
+		<property name="label" value="Traveler's Cell or Other Contact Number During Trip" />
 		<property name="shortLabel" value="Traveler's Cell or Other Contact Number During Trip" />
 		<property name="maxLength" value="20" />
 		<property name="summary" value="Traveler's Cell or Other Contact Number During Trip" />
@@ -253,7 +253,7 @@
 	<bean id="TravelAuthorizationDocument-regionFamiliarity" parent="TravelAuthorizationDocument-regionFamiliarity-parentBean" />
 	<bean id="TravelAuthorizationDocument-regionFamiliarity-parentBean" parent="AttributeDefinition">
 		<property name="name" value="regionFamiliarity" />
-		<property name="label" value="* Region Familiarity" />
+		<property name="label" value="Region Familiarity" />
 		<property name="shortLabel" value="Region Familiarity" />
 		<property name="maxLength" value="255" />
 		<property name="summary" value="Region Familiarity" />

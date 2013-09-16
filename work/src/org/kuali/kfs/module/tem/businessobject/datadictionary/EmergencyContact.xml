@@ -160,7 +160,7 @@
 		<property name="name" value="primary" />
 		<property name="label" value="Primary" />
 		<property name="shortLabel" value="Primary" />
-		<property name="required" value="true" />
+		<property name="required" value="false" />
 		<property name="summary" value="Primary" />
 		<property name="description" value="Primary" />
 	</bean>    

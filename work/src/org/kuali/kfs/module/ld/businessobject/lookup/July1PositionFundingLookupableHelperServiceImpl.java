@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -21,9 +21,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.kfs.integration.ld.businessobject.inquiry.AbstractPositionDataDetailsInquirableImpl;
 import org.kuali.kfs.module.ld.businessobject.July1PositionFunding;
 import org.kuali.kfs.module.ld.businessobject.LedgerBalance;
-import org.kuali.kfs.module.ld.businessobject.inquiry.AbstractLaborInquirableImpl;
 import org.kuali.kfs.module.ld.businessobject.inquiry.July1PositionFundingInquirableImpl;
 import org.kuali.kfs.module.ld.businessobject.inquiry.PositionDataDetailsInquirableImpl;
 import org.kuali.kfs.module.ld.dataaccess.LaborDao;
@@ -41,7 +41,7 @@ import org.kuali.rice.krad.util.BeanPropertyComparator;
  */
 public class July1PositionFundingLookupableHelperServiceImpl extends AbstractLookupableHelperServiceImpl {
     private static org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(July1PositionFundingLookupableHelperServiceImpl.class);
-    
+
     private LaborDao laborDao;
 
     /**
@@ -51,7 +51,7 @@ public class July1PositionFundingLookupableHelperServiceImpl extends AbstractLoo
     public HtmlData getInquiryUrl(BusinessObject bo, String propertyName) {
         if (KFSPropertyConstants.POSITION_NUMBER.equals(propertyName)) {
             LedgerBalance balance = (LedgerBalance) bo;
-            AbstractLaborInquirableImpl positionDataDetailsInquirable = new PositionDataDetailsInquirableImpl();
+            AbstractPositionDataDetailsInquirableImpl positionDataDetailsInquirable = new PositionDataDetailsInquirableImpl();
 
             Map<String, String> fieldValues = new HashMap<String, String>();
             fieldValues.put(propertyName, balance.getPositionNumber());
@@ -62,14 +62,14 @@ public class July1PositionFundingLookupableHelperServiceImpl extends AbstractLoo
         }
         return (new July1PositionFundingInquirableImpl()).getInquiryUrl(bo, propertyName);
     }
-    
+
     /**
      * @see org.kuali.rice.kns.lookup.Lookupable#getSearchResults(java.util.Map)
      */
     @Override
     public List getSearchResults(Map<String, String> fieldValues) {
-        setBackLocation((String) fieldValues.get(KFSConstants.BACK_LOCATION));
-        setDocFormKey((String) fieldValues.get(KFSConstants.DOC_FORM_KEY));
+        setBackLocation(fieldValues.get(KFSConstants.BACK_LOCATION));
+        setDocFormKey(fieldValues.get(KFSConstants.DOC_FORM_KEY));
 
         Collection<July1PositionFunding> searchResultsCollection = getLaborDao().getJuly1PositionFunding(fieldValues);
 
@@ -84,7 +84,7 @@ public class July1PositionFundingLookupableHelperServiceImpl extends AbstractLoo
     }
 
     /**
-     * Gets the laborDao attribute. 
+     * Gets the laborDao attribute.
      * @return Returns the laborDao.
      */
     public LaborDao getLaborDao() {

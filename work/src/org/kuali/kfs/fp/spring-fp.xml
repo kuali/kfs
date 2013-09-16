@@ -231,7 +231,7 @@
 
 	<bean id="procurementCardCreateEmailService"  parent="procurementCardCreateEmailService-parentBean"/>
 	<bean id="procurementCardCreateEmailService-parentBean" parent="velocityEmailServiceBase" class="org.kuali.kfs.fp.batch.service.impl.ProcurementCardCreateEmailServiceImpl" abstract="true">
-		<property name="templateUrl" value="org/kuali/kfs/fp/batch/template/pcard-create-doc-summary-email.vm"/>	
+		<property name="templateUrl" value="org/kuali/kfs/fp/batch/template/pcard-create-doc-summary-email-plain-text.vm"/>	
 	</bean>
 
 	<bean id="procurementCardLoadTransactionsService"  parent="procurementCardLoadTransactionsService-parentBean"/>

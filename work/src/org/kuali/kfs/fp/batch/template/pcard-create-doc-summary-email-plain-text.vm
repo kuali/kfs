@@ -1,0 +1,9 @@
+$transactionCounter transactions Processed for Pcard for the batch run on $docCreateDate
+
+------------------------------------------------------------------------------
+Posting Date		# of Transactions		# docs	Total Dollar Spend
+------------------------------------------------------------------------------
+#foreach( $transactionSummary in $transactionSummaryList )
+$transactionSummary.formattedPostingDate		$transactionSummary.totalTranNumber				$transactionSummary.totalDocNumber		$transactionSummary.totalAmount
+#end
+------------------------------------------------------------------------------

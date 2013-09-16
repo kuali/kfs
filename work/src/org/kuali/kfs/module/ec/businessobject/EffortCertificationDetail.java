@@ -30,7 +30,6 @@ import org.kuali.kfs.integration.ld.LaborModuleService;
 import org.kuali.kfs.module.ec.document.EffortCertificationDocument;
 import org.kuali.kfs.module.ec.util.EffortCertificationParameterFinder;
 import org.kuali.kfs.module.ec.util.PayrollAmountHolder;
-import org.kuali.kfs.module.ld.businessobject.PositionData;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLineOverride;
@@ -84,7 +83,6 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
     private SubAccount subAccount;
     private SystemOptions options;
 
-    protected PositionData positionData;
     protected String effectiveDate;
     /**
      * Default constructor.
@@ -546,24 +544,6 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
     @Deprecated
     public void setOptions(SystemOptions options) {
         this.options = options;
-    }
-
-    /**
-     * Gets the positionData attribute.
-     *
-     * @return Returns the positionData.
-     */
-    public PositionData getPositionData() {
-        return positionData;
-    }
-
-    /**
-     * Sets the positionData attribute value.
-     *
-     * @param positionData The positionData to set.
-     */
-    public void setPositionData(PositionData positionData) {
-        this.positionData = positionData;
     }
 
     /**

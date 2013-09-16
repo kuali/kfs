@@ -40,7 +40,6 @@ import org.kuali.kfs.module.ec.businessobject.EffortCertificationReportDefinitio
 import org.kuali.kfs.module.ec.document.EffortCertificationDocument;
 import org.kuali.kfs.module.ec.document.validation.impl.EffortCertificationDocumentRuleUtil;
 import org.kuali.kfs.module.ec.service.EffortCertificationDocumentService;
-import org.kuali.kfs.module.ld.businessobject.LaborAccountingLineOverride;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.MessageBuilder;
@@ -431,7 +430,7 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
 
         accountingLine.refreshNonUpdateableReferences();
 
-        AccountingLineOverride override = LaborAccountingLineOverride.determineNeededOverrides(accountingLine);
+        AccountingLineOverride override = laborModuleService.determineNeededOverrides(accountingLine);
 
         // if an expired account override is needed, set it, otherwise validations on the downstream ST doc could fail
         accountingLine.setAccountExpiredOverrideNeeded(override.hasComponent(COMPONENT.EXPIRED_ACCOUNT));

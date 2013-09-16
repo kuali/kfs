@@ -18,4 +18,28 @@
 	xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
 	xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd'>
 	
+	<changeSet author="KFS505" id="KFSMI-11411">
+		<comment>Move INSTITUTION_NAME parameter from AR to SYS to fix modularity issues - this was originally done for TEM as part of KFSMI-11122</comment>
+		<delete tableName="KRCR_PARM_T">
+			<where>NMSPC_CD = 'KFS-AR' and CMPNT_CD = 'OrganizationOptions' and PARM_NM = 'INSTITUTION_NAME'</where>
+		</delete>
+		
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-SYS" />
+			<column name="CMPNT_CD" value="All" />
+			<column name="PARM_NM" value="INSTITUTION_NAME" />
+			<column name="VAL" value="Kuali University" />
+			<column name="OBJ_ID" valueComputed="SYS_GUID()"/>
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="PARM_TYP_CD" value="CONFG" />
+			<column name="PARM_DESC_TXT" value="The value in this parameter will display on various AR and TEM reports." />
+			<column name="EVAL_OPRTR_CD" value="A" />
+			<column name="APPL_ID" value="KFS" />
+		</insert>
+
+		<modifySql dbms="mysql">
+		    <replace replace="SYS_GUID()" with="UUID()" />
+		</modifySql>
+	</changeSet>
+
 </databaseChangeLog>

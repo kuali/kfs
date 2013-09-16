@@ -25,11 +25,11 @@ import org.apache.log4j.Logger;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.gl.businessobject.Entry;
 import org.kuali.kfs.integration.UnimplementedKfsModuleServiceImpl;
+import org.kuali.kfs.sys.businessobject.AccountingLine;
+import org.kuali.kfs.sys.businessobject.AccountingLineOverride;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.lookup.HtmlData;
-import org.kuali.rice.krad.bo.BusinessObject;
-import org.kuali.rice.krad.bo.ExternalizableBusinessObject;
 
 public class LaborModuleServiceNoOp extends UnimplementedKfsModuleServiceImpl implements LaborModuleService  {
 
@@ -118,13 +118,13 @@ public class LaborModuleServiceNoOp extends UnimplementedKfsModuleServiceImpl im
 
     @Override
     public KualiDecimal calculateFringeBenefitFromLaborObject(LaborLedgerObject laborLedgerObject, KualiDecimal salaryAmount, String accountNumber, String subAccountNumber) {
-        // TODO Auto-generated method stub
+        LOG.warn( "Using No-Op " + getClass().getSimpleName() + " service." );
         return null;
     }
 
     @Override
     public KualiDecimal calculateFringeBenefit(Integer fiscalYear, String chartCode, String objectCode, KualiDecimal salaryAmount, String accountNumber, String subAccountNumber) {
-        // TODO Auto-generated method stub
+        LOG.warn( "Using No-Op " + getClass().getSimpleName() + " service." );
         return null;
     }
 
@@ -161,6 +161,12 @@ public class LaborModuleServiceNoOp extends UnimplementedKfsModuleServiceImpl im
 
     @Override
     public String getCostSharingSourceChartOfAccountsCode() {
+        LOG.warn( "Using No-Op " + getClass().getSimpleName() + " service." );
+        return null;
+    }
+
+    @Override
+    public AccountingLineOverride determineNeededOverrides(AccountingLine line) {
         LOG.warn( "Using No-Op " + getClass().getSimpleName() + " service." );
         return null;
     }

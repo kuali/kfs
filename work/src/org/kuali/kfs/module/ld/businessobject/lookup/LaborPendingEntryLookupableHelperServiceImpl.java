@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -23,8 +23,8 @@ import java.util.Map;
 
 import org.kuali.kfs.gl.Constant;
 import org.kuali.kfs.gl.businessobject.inquiry.InquirableFinancialDocument;
+import org.kuali.kfs.integration.ld.businessobject.inquiry.AbstractPositionDataDetailsInquirableImpl;
 import org.kuali.kfs.module.ld.businessobject.LaborLedgerPendingEntry;
-import org.kuali.kfs.module.ld.businessobject.inquiry.AbstractLaborInquirableImpl;
 import org.kuali.kfs.module.ld.businessobject.inquiry.LedgerPendingEntryInquirableImpl;
 import org.kuali.kfs.module.ld.businessobject.inquiry.PositionDataDetailsInquirableImpl;
 import org.kuali.kfs.module.ld.service.LaborInquiryOptionsService;
@@ -59,7 +59,7 @@ public class LaborPendingEntryLookupableHelperServiceImpl extends AbstractLookup
         }
         else if (KFSPropertyConstants.POSITION_NUMBER.equals(propertyName)) {
             LaborLedgerPendingEntry pendingEntry = (LaborLedgerPendingEntry) businessObject;
-            AbstractLaborInquirableImpl positionDataDetailsInquirable = new PositionDataDetailsInquirableImpl();
+            AbstractPositionDataDetailsInquirableImpl positionDataDetailsInquirable = new PositionDataDetailsInquirableImpl();
 
             Map<String, String> fieldValues = new HashMap<String, String>();
             fieldValues.put(propertyName, pendingEntry.getPositionNumber());
@@ -76,8 +76,8 @@ public class LaborPendingEntryLookupableHelperServiceImpl extends AbstractLookup
      */
     @Override
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
-        setBackLocation((String) fieldValues.get(KFSConstants.BACK_LOCATION));
-        setDocFormKey((String) fieldValues.get(KFSConstants.DOC_FORM_KEY));
+        setBackLocation(fieldValues.get(KFSConstants.BACK_LOCATION));
+        setDocFormKey(fieldValues.get(KFSConstants.DOC_FORM_KEY));
 
         // determine if only approved pending entries need to be returned
         String pendingEntryOption = laborInquiryOptionsService.getSelectedPendingEntryOption(fieldValues);
@@ -91,7 +91,7 @@ public class LaborPendingEntryLookupableHelperServiceImpl extends AbstractLookup
 
     /**
      * build the serach result list from the given collection and the number of all qualified search results
-     * 
+     *
      * @param searchResultsCollection the given search results, which may be a subset of the qualified search results
      * @param actualSize the number of all qualified search results
      * @return the serach result list with the given results and actual size
@@ -100,7 +100,7 @@ public class LaborPendingEntryLookupableHelperServiceImpl extends AbstractLookup
         CollectionIncomplete results = new CollectionIncomplete(searchResultsCollection, actualSize);
 
         // sort list if default sort column given
-        List searchResults = (List) results;
+        List searchResults = results;
         List defaultSortColumns = getDefaultSortColumns();
         if (defaultSortColumns.size() > 0) {
             Collections.sort(results, new BeanPropertyComparator(defaultSortColumns, true));
@@ -110,7 +110,7 @@ public class LaborPendingEntryLookupableHelperServiceImpl extends AbstractLookup
 
     /**
      * Sets the laborLedgerPendingEntryService attribute value.
-     * 
+     *
      * @param laborLedgerPendingEntryService The laborLedgerPendingEntryService to set.
      */
     public void setLaborLedgerPendingEntryService(LaborLedgerPendingEntryService laborLedgerPendingEntryService) {
@@ -119,7 +119,7 @@ public class LaborPendingEntryLookupableHelperServiceImpl extends AbstractLookup
 
     /**
      * Sets the laborInquiryOptionsService attribute value.
-     * 
+     *
      * @param laborInquiryOptionsService The laborInquiryOptionsService to set.
      */
     public void setLaborInquiryOptionsService(LaborInquiryOptionsService laborInquiryOptionsService) {

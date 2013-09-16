@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -21,10 +21,10 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.integration.ld.LaborLedgerBalance;
+import org.kuali.kfs.integration.ld.LaborLedgerBalanceForEffortCertification;
 import org.kuali.kfs.module.ec.EffortPropertyConstants;
 import org.kuali.kfs.module.ec.businessobject.EffortCertificationReportDefinition;
 import org.kuali.kfs.module.ec.service.EffortCertificationReportDefinitionService;
-import org.kuali.kfs.module.ld.businessobject.LedgerBalanceForEffortCertification;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.service.OptionsService;
@@ -60,7 +60,7 @@ public class EffortLedgerBalanceLookupableHelperServiceImpl extends KualiLookupa
 
     /**
      * build the real search field value map from the given field values
-     * 
+     *
      * @param fieldValues the given field values
      * @return the real search field value map built from the given field values
      */
@@ -98,21 +98,22 @@ public class EffortLedgerBalanceLookupableHelperServiceImpl extends KualiLookupa
      */
     @Override
     public Class<? extends LaborLedgerBalance> getBusinessObjectClass() {
-        return LedgerBalanceForEffortCertification.class;
+        return kualiModuleService.getResponsibleModuleService(LaborLedgerBalanceForEffortCertification.class).createNewObjectFromExternalizableClass(LaborLedgerBalanceForEffortCertification.class).getClass();
     }
 
     /**
      * Sets the businessObjectService attribute value.
-     * 
+     *
      * @param businessObjectService The businessObjectService to set.
      */
+    @Override
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
 
     /**
      * Sets the effortCertificationReportDefinitionService attribute value.
-     * 
+     *
      * @param effortCertificationReportDefinitionService The effortCertificationReportDefinitionService to set.
      */
     public void setEffortCertificationReportDefinitionService(EffortCertificationReportDefinitionService effortCertificationReportDefinitionService) {
@@ -121,7 +122,7 @@ public class EffortLedgerBalanceLookupableHelperServiceImpl extends KualiLookupa
 
     /**
      * Sets the optionsService attribute value.
-     * 
+     *
      * @param optionsService The optionsService to set.
      */
     public void setOptionsService(OptionsService optionsService) {
@@ -130,7 +131,7 @@ public class EffortLedgerBalanceLookupableHelperServiceImpl extends KualiLookupa
 
     /**
      * Sets the kualiModuleService attribute value.
-     * 
+     *
      * @param kualiModuleService The kualiModuleService to set.
      */
     public void setKualiModuleService(KualiModuleService kualiModuleService) {

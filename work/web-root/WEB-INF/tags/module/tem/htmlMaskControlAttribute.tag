@@ -169,9 +169,9 @@
 			   	    java.util.List collection = (java.util.List) TagUtils.lookup(pageCtx, "org.apache.struts.taglib.html.BEAN", methodAndParms, null);
 			   	
 			   	    if(collection != null && collection.size() > 0) {
-			   		  for(Object obj : collection) {
-			   		    org.kuali.rice.core.api.util.KeyValue pair = (org.kuali.rice.core.api.util.KeyValue) obj;
 				   	    for (Object val : propertyValue) {
+				   		  for(Object obj : collection) {
+					   		    org.kuali.rice.core.api.util.KeyValue pair = (org.kuali.rice.core.api.util.KeyValue) obj;
 					   	  if(pair.getKey() != null && pair.getKey().toString().equals(val)) {
 					   	    if (!selectedOptionDescription.trim().equals("")) {
 					   	      selectedOptionDescription += "<br />";

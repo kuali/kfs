@@ -50,7 +50,7 @@ public abstract class TEMDocumentExpenseLineValidation extends GenericValidation
      * @param document
      * @return boolean
      */
-    protected boolean validatePerDiemRules(ActualExpense actualExpense, TravelDocument document) {
+    protected boolean validatePerDiemRules(ActualExpense actualExpense, TravelDocument document, boolean warningOnly) {
         boolean success = true;
         PerDiemType perDiem = null;
         // Check to see if the same expense type is been entered in PerDiem
@@ -68,7 +68,14 @@ public abstract class TEMDocumentExpenseLineValidation extends GenericValidation
         }
 
         if (perDiem != null){
-            GlobalVariables.getMessageMap().putWarning(TemPropertyConstants.EXEPENSE_TYPE_OBJECT_CODE_ID, TemKeyConstants.WARNING_DUPLICATE_EXPENSE, perDiem.label);
+            if (warningOnly) {
+                GlobalVariables.getMessageMap().putWarning(TemPropertyConstants.EXEPENSE_TYPE_OBJECT_CODE_ID, TemKeyConstants.WARNING_DUPLICATE_EXPENSE, perDiem.label);
+            } else {
+                success = false;
+                GlobalVariables.getMessageMap().putError(TemPropertyConstants.EXEPENSE_TYPE_OBJECT_CODE_ID, TemKeyConstants.WARNING_DUPLICATE_EXPENSE, perDiem.label);
+                final String matchingErrorPath = StringUtils.join(GlobalVariables.getMessageMap().getErrorPath(), ".") + "." + TemPropertyConstants.EXEPENSE_TYPE_OBJECT_CODE_ID;
+                GlobalVariables.getMessageMap().removeAllWarningMessagesForProperty(matchingErrorPath);
+            }
         }
 
         return success;

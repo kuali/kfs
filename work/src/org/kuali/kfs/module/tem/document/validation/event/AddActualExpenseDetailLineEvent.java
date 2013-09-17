@@ -27,6 +27,7 @@ import org.kuali.rice.krad.rules.rule.BusinessRule;
 public class AddActualExpenseDetailLineEvent<E extends AbstractExpense> extends AttributedDocumentEventBase implements TEMExpenseLineEvent<E> {
 
     private final E actualExpense;
+    private final E actualExpenseDetail;
 
     /**
      * Constructs an AddExpenseLineEvent with the given errorPathPrefix, document, and otherExpense.
@@ -35,9 +36,10 @@ public class AddActualExpenseDetailLineEvent<E extends AbstractExpense> extends 
      * @param document
      * @param groupTraveler
      */
-    public AddActualExpenseDetailLineEvent(String errorPathPrefix, Document document, E actualExpense) {
+    public AddActualExpenseDetailLineEvent(String errorPathPrefix, Document document, E actualExpense, E actualExpenseDetail) {
         super("adding actualExpenseLine to document " + getDocumentId(document), errorPathPrefix, document);
         this.actualExpense = actualExpense;
+        this.actualExpenseDetail = actualExpenseDetail;
     }
 
 
@@ -63,6 +65,11 @@ public class AddActualExpenseDetailLineEvent<E extends AbstractExpense> extends 
     public E getExpenseLine() {
         // TODO Auto-generated method stub
         return actualExpense;
+    }
+
+
+    public E getActualExpenseDetail() {
+        return actualExpenseDetail;
     }
 
 }

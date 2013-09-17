@@ -54,7 +54,6 @@ import org.kuali.kfs.gl.service.EncumbranceService;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomerInvoice;
 import org.kuali.kfs.integration.ar.AccountsReceivableModuleService;
 import org.kuali.kfs.integration.ar.AccountsReceivableOrganizationOptions;
-import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationParameters;
 import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationStatusCodeKeys;
@@ -2327,11 +2326,6 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
 
     public void setTravelerService(TravelerService travelerService) {
         this.travelerService = travelerService;
-    }
-
-    @Override
-    public void populateRequisitionFields(RequisitionDocument reqsDoc, TravelDocument document) {
-        //implement the common functionality
     }
 
     public WorkflowDocumentService getWorkflowDocumentService() {

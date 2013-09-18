@@ -265,8 +265,8 @@ public class CreditCardStagingData extends PersistableBusinessObjectBase {
     }
 
 
-    public void setTransactionAmount(String transactionAmount) {
-        this.transactionAmount = new KualiDecimal(transactionAmount);
+    public void setTransactionAmount(KualiDecimal transactionAmount) {
+        this.transactionAmount = transactionAmount;
     }
 
 

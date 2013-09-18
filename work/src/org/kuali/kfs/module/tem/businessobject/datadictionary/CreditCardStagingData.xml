@@ -159,7 +159,7 @@
 		<property name="summary" value="Processing Timestamp" />
 		<property name="description" value="Processing Timestamp" />
         <property name="control">
-            <bean parent="DateControl" p:ranged="false"/>
+            <bean parent="DateControl"/>
         </property>
 	</bean>	
 	<bean id="CreditCardStagingData-departureDate" parent="CreditCardStagingData-departureDate-parentBean" />

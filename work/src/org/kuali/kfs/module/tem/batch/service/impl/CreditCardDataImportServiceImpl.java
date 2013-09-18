@@ -30,11 +30,11 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.tem.TemConstants;
+import org.kuali.kfs.module.tem.TemKeyConstants;
+import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.TemConstants.CreditCardStagingDataErrorCodes;
 import org.kuali.kfs.module.tem.TemConstants.ExpenseImport;
 import org.kuali.kfs.module.tem.TemConstants.ExpenseTypes;
-import org.kuali.kfs.module.tem.TemKeyConstants;
-import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.batch.service.CreditCardDataImportService;
 import org.kuali.kfs.module.tem.batch.service.DataReportService;
 import org.kuali.kfs.module.tem.businessobject.CreditCardAgency;
@@ -171,7 +171,7 @@ public class CreditCardDataImportServiceImpl implements CreditCardDataImportServ
 
                 creditCardData.setErrorCode(CreditCardStagingDataErrorCodes.CREDIT_CARD_NO_ERROR);
                 creditCardData.setImportBy(creditCardList.getImportBy());
-                creditCardData.setStagingFileName(StringUtils.substringAfterLast(dataFileName, "\\"));
+                creditCardData.setStagingFileName(StringUtils.substringAfterLast(dataFileName, File.separator));
 
                 List<ErrorMessage> errorMessages = new ArrayList<ErrorMessage>();
                 if(validateAndSetCreditCardAgency(creditCardData)){

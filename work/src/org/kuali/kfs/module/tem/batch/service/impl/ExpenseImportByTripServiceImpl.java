@@ -23,15 +23,15 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.kuali.kfs.module.tem.TemKeyConstants;
+import org.kuali.kfs.module.tem.TemParameterConstants;
+import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.TemConstants.AgencyMatchProcessParameter;
 import org.kuali.kfs.module.tem.TemConstants.AgencyStagingDataErrorCodes;
 import org.kuali.kfs.module.tem.TemConstants.AgencyStagingDataValidation;
 import org.kuali.kfs.module.tem.TemConstants.CreditCardStagingDataErrorCodes;
 import org.kuali.kfs.module.tem.TemConstants.ExpenseTypes;
 import org.kuali.kfs.module.tem.TemConstants.TravelParameters;
-import org.kuali.kfs.module.tem.TemKeyConstants;
-import org.kuali.kfs.module.tem.TemParameterConstants;
-import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.batch.AgencyDataImportStep;
 import org.kuali.kfs.module.tem.batch.service.ExpenseImportByTripService;
 import org.kuali.kfs.module.tem.batch.service.ImportedExpensePendingEntryService;
@@ -132,13 +132,13 @@ public class ExpenseImportByTripServiceImpl extends ExpenseImportServiceBase imp
         List<TripAccountingInformation> accountingInfoList = agencyData.getTripAccountingInformation();
         for (TripAccountingInformation account : accountingInfoList) {
             if (StringUtils.isEmpty(account.getTripChartCode())) {
-                ErrorMessage error = new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_DATA_NO_MANDATORY_FIELDS, "tripChartCode");
+                ErrorMessage error = new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_DATA_NO_MANDATORY_FIELDS, TemPropertyConstants.TravelAgencyAuditReportFields.TRIP_CHART_CODE);
                 errorMessages.add(error);
                 accountInfoMissing = true;
 
             }
             if (StringUtils.isEmpty(account.getTripAccountNumber())) {
-               ErrorMessage error = new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_DATA_NO_MANDATORY_FIELDS, "tripAccountNumber");
+               ErrorMessage error = new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_DATA_NO_MANDATORY_FIELDS, TemPropertyConstants.TravelAgencyAuditReportFields.TRIP_ACCOUNT_NUMBER);
                errorMessages.add(error);
                accountInfoMissing = true;
 

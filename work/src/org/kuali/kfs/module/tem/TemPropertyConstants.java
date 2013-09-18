@@ -225,10 +225,12 @@ public class TemPropertyConstants {
     }
 
     public static class TravelAgencyAuditReportFields {
-        public static final String ACCOUNTING_INFO = "accountingInfo";
+        public static final String ACCOUNTING_INFO = "tripAccountingInformation";
         public static final String TRIP_ID = "tripId";
         public static final String LODGING_NUMBER = "lodgingItineraryNumber";
-        public static final String TRAVELER_DATA = "traveler";
+        public static final String TRAVELER_DATA = "travelerId";
+        public static final String TRIP_CHART_CODE = "tripChartCode";
+        public static final String TRIP_ACCOUNT_NUMBER = "tripAccountNumber";
     }
 
     @SuppressWarnings("rawtypes")

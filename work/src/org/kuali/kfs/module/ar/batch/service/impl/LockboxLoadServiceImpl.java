@@ -222,6 +222,7 @@ public class LockboxLoadServiceImpl implements LockboxLoadService {
        // }
         message.setFromAddress(returnAddress);
         String subject = parameterService.getParameterValueAsString(LockboxLoadStep.class, ArConstants.Lockbox.SUMMARY_AND_ERROR_NOTIFICATION_EMAIL_SUBJECT);
+        //KFSMI-11479: discovered that the backslashes don't work for Linux machines. Need to use File.separator instead for fileName to work.
         String fileName = StringUtils.substringAfterLast(flatFileInformation.getFileName(), "\\");
         message.setSubject(subject + "[ " + fileName + " ]");
         List<String> toAddressList = new ArrayList<String>( parameterService.getParameterValuesAsString(LockboxLoadStep.class, ArConstants.Lockbox.SUMMARY_AND_ERROR_NOTIFICATION_TO_EMAIL_ADDRESSES) );

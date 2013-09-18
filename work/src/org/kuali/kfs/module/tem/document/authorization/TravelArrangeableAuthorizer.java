@@ -73,6 +73,9 @@ abstract public class TravelArrangeableAuthorizer extends AccountingDocumentAuth
                     qualification.put(KFSPropertyConstants.ORGANIZATION_CODE, profile.getHomeDeptOrgCode());
                 }
             }
+            if (ObjectUtils.isNotNull(document.getTraveler())) {
+                qualification.put(KFSPropertyConstants.PRINCIPAL_ID, document.getTraveler().getPrincipalId());
+            }
         }
     }
 

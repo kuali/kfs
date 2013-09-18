@@ -485,6 +485,7 @@
                 <entry key="Award" value-ref="RoutingType-AccountingDocument-Award" />
                 <entry key="PaymentMethod" value-ref="TravelReimbursable-RoutingType-PaymentMethod"/>
                 <entry key="ExecutiveApproval" value-ref="TravelRelocationDocument-RoutingType-JobClassification"/>
+                <entry key="Traveler" value-ref="TravelReimbursable-RoutingType-Traveler"/>
             </map>
         </property>
     </bean>

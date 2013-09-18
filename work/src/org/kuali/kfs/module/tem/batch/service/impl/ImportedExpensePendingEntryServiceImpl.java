@@ -153,13 +153,11 @@ public class ImportedExpensePendingEntryServiceImpl implements ImportedExpensePe
         if(ObjectUtils.isNotNull(pendingEntry )) {
             pendingEntry.setAccountNumber(info.getTripAccountNumber());
             pendingEntry.setSubAccountNumber(StringUtils.defaultIfEmpty(info.getTripSubAccountNumber(), GENERAL_LEDGER_PENDING_ENTRY_CODE.getBlankSubAccountNumber()));
-        }
 
-        LOG.info("Created DEBIT GLPE: " + pendingEntry.getDocumentNumber() + " for AGENCY Import Expense: " + agencyData.getId() + " TripId: " + agencyData.getTripId()
+            LOG.info("Created DEBIT GLPE: " + pendingEntry.getDocumentNumber() + " for AGENCY Import Expense: " + agencyData.getId() + " TripId: " + agencyData.getTripId()
                 + "\n\n" + ReflectionToStringBuilder.reflectionToString(pendingEntry, ToStringStyle.MULTI_LINE_STYLE));
 
-        //add to list if entry was created successfully
-        if (ObjectUtils.isNotNull(pendingEntry)) {
+            //add to list if entry was created successfully
             entryList.add(pendingEntry);
             //handling offset
             if (generateOffset){

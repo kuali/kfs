@@ -132,6 +132,7 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
     public TravelAuthorizationAmendmentDocument toCopyTAA() throws WorkflowException {
         TravelAuthorizationAmendmentDocument doc = (TravelAuthorizationAmendmentDocument) SpringContext.getBean(DocumentService.class).getNewDocument(TemConstants.TravelDocTypes.TRAVEL_AUTHORIZATION_AMEND_DOCUMENT);
         toCopyTravelAuthorizationDocument(doc);
+        doc.setActualExpenses((List<ActualExpense>) getTravelDocumentService().copyActualExpenses(getActualExpenses(), doc.getDocumentNumber()));
 
         doc.getDocumentHeader().setDocumentDescription(TemConstants.PRE_FILLED_DESCRIPTION);
         setAppDocStatus(TravelAuthorizationStatusCodeKeys.IN_PROCESS);
@@ -168,6 +169,7 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
     public TravelAuthorizationCloseDocument toCopyTAC() throws WorkflowException {
         TravelAuthorizationCloseDocument doc = (TravelAuthorizationCloseDocument) SpringContext.getBean(DocumentService.class).getNewDocument(TemConstants.TravelDocTypes.TRAVEL_AUTHORIZATION_CLOSE_DOCUMENT);
         toCopyTravelAuthorizationDocument(doc);
+        doc.setActualExpenses((List<ActualExpense>) getTravelDocumentService().copyActualExpenses(getActualExpenses(), doc.getDocumentNumber()));
 
         return doc;
     }

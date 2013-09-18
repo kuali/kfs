@@ -59,26 +59,6 @@ public class CloseQuestionHandler implements QuestionHandler<TravelDocument> {
             T returnActionForward = (T) ((StrutsInquisitor) asker).getMapping().findForward(MAPPING_BASIC);
             TravelAuthorizationForm form = (TravelAuthorizationForm) ((StrutsInquisitor) asker).getForm();
 
-//            String message = getMessageFrom(TA_MESSAGE_CLOSE_DOCUMENT_TEXT);
-//            String user = GlobalVariables.getUserSession().getPerson().getLastName() + ", " + GlobalVariables.getUserSession().getPerson().getFirstName();
-//            String note = replace(message, "{0}", user);
-//
-//            final Note taNote = documentService.createNoteFromDocument(document, note);
-//            documentService.addNoteToDocument(document, taNote);
-//            document.updateAppDocStatus(TravelAuthorizationStatusCodeKeys.RETIRED_VERSION);
-//            documentDao.save(document);
-//
-//            TravelAuthorizationCloseDocument tacDocument = ((TravelAuthorizationDocument) document).toCopyTAC();
-//            final Note tacNote= documentService.createNoteFromDocument(tacDocument, note);
-//            documentService.addNoteToDocument(tacDocument, tacNote);
-//
-//
-//            // add relationship
-//            String relationDescription = "TA - TAC";
-//            accountingDocumentRelationshipService.save(new AccountingDocumentRelationship(document.getDocumentNumber(), tacDocument.getDocumentNumber(), relationDescription));
-//            tacDocument.setAppDocStatus(TravelAuthorizationStatusCodeKeys.CLOSED);
-//            documentService.routeDocument(tacDocument, form.getAnnotation(), null);
-
             TravelAuthorizationCloseDocument tacDocument = travelAuthorizationService.closeAuthorization(document, form.getAnnotation(), GlobalVariables.getUserSession().getPrincipalName());
 
             form.setDocTypeName(TravelDocTypes.TRAVEL_AUTHORIZATION_CLOSE_DOCUMENT);

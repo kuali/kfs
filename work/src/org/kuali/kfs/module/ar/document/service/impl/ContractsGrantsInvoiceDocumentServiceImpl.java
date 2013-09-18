@@ -62,7 +62,6 @@ import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.batch.service.VerifyBillingFrequencyService;
 import org.kuali.kfs.module.ar.businessobject.AwardAccountObjectCodeTotalBilled;
-import org.kuali.kfs.module.ar.businessobject.CollectorInformation;
 import org.kuali.kfs.module.ar.businessobject.ContractsAndGrantsCategories;
 import org.kuali.kfs.module.ar.businessobject.Customer;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
@@ -1526,15 +1525,20 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
      * @return
      */
     public boolean isCategoryCumulativeExpenditureMatchAccountCumulativeExpenditureSum(ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument) {
-        KualiDecimal categoryCumulativeExpenditure = contractsGrantsInvoiceDocument.getTotalInvoiceDetails().get(0).getCumulative();
-        KualiDecimal accountDetailsCumulativeExpenditure = KualiDecimal.ZERO;
+        if (ObjectUtils.isNotNull(contractsGrantsInvoiceDocument.getTotalInvoiceDetails()) && CollectionUtils.isNotEmpty(contractsGrantsInvoiceDocument.getTotalInvoiceDetails())) {
+            KualiDecimal categoryCumulativeExpenditure = contractsGrantsInvoiceDocument.getTotalInvoiceDetails().get(0).getCumulative();
+            KualiDecimal accountDetailsCumulativeExpenditure = KualiDecimal.ZERO;
 
-        for (InvoiceAccountDetail invoiceAccountDetail : contractsGrantsInvoiceDocument.getAccountDetails()) {
-            accountDetailsCumulativeExpenditure = accountDetailsCumulativeExpenditure.add(invoiceAccountDetail.getCumulativeAmount());
-        }
+            for (InvoiceAccountDetail invoiceAccountDetail : contractsGrantsInvoiceDocument.getAccountDetails()) {
+                accountDetailsCumulativeExpenditure = accountDetailsCumulativeExpenditure.add(invoiceAccountDetail.getCumulativeAmount());
+            }
 
-        if (categoryCumulativeExpenditure.equals(accountDetailsCumulativeExpenditure)) {
-            return true;
+            if (categoryCumulativeExpenditure.equals(accountDetailsCumulativeExpenditure)) {
+                return true;
+            }
+            else {
+                return false;
+            }
         }
         else {
             return false;

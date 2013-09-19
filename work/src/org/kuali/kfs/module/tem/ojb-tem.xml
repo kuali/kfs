@@ -1018,6 +1018,9 @@
         <reference-descriptor name="mileageRate" class-ref="org.kuali.kfs.module.tem.businessobject.MileageRate" auto-retrieve="true" auto-update="none" auto-delete="none">
             <foreignkey field-ref="mileageRateId"/>
         </reference-descriptor>
+        <reference-descriptor name="classOfService" class-ref="org.kuali.kfs.module.tem.businessobject.ClassOfService" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+        	<foreignkey field-ref="classOfServiceCode"/>
+        </reference-descriptor>
         <collection-descriptor name="expenseDetails" proxy="true" element-class-ref="org.kuali.kfs.module.tem.businessobject.ActualExpense" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
             <orderby name="documentLineNumber" sort="ASC" />
             <inverse-foreignkey field-ref="expenseParentId" />

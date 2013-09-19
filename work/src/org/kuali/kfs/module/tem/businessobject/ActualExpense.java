@@ -68,6 +68,8 @@ public class ActualExpense extends AbstractExpense implements OtherExpense, Expe
 
     private String expenseLineTypeCode = TemConstants.EXPENSE_ACTUAL;
 
+    private ClassOfService classOfService;
+
     public ActualExpense() {
         // details = new ArrayList<OtherExpenseDetail>();
     }
@@ -462,5 +464,13 @@ public class ActualExpense extends AbstractExpense implements OtherExpense, Expe
     @Override
     public void setExpenseLineTypeCode(String expenseLineTypeCode) {
         this.expenseLineTypeCode = expenseLineTypeCode;
+    }
+
+    public ClassOfService getClassOfService() {
+        return classOfService;
+    }
+
+    public void setClassOfService(ClassOfService classOfService) {
+        this.classOfService = classOfService;
     }
 }

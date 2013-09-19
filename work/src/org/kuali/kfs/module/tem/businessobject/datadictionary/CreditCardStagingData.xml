@@ -306,11 +306,11 @@
 	<bean id="CreditCardStagingData-moveToHistoryIndicator" parent="CreditCardStagingData-moveToHistoryIndicator-parentBean" />
 	<bean id="CreditCardStagingData-moveToHistoryIndicator-parentBean" parent="GenericAttributes-genericBoolean">
 		<property name="name" value="moveToHistoryIndicator" />
-		<property name="label" value="Moving To History" />
-		<property name="shortLabel" value="Moving To History" />
+		<property name="label" value="Matched Records?" />
+		<property name="shortLabel" value="Moved To History" />
 		<property name="maxLength" value="1" />
-		<property name="summary" value="Moving To History" />
-		<property name="description" value="Moving To History" />
+		<property name="summary" value="Move To History Indicator" />
+		<property name="description" value="Move To History Indicator" />
 		<property name="control">
 		<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.rice.krad.keyvalues.IndicatorValuesFinder" p:includeKeyInLabel="false"/>
 		</property>

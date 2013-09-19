@@ -20,6 +20,7 @@
 			<ref bean="TripAccountingInformation-subObjectCode" />
 			<ref bean="TripAccountingInformation-projectCode" />
 			<ref bean="TripAccountingInformation-organizationReference" />
+			<ref bean="TripAccountingInformation-amount" />
 			<ref bean="TripAccountingInformation-versionNumber" />
 		</list>
 		</property>
@@ -50,29 +51,29 @@
     <bean id="TripAccountingInformation-tripChartNumber" parent="TripAccountingInformation-tripChartNumber-parentBean" />
     <bean id="TripAccountingInformation-tripChartNumber-parentBean" parent="AttributeDefinition">
         <property name="name" value="tripChartCode" />
-        <property name="label" value="Trip Chart Number" />
-        <property name="shortLabel" value="Trip Chart Number" />
+        <property name="label" value="Chart Code" />
+        <property name="shortLabel" value="Chart Code" />
         <property name="maxLength" value="2" />
         <property name="control"><bean parent="TextControlDefinition" p:size="2"/></property>
     </bean>
 	<bean id="TripAccountingInformation-tripAccountNumber" parent="TripAccountingInformation-tripAccountNumber-parentBean" />
 	<bean id="TripAccountingInformation-tripAccountNumber-parentBean" parent="AttributeDefinition">
 		<property name="name" value="tripAccountNumber" />
-		<property name="label" value="Trip Account Number" />
-		<property name="shortLabel" value="Trip Account Number" />
+		<property name="label" value="Account Number" />
+		<property name="shortLabel" value="Account Number" />
 		<property name="maxLength" value="7" />
-		<property name="summary" value="Trip Account Number" />
-		<property name="description" value="Trip Account Number" />
+		<property name="summary" value="Account Number" />
+		<property name="description" value="Account Number" />
 		<property name="control"><bean parent="TextControlDefinition" p:size="7"/></property>
 	</bean>
 	<bean id="TripAccountingInformation-tripSubAccountNumber" parent="TripAccountingInformation-tripSubAccountNumber-parentBean" />
 	<bean id="TripAccountingInformation-tripSubAccountNumber-parentBean" parent="AttributeDefinition">
 		<property name="name" value="tripSubAccountNumber" />
-		<property name="label" value="Trip Sub Account Number" />
-		<property name="shortLabel" value="Trip Sub Account Number" />
+		<property name="label" value="Sub-Account Number" />
+		<property name="shortLabel" value="Sub-Account Number" />
 		<property name="maxLength" value="5" />
-		<property name="summary" value="Trip Sub Account Number" />
-		<property name="description" value="Trip Sub Account Number" />
+		<property name="summary" value="Sub-Account Number" />
+		<property name="description" value="Sub-Account Number" />
 		<property name="control"><bean parent="TextControlDefinition" p:size="5"/></property>
 	</bean>
 	<bean id="TripAccountingInformation-objectCode" parent="TripAccountingInformation-objectCode-parentBean" />
@@ -89,10 +90,10 @@
 	<bean id="TripAccountingInformation-subObjectCode-parentBean" parent="AttributeDefinition">
 		<property name="name" value="subObjectCode" />
 		<property name="label" value="Sub Object Code" />
-		<property name="shortLabel" value="Sub Object Code" />
+		<property name="shortLabel" value="Sub-Object Code" />
 		<property name="maxLength" value="3" />
-		<property name="summary" value="Sub Object Code" />
-		<property name="description" value="Sub Object Code" />
+		<property name="summary" value="Sub-Object Code" />
+		<property name="description" value="Sub-Object Code" />
 		<property name="control"><bean parent="TextControlDefinition" p:size="3"/></property>
 	</bean>
 	<bean id="TripAccountingInformation-projectCode" parent="TripAccountingInformation-projectCode-parentBean" />
@@ -115,6 +116,14 @@
 		<property name="description" value="Organization Reference" />
 		<property name="control"><bean parent="TextControlDefinition" p:size="8"/></property>
 	</bean>
+	<bean id="TripAccountingInformation-amount" parent="TripAccountingInformation-amount-parentBean" />
+	<bean id="TripAccountingInformation-amount-parentBean" parent="GenericAttributes-genericAmount">
+		<property name="name" value="amount" />
+		<property name="label" value="Amount" />
+		<property name="shortLabel" value="Amount" />
+		<property name="summary" value="Amount" />
+		<property name="description" value="Amount" />
+	</bean>		
 	<bean id="TripAccountingInformation-versionNumber" parent="TripAccountingInformation-versionNumber-parentBean" />
 	<bean id="TripAccountingInformation-versionNumber-parentBean" parent="GenericAttributes-versionNumber">
 		<property name="name" value="versionNumber" />
@@ -135,12 +144,14 @@
 				<list>
 					<bean parent="FieldDefinition" p:attributeName="id" />
 					<bean parent="FieldDefinition" p:attributeName="agencyStagingDataId" />
+					<bean parent="FieldDefinition" p:attributeName="tripChartCode" />
 					<bean parent="FieldDefinition" p:attributeName="tripAccountNumber" />
 					<bean parent="FieldDefinition" p:attributeName="tripSubAccountNumber" />
 					<bean parent="FieldDefinition" p:attributeName="objectCode" />
 					<bean parent="FieldDefinition" p:attributeName="subObjectCode" />
 					<bean parent="FieldDefinition" p:attributeName="projectCode" />
 					<bean parent="FieldDefinition" p:attributeName="organizationReference" />
+					<bean parent="FieldDefinition" p:attributeName="amount" />
 				</list>
 				</property>
 			</bean>
@@ -158,18 +169,22 @@
 		</property>
 		<property name="lookupFields"><list>
 			<bean parent="FieldDefinition" p:attributeName="id" />
+			<bean parent="FieldDefinition" p:attributeName="agencyStagingDataId" />
+			<bean parent="FieldDefinition" p:attributeName="tripAccountNumber" />
 		</list>
 		</property>
 		<property name="resultFields">
 		<list>
 			<bean parent="FieldDefinition" p:attributeName="id" />
 			<bean parent="FieldDefinition" p:attributeName="agencyStagingDataId" />
+			<bean parent="FieldDefinition" p:attributeName="tripChartCode" />
 			<bean parent="FieldDefinition" p:attributeName="tripAccountNumber" />
 			<bean parent="FieldDefinition" p:attributeName="tripSubAccountNumber" />
 			<bean parent="FieldDefinition" p:attributeName="objectCode" />
 			<bean parent="FieldDefinition" p:attributeName="subObjectCode" />
 			<bean parent="FieldDefinition" p:attributeName="projectCode" />
 			<bean parent="FieldDefinition" p:attributeName="organizationReference" />
+			<bean parent="FieldDefinition" p:attributeName="amount" />
 		</list>
 		</property>
 	</bean>

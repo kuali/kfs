@@ -96,7 +96,8 @@
 		</property>
 		<property name="collections">
 		<list>
-			<bean parent="CollectionDefinition" p:name="tripAccountingInformation" p:label="tripAccountingInformation" p:shortLabel="tripAccountingInformation" p:elementLabel="tripAccountingInformation" />
+			<bean parent="CollectionDefinition" p:name="tripAccountingInformation" p:label="Accounting Information" 
+			      p:shortLabel="Accounting Info" p:elementLabel="Account" />
 		</list>
 		</property>
 		<property name="relationships">
@@ -378,8 +379,8 @@
 		<property name="label" value="Distribution Code" />
 		<property name="shortLabel" value="Distribution Code" />
 		<property name="maxLength" value="4" />
-		<property name="summary" value="DiDistribution Code" />
-		<property name="description" value="DiDistribution Code" />
+		<property name="summary" value="Distribution Code" />
+		<property name="description" value="Distribution Code" />
 		<property name="control"><bean parent="TextControlDefinition" p:size="4"/></property>
 	</bean>
 	<bean id="AgencyStagingData-tripDepartureDate" parent="AgencyStagingData-tripDepartureDate-parentBean" />
@@ -808,7 +809,7 @@
 	<bean id="AgencyStagingData-moveToHistoryIndicator-parentBean" parent="GenericAttributes-genericBoolean">
 		<property name="name" value="moveToHistoryIndicator" />
 		<property name="label" value="Matched Records?" />
-		<property name="shortLabel" value="Move To History Indicator" />
+		<property name="shortLabel" value="Moved To History" />
 		<property name="maxLength" value="1" />
 		<property name="summary" value="Move To History Indicator" />
 		<property name="description" value="Move To History Indicator" />
@@ -863,34 +864,76 @@
 	<bean id="AgencyStagingData-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
 		<property name="title" value="Travel Agency Audit Inquiry"/>
 		<property name="inquirySections">
-		<list>
-            <bean parent="InquirySectionDefinition">
-                <property name="title" value="Overview"/>
-                <property name="numberOfColumns" value="2"/>
-                <property name="inquiryFields">
-                    <list>
-                        <bean parent="FieldDefinition" p:attributeName="id" />
-                        <bean parent="FieldDefinition" p:attributeName="agencyDataId" />
-                        <bean parent="FieldDefinition" p:attributeName="creditCardOrAgencyCode" />
-                        <bean parent="FieldDefinition" p:attributeName="agency" />
-                        <bean parent="FieldDefinition" p:attributeName="otherCompanyName" />
-                        <bean parent="FieldDefinition" p:attributeName="agencyFileName" />
-                        <bean parent="FieldDefinition" p:attributeName="merchantName" />
-                        <bean parent="FieldDefinition" p:attributeName="billingCycleDate" />
-                        <bean parent="FieldDefinition" p:attributeName="transactionPostingDate" />
-                        <bean parent="FieldDefinition" p:attributeName="processingTimestamp" />
-                        <bean parent="FieldDefinition" p:attributeName="duplicateRecordId" />
-                        <bean parent="FieldDefinition" p:attributeName="tripId" />
-                        <bean parent="FieldDefinition" p:attributeName="tripInvoiceNumber" />
+			<list>
+				<ref bean="AgencyStagingData-inquirySectionDefinition-agencyData" />
+				<ref bean="AgencyStagingData-inquirySectionDefinition-trip" />
+				<ref bean="AgencyStagingData-inquirySectionDefinition-traveler" />
+				<ref bean="AgencyStagingData-inquirySectionDefinition-airline" />
+				<ref bean="AgencyStagingData-inquirySectionDefinition-lodging" />
+				<ref bean="AgencyStagingData-inquirySectionDefinition-rentalcar" />
+				<ref bean="AgencyStagingData-inquirySectionDefinition-conference" />
+				<ref bean="AgencyStagingData-inquirySectionDefinition-accounting" />
+			</list>
+		</property>
+	</bean>			
+	<bean id="AgencyStagingData-inquirySectionDefinition-agencyData" parent="AgencyStagingData-inquirySectionDefinition-agencyData-parentBean" />
+	<bean id="AgencyStagingData-inquirySectionDefinition-agencyData-parentBean" parent="InquirySectionDefinition" abstract="true">
+	    <property name="title" value="Travel Agency Data"/>
+	    <property name="numberOfColumns" value="2"/>
+	    <property name="inquiryFields">
+	        <list>
+	            <bean parent="FieldDefinition" p:attributeName="id" />
+	            <bean parent="FieldDefinition" p:attributeName="agency" />
+	            <bean parent="FieldDefinition" p:attributeName="agencyFileName" />
+	            <bean parent="FieldDefinition" p:attributeName="creditCardOrAgencyCode" />
+	            <bean parent="FieldDefinition" p:attributeName="stagingFileName" />	            
+	            <bean parent="FieldDefinition" p:attributeName="merchantName" />
+	            <bean parent="FieldDefinition" p:attributeName="billingCycleDate" />
+	            <bean parent="FieldDefinition" p:attributeName="otherCompanyName" />
+	            <bean parent="FieldDefinition" p:attributeName="transactionPostingDate" />
+	            <bean parent="FieldDefinition" p:attributeName="agencyDataId" />
+	            <bean parent="FieldDefinition" p:attributeName="processingTimestamp" />
+	            <bean parent="FieldDefinition" p:attributeName="manualCreated" />
+	            <bean parent="FieldDefinition" p:attributeName="importBy" />
+	            <bean parent="FieldDefinition" p:attributeName="copiedFromId" />
+	            <bean parent="FieldDefinition" p:attributeName="errorCode" />
+	            <bean parent="FieldDefinition" p:attributeName="duplicateRecordId" />
+	            <bean parent="FieldDefinition" p:attributeName="active" />
+	            <bean parent="FieldDefinition" p:attributeName="moveToHistoryIndicator" />
+	        </list>
+	    </property>	
+	</bean>
+	<bean id="AgencyStagingData-inquirySectionDefinition-trip" parent="AgencyStagingData-inquirySectionDefinition-trip-parentBean" />
+	<bean id="AgencyStagingData-inquirySectionDefinition-trip-parentBean" parent="InquirySectionDefinition" abstract="true">
+	   	<property name="title" value="Trip" />
+	   	<property name="numberOfColumns" value="2"/>
+	   	<property name="inquiryFields">
+        	<list>
+              <bean parent="FieldDefinition" p:attributeName="tripId" />
+              <bean parent="FieldDefinition" p:attributeName="tripInvoiceNumber" />
+              <bean parent="FieldDefinition" p:attributeName="alternateTripId" />
+              <bean parent="FieldDefinition" p:attributeName="tripExpenseAmount" />
+              <bean parent="FieldDefinition" p:attributeName="distributionCode" />
+              <bean parent="FieldDefinition" p:attributeName="otherAmount"/>
+        	</list>
+      	</property>	
+	</bean>
+	<bean id="AgencyStagingData-inquirySectionDefinition-traveler" parent="AgencyStagingData-inquirySectionDefinition-traveler-parentBean" />
+	<bean id="AgencyStagingData-inquirySectionDefinition-traveler-parentBean" parent="InquirySectionDefinition" abstract="true">
+            	<property name="title" value="Traveler"/>
+            	<property name="numberOfColumns" value="2"/>
+            	<property name="inquiryFields">
+            		<list>
+		                <bean parent="FieldDefinition" p:attributeName="travelerName" />
+		                <bean parent="FieldDefinition" p:attributeName="travelerId" />
+		                <bean parent="FieldDefinition" p:attributeName="travelerNetworkId" />
                         <bean parent="FieldDefinition" p:attributeName="tripTravelerTypeId" />
-                        <bean parent="FieldDefinition" p:attributeName="otherAmount" />
-                        <bean parent="FieldDefinition" p:attributeName="manualCreated" />
-                        <bean parent="FieldDefinition" p:attributeName="copiedFromId" />
-                        <bean parent="FieldDefinition" p:attributeName="active" />
-                    </list>
-                </property>
-            </bean>
-			<bean parent="InquirySectionDefinition">
+		                <bean parent="FieldDefinition" p:attributeName="tripArrangerName" />
+            		</list>
+            	</property>
+	</bean>
+	<bean id="AgencyStagingData-inquirySectionDefinition-airline" parent="AgencyStagingData-inquirySectionDefinition-airline-parentBean" />
+	<bean id="AgencyStagingData-inquirySectionDefinition-airline-parentBean" parent="InquirySectionDefinition" abstract="true">
 				<property name="title" value="Airline"/>
 				<property name="numberOfColumns" value="2"/>
 				<property name="inquiryFields">
@@ -913,8 +956,9 @@
 						<bean parent="FieldDefinition" p:attributeName="airReasonCode" />
 					</list>
 				</property>
-			</bean>
-			<bean parent="InquirySectionDefinition">
+	</bean>
+	<bean id="AgencyStagingData-inquirySectionDefinition-lodging" parent="AgencyStagingData-inquirySectionDefinition-lodging-parentBean" />
+	<bean id="AgencyStagingData-inquirySectionDefinition-lodging-parentBean" parent="InquirySectionDefinition" abstract="true">
 				<property name="title" value="Lodging"/>
 				<property name="numberOfColumns" value="2"/>
 				<property name="inquiryFields">
@@ -931,8 +975,9 @@
 						<bean parent="FieldDefinition" p:attributeName="lodgingCountryName" />
 					</list>
 				</property>
-			</bean>
-			<bean parent="InquirySectionDefinition">
+	</bean>
+	<bean id="AgencyStagingData-inquirySectionDefinition-rentalcar" parent="AgencyStagingData-inquirySectionDefinition-rentalcar-parentBean" />
+	<bean id="AgencyStagingData-inquirySectionDefinition-rentalcar-parentBean" parent="InquirySectionDefinition" abstract="true">
 				<property name="title" value="Rental Car"/>
 				<property name="numberOfColumns" value="2"/>
 				<property name="inquiryFields">
@@ -952,8 +997,9 @@
 						<bean parent="FieldDefinition" p:attributeName="rentalCarBillAmount" />
 					</list>
 				</property>
-			</bean>
-            <bean parent="InquirySectionDefinition">
+	</bean>
+	<bean id="AgencyStagingData-inquirySectionDefinition-conference" parent="AgencyStagingData-inquirySectionDefinition-conference-parentBean" />
+	<bean id="AgencyStagingData-inquirySectionDefinition-conference-parentBean" parent="InquirySectionDefinition" abstract="true">
                 <property name="title" value="Conference"/>
                 <property name="numberOfColumns" value="2"/>
                 <property name="inquiryFields">
@@ -962,33 +1008,43 @@
                         <bean parent="FieldDefinition" p:attributeName="registrationAmount" />
                     </list>
                 </property>
-            </bean>
-		  <bean parent="InquirySectionDefinition">
-          <property name="title" value="Accounting Information"/>
-		  <property name="defaultOpen" value="true"/>          
-          <property name="numberOfColumns" value="1"/>
-          <property name="inquiryFields">
-            <list>
-              <bean parent="InquiryCollectionDefinition">
-                <property name="attributeName" value="tripAccountingInformation"/>
-                <property name="businessObjectClass" value="org.kuali.kfs.module.tem.businessobject.TripAccountingInformation"/>
-                <property name="numberOfColumns" value="2"/>
-                <property name="inquiryFields">
-                  <list>
-                    <bean parent="FieldDefinition" p:attributeName="agencyStagingDataId"/>
-                    <bean parent="FieldDefinition" p:attributeName="objectCode"/>
-                    <bean parent="FieldDefinition" p:attributeName="subObjectCode"/>
-                    <bean parent="FieldDefinition" p:attributeName="projectCode"/>
-                    <bean parent="FieldDefinition" p:attributeName="organizationReference"/>
-                  </list>
-                </property>
-              </bean>
-            </list>
-          </property>
-        </bean>
-		</list>
-		</property>
 	</bean>
+	<bean id="AgencyStagingData-inquirySectionDefinition-accounting" parent="AgencyStagingData-inquirySectionDefinition-accounting-parentBean" />
+	<bean id="AgencyStagingData-inquirySectionDefinition-accounting-parentBean" parent="InquirySectionDefinition" abstract="true">
+	    <property name="title" value="Accounting Information"/>
+	  	<property name="defaultOpen" value="true"/>          
+	    <property name="numberOfColumns" value="1"/>
+	    <property name="inquiryFields">
+	    	<list>
+	        	<ref bean="AgencyStagingData-inquiryCollectionDefinition-tripAccountingInformation" />
+	        </list>
+	    </property>
+	</bean>		
+	<bean id="AgencyStagingData-inquiryCollectionDefinition-tripAccountingInformation" parent="AgencyStagingData-inquiryCollectionDefinition-tripAccountingInformation-parentBean" />
+	<bean id="AgencyStagingData-inquiryCollectionDefinition-tripAccountingInformation-parentBean" parent="InquiryCollectionDefinition" abstract="true">
+	    <property name="attributeName" value="tripAccountingInformation"/>
+	    <property name="businessObjectClass" value="org.kuali.kfs.module.tem.businessobject.TripAccountingInformation"/>
+	    <property name="numberOfColumns" value="2"/>
+	    <property name="inquiryFields">
+	      <list>
+	        <bean parent="FieldDefinition" p:attributeName="tripChartCode"/>
+	        <bean parent="FieldDefinition" p:attributeName="objectCode"/>                    
+	        <bean parent="FieldDefinition" p:attributeName="tripAccountNumber"/>
+	        <bean parent="FieldDefinition" p:attributeName="subObjectCode"/>                    
+	        <bean parent="FieldDefinition" p:attributeName="tripSubAccountNumber"/>
+	        <bean parent="FieldDefinition" p:attributeName="projectCode"/>
+	        <bean parent="FieldDefinition" p:attributeName="amount"/>
+	        <bean parent="FieldDefinition" p:attributeName="organizationReference"/>
+	      </list>
+	    </property>
+		<property name="summaryFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="tripChartCode" />
+				<bean parent="FieldDefinition" p:attributeName="tripAccountNumber" />
+			</list>
+		</property>                
+	</bean>
+	
 	<bean id="AgencyStagingData-lookupDefinition" parent="AgencyStagingData-lookupDefinition-parentBean" />
 	<bean id="AgencyStagingData-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
 		<property name="title" value="Travel Agency Audit Lookup" />

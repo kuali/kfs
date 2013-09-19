@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog'
+	xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+	xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd'>
+	
+	<changeSet author="KFSTEM" id="KFSMI-11126">
+		<addColumn tableName="FP_DV_EXP_TYP_T">
+			<column name="FIN_OBJECT_CD" type="VARCHAR2(4)" />
+		</addColumn>
+		<addColumn tableName="FP_DV_TRVL_CO_NM_T">
+			<column name="FIN_OBJECT_CD" type="VARCHAR2(4)" />
+		</addColumn>
+	</changeSet>
+</databaseChangeLog>

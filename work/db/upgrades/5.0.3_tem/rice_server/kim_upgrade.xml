@@ -18,7 +18,7 @@
 		</update>
 		<update tableName="krim_role_t">
 			<column name="nmspc_cd" value="KFS-SYS"/>
-			<where>nmspc_cd = 'KFS-FP' and role_nm = 'Disbursement Method Reviewerr'</where>
+			<where>nmspc_cd = 'KFS-FP' and role_nm = 'Disbursement Method Reviewer'</where>
 		</update>
 		<update tableName="krim_rsp_attr_data_t">
 			<column name="attr_val" value="KFS"/>

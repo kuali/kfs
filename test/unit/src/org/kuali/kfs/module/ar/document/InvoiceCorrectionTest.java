@@ -22,7 +22,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.kfs.module.ar.businessobject.Bill;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsBill;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAwardAccount;
 import org.kuali.kfs.module.ar.businessobject.Milestone;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
@@ -92,8 +92,8 @@ public class InvoiceCorrectionTest extends CGInvoiceDocumentSetupTest {
             Iterator iterator = bills.iterator();
             Iterator correctedIterator = correctedBills.iterator();
             while (iterator.hasNext() || correctedIterator.hasNext()) {
-                Bill id = (Bill) iterator.next();
-                Bill cid = (Bill) correctedIterator.next();
+                ContractsAndGrantsBill id = (ContractsAndGrantsBill) iterator.next();
+                ContractsAndGrantsBill cid = (ContractsAndGrantsBill) correctedIterator.next();
                 assertTrue(id.getEstimatedAmount().equals(cid.getEstimatedAmount().negated()));
                 assertTrue(cid.getIsItBilled().equals("No"));
             }

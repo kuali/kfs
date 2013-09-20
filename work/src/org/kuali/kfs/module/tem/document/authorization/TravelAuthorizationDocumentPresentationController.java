@@ -61,15 +61,6 @@ public class TravelAuthorizationDocumentPresentationController extends TravelAut
     }
 
     /**
-     * Overridden to allow copy on default, if the document is processed or final
-     * @see org.kuali.rice.krad.document.DocumentPresentationControllerBase#canCopy(org.kuali.rice.krad.document.Document)
-     */
-    @Override
-    public boolean canCopy(Document document) {
-        return (document.getDocumentHeader().getWorkflowDocument().isProcessed() || document.getDocumentHeader().getWorkflowDocument().isFinal());
-    }
-
-    /**
      * Overridden to handle travel authorization specific actions, such as amend, hold, remove hold, close TA, cancel TA, and pay vendor
      * @see org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentPresentationControllerBase#getDocumentActions(org.kuali.rice.krad.document.Document)
      */

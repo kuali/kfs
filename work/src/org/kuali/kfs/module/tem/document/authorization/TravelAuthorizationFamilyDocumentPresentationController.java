@@ -19,7 +19,6 @@ import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.krad.document.Document;
 
 /**
  * Abstract document presentation controller which will be a base of methods shared among presentation controllers used by the travel authorization,
@@ -70,15 +69,6 @@ public abstract class TravelAuthorizationFamilyDocumentPresentationController ex
      */
     protected boolean isRetired(TravelAuthorizationDocument document) {
         return TemConstants.TravelAuthorizationStatusCodeKeys.RETIRED_VERSION.equals(document.getAppDocStatus());
-    }
-
-    /**
-     * Overridden to allow copy on default, if the document is processed or final
-     * @see org.kuali.rice.krad.document.DocumentPresentationControllerBase#canCopy(org.kuali.rice.krad.document.Document)
-     */
-    @Override
-    public boolean canCopy(Document document) {
-        return (document.getDocumentHeader().getWorkflowDocument().isProcessed() || document.getDocumentHeader().getWorkflowDocument().isFinal());
     }
 
     /**

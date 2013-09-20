@@ -14,7 +14,7 @@
 		<property name="documentAuthorizerClass" value="org.kuali.kfs.module.tem.document.authorization.TravelAuthorizationCloseAuthorizer" />
 	    <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.tem.document.authorization.TravelAuthorizationCloseDocumentPresentationController" />
 		<property name="sessionDocument" value="true" />
-		<property name="allowsCopy" value="false" />
+		<property name="allowsCopy" value="true" />
 		<property name="allowsNoteFYI" value="true" />
 		<property name="potentiallySensitive" value="true" />
 		<property name="allowsErrorCorrection" value="false" />

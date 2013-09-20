@@ -18,7 +18,7 @@
 			<column name="APPL_ID" value="KFS"/>
 			<column name="NMSPC_CD" value="KFS-TEM"/>
 			<column name="NM" value="Travel/Entertainment Module"/>
-			<column name="ACTV_ID" value="Y"/>
+			<column name="ACTV_IND" value="Y"/>
 		</insert>
 		<insert tableName="KRCR_CMPNT_T">
 			<column name="NMSPC_CD" value="KFS-TEM"/>

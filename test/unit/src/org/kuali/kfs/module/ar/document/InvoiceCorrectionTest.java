@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -22,9 +22,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.kfs.integration.cg.ContractsAndGrantsBill;
+import org.kuali.kfs.module.ar.businessobject.Bill;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAwardAccount;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsMilestone;
+import org.kuali.kfs.module.ar.businessobject.Milestone;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.InvoiceAccountDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoiceBill;
@@ -48,6 +48,7 @@ public class InvoiceCorrectionTest extends CGInvoiceDocumentSetupTest {
     /**
      * @see org.kuali.kfs.module.ar.document.CGInvoiceDocumentSetupTest#setUp()
      */
+    @Override
     protected void setUp() throws Exception {
         super.setUp();
     }
@@ -62,7 +63,7 @@ public class InvoiceCorrectionTest extends CGInvoiceDocumentSetupTest {
             mapKey.put(KFSPropertyConstants.ACCOUNT_NUMBER, id.getAccountNumber());
             mapKey.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, id.getChartOfAccountsCode());
             mapKey.put(KFSPropertyConstants.PROPOSAL_NUMBER, document.getProposalNumber());
-            ContractsAndGrantsCGBAwardAccount awardAccount = (ContractsAndGrantsCGBAwardAccount) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsCGBAwardAccount.class).getExternalizableBusinessObject(ContractsAndGrantsCGBAwardAccount.class, mapKey);
+            ContractsAndGrantsCGBAwardAccount awardAccount = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsCGBAwardAccount.class).getExternalizableBusinessObject(ContractsAndGrantsCGBAwardAccount.class, mapKey);
             assertFalse(awardAccount.isFinalBilledIndicator());
         }
     }
@@ -75,8 +76,8 @@ public class InvoiceCorrectionTest extends CGInvoiceDocumentSetupTest {
             Iterator iterator = milestones.iterator();
             Iterator correctedIterator = correctedMilestones.iterator();
             while (iterator.hasNext() || correctedIterator.hasNext()) {
-                ContractsAndGrantsMilestone id = (ContractsAndGrantsMilestone) iterator.next();
-                ContractsAndGrantsMilestone cid = (ContractsAndGrantsMilestone) correctedIterator.next();
+                Milestone id = (Milestone) iterator.next();
+                Milestone cid = (Milestone) correctedIterator.next();
                 assertTrue(id.getMilestoneAmount().equals(cid.getMilestoneAmount().negated()));
                 assertTrue(cid.getIsItBilled().equals("No"));
             }
@@ -91,8 +92,8 @@ public class InvoiceCorrectionTest extends CGInvoiceDocumentSetupTest {
             Iterator iterator = bills.iterator();
             Iterator correctedIterator = correctedBills.iterator();
             while (iterator.hasNext() || correctedIterator.hasNext()) {
-                ContractsAndGrantsBill id = (ContractsAndGrantsBill) iterator.next();
-                ContractsAndGrantsBill cid = (ContractsAndGrantsBill) correctedIterator.next();
+                Bill id = (Bill) iterator.next();
+                Bill cid = (Bill) correctedIterator.next();
                 assertTrue(id.getEstimatedAmount().equals(cid.getEstimatedAmount().negated()));
                 assertTrue(cid.getIsItBilled().equals("No"));
             }

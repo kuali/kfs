@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -24,9 +24,9 @@ import java.util.Map;
 import java.util.Vector;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsBill;
+import org.kuali.kfs.module.ar.businessobject.Bill;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAwardAccount;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsMilestone;
+import org.kuali.kfs.module.ar.businessobject.Milestone;
 import org.kuali.kfs.module.ar.businessobject.InvoiceAccountDetail;
 import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService;
 import org.kuali.kfs.sys.ConfigureContext;
@@ -35,6 +35,7 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocumentTestUtils;
 import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KualiModuleService;
 import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
 
@@ -46,6 +47,7 @@ public class FinalInvoiceTest extends CGInvoiceDocumentSetupTest {
 
     WorkflowDocumentService workflowDocumentService;
 
+    @Override
     protected void setUp() throws Exception {
         super.setUp();
         workflowDocumentService = SpringContext.getBean(WorkflowDocumentService.class);
@@ -57,20 +59,22 @@ public class FinalInvoiceTest extends CGInvoiceDocumentSetupTest {
         map.put(KFSPropertyConstants.PROPOSAL_NUMBER, document.getProposalNumber());
         SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class).updateBillsAndMilestones(KFSConstants.ParameterValues.STRING_YES,document.getInvoiceMilestones(),document.getInvoiceBills());
 
-        List<ContractsAndGrantsMilestone> milestones = (List) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsMilestone.class).getExternalizableBusinessObjectsList(ContractsAndGrantsMilestone.class, map);
+        List<Milestone> milestones = (List<Milestone>) SpringContext.getBean(BusinessObjectService.class).findMatching(Milestone.class, map);
 
         if (CollectionUtils.isEmpty(milestones)) {
-            Iterator<ContractsAndGrantsMilestone> iterator = milestones.iterator();
-            while (iterator.hasNext())
+            Iterator<Milestone> iterator = milestones.iterator();
+            while (iterator.hasNext()) {
                 assertTrue(KFSConstants.ParameterValues.STRING_YES.equals(iterator.next().getIsItBilled()));
+            }
         }
 
-        List<ContractsAndGrantsBill> bills = (List) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsBill.class).getExternalizableBusinessObjectsList(ContractsAndGrantsBill.class, map);
+        List<Bill> bills = (List<Bill>) SpringContext.getBean(BusinessObjectService.class).findMatching(Bill.class, map);
 
         if (CollectionUtils.isEmpty(bills)) {
             Iterator iterator = bills.iterator();
-            while (iterator.hasNext())
-                assertTrue(KFSConstants.ParameterValues.STRING_YES.equals(((ContractsAndGrantsBill) iterator.next()).getIsItBilled()));
+            while (iterator.hasNext()) {
+                assertTrue(KFSConstants.ParameterValues.STRING_YES.equals(((Bill) iterator.next()).getIsItBilled()));
+            }
         }
     }
 
@@ -85,7 +89,7 @@ public class FinalInvoiceTest extends CGInvoiceDocumentSetupTest {
             mapKey.put(KFSPropertyConstants.ACCOUNT_NUMBER, id.getAccountNumber());
             mapKey.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, id.getChartOfAccountsCode());
             mapKey.put(KFSPropertyConstants.PROPOSAL_NUMBER, document.getProposalNumber());
-            ContractsAndGrantsCGBAwardAccount awardAccount = (ContractsAndGrantsCGBAwardAccount) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsCGBAwardAccount.class).getExternalizableBusinessObject(ContractsAndGrantsCGBAwardAccount.class, mapKey);
+            ContractsAndGrantsCGBAwardAccount awardAccount = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsCGBAwardAccount.class).getExternalizableBusinessObject(ContractsAndGrantsCGBAwardAccount.class, mapKey);
             assertTrue(awardAccount.isFinalBilledIndicator());
         }
     }

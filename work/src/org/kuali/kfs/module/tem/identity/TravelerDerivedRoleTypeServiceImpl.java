@@ -52,7 +52,7 @@ public class TravelerDerivedRoleTypeServiceImpl extends DerivedRoleTypeServiceBa
         final List<RoleMembership> members = new ArrayList<RoleMembership>(1);
         if (qualification!=null && !qualification.isEmpty()) {
 
-            final String principalId = qualification.get(KFSPropertyConstants.PRINCIPAL_ID);
+            final String principalId = qualification.get(TemKimAttributes.PROFILE_PRINCIPAL_ID);
             if ( StringUtils.isNotBlank( principalId ) ) {
                 members.add(RoleMembership.Builder.create("", "", principalId, MemberType.PRINCIPAL, null).build());
             }

@@ -448,7 +448,7 @@
     	<property name="routingAttributes">
     		<list>
 		        <bean class="org.kuali.rice.krad.datadictionary.RoutingAttribute">
-			    	<property name="qualificationAttributeName" value="principalId"/>
+			    	<property name="qualificationAttributeName" value="profilePrincipalId"/>
 			    </bean>
     		</list>
     	</property>

@@ -27,6 +27,7 @@ import org.kuali.kfs.module.tem.businessobject.TEMProfile;
 import org.kuali.kfs.module.tem.businessobject.TravelerDetail;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
+import org.kuali.kfs.module.tem.identity.TemKimAttributes;
 import org.kuali.kfs.module.tem.service.TEMRoleService;
 import org.kuali.kfs.module.tem.service.TravelService;
 import org.kuali.kfs.module.tem.service.TravelerService;
@@ -74,7 +75,7 @@ abstract public class TravelArrangeableAuthorizer extends AccountingDocumentAuth
                 }
             }
             if (ObjectUtils.isNotNull(document.getTraveler())) {
-                qualification.put(KFSPropertyConstants.PRINCIPAL_ID, document.getTraveler().getPrincipalId());
+                qualification.put(TemKimAttributes.PROFILE_PRINCIPAL_ID, document.getTraveler().getPrincipalId());
             }
         }
     }

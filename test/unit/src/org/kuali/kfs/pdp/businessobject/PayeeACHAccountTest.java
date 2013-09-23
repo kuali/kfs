@@ -41,7 +41,7 @@ public class PayeeACHAccountTest extends KualiTestBase {
         assertTrue("achAccountGeneratedIdentifier should show on toString", payeeACHAccountToString.contains("achAccountGeneratedIdentifier"));
 
         assertFalse("bankRoutingNumber should not show on toString", payeeACHAccountToString.contains("bankRouting"));
-        assertFalse("bankAccountNumber should not show on toString", payeeACHAccountToString.contains("bankAccountNumberg"));
+        assertFalse("bankAccountNumber should not show on toString", payeeACHAccountToString.contains("bankAccountNumber"));
     }
 
 }

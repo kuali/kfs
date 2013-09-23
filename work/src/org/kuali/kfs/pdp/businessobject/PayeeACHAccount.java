@@ -15,10 +15,12 @@
  */
 package org.kuali.kfs.pdp.businessobject;
 
+import java.lang.reflect.Field;
 import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.kuali.kfs.pdp.PdpConstants.PayeeIdTypeCodes;
 import org.kuali.kfs.pdp.PdpPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -32,7 +34,10 @@ import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kim.api.identity.entity.EntityDefault;
 import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
+import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.krad.datadictionary.AttributeSecurity;
+import org.kuali.rice.krad.service.DataDictionaryService;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 public class PayeeACHAccount extends PersistableBusinessObjectBase implements MutableInactivatable {
@@ -366,5 +371,36 @@ public class PayeeACHAccount extends PersistableBusinessObjectBase implements Mu
             m.put(PdpPropertyConstants.ACH_ACCOUNT_GENERATED_IDENTIFIER, this.achAccountGeneratedIdentifier.toString());
         }
         return m;
+    }
+
+    /**
+     * KFSCNTRB-1682: Some of the fields contain confidential information
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toString()
+     */
+    @Override
+    public String toString() {
+        class PayeeACHAccountToStringBuilder extends ReflectionToStringBuilder {
+            private PayeeACHAccountToStringBuilder(Object object) {
+                super(object);
+            }
+
+            @Override
+            public boolean accept(Field field) {
+                if (BusinessObject.class.isAssignableFrom(field.getType())) {
+                    return false;
+                }
+
+                DataDictionaryService dataDictionaryService = SpringContext.getBean(DataDictionaryService.class);
+                AttributeSecurity attributeSecurity = dataDictionaryService.getAttributeSecurity(PayeeACHAccount.class.getName(), field.getName());
+                if ((ObjectUtils.isNotNull(attributeSecurity)
+                        && (attributeSecurity.isHide() || attributeSecurity.isMask() || attributeSecurity.isPartialMask()))) {
+                    return false;
+                }
+
+                return super.accept(field);
+            }
+        };
+        ReflectionToStringBuilder toStringBuilder = new PayeeACHAccountToStringBuilder(this);
+        return toStringBuilder.toString();
     }
 }

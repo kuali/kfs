@@ -706,8 +706,6 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
     public Integer getGeneralLedgerEntriesPostedCount() {
         Map<String, Object> pkMap = new HashMap<String, Object>();
         pkMap.put("documentNumber", this.getDocumentNumber());
-        pkMap.put("universityFiscalYear", this.getPostingYear().toString());
-        pkMap.put("universityFiscalPeriodCode", this.getPostingPeriodCode());
         pkMap.put("chartOfAccountsCode", this.getChartOfAccountsCode());
 
         Integer totalGLRecordsCreated = SpringContext.getBean(EntryService.class).getEntryRecordCount(pkMap);

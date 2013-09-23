@@ -32,7 +32,7 @@
 			<column name="OBJ_ID" valueComputed="SYS_GUID()"/>
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="PARM_TYP_CD" value="CONFG" />
-			<column name="PARM_DESC_TXT" value="The value in this parameter will display on various AR and TEM reports." />
+			<column name="PARM_DESC_TXT" value="The value in this parameter will display on various AR reports." />
 			<column name="EVAL_OPRTR_CD" value="A" />
 			<column name="APPL_ID" value="KFS" />
 		</insert>

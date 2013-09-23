@@ -65,6 +65,10 @@
 			<entry>
 				<key><value>org.kuali.kfs.sys.document.validation.event.UpdateAccountingLineEvent</value></key>
 				<value>IntraAccountAdjustment-updateAccountingLineValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.fp.document.validation.event.CapitalAccountingLinesSameObjectCodeSubTypeEvent</value></key>
+				<value>IntraAccountAdjustment-capitalAccountingLinesObjectSubtypeValidations</value>
 			</entry>			
 	   	</map>
 	   </property>

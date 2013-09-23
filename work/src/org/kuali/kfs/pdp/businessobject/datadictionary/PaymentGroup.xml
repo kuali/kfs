@@ -19,6 +19,8 @@
 
 	<bean id="PaymentGroup-parentBean" abstract="true" parent="BusinessObjectEntry">
 		<property name="businessObjectClass" value="org.kuali.kfs.pdp.businessobject.PaymentGroup"/>
+		<property name="baseBusinessObjectClass" value="org.kuali.kfs.pdp.businessobject.PaymentGroup"/>
+		
 		<property name="objectLabel" value="Payment Group"/>
 		<property name="attributes">
 			<list>

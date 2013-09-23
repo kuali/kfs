@@ -188,7 +188,7 @@
 		</insert>
 		<insert tableName="TEM_CLASS_SVC_T">
 			<column name="CODE" value="PRIVLIMO"/>
-			<column name="DV_EXP_CD" value="L"/>
+			<column name="DV_EXP_CD" value="R"/>
 			<column name="CLASS_SVC_NAME" value="Private Limo"/>
 			<column name="APRVL_REQ_IND" value="Y"/>
 			<column name="ACTV_IND" value="Y"/>
@@ -197,7 +197,7 @@
 		</insert>
 		<insert tableName="TEM_CLASS_SVC_T">
 			<column name="CODE" value="SHRRIDE"/>
-			<column name="DV_EXP_CD" value="L"/>
+			<column name="DV_EXP_CD" value="R"/>
 			<column name="CLASS_SVC_NAME" value="Shared Ride"/>
 			<column name="APRVL_REQ_IND" value="N"/>
 			<column name="ACTV_IND" value="Y"/>

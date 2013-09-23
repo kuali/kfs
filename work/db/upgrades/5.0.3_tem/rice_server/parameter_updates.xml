@@ -17,205 +17,44 @@
 		<insert tableName="KRCR_NMSPC_T">
 			<column name="APPL_ID" value="KFS"/>
 			<column name="NMSPC_CD" value="KFS-TEM"/>
+			<column name="OBJ_ID" value="KFS-TEM"/>
 			<column name="NM" value="Travel/Entertainment Module"/>
 			<column name="ACTV_IND" value="Y"/>
 		</insert>
 		<insert tableName="KRCR_CMPNT_T">
 			<column name="NMSPC_CD" value="KFS-TEM"/>
 			<column name="CMPNT_CD" value="All"/>
+			<column name="OBJ_ID" value="KFS-TEM-PARM-DTL-001"/>
 			<column name="NM" value="All"/>
 			<column name="ACTV_IND" value="Y"/>
 		</insert>
 		<insert tableName="KRCR_CMPNT_T">
 			<column name="NMSPC_CD" value="KFS-TEM"/>
 			<column name="CMPNT_CD" value="Batch"/>
+			<column name="OBJ_ID" value="KFS-TEM-PARM-DTL-002"/>
 			<column name="NM" value="Batch"/>
 			<column name="ACTV_IND" value="Y"/>
 		</insert>
 		<insert tableName="KRCR_CMPNT_T">
 			<column name="NMSPC_CD" value="KFS-TEM"/>
 			<column name="CMPNT_CD" value="Document"/>
+			<column name="OBJ_ID" value="KFS-TEM-PARM-DTL-003"/>
 			<column name="NM" value="Document"/>
 			<column name="ACTV_IND" value="Y"/>
 		</insert>
 		<insert tableName="KRCR_CMPNT_T">
 			<column name="NMSPC_CD" value="KFS-TEM"/>
 			<column name="CMPNT_CD" value="Lookup"/>
+			<column name="OBJ_ID" value="KFS-TEM-PARM-DTL-004"/>
 			<column name="NM" value="Lookup"/>
 			<column name="ACTV_IND" value="Y"/>
 		</insert>
-		<insert tableName="KRCR_PARM_T">
-			<column name="NMSPC_CD" value="KFS-AR"/>
-			<column name="CMPNT_CD" value="CustomerAgingReportNotificationStep"/>
-			<column name="PARM_NM" value="FROM_EMAIL_ADDRESS"/>
-			<column name="PARM_TYP_CD" value="CONFG"/>
-			<column name="PARM_DESC_TXT" value="The email address from which the notification is sent."/>
-			<column name="EVAL_OPRTR_CD" value="A"/>
-			<column name="APPL_ID" value="KFS"/>
-		</insert>
-		<insert tableName="KRCR_PARM_T">
-			<column name="NMSPC_CD" value="KFS-AR"/>
-			<column name="CMPNT_CD" value="CustomerAgingReportNotificationStep"/>
-			<column name="PARM_NM" value="NOTIFICATION_DAYS"/>
-			<column name="PARM_TYP_CD" value="CONFG"/>
-			<column name="VAL" value="30"/>
-			<column name="PARM_DESC_TXT" value="The timing of when the aging email notification should be sent. The value should 30, 60, 90 or AGE. When the AGE is entered, it assumes the value of the CUSTOMER_INVOICE_AGE parameter."/>
-			<column name="EVAL_OPRTR_CD" value="A"/>
-			<column name="APPL_ID" value="KFS"/>
-		</insert>
-		<insert tableName="KRCR_PARM_T">
-			<column name="NMSPC_CD" value="KFS-AR"/>
-			<column name="CMPNT_CD" value="CustomerAgingReportNotificationStep"/>
-			<column name="PARM_NM" value="NOTIFICATION_SELECTION"/>
-			<column name="PARM_TYP_CD" value="CONFG"/>
-			<column name="VAL" value="CHART=BL;ORG=VPIT,PSY"/>
-			<column name="PARM_DESC_TXT" value="AR customer email notification selection criteria. Syntax is Selection Criteria=Value. Available selection criteria are: CHART, ORG and ACCOUNT."/>
-			<column name="EVAL_OPRTR_CD" value="A"/>
-			<column name="APPL_ID" value="KFS"/>
-		</insert>
-		<insert tableName="KRCR_PARM_T">
-			<column name="NMSPC_CD" value="KFS-AR"/>
-			<column name="CMPNT_CD" value="CustomerAgingReportNotificationStep"/>
-			<column name="PARM_NM" value="NOTIFICATION_SELECTION_TYPE"/>
-			<column name="PARM_TYP_CD" value="CONFG"/>
-			<column name="VAL" value="PROCESSING_ORG"/>
-			<column name="PARM_DESC_TXT" value="The notification selection option. Its valid value can be PROCESSING_ORG, BILLING_ORG or ACCOUNT."/>
-			<column name="EVAL_OPRTR_CD" value="A"/>
-			<column name="APPL_ID" value="KFS"/>
-		</insert>
-		<insert tableName="KRCR_PARM_T">
-			<column name="NMSPC_CD" value="KFS-AR"/>
-			<column name="CMPNT_CD" value="CustomerAgingReportNotificationStep"/>
-			<column name="PARM_NM" value="NOTIFICATION_SUBJECT"/>
-			<column name="PARM_TYP_CD" value="CONFG"/>
-			<column name="VAL" value="Customer Aging Report for"/>
-			<column name="PARM_DESC_TXT" value="The email notification subject."/>
-			<column name="EVAL_OPRTR_CD" value="A"/>
-			<column name="APPL_ID" value="KFS"/>
-		</insert>
-		<insert tableName="KRCR_PARM_T">
-			<column name="NMSPC_CD" value="KFS-AR"/>
-			<column name="CMPNT_CD" value="CustomerAgingReportNotificationStep"/>
-			<column name="PARM_NM" value="NOTIFICATION_TEXT"/>
-			<column name="PARM_TYP_CD" value="CONFG"/>
-			<column name="VAL" value="The following advance is now past due and you have exceeded the IRS time frame allowable to submit payment/receipts after travel.  Since your advance is more than overdue, you are in the process of being considered for payroll deduction.  IF YOU HAVE ALREADY SUBMITTED YOUR VOUCHER, PLEASE NOTIFY US.  If you traveled for Study Abroad, notify them regarding the status of your voucher. For all others, please confirm with your department's administrator that your voucher/payment was submitted to Voucher Processing.  If you feel we should have received your voucher/payment, please contact our office to confirm receipt.  PLEASE RESPOND VIA EMAIL. Your immediate attention to this matter is appreciated."/>
-			<column name="PARM_DESC_TXT" value="The email body."/>
-			<column name="EVAL_OPRTR_CD" value="A"/>
-			<column name="APPL_ID" value="KFS"/>
-		</insert>
-		<insert tableName="KRCR_PARM_T">
-			<column name="NMSPC_CD" value="KFS-FP"/>
-			<column name="CMPNT_CD" value="DisbursementVoucher"/>
-			<column name="PARM_NM" value="PAYEE_TYPE_NAME"/>
-			<column name="PARM_TYP_CD" value="CONFG"/>
-			<column name="VAL" value="Customer"/>
-			<column name="PARM_DESC_TXT" value="Label used for payees with type code C within the Disbursement Voucher."/>
-			<column name="EVAL_OPRTR_CD" value="A"/>
-			<column name="APPL_ID" value="KFS"/>
-		</insert>
-		<insert tableName="KRCR_PARM_T">
-			<column name="NMSPC_CD" value="KFS-PDP"/>
-			<column name="CMPNT_CD" value="ProcessPdPCancelsAndPaidStep"/>
-			<column name="PARM_NM" value="PAYMENT_SOURCE_DOCUMENT_TYPES"/>
-			<column name="PARM_TYP_CD" value="CONFG"/>
-			<column name="VAL" value="DVCA;TACA;TRCA;ENCA;RECA"/>
-			<column name="PARM_DESC_TXT" value="List of ledger-only document types representing check/ACH payments made by payment source documents, which PDP should pay and cancel."/>
-			<column name="EVAL_OPRTR_CD" value="A"/>
-			<column name="APPL_ID" value="KFS"/>
-		</insert>
-		<insert tableName="KRCR_PARM_T">
-			<column name="NMSPC_CD" value="KFS-TEM"/>
-			<column name="CMPNT_CD" value="AgencyDataImportStep"/>
-			<column name="PARM_NM" value="ACCOUNTING_LINE_VALIDATION"/>
-			<column name="PARM_TYP_CD" value="CONFG"/>
-			<column name="VAL" value="Account;Sub-Account"/>
-			<column name="PARM_DESC_TXT" value="Defines the fields within the accounting line for matching between the TA encumbrance accounting line and downloaded agency data. List the accounting line elements that will be used for matching. Valid VALUES are: Account, Sub-Account, Object Code, Sub-Object Code."/>
-			<column name="EVAL_OPRTR_CD" value="A"/>
-			<column name="APPL_ID" value="KFS"/>
-		</insert>
-		<insert tableName="KRCR_PARM_T">
-			<column name="NMSPC_CD" value="KFS-TEM"/>
-			<column name="CMPNT_CD" value="All"/>
-			<column name="PARM_NM" value="FROM_EMAIL_ADDRESS"/>
-			<column name="PARM_TYP_CD" value="CONFG"/>
-			<column name="PARM_DESC_TXT" value="The email address from which the notification is sent from."/>
-			<column name="EVAL_OPRTR_CD" value="A"/>
-			<column name="APPL_ID" value="KFS"/>
-		</insert>
-		<insert tableName="KRCR_PARM_T">
-			<column name="NMSPC_CD" value="KFS-TEM"/>
-			<column name="CMPNT_CD" value="All"/>
-			<column name="PARM_NM" value="TRAVEL_CREDIT_CARD_AIRFARE_OBJECT_CODE"/>
-			<column name="PARM_TYP_CD" value="CONFG"/>
-			<column name="VAL" value="6000"/>
-			<column name="PARM_DESC_TXT" value="Object Code to distribute airline charges from travel credit cards when the Trip ID is not known."/>
-			<column name="EVAL_OPRTR_CD" value="A"/>
-			<column name="APPL_ID" value="KFS"/>
-		</insert>
-		<insert tableName="KRCR_PARM_T">
-			<column name="NMSPC_CD" value="KFS-TEM"/>
-			<column name="CMPNT_CD" value="All"/>
-			<column name="PARM_NM" value="TRAVEL_CREDIT_CARD_CLEARING_ACCOUNT"/>
-			<column name="PARM_TYP_CD" value="CONFG"/>
-			<column name="VAL" value="9323001"/>
-			<column name="PARM_DESC_TXT" value="AP clearing account where the Travel Credit Card payment will be made."/>
-			<column name="EVAL_OPRTR_CD" value="A"/>
-			<column name="APPL_ID" value="KFS"/>
-		</insert>
-		<insert tableName="KRCR_PARM_T">
-			<column name="NMSPC_CD" value="KFS-TEM"/>
-			<column name="CMPNT_CD" value="All"/>
-			<column name="PARM_NM" value="TRAVEL_CREDIT_CARD_CLEARING_CHART"/>
-			<column name="PARM_TYP_CD" value="CONFG"/>
-			<column name="VAL" value="UA"/>
-			<column name="PARM_DESC_TXT" value="AP clearing chart code where the Travel Credit Card payment will be made."/>
-			<column name="EVAL_OPRTR_CD" value="A"/>
-			<column name="APPL_ID" value="KFS"/>
-		</insert>
-		<insert tableName="KRCR_PARM_T">
-			<column name="NMSPC_CD" value="KFS-TEM"/>
-			<column name="CMPNT_CD" value="All"/>
-			<column name="PARM_NM" value="TRAVEL_CREDIT_CARD_CLEARING_OBJECT_CODE"/>
-			<column name="PARM_TYP_CD" value="CONFG"/>
-			<column name="VAL" value="6000"/>
-			<column name="PARM_DESC_TXT" value="AP clearing object code where the Travel Credit Card payment will be made."/>
-			<column name="EVAL_OPRTR_CD" value="A"/>
-			<column name="APPL_ID" value="KFS"/>
-		</insert>
-		<insert tableName="KRCR_PARM_T">
-			<column name="NMSPC_CD" value="KFS-TEM"/>
-			<column name="CMPNT_CD" value="All"/>
-			<column name="PARM_NM" value="TRAVEL_CREDIT_CARD_LODGING_OBJECT_CODE"/>
-			<column name="PARM_TYP_CD" value="CONFG"/>
-			<column name="VAL" value="6100"/>
-			<column name="PARM_DESC_TXT" value="Object Code to distribute lodging from travel credit cards when the Trip ID is not known."/>
-			<column name="EVAL_OPRTR_CD" value="A"/>
-			<column name="APPL_ID" value="KFS"/>
-		</insert>
-		<insert tableName="KRCR_PARM_T">
-			<column name="NMSPC_CD" value="KFS-TEM"/>
-			<column name="CMPNT_CD" value="All"/>
-			<column name="PARM_NM" value="TRAVEL_CREDIT_CARD_RENTAL_CAR_OBJECT_CODE"/>
-			<column name="PARM_TYP_CD" value="CONFG"/>
-			<column name="VAL" value="6180"/>
-			<column name="PARM_DESC_TXT" value="Object Code to distribute rental car charges from travel credit cards when the Trip ID is not known."/>
-			<column name="EVAL_OPRTR_CD" value="A"/>
-			<column name="APPL_ID" value="KFS"/>
-		</insert>
-		<insert tableName="KRCR_PARM_T">
-			<column name="NMSPC_CD" value="KFS-TEM"/>
-			<column name="CMPNT_CD" value="Document"/>
-			<column name="PARM_NM" value="AIRFARE_EXPENSE_TYPE"/>
-			<column name="PARM_TYP_CD" value="CONFG"/>
-			<column name="VAL" value="A"/>
-			<column name="PARM_DESC_TXT" value="Specifies the expense type codes used to enforce airfare related business rules."/>
-			<column name="EVAL_OPRTR_CD" value="A"/>
-			<column name="APPL_ID" value="KFS"/>
-		</insert>
+		
 		<insert tableName="KRCR_PARM_T">
 			<column name="NMSPC_CD" value="KFS-TEM"/>
 			<column name="CMPNT_CD" value="Document"/>
 			<column name="PARM_NM" value="ALWAYS_REIMBURSABLE_CARD_TYPE"/>
+			<column name="OBJ_ID" value="KFS-TEM-PARM-003"/>
 			<column name="PARM_TYP_CD" value="CONFG"/>
 			<column name="VAL" value="MC"/>
 			<column name="PARM_DESC_TXT" value="Specifies the card types used in the Imported Tab where the expense is always reimbursable (for example, CTS card)."/>
@@ -225,20 +64,11 @@
 		<insert tableName="KRCR_PARM_T">
 			<column name="NMSPC_CD" value="KFS-TEM"/>
 			<column name="CMPNT_CD" value="Document"/>
-			<column name="PARM_NM" value="AMOUNT_DUE_CORPORATE_CARD_TOTAL_LINE_IND"/>
+			<column name="PARM_NM" value="TRAVEL_EMAIL_ADDRESS"/>
+			<column name="OBJ_ID" value="KFS-TEM-PARM-004"/>
 			<column name="PARM_TYP_CD" value="CONFG"/>
-			<column name="VAL" value="Y"/>
-			<column name="PARM_DESC_TXT" value="When this parameter value is &quot;Y&quot;, Due Corporate Card Total line is displayed in the Total tab."/>
-			<column name="EVAL_OPRTR_CD" value="A"/>
-			<column name="APPL_ID" value="KFS"/>
-		</insert>
-		<insert tableName="KRCR_PARM_T">
-			<column name="NMSPC_CD" value="KFS-TEM"/>
-			<column name="CMPNT_CD" value="Document"/>
-			<column name="PARM_NM" value="CHANGE_NOTIFICATION_SUBJECT"/>
-			<column name="PARM_TYP_CD" value="CONFG"/>
-			<column name="VAL" value="Expense Report Status Change"/>
-			<column name="PARM_DESC_TXT" value="The email notification subject when Travel Entertainment (TR), Entertainment (ENT), Relocation (RELO) documents statuses have changed."/>
+			<column name="VAL" value="travel@localhost"/>
+			<column name="PARM_DESC_TXT" value="The campus travel email address from which the notification is sent"/>
 			<column name="EVAL_OPRTR_CD" value="A"/>
 			<column name="APPL_ID" value="KFS"/>
 		</insert>
@@ -246,6 +76,7 @@
 			<column name="NMSPC_CD" value="KFS-TEM"/>
 			<column name="CMPNT_CD" value="Document"/>
 			<column name="PARM_NM" value="CORPORATE_CARD_BANK_PAYMENT_REASON_CODE"/>
+			<column name="OBJ_ID" value="KFS-TEM-PARM-005"/>
 			<column name="PARM_TYP_CD" value="CONFG"/>
 			<column name="VAL" value="U"/>
 			<column name="PARM_DESC_TXT" value="Corporate Card Payment"/>
@@ -255,17 +86,8 @@
 		<insert tableName="KRCR_PARM_T">
 			<column name="NMSPC_CD" value="KFS-TEM"/>
 			<column name="CMPNT_CD" value="Document"/>
-			<column name="PARM_NM" value="CORPORATE_CARD_PAYMENT_BY_DV_IND"/>
-			<column name="PARM_TYP_CD" value="CONFG"/>
-			<column name="VAL" value="Y"/>
-			<column name="PARM_DESC_TXT" value="When this parameter value is &quot;Y&quot; and the corporate credit card transactions are included in the imported expense, a Disbursement Voucher is created to pay the corporate credit card company when the document becomes final."/>
-			<column name="EVAL_OPRTR_CD" value="A"/>
-			<column name="APPL_ID" value="KFS"/>
-		</insert>
-		<insert tableName="KRCR_PARM_T">
-			<column name="NMSPC_CD" value="KFS-TEM"/>
-			<column name="CMPNT_CD" value="Document"/>
 			<column name="PARM_NM" value="CUMULATIVE_REIMBURSABLE_AMOUNT_WITHOUT_DIVISION_APPROVAL"/>
+			<column name="OBJ_ID" value="KFS-TEM-PARM-006"/>
 			<column name="PARM_TYP_CD" value="CONFG"/>
 			<column name="VAL" value="10000"/>
 			<column name="PARM_DESC_TXT" value="The cumulative amount for reimbursement without division approval"/>
@@ -275,10 +97,11 @@
 		<insert tableName="KRCR_PARM_T">
 			<column name="NMSPC_CD" value="KFS-TEM"/>
 			<column name="CMPNT_CD" value="Document"/>
-			<column name="PARM_NM" value="DOCUMENTATION_LOCATION_CODE"/>
+			<column name="PARM_NM" value="IMPORTED_EXPENSE_DETAIL_IND"/>
+			<column name="OBJ_ID" value="KFS-TEM-PARM-007"/>
 			<column name="PARM_TYP_CD" value="CONFG"/>
-			<column name="VAL" value="T"/>
-			<column name="PARM_DESC_TXT" value="The documentation location code used by payments on the Travel Authorization, Travel Authorization Amendment, Travel Reimbursement, Entertainment, and Moving &amp; Relocation documents.  If a document specific parameter with the same name is created (for example, KFS-TEM / TravelAuthorization / DOCUMENTATION_LOCATION_CODE), the documentation location code for Travel Authorization documents will default to that instead."/>
+			<column name="VAL" value="N"/>
+			<column name="PARM_DESC_TXT" value="When this parameter value is &quot;Y&quot;, the Imported Expense Detail section of the Imported Expense tab is disabled."/>
 			<column name="EVAL_OPRTR_CD" value="A"/>
 			<column name="APPL_ID" value="KFS"/>
 		</insert>
@@ -286,6 +109,7 @@
 			<column name="NMSPC_CD" value="KFS-TEM"/>
 			<column name="CMPNT_CD" value="Document"/>
 			<column name="PARM_NM" value="EMPLOYEE_CERTIFICATION_STATEMENT"/>
+			<column name="OBJ_ID" value="KFS-TEM-PARM-008"/>
 			<column name="PARM_TYP_CD" value="CONFG"/>
 			<column name="VAL" value="I certify the statements herein are true and just in all respects; that payment of the amounts claimed has not and will not be reimbursed to me from any other sources; that travel performed for which reimbursement is claimed was performed by me on State business and that no claims are included for expense of a personal or political nature or for any other expense not authorized by the State of Colorado Fiscal Rules; and that I actually incurred or paid the operating expenses of the motor vehicles for which reimbursement is claimed."/>
 			<column name="PARM_DESC_TXT" value="The statement displayed in the Employee Certification tab of the Travel Reimbursement document when the Traveler Type is &quot;Employee&quot;"/>
@@ -296,6 +120,7 @@
 			<column name="NMSPC_CD" value="KFS-TEM"/>
 			<column name="CMPNT_CD" value="Document"/>
 			<column name="PARM_NM" value="EMPLOYEE_TRAVELER_TYPE_CODES"/>
+			<column name="OBJ_ID" value="KFS-TEM-PARM-009"/>
 			<column name="PARM_TYP_CD" value="CONFG"/>
 			<column name="VAL" value="EMP"/>
 			<column name="PARM_DESC_TXT" value="The traveler type code(s) that represents an employee."/>
@@ -305,10 +130,88 @@
 		<insert tableName="KRCR_PARM_T">
 			<column name="NMSPC_CD" value="KFS-TEM"/>
 			<column name="CMPNT_CD" value="Document"/>
-			<column name="PARM_NM" value="FINAL_NOTIFICATION_SUBJECT"/>
+			<column name="PARM_NM" value="AMOUNT_DUE_CORPORATE_CARD_TOTAL_LINE_IND"/>
+			<column name="OBJ_ID" value="KFS-TEM-PARM-010"/>
 			<column name="PARM_TYP_CD" value="CONFG"/>
-			<column name="VAL" value="Expense Report Final"/>
-			<column name="PARM_DESC_TXT" value="The email notification subject when Travel Entertainment (TR), Entertainment (ENT), Relocation (RELO) document statuses are final"/>
+			<column name="VAL" value="Y"/>
+			<column name="PARM_DESC_TXT" value="When this parameter value is &quot;Y&quot;, Due Corporate Card Total line is displayed in the Total tab."/>
+			<column name="EVAL_OPRTR_CD" value="A"/>
+			<column name="APPL_ID" value="KFS"/>
+		</insert>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-TEM"/>
+			<column name="CMPNT_CD" value="Document"/>
+			<column name="PARM_NM" value="CORPORATE_CARD_PAYMENT_BY_DV_IND"/>
+			<column name="OBJ_ID" value="KFS-TEM-PARM-011"/>
+			<column name="PARM_TYP_CD" value="CONFG"/>
+			<column name="VAL" value="Y"/>
+			<column name="PARM_DESC_TXT" value="When this parameter value is &quot;Y&quot; and the corporate credit card transactions are included in the imported expense, a Disbursement Voucher is created to pay the corporate credit card company when the document becomes final."/>
+			<column name="EVAL_OPRTR_CD" value="A"/>
+			<column name="APPL_ID" value="KFS"/>
+		</insert>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-TEM"/>
+			<column name="CMPNT_CD" value="Document"/>
+			<column name="PARM_NM" value="PER_DIEM_CATEGORIES"/>
+			<column name="OBJ_ID" value="KFS-TEM-PARM-012"/>
+			<column name="PARM_TYP_CD" value="CONFG"/>
+			<column name="VAL" value="LODGING=Y;MILEAGE=Y;PER_DIEM=Y"/>
+			<column name="PARM_DESC_TXT" value="When this parameter value associated with each category is &quot;Y&quot;, the per diem category will be displayed. Format will be LODGING=Y;MILEAGE=Y;PER_DIEM=Y.  If the flag is all &quot;N&quot;, the Trip Details Estimate Tab/Per Diem section will not be displayed."/>
+			<column name="EVAL_OPRTR_CD" value="A"/>
+			<column name="APPL_ID" value="KFS"/>
+		</insert>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-TEM"/>
+			<column name="CMPNT_CD" value="Document"/>
+			<column name="PARM_NM" value="AIRFARE_EXPENSE_TYPE"/>
+			<column name="OBJ_ID" value="KFS-TEM-PARM-013"/>
+			<column name="PARM_TYP_CD" value="CONFG"/>
+			<column name="VAL" value="A"/>
+			<column name="PARM_DESC_TXT" value="Specifies the expense type codes used to enforce airfare related business rules."/>
+			<column name="EVAL_OPRTR_CD" value="A"/>
+			<column name="APPL_ID" value="KFS"/>
+		</insert>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-TEM"/>
+			<column name="CMPNT_CD" value="Document"/>
+			<column name="PARM_NM" value="LODGING_EXPENSE_TYPE"/>
+			<column name="OBJ_ID" value="KFS-TEM-PARM-014"/>
+			<column name="PARM_TYP_CD" value="CONFG"/>
+			<column name="VAL" value="L"/>
+			<column name="PARM_DESC_TXT" value="Specifies the expense type code used to enforce lodging related business rules."/>
+			<column name="EVAL_OPRTR_CD" value="A"/>
+			<column name="APPL_ID" value="KFS"/>
+		</insert>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-TEM"/>
+			<column name="CMPNT_CD" value="Document"/>
+			<column name="PARM_NM" value="LODGING_ALLOWANCE_EXPENSE_TYPE"/>
+			<column name="OBJ_ID" value="KFS-TEM-PARM-015"/>
+			<column name="PARM_TYP_CD" value="CONFG"/>
+			<column name="VAL" value="LA"/>
+			<column name="PARM_DESC_TXT" value="Specifies the expense type code used to enforce lodging allowance related business rules."/>
+			<column name="EVAL_OPRTR_CD" value="A"/>
+			<column name="APPL_ID" value="KFS"/>
+		</insert>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-TEM"/>
+			<column name="CMPNT_CD" value="Document"/>
+			<column name="PARM_NM" value="MILEAGE_EXPENSE_TYPE"/>
+			<column name="OBJ_ID" value="KFS-TEM-PARM-016"/>
+			<column name="PARM_TYP_CD" value="CONFG"/>
+			<column name="VAL" value="MM"/>
+			<column name="PARM_DESC_TXT" value="Specifies the expense type code used to enforce mileage related business rules."/>
+			<column name="EVAL_OPRTR_CD" value="A"/>
+			<column name="APPL_ID" value="KFS"/>
+		</insert>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-TEM"/>
+			<column name="CMPNT_CD" value="Document"/>
+			<column name="PARM_NM" value="RENTAL_CAR_EXPENSE_TYPE"/>
+			<column name="OBJ_ID" value="KFS-TEM-PARM-017"/>
+			<column name="PARM_TYP_CD" value="CONFG"/>
+			<column name="VAL" value="R"/>
+			<column name="PARM_DESC_TXT" value="Specifies the expense type code used to enforce rental car related business rules."/>
 			<column name="EVAL_OPRTR_CD" value="A"/>
 			<column name="APPL_ID" value="KFS"/>
 		</insert>
@@ -316,6 +219,7 @@
 			<column name="NMSPC_CD" value="KFS-TEM"/>
 			<column name="CMPNT_CD" value="Document"/>
 			<column name="PARM_NM" value="HOSTED_MEAL_EXPENSE_TYPES"/>
+			<column name="OBJ_ID" value="KFS-TEM-PARM-018"/>
 			<column name="PARM_TYP_CD" value="CONFG"/>
 			<column name="VAL" value="BREAKFAST=HB;LUNCH=HL;DINNER=HD;"/>
 			<column name="PARM_DESC_TXT" value="Specifies the expense type codes for hosted meals to determine an other expense is a meal and whether it was hosted."/>
@@ -325,35 +229,8 @@
 		<insert tableName="KRCR_PARM_T">
 			<column name="NMSPC_CD" value="KFS-TEM"/>
 			<column name="CMPNT_CD" value="Document"/>
-			<column name="PARM_NM" value="IMMEDIATE_EXTRACT_NOTIFICATION_FROM_EMAIL_ADDRESS"/>
-			<column name="PARM_TYP_CD" value="CONFG"/>
-			<column name="PARM_DESC_TXT" value="Email address which sends out the notification that a Travel or Entertainment document was prepared for immediate extraction."/>
-			<column name="EVAL_OPRTR_CD" value="A"/>
-			<column name="APPL_ID" value="KFS"/>
-		</insert>
-		<insert tableName="KRCR_PARM_T">
-			<column name="NMSPC_CD" value="KFS-TEM"/>
-			<column name="CMPNT_CD" value="Document"/>
-			<column name="PARM_NM" value="IMMEDIATE_EXTRACT_NOTIFICATION_TO_EMAIL_ADDRESS"/>
-			<column name="PARM_TYP_CD" value="CONFG"/>
-			<column name="PARM_DESC_TXT" value="Email addresses which receive notification that a Travel or Entertainment document was prepared for immediate extraction."/>
-			<column name="EVAL_OPRTR_CD" value="A"/>
-			<column name="APPL_ID" value="KFS"/>
-		</insert>
-		<insert tableName="KRCR_PARM_T">
-			<column name="NMSPC_CD" value="KFS-TEM"/>
-			<column name="CMPNT_CD" value="Document"/>
-			<column name="PARM_NM" value="IMPORTED_EXPENSE_DETAIL_IND"/>
-			<column name="PARM_TYP_CD" value="CONFG"/>
-			<column name="VAL" value="N"/>
-			<column name="PARM_DESC_TXT" value="When this parameter value is &quot;Y&quot;, the Imported Expense Detail section of the Imported Expense tab is disabled."/>
-			<column name="EVAL_OPRTR_CD" value="A"/>
-			<column name="APPL_ID" value="KFS"/>
-		</insert>
-		<insert tableName="KRCR_PARM_T">
-			<column name="NMSPC_CD" value="KFS-TEM"/>
-			<column name="CMPNT_CD" value="Document"/>
 			<column name="PARM_NM" value="INCIDENTALS_EXPENSE_TYPES"/>
+			<column name="OBJ_ID" value="KFS-TEM-PARM-019"/>
 			<column name="PARM_TYP_CD" value="CONFG"/>
 			<column name="VAL" value="EL;"/>
 			<column name="PARM_DESC_TXT" value="Specifies the expense type codes used to enforce incidental expenses related business rules."/>
@@ -364,6 +241,7 @@
 			<column name="NMSPC_CD" value="KFS-TEM"/>
 			<column name="CMPNT_CD" value="Document"/>
 			<column name="PARM_NM" value="INCIDENTALS_WITH_MEALS_IND"/>
+			<column name="OBJ_ID" value="KFS-TEM-PARM-020"/>
 			<column name="PARM_TYP_CD" value="CONFG"/>
 			<column name="VAL" value="N"/>
 			<column name="PARM_DESC_TXT" value="When this parameter value is &quot;Y&quot;, then the incidentals are added to the Per Diem when there is at least one meal (breakfast, lunch or dinner) claimed. If &quot;N&quot;, then the incidentals will be added regardless."/>
@@ -373,27 +251,8 @@
 		<insert tableName="KRCR_PARM_T">
 			<column name="NMSPC_CD" value="KFS-TEM"/>
 			<column name="CMPNT_CD" value="Document"/>
-			<column name="PARM_NM" value="INCLUDE_ARRANGER_EXPENSE_IN_IMPORTED_EXPENSE_IND"/>
-			<column name="PARM_TYP_CD" value="CONFG"/>
-			<column name="VAL" value="Y"/>
-			<column name="PARM_DESC_TXT" value="Allow the user (arranger) to select their own imported expense for the traveler."/>
-			<column name="EVAL_OPRTR_CD" value="A"/>
-			<column name="APPL_ID" value="KFS"/>
-		</insert>
-		<insert tableName="KRCR_PARM_T">
-			<column name="NMSPC_CD" value="KFS-TEM"/>
-			<column name="CMPNT_CD" value="Document"/>
-			<column name="PARM_NM" value="INCLUDE_TRAVELER_TYPE_IN_TRIP_ID_IND"/>
-			<column name="PARM_TYP_CD" value="CONFG"/>
-			<column name="VAL" value="N"/>
-			<column name="PARM_DESC_TXT" value="If true, the traveler type (&quot;EMP&quot; for Employee, &quot;NON&quot; for Non-Employee) will be included as part of generated trip ids."/>
-			<column name="EVAL_OPRTR_CD" value="A"/>
-			<column name="APPL_ID" value="KFS"/>
-		</insert>
-		<insert tableName="KRCR_PARM_T">
-			<column name="NMSPC_CD" value="KFS-TEM"/>
-			<column name="CMPNT_CD" value="Document"/>
 			<column name="PARM_NM" value="INTERNATIONAL_TRIP_TYPES"/>
+			<column name="OBJ_ID" value="KFS-TEM-PARM-021"/>
 			<column name="PARM_TYP_CD" value="CONFG"/>
 			<column name="VAL" value="INT"/>
 			<column name="PARM_DESC_TXT" value="The trip type code(s) representing international travel."/>
@@ -403,37 +262,8 @@
 		<insert tableName="KRCR_PARM_T">
 			<column name="NMSPC_CD" value="KFS-TEM"/>
 			<column name="CMPNT_CD" value="Document"/>
-			<column name="PARM_NM" value="LODGING_ALLOWANCE_EXPENSE_TYPE"/>
-			<column name="PARM_TYP_CD" value="CONFG"/>
-			<column name="VAL" value="LA"/>
-			<column name="PARM_DESC_TXT" value="Specifies the expense type code used to enforce lodging allowance related business rules."/>
-			<column name="EVAL_OPRTR_CD" value="A"/>
-			<column name="APPL_ID" value="KFS"/>
-		</insert>
-		<insert tableName="KRCR_PARM_T">
-			<column name="NMSPC_CD" value="KFS-TEM"/>
-			<column name="CMPNT_CD" value="Document"/>
-			<column name="PARM_NM" value="LODGING_EXPENSE_TYPE"/>
-			<column name="PARM_TYP_CD" value="CONFG"/>
-			<column name="VAL" value="L"/>
-			<column name="PARM_DESC_TXT" value="Specifies the expense type code used to enforce lodging related business rules."/>
-			<column name="EVAL_OPRTR_CD" value="A"/>
-			<column name="APPL_ID" value="KFS"/>
-		</insert>
-		<insert tableName="KRCR_PARM_T">
-			<column name="NMSPC_CD" value="KFS-TEM"/>
-			<column name="CMPNT_CD" value="Document"/>
-			<column name="PARM_NM" value="MILEAGE_EXPENSE_TYPE"/>
-			<column name="PARM_TYP_CD" value="CONFG"/>
-			<column name="VAL" value="MM"/>
-			<column name="PARM_DESC_TXT" value="Specifies the expense type code used to enforce mileage related business rules."/>
-			<column name="EVAL_OPRTR_CD" value="A"/>
-			<column name="APPL_ID" value="KFS"/>
-		</insert>
-		<insert tableName="KRCR_PARM_T">
-			<column name="NMSPC_CD" value="KFS-TEM"/>
-			<column name="CMPNT_CD" value="Document"/>
 			<column name="PARM_NM" value="NON_EMPLOYEE_CERTIFICATION_STATEMENT"/>
+			<column name="OBJ_ID" value="KFS-TEM-PARM-022"/>
 			<column name="PARM_TYP_CD" value="CONFG"/>
 			<column name="VAL" value="(TBD)"/>
 			<column name="PARM_DESC_TXT" value="The statement displayed in the Employee Certification tab of the Travel Reimbursement document when the Traveler Type is &quot;Non-Employee&quot; as defined in parameter KFS-TEM / Document / NON_EMPLOYEE_TRAVELER_TYPES."/>
@@ -444,6 +274,7 @@
 			<column name="NMSPC_CD" value="KFS-TEM"/>
 			<column name="CMPNT_CD" value="Document"/>
 			<column name="PARM_NM" value="NON_EMPLOYEE_TRAVELER_TYPE_CODES"/>
+			<column name="OBJ_ID" value="KFS-TEM-PARM-023"/>
 			<column name="PARM_TYP_CD" value="CONFG"/>
 			<column name="VAL" value="NON"/>
 			<column name="PARM_DESC_TXT" value="The traveler type code(s) that represents a non-employee."/>
@@ -454,6 +285,7 @@
 			<column name="NMSPC_CD" value="KFS-TEM"/>
 			<column name="CMPNT_CD" value="Document"/>
 			<column name="PARM_NM" value="NUMBER_OF_DAYS_DELINQUENT"/>
+			<column name="OBJ_ID" value="KFS-TEM-PARM-024"/>
 			<column name="PARM_TYP_CD" value="CONFG"/>
 			<column name="VAL" value="W=60;S=120"/>
 			<column name="PARM_DESC_TXT" value="Parameter to determine whether a Travel Document is considered delinquent and the appropriate action for it. W=Warning; S=Stop.  With a warning the document can continue through; Stop does not allow the initiator to continue."/>
@@ -463,47 +295,8 @@
 		<insert tableName="KRCR_PARM_T">
 			<column name="NMSPC_CD" value="KFS-TEM"/>
 			<column name="CMPNT_CD" value="Document"/>
-			<column name="PARM_NM" value="PER_DIEM_CATEGORIES"/>
-			<column name="PARM_TYP_CD" value="CONFG"/>
-			<column name="VAL" value="LODGING=Y;MILEAGE=Y;PER_DIEM=Y"/>
-			<column name="PARM_DESC_TXT" value="When this parameter value associated with each category is &quot;Y&quot;, the per diem category will be displayed. Format will be LODGING=Y;MILEAGE=Y;PER_DIEM=Y.  If the flag is all ?N,N,  Trip Details Estimate Tab/Per Diem section will not be displayed."/>
-			<column name="EVAL_OPRTR_CD" value="A"/>
-			<column name="APPL_ID" value="KFS"/>
-		</insert>
-		<insert tableName="KRCR_PARM_T">
-			<column name="NMSPC_CD" value="KFS-TEM"/>
-			<column name="CMPNT_CD" value="Document"/>
-			<column name="PARM_NM" value="QUARTER_DAY_TIME_TABLE"/>
-			<column name="PARM_TYP_CD" value="CONFG"/>
-			<column name="VAL" value="1=6:00;2=12:00;3=18:00;4=24:00"/>
-			<column name="PARM_DESC_TXT" value="Defines the quarter time table for a day. The format is quarter=ending time in the military format."/>
-			<column name="EVAL_OPRTR_CD" value="A"/>
-			<column name="APPL_ID" value="KFS"/>
-		</insert>
-		<insert tableName="KRCR_PARM_T">
-			<column name="NMSPC_CD" value="KFS-TEM"/>
-			<column name="CMPNT_CD" value="Document"/>
-			<column name="PARM_NM" value="RENTAL_CAR_EXPENSE_TYPE"/>
-			<column name="PARM_TYP_CD" value="CONFG"/>
-			<column name="VAL" value="R"/>
-			<column name="PARM_DESC_TXT" value="Specifies the expense type code used to enforce rental car related business rules."/>
-			<column name="EVAL_OPRTR_CD" value="A"/>
-			<column name="APPL_ID" value="KFS"/>
-		</insert>
-		<insert tableName="KRCR_PARM_T">
-			<column name="NMSPC_CD" value="KFS-TEM"/>
-			<column name="CMPNT_CD" value="Document"/>
-			<column name="PARM_NM" value="SEND_NOTIFICATION_DOCUMENT_TYPES"/>
-			<column name="PARM_TYP_CD" value="CONFG"/>
-			<column name="VAL" value="TR;ENT;RELO"/>
-			<column name="PARM_DESC_TXT" value="the  non-travel authorization document type codes qualified for on change notification."/>
-			<column name="EVAL_OPRTR_CD" value="A"/>
-			<column name="APPL_ID" value="KFS"/>
-		</insert>
-		<insert tableName="KRCR_PARM_T">
-			<column name="NMSPC_CD" value="KFS-TEM"/>
-			<column name="CMPNT_CD" value="Document"/>
 			<column name="PARM_NM" value="SEND_NOTIFICATION_ON_WORKFLOW_STATUS_CHANGE_IND"/>
+			<column name="OBJ_ID" value="KFS-TEM-PARM-025"/>
 			<column name="PARM_TYP_CD" value="CONFG"/>
 			<column name="VAL" value="Y"/>
 			<column name="PARM_DESC_TXT" value="When this parameter value is &quot;Y&quot;, send notifications when the travel document workflow statuses change, if the traveler has indicated notifications should be sent via their profile."/>
@@ -513,7 +306,19 @@
 		<insert tableName="KRCR_PARM_T">
 			<column name="NMSPC_CD" value="KFS-TEM"/>
 			<column name="CMPNT_CD" value="Document"/>
+			<column name="PARM_NM" value="QUARTER_DAY_TIME_TABLE"/>
+			<column name="OBJ_ID" value="KFS-TEM-PARM-026"/>
+			<column name="PARM_TYP_CD" value="CONFG"/>
+			<column name="VAL" value="1=6:00;2=12:00;3=18:00;4=24:00"/>
+			<column name="PARM_DESC_TXT" value="Defines the quarter time table for a day. The format is quarter=ending time in the military format."/>
+			<column name="EVAL_OPRTR_CD" value="A"/>
+			<column name="APPL_ID" value="KFS"/>
+		</insert>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-TEM"/>
+			<column name="CMPNT_CD" value="Document"/>
 			<column name="PARM_NM" value="SEPARATION_OF_DUTIES_ROUTING_CHOICE"/>
+			<column name="OBJ_ID" value="KFS-TEM-PARM-027"/>
 			<column name="PARM_TYP_CD" value="CONFG"/>
 			<column name="VAL" value="F"/>
 			<column name="PARM_DESC_TXT" value="F-Traveler and Fiscal Officer cannot be the same;D-Traveler and Division Approver cannot be the same"/>
@@ -522,8 +327,20 @@
 		</insert>
 		<insert tableName="KRCR_PARM_T">
 			<column name="NMSPC_CD" value="KFS-TEM"/>
+			<column name="CMPNT_CD" value="TravelAuthorization"/>
+			<column name="PARM_NM" value="SEND_NOTIFICATION_DOCUMENT_TYPES"/>
+			<column name="OBJ_ID" value="KFS-TEM-PARM-028"/>
+			<column name="PARM_TYP_CD" value="CONFG"/>
+			<column name="VAL" value="TA"/>
+			<column name="PARM_DESC_TXT" value="The Travel Authorization document type codes for which email notifications will be sent when the Travel Authorization changes route statuses."/>
+			<column name="EVAL_OPRTR_CD" value="A"/>
+			<column name="APPL_ID" value="KFS"/>
+		</insert>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-TEM"/>
 			<column name="CMPNT_CD" value="Document"/>
 			<column name="PARM_NM" value="TRAVEL_COVERSHEET_INSTRUCTIONS"/>
+			<column name="OBJ_ID" value="KFS-TEM-PARM-029"/>
 			<column name="PARM_TYP_CD" value="CONFG"/>
 			<column name="VAL" value="Attach receipts to the coversheet and mail to the Travel Office."/>
 			<column name="PARM_DESC_TXT" value="Instructions that will print on the Coversheet."/>
@@ -533,258 +350,11 @@
 		<insert tableName="KRCR_PARM_T">
 			<column name="NMSPC_CD" value="KFS-TEM"/>
 			<column name="CMPNT_CD" value="Document"/>
-			<column name="PARM_NM" value="TRAVEL_EMAIL_ADDRESS"/>
+			<column name="PARM_NM" value="DOCUMENTATION_LOCATION_CODE"/>
+			<column name="OBJ_ID" value="KFS-TEM-PARM-030"/>
 			<column name="PARM_TYP_CD" value="CONFG"/>
-			<column name="PARM_DESC_TXT" value="The campus travel email address from which the notification is sent"/>
-			<column name="EVAL_OPRTR_CD" value="A"/>
-			<column name="APPL_ID" value="KFS"/>
-		</insert>
-		<insert tableName="KRCR_PARM_T">
-			<column name="NMSPC_CD" value="KFS-TEM"/>
-			<column name="CMPNT_CD" value="Document"/>
-			<column name="PARM_NM" value="UPLOAD_PARSER_INSTRUCTIONS_URL"/>
-			<column name="PARM_TYP_CD" value="CONFG"/>
-			<column name="VAL" value="default.htm?turl=WordDocuments%2Fdataimporttemplates.htm"/>
-			<column name="PARM_DESC_TXT" value="Travel import instructions URL."/>
-			<column name="EVAL_OPRTR_CD" value="A"/>
-			<column name="APPL_ID" value="KFS"/>
-		</insert>
-		<insert tableName="KRCR_PARM_T">
-			<column name="NMSPC_CD" value="KFS-TEM"/>
-			<column name="CMPNT_CD" value="Document"/>
-			<column name="PARM_NM" value="VALIDATE_DAILY_PER_DIEM_AND_INCIDENTALS_IND"/>
-			<column name="PARM_TYP_CD" value="CONFG"/>
-			<column name="VAL" value="Y"/>
-			<column name="PARM_DESC_TXT" value="When this parameter value is &quot;Y&quot;, validate per diem against daily total versus each individual meal and incidental."/>
-			<column name="EVAL_OPRTR_CD" value="A"/>
-			<column name="APPL_ID" value="KFS"/>
-		</insert>
-		<insert tableName="KRCR_PARM_T">
-			<column name="NMSPC_CD" value="KFS-TEM"/>
-			<column name="CMPNT_CD" value="Document"/>
-			<column name="PARM_NM" value="VENDOR_PAYMENT_REASON_CODE"/>
-			<column name="PARM_TYP_CD" value="CONFG"/>
-			<column name="VAL" value="V"/>
-			<column name="PARM_DESC_TXT" value="Payment Reason Code used to populate the Disbursement Voucher when making travel vendor payments."/>
-			<column name="EVAL_OPRTR_CD" value="A"/>
-			<column name="APPL_ID" value="KFS"/>
-		</insert>
-		<insert tableName="KRCR_PARM_T">
-			<column name="NMSPC_CD" value="KFS-TEM"/>
-			<column name="CMPNT_CD" value="PerDiemLoadStep"/>
-			<column name="PARM_NM" value="BYPASS_STATE_OR_COUNTRY_CODES"/>
-			<column name="PARM_TYP_CD" value="CONFG"/>
-			<column name="VAL" value="RC;RES"/>
-			<column name="PARM_DESC_TXT" value="List of per diem codes (state_alpha for CONUS records, country_code for OCONUS records) which will be skipped during the load process."/>
-			<column name="EVAL_OPRTR_CD" value="D"/>
-			<column name="APPL_ID" value="KFS"/>
-		</insert>
-		<insert tableName="KRCR_PARM_T">
-			<column name="NMSPC_CD" value="KFS-TEM"/>
-			<column name="CMPNT_CD" value="PerDiemLoadStep"/>
-			<column name="PARM_NM" value="CONUS_MEAL_BREAKDOWN"/>
-			<column name="PARM_TYP_CD" value="CONFG"/>
-			<column name="VAL" value="B=15;L=25;D=40"/>
-			<column name="PARM_DESC_TXT" value="Breaks down the MIE total into breakfast, lunch, and dinner in the event that the matching MEI total is not found in the CONUS MEAL_BREAKDOWN table."/>
-			<column name="EVAL_OPRTR_CD" value="A"/>
-			<column name="APPL_ID" value="KFS"/>
-		</insert>
-		<insert tableName="KRCR_PARM_T">
-			<column name="NMSPC_CD" value="KFS-TEM"/>
-			<column name="CMPNT_CD" value="PerDiemLoadStep"/>
-			<column name="PARM_NM" value="INACTIVATE_PREVIOUS_PER_DIEM_IND"/>
-			<column name="PARM_TYP_CD" value="CONFG"/>
-			<column name="VAL" value="Y"/>
-			<column name="PARM_DESC_TXT" value="When this parameter value is &quot;Y&quot;, inactivate any previously loaded per diems when new values are loaded."/>
-			<column name="EVAL_OPRTR_CD" value="A"/>
-			<column name="APPL_ID" value="KFS"/>
-		</insert>
-		<insert tableName="KRCR_PARM_T">
-			<column name="NMSPC_CD" value="KFS-TEM"/>
-			<column name="CMPNT_CD" value="PerDiemLoadStep"/>
-			<column name="PARM_NM" value="INSTITUTION_STATE"/>
-			<column name="PARM_TYP_CD" value="CONFG"/>
-			<column name="VAL" value="CA"/>
-			<column name="PARM_DESC_TXT" value="This parameter populates the specified state with IN in the Per Diem table."/>
-			<column name="EVAL_OPRTR_CD" value="A"/>
-			<column name="APPL_ID" value="KFS"/>
-		</insert>
-		<insert tableName="KRCR_PARM_T">
-			<column name="NMSPC_CD" value="KFS-TEM"/>
-			<column name="CMPNT_CD" value="PerDiemLoadStep"/>
-			<column name="PARM_NM" value="INTERNATIONAL_TRIP_TYPE_CODE"/>
-			<column name="PARM_TYP_CD" value="CONFG"/>
-			<column name="VAL" value="INT"/>
-			<column name="PARM_DESC_TXT" value="The trip type code for international travel."/>
-			<column name="EVAL_OPRTR_CD" value="A"/>
-			<column name="APPL_ID" value="KFS"/>
-		</insert>
-		<insert tableName="KRCR_PARM_T">
-			<column name="NMSPC_CD" value="KFS-TEM"/>
-			<column name="CMPNT_CD" value="PerDiemLoadStep"/>
-			<column name="PARM_NM" value="IN_STATE_TRIP_TYPE_CODE"/>
-			<column name="PARM_TYP_CD" value="CONFG"/>
-			<column name="VAL" value="IN"/>
-			<column name="PARM_DESC_TXT" value="The trip type code for in-state travel."/>
-			<column name="EVAL_OPRTR_CD" value="A"/>
-			<column name="APPL_ID" value="KFS"/>
-		</insert>
-		<insert tableName="KRCR_PARM_T">
-			<column name="NMSPC_CD" value="KFS-TEM"/>
-			<column name="CMPNT_CD" value="PerDiemLoadStep"/>
-			<column name="PARM_NM" value="OCONUS_MEAL_BREAKDOWN"/>
-			<column name="PARM_TYP_CD" value="CONFG"/>
-			<column name="VAL" value="B=15;L=25;D=40"/>
-			<column name="PARM_DESC_TXT" value="Breaks down the local meals into breakfast, lunch dinner, and incidentals for Outside the Continental United States."/>
-			<column name="EVAL_OPRTR_CD" value="A"/>
-			<column name="APPL_ID" value="KFS"/>
-		</insert>
-		<insert tableName="KRCR_PARM_T">
-			<column name="NMSPC_CD" value="KFS-TEM"/>
-			<column name="CMPNT_CD" value="PerDiemLoadStep"/>
-			<column name="PARM_NM" value="OUT_OF_STATE_TRIP_TYPE_CODE"/>
-			<column name="PARM_TYP_CD" value="CONFG"/>
-			<column name="VAL" value="OUT"/>
-			<column name="PARM_DESC_TXT" value="The trip type code for out-state travel."/>
-			<column name="EVAL_OPRTR_CD" value="A"/>
-			<column name="APPL_ID" value="KFS"/>
-		</insert>
-		<insert tableName="KRCR_PARM_T">
-			<column name="NMSPC_CD" value="KFS-TEM"/>
-			<column name="CMPNT_CD" value="PerDiemLoadStep"/>
-			<column name="PARM_NM" value="REJECT_FILE_IND"/>
-			<column name="PARM_TYP_CD" value="CONFG"/>
-			<column name="VAL" value="Y"/>
-			<column name="PARM_DESC_TXT" value="When this parameter is &quot;Y&quot;, reject the entire per diem file if an error occurs."/>
-			<column name="EVAL_OPRTR_CD" value="A"/>
-			<column name="APPL_ID" value="KFS"/>
-		</insert>
-		<insert tableName="KRCR_PARM_T">
-			<column name="NMSPC_CD" value="KFS-TEM"/>
-			<column name="CMPNT_CD" value="TEMProfile"/>
-			<column name="PARM_NM" value="VALID_KIM_TYPE_AFFILIATION_BY_TRAVER_TYPE"/>
-			<column name="PARM_TYP_CD" value="CONFG"/>
-			<column name="VAL" value="STAFF=EMP;STDNT=NON;FCLTY=EMP;AFLT=NON"/>
-			<column name="PARM_DESC_TXT" value="Mapping between the KIM Affiliation Type and the TEM Traveler Type. The format is KIM Affiliation Type=Traveler Type."/>
-			<column name="EVAL_OPRTR_CD" value="A"/>
-			<column name="APPL_ID" value="KFS"/>
-		</insert>
-		<insert tableName="KRCR_PARM_T">
-			<column name="NMSPC_CD" value="KFS-TEM"/>
-			<column name="CMPNT_CD" value="TEMProfile"/>
-			<column name="PARM_NM" value="VALID_TRAVELER_TYPE_BY_CUSTOMER_TYPE"/>
-			<column name="PARM_TYP_CD" value="CONFG"/>
-			<column name="VAL" value="11=NON"/>
-			<column name="PARM_DESC_TXT" value="Mapping between the AR Customer Type and the TEM Traveler Type. The format is AR Customer Type=Traveler Type."/>
-			<column name="EVAL_OPRTR_CD" value="A"/>
-			<column name="APPL_ID" value="KFS"/>
-		</insert>
-		<insert tableName="KRCR_PARM_T">
-			<column name="NMSPC_CD" value="KFS-TEM"/>
-			<column name="CMPNT_CD" value="TaxableRamificationNotificationStep"/>
-			<column name="PARM_NM" value="FROM_EMAIL_ADDRESS"/>
-			<column name="PARM_TYP_CD" value="CONFG"/>
-			<column name="PARM_DESC_TXT" value="The email address from which the notification is sent."/>
-			<column name="EVAL_OPRTR_CD" value="A"/>
-			<column name="APPL_ID" value="KFS"/>
-		</insert>
-		<insert tableName="KRCR_PARM_T">
-			<column name="NMSPC_CD" value="KFS-TEM"/>
-			<column name="CMPNT_CD" value="TaxableRamificationNotificationStep"/>
-			<column name="PARM_NM" value="NOTIFICATION_DAYS"/>
-			<column name="PARM_TYP_CD" value="CONFG"/>
-			<column name="VAL" value="120"/>
-			<column name="PARM_DESC_TXT" value="The number of days after the cash advances are due to send the tax ramification notification to the travelers."/>
-			<column name="EVAL_OPRTR_CD" value="A"/>
-			<column name="APPL_ID" value="KFS"/>
-		</insert>
-		<insert tableName="KRCR_PARM_T">
-			<column name="NMSPC_CD" value="KFS-TEM"/>
-			<column name="CMPNT_CD" value="TaxableRamificationNotificationStep"/>
-			<column name="PARM_NM" value="NOTIFICATION_SUBJECT"/>
-			<column name="PARM_TYP_CD" value="CONFG"/>
-			<column name="VAL" value="Taxable Ramification Notice for"/>
-			<column name="PARM_DESC_TXT" value="The email notification subject."/>
-			<column name="EVAL_OPRTR_CD" value="A"/>
-			<column name="APPL_ID" value="KFS"/>
-		</insert>
-		<insert tableName="KRCR_PARM_T">
-			<column name="NMSPC_CD" value="KFS-TEM"/>
-			<column name="CMPNT_CD" value="TaxableRamificationNotificationStep"/>
-			<column name="PARM_NM" value="NOTIFICATION_TEXT"/>
-			<column name="PARM_TYP_CD" value="CONFG"/>
-			<column name="VAL" value="The following advance is now past due and you have exceeded the IRS time frame allowable to submit payment/receipts after travel.  Since your advance is more than overdue, you are in the process of being considered for payroll deduction.  IF YOU HAVE ALREADY SUBMITTED YOUR VOUCHER, PLEASE NOTIFY US.  If you traveled for Study Abroad, notify them regarding the status of your voucher. For all others, please confirm with your department's administrator that your voucher/payment was submitted to Voucher Processing.  If you feel we should have received your voucher/payment, please contact our office to confirm receipt.  PLEASE RESPOND VIA EMAIL. Your immediate attention to this matter is appreciated."/>
-			<column name="PARM_DESC_TXT" value="The text which should be sent to the travelers who have outstanding advances over a specified period."/>
-			<column name="EVAL_OPRTR_CD" value="A"/>
-			<column name="APPL_ID" value="KFS"/>
-		</insert>
-		<insert tableName="KRCR_PARM_T">
-			<column name="NMSPC_CD" value="KFS-TEM"/>
-			<column name="CMPNT_CD" value="TaxableRamificationNotificationStep"/>
-			<column name="PARM_NM" value="SEND_FYI_TO_FISCAL_OFFICER_IND"/>
-			<column name="PARM_TYP_CD" value="CONFG"/>
-			<column name="VAL" value="N"/>
-			<column name="PARM_DESC_TXT" value="When this parameter value is &quot;Y&quot;, the FYI for the Tax Ramification Notification document is sent to the fiscal officer."/>
-			<column name="EVAL_OPRTR_CD" value="A"/>
-			<column name="APPL_ID" value="KFS"/>
-		</insert>
-		<insert tableName="KRCR_PARM_T">
-			<column name="NMSPC_CD" value="KFS-TEM"/>
-			<column name="CMPNT_CD" value="TemCTSCardApplication"/>
-			<column name="PARM_NM" value="CENTRAL_TRAVEL_SYSTEM_CARD_CODE"/>
-			<column name="PARM_TYP_CD" value="CONFG"/>
-			<column name="VAL" value="CTSC"/>
-			<column name="PARM_DESC_TXT" value="Code for CTS cards created from a CTS Card Application (CTAP) document."/>
-			<column name="EVAL_OPRTR_CD" value="A"/>
-			<column name="APPL_ID" value="KFS"/>
-		</insert>
-		<insert tableName="KRCR_PARM_T">
-			<column name="NMSPC_CD" value="KFS-TEM"/>
-			<column name="CMPNT_CD" value="TemCorporateCardApplication"/>
-			<column name="PARM_NM" value="CORPORATE_CARD_CODE"/>
-			<column name="PARM_TYP_CD" value="CONFG"/>
-			<column name="VAL" value="USBC"/>
-			<column name="PARM_DESC_TXT" value="Credit card code for corporate cards created from a Corporate Card Application (CCAP) document."/>
-			<column name="EVAL_OPRTR_CD" value="A"/>
-			<column name="APPL_ID" value="KFS"/>
-		</insert>
-		<insert tableName="KRCR_PARM_T">
-			<column name="NMSPC_CD" value="KFS-TEM"/>
-			<column name="CMPNT_CD" value="TemCorporateCardApplication"/>
-			<column name="PARM_NM" value="GENERATE_CREDIT_CARD_NUMBER_IND"/>
-			<column name="PARM_TYP_CD" value="CONFG"/>
-			<column name="VAL" value="Y"/>
-			<column name="PARM_DESC_TXT" value="When this parameter value is &quot;Y&quot;, a pseudo card number is generated."/>
-			<column name="EVAL_OPRTR_CD" value="A"/>
-			<column name="APPL_ID" value="KFS"/>
-		</insert>
-		<insert tableName="KRCR_PARM_T">
-			<column name="NMSPC_CD" value="KFS-TEM"/>
-			<column name="CMPNT_CD" value="TemProfileExportStep"/>
-			<column name="PARM_NM" value="EXPORT_FILE_FORMAT"/>
-			<column name="PARM_TYP_CD" value="CONFG"/>
-			<column name="VAL" value="csv"/>
-			<column name="PARM_DESC_TXT" value="The format of the profile data exported from TEM. The valid VALUES are csv or xml."/>
-			<column name="EVAL_OPRTR_CD" value="A"/>
-			<column name="APPL_ID" value="KFS"/>
-		</insert>
-		<insert tableName="KRCR_PARM_T">
-			<column name="NMSPC_CD" value="KFS-TEM"/>
-			<column name="CMPNT_CD" value="TravelAuthorization"/>
-			<column name="PARM_NM" value="CASH_ADVANCE_CREDIT_CARD_TYPES"/>
-			<column name="PARM_TYP_CD" value="CONFG"/>
-			<column name="VAL" value="VISA;AMEX;MC"/>
-			<column name="PARM_DESC_TXT" value="Card types that are allowed for advances."/>
-			<column name="EVAL_OPRTR_CD" value="A"/>
-			<column name="APPL_ID" value="KFS"/>
-		</insert>
-		<insert tableName="KRCR_PARM_T">
-			<column name="NMSPC_CD" value="KFS-TEM"/>
-			<column name="CMPNT_CD" value="TravelAuthorization"/>
-			<column name="PARM_NM" value="CASH_ADVANCE_WARNING_IND"/>
-			<column name="PARM_TYP_CD" value="CONFG"/>
-			<column name="VAL" value="Y"/>
-			<column name="PARM_DESC_TXT" value="Determines whether to show a warning on cash advances."/>
+			<column name="VAL" value="T"/>
+			<column name="PARM_DESC_TXT" value="The documentation location code used by payments on the Travel Authorization, Travel Authorization Amendment, Travel Reimbursement, Entertainment, and Moving & Relocation documents.  If a document specific parameter with the same name is created (for example, KFS-TEM / TravelAuthorization / DOCUMENTATION_LOCATION_CODE), the documentation location code for Travel Authorization documents will default to that instead."/>
 			<column name="EVAL_OPRTR_CD" value="A"/>
 			<column name="APPL_ID" value="KFS"/>
 		</insert>
@@ -792,6 +362,7 @@
 			<column name="NMSPC_CD" value="KFS-TEM"/>
 			<column name="CMPNT_CD" value="TravelAuthorization"/>
 			<column name="PARM_NM" value="CHANGE_NOTIFICATION_SUBJECT"/>
+			<column name="OBJ_ID" value="KFS-TEM-PARM-032"/>
 			<column name="PARM_TYP_CD" value="CONFG"/>
 			<column name="VAL" value="Travel Authorization Status Change"/>
 			<column name="PARM_DESC_TXT" value="The email notification subject when a Travel Authorization (TA) document status changed"/>
@@ -801,67 +372,8 @@
 		<insert tableName="KRCR_PARM_T">
 			<column name="NMSPC_CD" value="KFS-TEM"/>
 			<column name="CMPNT_CD" value="TravelAuthorization"/>
-			<column name="PARM_NM" value="CUSTOMER_TYPE_CODE"/>
-			<column name="PARM_TYP_CD" value="CONFG"/>
-			<column name="VAL" value="11"/>
-			<column name="PARM_DESC_TXT" value="Customer Type Code used when creating a customer."/>
-			<column name="EVAL_OPRTR_CD" value="A"/>
-			<column name="APPL_ID" value="KFS"/>
-		</insert>
-		<insert tableName="KRCR_PARM_T">
-			<column name="NMSPC_CD" value="KFS-TEM"/>
-			<column name="CMPNT_CD" value="TravelAuthorization"/>
-			<column name="PARM_NM" value="DISPLAY_ACCOUNTING_DISTRIBUTION_TAB_IND"/>
-			<column name="PARM_TYP_CD" value="CONFG"/>
-			<column name="VAL" value="Y"/>
-			<column name="PARM_DESC_TXT" value="When this parameter value is &quot;Y&quot;, display the accounting distribution tab (summary of expense by object code). When the parameter is &quot;N&quot;, only the normal Accounting Lines are displayed."/>
-			<column name="EVAL_OPRTR_CD" value="A"/>
-			<column name="APPL_ID" value="KFS"/>
-		</insert>
-		<insert tableName="KRCR_PARM_T">
-			<column name="NMSPC_CD" value="KFS-TEM"/>
-			<column name="CMPNT_CD" value="TravelAuthorization"/>
-			<column name="PARM_NM" value="DISPLAY_EMERGENCY_CONTACT_IND"/>
-			<column name="PARM_TYP_CD" value="CONFG"/>
-			<column name="VAL" value="Y"/>
-			<column name="PARM_DESC_TXT" value="Indicates whether or not emergency contact information should be displayed on the Travel Authorization."/>
-			<column name="EVAL_OPRTR_CD" value="A"/>
-			<column name="APPL_ID" value="KFS"/>
-		</insert>
-		<insert tableName="KRCR_PARM_T">
-			<column name="NMSPC_CD" value="KFS-TEM"/>
-			<column name="CMPNT_CD" value="TravelAuthorization"/>
-			<column name="PARM_NM" value="DISPLAY_IMPORTED_EXPENSE_IND"/>
-			<column name="PARM_TYP_CD" value="CONFG"/>
-			<column name="VAL" value="Y"/>
-			<column name="PARM_DESC_TXT" value="When this parameter value is &quot;Y&quot;, the Travel Authorization document will display the related sections for Import Expenses."/>
-			<column name="EVAL_OPRTR_CD" value="A"/>
-			<column name="APPL_ID" value="KFS"/>
-		</insert>
-		<insert tableName="KRCR_PARM_T">
-			<column name="NMSPC_CD" value="KFS-TEM"/>
-			<column name="CMPNT_CD" value="TravelAuthorization"/>
-			<column name="PARM_NM" value="DISPLAY_PER_DIEM_URL_IND"/>
-			<column name="PARM_TYP_CD" value="CONFG"/>
-			<column name="VAL" value="Y"/>
-			<column name="PARM_DESC_TXT" value="When this parameter value is &quot;Y&quot;, per diem sites from the DV Per Diem Table will be displayed when entering the primary destination."/>
-			<column name="EVAL_OPRTR_CD" value="A"/>
-			<column name="APPL_ID" value="KFS"/>
-		</insert>
-		<insert tableName="KRCR_PARM_T">
-			<column name="NMSPC_CD" value="KFS-TEM"/>
-			<column name="CMPNT_CD" value="TravelAuthorization"/>
-			<column name="PARM_NM" value="DUE_DATE_DAYS"/>
-			<column name="PARM_TYP_CD" value="CONFG"/>
-			<column name="VAL" value="60"/>
-			<column name="PARM_DESC_TXT" value="The number of days to add to current date to derive the AR receivable due date when an Invoice is created."/>
-			<column name="EVAL_OPRTR_CD" value="A"/>
-			<column name="APPL_ID" value="KFS"/>
-		</insert>
-		<insert tableName="KRCR_PARM_T">
-			<column name="NMSPC_CD" value="KFS-TEM"/>
-			<column name="CMPNT_CD" value="TravelAuthorization"/>
 			<column name="PARM_NM" value="FINAL_NOTIFICATION_SUBJECT"/>
+			<column name="OBJ_ID" value="KFS-TEM-PARM-033"/>
 			<column name="PARM_TYP_CD" value="CONFG"/>
 			<column name="VAL" value="Travel Authorization Final"/>
 			<column name="PARM_DESC_TXT" value="The email notification subject when a Travel Authorization (TA) document status final"/>
@@ -870,11 +382,78 @@
 		</insert>
 		<insert tableName="KRCR_PARM_T">
 			<column name="NMSPC_CD" value="KFS-TEM"/>
-			<column name="CMPNT_CD" value="TravelAuthorization"/>
-			<column name="PARM_NM" value="FIRST_AND_LAST_DAY_PER_DIEM_PERCENTAGE"/>
+			<column name="CMPNT_CD" value="Document"/>
+			<column name="PARM_NM" value="CHANGE_NOTIFICATION_SUBJECT"/>
+			<column name="OBJ_ID" value="KFS-TEM-PARM-034"/>
 			<column name="PARM_TYP_CD" value="CONFG"/>
-			<column name="VAL" value="75"/>
-			<column name="PARM_DESC_TXT" value="Percentage of Per Diem allowed on the first and last day of travel."/>
+			<column name="VAL" value="Expense Report Status Change"/>
+			<column name="PARM_DESC_TXT" value="The email notification subject when Travel Entertainment (TR), Entertainment (ENT), Relocation (RELO) documents statuses have changed."/>
+			<column name="EVAL_OPRTR_CD" value="A"/>
+			<column name="APPL_ID" value="KFS"/>
+		</insert>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-TEM"/>
+			<column name="CMPNT_CD" value="Document"/>
+			<column name="PARM_NM" value="FINAL_NOTIFICATION_SUBJECT"/>
+			<column name="OBJ_ID" value="KFS-TEM-PARM-035"/>
+			<column name="PARM_TYP_CD" value="CONFG"/>
+			<column name="VAL" value="Expense Report Final"/>
+			<column name="PARM_DESC_TXT" value="The email notification subject when Travel Entertainment (TR), Entertainment (ENT), Relocation (RELO) document statuses are final"/>
+			<column name="EVAL_OPRTR_CD" value="A"/>
+			<column name="APPL_ID" value="KFS"/>
+		</insert>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-TEM"/>
+			<column name="CMPNT_CD" value="Document"/>
+			<column name="PARM_NM" value="SEND_NOTIFICATION_DOCUMENT_TYPES"/>
+			<column name="OBJ_ID" value="KFS-TEM-PARM-036"/>
+			<column name="PARM_TYP_CD" value="CONFG"/>
+			<column name="VAL" value="TR;ENT;RELO"/>
+			<column name="PARM_DESC_TXT" value="the  non-travel authorization document type codes qualified for on change notification."/>
+			<column name="EVAL_OPRTR_CD" value="A"/>
+			<column name="APPL_ID" value="KFS"/>
+		</insert>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-TEM"/>
+			<column name="CMPNT_CD" value="Document"/>
+			<column name="PARM_NM" value="UPLOAD_PARSER_INSTRUCTIONS_URL"/>
+			<column name="OBJ_ID" value="KFS-TEM-PARM-037"/>
+			<column name="PARM_TYP_CD" value="CONFG"/>
+			<column name="VAL" value="default.htm?turl=WordDocuments%2Fdataimporttemplates.htm"/>
+			<column name="PARM_DESC_TXT" value="Travel import instructions URL."/>
+			<column name="EVAL_OPRTR_CD" value="A"/>
+			<column name="APPL_ID" value="KFS"/>
+		</insert>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-TEM"/>
+			<column name="CMPNT_CD" value="Document"/>
+			<column name="PARM_NM" value="VENDOR_PAYMENT_REASON_CODE"/>
+			<column name="OBJ_ID" value="KFS-TEM-PARM-038"/>
+			<column name="PARM_TYP_CD" value="CONFG"/>
+			<column name="VAL" value="V"/>
+			<column name="PARM_DESC_TXT" value="Payment Reason Code used to populate the Disbursement Voucher when making travel vendor payments."/>
+			<column name="EVAL_OPRTR_CD" value="A"/>
+			<column name="APPL_ID" value="KFS"/>
+		</insert>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-TEM"/>
+			<column name="CMPNT_CD" value="TravelAuthorization"/>
+			<column name="PARM_NM" value="OVERRIDE_PRIMARY_DESTINATION_IND"/>
+			<column name="OBJ_ID" value="KFS-TEM-PARM-039"/>
+			<column name="PARM_TYP_CD" value="CONFG"/>
+			<column name="VAL" value="Y"/>
+			<column name="PARM_DESC_TXT" value="When this parameter value is &quot;Y&quot;, the user may override the primary destination returned from the table, or, enter the value as a free form text."/>
+			<column name="EVAL_OPRTR_CD" value="A"/>
+			<column name="APPL_ID" value="KFS"/>
+		</insert>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-TEM"/>
+			<column name="CMPNT_CD" value="TravelAuthorization"/>
+			<column name="PARM_NM" value="CASH_ADVANCE_CREDIT_CARD_TYPES"/>
+			<column name="OBJ_ID" value="KFS-TEM-PARM-040"/>
+			<column name="PARM_TYP_CD" value="CONFG"/>
+			<column name="VAL" value="VISA;AMEX;MC"/>
+			<column name="PARM_DESC_TXT" value="Card types that are allowed for advances."/>
 			<column name="EVAL_OPRTR_CD" value="A"/>
 			<column name="APPL_ID" value="KFS"/>
 		</insert>
@@ -882,6 +461,7 @@
 			<column name="NMSPC_CD" value="KFS-TEM"/>
 			<column name="CMPNT_CD" value="TravelAuthorization"/>
 			<column name="PARM_NM" value="GENERATE_INVOICE_INV_FOR_TRAVL_ADVANCE_IND"/>
+			<column name="OBJ_ID" value="KFS-TEM-PARM-042"/>
 			<column name="PARM_TYP_CD" value="CONFG"/>
 			<column name="VAL" value="Y"/>
 			<column name="PARM_DESC_TXT" value="When this parameter value is &quot;Y&quot;, the TA document creates INV documents to establish receivables and customers are created."/>
@@ -891,7 +471,74 @@
 		<insert tableName="KRCR_PARM_T">
 			<column name="NMSPC_CD" value="KFS-TEM"/>
 			<column name="CMPNT_CD" value="TravelAuthorization"/>
+			<column name="PARM_NM" value="CASH_ADVANCE_WARNING_IND"/>
+			<column name="OBJ_ID" value="KFS-TEM-PARM-043"/>
+			<column name="PARM_TYP_CD" value="CONFG"/>
+			<column name="VAL" value="Y"/>
+			<column name="PARM_DESC_TXT" value="Determines whether to show a warning on cash advances."/>
+			<column name="EVAL_OPRTR_CD" value="A"/>
+			<column name="APPL_ID" value="KFS"/>
+		</insert>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-TEM"/>
+			<column name="CMPNT_CD" value="TravelAuthorization"/>
+			<column name="PARM_NM" value="DISPLAY_EMERGENCY_CONTACT_IND"/>
+			<column name="OBJ_ID" value="KFS-TEM-PARM-044"/>
+			<column name="PARM_TYP_CD" value="CONFG"/>
+			<column name="VAL" value="Y"/>
+			<column name="PARM_DESC_TXT" value="Indicates whether or not emergency contact information should be displayed on the Travel Authorization."/>
+			<column name="EVAL_OPRTR_CD" value="A"/>
+			<column name="APPL_ID" value="KFS"/>
+		</insert>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-TEM"/>
+			<column name="CMPNT_CD" value="TravelAuthorization"/>
+			<column name="PARM_NM" value="DISPLAY_PER_DIEM_URL_IND"/>
+			<column name="OBJ_ID" value="KFS-TEM-PARM-046"/>
+			<column name="PARM_TYP_CD" value="CONFG"/>
+			<column name="VAL" value="Y"/>
+			<column name="PARM_DESC_TXT" value="When this parameter value is &quot;Y&quot;, per diem sites from the DV Per Diem Table will be displayed when entering the primary destination."/>
+			<column name="EVAL_OPRTR_CD" value="A"/>
+			<column name="APPL_ID" value="KFS"/>
+		</insert>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-TEM"/>
+			<column name="CMPNT_CD" value="TravelAuthorization"/>
+			<column name="PARM_NM" value="PER_DIEM_AMOUNT_EDITABLE_IND"/>
+			<column name="OBJ_ID" value="KFS-TEM-PARM-047"/>
+			<column name="PARM_TYP_CD" value="CONFG"/>
+			<column name="VAL" value="Y"/>
+			<column name="PARM_DESC_TXT" value="When this parameter value is &quot;Y&quot;, the per diem amount field is editable and the initiator may lower the per diem amount.  Otherwise, per diems will not be editable and will be display as one amount in Meals And Incidentals."/>
+			<column name="EVAL_OPRTR_CD" value="A"/>
+			<column name="APPL_ID" value="KFS"/>
+		</insert>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-TEM"/>
+			<column name="CMPNT_CD" value="TravelAuthorization"/>
+			<column name="PARM_NM" value="VENDOR_PAYMENT_ALLOWED_BEFORE_FINAL_APPROVAL_IND"/>
+			<column name="OBJ_ID" value="KFS-TEM-PARM-049"/>
+			<column name="PARM_TYP_CD" value="CONFG"/>
+			<column name="VAL" value="N"/>
+			<column name="PARM_DESC_TXT" value="When this parameter value is &quot;Y&quot;, the Pre-Trip Payments and Requisitions links become available in the TA custom search prior to TA approval."/>
+			<column name="EVAL_OPRTR_CD" value="A"/>
+			<column name="APPL_ID" value="KFS"/>
+		</insert>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-TEM"/>
+			<column name="CMPNT_CD" value="TravelAuthorization"/>
+			<column name="PARM_NM" value="FIRST_AND_LAST_DAY_PER_DIEM_PERCENTAGE"/>
+			<column name="OBJ_ID" value="KFS-TEM-PARM-050"/>
+			<column name="PARM_TYP_CD" value="CONFG"/>
+			<column name="VAL" value="75"/>
+			<column name="PARM_DESC_TXT" value="Percentage of Per Diem allowed on the first and last day of travel."/>
+			<column name="EVAL_OPRTR_CD" value="A"/>
+			<column name="APPL_ID" value="KFS"/>
+		</insert>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-TEM"/>
+			<column name="CMPNT_CD" value="TravelAuthorization"/>
 			<column name="PARM_NM" value="HOLD_NEW_FISCAL_YEAR_ENCUMBRANCES_IND"/>
+			<column name="OBJ_ID" value="KFS-TEM-PARM-051"/>
 			<column name="PARM_TYP_CD" value="CONFG"/>
 			<column name="VAL" value="Y"/>
 			<column name="PARM_DESC_TXT" value="When this parameter value is &quot;Y&quot;, the new fiscal year encumbrances will be held and will be posted by the year-end encumbrance forwards job."/>
@@ -902,6 +549,7 @@
 			<column name="NMSPC_CD" value="KFS-TEM"/>
 			<column name="CMPNT_CD" value="TravelAuthorization"/>
 			<column name="PARM_NM" value="MULTIPLE_CASH_ADVANCES_ALLOWED_IND"/>
+			<column name="OBJ_ID" value="KFS-TEM-PARM-052"/>
 			<column name="PARM_TYP_CD" value="CONFG"/>
 			<column name="VAL" value="Y"/>
 			<column name="PARM_DESC_TXT" value="When this parameter value is &quot;Y&quot;, multiple cash advances will be allowed for Travel Authorization Amendment (TAA) documents."/>
@@ -911,30 +559,22 @@
 		<insert tableName="KRCR_PARM_T">
 			<column name="NMSPC_CD" value="KFS-TEM"/>
 			<column name="CMPNT_CD" value="TravelAuthorization"/>
-			<column name="PARM_NM" value="OVERRIDE_PRIMARY_DESTINATION_IND"/>
+			<column name="PARM_NM" value="DUE_DATE_DAYS"/>
+			<column name="OBJ_ID" value="KFS-TEM-PARM-053"/>
 			<column name="PARM_TYP_CD" value="CONFG"/>
-			<column name="VAL" value="Y"/>
-			<column name="PARM_DESC_TXT" value="When this parameter value is &quot;Y&quot;, the user may override the primary destination returned from the table, or, enter the value as a free form text."/>
+			<column name="VAL" value="60"/>
+			<column name="PARM_DESC_TXT" value="The number of days to add to current date to derive the AR receivable due date when an Invoice is created."/>
 			<column name="EVAL_OPRTR_CD" value="A"/>
 			<column name="APPL_ID" value="KFS"/>
 		</insert>
 		<insert tableName="KRCR_PARM_T">
 			<column name="NMSPC_CD" value="KFS-TEM"/>
 			<column name="CMPNT_CD" value="TravelAuthorization"/>
-			<column name="PARM_NM" value="PER_DIEM_AMOUNT_EDITABLE_IND"/>
+			<column name="PARM_NM" value="CUSTOMER_TYPE_CODE"/>
+			<column name="OBJ_ID" value="KFS-TEM-PARM-054"/>
 			<column name="PARM_TYP_CD" value="CONFG"/>
-			<column name="VAL" value="Y"/>
-			<column name="PARM_DESC_TXT" value="When this parameter value is &quot;Y&quot;, the per diem amount field is editable and the initiator may lower the per diem amount.  Otherwise, per diems will not be editable and will be display as one amount in Meals And Incidentals."/>
-			<column name="EVAL_OPRTR_CD" value="A"/>
-			<column name="APPL_ID" value="KFS"/>
-		</insert>
-		<insert tableName="KRCR_PARM_T">
-			<column name="NMSPC_CD" value="KFS-TEM"/>
-			<column name="CMPNT_CD" value="TravelAuthorization"/>
-			<column name="PARM_NM" value="SEND_NOTIFICATION_DOCUMENT_TYPES"/>
-			<column name="PARM_TYP_CD" value="CONFG"/>
-			<column name="VAL" value="TA"/>
-			<column name="PARM_DESC_TXT" value="The Travel Authorization document type codes for which email notifications will be sent when the Travel Authorization changes route statuses."/>
+			<column name="VAL" value="11"/>
+			<column name="PARM_DESC_TXT" value="Customer Type Code used when creating a customer."/>
 			<column name="EVAL_OPRTR_CD" value="A"/>
 			<column name="APPL_ID" value="KFS"/>
 		</insert>
@@ -942,7 +582,9 @@
 			<column name="NMSPC_CD" value="KFS-TEM"/>
 			<column name="CMPNT_CD" value="TravelAuthorization"/>
 			<column name="PARM_NM" value="TRAVEL_ADVANCES_POLICY_URL"/>
+			<column name="OBJ_ID" value="KFS-TEM-PARM-055"/>
 			<column name="PARM_TYP_CD" value="CONFG"/>
+			<column name="VAL" value="http://localhost:8080"/>
 			<column name="PARM_DESC_TXT" value="Link to the travel advance policy"/>
 			<column name="EVAL_OPRTR_CD" value="A"/>
 			<column name="APPL_ID" value="KFS"/>
@@ -950,17 +592,8 @@
 		<insert tableName="KRCR_PARM_T">
 			<column name="NMSPC_CD" value="KFS-TEM"/>
 			<column name="CMPNT_CD" value="TravelAuthorization"/>
-			<column name="PARM_NM" value="TRAVEL_ADVANCE_ACCOUNT"/>
-			<column name="PARM_TYP_CD" value="CONFG"/>
-			<column name="VAL" value="9323001"/>
-			<column name="PARM_DESC_TXT" value="Account Number from which the travel advance payment should be paid."/>
-			<column name="EVAL_OPRTR_CD" value="A"/>
-			<column name="APPL_ID" value="KFS"/>
-		</insert>
-		<insert tableName="KRCR_PARM_T">
-			<column name="NMSPC_CD" value="KFS-TEM"/>
-			<column name="CMPNT_CD" value="TravelAuthorization"/>
 			<column name="PARM_NM" value="TRAVEL_ADVANCE_BILLING_CHART"/>
+			<column name="OBJ_ID" value="KFS-TEM-PARM-056"/>
 			<column name="PARM_TYP_CD" value="CONFG"/>
 			<column name="VAL" value="UA"/>
 			<column name="PARM_DESC_TXT" value="Billing Chart used when creating an invoice to record travel advances."/>
@@ -971,6 +604,7 @@
 			<column name="NMSPC_CD" value="KFS-TEM"/>
 			<column name="CMPNT_CD" value="TravelAuthorization"/>
 			<column name="PARM_NM" value="TRAVEL_ADVANCE_BILLING_ORGANIZATION"/>
+			<column name="OBJ_ID" value="KFS-TEM-PARM-057"/>
 			<column name="PARM_TYP_CD" value="CONFG"/>
 			<column name="VAL" value="VPIT"/>
 			<column name="PARM_DESC_TXT" value="Billing Organization used when creating an invoice to record travel advances."/>
@@ -980,17 +614,8 @@
 		<insert tableName="KRCR_PARM_T">
 			<column name="NMSPC_CD" value="KFS-TEM"/>
 			<column name="CMPNT_CD" value="TravelAuthorization"/>
-			<column name="PARM_NM" value="TRAVEL_ADVANCE_CHART"/>
-			<column name="PARM_TYP_CD" value="CONFG"/>
-			<column name="VAL" value="UA"/>
-			<column name="PARM_DESC_TXT" value="Chart of Account Code from which the travel advance payment should be paid."/>
-			<column name="EVAL_OPRTR_CD" value="A"/>
-			<column name="APPL_ID" value="KFS"/>
-		</insert>
-		<insert tableName="KRCR_PARM_T">
-			<column name="NMSPC_CD" value="KFS-TEM"/>
-			<column name="CMPNT_CD" value="TravelAuthorization"/>
 			<column name="PARM_NM" value="TRAVEL_ADVANCE_INVOICE_ITEM_CODE"/>
+			<column name="OBJ_ID" value="KFS-TEM-PARM-059"/>
 			<column name="PARM_TYP_CD" value="CONFG"/>
 			<column name="VAL" value="TRAVEL"/>
 			<column name="PARM_DESC_TXT" value="Invoice Item Code used when creating an invoice to record the travel advance."/>
@@ -1000,80 +625,33 @@
 		<insert tableName="KRCR_PARM_T">
 			<column name="NMSPC_CD" value="KFS-TEM"/>
 			<column name="CMPNT_CD" value="TravelAuthorization"/>
-			<column name="PARM_NM" value="TRAVEL_ADVANCE_OBJECT_CODE"/>
+			<column name="PARM_NM" value="TRAVEL_ADVANCE_ACCOUNT"/>
+			<column name="OBJ_ID" value="KFS-TEM-PARM-060"/>
 			<column name="PARM_TYP_CD" value="CONFG"/>
-			<column name="VAL" value="1960"/>
-			<column name="PARM_DESC_TXT" value="Object Code from which the travel advance payment should be paid."/>
+			<column name="VAL" value="9323001"/>
+			<column name="PARM_DESC_TXT" value="Account Number from which the travel advance payment should be paid."/>
 			<column name="EVAL_OPRTR_CD" value="A"/>
 			<column name="APPL_ID" value="KFS"/>
 		</insert>
 		<insert tableName="KRCR_PARM_T">
 			<column name="NMSPC_CD" value="KFS-TEM"/>
 			<column name="CMPNT_CD" value="TravelAuthorization"/>
-			<column name="PARM_NM" value="VENDOR_PAYMENT_ALLOWED_BEFORE_FINAL_APPROVAL_IND"/>
+			<column name="PARM_NM" value="TRAVEL_ADVANCE_CHART"/>
+			<column name="OBJ_ID" value="KFS-TEM-PARM-061"/>
 			<column name="PARM_TYP_CD" value="CONFG"/>
-			<column name="VAL" value="N"/>
-			<column name="PARM_DESC_TXT" value="When this parameter value is &quot;Y&quot;, the Pre-Trip Payments and Requisitions links become available in the TA custom search prior to TA approval."/>
+			<column name="VAL" value="UA"/>
+			<column name="PARM_DESC_TXT" value="Chart of Account Code from which the travel advance payment should be paid."/>
 			<column name="EVAL_OPRTR_CD" value="A"/>
 			<column name="APPL_ID" value="KFS"/>
 		</insert>
 		<insert tableName="KRCR_PARM_T">
 			<column name="NMSPC_CD" value="KFS-TEM"/>
-			<column name="CMPNT_CD" value="TravelEntertainment"/>
-			<column name="PARM_NM" value="DISPLAY_ACCOUNTING_DISTRIBUTION_TAB_IND"/>
+			<column name="CMPNT_CD" value="TravelAuthorization"/>
+			<column name="PARM_NM" value="TRAVEL_ADVANCE_OBJECT_CODE"/>
+			<column name="OBJ_ID" value="KFS-TEM-PARM-062"/>
 			<column name="PARM_TYP_CD" value="CONFG"/>
-			<column name="VAL" value="Y"/>
-			<column name="PARM_DESC_TXT" value="When this parameter value is &quot;Y&quot;, display the accounting distribution tab (summary of expense by object code). When the parameter is &quot;N&quot;, only the normal Accounting Lines are displayed."/>
-			<column name="EVAL_OPRTR_CD" value="A"/>
-			<column name="APPL_ID" value="KFS"/>
-		</insert>
-		<insert tableName="KRCR_PARM_T">
-			<column name="NMSPC_CD" value="KFS-TEM"/>
-			<column name="CMPNT_CD" value="TravelImportedExpenseNotificationStep"/>
-			<column name="PARM_NM" value="NOTIFICATION_SUBJECT"/>
-			<column name="PARM_TYP_CD" value="CONFG"/>
-			<column name="VAL" value="Newly Imported Expenses"/>
-			<column name="PARM_DESC_TXT" value="The email notification subject."/>
-			<column name="EVAL_OPRTR_CD" value="A"/>
-			<column name="APPL_ID" value="KFS"/>
-		</insert>
-		<insert tableName="KRCR_PARM_T">
-			<column name="NMSPC_CD" value="KFS-TEM"/>
-			<column name="CMPNT_CD" value="TravelImportedExpenseNotificationStep"/>
-			<column name="PARM_NM" value="NOTIFICATION_TEXT"/>
-			<column name="PARM_TYP_CD" value="CONFG"/>
-			<column name="VAL" value="You have newly imported expenses from corporate card, CTS, or pre-trip payments that need to be reconciled."/>
-			<column name="PARM_DESC_TXT" value="The text which should be sent to the travelers who have newly imported expenses."/>
-			<column name="EVAL_OPRTR_CD" value="A"/>
-			<column name="APPL_ID" value="KFS"/>
-		</insert>
-		<insert tableName="KRCR_PARM_T">
-			<column name="NMSPC_CD" value="KFS-TEM"/>
-			<column name="CMPNT_CD" value="TravelReimbursement"/>
-			<column name="PARM_NM" value="AUTOMATIC_APPROVALS_IND"/>
-			<column name="PARM_TYP_CD" value="CONFG"/>
-			<column name="VAL" value="Y"/>
-			<column name="PARM_DESC_TXT" value="When this parameter value is &quot;Y&quot;, the low risk travel reimbursements are approved with Fiscal Officer and Organization approvals."/>
-			<column name="EVAL_OPRTR_CD" value="A"/>
-			<column name="APPL_ID" value="KFS"/>
-		</insert>
-		<insert tableName="KRCR_PARM_T">
-			<column name="NMSPC_CD" value="KFS-TEM"/>
-			<column name="CMPNT_CD" value="TravelReimbursement"/>
-			<column name="PARM_NM" value="BARCODE_STYLE"/>
-			<column name="PARM_TYP_CD" value="CONFG"/>
-			<column name="VAL" value="39"/>
-			<column name="PARM_DESC_TXT" value="Specifies barcode style. Choices are 39 (Code39) and 128 (Code128)."/>
-			<column name="EVAL_OPRTR_CD" value="A"/>
-			<column name="APPL_ID" value="KFS"/>
-		</insert>
-		<insert tableName="KRCR_PARM_T">
-			<column name="NMSPC_CD" value="KFS-TEM"/>
-			<column name="CMPNT_CD" value="TravelReimbursement"/>
-			<column name="PARM_NM" value="DISPLAY_ACCOUNTING_DISTRIBUTION_TAB_IND"/>
-			<column name="PARM_TYP_CD" value="CONFG"/>
-			<column name="VAL" value="Y"/>
-			<column name="PARM_DESC_TXT" value="When this parameter is &quot;Y&quot;, display the accounting distribution tab (summary of expense by object code). When the parameter is &quot;N&quot;, only the normal Accounting Lines are displayed."/>
+			<column name="VAL" value="9056"/>
+			<column name="PARM_DESC_TXT" value="Object Code from which the travel advance payment should be paid."/>
 			<column name="EVAL_OPRTR_CD" value="A"/>
 			<column name="APPL_ID" value="KFS"/>
 		</insert>
@@ -1081,6 +659,7 @@
 			<column name="NMSPC_CD" value="KFS-TEM"/>
 			<column name="CMPNT_CD" value="TravelReimbursement"/>
 			<column name="PARM_NM" value="DISPLAY_ADVANCES_IN_REIMBURSEMENT_TOTAL_IND"/>
+			<column name="OBJ_ID" value="KFS-TEM-PARM-070"/>
 			<column name="PARM_TYP_CD" value="CONFG"/>
 			<column name="VAL" value="Y"/>
 			<column name="PARM_DESC_TXT" value="When this parameter is &quot;Y&quot;, display the &quot;Less Advances for this Trip&quot; in the Travel Expense Total section."/>
@@ -1091,6 +670,7 @@
 			<column name="NMSPC_CD" value="KFS-TEM"/>
 			<column name="CMPNT_CD" value="TravelReimbursement"/>
 			<column name="PARM_NM" value="DISPLAY_ENCUMBRANCE_IND"/>
+			<column name="OBJ_ID" value="KFS-TEM-PARM-071"/>
 			<column name="PARM_TYP_CD" value="CONFG"/>
 			<column name="VAL" value="Y"/>
 			<column name="PARM_DESC_TXT" value="When this parameter is &quot;Y&quot;, display the Encumbrance Total field."/>
@@ -1100,20 +680,44 @@
 		<insert tableName="KRCR_PARM_T">
 			<column name="NMSPC_CD" value="KFS-TEM"/>
 			<column name="CMPNT_CD" value="TravelReimbursement"/>
-			<column name="PARM_NM" value="DISPLAY_TRAVEL_AUTHORIZATION_ESTIMATE_IN_SUMMARY_REPORT_IND"/>
+			<column name="PARM_NM" value="DISPLAY_ACCOUNTING_DISTRIBUTION_TAB_IND"/>
+			<column name="OBJ_ID" value="KFS-TEM-PARM-072"/>
 			<column name="PARM_TYP_CD" value="CONFG"/>
-			<column name="VAL" value="N"/>
-			<column name="PARM_DESC_TXT" value="When this parameter value is &quot;Y&quot;, the Travel Authorization (TA) estimate amount will be displayed in the Travel Reimbursement (TR) Expense Summary Report for comparison purposes."/>
+			<column name="VAL" value="Y"/>
+			<column name="PARM_DESC_TXT" value="When this parameter is &quot;Y&quot;, display the accounting distribution tab (summary of expense by object code). When the parameter is &quot;N&quot;, only the normal Accounting Lines are displayed."/>
 			<column name="EVAL_OPRTR_CD" value="A"/>
 			<column name="APPL_ID" value="KFS"/>
 		</insert>
 		<insert tableName="KRCR_PARM_T">
 			<column name="NMSPC_CD" value="KFS-TEM"/>
 			<column name="CMPNT_CD" value="TravelReimbursement"/>
-			<column name="PARM_NM" value="FAX_NUMBER"/>
+			<column name="PARM_NM" value="AUTOMATIC_APPROVALS_IND"/>
+			<column name="OBJ_ID" value="KFS-TEM-PARM-074"/>
 			<column name="PARM_TYP_CD" value="CONFG"/>
-			<column name="VAL" value="(800) 555-1212"/>
-			<column name="PARM_DESC_TXT" value="The fax number printed on the Fax Coversheet and all of the barcode forms."/>
+			<column name="VAL" value="Y"/>
+			<column name="PARM_DESC_TXT" value="When this parameter value is &quot;Y&quot;, the low risk travel reimbursements are approved with Fiscal Officer and Organization approvals."/>
+			<column name="EVAL_OPRTR_CD" value="A"/>
+			<column name="APPL_ID" value="KFS"/>
+		</insert>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-TEM"/>
+			<column name="CMPNT_CD" value="TravelReimbursement"/>
+			<column name="PARM_NM" value="PER_DIEM_AMOUNT_EDITABLE_IND"/>
+			<column name="OBJ_ID" value="KFS-TEM-PARM-075"/>
+			<column name="PARM_TYP_CD" value="CONFG"/>
+			<column name="VAL" value="Y"/>
+			<column name="PARM_DESC_TXT" value="When this parameter value is &quot;Y&quot;, the per diem amount fields are editable and the initiator may lower the per diem amount.  Otherwise, per diems will be displayed as selectable checkboxes."/>
+			<column name="EVAL_OPRTR_CD" value="A"/>
+			<column name="APPL_ID" value="KFS"/>
+		</insert>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-TEM"/>
+			<column name="CMPNT_CD" value="TravelReimbursement"/>
+			<column name="PARM_NM" value="VENDOR_PAYMENT_ALLOWED_BEFORE_FINAL_APPROVAL_IND"/>
+			<column name="OBJ_ID" value="KFS-TEM-PARM-076"/>
+			<column name="PARM_TYP_CD" value="CONFG"/>
+			<column name="VAL" value="Y"/>
+			<column name="PARM_DESC_TXT" value="When this parameter value is &quot;Y&quot;, the Third Party Vendor payment button displays before the Travel Reimbursement is fully approved."/>
 			<column name="EVAL_OPRTR_CD" value="A"/>
 			<column name="APPL_ID" value="KFS"/>
 		</insert>
@@ -1121,6 +725,7 @@
 			<column name="NMSPC_CD" value="KFS-TEM"/>
 			<column name="CMPNT_CD" value="TravelReimbursement"/>
 			<column name="PARM_NM" value="LODGING_OBJECT_CODE"/>
+			<column name="OBJ_ID" value="KFS-TEM-PARM-079"/>
 			<column name="PARM_TYP_CD" value="CONFG"/>
 			<column name="VAL" value="EMP=IN=6100;EMP=OUT=6170;EMP=INT=6250;NON=IN=6140;NON=OUT=6150;NON=INT=6270"/>
 			<column name="PARM_DESC_TXT" value="The object code assigned to reimburse lodging.  In the format Traveler Type Code=Trip Type Code=Object Code (EMP=IN=6100)."/>
@@ -1131,6 +736,7 @@
 			<column name="NMSPC_CD" value="KFS-TEM"/>
 			<column name="CMPNT_CD" value="TravelReimbursement"/>
 			<column name="PARM_NM" value="LODGING_TYPE_CODES"/>
+			<column name="OBJ_ID" value="KFS-TEM-PARM-080"/>
 			<column name="PARM_TYP_CD" value="CONFG"/>
 			<column name="VAL" value="L"/>
 			<column name="PARM_DESC_TXT" value="Lodging Expense Type Codes, used in determining how to report lodging expenses when generating reports."/>
@@ -1140,27 +746,8 @@
 		<insert tableName="KRCR_PARM_T">
 			<column name="NMSPC_CD" value="KFS-TEM"/>
 			<column name="CMPNT_CD" value="TravelReimbursement"/>
-			<column name="PARM_NM" value="OBJECT_LEVELS"/>
-			<column name="PARM_TYP_CD" value="VALID"/>
-			<column name="VAL" value="TRAV"/>
-			<column name="PARM_DESC_TXT" value="When the DISPLAY_ACCOUNTING_DISTRIBUTION_TAB_IND parameter equals &quot;N&quot; then the object codes are validated against this list of valid object levels."/>
-			<column name="EVAL_OPRTR_CD" value="A"/>
-			<column name="APPL_ID" value="KFS"/>
-		</insert>
-		<insert tableName="KRCR_PARM_T">
-			<column name="NMSPC_CD" value="KFS-TEM"/>
-			<column name="CMPNT_CD" value="TravelReimbursement"/>
-			<column name="PARM_NM" value="PER_DIEM_AMOUNT_EDITABLE_IND"/>
-			<column name="PARM_TYP_CD" value="CONFG"/>
-			<column name="VAL" value="Y"/>
-			<column name="PARM_DESC_TXT" value="When this parameter value is &quot;Y&quot;, the per diem amount fields are editable and the initiator may lower the per diem amount.  Otherwise, per diems will be displayed as selectable checkboxes."/>
-			<column name="EVAL_OPRTR_CD" value="A"/>
-			<column name="APPL_ID" value="KFS"/>
-		</insert>
-		<insert tableName="KRCR_PARM_T">
-			<column name="NMSPC_CD" value="KFS-TEM"/>
-			<column name="CMPNT_CD" value="TravelReimbursement"/>
 			<column name="PARM_NM" value="PER_DIEM_OBJECT_CODE"/>
+			<column name="OBJ_ID" value="KFS-TEM-PARM-081"/>
 			<column name="PARM_TYP_CD" value="CONFG"/>
 			<column name="VAL" value="EMP=IN=6100;EMP=OUT=6170;EMP=INT=6250;NON=IN=6140;NON=OUT=6150;NON=INT=6270"/>
 			<column name="PARM_DESC_TXT" value="The object code assigned to reimburse per diem. In the format Traveler Type Code=Trip Type Code=Object Code (EMP=IN=6100)."/>
@@ -1170,17 +757,8 @@
 		<insert tableName="KRCR_PARM_T">
 			<column name="NMSPC_CD" value="KFS-TEM"/>
 			<column name="CMPNT_CD" value="TravelReimbursement"/>
-			<column name="PARM_NM" value="PRETRIP_REIMBURSEMENT_IND"/>
-			<column name="PARM_TYP_CD" value="CONFG"/>
-			<column name="VAL" value="Y"/>
-			<column name="PARM_DESC_TXT" value="When this parameter value is &quot;Y&quot;, the trip date validation is disabled."/>
-			<column name="EVAL_OPRTR_CD" value="A"/>
-			<column name="APPL_ID" value="KFS"/>
-		</insert>
-		<insert tableName="KRCR_PARM_T">
-			<column name="NMSPC_CD" value="KFS-TEM"/>
-			<column name="CMPNT_CD" value="TravelReimbursement"/>
 			<column name="PARM_NM" value="REIMBURSEMENT_PERCENT_OVER_ENCUMBRANCE_AMOUNT"/>
+			<column name="OBJ_ID" value="KFS-TEM-PARM-083"/>
 			<column name="PARM_TYP_CD" value="CONFG"/>
 			<column name="VAL" value="15"/>
 			<column name="PARM_DESC_TXT" value="The reimbursement percentage over encumbrance amount which triggers additional routing."/>
@@ -1190,7 +768,41 @@
 		<insert tableName="KRCR_PARM_T">
 			<column name="NMSPC_CD" value="KFS-TEM"/>
 			<column name="CMPNT_CD" value="TravelReimbursement"/>
+			<column name="PARM_NM" value="DISPLAY_TRAVEL_AUTHORIZATION_ESTIMATE_IN_SUMMARY_REPORT_IND"/>
+			<column name="OBJ_ID" value="KFS-TEM-PARM-084"/>
+			<column name="PARM_TYP_CD" value="CONFG"/>
+			<column name="VAL" value="N"/>
+			<column name="PARM_DESC_TXT" value="When this parameter value is &quot;Y&quot;, the Travel Authorization (TA) estimate amount will be displayed in the Travel Reimbursement (TR) Expense Summary Report for comparison purposes."/>
+			<column name="EVAL_OPRTR_CD" value="A"/>
+			<column name="APPL_ID" value="KFS"/>
+		</insert>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-TEM"/>
+			<column name="CMPNT_CD" value="TravelReimbursement"/>
+			<column name="PARM_NM" value="BARCODE_STYLE"/>
+			<column name="OBJ_ID" value="KFS-TEM-PARM-085"/>
+			<column name="PARM_TYP_CD" value="CONFG"/>
+			<column name="VAL" value="39"/>
+			<column name="PARM_DESC_TXT" value="Specifies barcode style. Choices are 39 (Code39) and 128 (Code128)."/>
+			<column name="EVAL_OPRTR_CD" value="A"/>
+			<column name="APPL_ID" value="KFS"/>
+		</insert>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-TEM"/>
+			<column name="CMPNT_CD" value="TravelReimbursement"/>
+			<column name="PARM_NM" value="FAX_NUMBER"/>
+			<column name="OBJ_ID" value="KFS-TEM-PARM-086"/>
+			<column name="PARM_TYP_CD" value="CONFG"/>
+			<column name="VAL" value="(800) 555-1212"/>
+			<column name="PARM_DESC_TXT" value="The fax number printed on the Fax Coversheet and all of the barcode forms."/>
+			<column name="EVAL_OPRTR_CD" value="A"/>
+			<column name="APPL_ID" value="KFS"/>
+		</insert>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-TEM"/>
+			<column name="CMPNT_CD" value="TravelReimbursement"/>
 			<column name="PARM_NM" value="TRANSPORTATION_TYPE_CODES"/>
+			<column name="OBJ_ID" value="KFS-TEM-PARM-087"/>
 			<column name="PARM_TYP_CD" value="CONFG"/>
 			<column name="VAL" value="A;R;T"/>
 			<column name="PARM_DESC_TXT" value="Expense Type Codes used for Transportation. This is used when generating reports to determine how to report transporation expenses."/>
@@ -1200,50 +812,11 @@
 		<insert tableName="KRCR_PARM_T">
 			<column name="NMSPC_CD" value="KFS-TEM"/>
 			<column name="CMPNT_CD" value="TravelReimbursement"/>
-			<column name="PARM_NM" value="TRAVEL_AUTHORIZATION_REQUIRED_IND"/>
-			<column name="PARM_TYP_CD" value="CONFG"/>
-			<column name="VAL" value="Y"/>
-			<column name="PARM_DESC_TXT" value="When this parameter value is &quot;N&quot;, the Travel Reimbursement (TR) document can be initiated without TA and the Travel Number will be generated by the TR document"/>
-			<column name="EVAL_OPRTR_CD" value="A"/>
-			<column name="APPL_ID" value="KFS"/>
-		</insert>
-		<insert tableName="KRCR_PARM_T">
-			<column name="NMSPC_CD" value="KFS-TEM"/>
-			<column name="CMPNT_CD" value="TravelReimbursement"/>
-			<column name="PARM_NM" value="TRAVEL_REIMBURSEMENTS_CLEARING_ACCOUNT"/>
-			<column name="PARM_TYP_CD" value="CONFG"/>
-			<column name="VAL" value="9323001"/>
-			<column name="PARM_DESC_TXT" value="Account Number from which the Disbursement Voucher reimbursements will be paid."/>
-			<column name="EVAL_OPRTR_CD" value="A"/>
-			<column name="APPL_ID" value="KFS"/>
-		</insert>
-		<insert tableName="KRCR_PARM_T">
-			<column name="NMSPC_CD" value="KFS-TEM"/>
-			<column name="CMPNT_CD" value="TravelReimbursement"/>
-			<column name="PARM_NM" value="TRAVEL_REIMBURSEMENTS_CLEARING_CHART"/>
-			<column name="PARM_TYP_CD" value="CONFG"/>
-			<column name="VAL" value="UA"/>
-			<column name="PARM_DESC_TXT" value="Chart of Account Code from which the Disbursement Voucher reimbursements will be paid."/>
-			<column name="EVAL_OPRTR_CD" value="A"/>
-			<column name="APPL_ID" value="KFS"/>
-		</insert>
-		<insert tableName="KRCR_PARM_T">
-			<column name="NMSPC_CD" value="KFS-TEM"/>
-			<column name="CMPNT_CD" value="TravelReimbursement"/>
-			<column name="PARM_NM" value="TRAVEL_REIMBURSEMENTS_CLEARING_OBJECT_CODE"/>
-			<column name="PARM_TYP_CD" value="CONFG"/>
-			<column name="VAL" value="6000"/>
-			<column name="PARM_DESC_TXT" value="Object Code from which the Disbursement Voucher reimbursements will be paid."/>
-			<column name="EVAL_OPRTR_CD" value="A"/>
-			<column name="APPL_ID" value="KFS"/>
-		</insert>
-		<insert tableName="KRCR_PARM_T">
-			<column name="NMSPC_CD" value="KFS-TEM"/>
-			<column name="CMPNT_CD" value="TravelReimbursement"/>
-			<column name="PARM_NM" value="VENDOR_PAYMENT_ALLOWED_BEFORE_FINAL_APPROVAL_IND"/>
-			<column name="PARM_TYP_CD" value="CONFG"/>
-			<column name="VAL" value="Y"/>
-			<column name="PARM_DESC_TXT" value="When this parameter value is &quot;Y&quot;, the Third Party Vendor payment button displays before the Travel Reimbursement is fully approved."/>
+			<column name="PARM_NM" value="OBJECT_LEVELS"/>
+			<column name="OBJ_ID" value="KFS-TEM-PARM-091"/>
+			<column name="PARM_TYP_CD" value="VALID"/>
+			<column name="VAL" value="TRAV"/>
+			<column name="PARM_DESC_TXT" value="When the DISPLAY_ACCOUNTING_DISTRIBUTION_TAB_IND parameter equals &quot;N&quot; then the object codes are validated against this list of valid object levels."/>
 			<column name="EVAL_OPRTR_CD" value="A"/>
 			<column name="APPL_ID" value="KFS"/>
 		</insert>
@@ -1251,12 +824,570 @@
 			<column name="NMSPC_CD" value="KFS-TEM"/>
 			<column name="CMPNT_CD" value="TravelRelocation"/>
 			<column name="PARM_NM" value="DISPLAY_ACCOUNTING_DISTRIBUTION_TAB_IND"/>
+			<column name="OBJ_ID" value="KFS-TEM-PARM-093"/>
 			<column name="PARM_TYP_CD" value="CONFG"/>
 			<column name="VAL" value="Y"/>
 			<column name="PARM_DESC_TXT" value="When this parameter value is &quot;Y&quot;, display the accounting distribution tab (summary of expense by object code). When the parameter is &quot;N&quot;, only the normal Accounting Lines are displayed."/>
 			<column name="EVAL_OPRTR_CD" value="A"/>
 			<column name="APPL_ID" value="KFS"/>
 		</insert>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-TEM"/>
+			<column name="CMPNT_CD" value="TravelEntertainment"/>
+			<column name="PARM_NM" value="DISPLAY_ACCOUNTING_DISTRIBUTION_TAB_IND"/>
+			<column name="OBJ_ID" value="KFS-TEM-PARM-098"/>
+			<column name="PARM_TYP_CD" value="CONFG"/>
+			<column name="VAL" value="Y"/>
+			<column name="PARM_DESC_TXT" value="When this parameter value is &quot;Y&quot;, display the accounting distribution tab (summary of expense by object code). When the parameter is &quot;N&quot;, only the normal Accounting Lines are displayed."/>
+			<column name="EVAL_OPRTR_CD" value="A"/>
+			<column name="APPL_ID" value="KFS"/>
+		</insert>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-TEM"/>
+			<column name="CMPNT_CD" value="TEMProfile"/>
+			<column name="PARM_NM" value="VALID_TRAVELER_TYPE_BY_CUSTOMER_TYPE"/>
+			<column name="OBJ_ID" value="KFS-TEM-PARM-102"/>
+			<column name="PARM_TYP_CD" value="CONFG"/>
+			<column name="VAL" value="11=NON"/>
+			<column name="PARM_DESC_TXT" value="Mapping between the AR Customer Type and the TEM Traveler Type. The format is AR Customer Type=Traveler Type."/>
+			<column name="EVAL_OPRTR_CD" value="A"/>
+			<column name="APPL_ID" value="KFS"/>
+		</insert>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-TEM"/>
+			<column name="CMPNT_CD" value="TEMProfile"/>
+			<column name="PARM_NM" value="VALID_KIM_TYPE_AFFILIATION_BY_TRAVER_TYPE"/>
+			<column name="OBJ_ID" value="KFS-TEM-PARM-103"/>
+			<column name="PARM_TYP_CD" value="CONFG"/>
+			<column name="VAL" value="STAFF=EMP;STDNT=NON;FCLTY=EMP;AFLT=NON"/>
+			<column name="PARM_DESC_TXT" value="Mapping between the KIM Affiliation Type and the TEM Traveler Type. The format is KIM Affiliation Type=Traveler Type."/>
+			<column name="EVAL_OPRTR_CD" value="A"/>
+			<column name="APPL_ID" value="KFS"/>
+		</insert>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-TEM"/>
+			<column name="CMPNT_CD" value="PerDiemLoadStep"/>
+			<column name="PARM_NM" value="CONUS_MEAL_BREAKDOWN"/>
+			<column name="OBJ_ID" value="KFS-TEM-PARM-104"/>
+			<column name="PARM_TYP_CD" value="CONFG"/>
+			<column name="VAL" value="B=15;L=25;D=40"/>
+			<column name="PARM_DESC_TXT" value="Breaks down the MIE total into breakfast, lunch, and dinner in the event that the matching MEI total is not found in the CONUS MEAL_BREAKDOWN table."/>
+			<column name="EVAL_OPRTR_CD" value="A"/>
+			<column name="APPL_ID" value="KFS"/>
+		</insert>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-TEM"/>
+			<column name="CMPNT_CD" value="PerDiemLoadStep"/>
+			<column name="PARM_NM" value="INSTITUTION_STATE"/>
+			<column name="OBJ_ID" value="KFS-TEM-PARM-105"/>
+			<column name="PARM_TYP_CD" value="CONFG"/>
+			<column name="VAL" value="IN"/>
+			<column name="PARM_DESC_TXT" value="This parameter populates the specified state with IN in the Per Diem table."/>
+			<column name="EVAL_OPRTR_CD" value="A"/>
+			<column name="APPL_ID" value="KFS"/>
+		</insert>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-TEM"/>
+			<column name="CMPNT_CD" value="PerDiemLoadStep"/>
+			<column name="PARM_NM" value="INTERNATIONAL_TRIP_TYPE_CODE"/>
+			<column name="OBJ_ID" value="KFS-TEM-PARM-106"/>
+			<column name="PARM_TYP_CD" value="CONFG"/>
+			<column name="VAL" value="INT"/>
+			<column name="PARM_DESC_TXT" value="The trip type code for international travel."/>
+			<column name="EVAL_OPRTR_CD" value="A"/>
+			<column name="APPL_ID" value="KFS"/>
+		</insert>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-TEM"/>
+			<column name="CMPNT_CD" value="PerDiemLoadStep"/>
+			<column name="PARM_NM" value="IN_STATE_TRIP_TYPE_CODE"/>
+			<column name="OBJ_ID" value="KFS-TEM-PARM-107"/>
+			<column name="PARM_TYP_CD" value="CONFG"/>
+			<column name="VAL" value="IN"/>
+			<column name="PARM_DESC_TXT" value="The trip type code for in-state travel."/>
+			<column name="EVAL_OPRTR_CD" value="A"/>
+			<column name="APPL_ID" value="KFS"/>
+		</insert>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-TEM"/>
+			<column name="CMPNT_CD" value="PerDiemLoadStep"/>
+			<column name="PARM_NM" value="OCONUS_MEAL_BREAKDOWN"/>
+			<column name="OBJ_ID" value="KFS-TEM-PARM-108"/>
+			<column name="PARM_TYP_CD" value="CONFG"/>
+			<column name="VAL" value="B=15;L=25;D=40"/>
+			<column name="PARM_DESC_TXT" value="Breaks down the local meals into breakfast, lunch dinner, and incidentals for Outside the Continental United States."/>
+			<column name="EVAL_OPRTR_CD" value="A"/>
+			<column name="APPL_ID" value="KFS"/>
+		</insert>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-TEM"/>
+			<column name="CMPNT_CD" value="PerDiemLoadStep"/>
+			<column name="PARM_NM" value="OUT_OF_STATE_TRIP_TYPE_CODE"/>
+			<column name="OBJ_ID" value="KFS-TEM-PARM-109"/>
+			<column name="PARM_TYP_CD" value="CONFG"/>
+			<column name="VAL" value="OUT"/>
+			<column name="PARM_DESC_TXT" value="The trip type code for out-state travel."/>
+			<column name="EVAL_OPRTR_CD" value="A"/>
+			<column name="APPL_ID" value="KFS"/>
+		</insert>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-TEM"/>
+			<column name="CMPNT_CD" value="PerDiemLoadStep"/>
+			<column name="PARM_NM" value="INACTIVATE_PREVIOUS_PER_DIEM_IND"/>
+			<column name="OBJ_ID" value="KFS-TEM-PARM-110"/>
+			<column name="PARM_TYP_CD" value="CONFG"/>
+			<column name="VAL" value="Y"/>
+			<column name="PARM_DESC_TXT" value="When this parameter value is &quot;Y&quot;, inactivate any previously loaded per diems when new values are loaded."/>
+			<column name="EVAL_OPRTR_CD" value="A"/>
+			<column name="APPL_ID" value="KFS"/>
+		</insert>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-TEM"/>
+			<column name="CMPNT_CD" value="PerDiemLoadStep"/>
+			<column name="PARM_NM" value="REJECT_FILE_IND"/>
+			<column name="OBJ_ID" value="KFS-TEM-PARM-111"/>
+			<column name="PARM_TYP_CD" value="CONFG"/>
+			<column name="VAL" value="Y"/>
+			<column name="PARM_DESC_TXT" value="When this parameter is &quot;Y&quot;, reject the entire per diem file if an error occurs."/>
+			<column name="EVAL_OPRTR_CD" value="A"/>
+			<column name="APPL_ID" value="KFS"/>
+		</insert>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-TEM"/>
+			<column name="CMPNT_CD" value="TemProfileExportStep"/>
+			<column name="PARM_NM" value="EXPORT_FILE_FORMAT"/>
+			<column name="OBJ_ID" value="KFS-TEM-PARM-112"/>
+			<column name="PARM_TYP_CD" value="CONFG"/>
+			<column name="VAL" value="csv"/>
+			<column name="PARM_DESC_TXT" value="The format of the profile data exported from TEM. The valid VALUES are csv or xml."/>
+			<column name="EVAL_OPRTR_CD" value="A"/>
+			<column name="APPL_ID" value="KFS"/>
+		</insert>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-TEM"/>
+			<column name="CMPNT_CD" value="AgencyDataImportStep"/>
+			<column name="PARM_NM" value="ACCOUNTING_LINE_VALIDATION"/>
+			<column name="OBJ_ID" value="KFS-TEM-PARM-113"/>
+			<column name="PARM_TYP_CD" value="CONFG"/>
+			<column name="VAL" value="Account;Sub-Account"/>
+			<column name="PARM_DESC_TXT" value="Defines the fields within the accounting line for matching between the TA encumbrance accounting line and downloaded agency data. List the accounting line elements that will be used for matching. Valid VALUES are: Account, Sub-Account, Object Code, Sub-Object Code."/>
+			<column name="EVAL_OPRTR_CD" value="A"/>
+			<column name="APPL_ID" value="KFS"/>
+		</insert>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-TEM"/>
+			<column name="CMPNT_CD" value="All"/>
+			<column name="PARM_NM" value="TRAVEL_CREDIT_CARD_CLEARING_ACCOUNT"/>
+			<column name="OBJ_ID" value="KFS-TEM-PARM-114"/>
+			<column name="PARM_TYP_CD" value="CONFG"/>
+			<column name="VAL" value="9323001"/>
+			<column name="PARM_DESC_TXT" value="AP clearing account where the Travel Credit Card payment will be made."/>
+			<column name="EVAL_OPRTR_CD" value="A"/>
+			<column name="APPL_ID" value="KFS"/>
+		</insert>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-TEM"/>
+			<column name="CMPNT_CD" value="All"/>
+			<column name="PARM_NM" value="TRAVEL_CREDIT_CARD_CLEARING_CHART"/>
+			<column name="OBJ_ID" value="KFS-TEM-PARM-115"/>
+			<column name="PARM_TYP_CD" value="CONFG"/>
+			<column name="VAL" value="UA"/>
+			<column name="PARM_DESC_TXT" value="AP clearing chart code where the Travel Credit Card payment will be made."/>
+			<column name="EVAL_OPRTR_CD" value="A"/>
+			<column name="APPL_ID" value="KFS"/>
+		</insert>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-TEM"/>
+			<column name="CMPNT_CD" value="All"/>
+			<column name="PARM_NM" value="TRAVEL_CREDIT_CARD_CLEARING_OBJECT_CODE"/>
+			<column name="OBJ_ID" value="KFS-TEM-PARM-116"/>
+			<column name="PARM_TYP_CD" value="CONFG"/>
+			<column name="VAL" value="6000"/>
+			<column name="PARM_DESC_TXT" value="AP clearing object code where the Travel Credit Card payment will be made."/>
+			<column name="EVAL_OPRTR_CD" value="A"/>
+			<column name="APPL_ID" value="KFS"/>
+		</insert>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-TEM"/>
+			<column name="CMPNT_CD" value="All"/>
+			<column name="PARM_NM" value="TRAVEL_CREDIT_CARD_AIRFARE_OBJECT_CODE"/>
+			<column name="OBJ_ID" value="KFS-TEM-PARM-118"/>
+			<column name="PARM_TYP_CD" value="CONFG"/>
+			<column name="VAL" value="6000"/>
+			<column name="PARM_DESC_TXT" value="Object Code to distribute airline charges from travel credit cards when the Trip ID is not known."/>
+			<column name="EVAL_OPRTR_CD" value="A"/>
+			<column name="APPL_ID" value="KFS"/>
+		</insert>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-TEM"/>
+			<column name="CMPNT_CD" value="All"/>
+			<column name="PARM_NM" value="TRAVEL_CREDIT_CARD_LODGING_OBJECT_CODE"/>
+			<column name="OBJ_ID" value="KFS-TEM-PARM-119"/>
+			<column name="PARM_TYP_CD" value="CONFG"/>
+			<column name="VAL" value="6100"/>
+			<column name="PARM_DESC_TXT" value="Object Code to distribute lodging from travel credit cards when the Trip ID is not known."/>
+			<column name="EVAL_OPRTR_CD" value="A"/>
+			<column name="APPL_ID" value="KFS"/>
+		</insert>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-TEM"/>
+			<column name="CMPNT_CD" value="All"/>
+			<column name="PARM_NM" value="TRAVEL_CREDIT_CARD_RENTAL_CAR_OBJECT_CODE"/>
+			<column name="OBJ_ID" value="KFS-TEM-PARM-120"/>
+			<column name="PARM_TYP_CD" value="CONFG"/>
+			<column name="VAL" value="6180"/>
+			<column name="PARM_DESC_TXT" value="Object Code to distribute rental car charges from travel credit cards when the Trip ID is not known."/>
+			<column name="EVAL_OPRTR_CD" value="A"/>
+			<column name="APPL_ID" value="KFS"/>
+		</insert>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-TEM"/>
+			<column name="CMPNT_CD" value="TaxableRamificationNotificationStep"/>
+			<column name="PARM_NM" value="SEND_FYI_TO_FISCAL_OFFICER_IND"/>
+			<column name="OBJ_ID" value="KFS-TEM-PARM-121"/>
+			<column name="PARM_TYP_CD" value="CONFG"/>
+			<column name="VAL" value="N"/>
+			<column name="PARM_DESC_TXT" value="When this parameter value is &quot;Y&quot;, the FYI for the Tax Ramification Notification document is sent to the fiscal officer."/>
+			<column name="EVAL_OPRTR_CD" value="A"/>
+			<column name="APPL_ID" value="KFS"/>
+		</insert>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-TEM"/>
+			<column name="CMPNT_CD" value="TaxableRamificationNotificationStep"/>
+			<column name="PARM_NM" value="NOTIFICATION_DAYS"/>
+			<column name="OBJ_ID" value="KFS-TEM-PARM-122"/>
+			<column name="PARM_TYP_CD" value="CONFG"/>
+			<column name="VAL" value="120"/>
+			<column name="PARM_DESC_TXT" value="The number of days after the cash advances are due to send the tax ramification notification to the travelers."/>
+			<column name="EVAL_OPRTR_CD" value="A"/>
+			<column name="APPL_ID" value="KFS"/>
+		</insert>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-TEM"/>
+			<column name="CMPNT_CD" value="TaxableRamificationNotificationStep"/>
+			<column name="PARM_NM" value="NOTIFICATION_SUBJECT"/>
+			<column name="OBJ_ID" value="KFS-TEM-PARM-123"/>
+			<column name="PARM_TYP_CD" value="CONFG"/>
+			<column name="VAL" value="Taxable Ramification Notice for"/>
+			<column name="PARM_DESC_TXT" value="The email notification subject."/>
+			<column name="EVAL_OPRTR_CD" value="A"/>
+			<column name="APPL_ID" value="KFS"/>
+		</insert>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-TEM"/>
+			<column name="CMPNT_CD" value="TaxableRamificationNotificationStep"/>
+			<column name="PARM_NM" value="NOTIFICATION_TEXT"/>
+			<column name="OBJ_ID" value="KFS-TEM-PARM-124"/>
+			<column name="PARM_TYP_CD" value="CONFG"/>
+			<column name="VAL" value="The following advance is now past due and you have exceeded the IRS time frame allowable to submit payment/receipts after travel.  Since your advance is more than overdue, you are in the process of being considered for payroll deduction.  IF YOU HAVE ALREADY SUBMITTED YOUR VOUCHER, PLEASE NOTIFY US.  If you traveled for Study Abroad, notify them regarding the status of your voucher. For all others, please confirm with your department's administrator that your voucher/payment was submitted to Voucher Processing.  If you feel we should have received your voucher/payment, please contact our office to confirm receipt.  PLEASE RESPOND VIA EMAIL. Your immediate attention to this matter is appreciated."/>
+			<column name="PARM_DESC_TXT" value="The text which should be sent to the travelers who have outstanding advances over a specified period."/>
+			<column name="EVAL_OPRTR_CD" value="A"/>
+			<column name="APPL_ID" value="KFS"/>
+		</insert>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-TEM"/>
+			<column name="CMPNT_CD" value="TaxableRamificationNotificationStep"/>
+			<column name="PARM_NM" value="FROM_EMAIL_ADDRESS"/>
+			<column name="OBJ_ID" value="KFS-TEM-PARM-125"/>
+			<column name="PARM_TYP_CD" value="CONFG"/>
+			<column name="VAL" value="quickstart@localhost"/>
+			<column name="PARM_DESC_TXT" value="The email address from which the notification is sent."/>
+			<column name="EVAL_OPRTR_CD" value="A"/>
+			<column name="APPL_ID" value="KFS"/>
+		</insert>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-TEM"/>
+			<column name="CMPNT_CD" value="TravelImportedExpenseNotificationStep"/>
+			<column name="PARM_NM" value="NOTIFICATION_SUBJECT"/>
+			<column name="OBJ_ID" value="KFS-TEM-PARM-126"/>
+			<column name="PARM_TYP_CD" value="CONFG"/>
+			<column name="VAL" value="Newly Imported Expenses"/>
+			<column name="PARM_DESC_TXT" value="The email notification subject."/>
+			<column name="EVAL_OPRTR_CD" value="A"/>
+			<column name="APPL_ID" value="KFS"/>
+		</insert>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-TEM"/>
+			<column name="CMPNT_CD" value="TravelImportedExpenseNotificationStep"/>
+			<column name="PARM_NM" value="NOTIFICATION_TEXT"/>
+			<column name="OBJ_ID" value="KFS-TEM-PARM-127"/>
+			<column name="PARM_TYP_CD" value="CONFG"/>
+			<column name="VAL" value="You have newly imported expenses from corporate card, CTS, or pre-trip payments that need to be reconciled."/>
+			<column name="PARM_DESC_TXT" value="The text which should be sent to the travelers who have newly imported expenses."/>
+			<column name="EVAL_OPRTR_CD" value="A"/>
+			<column name="APPL_ID" value="KFS"/>
+		</insert>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-TEM"/>
+			<column name="CMPNT_CD" value="All"/>
+			<column name="PARM_NM" value="FROM_EMAIL_ADDRESS"/>
+			<column name="OBJ_ID" value="KFS-TEM-PARM-128"/>
+			<column name="PARM_TYP_CD" value="CONFG"/>
+			<column name="VAL" value="quickstart@localhost"/>
+			<column name="PARM_DESC_TXT" value="The email address from which the notification is sent from."/>
+			<column name="EVAL_OPRTR_CD" value="A"/>
+			<column name="APPL_ID" value="KFS"/>
+		</insert>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-AR"/>
+			<column name="CMPNT_CD" value="CustomerAgingReportNotificationStep"/>
+			<column name="PARM_NM" value="NOTIFICATION_SELECTION"/>
+			<column name="OBJ_ID" value="KFS-TEM-PARM-130"/>
+			<column name="PARM_TYP_CD" value="CONFG"/>
+			<column name="VAL" value="CHART=BL;ORG=VPIT,PSY"/>
+			<column name="PARM_DESC_TXT" value="AR customer email notification selection criteria. Syntax is Selection Criteria=Value. Available selection criteria are: CHART, ORG and ACCOUNT."/>
+			<column name="EVAL_OPRTR_CD" value="A"/>
+			<column name="APPL_ID" value="KFS"/>
+		</insert>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-AR"/>
+			<column name="CMPNT_CD" value="CustomerAgingReportNotificationStep"/>
+			<column name="PARM_NM" value="NOTIFICATION_SELECTION_TYPE"/>
+			<column name="OBJ_ID" value="KFS-TEM-PARM-131"/>
+			<column name="PARM_TYP_CD" value="CONFG"/>
+			<column name="VAL" value="PROCESSING_ORG"/>
+			<column name="PARM_DESC_TXT" value="The notification selection option. Its valid value can be PROCESSING_ORG, BILLING_ORG or ACCOUNT."/>
+			<column name="EVAL_OPRTR_CD" value="A"/>
+			<column name="APPL_ID" value="KFS"/>
+		</insert>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-AR"/>
+			<column name="CMPNT_CD" value="CustomerAgingReportNotificationStep"/>
+			<column name="PARM_NM" value="NOTIFICATION_SUBJECT"/>
+			<column name="OBJ_ID" value="KFS-TEM-PARM-132"/>
+			<column name="PARM_TYP_CD" value="CONFG"/>
+			<column name="VAL" value="Customer Aging Report for"/>
+			<column name="PARM_DESC_TXT" value="The email notification subject."/>
+			<column name="EVAL_OPRTR_CD" value="A"/>
+			<column name="APPL_ID" value="KFS"/>
+		</insert>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-AR"/>
+			<column name="CMPNT_CD" value="CustomerAgingReportNotificationStep"/>
+			<column name="PARM_NM" value="NOTIFICATION_TEXT"/>
+			<column name="OBJ_ID" value="KFS-TEM-PARM-133"/>
+			<column name="PARM_TYP_CD" value="CONFG"/>
+			<column name="VAL" value="The following advance is now past due and you have exceeded the IRS time frame allowable to submit payment/receipts after travel.  Since your advance is more than overdue, you are in the process of being considered for payroll deduction.  IF YOU HAVE ALREADY SUBMITTED YOUR VOUCHER, PLEASE NOTIFY US.  If you traveled for Study Abroad, notify them regarding the status of your voucher. For all others, please confirm with your department's administrator that your voucher/payment was submitted to Voucher Processing.  If you feel we should have received your voucher/payment, please contact our office to confirm receipt.  PLEASE RESPOND VIA EMAIL. Your immediate attention to this matter is appreciated."/>
+			<column name="PARM_DESC_TXT" value="The email body."/>
+			<column name="EVAL_OPRTR_CD" value="A"/>
+			<column name="APPL_ID" value="KFS"/>
+		</insert>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-AR"/>
+			<column name="CMPNT_CD" value="CustomerAgingReportNotificationStep"/>
+			<column name="PARM_NM" value="FROM_EMAIL_ADDRESS"/>
+			<column name="OBJ_ID" value="KFS-TEM-PARM-134"/>
+			<column name="PARM_TYP_CD" value="CONFG"/>
+			<column name="VAL" value="quickstart@localhost"/>
+			<column name="PARM_DESC_TXT" value="The email address from which the notification is sent."/>
+			<column name="EVAL_OPRTR_CD" value="A"/>
+			<column name="APPL_ID" value="KFS"/>
+		</insert>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-AR"/>
+			<column name="CMPNT_CD" value="CustomerAgingReportNotificationStep"/>
+			<column name="PARM_NM" value="NOTIFICATION_DAYS"/>
+			<column name="OBJ_ID" value="KFS-TEM-PARM-135"/>
+			<column name="PARM_TYP_CD" value="CONFG"/>
+			<column name="VAL" value="30"/>
+			<column name="PARM_DESC_TXT" value="The timing of when the aging email notification should be sent. The value should 30, 60, 90 or AGE. When the AGE is entered, it assumes the value of the CUSTOMER_INVOICE_AGE parameter."/>
+			<column name="EVAL_OPRTR_CD" value="A"/>
+			<column name="APPL_ID" value="KFS"/>
+		</insert>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-FP"/>
+			<column name="CMPNT_CD" value="DisbursementVoucher"/>
+			<column name="PARM_NM" value="PAYEE_TYPE_NAME"/>
+			<column name="OBJ_ID" value="KFS-TEM-PARM-141"/>
+			<column name="PARM_TYP_CD" value="CONFG"/>
+			<column name="VAL" value="Customer"/>
+			<column name="PARM_DESC_TXT" value="Label used for payees with type code C within the Disbursement Voucher."/>
+			<column name="EVAL_OPRTR_CD" value="A"/>
+			<column name="APPL_ID" value="KFS"/>
+		</insert>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-TEM"/>
+			<column name="CMPNT_CD" value="TravelAuthorization"/>
+			<column name="PARM_NM" value="DISPLAY_ACCOUNTING_DISTRIBUTION_TAB_IND"/>
+			<column name="OBJ_ID" value="KFS-TEM-PARM-142"/>
+			<column name="PARM_TYP_CD" value="CONFG"/>
+			<column name="VAL" value="Y"/>
+			<column name="PARM_DESC_TXT" value="When this parameter value is &quot;Y&quot;, display the accounting distribution tab (summary of expense by object code). When the parameter is &quot;N&quot;, only the normal Accounting Lines are displayed."/>
+			<column name="EVAL_OPRTR_CD" value="A"/>
+			<column name="APPL_ID" value="KFS"/>
+		</insert>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-TEM"/>
+			<column name="CMPNT_CD" value="Document"/>
+			<column name="PARM_NM" value="VALIDATE_DAILY_PER_DIEM_AND_INCIDENTALS_IND"/>
+			<column name="OBJ_ID" value="KFS-TEM-PARM-143"/>
+			<column name="PARM_TYP_CD" value="CONFG"/>
+			<column name="VAL" value="Y"/>
+			<column name="PARM_DESC_TXT" value="When this parameter value is &quot;Y&quot;, validate per diem against daily total versus each individual meal and incidental."/>
+			<column name="EVAL_OPRTR_CD" value="A"/>
+			<column name="APPL_ID" value="KFS"/>
+		</insert>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-TEM"/>
+			<column name="CMPNT_CD" value="Document"/>
+			<column name="PARM_NM" value="INCLUDE_ARRANGER_EXPENSE_IN_IMPORTED_EXPENSE_IND"/>
+			<column name="OBJ_ID" value="KFS-TEM-PARM-144"/>
+			<column name="PARM_TYP_CD" value="CONFG"/>
+			<column name="VAL" value="Y"/>
+			<column name="PARM_DESC_TXT" value="Allow the user (arranger) to select their own imported expense for the traveler."/>
+			<column name="EVAL_OPRTR_CD" value="A"/>
+			<column name="APPL_ID" value="KFS"/>
+		</insert>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-TEM"/>
+			<column name="CMPNT_CD" value="TemCorporateCardApplication"/>
+			<column name="PARM_NM" value="GENERATE_CREDIT_CARD_NUMBER_IND"/>
+			<column name="OBJ_ID" value="KFS-TEM-PARM-145"/>
+			<column name="PARM_TYP_CD" value="CONFG"/>
+			<column name="VAL" value="Y"/>
+			<column name="PARM_DESC_TXT" value="When this parameter value is &quot;Y&quot;, a pseudo card number is generated."/>
+			<column name="EVAL_OPRTR_CD" value="A"/>
+			<column name="APPL_ID" value="KFS"/>
+		</insert>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-TEM"/>
+			<column name="CMPNT_CD" value="TemCorporateCardApplication"/>
+			<column name="PARM_NM" value="CORPORATE_CARD_CODE"/>
+			<column name="OBJ_ID" value="KFS-TEM-PARM-146"/>
+			<column name="PARM_TYP_CD" value="CONFG"/>
+			<column name="VAL" value="USBC"/>
+			<column name="PARM_DESC_TXT" value="Credit card code for corporate cards created from a Corporate Card Application (CCAP) document."/>
+			<column name="EVAL_OPRTR_CD" value="A"/>
+			<column name="APPL_ID" value="KFS"/>
+		</insert>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-TEM"/>
+			<column name="CMPNT_CD" value="TemCTSCardApplication"/>
+			<column name="PARM_NM" value="CENTRAL_TRAVEL_SYSTEM_CARD_CODE"/>
+			<column name="OBJ_ID" value="KFS-TEM-PARM-147"/>
+			<column name="PARM_TYP_CD" value="CONFG"/>
+			<column name="VAL" value="CTSC"/>
+			<column name="PARM_DESC_TXT" value="Code for CTS cards created from a CTS Card Application (CTAP) document."/>
+			<column name="EVAL_OPRTR_CD" value="A"/>
+			<column name="APPL_ID" value="KFS"/>
+		</insert>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-TEM"/>
+			<column name="CMPNT_CD" value="TravelAuthorization"/>
+			<column name="PARM_NM" value="DISPLAY_IMPORTED_EXPENSE_IND"/>
+			<column name="OBJ_ID" value="KFS-TEM-PARM-150"/>
+			<column name="PARM_TYP_CD" value="CONFG"/>
+			<column name="VAL" value="Y"/>
+			<column name="PARM_DESC_TXT" value="When this parameter value is &quot;Y&quot;, the Travel Authorization document will display the related sections for Import Expenses."/>
+			<column name="EVAL_OPRTR_CD" value="A"/>
+			<column name="APPL_ID" value="KFS"/>
+		</insert>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-TEM"/>
+			<column name="CMPNT_CD" value="TravelReimbursement"/>
+			<column name="PARM_NM" value="PRETRIP_REIMBURSEMENT_IND"/>
+			<column name="OBJ_ID" value="KFS-TEM-PARM-151"/>
+			<column name="PARM_TYP_CD" value="CONFG"/>
+			<column name="VAL" value="Y"/>
+			<column name="PARM_DESC_TXT" value="When this parameter value is &quot;Y&quot;, the trip date validation is disabled."/>
+			<column name="EVAL_OPRTR_CD" value="A"/>
+			<column name="APPL_ID" value="KFS"/>
+		</insert>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-TEM"/>
+			<column name="CMPNT_CD" value="Document"/>
+			<column name="PARM_NM" value="IMMEDIATE_EXTRACT_NOTIFICATION_FROM_EMAIL_ADDRESS"/>
+			<column name="OBJ_ID" value="KFS-TEM-PARM-152"/>
+			<column name="PARM_TYP_CD" value="CONFG"/>
+			<column name="VAL" value="knoreceipt-l@indiana.edu"/>
+			<column name="PARM_DESC_TXT" value="Email address which sends out the notification that a Travel or Entertainment document was prepared for immediate extraction."/>
+			<column name="EVAL_OPRTR_CD" value="A"/>
+			<column name="APPL_ID" value="KFS"/>
+		</insert>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-TEM"/>
+			<column name="CMPNT_CD" value="Document"/>
+			<column name="PARM_NM" value="IMMEDIATE_EXTRACT_NOTIFICATION_TO_EMAIL_ADDRESS"/>
+			<column name="OBJ_ID" value="KFS-TEM-PARM-153"/>
+			<column name="PARM_TYP_CD" value="CONFG"/>
+			<column name="VAL" value="knoreceipt-l@indiana.edu"/>
+			<column name="PARM_DESC_TXT" value="Email addresses which receive notification that a Travel or Entertainment document was prepared for immediate extraction."/>
+			<column name="EVAL_OPRTR_CD" value="A"/>
+			<column name="APPL_ID" value="KFS"/>
+		</insert>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-PDP"/>
+			<column name="CMPNT_CD" value="ProcessPdPCancelsAndPaidStep"/>
+			<column name="PARM_NM" value="PAYMENT_SOURCE_DOCUMENT_TYPES"/>
+			<column name="OBJ_ID" value="KFS-TEM-PARM-154"/>
+			<column name="PARM_TYP_CD" value="CONFG"/>
+			<column name="VAL" value="DVCA;TACA;TRCA;ENCA;RECA"/>
+			<column name="PARM_DESC_TXT" value="List of ledger-only document types representing check/ACH payments made by payment source documents, which PDP should pay and cancel."/>
+			<column name="EVAL_OPRTR_CD" value="A"/>
+			<column name="APPL_ID" value="KFS"/>
+		</insert>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-TEM"/>
+			<column name="CMPNT_CD" value="Document"/>
+			<column name="PARM_NM" value="INCLUDE_TRAVELER_TYPE_IN_TRIP_ID_IND"/>
+			<column name="OBJ_ID" value="KFS-TEM-PARM-155"/>
+			<column name="PARM_TYP_CD" value="CONFG"/>
+			<column name="VAL" value="N"/>
+			<column name="PARM_DESC_TXT" value="If true, the traveler type (&quot;EMP&quot; for Employee, &quot;NON&quot; for Non-Employee) will be included as part of generated trip ids."/>
+			<column name="EVAL_OPRTR_CD" value="A"/>
+			<column name="APPL_ID" value="KFS"/>
+		</insert>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-TEM"/>
+			<column name="CMPNT_CD" value="PerDiemLoadStep"/>
+			<column name="PARM_NM" value="BYPASS_STATE_OR_COUNTRY_CODES"/>
+			<column name="OBJ_ID" value="KFS-TEM-PARM-156"/>
+			<column name="PARM_TYP_CD" value="CONFG"/>
+			<column name="VAL" value="RC;RES"/>
+			<column name="PARM_DESC_TXT" value="List of per diem codes (state_alpha for CONUS records, country_code for OCONUS records) which will be skipped during the load process."/>
+			<column name="EVAL_OPRTR_CD" value="D"/>
+			<column name="APPL_ID" value="KFS"/>
+		</insert>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-TEM"/>
+			<column name="CMPNT_CD" value="Document"/>
+			<column name="PARM_NM" value="PRE_DISBURSEMENT_EXTRACT_ORGANIZATION"/>
+			<column name="OBJ_ID" value="KFS-TEM-PARM-157"/>
+			<column name="PARM_TYP_CD" value="CONFG"/>
+			<column name="VAL" value="KUAL"/>
+			<column name="PARM_DESC_TXT" value="Allowed organization code for loading Travel Document payments to process checks."/>
+			<column name="EVAL_OPRTR_CD" value="A"/>
+			<column name="APPL_ID" value="KFS"/>
+		</insert>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-TEM"/>
+			<column name="CMPNT_CD" value="Document"/>
+			<column name="PARM_NM" value="PRE_DISBURSEMENT_EXTRACT_SUB_UNIT"/>
+			<column name="OBJ_ID" value="KFS-TEM-PARM-158"/>
+			<column name="PARM_TYP_CD" value="CONFG"/>
+			<column name="VAL" value="TEM"/>
+			<column name="PARM_DESC_TXT" value="PDP sub-unit code for loading Travel Document payments."/>
+			<column name="EVAL_OPRTR_CD" value="A"/>
+			<column name="APPL_ID" value="KFS"/>
+		</insert>
+		
+		<update tableName="KRCR_PARM_T">
+			<column name="VAL" value="V=C,E;U=V;A=V;B=V,E;C=S,V,E,VSP;D=V;E=V;F=V,E;G=V;H=V;K=V,VRF;L=V;M=V,E;N=V;P=V,E;R=V;T=C,V;W=V;X=V;Z=E"/>
+			<where>nmspc_cd = 'KFS-FP' and cmpnt_cd = 'DisbursementVoucher' and parm_nm = 'VALID_PAYEE_TYPES_BY_PAYMENT_REASON' and appl_id = 'KFS'</where>
+		</update>
+		<update tableName="KRCR_PARM_T">
+			<column name="VAL" value="PO;POA;POC;POPH;PORH;POR;PORT;POSP;POV;TA;TAA;TAC"/>
+			<where>nmspc_cd = 'KFS-GL' and cmpnt_cd = 'PosterEntriesStep' and parm_nm = 'ENCUMBRANCE_OPEN_AMOUNT_OVERRIDING_DOCUMENT_TYPES' and appl_id = 'KFS'</where>
+		</update>
+		<update tableName="KRCR_PARM_T">
+			<column name="PARM_DESC_TXT" value="The value in this parameter will display on various AR and TEM reports."/>
+			<where>nmspc_cd = 'KFS-SYS' and cmpnt_cd = 'All' and parm_nm = 'INSTITUTION_NAME' and appl_id = 'KFS'</where>
+		</update>
+		<update tableName="KRCR_PARM_T">
+			<column name="VAL" value="50M"/>
+			<where>nmspc_cd = 'KR-NS' and cmpnt_cd = 'All' and parm_nm = 'MAX_FILE_SIZE_DEFAULT_UPLOAD' and appl_id = 'KUALI'</where>
+		</update>
+
 	</changeSet>
 	
 </databaseChangeLog>

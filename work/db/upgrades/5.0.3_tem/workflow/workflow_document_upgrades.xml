@@ -149,10 +149,15 @@
 			<parent>TTSM</parent>
 		</documentType>
 		<documentType>
-			<name>TTOC</name>
-			<label>Travel Expense Type Object Code</label>
-			<parent>TTSM</parent>
-		</documentType>
+      		<name>ETC</name>
+      		<label>Expense Type</label>
+      		<parent>TTSM</parent>
+    	</documentType>
+    	<documentType>
+      		<name>ETOC</name>
+      		<label>Expense Type Object Code</label>
+      		<parent>TTSM</parent>
+    	</documentType>
 		<documentType>
 			<name>TPUR</name>
 			<label>Purpose</label>

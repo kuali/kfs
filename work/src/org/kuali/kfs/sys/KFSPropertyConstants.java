@@ -966,6 +966,7 @@ public class KFSPropertyConstants {
     public static final String PERIOD = "period";
     public static final String PERIOD_LIST_SIZE = "periodListSize";
     public static final String PERIODS = "periods";
+    public static final String PERSON = "person";
     public static final String PERSON_ACTIVE_INDICATOR = "personActiveIndicator";
     public static final String PERSON_APPROVAL_CHART_OF_ACCT = "personApprovalChartOfAcct";
     public static final String PERSON_APPROVAL_CHART_OF_ACCT_CD = "personApprovalChartOfAcctCd";

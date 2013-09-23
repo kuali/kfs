@@ -22,7 +22,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.kuali.kfs.integration.ar.AccountsReceivableOrganizationOptions;
-import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.module.tem.businessobject.ActualExpense;
 import org.kuali.kfs.module.tem.businessobject.ExpenseTypeAware;
 import org.kuali.kfs.module.tem.businessobject.GroupTraveler;
@@ -246,8 +245,6 @@ public interface TravelDocumentService {
     public KualiDecimal getTotalAuthorizedEncumbrance(TravelDocument document);
 
     public boolean isResponsibleForAccountsOn(final TravelDocument document, String principalId);
-
-    public void populateRequisitionFields(RequisitionDocument reqsDoc,TravelDocument document);
 
     public boolean checkNonEmployeeTravelerTypeCode(String travelerTypeCode);
 

@@ -21,20 +21,10 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.module.tem.TemConstants;
-import org.kuali.kfs.module.tem.TemConstants.TravelDocTypes;
-import org.kuali.kfs.module.tem.businessobject.TEMProfile;
-import org.kuali.kfs.module.tem.document.TravelArrangerDocument;
-import org.kuali.kfs.module.tem.document.TravelDocument;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.core.api.membership.MemberType;
-import org.kuali.rice.kew.api.exception.WorkflowException;
-import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.role.RoleMembership;
-import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.kim.role.DerivedRoleTypeServiceBase;
-import org.kuali.rice.krad.document.Document;
-import org.kuali.rice.krad.service.DocumentService;
-import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * Check for Traveler Derived Role base on document traveler (for Travel Document) or proflie (Travel Arranger Document)
@@ -42,7 +32,6 @@ import org.kuali.rice.krad.util.ObjectUtils;
 @SuppressWarnings("deprecation")
 public class TravelerDerivedRoleTypeServiceImpl extends DerivedRoleTypeServiceBase {
 
-    private DocumentService documentService;
 
     /**
      * @see org.kuali.rice.kns.kim.type.DataDictionaryTypeServiceBase#getRequiredAttributes()
@@ -50,7 +39,7 @@ public class TravelerDerivedRoleTypeServiceImpl extends DerivedRoleTypeServiceBa
     @Override
     protected List<String> getRequiredAttributes() {
         final List<String> attrs = new ArrayList<String>(super.getRequiredAttributes());
-        attrs.add(KimConstants.AttributeConstants.DOCUMENT_NUMBER);
+        attrs.add(KFSPropertyConstants.PRINCIPAL_ID);
         return Collections.unmodifiableList(attrs);
     }
 
@@ -63,41 +52,12 @@ public class TravelerDerivedRoleTypeServiceImpl extends DerivedRoleTypeServiceBa
         final List<RoleMembership> members = new ArrayList<RoleMembership>(1);
         if (qualification!=null && !qualification.isEmpty()) {
 
-            final String documentNumber = qualification.get(KimConstants.AttributeConstants.DOCUMENT_NUMBER);
-            if ( StringUtils.isNotBlank( documentNumber ) ) {
-
-                try{
-                    Document document = documentService.getByDocumentHeaderIdSessionless(documentNumber);
-                    if (document != null){
-                        String memberId = "";
-                        if(TravelDocTypes.TRAVEL_ARRANGER_DOCUMENT.equals(document.getDocumentHeader().getWorkflowDocument().getDocumentTypeName())) {
-                            memberId = ((TravelArrangerDocument)document).getProfile().getPrincipalId();
-                        } else if (document instanceof TravelDocument && !ObjectUtils.isNull(((TravelDocument)document).getTraveler()) && !StringUtils.isBlank(((TravelDocument)document).getTraveler().getPrincipalId())) {
-                            memberId = ((TravelDocument)document).getTraveler().getPrincipalId();
-                        } else if (TravelDocTypes.TRAVEL_PROFILE_DOCUMENT.equals(document.getDocumentHeader().getWorkflowDocument().getDocumentTypeName())) {
-                            TEMProfile profile = (TEMProfile)((MaintenanceDocument)document).getNewMaintainableObject().getBusinessObject();
-                            if (profile.getTravelerTypeCode().equals(TemConstants.EMP_TRAVELER_TYP_CD)) {
-                                memberId = profile.getPrincipalId();
-                            }
-                        }
-                        if (!StringUtils.isBlank(memberId)) {
-                            members.add(RoleMembership.Builder.create("", "", memberId, MemberType.PRINCIPAL, null).build());
-                        }
-                    }
-                } catch (WorkflowException e) {
-                    throw new RuntimeException("Workflow problem while trying to get document using doc id '" + documentNumber + "'", e);
-                }
+            final String principalId = qualification.get(TemKimAttributes.PROFILE_PRINCIPAL_ID);
+            if ( StringUtils.isNotBlank( principalId ) ) {
+                members.add(RoleMembership.Builder.create("", "", principalId, MemberType.PRINCIPAL, null).build());
             }
         }
         return members;
     }
-
-    /**
-    *
-    * @param documentService
-    */
-   public void setDocumentService(DocumentService documentService) {
-       this.documentService = documentService;
-   }
 
 }

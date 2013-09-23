@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.module.tem.document.validation.impl;
 
-import static org.kuali.kfs.module.tem.TemPropertyConstants.TravelAgencyAuditReportFields.ACCOUNTING_INFO;
 import static org.kuali.kfs.module.tem.TemPropertyConstants.TravelAgencyAuditReportFields.TRAVELER_DATA;
 
 import org.kuali.kfs.module.tem.TemKeyConstants;
@@ -59,13 +58,6 @@ public class AgencyStagingDataValidationByTraveler implements AgencyStagingDataV
                 result &= false;
             }
 
-
-            if(ObjectUtils.isNull(data.getTripAccountingInformation()) || data.getTripAccountingInformation().isEmpty()  ) {
-                    putFieldError(ACCOUNTING_INFO, TemKeyConstants.MESSAGE_AGENCY_DATA_INVALID_ACCTG_INFO);
-                    result &= false;
-                }
-
-
         }
 
         return result;
@@ -88,12 +80,6 @@ public class AgencyStagingDataValidationByTraveler implements AgencyStagingDataV
                 putFieldError(TRAVELER_DATA, TemKeyConstants.MESSAGE_AGENCY_DATA_INVALID_TRAVELER);
                 result &= false;
             }
-
-
-            if(ObjectUtils.isNull(data.getTripAccountingInformation()) || data.getTripAccountingInformation().isEmpty()  ) {
-                    putFieldError(ACCOUNTING_INFO, TemKeyConstants.MESSAGE_AGENCY_DATA_INVALID_ACCTG_INFO);
-                    result &= false;
-                }
 
 
         }

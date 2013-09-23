@@ -444,6 +444,27 @@
     	</property>
 	</bean>
 	
+	<bean id="TravelReimbursable-RoutingType-Traveler" class="org.kuali.rice.krad.datadictionary.RoutingTypeDefinition">
+    	<property name="routingAttributes">
+    		<list>
+		        <bean class="org.kuali.rice.krad.datadictionary.RoutingAttribute">
+			    	<property name="qualificationAttributeName" value="profilePrincipalId"/>
+			    </bean>
+    		</list>
+    	</property>
+    	<property name="documentValuePathGroups">
+    		<list>
+    			<bean class="org.kuali.rice.krad.datadictionary.DocumentValuePathGroup">
+    				<property name="documentValues">
+    					<list>
+    						<value>traveler.principalId</value>
+    					</list>
+    				</property>
+			   	</bean>
+    		</list>
+    	</property>
+	</bean>
+	
 	<bean id="TravelAuthorization-RoutingType-Account" class="org.kuali.rice.krad.datadictionary.RoutingTypeDefinition">
     	<property name="routingAttributes">
     		<list>

@@ -23,7 +23,6 @@ import org.kuali.kfs.module.tem.businessobject.ActualExpense;
 import org.kuali.kfs.module.tem.businessobject.ExpenseTypeObjectCode;
 import org.kuali.kfs.module.tem.businessobject.PerDiemExpense;
 import org.kuali.kfs.module.tem.document.TravelDocument;
-import org.kuali.kfs.module.tem.document.validation.event.AddActualExpenseLineEvent;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.kfs.sys.util.KfsDateUtils;
@@ -32,6 +31,9 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 public class TravelDocumentActualExpenseLineValidation extends TEMDocumentExpenseLineValidation {
+    protected boolean warningOnly = true;
+    protected ActualExpense actualExpenseForValidation;
+
     /**
      *
      */
@@ -46,13 +48,11 @@ public class TravelDocumentActualExpenseLineValidation extends TEMDocumentExpens
     public boolean validate(AttributedDocumentEvent event) {
         boolean success = true;
 
-        final ActualExpense actualExpense = ((AddActualExpenseLineEvent<ActualExpense>) event).getExpenseLine();
-        TravelDocument document = (TravelDocument) ((AddActualExpenseLineEvent<ActualExpense>) event).getDocument();
+        TravelDocument document = (TravelDocument)event.getDocument();
 
-        success = getDictionaryValidationService().isBusinessObjectValid(actualExpense);
+        success = getDictionaryValidationService().isBusinessObjectValid(getActualExpenseForValidation());
         if (success) {
-            final boolean isWarning = true;
-            success = validateExpenses(actualExpense, document, isWarning);
+            success = validateExpenses(getActualExpenseForValidation(), document);
         }
         return success;
     }
@@ -64,15 +64,15 @@ public class TravelDocumentActualExpenseLineValidation extends TEMDocumentExpens
      * @param document
      * @return
      */
-    public boolean validateExpenses(ActualExpense expense, TravelDocument document, boolean isWarning) {
+    public boolean validateExpenses(ActualExpense expense, TravelDocument document) {
 
          boolean success = (validateGeneralRules(expense, document) &&
-                validateExpenseDetail(expense, isWarning) &&
+                validateExpenseDetail(expense, isWarningOnly()) &&
                 validateAirfareRules(expense, document) &&
                 validateRentalCarRules(expense, document) &&
                 validateLodgingRules(expense, document) &&
                 validateLodgingAllowanceRules(expense, document) &&
-                validatePerDiemRules(expense, document) &&
+                validatePerDiemRules(expense, document, isWarningOnly()) &&
                 validateMaximumAmountRules(expense, document));
 
         return success;
@@ -361,6 +361,22 @@ public class TravelDocumentActualExpenseLineValidation extends TEMDocumentExpens
             }
         }
         return totalExpenseAmount.add(ote.getExpenseAmount());
+    }
+
+    public boolean isWarningOnly() {
+        return warningOnly;
+    }
+
+    public void setWarningOnly(boolean warningOnly) {
+        this.warningOnly = warningOnly;
+    }
+
+    public ActualExpense getActualExpenseForValidation() {
+        return actualExpenseForValidation;
+    }
+
+    public void setActualExpenseForValidation(ActualExpense actualExpenseForValidation) {
+        this.actualExpenseForValidation = actualExpenseForValidation;
     }
 
 }

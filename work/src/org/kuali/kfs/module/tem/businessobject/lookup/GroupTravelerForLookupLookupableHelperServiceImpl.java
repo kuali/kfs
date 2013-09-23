@@ -65,15 +65,15 @@ public class GroupTravelerForLookupLookupableHelperServiceImpl extends KualiLook
      */
     public boolean checkMinimumFieldsFilled(Map fieldValues) {
         if(StringUtils.isBlank((String) fieldValues.get(KFSPropertyConstants.CUSTOMER_NUMBER)) && StringUtils.isBlank((String) fieldValues.get(KFSPropertyConstants.CUSTOMER_NAME)) && StringUtils.isBlank((String) fieldValues.get(KFSPropertyConstants.EMPLOYEE_ID)) && StringUtils.isBlank((String)fieldValues.get(KFSPropertyConstants.PERSON_FIRST_NAME)) &&
-                StringUtils.isBlank((String)fieldValues.get(KFSPropertyConstants.PERSON_LAST_NAME)) && StringUtils.isBlank((String)fieldValues.get(KFSPropertyConstants.PERSON_USER_IDENTIFIER))) {
+                StringUtils.isBlank((String)fieldValues.get(KFSPropertyConstants.PERSON_LAST_NAME)) && StringUtils.isBlank((String)fieldValues.get(KFSPropertyConstants.PERSON+"."+KFSPropertyConstants.PERSON_USER_IDENTIFIER))) {
             final String customerNumberLabel = getAttributeLabel(KFSPropertyConstants.CUSTOMER_NUMBER);
             final String customerNameLabel = getAttributeLabel(KFSPropertyConstants.CUSTOMER_NAME);
-            final String principalNameLabel = getAttributeLabel(KFSPropertyConstants.PERSON_USER_IDENTIFIER);
+            final String principalNameLabel = getAttributeLabel(KFSPropertyConstants.PERSON+"."+KFSPropertyConstants.PERSON_USER_IDENTIFIER);
             final String firstNameLabel = getAttributeLabel(KIMPropertyConstants.Person.FIRST_NAME);
             final String lastNameLabel = getAttributeLabel(KIMPropertyConstants.Person.LAST_NAME);
             final String employeeIdLabel = getAttributeLabel(KIMPropertyConstants.Person.EMPLOYEE_ID);
 
-            GlobalVariables.getMessageMap().putError(KFSPropertyConstants.PERSON_USER_IDENTIFIER, TemKeyConstants.ERROR_GROUP_TRAVELER_LOOKUP_NEEDS_SOME_FIELD, new String[] {customerNumberLabel, customerNameLabel, firstNameLabel, lastNameLabel, principalNameLabel, employeeIdLabel});
+            GlobalVariables.getMessageMap().putError(KFSPropertyConstants.PERSON+"."+KFSPropertyConstants.PERSON_USER_IDENTIFIER, TemKeyConstants.ERROR_GROUP_TRAVELER_LOOKUP_NEEDS_SOME_FIELD, new String[] {customerNumberLabel, customerNameLabel, firstNameLabel, lastNameLabel, principalNameLabel, employeeIdLabel});
             return false;
         }
         return true;
@@ -100,7 +100,7 @@ public class GroupTravelerForLookupLookupableHelperServiceImpl extends KualiLook
         if (StringUtils.isNotBlank(fieldValues.get(KFSPropertyConstants.CUSTOMER_NUMBER)) || StringUtils.isNotBlank(fieldValues.get(KFSPropertyConstants.CUSTOMER_NAME))) {
             searchResults.addAll(getCustomersAsGroupTravelers(fieldValues));
         }
-        else if (StringUtils.isNotBlank(fieldValues.get(KFSPropertyConstants.EMPLOYEE_ID)) || !StringUtils.isBlank(fieldValues.get(KFSPropertyConstants.PERSON_USER_IDENTIFIER))) {
+        else if (StringUtils.isNotBlank(fieldValues.get(KFSPropertyConstants.EMPLOYEE_ID)) || !StringUtils.isBlank(fieldValues.get(KFSPropertyConstants.PERSON+"."+KFSPropertyConstants.PERSON_USER_IDENTIFIER))) {
             searchResults.addAll(this.getPersonsAsGroupTravelers(fieldValues));
         }
         else {
@@ -119,7 +119,7 @@ public class GroupTravelerForLookupLookupableHelperServiceImpl extends KualiLook
      */
     protected Map<String, String> getPersonFieldValues(Map<String, String> fieldValues) {
         Map<String, String> personFieldValues = new HashMap<String, String>();
-        personFieldValues.put(KFSPropertyConstants.PERSON_USER_IDENTIFIER, fieldValues.get(KFSPropertyConstants.PERSON_USER_IDENTIFIER));
+        personFieldValues.put(KFSPropertyConstants.PERSON_USER_IDENTIFIER, fieldValues.get(KFSPropertyConstants.PERSON+"."+KFSPropertyConstants.PERSON_USER_IDENTIFIER));
         personFieldValues.put(KFSPropertyConstants.PERSON_FIRST_NAME, fieldValues.get(KFSPropertyConstants.PERSON_FIRST_NAME));
         personFieldValues.put(KFSPropertyConstants.PERSON_LAST_NAME, fieldValues.get(KFSPropertyConstants.PERSON_LAST_NAME));
         personFieldValues.put(KFSPropertyConstants.EMPLOYEE_ID, fieldValues.get(KFSPropertyConstants.EMPLOYEE_ID));
@@ -130,16 +130,15 @@ public class GroupTravelerForLookupLookupableHelperServiceImpl extends KualiLook
     }
 
     /**
+     * Converts a Person record to a GroupTravelerForLookup record
      *
-     *
-     * @param personDetail
-     * @param fieldValues
-     * @return
+     * @param personDetail the person detail to convert
+     * @param fieldValues the search fields
+     * @return a converted GroupTravelerForLookup
      */
     protected GroupTravelerForLookup getGroupTravelerFromPerson(Person personDetail, Map<String, String> fieldValues) {
         GroupTravelerForLookup traveler = new GroupTravelerForLookup();
         traveler.setPrincipalId(personDetail.getPrincipalId());
-        traveler.setPrincipalName(personDetail.getPrincipalName());
         traveler.setFirstName(personDetail.getFirstNameUnmasked());
         traveler.setLastName(personDetail.getLastNameUnmasked());
         traveler.setEmployeeId(personDetail.getEmployeeId());

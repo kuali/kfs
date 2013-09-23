@@ -420,7 +420,8 @@
 			<entry key="ReimbursementOverage" value-ref="RoutingType-TravelReimbursement-ReimbursementOverage"/>
 			<entry key="SubFund" value-ref="RoutingType-AccountingDocument-SubFund" />
 			<entry key="Award" value-ref="RoutingType-AccountingDocument-Award" />
-    		<entry key="PaymentMethod" value-ref="TravelReimbursable-RoutingType-PaymentMethod"/>            
+    		<entry key="PaymentMethod" value-ref="TravelReimbursable-RoutingType-PaymentMethod"/> 
+    		<entry key="Traveler" value-ref="TravelReimbursable-RoutingType-Traveler"/>           
 		</map>
 	</property>
   </bean>  

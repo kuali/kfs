@@ -584,10 +584,7 @@
 	<bean id="accountingDocumentRelationshipDao" parent="platformAwareDao"
 		class="org.kuali.kfs.module.tem.dataaccess.impl.AccountingDocumentRelationshipDaoOjb" />
 
-	<bean id="travelerDerivedRoleTypeService"
-		class="org.kuali.kfs.module.tem.identity.TravelerDerivedRoleTypeServiceImpl">
-		<property name="documentService" ref="documentService" />
-	</bean>
+	<bean id="travelerDerivedRoleTypeService" class="org.kuali.kfs.module.tem.identity.TravelerDerivedRoleTypeServiceImpl"/>
 
 	<bean id="temProfileDerivedRoleTypeService" class="org.kuali.kfs.module.tem.identity.TemProfileDerivedRoleTypeServiceImpl" />
 

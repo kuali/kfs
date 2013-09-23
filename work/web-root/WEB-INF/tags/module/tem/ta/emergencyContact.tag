@@ -50,8 +50,7 @@
 		<tbody>
 			<tr>
 				<td colspan="7" class="tab-subhead">Emergency Contact(s) for
-				Travelers:<br />
-				* All fields required if section is used</td>
+				Travelers:<br /></td>
 			</tr>
 			<tr>
 				<th width="10">&nbsp;</th>

@@ -12,7 +12,8 @@
 	        <list>
 	            <ref bean="GroupTravelerForLookup-customerNumber" />
 	            <ref bean="GroupTravelerForLookup-customerName" />
-	            <ref bean="GroupTravelerForLookup-principalName" />
+	            <ref bean="GroupTravelerForLookup-principalId" />
+	            <ref bean="GroupTravelerForLookup-person.principalName" />
 	            <ref bean="GroupTravelerForLookup-firstName" />
 	            <ref bean="GroupTravelerForLookup-lastName" />
 	            <ref bean="GroupTravelerForLookup-employeeId" />
@@ -25,9 +26,14 @@
 					<property name="objectAttributeName" value="person" />
 					<property name="primitiveAttributes">
 						<list>
-
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="principalName"
-								p:targetName="principalName" />
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="principalId"
+								p:targetName="principalId" />
+						</list>
+					</property>
+					<property name="supportAttributes">
+						<list>
+							<bean parent="SupportAttributeDefinition" p:identifier="true"
+								p:sourceName="person.principalName" p:targetName="principalName" />
 						</list>
 					</property>
 				</bean>
@@ -72,8 +78,13 @@
 			<bean parent="TextControlDefinition" p:size="62" />
 		</property>
     </bean>
-    <bean id="GroupTravelerForLookup-principalName" parent="GroupTravelerForLookup-principalName-parentBean" />
-    <bean id="GroupTravelerForLookup-principalName-parentBean" parent="PersonImpl-principalName" abstract="true">
+    <bean id="GroupTravelerForLookup-principalId" parent="GroupTravelerForLookup-principalId-parentBean" />
+    <bean id="GroupTravelerForLookup-principalId-parentBean" parent="PersonImpl-principalId" abstract="true">
+        <property name="label" value="Principal Id" />
+    </bean>
+    <bean id="GroupTravelerForLookup-person.principalName" parent="GroupTravelerForLookup-person.principalName-parentBean" />
+    <bean id="GroupTravelerForLookup-person.principalName-parentBean" parent="PersonImpl-principalName" abstract="true">
+    	<property name="name" value="person.principalName"/>
         <property name="label" value="Principal Name" />
     </bean>
     <bean id="GroupTravelerForLookup-firstName" parent="GroupTravelerForLookup-firstName-parentBean" />
@@ -110,7 +121,7 @@
                 <list>
                     <bean parent="FieldDefinition" p:attributeName="customerNumber" />
                     <bean parent="FieldDefinition" p:attributeName="customerName" />
-                    <bean parent="FieldDefinition" p:attributeName="principalName" />
+                    <bean parent="FieldDefinition" p:attributeName="person.principalName" />
                     <bean parent="FieldDefinition" p:attributeName="firstName" />
                     <bean parent="FieldDefinition" p:attributeName="lastName" />
                     <bean parent="FieldDefinition" p:attributeName="employeeId" />
@@ -134,7 +145,7 @@
         <property name="lookupFields"><list>
             <bean parent="FieldDefinition" p:attributeName="customerNumber" />
             <bean parent="FieldDefinition" p:attributeName="customerName" />
-            <bean parent="FieldDefinition" p:attributeName="principalName" />
+            <bean parent="FieldDefinition" p:attributeName="person.principalName" />
             <bean parent="FieldDefinition" p:attributeName="firstName" />
             <bean parent="FieldDefinition" p:attributeName="lastName" />
             <bean parent="FieldDefinition" p:attributeName="employeeId" />
@@ -145,7 +156,7 @@
         <list>
             <bean parent="FieldDefinition" p:attributeName="customerNumber" />
             <bean parent="FieldDefinition" p:attributeName="customerName" />
-            <bean parent="FieldDefinition" p:attributeName="principalName" />
+            <bean parent="FieldDefinition" p:attributeName="person.principalName" />
             <bean parent="FieldDefinition" p:attributeName="firstName" />
             <bean parent="FieldDefinition" p:attributeName="lastName" />
             <bean parent="FieldDefinition" p:attributeName="employeeId" />

@@ -26,14 +26,14 @@ public class GroupTravelerForLookup extends TransientBusinessObjectBase implemen
     private String customerNumber;
     private String customerName;
 
-    private String principalName;
+    private String principalId;
+
     private String firstName;
     private String lastName;
     private String employeeId;
 
     private boolean active;
 
-    private String principalId;
     private String name;
 
     private AccountsReceivableCustomer customer;
@@ -53,14 +53,6 @@ public class GroupTravelerForLookup extends TransientBusinessObjectBase implemen
 
     public void setCustomerName(String customerName) {
         this.customerName = customerName;
-    }
-
-    public String getPrincipalName() {
-        return principalName;
-    }
-
-    public void setPrincipalName(String principalName) {
-        this.principalName = principalName;
     }
 
     public String getFirstName() {

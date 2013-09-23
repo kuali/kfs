@@ -149,10 +149,15 @@
 			<parent>TTSM</parent>
 		</documentType>
 		<documentType>
-			<name>TTOC</name>
-			<label>Travel Expense Type Object Code</label>
-			<parent>TTSM</parent>
-		</documentType>
+      		<name>ETC</name>
+      		<label>Expense Type</label>
+      		<parent>TTSM</parent>
+    	</documentType>
+    	<documentType>
+      		<name>ETOC</name>
+      		<label>Expense Type Object Code</label>
+      		<parent>TTSM</parent>
+    	</documentType>
 		<documentType>
 			<name>TPUR</name>
 			<label>Purpose</label>
@@ -269,6 +274,7 @@
                 <securityAttribute name="TemSecurityAttribute"/>
           </security>
 	      <routingVersion>2</routingVersion>
+	      <authorizer>org.kuali.kfs.module.tem.document.authorization.TravelWorkflowDocumentAuthorizer</authorizer>
 	      <policies>
                 <policy>
                     <name>DEFAULT_APPROVE</name>
@@ -289,7 +295,6 @@
 			<active>
 				true
             </active>
-            <authorizer>org.kuali.kfs.module.tem.document.authorization.TravelWorkflowDocumentAuthorizer</authorizer>
 			<routingVersion>
 				2
             </routingVersion>
@@ -564,19 +569,29 @@
 			<label>Travel Authorization Amendment</label>
 		</documentType>
 		<documentType>
-			<name>TAC</name>
-			<parent>TA</parent>
-			<docHandler>${application.url}/temTravelAuthorization.do?methodToCall=docHandler</docHandler>
-			<label>Travel Authorization Close</label>
-			<routePaths>
-				<routePath>
-					<start name="AdHoc" />
-				</routePath>
-			</routePaths>
-			<routeNodes>
-				<start name="AdHoc" />
-			</routeNodes>
-		</documentType>
+	      <name>TAC</name>
+	      <parent>TA</parent>
+	      <docHandler>${application.url}/temTravelAuthorization.do?methodToCall=docHandler</docHandler>
+	      <label>Travel Authorization Close</label>
+	      <policies>
+                <policy>
+                    <name>DEFAULT_APPROVE</name>
+                    <value>true</value>
+                </policy>
+                <policy>
+                    <name>DOCUMENT_STATUS_POLICY</name>
+                    <stringValue>app</stringValue>
+                </policy>
+          </policies>
+	      <routePaths>
+	        <routePath>
+	          <start name="AdHoc"/>
+	        </routePath>
+	      </routePaths>
+	      <routeNodes>
+	        <start name="AdHoc"/>
+	      </routeNodes>
+	    </documentType>
 		<documentType>
             <name>TR</name>
             <parent>TRV</parent>

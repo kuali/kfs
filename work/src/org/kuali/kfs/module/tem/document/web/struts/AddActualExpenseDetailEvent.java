@@ -22,18 +22,22 @@ import java.util.Observable;
 import java.util.Observer;
 
 import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.businessobject.ActualExpense;
+import org.kuali.kfs.module.tem.businessobject.ExpenseTypeObjectCode;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
 import org.kuali.kfs.module.tem.document.validation.event.AddActualExpenseDetailLineEvent;
 import org.kuali.kfs.module.tem.document.web.bean.TravelMvcWrapperBean;
 import org.kuali.kfs.module.tem.service.AccountingDistributionService;
+import org.kuali.kfs.module.tem.service.TravelExpenseService;
 import org.kuali.kfs.module.tem.util.ExpenseUtils;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.service.KualiRuleService;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public class AddActualExpenseDetailEvent implements Observer {
 
@@ -59,16 +63,30 @@ public class AddActualExpenseDetailEvent implements Observer {
         final Integer index = (Integer) args[SELECTED_LINE_ARG_IDX];
 
         final ActualExpense newActualExpenseLine = wrapper.getNewActualExpenseLines().get(index);
+        ActualExpense line = document.getActualExpenses().get(index);
 
         if(newActualExpenseLine != null){
+            if (StringUtils.isBlank(newActualExpenseLine.getExpenseTypeCode())) {
+                newActualExpenseLine.setExpenseTypeCode(line.getExpenseTypeCode());
+            }
+
             newActualExpenseLine.refreshReferenceObject(TemPropertyConstants.EXPENSE_TYPE_OBJECT_CODE);
+            if (ObjectUtils.isNull(newActualExpenseLine.getExpenseTypeObjectCode())) {
+                if (StringUtils.isBlank(newActualExpenseLine.getExpenseTypeCode())) {
+                    newActualExpenseLine.setExpenseTypeCode(line.getExpenseTypeCode());
+                }
+                if (!StringUtils.isBlank(document.getTripTypeCode()) && !ObjectUtils.isNull(document.getTraveler()) && !StringUtils.isBlank(document.getTraveler().getTravelerTypeCode())) {
+                    final ExpenseTypeObjectCode expenseTypeObjectCode = SpringContext.getBean(TravelExpenseService.class).getExpenseType(newActualExpenseLine.getExpenseTypeCode(), document.getDocumentTypeName(), document.getTripTypeCode(), document.getTraveler().getTravelerTypeCode());
+                    newActualExpenseLine.setExpenseTypeObjectCode(expenseTypeObjectCode);
+                    newActualExpenseLine.setExpenseTypeObjectCodeId(expenseTypeObjectCode.getExpenseTypeObjectCodeId());
+                }
+            }
         }
 
-        ActualExpense line = document.getActualExpenses().get(index);
         boolean rulePassed = true;
 
         // check any business rules
-        rulePassed &= getRuleService().applyRules(new AddActualExpenseDetailLineEvent<ActualExpense>(NEW_ACTUAL_EXPENSE_LINES + "["+index + "]", document, newActualExpenseLine));
+        rulePassed &= getRuleService().applyRules(new AddActualExpenseDetailLineEvent<ActualExpense>(NEW_ACTUAL_EXPENSE_LINES + "["+index + "]", document, line, newActualExpenseLine));
 
         if (rulePassed){
             if(newActualExpenseLine != null && line != null){

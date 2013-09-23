@@ -23,6 +23,7 @@
 		<renameColumn tableName="FS_PMT_SRC_WIRE_TRNFR_T" oldColumnName="DV_FCRNCY_TYP_NM" newColumnName="FCRNCY_TYP_NM" columnDataType="VARCHAR2(20)"/>
 		<renameColumn tableName="FS_PMT_SRC_WIRE_TRNFR_T" oldColumnName="DV_FCRNCY_TYP_CD" newColumnName="FCRNCY_TYP_CD" columnDataType="VARCHAR2(1)"/>
 		<addUniqueConstraint tableName="FS_PMT_SRC_WIRE_TRNFR_T" constraintName="FS_PMT_SRC_WIRE_TRNFR_TC0" columnNames="OBJ_ID"/>
+		<dropForeignKeyConstraint tableName="FP_DV_DOC_T" constraintName="FP_DV_DOC_TR2"/>
 		<dropUniqueConstraint tableName="FP_DV_DOC_LOC_T" constraintName="FP_DV_DOC_LOC_TC0"/>
 		<dropPrimaryKey tableName="FP_DV_DOC_LOC_T" constraintName="FP_DV_DOC_LOC_TP1"/>
 		<renameTable oldTableName="FP_DV_DOC_LOC_T" newTableName="FS_PMT_DOC_LOC_T"/>
@@ -31,6 +32,9 @@
 		<renameColumn tableName="FS_PMT_DOC_LOC_T" oldColumnName="DV_DOC_LOC_ADDR" newColumnName="PMT_DOC_LOC_ADDR" columnDataType="VARCHAR2(255)"/>
 		<addPrimaryKey tableName="FS_PMT_DOC_LOC_T" constraintName="FS_PMT_DOC_LOC_TP1" columnNames="PMT_DOC_LOC_CD"/>
 		<addUniqueConstraint tableName="FS_PMT_DOC_LOC_T" constraintName="FS_PMT_DOC_LOC_TC0" columnNames="OBJ_ID"/>
+		<addForeignKeyConstraint constraintName="FP_DV_DOC_TR2"
+			baseTableName="FP_DV_DOC_T" baseColumnNames="DV_DOC_LOC_CD"
+			referencedTableName="FS_PMT_DOC_LOC_T" referencedColumnNames="PMT_DOC_LOC_CD" />
 		<dropUniqueConstraint tableName="FP_DV_WIRE_CHRG_T" constraintName="FP_DV_WIRE_CHRG_TC0"/>
 		<dropForeignKeyConstraint baseTableName="FP_DV_WIRE_CHRG_T" constraintName="FP_DV_WIRE_CHRG_TR1"/>
 		<dropForeignKeyConstraint baseTableName="FP_DV_WIRE_CHRG_T" constraintName="FP_DV_WIRE_CHRG_TR2"/>

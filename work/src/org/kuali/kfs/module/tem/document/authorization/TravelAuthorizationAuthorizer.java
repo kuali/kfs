@@ -117,9 +117,16 @@ public class TravelAuthorizationAuthorizer extends TravelArrangeableAuthorizer {
     protected void addRoleQualification(Object dataObject, Map<String, String> qualification) {
         if (dataObject instanceof TravelAuthorizationDocument) {
             addAccountQualification((TravelAuthorizationDocument)dataObject, qualification);
+            addTemProfileQualification((TravelAuthorizationDocument)dataObject, qualification);
         }
 
         super.addRoleQualification(dataObject, qualification);
+    }
+
+    protected void addTemProfileQualification(TravelAuthorizationDocument document, Map<String, String> attributes) {
+        if (ObjectUtils.isNotNull(document.getTemProfileId())){
+            attributes.put(KFSPropertyConstants.PRINCIPAL_ID, document.getTraveler().getPrincipalId());
+        }
     }
 
     /**

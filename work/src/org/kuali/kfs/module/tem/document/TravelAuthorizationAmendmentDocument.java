@@ -15,25 +15,15 @@
  */
 package org.kuali.kfs.module.tem.document;
 
-import java.util.List;
-
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-import org.kuali.kfs.module.tem.TemConstants;
-import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationStatusCodeKeys;
-import org.kuali.kfs.module.tem.TemConstants.TravelDocTypes;
 import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.BankService;
-import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.document.DocumentStatus;
-import org.kuali.rice.kew.api.document.attribute.DocumentAttributeIndexingQueue;
-import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
-import org.kuali.rice.krad.document.Document;
-import org.kuali.rice.krad.service.DocumentService;
 
 
 @Entity
@@ -50,23 +40,7 @@ public class TravelAuthorizationAmendmentDocument extends TravelAuthorizationDoc
 
         //doc is processed
         if (DocumentStatus.PROCESSED.getCode().equals(statusChangeEvent.getNewRouteStatus())) {
-
-            List<Document> relatedDocs = getTravelDocumentService().getDocumentsRelatedTo(this, TravelDocTypes.TRAVEL_AUTHORIZATION_DOCUMENT,
-                    TravelDocTypes.TRAVEL_AUTHORIZATION_AMEND_DOCUMENT);
-
-            //updating the related's document appDocStatus to be retired
-            final DocumentAttributeIndexingQueue documentAttributeIndexingQueue = KewApiServiceLocator.getDocumentAttributeIndexingQueue();
-            try {
-                for (Document document : relatedDocs){
-                    if (!document.getDocumentNumber().equals(this.getDocumentNumber()) && document instanceof TravelAuthorizationDocument) {
-                        ((TravelAuthorizationDocument) document).updateAndSaveAppDocStatus(TravelAuthorizationStatusCodeKeys.RETIRED_VERSION);
-                        documentAttributeIndexingQueue.indexDocument(document.getDocumentNumber());
-                    }
-                }
-            }
-            catch (WorkflowException we) {
-                throw new RuntimeException("Workflow document exception while updating related documents", we);
-            }
+            retirePreviousAuthorizations();
         }
     }
 
@@ -83,22 +57,12 @@ public class TravelAuthorizationAmendmentDocument extends TravelAuthorizationDoc
     }
 
     /**
-     * Creates a TA which is a copy of this TAA document
-     *
-     * @return the copied TravelAuthorizationDocument
-     * @throws WorkflowException thrown if the new TA could not be correctly instantiated
+     * Always return true - we always need to do extra work on document copy to revert this to the original TA
+     * @see org.kuali.kfs.module.tem.document.TravelAuthorizationDocument#shouldRevertToOriginalAuthorizationOnCopy()
      */
-    public TravelAuthorizationDocument toCopyTA() throws WorkflowException {
-        TravelAuthorizationDocument doc = (TravelAuthorizationDocument) SpringContext.getBean(DocumentService.class).getNewDocument(TemConstants.TravelDocTypes.TRAVEL_AUTHORIZATION_DOCUMENT);
-        toCopyTravelAuthorizationDocument(doc);
-
-        doc.getDocumentHeader().setDocumentDescription(TemConstants.PRE_FILLED_DESCRIPTION);
-        doc.setAppDocStatus(TravelAuthorizationStatusCodeKeys.IN_PROCESS);
-        doc.setTravelDocumentIdentifier(null); // reset, so it regenerates
-
-        doc.initiateAdvancePaymentAndLines();
-
-        return doc;
+    @Override
+    public boolean shouldRevertToOriginalAuthorizationOnCopy() {
+        return true;
     }
 
     /**

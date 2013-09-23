@@ -134,13 +134,13 @@ public class TravelEncumbranceServiceImpl implements TravelEncumbranceService {
     public void liquidateEncumbrance(final Encumbrance encumbrance, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, TravelDocument document, boolean approveImmediately) {
         if (encumbrance.getAccountLineEncumbranceOutstandingAmount().isGreaterThan(KualiDecimal.ZERO)) {
             GeneralLedgerPendingEntry pendingEntry = this.setupPendingEntry(encumbrance, sequenceHelper, document);
-            if (!approveImmediately) {
-                pendingEntry.setFinancialDocumentApprovedCode(null);
+            if (approveImmediately) {
+                pendingEntry.setFinancialDocumentApprovedCode(KFSConstants.PENDING_ENTRY_APPROVED_STATUS_CODE.APPROVED);
             }
             sequenceHelper.increment();
             GeneralLedgerPendingEntry offsetEntry = this.setupOffsetEntry(encumbrance, sequenceHelper, document, pendingEntry);
-            if (!approveImmediately) {
-                offsetEntry.setFinancialDocumentApprovedCode(null);
+            if (approveImmediately) {
+                offsetEntry.setFinancialDocumentApprovedCode(KFSConstants.PENDING_ENTRY_APPROVED_STATUS_CODE.APPROVED);
             }
             sequenceHelper.increment();
 
@@ -189,7 +189,8 @@ public class TravelEncumbranceServiceImpl implements TravelEncumbranceService {
 
         entry.setTransactionEncumbranceUpdateCode(KFSConstants.ENCUMB_UPDT_REFERENCE_DOCUMENT_CD);
         entry.setFinancialBalanceTypeCode(balanceType);
-        entry.setFinancialDocumentApprovedCode(KFSConstants.PENDING_ENTRY_APPROVED_STATUS_CODE.APPROVED);
+        String statusCode = document.getFinancialSystemDocumentHeader().getFinancialDocumentStatusCode();
+        entry.setFinancialDocumentApprovedCode(statusCode);
         entry.setReferenceFinancialDocumentTypeCode(encumbrance.getDocumentTypeCode());
         entry.setReferenceFinancialSystemOriginationCode(encumbrance.getOriginCode());
     }

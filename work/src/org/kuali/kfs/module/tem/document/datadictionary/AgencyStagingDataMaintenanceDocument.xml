@@ -16,6 +16,7 @@
 				<ref bean="Airline-Section" />
 				<ref bean="Lodging-Section" />
 				<ref bean="RentalCar-Section" />
+				<ref bean="ConferenceRegistration-Section" />
 			</list>
 		</property>
 		<property name="allowsNewOrCopy" value="true" />
@@ -77,10 +78,11 @@
         <property name="maintainableItems">
             <list>
                 <bean parent="MaintainableFieldDefinition" p:name="tripId" />
+                <bean parent="MaintainableFieldDefinition" p:name="alternateTripId" />
                 <bean parent="MaintainableFieldDefinition" p:name="tripInvoiceNumber" p:required="true" />
-                <bean parent="MaintainableFieldDefinition" p:name="tripTravelerTypeId"  p:unconditionallyReadOnly="true"/>
+                <bean parent="MaintainableFieldDefinition" p:name="tripExpenseAmount" />
                 <bean parent="MaintainableFieldDefinition" p:name="otherAmount"  />
-                
+        		<bean parent="MaintainableFieldDefinition" p:name="distributionCode" p:unconditionallyReadOnly="true" />                
             </list>
         </property>
     </bean>
@@ -94,8 +96,7 @@
                 <bean parent="MaintainableFieldDefinition" p:name="travelerName" p:required="true" />
                 <bean parent="MaintainableFieldDefinition" p:name="travelerId" />
                 <bean parent="MaintainableFieldDefinition" p:name="travelerNetworkId" p:unconditionallyReadOnly="true" />
-                <bean parent="MaintainableFieldDefinition" p:name="tripExpenseAmount" />
-                <bean parent="MaintainableFieldDefinition" p:name="alternateTripId" />
+                <bean parent="MaintainableFieldDefinition" p:name="tripTravelerTypeId"  p:unconditionallyReadOnly="true"/>
                 <bean parent="MaintainableFieldDefinition" p:name="tripArrangerName" p:unconditionallyReadOnly="true"/>
                 
             </list>
@@ -180,21 +181,18 @@
 				<bean parent="MaintainableFieldDefinition" p:name="rentalCarTaxAmount" p:unconditionallyReadOnly="true"  />
 				<bean parent="MaintainableFieldDefinition" p:name="rentalCarDetailText" p:unconditionallyReadOnly="true"  />
 				<bean parent="MaintainableFieldDefinition" p:name="rentalCarSurchargeAmount" p:unconditionallyReadOnly="true" />
-				<bean parent="MaintainableFieldDefinition" p:name="rentalCarGovernmentSurchargeAmount" p:unconditionallyReadOnly="true" />
-				
+				<bean parent="MaintainableFieldDefinition" p:name="rentalCarGovernmentSurchargeAmount" p:unconditionallyReadOnly="true" />				
 			</list>
 		</property>
 	</bean>
-	
-	 <bean id="AccountingInformation-Section" parent="AccountingInformation-Section-parentBean"/>
-	
+		
+	<bean id="AccountingInformation-Section" parent="AccountingInformation-Section-parentBean"/>	
 	<bean id="AccountingInformation-Section-parentBean" abstract="true" parent="MaintainableSectionDefinition">
     <property name="defaultOpen" value="true"/>  
     <property name="id" value="accountingInfo"/>
     <property name="title" value="Accounting Information"/>
     <property name="maintainableItems">
       <list>
-        <bean parent="MaintainableFieldDefinition" p:name="distributionCode" p:unconditionallyReadOnly="true" />
         <bean parent="MaintainableCollectionDefinition">
           <property name="name" value="tripAccountingInformation"/>
           <property name="summaryTitle" value="Account"/>

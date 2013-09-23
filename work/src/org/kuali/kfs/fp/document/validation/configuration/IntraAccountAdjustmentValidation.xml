@@ -149,31 +149,7 @@
 	<bean id="IntraAccountAdjustment-saveDocumentValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" 
 		scope="prototype" abstract="true">
 		<property name="validations">
-			<list>
-				<bean parent="AccountingDocument-requiredAccountingLinesCountValidation" scope="prototype">
-					<property name="accountingLineGroupName" value="source" />
-					<property name="minimumNumber" value="1" />
-					<property name="parameterProperties">
-						<list>
-							<bean parent="validationFieldConversion">
-								<property name="sourceEventProperty" value="document" />
-								<property name="targetValidationProperty" value="accountingDocumentForValidation" />
-							</bean>
-						</list>
-					</property>
-				</bean>
-				<bean parent="AccountingDocument-requiredAccountingLinesCountValidation" scope="prototype">
-					<property name="accountingLineGroupName" value="target" />
-					<property name="minimumNumber" value="1" />
-					<property name="parameterProperties">
-						<list>
-							<bean parent="validationFieldConversion">
-								<property name="sourceEventProperty" value="document" />
-								<property name="targetValidationProperty" value="accountingDocumentForValidation" />
-							</bean>
-						</list>
-					</property>
-				</bean>
+			<list>				
 				<bean parent="IntraAccountAdjustment-transferTotalsBalanceValidation" scope="prototype"/>	
 			</list>
 		</property>
@@ -273,7 +249,22 @@
         </property>
     </bean>
 												
-
+ <bean id="IntraAccountAdjustment-capitalAccountingLinesObjectSubtypeValidations" parent="IntraAccountAdjustment-capitalAccountingLinesObjectSubtypeValidations-parentBean" scope="prototype" />
+  
+	<bean id="IntraAccountAdjustment-capitalAccountingLinesObjectSubtypeValidations-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
+  		<property name="validations">
+  			<list>
+  				<bean parent="CapitalAccountingLines-objectCodeSubTypeValidation" scope="prototype">
+        			<property name="parameterProperties">
+           				<list>
+             				<bean parent="accountingDocumentFieldConversion" />
+           				</list> 
+                   </property>
+       			</bean>
+  			</list>
+  		</property>
+	</bean>
+				
 	
 	
 	

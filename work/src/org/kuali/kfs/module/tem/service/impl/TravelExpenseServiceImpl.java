@@ -33,6 +33,7 @@ import org.kuali.kfs.module.tem.TemConstants.CreditCardStagingDataErrorCodes;
 import org.kuali.kfs.module.tem.TemConstants.ExpenseImportTypes;
 import org.kuali.kfs.module.tem.TemConstants.ReconciledCodes;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
+import org.kuali.kfs.module.tem.businessobject.ActualExpense;
 import org.kuali.kfs.module.tem.businessobject.AgencyStagingData;
 import org.kuali.kfs.module.tem.businessobject.CreditCardAgency;
 import org.kuali.kfs.module.tem.businessobject.CreditCardStagingData;
@@ -51,10 +52,14 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kim.api.KimConstants;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kns.service.DocumentHelperService;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
@@ -68,6 +73,7 @@ public class TravelExpenseServiceImpl implements TravelExpenseService {
     protected BusinessObjectService businessObjectService;
     protected DateTimeService dateTimeService;
     protected ExpenseTypeObjectCodeDao expenseTypeObjectCodeDao;
+    protected DocumentHelperService documentHelperService;
 
     @Override
     public ExpenseTypeObjectCode getExpenseType(String expense, String documentType, String tripType, String travelerType) {
@@ -399,6 +405,24 @@ public class TravelExpenseServiceImpl implements TravelExpenseService {
     }
 
     /**
+     * This method should only be called when adding an actual expense or detail
+     * @see org.kuali.kfs.module.tem.service.TravelExpenseService#updateTaxabilityOfActualExpense(org.kuali.kfs.module.tem.businessobject.ActualExpense, org.kuali.kfs.module.tem.document.TravelDocument, org.kuali.rice.kim.api.identity.Person)
+     */
+    @Override
+    public void updateTaxabilityOfActualExpense(ActualExpense actualExpense, TravelDocument document, Person currentUser) {
+        if (!ObjectUtils.isNull(actualExpense.getExpenseTypeObjectCode())) {  // don't have an expense type object code? then why are we bothering?
+            // 1. if the given user cannot change the taxability then we should actually look at it
+            Map<String, String> permissionDetails = new HashMap<String, String>();
+            permissionDetails.put(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME, document.getDocumentTypeName());
+            permissionDetails.put(KimConstants.AttributeConstants.EDIT_MODE, TemConstants.EditModes.ACTUAL_EXPENSE_TAXABLE_MODE);
+            final boolean canEditTaxable = getDocumentHelperService().getDocumentAuthorizer(document).isAuthorizedByTemplate(document, KRADConstants.KNS_NAMESPACE, KimConstants.PermissionTemplateNames.USE_TRANSACTIONAL_DOCUMENT, currentUser.getPrincipalId(), permissionDetails, Collections.<String, String>emptyMap());
+            if (!canEditTaxable) {
+                actualExpense.setTaxable(actualExpense.getExpenseTypeObjectCode().isTaxable());
+            }
+        }
+    }
+
+    /**
      * @see org.kuali.kfs.module.tem.service.TravelExpenseService#getExpenseServiceByType(org.kuali.kfs.module.tem.TemConstants.ExpenseType)
      */
     @Override
@@ -450,6 +474,14 @@ public class TravelExpenseServiceImpl implements TravelExpenseService {
         this.expenseTypeObjectCodeDao = expenseTypeObjectCodeDao;
     }
 
+    public DocumentHelperService getDocumentHelperService() {
+        return documentHelperService;
+    }
+
+    public void setDocumentHelperService(DocumentHelperService documentHelperService) {
+        this.documentHelperService = documentHelperService;
+    }
+
     /**
      * @see org.kuali.kfs.module.tem.service.TravelExpenseService#isTravelExpenseExceedReceiptRequirementThreshold(org.kuali.kfs.module.tem.businessobject.OtherExpense)
      */
@@ -470,4 +502,5 @@ public class TravelExpenseServiceImpl implements TravelExpenseService {
         }
         return isExceed;
     }
+
 }

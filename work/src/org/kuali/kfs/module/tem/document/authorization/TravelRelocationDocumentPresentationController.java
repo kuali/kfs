@@ -36,6 +36,12 @@ public class TravelRelocationDocumentPresentationController extends TravelDocume
         Set<String> editModes = super.getEditModes(document);
         addFullEntryEditMode(document, editModes);
         editModes.remove(TemConstants.EditModes.CHECK_AMOUNT_ENTRY);  // the check amount cannot be edited on moving & relocation documents
+
+        final Set<String> nodeNames = document.getDocumentHeader().getWorkflowDocument().getNodeNames();
+        if (document.getDocumentHeader().getWorkflowDocument().isInitiated() || document.getDocumentHeader().getWorkflowDocument().isSaved() || (nodeNames != null && !nodeNames.isEmpty() && (nodeNames.contains(TemWorkflowConstants.RouteNodeNames.TAX) || nodeNames.contains(TemWorkflowConstants.RouteNodeNames.MOVING_AND_RELOCATION_MANAGER)))) {
+            editModes.add(TemConstants.EditModes.ACTUAL_EXPENSE_TAXABLE_MODE);
+        }
+
         return editModes;
     }
 

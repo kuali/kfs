@@ -615,6 +615,7 @@
 		<property name="businessObjectService" ref="businessObjectService" />
 		<property name="dateTimeService" ref="dateTimeService" />
 		<property name="expenseTypeObjectCodeDao" ref="expenseTypeObjectCodeDao"/>
+		<property name="documentHelperService" ref="documentHelperService"/>
 	</bean>
 	
 	<!-- Struts Events -->

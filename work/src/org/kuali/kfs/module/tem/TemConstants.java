@@ -936,4 +936,29 @@ public class TemConstants {
     public static class TabTitles {
         public static final String EMERGENCY_CONTACT_INFORMATION_TAB_TITLE = "Emergency Contact Information";
     }
+
+    /**
+     * Categories of expense types that cause special reactions from the system, as described below
+     */
+    public enum ExpenseTypeMetaCategory {
+        BREAKFAST("B"), // expenses with this expense type meta category cannot have a per diem breakfast on the same day
+        LUNCH("J"), // expenses with this expense type meta category cannot have a per diem lunch on the same day ("J" for deJeneur which I just liked better than "U")
+        DINNER("D"),  // expenses with this expense type meta category cannot have a per diem dinner on the same day
+        AIRFARE("A"), // forces extra airfare information to be filled on as part of an expense
+        LODGING("L"),
+        LODGING_ALLOWANCE("W"),
+        MILEAGE("M"), // changes the expense type entry to accept mileage rate and miles driven instead of a lump amount
+        RENTAL_CAR("R"),
+        INCIDENTALS("I");
+
+        private String code;
+
+        ExpenseTypeMetaCategory(String code) {
+            this.code = code;
+        }
+
+        public String getCode() {
+            return this.code;
+        }
+    }
 }

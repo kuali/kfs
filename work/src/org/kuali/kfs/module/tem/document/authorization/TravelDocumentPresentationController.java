@@ -59,7 +59,6 @@ public class TravelDocumentPresentationController extends FinancialSystemTransac
 
         editModes.add(KfsAuthorizationConstants.TransactionalEditMode.IMMEDIATE_DISBURSEMENT_ENTRY);
         editModes.add(TemConstants.EditModes.CHECK_AMOUNT_ENTRY);
-        editModes.add(TemConstants.EditModes.ACTUAL_EXPENSE_TAXABLE_MODE);
         return editModes;
     }
 

@@ -21,6 +21,7 @@ import org.apache.log4j.Logger;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemConstants.TravelDocTypes;
 import org.kuali.kfs.module.tem.TemKeyConstants;
+import org.kuali.kfs.module.tem.TemWorkflowConstants;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
 import org.kuali.kfs.module.tem.document.TravelReimbursementDocument;
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
@@ -44,6 +45,12 @@ public class TravelReimbursementDocumentPresentationController extends TravelDoc
         Set<String> editModes = super.getEditModes(document);
         addFullEntryEditMode(document, editModes);
         editModes.remove(TemConstants.EditModes.CHECK_AMOUNT_ENTRY);  // the check amount cannot be edited on travel reimbursements
+
+        final Set<String> nodeNames = document.getDocumentHeader().getWorkflowDocument().getNodeNames();
+        if (document.getDocumentHeader().getWorkflowDocument().isInitiated() || document.getDocumentHeader().getWorkflowDocument().isSaved() || (nodeNames != null && !nodeNames.isEmpty() && (nodeNames.contains(TemWorkflowConstants.RouteNodeNames.TAX) || nodeNames.contains(TemWorkflowConstants.RouteNodeNames.AP_TRAVEL)))) {
+            editModes.add(TemConstants.EditModes.ACTUAL_EXPENSE_TAXABLE_MODE);
+        }
+
         return editModes;
     }
 
@@ -55,7 +62,7 @@ public class TravelReimbursementDocumentPresentationController extends TravelDoc
         TravelReimbursementDocument tr = (TravelReimbursementDocument)document;
         TravelAuthorizationDocument ta = null;
         try {
-            ta = (TravelAuthorizationDocument) getTravelDocumentService().findCurrentTravelAuthorization(tr);
+            ta = getTravelDocumentService().findCurrentTravelAuthorization(tr);
         }
         catch (WorkflowException ex) {
             LOG.error(ex);

@@ -44,5 +44,26 @@ function loadAgencyName( creditCardOrAgencyCodeField , creditCardOrAgencyPropert
   
 }
 
-
-
+// function to call TravelExpenseService#getExpense and manipulate expense based on that information
+function loadExpenseTypeObjectCode(expenseTypeCodeField, documentTypeName, travelerTypeCode, tripTypeCode) {
+	var expenseTypeCodeFieldName = expenseTypeCodeField.name;
+	var expenseTypeCodeValue = dwr.util.getValue( expenseTypeCodeFieldName );
+	var lineName = expenseTypeCodeFieldName.replace(/\.expenseTypeCode$/, "");
+	
+	if (expenseTypeCodeValue != "") {
+		var dwrReply = {
+			callback: function(data) {
+				if (data != null && typeof data == "object") { // we really did succeed!
+					//var taxableCheckbox = $(lineName+".taxable");
+					//taxable.prop('checked', data.taxable);
+					var taxableCheckbox = document.getElementById(lineName+".taxable");
+					taxableCheckbox.checked = data.taxable;
+				}
+			},
+			errorHandler: function (errorMessage) {
+				window.status = errorMessage;
+			}
+		};
+		TravelExpenseService.getExpenseType(expenseTypeCodeValue, documentTypeName, tripTypeCode, travelerTypeCode, dwrReply);
+	}
+}

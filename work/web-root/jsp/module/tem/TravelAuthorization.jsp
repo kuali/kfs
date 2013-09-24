@@ -29,8 +29,10 @@
     showTabButtons="true">
     
 <script language="javascript" src="dwr/interface/TravelDocumentService.js"></script> 
-<script language="javascript" src="dwr/interface/TravelAuthorizationService.js"></script>     
+<script language="javascript" src="dwr/interface/TravelAuthorizationService.js"></script>    
+<script language="javascript" src="dwr/interface/TravelExpenseService.js"></script> 
 <script language="javascript" src="scripts/module/tem/common.js"></script>
+<script language="javascript" src="scripts/module/tem/objectInfo.js"></script>
 
     <sys:documentOverview editingMode="${KualiForm.editingMode}" includeBankCode="true"
 	  bankProperty="document.financialDocumentBankCode" 

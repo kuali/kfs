@@ -1003,6 +1003,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
         line.setDocumentNumber(this.documentNumber);
 
         if (line instanceof ActualExpense){
+            getTravelExpenseService().updateTaxabilityOfActualExpense((ActualExpense)line, this, GlobalVariables.getUserSession().getPerson()); // when adding the expense, attempt to update the taxability if user can't edit taxability
             getActualExpenses().add((ActualExpense) line);
             notifyChangeListeners(new PropertyChangeEvent(this, TemPropertyConstants.ACTUAL_EXPENSES, null, line));
             ((ActualExpense)line).enableExpenseTypeSpecificFields();
@@ -1026,6 +1027,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
         notifyChangeListeners(new PropertyChangeEvent(this, TemPropertyConstants.IMPORTED_EXPENSES, null, line));
 
         if (line instanceof ActualExpense){
+            getTravelExpenseService().updateTaxabilityOfActualExpense((ActualExpense)line, this, GlobalVariables.getUserSession().getPerson()); // when adding the expense detail, attempt to update the taxability if user can't edit taxability
             getActualExpenses().get(index).addExpenseDetails(line);
             if (!ObjectUtils.isNull(getTraveler()) && !StringUtils.isBlank(getTraveler().getTravelerTypeCode()) && !StringUtils.isBlank(getTripTypeCode())) {
                 getActualExpenses().get(index).refreshExpenseTypeObjectCode(getDocumentTypeName(), getTraveler().getTravelerTypeCode(), getTripTypeCode());
@@ -1133,6 +1135,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
      * Gets the disabledProperties attribute.
      * @return Returns the disabledProperties.
      */
+    @Override
     public Map<String, String> getDisabledProperties() {
         if (disabledProperties == null){
             disabledProperties = new HashMap<String, String>();

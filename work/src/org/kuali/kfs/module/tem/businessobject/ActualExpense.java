@@ -270,9 +270,6 @@ public class ActualExpense extends AbstractExpense implements OtherExpense, Expe
     }
 
     public void enableExpenseTypeSpecificFields(){
-        if (getExpenseTypeObjectCode() != null){
-            setTaxable(getExpenseTypeObjectCode().isTaxable());
-        }
         setAirfareIndicator(isAirfare());
         setMileageIndicator(isMileage());
         setRentalCarIndicator(isRentalCar());

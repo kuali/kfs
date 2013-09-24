@@ -537,14 +537,6 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
     }
 
     /**
-     * @see org.kuali.kfs.module.tem.document.TravelDocumentBase#isDebit(org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail)
-     */
-    @Override
-    public boolean isDebit(GeneralLedgerPendingEntrySourceDetail postable) {
-        return true;
-    }
-
-    /**
      * @see org.kuali.kfs.module.tem.document.TravelDocumentBase#getEncumbranceTotal()
      */
     @Transient

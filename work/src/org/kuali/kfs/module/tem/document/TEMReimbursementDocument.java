@@ -520,6 +520,15 @@ public abstract class TEMReimbursementDocument extends TravelDocumentBase implem
     }
 
     /**
+     * Every reimbursable document debits on entry
+     * @see org.kuali.kfs.sys.document.AccountingDocumentBase#isDebit(org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail)
+     */
+    @Override
+    public boolean isDebit(GeneralLedgerPendingEntrySourceDetail postable) {
+        return true;
+    }
+
+    /**
      * @return the default implementation of the ReimbursableDocumentPaymentService
      */
     public static ReimbursableDocumentPaymentService getReimbursableDocumentPaymentService() {

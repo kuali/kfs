@@ -450,7 +450,7 @@
                 </entry>
                 <entry>
                     <key><value>org.kuali.kfs.module.tem.document.validation.event.AddActualExpenseLineEvent</value></key>
-                    <value>TravelModule-addActualExpenseLineValidation</value>
+                    <value>NonTripTravelDocument-addActualExpenseLineValidation</value>
                 </entry>
                 <entry>
                     <key><value>org.kuali.kfs.module.tem.document.validation.event.AddActualExpenseDetailLineEvent</value></key>

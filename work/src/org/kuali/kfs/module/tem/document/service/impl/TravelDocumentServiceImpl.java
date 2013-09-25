@@ -377,7 +377,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
                         break;
                     }
                 }
-                if (ObjectUtils.isNull(newExpense.getMileageRateId())) {
+                if (ObjectUtils.isNull(newExpense.getMileageRateId()) && mileageRates != null && !mileageRates.isEmpty()) {
                     // mileage rate is different than it was before the change, use the first element in the list
                     newExpense.setMileageRateId(Integer.valueOf(mileageRates.get(0).getKey()));
                 }

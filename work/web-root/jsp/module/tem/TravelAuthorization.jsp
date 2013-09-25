@@ -93,10 +93,6 @@
     </c:if>
     <tem-ta:expenses />
     <tem-ta:estimateTotal /> 
-	<c:if test="${KualiForm.displayImportedExpenseRelatedTab}">
-	    <tem:summaryByObjectCode />
-	    <tem:assignAccounts />
-    </c:if>
     <c:if test="${KualiForm.displayAccountingLines}">
     	<tem:accountingLines />
     </c:if>

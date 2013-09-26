@@ -25,7 +25,10 @@ public class ExpenseType extends KualiCodeBase implements MutableInactivatable {
     private boolean groupTravel;
     private boolean expenseDetailRequired;
     private boolean prepaidExpense;
-    private boolean perDiemExpense;
+    private boolean hosted;
+    private String expenseTypeMetaCategoryCode;
+    private boolean categoryDefault;
+
     public boolean isGroupTravel() {
         return groupTravel;
     }
@@ -44,10 +47,22 @@ public class ExpenseType extends KualiCodeBase implements MutableInactivatable {
     public void setPrepaidExpense(boolean prepaidExpenseIndicator) {
         this.prepaidExpense = prepaidExpenseIndicator;
     }
-    public boolean isPerDiemExpense() {
-        return perDiemExpense;
+    public boolean isHosted() {
+        return hosted;
     }
-    public void setPerDiemExpense(boolean perDiemExpenseIndicator) {
-        this.perDiemExpense = perDiemExpenseIndicator;
+    public void setHosted(boolean hosted) {
+        this.hosted = hosted;
+    }
+    public String getExpenseTypeMetaCategoryCode() {
+        return expenseTypeMetaCategoryCode;
+    }
+    public void setExpenseTypeMetaCategoryCode(String expenseTypeMetaCategoryCode) {
+        this.expenseTypeMetaCategoryCode = expenseTypeMetaCategoryCode;
+    }
+    public boolean isCategoryDefault() {
+        return categoryDefault;
+    }
+    public void setCategoryDefault(boolean categoryDefault) {
+        this.categoryDefault = categoryDefault;
     }
 }

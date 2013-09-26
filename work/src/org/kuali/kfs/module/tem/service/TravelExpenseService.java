@@ -133,4 +133,11 @@ public interface TravelExpenseService {
      */
     public void updateTaxabilityOfActualExpense(ActualExpense actualExpense, TravelDocument document, Person currentUser);
 
+    /**
+     * Looks up the default expense type associated with the given category
+     * @param category the expense type category to find the default for
+     * @return the default expense type, or null if one cannot be found
+     */
+    public ExpenseType getDefaultExpenseTypeForCategory(TemConstants.ExpenseTypeMetaCategory category);
+
 }

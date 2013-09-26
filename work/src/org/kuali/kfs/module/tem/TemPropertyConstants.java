@@ -365,6 +365,8 @@ public class TemPropertyConstants {
     public static final String EXPENSE_TYPE_CODE = "expenseTypeCode";
     public static final String EXPENSE_TYPE = "expenseType";
     public static final String NAME = "name";
+    public static final String EXPENSE_TYPE_META_CATEGORY_CODE = "expenseTypeMetaCategoryCode";
+    public static final String CATEGORY_DEFAULT = "categoryDefault";
 
     public static final String TRAVEL_PAYMENT = "travelPayment";
     public static final String ADVANCE_TRAVEL_PAYMENT = "advanceTravelPayment";

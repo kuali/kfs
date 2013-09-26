@@ -20,6 +20,7 @@
         <property name="businessObjectClass" value="org.kuali.kfs.module.tem.businessobject.ExpenseType" />
         <property name="maintainableClass" value="org.kuali.kfs.sys.document.FinancialSystemMaintainable"/>
         <property name="documentTypeName" value="ETC" />
+        <property name="businessRulesClass" value="org.kuali.kfs.module.tem.document.validation.impl.ExpenseTypeRule"/>
         <property name="maintainableSections">
             <list merge="false">
                 <ref bean="ExpenseTypeMaintenanceDocument-EditExpenseType" />
@@ -38,7 +39,9 @@
                 <bean parent="MaintainableFieldDefinition" p:name="groupTravel" />
                 <bean parent="MaintainableFieldDefinition" p:name="expenseDetailRequired" />
                 <bean parent="MaintainableFieldDefinition" p:name="prepaidExpense" />
-                <bean parent="MaintainableFieldDefinition" p:name="perDiemExpense" />               
+                <bean parent="MaintainableFieldDefinition" p:name="hosted" />
+                <bean parent="MaintainableFieldDefinition" p:name="expenseTypeMetaCategoryCode" />
+                <bean parent="MaintainableFieldDefinition" p:name="categoryDefault"/>          
                 <bean parent="MaintainableFieldDefinition" p:defaultValue="true" p:name="active" />
             </list>
         </property>

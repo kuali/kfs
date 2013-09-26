@@ -17,10 +17,12 @@ package org.kuali.kfs.module.tem.service.impl;
 
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -31,6 +33,7 @@ import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemConstants.AgencyStagingDataErrorCodes;
 import org.kuali.kfs.module.tem.TemConstants.CreditCardStagingDataErrorCodes;
 import org.kuali.kfs.module.tem.TemConstants.ExpenseImportTypes;
+import org.kuali.kfs.module.tem.TemConstants.ExpenseTypeMetaCategory;
 import org.kuali.kfs.module.tem.TemConstants.ReconciledCodes;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.businessobject.ActualExpense;
@@ -420,6 +423,29 @@ public class TravelExpenseServiceImpl implements TravelExpenseService {
                 actualExpense.setTaxable(actualExpense.getExpenseTypeObjectCode().isTaxable());
             }
         }
+    }
+
+    /**
+     * Does BusinessObjectService lookup - pretty simple
+     * @see org.kuali.kfs.module.tem.service.TravelExpenseService#getDefaultExpenseTypeForCategory(org.kuali.kfs.module.tem.TemConstants.ExpenseTypeMetaCategory)
+     */
+    @Override
+    public ExpenseType getDefaultExpenseTypeForCategory(ExpenseTypeMetaCategory category) {
+        Map<String, Object> fieldValues = new HashMap<String, Object>();
+        fieldValues.put(TemPropertyConstants.EXPENSE_TYPE_META_CATEGORY_CODE, category.getCode());
+        fieldValues.put(TemPropertyConstants.CATEGORY_DEFAULT, Boolean.TRUE);
+        fieldValues.put(KFSPropertyConstants.ACTIVE, Boolean.TRUE);
+
+        Collection<ExpenseType> expenseTypes = getBusinessObjectService().findMatching(ExpenseType.class, fieldValues);
+        if (expenseTypes == null || expenseTypes.isEmpty()) {
+            return null;
+        }
+        Iterator<ExpenseType> expenseTypesIterator = expenseTypes.iterator();
+        ExpenseType returnValue = expenseTypesIterator.next();
+        while (expenseTypesIterator.hasNext()) {
+            expenseTypesIterator.next(); // exhaust result set - which already *should* be exhausted but just in case
+        }
+        return returnValue;
     }
 
     /**

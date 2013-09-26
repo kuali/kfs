@@ -23,6 +23,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.KfsAuthorizationConstants.TransactionalEditMode;
@@ -184,12 +185,6 @@ public class TemConstants {
         public static final String NUMBER_OF_DAYS_DELINQUENT = "NUMBER_OF_DAYS_DELINQUENT";
 
         public static final String HOSTED_MEAL_EXPENSE_TYPES = "HOSTED_MEAL_EXPENSE_TYPES";
-        public static final String INCIDENTAL_EXPENSE_TYPES = "INCIDENTAL_EXPENSE_TYPES";
-        public static final String AIRFARE_EXPENSE_TYPE = "AIRFARE_EXPENSE_TYPE";
-        public static final String MILEAGE_EXPENSE_TYPE = "MILEAGE_EXPENSE_TYPE";
-        public static final String RENTAL_CAR_EXPENSE_TYPE = "RENTAL_CAR_EXPENSE_TYPE";
-        public static final String LODGING_EXPENSE_TYPE = "LODGING_EXPENSE_TYPE";
-        public static final String LODGING_ALLOWANCE_EXPENSE_TYPE = "LODGING_ALLOWANCE_EXPENSE_TYPE";
         public static final String ALWAYS_REIMBURSABLE_CARD_TYPE = "ALWAYS_REIMBURSABLE_CARD_TYPE";
         public static final String AMOUNT_DUE_CORPORATE_CARD_TOTAL_LINE_IND = "AMOUNT_DUE_CORPORATE_CARD_TOTAL_LINE_IND";
         public static final String CORPORATE_CARD_PAYMENT_BY_DV_IND = "CORPORATE_CARD_PAYMENT_BY_DV_IND";
@@ -959,6 +954,24 @@ public class TemConstants {
 
         public String getCode() {
             return this.code;
+        }
+
+        public String getName() {
+            return StringUtils.capitalize(this.toString().toLowerCase());
+        }
+
+        /**
+         * Lookup ExpenseTypeMetaCategory value based on code
+         * @param c the code to look up
+         * @return the matching ExpenseTypeMetaCategory, or null if the code does not match an existing category
+         */
+        public static ExpenseTypeMetaCategory forCode(String c) {
+            for (ExpenseTypeMetaCategory category : ExpenseTypeMetaCategory.values()) {
+                if (StringUtils.equals(category.getCode(), c)) {
+                    return category;
+                }
+            }
+            return null;
         }
     }
 }

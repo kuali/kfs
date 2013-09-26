@@ -283,6 +283,11 @@ public class TemKeyConstants {
     public static final String ERROR_EXPENSE_TYPE_OBJECT_CODE_REOCRD_NOT_UNIQUE = "error.etoc.record.not.unique";
     public static final String ERROR_EXPENSE_TYPE_OBJECT_CODE_INVALID_TRIP_TYPE_FOR_DOC_TYPE = "error.etoc.invalid.trip.type.considering.document.type";
 
+    public static final String WARNING_EXPENSE_TYPE_NO_CATEGORY_DEFAULT = "warning.etc.no.category.default";
+    public static final String WARNING_EXPENSE_TYPE_NO_CATEGORY_DEFAULT_AFTER_DOC = "warning.etc.wont.be.category.default";
+    public static final String ERROR_EXPENSE_TYPE_CANNOT_BE_DEFAULT = "error.etc.cannot.be.default.there.can.only.be.one";
+    public static final String ERROR_EXPENSE_TYPE_CATEGORY_NO_EXISTS = "error.etc.category.does.not.exist";
+
     public static final String ERROR_REIMBURSEMENT_OVERAGE_ORGANIZATION_HIERARCHY_ROLE_NON_NUMERIC = "error.reimbursement.overage.organization.hierarchy.role.non.numeric";
     public static final String ERROR_REIMBURSEMENT_OVERAGE_ORGANIZATION_HIERARCHY_ROLE_NEGATIVE = "error.reimbursement.overage.organization.hierarchy.role.negative";
 

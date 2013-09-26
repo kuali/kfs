@@ -46,12 +46,10 @@ import org.kuali.kfs.integration.ar.AccountsReceivableModuleService;
 import org.kuali.kfs.integration.ar.AccountsReceivableOrganizationOptions;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemConstants.TravelDocTypes;
-import org.kuali.kfs.module.tem.TemConstants.TravelParameters;
 import org.kuali.kfs.module.tem.TemParameterConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.businessobject.AccountingDocumentRelationship;
 import org.kuali.kfs.module.tem.businessobject.ActualExpense;
-import org.kuali.kfs.module.tem.businessobject.ExpenseTypeObjectCode;
 import org.kuali.kfs.module.tem.businessobject.PerDiemExpense;
 import org.kuali.kfs.module.tem.businessobject.TemSourceAccountingLine;
 import org.kuali.kfs.module.tem.businessobject.TemSourceAccountingLineTotalPercentage;
@@ -60,7 +58,6 @@ import org.kuali.kfs.module.tem.businessobject.TravelerDetail;
 import org.kuali.kfs.module.tem.businessobject.TripType;
 import org.kuali.kfs.module.tem.document.TEMReimbursementDocument;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
-import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.TravelReimbursementDocument;
 import org.kuali.kfs.module.tem.document.service.AccountingDocumentRelationshipService;
 import org.kuali.kfs.module.tem.document.service.TravelAuthorizationService;
@@ -187,6 +184,9 @@ public class TravelReimbursementServiceImpl implements TravelReimbursementServic
         cover.setDestination(destination);
         cover.setDocumentNumber(docNumber);
 
+        boolean mileageReceiptRequired = false;
+        boolean lodgingReceiptRequired = false;
+
         final Collection<Map<String, String>> expenses = new ArrayList<Map<String, String>>();
         if (document.getActualExpenses() != null) {
             for (final ActualExpense expense : document.getActualExpenses()) {
@@ -199,7 +199,12 @@ public class TravelReimbursementServiceImpl implements TravelReimbursementServic
 
                 expenseMap.put("amount", amount.multiply(rate) + "");
 
-                expenseMap.put("receipt", getReceiptRequired(expense.getExpenseTypeObjectCode()));
+                expenseMap.put("receipt", getFormattedReceiptRequired(expense.getExpenseTypeObjectCode().isReceiptRequired()));
+                if (TemConstants.ExpenseTypeMetaCategory.LODGING.getCode().equals(expense.getExpenseType().getExpenseTypeMetaCategoryCode())) {
+                    lodgingReceiptRequired |= expense.getExpenseTypeObjectCode().isReceiptRequired();
+                } else if (TemConstants.ExpenseTypeMetaCategory.MILEAGE.getCode().equals(expense.getExpenseType().getExpenseTypeMetaCategoryCode())) {
+                    mileageReceiptRequired |= expense.getExpenseTypeObjectCode().isReceiptRequired();
+                }
                 expenses.add(expenseMap);
             }
         }
@@ -213,12 +218,12 @@ public class TravelReimbursementServiceImpl implements TravelReimbursementServic
             final Map<String, String> lodgingMap = new HashMap<String, String>();
             lodgingMap.put("expenseType", "Lodging");
             lodgingMap.put("amount", document.getLodgingGrandTotal().toString());
-            lodgingMap.put("receipt", getReceiptRequired(TravelParameters.LODGING_EXPENSE_TYPE, document));
+            lodgingMap.put("receipt", getFormattedReceiptRequired(lodgingReceiptRequired));
             expenses.add(lodgingMap);
             final Map<String, String> mileageMap = new HashMap<String, String>();
             mileageMap.put("expenseType", "Mileage");
             mileageMap.put("amount", document.getMilesGrandTotal().toString());
-            mileageMap.put("receipt", getReceiptRequired(TravelParameters.MILEAGE_EXPENSE_TYPE, document));
+            mileageMap.put("receipt", getFormattedReceiptRequired(mileageReceiptRequired));
             expenses.add(mileageMap);
         }
 
@@ -229,37 +234,11 @@ public class TravelReimbursementServiceImpl implements TravelReimbursementServic
 
     /**
      *
-     * @param expenseType
-     * @param document
-     * @return
-     */
-    protected String getReceiptRequired(String expenseType, final TravelDocument document) {
-        final String expenseTypeCode = parameterService.getParameterValueAsString(TemParameterConstants.TEM_DOCUMENT.class, expenseType);
-        Map<String, String> primaryKeys = new HashMap<String, String>();
-        primaryKeys.put(KFSPropertyConstants.CODE, expenseTypeCode);
-        primaryKeys.put(TemPropertyConstants.TRIP_TYPE, document.getTripTypeCode());
-        primaryKeys.put(TemPropertyConstants.TRAVELER_TYPE, document.getTraveler().getTravelerTypeCode());
-        primaryKeys.put(KFSPropertyConstants.DOCUMENT_TYPE, document.getDocumentTypeName());
-
-        return getReceiptRequired(businessObjectService.findByPrimaryKey(ExpenseTypeObjectCode.class, primaryKeys));
-    }
-
-    /**
-     *
      * @param expenseTypeCode
      * @return
      */
-    protected String getReceiptRequired(ExpenseTypeObjectCode expenseTypeCode) {
-        String receipt = "-";
-        if(ObjectUtils.isNotNull(expenseTypeCode) && ObjectUtils.isNotNull(expenseTypeCode.isReceiptRequired())) {
-        	if(expenseTypeCode.isReceiptRequired()) {
-        		receipt = "Yes";
-        	} else {
-        		receipt = "No";
-        	}
-        }
-
-        return receipt;
+    protected String getFormattedReceiptRequired(boolean receiptRequired) {
+        return receiptRequired ? "Yes" : "No";
     }
 
     @Override

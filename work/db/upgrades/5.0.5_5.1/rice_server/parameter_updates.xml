@@ -215,7 +215,26 @@
 		<modifySql dbms="mysql">
 			<replace replace="NUMBER" with="DECIMAL" />
 		</modifySql>
-	</changeSet>
+</changeSet>
 
+ <changeSet author="KFS52" id="KFSMI-11165">
+    <comment>Intra-Account Adjustment doc issues found in QA - from KFSCNTRB-739</comment> 
+	
+	 <update tableName="KRCR_DRVD_CMPNT_T">
+	    <column name="nm" value="Intra-Account Adjustment Source Accounting Line"/> 
+	    <where>cmpnt_cd='IntraAccountAdjustmentSourceAccountingLine'</where> 
+	 </update>
+	 <update tableName="KRCR_DRVD_CMPNT_T">
+	 	    <column name="nm" value="Intra-Account Adjustment Target  Accounting Line"/> 
+	 	    <where>cmpnt_cd='IntraAccountAdjustmentTargetAccountingLine'</where> 
+	 </update>
+	 
+	 <update tableName="KRCR_DRVD_CMPNT_T">
+	 	 <column name="nm" value="Intra-AccountAdjustment"/> 
+	 	 <where>cmpnt_cd='IntraAccountAdjustment'</where> 
+	 </update>
+	 
+	<modifySql dbms="mysql"><replace with="UUID()" replace="SYS_GUID()"/></modifySql>
+</changeSet>
 			
 </databaseChangeLog>

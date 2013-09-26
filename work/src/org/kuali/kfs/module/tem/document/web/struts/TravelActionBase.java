@@ -882,7 +882,7 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
     }
 
     /**
-     * This method calculates the accounting line amount.
+     * This method calculates the amount that still needs to be accounted for on the document
      *
      * @param travelReqForm
      * @return

@@ -196,10 +196,10 @@ public class TravelEncumbranceServiceImpl implements TravelEncumbranceService {
     }
 
     /**
-     * @see org.kuali.kfs.module.tem.document.service.TravelEncumbranceService#disencumberTravelAuthorizationClose(org.kuali.kfs.module.tem.document.TravelAuthorizationCloseDocument)
+     * @see org.kuali.kfs.module.tem.document.service.TravelEncumbranceService#disencumberTravelAuthorizationClose(org.kuali.kfs.module.tem.document.TravelAuthorizationCloseDocument, org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper)
      */
     @Override
-    public void disencumberTravelAuthorizationClose(TravelAuthorizationCloseDocument document) {
+    public void disencumberTravelAuthorizationClose(TravelAuthorizationCloseDocument document, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
 
         //Get rid of all pending entries relating to encumbrance.
         clearAuthorizationEncumbranceGLPE(document);
@@ -208,9 +208,8 @@ public class TravelEncumbranceServiceImpl implements TravelEncumbranceService {
 
         // Create encumbrance map based on account numbers
         int counter = document.getGeneralLedgerPendingEntries().size() + 1;
-        GeneralLedgerPendingEntrySequenceHelper sequenceHelper = new GeneralLedgerPendingEntrySequenceHelper(counter);
         for (Encumbrance encumbrance : encumbrances) {
-            liquidateEncumbrance(encumbrance, sequenceHelper, document, true);
+            liquidateEncumbrance(encumbrance, sequenceHelper, document, false);
         }
     }
 

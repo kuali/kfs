@@ -96,6 +96,7 @@
 					</property>
 					<property name="validationNodes">
 						<list>
+							<value>PreRoute</value>
 							<value>Travel</value>
 						</list>
 					</property>

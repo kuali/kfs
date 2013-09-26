@@ -28,6 +28,8 @@ import org.kuali.rice.krad.document.Document;
  * A generic validation which will only validate at specified notes
  */
 public class NodeSpecificValidation implements Validation {
+    protected static final String PRE_ROUTE = "PreRoute";
+
     protected boolean quitOnFail;
     protected List<String> validationNodes;
     protected Validation validation;
@@ -110,6 +112,12 @@ public class NodeSpecificValidation implements Validation {
         final WorkflowDocument workflowDocument = documentHeader.getWorkflowDocument();
 
         if (workflowDocument != null) {
+            if (getValidationNodes() != null && getValidationNodes().contains(PRE_ROUTE)) {
+                if (workflowDocument.isInitiated() || workflowDocument.isSaved()) {
+                    return true; // special pre-route check
+                }
+            }
+
             final Set<String> currentNodes = workflowDocument.getCurrentNodeNames();
             for (String validationNode : getValidationNodes()) {
                 if (currentNodes.contains(validationNode)) {

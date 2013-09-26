@@ -32,6 +32,7 @@ import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.module.purap.util.PurApRelatedViews;
 import org.kuali.kfs.module.tem.TemConstants;
+import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.TemParameterConstants;
 import org.kuali.kfs.module.tem.businessobject.ActualExpense;
 import org.kuali.kfs.module.tem.businessobject.PerDiemExpense;
@@ -139,6 +140,7 @@ public abstract class TEMReimbursementDocument extends TravelDocumentBase implem
         calendar = getDateTimeService().getCurrentCalendar();
         calendar.add(Calendar.DAY_OF_MONTH, 1);
         travelPayment.setDueDate(new java.sql.Date(calendar.getTimeInMillis()));
+        travelPayment.setCheckStubText(getConfigurationService().getPropertyValueAsString(TemKeyConstants.MESSAGE_TEM_REIMBURSEMENT_PAYMENT_HOLD_TEXT));
 
         // set up the default bank
         setDefaultBankCode();

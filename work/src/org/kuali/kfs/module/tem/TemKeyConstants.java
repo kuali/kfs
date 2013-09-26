@@ -137,6 +137,7 @@ public class TemKeyConstants {
     public static final String MESSAGE_TA_ADVANCE_POLICY = "message.document.tem.ta.advance.policy";
     public static final String MESSAGE_TA_ADVANCE_PAYMENT_HOLD_TEXT = "message.document.tem.ta.advance.checkText.holdingText";
     public static final String MESSAGE_TA_ADVANCE_PAYMENT_CHECK_TEXT_PREFIX = "message.document.tem.ta.advance.checkText.prefix";
+    public static final String MESSAGE_TEM_REIMBURSEMENT_PAYMENT_HOLD_TEXT = "message.document.tem.reimbursement.payment.checkText.holdingText";
 
     //Add any custom messages
     public static final String MESSAGE_GENERIC = "message.generic";

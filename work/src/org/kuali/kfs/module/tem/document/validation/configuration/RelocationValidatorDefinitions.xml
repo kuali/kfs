@@ -79,6 +79,7 @@
 				</property>
 				<property name="validationNodes">
 					<list>
+						<value>PreRoute</value>
 						<value>MovingAndRelocationManager</value>
 					</list>
 				</property>

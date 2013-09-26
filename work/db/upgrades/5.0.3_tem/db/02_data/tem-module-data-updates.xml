@@ -444,7 +444,8 @@
 			<column name="GRP_TRVL_IND" value="N"/>
 			<column name="EXP_DETAIL_REQ_IND" value="Y"/>
 			<column name="EXP_PRPY_IND" value="N"/>
-			<column name="PER_DIEM_IND" value="N"/>
+			<column name="EXP_TYP_META_CTGRY_CD" value="A"/>
+			<column name="CTGRY_DFLT_IND" value="Y"/>
 			<column name="ACTV_IND" value="Y"/>
 		</insert>
 		<insert tableName="TEM_EXP_TYP_T">
@@ -455,7 +456,6 @@
 			<column name="GRP_TRVL_IND" value="N"/>
 			<column name="EXP_DETAIL_REQ_IND" value="N"/>
 			<column name="EXP_PRPY_IND" value="N"/>
-			<column name="PER_DIEM_IND" value="N"/>
 			<column name="ACTV_IND" value="Y"/>
 		</insert>
 		<insert tableName="TEM_EXP_TYP_T">
@@ -466,7 +466,8 @@
 			<column name="GRP_TRVL_IND" value="N"/>
 			<column name="EXP_DETAIL_REQ_IND" value="N"/>
 			<column name="EXP_PRPY_IND" value="N"/>
-			<column name="PER_DIEM_IND" value="Y"/>
+			<column name="EXP_TYP_META_CTGRY_CD" value="B"/>
+			<column name="CTGRY_DFLT_IND" value="Y"/>
 			<column name="ACTV_IND" value="Y"/>
 		</insert>
 		<insert tableName="TEM_EXP_TYP_T">
@@ -477,7 +478,6 @@
 			<column name="GRP_TRVL_IND" value="N"/>
 			<column name="EXP_DETAIL_REQ_IND" value="N"/>
 			<column name="EXP_PRPY_IND" value="N"/>
-			<column name="PER_DIEM_IND" value="N"/>
 			<column name="ACTV_IND" value="Y"/>
 		</insert>
 		<insert tableName="TEM_EXP_TYP_T">
@@ -488,7 +488,8 @@
 			<column name="GRP_TRVL_IND" value="N"/>
 			<column name="EXP_DETAIL_REQ_IND" value="N"/>
 			<column name="EXP_PRPY_IND" value="N"/>
-			<column name="PER_DIEM_IND" value="Y"/>
+			<column name="EXP_TYP_META_CTGRY_CD" value="D"/>
+			<column name="CTGRY_DFLT_IND" value="Y"/>
 			<column name="ACTV_IND" value="Y"/>
 		</insert>
 		<insert tableName="TEM_EXP_TYP_T">
@@ -499,7 +500,8 @@
 			<column name="GRP_TRVL_IND" value="N"/>
 			<column name="EXP_DETAIL_REQ_IND" value="N"/>
 			<column name="EXP_PRPY_IND" value="N"/>
-			<column name="PER_DIEM_IND" value="N"/>
+			<column name="EXP_TYP_META_CTGRY_CD" value="I"/>
+			<column name="CTGRY_DFLT_IND" value="N"/>
 			<column name="ACTV_IND" value="Y"/>
 		</insert>
 		<insert tableName="TEM_EXP_TYP_T">
@@ -510,7 +512,6 @@
 			<column name="GRP_TRVL_IND" value="Y"/>
 			<column name="EXP_DETAIL_REQ_IND" value="Y"/>
 			<column name="EXP_PRPY_IND" value="N"/>
-			<column name="PER_DIEM_IND" value="N"/>
 			<column name="ACTV_IND" value="Y"/>
 		</insert>
 		<insert tableName="TEM_EXP_TYP_T">
@@ -521,7 +522,6 @@
 			<column name="GRP_TRVL_IND" value="Y"/>
 			<column name="EXP_DETAIL_REQ_IND" value="N"/>
 			<column name="EXP_PRPY_IND" value="N"/>
-			<column name="PER_DIEM_IND" value="Y"/>
 			<column name="ACTV_IND" value="Y"/>
 		</insert>
 		<insert tableName="TEM_EXP_TYP_T">
@@ -532,7 +532,6 @@
 			<column name="GRP_TRVL_IND" value="Y"/>
 			<column name="EXP_DETAIL_REQ_IND" value="N"/>
 			<column name="EXP_PRPY_IND" value="N"/>
-			<column name="PER_DIEM_IND" value="Y"/>
 			<column name="ACTV_IND" value="Y"/>
 		</insert>
 		<insert tableName="TEM_EXP_TYP_T">
@@ -543,7 +542,6 @@
 			<column name="GRP_TRVL_IND" value="Y"/>
 			<column name="EXP_DETAIL_REQ_IND" value="N"/>
 			<column name="EXP_PRPY_IND" value="N"/>
-			<column name="PER_DIEM_IND" value="N"/>
 			<column name="ACTV_IND" value="Y"/>
 		</insert>
 		<insert tableName="TEM_EXP_TYP_T">
@@ -554,7 +552,6 @@
 			<column name="GRP_TRVL_IND" value="Y"/>
 			<column name="EXP_DETAIL_REQ_IND" value="N"/>
 			<column name="EXP_PRPY_IND" value="N"/>
-			<column name="PER_DIEM_IND" value="Y"/>
 			<column name="ACTV_IND" value="Y"/>
 		</insert>
 		<insert tableName="TEM_EXP_TYP_T">
@@ -565,7 +562,6 @@
 			<column name="GRP_TRVL_IND" value="Y"/>
 			<column name="EXP_DETAIL_REQ_IND" value="N"/>
 			<column name="EXP_PRPY_IND" value="N"/>
-			<column name="PER_DIEM_IND" value="N"/>
 			<column name="ACTV_IND" value="Y"/>
 		</insert>
 		<insert tableName="TEM_EXP_TYP_T">
@@ -576,7 +572,6 @@
 			<column name="GRP_TRVL_IND" value="Y"/>
 			<column name="EXP_DETAIL_REQ_IND" value="Y"/>
 			<column name="EXP_PRPY_IND" value="N"/>
-			<column name="PER_DIEM_IND" value="N"/>
 			<column name="ACTV_IND" value="Y"/>
 		</insert>
 		<insert tableName="TEM_EXP_TYP_T">
@@ -587,7 +582,6 @@
 			<column name="GRP_TRVL_IND" value="Y"/>
 			<column name="EXP_DETAIL_REQ_IND" value="N"/>
 			<column name="EXP_PRPY_IND" value="N"/>
-			<column name="PER_DIEM_IND" value="N"/>
 			<column name="ACTV_IND" value="Y"/>
 		</insert>
 		<insert tableName="TEM_EXP_TYP_T">
@@ -598,7 +592,8 @@
 			<column name="GRP_TRVL_IND" value="N"/>
 			<column name="EXP_DETAIL_REQ_IND" value="N"/>
 			<column name="EXP_PRPY_IND" value="N"/>
-			<column name="PER_DIEM_IND" value="N"/>
+			<column name="EXP_TYP_META_CTGRY_CD" value="L"/>
+			<column name="CTGRY_DFLT_IND" value="Y"/>
 			<column name="ACTV_IND" value="Y"/>
 		</insert>
 		<insert tableName="TEM_EXP_TYP_T">
@@ -609,7 +604,8 @@
 			<column name="GRP_TRVL_IND" value="N"/>
 			<column name="EXP_DETAIL_REQ_IND" value="N"/>
 			<column name="EXP_PRPY_IND" value="N"/>
-			<column name="PER_DIEM_IND" value="Y"/>
+			<column name="EXP_TYP_META_CTGRY_CD" value="J"/>
+			<column name="CTGRY_DFLT_IND" value="Y"/>
 			<column name="ACTV_IND" value="Y"/>
 		</insert>
 		<insert tableName="TEM_EXP_TYP_T">
@@ -620,7 +616,6 @@
 			<column name="GRP_TRVL_IND" value="N"/>
 			<column name="EXP_DETAIL_REQ_IND" value="N"/>
 			<column name="EXP_PRPY_IND" value="N"/>
-			<column name="PER_DIEM_IND" value="N"/>
 			<column name="ACTV_IND" value="Y"/>
 		</insert>
 		<insert tableName="TEM_EXP_TYP_T">
@@ -631,7 +626,6 @@
 			<column name="GRP_TRVL_IND" value="N"/>
 			<column name="EXP_DETAIL_REQ_IND" value="N"/>
 			<column name="EXP_PRPY_IND" value="N"/>
-			<column name="PER_DIEM_IND" value="N"/>
 			<column name="ACTV_IND" value="Y"/>
 		</insert>
 		<insert tableName="TEM_EXP_TYP_T">
@@ -642,7 +636,6 @@
 			<column name="GRP_TRVL_IND" value="N"/>
 			<column name="EXP_DETAIL_REQ_IND" value="N"/>
 			<column name="EXP_PRPY_IND" value="N"/>
-			<column name="PER_DIEM_IND" value="N"/>
 			<column name="ACTV_IND" value="Y"/>
 		</insert>
 		<insert tableName="TEM_EXP_TYP_T">
@@ -653,7 +646,6 @@
 			<column name="GRP_TRVL_IND" value="N"/>
 			<column name="EXP_DETAIL_REQ_IND" value="N"/>
 			<column name="EXP_PRPY_IND" value="N"/>
-			<column name="PER_DIEM_IND" value="N"/>
 			<column name="ACTV_IND" value="Y"/>
 		</insert>
 		<insert tableName="TEM_EXP_TYP_T">
@@ -664,7 +656,8 @@
 			<column name="GRP_TRVL_IND" value="N"/>
 			<column name="EXP_DETAIL_REQ_IND" value="Y"/>
 			<column name="EXP_PRPY_IND" value="N"/>
-			<column name="PER_DIEM_IND" value="N"/>
+			<column name="EXP_TYP_META_CTGRY_CD" value="M"/>
+			<column name="CTGRY_DFLT_IND" value="Y"/>
 			<column name="ACTV_IND" value="Y"/>
 		</insert>
 		<insert tableName="TEM_EXP_TYP_T">
@@ -675,7 +668,6 @@
 			<column name="GRP_TRVL_IND" value="N"/>
 			<column name="EXP_DETAIL_REQ_IND" value="N"/>
 			<column name="EXP_PRPY_IND" value="N"/>
-			<column name="PER_DIEM_IND" value="N"/>
 			<column name="ACTV_IND" value="Y"/>
 		</insert>
 		<insert tableName="TEM_EXP_TYP_T">
@@ -686,7 +678,6 @@
 			<column name="GRP_TRVL_IND" value="N"/>
 			<column name="EXP_DETAIL_REQ_IND" value="N"/>
 			<column name="EXP_PRPY_IND" value="N"/>
-			<column name="PER_DIEM_IND" value="N"/>
 			<column name="ACTV_IND" value="Y"/>
 		</insert>
 		<insert tableName="TEM_EXP_TYP_T">
@@ -697,7 +688,6 @@
 			<column name="GRP_TRVL_IND" value="N"/>
 			<column name="EXP_DETAIL_REQ_IND" value="N"/>
 			<column name="EXP_PRPY_IND" value="N"/>
-			<column name="PER_DIEM_IND" value="N"/>
 			<column name="ACTV_IND" value="Y"/>
 		</insert>
 		<insert tableName="TEM_EXP_TYP_T">
@@ -708,7 +698,6 @@
 			<column name="GRP_TRVL_IND" value="N"/>
 			<column name="EXP_DETAIL_REQ_IND" value="Y"/>
 			<column name="EXP_PRPY_IND" value="Y"/>
-			<column name="PER_DIEM_IND" value="N"/>
 			<column name="ACTV_IND" value="Y"/>
 		</insert>
 		<insert tableName="TEM_EXP_TYP_T">
@@ -719,7 +708,6 @@
 			<column name="GRP_TRVL_IND" value="N"/>
 			<column name="EXP_DETAIL_REQ_IND" value="N"/>
 			<column name="EXP_PRPY_IND" value="Y"/>
-			<column name="PER_DIEM_IND" value="N"/>
 			<column name="ACTV_IND" value="Y"/>
 		</insert>
 		<insert tableName="TEM_EXP_TYP_T">
@@ -730,7 +718,6 @@
 			<column name="GRP_TRVL_IND" value="N"/>
 			<column name="EXP_DETAIL_REQ_IND" value="N"/>
 			<column name="EXP_PRPY_IND" value="Y"/>
-			<column name="PER_DIEM_IND" value="N"/>
 			<column name="ACTV_IND" value="Y"/>
 		</insert>
 		<insert tableName="TEM_EXP_TYP_T">
@@ -741,7 +728,6 @@
 			<column name="GRP_TRVL_IND" value="N"/>
 			<column name="EXP_DETAIL_REQ_IND" value="N"/>
 			<column name="EXP_PRPY_IND" value="Y"/>
-			<column name="PER_DIEM_IND" value="N"/>
 			<column name="ACTV_IND" value="Y"/>
 		</insert>
 		<insert tableName="TEM_EXP_TYP_T">
@@ -752,7 +738,6 @@
 			<column name="GRP_TRVL_IND" value="N"/>
 			<column name="EXP_DETAIL_REQ_IND" value="N"/>
 			<column name="EXP_PRPY_IND" value="N"/>
-			<column name="PER_DIEM_IND" value="N"/>
 			<column name="ACTV_IND" value="Y"/>
 		</insert>
 		<insert tableName="TEM_EXP_TYP_T">
@@ -763,7 +748,6 @@
 			<column name="GRP_TRVL_IND" value="N"/>
 			<column name="EXP_DETAIL_REQ_IND" value="N"/>
 			<column name="EXP_PRPY_IND" value="Y"/>
-			<column name="PER_DIEM_IND" value="N"/>
 			<column name="ACTV_IND" value="Y"/>
 		</insert>
 		<insert tableName="TEM_EXP_TYP_T">
@@ -774,7 +758,8 @@
 			<column name="GRP_TRVL_IND" value="N"/>
 			<column name="EXP_DETAIL_REQ_IND" value="Y"/>
 			<column name="EXP_PRPY_IND" value="N"/>
-			<column name="PER_DIEM_IND" value="N"/>
+			<column name="EXP_TYP_META_CTGRY_CD" value="R"/>
+			<column name="CTGRY_DFLT_IND" value="Y"/>
 			<column name="ACTV_IND" value="Y"/>
 		</insert>
 		<insert tableName="TEM_EXP_TYP_T">
@@ -785,7 +770,6 @@
 			<column name="GRP_TRVL_IND" value="N"/>
 			<column name="EXP_DETAIL_REQ_IND" value="N"/>
 			<column name="EXP_PRPY_IND" value="N"/>
-			<column name="PER_DIEM_IND" value="N"/>
 			<column name="ACTV_IND" value="Y"/>
 		</insert>
 		<insert tableName="TEM_EXP_TYP_T">
@@ -796,10 +780,9 @@
 			<column name="GRP_TRVL_IND" value="N"/>
 			<column name="EXP_DETAIL_REQ_IND" value="N"/>
 			<column name="EXP_PRPY_IND" value="N"/>
-			<column name="PER_DIEM_IND" value="N"/>
 			<column name="ACTV_IND" value="Y"/>
 		</insert>
-				<insert tableName="TEM_EXP_TYP_FIN_OBJ_CD_T">
+		<insert tableName="TEM_EXP_TYP_FIN_OBJ_CD_T">
 			<column name="EXP_TYP_OBJ_CD_ID" value="1.0"/>
 			<column name="EXP_TYP_CD" value="A"/>
 			<column name="TRIP_TYP_CD" value="All"/>

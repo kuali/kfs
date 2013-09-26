@@ -3,34 +3,65 @@
 	xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
 	xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd'>
 
-	<changeSet author="kfs" id="CG_AGENCY_T_CGB_FIELDS">
+	<!-- To add Billing frequency, Financial Report,Financial Report Frequencies,AGCY_EXP_DT 
+		and Invoice Type column in agency table -->
+
+	<changeSet author="KFSCGB" id="CG_AGENCY_T_CGB_FIELDS">
 		<addColumn tableName="CG_AGENCY_T">
 			<column name="CAGE_NBR" type="varchar(20)" />
 			<column name="DODAC_NBR" type="varchar(20)" />
-			<column name="DUN_AND_BRADSTREET_NBR" type="varchar(20)" />
+			<column name="DUNS_NBR" type="varchar(20)" />
 			<column name="DUNS_PLUS_FOUR_NBR" type="varchar(20)" />
+			<column name="CG_AGENCY_BILL_FREQ_CD" type="varchar(10)" />
+			<column name="CG_AGENCY_FIN_FORM_TYP_CD" type="varchar(10)" />
+			<column name="CG_AGENCY_INV_TYP_CD" type="varchar(10)" />
+			<column name="FIN_RPT_FREQ_CD" type="varchar(10)" />
+			<column name="AGCY_EXP_DT" type="datetime" />
+			<column name="CUST_NBR" type="varchar(9)" />
+			<column name="CUST_TYP_CD" type="varchar(10)" />
+			<column name="CUST_CRTD" type="varchar(1)" />
+			<column name="SPNSR_CD" type="varchar(6)">
+				<constraints unique="true" nullable="true" />
+			</column>
+			<column name="CMPGN_ID" type="varchar(4)" />
+			<column name="STATE_AGENCY_IND" type="varchar(1)"
+				defaultValue="N" />
+			<column name="CLCTN_STATUS_CD" type="varchar(6)" />
+			<column name="NTE_TXT" type="varchar(800)" />
 		</addColumn>
-	</changeSet>
+		<modifySql dbms="oracle">
+			<replace replace="varchar" with="varchar2" />
+			<replace replace="decimal" with="number" />
+			<replace replace="datetime" with="date" />
+		</modifySql>
 
-	<changeSet author="kfs" id="CG_AGENCY_ADDR_TYP_T">
+	</changeSet>
+	
+
+	<changeSet author="KFSCGB" id="CG_AGENCY_ADDR_TYP_T">
 		<createTable tableName="CG_AGENCY_ADDR_TYP_T">
 			<column name="CG_AGENCY_ADDR_TYPE_CD" type="varchar(2)">
 				<constraints primaryKey="true" nullable="false" />
 			</column>
 			<column name="OBJ_ID" type="varchar(36)">
-				<constraints unique="true" nullable="false" />
+				<constraints unique="true" nullable="false" uniqueConstraintName="CG_AGENCY_ADDR_TYP_TC1"/>
 			</column>
 			<column name="VER_NBR" type="decimal(8,0)" defaultValue="1">
 				<constraints nullable="false" />
 			</column>
 			<column name="CG_AGENCY_ADDR_TYP_DESC" type="varchar(30)" />
-			<column name="ROW_ACTV_IND" type="varchar(1)">
+			<column name="ACTV_IND" type="varchar(1)" defaultValue="Y">
 				<constraints nullable="false" />
 			</column>
 		</createTable>
+		<modifySql dbms="oracle">
+			<replace replace="varchar" with="varchar2" />
+			<replace replace="decimal" with="number" />
+			<replace replace="datetime" with="date" />
+		</modifySql>
 	</changeSet>
 
-	<changeSet author="kfs" id="CG_AGENCY_ADDR_T">
+	<changeSet author="KFSCGB" id="CG_AGENCY_ADDR_T">
 		<createTable tableName="CG_AGENCY_ADDR_T">
 			<column name="CG_AGENCY_NBR" type="varchar(5)" defaultValue="">
 				<constraints primaryKey="true" nullable="false" />
@@ -40,9 +71,11 @@
 				<constraints primaryKey="true" nullable="false" />
 			</column>
 			<column name="OBJ_ID" type="varchar(36)">
-				<constraints unique="true" nullable="false" />
+				<constraints unique="true" nullable="false" uniqueConstraintName="CG_AGENCY_ADDR_TC1"/>
 			</column>
-			<column name="VER_NBR" type="decimal(8,0)" defaultValue="1" />
+			<column name="VER_NBR" type="decimal(8,0)" defaultValueNumeric="1">
+				<constraints nullable="false" />
+			</column>
 			<column name="CG_AGENCY_ADDR_NM" type="varchar(40)" />
 			<column name="CG_AGENCY_LINE_1_ADDR" type="varchar(30)" />
 			<column name="CG_AGENCY_LINE_2_ADDR" type="varchar(30)" />
@@ -56,18 +89,30 @@
 			<column name="CG_AGENCY_INTL_MAIL_CD" type="varchar(20)" />
 			<column name="CG_AGENCY_ADDR_TYPE_CD" type="varchar(2)" />
 			<column name="CG_AGENCY_ADDR_END_DT" type="datetime" />
+			<column name="INV_TYP_CD" type="varchar(10)" />
+			<column name="COPIES_TO_PRINT_QTY" type="varchar(5)" />
+			<column name="PRNT_ENV" type="varchar(1)" />
+			<column name="CNTCT_NM" type="varchar(40)" />
+			<column name="PHN_NBR" type="varchar(40)" />
+			<column name="FAX_NBR" type="varchar(40)" />
+			<column name="AGENCY_CNTCT_EMAIL_ADDR" type="varchar(60)" />
+			<column name="AGENCY_INV_EMAIL_ADDR" type="varchar(60)" />
+			<column name="INV_IND_CD" type="VARCHAR(10)" />
+			<column name="PRNT_ENV_NBR" type="varchar(5)" />
 		</createTable>
+		<modifySql dbms="oracle">
+			<replace replace="varchar" with="varchar2" />
+			<replace replace="decimal" with="number" />
+			<replace replace="datetime" with="date" />
+		</modifySql>
 	</changeSet>
 
-	<!-- Create Table CG_AGENCY_ADDR_ID_SEQ to accommodate Agency Address add/delete 
-		feature -->
-
-	<changeSet author="kfs" id="CGB_AGENCY_ADDR_ID_SEQ_oracle"
+	<changeSet author="KFSCGB" id="CGB_AGENCY_ADDR_ID_SEQ_oracle"
 		dbms="oracle">
 		<createSequence sequenceName="AGENCY_ADDR_ID_SEQ" />
 	</changeSet>
 
-	<changeSet author="kfs" id="CGB_AGENCY_ADDR_ID_SEQ_mysql"
+	<changeSet author="KFSCGB" id="CGB_AGENCY_ADDR_ID_SEQ_mysql"
 		dbms="mysql">
 		<createTable tableName="AGENCY_ADDR_ID_SEQ">
 			<column name="id" type="BIGINT(19)" autoIncrement="true">
@@ -79,185 +124,192 @@
 		</modifySql>
 	</changeSet>
 
-	<!-- FINANCIAL FORM TYPE -->
-	<!-- Creating table -->
-	<changeSet author="kfs" id="CG_FIN_FORM_TYP_T">
+	<changeSet author="KFSCGB" id="CG_FIN_FORM_TYP_T">
 		<createTable tableName="CG_FIN_FORM_TYP_T">
 			<column name="FIN_FORM_TYP_CD" type="varchar(10)">
 				<constraints primaryKey="true" nullable="false" />
 			</column>
 			<column name="OBJ_ID" type="varchar(36)">
-				<constraints unique="true" nullable="false" />
+				<constraints unique="true" nullable="false" uniqueConstraintName="CG_FIN_FORM_TYP_TC1" />
 			</column>
-			<column name="VER_NBR" type="decimal(8,0)" defaultValue="1">
+			<column name="VER_NBR" type="decimal(8,0)" defaultValueNumeric="1">
 				<constraints nullable="false" />
 			</column>
 			<column name="FIN_FORM_TYP_DESC" type="varchar(45)" />
-			<column name="DOBJ_MAINT_CD_ACTV_IND" type="varchar(1)">
+			<column name="ACTV_IND" type="varchar(1)" defaultValue="Y">
 				<constraints nullable="false" />
 			</column>
 		</createTable>
+		<modifySql dbms="oracle">
+			<replace replace="varchar" with="varchar2" />
+			<replace replace="decimal" with="number" />
+			<replace replace="datetime" with="date" />
+		</modifySql>
 	</changeSet>
 
-	<!-- CONTRACT OR GRANT TYPE -->
-	<!-- Creating table -->
-	<changeSet author="kfs" id="CG_CNTRCT_GRNT_TYP_T">
+	<changeSet author="KFSCGB" id="CG_CNTRCT_GRNT_TYP_T">
 		<createTable tableName="CG_CNTRCT_GRNT_TYP_T">
 			<column name="CNTRCT_GRNT_TYP_CD" type="varchar(10)">
 				<constraints primaryKey="true" nullable="false" />
 			</column>
 			<column name="OBJ_ID" type="varchar(36)">
-				<constraints unique="true" nullable="false" />
+				<constraints unique="true" nullable="false" uniqueConstraintName="CG_CNTRCT_GRNT_TYP_TC1"/>
 			</column>
-			<column name="VER_NBR" type="decimal(8,0)" defaultValue="1">
+			<column name="VER_NBR" type="decimal(8,0)" defaultValueNumeric="1">
 				<constraints nullable="false" />
 			</column>
 			<column name="CNTRCT_GRNT_TYP_DESC" type="varchar(45)" />
-			<column name="DOBJ_MAINT_CD_ACTV_IND" type="varchar(1)">
+			<column name="ACTV_IND" type="varchar(1)" defaultValue="Y">
 				<constraints nullable="false" />
 			</column>
 		</createTable>
+		<modifySql dbms="oracle">
+			<replace replace="varchar" with="varchar2" />
+			<replace replace="decimal" with="number" />
+			<replace replace="datetime" with="date" />
+		</modifySql>
 	</changeSet>
 
-	<!-- INVOICE TYPES -->
-	<!-- Creating table -->
-	<changeSet author="kfs" id="CG_INV_TYP_T">
+	<changeSet author="KFSCGB" id="CG_INV_TYP_T">
 		<createTable tableName="CG_INV_TYP_T">
 			<column name="INV_TYP_CD" type="varchar(10)">
 				<constraints primaryKey="true" nullable="false" />
 			</column>
 			<column name="OBJ_ID" type="varchar(36)">
-				<constraints unique="true" nullable="false" />
+				<constraints unique="true" nullable="false" uniqueConstraintName="CG_INV_TYP_TC1" />
 			</column>
-			<column name="VER_NBR" type="decimal(8,0)" defaultValue="1">
+			<column name="VER_NBR" type="decimal(8,0)" defaultValueNumeric="1">
 				<constraints nullable="false" />
 			</column>
 			<column name="INV_TYP_DESC" type="varchar(45)" />
-			<column name="DOBJ_MAINT_CD_ACTV_IND" type="varchar(1)">
+			<column name="ACTV_IND" type="varchar(1)" defaultValue="Y">
 				<constraints nullable="false" />
 			</column>
+			<column name="FILENAME" type="varchar(50)" />
+			<column name="FILEPATH" type="varchar(500)" />
+			<column name="ACCESS_RSTRCTD_IND" type="varchar(1)" />
+			<column name="BILL_BY_COA_CD" type="varchar(2)" />
+			<column name="BILL_BY_ORG_CD" type="varchar(4)" />
+			<column name="UPLOAD_DT" type="varchar(25)" />
 		</createTable>
+		<modifySql dbms="oracle">
+			<replace replace="varchar" with="varchar2" />
+			<replace replace="decimal" with="number" />
+			<replace replace="datetime" with="date" />
+		</modifySql>
 	</changeSet>
 
-	<!-- FINANCIAL REPORT FREQUENCIES -->
-	<!-- Creating table -->
-	<changeSet author="kfs" id="CG_FIN_RPT_FREQ_T">
+	<changeSet author="KFSCGB" id="CG_FIN_RPT_FREQ_T">
 		<createTable tableName="CG_FIN_RPT_FREQ_T">
 			<column name="FIN_RPT_FREQ_CD" type="varchar(10)">
 				<constraints primaryKey="true" nullable="false" />
 			</column>
 			<column name="OBJ_ID" type="varchar(36)">
-				<constraints unique="true" nullable="false" />
+				<constraints unique="true" nullable="false" uniqueConstraintName="CG_FIN_RPT_FREQ_TC1" />
 			</column>
-			<column name="VER_NBR" type="decimal(8,0)" defaultValue="1">
+			<column name="VER_NBR" type="decimal(8,0)" defaultValueNumeric="1">
 				<constraints nullable="false" />
 			</column>
 			<column name="FIN_RPT_FREQ_DESC" type="varchar(45)" />
-			<column name="DOBJ_MAINT_CD_ACTV_IND" type="varchar(1)">
+			<column name="ACTV_IND" type="varchar(1)" defaultValue="Y">
 				<constraints nullable="false" />
 			</column>
 		</createTable>
+		<modifySql dbms="oracle">
+			<replace replace="varchar" with="varchar2" />
+			<replace replace="decimal" with="number" />
+			<replace replace="datetime" with="date" />
+		</modifySql>
 	</changeSet>
 
 	<!-- BILLING FREQUENCY -->
-	<!-- Creating table -->
-	<changeSet author="kfs" id="CG_BILL_FREQ_T">
+	<changeSet author="KFSCGB" id="CG_BILL_FREQ_T">
 		<createTable tableName="CG_BILL_FREQ_T">
 			<column name="BILL_FREQ_CD" type="varchar(10)">
 				<constraints primaryKey="true" nullable="false" />
 			</column>
 			<column name="OBJ_ID" type="varchar(36)">
-				<constraints unique="true" nullable="false" />
+				<constraints unique="true" nullable="false" uniqueConstraintName="CG_BILL_FREQ_TC1"/>
 			</column>
-			<column name="VER_NBR" type="decimal(8,0)" defaultValue="1">
+			<column name="VER_NBR" type="decimal(8,0)" defaultValueNumeric="1">
 				<constraints nullable="false" />
 			</column>
 			<column name="BILL_FREQ_DESC" type="varchar(45)" />
-			<column name="DOBJ_MAINT_CD_ACTV_IND" type="varchar(1)">
+			<column name="ACTV_IND" type="varchar(1)" defaultValue="Y">
 				<constraints nullable="false" />
 			</column>
+			<column name="GRACE_PERIOD" type="varchar(3)" defaultValue="0" />
 		</createTable>
+		<modifySql dbms="oracle">
+			<replace replace="varchar" with="varchar2" />
+			<replace replace="decimal" with="number" />
+			<replace replace="datetime" with="date" />
+		</modifySql>
 	</changeSet>
 
-	<!-- To add Billing frequency, Financial Report and Invoice Type column 
-		in agency table -->
-
-	<changeSet author="kfs" id="CG_AGENCY_T_ADD_FIELDS">
-		
-		<addColumn tableName="CG_AGENCY_T">
-			<column name="CG_AGENCY_BILL_FREQ_CD" type="varchar(10)" />
-			<column name="CG_AGENCY_FIN_FORM_TYP_CD" type="varchar(10)" />
-			<column name="CG_AGENCY_INV_TYP_CD" type="varchar(10)" />
-		</addColumn>
-	</changeSet>
-
-	<!-- alter table -->
-	<changeSet author="kfs" id="CG_AWD_ACCT_T_1">
+	<changeSet author="KFSCGB" id="CG_AWD_ACCT_T_1">
 		<addColumn tableName="CG_AWD_T">
-			<column name="PRFRD_BILL_FREQ_CD" type="varchar(10)" />
-		</addColumn>
-	</changeSet>
-
-	<changeSet author="kfs" id="CG_AWD_ACCT_T_2">
-		<addColumn tableName="CG_AWD_T">
-			<column name="PRFRD_RPRT_FREQ" type="varchar(10)" />
-		</addColumn>
-	</changeSet>
-
-	<changeSet author="kfs" id="CG_AWD_ACCT_T_13">
-		<addColumn tableName="CG_AWD_T">
-			<column name="PRFRD_RPRT_TYP" type="varchar(10)" />
-		</addColumn>
-	</changeSet>
-
-	<changeSet author="kfs" id="CG_AWD_ACCT_T_4">
-		<addColumn tableName="CG_AWD_T">
+			<column name="PREF_BILL_FREQ_CD" type="varchar(10)" />
+			<column name="PREF_RPRT_FREQ" type="varchar(10)" />
+			<column name="PREF_RPRT_TYP" type="varchar(10)" />
 			<column name="SUSPND_INVCNG" type="varchar(1)" />
-		</addColumn>
-	</changeSet>
-
-	<changeSet author="kfs" id="CG_AWD_ACCT_T_5">
-		<addColumn tableName="CG_AWD_T">
 			<column name="ADDTNL_FRMS_RQRD" type="varchar(1)" />
-		</addColumn>
-	</changeSet>
-
-	<changeSet author="kfs" id="CG_AWD_ACCT_T_6">
-		<addColumn tableName="CG_AWD_T">
 			<column name="ADDTNL_FRM_DESC" type="varchar(255)" />
-		</addColumn>
-	</changeSet>
-
-	<changeSet author="kfs" id="CG_AWD_ACCT_T_7">
-		<addColumn tableName="CG_AWD_T">
 			<column name="CNTRCT_GRNT_TYP" type="varchar(10)" />
+			<column name="AWRD_SRC_OF_FNDS" type="varchar(10)" />
+			<column name="CG_MIN_INV_AMT" type="decimal(19,2)" />
+			<column name="CG_LTRCR_FND_CD" type="varchar(15)" />
+			<column name="AWD_ID" type="varchar(45)" />
+			<column name="AUTO_APP" type="varchar(1)" />
+			<column name="FUNDING_EXP_DT" type="datetime" />
+			<column name="COMMENT_TXT" type="VARCHAR(800)" defaultValue="" />
+			<column name="CG_INV_OPT" type="varchar(120)" />
+			<column name="LST_BILLED_DT" type="datetime" />
+			<column name="LTRCR_CRTN_TYP" type="varchar(45)" />
+			<column name="SUSP_REASON_TXT" type="VARCHAR(255)" defaultValue="" />
+			<column name="STATE_TRNSFR_IND" type="VARCHAR(1)" />
+			<column name="CMPGN_ID" type="varchar(4)" />
+			<column name="STOP_WRK_IND" type="varchar(1)" defaultValue="N" />
 		</addColumn>
+		<modifySql dbms="oracle">
+			<replace replace="varchar" with="varchar2" />
+			<replace replace="decimal" with="number" />
+			<replace replace="datetime" with="date" />
+		</modifySql>
 	</changeSet>
 
-	<!-- Create Milestones table -->
-	<changeSet author="kfs" id="AR_MLSTN_T">
+	<changeSet author="KFSCGB" id="AR_MLSTN_T">
 		<createTable tableName="AR_MLSTN_T">
 			<column name="MLSTN_ID" type="decimal(12,0)" defaultValue="0">
 			</column>
 			<column name="OBJ_ID" type="varchar(36)">
-				<constraints unique="true" nullable="false" />
+				<constraints unique="true" nullable="false" uniqueConstraintName="AR_MLSTN_TC1" />
 			</column>
-			<column name="VER_NBR" type="decimal(8,0)" defaultValue="1">
+			<column name="VER_NBR" type="decimal(8,0)" defaultValueNumeric="1">
 				<constraints nullable="false" />
 			</column>
 			<column name="MLSTN_DESC" type="varchar(45)" />
 			<column name="MLSTN_AMT" type="decimal(19,2)" />
-			<column name="IS_IT_BLD" type="varchar(5)" />
+			<column name="IS_IT_BILLED" type="varchar(5)" />
+			<column name="MLSTN_NBR" type="decimal(12,0)" defaultValue="0" />
+			<column name="CGPRPSL_NBR" type="decimal(12,0)" defaultValue="0" />
+			<column name="MLSTN_COMPLTN_DT" type="datetime" />
+			<column name="MLSTN_EXPCTD_COMPLTN_DT" type="datetime" />
 		</createTable>
+		<modifySql dbms="oracle">
+			<replace replace="varchar" with="varchar2" />
+			<replace replace="decimal" with="number" />
+			<replace replace="datetime" with="date" />
+		</modifySql>
 	</changeSet>
 
 	<!-- Create Table CG_MLSTN_ID_SEQ to accommodate Billing Frequency add/delete -->
 
-	<changeSet author="kfs" id="CGB_MLSTN_ID_SEQ_oracle" dbms="oracle">
+	<changeSet author="KFSCGB" id="CGB_MLSTN_ID_SEQ_oracle" dbms="oracle">
 		<createSequence sequenceName="MLSTN_ID_SEQ" />
 	</changeSet>
 
-	<changeSet author="kfs" id="CGB_MLSTN_ID_SEQ_mysql" dbms="mysql">
+	<changeSet author="KFSCGB" id="CGB_MLSTN_ID_SEQ_mysql" dbms="mysql">
 		<createTable tableName="MLSTN_ID_SEQ">
 			<column name="id" type="BIGINT(19)" autoIncrement="true">
 				<constraints primaryKey="true" nullable="false" />
@@ -268,9 +320,8 @@
 		</modifySql>
 	</changeSet>
 
-	<!-- Create Bills table -->
-	<changeSet author="kfs" id="CG_BILL_T">
-		
+	<changeSet author="KFSCGB" id="CG_BILL_T">
+
 		<createTable tableName="CG_BILL_T">
 			<column name="BILL_NBR" type="decimal(12,0)" defaultValue="0">
 				<constraints primaryKey="true" nullable="false" />
@@ -282,24 +333,28 @@
 				<constraints primaryKey="true" nullable="false" />
 			</column>
 			<column name="OBJ_ID" type="varchar(36)">
-				<constraints unique="true" nullable="false" />
+				<constraints unique="true" nullable="false" uniqueConstraintName="CG_BILL_TC1"/>
 			</column>
-			<column name="VER_NBR" type="decimal(8,0)" defaultValue="1">
+			<column name="VER_NBR" type="decimal(8,0)" defaultValueNumeric="1">
 				<constraints nullable="false" />
 			</column>
 			<column name="BILL_DT" type="datetime" />
 			<column name="EST_AMT" type="decimal(7,0)" />
-			<column name="IS_IT_BLD" type="varchar(5)" />
+			<column name="IS_IT_BILLED" type="varchar(5)" />
+			<column name="BILL_DESC" type="varchar(45)" />
 		</createTable>
+		<modifySql dbms="oracle">
+			<replace replace="varchar" with="varchar2" />
+			<replace replace="decimal" with="number" />
+			<replace replace="datetime" with="date" />
+		</modifySql>
 	</changeSet>
 
-	<!-- Create Table CG_BILL_ID_SEQ to accommodate Billing Frequency add/delete -->
-
-	<changeSet author="kfs" id="CGB_BILL_ID_SEQ_oracle" dbms="oracle">
+	<changeSet author="KFSCGB" id="CGB_BILL_ID_SEQ_oracle" dbms="oracle">
 		<createSequence sequenceName="BILL_ID_SEQ" />
 	</changeSet>
 
-	<changeSet author="kfs" id="CGB_BILL_ID_SEQ_mysql" dbms="mysql">
+	<changeSet author="KFSCGB" id="CGB_BILL_ID_SEQ_mysql" dbms="mysql">
 		<createTable tableName="BILL_ID_SEQ">
 			<column name="id" type="BIGINT(19)" autoIncrement="true">
 				<constraints primaryKey="true" nullable="false" />
@@ -310,37 +365,8 @@
 		</modifySql>
 	</changeSet>
 
+	<changeSet author="KFSCGB" id="AWARD_FUND_MANAGER">
 
-	<!-- To add Financial Report Frequencies column in agency table -->
-
-	<changeSet author="kfs" id="CG_AGENCY_T_MOD_FIELDS">
-		<addColumn tableName="CG_AGENCY_T">
-			<column name="FIN_RPT_FREQ_CD" type="varchar(10)" />
-		</addColumn>
-	</changeSet>
-
-	<!-- To add Invoice Type column in agency address table -->
-
-	<changeSet author="kfs" id="CG_AGENCY_ADDR_MOD_FIELDS">
-		<addColumn tableName="CG_AGENCY_ADDR_T">
-			<column name="INV_TYP_CD" type="varchar(10)" />
-			<column name="CP_TO_PRNT" type="varchar(5)" />
-			<column name="PRNT_ENV" type="varchar(1)" />
-		</addColumn>
-	</changeSet>
-
-
-	<!-- To add Source of funds and Preferred invoice type column in award table -->
-
-	<changeSet author="kfs" id="CG_AWD_T_MOD_FIELDS">
-		<addColumn tableName="CG_AWD_T">
-			<column name="AWRD_SRC_OF_FNDS" type="varchar(10)" />
-		</addColumn>
-	</changeSet>
-
-	<!-- Create Table CG_AWD_FNDMGR_T to accommodate AWARD FUND MANAGER -->
-	<changeSet author="kfs" id="AWARD_FUND_MANAGER">
-		
 		<createTable tableName="CG_AWD_FNDMGR_T">
 			<column name="PERSON_UNVL_ID" type="varchar(40)">
 				<constraints primaryKey="true" nullable="false" />
@@ -349,67 +375,71 @@
 				<constraints primaryKey="true" nullable="false" />
 			</column>
 			<column name="OBJ_ID" type="varchar(36)">
-				<constraints unique="true" nullable="false" />
+				<constraints unique="true" nullable="false" uniqueConstraintName="CG_AWD_FNDMGR_TC1"/>
 			</column>
-			<column name="VER_NBR" type="decimal(8,0)" defaultValue="1">
+			<column name="VER_NBR" type="decimal(8,0)" defaultValueNumeric="1" >
 				<constraints nullable="false" />
 			</column>
 			<column name="CGAWD_PRM_FNDMGR_IND" type="varchar(1)" />
 			<column name="CGAWD_FNDMGR_PRJ_TTL" type="varchar(100)" />
-			<column name="ROW_ACTV_IND" type="varchar(1)">
+			<column name="ACTV_IND" type="varchar(1)">
 				<constraints nullable="false" />
 			</column>
 		</createTable>
+		<modifySql dbms="oracle">
+			<replace replace="varchar" with="varchar2" />
+			<replace replace="decimal" with="number" />
+			<replace replace="datetime" with="date" />
+		</modifySql>
 	</changeSet>
 
-	<!-- Milestone Schedule table -->
 
-	<changeSet author="kfs" id="AR_MLSTN_SCHDL_T">
-		
+	<changeSet author="KFSCGB" id="AR_MLSTN_SCHDL_T">
+
 		<createTable tableName="AR_MLSTN_SCHDL_T">
 			<column name="CGPRPSL_NBR" type="decimal(12,0)" defaultValue="0">
 				<constraints primaryKey="true" nullable="false" />
 			</column>
 			<column name="OBJ_ID" type="varchar(36)">
-				<constraints unique="true" nullable="false" />
+				<constraints unique="true" nullable="false" uniqueConstraintName="AR_MLSTN_SCHDL_TC1"/>
 			</column>
-			<column name="VER_NBR" type="decimal(8,0)" defaultValue="1">
+			<column name="VER_NBR" type="decimal(8,0)" defaultValueNumeric="1">
 				<constraints nullable="false" />
 			</column>
 			<column name="TOT_AMT_SCHDL" type="decimal(19,2)" />
-			<column name="TOT_AWD_REMNG" type="decimal(19,2)" />
+			<column name="TOT_AWD_RMNG" type="decimal(19,2)" />
 		</createTable>
+		<modifySql dbms="oracle">
+			<replace replace="varchar" with="varchar2" />
+			<replace replace="decimal" with="number" />
+			<replace replace="datetime" with="date" />
+		</modifySql>
 	</changeSet>
 
-	<changeSet author="kfs" id="AR_CG_INV_DTL_T">
+	<changeSet author="KFSCGB" id="AR_CG_INV_DTL_T">
 		<createTable tableName="AR_CG_INV_DTL_T">
 			<column name="FDOC_NBR" type="varchar(10)" />
 			<column name="INV_CTG" type="varchar(120)" />
 			<column name="OBJ_ID" type="varchar(36)">
-				<constraints unique="true" nullable="false" />
+				<constraints unique="true" nullable="false" uniqueConstraintName="AR_CG_INV_DTL_TC1"/>
 			</column>
-			<column name="VER_NBR" type="decimal(8,0)" defaultValue="1">
+			<column name="VER_NBR" type="decimal(8,0)" defaultValueNumeric="1">
 				<constraints nullable="false" />
 			</column>
-			<column name="INV_BDGT" type="decimal(19,2)" />
-			<column name="INV_EXPND" type="decimal(19,2)" />
-			<column name="INV_CUM" type="decimal(19,2)" />
-			<column name="INV_BLNC" type="decimal(19,2)" />
+			<column name="INV_BDGT_AMT" type="decimal(19,2)" />
+			<column name="INV_EXPND_AMT" type="decimal(19,2)" />
+			<column name="INV_CUM_AMT" type="decimal(19,2)" />
+			<column name="INV_BLNC_AMT" type="decimal(19,2)" />
+			<column name="INV_DTL_ID" type="decimal(12,0)" defaultValue="0"></column>
 		</createTable>
-
+		<modifySql dbms="oracle">
+			<replace replace="varchar" with="varchar2" />
+			<replace replace="decimal" with="number" />
+			<replace replace="datetime" with="date" />
+		</modifySql>
 	</changeSet>
 
-
-	<changeSet author="kfs" id="AR_MLSTN_MOD1">
-		
-		<addColumn tableName="AR_MLSTN_T">
-			<column name="MLSTN_NBR" type="decimal(12,0)" defaultValue="0" />
-			<column name="CGPRPSL_NBR" type="decimal(12,0)" defaultValue="0" />
-		</addColumn>
-		<addPrimaryKey tableName="AR_MLSTN_T" columnNames="CGPRPSL_NBR,MLSTN_ID" />
-	</changeSet>
-
-	<changeSet author="kfs" id="AR_INV_AGENCY_ADDR_DTL_T">
+	<changeSet author="KFSCGB" id="AR_INV_AGENCY_ADDR_DTL_T">
 		<createTable tableName="AR_INV_AGENCY_ADDR_DTL_T">
 			<column name="FDOC_NBR" type="varchar(14)">
 				<constraints primaryKey="true" nullable="false" />
@@ -421,19 +451,30 @@
 				defaultValue="0">
 				<constraints primaryKey="true" nullable="false" />
 			</column>
+			<column name="OBJ_ID" type="varchar(36)">
+				<constraints unique="true" nullable="false" uniqueConstraintName="AR_INV_AGENCY_ADDR_DTL_TC1"/>
+			</column>
+			<column name="VER_NBR" type="decimal(8,0)" defaultValueNumeric="1" >
+				<constraints nullable="false" />
+			</column>
 			<column name="AGENCY_ADDR_TYPE_CD" type="varchar(2)" />
 			<column name="AGENCY_ADDR_NM" type="varchar(40)" />
 			<column name="AGENCY_INV_TYP_CD" type="varchar(10)" />
 			<column name="PREF_AGENCY_INV_TYP_CD" type="varchar(10)" />
-			<column name="OBJ_ID" type="varchar(36)">
-				<constraints unique="true" nullable="false" />
-			</column>
-			<column name="VER_NBR" type="decimal(8,0)" defaultValue="1" />
+			<column name="INV_IND_CD" type="VARCHAR(10)" />
+			<column name="PREF_INV_IND_CD" type="VARCHAR(10)" />
+			<column name="NOTE_ID" type="DECIMAL(14,0)" />
+			
 		</createTable>
+		<modifySql dbms="oracle">
+			<replace replace="varchar" with="varchar2" />
+			<replace replace="decimal" with="number" />
+			<replace replace="datetime" with="date" />
+		</modifySql>
 	</changeSet>
 
 
-	<changeSet author="kfs" id="AR_INV_ACCT_DTL_T">
+	<changeSet author="KFSCGB" id="AR_INV_ACCT_DTL_T">
 		<createTable tableName="AR_INV_ACCT_DTL_T">
 			<column name="FDOC_NBR" type="varchar(14)">
 				<constraints primaryKey="true" nullable="false" />
@@ -447,57 +488,38 @@
 			<column name="ACCOUNT_NBR" type="varchar(7)" defaultValue="">
 				<constraints primaryKey="true" nullable="false" />
 			</column>
+			<column name="OBJ_ID" type="varchar(36)">
+				<constraints unique="true" nullable="false" uniqueConstraintName="AR_INV_ACCT_DTL_TC1"/>
+			</column>
+			<column name="VER_NBR" type="decimal(8,0)" defaultValueNumeric="1" >
+				<constraints nullable="false" />
+			</column>
 			<column name="BDGT_AMT" type="decimal(19,2)" />
 			<column name="EXP_AMT" type="decimal(19,2)" />
 			<column name="CUM_AMT" type="decimal(19,2)" />
 			<column name="BAL_AMT" type="decimal(19,2)" />
-			<column name="OBJ_ID" type="varchar(36)">
-				<constraints unique="true" nullable="false" />
-			</column>
-			<column name="VER_NBR" type="decimal(8,0)" defaultValue="1" />
+			<column name="CNTRCT_CNTRL_ACCT_NBR" type="varchar(7)"
+				defaultValue="" />
+			<column name="BILLED_AMT" type="DECIMAL(19,2)" defaultValue="0" />
+			<column name="INV_BILLED" type="DECIMAL(19,2)" defaultValue="0" />
+			<column name="INV_CTG_CD" type="VARCHAR(4)" />
+			<column name="IND_CST_IND" type="varchar(1)" />
+			<column name="ADJ_CUM_EXPND" type="decimal(19,2)"
+				defaultValue="0" />
+			<column name="ADJ_BLNC" type="decimal(19,2)" defaultValue="0" />
 		</createTable>
+		<modifySql dbms="oracle">
+			<replace replace="varchar" with="varchar2" />
+			<replace replace="decimal" with="number" />
+			<replace replace="datetime" with="date" />
+		</modifySql>
 	</changeSet>
 
-	<changeSet author="kfs" id="CG_AWD_T1">
-		<addColumn tableName="CG_AWD_T">
-			<column name="CG_MIN_INV_AMT" type="decimal(19,2)" />
-		</addColumn>
-	</changeSet>
-
-
-
-	<!-- alter Agency table -->
-
-	<changeSet author="kfs" id="CG_AGENCY_T_MOD_01">
-		<addColumn tableName="CG_AGENCY_T">
-			<column name="AGCY_EXP_DT" type="datetime" />
-		</addColumn>
-	</changeSet>
-
-	<!-- alter agency address table -->
-
-	<changeSet author="kfs" id="CG_AGENCY_ADDR_MOD_01">
-		<addColumn tableName="CG_AGENCY_ADDR_T">
-			<column name="CNTCT_NM" type="varchar(40)" />
-			<column name="PH_NBR" type="varchar(40)" />
-			<column name="FAX_NBR" type="varchar(40)" />
-		</addColumn>
-	</changeSet>
-
-	<changeSet author="kfs" id="AR_CG_INV_DTL_ADD_FIELDS">
-		<addColumn tableName="AR_CG_INV_DTL_T">
-			<column name="INV_DTL_ID" type="decimal(12,0)" defaultValue="0"></column>
-		</addColumn>
-		<addPrimaryKey tableName="AR_CG_INV_DTL_T" columnNames="INV_DTL_ID,FDOC_NBR" />
-	</changeSet>
-
-	<!-- Create Table INV_DTL_SEQ to accommodate add/delete -->
-
-	<changeSet author="kfs" id="CGB_INV_DTL_SEQ_oracle" dbms="oracle">
+	<changeSet author="KFSCGB" id="CGB_INV_DTL_SEQ_oracle" dbms="oracle">
 		<createSequence sequenceName="INV_DTL_SEQ" />
 	</changeSet>
 
-	<changeSet author="kfs" id="CGB_INV_DTL_SEQ_mysql" dbms="mysql">
+	<changeSet author="KFSCGB" id="CGB_INV_DTL_SEQ_mysql" dbms="mysql">
 		<createTable tableName="INV_DTL_SEQ">
 			<column name="id" type="BIGINT(19)" autoIncrement="true">
 				<constraints primaryKey="true" nullable="false" />
@@ -508,178 +530,116 @@
 		</modifySql>
 	</changeSet>
 
-	<!-- alter Milestones table -->
-	<changeSet author="kfs" id="AR_MLSTN_T_MODIFY_COLUMNS">
-		<addColumn tableName="AR_MLSTN_T">
-			<column name="MLSTN_COMPLTN_DT" type="datetime">
-			</column>
-		</addColumn>
-	</changeSet>
-
-
-	<!-- ADD Bill-to-Account COLUMN TO CG_AGENCY_T -->
-	<!-- alter table -->
-	<changeSet author="kfs" id="CG_BILL_T_ADD_COLUMN">
-		<addColumn tableName="CG_BILL_T">
-			<column name="BILL_DESC" type="varchar(45)" />
-		</addColumn>
-	</changeSet>
-
-
-	<!-- alter agency address table -->
-
-	<changeSet author="kfs" id="CG_AGENCY_ADDR_MOD_02">
-		<addColumn tableName="CG_AGENCY_ADDR_T">
-			<column name="AGENCY_CNTCT_EMAIL_ADDR" type="varchar(60)" />
-			<column name="AGENCY_INV_EMAIL_ADDR" type="varchar(60)" />
-		</addColumn>
-	</changeSet>
-
-
-	<!-- Create Invoice General Detail Table -->
-	<changeSet author="kfs" id="AR_INV_GNRL_DTL_T">
+	<changeSet author="KFSCGB" id="AR_INV_GNRL_DTL_T">
 		<createTable tableName="AR_INV_GNRL_DTL_T">
 			<column name="FDOC_NBR" type="varchar(14)">
 				<constraints primaryKey="true" nullable="false" />
+			</column>
+			<column name="OBJ_ID" type="varchar(36)">
+				<constraints unique="true" nullable="false" uniqueConstraintName="AR_INV_GNRL_DTL_TC1"/>
+			</column>
+			<column name="VER_NBR" type="decimal(8,0)" defaultValueNumeric="1">
+				<constraints nullable="false" />
 			</column>
 			<column name="AWD_DT_RNG" type="varchar(50)" />
 			<column name="BILL_FREQ" type="varchar(50)" />
 			<column name="FND_TYP" type="varchar(50)" />
 			<column name="CNTRCT_GRNT_TYP" type="varchar(50)" />
-			<column name="FINAL_BILL" type="varchar(1)" />
-			<column name="OBJ_ID" type="varchar(36)">
-				<constraints unique="true" nullable="false" />
-			</column>
-			<column name="VER_NBR" type="decimal(8,0)" defaultValue="1">
-				<constraints nullable="false" />
-			</column>
-			<column name="AWD_TOT" type="decimal(19,2)" />
-			<column name="NW_TOT_BLD" type="decimal(19,2)" />
+			<column name="FINAL_BILL_IND" type="varchar(1)" />
+			<column name="AWD_TOT_AMT" type="decimal(19,2)" />
+			<column name="NEW_TOT_BILLED_AMT" type="decimal(19,2)" />
 			<column name="AMT_RMNG_TO_BILL" type="decimal(19,2)" />
 			<column name="BILLNG_PRD" type="varchar(50)" />
-			<column name="BILLED_TO_DT" type="DECIMAL(19,2)" />
+			<column name="BILLED_TO_DT_AMT" type="DECIMAL(19,2)" />
 			<column name="COST_SHR_AMT" type="DECIMAL(19,2)" />
+			<column name="LST_BILLED_DT" type="datetime" />
+			<column name="COMMENT_TXT" type="VARCHAR(255)" defaultValue="" />
+			<column name="AGENCY_NBR" type="varchar(5)" />
+			<column name="DUN_LTR_ASSGNED" type="varchar(20)" />
+			<column name="DUN_LTR_SNT_DT" type="datetime" />
 		</createTable>
+		<modifySql dbms="oracle">
+			<replace replace="varchar" with="varchar2" />
+			<replace replace="decimal" with="number" />
+			<replace replace="datetime" with="date" />
+		</modifySql>
 	</changeSet>
 
-
-	<changeSet author="kfs" id="AR_INV_GNRL_DTL_T_ADD">
-		<addColumn tableName="AR_INV_GNRL_DTL_T">
-			<column name="LST_BLD_DT" type="datetime" />
-		</addColumn>
-	</changeSet>
-
-	<!-- Add Proposal Number to AR_INV_DOC_T -->
-	<changeSet author="kfs" id="AR_INV_DOC_T_ADD">
+	<changeSet author="KFSCGB" id="AR_INV_DOC_T_ADD">
 		<addColumn tableName="AR_INV_DOC_T">
 			<column name="PRPSL_NBR" type="decimal(12,0)" defaultValue="0" />
+			<column name="LTRCR_CRTN_TYP" type="varchar(45)" />
+			<column name="LTRCR_FND_CD" type="varchar(15)" />
+			<column name="LTRCR_FNDGRP_CD" type="varchar(4)" />
+			<column name="MRKD_FOR_PRCSSNG" type="VARCHAR(45)" />
+			<column name="RPRT_PROCESSED_DT" type="DATETIME" />
+			<column name="RFRL_TYP_CD" type="varchar(6)" />
+			<column name="FINAL_DISPOS_CD" type="varchar(4)" />
 		</addColumn>
+		<modifySql dbms="oracle">
+			<replace replace="varchar" with="varchar2" />
+			<replace replace="decimal" with="number" />
+			<replace replace="datetime" with="date" />
+		</modifySql>
 	</changeSet>
 
-
-	<changeSet author="kfs" id="CG_AGENCY_T_LINK_CUSTOMER">
-		<addColumn tableName="CG_AGENCY_T">
-			<column name="CUST_NBR" type="varchar(9)" />
-			<column name="CUST_TYP_CD" type="varchar(10)" />
-			<column name="CUST_CRTD" type="varchar(1)" />
-		</addColumn>
-	</changeSet>
-
-
-	<!--Create Leter of Credit table -->
-	<changeSet author="kfs" id="CG_LTRCR_FND_T">
-		
-		<createTable tableName="cg_ltrcr_fnd_t">
+	<changeSet author="KFSCGB" id="CG_LTRCR_FND_T">
+		<createTable tableName="CG_LTRCR_FND_T">
 			<column name="CG_LTRCR_FND_CD" type="varchar(15)">
 				<constraints primaryKey="true" nullable="false" />
+			</column>
+			<column name="OBJ_ID" type="varchar(36)">
+				<constraints unique="true" nullable="false" uniqueConstraintName="CG_LTRCR_FND_TC1"/>
+			</column>
+			<column name="VER_NBR" type="decimal(8,0)" defaultValueNumeric="1">
+				<constraints nullable="false" />
 			</column>
 			<column name="CG_LTRCR_FND_DESC" type="varchar(40)" />
 			<column name="CG_LTRCR_FNDGRP_CD" type="varchar(4)" />
 			<column name="CG_LTRCR_AMT" type="decimal(19,2)" />
-			<column name="CG_LTRCR_START_DATE" type="datetime" />
-			<column name="CG_LTRCR_EXPIRATION_DATE" type="datetime" />
+			<column name="CG_LTRCR_START_DT" type="datetime" />
+			<column name="CG_LTRCR_EXPIRATION_DT" type="datetime" />
+			<column name="ACTV_IND" type="varchar(1)">
+				<constraints nullable="false" />
+			</column>
+			
 		</createTable>
+		<modifySql dbms="oracle">
+			<replace replace="varchar" with="varchar2" />
+			<replace replace="decimal" with="number" />
+			<replace replace="datetime" with="date" />
+		</modifySql>
 	</changeSet>
 
-	<changeSet author="kfs" id="AR_CATEGORIES_T">
+	<changeSet author="KFSCGB" id="AR_CATEGORIES_T">
 		<createTable tableName="AR_CATEGORIES_T">
 			<column name="CTGRY_CD" type="varchar(4)">
 				<constraints primaryKey="true" nullable="false" />
 			</column>
-			<column name="CTGRY_NM" type="varchar(127)" />
+			<column name="OBJ_ID" type="varchar(36)">
+				<constraints unique="true" nullable="false" uniqueConstraintName="AR_CATEGORIES_TC1"/>
+			</column>
+			<column name="VER_NBR" type="decimal(8,0)" defaultValueNumeric="1">
+				<constraints nullable="false" />
+			</column>
+			<column name="CTGRY_NM" type="varchar(255)" />
 			<column name="CTGRY_DESC" type="varchar(45)" />
 			<column name="OBJ_CDS" type="varchar(255)" />
-			<column name="CTGRY_ACTV_IND" type="varchar(1)" />
-			<column name="OBJ_ID" type="varchar(36)">
-				<constraints unique="true" nullable="false" />
-			</column>
-			<column name="VER_NBR" type="decimal(8,0)" defaultValue="1">
-				<constraints nullable="false" />
-			</column>
+			<column name="ACTV_IND" type="varchar(1)" />
+			<column name="IND_CST_IND" type="varchar(1)" />
+			<column name="CONS_CDS" type="varchar(255)" />
+			<column name="LEVEL_CDS" type="varchar(255)" />
 		</createTable>
+		<modifySql dbms="oracle">
+			<replace replace="varchar" with="varchar2" />
+			<replace replace="decimal" with="number" />
+			<replace replace="datetime" with="date" />
+		</modifySql>
 	</changeSet>
 
-	<!-- To add letter of credit fund column in award table -->
 
-	<changeSet author="kfs" id="CG_AWD_T_ADD_FIELDS">
-		
-		<addColumn tableName="CG_AWD_T">
-			<column name="CG_LTRCR_FND_CD" type="varchar(15)" />
-			<column name="AWD_ID" type="varchar(42)" />
-			<column name="AUTO_APP" type="varchar(1)" />
-			<column name="FUNDING_EXP_DT" type="datetime" />
-			<column name="COMMENT_TXT" type="VARCHAR(800)" defaultValue="" />
-		</addColumn>
-	</changeSet>
+	<changeSet author="KFSCGB" id="AR_INV_MLSTN_T">
 
-	<!-- To add active indicator column in Letter of credit fund table -->
-
-	<changeSet author="kfs" id="CG_LTRCR_FND_T_ADD_FIELDS">
-		<addColumn tableName="CG_LTRCR_FND_T">
-			<column name="ROW_ACTV_IND" type="varchar(1)">
-				<constraints nullable="false" />
-			</column>
-		</addColumn>
-	</changeSet>
-
-	<changeSet author="kfs" id="AR_INV_ACCT_DTL_T_ADD">
-		<addColumn tableName="AR_INV_ACCT_DTL_T">
-			<column name="CNTRCT_CNTRL_ACCT_NBR" type="varchar(7)"
-				defaultValue="" />
-		</addColumn>
-	</changeSet>
-
-	<changeSet author="kfs" id="CG_AWD_T_ADD_FIELD">
-		<addColumn tableName="CG_AWD_T">
-			<column name="CG_INV_OPT" type="varchar(120)" />
-		</addColumn>
-	</changeSet>
-
-	<changeSet author="kfs" id="CG_INV_TYP_T_ADD_FIELDS">
-		<addColumn tableName="CG_INV_TYP_T">
-			<column name="FILENAME" type="varchar(50)" />
-			<column name="FILEPATH" type="varchar(500)" />
-			<column name="ACCESS_RSTRCTD_IND" type="varchar(1)" />
-			<column name="BILL_BY_COA_CD" type="varchar(2)" />
-			<column name="BILL_BY_ORG_CD" type="varchar(4)" />
-			<column name="UPLOAD_DATE" type="varchar(25)" />
-		</addColumn>
-
-	</changeSet>
-
-	<changeSet author="kfs" id="CG_BILL_FREQ_T_ADD_GRACE_PERIOD_COLUMN">
-		<addColumn tableName="CG_BILL_FREQ_T">
-			<column name="GRACE_PERIOD" type="varchar(3)" defaultValue="0" />
-		</addColumn>
-
-		<addColumn tableName="CG_AWD_T">
-			<column name="LST_BLD_DT" type="datetime" />
-		</addColumn>
-	</changeSet>
-
-	<!-- Create AR_INV_MLSTN_T table -->
-	<changeSet author="kfs" id="AR_INV_MLSTN_T">
-		
 		<createTable tableName="AR_INV_MLSTN_T">
 			<column name="FDOC_NBR" type="varchar(14)">
 				<constraints primaryKey="true" nullable="false" />
@@ -694,26 +654,31 @@
 				<constraints primaryKey="true" nullable="false" />
 			</column>
 			<column name="OBJ_ID" type="varchar(36)">
-				<constraints unique="true" nullable="false" />
+				<constraints unique="true" nullable="false" uniqueConstraintName="AR_INV_MLSTN_TC1"/> 
 			</column>
-			<column name="VER_NBR" type="decimal(8,0)" defaultValue="1">
+			<column name="VER_NBR" type="decimal(8,0)" defaultValueNumeric="1">
 				<constraints nullable="false" />
 			</column>
 			<column name="MLSTN_DESC" type="varchar(45)" />
 			<column name="MLSTN_COMPLTN_DT" type="datetime" />
 			<column name="MLSTN_AMT" type="decimal(7,0)" />
-			<column name="IS_IT_BLD" type="varchar(5)" />
+			<column name="IS_IT_BILLED" type="varchar(5)" />
 		</createTable>
+		<modifySql dbms="oracle">
+			<replace replace="varchar" with="varchar2" />
+			<replace replace="decimal" with="number" />
+			<replace replace="datetime" with="date" />
+		</modifySql>
 	</changeSet>
 
-	<!-- Create Table INV_MLSTN_ID_SEQ -->
 
-	<changeSet author="kfs" id="CGB_INV_MLSTN_ID_SEQ_oracle"
+	<changeSet author="KFSCGB" id="CGB_INV_MLSTN_ID_SEQ_oracle"
 		dbms="oracle">
 		<createSequence sequenceName="INV_MLSTN_ID_SEQ" />
 	</changeSet>
 
-	<changeSet author="kfs" id="CGB_INV_MLSTN_ID_SEQ_mysql" dbms="mysql">
+	<changeSet author="KFSCGB" id="CGB_INV_MLSTN_ID_SEQ_mysql"
+		dbms="mysql">
 		<createTable tableName="INV_MLSTN_ID_SEQ">
 			<column name="id" type="BIGINT(19)" autoIncrement="true">
 				<constraints primaryKey="true" nullable="false" />
@@ -724,9 +689,8 @@
 		</modifySql>
 	</changeSet>
 
-	<!-- Create AR_INV_BILL_T table -->
-	<changeSet author="kfs" id="AR_INV_BILL_T">
-		
+	<changeSet author="KFSCGB" id="AR_INV_BILL_T">
+
 		<createTable tableName="AR_INV_BILL_T">
 			<column name="FDOC_NBR" type="varchar(14)">
 				<constraints primaryKey="true" nullable="false" />
@@ -741,25 +705,31 @@
 				<constraints primaryKey="true" nullable="false" />
 			</column>
 			<column name="OBJ_ID" type="varchar(36)">
-				<constraints unique="true" nullable="false" />
+				<constraints unique="true" nullable="false" uniqueConstraintName="AR_INV_BILL_TC1"/> 
 			</column>
-			<column name="VER_NBR" type="decimal(8,0)" defaultValue="1">
+			<column name="VER_NBR" type="decimal(8,0)" defaultValueNumeric="1">
 				<constraints nullable="false" />
 			</column>
 			<column name="BILL_DESC" type="varchar(45)" />
 			<column name="BILL_DT" type="datetime" />
 			<column name="EST_AMT" type="decimal(7,0)" />
-			<column name="IS_IT_BLD" type="varchar(5)" />
+			<column name="IS_IT_BILLED" type="varchar(5)" />
 		</createTable>
+		<modifySql dbms="oracle">
+			<replace replace="varchar" with="varchar2" />
+			<replace replace="decimal" with="number" />
+			<replace replace="datetime" with="date" />
+		</modifySql>
 	</changeSet>
 
-	<!-- Create Table INV_BILL_ID_SEQ -->
 
-	<changeSet author="kfs" id="CGB_INV_BILL_ID_SEQ_oracle" dbms="oracle">
+	<changeSet author="KFSCGB" id="CGB_INV_BILL_ID_SEQ_oracle"
+		dbms="oracle">
 		<createSequence sequenceName="INV_BILL_ID_SEQ" />
 	</changeSet>
 
-	<changeSet author="kfs" id="CGB_INV_BILL_ID_SEQ_mysql" dbms="mysql">
+	<changeSet author="KFSCGB" id="CGB_INV_BILL_ID_SEQ_mysql"
+		dbms="mysql">
 		<createTable tableName="INV_BILL_ID_SEQ">
 			<column name="id" type="BIGINT(19)" autoIncrement="true">
 				<constraints primaryKey="true" nullable="false" />
@@ -770,117 +740,66 @@
 		</modifySql>
 	</changeSet>
 
-	<changeSet author="kfs" id="CG_AWD_T_LOC_ADD">
-		<addColumn tableName="CG_AWD_T">
-			<column name="LTRCR_CRTN_TYP" type="varchar(45)" />
-		</addColumn>
-	</changeSet>
-
-	<changeSet author="kfs" id="AR_CSH_CTRL_T_LOC_ADD">
+	<changeSet author="KFSCGB" id="AR_CSH_CTRL_T_LOC_ADD">
 		<addColumn tableName="AR_CSH_CTRL_T">
 			<column name="LTRCR_CRTN_TYP" type="varchar(45)" />
 			<column name="INV_DOC_TYP" type="varchar(4)" />
+			<column name="LTRCR_FND_CD" type="varchar(15)" />
+			<column name="LTRCR_FNDGRP_CD" type="varchar(4)" />
+			<column name="PRPSL_NBR" type="decimal(12,0)" defaultValue="0" />
 		</addColumn>
+		<modifySql dbms="oracle">
+			<replace replace="varchar" with="varchar2" />
+			<replace replace="decimal" with="number" />
+			<replace replace="datetime" with="date" />
+		</modifySql>
 	</changeSet>
 
 
-	<changeSet author="kfs" id="AR_APPLICATION_DOC_T_LOC_ADD">
+	<changeSet author="KFSCGB" id="AR_APPLICATION_DOC_T_LOC_ADD">
 		<addColumn tableName="AR_APPLICATION_DOC_T">
 			<column name="LTRCR_CRTN_TYP" type="varchar(45)" />
 			<column name="INV_DOC_TYP" type="varchar(4)" />
-		</addColumn>
-	</changeSet>
-
-
-	<!-- To add Expected Completion Date column in Letter of credit fund table -->
-
-	<changeSet author="kfs" id="AR_INV_GNRL_DTL_T_ADD_COMMENT">
-		<addColumn tableName="AR_INV_GNRL_DTL_T">
-			<column name="COMMNT" type="VARCHAR(50)" defaultValue="" />
-		</addColumn>
-	</changeSet>
-
-
-	<!-- To add Expected Completion Date column in Letter of credit fund table -->
-
-	<changeSet author="kfs" id="CG_AWD_T_ADD_SUSPENSION_REASON">
-		<addColumn tableName="CG_AWD_T">
-			<column name="SUSP_REASON" type="VARCHAR(255)" defaultValue="" />
-		</addColumn>
-	</changeSet>
-
-	<changeSet author="kfs" id="AR_CSH_CTRL_T_LOC_ADD_1">
-		<addColumn tableName="AR_CSH_CTRL_T">
 			<column name="LTRCR_FND_CD" type="varchar(15)" />
 			<column name="LTRCR_FNDGRP_CD" type="varchar(4)" />
+			<column name="REFND_FDOC_NBR" type="varchar(14)" />
+			<column name="PRPSL_NBR" type="decimal(12,0)" defaultValue="0" />
 		</addColumn>
+		<modifySql dbms="oracle">
+			<replace replace="varchar" with="varchar2" />
+			<replace replace="decimal" with="number" />
+			<replace replace="datetime" with="date" />
+		</modifySql>
 	</changeSet>
 
-
-	<changeSet author="kfs" id="AR_APPLICATION_DOC_T_LOC_ADD_1">
-		<addColumn tableName="AR_APPLICATION_DOC_T">
-			<column name="LTRCR_FND_CD" type="varchar(15)" />
-			<column name="LTRCR_FNDGRP_CD" type="varchar(4)" />
-		</addColumn>
-	</changeSet>
-
-	<changeSet author="kfs" id="AR_INV_DOC_T_LOC_ADD">
-		<addColumn tableName="AR_INV_DOC_T">
-			<column name="LTRCR_CRTN_TYP" type="varchar(45)" />
-			<column name="LTRCR_FND_CD" type="varchar(15)" />
-			<column name="LTRCR_FNDGRP_CD" type="varchar(4)" />
-		</addColumn>
-	</changeSet>
-
-	<changeSet author="kfs" id="CG_AWD_T_ADD_STATE_TRANSFER">
-		<addColumn tableName="CG_AWD_T">
-			<column name="STATE_TRNSFR" type="VARCHAR(1)" />
-		</addColumn>
-	</changeSet>
-
-	<!-- INVOICE INDICATOR -->
-	<!-- Creating table -->
-	<changeSet author="kfs" id="CG_INV_IND_T">
+	<changeSet author="KFSCGB" id="CG_INV_IND_T">
 		<createTable tableName="CG_INV_IND_T">
 			<column name="INV_IND_CD" type="varchar(10)">
 				<constraints primaryKey="true" nullable="false" />
 			</column>
 			<column name="OBJ_ID" type="varchar(36)">
-				<constraints unique="true" nullable="false" />
+				<constraints unique="true" nullable="false" uniqueConstraintName="CG_INV_IND_TC1"/>
 			</column>
-			<column name="VER_NBR" type="decimal(8,0)" defaultValue="1">
+			<column name="VER_NBR" type="decimal(8,0)" defaultValueNumeric="1">
 				<constraints nullable="false" />
 			</column>
 			<column name="INV_IND_DESC" type="varchar(45)" />
-			<column name="DOBJ_MAINT_CD_ACTV_IND" type="varchar(1)">
+			<column name="ACTV_IND" type="varchar(1)">
 				<constraints nullable="false" />
 			</column>
 		</createTable>
-	</changeSet>
-
-	<!-- To add Invoice Indicator column in Agency Address table -->
-
-	<changeSet author="kfs" id="CG_AGENCY_ADDR_T_ADD_INVOICE_INDICATOR">
-		<addColumn tableName="CG_AGENCY_ADDR_T">
-			<column name="INV_IND_CD" type="VARCHAR(10)" />
-		</addColumn>
-	</changeSet>
-
-	<!-- To add Invoice Indicator column in Invoice Agency Address table -->
-
-	<changeSet author="kfs"
-		id="AR_INVOICE_AGENCY_ADDR_T_ADD_INVOICE_INDICATOR">
-		<addColumn tableName="AR_INV_AGENCY_ADDR_DTL_T">
-			<column name="INV_IND_CD" type="VARCHAR(10)" />
-			<column name="PREF_INV_IND_CD" type="VARCHAR(10)" />
-		</addColumn>
+		<modifySql dbms="oracle">
+			<replace replace="varchar" with="varchar2" />
+			<replace replace="decimal" with="number" />
+			<replace replace="datetime" with="date" />
+		</modifySql>
 	</changeSet>
 
 
 	<!-- This document helps in creating InvoiceDetailAccountObjectCode table -->
 
-	<changeSet author="kfs" id="AR_INV_DTL_ACCT_OBJ_CD_T">
-		
+	<changeSet author="KFSCGB" id="AR_INV_DTL_ACCT_OBJ_CD_T">
+
 		<createTable tableName="AR_INV_DTL_ACCT_OBJ_CD_T">
 			<column name="FDOC_NBR" type="varchar(14)">
 				<constraints primaryKey="true" nullable="false" />
@@ -897,6 +816,12 @@
 			<column name="FIN_OBJ_CD" type="varchar(4)">
 				<constraints primaryKey="true" />
 			</column>
+			<column name="OBJ_ID" type="varchar(36)">
+				<constraints unique="true" nullable="false" uniqueConstraintName="AR_INV_DTL_ACCT_OBJ_CD_TC1"/>
+			</column>
+			<column name="VER_NBR" type="decimal(8,0)" defaultValueNumeric="1">
+				<constraints nullable="false" />
+			</column>
 			<column name="CTGRY_CD" type="varchar(4)" />
 			<column name="TTL_BILLED" type="decimal(12,2)" defaultValue="0">
 				<constraints nullable="false" />
@@ -907,20 +832,20 @@
 			<column name="CUM_EXPND" type="decimal(12,2)" defaultValue="0">
 				<constraints nullable="false" />
 			</column>
-			<column name="OBJ_ID" type="varchar(36)">
-				<constraints unique="true" nullable="false" />
-			</column>
-			<column name="VER_NBR" type="decimal(8,0)" defaultValue="1">
-				<constraints nullable="false" />
-			</column>
+			
 		</createTable>
+		<modifySql dbms="oracle">
+			<replace replace="varchar" with="varchar2" />
+			<replace replace="decimal" with="number" />
+			<replace replace="datetime" with="date" />
+		</modifySql>
 	</changeSet>
 
 	<!-- This document helps in creating InvoiceDetailAccountObjectCode table -->
 
-	<changeSet author="kfs" id="AR_AWD_ACCT_OBJ_CD_TTL_BILLED_T">
-		
-		<createTable tableName="AR_AWDACCT_OBJCD_TL_BLD_T">
+	<changeSet author="KFSCGB" id="AR_AWD_ACCT_OBJ_CD_TTL_BILLED_T">
+
+		<createTable tableName="AR_AWDACCT_OBJCD_TL_BILLED_T">
 			<column name="PRPSL_NBR" type="decimal(12,0)" defaultValue="0">
 				<constraints primaryKey="true" nullable="false" />
 			</column>
@@ -937,57 +862,23 @@
 				<constraints nullable="false" />
 			</column>
 			<column name="OBJ_ID" type="varchar(36)">
-				<constraints unique="true" nullable="false" />
+				<constraints unique="true" nullable="false" uniqueConstraintName="AR_AWDACCT_OBJCD_TL_BILLED_TC1"/>
 			</column>
-			<column name="VER_NBR" type="decimal(8,0)" defaultValue="1">
+			<column name="VER_NBR" type="decimal(8,0)" defaultValueNumeric="1">
 				<constraints nullable="false" />
 			</column>
 		</createTable>
-	</changeSet>
-
-	<changeSet author="kfs" id="AR_CG_INV_DTL_ADD_FIELDS_FOR_TOTAL_BILLED">
-		<addColumn tableName="AR_CG_INV_DTL_T">
-			<column name="INV_BILLED" type="DECIMAL(19,2)" defaultValue="0" />
-			<column name="INV_CTG_CD" type="VARCHAR(4)" />
-		</addColumn>
-	</changeSet>
-
-	<changeSet author="kfs"
-		id="AR_INV_ACCT_DTL_ADD_FIELDS_FOR_TOTAL_BILLED">
-		<addColumn tableName="AR_INV_ACCT_DTL_T">
-			<column name="BILLED_AMT" type="DECIMAL(19,2)" defaultValue="0" />
-		</addColumn>
-	</changeSet>
-
-	<changeSet author="kfs" id="AR_CSH_CTRL_T_LOC_ADD_2">
-		<addColumn tableName="AR_CSH_CTRL_T">
-			<column name="PRPSL_NBR" type="decimal(12,0)" defaultValue="0" />
-		</addColumn>
-	</changeSet>
-
-
-	<changeSet author="kfs" id="AR_APPLICATION_DOC_T_LOC_ADD_2">
-		<addColumn tableName="AR_APPLICATION_DOC_T">
-			<column name="PRPSL_NBR" type="decimal(12,0)" defaultValue="0" />
-		</addColumn>
-	</changeSet>
-
-	<changeSet author="kfs" id="AR_CG_INV_DTL_T_ADD_FIELD">
-		<addColumn tableName="AR_CG_INV_DTL_T">
-			<column name="IND_CST_IND" type="varchar(1)" />
-		</addColumn>
-	</changeSet>
-
-	<changeSet author="kfs" id="AR_CATEGORIES_T_ADD_FIELD">
-		<addColumn tableName="AR_CATEGORIES_T">
-			<column name="IND_CST_IND" type="varchar(1)" />
-		</addColumn>
+		<modifySql dbms="oracle">
+			<replace replace="varchar" with="varchar2" />
+			<replace replace="decimal" with="number" />
+			<replace replace="datetime" with="date" />
+		</modifySql>
 	</changeSet>
 
 	<!-- To make char code, account number primary to differentiate one account 
 		from another. Dropping the table and creating again as this would be a crucial 
 		change to the table -->
-	<changeSet author="kfs" id="CG_AWD_INV_ACCT_T_CREATE">
+	<changeSet author="KFSCGB" id="CG_AWD_INV_ACCT_T_CREATE">
 		<createTable tableName="CG_AWD_INV_ACCT_T">
 			<column name="CGPRPSL_NBR" type="decimal(12,0)" defaultValue="0">
 				<constraints primaryKey="true" nullable="false" />
@@ -1001,38 +892,49 @@
 			<column name="ACCOUNT_NBR" type="varchar(7)">
 				<constraints primaryKey="true" nullable="false" />
 			</column>
+			<column name="OBJ_ID" type="varchar(36)">
+				<constraints unique="true" nullable="false" uniqueConstraintName="CG_AWD_INV_ACCT_TC1"/>
+			</column>
+			<column name="VER_NBR" type="decimal(8,0)" defaultValueNumeric="1">
+				<constraints nullable="false" />
+			</column>
 			<column name="FIN_OBJECT_CD" type="varchar(4)" />
 			<column name="SUB_ACCT_NBR" type="varchar(5)" />
 			<column name="FIN_SUB_OBJ_CD" type="varchar(3)" />
 			<column name="PROJECT_CD" type="varchar(10)" />
 			<column name="ACCT_TYP" type="varchar(45)" />
-			<column name="ROW_ACTV_IND" type="varchar(1)" />
-			<column name="OBJ_ID" type="varchar(36)">
-				<constraints unique="true" nullable="false" />
-			</column>
-			<column name="VER_NBR" type="decimal(8,0)" defaultValue="1" />
+			<column name="ACTV_IND" type="varchar(1)" />
+			
 		</createTable>
-
-
+		<modifySql dbms="oracle">
+				<replace replace="varchar" with="varchar2" />
+				<replace replace="decimal" with="number" />
+				<replace replace="datetime" with="date" />
+		</modifySql>
 	</changeSet>
 
-	<changeSet author="kfs" id="AR_SUSP_CTGRY_T">
+	<changeSet author="KFSCGB" id="AR_SUSP_CTGRY_T">
 		<createTable tableName="AR_SUSP_CTGRY_T">
 			<column name="SUSP_CTGRY_CD" type="varchar(4)">
 				<constraints primaryKey="true" nullable="false" />
 			</column>
 			<column name="SUSP_CTGRY_DESC" type="varchar(200)" />
 			<column name="OBJ_ID" type="varchar(36)">
-				<constraints unique="true" nullable="false" />
+				<constraints unique="true" nullable="false" uniqueConstraintName="AR_SUSP_CTGRY_TC1"/>
 			</column>
-			<column name="VER_NBR" type="decimal(8,0)" defaultValue="1">
+			<column name="VER_NBR" type="decimal(8,0)" defaultValueNumeric="1">
 				<constraints nullable="false" />
 			</column>
-			<column name="ROW_ACTV_IND" type="varchar(1)" defaultValue="Y" />
+			<column name="ACTV_IND" type="varchar(1)" defaultValue="Y" />
 		</createTable>
+		<modifySql dbms="oracle">
+			<replace replace="varchar" with="varchar2" />
+			<replace replace="decimal" with="number" />
+			<replace replace="datetime" with="date" />
+		</modifySql>
 	</changeSet>
 
-	<changeSet author="kfs" id="AR_INV_SUSP_CTGRY_T">
+	<changeSet author="KFSCGB" id="AR_INV_SUSP_CTGRY_T">
 		<createTable tableName="AR_INV_SUSP_CTGRY_T">
 			<column name="SUSP_CTGRY_CD" type="varchar(4)">
 				<constraints primaryKey="true" nullable="false" />
@@ -1041,48 +943,65 @@
 				<constraints primaryKey="true" nullable="false" />
 			</column>
 			<column name="OBJ_ID" type="varchar(36)">
-				<constraints unique="true" nullable="false" />
+				<constraints unique="true" nullable="false" uniqueConstraintName="AR_INV_SUSP_CTGRY_TC1"/>
 			</column>
-			<column name="VER_NBR" type="decimal(8,0)" defaultValue="1">
+			<column name="VER_NBR" type="decimal(8,0)" defaultValueNumeric="1">
 				<constraints nullable="false" />
 			</column>
 		</createTable>
+		<modifySql dbms="oracle">
+			<replace replace="varchar" with="varchar2" />
+			<replace replace="decimal" with="number" />
+			<replace replace="datetime" with="date" />
+		</modifySql>
 	</changeSet>
 
-	<changeSet author="kfs" id="CG_AWD_ACCT_T_FINAL_BILLED_ADD">
+	<changeSet author="KFSCGB" id="CG_AWD_ACCT_T_FINAL_BILLED_ADD">
 		<addColumn tableName="CG_AWD_ACCT_T">
 			<column name="FINAL_BILLED" type="VARCHAR(1)" />
 			<column name="INV_DOC_STS" type="VARCHAR(45)" />
+			<column name="AMT_TO_DRW" type="decimal(19,2)" defaultValue="0" />
+			<column name="LTRCR_RVW_IND" type="varchar(1)" />
+			<column name="CURR_LST_BILLED_DT" type="datetime" />
+			<column name="PREV_LST_BILLED_DT" type="datetime" />
 		</addColumn>
+		<modifySql dbms="oracle">
+			<replace replace="varchar" with="varchar2" />
+			<replace replace="decimal" with="number" />
+			<replace replace="datetime" with="date" />
+		</modifySql>
 	</changeSet>
 
-	<changeSet author="kfs" id="AR_ORG_OPTION_T_ADD_CG_BILLER_IND">
+	<changeSet author="KFSCGB" id="AR_ORG_OPTION_T_ADD_CG_BILLER_IND">
 		<addColumn tableName="AR_ORG_OPTION_T">
 			<column name="AR_CG_BILLER_IND" type="VARCHAR(1)" />
 		</addColumn>
+		<modifySql dbms="oracle">
+			<replace replace="varchar" with="varchar2" />
+			<replace replace="decimal" with="number" />
+			<replace replace="datetime" with="date" />
+		</modifySql>
 	</changeSet>
 
 
-	<!-- Create LOC REview Document and Detail Tables -->
 
-	<changeSet author="kfs" id="AR_LTRCR_RVW_DOC_T">
+	<changeSet author="KFSCGB" id="AR_LTRCR_RVW_DOC_T">
 		<createTable tableName="AR_LTRCR_RVW_DOC_T">
 			<column name="FDOC_NBR" type="varchar(14)">
 				<constraints primaryKey="true" nullable="false" />
 			</column>
+			<column name="OBJ_ID" type="varchar(36)">
+                 <constraints nullable="false" unique="true" uniqueConstraintName="AR_LTRCR_RVW_DOC_TC1"/>
+            </column>
+            <column name="VER_NBR" type="decimal(8,0)" defaultValueNumeric ="1">
+                 <constraints nullable="false" />
+            </column>
+			<column name="LTRCR_FND_CD" type="varchar(15)" />
+			<column name="LTRCR_FNDGRP_CD" type="varchar(4)" />
 		</createTable>
 	</changeSet>
 
-
-	<changeSet author="kfs" id="CG_AWD_ACCT_T_ADD_COLUMN">
-		<addColumn tableName="CG_AWD_ACCT_T">
-			<column name="AMT_DRW" type="decimal(19,2)" defaultValue="0" />
-			<column name="LTRCR_RVW_IND" type="varchar(1)" />
-		</addColumn>
-	</changeSet>
-
-	<!-- Create final invoice reversal table -->
-	<changeSet author="kfs" id="AR_FINAL_INV_RVRSL_ENTRY_T_CREATE">
+	<changeSet author="KFSCGB" id="AR_FINAL_INV_RVRSL_ENTRY_T_CREATE">
 		<createTable tableName="AR_FINAL_INV_RVRSL_ENTRY_T">
 			<column name="ENTRY_ID" type="decimal(12,0)">
 				<constraints primaryKey="true" nullable="false" />
@@ -1090,25 +1009,30 @@
 			<column name="DOC_HDR_ID" type="decimal(12,0)">
 				<constraints primaryKey="true" nullable="false" />
 			</column>
-			<column name="INVOICE_NBR" type="VARCHAR(14)" />
 			<column name="OBJ_ID" type="varchar(36)">
-				<constraints unique="true" nullable="false" />
+				<constraints unique="true" nullable="false" uniqueConstraintName="AR_FINAL_INV_RVRSL_ENTRY_TC1"/>
 			</column>
-			<column name="VER_NBR" type="decimal(8,0)" defaultValue="1">
+			<column name="VER_NBR" type="decimal(8,0)" defaultValueNumeric="1">
 				<constraints nullable="false" />
 			</column>
+			<column name="INVOICE_NBR" type="VARCHAR(14)" />
 		</createTable>
+		<modifySql dbms="oracle">
+			<replace replace="varchar" with="varchar2" />
+			<replace replace="decimal" with="number" />
+			<replace replace="datetime" with="date" />
+		</modifySql>
 	</changeSet>
 
 	<!-- Create Table FINAL_INV_RVRSL_ENTRY_SEQ to accommodate Invoice Entry 
 		add/delete -->
 
-	<changeSet author="kfs" id="CGB_FINAL_INV_RVRSL_ENTRY_SEQ_oracle"
+	<changeSet author="KFSCGB" id="CGB_FINAL_INV_RVRSL_ENTRY_SEQ_oracle"
 		dbms="oracle">
 		<createSequence sequenceName="FINAL_INV_RVRSL_ENTRY_SEQ" />
 	</changeSet>
 
-	<changeSet author="kfs"
+	<changeSet author="KFSCGB"
 		id="CGB_FINAL_INV_RVRSL_ENTRY_SEQ_CREATE_mysql" dbms="mysql">
 		<createTable tableName="FINAL_INV_RVRSL_ENTRY_SEQ">
 			<column name="id" type="BIGINT(19)" autoIncrement="true">
@@ -1120,119 +1044,68 @@
 		</modifySql>
 	</changeSet>
 
-	<changeSet author="kfs" id="AR_FINAL_INV_RVRSL_DOC_T_CREATE">
+	<changeSet author="KFSCGB" id="AR_FINAL_INV_RVRSL_DOC_T_CREATE">
 		<createTable tableName="AR_FINAL_INV_RVRSL_DOC_T">
 			<column name="DOC_HDR_ID" type="decimal(12,0)">
 				<constraints primaryKey="true" nullable="false" />
 			</column>
 			<column name="OBJ_ID" type="varchar(36)">
-				<constraints unique="true" nullable="false" />
+				<constraints unique="true" nullable="false" uniqueConstraintName="AR_FINAL_INV_RVRSL_DOC_TC1"/>
 			</column>
-			<column name="VER_NBR" type="decimal(8,0)" defaultValue="1">
+			<column name="VER_NBR" type="decimal(8,0)" defaultValueNumeric="1">
 				<constraints nullable="false" />
 			</column>
 		</createTable>
+		<modifySql dbms="oracle">
+			<replace replace="varchar" with="varchar2" />
+			<replace replace="decimal" with="number" />
+			<replace replace="datetime" with="date" />
+		</modifySql>
 	</changeSet>
 
-
-	<changeSet author="kfs" id="AR_MLSTN_T_EXPECTED_COMPLETION_DATE_ADD">
-		<addColumn tableName="AR_MLSTN_T">
-			<column name="MLSTN_EXPCTD_COMPLTN_DT" type="datetime" />
-		</addColumn>
-	</changeSet>
-	
-		<changeSet author="kfs" id="CG_AWD_ACCT_T_LST_BILLED_DATE">
-		<addColumn tableName="CG_AWD_ACCT_T">
-			<column name="CURR_LST_BLD_DT" type="datetime" />
-			<column name="PREV_LST_BLD_DT" type="datetime" />
-		</addColumn>
-	</changeSet>
-
-	<!--Modify LOC Review tables -->
-
-	<changeSet author="kfs" id="AR_LTRCR_RVW_DOC_T_ADD">
-		<addColumn tableName="AR_LTRCR_RVW_DOC_T">
-			<column name="LTRCR_FND_CD" type="varchar(15)" />
-			<column name="LTRCR_FNDGRP_CD" type="varchar(4)" />
-		</addColumn>
-	</changeSet>
-	
-		<changeSet author="kfs" id="AR_INV_AGENCY_ADDR_DTL_T_ADD_NOTE_ID">
-		<addColumn tableName="AR_INV_AGENCY_ADDR_DTL_T">
-			<column name="NOTE_ID" type="DECIMAL(14,0)" />
-		</addColumn>
-	</changeSet>
-
-	<changeSet author="kfs" id="AR_INV_DOC_T_ADD_MRKD_FOR_PRCSSNG">
-		<addColumn tableName="AR_INV_DOC_T">
-			<column name="MRKD_FOR_PRCSSNG" type="VARCHAR(45)" />
-		</addColumn>
-	</changeSet>
-
-
-
-	<!--Modify Invoice Detail table to add two new columns -->
-
-	<changeSet author="kfs" id="AR_CG_INV_DTL_T_ADD">
-		<addColumn tableName="AR_CG_INV_DTL_T">
-			<column name="ADJ_CUM_EXPND" type="decimal(19,2)"
-				defaultValue="0" />
-			<column name="ADJ_BLNC" type="decimal(19,2)" defaultValue="0" />
-		</addColumn>
-	</changeSet>
-	
-	<!-- <changeSet author="kfs" id="FP_DV_EXP_TYP_T">
-		<addColumn tableName="FP_DV_EXP_TYP_T">
-			<column name="fin_object_cd" type="varchar(4)" defaultValue="NULL" />
-		</addColumn>
-	</changeSet>-->
-
-	<changeSet author="kfs" id="AR_SYS_INFO_T">
+	<changeSet author="KFSCGB" id="AR_SYS_INFO_T">
 		<addColumn tableName="AR_SYS_INFO_T">
-			<column name="REFND_PMT_REAS_CD" type="varchar(1)"/>
-			<column name="REFND_FIN_OBJECT_CD" type="varchar(4)"/>
-			<column name="REFND_DOC_LOC_CD" type="varchar(2)"/>
+			<column name="REFND_PMT_REAS_CD" type="varchar(1)" />
+			<column name="REFND_FIN_OBJECT_CD" type="varchar(4)" />
+			<column name="REFND_DOC_LOC_CD" type="varchar(2)" />
 		</addColumn>
+		<modifySql dbms="oracle">
+			<replace replace="varchar" with="varchar2" />
+		</modifySql>
 	</changeSet>
 
-	<changeSet author="kfs" id="FP_DV_PMT_REAS_T">
+	<changeSet author="KFSCGB" id="FP_DV_PMT_REAS_T">
 		<addColumn tableName="FP_DV_PMT_REAS_T">
 			<column name="AR_REFND_IND" type="varchar(1)" defaultValue="N" />
 		</addColumn>
+		<modifySql dbms="oracle">
+			<replace replace="varchar" with="varchar2" />
+		</modifySql>
 	</changeSet>
 
-	<changeSet author="kfs" id="AR_APPLICATION_DOC_T">
-		<addColumn tableName="AR_APPLICATION_DOC_T">
-			<column name="REFND_FDOC_NBR" type="varchar(14)" />
-		</addColumn>
-	</changeSet>
-
-	<changeSet author="kfs" id="AR_NON_INV_T">
+	<changeSet author="KFSCGB" id="AR_NON_INV_T">
 		<addColumn tableName="AR_NON_INV_T">
 			<column name="REFND_IND" type="varchar(1)" defaultValue="N" />
 		</addColumn>
+		<modifySql dbms="oracle">
+			<replace replace="varchar" with="varchar2" />
+			<replace replace="decimal" with="number" />
+			<replace replace="datetime" with="date" />
+		</modifySql>
 	</changeSet>
 
-	<changeSet author="kfs" id="FP_DV_DOC_T">
+	<changeSet author="KFSCGB" id="FP_DV_DOC_T">
 		<addColumn tableName="FP_DV_DOC_T">
 			<column name="REFND_IND" type="varchar(1)" defaultValue="N" />
 		</addColumn>
-	</changeSet>
-	
-		<changeSet author="kfs" id="CG_AGENCY_ADDR_T_MODIFY_PRNT_ENV">
-		<addColumn tableName="CG_AGENCY_ADDR_T">
-			<column name="PRNT_ENV_NBR" type="varchar(5)" />
-		</addColumn>
-		<dropColumn tableName="CG_AGENCY_ADDR_T" columnName="PRNT_ENV" />
+		<modifySql dbms="oracle">
+			<replace replace="varchar" with="varchar2" />
+			<replace replace="decimal" with="number" />
+			<replace replace="datetime" with="date" />
+		</modifySql>
 	</changeSet>
 
-	<changeSet author="kfs" id="AR_INV_DOC_T_ADD_DT_RPRT_PRCSSD">
-		<addColumn tableName="AR_INV_DOC_T">
-			<column name="DT_RPRT_PRCSSD" type="DATETIME" />
-		</addColumn>
-	</changeSet>
-
-	<changeSet author="kfs" id="AR_LOC_RVW_DTL_T_RECREATE">
+	<changeSet author="KFSCGB" id="AR_LOC_RVW_DTL_T_RECREATE">
 		<createTable tableName="AR_LTRCR_RVW_DTL_T">
 			<column name="FDOC_NBR" type="varchar(14)">
 				<constraints primaryKey="true" nullable="false" />
@@ -1241,23 +1114,23 @@
 				defaultValue="0">
 				<constraints primaryKey="true" nullable="false" />
 			</column>
+			<column name="OBJ_ID" type="varchar(36)">
+				<constraints unique="true" nullable="false" uniqueConstraintName="AR_LTRCR_RVW_DTL_TC1"/>
+			</column>
+			<column name="VER_NBR" type="decimal(8,0)" defaultValueNumeric="1">
+				<constraints nullable="false" />
+			</column>
 			<column name="PRPSL_NBR" type="decimal(12,0)" defaultValue="0"></column>
 			<column name="FIN_COA_CD" type="varchar(2)"></column>
 			<column name="ACCOUNT_NBR" type="varchar(7)"></column>
 			<column name="AWD_BUD_AMT" type="decimal(19,2)" defaultValue="0" />
 			<column name="AMT_DRW" type="decimal(19,2)" defaultValue="0" />
 			<column name="AMT_AVL_DRW" type="decimal(19,2)" defaultValue="0" />
-			<column name="OBJ_ID" type="varchar(36)">
-				<constraints unique="true" nullable="false" />
-			</column>
-			<column name="VER_NBR" type="decimal(8,0)" defaultValue="1">
-				<constraints nullable="false" />
-			</column>
 			<column name="AWD_DOC_NBR" type="varchar(12)" />
 			<column name="ACCOUNT_DESC" type="varchar(45)" />
 			<column name="ACCT_EXPIRATION_DT" type="datetime" />
 			<column name="CLM_ON_CSH" type="decimal(19,2)" defaultValue="0" />
-			<column name="FND_NT_DRWN" type="decimal(19,2)" defaultValue="0" />
+			<column name="FND_NOT_DRWN" type="decimal(19,2)" defaultValue="0" />
 			<column name="LTRCR_AMT" type="decimal(19,2)" defaultValue="0" />
 			<column name="HDN_AMT_TO_DRW" type="decimal(19,2)"
 				defaultValue="0" />
@@ -1266,14 +1139,19 @@
 			<column name="AGENCY_NBR" type="varchar(5)" />
 			<column name="CUST_NBR" type="varchar(9)" />
 		</createTable>
+		<modifySql dbms="oracle">
+			<replace replace="varchar" with="varchar2" />
+			<replace replace="decimal" with="number" />
+			<replace replace="datetime" with="date" />
+		</modifySql>
 	</changeSet>
 
-	<changeSet author="kfs" id="CGB_LOC_RVW_DTL_ID_SEQ_oracle"
+	<changeSet author="KFSCGB" id="CGB_LOC_RVW_DTL_ID_SEQ_oracle"
 		dbms="oracle">
 		<createSequence sequenceName="LOC_RVW_DTL_ID_SEQ" />
 	</changeSet>
 
-	<changeSet author="kfs" id="CGB_LOC_RVW_DTL_ID_SEQ_mysql"
+	<changeSet author="KFSCGB" id="CGB_LOC_RVW_DTL_ID_SEQ_mysql"
 		dbms="mysql">
 		<createTable tableName="LOC_RVW_DTL_ID_SEQ">
 			<column name="id" type="BIGINT(19)" autoIncrement="true">
@@ -1284,8 +1162,9 @@
 			<append value=" engine myisam" />
 		</modifySql>
 	</changeSet>
-	
-		<changeSet author="kfs" id="CREATE_CG_PRPSL_CRT_DFLT_T">
+
+	<!--  Removed as per KFSMI-11507 -->
+	<!-- <changeSet author="KFSCGB" id="CREATE_CG_PRPSL_CRT_DFLT_T">
 		<createTable tableName="CG_PRPSL_CRT_DFLT_T">
 			<column name="PRPSL_DFLT_ID" type="decimal(22,0)">
 				<constraints unique="true" nullable="false" />
@@ -1305,14 +1184,14 @@
 			</column>
 			<column name="ROW_ACTV_IND" type="varchar(1)" />
 		</createTable>
-	</changeSet>
+	</changeSet> -->
 
-	<changeSet author="kfs" id="CGB_CG_PRPSL_CRT_DFLT_SEQ_oracle"
+	<changeSet author="KFSCGB" id="CGB_CG_PRPSL_CRT_DFLT_SEQ_oracle"
 		dbms="oracle">
 		<createSequence sequenceName="CG_PRPSL_CRT_DFLT_SEQ" />
 	</changeSet>
 
-	<changeSet author="kfs" id="CGB_CG_PRPSL_CRT_DFLT_SEQ_mysql"
+	<changeSet author="KFSCGB" id="CGB_CG_PRPSL_CRT_DFLT_SEQ_mysql"
 		dbms="mysql">
 		<createTable tableName="CG_PRPSL_CRT_DFLT_SEQ">
 			<column name="id" type="BIGINT(19)" autoIncrement="true">
@@ -1323,36 +1202,16 @@
 			<append value=" engine myisam" />
 		</modifySql>
 	</changeSet>
-	
-	<!--  Adding new column for 6 digit kc sponsor -->
-	<changeSet author="kfs" id="CG_AGENCY_ADD_COLUMN_SPONSOR_CODE">
-		<addColumn tableName="CG_AGENCY_T">
-			<column name="SPNSR_CD" type="varchar(6)" >
-				<constraints unique="true" nullable="true" />
-			</column> 
-		</addColumn>
-	</changeSet>
-	
-	<!-- Drop unused Award Account Defaults and Award Auto Create Defaults tables -->
-	<!-- this will break if table does not exist.  'failOnError' is false, the script will continue.  
-	The original create tables has been removed.  
-	-->
 
-	<!--<changeSet failOnError="false" author="kfs" id="DROP_CG_AWD_DEFAULTS_TABLE">
-		<dropTable tableName="CG_AWD_CRT_DFLT_SEQ" />
-		<dropTable tableName="CG_AWD_CRT_DFLT_T" />
-		<dropTable tableName="CG_AWD_ACCT_DFLT_T" />
-	</changeSet>-->
-	
-	<changeSet author="kfs" id="CG_PRPSL_CRT_DFLT_T_ADD_COLUMN">
+	<!--  Removed as pre KFSMI-11507 -->
+	<!-- <changeSet author="KFSCGB" id="CG_PRPSL_CRT_DFLT_T_ADD_COLUMN">
 		<addColumn tableName="CG_PRPSL_CRT_DFLT_T">
-			<column name="CGPRPSL_AWD_TYP_CD" type="varchar(1)"/>
-			<column name="CGPRPSL_PURPOSE_CD" type="varchar(1)"/>
+			<column name="CGPRPSL_AWD_TYP_CD" type="varchar(1)" />
+			<column name="CGPRPSL_PURPOSE_CD" type="varchar(1)" />
 		</addColumn>
-	</changeSet>
-	
-		<!-- script for Collection Activity Type -->
-	<changeSet author="KFS411CGB"
+	</changeSet> -->
+
+	<changeSet author="KFSCGB"
 		id="KFSCNTRB858_COLLECTION_ACTIVITY_TYPE_MAINTENANCE_DOCUMENT_01">
 		<createTable tableName="AR_CLCTN_ACTVTY_TYP_T">
 			<column name="AR_CLCTN_ACTVTY_TYP_CD" type="varchar(6)">
@@ -1374,11 +1233,11 @@
 		<modifySql dbms="oracle">
 			<replace replace="varchar" with="varchar2" />
 			<replace replace="decimal" with="number" />
+			<replace replace="datetime" with="date" />
 		</modifySql>
 	</changeSet>
 
-	<!-- script for Customer Note -->
-	<changeSet author="KFS411CGB"
+	<changeSet author="KFSCGB"
 		id="KFSCNTRB859_CUSTOMER_NOTE_TAB_IN_CUSTOMER_EDOC_01">
 		<createTable tableName="AR_CUST_NTE_T">
 			<column name="CUST_NBR" type="varchar(9)">
@@ -1406,20 +1265,19 @@
 		</modifySql>
 	</changeSet>
 
-	<changeSet author="KFS411CGB"
+	<changeSet author="KFSCGB"
 		id="KFSCNTRB859_CUSTOMER_NOTE_TAB_IN_CUSTOMER_EDOC_02">
 		<addForeignKeyConstraint constraintName="AR_CUST_NTE_FK1"
 			referencedTableName="AR_CUST_T" baseColumnNames="CUST_NBR"
 			baseTableName="AR_CUST_NTE_T" referencedColumnNames="CUST_NBR" />
 	</changeSet>
 
-	<!-- script for Customer Note sequence -->
-	<changeSet author="KFS411CGB"
+	<changeSet author="KFSCGB"
 		id="KFSCNTRB859_CUSTOMER_NOTE_TAB_IN_CUSTOMER_EDOC_03" dbms="oracle">
 		<createSequence sequenceName="CUST_NTE_SEQ" />
 	</changeSet>
 
-	<changeSet author="KFS411CGB"
+	<changeSet author="KFSCGB"
 		id="KFSCNTRB859_CUSTOMER_NOTE_TAB_IN_CUSTOMER_EDOC_04" dbms="mysql">
 		<createTable tableName="CUST_NTE_SEQ">
 			<column name="id" type="BIGINT(19)" autoIncrement="true">
@@ -1431,8 +1289,7 @@
 		</modifySql>
 	</changeSet>
 
-	<!-- script for AR Collectors -->
-	<changeSet author="KFS411CGB"
+	<changeSet author="KFSCGB"
 		id="KFSCNTRB860_ADD_COLLECTORS_TAB_IN_CUSTOMER_EDOC_01">
 		<createTable tableName="AR_CUST_CLCTR_T">
 			<column name="CUST_NBR" type="varchar(9)">
@@ -1453,15 +1310,14 @@
 		</modifySql>
 	</changeSet>
 
-	<changeSet author="KFS411CGB"
+	<changeSet author="KFSCGB"
 		id="KFSCNTRB860_ADD_COLLECTORS_TAB_IN_CUSTOMER_EDOC_02">
 		<addForeignKeyConstraint constraintName="AR_CUST_CLCTR_FK1"
 			referencedTableName="AR_CUST_T" baseColumnNames="CUST_NBR"
 			baseTableName="AR_CUST_CLCTR_T" referencedColumnNames="CUST_NBR" />
 	</changeSet>
 
-	<!-- script for Collection Status -->
-	<changeSet author="KFS411CGB"
+	<changeSet author="KFSCGB"
 		id="KFSCNTRB885_COLLECTION_STATUS_MAINTENANCE_DOCUMENT_01">
 		<createTable tableName="AR_CLCTN_STATUS_T">
 			<column name="AR_CLCTN_STATUS_CD" type="varchar(6)">
@@ -1484,8 +1340,7 @@
 		</modifySql>
 	</changeSet>
 
-	<!-- script for Dunning Letter Templates -->
-	<changeSet author="KFS411CGB"
+	<changeSet author="KFSCGB"
 		id="KFSCNTRB894_DUNNING_LETTER_TEMPLATES_MAINTENANCE_DOCUMENT_01">
 		<createTable tableName="AR_DUN_LTR_TMPLT_T">
 			<column name="DUN_LTR_TMPLT_CD" type="varchar(10)">
@@ -1515,8 +1370,7 @@
 		</modifySql>
 	</changeSet>
 
-	<!-- script for Dunning Campaign -->
-	<changeSet author="KFS411CGB"
+	<changeSet author="KFSCGB"
 		id="KFSCNTRB908_DUNNING_CAMPAIGN_MAINTENANCE_DOCUMENT_01">
 		<createTable tableName="AR_DUN_CMPGN_DOC_T">
 			<column name="CMPGN_ID" type="varchar(4)">
@@ -1540,8 +1394,7 @@
 
 	</changeSet>
 
-	<!-- script for Dunning Letter Distribution -->
-	<changeSet author="KFS411CGB"
+	<changeSet author="KFSCGB"
 		id="KFSCNTRB908_DUNNING_CAMPAIGN_MAINTENANCE_DOCUMENT_02">
 		<createTable tableName="AR_DUN_LTR_DIST_T">
 			<column name="CMPGN_ID" type="varchar(4)">
@@ -1570,13 +1423,12 @@
 		</modifySql>
 	</changeSet>
 
-	<!-- script for Dunning Letter Distribution sequence -->
-	<changeSet author="KFS411CGB"
+	<changeSet author="KFSCGB"
 		id="KFSCNTRB908_DUNNING_CAMPAIGN_MAINTENANCE_DOCUMENT_04" dbms="oracle">
 		<createSequence sequenceName="DUN_LTR_DIST_SEQ" />
 	</changeSet>
 
-	<changeSet author="KFS411CGB"
+	<changeSet author="KFSCGB"
 		id="KFSCNTRB908_DUNNING_CAMPAIGN_MAINTENANCE_DOCUMENT_05" dbms="mysql">
 		<createTable tableName="DUN_LTR_DIST_SEQ">
 			<column name="id" type="BIGINT(19)" autoIncrement="true">
@@ -1588,56 +1440,7 @@
 		</modifySql>
 	</changeSet>
 
-	<changeSet author="KFS411CGB"
-		id="KFSCNTRB908_DUNNING_CAMPAIGN_MAINTENANCE_DOCUMENT_06">
-
-		<addColumn tableName="AR_INV_GNRL_DTL_T">
-			<column name="AGENCY_NBR" type="varchar(5)" />
-		</addColumn>
-		<modifySql dbms="oracle">
-			<replace replace="varchar" with="varchar2" />
-		</modifySql>
-	</changeSet>
-
-	<changeSet author="KFS411CGB"
-		id="KFSCNTRB908_DUNNING_CAMPAIGN_MAINTENANCE_DOCUMENT_07">
-		<addColumn tableName="CG_AGENCY_T">
-			<column name="CMPGN_ID" type="varchar(4)" />
-			<column name="STATE_AGENCY_IND" type="varchar(1)"
-				defaultValue="N" />
-		</addColumn>
-		<modifySql dbms="oracle">
-			<replace replace="varchar" with="varchar2" />
-		</modifySql>
-	</changeSet>
-
-	<changeSet author="KFS411CGB"
-		id="KFSCNTRB908_DUNNING_CAMPAIGN_MAINTENANCE_DOCUMENT_08">
-		<addColumn tableName="CG_AWD_T">
-			<column name="CMPGN_ID" type="varchar(4)" />
-		</addColumn>
-
-		<modifySql dbms="oracle">
-			<replace replace="varchar" with="varchar2" />
-		</modifySql>
-	</changeSet>
-
-	<changeSet author="KFS411CGB"
-		id="KFSCNTRB908_DUNNING_CAMPAIGN_MAINTENANCE_DOCUMENT_09">
-
-		<addColumn tableName="AR_INV_GNRL_DTL_T">
-			<column name="DUN_LTR_ASSGNED" type="varchar(20)" />
-			<column name="DUN_LTR_SNT_DT" type="datetime" />
-		</addColumn>
-		<modifySql dbms="oracle">
-			<replace replace="varchar" with="varchar2" />
-			<replace replace="datetime" with="date" />
-		</modifySql>
-	</changeSet>
-
-
-	<!-- script for Collection Activity Document -->
-	<changeSet author="KFS411CGB"
+	<changeSet author="KFSCGB"
 		id="KFSCNTRB900_COLLECTION_ACTIVITY_PROCESSING_01">
 		<createTable tableName="AR_CLCTN_ACTVTY_DOC_T">
 			<column name="FDOC_NBR" type="varchar(14)">
@@ -1661,8 +1464,7 @@
 		</modifySql>
 	</changeSet>
 
-	<!-- script for Event -->
-	<changeSet author="KFS411CGB"
+	<changeSet author="KFSCGB"
 		id="KFSCNTRB900_COLLECTION_ACTIVITY_PROCESSING_02">
 		<createTable tableName="AR_EVENT_T">
 			<column name="EVENT_ID" type="decimal(12,0)">
@@ -1699,13 +1501,12 @@
 		</modifySql>
 	</changeSet>
 
-	<!-- script for Event sequence -->
-	<changeSet author="KFS411CGB"
+	<changeSet author="KFSCGB"
 		id="KFSCNTRB900_COLLECTION_ACTIVITY_PROCESSING_03" dbms="oracle">
 		<createSequence sequenceName="EVENT_SEQ" />
 	</changeSet>
 
-	<changeSet author="KFS411CGB"
+	<changeSet author="KFSCGB"
 		id="KFSCNTRB900_COLLECTION_ACTIVITY_PROCESSING_04" dbms="mysql">
 		<createTable tableName="EVENT_SEQ">
 			<column name="id" type="BIGINT(19)" autoIncrement="true">
@@ -1717,7 +1518,7 @@
 		</modifySql>
 	</changeSet>
 
-	<changeSet author="KFS411CGB"
+	<changeSet author="KFSCGB"
 		id="KFSCNTRB900_COLLECTION_ACTIVITY_PROCESSING_05">
 
 		<addColumn tableName="AR_CLCTN_ACTVTY_DOC_T">
@@ -1731,8 +1532,7 @@
 		</modifySql>
 	</changeSet>
 
-	<!-- Script for Collection Hierarchy -->
-	<changeSet author="KFS411CGB"
+	<changeSet author="KFSCGB"
 		id="KFSCNTRB1101_COLLETOR_HIERARCHY_MAINTENANCE_DOCUMENT_01">
 		<createTable tableName="AR_CLCTR_HEAD_T">
 			<column name="CLCTR_HEAD_PRNCPL_ID" type="varchar(40)">
@@ -1754,8 +1554,7 @@
 		</modifySql>
 	</changeSet>
 
-	<!-- Script for Collector Information -->
-	<changeSet author="KFS411CGB"
+	<changeSet author="KFSCGB"
 		id="KFSCNTRB1101_COLLETOR_HIERARCHY_MAINTENANCE_DOCUMENT_02">
 		<createTable tableName="AR_CLCTR_INFO_T">
 			<column name="CLCTR_PRNCPL_ID" type="varchar(40)">
@@ -1780,8 +1579,7 @@
 		</modifySql>
 	</changeSet>
 
-	<!-- Script for Referral To Collections TD -->
-	<changeSet author="KFS411CGB"
+	<changeSet author="KFSCGB"
 		id="KFSCNTRB1100_REFERRAL_TO_COLLECTIONS_DOCUMENT_01">
 		<createTable tableName="AR_RFRL_TO_CLCTNS_DOC_T">
 			<column name="FDOC_NBR" type="varchar(14)">
@@ -1809,8 +1607,7 @@
 		</modifySql>
 	</changeSet>
 
-	<!-- Script for Referral To Collections Document Detail -->
-	<changeSet author="KFS411CGB"
+	<changeSet author="KFSCGB"
 		id="KFSCNTRB1100_REFERRAL_TO_COLLECTIONS_DOCUMENT_02">
 		<createTable tableName="AR_RFRL_TO_CLCTNS_DTL_T">
 			<column name="FDOC_NBR" type="varchar(14)">
@@ -1845,13 +1642,13 @@
 		</modifySql>
 	</changeSet>
 
-	<changeSet author="KFS411CGB"
+	<changeSet author="KFSCGB"
 		id="KFSCNTRB1100_REFERRAL_TO_COLLECTIONS_DOCUMENT_03" dbms="oracle">
 		<createSequence sequenceName="RFRL_TO_CLCTNS_DTL_SEQ" />
 	</changeSet>
 
 
-	<changeSet author="KFS411CGB"
+	<changeSet author="KFSCGB"
 		id="KFSCNTRB1100_REFERRAL_TO_COLLECTIONS_DOCUMENT_04" dbms="mysql">
 		<createTable tableName="RFRL_TO_CLCTNS_DTL_SEQ">
 			<column name="id" type="BIGINT(19)" autoIncrement="true">
@@ -1863,21 +1660,7 @@
 		</modifySql>
 	</changeSet>
 
-
-	<changeSet author="KFS411CGB" id="KFSCNTRB1100_REFERRAL_TO_COLLECTIONS_DOCUMENT_05">
-		<addColumn tableName="AR_INV_DOC_T">
-			<column name="RFRL_TYP_CD" type="varchar(6)" />
-			<column name="FINAL_DISPOS_CD" type="varchar(4)" />
-		</addColumn>
-
-		<modifySql dbms="oracle">
-			<replace replace="varchar" with="varchar2" />
-			<replace replace="decimal" with="number" />
-		</modifySql>
-	</changeSet>
-
-	<!-- script for Final Disposition -->
-	<changeSet author="KFS411CGB"
+	<changeSet author="KFSCGB"
 		id="KFSCNTRB1172_FINAL_DISPOSITION_MAINTENANCE_DOCUMENT_01">
 		<createTable tableName="AR_FINAL_DISPOS_T">
 			<column name="AR_FINAL_DISPOS_CD" type="varchar(4)">
@@ -1900,28 +1683,7 @@
 		</modifySql>
 	</changeSet>
 
-	<!-- Alter table Script for collections maitenance in agency -->
-	<changeSet author="KFS411CGB"
-		id="KFSCNTRB1173_COLLECTIONS_MAINTENANCE_IN_AGENCY_01">
-		<addColumn tableName="CG_AGENCY_T">
-			<column name="CLCTN_STATUS_CD" type="varchar(6)" />
-			<column name="BNKRPTCY_TYPE_CD" type="varchar(5)" />
-			<column name="BNKRPTCY_DT" type="datetime" />
-			<column name="BNKRPTCY_REVIEW_DT" type="datetime" />
-			<column name="STOP_WRK_IND" type="varchar(1)" defaultValue="N" />
-			<column name="STOP_WRK_REASON_TXT" type="varchar(120)" />
-			<column name="NTE_TXT" type="varchar(800)" />
-		</addColumn>
-
-		<modifySql dbms="oracle">
-			<replace replace="varchar" with="varchar2" />
-			<replace replace="decimal" with="number" />
-			<replace replace="datetime" with="date" />
-		</modifySql>
-	</changeSet>
-
-	<!-- script for Agency Note -->
-	<changeSet author="KFS411CGB"
+	<changeSet author="KFSCGB"
 		id="KFSCNTRB859_AGENCY_NOTE_TAB_IN_CUSTOMER_EDOC_01">
 		<createTable tableName="CG_AGENCY_NTE_T">
 			<column name="AGENCY_NTE_ID" type="decimal(7,0)">
@@ -1949,13 +1711,12 @@
 		</modifySql>
 	</changeSet>
 
-	<!-- script for Agency Note sequence -->
-	<changeSet author="KFS411CGB"
+	<changeSet author="KFSCGB"
 		id="KFSCNTRB859_AGENCY_NOTE_TAB_IN_CUSTOMER_EDOC_03" dbms="oracle">
 		<createSequence sequenceName="AGENCY_NTE_SEQ" />
 	</changeSet>
 
-	<changeSet author="KFS411CGB"
+	<changeSet author="KFSCGB"
 		id="KFSCNTRB859_AGENCY_NOTE_TAB_IN_CUSTOMER_EDOC_04" dbms="mysql">
 		<createTable tableName="AGENCY_NTE_SEQ">
 			<column name="id" type="BIGINT(19)" autoIncrement="true">
@@ -1967,7 +1728,7 @@
 		</modifySql>
 	</changeSet>
 
-	<changeSet author="KFS411CGB"
+	<changeSet author="KFSCGB"
 		id="KFSCNTRB1350_RFRL_TYPE_MAINTENANCE_DOCUMENT_01">
 		<createTable tableName="AR_RFRL_TYP_T">
 			<column name="AR_RFRL_TYPE_CD" type="varchar(4)">
@@ -1992,32 +1753,9 @@
 		</modifySql>
 	</changeSet>
 
-	<changeSet author="KFS411CGB" id="KFSCNTRB1351_AGENCY_STOP_WORK_PROCESS_01">
-		<addColumn tableName="CG_AWD_T">
-			<column name="STOP_WRK_IND" type="varchar(1)" defaultValue="N" />
-		</addColumn>
-	</changeSet>
 	
-	<changeSet author="KFS411CGB" id="KFSCNTRB1352_CATEGORIES_LEVEL_CONS">
-		<addColumn tableName="AR_CATEGORIES_T">
-			<column name="CONS_CDS" type="varchar(255)" />
-			<column name="LEVEL_CDS" type="varchar(255)"/>
-		</addColumn>
-		<modifySql dbms="oracle">
-			<replace replace="varchar" with="varchar2" />
-		</modifySql>
-	</changeSet>
-	
-	<changeSet author="KFS411CGB"
-		id="KFSCNTRB1354_COLLECTIONS_MAINTENANCE_REMOVE_AGENCY_01">
-		<dropColumn tableName="CG_AGENCY_T" columnName="BNKRPTCY_TYPE_CD"/>
-		<dropColumn tableName="CG_AGENCY_T" columnName="BNKRPTCY_DT"/>
-		<dropColumn tableName="CG_AGENCY_T" columnName="BNKRPTCY_REVIEW_DT"/>
-		<dropColumn tableName="CG_AGENCY_T" columnName="STOP_WRK_IND"/>
-		<dropColumn tableName="CG_AGENCY_T" columnName="STOP_WRK_REASON_TXT"/>
-	</changeSet>
-	
-	<changeSet author="KFS411CGB"
+
+	<changeSet author="KFSCGB"
 		id="KFSCNTRB1355_COLLECTIONS_MAINTENANCE_IN_CUSTOMER_01">
 		<addColumn tableName="AR_CUST_T">
 			<column name="BNKRPTCY_TYPE_CD" type="varchar(5)" />
@@ -2033,13 +1771,17 @@
 			<replace replace="datetime" with="date" />
 		</modifySql>
 	</changeSet>
-	
-		<changeSet author="kfs" id="KFSCNTRB13556_AR_CUST_ADDR_T_ADD">
+
+	<changeSet author="KFSCGB" id="KFSCNTRB13556_AR_CUST_ADDR_T_ADD">
 		<addColumn tableName="AR_CUST_ADDR_T">
 			<column name="INV_TYP_CD" type="varchar(10)" />
-			<column name="CP_TO_PRNT" type="varchar(5)" />
+			<column name="COPIES_TO_PRINT_QTY" type="varchar(5)" />
 			<column name="INV_IND_CD" type="VARCHAR(10)" />
 			<column name="PRNT_ENV_NBR" type="varchar(5)" />
 		</addColumn>
+	</changeSet>
+	
+	<changeSet author="KFSCGB" id="KFSMI-11507">
+		<renameColumn tableName="AR_LOCKBOX_T" oldColumnName="AR_PRCS_INV_DT" newColumnName="AR_PROCESSED_INV_DT" columnDataType="DATE"/>
 	</changeSet>
 </databaseChangeLog>

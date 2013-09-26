@@ -4,81 +4,81 @@
 
 	<changeSet author="KFSCGB" id="KFSMI">
 	
-	 	<addForeignKeyConstraint constraintName="CG_AGENCY_FK1"
+	 	<addForeignKeyConstraint constraintName="CG_AGENCY_R1"
 			referencedTableName="CG_BILL_FREQ_T" baseColumnNames="CG_AGENCY_BILL_FREQ_CD"
 			baseTableName="CG_AGENCY_T" referencedColumnNames="BILL_FREQ_CD" />
-		<addForeignKeyConstraint constraintName="CG_AGENCY_FK2"
+		<addForeignKeyConstraint constraintName="CG_AGENCY_R2"
 			referencedTableName="CG_FIN_FORM_TYP_T" baseColumnNames="CG_AGENCY_FIN_FORM_TYP_CD"
 			baseTableName="CG_AGENCY_T" referencedColumnNames="FIN_FORM_TYP_CD" />
-		<addForeignKeyConstraint constraintName="CG_AGENCY_FK3"
+		<addForeignKeyConstraint constraintName="CG_AGENCY_R3"
 			referencedTableName="CG_INV_TYP_T" baseColumnNames="CG_AGENCY_INV_TYP_CD"
 			baseTableName="CG_AGENCY_T" referencedColumnNames="INV_TYP_CD" />
-		<addForeignKeyConstraint constraintName="CG_AGENCY_TR3"
+		<addForeignKeyConstraint constraintName="CG_AGENCY_R4"
 			referencedTableName="CG_FIN_RPT_FREQ_T" baseColumnNames="FIN_RPT_FREQ_CD"
 			baseTableName="CG_AGENCY_T" referencedColumnNames="FIN_RPT_FREQ_CD" />
-		<addForeignKeyConstraint constraintName="CG_AWD_FK_LFC"
+		<addForeignKeyConstraint constraintName="CG_AWD_R1"
 			referencedTableName="CG_LTRCR_FND_T" baseColumnNames="CG_LTRCR_FND_CD"
 			baseTableName="CG_AWD_T" referencedColumnNames="CG_LTRCR_FND_CD" />
-					<addForeignKeyConstraint constraintName="CG_BILL_FK1"
+		<addForeignKeyConstraint constraintName="CG_BILL_R2"
 			referencedTableName="CG_AWD_T" baseColumnNames="CGPRPSL_NBR"
 			baseTableName="CG_BILL_T" referencedColumnNames="CGPRPSL_NBR" />
 	</changeSet>
 			
 	<changeSet author="KFSCGB" id="KFSMI1">
-		<addForeignKeyConstraint constraintName="CG_AGENCY_ADDR_TR2"
+		<addForeignKeyConstraint constraintName="CG_AGENCY_ADDR_R1"
 			referencedTableName="CG_AGENCY_T" baseColumnNames="CG_AGENCY_NBR"
 			baseTableName="CG_AGENCY_ADDR_T" referencedColumnNames="CG_AGENCY_NBR" />
-		<addForeignKeyConstraint constraintName="CG_AGENCY_ADDR_TR1"
+		<addForeignKeyConstraint constraintName="CG_AGENCY_ADDR_R2"
 			referencedTableName="CG_AGENCY_ADDR_TYP_T" baseColumnNames="CG_AGENCY_ADDR_TYPE_CD"
 			baseTableName="CG_AGENCY_ADDR_T" referencedColumnNames="CG_AGENCY_ADDR_TYPE_CD" />
-		<addForeignKeyConstraint constraintName="CG_AGENCY_ADDR_TR3"
+		<addForeignKeyConstraint constraintName="CG_AGENCY_ADDR_R3"
 			referencedTableName="CG_INV_TYP_T" baseColumnNames="INV_TYP_CD"
 			baseTableName="CG_AGENCY_ADDR_T" referencedColumnNames="INV_TYP_CD" />
-		<addForeignKeyConstraint constraintName="CG_LTRCR_FND_FK"
+		<addForeignKeyConstraint constraintName="CG_LTRCR_FND_R1"
 			baseTableName="CG_LTRCR_FND_T" baseColumnNames="CG_LTRCR_FNDGRP_CD"
 			referencedTableName="CG_LTRCR_FNDGRP_T" referencedColumnNames="CG_LTRCR_FNDGRP_CD" />
-		<addForeignKeyConstraint constraintName="CG_AWD_INV_ACCT_FK1"
+		<addForeignKeyConstraint constraintName="CG_AWD_INV_ACCT_R1"
 			referencedTableName="CG_AWD_T" baseColumnNames="CGPRPSL_NBR"
 			baseTableName="CG_AWD_INV_ACCT_T" referencedColumnNames="CGPRPSL_NBR" />
-		<addForeignKeyConstraint constraintName="CG_AWD_FNDMGR_TR2"
+		<addForeignKeyConstraint constraintName="CG_AWD_FNDMGR_R1"
 			referencedTableName="CG_AWD_T" baseColumnNames="CGPRPSL_NBR"
 			baseTableName="CG_AWD_FNDMGR_T" referencedColumnNames="CGPRPSL_NBR" />
-		<addForeignKeyConstraint constraintName="CG_AWD_INV_ACCT_FK2"
+		<addForeignKeyConstraint constraintName="CG_AWD_INV_ACCT_R2"
 			referencedTableName="CA_CHART_T" baseColumnNames="FIN_COA_CD"
 			baseTableName="CG_AWD_INV_ACCT_T" referencedColumnNames="FIN_COA_CD" />
-		<addForeignKeyConstraint constraintName="AR_MLSTN_FK2"
+		<addForeignKeyConstraint constraintName="AR_MLSTN_R1"
 			referencedTableName="AR_MLSTN_SCHDL_T" baseColumnNames="CGPRPSL_NBR"
 			baseTableName="AR_MLSTN_T" referencedColumnNames="CGPRPSL_NBR" />
-		<addForeignKeyConstraint constraintName="CG_AWD_INV_ACCT_FK3"
+		<addForeignKeyConstraint constraintName="CG_AWD_INV_ACCT_R3"
 			referencedTableName="CA_ACCOUNT_T" baseColumnNames="ACCOUNT_NBR,FIN_COA_CD"
 			baseTableName="CG_AWD_INV_ACCT_T" referencedColumnNames="ACCOUNT_NBR,FIN_COA_CD" />
-		<addForeignKeyConstraint constraintName="CG_AWD_INV_ACCT_FK4"
+		<addForeignKeyConstraint constraintName="CG_AWD_INV_ACCT_R4"
 			referencedTableName="CA_SUB_ACCT_T" baseColumnNames="FIN_COA_CD,ACCOUNT_NBR,SUB_ACCT_NBR"
 			baseTableName="CG_AWD_INV_ACCT_T" referencedColumnNames="FIN_COA_CD,ACCOUNT_NBR,SUB_ACCT_NBR" />
-		<addForeignKeyConstraint constraintName="CG_AWD_INV_ACCT_FK5"
+		<addForeignKeyConstraint constraintName="CG_AWD_INV_ACCT_R5"
 			referencedTableName="CA_OBJECT_CODE_T" baseColumnNames="UNIV_FISCAL_YR,FIN_COA_CD,FIN_OBJECT_CD"
 			baseTableName="CG_AWD_INV_ACCT_T" referencedColumnNames="UNIV_FISCAL_YR,FIN_COA_CD,FIN_OBJECT_CD" />
-		<addForeignKeyConstraint constraintName="CG_AWD_INV_ACCT_FK6"
+		<addForeignKeyConstraint constraintName="CG_AWD_INV_ACCT_R6"
 			referencedTableName="CA_SUB_OBJECT_CD_T"
 			baseColumnNames="UNIV_FISCAL_YR,FIN_COA_CD,ACCOUNT_NBR,FIN_OBJECT_CD,FIN_SUB_OBJ_CD"
 			baseTableName="CG_AWD_INV_ACCT_T"
 			referencedColumnNames="UNIV_FISCAL_YR,FIN_COA_CD,ACCOUNT_NBR,FIN_OBJECT_CD,FIN_SUB_OBJ_CD" />
-		<addForeignKeyConstraint constraintName="AR_INV_MLSTN_FK1"
+		<addForeignKeyConstraint constraintName="AR_INV_MLSTN_R1"
 			referencedTableName="AR_INV_DOC_T" baseColumnNames="FDOC_NBR"
 			baseTableName="AR_INV_MLSTN_T" referencedColumnNames="FDOC_NBR" />
-		<addForeignKeyConstraint constraintName="AR_INV_BILL_FK1"
+		<addForeignKeyConstraint constraintName="AR_INV_BILL_R1"
 			referencedTableName="AR_INV_DOC_T" baseColumnNames="FDOC_NBR"
 			baseTableName="AR_INV_BILL_T" referencedColumnNames="FDOC_NBR" />
-		<addForeignKeyConstraint constraintName="AR_INV_DTL_ACCT_OBJ_CD_FK1"
+		<addForeignKeyConstraint constraintName="AR_INV_DTL_ACCT_OBJ_CD_R1"
 			referencedTableName="CG_AWD_T" baseColumnNames="PRPSL_NBR"
 			baseTableName="AR_INV_DTL_ACCT_OBJ_CD_T" referencedColumnNames="CGPRPSL_NBR" />
-		<addForeignKeyConstraint constraintName="AR_AWDACCT_OBJCD_TL_BLD_FK"
+		<addForeignKeyConstraint constraintName="AR_AWDACCT_OBJCD_TL_BLD_R1"
 			referencedTableName="CG_AWD_T" baseColumnNames="PRPSL_NBR"
 			baseTableName="AR_AWDACCT_OBJCD_TL_BLD_T" referencedColumnNames="CGPRPSL_NBR" />
-		<addForeignKeyConstraint constraintName="CG_AWD_INV_ACCT_FK7"
+		<addForeignKeyConstraint constraintName="CG_AWD_INV_ACCT_R7"
 			referencedTableName="CA_PROJECT_T" baseColumnNames="PROJECT_CD"
 			baseTableName="CG_AWD_INV_ACCT_T" referencedColumnNames="PROJECT_CD" />
-		<addForeignKeyConstraint constraintName="AR_LTRCR_RVW_DTL_FK1"
+		<addForeignKeyConstraint constraintName="AR_LTRCR_RVW_DTL_R1"
 			referencedTableName="AR_LTRCR_RVW_DOC_T" baseColumnNames="FDOC_NBR"
 			baseTableName="AR_LTRCR_RVW_DTL_T" referencedColumnNames="FDOC_NBR" />
 	</changeSet>
@@ -132,6 +132,22 @@
 		<addForeignKeyConstraint constraintName="CG_AGENCY_NTE_FK1"
 			referencedTableName="CG_AGENCY_T" baseColumnNames="CG_AGENCY_NBR"
 			baseTableName="CG_AGENCY_NTE_T" referencedColumnNames="CG_AGENCY_NBR" />
+	</changeSet>
+	
+		<changeSet author="KFSCGB" id="AR_MLSTN_MOD1">
+		<addPrimaryKey tableName="AR_MLSTN_T" columnNames="CGPRPSL_NBR,MLSTN_ID" />
+		<modifySql dbms="oracle">
+			<replace replace="varchar" with="varchar2" />
+			<replace replace="decimal" with="number" />
+			<replace replace="datetime" with="date" />
+		</modifySql>
+	</changeSet>
+	
+		<changeSet author="KFSCGB" id="AR_CG_INV_DTL_ADD_FIELDS">
+		<addPrimaryKey tableName="AR_CG_INV_DTL_T" columnNames="INV_DTL_ID,FDOC_NBR" />
+		<modifySql dbms="oracle">
+			<replace replace="decimal" with="number" />
+		</modifySql>
 	</changeSet>
 	
 </databaseChangeLog>

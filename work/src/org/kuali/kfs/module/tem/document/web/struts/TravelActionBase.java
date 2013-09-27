@@ -765,9 +765,9 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
         // now copy info over to expense
         expense.setPerDiem(perDiem);
         expense.setPerDiemId(perDiem.getId());
-        expense.setPrimaryDestination(perDiem.getPrimaryDestination().getPrimaryDestinationName());
-        expense.setCountryState(perDiem.getPrimaryDestination().getRegion().getRegionName());
-        expense.setCounty(perDiem.getPrimaryDestination().getCounty());
+        expense.setPrimaryDestination("");
+        expense.setCountryState("");
+        expense.setCounty("");
         expense.setLodging(perDiem.getLodging());
         expense.setIncidentalsValue(perDiem.getIncidentals());
         expense.setBreakfastValue(perDiem.getBreakfast());

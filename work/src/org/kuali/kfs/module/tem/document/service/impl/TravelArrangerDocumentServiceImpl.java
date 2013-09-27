@@ -54,12 +54,13 @@ public class TravelArrangerDocumentServiceImpl implements TravelArrangerDocument
     }
 
     @Override
-    public void removeTravelProfileArranger(TravelArrangerDocument arrangerDoc) {
+    public void inactivateTravelProfileArranger(TravelArrangerDocument arrangerDoc) {
         Integer profileId = arrangerDoc.getProfileId();
         String arrangerId = arrangerDoc.getArrangerId();
         TEMProfileArranger profileArranger = findTemProfileArranger(arrangerId, profileId);
         if(ObjectUtils.isNotNull(profileArranger)) {
-            businessObjectService.delete(profileArranger);
+            profileArranger.setActive(Boolean.FALSE);
+            businessObjectService.save(profileArranger);
         }
 
     }

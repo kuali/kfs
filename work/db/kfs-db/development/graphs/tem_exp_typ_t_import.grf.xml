@@ -25,8 +25,10 @@
         $0.grp_trvl_ind := replace(nvl($grp_trvl_ind, ""), "~!~", "|" );
         $0.exp_detail_req_ind := replace(nvl($exp_detail_req_ind, ""), "~!~", "|" );
         $0.exp_prpy_ind := replace(nvl($exp_prpy_ind, ""), "~!~", "|" );
-        $0.per_diem_ind := replace(nvl($per_diem_ind, ""), "~!~", "|" );
         $0.actv_ind := replace(nvl($actv_ind, ""), "~!~", "|" );
+        $0.hosted_ind := replace(nvl($hosted_ind, ""), "~!~", "|" );
+        $0.exp_typ_meta_ctgry_cd := replace(nvl($exp_typ_meta_ctgry_cd, ""), "~!~", "|" );
+        $0.ctgry_dflt_ind := replace(nvl($ctgry_dflt_ind, ""), "~!~", "|" );
    }
       ]]></attr>
     </Node>

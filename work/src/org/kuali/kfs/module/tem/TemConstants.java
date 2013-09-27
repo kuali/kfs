@@ -184,7 +184,6 @@ public class TemConstants {
         public static final String QUARTER_DAY_TIME_TABLE = "QUARTER_DAY_TIME_TABLE";
         public static final String NUMBER_OF_DAYS_DELINQUENT = "NUMBER_OF_DAYS_DELINQUENT";
 
-        public static final String HOSTED_MEAL_EXPENSE_TYPES = "HOSTED_MEAL_EXPENSE_TYPES";
         public static final String ALWAYS_REIMBURSABLE_CARD_TYPE = "ALWAYS_REIMBURSABLE_CARD_TYPE";
         public static final String AMOUNT_DUE_CORPORATE_CARD_TOTAL_LINE_IND = "AMOUNT_DUE_CORPORATE_CARD_TOTAL_LINE_IND";
         public static final String CORPORATE_CARD_PAYMENT_BY_DV_IND = "CORPORATE_CARD_PAYMENT_BY_DV_IND";

@@ -1192,9 +1192,9 @@
         2
       </routingVersion>
     </documentType>
-     <documentType>
+	 <documentType>
       <name>IAA</name>
-      <label>Intra Account Adjustment</label>
+      <label>Intra-Account Adjustment</label>
       <parent>FP</parent>      
       <docHandler>${kfs.url}/financialIntraAccountAdjustment.do?methodToCall=docHandler</docHandler>      
       <active>
@@ -1203,9 +1203,8 @@
       <routePaths>
         <routePath>
           <start name="AdHoc" nextNode="Account"/>
-          <role name="Account" />
-          
-        </routePath>
+          <role name="Account"/>
+         </routePath>
       </routePaths>
       <routeNodes>
         <start name="AdHoc"/>

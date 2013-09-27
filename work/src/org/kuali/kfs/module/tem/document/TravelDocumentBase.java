@@ -88,6 +88,7 @@ import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocumentBase;
 import org.kuali.kfs.sys.service.BankService;
+import org.kuali.kfs.sys.util.KfsDateUtils;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
@@ -2087,5 +2088,31 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
         for (ImportedExpense expense : getImportedExpenses()) {
             expense.refreshExpenseTypeObjectCode(getDocumentTypeName(), getTraveler().getTravelerTypeCode(), getTripTypeCode());
         }
+    }
+
+    /**
+     * Determines if the given per diem expense is on the trip begin date
+     * @param perDiemExpense the per diem expense to check
+     * @return true if the per diem expense is on the trip begin date, false otherwise
+     */
+    @Override
+    public boolean isOnTripBegin(PerDiemExpense perDiemExpense) {
+        if (getTripBegin() == null || perDiemExpense.getMileageDate() == null) {
+            return false;
+        }
+        return KfsDateUtils.isSameDay(getTripBegin(), perDiemExpense.getMileageDate());
+    }
+
+    /**
+     * Determines if the given per diem expense is on the trip end date
+     * @param perDiemExpense the per diem expense to check
+     * @return true if the per diem expense is on the trip end date, false otherwise
+     */
+    @Override
+    public boolean isOnTripEnd(PerDiemExpense perDiemExpense) {
+        if (getTripEnd() == null || perDiemExpense.getMileageDate() == null) {
+            return false;
+        }
+        return KfsDateUtils.isSameDay(getTripEnd(), perDiemExpense.getMileageDate());
     }
 }

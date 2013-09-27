@@ -117,6 +117,9 @@
 	
 	<bean id="TravelDocument-actualExpenseNotesValidation" parent="TravelDocument-actualExpenseNotesValidation-parentBean"/>
 	<bean id="TravelDocument-actualExpenseNotesValidation-parentBean" abstract="true" class="org.kuali.kfs.module.tem.document.validation.impl.ActualExpenseNotesValidation" />
+	
+	<bean id="TravelDocument-perDiemPrimaryDestMatchValidation" parent="TravelDocument-perDiemPrimaryDestMatchValidation-parentBean"/>
+	<bean id="TravelDocument-perDiemPrimaryDestMatchValidation-parentBean" abstract="true" class="org.kuali.kfs.module.tem.document.validation.impl.TravelDocumentPerDiemPrimaryDestinationMatchValidation"/>
 
 	<!-- Add Accounting Line Event -->
     <bean id="TravelModule-addAccountingLine-failFastValidation" abstract="true" parent="CompositeValidation" scope="prototype">

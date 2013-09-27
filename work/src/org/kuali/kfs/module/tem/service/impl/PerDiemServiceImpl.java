@@ -19,6 +19,7 @@ import static org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameter
 import static org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters.PER_DIEM_OBJECT_CODE;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -49,6 +50,7 @@ import org.kuali.kfs.module.tem.businessobject.TEMExpense;
 import org.kuali.kfs.module.tem.businessobject.TravelerDetail;
 import org.kuali.kfs.module.tem.businessobject.TripType;
 import org.kuali.kfs.module.tem.dataaccess.PerDiemDao;
+import org.kuali.kfs.module.tem.dataaccess.TravelDocumentDao;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.TravelReimbursementDocument;
@@ -73,13 +75,14 @@ public class PerDiemServiceImpl extends ExpenseServiceBase implements PerDiemSer
 
     private static Logger LOG = Logger.getLogger(PerDiemServiceImpl.class);
 
-    private DateTimeService dateTimeService;
-    private ParameterService parameterService;
-    private BusinessObjectService businessObjectService;
-    private StateService stateService;
-    private PerDiemDao perDiemDao;
-    private Map<String, MealBreakDownStrategy> mealBreakDownStrategies;
-    private String allStateCodes;
+    protected DateTimeService dateTimeService;
+    protected ParameterService parameterService;
+    protected BusinessObjectService businessObjectService;
+    protected StateService stateService;
+    protected PerDiemDao perDiemDao;
+    protected Map<String, MealBreakDownStrategy> mealBreakDownStrategies;
+    protected String allStateCodes;
+    protected TravelDocumentDao travelDocumentDao;
 
     Collection<PerDiem> persistedPerDiems;
 
@@ -709,6 +712,20 @@ public class PerDiemServiceImpl extends ExpenseServiceBase implements PerDiemSer
         return false;
     }
 
+    /**
+     * Uses travelDocumentDao to look up per diem records (TravelDocumentDao handles the the date wierdnesses of per diem date)
+     * @see org.kuali.kfs.module.tem.service.PerDiemService#getPerDiem(int, java.sql.Timestamp)
+     */
+    @Override
+    public PerDiem getPerDiem(int primaryDestinationId, Timestamp perDiemDate) {
+        Map<String,Object> fieldValues = new HashMap<String, Object>();
+        fieldValues.put(TemPropertyConstants.PRIMARY_DESTINATION_ID, primaryDestinationId);
+        fieldValues.put(KFSPropertyConstants.ACTIVE, KFSConstants.ACTIVE_INDICATOR);
+        fieldValues.put(TemPropertyConstants.PER_DIEM_LOOKUP_DATE, perDiemDate);
+        final PerDiem perDiem = getTravelDocumentDao().findPerDiem(fieldValues);
+        return perDiem;
+    }
+
     @Override
     public void processExpense(TravelDocument travelDocument) {
         //do nothing
@@ -744,5 +761,13 @@ public class PerDiemServiceImpl extends ExpenseServiceBase implements PerDiemSer
             showPerDiemBreakdown = parameterService.getParameterValueAsBoolean(TravelReimbursementDocument.class, TravelReimbursementParameters.PER_DIEM_AMOUNT_EDITABLE_IND);
         }
         form.setShowPerDiemBreakdown(showPerDiemBreakdown);
+    }
+
+    public TravelDocumentDao getTravelDocumentDao() {
+        return travelDocumentDao;
+    }
+
+    public void setTravelDocumentDao(TravelDocumentDao travelDocumentDao) {
+        this.travelDocumentDao = travelDocumentDao;
     }
 }

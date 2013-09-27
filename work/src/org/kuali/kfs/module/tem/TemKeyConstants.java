@@ -269,6 +269,7 @@ public class TemKeyConstants {
 
     public static final String ERROR_DOCUMENT_TOTAL_ESTIMATED = "error.document.tem.total.estimated";
     public static final String ERROR_ACCOUNTING_LINE_CG = "error.tem.accountingline.cg.accountnumber";
+    public static final String ERROR_TRAVEL_DOC_PRI_DEST_PER_DIEM_NO_MATCH = "error.document.tem.primary.destination.per.diem.location.no.match";
 
 
     public static final String CTS_CARD_DOCUMENT_USER_AGREEMENT = "message.tem.cts.card.document.user.agreement";

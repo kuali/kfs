@@ -202,15 +202,13 @@
 		abstract="true" parent="WorkflowAttributes">
 		<property name="routingTypeDefinitions">
 			<map>
-				<entry key="Traveler"
-					value-ref="TEMProfileMaintenanceDocument-RoutingType-Traveler" />
+				<entry key="Traveler" value-ref="TEMProfileMaintenanceDocument-RoutingType-Traveler" />
 			</map>
 		</property>
 
 	</bean>
 
-	<bean id="TEMProfileMaintenanceDocument-RoutingType-Traveler"
-		class="org.kuali.rice.krad.datadictionary.RoutingTypeDefinition">
+	<bean id="TEMProfileMaintenanceDocument-RoutingType-Traveler" class="org.kuali.rice.krad.datadictionary.RoutingTypeDefinition">
 		<property name="routingAttributes">
 			<list>
 				<ref bean="TEMProfileMaintenanceDocument-RoutingAttribute-Traveler" />
@@ -234,6 +232,7 @@
 
 	<bean id="TEMProfileMaintenanceDocument-RoutingAttribute-Traveler"
 		class="org.kuali.rice.krad.datadictionary.RoutingAttribute">
-		<property name="qualificationAttributeName" value="principalId" />
+		<property name="qualificationAttributeName" value="profilePrincipalId" />
 	</bean>
+	
 </beans>

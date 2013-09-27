@@ -753,7 +753,7 @@ public class ContractsGrantsInvoiceReportServiceImpl extends ContractsGrantsRepo
                     primaryKeys.put("agencyAddressIdentifier", agencyAddress.getAgencyAddressIdentifier());
                     address = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsAgencyAddress.class).getExternalizableBusinessObject(ContractsAndGrantsAgencyAddress.class, primaryKeys);
                     Note note = SpringContext.getBean(NoteService.class).getNoteByNoteId(agencyAddress.getNoteId());
-                    for (int i = 0; i < Integer.parseInt(address.getAgencyCopiesToPrint()); i++) {
+                    for (int i = 0; i < address.getAgencyCopiesToPrint(); i++) {
 
                         if (ObjectUtils.isNotNull(note)) {
                             if (!pageAdded) {
@@ -800,7 +800,7 @@ public class ContractsGrantsInvoiceReportServiceImpl extends ContractsGrantsRepo
                     primaryKeys.put(KFSPropertyConstants.AGENCY_NUMBER, agencyAddress.getAgencyNumber());
                     primaryKeys.put("agencyAddressIdentifier", agencyAddress.getAgencyAddressIdentifier());
                     address = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsAgencyAddress.class).getExternalizableBusinessObject(ContractsAndGrantsAgencyAddress.class, primaryKeys);
-                    for (int i = 0; i < Integer.parseInt(address.getAgencyPrintEnvelopesNumber()); i++) {
+                    for (int i = 0; i < address.getAgencyPrintEnvelopesNumber(); i++) {
                         // if a page has not already been added then open the document.
                         if (!pageAdded) {
                             document.open();

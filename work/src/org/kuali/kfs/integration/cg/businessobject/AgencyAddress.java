@@ -56,8 +56,8 @@ public class AgencyAddress implements ContractsAndGrantsAgencyAddress {
 
     private String invoiceIndicatorCode;
 
-    private String agencyCopiesToPrint;
-    private String agencyPrintEnvelopesNumber;
+    private Integer agencyCopiesToPrint;
+    private Integer agencyPrintEnvelopesNumber;
 
     private ContractsAndGrantsCGBAgency agency;
 
@@ -426,7 +426,7 @@ public class AgencyAddress implements ContractsAndGrantsAgencyAddress {
      * 
      * @return Returns the agencyCopiesToPrint.
      */
-    public String getAgencyCopiesToPrint() {
+    public Integer getAgencyCopiesToPrint() {
         return agencyCopiesToPrint;
     }
 
@@ -435,7 +435,7 @@ public class AgencyAddress implements ContractsAndGrantsAgencyAddress {
      * 
      * @param agencyCopiesToPrint The agencyCopiesToPrint to set.
      */
-    public void setAgencyCopiesToPrint(String agencyCopiesToPrint) {
+    public void setAgencyCopiesToPrint(Integer agencyCopiesToPrint) {
         this.agencyCopiesToPrint = agencyCopiesToPrint;
     }
 
@@ -444,7 +444,7 @@ public class AgencyAddress implements ContractsAndGrantsAgencyAddress {
      * 
      * @return Returns the agencyPrintEnvelopes.
      */
-    public String getAgencyPrintEnvelopesNumber() {
+    public Integer getAgencyPrintEnvelopesNumber() {
         return agencyPrintEnvelopesNumber;
     }
 
@@ -453,7 +453,7 @@ public class AgencyAddress implements ContractsAndGrantsAgencyAddress {
      * 
      * @param agencyPrintEnvelopes The agencyPrintEnvelopes to set.
      */
-    public void setAgencyPrintEnvelopesNumber(String agencyPrintEnvelopesNumber) {
+    public void setAgencyPrintEnvelopesNumber(Integer agencyPrintEnvelopesNumber) {
         this.agencyPrintEnvelopesNumber = agencyPrintEnvelopesNumber;
     }
 

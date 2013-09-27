@@ -290,7 +290,7 @@
 			</column>
 			<column name="MLSTN_DESC" type="varchar(45)" />
 			<column name="MLSTN_AMT" type="decimal(19,2)" />
-			<column name="IS_IT_BILLED" type="varchar(5)" />
+			<column name="IS_IT_BILLED" type="varchar(1)" />
 			<column name="MLSTN_NBR" type="decimal(12,0)" defaultValue="0" />
 			<column name="CGPRPSL_NBR" type="decimal(12,0)" defaultValue="0" />
 			<column name="MLSTN_COMPLTN_DT" type="datetime" />
@@ -662,7 +662,7 @@
 			<column name="MLSTN_DESC" type="varchar(45)" />
 			<column name="MLSTN_COMPLTN_DT" type="datetime" />
 			<column name="MLSTN_AMT" type="decimal(7,0)" />
-			<column name="IS_IT_BILLED" type="varchar(5)" />
+			<column name="IS_IT_BILLED" type="varchar(1)" />
 		</createTable>
 		<modifySql dbms="oracle">
 			<replace replace="varchar" with="varchar2" />
@@ -713,7 +713,7 @@
 			<column name="BILL_DESC" type="varchar(45)" />
 			<column name="BILL_DT" type="datetime" />
 			<column name="EST_AMT" type="decimal(7,0)" />
-			<column name="IS_IT_BILLED" type="varchar(5)" />
+			<column name="IS_IT_BILLED" type="varchar(1)" />
 		</createTable>
 		<modifySql dbms="oracle">
 			<replace replace="varchar" with="varchar2" />

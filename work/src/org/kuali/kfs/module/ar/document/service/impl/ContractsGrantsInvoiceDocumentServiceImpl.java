@@ -2164,7 +2164,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
 
             for (Milestone awdMilestone : milestones) {
-                if (awdMilestone.getMilestoneActualCompletionDate() != null && !invoiceDate.before(awdMilestone.getMilestoneActualCompletionDate()) && awdMilestone.getIsItBilled().equals(KFSConstants.ParameterValues.STRING_NO) && awdMilestone.getMilestoneAmount().isGreaterThan(KualiDecimal.ZERO)) {
+                if (awdMilestone.getMilestoneActualCompletionDate() != null && !invoiceDate.before(awdMilestone.getMilestoneActualCompletionDate()) && awdMilestone.getIsItBilled().equals(KFSConstants.ParameterValues.NO) && awdMilestone.getMilestoneAmount().isGreaterThan(KualiDecimal.ZERO)) {
                     validMilestones.add(awdMilestone);
                 }
             }
@@ -2198,7 +2198,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             java.sql.Date invoiceDate = pair[1];
 
             for (ContractsAndGrantsBill awdBill : bills) {
-                if (awdBill.getBillDate() != null && !invoiceDate.before(awdBill.getBillDate()) && awdBill.getIsItBilled().equals(KFSConstants.ParameterValues.STRING_NO) && awdBill.getEstimatedAmount().isGreaterThan(KualiDecimal.ZERO)) {
+                if (awdBill.getBillDate() != null && !invoiceDate.before(awdBill.getBillDate()) && awdBill.getIsItBilled().equals(KFSConstants.ParameterValues.NO) && awdBill.getEstimatedAmount().isGreaterThan(KualiDecimal.ZERO)) {
                     validBills.add(awdBill);
                 }
             }
@@ -2474,7 +2474,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             Iterator<Milestone> iterator = milestones.iterator();
             while (iterator.hasNext()) {
                 Milestone milestone = iterator.next();
-                if (KFSConstants.ParameterValues.STRING_YES.equals(milestone.getIsItBilled())) {
+                if (KFSConstants.ParameterValues.YES.equals(milestone.getIsItBilled())) {
                     billedToDate = billedToDate.add(milestone.getMilestoneAmount());
                 }
             }
@@ -2496,7 +2496,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             Iterator<ContractsAndGrantsBill> iterator = bills.iterator();
             while (iterator.hasNext()) {
                 ContractsAndGrantsBill bill = iterator.next();
-                if (KFSConstants.ParameterValues.STRING_YES.equals(bill.getIsItBilled())) {
+                if (KFSConstants.ParameterValues.YES.equals(bill.getIsItBilled())) {
                     billedToDate = billedToDate.add(bill.getEstimatedAmount());
                 }
             }

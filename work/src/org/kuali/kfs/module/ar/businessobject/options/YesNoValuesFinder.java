@@ -33,8 +33,8 @@ public class YesNoValuesFinder extends KeyValuesBase {
     public List<KeyValue> getKeyValues() {
         List<KeyValue> activeLabels = new ArrayList<KeyValue>();
 
-        activeLabels.add(new ConcreteKeyValue("Yes", "Yes"));
-        activeLabels.add(new ConcreteKeyValue("No", "No"));
+        activeLabels.add(new ConcreteKeyValue("Y", "Yes"));
+        activeLabels.add(new ConcreteKeyValue("N", "No"));
 
         return activeLabels;
     }

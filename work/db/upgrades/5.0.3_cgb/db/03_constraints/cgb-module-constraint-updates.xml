@@ -134,7 +134,7 @@
 			baseTableName="CG_AGENCY_NTE_T" referencedColumnNames="CG_AGENCY_NBR" />
 	</changeSet>
 	
-		<changeSet author="KFSCGB" id="AR_MLSTN_MOD1">
+	<changeSet author="KFSCGB" id="AR_MLSTN_MOD1">
 		<addPrimaryKey tableName="AR_MLSTN_T" columnNames="CGPRPSL_NBR,MLSTN_ID" />
 		<modifySql dbms="oracle">
 			<replace replace="varchar" with="varchar2" />
@@ -143,7 +143,7 @@
 		</modifySql>
 	</changeSet>
 	
-		<changeSet author="KFSCGB" id="AR_CG_INV_DTL_ADD_FIELDS">
+	<changeSet author="KFSCGB" id="AR_CG_INV_DTL_ADD_FIELDS">
 		<addPrimaryKey tableName="AR_CG_INV_DTL_T" columnNames="INV_DTL_ID,FDOC_NBR" />
 		<modifySql dbms="oracle">
 			<replace replace="decimal" with="number" />

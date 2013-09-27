@@ -71,8 +71,8 @@ public class CustomerAddress extends PersistableBusinessObjectBase implements Co
     private String invoiceIndicatorCode;
     private InvoiceIndicator invoiceIndicator;
 
-    private String agencyCopiesToPrint;
-    private String agencyPrintEnvelopesNumber;
+    private Integer agencyCopiesToPrint;
+    private Integer agencyPrintEnvelopesNumber;
     
     /**
      * Default constructor.
@@ -446,7 +446,7 @@ public class CustomerAddress extends PersistableBusinessObjectBase implements Co
      *
      * @return Returns the agencyCopiesToPrint.
      */
-    public String getAgencyCopiesToPrint() {
+    public Integer getAgencyCopiesToPrint() {
         return agencyCopiesToPrint;
     }
 
@@ -455,7 +455,7 @@ public class CustomerAddress extends PersistableBusinessObjectBase implements Co
      *
      * @param agencyCopiesToPrint The agencyCopiesToPrint to set.
      */
-    public void setAgencyCopiesToPrint(String agencyCopiesToPrint) {
+    public void setAgencyCopiesToPrint(Integer agencyCopiesToPrint) {
         this.agencyCopiesToPrint = agencyCopiesToPrint;
     }
 
@@ -464,7 +464,7 @@ public class CustomerAddress extends PersistableBusinessObjectBase implements Co
      *
      * @return Returns the agencyPrintEnvelopes.
      */
-    public String getAgencyPrintEnvelopesNumber() {
+    public Integer getAgencyPrintEnvelopesNumber() {
         return agencyPrintEnvelopesNumber;
     }
 
@@ -473,7 +473,7 @@ public class CustomerAddress extends PersistableBusinessObjectBase implements Co
      *
      * @param agencyPrintEnvelopes The agencyPrintEnvelopes to set.
      */
-    public void setAgencyPrintEnvelopesNumber(String agencyPrintEnvelopesNumber) {
+    public void setAgencyPrintEnvelopesNumber(Integer agencyPrintEnvelopesNumber) {
         this.agencyPrintEnvelopesNumber = agencyPrintEnvelopesNumber;
     }
     

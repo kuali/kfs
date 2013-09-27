@@ -168,14 +168,14 @@ public interface ContractsAndGrantsAgencyAddress extends ExternalizableBusinessO
      * 
      * @return Returns the agencyCopiesToPrint.
      */
-    public String getAgencyCopiesToPrint();
+    public Integer getAgencyCopiesToPrint();
 
     /**
      * Gets the agencyPrintEnvelopes attribute.
      * 
      * @return Returns the agencyPrintEnvelopes.
      */
-    public String getAgencyPrintEnvelopesNumber();
+    public Integer getAgencyPrintEnvelopesNumber();
 
     /**
      * Gets the agencyContactName attribute.

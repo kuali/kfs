@@ -53,7 +53,7 @@ public class Milestone extends PersistableBusinessObjectBase implements Accounts
      * Constructs a Milestones.java.
      */
     public Milestone() {
-        this.setIsItBilled(KFSConstants.ParameterValues.STRING_NO);
+        this.setIsItBilled(KFSConstants.ParameterValues.NO);
     }
 
     /**

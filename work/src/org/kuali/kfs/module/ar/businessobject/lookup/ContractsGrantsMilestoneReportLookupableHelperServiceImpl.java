@@ -77,10 +77,10 @@ public class ContractsGrantsMilestoneReportLookupableHelperServiceImpl extends C
         Collection<Milestone> milestones;
 
         Map<String, Object> map = new HashMap<String, Object>();
-        map.put("isItBilled", "Yes");
+        map.put("isItBilled", "Y");
         milestones = SpringContext.getBean(BusinessObjectService.class).findMatching(Milestone.class, map);
         map.clear();
-        map.put("isItBilled", "No");
+        map.put("isItBilled", "N");
         Collection<Milestone> notBilledMilestones = SpringContext.getBean(BusinessObjectService.class).findMatching(Milestone.class, map);
 
         milestones.addAll(notBilledMilestones);

@@ -825,18 +825,8 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
                 expense.setPrimaryDestination(perDiem.getPrimaryDestination().getPrimaryDestinationName());
                 expense.setCountryState(perDiem.getPrimaryDestination().getRegion().getRegionName());
                 expense.setCounty(perDiem.getPrimaryDestination().getCounty());
-                if (document.isOnTripBegin(expense) || document.isOnTripEnd(expense)) {
-                    Integer perDiemPercent = getTravelDocumentService().calculateProratePercentage(expense, document.getTripType().getPerDiemCalcMethod(), document.getTripEnd());
-                    expense.setDinnerValue(PerDiemExpense.calculateMealsAndIncidentalsProrated(perDiem.getDinner(), perDiemPercent));
-                    expense.setLunchValue(PerDiemExpense.calculateMealsAndIncidentalsProrated(perDiem.getLunch(), perDiemPercent));
-                    expense.setBreakfastValue(PerDiemExpense.calculateMealsAndIncidentalsProrated(perDiem.getBreakfast(), perDiemPercent));
-                    expense.setIncidentalsValue(PerDiemExpense.calculateMealsAndIncidentalsProrated(perDiem.getIncidentals(), perDiemPercent));
-                } else {
-                    expense.setBreakfastValue(perDiem.getBreakfast());
-                    expense.setLunchValue(perDiem.getLunch());
-                    expense.setDinnerValue(perDiem.getDinner());
-                    expense.setIncidentalsValue(perDiem.getIncidentals());
-                }
+                final boolean shouldProrate = document.isOnTripBegin(expense) || document.isOnTripEnd(expense);
+                getTravelDocumentService().setPerDiemMealsAndIncidentals(expense, perDiem, document.getTripType(), document.getTripEnd(), shouldProrate);
                 expense.setLodging(perDiem.getLodging());
                 return null;
             }

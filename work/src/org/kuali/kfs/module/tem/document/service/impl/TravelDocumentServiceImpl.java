@@ -196,19 +196,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
         expense.setCountryState(perDiem.getPrimaryDestination().getRegion().getRegionCode());
         expense.setCounty(perDiem.getPrimaryDestination().getCounty());
 
-        //default first to per diem's values
-        expense.setBreakfastValue(perDiem.getBreakfast());
-        expense.setLunchValue(perDiem.getLunch());
-        expense.setDinnerValue(perDiem.getDinner());
-        expense.setIncidentalsValue(perDiem.getIncidentals());
-        // if prorated, recalculate the values
-        if(expense.isProrated()){
-            Integer perDiemPercent = calculateProratePercentage(expense, document.getTripType().getPerDiemCalcMethod(), document.getTripEnd());
-            expense.setDinnerValue(PerDiemExpense.calculateMealsAndIncidentalsProrated(expense.getDinnerValue(), perDiemPercent));
-            expense.setLunchValue(PerDiemExpense.calculateMealsAndIncidentalsProrated(expense.getLunchValue(), perDiemPercent));
-            expense.setBreakfastValue(PerDiemExpense.calculateMealsAndIncidentalsProrated(expense.getBreakfastValue(), perDiemPercent));
-            expense.setIncidentalsValue(PerDiemExpense.calculateMealsAndIncidentalsProrated(expense.getIncidentalsValue(), perDiemPercent));
-        }
+        setPerDiemMealsAndIncidentals(expense, perDiem, document.getTripType(), document.getTripEnd(), expense.isProrated());
         final KualiDecimal lodgingAmount = getPerDiemService().isPerDiemHandlingLodging() ? perDiem.getLodging() : KualiDecimal.ZERO;
         expense.setLodging(lodgingAmount);
         return expense;
@@ -219,6 +207,53 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
      */
     protected PerDiemExpense newPerDiemExpense() {
         return new PerDiemExpense();
+    }
+
+    /**
+     * Sets the meal and incidental amounts on the given per diem expense
+     * @param expense the expense to set amounts on
+     * @param perDiem the per diem record amounts are based off of
+     * @param tripType the trip type being taken
+     * @param tripEnd the end time of the trip
+     * @param shouldProrate whether this expense should be prorated
+     */
+    @Override
+    public void setPerDiemMealsAndIncidentals(PerDiemExpense expense, PerDiem perDiem, TripType tripType, Timestamp tripEnd, boolean shouldProrate) {
+        String perDiemCalcMethod = null;
+        if (!ObjectUtils.isNull(tripType)) {
+            perDiemCalcMethod = tripType.getPerDiemCalcMethod();
+        }
+        //default first to per diem's values
+        expense.setBreakfastValue(perDiem.getBreakfast());
+        expense.setLunchValue(perDiem.getLunch());
+        expense.setDinnerValue(perDiem.getDinner());
+        expense.setIncidentalsValue(perDiem.getIncidentals());
+        // if prorated, recalculate the values
+        if(shouldProrate){
+            Integer perDiemPercent = calculateProratePercentage(expense, perDiemCalcMethod, tripEnd);
+            expense.setDinnerValue(PerDiemExpense.calculateMealsAndIncidentalsProrated(expense.getDinnerValue(), perDiemPercent));
+            expense.setLunchValue(PerDiemExpense.calculateMealsAndIncidentalsProrated(expense.getLunchValue(), perDiemPercent));
+            expense.setBreakfastValue(PerDiemExpense.calculateMealsAndIncidentalsProrated(expense.getBreakfastValue(), perDiemPercent));
+            expense.setIncidentalsValue(PerDiemExpense.calculateMealsAndIncidentalsProrated(expense.getIncidentalsValue(), perDiemPercent));
+
+            correctProratedPerDiemExpense(expense, perDiemPercent, perDiem);
+        }
+    }
+
+    /**
+     * Makes sure that any rounding in determining prorated meals or incidentals amounts will not be more than the meals and incidentals totals allowed by the per diem.
+     * Extra change will be taken from breakfast.
+     * @param expense the expense to correct
+     * @param perDiemPercent the percentage of the proration for this per diem
+     * @param perDiem the per diem record to work against
+     */
+    protected void correctProratedPerDiemExpense(PerDiemExpense expense, Integer perDiemPercent, PerDiem perDiem) {
+        final KualiDecimal mealAndIncidentalLimit = PerDiemExpense.calculateMealsAndIncidentalsProrated(perDiem.getMealsAndIncidentals(), perDiemPercent);
+        if (expense.getMealsAndIncidentals().isGreaterThan(mealAndIncidentalLimit)) {
+            // take the difference from breakfast
+            final KualiDecimal delta = expense.getMealsAndIncidentals().subtract(mealAndIncidentalLimit);
+            expense.setBreakfastValue(expense.getBreakfastValue().subtract(delta));
+        }
     }
 
     /**
@@ -842,7 +877,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
                 }
 
                 // Prorate on trip begin. (12:01 AM arrival = 100%, 11:59 PM arrival = 25%)
-                if (!KfsDateUtils.isSameDay(prorateDate.getTime(), tripEnd)) {
+                if (tripEnd != null && !KfsDateUtils.isSameDay(prorateDate.getTime(), tripEnd)) {
                     return 100 - ((quadrantIndex - 1) * TemConstants.QUADRANT_PERCENT_VALUE);
                 }
                 else { // Prorate on trip end. (12:01 AM departure = 25%, 11:59 PM arrival = 100%).

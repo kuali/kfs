@@ -61,13 +61,15 @@ public class TravelAuthTripInformationValidation extends GenericValidation {
         }
 
         if (event.getDocument() instanceof TravelReimbursementDocument) {
-            Date endDate = KfsDateUtils.clearTimeFields(document.getTripEnd());
-            Date today = KfsDateUtils.clearTimeFields(new Date());
-            Boolean value = getParameterService().getParameterValueAsBoolean(TravelReimbursementDocument.class, TemConstants.TravelReimbursementParameters.PRETRIP_REIMBURSEMENT_IND);
+            if (document.getTripEnd() != null) {
+                Date endDate = KfsDateUtils.clearTimeFields(document.getTripEnd());
+                Date today = KfsDateUtils.clearTimeFields(new Date());
+                Boolean value = getParameterService().getParameterValueAsBoolean(TravelReimbursementDocument.class, TemConstants.TravelReimbursementParameters.PRETRIP_REIMBURSEMENT_IND);
 
-            if (endDate != null && today.before(endDate) && !value.booleanValue()) {
-                GlobalVariables.getMessageMap().putError(KFSConstants.DOCUMENT_ERRORS, KFSKeyConstants.ERROR_CUSTOM, "Travel Reimbursement Document cannot be submitted before the trip end date has passed.");
-                rulePassed = false;
+                if (endDate != null && today.before(endDate) && !value.booleanValue()) {
+                    GlobalVariables.getMessageMap().putError(KFSConstants.DOCUMENT_ERRORS, KFSKeyConstants.ERROR_CUSTOM, "Travel Reimbursement Document cannot be submitted before the trip end date has passed.");
+                    rulePassed = false;
+                }
             }
         }
 

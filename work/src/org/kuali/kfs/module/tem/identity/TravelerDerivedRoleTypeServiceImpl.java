@@ -21,7 +21,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.core.api.membership.MemberType;
 import org.kuali.rice.kim.api.role.RoleMembership;
 import org.kuali.rice.kns.kim.role.DerivedRoleTypeServiceBase;
@@ -39,7 +38,7 @@ public class TravelerDerivedRoleTypeServiceImpl extends DerivedRoleTypeServiceBa
     @Override
     protected List<String> getRequiredAttributes() {
         final List<String> attrs = new ArrayList<String>(super.getRequiredAttributes());
-        attrs.add(KFSPropertyConstants.PRINCIPAL_ID);
+        attrs.add(TemKimAttributes.PROFILE_PRINCIPAL_ID);
         return Collections.unmodifiableList(attrs);
     }
 

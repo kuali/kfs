@@ -30,6 +30,7 @@ public class TemWorkflowConstants {
     public static final String REQUIRES_AWARD = "RequiresAward";
     public static final String REQUIRES_AP_TRAVEL = "RequiresTravel";
     public static final String REQUIRES_TRAVELER_REVIEW = "TravelRequiresTravelerApproval";
+    public static final String REQUIRES_PROFILE_REVIEW = "ProfileReviewRequired";
     // TEMProfile constants
     public static final String TAX_MANAGER_REQUIRED = "ProfileIsTaxManagerRequired";
     //RELO/TR tax manager
@@ -64,6 +65,7 @@ public class TemWorkflowConstants {
         public static final String DECLINED = "Declined";
         public static final String APPROVED = "Approved";
         public static final String REQUIRED_ACCOUNT_NOTIFICATION = "RequireAccountNotification";
+        public static final String PROFILE = "Profile";
     }
 
 }

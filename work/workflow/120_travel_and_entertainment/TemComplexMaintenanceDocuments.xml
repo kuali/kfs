@@ -32,7 +32,7 @@
 		         	</branch>
 		         	<join name="JoinRequiresTaxManagerReview"/>
 	     		</split>
-	     		<split name="TravelRequiresTravelerApproval" >
+	     		<split name="TravelRequiresTravelerApproval" nextNode="ProfileReviewRequired" >
 		         	<branch name="True">
 		            	<role name="Traveler" nextNode="JoinRequiresTravelerReview"/>
 		         	</branch>
@@ -40,6 +40,15 @@
 		            	<simple name="NoOpTraveler" nextNode="JoinRequiresTravelerReview"/>
 		         	</branch>
 		         	<join name="JoinRequiresTravelerReview"/>
+	     		</split>
+	     		<split name="ProfileReviewRequired" >
+		         	<branch name="True">
+		            	<role name="Profile" nextNode="JoinProfileReviewRequired"/>
+		         	</branch>
+		         	<branch name="False">
+		            	<simple name="NoOpProfile" nextNode="JoinProfileReviewRequired"/>
+		         	</branch>
+		         	<join name="JoinProfileReviewRequired"/>
 	     		</split>
 			</routePath>
 		</routePaths>
@@ -66,6 +75,20 @@
 			</simple>
 			<join name="JoinRequiresTravelerReview" />
 			<role name="Traveler">
+				<qualifierResolverClass>
+					org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
+				</qualifierResolverClass>
+				<activationType>P</activationType>
+			</role>
+			
+			<split name="ProfileReviewRequired">
+			    <type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+			</split>
+			<simple name="NoOpProfile">
+			    <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+			</simple>
+			<join name="JoinProfileReviewRequired" />
+			<role name="Profile">
 				<qualifierResolverClass>
 					org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
 				</qualifierResolverClass>

@@ -209,6 +209,10 @@ public class TEMProfileMaintainable extends FinancialSystemMaintainable {
         if (nodeName.equals(TemWorkflowConstants.REQUIRES_TRAVELER_REVIEW)) {
             return travelerRequiredRouting();
         }
+        if (nodeName.equals(TemWorkflowConstants.REQUIRES_PROFILE_REVIEW)) {
+            // routes to profile review under the same circumstance as traveler.
+            return travelerRequiredRouting();
+        }
         throw new UnsupportedOperationException("Cannot answer split question for this node you call \"" + nodeName + "\"");
     }
 

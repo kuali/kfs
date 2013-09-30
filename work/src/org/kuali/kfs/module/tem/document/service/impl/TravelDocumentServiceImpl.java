@@ -1222,7 +1222,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
             }
         }
         //return TA doc if no amendments exist
-        else {
+        if (travelDocument == null) {
             //if the taDocs is null, initialize an empty list
             taDocs = taDocs == null? new ArrayList<Document>() : taDocs;
 

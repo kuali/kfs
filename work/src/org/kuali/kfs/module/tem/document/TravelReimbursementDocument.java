@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.tem.document;
 
 import java.text.SimpleDateFormat;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,6 +32,7 @@ import org.apache.log4j.Logger;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.gl.service.EncumbranceService;
 import org.kuali.kfs.module.tem.TemConstants;
+import org.kuali.kfs.module.tem.TemConstants.ExpenseType;
 import org.kuali.kfs.module.tem.TemConstants.TravelDocTypes;
 import org.kuali.kfs.module.tem.TemConstants.TravelParameters;
 import org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters;
@@ -594,6 +596,27 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
                 explicitEntry.setFinancialDocumentTypeCode(TemConstants.TravelDocTypes.TRAVEL_REIMBURSEMENT_TRAVEL_ADVANCES_DOCUMENT);
             }
         }
+    }
+
+    /**
+     * This method returns total expense amount minus the non-reimbursable.  Overridden to remove manually adjusted per diem if it exists
+     *
+     * @return
+     */
+    @Override
+    public KualiDecimal getApprovedAmount() {
+        KualiDecimal total  = KualiDecimal.ZERO;
+        for (ExpenseType expense : EnumSet.allOf(ExpenseType.class)){
+            KualiDecimal expenseAmount = getTravelExpenseService().getExpenseServiceByType(expense).getAllExpenseTotal(this, false);
+            if (expenseAmount == null) {
+                expenseAmount = KualiDecimal.ZERO;
+            }
+            total = expenseAmount.add(total);
+            if (expense.equals(ExpenseType.perDiem) && getPerDiemAdjustment() != null && getPerDiemAdjustment().isPositive() && expenseAmount.isPositive()) {
+                total = total.subtract(getPerDiemAdjustment());
+            }
+        }
+        return total;
     }
 
     protected PersonService getPersonService() {

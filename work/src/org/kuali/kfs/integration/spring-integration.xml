@@ -160,7 +160,7 @@
 					value="org.kuali.kfs.integration.cg.businessobject.BudgetCategoryDTO" />
 				<entry 
 					key="org.kuali.kfs.integration.ar.AccountsReceivableDunningCampaign" 
-					value="org.kuali.kfs.module.ar.businessobject.DunningCampaign" />
+					value="org.kuali.kfs.integration.ar.businessobject.DunningCampaign" />
 				<entry 
 					key="org.kuali.kfs.integration.ar.AccountsReceivableCollectionStatus" 
 					value="org.kuali.kfs.integration.ar.businessobject.CollectionStatus" />    

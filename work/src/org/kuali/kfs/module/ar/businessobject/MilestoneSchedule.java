@@ -32,6 +32,7 @@ import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.krad.service.KualiModuleService;
 
 
+
 /**
  * Created a Milestone Schedule maintenance Document parameter
  */
@@ -194,7 +195,6 @@ public class MilestoneSchedule extends PersistableBusinessObjectBase implements 
      *
      * @return Returns the milestones.
      */
-    @Override
     public List<Milestone> getMilestones() {
         return milestones;
     }

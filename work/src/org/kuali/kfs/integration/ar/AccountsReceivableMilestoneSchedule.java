@@ -18,7 +18,7 @@ package org.kuali.kfs.integration.ar;
 import java.util.List;
 
 import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAward;
-import org.kuali.kfs.module.ar.businessobject.Milestone;
+import org.kuali.kfs.integration.ar.businessobject.Milestone;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.bo.ExternalizableBusinessObject;
 
@@ -37,13 +37,6 @@ public interface AccountsReceivableMilestoneSchedule extends ExternalizableBusin
      * @return Returns the milestoneScheduleInquiryTitle.
      */
     public String getMilestoneScheduleInquiryTitle();
-
-    /**
-     * Gets the milestones attribute.
-     *
-     * @return Returns the milestones.
-     */
-    public List<Milestone> getMilestones();
 
     /**
      * Gets the award attribute.

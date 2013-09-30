@@ -20,7 +20,7 @@ import java.util.List;
 import org.kuali.kfs.integration.ar.AccountsReceivableMilestone;
 import org.kuali.kfs.integration.ar.AccountsReceivableMilestoneSchedule;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAward;
-import org.kuali.kfs.module.ar.businessobject.Milestone;
+import org.kuali.kfs.integration.ar.businessobject.Milestone;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 public class MilestoneSchedule implements AccountsReceivableMilestoneSchedule {
@@ -70,7 +70,6 @@ public class MilestoneSchedule implements AccountsReceivableMilestoneSchedule {
         this.milestoneScheduleInquiryTitle = milestoneScheduleInquiryTitle;
     }
 
-    @Override
     public List<Milestone> getMilestones() {
         return milestones;
     }

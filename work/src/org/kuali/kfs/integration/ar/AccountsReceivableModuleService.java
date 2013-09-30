@@ -21,7 +21,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAgency;
-import org.kuali.kfs.module.ar.businessobject.MilestoneSchedule;
 import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
 import org.kuali.kfs.sys.service.ElectronicPaymentClaimingDocumentGenerationStrategy;
 import org.kuali.rice.core.api.util.type.KualiDecimal;

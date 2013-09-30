@@ -100,7 +100,9 @@
 	<bean id="MilestoneSchedule-award.awardTotalAmount" parent="MilestoneSchedule-award.awardTotalAmount-parentBean" />
 
 	<bean id="MilestoneSchedule-award.awardTotalAmount-parentBean"
-		abstract="true" parent="Award-awardTotalAmount">
+		abstract="true" parent="ExternalizableAttributeDefinitionProxy"
+		p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAward"
+		p:sourceAttributeName="awardTotalAmount">
 		<property name="name" value="award.awardTotalAmount" />
 		<property name="label" value="Total Award Amount" />
 		<property name="shortLabel" value="Total" />
@@ -155,7 +157,9 @@
 	<bean id="MilestoneSchedule-award.awardEndingDate" parent="MilestoneSchedule-award.awardEndingDate-parentBean" />
 
 	<bean id="MilestoneSchedule-award.awardEndingDate-parentBean"
-		abstract="true" parent="Award-awardEndingDate">
+		abstract="true" parent="ExternalizableAttributeDefinitionProxy"
+		p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAward"
+		p:sourceAttributeName="awardEndingDate">
 		<property name="name" value="award.awardEndingDate" />
 		<property name="label" value="Award Expiration Date" />
 		<property name="shortLabel" value="Date" />

@@ -182,6 +182,12 @@ public class GroupTravelerForLookupLookupableHelperServiceImpl extends KualiLook
         } else if (!StringUtils.isBlank(fieldValues.get(KFSPropertyConstants.PERSON_FIRST_NAME)) && !StringUtils.isBlank(fieldValues.get(KFSPropertyConstants.PERSON_LAST_NAME))) {
             final String name = fieldValues.get(KFSPropertyConstants.PERSON_FIRST_NAME)+" "+fieldValues.get(KFSPropertyConstants.PERSON_LAST_NAME);
             customerFieldValues.put(KFSPropertyConstants.CUSTOMER_NAME, name);
+        } else if (!StringUtils.isBlank(fieldValues.get(KFSPropertyConstants.PERSON_FIRST_NAME))) {
+            final String name = fieldValues.get(KFSPropertyConstants.PERSON_FIRST_NAME)+"*";
+            customerFieldValues.put(KFSPropertyConstants.CUSTOMER_NAME, name);
+        } else if (!StringUtils.isBlank(fieldValues.get(KFSPropertyConstants.PERSON_LAST_NAME))) {
+            final String name = "*"+fieldValues.get(KFSPropertyConstants.PERSON_LAST_NAME);
+            customerFieldValues.put(KFSPropertyConstants.CUSTOMER_NAME, name);
         }
         customerFieldValues.put(KFSPropertyConstants.ACTIVE, fieldValues.get(KFSPropertyConstants.ACTIVE));
 

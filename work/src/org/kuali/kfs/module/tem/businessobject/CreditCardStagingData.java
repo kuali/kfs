@@ -26,6 +26,7 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.tem.TemConstants.ExpenseImport;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
@@ -267,6 +268,20 @@ public class CreditCardStagingData extends PersistableBusinessObjectBase {
 
     public void setTransactionAmount(KualiDecimal transactionAmount) {
         this.transactionAmount = transactionAmount;
+    }
+
+    /**
+     * Sets the setTransactionAmount attribute.
+     *
+     * @param setTransactionAmount The setTransactionAmount to set.
+     */
+    public void setTransactionAmount(String transactionAmount) {
+        if (StringUtils.isNotBlank(transactionAmount)) {
+            this.transactionAmount = new KualiDecimal(transactionAmount);
+        }
+        else {
+            this.transactionAmount = KualiDecimal.ZERO;
+        }
     }
 
 

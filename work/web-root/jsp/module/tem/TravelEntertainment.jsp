@@ -15,9 +15,6 @@
 --%>
 <%@ include file="/jsp/sys/kfsTldHeader.jsp"%>
 
-<script language="javascript" src="dwr/interface/TravelDocumentService.js"></script>
-<script language="javascript" src="scripts/module/tem/common.js"></script>
-
 <c:set var="canEdit" value="${KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" scope="request" />
 <c:set var="fullEntryMode" value="${KualiForm.editingMode['fullEntry']}" scope="request" />
 <c:set var="advancePaymentMode" value="${KualiForm.editingMode['advancePaymentEntry']}" scope="request"/>
@@ -27,6 +24,11 @@
     documentTypeName="ENT"
     htmlFormAction="temTravelEntertainment" renderMultipart="true"
     showTabButtons="true">
+	
+	<script language="javascript" src="dwr/interface/TravelDocumentService.js"></script>
+	<script language="javascript" src="dwr/interface/TravelExpenseService.js"></script>
+	<script language="javascript" src="scripts/module/tem/common.js"></script>
+	<script language="javascript" src="scripts/module/tem/objectInfo.js"></script>
      
     <sys:documentOverview editingMode="${KualiForm.editingMode}" includeBankCode="true"
 	  bankProperty="document.financialDocumentBankCode" bankObjectProperty="document.bank" disbursementOnly="true" />

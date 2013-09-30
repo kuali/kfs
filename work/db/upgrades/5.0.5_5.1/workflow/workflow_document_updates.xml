@@ -6,7 +6,7 @@
 		xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
 	 <documentType>
       <name>IAA</name>
-      <label>Intra Account Adjustment</label>
+      <label>Intra-Account Adjustment</label>
       <parent>FP</parent>      
       <docHandler>${kfs.url}/financialIntraAccountAdjustment.do?methodToCall=docHandler</docHandler>      
       <active>

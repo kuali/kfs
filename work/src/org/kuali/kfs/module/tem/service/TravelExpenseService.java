@@ -18,13 +18,16 @@ package org.kuali.kfs.module.tem.service;
 import java.util.List;
 
 import org.kuali.kfs.module.tem.TemConstants;
+import org.kuali.kfs.module.tem.businessobject.ActualExpense;
 import org.kuali.kfs.module.tem.businessobject.AgencyStagingData;
 import org.kuali.kfs.module.tem.businessobject.CreditCardStagingData;
 import org.kuali.kfs.module.tem.businessobject.ExpenseType;
 import org.kuali.kfs.module.tem.businessobject.ExpenseTypeObjectCode;
 import org.kuali.kfs.module.tem.businessobject.HistoricalTravelExpense;
 import org.kuali.kfs.module.tem.businessobject.OtherExpense;
+import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.kim.api.identity.Person;
 
 public interface TravelExpenseService {
 
@@ -121,5 +124,20 @@ public interface TravelExpenseService {
      * @return
      */
     public boolean isTravelExpenseExceedReceiptRequirementThreshold(OtherExpense expense);
+
+    /**
+     * Sets the taxabile indicator of the given actual expense based on the taxability of the expense type object code and the ability of the given user to
+     * @param actualExpense the actual expense to update
+     * @param document the travel document the actual expense is associated with
+     * @param currentUser the KIM Person of the user who is updating this actual expense
+     */
+    public void updateTaxabilityOfActualExpense(ActualExpense actualExpense, TravelDocument document, Person currentUser);
+
+    /**
+     * Looks up the default expense type associated with the given category
+     * @param category the expense type category to find the default for
+     * @return the default expense type, or null if one cannot be found
+     */
+    public ExpenseType getDefaultExpenseTypeForCategory(TemConstants.ExpenseTypeMetaCategory category);
 
 }

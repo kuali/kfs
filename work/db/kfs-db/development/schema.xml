@@ -16022,8 +16022,10 @@
         <column name="GRP_TRVL_IND" size="1" type="VARCHAR"/>
         <column name="EXP_DETAIL_REQ_IND" size="1" type="VARCHAR"/>
         <column name="EXP_PRPY_IND" size="1" type="VARCHAR"/>
-        <column name="PER_DIEM_IND" size="1" type="VARCHAR"/>
         <column name="ACTV_IND" size="1" type="VARCHAR"/>
+        <column name="HOSTED_IND" size="2" type="VARCHAR"/>
+        <column name="EXP_TYP_META_CTGRY_CD" size="1" type="VARCHAR"/>
+        <column name="CTGRY_DFLT_IND" size="1" type="VARCHAR"/>
         <unique name="TEM_EXP_TYP_TC0">
             <unique-column name="OBJ_ID"/>
         </unique>

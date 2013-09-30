@@ -17,7 +17,6 @@ limitations under the License.
 
 <c:set var="wireTransAttributes" value="${DataDictionary.PaymentSourceWireTransfer.attributes}" />
 
-<h3>Wire Transfer</h3>
 <table cellpadding=0 class="datatable" summary="Wire Transfer Section">
 	<tbody>
 		<tr>

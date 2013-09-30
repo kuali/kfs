@@ -377,7 +377,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
                         break;
                     }
                 }
-                if (ObjectUtils.isNull(newExpense.getMileageRateId())) {
+                if (ObjectUtils.isNull(newExpense.getMileageRateId()) && mileageRates != null && !mileageRates.isEmpty()) {
                     // mileage rate is different than it was before the change, use the first element in the list
                     newExpense.setMileageRateId(Integer.valueOf(mileageRates.get(0).getKey()));
                 }
@@ -1001,27 +1001,9 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
      */
     @Override
     public boolean isHostedMeal(final ExpenseTypeAware havingExpenseType) {
-        if (ObjectUtils.isNull(havingExpenseType) || ObjectUtils.isNull(havingExpenseType.getExpenseTypeObjectCode())) {
-            return false;
-        }
-
-        final String code = havingExpenseType.getExpenseTypeObjectCode().getExpenseTypeCode();
-        final String hostedCodes = getParameterService().getParameterValueAsString(TemParameterConstants.TEM_DOCUMENT.class, TravelParameters.HOSTED_MEAL_EXPENSE_TYPES);
-
-        for (final String hostedSet : hostedCodes.split(";")) {
-            final String[] codesForMeal = (hostedSet.contains("=") ? StringUtils.substringAfter(hostedSet, "=") : hostedSet).split(",");
-            if (codesForMeal == null) {
-                if (hostedSet.equalsIgnoreCase(code)) {
-                    return true;
-                }
-            }
-            else {
-                for (final String hostedCode : codesForMeal) {
-                    if (hostedCode.equalsIgnoreCase(code)) {
-                        return true;
-                    }
-                }
-            }
+        if (havingExpenseType.getExpenseTypeObjectCode() != null) {
+            havingExpenseType.getExpenseTypeObjectCode().refreshReferenceObject(TemPropertyConstants.EXPENSE_TYPE);
+            return havingExpenseType.getExpenseTypeObjectCode().getExpenseType().isHosted();
         }
         return false;
     }

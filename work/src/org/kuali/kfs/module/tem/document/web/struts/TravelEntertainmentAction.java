@@ -36,7 +36,9 @@ import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.businessobject.ActualExpense;
 import org.kuali.kfs.module.tem.businessobject.Attendee;
+import org.kuali.kfs.module.tem.businessobject.TemSourceAccountingLine;
 import org.kuali.kfs.module.tem.businessobject.TravelerDetail;
+import org.kuali.kfs.module.tem.document.TEMReimbursementDocument;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.TravelEntertainmentDocument;
 import org.kuali.kfs.module.tem.document.service.TravelEntertainmentDocumentService;
@@ -462,6 +464,33 @@ public class TravelEntertainmentAction extends TravelActionBase {
 
     protected void setContactMasking(TravelEntertainmentForm entForm) {
         entForm.setCanUnmask(entForm.isUserDocumentInitiator());
+    }
+
+    /**
+     * Overridden to use reimbursable total for document
+     * @see org.kuali.kfs.module.tem.document.web.struts.TravelActionBase#getAccountingLineAmountToFillIn(org.kuali.kfs.module.tem.document.web.struts.TravelFormBase)
+     */
+    @Override
+    KualiDecimal getAccountingLineAmountToFillIn(TravelFormBase travelReqForm) {
+        KualiDecimal amount = new KualiDecimal(0);
+
+        TEMReimbursementDocument travelDocument = (TEMReimbursementDocument)travelReqForm.getTravelDocument();
+        KualiDecimal reimbursementTotal = travelDocument.getReimbursableTotal();
+
+        final List<TemSourceAccountingLine> accountingLines = travelDocument.getSourceAccountingLines();
+
+        KualiDecimal accountingTotal = new KualiDecimal(0);
+        for (TemSourceAccountingLine accountingLine : accountingLines) {
+            if (travelDocument.getDefaultCardTypeCode().equals(accountingLine.getCardType())) {
+                accountingTotal = accountingTotal.add(accountingLine.getAmount());
+            }
+        }
+
+        if (!ObjectUtils.isNull(reimbursementTotal)) {
+            amount = reimbursementTotal.subtract(accountingTotal);
+        }
+
+        return amount;
     }
 
     protected TravelEntertainmentHostCertificationService getEntertainmentHostCertificationService() {

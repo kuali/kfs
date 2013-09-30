@@ -207,19 +207,14 @@
 		<property name="description" value="Receipt Required" />
 	</bean>
 	<bean id="ExpenseTypeObjectCode-receiptRequirementThreshold" parent="ExpenseTypeObjectCode-receiptRequirementThreshold-parentBean" />
-	<bean id="ExpenseTypeObjectCode-receiptRequirementThreshold-parentBean" abstract="true"	parent="AttributeDefinition">
+	<bean id="ExpenseTypeObjectCode-receiptRequirementThreshold-parentBean" abstract="true"	parent="GenericAttributes-genericAmount">
 		<property name="name" value="receiptRequirementThreshold" />
 		<property name="label" value="Receipt Requirement Threshold" />
 		<property name="shortLabel" value="Receipt Requirement Threshold" />
 		<property name="maxLength" value="32" />
 		<property name="summary" value="Receipt Requirement Threshold" />
 		<property name="description" value="Receipt Requirement Threshold" />
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="32" />
-		</property>
-		<property name="validationPattern">
-			<bean parent="NumericValidationPattern" />
-		</property>
+		<property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter"/>
 	</bean>
 	<bean id="ExpenseTypeObjectCode-taxable" parent="ExpenseTypeObjectCode-taxable-parentBean" />
 	<bean id="ExpenseTypeObjectCode-taxable-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">

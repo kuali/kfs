@@ -221,8 +221,7 @@ public class PurApLineServiceImpl implements PurApLineService {
         // update status code as user modified for allocate target lines
         if (!initiateFromBatch) {
             for (PurchasingAccountsPayableItemAsset allocateTargetItem : allocateTargetLines) {
-                // KFSCNTRB-1676 / FSKD-5487
-                updateItemStatusAsUserModified(allocateTargetItem, true);
+                updateItemStatusAsUserModified(allocateTargetItem);
             }
         }
     }
@@ -724,8 +723,7 @@ public class PurApLineServiceImpl implements PurApLineService {
         updateAssetIndicatorAfterMerge(mergeLines);
 
         // update activity status code as modified
-        // KFSCNTRB-1676 / FSKD-5487
-        updateItemStatusAsUserModified(targetItem, false);
+        updateItemStatusAsUserModified(targetItem);
     }
 
     /**
@@ -833,28 +831,16 @@ public class PurApLineServiceImpl implements PurApLineService {
             // add to action history
             addPercentPaymentHistory(actionsTakenHistory, itemAsset, oldQty);
             // update status code
-            // KFSCNTRB-1676 / FSKD-5487
-            updateItemStatusAsUserModified(itemAsset, false);
+            updateItemStatusAsUserModified(itemAsset);
         }
     }
 
     /**
-     * KFSCNTRB-1676 / FSKD-5487
-     * Updates activity status code when percent payment/split/allocate/merge action taken,
-     * based on whether or not the current action is an allocation.
+     * Updates activity status code when percent payment/split/allocate/merge action taken.
      * @param itemAsset itemAsset for which action status is to be modified
-     * @param performingAllocate indicates whether the current action is an allocation.
      */
-    protected void updateItemStatusAsUserModified(PurchasingAccountsPayableItemAsset itemAsset, boolean performingAllocate) {
-        // if current action is an allocation, always set to MODIFIED (allocated)
-        if (performingAllocate) {
-            itemAsset.setActivityStatusCode(CabConstants.ActivityStatusCode.MODIFIED);
-        }
-        // otherwise if the previous status is NEW, set it to MODIFIED_NOT_ALLOCATED
-        else if (StringUtils.endsWithIgnoreCase(itemAsset.getActivityStatusCode(), CabConstants.ActivityStatusCode.NEW)) {
-            itemAsset.setActivityStatusCode(CabConstants.ActivityStatusCode.MODIFIED_NOT_ALLOCATED);
-        }
-        // otherwise the previous status could be MODIFIED_NOT_ALLOCATED or MODIFIED, and we just leave it as is
+    protected void updateItemStatusAsUserModified(PurchasingAccountsPayableItemAsset itemAsset) {
+        itemAsset.setActivityStatusCode(CabConstants.ActivityStatusCode.MODIFIED);
 
         for (PurchasingAccountsPayableLineAssetAccount account : itemAsset.getPurchasingAccountsPayableLineAssetAccounts()) {
             account.setActivityStatusCode(CabConstants.ActivityStatusCode.MODIFIED);
@@ -886,8 +872,7 @@ public class PurApLineServiceImpl implements PurApLineService {
     public void processSplit(PurchasingAccountsPayableItemAsset splitItemAsset, List<PurchasingAccountsPayableActionHistory> actionsTakeHistory) {
         PurchasingAccountsPayableDocument purApDoc = splitItemAsset.getPurchasingAccountsPayableDocument();
         // update activity status code for split item. it will be propogated to new created item and its accounts.
-        // KFSCNTRB-1676 / FSKD-5487
-        updateItemStatusAsUserModified(splitItemAsset, false);
+        updateItemStatusAsUserModified(splitItemAsset);
 
         // create a new item asset from the current item asset.
         PurchasingAccountsPayableItemAsset newItemAsset = new PurchasingAccountsPayableItemAsset(splitItemAsset);
@@ -1177,8 +1162,9 @@ public class PurApLineServiceImpl implements PurApLineService {
                     item.setApplyPaymentIndicator(true);
                 }
                 // otherwise, disable process actions only on the unallocated TRDI additional charge and active trade-in ITEM lines,
-                // while enable the actions on all other active lines in the AP document
-                else if (!item.isUnallocatedAdditionalTRDI() && !item.isActiveItemTradeIn()) {
+                // while enable the actions on all other active lines in the AP document.
+                // Note: Since allocated lines are removed from the list, all remaining active lines are unallocated.
+                else if (!item.isActiveAdditionalTRDI() && !item.isActiveItemTradeIn()) {
                     item.setCreateAssetIndicator(true);
                     item.setApplyPaymentIndicator(true);
                 }
@@ -1189,13 +1175,15 @@ public class PurApLineServiceImpl implements PurApLineService {
 
     /**
      * KFSCNTRB-1676/FSKD-5487
-     * Checks whether there exists any un-allocated TRDI additional charge asset line throughout the AP document list.
+     * Checks whether there exists any unallocated TRDI additional charge asset line throughout the AP document list.
      * @param apDocs AP document list containing all active PREQs/CMs extracted into CAB for the same PO.
      */
     protected boolean existUnallocatedAdditionalTRDI(List<PurchasingAccountsPayableDocument> apDocs) {
         for (PurchasingAccountsPayableDocument apDoc : apDocs) {
             for (PurchasingAccountsPayableItemAsset item : apDoc.getPurchasingAccountsPayableItemAssets()) {
-                if (item.isUnallocatedAdditionalTRDI() ) {
+                // Each time an asset line is allocated it will be removed from the list, so we can assume that all remaining lines in the doc
+                // are unallocated; thus we don't need to further distinguish the action status code except that the line is active.
+                if (item.isActiveAdditionalTRDI() ) {
                     return true;
                 }
             }
@@ -1205,13 +1193,14 @@ public class PurApLineServiceImpl implements PurApLineService {
 
     /**
      * KFSCNTRB-1676/FSKD-5487
-     * Checks whether there exists any un-allocated non-TRDI additional charge asset line in the specified AP document.
+     * Checks whether there exists any unallocated non-TRDI additional charge asset line in the specified AP document.
      * @param apDocs the specified PREQ/CM document.
      */
     protected boolean existUnallocatedAdditionalNonTRDI(PurchasingAccountsPayableDocument apDoc) {
         for (PurchasingAccountsPayableItemAsset item : apDoc.getPurchasingAccountsPayableItemAssets()) {
-            // We use activityStatusCode being NEW or MODIFIED_NOT_ALLOCATED to indicate the line hasn't been allocated yet
-            if (item.isUnallocatedAdditionalNonTRDI()) {
+            // Each time an asset line is allocated it will be removed from the list, so we can assume that all remaining lines in the doc
+            // are unallocated; thus we don't need to further distinguish the action status code except that the line is active.
+            if (item.isActiveAdditionalNonTRDI()) {
                 return true;
             }
         }

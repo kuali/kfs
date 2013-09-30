@@ -18,8 +18,7 @@
 	
 <kul:tab tabTitle="${KualiForm.expenseTabLabel}" defaultOpen="true" tabErrorKey="${TemKeyConstants.TRVL_EXPENSES}">
 	<tem-exp:actualExpenses />
-    <c:if test="${KualiForm.displayImportedExpenseRelatedTab}">
-	    <tem-exp:importedExpenses />    	
+    <c:if test="${KualiForm.displayImportedExpenseRelatedTab}"> 	
 		<tem-exp:reconciledExpenses />
 	</c:if>
 </kul:tab>

@@ -16,7 +16,8 @@
 <%@ include file="/jsp/sys/kfsTldHeader.jsp"%>
 
 <kul:tab tabTitle="Wire Transfer" defaultOpen="${!empty KualiForm.document.wireTransfer.bankName}" tabErrorKey="${KFSConstants.WIRETRANSFER_TAB_ERRORS}">
-    <div class="tab-container" align=center > 
+    <div class="tab-container" align="center">
+		<h3>Wire Transfer</h3>
 		<sys:innerWireTransfer/>
     </div>
 </kul:tab>

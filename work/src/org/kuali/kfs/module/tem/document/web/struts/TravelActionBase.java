@@ -146,6 +146,8 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
     protected static final String[] methodToCallExclusionArray = { "recalculate", "calculate", "recalculateTripDetailTotal", "save", "route", "approve", "blanketApprove", "updatePerDiemExpenses" };
     public static final String[] GROUP_TRAVELER_ATTRIBUTE_NAMES = { "travelerTypeCode", "groupTravelerEmpId", "name" };
 
+    protected volatile static PerDiemService perDiemService;
+
 
     @Override
     protected DocumentService getDocumentService() {
@@ -193,7 +195,10 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
     }
 
     protected PerDiemService getPerDiemService() {
-        return SpringContext.getBean(PerDiemService.class);
+        if (perDiemService == null) {
+            perDiemService = SpringContext.getBean(PerDiemService.class);
+        }
+        return perDiemService;
     }
 
 
@@ -765,9 +770,9 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
         // now copy info over to expense
         expense.setPerDiem(perDiem);
         expense.setPerDiemId(perDiem.getId());
-        expense.setPrimaryDestination(perDiem.getPrimaryDestination().getPrimaryDestinationName());
-        expense.setCountryState(perDiem.getPrimaryDestination().getRegion().getRegionName());
-        expense.setCounty(perDiem.getPrimaryDestination().getCounty());
+        expense.setPrimaryDestination("");
+        expense.setCountryState("");
+        expense.setCounty("");
         expense.setLodging(perDiem.getLodging());
         expense.setIncidentalsValue(perDiem.getIncidentals());
         expense.setBreakfastValue(perDiem.getBreakfast());
@@ -811,23 +816,27 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
                     expense.refreshReferenceObject("perDiem");
                     perDiem = expense.getPerDiem();
                 } else {
-                  BusinessObjectService boService =  SpringContext.getBean(BusinessObjectService.class);
-                  Map<String, String> fieldValues = new HashMap<String, String>();
-                  fieldValues.put("active", "Y");
-                  fieldValues.put("primaryDestinationId", priDestId[0]);
-
-                  perDiem = boService.findMatching(PerDiem.class, fieldValues).iterator().next();
+                  perDiem = getPerDiemService().getPerDiem(new Integer(priDestId[0]), expense.getMileageDate());
                 }
 
                 // now copy info over to estimate
                 expense.setPerDiem(perDiem);
+                expense.setPerDiemId(perDiem.getId());
                 expense.setPrimaryDestination(perDiem.getPrimaryDestination().getPrimaryDestinationName());
-                expense.setIncidentalsValue(perDiem.getIncidentals());
                 expense.setCountryState(perDiem.getPrimaryDestination().getRegion().getRegionName());
                 expense.setCounty(perDiem.getPrimaryDestination().getCounty());
-                expense.setBreakfastValue(perDiem.getBreakfast());
-                expense.setLunchValue(perDiem.getLunch());
-                expense.setDinnerValue(perDiem.getDinner());
+                if (document.isOnTripBegin(expense) || document.isOnTripEnd(expense)) {
+                    Integer perDiemPercent = getTravelDocumentService().calculateProratePercentage(expense, document.getTripType().getPerDiemCalcMethod(), document.getTripEnd());
+                    expense.setDinnerValue(PerDiemExpense.calculateMealsAndIncidentalsProrated(perDiem.getDinner(), perDiemPercent));
+                    expense.setLunchValue(PerDiemExpense.calculateMealsAndIncidentalsProrated(perDiem.getLunch(), perDiemPercent));
+                    expense.setBreakfastValue(PerDiemExpense.calculateMealsAndIncidentalsProrated(perDiem.getBreakfast(), perDiemPercent));
+                    expense.setIncidentalsValue(PerDiemExpense.calculateMealsAndIncidentalsProrated(perDiem.getIncidentals(), perDiemPercent));
+                } else {
+                    expense.setBreakfastValue(perDiem.getBreakfast());
+                    expense.setLunchValue(perDiem.getLunch());
+                    expense.setDinnerValue(perDiem.getDinner());
+                    expense.setIncidentalsValue(perDiem.getIncidentals());
+                }
                 expense.setLodging(perDiem.getLodging());
                 return null;
             }
@@ -882,7 +891,7 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
     }
 
     /**
-     * This method calculates the accounting line amount.
+     * This method calculates the amount that still needs to be accounted for on the document
      *
      * @param travelReqForm
      * @return

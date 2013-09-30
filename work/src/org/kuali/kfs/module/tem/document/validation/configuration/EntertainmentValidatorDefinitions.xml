@@ -68,7 +68,7 @@
 					</list>
 				</property>
 			</bean>
-			<bean parent="TravelDocument-actualExpenseRoutingValidation" scope="prototype"/>
+			<bean parent="NonTripTravelDocument-actualExpenseRoutingValidation" scope="prototype"/>
 			<bean parent="NodeSpecificValidation" scope="prototype">
 				<property name="validation">
 					<bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype" p:attemptDeterminationOfErrorPrefix="true">
@@ -79,6 +79,7 @@
 				</property>
 				<property name="validationNodes">
 					<list>
+						<value>PreRoute</value>
 						<value>EntertainmentManager</value>
 					</list>
 				</property>
@@ -92,7 +93,7 @@
     	<property name="validations">
     		<list>
                 <bean parent="AccountingDocument-SaveDocument-DefaultValidation" scope="prototype" />
-                <bean parent="TravelDocument-actualExpenseSavingValidation" scope="prototype"/>
+                <bean parent="NonTripTravelDocument-actualExpenseSavingValidation" scope="prototype"/>
                 <bean parent="TravelModule-perDiemExpenseValidation" scope="prototype" />
     		</list>
     	</property>

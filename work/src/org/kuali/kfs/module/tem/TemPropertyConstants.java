@@ -30,6 +30,7 @@ public class TemPropertyConstants {
     public static final String NEW_TRAVEL_ADVANCE_LINE = "newTravelAdvanceLine";
     public static final String NEW_SOURCE_ACCTG_LINE = "newSourceLine";
     public static final String TRIP_INFO_UPDATE_TRIP_DTL = "tripInfoUpdateTripDetails";
+    public static final String PER_DIEM = "perDiem";
     public static final String PER_DIEM_EXP = "perDiemExpenses";
     public static final String EM_CONTACT = "emergencyContact";
     public static final String EM_CONTACTS = "emergencyContacts";
@@ -365,6 +366,8 @@ public class TemPropertyConstants {
     public static final String EXPENSE_TYPE_CODE = "expenseTypeCode";
     public static final String EXPENSE_TYPE = "expenseType";
     public static final String NAME = "name";
+    public static final String EXPENSE_TYPE_META_CATEGORY_CODE = "expenseTypeMetaCategoryCode";
+    public static final String CATEGORY_DEFAULT = "categoryDefault";
 
     public static final String TRAVEL_PAYMENT = "travelPayment";
     public static final String ADVANCE_TRAVEL_PAYMENT = "advanceTravelPayment";

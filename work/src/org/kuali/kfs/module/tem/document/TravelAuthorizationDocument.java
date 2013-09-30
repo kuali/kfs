@@ -1152,9 +1152,9 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
     @Override
     public boolean isDebit(GeneralLedgerPendingEntrySourceDetail postable) {
         if (postable instanceof AccountingLine && TemConstants.TRAVEL_ADVANCE_ACCOUNTING_LINE_TYPE_CODE.equals(((AccountingLine)postable).getFinancialDocumentLineTypeCode())) {
-            return true;
+            return true; // we're an advance accounting line?  then we're debiting...
         }
-        return false;
+        return false; // we're not an advance accounting line?  then we should return false...
     }
 
     /**

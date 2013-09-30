@@ -85,7 +85,7 @@
 							<b>No related ${relatedEntry.key} documents</b>
 						</c:if>
 						<c:forEach items="${relatedEntry.value}" var="view">
-							<c:set var="documentTitle" value="${relatedEntry.key} + ${view.documentTitle}" />
+							<c:set var="documentTitle" value="${view.documentNumber} + ${view.documentTitle}" />
 							<c:set var="tabKey" value="${kfunc:generateTabKey(documentTitle)}" />
 							<c:set var="currentTab" value="${kfunc:getTabState(KualiForm, tabKey)}" />
 

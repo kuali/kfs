@@ -117,7 +117,7 @@ public class TemRegionValuesFinder extends KeyValuesBase {
             Collections.sort(intRegions);
 
 
-            keyValues.add(new ConcreteKeyValue("---", "------------------------------------------"));
+            keyValues.add(new ConcreteKeyValue("---", "---------------------------------"));
             it = intRegions.iterator();
             while (it.hasNext()) {
                 TemRegion temRegion = it.next();

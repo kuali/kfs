@@ -36,9 +36,16 @@
 	    	<param name="beanName" value="temTravelExpenseTypeService" />
 	    	<include method="getCompanyNameMapFrom" />
 	    </create>
-			<convert converter="bean" match="org.kuali.kfs.module.tem.businessobject.CreditCardAgency">
+		<convert converter="bean" match="org.kuali.kfs.module.tem.businessobject.ExpenseTypeObjectCode">
+			<param name="include" value="expenseTypeObjectCodeId,expenseTypeCode,travelerTypeCode,tripTypeCode,documentTypeName,taxable"/>
+		</convert>
+		<create creator="spring" javascript="TravelExpenseService">
+	    	<param name="beanName" value="travelExpenseService" />
+	    	<include method="getExpenseType" />
+	    </create>
+		<convert converter="bean" match="org.kuali.kfs.module.tem.businessobject.CreditCardAgency">
 	   		<param name="include" value="id,creditCardOrAgencyCode,travelCardTypeCode,paymentIndicator,creditCardOrAgencyName,address1,address2,city,state,zipCode,email,phone,contactName,typeCode,preReconciled,enableNonReimbursable,vendorNumber,foreignCompany,active" />
-		</convert>	
+		</convert>
 	    <create creator="spring" javascript="CreditCardAgencyService">
 	    	<param name="beanName" value="creditCardAgencyService" />
 	    	<include method="getCreditCardAgencyByCode" />

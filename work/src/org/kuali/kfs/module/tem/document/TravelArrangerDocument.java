@@ -193,8 +193,8 @@ public class TravelArrangerDocument extends FinancialSystemTransactionalDocument
         super.doRouteStatusChange(statusChangeEvent);
         if (DocumentStatus.FINAL.getCode().equals(statusChangeEvent.getNewRouteStatus()) || DocumentStatus.PROCESSED.getCode().equals(statusChangeEvent.getNewRouteStatus())) {
             //here is where we need to remove or add them as a new arranger
-            if(this.resign) {
-                getArrangerDocumentService().removeTravelProfileArranger(this);
+            if(this.getResign()) {
+                getArrangerDocumentService().inactivateTravelProfileArranger(this);
             } else {
                 getArrangerDocumentService().createTravelProfileArranger(this);
             }

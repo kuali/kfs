@@ -43,7 +43,7 @@
 						<c:set target="${paramMap}" property="groupTravelCount" value="${fn:length(KualiForm.document.groupTravelers)}" />
 						<html:select property="${expense}.expenseTypeCode" 
 							styleId="${expense}.expenseTypeCode"
-							onchange="checkDirectBilled('${expense}');disableExpenseAmount(this)">
+							onchange="checkDirectBilled('${expense}');loadExpenseTypeObjectCode(this, '${paramMap['documentType']}', '${paramMap['travelerType']}', '${paramMap['tripType']}');disableExpenseAmount(this)">
 							<c:forEach items="${temfunc:getOptionList('org.kuali.kfs.module.tem.businessobject.options.TravelExpenseTypeValuesFinder', paramMap)}" var="option">						
 								<c:set var="isSelected" value="${detailObject.expenseTypeCode == option.key}" />
 								<%-- Populate the value that was previously selected before error occurred --%>
@@ -108,7 +108,7 @@
 					<kul:htmlControlAttribute
 						attributeEntry="${otherExpenseAttributes.taxable}"
 						property="${expense}.taxable"
-						readOnly="${!actualExpenseTaxableMode || !fullEntryMode || !empty detailObject.expenseDetails || detailObject.expenseTypeObjectCode.expenseType.expenseDetailRequired }" />
+						readOnly="${!actualExpenseTaxableMode || !empty detailObject.expenseDetails || detailObject.expenseTypeObjectCode.expenseType.expenseDetailRequired }" />
             	</div>
             </td>
             <td valign="top" nowrap class="infoline">

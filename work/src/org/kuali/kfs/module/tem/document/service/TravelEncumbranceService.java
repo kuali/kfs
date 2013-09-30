@@ -86,9 +86,10 @@ public interface TravelEncumbranceService {
      * scrubber.  By removing them from the GLPE document, TAC will directly liquidate the rest of
      * the open encumbrance.
      *
-     * @param document
+     * @param document TAC to disencumber
+     * @param sequenceHelper the GLPE sequence helper
      */
-    public void disencumberTravelAuthorizationClose(TravelAuthorizationCloseDocument document);
+    public void disencumberTravelAuthorizationClose(TravelAuthorizationCloseDocument document, GeneralLedgerPendingEntrySequenceHelper sequenceHelper);
 
     public void adjustEncumbranceForAmendment(TravelAuthorizationAmendmentDocument taDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper);
 

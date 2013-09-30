@@ -470,6 +470,10 @@ public class TravelReimbursementAction extends TravelActionBase {
                 }
             }
 
+        } else {
+            // we have no parent document; blank out the trip begin and end dates
+            document.setTripBegin(null);
+            document.setTripEnd(null);
         }
     }
 

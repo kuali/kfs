@@ -431,4 +431,18 @@ public interface TravelDocument extends AccountingDocument, TravelEntertainmentM
      * @return Returns the disabledProperties.
      */
     public Map<String, String> getDisabledProperties();
+
+    /**
+     * Determines if the given per diem expense is on the trip begin date
+     * @param perDiemExpense the per diem expense to check
+     * @return true if the per diem expense is on the trip begin date, false otherwise
+     */
+    public boolean isOnTripBegin(PerDiemExpense perDiemExpense);
+
+    /**
+     * Determines if the given per diem expense is on the trip end date
+     * @param perDiemExpense the per diem expense to check
+     * @return true if the per diem expense is on the trip end date, false otherwise
+     */
+    public boolean isOnTripEnd(PerDiemExpense perDiemExpense);
 }

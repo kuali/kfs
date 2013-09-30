@@ -149,50 +149,55 @@
             </tr>
         </table>
 		<%-- SPECIAL HANDLING --%>
-		<h3>Send Check To</h3>
-		<table cellpadding=0 class="datatable" summary="Special Handling Section">          
-            <tr>
-              <th align="right" valign="middle" class="bord-l-b"><div align="right"><kul:htmlAttributeLabel attributeEntry="${travelPaymentAttributes.specialHandlingCityName}"/></div></th>
-              <td align="left" valign="middle" class="datacell" colspan="3">
-                <kul:htmlControlAttribute attributeEntry="${travelPaymentAttributes.specialHandlingCityName}" property="document.${paymentPropertyName}.specialHandlingCityName" readOnly="${!(fullEntryMode || specialHandlingChangingEntryMode) }"/>  
-              </td>
-            </tr>
-            
-            <tr>
-              <th align="right" valign="middle" class="bord-l-b"><div align="right"><kul:htmlAttributeLabel attributeEntry="${travelPaymentAttributes.specialHandlingLine1Addr}"/></div></th>
-              <td align="left" valign="middle" class="datacell">
-                <kul:htmlControlAttribute attributeEntry="${travelPaymentAttributes.specialHandlingLine1Addr}" property="document.${paymentPropertyName}.specialHandlingLine1Addr" readOnly="${!(fullEntryMode || specialHandlingChangingEntryMode)}"/>  
-              </td>
-              <th align="right" valign="middle" class="bord-l-b"><div align="right"><kul:htmlAttributeLabel attributeEntry="${travelPaymentAttributes.specialHandlingStateCode}"/></div></th>
-              <td align="left" valign="middle" class="datacell">
-                <kul:htmlControlAttribute attributeEntry="${travelPaymentAttributes.specialHandlingStateCode}" property="document.${paymentPropertyName}.specialHandlingStateCode" readOnly="${!(fullEntryMode || specialHandlingChangingEntryMode) }"/>  
-              </td>
-            </tr>
-            
-            <tr>
-              <th align="right" valign="middle" class="bord-l-b"><div align="right"><kul:htmlAttributeLabel attributeEntry="${travelPaymentAttributes.specialHandlingLine2Addr}"/></div></th>
-              <td align="left" valign="middle" class="datacell">
-                <kul:htmlControlAttribute attributeEntry="${travelPaymentAttributes.specialHandlingLine2Addr}" property="document.${paymentPropertyName}.specialHandlingLine2Addr" readOnly="${!(fullEntryMode || specialHandlingChangingEntryMode) }"/>  
-              </td>
-              <th align="right" valign="middle" class="bord-l-b"><div align="right"><kul:htmlAttributeLabel attributeEntry="${travelPaymentAttributes.specialHandlingZipCode}"/></div></th>
-              <td align="left" valign="middle" class="datacell">
-                <kul:htmlControlAttribute attributeEntry="${travelPaymentAttributes.specialHandlingZipCode}" property="document.${paymentPropertyName}.specialHandlingZipCode" readOnly="${!(fullEntryMode || specialHandlingChangingEntryMode) }"/>  
-              </td>
-            </tr>
-            
-            <tr>
-              <th align="right" valign="middle" class="bord-l-b"></th>
-              <td align="left" valign="middle" class="datacell">
-              </td>
-              <th align="right" valign="middle" class="bord-l-b"><div align="right"><kul:htmlAttributeLabel attributeEntry="${travelPaymentAttributes.specialHandlingCountryCode}"/></div></th>
-              <td align="left" valign="middle" class="datacell">
-                <kul:htmlControlAttribute attributeEntry="${travelPaymentAttributes.specialHandlingCountryCode}" property="document.${paymentPropertyName}.specialHandlingCountryCode" readOnly="${!(fullEntryMode || specialHandlingChangingEntryMode) }"/>  
-              </td>
-            </tr>
-     </table>
+		<kul:subtab width="100%" subTabTitle="Send Check To" open="true" noShowHideButton="false">
+			<table cellpadding=0 class="datatable" summary="Special Handling Section">          
+				<tr>
+				  <th align="right" valign="middle" class="bord-l-b"><div align="right"><kul:htmlAttributeLabel attributeEntry="${travelPaymentAttributes.specialHandlingCityName}"/></div></th>
+				  <td align="left" valign="middle" class="datacell" colspan="3">
+					<kul:htmlControlAttribute attributeEntry="${travelPaymentAttributes.specialHandlingCityName}" property="document.${paymentPropertyName}.specialHandlingCityName" readOnly="${!(fullEntryMode || specialHandlingChangingEntryMode) }"/>  
+				  </td>
+				</tr>
+				
+				<tr>
+				  <th align="right" valign="middle" class="bord-l-b"><div align="right"><kul:htmlAttributeLabel attributeEntry="${travelPaymentAttributes.specialHandlingLine1Addr}"/></div></th>
+				  <td align="left" valign="middle" class="datacell">
+					<kul:htmlControlAttribute attributeEntry="${travelPaymentAttributes.specialHandlingLine1Addr}" property="document.${paymentPropertyName}.specialHandlingLine1Addr" readOnly="${!(fullEntryMode || specialHandlingChangingEntryMode)}"/>  
+				  </td>
+				  <th align="right" valign="middle" class="bord-l-b"><div align="right"><kul:htmlAttributeLabel attributeEntry="${travelPaymentAttributes.specialHandlingStateCode}"/></div></th>
+				  <td align="left" valign="middle" class="datacell">
+					<kul:htmlControlAttribute attributeEntry="${travelPaymentAttributes.specialHandlingStateCode}" property="document.${paymentPropertyName}.specialHandlingStateCode" readOnly="${!(fullEntryMode || specialHandlingChangingEntryMode) }"/>  
+				  </td>
+				</tr>
+				
+				<tr>
+				  <th align="right" valign="middle" class="bord-l-b"><div align="right"><kul:htmlAttributeLabel attributeEntry="${travelPaymentAttributes.specialHandlingLine2Addr}"/></div></th>
+				  <td align="left" valign="middle" class="datacell">
+					<kul:htmlControlAttribute attributeEntry="${travelPaymentAttributes.specialHandlingLine2Addr}" property="document.${paymentPropertyName}.specialHandlingLine2Addr" readOnly="${!(fullEntryMode || specialHandlingChangingEntryMode) }"/>  
+				  </td>
+				  <th align="right" valign="middle" class="bord-l-b"><div align="right"><kul:htmlAttributeLabel attributeEntry="${travelPaymentAttributes.specialHandlingZipCode}"/></div></th>
+				  <td align="left" valign="middle" class="datacell">
+					<kul:htmlControlAttribute attributeEntry="${travelPaymentAttributes.specialHandlingZipCode}" property="document.${paymentPropertyName}.specialHandlingZipCode" readOnly="${!(fullEntryMode || specialHandlingChangingEntryMode) }"/>  
+				  </td>
+				</tr>
+				
+				<tr>
+				  <th align="right" valign="middle" class="bord-l-b"></th>
+				  <td align="left" valign="middle" class="datacell">
+				  </td>
+				  <th align="right" valign="middle" class="bord-l-b"><div align="right"><kul:htmlAttributeLabel attributeEntry="${travelPaymentAttributes.specialHandlingCountryCode}"/></div></th>
+				  <td align="left" valign="middle" class="datacell">
+					<kul:htmlControlAttribute attributeEntry="${travelPaymentAttributes.specialHandlingCountryCode}" property="document.${paymentPropertyName}.specialHandlingCountryCode" readOnly="${!(fullEntryMode || specialHandlingChangingEntryMode) }"/>  
+				  </td>
+				</tr>
+			</table>
+		</kul:subtab>
 	 <%-- WIRE TRANSFER --%>
-	 <sys:innerWireTransfer/>
+	 <kul:subtab width="100%" subTabTitle="Wire Transfer" open="${KualiForm.document[paymentPropertyName].paymentMethodCode==KFSConstants.PaymentSourceConstants.PAYMENT_METHOD_WIRE}" noShowHideButton="false">
+		<sys:innerWireTransfer/>
+	 </kul:subtab>
 	 <%-- FOREIGN DRAFT --%>
-	 <sys:innerForeignDraft/>
+	 <kul:subtab width="100%" subTabTitle="Foreign Draft" open="${KualiForm.document[paymentPropertyName].paymentMethodCode==KFSConstants.PaymentSourceConstants.PAYMENT_METHOD_DRAFT}" noShowHideButton="false">
+		<sys:innerForeignDraft/>
+	 </kul:subtab>
      </div>
 </kul:tab>

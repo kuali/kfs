@@ -31,7 +31,9 @@
 				<ref bean="ExpenseType-groupTravel" />
 				<ref bean="ExpenseType-expenseDetailRequired" />
 				<ref bean="ExpenseType-prepaidExpense" />
-				<ref bean="ExpenseType-perDiemExpense" />
+				<ref bean="ExpenseType-hosted" />
+				<ref bean="ExpenseType-expenseTypeMetaCategoryCode"/>
+				<ref bean="ExpenseType-categoryDefault"/>
 				<ref bean="ExpenseType-versionNumber" />
 			</list>
 		</property>
@@ -88,15 +90,33 @@
 			<bean parent="CheckboxControlDefinition" />
 		</property>
 	</bean>
-	<bean id="ExpenseType-perDiemExpense" parent="ExpenseType-perDiemExpense-parentBean" />
-	<bean id="ExpenseType-perDiemExpense-parentBean" abstract="true" parent="AttributeDefinition">
-		<property name="name" value="perDiemExpense" />
-		<property name="label" value="Per Diem Expense Indicator" />
-		<property name="shortLabel" value="Prepaid" />
+	<bean id="ExpenseType-hosted" parent="ExpenseType-hosted-parentBean" />
+	<bean id="ExpenseType-hosted-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="hosted" />
+		<property name="label" value="Hosted Meal Indicator" />
+		<property name="shortLabel" value="Hosted" />
 		<property name="maxLength" value="3" />
 		<property name="control">
 			<bean parent="CheckboxControlDefinition" />
 		</property>
+	</bean>
+	<bean id="ExpenseType-expenseTypeMetaCategoryCode" parent="ExpenseType-expenseTypeMetaCategoryCode-parentBean" />
+	<bean id="ExpenseType-expenseTypeMetaCategoryCode-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="expenseTypeMetaCategoryCode" />
+		<property name="label" value="Expense Type Meta Category" />
+		<property name="shortLabel" value="Meta Category" />
+		<property name="maxLength" value="1" />
+		<property name="control">
+			<bean parent="SelectControlDefinition"
+                p:valuesFinderClass="org.kuali.kfs.module.tem.businessobject.options.ExpenseTypeMetaCategoryValuesFinder"
+                p:includeKeyInLabel="false" />
+		</property>
+	</bean>
+	<bean id="ExpenseType-categoryDefault" parent="ExpenseType-categoryDefault-parentBean"/>
+	<bean id="ExpenseType-categoryDefault-parentBean" parent="GenericAttributes-genericBoolean" abstract="true">
+		<property name="name" value="categoryDefault" />
+		<property name="label" value="Default for Metacategory" />
+		<property name="shortLabel" value="Cat. Deflt." />
 	</bean>
 	<bean id="ExpenseType-active" parent="ExpenseType-active-parentBean" />
 	<bean id="ExpenseType-active-parentBean" parent="GenericAttributes-genericBoolean">
@@ -132,7 +152,9 @@
 					        <bean parent="FieldDefinition" p:attributeName="groupTravel" />
 					        <bean parent="FieldDefinition" p:attributeName="expenseDetailRequired"/>
 					        <bean parent="FieldDefinition" p:attributeName="prepaidExpense"/>
-					        <bean parent="FieldDefinition" p:attributeName="perDiemExpense"/>						
+					        <bean parent="FieldDefinition" p:attributeName="hosted"/>
+					        <bean parent="FieldDefinition" p:attributeName="expenseTypeMetaCategoryCode"/>
+					        <bean parent="FieldDefinition" p:attributeName="categoryDefault"/>
 							<bean parent="FieldDefinition" p:attributeName="active" />
 						</list>
 					</property>
@@ -158,8 +180,9 @@
 		        <bean parent="FieldDefinition" p:attributeName="name"/>
 		        <bean parent="FieldDefinition" p:attributeName="groupTravel" />
 				<bean parent="FieldDefinition" p:attributeName="expenseDetailRequired"/>
-				<bean parent="FieldDefinition" p:attributeName="prepaidExpense"/>
-				<bean parent="FieldDefinition" p:attributeName="perDiemExpense"/>
+				<bean parent="FieldDefinition" p:attributeName="hosted"/>
+				<bean parent="FieldDefinition" p:attributeName="expenseTypeMetaCategoryCode"/>
+				<bean parent="FieldDefinition" p:attributeName="categoryDefault"/>
 				<bean parent="FieldDefinition" p:attributeName="active" />
 			</list>
 		</property>
@@ -170,7 +193,9 @@
 				<bean parent="FieldDefinition" p:attributeName="groupTravel" />
 				<bean parent="FieldDefinition" p:attributeName="expenseDetailRequired"/>
 				<bean parent="FieldDefinition" p:attributeName="prepaidExpense"/>
-				<bean parent="FieldDefinition" p:attributeName="perDiemExpense"/>
+				<bean parent="FieldDefinition" p:attributeName="hosted"/>
+				<bean parent="FieldDefinition" p:attributeName="expenseTypeMetaCategoryCode"/>
+				<bean parent="FieldDefinition" p:attributeName="categoryDefault"/>
 				<bean parent="FieldDefinition" p:attributeName="active" />
 			</list>
 		</property>

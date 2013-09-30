@@ -17,6 +17,7 @@
 
 <kul:tab tabTitle="Foreign Draft" defaultOpen="false" tabErrorKey="${KFSConstants.FOREIGNDRAFTS_TAB_ERRORS}">
     <div class="tab-container" align=center>
+		<h3>Foreign Draft</h3>
 		<sys:innerForeignDraft/>
     </div>
 </kul:tab>

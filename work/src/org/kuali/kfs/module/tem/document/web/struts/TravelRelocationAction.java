@@ -41,6 +41,8 @@ import org.kuali.kfs.fp.document.web.struts.DisbursementVoucherForm;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.businessobject.AccountingDistribution;
+import org.kuali.kfs.module.tem.businessobject.TemSourceAccountingLine;
+import org.kuali.kfs.module.tem.document.TEMReimbursementDocument;
 import org.kuali.kfs.module.tem.document.TravelRelocationDocument;
 import org.kuali.kfs.module.tem.document.authorization.TravelRelocationAuthorizer;
 import org.kuali.kfs.module.tem.document.service.TravelRelocationService;
@@ -393,6 +395,33 @@ public class TravelRelocationAction extends TravelActionBase {
         displayPDF(request, response, reportFile, fileName);
 
         return null;
+    }
+
+    /**
+     * Overridden to use reimbursable total for document
+     * @see org.kuali.kfs.module.tem.document.web.struts.TravelActionBase#getAccountingLineAmountToFillIn(org.kuali.kfs.module.tem.document.web.struts.TravelFormBase)
+     */
+    @Override
+    KualiDecimal getAccountingLineAmountToFillIn(TravelFormBase travelReqForm) {
+        KualiDecimal amount = new KualiDecimal(0);
+
+        TEMReimbursementDocument travelDocument = (TEMReimbursementDocument)travelReqForm.getTravelDocument();
+        KualiDecimal reimbursementTotal = travelDocument.getReimbursableTotal();
+
+        final List<TemSourceAccountingLine> accountingLines = travelDocument.getSourceAccountingLines();
+
+        KualiDecimal accountingTotal = new KualiDecimal(0);
+        for (TemSourceAccountingLine accountingLine : accountingLines) {
+            if (travelDocument.getDefaultCardTypeCode().equals(accountingLine.getCardType())) {
+                accountingTotal = accountingTotal.add(accountingLine.getAmount());
+            }
+        }
+
+        if (!ObjectUtils.isNull(reimbursementTotal)) {
+            amount = reimbursementTotal.subtract(accountingTotal);
+        }
+
+        return amount;
     }
 
     protected NonEmployeeCertificationReportService getNonEmployeeCertificationReportService() {

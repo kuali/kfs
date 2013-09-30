@@ -31,6 +31,16 @@ public class TravelAuthorizationCloseDocument extends TravelAuthorizationDocumen
         return true;
     }
 
+    @Override
+    public boolean generateDocumentGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
+        if (isTripGenerateEncumbrance()){
+            getTravelEncumbranceService().disencumberTravelAuthorizationClose(this, sequenceHelper);
+        }
+        return true;
+    }
+
+
+
     /**
      * @see org.kuali.rice.kns.document.Document#doRouteStatusChange(org.kuali.rice.kew.dto.DocumentRouteStatusChange)
      */
@@ -41,10 +51,6 @@ public class TravelAuthorizationCloseDocument extends TravelAuthorizationDocumen
 
         //doc is final / processed
         if (DocumentStatus.PROCESSED.getCode().equals(statusChangeEvent.getNewRouteStatus())) {
-
-            if (isTripGenerateEncumbrance()){
-                getTravelEncumbranceService().disencumberTravelAuthorizationClose(this);
-            }
 
             retirePreviousAuthorizations();
 

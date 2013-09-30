@@ -23,21 +23,23 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.kuali.kfs.module.tem.TemKeyConstants;
-import org.kuali.kfs.module.tem.TemParameterConstants;
-import org.kuali.kfs.module.tem.TemPropertyConstants;
+import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemConstants.AgencyMatchProcessParameter;
 import org.kuali.kfs.module.tem.TemConstants.AgencyStagingDataErrorCodes;
 import org.kuali.kfs.module.tem.TemConstants.AgencyStagingDataValidation;
 import org.kuali.kfs.module.tem.TemConstants.CreditCardStagingDataErrorCodes;
 import org.kuali.kfs.module.tem.TemConstants.ExpenseTypes;
 import org.kuali.kfs.module.tem.TemConstants.TravelParameters;
+import org.kuali.kfs.module.tem.TemKeyConstants;
+import org.kuali.kfs.module.tem.TemParameterConstants;
+import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.batch.AgencyDataImportStep;
 import org.kuali.kfs.module.tem.batch.service.ExpenseImportByTripService;
 import org.kuali.kfs.module.tem.batch.service.ImportedExpensePendingEntryService;
 import org.kuali.kfs.module.tem.businessobject.AgencyServiceFee;
 import org.kuali.kfs.module.tem.businessobject.AgencyStagingData;
 import org.kuali.kfs.module.tem.businessobject.CreditCardStagingData;
+import org.kuali.kfs.module.tem.businessobject.ExpenseType;
 import org.kuali.kfs.module.tem.businessobject.ExpenseTypeObjectCode;
 import org.kuali.kfs.module.tem.businessobject.HistoricalTravelExpense;
 import org.kuali.kfs.module.tem.businessobject.TEMProfile;
@@ -386,31 +388,29 @@ public class ExpenseImportByTripServiceImpl extends ExpenseImportServiceBase imp
             if (AgencyStagingDataErrorCodes.AGENCY_NO_ERROR.equals(agencyData.getErrorCode())) {
 
                 String expenseType = agencyData.getExpenseType();
-
-                // If there's no object code, this param is set by expense type and used to lookup the expense type and get an object code based on it.
-                String expenseTypeParamCode = null;
+                TemConstants.ExpenseTypeMetaCategory expenseTypeCategory = null;
 
                 // This is the "match process" - see if there's credit card data that matches the agency data
                 CreditCardStagingData ccData = null;
                 if (StringUtils.equalsIgnoreCase(expenseType, ExpenseTypes.AIRFARE)) {
                     // see if there's a CC that matches ticket number, service fee number, amount
                     ccData = travelExpenseService.findImportedCreditCardExpense(agencyData.getTripExpenseAmount(), agencyData.getAirTicketNumber(), agencyData.getAirServiceFeeNumber());
-                    expenseTypeParamCode = TravelParameters.AIRFARE_EXPENSE_TYPE;
+                    expenseTypeCategory = TemConstants.ExpenseTypeMetaCategory.AIRFARE;
                 }
                 else if (StringUtils.equalsIgnoreCase(expenseType, ExpenseTypes.LODGING)) {
                     // see if there's a CC that matches lodging itinerary number and amount
                     ccData = travelExpenseService.findImportedCreditCardExpense(agencyData.getTripExpenseAmount(), agencyData.getLodgingItineraryNumber());
-                    expenseTypeParamCode = TravelParameters.LODGING_EXPENSE_TYPE;
+                    expenseTypeCategory = TemConstants.ExpenseTypeMetaCategory.LODGING;
                 }
                 else if (StringUtils.equalsIgnoreCase(expenseType, ExpenseTypes.RENTAL_CAR)) {
                     // see if there's a CC that matches rental car itinerary number and amount
                     ccData = travelExpenseService.findImportedCreditCardExpense(agencyData.getTripExpenseAmount(), agencyData.getRentalCarItineraryNumber());
-                    expenseTypeParamCode = TravelParameters.RENTAL_CAR_EXPENSE_TYPE;
+                    expenseTypeCategory = TemConstants.ExpenseTypeMetaCategory.RENTAL_CAR;
                 }
 
                 if (ObjectUtils.isNotNull(ccData)) {
                     LOG.debug("Found a match for Agency: "+ agencyData.getId()+ " Credit Card: "+ ccData.getId()+ " tripId: "+ agencyData.getTripId());
-                    ExpenseTypeObjectCode travelExpenseType = getTravelExpenseType(expenseTypeParamCode, agencyData.getTripId());
+                    ExpenseTypeObjectCode travelExpenseType = getTravelExpenseType(expenseTypeCategory, agencyData.getTripId());
                     HistoricalTravelExpense expense = travelExpenseService.createHistoricalTravelExpense(agencyData, ccData, travelExpenseType);
                     AgencyServiceFee serviceFee = getAgencyServiceFee(agencyData.getDistributionCode());
 
@@ -510,16 +510,16 @@ public class ExpenseImportByTripServiceImpl extends ExpenseImportServiceBase imp
      * @param travelDocumentIdentifier
      * @return
      */
-    protected ExpenseTypeObjectCode getTravelExpenseType(String expenseTypeParamCode, String travelDocumentIdentifier) {
-        // get the expense type parameter
-        String expenseTypeCode = getParameterService().getParameterValueAsString(TemParameterConstants.TEM_DOCUMENT.class, expenseTypeParamCode);
-        if (StringUtils.isNotEmpty(expenseTypeCode)) {
+    protected ExpenseTypeObjectCode getTravelExpenseType(TemConstants.ExpenseTypeMetaCategory expenseCategory, String travelDocumentIdentifier) {
+        // get the default expense type for category
+        final ExpenseType expenseType = getTravelExpenseService().getDefaultExpenseTypeForCategory(expenseCategory);
+        if (!ObjectUtils.isNull(expenseType)) {
 
             // Need to get the Doc Type, Traveler Type and Trip Type from the TA
             // Note the tripId has already been validated at this point, so the TA should be there.
             TravelAuthorizationDocument ta = getTravelAuthorizationDocument(travelDocumentIdentifier);
             if (ObjectUtils.isNotNull(ta)) {
-                return travelExpenseService.getExpenseType(expenseTypeCode, ta.getDocumentTypeName(), ta.getTripTypeCode(), ta.getTraveler().getTravelerTypeCode());
+                return travelExpenseService.getExpenseType(expenseType.getCode(), ta.getDocumentTypeName(), ta.getTripTypeCode(), ta.getTraveler().getTravelerTypeCode());
             }
         }
         LOG.error("Unable to retrieve TemTravelExpenseTypeCode");

@@ -146,14 +146,8 @@
 
 	<bean id="IntraAccountAdjustment-saveDocumentValidation" parent="IntraAccountAdjustment-saveDocumentValidation-parentBean" scope="prototype"/>
 
-	<bean id="IntraAccountAdjustment-saveDocumentValidation-parentBean" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" 
-		scope="prototype" abstract="true">
-		<property name="validations">
-			<list>				
-				<bean parent="IntraAccountAdjustment-transferTotalsBalanceValidation" scope="prototype"/>	
-			</list>
-		</property>
-	</bean>
+	
+	<bean id="IntraAccountAdjustment-saveDocumentValidation-parentBean" parent="AccountingDocument-SaveDocument-DefaultValidation" scope="prototype" abstract="true" />
 	
 	<!-- Approve document validation -->
 	

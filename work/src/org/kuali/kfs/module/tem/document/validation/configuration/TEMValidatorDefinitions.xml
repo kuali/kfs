@@ -117,6 +117,9 @@
 	
 	<bean id="TravelDocument-actualExpenseNotesValidation" parent="TravelDocument-actualExpenseNotesValidation-parentBean"/>
 	<bean id="TravelDocument-actualExpenseNotesValidation-parentBean" abstract="true" class="org.kuali.kfs.module.tem.document.validation.impl.ActualExpenseNotesValidation" />
+	
+	<bean id="TravelDocument-perDiemPrimaryDestMatchValidation" parent="TravelDocument-perDiemPrimaryDestMatchValidation-parentBean"/>
+	<bean id="TravelDocument-perDiemPrimaryDestMatchValidation-parentBean" abstract="true" class="org.kuali.kfs.module.tem.document.validation.impl.TravelDocumentPerDiemPrimaryDestinationMatchValidation"/>
 
 	<!-- Add Accounting Line Event -->
     <bean id="TravelModule-addAccountingLine-failFastValidation" abstract="true" parent="CompositeValidation" scope="prototype">
@@ -183,6 +186,12 @@
 		
 	<bean id="TravelModule-expenseTotalsValidation"
 		class="org.kuali.kfs.module.tem.document.validation.impl.TEMExpenseTotalsValidation"/>
+		
+	<bean id="TravelDocument-actualExpenseDatesValidation" parent="TravelDocument-actualExpenseDatesValidation-parentBean"/>
+	<bean id="TravelDocument-actualExpenseDatesValidation-parentBean" class="org.kuali.kfs.module.tem.document.validation.impl.ActualExpenseDatesValidation" abstract="true">
+		<property name="dateTimeService" ref="dateTimeService"/>
+		<property name="dataDictionaryService" ref="dataDictionaryService"/>
+	</bean>
 		
 	<!-- Travel Payment validations -->
 	<bean id="travelDocumentFieldConversion" abstract="true" parent="validationFieldConversion">
@@ -311,7 +320,8 @@
 		</property>
 	</bean>
 	
-	<bean id="TravelDocument-actualExpenseRoutingValidation" parent="CollectionValidation" p:removeCollectionPropretyPluralization="false">
+	<bean id="TravelDocument-actualExpenseRoutingValidation" parent="TravelDocument-actualExpenseRoutingValidation-parentBean"/>
+	<bean id="TravelDocument-actualExpenseRoutingValidation-parentBean" parent="CollectionValidation" p:removeCollectionPropretyPluralization="false">
 		<property name="collectionProperty" value="document.actualExpenses" />
 		<property name="validations">
 			<list>
@@ -352,7 +362,114 @@
 		</property>
 	</bean>
 	
-	<bean id="TravelDocument-actualExpenseSavingValidation" parent="CollectionValidation" p:removeCollectionPropretyPluralization="false">
+	<bean id="TravelDocument-actualExpenseSavingValidation" parent="TravelDocument-actualExpenseSavingValidation-parentBean"/>
+	<bean id="TravelDocument-actualExpenseSavingValidation-parentBean" parent="CollectionValidation" p:removeCollectionPropretyPluralization="false">
+		<property name="collectionProperty" value="document.actualExpenses" />
+		<property name="validations">
+			<list>
+				<bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="validationFieldConversion" p:sourceEventProperty="iterationSubject" p:targetValidationProperty="businessObjectForValidation"/>
+						</list>
+					</property>
+				</bean>
+				<bean parent="TravelDocument-actualExpenseLineValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="validationFieldConversion" p:sourceEventProperty="iterationSubject" p:targetValidationProperty="actualExpenseForValidation"/>
+						</list>
+					</property>
+				</bean>
+				<bean parent="TravelModule-ActualExpense-genericDetailValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="validationFieldConversion" p:sourceEventProperty="iterationSubject" p:targetValidationProperty="actualExpenseForValidation"/>
+						</list>
+					</property>
+					<property name="detailValidations">
+						<list>
+							<bean parent="TravelDocument-actualExpenseDetailLineValidation" scope="prototype"/>
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="NonTripTravelDocument-addActualExpenseLineValidation" parent="NonTripTravelDocument-addActualExpenseLineValidation-parentBean" scope="prototype"/>
+	<bean id="NonTripTravelDocument-addActualExpenseLineValidation-parentBean" abstract="true" parent="CompositeValidation">
+		<property name="validations">
+			<list>
+				<bean parent="TravelDocument-actualExpenseLineValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+								<bean parent="validationFieldConversion" p:sourceEventProperty="expenseLine" p:targetValidationProperty="actualExpenseForValidation"/>
+						</list>
+					</property>
+				</bean>
+				<bean parent="TravelDocument-actualExpenseDatesValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+								<bean parent="validationFieldConversion" p:sourceEventProperty="expenseLine" p:targetValidationProperty="actualExpenseForValidation"/>
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="NonTripTravelDocument-actualExpenseRoutingValidation" parent="NonTripTravelDocument-actualExpenseRoutingValidation-parentBean"/>
+	<bean id="NonTripTravelDocument-actualExpenseRoutingValidation-parentBean" abstract="true" parent="CollectionValidation" p:removeCollectionPropretyPluralization="false">
+		<property name="collectionProperty" value="document.actualExpenses" />
+		<property name="validations">
+			<list>
+				<bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="validationFieldConversion" p:sourceEventProperty="iterationSubject" p:targetValidationProperty="businessObjectForValidation"/>
+						</list>
+					</property>
+				</bean>
+				<bean parent="TravelDocument-actualExpenseLineValidation" scope="prototype" p:warningOnly="false">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="validationFieldConversion" p:sourceEventProperty="iterationSubject" p:targetValidationProperty="actualExpenseForValidation"/>
+						</list>
+					</property>
+				</bean>
+				<bean parent="TravelDocument-actualExpenseNotesValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="validationFieldConversion" p:sourceEventProperty="iterationSubject" p:targetValidationProperty="actualExpenseForValidation"/>
+						</list>
+					</property>
+				</bean>
+				<bean parent="TravelDocument-actualExpenseDatesValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+								<bean parent="validationFieldConversion" p:sourceEventProperty="iterationSubject" p:targetValidationProperty="actualExpenseForValidation"/>
+						</list>
+					</property>
+				</bean>
+				<bean parent="TravelModule-ActualExpense-genericDetailValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="validationFieldConversion" p:sourceEventProperty="iterationSubject" p:targetValidationProperty="actualExpenseForValidation"/>
+						</list>
+					</property>
+					<property name="detailValidations">
+						<list>
+							<bean parent="TravelDocument-actualExpenseDetailLineValidation" scope="prototype"/>
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="NonTripTravelDocument-actualExpenseSavingValidation" parent="NonTripTravelDocument-actualExpenseSavingValidation-parentBean"/>
+	<bean id="NonTripTravelDocument-actualExpenseSavingValidation-parentBean" parent="CollectionValidation" p:removeCollectionPropretyPluralization="false">
 		<property name="collectionProperty" value="document.actualExpenses" />
 		<property name="validations">
 			<list>

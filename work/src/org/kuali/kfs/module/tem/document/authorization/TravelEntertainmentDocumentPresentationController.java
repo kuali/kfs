@@ -31,6 +31,11 @@ public class TravelEntertainmentDocumentPresentationController extends TravelDoc
         Set<String> editModes = super.getEditModes(document);
         addFullEntryEditMode(document, editModes);
         editModes.remove(TemConstants.EditModes.CHECK_AMOUNT_ENTRY);  // the check amount cannot be edited on entertainment documents
+
+        final Set<String> nodeNames = document.getDocumentHeader().getWorkflowDocument().getNodeNames();
+        if (document.getDocumentHeader().getWorkflowDocument().isInitiated() || document.getDocumentHeader().getWorkflowDocument().isSaved() || (nodeNames != null && !nodeNames.isEmpty() && (nodeNames.contains(TemWorkflowConstants.RouteNodeNames.TAX) || nodeNames.contains(TemWorkflowConstants.RouteNodeNames.ENTERTAINMENT_MANAGER)))) {
+            editModes.add(TemConstants.EditModes.ACTUAL_EXPENSE_TAXABLE_MODE);
+        }
         return editModes;
     }
 

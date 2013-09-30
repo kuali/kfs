@@ -60,6 +60,7 @@ public class TemKeyConstants {
     public static final String ERROR_ACTUAL_EXPENSE_MAX_AMT_PER_DAILY     = "error.document.tem.actualexpense.maxamountperpersondaily";
     public static final String ERROR_ACTUAL_EXPENSE_MAX_AMT_PER_OCCU      = "error.document.tem.actualexpense.maxamountperoccurrence";
     public static final String ERROR_ACTUAL_EXPENSE_DETAIL_REQUIRED       = "error.document.tem.actualexpense.detail.required";
+    public static final String ERROR_ACTUAL_EXPENSE_EXPENSE_DATE_EARLY    = "error.document.tem.actualexpense.expenseDate.earlyBird";
     public static final String ERROR_DELINQUENT_MSG_REQUIRED              = "error.document.tem.delinquentMessageRequired";
 
     public static final String WARNING_DUPLICATE_EXPENSE             = "warning.document.tem.actualexpense.duplicateExpenseType";
@@ -136,6 +137,7 @@ public class TemKeyConstants {
     public static final String MESSAGE_TA_ADVANCE_POLICY = "message.document.tem.ta.advance.policy";
     public static final String MESSAGE_TA_ADVANCE_PAYMENT_HOLD_TEXT = "message.document.tem.ta.advance.checkText.holdingText";
     public static final String MESSAGE_TA_ADVANCE_PAYMENT_CHECK_TEXT_PREFIX = "message.document.tem.ta.advance.checkText.prefix";
+    public static final String MESSAGE_TEM_REIMBURSEMENT_PAYMENT_HOLD_TEXT = "message.document.tem.reimbursement.payment.checkText.holdingText";
 
     //Add any custom messages
     public static final String MESSAGE_GENERIC = "message.generic";
@@ -267,6 +269,7 @@ public class TemKeyConstants {
 
     public static final String ERROR_DOCUMENT_TOTAL_ESTIMATED = "error.document.tem.total.estimated";
     public static final String ERROR_ACCOUNTING_LINE_CG = "error.tem.accountingline.cg.accountnumber";
+    public static final String ERROR_TRAVEL_DOC_PRI_DEST_PER_DIEM_NO_MATCH = "error.document.tem.primary.destination.per.diem.location.no.match";
 
 
     public static final String CTS_CARD_DOCUMENT_USER_AGREEMENT = "message.tem.cts.card.document.user.agreement";
@@ -281,6 +284,11 @@ public class TemKeyConstants {
     public static final String ERROR_EXPENSE_TYPE_OBJECT_CODE_INVALID_SUMMATION_CODE = "error.etoc.invalid.summation.code";
     public static final String ERROR_EXPENSE_TYPE_OBJECT_CODE_REOCRD_NOT_UNIQUE = "error.etoc.record.not.unique";
     public static final String ERROR_EXPENSE_TYPE_OBJECT_CODE_INVALID_TRIP_TYPE_FOR_DOC_TYPE = "error.etoc.invalid.trip.type.considering.document.type";
+
+    public static final String WARNING_EXPENSE_TYPE_NO_CATEGORY_DEFAULT = "warning.etc.no.category.default";
+    public static final String WARNING_EXPENSE_TYPE_NO_CATEGORY_DEFAULT_AFTER_DOC = "warning.etc.wont.be.category.default";
+    public static final String ERROR_EXPENSE_TYPE_CANNOT_BE_DEFAULT = "error.etc.cannot.be.default.there.can.only.be.one";
+    public static final String ERROR_EXPENSE_TYPE_CATEGORY_NO_EXISTS = "error.etc.category.does.not.exist";
 
     public static final String ERROR_REIMBURSEMENT_OVERAGE_ORGANIZATION_HIERARCHY_ROLE_NON_NUMERIC = "error.reimbursement.overage.organization.hierarchy.role.non.numeric";
     public static final String ERROR_REIMBURSEMENT_OVERAGE_ORGANIZATION_HIERARCHY_ROLE_NEGATIVE = "error.reimbursement.overage.organization.hierarchy.role.negative";

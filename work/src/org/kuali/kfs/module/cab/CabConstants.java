@@ -77,15 +77,6 @@ public class CabConstants {
 
     public static class ActivityStatusCode {
         public static final String NEW = "N";
-        /* KFSCNTRB-1676 / FSKD-5487
-         * Allocate, Merge, Split, and percent payment will all cause the asset item status to be changed to MODIFIED. We need to further
-         * distinguish whether a line is allocated when the MODIFIED status is set, because this affects whether Create Asset and Apply Payment
-         * actions can be performed in certain situations. Since split/merge can be performed before a line is allocated, we need a new status
-         * MODIFIED_UNALLOCATED to indicate the case when a line is merged or split but not yet allocated; while the original status
-         * MODIFIED will then refer to the situation when a line has been allocated, regardless of whether it's ever been merged or split.
-         * NOTE: This new status only applies to asset item; it doesn't affect account, GL entry, or document level status.
-         */
-        public static final String MODIFIED_NOT_ALLOCATED = "NA";
         public static final String MODIFIED = "M";
         public static final String ENROUTE = "E";
         public static final String PROCESSED_IN_CAMS = "P";

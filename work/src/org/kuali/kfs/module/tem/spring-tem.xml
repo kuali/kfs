@@ -615,6 +615,7 @@
 		<property name="businessObjectService" ref="businessObjectService" />
 		<property name="dateTimeService" ref="dateTimeService" />
 		<property name="expenseTypeObjectCodeDao" ref="expenseTypeObjectCodeDao"/>
+		<property name="documentHelperService" ref="documentHelperService"/>
 	</bean>
 	
 	<!-- Struts Events -->
@@ -750,6 +751,7 @@
 		<property name="parameterService" ref="parameterService" />
 		<property name="stateService" ref="stateService" />
 		<property name="perDiemDao" ref="perDiemDao" />
+		<property name="travelDocumentDao" ref="travelDocumentDao"/>
 		<property name="mealBreakDownStrategies">
 			<map>
 				<entry key="DEFAULT">

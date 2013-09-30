@@ -1004,7 +1004,9 @@
 			<column name="GRP_TRVL_IND" type="VARCHAR(1)"/>
 			<column name="EXP_DETAIL_REQ_IND" type="VARCHAR(1)"/>
 			<column name="EXP_PRPY_IND" type="VARCHAR(1)"/>
-			<column name="PER_DIEM_IND" type="VARCHAR(1)"/>
+			<column name="HOSTED_IND" type="VARCHAR(1)"/>
+			<column name="EXP_TYP_META_CTGRY_CD" type="VARCHAR(1)"/>
+			<column name="CTGRY_DFLT_IND" type="VARCHAR(1)"/>
 			<column name="ACTV_IND" type="VARCHAR(1)"/>
 		</createTable>
 		<addPrimaryKey tableName="TEM_EXP_TYP_T"

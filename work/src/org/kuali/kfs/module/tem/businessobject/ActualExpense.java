@@ -16,7 +16,6 @@
 package org.kuali.kfs.module.tem.businessobject;
 
 import java.lang.reflect.Field;
-import java.util.Collection;
 import java.util.LinkedHashMap;
 
 import javax.persistence.Column;
@@ -31,8 +30,7 @@ import javax.persistence.Transient;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.module.tem.TemConstants;
-import org.kuali.kfs.module.tem.TemConstants.TravelParameters;
-import org.kuali.kfs.module.tem.TemParameterConstants;
+import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
@@ -270,9 +268,6 @@ public class ActualExpense extends AbstractExpense implements OtherExpense, Expe
     }
 
     public void enableExpenseTypeSpecificFields(){
-        if (getExpenseTypeObjectCode() != null){
-            setTaxable(getExpenseTypeObjectCode().isTaxable());
-        }
         setAirfareIndicator(isAirfare());
         setMileageIndicator(isMileage());
         setRentalCarIndicator(isRentalCar());
@@ -281,66 +276,71 @@ public class ActualExpense extends AbstractExpense implements OtherExpense, Expe
     }
 
     public boolean isHostedBreakfast() {
-        return isHostedMeal("BREAKFAST");
+        return isHostedMeal() && isBreakfast();
     }
 
     public boolean isHostedLunch() {
-        return isHostedMeal("LUNCH");
+        return isHostedMeal() && isLunch();
     }
 
     public boolean isHostedDinner() {
-        return isHostedMeal("DINNER");
+        return isHostedMeal() && isDinner();
+    }
+
+    public boolean isBreakfast() {
+        return isInMetaCategory(TemConstants.ExpenseTypeMetaCategory.BREAKFAST);
+    }
+
+    public boolean isLunch() {
+        return isInMetaCategory(TemConstants.ExpenseTypeMetaCategory.LUNCH);
+    }
+
+    public boolean isDinner() {
+        return isInMetaCategory(TemConstants.ExpenseTypeMetaCategory.DINNER);
     }
 
     public boolean isAirfare(){
-        final String airfareType = getParameterService().getParameterValueAsString(TemParameterConstants.TEM_DOCUMENT.class, TravelParameters.AIRFARE_EXPENSE_TYPE);
-
-        return ( !StringUtils.isBlank(getExpenseTypeCode()) && getExpenseTypeCode().equals(airfareType));
+        return isInMetaCategory(TemConstants.ExpenseTypeMetaCategory.AIRFARE);
     }
 
     public boolean isMileage(){
-        final String mileageType = getParameterService().getParameterValueAsString(TemParameterConstants.TEM_DOCUMENT.class, TravelParameters.MILEAGE_EXPENSE_TYPE);
-        return getExpenseTypeCode() != null && getExpenseTypeCode().equals(mileageType);
+        return isInMetaCategory(TemConstants.ExpenseTypeMetaCategory.MILEAGE);
     }
 
     @Override
     public boolean isRentalCar(){
-        final String rentalCarType = getParameterService().getParameterValueAsString(TemParameterConstants.TEM_DOCUMENT.class, TravelParameters.RENTAL_CAR_EXPENSE_TYPE);
-        return getExpenseTypeCode() != null && getExpenseTypeCode().equals(rentalCarType);
+        return isInMetaCategory(TemConstants.ExpenseTypeMetaCategory.RENTAL_CAR);
     }
 
     public boolean isLodging(){
-        final String lodgingType = getParameterService().getParameterValueAsString(TemParameterConstants.TEM_DOCUMENT.class, TravelParameters.LODGING_EXPENSE_TYPE);
-        return getExpenseTypeCode() != null && getExpenseTypeCode().equals(lodgingType);
+        return isInMetaCategory(TemConstants.ExpenseTypeMetaCategory.LODGING);
     }
 
     public boolean isLodgingAllowance(){
-        final String lodgingAllowanceType = getParameterService().getParameterValueAsString(TemParameterConstants.TEM_DOCUMENT.class, TravelParameters.LODGING_ALLOWANCE_EXPENSE_TYPE);
-        return getExpenseTypeCode() != null && getExpenseTypeCode().equals(lodgingAllowanceType);
+        return isInMetaCategory(TemConstants.ExpenseTypeMetaCategory.LODGING_ALLOWANCE);
     }
 
     public boolean isIncidental(){
-        final Collection<String> incidentalType = getParameterService().getParameterValuesAsString(TemParameterConstants.TEM_DOCUMENT.class, TravelParameters.INCIDENTAL_EXPENSE_TYPES);
-        return getExpenseTypeCode() != null && incidentalType.contains(getExpenseTypeCode());
+        return isInMetaCategory(TemConstants.ExpenseTypeMetaCategory.INCIDENTALS);
+    }
+
+    /**
+     * Determines if this expense is part of the given metacategory
+     * @param category the expense type meta category to test membership in
+     * @return true if the expense is in the expense type meta category, false otherwise
+     */
+    protected boolean isInMetaCategory(TemConstants.ExpenseTypeMetaCategory category) {
+        if (ObjectUtils.isNull(getExpenseType()) && !StringUtils.isBlank(getExpenseTypeCode())) {
+            refreshReferenceObject(TemPropertyConstants.EXPENSE_TYPE);
+        }
+        return ( !ObjectUtils.isNull(getExpenseType()) && category.getCode().equals(getExpenseType().getExpenseTypeMetaCategoryCode()));
     }
 
     public boolean isHostedMeal(){
-        return (isHostedBreakfast() || isHostedDinner() || isHostedLunch());
-    }
-
-    protected boolean isHostedMeal(final String meal) {
-        final Collection<String> mealTypes = getParameterService().getParameterValuesAsString(TemParameterConstants.TEM_DOCUMENT.class, TravelParameters.HOSTED_MEAL_EXPENSE_TYPES);
-        for (final String mealType : mealTypes) {
-            if (mealType.startsWith(meal)) {
-                final String[] typeCodes = mealType.split("=")[1].split(",");
-                for (final String typeCode : typeCodes) {
-                    if (getExpenseTypeObjectCode() != null && typeCode.equals(getExpenseTypeObjectCode().getExpenseTypeCode())) {
-                        return true;
-                    }
-                }
-            }
+        if (ObjectUtils.isNull(getExpenseType()) && !StringUtils.isBlank(getExpenseTypeCode())) {
+            refreshReferenceObject(TemPropertyConstants.EXPENSE_TYPE);
         }
-        return false;
+        return !ObjectUtils.isNull(getExpenseType()) && getExpenseType().isHosted();
     }
 
     @Transient

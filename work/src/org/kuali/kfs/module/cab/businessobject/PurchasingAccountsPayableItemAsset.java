@@ -27,7 +27,6 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.integration.purap.ItemCapitalAsset;
 import org.kuali.kfs.module.cab.CabConstants;
-import org.kuali.kfs.module.cab.CabConstants.ActivityStatusCode;
 import org.kuali.kfs.module.cab.CabPropertyConstants;
 import org.kuali.kfs.module.cab.document.service.PurApLineService;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
@@ -502,8 +501,6 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
      */
     public boolean isActive() {
         return CabConstants.ActivityStatusCode.NEW.equalsIgnoreCase(this.getActivityStatusCode()) ||
-                // KFSCNTRB-1676 / FSKD-5487
-                CabConstants.ActivityStatusCode.MODIFIED_NOT_ALLOCATED.equalsIgnoreCase(this.getActivityStatusCode()) ||
                 CabConstants.ActivityStatusCode.MODIFIED.equalsIgnoreCase(this.getActivityStatusCode());
     }
 
@@ -722,30 +719,18 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
 
     /**
      * KFSCNTRB-1676/FSKD-5487
-     * Returns true if it is an unallocated TRDI additional charge asset line.
+     * Returns true if it is an active TRDI additional charge asset line.
      */
-    public boolean isUnallocatedAdditionalTRDI() {
-        if (isTradeInAllowance() &&
-                // We use activityStatusCode being NEW or MODIFIED_NOT_ALLOCATED to indicate the line hasn't been allocated yet
-                (ActivityStatusCode.NEW.equalsIgnoreCase(activityStatusCode) ||
-                        ActivityStatusCode.MODIFIED_NOT_ALLOCATED.equalsIgnoreCase(activityStatusCode))) {
-            return true;
-        }
-        return false;
+    public boolean isActiveAdditionalTRDI() {
+        return isTradeInAllowance() && isActive();
     }
 
     /**
      * KFSCNTRB-1676/FSKD-5487
-     * Returns true if it is an unallocated non-TRDI additional charge asset line.
+     * Returns true if it is an active non-TRDI additional charge asset line.
      */
-    public boolean isUnallocatedAdditionalNonTRDI() {
-        if (isAdditionalChargeNonTradeInIndicator() &&
-                // We use activityStatusCode being NEW or MODIFIED_NOT_ALLOCATED to indicate the line hasn't been allocated yet
-                (ActivityStatusCode.NEW.equalsIgnoreCase(activityStatusCode) ||
-                        ActivityStatusCode.MODIFIED_NOT_ALLOCATED.equalsIgnoreCase(activityStatusCode))) {
-            return true;
-        }
-        return false;
+    public boolean isActiveAdditionalNonTRDI() {
+        return isAdditionalChargeNonTradeInIndicator() && isActive();
     }
 
     /**
@@ -753,11 +738,7 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
      * Returns true if it is an active trade-in ITEM asset line.
      */
     public boolean isActiveItemTradeIn() {
-        if (!isAdditionalChargeNonTradeInIndicator() && !isTradeInAllowance() &&
-                isItemAssignedToTradeInIndicator() && isActive()) {
-            return true;
-        }
-        return false;
+        return !isAdditionalChargeNonTradeInIndicator() && !isTradeInAllowance() && isItemAssignedToTradeInIndicator() && isActive();
     }
 
     /**
@@ -765,10 +746,7 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
      * Returns true if it is an active ITEM asset line.
      */
     public boolean isActiveItemLine() {
-        if (!isAdditionalChargeNonTradeInIndicator() && !isTradeInAllowance() && isActive()) {
-            return true;
-        }
-        return false;
+        return !isAdditionalChargeNonTradeInIndicator() && !isTradeInAllowance() && isActive();
     }
 
 }

@@ -32,7 +32,6 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 import org.junit.Test;
 import org.kuali.kfs.module.tem.TemConstants;
-import org.kuali.kfs.module.tem.TemConstants.TravelParameters;
 import org.kuali.kfs.module.tem.businessobject.ActualExpense;
 import org.kuali.kfs.module.tem.businessobject.ExpenseTypeObjectCode;
 import org.kuali.kfs.module.tem.businessobject.MileageRate;
@@ -57,6 +56,9 @@ public class TravelDocumentServiceTest extends KualiTestBase {
 
     private static final Logger LOG = Logger.getLogger(TravelDocumentServiceTest.class);
 
+    protected final static String AIRFARE_EXPENSE_TYPE = "A";
+    protected final static String MILEAGE_EXPENSE_TYPE = "MM";
+
     private TravelDocumentService travelDocumentService;
     private ParameterService parameterService;
     private DateTimeService dateTimeService;
@@ -79,8 +81,8 @@ public class TravelDocumentServiceTest extends KualiTestBase {
     protected void setUp() throws Exception {
         super.setUp();
 
-        mileageType.setExpenseTypeCode(TravelParameters.MILEAGE_EXPENSE_TYPE);
-        airfareType.setExpenseTypeCode(TravelParameters.AIRFARE_EXPENSE_TYPE);
+        mileageType.setExpenseTypeCode(MILEAGE_EXPENSE_TYPE);
+        airfareType.setExpenseTypeCode(AIRFARE_EXPENSE_TYPE);
 
         final TravelDocumentService travelDocumentServiceTemp = SpringContext.getBean(TravelDocumentServiceImpl.class);
         parameterService = SpringContext.getBean(ParameterService.class);

@@ -152,7 +152,7 @@
 		<property name="description" value="Creation Timestamp" />
 	</bean>
 	<bean id="CreditCardStagingData-processingTimestamp" parent="CreditCardStagingData-processingTimestamp-parentBean" />
-	<bean id="CreditCardStagingData-processingTimestamp-parentBean" parent="GenericAttributes-genericDate">
+	<bean id="CreditCardStagingData-processingTimestamp-parentBean" parent="GenericAttributes-genericTimestamp">
 		<property name="name" value="processingTimestamp" />
 		<property name="label" value="Processing Timestamp" />
 		<property name="shortLabel" value="Processing Timestamp" />
@@ -161,6 +161,7 @@
         <property name="control">
             <bean parent="DateControl"/>
         </property>
+        <property name="formatterClass" value="org.kuali.rice.core.web.format.DateViewTimestampObjectFormatter"/>
 	</bean>	
 	<bean id="CreditCardStagingData-departureDate" parent="CreditCardStagingData-departureDate-parentBean" />
 	<bean id="CreditCardStagingData-departureDate-parentBean" parent="GenericAttributes-genericDate">

@@ -17,7 +17,6 @@ limitations under the License.
 
 <c:set var="wireTransAttributes" value="${DataDictionary.PaymentSourceWireTransfer.attributes}" />
 
-<h3>Foreign Draft</h3>
 <table class="datatable" summary="Foreign Draft Section" cellpadding="0">
 	<tbody>
 		<tr>

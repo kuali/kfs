@@ -108,4 +108,12 @@ public interface PerDiemService {
      * @return true if the KFS-TEM / Document / PER_DIEM_CATEGORIES says that per diem is handling lodging; false otherwise
      */
     public boolean isPerDiemHandlingLodging();
+
+    /**
+     * Finds the active per diem record for the given destination id and date
+     * @param primaryDestinationId the id of the destination to find the per diem for
+     * @param perDiemDate the date we want the per diem to be active on
+     * @return the retrieved per diem or null if a record was not found
+     */
+    public PerDiem getPerDiem(int primaryDestinationId, java.sql.Timestamp perDiemDate);
 }

@@ -22,7 +22,6 @@ import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationParameters;
 import org.kuali.kfs.module.tem.TemConstants.TravelEditMode;
 import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.TemWorkflowConstants;
-import org.kuali.kfs.module.tem.businessobject.TEMProfile;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
 import org.kuali.kfs.module.tem.document.service.TravelReimbursementService;
 import org.kuali.kfs.module.tem.service.TEMRoleService;
@@ -67,14 +66,6 @@ public class TravelDocumentPresentationController extends FinancialSystemTransac
      */
     @Override
     public boolean canInitiate(String documentTypeName) {
-        Person currentUser = GlobalVariables.getUserSession().getPerson();
-        if (!getTemRoleService().isTravelArranger(currentUser)) {
-            TEMProfile temProfile = getTemProfileService().findTemProfileByPrincipalId(currentUser.getPrincipalId());
-            if (temProfile == null) {
-                throw new DocumentInitiationException(TemKeyConstants.ERROR_TRAVEL_DOCUMENT_INITIATION, new String[] { documentTypeName }, true);
-            }
-        }
-
         //only allow if a TR can be initiated without a TA
         boolean initiateReimbursementWithoutAuthorization = getConfigurationService().getPropertyValueAsBoolean(TemKeyConstants.CONFIG_PROPERTY_REIMBURSEMENT_INITIATELINK_ENABLED);
         //check Trip Types to verify at least one type can initiate TR without TA

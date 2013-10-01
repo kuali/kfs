@@ -161,7 +161,6 @@ public class TemKeyConstants {
     public static final String ERROR_TRAVEL_DOCUMENT_EDIT = "error.document.tem.edit";
     public static final String ERROR_AUTHORIZATION_TR_DELINQUENT = "error.authorization.travelReimbursementDelinquent";
     public static final String ERROR_AUTHORIZATION_ADVANCE_OBJECT_CODE_PARAMETER_NOT_SET = "error.document.authorization.advanceObjectCodeParameter.notSet";
-    public static final String ERROR_TRAVEL_DOCUMENT_INITIATION = "error.document.tem.initiation";
     public static final String ERROR_TRAVEL_AGENCY_AUDIT_INITIATION ="error.document.agencyAudit.initiation";
 
     public static final String MESSAGE_BATCH_UPLOAD_TITLE_PER_DIEM_FILE = "message.batchUpload.title.per.diem.file";

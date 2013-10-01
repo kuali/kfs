@@ -81,6 +81,21 @@ abstract public class TravelArrangeableAuthorizer extends AccountingDocumentAuth
     }
 
     /**
+     * Overridden to pass in profile principal id as the current user's principal id
+     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizerBase#canInitiate(java.lang.String, org.kuali.rice.kim.api.identity.Person)
+     */
+    @Override
+    public boolean canInitiate(String documentTypeName, Person user) {
+        String nameSpaceCode = KRADConstants.KUALI_RICE_SYSTEM_NAMESPACE;
+        Map<String, String> permissionDetails = new HashMap<String, String>();
+        Map<String, String> qualificationDetails = new HashMap<String, String>();
+        qualificationDetails.put(TemKimAttributes.PROFILE_PRINCIPAL_ID, user.getPrincipalId());
+        permissionDetails.put(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME, documentTypeName);
+        return getPermissionService().isAuthorizedByTemplate(user.getPrincipalId(), nameSpaceCode,
+                KimConstants.PermissionTemplateNames.INITIATE_DOCUMENT, permissionDetails, qualificationDetails);
+    }
+
+    /**
      * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizerBase#canEditDocumentOverview(org.kuali.rice.kns.document.Document,org.kuali.rice.kim.bo.Person)
      */
     @Override

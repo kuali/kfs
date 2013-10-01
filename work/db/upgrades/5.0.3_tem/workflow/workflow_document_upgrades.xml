@@ -922,6 +922,7 @@
             <routingVersion>
                 2
             </routingVersion>
+            <authorizer>org.kuali.kfs.module.tem.document.authorization.TravelWorkflowDocumentAuthorizer</authorizer>
             <validApplicationStatuses>
                 <status>Awaiting Traveler Review</status>
                 <status>Awaiting Fiscal Officer Review</status>
@@ -1202,6 +1203,7 @@
             <routingVersion>
                 2
             </routingVersion>
+            <authorizer>org.kuali.kfs.module.tem.document.authorization.TravelWorkflowDocumentAuthorizer</authorizer>
             <validApplicationStatuses>
                 <status>In Process</status>
                 <status>Awaiting Traveler Review</status>

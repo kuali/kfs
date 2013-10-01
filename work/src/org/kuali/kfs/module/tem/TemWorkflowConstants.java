@@ -40,7 +40,7 @@ public class TemWorkflowConstants {
 
     public static class RouteNodeNames {
         public static final String AP_TRAVEL = "Travel";
-        public static final String TRAVELER_REVIEW = "TravelerReview";
+        public static final String TRAVELER = "Traveler";
         public static final String ACCOUNT = "Account";
         public static final String ACCOUNTING_REVIEWER = "AccountingReviewer";
         public static final String DIVISION_REVIEWER = "DivisionReviewer";

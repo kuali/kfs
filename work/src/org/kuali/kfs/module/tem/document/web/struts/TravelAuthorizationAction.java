@@ -55,7 +55,6 @@ import org.kuali.kfs.module.tem.document.validation.event.AddEmergencyContactLin
 import org.kuali.kfs.module.tem.document.web.bean.TravelAuthorizationMvcWrapperBean;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
-import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.event.AccountingDocumentSaveWithNoLedgerEntryGenerationEvent;
@@ -72,7 +71,6 @@ import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.kns.web.struts.form.BlankFormFile;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
-import org.kuali.rice.krad.bo.AdHocRouteRecipient;
 import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.dao.DocumentDao;
 import org.kuali.rice.krad.document.Copyable;
@@ -85,7 +83,6 @@ import org.kuali.rice.krad.service.PersistenceService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
-import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
 
 /**
  * Handles action events through the struts framework for the {@link TravelAuthorizationDocument}
@@ -826,27 +823,8 @@ public class TravelAuthorizationAction extends TravelActionBase {
      */
     public ActionForward cancelTa(final ActionMapping mapping, final ActionForm form, final HttpServletRequest request, final HttpServletResponse response) throws Exception {
         LOG.debug("Cancel TA started");
-
-        TravelAuthorizationForm taForm = (TravelAuthorizationForm) form;
-        TravelAuthorizationDocument taDocument = taForm.getTravelAuthorizationDocument();
-
-        taDocument.refreshReferenceObject(KFSPropertyConstants.GENERAL_LEDGER_PENDING_ENTRIES);
-
-        final Note newNote = getDocumentService().createNoteFromDocument(taDocument, TemConstants.TA_CANCELLED_MESSAGE);
-        taDocument.addNote(newNote);
-
-        taDocument.updateAppDocStatus(TravelAuthorizationStatusCodeKeys.CANCELLED);
-        getTravelEncumbranceService().liquidateEncumbranceForCancelTA(taDocument);
-        SpringContext.getBean(DocumentService.class).saveDocument(taDocument, AccountingDocumentSaveWithNoLedgerEntryGenerationEvent.class);
-        taDocument.refreshReferenceObject(KFSPropertyConstants.GENERAL_LEDGER_PENDING_ENTRIES);
-
-        // send FYI for to initiator and traveler
-        getTravelDocumentService().addAdHocFYIRecipient(taDocument, taDocument.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId());
-        getTravelDocumentService().addAdHocFYIRecipient(taDocument, taDocument.getTraveler().getPrincipalId());
-
-        SpringContext.getBean(WorkflowDocumentService.class).acknowledge(taDocument.getDocumentHeader().getWorkflowDocument(), null, new ArrayList<AdHocRouteRecipient>(taDocument.getAdHocRoutePersons()));
-
-        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+        final Inquisitive<TravelAuthorizationDocument, ActionForward> inq = getInquisitive(mapping, form, request, response);
+        return askQuestionsAndPerformDocumentAction(inq, TemConstants.CANCEL_TA_QUESTION);
     }
 
     /**

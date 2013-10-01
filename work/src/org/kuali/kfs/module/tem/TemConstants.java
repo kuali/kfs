@@ -69,6 +69,9 @@ public class TemConstants {
     public static final String REMOVE_HOLD_TA_QUESTION = "RemoveHoldTa";
     public static final String CONFIRM_REMOVE_HOLD_QUESTION = "ConfirmRemoveHold";
     public static final String CONFIRM_CLOSE_QUESTION_TEXT = "When you close this Travel Authorization, remaining encumbrance will be liquidated.";
+    public static final String CANCEL_TA_QUESTION = "CancelTa";
+    public static final String CONFIRM_CANCEL_QUESTION = "ConfirmCancel";
+    public static final String CONFIRM_CANCEL_QUESTION_TEXT = "When you cancel this Travel Authorization, remaining encumbrance will be liquidated.";
 
     public static final String REMOVE_HOLD_NOTE_PREFIX = "Note entered while removing a hold on Travel Authorization : ";
     public static final String RETURN_TO_FO_QUESTION = "ReturnToFiscalOfficer";

@@ -304,6 +304,7 @@ public class TemPropertyConstants {
     public static final String DINNER = "dinner";
     public static final String LUNCH = "lunch";
     public static final String MEALS_AND_INCIDENTALS = "mealsAndIncidentals";
+    public static final String MEAL_WITHOUT_LODGING_REASON = "mealWithoutLodgingReason";
     public static final String TRIP_TYPE_CODE = "tripTypeCode";
     public static final String SEASON_BEGIN_MONTH_AND_DAY = "seasonBeginMonthAndDay";
 

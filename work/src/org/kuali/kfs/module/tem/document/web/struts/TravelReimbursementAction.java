@@ -58,6 +58,7 @@ import org.kuali.kfs.module.tem.businessobject.AccountingDistribution;
 import org.kuali.kfs.module.tem.businessobject.AccountingDocumentRelationship;
 import org.kuali.kfs.module.tem.businessobject.ActualExpense;
 import org.kuali.kfs.module.tem.businessobject.PerDiemExpense;
+import org.kuali.kfs.module.tem.businessobject.TemSourceAccountingLine;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationCloseDocument;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
 import org.kuali.kfs.module.tem.document.TravelDocument;
@@ -763,6 +764,51 @@ public class TravelReimbursementAction extends TravelActionBase {
             }
         }
     }
+
+    /**
+     *
+     * @see org.kuali.kfs.module.tem.document.web.struts.TravelActionBase#getAccountingLineAmountToFillIn(org.kuali.kfs.module.tem.document.web.struts.TravelFormBase)
+     */
+    @Override
+    protected KualiDecimal getAccountingLineAmountToFillIn(TravelFormBase travelReqForm) {
+        KualiDecimal amount = new KualiDecimal(0);
+
+        TravelDocument travelDocument = travelReqForm.getTravelDocument();
+        KualiDecimal encTotal = travelDocument.getEncumbranceTotal();
+        KualiDecimal expenseTotal = travelDocument.getExpenseLimit();
+
+        final List<TemSourceAccountingLine> accountingLines = travelDocument.getSourceAccountingLines();
+
+        KualiDecimal accountingTotal = new KualiDecimal(0);
+        for (TemSourceAccountingLine accountingLine : accountingLines) {
+            if (travelDocument.getDefaultCardTypeCode().equals(accountingLine.getCardType())) {
+                accountingTotal = accountingTotal.add(accountingLine.getAmount());
+            }
+        }
+
+        if (ObjectUtils.isNull(expenseTotal)) {
+            if (encTotal.isGreaterThan(KualiDecimal.ZERO)) {
+                amount = encTotal.subtract(accountingTotal);
+            }
+            else {
+                amount = KualiDecimal.ZERO;
+            }
+        }
+        else if (expenseTotal.isLessThan(encTotal)) {
+            amount = expenseTotal.subtract(accountingTotal);
+        }
+        else {
+            if (encTotal.isGreaterThan(KualiDecimal.ZERO)) {
+                amount = encTotal.subtract(accountingTotal);
+            }
+            else {
+                amount = KualiDecimal.ZERO;
+            }
+        }
+
+        return amount;
+    }
+
 
     protected TravelReimbursementService getTravelReimbursementService() {
         return SpringContext.getBean(TravelReimbursementService.class);

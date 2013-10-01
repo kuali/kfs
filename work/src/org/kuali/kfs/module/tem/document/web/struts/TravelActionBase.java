@@ -886,7 +886,7 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
      * @param travelReqForm
      * @return
      */
-    KualiDecimal getAccountingLineAmountToFillIn(TravelFormBase travelReqForm) {
+    protected KualiDecimal getAccountingLineAmountToFillIn(TravelFormBase travelReqForm) {
         KualiDecimal amount = new KualiDecimal(0);
 
         TravelDocument travelDocument = travelReqForm.getTravelDocument();

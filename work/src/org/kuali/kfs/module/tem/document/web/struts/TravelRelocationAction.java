@@ -402,7 +402,7 @@ public class TravelRelocationAction extends TravelActionBase {
      * @see org.kuali.kfs.module.tem.document.web.struts.TravelActionBase#getAccountingLineAmountToFillIn(org.kuali.kfs.module.tem.document.web.struts.TravelFormBase)
      */
     @Override
-    KualiDecimal getAccountingLineAmountToFillIn(TravelFormBase travelReqForm) {
+    protected KualiDecimal getAccountingLineAmountToFillIn(TravelFormBase travelReqForm) {
         KualiDecimal amount = new KualiDecimal(0);
 
         TEMReimbursementDocument travelDocument = (TEMReimbursementDocument)travelReqForm.getTravelDocument();

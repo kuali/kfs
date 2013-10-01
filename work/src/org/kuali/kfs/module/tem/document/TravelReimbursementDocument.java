@@ -30,6 +30,7 @@ import javax.persistence.Transient;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
+import org.kuali.kfs.gl.businessobject.Encumbrance;
 import org.kuali.kfs.gl.service.EncumbranceService;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemConstants.ExpenseType;
@@ -539,12 +540,18 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
     }
 
     /**
+     * Retrieves all encumbrances associated with this trip and adds up their amounts
      * @see org.kuali.kfs.module.tem.document.TravelDocumentBase#getEncumbranceTotal()
      */
     @Transient
     @Override
     public KualiDecimal getEncumbranceTotal() {
-        return getReimbursableTotal();
+        KualiDecimal encTotal = KualiDecimal.ZERO;
+        final List<Encumbrance> encumbrances = getTravelEncumbranceService().getEncumbrancesForTrip(getTravelDocumentIdentifier(), getDocumentNumber());
+        for (Encumbrance enc : encumbrances) {
+            encTotal = encTotal.add(enc.getAccountLineEncumbranceAmount());
+        }
+        return encTotal;
     }
 
     /**

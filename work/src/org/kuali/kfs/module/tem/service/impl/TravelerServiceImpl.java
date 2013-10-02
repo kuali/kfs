@@ -471,7 +471,7 @@ public class TravelerServiceImpl implements TravelerService {
                 Entity kimEntity = identityManagementService.getEntityByPrincipalId(profile.getPrincipalId());
                 profile.setKimEntityInfo(kimEntity);
                 copyKimDataToTEMProfile(profile, profile.getPrincipal(), profile.getKimEntityInfo());
-            } else if (!StringUtils.isBlank(profile.getCustomerNumber())){
+            } else if (ObjectUtils.isNotNull(profile.getCustomer())){
                 copyCustomerToTEMProfile(profile, profile.getCustomer());
             }
         }

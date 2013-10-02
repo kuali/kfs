@@ -199,7 +199,7 @@ public class TemProfileFromCustomerLookupableHelperServiceImpl extends KualiLook
 
         // If an active TEM Profile doesn't exist, display a create link
         if (getTemProfileService().findTemProfile(criteria) == null) {
-            parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.MAINTENANCE_NEWWITHEXISTING_ACTION);
+            parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.MAINTENANCE_NEW_METHOD_TO_CALL);
 
             String href = UrlFactory.parameterizeUrl(KFSConstants.MAINTENANCE_ACTION, parameters);
             AnchorHtmlData anchorHtmlData = new AnchorHtmlData(href, "start", "create new profile");

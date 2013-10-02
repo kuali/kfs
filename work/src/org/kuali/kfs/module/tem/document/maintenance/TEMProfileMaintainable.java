@@ -18,6 +18,7 @@ package org.kuali.kfs.module.tem.document.maintenance;
 import static org.kuali.kfs.module.tem.TemConstants.EMP_TRAVELER_TYP_CD;
 import static org.kuali.kfs.module.tem.TemConstants.NONEMP_TRAVELER_TYP_CD;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -27,6 +28,7 @@ import org.kuali.kfs.integration.ar.AccountsReceivableCustomer;
 import org.kuali.kfs.integration.ar.AccountsReceivableModuleService;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
+import org.kuali.kfs.module.tem.TemPropertyConstants.TEMProfileProperties;
 import org.kuali.kfs.module.tem.TemWorkflowConstants;
 import org.kuali.kfs.module.tem.businessobject.TEMProfile;
 import org.kuali.kfs.module.tem.businessobject.TEMProfileAccount;
@@ -35,13 +37,13 @@ import org.kuali.kfs.module.tem.service.TEMRoleService;
 import org.kuali.kfs.module.tem.service.TemProfileService;
 import org.kuali.kfs.module.tem.service.TravelerService;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemMaintainable;
 import org.kuali.kfs.sys.document.FinancialSystemMaintenanceDocument;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.Person;
-import org.kuali.rice.kim.impl.identity.PersonImpl;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.Maintainable;
 import org.kuali.rice.kns.web.ui.Field;
@@ -68,8 +70,8 @@ public class TEMProfileMaintainable extends FinancialSystemMaintainable {
      * @see org.kuali.rice.kns.maintenance.Maintainable#setupNewFromExisting()
      */
     @Override
-    public void setupNewFromExisting(MaintenanceDocument document, Map<String,String[]> parameters) {
-        super.setupNewFromExisting(document, parameters);
+    public void processAfterNew(MaintenanceDocument document, Map<String,String[]> parameters) {
+        super.processAfterNew(document, parameters);
         TravelerService travelerService = SpringContext.getBean(TravelerService.class);
         SequenceAccessorService sas = SpringContext.getBean(SequenceAccessorService.class);
 
@@ -79,28 +81,32 @@ public class TEMProfileMaintainable extends FinancialSystemMaintainable {
             Integer newProfileId = sas.getNextAvailableSequenceNumber(TemConstants.TEM_PROFILE_SEQ_NAME).intValue();
             temProfile.setProfileId(newProfileId);
         }
-
-        String principalId = ((TEMProfile) super.getBusinessObject()).getPrincipalId();
-        if(StringUtils.isNotBlank(principalId)) {
-            //we want to set the principal
-            PersonImpl person = (PersonImpl)getPersonService().getPerson(principalId);
-            temProfile.setPrincipal(person);
-            if(travelerService.isKimPersonEmployee(person)) {
-                temProfile.setTravelerTypeCode(EMP_TRAVELER_TYP_CD);
-            } else {
-                temProfile.setTravelerTypeCode(NONEMP_TRAVELER_TYP_CD);
+        String principalId = "";
+        if (parameters.containsKey(KFSPropertyConstants.PERSON_USER_IDENTIFIER)) {
+            principalId = parameters.get(KFSPropertyConstants.PERSON_USER_IDENTIFIER)[0];
+            if(StringUtils.isNotBlank(principalId)) {
+                //we want to set the principal
+                Person person = getPersonService().getPerson(principalId);
+                temProfile.setPrincipal(person);
+                if(travelerService.isKimPersonEmployee(person)) {
+                    temProfile.setTravelerTypeCode(EMP_TRAVELER_TYP_CD);
+                } else {
+                    temProfile.setTravelerTypeCode(NONEMP_TRAVELER_TYP_CD);
+                }
             }
         }
-
-        String customerNumber = ((TEMProfile) super.getBusinessObject()).getCustomerNumber();
-        if(StringUtils.isNotBlank(customerNumber)) {
-            //we want to set the customer
-            AccountsReceivableCustomer person = getAccountsReceivableModuleService().findCustomer(customerNumber);
-            temProfile.setCustomer(person);
-            if(travelerService.isCustomerEmployee(person)) {
-                temProfile.setTravelerTypeCode(EMP_TRAVELER_TYP_CD);
-            } else {
-                temProfile.setTravelerTypeCode(NONEMP_TRAVELER_TYP_CD);
+        String customerNumber = "";
+        if (parameters.containsKey(TemPropertyConstants.TEMProfileProperties.CUSTOMER_NUMBER)) {
+            customerNumber = parameters.get(TemPropertyConstants.TEMProfileProperties.CUSTOMER_NUMBER)[0];
+            if(StringUtils.isNotBlank(customerNumber)) {
+                //we want to set the customer
+                AccountsReceivableCustomer person = getAccountsReceivableModuleService().findCustomer(customerNumber);
+                temProfile.setCustomer(person);
+                if(travelerService.isCustomerEmployee(person)) {
+                    temProfile.setTravelerTypeCode(EMP_TRAVELER_TYP_CD);
+                } else {
+                    temProfile.setTravelerTypeCode(NONEMP_TRAVELER_TYP_CD);
+                }
             }
         }
 
@@ -330,30 +336,30 @@ public class TEMProfileMaintainable extends FinancialSystemMaintainable {
         super.processAfterPost(document, parameters);
     }
 
-//    @SuppressWarnings("rawtypes")
-//    @Override
-//    public Map populateBusinessObject(Map<String, String> fieldValues, MaintenanceDocument maintenanceDocument, String methodToCall) {
-//
-//        //populate maintenanceDocument with notes from the BO
-//        List<Note> documentNotes = maintenanceDocument.getNotes();
-//        if (documentNotes == null){
-//            documentNotes = new ArrayList<Note>();
-//        }else{
-//            documentNotes.clear();
-//        }
-//
-//        List<Note> boNotes = new ArrayList<Note>();
-//        if (maintenanceDocument.getOldMaintainableObject().getBusinessObject().getObjectId() != null) {
-//            boNotes = getNoteService().getByRemoteObjectId(this.getBusinessObject().getObjectId());
-//        }
-//        documentNotes.addAll(boNotes);
-//
-//        if(fieldValues.containsKey(TEMProfileProperties.PROFILE_ID)) {
-//        	fieldValues.remove(TEMProfileProperties.PROFILE_ID);
-//        }
-//
-//        return super.populateBusinessObject(fieldValues, maintenanceDocument, methodToCall);
-//    }
+    @SuppressWarnings("rawtypes")
+    @Override
+    public Map populateBusinessObject(Map<String, String> fieldValues, MaintenanceDocument maintenanceDocument, String methodToCall) {
+
+        //populate maintenanceDocument with notes from the BO
+        List<Note> documentNotes = maintenanceDocument.getNotes();
+        if (documentNotes == null){
+            documentNotes = new ArrayList<Note>();
+        }else{
+            documentNotes.clear();
+        }
+
+        List<Note> boNotes = new ArrayList<Note>();
+        if (maintenanceDocument.getOldMaintainableObject().getBusinessObject().getObjectId() != null) {
+            boNotes = getNoteService().getByRemoteObjectId(this.getBusinessObject().getObjectId());
+        }
+        documentNotes.addAll(boNotes);
+
+        if(fieldValues.containsKey(TEMProfileProperties.PROFILE_ID)) {
+        	fieldValues.remove(TEMProfileProperties.PROFILE_ID);
+        }
+
+        return super.populateBusinessObject(fieldValues, maintenanceDocument, methodToCall);
+    }
 
     @Override
     public void prepareForSave() {
@@ -444,4 +450,5 @@ public class TEMProfileMaintainable extends FinancialSystemMaintainable {
     public NoteService getNoteService(){
         return KRADServiceLocator.getNoteService();
     }
+
 }

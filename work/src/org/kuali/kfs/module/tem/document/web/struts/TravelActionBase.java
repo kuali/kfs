@@ -823,7 +823,7 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
                 expense.setPerDiem(perDiem);
                 expense.setPerDiemId(perDiem.getId());
                 expense.setPrimaryDestination(perDiem.getPrimaryDestination().getPrimaryDestinationName());
-                expense.setCountryState(perDiem.getPrimaryDestination().getRegion().getRegionName());
+                expense.setCountryState(perDiem.getPrimaryDestination().getRegion().getRegionCode());
                 expense.setCounty(perDiem.getPrimaryDestination().getCounty());
                 final boolean shouldProrate = document.isOnTripBegin(expense) || document.isOnTripEnd(expense);
                 getTravelDocumentService().setPerDiemMealsAndIncidentals(expense, perDiem, document.getTripType(), document.getTripEnd(), shouldProrate);

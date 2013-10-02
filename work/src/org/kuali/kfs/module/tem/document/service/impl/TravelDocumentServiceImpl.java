@@ -1725,7 +1725,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
             final GroupTraveler traveler = new GroupTraveler();
             traveler.setGroupTravelerEmpId(record.getGroupTravelerEmpId());
             traveler.setName(record.getName());
-            traveler.setTravelerTypeCode(record.getTravelerTypeCode());
+            traveler.setGroupTravelerTypeCode(record.getGroupTravelerTypeCode());
             retval.add(traveler);
         }
 

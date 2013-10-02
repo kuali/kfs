@@ -81,9 +81,6 @@
         <field-descriptor name="groupTravelerEmpId" column="TRVL_EMP_ID" jdbc-type="VARCHAR"/>
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR"/>
         <field-descriptor name="versionNumber" locking="true" column="VER_NBR" jdbc-type="BIGINT"/>
-        <reference-descriptor name="travelerType" class-ref="org.kuali.kfs.module.tem.businessobject.TravelerType" auto-retrieve="false" auto-update="none" auto-delete="none">
-            <foreignkey field-ref="travelerTypeCode"/>
-        </reference-descriptor>
     </class-descriptor>
     
     <class-descriptor class="org.kuali.kfs.module.tem.businessobject.MileageRate" table="TEM_MILEAGE_RATE_T">

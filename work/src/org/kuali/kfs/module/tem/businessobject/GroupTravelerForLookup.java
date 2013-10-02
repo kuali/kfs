@@ -31,6 +31,7 @@ public class GroupTravelerForLookup extends TransientBusinessObjectBase implemen
     private String firstName;
     private String lastName;
     private String employeeId;
+    private TemConstants.GroupTravelerType groupTravelerTypeCode;
 
     private boolean active;
 
@@ -147,17 +148,11 @@ public class GroupTravelerForLookup extends TransientBusinessObjectBase implemen
         this.person = person;
     }
 
-    /**
-     * Determines the traveler type code - if we've got a principal id, we're likely an employee; if we've got a customer number, we've probably got an non employee; and if we don't have either, then who knows?  Only the fox, my friend.  Only the fox knows.
-     * @return the traveler type code for this potential group traveler
-     */
-    public String getTravelerTypeCode() {
-        if (!StringUtils.isBlank(principalId)) {
-            return TemConstants.EMP_TRAVELER_TYP_CD;
-        }
-        if (!StringUtils.isBlank(customerNumber)) {
-            return TemConstants.NONEMP_TRAVELER_TYP_CD;
-        }
-        return null;
+    public TemConstants.GroupTravelerType getGroupTravelerTypeCode() {
+        return this.groupTravelerTypeCode;
+    }
+
+    public void setGroupTravelerTypeCode(TemConstants.GroupTravelerType groupTravelerTypeCode) {
+        this.groupTravelerTypeCode = groupTravelerTypeCode;
     }
 }

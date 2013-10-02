@@ -976,4 +976,42 @@ public class TemConstants {
             return null;
         }
     }
+
+    /**
+     * Enumeration which represents the types of group travelers
+     */
+    public enum GroupTravelerType {
+        EMPLOYEE("EMP"),
+        STUDENT("STU"),
+        VENDOR("VND"),
+        OTHER("OTH");
+
+        private String code;
+
+        GroupTravelerType(String code) {
+            this.code = code;
+        }
+
+        public String getCode() {
+            return this.code;
+        }
+
+        public String getName() {
+            return StringUtils.capitalize(this.toString().toLowerCase());
+        }
+
+        /**
+        * Lookup GroupTravelerType value based on code
+        * @param c the code to look up
+        * @return the GroupTravelerType, or null if the code does not match an existing traveler type
+        */
+       public static GroupTravelerType forCode(String c) {
+           for (GroupTravelerType travelerType : GroupTravelerType.values()) {
+               if (StringUtils.equals(travelerType.getCode(), c)) {
+                   return travelerType;
+               }
+           }
+           return null;
+       }
+    }
 }

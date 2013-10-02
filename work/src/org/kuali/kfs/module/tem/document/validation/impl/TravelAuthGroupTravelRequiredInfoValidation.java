@@ -1,12 +1,12 @@
 /*
  * Copyright 2010 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,6 +15,9 @@
  */
 package org.kuali.kfs.module.tem.document.validation.impl;
 
+import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.integration.ar.AccountsReceivableCustomer;
+import org.kuali.kfs.integration.ar.AccountsReceivableModuleService;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants.TravelAuthorizationFields;
@@ -30,30 +33,37 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 public class TravelAuthGroupTravelRequiredInfoValidation extends GenericValidation {
-    private PersonService personService;
+    protected PersonService personService;
+    protected static volatile AccountsReceivableModuleService arModuleService;
 
     @Override
     public boolean validate(AttributedDocumentEvent event) {
         boolean valid = true;
         GroupTraveler groupTraveler = ((AddGroupTravelLineEvent) event).getGroupTraveler();
 
-        if (ObjectUtils.isNull(groupTraveler.getTravelerTypeCode())) {
+        if (ObjectUtils.isNull(groupTraveler.getGroupTravelerTypeCode())) {
             GlobalVariables.getMessageMap().putError(TravelAuthorizationFields.GROUP_TRVL_TYPE_CODE, KFSKeyConstants.ERROR_REQUIRED, "Traveler Type Code");
             valid = false;
         }
         else {
-            if (groupTraveler.getTravelerTypeCode().equals(TemConstants.EMP_TRAVELER_TYP_CD)) {
-                if (groupTraveler.getGroupTravelerEmpId() == null) {
-                    GlobalVariables.getMessageMap().putError("groupTravelerEmpId", KFSKeyConstants.ERROR_REQUIRED, "Group Traveler Emp Id");
-                    valid = false;
-                }
-                else {
+            if (StringUtils.isBlank(groupTraveler.getGroupTravelerEmpId()) && (groupTraveler.getGroupTravelerTypeCode().equals(TemConstants.GroupTravelerType.EMPLOYEE.getCode()) || groupTraveler.getGroupTravelerTypeCode().equals(TemConstants.GroupTravelerType.STUDENT.getCode()) || groupTraveler.getGroupTravelerTypeCode().equals(TemConstants.GroupTravelerType.VENDOR.getCode()))) {
+                GlobalVariables.getMessageMap().putError("groupTravelerEmpId", KFSKeyConstants.ERROR_REQUIRED, "Group Traveler Emp Id");
+                valid = false;
+            } else {
+                if (groupTraveler.getGroupTravelerTypeCode().equals(TemConstants.GroupTravelerType.EMPLOYEE.getCode()) || groupTraveler.getGroupTravelerTypeCode().equals(TemConstants.GroupTravelerType.STUDENT.getCode())) {
                     Person person = getPersonService().getPerson(groupTraveler.getGroupTravelerEmpId());
                     if (person == null) {
                         GlobalVariables.getMessageMap().putError("groupTravelerEmpId", TemKeyConstants.ERROR_TRVL_GROUP_TRVL_EMP_NOT_FOUND, groupTraveler.getGroupTravelerEmpId());
                         valid = false;
                     }
+                } else if (groupTraveler.getGroupTravelerTypeCode().equals(TemConstants.GroupTravelerType.VENDOR.getCode())) {
+                    final AccountsReceivableCustomer customer = getAccountsReceivableModuleService().findCustomer(groupTraveler.getGroupTravelerEmpId());
+                    if (customer == null) {
+                        GlobalVariables.getMessageMap().putError("groupTravelerEmpId", TemKeyConstants.ERROR_TRVL_GROUP_TRVL_EMP_NOT_FOUND, groupTraveler.getGroupTravelerEmpId());
+                        valid = false;
+                    }
                 }
+                // we don't validate "Other"
             }
         }
 
@@ -76,4 +86,10 @@ public class TravelAuthGroupTravelRequiredInfoValidation extends GenericValidati
         this.personService = personService;
     }
 
+    protected AccountsReceivableModuleService getAccountsReceivableModuleService() {
+        if (arModuleService == null) {
+            arModuleService = SpringContext.getBean(AccountsReceivableModuleService.class);
+        }
+        return arModuleService;
+    }
 }

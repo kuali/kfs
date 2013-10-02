@@ -24,11 +24,13 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomer;
 import org.kuali.kfs.integration.ar.AccountsReceivableModuleService;
+import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.businessobject.GroupTravelerForLookup;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kim.impl.KIMPropertyConstants;
@@ -143,6 +145,13 @@ public class GroupTravelerForLookupLookupableHelperServiceImpl extends KualiLook
         traveler.setLastName(personDetail.getLastNameUnmasked());
         traveler.setEmployeeId(personDetail.getEmployeeId());
         traveler.setName(personDetail.getNameUnmasked());
+        if (personDetail.hasAffiliationOfType(KimConstants.PersonAffiliationTypes.FACULTY_AFFILIATION_TYPE) || personDetail.hasAffiliationOfType(KimConstants.PersonAffiliationTypes.STAFF_AFFILIATION_TYPE)) {
+            traveler.setGroupTravelerTypeCode(TemConstants.GroupTravelerType.EMPLOYEE);
+        } else if (personDetail.hasAffiliationOfType(KimConstants.PersonAffiliationTypes.STUDENT_AFFILIATION_TYPE)) {
+            traveler.setGroupTravelerTypeCode(TemConstants.GroupTravelerType.STUDENT);
+        } else {
+            traveler.setGroupTravelerTypeCode(TemConstants.GroupTravelerType.OTHER);
+        }
         traveler.setActive(personDetail.isActive());
         return traveler;
     }
@@ -206,6 +215,7 @@ public class GroupTravelerForLookupLookupableHelperServiceImpl extends KualiLook
        traveler.setCustomerNumber(customer.getCustomerNumber());
        traveler.setName(customer.getCustomerName());
        traveler.setActive(customer.isActive());
+       traveler.setGroupTravelerTypeCode(TemConstants.GroupTravelerType.VENDOR);
        return traveler;
    }
 

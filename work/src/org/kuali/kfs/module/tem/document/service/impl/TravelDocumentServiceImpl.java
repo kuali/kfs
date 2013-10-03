@@ -2211,7 +2211,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
         List<TravelAdvance> advances = new ArrayList<TravelAdvance>();
         final Collection<TravelAdvance> foundAdvances = getBusinessObjectService().findMatchingOrderBy(TravelAdvance.class, criteria, KFSPropertyConstants.DOCUMENT_NUMBER, true);
         for (TravelAdvance foundAdvance: foundAdvances) {
-            if (foundAdvance.isAtLeastPartiallyFilledIn() && isDocumentApproved(foundAdvance.getDocumentNumber())) {
+            if (foundAdvance.isAtLeastPartiallyFilledIn() && isDocumentApprovedOrExtracted(foundAdvance.getDocumentNumber())) {
                 advances.add(foundAdvance);
             }
         }
@@ -2223,9 +2223,9 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
      * @param documentNumber the document number of the document to check
      * @return true if the document has been approved, false otherwise
      */
-    protected boolean isDocumentApproved(String documentNumber) {
+    protected boolean isDocumentApprovedOrExtracted(String documentNumber) {
         final FinancialSystemDocumentHeader documentHeader = getBusinessObjectService().findBySinglePrimaryKey(FinancialSystemDocumentHeader.class, documentNumber);
-        return KFSConstants.DocumentStatusCodes.APPROVED.equals(documentHeader.getFinancialDocumentStatusCode());
+        return KFSConstants.DocumentStatusCodes.APPROVED.equals(documentHeader.getFinancialDocumentStatusCode()) || KFSConstants.DocumentStatusCodes.Payments.EXTRACTED.equals(documentHeader.getFinancialDocumentStatusCode());
     }
 
     /**

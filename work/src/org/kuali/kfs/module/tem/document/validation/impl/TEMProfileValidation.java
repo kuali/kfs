@@ -41,12 +41,13 @@ import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
-import org.springframework.util.ObjectUtils;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public class TEMProfileValidation extends MaintenanceDocumentRuleBase{
     /**
@@ -63,6 +64,7 @@ public class TEMProfileValidation extends MaintenanceDocumentRuleBase{
         Map<String,Object> fieldValues = new HashMap<String,Object>();
         paths.add("document");
         paths.add("newMaintainableObject");
+
 
         if (!StringUtils.isEmpty(profile.getPhoneNumber())){
             String errorMessage = travelService.validatePhoneNumber(profile.getCountryCode(), profile.getPhoneNumber(), TemKeyConstants.ERROR_PHONE_NUMBER);
@@ -162,7 +164,7 @@ public class TEMProfileValidation extends MaintenanceDocumentRuleBase{
             }
 
             //require an arranger if the profile is non-employee
-            if(StringUtils.isNotEmpty(profile.getTravelerTypeCode()) && profile.getTravelerTypeCode().equalsIgnoreCase(TemConstants.NONEMP_TRAVELER_TYP_CD) && ObjectUtils.isEmpty(profile.getArrangers().toArray())) {
+            if(StringUtils.isNotEmpty(profile.getTravelerTypeCode()) && profile.getTravelerTypeCode().equalsIgnoreCase(TemConstants.NONEMP_TRAVELER_TYP_CD) && profile.getArrangers().size() > 0) {
             	GlobalVariables.getMessageMap().putError(TemPropertyConstants.TEMProfileProperties.ARRANGERS,
                         TemKeyConstants.ERROR_TEM_PROFILE_ARRANGER_NONEMPLOYEE);
                 success = false;
@@ -189,11 +191,37 @@ public class TEMProfileValidation extends MaintenanceDocumentRuleBase{
 
         //set other arranger as primary false if the new arranger is the primary
         if (line instanceof TEMProfileArranger){
+
+            TEMProfile profile = (TEMProfile)document.getNewMaintainableObject().getBusinessObject();
             TEMProfileArranger arranger = (TEMProfileArranger)line;
+
+
+
+            //check that the arranger's org is under the initiator's
+            if (TemConstants.NONEMP_TRAVELER_TYP_CD.equals(profile.getTravelerTypeCode())) {
+                TravelService travelService = SpringContext.getBean(TravelService.class);
+                String initiatorId = document.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId();
+                final Person initiator = SpringContext.getBean(PersonService.class).getPerson(initiatorId);
+
+            }
+
             if (arranger.getPrimary()){
                 for (TEMProfileArranger tempArranger : ((TEMProfile)document.getNewMaintainableObject().getBusinessObject()).getArrangers()){
                     tempArranger.setPrimary(false);
                 }
+
+                if (TemConstants.NONEMP_TRAVELER_TYP_CD.equals(profile.getTravelerTypeCode())) {
+                    String profileChart = profile.getHomeDeptChartOfAccountsCode();
+                    String profileOrg = profile.getHomeDeptOrgCode();
+
+                    final Person arrangerPerson = SpringContext.getBean(PersonService.class).getPerson(arranger.getPrincipalId());
+                    String primaryDeptCode[] = arrangerPerson.getPrimaryDepartmentCode().split("-");
+                    if(primaryDeptCode != null && primaryDeptCode.length == 2){
+                        profile.setHomeDeptChartOfAccountsCode(primaryDeptCode[0]);
+                        profile.setHomeDeptOrgCode(primaryDeptCode[1]);
+                    }
+                }
+
             }
         }
         // check for CreditCardAgency accounts
@@ -221,6 +249,19 @@ public class TEMProfileValidation extends MaintenanceDocumentRuleBase{
         }
 
         return super.processCustomAddCollectionLineBusinessRules(document, collectionName, line);
+    }
+
+    @Override
+    protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
+        boolean success = true;
+        TEMProfile profile = (TEMProfile) document.getNewMaintainableObject().getBusinessObject();
+        if (ObjectUtils.isNotNull(profile.getHomeDeptOrg())){
+            if (!profile.getHomeDeptOrg().isActive()) {
+                putFieldError(TEMProfileProperties.HOME_DEPARTMENT, TemKeyConstants.ERROR_TEM_PROFILE_ORGANIZATION_INACTIVE, profile.getHomeDeptChartOfAccountsCode()+"-"+profile.getHomeDeptOrgCode());
+                success = false;
+            }
+        }
+        return success;
     }
 
     protected BusinessObjectService getBusinessObjectService() {

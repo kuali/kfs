@@ -55,6 +55,7 @@ import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBaseConstants.GENERAL_LEDGER_PENDING_ENTRY_CODE;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
@@ -190,8 +191,7 @@ public class TravelEncumbranceServiceImpl implements TravelEncumbranceService {
 
         entry.setTransactionEncumbranceUpdateCode(KFSConstants.ENCUMB_UPDT_REFERENCE_DOCUMENT_CD);
         entry.setFinancialBalanceTypeCode(balanceType);
-        String statusCode = document.getFinancialSystemDocumentHeader().getFinancialDocumentStatusCode();
-        entry.setFinancialDocumentApprovedCode(statusCode);
+        entry.setFinancialDocumentApprovedCode(GENERAL_LEDGER_PENDING_ENTRY_CODE.NO);
         entry.setReferenceFinancialDocumentTypeCode(encumbrance.getDocumentTypeCode());
         entry.setReferenceFinancialSystemOriginationCode(encumbrance.getOriginCode());
     }

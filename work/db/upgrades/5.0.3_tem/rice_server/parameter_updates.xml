@@ -354,7 +354,7 @@
 			<column name="OBJ_ID" value="KFS-TEM-PARM-030"/>
 			<column name="PARM_TYP_CD" value="CONFG"/>
 			<column name="VAL" value="T"/>
-			<column name="PARM_DESC_TXT" value="The documentation location code used by payments on the Travel Authorization, Travel Authorization Amendment, Travel Reimbursement, Entertainment, and Moving & Relocation documents.  If a document specific parameter with the same name is created (for example, KFS-TEM / TravelAuthorization / DOCUMENTATION_LOCATION_CODE), the documentation location code for Travel Authorization documents will default to that instead."/>
+			<column name="PARM_DESC_TXT" value="The documentation location code used by payments on the Travel Authorization, Travel Authorization Amendment, Travel Reimbursement, Entertainment, and Moving &amp; Relocation documents.  If a document specific parameter with the same name is created (for example, KFS-TEM / TravelAuthorization / DOCUMENTATION_LOCATION_CODE), the documentation location code for Travel Authorization documents will default to that instead."/>
 			<column name="EVAL_OPRTR_CD" value="A"/>
 			<column name="APPL_ID" value="KFS"/>
 		</insert>

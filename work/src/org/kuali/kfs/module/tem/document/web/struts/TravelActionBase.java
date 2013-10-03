@@ -144,7 +144,6 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
     public static Logger LOG = Logger.getLogger(TravelActionBase.class);
 
     protected static final String[] methodToCallExclusionArray = { "recalculate", "calculate", "recalculateTripDetailTotal", "save", "route", "approve", "blanketApprove", "updatePerDiemExpenses" };
-    public static final String[] GROUP_TRAVELER_ATTRIBUTE_NAMES = { "travelerTypeCode", "groupTravelerEmpId", "name" };
 
     protected volatile static PerDiemService perDiemService;
 

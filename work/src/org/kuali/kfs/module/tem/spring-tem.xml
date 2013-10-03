@@ -510,6 +510,13 @@
 			</list>
 		</property>
     	<property name="csvRecordFactory" ref="groupTravelerCsvRecordFactory" />
+    	<property name="groupTravelerColumns">
+    		<list>
+    			<value>groupTravelerType</value>
+    			<value>groupTravelerEmpId</value>
+    			<value>name</value>
+    		</list>
+    	</property>
     	<property name="perDiemService" ref="perDiemService"/>
 	</bean>
   
@@ -1392,8 +1399,8 @@
       </constructor-arg>
       <property name="headerMap">
         <map>
-            <entry key="travelerTypeCode"    value="travelerTypeCode" />
-            <entry key="groupTravelerEmplId" value="groupTravelerEmplId" />
+            <entry key="groupTravelerType"    value="groupTravelerType" />
+            <entry key="groupTravelerEmpId" value="groupTravelerEmpId" />
             <entry key="name"                value="name" />
         </map>
       </property>

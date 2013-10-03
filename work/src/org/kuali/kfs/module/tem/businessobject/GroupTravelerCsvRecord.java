@@ -21,7 +21,7 @@ package org.kuali.kfs.module.tem.businessobject;
  *
  */
 public interface GroupTravelerCsvRecord  {
-    String getGroupTravelerTypeCode();
+    String getGroupTravelerType();
 
     String getName();
 

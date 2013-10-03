@@ -27,6 +27,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import org.kuali.kfs.integration.ar.AccountsReceivableModuleService;
+import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemParameterConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -104,6 +105,20 @@ public class GroupTraveler extends PersistableBusinessObjectBase {
 
     public void setGroupTravelerTypeCode(String groupTravelerTypeCode) {
         this.groupTravelerTypeCode = groupTravelerTypeCode;
+    }
+
+    /**
+     * Sets the group traveler type code, based on the name passed in (which can be any case, but which should be one of the standard
+     * GroupTravelerType values (ie, "Student")
+     * @see org.kuali.kfs.module.tem.TemConstants.GroupTravelerType
+     * @param groupTravelerType the traveler type name
+     */
+    public void setGroupTravelerType(String groupTravelerType) {
+        for (TemConstants.GroupTravelerType travelerType : TemConstants.GroupTravelerType.values()) {
+            if (travelerType.toString().equalsIgnoreCase(groupTravelerType)) {
+                this.groupTravelerTypeCode = travelerType.getCode();
+            }
+        }
     }
 
     @Column(name="name",length=100, nullable=false)

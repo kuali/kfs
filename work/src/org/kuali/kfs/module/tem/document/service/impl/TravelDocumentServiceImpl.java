@@ -156,23 +156,24 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
 
     protected static Logger LOG = Logger.getLogger(TravelDocumentServiceImpl.class);
 
-    private DataDictionaryService dataDictionaryService;
-    private DocumentService documentService;
-    private BusinessObjectService businessObjectService;
-    private TravelDocumentDao travelDocumentDao;
-    private TravelAuthorizationService travelAuthorizationService;
-    private DateTimeService dateTimeService;
-    private ParameterService parameterService;
-    private TravelerService travelerService;
-    private AccountingDocumentRelationshipService accountingDocumentRelationshipService;
-    private TEMRoleService temRoleService;
-    private WorkflowDocumentService workflowDocumentService;
-    private KualiRuleService kualiRuleService;
-    private StateService stateService;
-    private PersistenceStructureService persistenceStructureService;
-    private UniversityDateService universityDateService;
-    private List<String> defaultAcceptableFileExtensions;
-    private CsvRecordFactory<GroupTravelerCsvRecord> csvRecordFactory;
+    protected DataDictionaryService dataDictionaryService;
+    protected DocumentService documentService;
+    protected BusinessObjectService businessObjectService;
+    protected TravelDocumentDao travelDocumentDao;
+    protected TravelAuthorizationService travelAuthorizationService;
+    protected DateTimeService dateTimeService;
+    protected ParameterService parameterService;
+    protected TravelerService travelerService;
+    protected AccountingDocumentRelationshipService accountingDocumentRelationshipService;
+    protected TEMRoleService temRoleService;
+    protected WorkflowDocumentService workflowDocumentService;
+    protected KualiRuleService kualiRuleService;
+    protected StateService stateService;
+    protected PersistenceStructureService persistenceStructureService;
+    protected UniversityDateService universityDateService;
+    protected List<String> defaultAcceptableFileExtensions;
+    protected CsvRecordFactory<GroupTravelerCsvRecord> csvRecordFactory;
+    protected List<String> groupTravelerColumns;
     protected volatile AccountsReceivableModuleService accountsReceivableModuleService;
     protected PerDiemService perDiemService;
 
@@ -1718,14 +1719,14 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
             catch (Exception e) {}
         }
 
-        final Map<String,List<Integer>> header = parseHeader(rows.remove(0));
+        final Map<String,List<Integer>> header = getGroupTravelerHeaders();
 
         for (final String[] row : rows) {
             final GroupTravelerCsvRecord record = createGroupTravelerCsvRecord(header, row);
             final GroupTraveler traveler = new GroupTraveler();
             traveler.setGroupTravelerEmpId(record.getGroupTravelerEmpId());
             traveler.setName(record.getName());
-            traveler.setGroupTravelerTypeCode(record.getGroupTravelerTypeCode());
+            traveler.setGroupTravelerType(record.getGroupTravelerType());
             retval.add(traveler);
         }
 
@@ -1734,6 +1735,25 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
 
     protected GroupTravelerCsvRecord createGroupTravelerCsvRecord(final Map<String, List<Integer>> header, final String[] record) throws Exception {
         return getCsvRecordFactory().newInstance(header, record);
+    }
+
+    /**
+     * Turns the injected List of groupTravelerHeaders into a Map where the key is the name and the value is a single element array holding the position of the column (which is assumed to be in the order the columns were injected)
+     * @return a Map of columns and positions
+     */
+    protected Map<String,List<Integer>> getGroupTravelerHeaders() {
+        Map<String, List<Integer>> headers = new HashMap<String, List<Integer>>();
+        if (getGroupTravelerColumns() != null && !getGroupTravelerColumns().isEmpty()) {
+            int count = 0;
+            while (count < getGroupTravelerColumns().size()) {
+                List<Integer> countArray = new ArrayList<Integer>(2);
+                countArray.add(new Integer(count));
+                final String columnName = getGroupTravelerColumns().get(count);
+                headers.put(columnName, countArray);
+                count += 1;
+            }
+        }
+        return headers;
     }
 
     /**
@@ -2433,4 +2453,11 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
         this.perDiemService = perDiemService;
     }
 
+    public List<String> getGroupTravelerColumns() {
+        return groupTravelerColumns;
+    }
+
+    public void setGroupTravelerColumns(List<String> groupTravelerColumns) {
+        this.groupTravelerColumns = groupTravelerColumns;
+    }
 }

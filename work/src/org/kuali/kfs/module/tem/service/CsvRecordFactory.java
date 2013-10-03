@@ -1,12 +1,12 @@
 /*
  * Copyright 2012 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -38,20 +38,20 @@ import org.kuali.rice.core.api.util.type.KualiDecimal;
  * @see org.kuali.kfs.module.tem.businessobject.GroupTravelerCsvRecord;
  */
 public class CsvRecordFactory<RecordType>  {
-    
+
     public static Logger LOG = Logger.getLogger(CsvRecordFactory.class);
-    
+
     final Class<RecordType> recordType;
     private Map<String,String> headerMap;
 
     public CsvRecordFactory(final Class<RecordType> recordType) {
         this.recordType = recordType;
     }
-    
+
     public void setHeaderMap(final Map<String, String> headerMap) {
         this.headerMap = headerMap;
     }
-    
+
     public Map<String, String> getHeaderMap() {
         return this.headerMap;
     }
@@ -59,7 +59,7 @@ public class CsvRecordFactory<RecordType>  {
     public class CsvRecordInvocationHandler implements InvocationHandler {
         protected Map<String, List<Integer>> header;
         protected String[] line;
-        
+
         public CsvRecordInvocationHandler(final Map<String, List<Integer>> header, final String[] record) {
             setHeader(header);
             setRecord(record);
@@ -79,7 +79,7 @@ public class CsvRecordFactory<RecordType>  {
                     return property;
                 }
             }
-            
+
             return null;
         }
 
@@ -90,7 +90,7 @@ public class CsvRecordFactory<RecordType>  {
             }
             for (final Map.Entry<String,String> entry : headerMap.entrySet()) {
                 LOG.debug("Checking " + entry.getValue());
-                if (property.getName().equals(entry.getValue())) {
+                if (property.getName().equalsIgnoreCase(entry.getValue())) {
                     if (header.containsKey(entry.getKey())) {
                         return entry.getKey();
                     }
@@ -99,22 +99,23 @@ public class CsvRecordFactory<RecordType>  {
             return null;
         }
 
+        @Override
         public Object invoke(Object proxy, Method method, Object[] args) {
             Object retval = null;
-            
+
             final PropertyDescriptor[] properties = PropertyUtils.getPropertyDescriptors(recordType);
             final PropertyDescriptor property = propertyFor(properties, method);
             final String headerField = headerFor(property);
-            
+
             final List<Integer> columns = header.get(headerField);
             StringBuffer value = new StringBuffer();
-            
+
             if (columns != null) {
                 for (final Integer column : columns) {
                     value.append(line[column]).append(" ");
                 }
             }
-                
+
             if (KualiDecimal.class.equals(method.getReturnType())) {
                 if (value == null || isBlank(value.toString())) {
                     return KualiDecimal.ZERO;
@@ -128,7 +129,7 @@ public class CsvRecordFactory<RecordType>  {
                 retval = convertToBigDecimal(value.toString().trim());
             }
             else if (Boolean.class.equals(method.getReturnType())
-                     || boolean.class.equals(method.getReturnType())) {                
+                     || boolean.class.equals(method.getReturnType())) {
                 retval = new Boolean(value.toString().trim());
                 LOG.debug(headerField + " is " + retval);
             }
@@ -155,10 +156,10 @@ public class CsvRecordFactory<RecordType>  {
             return new BigDecimal(replace(replace(toConvert, "$", ""), ",", ""));
         }
     }
-    
+
     public RecordType newInstance(final Map<String, List<Integer>> header, final String[] record) throws Exception {
-        return (RecordType) Proxy.newProxyInstance(recordType.getClassLoader(), 
-                                                   new Class[] { recordType }, 
+        return (RecordType) Proxy.newProxyInstance(recordType.getClassLoader(),
+                                                   new Class[] { recordType },
                                                    new CsvRecordInvocationHandler(header, record));
     }
 }

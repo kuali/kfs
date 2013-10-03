@@ -127,12 +127,12 @@
 			<column name="DOBJ_MAINT_CD_ACTV_IND" value="Y" />
 			<column name="OBJ_ID" value="SYS_GUID()" />
 		</insert>
-		    <modifySql dbms="mysql">
-      <replace replace="SYS_GUID()" with="uuid()" />
-    </modifySql>
 		<delete tableName="CG_SRC_OF_FNDS_T">
 			<where>SRC_OF_FNDS_CD='RF'</where>
 		</delete>
+		<modifySql dbms="mysql">
+			<replace replace="SYS_GUID()" with="uuid()" />
+		</modifySql>
 	</changeSet>
 
 	<!-- Special Payment medium option for CG LOC -->
@@ -144,9 +144,9 @@
 			<column name="CUST_PMT_MEDM_DESC" value="LOC Wire" />
 			<column name="ROW_ACTV_IND" value="Y" />
 		</insert>
-		    <modifySql dbms="mysql">
-      <replace replace="SYS_GUID()" with="uuid()" />
-    </modifySql>
+		<modifySql dbms="mysql">
+			<replace replace="SYS_GUID()" with="uuid()" />
+		</modifySql>
 	</changeSet>
 
 	<!-- Loading data into the table -->
@@ -162,9 +162,9 @@
 			<column name="BILL_FREQ_DESC" value="Billing" />
 			<column name="DOBJ_MAINT_CD_ACTV_IND" value="Y" />
 		</insert>
-		    <modifySql dbms="mysql">
-      <replace replace="SYS_GUID()" with="uuid()" />
-    </modifySql>
+		<modifySql dbms="mysql">
+			<replace replace="SYS_GUID()" with="uuid()" />
+		</modifySql>
 	</changeSet>
 
 	<!-- Inset a new billing frequency for LOC Review process -->
@@ -178,13 +178,13 @@
 			<column name="DOBJ_MAINT_CD_ACTV_IND" value="Y" />
 			<column name="GRACE_PERIOD" value="0" />
 		</insert>
-		    <modifySql dbms="mysql">
-      <replace replace="SYS_GUID()" with="uuid()" />
-    </modifySql>
+		<modifySql dbms="mysql">
+			<replace replace="SYS_GUID()" with="uuid()" />
+		</modifySql>
 	</changeSet>
 
 	<changeSet author="KFSCGB" id="CG_UPDT_FIELDS">
-		<!--  -->
+		<!-- -->
 		<delete tableName="CG_BILL_FREQ_T">
 			<where>BILL_FREQ_CD='ATSTART'</where>
 		</delete>
@@ -204,8 +204,8 @@
 			</where>
 		</update>
 	</changeSet>
-	
-	
+
+
 	<changeSet author="KFSCGB" id="CG_AGENCY_TYP_T_ADD_DEFAULT">
 		<insert tableName="CG_AGENCY_TYP_T">
 			<column name="CG_AGENCY_TYP_CD" value="X" />
@@ -214,9 +214,9 @@
 			<column name="CG_AGENCY_TYP_DESC" value="Default Type From Ext System" />
 			<column name="ROW_ACTV_IND" value="Y" />
 		</insert>
-		    <modifySql dbms="mysql">
-      <replace replace="SYS_GUID()" with="uuid()" />
-    </modifySql>
+		<modifySql dbms="mysql">
+			<replace replace="SYS_GUID()" with="uuid()" />
+		</modifySql>
 	</changeSet>
-	
+
 </databaseChangeLog>

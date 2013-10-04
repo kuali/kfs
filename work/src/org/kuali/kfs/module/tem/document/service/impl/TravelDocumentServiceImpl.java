@@ -122,6 +122,8 @@ import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.kim.api.identity.principal.Principal;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kns.document.authorization.DocumentAuthorizer;
 import org.kuali.rice.kns.service.DocumentHelperService;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
@@ -2148,6 +2150,8 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
 
                 try {
                     Note cancelNote = getDocumentService().createNoteFromDocument(taDoc, "Amemdment Canceled");
+                    Principal systemUser = KimApiServiceLocator.getIdentityService().getPrincipalByPrincipalName(KFSConstants.SYSTEM_USER);
+                    cancelNote.setAuthorUniversalIdentifier(systemUser.getPrincipalId());
                     taDoc.addNote(cancelNote);
                     getDocumentService().saveDocument(taDoc);
                 }

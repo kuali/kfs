@@ -146,6 +146,7 @@ public class TemKeyConstants {
     public static final String ERROR_TEM_PROFILE_ACCOUNT_NOT_EXIST = "error.tem.profile.accountNumberMustExist";
     public static final String ERROR_TEM_PROFILE_SUB_ACCOUNT_NOT_EXIST = "error.tem.profile.subAccountNumberMustExist";
     public static final String ERROR_TEM_PROFILE_PROJECT_CODE_NOT_EXIST = "error.tem.profile.projectCodeMustExist";
+    public static final String ERROR_TEM_PROFILE_NONEMPLOYEE_MUST_HAVE_ACTIVE_ARRANGER = "error.tem.profile.nonEmployee.mustHaveActiveArranger";
 
     public static final String ERROR_TEM_PROFILE_ORGANIZATION_INACTIVE = "error.tem.profile.organization.inactive";
 
@@ -155,7 +156,6 @@ public class TemKeyConstants {
     public static final String ERROR_TEM_PROFILE_ARRANGER_PRIMARY ="error.tem.profile.arranger.primary";
     public static final String ERROR_TEM_PROFILE_ARRANGER_DUPLICATE ="error.tem.profile.arranger.duplicate";
     public static final String ERROR_TEM_PROFILE_ACCOUNT_ID_DUPLICATE ="error.tem.profile.accountId.duplicate";
-    public static final String ERROR_TEM_PROFILE_ARRANGER_NONEMPLOYEE ="error.tem.profile.arranger.nonemployee";
 
     public static final String ERROR_TA_FISCAL_OFFICER_ACCOUNT = "error.document.fiscalofficer.account";
     public static final String ERROR_EXPENSE_DATE_BEFORE_AFTER = "error.document.tem.expenseDateBeforeAfter";

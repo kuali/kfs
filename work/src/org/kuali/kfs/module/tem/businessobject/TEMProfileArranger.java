@@ -130,7 +130,7 @@ public class TEMProfileArranger extends PersistableBusinessObjectBase {
      * @return Returns the active.
      */
     @Column(name="ACTV_IND",nullable=false,length=1)
-    public boolean getActive() {
+    public boolean isActive() {
         return active;
     }
 

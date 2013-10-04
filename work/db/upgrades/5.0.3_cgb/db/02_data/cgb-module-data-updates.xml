@@ -12,12 +12,12 @@
 			<column name="ACTV_IND" value="Y" />
 			<column name="OBJ_ID" value="SYS_GUID()" />
 		</insert>
-		<insert tableName="CG_INV_TYP_T">
+<!-- 		<insert tableName="CG_INV_TYP_T">
 			<column name="INV_TYP_CD" value="STD" />
 			<column name="INV_TYP_DESC" value="Standard" />
 			<column name="ACTV_IND" value="Y" />
 			<column name="OBJ_ID" value="SYS_GUID()" />
-		</insert>
+		</insert> -->
 		<delete tableName="CG_BILL_FREQ_T">
 			<where>BILL_FREQ_CD='BILL'</where>
 		</delete>

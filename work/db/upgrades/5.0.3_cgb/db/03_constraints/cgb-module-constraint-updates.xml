@@ -72,9 +72,9 @@
 		<addForeignKeyConstraint constraintName="AR_INV_DTL_ACCT_OBJ_CD_R1"
 			referencedTableName="CG_AWD_T" baseColumnNames="PRPSL_NBR"
 			baseTableName="AR_INV_DTL_ACCT_OBJ_CD_T" referencedColumnNames="CGPRPSL_NBR" />
-		<addForeignKeyConstraint constraintName="AR_AWDACCT_OBJCD_TL_BLD_R1"
+		<!-- <addForeignKeyConstraint constraintName="AR_AWDACCT_OBJCD_TL_BLD_R1"
 			referencedTableName="CG_AWD_T" baseColumnNames="PRPSL_NBR"
-			baseTableName="AR_AWDACCT_OBJCD_TL_BLD_T" referencedColumnNames="CGPRPSL_NBR" />
+			baseTableName="AR_AWDACCT_OBJCD_TL_BLD_T" referencedColumnNames="CGPRPSL_NBR" /> -->
 		<addForeignKeyConstraint constraintName="CG_AWD_INV_ACCT_R7"
 			referencedTableName="CA_PROJECT_T" baseColumnNames="PROJECT_CD"
 			baseTableName="CG_AWD_INV_ACCT_T" referencedColumnNames="PROJECT_CD" />
@@ -85,7 +85,7 @@
 
 	<!-- To modify foreign key constraints from Invoice Detail, Invoice Account 
 		Detail and Invoice Agency Address Detail to Customer Invoice Table -->
-	<changeSet author="kfs" id="AR_CG_INV_DTL_T_DROP_FK">
+	<changeSet author="kfs" id="AR_CG_INV_DTL_T_DROP_FK">	
 		
 		<addForeignKeyConstraint constraintName="AR_CG_INV_DTL_FK1"
 			referencedTableName="AR_INV_DOC_T" baseColumnNames="FDOC_NBR"

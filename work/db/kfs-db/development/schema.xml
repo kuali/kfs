@@ -15832,7 +15832,7 @@
         </unique>
     </table>
     <table name="TEM_TRVL_ADV_T">
-        <column name="FDOC_NBR" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="FDOC_NBR" primaryKey="true" size="14" type="VARCHAR"/>
         <column name="TRVL_ID" size="19" type="VARCHAR"/>
         <column default="0" name="TVL_ADV_REQ" scale="2" size="19" type="DECIMAL"/>
         <column name="AR_CUST_ID" size="255" type="VARCHAR"/>

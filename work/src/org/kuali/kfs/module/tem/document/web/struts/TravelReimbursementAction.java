@@ -20,7 +20,6 @@ import static org.apache.commons.lang.StringUtils.substringBetween;
 import static org.kuali.kfs.module.tem.TemConstants.CERTIFICATION_STATEMENT_ATTRIBUTE;
 import static org.kuali.kfs.module.tem.TemConstants.COVERSHEET_FILENAME_FORMAT;
 import static org.kuali.kfs.module.tem.TemConstants.EMPLOYEE_TEST_ATTRIBUTE;
-import static org.kuali.kfs.module.tem.TemConstants.FOREIGN_CURRENCY_URL_ATTRIBUTE;
 import static org.kuali.kfs.module.tem.TemConstants.REMAINING_DISTRIBUTION_ATTRIBUTE;
 import static org.kuali.kfs.module.tem.TemConstants.SHOW_ACCOUNT_DISTRIBUTION_ATTRIBUTE;
 import static org.kuali.kfs.module.tem.TemConstants.SHOW_ADVANCES_ATTRIBUTE;
@@ -29,7 +28,6 @@ import static org.kuali.kfs.module.tem.TemConstants.SHOW_REPORTS_ATTRIBUTE;
 import static org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters.DISPLAY_ACCOUNTING_DISTRIBUTION_TAB_IND;
 import static org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters.DISPLAY_ADVANCES_IN_REIMBURSEMENT_TOTAL_IND;
 import static org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters.DISPLAY_ENCUMBRANCE_IND;
-import static org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters.FOREIGN_CURRENCY_URL;
 import static org.kuali.kfs.sys.KFSConstants.ReportGeneration.PDF_FILE_EXTENSION;
 import static org.kuali.kfs.sys.KFSConstants.ReportGeneration.PDF_MIME_TYPE;
 import static org.kuali.kfs.sys.KFSPropertyConstants.DOCUMENT_NUMBER;
@@ -538,9 +536,6 @@ public class TravelReimbursementAction extends TravelActionBase {
                 request.setAttribute(REMAINING_DISTRIBUTION_ATTRIBUTE, totalRemaining);
             }
         }
-
-        final String currencyUrl = getParameterService().getParameterValueAsString(TravelReimbursementDocument.class, FOREIGN_CURRENCY_URL);
-        request.setAttribute(FOREIGN_CURRENCY_URL_ATTRIBUTE, currencyUrl);
 
         showAccountDistribution(request, document);
 

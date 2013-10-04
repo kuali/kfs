@@ -30,6 +30,7 @@ import static org.kuali.kfs.module.tem.TemConstants.TravelParameters.EMPLOYEE_CE
 import static org.kuali.kfs.module.tem.TemConstants.TravelParameters.NON_EMPLOYEE_CERTIFICATION_STATEMENT;
 import static org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters.DISPLAY_ACCOUNTING_DISTRIBUTION_TAB_IND;
 import static org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters.DISPLAY_ADVANCES_IN_REIMBURSEMENT_TOTAL_IND;
+import static org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters.FOREIGN_CURRENCY_URL;
 import static org.kuali.kfs.module.tem.TemPropertyConstants.TRIP_INFO_UPDATE_TRIP_DTL;
 
 import java.io.ByteArrayOutputStream;
@@ -317,6 +318,7 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
         }
 
         ExpenseUtils.calculateMileage(document.getActualExpenses());
+        populateForeignCurrencyUrl(travelFormBase);
 
         final ActionForward retval = super.execute(mapping, form, request, response);
         request.setAttribute(CERTIFICATION_STATEMENT_ATTRIBUTE, getCertificationStatement(document));
@@ -1560,6 +1562,15 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
         }
 
         form.setCanCalculate(can);
+    }
+
+    /**
+     * Lookups the url for the currency url link on expense lines
+     * @param form the form this action is acting on
+     */
+    protected void populateForeignCurrencyUrl(TravelFormBase form) {
+        final String currencyUrl = getParameterService().getParameterValueAsString(TemParameterConstants.TEM_DOCUMENT.class, FOREIGN_CURRENCY_URL);
+        form.setForeignCurrencyUrl(currencyUrl);
     }
 
 }

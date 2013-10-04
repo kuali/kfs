@@ -47,7 +47,6 @@ public class TemConstants {
     public static final String ENABLE_PRIMARY_DESTINATION_ATTRIBUTE = "enablePrimaryDestination";
     public static final String ENABLE_PER_DIEM_LOOKUP_LINKS_ATTRIBUTE = "enablePerDiemLookupLinks";
     public static final String REMAINING_DISTRIBUTION_ATTRIBUTE = "remainingDistribution";
-    public static final String FOREIGN_CURRENCY_URL_ATTRIBUTE = "currencyUrl";
     public static final String DISPLAY_EMERGENCY_CONTACT_TAB = "displayEmergencyContactTab";
     public static final String AR_INVOICE_DOC_TYPE_NAME = "INV";
     public static final String COVERSHEET_FILENAME_FORMAT = "%s_cover_sheet.pdf";
@@ -241,7 +240,7 @@ public class TemConstants {
     }
 
     public static class TravelReimbursementParameters {
-        public static final String FOREIGN_CURRENCY_URL = "FOREIGN_CURRENCY_CONVERSION_URL";
+        public static final String FOREIGN_CURRENCY_URL = "FOREIGN_CURRENCY_URL";
         public static final String DISPLAY_ENCUMBRANCE_IND = "DISPLAY_ENCUMBRANCE_IND";
         public static final String DISPLAY_ADVANCES_IN_REIMBURSEMENT_TOTAL_IND = "DISPLAY_ADVANCES_IN_REIMBURSEMENT_TOTAL_IND";
         public static final String TRAVEL_PAYMENT_MEDIUM = "TRAVEL_PAYMENT_MEDIUM_TYPE_CODE";

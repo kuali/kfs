@@ -91,7 +91,7 @@
 						readOnly="${lineNumber != null || !fullEntryMode || !empty detailObject.expenseDetails || detailObject.expenseTypeObjectCode.expenseType.expenseDetailRequired}" />
 					<br/>
 					<c:if test="${lineNumber == null}" >
-						<a href="${currencyUrl}">Rate Conversion Site</a>
+						<a href="${KualiForm.foreignCurrencyUrl}" target="currency_conversion_window">Rate Conversion Site</a>
 					</c:if>
 	            </div>
             </td>

@@ -238,6 +238,7 @@ public class TemKeyConstants {
 
     public static final String ERROR_TEM_DISTRIBUTION_ACCOUNTING_LINES_TOTAL="error.tem.distribution.accountingline.total";
     public static final String ERROR_TEM_DISTRIBUTION_ACCOUNTING_LINES_AMOUNT_OR_PERCENT="error.tem.distribution.accountingline.amount.or.percent";
+    public static final String ERROR_TEM_DISTRIBUTION_TOO_MANY_DISTRIBUTION_TARGETS_WITH_EXPENSE_LIMIT = "error.tem.distribution.tooManyTargets";
     public static final String ERROR_TEM_ACCOUNTING_LINES_OBJECT_CODE_CARD_TYPE="error.tem.accountingline.objectcode";
     public static final String ERROR_TEM_ACCOUNTING_LINES_OBJECT_CODE_CARD_TYPE_TOTAL="error.tem.accountingline.objectcode.total";
 

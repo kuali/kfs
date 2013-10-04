@@ -70,14 +70,20 @@ public class AccountingDistributionServiceImpl implements AccountingDistribution
 
     @SuppressWarnings("deprecation")
     @Override
-    public List<TemSourceAccountingLine> distributionToSouceAccountingLines(List<TemDistributionAccountingLine> distributionAccountingLines, List<AccountingDistribution> accountingDistributionList){
+    public List<TemSourceAccountingLine> distributionToSouceAccountingLines(List<TemDistributionAccountingLine> distributionAccountingLines, List<AccountingDistribution> accountingDistributionList, KualiDecimal expenseLimit){
         List<TemSourceAccountingLine> sourceAccountingList = new ArrayList<TemSourceAccountingLine>();
         Map<String, AccountingDistribution> distributionMap = new HashMap<String, AccountingDistribution>();
         KualiDecimal total = KualiDecimal.ZERO;
+        int distributionTargetCount = 0;
         for (AccountingDistribution accountDistribution: accountingDistributionList){
             if (accountDistribution.getSelected()){
                 total = total.add(accountDistribution.getRemainingAmount());
+                distributionTargetCount += 1;
             }
+        }
+
+        if (expenseLimit != null && expenseLimit.isGreaterThan(KualiDecimal.ZERO)) {
+            total = new KualiDecimal(expenseLimit.bigDecimalValue());
         }
 
         for (AccountingDistribution accountingDistribution : accountingDistributionList){

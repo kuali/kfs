@@ -23,6 +23,7 @@ import java.util.Map;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
+import org.kuali.kfs.module.tem.businessobject.AccountingDistribution;
 import org.kuali.kfs.module.tem.businessobject.TemDistributionAccountingLine;
 import org.kuali.kfs.module.tem.document.validation.event.AddDistributionAccountingLineValidationEvent;
 import org.kuali.kfs.module.tem.document.validation.event.AssignDistributionAccountingLinesEvent;
@@ -118,12 +119,25 @@ public class TravelDocumentDistributionAccountingLinesValidation extends Generic
             AssignDistributionAccountingLinesEvent distributionEvent = (AssignDistributionAccountingLinesEvent) event;
             TravelMvcWrapperBean wrapper = distributionEvent.getTravelForm();
 
-
             if (!getAccountingDistributionService().getTotalAmount(wrapper.getAccountDistributionsourceAccountingLines()).equals(wrapper.getDistributionRemainingAmount(true))
                     || !getAccountingDistributionService().getTotalPercent(wrapper.getAccountDistributionsourceAccountingLines()).equals(new BigDecimal(100))){
                 GlobalVariables.getMessageMap().putError(TemPropertyConstants.ACCOUNT_DISTRIBUTION_SRC_LINES + "[0]." + TemPropertyConstants.ACCOUNT_LINE_PERCENT,
                         TemKeyConstants.ERROR_TEM_DISTRIBUTION_ACCOUNTING_LINES_TOTAL, wrapper.getDistributionRemainingAmount(true).toString());
                 success = false;
+            }
+
+            if (wrapper.getDistribution() != null && !wrapper.getDistribution().isEmpty() && wrapper.getTravelDocument().getExpenseLimit() != null && wrapper.getTravelDocument().getExpenseLimit().isGreaterThan(KualiDecimal.ZERO)) {
+                // we have an expense limit...do we have more than one selected distribution targets
+                int distributionTargetCount = 0;
+                for (AccountingDistribution distribution : wrapper.getDistribution()) {
+                    if (distribution.getSelected()) {
+                        distributionTargetCount += 1;
+                    }
+                }
+                if (distributionTargetCount > 1) {
+                    GlobalVariables.getMessageMap().putError(TemKeyConstants.TRVL_ACCOUNT_DIST, TemKeyConstants.ERROR_TEM_DISTRIBUTION_TOO_MANY_DISTRIBUTION_TARGETS_WITH_EXPENSE_LIMIT, Integer.toString(distributionTargetCount), wrapper.getTravelDocument().getExpenseLimit().toString());
+                    success = false;
+                }
             }
         }
 

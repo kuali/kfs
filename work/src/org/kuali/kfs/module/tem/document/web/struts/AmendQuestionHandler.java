@@ -41,8 +41,11 @@ import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.service.AccountingDocumentRelationshipService;
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
 import org.kuali.kfs.module.tem.service.TravelService;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.kim.api.identity.principal.Principal;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.dao.DocumentDao;
 import org.kuali.rice.krad.document.Document;
@@ -111,6 +114,9 @@ public class AmendQuestionHandler implements QuestionHandler<TravelDocument> {
             TravelAuthorizationAmendmentDocument taaDocument = ((TravelAuthorizationDocument) document).toCopyTAA();
             taaDocument.addNote(newNote);
             Note secondNote = getDocumentService().createNoteFromDocument(document, getMessageFrom(TemKeyConstants.TA_MESSAGE_AMEND_DOCUMENT_TEXT));
+            Principal systemUser = KimApiServiceLocator.getIdentityService().getPrincipalByPrincipalName(KFSConstants.SYSTEM_USER);
+            secondNote.setAuthorUniversalIdentifier(systemUser.getPrincipalId());
+
             document.addNote(secondNote);
             getDocumentDao().save(document);
 
@@ -150,6 +156,8 @@ public class AmendQuestionHandler implements QuestionHandler<TravelDocument> {
             throw ve;
         }
     }
+
+
 
 
     private String createNote(String reason, String documentNumber) {

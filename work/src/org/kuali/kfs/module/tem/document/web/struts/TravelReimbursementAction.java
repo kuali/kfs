@@ -37,9 +37,11 @@ import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -74,6 +76,7 @@ import org.kuali.kfs.module.tem.report.service.NonEmployeeCertificationReportSer
 import org.kuali.kfs.module.tem.report.service.SummaryByDayReportService;
 import org.kuali.kfs.module.tem.report.util.BarcodeHelper;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.api.exception.WorkflowException;
@@ -474,6 +477,15 @@ public class TravelReimbursementAction extends TravelActionBase {
             document.setTripBegin(null);
             document.setTripEnd(null);
         }
+        // do the distribution
+        travelForm.setDistribution(getAccountingDistributionService().buildDistributionFrom(travelForm.getTravelDocument()));
+        // and update the new source line if possible
+        if (travelForm.getNewSourceLine() != null) {
+            final String objectCode = getObjectCodeForNewSourceAccountingLine(travelForm);
+            if (!StringUtils.isBlank(objectCode)) {
+                travelForm.getNewSourceLine().setFinancialObjectCode(objectCode);
+            }
+        }
     }
 
     @Override
@@ -802,6 +814,65 @@ public class TravelReimbursementAction extends TravelActionBase {
         }
 
         return amount;
+    }
+
+    /**
+     * Determines the object code for the next source accounting line, based on the distribution for the document
+     * @param form the reimbursement form
+     * @return the object code to set on the new source accounting line
+     */
+    protected String getObjectCodeForNewSourceAccountingLine(TravelReimbursementForm form) {
+        if (form.getDistribution() != null && !form.getDistribution().isEmpty()) {
+            if (form.getDistribution().size() == 1) {
+                return form.getDistribution().get(0).getObjectCode();
+            } else {
+                Set<String> nonUsedDistributionObjectCodes = new HashSet<String>();
+                Set<String> usedObjectCodes = getAccountingLineObjectCodes(form);
+                for (AccountingDistribution dist : form.getDistribution()) {
+                    if (!usedObjectCodes.contains(dist.getObjectCode())) {
+                        nonUsedDistributionObjectCodes.add(dist.getObjectCode());
+                    }
+                }
+                if (nonUsedDistributionObjectCodes.size() == 1) {
+                    // only one left, let's set it; and we can use a for loop to grab the code because...obviously, it will only go once
+                    String objectCode = null;
+                    for (String objCode : nonUsedDistributionObjectCodes) {
+                        objectCode = objCode;
+                    }
+                    return objectCode;
+                }
+            }
+        }
+        return null;
+    }
+
+    /**
+     * @return a Set of all financial object codes currently used by accounting lines
+     */
+    protected Set<String> getAccountingLineObjectCodes(TravelReimbursementForm form) {
+        Set<String> codes = new HashSet<String>();
+        for (AccountingLine line : (List<AccountingLine>)form.getTravelDocument().getSourceAccountingLines()) {
+            codes.add(line.getFinancialObjectCode());
+        }
+        return codes;
+    }
+
+    /**
+     * Overridden to set the object code on the new line
+     * @see org.kuali.kfs.sys.web.struts.KualiAccountingDocumentActionBase#insertSourceLine(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @Override
+    public ActionForward insertSourceLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ActionForward forward = super.insertSourceLine(mapping, form, request, response);
+        TravelReimbursementForm travelForm = (TravelReimbursementForm)form;
+        // and update the new source line if possible
+        if (travelForm.getNewSourceLine() != null) {
+            final String objectCode = getObjectCodeForNewSourceAccountingLine(travelForm);
+            if (!StringUtils.isBlank(objectCode)) {
+                travelForm.getNewSourceLine().setFinancialObjectCode(objectCode);
+            }
+        }
+        return forward;
     }
 
 

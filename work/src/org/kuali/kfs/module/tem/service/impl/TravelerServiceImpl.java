@@ -52,6 +52,7 @@ import org.kuali.kfs.module.tem.businessobject.TravelerDetailEmergencyContact;
 import org.kuali.kfs.module.tem.identity.TemOrganizationHierarchyRoleTypeService;
 import org.kuali.kfs.module.tem.service.TEMRoleService;
 import org.kuali.kfs.module.tem.service.TravelerService;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.core.api.datetime.DateTimeService;
@@ -176,6 +177,9 @@ public class TravelerServiceImpl implements TravelerService {
             detail.setPrincipalId(profile.getPrincipalId());
             if (ObjectUtils.isNotNull(profile.getPrincipal())) {
                 detail.setPrincipalName(profile.getPrincipal().getPrincipalName());
+            }
+            else {
+                detail.setPrincipalName(KFSConstants.EMPTY_STRING);
             }
             detail.setCustomer(profile.getCustomer());
             detail.setTravelerType(profile.getTravelerType());

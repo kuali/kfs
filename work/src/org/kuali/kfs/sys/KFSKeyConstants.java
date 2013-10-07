@@ -434,7 +434,6 @@ public class KFSKeyConstants {
 
     public static final class ElectronicPaymentClaim {
         public static final String ERROR_EFT_NO_CHOSEN_CLAIMING_DOCTYPE = "error.bo.eft.no.chosen.claiming.doctype";
-        public static final String ERROR_EFT_CHOSEN_CLAIMING_DOCTYPE = "error.bo.eft.chosen.claiming.doctype";
         public static final String ERROR_PRE_CLAIMING_DOCUMENT_DOES_NOT_EXIST = "error.bo.eft.pre.claiming.document.does.not.exist";
         public static final String ERROR_NO_DOCUMENTATION = "error.bo.eft.no.documentation";
         public static final String MESSAGE_EFT_CLAIMING_DOCUMENTATION = "message.bo.eft.claimant.documentation";

@@ -25,12 +25,9 @@ import org.kuali.kfs.integration.ar.AccountsReceivableCustomer;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomerAddress;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomerAddressType;
 import org.kuali.kfs.integration.ar.AccountsReceivableInvoiceTemplate;
-import org.kuali.kfs.module.ar.ArKeyConstants;
-import org.kuali.kfs.module.ar.document.service.CustomerAddressService;
-import org.kuali.kfs.module.ar.businessobject.InvoiceIndicator;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.krad.service.KualiModuleService;
 import org.kuali.rice.krad.service.ModuleService;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -600,12 +597,12 @@ public class CustomerAddress implements Comparable<CustomerAddress>, AccountsRec
 
     @Override
     public void setCustomerAddressTypeCodeAsPrimary() {
-        setCustomerAddressTypeCode(ArKeyConstants.CustomerConstants.CUSTOMER_ADDRESS_TYPE_CODE_PRIMARY);
+        setCustomerAddressTypeCode(KFSConstants.AddressTypeCode.PRIMARY);
     }
 
     @Override
     public void setCustomerAddressTypeCodeAsAlternate() {
-        setCustomerAddressTypeCode(ArKeyConstants.CustomerConstants.CUSTOMER_ADDRESS_TYPE_CODE_ALTERNATE);
+        setCustomerAddressTypeCode(KFSConstants.AddressTypeCode.ALTERNATE);
     }
 
     @Override

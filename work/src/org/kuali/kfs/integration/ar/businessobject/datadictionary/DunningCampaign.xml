@@ -21,7 +21,7 @@
 	<bean id="DunningCampaign-parentBean" abstract="true"
 		parent="BusinessObjectEntry">
 		<property name="businessObjectClass"
-			value="org.kuali.kfs.module.ar.businessobject.DunningCampaign" />
+			value="org.kuali.kfs.integration.ar.businessobject.DunningCampaign" />
 		<property name="inquiryDefinition">
 			<ref bean="DunningCampaign-inquiryDefinition" />
 		</property>

@@ -19,12 +19,12 @@
 <c:set var="requesterAttributes" value="${DataDictionary.TravelerDetail.attributes}" />
 <c:set var="tabindexOverrideBase" value="8" />
 
-	<h3>Requester (Person to be Reimbursed)</h3>
+	<h3>Payee (Person to be Reimbursed)</h3>
 
 	<table cellpadding="0" cellspacing="0" class="datatable" summary="Requester Section">
 		<c:if test="${fullEntryMode}">
         <tr>
-            <th class="bord-l-b"><div align="right">Requester Lookup:</div></th>
+            <th class="bord-l-b"><div align="right">Payee Lookup:</div></th>
             <td class="datacell" colspan="3">
             	<div align="left">
 			    	<kul:lookup boClassName="org.kuali.kfs.module.tem.businessobject.TravelerProfileForLookup" lookupParameters="document.traveler.travelerTypeCode:travelerTypeCode" />
@@ -41,7 +41,7 @@
             </td>
         </tr>
         <tr>
-            <th class="bord-l-b"><div align="right">Requester Type:</div></th>
+            <th class="bord-l-b"><div align="right">Payee Type:</div></th>
             <td class="datacell" colspan="3">
             	<div align="left">
 			    	<kul:htmlControlAttribute attributeEntry="${DataDictionary.TravelerType.attributes.name}" property="document.traveler.travelerType.name" readOnly="true"/>

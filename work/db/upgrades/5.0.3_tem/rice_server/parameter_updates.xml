@@ -163,83 +163,6 @@
 		<insert tableName="KRCR_PARM_T">
 			<column name="NMSPC_CD" value="KFS-TEM"/>
 			<column name="CMPNT_CD" value="Document"/>
-			<column name="PARM_NM" value="AIRFARE_EXPENSE_TYPE"/>
-			<column name="OBJ_ID" value="KFS-TEM-PARM-013"/>
-			<column name="PARM_TYP_CD" value="CONFG"/>
-			<column name="VAL" value="A"/>
-			<column name="PARM_DESC_TXT" value="Specifies the expense type codes used to enforce airfare related business rules."/>
-			<column name="EVAL_OPRTR_CD" value="A"/>
-			<column name="APPL_ID" value="KFS"/>
-		</insert>
-		<insert tableName="KRCR_PARM_T">
-			<column name="NMSPC_CD" value="KFS-TEM"/>
-			<column name="CMPNT_CD" value="Document"/>
-			<column name="PARM_NM" value="LODGING_EXPENSE_TYPE"/>
-			<column name="OBJ_ID" value="KFS-TEM-PARM-014"/>
-			<column name="PARM_TYP_CD" value="CONFG"/>
-			<column name="VAL" value="L"/>
-			<column name="PARM_DESC_TXT" value="Specifies the expense type code used to enforce lodging related business rules."/>
-			<column name="EVAL_OPRTR_CD" value="A"/>
-			<column name="APPL_ID" value="KFS"/>
-		</insert>
-		<insert tableName="KRCR_PARM_T">
-			<column name="NMSPC_CD" value="KFS-TEM"/>
-			<column name="CMPNT_CD" value="Document"/>
-			<column name="PARM_NM" value="LODGING_ALLOWANCE_EXPENSE_TYPE"/>
-			<column name="OBJ_ID" value="KFS-TEM-PARM-015"/>
-			<column name="PARM_TYP_CD" value="CONFG"/>
-			<column name="VAL" value="LA"/>
-			<column name="PARM_DESC_TXT" value="Specifies the expense type code used to enforce lodging allowance related business rules."/>
-			<column name="EVAL_OPRTR_CD" value="A"/>
-			<column name="APPL_ID" value="KFS"/>
-		</insert>
-		<insert tableName="KRCR_PARM_T">
-			<column name="NMSPC_CD" value="KFS-TEM"/>
-			<column name="CMPNT_CD" value="Document"/>
-			<column name="PARM_NM" value="MILEAGE_EXPENSE_TYPE"/>
-			<column name="OBJ_ID" value="KFS-TEM-PARM-016"/>
-			<column name="PARM_TYP_CD" value="CONFG"/>
-			<column name="VAL" value="MM"/>
-			<column name="PARM_DESC_TXT" value="Specifies the expense type code used to enforce mileage related business rules."/>
-			<column name="EVAL_OPRTR_CD" value="A"/>
-			<column name="APPL_ID" value="KFS"/>
-		</insert>
-		<insert tableName="KRCR_PARM_T">
-			<column name="NMSPC_CD" value="KFS-TEM"/>
-			<column name="CMPNT_CD" value="Document"/>
-			<column name="PARM_NM" value="RENTAL_CAR_EXPENSE_TYPE"/>
-			<column name="OBJ_ID" value="KFS-TEM-PARM-017"/>
-			<column name="PARM_TYP_CD" value="CONFG"/>
-			<column name="VAL" value="R"/>
-			<column name="PARM_DESC_TXT" value="Specifies the expense type code used to enforce rental car related business rules."/>
-			<column name="EVAL_OPRTR_CD" value="A"/>
-			<column name="APPL_ID" value="KFS"/>
-		</insert>
-		<insert tableName="KRCR_PARM_T">
-			<column name="NMSPC_CD" value="KFS-TEM"/>
-			<column name="CMPNT_CD" value="Document"/>
-			<column name="PARM_NM" value="HOSTED_MEAL_EXPENSE_TYPES"/>
-			<column name="OBJ_ID" value="KFS-TEM-PARM-018"/>
-			<column name="PARM_TYP_CD" value="CONFG"/>
-			<column name="VAL" value="BREAKFAST=HB;LUNCH=HL;DINNER=HD;"/>
-			<column name="PARM_DESC_TXT" value="Specifies the expense type codes for hosted meals to determine an other expense is a meal and whether it was hosted."/>
-			<column name="EVAL_OPRTR_CD" value="A"/>
-			<column name="APPL_ID" value="KFS"/>
-		</insert>
-		<insert tableName="KRCR_PARM_T">
-			<column name="NMSPC_CD" value="KFS-TEM"/>
-			<column name="CMPNT_CD" value="Document"/>
-			<column name="PARM_NM" value="INCIDENTALS_EXPENSE_TYPES"/>
-			<column name="OBJ_ID" value="KFS-TEM-PARM-019"/>
-			<column name="PARM_TYP_CD" value="CONFG"/>
-			<column name="VAL" value="EL;"/>
-			<column name="PARM_DESC_TXT" value="Specifies the expense type codes used to enforce incidental expenses related business rules."/>
-			<column name="EVAL_OPRTR_CD" value="A"/>
-			<column name="APPL_ID" value="KFS"/>
-		</insert>
-		<insert tableName="KRCR_PARM_T">
-			<column name="NMSPC_CD" value="KFS-TEM"/>
-			<column name="CMPNT_CD" value="Document"/>
 			<column name="PARM_NM" value="INCIDENTALS_WITH_MEALS_IND"/>
 			<column name="OBJ_ID" value="KFS-TEM-PARM-020"/>
 			<column name="PARM_TYP_CD" value="CONFG"/>
@@ -354,7 +277,7 @@
 			<column name="OBJ_ID" value="KFS-TEM-PARM-030"/>
 			<column name="PARM_TYP_CD" value="CONFG"/>
 			<column name="VAL" value="T"/>
-			<column name="PARM_DESC_TXT" value="The documentation location code used by payments on the Travel Authorization, Travel Authorization Amendment, Travel Reimbursement, Entertainment, and Moving & Relocation documents.  If a document specific parameter with the same name is created (for example, KFS-TEM / TravelAuthorization / DOCUMENTATION_LOCATION_CODE), the documentation location code for Travel Authorization documents will default to that instead."/>
+			<column name="PARM_DESC_TXT" value="The documentation location code used by payments on the Travel Authorization, Travel Authorization Amendment, Travel Reimbursement, Entertainment, and Moving &amp; Relocation documents.  If a document specific parameter with the same name is created (for example, KFS-TEM / TravelAuthorization / DOCUMENTATION_LOCATION_CODE), the documentation location code for Travel Authorization documents will default to that instead."/>
 			<column name="EVAL_OPRTR_CD" value="A"/>
 			<column name="APPL_ID" value="KFS"/>
 		</insert>
@@ -727,7 +650,7 @@
 			<column name="PARM_NM" value="LODGING_OBJECT_CODE"/>
 			<column name="OBJ_ID" value="KFS-TEM-PARM-079"/>
 			<column name="PARM_TYP_CD" value="CONFG"/>
-			<column name="VAL" value="EMP=IN=6100;EMP=OUT=6170;EMP=INT=6250;NON=IN=6140;NON=OUT=6150;NON=INT=6270"/>
+			<column name="VAL" value="EMP=IN=6000;EMP=OUT=6100;EMP=INT=6200;NON=IN=4089;NON=OUT=4089;NON=INT=4089"/>
 			<column name="PARM_DESC_TXT" value="The object code assigned to reimburse lodging.  In the format Traveler Type Code=Trip Type Code=Object Code (EMP=IN=6100)."/>
 			<column name="EVAL_OPRTR_CD" value="A"/>
 			<column name="APPL_ID" value="KFS"/>
@@ -749,7 +672,7 @@
 			<column name="PARM_NM" value="PER_DIEM_OBJECT_CODE"/>
 			<column name="OBJ_ID" value="KFS-TEM-PARM-081"/>
 			<column name="PARM_TYP_CD" value="CONFG"/>
-			<column name="VAL" value="EMP=IN=6100;EMP=OUT=6170;EMP=INT=6250;NON=IN=6140;NON=OUT=6150;NON=INT=6270"/>
+			<column name="VAL" value="EMP=IN=6000;EMP=OUT=6100;EMP=INT=6200;NON=IN=6000;NON=OUT=6100;NON=INT=6200"/>
 			<column name="PARM_DESC_TXT" value="The object code assigned to reimburse per diem. In the format Traveler Type Code=Trip Type Code=Object Code (EMP=IN=6100)."/>
 			<column name="EVAL_OPRTR_CD" value="A"/>
 			<column name="APPL_ID" value="KFS"/>
@@ -1367,6 +1290,17 @@
 			<column name="PARM_TYP_CD" value="CONFG"/>
 			<column name="VAL" value="TEM"/>
 			<column name="PARM_DESC_TXT" value="PDP sub-unit code for loading Travel Document payments."/>
+			<column name="EVAL_OPRTR_CD" value="A"/>
+			<column name="APPL_ID" value="KFS"/>
+		</insert>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-TEM"/>
+			<column name="CMPNT_CD" value="Document"/>
+			<column name="PARM_NM" value="FOREIGN_CURRENCY_URL"/>
+			<column name="OBJ_ID" value="KFS-TEM-PARM-159"/>
+			<column name="PARM_TYP_CD" value="CONFG"/>
+			<column name="VAL" value="https://www.kuali.org"/>
+			<column name="PARM_DESC_TXT" value="URL directing users to the site your institution wishes them to use for calculating currency conversions."/>
 			<column name="EVAL_OPRTR_CD" value="A"/>
 			<column name="APPL_ID" value="KFS"/>
 		</insert>

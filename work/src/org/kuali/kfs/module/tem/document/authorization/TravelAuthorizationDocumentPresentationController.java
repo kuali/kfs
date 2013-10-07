@@ -43,7 +43,9 @@ public class TravelAuthorizationDocumentPresentationController extends TravelAut
         addFullEntryEditMode(document, editModes);
         editModes.remove(TemConstants.EditModes.CHECK_AMOUNT_ENTRY);
         editModes.add(TemConstants.TravelEditMode.ADVANCE_PAYMENT_ENTRY);
-        editModes.add(TemConstants.TravelEditMode.ADVANCE_POLICY_ENTRY);
+        if (document instanceof TravelAuthorizationDocument && ((TravelAuthorizationDocument)document).shouldProcessAdvanceForDocument() && isAtTravelerNode(document.getDocumentHeader().getWorkflowDocument())) {
+            editModes.add(TemConstants.TravelEditMode.ADVANCE_POLICY_ENTRY);
+        }
         if (document instanceof TravelAuthorizationDocument && ((TravelAuthorizationDocument)document).shouldProcessAdvanceForDocument() && isAtTravelNode(document.getDocumentHeader().getWorkflowDocument())) {
             editModes.add(TemConstants.TravelEditMode.CLEAR_ADVANCE_MODE);
         }
@@ -63,6 +65,16 @@ public class TravelAuthorizationDocumentPresentationController extends TravelAut
      */
     public boolean isAtTravelNode(WorkflowDocument workflowDocument) {
         return workflowDocument.getCurrentNodeNames().contains(TemWorkflowConstants.RouteNodeNames.AP_TRAVEL);
+    }
+
+
+    /**
+     * Determines if the current workflow document is at the Traveler node
+     * @param workflowDocument the workflow document to check the node of
+     * @return true if the document is at the Traveler node, false otherwise
+     */
+    public boolean isAtTravelerNode(WorkflowDocument workflowDocument) {
+        return workflowDocument.getCurrentNodeNames().contains(TemWorkflowConstants.RouteNodeNames.TRAVELER);
     }
 
     /**

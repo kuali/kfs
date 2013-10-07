@@ -20,6 +20,9 @@
 <c:set var="advanceAttributes" value="${DataDictionary.AdvancePaymentReason.attributes}" />
 <c:set var="docType" value="${KualiForm.document.dataDictionaryEntry.documentTypeName }" />
 <c:set var="policyDisabled" value="${!KualiForm.waitingOnTraveler && !fullEntryMode}" />
+<c:set var="advancePolicyMode" value="${KualiForm.editingMode['advancePolicyEntry']}" scope="request"/>
+
+
 
 <table cellpadding="0" cellspacing="0" class="datatable"
 	summary="Travel Advance Section">
@@ -87,21 +90,18 @@
 				readOnly="${!fullEntryMode}" />
 		</td>
 	</tr>
-	<c:if test="${KualiForm.showPolicy}">
-		<tr>
-			<th class="bord-l-b">
-				<div align="right">
-					<kul:htmlAttributeLabel attributeEntry="${travelAdvanceAttributes.travelAdvancePolicy}" />
-				</div>
-			</th>
-			<td class="datacell">
-				<kul:htmlControlAttribute
-					attributeEntry="${travelAdvanceAttributes.travelAdvancePolicy}"
-					property="${travelAdvanceProperty}.travelAdvancePolicy"
-					readOnly="${!advancePolicyMode}" />${KualiForm.policyURL}
-			</td>
-		</tr>
-	</c:if>
+	<tr>
+		<th class="bord-l-b">
+			<div align="right">
+				<kul:htmlAttributeLabel
+					attributeEntry="${travelAdvanceAttributes.travelAdvancePolicy}" />
+			</div>
+		</th>
+		<td class="datacell"><kul:htmlControlAttribute
+				attributeEntry="${travelAdvanceAttributes.travelAdvancePolicy}"
+				property="${travelAdvanceProperty}.travelAdvancePolicy"
+				readOnly="${!advancePolicyMode}" />${KualiForm.policyURL}</td>
+	</tr>
 	<tr>
 		<th class="bord-l-b">
 			<div align="right">

@@ -15,6 +15,8 @@
  */
 package org.kuali.kfs.module.tem.document.service;
 
+import java.util.List;
+
 import org.kuali.kfs.gl.businessobject.Encumbrance;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationAmendmentDocument;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationCloseDocument;
@@ -176,5 +178,13 @@ public interface TravelEncumbranceService {
      * @param travelDocumentIdentifier the id of the trip to remove entries for
      */
     public void deletePendingEntriesForTripCancellation(String travelDocumentIdentifier);
+
+    /**
+     * Find both posted and pending encumbrances associated with a trip
+     * @param travelDocumentIdentifier the trip id, which acts as the document id of the encumbrance
+     * @param skipDocumentNumber if not null, pending entries with the given document number will be skipped in the calculation
+     * @return an Iterator of encumbrances
+     */
+    public List<Encumbrance> getEncumbrancesForTrip(String travelDocumentIdentifier, String skipDocumentNumber);
 
 }

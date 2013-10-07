@@ -86,6 +86,7 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DataDictionaryService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.KualiRuleService;
+import org.kuali.rice.krad.service.NoteService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
@@ -112,6 +113,7 @@ public class TravelReimbursementServiceImpl implements TravelReimbursementServic
     protected GeneralLedgerPendingEntryService generalLedgerPendingEntryService;
     protected OffsetDefinitionService offsetDefinitionService;
     protected OptionsService optionsService;
+    protected NoteService noteService;
 
     protected List<PropertyChangeListener> propertyChangeListeners;
 
@@ -461,7 +463,7 @@ public class TravelReimbursementServiceImpl implements TravelReimbursementServic
             final String noteText = String.format("Customer Credit Memo Document %s was system generated.", customerCreditMemo.getDocumentNumber());
             final Note noteToAdd = documentService.createNoteFromDocument(reimbursement, noteText);
             reimbursement.addNote(noteToAdd);
-            documentService.saveDocument(reimbursement);
+            getNoteService().save(noteToAdd);
         }
         catch (Exception ex) {
             //log the error and continue to link CRM to TR
@@ -1032,6 +1034,14 @@ public class TravelReimbursementServiceImpl implements TravelReimbursementServic
      */
     public void setOptionsService(OptionsService optionsService) {
         this.optionsService = optionsService;
+    }
+
+    public NoteService getNoteService() {
+        return noteService;
+    }
+
+    public void setNoteService(NoteService noteService) {
+        this.noteService = noteService;
     }
 
 }

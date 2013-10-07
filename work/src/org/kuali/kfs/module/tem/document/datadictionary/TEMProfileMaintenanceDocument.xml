@@ -16,7 +16,7 @@
 				<ref bean="TEMProfileAdministrator-Section" />
 			</list>
 		</property>
-		<property name="allowsNewOrCopy" value="false" />
+		<property name="allowsNewOrCopy" value="true" />
 		<property name="lockingKeys">
 			<list>
 				<value>profileId</value>

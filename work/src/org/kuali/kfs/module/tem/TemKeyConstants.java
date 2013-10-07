@@ -146,6 +146,9 @@ public class TemKeyConstants {
     public static final String ERROR_TEM_PROFILE_ACCOUNT_NOT_EXIST = "error.tem.profile.accountNumberMustExist";
     public static final String ERROR_TEM_PROFILE_SUB_ACCOUNT_NOT_EXIST = "error.tem.profile.subAccountNumberMustExist";
     public static final String ERROR_TEM_PROFILE_PROJECT_CODE_NOT_EXIST = "error.tem.profile.projectCodeMustExist";
+    public static final String ERROR_TEM_PROFILE_NONEMPLOYEE_MUST_HAVE_ACTIVE_ARRANGER = "error.tem.profile.nonEmployee.mustHaveActiveArranger";
+
+    public static final String ERROR_TEM_PROFILE_ORGANIZATION_INACTIVE = "error.tem.profile.organization.inactive";
 
     public static final String ERROR_TEM_PROFILE_ACCOUNT_EFFECTIVE_DATE = "error.tem.profile.account.effectiveDate";
     public static final String ERROR_TEM_PROFILE_ACCOUNT_EXPIRATION_DATE = "error.tem.profile.account.expirationDate";
@@ -153,7 +156,6 @@ public class TemKeyConstants {
     public static final String ERROR_TEM_PROFILE_ARRANGER_PRIMARY ="error.tem.profile.arranger.primary";
     public static final String ERROR_TEM_PROFILE_ARRANGER_DUPLICATE ="error.tem.profile.arranger.duplicate";
     public static final String ERROR_TEM_PROFILE_ACCOUNT_ID_DUPLICATE ="error.tem.profile.accountId.duplicate";
-    public static final String ERROR_TEM_PROFILE_ARRANGER_NONEMPLOYEE ="error.tem.profile.arranger.nonemployee";
 
     public static final String ERROR_TA_FISCAL_OFFICER_ACCOUNT = "error.document.fiscalofficer.account";
     public static final String ERROR_EXPENSE_DATE_BEFORE_AFTER = "error.document.tem.expenseDateBeforeAfter";
@@ -161,7 +163,6 @@ public class TemKeyConstants {
     public static final String ERROR_TRAVEL_DOCUMENT_EDIT = "error.document.tem.edit";
     public static final String ERROR_AUTHORIZATION_TR_DELINQUENT = "error.authorization.travelReimbursementDelinquent";
     public static final String ERROR_AUTHORIZATION_ADVANCE_OBJECT_CODE_PARAMETER_NOT_SET = "error.document.authorization.advanceObjectCodeParameter.notSet";
-    public static final String ERROR_TRAVEL_DOCUMENT_INITIATION = "error.document.tem.initiation";
     public static final String ERROR_TRAVEL_AGENCY_AUDIT_INITIATION ="error.document.agencyAudit.initiation";
 
     public static final String MESSAGE_BATCH_UPLOAD_TITLE_PER_DIEM_FILE = "message.batchUpload.title.per.diem.file";
@@ -237,6 +238,7 @@ public class TemKeyConstants {
 
     public static final String ERROR_TEM_DISTRIBUTION_ACCOUNTING_LINES_TOTAL="error.tem.distribution.accountingline.total";
     public static final String ERROR_TEM_DISTRIBUTION_ACCOUNTING_LINES_AMOUNT_OR_PERCENT="error.tem.distribution.accountingline.amount.or.percent";
+    public static final String ERROR_TEM_DISTRIBUTION_TOO_MANY_DISTRIBUTION_TARGETS_WITH_EXPENSE_LIMIT = "error.tem.distribution.tooManyTargets";
     public static final String ERROR_TEM_ACCOUNTING_LINES_OBJECT_CODE_CARD_TYPE="error.tem.accountingline.objectcode";
     public static final String ERROR_TEM_ACCOUNTING_LINES_OBJECT_CODE_CARD_TYPE_TOTAL="error.tem.accountingline.objectcode.total";
 

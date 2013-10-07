@@ -15,12 +15,6 @@
 --%>
 <%@ include file="/jsp/sys/kfsTldHeader.jsp"%>
 
-<script>
-	$(document).ready(function() {
-		update_travelerTypeCode();
-	});
-</script>
-
 <c:set var="groupTravelerAttributes" value="${DataDictionary.GroupTraveler.attributes}" />
 <c:set var="customerAttributes" value="${DataDictionary.Customer.attributes}" />
 
@@ -64,13 +58,13 @@
 				</tr>			
 				<tr>
 					<th class="bord-l-b">
-						<div align="right"><kul:htmlAttributeLabel attributeEntry="${groupTravelerAttributes.travelerTypeCode}" /></div>
+						<div align="right"><kul:htmlAttributeLabel attributeEntry="${groupTravelerAttributes.groupTravelerTypeCode}" /></div>
 					</th>
 					<td class="datacell">
 						<kul:htmlControlAttribute
-						attributeEntry="${groupTravelerAttributes.travelerTypeCode}"
-						property="newGroupTravelerLine.travelerTypeCode" 
-						onchange="update_travelerTypeCode();" />
+						attributeEntry="${groupTravelerAttributes.groupTravelerTypeCode}"
+						property="newGroupTravelerLine.groupTravelerTypeCode" 
+						readOnly="${!empty param['newGroupTravelerLine.groupTravelerEmpId']}" />
 					</td>
 					<th class="bord-l-b">
 						<div align="right" style="display:block;" id="personLabel"><kul:htmlAttributeLabel attributeEntry="${groupTravelerAttributes.groupTravelerEmpId}" /></div>
@@ -80,7 +74,7 @@
 						<kul:htmlControlAttribute attributeEntry="${groupTravelerAttributes.groupTravelerEmpId}" property="newGroupTravelerLine.groupTravelerEmpId" readOnly="true" />
 						<div style="display:inline;" id="personLookupButton">
 							<kul:lookup boClassName="org.kuali.kfs.module.tem.businessobject.GroupTravelerForLookup"
-										fieldConversions="groupTravelerId:newGroupTravelerLine.groupTravelerEmpId,name:newGroupTravelerLine.name,travelerTypeCode:newGroupTravelerLine.travelerTypeCode"
+										fieldConversions="groupTravelerId:newGroupTravelerLine.groupTravelerEmpId,name:newGroupTravelerLine.name,groupTravelerTypeCode.code:newGroupTravelerLine.groupTravelerTypeCode"
 										lookupParameters="newGroupTravelerLine.groupTravelerEmpId:principalId" />
 						</div>
 					</td>
@@ -88,7 +82,7 @@
 						<div align="right"><kul:htmlAttributeLabel attributeEntry="${groupTravelerAttributes.name}" /></div>
 					</th>
 					<td class="datacell">
-						<kul:htmlControlAttribute attributeEntry="${groupTravelerAttributes.name}" property="newGroupTravelerLine.name" />
+						<kul:htmlControlAttribute attributeEntry="${groupTravelerAttributes.name}" property="newGroupTravelerLine.name" readOnly="${!empty param['newGroupTravelerLine.groupTravelerEmpId']}"/>
 					</td>
 					<td class="infoline">
 						<div align=center>
@@ -107,12 +101,12 @@
 							<tr>
 								<kul:htmlAttributeHeaderCell literalLabel="${ctr+1}" scope="row" align="right"></kul:htmlAttributeHeaderCell>
 								<th class="bord-l-b">
-									<div align="right"><kul:htmlAttributeLabel attributeEntry="${groupTravelerAttributes.travelerTypeCode}" /></div>
+									<div align="right"><kul:htmlAttributeLabel attributeEntry="${groupTravelerAttributes.groupTravelerTypeCode}" /></div>
 								</th>
 								<td valign=top>
 									<kul:htmlControlAttribute
-									attributeEntry="${groupTravelerAttributes.travelerTypeCode}"
-									property="document.groupTravelers[${ctr}].travelerTypeCode"
+									attributeEntry="${groupTravelerAttributes.groupTravelerTypeCode}"
+									property="document.groupTravelers[${ctr}].groupTravelerTypeCode"
 									readOnly="true" />
 								</td>
 								<th class="bord-l-b">

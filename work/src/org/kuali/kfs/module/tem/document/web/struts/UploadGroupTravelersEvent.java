@@ -1,12 +1,12 @@
 /*
  * Copyright 2012 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -33,19 +33,18 @@ import org.kuali.rice.krad.util.GlobalVariables;
 /**
  * Fires when the import group travelers button is clicked. Handles importing {@link GroupTraveler}
  * instances from a CSV formatted file
- *  
+ *
  */
 public class UploadGroupTravelersEvent implements Observer {
-    
+
     public static Logger LOG = Logger.getLogger(UploadGroupTravelersEvent.class);
-    
+
     private static final int WRAPPER_ARG_IDX       = 0;
     private static final int FILE_CONTENTS_ARG_IDX = 1;
-    protected static final String[] GROUP_TRAVELER_ATTRIBUTE_NAMES = { "travelerTypeCode", "groupTravelerEmpId", "name" };
-    
+
     protected TravelDocumentService travelDocumentService;
     protected KualiRuleService ruleService;
-    
+
     @Override
     public void update(Observable arg0, Object arg1) {
         if (!(arg1 instanceof Object[])) {
@@ -59,11 +58,11 @@ public class UploadGroupTravelersEvent implements Observer {
         final TravelMvcWrapperBean wrapper = (TravelMvcWrapperBean) args[WRAPPER_ARG_IDX];
         final String fileContents          = (String) args[FILE_CONTENTS_ARG_IDX];
         final TravelDocument document = wrapper.getTravelDocument();
-        
+
         final String tabErrorKey = "groupTraveler";
         try {
             final List<GroupTraveler> importedGroupTravelers = getTravelDocumentService().importGroupTravelers(document, fileContents);
-            
+
             // validate imported items
             boolean allPassed = true;
             int itemLineNumber = 0;
@@ -82,30 +81,30 @@ public class UploadGroupTravelersEvent implements Observer {
             GlobalVariables.getMessageMap().putError(tabErrorKey, ERROR_UPLOADFILE_NULL);
         }
     }
-  
-  
+
+
     /**
      * Gets the travelReimbursementService attribute.
-     * 
+     *
      * @return Returns the travelReimbursementService.
      */
     public TravelDocumentService getTravelDocumentService() {
         return travelDocumentService;
     }
-    
+
     public void setTravelDocumentService(final TravelDocumentService travelDocumentService) {
         this.travelDocumentService = travelDocumentService;
     }
 
     /**
      * Gets the kualiRulesService attribute.
-     * 
+     *
      * @return Returns the kualiRuleseService.
      */
     public KualiRuleService getRuleService() {
         return ruleService;
     }
-    
+
     public void setRuleService(final KualiRuleService ruleService) {
         this.ruleService = ruleService;
     }

@@ -47,7 +47,6 @@ public class TemConstants {
     public static final String ENABLE_PRIMARY_DESTINATION_ATTRIBUTE = "enablePrimaryDestination";
     public static final String ENABLE_PER_DIEM_LOOKUP_LINKS_ATTRIBUTE = "enablePerDiemLookupLinks";
     public static final String REMAINING_DISTRIBUTION_ATTRIBUTE = "remainingDistribution";
-    public static final String FOREIGN_CURRENCY_URL_ATTRIBUTE = "currencyUrl";
     public static final String DISPLAY_EMERGENCY_CONTACT_TAB = "displayEmergencyContactTab";
     public static final String AR_INVOICE_DOC_TYPE_NAME = "INV";
     public static final String COVERSHEET_FILENAME_FORMAT = "%s_cover_sheet.pdf";
@@ -69,6 +68,9 @@ public class TemConstants {
     public static final String REMOVE_HOLD_TA_QUESTION = "RemoveHoldTa";
     public static final String CONFIRM_REMOVE_HOLD_QUESTION = "ConfirmRemoveHold";
     public static final String CONFIRM_CLOSE_QUESTION_TEXT = "When you close this Travel Authorization, remaining encumbrance will be liquidated.";
+    public static final String CANCEL_TA_QUESTION = "CancelTa";
+    public static final String CONFIRM_CANCEL_QUESTION = "ConfirmCancel";
+    public static final String CONFIRM_CANCEL_QUESTION_TEXT = "When you cancel this Travel Authorization, remaining encumbrance will be liquidated.";
 
     public static final String REMOVE_HOLD_NOTE_PREFIX = "Note entered while removing a hold on Travel Authorization : ";
     public static final String RETURN_TO_FO_QUESTION = "ReturnToFiscalOfficer";
@@ -238,7 +240,7 @@ public class TemConstants {
     }
 
     public static class TravelReimbursementParameters {
-        public static final String FOREIGN_CURRENCY_URL = "FOREIGN_CURRENCY_CONVERSION_URL";
+        public static final String FOREIGN_CURRENCY_URL = "FOREIGN_CURRENCY_URL";
         public static final String DISPLAY_ENCUMBRANCE_IND = "DISPLAY_ENCUMBRANCE_IND";
         public static final String DISPLAY_ADVANCES_IN_REIMBURSEMENT_TOTAL_IND = "DISPLAY_ADVANCES_IN_REIMBURSEMENT_TOTAL_IND";
         public static final String TRAVEL_PAYMENT_MEDIUM = "TRAVEL_PAYMENT_MEDIUM_TYPE_CODE";
@@ -972,5 +974,43 @@ public class TemConstants {
             }
             return null;
         }
+    }
+
+    /**
+     * Enumeration which represents the types of group travelers
+     */
+    public enum GroupTravelerType {
+        EMPLOYEE("EMP"),
+        STUDENT("STU"),
+        VENDOR("VND"),
+        OTHER("OTH");
+
+        private String code;
+
+        GroupTravelerType(String code) {
+            this.code = code;
+        }
+
+        public String getCode() {
+            return this.code;
+        }
+
+        public String getName() {
+            return StringUtils.capitalize(this.toString().toLowerCase());
+        }
+
+        /**
+        * Lookup GroupTravelerType value based on code
+        * @param c the code to look up
+        * @return the GroupTravelerType, or null if the code does not match an existing traveler type
+        */
+       public static GroupTravelerType forCode(String c) {
+           for (GroupTravelerType travelerType : GroupTravelerType.values()) {
+               if (StringUtils.equals(travelerType.getCode(), c)) {
+                   return travelerType;
+               }
+           }
+           return null;
+       }
     }
 }

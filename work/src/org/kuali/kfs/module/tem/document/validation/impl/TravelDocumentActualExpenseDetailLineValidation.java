@@ -19,7 +19,6 @@ import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.businessobject.ActualExpense;
 import org.kuali.kfs.module.tem.document.TravelDocument;
-import org.kuali.kfs.module.tem.document.validation.event.AddActualExpenseDetailLineEvent;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
@@ -78,7 +77,7 @@ public class TravelDocumentActualExpenseDetailLineValidation extends TEMDocument
         }
 
         //info for non-one currency
-        if (success && getActualExpenseDetailForValidation().getCurrencyRate().equals(new KualiDecimal(1))) {
+        if (success && !getActualExpenseDetailForValidation().getCurrencyRate().equals(new KualiDecimal(1))) {
             GlobalVariables.getMessageMap().putInfo(TemPropertyConstants.EXPENSE_AMOUNT, TemKeyConstants.INFO_TEM_IMPORT_CURRENCY_CONVERSION);
         }
 
@@ -122,6 +121,7 @@ public class TravelDocumentActualExpenseDetailLineValidation extends TEMDocument
         return actualExpenseForValidation;
     }
 
+    @Override
     public void setActualExpenseForValidation(ActualExpense actualExpenseForValidation) {
         this.actualExpenseForValidation = actualExpenseForValidation;
     }
@@ -130,6 +130,7 @@ public class TravelDocumentActualExpenseDetailLineValidation extends TEMDocument
         return actualExpenseDetailForValidation;
     }
 
+    @Override
     public void setActualExpenseDetailForValidation(ActualExpense actualExpenseDetailForValidation) {
         this.actualExpenseDetailForValidation = actualExpenseDetailForValidation;
     }

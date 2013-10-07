@@ -98,6 +98,8 @@ public class TemCardApplicationAction extends FinancialSystemTransactionalDocume
                 && document.getDocumentHeader().getWorkflowDocument().getApplicationDocumentStatus().equals(TemWorkflowConstants.RouteNodeNames.APPLIED_TO_BANK)){
             document.sendAcknowledgement();
             document.approvedByBank();
+            document.getDocumentHeader().getWorkflowDocument().setApplicationDocumentStatus(TemWorkflowConstants.RouteNodeNames.APPROVED_BY_BANK);
+            document.saveAppDocStatus();
         }
         return super.approve(mapping, form, request, response);
     }

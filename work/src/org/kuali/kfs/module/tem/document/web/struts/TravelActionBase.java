@@ -30,6 +30,7 @@ import static org.kuali.kfs.module.tem.TemConstants.TravelParameters.EMPLOYEE_CE
 import static org.kuali.kfs.module.tem.TemConstants.TravelParameters.NON_EMPLOYEE_CERTIFICATION_STATEMENT;
 import static org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters.DISPLAY_ACCOUNTING_DISTRIBUTION_TAB_IND;
 import static org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters.DISPLAY_ADVANCES_IN_REIMBURSEMENT_TOTAL_IND;
+import static org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters.FOREIGN_CURRENCY_URL;
 import static org.kuali.kfs.module.tem.TemPropertyConstants.TRIP_INFO_UPDATE_TRIP_DTL;
 
 import java.io.ByteArrayOutputStream;
@@ -144,7 +145,6 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
     public static Logger LOG = Logger.getLogger(TravelActionBase.class);
 
     protected static final String[] methodToCallExclusionArray = { "recalculate", "calculate", "recalculateTripDetailTotal", "save", "route", "approve", "blanketApprove", "updatePerDiemExpenses" };
-    public static final String[] GROUP_TRAVELER_ATTRIBUTE_NAMES = { "travelerTypeCode", "groupTravelerEmpId", "name" };
 
     protected volatile static PerDiemService perDiemService;
 
@@ -318,6 +318,7 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
         }
 
         ExpenseUtils.calculateMileage(document.getActualExpenses());
+        populateForeignCurrencyUrl(travelFormBase);
 
         final ActionForward retval = super.execute(mapping, form, request, response);
         request.setAttribute(CERTIFICATION_STATEMENT_ATTRIBUTE, getCertificationStatement(document));
@@ -823,20 +824,10 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
                 expense.setPerDiem(perDiem);
                 expense.setPerDiemId(perDiem.getId());
                 expense.setPrimaryDestination(perDiem.getPrimaryDestination().getPrimaryDestinationName());
-                expense.setCountryState(perDiem.getPrimaryDestination().getRegion().getRegionName());
+                expense.setCountryState(perDiem.getPrimaryDestination().getRegion().getRegionCode());
                 expense.setCounty(perDiem.getPrimaryDestination().getCounty());
-                if (document.isOnTripBegin(expense) || document.isOnTripEnd(expense)) {
-                    Integer perDiemPercent = getTravelDocumentService().calculateProratePercentage(expense, document.getTripType().getPerDiemCalcMethod(), document.getTripEnd());
-                    expense.setDinnerValue(PerDiemExpense.calculateMealsAndIncidentalsProrated(perDiem.getDinner(), perDiemPercent));
-                    expense.setLunchValue(PerDiemExpense.calculateMealsAndIncidentalsProrated(perDiem.getLunch(), perDiemPercent));
-                    expense.setBreakfastValue(PerDiemExpense.calculateMealsAndIncidentalsProrated(perDiem.getBreakfast(), perDiemPercent));
-                    expense.setIncidentalsValue(PerDiemExpense.calculateMealsAndIncidentalsProrated(perDiem.getIncidentals(), perDiemPercent));
-                } else {
-                    expense.setBreakfastValue(perDiem.getBreakfast());
-                    expense.setLunchValue(perDiem.getLunch());
-                    expense.setDinnerValue(perDiem.getDinner());
-                    expense.setIncidentalsValue(perDiem.getIncidentals());
-                }
+                final boolean shouldProrate = document.isOnTripBegin(expense) || document.isOnTripEnd(expense);
+                getTravelDocumentService().setPerDiemMealsAndIncidentals(expense, perDiem, document.getTripType(), document.getTripEnd(), shouldProrate);
                 expense.setLodging(perDiem.getLodging());
                 return null;
             }
@@ -896,7 +887,7 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
      * @param travelReqForm
      * @return
      */
-    KualiDecimal getAccountingLineAmountToFillIn(TravelFormBase travelReqForm) {
+    protected KualiDecimal getAccountingLineAmountToFillIn(TravelFormBase travelReqForm) {
         KualiDecimal amount = new KualiDecimal(0);
 
         TravelDocument travelDocument = travelReqForm.getTravelDocument();
@@ -1571,6 +1562,15 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
         }
 
         form.setCanCalculate(can);
+    }
+
+    /**
+     * Lookups the url for the currency url link on expense lines
+     * @param form the form this action is acting on
+     */
+    protected void populateForeignCurrencyUrl(TravelFormBase form) {
+        final String currencyUrl = getParameterService().getParameterValueAsString(TemParameterConstants.TEM_DOCUMENT.class, FOREIGN_CURRENCY_URL);
+        form.setForeignCurrencyUrl(currencyUrl);
     }
 
 }

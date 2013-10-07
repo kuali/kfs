@@ -20,7 +20,6 @@ import static org.apache.commons.lang.StringUtils.substringBetween;
 import static org.kuali.kfs.module.tem.TemConstants.CERTIFICATION_STATEMENT_ATTRIBUTE;
 import static org.kuali.kfs.module.tem.TemConstants.COVERSHEET_FILENAME_FORMAT;
 import static org.kuali.kfs.module.tem.TemConstants.EMPLOYEE_TEST_ATTRIBUTE;
-import static org.kuali.kfs.module.tem.TemConstants.FOREIGN_CURRENCY_URL_ATTRIBUTE;
 import static org.kuali.kfs.module.tem.TemConstants.REMAINING_DISTRIBUTION_ATTRIBUTE;
 import static org.kuali.kfs.module.tem.TemConstants.SHOW_ACCOUNT_DISTRIBUTION_ATTRIBUTE;
 import static org.kuali.kfs.module.tem.TemConstants.SHOW_ADVANCES_ATTRIBUTE;
@@ -29,7 +28,6 @@ import static org.kuali.kfs.module.tem.TemConstants.SHOW_REPORTS_ATTRIBUTE;
 import static org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters.DISPLAY_ACCOUNTING_DISTRIBUTION_TAB_IND;
 import static org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters.DISPLAY_ADVANCES_IN_REIMBURSEMENT_TOTAL_IND;
 import static org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters.DISPLAY_ENCUMBRANCE_IND;
-import static org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters.FOREIGN_CURRENCY_URL;
 import static org.kuali.kfs.sys.KFSConstants.ReportGeneration.PDF_FILE_EXTENSION;
 import static org.kuali.kfs.sys.KFSConstants.ReportGeneration.PDF_MIME_TYPE;
 import static org.kuali.kfs.sys.KFSPropertyConstants.DOCUMENT_NUMBER;
@@ -58,6 +56,7 @@ import org.kuali.kfs.module.tem.businessobject.AccountingDistribution;
 import org.kuali.kfs.module.tem.businessobject.AccountingDocumentRelationship;
 import org.kuali.kfs.module.tem.businessobject.ActualExpense;
 import org.kuali.kfs.module.tem.businessobject.PerDiemExpense;
+import org.kuali.kfs.module.tem.businessobject.TemSourceAccountingLine;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationCloseDocument;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
 import org.kuali.kfs.module.tem.document.TravelDocument;
@@ -538,9 +537,6 @@ public class TravelReimbursementAction extends TravelActionBase {
             }
         }
 
-        final String currencyUrl = getParameterService().getParameterValueAsString(TravelReimbursementDocument.class, FOREIGN_CURRENCY_URL);
-        request.setAttribute(FOREIGN_CURRENCY_URL_ATTRIBUTE, currencyUrl);
-
         showAccountDistribution(request, document);
 
         request.setAttribute(SHOW_REPORTS_ATTRIBUTE, !document.getDocumentHeader().getWorkflowDocument().isInitiated());
@@ -562,7 +558,7 @@ public class TravelReimbursementAction extends TravelActionBase {
 
         getTravelDocumentService().showNoTravelAuthorizationError(document);
 
-        final KualiDecimal reimbursableTotal = document.getReimbursableTotal();
+        final KualiDecimal reimbursableTotal = document.getReimbursableGrandTotal(); // the grand total is the amount that's actually reimbursable from this trip
         if (reimbursableTotal != null && !ObjectUtils.isNull(document.getTravelPayment())) {
             document.getTravelPayment().setCheckTotalAmount(reimbursableTotal);
         }
@@ -763,6 +759,51 @@ public class TravelReimbursementAction extends TravelActionBase {
             }
         }
     }
+
+    /**
+     *
+     * @see org.kuali.kfs.module.tem.document.web.struts.TravelActionBase#getAccountingLineAmountToFillIn(org.kuali.kfs.module.tem.document.web.struts.TravelFormBase)
+     */
+    @Override
+    protected KualiDecimal getAccountingLineAmountToFillIn(TravelFormBase travelReqForm) {
+        KualiDecimal amount = new KualiDecimal(0);
+
+        TravelDocument travelDocument = travelReqForm.getTravelDocument();
+        KualiDecimal encTotal = travelDocument.getEncumbranceTotal();
+        KualiDecimal expenseTotal = travelDocument.getExpenseLimit();
+
+        final List<TemSourceAccountingLine> accountingLines = travelDocument.getSourceAccountingLines();
+
+        KualiDecimal accountingTotal = new KualiDecimal(0);
+        for (TemSourceAccountingLine accountingLine : accountingLines) {
+            if (travelDocument.getDefaultCardTypeCode().equals(accountingLine.getCardType())) {
+                accountingTotal = accountingTotal.add(accountingLine.getAmount());
+            }
+        }
+
+        if (ObjectUtils.isNull(expenseTotal)) {
+            if (encTotal.isGreaterThan(KualiDecimal.ZERO)) {
+                amount = encTotal.subtract(accountingTotal);
+            }
+            else {
+                amount = KualiDecimal.ZERO;
+            }
+        }
+        else if (expenseTotal.isLessThan(encTotal)) {
+            amount = expenseTotal.subtract(accountingTotal);
+        }
+        else {
+            if (encTotal.isGreaterThan(KualiDecimal.ZERO)) {
+                amount = encTotal.subtract(accountingTotal);
+            }
+            else {
+                amount = KualiDecimal.ZERO;
+            }
+        }
+
+        return amount;
+    }
+
 
     protected TravelReimbursementService getTravelReimbursementService() {
         return SpringContext.getBean(TravelReimbursementService.class);

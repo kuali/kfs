@@ -47,7 +47,6 @@
 		<property name="validationPattern">
 			<bean parent="FixedPointValidationPattern" p:precision="19" p:scale="2"/>
 		</property>
-		<property name="required" value="true"/>
 		<property name="control">
 			<bean parent="TextControlDefinition" p:size="8"/>
 		</property>
@@ -82,7 +81,6 @@
 	<bean id="TravelPayment-documentationLocationCode" parent="TravelPayment-documentationLocationCode-parentBean"/>
 	<bean id="TravelPayment-documentationLocationCode-parentBean" abstract="true" parent="PaymentDocumentationLocation-paymentDocumentationLocationCode">
 		<property name="name" value="documentationLocationCode"/>
-		<property name="required" value="true"/>
 		<property name="control">
 			<bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.sys.businessobject.options.PaymentDocumentationLocationValuesFinder" p:includeKeyInLabel="false"/>
 		</property>
@@ -95,7 +93,6 @@
 		<property name="label" value="Due Date"/>
 		<property name="shortLabel" value="Due"/>
 		<property name="maxLength" value="10"/>
-		<property name="required" value="true"/>
 		<property name="control">
 			<bean parent="TextControlDefinition" p:size="11"/>
 		</property>
@@ -121,7 +118,6 @@
 		<property name="label" value="Check Stub Text"/>
 		<property name="shortLabel" value="Check Txt"/>
 		<property name="maxLength" value="1400"/>
-		<property name="required" value="true"/>
 		<property name="control">
 			<bean parent="TextareaControlDefinition" p:rows="5" p:cols="100"/>
 		</property>

@@ -25,11 +25,13 @@ import org.kuali.kfs.integration.ar.AccountsReceivableOrganizationOptions;
 import org.kuali.kfs.module.tem.businessobject.ActualExpense;
 import org.kuali.kfs.module.tem.businessobject.ExpenseTypeAware;
 import org.kuali.kfs.module.tem.businessobject.GroupTraveler;
+import org.kuali.kfs.module.tem.businessobject.PerDiem;
 import org.kuali.kfs.module.tem.businessobject.PerDiemExpense;
 import org.kuali.kfs.module.tem.businessobject.SpecialCircumstances;
 import org.kuali.kfs.module.tem.businessobject.TEMExpense;
 import org.kuali.kfs.module.tem.businessobject.TransportationModeDetail;
 import org.kuali.kfs.module.tem.businessobject.TravelAdvance;
+import org.kuali.kfs.module.tem.businessobject.TripType;
 import org.kuali.kfs.module.tem.dataaccess.TravelDocumentDao;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
 import org.kuali.kfs.module.tem.document.TravelDocument;
@@ -407,4 +409,14 @@ public interface TravelDocumentService {
      *          the expense in question
      */
     public void disableDuplicateExpenses(TravelDocument trDocument, ActualExpense actualExpense);
+
+    /**
+     * Sets the meal and incidental amounts on the given per diem expense
+     * @param expense the expense to set amounts on
+     * @param perDiem the per diem record amounts are based off of
+     * @param tripType the trip type being taken
+     * @param tripEnd the end time of the trip
+     * @param shouldProrate whether this expense should be prorated
+     */
+    public void setPerDiemMealsAndIncidentals(PerDiemExpense expense, PerDiem perDiem, TripType tripType, Timestamp tripEnd, boolean shouldProrate);
 }

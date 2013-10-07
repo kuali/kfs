@@ -15,25 +15,9 @@
             <ref bean="GroupTraveler-documentNumber" />
             <ref bean="GroupTraveler-financialDocumentLineNumber" />
             <ref bean="GroupTraveler-name" />
-            <ref bean="GroupTraveler-travelerTypeCode" />
+            <ref bean="GroupTraveler-groupTravelerTypeCode" />
             <ref bean="GroupTraveler-groupTravelerEmpId" />
             <ref bean="GroupTraveler-versionNumber" />
-        </list>
-        </property>
-        <property name="relationships">
-        <list>
-            <bean parent="RelationshipDefinition">
-                <property name="objectAttributeName" value="travelerType" />
-                <property name="primitiveAttributes">
-                <list>
-                    <bean parent="PrimitiveAttributeDefinition" p:sourceName="travelerTypeCode" p:targetName="code" />
-                </list>
-                </property>
-                <property name="supportAttributes">
-                <list>
-                </list>
-                </property>
-            </bean>
         </list>
         </property>
     </bean>
@@ -81,9 +65,9 @@
         <property name="description" value="Name" />
         <property name="control"><bean parent="TextControlDefinition" p:size="100"/></property>
     </bean>
-    <bean id="GroupTraveler-travelerTypeCode" parent="GroupTraveler-travelerTypeCode-parentBean" />
-    <bean id="GroupTraveler-travelerTypeCode-parentBean" parent="AttributeDefinition">
-        <property name="name" value="travelerTypeCode" />
+    <bean id="GroupTraveler-groupTravelerTypeCode" parent="GroupTraveler-groupTravelerTypeCode-parentBean" />
+    <bean id="GroupTraveler-groupTravelerTypeCode-parentBean" parent="AttributeDefinition">
+        <property name="name" value="groupTravelerTypeCode" />
         <property name="label" value="Traveler Type Code" />
         <property name="shortLabel" value="Traveler Type Code" />
         <property name="maxLength" value="3" />
@@ -91,17 +75,17 @@
         <property name="summary" value="Traveler Type Code" />
         <property name="description" value="Traveler Type Code" />
         <property name="control">
-            <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.tem.businessobject.options.TravelerTypeValuesFinder" p:includeKeyInLabel="false"/>
+            <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.tem.businessobject.options.GroupTravelerTypeValuesFinder" p:includeKeyInLabel="false"/>
         </property>
     </bean>
     <bean id="GroupTraveler-groupTravelerEmpId" parent="GroupTraveler-groupTravelerEmpId-parentBean" />
     <bean id="GroupTraveler-groupTravelerEmpId-parentBean" parent="AttributeDefinition">
         <property name="name" value="groupTravelerEmpId" />
-        <property name="label" value="Group Traveler Emp Id" />
-        <property name="shortLabel" value="Group Traveler Emp Id" />
+        <property name="label" value="Group Traveler Id" />
+        <property name="shortLabel" value="Group Traveler Id" />
         <property name="maxLength" value="255" />
-        <property name="summary" value="Group Traveler Emp Id" />
-        <property name="description" value="Group Traveler Emp Id" />
+        <property name="summary" value="Group Traveler Id" />
+        <property name="description" value="Group Traveler Id" />
         <property name="control"><bean parent="TextControlDefinition" p:size="20"/></property>
     </bean>
     <bean id="GroupTraveler-versionNumber" parent="GroupTraveler-versionNumber-parentBean" />
@@ -126,7 +110,7 @@
                     <bean parent="FieldDefinition" p:attributeName="documentNumber" />
                     <bean parent="FieldDefinition" p:attributeName="financialDocumentLineNumber" />
                     <bean parent="FieldDefinition" p:attributeName="name" />
-                    <bean parent="FieldDefinition" p:attributeName="travelerTypeCode" />
+                    <bean parent="FieldDefinition" p:attributeName="groupTravelerTypeCode" />
                     <bean parent="FieldDefinition" p:attributeName="groupTravelerEmpId" />
                 </list>
                 </property>
@@ -146,7 +130,7 @@
         <property name="lookupFields"><list>
             <bean parent="FieldDefinition" p:attributeName="id" />
             <bean parent="FieldDefinition" p:attributeName="name" />
-            <bean parent="FieldDefinition" p:attributeName="travelerTypeCode" />
+            <bean parent="FieldDefinition" p:attributeName="groupTravelerTypeCode" />
         </list>
         </property>
         <property name="resultFields">
@@ -155,7 +139,7 @@
             <bean parent="FieldDefinition" p:attributeName="documentNumber" />
             <bean parent="FieldDefinition" p:attributeName="financialDocumentLineNumber" />
             <bean parent="FieldDefinition" p:attributeName="name" />
-            <bean parent="FieldDefinition" p:attributeName="travelerTypeCode" />
+            <bean parent="FieldDefinition" p:attributeName="groupTravelerTypeCode" />
             <bean parent="FieldDefinition" p:attributeName="groupTravelerEmpId" />
         </list>
         </property>

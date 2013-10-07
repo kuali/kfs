@@ -104,7 +104,7 @@
 							property="${expense}.currencyRate"
 							readOnly="${!fullEntryMode }" />
 						<br/>
-		            	<a href="${currencyUrl}">Rate Conversion Site</a>
+		            	<a href="${KualiForm.foreignCurrencyUrl}" target="currency_conversion_window">Rate Conversion Site</a>
 		            </div>
 				</td>
 		        <td valign="top" nowrap class="infoline">

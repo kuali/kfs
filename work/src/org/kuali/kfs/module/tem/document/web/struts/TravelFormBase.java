@@ -94,6 +94,7 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
     private boolean openPaymentInformationWindow = false;
     private boolean canOpenPaymentInformation = false;
     private String wireChargeMessage;
+    private String foreignCurrencyUrl;
     private Observable observable;
     private AccountingDocumentRelationship newAccountingDocumentRelationship;
 
@@ -1091,4 +1092,13 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
         final PaymentSourceHelperService paymentSourceHelperService = SpringContext.getBean(PaymentSourceHelperService.class);
         return paymentSourceHelperService.getDisbursementInfoUrl();
     }
+
+    public String getForeignCurrencyUrl() {
+        return foreignCurrencyUrl;
+    }
+
+    public void setForeignCurrencyUrl(String foreignCurrencyUrl) {
+        this.foreignCurrencyUrl = foreignCurrencyUrl;
+    }
+
 }

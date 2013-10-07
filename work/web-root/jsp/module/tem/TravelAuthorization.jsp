@@ -29,7 +29,7 @@
     showTabButtons="true">
     
 <script language="javascript" src="dwr/interface/TravelDocumentService.js"></script> 
-<script language="javascript" src="dwr/interface/TravelAuthorizationService.js"></script>    
+<script language="javascript" src="dwr/interface/TravelAuthorizationService.js"></script>     
 <script language="javascript" src="dwr/interface/TravelExpenseService.js"></script> 
 <script language="javascript" src="scripts/module/tem/common.js"></script>
 <script language="javascript" src="scripts/module/tem/objectInfo.js"></script>
@@ -67,7 +67,7 @@
  
     <tem-ta:tripOverview/>
 	<c:if test="${KualiForm.docTypeName!=TemConstants.TravelDocTypes.TRAVEL_AUTHORIZATION_CLOSE_DOCUMENT}"> 
-		<kul:tab tabTitle="Travel Advance" defaultOpen="false" tabErrorKey="${TemKeyConstants.TRVL_AUTH_TRVL_ADVANCE_ERRORS}">
+		<kul:tab tabTitle="Travel Advance" defaultOpen="${KualiForm.defaultTravelAdvanceTab}" tabErrorKey="${TemKeyConstants.TRVL_AUTH_TRVL_ADVANCE_ERRORS}">
 			<div class="tab-container" align="left">
 				<h3>Travel Advance</h3>
 				<tem-ta:travelAdvance travelAdvanceProperty="document.travelAdvance" />

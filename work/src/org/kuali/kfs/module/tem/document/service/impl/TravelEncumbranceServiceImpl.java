@@ -55,6 +55,7 @@ import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBaseConstants.GENERAL_LEDGER_PENDING_ENTRY_CODE;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
@@ -65,6 +66,7 @@ import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.ObjectUtils;
+import org.springframework.transaction.annotation.Transactional;
 
 public class TravelEncumbranceServiceImpl implements TravelEncumbranceService {
 
@@ -189,8 +191,7 @@ public class TravelEncumbranceServiceImpl implements TravelEncumbranceService {
 
         entry.setTransactionEncumbranceUpdateCode(KFSConstants.ENCUMB_UPDT_REFERENCE_DOCUMENT_CD);
         entry.setFinancialBalanceTypeCode(balanceType);
-        String statusCode = document.getFinancialSystemDocumentHeader().getFinancialDocumentStatusCode();
-        entry.setFinancialDocumentApprovedCode(statusCode);
+        entry.setFinancialDocumentApprovedCode(GENERAL_LEDGER_PENDING_ENTRY_CODE.NO);
         entry.setReferenceFinancialDocumentTypeCode(encumbrance.getDocumentTypeCode());
         entry.setReferenceFinancialSystemOriginationCode(encumbrance.getOriginCode());
     }
@@ -219,21 +220,24 @@ public class TravelEncumbranceServiceImpl implements TravelEncumbranceService {
      * @param skipDocumentNumber if not null, pending entries with the given document number will be skipped in the calculation
      * @return an Iterator of encumbrances
      */
-    protected List<Encumbrance> getEncumbrancesForTrip(String travelDocumentIdentifier, String skipDocumentNumber) {
+    @Override
+    @Transactional
+    public List<Encumbrance> getEncumbrancesForTrip(String travelDocumentIdentifier, String skipDocumentNumber) {
         Map<String, Object> criteria = new HashMap<String, Object>();
         criteria.put(KFSPropertyConstants.DOCUMENT_NUMBER, travelDocumentIdentifier);
         Iterator<Encumbrance> encumbranceIterator = encumbranceService.findOpenEncumbrance(criteria, false);
-
-        // now get glpes which would create encumbrance
-        Map<String, String> glpeCriteria = new HashMap<String, String>();
-        glpeCriteria.put(KFSPropertyConstants.DOCUMENT_NUMBER, travelDocumentIdentifier);
-        Iterator<GeneralLedgerPendingEntry> pendingEntriesIterator = generalLedgerPendingEntryService.findPendingLedgerEntriesForEncumbrance(glpeCriteria, true); // find all approved entries with the criteria
 
         // now return single iterator
         List<Encumbrance> allEncumbrances = new ArrayList<Encumbrance>();
         while (encumbranceIterator.hasNext()) {
             allEncumbrances.add(encumbranceIterator.next());
         }
+
+        // now get glpes which would create encumbrance
+        Map<String, String> glpeCriteria = new HashMap<String, String>();
+        glpeCriteria.put(KFSPropertyConstants.DOCUMENT_NUMBER, travelDocumentIdentifier);
+        Iterator<GeneralLedgerPendingEntry> pendingEntriesIterator = generalLedgerPendingEntryService.findPendingLedgerEntriesForEncumbrance(glpeCriteria, true); // find all approved entries with the criteria
+
         while (pendingEntriesIterator.hasNext()) {
             final GeneralLedgerPendingEntry pendingEntry = pendingEntriesIterator.next();
             if (StringUtils.isBlank(skipDocumentNumber) || !skipDocumentNumber.equals(pendingEntry.getDocumentNumber())) {

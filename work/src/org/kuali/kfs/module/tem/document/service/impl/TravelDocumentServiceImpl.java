@@ -122,6 +122,8 @@ import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.kim.api.identity.principal.Principal;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kns.document.authorization.DocumentAuthorizer;
 import org.kuali.rice.kns.service.DocumentHelperService;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
@@ -156,23 +158,24 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
 
     protected static Logger LOG = Logger.getLogger(TravelDocumentServiceImpl.class);
 
-    private DataDictionaryService dataDictionaryService;
-    private DocumentService documentService;
-    private BusinessObjectService businessObjectService;
-    private TravelDocumentDao travelDocumentDao;
-    private TravelAuthorizationService travelAuthorizationService;
-    private DateTimeService dateTimeService;
-    private ParameterService parameterService;
-    private TravelerService travelerService;
-    private AccountingDocumentRelationshipService accountingDocumentRelationshipService;
-    private TEMRoleService temRoleService;
-    private WorkflowDocumentService workflowDocumentService;
-    private KualiRuleService kualiRuleService;
-    private StateService stateService;
-    private PersistenceStructureService persistenceStructureService;
-    private UniversityDateService universityDateService;
-    private List<String> defaultAcceptableFileExtensions;
-    private CsvRecordFactory<GroupTravelerCsvRecord> csvRecordFactory;
+    protected DataDictionaryService dataDictionaryService;
+    protected DocumentService documentService;
+    protected BusinessObjectService businessObjectService;
+    protected TravelDocumentDao travelDocumentDao;
+    protected TravelAuthorizationService travelAuthorizationService;
+    protected DateTimeService dateTimeService;
+    protected ParameterService parameterService;
+    protected TravelerService travelerService;
+    protected AccountingDocumentRelationshipService accountingDocumentRelationshipService;
+    protected TEMRoleService temRoleService;
+    protected WorkflowDocumentService workflowDocumentService;
+    protected KualiRuleService kualiRuleService;
+    protected StateService stateService;
+    protected PersistenceStructureService persistenceStructureService;
+    protected UniversityDateService universityDateService;
+    protected List<String> defaultAcceptableFileExtensions;
+    protected CsvRecordFactory<GroupTravelerCsvRecord> csvRecordFactory;
+    protected List<String> groupTravelerColumns;
     protected volatile AccountsReceivableModuleService accountsReceivableModuleService;
     protected PerDiemService perDiemService;
 
@@ -196,19 +199,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
         expense.setCountryState(perDiem.getPrimaryDestination().getRegion().getRegionCode());
         expense.setCounty(perDiem.getPrimaryDestination().getCounty());
 
-        //default first to per diem's values
-        expense.setBreakfastValue(perDiem.getBreakfast());
-        expense.setLunchValue(perDiem.getLunch());
-        expense.setDinnerValue(perDiem.getDinner());
-        expense.setIncidentalsValue(perDiem.getIncidentals());
-        // if prorated, recalculate the values
-        if(expense.isProrated()){
-            Integer perDiemPercent = calculateProratePercentage(expense, document.getTripType().getPerDiemCalcMethod(), document.getTripEnd());
-            expense.setDinnerValue(PerDiemExpense.calculateMealsAndIncidentalsProrated(expense.getDinnerValue(), perDiemPercent));
-            expense.setLunchValue(PerDiemExpense.calculateMealsAndIncidentalsProrated(expense.getLunchValue(), perDiemPercent));
-            expense.setBreakfastValue(PerDiemExpense.calculateMealsAndIncidentalsProrated(expense.getBreakfastValue(), perDiemPercent));
-            expense.setIncidentalsValue(PerDiemExpense.calculateMealsAndIncidentalsProrated(expense.getIncidentalsValue(), perDiemPercent));
-        }
+        setPerDiemMealsAndIncidentals(expense, perDiem, document.getTripType(), document.getTripEnd(), expense.isProrated());
         final KualiDecimal lodgingAmount = getPerDiemService().isPerDiemHandlingLodging() ? perDiem.getLodging() : KualiDecimal.ZERO;
         expense.setLodging(lodgingAmount);
         return expense;
@@ -219,6 +210,53 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
      */
     protected PerDiemExpense newPerDiemExpense() {
         return new PerDiemExpense();
+    }
+
+    /**
+     * Sets the meal and incidental amounts on the given per diem expense
+     * @param expense the expense to set amounts on
+     * @param perDiem the per diem record amounts are based off of
+     * @param tripType the trip type being taken
+     * @param tripEnd the end time of the trip
+     * @param shouldProrate whether this expense should be prorated
+     */
+    @Override
+    public void setPerDiemMealsAndIncidentals(PerDiemExpense expense, PerDiem perDiem, TripType tripType, Timestamp tripEnd, boolean shouldProrate) {
+        String perDiemCalcMethod = null;
+        if (!ObjectUtils.isNull(tripType)) {
+            perDiemCalcMethod = tripType.getPerDiemCalcMethod();
+        }
+        //default first to per diem's values
+        expense.setBreakfastValue(perDiem.getBreakfast());
+        expense.setLunchValue(perDiem.getLunch());
+        expense.setDinnerValue(perDiem.getDinner());
+        expense.setIncidentalsValue(perDiem.getIncidentals());
+        // if prorated, recalculate the values
+        if(shouldProrate){
+            Integer perDiemPercent = calculateProratePercentage(expense, perDiemCalcMethod, tripEnd);
+            expense.setDinnerValue(PerDiemExpense.calculateMealsAndIncidentalsProrated(expense.getDinnerValue(), perDiemPercent));
+            expense.setLunchValue(PerDiemExpense.calculateMealsAndIncidentalsProrated(expense.getLunchValue(), perDiemPercent));
+            expense.setBreakfastValue(PerDiemExpense.calculateMealsAndIncidentalsProrated(expense.getBreakfastValue(), perDiemPercent));
+            expense.setIncidentalsValue(PerDiemExpense.calculateMealsAndIncidentalsProrated(expense.getIncidentalsValue(), perDiemPercent));
+
+            correctProratedPerDiemExpense(expense, perDiemPercent, perDiem);
+        }
+    }
+
+    /**
+     * Makes sure that any rounding in determining prorated meals or incidentals amounts will not be more than the meals and incidentals totals allowed by the per diem.
+     * Extra change will be taken from breakfast.
+     * @param expense the expense to correct
+     * @param perDiemPercent the percentage of the proration for this per diem
+     * @param perDiem the per diem record to work against
+     */
+    protected void correctProratedPerDiemExpense(PerDiemExpense expense, Integer perDiemPercent, PerDiem perDiem) {
+        final KualiDecimal mealAndIncidentalLimit = PerDiemExpense.calculateMealsAndIncidentalsProrated(perDiem.getMealsAndIncidentals(), perDiemPercent);
+        if (expense.getMealsAndIncidentals().isGreaterThan(mealAndIncidentalLimit)) {
+            // take the difference from breakfast
+            final KualiDecimal delta = expense.getMealsAndIncidentals().subtract(mealAndIncidentalLimit);
+            expense.setBreakfastValue(expense.getBreakfastValue().subtract(delta));
+        }
     }
 
     /**
@@ -842,7 +880,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
                 }
 
                 // Prorate on trip begin. (12:01 AM arrival = 100%, 11:59 PM arrival = 25%)
-                if (!KfsDateUtils.isSameDay(prorateDate.getTime(), tripEnd)) {
+                if (tripEnd != null && !KfsDateUtils.isSameDay(prorateDate.getTime(), tripEnd)) {
                     return 100 - ((quadrantIndex - 1) * TemConstants.QUADRANT_PERCENT_VALUE);
                 }
                 else { // Prorate on trip end. (12:01 AM departure = 25%, 11:59 PM arrival = 100%).
@@ -1222,7 +1260,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
             }
         }
         //return TA doc if no amendments exist
-        else {
+        if (travelDocument == null) {
             //if the taDocs is null, initialize an empty list
             taDocs = taDocs == null? new ArrayList<Document>() : taDocs;
 
@@ -1683,14 +1721,14 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
             catch (Exception e) {}
         }
 
-        final Map<String,List<Integer>> header = parseHeader(rows.remove(0));
+        final Map<String,List<Integer>> header = getGroupTravelerHeaders();
 
         for (final String[] row : rows) {
             final GroupTravelerCsvRecord record = createGroupTravelerCsvRecord(header, row);
             final GroupTraveler traveler = new GroupTraveler();
             traveler.setGroupTravelerEmpId(record.getGroupTravelerEmpId());
             traveler.setName(record.getName());
-            traveler.setTravelerTypeCode(record.getTravelerTypeCode());
+            traveler.setGroupTravelerType(record.getGroupTravelerType());
             retval.add(traveler);
         }
 
@@ -1699,6 +1737,25 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
 
     protected GroupTravelerCsvRecord createGroupTravelerCsvRecord(final Map<String, List<Integer>> header, final String[] record) throws Exception {
         return getCsvRecordFactory().newInstance(header, record);
+    }
+
+    /**
+     * Turns the injected List of groupTravelerHeaders into a Map where the key is the name and the value is a single element array holding the position of the column (which is assumed to be in the order the columns were injected)
+     * @return a Map of columns and positions
+     */
+    protected Map<String,List<Integer>> getGroupTravelerHeaders() {
+        Map<String, List<Integer>> headers = new HashMap<String, List<Integer>>();
+        if (getGroupTravelerColumns() != null && !getGroupTravelerColumns().isEmpty()) {
+            int count = 0;
+            while (count < getGroupTravelerColumns().size()) {
+                List<Integer> countArray = new ArrayList<Integer>(2);
+                countArray.add(new Integer(count));
+                final String columnName = getGroupTravelerColumns().get(count);
+                headers.put(columnName, countArray);
+                count += 1;
+            }
+        }
+        return headers;
     }
 
     /**
@@ -2093,6 +2150,8 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
 
                 try {
                     Note cancelNote = getDocumentService().createNoteFromDocument(taDoc, "Amemdment Canceled");
+                    Principal systemUser = KimApiServiceLocator.getIdentityService().getPrincipalByPrincipalName(KFSConstants.SYSTEM_USER);
+                    cancelNote.setAuthorUniversalIdentifier(systemUser.getPrincipalId());
                     taDoc.addNote(cancelNote);
                     getDocumentService().saveDocument(taDoc);
                 }
@@ -2156,7 +2215,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
         List<TravelAdvance> advances = new ArrayList<TravelAdvance>();
         final Collection<TravelAdvance> foundAdvances = getBusinessObjectService().findMatchingOrderBy(TravelAdvance.class, criteria, KFSPropertyConstants.DOCUMENT_NUMBER, true);
         for (TravelAdvance foundAdvance: foundAdvances) {
-            if (foundAdvance.isAtLeastPartiallyFilledIn() && isDocumentApproved(foundAdvance.getDocumentNumber())) {
+            if (foundAdvance.isAtLeastPartiallyFilledIn() && isDocumentApprovedOrExtracted(foundAdvance.getDocumentNumber())) {
                 advances.add(foundAdvance);
             }
         }
@@ -2168,9 +2227,9 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
      * @param documentNumber the document number of the document to check
      * @return true if the document has been approved, false otherwise
      */
-    protected boolean isDocumentApproved(String documentNumber) {
+    protected boolean isDocumentApprovedOrExtracted(String documentNumber) {
         final FinancialSystemDocumentHeader documentHeader = getBusinessObjectService().findBySinglePrimaryKey(FinancialSystemDocumentHeader.class, documentNumber);
-        return KFSConstants.DocumentStatusCodes.APPROVED.equals(documentHeader.getFinancialDocumentStatusCode());
+        return KFSConstants.DocumentStatusCodes.APPROVED.equals(documentHeader.getFinancialDocumentStatusCode()) || KFSConstants.DocumentStatusCodes.Payments.EXTRACTED.equals(documentHeader.getFinancialDocumentStatusCode());
     }
 
     /**
@@ -2398,4 +2457,11 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
         this.perDiemService = perDiemService;
     }
 
+    public List<String> getGroupTravelerColumns() {
+        return groupTravelerColumns;
+    }
+
+    public void setGroupTravelerColumns(List<String> groupTravelerColumns) {
+        this.groupTravelerColumns = groupTravelerColumns;
+    }
 }

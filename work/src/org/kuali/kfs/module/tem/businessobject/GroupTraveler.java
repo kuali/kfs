@@ -23,12 +23,11 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import org.kuali.kfs.integration.ar.AccountsReceivableModuleService;
+import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemParameterConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -46,8 +45,7 @@ public class GroupTraveler extends PersistableBusinessObjectBase {
 
     private Integer financialDocumentLineNumber;
     private String name;
-    private String travelerTypeCode;
-    private TravelerType travelerType;
+    private String groupTravelerTypeCode;
     private String groupTravelerEmpId;
 
     @Id
@@ -100,23 +98,27 @@ public class GroupTraveler extends PersistableBusinessObjectBase {
         this.financialDocumentLineNumber = financialDocumentLineNumber;
     }
 
-    @ManyToOne
-    @JoinColumn(name="traveler_typ_cd")
-    public TravelerType getTravelerType() {
-        return travelerType;
-    }
-
-    public void setTravelerType(TravelerType travelerType) {
-        this.travelerType = travelerType;
-    }
-
     @Column(name="traveler_typ_cd",length=3,nullable=false)
-    public String getTravelerTypeCode() {
-        return travelerTypeCode;
+    public String getGroupTravelerTypeCode() {
+        return groupTravelerTypeCode;
     }
 
-    public void setTravelerTypeCode(String travelerTypeCode) {
-        this.travelerTypeCode = travelerTypeCode;
+    public void setGroupTravelerTypeCode(String groupTravelerTypeCode) {
+        this.groupTravelerTypeCode = groupTravelerTypeCode;
+    }
+
+    /**
+     * Sets the group traveler type code, based on the name passed in (which can be any case, but which should be one of the standard
+     * GroupTravelerType values (ie, "Student")
+     * @see org.kuali.kfs.module.tem.TemConstants.GroupTravelerType
+     * @param groupTravelerType the traveler type name
+     */
+    public void setGroupTravelerType(String groupTravelerType) {
+        for (TemConstants.GroupTravelerType travelerType : TemConstants.GroupTravelerType.values()) {
+            if (travelerType.toString().equalsIgnoreCase(groupTravelerType)) {
+                this.groupTravelerTypeCode = travelerType.getCode();
+            }
+        }
     }
 
     @Column(name="name",length=100, nullable=false)
@@ -149,7 +151,7 @@ public class GroupTraveler extends PersistableBusinessObjectBase {
     protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap map = new LinkedHashMap();
         map.put("id", this.id);
-        map.put("travelerTypeCode", this.travelerTypeCode);
+        map.put("groupTravelerTypeCode", this.groupTravelerTypeCode);
         map.put("name", this.name);
 
         return map;
@@ -160,7 +162,7 @@ public class GroupTraveler extends PersistableBusinessObjectBase {
      * @return Returns the travelerLabel.
      */
     public String getTravelerLabel() {
-        if(SpringContext.getBean(ParameterService.class).getParameterValuesAsString(TemParameterConstants.TEM_DOCUMENT.class, NON_EMPLOYEE_TRAVELER_TYPES).contains(travelerTypeCode)) {
+        if(SpringContext.getBean(ParameterService.class).getParameterValuesAsString(TemParameterConstants.TEM_DOCUMENT.class, NON_EMPLOYEE_TRAVELER_TYPES).contains(groupTravelerTypeCode)) {
             return SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(SpringContext.getBean(AccountsReceivableModuleService.class).createCustomer().getClass(), KFSPropertyConstants.CUSTOMER_NUMBER);
         } else {
             return SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(GroupTraveler.class, TemPropertyConstants.GROUP_TRAVELER_EMP_ID);

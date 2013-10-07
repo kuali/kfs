@@ -24,6 +24,8 @@ import org.kuali.kfs.module.tem.identity.TemKimAttributes;
 import org.kuali.kfs.sys.document.FinancialSystemMaintenanceDocument;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 public class TemProfileAuthorizer extends FinancialSystemMaintenanceDocumentAuthorizerBase {
@@ -69,4 +71,8 @@ public class TemProfileAuthorizer extends FinancialSystemMaintenanceDocumentAuth
         }
     }
 
+    @Override
+    public boolean canCopy(Document document, Person user) {
+        return false;
+    }
 }

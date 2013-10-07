@@ -1635,7 +1635,7 @@
         </reference-descriptor> 
         
         <reference-descriptor name="travelAdvance" class-ref="org.kuali.kfs.module.tem.businessobject.TravelAdvance" auto-retrieve="true" auto-update="none" auto-delete="none">
-            <foreignkey field-ref="travelAdvanceId"/>
+            <foreignkey field-ref="travelAdvanceDocumentNumber"/>
         </reference-descriptor>  
         
         <reference-descriptor name="documentHeader" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object">

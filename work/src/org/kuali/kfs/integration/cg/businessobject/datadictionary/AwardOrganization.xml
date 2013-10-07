@@ -23,7 +23,6 @@
 				<ref bean="AwardOrganization-organizationCode" />
 				<ref bean="AwardOrganization-proposalNumber" />
 				<ref bean="AwardOrganization-organization.organizationName" />
-				<ref bean="AwardOrganization-newCollectionRecord" />
 				<ref bean="AwardOrganization-awardPrimaryOrganizationIndicator" />
 				<ref bean="AwardOrganization-active" />
 			</list>
@@ -62,11 +61,6 @@
 		abstract="true" parent="Organization-organizationName">
 		<property name="name" value="organization.organizationName" />
 		<property name="label" value="Name" />
-	</bean>
-	<bean id="AwardOrganization-newCollectionRecord" parent="AwardOrganization-newCollectionRecord-parentBean" />
-
-	<bean id="AwardOrganization-newCollectionRecord-parentBean"
-		abstract="true" parent="GenericAttributes-newCollectionRecord">
 	</bean>
 	<bean id="AwardOrganization-awardPrimaryOrganizationIndicator"
 		parent="AwardOrganization-awardPrimaryOrganizationIndicator-parentBean" />

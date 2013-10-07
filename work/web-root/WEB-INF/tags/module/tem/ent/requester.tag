@@ -19,7 +19,7 @@
 <c:set var="travelerAttributes" value="${DataDictionary.TravelerDetail.attributes}" />
 <c:set var="tabindexOverrideBase" value="8" />
 
-<h3>Requester (Person to be reimbursed)</h3>
+<h3>Payee (Person to be reimbursed)</h3>
 
 <table cellpadding="0" cellspacing="0" class="datatable">
 	<tr>
@@ -50,7 +50,7 @@
 	</tr>
 	<c:if test="${fullEntryMode}">
 		<tr>
-			<th class="bord-l-b"><div align="right">Requester Lookup:</div>
+			<th class="bord-l-b"><div align="right">Payee Lookup:</div>
 			</th>
 			<td class="datacell" colspan="3">
 				<div align="left">
@@ -62,7 +62,7 @@
 	</c:if>
 	<tr>
 		<th>
-			<div align="right">Requester Type Code:</div>
+			<div align="right">Payee Type Code:</div>
 		</th>
 		<td class="datacell" colspan="3">
 			<div align="left">

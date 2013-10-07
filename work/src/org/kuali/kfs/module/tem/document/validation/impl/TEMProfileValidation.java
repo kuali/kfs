@@ -35,6 +35,7 @@ import org.kuali.kfs.module.tem.TemPropertyConstants.TEMProfileProperties;
 import org.kuali.kfs.module.tem.businessobject.TEMProfile;
 import org.kuali.kfs.module.tem.businessobject.TEMProfileAccount;
 import org.kuali.kfs.module.tem.businessobject.TEMProfileArranger;
+import org.kuali.kfs.module.tem.service.TemProfileService;
 import org.kuali.kfs.module.tem.service.TravelService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
@@ -51,6 +52,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
 
 public class TEMProfileValidation extends MaintenanceDocumentRuleBase{
     protected static final String TRAVEL_ARRANGERS_SECTION_ID = "TEMProfileArrangers";
+    protected volatile static TemProfileService temProfileService;
 
     /**
      * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#dataDictionaryValidate(org.kuali.rice.kns.document.MaintenanceDocument)
@@ -254,28 +256,14 @@ public class TEMProfileValidation extends MaintenanceDocumentRuleBase{
      */
     protected boolean checkActiveArrangersForNonEmployees(TEMProfile profile) {
         boolean success = true;
-        if (profile != null && !StringUtils.isBlank(profile.getTravelerTypeCode()) && profile.getTravelerTypeCode().equals(TemConstants.NONEMP_TRAVELER_TYP_CD)) {
+        if (profile != null && getTemProfileService().isProfileNonEmploye(profile)) {
             // we've got a non-employee.  let's see if they have at least one active arranger
-            if (!anyActiveArrangers(profile)) {
+            if (!getTemProfileService().hasActiveArrangers(profile)) {
                 GlobalVariables.getMessageMap().putErrorForSectionId(TRAVEL_ARRANGERS_SECTION_ID, TemKeyConstants.ERROR_TEM_PROFILE_NONEMPLOYEE_MUST_HAVE_ACTIVE_ARRANGER);
                 success = false;
             }
         }
         return success;
-    }
-
-    /**
-     * Determines if the given profile has any active arrangers
-     * @param profile the profile to check
-     * @return true if there are any active arrangers, false otherwise
-     */
-    protected boolean anyActiveArrangers(TEMProfile profile) {
-        for (TEMProfileArranger arranger : profile.getArrangers()) {
-            if (arranger.isActive()) {
-                return true;
-            }
-        }
-        return false;
     }
 
     @Override
@@ -294,6 +282,13 @@ public class TEMProfileValidation extends MaintenanceDocumentRuleBase{
 
     protected BusinessObjectService getBusinessObjectService() {
         return SpringContext.getBean(BusinessObjectService.class);
+    }
+
+    protected TemProfileService getTemProfileService() {
+        if (temProfileService == null) {
+            temProfileService = SpringContext.getBean(TemProfileService.class);
+        }
+        return temProfileService;
     }
 
 }

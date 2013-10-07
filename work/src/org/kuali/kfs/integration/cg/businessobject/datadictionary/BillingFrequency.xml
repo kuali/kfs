@@ -18,12 +18,6 @@
 		parent="BusinessObjectEntry">
 		<property name="businessObjectClass"
 			value="org.kuali.kfs.integration.cg.businessobject.BillingFrequency" />
-		<property name="inquiryDefinition">
-			<ref bean="BillingFrequency-inquiryDefinition" />
-		</property>
-		<property name="lookupDefinition">
-			<ref bean="BillingFrequency-lookupDefinition" />
-		</property>
 		<property name="objectLabel" value="Frequency" />
 		<property name="attributes">
 			<list>
@@ -97,29 +91,5 @@
 		<property name="name" value="active" />
 	</bean>
 
-	<!-- Business Object Inquiry Definition -->
 
-
-	<bean id="BillingFrequency-inquiryDefinition" parent="BillingFrequency-inquiryDefinition-parentBean" />
-
-	<bean id="BillingFrequency-inquiryDefinition-parentBean" abstract="true"
-		parent="InquiryDefinition">
-		<property name="title" value="Billing Frequency Inquiry" />
-		<property name="inquirySections">
-			<list>
-				<bean parent="InquirySectionDefinition">
-					<property name="title" value="" />
-					<property name="numberOfColumns" value="1" />
-					<property name="inquiryFields">
-						<list>
-							<bean parent="FieldDefinition" p:attributeName="frequency" />
-							<bean parent="FieldDefinition" p:attributeName="frequencyDescription" />
-							<bean parent="FieldDefinition" p:attributeName="gracePeriodDays" />
-							<bean parent="FieldDefinition" p:attributeName="active" />
-						</list>
-					</property>
-				</bean>
-			</list>
-		</property>
-	</bean> 
 </beans>

@@ -13,31 +13,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.module.cg.businessobject;
+package org.kuali.kfs.integration.ar.businessobject;
 
-import java.util.LinkedHashMap;
-
-import org.kuali.kfs.integration.cg.ContractsAndGrantsInvoiceIndicator;
-import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.kfs.integration.ar.AccountsReceivableInvoiceIndicator;
 
 /**
- * InvoiceIndicator under Contracts and Grants section. 
+ * Integration class for InvoiceIndicator
  */
-public class InvoiceIndicator extends PersistableBusinessObjectBase implements ContractsAndGrantsInvoiceIndicator{
-    
+public class InvoiceIndicator implements AccountsReceivableInvoiceIndicator {
+
     private String invoiceIndicator;
     private String invoiceIndicatorDescription;
     private boolean active;
-    
+
     /**
      * Constructs a InvoiceIndicator.java.
      */
     public InvoiceIndicator() {
-        
     }
 
     /**
-     * Gets the invoiceIndicator attribute. 
+     * Gets the invoiceIndicator attribute.
+     * 
      * @return Returns the invoiceIndicator.
      */
     public String getInvoiceIndicator() {
@@ -46,6 +43,7 @@ public class InvoiceIndicator extends PersistableBusinessObjectBase implements C
 
     /**
      * Sets the invoiceIndicator attribute value.
+     * 
      * @param invoiceIndicator The invoiceIndicator to set.
      */
     public void setInvoiceIndicator(String invoiceIndicator) {
@@ -53,7 +51,8 @@ public class InvoiceIndicator extends PersistableBusinessObjectBase implements C
     }
 
     /**
-     * Gets the invoiceIndicatorDescription attribute. 
+     * Gets the invoiceIndicatorDescription attribute.
+     * 
      * @return Returns the invoiceIndicatorDescription.
      */
     public String getInvoiceIndicatorDescription() {
@@ -62,6 +61,7 @@ public class InvoiceIndicator extends PersistableBusinessObjectBase implements C
 
     /**
      * Sets the invoiceIndicatorDescription attribute value.
+     * 
      * @param invoiceIndicatorDescription The invoiceIndicatorDescription to set.
      */
     public void setInvoiceIndicatorDescription(String invoiceIndicatorDescription) {
@@ -75,16 +75,14 @@ public class InvoiceIndicator extends PersistableBusinessObjectBase implements C
     public void setActive(boolean active) {
         this.active = active;
     }
-    
-    /**
-     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
-     */
-    
-    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
-        LinkedHashMap m = new LinkedHashMap();
-        m.put("invoiceIndicator", this.invoiceIndicator);
-        m.put("invoiceIndicatorDescription", this.invoiceIndicatorDescription);
-        return m;
+
+
+    public void prepareForWorkflow() {
+
+    }
+
+    public void refresh() {
+
     }
 
 }

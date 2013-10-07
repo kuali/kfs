@@ -424,7 +424,7 @@
 		</property>
 		<property name="control">
 			<bean parent="SelectControlDefinition"
-				p:valuesFinderClass="org.kuali.kfs.module.cg.businessobject.options.InvoiceIndicatorValuesFinder"
+				p:valuesFinderClass="org.kuali.kfs.module.ar.businessobject.options.InvoiceIndicatorValuesFinder"
 				p:includeKeyInLabel="false" />
 		</property>
 	</bean>

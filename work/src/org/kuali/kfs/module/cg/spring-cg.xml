@@ -85,7 +85,6 @@
 				<entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsBillingFrequency" value="org.kuali.kfs.module.cg.businessobject.BillingFrequency" />
 				<entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsContractGrantType" value="org.kuali.kfs.module.cg.businessobject.ContractGrantType" />
 				<entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsFundManager" value="org.kuali.kfs.module.cg.businessobject.AwardFundManager" />
-				<entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsInvoiceIndicator" value="org.kuali.kfs.module.cg.businessobject.InvoiceIndicator" />
 				<entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsOrganization" value="org.kuali.kfs.module.cg.businessobject.AwardOrganization" />
 				<entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsProjectDirector" value="org.kuali.kfs.module.cg.businessobject.AwardProjectDirector" />
 				<entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsUnit" value="org.kuali.kfs.integration.cg.businessobject.UnitDTO" />

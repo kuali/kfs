@@ -149,7 +149,7 @@
 			<foreignkey field-ref="agencyInvoiceTemplateCode" />
 		</reference-descriptor>
 		<!-- Invoice Invoice Indicator Link -->
-		<reference-descriptor name="invoiceIndicator" class-ref="org.kuali.kfs.module.cg.businessobject.InvoiceIndicator"
+		<reference-descriptor name="invoiceIndicator" class-ref="org.kuali.kfs.module.ar.businessobject.InvoiceIndicator"
 			auto-retrieve="true" auto-update="none" auto-delete="none" proxy="false">
 			<foreignkey field-ref="invoiceIndicatorCode" />
 		</reference-descriptor>
@@ -871,17 +871,6 @@
 			<foreignkey field-ref="proposalNumber" />
 		</reference-descriptor>
 
-	</class-descriptor>
-
-
-	<!-- INVOICE INDICATORS -->
-
-	<class-descriptor class="org.kuali.kfs.module.cg.businessobject.InvoiceIndicator" table="CG_INV_IND_T">
-		<field-descriptor name="invoiceIndicator" column="INV_IND_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
-		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
-		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-		<field-descriptor name="invoiceIndicatorDescription" column="INV_IND_DESC" jdbc-type="VARCHAR" />
-		<field-descriptor name="active" column="ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
 	</class-descriptor>
 
 </descriptor-repository>

@@ -137,8 +137,8 @@
 				<entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsFundManager"
 					value="org.kuali.kfs.integration.cg.businessobject.AwardFundManager" />
 				<entry
-					key="org.kuali.kfs.integration.cg.ContractsAndGrantsInvoiceIndicator"
-					value="org.kuali.kfs.integration.cg.businessobject.InvoiceIndicator" />
+					key="org.kuali.kfs.integration.ar.AccountsReceivableInvoiceIndicator"
+					value="org.kuali.kfs.integration.ar.businessobject.InvoiceIndicator" />
 				<entry
 					key="org.kuali.kfs.integration.ar.AccountsReceivableInvoiceTemplate"
 					value="org.kuali.kfs.integration.ar.businessobject.InvoiceTemplate" />

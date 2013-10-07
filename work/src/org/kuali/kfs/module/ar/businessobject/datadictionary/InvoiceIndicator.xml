@@ -22,7 +22,7 @@
 	<bean id="InvoiceIndicators-parentBean" abstract="true"
 		parent="BusinessObjectEntry">
 		<property name="businessObjectClass"
-			value="org.kuali.kfs.module.cg.businessobject.InvoiceIndicator" />
+			value="org.kuali.kfs.module.ar.businessobject.InvoiceIndicator" />
 		<property name="inquiryDefinition">
 			<ref bean="InvoiceIndicators-inquiryDefinition" />
 		</property>

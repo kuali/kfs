@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.integration.cg;
+package org.kuali.kfs.integration.ar;
 
 import org.kuali.rice.krad.bo.ExternalizableBusinessObject;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
@@ -21,7 +21,7 @@ import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 /**
  * Integration interface for InvoiceIndicator
  */
-public interface ContractsAndGrantsInvoiceIndicator extends ExternalizableBusinessObject, MutableInactivatable {
+public interface AccountsReceivableInvoiceIndicator extends ExternalizableBusinessObject, MutableInactivatable {
 
 
     /**

@@ -597,12 +597,12 @@ public class CustomerAddress implements Comparable<CustomerAddress>, AccountsRec
 
     @Override
     public void setCustomerAddressTypeCodeAsPrimary() {
-        setCustomerAddressTypeCode(KFSConstants.AddressTypeCode.PRIMARY);
+        setCustomerAddressTypeCode("P");
     }
 
     @Override
     public void setCustomerAddressTypeCodeAsAlternate() {
-        setCustomerAddressTypeCode(KFSConstants.AddressTypeCode.ALTERNATE);
+        setCustomerAddressTypeCode("A");
     }
 
     @Override

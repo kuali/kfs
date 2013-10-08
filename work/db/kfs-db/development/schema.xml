@@ -15764,6 +15764,8 @@
         <column name="ACTV_CD" size="1" type="VARCHAR"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
+        <column name="COPIED_AGENCY_STAGING_ID" size="22" type="DECIMAL"/>
+        <column name="MANUAL_CRTD" size="1" type="VARCHAR"/>
         <unique name="TEM_AGENCY_STAGING_TC0">
             <unique-column name="OBJ_ID"/>
         </unique>
@@ -15788,6 +15790,23 @@
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
         <unique name="TEM_ATTENDEE_TC0">
+            <unique-column name="OBJ_ID"/>
+        </unique>
+    </table>
+    <table name="TEM_CC_IMP_EXP_CLR_DTL_T">
+        <column name="FDOC_NBR" primaryKey="true" size="14" type="VARCHAR"/>
+        <column name="CC_STG_DAT_ID" primaryKey="true" size="22" type="DECIMAL"/>
+        <column name="VER_NBR" required="true" size="8" type="DECIMAL"/>
+        <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
+        <unique name="TEM_CC_IMP_EXP_CLR_DTL_T_TC0">
+            <unique-column name="OBJ_ID"/>
+        </unique>
+    </table>
+    <table name="TEM_CC_IMP_EXP_CLR_T">
+        <column name="FDOC_NBR" primaryKey="true" size="14" type="VARCHAR"/>
+        <column name="VER_NBR" required="true" size="8" type="DECIMAL"/>
+        <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
+        <unique name="TEM_CC_IMP_EXP_CLR_T_TC0">
             <unique-column name="OBJ_ID"/>
         </unique>
     </table>
@@ -16024,6 +16043,9 @@
         <column name="EXP_PRPY_IND" size="1" type="VARCHAR"/>
         <column name="PER_DIEM_IND" size="1" type="VARCHAR"/>
         <column name="ACTV_IND" size="1" type="VARCHAR"/>
+        <column name="HOSTED_IND" size="2" type="VARCHAR"/>
+        <column name="EXP_TYP_META_CTGRY_CD" size="1" type="VARCHAR"/>
+        <column name="CTGRY_DFLT_IND" size="1" type="VARCHAR"/>
         <unique name="TEM_EXP_TYP_TC0">
             <unique-column name="OBJ_ID"/>
         </unique>
@@ -16194,7 +16216,6 @@
     </table>
     <table name="TEM_PER_DIEM_T">
         <column name="ID" primaryKey="true" size="22" type="DECIMAL"/>
-        <column name="TRIP_TYP_CD" required="true" size="3" type="VARCHAR"/>
         <column name="SSN_BGN_DT" type="DATE"/>
         <column name="EFFECT_FROM_DT" type="DATE"/>
         <column name="EFFECT_TO_DT" type="DATE"/>
@@ -16210,9 +16231,6 @@
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
         <column name="PRI_DEST_ID" size="22" type="DECIMAL"/>
-        <foreign-key foreignTable="TEM_TRIP_TYP_T" name="TEM_PER_DIEM_TR1">
-            <reference foreign="CODE" local="TRIP_TYP_CD"/>
-        </foreign-key>
         <unique name="TEM_PER_DIEM_TC0">
             <unique-column name="OBJ_ID"/>
         </unique>
@@ -16491,7 +16509,6 @@
         <column name="FDOC_NBR" primaryKey="true" size="14" type="VARCHAR"/>
         <column name="TRVL_ID" size="19" type="VARCHAR"/>
         <column name="TRVL_DTL_ID" required="true" size="22" type="DECIMAL"/>
-        <column name="TRVL_ADV_ID" required="true" size="22" type="DECIMAL"/>
         <column name="AR_INV_DOC_NBR" required="true" size="14" type="VARCHAR"/>
         <column name="TAX_RAM_NTC" size="2000" type="VARCHAR"/>
         <column name="INV_AMT" required="true" size="22" type="DECIMAL"/>
@@ -16499,6 +16516,7 @@
         <column name="DUE_DT" type="DATE"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
+        <column name="TRVL_ADV_FDOC_NBR" size="14" type="VARCHAR"/>
     </table>
     <table name="TEM_TRANS_MD_DTL_T">
         <column name="TRANS_MODE_CD" primaryKey="true" size="3" type="VARCHAR"/>
@@ -16656,8 +16674,7 @@
         </unique>
     </table>
     <table name="TEM_TRVL_ADV_T">
-        <column name="FDOC_NBR" primaryKey="true" size="14" type="VARCHAR"/>
-        <column name="TRVL_ID" size="19" type="VARCHAR"/>
+        <column name="FDOC_NBR" size="255" type="VARCHAR"/>
         <column default="0" name="TVL_ADV_REQ" scale="2" size="19" type="DECIMAL"/>
         <column name="AR_CUST_ID" size="255" type="VARCHAR"/>
         <column name="AR_INV_DOC_NBR" size="255" type="VARCHAR"/>
@@ -16674,6 +16691,7 @@
         <column name="FIN_COA_CD" size="2" type="VARCHAR"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
+        <column name="TRVL_ID" size="19" type="VARCHAR"/>
         <unique name="TEM_TRVL_ADV_TC0">
             <unique-column name="OBJ_ID"/>
         </unique>
@@ -16714,6 +16732,8 @@
         <column name="FDOC_NXT_EXP_NBR" size="7" type="DECIMAL"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
+        <column name="FDOC_BNK_CD" size="4" type="VARCHAR"/>
+        <column name="FDOC_NXT_ADV_NBR" size="7" type="DECIMAL"/>
         <foreign-key foreignTable="TEM_TRAVELER_DTL_T" name="TEM_TRVL_AUTH_AMEND_DOC_TR1">
             <reference foreign="ID" local="TRAVELER_DTL_ID"/>
         </foreign-key>
@@ -16749,6 +16769,7 @@
         <column name="FDOC_NXT_EXP_NBR" size="7" type="DECIMAL"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
+        <column name="FDOC_BNK_CD" size="4" type="VARCHAR"/>
         <foreign-key foreignTable="TEM_TRAVELER_DTL_T" name="TEM_TRVL_AUTH_CLOSE_DOC_TR1">
             <reference foreign="ID" local="TRAVELER_DTL_ID"/>
         </foreign-key>
@@ -16786,6 +16807,7 @@
         <column name="FDOC_BNK_CD" size="4" type="VARCHAR"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
+        <column name="FDOC_NXT_ADV_NBR" size="7" type="DECIMAL"/>
         <foreign-key foreignTable="TEM_TRAVELER_DTL_T" name="TEM_TRVL_AUTH_DOC_TR1">
             <reference foreign="ID" local="TRAVELER_DTL_ID"/>
         </foreign-key>

@@ -19,7 +19,6 @@
 //#TL
     function transform() {
         $0.id := $id;
-        $0.trip_typ_cd := replace(nvl($trip_typ_cd, ""), "~!~", "|" );
         $0.ssn_bgn_dt := $ssn_bgn_dt;
         $0.effect_from_dt := $effect_from_dt;
         $0.effect_to_dt := $effect_to_dt;

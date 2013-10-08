@@ -1,6 +1,5 @@
 <Record name="tem_per_diem_t" type="delimited">
   <Field name="id"                              type="numeric"    nullable="true"  trim="false" delimiter="|"  />
-  <Field name="trip_typ_cd"                     type="string"     nullable="true"  trim="false" delimiter="|"  />
   <Field name="ssn_bgn_dt"                      type="date"       nullable="true"  trim="false" delimiter="|"  format="yyyyMMddHHmmss" />
   <Field name="effect_from_dt"                  type="date"       nullable="true"  trim="false" delimiter="|"  format="yyyyMMddHHmmss" />
   <Field name="effect_to_dt"                    type="date"       nullable="true"  trim="false" delimiter="|"  format="yyyyMMddHHmmss" />

@@ -41,7 +41,9 @@ public class PunchOutSetupCxml {
   /**
    * Get cxml punch out request xml
    * @return xml for punch out request
+   * Note: this method is moved into B2BShoppingServiceImpl for easier institution customization
    */
+  @Deprecated
   public String getPunchOutSetupRequestMessage() {
     StringBuffer cxml = new StringBuffer();
     Date d = SpringContext.getBean(DateTimeService.class).getCurrentDate();

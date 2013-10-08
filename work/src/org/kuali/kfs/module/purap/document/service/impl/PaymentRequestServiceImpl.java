@@ -257,7 +257,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         List<PaymentRequestDocument> docs = new ArrayList<PaymentRequestDocument>();
         for (String docNumber : docNumbers) {
             PaymentRequestDocument paymentRequestDocument = getPaymentRequestByDocumentNumber(docNumber);
-            if (ObjectUtils.isNotNull(paymentRequestDocument) && paymentRequestDocument.getPaymentRequestPayDate().before(todayAtMidnight)) {
+            if (ObjectUtils.isNotNull(paymentRequestDocument) && (paymentRequestDocument.getPaymentRequestPayDate().before(todayAtMidnight) || paymentRequestDocument.getPaymentRequestPayDate().equals(todayAtMidnight))) {
                 hadErrorAtLeastOneError |= !autoApprovePaymentRequest(paymentRequestDocument, defaultMinimumLimit);
             }
         }

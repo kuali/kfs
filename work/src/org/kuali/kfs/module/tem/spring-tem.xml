@@ -1253,6 +1253,8 @@
 		<property name="travelDocumentService" ref="temTravelDocumentService" />
 		<property name="documentService" ref="documentService"/>
 		<property name="travelEncumbranceService" ref="travelEncumbranceService"/>
+		<property name="configurationService" ref="kualiConfigurationService" />
+		<property name="dataDictionaryService" ref="dataDictionaryService" />
 	</bean>
     
     <bean id="temExecutiveManagerRoleTypeService" class="org.kuali.kfs.module.tem.identity.ExecutiveManagerRoleTypeServiceImpl" />

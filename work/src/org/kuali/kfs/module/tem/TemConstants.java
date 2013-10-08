@@ -77,6 +77,7 @@ public class TemConstants {
     public static final String RETURN_TO_FO_NOTE_PREFIX = "Note entered while returning Travel Reimbursement to fiscal officer : ";
     public static final String AMEND_NOTE_PREFIX = "Note entered while amending a Travel Authorization : ";
     public static final String AMEND_NOTE_SUFFIX = "(Previous Document Id is {0})";
+    public static final String CANCEL_NOTE_PREFIX = "Note entered while canceling a Travel Authorization : ";
     public static final String ORIGIN_CODE = "01";
     public static final String QUESTION_CONFIRMATION = "temSingleConfirmationQuestion";
     public static final String REMOVE_HOLD_TA_TEXT = "Remove the Hold on";
@@ -84,6 +85,7 @@ public class TemConstants {
     public static final String AMEND_TA_TEXT = "Amend";
     public static final String CLOSE_TA_TEXT = "Close";
     public static final String RETURN_TO_FO_TEXT = "Return";
+    public static final String CANCEL_TA_TEXT = "Cancel";
 
     public static final String NEW_TEM_PROFILE_DESCRIPTION_PREFIX = "New Traveler Profile for ";
 

@@ -173,7 +173,7 @@
 					</html:select>
 				</c:when>
 				<c:otherwise>
-					<c:out value="${detailObject.classOfServiceCode.classOfServiceName}" />
+					<c:out value="${detailObject.classOfService.classOfServiceName}" />
 				</c:otherwise>
 			</c:choose>
 		</td>

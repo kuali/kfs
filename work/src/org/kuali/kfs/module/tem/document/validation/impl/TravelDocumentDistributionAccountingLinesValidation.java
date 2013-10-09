@@ -92,25 +92,6 @@ public class TravelDocumentDistributionAccountingLinesValidation extends Generic
                             TemKeyConstants.ERROR_TEM_DISTRIBUTION_ACCOUNTING_LINES_AMOUNT_OR_PERCENT, "Percent");
                     return false;
                 }
-
-                /*KualiDecimal totalAmount = KualiDecimal.ZERO;
-                BigDecimal totalPercent = new BigDecimal(0);
-                for (TemDistributionAccountingLine distributionLine : wrapper.getAccountDistributionsourceAccountingLines()){
-                    totalAmount = totalAmount.add(distributionLine.getAmount());
-                    totalPercent = totalPercent.add(distributionLine.getAccountLinePercent());
-                }
-
-                if (line.getAccountLinePercent().add(totalPercent).doubleValue() > 100){
-                    GlobalVariables.getMessageMap().putError(TemPropertyConstants.ACCOUNT_LINE_PERCENT,
-                            TemKeyConstants.ERROR_TEM_DISTRIBUTION_ACCOUNTING_LINES_TOTAL);
-                    return false;
-                }
-                else if (line.getAmount().add(totalAmount).isGreaterThan(wrapper.getDistributionRemainingAmount(true))){
-                    GlobalVariables.getMessageMap().putError(TemPropertyConstants.ACCOUNT_LINE_PERCENT,
-                            TemKeyConstants.ERROR_TEM_DISTRIBUTION_ACCOUNTING_LINES_TOTAL);
-                    return false;
-                }
-*/
             }
 
         }

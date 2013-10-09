@@ -75,6 +75,7 @@ public class AccountingDistributionServiceImpl implements AccountingDistribution
         Map<String, AccountingDistribution> distributionMap = new HashMap<String, AccountingDistribution>();
         KualiDecimal total = KualiDecimal.ZERO;
         int distributionTargetCount = 0;
+        boolean useExpenseLimit = false;
         for (AccountingDistribution accountDistribution: accountingDistributionList){
             if (accountDistribution.getSelected()){
                 total = total.add(accountDistribution.getRemainingAmount());
@@ -84,6 +85,7 @@ public class AccountingDistributionServiceImpl implements AccountingDistribution
 
         if (expenseLimit != null && expenseLimit.isGreaterThan(KualiDecimal.ZERO)) {
             total = new KualiDecimal(expenseLimit.bigDecimalValue());
+            useExpenseLimit = true;
         }
 
         for (AccountingDistribution accountingDistribution : accountingDistributionList){
@@ -100,7 +102,8 @@ public class AccountingDistributionServiceImpl implements AccountingDistribution
                     catch (InvocationTargetException ex) {
                         ex.printStackTrace();
                     }
-                    BigDecimal product = accountingLine.getAccountLinePercent().multiply(accountingDistribution.getRemainingAmount().bigDecimalValue());
+                    BigDecimal distributionAmount = (distributionTargetCount > 1) ? accountingDistribution.getRemainingAmount().bigDecimalValue() : total.bigDecimalValue();
+                    BigDecimal product = accountingLine.getAccountLinePercent().multiply(distributionAmount);
                     product = product.divide(new BigDecimal(100),5,RoundingMode.HALF_UP);
                     BigDecimal lineAmount = product.divide(total.bigDecimalValue(),5,RoundingMode.HALF_UP);
 
@@ -115,7 +118,11 @@ public class AccountingDistributionServiceImpl implements AccountingDistribution
                     newLine.setFinancialObjectCode(accountingDistribution.getObjectCode());
                     tempSourceAccountingList.add(newLine);
                 }
-                sourceAccountingList.addAll(adjustValues(tempSourceAccountingList,accountingDistribution.getRemainingAmount()));
+                if (useExpenseLimit) {
+                    sourceAccountingList.addAll(tempSourceAccountingList); //we just adjusted the accounting lines for the expense...let's not readjust
+                } else {
+                    sourceAccountingList.addAll(adjustValues(tempSourceAccountingList,accountingDistribution.getRemainingAmount()));
+                }
             }
         }
         //Collections.sort(sourceAccountingList, new SourceAccountingLineComparator());

@@ -22,18 +22,14 @@ import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.web.AccountingLineRenderingContext;
-import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kim.api.identity.Person;
 
 /**
  * Authorizer for accounting lines associated with the travel advance
  */
 public class TravelAdvanceAccountingLineAuthorizer extends TEMAccountingLineAuthorizer {
-    protected static volatile ParameterService parameterService;
-
     /**
      *
      * @see org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizerBase#isGroupEditable(org.kuali.kfs.sys.document.AccountingDocument, java.util.List, org.kuali.rice.kim.api.identity.Person)
@@ -87,16 +83,6 @@ public class TravelAdvanceAccountingLineAuthorizer extends TEMAccountingLineAuth
             return super.determineEditPermissionOnField(accountingDocument, accountingLine, accountingLineCollectionProperty, fieldName, editablePage);
         }
         return false; // we're not at fiscal officer note...so, no editing
-    }
-
-    /**
-     * @return the default implementation of the ParameterService
-     */
-    public ParameterService getParameterService() {
-        if (parameterService == null) {
-            parameterService = SpringContext.getBean(ParameterService.class);
-        }
-        return parameterService;
     }
 
     /**

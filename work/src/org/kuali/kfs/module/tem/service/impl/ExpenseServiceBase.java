@@ -30,6 +30,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public abstract class ExpenseServiceBase implements TEMExpenseService {
 
@@ -124,7 +125,7 @@ public abstract class ExpenseServiceBase implements TEMExpenseService {
                         }
                     }
                     else if (TemConstants.ExpenseTypeReimbursementCodes.REIMBURSABLE.equals(code)){
-                        if ((expense.getExpenseTypeObjectCode() != null && !expense.getExpenseTypeObjectCode().getExpenseType().isPrepaidExpense()) && !expense.getNonReimbursable()) {
+                        if ((!ObjectUtils.isNull(expense.getExpenseTypeObjectCode()) && !expense.getExpenseTypeObjectCode().getExpenseType().isPrepaidExpense()) && !expense.getNonReimbursable()) {
                             total = total.add(expense.getExpenseAmount());
                         }
                     }

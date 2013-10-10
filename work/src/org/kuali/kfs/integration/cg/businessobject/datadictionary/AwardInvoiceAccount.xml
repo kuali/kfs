@@ -16,7 +16,7 @@
 				<bean parent="ChartAttribute-SelectControl" />
 				<bean parent="AccountAttribute" />
 				<bean parent="SubAccountAttribute" />
-				<bean parent="ObjectCodeAttribute" />
+				<ref bean="AwardInvoiceAccount-objectCode" />
 				<bean parent="SubObjectAttribute" />
 				<ref bean="AwardInvoiceAccount-active" />
 			</list>
@@ -24,6 +24,12 @@
 	</bean>
 
 	<!-- Attribute Definitions -->
+
+	<bean id="AwardInvoiceAccount-objectCode" parent="AwardInvoiceAccount-objectCode-parentBean" />
+	<bean id="AwardInvoiceAccount-objectCode-parentBean" abstract="true"
+		parent="ObjectCodeAttribute">
+		<property name="name" value="objectCode" />
+	</bean>
 
 	<bean id="AwardInvoiceAccount-active" parent="AwardInvoiceAccount-active-parentBean" />
 	<bean id="AwardInvoiceAccount-active-parentBean" abstract="true"

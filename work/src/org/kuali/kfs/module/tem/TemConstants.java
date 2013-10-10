@@ -984,7 +984,7 @@ public class TemConstants {
     public enum GroupTravelerType {
         EMPLOYEE("EMP"),
         STUDENT("STU"),
-        VENDOR("VND"),
+        CUSTOMER("CST"),
         OTHER("OTH");
 
         private String code;

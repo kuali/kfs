@@ -368,13 +368,13 @@ public class TemCorrectionAction extends KualiDocumentActionBase implements Kual
     }
 
     private boolean validAgencyEntry(AgencyEntryFull entryForManualEdit) {
-        boolean valid = expenseImportByTripService.areMandatoryFieldsPresent(entryForManualEdit);
-        List<ErrorMessage> errors = expenseImportByTripService.getErrorMessages();
+        List<ErrorMessage> errors = expenseImportByTripService.validateMandatoryFieldsPresent(entryForManualEdit);
+
         for(ErrorMessage error: errors) {
             GlobalVariables.getMessageMap().putError("searchResults", error.toString());
         }
 
-        return valid;
+        return errors.isEmpty();
     }
 
     /**

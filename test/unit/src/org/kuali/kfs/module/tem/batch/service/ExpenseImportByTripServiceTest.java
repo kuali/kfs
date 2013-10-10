@@ -15,6 +15,8 @@
  */
 package org.kuali.kfs.module.tem.batch.service;
 
+import java.util.List;
+
 import org.junit.Test;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemConstants.AgencyStagingDataErrorCodes;
@@ -23,7 +25,6 @@ import org.kuali.kfs.module.tem.businessobject.AgencyStagingData;
 import org.kuali.kfs.module.tem.businessobject.TEMProfile;
 import org.kuali.kfs.module.tem.businessobject.TripAccountingInformation;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
-import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.KualiTestBase;
@@ -33,7 +34,7 @@ import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.SequenceAccessorService;
-import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.krad.util.ErrorMessage;
 
 @ConfigureContext
 public class ExpenseImportByTripServiceTest extends KualiTestBase {
@@ -66,32 +67,28 @@ public class ExpenseImportByTripServiceTest extends KualiTestBase {
     @ConfigureContext(shouldCommitTransactions = false)
     public void testValidateAccountingInfo() {
         AgencyStagingData agency = createAgencyStagingData();
-        TEMProfile profile = createTemProfile();
-        TravelAuthorizationDocument ta = createTA();
 
         // success case
-        agency = expenseImportByTripService.validateAccountingInfo(profile, agency, ta);
+        expenseImportByTripService.validateAccountingInfo(agency);
         assertTrue(agency.getErrorCode().equals(AgencyStagingDataErrorCodes.AGENCY_NO_ERROR));
 
         TripAccountingInformation accountingInfo = agency.getTripAccountingInformation().get(0);
 
         // test with an invalid account
         accountingInfo.setTripAccountNumber("");
-        agency = expenseImportByTripService.validateAccountingInfo(profile, agency, ta);
+        expenseImportByTripService.validateAccountingInfo(agency);
         assertTrue(agency.getErrorCode().equals(AgencyStagingDataErrorCodes.AGENCY_INVALID_ACCOUNT));
 
         // test with an invalid sub-account
-        profile = createTemProfile();
         accountingInfo.setTripSubAccountNumber("ZZ");
         agency.setErrorCode(AgencyStagingDataErrorCodes.AGENCY_NO_ERROR);
-        agency = expenseImportByTripService.validateAccountingInfo(profile, agency, ta);
+        expenseImportByTripService.validateAccountingInfo(agency);
         assertTrue(agency.getErrorCode().equals(AgencyStagingDataErrorCodes.AGENCY_INVALID_SUBACCOUNT));
 
         // test with an invalid project code
-        profile = createTemProfile();
         accountingInfo.setProjectCode("COOL");
         agency.setErrorCode(AgencyStagingDataErrorCodes.AGENCY_NO_ERROR);
-        agency = expenseImportByTripService.validateAccountingInfo(profile, agency, ta);
+        expenseImportByTripService.validateAccountingInfo(agency);
         assertTrue(agency.getErrorCode().equals(AgencyStagingDataErrorCodes.AGENCY_INVALID_PROJECT));
 
     }
@@ -106,8 +103,7 @@ public class ExpenseImportByTripServiceTest extends KualiTestBase {
 
         // invalid trip id
         AgencyStagingData agency = createAgencyStagingData();
-        TravelDocument invalidTa = expenseImportByTripService.validateTripId(agency);
-        assertTrue(ObjectUtils.isNull(invalidTa));
+        expenseImportByTripService.validateTripId(agency);
         assertTrue(agency.getErrorCode().equals(AgencyStagingDataErrorCodes.AGENCY_INVALID_TRIPID));
     }
 
@@ -124,11 +120,13 @@ public class ExpenseImportByTripServiceTest extends KualiTestBase {
 
         // duplicate entry test
         AgencyStagingData importData = createAgencyStagingData();
-        assertTrue(expenseImportByTripService.isDuplicate(importData));
+        List<ErrorMessage> errorMessages = expenseImportByTripService.validateDuplicateData(importData);
+        assertTrue(!errorMessages.isEmpty());
 
         // not a duplicate
         importData.setTripId("987654321");
-        assertFalse(expenseImportByTripService.isDuplicate(importData));
+        errorMessages = expenseImportByTripService.validateDuplicateData(importData);
+        assertTrue(errorMessages.isEmpty());
     }
 
     /**
@@ -140,25 +138,41 @@ public class ExpenseImportByTripServiceTest extends KualiTestBase {
     public void testAreMandatoryFieldsPresent() {
         AgencyStagingData agency = createAgencyStagingData();
         // all fields present
-        assertTrue(expenseImportByTripService.areMandatoryFieldsPresent(agency));
+        List<ErrorMessage> errorMessages = expenseImportByTripService.validateMandatoryFieldsPresent(agency);
+        assertTrue(errorMessages.isEmpty());
 
         // missing fields, testing in reverse order of the if block to hit all possible checks
         agency.setAirTicketNumber("");
-        assertFalse(expenseImportByTripService.areMandatoryFieldsPresent(agency));
+        errorMessages = expenseImportByTripService.validateMandatoryFieldsPresent(agency);
+        assertFalse(errorMessages.isEmpty());
+
         agency.setTripInvoiceNumber("");
-        assertFalse(expenseImportByTripService.areMandatoryFieldsPresent(agency));
+        errorMessages = expenseImportByTripService.validateMandatoryFieldsPresent(agency);
+        assertFalse(errorMessages.isEmpty());
+
         agency.setTripExpenseAmount("");
-        assertFalse(expenseImportByTripService.areMandatoryFieldsPresent(agency));
+        errorMessages = expenseImportByTripService.validateMandatoryFieldsPresent(agency);
+        assertFalse(errorMessages.isEmpty());
+
         agency.getTripAccountingInformation().get(0).setTripAccountNumber("");
-        assertFalse(expenseImportByTripService.areMandatoryFieldsPresent(agency));
+        errorMessages = expenseImportByTripService.validateMandatoryFieldsPresent(agency);
+        assertFalse(errorMessages.isEmpty());
+
         agency.setTransactionPostingDate(null);
-        assertFalse(expenseImportByTripService.areMandatoryFieldsPresent(agency));
+        errorMessages = expenseImportByTripService.validateMandatoryFieldsPresent(agency);
+        assertFalse(errorMessages.isEmpty());
+
         agency.setAlternateTripId(null);
-        assertFalse(expenseImportByTripService.areMandatoryFieldsPresent(agency));
+        errorMessages = expenseImportByTripService.validateMandatoryFieldsPresent(agency);
+        assertFalse(errorMessages.isEmpty());
+
         agency.setTripId("");
-        assertFalse(expenseImportByTripService.areMandatoryFieldsPresent(agency));
+        errorMessages = expenseImportByTripService.validateMandatoryFieldsPresent(agency);
+        assertFalse(errorMessages.isEmpty());
+
         agency.setCreditCardOrAgencyCode("");
-        assertFalse(expenseImportByTripService.areMandatoryFieldsPresent(agency));
+        errorMessages = expenseImportByTripService.validateMandatoryFieldsPresent(agency);
+        assertFalse(errorMessages.isEmpty());
     }
 
     protected TEMProfile createTemProfile() {

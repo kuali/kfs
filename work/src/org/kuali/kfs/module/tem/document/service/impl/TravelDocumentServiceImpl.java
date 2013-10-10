@@ -55,14 +55,14 @@ import org.kuali.kfs.integration.ar.AccountsReceivableCustomerInvoice;
 import org.kuali.kfs.integration.ar.AccountsReceivableModuleService;
 import org.kuali.kfs.integration.ar.AccountsReceivableOrganizationOptions;
 import org.kuali.kfs.module.tem.TemConstants;
-import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationParameters;
-import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationStatusCodeKeys;
-import org.kuali.kfs.module.tem.TemConstants.TravelDocTypes;
-import org.kuali.kfs.module.tem.TemConstants.TravelParameters;
 import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.TemParameterConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.TemWorkflowConstants;
+import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationParameters;
+import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationStatusCodeKeys;
+import org.kuali.kfs.module.tem.TemConstants.TravelDocTypes;
+import org.kuali.kfs.module.tem.TemConstants.TravelParameters;
 import org.kuali.kfs.module.tem.businessobject.ActualExpense;
 import org.kuali.kfs.module.tem.businessobject.ExpenseTypeAware;
 import org.kuali.kfs.module.tem.businessobject.GroupTraveler;
@@ -1066,7 +1066,6 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
         return strTemp;
     }
 
-    @Override
     public void setDocumentService(DocumentService documentService) {
         this.documentService = documentService;
     }
@@ -1075,7 +1074,6 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
         return documentService;
     }
 
-    @Override
     public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
         this.dataDictionaryService = dataDictionaryService;
     }
@@ -1092,7 +1090,6 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
         return dateTimeService;
     }
 
-    @Override
     public void setTravelDocumentDao(final TravelDocumentDao travelDocumentDao) {
         this.travelDocumentDao = travelDocumentDao;
     }
@@ -1308,6 +1305,12 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
         //no authorizations exist so the root should be a reimbursement
         else {
             final List<TravelReimbursementDocument> tempTrDocs = findReimbursementDocuments(travelDocumentIdentifier);
+            //did not find any reimbursements either so this must be an invalid travelDocumentIdentifier
+            if (tempTrDocs.isEmpty()) {
+                LOG.error("Did not find any authorizations or reimbursements; invalid travelDocumentIndentifier: "+ travelDocumentIdentifier);
+                return null;
+            }
+
             //if there is only one document then that is the root
             if (tempTrDocs.size() == 1) {
                 rootTravelDocument = tempTrDocs.get(0);

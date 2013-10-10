@@ -161,6 +161,26 @@ public class TemProfileServiceImpl implements TemProfileService {
     }
 
     /**
+     * @see org.kuali.kfs.module.tem.service.TemProfileService#findTemProfileByEmployeeId(java.lang.String)
+     */
+    @Override
+    public TEMProfile findTemProfileByEmployeeId(String employeeId) {
+        final Map<String,String> criteria = new HashMap<String,String>(1);
+        criteria.put(TEMProfileProperties.EMPLOYEE_ID, employeeId);
+        return findTemProfile(criteria);
+    }
+
+    /**
+     * @see org.kuali.kfs.module.tem.service.TemProfileService#findTemProfileByCustomerNumber(java.lang.String)
+     */
+    @Override
+    public TEMProfile findTemProfileByCustomerNumber(String customerNumber) {
+        final Map<String,String> criteria = new HashMap<String,String>(1);
+        criteria.put(TEMProfileProperties.CUSTOMER_NUMBER, customerNumber);
+        return findTemProfile(criteria);
+    }
+
+    /**
      * Gets the personService attribute.
      * @return Returns the personService.
      */

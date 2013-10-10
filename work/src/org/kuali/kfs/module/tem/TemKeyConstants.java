@@ -216,6 +216,7 @@ public class TemKeyConstants {
   //Agency Data Audit Report
     public static final String MESSAGE_AGENCY_DATA_REPORT_HEADER = "message.batch.tem.agencyDataReportHeader";
     public static final String MESSAGE_AGENCY_DATA_NO_MANDATORY_FIELDS="message.batch.tem.agencyDataMandatoryFields";
+    public static final String MESSAGE_AGENCY_DATA_NO_MANDATORY_FIELDS_GENERIC="message.batch.tem.agencyDataMandatoryFieldsGeneric";
     public static final String MESSAGE_AGENCY_DATA_AIR_LODGING_RENTAL_MISSING="message.batch.tem.agencyDataAirLodgingRentalMissing";
     public static final String MESSAGE_AGENCY_DATA_DUPLICATE_RECORD="message.batch.tem.agencyData.DuplicateRecord";
     public static final String MESSAGE_AGENCY_DATA_TRIP_DUPLICATE_RECORD="message.batch.tem.agencyData.trip.DuplicateRecord";
@@ -226,11 +227,13 @@ public class TemKeyConstants {
     public static final String MESSAGE_AGENCY_DATA_INVALID_PROJECT_CODE="message.batch.tem.agencyDataInvalidProjectCode";
     public static final String MESSAGE_AGENCY_DATA_INVALID_OBJECT_CODE="message.batch.tem.agencyDataInvalidObjectCode";
     public static final String MESSAGE_AGENCY_DATA_INVALID_SUB_OBJECT_CODE="message.batch.tem.agencyDataInvalidSubObjectCode";
+    public static final String MESSAGE_AGENCY_DATA_REQUIRED_ACCOUNT_INFO="message.batch.tem.agencyDataAcctgInfoRequired";
     public static final String MESSAGE_AGENCY_DATA_INVALID_ACCTG_INFO="message.batch.tem.agencyDataInvalidAcctgInfo";
     public static final String MESSAGE_AGENCY_DATA_INVALID_TRIP_ID="message.batch.tem.agencyDataInvalidTripId";
     public static final String MESSAGE_AGENCY_DATA_MISSING_COA="message.batch.tem.agencyDataMissingChartCode";
     public static final String MESSAGE_AGENCY_DATA_MISSING_ACCOUNT_NUM="message.batch.tem.agencyDataMissingAccountNumber";
     public static final String MESSAGE_AGENCY_DATA_MISSING_TRIP_DATA="message.batch.tem.agencyDataMissingTripData";
+    public static final String MESSAGE_AGENCY_DATA_INVALID_TEM_PROFILE="message.batch.tem.agencyDataMissingTemProfile";
 
     public static final String MESSAGE_CREDIT_CARD_DATA_REPORT_HEADER = "message.batch.tem.creditcard.DataReportHeader";
     public static final String MESSAGE_CREDIT_CARD_DATA_DUPLICATE_RECORD="message.batch.tem.creditcard.DuplicateRecord";

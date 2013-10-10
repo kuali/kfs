@@ -412,6 +412,12 @@ public class TravelReimbursementAction extends TravelActionBase {
             document.setTravelDocumentIdentifier(travelForm.getTravelDocumentIdentifier());
 
             TravelDocument rootDocument = getTravelDocumentService().findRootForTravelReimbursement(document.getTravelDocumentIdentifier());
+            if (ObjectUtils.isNull(rootDocument)) {
+                String errorMsg = "Retrieved null TravelDocument when searching by travelDocumentIdentifier: "+ document.getTravelDocumentIdentifier()
+                                    + " Cannot create a new document";
+                LOG.error(errorMsg);
+                throw new RuntimeException(errorMsg);
+            }
 
             LOG.debug("Setting traveler with id "+ rootDocument.getTravelerDetailId());
             document.setTravelerDetailId(rootDocument.getTravelerDetailId());
@@ -666,8 +672,10 @@ public class TravelReimbursementAction extends TravelActionBase {
         if (ObjectUtils.isNotNull(travelDocumentIdentifier)) {
             TravelDocument rootDocument = getTravelDocumentService().findRootForTravelReimbursement(travelDocumentIdentifier);
 
-            String relationshipDescription = rootDocument.getDocumentTypeName() +" - "+ trDoc.getDocumentTypeName();
-            getAccountingDocumentRelationshipService().save(new AccountingDocumentRelationship(rootDocument.getDocumentNumber(), trDoc.getDocumentNumber(), relationshipDescription));
+            if (ObjectUtils.isNotNull(rootDocument)) {
+                String relationshipDescription = rootDocument.getDocumentTypeName() +" - "+ trDoc.getDocumentTypeName();
+                getAccountingDocumentRelationshipService().save(new AccountingDocumentRelationship(rootDocument.getDocumentNumber(), trDoc.getDocumentNumber(), relationshipDescription));
+            }
         }
     }
 

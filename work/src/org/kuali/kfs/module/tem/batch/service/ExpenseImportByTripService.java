@@ -18,9 +18,6 @@ package org.kuali.kfs.module.tem.batch.service;
 import java.util.List;
 
 import org.kuali.kfs.module.tem.businessobject.AgencyStagingData;
-import org.kuali.kfs.module.tem.businessobject.TEMProfile;
-import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
-import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.rice.krad.util.ErrorMessage;
 
@@ -32,13 +29,19 @@ public interface ExpenseImportByTripService {
      * Trip ID, Accounting Info, Expense Amount, Invoice Number, Transaction Posting Date, Alternate Trip ID,
      * Trip Info (contains air ticket number, air service fee number, lodging itinerary number, rental car itinerary number)
      * @param agencyData
+     * @return List of ErrorMessage for fields which are not present
+     */
+    public List<ErrorMessage> validateMandatoryFieldsPresent(AgencyStagingData agencyData);
+
+    /**
+     * This method checks to see whether at least one of an air, lodging, or rental car itinerary number exists
+     *
+     * @param agencyData
      * @return
      */
-    public boolean areMandatoryFieldsPresent(AgencyStagingData agencyData);
-
     public boolean isTripDataMissing(AgencyStagingData agencyData);
 
-    public boolean isAccountingInfoMissing(AgencyStagingData agencyData);
+    public List<ErrorMessage> validateMissingAccountingInfo(AgencyStagingData agencyData);
 
     /**
      *
@@ -46,20 +49,7 @@ public interface ExpenseImportByTripService {
      * @param agencyData
      * @return
      */
-    public AgencyStagingData validateAgencyData(AgencyStagingData agencyData);
-
-    /**
-     * retrieve Error messages list
-     *
-     * @return
-     */
-    public List<ErrorMessage> getErrorMessages();
-
-    /**
-     *
-     * @param errorMessages
-     */
-    public void setErrorMessages(List<ErrorMessage> errorMessages);
+    public List<ErrorMessage> validateAgencyData(AgencyStagingData agencyData);
 
     /**
      *
@@ -67,19 +57,17 @@ public interface ExpenseImportByTripService {
      * @param agencyData
      * @return
      */
-    public TravelDocument validateTripId(AgencyStagingData agencyData);
+    public List<ErrorMessage> validateTripId(AgencyStagingData agencyData);
 
     /**
      *
      * This method validates the Account Number Sub-account Number, Project Code, Object Code and Sub-object Code
      * for each of the {@link TripAccountingInformation} objects. It uses the ACCOUNTING_LINE_VALIDATION parameter
      * to determine which fields are to be validated.
-     * @param profile
      * @param agencyData
-     * @param ta
      * @return
      */
-    public AgencyStagingData validateAccountingInfo(TEMProfile profile, AgencyStagingData agencyData, TravelAuthorizationDocument ta);
+    public List<ErrorMessage> validateAccountingInfo(AgencyStagingData agencyData);
 
     /**
      *
@@ -88,7 +76,7 @@ public interface ExpenseImportByTripService {
      * @param agencyData
      * @return
      */
-    public boolean isDuplicate(AgencyStagingData agencyData);
+    public List<ErrorMessage> validateDuplicateData(AgencyStagingData agencyData);
 
     /**
      *

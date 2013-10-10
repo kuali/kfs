@@ -31,7 +31,9 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.SubAccount;
+import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemConstants.ExpenseImport;
+import org.kuali.kfs.module.tem.TemConstants.ExpenseTypeMetaCategory;
 import org.kuali.kfs.module.tem.TemConstants.ExpenseTypes;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
@@ -1486,6 +1488,29 @@ public class AgencyStagingData extends PersistableBusinessObjectBase implements 
         }
         return expenseType;
     }
+
+    /**
+    *
+    * This method returns the expense type category based on expense type.
+    * @return
+    */
+   public ExpenseTypeMetaCategory getExpenseTypeCategory() {
+
+       String expenseType = getExpenseType();
+       ExpenseTypeMetaCategory expenseTypeCategory = null;
+
+       if (StringUtils.equalsIgnoreCase(expenseType, ExpenseTypes.AIRFARE)) {
+           expenseTypeCategory = TemConstants.ExpenseTypeMetaCategory.AIRFARE;
+       }
+       else if (StringUtils.equalsIgnoreCase(expenseType, ExpenseTypes.LODGING)) {
+           expenseTypeCategory = TemConstants.ExpenseTypeMetaCategory.LODGING;
+       }
+       else if (StringUtils.equalsIgnoreCase(expenseType, ExpenseTypes.RENTAL_CAR)) {
+           expenseTypeCategory = TemConstants.ExpenseTypeMetaCategory.RENTAL_CAR;
+       }
+
+       return expenseTypeCategory;
+   }
 
     /**
      *

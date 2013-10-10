@@ -31,7 +31,7 @@ public interface ExpenseImportByTravelerService {
      * @param agencyData
      * @return
      */
-    public boolean areMandatoryFieldsPresent(AgencyStagingData agencyData);
+    public List<ErrorMessage> validateMandatoryFieldsPresent(AgencyStagingData agencyData);
 
     /**
      *
@@ -39,37 +39,32 @@ public interface ExpenseImportByTravelerService {
      * @param agencyData
      * @return
      */
-    public AgencyStagingData validateAgencyData(AgencyStagingData agencyData);
+    public List<ErrorMessage> validateAgencyData(AgencyStagingData agencyData);
 
     /**
+     * This method performs validation for on the {@link AgencyStagingData} object for traveler information.
      *
-     * This method looks up the {@link TEMProfile} by Employee ID first, and then Customer Number if it is not found.
      * @param agencyData
      * @return
      */
-    public TEMProfile validateTraveler(AgencyStagingData agencyData);
+    public List<ErrorMessage> validateTraveler(AgencyStagingData agencyData);
 
     /**
+     * This method looks up the {@link TEMProfile} by Employee ID first, and then Customer Number if it is not found.
      *
+     * @param agencyData
      * @return
      */
-    public List<ErrorMessage> getErrorMessages();
-
-    /**
-     *
-     * @param errorMessages
-     */
-    public void setErrorMessages(List<ErrorMessage> errorMessages);
+    public TEMProfile getTraveler(AgencyStagingData agencyData);
 
     /**
      *
      * This method validates the Account Number Sub-account Number, Project Code, Object Code and Sub-object Code.
      * It also creates a TripAccountingInfo and adds it to the AgencyStagingData.
-     * @param profile
      * @param agencyData
      * @return
      */
-    public AgencyStagingData validateAccountingInfo(TEMProfile profile, AgencyStagingData agencyData);
+    public List<ErrorMessage> validateAccountingInfo(AgencyStagingData agencyData);
 
     /**
      *
@@ -78,7 +73,7 @@ public interface ExpenseImportByTravelerService {
      * @param agencyData
      * @return
      */
-    public boolean isDuplicate(AgencyStagingData agencyData);
+    public List<ErrorMessage> validateDuplicateData(AgencyStagingData agencyData);
 
     /**
      *
@@ -88,5 +83,14 @@ public interface ExpenseImportByTravelerService {
      * @return
      */
     public boolean distributeExpense(AgencyStagingData agencyData, GeneralLedgerPendingEntrySequenceHelper sequenceHelper);
+
+
+    /**
+     * This method checks to see whether at least one of an air, lodging, or rental car itinerary number exists
+     *
+     * @param agencyData
+     * @return
+     */
+    public boolean isTripDataMissing(AgencyStagingData agencyData);
 
 }

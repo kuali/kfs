@@ -95,4 +95,20 @@ public interface TemProfileService {
      * @return true if there are active arrangers associated with the profile, false otherwise
      */
     public boolean hasActiveArrangers(TEMProfile profile);
+
+    /**
+     * This method returns a TEMProfile for the given employeeId
+     *
+     * @param employeeId
+     * @return
+     */
+    public TEMProfile findTemProfileByEmployeeId(String employeeId);
+
+    /**
+     * This method returns a TEMProfile for the given customer number
+     *
+     * @param customerNumber
+     * @return
+     */
+    public TEMProfile findTemProfileByCustomerNumber(String customerNumber);
 }

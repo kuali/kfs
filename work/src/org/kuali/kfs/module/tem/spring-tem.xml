@@ -977,20 +977,22 @@
 			<map> 
                <entry key="creditCardOrAgencyCode" value="CREDIT CARD/AGENCY CODE" />
 				<entry key="agency" value="AGENCY" />
-				<entry key="tripId" value="TRIP ID" />
-				<entry key="tripInvoiceNumber" value="TRIP INVOICE NUMBER" />
 				<entry key="travelerName" value="TRAVELER NAME" />
-				<entry key="tripExpenseAmount" value="TRIP EXPENSE AMOUNT" />
-				<entry key="alternateTripId" value="ALTERNATE TRIP ID" />
 				<entry key="tripArrangerName" value="TRIP ARRANGER NAME" />
+				<entry key="tripId" value="TRIP ID" />
+				<entry key="alternateTripId" value="ALTERNATE TRIP ID" />
+				<entry key="tripInvoiceNumber" value="TRIP INVOICE NUMBER" />
+				<entry key="tripExpenseAmount" value="TRIP EXPENSE AMOUNT" />
 				<entry key="tripDepartureDate" value="TRIP DEPARTURE DATE" />
 				<entry key="airBookDate" value="AIR BOOK DATE" />
 				<entry key="airCarrierCode" value="AIR CARRIER CODE" />
 				<entry key="airTicketNumber" value="AIR TICKET NUMBER" />
+				<entry key="lodgingItineraryNumber" value="LODGING ITINERARY NUMBER" />
+				<entry key="rentalCarItineraryNumber" value="RENTAL CAR ITINERARY NUMBER" />
 				<entry key="transactionPostingDate" value="TRANSACTION POSTING DATE" />
 			</map>
 		</property>
-		<property name="columnCount" value="13" />
+		<property name="columnCount" value="15" />
 	</bean>
 	<bean id="agencyDataTravelerUploadReportHelper" parent="businessObjectReportHelper">
 		<property name="dataDictionaryBusinessObjectClass"
@@ -999,22 +1001,24 @@
 			<map> 
                 <entry key="creditCardOrAgencyCode" value="CREDIT CARD/AGENCY CODE" />
 				<entry key="agency" value="AGENCY" />
-				<entry key="merchantName" value="MERCHANT NAME" />
+				<entry key="travelerName" value="TRAVELER NAME" />
+				<entry key="travelerId" value="TRAVELER ID" />
+				<entry key="tripArrangerName" value="TRIP ARRANGER NAME" />
 				<entry key="tripInvoiceNumber" value="TRIP INVOICE NUMBER" />
 				<entry key="tripExpenseAmount" value="TRIP EXPENSE AMOUNT" />
-				<entry key="tripArrangerName" value="TRIP ARRANGER NAME" />
 				<entry key="tripDepartureDate" value="TRIP DEPARTURE DATE" />
 				<entry key="airBookDate" value="AIR BOOK DATE" />
 				<entry key="airCarrierCode" value="AIR CARRIER CODE" />
-				<entry key="tripExpenseAmount" value="TRIP EXPENSE AMOUNT" />
 				<entry key="airTicketNumber" value="AIR TICKET NUMBER" />
+				<entry key="lodgingItineraryNumber" value="LODGING ITINERARY NUMBER" />
+				<entry key="rentalCarItineraryNumber" value="RENTAL CAR ITINERARY NUMBER" />
 				<entry key="pnrNumber" value="PNR NUMBER" />
 				<entry key="merchantName" value="MERCHANT NAME" />
 				<entry key="transactionUniqueId" value="TRANSACTION UNIQUE ID" />
 				<entry key="transactionPostingDate" value="TRANSACTION POSTING DATE" />
 			</map>
 		</property>
-		<property name="columnCount" value="13" />
+		<property name="columnCount" value="17" />
 	</bean>
 	<bean id="expenseImportByTravelerService" parent="expenseImportByTravelerService-parentBean" />
 	<bean id="expenseImportByTravelerService-parentBean" class="org.kuali.kfs.module.tem.batch.service.impl.ExpenseImportByTravelerServiceImpl">
@@ -1040,6 +1044,7 @@
 		<property name="dateTimeService" ref="dateTimeService" />
 		<property name="travelExpenseService" ref="travelExpenseService" />
         <property name="importedExpensePendingEntryService" ref="importedExpensePendingEntryService" />
+        <property name="travelDocumentService" ref="temTravelDocumentService" />
 	</bean>
     <bean id="importedExpensePendingEntryService" parent="importedExpensePendingEntryService-parentBean" />
     <bean id="importedExpensePendingEntryService-parentBean" class="org.kuali.kfs.module.tem.batch.service.impl.ImportedExpensePendingEntryServiceImpl">

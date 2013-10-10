@@ -911,3 +911,5 @@ Fund Manager Principal
 "KFS-AR","CashControl","DEFAULT_PROCESSING_ORG","KFSAR006","1","CONFG","VPIT","Default value for Processing Organization code - used by LOC Batch process to set AR DOC HDR for the Cash Control Document.","A","KFS"
 "KFS-AR","DunningCampaign","DUNNING_LETTERS_FINAL_DAYS_PAST_DUE","KFSAR007","1","CONFG","150","To set the value for FINAL days past due value used for sending strongly worded Dunning Letter requesting for payment.","A","KFS"
 "KFS-AR","DunningCampaign","DUNNING_LETTERS_STATE_AGENCY_FINAL_DAYS_PAST_DUE","KFSAR008","1","CONFG","150","To set the value for STATE AGENCY FINAL days past due value used for sending strongly worded Dunning Letter requesting for payment.","A","KFS"
+"KFS-CG","Agency","DEFAULT_INVOICE_TEMPLATE","CG-DEFAULT-INV-TMPLT-PARM","1","CONFG","STD","Invoice templates can be configured for each Agency Address. This defines the default template name for new Agency Addresses.","A","KFS"
+"KFS-CG","Agency","DEFAULT_DUNNING_CAMPAIGN","CG-DEFAULT-DUN-CMPGN","1","CONFG","","The default value for the Dunning Campaign code for Agencies.","A","KFS"

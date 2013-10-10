@@ -23,8 +23,6 @@ import java.util.Map;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomerAddressType;
 import org.kuali.kfs.integration.ar.AccountsReceivableInvoiceTemplate;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsAgencyAddress;
-import org.kuali.kfs.integration.ar.businessobject.InvoiceIndicator;
-//import org.kuali.kfs.integration.ar.businessobject.InvoiceTemplate;
 import org.kuali.kfs.module.cg.CGConstants;
 import org.kuali.kfs.module.cg.document.service.AgencyAddressService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -74,13 +72,11 @@ public class AgencyAddress extends PersistableBusinessObjectBase implements Comp
     // Invoice Indicator link
 
     private String invoiceIndicatorCode;
-    private InvoiceIndicator invoiceIndicator;
-
     private Integer agencyCopiesToPrint;
     private Integer agencyPrintEnvelopesNumber;
 
     /**
-     * Default constructor.
+     * Default constructor.o
      */
     public AgencyAddress() {
 
@@ -103,24 +99,6 @@ public class AgencyAddress extends PersistableBusinessObjectBase implements Comp
      */
     public void setInvoiceIndicatorCode(String invoiceIndicatorCode) {
         this.invoiceIndicatorCode = invoiceIndicatorCode;
-    }
-
-    /**
-     * Gets the invoiceIndicator attribute.
-     *
-     * @return Returns the invoiceIndicator.
-     */
-    public InvoiceIndicator getInvoiceIndicator() {
-        return invoiceIndicator;
-    }
-
-    /**
-     * Sets the invoiceIndicator attribute value.
-     *
-     * @param invoiceIndicator The invoiceIndicator to set.
-     */
-    public void setInvoiceIndicator(InvoiceIndicator invoiceIndicator) {
-        this.invoiceIndicator = invoiceIndicator;
     }
 
     /**

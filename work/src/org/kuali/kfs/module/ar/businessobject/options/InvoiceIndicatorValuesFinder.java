@@ -18,7 +18,7 @@ package org.kuali.kfs.module.ar.businessobject.options;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.kfs.integration.ar.AccountsReceivableInvoiceIndicator;
+import org.kuali.kfs.module.ar.businessobject.InvoiceIndicator;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
@@ -38,9 +38,9 @@ public class InvoiceIndicatorValuesFinder extends KeyValuesBase {
     @SuppressWarnings("unchecked")
     public List<KeyValue> getKeyValues() {
 
-        List<AccountsReceivableInvoiceIndicator> boList = (List<AccountsReceivableInvoiceIndicator>) SpringContext.getBean(KeyValuesService.class).findAll(AccountsReceivableInvoiceIndicator.class);
+        List<InvoiceIndicator> boList = (List<InvoiceIndicator>) SpringContext.getBean(KeyValuesService.class).findAll(InvoiceIndicator.class);
         keyValues.add(new ConcreteKeyValue("", ""));
-        for (AccountsReceivableInvoiceIndicator element : boList) {
+        for (InvoiceIndicator element : boList) {
             if (element.isActive()) {
                 keyValues.add(new ConcreteKeyValue(element.getInvoiceIndicator(), element.getInvoiceIndicatorDescription()));
             }

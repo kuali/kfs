@@ -88,6 +88,11 @@
 		<property name="validationPattern">
 			<ref bean="AnyCharacterValidation" />
 		</property>
+		<property name="control">
+			<bean parent="SelectControlDefinition"
+				p:valuesFinderClass="org.kuali.kfs.module.cg.businessobject.options.CustomerAddressTypeValuesFinder"
+				p:includeKeyInLabel="false" />
+		</property>
 	</bean>
 
 	<bean id="AgencyAddress-agencyAddressName" parent="AgencyAddress-agencyAddressName-parentBean" />
@@ -287,13 +292,14 @@
 			<ref bean="AnyCharacterValidation" />
 		</property>
 		<property name="control">
-			<bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.location.framework.state.StateValuesFinder"
+			<bean parent="SelectControlDefinition"
+				p:valuesFinderClass="org.kuali.rice.location.framework.state.StateValuesFinder"
 				p:includeKeyInLabel="false" />
 		</property>
 	</bean>
 	<bean id="AgencyAddress-agencyZipCode" parent="AgencyAddress-agencyZipCode-parentBean" />
 
-	<bean id="AgencyAddress-agencyZipCode-parentBean" abstract="true" 
+	<bean id="AgencyAddress-agencyZipCode-parentBean" abstract="true"
 		parent="PostalCode-code">
 		<property name="name" value="agencyZipCode" />
 	</bean>

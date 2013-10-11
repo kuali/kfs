@@ -25,7 +25,6 @@
 				<ref bean="AwardProjectDirector-proposalNumber" />
 				<ref bean="AwardProjectDirector-awardPrimaryProjectDirectorIndicator" />
 				<ref bean="AwardProjectDirector-awardProjectDirectorProjectTitle" />
-				<ref bean="AwardProjectDirector-newCollectionRecord" />
 				<ref bean="AwardProjectDirector-active" />
 			</list>
 		</property>
@@ -103,13 +102,7 @@
 			<ref bean="StandardNameTextControl" />
 		</property>
 	</bean>
-	<bean id="AwardProjectDirector-newCollectionRecord" parent="AwardProjectDirector-newCollectionRecord-parentBean" />
-
-	<bean id="AwardProjectDirector-newCollectionRecord-parentBean"
-		abstract="true" parent="GenericAttributes-newCollectionRecord">
-	</bean>
 	<bean id="AwardProjectDirector-active" parent="AwardProjectDirector-active-parentBean" />
-
 	<bean id="AwardProjectDirector-active-parentBean" abstract="true"
 		parent="GenericAttributes-activeIndicator">
 		<property name="name" value="active" />

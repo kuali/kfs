@@ -31,6 +31,12 @@
 		<property name="name" value="objectCode" />
 	</bean>
 
+	<bean id="AwardInvoiceAccount-subObjectCode" parent="AwardInvoiceAccount-subObjectCode-parentBean" />
+	<bean id="AwardInvoiceAccount-subObjectCode-parentBean" abstract="true"
+		parent="SubObjectAttribute">
+		<property name="name" value="subObjectCode" />
+	</bean>
+	
 	<bean id="AwardInvoiceAccount-active" parent="AwardInvoiceAccount-active-parentBean" />
 	<bean id="AwardInvoiceAccount-active-parentBean" abstract="true"
 		parent="GenericAttributes-activeIndicator">

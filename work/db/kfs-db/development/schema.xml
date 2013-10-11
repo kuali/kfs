@@ -15217,9 +15217,6 @@
         <column name="TRVL_EMP_ID" size="255" type="VARCHAR"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
-        <foreign-key foreignTable="TEM_TRAVELER_TYP_T" name="TEM_GRP_TRVLR_TR1">
-            <reference foreign="CODE" local="TRAVELER_TYP_CD"/>
-        </foreign-key>
         <unique name="TEM_GRP_TRVLR_TC0">
             <unique-column name="OBJ_ID"/>
         </unique>

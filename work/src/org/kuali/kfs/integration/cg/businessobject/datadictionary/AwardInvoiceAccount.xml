@@ -17,7 +17,7 @@
 				<bean parent="AccountAttribute" />
 				<bean parent="SubAccountAttribute" />
 				<ref bean="AwardInvoiceAccount-objectCode" />
-				<bean parent="AwardInvoiceAccount-subObjectCode" />
+				<ref parent="AwardInvoiceAccount-subObjectCode" />
 				<ref bean="AwardInvoiceAccount-active" />
 			</list>
 		</property>

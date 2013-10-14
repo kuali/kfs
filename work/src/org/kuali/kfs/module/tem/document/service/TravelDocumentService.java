@@ -32,7 +32,6 @@ import org.kuali.kfs.module.tem.businessobject.TEMExpense;
 import org.kuali.kfs.module.tem.businessobject.TransportationModeDetail;
 import org.kuali.kfs.module.tem.businessobject.TravelAdvance;
 import org.kuali.kfs.module.tem.businessobject.TripType;
-import org.kuali.kfs.module.tem.dataaccess.TravelDocumentDao;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.TravelReimbursementDocument;
@@ -41,8 +40,6 @@ import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.document.Document;
-import org.kuali.rice.krad.service.DataDictionaryService;
-import org.kuali.rice.krad.service.DocumentService;
 
 /**
  * Travel Document Service
@@ -50,10 +47,6 @@ import org.kuali.rice.krad.service.DocumentService;
 public interface TravelDocumentService {
 
     public String getMessageFrom(final String messageType, String... args);
-
-    void setDocumentService(DocumentService documentService);
-
-    void setDataDictionaryService(DataDictionaryService dataDictionaryService);
 
     List<SpecialCircumstances> findActiveSpecialCircumstances(String documentNumber, String documentType);
 
@@ -188,8 +181,6 @@ public interface TravelDocumentService {
      * @return the modified list of perDiemExpenses back
      */
     void copyDownPerDiemExpense(int copyIndex, List<PerDiemExpense> perDiemExpenses);
-
-    void setTravelDocumentDao(final TravelDocumentDao travelDocumentDao);
 
     /**
      * Determines if an object with an expense type is that of a "hosted" meal. In TEM a hosted meal is a meal that has been

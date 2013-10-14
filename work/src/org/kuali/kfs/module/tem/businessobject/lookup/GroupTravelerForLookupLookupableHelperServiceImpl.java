@@ -30,7 +30,6 @@ import org.kuali.kfs.module.tem.businessobject.GroupTravelerForLookup;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kim.impl.KIMPropertyConstants;
@@ -46,6 +45,9 @@ import org.kuali.rice.krad.util.GlobalVariables;
  */
 public class GroupTravelerForLookupLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
     protected AccountsReceivableModuleService accountsReceivableModuleService;
+    protected volatile String facultyAffiliationType = "FCLTY";
+    protected volatile String staffAffiliationType = "STAFF";
+    protected volatile String studentAffiliationType = "STDNT";
 
     /**
      * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#validateSearchParameters(java.util.Map)
@@ -124,9 +126,11 @@ public class GroupTravelerForLookupLookupableHelperServiceImpl extends KualiLook
         personFieldValues.put(KFSPropertyConstants.PERSON_USER_IDENTIFIER, fieldValues.get(KFSPropertyConstants.PERSON+"."+KFSPropertyConstants.PERSON_USER_IDENTIFIER));
         personFieldValues.put(KFSPropertyConstants.PERSON_FIRST_NAME, fieldValues.get(KFSPropertyConstants.PERSON_FIRST_NAME));
         personFieldValues.put(KFSPropertyConstants.PERSON_LAST_NAME, fieldValues.get(KFSPropertyConstants.PERSON_LAST_NAME));
-        personFieldValues.put(KFSPropertyConstants.EMPLOYEE_ID, fieldValues.get(KFSPropertyConstants.EMPLOYEE_ID));
+        if (!StringUtils.isBlank(fieldValues.get(KFSPropertyConstants.EMPLOYEE_ID))) {
+            personFieldValues.put(KFSPropertyConstants.EMPLOYEE_ID, fieldValues.get(KFSPropertyConstants.EMPLOYEE_ID));
+            personFieldValues.put(KIMPropertyConstants.Person.EMPLOYEE_STATUS_CODE, KFSConstants.EMPLOYEE_ACTIVE_STATUS);
+        }
         personFieldValues.put(KFSPropertyConstants.ACTIVE, fieldValues.get(KFSPropertyConstants.ACTIVE));
-        personFieldValues.put(KIMPropertyConstants.Person.EMPLOYEE_STATUS_CODE, KFSConstants.EMPLOYEE_ACTIVE_STATUS);
 
         return personFieldValues;
     }
@@ -145,9 +149,9 @@ public class GroupTravelerForLookupLookupableHelperServiceImpl extends KualiLook
         traveler.setLastName(personDetail.getLastNameUnmasked());
         traveler.setEmployeeId(personDetail.getEmployeeId());
         traveler.setName(personDetail.getNameUnmasked());
-        if (personDetail.hasAffiliationOfType(KimConstants.PersonAffiliationTypes.FACULTY_AFFILIATION_TYPE) || personDetail.hasAffiliationOfType(KimConstants.PersonAffiliationTypes.STAFF_AFFILIATION_TYPE)) {
+        if (personDetail.hasAffiliationOfType(getFacultyAffiliationType()) || personDetail.hasAffiliationOfType(getStaffAffiliationType())) {
             traveler.setGroupTravelerTypeCode(TemConstants.GroupTravelerType.EMPLOYEE);
-        } else if (personDetail.hasAffiliationOfType(KimConstants.PersonAffiliationTypes.STUDENT_AFFILIATION_TYPE)) {
+        } else if (personDetail.hasAffiliationOfType(getStudentAffiliationType())) {
             traveler.setGroupTravelerTypeCode(TemConstants.GroupTravelerType.STUDENT);
         } else {
             traveler.setGroupTravelerTypeCode(TemConstants.GroupTravelerType.OTHER);
@@ -215,7 +219,7 @@ public class GroupTravelerForLookupLookupableHelperServiceImpl extends KualiLook
        traveler.setCustomerNumber(customer.getCustomerNumber());
        traveler.setName(customer.getCustomerName());
        traveler.setActive(customer.isActive());
-       traveler.setGroupTravelerTypeCode(TemConstants.GroupTravelerType.VENDOR);
+       traveler.setGroupTravelerTypeCode(TemConstants.GroupTravelerType.CUSTOMER);
        return traveler;
    }
 
@@ -260,5 +264,29 @@ public class GroupTravelerForLookupLookupableHelperServiceImpl extends KualiLook
 
     public void setAccountsReceivableModuleService(AccountsReceivableModuleService accountsReceivableModuleService) {
         this.accountsReceivableModuleService = accountsReceivableModuleService;
+    }
+
+    public String getFacultyAffiliationType() {
+        return facultyAffiliationType;
+    }
+
+    public void setFacultyAffiliationType(String facultyAffiliationType) {
+        this.facultyAffiliationType = facultyAffiliationType;
+    }
+
+    public String getStaffAffiliationType() {
+        return staffAffiliationType;
+    }
+
+    public void setStaffAffiliationType(String staffAffiliationType) {
+        this.staffAffiliationType = staffAffiliationType;
+    }
+
+    public String getStudentAffiliationType() {
+        return studentAffiliationType;
+    }
+
+    public void setStudentAffiliationType(String studentAffiliationType) {
+        this.studentAffiliationType = studentAffiliationType;
     }
 }

@@ -67,18 +67,14 @@ public class TravelDocumentDaoOjb extends PlatformAwareDaoBaseOjb implements Tra
 
         LOG.debug("Creating query for type "+ travelDocumentClass+ " using criteria "+ c);
 
-        final ReportQueryByCriteria query = new ReportQueryByCriteria(travelDocumentClass, c);
-        query.setAttributes(new String[] { "documentNumber" });
-
         final List<String> retval = new ArrayList<String>();
 
-        for (final Iterator it = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query);
-             it.hasNext();) {
-            final Object[] obj = (Object[]) it.next();
-            LOG.debug("Got Id "+ obj[0]);
-            retval.add("" + obj[0]);
-        }
+        Collection<? extends TravelDocument> documents = getPersistenceBrokerTemplate().getCollectionByQuery(new QueryByCriteria(travelDocumentClass, c));
 
+        for (Iterator it = documents.iterator(); it.hasNext();) {
+            TravelDocument document = (TravelDocument) it.next();
+            retval.add(document.getDocumentNumber());
+        }
 
         return retval;
     }

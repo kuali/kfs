@@ -115,6 +115,9 @@ public class TemPropertyConstants {
     public static final String ACCOUNT_DISTRIBUTION_SRC_LINES = "accountDistributionsourceAccountingLines";
     public static final String ACCOUNT_LINE_PERCENT = "accountLinePercent";
 
+    public static final String PROFILE = "profile";
+    public static final String RESIGN = "resign";
+
     //credit card agency data properties
     public static final String CREDIT_CARD_AGENCY = "creditCardAgency";
     public static final String AGENCY_STAGING_DATA = "agencyStagingData";
@@ -180,8 +183,8 @@ public class TemPropertyConstants {
 
     public class TEMProfileProperties {
         public static final String PROFILE_ID = "profileId";
-        public static final String CUSTOMER_ID = "customerId";
         public static final String PRINCIPAL_ID = "principalId";
+        public static final String EMPLOYEE_ID = "employeeId";
         public static final String DATE_OF_BIRTH = "dateOfBirth";
         public static final String CITIZENSHIP = "citizenship";
         public static final String DRIVERS_LICENSE_EXP_DATE = "driversLicenseExpDate";
@@ -232,6 +235,10 @@ public class TemPropertyConstants {
         public static final String TRAVELER_DATA = "travelerId";
         public static final String TRIP_CHART_CODE = "tripChartCode";
         public static final String TRIP_ACCOUNT_NUMBER = "tripAccountNumber";
+        public static final String TRIP_EXPENSE_AMOUNT = "tripExpenseAmount";
+        public static final String TRANSACTION_POSTING_DATE = "transactionPostingDate";
+        public static final String TRIP_INVOICE_NUMBER = "tripInvoiceNumber";
+        public static final String CREDIT_CARD_OR_AGENCY_CODE = "creditCardOrAgencyCode";
     }
 
     @SuppressWarnings("rawtypes")
@@ -313,6 +320,8 @@ public class TemPropertyConstants {
     public static final String TRAVELER_ID = "travelerId";
     public static final String TRIP_ID = "tripId";
     public static final String AIR_TICKET_NUMBER = "airTicketNumber";
+    public static final String LODGING_ITINERARY_NUMBER = "lodgingItineraryNumber";
+    public static final String RENTAL_CAR_ITINERARY_NUMBER = "rentalCarItineraryNumber";
     public static final String AGENCY = "agency";
     public static final String AGENCY_DATA_ID = "agencyDataId";
     public static final String TRANSACTION_POSTING_DATE = "transactionPostingDate";

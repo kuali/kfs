@@ -27,9 +27,9 @@ import org.kuali.kfs.coa.service.ObjectCodeService;
 import org.kuali.kfs.coa.service.ProjectCodeService;
 import org.kuali.kfs.coa.service.SubAccountService;
 import org.kuali.kfs.coa.service.SubObjectCodeService;
+import org.kuali.kfs.module.tem.TemParameterConstants;
 import org.kuali.kfs.module.tem.TemConstants.AgencyMatchProcessParameter;
 import org.kuali.kfs.module.tem.TemConstants.AgencyStagingDataErrorCodes;
-import org.kuali.kfs.module.tem.TemParameterConstants;
 import org.kuali.kfs.module.tem.businessobject.AgencyStagingData;
 import org.kuali.kfs.module.tem.businessobject.CreditCardAgency;
 import org.kuali.kfs.module.tem.service.CreditCardAgencyService;
@@ -221,6 +221,23 @@ public class ExpenseImportServiceBase {
         }
         LOG.error("Invalid Credit Card Agency Code in Agency Data record");
         setErrorCode(agencyData, AgencyStagingDataErrorCodes.AGENCY_INVALID_CC_AGENCY);
+        return false;
+    }
+
+    /**
+     *
+     * This method verifies there is either Airfare, Lodging or Rental Car data in the Agency Data
+     * @param agencyData
+     * @return
+     */
+    public boolean isTripDataMissing(AgencyStagingData agencyData) {
+
+        if (StringUtils.isEmpty(agencyData.getAirTicketNumber()) &&
+                StringUtils.isEmpty(agencyData.getLodgingItineraryNumber()) &&
+                StringUtils.isEmpty(agencyData.getRentalCarItineraryNumber())) {
+
+            return true;
+        }
         return false;
     }
 

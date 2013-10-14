@@ -110,7 +110,7 @@ public class AgencyDataImportServiceImpl implements AgencyDataImportService {
 
             List<AgencyStagingData> validAgencyList = validateAgencyData(agencyData, dataFileName);
 
-            boolean isAllValid = validAgencyList.size() == agencyData.getAgencies().size();
+            boolean isAllValid = validAgencyList.size() == agencyData.getAgencyStagingData().size();
             if (!isAllValid) {
                 String error = "The agency data records to be loaded are rejected due to data problem. Please check the agency data report.";
                 moveErrorFile(dataFileName, this.getAgencyDataFileErrorDirectory());
@@ -164,74 +164,81 @@ public class AgencyDataImportServiceImpl implements AgencyDataImportService {
      * @see org.kuali.kfs.module.tem.batch.service.AgencyDataImportService#validateAgencyData(org.kuali.kfs.module.tem.businessobject.AgencyImportData, java.lang.String)
      */
     @Override
-    public List<AgencyStagingData> validateAgencyData(AgencyImportData agencyData, String dataFileName) {
+    public List<AgencyStagingData> validateAgencyData(AgencyImportData agencyImportData, String dataFileName) {
         PrintStream reportDataStream = dataReportService.getReportPrintStream(getAgencyDataReportDirectory(), getAgencyDataReportFilePrefix());
 
-        BusinessObjectReportHelper reportHelper = getReportHelper(ExpenseImport.getExpenseImportByCode(agencyData.getImportBy()));
-        HashMap<String, AgencyStagingData> validData = new HashMap<String, AgencyStagingData>();
+        BusinessObjectReportHelper reportHelper = getReportHelper(ExpenseImport.getExpenseImportByCode(agencyImportData.getImportBy()));
+        HashMap<String, AgencyStagingData> validAgencyStagingDataMap = new HashMap<String, AgencyStagingData>();
         try {
             dataReportService.writeReportHeader(reportDataStream, dataFileName, TemKeyConstants.MESSAGE_AGENCY_DATA_REPORT_HEADER, reportHelper);
             int count = 1;
-            NextAgencyStagingDataIdFinder idFinder = new NextAgencyStagingDataIdFinder();
-            for (AgencyStagingData agency : agencyData.getAgencies()) {
-                String key = null;
-                agency.setId(Integer.valueOf(idFinder.getValue()));
-                agency.setImportBy(agencyData.getImportBy());
-                agency.setStagingFileName(StringUtils.substringAfterLast(dataFileName, File.separator));
 
-                AgencyStagingData validAgency = null;
+            List<AgencyStagingData> importedAgencyStagingDataList = agencyImportData.getAgencyStagingData();
+            int listSize = importedAgencyStagingDataList.size();
+            LOG.info("Validating agency import by traveler: importing "+ listSize +" records");
+
+            NextAgencyStagingDataIdFinder idFinder = new NextAgencyStagingDataIdFinder();
+            for (AgencyStagingData importedAgencyStagingData : importedAgencyStagingDataList) {
+                String key = null;
+                importedAgencyStagingData.setId(Integer.valueOf(idFinder.getValue()));
+                importedAgencyStagingData.setImportBy(agencyImportData.getImportBy());
+                importedAgencyStagingData.setStagingFileName(StringUtils.substringAfterLast(dataFileName, File.separator));
+
+                String itineraryData = StringUtils.isNotEmpty(importedAgencyStagingData.getAirTicketNumber()) ? "AIR-"+ importedAgencyStagingData.getAirTicketNumber() :
+                                        (StringUtils.isNotEmpty(importedAgencyStagingData.getLodgingItineraryNumber()) ? "LODGING-"+ importedAgencyStagingData.getLodgingItineraryNumber() :
+                                        (StringUtils.isNotEmpty(importedAgencyStagingData.getRentalCarItineraryNumber()) ? "RENTAL CAR-"+ importedAgencyStagingData.getRentalCarItineraryNumber() : "" ));
+
+                AgencyStagingData validAgencyStagingData = null;
                 List<ErrorMessage> errorMessages = new ArrayList<ErrorMessage>();
 
                 // validate by Traveler ID
-                if (agency.getExpenseImport() == ExpenseImport.traveler) {
-                     key = agency.getTravelerId() + "~" + agency.getAirTicketNumber() + "~" + agency.getCreditCardOrAgencyCode() + "~" + agency.getTransactionPostingDate() + "~" +
-                            agency.getTripExpenseAmount() + "~" + agency.getTripInvoiceNumber() ;
-                    LOG.info("Validating agency import by traveler. Record# " + count + " of " + agencyData.getAgencies().size());
-                    expenseImportByTravelerService.setErrorMessages(errorMessages);
-                    if(!validData.containsKey(key)){
-                        if (expenseImportByTravelerService.areMandatoryFieldsPresent(agency)) {
-                            validAgency = expenseImportByTravelerService.validateAgencyData(agency);
-                        }
+                if (importedAgencyStagingData.getExpenseImport() == ExpenseImport.traveler) {
+
+
+                     key = importedAgencyStagingData.getTravelerId() + "~" + itineraryData + "~" +
+                         importedAgencyStagingData.getCreditCardOrAgencyCode() + "~" + importedAgencyStagingData.getTransactionPostingDate() + "~" +
+                         importedAgencyStagingData.getTripExpenseAmount() + "~" + importedAgencyStagingData.getTripInvoiceNumber();
+
+                    LOG.info("Validating agency import by traveler. Record# " + count + " of " + listSize);
+
+                    if(!validAgencyStagingDataMap.containsKey(key)){
+                        errorMessages.addAll(expenseImportByTravelerService.validateAgencyData(importedAgencyStagingData));
                     }
                     else {
                         // duplicate record found in the file
                         ErrorMessage error = new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_DATA_TRAVELER_DUPLICATE_RECORD,
-                                agency.getTravelerId(), agency.getAirTicketNumber(), agency.getCreditCardOrAgencyCode(),
-                                agency.getTransactionPostingDate().toString(), agency.getTripExpenseAmount().toString(), agency.getTripInvoiceNumber());
+                                importedAgencyStagingData.getTravelerId(), itineraryData, importedAgencyStagingData.getCreditCardOrAgencyCode(),
+                                importedAgencyStagingData.getTransactionPostingDate().toString(), importedAgencyStagingData.getTripExpenseAmount().toString(), importedAgencyStagingData.getTripInvoiceNumber());
                             errorMessages.add(error);
                     }
-                    errorMessages = expenseImportByTravelerService.getErrorMessages();
                 }
                 // validate by Trip ID
-                else if (agency.getExpenseImport() == ExpenseImport.trip) {
-                    key = agency.getTravelerId() + "~" + agency.getTripId() + "~" + agency.getCreditCardOrAgencyCode() + "~" + agency.getTransactionPostingDate() + "~" +
-                            agency.getTripExpenseAmount() ;
-                    LOG.info("Validating agency import by trip. Record# " + count + " of " + agencyData.getAgencies().size());
-                    expenseImportByTripService.setErrorMessages(errorMessages);
-                    if(!validData.containsKey(key)){
-                        if (expenseImportByTripService.areMandatoryFieldsPresent(agency)) {
-                            validAgency = expenseImportByTripService.validateAgencyData(agency);
-                        }
+                else if (importedAgencyStagingData.getExpenseImport() == ExpenseImport.trip) {
+
+                    key = importedAgencyStagingData.getTravelerId() + "~" + importedAgencyStagingData.getTripId() + "~" + importedAgencyStagingData.getCreditCardOrAgencyCode()
+                            + "~" + importedAgencyStagingData.getTransactionPostingDate() + "~" + importedAgencyStagingData.getTripExpenseAmount() ;
+
+                    LOG.info("Validating agency import by trip. Record# " + count + " of " + listSize);
+
+                    if(!validAgencyStagingDataMap.containsKey(key)){
+                        errorMessages.addAll(expenseImportByTripService.validateAgencyData(importedAgencyStagingData));
                     }
                     else {
                         // duplicate record found in the file.
                         ErrorMessage error = new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_DATA_TRIP_DUPLICATE_RECORD,
-                                agency.getTravelerId(), agency.getAirTicketNumber(), agency.getCreditCardOrAgencyCode(),
-                                agency.getTransactionPostingDate().toString(), agency.getTripExpenseAmount().toString(), agency.getTripInvoiceNumber());
+                                importedAgencyStagingData.getTripId(), importedAgencyStagingData.getCreditCardOrAgencyCode(),
+                                importedAgencyStagingData.getTransactionPostingDate().toString(), importedAgencyStagingData.getTripExpenseAmount().toString(), itineraryData);
                             errorMessages.add(error);
                     }
-                    errorMessages = expenseImportByTripService.getErrorMessages();
                 }
 
-
-                if (ObjectUtils.isNotNull(validAgency)) {
-                      validData.put(key,validAgency);
+                if (errorMessages.isEmpty()) {
+                      validAgencyStagingDataMap.put(key,importedAgencyStagingData);
                 }
-
 
                 //writer to error report
                 if (!errorMessages.isEmpty()){
-                    dataReportService.writeToReport(reportDataStream, agency, errorMessages, reportHelper);
+                    dataReportService.writeToReport(reportDataStream, importedAgencyStagingData, errorMessages, reportHelper);
                 }
                 count++;
 
@@ -245,7 +252,7 @@ public class AgencyDataImportServiceImpl implements AgencyDataImportService {
         }
 
         ArrayList<AgencyStagingData> validAgencyRecords = new ArrayList<AgencyStagingData>() ;
-        for(Map.Entry<String , AgencyStagingData> entry : validData.entrySet()) {
+        for(Map.Entry<String , AgencyStagingData> entry : validAgencyStagingDataMap.entrySet()) {
             validAgencyRecords.add(entry.getValue());
         }
 

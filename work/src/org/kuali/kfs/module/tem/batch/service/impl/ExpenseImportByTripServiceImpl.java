@@ -24,15 +24,15 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.module.tem.TemConstants;
+import org.kuali.kfs.module.tem.TemKeyConstants;
+import org.kuali.kfs.module.tem.TemParameterConstants;
+import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.TemConstants.AgencyMatchProcessParameter;
 import org.kuali.kfs.module.tem.TemConstants.AgencyStagingDataErrorCodes;
 import org.kuali.kfs.module.tem.TemConstants.AgencyStagingDataValidation;
 import org.kuali.kfs.module.tem.TemConstants.CreditCardStagingDataErrorCodes;
 import org.kuali.kfs.module.tem.TemConstants.ExpenseTypes;
 import org.kuali.kfs.module.tem.TemConstants.TravelParameters;
-import org.kuali.kfs.module.tem.TemKeyConstants;
-import org.kuali.kfs.module.tem.TemParameterConstants;
-import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.batch.AgencyDataImportStep;
 import org.kuali.kfs.module.tem.batch.service.ExpenseImportByTripService;
 import org.kuali.kfs.module.tem.batch.service.ImportedExpensePendingEntryService;
@@ -45,7 +45,11 @@ import org.kuali.kfs.module.tem.businessobject.HistoricalTravelExpense;
 import org.kuali.kfs.module.tem.businessobject.TEMProfile;
 import org.kuali.kfs.module.tem.businessobject.TripAccountingInformation;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
+import org.kuali.kfs.module.tem.document.TravelDocument;
+import org.kuali.kfs.module.tem.document.TravelEntertainmentDocument;
+import org.kuali.kfs.module.tem.document.TravelRelocationDocument;
 import org.kuali.kfs.module.tem.document.service.TravelAuthorizationService;
+import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
 import org.kuali.kfs.module.tem.service.TemProfileService;
 import org.kuali.kfs.module.tem.service.TravelExpenseService;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
@@ -71,53 +75,46 @@ public class ExpenseImportByTripServiceImpl extends ExpenseImportServiceBase imp
     private DateTimeService dateTimeService;
     private TravelExpenseService travelExpenseService;
     private ImportedExpensePendingEntryService importedExpensePendingEntryService;
-
-    protected List<ErrorMessage> errorMessages = new ArrayList<ErrorMessage>();
+    private TravelDocumentService travelDocumentService;
 
     /**
      *
      * @see org.kuali.kfs.module.tem.batch.service.ExpenseImportByTripService#areMandatoryFieldsPresent(org.kuali.kfs.module.tem.businessobject.AgencyStagingData)
      */
     @Override
-    public boolean areMandatoryFieldsPresent(AgencyStagingData agencyData) {
+    public List<ErrorMessage> validateMandatoryFieldsPresent(AgencyStagingData agencyData) {
 
-        boolean requiredFieldsValid = true;
-        ErrorMessage error = null;
+        List<ErrorMessage> errorMessages = new ArrayList<ErrorMessage>();
+
         if (StringUtils.isEmpty(agencyData.getTripId())) {
-            error = new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_DATA_NO_MANDATORY_FIELDS, "tripId");
+            ErrorMessage error = new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_DATA_NO_MANDATORY_FIELDS, TemPropertyConstants.TravelAgencyAuditReportFields.TRIP_ID);
             errorMessages.add(error);
-            requiredFieldsValid = false;
         }
-        if (isAccountingInfoMissing(agencyData)) {
-            requiredFieldsValid = false;
-        }
+
+        errorMessages.addAll(validateMissingAccountingInfo(agencyData));
+
         if (isAmountEmpty(agencyData.getTripExpenseAmount())) {
-            error = new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_DATA_NO_MANDATORY_FIELDS, "tripExpenseAmount");
+            ErrorMessage error = new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_DATA_NO_MANDATORY_FIELDS, TemPropertyConstants.TravelAgencyAuditReportFields.TRIP_EXPENSE_AMOUNT);
             errorMessages.add(error);
-            requiredFieldsValid = false;
         }
         if (StringUtils.isEmpty(agencyData.getTripInvoiceNumber())) {
-            error = new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_DATA_NO_MANDATORY_FIELDS, "tripInvoiceNumber");
+            ErrorMessage error = new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_DATA_NO_MANDATORY_FIELDS, TemPropertyConstants.TravelAgencyAuditReportFields.TRIP_INVOICE_NUMBER);
             errorMessages.add(error);
-            requiredFieldsValid = false;
         }
         if (ObjectUtils.isNull(agencyData.getTransactionPostingDate())) {
-            error = new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_DATA_NO_MANDATORY_FIELDS, "transactionPostingDate");
+            ErrorMessage error = new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_DATA_NO_MANDATORY_FIELDS, TemPropertyConstants.TravelAgencyAuditReportFields.TRANSACTION_POSTING_DATE);
             errorMessages.add(error);
-            requiredFieldsValid = false;
         }
         if (isTripDataMissing(agencyData)) {
-            error = new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_DATA_AIR_LODGING_RENTAL_MISSING);
+            ErrorMessage error = new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_DATA_AIR_LODGING_RENTAL_MISSING);
             errorMessages.add(error);
-            requiredFieldsValid = false;
         }
 
-        if (!requiredFieldsValid) {
+        if (!errorMessages.isEmpty()) {
             LOG.error("Missing one or more required fields.");
-
         }
 
-        return requiredFieldsValid;
+        return errorMessages;
     }
 
     /**
@@ -128,70 +125,59 @@ public class ExpenseImportByTripServiceImpl extends ExpenseImportServiceBase imp
      * @return
      */
     @Override
-    public boolean isAccountingInfoMissing(AgencyStagingData agencyData) {
+    public List<ErrorMessage> validateMissingAccountingInfo(AgencyStagingData agencyData) {
+
+        List<ErrorMessage> errorMessages = new ArrayList<ErrorMessage>();
 
         boolean accountInfoMissing = false;
         List<TripAccountingInformation> accountingInfoList = agencyData.getTripAccountingInformation();
-        for (TripAccountingInformation account : accountingInfoList) {
-            if (StringUtils.isEmpty(account.getTripChartCode())) {
-                ErrorMessage error = new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_DATA_NO_MANDATORY_FIELDS, TemPropertyConstants.TravelAgencyAuditReportFields.TRIP_CHART_CODE);
-                errorMessages.add(error);
-                accountInfoMissing = true;
 
-            }
-            if (StringUtils.isEmpty(account.getTripAccountNumber())) {
-               ErrorMessage error = new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_DATA_NO_MANDATORY_FIELDS, TemPropertyConstants.TravelAgencyAuditReportFields.TRIP_ACCOUNT_NUMBER);
-               errorMessages.add(error);
-               accountInfoMissing = true;
-
+        if (accountingInfoList.isEmpty()) {
+            ErrorMessage error = new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_DATA_REQUIRED_ACCOUNT_INFO);
+            errorMessages.add(error);
+        }
+        else {
+            for (TripAccountingInformation account : accountingInfoList) {
+                if (StringUtils.isEmpty(account.getTripChartCode())) {
+                    ErrorMessage error = new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_DATA_NO_MANDATORY_FIELDS, TemPropertyConstants.TravelAgencyAuditReportFields.TRIP_CHART_CODE);
+                    errorMessages.add(error);
+                }
+                if (StringUtils.isEmpty(account.getTripAccountNumber())) {
+                   ErrorMessage error = new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_DATA_NO_MANDATORY_FIELDS, TemPropertyConstants.TravelAgencyAuditReportFields.TRIP_ACCOUNT_NUMBER);
+                   errorMessages.add(error);
+                }
             }
         }
 
-        return accountInfoMissing;
+        return errorMessages;
     }
 
-    /**
-     *
-     * This method verifies there is either Airfare, Lodging or Rental Car data in the Agency Data
-     * @param agencyData
-     * @return
-     */
-    @Override
-    public boolean isTripDataMissing(AgencyStagingData agencyData) {
-
-        if (StringUtils.isEmpty(agencyData.getAirTicketNumber()) &&
-            StringUtils.isEmpty(agencyData.getLodgingItineraryNumber()) &&
-            StringUtils.isEmpty(agencyData.getRentalCarItineraryNumber())) {
-
-            return true;
-        }
-        return false;
-    }
 
     /**
      *
      * @see org.kuali.kfs.module.tem.batch.service.ExpenseImportByTripService#validateAgencyData(org.kuali.kfs.module.tem.businessobject.AgencyStagingData)
      */
     @Override
-    public AgencyStagingData validateAgencyData(AgencyStagingData agencyData) {
+    public List<ErrorMessage> validateAgencyData(AgencyStagingData agencyData) {
         LOG.info("Validating agency data. tripId: "+ agencyData.getTripId());
 
-        errorMessages.clear();
-
-        // Perform a duplicate check first.
-        if (isDuplicate(agencyData)) {
-            LOG.error("Duplicate Agency Data record. tripId: "+ agencyData.getTripId());
-            return null;
+        List<ErrorMessage> errorMessages = validateMandatoryFieldsPresent(agencyData);
+        if (!errorMessages.isEmpty()) {
+            return errorMessages;
         }
 
-        // see if there's a TA for trip id (travelDocumentIdentifier)
-        final TravelAuthorizationDocument ta = validateTripId(agencyData);
-        if (ObjectUtils.isNotNull(ta)) {
-            agencyData.setErrorCode(AgencyStagingDataErrorCodes.AGENCY_NO_ERROR);
+        errorMessages = validateDuplicateData(agencyData);
+        if (!errorMessages.isEmpty()) {
+            return errorMessages;
+        }
 
-            final TEMProfile profile = temProfileService.findTemProfileById(ta.getProfileId());
-            agencyData.setTemProfileId(profile.getProfileId());
-            agencyData = validateAccountingInfo(profile, agencyData, ta);
+        errorMessages = validateTripId(agencyData);
+        if (!errorMessages.isEmpty()) {
+            return errorMessages;
+        }
+        else {
+            agencyData.setErrorCode(AgencyStagingDataErrorCodes.AGENCY_NO_ERROR);
+            errorMessages = validateAccountingInfo(agencyData);
         }
 
         if (!isCreditCardAgencyValid(agencyData)) {
@@ -200,7 +186,7 @@ public class ExpenseImportByTripServiceImpl extends ExpenseImportServiceBase imp
 
         LOG.info("Finished validating agency data. tripId:"+ agencyData.getTripId());
         agencyData.setProcessingTimestamp(dateTimeService.getCurrentTimestamp());
-        return agencyData;
+        return errorMessages;
     }
 
     /**
@@ -208,17 +194,20 @@ public class ExpenseImportByTripServiceImpl extends ExpenseImportServiceBase imp
      * @see org.kuali.kfs.module.tem.batch.service.ExpenseImportByTripService#validateTripId(org.kuali.kfs.module.tem.businessobject.AgencyStagingData)
      */
     @Override
-    public TravelAuthorizationDocument validateTripId(AgencyStagingData agencyData) {
+    public List<ErrorMessage> validateTripId(AgencyStagingData agencyData) {
 
-        final TravelAuthorizationDocument ta = getTravelAuthorizationDocument(agencyData.getTripId());
-        if (ObjectUtils.isNotNull(ta)) {
-            return ta;
+        List<ErrorMessage> errorMessages = new ArrayList<ErrorMessage>();
+
+        TravelDocument travelDocument = getTravelDocument(agencyData.getTripId());
+        if (ObjectUtils.isNotNull(travelDocument)) {
+            return errorMessages;
         }
-        LOG.error("Unable to retrieve TA document for tripId: "+ agencyData.getTripId());
+
+        LOG.error("Unable to retrieve a travel document for tripId: "+ agencyData.getTripId());
         setErrorCode(agencyData, AgencyStagingDataErrorCodes.AGENCY_INVALID_TRIPID);
         errorMessages.add(new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_DATA_INVALID_TRIP_ID));
 
-        return null;
+        return errorMessages;
     }
 
     /**
@@ -237,15 +226,72 @@ public class ExpenseImportByTripServiceImpl extends ExpenseImportServiceBase imp
 
     /**
      *
-     * @see org.kuali.kfs.module.tem.batch.service.ExpenseImportByTripService#validateAccountingInfo(org.kuali.kfs.module.tem.businessobject.TEMProfile, org.kuali.kfs.module.tem.businessobject.AgencyStagingData, org.kuali.kfs.module.tem.document.TravelAuthorizationDocument)
+     * This method gets the current travel document by travel document identifier
+     * @param travelDocumentIdentifier
+     * @return
+     */
+    protected TravelDocument getTravelDocument(String travelDocumentIdentifier) {
+
+        if (ObjectUtils.isNull(travelDocumentIdentifier) || StringUtils.equals(travelDocumentIdentifier,"")) {
+            LOG.error("Received a null tripId/travelDocumentIdentifier; returning a null TravelDocument");
+            return null;
+        }
+
+        try {
+            TravelDocument travelDocument = getTravelDocumentService().findRootForTravelReimbursement(travelDocumentIdentifier);
+            if (ObjectUtils.isNotNull(travelDocument)) {
+                return travelDocument;
+            }
+
+        } catch (Exception exception) {
+            LOG.error("Exception occurred attempting to retrieve a travel document for tripId: "+ travelDocumentIdentifier, exception);
+            return null;
+        }
+
+        Map<String, Object> fieldValues = new HashMap<String, Object>();
+        fieldValues.put(TemPropertyConstants.TRAVEL_DOCUMENT_IDENTIFIER, travelDocumentIdentifier);
+
+        Collection<TravelEntertainmentDocument> entDocuments = getBusinessObjectService().findMatching(TravelEntertainmentDocument.class, fieldValues);
+        if (entDocuments.iterator().hasNext()) {
+            return entDocuments.iterator().next();
+        }
+
+        Collection<TravelRelocationDocument> reloDocuments = getBusinessObjectService().findMatching(TravelRelocationDocument.class, fieldValues);
+        if (reloDocuments.iterator().hasNext()) {
+            return reloDocuments.iterator().next();
+        }
+
+        LOG.error("Unable to find any travel document for given Trip Id: "+ travelDocumentIdentifier);
+        return null;
+    }
+
+    /**
+     *
+     * @see org.kuali.kfs.module.tem.batch.service.ExpenseImportByTripService#validateAccountingInfo(org.kuali.kfs.module.tem.businessobject.TEMProfile, org.kuali.kfs.module.tem.businessobject.AgencyStagingData)
      */
     @Override
-    public AgencyStagingData validateAccountingInfo(TEMProfile profile, AgencyStagingData agencyData, TravelAuthorizationDocument ta) {
+    public List<ErrorMessage> validateAccountingInfo(AgencyStagingData agencyData) {
+
+        List<ErrorMessage> errorMessages = new ArrayList<ErrorMessage>();
+
+        TravelDocument travelDocument = getTravelDocument(agencyData.getTripId());
+        if (ObjectUtils.isNull(travelDocument)) {
+            LOG.error("Unable to retrieve a travel document for the tripId: "+ agencyData.getTripId());
+            errorMessages.add(new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_DATA_INVALID_TRIP_ID));
+            return errorMessages;
+        }
+
+        TEMProfile profile = travelDocument.getTemProfile();
+        if (ObjectUtils.isNull(profile)) {
+            LOG.error("Found null profile on TravelDocument: "+ travelDocument.getDocumentNumber());
+            errorMessages.add(new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_DATA_INVALID_TEM_PROFILE,travelDocument.getDocumentNumber()));
+            return errorMessages;
+        }
 
         // Get ACCOUNTING_LINE_VALIDATION parameter to determine which fields to validate
         Collection<String> validationParams = getParameterService().getParameterValuesAsString(AgencyDataImportStep.class, TravelParameters.ACCOUNTING_LINE_VALIDATION);
         if (ObjectUtils.isNull(validationParams)) {
-            return agencyData;
+            return errorMessages;
         }
 
         List<TripAccountingInformation> accountingInfo = agencyData.getTripAccountingInformation();
@@ -318,7 +364,7 @@ public class ExpenseImportByTripServiceImpl extends ExpenseImportServiceBase imp
             }
         }
 
-        return agencyData;
+        return errorMessages;
     }
 
     /**
@@ -326,21 +372,20 @@ public class ExpenseImportByTripServiceImpl extends ExpenseImportServiceBase imp
      * @see org.kuali.kfs.module.tem.batch.service.ExpenseImportByTripService#isDuplicate(org.kuali.kfs.module.tem.businessobject.AgencyStagingData)
      */
     @Override
-    public boolean isDuplicate(AgencyStagingData agencyData) {
+    public List<ErrorMessage> validateDuplicateData(AgencyStagingData agencyData) {
 
         // Verify that this isn't a duplicate entry based on the following:
-        // Trip ID, Invoice Number, traveler type id, Agency Name, Transaction Date, Transaction Amount
+        // Trip ID, Invoice Number, Traveler Type Id, Agency Name, Transaction Date, Transaction Amount
+
+        List<ErrorMessage> errorMessages = validateMandatoryFieldsPresent(agencyData);
+        if (!errorMessages.isEmpty()) {
+            return errorMessages;
+        }
 
         Map<String, Object> fieldValues = new HashMap<String, Object>();
 
         if (StringUtils.isNotEmpty(agencyData.getTripId())) {
             fieldValues.put(TemPropertyConstants.TRIP_ID, agencyData.getTripId());
-        }
-        if (StringUtils.isNotEmpty(agencyData.getTripInvoiceNumber())) {
-            fieldValues.put(TemPropertyConstants.TRIP_INVOICE_NUMBER, agencyData.getTripInvoiceNumber());
-        }
-        if (StringUtils.isNotEmpty(agencyData.getTripTravelerTypeId())) {
-            fieldValues.put(TemPropertyConstants.TRIP_TRAVELER_TYPE_ID, agencyData.getTripTravelerTypeId());
         }
         if (StringUtils.isNotEmpty(agencyData.getCreditCardOrAgencyCode())) {
             fieldValues.put(TemPropertyConstants.CREDIT_CARD_AGENCY_CODE, agencyData.getCreditCardOrAgencyCode());
@@ -351,25 +396,56 @@ public class ExpenseImportByTripServiceImpl extends ExpenseImportServiceBase imp
         if (ObjectUtils.isNotNull(agencyData.getTripExpenseAmount())) {
             fieldValues.put(TemPropertyConstants.TRIP_EXPENSE_AMOUNT, agencyData.getTripExpenseAmount());
         }
-
-        List<AgencyStagingData> agencyDataList = (List<AgencyStagingData>) businessObjectService.findMatching(AgencyStagingData.class, fieldValues);
-        if (ObjectUtils.isNull(agencyDataList) || agencyDataList.size() == 0) {
-            return false;
+        if (StringUtils.isNotEmpty(agencyData.getAirTicketNumber())) {
+            fieldValues.put(TemPropertyConstants.AIR_TICKET_NUMBER, agencyData.getAirTicketNumber());
+        }
+        if (StringUtils.isNotEmpty(agencyData.getLodgingItineraryNumber())) {
+            fieldValues.put(TemPropertyConstants.LODGING_ITINERARY_NUMBER, agencyData.getLodgingItineraryNumber());
+        }
+        if (StringUtils.isNotEmpty(agencyData.getRentalCarItineraryNumber())) {
+            fieldValues.put(TemPropertyConstants.RENTAL_CAR_ITINERARY_NUMBER, agencyData.getRentalCarItineraryNumber());
         }
 
-        Integer duplicateId = agencyDataList.get(0).getId();
-        //found itself - its not a duplicate record
-        if (agencyData.getId() != null && (duplicateId.intValue() == agencyData.getId().intValue())){
-            return false;
+        if (fieldValues.isEmpty()) {
+            errorMessages.add(new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_DATA_NO_MANDATORY_FIELDS_GENERIC));
         }
-        //it is an duplicate
-        LOG.error("Found a duplicate entry for agencyData with tripId: "+ agencyData.getTripId() + " matching agency id: " + duplicateId);
-        agencyData.setDuplicateRecordId(duplicateId);
-        ErrorMessage error = new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_DATA_TRIP_DUPLICATE_RECORD,
-                agencyData.getTripId(), agencyData.getAgency(),agencyData.getTransactionPostingDate().toString(), agencyData.getTripExpenseAmount().toString());
+        else {
 
-        errorMessages.add(error);
-        return true;
+            List<AgencyStagingData> agencyDataList = (List<AgencyStagingData>) businessObjectService.findMatching(AgencyStagingData.class, fieldValues);
+            if (ObjectUtils.isNotNull(agencyDataList) && !agencyDataList.isEmpty()) {
+
+                boolean isDuplicate = false;
+                String errorMessage = "Found a duplicate entry for Agency Staging Data: Duplicate Ids ";
+
+                for(AgencyStagingData duplicate : agencyDataList) {
+                    Integer duplicateId = duplicate.getId();
+                    if (ObjectUtils.isNotNull(agencyData.getId()) && (agencyData.getId().intValue() != duplicateId.intValue())) {
+                        errorMessage += duplicate.getId() +" ";
+                        isDuplicate = true;
+                    }
+                }
+                if (isDuplicate) {
+                    LOG.error(errorMessage);
+
+                    String itineraryData = "";
+                    if (StringUtils.isNotEmpty(agencyData.getAirTicketNumber())) {
+                        itineraryData = "AIR-"+ agencyData.getAirTicketNumber();
+                    }
+                    else if (StringUtils.isNotEmpty(agencyData.getLodgingItineraryNumber())) {
+                        itineraryData = "LODGING-"+ agencyData.getLodgingItineraryNumber();
+                    }
+                    else if (StringUtils.isNotEmpty(agencyData.getRentalCarItineraryNumber())) {
+                        itineraryData = "RENTAL CAR-"+ agencyData.getRentalCarItineraryNumber();
+                    }
+
+                    ErrorMessage error = new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_DATA_TRIP_DUPLICATE_RECORD, agencyData.getTripId(), agencyData.getAgency(),
+                            agencyData.getTransactionPostingDate().toString(), agencyData.getTripExpenseAmount().toString());
+                    errorMessages.add(error);
+                }
+            }
+        }
+
+        return errorMessages;
     }
 
     /**
@@ -388,24 +464,21 @@ public class ExpenseImportByTripServiceImpl extends ExpenseImportServiceBase imp
             if (AgencyStagingDataErrorCodes.AGENCY_NO_ERROR.equals(agencyData.getErrorCode())) {
 
                 String expenseType = agencyData.getExpenseType();
-                TemConstants.ExpenseTypeMetaCategory expenseTypeCategory = null;
+                TemConstants.ExpenseTypeMetaCategory expenseTypeCategory = agencyData.getExpenseTypeCategory();
 
                 // This is the "match process" - see if there's credit card data that matches the agency data
                 CreditCardStagingData ccData = null;
                 if (StringUtils.equalsIgnoreCase(expenseType, ExpenseTypes.AIRFARE)) {
                     // see if there's a CC that matches ticket number, service fee number, amount
                     ccData = travelExpenseService.findImportedCreditCardExpense(agencyData.getTripExpenseAmount(), agencyData.getAirTicketNumber(), agencyData.getAirServiceFeeNumber());
-                    expenseTypeCategory = TemConstants.ExpenseTypeMetaCategory.AIRFARE;
                 }
                 else if (StringUtils.equalsIgnoreCase(expenseType, ExpenseTypes.LODGING)) {
                     // see if there's a CC that matches lodging itinerary number and amount
                     ccData = travelExpenseService.findImportedCreditCardExpense(agencyData.getTripExpenseAmount(), agencyData.getLodgingItineraryNumber());
-                    expenseTypeCategory = TemConstants.ExpenseTypeMetaCategory.LODGING;
                 }
                 else if (StringUtils.equalsIgnoreCase(expenseType, ExpenseTypes.RENTAL_CAR)) {
                     // see if there's a CC that matches rental car itinerary number and amount
                     ccData = travelExpenseService.findImportedCreditCardExpense(agencyData.getTripExpenseAmount(), agencyData.getRentalCarItineraryNumber());
-                    expenseTypeCategory = TemConstants.ExpenseTypeMetaCategory.RENTAL_CAR;
                 }
 
                 if (ObjectUtils.isNotNull(ccData)) {
@@ -625,22 +698,20 @@ public class ExpenseImportByTripServiceImpl extends ExpenseImportServiceBase imp
         this.travelExpenseService = travelExpenseService;
     }
 
-    @Override
-    public List<ErrorMessage> getErrorMessages() {
-        return errorMessages;
-    }
-
-    @Override
-    public void setErrorMessages(List<ErrorMessage> errorMessages) {
-        this.errorMessages = errorMessages;
-    }
-
     public ImportedExpensePendingEntryService getImportedExpensePendingEntryService() {
         return importedExpensePendingEntryService;
     }
 
     public void setImportedExpensePendingEntryService(ImportedExpensePendingEntryService importedExpensePendingEntryService) {
         this.importedExpensePendingEntryService = importedExpensePendingEntryService;
+    }
+
+    public TravelDocumentService getTravelDocumentService() {
+        return this.travelDocumentService;
+    }
+
+    public void setTravelDocumentService(TravelDocumentService travelDocumentService) {
+        this.travelDocumentService = travelDocumentService;
     }
 
 }

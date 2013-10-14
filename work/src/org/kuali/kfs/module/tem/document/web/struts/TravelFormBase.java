@@ -931,13 +931,18 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
     @Override
     public KualiDecimal getDistributionRemainingAmount(boolean selectedDistributions) {
         KualiDecimal total = KualiDecimal.ZERO;
+        KualiDecimal distributedTotal = KualiDecimal.ZERO;
         for (AccountingDistribution accountDistribution : distribution) {
-            boolean addTotal = true;
-            if (selectedDistributions) {
-                addTotal = accountDistribution.getSelected();
-            }
-            if (addTotal) {
+            if ((selectedDistributions && accountDistribution.getSelected()) || !selectedDistributions) {
                 total = total.add(accountDistribution.getRemainingAmount());
+                distributedTotal = distributedTotal.add(accountDistribution.getSubTotal().subtract(accountDistribution.getRemainingAmount()));
+            }
+        }
+        if (getTravelDocument().getExpenseLimit() != null && getTravelDocument().getExpenseLimit().isGreaterThan(KualiDecimal.ZERO)) {
+            if (distributedTotal.isGreaterEqual(getTravelDocument().getExpenseLimit())) {
+                return KualiDecimal.ZERO; // we're over our expense limit
+            } else {
+                return getTravelDocument().getExpenseLimit().subtract(distributedTotal); // return the remaining of our expense limit
             }
         }
         return total;
@@ -947,11 +952,7 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
     public KualiDecimal getDistributionSubTotal(boolean selectedDistributions) {
         KualiDecimal total = KualiDecimal.ZERO;
         for (AccountingDistribution accountDistribution : distribution) {
-            boolean addTotal = true;
-            if (selectedDistributions) {
-                addTotal = accountDistribution.getSelected();
-            }
-            if (addTotal) {
+            if ((selectedDistributions && accountDistribution.getSelected()) || !selectedDistributions) {
                 total = total.add(accountDistribution.getSubTotal());
             }
         }

@@ -469,11 +469,11 @@ public class CustomerInvoiceDocumentDaoOjb extends PlatformAwareDaoBaseOjb imple
         Criteria criteria = new Criteria();
         Criteria criteria2 = new Criteria();
         if(ObjectUtils.isNotNull(invoiceBillingDateFrom)){
-            criteria.addGreaterOrEqualThan(prefix + ArPropertyConstants.CustomerInvoiceDocumentFields.BILLING_DATE, invoiceBillingDateFrom);
+            criteria.addGreaterOrEqualThan(ArPropertyConstants.CustomerInvoiceDocumentFields.BILLING_DATE, invoiceBillingDateFrom);
         }
 
         if(ObjectUtils.isNotNull(invoiceBillingDateTo)){
-            criteria2.addLessThan(prefix + ArPropertyConstants.CustomerInvoiceDocumentFields.BILLING_DATE, invoiceBillingDateTo);
+            criteria2.addLessOrEqualThan(ArPropertyConstants.CustomerInvoiceDocumentFields.BILLING_DATE, invoiceBillingDateTo);
         }
         criteria.addOrCriteria(criteria2);
         criteria.addEqualTo(prefix + ArPropertyConstants.CustomerInvoiceDocumentFields.OPEN_INVOICE_INDICATOR, true);
@@ -484,6 +484,8 @@ public class CustomerInvoiceDocumentDaoOjb extends PlatformAwareDaoBaseOjb imple
 
     @Override
     public Collection<CustomerInvoiceDocument> getAllAgingInvoiceDocumentsByCustomerTypes(List<String> customerTypes, Date invoiceBillingDateFrom, Date invoiceBillingDateTo) {
+        LOG.info("invoiceBillingDateFrom :::::" + invoiceBillingDateFrom);
+        LOG.info("invoiceBillingDateTo ::::::::" + invoiceBillingDateTo);
         Criteria criteria = this.getAllAgingInvoiceDocumentsCriteria(StringUtils.EMPTY, invoiceBillingDateFrom, invoiceBillingDateTo);
 
         if(ObjectUtils.isNotNull(customerTypes)){

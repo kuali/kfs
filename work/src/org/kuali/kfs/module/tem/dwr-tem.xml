@@ -37,7 +37,7 @@
 	    	<include method="getCompanyNameMapFrom" />
 	    </create>
 		<convert converter="bean" match="org.kuali.kfs.module.tem.businessobject.ExpenseTypeObjectCode">
-			<param name="include" value="expenseTypeObjectCodeId,expenseTypeCode,travelerTypeCode,tripTypeCode,documentTypeName,taxable"/>
+			<param name="include" value="expenseTypeObjectCodeId,expenseTypeCode,travelerTypeCode,tripTypeCode,documentTypeName,taxable,expenseTypeMetaCategoryCode"/>
 		</convert>
 		<create creator="spring" javascript="TravelExpenseService">
 	    	<param name="beanName" value="travelExpenseService" />

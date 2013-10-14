@@ -33,7 +33,10 @@ import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
 import org.kuali.kfs.module.tem.document.service.TravelReimbursementService;
 import org.kuali.kfs.module.tem.document.web.bean.TravelReimbursementMvcWrapperBean;
 import org.kuali.kfs.module.tem.service.TravelService;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kns.web.ui.ExtraButton;
@@ -216,7 +219,17 @@ public class TravelReimbursementForm extends TravelFormBase implements TravelRei
         }
     }
 
-
+    /**
+     * Pull the object code for the new line from the distribution, not the trip type
+     * @param financialDocument the financial document which needs a new accounting line
+     * @return a new accounting line for the form
+     */
+    @Override
+    protected SourceAccountingLine createNewSourceAccountingLine(AccountingDocument financialDocument) {
+        SourceAccountingLine accountingLine = super.createNewSourceAccountingLine(financialDocument);
+        accountingLine.setFinancialObjectCode(KFSConstants.EMPTY_STRING);
+        return accountingLine;
+    }
 
     protected TravelService getTravelService() {
         return SpringContext.getBean(TravelService.class);

@@ -12,15 +12,18 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-	<bean id="TravelArranger-uniqueTravelerAndArranger"
-		class="org.kuali.kfs.module.tem.document.validation.impl.TravelArrangerUniqueTravelerArrangerValidation" />
+	<bean id="TravelArranger-uniqueTravelerAndArranger" parent="TravelArranger-uniqueTravelerAndArranger-parentBean" scope="prototype"/>
+	<bean id="TravelArranger-uniqueTravelerAndArranger-parentBean" abstract="true" class="org.kuali.kfs.module.tem.document.validation.impl.TravelArrangerUniqueTravelerArrangerValidation" />
 
-	<bean id="TravelArranger-onlyOnePrimaryArranger"
-		class="org.kuali.kfs.module.tem.document.validation.impl.TravelerOnlyOnePrimaryArranger">
+	<bean id="TravelArranger-onlyOnePrimaryArranger" parent="TravelArranger-onlyOnePrimaryArranger-parentBean" scope="prototype"/>
+	<bean id="TravelArranger-onlyOnePrimaryArranger-parentBean" abstract="true" class="org.kuali.kfs.module.tem.document.validation.impl.TravelerOnlyOnePrimaryArranger">
 		<property name="arrangerDocumentService" ref="temArrangerDocumentService" />
 	</bean>
-	<bean id="TravelArranger-arrangerResigns"
-        class="org.kuali.kfs.module.tem.document.validation.impl.TravelArrangerResignsValidation" />
+	
+	<bean id="TravelArranger-arrangerResigns" parent="TravelArranger-arrangerResigns-parentBean" scope="prototype"/>
+	<bean id="TravelArranger-arrangerResigns-parentBean" abstract="true" class="org.kuali.kfs.module.tem.document.validation.impl.TravelArrangerResignsValidation">
+		<property name="temProfileService" ref="temProfileService"/>
+	</bean>
 	
 	<bean id="TravelArranger-routeDocumentValidation" parent="TravelArranger-routeDocumentValidation-parentBean" />
 	<bean id="TravelArranger-routeDocumentValidation-parentBean"

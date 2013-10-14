@@ -19,11 +19,15 @@ import static org.kuali.kfs.module.tem.TemPropertyConstants.TravelAgencyAuditRep
 import static org.kuali.kfs.module.tem.TemPropertyConstants.TravelAgencyAuditReportFields.LODGING_NUMBER;
 import static org.kuali.kfs.module.tem.TemPropertyConstants.TravelAgencyAuditReportFields.TRIP_ID;
 
+import java.util.List;
+
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.batch.service.ExpenseImportByTripService;
 import org.kuali.kfs.module.tem.businessobject.AgencyStagingData;
 import org.kuali.kfs.module.tem.document.service.AgencyStagingDataValidationHelper;
 import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.krad.util.ErrorMessage;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 
@@ -45,28 +49,9 @@ public class AgencyStagingDataValidationByTrip implements AgencyStagingDataValid
      */
     @Override
     public boolean processCustomSaveDocumentBusinessRules(final MaintenanceDocument document) {
-        boolean result = true;
-        final AgencyStagingData data = (AgencyStagingData) document.getNewMaintainableObject().getBusinessObject();
-        if (data.isActive()) {
-            if(this.getExpenseImportByTripService().isAccountingInfoMissing(data)) {
-                putFieldError(ACCOUNTING_INFO, TemKeyConstants.MESSAGE_AGENCY_DATA_INVALID_ACCTG_INFO);
-                result &= false;
-            }
-            if (this.getExpenseImportByTripService().isTripDataMissing(data)) {
-                putFieldError(LODGING_NUMBER, TemKeyConstants.MESSAGE_AGENCY_DATA_MISSING_TRIP_DATA);
-                result &= false;
-            }
-
-            if (this.getExpenseImportByTripService().isDuplicate(data)) {
-                putFieldError(TRIP_ID, TemKeyConstants.MESSAGE_AGENCY_DATA_DUPLICATE_RECORD);
-                result &= false;
-            }
-            if(this.getExpenseImportByTripService().validateTripId(data) == null) {
-                putFieldError(TRIP_ID, TemKeyConstants.MESSAGE_AGENCY_DATA_INVALID_TRIP_ID);
-                result &= false;
-            }
-        }
-        return result;
+        boolean result = processCustomDocumentBusinessRules(document);
+        //check validation in order to display error messages, but return true on a save
+        return true;
     }
 
     /**
@@ -74,28 +59,7 @@ public class AgencyStagingDataValidationByTrip implements AgencyStagingDataValid
      */
     @Override
     public boolean processCustomRouteDocumentBusinessRules(final MaintenanceDocument document) {
-        boolean result = true;
-        final AgencyStagingData data = (AgencyStagingData) document.getNewMaintainableObject().getBusinessObject();
-        if (data.isActive()) {
-            if(this.getExpenseImportByTripService().isAccountingInfoMissing(data)) {
-                putFieldError(ACCOUNTING_INFO, TemKeyConstants.MESSAGE_AGENCY_DATA_INVALID_ACCTG_INFO);
-                result &= false;
-            }
-            if (this.getExpenseImportByTripService().isTripDataMissing(data)) {
-                putFieldError(LODGING_NUMBER, TemKeyConstants.MESSAGE_AGENCY_DATA_MISSING_TRIP_DATA);
-                result &= false;
-            }
-
-            if (this.getExpenseImportByTripService().isDuplicate(data)) {
-                putFieldError(TRIP_ID, TemKeyConstants.MESSAGE_AGENCY_DATA_DUPLICATE_RECORD);
-                result &= false;
-            }
-            if(this.getExpenseImportByTripService().validateTripId(data) == null) {
-                putFieldError(TRIP_ID, TemKeyConstants.MESSAGE_AGENCY_DATA_INVALID_TRIP_ID);
-                result &= false;
-            }
-        }
-        return result;
+        return processCustomDocumentBusinessRules(document);
     }
 
     /**
@@ -130,11 +94,12 @@ public class AgencyStagingDataValidationByTrip implements AgencyStagingDataValid
      * @param propertyName - Property name of the element that is associated with the error. Used to mark the field as errored in
      *        the UI.
      * @param errorConstant - Error Constant that can be mapped to a resource for the actual text message.
+     * @param errorParameters - list of parameters to include in the error message
      *
      */
-    protected void putFieldError(String propertyName, String errorConstant) {
+    protected void putFieldError(String propertyName, String errorConstant, String... errorParameters) {
         if (!errorAlreadyExists(MAINTAINABLE_ERROR_PREFIX + propertyName, errorConstant)) {
-            GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(MAINTAINABLE_ERROR_PREFIX + propertyName, errorConstant);
+            GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(MAINTAINABLE_ERROR_PREFIX + propertyName, errorConstant, errorParameters);
         }
     }
 
@@ -157,5 +122,81 @@ public class AgencyStagingDataValidationByTrip implements AgencyStagingDataValid
         else {
             return false;
         }
+    }
+
+    /**
+     * This method is used by processCustomSaveDocumentBusinessRules and processCustomRouteDocumentBusinessRules in order to
+     * have common validation checking
+     *
+     * @param document - document needing to be validated
+     * @return returns true if all validations passed, false otherwise
+     */
+    protected boolean processCustomDocumentBusinessRules(final MaintenanceDocument document) {
+        boolean result = true;
+
+        final AgencyStagingData data = (AgencyStagingData) document.getNewMaintainableObject().getBusinessObject();
+        if (data.isActive()) {
+
+            List<ErrorMessage> errors = getExpenseImportByTripService().validateMissingAccountingInfo(data);
+
+            if(!errors.isEmpty()) {
+                if (isErrorListContainsErrorKey(errors, TemKeyConstants.MESSAGE_AGENCY_DATA_REQUIRED_ACCOUNT_INFO)) {
+                    putFieldError(ACCOUNTING_INFO, TemKeyConstants.MESSAGE_AGENCY_DATA_REQUIRED_ACCOUNT_INFO);
+                    result &= false;
+                }
+                else {
+                    putFieldError(ACCOUNTING_INFO, TemKeyConstants.MESSAGE_AGENCY_DATA_INVALID_ACCTG_INFO);
+                    result &= false;
+                }
+            }
+
+            if(!getExpenseImportByTripService().validateTripId(data).isEmpty()) {
+                putFieldError(TRIP_ID, TemKeyConstants.MESSAGE_AGENCY_DATA_INVALID_TRIP_ID);
+                result &= false;
+            }
+
+            if (getExpenseImportByTripService().isTripDataMissing(data)) {
+                putFieldError(LODGING_NUMBER, TemKeyConstants.MESSAGE_AGENCY_DATA_MISSING_TRIP_DATA);
+                result &= false;
+            }
+
+            //only check for duplicate data if other fields have been correctly validated
+            if (result) {
+                errors = getExpenseImportByTripService().validateDuplicateData(data);
+                if (!errors.isEmpty()) {
+                    if (isErrorListContainsErrorKey(errors, TemKeyConstants.MESSAGE_AGENCY_DATA_NO_MANDATORY_FIELDS) ||
+                            isErrorListContainsErrorKey(errors, TemKeyConstants.MESSAGE_AGENCY_DATA_AIR_LODGING_RENTAL_MISSING)) {
+                        result &= false;
+                    }
+                    else {
+                        //figure out which itinerary to display
+                        String itineraryData = "";
+                        if (StringUtils.isNotEmpty(data.getAirTicketNumber())) {
+                            itineraryData = "AIR-"+ data.getAirTicketNumber();
+                        }
+                        else if (StringUtils.isNotEmpty(data.getLodgingItineraryNumber())) {
+                            itineraryData += "LODGING-"+ data.getLodgingItineraryNumber();
+                        }
+                        else if (StringUtils.isNotEmpty(data.getRentalCarItineraryNumber())) {
+                            itineraryData += "RENTAL CAR-"+ data.getRentalCarItineraryNumber();
+                        }
+
+                        putFieldError(TRIP_ID, TemKeyConstants.MESSAGE_AGENCY_DATA_TRIP_DUPLICATE_RECORD, data.getTripId(), data.getAgency(), data.getTransactionPostingDate().toString(), data.getTripExpenseAmount().toString(), itineraryData);
+                        result &= false;
+                    }
+                }
+            }
+        }
+
+        return result;
+    }
+
+    protected boolean isErrorListContainsErrorKey(List<ErrorMessage> errors, String errorKey) {
+        for(ErrorMessage error : errors) {
+            if (error.getErrorKey().equals(errorKey)) {
+                return true;
+            }
+        }
+        return false;
     }
 }

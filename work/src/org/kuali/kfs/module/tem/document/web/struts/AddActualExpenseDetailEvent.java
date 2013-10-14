@@ -91,6 +91,9 @@ public class AddActualExpenseDetailEvent implements Observer {
         if (rulePassed){
             if(newActualExpenseLine != null && line != null){
                 newActualExpenseLine.setExpenseLineTypeCode(null);
+                if (newActualExpenseLine.getExpenseTypeObjectCodeId() == null || newActualExpenseLine.getExpenseTypeObjectCodeId().equals(new Long(0L))) {
+                    newActualExpenseLine.setExpenseTypeObjectCode(null); // there's no vaule but the jsp layer does not handle the null-wrapping proxy that well
+                }
                 document.addExpenseDetail(newActualExpenseLine, index);
                 newActualExpenseLine.setExpenseDetails(null);
             }

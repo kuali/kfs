@@ -127,7 +127,7 @@
 			<call-method-rule pattern="processingTimestamp" methodname="setProcessingTimestamp" paramcount="0" paramtypes="java.sql.Timestamp" />
 			<call-method-rule pattern="moveToHistoryIndicator" methodname="setMoveToHistoryIndicator" paramcount="0" />
 
-            <set-next-rule methodname="addAgency" />
+            <set-next-rule methodname="addAgencyStagingData" />
        	</pattern>
        	
 	</pattern>

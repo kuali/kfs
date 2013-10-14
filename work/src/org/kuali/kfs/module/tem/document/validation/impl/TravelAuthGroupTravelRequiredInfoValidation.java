@@ -20,6 +20,7 @@ import org.kuali.kfs.integration.ar.AccountsReceivableCustomer;
 import org.kuali.kfs.integration.ar.AccountsReceivableModuleService;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemKeyConstants;
+import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants.TravelAuthorizationFields;
 import org.kuali.kfs.module.tem.businessobject.GroupTraveler;
 import org.kuali.kfs.module.tem.document.validation.event.AddGroupTravelLineEvent;
@@ -46,20 +47,20 @@ public class TravelAuthGroupTravelRequiredInfoValidation extends GenericValidati
             valid = false;
         }
         else {
-            if (StringUtils.isBlank(groupTraveler.getGroupTravelerEmpId()) && (groupTraveler.getGroupTravelerTypeCode().equals(TemConstants.GroupTravelerType.EMPLOYEE.getCode()) || groupTraveler.getGroupTravelerTypeCode().equals(TemConstants.GroupTravelerType.STUDENT.getCode()) || groupTraveler.getGroupTravelerTypeCode().equals(TemConstants.GroupTravelerType.VENDOR.getCode()))) {
-                GlobalVariables.getMessageMap().putError("groupTravelerEmpId", KFSKeyConstants.ERROR_REQUIRED, "Group Traveler Emp Id");
+            if (StringUtils.isBlank(groupTraveler.getGroupTravelerEmpId()) && (groupTraveler.getGroupTravelerTypeCode().equals(TemConstants.GroupTravelerType.EMPLOYEE.getCode()) || groupTraveler.getGroupTravelerTypeCode().equals(TemConstants.GroupTravelerType.STUDENT.getCode()) || groupTraveler.getGroupTravelerTypeCode().equals(TemConstants.GroupTravelerType.CUSTOMER.getCode()))) {
+                GlobalVariables.getMessageMap().putError(TemPropertyConstants.GROUP_TRAVELER_EMP_ID, KFSKeyConstants.ERROR_REQUIRED, "Group Traveler Emp Id");
                 valid = false;
             } else {
                 if (groupTraveler.getGroupTravelerTypeCode().equals(TemConstants.GroupTravelerType.EMPLOYEE.getCode()) || groupTraveler.getGroupTravelerTypeCode().equals(TemConstants.GroupTravelerType.STUDENT.getCode())) {
                     Person person = getPersonService().getPerson(groupTraveler.getGroupTravelerEmpId());
                     if (person == null) {
-                        GlobalVariables.getMessageMap().putError("groupTravelerEmpId", TemKeyConstants.ERROR_TRVL_GROUP_TRVL_EMP_NOT_FOUND, groupTraveler.getGroupTravelerEmpId());
+                        GlobalVariables.getMessageMap().putError(TemPropertyConstants.GROUP_TRAVELER_EMP_ID, TemKeyConstants.ERROR_TRVL_GROUP_TRVL_EMP_NOT_FOUND, groupTraveler.getGroupTravelerEmpId());
                         valid = false;
                     }
-                } else if (groupTraveler.getGroupTravelerTypeCode().equals(TemConstants.GroupTravelerType.VENDOR.getCode())) {
+                } else if (groupTraveler.getGroupTravelerTypeCode().equals(TemConstants.GroupTravelerType.CUSTOMER.getCode())) {
                     final AccountsReceivableCustomer customer = getAccountsReceivableModuleService().findCustomer(groupTraveler.getGroupTravelerEmpId());
                     if (customer == null) {
-                        GlobalVariables.getMessageMap().putError("groupTravelerEmpId", TemKeyConstants.ERROR_TRVL_GROUP_TRVL_EMP_NOT_FOUND, groupTraveler.getGroupTravelerEmpId());
+                        GlobalVariables.getMessageMap().putError(TemPropertyConstants.GROUP_TRAVELER_EMP_ID, TemKeyConstants.ERROR_TRVL_GROUP_TRVL_EMP_NOT_FOUND, groupTraveler.getGroupTravelerEmpId());
                         valid = false;
                     }
                 }

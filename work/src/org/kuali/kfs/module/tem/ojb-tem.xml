@@ -77,7 +77,7 @@
         <field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR"/>
         <field-descriptor name="financialDocumentLineNumber" column="FDOC_LINE_NBR" jdbc-type="INTEGER"/>
         <field-descriptor name="name" column="NAME" jdbc-type="VARCHAR"/>
-        <field-descriptor name="travelerTypeCode" column="TRAVELER_TYP_CD" jdbc-type="VARCHAR"/>
+        <field-descriptor name="groupTravelerTypeCode" column="TRAVELER_TYP_CD" jdbc-type="VARCHAR"/>
         <field-descriptor name="groupTravelerEmpId" column="TRVL_EMP_ID" jdbc-type="VARCHAR"/>
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR"/>
         <field-descriptor name="versionNumber" locking="true" column="VER_NBR" jdbc-type="BIGINT"/>
@@ -1635,7 +1635,7 @@
         </reference-descriptor> 
         
         <reference-descriptor name="travelAdvance" class-ref="org.kuali.kfs.module.tem.businessobject.TravelAdvance" auto-retrieve="true" auto-update="none" auto-delete="none">
-            <foreignkey field-ref="travelAdvanceId"/>
+            <foreignkey field-ref="travelAdvanceDocumentNumber"/>
         </reference-descriptor>  
         
         <reference-descriptor name="documentHeader" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object">

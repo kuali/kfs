@@ -28,6 +28,7 @@ import org.kuali.kfs.module.tem.batch.service.ExpenseImportByTravelerService;
 import org.kuali.kfs.module.tem.batch.service.ExpenseImportByTripService;
 import org.kuali.kfs.module.tem.businessobject.AgencyStagingData;
 import org.kuali.kfs.module.tem.businessobject.CreditCardAgency;
+import org.kuali.kfs.module.tem.businessobject.TripAccountingInformation;
 import org.kuali.kfs.module.tem.service.CreditCardAgencyService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
@@ -36,11 +37,9 @@ import org.kuali.kfs.sys.document.FinancialSystemMaintainable;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.krad.bo.DocumentHeader;
-import org.kuali.rice.krad.service.SequenceAccessorService;
 import org.kuali.rice.krad.util.ErrorMessage;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
-import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * Maintainable instance for the travel agency audit maintenance document
@@ -71,15 +70,16 @@ public class AgencyStagingDataMaintainable extends FinancialSystemMaintainable {
         agencyData.setManualCreated(true);
 
         AgencyStagingDataMaintainable oldMaintainable = (AgencyStagingDataMaintainable)document.getOldMaintainableObject();
-        AgencyStagingDataMaintainable newMaintainable = (AgencyStagingDataMaintainable)document.getNewMaintainableObject();
         //this is not new, so it must be for copy - we will set the Copied From Id
         agencyData.setCopiedFromId(((AgencyStagingData)oldMaintainable.getBusinessObject()).getId());
-        AgencyStagingData newAgencyStagingDataObject = (AgencyStagingData)newMaintainable.getBusinessObject();
-        if(ObjectUtils.isNull(newAgencyStagingDataObject.getId())) {
-            Integer newId = SpringContext.getBean(SequenceAccessorService.class).getNextAvailableSequenceNumber(TemConstants.TEM_CREDIT_CARD_AGENCY_SEQ_NAME).intValue();
-            newAgencyStagingDataObject.setId(newId);
-        }
 
+        //set TripAccountingInformation primary key and foreign key to null so the maintainance document can handle setting the appropriate key values
+        if (!agencyData.getTripAccountingInformation().isEmpty()) {
+            for(TripAccountingInformation account : agencyData.getTripAccountingInformation()) {
+                account.setId(null);
+                account.setAgencyStagingDataId(null);
+            }
+        }
     }
 
     /**
@@ -134,13 +134,11 @@ public class AgencyStagingDataMaintainable extends FinancialSystemMaintainable {
         AgencyStagingData  agency = (AgencyStagingData)document.getOldMaintainableObject().getBusinessObject();
         if(TemConstants.ExpenseImportTypes.IMPORT_BY_TRIP.equals(agency.getImportBy())) {
            ExpenseImportByTripService expenseImportByTripService =   SpringContext.getBean(ExpenseImportByTripService.class);
-           expenseImportByTripService.validateAgencyData(agency);
-            errorMessages = expenseImportByTripService.getErrorMessages();
+           errorMessages = expenseImportByTripService.validateAgencyData(agency);
         }
         else if (TemConstants.ExpenseImportTypes.IMPORT_BY_TRAVELLER.equals(agency.getImportBy())) {
             ExpenseImportByTravelerService expenseImportByTravelerService =  SpringContext.getBean(ExpenseImportByTravelerService.class);
-            expenseImportByTravelerService.validateAgencyData(agency);
-            errorMessages = expenseImportByTravelerService.getErrorMessages();
+            errorMessages = expenseImportByTravelerService.validateAgencyData(agency);
         }
 
        MessageMap messageMap = GlobalVariables.getMessageMap();

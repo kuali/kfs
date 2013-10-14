@@ -18,10 +18,12 @@ package org.kuali.kfs.module.tem.businessobject;
 import javax.persistence.Transient;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.doctype.bo.DocumentTypeEBO;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * A record which matches an expense type, document type, trip type, and traveler type with an object code and other information about the expense in the specific context
@@ -215,5 +217,16 @@ public class ExpenseTypeObjectCode extends PersistableBusinessObjectBase impleme
     public String toString() {
         final String idAsString = (expenseTypeObjectCodeId == null) ? "?" : expenseTypeObjectCodeId.toString();
         return idAsString +": "+expenseTypeCode+"-"+documentTypeName+"-"+travelerTypeCode+"-"+tripTypeCode;
+    }
+
+    /**
+     * Convenience method that exists really to support DWR, which evidently doesn't like nested properties
+     * @return the expense type meta category code for the related expense type if there is one
+     */
+    public String getExpenseTypeMetaCategoryCode() {
+        if (!ObjectUtils.isNull(expenseType)) {
+            return expenseType.getExpenseTypeMetaCategoryCode();
+        }
+        return KFSConstants.EMPTY_STRING;
     }
 }

@@ -46,7 +46,7 @@
 			property="${detail}.expenseDate" readOnly="${!fullEntryMode}" />
 	</td>
 	<td valign="top" class="infoline">
-		<c:out value="${detailObject.expenseTypeObjectCode.expenseType.name}" />
+		<c:out value="${detailObject.expenseType.name}" />
 		<c:set var="strKey" value="${detail}.expenseTypeCode" /> 
 		<c:forEach items="${ErrorPropertyList}" var="key">
 			<c:if test="${key == strKey}">
@@ -173,7 +173,7 @@
 					</html:select>
 				</c:when>
 				<c:otherwise>
-					<c:out value="${detailObject.classOfServiceCode.classOfServiceName}" />
+					<c:out value="${detailObject.classOfService.classOfServiceName}" />
 				</c:otherwise>
 			</c:choose>
 		</td>

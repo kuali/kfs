@@ -24,6 +24,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants.TEMProfileProperties;
 import org.kuali.kfs.module.tem.businessobject.TEMProfile;
+import org.kuali.kfs.module.tem.businessobject.TEMProfileArranger;
 import org.kuali.kfs.module.tem.businessobject.TemProfileAddress;
 import org.kuali.kfs.module.tem.service.TemProfileService;
 import org.kuali.kfs.pdp.businessobject.PayeeACHAccount;
@@ -137,6 +138,47 @@ public class TemProfileServiceImpl implements TemProfileService {
             }
         }
 	}
+
+	/**
+	 * @see org.kuali.kfs.module.tem.service.TemProfileService#isProfileNonEmploye(org.kuali.kfs.module.tem.businessobject.TEMProfile)
+	 */
+    @Override
+    public boolean isProfileNonEmploye(TEMProfile profile) {
+        return !StringUtils.isBlank(profile.getTravelerTypeCode()) && profile.getTravelerTypeCode().equals(TemConstants.NONEMP_TRAVELER_TYP_CD);
+    }
+
+    /**
+     * @see org.kuali.kfs.module.tem.service.TemProfileService#hasActiveArrangers(org.kuali.kfs.module.tem.businessobject.TEMProfile)
+     */
+    @Override
+    public boolean hasActiveArrangers(TEMProfile profile) {
+        for (TEMProfileArranger arranger : profile.getArrangers()) {
+            if (arranger.isActive()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * @see org.kuali.kfs.module.tem.service.TemProfileService#findTemProfileByEmployeeId(java.lang.String)
+     */
+    @Override
+    public TEMProfile findTemProfileByEmployeeId(String employeeId) {
+        final Map<String,String> criteria = new HashMap<String,String>(1);
+        criteria.put(TEMProfileProperties.EMPLOYEE_ID, employeeId);
+        return findTemProfile(criteria);
+    }
+
+    /**
+     * @see org.kuali.kfs.module.tem.service.TemProfileService#findTemProfileByCustomerNumber(java.lang.String)
+     */
+    @Override
+    public TEMProfile findTemProfileByCustomerNumber(String customerNumber) {
+        final Map<String,String> criteria = new HashMap<String,String>(1);
+        criteria.put(TEMProfileProperties.CUSTOMER_NUMBER, customerNumber);
+        return findTemProfile(criteria);
+    }
 
     /**
      * Gets the personService attribute.

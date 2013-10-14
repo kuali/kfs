@@ -76,7 +76,7 @@
 		</property>
 	</bean>
 
-	<bean id="AgencyAddress-agencyAddressTypeCode" parent="AgencyAddress-agencyAddressTypeCode-parentBean" />
+<bean id="AgencyAddress-agencyAddressTypeCode" parent="AgencyAddress-agencyAddressTypeCode-parentBean" />
 
 	<bean id="AgencyAddress-agencyAddressTypeCode-parentBean"
 		abstract="true" parent="AttributeDefinition">
@@ -90,7 +90,7 @@
 		</property>
 		<property name="control">
 			<bean parent="SelectControlDefinition"
-				p:valuesFinderClass="org.kuali.kfs.module.cg.businessobject.options.CustomerAddressTypeValuesFinder"
+				p:valuesFinderClass="org.kuali.kfs.integration.cg.businessobject.options.CustomerAddressTypeValuesFinder"
 				p:includeKeyInLabel="false" />
 		</property>
 	</bean>

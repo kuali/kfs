@@ -274,11 +274,18 @@
 	<bean id="Proposal-agency.fullName" parent="Proposal-agency.fullName-parentBean" />
 
 	<bean id="Proposal-agency.fullName-parentBean" abstract="true"
-		parent="ExternalizableAttributeDefinitionProxy"
-		p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAward"
-		p:sourceAttributeName="agency.fullName">
+		parent="AttributeDefinition">
 		<property name="name" value="agency.fullName" />
 		<property name="label" value="Agency Name" />
+		<property name="shortLabel" value="Name" />
+		<property name="maxLength" value="50" />
+		<property name="validationPattern">
+			<ref bean="AnyCharacterWithWhitespaceValidation" />
+		</property>
+		<property name="required" value="false" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="50" />
+		</property>
 	</bean>
 	<bean id="Proposal-agencyNumber" parent="Proposal-agencyNumber-parentBean" />
 
@@ -324,12 +331,18 @@
 	<bean id="Proposal-federalPassThroughAgency.fullName" parent="Proposal-federalPassThroughAgency.fullName-parentBean" />
 
 	<bean id="Proposal-federalPassThroughAgency.fullName-parentBean"
-		abstract="true" parent="ExternalizableAttributeDefinitionProxy"
-		p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAward"
-		p:sourceAttributeName="agency.fullName">
+		abstract="true" parent="AttributeDefinition">
 		<property name="name" value="federalPassThroughAgency.fullName" />
 		<property name="label" value="Federal Pass Through Agency Name" />
 		<property name="shortLabel" value="FPT Agency Name" />
+		<property name="maxLength" value="50" />
+		<property name="validationPattern">
+			<ref bean="AnyCharacterWithWhitespaceValidation" />
+		</property>
+		<property name="required" value="false" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="50" />
+		</property>
 	</bean>
 	<bean id="Proposal-grantNumber" parent="Proposal-grantNumber-parentBean" />
 

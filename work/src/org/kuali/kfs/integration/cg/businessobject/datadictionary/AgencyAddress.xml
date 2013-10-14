@@ -430,9 +430,6 @@
 		<property name="control">
 			<bean parent="TextControlDefinition" p:size="5" />
 		</property>
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="5" />
-		</property>
 	</bean>
 
 	<bean id="AgencyAddress-agencyPrintEnvelopesNumber" parent="AgencyAddress-agencyPrintEnvelopesNumber-parentBean" />

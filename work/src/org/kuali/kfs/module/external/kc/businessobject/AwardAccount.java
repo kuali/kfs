@@ -1,12 +1,12 @@
 /*
  * Copyright 2006 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -51,7 +51,7 @@ public class AwardAccount implements ContractsAndGrantsAccountAwardInformation {
     public AwardAccount() {
         // Struts needs this instance to populate the secondary key, principalName.
         try {
-            projectDirector = (Person) SpringContext.getBean(PersonService.class).getPersonImplementationClass().newInstance();
+            //projectDirector = (Person) SpringContext.getBean(PersonService.class).getPersonImplementationClass().newInstance();
         }
         catch (Exception e) {
         }
@@ -66,7 +66,7 @@ public class AwardAccount implements ContractsAndGrantsAccountAwardInformation {
     public AwardAccount(ContractsAndGrantsAwardAccount awardAccountDTO, String accountNumber, String chartOfAccountsCode, String cfdaNumber) {
         // Struts needs this instance to populate the secondary key, principalName.
         try {
-            projectDirector = (Person) SpringContext.getBean(PersonService.class).getPersonImplementationClass().newInstance();
+            projectDirector = SpringContext.getBean(PersonService.class).getPersonImplementationClass().newInstance();
         }
         catch (Exception e) {
         }
@@ -110,13 +110,14 @@ public class AwardAccount implements ContractsAndGrantsAccountAwardInformation {
     /**
      * @see org.kuali.kfs.integration.businessobject.cg.ContractsAndGrantsAccountAwardInformation#getProposalNumber()
      */
+    @Override
     public Long getProposalNumber() {
         return proposalNumber;
     }
 
     /**
      * Sets the proposalNumber attribute.
-     * 
+     *
      * @param proposalNumber The proposalNumber to set.
      */
     public void setProposalNumber(Long proposalNumber) {
@@ -127,13 +128,14 @@ public class AwardAccount implements ContractsAndGrantsAccountAwardInformation {
     /***
      * @see org.kuali.kfs.integration.businessobject.cg.ContractsAndGrantsAccountAwardInformation#getChartOfAccountsCode()
      */
+    @Override
     public String getChartOfAccountsCode() {
         return chartOfAccountsCode;
     }
 
     /**
      * Sets the chartOfAccountsCode attribute.
-     * 
+     *
      * @param chartOfAccountsCode The chartOfAccountsCode to set.
      */
     public void setChartOfAccountsCode(String chartOfAccountsCode) {
@@ -144,13 +146,14 @@ public class AwardAccount implements ContractsAndGrantsAccountAwardInformation {
     /***
      * @see org.kuali.kfs.integration.businessobject.cg.ContractsAndGrantsAccountAwardInformation#getAccountNumber()
      */
+    @Override
     public String getAccountNumber() {
         return accountNumber;
     }
 
     /**
      * Sets the accountNumber attribute.
-     * 
+     *
      * @param accountNumber The accountNumber to set.
      */
     public void setAccountNumber(String accountNumber) {
@@ -160,13 +163,14 @@ public class AwardAccount implements ContractsAndGrantsAccountAwardInformation {
     /***
      * @see org.kuali.kfs.integration.businessobject.cg.ContractsAndGrantsAccountAwardInformation#getPrincipalId()
      */
+    @Override
     public String getPrincipalId() {
         return principalId;
     }
 
     /**
      * Sets the principalId attribute.
-     * 
+     *
      * @param principalId The principalId to set.
      */
     public void setPrincipalId(String principalId) {
@@ -176,13 +180,14 @@ public class AwardAccount implements ContractsAndGrantsAccountAwardInformation {
     /***
      * @see org.kuali.kfs.integration.businessobject.cg.ContractsAndGrantsAccountAwardInformation#getAccount()
      */
+    @Override
     public Account getAccount() {
         return account;
     }
 
     /**
      * Sets the account attribute.
-     * 
+     *
      * @param account The account to set.
      */
     @Deprecated
@@ -193,13 +198,14 @@ public class AwardAccount implements ContractsAndGrantsAccountAwardInformation {
     /***
      * @see org.kuali.kfs.integration.businessobject.cg.ContractsAndGrantsAccountAwardInformation#getChartOfAccounts()
      */
+    @Override
     public Chart getChartOfAccounts() {
         return chartOfAccounts;
     }
 
     /**
      * Sets the chartOfAccounts attribute.
-     * 
+     *
      * @param chartOfAccounts The chartOfAccounts to set.
      */
     @Deprecated
@@ -217,7 +223,7 @@ public class AwardAccount implements ContractsAndGrantsAccountAwardInformation {
 
     /**
      * Sets the project director attribute
-     * 
+     *
      * @param projectDirector The projectDirector to set.
      * @deprecated Setter is required by OJB, but should not be used to modify this attribute. This attribute is set on the initial
      *             creation of the object and should not be changed.
@@ -257,6 +263,7 @@ public class AwardAccount implements ContractsAndGrantsAccountAwardInformation {
     /**
      * @see org.kuali.rice.core.api.mo.common.active.MutableInactivatable#isActive()
      */
+    @Override
     public boolean isActive() {
         return active;
     }
@@ -264,6 +271,7 @@ public class AwardAccount implements ContractsAndGrantsAccountAwardInformation {
     /**
      * @see org.kuali.rice.core.api.mo.common.active.MutableInactivatable#setActive(boolean)
      */
+    @Override
     public void setActive(boolean active) {
         this.active = true;
     }
@@ -271,6 +279,7 @@ public class AwardAccount implements ContractsAndGrantsAccountAwardInformation {
     /**
      * @see org.kuali.kfs.integration.cg.ContractsAndGrantsAccountAwardInformation#getProjectDirectorName()
      */
+    @Override
     public String getProjectDirectorName() {
         if (!ObjectUtils.isNull(getProjectDirector())) {
             return getProjectDirector().getName();
@@ -288,6 +297,7 @@ public class AwardAccount implements ContractsAndGrantsAccountAwardInformation {
     /**
      * @see org.kuali.rice.krad.bo.BusinessObject#refresh()
      */
+    @Override
     public void refresh() {
     }
 

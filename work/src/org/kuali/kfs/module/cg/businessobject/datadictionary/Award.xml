@@ -45,7 +45,7 @@
 				<ref bean="Award-bills.billIdentifier" />
 				<ref bean="Award-bills.billDate" />
 				<ref bean="Award-bills.estimatedAmount" />
-				<ref bean="Award-bills.isItBilled" />
+				<ref bean="Award-bills.billedIndicator" />
 				<ref bean="Award-lookupPersonUniversalIdentifier" />
 				<ref bean="Award-lookupPerson.principalName" />
 				<ref bean="Award-lookupPerson.name" />
@@ -440,11 +440,11 @@
 		<property name="name" value="bills.estimatedAmount" />
 	</bean>
 
-	<bean id="Award-bills.isItBilled" parent="Award-bills.isItBilled-parentBean" />
+	<bean id="Award-bills.billedIndicator" parent="Award-bills.billedIndicator-parentBean" />
 
-	<bean id="Award-bills.isItBilled-parentBean" abstract="true"
-		parent="Bill-isItBilled">
-		<property name="name" value="bills.isItBilled" />
+	<bean id="Award-bills.billedIndicator-parentBean" abstract="true"
+		parent="Bill-billedIndicator">
+		<property name="name" value="bills.billedIndicator" />
 	</bean>
 	<bean id="Award-lookupPersonUniversalIdentifier" parent="Award-lookupPersonUniversalIdentifier-parentBean" />
 
@@ -552,7 +552,9 @@
 	<bean id="Award-agency.fullName" parent="Award-agency.fullName-parentBean" />
 
 	<bean id="Award-agency.fullName-parentBean" abstract="true"
-		parent="Agency-fullName">
+		parent="ExternalizableAttributeDefinitionProxy"
+		p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAward"
+		p:sourceAttributeName="agency.fullName">
 		<property name="name" value="agency.fullName" />
 		<property name="label" value="Agency Name" />
 	</bean>
@@ -1449,7 +1451,7 @@
 										<bean parent="FieldDefinition" p:attributeName="milestoneDescription" />
 										<bean parent="FieldDefinition" p:attributeName="milestoneAmount" />
 										<bean parent="FieldDefinition" p:attributeName="milestoneActualCompletionDate" />
-										<bean parent="FieldDefinition" p:attributeName="isItBilled" />
+										<bean parent="FieldDefinition" p:attributeName="billedIndicator" />
 									</list>
 								</property>
 							</bean>
@@ -1474,7 +1476,7 @@
 										<bean parent="FieldDefinition" p:attributeName="billIdentifier" />
 										<bean parent="FieldDefinition" p:attributeName="billDate" />
 										<bean parent="FieldDefinition" p:attributeName="estimatedAmount" />
-										<bean parent="FieldDefinition" p:attributeName="isItBilled" />
+										<bean parent="FieldDefinition" p:attributeName="billedIndicator" />
 									</list>
 								</property>
 							</bean>

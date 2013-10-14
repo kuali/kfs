@@ -36,7 +36,7 @@
 				<logic:iterate indexId="ctr" name="KualiForm" property="document.invoiceMilestones" id="milestone">
 					<tr>
 						<td class="datacell"><a
-							href="${ConfigProperties.application.url}/kr/inquiry.do?businessObjectClassName=org.kuali.kfs.module.cg.businessobject.Milestone&proposalNumber=${KualiForm.document.proposalNumber}&milestoneIdentifier=${KualiForm.document.invoiceMilestones[ctr].milestoneIdentifier}&methodToCall=start"
+							href="${ConfigProperties.application.url}/kr/inquiry.do?businessObjectClassName=org.kuali.kfs.module.ar.businessobject.Milestone&proposalNumber=${KualiForm.document.proposalNumber}&milestoneIdentifier=${KualiForm.document.invoiceMilestones[ctr].milestoneIdentifier}&methodToCall=start"
 							target="_blank"> <kul:htmlControlAttribute attributeEntry="${invoiceMilestoneAttributes.milestoneNumber}"
 									property="document.invoiceMilestones[${ctr}].milestoneNumber" readOnly="true" />
 						</a></td>

@@ -76,7 +76,7 @@
 		</property>
 	</bean>
 
-<bean id="AgencyAddress-agencyAddressTypeCode" parent="AgencyAddress-agencyAddressTypeCode-parentBean" />
+	<bean id="AgencyAddress-agencyAddressTypeCode" parent="AgencyAddress-agencyAddressTypeCode-parentBean" />
 
 	<bean id="AgencyAddress-agencyAddressTypeCode-parentBean"
 		abstract="true" parent="AttributeDefinition">
@@ -388,7 +388,11 @@
 		<property name="validationPattern">
 			<ref bean="AnyCharacterValidation" />
 		</property>
-
+		<property name="control">
+			<bean parent="SelectControlDefinition"
+				p:valuesFinderClass="org.kuali.kfs.integration.cg.businessobject.options.AgencyInvoiceTemplateValuesFinder"
+				p:includeKeyInLabel="false" />
+		</property>
 	</bean>
 
 	<!-- Invoice Indicator Link -->
@@ -404,7 +408,11 @@
 		<property name="validationPattern">
 			<ref bean="AnyCharacterValidation" />
 		</property>
-
+		<property name="control">
+			<bean parent="SelectControlDefinition"
+				p:valuesFinderClass="org.kuali.kfs.integration.cg.businessobject.options.InvoiceIndicatorValuesFinder"
+				p:includeKeyInLabel="false" />
+		</property>
 	</bean>
 
 	<bean id="AgencyAddress-agencyCopiesToPrint" parent="AgencyAddress-agencyCopiesToPrint-parentBean" />
@@ -419,6 +427,9 @@
 			<bean parent="NumericValidationPattern" />
 		</property>
 		<property name="required" value="false" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="5" />
+		</property>
 		<property name="control">
 			<bean parent="TextControlDefinition" p:size="5" />
 		</property>

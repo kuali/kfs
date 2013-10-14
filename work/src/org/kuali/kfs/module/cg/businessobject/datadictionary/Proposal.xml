@@ -2,18 +2,14 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-	<!--
-		Copyright 2006-2009 The Kuali Foundation Licensed under the
-		Educational Community License, Version 2.0 (the "License"); you may
-		not use this file except in compliance with the License. You may
-		obtain a copy of the License at
-		http://www.opensource.org/licenses/ecl2.php Unless required by
-		applicable law or agreed to in writing, software distributed under the
-		License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
-		CONDITIONS OF ANY KIND, either express or implied. See the License for
-		the specific language governing permissions and limitations under the
-		License.
-	-->
+	<!-- Copyright 2006-2009 The Kuali Foundation Licensed under the Educational 
+		Community License, Version 2.0 (the "License"); you may not use this file 
+		except in compliance with the License. You may obtain a copy of the License 
+		at http://www.opensource.org/licenses/ecl2.php Unless required by applicable 
+		law or agreed to in writing, software distributed under the License is distributed 
+		on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either 
+		express or implied. See the License for the specific language governing permissions 
+		and limitations under the License. -->
 	<bean id="Proposal" parent="Proposal-parentBean" />
 
 	<bean id="Proposal-parentBean" abstract="true" parent="BusinessObjectEntry">
@@ -244,8 +240,9 @@
 		</property>
 	</bean>
 
-	<bean id="Proposal-userLookupRoleNamespaceCode" parent="Proposal-userLookupRoleNamespaceCode-parentBean"/>
-	<bean id="Proposal-userLookupRoleNamespaceCode-parentBean" abstract="true" parent="AttributeDefinition">
+	<bean id="Proposal-userLookupRoleNamespaceCode" parent="Proposal-userLookupRoleNamespaceCode-parentBean" />
+	<bean id="Proposal-userLookupRoleNamespaceCode-parentBean"
+		abstract="true" parent="AttributeDefinition">
 		<property name="name" value="userLookupRoleNamespaceCode" />
 		<property name="label" value="Role Namespace Code" />
 		<property name="required" value="false" />
@@ -254,8 +251,9 @@
 		</property>
 	</bean>
 
-	<bean id="Proposal-userLookupRoleName" parent="Proposal-userLookupRoleName-parentBean"/>
-	<bean id="Proposal-userLookupRoleName-parentBean" abstract="true" parent="AttributeDefinition">
+	<bean id="Proposal-userLookupRoleName" parent="Proposal-userLookupRoleName-parentBean" />
+	<bean id="Proposal-userLookupRoleName-parentBean" abstract="true"
+		parent="AttributeDefinition">
 		<property name="name" value="userLookupRoleName" />
 		<property name="label" value="Role Name" />
 		<property name="required" value="false" />
@@ -274,18 +272,9 @@
 	<bean id="Proposal-agency.fullName" parent="Proposal-agency.fullName-parentBean" />
 
 	<bean id="Proposal-agency.fullName-parentBean" abstract="true"
-		parent="AttributeDefinition">
+		parent="Agency-fullName">
 		<property name="name" value="agency.fullName" />
 		<property name="label" value="Agency Name" />
-		<property name="shortLabel" value="Name" />
-		<property name="maxLength" value="50" />
-		<property name="validationPattern">
-			<ref bean="AnyCharacterWithWhitespaceValidation" />
-		</property>
-		<property name="required" value="false" />
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="50" />
-		</property>
 	</bean>
 	<bean id="Proposal-agencyNumber" parent="Proposal-agencyNumber-parentBean" />
 
@@ -331,18 +320,10 @@
 	<bean id="Proposal-federalPassThroughAgency.fullName" parent="Proposal-federalPassThroughAgency.fullName-parentBean" />
 
 	<bean id="Proposal-federalPassThroughAgency.fullName-parentBean"
-		abstract="true" parent="AttributeDefinition">
+		abstract="true" parent="Agency-fullName">
 		<property name="name" value="federalPassThroughAgency.fullName" />
 		<property name="label" value="Federal Pass Through Agency Name" />
 		<property name="shortLabel" value="FPT Agency Name" />
-		<property name="maxLength" value="50" />
-		<property name="validationPattern">
-			<ref bean="AnyCharacterWithWhitespaceValidation" />
-		</property>
-		<property name="required" value="false" />
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="50" />
-		</property>
 	</bean>
 	<bean id="Proposal-grantNumber" parent="Proposal-grantNumber-parentBean" />
 

@@ -108,7 +108,7 @@
 				<ref bean="Award-fundingExpirationDate" />
 				<ref bean="Award-commentText" />
 				<ref bean="Award-dunningCampaign" />
-				<ref bean="Award-stopWorkIndicator"/>
+				<ref bean="Award-stopWorkIndicator" />
 				<ref bean="Award-active" />
 			</list>
 		</property>
@@ -206,15 +206,10 @@
 						</list>
 					</property>
 				</bean>
-				<!--bean parent="RelationshipDefinition">
-					<property name="objectAttributeName" value="milestoneSchedule" />
-					<property name="primitiveAttributes">
-						<list>
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="milestoneSchedule.proposalNumber"
-								p:targetName="proposalNumber" />
-						</list>
-					</property>
-				</bean-->
+				<!--bean parent="RelationshipDefinition"> <property name="objectAttributeName" 
+					value="milestoneSchedule" /> <property name="primitiveAttributes"> <list> 
+					<bean parent="PrimitiveAttributeDefinition" p:sourceName="milestoneSchedule.proposalNumber" 
+					p:targetName="proposalNumber" /> </list> </property> </bean -->
 			</list>
 		</property>
 		<property name="inactivationBlockingDefinitions">
@@ -484,8 +479,9 @@
 		</property>
 	</bean>
 
-	<bean id="Award-userLookupRoleNamespaceCode" parent="Award-userLookupRoleNamespaceCode-parentBean"/>
-	<bean id="Award-userLookupRoleNamespaceCode-parentBean" abstract="true" parent="AttributeDefinition">
+	<bean id="Award-userLookupRoleNamespaceCode" parent="Award-userLookupRoleNamespaceCode-parentBean" />
+	<bean id="Award-userLookupRoleNamespaceCode-parentBean" abstract="true"
+		parent="AttributeDefinition">
 		<property name="name" value="userLookupRoleNamespaceCode" />
 		<property name="label" value="Role Namespace Code" />
 		<property name="required" value="false" />
@@ -495,8 +491,9 @@
 		</property>
 	</bean>
 
-	<bean id="Award-userLookupRoleName" parent="Award-userLookupRoleName-parentBean"/>
-	<bean id="Award-userLookupRoleName-parentBean" abstract="true" parent="AttributeDefinition">
+	<bean id="Award-userLookupRoleName" parent="Award-userLookupRoleName-parentBean" />
+	<bean id="Award-userLookupRoleName-parentBean" abstract="true"
+		parent="AttributeDefinition">
 		<property name="name" value="userLookupRoleName" />
 		<property name="label" value="Role Name" />
 		<property name="required" value="false" />
@@ -552,18 +549,9 @@
 	<bean id="Award-agency.fullName" parent="Award-agency.fullName-parentBean" />
 
 	<bean id="Award-agency.fullName-parentBean" abstract="true"
-		parent="AttributeDefinition">
+		parent="Agency-fullName">
 		<property name="name" value="agency.fullName" />
 		<property name="label" value="Agency Name" />
-		<property name="shortLabel" value="Name" />
-		<property name="maxLength" value="50" />
-		<property name="validationPattern">
-			<ref bean="AnyCharacterWithWhitespaceValidation" />
-		</property>
-		<property name="required" value="false" />
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="50" />
-		</property>
 	</bean>
 	<bean id="Award-agencyAnalystName" parent="Award-agencyAnalystName-parentBean" />
 
@@ -846,18 +834,10 @@
 	<bean id="Award-federalPassThroughAgency.fullName" parent="Award-federalPassThroughAgency.fullName-parentBean" />
 
 	<bean id="Award-federalPassThroughAgency.fullName-parentBean"
-		abstract="true" parent="AttributeDefinition">
+		abstract="true" parent="Agency-fullName">
 		<property name="name" value="federalPassThroughAgency.fullName" />
 		<property name="label" value="Federal Pass Through Agency Name" />
 		<property name="shortLabel" value="FPT Agency Name" />
-		<property name="maxLength" value="50" />
-		<property name="validationPattern">
-			<ref bean="AnyCharacterWithWhitespaceValidation" />
-		</property>
-		<property name="required" value="false" />
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="50" />
-		</property>
 	</bean>
 	<bean id="Award-federalPassThroughFundedAmount" parent="Award-federalPassThroughFundedAmount-parentBean" />
 
@@ -1043,8 +1023,8 @@
 
 	<bean id="Award-additionalFormsRequiredIndicator" parent="Award-additionalFormsRequiredIndicator-parentBean" />
 
-	<bean id="Award-additionalFormsRequiredIndicator-parentBean" abstract="true"
-		parent="GenericAttributes-genericBoolean">
+	<bean id="Award-additionalFormsRequiredIndicator-parentBean"
+		abstract="true" parent="GenericAttributes-genericBoolean">
 		<property name="name" value="additionalFormsRequiredIndicator" />
 		<property name="label" value="Additional Forms Required" />
 		<property name="shortLabel" value="Additional Forms Required" />
@@ -1177,7 +1157,7 @@
 				p:includeKeyInLabel="false" />
 		</property>
 	</bean>
-	
+
 	<bean id="Award-stopWorkIndicator" parent="Award-stopWorkIndicator-parentBean" />
 
 	<bean id="Award-stopWorkIndicator-parentBean" abstract="true"

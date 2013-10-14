@@ -1,12 +1,12 @@
 /*
  * Copyright 2012 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -34,7 +34,6 @@ public class CollectorInformation extends PersistableBusinessObjectBase {
     private boolean active;
 
     private Person collector;
-    private CollectorHierarchy collectorHead;
 
     private final String userLookupRoleNamespaceCode = KFSConstants.OptionalModuleNamespaces.ACCOUNTS_RECEIVABLE;
     private final String userLookupRoleName = KFSConstants.SysKimApiConstants.ACCOUNTS_RECEIVABLE_COLLECTOR;
@@ -48,7 +47,7 @@ public class CollectorInformation extends PersistableBusinessObjectBase {
 
     /**
      * Gets the headPrincipalId attribute.
-     * 
+     *
      * @return Returns the headPrincipalId.
      */
     public String getHeadPrincipalId() {
@@ -57,7 +56,7 @@ public class CollectorInformation extends PersistableBusinessObjectBase {
 
     /**
      * Sets the headPrincipalId attribute.
-     * 
+     *
      * @param headPrincipalId The headPrincipalId to set.
      */
     public void setHeadPrincipalId(String headPrincipalId) {
@@ -65,26 +64,8 @@ public class CollectorInformation extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the collectorHead attribute.
-     * 
-     * @return Returns the collectorHead.
-     */
-    public CollectorHierarchy getCollectorHead() {
-        return collectorHead;
-    }
-
-    /**
-     * Sets the collectorHead attribute.
-     * 
-     * @param collectorHead The collectorHead to set.
-     */
-    public void setCollectorHead(CollectorHierarchy collectorHead) {
-        this.collectorHead = collectorHead;
-    }
-
-    /**
      * Gets the principalId.
-     * 
+     *
      * @see org.kuali.kfs.module.ar.businessobject.ARCollector#getPrincipalId()
      */
     public String getPrincipalId() {
@@ -93,7 +74,7 @@ public class CollectorInformation extends PersistableBusinessObjectBase {
 
     /**
      * Sets the principalId.
-     * 
+     *
      * @see org.kuali.kfs.module.ar.businessobject.ARCollector#setPrincipalId(java.lang.String)
      */
     public void setPrincipalId(String principalId) {
@@ -102,7 +83,7 @@ public class CollectorInformation extends PersistableBusinessObjectBase {
 
     /**
      * Gets the active attribute.
-     * 
+     *
      * @return Returns active attribute.
      */
     public boolean isActive() {
@@ -111,7 +92,7 @@ public class CollectorInformation extends PersistableBusinessObjectBase {
 
     /**
      * Sets the active
-     * 
+     *
      * @param active
      */
     public void setActive(boolean active) {
@@ -120,7 +101,7 @@ public class CollectorInformation extends PersistableBusinessObjectBase {
 
     /**
      * Gets the collector object.
-     * 
+     *
      * @see org.kuali.kfs.module.ar.businessobject.ARCollector#getCollector()
      */
     public Person getCollector() {
@@ -130,7 +111,7 @@ public class CollectorInformation extends PersistableBusinessObjectBase {
 
     /**
      * Sets the collector object.
-     * 
+     *
      * @see org.kuali.kfs.module.ar.businessobject.ARCollector#setCollector(org.kuali.rice.kim.api.identity.Person)
      */
     public void setCollector(Person collector) {
@@ -139,7 +120,7 @@ public class CollectorInformation extends PersistableBusinessObjectBase {
 
     /**
      * Gets the principalName attribute.
-     * 
+     *
      * @return Returns principalName attribute
      */
     public String getPrincipalName() {
@@ -148,7 +129,7 @@ public class CollectorInformation extends PersistableBusinessObjectBase {
 
     /**
      * Sets the principalName
-     * 
+     *
      * @param principalName
      */
     public void setPrincipalName(String principalName) {
@@ -157,7 +138,7 @@ public class CollectorInformation extends PersistableBusinessObjectBase {
 
     /**
      * Gets the userLookupRoleNamespaceCode attribute.
-     * 
+     *
      * @return Returns userLookupRoleNamespaceCode attribute
      */
     public String getUserLookupRoleNamespaceCode() {
@@ -166,7 +147,7 @@ public class CollectorInformation extends PersistableBusinessObjectBase {
 
     /**
      * Gets the userLookupRoleName attribute.
-     * 
+     *
      * @return Returns userLookupRoleName attribute.
      */
     public String getUserLookupRoleName() {
@@ -176,7 +157,7 @@ public class CollectorInformation extends PersistableBusinessObjectBase {
     /**
      * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    
+
     protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         m.put("principalId", this.principalId);

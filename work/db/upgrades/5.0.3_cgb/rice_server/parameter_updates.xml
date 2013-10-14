@@ -126,16 +126,6 @@
 		</insert>
 	</changeSet>
 
-
-	<changeSet author="kfs" id="KRCR_PARM_T1">
-		<update tableName="KRCR_PARM_T">
-			<column name="CMPNT_CD" value="CGInvoice" />
-			<where>NMSPC_CD='KFS-CG' and CMPNT_CD='Invoice' and
-				PARM_NM='Categories'
-			</where>
-		</update>
-	</changeSet>
-
 	<!-- Inserting CGB Enhancements Indicator in to the System Parameters table -->
 
 	<changeSet author="kfs" id="KRCR_PARM_T_ADD_CG_VALIDATION_SWITCH_1">

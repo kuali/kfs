@@ -274,7 +274,9 @@
 	<bean id="Proposal-agency.fullName" parent="Proposal-agency.fullName-parentBean" />
 
 	<bean id="Proposal-agency.fullName-parentBean" abstract="true"
-		parent="Agency-fullName">
+		parent="ExternalizableAttributeDefinitionProxy"
+		p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAward"
+		p:sourceAttributeName="agency.fullName">
 		<property name="name" value="agency.fullName" />
 		<property name="label" value="Agency Name" />
 	</bean>

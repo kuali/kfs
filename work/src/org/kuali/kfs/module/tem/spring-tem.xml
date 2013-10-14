@@ -196,7 +196,7 @@
 	<bean id="temProfileLookupHelperService" parent="temProfileLookupHelperService-parentBean" scope="prototype"/>
 	<bean id="temProfileLookupHelperService-parentBean" abstract="true" parent="baseProfileLookupableHelperService" class="org.kuali.kfs.module.tem.businessobject.lookup.TEMProfileLookupableHelperServiceImpl"/>
 	<bean id="temProfileLookupable" parent="temProfileLookupable-parentBean" scope="prototype"/>
-	<bean id="temProfileLookupable-parentBean" abstract="true" class="org.kuali.rice.kns.lookup.KualiLookupableImpl">
+	<bean id="temProfileLookupable-parentBean" abstract="true" class="org.kuali.kfs.module.tem.businessobject.lookup.TemProfileLookupableImpl">
 		<property name="lookupableHelperService">
 			<ref bean="temProfileLookupHelperService" />
 		</property>

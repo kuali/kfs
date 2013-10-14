@@ -82,12 +82,13 @@ public class TEMProfileMaintainable extends FinancialSystemMaintainable {
             temProfile.setProfileId(newProfileId);
         }
         String principalId = "";
-        if (parameters.containsKey(KFSPropertyConstants.PERSON_USER_IDENTIFIER)) {
-            principalId = parameters.get(KFSPropertyConstants.PERSON_USER_IDENTIFIER)[0];
+        if (parameters.containsKey(KFSPropertyConstants.PRINCIPAL_ID)) {
+            principalId = parameters.get(KFSPropertyConstants.PRINCIPAL_ID)[0];
             if(StringUtils.isNotBlank(principalId)) {
                 //we want to set the principal
                 Person person = getPersonService().getPerson(principalId);
                 temProfile.setPrincipal(person);
+                temProfile.setPrincipalId(principalId);
                 if(travelerService.isKimPersonEmployee(person)) {
                     temProfile.setTravelerTypeCode(EMP_TRAVELER_TYP_CD);
                 } else {

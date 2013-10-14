@@ -25,7 +25,6 @@
 				<ref bean="AwardFundManager-proposalNumber" />
 				<ref bean="AwardFundManager-awardPrimaryFundManagerIndicator" />
 				<ref bean="AwardFundManager-awardFundManagerProjectTitle" />
-				<ref bean="AwardFundManager-newCollectionRecord" />
 				<ref bean="AwardFundManager-active" />
 			</list>
 		</property>
@@ -99,11 +98,6 @@
 		<property name="control">
 			<ref bean="StandardNameTextControl" />
 		</property>
-	</bean>
-	<bean id="AwardFundManager-newCollectionRecord" parent="AwardFundManager-newCollectionRecord-parentBean" />
-
-	<bean id="AwardFundManager-newCollectionRecord-parentBean"
-		abstract="true" parent="GenericAttributes-newCollectionRecord">
 	</bean>
 	<bean id="AwardFundManager-active" parent="AwardFundManager-active-parentBean" />
 

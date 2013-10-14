@@ -27,12 +27,10 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.ojb.broker.query.Criteria;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAward;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
-import org.kuali.kfs.module.ar.businessobject.CollectorHierarchy;
 import org.kuali.kfs.module.ar.businessobject.CollectorInformation;
 import org.kuali.kfs.module.ar.businessobject.CustomerCollector;
 import org.kuali.kfs.module.ar.businessobject.Event;
 import org.kuali.kfs.module.ar.businessobject.TicklersReport;
-import org.kuali.kfs.module.ar.dataaccess.CollectorHierarchyDao;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.CollectionActivityDocumentService;
 import org.kuali.kfs.module.ar.report.ContractsGrantsReportUtils;
@@ -72,7 +70,6 @@ public class TicklersReportLookupableHelperServiceImpl extends ContractsGrantsRe
      */
     @Override
     public Collection performLookup(LookupForm lookupForm, Collection resultTable, boolean bounded) {
-        CollectorHierarchyDao collectorHierarchyDao = SpringContext.getBean(CollectorHierarchyDao.class);
         Map lookupFormFields = lookupForm.getFieldsForLookup();
 
         setBackLocation((String) lookupForm.getFieldsForLookup().get(KRADConstants.BACK_LOCATION));
@@ -156,40 +153,40 @@ public class TicklersReportLookupableHelperServiceImpl extends ContractsGrantsRe
                             collectorCriteria.addEqualTo(ArPropertyConstants.COLLECTOR_HEAD, principalId);
                             collectorCriteria.addEqualTo(KFSPropertyConstants.ACTIVE, true);
 
-
-                            // chk if selected collector is collector head
-                            List<String> collectorList = new ArrayList<String>();
-                            Collection<CollectorHierarchy> collectorHierarchies = collectorHierarchyDao.getCollectorHierarchyByCriteria(collectorCriteria);
-
-                            if (ObjectUtils.isNotNull(collectorHierarchies) && CollectionUtils.isNotEmpty(collectorHierarchies)) {
-                                CollectorHierarchy collectorHead = new ArrayList<CollectorHierarchy>(collectorHierarchies).get(0);
-                                if (ObjectUtils.isNotNull(collectorHead)) {
-                                    if (ObjectUtils.isNotNull(collectorHead.getPrincipalId()) && ObjectUtils.isNotNull(customerCollector) && collectorHead.getPrincipalId().equalsIgnoreCase(customerCollector.getPrincipalId())) {
-                                        isValid = true;
-                                    }
-                                    else {
-                                        // check principal ids of collector
-                                        if (ObjectUtils.isNotNull(collectorHead.getCollectorInformations()) && CollectionUtils.isNotEmpty(collectorHead.getCollectorInformations())) {
-                                            for (CollectorInformation collectorInfo : collectorHead.getCollectorInformations()) {
-                                                if (collectorInfo.isActive() && ObjectUtils.isNotNull(collectorInfo.getPrincipalId()) && ObjectUtils.isNotNull(customerCollector) && collectorInfo.getPrincipalId().equalsIgnoreCase(customerCollector.getPrincipalId())) {
-                                                    isValid = true;
-                                                    break;
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                                else if (ObjectUtils.isNotNull(customerCollector) && customerCollector.getPrincipalId().equals(principalId)) {
-                                    if (collectorHierarchyDao.isCollector(principalId)) {
-                                        isValid = true;
-                                    }
-                                }
-                            }
-                            else if (ObjectUtils.isNotNull(customerCollector) && customerCollector.getPrincipalId().equals(principalId)) {
-                                if (collectorHierarchyDao.isCollector(principalId)) {
-                                    isValid = true;
-                                }
-                            }
+                         // Code commented for KFSMI-10824, please don't remove.
+//                            // chk if selected collector is collector head
+//                            List<String> collectorList = new ArrayList<String>();
+//                            Collection<CollectorHierarchy> collectorHierarchies = collectorHierarchyDao.getCollectorHierarchyByCriteria(collectorCriteria);
+//
+//                            if (ObjectUtils.isNotNull(collectorHierarchies) && CollectionUtils.isNotEmpty(collectorHierarchies)) {
+//                                CollectorHierarchy collectorHead = new ArrayList<CollectorHierarchy>(collectorHierarchies).get(0);
+//                                if (ObjectUtils.isNotNull(collectorHead)) {
+//                                    if (ObjectUtils.isNotNull(collectorHead.getPrincipalId()) && ObjectUtils.isNotNull(customerCollector) && collectorHead.getPrincipalId().equalsIgnoreCase(customerCollector.getPrincipalId())) {
+//                                        isValid = true;
+//                                    }
+//                                    else {
+//                                        // check principal ids of collector
+//                                        if (ObjectUtils.isNotNull(collectorHead.getCollectorInformations()) && CollectionUtils.isNotEmpty(collectorHead.getCollectorInformations())) {
+//                                            for (CollectorInformation collectorInfo : collectorHead.getCollectorInformations()) {
+//                                                if (collectorInfo.isActive() && ObjectUtils.isNotNull(collectorInfo.getPrincipalId()) && ObjectUtils.isNotNull(customerCollector) && collectorInfo.getPrincipalId().equalsIgnoreCase(customerCollector.getPrincipalId())) {
+//                                                    isValid = true;
+//                                                    break;
+//                                                }
+//                                            }
+//                                        }
+//                                    }
+//                                }
+//                                else if (ObjectUtils.isNotNull(customerCollector) && customerCollector.getPrincipalId().equals(principalId)) {
+//                                    if (collectorHierarchyDao.isCollector(principalId)) {
+//                                        isValid = true;
+//                                    }
+//                                }
+//                            }
+//                            else if (ObjectUtils.isNotNull(customerCollector) && customerCollector.getPrincipalId().equals(principalId)) {
+//                                if (collectorHierarchyDao.isCollector(principalId)) {
+//                                    isValid = true;
+//                                }
+//                            }
                         }
                     }
                     else {

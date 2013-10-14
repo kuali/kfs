@@ -27,14 +27,12 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.query.Criteria;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.CollectionStatus;
-import org.kuali.kfs.module.ar.businessobject.CollectorHierarchy;
 import org.kuali.kfs.module.ar.businessobject.CollectorInformation;
 import org.kuali.kfs.module.ar.businessobject.CustomerType;
 import org.kuali.kfs.module.ar.businessobject.FinalDisposition;
 import org.kuali.kfs.module.ar.businessobject.ReferralToCollectionsDetail;
 import org.kuali.kfs.module.ar.businessobject.ReferralToCollectionsReport;
 import org.kuali.kfs.module.ar.businessobject.ReferralType;
-import org.kuali.kfs.module.ar.dataaccess.CollectorHierarchyDao;
 import org.kuali.kfs.module.ar.dataaccess.CustomerCollectorDao;
 import org.kuali.kfs.module.ar.dataaccess.ReferralToCollectionsDao;
 import org.kuali.kfs.module.ar.document.ReferralToCollectionsDocument;
@@ -61,7 +59,6 @@ public class ReferralToCollectionsReportServiceImpl extends ContractsGrantsRepor
 
     private ReportInfo refToCollReportInfo;
     private ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService;
-    private CollectorHierarchyDao collectorHierarchyDao;
     private CustomerCollectorDao customerCollectorDao;
     protected BusinessObjectService businessObjectService;
     private ReferralToCollectionsDao referralToCollectionsDao;
@@ -120,30 +117,12 @@ public class ReferralToCollectionsReportServiceImpl extends ContractsGrantsRepor
     }
 
     /**
-     * Sets the collectorHierarchyDao attribute value.
+     * Sets the contractsGrantsInvoiceDocumentService attribute value.
      *
-     * @param collectorHierarchyDao The collectorHierarchyDao to set.
+     * @param contractsGrantsInvoiceDocumentService The contractsGrantsInvoiceDocumentService to set.
      */
     public void setContractsGrantsInvoiceDocumentService(ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService) {
         this.contractsGrantsInvoiceDocumentService = contractsGrantsInvoiceDocumentService;
-    }
-
-    /**
-     * Gets the collectorHierarchyDao attribute.
-     *
-     * @return Returns the collectorHierarchyDao.
-     */
-    public CollectorHierarchyDao getCollectorHierarchyDao() {
-        return collectorHierarchyDao;
-    }
-
-    /**
-     * Sets the collectorHierarchyDao attribute value.
-     *
-     * @param collectorHierarchyDao The collectorHierarchyDao to set.
-     */
-    public void setCollectorHierarchyDao(CollectorHierarchyDao collectorHierarchyDao) {
-        this.collectorHierarchyDao = collectorHierarchyDao;
     }
 
     /**
@@ -269,34 +248,35 @@ public class ReferralToCollectionsReportServiceImpl extends ContractsGrantsRepor
                     collectorCriteria.addEqualTo(ArPropertyConstants.COLLECTOR_HEAD, collector);
                     collectorCriteria.addEqualTo(KFSPropertyConstants.ACTIVE, true);
 
-                    // chk if selected collector is collector head
-                    Collection<CollectorHierarchy> collectorHierarchies = collectorHierarchyDao.getCollectorHierarchyByCriteria(collectorCriteria);
-
-                    if (ObjectUtils.isNotNull(collectorHierarchies) && CollectionUtils.isNotEmpty(collectorHierarchies)) {
-                        CollectorHierarchy collectorHead = new ArrayList<CollectorHierarchy>(collectorHierarchies).get(0);
-                        if (ObjectUtils.isNotNull(collectorHead)) {
-                            collectorList.add(collectorHead.getPrincipalId());
-                            if (ObjectUtils.isNotNull(collectorHead.getCollectorInformations()) && CollectionUtils.isNotEmpty(collectorHead.getCollectorInformations())) {
-                                // get principal ids of collector
-                                for (CollectorInformation collectorInfo : collectorHead.getCollectorInformations()) {
-                                    if (collectorInfo.isActive()) {
-                                        collectorList.add(collectorInfo.getPrincipalId());
-                                    }
-                                }
-                            }
-                        }
-                        else {
-                            if (collectorHierarchyDao.isCollector(collector)) {
-                                collectorList.add(collector);
-                            }
-                        }
-                    }
-                    else {
-                        // check it exists in collector information and is active and his head is active
-                        if (collectorHierarchyDao.isCollector(collector)) {
-                            collectorList.add(collector);
-                        }
-                    }
+                 // Code commented for KFSMI-10824, please don't remove.
+//                    // chk if selected collector is collector head
+//                    Collection<CollectorHierarchy> collectorHierarchies = collectorHierarchyDao.getCollectorHierarchyByCriteria(collectorCriteria);
+//
+//                    if (ObjectUtils.isNotNull(collectorHierarchies) && CollectionUtils.isNotEmpty(collectorHierarchies)) {
+//                        CollectorHierarchy collectorHead = new ArrayList<CollectorHierarchy>(collectorHierarchies).get(0);
+//                        if (ObjectUtils.isNotNull(collectorHead)) {
+//                            collectorList.add(collectorHead.getPrincipalId());
+//                            if (ObjectUtils.isNotNull(collectorHead.getCollectorInformations()) && CollectionUtils.isNotEmpty(collectorHead.getCollectorInformations())) {
+//                                // get principal ids of collector
+//                                for (CollectorInformation collectorInfo : collectorHead.getCollectorInformations()) {
+//                                    if (collectorInfo.isActive()) {
+//                                        collectorList.add(collectorInfo.getPrincipalId());
+//                                    }
+//                                }
+//                            }
+//                        }
+//                        else {
+//                            if (collectorHierarchyDao.isCollector(collector)) {
+//                                collectorList.add(collector);
+//                            }
+//                        }
+//                    }
+//                    else {
+//                        // check it exists in collector information and is active and his head is active
+//                        if (collectorHierarchyDao.isCollector(collector)) {
+//                            collectorList.add(collector);
+//                        }
+//                    }
 
                     // filter invoice by Collectorlist
                     if (ObjectUtils.isNotNull(collectorList) && !collectorList.isEmpty()) {

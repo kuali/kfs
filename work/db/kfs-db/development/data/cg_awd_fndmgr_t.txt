@@ -1,4 +1,4 @@
-person_unvl_id|cgprpsl_nbr|obj_id|ver_nbr|cgawd_prm_fndmgr_ind|cgawd_fndmgr_prj_ttl|row_actv_ind|
+person_unvl_id|cgprpsl_nbr|obj_id|ver_nbr|cgawd_prm_fndmgr_ind|cgawd_fndmgr_prj_ttl|actv_ind|
 1137304513|7896.0|12D4ED215E1FEF34E043814FD881EF34|1.0|Y||Y|
 1137304513|9373.0|12D4ED215E20EF34E043814FD881EF34|1.0|Y||Y|
 1137304513|9591.0|12D4ED215E21EF34E043814FD881EF34|1.0|Y||Y|

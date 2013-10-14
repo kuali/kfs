@@ -11,7 +11,7 @@
   <Field name="cg_rptto_agncy_nbr"              type="string"     nullable="true"  trim="false" delimiter="|"  />
   <Field name="cage_nbr"                        type="string"     nullable="true"  trim="false" delimiter="|"  />
   <Field name="dodac_nbr"                       type="string"     nullable="true"  trim="false" delimiter="|"  />
-  <Field name="dun_and_bradstreet_nbr"          type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="duns_nbr"                        type="string"     nullable="true"  trim="false" delimiter="|"  />
   <Field name="duns_plus_four_nbr"              type="string"     nullable="true"  trim="false" delimiter="|"  />
   <Field name="cg_agency_bill_freq_cd"          type="string"     nullable="true"  trim="false" delimiter="|"  />
   <Field name="cg_agency_fin_form_typ_cd"       type="string"     nullable="true"  trim="false" delimiter="|"  />

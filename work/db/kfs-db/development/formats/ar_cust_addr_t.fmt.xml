@@ -16,7 +16,7 @@
   <Field name="cust_addr_type_cd"               type="string"     nullable="true"  trim="false" delimiter="|"  />
   <Field name="cust_addr_end_dt"                type="date"       nullable="true"  trim="false" delimiter="|"  format="yyyyMMddHHmmss" />
   <Field name="inv_typ_cd"                      type="string"     nullable="true"  trim="false" delimiter="|"  />
-  <Field name="cp_to_prnt"                      type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="copies_to_print_qty"             type="numeric"    nullable="true"  trim="false" delimiter="|"  />
   <Field name="inv_ind_cd"                      type="string"     nullable="true"  trim="false" delimiter="|"  />
-  <Field name="prnt_env_nbr"                    type="string"     nullable="true"  trim="false" delimiter="|\r\n" />
+  <Field name="prnt_env_nbr"                    type="numeric"    nullable="true"  trim="false" delimiter="|\r\n" />
 </Record>

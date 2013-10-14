@@ -1,4 +1,4 @@
-bill_freq_cd|obj_id|ver_nbr|bill_freq_desc|dobj_maint_cd_actv_ind|grace_period|
+bill_freq_cd|obj_id|ver_nbr|bill_freq_desc|actv_ind|grace_period|
 ANNUALLY|KFSCGA|1.0|Annually|Y|0|
 BILL|BILL_FREQ_01|1.0|Billing|Y|0|
 LOCB|KFSCG01|1.0|LOC Billing|Y|0|

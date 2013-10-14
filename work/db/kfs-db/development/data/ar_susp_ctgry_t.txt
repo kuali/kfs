@@ -1,4 +1,4 @@
-susp_ctgry_cd|susp_ctgry_desc|obj_id|ver_nbr|row_actv_ind|
+susp_ctgry_cd|susp_ctgry_desc|obj_id|ver_nbr|actv_ind|
 1|Bill date exceeds the award stop date|CGB-SC1|1.0|Y|
 10|Award has active but expired account(s)|CGB-SC10|1.0|Y|
 11|Award suspended by user|CGB-SC11|1.0|Y|

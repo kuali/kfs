@@ -35,9 +35,9 @@
         $0.cust_addr_type_cd := replace(nvl($cust_addr_type_cd, ""), "~!~", "|" );
         $0.cust_addr_end_dt := $cust_addr_end_dt;
         $0.inv_typ_cd := replace(nvl($inv_typ_cd, ""), "~!~", "|" );
-        $0.cp_to_prnt := replace(nvl($cp_to_prnt, ""), "~!~", "|" );
+        $0.copies_to_print_qty := $copies_to_print_qty;
         $0.inv_ind_cd := replace(nvl($inv_ind_cd, ""), "~!~", "|" );
-        $0.prnt_env_nbr := replace(nvl($prnt_env_nbr, ""), "~!~", "|" );
+        $0.prnt_env_nbr := $prnt_env_nbr;
    }
       ]]></attr>
     </Node>

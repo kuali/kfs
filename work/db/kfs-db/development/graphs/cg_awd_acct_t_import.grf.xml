@@ -27,10 +27,10 @@
         $0.row_actv_ind := replace(nvl($row_actv_ind, ""), "~!~", "|" );
         $0.final_billed := replace(nvl($final_billed, ""), "~!~", "|" );
         $0.inv_doc_sts := replace(nvl($inv_doc_sts, ""), "~!~", "|" );
-        $0.amt_drw := $amt_drw;
+        $0.amt_to_drw := $amt_to_drw;
         $0.ltrcr_rvw_ind := replace(nvl($ltrcr_rvw_ind, ""), "~!~", "|" );
-        $0.curr_lst_bld_dt := $curr_lst_bld_dt;
-        $0.prev_lst_bld_dt := $prev_lst_bld_dt;
+        $0.curr_lst_billed_dt := $curr_lst_billed_dt;
+        $0.prev_lst_billed_dt := $prev_lst_billed_dt;
    }
       ]]></attr>
     </Node>

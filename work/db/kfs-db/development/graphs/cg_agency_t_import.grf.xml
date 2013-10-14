@@ -30,7 +30,7 @@
         $0.cg_rptto_agncy_nbr := replace(nvl($cg_rptto_agncy_nbr, ""), "~!~", "|" );
         $0.cage_nbr := replace(nvl($cage_nbr, ""), "~!~", "|" );
         $0.dodac_nbr := replace(nvl($dodac_nbr, ""), "~!~", "|" );
-        $0.dun_and_bradstreet_nbr := replace(nvl($dun_and_bradstreet_nbr, ""), "~!~", "|" );
+        $0.duns_nbr := replace(nvl($duns_nbr, ""), "~!~", "|" );
         $0.duns_plus_four_nbr := replace(nvl($duns_plus_four_nbr, ""), "~!~", "|" );
         $0.cg_agency_bill_freq_cd := replace(nvl($cg_agency_bill_freq_cd, ""), "~!~", "|" );
         $0.cg_agency_fin_form_typ_cd := replace(nvl($cg_agency_fin_form_typ_cd, ""), "~!~", "|" );

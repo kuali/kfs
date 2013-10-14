@@ -22,7 +22,7 @@
         $0.ctgry_nm := replace(nvl($ctgry_nm, ""), "~!~", "|" );
         $0.ctgry_desc := replace(nvl($ctgry_desc, ""), "~!~", "|" );
         $0.obj_cds := replace(nvl($obj_cds, ""), "~!~", "|" );
-        $0.ctgry_actv_ind := replace(nvl($ctgry_actv_ind, ""), "~!~", "|" );
+        $0.actv_ind := replace(nvl($actv_ind, ""), "~!~", "|" );
         $0.obj_id := replace(nvl($obj_id, ""), "~!~", "|" );
         $0.ver_nbr := $ver_nbr;
         $0.ind_cst_ind := replace(nvl($ind_cst_ind, ""), "~!~", "|" );

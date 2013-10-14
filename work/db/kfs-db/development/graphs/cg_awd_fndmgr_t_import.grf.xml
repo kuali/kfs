@@ -24,7 +24,7 @@
         $0.ver_nbr := $ver_nbr;
         $0.cgawd_prm_fndmgr_ind := replace(nvl($cgawd_prm_fndmgr_ind, ""), "~!~", "|" );
         $0.cgawd_fndmgr_prj_ttl := replace(nvl($cgawd_fndmgr_prj_ttl, ""), "~!~", "|" );
-        $0.row_actv_ind := replace(nvl($row_actv_ind, ""), "~!~", "|" );
+        $0.actv_ind := replace(nvl($actv_ind, ""), "~!~", "|" );
    }
       ]]></attr>
     </Node>

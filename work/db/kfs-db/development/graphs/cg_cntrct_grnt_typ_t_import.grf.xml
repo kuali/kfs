@@ -22,7 +22,7 @@
         $0.obj_id := replace(nvl($obj_id, ""), "~!~", "|" );
         $0.ver_nbr := $ver_nbr;
         $0.cntrct_grnt_typ_desc := replace(nvl($cntrct_grnt_typ_desc, ""), "~!~", "|" );
-        $0.dobj_maint_cd_actv_ind := replace(nvl($dobj_maint_cd_actv_ind, ""), "~!~", "|" );
+        $0.actv_ind := replace(nvl($actv_ind, ""), "~!~", "|" );
    }
       ]]></attr>
     </Node>

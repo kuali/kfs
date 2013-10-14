@@ -1,4 +1,4 @@
-ctgry_cd|ctgry_nm|ctgry_desc|obj_cds|ctgry_actv_ind|obj_id|ver_nbr|ind_cst_ind|cons_cds|level_cds|
+ctgry_cd|ctgry_nm|ctgry_desc|obj_cds|actv_ind|obj_id|ver_nbr|ind_cst_ind|cons_cds|level_cds|
 EMPB|Employee Benefits||2408|Y|c75d07b0-a72b-11e0-8264-0800200c9a67|1.0||||
 EQIP|Equipment||5500|Y|c75d07b0-a72b-11e0-8264-0800200c9a73|1.0||||
 MSS|Materials, Supplies, Services||4000-4100|Y|c75d07b0-a72b-11e0-8264-0800200c9a69|1.0||||

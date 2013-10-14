@@ -1,4 +1,4 @@
-fin_rpt_freq_cd|obj_id|ver_nbr|fin_rpt_freq_desc|dobj_maint_cd_actv_ind|
+fin_rpt_freq_cd|obj_id|ver_nbr|fin_rpt_freq_desc|actv_ind|
 ANN|4A30B5B8-2117-206A-3BFE-4CD0A393225A|1.0|Annually|Y|
 ATERM|58213EF2-D5AE-40D6-63AD-9044D6D35B76|1.0|At Term|Y|
 MON|7591C228-78E8-F61A-0093-6F56D7403201|1.0|Monthly|Y|

@@ -1,4 +1,4 @@
-cg_agency_nbr|obj_id|ver_nbr|cg_agency_rpt_nm|cg_agency_full_nm|cg_agncy_indr_amt|cg_agency_hist_ind|cg_agncy_in_st_ind|cg_agency_typ_cd|cg_rptto_agncy_nbr|cage_nbr|dodac_nbr|dun_and_bradstreet_nbr|duns_plus_four_nbr|cg_agency_bill_freq_cd|cg_agency_fin_form_typ_cd|cg_agency_inv_typ_cd|fin_rpt_freq_cd|agcy_exp_dt|cust_nbr|cust_typ_cd|cust_crtd|spnsr_cd|cmpgn_id|state_agency_ind|clctn_status_cd|nte_txt|
+cg_agency_nbr|obj_id|ver_nbr|cg_agency_rpt_nm|cg_agency_full_nm|cg_agncy_indr_amt|cg_agency_hist_ind|cg_agncy_in_st_ind|cg_agency_typ_cd|cg_rptto_agncy_nbr|cage_nbr|dodac_nbr|duns_nbr|duns_plus_four_nbr|cg_agency_bill_freq_cd|cg_agency_fin_form_typ_cd|cg_agency_inv_typ_cd|fin_rpt_freq_cd|agcy_exp_dt|cust_nbr|cust_typ_cd|cust_crtd|spnsr_cd|cmpgn_id|state_agency_ind|clctn_status_cd|nte_txt|
 11500|0292B100447EBBDEE043814FD881BBDE|1.0|US DEPT OF DEFENSE|U.S. DEPARTMENT OF DEFENSE|0.0|N|N|F||||||||||||||||N|||
 11505|0292B100447FBBDEE043814FD881BBDE|1.0|US AIR FORCE|U.S. AIR FORCE|0.0|N|N|F|11500|||||||||||||||N|||
 11510|0292B1004480BBDEE043814FD881BBDE|1.0|UNITED STATES ARMY|U.S. ARMY|0.0|N|N|F|11500|||||||||||||||N|||

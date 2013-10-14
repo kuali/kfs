@@ -1,4 +1,4 @@
-inv_ind_cd|obj_id|ver_nbr|inv_ind_desc|dobj_maint_cd_actv_ind|
+inv_ind_cd|obj_id|ver_nbr|inv_ind_desc|actv_ind|
 EMAIL|CGB-INVOICE-INDICATOR-VALUE-3|1.0|Through Email|Y|
 MAIL|CGB-INVOICE-INDICATOR-VALUE-2|1.0|Through Mail|Y|
 PAYWEB|CGB-INVOICE-INDICATOR-VALUE-5|1.0|Through PayWeb|Y|

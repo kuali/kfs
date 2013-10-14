@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -18,7 +18,7 @@ package org.kuali.kfs.module.ar.businessobject;
 import java.util.Date;
 import java.util.LinkedHashMap;
 
-import org.kuali.kfs.integration.cg.ContractsAndGrantsBill;
+import org.kuali.kfs.integration.ar.AccountsReceivableBill;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAward;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
@@ -33,7 +33,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
  * This class extends the Bills BO to be used exclusively for Contracts Grants Invoice Document with document Number as its key.
  */
 
-public class InvoiceBill extends PersistableBusinessObjectBase implements ContractsAndGrantsBill {
+public class InvoiceBill extends PersistableBusinessObjectBase implements AccountsReceivableBill {
 
     private String documentNumber;
     private Long proposalNumber;
@@ -60,9 +60,10 @@ public class InvoiceBill extends PersistableBusinessObjectBase implements Contra
 
     /**
      * Gets the billDate attribute.
-     * 
+     *
      * @return Returns the billDate.
      */
+    @Override
     public Date getBillDate() {
         return billDate;
     }
@@ -70,34 +71,37 @@ public class InvoiceBill extends PersistableBusinessObjectBase implements Contra
 
     /**
      * Gets the billDescription attribute.
-     * 
+     *
      * @return Returns the billDescription.
      */
+    @Override
     public String getBillDescription() {
         return billDescription;
     }
 
     /**
      * Gets the billIdentifier attribute.
-     * 
+     *
      * @return Returns the billIdentifier.
      */
+    @Override
     public Long getBillIdentifier() {
         return billIdentifier;
     }
 
     /**
      * Gets the billNumber attribute.
-     * 
+     *
      * @return Returns the billNumber.
      */
+    @Override
     public Long getBillNumber() {
         return billNumber;
     }
 
     /**
      * Gets the documentNumber attribute.
-     * 
+     *
      * @return Returns the documentNumber.
      */
     public String getDocumentNumber() {
@@ -106,16 +110,17 @@ public class InvoiceBill extends PersistableBusinessObjectBase implements Contra
 
     /**
      * Gets the estimatedAmount attribute.
-     * 
+     *
      * @return Returns the estimatedAmount.
      */
+    @Override
     public KualiDecimal getEstimatedAmount() {
         return estimatedAmount;
     }
 
     /**
      * Gets the invoiceDocument attribute.
-     * 
+     *
      * @return Returns the invoiceDocument.
      */
     public ContractsGrantsInvoiceDocument getInvoiceDocument() {
@@ -124,18 +129,20 @@ public class InvoiceBill extends PersistableBusinessObjectBase implements Contra
 
     /**
      * Gets the isItBilled attribute.
-     * 
+     *
      * @return Returns the isItBilled.
      */
+    @Override
     public String getIsItBilled() {
         return isItBilled;
     }
 
     /**
      * Gets the proposalNumber attribute.
-     * 
+     *
      * @return Returns the proposalNumber.
      */
+    @Override
     public Long getProposalNumber() {
         return proposalNumber;
     }
@@ -143,7 +150,7 @@ public class InvoiceBill extends PersistableBusinessObjectBase implements Contra
 
     /**
      * Sets the billDate attribute value.
-     * 
+     *
      * @param billDate The billDate to set.
      */
     public void setBillDate(Date billDate) {
@@ -152,7 +159,7 @@ public class InvoiceBill extends PersistableBusinessObjectBase implements Contra
 
     /**
      * Sets the billDescription attribute value.
-     * 
+     *
      * @param billDescription The billDescription to set.
      */
     public void setBillDescription(String billDescription) {
@@ -161,7 +168,7 @@ public class InvoiceBill extends PersistableBusinessObjectBase implements Contra
 
     /**
      * Sets the billIdentifier attribute value.
-     * 
+     *
      * @param billIdentifier The billIdentifier to set.
      */
     public void setBillIdentifier(Long billIdentifier) {
@@ -171,7 +178,7 @@ public class InvoiceBill extends PersistableBusinessObjectBase implements Contra
 
     /**
      * Sets the billNumber attribute value.
-     * 
+     *
      * @param billNumber The billNumber to set.
      */
     public void setBillNumber(Long billNumber) {
@@ -181,7 +188,7 @@ public class InvoiceBill extends PersistableBusinessObjectBase implements Contra
 
     /**
      * Sets the documentNumber attribute value.
-     * 
+     *
      * @param documentNumber The documentNumber to set.
      */
     public void setDocumentNumber(String documentNumber) {
@@ -191,7 +198,7 @@ public class InvoiceBill extends PersistableBusinessObjectBase implements Contra
 
     /**
      * Sets the estimatedAmount attribute value.
-     * 
+     *
      * @param estimatedAmount The estimatedAmount to set.
      */
     public void setEstimatedAmount(KualiDecimal estimatedAmount) {
@@ -201,7 +208,7 @@ public class InvoiceBill extends PersistableBusinessObjectBase implements Contra
 
     /**
      * Sets the invoiceDocument attribute value.
-     * 
+     *
      * @param invoiceDocument The invoiceDocument to set.
      */
     public void setInvoiceDocument(ContractsGrantsInvoiceDocument invoiceDocument) {
@@ -211,7 +218,7 @@ public class InvoiceBill extends PersistableBusinessObjectBase implements Contra
 
     /**
      * Sets the isItBilled attribute value.
-     * 
+     *
      * @param isItBilled The isItBilled to set.
      */
     public void setIsItBilled(String isItBilled) {
@@ -220,7 +227,7 @@ public class InvoiceBill extends PersistableBusinessObjectBase implements Contra
 
     /**
      * Sets the proposalNumber attribute value.
-     * 
+     *
      * @param proposalNumber The proposalNumber to set.
      */
     public void setProposalNumber(Long proposalNumber) {
@@ -230,7 +237,7 @@ public class InvoiceBill extends PersistableBusinessObjectBase implements Contra
     /**
      * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    
+
     protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
 

@@ -32,6 +32,8 @@
 				<value>org.kuali.kfs.module.external.kc</value>
 				<value>org.kuali.kfs.integration.cg</value>
 				<value>org.kuali.kfs.module.cg</value>
+				<value>org.kuali.kfs.integration.ar</value>
+				<value>org.kuali.kfs.module.ar</value>
 			</list>
 		</property>
 		<property name="externalizableBusinessObjectImplementations">
@@ -53,7 +55,6 @@
 				<entry key="org.kuali.kfs.integration.cg.ContractsGrantsAwardInvoiceAccountInformation" value="org.kuali.kfs.module.cg.businessobject.AwardInvoiceAccount" />
 				<entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAward" value="org.kuali.kfs.module.cg.businessobject.Award" />
 				<entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAgency" value="org.kuali.kfs.module.cg.businessobject.Agency" />
-				<entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsBill" value="org.kuali.kfs.module.cg.businessobject.Bill" />
 				<entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsLetterOfCreditFundGroup" value="org.kuali.kfs.module.cg.businessobject.LetterOfCreditFundGroup" />
 				<entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsLetterOfCreditFund" value="org.kuali.kfs.module.cg.businessobject.LetterOfCreditFund" />
 				<entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsAgencyAddress" value="org.kuali.kfs.module.cg.businessobject.AgencyAddress" />
@@ -79,6 +80,7 @@
 <!--  				<entry key="org.kuali.kfs.integration.ar.ContractsAndGrantsInvoiceTemplate" value="org.kuali.kfs.module.ar.businessobject.InvoiceTemplate" /> -->
 				<entry key="org.kuali.kfs.integration.ar.AccountsReceivableMilestone" value="org.kuali.kfs.module.ar.businessobject.Milestone" />
 				<entry key="org.kuali.kfs.integration.ar.AccountsReceivableMilestoneSchedule" value="org.kuali.kfs.module.ar.businessobject.MilestoneSchedule" />
+				<entry key="org.kuali.kfs.integration.ar.AccountsReceivableBill" value="org.kuali.kfs.module.ar.businessobject.Bill" />
 			</map>
 		</property>
 		<property name="externalizableBusinessObjectServiceImplementations">
@@ -114,6 +116,8 @@
 				<value>org/kuali/kfs/module/external/kc/document/datadictionary/AccountAutoCreateDefaultsMaintenanceDocument.xml</value>
 				<value>org/kuali/kfs/module/cg/businessobject/datadictionary</value>
 				<value>org/kuali/kfs/module/cg/document/datadictionary</value>
+				<value>org/kuali/kfs/module/ar/businessobject/datadictionary</value>
+				<value>org/kuali/kfs/module/ar/document/datadictionary</value>
 			</list>
 		</property>
 		<property name="databaseRepositoryFilePaths">

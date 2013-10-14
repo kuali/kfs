@@ -53,6 +53,7 @@
 				<entry key="org.kuali.kfs.integration.ar.AccountsReceivableInvoiceTemplate" value="org.kuali.kfs.module.ar.businessobject.InvoiceTemplate" />
 				<entry key="org.kuali.kfs.integration.ar.AccountsReceivableMilestone" value="org.kuali.kfs.module.ar.businessobject.Milestone" />
 				<entry key="org.kuali.kfs.integration.ar.AccountsReceivableMilestoneSchedule" value="org.kuali.kfs.module.ar.businessobject.MilestoneSchedule" />
+				<entry key="org.kuali.kfs.integration.ar.AccountsReceivableBill" value="org.kuali.kfs.module.ar.businessobject.Bill" />
 				<entry key="org.kuali.kfs.integration.ar.AccountsReceivableInvoiceIndicator" value="org.kuali.kfs.module.ar.businessobject.InvoiceIndicator" />
             </map>
         </property>  
@@ -151,6 +152,7 @@
 	<bean id="customerCollectorDao" parent="platformAwareDao" class="org.kuali.kfs.module.ar.dataaccess.impl.CustomerCollectorDaoOjb" />
 	<bean id="referralToCollectionsDao" parent="platformAwareDao" class="org.kuali.kfs.module.ar.dataaccess.impl.ReferralToCollectionsDaoOjb" />
 	<bean id="milestoneDao" parent="platformAwareDao" class="org.kuali.kfs.module.ar.dataaccess.impl.MilestoneDaoOjb" />	
+	<bean id="billDao" parent="platformAwareDao" class="org.kuali.kfs.module.ar.dataaccess.impl.BillDaoOjb" />
 	
 	<bean id="contractsGrantsInvoiceCreateDocumentService" class="org.kuali.kfs.module.ar.batch.service.impl.ContractsGrantsInvoiceCreateDocumentServiceImpl">
 		<property name="accountingPeriodService">
@@ -268,6 +270,7 @@
 			<ref bean="invoicePaidAppliedService" />
 		</property>
 		<property name="milestoneDao" ref="milestoneDao" />
+		<property name="billDao" ref="billDao" />
 	</bean>
 
 	<bean id="verifyBillingFrequencyService" class="org.kuali.kfs.module.ar.batch.service.impl.VerifyBillingFrequencyServiceImpl">

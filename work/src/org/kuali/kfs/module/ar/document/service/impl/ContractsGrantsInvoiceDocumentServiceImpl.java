@@ -50,7 +50,7 @@ import org.kuali.kfs.coa.service.ObjectCodeService;
 import org.kuali.kfs.coa.service.ObjectLevelService;
 import org.kuali.kfs.gl.businessobject.Balance;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsAgencyAddress;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsBill;
+import org.kuali.kfs.module.ar.businessobject.Bill;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingFrequency;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAgency;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAward;
@@ -89,6 +89,7 @@ import org.kuali.kfs.module.ar.businessobject.SystemInformation;
 import org.kuali.kfs.module.ar.businessobject.lookup.DunningLetterDistributionOnDemandLookupUtil;
 import org.kuali.kfs.module.ar.businessobject.lookup.ReferralToCollectionsDocumentUtil;
 import org.kuali.kfs.module.ar.dataaccess.AwardAccountObjectCodeTotalBilledDao;
+import org.kuali.kfs.module.ar.dataaccess.BillDao;
 import org.kuali.kfs.module.ar.dataaccess.ContractsGrantsInvoiceDocumentDao;
 import org.kuali.kfs.module.ar.dataaccess.MilestoneDao;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
@@ -136,6 +137,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
     private DateTimeService dateTimeService;
     private InvoicePaidAppliedService invoicePaidAppliedService;
     private MilestoneDao milestoneDao;
+    private BillDao billDao;
     public static final String REPORT_LINE_DIVIDER = "--------------------------------------------------------------------------------------------------------------";
     private static final SimpleDateFormat FILE_NAME_TIMESTAMP = new SimpleDateFormat("MM-dd-yyyy");
 
@@ -1798,7 +1800,33 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         }
 
         // To get the bills with the criteria defined and set value to isItBilled.
-        SpringContext.getBean(ContractsAndGrantsModuleUpdateService.class).setBillsisItBilled(mainCriteria, value);
+        this.setBillsisItBilled(mainCriteria, value);
+    }
+
+    public void setBillsisItBilled(Criteria criteria, String value) {
+        Collection<Bill> bills = getBillDao().getBillsByMatchingCriteria(criteria);
+        for (Bill bill : bills) {
+            bill.setIsItBilled(value);
+            SpringContext.getBean(BusinessObjectService.class).save(bill);
+        }
+    }
+
+    /**
+     * Gets the billDao attribute.
+     *
+     * @return Returns the billDao.
+     */
+    public BillDao getBillDao() {
+        return billDao;
+    }
+
+    /**
+     * Sets the billDao attribute value.
+     *
+     * @param billDao The billDao to set.
+     */
+    public void setBillDao(BillDao billDao) {
+        this.billDao = billDao;
     }
 
     /**
@@ -2183,12 +2211,12 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         boolean isValid = false;
         if (award.getPreferredBillingFrequency().equalsIgnoreCase(ArPropertyConstants.PREDETERMINED_BILLING_SCHEDULE_CODE)) {
 
-            List<ContractsAndGrantsBill> bills = new ArrayList<ContractsAndGrantsBill>();
-            List<ContractsAndGrantsBill> validBills = new ArrayList<ContractsAndGrantsBill>();
+            List<Bill> bills = new ArrayList<Bill>();
+            List<Bill> validBills = new ArrayList<Bill>();
             Map<String, Object> map = new HashMap<String, Object>();
             map.put(KFSPropertyConstants.PROPOSAL_NUMBER, award.getProposalNumber());
 
-            bills = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsBill.class).getExternalizableBusinessObjectsList(ContractsAndGrantsBill.class, map);
+            bills = (List<Bill>) SpringContext.getBean(BusinessObjectService.class).findMatching(Bill.class, map);
             // To retrieve the previous period end Date to check for milestones and billing schedule.
 
             Timestamp ts = new Timestamp(new java.util.Date().getTime());
@@ -2197,7 +2225,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             java.sql.Date[] pair = verifyBillingFrequencyService.getStartDateAndEndDateOfPreviousBillingPeriod(award, currPeriod);
             java.sql.Date invoiceDate = pair[1];
 
-            for (ContractsAndGrantsBill awdBill : bills) {
+            for (Bill awdBill : bills) {
                 if (awdBill.getBillDate() != null && !invoiceDate.before(awdBill.getBillDate()) && awdBill.getIsItBilled().equals(KFSConstants.ParameterValues.NO) && awdBill.getEstimatedAmount().isGreaterThan(KualiDecimal.ZERO)) {
                     validBills.add(awdBill);
                 }
@@ -2491,11 +2519,11 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         totalBilledKeys.put(KFSPropertyConstants.PROPOSAL_NUMBER, proposalNumber);
         KualiDecimal billedToDate = KualiDecimal.ZERO;
 
-        List<ContractsAndGrantsBill> bills = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsAgencyAddress.class).getExternalizableBusinessObjectsList(ContractsAndGrantsBill.class, totalBilledKeys);
+        List<Bill> bills = (List<Bill>) SpringContext.getBean(BusinessObjectService.class).findMatching(Bill.class, totalBilledKeys);
         if (CollectionUtils.isNotEmpty(bills)) {
-            Iterator<ContractsAndGrantsBill> iterator = bills.iterator();
+            Iterator<Bill> iterator = bills.iterator();
             while (iterator.hasNext()) {
-                ContractsAndGrantsBill bill = iterator.next();
+                Bill bill = iterator.next();
                 if (KFSConstants.ParameterValues.YES.equals(bill.getIsItBilled())) {
                     billedToDate = billedToDate.add(bill.getEstimatedAmount());
                 }
@@ -3728,11 +3756,12 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
     @Override
     public void populateInvoiceFromAward(ContractsAndGrantsCGBAward award, List<ContractsAndGrantsCGBAwardAccount> awardAccounts, ContractsGrantsInvoiceDocument document) {
         List<Milestone> milestones = new ArrayList<Milestone>();
-        List<ContractsAndGrantsBill> bills = new ArrayList<ContractsAndGrantsBill>();
+        List<Bill> bills = new ArrayList<Bill>();
         Map<String, Object> map = new HashMap<String, Object>();
         map.put(KFSPropertyConstants.PROPOSAL_NUMBER, award.getProposalNumber());
         milestones = (List<Milestone>) SpringContext.getBean(BusinessObjectService.class).findMatching(Milestone.class, map);
-        bills = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsBill.class).getExternalizableBusinessObjectsList(ContractsAndGrantsBill.class, map);
+//        bills = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(AccountsReceivableBill.class).getExternalizableBusinessObjectsList(AccountsReceivableBill.class, map);
+        bills = (List<Bill>) SpringContext.getBean(BusinessObjectService.class).findMatching(Bill.class, map);
 
 
         if (ObjectUtils.isNotNull(award)) {
@@ -3822,7 +3851,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
                 // copy award milestones to invoice milestones
                 document.getInvoiceBills().clear();
-                for (ContractsAndGrantsBill awdBill : bills) {
+                for (Bill awdBill : bills) {
                     // To check for null - Bill Completion date.
                     // To consider the completed milestones only.
                     if (awdBill.getBillDate() != null && !invoiceDate.before(awdBill.getBillDate()) && awdBill.getIsItBilled().equals(KFSConstants.ParameterValues.STRING_NO) && awdBill.getEstimatedAmount().isGreaterThan(KualiDecimal.ZERO)) {

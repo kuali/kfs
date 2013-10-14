@@ -23,9 +23,11 @@ import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.kuali.kfs.integration.ar.AccountsReceivableBill;
 import org.kuali.kfs.integration.ar.AccountsReceivableMilestone;
 import org.kuali.kfs.integration.ar.AccountsReceivableMilestoneSchedule;
 import org.kuali.kfs.integration.ar.AccountsReceivableModuleService;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsAccountAwardInformation;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsAward;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAward;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAwardAccount;
@@ -41,6 +43,7 @@ import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.krad.service.KualiModuleService;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
@@ -83,7 +86,6 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
     private String proposalAwardTypeCode;
     private String awardStatusCode;
     private String letterOfCreditFundCode;
-    private String letterOfCreditFundGroupCode;
     private String grantDescriptionCode;
     private String agencyNumber;
     private String letterOfCreditCreationType; // To create LOC
@@ -110,14 +112,13 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
     private List<AwardSubcontractor> awardSubcontractors;
     private List<AwardOrganization> awardOrganizations;
     private List<AccountsReceivableMilestone> milestones;
-    private List<Bill> bills;
+    private List<AccountsReceivableBill> bills;
 
 
     private Proposal proposal;
     private ProposalAwardType proposalAwardType;
     private AwardStatus awardStatus;
     private LetterOfCreditFund letterOfCreditFund;
-    private LetterOfCreditFundGroup letterOfCreditFundGroup;
     private GrantDescription grantDescription;
     private Agency agency;
     private Agency federalPassThroughAgency;
@@ -166,7 +167,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
         awardSubcontractors = new ArrayList<AwardSubcontractor>();
         awardOrganizations = new ArrayList<AwardOrganization>();
         milestones = new ArrayList<AccountsReceivableMilestone>();
-        bills = new ArrayList<Bill>();
+//        bills = new ArrayList<AccountsReceivableBill>();
         awardInvoiceAccounts = new ArrayList<AwardInvoiceAccount>();
     }
 
@@ -1076,27 +1077,6 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
     }
 
     /**
-     * Gets the letterOfCreditFundGroup attribute.
-     *
-     * @return Returns the letterOfCreditFundGroup
-     */
-    public LetterOfCreditFundGroup getLetterOfCreditFundGroup() {
-        return letterOfCreditFundGroup;
-    }
-
-    /**
-     * Sets the letterOfCreditFundGroup attribute.
-     *
-     * @param letterOfCreditFundGroup The letterOfCreditFundGroup to set.
-     * @deprecated Setter is required by OJB, but should not be used to modify this attribute. This attribute is set on the initial
-     *             creation of the object and should not be changed.
-     */
-    @Deprecated
-    public void setLetterOfCreditFundGroup(LetterOfCreditFundGroup letterOfCreditFundGroup) {
-        this.letterOfCreditFundGroup = letterOfCreditFundGroup;
-    }
-
-    /**
      * Gets the grantDescription attribute.
      *
      * @return Returns the grantDescription
@@ -1901,7 +1881,8 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
      *
      * @return Returns the bills.
      */
-    public List<Bill> getBills() {
+    public List<AccountsReceivableBill> getBills() {
+        bills = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(AccountsReceivableBill.class).retrieveExternalizableBusinessObjectsList(this, "bills", AccountsReceivableBill.class);
         return bills;
 
     }
@@ -1912,7 +1893,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
      * @param bills The bills to set.
      */
 
-    public void setBills(List<Bill> bills) {
+    public void setBills(List<AccountsReceivableBill> bills) {
         this.bills = bills;
     }
 
@@ -1955,15 +1936,6 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
     public void setDunningCampaign(String dunningCampaign) {
         this.dunningCampaign = dunningCampaign;
     }
-
-    public String getLetterOfCreditFundGroupCode() {
-        return letterOfCreditFundGroupCode;
-    }
-
-    public void setLetterOfCreditFundGroupCode(String letterOfCreditFundGroupCode) {
-        this.letterOfCreditFundGroupCode = letterOfCreditFundGroupCode;
-    }
-
 
     /**
      * Gets the stopWorkIndicator attribute.

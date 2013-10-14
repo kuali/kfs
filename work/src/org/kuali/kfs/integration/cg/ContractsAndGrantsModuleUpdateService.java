@@ -44,13 +44,6 @@ public interface ContractsAndGrantsModuleUpdateService {
     public void setLastBilledDateToAward(Long proposalNumber, java.sql.Date lastBilledDate);
 
     /**
-     * This method updates value of isItBilled in Bill BO to Yes
-     *
-     * @param criteria
-     */
-    public void setBillsisItBilled(Criteria criteria, String value);
-
-    /**
      * This method sets value of LOC Creation Type to Award
      *
      * @param proposalNumber

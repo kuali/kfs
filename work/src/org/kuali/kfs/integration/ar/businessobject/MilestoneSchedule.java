@@ -17,7 +17,6 @@ package org.kuali.kfs.integration.ar.businessobject;
 
 import java.util.List;
 
-import org.kuali.kfs.integration.ar.AccountsReceivableMilestone;
 import org.kuali.kfs.integration.ar.AccountsReceivableMilestoneSchedule;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAward;
 import org.kuali.kfs.integration.ar.businessobject.Milestone;

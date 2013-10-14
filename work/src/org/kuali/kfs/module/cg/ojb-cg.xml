@@ -476,7 +476,6 @@
 		<field-descriptor name="awardClosingDate" column="CGAWD_CLOSING_DT" jdbc-type="DATE" />
 		<field-descriptor name="proposalAwardTypeCode" column="CGPRPSL_AWD_TYP_CD" jdbc-type="VARCHAR" index="true" />
 		<field-descriptor name="awardStatusCode" column="CGAWD_STAT_CD" jdbc-type="VARCHAR" index="true" />
-		<field-descriptor name="letterOfCreditFundGroupCode" column="CG_LTRCR_FNDGRP_CD" jdbc-type="VARCHAR" index="true" />		
 		<field-descriptor name="letterOfCreditFundCode" column="CG_LTRCR_FND_CD" jdbc-type="VARCHAR" index="true" />
 		<field-descriptor name="grantDescriptionCode" column="CG_GRANT_DESC_CD" jdbc-type="VARCHAR" index="true" />
 		<field-descriptor name="agencyNumber" column="CG_AGENCY_NBR" jdbc-type="VARCHAR" index="true" />
@@ -517,10 +516,6 @@
 		<reference-descriptor name="awardStatus" class-ref="org.kuali.kfs.module.cg.businessobject.AwardStatus" auto-retrieve="true"
 			auto-update="none" auto-delete="none" proxy="true">
 			<foreignkey field-ref="awardStatusCode" />
-		</reference-descriptor>
-		<reference-descriptor name="letterOfCreditFundGroup" class-ref="org.kuali.kfs.module.cg.businessobject.LetterOfCreditFundGroup"
-			auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
-			<foreignkey field-ref="letterOfCreditFundGroupCode" />
 		</reference-descriptor>
 		<reference-descriptor name="letterOfCreditFund" class-ref="org.kuali.kfs.module.cg.businessobject.LetterOfCreditFund"
 			auto-retrieve="true" auto-update="none" auto-delete="none" proxy="false">
@@ -596,12 +591,12 @@
 			<orderby name="organizationCode" sort="ASC" />
 			<inverse-foreignkey field-ref="proposalNumber" />
 		</collection-descriptor>
-		<collection-descriptor name="bills" element-class-ref="org.kuali.kfs.module.cg.businessobject.Bill" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"
+<!-- 		<collection-descriptor name="bills" element-class-ref="org.kuali.kfs.module.cg.businessobject.Bill" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"
 			auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
 			<orderby name="billIdentifier" sort="ASC" />
 			<inverse-foreignkey field-ref="proposalNumber" />
 		</collection-descriptor>
-	</class-descriptor>
+ -->	</class-descriptor>
 
 	<!-- AWARD STATUS -->
 
@@ -849,28 +844,5 @@
 		<field-descriptor name="active" column="ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
 	</class-descriptor>
 
-
-	<!-- BILLS -->
-
-
-
-	<class-descriptor class="org.kuali.kfs.module.cg.businessobject.Bill" table="CG_BILL_T">
-
-		<field-descriptor name="proposalNumber" column="CGPRPSL_NBR" jdbc-type="BIGINT" primarykey="true" index="true" />
-		<field-descriptor name="billNumber" column="BILL_NBR" jdbc-type="BIGINT" primarykey="true" index="true" />
-		<field-descriptor name="billDescription" column="BILL_DESC" jdbc-type="VARCHAR" index="true" />
-		<field-descriptor name="billIdentifier" column="BILL_ID" jdbc-type="BIGINT" primarykey="true" index="true" autoincrement="true"
-			sequence-name="BILL_ID_SEQ" />
-		<field-descriptor name="billDate" column="BILL_DT" jdbc-type="DATE" index="true" />
-		<field-descriptor name="estimatedAmount" column="EST_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
-		<field-descriptor name="isItBilled" column="IS_IT_BILLED" jdbc-type="VARCHAR" index="true" />
-		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
-		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-		<reference-descriptor name="award" class-ref="org.kuali.kfs.module.cg.businessobject.Award" auto-retrieve="true" auto-update="none"
-			auto-delete="none" proxy="true">
-			<foreignkey field-ref="proposalNumber" />
-		</reference-descriptor>
-
-	</class-descriptor>
 
 </descriptor-repository>

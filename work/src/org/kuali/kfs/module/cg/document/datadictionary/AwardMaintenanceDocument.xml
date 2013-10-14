@@ -28,7 +28,7 @@
 				<ref bean="AwardMaintenanceDocument-Organizations" />
 				<ref bean="AwardMaintenanceDocument-Invoicing" />
 				<ref bean="AwardMaintenanceDocument-Subcontractors" />
-				<ref bean="AwardMaintenanceDocument-PredeterminedSchedule" />
+				<!-- <ref bean="AwardMaintenanceDocument-PredeterminedSchedule" /> -->
 			</list>
 		</property>
 		<property name="defaultExistenceChecks">
@@ -141,7 +141,6 @@
 				<bean parent="MaintainableFieldDefinition" p:name="federalPassThroughFundedAmount" />
 				<bean parent="MaintainableFieldDefinition" p:name="awardAllocatedUniversityComputingServicesAmount" />
 				<bean parent="MaintainableFieldDefinition" p:name="awardAddendumNumber" />
-				<bean parent="MaintainableFieldDefinition" p:name="letterOfCreditFundGroupCode"/>
 				<bean parent="MaintainableFieldDefinition" p:name="awardDocumentNumber" />
 				<bean parent="MaintainableFieldDefinition" p:name="contractGrantType" />
 				<bean parent="MaintainableFieldDefinition" p:name="agencyAnalystName" />
@@ -430,7 +429,7 @@
 			</list>
 		</property>
 	</bean>
-	<bean id="AwardMaintenanceDocument-PredeterminedSchedule"
+	<!-- <bean id="AwardMaintenanceDocument-PredeterminedSchedule"
 		parent="AwardMaintenanceDocument-PredeterminedSchedule-parentBean" />
 
 	<bean id="AwardMaintenanceDocument-PredeterminedSchedule-parentBean"
@@ -443,7 +442,7 @@
 				<bean parent="MaintainableCollectionDefinition">
 					<property name="name" value="bills" />
 					<property name="businessObjectClass"
-						value="org.kuali.kfs.module.cg.businessobject.Bill" />
+						value="org.kuali.kfs.integration.ar.AccountsReceivableBill" />
 					<property name="summaryFields">
 						<list>
 							<bean parent="MaintainableFieldDefinition" p:name="proposalNumber" />
@@ -473,7 +472,7 @@
 				</bean>
 			</list>
 		</property>
-	</bean>
+	</bean> -->
 
 	<!-- <bean id="AwardMaintenanceDocument-AwardBudgets" parent="AwardMaintenanceDocument-AwardBudgets-parentBean" 
 		/> <bean id="AwardMaintenanceDocument-AwardBudgets-parentBean" abstract="true" 

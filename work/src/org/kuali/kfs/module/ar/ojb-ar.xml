@@ -2108,7 +2108,7 @@
 
 
 	<class-descriptor class="org.kuali.kfs.module.ar.businessobject.Milestone" table="AR_MLSTN_T">
-		<field-descriptor name="proposalNumber" column="CGPRPSL_NBR" jdbc-type="BIGINT" primarykey="true" index="true" />
+		<field-descriptor name="proposalNumber" column="PRPSL_NBR" jdbc-type="BIGINT" primarykey="true" index="true" />
 		<field-descriptor name="milestoneNumber" column="MLSTN_NBR" jdbc-type="BIGINT" />
 		<field-descriptor name="milestoneIdentifier" column="MLSTN_ID" jdbc-type="BIGINT" primarykey="true" index="true" autoincrement="true"
 			sequence-name="MLSTN_ID_SEQ" />
@@ -2126,7 +2126,7 @@
 	<!-- MILESTONE SCHEDULE -->
 
 	<class-descriptor class="org.kuali.kfs.module.ar.businessobject.MilestoneSchedule" table="AR_MLSTN_SCHDL_T">
-		<field-descriptor name="proposalNumber" column="CGPRPSL_NBR" jdbc-type="BIGINT" primarykey="true" index="true" />
+		<field-descriptor name="proposalNumber" column="PRPSL_NBR" jdbc-type="BIGINT" primarykey="true" index="true" />
 		<field-descriptor name="totalAmountScheduled" column="TOT_AMT_SCHDL" jdbc-type="DECIMAL"
 			conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
 		<field-descriptor name="totalAmountRemaining" column="TOT_AWD_RMNG" jdbc-type="DECIMAL"
@@ -2141,6 +2141,23 @@
 
 			<inverse-foreignkey field-ref="proposalNumber" />
 		</collection-descriptor>
+
+	</class-descriptor>
+
+	<!-- BILLS -->
+
+	<class-descriptor class="org.kuali.kfs.module.ar.businessobject.Bill" table="AR_BILL_T">
+
+		<field-descriptor name="proposalNumber" column="PRPSL_NBR" jdbc-type="BIGINT" primarykey="true" index="true" />
+		<field-descriptor name="billNumber" column="BILL_NBR" jdbc-type="BIGINT" primarykey="true" index="true" />
+		<field-descriptor name="billDescription" column="BILL_DESC" jdbc-type="VARCHAR" index="true" />
+		<field-descriptor name="billIdentifier" column="BILL_ID" jdbc-type="BIGINT" primarykey="true" index="true" autoincrement="true"
+			sequence-name="BILL_ID_SEQ" />
+		<field-descriptor name="billDate" column="BILL_DT" jdbc-type="DATE" index="true" />
+		<field-descriptor name="estimatedAmount" column="EST_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
+		<field-descriptor name="isItBilled" column="IS_IT_BLD" jdbc-type="VARCHAR" index="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 
 	</class-descriptor>
 	

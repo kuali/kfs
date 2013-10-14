@@ -77,7 +77,6 @@
 				<entry key="org.kuali.kfs.integration.cg.ContractAndGrantsProposal" value="org.kuali.kfs.module.cg.businessobject.Proposal" />
 				<entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAgency" value="org.kuali.kfs.module.cg.businessobject.Agency" />
 				<entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsAgency" value="org.kuali.kfs.module.cg.businessobject.Agency" />
-				<entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsBill" value="org.kuali.kfs.module.cg.businessobject.Bill" />
 				<entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsLetterOfCreditFundGroup" value="org.kuali.kfs.module.cg.businessobject.LetterOfCreditFundGroup" />
 				<entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsLetterOfCreditFund" value="org.kuali.kfs.module.cg.businessobject.LetterOfCreditFund" />
 				<entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsAgencyAddress" value="org.kuali.kfs.module.cg.businessobject.AgencyAddress" />
@@ -116,7 +115,6 @@
 
 	<bean id="contractsAndGrantsModuleUpdateService" class="org.kuali.kfs.module.cg.service.impl.ContractsAndGrantsModuleUpdateServiceImpl">
 		<property name="awardService" ref="awardService" />
-		<property name="billDao" ref="billDao" />
 		<property name="businessObjectService" ref="businessObjectService" />
 	</bean>
 	
@@ -142,8 +140,6 @@
 	<bean id="closeDao" parent="platformAwareDao" class="org.kuali.kfs.module.cg.dataaccess.impl.CloseDaoOjb" />
 
 	<bean id="agencyAddressDao" parent="platformAwareDao" class="org.kuali.kfs.module.cg.dataaccess.impl.AgencyAddressDaoOjb" />
-
-	<bean id="billDao" parent="platformAwareDao" class="org.kuali.kfs.module.cg.dataaccess.impl.BillDaoOjb" />
 
 	<!-- Services -->
 	<bean id="closeService" class="org.kuali.kfs.module.cg.service.impl.CloseServiceImpl">

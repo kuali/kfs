@@ -24,7 +24,7 @@ import java.util.Map;
 import java.util.Vector;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsBill;
+import org.kuali.kfs.module.ar.businessobject.Bill;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAwardAccount;
 import org.kuali.kfs.module.ar.businessobject.Milestone;
 import org.kuali.kfs.module.ar.businessobject.InvoiceAccountDetail;
@@ -68,12 +68,13 @@ public class FinalInvoiceTest extends CGInvoiceDocumentSetupTest {
             }
         }
 
-        List<ContractsAndGrantsBill> bills = (List) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsBill.class).getExternalizableBusinessObjectsList(ContractsAndGrantsBill.class, map);
+        List<Bill> bills = (List<Bill>) SpringContext.getBean(BusinessObjectService.class).findMatching(Bill.class, map);
 
         if (CollectionUtils.isEmpty(bills)) {
             Iterator iterator = bills.iterator();
-            while (iterator.hasNext())
-                assertTrue(KFSConstants.ParameterValues.STRING_YES.equals(((ContractsAndGrantsBill) iterator.next()).getIsItBilled()));
+            while (iterator.hasNext()) {
+                assertTrue(KFSConstants.ParameterValues.STRING_YES.equals(((Bill) iterator.next()).getIsItBilled()));
+            }
         }
     }
 

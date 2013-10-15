@@ -782,7 +782,7 @@
 			conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
 		<field-descriptor name="scannedInvoiceDate" column="AR_SCAN_INV_DT" jdbc-type="DATE" />
 		<field-descriptor name="customerPaymentMediumCode" column="CUST_PMT_MEDIUM_CD" jdbc-type="VARCHAR" />
-		<field-descriptor name="processedInvoiceDate" column="AR_PROCESSED_INV_DT" jdbc-type="DATE" />
+		<field-descriptor name="processedInvoiceDate" column="AR_PRCS_INV_DT" jdbc-type="DATE" />
 		<field-descriptor name="batchSequenceNumber" column="AR_BATCH_SEQ_NBR" jdbc-type="INTEGER" />
 		<field-descriptor name="bankCode" column="BNK_CD" jdbc-type="VARCHAR" />
 
@@ -1594,7 +1594,7 @@
 		<field-descriptor name="milestoneDescription" column="MLSTN_DESC" jdbc-type="VARCHAR" index="true" />
 		<field-descriptor name="milestoneAmount" column="MLSTN_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
 		<field-descriptor name="milestoneActualCompletionDate" column="MLSTN_COMPLTN_DT" jdbc-type="DATE" />
-		<field-descriptor name="isItBilled" column="IS_IT_BILLED" jdbc-type="VARCHAR" />
+		<field-descriptor name="billedIndicator" column="BILLED_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 
@@ -1619,7 +1619,7 @@
 			sequence-name="INV_BILL_ID_SEQ" />
 		<field-descriptor name="billDate" column="BILL_DT" jdbc-type="DATE" index="true" />
 		<field-descriptor name="estimatedAmount" column="EST_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
-		<field-descriptor name="isItBilled" column="IS_IT_BILLED" jdbc-type="VARCHAR" index="true" />
+		<field-descriptor name="billedIndicator" column="BILLED_IND" jdbc-type="VARCHAR" index="true" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 		<reference-descriptor name="invoiceDocument" class-ref="org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument"
@@ -2116,7 +2116,7 @@
 		<field-descriptor name="milestoneAmount" column="MLSTN_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
 		<field-descriptor name="milestoneExpectedCompletionDate" column="MLSTN_EXPCTD_COMPLTN_DT" jdbc-type="DATE" />
 		<field-descriptor name="milestoneActualCompletionDate" column="MLSTN_COMPLTN_DT" jdbc-type="DATE" />
-		<field-descriptor name="isItBilled" column="IS_IT_BILLED" jdbc-type="VARCHAR" />
+		<field-descriptor name="billedIndicator" column="BILLED_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 
@@ -2155,7 +2155,7 @@
 			sequence-name="BILL_ID_SEQ" />
 		<field-descriptor name="billDate" column="BILL_DT" jdbc-type="DATE" index="true" />
 		<field-descriptor name="estimatedAmount" column="EST_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
-		<field-descriptor name="isItBilled" column="IS_IT_BLD" jdbc-type="VARCHAR" index="true" />
+		<field-descriptor name="billedIndicator" column="BILLED_IND" jdbc-type="VARCHAR" index="true" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 

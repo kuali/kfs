@@ -41,7 +41,7 @@ public class InvoiceBill extends PersistableBusinessObjectBase implements Accoun
     private String billDescription;
     private Long billIdentifier;
     private Date billDate;
-    private String isItBilled;
+    private boolean billedIndicator;
     private KualiDecimal estimatedAmount;
 
 
@@ -56,7 +56,13 @@ public class InvoiceBill extends PersistableBusinessObjectBase implements Accoun
 
     }
 
+    public boolean isBilledIndicator() {
+        return billedIndicator;
+    }
 
+    public void setBilledIndicator(boolean billedIndicator) {
+        this.billedIndicator = billedIndicator;
+    }
 
     /**
      * Gets the billDate attribute.
@@ -128,16 +134,6 @@ public class InvoiceBill extends PersistableBusinessObjectBase implements Accoun
     }
 
     /**
-     * Gets the isItBilled attribute.
-     *
-     * @return Returns the isItBilled.
-     */
-    @Override
-    public String getIsItBilled() {
-        return isItBilled;
-    }
-
-    /**
      * Gets the proposalNumber attribute.
      *
      * @return Returns the proposalNumber.
@@ -174,6 +170,7 @@ public class InvoiceBill extends PersistableBusinessObjectBase implements Accoun
     public void setBillIdentifier(Long billIdentifier) {
         this.billIdentifier = billIdentifier;
     }
+
 
 
     /**
@@ -215,16 +212,6 @@ public class InvoiceBill extends PersistableBusinessObjectBase implements Accoun
         this.invoiceDocument = invoiceDocument;
     }
 
-
-    /**
-     * Sets the isItBilled attribute value.
-     *
-     * @param isItBilled The isItBilled to set.
-     */
-    public void setIsItBilled(String isItBilled) {
-        this.isItBilled = isItBilled;
-    }
-
     /**
      * Sets the proposalNumber attribute value.
      *
@@ -264,9 +251,7 @@ public class InvoiceBill extends PersistableBusinessObjectBase implements Accoun
             m.put(KFSPropertyConstants.PROPOSAL_NUMBER, this.proposalNumber.toString());
         }
 
-        if (this.isItBilled != null) {
-            m.put("isItBilled", this.isItBilled.toString());
-        }
+        m.put("isBilledIndicator", this.billedIndicator);
 
         if (this.estimatedAmount != null) {
             m.put("estimatedAmount", this.estimatedAmount.toString());

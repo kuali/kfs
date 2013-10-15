@@ -35,7 +35,7 @@ public class Milestone implements AccountsReceivableMilestone {
 
     private Date milestoneActualCompletionDate;
     private Date milestoneExpectedCompletionDate;
-    private String isItBilled;
+    private boolean billedIndicator;
     private ContractsAndGrantsCGBAward award;
 
     /**
@@ -121,23 +121,12 @@ public class Milestone implements AccountsReceivableMilestone {
         this.milestoneAmount = milestoneAmount;
     }
 
-    /**
-     * Gets the isItBilled attribute.
-     *
-     * @return Returns the isItBilled.
-     */
-    @Override
-    public String getIsItBilled() {
-        return isItBilled;
+    public boolean isBilledIndicator() {
+        return billedIndicator;
     }
 
-    /**
-     * Sets the isItBilled attribute value.
-     *
-     * @param isItBilled The isItBilled to set.
-     */
-    public void setIsItBilled(String isItBilled) {
-        this.isItBilled = isItBilled;
+    public void setBilledIndicator(boolean billedIndicator) {
+        this.billedIndicator = billedIndicator;
     }
 
     /**

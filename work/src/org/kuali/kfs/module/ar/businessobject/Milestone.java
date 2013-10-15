@@ -43,7 +43,7 @@ public class Milestone extends PersistableBusinessObjectBase implements Accounts
 
     private Date milestoneActualCompletionDate;
     private Date milestoneExpectedCompletionDate;
-    private String isItBilled;
+    private boolean billedIndicator;
 
 
     private ContractsAndGrantsCGBAward award;
@@ -53,7 +53,7 @@ public class Milestone extends PersistableBusinessObjectBase implements Accounts
      * Constructs a Milestones.java.
      */
     public Milestone() {
-        this.setIsItBilled(KFSConstants.ParameterValues.NO);
+        this.setBilledIndicator(false);
     }
 
     /**
@@ -132,23 +132,13 @@ public class Milestone extends PersistableBusinessObjectBase implements Accounts
         this.milestoneAmount = milestoneAmount;
     }
 
-    /**
-     * Gets the isItBilled attribute.
-     *
-     * @return Returns the isItBilled.
-     */
-    @Override
-    public String getIsItBilled() {
-        return isItBilled;
+
+    public boolean isBilledIndicator() {
+        return billedIndicator;
     }
 
-    /**
-     * Sets the isItBilled attribute value.
-     *
-     * @param isItBilled The isItBilled to set.
-     */
-    public void setIsItBilled(String isItBilled) {
-        this.isItBilled = isItBilled;
+    public void setBilledIndicator(boolean billedIndicator) {
+        this.billedIndicator = billedIndicator;
     }
 
     /**
@@ -242,7 +232,7 @@ public class Milestone extends PersistableBusinessObjectBase implements Accounts
         m.put("milestoneIdentifier", milestoneIdentifier);
         m.put("milestoneDescription", milestoneDescription);
         m.put("milestoneAmount", milestoneAmount);
-        m.put("isItBilled", isItBilled);
+        m.put("isBilledIndicator", billedIndicator);
         return m;
     }
 

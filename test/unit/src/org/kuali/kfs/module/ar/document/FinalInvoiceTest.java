@@ -24,10 +24,10 @@ import java.util.Map;
 import java.util.Vector;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.kuali.kfs.module.ar.businessobject.Bill;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAwardAccount;
-import org.kuali.kfs.module.ar.businessobject.Milestone;
+import org.kuali.kfs.module.ar.businessobject.Bill;
 import org.kuali.kfs.module.ar.businessobject.InvoiceAccountDetail;
+import org.kuali.kfs.module.ar.businessobject.Milestone;
 import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.KFSConstants;
@@ -64,7 +64,7 @@ public class FinalInvoiceTest extends CGInvoiceDocumentSetupTest {
         if (CollectionUtils.isEmpty(milestones)) {
             Iterator<Milestone> iterator = milestones.iterator();
             while (iterator.hasNext()) {
-                assertTrue(KFSConstants.ParameterValues.STRING_YES.equals(iterator.next().getIsItBilled()));
+                assertTrue(iterator.next().isBilledIndicator());
             }
         }
 
@@ -72,9 +72,9 @@ public class FinalInvoiceTest extends CGInvoiceDocumentSetupTest {
 
         if (CollectionUtils.isEmpty(bills)) {
             Iterator iterator = bills.iterator();
-            while (iterator.hasNext()) {
-                assertTrue(KFSConstants.ParameterValues.STRING_YES.equals(((Bill) iterator.next()).getIsItBilled()));
-            }
+
+            while (iterator.hasNext())
+                assertTrue(((Bill) iterator.next()).isBilledIndicator());
         }
     }
 

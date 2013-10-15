@@ -23,7 +23,7 @@ import org.kuali.rice.core.api.util.type.KualiDecimal;
  */
 public enum InvoiceMilestoneFixture {
 
-    INV_MLSTN_1("5030", new Long(111), new Long(111), new Long(1), "Milestone 1", new KualiDecimal(1), "No");
+    INV_MLSTN_1("5030", new Long(111), new Long(111), new Long(1), "Milestone 1", new KualiDecimal(1),false);
 
     private String documentNumber;
     private Long proposalNumber;
@@ -32,16 +32,16 @@ public enum InvoiceMilestoneFixture {
     private String milestoneDescription;
 
     private KualiDecimal milestoneAmount;
-    private String isItBilled;
+    private boolean isBilledIndicator;
 
-    private InvoiceMilestoneFixture(String documentNumber, Long proposalNumber, Long milestoneNumber, Long milestoneIdentifier, String milestoneDescription, KualiDecimal milestoneAmount, String isItBilled) {
+    private InvoiceMilestoneFixture(String documentNumber, Long proposalNumber, Long milestoneNumber, Long milestoneIdentifier, String milestoneDescription, KualiDecimal milestoneAmount, boolean isBilledIndicator) {
         this.documentNumber = documentNumber;
         this.proposalNumber = proposalNumber;
         this.milestoneNumber = milestoneNumber;
         this.milestoneDescription = milestoneDescription;
         this.milestoneAmount = milestoneAmount;
         this.milestoneIdentifier = milestoneIdentifier;
-        this.isItBilled = isItBilled;
+        this.isBilledIndicator = isBilledIndicator;
 
     }
 
@@ -53,7 +53,7 @@ public enum InvoiceMilestoneFixture {
         milestone.setMilestoneIdentifier(this.milestoneIdentifier);
         milestone.setMilestoneDescription(this.milestoneDescription);
         milestone.setMilestoneAmount(this.milestoneAmount);
-        milestone.setIsItBilled(this.isItBilled);
+        milestone.setBilledIndicator(this.isBilledIndicator);
         return milestone;
     }
 }

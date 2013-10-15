@@ -56,11 +56,11 @@ public interface AccountsReceivableMilestone extends ExternalizableBusinessObjec
     public KualiDecimal getMilestoneAmount();
 
     /**
-     * Gets the isItBilled attribute.
+     * Gets the isBilledIndicator attribute.
      *
-     * @return Returns the isItBilled.
+     * @return Returns the isBilledIndicator.
      */
-    public String getIsItBilled();
+    public boolean isBilledIndicator();
 
     /**
      * Gets the milestoneActualCompletionDate attribute.

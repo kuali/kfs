@@ -70,11 +70,11 @@ public interface AccountsReceivableBill extends ExternalizableBusinessObject {
     public KualiDecimal getEstimatedAmount();
 
     /**
-     * Gets the isItBilled attribute.
+     * Gets the isBilledIndicator attribute.
      *
-     * @return Returns the isItBilled.
+     * @return Returns the isBilledIndicator.
      */
-    public String getIsItBilled();
+    public boolean isBilledIndicator();
 
 
 }

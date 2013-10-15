@@ -37,7 +37,7 @@
 				<ref bean="Milestone-milestoneAmount" />
 				<ref bean="Milestone-milestoneExpectedCompletionDate" />
 				<ref bean="Milestone-milestoneActualCompletionDate" />
-				<ref bean="Milestone-isItBilled" />
+				<ref bean="Milestone-billedIndicator" />
 
 			</list>
 		</property>
@@ -138,22 +138,13 @@
 		<property name="shortLabel" value="ActlMileStnDate" />
 	</bean>
 
-	<bean id="Milestone-isItBilled" parent="Milestone-isItBilled-parentBean" />
+	<bean id="Milestone-billedIndicator" parent="Milestone-billedIndicator-parentBean" />
 
-	<bean id="Milestone-isItBilled-parentBean" abstract="true"
-		parent="AttributeDefinition">
-		<property name="name" value="isItBilled" />
+	<bean id="Milestone-billedIndicator-parentBean" abstract="true"
+		parent="GenericAttributes-genericBoolean">
+		<property name="name" value="billedIndicator" />
 		<property name="label" value="Billed" />
 		<property name="shortLabel" value="Billed" />
-		<property name="maxLength" value="4" />
-		<property name="validationPattern">
-			<ref bean="AnyCharacterValidation" />
-		</property>
-		<property name="control">
-			<bean parent="RadioControlDefinition"
-				p:valuesFinderClass="org.kuali.kfs.module.ar.businessobject.options.YesNoValuesFinder"
-				p:includeKeyInLabel="false" />
-		</property>
 	</bean>
 
 
@@ -181,7 +172,7 @@
 							<bean parent="FieldDefinition" p:attributeName="milestoneAmount" />
 							<bean parent="FieldDefinition" p:attributeName="milestoneExpectedCompletionDate" />
 							<bean parent="FieldDefinition" p:attributeName="milestoneActualCompletionDate" />
-							<bean parent="FieldDefinition" p:attributeName="isItBilled" />
+							<bean parent="FieldDefinition" p:attributeName="billedIndicator" />
 						</list>
 					</property>
 				</bean>
@@ -211,7 +202,7 @@
 				<bean parent="FieldDefinition" p:attributeName="milestoneAmount" />
 				<bean parent="FieldDefinition" p:attributeName="milestoneExpectedCompletionDate" />
 				<bean parent="FieldDefinition" p:attributeName="milestoneActualCompletionDate" />
-				<bean parent="FieldDefinition" p:attributeName="isItBilled" />
+				<bean parent="FieldDefinition" p:attributeName="billedIndicator" />
 			</list>
 		</property>
 		<property name="resultFields">
@@ -223,7 +214,7 @@
 				<bean parent="FieldDefinition" p:attributeName="milestoneAmount" />
 				<bean parent="FieldDefinition" p:attributeName="milestoneExpectedCompletionDate" />
 				<bean parent="FieldDefinition" p:attributeName="milestoneActualCompletionDate" />
-				<bean parent="FieldDefinition" p:attributeName="isItBilled" />
+				<bean parent="FieldDefinition" p:attributeName="billedIndicator" />
 			</list>
 		</property>
 	</bean>

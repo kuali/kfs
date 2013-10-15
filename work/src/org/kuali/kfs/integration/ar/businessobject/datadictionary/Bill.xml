@@ -27,7 +27,7 @@
 				<ref bean="Bill-billDescription" />
 				<ref bean="Bill-estimatedAmount" />
 				<ref bean="Bill-billDate" />
-				<ref bean="Bill-isItBilled" />
+				<ref bean="Bill-billedIndicator" />
 
 			</list>
 		</property>
@@ -119,20 +119,13 @@
 		<property name="shortLabel" value="BillDate" />
 	</bean>
 
-	<bean id="Bill-isItBilled" parent="Bill-isItBilled-parentBean" />
+	<bean id="Bill-billedIndicator" parent="Bill-billedIndicator-parentBean" />
 
-	<bean id="Bill-isItBilled-parentBean" abstract="true"
-		parent="AttributeDefinition">
-		<property name="name" value="isItBilled" />
+	<bean id="Bill-billedIndicator-parentBean" abstract="true"
+		parent="GenericAttributes-genericBoolean">
+		<property name="name" value="billedIndicator" />
 		<property name="label" value="Is It Billed" />
-		<property name="shortLabel" value="isItBilled" />
-		<property name="maxLength" value="4" />
-		<property name="validationPattern">
-			<ref bean="AnyCharacterValidation" />
-		</property>
+		<property name="shortLabel" value="billedIndicator" />
 	</bean>
-
-
-
 
 </beans>

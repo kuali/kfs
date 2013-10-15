@@ -23,7 +23,7 @@ import org.kuali.rice.core.api.util.type.KualiDecimal;
  */
 public enum InvoiceBillFixture {
 
-    INV_BILL_1("5030", new Long(111), new Long(111), "Bill 1", new Long(1), new KualiDecimal(1), "No");
+    INV_BILL_1("5030", new Long(111), new Long(111), "Bill 1", new Long(1), new KualiDecimal(1), false);
     private String documentNumber;
     private Long proposalNumber;
     private Long billNumber;
@@ -31,17 +31,17 @@ public enum InvoiceBillFixture {
     private Long billIdentifier;
 
     private KualiDecimal estimatedAmount;
-    private String isItBilled;
+    private boolean isBilledIndicator;
 
 
-    private InvoiceBillFixture(String documentNumber, Long proposalNumber, Long billNumber, String billDescription, Long billIdentifier, KualiDecimal estimatedAmount, String isItBilled) {
+    private InvoiceBillFixture(String documentNumber, Long proposalNumber, Long billNumber, String billDescription, Long billIdentifier, KualiDecimal estimatedAmount, boolean isBilledIndicator) {
         this.documentNumber = documentNumber;
         this.proposalNumber = proposalNumber;
         this.billNumber = billNumber;
         this.billDescription = billDescription;
         this.billIdentifier = billIdentifier;
         this.estimatedAmount = estimatedAmount;
-        this.isItBilled = isItBilled;
+        this.isBilledIndicator = isBilledIndicator;
 
     }
 
@@ -53,7 +53,7 @@ public enum InvoiceBillFixture {
         bill.setBillIdentifier(this.billIdentifier);
         bill.setBillDescription(this.billDescription);
         bill.setEstimatedAmount(this.estimatedAmount);
-        bill.setIsItBilled(this.isItBilled);
+        bill.setBilledIndicator(this.isBilledIndicator);
         return bill;
     }
 }

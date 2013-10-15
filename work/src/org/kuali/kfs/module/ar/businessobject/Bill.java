@@ -41,7 +41,7 @@ public class Bill extends PersistableBusinessObjectBase implements AccountsRecei
     private Date billDate;
 
     private KualiDecimal estimatedAmount = KualiDecimal.ZERO;
-    private String isItBilled;
+    private boolean billedIndicator;
 
 
     private ContractsAndGrantsCGBAward award;
@@ -81,6 +81,14 @@ public class Bill extends PersistableBusinessObjectBase implements AccountsRecei
     @Override
     public Long getBillNumber() {
         return billNumber;
+    }
+
+    public boolean isBilledIndicator() {
+        return billedIndicator;
+    }
+
+    public void setBilledIndicator(boolean billedIndicator) {
+        this.billedIndicator = billedIndicator;
     }
 
     /**
@@ -169,26 +177,6 @@ public class Bill extends PersistableBusinessObjectBase implements AccountsRecei
     }
 
     /**
-     * Gets the isItBilled attribute.
-     *
-     * @return Returns the isItBilled.
-     */
-    @Override
-    public String getIsItBilled() {
-        return isItBilled;
-    }
-
-    /**
-     * Sets the isItBilled attribute value.
-     *
-     * @param isItBilled The isItBilled to set.
-     */
-    public void setIsItBilled(String isItBilled) {
-        this.isItBilled = isItBilled;
-    }
-
-
-    /**
      * Gets the award attribute.
      *
      * @return Returns the award.
@@ -222,7 +210,7 @@ public class Bill extends PersistableBusinessObjectBase implements AccountsRecei
         m.put("billIdentifier", this.billIdentifier);
         m.put("billDate", this.billDate.toString());
         m.put("estimatedAmount", this.estimatedAmount.toString());
-        m.put("isItBilled", this.isItBilled);
+        m.put("isBilledIndicator", this.billedIndicator);
         return m;
     }
 

@@ -29,6 +29,7 @@ import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAwardAccount;
 import org.kuali.kfs.module.ar.businessobject.Milestone;
 import org.kuali.kfs.module.ar.businessobject.ContractsGrantsMilestoneReport;
 import org.kuali.kfs.module.ar.report.ContractsGrantsReportUtils;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.config.property.ConfigContext;
@@ -59,7 +60,7 @@ public class ContractsGrantsMilestoneReportLookupableHelperServiceImpl extends C
 
     /**
      * This method performs the lookup and returns a collection of lookup items
-     *
+     * 
      * @param lookupForm
      * @param kualiLookupable
      * @param resultTable
@@ -77,10 +78,10 @@ public class ContractsGrantsMilestoneReportLookupableHelperServiceImpl extends C
         Collection<Milestone> milestones;
 
         Map<String, Object> map = new HashMap<String, Object>();
-        map.put("isItBilled", "Y");
+        map.put("isBilledIndicator", "Y");
         milestones = SpringContext.getBean(BusinessObjectService.class).findMatching(Milestone.class, map);
         map.clear();
-        map.put("isItBilled", "N");
+        map.put("isBilledIndicator", "N");
         Collection<Milestone> notBilledMilestones = SpringContext.getBean(BusinessObjectService.class).findMatching(Milestone.class, map);
 
         milestones.addAll(notBilledMilestones);
@@ -99,7 +100,12 @@ public class ContractsGrantsMilestoneReportLookupableHelperServiceImpl extends C
             cgMilestoneReport.setMilestoneNumber(milestone.getMilestoneNumber());
             cgMilestoneReport.setMilestoneExpectedCompletionDate(milestone.getMilestoneExpectedCompletionDate());
             cgMilestoneReport.setMilestoneAmount(milestone.getMilestoneAmount());
-            cgMilestoneReport.setIsItBilled(milestone.getIsItBilled());
+            if (milestone.isBilledIndicator()) {
+                cgMilestoneReport.setIsItBilled(KFSConstants.ParameterValues.YES);
+            }
+            else {
+                cgMilestoneReport.setIsItBilled(KFSConstants.ParameterValues.NO);
+            }
 
 
             // filter using lookupForm.getFieldsForLookup()

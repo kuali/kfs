@@ -98,7 +98,7 @@
 							<bean parent="MaintainableFieldDefinition" p:name="milestoneAmount" />
 							<bean parent="MaintainableFieldDefinition" p:name="milestoneExpectedCompletionDate" />
 							<bean parent="MaintainableFieldDefinition" p:name="milestoneActualCompletionDate" />
-							<bean parent="MaintainableFieldDefinition" p:name="isItBilled" />
+							<bean parent="MaintainableFieldDefinition" p:name="billedIndicator" />
 						</list>
 					</property>
 					<property name="maintainableFields">
@@ -113,7 +113,7 @@
 							<bean parent="MaintainableFieldDefinition" p:name="milestoneExpectedCompletionDate"
 								p:required="true" />
 							<bean parent="MaintainableFieldDefinition" p:name="milestoneActualCompletionDate" />
-							<bean parent="MaintainableFieldDefinition" p:name="isItBilled"
+							<bean parent="MaintainableFieldDefinition" p:name="billedIndicator"
 								p:unconditionallyReadOnly="true" />
 						</list>
 					</property>

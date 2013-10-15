@@ -93,7 +93,7 @@ public class UpcomingMilestoneNotificationStep extends AbstractStep {
                 if (ObjectUtils.isNotNull(mil.getMilestoneExpectedCompletionDate())) {
                     Date milestoneDate = mil.getMilestoneExpectedCompletionDate();
                     double days = (today.getTime() - milestoneDate.getTime()) / MILLISECONDS_IN_DAY;
-                    if (days <= limitDays && mil.getIsItBilled().equals(KFSConstants.ParameterValues.STRING_NO) && ObjectUtils.isNull(mil.getMilestoneActualCompletionDate())) {
+                    if (days <= limitDays && !mil.isBilledIndicator() && ObjectUtils.isNull(mil.getMilestoneActualCompletionDate())) {
                         milestonesToNotify.add(mil);
                     }
                 }

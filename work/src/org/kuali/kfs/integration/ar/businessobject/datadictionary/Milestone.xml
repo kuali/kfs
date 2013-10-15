@@ -28,7 +28,7 @@
 				<ref bean="Milestone-milestoneAmount" />
 				<ref bean="Milestone-milestoneExpectedCompletionDate" />
 				<ref bean="Milestone-milestoneActualCompletionDate" />
-				<ref bean="Milestone-isItBilled" />
+				<ref bean="Milestone-billedIndicator" />
 
 			</list>
 		</property>
@@ -129,17 +129,13 @@
 		<property name="shortLabel" value="ActlMileStnDate" />
 	</bean>
 
-	<bean id="Milestone-isItBilled" parent="Milestone-isItBilled-parentBean" />
+	<bean id="Milestone-billedIndicator" parent="Milestone-billedIndicator-parentBean" />
 
-	<bean id="Milestone-isItBilled-parentBean" abstract="true"
-		parent="AttributeDefinition">
-		<property name="name" value="isItBilled" />
+	<bean id="Milestone-billedIndicator-parentBean" abstract="true"
+		parent="GenericAttributes-genericBoolean">
+		<property name="name" value="billedIndicator" />
 		<property name="label" value="Billed" />
 		<property name="shortLabel" value="Billed" />
-		<property name="maxLength" value="4" />
-		<property name="validationPattern">
-			<ref bean="AnyCharacterValidation" />
-		</property>
 	</bean>
 
 

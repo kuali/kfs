@@ -211,7 +211,7 @@ public interface ContractsGrantsInvoiceDocumentService extends CustomerInvoiceDo
     public KualiDecimal retrieveAccurateBalanceAmount(java.sql.Date lastBilledDate, Balance glBalance);
 
     /**
-     * This method get the milestones with the criteria defined and set value to isItBilled.
+     * This method get the milestones with the criteria defined and set value to isBilledIndicator.
      * 
      * @param invoiceMilestones
      * @return
@@ -219,7 +219,7 @@ public interface ContractsGrantsInvoiceDocumentService extends CustomerInvoiceDo
     public void retrieveAndUpdateMilestones(List<InvoiceMilestone> invoiceMilestones, String string) throws Exception;
 
     /**
-     * This method get the bills with the criteria defined and set value to isItBilled.
+     * This method get the bills with the criteria defined and set value to isBilledIndicator.
      * 
      * @param invoiceBills
      * @return

@@ -79,7 +79,7 @@ public class InvoiceCorrectionTest extends CGInvoiceDocumentSetupTest {
                 Milestone id = (Milestone) iterator.next();
                 Milestone cid = (Milestone) correctedIterator.next();
                 assertTrue(id.getMilestoneAmount().equals(cid.getMilestoneAmount().negated()));
-                assertTrue(cid.getIsItBilled().equals("No"));
+                assertTrue(!cid.isBilledIndicator());
             }
         }
     }
@@ -95,7 +95,7 @@ public class InvoiceCorrectionTest extends CGInvoiceDocumentSetupTest {
                 Bill id = (Bill) iterator.next();
                 Bill cid = (Bill) correctedIterator.next();
                 assertTrue(id.getEstimatedAmount().equals(cid.getEstimatedAmount().negated()));
-                assertTrue(cid.getIsItBilled().equals("No"));
+                assertTrue(!cid.isBilledIndicator());
             }
         }
     }

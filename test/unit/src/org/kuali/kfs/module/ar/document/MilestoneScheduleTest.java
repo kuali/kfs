@@ -55,7 +55,7 @@ public class MilestoneScheduleTest extends KualiTestBase {
         milestoneSchedule = new MilestoneSchedule();
         milestoneSchedule.setProposalNumber(new Long(37));
         Milestone milestone = new Milestone();
-        milestone.setIsItBilled("Y");
+        milestone.setBilledIndicator(true);
         milestone.setMilestoneAmount(KualiDecimal.ZERO);
         List list = new LinkedList();
         list.add(milestone);

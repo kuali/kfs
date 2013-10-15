@@ -1765,7 +1765,11 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             ex.printStackTrace();
         }
         for (Milestone milestone : milestones) {
-            milestone.setIsItBilled(value);
+            if(value.equalsIgnoreCase(KFSConstants.ParameterValues.YES) || value.equalsIgnoreCase(KFSConstants.ParameterValues.STRING_YES)){
+            milestone.setBilledIndicator(Boolean.TRUE);
+            }else{
+                milestone.setBilledIndicator(Boolean.FALSE);    
+            }
             getBusinessObjectService().save(milestone);
         }
     }
@@ -1806,10 +1810,16 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
     public void setBillsisItBilled(Criteria criteria, String value) {
         Collection<Bill> bills = getBillDao().getBillsByMatchingCriteria(criteria);
         for (Bill bill : bills) {
-            bill.setIsItBilled(value);
-            SpringContext.getBean(BusinessObjectService.class).save(bill);
+            if (KFSConstants.ParameterValues.YES.equalsIgnoreCase(value) || KFSConstants.ParameterValues.STRING_YES.equalsIgnoreCase(value)) {
+                bill.setBilledIndicator(true);
+            }
+            else {
+                bill.setBilledIndicator(false);
+            }
+            getBusinessObjectService().save(bill);
         }
     }
+
 
     /**
      * Gets the billDao attribute.
@@ -2192,7 +2202,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
 
             for (Milestone awdMilestone : milestones) {
-                if (awdMilestone.getMilestoneActualCompletionDate() != null && !invoiceDate.before(awdMilestone.getMilestoneActualCompletionDate()) && awdMilestone.getIsItBilled().equals(KFSConstants.ParameterValues.NO) && awdMilestone.getMilestoneAmount().isGreaterThan(KualiDecimal.ZERO)) {
+                if (awdMilestone.getMilestoneActualCompletionDate() != null && !invoiceDate.before(awdMilestone.getMilestoneActualCompletionDate()) && !awdMilestone.isBilledIndicator() && awdMilestone.getMilestoneAmount().isGreaterThan(KualiDecimal.ZERO)) {
                     validMilestones.add(awdMilestone);
                 }
             }
@@ -2226,7 +2236,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             java.sql.Date invoiceDate = pair[1];
 
             for (Bill awdBill : bills) {
-                if (awdBill.getBillDate() != null && !invoiceDate.before(awdBill.getBillDate()) && awdBill.getIsItBilled().equals(KFSConstants.ParameterValues.NO) && awdBill.getEstimatedAmount().isGreaterThan(KualiDecimal.ZERO)) {
+                if (awdBill.getBillDate() != null && !invoiceDate.before(awdBill.getBillDate()) && !awdBill.isBilledIndicator() && awdBill.getEstimatedAmount().isGreaterThan(KualiDecimal.ZERO)) {
                     validBills.add(awdBill);
                 }
             }
@@ -2502,7 +2512,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             Iterator<Milestone> iterator = milestones.iterator();
             while (iterator.hasNext()) {
                 Milestone milestone = iterator.next();
-                if (KFSConstants.ParameterValues.YES.equals(milestone.getIsItBilled())) {
+                if (milestone.isBilledIndicator()) {
                     billedToDate = billedToDate.add(milestone.getMilestoneAmount());
                 }
             }
@@ -2524,7 +2534,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             Iterator<Bill> iterator = bills.iterator();
             while (iterator.hasNext()) {
                 Bill bill = iterator.next();
-                if (KFSConstants.ParameterValues.YES.equals(bill.getIsItBilled())) {
+                if (bill.isBilledIndicator()) {
                     billedToDate = billedToDate.add(bill.getEstimatedAmount());
                 }
             }
@@ -3320,7 +3330,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
                 parameterMap.put("#invoiceMilestones[" + i + "].milestoneAmount", returnProperStringValue(document.getInvoiceMilestones().get(i).getMilestoneAmount()));
                 parameterMap.put("#invoiceMilestones[" + i + "].milestoneExpectedCompletionDate", returnProperStringValue(document.getInvoiceMilestones().get(i).getMilestoneExpectedCompletionDate()));
                 parameterMap.put("#invoiceMilestones[" + i + "].milestoneCompletionDate", returnProperStringValue(document.getInvoiceMilestones().get(i).getMilestoneActualCompletionDate()));
-                parameterMap.put("#invoiceMilestones[" + i + "].isItBilled", returnProperStringValue(document.getInvoiceMilestones().get(i).getIsItBilled()));
+                parameterMap.put("#invoiceMilestones[" + i + "].isItBilled", returnProperStringValue(document.getInvoiceMilestones().get(i).isBilledIndicator()));
             }
         }
         if (ObjectUtils.isNotNull(document.getInvoiceGeneralDetail())) {
@@ -3361,7 +3371,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
                 parameterMap.put("#invoiceBills[" + i + "].billIdentifier", returnProperStringValue(document.getInvoiceBills().get(i).getBillIdentifier()));
                 parameterMap.put("#invoiceBills[" + i + "].billDate", returnProperStringValue(document.getInvoiceBills().get(i).getBillDate()));
                 parameterMap.put("#invoiceBills[" + i + "].amount", returnProperStringValue(document.getInvoiceBills().get(i).getEstimatedAmount()));
-                parameterMap.put("#invoiceBills[" + i + "].isItBilled", returnProperStringValue(document.getInvoiceBills().get(i).getIsItBilled()));
+                parameterMap.put("#invoiceBills[" + i + "].isItBilled", returnProperStringValue(document.getInvoiceBills().get(i).isBilledIndicator()));
             }
         }
         if (ObjectUtils.isNotNull(award)) {
@@ -3828,14 +3838,14 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
                     // To consider the completed milestones only.
                     // To check for null - Milestone Completion date.
 
-                    if (awdMilestone.getMilestoneActualCompletionDate() != null && !invoiceDate.before(awdMilestone.getMilestoneActualCompletionDate()) && awdMilestone.getIsItBilled().equals(KFSConstants.ParameterValues.STRING_NO) && awdMilestone.getMilestoneAmount().isGreaterThan(KualiDecimal.ZERO)) {
+                    if (awdMilestone.getMilestoneActualCompletionDate() != null && !invoiceDate.before(awdMilestone.getMilestoneActualCompletionDate()) && !awdMilestone.isBilledIndicator() && awdMilestone.getMilestoneAmount().isGreaterThan(KualiDecimal.ZERO)) {
 
                         InvoiceMilestone invMilestone = new InvoiceMilestone();
                         invMilestone.setProposalNumber(awdMilestone.getProposalNumber());
                         invMilestone.setMilestoneNumber(awdMilestone.getMilestoneNumber());
                         invMilestone.setMilestoneIdentifier(awdMilestone.getMilestoneIdentifier());
                         invMilestone.setMilestoneDescription(awdMilestone.getMilestoneDescription());
-                        invMilestone.setIsItBilled(awdMilestone.getIsItBilled());
+                        invMilestone.setBilledIndicator(awdMilestone.isBilledIndicator());
                         invMilestone.setMilestoneActualCompletionDate(awdMilestone.getMilestoneActualCompletionDate());
                         invMilestone.setMilestoneAmount(awdMilestone.getMilestoneAmount());
                         document.getInvoiceMilestones().add(invMilestone);
@@ -3854,13 +3864,13 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
                 for (Bill awdBill : bills) {
                     // To check for null - Bill Completion date.
                     // To consider the completed milestones only.
-                    if (awdBill.getBillDate() != null && !invoiceDate.before(awdBill.getBillDate()) && awdBill.getIsItBilled().equals(KFSConstants.ParameterValues.STRING_NO) && awdBill.getEstimatedAmount().isGreaterThan(KualiDecimal.ZERO)) {
+                    if (awdBill.getBillDate() != null && !invoiceDate.before(awdBill.getBillDate()) && !awdBill.isBilledIndicator() && awdBill.getEstimatedAmount().isGreaterThan(KualiDecimal.ZERO)) {
                         InvoiceBill invBill = new InvoiceBill();
                         invBill.setProposalNumber(awdBill.getProposalNumber());
                         invBill.setBillNumber(awdBill.getBillNumber());
                         invBill.setBillIdentifier(awdBill.getBillIdentifier());
                         invBill.setBillDescription(awdBill.getBillDescription());
-                        invBill.setIsItBilled(awdBill.getIsItBilled());
+                        invBill.setBilledIndicator(awdBill.isBilledIndicator());
                         invBill.setBillDate(awdBill.getBillDate());
                         invBill.setEstimatedAmount(awdBill.getEstimatedAmount());
                         document.getInvoiceBills().add(invBill);

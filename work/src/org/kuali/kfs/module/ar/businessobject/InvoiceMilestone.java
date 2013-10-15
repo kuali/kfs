@@ -43,7 +43,7 @@ public class InvoiceMilestone extends PersistableBusinessObjectBase implements A
     private Long milestoneNumber;
     private Long milestoneIdentifier;
     private String milestoneDescription;
-    private String isItBilled;
+    private boolean billedIndicator;
     private KualiDecimal milestoneAmount;
     private Date milestoneActualCompletionDate;
     private Date milestoneExpectedCompletionDate;
@@ -56,7 +56,7 @@ public class InvoiceMilestone extends PersistableBusinessObjectBase implements A
      * Constructs a Milestones.java.
      */
     public InvoiceMilestone() {
-        this.setIsItBilled(KFSConstants.ParameterValues.STRING_NO);
+        this.setBilledIndicator(false);
     }
 
     /**
@@ -87,14 +87,12 @@ public class InvoiceMilestone extends PersistableBusinessObjectBase implements A
         return invoiceDocument;
     }
 
-    /**
-     * Gets the isItBilled attribute.
-     *
-     * @return Returns the isItBilled.
-     */
-    @Override
-    public String getIsItBilled() {
-        return isItBilled;
+    public boolean isBilledIndicator() {
+        return billedIndicator;
+    }
+
+    public void setBilledIndicator(boolean billedIndicator) {
+        this.billedIndicator = billedIndicator;
     }
 
     /**
@@ -195,15 +193,6 @@ public class InvoiceMilestone extends PersistableBusinessObjectBase implements A
     }
 
     /**
-     * Sets the isItBilled attribute value.
-     *
-     * @param isItBilled The isItBilled to set.
-     */
-    public void setIsItBilled(String isItBilled) {
-        this.isItBilled = isItBilled;
-    }
-
-    /**
      * Sets the milestoneActualCompletionDate attribute value.
      *
      * @param milestoneActualCompletionDate The milestoneActualCompletionDate to set.
@@ -278,7 +267,7 @@ public class InvoiceMilestone extends PersistableBusinessObjectBase implements A
         LinkedHashMap m = new LinkedHashMap();
         m.put(ArPropertyConstants.CustomerInvoiceDocumentFields.DOCUMENT_NUMBER, this.documentNumber);
         m.put("milestoneDescription", this.milestoneDescription);
-        m.put("isItBilled", this.isItBilled);
+        m.put("isItBilled", this.billedIndicator);
         if (this.proposalNumber != null) {
             m.put(KFSPropertyConstants.PROPOSAL_NUMBER, this.proposalNumber.toString());
         }

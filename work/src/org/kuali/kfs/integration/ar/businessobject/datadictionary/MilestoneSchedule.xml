@@ -36,7 +36,7 @@
 				<ref bean="MilestoneSchedule-milestones.milestoneAmount" />
 				<ref bean="MilestoneSchedule-milestones.milestoneExpectedCompletionDate" />
 				<ref bean="MilestoneSchedule-milestones.milestoneActualCompletionDate" />
-				<ref bean="MilestoneSchedule-milestones.isItBilled" />
+				<ref bean="MilestoneSchedule-milestones.billedIndicator" />
 			</list>
 		</property>
 		<!-- property name="collections">
@@ -215,11 +215,11 @@
 		<property name="name" value="milestones.milestoneActualCompletionDate" />
 	</bean>
 
-	<bean id="MilestoneSchedule-milestones.isItBilled" parent="MilestoneSchedule-milestones.isItBilled-parentBean" />
+	<bean id="MilestoneSchedule-milestones.billedIndicator" parent="MilestoneSchedule-milestones.billedIndicator-parentBean" />
 
-	<bean id="MilestoneSchedule-milestones.isItBilled-parentBean"
-		abstract="true" parent="Milestone-isItBilled">
-		<property name="name" value="milestones.isItBilled" />
+	<bean id="MilestoneSchedule-milestones.billedIndicator-parentBean"
+		abstract="true" parent="Milestone-billedIndicator">
+		<property name="name" value="milestones.billedIndicator" />
 	</bean>
 
 </beans>

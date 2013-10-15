@@ -451,7 +451,7 @@
 							<bean parent="MaintainableFieldDefinition" p:name="billIdentifier" />
 							<bean parent="MaintainableFieldDefinition" p:name="billDate" />
 							<bean parent="MaintainableFieldDefinition" p:name="estimatedAmount" />
-							<bean parent="MaintainableFieldDefinition" p:name="isItBilled"
+							<bean parent="MaintainableFieldDefinition" p:name="billedIndicator"
 								p:defaultValue="No" p:unconditionallyReadOnly="true" />
 						</list>
 					</property>
@@ -465,7 +465,7 @@
 								p:unconditionallyReadOnly="true" />
 							<bean parent="MaintainableFieldDefinition" p:name="billDate" />
 							<bean parent="MaintainableFieldDefinition" p:name="estimatedAmount" />
-							<bean parent="MaintainableFieldDefinition" p:name="isItBilled"
+							<bean parent="MaintainableFieldDefinition" p:name="billedIndicator"
 								p:defaultValue="No" p:unconditionallyReadOnly="true" />
 						</list>
 					</property>

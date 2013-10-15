@@ -19,9 +19,6 @@
 		<addForeignKeyConstraint constraintName="CG_AWD_R1"
 			referencedTableName="CG_LTRCR_FND_T" baseColumnNames="CG_LTRCR_FND_CD"
 			baseTableName="CG_AWD_T" referencedColumnNames="CG_LTRCR_FND_CD" />
-		<addForeignKeyConstraint constraintName="CG_BILL_R2"
-			referencedTableName="CG_AWD_T" baseColumnNames="CGPRPSL_NBR"
-			baseTableName="CG_BILL_T" referencedColumnNames="CGPRPSL_NBR" />
 	</changeSet>
 			
 	<changeSet author="KFSCGB" id="KFSMI1">
@@ -47,8 +44,8 @@
 			referencedTableName="CA_CHART_T" baseColumnNames="FIN_COA_CD"
 			baseTableName="CG_AWD_INV_ACCT_T" referencedColumnNames="FIN_COA_CD" />
 		<addForeignKeyConstraint constraintName="AR_MLSTN_R1"
-			referencedTableName="AR_MLSTN_SCHDL_T" baseColumnNames="CGPRPSL_NBR"
-			baseTableName="AR_MLSTN_T" referencedColumnNames="CGPRPSL_NBR" />
+			referencedTableName="AR_MLSTN_SCHDL_T" baseColumnNames="PRPSL_NBR"
+			baseTableName="AR_MLSTN_T" referencedColumnNames="PRPSL_NBR" />
 		<addForeignKeyConstraint constraintName="CG_AWD_INV_ACCT_R3"
 			referencedTableName="CA_ACCOUNT_T" baseColumnNames="ACCOUNT_NBR,FIN_COA_CD"
 			baseTableName="CG_AWD_INV_ACCT_T" referencedColumnNames="ACCOUNT_NBR,FIN_COA_CD" />

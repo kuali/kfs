@@ -23,12 +23,12 @@
 		<property name="attributes">
 			<list>
 				<ref bean="MilestoneSchedule-proposalNumber" />
-				<ref bean="MilestoneSchedule-award.agency.fullName" />
+				<!-- <ref bean="MilestoneSchedule-award.agency.fullName" />
 				<ref bean="MilestoneSchedule-award.awardTotalAmount" />
 				<ref bean="MilestoneSchedule-totalAmountScheduled" />
-				<ref bean="MilestoneSchedule-totalAmountRemaining" />
+				<ref bean="MilestoneSchedule-totalAmountRemaining" /> -->
 				<ref bean="MilestoneSchedule-milestoneScheduleInquiryTitle" />
-				<ref bean="MilestoneSchedule-award.awardEndingDate" />
+				<!-- <ref bean="MilestoneSchedule-award.awardEndingDate" /> -->
 				<ref bean="MilestoneSchedule-milestones.proposalNumber" />
 				<ref bean="MilestoneSchedule-milestones.milestoneNumber" />
 				<ref bean="MilestoneSchedule-milestones.milestoneIdentifier" />

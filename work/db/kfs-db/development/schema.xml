@@ -1305,7 +1305,7 @@
         <column name="BILL_DESC" size="45" type="VARCHAR"/>
         <column name="BILL_DT" type="TIMESTAMP"/>
         <column name="EST_AMT" size="7" type="DECIMAL"/>
-        <column name="IS_IT_BLD" size="5" type="VARCHAR"/>
+        <column name="BILLED_IND" size="5" type="VARCHAR"/>
         <foreign-key foreignTable="AR_INV_DOC_T" name="AR_INV_BILL_FK1">
             <reference foreign="FDOC_NBR" local="FDOC_NBR"/>
         </foreign-key>
@@ -1598,7 +1598,7 @@
         <column name="MLSTN_DESC" size="45" type="VARCHAR"/>
         <column name="MLSTN_COMPLTN_DT" type="TIMESTAMP"/>
         <column name="MLSTN_AMT" size="7" type="DECIMAL"/>
-        <column name="IS_IT_BLD" size="5" type="VARCHAR"/>
+        <column name="BILLED_IND" size="5" type="VARCHAR"/>
         <foreign-key foreignTable="AR_INV_DOC_T" name="AR_INV_MLSTN_FK1">
             <reference foreign="FDOC_NBR" local="FDOC_NBR"/>
         </foreign-key>
@@ -1745,7 +1745,7 @@
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
         <column name="MLSTN_DESC" size="45" type="VARCHAR"/>
         <column name="MLSTN_AMT" scale="2" size="19" type="DECIMAL"/>
-        <column name="IS_IT_BLD" size="5" type="VARCHAR"/>
+        <column name="BILLED_IND" size="5" type="VARCHAR"/>
         <column default="0" name="MLSTN_NBR" size="12" type="DECIMAL"/>
         <column default="0" name="PRPSL_NBR" primaryKey="true" size="12" type="DECIMAL"/>
         <column name="MLSTN_COMPLTN_DT" type="TIMESTAMP"/>
@@ -4427,7 +4427,7 @@
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
         <column name="BILL_DT" type="TIMESTAMP"/>
         <column name="EST_AMT" size="7" type="DECIMAL"/>
-        <column name="IS_IT_BLD" size="5" type="VARCHAR"/>
+        <column name="BILLED_IND" size="5" type="VARCHAR"/>
         <column name="BILL_DESC" size="45" type="VARCHAR"/>
         <foreign-key foreignTable="CG_AWD_T" name="CG_BILL_FK1">
             <reference foreign="CGPRPSL_NBR" local="CGPRPSL_NBR"/>

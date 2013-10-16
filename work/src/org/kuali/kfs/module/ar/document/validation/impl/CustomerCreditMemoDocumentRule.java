@@ -54,7 +54,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
 
 public class CustomerCreditMemoDocumentRule extends TransactionalDocumentRuleBase implements RecalculateCustomerCreditMemoDetailRule<TransactionalDocument>, RecalculateCustomerCreditMemoDocumentRule<TransactionalDocument>, ContinueCustomerCreditMemoDocumentRule<TransactionalDocument> {
 
-    protected static final KualiDecimal ALLOWED_QTY_DEVIATION = new KualiDecimal("0.10");
+    protected static final BigDecimal ALLOWED_QTY_DEVIATION = new BigDecimal("0.10");
 
     public CustomerCreditMemoDocumentRule() {
     }
@@ -163,8 +163,8 @@ public class CustomerCreditMemoDocumentRule extends TransactionalDocumentRuleBas
     }
 
     public boolean isCustomerCreditMemoQtyLessThanEqualToInvoiceOpenQty(CustomerCreditMemoDetail customerCreditMemoDetail) {
-        KualiDecimal invoiceOpenItemQty = customerCreditMemoDetail.getInvoiceOpenItemQuantity();
-        KualiDecimal customerCreditMemoItemQty = new KualiDecimal(customerCreditMemoDetail.getCreditMemoItemQuantity());
+        BigDecimal invoiceOpenItemQty = customerCreditMemoDetail.getInvoiceOpenItemQuantity();
+        BigDecimal customerCreditMemoItemQty = customerCreditMemoDetail.getCreditMemoItemQuantity();
 
         // customer credit memo quantity must not be greater than invoice open item quantity
         boolean validQuantity = (customerCreditMemoItemQty.compareTo(invoiceOpenItemQty) < 1 ? true : false);
@@ -177,7 +177,7 @@ public class CustomerCreditMemoDocumentRule extends TransactionalDocumentRuleBas
 
     public boolean checkIfCustomerCreditMemoQtyAndCustomerCreditMemoItemAmountValid(CustomerCreditMemoDetail customerCreditMemoDetail, BigDecimal unitPrice) {
         KualiDecimal creditAmount = customerCreditMemoDetail.getCreditMemoItemTotalAmount();
-        KualiDecimal creditQuantity = new KualiDecimal(customerCreditMemoDetail.getCreditMemoItemQuantity());
+        BigDecimal creditQuantity = customerCreditMemoDetail.getCreditMemoItemQuantity();
 
         // if unit price is zero, leave this validation, as it will cause an exception below by attempting to divide by zero
         if (unitPrice.compareTo(BigDecimal.ZERO) == 0) {
@@ -186,17 +186,18 @@ public class CustomerCreditMemoDocumentRule extends TransactionalDocumentRuleBas
         }
 
         // determine the expected exact total credit memo quantity, based on actual credit amount entered
-        KualiDecimal expectedCreditQuantity = creditAmount.divide(new KualiDecimal(unitPrice), true);
-        if (expectedCreditQuantity == null || expectedCreditQuantity.isZero()) {
-            expectedCreditQuantity = new KualiDecimal(0.01d);
-            return true;
+        BigDecimal expectedCreditQuantity = creditAmount.bigDecimalValue().divide(unitPrice, ArConstants.ITEM_QUANTITY_SCALE, BigDecimal.ROUND_HALF_UP);
+
+        // return false if the expected quantity is 0 while the actual quantity is not
+        if (expectedCreditQuantity.compareTo(BigDecimal.ZERO) == 0 && creditQuantity.compareTo(BigDecimal.ZERO) != 0) {
+            return false;
         }
 
         // determine the deviation percentage that the actual creditQuantity has from expectedCreditQuantity
-        KualiDecimal deviationPercentage = expectedCreditQuantity.subtract(creditQuantity).abs().divide(expectedCreditQuantity);
+        BigDecimal deviationPercentage = creditQuantity.subtract(expectedCreditQuantity).divide(expectedCreditQuantity, ArConstants.ITEM_QUANTITY_SCALE, BigDecimal.ROUND_HALF_UP).abs();
 
         // only allow a certain deviation of creditQuantity from the expectedCreditQuantity
-        boolean validFlag = (deviationPercentage.isLessEqual(ALLOWED_QTY_DEVIATION));
+        boolean validFlag = deviationPercentage.compareTo(ALLOWED_QTY_DEVIATION) < 1;
 
         if (!validFlag) {
             GlobalVariables.getMessageMap().putError(ArPropertyConstants.CustomerCreditMemoDocumentFields.CREDIT_MEMO_ITEM_QUANTITY, ArKeyConstants.ERROR_CUSTOMER_CREDIT_MEMO_DETAIL_INVALID_DATA_INPUT);

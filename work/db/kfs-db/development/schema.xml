@@ -802,6 +802,23 @@
             <unique-column name="OBJ_ID"/>
         </unique>
     </table>
+    <table name="AR_BILL_T">
+        <column default="0" name="BILL_NBR" primaryKey="true" size="12" type="DECIMAL"/>
+        <column default="0" name="PRPSL_NBR" primaryKey="true" size="12" type="DECIMAL"/>
+        <column default="0" name="BILL_ID" primaryKey="true" size="12" type="DECIMAL"/>
+        <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
+        <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
+        <column name="BILL_DT" type="TIMESTAMP"/>
+        <column name="EST_AMT" size="7" type="DECIMAL"/>
+        <column name="BILLED_IND" size="5" type="VARCHAR"/>
+        <column name="BILL_DESC" size="45" type="VARCHAR"/>
+        <foreign-key foreignTable="CG_AWD_T" name="CG_BILL_FK1">
+            <reference foreign="CGPRPSL_NBR" local="PRPSL_NBR"/>
+        </foreign-key>
+        <unique name="SYS_C0010102921">
+            <unique-column name="OBJ_ID"/>
+        </unique>
+    </table>
     <table name="AR_CATEGORIES_T">
         <column name="CTGRY_CD" primaryKey="true" size="4" type="VARCHAR"/>
         <column name="CTGRY_NM" size="255" type="VARCHAR"/>
@@ -4416,23 +4433,6 @@
         <column name="ACTV_IND" required="true" size="1" type="VARCHAR"/>
         <column default="0" name="GRACE_PERIOD" size="3" type="VARCHAR"/>
         <unique name="SYS_C0010102899">
-            <unique-column name="OBJ_ID"/>
-        </unique>
-    </table>
-    <table name="CG_BILL_T">
-        <column default="0" name="BILL_NBR" primaryKey="true" size="12" type="DECIMAL"/>
-        <column default="0" name="CGPRPSL_NBR" primaryKey="true" size="12" type="DECIMAL"/>
-        <column default="0" name="BILL_ID" primaryKey="true" size="12" type="DECIMAL"/>
-        <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
-        <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
-        <column name="BILL_DT" type="TIMESTAMP"/>
-        <column name="EST_AMT" size="7" type="DECIMAL"/>
-        <column name="BILLED_IND" size="5" type="VARCHAR"/>
-        <column name="BILL_DESC" size="45" type="VARCHAR"/>
-        <foreign-key foreignTable="CG_AWD_T" name="CG_BILL_FK1">
-            <reference foreign="CGPRPSL_NBR" local="CGPRPSL_NBR"/>
-        </foreign-key>
-        <unique name="SYS_C0010102921">
             <unique-column name="OBJ_ID"/>
         </unique>
     </table>

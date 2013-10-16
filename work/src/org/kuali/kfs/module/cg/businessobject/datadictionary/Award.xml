@@ -1439,7 +1439,7 @@
 					<property name="inquiryFields">
 						<list>
 							<bean parent="InquiryCollectionDefinition" p:attributeName="milestones"
-								p:businessObjectClass="org.kuali.kfs.integration.ar.businessobject.Milestone">
+								p:businessObjectClass="org.kuali.kfs.integration.ar.AccountsReceivableMilestone">
 								<property name="inquiryFields">
 									<list>
 										<bean parent="FieldDefinition" p:attributeName="milestoneNumber" />

@@ -1435,7 +1435,7 @@
 						</list>
 					</property>
 				</bean>
-				<bean parent="InquirySectionDefinition" p:title="Milestones - Completed">
+				<!-- <bean parent="InquirySectionDefinition" p:title="Milestones - Completed">
 					<property name="inquiryFields">
 						<list>
 							<bean parent="InquiryCollectionDefinition" p:attributeName="milestones"
@@ -1447,13 +1447,13 @@
 										<bean parent="FieldDefinition" p:attributeName="milestoneDescription" />
 										<bean parent="FieldDefinition" p:attributeName="milestoneAmount" />
 										<bean parent="FieldDefinition" p:attributeName="milestoneActualCompletionDate" />
-										<!-- <bean parent="FieldDefinition" p:attributeName="billedIndicator" /> -->
+										<bean parent="FieldDefinition" p:attributeName="billedIndicator" />
 									</list>
 								</property>
 							</bean>
 						</list>
 					</property>
-				</bean>
+				</bean> -->
 				<bean parent="InquirySectionDefinition">
 					<property name="title" value="Predetermined Schedule" />
 					<property name="numberOfColumns" value="1" />

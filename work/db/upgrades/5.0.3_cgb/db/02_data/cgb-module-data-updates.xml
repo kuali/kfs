@@ -16,13 +16,13 @@
 			<column name="INV_TYP_CD" value="SCHD" />
 			<column name="INV_TYP_DESC" value="Scheduled" />
 			<column name="ACTV_IND" value="Y" />
-			<column name="OBJ_ID" valueComputed="SYS_GUID" />
+			<column name="OBJ_ID" valueComputed="SYS_GUID()" />
 		</insert>
  		<insert tableName="CG_INV_TYP_T">
 			<column name="INV_TYP_CD" value="STD" />
 			<column name="INV_TYP_DESC" value="Standard" />
 			<column name="ACTV_IND" value="Y" />
-			<column name="OBJ_ID" valueComputed="SYS_GUID" />
+			<column name="OBJ_ID" valueComputed="SYS_GUID()" />
 		</insert>
 		<delete tableName="CG_BILL_FREQ_T">
 			<where>BILL_FREQ_CD='BILL'</where>
@@ -37,7 +37,7 @@
 			<column name="BILL_FREQ_CD" value="PDBS" />
 			<column name="BILL_FREQ_DESC" value="Predetermined Billing Schedule" />
 			<column name="ACTV_IND" value="Y" />
-			<column name="OBJ_ID" valueComputed="SYS_GUID" />
+			<column name="OBJ_ID" valueComputed="SYS_GUID()" />
 		</insert>
 		<update tableName="CG_FIN_FORM_TYP_T">
 			<column name="FIN_FORM_TYP_DESC">Federal SF-269A</column>
@@ -71,67 +71,67 @@
 			<column name="CNTRCT_GRNT_TYP_CD" value="CCS" />
 			<column name="CNTRCT_GRNT_TYP_DESC" value="Contract - Cost Share" />
 			<column name="ACTV_IND" value="Y" />
-			<column name="OBJ_ID" valueComputed="SYS_GUID" />
+			<column name="OBJ_ID" valueComputed="SYS_GUID()" />
 		</insert>
 		<insert tableName="CG_CNTRCT_GRNT_TYP_T">
 			<column name="CNTRCT_GRNT_TYP_CD" value="CMS" />
 			<column name="CNTRCT_GRNT_TYP_DESC" value="Contract - Milestone" />
 			<column name="ACTV_IND" value="Y" />
-			<column name="OBJ_ID" valueComputed="SYS_GUID" />
+			<column name="OBJ_ID" valueComputed="SYS_GUID()" />
 		</insert>
 		<insert tableName="CG_CNTRCT_GRNT_TYP_T">
 			<column name="CNTRCT_GRNT_TYP_CD" value="CPB" />
 			<column name="CNTRCT_GRNT_TYP_DESC" value="Contract - Predetermined Billing Schedule" />
 			<column name="ACTV_IND" value="Y" />
-			<column name="OBJ_ID" valueComputed="SYS_GUID" />
+			<column name="OBJ_ID" valueComputed="SYS_GUID()" />
 		</insert>
 		<insert tableName="CG_CNTRCT_GRNT_TYP_T">
 			<column name="CNTRCT_GRNT_TYP_CD" value="CPP" />
 			<column name="CNTRCT_GRNT_TYP_DESC" value="Contract - Prepaid" />
 			<column name="ACTV_IND" value="Y" />
-			<column name="OBJ_ID" valueComputed="SYS_GUID" />
+			<column name="OBJ_ID" valueComputed="SYS_GUID()" />
 		</insert>
 		<insert tableName="CG_CNTRCT_GRNT_TYP_T">
 			<column name="CNTRCT_GRNT_TYP_CD" value="CSC" />
 			<column name="CNTRCT_GRNT_TYP_DESC" value="Contract - Subcontract" />
 			<column name="ACTV_IND" value="Y" />
-			<column name="OBJ_ID" valueComputed="SYS_GUID" />
+			<column name="OBJ_ID" valueComputed="SYS_GUID()" />
 		</insert>
 		<insert tableName="CG_CNTRCT_GRNT_TYP_T">
 			<column name="CNTRCT_GRNT_TYP_CD" value="GCS" />
 			<column name="CNTRCT_GRNT_TYP_DESC" value="Grant - Cost Share" />
 			<column name="ACTV_IND" value="Y" />
-			<column name="OBJ_ID" valueComputed="SYS_GUID" />
+			<column name="OBJ_ID" valueComputed="SYS_GUID()" />
 		</insert>
 		<insert tableName="CG_CNTRCT_GRNT_TYP_T">
 			<column name="CNTRCT_GRNT_TYP_CD" value="GMS" />
 			<column name="CNTRCT_GRNT_TYP_DESC" value="Grant - Milestone" />
 			<column name="ACTV_IND" value="Y" />
-			<column name="OBJ_ID" valueComputed="SYS_GUID" />
+			<column name="OBJ_ID" valueComputed="SYS_GUID()" />
 		</insert>
 		<insert tableName="CG_CNTRCT_GRNT_TYP_T">
 			<column name="CNTRCT_GRNT_TYP_CD" value="GPB" />
 			<column name="CNTRCT_GRNT_TYP_DESC" value="Grant - Predetermined Billing Schedule" />
 			<column name="ACTV_IND" value="Y" />
-			<column name="OBJ_ID" valueComputed="SYS_GUID" />
+			<column name="OBJ_ID" valueComputed="SYS_GUID()" />
 		</insert>
 		<insert tableName="CG_CNTRCT_GRNT_TYP_T">
 			<column name="CNTRCT_GRNT_TYP_CD" value="GPP" />
 			<column name="CNTRCT_GRNT_TYP_DESC" value="Grant - Prepaid" />
 			<column name="ACTV_IND" value="Y" />
-			<column name="OBJ_ID" valueComputed="SYS_GUID" />
+			<column name="OBJ_ID" valueComputed="SYS_GUID()" />
 		</insert>
 		<insert tableName="CG_SRC_OF_FNDS_T">
 			<column name="SRC_OF_FNDS_CD" value="STF" />
 			<column name="SRC_OF_FNDS_DESC" value="State Funds" />
 			<column name="ACTV_IND" value="Y" />
-			<column name="OBJ_ID" valueComputed="SYS_GUID" />
+			<column name="OBJ_ID" valueComputed="SYS_GUID()" />
 		</insert>
 		<insert tableName="CG_SRC_OF_FNDS_T">
 			<column name="SRC_OF_FNDS_CD" value="IF" />
 			<column name="SRC_OF_FNDS_DESC" value="Internal Funds" />
 			<column name="ACTV_IND" value="Y" />
-			<column name="OBJ_ID" valueComputed="SYS_GUID" />
+			<column name="OBJ_ID" valueComputed="SYS_GUID()" />
 		</insert>
 		<delete tableName="CG_SRC_OF_FNDS_T">
 			<where>SRC_OF_FNDS_CD='RF'</where>
@@ -145,7 +145,7 @@
 	<changeSet author="KFSCGB" id="AR_PMT_MEDIUM_T_LOC_ADD">
 		<insert tableName="AR_PMT_MEDIUM_T">
 			<column name="CUST_PMT_MEDIUM_CD" value="LW" />
-			<column name="OBJ_ID" valueComputed="SYS_GUID" />
+			<column name="OBJ_ID" valueComputed="SYS_GUID()" />
 			<column name="VER_NBR" value="1" />
 			<column name="CUST_PMT_MEDM_DESC" value="LOC Wire" />
 			<column name="ACTV_IND" value="Y" />
@@ -163,7 +163,7 @@
 		</delete>
 		<insert tableName="CG_BILL_FREQ_T">
 			<column name="BILL_FREQ_CD" value="BILL" />
-			<column name="OBJ_ID" valueComputed="SYS_GUID" />
+			<column name="OBJ_ID" valueComputed="SYS_GUID()" />
 			<column name="VER_NBR" value="1" />
 			<column name="BILL_FREQ_DESC" value="Billing" />
 			<column name="ACTV_IND" value="Y" />
@@ -178,7 +178,7 @@
 	<changeSet author="KFSCGB" id="CG_BILL_FREQ_T_INSERT">
 		<insert tableName="CG_BILL_FREQ_T">
 			<column name="BILL_FREQ_CD" value="LOCB" />
-			<column name="OBJ_ID" valueComputed="SYS_GUID" />
+			<column name="OBJ_ID" valueComputed="SYS_GUID()" />
 			<column name="VER_NBR" value="1" />
 			<column name="BILL_FREQ_DESC" value="LOC Billing" />
 			<column name="ACTV_IND" value="Y" />
@@ -215,7 +215,7 @@
 	<changeSet author="KFSCGB" id="CG_AGENCY_TYP_T_ADD_DEFAULT">
 		<insert tableName="CG_AGENCY_TYP_T">
 			<column name="CG_AGENCY_TYP_CD" value="X" />
-			<column name="OBJ_ID" valueComputed="SYS_GUID" />
+			<column name="OBJ_ID" valueComputed="SYS_GUID()" />
 			<column name="VER_NBR" value="1" />
 			<column name="CG_AGENCY_TYP_DESC" value="Default Type From Ext System" />
 			<column name="ACTV_IND" value="Y" />

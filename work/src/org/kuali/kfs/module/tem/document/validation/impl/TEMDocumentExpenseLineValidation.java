@@ -29,6 +29,7 @@ import org.kuali.kfs.module.tem.businessobject.PerDiemExpense;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
+import org.kuali.kfs.sys.util.KfsDateUtils;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DictionaryValidationService;
@@ -64,7 +65,16 @@ public abstract class TEMDocumentExpenseLineValidation extends GenericValidation
             perDiem = PerDiemType.lodging;
         }
         else if (actualExpense.isIncidental() && isPerDiemIncidentalEntered(document.getPerDiemExpenses())) {
-            perDiem = PerDiemType.refreshment;
+            perDiem = PerDiemType.incidentals;
+        }
+        else if (actualExpense.isBreakfast() && isPerDiemBreakfastEntered(actualExpense.getExpenseDate(), document.getPerDiemExpenses())) {
+            perDiem = PerDiemType.breakfast;
+        }
+        else if (actualExpense.isLunch() && isPerDiemLunchEntered(actualExpense.getExpenseDate(), document.getPerDiemExpenses())) {
+            perDiem = PerDiemType.lunch;
+        }
+        else if (actualExpense.isDinner() && isPerDiemDinnerEntered(actualExpense.getExpenseDate(), document.getPerDiemExpenses())) {
+            perDiem = PerDiemType.dinner;
         }
 
         if (perDiem != null){
@@ -138,6 +148,51 @@ public abstract class TEMDocumentExpenseLineValidation extends GenericValidation
     protected boolean isPerDiemIncidentalEntered(List<PerDiemExpense> perDiemExpenses) {
         for (PerDiemExpense perDiemExpenseLine : perDiemExpenses) {
             if (perDiemExpenseLine.getLodgingTotal().isGreaterThan(KualiDecimal.ZERO)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Loops through given per diem expenses to see if the per diem associated with the given expense date has a breakfast amount added
+     * @param expenseDate the date of the actual expense we're validating
+     * @param perDiemExpenses the per diem expenses associated with the document we're validating
+     * @return true if breakfast is added; false otherwise
+     */
+    protected boolean isPerDiemBreakfastEntered(java.sql.Date expenseDate, List<PerDiemExpense> perDiemExpenses) {
+        for (PerDiemExpense perDiemExpenseLine : perDiemExpenses) {
+            if (KfsDateUtils.isSameDay(perDiemExpenseLine.getMileageDate(), expenseDate) && perDiemExpenseLine.getBreakfastValue().isGreaterThan(KualiDecimal.ZERO)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Loops through given per diem expenses to see if the per diem associated with the given expense date has a lunch amount added
+     * @param expenseDate the date of the actual expense we're validating
+     * @param perDiemExpenses the per diem expenses associated with the document we're validating
+     * @return true if lunch is added; false otherwise
+     */
+    protected boolean isPerDiemLunchEntered(java.sql.Date expenseDate, List<PerDiemExpense> perDiemExpenses) {
+        for (PerDiemExpense perDiemExpenseLine : perDiemExpenses) {
+            if (KfsDateUtils.isSameDay(perDiemExpenseLine.getMileageDate(), expenseDate) && perDiemExpenseLine.getLunchValue().isGreaterThan(KualiDecimal.ZERO)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Loops through given per diem expenses to see if the per diem associated with the given expense date has a dinner amount added
+     * @param expenseDate the date of the actual expense we're validating
+     * @param perDiemExpenses the per diem expenses associated with the document we're validating
+     * @return true if dinner is added; false otherwise
+     */
+    protected boolean isPerDiemDinnerEntered(java.sql.Date expenseDate, List<PerDiemExpense> perDiemExpenses) {
+        for (PerDiemExpense perDiemExpenseLine : perDiemExpenses) {
+            if (KfsDateUtils.isSameDay(perDiemExpenseLine.getMileageDate(), expenseDate) && perDiemExpenseLine.getDinnerValue().isGreaterThan(KualiDecimal.ZERO)) {
                 return true;
             }
         }

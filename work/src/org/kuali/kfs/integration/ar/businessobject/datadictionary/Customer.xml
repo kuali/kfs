@@ -326,6 +326,9 @@
 		<property name="validationPattern">
 			<ref bean="AnyCharacterValidation" />
 		</property>
+	<property name="control">
+			<bean parent="TextControlDefinition" p:size="2" />
+		</property>
 	</bean>
 
 	<bean id="Customer-customerType.customerTypeDescription"

@@ -291,8 +291,8 @@
 			<column name="MLSTN_DESC" type="varchar(45)" />
 			<column name="MLSTN_AMT" type="decimal(19,2)" />
 			<column name="BILLED_IND" type="varchar(1)" />
-			<column name="MLSTN_NBR" type="decimal(12,0)" defaultValue="0" />
-			<column name="CGPRPSL_NBR" type="decimal(12,0)" defaultValue="0" />
+			<column name="MLSTN_NBR" type="decimal(12,0)" > <constraints primaryKey="true" nullable="false" /></column>
+			<column name="PRPSL_NBR" type="decimal(12,0)" ><constraints primaryKey="true" nullable="false" /></column>
 			<column name="MLSTN_COMPLTN_DT" type="datetime" />
 			<column name="MLSTN_EXPCTD_COMPLTN_DT" type="datetime" />
 		</createTable>
@@ -436,20 +436,6 @@
 
 	</changeSet>
 
-
-	<changeSet author="kfs" id="AR_MLSTN_MOD1">
-		
-		<addColumn tableName="AR_MLSTN_T">
-			<column name="MLSTN_NBR" type="decimal(12,0)" defaultValue="0" />
-			<column name="PRPSL_NBR" type="decimal(12,0)" defaultValue="0" />
-		</addColumn>
-		<addPrimaryKey tableName="AR_MLSTN_T" columnNames="PRPSL_NBR,MLSTN_ID" />
-		<modifySql dbms="oracle">
-			<replace replace="varchar" with="varchar2" />
-			<replace replace="decimal" with="number" />
-			<replace replace="datetime" with="date" />
-		</modifySql>
-	</changeSet>
 
 	<changeSet author="KFSCGB" id="AR_INV_AGENCY_ADDR_DTL_T">
 		<createTable tableName="AR_INV_AGENCY_ADDR_DTL_T">

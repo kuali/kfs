@@ -44,6 +44,8 @@ import org.kuali.kfs.module.tem.service.TravelService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.kew.api.KewApiServiceLocator;
+import org.kuali.rice.kew.api.document.attribute.DocumentAttributeIndexingQueue;
 import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.bo.Note;
@@ -110,6 +112,9 @@ public class AmendQuestionHandler implements QuestionHandler<TravelDocument> {
             final Note newNote = getDocumentService().createNoteFromDocument(document, noteText.toString());
             newNote.setNoteText(noteText.toString());
             document.updateAppDocStatus(TravelAuthorizationStatusCodeKeys.PEND_AMENDMENT);
+
+            final DocumentAttributeIndexingQueue documentAttributeIndexingQueue = KewApiServiceLocator.getDocumentAttributeIndexingQueue();
+            documentAttributeIndexingQueue.indexDocument(document.getDocumentNumber());
 
             TravelAuthorizationAmendmentDocument taaDocument = ((TravelAuthorizationDocument) document).toCopyTAA();
             taaDocument.addNote(newNote);

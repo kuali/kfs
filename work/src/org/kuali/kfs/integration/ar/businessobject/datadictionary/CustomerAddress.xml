@@ -51,14 +51,6 @@
 				<ref bean="CustomerAddress-agencyPrintEnvelopesNumber" />
 			</list>
 		</property>
-		<property name="relationships">
-			<list>
-				<dd:relationship objectAttribute="customerCountry">
-					<dd:primitiveAttribute source="customerCountryCode"
-						target="code" />
-				</dd:relationship>
-			</list>
-		</property>
 	</bean>
 
 	<!-- Attribute Definitions -->
@@ -102,9 +94,7 @@
 			<ref bean="AnyCharacterValidation" />
 		</property>
 		<property name="control">
-			<bean parent="SelectControlDefinition"
-				p:valuesFinderClass="org.kuali.kfs.module.ar.businessobject.options.CustomerAddressTypeValuesFinder"
-				p:includeKeyInLabel="false" />
+			<bean parent="TextControlDefinition" p:size="2" />
 		</property>
 	</bean>
 
@@ -250,9 +240,7 @@
 		<property name="shortLabel" value="Country" />
 	    <property name="required" value="false"/>
 		<property name="control">
-			<bean parent="SelectControlDefinition"
-				p:valuesFinderClass="org.kuali.rice.location.framework.country.CountryNotRestrictedValuesFinder"
-				p:includeKeyInLabel="false" />
+			<bean parent="TextControlDefinition" p:size="30" />
 		</property>
 	</bean>
 
@@ -290,9 +278,7 @@
 			<ref bean="AnyCharacterValidation" />
 		</property>
 		<property name="control">
-			<bean parent="SelectControlDefinition"
-				p:valuesFinderClass="org.kuali.kfs.module.cg.businessobject.options.AgencyInvoiceTemplateValuesFinder"
-				p:includeKeyInLabel="false" />
+			<bean parent="TextControlDefinition" p:size="10" />
 		</property>
 	</bean>
 
@@ -310,9 +296,7 @@
 			<ref bean="AnyCharacterValidation" />
 		</property>
 		<property name="control">
-			<bean parent="SelectControlDefinition"
-				p:valuesFinderClass="org.kuali.kfs.module.ar.businessobject.options.InvoiceIndicatorValuesFinder"
-				p:includeKeyInLabel="false" />
+			<bean parent="TextControlDefinition" p:size="10" />
 		</property>
 	</bean>
 

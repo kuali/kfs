@@ -21,6 +21,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomerAddressType;
+import org.kuali.kfs.integration.ar.AccountsReceivableInvoiceIndicator;
 import org.kuali.kfs.integration.ar.AccountsReceivableInvoiceTemplate;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsAgencyAddress;
 import org.kuali.kfs.module.cg.CGConstants;
@@ -70,7 +71,7 @@ public class AgencyAddress extends PersistableBusinessObjectBase implements Comp
     private AccountsReceivableInvoiceTemplate agencyInvoiceTemplate;
 
     // Invoice Indicator link
-
+    private AccountsReceivableInvoiceIndicator invoiceIndicator;
     private String invoiceIndicatorCode;
     private Integer agencyCopiesToPrint;
     private Integer agencyPrintEnvelopesNumber;
@@ -629,6 +630,25 @@ public class AgencyAddress extends PersistableBusinessObjectBase implements Comp
      */
     public void setAgencyFaxNumber(String agencyFaxNumber) {
         this.agencyFaxNumber = agencyFaxNumber;
+    }
+
+    /**
+     * Gets the invoiceIndicator attribute.
+     *
+     * @return Returns the invoiceIndicator
+     */
+
+    public AccountsReceivableInvoiceIndicator getInvoiceIndicator() {
+        return invoiceIndicator;
+    }
+
+    /**
+     * Sets the invoiceIndicator attribute.
+     *
+     * @param invoiceIndicator The invoiceIndicator to set.
+     */
+    public void setInvoiceIndicator(AccountsReceivableInvoiceIndicator invoiceIndicator) {
+        this.invoiceIndicator = invoiceIndicator;
     }
 
     /**

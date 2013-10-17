@@ -39,19 +39,22 @@ public class TravelAuthorizationDocumentPresentationController extends TravelAut
      */
     @Override
     public Set<String> getEditModes(Document document) {
+
+        WorkflowDocument wfDocument = document.getDocumentHeader().getWorkflowDocument();
+
         Set<String> editModes = super.getEditModes(document);
         addFullEntryEditMode(document, editModes);
         editModes.remove(TemConstants.EditModes.CHECK_AMOUNT_ENTRY);
         editModes.add(TemConstants.TravelEditMode.ADVANCE_PAYMENT_ENTRY);
-        if (document instanceof TravelAuthorizationDocument && ((TravelAuthorizationDocument)document).shouldProcessAdvanceForDocument() && isAtTravelerNode(document.getDocumentHeader().getWorkflowDocument())) {
+        if (document instanceof TravelAuthorizationDocument && ((TravelAuthorizationDocument)document).shouldProcessAdvanceForDocument() && isAtTravelerNode(wfDocument) || wfDocument.isInitiated() || wfDocument.isSaved()) {
             editModes.add(TemConstants.TravelEditMode.ADVANCE_POLICY_ENTRY);
         }
-        if (document instanceof TravelAuthorizationDocument && ((TravelAuthorizationDocument)document).shouldProcessAdvanceForDocument() && isAtTravelNode(document.getDocumentHeader().getWorkflowDocument())) {
+        if (document instanceof TravelAuthorizationDocument && ((TravelAuthorizationDocument)document).shouldProcessAdvanceForDocument() && isAtTravelNode(wfDocument)) {
             editModes.add(TemConstants.TravelEditMode.CLEAR_ADVANCE_MODE);
         }
 
-        final Set<String> nodeNames = document.getDocumentHeader().getWorkflowDocument().getCurrentNodeNames();
-        if (document.getDocumentHeader().getWorkflowDocument().isInitiated() || document.getDocumentHeader().getWorkflowDocument().isSaved() || (nodeNames != null && !nodeNames.isEmpty() && (nodeNames.contains(TemWorkflowConstants.RouteNodeNames.TAX) || nodeNames.contains(TemWorkflowConstants.RouteNodeNames.AP_TRAVEL)))) {
+        final Set<String> nodeNames = document.getDocumentHeader().getWorkflowDocument().getNodeNames();
+        if (wfDocument.isInitiated() || wfDocument.isSaved() || (nodeNames != null && !nodeNames.isEmpty() && (nodeNames.contains(TemWorkflowConstants.RouteNodeNames.TAX) || nodeNames.contains(TemWorkflowConstants.RouteNodeNames.AP_TRAVEL)))) {
             editModes.add(TemConstants.EditModes.ACTUAL_EXPENSE_TAXABLE_MODE);
         }
 

@@ -23,7 +23,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
-import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.KeyValuesService;
 
 /**
  * This class returns list of string key value pairs for Invoice Indicator
@@ -39,7 +39,7 @@ public class InvoiceIndicatorValuesFinder extends KeyValuesBase {
     @SuppressWarnings("unchecked")
     public List<KeyValue> getKeyValues() {
 
-        List<AccountsReceivableInvoiceIndicator> boList = (List<AccountsReceivableInvoiceIndicator>) SpringContext.getBean(BusinessObjectService.class).findAll(AccountsReceivableInvoiceIndicator.class);
+        List<AccountsReceivableInvoiceIndicator> boList = (List<AccountsReceivableInvoiceIndicator>) SpringContext.getBean(KeyValuesService.class).findAll(AccountsReceivableInvoiceIndicator.class);
         keyValues.add(new ConcreteKeyValue("", ""));
         for (AccountsReceivableInvoiceIndicator element : boList) {
             if (element.isActive()) {

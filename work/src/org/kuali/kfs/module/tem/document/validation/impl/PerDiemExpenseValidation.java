@@ -17,18 +17,26 @@ package org.kuali.kfs.module.tem.document.validation.impl;
 
 import java.util.List;
 
+import org.kuali.kfs.module.tem.TemConstants.TravelParameters;
 import org.kuali.kfs.module.tem.TemKeyConstants;
+import org.kuali.kfs.module.tem.TemParameterConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.businessobject.PerDiemExpense;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.DictionaryValidationService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADPropertyConstants;
 
 public class PerDiemExpenseValidation extends GenericValidation {
+    protected DictionaryValidationService dictionaryValidationService;
+    protected DateTimeService dateTimeService;
+    protected Boolean incidentalsWithMealsOnlyInd;
 
     public PerDiemExpenseValidation() {
         super();
@@ -53,6 +61,9 @@ public class PerDiemExpenseValidation extends GenericValidation {
             String path = TemPropertyConstants.PER_DIEM_EXP + "[" + counter + "]";
             GlobalVariables.getMessageMap().addToErrorPath(path);
             success = validatePerDiemValues(perDiem);
+            if (success) {
+                success &= validatePerDiemIncidentals(perDiem);
+            }
             GlobalVariables.getMessageMap().removeFromErrorPath(path);
             counter++;
         }
@@ -74,7 +85,7 @@ public class PerDiemExpenseValidation extends GenericValidation {
      * @param document
      * @return boolean
      */
-    public boolean validatePerDiemValues(PerDiemExpense perDiemExpense) {
+    protected boolean validatePerDiemValues(PerDiemExpense perDiemExpense) {
         boolean success = true;
 
         //this is calling the alternative getter functions which will return negative values
@@ -91,11 +102,47 @@ public class PerDiemExpenseValidation extends GenericValidation {
     }
 
     /**
-     *
-     * @return
+     * Validates that if the KFS-TEM / Document / INCIDENTALS_WITH_MEALS_IND is set on, that the per diem expense does not have any incidentals claimed
+     * if it does not have expenses associated with at least one meal.
+     * @param perDiemExpense the per diem expense to validate
+     * @return true if the validation succeeded, false otherwise
      */
-    public final DictionaryValidationService getDictionaryValidationService() {
-        return SpringContext.getBean(DictionaryValidationService.class);
+    protected boolean validatePerDiemIncidentals(PerDiemExpense perDiemExpense) {
+        boolean success = true;
+
+        if (isIncidentalsWithMealsOnlyInd()) {
+            if ((perDiemExpense.getIncidentalsValue() != null && perDiemExpense.getIncidentalsValue().isGreaterThan(KualiDecimal.ZERO)) && (perDiemExpense.getBreakfastValue() == null || perDiemExpense.getBreakfastValue().equals(KualiDecimal.ZERO)) && (perDiemExpense.getLunchValue() == null || perDiemExpense.getLunchValue().equals(KualiDecimal.ZERO)) && (perDiemExpense.getDinnerValue() == null || perDiemExpense.getDinnerValue().equals(KualiDecimal.ZERO))) {
+                GlobalVariables.getMessageMap().putError(TemPropertyConstants.UNFILTERED_INCIDENTALS_VALUE, TemKeyConstants.ERROR_PER_DIEM_INCIDENTALS_BUT_NO_MEALS, getDateTimeService().toDateString(perDiemExpense.getMileageDate()));
+                success = false;
+            }
+        }
+
+        return success;
     }
 
+    /**
+     * @return the boolean value of the KFS-TEM / Document / TravelParameters.INCIDENTALS_WITH_MEALS_IND parameter
+     */
+    protected boolean isIncidentalsWithMealsOnlyInd() {
+        if (incidentalsWithMealsOnlyInd == null) {
+            incidentalsWithMealsOnlyInd = Boolean.valueOf(SpringContext.getBean(ParameterService.class).getParameterValueAsBoolean(TemParameterConstants.TEM_DOCUMENT.class, TravelParameters.INCIDENTALS_WITH_MEALS_IND, Boolean.FALSE));
+        }
+        return incidentalsWithMealsOnlyInd.booleanValue();
+    }
+
+    public final DictionaryValidationService getDictionaryValidationService() {
+        return this.dictionaryValidationService;
+    }
+
+    public DateTimeService getDateTimeService() {
+        return dateTimeService;
+    }
+
+    public void setDateTimeService(DateTimeService dateTimeService) {
+        this.dateTimeService = dateTimeService;
+    }
+
+    public void setDictionaryValidationService(DictionaryValidationService dictionaryValidationService) {
+        this.dictionaryValidationService = dictionaryValidationService;
+    }
 }

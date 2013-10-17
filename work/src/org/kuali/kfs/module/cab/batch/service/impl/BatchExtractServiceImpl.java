@@ -353,9 +353,11 @@ public class BatchExtractServiceImpl implements BatchExtractService {
     public HashSet<PurchasingAccountsPayableDocument> savePOLines(List<Entry> poLines, ExtractProcessLog processLog) {
         HashSet<PurchasingAccountsPayableDocument> purApDocuments = new HashSet<PurchasingAccountsPayableDocument>();
         ReconciliationService reconciliationService = SpringContext.getBean(ReconciliationService.class);
+
         // This is a list of pending GL entries created after last GL process and Cab Batch extract
         // PurAp Account Line history comes from PURAP module
         Collection<PurApAccountingLineBase> purapAcctLines = findPurapAccountRevisions();
+
         // Pass the records to reconciliation service method
         reconciliationService.reconcile(poLines, purapAcctLines);
 
@@ -370,33 +372,36 @@ public class BatchExtractServiceImpl implements BatchExtractService {
 
         // Keep track of asset lock
         HashMap<String, Object> assetLockMap = new HashMap<String, Object>();
+
         // Keep track of purchaseOrderDocument
         HashMap<Integer, PurchaseOrderDocument> poDocMap = new HashMap<Integer, PurchaseOrderDocument>();
+
         // KFSMI-7214, add document map for processing multiple items from the same AP doc
         HashMap<String, PurchasingAccountsPayableDocument> papdMap = new HashMap<String, PurchasingAccountsPayableDocument>();
-        boolean newAssetItem = false;
 
         for (GlAccountLineGroup group : matchedGroups) {
             Entry entry = group.getTargetEntry();
             GeneralLedgerEntry generalLedgerEntry = new GeneralLedgerEntry(entry);
-            GeneralLedgerEntry positiveEntry = null;
-            GeneralLedgerEntry negativeEntry = null;
+            GeneralLedgerEntry debitEntry = null;
+            GeneralLedgerEntry creditEntry = null;
             KualiDecimal transactionLedgerEntryAmount = generalLedgerEntry.getTransactionLedgerEntryAmount();
+            List<PurApAccountingLineBase> matchedPurApAcctLines = group.getMatchedPurApAcctLines();
+            boolean hasPositiveAndNegative = hasPositiveAndNegative(matchedPurApAcctLines);
+            boolean nonZero = ObjectUtils.isNotNull(transactionLedgerEntryAmount) && transactionLedgerEntryAmount.isNonZero();
 
-            boolean hasFORevision = isFinancialOfficerRevised(group.getMatchedPurApAcctLines());
-            // generally non-zero transaction ledger amount should be create a single GL entry, but if it has FO revised,
-            // create the set of positive and negative entries with zero transaction amounts
-            if (transactionLedgerEntryAmount != null && transactionLedgerEntryAmount.isNonZero() &&  !hasFORevision) {
+            // generally for non-zero transaction ledger amount we should create a single GL entry with that amount,
+            if (nonZero && !hasPositiveAndNegative) {
                 businessObjectService.save(generalLedgerEntry);
             }
+            // but if there is FO revision or negative amount lines such as discount, create and save the set of debit(positive) and credit(negative) entries initialized with zero transaction amounts
             else {
-                positiveEntry = createPositiveGlEntry(entry);
-                businessObjectService.save(positiveEntry);
-                negativeEntry = createNegativeGlEntry(entry);
-                businessObjectService.save(negativeEntry);
+                debitEntry = createPositiveGlEntry(entry);
+                businessObjectService.save(debitEntry);
+                creditEntry = createNegativeGlEntry(entry);
+                businessObjectService.save(creditEntry);
             }
 
-            // KFSMI-7214, create a active document reference map
+            // KFSMI-7214, create an active document reference map
             boolean newApDoc = false;
             // KFSMI-7214, find from active document reference map first
             PurchasingAccountsPayableDocument cabPurapDoc = papdMap.get(entry.getDocumentNumber());
@@ -415,15 +420,17 @@ public class BatchExtractServiceImpl implements BatchExtractService {
                 // KFSMI-7214, add to the cached document map
                 papdMap.put(entry.getDocumentNumber(), cabPurapDoc);
 
-                List<PurApAccountingLineBase> matchedPurApAcctLines = group.getMatchedPurApAcctLines();
-                boolean hasMultipleDiscountItems = hasMultipleDiscountItems(matchedPurApAcctLines);
+                // we only deal with PREQ or CM, so isPREQ = !isCM, isCM = !PREQ
+                boolean isPREQ = CabConstants.PREQ.equals(entry.getFinancialDocumentTypeCode());
+                boolean hasRevisionWithMixedLines = isPREQ && hasRevisionWithMixedLines(matchedPurApAcctLines);
 
                 for (PurApAccountingLineBase purApAccountingLine : matchedPurApAcctLines) {
                     // KFSMI-7214,tracking down changes on CAB item.
-                    newAssetItem = false;
+                    boolean newAssetItem = false;
 
                     PurApItem purapItem = purApAccountingLine.getPurapItem();
                     String itemAssetKey = cabPurapDoc.getDocumentNumber() + "-" + purapItem.getItemIdentifier();
+
                     // KFSMI-7214, search CAB item from active object reference map first
                     PurchasingAccountsPayableItemAsset itemAsset = assetItems.get(itemAssetKey);
 
@@ -439,48 +446,64 @@ public class BatchExtractServiceImpl implements BatchExtractService {
                     }
 
                     assetItems.put(itemAssetKey, itemAsset);
-                    PurchasingAccountsPayableLineAssetAccount assetAccount = null;
                     String acctLineKey = cabPurapDoc.getDocumentNumber() + "-" + itemAsset.getAccountsPayableLineItemIdentifier() + "-" + itemAsset.getCapitalAssetBuilderLineNumber() + "-" + generalLedgerEntry.getGeneralLedgerAccountIdentifier();
+                    PurchasingAccountsPayableLineAssetAccount assetAccount = assetAcctLines.get(acctLineKey);
 
-                    if ((assetAccount = assetAcctLines.get(acctLineKey)) == null && transactionLedgerEntryAmount.isNonZero() && !hasFORevision) {
+                    if (ObjectUtils.isNull(assetAccount) && nonZero && !hasPositiveAndNegative) {
                         // if new unique account line within GL, then create a new account line
                         assetAccount = createPurchasingAccountsPayableLineAssetAccount(generalLedgerEntry, cabPurapDoc, purApAccountingLine, itemAsset);
                         assetAcctLines.put(acctLineKey, assetAccount);
                         itemAsset.getPurchasingAccountsPayableLineAssetAccounts().add(assetAccount);
                     }
-                    else if (transactionLedgerEntryAmount.isZero() || hasFORevision) {
-                        GeneralLedgerEntry currentEntry = null;
+                    else if (!nonZero || hasPositiveAndNegative) {
                         // if amount is zero, means canceled doc, then create a copy and retain the account line
                         KualiDecimal purapAmount = purApAccountingLine.getAmount();
 
-                        // if this is a Credit Memo or a Discount (where there are multiple discounts, likely off-setting)
-                        // we want to negate the amount before adding/subtracting it from the transactionLedgerEntryAmount
-                        if (CabConstants.CM.equals(entry.getFinancialDocumentTypeCode()) || (PurapConstants.ItemTypeCodes.ITEM_TYPE_ORDER_DISCOUNT_CODE.equals(purapItem.getItemTypeCode()) && hasMultipleDiscountItems)) {
-                            purapAmount = purapAmount.negated();
-                        }
+                        /*
+                         * KFSMI-9760 / KFSCNTRB-???(FSKD-5097)
+                         * 1.   Usually, we consolidate matched accounting lines (for the same account) based on positive/negative amount, i.e.
+                         * 1.1  For PREQ, positive -> debit, negative -> credit;
+                         *      That means charges (positive amount) are debit, trade-ins/discounts (negative amount) are credit.
+                         * 1.2. For CM, the opposite, positive -> credit, negative -> debit
+                         *      That means payments (positive amount) are credit, Less Restocking Fees (negative amount) are debit.
+                         * 2.   However when there is a FO revision on PREQ (CMs don't have revisions), it's more complicated:
+                         * 2.1  If the matched accounting lines are either all for non trade-in/discount items, or all for trade-in/discount items,
+                         *      then we still could base the debit/credit on positive/negative amount;
+                         *      That means reverse of charges (negative amount) are credit, reverse of trade-ins/discounts (positive amount) are debit.
+                         * 2.2  Otherwise, i.e. the matched accounting lines cover both non trade-in/discount items and trade-in/discount items,
+                         *      In this case we prefer to consolidate based on revision,
+                         *      that means the original charges and trade-in/discounts are combined together,
+                         *      while the reversed charges and trade-in/discounts are combined together;
+                         *      So: original charge + original trade-in/discount -> debit, reversed charge + reversed trade-in/discount -> credit
+                         * 3.   On top of these, we ensure that the final cab GL entries created is a debit if the consolidated amount is positive, and vice versa.
+                         *      Note: In general, the consolidated amount for debit entry should already be positive, and vice versa. But there could be special cases,
+                         *      for ex, in the case of 2.2, if the revision is only on discount, then the credit entry for the reverse would come out as positive, so we need
+                         *      to swap it into a debit entry. This means, we will have 2 debit entries, one for the original lines, the other for the reversed discount line.
+                         */
 
-                        if (purapAmount.isPositive()) {
-                            currentEntry = positiveEntry;
-                        }
-                        else {
-                            currentEntry = negativeEntry;
-                        }
+                        // note that PurAp Doc accounting lines won't have zero amount, so !isPositive = isNegative
+                        boolean isPositive = purapAmount.isPositive();
+                        // trade-in and discount items on PREQ usually have negative amount (unless it's a revision)
+                        boolean usuallyNegative = isItemTypeUsuallyOfNegativeAmount(purapItem.getItemTypeCode());
 
-                        // discounts need to be subtracted, not added
-                        if (PurapConstants.ItemTypeCodes.ITEM_TYPE_ORDER_DISCOUNT_CODE.equals(purapItem.getItemTypeCode())) {
-                            KualiDecimal transLedgerEntryAmount = currentEntry.getTransactionLedgerEntryAmount();
-                            if (KFSConstants.GL_CREDIT_CODE.equals(currentEntry.getTransactionDebitCreditCode())) {
-                                transLedgerEntryAmount = transLedgerEntryAmount.negated();
-                            }
-                            currentEntry.setTransactionLedgerEntryAmount(transLedgerEntryAmount.subtract(purapAmount).abs());
-                        } else {
-                            currentEntry.setTransactionLedgerEntryAmount(currentEntry.getTransactionLedgerEntryAmount().add(purapAmount.abs()));
-                        }
+                        // decide if current accounting line should be consolidated into debit or credit entry based on the above criteria
+                        boolean isDebitEntry = hasRevisionWithMixedLines ?
+                                (usuallyNegative ?  !isPositive : isPositive) :   // case 2.2
+                                (isPREQ ? isPositive : !isPositive);              // case 1.1/1.2/2.1
+                        GeneralLedgerEntry currentEntry = isDebitEntry ? debitEntry : creditEntry;
+
+                        // during calculation, regard D/C code as a +/- sign in front of the amount
+                        KualiDecimal oldAmount = currentEntry.getTransactionLedgerEntryAmount();
+                        oldAmount = isDebitEntry ? oldAmount : oldAmount.negated();
+                        KualiDecimal newAmount = oldAmount.add(purapAmount);
+                        newAmount = isDebitEntry ? newAmount : newAmount.negated();
+                        currentEntry.setTransactionLedgerEntryAmount(newAmount);
 
                         assetAccount = createPurchasingAccountsPayableLineAssetAccount(currentEntry, cabPurapDoc, purApAccountingLine, itemAsset);
                         itemAsset.getPurchasingAccountsPayableLineAssetAccounts().add(assetAccount);
+                        //TODO do we need to store assetAccount into the HashSet?
                     }
-                    else if ((assetAccount = assetAcctLines.get(acctLineKey)) != null) {
+                    else if (ObjectUtils.isNotNull(assetAccount)) {
                         // if account line key matches within same GL Entry, combine the amount
                         assetAccount.setItemAccountTotalAmount(assetAccount.getItemAccountTotalAmount().add(purApAccountingLine.getAmount()));
                     }
@@ -496,10 +519,25 @@ public class BatchExtractServiceImpl implements BatchExtractService {
                     addAssetLocks(assetLockMap, cabPurapDoc, purapItem, itemAsset.getAccountsPayableLineItemIdentifier(), poDocMap);
                 }
 
-                // update negative and positive GL entry once again
-                if (positiveEntry != null && negativeEntry != null) {
-                    businessObjectService.save(positiveEntry);
-                    businessObjectService.save(negativeEntry);
+                // Update and save the debit/credit entry if needed;
+                // Ensure that the entry always carries a positive TransactionLedgerEntryAmount,
+                // otherwise need to swap the D/C code, (see item #3 in the above KFSMI-9760 / KFSCNTRB-???(FSKD-5097) comment)
+                // since the real amount being positive/negative shall be solely indicated by the D/C code.
+                if (debitEntry != null) {
+                    KualiDecimal amount = debitEntry.getTransactionLedgerEntryAmount();
+                    if (amount.isNegative()) {
+                        debitEntry.setTransactionDebitCreditCode(KFSConstants.GL_CREDIT_CODE);
+                        debitEntry.setTransactionLedgerEntryAmount(amount.negated());
+                    }
+                    businessObjectService.save(debitEntry);
+                }
+                if (creditEntry != null) {
+                    KualiDecimal amount = creditEntry.getTransactionLedgerEntryAmount();
+                    if (amount.isNegative()) {
+                        creditEntry.setTransactionDebitCreditCode(KFSConstants.GL_DEBIT_CODE);
+                        creditEntry.setTransactionLedgerEntryAmount(amount.negated());
+                    }
+                    businessObjectService.save(creditEntry);
                 }
 
                 // Add to the doc collection which will be used for additional charge allocating. This will be the next step during
@@ -516,49 +554,76 @@ public class BatchExtractServiceImpl implements BatchExtractService {
         return purApDocuments;
     }
 
+    /**
+     * Returns true if the item type code is trade-in or discount, since items with these types usually have negative amounts.
+     */
+    private boolean isItemTypeUsuallyOfNegativeAmount(String itemTypeCode) {
+        return PurapConstants.ItemTypeCodes.ITEM_TYPE_TRADE_IN_CODE.equals(itemTypeCode) ||
+        PurapConstants.ItemTypeCodes.ITEM_TYPE_ORDER_DISCOUNT_CODE.equals(itemTypeCode) ||
+        //TODO remove MISC when bug is fixed
+        //MISC is included here temporarily for testing, since it's used as TRDI and ORDS, which don't work due to bug
+        PurapConstants.ItemTypeCodes.ITEM_TYPE_MISC_CODE.equals(itemTypeCode);
+    }
 
     /**
-     * Determine if the matched PurAp accounting lines have multiple discount items
-     * if so, they are likely off-setting and need to be processed differently
+     * Determines if the matched PurAp accounting lines have revisions and the account is used in both line items and trade-in/discount items.
+     * If so, the trade-in/discount accounting lines need to be consolidated differently than simply by positive/negative amount.
+     * Note: This method only applies to PREQ, since no revision could happen to CM.
      *
      * @param matchedPurApAcctLines List of matched PurAp accounting lines to check for multiple discount items
      * @return true if multiple discount items, false otherwise
      */
-    private boolean hasMultipleDiscountItems(List<PurApAccountingLineBase> matchedPurApAcctLines) {
-        int discountItemCount = 0;
+    private boolean hasRevisionWithMixedLines(List<PurApAccountingLineBase> matchedPurApAcctLines) {
+        boolean hasItemsUsuallyNegative = false;
+        boolean hasOthers = false;
+        boolean hasRevision = false;
+        HashSet<Integer> itemIdentifiers = new HashSet<Integer>();
 
         for (PurApAccountingLineBase purApAccountingLine : matchedPurApAcctLines) {
             PurApItem purapItem = purApAccountingLine.getPurapItem();
-            if (PurapConstants.ItemTypeCodes.ITEM_TYPE_ORDER_DISCOUNT_CODE.equals(purapItem.getItemTypeCode())) {
-                discountItemCount++;
+            if (isItemTypeUsuallyOfNegativeAmount(purapItem.getItemTypeCode())) {
+                hasItemsUsuallyNegative = true;
+            }
+            else {
+                hasOthers = true;
+            }
+            // when we hit the same item twice within the matched lines, which share the same account, then we find a revision
+            if (itemIdentifiers.contains(purApAccountingLine.getItemIdentifier())) {
+                hasRevision = true;
+            }
+            else {
+                itemIdentifiers.add(purApAccountingLine.getItemIdentifier());
+            }
+            if (hasRevision && hasItemsUsuallyNegative && hasOthers) {
+                return true;
             }
         }
-        return (discountItemCount > 1);
+        return false;
     }
 
     /**
-     * Base on the PurApAccountingLine to determine if there were any FinancialOfficer revisions
-     *
-     * If there are positive AND negative accounting lines for the same account, it is considered Financial
-     * Officer Revised
+     * Determines if there are both positive amounts AND negative amounts among the matched PurAp accounting lines.
+     * This usually could happen in the following cases:
+     * 1. The account was revised by Financial Officer: positive amount is for charge, negative amount is for refund;
+     * 2. The account is for Trade-in or Discount item for PREQ, or Less Restocking Fee on Credit Memo.
+     * 3. Both 1 and 2 happens at same time (for PREQ only; as for CM no revision could happen).
      *
      * @param matchedPurApAcctLines
      * @return
      */
-    private boolean isFinancialOfficerRevised(List<PurApAccountingLineBase> matchedPurApAcctLines) {
-
+    private boolean hasPositiveAndNegative(List<PurApAccountingLineBase> matchedPurApAcctLines) {
         boolean hasPostive = false;
         boolean hasNegative = false;
 
-        for (PurApAccountingLineBase line : matchedPurApAcctLines){
-            // continue iterations unless it has both positive and negative entries
-            if (!hasPostive || !hasNegative){
-                hasPostive = hasPostive || line.getAmount().isPositive();
-                hasNegative = hasNegative || line.getAmount().isNegative();
+        for (PurApAccountingLineBase line : matchedPurApAcctLines) {
+            hasPostive = hasPostive || line.getAmount().isPositive();
+            hasNegative = hasNegative || line.getAmount().isNegative();
+            if (hasPostive && hasNegative) {
+                return true;
             }
         }
 
-        return hasPostive && hasNegative;
+        return false;
     }
 
     /**

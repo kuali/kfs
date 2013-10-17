@@ -789,7 +789,7 @@
                             <role name="SeparationOfDuties" nextNode="JoinRequiresSeparationOfDuties" nextAppDocStatus="Awaiting Disbursement Method Review" />
                         </branch>
                         <branch name="False">
-                            <simple name="NoOpRequiresSeparationOfDuties" nextNode="JoinRequiresSeparationOfDuties" nextAppDocStatus="Awaiting Moving and Relocation Manager Review" />
+                            <simple name="NoOpRequiresSeparationOfDuties" nextNode="JoinRequiresSeparationOfDuties" nextAppDocStatus="Awaiting Disbursement Method Review" />
                         </branch>   
                         <join name="JoinRequiresSeparationOfDuties" />                  
                     </split>
@@ -1031,8 +1031,8 @@
                         </branch>
                         <join name="JoinTravelRequiresTravelerApproval"/>
                     </split>
-                    <role name="Account" nextNode="AccountingOrganizationHierarchy" nextAppDocStatus="Awaiting Fiscal Officer Review" />
-                    <role name="AccountingOrganizationHierarchy" nextNode="TravelHasSpecialRequest" nextAppDocStatus="Awaiting Organization Review" />
+                    <role name="Account" nextNode="AccountingOrganizationHierarchy" nextAppDocStatus="Awaiting Organization Review" />
+                    <role name="AccountingOrganizationHierarchy" nextNode="TravelHasSpecialRequest" nextAppDocStatus="Awaiting Special Request Review" />
                  	<split name="TravelHasSpecialRequest" nextNode="SubFund" nextAppDocStatus="Awaiting Special Request Review">
 						<branch name="True">
 							<role name="SpecialRequest" nextNode="JoinTravelHasSpecialRequest" />
@@ -1042,8 +1042,8 @@
 						</branch>
 						<join name="JoinTravelHasSpecialRequest"/>
 					</split>
-           	        <role name="SubFund" nextNode="Award" nextAppDocStatus="Awaiting Sub-Fund Review" />
-            	    <role name="Award" nextNode="TaxManager" nextAppDocStatus="Awaiting Award Review" />
+           	        <role name="SubFund" nextNode="Award" nextAppDocStatus="Awaiting Award Review" />
+            	    <role name="Award" nextNode="TaxManager" nextAppDocStatus="Awaiting Tax Manager Review" />
                     <split name="TaxManager" nextNode="RequiresSeparationOfDuties" nextAppDocStatus="Awaiting Tax Manager Review">
 					   <branch name="True">
 					      <role name="Tax" nextNode="JoinTaxManager" nextAppDocStatus="Awaiting Separation Of Duties Review"/>
@@ -1058,7 +1058,7 @@
                             <role name="SeparationOfDuties" nextNode="JoinRequiresSeparationOfDuties" nextAppDocStatus="Awaiting Disbursement Payment Review" />
                         </branch>
                         <branch name="False">
-                            <simple name="NoOpRequiresSeparationOfDuties" nextNode="JoinRequiresSeparationOfDuties" nextAppDocStatus="Awaiting Entertainment Manager Review" />
+                            <simple name="NoOpRequiresSeparationOfDuties" nextNode="JoinRequiresSeparationOfDuties" nextAppDocStatus="Awaiting Disbursement Payment Review" />
                         </branch>   
                         <join name="JoinRequiresSeparationOfDuties" />                  
                     </split>

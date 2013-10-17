@@ -28,7 +28,7 @@
 				<ref bean="MilestoneSchedule-totalAmountScheduled" />
 				<ref bean="MilestoneSchedule-totalAmountRemaining" /> -->
 				<ref bean="MilestoneSchedule-milestoneScheduleInquiryTitle" />
-				<!-- <ref bean="MilestoneSchedule-award.awardEndingDate" /> -->
+<!-- 				<ref bean="MilestoneSchedule-award.awardEndingDate" />
 				<ref bean="MilestoneSchedule-milestones.proposalNumber" />
 				<ref bean="MilestoneSchedule-milestones.milestoneNumber" />
 				<ref bean="MilestoneSchedule-milestones.milestoneIdentifier" />
@@ -36,7 +36,7 @@
 				<ref bean="MilestoneSchedule-milestones.milestoneAmount" />
 				<ref bean="MilestoneSchedule-milestones.milestoneExpectedCompletionDate" />
 				<ref bean="MilestoneSchedule-milestones.milestoneActualCompletionDate" />
-				<ref bean="MilestoneSchedule-milestones.billedIndicator" />
+				<ref bean="MilestoneSchedule-milestones.billedIndicator" /> -->
 			</list>
 		</property>
 		 <property name="collections">
@@ -74,7 +74,9 @@
 	<bean id="MilestoneSchedule-proposalNumber" parent="MilestoneSchedule-proposalNumber-parentBean" />
 
 	<bean id="MilestoneSchedule-proposalNumber-parentBean" abstract="true"
-		parent="Proposal-proposalNumber">
+		parent="ExternalizableAttributeDefinitionProxy"
+		p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAward"
+		p:sourceAttributeName="proposalNumber">
 		<property name="name" value="proposalNumber" />
 		<property name="label" value="Proposal Number" />
 		<property name="shortLabel" value="Prop Num" />
@@ -159,7 +161,7 @@
 		<property name="label" value="Award Expiration Date" />
 		<property name="shortLabel" value="Date" />
 	</bean>
-
+<!-- 
 	<bean id="MilestoneSchedule-milestones.proposalNumber" parent="MilestoneSchedule-milestones.proposalNumber-parentBean" />
 
 	<bean id="MilestoneSchedule-milestones.proposalNumber-parentBean"
@@ -221,6 +223,6 @@
 	<bean id="MilestoneSchedule-milestones.billedIndicator-parentBean"
 		abstract="true" parent="Milestone-billedIndicator">
 		<property name="name" value="milestones.billedIndicator" />
-	</bean>
+	</bean> -->
 
 </beans>

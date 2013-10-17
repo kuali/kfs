@@ -38,7 +38,7 @@
 				<ref bean="Customer-customerTaxExemptIndicator" />
 				<ref bean="Customer-customerTypeCode" />
 				<ref bean="Customer-customerType.customerTypeDescription" />
-				<ref bean="Customer-customerAddresses.customerAddressName" />
+<!-- 				<ref bean="Customer-customerAddresses.customerAddressName" />
 				<ref bean="Customer-customerAddresses.customerLine1StreetAddress" />
 				<ref bean="Customer-customerAddresses.customerLine2StreetAddress" />
 				<ref bean="Customer-customerAddresses.customerCityName" />
@@ -46,7 +46,7 @@
 				<ref bean="Customer-customerAddresses.customerZipCode" />
 				<ref
 					bean="Customer-customerAddresses.customerAddressInternationalProvinceName" />
-				<ref bean="Customer-customerAddresses.customerEmailAddress" />
+				<ref bean="Customer-customerAddresses.customerEmailAddress" /> -->
 				<ref bean="Customer-customerTaxTypeCode" />
 				<ref bean="Customer-customerTaxNbr" />
 			</list>
@@ -338,7 +338,7 @@
 		<property name="name" value="customerType.customerTypeDescription" />
 		<property name="label" value="Customer Type" />
 	</bean>
-
+<!-- 
 	<bean id="Customer-customerAddresses.customerAddressName"
 		parent="Customer-customerAddresses.customerAddressName-parentBean" />
 
@@ -404,5 +404,5 @@
 		abstract="true" parent="CustomerAddress-customerEmailAddress">
 		<property name="name" value="customerAddresses.customerEmailAddress" />
 	</bean>
-
+ -->
 </beans>

@@ -88,6 +88,9 @@
 		<property name="label" value="Tax Number Type" />
 		<property name="shortLabel" value="Tax Type" />
 		<property name="maxLength" value="4" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="4" />
+		</property>
 	</bean>
 
 

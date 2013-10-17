@@ -39,13 +39,14 @@
 				<ref bean="MilestoneSchedule-milestones.billedIndicator" />
 			</list>
 		</property>
-		<!-- property name="collections">
+		 <property name="collections">
 			<list>
 				<bean parent="CollectionDefinition" p:name="milestones"
 					p:label="Milestones" p:shortLabel="Milestones" p:elementLabel="Milestones" />
 
 			</list>
 		</property>
+		<!--  
 		<property name="relationships">
 			<list>
 				<bean parent="RelationshipDefinition" p:objectAttributeName="award"

@@ -501,7 +501,6 @@ public class BatchExtractServiceImpl implements BatchExtractService {
 
                         assetAccount = createPurchasingAccountsPayableLineAssetAccount(currentEntry, cabPurapDoc, purApAccountingLine, itemAsset);
                         itemAsset.getPurchasingAccountsPayableLineAssetAccounts().add(assetAccount);
-                        //TODO do we need to store assetAccount into the HashSet?
                     }
                     else if (ObjectUtils.isNotNull(assetAccount)) {
                         // if account line key matches within same GL Entry, combine the amount
@@ -560,7 +559,7 @@ public class BatchExtractServiceImpl implements BatchExtractService {
     private boolean isItemTypeUsuallyOfNegativeAmount(String itemTypeCode) {
         return PurapConstants.ItemTypeCodes.ITEM_TYPE_TRADE_IN_CODE.equals(itemTypeCode) ||
         PurapConstants.ItemTypeCodes.ITEM_TYPE_ORDER_DISCOUNT_CODE.equals(itemTypeCode) ||
-        //TODO remove MISC when bug is fixed
+        //TODO remove the following logic about MISC item when bug in KFSMI-10170 is fixed
         //MISC is included here temporarily for testing, since it's used as TRDI and ORDS, which don't work due to bug
         PurapConstants.ItemTypeCodes.ITEM_TYPE_MISC_CODE.equals(itemTypeCode);
     }

@@ -60,7 +60,7 @@ public class ProjectCodeServiceTest extends KualiTestBase {
         pc.setName("PROJ Name");
 
         projectCodeDao.retrieved = pc;
-        ProjectCode retrieved = projectCodeService.getByPrimaryId("BOB");
+        ProjectCode retrieved = projectCodeService.getByPrimaryId("XXX");
         assertNotNull("Didn't retrieve", retrieved);
         assertEquals("Code is wrong", "PROJ", retrieved.getCode());
         assertEquals("Name is wrong", "PROJ Name", retrieved.getName());

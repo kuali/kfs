@@ -177,7 +177,7 @@
 		in the KFS-CG module that are not documents, lookups, inquiries, or batch 
 		uploads, i.e. this primarily provides access to CG Invoice Report Delivery 
 		Process" />
-			<column name="OBJ_ID" value="KFSCG04" />
+			<column name="OBJ_ID" value="KFSCG04123" />
 			<column name="VER_NBR" value="1" />
 			<column name="ACTV_IND" value="Y" />
 		</insert>

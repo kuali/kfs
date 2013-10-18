@@ -69,7 +69,7 @@
 		<documentType>
 			<name>TA</name>
 			<parent>TRV</parent>
-			<docHandler>${application.url}/temTravelAuthorization.do?methodToCall=docHandler
+			<docHandler>${kfs.url}/temTravelAuthorization.do?methodToCall=docHandler
 			</docHandler>
 			<label>Travel Authorization</label>
 			<active>
@@ -345,13 +345,13 @@
 		<documentType>
 	      <name>TAA</name>
 	      <parent>TA</parent>
-	      <docHandler>${application.url}/temTravelAuthorization.do?methodToCall=docHandler</docHandler>
+	      <docHandler>${kfs.url}/temTravelAuthorization.do?methodToCall=docHandler</docHandler>
 	      <label>Travel Authorization Amendment</label>
 	    </documentType>
 	    <documentType>
 	      <name>TAC</name>
 	      <parent>TA</parent>
-	      <docHandler>${application.url}/temTravelAuthorization.do?methodToCall=docHandler</docHandler>
+	      <docHandler>${kfs.url}/temTravelAuthorization.do?methodToCall=docHandler</docHandler>
 	      <label>Travel Authorization Close</label>
 	      <policies>
                 <policy>
@@ -375,7 +375,7 @@
 	    <documentType>
             <name>TR</name>
             <parent>TRV</parent>
-            <docHandler>${application.url}/temTravelReimbursement.do?methodToCall=docHandler
+            <docHandler>${kfs.url}/temTravelReimbursement.do?methodToCall=docHandler
             </docHandler>
             <label>Travel Reimbursement</label>
             <active>
@@ -636,13 +636,13 @@
         <documentType>
 	      <name>TMCP</name>
 	      <parent>TT</parent>
-	      <docHandler>${application.url}/temCorrectionDocument.do?methodToCall=docHandler</docHandler>
+	      <docHandler>${kfs.url}/temCorrectionDocument.do?methodToCall=docHandler</docHandler>
 	      <label>TEM Correction Process Document</label>
 	    </documentType>
 	    <documentType>
 	      <name>TTA</name>
 	      <parent>TT</parent>
-	      <docHandler>${application.url}/temTravelArranger.do?methodToCall=docHandler</docHandler>
+	      <docHandler>${kfs.url}/temTravelArranger.do?methodToCall=docHandler</docHandler>
 	      <label>Travel Arranger</label>
 	      <routePaths>
 	                <routePath>
@@ -681,7 +681,7 @@
 	    <documentType>
             <name>RELO</name>
             <parent>TT</parent>
-            <docHandler>${application.url}/temTravelRelocation.do?methodToCall=docHandler
+            <docHandler>${kfs.url}/temTravelRelocation.do?methodToCall=docHandler
             </docHandler>
             <label>Moving and Relocation</label>
             <attributes>
@@ -921,7 +921,7 @@
       <parent>TT</parent>
       <description />
       <label>Taxable Ramification</label>
-      <docHandler>${application.url}/temTaxableRamification.do?methodToCall=docHandler</docHandler>
+      <docHandler>${kfs.url}/temTaxableRamification.do?methodToCall=docHandler</docHandler>
       <active>true</active>
       <routingVersion>2</routingVersion>
       <routePaths>
@@ -962,7 +962,7 @@
     <documentType>
             <name>ENT</name>
             <parent>TT</parent>
-            <docHandler>${application.url}/temTravelEntertainment.do?methodToCall=docHandler
+            <docHandler>${kfs.url}/temTravelEntertainment.do?methodToCall=docHandler
             </docHandler>
             <label>Entertainment Document</label>
             <attributes>
@@ -1164,7 +1164,7 @@
 			<name>CTAP</name>
 			<parent>TT</parent>
 			<label>CTS Card Application</label>
-			<docHandler>${application.url}/temCTSCardApplication.do?methodToCall=docHandler</docHandler>
+			<docHandler>${kfs.url}/temCTSCardApplication.do?methodToCall=docHandler</docHandler>
 			<active>true</active>
 			<routingVersion>2</routingVersion>
 			<validApplicationStatuses>
@@ -1213,7 +1213,7 @@
 			<name>CCAP</name>
 			<parent>TT</parent>
 			<label>Corporate Card Application</label>
-			<docHandler>${application.url}/temCorporateCardApplication.do?methodToCall=docHandler</docHandler>
+			<docHandler>${kfs.url}/temCorporateCardApplication.do?methodToCall=docHandler</docHandler>
 			<active>true</active>
 			<routingVersion>2</routingVersion>
 			<validApplicationStatuses>

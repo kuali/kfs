@@ -1756,7 +1756,7 @@
 	</changeSet>
 	
 	<changeSet author="KFSCGB" id="KFSMI11385_REMOVE_LOC_FUND_GRP_FROM_AWARD">
-		<dropColumn tableName="CG_AWARD_T" columnName="CG_LTRCR_FNDGRP_CD" />	
+		<dropColumn tableName="CG_AWD_T" columnName="CG_LTRCR_FNDGRP_CD" />	
 	</changeSet>	
 	
 </databaseChangeLog>

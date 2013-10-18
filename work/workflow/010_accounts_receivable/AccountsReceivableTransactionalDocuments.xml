@@ -28,7 +28,7 @@
 				Cash Control
       </label>
 			<docHandler>
-				${application.url}/arCashControlDocument.do?methodToCall=docHandler
+				${kfs.url}/arCashControlDocument.do?methodToCall=docHandler
       </docHandler>
 			<helpDefinitionURL>
 				default.htm?turl=WordDocuments%2Fcashcontrol.htm
@@ -96,7 +96,7 @@
 				Application
       </label>
 			<docHandler>
-				${application.url}/arPaymentApplicationDocument.do?methodToCall=docHandler
+				${kfs.url}/arPaymentApplicationDocument.do?methodToCall=docHandler
       </docHandler>
 			<helpDefinitionURL>
 				default.htm?turl=WordDocuments%2Fpaymentapplication.htm
@@ -122,7 +122,7 @@
 				Collection Activity
       </label>
 			<docHandler>
-				${application.url}/arCollectionActivityDocument.do?methodToCall=docHandler
+				${kfs.url}/arCollectionActivityDocument.do?methodToCall=docHandler
       </docHandler>
 			<helpDefinitionURL>
 				default.htm?turl=WordDocuments%2Fcollectionactivity.htm
@@ -148,7 +148,7 @@
 				Referral To Collections
       </label>
 			<docHandler>
-				${application.url}/arReferralToCollectionsDocument.do?methodToCall=docHandler
+				${kfs.url}/arReferralToCollectionsDocument.do?methodToCall=docHandler
       </docHandler>
 			<helpDefinitionURL>
 				default.htm?turl=WordDocuments%2Freferraltocollections.htm
@@ -174,7 +174,7 @@
 				Customer Invoice Writeoff
       </label>
 			<docHandler>
-				${application.url}/arCustomerInvoiceWriteoffDocument.do?methodToCall=docHandler
+				${kfs.url}/arCustomerInvoiceWriteoffDocument.do?methodToCall=docHandler
       </docHandler>
 			<helpDefinitionURL>
 				default.htm?turl=WordDocuments%2Fcustomerinvoicewriteoff.htm
@@ -236,7 +236,7 @@
 				Customer Credit Memo
       </label>
 			<docHandler>
-				${application.url}/arCustomerCreditMemoDocument.do?methodToCall=docHandler
+				${kfs.url}/arCustomerCreditMemoDocument.do?methodToCall=docHandler
       </docHandler>
 			<helpDefinitionURL>
 				default.htm?turl=WordDocuments%2Fcustomercreditmemo.htm
@@ -279,7 +279,7 @@
 				Customer Invoice
       </label>
 			<docHandler>
-				${application.url}/arCustomerInvoiceDocument.do?methodToCall=docHandler
+				${kfs.url}/arCustomerInvoiceDocument.do?methodToCall=docHandler
       </docHandler>
 			<helpDefinitionURL>
 				default.htm?turl=WordDocuments%2Fcustomerinvoice.htm
@@ -350,7 +350,7 @@
 				Contracts and Grants Invoice
       </label>
 			<docHandler>
-				${application.url}/arContractsGrantsInvoiceDocument.do?methodToCall=docHandler
+				${kfs.url}/arContractsGrantsInvoiceDocument.do?methodToCall=docHandler
       </docHandler>
 			<helpDefinitionURL>
 				default.htm?turl=WordDocuments%2FContractsGrantsInvoice.htm
@@ -409,7 +409,7 @@
 				Contracts and Grants Letter of Credit Review 
       </label>
 			<docHandler>
-				${application.url}/arContractsGrantsLetterOfCreditReviewDocument.do?methodToCall=docHandler
+				${kfs.url}/arContractsGrantsLetterOfCreditReviewDocument.do?methodToCall=docHandler
       </docHandler>
 			<helpDefinitionURL>
 				default.htm?turl=WordDocuments%2FContractsGrantsLOCReview.htm
@@ -431,7 +431,7 @@
 			<label>
 				Final Invoice Reversal
       </label>
-			<docHandler>${application.url}/arFinalInvoiceReversalDocument.do?methodToCall=docHandler</docHandler>
+			<docHandler>${kfs.url}/arFinalInvoiceReversalDocument.do?methodToCall=docHandler</docHandler>
 			<routePaths>
 				<routePath>
 					<start name="AdHoc" />

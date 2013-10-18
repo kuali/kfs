@@ -1925,6 +1925,11 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
         if (DocumentStatus.DISAPPROVED.getCode().equals(statusChangeEvent.getNewRouteStatus())) {
             updateAppDocStatus(getDisapprovedAppDocStatusMap().get(getAppDocStatus()));
         }
+
+        //for cancel cases
+        if (DocumentStatus.CANCELED.getCode().equals(statusChangeEvent.getNewRouteStatus())) {
+            updateAppDocStatus(TemConstants.TravelStatusCodeKeys.CANCELLED);
+        }
     }
 
     /**

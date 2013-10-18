@@ -66,12 +66,6 @@
 		<addForeignKeyConstraint constraintName="AR_INV_BILL_R1"
 			referencedTableName="AR_INV_DOC_T" baseColumnNames="FDOC_NBR"
 			baseTableName="AR_INV_BILL_T" referencedColumnNames="FDOC_NBR" />
-		<addForeignKeyConstraint constraintName="AR_INV_DTL_ACCT_OBJ_CD_R1"
-			referencedTableName="CG_AWD_T" baseColumnNames="PRPSL_NBR"
-			baseTableName="AR_INV_DTL_ACCT_OBJ_CD_T" referencedColumnNames="CGPRPSL_NBR" />
-		<addForeignKeyConstraint constraintName="AR_AWDACCT_OBJCD_TL_BILLED_R1"
-			referencedTableName="CG_AWD_T" baseColumnNames="PRPSL_NBR"
-			baseTableName="AR_AWDACCT_OBJCD_TL_BILLED_T" referencedColumnNames="CGPRPSL_NBR" />
 		<addForeignKeyConstraint constraintName="CG_AWD_INV_ACCT_R7"
 			referencedTableName="CA_PROJECT_T" baseColumnNames="PROJECT_CD"
 			baseTableName="CG_AWD_INV_ACCT_T" referencedColumnNames="PROJECT_CD" />

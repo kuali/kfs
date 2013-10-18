@@ -334,7 +334,7 @@
 				<constraints primaryKey="true" nullable="false" />
 			</column>
 			<column name="OBJ_ID" type="varchar(36)">
-				<constraints unique="true" nullable="false" uniqueConstraintName="CG_BILL_TC1"/>
+				<constraints unique="true" nullable="false" uniqueConstraintName="AR_BILL_TC1"/>
 			</column>
 			<column name="VER_NBR" type="decimal(8,0)" defaultValueNumeric="1">
 				<constraints nullable="false" />
@@ -419,7 +419,8 @@
 
 	<changeSet author="KFSCGB" id="AR_CG_INV_DTL_T">
 		<createTable tableName="AR_CG_INV_DTL_T">
-			<column name="FDOC_NBR" type="varchar(10)" />
+			<column name="FDOC_NBR" type="varchar(10)">
+				<constraints primaryKey="true" nullable="false" /></column>
 			<column name="INV_CTG" type="varchar(120)" />
 			<column name="OBJ_ID" type="varchar(36)">
 				<constraints unique="true" nullable="false" uniqueConstraintName="AR_CG_INV_DTL_TC1"/>
@@ -431,7 +432,12 @@
 			<column name="INV_EXPND_AMT" type="decimal(19,2)" />
 			<column name="INV_CUM_AMT" type="decimal(19,2)" />
 			<column name="INV_BLNC_AMT" type="decimal(19,2)" />
-			<column name="INV_DTL_ID" type="decimal(12,0)" defaultValue="0"></column>
+			<column name="INV_DTL_ID" type="decimal(12,0)">
+			<constraints primaryKey="true" nullable="false" /></column>
+			<column name="INV_CTG_CD" type="VARCHAR(4)" />
+			<column name="IND_CST_IND" type="varchar(1)" />
+			<column name="ADJ_CUM_EXPND" type="decimal(19,2)"	defaultValue="0" />
+			<column name="ADJ_BLNC" type="decimal(19,2)" defaultValue="0" />
 		</createTable>
 
 	</changeSet>
@@ -449,16 +455,16 @@
 				defaultValue="0">
 				<constraints primaryKey="true" nullable="false" />
 			</column>
+			<column name="AGENCY_ADDR_TYPE_CD" type="varchar(2)" />
+			<column name="AGENCY_ADDR_NM" type="varchar(40)" />
+			<column name="AGENCY_INV_TYP_CD" type="varchar(10)" />
+			<column name="PREF_AGENCY_INV_TYP_CD" type="varchar(10)" />
 			<column name="OBJ_ID" type="varchar(36)">
 				<constraints unique="true" nullable="false" uniqueConstraintName="AR_INV_AGENCY_ADDR_DTL_TC1"/>
 			</column>
 			<column name="VER_NBR" type="decimal(8,0)" defaultValueNumeric="1" >
 				<constraints nullable="false" />
-			</column>
-			<column name="AGENCY_ADDR_TYPE_CD" type="varchar(2)" />
-			<column name="AGENCY_ADDR_NM" type="varchar(40)" />
-			<column name="AGENCY_INV_TYP_CD" type="varchar(10)" />
-			<column name="PREF_AGENCY_INV_TYP_CD" type="varchar(10)" />
+			</column>			
 			<column name="INV_IND_CD" type="VARCHAR(10)" />
 			<column name="PREF_INV_IND_CD" type="VARCHAR(10)" />
 			<column name="NOTE_ID" type="DECIMAL(14,0)" />
@@ -486,16 +492,16 @@
 			<column name="ACCOUNT_NBR" type="varchar(7)" defaultValue="">
 				<constraints primaryKey="true" nullable="false" />
 			</column>
+			<column name="BDGT_AMT" type="decimal(19,2)" />
+			<column name="EXP_AMT" type="decimal(19,2)" />
+			<column name="CUM_AMT" type="decimal(19,2)" />
+			<column name="BAL_AMT" type="decimal(19,2)" />
 			<column name="OBJ_ID" type="varchar(36)">
 				<constraints unique="true" nullable="false" uniqueConstraintName="AR_INV_ACCT_DTL_TC1"/>
 			</column>
 			<column name="VER_NBR" type="decimal(8,0)" defaultValueNumeric="1" >
 				<constraints nullable="false" />
-			</column>
-			<column name="BDGT_AMT" type="decimal(19,2)" />
-			<column name="EXP_AMT" type="decimal(19,2)" />
-			<column name="CUM_AMT" type="decimal(19,2)" />
-			<column name="BAL_AMT" type="decimal(19,2)" />
+			</column>			
 			<column name="CNTRCT_CNTRL_ACCT_NBR" type="varchar(7)"
 				defaultValue="" />
 			<column name="BILLED_AMT" type="DECIMAL(19,2)" defaultValue="0" />
@@ -533,17 +539,17 @@
 			<column name="FDOC_NBR" type="varchar(14)">
 				<constraints primaryKey="true" nullable="false" />
 			</column>
-			<column name="OBJ_ID" type="varchar(36)">
-				<constraints unique="true" nullable="false" uniqueConstraintName="AR_INV_GNRL_DTL_TC1"/>
-			</column>
-			<column name="VER_NBR" type="decimal(8,0)" defaultValueNumeric="1">
-				<constraints nullable="false" />
-			</column>
 			<column name="AWD_DT_RNG" type="varchar(50)" />
 			<column name="BILL_FREQ" type="varchar(50)" />
 			<column name="FND_TYP" type="varchar(50)" />
 			<column name="CNTRCT_GRNT_TYP" type="varchar(50)" />
 			<column name="FINAL_BILL_IND" type="varchar(1)" />
+			<column name="OBJ_ID" type="varchar(36)">
+				<constraints unique="true" nullable="false" uniqueConstraintName="AR_INV_GNRL_DTL_TC1"/>
+			</column>
+			<column name="VER_NBR" type="decimal(8,0)" defaultValueNumeric="1">
+				<constraints nullable="false" />
+			</column>			
 			<column name="AWD_TOT_AMT" type="decimal(19,2)" />
 			<column name="NEW_TOT_BILLED_AMT" type="decimal(19,2)" />
 			<column name="AMT_RMNG_TO_BILL" type="decimal(19,2)" />
@@ -614,16 +620,17 @@
 			<column name="CTGRY_CD" type="varchar(4)">
 				<constraints primaryKey="true" nullable="false" />
 			</column>
-			<column name="OBJ_ID" type="varchar(36)">
+
+			<column name="CTGRY_NM" type="varchar(255)" />
+			<column name="CTGRY_DESC" type="varchar(45)" />
+			<column name="OBJ_CDS" type="varchar(255)" />
+			<column name="ACTV_IND" type="varchar(1)" />
+						<column name="OBJ_ID" type="varchar(36)">
 				<constraints unique="true" nullable="false" uniqueConstraintName="AR_CATEGORIES_TC1"/>
 			</column>
 			<column name="VER_NBR" type="decimal(8,0)" defaultValueNumeric="1">
 				<constraints nullable="false" />
 			</column>
-			<column name="CTGRY_NM" type="varchar(255)" />
-			<column name="CTGRY_DESC" type="varchar(45)" />
-			<column name="OBJ_CDS" type="varchar(255)" />
-			<column name="ACTV_IND" type="varchar(1)" />
 			<column name="IND_CST_IND" type="varchar(1)" />
 			<column name="CONS_CDS" type="varchar(255)" />
 			<column name="LEVEL_CDS" type="varchar(255)" />
@@ -759,9 +766,9 @@
 			<column name="LTRCR_CRTN_TYP" type="varchar(45)" />
 			<column name="INV_DOC_TYP" type="varchar(4)" />
 			<column name="LTRCR_FND_CD" type="varchar(15)" />
-			<column name="LTRCR_FNDGRP_CD" type="varchar(4)" />
-			<column name="REFND_FDOC_NBR" type="varchar(14)" />
+			<column name="LTRCR_FNDGRP_CD" type="varchar(4)" />			
 			<column name="PRPSL_NBR" type="decimal(12,0)" defaultValue="0" />
+			<column name="REFND_FDOC_NBR" type="varchar(14)" />
 		</addColumn>
 		<modifySql dbms="oracle">
 			<replace replace="varchar" with="varchar2" />
@@ -814,12 +821,6 @@
 			<column name="FIN_OBJ_CD" type="varchar(4)">
 				<constraints primaryKey="true" />
 			</column>
-			<column name="OBJ_ID" type="varchar(36)">
-				<constraints unique="true" nullable="false" uniqueConstraintName="AR_INV_DTL_ACCT_OBJ_CD_TC1"/>
-			</column>
-			<column name="VER_NBR" type="decimal(8,0)" defaultValueNumeric="1">
-				<constraints nullable="false" />
-			</column>
 			<column name="CTGRY_CD" type="varchar(4)" />
 			<column name="TTL_BILLED" type="decimal(12,2)" defaultValue="0">
 				<constraints nullable="false" />
@@ -830,7 +831,12 @@
 			<column name="CUM_EXPND" type="decimal(12,2)" defaultValue="0">
 				<constraints nullable="false" />
 			</column>
-			
+			<column name="OBJ_ID" type="varchar(36)">
+				<constraints unique="true" nullable="false" uniqueConstraintName="AR_INV_DTL_ACCT_OBJ_CD_TC1"/>
+			</column>
+			<column name="VER_NBR" type="decimal(8,0)" defaultValueNumeric="1">
+				<constraints nullable="false" />
+			</column>			
 		</createTable>
 		<modifySql dbms="oracle">
 			<replace replace="varchar" with="varchar2" />
@@ -1007,13 +1013,14 @@
 			<column name="DOC_HDR_ID" type="decimal(12,0)">
 				<constraints primaryKey="true" nullable="false" />
 			</column>
+			<column name="INVOICE_NBR" type="VARCHAR(14)" />
 			<column name="OBJ_ID" type="varchar(36)">
 				<constraints unique="true" nullable="false" uniqueConstraintName="AR_FINAL_INV_RVRSL_ENTRY_TC1"/>
 			</column>
 			<column name="VER_NBR" type="decimal(8,0)" defaultValueNumeric="1">
 				<constraints nullable="false" />
 			</column>
-			<column name="INVOICE_NBR" type="VARCHAR(14)" />
+			
 		</createTable>
 		<modifySql dbms="oracle">
 			<replace replace="varchar" with="varchar2" />
@@ -1112,18 +1119,18 @@
 				defaultValue="0">
 				<constraints primaryKey="true" nullable="false" />
 			</column>
-			<column name="OBJ_ID" type="varchar(36)">
-				<constraints unique="true" nullable="false" uniqueConstraintName="AR_LTRCR_RVW_DTL_TC1"/>
-			</column>
-			<column name="VER_NBR" type="decimal(8,0)" defaultValueNumeric="1">
-				<constraints nullable="false" />
-			</column>
 			<column name="PRPSL_NBR" type="decimal(12,0)" defaultValue="0"></column>
 			<column name="FIN_COA_CD" type="varchar(2)"></column>
 			<column name="ACCOUNT_NBR" type="varchar(7)"></column>
 			<column name="AWD_BUD_AMT" type="decimal(19,2)" defaultValue="0" />
 			<column name="AMT_DRW" type="decimal(19,2)" defaultValue="0" />
 			<column name="AMT_AVL_DRW" type="decimal(19,2)" defaultValue="0" />
+			<column name="OBJ_ID" type="varchar(36)">
+				<constraints unique="true" nullable="false" uniqueConstraintName="AR_LTRCR_RVW_DTL_TC1"/>
+			</column>
+			<column name="VER_NBR" type="decimal(8,0)" defaultValueNumeric="1">
+				<constraints nullable="false" />
+			</column>			
 			<column name="AWD_DOC_NBR" type="varchar(12)" />
 			<column name="ACCOUNT_DESC" type="varchar(45)" />
 			<column name="ACCT_EXPIRATION_DT" type="datetime" />
@@ -1742,9 +1749,9 @@
 	<changeSet author="KFSCGB" id="KFSCNTRB13556_AR_CUST_ADDR_T_ADD">
 		<addColumn tableName="AR_CUST_ADDR_T">
 			<column name="INV_TYP_CD" type="varchar(10)" />
-			<column name="COPIES_TO_PRINT_QTY" type="varchar(5)" />
+			<column name="COPIES_TO_PRINT_QTY" type="decimal(5,0)" />
 			<column name="INV_IND_CD" type="VARCHAR(10)" />
-			<column name="PRNT_ENV_NBR" type="varchar(5)" />
+			<column name="PRNT_ENV_NBR" type="decimal(5,0)" />
 		</addColumn>
 	</changeSet>
 	

@@ -120,7 +120,7 @@
 	<changeSet author="kfs" id="KRIM_PERM_T_ADD_2">
 		<insert tableName="KRIM_PERM_T">
 			<column name="PERM_ID" value="CGPERMFFR" />
-			<column name="CMPNT_CD" value="29" />
+			<column name="PERM_TMPL_ID" value="29" />
 			<column name="NMSPC_CD" value="KFS-CG" />
 			<column name="NM" value="Use 
 		Screen" />

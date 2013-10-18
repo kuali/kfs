@@ -177,7 +177,7 @@
 		in the KFS-CG module that are not documents, lookups, inquiries, or batch 
 		uploads, i.e. this primarily provides access to CG Invoice Report Delivery 
 		Process" />
-			<column name="OBJ_ID" value="KFSCG04123" />
+			<column name="OBJ_ID" value="KFSCGPERMIRD01" />
 			<column name="VER_NBR" value="1" />
 			<column name="ACTV_IND" value="Y" />
 		</insert>
@@ -193,7 +193,7 @@
 			<column name="KIM_ATTR_DEFN_ID" value="2" />
 			<column name="ATTR_VAL"
 				value="org.kuali.kfs.module.cg.web.struts.InvoiceReportDeliveryAction" />
-			<column name="OBJ_ID" value="KFSCG04" />
+			<column name="OBJ_ID" value="KFSCGPERMIRD02" />
 			<column name="VER_NBR" value="1" />
 		</insert>
 	</changeSet>
@@ -205,7 +205,7 @@
 			<column name="PERM_ID" value="CGPERMIRD" />
 			<column name="ROLE_ID" value="38" />
 			<column name="ACTV_IND" value="Y" />
-			<column name="OBJ_ID" value="KFSCG04" />
+			<column name="OBJ_ID" value="KFSCGRLPRMIRD01" />
 			<column name="VER_NBR" value="1" />
 		</insert>
 	</changeSet>

@@ -177,10 +177,13 @@
 		in the KFS-CG module that are not documents, lookups, inquiries, or batch 
 		uploads, i.e. this primarily provides access to CG Invoice Report Delivery 
 		Process" />
-			<column name="OBJ_ID" value="KFSCGPERMIRD01" />
+			<column name="OBJ_ID" valueComputed="SYS_GUID()" />
 			<column name="VER_NBR" value="1" />
 			<column name="ACTV_IND" value="Y" />
 		</insert>
+		<modifySql dbms="mysql">
+			<replace replace="SYS_GUID()" with="uuid()" />
+		</modifySql>
 	</changeSet>
 
 
@@ -199,7 +202,7 @@
 	</changeSet>
 
 	<!-- Adding the permissions to the role for khuntley - default test user -->
-	<changeSet author="kfs" id="KRIM_ROLE_PERM_T_ADD_1">
+	<changeSet author="kfs" id="KRIM_ ROLE_PERM_T_ADD_1">
 		<insert tableName="KRIM_ROLE_PERM_T">
 			<column name="ROLE_PERM_ID" value="CGRLPRMIRD" />
 			<column name="PERM_ID" value="CGPERMIRD" />

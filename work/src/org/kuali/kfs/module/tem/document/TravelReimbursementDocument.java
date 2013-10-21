@@ -225,22 +225,21 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
                     // check TAC existance
                     List<Document> relatedCloseDocuments = getTravelDocumentService().getDocumentsRelatedTo(openAuthorization, TravelDocTypes.TRAVEL_AUTHORIZATION_CLOSE_DOCUMENT);
 
-                    // Trip is encumbrance and no TAC(TAC doc would have handled dis encumbrance)
-                    if (relatedCloseDocuments.isEmpty()) {
-                        // 3. No TAC - then if it is indicated as final TR - we will spawn the TAC doc
-                        if (getFinalReimbursement()) {
-                            // store this so we can reset after we're finished
-                            final String initiatorId = getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId();
-                            final Principal initiator = getIdentityService().getPrincipal(initiatorId);
-                            GlobalVariables.doInNewGlobalVariables(new UserSession(initiator.getPrincipalName()), new Callable<Object>(){
-                                @Override
-                                public Object call() {
-                                    //close the authorization
-                                    getTravelAuthorizationService().closeAuthorization(openAuthorization, getTripDescription(), initiator.getPrincipalName());
-                                    return null;
-                                }
-                            });
-                        }
+                    // Trip is encumbrance and no TAC(TAC doc would have handled dis encumbrance) and this is the final TR...so it needs to spawn a TAC
+                    if (relatedCloseDocuments.isEmpty() && getFinalReimbursement()) {
+                        // save our GLPE's so that the TAC finds them when calculating encumbrances
+                        getBusinessObjectService().save(getGeneralLedgerPendingEntries());
+                        // store this so we can reset after we're finished
+                        final String initiatorId = getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId();
+                        final Principal initiator = getIdentityService().getPrincipal(initiatorId);
+                        GlobalVariables.doInNewGlobalVariables(new UserSession(initiator.getPrincipalName()), new Callable<Object>(){
+                            @Override
+                            public Object call() {
+                                //close the authorization
+                                getTravelAuthorizationService().closeAuthorization(openAuthorization, getTripDescription(), initiator.getPrincipalName(), getDocumentNumber());
+                                return null;
+                            }
+                        });
                     }
                 }
                 // if open authorization is null, try to check if there is ANY authorization at all (may be it was closed manually; so its not opened)
@@ -475,28 +474,7 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
     public KualiDecimal getAdvancesTotal() {
         KualiDecimal retval = KualiDecimal.ZERO;
         if (getTravelAdvanceAmount().isZero()) {
-            // Add up the total of the travel advances for this trip
-            KualiDecimal advanceTotal = KualiDecimal.ZERO;
-            if (getTravelAdvances() != null) {
-                for (final TravelAdvance advance : getTravelAdvances()) {
-                    advanceTotal = advanceTotal.add(advance.getTravelAdvanceRequested());
-                }
-            }else {
-                advanceTotal = getTravelDocumentService().getAdvancesTotalFor(this);
-            }
-
-            // Calculate the amount previously applied on the trip (i.e. there are multiple TRs on the TA and the
-            // first TR did not use all of the Travel Advance amount)
-            KualiDecimal previouslyAppliedAmount = KualiDecimal.ZERO;
-            List<TravelAuthorizationDocument> taDocs = (List<TravelAuthorizationDocument>) getTravelAuthorizationService().find(travelDocumentIdentifier);
-            if (ObjectUtils.isNotNull(taDocs) && taDocs.size() == 1) {
-                List<Document> trDocs = getTravelDocumentService().getDocumentsRelatedTo(taDocs.get(0), TravelDocTypes.TRAVEL_REIMBURSEMENT_DOCUMENT);
-                for (Document doc : trDocs) {
-                    TravelReimbursementDocument trDoc = (TravelReimbursementDocument) doc;
-                    previouslyAppliedAmount = trDoc.getTravelAdvanceAmount().add(previouslyAppliedAmount);
-                }
-            }
-            retval = advanceTotal.subtract(previouslyAppliedAmount);
+            retval = getTravelReimbursementService().getInvoiceAmount(this);
 
             // Note that the travelAdvanceAmount is not set here. It is only set when the APP doc is created.
         }
@@ -513,6 +491,10 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
     @Override
     public KualiDecimal getReimbursableGrandTotal() {
         KualiDecimal grandTotal = super.getReimbursableGrandTotal();
+        KualiDecimal advancesTotal = getAdvancesTotal();
+        if (advancesTotal.isGreaterThan(grandTotal)) {
+            return KualiDecimal.ZERO; // if advances are greater than what is being reimbursed, then the grand total is a big fat goose egg.  With two equally sized goose eggs after the decimal point.
+        }
         return grandTotal.subtract(getAdvancesTotal());
     }
 

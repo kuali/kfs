@@ -197,15 +197,17 @@ public class TravelEncumbranceServiceImpl implements TravelEncumbranceService {
     }
 
     /**
-     * @see org.kuali.kfs.module.tem.document.service.TravelEncumbranceService#disencumberTravelAuthorizationClose(org.kuali.kfs.module.tem.document.TravelAuthorizationCloseDocument, org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper)
+     * @see org.kuali.kfs.module.tem.document.service.TravelEncumbranceService#disencumberTravelAuthorizationClose(org.kuali.kfs.module.tem.document.TravelAuthorizationCloseDocument, org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper, java.util.List)
      */
     @Override
-    public void disencumberTravelAuthorizationClose(TravelAuthorizationCloseDocument document, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
+    public void disencumberTravelAuthorizationClose(TravelAuthorizationCloseDocument document, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, List<GeneralLedgerPendingEntry> reimbursementPendingEntries) {
 
         //Get rid of all pending entries relating to encumbrance.
         clearAuthorizationEncumbranceGLPE(document);
 
         final List<Encumbrance> encumbrances = getEncumbrancesForTrip(document.getTravelDocumentIdentifier(), null);
+
+        applyReimbursementEntriesToEncumbrances(encumbrances, reimbursementPendingEntries);
 
         // Create encumbrance map based on account numbers
         int counter = document.getGeneralLedgerPendingEntries().size() + 1;
@@ -241,14 +243,38 @@ public class TravelEncumbranceServiceImpl implements TravelEncumbranceService {
         while (pendingEntriesIterator.hasNext()) {
             final GeneralLedgerPendingEntry pendingEntry = pendingEntriesIterator.next();
             if (StringUtils.isBlank(skipDocumentNumber) || !skipDocumentNumber.equals(pendingEntry.getDocumentNumber())) {
-                Encumbrance encumbrance = getEncumbranceCalculator().findEncumbrance(allEncumbrances, pendingEntry); // thank you, dear genius who extracted EncumbranceCalculator!
-                if (encumbrance != null) {
-                    getEncumbranceCalculator().updateEncumbrance(pendingEntry, encumbrance);
-                }
+                applyEntryToEncumbrances(allEncumbrances, pendingEntry);
             }
         }
 
         return allEncumbrances;
+    }
+
+    /**
+     * Applies a single pending entry to the list of encumbrances if possible
+     * @param allEncumbrances list of encumbrances to be updated
+     * @param pendingEntry the pending entry to apply
+     */
+    protected void applyEntryToEncumbrances(List<Encumbrance> allEncumbrances, GeneralLedgerPendingEntry pendingEntry) {
+        Encumbrance encumbrance = getEncumbranceCalculator().findEncumbrance(allEncumbrances, pendingEntry); // thank you, dear genius who extracted EncumbranceCalculator!
+        if (encumbrance != null) {
+            getEncumbranceCalculator().updateEncumbrance(pendingEntry, encumbrance);
+        }
+    }
+
+    /**
+     * Applies the pending entries from the TR - if they exist - to the given encumbrances
+     * @param encumbrances the encumbrances to apply entries to
+     * @param reimbursementPendingEntries the pending entries from teh reimbursement - which may be null
+     */
+    protected void applyReimbursementEntriesToEncumbrances(List<Encumbrance> encumbrances, List<GeneralLedgerPendingEntry> reimbursementPendingEntries) {
+        if (reimbursementPendingEntries != null && !reimbursementPendingEntries.isEmpty()) {
+            for(GeneralLedgerPendingEntry pendingEntry : reimbursementPendingEntries) {
+                if (!pendingEntry.isTransactionEntryOffsetIndicator()) {
+                    applyEntryToEncumbrances(encumbrances, pendingEntry);
+                }
+            }
+        }
     }
 
     /**

@@ -506,6 +506,7 @@
         <field-descriptor name="citizenshipCountryCode" column="CTZN_CNTRY_CD" jdbc-type="VARCHAR"/>
         <field-descriptor name="nextSourceLineNumber" column="FDOC_NXT_EXP_NBR" jdbc-type="INTEGER" />
         <field-descriptor name="financialDocumentBankCode" column="FDOC_BNK_CD" jdbc-type="VARCHAR" />
+        <field-descriptor name="travelReimbursementDocumentNumber" column="TR_FDOC_NBR" jdbc-type="VARCHAR"/>
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR"/>
         <field-descriptor name="versionNumber" locking="true" column="VER_NBR" jdbc-type="BIGINT"/>
         

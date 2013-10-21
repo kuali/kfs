@@ -419,17 +419,26 @@ public class TravelReimbursementServiceImpl implements TravelReimbursementServic
      */
     @Override
     public KualiDecimal getReimbursableToTraveler(TEMReimbursementDocument reimbursementDocument){
+        final KualiDecimal invoicesTotal = getInvoiceAmount(reimbursementDocument);
+        KualiDecimal reimbursableToTraveler = reimbursementDocument.getReimbursableTotal().subtract(invoicesTotal);
+        return reimbursableToTraveler;
+    }
 
-        //Calculate the invoice total for customer
+    /**
+     * Calculates the total amount of open invoices for this trip
+     * @param reimbursementDocument a reimbursement in the trip to find the open invoice amount for
+     * @return the total open invoice amount
+     */
+    @Override
+    public KualiDecimal getInvoiceAmount(TEMReimbursementDocument reimbursementDocument) {
+      //Calculate the invoice total for customer
         Map<AccountsReceivableCustomerInvoice, KualiDecimal> openInvoiceMap = getInvoicesOpenAmountMapFor (reimbursementDocument.getTraveler().getCustomerNumber(), reimbursementDocument.getTravelDocumentIdentifier());
         KualiDecimal invoicesTotal = KualiDecimal.ZERO;
         //calculate open invoice totals
         for (final KualiDecimal invoiceAmount : openInvoiceMap.values()) {
             invoicesTotal = invoicesTotal.add(invoiceAmount);
         }
-
-        KualiDecimal reimbursableToTraveler = reimbursementDocument.getReimbursableTotal().subtract(invoicesTotal);
-        return reimbursableToTraveler;
+        return invoicesTotal;
     }
 
     /**

@@ -162,4 +162,11 @@ public interface TravelReimbursementService {
      * @return true if Travel Authorization Required is set to true for all Trip Types
      */
     public boolean doAllReimbursementTripTypesRequireTravelAuthorization();
+
+    /**
+     * Calculates the total amount of open invoices for this trip
+     * @param reimbursementDocument a reimbursement in the trip to find the open invoice amount for
+     * @return the total open invoice amount
+     */
+    public KualiDecimal getInvoiceAmount(TEMReimbursementDocument reimbursementDocument);
 }

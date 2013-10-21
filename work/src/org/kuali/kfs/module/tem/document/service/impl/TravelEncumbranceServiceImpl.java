@@ -225,6 +225,9 @@ public class TravelEncumbranceServiceImpl implements TravelEncumbranceService {
     @Override
     @Transactional
     public List<Encumbrance> getEncumbrancesForTrip(String travelDocumentIdentifier, String skipDocumentNumber) {
+        if (StringUtils.isBlank(travelDocumentIdentifier)) {
+            return new ArrayList<Encumbrance>(); // there's no trip.  So don't bother looking up encumbrances
+        }
         Map<String, Object> criteria = new HashMap<String, Object>();
         criteria.put(KFSPropertyConstants.DOCUMENT_NUMBER, travelDocumentIdentifier);
         Iterator<Encumbrance> encumbranceIterator = encumbranceService.findOpenEncumbrance(criteria, false);

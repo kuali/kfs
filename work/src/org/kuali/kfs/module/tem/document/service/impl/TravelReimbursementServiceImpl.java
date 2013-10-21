@@ -35,6 +35,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.coa.businessobject.OffsetDefinition;
 import org.kuali.kfs.coa.service.ObjectCodeService;
@@ -431,12 +432,14 @@ public class TravelReimbursementServiceImpl implements TravelReimbursementServic
      */
     @Override
     public KualiDecimal getInvoiceAmount(TEMReimbursementDocument reimbursementDocument) {
-      //Calculate the invoice total for customer
-        Map<AccountsReceivableCustomerInvoice, KualiDecimal> openInvoiceMap = getInvoicesOpenAmountMapFor (reimbursementDocument.getTraveler().getCustomerNumber(), reimbursementDocument.getTravelDocumentIdentifier());
         KualiDecimal invoicesTotal = KualiDecimal.ZERO;
-        //calculate open invoice totals
-        for (final KualiDecimal invoiceAmount : openInvoiceMap.values()) {
-            invoicesTotal = invoicesTotal.add(invoiceAmount);
+        if (!ObjectUtils.isNull(reimbursementDocument.getTraveler()) && !StringUtils.isBlank(reimbursementDocument.getTravelDocumentIdentifier())) {
+            //Calculate the invoice total for customer
+            Map<AccountsReceivableCustomerInvoice, KualiDecimal> openInvoiceMap = getInvoicesOpenAmountMapFor (reimbursementDocument.getTraveler().getCustomerNumber(), reimbursementDocument.getTravelDocumentIdentifier());
+            //calculate open invoice totals
+            for (final KualiDecimal invoiceAmount : openInvoiceMap.values()) {
+                invoicesTotal = invoicesTotal.add(invoiceAmount);
+            }
         }
         return invoicesTotal;
     }

@@ -60,7 +60,7 @@
 			<column name="PERM_ID" value="1111" />
 			<column name="PERM_TMPL_ID" value="29" />
 			<column name="NMSPC_CD" value="KFS-CG" />
-			<column name="NM" value="Use Screen" />
+			<column name="NM" value="Use Screen  CG Invoice On Demand " />
 			<column name="DESC_TXT"
 				value="Allows users access to screens in the KFS-CG module that are not documents, lookups, inquiries, or batch uploads, i.e. this primarily provides access to CG Invoice On Demand process" />
 			<column name="OBJ_ID" value="KFSCG02" />
@@ -123,7 +123,8 @@
 			<column name="PERM_TMPL_ID" value="29" />
 			<column name="NMSPC_CD" value="KFS-CG" />
 			<column name="NM" value="Use 
-		Screen" />
+		Screen CG Federal Form Generation 
+		Process" />
 			<column name="DESC_TXT"
 				value="Allows users access to screens 
 		in the KFS-CG module that are not documents, lookups, inquiries, or batch 
@@ -171,7 +172,8 @@
 			<column name="PERM_TMPL_ID" value="29" />
 			<column name="NMSPC_CD" value="KFS-CG" />
 			<column name="NM" value="Use 
-		Screen" />
+		Screen CG Invoice Report Delivery 
+		Process" />
 			<column name="DESC_TXT"
 				value="Allows users access to screens 
 		in the KFS-CG module that are not documents, lookups, inquiries, or batch 

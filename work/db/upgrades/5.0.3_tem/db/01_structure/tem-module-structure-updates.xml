@@ -952,6 +952,7 @@
 			<column name="CTZN_CNTRY_CD" type="VARCHAR2(255)" />
 			<column name="FDOC_NXT_EXP_NBR" type="NUMBER(7,0)" />
 			<column name="FDOC_BNK_CD" type="VARCHAR2(4)"/>
+			<column name="TR_FDOC_NBR" type="VARCHAR2(14)"/>
 			<column name="VER_NBR" type="NUMBER(8,0)" defaultValueNumeric="1" />
 			<column name="OBJ_ID" type="VARCHAR2(36)" />
 		</createTable>

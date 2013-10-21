@@ -184,7 +184,9 @@ public class AccountingDistributionServiceImpl implements AccountingDistribution
         subtractMergeDistributionMap(distributionMap, accountingLinesToDistributionMap(travelDocument));
 
         for (String distribution : distributionMap.keySet()){
-            documentDistribution.add(distributionMap.get(distribution));
+            if (!distributionMap.get(distribution).getSubTotal().equals(KualiDecimal.ZERO)) {  // don't include distributions of 0.00
+                documentDistribution.add(distributionMap.get(distribution));
+            }
         }
         Collections.sort(documentDistribution, new AccountingDistributionComparator());
 

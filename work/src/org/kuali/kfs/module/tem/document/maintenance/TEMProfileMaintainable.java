@@ -25,7 +25,9 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomer;
+import org.kuali.kfs.integration.ar.AccountsReceivableCustomerAddress;
 import org.kuali.kfs.integration.ar.AccountsReceivableModuleService;
+import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants.TEMProfileProperties;
@@ -49,6 +51,7 @@ import org.kuali.rice.kns.maintenance.Maintainable;
 import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.Row;
 import org.kuali.rice.kns.web.ui.Section;
+import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.datadictionary.mask.Mask;
@@ -82,12 +85,13 @@ public class TEMProfileMaintainable extends FinancialSystemMaintainable {
             temProfile.setProfileId(newProfileId);
         }
         String principalId = "";
-        if (parameters.containsKey(KFSPropertyConstants.PERSON_USER_IDENTIFIER)) {
-            principalId = parameters.get(KFSPropertyConstants.PERSON_USER_IDENTIFIER)[0];
+        if (parameters.containsKey(KFSPropertyConstants.PRINCIPAL_ID)) {
+            principalId = parameters.get(KFSPropertyConstants.PRINCIPAL_ID)[0];
             if(StringUtils.isNotBlank(principalId)) {
                 //we want to set the principal
                 Person person = getPersonService().getPerson(principalId);
                 temProfile.setPrincipal(person);
+                temProfile.setPrincipalId(principalId);
                 if(travelerService.isKimPersonEmployee(person)) {
                     temProfile.setTravelerTypeCode(EMP_TRAVELER_TYP_CD);
                 } else {
@@ -102,6 +106,7 @@ public class TEMProfileMaintainable extends FinancialSystemMaintainable {
                 //we want to set the customer
                 AccountsReceivableCustomer person = getAccountsReceivableModuleService().findCustomer(customerNumber);
                 temProfile.setCustomer(person);
+                temProfile.setCustomerNumber(customerNumber);
                 if(travelerService.isCustomerEmployee(person)) {
                     temProfile.setTravelerTypeCode(EMP_TRAVELER_TYP_CD);
                 } else {
@@ -201,6 +206,35 @@ public class TEMProfileMaintainable extends FinancialSystemMaintainable {
         populateInfo((TEMProfile)document.getOldMaintainableObject().getBusinessObject());
         populateInfo((TEMProfile)document.getNewMaintainableObject().getBusinessObject());
         super.processAfterEdit(document, parameters);
+    }
+
+    @Override
+    public void doRouteStatusChange(DocumentHeader documentHeader) {
+        super.doRouteStatusChange(documentHeader);
+
+        if (documentHeader.getWorkflowDocument().isProcessed()){
+            TEMProfile temProfile = (TEMProfile) super.getBusinessObject();
+            if(NONEMP_TRAVELER_TYP_CD.equals(temProfile.getTravelerTypeCode())) {
+                updateCustomerPrimaryAddress(temProfile);
+
+            }
+        }
+    }
+
+    protected void updateCustomerPrimaryAddress(TEMProfile temProfile) {
+      AccountsReceivableCustomer customer = temProfile.getCustomer();
+       for(AccountsReceivableCustomerAddress customerAddress : customer.getAccountsReceivableCustomerAddresses()) {
+           if(ArKeyConstants.CustomerConstants.CUSTOMER_ADDRESS_TYPE_CODE_PRIMARY.equals(customerAddress.getAccountsReceivableCustomerAddressType().getCustomerAddressTypeCode())) {
+               customerAddress.setCustomerLine1StreetAddress(temProfile.getTemProfileAddress().getStreetAddressLine1());
+               customerAddress.setCustomerLine2StreetAddress(temProfile.getTemProfileAddress().getStreetAddressLine2());
+               customerAddress.setCustomerCityName(temProfile.getTemProfileAddress().getCityName());
+               customerAddress.setCustomerStateCode(temProfile.getTemProfileAddress().getStateCode());
+               customerAddress.setCustomerZipCode(temProfile.getTemProfileAddress().getZipCode());
+               customerAddress.setCustomerCountryCode(temProfile.getTemProfileAddress().getCountryCode());
+               customerAddress.setCustomerEmailAddress(temProfile.getEmailAddress());
+               getAccountsReceivableModuleService().saveCustomer(temProfile.getCustomer());
+           }
+       }
     }
 
     /**
@@ -414,10 +448,6 @@ public class TEMProfileMaintainable extends FinancialSystemMaintainable {
         return note;
 	}
 
-    protected AccountsReceivableModuleService getAccountsReceivableModuleService() {
-
-        return SpringContext.getBean(AccountsReceivableModuleService.class);
-    }
 
     /**
      * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#getNewCollectionLine(java.lang.String)
@@ -434,6 +464,12 @@ public class TEMProfileMaintainable extends FinancialSystemMaintainable {
 
         return addLine;
     }
+
+    protected AccountsReceivableModuleService getAccountsReceivableModuleService() {
+
+        return SpringContext.getBean(AccountsReceivableModuleService.class);
+    }
+
 
     public TEMRoleService getTEMRoleService(){
         return SpringContext.getBean(TEMRoleService.class);

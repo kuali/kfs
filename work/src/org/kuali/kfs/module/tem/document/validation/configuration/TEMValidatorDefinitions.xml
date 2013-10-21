@@ -15,8 +15,11 @@
 	<bean id="TravelModule-tripInfoUpdateTripDetailsValidation"
 		class="org.kuali.kfs.module.tem.document.validation.impl.TravelUpdateTripDetailsValidation" />
 
-    <bean id="TravelModule-perDiemExpenseValidation"
-        class="org.kuali.kfs.module.tem.document.validation.impl.PerDiemExpenseValidation" />
+	<bean id="TravelModule-perDiemExpenseValidation" parent="TravelModule-perDiemExpenseValidation-parentBean" />
+    <bean id="TravelModule-perDiemExpenseValidation-parentBean" abstract="true" class="org.kuali.kfs.module.tem.document.validation.impl.PerDiemExpenseValidation">
+    	<property name="dictionaryValidationService" ref="dictionaryValidationService"/>
+    	<property name="dateTimeService" ref="dateTimeService"/>
+    </bean>
 
 	<bean id="TravelModule-travelAdvanceValidation"
 		class="org.kuali.kfs.module.tem.document.validation.impl.TravelAuthTravelAdvanceValidation">

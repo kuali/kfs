@@ -178,8 +178,40 @@
 	<!-- workflow attributes -->
 	<bean id="TravelArrangerDocument-workflowAttributes" parent="TravelArrangerDocument-workflowAttributes-parentBean" />
 
-	<bean id="TravelArrangerDocument-workflowAttributes-parentBean"
-		class="org.kuali.rice.krad.datadictionary.WorkflowAttributes" abstract="true">
+	<bean id="TravelArrangerDocument-workflowAttributes-parentBean" class="org.kuali.rice.krad.datadictionary.WorkflowAttributes" abstract="true">
+	
+		<property name="routingTypeDefinitions">
+			<map>
+				<entry key="Traveler" value-ref="TravelArrangerDocument-RoutingType-Traveler" />
+			</map>
+		</property>
+	</bean>
+
+	<bean id="TravelArrangerDocument-RoutingType-Traveler" class="org.kuali.rice.krad.datadictionary.RoutingTypeDefinition">
+		<property name="routingAttributes">
+			<list>
+				<ref bean="TravelArrangerDocument-RoutingAttribute-Traveler" />
+			</list>
+		</property>
+		<property name="documentValuePathGroups">
+			<list>
+				<ref bean="TravelArrangerDocument-DocumentValuePathGroup-Traveler" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="TravelArrangerDocument-DocumentValuePathGroup-Traveler"
+		class="org.kuali.rice.krad.datadictionary.DocumentValuePathGroup">
+		<property name="documentValues">
+			<list>
+				<value>profile.principalId</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="TravelArrangerDocument-RoutingAttribute-Traveler"
+		class="org.kuali.rice.krad.datadictionary.RoutingAttribute">
+		<property name="qualificationAttributeName" value="profilePrincipalId" />
 	</bean>
 
 </beans>

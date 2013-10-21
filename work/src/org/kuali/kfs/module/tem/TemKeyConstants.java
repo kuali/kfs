@@ -259,6 +259,7 @@ public class TemKeyConstants {
     public static final String ERROR_TEM_DETAIL_LESS_THAN_EXPENSE = "error.document.detail.less.than.expense";
     public static final String ERROR_TEM_DETAIL_LESS_THAN_ZERO = "error.document.detail.less.than.zero";
     public static final String ERROR_PER_DIEM_LESS_THAN_ZERO = "error.document.per.diem.less.than.zero";
+    public static final String ERROR_PER_DIEM_INCIDENTALS_BUT_NO_MEALS = "error.document.per.diem.incidentals.but.no.meals";
 
     //TMCP errors
     public static final String ERROR_TMCP_SYSTEMFIELD_REQUIRED = "error.tem.correction.systemfield.required";

@@ -837,7 +837,7 @@ public class TravelReimbursementAction extends TravelActionBase {
                 Set<String> nonUsedDistributionObjectCodes = new HashSet<String>();
                 Set<String> usedObjectCodes = getAccountingLineObjectCodes(form);
                 for (AccountingDistribution dist : form.getDistribution()) {
-                    if (!usedObjectCodes.contains(dist.getObjectCode())) {
+                    if (!usedObjectCodes.contains(dist.getObjectCode()) && !dist.getSubTotal().equals(KualiDecimal.ZERO)) {
                         nonUsedDistributionObjectCodes.add(dist.getObjectCode());
                     }
                 }

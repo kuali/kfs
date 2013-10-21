@@ -10,14 +10,13 @@
 		<property name="objectLabel" value="Attendee" />
 		<property name="attributes">
 		<list>
-		<ref bean="Attendee-id" />
-		<ref bean="Attendee-documentNumber" />
+			<ref bean="Attendee-id" />
+			<ref bean="Attendee-documentNumber" />
 			<ref bean="Attendee-company" />
 			<ref bean="Attendee-title" />
 			<ref bean="Attendee-name" />
 			<ref bean="Attendee-attendeeType" />
 			<ref bean="Attendee-versionNumber" />
-			
 		</list>
 		</property>
 	</bean>
@@ -27,7 +26,6 @@
         <property name="label" value="Id" />
         <property name="shortLabel" value="Id" />
         <property name="maxLength" value="32" />
-        <property name="required" value="true" />
         <property name="summary" value="Id" />
         <property name="description" value="Id" />
         <property name="control"><bean parent="HiddenControlDefinition" /></property>

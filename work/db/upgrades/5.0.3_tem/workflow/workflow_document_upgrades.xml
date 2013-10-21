@@ -312,7 +312,7 @@
 		<documentType>
 			<name>TA</name>
 			<parent>TRV</parent>
-			<docHandler>${application.url}/temTravelAuthorization.do?methodToCall=docHandler
+			<docHandler>${kfs.url}/temTravelAuthorization.do?methodToCall=docHandler
 			</docHandler>
 			<label>Travel Authorization</label>
 			<active>
@@ -588,13 +588,13 @@
 		<documentType>
 			<name>TAA</name>
 			<parent>TA</parent>
-			<docHandler>${application.url}/temTravelAuthorization.do?methodToCall=docHandler</docHandler>
+			<docHandler>${kfs.url}/temTravelAuthorization.do?methodToCall=docHandler</docHandler>
 			<label>Travel Authorization Amendment</label>
 		</documentType>
 		<documentType>
 	      <name>TAC</name>
 	      <parent>TA</parent>
-	      <docHandler>${application.url}/temTravelAuthorization.do?methodToCall=docHandler</docHandler>
+	      <docHandler>${kfs.url}/temTravelAuthorization.do?methodToCall=docHandler</docHandler>
 	      <label>Travel Authorization Close</label>
 	      <policies>
                 <policy>
@@ -618,7 +618,7 @@
 		<documentType>
             <name>TR</name>
             <parent>TRV</parent>
-            <docHandler>${application.url}/temTravelReimbursement.do?methodToCall=docHandler
+            <docHandler>${kfs.url}/temTravelReimbursement.do?methodToCall=docHandler
             </docHandler>
             <label>Travel Reimbursement</label>
             <active>
@@ -879,13 +879,13 @@
 		<documentType>
 			<name>TMCP</name>
 			<parent>TT</parent>
-			<docHandler>${application.url}/temCorrectionDocument.do?methodToCall=docHandler</docHandler>
+			<docHandler>${kfs.url}/temCorrectionDocument.do?methodToCall=docHandler</docHandler>
 			<label>TEM Correction Process Document</label>
 		</documentType>
 		<documentType>
 			<name>TTA</name>
 			<parent>TT</parent>
-			<docHandler>${application.url}/temTravelArranger.do?methodToCall=docHandler</docHandler>
+			<docHandler>${kfs.url}/temTravelArranger.do?methodToCall=docHandler</docHandler>
 			<label>Travel Arranger</label>
 			<routePaths>
 				<routePath>
@@ -925,7 +925,7 @@
 		<documentType>
             <name>RELO</name>
             <parent>TT</parent>
-            <docHandler>${application.url}/temTravelRelocation.do?methodToCall=docHandler
+            <docHandler>${kfs.url}/temTravelRelocation.do?methodToCall=docHandler
             </docHandler>
             <label>Moving and Relocation</label>
             <attributes>
@@ -1033,7 +1033,7 @@
                             <role name="SeparationOfDuties" nextNode="JoinRequiresSeparationOfDuties" nextAppDocStatus="Awaiting Disbursement Method Review" />
                         </branch>
                         <branch name="False">
-                            <simple name="NoOpRequiresSeparationOfDuties" nextNode="JoinRequiresSeparationOfDuties" nextAppDocStatus="Awaiting Moving and Relocation Manager Review" />
+                            <simple name="NoOpRequiresSeparationOfDuties" nextNode="JoinRequiresSeparationOfDuties" nextAppDocStatus="Awaiting Disbursement Method Review" />
                         </branch>   
                         <join name="JoinRequiresSeparationOfDuties" />                  
                     </split>
@@ -1165,7 +1165,7 @@
 			<parent>TT</parent>
 			<description />
 			<label>Taxable Ramification</label>
-			<docHandler>${application.url}/temTaxableRamification.do?methodToCall=docHandler</docHandler>
+			<docHandler>${kfs.url}/temTaxableRamification.do?methodToCall=docHandler</docHandler>
 			<active>true</active>
 			<routingVersion>2</routingVersion>
 			<routePaths>
@@ -1206,7 +1206,7 @@
 		<documentType>
             <name>ENT</name>
             <parent>TT</parent>
-            <docHandler>${application.url}/temTravelEntertainment.do?methodToCall=docHandler
+            <docHandler>${kfs.url}/temTravelEntertainment.do?methodToCall=docHandler
             </docHandler>
             <label>Entertainment Document</label>
             <attributes>
@@ -1275,8 +1275,8 @@
                         </branch>
                         <join name="JoinTravelRequiresTravelerApproval"/>
                     </split>
-                    <role name="Account" nextNode="AccountingOrganizationHierarchy" nextAppDocStatus="Awaiting Fiscal Officer Review" />
-                    <role name="AccountingOrganizationHierarchy" nextNode="TravelHasSpecialRequest" nextAppDocStatus="Awaiting Organization Review" />
+                    <role name="Account" nextNode="AccountingOrganizationHierarchy" nextAppDocStatus="Awaiting Organization Review" />
+                    <role name="AccountingOrganizationHierarchy" nextNode="TravelHasSpecialRequest" nextAppDocStatus="Awaiting Special Request Review" />
                  	<split name="TravelHasSpecialRequest" nextNode="SubFund" nextAppDocStatus="Awaiting Special Request Review">
 						<branch name="True">
 							<role name="SpecialRequest" nextNode="JoinTravelHasSpecialRequest" />
@@ -1286,8 +1286,8 @@
 						</branch>
 						<join name="JoinTravelHasSpecialRequest"/>
 					</split>
-           	        <role name="SubFund" nextNode="Award" nextAppDocStatus="Awaiting Sub-Fund Review" />
-            	    <role name="Award" nextNode="TaxManager" nextAppDocStatus="Awaiting Award Review" />
+           	        <role name="SubFund" nextNode="Award" nextAppDocStatus="Awaiting Award Review" />
+            	    <role name="Award" nextNode="TaxManager" nextAppDocStatus="Awaiting Tax Manager Review" />
                     <split name="TaxManager" nextNode="RequiresSeparationOfDuties" nextAppDocStatus="Awaiting Tax Manager Review">
 					   <branch name="True">
 					      <role name="Tax" nextNode="JoinTaxManager" nextAppDocStatus="Awaiting Separation Of Duties Review"/>
@@ -1302,7 +1302,7 @@
                             <role name="SeparationOfDuties" nextNode="JoinRequiresSeparationOfDuties" nextAppDocStatus="Awaiting Disbursement Payment Review" />
                         </branch>
                         <branch name="False">
-                            <simple name="NoOpRequiresSeparationOfDuties" nextNode="JoinRequiresSeparationOfDuties" nextAppDocStatus="Awaiting Entertainment Manager Review" />
+                            <simple name="NoOpRequiresSeparationOfDuties" nextNode="JoinRequiresSeparationOfDuties" nextAppDocStatus="Awaiting Disbursement Payment Review" />
                         </branch>   
                         <join name="JoinRequiresSeparationOfDuties" />                  
                     </split>
@@ -1408,7 +1408,7 @@
 			<name>CTAP</name>
 			<parent>TT</parent>
 			<label>CTS Card Application</label>
-			<docHandler>${application.url}/temCTSCardApplication.do?methodToCall=docHandler</docHandler>
+			<docHandler>${kfs.url}/temCTSCardApplication.do?methodToCall=docHandler</docHandler>
 			<active>true</active>
 			<routingVersion>1</routingVersion>
 			<validApplicationStatuses>
@@ -1457,7 +1457,7 @@
 			<name>CCAP</name>
 			<parent>TT</parent>
 			<label>Corporate Card Application</label>
-			<docHandler>${application.url}/temCorporateCardApplication.do?methodToCall=docHandler</docHandler>
+			<docHandler>${kfs.url}/temCorporateCardApplication.do?methodToCall=docHandler</docHandler>
 			<active>true</active>
 			<routingVersion>1</routingVersion>
 			<validApplicationStatuses>

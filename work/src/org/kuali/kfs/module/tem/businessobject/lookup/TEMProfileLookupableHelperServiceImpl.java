@@ -43,6 +43,7 @@ import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kim.api.services.IdentityManagementService;
 import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
 import org.kuali.rice.kns.datadictionary.FieldDefinition;
+import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
 import org.kuali.rice.krad.UserSession;
@@ -134,6 +135,19 @@ public class TEMProfileLookupableHelperServiceImpl extends KualiLookupableHelper
         return profiles;
     }
 
+    @Override
+    public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
+        List<HtmlData> htmlDataList = new ArrayList<HtmlData>();
+        if (allowsMaintenanceEditAction(businessObject)) {
+            htmlDataList.add(getUrlData(businessObject, KRADConstants.MAINTENANCE_EDIT_METHOD_TO_CALL, pkNames));
+        }
+        if (allowsMaintenanceDeleteAction(businessObject)) {
+            htmlDataList.add(getUrlData(businessObject, KRADConstants.MAINTENANCE_DELETE_METHOD_TO_CALL, pkNames));
+        }
+        return htmlDataList;
+    }
+
+
     /**
      * This method searches through fieldValues for a not null value. Returns true if a not null value is found. Use this to
      * determine if a kim lookup is necessary or not.
@@ -202,7 +216,7 @@ public class TEMProfileLookupableHelperServiceImpl extends KualiLookupableHelper
         String imageBaseUrl = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY);
 
         Properties myProfileParameters = new Properties();
-        myProfileParameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.MAINTENANCE_NEWWITHEXISTING_ACTION);
+        myProfileParameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.MAINTENANCE_NEW_METHOD_TO_CALL);
         myProfileParameters.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, TEMProfile.class.getName());
         myProfileParameters.put(KFSConstants.OVERRIDE_KEYS, "principalId");
         myProfileParameters.put(KFSConstants.REFRESH_CALLER, "principalId" + "::" + user.getPrincipalId());

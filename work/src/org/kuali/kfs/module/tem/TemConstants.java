@@ -790,7 +790,10 @@ public class TemConstants {
         mileage("Mileage"),
         meals("Meals"),
         lodging("Lodging"),
-        refreshment("Refreshment");
+        incidentals("Incidentals"),
+        breakfast("Breakfast"),
+        lunch("Lunch"),
+        dinner("Dinner");
 
         public String label;
 

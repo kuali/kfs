@@ -57,6 +57,8 @@ public class TemCardApplicationAction extends FinancialSystemTransactionalDocume
 
     @Override
     public ActionForward docHandler(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ActionForward forward = super.docHandler(mapping, form, request, response);
+
         Person currentUser = GlobalVariables.getUserSession().getPerson();
         TemCardApplicationForm applicationForm = (TemCardApplicationForm)form;
 
@@ -65,16 +67,16 @@ public class TemCardApplicationAction extends FinancialSystemTransactionalDocume
             final TEMProfile profile = SpringContext.getBean(TemProfileService.class).findTemProfileByPrincipalId(currentUser.getPrincipalId());
             if (profile == null){
                 applicationForm.setEmptyProfile(true);
-                return mapping.findForward(ERROR_FORWARD);
+                forward =  mapping.findForward(ERROR_FORWARD);
             } else {
                 if (StringUtils.isEmpty(profile.getDefaultAccount())){
                     applicationForm.setEmptyAccount(true);
-                    return mapping.findForward(ERROR_FORWARD);
+                    forward =  mapping.findForward(ERROR_FORWARD);
                 }
             }
         }
 
-        return super.docHandler(mapping, form, request, response);
+        return forward;
     }
 
 

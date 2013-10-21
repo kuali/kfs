@@ -23,14 +23,14 @@
     <bean id="expenseTypeObjectCodeDao" parent="expenseTypeObjectCodeDao-test-parentBean"/>
 	<bean id="expenseTypeObjectCodeDao-test-parentBean" abstract="true" class="org.kuali.kfs.module.tem.dataaccess.impl.MockExpenseTypeObjectCodeDao" />
 
-    <alias name="realTemTravelDocumentService" alias="temTravelDocumentService" />
+    <alias name="temTravelDocumentService" alias="realTemTravelDocumentService" />
 	<bean id="temTravelDocumentService" parent="temTravelDocumentService-parentBean" />
 	<bean id="temTravelDocumentService-parentBean" abstract="true" class="org.kuali.kfs.module.tem.document.service.impl.MockTravelDocumentServiceImpl">
-	    <property name="travelDocumentService" ref="realTemTravelDocService" />		
+	    <property name="travelDocumentService" ref="realTemTravelDocumentService" />		
 	    <property name="dateTimeService" ref="dateTimeService" />
 	</bean>
 
-	<alias name="realTemProfileService" alias="temProfileService"/>
+	<alias name="temProfileService" alias="realTemProfileService"/>
 	<bean id="temProfileService" parent="temProfileService-parentBean" />
 	<bean id="temProfileService-parentBean" abstract="true" class="org.kuali.kfs.module.tem.service.impl.MockTemProfileServiceImpl">
 		<property name="profileService" ref="realTemProfileService" />

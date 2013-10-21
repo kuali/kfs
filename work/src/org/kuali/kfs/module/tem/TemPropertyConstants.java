@@ -62,6 +62,7 @@ public class TemPropertyConstants {
     public static final String EXPENSE_DATE = "expenseDate";
     //TODO: this really should be named expenseDate in the PerDiem
     public static final String MILEAGE_DATE = "mileageDate";
+    public static final String UNFILTERED_INCIDENTALS_VALUE = "unfilteredIncidentalsValue";
 
     public static final String TRAVEL_DOCUMENT_IDENTIFIER = "travelDocumentIdentifier";
 

@@ -285,7 +285,10 @@ public class ArKeyConstants {
 
     public static class DunningLetterDistributionErrors {
         public static final String ERROR_DAYS_PAST_DUE_DUPLICATE = "error.document.daysPastDue.duplicateValue";
-
+        public static final String ERROR_BILLING_CHART_CODE_REQUIRED = "error.document.billingChartCode.required";
+        public static final String ERROR_BILLING_ORGANIZATION_CODE_REQUIRED = "error.document.billingOrganizationCode.required";
+        public static final String ERROR_PROCESSING_CHART_CODE_REQUIRED = "error.document.processingChartCode.required";
+        public static final String ERROR_PROCESSING_ORGANIZATION_CODE_REQUIRED = "error.document.processingOrganizationCode.required";
     }
 
     public static class ReferralToCollectionsDocumentErrors {

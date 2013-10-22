@@ -21,6 +21,10 @@
 		</property>
 		<property name="attributes">
 			<list>
+				<ref bean="DunningLetterDistributionOnDemandLookupResult-billingChartCode" />
+				<ref bean="DunningLetterDistributionOnDemandLookupResult-billingOrganizationCode" />
+				<ref bean="DunningLetterDistributionOnDemandLookupResult-processingChartCode" />
+				<ref bean="DunningLetterDistributionOnDemandLookupResult-processingOrganizationCode" />
 				<ref bean="DunningLetterDistributionOnDemandLookupResult-principalId" />
  				<ref bean="DunningLetterDistributionOnDemandLookupResult-collector.principalName" />
 				<ref bean="DunningLetterDistributionOnDemandLookupResult-proposalNumber" />
@@ -71,11 +75,77 @@
 						</list>
 					</property>
 				</bean>
+		        <bean parent="RelationshipDefinition">
+		          <property name="objectAttributeName" value="chart"/>
+		          <property name="primitiveAttributes">
+		            <list>
+		              <bean parent="PrimitiveAttributeDefinition" p:sourceName="billingChartCode" p:targetName="chartOfAccountsCode"/>
+		            </list>
+		          </property>
+		        </bean>				
+		        <bean parent="RelationshipDefinition">
+		          <property name="objectAttributeName" value="organization"/>
+		          <property name="primitiveAttributes">
+		            <list>
+		              <bean parent="PrimitiveAttributeDefinition" p:sourceName="billingOrganizationCode" p:targetName="organizationCode"/>
+		            </list>
+		          </property>
+		        </bean>				
+		        <bean parent="RelationshipDefinition">
+		          <property name="objectAttributeName" value="chart"/>
+		          <property name="primitiveAttributes">
+		            <list>
+		              <bean parent="PrimitiveAttributeDefinition" p:sourceName="processingChartCode" p:targetName="chartOfAccountsCode"/>
+		            </list>
+		          </property>
+		        </bean>				
+		        <bean parent="RelationshipDefinition">
+		          <property name="objectAttributeName" value="organization"/>
+		          <property name="primitiveAttributes">
+		            <list>
+		              <bean parent="PrimitiveAttributeDefinition" p:sourceName="processingOrganizationCode" p:targetName="organizationCode"/>
+		            </list>
+		          </property>
+		        </bean>				
 			</list>
 		</property>
 	</bean>
 
 	<!-- Attribute Definitions -->
+	<bean
+		id="DunningLetterDistributionOnDemandLookupResult-billingChartCode"
+		parent="DunningLetterDistributionOnDemandLookupResult-billingChartCode-parentBean" />
+	<bean
+		id="DunningLetterDistributionOnDemandLookupResult-billingChartCode-parentBean"
+		abstract="true" parent="Chart-chartOfAccountsCode">
+		<property name="name" value="billingChartCode" />
+		<property name="label" value="Billing Chart Code" />
+	</bean>
+
+	<bean id="DunningLetterDistributionOnDemandLookupResult-billingOrganizationCode" parent="DunningLetterDistributionOnDemandLookupResult-billingOrganizationCode-parentBean" />
+	<bean id="DunningLetterDistributionOnDemandLookupResult-billingOrganizationCode-parentBean"
+		abstract="true" parent="Organization-organizationCode">
+		<property name="name" value="billingOrganizationCode" />
+		<property name="label" value="Billing Organization Code" />
+	</bean>
+
+	<bean
+		id="DunningLetterDistributionOnDemandLookupResult-processingChartCode"
+		parent="DunningLetterDistributionOnDemandLookupResult-processingChartCode-parentBean" />
+	<bean
+		id="DunningLetterDistributionOnDemandLookupResult-processingChartCode-parentBean"
+		abstract="true" parent="Chart-chartOfAccountsCode">
+		<property name="name" value="processingChartCode" />
+		<property name="label" value="Processing Chart Code" />
+	</bean>
+
+	<bean id="DunningLetterDistributionOnDemandLookupResult-processingOrganizationCode" parent="DunningLetterDistributionOnDemandLookupResult-processingOrganizationCode-parentBean" />
+	<bean id="DunningLetterDistributionOnDemandLookupResult-processingOrganizationCode-parentBean"
+		abstract="true" parent="Organization-organizationCode">
+		<property name="name" value="processingOrganizationCode" />
+		<property name="label" value="Processing Organization Code" />
+	</bean>
+
   <bean id="DunningLetterDistributionOnDemandLookupResult-collector.principalName" parent="DunningLetterDistributionOnDemandLookupResult-collector.principalName-parentBean"/>
 
   <bean id="DunningLetterDistributionOnDemandLookupResult-collector.principalName-parentBean" abstract="true" parent="PersonImpl-principalName">
@@ -174,6 +244,10 @@
 
 		<property name="lookupFields">
 			<list>		
+				<bean parent="FieldDefinition" p:required="false" p:attributeName="billingChartCode" />
+				<bean parent="FieldDefinition" p:required="false" p:attributeName="billingOrganizationCode" />
+				<bean parent="FieldDefinition" p:required="false" p:attributeName="processingChartCode" />
+				<bean parent="FieldDefinition" p:required="false" p:attributeName="processingOrganizationCode" />
 				<bean parent="FieldDefinition" p:required="false" p:attributeName="collector.principalName" />
 				<bean parent="FieldDefinition" p:required="false" p:attributeName="principalId" />		
 				<bean parent="FieldDefinition" p:required="false" p:attributeName="agencyNumber" />

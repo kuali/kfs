@@ -355,6 +355,10 @@ public class ArPropertyConstants{
     public static class DunningLetterDistributionFields {
         public static final String DAYS_PAST_DUE = "daysPastDue";
         public static final String DUNNING_LETTER_TAMPLATE_SENT_DATE = "dunningLetterTemplateSentDate";
+        public static final String BILLING_CHART_CODE = "billingChartCode";
+        public static final String BILLING_ORGANIZATION_CODE = "billingOrganizationCode";
+        public static final String PROCESSING_CHART_CODE = "processingChartCode";
+        public static final String PROCESSING_ORGANIZATION_CODE = "processingOrganizationCode";
     }
 
     // Contracts And Grants Aging Report

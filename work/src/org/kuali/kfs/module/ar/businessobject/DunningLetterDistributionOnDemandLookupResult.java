@@ -20,8 +20,11 @@ import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.kuali.kfs.coa.businessobject.Chart;
+import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsAgency;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsAward;
+import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.sys.KFSConstants;
@@ -49,7 +52,12 @@ public class DunningLetterDistributionOnDemandLookupResult extends TransientBusi
     private ContractsAndGrantsAward award;
     private ContractsAndGrantsAgency agency;
     private Customer customer;
-
+    private Chart chart;
+    private Organization organization;
+    private String billingChartCode;
+    private String billingOrganizationCode;
+    private String processingChartCode;
+    private String processingOrganizationCode;
 
     private Person collector;
     private final String userLookupRoleNamespaceCode = KFSConstants.OptionalModuleNamespaces.ACCOUNTS_RECEIVABLE;
@@ -60,6 +68,66 @@ public class DunningLetterDistributionOnDemandLookupResult extends TransientBusi
      */
     public DunningLetterDistributionOnDemandLookupResult() {
 
+    }
+
+
+    public Chart getChart() {
+        return chart;
+    }
+
+
+    public void setChart(Chart chart) {
+        this.chart = chart;
+    }
+
+
+    public Organization getOrganization() {
+        return organization;
+    }
+
+
+    public void setOrganization(Organization organization) {
+        this.organization = organization;
+    }
+
+
+    public String getBillingChartCode() {
+        return billingChartCode;
+    }
+
+
+    public void setBillingChartCode(String billingChartCode) {
+        this.billingChartCode = billingChartCode;
+    }
+
+
+    public String getBillingOrganizationCode() {
+        return billingOrganizationCode;
+    }
+
+
+    public void setBillingOrganizationCode(String billingOrganizationCode) {
+        this.billingOrganizationCode = billingOrganizationCode;
+    }
+
+
+    public String getProcessingChartCode() {
+        return processingChartCode;
+    }
+
+
+    public void setProcessingChartCode(String processingChartCode) {
+        this.processingChartCode = processingChartCode;
+    }
+
+
+    public String getProcessingOrganizationCode() {
+        return processingOrganizationCode;
+    }
+
+
+    public void setProcessingOrganizationCode(String processingOrganizationCode) {
+        this.processingOrganizationCode = processingOrganizationCode;
     }
 
 

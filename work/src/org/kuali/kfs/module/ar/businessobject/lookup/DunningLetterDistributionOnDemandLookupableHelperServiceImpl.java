@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -29,6 +29,8 @@ import org.apache.commons.logging.LogFactory;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleRetrieveService;
+import org.kuali.kfs.module.ar.ArKeyConstants;
+import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.DunningLetterDistributionOnDemandLookupResult;
 import org.kuali.kfs.module.ar.businessobject.InvoiceGeneralDetail;
 import org.kuali.kfs.module.ar.businessobject.inquiry.DunningLetterDistributionOnDemandLookupResultInquirableImpl;
@@ -42,6 +44,7 @@ import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.document.authorization.BusinessObjectRestrictions;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.krad.exception.ValidationException;
 import org.kuali.rice.krad.lookup.CollectionIncomplete;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
@@ -65,7 +68,7 @@ public class DunningLetterDistributionOnDemandLookupableHelperServiceImpl extend
 
     /**
      * This method performs the lookup and returns a collection of lookup items
-     * 
+     *
      * @param lookupForm
      * @param kualiLookupable
      * @param resultTable
@@ -112,7 +115,7 @@ public class DunningLetterDistributionOnDemandLookupableHelperServiceImpl extend
                     }
                 }
 
-                ResultRow subResultRow = new ResultRow((List<Column>) subResultColumns, "", "");
+                ResultRow subResultRow = new ResultRow(subResultColumns, "", "");
                 subResultRow.setObjectId(((PersistableBusinessObjectBase) invoice).getObjectId());
                 subResultRows.add(subResultRow);
             }
@@ -127,9 +130,42 @@ public class DunningLetterDistributionOnDemandLookupableHelperServiceImpl extend
         return displayList;
     }
 
+    @Override
+    public void validateSearchParameters(Map<String, String> fieldValues) {
+        super.validateSearchParameters(fieldValues);
+        //  put validation
+        String billingChartCode = fieldValues.get(ArPropertyConstants.DunningLetterDistributionFields.BILLING_CHART_CODE);
+        String billingOrgCode = fieldValues.get(ArPropertyConstants.DunningLetterDistributionFields.BILLING_ORGANIZATION_CODE);
+        String processingChartCode = fieldValues.get(ArPropertyConstants.DunningLetterDistributionFields.PROCESSING_CHART_CODE);
+        String processingOrgCode = fieldValues.get(ArPropertyConstants.DunningLetterDistributionFields.PROCESSING_ORGANIZATION_CODE);
+
+        //  validation logic comes here..
+        if (ObjectUtils.isNotNull(billingChartCode) && StringUtils.isNotEmpty(billingChartCode)
+                && (ObjectUtils.isNull(billingOrgCode) || StringUtils.isEmpty(billingOrgCode))) {
+            GlobalVariables.getMessageMap().putError(ArPropertyConstants.DunningLetterDistributionFields.BILLING_ORGANIZATION_CODE, ArKeyConstants.DunningLetterDistributionErrors.ERROR_BILLING_ORGANIZATION_CODE_REQUIRED);
+        }
+        if (ObjectUtils.isNotNull(billingOrgCode) && StringUtils.isNotEmpty(billingOrgCode)
+                && (ObjectUtils.isNull(billingChartCode) || StringUtils.isEmpty(billingChartCode))) {
+            GlobalVariables.getMessageMap().putError(ArPropertyConstants.DunningLetterDistributionFields.BILLING_CHART_CODE, ArKeyConstants.DunningLetterDistributionErrors.ERROR_BILLING_CHART_CODE_REQUIRED);
+        }
+        if (ObjectUtils.isNotNull(processingOrgCode) && StringUtils.isNotEmpty(processingOrgCode)
+                && (ObjectUtils.isNull(processingChartCode) || StringUtils.isEmpty(processingChartCode))) {
+            GlobalVariables.getMessageMap().putError(ArPropertyConstants.DunningLetterDistributionFields.PROCESSING_CHART_CODE, ArKeyConstants.DunningLetterDistributionErrors.ERROR_PROCESSING_CHART_CODE_REQUIRED);
+        }
+        if (ObjectUtils.isNotNull(processingChartCode) && StringUtils.isNotEmpty(processingChartCode)
+                && (ObjectUtils.isNull(processingOrgCode) || StringUtils.isEmpty(processingOrgCode))) {
+            GlobalVariables.getMessageMap().putError(ArPropertyConstants.DunningLetterDistributionFields.PROCESSING_ORGANIZATION_CODE, ArKeyConstants.DunningLetterDistributionErrors.ERROR_PROCESSING_ORGANIZATION_CODE_REQUIRED);
+        }
+
+        if (GlobalVariables.getMessageMap().hasErrors()) {
+            throw new ValidationException("errors in search criteria");
+        }
+
+    }
+
     /**
      * overriding this method to convert the list of awards to a list of ContratcsGrantsInvoiceOnDemandLookupResult
-     * 
+     *
      * @see org.kuali.core.lookup.Lookupable#getSearchResults(java.util.Map)
      */
     @Override
@@ -143,7 +179,7 @@ public class DunningLetterDistributionOnDemandLookupableHelperServiceImpl extend
 
     /**
      * build the search result list from the given collection and the number of all qualified search results
-     * 
+     *
      * @param searchResultsCollection the given search results, which may be a subset of the qualified search results
      * @param actualSize the number of all qualified search results
      * @return the search result list with the given results and actual size
@@ -152,7 +188,7 @@ public class DunningLetterDistributionOnDemandLookupableHelperServiceImpl extend
         CollectionIncomplete results = new CollectionIncomplete(searchResultsCollection, actualSize);
 
         // Sort list if default sort column given
-        List searchResults = (List) results;
+        List searchResults = results;
         List defaultSortColumns = getDefaultSortColumns();
         if (defaultSortColumns.size() > 0) {
             Collections.sort(results, new BeanPropertyComparator(defaultSortColumns, true));
@@ -249,7 +285,7 @@ public class DunningLetterDistributionOnDemandLookupableHelperServiceImpl extend
 
     /**
      * Constructs the list of columns for the search results. All properties for the column objects come from the DataDictionary.
-     * 
+     *
      * @param bo
      * @return Collection<Column>
      */
@@ -264,7 +300,7 @@ public class DunningLetterDistributionOnDemandLookupableHelperServiceImpl extend
 
     /**
      * Since there aren't that many fields for inquiry, just deal with each of them one by one for this lookup
-     * 
+     *
      * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getInquiryUrl(org.kuali.rice.krad.bo.BusinessObject,
      *      java.lang.String)
      */
@@ -283,7 +319,7 @@ public class DunningLetterDistributionOnDemandLookupableHelperServiceImpl extend
 
     /**
      * Gets the contractsGrantsInvoiceDocumentService attribute.
-     * 
+     *
      * @return Returns the contractsGrantsInvoiceDocumentService.
      */
     public ContractsGrantsInvoiceDocumentService getContractsGrantsInvoiceDocumentService() {
@@ -292,7 +328,7 @@ public class DunningLetterDistributionOnDemandLookupableHelperServiceImpl extend
 
     /**
      * Sets the contractsGrantsInvoiceDocumentService attribute value.
-     * 
+     *
      * @param contractsGrantsInvoiceDocumentService The contractsGrantsInvoiceDocumentService to set.
      */
     public void setContractsGrantsInvoiceDocumentService(ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService) {

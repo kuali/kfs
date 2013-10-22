@@ -1035,10 +1035,10 @@
                     <role name="AccountingOrganizationHierarchy" nextNode="TravelHasSpecialRequest" nextAppDocStatus="Awaiting Special Request Review" />
                  	<split name="TravelHasSpecialRequest" nextNode="SubFund" nextAppDocStatus="Awaiting Special Request Review">
 						<branch name="True">
-							<role name="SpecialRequest" nextNode="JoinTravelHasSpecialRequest" />
+							<role name="SpecialRequest" nextNode="JoinTravelHasSpecialRequest" nextAppDocStatus="Awaiting Sub-Fund Review"/>
 						</branch>
 						<branch name="False">
-							<simple name="NoOpTravelHasSpecialRequest" nextNode="JoinTravelHasSpecialRequest" />
+							<simple name="NoOpTravelHasSpecialRequest" nextNode="JoinTravelHasSpecialRequest" nextAppDocStatus="Awaiting Sub-Fund Review"/>
 						</branch>
 						<join name="JoinTravelHasSpecialRequest"/>
 					</split>

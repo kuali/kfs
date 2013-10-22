@@ -281,6 +281,17 @@ public abstract class TEMReimbursementDocument extends TravelDocumentBase implem
     }
 
     /**
+     *
+     *
+     * @return
+     */
+    public KualiDecimal getTotalAccountLineAmount() {
+       return  getApprovedAmount().add(getCTSTotal()).add(getCorporateCardTotal());
+
+    }
+
+
+    /**
      * Get eligible amount
      *
      * @return

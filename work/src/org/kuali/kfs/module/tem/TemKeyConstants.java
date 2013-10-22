@@ -139,6 +139,9 @@ public class TemKeyConstants {
     public static final String MESSAGE_TA_ADVANCE_PAYMENT_CHECK_TEXT_PREFIX = "message.document.tem.ta.advance.checkText.prefix";
     public static final String MESSAGE_TEM_REIMBURSEMENT_PAYMENT_HOLD_TEXT = "message.document.tem.reimbursement.payment.checkText.holdingText";
 
+    public static final String ERROR_DOCUMENT_MILEAGE_RATE_INVALID_RATE = "error.document.mileage.rate.invalid.rate";
+    public static final String ERROR_DOCUMENT_MILEAGE_RATE_INVALID_EXPENSE_TYPE = "error.document.mileage.rate.invalid.expense.type";
+
     //Add any custom messages
     public static final String MESSAGE_GENERIC = "message.generic";
 

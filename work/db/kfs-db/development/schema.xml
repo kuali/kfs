@@ -15924,6 +15924,7 @@
         <column name="FDOC_BNK_CD" size="4" type="VARCHAR"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
+        <column name="TR_FDOC_NBR" size="14" type="VARCHAR"/>
         <foreign-key foreignTable="TEM_TRAVELER_DTL_T" name="TEM_TRVL_AUTH_CLOSE_DOC_TR1">
             <reference foreign="ID" local="TRAVELER_DTL_ID"/>
         </foreign-key>

@@ -15,14 +15,10 @@
  */
 package org.kuali.kfs.sec.service.impl;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
+import org.apache.cxf.common.i18n.Exception;
+import org.apache.xpath.operations.String;
+import org.hibernate.engine.Collections;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleService;
 import org.kuali.kfs.sec.SecConstants;
 import org.kuali.kfs.sec.SecConstants.SecurityTemplateNames;
@@ -120,7 +116,7 @@ public class AccessSecurityServiceImpl implements AccessSecurityService {
         // evaluate permissions against business object instances
         List<BusinessObject> restrictedRecords = new ArrayList<BusinessObject>();
         for (BusinessObject businessObject : results) {
-            boolean accessAllowed = evaluateSecurityPermissionsByTemplate(businessObject, businessObject.getClass(), person, permissionTemplate, additionalPermissionDetails, null);
+            boolean accessAllowed = evaluateSecurityPermissionsByTemplate(businessObject, businessObject.getClass(), person, permissionTemplate, additionalPermissionDetails, new HashMap<String,String>());
             if (!accessAllowed) {
                 restrictedRecords.add(businessObject);
             }

@@ -79,6 +79,7 @@ import org.kuali.kfs.module.tem.businessobject.TEMProfile;
 import org.kuali.kfs.module.tem.businessobject.TemDistributionAccountingLine;
 import org.kuali.kfs.module.tem.businessobject.TemSourceAccountingLine;
 import org.kuali.kfs.module.tem.businessobject.TravelerDetail;
+import org.kuali.kfs.module.tem.document.TEMReimbursementDocument;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.TravelDocumentBase;
@@ -619,6 +620,8 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
         if (SpringContext.getBean(KualiRuleService.class).applyRules(new UpdateTripDetailsEvent(TRIP_INFO_UPDATE_TRIP_DTL, reqForm.getDocument()))) {
             getTravelDocumentService().updatePerDiemItemsFor(document, document.getPerDiemExpenses(), document.getPrimaryDestinationId(), document.getTripBegin(), document.getTripEnd());
         }
+        reqForm.getNewSourceLine().setAmount(this.getAccountingLineAmountToFillIn(reqForm));
+
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
@@ -881,18 +884,12 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
         }
     }
 
-    /**
-     * This method calculates the amount that still needs to be accounted for on the document
-     *
-     * @param travelReqForm
-     * @return
-     */
+
     protected KualiDecimal getAccountingLineAmountToFillIn(TravelFormBase travelReqForm) {
         KualiDecimal amount = new KualiDecimal(0);
 
-        TravelDocument travelDocument = travelReqForm.getTravelDocument();
-        KualiDecimal encTotal = travelDocument.getEncumbranceTotal();
-        KualiDecimal expenseTotal = travelDocument.getExpenseLimit();
+        TEMReimbursementDocument travelDocument = (TEMReimbursementDocument)travelReqForm.getTravelDocument();
+        KualiDecimal reimbursementTotal = travelDocument.getTotalAccountLineAmount();
 
         final List<TemSourceAccountingLine> accountingLines = travelDocument.getSourceAccountingLines();
 
@@ -903,18 +900,14 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
             }
         }
 
-        if (ObjectUtils.isNull(expenseTotal)) {
-            amount = encTotal.subtract(accountingTotal);
-        }
-        else if (expenseTotal.isLessThan(encTotal)) {
-            amount = expenseTotal.subtract(accountingTotal);
-        }
-        else {
-            amount = encTotal.subtract(accountingTotal);
+        if (!ObjectUtils.isNull(reimbursementTotal)) {
+            amount = reimbursementTotal.subtract(accountingTotal);
         }
 
         return amount;
     }
+
+
 
     /**
      * This method calculates trip detail total for both TA and TR

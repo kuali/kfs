@@ -88,8 +88,8 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
     protected ContractsAndGrantsCfda cfda;
 
     // added for the employee labor benefit calculation
-    private String laborBenefitRateCategoryCode;
-    private LaborBenefitRateCategory laborBenefitRateCategory;
+    protected String laborBenefitRateCategoryCode;
+    protected LaborBenefitRateCategory laborBenefitRateCategory;
 
     /**
      * Default constructor.

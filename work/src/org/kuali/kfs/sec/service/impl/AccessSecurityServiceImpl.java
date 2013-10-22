@@ -513,7 +513,7 @@ public class AccessSecurityServiceImpl implements AccessSecurityService {
             List<String> roleIds = getPermissionService().getRoleIdsForPermission(permission.getNamespaceCode(), permission.getName() );
 
             // for all the roles that have this permission, find the users qualification in those roles (if any)
-            List<Map<String,String>> qualfications = getRoleService().getNestedRoleQualifiersForPrincipalByRoleIds(person.getPrincipalId(), roleIds, null);
+            List<Map<String,String>> qualfications = getRoleService().getNestedRoleQualifiersForPrincipalByRoleIds(person.getPrincipalId(), roleIds, new HashMap<String,String>());
 
             if (qualfications != null) {
                 qualficationsToEvaluate.addAll(qualfications);

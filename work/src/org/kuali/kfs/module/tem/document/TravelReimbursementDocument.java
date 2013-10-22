@@ -229,19 +229,19 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
                     if (relatedCloseDocuments.isEmpty() && getFinalReimbursement()) {
                         // save our GLPE's so that the TAC finds them when calculating encumbrances
                         getBusinessObjectService().save(getGeneralLedgerPendingEntries());
-                        // store this so we can reset after we're finished
-                        final String initiatorId = getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId();
-                        final Principal initiator = getIdentityService().getPrincipal(initiatorId);
-                        GlobalVariables.doInNewGlobalVariables(new UserSession(initiator.getPrincipalName()), new Callable<Object>(){
-                            @Override
-                            public Object call() {
-                                //close the authorization
+                            // store this so we can reset after we're finished
+                            final String initiatorId = getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId();
+                            final Principal initiator = getIdentityService().getPrincipal(initiatorId);
+                            GlobalVariables.doInNewGlobalVariables(new UserSession(initiator.getPrincipalName()), new Callable<Object>(){
+                                @Override
+                                public Object call() {
+                                    //close the authorization
                                 getTravelAuthorizationService().closeAuthorization(openAuthorization, getTripDescription(), initiator.getPrincipalName(), getDocumentNumber());
-                                return null;
-                            }
-                        });
+                                    return null;
+                                }
+                            });
+                        }
                     }
-                }
                 // if open authorization is null, try to check if there is ANY authorization at all (may be it was closed manually; so its not opened)
                 else if (!authorizations.isEmpty()){
                     // authorization that is not opened; note to the TR document
@@ -496,6 +496,12 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
             return KualiDecimal.ZERO; // if advances are greater than what is being reimbursed, then the grand total is a big fat goose egg.  With two equally sized goose eggs after the decimal point.
         }
         return grandTotal.subtract(getAdvancesTotal());
+    }
+
+    @Override
+    public KualiDecimal getTotalAccountLineAmount() {
+
+        return super.getTotalAccountLineAmount().subtract(getAdvancesTotal());
     }
 
     /**

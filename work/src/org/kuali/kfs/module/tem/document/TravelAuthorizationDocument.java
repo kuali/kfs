@@ -1356,7 +1356,7 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
                 getAdvanceTravelPayment().setCheckTotalAmount(getTravelAdvance().getTravelAdvanceRequested());
             }
             final TemSourceAccountingLine maxAmountLine = getAccountingLineWithLargestAmount();
-            if (allParametersForAdvanceAccountingLinesSet() || (!TemConstants.TravelStatusCodeKeys.AWAIT_FISCAL.equals(getFinancialSystemDocumentHeader().getApplicationDocumentStatus()) && !advanceAccountingLinesHaveBeenModified(maxAmountLine))) {
+            if (!TemConstants.TravelStatusCodeKeys.AWAIT_FISCAL.equals(getFinancialSystemDocumentHeader().getApplicationDocumentStatus())) {
                 getAdvanceAccountingLines().get(0).setAmount(getTravelAdvance().getTravelAdvanceRequested());
             }
             if (!allParametersForAdvanceAccountingLinesSet() && !TemConstants.TravelStatusCodeKeys.AWAIT_FISCAL.equals(getFinancialSystemDocumentHeader().getApplicationDocumentStatus()) && !advanceAccountingLinesHaveBeenModified(maxAmountLine)) {

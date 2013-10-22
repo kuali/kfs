@@ -623,6 +623,10 @@ public class TravelAuthorizationAction extends TravelActionBase {
      * @throws Exception
      */
     public ActionForward recalculate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+//        TravelAuthorizationForm authForm = (TravelAuthorizationForm) form;
+//        TravelAuthorizationDocument travelReqDoc = authForm.getTravelAuthorizationDocument();
+//        travelReqDoc.propagateAdvanceInformationIfNeeded();
         return recalculateTripDetailTotal(mapping, form, request, response);
     }
 

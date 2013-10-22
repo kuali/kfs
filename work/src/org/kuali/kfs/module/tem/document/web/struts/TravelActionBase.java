@@ -22,14 +22,12 @@ import static org.kuali.kfs.module.tem.TemConstants.FISCAL_OFFICER_TEST_ATTRIBUT
 import static org.kuali.kfs.module.tem.TemConstants.PRIMARY_DESTINATION_LOOKUPABLE;
 import static org.kuali.kfs.module.tem.TemConstants.RETURN_TO_FO_QUESTION;
 import static org.kuali.kfs.module.tem.TemConstants.SHOW_ACCOUNT_DISTRIBUTION_ATTRIBUTE;
-import static org.kuali.kfs.module.tem.TemConstants.SHOW_ADVANCES_ATTRIBUTE;
 import static org.kuali.kfs.module.tem.TemConstants.SHOW_REPORTS_ATTRIBUTE;
 import static org.kuali.kfs.module.tem.TemConstants.TRAVEL_ARRANGER_TEST_ATTRIBUTE;
 import static org.kuali.kfs.module.tem.TemConstants.TRAVEL_MANAGER_TEST_ATTRIBUTE;
 import static org.kuali.kfs.module.tem.TemConstants.TravelParameters.EMPLOYEE_CERTIFICATION_STATEMENT;
 import static org.kuali.kfs.module.tem.TemConstants.TravelParameters.NON_EMPLOYEE_CERTIFICATION_STATEMENT;
 import static org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters.DISPLAY_ACCOUNTING_DISTRIBUTION_TAB_IND;
-import static org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters.DISPLAY_ADVANCES_IN_REIMBURSEMENT_TOTAL_IND;
 import static org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters.FOREIGN_CURRENCY_URL;
 import static org.kuali.kfs.module.tem.TemPropertyConstants.TRIP_INFO_UPDATE_TRIP_DTL;
 
@@ -947,11 +945,6 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
         KNSGlobalVariables.getMessageList().add(TemKeyConstants.MESSAGE_RECALCULATE_SUCCESSFUL);
 
         showAccountDistribution(request, travelReqForm.getDocument());
-
-        if (travelReqForm.getDocument() instanceof TravelReimbursementDocument) {
-            final boolean showAdvances = getParameterService().getParameterValueAsBoolean(TravelReimbursementDocument.class, DISPLAY_ADVANCES_IN_REIMBURSEMENT_TOTAL_IND);
-            request.setAttribute(SHOW_ADVANCES_ATTRIBUTE, showAdvances);
-        }
 
         // Flag to display reports (TR, ENT, RELO)
         request.setAttribute(SHOW_REPORTS_ATTRIBUTE, !travelReqDoc.getDocumentHeader().getWorkflowDocument().isInitiated());

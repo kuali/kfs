@@ -596,7 +596,7 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
             addExtraButton("methodToCall.returnToFiscalOfficer", appExternalImageURL + "buttonsmall_return_to_fo.gif", "Return to Fiscal Officer");
         }
         if (canCalculate()){
-            addExtraButton("methodToCall.recalculateTripDetailTotal", appExternalImageURL + "buttonsmall_calculate.gif", "Calculate");
+            addExtraButton("methodToCall.recalculate", appExternalImageURL + "buttonsmall_calculate.gif", "Calculate");
         }
 
         return extraButtons;

@@ -61,6 +61,7 @@ import org.kuali.kfs.module.tem.businessobject.PerDiemExpense;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationCloseDocument;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
 import org.kuali.kfs.module.tem.document.TravelDocument;
+import org.kuali.kfs.module.tem.document.TravelDocumentBase;
 import org.kuali.kfs.module.tem.document.TravelReimbursementDocument;
 import org.kuali.kfs.module.tem.document.authorization.TravelReimbursementAuthorizer;
 import org.kuali.kfs.module.tem.document.service.TravelAuthorizationService;
@@ -648,6 +649,14 @@ public class TravelReimbursementAction extends TravelActionBase {
      * @throws Exception
      */
     public ActionForward recalculate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        TravelFormBase travelReqForm = (TravelFormBase) form;
+        TravelDocumentBase travelReqDoc = (TravelDocumentBase) travelReqForm.getDocument();
+
+        if (travelReqForm.getDocument() instanceof TravelReimbursementDocument) {
+            final boolean showAdvances = getParameterService().getParameterValueAsBoolean(TravelReimbursementDocument.class, DISPLAY_ADVANCES_IN_REIMBURSEMENT_TOTAL_IND);
+            request.setAttribute(SHOW_ADVANCES_ATTRIBUTE, showAdvances);
+        }
+
         return recalculateTripDetailTotal(mapping, form, request, response);
     }
 

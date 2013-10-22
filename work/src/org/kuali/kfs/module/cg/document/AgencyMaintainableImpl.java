@@ -26,7 +26,6 @@ import org.kuali.kfs.module.cg.CGConstants;
 import org.kuali.kfs.module.cg.CGPropertyConstants;
 import org.kuali.kfs.module.cg.businessobject.Agency;
 import org.kuali.kfs.module.cg.businessobject.AgencyAddress;
-import org.kuali.kfs.module.cg.businessobject.AgencyNote;
 import org.kuali.kfs.module.cg.businessobject.Award;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -65,7 +64,7 @@ public class AgencyMaintainableImpl extends FinancialSystemMaintainable {
 
     /**
      * Constructs a AgencyMaintainableImpl.
-     * 
+     *
      * @param agency
      */
     public AgencyMaintainableImpl(Agency agency) {
@@ -75,7 +74,7 @@ public class AgencyMaintainableImpl extends FinancialSystemMaintainable {
 
     /**
      * Gets the underlying Agency.
-     * 
+     *
      * @return
      */
     public Agency getAgency() {
@@ -84,7 +83,7 @@ public class AgencyMaintainableImpl extends FinancialSystemMaintainable {
 
     /**
      * This method overrides the parent method to create a new Customer document when Agency document goes to final.
-     * 
+     *
      * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#doRouteStatusChange(org.kuali.rice.krad.bo.DocumentHeader)
      */
     @Override
@@ -223,7 +222,7 @@ public class AgencyMaintainableImpl extends FinancialSystemMaintainable {
 
     /**
      * Overridden to set the default values on the Agency document.
-     * 
+     *
      * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#processAfterNew(org.kuali.rice.kns.document.MaintenanceDocument,
      *      java.util.Map)
      */
@@ -254,7 +253,7 @@ public class AgencyMaintainableImpl extends FinancialSystemMaintainable {
 
     /**
      * Overriding to default fields on the document for new documents
-     * 
+     *
      * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#processAfterEdit(org.kuali.rice.kns.document.MaintenanceDocument,
      *      java.util.Map)
      */
@@ -268,7 +267,7 @@ public class AgencyMaintainableImpl extends FinancialSystemMaintainable {
 
     /**
      * Overriding to default fields on the document for copied documents
-     * 
+     *
      * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#processAfterEdit(org.kuali.rice.kns.document.MaintenanceDocument,
      *      java.util.Map)
      */
@@ -283,7 +282,7 @@ public class AgencyMaintainableImpl extends FinancialSystemMaintainable {
 
     /**
      * Defaults the invoice template field for new Agency Addresses on the given Agency maintenance document
-     * 
+     *
      * @param agency
      * @param document
      */
@@ -295,14 +294,4 @@ public class AgencyMaintainableImpl extends FinancialSystemMaintainable {
             newAgencyAddress.setAgencyInvoiceTemplateCode(agency.getAgencyInvoiceTemplateCode());
         }
     }
-
-    // @Override
-    // public void addNewLineToCollection(String collectionName) {
-    // if (collectionName.equalsIgnoreCase("customerNotes")) {
-    // AgencyNote addLine = (AgencyNote) newCollectionLines.get(collectionName);
-    // addLine.setNotePostedDateToCurrent();
-    // addLine.setAuthorUniversalToCurrentUser();
-    // }
-    // super.addNewLineToCollection(collectionName);
-    // }
 }

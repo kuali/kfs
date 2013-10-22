@@ -80,12 +80,6 @@
 			<inverse-foreignkey field-ref="agencyNumber" />
 		</collection-descriptor>
 		
-		<collection-descriptor name="agencyNotes" element-class-ref="org.kuali.kfs.module.cg.businessobject.AgencyNote"
-			collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
-			<orderby name="noteIdentifier" sort="ASC" />
-			<inverse-foreignkey field-ref="agencyNumber" />
-		</collection-descriptor>
-		
 	</class-descriptor>
 
 	<!-- AGENCY TYPE -->
@@ -155,18 +149,6 @@
 		</reference-descriptor>
 	</class-descriptor>
 	
-	<!-- Agency Notes -->
-	<class-descriptor class="org.kuali.kfs.module.cg.businessobject.AgencyNote" table="CG_AGENCY_NTE_T">
-		<field-descriptor name="noteIdentifier" column="AGENCY_NTE_ID" jdbc-type="INTEGER" primarykey="true" index="true"
-		 	autoincrement="true" sequence-name="AGENCY_NTE_SEQ" />
-		<field-descriptor name="agencyNumber" column="CG_AGENCY_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
-		<field-descriptor name="noteText" column="NTE_TXT" jdbc-type="VARCHAR" />
-		<field-descriptor name="notePostedDate" column="POST_TS" jdbc-type="DATE" />
-		<field-descriptor name="authorPrincipalId" column="AUTH_PRNCPL_ID" jdbc-type="VARCHAR" />
-		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
-		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-	</class-descriptor>
-
 	<!-- SUBCONTRACTOR -->
 
 	<class-descriptor class="org.kuali.kfs.module.cg.businessobject.SubContractor" table="CG_SUBCNR_T">

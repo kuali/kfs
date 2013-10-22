@@ -1658,51 +1658,6 @@
 	</changeSet>
 
 	<changeSet author="KFSCGB"
-		id="KFSCNTRB859_AGENCY_NOTE_TAB_IN_CUSTOMER_EDOC_01">
-		<createTable tableName="CG_AGENCY_NTE_T">
-			<column name="AGENCY_NTE_ID" type="decimal(7,0)">
-				<constraints primaryKey="true" primaryKeyName="CG_AGENCY_NTE_TP1" />
-			</column>
-			<column name="CG_AGENCY_NBR" type="varchar(5)">
-				<constraints primaryKey="true" primaryKeyName="CG_AGENCY_NTE_TP1" />
-			</column>
-			<column name="NTE_TXT" type="varchar(800)" />
-			<column name="POST_TS" type="datetime" />
-			<column name="AUTH_PRNCPL_ID" type="varchar(40)" />
-			<column name="OBJ_ID" type="varchar(36)">
-				<constraints unique="true" nullable="false"
-					uniqueConstraintName="CG_AGENCY_NTE_TC0" />
-			</column>
-			<column name="VER_NBR" type="decimal(8,0)" defaultValue="1">
-				<constraints nullable="false" />
-			</column>
-		</createTable>
-
-		<modifySql dbms="oracle">
-			<replace replace="varchar" with="varchar2" />
-			<replace replace="decimal" with="number" />
-			<replace replace="datetime" with="date" />
-		</modifySql>
-	</changeSet>
-
-	<changeSet author="KFSCGB"
-		id="KFSCNTRB859_AGENCY_NOTE_TAB_IN_CUSTOMER_EDOC_03" dbms="oracle">
-		<createSequence sequenceName="AGENCY_NTE_SEQ" />
-	</changeSet>
-
-	<changeSet author="KFSCGB"
-		id="KFSCNTRB859_AGENCY_NOTE_TAB_IN_CUSTOMER_EDOC_04" dbms="mysql">
-		<createTable tableName="AGENCY_NTE_SEQ">
-			<column name="id" type="BIGINT(19)" autoIncrement="true">
-				<constraints primaryKey="true" nullable="false" />
-			</column>
-		</createTable>
-		<modifySql dbms="mysql">
-			<append value=" engine myisam" />
-		</modifySql>
-	</changeSet>
-
-	<changeSet author="KFSCGB"
 		id="KFSCNTRB1350_RFRL_TYPE_MAINTENANCE_DOCUMENT_01">
 		<createTable tableName="AR_RFRL_TYP_T">
 			<column name="AR_RFRL_TYPE_CD" type="varchar(4)">

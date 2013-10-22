@@ -77,9 +77,6 @@
 				<bean parent="CollectionDefinition" p:name="agencyAddresses"
 					p:label="Agency Addresses" p:shortLabel="Agency Addresses"
 					p:elementLabel="Agency Address" />
-				<bean parent="CollectionDefinition" p:name="agencyNotes"
-					p:label="Agency Notes" p:shortLabel="Agency Notes"
-					p:elementLabel="Agency Note" />
 			</list>
 		</property>
 		<property name="relationships">
@@ -732,28 +729,7 @@
 							</bean>
 						</list>
 					</property>
-				</bean>
-				<bean parent="InquirySectionDefinition">
-                    <property name="title" value="Agency Note"/>
-                    <property name="numberOfColumns" value="1"/>
-                    <property name="inquiryFields">
-                        <list>
-                            <bean parent="InquiryCollectionDefinition">
-                                <property name="attributeName" value="agencyNotes"/>
-                                <property name="businessObjectClass" value="org.kuali.kfs.module.cg.businessobject.AgencyNote"/>
-                                <property name="numberOfColumns" value="1"/>
-                                <property name="inquiryFields">
-                                    <list>
-                                        <bean parent="FieldDefinition" p:attributeName="notePostedDate"/>
-                                        <bean parent="FieldDefinition" p:attributeName="authorUniversal.name"/>
-                                        <bean parent="FieldDefinition" p:attributeName="noteText"/>
-                                    </list>
-                                </property>
-                            </bean>
-                        </list>
-                    </property>
-                </bean>
-				
+				</bean>				
 			</list>
 		</property>
 	</bean>

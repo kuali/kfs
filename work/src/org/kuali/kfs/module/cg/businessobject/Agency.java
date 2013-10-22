@@ -82,7 +82,6 @@ public class Agency extends PersistableBusinessObjectBase implements ContractsAn
     private Date agencyExpirationDate;
 
     private List<AgencyAddress> agencyAddresses;
-    private List<AgencyNote> agencyNotes;
 
     // Collections Maintenance
     private String collectionStatus;
@@ -103,7 +102,6 @@ public class Agency extends PersistableBusinessObjectBase implements ContractsAn
      */
     public Agency() {
         agencyAddresses = new ArrayList<AgencyAddress>();
-        agencyNotes = new ArrayList<AgencyNote>();
     }
 
     /**
@@ -745,24 +743,6 @@ public class Agency extends PersistableBusinessObjectBase implements ContractsAn
      */
     public void setNotes(String notes) {
         this.notes = notes;
-    }
-
-    /**
-     * Gets the agencyNotes attribute.
-     *
-     * @return Returns the agencyNotes.
-     */
-    public List<AgencyNote> getAgencyNotes() {
-        return agencyNotes;
-    }
-
-    /**
-     * Sets the agencyNotes attribute.
-     *
-     * @param agencyNotes The agencyNotes to set.
-     */
-    public void setAgencyNotes(List<AgencyNote> agencyNotes) {
-        this.agencyNotes = agencyNotes;
     }
 
     /**

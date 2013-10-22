@@ -118,13 +118,6 @@
 			baseTableName="AR_CLCTR_INFO_T" referencedColumnNames="CLCTR_HEAD_PRNCPL_ID" />
 	</changeSet>
 
-	<changeSet author="KFS411CGB"
-		id="KFSCNTRB859_AGENCY_NOTE_TAB_IN_CUSTOMER_EDOC_02">
-		<addForeignKeyConstraint constraintName="CG_AGENCY_NTE_FK1"
-			referencedTableName="CG_AGENCY_T" baseColumnNames="CG_AGENCY_NBR"
-			baseTableName="CG_AGENCY_NTE_T" referencedColumnNames="CG_AGENCY_NBR" />
-	</changeSet>
-	
 	<changeSet author="KFSCGB" id="AR_MLSTN_MOD1">
 		<addPrimaryKey tableName="AR_MLSTN_T" columnNames="CGPRPSL_NBR,MLSTN_ID" />
 		<modifySql dbms="oracle">

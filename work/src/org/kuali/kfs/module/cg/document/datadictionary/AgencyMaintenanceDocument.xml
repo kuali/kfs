@@ -29,7 +29,6 @@
 				<ref bean="AgencyMaintenanceDocument-ContractsAndGrants" />
 				<ref bean="AgencyMaintenanceDocument-Addresses" />
 				<ref bean="AgencyMaintenanceDocument-CollectionsMaintenance" />
-				<ref bean="AgencyMaintenanceDocument-AgencyNotes" />
 			</list>
 		</property>
 		<property name="defaultExistenceChecks">
@@ -204,32 +203,6 @@
 				<bean parent="MaintainableFieldDefinition" p:name="dunningCampaign"/>
 				<bean parent="MaintainableFieldDefinition" p:name="collectionStatus" />				
 				<bean parent="MaintainableFieldDefinition" p:name="notes" />
-			</list>
-		</property>
-	</bean>
-	
-	<!-- Agency Notes section -->
-	<bean id="AgencyMaintenanceDocument-AgencyNotes" parent="AgencyMaintenanceDocument-AgencyNotes-parentBean" />
-
-	<bean id="AgencyMaintenanceDocument-AgencyNotes-parentBean"
-		abstract="true" parent="MaintainableSectionDefinition">
-		<property name="id" value="AgencyNotes" />
-		<property name="title" value="Agency Notes" />
-		<property name="maintainableItems">
-			<list>
-				<bean parent="MaintainableCollectionDefinition">
-					<property name="name" value="agencyNotes" />
-					<property name="businessObjectClass"
-						value="org.kuali.kfs.module.cg.businessobject.AgencyNote" />
-					<property name="maintainableFields">
-						<list>
-				            <bean parent="MaintainableFieldDefinition" p:name="noteIdentifier" p:unconditionallyReadOnly="true"/>
-				            <bean parent="MaintainableFieldDefinition" p:name="notePostedDate" p:readOnlyAfterAdd="true"/>
-				            <bean parent="MaintainableFieldDefinition" p:name="authorUniversal.name" p:unconditionallyReadOnly="true"/>
-  				            <bean parent="MaintainableFieldDefinition" p:name="noteText" p:required="true" p:readOnlyAfterAdd="false"/>
-						</list>
-					</property>
-				</bean>
 			</list>
 		</property>
 	</bean>

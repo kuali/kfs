@@ -21,7 +21,7 @@
 			
         <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase"/>
 		<property name="documentAuthorizerClass"
-			value="org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentAuthorizerBase" />
+			value="org.kuali.kfs.module.tem.document.authorization.TravelArrangerAuthorizer" />
 		<property name="documentPresentationControllerClass"
 			value="org.kuali.kfs.module.tem.document.authorization.TravelArrangerDocumentPresentationController" />
 		<property name="validationMap" ref="TravelArrangerDocument-validations" />

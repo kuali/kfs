@@ -58,7 +58,6 @@ import org.kuali.kfs.module.tem.businessobject.AccountingDistribution;
 import org.kuali.kfs.module.tem.businessobject.AccountingDocumentRelationship;
 import org.kuali.kfs.module.tem.businessobject.ActualExpense;
 import org.kuali.kfs.module.tem.businessobject.PerDiemExpense;
-import org.kuali.kfs.module.tem.businessobject.TemSourceAccountingLine;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationCloseDocument;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
 import org.kuali.kfs.module.tem.document.TravelDocument;
@@ -583,6 +582,8 @@ public class TravelReimbursementAction extends TravelActionBase {
         return retval;
     }
 
+
+
     /**
      * The action called when the "Remove Per Diem Table" buttons are clicked upon. This method will clear out the per diem objects
      * from the {@link TravelAuthorizationDocument} instance
@@ -673,10 +674,10 @@ public class TravelReimbursementAction extends TravelActionBase {
             TravelDocument rootDocument = getTravelDocumentService().findRootForTravelReimbursement(travelDocumentIdentifier);
 
             if (ObjectUtils.isNotNull(rootDocument)) {
-                String relationshipDescription = rootDocument.getDocumentTypeName() +" - "+ trDoc.getDocumentTypeName();
-                getAccountingDocumentRelationshipService().save(new AccountingDocumentRelationship(rootDocument.getDocumentNumber(), trDoc.getDocumentNumber(), relationshipDescription));
-            }
+            String relationshipDescription = rootDocument.getDocumentTypeName() +" - "+ trDoc.getDocumentTypeName();
+            getAccountingDocumentRelationshipService().save(new AccountingDocumentRelationship(rootDocument.getDocumentNumber(), trDoc.getDocumentNumber(), relationshipDescription));
         }
+    }
     }
 
 
@@ -780,49 +781,6 @@ public class TravelReimbursementAction extends TravelActionBase {
         }
     }
 
-    /**
-     *
-     * @see org.kuali.kfs.module.tem.document.web.struts.TravelActionBase#getAccountingLineAmountToFillIn(org.kuali.kfs.module.tem.document.web.struts.TravelFormBase)
-     */
-    @Override
-    protected KualiDecimal getAccountingLineAmountToFillIn(TravelFormBase travelReqForm) {
-        KualiDecimal amount = new KualiDecimal(0);
-
-        TravelDocument travelDocument = travelReqForm.getTravelDocument();
-        KualiDecimal encTotal = travelDocument.getEncumbranceTotal();
-        KualiDecimal expenseTotal = travelDocument.getExpenseLimit();
-
-        final List<TemSourceAccountingLine> accountingLines = travelDocument.getSourceAccountingLines();
-
-        KualiDecimal accountingTotal = new KualiDecimal(0);
-        for (TemSourceAccountingLine accountingLine : accountingLines) {
-            if (travelDocument.getDefaultCardTypeCode().equals(accountingLine.getCardType())) {
-                accountingTotal = accountingTotal.add(accountingLine.getAmount());
-            }
-        }
-
-        if (ObjectUtils.isNull(expenseTotal)) {
-            if (encTotal.isGreaterThan(KualiDecimal.ZERO)) {
-                amount = encTotal.subtract(accountingTotal);
-            }
-            else {
-                amount = KualiDecimal.ZERO;
-            }
-        }
-        else if (expenseTotal.isLessThan(encTotal)) {
-            amount = expenseTotal.subtract(accountingTotal);
-        }
-        else {
-            if (encTotal.isGreaterThan(KualiDecimal.ZERO)) {
-                amount = encTotal.subtract(accountingTotal);
-            }
-            else {
-                amount = KualiDecimal.ZERO;
-            }
-        }
-
-        return amount;
-    }
 
     /**
      * Determines the object code for the next source accounting line, based on the distribution for the document

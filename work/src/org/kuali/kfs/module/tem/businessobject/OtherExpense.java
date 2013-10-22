@@ -90,12 +90,6 @@ public interface OtherExpense extends BusinessObject {
     void setClassOfServiceCode(final String classOfServiceCode);
     String getClassOfServiceCode();
 
-    void setMileageRateId(final Integer mileageRateId);
-    Integer getMileageRateId();
-
-    void setMileageRate(final MileageRate mileageRate);
-    MileageRate getMileageRate();
-
     void setMiles(final Integer miles);
     Integer getMiles();
 

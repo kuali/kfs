@@ -269,48 +269,22 @@
 			columnName="JOB_CLS_NM" columnDataType="VARCHAR2(40)" />
 		<addNotNullConstraint tableName="TEM_JOB_CLASS_T"
 			columnName="ROW_ACTV_IND" columnDataType="VARCHAR2(1)" />
-		<addForeignKeyConstraint constraintName="TEM_MILEAGE_RATE_OBJ_CD_TR1"
-			baseTableName="TEM_MILEAGE_RATE_OBJ_CD_T" baseColumnNames="TRAVELER_TYP_CD"
-			referencedTableName="TEM_TRAVELER_TYP_T" referencedColumnNames="CODE" />
-		<addForeignKeyConstraint constraintName="TEM_MILEAGE_RATE_OBJ_CD_TR2"
-			baseTableName="TEM_MILEAGE_RATE_OBJ_CD_T" baseColumnNames="TRIP_TYP_CD"
-			referencedTableName="TEM_TRIP_TYP_T" referencedColumnNames="CODE" />
-		<addForeignKeyConstraint constraintName="TEM_MILEAGE_RATE_OBJ_CD_TR3"
-			baseTableName="TEM_MILEAGE_RATE_OBJ_CD_T" baseColumnNames="MILEAGE_RT_ID"
-			referencedTableName="TEM_MILEAGE_RATE_T" referencedColumnNames="ID" />
-		<addUniqueConstraint tableName="TEM_MILEAGE_RATE_OBJ_CD_T"
-			constraintName="TEM_MILEAGE_RATE_OBJ_CD_TC0" columnNames="OBJ_ID" />
-		<addNotNullConstraint tableName="TEM_MILEAGE_RATE_OBJ_CD_T"
+		<addNotNullConstraint tableName="TEM_MILEAGE_RT_T"
 			columnName="VER_NBR" columnDataType="NUMBER(8,0)" />
-		<addNotNullConstraint tableName="TEM_MILEAGE_RATE_OBJ_CD_T"
+		<addNotNullConstraint tableName="TEM_MILEAGE_RT_T"
 			columnName="OBJ_ID" columnDataType="VARCHAR2(36)" />
-		<addNotNullConstraint tableName="TEM_MILEAGE_RATE_OBJ_CD_T"
-			columnName="TRAVELER_TYP_CD" columnDataType="VARCHAR2(3)" />
-		<addNotNullConstraint tableName="TEM_MILEAGE_RATE_OBJ_CD_T"
-			columnName="TRIP_TYP_CD" columnDataType="VARCHAR2(3)" />
-		<addNotNullConstraint tableName="TEM_MILEAGE_RATE_OBJ_CD_T"
-			columnName="MILEAGE_RT_ID" columnDataType="NUMBER(22,0)" />
-		<addNotNullConstraint tableName="TEM_MILEAGE_RATE_OBJ_CD_T"
-			columnName="FIN_OBJECT_CD" columnDataType="VARCHAR2(4)" />
-		<addNotNullConstraint tableName="TEM_MILEAGE_RATE_OBJ_CD_T"
-			columnName="ACTV_IND" columnDataType="VARCHAR2(1)" />
-		<addUniqueConstraint tableName="TEM_MILEAGE_RATE_T"
-			constraintName="TEM_MILEAGE_RATE_TC0" columnNames="OBJ_ID" />
-		<addNotNullConstraint tableName="TEM_MILEAGE_RATE_T"
-			columnName="VER_NBR" columnDataType="NUMBER(8,0)" />
-		<addNotNullConstraint tableName="TEM_MILEAGE_RATE_T"
-			columnName="OBJ_ID" columnDataType="VARCHAR2(36)" />
-		<addNotNullConstraint tableName="TEM_MILEAGE_RATE_T"
-			columnName="NM" columnDataType="VARCHAR2(40)" />
-		<addNotNullConstraint tableName="TEM_MILEAGE_RATE_T"
+		<addNotNullConstraint tableName="TEM_MILEAGE_RT_T"
+			columnName="EXP_TYP_CD" columnDataType="VARCHAR2(2)" />
+		<addNotNullConstraint tableName="TEM_MILEAGE_RT_T"
 			columnName="ACTV_FROM_DT" columnDataType="DATE" />
-		<addNotNullConstraint tableName="TEM_MILEAGE_RATE_T"
+		<addNotNullConstraint tableName="TEM_MILEAGE_RT_T"
 			columnName="ACTV_TO_DT" columnDataType="DATE" />
-		<addNotNullConstraint tableName="TEM_MILEAGE_RATE_T"
-			columnName="ACTV_IND" columnDataType="VARCHAR2(1)" />
+		<addForeignKeyConstraint constraintName="TEM_MILEAGE_RT_TR1"
+			baseTableName="TEM_MILEAGE_RT_T" baseColumnNames="EXP_TYP_CD"
+			referencedTableName="TEM_EXP_TYP_CD" referencedColumnNames="EXP_TYP_CD"/>
 		<addForeignKeyConstraint constraintName="TEM_PER_DIEM_EXP_TR1"
-			baseTableName="TEM_PER_DIEM_EXP_T" baseColumnNames="MILEAGE_RT_ID"
-			referencedTableName="TEM_MILEAGE_RATE_T" referencedColumnNames="ID" />
+			baseTableName="TEM_PER_DIEM_EXP_T" baseColumnNames="MILEAGE_RT_EXP_TYP_CD"
+			referencedTableName="TEM_EXP_TYP_T" referencedColumnNames="EXP_TYP_CD" />
 		<addForeignKeyConstraint constraintName="TEM_PER_DIEM_EXP_TR2"
 			baseTableName="TEM_PER_DIEM_EXP_T" baseColumnNames="PER_DIEM_ID"
 			referencedTableName="TEM_PER_DIEM_T" referencedColumnNames="ID" />
@@ -578,9 +552,6 @@
 			columnName="ADVANCES_IND" columnDataType="VARCHAR2(1)" />
 		<addNotNullConstraint tableName="TEM_TRAVELER_TYP_T"
 			columnName="ACTV_IND" columnDataType="VARCHAR2(1)" />
-		<addForeignKeyConstraint constraintName="TEM_TRIP_DTL_EST_TR1"
-			baseTableName="TEM_TRIP_DTL_EST_T" baseColumnNames="MILEAGE_RT_ID"
-			referencedTableName="TEM_MILEAGE_RATE_T" referencedColumnNames="ID" />
 		<addForeignKeyConstraint constraintName="TEM_TRIP_DTL_EST_TR2"
 			baseTableName="TEM_TRIP_DTL_EST_T" baseColumnNames="ACCOM_TYP_CD"
 			referencedTableName="TEM_ACCOMM_TYP_T" referencedColumnNames="CODE" />

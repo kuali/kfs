@@ -395,33 +395,17 @@
 		</createTable>
 		<addPrimaryKey tableName="TEM_JOB_CLASS_T"
 			constraintName="TEM_JOB_CLASS_TP1" columnNames="JOB_CLS_CD" />
-		<createTable tableName="TEM_MILEAGE_RATE_OBJ_CD_T">
+		<createTable tableName="TEM_MILEAGE_RT_T">
 			<column name="ID" type="NUMBER(22,0)" />
-			<column name="TRAVELER_TYP_CD" type="VARCHAR2(3)" />
-			<column name="TRIP_TYP_CD" type="VARCHAR2(3)" />
-			<column name="MILEAGE_RT_ID" type="NUMBER(22,0)" />
-			<column name="FIN_OBJECT_CD" type="VARCHAR2(4)" />
-			<column name="DOCUMENT_TYPE" type="VARCHAR2(4)" />
-			<column name="ACTV_IND" type="VARCHAR2(1)" />
-			<column name="VER_NBR" type="NUMBER(8,0)" defaultValueNumeric="1" />
-			<column name="OBJ_ID" type="VARCHAR2(36)" />
-		</createTable>
-		<addPrimaryKey tableName="TEM_MILEAGE_RATE_OBJ_CD_T"
-			constraintName="TEM_MILEAGE_RATE_OBJ_CD_TP1" columnNames="ID" />
-		<createTable tableName="TEM_MILEAGE_RATE_T">
-			<column name="ID" type="NUMBER(22,0)" />
-			<column name="NM" type="VARCHAR2(40)" />
-			<column name="RATE" type="NUMBER(19,2)" />
+			<column name="EXP_TYP_CD" type="VARCHAR2(2)" />
+			<column name="RT" type="NUMBER(19,2)" />
 			<column name="ACTV_FROM_DT" type="DATE" />
 			<column name="ACTV_TO_DT" type="DATE" />
-			<column name="ACTV_IND" type="VARCHAR2(1)" />
-			<column name="MIN_MILES" type="NUMBER(22,0)" />
-			<column name="MAX_MILES" type="NUMBER(22,0)" />
 			<column name="VER_NBR" type="NUMBER(8,0)" defaultValueNumeric="1" />
 			<column name="OBJ_ID" type="VARCHAR2(36)" />
 		</createTable>
-		<addPrimaryKey tableName="TEM_MILEAGE_RATE_T"
-			constraintName="TEM_MILEAGE_RATE_TP1" columnNames="ID" />
+		<addPrimaryKey tableName="TEM_MILEAGE_RT_T"
+			constraintName="TEM_MILEAGE_RT_TP1" columnNames="ID" />
 		<createTable tableName="TEM_PER_DIEM_EXP_T">
 			<column name="ID" type="NUMBER(22,0)" />
 			<column name="FDOC_NBR" type="VARCHAR2(14)" />
@@ -438,7 +422,7 @@
 			<column name="INCIDENTALS_VAL" type="NUMBER(19,2)" defaultValueNumeric="0" />
 			<column name="PERSONAL" type="VARCHAR2(1)" />
 			<column name="MILES" type="NUMBER(22,0)" />
-			<column name="MILEAGE_RT_ID" type="NUMBER(22,0)" />
+			<column name="MILEAGE_RT_EXP_TYP_CD" type="VARCHAR2(2)" />
 			<column name="LODGING" type="NUMBER(19,2)" defaultValueNumeric="0" />
 			<column name="ACCOM_TYP_CD" type="VARCHAR2(4)" />
 			<column name="ACCOM_NM" type="VARCHAR2(255)" />
@@ -1052,7 +1036,6 @@
 			<column name="DV_EXP_CO_NM" type="VARCHAR2(40)" />
 			<column name="AIRFARE_SRC_CD" type="VARCHAR2(10)" />
 			<column name="CLASS_SVC_CODE" type="VARCHAR2(10)" />
-			<column name="MILEAGE_RT_ID" type="NUMBER(22,0)" />
 			<column name="MILES" type="NUMBER(22,0)" />
 			<column name="MILEAGE_OTHR_RT" type="NUMBER(19,2)"
 				defaultValueNumeric="0" />

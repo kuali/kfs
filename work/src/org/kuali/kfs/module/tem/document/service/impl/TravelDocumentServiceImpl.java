@@ -55,22 +55,22 @@ import org.kuali.kfs.integration.ar.AccountsReceivableCustomerInvoice;
 import org.kuali.kfs.integration.ar.AccountsReceivableModuleService;
 import org.kuali.kfs.integration.ar.AccountsReceivableOrganizationOptions;
 import org.kuali.kfs.module.tem.TemConstants;
-import org.kuali.kfs.module.tem.TemKeyConstants;
-import org.kuali.kfs.module.tem.TemParameterConstants;
-import org.kuali.kfs.module.tem.TemPropertyConstants;
-import org.kuali.kfs.module.tem.TemWorkflowConstants;
 import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationParameters;
 import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationStatusCodeKeys;
 import org.kuali.kfs.module.tem.TemConstants.TravelDocTypes;
 import org.kuali.kfs.module.tem.TemConstants.TravelParameters;
+import org.kuali.kfs.module.tem.TemKeyConstants;
+import org.kuali.kfs.module.tem.TemParameterConstants;
+import org.kuali.kfs.module.tem.TemPropertyConstants;
+import org.kuali.kfs.module.tem.TemWorkflowConstants;
 import org.kuali.kfs.module.tem.businessobject.ActualExpense;
+import org.kuali.kfs.module.tem.businessobject.ExpenseType;
 import org.kuali.kfs.module.tem.businessobject.ExpenseTypeAware;
 import org.kuali.kfs.module.tem.businessobject.GroupTraveler;
 import org.kuali.kfs.module.tem.businessobject.GroupTravelerCsvRecord;
 import org.kuali.kfs.module.tem.businessobject.HistoricalTravelExpense;
 import org.kuali.kfs.module.tem.businessobject.ImportedExpense;
 import org.kuali.kfs.module.tem.businessobject.MileageRate;
-import org.kuali.kfs.module.tem.businessobject.MileageRateObjCode;
 import org.kuali.kfs.module.tem.businessobject.PerDiem;
 import org.kuali.kfs.module.tem.businessobject.PerDiemExpense;
 import org.kuali.kfs.module.tem.businessobject.PrimaryDestination;
@@ -96,6 +96,7 @@ import org.kuali.kfs.module.tem.exception.UploadParserException;
 import org.kuali.kfs.module.tem.service.CsvRecordFactory;
 import org.kuali.kfs.module.tem.service.PerDiemService;
 import org.kuali.kfs.module.tem.service.TEMRoleService;
+import org.kuali.kfs.module.tem.service.TravelExpenseService;
 import org.kuali.kfs.module.tem.service.TravelerService;
 import org.kuali.kfs.module.tem.util.ExpenseUtils;
 import org.kuali.kfs.sys.KFSConstants;
@@ -178,6 +179,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
     protected List<String> groupTravelerColumns;
     protected volatile AccountsReceivableModuleService accountsReceivableModuleService;
     protected PerDiemService perDiemService;
+    protected TravelExpenseService travelExpenseService;
 
 
     /**
@@ -186,7 +188,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
      * @param perDiemId is the id for the referenced {@link PerDiem} object that gets attached
      * @return date of the item
      */
-    protected PerDiemExpense createPerDiemItem(final TravelDocument document, final PerDiem newPerDiem, final Timestamp ts, final boolean prorated) {
+    protected PerDiemExpense createPerDiemItem(final TravelDocument document, final PerDiem newPerDiem, final Timestamp ts, final boolean prorated, String mileageRateExpenseTypeCode) {
         final PerDiemExpense expense = newPerDiemExpense();
         expense.setPerDiem(newPerDiem);
         expense.setPerDiemId(newPerDiem.getId());
@@ -202,6 +204,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
         setPerDiemMealsAndIncidentals(expense, perDiem, document.getTripType(), document.getTripEnd(), expense.isProrated());
         final KualiDecimal lodgingAmount = getPerDiemService().isPerDiemHandlingLodging() ? perDiem.getLodging() : KualiDecimal.ZERO;
         expense.setLodging(lodgingAmount);
+        expense.setMileageRateExpenseTypeCode(mileageRateExpenseTypeCode);
         return expense;
     }
 
@@ -371,15 +374,9 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
             for (final Timestamp someDate : dateRange(start, end)) {
                 // Check if a per diem entry exists for this date
                 if (!perDiemMapped.containsKey(someDate)) {
-                    boolean prorated = !KfsDateUtils.isSameDay(start, end) && (KfsDateUtils.isSameDay(someDate, start) || KfsDateUtils.isSameDay(someDate, end));
-                    PerDiemExpense perDiemExpense = createPerDiemItem(document,perDiemList.get(counter), someDate, prorated);
-                    if (counter < perDiemExpenseList.size()) {
-                        // copy mileage data over from the original perdiem expense
-                        perDiemExpense = setupMileageRate(perDiemExpense, perDiemExpenseList.get(counter));
-                    }
-                    else {
-                        perDiemExpense = setupMileageRate(perDiemExpense, null);
-                    }
+                    final boolean prorated = !KfsDateUtils.isSameDay(start, end) && (KfsDateUtils.isSameDay(someDate, start) || KfsDateUtils.isSameDay(someDate, end));
+                    final String mileageRateExpenseTypeCode = perDiemExpenseList.size() > counter && !ObjectUtils.isNull(perDiemExpenseList.get(counter)) ? perDiemExpenseList.get(counter).getMileageRateExpenseTypeCode() : null;
+                    PerDiemExpense perDiemExpense = createPerDiemItem(document,perDiemList.get(counter), someDate, prorated, mileageRateExpenseTypeCode);
                     perDiemExpense.setDocumentNumber(document.getDocumentNumber());
                     perDiemMapped.put(someDate, perDiemExpense);
                 }
@@ -396,39 +393,6 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
     }
 
     /**
-     *
-     * This method populates the MileageRate on the rebuilt PerDiemExpense. It will attempt to use the old PerDiemExpense's values if possible.
-     * @param newExpense
-     * @param oldExpense
-     * @return
-     */
-    protected PerDiemExpense setupMileageRate(PerDiemExpense newExpense, PerDiemExpense oldExpense) {
-        try {
-            Date searchDate = getDateTimeService().convertToSqlDate(newExpense.getMileageDate());
-            List<KeyValue> mileageRates = getMileageRateKeyValues(searchDate);
-            if (ObjectUtils.isNotNull(mileageRates)) {
-                for (KeyValue pair : mileageRates) {
-                    if (ObjectUtils.isNotNull(oldExpense) && oldExpense.getMileageRateId().intValue() == Integer.valueOf(pair.getKey()).intValue()) {
-                        // use the same mileage rate as before
-                        newExpense.setMileageRateId(oldExpense.getMileageRateId());
-                        newExpense.setMiles(oldExpense.getMiles());
-                        break;
-                    }
-                }
-                if (ObjectUtils.isNull(newExpense.getMileageRateId()) && mileageRates != null && !mileageRates.isEmpty()) {
-                    // mileage rate is different than it was before the change, use the first element in the list
-                    newExpense.setMileageRateId(Integer.valueOf(mileageRates.get(0).getKey()));
-                }
-            }
-        }
-        catch (java.text.ParseException ex) {
-            LOG.error("Unable to convert timestamp to sql date. Unable to populate PerDiemExpense with MileageRate.");
-            ex.printStackTrace();
-        }
-        return newExpense;
-    }
-
-    /**
      * @see org.kuali.kfs.module.tem.document.service.TravelDocumentService#getMileageRateKeyValues(java.sql.Date)
      */
     @Override
@@ -436,34 +400,15 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
 
         TravelDocument document = (TravelDocument) ((TravelFormBase)KNSGlobalVariables.getKualiForm()).getDocument();
-        String documentType = SpringContext.getBean(TravelDocumentService.class).getDocumentType(document);
-        Map<String,Object> fieldValues = new HashMap<String,Object>();
+        String documentType = getDocumentType(document);
+        final String travelerType = ObjectUtils.isNull(document.getTraveler()) ? null : document.getTraveler().getTravelerTypeCode();
 
-        if(document.getTripTypeCode() != null){
-            fieldValues.put(TemPropertyConstants.TRIP_TYPE_CODE, document.getTripTypeCode());
-        }
-        fieldValues.put(KFSPropertyConstants.DOCUMENT_TYPE, documentType);
-        if (ObjectUtils.isNotNull(document.getTraveler().getTravelerTypeCode())) {
-            fieldValues.put(TemPropertyConstants.TRVL_DOC_TRAVELER_TYP_CD, document.getTraveler().getTravelerTypeCode());
-        }
-        fieldValues.put(KFSPropertyConstants.ACTIVE, KFSConstants.ACTIVE_INDICATOR);
+        final Collection<ExpenseType> expenseTypes = getTravelExpenseService().getExpenseTypesForDocument(documentType, document.getTripTypeCode(), travelerType, false);
 
-        final Collection<MileageRateObjCode> mileageRateObjectCodes = SpringContext.getBean(BusinessObjectService.class).findMatching(MileageRateObjCode.class,fieldValues);
-
-        for (final MileageRateObjCode mileageRateObject : mileageRateObjectCodes) {
-            mileageRateObject.refreshNonUpdateableReferences();
-            MileageRate mileageRate = mileageRateObject.getMileageRate();
-
-            final Date fromDate = mileageRate.getActiveFromDate();
-            final Date toDate = mileageRate.getActiveToDate();
-            if(ObjectUtils.isNull(searchDate)) {
-                //just add them all
-                keyValues.add(new ConcreteKeyValue(mileageRate.getId().toString(), mileageRate.getName()));
-            } else if((fromDate.equals(searchDate) || fromDate.before(searchDate)) && (toDate.equals(searchDate) || toDate.after(searchDate))) {
-
-                if (mileageRate != null && mileageRate.isActive()) {
-                    keyValues.add(new ConcreteKeyValue(mileageRate.getId().toString(), mileageRate.getCodeAndRate(mileageRateObject)));
-                }
+        for (final ExpenseType expenseType : expenseTypes) {
+            if (TemConstants.ExpenseTypeMetaCategory.MILEAGE.getCode().equals(expenseType.getExpenseTypeMetaCategoryCode())) {
+                final MileageRate mileageRate = getMileageRate(expenseType.getCode(), searchDate);
+                keyValues.add(new ConcreteKeyValue(expenseType.getCode(), expenseType.getCode()+" - "+mileageRate.getRate().toString()));
             }
         }
 
@@ -478,6 +423,30 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
         Collections.sort(keyValues, labelComparator);
 
         return keyValues;
+    }
+
+    /**
+     * Finds the mileage rate for the given expense type code and expense date
+     * @param expenseTypeCode the expense type to find a related mileage rate for
+     * @param expenseDate the date of the expense date, passed in as mileage rates are effectively dated
+     * @return the matching mileage rate
+     */
+    @Override
+    public MileageRate getMileageRate(String expenseTypeCode, java.sql.Date expenseDate) {
+        Map<String,Object> fieldValues = new HashMap<String,Object>();
+        fieldValues.put(TemPropertyConstants.EXPENSE_TYPE_CODE, expenseTypeCode);
+
+        final Collection<MileageRate> mileageRates = getBusinessObjectService().findMatching(MileageRate.class, fieldValues);
+        MileageRate chosenMileageRate = null;
+        for (MileageRate mileageRate : mileageRates) {
+            final Date fromDate = mileageRate.getActiveFromDate();
+            final Date toDate = mileageRate.getActiveToDate();
+
+            if((fromDate.equals(expenseDate) || fromDate.before(expenseDate)) && (toDate.equals(expenseDate) || toDate.after(expenseDate))) {
+                chosenMileageRate = mileageRate;
+            }
+        }
+        return chosenMileageRate;
     }
 
     /**
@@ -908,16 +877,11 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
         retval.setPrimaryDestination(perDiemExpense.getPrimaryDestination());
         retval.setMileageDate(perDiemExpense.getMileageDate());
         retval.setMiles(perDiemExpense.getMiles());
+        retval.setMileageRateExpenseTypeCode(perDiemExpense.getMileageRateExpenseTypeCode());
         retval.setAccommodationTypeCode(perDiemExpense.getAccommodationTypeCode());
         retval.setAccommodationName(perDiemExpense.getAccommodationName());
         retval.setAccommodationPhoneNum(perDiemExpense.getAccommodationPhoneNum());
         retval.setAccommodationAddress(perDiemExpense.getAccommodationAddress());
-
-        LOG.debug("Setting mileage rate on new Per Diem Object to "+ perDiemExpense.getMileageRateId());
-        retval.setMileageRateId(perDiemExpense.getMileageRateId());
-        retval.refreshReferenceObject("mileageRate");
-
-        LOG.debug("Got mileage "+ retval.getMileageRate());
         retval.setPerDiemId(perDiemExpense.getPerDiemId());
 
         if (retval.getMiles() == null) {
@@ -2466,5 +2430,13 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
 
     public void setGroupTravelerColumns(List<String> groupTravelerColumns) {
         this.groupTravelerColumns = groupTravelerColumns;
+    }
+
+    public TravelExpenseService getTravelExpenseService() {
+        return travelExpenseService;
+    }
+
+    public void setTravelExpenseService(TravelExpenseService travelExpenseService) {
+        this.travelExpenseService = travelExpenseService;
     }
 }

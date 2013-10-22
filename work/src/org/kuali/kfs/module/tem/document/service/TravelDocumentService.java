@@ -25,6 +25,7 @@ import org.kuali.kfs.integration.ar.AccountsReceivableOrganizationOptions;
 import org.kuali.kfs.module.tem.businessobject.ActualExpense;
 import org.kuali.kfs.module.tem.businessobject.ExpenseTypeAware;
 import org.kuali.kfs.module.tem.businessobject.GroupTraveler;
+import org.kuali.kfs.module.tem.businessobject.MileageRate;
 import org.kuali.kfs.module.tem.businessobject.PerDiem;
 import org.kuali.kfs.module.tem.businessobject.PerDiemExpense;
 import org.kuali.kfs.module.tem.businessobject.SpecialCircumstances;
@@ -410,4 +411,12 @@ public interface TravelDocumentService {
      * @param shouldProrate whether this expense should be prorated
      */
     public void setPerDiemMealsAndIncidentals(PerDiemExpense expense, PerDiem perDiem, TripType tripType, Timestamp tripEnd, boolean shouldProrate);
+
+    /**
+     * Finds the mileage rate for the given expense type code and expense date
+     * @param expenseTypeCode the expense type to find a related mileage rate for
+     * @param expenseDate the date of the expense date, passed in as mileage rates are effectively dated
+     * @return the matching mileage rate
+     */
+    public MileageRate getMileageRate(String expenseTypeCode, java.sql.Date expenseDate);
 }

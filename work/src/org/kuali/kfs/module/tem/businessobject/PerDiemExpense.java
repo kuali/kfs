@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.tem.businessobject;
 
+import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 
@@ -27,10 +28,13 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemConstants.TravelParameters;
 import org.kuali.kfs.module.tem.TemParameterConstants;
+import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.util.KfsDateUtils;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
@@ -70,8 +74,9 @@ public class PerDiemExpense extends PersistableBusinessObjectBase {
 
     private Integer miles = new Integer(0);
     private Timestamp mileageDate;
+    private ExpenseType mileageRateExpenseType;
+    private String mileageRateExpenseTypeCode;
     private MileageRate mileageRate;
-    private Integer mileageRateId;
 
     private String accommodationTypeCode;
     private String accommodationName;
@@ -437,31 +442,48 @@ public class PerDiemExpense extends PersistableBusinessObjectBase {
     }
 
     @ManyToOne
-    @JoinColumn(name = "MILEAGE_RT_ID")
+    @JoinColumn(name = "MILEAGE_RT_EXP_TYP_CD")
+    public ExpenseType getMileageRateExpenseType() {
+        return mileageRateExpenseType;
+    }
+
+    public void setMileageRateExpenseType(ExpenseType mileageRateExpenseType) {
+        this.mileageRateExpenseType = mileageRateExpenseType;
+    }
+
+    @Column(name = "MILEAGE_RT_EXP_TYP_CD")
+    public String getMileageRateExpenseTypeCode() {
+        return mileageRateExpenseTypeCode;
+    }
+
+    public void setMileageRateExpenseTypeCode(String mileageRateExpenseTypeCode) {
+        this.mileageRateExpenseTypeCode = mileageRateExpenseTypeCode;
+    }
+
     public MileageRate getMileageRate() {
-        return mileageRate;
+        if (this.mileageRate == null || !StringUtils.equals(getMileageRateExpenseTypeCode(), mileageRate.getExpenseTypeCode()) || !isMileageDateWithinMileageRateRange(mileageRate)){
+            this.mileageRate = SpringContext.getBean(TravelDocumentService.class).getMileageRate(getMileageRateExpenseTypeCode(), new java.sql.Date(this.getMileageDate().getTime()));
+        }
+        return this.mileageRate;
     }
 
-    public void setMileageRate(MileageRate mileageRate) {
-        this.mileageRate = mileageRate;
+    /**
+     * Determines if the mileage date for this per diem expense matches the range for the given mileage rate
+     * @param mileageRate the mileage rate to check the mileage date against
+     * @return true if the mileage date matches, false otherwise
+     */
+    protected boolean isMileageDateWithinMileageRateRange(MileageRate mileageRate) {
+        final Date fromDate = mileageRate.getActiveFromDate();
+        final Date toDate = mileageRate.getActiveToDate();
+
+        return (KfsDateUtils.isSameDay(fromDate, getMileageDate()) || fromDate.before(getMileageDate())) && (KfsDateUtils.isSameDay(toDate, getMileageDate()) || toDate.after(getMileageDate()));
     }
 
-    @Column(name = "MILEAGE_RT_ID", precision = 19, scale = 2, nullable = false)
-    public Integer getMileageRateId() {
-        return mileageRateId;
-    }
-
-    public void setMileageRateId(Integer mileageRateId) {
-        this.mileageRateId = mileageRateId;
-    }
-
-    @Column(name = "MILEAGE_TOT", precision = 19, scale = 2, nullable = false)
     public KualiDecimal getMileageTotal() {
         KualiDecimal total = KualiDecimal.ZERO;
         if (!personal) {
-            if (ObjectUtils.isNotNull(this.mileageRateId) && ObjectUtils.isNotNull(this.miles) && this.miles > 0) {
-                this.refreshReferenceObject("mileageRate");
-                total = new KualiDecimal(miles).multiply(mileageRate.getRate());
+            if (ObjectUtils.isNotNull(getMileageRate()) && ObjectUtils.isNotNull(this.miles) && this.miles > 0) {
+                total = new KualiDecimal(miles).multiply(getMileageRate().getRate());
             }
         }
 

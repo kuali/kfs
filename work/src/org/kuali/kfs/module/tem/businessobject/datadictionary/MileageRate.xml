@@ -12,11 +12,11 @@
 		<property name="attributes">
 		<list>
 			<ref bean="MileageRate-id" />
-			<ref bean="MileageRate-name" />
+			<ref bean="MileageRate-expenseTypeCode"/>
+			<ref bean="MileageRate-expenseType.name"/>
 			<ref bean="MileageRate-rate" />
 			<ref bean="MileageRate-activeFromDate" />
 			<ref bean="MileageRate-activeToDate" />
-			<ref bean="MileageRate-active" />
 			<ref bean="MileageRate-versionNumber" />
 		</list>
 		</property>
@@ -33,16 +33,13 @@
 		<property name="control"><bean parent="HiddenControlDefinition" /></property>
 		<property name="validationPattern"><bean parent="NumericValidationPattern" /></property>
 	</bean>
-	<bean id="MileageRate-name" parent="MileageRate-name-parentBean" />
-	<bean id="MileageRate-name-parentBean" parent="AttributeDefinition">
-		<property name="name" value="name" />
-		<property name="label" value="Description" />
-		<property name="shortLabel" value="Description" />
-		<property name="maxLength" value="40" />
-		<property name="required" value="true" />
-		<property name="summary" value="Name" />
-		<property name="description" value="Name" />
-		<property name="control"><bean parent="TextControlDefinition" p:size="40"/></property>
+	<bean id="MileageRate-expenseTypeCode" parent="MileageRate-expenseTypeCode-parentBean"/>
+	<bean id="MileageRate-expenseTypeCode-parentBean" parent="ExpenseType-code">
+		<property name="name" value="expenseTypeCode"/>
+	</bean>
+	<bean id="MileageRate-expenseType.name" parent="MileageRate-expenseType.name-parentBean"/>
+	<bean id="MileageRate-expenseType.name-parentBean" parent="ExpenseType-name">
+		<property name="name" value="expenseType.name"/>
 	</bean>
 	<bean id="MileageRate-rate" parent="MileageRate-rate-parentBean" />
 	<bean id="MileageRate-rate-parentBean" parent="GenericAttributes-genericAmount">
@@ -71,15 +68,6 @@
 		<property name="summary" value="Active To Date" />
 		<property name="description" value="Active To Date" />
 	</bean>
-	<bean id="MileageRate-active" parent="MileageRate-active-parentBean" />
-	<bean id="MileageRate-active-parentBean" parent="GenericAttributes-genericBoolean">
-		<property name="name" value="active" />
-		<property name="label" value="Active" />
-		<property name="shortLabel" value="Active" />
-		<property name="required" value="true" />
-		<property name="summary" value="Active" />
-		<property name="description" value="Active" />
-	</bean>
 	<bean id="MileageRate-versionNumber" parent="MileageRate-versionNumber-parentBean" />
 	<bean id="MileageRate-versionNumber-parentBean" parent="GenericAttributes-versionNumber">
 		<property name="name" value="versionNumber" />
@@ -99,11 +87,10 @@
 				<property name="inquiryFields">
 				<list>
 					<bean parent="FieldDefinition" p:attributeName="id" />
-					<bean parent="FieldDefinition" p:attributeName="name" />
+					<bean parent="FieldDefinition" p:attributeName="expenseType.name"/>
 					<bean parent="FieldDefinition" p:attributeName="rate" />
 					<bean parent="FieldDefinition" p:attributeName="activeFromDate" />
 					<bean parent="FieldDefinition" p:attributeName="activeToDate" />
-					<bean parent="FieldDefinition" p:attributeName="active" />
 				</list>
 				</property>
 			</bean>
@@ -121,21 +108,19 @@
 		</property>
 		<property name="lookupFields"><list>
 			<bean parent="FieldDefinition" p:attributeName="id" />
-			<bean parent="FieldDefinition" p:attributeName="name" />
+			<bean parent="FieldDefinition" p:attributeName="expenseTypeCode"/>
 			<bean parent="FieldDefinition" p:attributeName="rate" />
 			<bean parent="FieldDefinition" p:attributeName="activeFromDate" />
 			<bean parent="FieldDefinition" p:attributeName="activeToDate" />
-			<bean parent="FieldDefinition" p:attributeName="active" />
 		</list>
 		</property>
 		<property name="resultFields">
 		<list>
 			<bean parent="FieldDefinition" p:attributeName="id" />
-			<bean parent="FieldDefinition" p:attributeName="name" />
+			<bean parent="FieldDefinition" p:attributeName="expenseType.name" />
 			<bean parent="FieldDefinition" p:attributeName="rate" />
 			<bean parent="FieldDefinition" p:attributeName="activeFromDate" />
 			<bean parent="FieldDefinition" p:attributeName="activeToDate" />
-			<bean parent="FieldDefinition" p:attributeName="active" />
 		</list>
 		</property>
 	</bean>

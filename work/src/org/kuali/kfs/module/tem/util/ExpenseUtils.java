@@ -21,7 +21,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants.TEMProfileProperties;
 import org.kuali.kfs.module.tem.businessobject.ActualExpense;
@@ -109,17 +108,19 @@ public class ExpenseUtils {
 
     public static void calculateMileage(List<ActualExpense> actualExpenses){
         for (ActualExpense actualExpense : actualExpenses){
-            if (!StringUtils.isBlank(actualExpense.getExpenseTypeCode()) && actualExpense.getExpenseTypeCode().equals(TemConstants.ExpenseTypes.MILEAGE)){
+            if (!StringUtils.isBlank(actualExpense.getExpenseTypeCode()) && actualExpense.isMileage()){
                 actualExpense.setCurrencyRate(new KualiDecimal(1));
                 KualiDecimal total = KualiDecimal.ZERO;
                 for (TEMExpense detail : actualExpense.getExpenseDetails()){
                     ActualExpense detailExpense = (ActualExpense) detail;
-                    KualiDecimal mileage = (new KualiDecimal(detailExpense.getMiles())).multiply(detailExpense.getMileageRate().getRate());
-                    detailExpense.setExpenseAmount(mileage);
-                    detailExpense.setConvertedAmount(mileage);
-                    total = total.add(detailExpense.getExpenseAmount());
-                    detailExpense.setCurrencyRate(actualExpense.getCurrencyRate());
-                    detailExpense.setExpenseTypeObjectCodeId(actualExpense.getExpenseTypeObjectCodeId());
+                    if (detailExpense.getMileageRate() != null) {
+                        KualiDecimal mileage = (new KualiDecimal(detailExpense.getMiles())).multiply(detailExpense.getMileageRate().getRate());
+                        detailExpense.setExpenseAmount(mileage);
+                        detailExpense.setConvertedAmount(mileage);
+                        total = total.add(detailExpense.getExpenseAmount());
+                        detailExpense.setCurrencyRate(actualExpense.getCurrencyRate());
+                        detailExpense.setExpenseTypeObjectCodeId(actualExpense.getExpenseTypeObjectCodeId());
+                    }
                 }
                 actualExpense.setExpenseAmount(total);
             }

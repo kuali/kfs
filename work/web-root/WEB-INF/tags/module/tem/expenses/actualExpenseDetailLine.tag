@@ -60,26 +60,8 @@
 		<td valign="top" class="infoline" align="center"><kul:htmlControlAttribute
 				attributeEntry="${otherExpenseAttributes.miles}"
 				property="${detail}.miles" readOnly="${!fullEntryMode}" onchange="updateMileage(this.id)" /></td>
-		<td valign="top" class="infoline" align="center"><c:set
-				target="${paramMap}" property="queryDate"
-				value="${detailObject.expenseDate}" /> <html:select
-				styleId="${detail}.mileageRateId" property="${detail}.mileageRateId"
-				disabled="${!fullEntryMode}" onchange="updateMileage('${detail}.miles')">
-				<c:forEach
-					items="${temfunc:getOptionList('org.kuali.kfs.module.tem.businessobject.options.MileageRateValuesFinder', paramMap)}"
-					var="option">
-					<c:set var="mileageSelected" value="" />
-
-					<c:if test="${option.key == detailObject.mileageRateId}">
-						<c:set var="mileageSelected" value="selected" />
-					</c:if>
-
-					<option value="${option.key}"${mileageSelected}>${option.value}</option>
-				</c:forEach>
-			</html:select> 
-			<c:if test="${fn:length(temfunc:getOptionList('org.kuali.kfs.module.tem.businessobject.options.MileageRateValuesFinder', paramMap)) == 0}">
-				<div align="left">No Rates Available</div>
-			</c:if>
+		<td valign="top" class="infoline" align="center">
+			<c:out value="${detailObject.mileageRate.rate}" />
 		</td>
 	</c:if>
 	<td valign="top" nowrap class="infoline">

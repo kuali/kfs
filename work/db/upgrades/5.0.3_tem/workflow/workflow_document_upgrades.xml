@@ -109,11 +109,6 @@
 			<parent>TTSM</parent>
 		</documentType>
 		<documentType>
-			<name>TMRC</name>
-			<label>Mileage Rate Object Code</label>
-			<parent>TTSM</parent>
-		</documentType>
-		<documentType>
 			<name>TPD</name>
 			<label>Per Diem</label>
 			<parent>TTSM</parent>

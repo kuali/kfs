@@ -14,6 +14,7 @@
 			<ref bean="PerDiemExpense-id" />
 			<ref bean="PerDiemExpense-documentNumber" />
 			<ref bean="PerDiemExpense-mileageDate" />
+			<ref bean="PerDiemExpense-mileageRateExpenseTypeCode"/>
 			<ref bean="PerDiemExpense-countryState" />
 			<ref bean="PerDiemExpense-countryStateText" />
 			<ref bean="PerDiemExpense-county" />
@@ -29,28 +30,11 @@
             <ref bean="PerDiemExpense-incidentalsValue" />
             <ref bean="PerDiemExpense-lodging" />
 			<ref bean="PerDiemExpense-miles" />
-			<ref bean="PerDiemExpense-mileageRateId" />
             <ref bean="PerDiemExpense-accommodationTypeCode" />
             <ref bean="PerDiemExpense-accommodationName" />
             <ref bean="PerDiemExpense-accommodationPhoneNum" />
             <ref bean="PerDiemExpense-accommodationAddress" />
 			<ref bean="PerDiemExpense-versionNumber" />
-		</list>
-		</property>
-		<property name="relationships">
-		<list>
-			<bean parent="RelationshipDefinition">
-				<property name="objectAttributeName" value="mileageRate" />
-				<property name="primitiveAttributes">
-				<list>
-					<bean parent="PrimitiveAttributeDefinition" p:sourceName="mileageRateId" p:targetName="id" />
-				</list>
-				</property>
-				<property name="supportAttributes">
-				<list>
-				</list>
-				</property>
-			</bean>
 		</list>
 		</property>
 	</bean>
@@ -73,6 +57,10 @@
 		<property name="shortLabel" value="Date" />
 		<property name="summary" value="Date" />
 		<property name="description" value="Date" />
+	</bean>
+	<bean id="PerDiemExpense-mileageRateExpenseTypeCode" parent="PerDiemExpense-mileageRateExpenseTypeCode-parentBean"/>
+	<bean id="PerDiemExpense-mileageRateExpenseTypeCode-parentBean" parent="ExpenseType-code">
+		<property name="name" value="mileageRateExpenseTypeCode"/>
 	</bean>
 	<bean id="PerDiemExpense-documentNumber" parent="PerDiemExpense-documentNumber-parentBean" />
 	<bean id="PerDiemExpense-documentNumber-parentBean" parent="AttributeDefinition">
@@ -230,18 +218,6 @@
 		<property name="control"><bean parent="TextControlDefinition" p:size="10"/></property>
 		<property name="validationPattern"><bean parent="NumericValidationPattern" /></property>
 	</bean>
-	<bean id="PerDiemExpense-mileageRateId" parent="PerDiemExpense-mileageRateId-parentBean" />
-	<bean id="PerDiemExpense-mileageRateId-parentBean" parent="AttributeDefinition">
-		<property name="name" value="mileageRateId" />
-		<property name="label" value="Mileage Rate" />
-		<property name="shortLabel" value="Mileage Rate" />
-		<property name="maxLength" value="32" />
-		<property name="required" value="false" />
-		<property name="summary" value="Mileage Rate Id" />
-		<property name="description" value="Mileage Rate Id" />
-		<property name="control"><bean parent="TextControlDefinition" p:size="32"/></property>
-		<property name="validationPattern"><bean parent="NumericValidationPattern" /></property>
-	</bean>
 	<bean id="PerDiemExpense-accommodationTypeCode" parent="PerDiemExpense-accommodationTypeCode-parentBean" />
 	<bean id="PerDiemExpense-accommodationTypeCode-parentBean"
 		parent="AttributeDefinition">
@@ -326,7 +302,7 @@
 					<bean parent="FieldDefinition" p:attributeName="dinner" />
 					<bean parent="FieldDefinition" p:attributeName="perDiem" />
 					<bean parent="FieldDefinition" p:attributeName="miles" />
-					<bean parent="FieldDefinition" p:attributeName="mileageRateId" />
+					<bean parent="FieldDefinition" p:attributeName="mileageRateExpenseTypeCode" />
 				</list>
 				</property>
 			</bean>
@@ -353,7 +329,7 @@
 			<bean parent="FieldDefinition" p:attributeName="dinner" />
 			<bean parent="FieldDefinition" p:attributeName="perDiem" />
 			<bean parent="FieldDefinition" p:attributeName="miles" />
-			<bean parent="FieldDefinition" p:attributeName="mileageRateId" />
+			<bean parent="FieldDefinition" p:attributeName="mileageRateExpenseTypeCode" />
 		</list>
 		</property>
 		<property name="resultFields">
@@ -368,7 +344,7 @@
 			<bean parent="FieldDefinition" p:attributeName="dinner" />
 			<bean parent="FieldDefinition" p:attributeName="perDiem" />
 			<bean parent="FieldDefinition" p:attributeName="miles" />
-			<bean parent="FieldDefinition" p:attributeName="mileageRateId" />
+			<bean parent="FieldDefinition" p:attributeName="mileageRateExpenseTypeCode" />
 		</list>
 		</property>
 	</bean>

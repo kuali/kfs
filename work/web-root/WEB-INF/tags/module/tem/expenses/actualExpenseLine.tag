@@ -80,7 +80,7 @@
 				<div align="center" id="div_${expense}.expenseAmount">
 					<kul:htmlControlAttribute
 						attributeEntry="${otherExpenseAttributes.expenseAmount}"
-						property="${expense}.expenseAmount" readOnly="${!fullEntryMode || detailObject.expenseTypeCode == TemConstants.MILEAGE_EXPENSE}" />
+						property="${expense}.expenseAmount" readOnly="${!fullEntryMode || detailObject.mileage}" />
 				</div>
 			</td>
 			<td valign="top" nowrap class="infoline">

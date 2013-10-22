@@ -251,7 +251,7 @@ public class TravelReimbursementAction extends TravelActionBase {
             final PerDiemExpense mileage = getTravelDocumentService().copyPerDiemExpense(estimate);
             mileage.setDocumentNumber(reimbursement.getDocumentNumber());
 
-            if (mileage.getMileageRateId() != null) {
+            if (!StringUtils.isBlank(mileage.getMileageRateExpenseTypeCode())) {
                 LOG.debug("Adding mileage for estimate with date "+ estimate.getMileageDate());
                 reimbursement.getPerDiemExpenses().add(mileage);
             }

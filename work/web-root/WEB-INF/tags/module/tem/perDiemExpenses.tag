@@ -76,7 +76,7 @@
 						
 						<c:if test="${showMiles}">
 							<kul:htmlAttributeHeaderCell attributeEntry="${perDiemExpensesAttributes.miles}" />
-							<kul:htmlAttributeHeaderCell attributeEntry="${perDiemExpensesAttributes.mileageRateId}" />
+							<kul:htmlAttributeHeaderCell attributeEntry="${perDiemExpensesAttributes.mileageRateExpenseTypeCode}" />
 							<th colspan="1" rowspan="1">&nbsp;Mileage Total</th>
 						</c:if>
 
@@ -218,10 +218,10 @@
 									readOnly="${!fullEntryMode}" />
 							</td>
 							<td valign=top class="datacell">
-								<input type="hidden" id="document.perDiemExpenses[${perDiemIndex.count - 1}].mileageRateId.holder" value="<bean:write name="KualiForm" property="document.perDiemExpenses[${perDiemIndex.count - 1}].mileageRateId" />" />                               
+								<input type="hidden" id="document.perDiemExpenses[${perDiemIndex.count - 1}].mileageRateExpenseTypeCode.holder" value="<bean:write name="KualiForm" property="document.perDiemExpenses[${perDiemIndex.count - 1}].mileageRateExpenseTypeCode" />" />                               
 								<html:select
-									styleId="document.perDiemExpenses[${perDiemIndex.count - 1}].mileageRateId"
-									property="document.perDiemExpenses[${perDiemIndex.count - 1}].mileageRateId"
+									styleId="document.perDiemExpenses[${perDiemIndex.count - 1}].mileageRateExpenseTypeCode"
+									property="document.perDiemExpenses[${perDiemIndex.count - 1}].mileageRateExpenseTypeCode"
 									disabled="${!fullEntryMode}">
 									<c:forEach
 										items="${temfunc:getOptionList('org.kuali.kfs.module.tem.businessobject.options.MileageRateValuesFinder', paramMap)}"
@@ -229,7 +229,7 @@
 										<c:set var="mileageSelected" value="" />
 
 										<c:if
-											test="${option.key == KualiForm.document.perDiemExpenses[perDiemIndex.count - 1].mileageRateId}">
+											test="${option.key == KualiForm.document.perDiemExpenses[perDiemIndex.count - 1].mileageRateExpenseTypeCode}">
 											<c:set var="mileageSelected" value="selected" />
 										</c:if>
 

@@ -33,7 +33,6 @@ import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.service.ObjectCodeService;
 import org.kuali.kfs.module.tem.TemConstants.ExpenseType;
 import org.kuali.kfs.module.tem.businessobject.AccountingDistribution;
-import org.kuali.kfs.module.tem.businessobject.MileageRateObjCode;
 import org.kuali.kfs.module.tem.businessobject.TemDistributionAccountingLine;
 import org.kuali.kfs.module.tem.businessobject.TemSourceAccountingLine;
 import org.kuali.kfs.module.tem.businessobject.TravelerDetail;
@@ -264,25 +263,6 @@ public class AccountingDistributionServiceImpl implements AccountingDistribution
         }
 
         return parameterValue.substring(searchIdx + paramSearchStr.length(), endIdx);
-    }
-
-    protected String getMileageObjectCodeFrom(final TravelDocument travelDocument, Integer mileageRateId) {
-        final String travelerType = travelDocument.getTraveler().getTravelerTypeCode();
-        final String tripType = travelDocument.getTripType().getCode();
-
-        String objCode = "";
-        Map<String, Object> fields = new HashMap<String, Object>();
-
-        fields.put("travelerTypeCode", travelerType);
-        fields.put("tripTypeCode", tripType);
-        fields.put("mileageRateId", mileageRateId);
-
-        List<MileageRateObjCode> mileageObjCodes = (List<MileageRateObjCode>) businessObjectService.findMatching(MileageRateObjCode.class, fields);
-        for (MileageRateObjCode mileageObjCode : mileageObjCodes) {
-            objCode = mileageObjCode.getFinancialObjectCode();
-        }
-
-        return objCode;
     }
 
     protected AccountingDistribution retrieveDistributionFor(final List<AccountingDistribution> distros, ObjectCode objectCode) {

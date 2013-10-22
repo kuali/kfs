@@ -21,8 +21,6 @@ import java.util.LinkedHashMap;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -31,10 +29,10 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
+import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
-import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.SequenceAccessorService;
 import org.kuali.rice.krad.util.ObjectUtils;
 
@@ -52,7 +50,6 @@ public class ActualExpense extends AbstractExpense implements OtherExpense, Expe
 
     private String airfareSourceCode;
     private String classOfServiceCode;
-    private Integer mileageRateId;
     private MileageRate mileageRate;
     private Integer miles;
     private KualiDecimal mileageOtherRate;
@@ -119,49 +116,15 @@ public class ActualExpense extends AbstractExpense implements OtherExpense, Expe
     }
 
     /**
-     * Get the value of mileageRateId
-     *
-     * @return the value of mileageRateId
-     */
-    @Override
-    @Column(name="MILEAGE_RT_ID",length=19,nullable=true)
-    public Integer getMileageRateId(){
-        return this.mileageRateId;
-    }
-
-    /**
-     * Sets the value of mileageRateId
-     *
-     * @param mileageRateId value to assign to this.mileageRateId
-     */
-    @Override
-    public void setMileageRateId(Integer mileageRateId){
-        this.mileageRateId = mileageRateId;
-    }
-
-    /**
      * Get the value of mileageRate
      *
      * @return the value of mileageRate
      */
-    @Override
-    @ManyToOne
-    @JoinColumn(name="MILEAGE_RT_ID",nullable=false)
     public MileageRate getMileageRate(){
-        if (this.mileageRate == null && mileageRateId != null){
-            this.mileageRate = SpringContext.getBean(BusinessObjectService.class).findBySinglePrimaryKey(MileageRate.class, mileageRateId);
+        if (this.mileageRate == null){
+            this.mileageRate = SpringContext.getBean(TravelDocumentService.class).getMileageRate(getExpenseTypeCode(), getExpenseDate());
         }
         return this.mileageRate;
-    }
-
-    /**
-     * Sets the value of mileageRate
-     *
-     * @param mileageRate value to assign to this.mileageRate
-     */
-    @Override
-    public void setMileageRate(MileageRate mileageRate){
-        this.mileageRate = mileageRate;
     }
 
     /**
@@ -348,9 +311,12 @@ public class ActualExpense extends AbstractExpense implements OtherExpense, Expe
         KualiDecimal total = KualiDecimal.ZERO;
 
         if(ObjectUtils.isNotNull(this.miles) && this.miles != 0){
-            if(ObjectUtils.isNotNull(this.mileageRateId) && this.mileageRateId != 0){
-                refreshReferenceObject("mileageRate");
+            if (!ObjectUtils.isNull(mileageOtherRate)) {
+                total= new KualiDecimal(miles).multiply(this.mileageOtherRate); // mileageOtherRate takes precedence
+            }
+            else {
                 try{
+                    final MileageRate mileageRate = this.getMileageRate();
                     total = new KualiDecimal(miles).multiply(this.mileageRate.getRate());
                 }
                 catch(Exception ex){
@@ -362,12 +328,6 @@ public class ActualExpense extends AbstractExpense implements OtherExpense, Expe
                     }
                 }
             }
-            else if(ObjectUtils.isNotNull(this.mileageOtherRate)){
-                total= new KualiDecimal(miles).multiply(this.mileageOtherRate);
-            }
-            /*if(ObjectUtils.isNotNull(this.mileageOtherRate) && this.travelExpenseTypeCodeCode.equals("O")){
-                total= new KualiDecimal(miles).multiply(this.mileageOtherRate);
-            }*/
         }
 
         return total;

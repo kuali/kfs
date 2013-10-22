@@ -649,12 +649,36 @@
 			<column name="ACTV_IND" value="Y"/>
 		</insert>
 		<insert tableName="TEM_EXP_TYP_T">
+			<column name="EXP_TYP_CD" value="MA"/>
+			<column name="OBJ_ID" valueComputed="SYS_GUID()"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="EXP_TYP_NM" value="Mileage - Aircraft"/>
+			<column name="GRP_TRVL_IND" value="N"/>
+			<column name="EXP_DETAIL_REQ_IND" value="N"/>
+			<column name="EXP_PRPY_IND" value="N"/>
+			<column name="EXP_TYP_META_CTGRY_CD" value="M"/>
+			<column name="CTGRY_DFLT_IND" value="N"/>
+			<column name="ACTV_IND" value="Y"/>
+		</insert>
+		<insert tableName="TEM_EXP_TYP_T">
 			<column name="EXP_TYP_CD" value="MM"/>
 			<column name="OBJ_ID" valueComputed="SYS_GUID()"/>
 			<column name="VER_NBR" valueNumeric="1"/>
-			<column name="EXP_TYP_NM" value="Mileage"/>
+			<column name="EXP_TYP_NM" value="Mileage - Motorcyle"/>
 			<column name="GRP_TRVL_IND" value="N"/>
-			<column name="EXP_DETAIL_REQ_IND" value="Y"/>
+			<column name="EXP_DETAIL_REQ_IND" value="N"/>
+			<column name="EXP_PRPY_IND" value="N"/>
+			<column name="EXP_TYP_META_CTGRY_CD" value="M"/>
+			<column name="CTGRY_DFLT_IND" value="N"/>
+			<column name="ACTV_IND" value="Y"/>
+		</insert>
+		<insert tableName="TEM_EXP_TYP_T">
+			<column name="EXP_TYP_CD" value="MP"/>
+			<column name="OBJ_ID" valueComputed="SYS_GUID()"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="EXP_TYP_NM" value="Mileage - Privately Owned Vehicle"/>
+			<column name="GRP_TRVL_IND" value="N"/>
+			<column name="EXP_DETAIL_REQ_IND" value="N"/>
 			<column name="EXP_PRPY_IND" value="N"/>
 			<column name="EXP_TYP_META_CTGRY_CD" value="M"/>
 			<column name="CTGRY_DFLT_IND" value="Y"/>
@@ -1431,7 +1455,7 @@
 		</insert>
 		<insert tableName="TEM_EXP_TYP_FIN_OBJ_CD_T">
 			<column name="EXP_TYP_OBJ_CD_ID" value="43.0"/>
-			<column name="EXP_TYP_CD" value="MM"/>
+			<column name="EXP_TYP_CD" value="MP"/>
 			<column name="TRIP_TYP_CD" value="All"/>
 			<column name="TRAVELER_TYP_CD" value="All"/>
 			<column name="DOC_TYP_NM" value="RELO"/>
@@ -1446,7 +1470,7 @@
 		</insert>
 		<insert tableName="TEM_EXP_TYP_FIN_OBJ_CD_T">
 			<column name="EXP_TYP_OBJ_CD_ID" value="44.0"/>
-			<column name="EXP_TYP_CD" value="MM"/>
+			<column name="EXP_TYP_CD" value="MP"/>
 			<column name="TRIP_TYP_CD" value="All"/>
 			<column name="TRAVELER_TYP_CD" value="All"/>
 			<column name="DOC_TYP_NM" value="TRV"/>
@@ -1461,7 +1485,7 @@
 		</insert>
 		<insert tableName="TEM_EXP_TYP_FIN_OBJ_CD_T">
 			<column name="EXP_TYP_OBJ_CD_ID" value="45.0"/>
-			<column name="EXP_TYP_CD" value="MM"/>
+			<column name="EXP_TYP_CD" value="MP"/>
 			<column name="TRIP_TYP_CD" value="OUT"/>
 			<column name="TRAVELER_TYP_CD" value="All"/>
 			<column name="DOC_TYP_NM" value="TRV"/>
@@ -1476,7 +1500,7 @@
 		</insert>
 		<insert tableName="TEM_EXP_TYP_FIN_OBJ_CD_T">
 			<column name="EXP_TYP_OBJ_CD_ID" value="46.0"/>
-			<column name="EXP_TYP_CD" value="MM"/>
+			<column name="EXP_TYP_CD" value="MP"/>
 			<column name="TRIP_TYP_CD" value="INT"/>
 			<column name="TRAVELER_TYP_CD" value="All"/>
 			<column name="DOC_TYP_NM" value="TRV"/>
@@ -1929,6 +1953,51 @@
 			<column name="SPCL_RQST_REQ_IND" value="N"/>
 			<column name="ACTV_IND" value="Y"/>
 		</insert>
+		<insert tableName="TEM_EXP_TYP_FIN_OBJ_CD_T">
+			<column name="EXP_TYP_OBJ_CD_ID" value="76.0"/>
+			<column name="EXP_TYP_CD" value="MA"/>
+			<column name="TRIP_TYP_CD" value="All"/>
+			<column name="TRAVELER_TYP_CD" value="All"/>
+			<column name="DOC_TYP_NM" value="TRV"/>
+			<column name="OBJ_ID" valueComputed="SYS_GUID()"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="6000"/>
+			<column name="NOTE_REQ_IND" value="N"/>
+			<column name="RCPT_REQ_IND" value="N"/>
+			<column name="TAXABLE_IND" value="N"/>
+			<column name="SPCL_RQST_REQ_IND" value="N"/>
+			<column name="ACTV_IND" value="Y"/>
+		</insert>
+		<insert tableName="TEM_EXP_TYP_FIN_OBJ_CD_T">
+			<column name="EXP_TYP_OBJ_CD_ID" value="77.0"/>
+			<column name="EXP_TYP_CD" value="MM"/>
+			<column name="TRIP_TYP_CD" value="All"/>
+			<column name="TRAVELER_TYP_CD" value="All"/>
+			<column name="DOC_TYP_NM" value="TRV"/>
+			<column name="OBJ_ID" valueComputed="SYS_GUID()"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="6000"/>
+			<column name="NOTE_REQ_IND" value="N"/>
+			<column name="RCPT_REQ_IND" value="N"/>
+			<column name="TAXABLE_IND" value="N"/>
+			<column name="SPCL_RQST_REQ_IND" value="N"/>
+			<column name="ACTV_IND" value="Y"/>
+		</insert>
+		<insert tableName="TEM_EXP_TYP_FIN_OBJ_CD_T">
+			<column name="EXP_TYP_OBJ_CD_ID" value="78.0"/>
+			<column name="EXP_TYP_CD" value="MM"/>
+			<column name="TRIP_TYP_CD" value="All"/>
+			<column name="TRAVELER_TYP_CD" value="All"/>
+			<column name="DOC_TYP_NM" value="RELO"/>
+			<column name="OBJ_ID" valueComputed="SYS_GUID()"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="6000"/>
+			<column name="NOTE_REQ_IND" value="N"/>
+			<column name="RCPT_REQ_IND" value="N"/>
+			<column name="TAXABLE_IND" value="N"/>
+			<column name="SPCL_RQST_REQ_IND" value="N"/>
+			<column name="ACTV_IND" value="Y"/>
+		</insert>
 		<insert tableName="TEM_JOB_CLASS_T">
 			<column name="JOB_CLS_CD" value="AP"/>
 			<column name="JOB_CLS_NM" value="Academic Personnel"/>
@@ -1957,408 +2026,30 @@
 			<column name="VER_NBR" valueNumeric="1"/>
 			<column name="OBJ_ID" valueComputed="SYS_GUID()"/>
 		</insert>
-		<insert tableName="TEM_MILEAGE_RATE_OBJ_CD_T">
-			<column name="ID" valueNumeric="1000"/>
-			<column name="TRAVELER_TYP_CD" value="EMP"/>
-			<column name="TRIP_TYP_CD" value="IN"/>
-			<column name="MILEAGE_RT_ID" valueNumeric="1"/>
-			<column name="FIN_OBJECT_CD" value="6100"/>
-			<column name="DOCUMENT_TYPE" value="TA"/>
-			<column name="ACTV_IND" value="Y"/>
-			<column name="VER_NBR" valueNumeric="1"/>
-			<column name="OBJ_ID" valueComputed="SYS_GUID()"/>
-		</insert>
-		<insert tableName="TEM_MILEAGE_RATE_OBJ_CD_T">
-			<column name="ID" valueNumeric="1001"/>
-			<column name="TRAVELER_TYP_CD" value="NON"/>
-			<column name="TRIP_TYP_CD" value="IN"/>
-			<column name="MILEAGE_RT_ID" valueNumeric="1"/>
-			<column name="FIN_OBJECT_CD" value="6140"/>
-			<column name="DOCUMENT_TYPE" value="TA"/>
-			<column name="ACTV_IND" value="Y"/>
-			<column name="VER_NBR" valueNumeric="1"/>
-			<column name="OBJ_ID" valueComputed="SYS_GUID()"/>
-		</insert>
-		<insert tableName="TEM_MILEAGE_RATE_OBJ_CD_T">
-			<column name="ID" valueNumeric="1002"/>
-			<column name="TRAVELER_TYP_CD" value="EMP"/>
-			<column name="TRIP_TYP_CD" value="IN"/>
-			<column name="MILEAGE_RT_ID" valueNumeric="2"/>
-			<column name="FIN_OBJECT_CD" value="6100"/>
-			<column name="DOCUMENT_TYPE" value="TR"/>
-			<column name="ACTV_IND" value="Y"/>
-			<column name="VER_NBR" valueNumeric="1"/>
-			<column name="OBJ_ID" valueComputed="SYS_GUID()"/>
-		</insert>
-		<insert tableName="TEM_MILEAGE_RATE_OBJ_CD_T">
-			<column name="ID" valueNumeric="1003"/>
-			<column name="TRAVELER_TYP_CD" value="NON"/>
-			<column name="TRIP_TYP_CD" value="IN"/>
-			<column name="MILEAGE_RT_ID" valueNumeric="2"/>
-			<column name="FIN_OBJECT_CD" value="6140"/>
-			<column name="DOCUMENT_TYPE" value="TR"/>
-			<column name="ACTV_IND" value="Y"/>
-			<column name="VER_NBR" valueNumeric="1"/>
-			<column name="OBJ_ID" valueComputed="SYS_GUID()"/>
-		</insert>
-		<insert tableName="TEM_MILEAGE_RATE_OBJ_CD_T">
-			<column name="ID" valueNumeric="1004"/>
-			<column name="TRAVELER_TYP_CD" value="EMP"/>
-			<column name="TRIP_TYP_CD" value="IN"/>
-			<column name="MILEAGE_RT_ID" valueNumeric="3"/>
-			<column name="FIN_OBJECT_CD" value="6100"/>
-			<column name="DOCUMENT_TYPE" value="ENT"/>
-			<column name="ACTV_IND" value="Y"/>
-			<column name="VER_NBR" valueNumeric="1"/>
-			<column name="OBJ_ID" valueComputed="SYS_GUID()"/>
-		</insert>
-		<insert tableName="TEM_MILEAGE_RATE_OBJ_CD_T">
-			<column name="ID" valueNumeric="1005"/>
-			<column name="TRAVELER_TYP_CD" value="NON"/>
-			<column name="TRIP_TYP_CD" value="IN"/>
-			<column name="MILEAGE_RT_ID" valueNumeric="3"/>
-			<column name="FIN_OBJECT_CD" value="6140"/>
-			<column name="DOCUMENT_TYPE" value="ENT"/>
-			<column name="ACTV_IND" value="Y"/>
-			<column name="VER_NBR" valueNumeric="1"/>
-			<column name="OBJ_ID" valueComputed="SYS_GUID()"/>
-		</insert>
-		<insert tableName="TEM_MILEAGE_RATE_OBJ_CD_T">
-			<column name="ID" valueNumeric="1006"/>
-			<column name="TRAVELER_TYP_CD" value="EMP"/>
-			<column name="TRIP_TYP_CD" value="IN"/>
-			<column name="MILEAGE_RT_ID" valueNumeric="4"/>
-			<column name="FIN_OBJECT_CD" value="6100"/>
-			<column name="DOCUMENT_TYPE" value="RELO"/>
-			<column name="ACTV_IND" value="Y"/>
-			<column name="VER_NBR" valueNumeric="1"/>
-			<column name="OBJ_ID" valueComputed="SYS_GUID()"/>
-		</insert>
-		<insert tableName="TEM_MILEAGE_RATE_OBJ_CD_T">
-			<column name="ID" valueNumeric="1007"/>
-			<column name="TRAVELER_TYP_CD" value="NON"/>
-			<column name="TRIP_TYP_CD" value="IN"/>
-			<column name="MILEAGE_RT_ID" valueNumeric="4"/>
-			<column name="FIN_OBJECT_CD" value="6140"/>
-			<column name="DOCUMENT_TYPE" value="RELO"/>
-			<column name="ACTV_IND" value="Y"/>
-			<column name="VER_NBR" valueNumeric="1"/>
-			<column name="OBJ_ID" valueComputed="SYS_GUID()"/>
-		</insert>
-		<insert tableName="TEM_MILEAGE_RATE_OBJ_CD_T">
-			<column name="ID" valueNumeric="1008"/>
-			<column name="TRAVELER_TYP_CD" value="EMP"/>
-			<column name="TRIP_TYP_CD" value="OUT"/>
-			<column name="MILEAGE_RT_ID" valueNumeric="5"/>
-			<column name="FIN_OBJECT_CD" value="6170"/>
-			<column name="DOCUMENT_TYPE" value="TA"/>
-			<column name="ACTV_IND" value="Y"/>
-			<column name="VER_NBR" valueNumeric="1"/>
-			<column name="OBJ_ID" valueComputed="SYS_GUID()"/>
-		</insert>
-		<insert tableName="TEM_MILEAGE_RATE_OBJ_CD_T">
-			<column name="ID" valueNumeric="1009"/>
-			<column name="TRAVELER_TYP_CD" value="NON"/>
-			<column name="TRIP_TYP_CD" value="OUT"/>
-			<column name="MILEAGE_RT_ID" valueNumeric="5"/>
-			<column name="FIN_OBJECT_CD" value="6150"/>
-			<column name="DOCUMENT_TYPE" value="TA"/>
-			<column name="ACTV_IND" value="Y"/>
-			<column name="VER_NBR" valueNumeric="1"/>
-			<column name="OBJ_ID" valueComputed="SYS_GUID()"/>
-		</insert>
-		<insert tableName="TEM_MILEAGE_RATE_OBJ_CD_T">
-			<column name="ID" valueNumeric="1010"/>
-			<column name="TRAVELER_TYP_CD" value="EMP"/>
-			<column name="TRIP_TYP_CD" value="OUT"/>
-			<column name="MILEAGE_RT_ID" valueNumeric="6"/>
-			<column name="FIN_OBJECT_CD" value="6170"/>
-			<column name="DOCUMENT_TYPE" value="TR"/>
-			<column name="ACTV_IND" value="Y"/>
-			<column name="VER_NBR" valueNumeric="1"/>
-			<column name="OBJ_ID" valueComputed="SYS_GUID()"/>
-		</insert>
-		<insert tableName="TEM_MILEAGE_RATE_OBJ_CD_T">
-			<column name="ID" valueNumeric="1011"/>
-			<column name="TRAVELER_TYP_CD" value="NON"/>
-			<column name="TRIP_TYP_CD" value="OUT"/>
-			<column name="MILEAGE_RT_ID" valueNumeric="6"/>
-			<column name="FIN_OBJECT_CD" value="6150"/>
-			<column name="DOCUMENT_TYPE" value="TR"/>
-			<column name="ACTV_IND" value="Y"/>
-			<column name="VER_NBR" valueNumeric="1"/>
-			<column name="OBJ_ID" valueComputed="SYS_GUID()"/>
-		</insert>
-		<insert tableName="TEM_MILEAGE_RATE_OBJ_CD_T">
-			<column name="ID" valueNumeric="1012"/>
-			<column name="TRAVELER_TYP_CD" value="EMP"/>
-			<column name="TRIP_TYP_CD" value="OUT"/>
-			<column name="MILEAGE_RT_ID" valueNumeric="7"/>
-			<column name="FIN_OBJECT_CD" value="6170"/>
-			<column name="DOCUMENT_TYPE" value="ENT"/>
-			<column name="ACTV_IND" value="Y"/>
-			<column name="VER_NBR" valueNumeric="1"/>
-			<column name="OBJ_ID" valueComputed="SYS_GUID()"/>
-		</insert>
-		<insert tableName="TEM_MILEAGE_RATE_OBJ_CD_T">
-			<column name="ID" valueNumeric="1013"/>
-			<column name="TRAVELER_TYP_CD" value="NON"/>
-			<column name="TRIP_TYP_CD" value="OUT"/>
-			<column name="MILEAGE_RT_ID" valueNumeric="7"/>
-			<column name="FIN_OBJECT_CD" value="6150"/>
-			<column name="DOCUMENT_TYPE" value="ENT"/>
-			<column name="ACTV_IND" value="Y"/>
-			<column name="VER_NBR" valueNumeric="1"/>
-			<column name="OBJ_ID" valueComputed="SYS_GUID()"/>
-		</insert>
-		<insert tableName="TEM_MILEAGE_RATE_OBJ_CD_T">
-			<column name="ID" valueNumeric="1014"/>
-			<column name="TRAVELER_TYP_CD" value="EMP"/>
-			<column name="TRIP_TYP_CD" value="OUT"/>
-			<column name="MILEAGE_RT_ID" valueNumeric="8"/>
-			<column name="FIN_OBJECT_CD" value="6170"/>
-			<column name="DOCUMENT_TYPE" value="RELO"/>
-			<column name="ACTV_IND" value="Y"/>
-			<column name="VER_NBR" valueNumeric="1"/>
-			<column name="OBJ_ID" valueComputed="SYS_GUID()"/>
-		</insert>
-		<insert tableName="TEM_MILEAGE_RATE_OBJ_CD_T">
-			<column name="ID" valueNumeric="1015"/>
-			<column name="TRAVELER_TYP_CD" value="NON"/>
-			<column name="TRIP_TYP_CD" value="OUT"/>
-			<column name="MILEAGE_RT_ID" valueNumeric="8"/>
-			<column name="FIN_OBJECT_CD" value="6150"/>
-			<column name="DOCUMENT_TYPE" value="RELO"/>
-			<column name="ACTV_IND" value="Y"/>
-			<column name="VER_NBR" valueNumeric="1"/>
-			<column name="OBJ_ID" valueComputed="SYS_GUID()"/>
-		</insert>
-		<insert tableName="TEM_MILEAGE_RATE_OBJ_CD_T">
-			<column name="ID" valueNumeric="1016"/>
-			<column name="TRAVELER_TYP_CD" value="EMP"/>
-			<column name="TRIP_TYP_CD" value="INT"/>
-			<column name="MILEAGE_RT_ID" valueNumeric="9"/>
-			<column name="FIN_OBJECT_CD" value="6250"/>
-			<column name="DOCUMENT_TYPE" value="TA"/>
-			<column name="ACTV_IND" value="Y"/>
-			<column name="VER_NBR" valueNumeric="1"/>
-			<column name="OBJ_ID" valueComputed="SYS_GUID()"/>
-		</insert>
-		<insert tableName="TEM_MILEAGE_RATE_OBJ_CD_T">
-			<column name="ID" valueNumeric="1017"/>
-			<column name="TRAVELER_TYP_CD" value="NON"/>
-			<column name="TRIP_TYP_CD" value="INT"/>
-			<column name="MILEAGE_RT_ID" valueNumeric="9"/>
-			<column name="FIN_OBJECT_CD" value="6270"/>
-			<column name="DOCUMENT_TYPE" value="TA"/>
-			<column name="ACTV_IND" value="Y"/>
-			<column name="VER_NBR" valueNumeric="1"/>
-			<column name="OBJ_ID" valueComputed="SYS_GUID()"/>
-		</insert>
-		<insert tableName="TEM_MILEAGE_RATE_OBJ_CD_T">
-			<column name="ID" valueNumeric="1018"/>
-			<column name="TRAVELER_TYP_CD" value="EMP"/>
-			<column name="TRIP_TYP_CD" value="INT"/>
-			<column name="MILEAGE_RT_ID" valueNumeric="10"/>
-			<column name="FIN_OBJECT_CD" value="6250"/>
-			<column name="DOCUMENT_TYPE" value="TR"/>
-			<column name="ACTV_IND" value="Y"/>
-			<column name="VER_NBR" valueNumeric="1"/>
-			<column name="OBJ_ID" valueComputed="SYS_GUID()"/>
-		</insert>
-		<insert tableName="TEM_MILEAGE_RATE_OBJ_CD_T">
-			<column name="ID" valueNumeric="1019"/>
-			<column name="TRAVELER_TYP_CD" value="NON"/>
-			<column name="TRIP_TYP_CD" value="INT"/>
-			<column name="MILEAGE_RT_ID" valueNumeric="10"/>
-			<column name="FIN_OBJECT_CD" value="6270"/>
-			<column name="DOCUMENT_TYPE" value="TR"/>
-			<column name="ACTV_IND" value="Y"/>
-			<column name="VER_NBR" valueNumeric="1"/>
-			<column name="OBJ_ID" valueComputed="SYS_GUID()"/>
-		</insert>
-		<insert tableName="TEM_MILEAGE_RATE_OBJ_CD_T">
-			<column name="ID" valueNumeric="1020"/>
-			<column name="TRAVELER_TYP_CD" value="EMP"/>
-			<column name="TRIP_TYP_CD" value="INT"/>
-			<column name="MILEAGE_RT_ID" valueNumeric="11"/>
-			<column name="FIN_OBJECT_CD" value="6250"/>
-			<column name="DOCUMENT_TYPE" value="ENT"/>
-			<column name="ACTV_IND" value="Y"/>
-			<column name="VER_NBR" valueNumeric="1"/>
-			<column name="OBJ_ID" valueComputed="SYS_GUID()"/>
-		</insert>
-		<insert tableName="TEM_MILEAGE_RATE_OBJ_CD_T">
-			<column name="ID" valueNumeric="1021"/>
-			<column name="TRAVELER_TYP_CD" value="NON"/>
-			<column name="TRIP_TYP_CD" value="INT"/>
-			<column name="MILEAGE_RT_ID" valueNumeric="11"/>
-			<column name="FIN_OBJECT_CD" value="6270"/>
-			<column name="DOCUMENT_TYPE" value="ENT"/>
-			<column name="ACTV_IND" value="Y"/>
-			<column name="VER_NBR" valueNumeric="1"/>
-			<column name="OBJ_ID" valueComputed="SYS_GUID()"/>
-		</insert>
-		<insert tableName="TEM_MILEAGE_RATE_OBJ_CD_T">
-			<column name="ID" valueNumeric="1022"/>
-			<column name="TRAVELER_TYP_CD" value="EMP"/>
-			<column name="TRIP_TYP_CD" value="INT"/>
-			<column name="MILEAGE_RT_ID" valueNumeric="12"/>
-			<column name="FIN_OBJECT_CD" value="6250"/>
-			<column name="DOCUMENT_TYPE" value="RELO"/>
-			<column name="ACTV_IND" value="Y"/>
-			<column name="VER_NBR" valueNumeric="1"/>
-			<column name="OBJ_ID" valueComputed="SYS_GUID()"/>
-		</insert>
-		<insert tableName="TEM_MILEAGE_RATE_OBJ_CD_T">
-			<column name="ID" valueNumeric="1023"/>
-			<column name="TRAVELER_TYP_CD" value="NON"/>
-			<column name="TRIP_TYP_CD" value="INT"/>
-			<column name="MILEAGE_RT_ID" valueNumeric="12"/>
-			<column name="FIN_OBJECT_CD" value="6270"/>
-			<column name="DOCUMENT_TYPE" value="RELO"/>
-			<column name="ACTV_IND" value="Y"/>
-			<column name="VER_NBR" valueNumeric="1"/>
-			<column name="OBJ_ID" valueComputed="SYS_GUID()"/>
-		</insert>
-		<insert tableName="TEM_MILEAGE_RATE_OBJ_CD_T">
-			<column name="ID" valueNumeric="1024"/>
-			<column name="TRAVELER_TYP_CD" value="EMP"/>
-			<column name="TRIP_TYP_CD" value="IN"/>
-			<column name="MILEAGE_RT_ID" valueNumeric="4"/>
-			<column name="FIN_OBJECT_CD" value="6140"/>
-			<column name="DOCUMENT_TYPE" value="TA"/>
-			<column name="ACTV_IND" value="Y"/>
-			<column name="VER_NBR" valueNumeric="1"/>
-			<column name="OBJ_ID" valueComputed="SYS_GUID()"/>
-		</insert>
-		<insert tableName="TEM_MILEAGE_RATE_T">
+		<insert tableName="TEM_MILEAGE_RT_T">
 			<column name="ID" valueNumeric="1"/>
-			<column name="NM" value="Mileage Rate In-State 1"/>
-			<column name="RATE" valueNumeric="0.5"/>
+			<column name="EXP_TYP_CD" value="MP"/>
+			<column name="RATE" valueNumeric="0.55"/>
 			<column name="ACTV_FROM_DT" valueDate="2011-10-23T20:37:22"/>
 			<column name="ACTV_TO_DT" valueDate="2022-12-31T00:00:00"/>
-			<column name="ACTV_IND" value="Y"/>
 			<column name="VER_NBR" valueNumeric="1"/>
 			<column name="OBJ_ID" valueComputed="SYS_GUID()"/>
 		</insert>
-		<insert tableName="TEM_MILEAGE_RATE_T">
+		<insert tableName="TEM_MILEAGE_RT_T">
 			<column name="ID" valueNumeric="2"/>
-			<column name="NM" value="Mileage Rate In-State 2"/>
-			<column name="RATE" valueNumeric="0.65"/>
+			<column name="EXP_TYP_CD" value="MM"/>
+			<column name="RT" valueNumeric="0.3"/>
 			<column name="ACTV_FROM_DT" valueDate="2011-10-23T20:37:23"/>
 			<column name="ACTV_TO_DT" valueDate="2022-12-31T00:00:00"/>
-			<column name="ACTV_IND" value="Y"/>
 			<column name="VER_NBR" valueNumeric="1"/>
 			<column name="OBJ_ID" valueComputed="SYS_GUID()"/>
 		</insert>
-		<insert tableName="TEM_MILEAGE_RATE_T">
+		<insert tableName="TEM_MILEAGE_RT_T">
 			<column name="ID" valueNumeric="3"/>
-			<column name="NM" value="Mileage Rate In-State 3"/>
-			<column name="RATE" valueNumeric="0.55"/>
+			<column name="EXP_TYP_CD" value="MA"/>
+			<column name="RT" valueNumeric="2.1"/>
 			<column name="ACTV_FROM_DT" valueDate="2011-10-23T20:37:23"/>
 			<column name="ACTV_TO_DT" valueDate="2022-12-31T00:00:00"/>
-			<column name="ACTV_IND" value="Y"/>
-			<column name="VER_NBR" valueNumeric="1"/>
-			<column name="OBJ_ID" valueComputed="SYS_GUID()"/>
-		</insert>
-		<insert tableName="TEM_MILEAGE_RATE_T">
-			<column name="ID" valueNumeric="4"/>
-			<column name="NM" value="Mileage Rate In-State 4"/>
-			<column name="RATE" valueNumeric="0.55"/>
-			<column name="ACTV_FROM_DT" valueDate="2011-10-23T20:37:23"/>
-			<column name="ACTV_TO_DT" valueDate="2022-12-31T00:00:00"/>
-			<column name="ACTV_IND" value="Y"/>
-			<column name="VER_NBR" valueNumeric="1"/>
-			<column name="OBJ_ID" valueComputed="SYS_GUID()"/>
-		</insert>
-		<insert tableName="TEM_MILEAGE_RATE_T">
-			<column name="ID" valueNumeric="5"/>
-			<column name="NM" value="Mileage Rate Out of State 1"/>
-			<column name="RATE" valueNumeric="0.75"/>
-			<column name="ACTV_FROM_DT" valueDate="2011-10-23T20:37:23"/>
-			<column name="ACTV_TO_DT" valueDate="2022-12-31T00:00:00"/>
-			<column name="ACTV_IND" value="Y"/>
-			<column name="VER_NBR" valueNumeric="1"/>
-			<column name="OBJ_ID" valueComputed="SYS_GUID()"/>
-		</insert>
-		<insert tableName="TEM_MILEAGE_RATE_T">
-			<column name="ID" valueNumeric="6"/>
-			<column name="NM" value="Mileage Rate Out of State 2"/>
-			<column name="RATE" valueNumeric="1.05"/>
-			<column name="ACTV_FROM_DT" valueDate="2011-10-23T20:37:24"/>
-			<column name="ACTV_TO_DT" valueDate="2022-12-31T00:00:00"/>
-			<column name="ACTV_IND" value="Y"/>
-			<column name="VER_NBR" valueNumeric="1"/>
-			<column name="OBJ_ID" valueComputed="SYS_GUID()"/>
-		</insert>
-		<insert tableName="TEM_MILEAGE_RATE_T">
-			<column name="ID" valueNumeric="7"/>
-			<column name="NM" value="Mileage Rate Out of State 3"/>
-			<column name="RATE" valueNumeric="0.99"/>
-			<column name="ACTV_FROM_DT" valueDate="2011-10-23T20:37:24"/>
-			<column name="ACTV_TO_DT" valueDate="2022-12-31T00:00:00"/>
-			<column name="ACTV_IND" value="Y"/>
-			<column name="VER_NBR" valueNumeric="1"/>
-			<column name="OBJ_ID" valueComputed="SYS_GUID()"/>
-		</insert>
-		<insert tableName="TEM_MILEAGE_RATE_T">
-			<column name="ID" valueNumeric="8"/>
-			<column name="NM" value="Mileage Rate Out of State 4"/>
-			<column name="RATE" valueNumeric="0.99"/>
-			<column name="ACTV_FROM_DT" valueDate="2011-10-23T20:37:24"/>
-			<column name="ACTV_TO_DT" valueDate="2022-12-31T00:00:00"/>
-			<column name="ACTV_IND" value="Y"/>
-			<column name="VER_NBR" valueNumeric="1"/>
-			<column name="OBJ_ID" valueComputed="SYS_GUID()"/>
-		</insert>
-		<insert tableName="TEM_MILEAGE_RATE_T">
-			<column name="ID" valueNumeric="9"/>
-			<column name="NM" value="Mileage Rate International 1"/>
-			<column name="RATE" valueNumeric="1.0"/>
-			<column name="ACTV_FROM_DT" valueDate="2011-10-23T20:37:24"/>
-			<column name="ACTV_TO_DT" valueDate="2022-12-31T00:00:00"/>
-			<column name="ACTV_IND" value="Y"/>
-			<column name="VER_NBR" valueNumeric="1"/>
-			<column name="OBJ_ID" valueComputed="SYS_GUID()"/>
-		</insert>
-		<insert tableName="TEM_MILEAGE_RATE_T">
-			<column name="ID" valueNumeric="10"/>
-			<column name="NM" value="Mileage Rate International 2"/>
-			<column name="RATE" valueNumeric="1.5"/>
-			<column name="ACTV_FROM_DT" valueDate="2011-10-23T20:37:25"/>
-			<column name="ACTV_TO_DT" valueDate="2022-12-31T00:00:00"/>
-			<column name="ACTV_IND" value="Y"/>
-			<column name="VER_NBR" valueNumeric="1"/>
-			<column name="OBJ_ID" valueComputed="SYS_GUID()"/>
-		</insert>
-		<insert tableName="TEM_MILEAGE_RATE_T">
-			<column name="ID" valueNumeric="11"/>
-			<column name="NM" value="Mileage Rate International 3"/>
-			<column name="RATE" valueNumeric="1.75"/>
-			<column name="ACTV_FROM_DT" valueDate="2011-10-23T20:37:25"/>
-			<column name="ACTV_TO_DT" valueDate="2022-12-31T00:00:00"/>
-			<column name="ACTV_IND" value="Y"/>
-			<column name="VER_NBR" valueNumeric="1"/>
-			<column name="OBJ_ID" valueComputed="SYS_GUID()"/>
-		</insert>
-		<insert tableName="TEM_MILEAGE_RATE_T">
-			<column name="ID" valueNumeric="12"/>
-			<column name="NM" value="Mileage Rate International 3"/>
-			<column name="RATE" valueNumeric="1.75"/>
-			<column name="ACTV_FROM_DT" valueDate="2011-10-23T20:37:25"/>
-			<column name="ACTV_TO_DT" valueDate="2022-12-31T00:00:00"/>
-			<column name="ACTV_IND" value="Y"/>
-			<column name="VER_NBR" valueNumeric="1"/>
-			<column name="OBJ_ID" valueComputed="SYS_GUID()"/>
-		</insert>
-		<insert tableName="TEM_MILEAGE_RATE_T">
-			<column name="ID" valueNumeric="13"/>
-			<column name="NM" value="Mileage Rate Blanket In-State 1"/>
-			<column name="RATE" valueNumeric="1.5"/>
-			<column name="ACTV_FROM_DT" valueDate="2011-10-23T00:00:00"/>
-			<column name="ACTV_TO_DT" valueDate="2022-12-31T00:00:00"/>
-			<column name="ACTV_IND" value="Y"/>
 			<column name="VER_NBR" valueNumeric="1"/>
 			<column name="OBJ_ID" valueComputed="SYS_GUID()"/>
 		</insert>

@@ -59,7 +59,7 @@
 		<th>
 			<div align=center>
 				<kul:htmlAttributeLabel
-					attributeEntry="${otherExpenseAttributes.mileageRateId}"
+					attributeEntry="${otherExpenseAttributes['mileageRate.rate']}"
 					noColon="true" />
 			</div>
 		</th>

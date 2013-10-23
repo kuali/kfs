@@ -708,7 +708,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
           if (creditMemoDocType.equals(documentType)) {
              lineAmount = lineAmount.negated();
           }
-          /* (IU Ref:FSKD-5434) The line amount was not being used after it was set. */
+          // Debits are positive for PREQ, VCM (since amount has been negated in PdpExtractServiceImpl.addAccounts()), DV and all PDP load files.
           paymentAccountDetail.setAccountNetAmount(lineAmount);
           paymentAccountDetail.setFinChartCode(sourceAccountingLine.getChartOfAccountsCode());
           paymentAccountDetail.setFinObjectCode(sourceAccountingLine.getFinancialObjectCode());

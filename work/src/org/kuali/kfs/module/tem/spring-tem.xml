@@ -520,6 +520,7 @@
     	</property>
     	<property name="perDiemService" ref="perDiemService"/>
     	<property name="travelExpenseService" ref="travelExpenseService"/>
+    	<property name="noteService" ref="noteService"/>
 	</bean>
   
     <bean id="travelDisbursementService" parent="travelDisbursementService-parentBean" />

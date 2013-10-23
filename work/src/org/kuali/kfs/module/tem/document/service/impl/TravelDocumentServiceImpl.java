@@ -138,6 +138,7 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DataDictionaryService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.KualiRuleService;
+import org.kuali.rice.krad.service.NoteService;
 import org.kuali.rice.krad.service.PersistenceStructureService;
 import org.kuali.rice.krad.service.SequenceAccessorService;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -180,6 +181,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
     protected volatile AccountsReceivableModuleService accountsReceivableModuleService;
     protected PerDiemService perDiemService;
     protected TravelExpenseService travelExpenseService;
+    protected NoteService noteService;
 
 
     /**
@@ -2120,7 +2122,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
                     Principal systemUser = KimApiServiceLocator.getIdentityService().getPrincipalByPrincipalName(KFSConstants.SYSTEM_USER);
                     cancelNote.setAuthorUniversalIdentifier(systemUser.getPrincipalId());
                     taDoc.addNote(cancelNote);
-                    getDocumentService().saveDocument(taDoc);
+                    getNoteService().save(cancelNote);
                 }
                 catch (Exception ex) {
                     ex.printStackTrace();
@@ -2438,5 +2440,13 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
 
     public void setTravelExpenseService(TravelExpenseService travelExpenseService) {
         this.travelExpenseService = travelExpenseService;
+    }
+
+    public NoteService getNoteService() {
+        return noteService;
+    }
+
+    public void setNoteService(NoteService noteService) {
+        this.noteService = noteService;
     }
 }

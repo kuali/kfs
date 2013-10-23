@@ -230,7 +230,7 @@
     <property name="shortLabel" value="Number"/>
     <property name="maxLength" value="14"/>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="14"/>
+      <bean parent="TextControlDefinition" p:size="16"/>
     </property>
     
     

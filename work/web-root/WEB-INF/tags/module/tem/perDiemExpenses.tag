@@ -218,6 +218,10 @@
 									readOnly="${!fullEntryMode}" />
 							</td>
 							<td valign=top class="datacell">
+								<c:set var="selectedMileageRateExpenseTypeCode" value="${KualiForm.document.perDiemExpenses[perDiemIndex.count - 1].mileageRateExpenseTypeCode}" />
+								<c:if test="${empty selectedMileageRateExpenseTypeCode}">
+									<c:set var="selectedMileageRateExpenseTypeCode" value="${KualiForm.defaultPerDiemMileageExpenseType}"/>
+								</c:if>
 								<input type="hidden" id="document.perDiemExpenses[${perDiemIndex.count - 1}].mileageRateExpenseTypeCode.holder" value="<bean:write name="KualiForm" property="document.perDiemExpenses[${perDiemIndex.count - 1}].mileageRateExpenseTypeCode" />" />                               
 								<html:select
 									styleId="document.perDiemExpenses[${perDiemIndex.count - 1}].mileageRateExpenseTypeCode"
@@ -229,7 +233,7 @@
 										<c:set var="mileageSelected" value="" />
 
 										<c:if
-											test="${option.key == KualiForm.document.perDiemExpenses[perDiemIndex.count - 1].mileageRateExpenseTypeCode}">
+											test="${option.key == selectedMileageRateExpenseTypeCode}">
 											<c:set var="mileageSelected" value="selected" />
 										</c:if>
 

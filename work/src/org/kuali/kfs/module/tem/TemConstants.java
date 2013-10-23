@@ -212,6 +212,8 @@ public class TemConstants {
         public static final String VENDOR_PAYMENT_REASON_CODE = "VENDOR_PAYMENT_REASON_CODE";
         public static final String INCLUDE_ARRANGER_EXPENSE_IN_IMPORTED_EXPENSE_IND = "INCLUDE_ARRANGER_EXPENSE_IN_IMPORTED_EXPENSE_IND";
         public static final String INCLUDE_TRAVELER_TYPE_IN_TRIP_ID_IND = "INCLUDE_TRAVELER_TYPE_IN_TRIP_ID_IND";
+
+        public static final String PER_DIEM_MILEAGE_RATE_EXPENSE_TYPE_CODE = "PER_DIEM_MILEAGE_RATE_EXPENSE_TYPE_CODE";
     }
 
     public static class TravelAuthorizationParameters {

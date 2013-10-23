@@ -454,10 +454,7 @@ public class TravelReimbursementAction extends TravelActionBase {
             //only initialize per diem and copy expenses for a TR created from a TA
             if (rootDocument instanceof TravelAuthorizationDocument) {
 
-                //only initialize per diem and copy expenses on the first TR
-                List<TravelReimbursementDocument> reimbursementDocuments = getTravelDocumentService().findReimbursementDocuments(document.getTravelDocumentIdentifier());
-                if (reimbursementDocuments.isEmpty()) {
-
+                if (isCopyPerDiemAndExpenses(document)) {
                     initializePerDiem(document, (TravelAuthorizationDocument)rootDocument);
 
                     document.setActualExpenses((List<ActualExpense>) getTravelDocumentService().copyActualExpenses(rootDocument.getActualExpenses(), document.getDocumentNumber()));
@@ -842,6 +839,31 @@ public class TravelReimbursementAction extends TravelActionBase {
         return forward;
     }
 
+    /**
+     * Should a new TR created from a TR initialize per diem and copy expenses?
+     * Not if there is already a FINAL/PROCESSED TR
+     *
+     * @param newReimbursementDocument
+     * @return
+     */
+    protected boolean isCopyPerDiemAndExpenses(TravelReimbursementDocument newReimbursementDocument) {
+
+        List<TravelReimbursementDocument> reimbursementDocuments = getTravelDocumentService().findReimbursementDocuments(newReimbursementDocument.getTravelDocumentIdentifier());
+        if (!reimbursementDocuments.isEmpty()) {
+
+            for(TravelReimbursementDocument reimbursementDocument : reimbursementDocuments) {
+                if (reimbursementDocument.getDocumentHeader().getWorkflowDocument().isFinal() ||
+                        reimbursementDocument.getDocumentHeader().getWorkflowDocument().isProcessed()) {
+
+                    //a finalized or processed TR exists- not okay to set up per diem or initialize expenses
+                    return false;
+                }
+            }
+        }
+
+        //no TRs exist or there aren't any which have been finalized or processed- okay to set up per diem and initialize expenses
+        return true;
+    }
 
     protected TravelReimbursementService getTravelReimbursementService() {
         return SpringContext.getBean(TravelReimbursementService.class);

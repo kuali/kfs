@@ -127,28 +127,9 @@ public class TravelReimbursementAction extends TravelActionBase {
     protected void setButtonPermissions(TravelReimbursementForm form) {
         canSave(form);
 
-        final TravelReimbursementAuthorizer authorizer = getDocumentAuthorizer(form);
-        //certify
-        form.setCanCertify(authorizer.canCertify(form.getTravelReimbursementDocument(), GlobalVariables.getUserSession().getPerson()));
+        setCanCertify(form);
         setCanCalculate(form);
     }
-
-//    /**
-//     * Determines whether or not someone can calculate a travel reimbursement
-//     *
-//     * @param authForm
-//     */
-//    protected void setCanCalculate(TravelReimbursementForm form) {
-//        boolean can = !(isFinal(form) || isProcessed(form));
-//
-//        if (can) {
-//            TravelReimbursementAuthorizer documentAuthorizer = getDocumentAuthorizer(form);
-//            can = documentAuthorizer.canCalculate(form.getTravelReimbursementDocument(), GlobalVariables.getUserSession().getPerson());
-//        }
-//
-//        form.setCanCalculate(can);
-//    }
-
 
     protected void canSave(TravelReimbursementForm reqForm) {
         boolean can = !(isFinal(reqForm) || isProcessed(reqForm));
@@ -174,6 +155,17 @@ public class TravelReimbursementAction extends TravelActionBase {
         else{
             reqForm.getDocumentActions().remove(KRADConstants.KUALI_ACTION_CAN_SAVE);
         }
+    }
+
+    /**
+     * Determines whether or not someone can certify a travel document
+     *
+     * @param authForm
+     */
+    protected void setCanCertify(TravelReimbursementForm form) {
+        final TravelReimbursementAuthorizer authorizer = getDocumentAuthorizer(form);
+        //certify
+        form.setCanCertify(authorizer.canCertify(form.getTravelReimbursementDocument(), GlobalVariables.getUserSession().getPerson()));
     }
 
     public ActionForward printCoversheet(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {

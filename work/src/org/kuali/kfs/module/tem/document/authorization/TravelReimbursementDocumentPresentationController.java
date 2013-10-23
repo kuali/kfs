@@ -15,19 +15,22 @@
  */
 package org.kuali.kfs.module.tem.document.authorization;
 
+import java.util.List;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.kuali.kfs.module.tem.TemConstants;
-import org.kuali.kfs.module.tem.TemConstants.TravelDocTypes;
 import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.TemWorkflowConstants;
+import org.kuali.kfs.module.tem.TemConstants.TravelDocTypes;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
 import org.kuali.kfs.module.tem.document.TravelReimbursementDocument;
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
+import org.kuali.kfs.module.tem.document.service.TravelReimbursementService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * Travel Reimbursement Document Presentation Controller
@@ -76,8 +79,64 @@ public class TravelReimbursementDocumentPresentationController extends TravelDoc
         return super.getDocumentActions(document);
     }
 
+    /**
+     * @see org.kuali.rice.krad.document.DocumentPresentationControllerBase#canInitiate(java.lang.String)
+     */
+    @Override
+    public boolean canInitiate(String documentTypeName) {
+        //only allow if a TR can be initiated without a TA
+        boolean initiateReimbursementWithoutAuthorization = getConfigurationService().getPropertyValueAsBoolean(TemKeyConstants.CONFIG_PROPERTY_REIMBURSEMENT_INITIATELINK_ENABLED);
+        //check Trip Types to verify at least one type can initiate TR without TA
+        initiateReimbursementWithoutAuthorization &= !getTravelReimbursementService().doAllReimbursementTripTypesRequireTravelAuthorization();
+        if (!initiateReimbursementWithoutAuthorization) {
+            throw new DocumentInitiationException(TemKeyConstants.ERROR_TA_REQUIRED_FOR_TR_INIT,new String[] {},true);
+        }
+
+        return super.canInitiate(documentTypeName);
+    }
+
+    /**
+     * @see org.kuali.rice.krad.document.DocumentPresentationControllerBase#canCopy(org.kuali.rice.krad.document.Document)
+     */
+    @Override
+    public boolean canCopy(Document document) {
+        boolean canCopy = super.canCopy(document);
+
+        //1. TR has been saved
+        if (canCopy) {
+            canCopy = !isDocumentInitiated(document);
+        }
+
+        //2. TR was not created from a TA
+        if (canCopy) {
+            canCopy = !isReimbursementChildOfAuthorization(document);
+        }
+
+        return canCopy;
+    }
+
+    protected boolean isDocumentInitiated(Document document) {
+        return document.getDocumentHeader().getWorkflowDocument().isInitiated();
+    }
+
+    protected boolean isReimbursementChildOfAuthorization(Document document) {
+        TravelReimbursementDocument tr = (TravelReimbursementDocument)document;
+        List<TravelAuthorizationDocument> travelAuthorizations = getTravelDocumentService().findAuthorizationDocuments(tr.getTravelDocumentIdentifier());
+
+        if (ObjectUtils.isNotNull(travelAuthorizations) && !travelAuthorizations.isEmpty()) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
     protected TravelDocumentService getTravelDocumentService() {
         return SpringContext.getBean(TravelDocumentService.class);
+    }
+
+    protected TravelReimbursementService getTravelReimbursementService() {
+        return SpringContext.getBean(TravelReimbursementService.class);
     }
 
 }

@@ -55,12 +55,12 @@ public interface TravelDocumentService {
 
     /**
      * Retrieves the numbers of any Travel Authorization (or child) documents associated with the given trip id
-     * @param travelDocumentNumber the trip id to find authorizations related to
+     * @param travelDocumentIdentifier the trip id to find authorizations related to
      * @return a List of TravelAuthorization (or child!) document numbers for authorizations associated with the given trip id
      */
-    List<String> findAuthorizationDocumentNumbers(final String travelDocumentNumber);
+    List<String> findAuthorizationDocumentNumbers(final String travelDocumentIdentifier);
 
-    List<TravelReimbursementDocument> findReimbursementDocuments(final String travelDocumentNumber);
+    List<TravelReimbursementDocument> findReimbursementDocuments(final String travelDocumentIdentifier);
 
     /**
      * Updates the perdiem items in a {@link TravelReimbursementDocument}. Can be used on an empty {@link Collection}. This means

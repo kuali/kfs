@@ -18,12 +18,10 @@ package org.kuali.kfs.module.tem.document.authorization;
 import java.util.Set;
 
 import org.kuali.kfs.module.tem.TemConstants;
+import org.kuali.kfs.module.tem.TemWorkflowConstants;
 import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationParameters;
 import org.kuali.kfs.module.tem.TemConstants.TravelEditMode;
-import org.kuali.kfs.module.tem.TemKeyConstants;
-import org.kuali.kfs.module.tem.TemWorkflowConstants;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
-import org.kuali.kfs.module.tem.document.service.TravelReimbursementService;
 import org.kuali.kfs.module.tem.service.TEMRoleService;
 import org.kuali.kfs.module.tem.service.TemProfileService;
 import org.kuali.kfs.sys.KfsAuthorizationConstants;
@@ -59,22 +57,6 @@ public class TravelDocumentPresentationController extends FinancialSystemTransac
         editModes.add(KfsAuthorizationConstants.TransactionalEditMode.IMMEDIATE_DISBURSEMENT_ENTRY);
         editModes.add(TemConstants.EditModes.CHECK_AMOUNT_ENTRY);
         return editModes;
-    }
-
-    /**
-     * @see org.kuali.rice.krad.document.DocumentPresentationControllerBase#canInitiate(java.lang.String)
-     */
-    @Override
-    public boolean canInitiate(String documentTypeName) {
-        //only allow if a TR can be initiated without a TA
-        boolean initiateReimbursementWithoutAuthorization = getConfigurationService().getPropertyValueAsBoolean(TemKeyConstants.CONFIG_PROPERTY_REIMBURSEMENT_INITIATELINK_ENABLED);
-        //check Trip Types to verify at least one type can initiate TR without TA
-        initiateReimbursementWithoutAuthorization &= !getTravelReimbursementService().doAllReimbursementTripTypesRequireTravelAuthorization();
-        if (!initiateReimbursementWithoutAuthorization) {
-            throw new DocumentInitiationException(TemKeyConstants.ERROR_TA_REQUIRED_FOR_TR_INIT,new String[] {},true);
-        }
-
-        return super.canInitiate(documentTypeName);
     }
 
     /**
@@ -164,10 +146,6 @@ public class TravelDocumentPresentationController extends FinancialSystemTransac
 
     protected ConfigurationService getConfigurationService() {
         return SpringContext.getBean(ConfigurationService.class);
-    }
-
-    protected TravelReimbursementService getTravelReimbursementService() {
-        return SpringContext.getBean(TravelReimbursementService.class);
     }
 
 }

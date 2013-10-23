@@ -31,10 +31,7 @@ public class PdpUtilServiceImpl implements PdpUtilService {
     @Override
     public boolean isDebit(PaymentAccountDetail paymentAccountDetail, boolean reversal) {
     	boolean isDebit = true;
-    	/* (IU-Ref: FSKD-5434) Now that credit memos is negative, the same statement can be used
-    	 * to determine if this is a debit for both credit memos & payment requests.
-    	 */
-		// Debits are positive for PREQ, VCM, DV and all PDP load files.
+        // Debits are positive for PREQ, VCM (since amount has been negated in PdpExtractServiceImpl.addAccounts()), DV and all PDP load files.
 		isDebit &= paymentAccountDetail.getAccountNetAmount().bigDecimalValue().signum() >= 0;
 
     	if (reversal) {

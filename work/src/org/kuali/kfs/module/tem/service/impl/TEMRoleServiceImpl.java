@@ -62,18 +62,27 @@ public class TEMRoleServiceImpl implements TEMRoleService{
 
         if (initiatorId.equals(currentUser.getPrincipalId())) {
             canAccess = true;
-        } else if (!ObjectUtils.isNull(travelDocument.getTemProfileId())) {
+        }
+        else if (ObjectUtils.isNotNull(travelDocument.getTemProfileId())) {
 
             //Get the profile from the document
             TEMProfile profile = SpringContext.getBean(BusinessObjectService.class).findBySinglePrimaryKey(TEMProfile.class, travelDocument.getTemProfileId());
 
             if (ObjectUtils.isNotNull(profile)){
-                String profileId = travelDocument.getTemProfileId().toString();
-                String documentType = travelDocument.getDocumentTypeName();
 
-                //profile exists and user does not have access as the arranger
-                if(isTravelArranger(currentUser, profile.getHomeDepartment(), profileId, documentType)) {
+                //user is the traveler
+                if (currentUser.getPrincipalId().equals(profile.getPrincipalId())) {
                     canAccess = true;
+                }
+                else {
+
+                    String profileId = travelDocument.getTemProfileId().toString();
+                    String documentType = travelDocument.getDocumentTypeName();
+
+                    //profile exists and user does not have access as the arranger
+                    if(isTravelArranger(currentUser, profile.getHomeDepartment(), profileId, documentType)) {
+                        canAccess = true;
+                    }
                 }
             }
         }

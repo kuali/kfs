@@ -52,6 +52,8 @@ public class TravelAuthorizationDocumentCustomActionBuilder extends DocumentActi
      * App Doc Status of REIMB_HELD, CANCELLED, PEND_AMENDMENT, CLOSED, or RETIRED_VERSION. Also checks if the person has permission to
      * initiate the target documents. Will not show the new Reimbursement link if a TA already has a TR enroute.
      *
+     * If the document is a TAC, the workflow document status must be FINAL and the App Doc Status must be CLOSED.
+     *
      * check status of document and don't create if the status is not final or processed
      *
      * @param documentSearchResult

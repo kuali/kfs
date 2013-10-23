@@ -185,6 +185,7 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
         toCopyTravelAuthorizationDocument(doc);
 
         doc.getDocumentHeader().setDocumentDescription(TemConstants.PRE_FILLED_DESCRIPTION);
+        doc.getDocumentHeader().setOrganizationDocumentNumber("");
         doc.setAppDocStatus(TravelAuthorizationStatusCodeKeys.IN_PROCESS);
         doc.setTravelDocumentIdentifier(null); // reset, so it regenerates
 

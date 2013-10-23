@@ -15,10 +15,8 @@
  */
 package org.kuali.kfs.pdp.service.impl;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.pdp.businessobject.PaymentAccountDetail;
 import org.kuali.kfs.pdp.service.PdpUtilService;
-import org.kuali.kfs.sys.KFSConstants;
 
 /**
  * Utility service for assisting in PDP processing.
@@ -33,15 +31,11 @@ public class PdpUtilServiceImpl implements PdpUtilService {
     @Override
     public boolean isDebit(PaymentAccountDetail paymentAccountDetail, boolean reversal) {
     	boolean isDebit = true;
-    	String docType = paymentAccountDetail.getPaymentDetail().getFinancialDocumentTypeCode();
-    	if(StringUtils.equalsIgnoreCase(docType, KFSConstants.FinancialDocumentTypeCodes.VENDOR_CREDIT_MEMO)) {
-    		// Debits are negative for CM docs
-    		isDebit &= paymentAccountDetail.getAccountNetAmount().bigDecimalValue().signum() <= 0;
-        }
-    	else {
-    		// Debits are positive for PREQ, DV and all PDP load files.
-    		isDebit &= paymentAccountDetail.getAccountNetAmount().bigDecimalValue().signum() >= 0;
-        }
+    	/* (IU-Ref: FSKD-5434) Now that credit memos is negative, the same statement can be used
+    	 * to determine if this is a debit for both credit memos & payment requests.
+    	 */
+		// Debits are positive for PREQ, VCM, DV and all PDP load files.
+		isDebit &= paymentAccountDetail.getAccountNetAmount().bigDecimalValue().signum() >= 0;
 
     	if (reversal) {
     		return !isDebit;

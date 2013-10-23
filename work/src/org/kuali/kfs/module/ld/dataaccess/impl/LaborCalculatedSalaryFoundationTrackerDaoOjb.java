@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -39,7 +39,7 @@ import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb
 
 /**
  * This is the data access object for calculated salary foundation tracker
- * 
+ *
  * @see org.kuali.kfs.module.ld.businessobject.CalculatedSalaryFoundationTracker
  */
 public class LaborCalculatedSalaryFoundationTrackerDaoOjb extends PlatformAwareDaoBaseOjb implements LaborCalculatedSalaryFoundationTrackerDao {
@@ -48,6 +48,7 @@ public class LaborCalculatedSalaryFoundationTrackerDaoOjb extends PlatformAwareD
     /**
      * @see org.kuali.kfs.module.ld.dataaccess.LaborBaseFundsDao#findCSFTrackers(java.util.Map, boolean)
      */
+    @Override
     public List<LaborCalculatedSalaryFoundationTracker> findCSFTrackers(Map fieldValues, boolean isConsolidated) {
         LOG.debug("Start findCSFTrackers()");
 
@@ -71,6 +72,7 @@ public class LaborCalculatedSalaryFoundationTrackerDaoOjb extends PlatformAwareD
     /**
      * @see org.kuali.kfs.module.ld.dataaccess.LaborBaseFundsDao#findCSFTrackersAsAccountStatusBaseFunds(java.util.Map, boolean)
      */
+    @Override
     public List<AccountStatusBaseFunds> findCSFTrackersAsAccountStatusBaseFunds(Map fieldValues, boolean isConsolidated) {
         LOG.debug("Start findCSFTrackersAsAccountStatusBaseFunds()");
 
@@ -89,6 +91,7 @@ public class LaborCalculatedSalaryFoundationTrackerDaoOjb extends PlatformAwareD
      * @see org.kuali.kfs.module.ld.dataaccess.LaborCalculatedSalaryFoundationTrackerDao#findCSFTrackersAsEmployeeFunding(java.util.Map,
      *      boolean)
      */
+    @Override
     public List<EmployeeFunding> findCSFTrackersAsEmployeeFunding(Map fieldValues, boolean isConsolidated) {
         LOG.debug("Start findCSFTrackersAsEmployeeFunding()");
 
@@ -119,10 +122,10 @@ public class LaborCalculatedSalaryFoundationTrackerDaoOjb extends PlatformAwareD
 
         ReportQueryByCriteria query = QueryFactory.newReportQuery(LaborCalculatedSalaryFoundationTracker.class, criteria);
 
-        String[] groupBy = (String[]) groupByList.toArray(new String[groupByList.size()]);
+        String[] groupBy = groupByList.toArray(new String[groupByList.size()]);
         query.addGroupBy(groupBy);
 
-        String[] attributes = (String[]) attributeList.toArray(new String[attributeList.size()]);
+        String[] attributes = attributeList.toArray(new String[attributeList.size()]);
         query.setAttributes(attributes);
 
         return getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query);
@@ -130,19 +133,7 @@ public class LaborCalculatedSalaryFoundationTrackerDaoOjb extends PlatformAwareD
 
     // get the detailed CSF trackers according to the given criteria
     protected Collection<LaborCalculatedSalaryFoundationTracker> findDetailedCSFTrackerRawData(Map fieldValues) {
-
-        Criteria tempCriteria1 = new Criteria();
-        tempCriteria1.addEqualTo(KFSPropertyConstants.CSF_DELETE_CODE, LaborConstants.DASHES_DELETE_CODE);
-
-        Criteria tempCriteria2 = new Criteria();
-        tempCriteria2.addIsNull(KFSPropertyConstants.CSF_DELETE_CODE);
-
-        /* KFSPropertyConstants.CSF_DELETE_CODE = "-" OR is null */
-        tempCriteria2.addOrCriteria(tempCriteria1);
-
         Criteria criteria = OJBUtility.buildCriteriaFromMap(fieldValues, new LaborCalculatedSalaryFoundationTracker());
-        criteria.addAndCriteria(tempCriteria2);
-
         Query query = QueryFactory.newQuery(LaborCalculatedSalaryFoundationTracker.class, criteria);
         return getPersistenceBrokerTemplate().getCollectionByQuery(query);
     }

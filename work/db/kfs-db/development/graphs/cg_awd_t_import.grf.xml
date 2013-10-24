@@ -43,7 +43,6 @@
         $0.cgawd_closing_dt := $cgawd_closing_dt;
         $0.cgprpsl_awd_typ_cd := replace(nvl($cgprpsl_awd_typ_cd, ""), "~!~", "|" );
         $0.cgawd_stat_cd := replace(nvl($cgawd_stat_cd, ""), "~!~", "|" );
-        $0.cg_ltrcr_fndgrp_cd := replace(nvl($cg_ltrcr_fndgrp_cd, ""), "~!~", "|" );
         $0.cg_grant_desc_cd := replace(nvl($cg_grant_desc_cd, ""), "~!~", "|" );
         $0.cg_agency_nbr := replace(nvl($cg_agency_nbr, ""), "~!~", "|" );
         $0.cg_fedpt_agncy_nbr := replace(nvl($cg_fedpt_agncy_nbr, ""), "~!~", "|" );

@@ -4330,7 +4330,6 @@
         <column name="CGAWD_CLOSING_DT" type="DATE"/>
         <column name="CGPRPSL_AWD_TYP_CD" size="1" type="VARCHAR"/>
         <column name="CGAWD_STAT_CD" size="2" type="VARCHAR"/>
-        <column name="CG_LTRCR_FNDGRP_CD" size="4" type="VARCHAR"/>
         <column name="CG_GRANT_DESC_CD" size="3" type="VARCHAR"/>
         <column name="CG_AGENCY_NBR" size="5" type="VARCHAR"/>
         <column name="CG_FEDPT_AGNCY_NBR" size="5" type="VARCHAR"/>
@@ -4373,9 +4372,6 @@
         <foreign-key foreignTable="CG_AWD_STAT_T" name="CG_AWD_TR3">
             <reference foreign="CGAWD_STAT_CD" local="CGAWD_STAT_CD"/>
         </foreign-key>
-        <foreign-key foreignTable="CG_LTRCR_FNDGRP_T" name="CG_AWD_TR4">
-            <reference foreign="CG_LTRCR_FNDGRP_CD" local="CG_LTRCR_FNDGRP_CD"/>
-        </foreign-key>
         <foreign-key foreignTable="CG_GRANT_DESC_T" name="CG_AWD_TR5">
             <reference foreign="CG_GRANT_DESC_CD" local="CG_GRANT_DESC_CD"/>
         </foreign-key>
@@ -4402,9 +4398,6 @@
         </index>
         <index name="CG_AWD_TI5">
             <index-column name="CG_GRANT_DESC_CD"/>
-        </index>
-        <index name="CG_AWD_TI6">
-            <index-column name="CG_LTRCR_FNDGRP_CD"/>
         </index>
         <index name="CG_AWD_TI7">
             <index-column name="CGPRPSL_AWD_TYP_CD"/>

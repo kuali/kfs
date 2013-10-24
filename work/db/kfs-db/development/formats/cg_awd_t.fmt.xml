@@ -24,7 +24,6 @@
   <Field name="cgawd_closing_dt"                type="date"       nullable="true"  trim="false" delimiter="|"  format="yyyyMMddHHmmss" />
   <Field name="cgprpsl_awd_typ_cd"              type="string"     nullable="true"  trim="false" delimiter="|"  />
   <Field name="cgawd_stat_cd"                   type="string"     nullable="true"  trim="false" delimiter="|"  />
-  <Field name="cg_ltrcr_fndgrp_cd"              type="string"     nullable="true"  trim="false" delimiter="|"  />
   <Field name="cg_grant_desc_cd"                type="string"     nullable="true"  trim="false" delimiter="|"  />
   <Field name="cg_agency_nbr"                   type="string"     nullable="true"  trim="false" delimiter="|"  />
   <Field name="cg_fedpt_agncy_nbr"              type="string"     nullable="true"  trim="false" delimiter="|"  />

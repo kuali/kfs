@@ -91,7 +91,7 @@
 			<column name="CG_AGENCY_ADDR_END_DT" type="datetime" />
 			<column name="INV_TYP_CD" type="varchar(10)" />
 			<column name="COPIES_TO_PRINT_QTY" type="decimal(5,0)" />
-			<column name="PRNT_ENV" type="varchar(1)" />
+		<!-- 	<column name="PRNT_ENV" type="varchar(1)" /> -->
 			<column name="CNTCT_NM" type="varchar(40)" />
 			<column name="PHN_NBR" type="varchar(40)" />
 			<column name="FAX_NBR" type="varchar(40)" />
@@ -435,6 +435,7 @@
 			<column name="INV_DTL_ID" type="decimal(12,0)">
 			<constraints primaryKey="true" nullable="false" /></column>
 			<column name="INV_CTG_CD" type="VARCHAR(4)" />
+			<column name="INV_BILLED_AMT" type="DECIMAL(19,2)" defaultValue="0" />
 			<column name="IND_CST_IND" type="varchar(1)" />
 			<column name="ADJ_CUM_EXPND" type="decimal(19,2)"	defaultValue="0" />
 			<column name="ADJ_BLNC" type="decimal(19,2)" defaultValue="0" />
@@ -505,8 +506,6 @@
 			<column name="CNTRCT_CNTRL_ACCT_NBR" type="varchar(7)"
 				defaultValue="" />
 			<column name="BILLED_AMT" type="DECIMAL(19,2)" defaultValue="0" />
-			<column name="INV_BILLED" type="DECIMAL(19,2)" defaultValue="0" />
-			<column name="INV_CTG_CD" type="VARCHAR(4)" />
 			<column name="IND_CST_IND" type="varchar(1)" />
 			<column name="ADJ_CUM_EXPND" type="decimal(19,2)"
 				defaultValue="0" />

@@ -418,4 +418,8 @@ public class MockTravelDocumentServiceImpl implements TravelDocumentService {
         return realTravelDocumentService.getMileageRate(expenseTypeCode, expenseDate);
     }
 
+    @Override
+    public TravelDocument getTravelDocument(String travelDocumentIdentifier) {
+        return realTravelDocumentService.getTravelDocument(travelDocumentIdentifier);
+    }
 }

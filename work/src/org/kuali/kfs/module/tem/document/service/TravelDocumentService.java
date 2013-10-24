@@ -419,4 +419,12 @@ public interface TravelDocumentService {
      * @return the matching mileage rate
      */
     public MileageRate getMileageRate(String expenseTypeCode, java.sql.Date expenseDate);
+
+    /**
+     *
+     * This method gets the current travel document by travel document identifier
+     *  @param travelDocumentIdentifier
+     *  @return
+     */
+    public TravelDocument getTravelDocument(String travelDocumentIdentifier);
 }

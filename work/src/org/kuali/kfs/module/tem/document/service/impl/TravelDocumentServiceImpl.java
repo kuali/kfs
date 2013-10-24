@@ -2322,6 +2322,48 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
         }
     }
 
+    /**
+     *
+     * This method gets the current travel document by travel document identifier
+     * @param travelDocumentIdentifier
+     * @return
+     */
+    @Override
+    public TravelDocument getTravelDocument(String travelDocumentIdentifier) {
+
+       if (ObjectUtils.isNull(travelDocumentIdentifier) || StringUtils.equals(travelDocumentIdentifier,"")) {
+           LOG.error("Received a null tripId/travelDocumentIdentifier; returning a null TravelDocument");
+           return null;
+       }
+
+       try {
+           TravelDocument travelDocument = findRootForTravelReimbursement(travelDocumentIdentifier);
+           if (ObjectUtils.isNotNull(travelDocument)) {
+               return travelDocument;
+           }
+
+       } catch (Exception exception) {
+           LOG.error("Exception occurred attempting to retrieve a travel document for tripId: "+ travelDocumentIdentifier, exception);
+           return null;
+       }
+
+       Map<String, Object> fieldValues = new HashMap<String, Object>();
+       fieldValues.put(TemPropertyConstants.TRAVEL_DOCUMENT_IDENTIFIER, travelDocumentIdentifier);
+
+       Collection<TravelEntertainmentDocument> entDocuments = getBusinessObjectService().findMatching(TravelEntertainmentDocument.class, fieldValues);
+       if (entDocuments.iterator().hasNext()) {
+           return entDocuments.iterator().next();
+       }
+
+       Collection<TravelRelocationDocument> reloDocuments = getBusinessObjectService().findMatching(TravelRelocationDocument.class, fieldValues);
+       if (reloDocuments.iterator().hasNext()) {
+           return reloDocuments.iterator().next();
+       }
+
+       LOG.error("Unable to find any travel document for given Trip Id: "+ travelDocumentIdentifier);
+       return null;
+   }
+
     public PersistenceStructureService getPersistenceStructureService() {
         return persistenceStructureService;
     }

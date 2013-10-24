@@ -32,7 +32,6 @@ import org.kuali.kfs.module.tem.document.service.AccountingDocumentRelationshipS
 import org.kuali.kfs.module.tem.document.service.TravelDisbursementService;
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
 import org.kuali.kfs.module.tem.document.web.bean.AccountingLineDistributionKey;
-import org.kuali.kfs.module.tem.rule.event.BlanketApproveDocumentWithoutRuleEvent;
 import org.kuali.kfs.module.tem.service.AccountingDistributionService;
 import org.kuali.kfs.module.tem.service.TravelerService;
 import org.kuali.kfs.sys.KFSConstants;
@@ -52,6 +51,7 @@ import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.exception.ValidationException;
+import org.kuali.rice.krad.rules.rule.event.RouteDocumentEvent;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
@@ -358,9 +358,9 @@ public class TravelDisbursementServiceImpl implements TravelDisbursementService{
         document.prepareForSave();
 
         // using the new Event which does not invoke approve rule nor generate the route event
-        documentService.validateAndPersistDocument(document, new BlanketApproveDocumentWithoutRuleEvent(document));
+        documentService.validateAndPersistDocument(document, new RouteDocumentEvent(document));
         documentService.prepareWorkflowDocument(document);
-        KRADServiceLocatorWeb.getWorkflowDocumentService().blanketApprove(document.getDocumentHeader().getWorkflowDocument(), annotation, null);
+        KRADServiceLocatorWeb.getWorkflowDocumentService().route(document.getDocumentHeader().getWorkflowDocument(), annotation, null);
 
         WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
         SpringContext.getBean(SessionDocumentService.class).addDocumentToUserSession(GlobalVariables.getUserSession(), workflowDocument);

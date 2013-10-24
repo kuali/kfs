@@ -30,7 +30,6 @@
         <ref bean="CustomerMaintenanceDocument-Addresses"/>
         <!-- <ref bean="CustomerMaintenanceDocument-CustomerCollector"/> -->
         <ref bean="CustomerMaintenanceDocument-CollectionsMaintenance"/>
-        <ref bean="CustomerMaintenanceDocument-CustomerNotes"/>
       </list>
     </property>
 
@@ -194,30 +193,6 @@
 		</property>
 	</bean>
 	
-  <bean id="CustomerMaintenanceDocument-CustomerNotes" parent="CustomerMaintenanceDocument-CustomerNotes-parentBean"/>
-
-  <bean id="CustomerMaintenanceDocument-CustomerNotes-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="Customer Notes"/>
-    <property name="title" value="Customer Notes"/>
-    <property name="maintainableItems">
-      <list>  
-        <bean parent="MaintainableCollectionDefinition">
-          <property name="name" value="customerNotes"/>
-          <property name="businessObjectClass" value="org.kuali.kfs.module.ar.businessobject.CustomerNote"/>
-          <property name="maintainableFields">
-            <list>
-              <bean parent="MaintainableFieldDefinition" p:name="customerNoteIdentifier" p:unconditionallyReadOnly="true"/>
-              <bean parent="MaintainableFieldDefinition" p:name="notePostedDate" p:readOnlyAfterAdd="true"/>
-              <bean parent="MaintainableFieldDefinition" p:name="authorUniversal.name" p:unconditionallyReadOnly="true"/>
-              <bean parent="MaintainableFieldDefinition" p:name="noteText" p:required="true" p:readOnlyAfterAdd="false"/>
-            </list>
-          </property>
-        </bean>
-
-      </list>
-    </property>
-  </bean>
-        
   <bean id="CustomerMaintenanceDocument-workflowAttributes" parent="CustomerMaintenanceDocument-workflowAttributes-parentBean"/>
 	
   <bean id="CustomerMaintenanceDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">    	

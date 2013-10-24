@@ -133,11 +133,6 @@
 			<orderby name="customerAddressIdentifier" sort="ASC" />
 			<inverse-foreignkey field-ref="customerNumber" />
 		</collection-descriptor>
-		<collection-descriptor name="customerNotes" element-class-ref="org.kuali.kfs.module.ar.businessobject.CustomerNote"
-			collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
-			<orderby name="customerNoteIdentifier" sort="ASC" />
-			<inverse-foreignkey field-ref="customerNumber" />
-		</collection-descriptor>
 	</class-descriptor>
 
 	<class-descriptor class="org.kuali.kfs.module.ar.businessobject.NonAppliedHolding" table="AR_NON_APLD_HLDG_T">
@@ -615,21 +610,6 @@
 		<reference-descriptor name="invoiceIndicator" class-ref="org.kuali.kfs.module.ar.businessobject.InvoiceIndicator"
 			auto-retrieve="true" auto-update="none" auto-delete="none" proxy="false">
 			<foreignkey field-ref="invoiceIndicatorCode" />
-		</reference-descriptor>
-	</class-descriptor>
-
-	<class-descriptor class="org.kuali.kfs.module.ar.businessobject.CustomerNote" table="AR_CUST_NTE_T">
-		<field-descriptor name="customerNumber" column="CUST_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
-		<field-descriptor name="customerNoteIdentifier" column="CUST_NTE_ID" jdbc-type="INTEGER" primarykey="true" index="true" />
-		<field-descriptor name="noteText" column="NTE_TXT" jdbc-type="VARCHAR" />
-		<field-descriptor name="notePostedDate" column="POST_TS" jdbc-type="DATE" />
-		<field-descriptor name="authorPrincipalId" column="AUTH_PRNCPL_ID" jdbc-type="VARCHAR" />
-		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
-		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-
-		<reference-descriptor name="customer" class-ref="org.kuali.kfs.module.ar.businessobject.Customer" auto-retrieve="true"
-			auto-update="none" auto-delete="none" proxy="true">
-			<foreignkey field-ref="customerNumber" />
 		</reference-descriptor>
 	</class-descriptor>
 

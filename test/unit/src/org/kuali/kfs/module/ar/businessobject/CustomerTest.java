@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -43,6 +43,7 @@ public class CustomerTest extends KualiTestBase {
     /**
      * @see junit.framework.TestCase#setUp()
      */
+    @Override
     protected void setUp() throws Exception {
         super.setUp();
 
@@ -71,23 +72,13 @@ public class CustomerTest extends KualiTestBase {
 
         customer.setCustomerCollector(collector);
 
-        // set Customer note
-        CustomerNote customerNote = new CustomerNote();
-        customerNote.setNotePostedDateToCurrent();
-        customerNote.setNoteText("Note Text for testing");
-
-        list = new LinkedList();
-        list.add(customerNote);
-
-        customer.setCustomerNotes(list);
-
         document.getNewMaintainableObject().setBusinessObject(customer);
         document.getNewMaintainableObject().setBoClass(customer.getClass());
     }
 
     /**
      * This method calls testSaveDocument method.
-     * 
+     *
      * @throws Exception
      */
     @ConfigureContext(session = khuntley, shouldCommitTransactions = true)
@@ -97,11 +88,11 @@ public class CustomerTest extends KualiTestBase {
 
     /**
      * This method tests getNewDocument() method on Customer maintenance document.
-     * 
+     *
      * @throws Exception
      */
     public void testGetNewDocument() throws Exception {
-        Document document = (Document) documentService.getNewDocument("CUS");
+        Document document = documentService.getNewDocument("CUS");
         // verify document was created
         assertNotNull(document);
         assertNotNull(document.getDocumentHeader());

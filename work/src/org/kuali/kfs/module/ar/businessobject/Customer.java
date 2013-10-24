@@ -66,20 +66,18 @@ public class Customer extends PersistableBusinessObjectBase implements MutableIn
     private List    boNotes;
 
     private List<CustomerAddress> customerAddresses;
-    private List<CustomerNote> customerNotes;
 
   private String bankruptcyType;
   private Date bankruptcyDate;
   private Date bankruptcyReviewDate;
   private boolean stopWorkIndicator;
   private String stopWorkReason;
-  
+
     /**
      * Default constructor.
      */
     public Customer() {
         customerAddresses = new ArrayList<CustomerAddress>();
-        customerNotes = new ArrayList<CustomerNote>();
     }
 
     public CustomerCollector getCustomerCollector() {
@@ -88,14 +86,6 @@ public class Customer extends PersistableBusinessObjectBase implements MutableIn
 
     public void setCustomerCollector(CustomerCollector customerCollector) {
         this.customerCollector = customerCollector;
-    }
-
-    public List<CustomerNote> getCustomerNotes() {
-        return customerNotes;
-    }
-
-    public void setCustomerNotes(List<CustomerNote> customerNotes) {
-        this.customerNotes = customerNotes;
     }
 
     /**
@@ -639,6 +629,7 @@ public class Customer extends PersistableBusinessObjectBase implements MutableIn
      *
      * @return Returns the stopWork.
      */
+    @Override
     public boolean isStopWorkIndicator() {
         return stopWorkIndicator;
     }
@@ -670,7 +661,7 @@ public class Customer extends PersistableBusinessObjectBase implements MutableIn
         this.stopWorkReason = stopWorkReason;
     }
 
-    
+
     @Override
     public AccountsReceivableCustomerAddress getPrimaryAddress() {
         return SpringContext.getBean(CustomerAddressService.class).getPrimaryAddress(getCustomerNumber());
@@ -696,7 +687,7 @@ public class Customer extends PersistableBusinessObjectBase implements MutableIn
             }
         }
     }
-    
-  
+
+
 }
 

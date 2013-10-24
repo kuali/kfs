@@ -28,7 +28,6 @@ import org.kuali.kfs.module.ar.businessobject.ARCollector;
 import org.kuali.kfs.module.ar.businessobject.Customer;
 import org.kuali.kfs.module.ar.businessobject.CustomerAddress;
 import org.kuali.kfs.module.ar.businessobject.CustomerCollector;
-import org.kuali.kfs.module.ar.businessobject.CustomerNote;
 import org.kuali.kfs.module.ar.document.service.CustomerCollectorService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -331,15 +330,11 @@ public class CustomerMaintenableImpl extends FinancialSystemMaintainable {
 
     /**
      * This method is called before the object is added in collection.
-     * It sets the notePostedTimestamp and author for customerNote.
+     *
      * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#addNewLineToCollection(java.lang.String)
      */
     @Override
     public void addNewLineToCollection(String collectionName) {
-        if (collectionName.equalsIgnoreCase(ArPropertyConstants.CustomerFields.CUSTOMER_NOTE_TAB)) {
-            CustomerNote addLine = (CustomerNote) newCollectionLines.get(collectionName);
-            addLine.setAuthorUniversalToCurrentUser();
-        }
         refreshCustomer(false);
         super.addNewLineToCollection(collectionName);
     }
@@ -348,10 +343,6 @@ public class CustomerMaintenableImpl extends FinancialSystemMaintainable {
         Customer customer = getCustomer();
         customer.refreshNonUpdateableReferences();
 
-        getNewCollectionLine("customerNotes").refreshNonUpdateableReferences();
-
-        // the org list doesn't need any refresh
-        refreshNonUpdateableReferences(customer.getCustomerNotes());
     }
 
     private void refreshWithSecondaryKey(ARCollector arCollector) {

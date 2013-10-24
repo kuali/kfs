@@ -1005,12 +1005,6 @@
 		</property>
 	</bean>
 
-	<bean id="customerNoteService" class="org.kuali.kfs.module.ar.document.service.impl.CustomerNoteServiceImpl">
-		<property name="sequenceAccessorService">
-			<ref bean="sequenceAccessorService" />
-		</property>
-	</bean>
-	
 	<bean id="receivableAccountingLineService" class="org.kuali.kfs.module.ar.document.service.impl.ReceivableAccountingLineServiceImpl">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />

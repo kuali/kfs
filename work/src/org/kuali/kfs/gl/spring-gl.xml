@@ -551,9 +551,11 @@
 		<property name="preScrubberService" ref="preScrubberService"/>
 	</bean>
 
-	<bean id="glCashOrganizationReversionCategoryLogic" class="org.kuali.kfs.gl.batch.service.impl.CashOrganizationReversionCategoryLogic" />
+	<bean id="glCashOrganizationReversionCategoryLogic" parent="glCashOrganizationReversionCategoryLogic-parentBean" />
+	<bean id="glCashOrganizationReversionCategoryLogic-parentBean" class="org.kuali.kfs.gl.batch.service.impl.CashOrganizationReversionCategoryLogic" abstract="true" />
 	
-	<bean id="genericOrganizationReversionCategory" class="org.kuali.kfs.gl.batch.service.impl.GenericOrganizationReversionCategory" scope="prototype" /> 
+	<bean id="genericOrganizationReversionCategory" parent="genericOrganizationReversionCategory-parentBean" scope="prototype" /> 
+	<bean id="genericOrganizationReversionCategory-parentBean" class="org.kuali.kfs.gl.batch.service.impl.GenericOrganizationReversionCategory" abstract="true" /> 
 
 	<bean id="glYearEndService" parent="glYearEndService-parentBean"/>
 	<bean id="glYearEndService-parentBean" abstract="true"  class="org.kuali.kfs.gl.batch.service.impl.YearEndServiceImpl">
@@ -695,7 +697,8 @@
 		
 	</bean>
 	
-	<bean id="scrubberValidator" class="org.kuali.kfs.gl.service.impl.ScrubberValidatorImpl">
+	<bean id="scrubberValidator" parent="scrubberValidator-parentBean" />
+	<bean id="scrubberValidator-parentBean" class="org.kuali.kfs.gl.service.impl.ScrubberValidatorImpl"  abstract="true">
 		<property name="persistenceService">
 			<ref bean="persistenceService" />
 		</property>
@@ -1074,7 +1077,25 @@
 		</property>
 	</bean>
 
-	<bean id="glPostGlEntry" class="org.kuali.kfs.gl.batch.service.impl.PostEntry">
+	<bean id="glPostGlEntry" parent="glPostGlEntry-parentBean" />
+	<bean id="glPostGlEntry-parentBean" class="org.kuali.kfs.gl.batch.service.impl.PostEntry" abstract="true">
+		<property name="accountingCycleCachingService">
+		  	<ref bean="accountingCycleCachingService" />
+		</property>
+		<property name="persistenceStructureService">
+			<ref bean="persistenceStructureService" />
+		</property>
+	</bean>
+	
+	<bean id="glPostBalance" parent="glPostBalance-parentBean" />
+	<bean id="glPostBalance-parentBean" class="org.kuali.kfs.gl.batch.service.impl.PostBalance" abstract="true">
+		<property name="accountingCycleCachingService">
+		  	<ref bean="accountingCycleCachingService" />
+		</property>
+	</bean>
+
+	<bean id="glPostGlAccountBalance" parent="glPostGlAccountBalance-parentBean" />
+	<bean id="glPostGlAccountBalance-parentBean" class="org.kuali.kfs.gl.batch.service.impl.PostAccountBalance" abstract="true">
 		<property name="accountingCycleCachingService">
 		  	<ref bean="accountingCycleCachingService" />
 		</property>
@@ -1083,13 +1104,8 @@
 		</property>
 	</bean>
 
-	<bean id="glPostBalance" class="org.kuali.kfs.gl.batch.service.impl.PostBalance">
-		<property name="accountingCycleCachingService">
-		  	<ref bean="accountingCycleCachingService" />
-		</property>
-	</bean>
-
-	<bean id="glPostGlAccountBalance" class="org.kuali.kfs.gl.batch.service.impl.PostAccountBalance">
+	<bean id="glPostSufficientFundBalances" parent="glPostGlAccountBalance-parentBean" />
+	<bean id="glPostSufficientFundBalances-parentBean" class="org.kuali.kfs.gl.batch.service.impl.PostSufficientFundBalances" abstract="true">
 		<property name="accountingCycleCachingService">
 		  	<ref bean="accountingCycleCachingService" />
 		</property>
@@ -1098,7 +1114,8 @@
 		</property>
 	</bean>
 
-	<bean id="glPostSufficientFundBalances" class="org.kuali.kfs.gl.batch.service.impl.PostSufficientFundBalances">
+	<bean id="glPostReversal" parent="glPostReversal-parentBean" />
+	<bean id="glPostReversal-parentBean" class="org.kuali.kfs.gl.batch.service.impl.PostReversal" abstract="true">
 		<property name="accountingCycleCachingService">
 		  	<ref bean="accountingCycleCachingService" />
 		</property>
@@ -1107,16 +1124,8 @@
 		</property>
 	</bean>
 
-	<bean id="glPostReversal" class="org.kuali.kfs.gl.batch.service.impl.PostReversal">
-		<property name="accountingCycleCachingService">
-		  	<ref bean="accountingCycleCachingService" />
-		</property>
-		<property name="persistenceStructureService">
-			<ref bean="persistenceStructureService" />
-		</property>
-	</bean>
-
-	<bean id="glPostEncumbrance" class="org.kuali.kfs.gl.batch.service.impl.PostEncumbrance">
+	<bean id="glPostEncumbrance" parent="glPostEncumbrance-parentBean" />
+	<bean id="glPostEncumbrance-parentBean" class="org.kuali.kfs.gl.batch.service.impl.PostEncumbrance" abstract="true">
 		<property name="accountingCycleCachingService">
 		  	<ref bean="accountingCycleCachingService" />
 		</property>
@@ -1131,7 +1140,8 @@
 		</property>
 	</bean>
 
-	<bean id="glPostExpenditureTransaction" class="org.kuali.kfs.gl.batch.service.impl.PostExpenditureTransaction">
+	<bean id="glPostExpenditureTransaction" parent="glPostExpenditureTransaction-parentBean" />
+	<bean id="glPostExpenditureTransaction-parentBean" class="org.kuali.kfs.gl.batch.service.impl.PostExpenditureTransaction" abstract="true">
 		<property name="indirectCostRecoveryExclusionAccountDao">
 			<ref bean="indirectCostRecoveryExclusionAccountDao" />
 		</property>
@@ -1147,7 +1157,8 @@
 		<property name="parameterService" ref="parameterService" />
 	</bean>
 
-	<bean id="glIcrTransaction" class="org.kuali.kfs.gl.batch.service.impl.PostExpenditureTransaction">
+	<bean id="glIcrTransaction" parent="glIcrTransaction-parentBean" />
+	<bean id="glIcrTransaction-parentBean" class="org.kuali.kfs.gl.batch.service.impl.PostExpenditureTransaction" abstract="true">
 		<property name="indirectCostRecoveryExclusionAccountDao">
 			<ref bean="indirectCostRecoveryExclusionAccountDao" />
 		</property>
@@ -1156,7 +1167,8 @@
 		</property>
 	</bean>
 
-	<bean id="glVerifyTransaction" class="org.kuali.kfs.gl.batch.service.impl.VerifyTransactionImpl">
+	<bean id="glVerifyTransaction" parent="glVerifyTransaction-parentBean" />
+	<bean id="glVerifyTransaction-parentBean" class="org.kuali.kfs.gl.batch.service.impl.VerifyTransactionImpl" abstract="true">
 		<property name="configurationService">
 			<ref bean="kualiConfigurationService" />
 		</property>
@@ -2314,13 +2326,15 @@
 		</property>
 	</bean>
 	
-	<bean id="glBalanceTotalNotZeroIterator" class="org.kuali.kfs.gl.batch.service.impl.FilteringBalanceIteratorImpl" scope="prototype">
+	<bean id="glBalanceTotalNotZeroIterator" parent="glBalanceTotalNotZeroIterator-parentBean" scope="prototype" />	
+	<bean id="glBalanceTotalNotZeroIterator-parentBean" class="org.kuali.kfs.gl.batch.service.impl.FilteringBalanceIteratorImpl" abstract="true">
 		<property name="balancePredicate">
 			<bean class="org.kuali.kfs.gl.batch.service.impl.BalanceTotalNotZeroPredicate" />
 		</property>
 	</bean>
 	
-	<bean id="glBalanceAnnualAndCGTotalNotZeroIterator" class="org.kuali.kfs.gl.batch.service.impl.FilteringBalanceIteratorImpl" scope="prototype">
+	<bean id="glBalanceAnnualAndCGTotalNotZeroIterator" parent="glBalanceAnnualAndCGTotalNotZeroIterator-parentBean" scope="prototype" />
+	<bean id="glBalanceAnnualAndCGTotalNotZeroIterator-parentBean" class="org.kuali.kfs.gl.batch.service.impl.FilteringBalanceIteratorImpl" abstract="true">
 		<property name="balancePredicate">
 			<bean class="org.kuali.kfs.gl.batch.service.impl.BalanceAnnualAndCGTotalNotZeroPredicate" />
 		</property>

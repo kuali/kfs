@@ -680,8 +680,8 @@
   	  <property name="maintenanceDocumentDictionaryService" ref="maintenanceDocumentDictionaryService" />
   	  <property name="documentTypeService" ref="rice.kew.documentTypeService" />
     </bean>
-	<bean id="electronicPaymentClaimingService" parent="electronicPaymentClaimingService-parentBean"/>
     
+	<bean id="electronicPaymentClaimingService" parent="electronicPaymentClaimingService-parentBean"/>
     <bean id="electronicPaymentClaimingService-parentBean" class="org.kuali.kfs.sys.service.impl.ElectronicPaymentClaimingServiceImpl" abstract="true">
     	<property name="documentService"><ref bean="documentService" /></property>
     	<property name="businessObjectService"><ref bean="businessObjectService" /></property>
@@ -689,24 +689,29 @@
     	<property name="parameterService"><ref bean="parameterService" /></property>
     </bean>
     
-    <bean id="electronicFundTransferStartAction" class="org.kuali.kfs.sys.service.impl.ElectronicFundTransferStartActionHelper">
+    <bean id="electronicFundTransferStartAction"  parent="electronicFundTransferStartAction-parentBean" />
+    <bean id="electronicFundTransferStartAction-parentBean" class="org.kuali.kfs.sys.service.impl.ElectronicFundTransferStartActionHelper" abstract="true">
     	<property name="electronicPaymentClaimingService"><ref bean="electronicPaymentClaimingService" /></property>
     </bean>
     
-    <bean id="electronicFundTransferRefreshAction" class="org.kuali.kfs.sys.service.impl.ElectronicFundTransferRefreshActionHelper">
+    <bean id="electronicFundTransferRefreshAction" parent="electronicFundTransferRefreshAction-parentBean" />
+    <bean id="electronicFundTransferRefreshAction-parentBean" class="org.kuali.kfs.sys.service.impl.ElectronicFundTransferRefreshActionHelper" abstract="true">
     	<property name="dataDictonaryService"><ref bean="dataDictionaryService" /></property>
     	<property name="electronicPaymentClaimingService"><ref bean="electronicPaymentClaimingService" /></property>
     	<property name="lookupResultsService"><ref bean="lookupResultsService" /></property>
     </bean>
     
-    <bean id="electronicFundTransferClaimAction" class="org.kuali.kfs.sys.service.impl.ElectronicFundTransferClaimActionHelper">
+    <bean id="electronicFundTransferClaimAction" parent="electronicFundTransferClaimAction-parentBean" />
+    <bean id="electronicFundTransferClaimAction-parentBean" class="org.kuali.kfs.sys.service.impl.ElectronicFundTransferClaimActionHelper" abstract="true">
     	<property name="dataDictonaryService"><ref bean="dataDictionaryService" /></property>
     	<property name="electronicPaymentClaimingService"><ref bean="electronicPaymentClaimingService" /></property>
     	<property name="businessObjectService"><ref bean="businessObjectService" /></property>
     	<property name="documentService" ref="documentService" />
     </bean>
     
-    <bean id="electronicFundTransferCancelAction" class="org.kuali.kfs.sys.service.impl.ElectronicFundTransferCancelActionHelper" />
+    <bean id="electronicFundTransferCancelAction" parent="electronicFundTransferCancelAction-parentBean" />
+    <bean id="electronicFundTransferCancelAction-parentBean" class="org.kuali.kfs.sys.service.impl.ElectronicFundTransferCancelActionHelper" abstract="true" />
+
 	<bean id="electronicPaymentClaimLookupableHelperService" parent="electronicPaymentClaimLookupableHelperService-parentBean"  scope="prototype"/>
     
     <bean id="electronicPaymentClaimLookupableHelperService-parentBean" class="org.kuali.kfs.sys.businessobject.lookup.ElectronicPaymentClaimLookupableHelperServiceImpl" scope="prototype" parent="lookupableHelperService" abstract="true">
@@ -731,17 +736,22 @@
     	<property name="newLineCharacter" value="${report.writer.service.new.line.characters}"/>
 	</bean>
 	
-    <bean id="accountingLineAuthorizationTransformer" class="org.kuali.kfs.sys.document.service.impl.AccountingLineAuthorizationTransformerImpl" />
+	<bean id="accountingLineAuthorizationTransformer" parent="accountingLineAuthorizationTransformer-parentBean"/>
+    <bean id="accountingLineAuthorizationTransformer-parentBean" class="org.kuali.kfs.sys.document.service.impl.AccountingLineAuthorizationTransformerImpl" abstract="true" />
     
-    <bean id="allReadOnlyNoActionsAccountingLineRenderingTransformation" class="org.kuali.kfs.sys.document.service.impl.AllReadOnlyNoActionsAccountingLineRenderingTransformationImpl" />
+    <bean id="allReadOnlyNoActionsAccountingLineRenderingTransformation" parent="allReadOnlyNoActionsAccountingLineRenderingTransformation-parentBean" />
+    <bean id="allReadOnlyNoActionsAccountingLineRenderingTransformation-parentBean" class="org.kuali.kfs.sys.document.service.impl.AllReadOnlyNoActionsAccountingLineRenderingTransformationImpl" abstract="true" />
     
-    <bean id="defaultValuePopulationAccountingLineFieldRenderingTransformation" class="org.kuali.kfs.sys.document.service.impl.DefaultValuePopulationAccountingLineFieldRenderingTransformationImpl" />
+    <bean id="defaultValuePopulationAccountingLineFieldRenderingTransformation" parent="defaultValuePopulationAccountingLineFieldRenderingTransformation-parentBean" />
+    <bean id="defaultValuePopulationAccountingLineFieldRenderingTransformation-parentBean" class="org.kuali.kfs.sys.document.service.impl.DefaultValuePopulationAccountingLineFieldRenderingTransformationImpl" abstract="true" />
     
-    <bean id="hiddenFieldRearrangementAccountingLineRenderingTransformation" class="org.kuali.kfs.sys.document.service.impl.HiddenFieldRearrangementAccountingLineRenderingTransformationImpl" />
-    
-    <bean id="removeEmptyCellsAndRowsRenderingTransformation" class="org.kuali.kfs.sys.document.service.impl.RemoveEmptyCellsAndRowsRenderingTransformationImpl" />
+    <bean id="hiddenFieldRearrangementAccountingLineRenderingTransformation" parent="hiddenFieldRearrangementAccountingLineRenderingTransformation-parentBean" />    
+    <bean id="hiddenFieldRearrangementAccountingLineRenderingTransformation-parentBean" class="org.kuali.kfs.sys.document.service.impl.HiddenFieldRearrangementAccountingLineRenderingTransformationImpl" abstract="true" />
+
+    <bean id="removeEmptyCellsAndRowsRenderingTransformation" parent="removeEmptyCellsAndRowsRenderingTransformation-parentBean" />    
+    <bean id="removeEmptyCellsAndRowsRenderingTransformation-parentBean" class="org.kuali.kfs.sys.document.service.impl.RemoveEmptyCellsAndRowsRenderingTransformationImpl" abstract="true" />
+	
 	<bean id="accountingLineRenderingService" parent="accountingLineRenderingService-parentBean"/>
-    
     <bean id="accountingLineRenderingService-parentBean" class="org.kuali.kfs.sys.document.service.impl.AccountingLineRenderingServiceImpl" abstract="true">
     	<property name="dataDictionaryService" ref="dataDictionaryService" />
     	<property name="accountingLineAuthorizationTransformer" ref="accountingLineAuthorizationTransformer" />
@@ -785,9 +795,11 @@
         </property>
 	</bean>
 
-    <bean id="objectCodeDynamicNameLabelGenerator" class="org.kuali.kfs.sys.document.service.impl.ObjectCodeDynamicNameLabelGeneratorImpl" />
+	<bean id="objectCodeDynamicNameLabelGenerator" parent="objectCodeDynamicNameLabelGenerator-parentBean" />
+    <bean id="objectCodeDynamicNameLabelGenerator-parentBean" class="org.kuali.kfs.sys.document.service.impl.ObjectCodeDynamicNameLabelGeneratorImpl" abstract="true" />
 
-    <bean id="subObjectCodeDynamicNameLabelGenerator" class="org.kuali.kfs.sys.document.service.impl.SubObjectCodeDynamicNameLabelGeneratorImpl" />
+ 	<bean id="subObjectCodeDynamicNameLabelGenerator" parent="subObjectCodeDynamicNameLabelGenerator-parentBean" />
+    <bean id="subObjectCodeDynamicNameLabelGenerator-parentBean" class="org.kuali.kfs.sys.document.service.impl.SubObjectCodeDynamicNameLabelGeneratorImpl" abstract="true" />
 
 	<bean id="systemOptionsFiscalYearMaker" class="org.kuali.kfs.sys.batch.dataaccess.impl.SystemOptionsFiscalYearMakerImpl" parent="FiscalYearMaker">
 		<property name="businessObjectClass" value="org.kuali.kfs.sys.businessobject.SystemOptions" /> 
@@ -817,7 +829,6 @@
     <bean id="financialSystemDocumentTypePermissionTypeService-parentBean" class="org.kuali.kfs.sys.identity.FinancialSystemDocumentTypePermissionTypeServiceImpl" abstract="true" />
 		
 	<bean id="financialSystemUserRoleTypeService" parent="financialSystemUserRoleTypeService-parentBean"/>
-
     <bean id="financialSystemUserRoleTypeService-parentBean" class="org.kuali.kfs.coa.identity.FinancialSystemUserRoleTypeServiceImpl" abstract="true" />
 		
   
@@ -826,7 +837,8 @@
         <property name="twoYearCopy" value="true" />
 	</bean>	
 	
-	<bean id="expenseElectronicPaymentClaimingDocumentHelper" class="org.kuali.kfs.sys.service.impl.ElectronicPaymentClaimingDocumentGenerationStrategyImpl">
+	<bean id="expenseElectronicPaymentClaimingDocumentHelper" parent="expenseElectronicPaymentClaimingDocumentHelper-parentBean" />
+	<bean id="expenseElectronicPaymentClaimingDocumentHelper-parentBean" class="org.kuali.kfs.sys.service.impl.ElectronicPaymentClaimingDocumentGenerationStrategyImpl" abstract="true">
 		<property name="electronicPaymentClaimingService">
 			<ref bean="electronicPaymentClaimingService" />
 		</property>

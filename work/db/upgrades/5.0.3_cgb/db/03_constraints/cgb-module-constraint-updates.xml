@@ -120,6 +120,7 @@
 
 	<changeSet author="KFSCGB" id="AR_MLSTN_MOD1">
 		<addPrimaryKey tableName="AR_MLSTN_T" columnNames="CGPRPSL_NBR,MLSTN_ID" />
+		<addPrimaryKey tableName="AR_MLSTN_T" columnNames="MLSTN_ID" />
 		<modifySql dbms="oracle">
 			<replace replace="varchar" with="varchar2" />
 			<replace replace="decimal" with="number" />

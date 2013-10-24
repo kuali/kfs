@@ -29,6 +29,8 @@ import java.math.BigDecimal;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.ObjectUtils;
+
 import org.kuali.kfs.gl.Constant;
 import org.kuali.kfs.integration.ld.businessobject.inquiry.AbstractPositionDataDetailsInquirableImpl;
 import org.kuali.kfs.module.ld.businessobject.EmployeeFunding;
@@ -103,10 +105,9 @@ public class EmployeeFundingLookupableHelperServiceImpl extends AbstractLookupab
             Collection<EmployeeFunding> tempSearchResultsCollection = new ArrayList<EmployeeFunding>();
             for (EmployeeFunding employeeFunding : searchResultsCollection) {
                 // KFSCNTRB-1534- Properly group CSF Items and show all CSF items that should be shown
-                boolean add = employeeFunding.getCurrentAmount().isNonZero() ||
-                        employeeFunding.getOutstandingEncumbrance().isNonZero() ||
-                        (employeeFunding.getCsfAmount() != null && employeeFunding.getCsfAmount().isNonZero());
-                if (add){
+                if( employeeFunding.getCurrentAmount().isNonZero() ||
+                    employeeFunding.getOutstandingEncumbrance().isNonZero() ||
+                    (employeeFunding.getCsfAmount() != null && employeeFunding.getCsfAmount().isNonZero()) ){
                     tempSearchResultsCollection.add(employeeFunding);
                 }
             }
@@ -167,28 +168,28 @@ public class EmployeeFundingLookupableHelperServiceImpl extends AbstractLookupab
                 continue;
             }
 
-            if (!customEquals(temp.getEmplid(), exhibit.getEmplid())){
+            if (ObjectUtils.notEqual(temp.getEmplid(), exhibit.getEmplid())){
                 continue;
             }
-            if (!customEquals(temp.getUniversityFiscalYear(), exhibit.getUniversityFiscalYear())){
+            if (ObjectUtils.notEqual(temp.getUniversityFiscalYear(), exhibit.getUniversityFiscalYear())){
                 continue;
             }
-            if (!customEquals(temp.getChartOfAccountsCode(), exhibit.getChartOfAccountsCode())){
+            if (ObjectUtils.notEqual(temp.getChartOfAccountsCode(), exhibit.getChartOfAccountsCode())){
                 continue;
             }
-            if (!customEquals(temp.getAccountNumber(), exhibit.getAccountNumber())){
+            if (ObjectUtils.notEqual(temp.getAccountNumber(), exhibit.getAccountNumber())){
                 continue;
             }
-            if (!customEquals(temp.getSubAccountNumber(), exhibit.getSubAccountNumber())){
+            if (ObjectUtils.notEqual(temp.getSubAccountNumber(), exhibit.getSubAccountNumber())){
                 continue;
             }
-            if (!customEquals(temp.getFinancialObjectCode(), exhibit.getFinancialObjectCode())){
+            if (ObjectUtils.notEqual(temp.getFinancialObjectCode(), exhibit.getFinancialObjectCode())){
                 continue;
             }
-            if (!customEquals(temp.getFinancialSubObjectCode(), exhibit.getFinancialSubObjectCode())){
+            if (ObjectUtils.notEqual(temp.getFinancialSubObjectCode(), exhibit.getFinancialSubObjectCode())){
                 continue;
             }
-            if (!customEquals(temp.getPositionNumber(), exhibit.getPositionNumber())){
+            if (ObjectUtils.notEqual(temp.getPositionNumber(), exhibit.getPositionNumber())){
                 continue;
             }
             return temp;
@@ -197,24 +198,6 @@ public class EmployeeFundingLookupableHelperServiceImpl extends AbstractLookupab
         return null;
     }
 
-    /**
-     * Compares two Objects for equality in a null-safe way.
-     *
-     * @param one The first Object for comparison.
-     * @param two The second Object for comparison.
-     *
-     * @return True if the two Objects match or are both null.
-     */
-    private static boolean customEquals(Object one, Object two){
-            if (one == null){
-                    return two == null;
-            }
-            if(two == null){
-                    return false;
-            }
-            return one.equals(two);
-    }
-    
     /**
      * Adds two KualiDecimal objects in a null-safe way. If one of them is null, the other is returned, otherwise,
      * a new KualiDecimal containing their sum is returned.

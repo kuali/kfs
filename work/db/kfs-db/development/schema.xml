@@ -1058,21 +1058,6 @@
             <unique-column name="OBJ_ID"/>
         </unique>
     </table>
-    <table name="AR_CUST_NTE_T">
-        <column name="CUST_NBR" primaryKey="true" size="9" type="VARCHAR"/>
-        <column name="CUST_NTE_ID" primaryKey="true" size="7" type="DECIMAL"/>
-        <column name="NTE_TXT" size="800" type="VARCHAR"/>
-        <column name="POST_TS" type="TIMESTAMP"/>
-        <column name="AUTH_PRNCPL_ID" size="40" type="VARCHAR"/>
-        <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
-        <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
-        <foreign-key foreignTable="AR_CUST_T" name="AR_CUST_NTE_FK1">
-            <reference foreign="CUST_NBR" local="CUST_NBR"/>
-        </foreign-key>
-        <unique name="AR_CUST_NTE_TC0">
-            <unique-column name="OBJ_ID"/>
-        </unique>
-    </table>
     <table name="AR_CUST_PRCS_TYP_T">
         <column name="CUST_SPCL_PRCS_CD" primaryKey="true" size="2" type="VARCHAR"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
@@ -4038,21 +4023,6 @@
         <column name="CG_AGENCY_ADDR_TYP_DESC" size="30" type="VARCHAR"/>
         <column default="Y" name="ACTV_IND" required="true" size="1" type="VARCHAR"/>
         <unique name="SYS_C0010102864">
-            <unique-column name="OBJ_ID"/>
-        </unique>
-    </table>
-    <table name="CG_AGENCY_NTE_T">
-        <column name="AGENCY_NTE_ID" primaryKey="true" size="7" type="DECIMAL"/>
-        <column name="CG_AGENCY_NBR" primaryKey="true" size="5" type="VARCHAR"/>
-        <column name="NTE_TXT" size="800" type="VARCHAR"/>
-        <column name="POST_TS" type="TIMESTAMP"/>
-        <column name="AUTH_PRNCPL_ID" size="40" type="VARCHAR"/>
-        <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
-        <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
-        <foreign-key foreignTable="CG_AGENCY_T" name="CG_AGENCY_NTE_FK1">
-            <reference foreign="CG_AGENCY_NBR" local="CG_AGENCY_NBR"/>
-        </foreign-key>
-        <unique name="CG_AGENCY_NTE_TC0">
             <unique-column name="OBJ_ID"/>
         </unique>
     </table>

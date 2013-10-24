@@ -1761,7 +1761,7 @@
         <column name="MLSTN_DESC" size="45" type="VARCHAR"/>
         <column name="MLSTN_AMT" scale="2" size="19" type="DECIMAL"/>
         <column name="BILLED_IND" size="1" type="VARCHAR"/>
-        <column default="0" name="MLSTN_NBR" size="12" type="DECIMAL"/>
+        <column default="0" name="MLSTN_NBR" primaryKey="true" size="12" type="DECIMAL"/>
         <column name="PRPSL_NBR" primaryKey="true" size="12" type="DECIMAL"/>
         <column name="MLSTN_COMPLTN_DT" type="TIMESTAMP"/>
         <column name="MLSTN_EXPCTD_COMPLTN_DT" type="TIMESTAMP"/>
@@ -3991,16 +3991,6 @@
             <unique-column name="OBJ_ID"/>
         </unique>
     </table>
-    <table name="CG_AGENCY_ACTVTY_T">
-        <column name="AGENCY_ACT_CD" primaryKey="true" size="10" type="VARCHAR"/>
-        <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
-        <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
-        <column name="AGENCY_ACT_DESC" size="45" type="VARCHAR"/>
-        <column name="DOBJ_MAINT_CD_ACTV_IND" required="true" size="1" type="VARCHAR"/>
-        <unique name="SYS_C0010102911">
-            <unique-column name="OBJ_ID"/>
-        </unique>
-    </table>
     <table name="CG_AGENCY_ADDR_T">
         <column name="CG_AGENCY_NBR" primaryKey="true" size="5" type="VARCHAR"/>
         <column default="0" name="CG_AGENCY_ADDR_ID" primaryKey="true" size="12" type="DECIMAL"/>
@@ -4028,7 +4018,6 @@
         <column name="AGENCY_INV_EMAIL_ADDR" size="60" type="VARCHAR"/>
         <column name="INV_IND_CD" size="10" type="VARCHAR"/>
         <column name="PRNT_ENV_NBR" size="5" type="DECIMAL"/>
-        <column name="PRNT_ENV" size="1" type="VARCHAR"/>
         <foreign-key foreignTable="CG_AGENCY_T" name="CG_AGENCY_ADDR_R1">
             <reference foreign="CG_AGENCY_NBR" local="CG_AGENCY_NBR"/>
         </foreign-key>
@@ -4729,16 +4718,6 @@
         <index name="CG_PRPSL_TI6">
             <index-column name="CG_FEDPT_AGNCY_NBR"/>
         </index>
-    </table>
-    <table name="CG_SRC_OF_FNDS_T">
-        <column name="SRC_OF_FNDS_CD" primaryKey="true" size="10" type="VARCHAR"/>
-        <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
-        <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
-        <column name="SRC_OF_FNDS_DESC" size="45" type="VARCHAR"/>
-        <column name="DOBJ_MAINT_CD_ACTV_IND" required="true" size="1" type="VARCHAR"/>
-        <unique name="SYS_C0010102905">
-            <unique-column name="OBJ_ID"/>
-        </unique>
     </table>
     <table name="CG_SUBCNR_T">
         <column name="CG_SUBCNR_NBR" primaryKey="true" size="5" type="VARCHAR"/>
@@ -16076,8 +16055,8 @@
         <column name="TRAVEL_EXP_NM" size="25" type="VARCHAR"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
-        <foreign-key foreignTable="FP_DV_EXP_TYP_T" name="TEM_HIST_EXP_TR2">
-            <reference foreign="DV_EXP_CD" local="DV_EXP_CD"/>
+        <foreign-key foreignTable="TEM_EXP_TYP_T" name="TEM_HIST_EXP_TR2">
+            <reference foreign="EXP_TYP_CD" local="DV_EXP_CD"/>
         </foreign-key>
         <unique name="TEM_HIST_EXP_TC0">
             <unique-column name="OBJ_ID"/>

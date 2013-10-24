@@ -17,6 +17,7 @@ package org.kuali.kfs.module.external.kc.service.impl;
 
 import java.net.MalformedURLException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -25,7 +26,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Account;
-import org.kuali.kfs.integration.cg.KcModuleService;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleService;
 import org.kuali.kfs.module.external.kc.KcConstants;
 import org.kuali.kfs.module.external.kc.businessobject.AwardAccount;
 import org.kuali.kfs.module.external.kc.webService.InstitutionalUnitSoapService;
@@ -33,13 +34,14 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.kra.external.unit.service.InstitutionalUnitService;
+import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 @NonTransactional
-public class ContractsAndGrantsModuleServiceImpl implements KcModuleService {
+public class ContractsAndGrantsModuleServiceImpl implements ContractsAndGrantsModuleService {
     private org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ContractsAndGrantsModuleServiceImpl.class);
     private BusinessObjectService businessObjectService;
 
@@ -56,16 +58,22 @@ public class ContractsAndGrantsModuleServiceImpl implements KcModuleService {
     }
 
     protected InstitutionalUnitService getInstitutionalUnitWebService() {
-        InstitutionalUnitSoapService institutionalUnitSoapService = null;
-        try {
-            institutionalUnitSoapService = new InstitutionalUnitSoapService();
+        // first attempt to get the service from the KSB - works when KFS & KC share a Rice instance
+        InstitutionalUnitService institutionalUnitService = (InstitutionalUnitService) GlobalResourceLoader.getService(KcConstants.Unit.SERVICE);
+
+        // if we couldn't get the service from the KSB, get as web service - for when KFS & KC have separate Rice instances
+        if (institutionalUnitService == null) {
+            InstitutionalUnitSoapService institutionalUnitSoapService = null;
+            try {
+                institutionalUnitSoapService = new InstitutionalUnitSoapService();
+            }
+            catch (MalformedURLException ex) {
+                LOG.error("Could not intialize InstitutionalUnitSoapService: " + ex.getMessage());
+                throw new RuntimeException("Could not intialize InstitutionalUnitSoapService: " + ex.getMessage());
+            }
+            institutionalUnitService = institutionalUnitSoapService.getInstitutionalUnitServicePort();
         }
-        catch (MalformedURLException ex) {
-            LOG.error("Could not intialize InstitutionalUnitSoapService: " + ex.getMessage());
-            throw new RuntimeException("Could not intialize InstitutionalUnitSoapService: " + ex.getMessage());
-        }
-        InstitutionalUnitService port = institutionalUnitSoapService.getInstitutionalUnitServicePort();
-        return port;
+        return institutionalUnitService;
     }
 
     @Override
@@ -151,7 +159,7 @@ public class ContractsAndGrantsModuleServiceImpl implements KcModuleService {
      *      java.lang.String, java.util.List)
      */
     @Override
-    public boolean isAwardedByFederalAgency(String chartOfAccountsCode, String accountNumber, List<String> federalAgencyTypeCodes) {
+    public boolean isAwardedByFederalAgency(String chartOfAccountsCode, String accountNumber, Collection<String> federalAgencyTypeCodes) {
         boolean _isFederalSponsor_return = false;
         List<String> federalSponsorTypeCodes = null;
         List<AwardAccount> awardAccounts = this.getAwardAccounts(chartOfAccountsCode, accountNumber);
@@ -263,7 +271,7 @@ public class ContractsAndGrantsModuleServiceImpl implements KcModuleService {
      * @return the maxium account responsiblity id from system parameter
      */
     protected int getMaxiumAccountResponsibilityId() {
-        String maxResponsibilityId = getParameterService().getParameterValueAsString(KfsParameterConstants.CONTRACTS_AND_GRANTS_ALL.class, KcConstants.MAXIMUM_ACCOUNT_RESPONSIBILITY_ID);
+        String maxResponsibilityId = getParameterService().getParameterValueAsString(KfsParameterConstants.CHART_ALL.class, KcConstants.MAXIMUM_ACCOUNT_RESPONSIBILITY_ID);
         return Integer.valueOf(maxResponsibilityId);
     }
 

@@ -263,48 +263,6 @@ public class TravelDisbursementServiceImpl implements TravelDisbursementService{
         return disbursementVoucherDocument;
     }
 
-//    /**
-//     * @see org.kuali.kfs.module.tem.document.service.TravelDisbursementService#createAndApproveDisbursementVoucherDocument(org.kuali.kfs.module.tem.TemConstants.DisburseType, org.kuali.kfs.module.tem.document.TravelDocument)
-//     */
-//    @Override
-//    public DisbursementVoucherDocument createAndApproveDisbursementVoucherDocument(DisburseType type, TravelDocument document){
-//        return  createAndApproveDisbursementVoucherDocument(type, document, null);
-//    }
-
-//    /**
-//     * Since there is no difference between TEMReimbursement and TravelAdvance type disbursement voucher,
-//     * use the same implementation.
-//     *
-//     * @param document
-//     */
-//    private void processTravelDocumentDV(TravelDocument document){
-//        String relationDescription = document.getDocumentHeader().getWorkflowDocument().getDocumentTypeName() + " - DV";
-//        try {
-//            DisbursementVoucherDocument disbursementVoucherDocument = createAndApproveDisbursementVoucherDocument(DisburseType.reimbursable, document);
-//            accountingDocumentRelationshipService.save(new AccountingDocumentRelationship(document.getDocumentNumber(), disbursementVoucherDocument.getDocumentNumber(), relationDescription));
-//            KNSGlobalVariables.getMessageList().add(TemKeyConstants.MESSAGE_DV_IN_ACTION_LIST, disbursementVoucherDocument.getDocumentNumber());
-//        }
-//        catch (Exception ex) {
-//            LOG.error("Could not spawn " + relationDescription + " for reimbursement:" + ex.getMessage(), ex);
-//        }
-//    }
-
-//    /**
-//     * @see org.kuali.kfs.module.tem.document.service.TravelDisbursementService#processTEMReimbursementDV(org.kuali.kfs.module.tem.document.TEMReimbursementDocument)
-//     */
-//    @Override
-//    public void processTEMReimbursementDV(TEMReimbursementDocument document){
-//        processTravelDocumentDV(document);
-//    }
-//
-//    /**
-//     * @see org.kuali.kfs.module.tem.document.service.TravelDisbursementService#processTEMReimbursementDV(org.kuali.kfs.module.tem.document.TEMReimbursementDocument)
-//     */
-//    @Override
-//    public void processTravelAdvanceDV(TravelAuthorizationDocument document){
-//        //processTravelDocumentDV(document);
-//    }
-
     /**
      * @see org.kuali.kfs.module.tem.document.service.TravelDisbursementService#saveErrorDisbursementVoucher(org.kuali.kfs.fp.document.DisbursementVoucherDocument, org.kuali.kfs.module.tem.document.TravelDocument)
      */

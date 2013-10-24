@@ -1104,7 +1104,7 @@
 		</property>
 	</bean>
 
-	<bean id="glPostSufficientFundBalances" parent="glPostGlAccountBalance-parentBean" />
+	<bean id="glPostSufficientFundBalances" parent="glPostSufficientFundBalances-parentBean" />
 	<bean id="glPostSufficientFundBalances-parentBean" class="org.kuali.kfs.gl.batch.service.impl.PostSufficientFundBalances" abstract="true">
 		<property name="accountingCycleCachingService">
 		  	<ref bean="accountingCycleCachingService" />

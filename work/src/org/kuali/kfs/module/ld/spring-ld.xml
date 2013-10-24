@@ -374,7 +374,7 @@
     <bean id="laborGLScrubberValidator" parent="laborGLScrubberValidator-parentBean" />
     <bean id="laborGLScrubberValidator-parentBean" class="org.kuali.kfs.module.ld.batch.service.impl.LaborGLScrubberValidatorImpl" parent="scrubberValidator" abstract="true" />
 
-    <bean id="laborScrubberValidator" class="org.kuali.kfs.module.ld.batch.service.impl.ScrubberValidatorImpl" />
+    <bean id="laborScrubberValidator" parent="laborScrubberValidator-parentBean" />
     <bean id="laborScrubberValidator-parentBean" class="org.kuali.kfs.module.ld.batch.service.impl.ScrubberValidatorImpl" abstract="true">
         <property name="scrubberValidator">
             <ref bean="laborGLScrubberValidator" />

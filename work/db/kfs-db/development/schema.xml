@@ -4052,7 +4052,6 @@
         <column name="SPNSR_CD" size="6" type="VARCHAR"/>
         <column name="CMPGN_ID" size="4" type="VARCHAR"/>
         <column default="N" name="STATE_AGENCY_IND" size="1" type="VARCHAR"/>
-        <column name="CLCTN_STATUS_CD" size="6" type="VARCHAR"/>
         <column name="NTE_TXT" size="800" type="VARCHAR"/>
         <foreign-key foreignTable="CG_BILL_FREQ_T" name="CG_AGENCY_R1">
             <reference foreign="BILL_FREQ_CD" local="CG_AGENCY_BILL_FREQ_CD"/>

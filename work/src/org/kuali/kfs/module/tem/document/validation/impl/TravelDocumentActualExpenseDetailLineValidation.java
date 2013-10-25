@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.tem.document.validation.impl;
 
+import org.kuali.kfs.module.tem.TemConstants.PerDiemType;
 import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.businessobject.ActualExpense;
@@ -59,6 +60,8 @@ public class TravelDocumentActualExpenseDetailLineValidation extends TEMDocument
         if (success) {
             //validate mileage
             success &= validateMileageRules(travelDocument);
+            //validate lodging
+            success &= validateLodgingRules(travelDocument);
 
             //validate expense detail amount is negative
             if (getActualExpenseDetailForValidation().getExpenseAmount().isNegative()) {
@@ -112,6 +115,26 @@ public class TravelDocumentActualExpenseDetailLineValidation extends TEMDocument
             else {
                 String label = getDataDictionaryService().getAttributeLabel(ActualExpense.class, TemPropertyConstants.TEM_ACTUAL_EXPENSE_MILES) + ", " + getDataDictionaryService().getAttributeLabel(ActualExpense.class, TemPropertyConstants.TEM_ACTUAL_EXPENSE_MILE_RATE) + " or " + getDataDictionaryService().getAttributeLabel(ActualExpense.class, TemPropertyConstants.TEM_ACTUAL_EXPENSE_MILE_OTHER_RATE);
                 GlobalVariables.getMessageMap().putError(TemPropertyConstants.TEM_ACTUAL_EXPENSE_MILES, KFSKeyConstants.ERROR_REQUIRED, label);
+            }
+            // check that there's no per diem for the same day
+            if (isPerDiemMileageEntered(getActualExpenseDetailForValidation().getExpenseDate(), document.getPerDiemExpenses())) {
+                valid &= addPerDiemError(PerDiemType.mileage, false);
+            }
+        }
+        return valid;
+    }
+
+    /**
+     * If the actual expense detail line being validated is lodging, checks rules upon that
+     * @param document the travel document that the actual expense detail is being added to
+     * @return true if validation succeeded, false otherwise
+     */
+    protected boolean validateLodgingRules(TravelDocument document) {
+        boolean valid = true;
+        if (getActualExpenseDetailForValidation().isLodging()) {
+            // check if there's a per diem the next day
+            if (isPerDiemLodgingEntered(getActualExpenseDetailForValidation().getExpenseDate(), document.getPerDiemExpenses())) {
+                valid &= addPerDiemError(PerDiemType.lodging, false);
             }
         }
         return valid;

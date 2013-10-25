@@ -43,7 +43,6 @@ import org.kuali.kfs.module.tem.TemWorkflowConstants;
 import org.kuali.kfs.module.tem.businessobject.ActualExpense;
 import org.kuali.kfs.module.tem.businessobject.TravelAdvance;
 import org.kuali.kfs.module.tem.businessobject.TripType;
-import org.kuali.kfs.module.tem.document.service.AccountingDocumentRelationshipService;
 import org.kuali.kfs.module.tem.document.service.TravelAuthorizationService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
@@ -632,10 +631,6 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
 
     protected GeneralLedgerPendingEntryService getGeneralLedgerPendingEntryService() {
         return SpringContext.getBean(GeneralLedgerPendingEntryService.class);
-    }
-
-    protected AccountingDocumentRelationshipService getAccountingDocumentRelationshipService() {
-        return SpringContext.getBean(AccountingDocumentRelationshipService.class);
     }
 
     /**

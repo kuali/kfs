@@ -26,16 +26,22 @@ import org.kuali.kfs.integration.purap.PurchasingAccountsPayableModuleService;
 import org.kuali.kfs.integration.purap.PurchasingAccountsPayableSensitiveData;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
+import org.kuali.kfs.module.purap.businessobject.PaymentRequestView;
 import org.kuali.kfs.module.purap.businessobject.SensitiveData;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
+import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.module.purap.document.VendorCreditMemoDocument;
 import org.kuali.kfs.module.purap.document.service.CreditMemoService;
 import org.kuali.kfs.module.purap.document.service.PaymentRequestService;
 import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
+import org.kuali.kfs.module.purap.util.PurApRelatedViews;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
@@ -45,14 +51,16 @@ import org.kuali.rice.krad.util.ObjectUtils;
 public class PurchasingAccountsPayableModuleServiceImpl implements PurchasingAccountsPayableModuleService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurchasingAccountsPayableModuleServiceImpl.class);
 
-    private PurchaseOrderService purchaseOrderService;
-    private PurapService purapService;
-    private DocumentService documentService;
+    protected PurchaseOrderService purchaseOrderService;
+    protected PurapService purapService;
+    protected DocumentService documentService;
+    protected BusinessObjectService businessObjectService;
 
     /**
      * @see org.kuali.kfs.integration.service.PurchasingAccountsPayableModuleService#addAssignedAssetNumbers(java.lang.Integer,
      *      java.util.List)
      */
+    @Override
     public void addAssignedAssetNumbers(Integer purchaseOrderNumber, String principalId, String noteText) {
         PurchaseOrderDocument document = purchaseOrderService.getCurrentPurchaseOrder(purchaseOrderNumber);
 
@@ -71,6 +79,7 @@ public class PurchasingAccountsPayableModuleServiceImpl implements PurchasingAcc
     /**
      * @see org.kuali.kfs.integration.service.PurchasingAccountsPayableModuleService#getPurchaseOrderInquiryUrl(java.lang.Integer)
      */
+    @Override
     public String getPurchaseOrderInquiryUrl(Integer purchaseOrderNumber) {
         PurchaseOrderDocument po = purchaseOrderService.getCurrentPurchaseOrder(purchaseOrderNumber);
         if (ObjectUtils.isNotNull(po)) {
@@ -84,6 +93,7 @@ public class PurchasingAccountsPayableModuleServiceImpl implements PurchasingAcc
     /**
      * @see org.kuali.kfs.integration.service.PurchasingAccountsPayableModuleService#getAllSensitiveDatas()
      */
+    @Override
     public List<PurchasingAccountsPayableSensitiveData> getAllSensitiveDatas() {
         List<PurchasingAccountsPayableSensitiveData> sensitiveDatas = new ArrayList<PurchasingAccountsPayableSensitiveData>();
         Collection sensitiveDatasAsObjects = SpringContext.getBean(BusinessObjectService.class).findAll(SensitiveData.class);
@@ -96,15 +106,17 @@ public class PurchasingAccountsPayableModuleServiceImpl implements PurchasingAcc
     /**
      * @see org.kuali.kfs.integration.service.PurchasingAccountsPayableModuleService#getSensitiveDataByCode(java.lang.String)
      */
+    @Override
     public PurchasingAccountsPayableSensitiveData getSensitiveDataByCode(String sensitiveDataCode) {
         Map primaryKeys = new HashMap();
         primaryKeys.put("sensitiveDataCode", sensitiveDataCode);
-        return (PurchasingAccountsPayableSensitiveData) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(SensitiveData.class, primaryKeys);
+        return SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(SensitiveData.class, primaryKeys);
     }
 
     /**
      * @see org.kuali.kfs.integration.service.PurchasingAccountsPayableModuleService#isPurchasingBatchDocument(java.lang.String)
      */
+    @Override
     public boolean isPurchasingBatchDocument(String documentTypeCode) {
         if (PurapConstants.PurapDocTypeCodes.PAYMENT_REQUEST_DOCUMENT.equals(documentTypeCode) || PurapConstants.PurapDocTypeCodes.CREDIT_MEMO_DOCUMENT.equals(documentTypeCode)) {
             return true;
@@ -115,6 +127,7 @@ public class PurchasingAccountsPayableModuleServiceImpl implements PurchasingAcc
     /**
      * @see org.kuali.kfs.integration.service.PurchasingAccountsPayableModuleService#handlePurchasingBatchCancels(java.lang.String)
      */
+    @Override
     public void handlePurchasingBatchCancels(String documentNumber, String documentTypeCode, boolean primaryCancel, boolean disbursedPayment) {
         LOG.info("Begin handlePurchasingBatchCancels(documentNumber=" + documentNumber + ", documentTypeCode=" + documentTypeCode + ", primaryCancel=" + primaryCancel + ", disbursedPayment=" + disbursedPayment);
 
@@ -160,6 +173,7 @@ public class PurchasingAccountsPayableModuleServiceImpl implements PurchasingAcc
     /**
      * @see org.kuali.kfs.integration.service.PurchasingAccountsPayableModuleService#handlePurchasingBatchPaids(java.lang.String)
      */
+    @Override
     public void handlePurchasingBatchPaids(String documentNumber, String documentTypeCode, Date processDate) {
         ParameterService parameterService = SpringContext.getBean(ParameterService.class);
         PaymentRequestService paymentRequestService = SpringContext.getBean(PaymentRequestService.class);
@@ -186,6 +200,40 @@ public class PurchasingAccountsPayableModuleServiceImpl implements PurchasingAcc
 
     }
 
+    /**
+     * Retrieves the Requisition documents, pulls the PaymentRequestDocuments from their related document
+     * views, and then adds up the total paid amount
+     * @see org.kuali.kfs.integration.purap.PurchasingAccountsPayableModuleService#getTotalPaidAmountToRequisitions(java.util.List)
+     */
+    @Override
+    public KualiDecimal getTotalPaidAmountToRequisitions(List<String> documentNumbers) {
+        KualiDecimal totalPaidAmountToRequests = KualiDecimal.ZERO;
+        Map<String, Object> fieldValues = new HashMap<String, Object>();
+        fieldValues.put(KFSPropertyConstants.DOCUMENT_NUMBER, documentNumbers);
+        Collection<RequisitionDocument> reqses = businessObjectService.findMatching(RequisitionDocument.class, fieldValues);
+        for (RequisitionDocument reqs : reqses) {
+            try {
+                PurApRelatedViews relatedviews = reqs.getRelatedViews();
+                if (relatedviews != null && relatedviews.getRelatedPaymentRequestViews() != null && relatedviews.getRelatedPaymentRequestViews().size() > 0) {
+                    List<PaymentRequestView> preqViews = relatedviews.getRelatedPaymentRequestViews();
+                    for (PaymentRequestView preqView : preqViews) {
+                        PaymentRequestDocument preqDocument;
+
+                        preqDocument = (PaymentRequestDocument) documentService.getByDocumentHeaderId(preqView.getDocumentNumber());
+                        if (preqDocument.getDocumentHeader().getWorkflowDocument().isFinal()) {
+                            totalPaidAmountToRequests = totalPaidAmountToRequests.add(preqDocument.getVendorInvoiceAmount());
+                        }
+                    }
+                }
+            }
+            catch (WorkflowException we) {
+                throw new RuntimeException("Could not retrieve document to determine totals paid on Requisitions", we);
+            }
+        }
+        return totalPaidAmountToRequests;
+    }
+
+    @Override
     public String getB2BUrlString() {
         return PurapConstants.B2B_URL_STRING;
     }
@@ -202,5 +250,8 @@ public class PurchasingAccountsPayableModuleServiceImpl implements PurchasingAcc
         this.purapService = purapService;
     }
 
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
+    }
 }
 

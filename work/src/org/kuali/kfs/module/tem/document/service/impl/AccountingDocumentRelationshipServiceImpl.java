@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -19,6 +19,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.module.tem.businessobject.AccountingDocumentRelationship;
 import org.kuali.kfs.module.tem.dataaccess.AccountingDocumentRelationshipDao;
@@ -46,18 +47,28 @@ public class AccountingDocumentRelationshipServiceImpl implements AccountingDocu
 
         if (adrList != null) {
             for (AccountingDocumentRelationship adr : adrList) {
-                if (adr.getDocumentNumber().equals(documentNumber)) {
-                    // child docs
-                    allRelatedDocumentNumbers.add(adr.getRelDocumentNumber());
-                }
-                else {
-                    // parent docs
-                    allRelatedDocumentNumbers.add(adr.getDocumentNumber());
-                }
+                addRelationship(adr, allRelatedDocumentNumbers, documentNumber);
             }
         }
 
         return allRelatedDocumentNumbers;
+    }
+
+    /**
+     * Adds the relationship to a Set of document numbers, skipping the given document number
+     * @param adr the relationship with document numbers to add
+     * @param relatedDocumentNumbers the Set of Document numbers to add the relationship to
+     * @param documentNumber the document number to add the other side of the relationship to
+     */
+    protected void addRelationship(AccountingDocumentRelationship adr, Set<String> relatedDocumentNumbers, String documentNumber) {
+        if (adr.getDocumentNumber().equals(documentNumber)) {
+            // child docs
+            relatedDocumentNumbers.add(adr.getRelDocumentNumber());
+        }
+        else {
+            // parent docs
+            relatedDocumentNumbers.add(adr.getDocumentNumber());
+        }
     }
 
     /**
@@ -66,7 +77,7 @@ public class AccountingDocumentRelationshipServiceImpl implements AccountingDocu
     @Override
     public Set<String> getAllRelatedDocumentNumbers(String documentNumber) {
         Set<String> allRelatedDocumentNumbers = new HashSet<String>();
-        
+
         // get root document number
         String rootDocumentNumber = getRootDocumentNumber(documentNumber);
         rootDocumentNumber = rootDocumentNumber != null ? rootDocumentNumber : documentNumber;
@@ -107,16 +118,16 @@ public class AccountingDocumentRelationshipServiceImpl implements AccountingDocu
 
     /**
      * This method finds all related children document numbers
-     * 
+     *
      * @param documentNumbers
      * @return
      */
     private Set<String> getAllRelatedChildrenDocumentNumbers(Set<String> documentNumbers) {
         Set<String> allRelatedDocumentNumbers = new HashSet<String>();
-        
+
         for (String documentNumber : documentNumbers) {
             List<AccountingDocumentRelationship> adrList = accountingDocumentRelationshipDao.findAccountingDocumentRelationship(new AccountingDocumentRelationship(documentNumber, null));
-          
+
             for (AccountingDocumentRelationship adr : adrList) {
                 allRelatedDocumentNumbers.add(adr.getRelDocumentNumber());
             }
@@ -162,6 +173,24 @@ public class AccountingDocumentRelationshipServiceImpl implements AccountingDocu
         for (AccountingDocumentRelationship adr : accountingDocumentRelationships) {
             delete(adr);
         }
+    }
+
+    /**
+     * @see org.kuali.kfs.module.tem.document.service.AccountingDocumentRelationshipService#huntForRelatedDocumentNumbersWithADocumentType(java.lang.String, java.lang.String)
+     */
+    @Override
+    public Set<String> huntForRelatedDocumentNumbersWithDocumentType(String documentNumber, String documentType) {
+        List<AccountingDocumentRelationship> adrList = accountingDocumentRelationshipDao.findAccountingDocumentRelationshipByDocumentNumber(documentNumber);
+
+        Set<String> docNumbers = new HashSet<String>();
+        if (adrList != null && adrList != null) {
+            for (AccountingDocumentRelationship adr: adrList) {
+                if (!StringUtils.isBlank(adr.getDescription()) && adr.getDescription().matches(".*"+documentType+".*")) {
+                    addRelationship(adr, docNumbers, documentNumber);
+                }
+            }
+        }
+        return docNumbers;
     }
 
     /**

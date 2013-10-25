@@ -24,11 +24,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
 
-import org.kuali.kfs.module.ar.businessobject.InvoicePaidApplied;
-import org.kuali.kfs.module.ar.businessobject.NonInvoiced;
-import org.kuali.kfs.module.ar.document.PaymentApplicationDocument;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -120,30 +116,6 @@ public class ContractsGrantsReportUtils {
         }
         return returnIndicator;
     }
-
-    /**
-     * @param paymentApplicationDoc
-     * @return true if the applied amount is the same as the unapplied amount.
-     */
-    public static boolean isLocDraw(PaymentApplicationDocument paymentApplicationDoc) {
-
-        List<InvoicePaidApplied> invoicePaidApplieds = paymentApplicationDoc.getInvoicePaidApplieds();
-        List<NonInvoiced> nonInvoiceds = paymentApplicationDoc.getNonInvoiceds();
-
-        KualiDecimal appliedAmount = KualiDecimal.ZERO;
-        KualiDecimal unAppliedAmount = KualiDecimal.ZERO;
-
-        for (InvoicePaidApplied paidAppliedInvoice : invoicePaidApplieds) {
-            appliedAmount = appliedAmount.add(paidAppliedInvoice.getInvoiceItemAppliedAmount());
-        }
-
-        for (NonInvoiced nonInvoiced : nonInvoiceds) {
-            unAppliedAmount = unAppliedAmount.add(nonInvoiced.getFinancialDocumentLineAmount());
-        }
-
-        return appliedAmount.equals(unAppliedAmount) ? true : false;
-    }
-
 
     /**
      * Checks if the date field is in range.

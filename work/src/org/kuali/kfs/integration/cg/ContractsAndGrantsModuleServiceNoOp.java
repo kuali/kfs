@@ -16,54 +16,51 @@
 package org.kuali.kfs.integration.cg;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.rice.kim.api.identity.Person;
 
-/**
- * No-op for ContractsAndGrantsModuleService
- */
 public class ContractsAndGrantsModuleServiceNoOp implements ContractsAndGrantsModuleService {
 
-    private Logger LOG = Logger.getLogger(getClass());
+    private Logger LOG = Logger.getLogger(getClass()); 
 
     public List<Integer> getAllAccountReponsiblityIds() {
-        LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
+        LOG.warn( "Using No-Op " + getClass().getSimpleName() + " service." );
         return new ArrayList<Integer>(0);
     }
 
     public Person getProjectDirectorForAccount(String chartOfAccountsCode, String accountNumber) {
-        LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
+        LOG.warn( "Using No-Op " + getClass().getSimpleName() + " service." );
         return null;
     }
 
     public Person getProjectDirectorForAccount(Account account) {
-        LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
+        LOG.warn( "Using No-Op " + getClass().getSimpleName() + " service." );
         return null;
     }
 
     public boolean hasValidAccountReponsiblityIdIfNotNull(Account account) {
-        LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
+        LOG.warn( "Using No-Op " + getClass().getSimpleName() + " service." );
         return true;
     }
 
-    public boolean isAwardedByFederalAgency(String chartOfAccountsCode, String accountNumber, List<String> federalAgencyTypeCodes) {
-        LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
+    public boolean isAwardedByFederalAgency(String chartOfAccountsCode, String accountNumber, Collection<String> federalAgencyTypeCodes) {
+        LOG.warn( "Using No-Op " + getClass().getSimpleName() + " service." );
         return false;
     }
 
-    // @Override
+    //@Override
     public List<String> getParentUnits(String unitNumber) {
-        LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
+        LOG.warn( "Using No-Op " + getClass().getSimpleName() + " service." );
         return null;
     }
 
+    @Override
     public String getProposalNumberForAccountAndProjectDirector(String chartOfAccountsCode, String accountNumber, String projectDirectorId) {
-        LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
+        LOG.warn( "Using No-Op " + getClass().getSimpleName() + " service." );
         return null;
     }
-
-
 }

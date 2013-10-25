@@ -379,32 +379,32 @@
                         </branch>
                         <join name="JoinTravelRequiresDivisionApproval"/>
 				    </split>
-					<split name="TravelHasSpecialRequest" nextNode="TravelIsInternational" nextAppDocStatus="Awaiting Special Request Review">
+					<split name="TravelHasSpecialRequest" nextNode="TravelNeedsRiskManagement" nextAppDocStatus="Awaiting Special Request Review">
 						<branch name="True">
-							<role name="SpecialRequest" nextNode="JoinTravelHasSpecialRequest" />
+							<role name="SpecialRequest" nextNode="JoinTravelHasSpecialRequest" nextAppDocStatus="Awaiting Risk Management Review"/>
 						</branch>
 						<branch name="False">
-							<simple name="NoOpTravelHasSpecialRequest" nextNode="JoinTravelHasSpecialRequest" />
+							<simple name="NoOpTravelHasSpecialRequest" nextNode="JoinTravelHasSpecialRequest" nextAppDocStatus="Awaiting Risk Management Review"/>
 						</branch>
 						<join name="JoinTravelHasSpecialRequest"/>
 					</split>
-                    <split name="TravelIsInternational" nextNode="TravelNeedsRiskManagement" nextAppDocStatus="Awaiting International Travel Review">
+                    <split name="TravelNeedsRiskManagement" nextNode="TravelIsInternational" nextAppDocStatus="Awaiting Risk Management Review">
                         <branch name="True">
-                            <role name="InternationalTravel" nextNode="JoinTravelIsInternational" />
+                            <role name="RiskManagement" nextNode="JoinTravelNeedsRiskManagement" nextAppDocStatus="Awaiting International Travel Review" />
                         </branch>
                         <branch name="False">
-                            <simple name="NoOpTravelIsInternational" nextNode="JoinTravelIsInternational" />
-                        </branch>
-                        <join name="JoinTravelIsInternational"/>
-                    </split>
-                    <split name="TravelNeedsRiskManagement" nextNode="SubFund" nextAppDocStatus="Awaiting Risk Management Review">
-                        <branch name="True">
-                            <role name="RiskManagement" nextNode="JoinTravelNeedsRiskManagement" nextAppDocStatus="Awaiting Sub-Fund Review" />
-                        </branch>
-                        <branch name="False">
-                            <simple name="NoOpTravelNeedsRiskManagement" nextNode="JoinTravelNeedsRiskManagement" nextAppDocStatus="Awaiting Sub-Fund Review" />
+                            <simple name="NoOpTravelNeedsRiskManagement" nextNode="JoinTravelNeedsRiskManagement" nextAppDocStatus="Awaiting International Travel Review" />
                         </branch>
                         <join name="JoinTravelNeedsRiskManagement"/>
+                    </split>
+                    <split name="TravelIsInternational" nextNode="SubFund" nextAppDocStatus="Awaiting International Travel Review">
+                        <branch name="True">
+                            <role name="InternationalTravel" nextNode="JoinTravelIsInternational" nextAppDocStatus="Awaiting Sub-Fund Review"/>
+                        </branch>
+                        <branch name="False">
+                            <simple name="NoOpTravelIsInternational" nextNode="JoinTravelIsInternational" nextAppDocStatus="Awaiting Sub-Fund Review"/>
+                        </branch>
+                        <join name="JoinTravelIsInternational"/>
                     </split>
 					<role name="SubFund" nextNode="Award" nextAppDocStatus="Awaiting Award Review" />
 					<role name="Award" nextNode="RequiresSeparationOfDuties" nextAppDocStatus="Awaiting Separation Of Duties Review"/>

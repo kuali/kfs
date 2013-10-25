@@ -19,6 +19,7 @@
 <c:set var="fullEntryMode" value="${KualiForm.editingMode['fullEntry']}" scope="request" />
 <c:set var="advancePaymentMode" value="${KualiForm.editingMode['advancePaymentEntry']}" scope="request"/>
 <c:set var="actualExpenseTaxableMode" value="${KualiForm.editingMode['actualExpenseTaxableEntry']}" scope="request"/>
+<c:set var="blanketTravelMode" value="${KualiForm.editingMode['blanketTravelEntry']}" scope="request"/>
 
 <kul:documentPage showDocumentInfo="true"
     documentTypeName="TR"

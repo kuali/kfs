@@ -62,6 +62,8 @@ public class TemKeyConstants {
     public static final String ERROR_ACTUAL_EXPENSE_DETAIL_REQUIRED       = "error.document.tem.actualexpense.detail.required";
     public static final String ERROR_ACTUAL_EXPENSE_EXPENSE_DATE_EARLY    = "error.document.tem.actualexpense.expenseDate.earlyBird";
     public static final String ERROR_DELINQUENT_MSG_REQUIRED              = "error.document.tem.delinquentMessageRequired";
+    public static final String ERROR_TA_TRIP_TYPE_BLANKET_NOT_ALLOWED     = "error.document.tem.tripTypeNotBlanket";
+    public static final String ERROR_TA_PROFILE_NOT_COMPLETE_FOR_BLANKET_TRAVEL = "error.document.tem.profileNotCompleteForBlanketTravel";
 
     public static final String WARNING_DUPLICATE_EXPENSE             = "warning.document.tem.actualexpense.duplicateExpenseType";
     public static final String WARNING_NOTES_JUSTIFICATION             = "warning.document.tem.actualexpense.notesJustification";
@@ -75,7 +77,7 @@ public class TemKeyConstants {
 
     public static final String TRVL_AUTH_TRIP_OVERVIEW_ERRORS = "tripInfoUpdateTripDetails.*,document.tripBegin,document.tripEnd,document.tripTypeCode,document.primaryDestinationName," +
                                                                 "document.travelerTypeCode,document.firstName,document.lastName,document.streetAddressLine1,"+
-                                                                "document.stateCode,document.zipCode,document.phoneNumber,document.tripDescription,document.delinquentTRMessage,tripOverview.*";
+                                                                "document.stateCode,document.zipCode,document.phoneNumber,document.tripDescription,document.delinquentTRMessage,tripOverview.*,document.blanketTravel";
     public static final String TRVL_ENT_ERRORS ="document.tripBegin,document.tripEnd,document.tripTypeCode," +
                                                                 "document.travelerTypeCode,document.firstName,document.lastName,document.streetAddressLine1,"+
                                                                 "document.stateCode,document.purposeCode,document.paymentMethod,document.hostName,document.zipCode,document.phoneNumber,tripOverview.*,document.traveler*";

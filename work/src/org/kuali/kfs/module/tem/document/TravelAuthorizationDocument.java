@@ -995,9 +995,6 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
         if (nodeName.equals(TemWorkflowConstants.DIVISION_APPROVAL_REQUIRED)) {
             return requiresDivisionApprovalRouting();
         }
-        if (nodeName.equals(TemWorkflowConstants.ACCOUNT_APPROVAL_REQUIRED)) {
-            return requiresAccountApprovalRouting();
-        }
         if (nodeName.equals(TemWorkflowConstants.REQUIRES_TRAVELER_REVIEW)) {
             return requiresTravelerApprovalRouting();
         }
@@ -1446,6 +1443,36 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
      */
     protected List getPersistedAdvanceAccountingLinesForComparison() {
         return SpringContext.getBean(AccountingLineService.class).getByDocumentHeaderIdAndLineType(getAdvanceAccountingLineClass(), getDocumentNumber(), TemConstants.TRAVEL_ADVANCE_ACCOUNTING_LINE_TYPE_CODE);
+    }
+
+    public String getBlanketTotalDollarAmountForRouting() {
+        if (!getBlanketTravel()) {
+            return "";
+        } else {
+            return getTotalDollarAmount().toString();
+        }
+    }
+
+    public String getBlanketChartForRouting() {
+        if (!getBlanketTravel()) {
+            return "";
+        } else {
+            if (ObjectUtils.isNotNull(getTemProfile())) {
+                return getTemProfile().getDefaultChartCode();
+            }
+            return "";
+        }
+    }
+
+    public String getBlanketAccountForRouting() {
+        if (!getBlanketTravel()) {
+            return "";
+        } else {
+            if (ObjectUtils.isNotNull(getTemProfile())) {
+                return getTemProfile().getDefaultAccount();
+            }
+            return "";
+        }
     }
 
     /**

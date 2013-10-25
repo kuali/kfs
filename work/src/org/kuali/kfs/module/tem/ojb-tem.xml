@@ -253,6 +253,7 @@
         <field-descriptor name="primaryDestinationCounty" column="PRIMARY_DEST_CNTY" jdbc-type="VARCHAR"/>
         <field-descriptor name="tripDescription" column="TRIP_DESC" jdbc-type="VARCHAR"/>
         <field-descriptor name="delinquentTRException" column="DELINQUENT_TR_EXCEPTION" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+        <field-descriptor name="blanketTravel" column="BLNKT_TRVL_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
         <field-descriptor name="perDiemAdjustment" column="PER_DIEM_ADJ" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
         <field-descriptor name="cellPhoneNumber" column="CELL_PH_NUM" jdbc-type="VARCHAR"/>
         <field-descriptor name="regionFamiliarity" column="RGN_FAMIL" jdbc-type="VARCHAR"/>
@@ -361,6 +362,7 @@
         <field-descriptor name="nextSourceLineNumber" column="FDOC_NXT_EXP_NBR" jdbc-type="INTEGER" />
         <field-descriptor name="nextAdvanceLineNumber" column="FDOC_NXT_ADV_NBR" jdbc-type="INTEGER" />
         <field-descriptor name="financialDocumentBankCode" column="FDOC_BNK_CD" jdbc-type="VARCHAR" />
+        <field-descriptor name="blanketTravel" column="BLNKT_TRVL_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR"/>
         <field-descriptor name="versionNumber" locking="true" column="VER_NBR" jdbc-type="BIGINT"/>
         
@@ -462,6 +464,7 @@
         <field-descriptor name="nextSourceLineNumber" column="FDOC_NXT_EXP_NBR" jdbc-type="INTEGER" />
         <field-descriptor name="financialDocumentBankCode" column="FDOC_BNK_CD" jdbc-type="VARCHAR" />
         <field-descriptor name="travelReimbursementDocumentNumber" column="TR_FDOC_NBR" jdbc-type="VARCHAR"/>
+        <field-descriptor name="blanketTravel" column="BLNKT_TRVL_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR"/>
         <field-descriptor name="versionNumber" locking="true" column="VER_NBR" jdbc-type="BIGINT"/>
         
@@ -738,6 +741,7 @@
         <field-descriptor name="primaryDestinationCounty" column="PRIMARY_DEST_CNTY" jdbc-type="VARCHAR"/>
         <field-descriptor name="tripDescription" column="TRIP_DESC" jdbc-type="VARCHAR"/>
         <field-descriptor name="delinquentTRException" column="DELINQUENT_TR_EXCEPTION" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+        <field-descriptor name="blanketTravel" column="BLNKT_TRVL_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
         <field-descriptor name="nextSourceLineNumber" column="FDOC_NXT_EXP_NBR" jdbc-type="INTEGER" />
         <field-descriptor name="travelAdvanceAmount" column="TVL_ADV_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR"/>

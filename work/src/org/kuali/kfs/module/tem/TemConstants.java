@@ -764,7 +764,6 @@ public class TemConstants {
         public static final String DOMESTIC = "DOM";
         public static final String INTERNATIONAL = "INT";
         public static final String IN_STATE = "IN";
-        public static final String BLANKET_IN_STATE = "BLN";
         public static final String OUT_OF_STATE = "OUT";
     }
 
@@ -806,7 +805,6 @@ public class TemConstants {
 
     public static final String CONUS = "CONUS";
     public static final String OTHER_PRIMARY_DESTINATION = "[OTHER]";
-    public static final String BLANKET_IN_STATE = "BLN";
     public static final String ALL_STATES = "ALL";
 
     public static final String ALL_DOCUMENT = "ALL";
@@ -907,6 +905,7 @@ public class TemConstants {
     public static class EditModes {
         public static final String CHECK_AMOUNT_ENTRY = "checkAmountEntry";
         public static final String ACTUAL_EXPENSE_TAXABLE_MODE = "actualExpenseTaxableEntry";
+        public static final String BLANKET_TRAVEL_ENTRY = "blanketTravelEntry";
     }
 
     public static class TravelAuthorizationActions {

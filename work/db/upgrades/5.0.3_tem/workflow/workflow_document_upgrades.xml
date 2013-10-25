@@ -316,6 +316,12 @@
 			<routingVersion>
 				2
             </routingVersion>
+            <policies>
+            	<policy>
+            		<name>INITIATOR_MUST_ROUTE</name>
+            		<value>false</value>
+            	</policy>
+            </policies>
 			<validApplicationStatuses>
 				<status>In Process</status>
 				<status>Awaiting Traveler Review</status>
@@ -353,7 +359,7 @@
 			<routePaths>
 				<routePath>
 					<start name="AdHoc" nextNode="TravelRequiresTravelerApproval" nextAppDocStatus="Awaiting Traveler Review" />
-					<split name="TravelRequiresTravelerApproval" nextNode="TravelRequiresAccountApproval" nextAppDocStatus="Awaiting Traveler Review">
+					<split name="TravelRequiresTravelerApproval" nextNode="Account" nextAppDocStatus="Awaiting Traveler Review">
                         <branch name="True">
                             <role name="Traveler" nextNode="JoinTravelRequiresTravelerApproval" nextAppDocStatus="Awaiting Fiscal Officer Review" />
                         </branch>
@@ -362,15 +368,7 @@
                         </branch>
                         <join name="JoinTravelRequiresTravelerApproval"/>
                     </split>
-					<split name="TravelRequiresAccountApproval" nextNode="AccountingOrganizationHierarchy" nextAppDocStatus="Awaiting Fiscal Officer Review">
-                        <branch name="True">
-                            <role name="Account" nextNode="JoinTravelRequiresAccountApproval" nextAppDocStatus="Awaiting Organization Review" />
-                        </branch>
-                        <branch name="False">
-                            <simple name="NoOpTravelRequiresAccountApproval" nextNode="JoinTravelRequiresAccountApproval" nextAppDocStatus="Awaiting Organization Review" />
-                        </branch>
-                        <join name="JoinTravelRequiresAccountApproval"/>
-                    </split>
+                    <role name="Account" nextNode="AccountingOrganizationHierarchy" nextAppDocStatus="Awaiting Organization Review" />
 					<role name="AccountingOrganizationHierarchy" nextNode="TravelRequiresDivisionApproval" />
 				    <split name="TravelRequiresDivisionApproval" nextNode="TravelHasSpecialRequest" nextAppDocStatus="Awaiting Division Review">
 				        <branch name="True">
@@ -444,14 +442,6 @@
 					<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
 					<activationType>P</activationType>
 				</role>
-				<join name="JoinTravelRequiresAccountApproval" />
-                <simple name="NoOpTravelRequiresAccountApproval">
-                    <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
-                </simple>
-                <split name="TravelRequiresAccountApproval">
-                    <type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode
-                    </type>
-                </split>
 				<role name="Account">
 					<qualifierResolverClass>
 						org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver

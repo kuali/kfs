@@ -1,12 +1,12 @@
 /*
  * Copyright 2012 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -35,12 +35,13 @@ public class TravelAuthOneSidedRequiredAccountingLinesCountValidation extends Ge
     /**
      * Validates that the Travel Authorization  has at least the requiredMinimumCount accounting lines
      * in its sourceAccountingLines (yep, it's assumed that one-sided accounting docs *always* use source...isn't that dumb?)
-     * 
+     *
      * @see org.kuali.kfs.sys.document.validation.Validation#validate(org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent)
      */
+    @Override
     public boolean validate(AttributedDocumentEvent event) {
-        
-        boolean validated = true; 
+
+        boolean validated = true;
         TravelAuthorizationDocument travelDocument = (TravelAuthorizationDocument) event.getDocument();
 
         if (travelDocument.isTripGenerateEncumbrance()){
@@ -53,18 +54,18 @@ public class TravelAuthOneSidedRequiredAccountingLinesCountValidation extends Ge
         }
         return validated;
     }
-    
+
     /**
      * Validate
-     * 
+     *
      * @param travelDocument
      * @return
      */
     private boolean validateSourceAccountingLineMeetMinimum(TravelDocument travelDocument){
         final Integer REQUIRED_MINIMUM= 1;
-        boolean validated = true; 
-        
-        if (travelDocument.getSourceAccountingLines().size() < REQUIRED_MINIMUM) {
+        boolean validated = true;
+
+        if (travelDocument.getSourceAccountingLines().size() < REQUIRED_MINIMUM && !travelDocument.getBlanketTravel()) {
             GlobalVariables.getMessageMap().putError(DOCUMENT_ERROR_PREFIX + KFSPropertyConstants.SOURCE_ACCOUNTING_LINES, KFSKeyConstants.ERROR_DOCUMENT_ACCOUNTING_LINES_NO_SINGLE_SECTION_ACCOUNTING_LINES);
             validated = false;
         }

@@ -80,12 +80,7 @@ public class TemRegionValuesFinder extends KeyValuesBase {
             List<TemRegion> inRegions = (List<TemRegion>) service.findMatching(TemRegion.class, fieldValues);
             usRegions.addAll(inRegions);
         }
-        if (StringUtils.isEmpty(tripTypeCode) || tripTypeCode.equals(TemConstants.TEMTripTypes.BLANKET_IN_STATE)) {
-            fieldValues.put("tripTypeCode", TemConstants.TEMTripTypes.BLANKET_IN_STATE);
-            List<TemRegion> blnRegions = (List<TemRegion>) service.findMatching(TemRegion.class, fieldValues);
-            usRegions.addAll(blnRegions);
 
-        }
         if (StringUtils.isEmpty(tripTypeCode) || tripTypeCode.equals(TemConstants.TEMTripTypes.OUT_OF_STATE)) {
             fieldValues.put("tripTypeCode", TemConstants.TEMTripTypes.OUT_OF_STATE);
             List<TemRegion> outRegions = (List<TemRegion>) service.findMatching(TemRegion.class, fieldValues);

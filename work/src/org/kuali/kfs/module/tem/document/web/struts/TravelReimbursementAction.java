@@ -434,6 +434,7 @@ public class TravelReimbursementAction extends TravelActionBase {
             document.setPrimaryDestinationCountryState(rootDocument.getPrimaryDestinationCountryState());
             document.setGroupTravelers(getTravelDocumentService().copyGroupTravelers(rootDocument.getGroupTravelers(), document.getDocumentNumber()));
             document.setDelinquentTRException(rootDocument.getDelinquentTRException());
+            document.setBlanketTravel(rootDocument.getBlanketTravel());
             document.setMealWithoutLodgingReason(rootDocument.getMealWithoutLodgingReason());
             document.configureTraveler(rootDocument.getTemProfileId(), rootDocument.getTraveler());
             document.setExpenseLimit(rootDocument.getExpenseLimit());

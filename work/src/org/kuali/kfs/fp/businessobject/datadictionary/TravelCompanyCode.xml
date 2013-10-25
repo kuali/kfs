@@ -77,7 +77,7 @@
   </bean>
   
   <bean id="TravelCompanyCode-foreignCompany" parent="TravelCompanyCode-foreignCompany-parentBean" />
-  <bean id="TravelCompanyCode-foreignCompany-parentBean" parent="GenericAttributes-genericBoolean">		
+  <bean id="TravelCompanyCode-foreignCompany-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">		
 	<property name="name" value="foreignCompany" />
 	<property name="label" value="Foreign Company" />
 	<property name="shortLabel" value="Foreign Company" />

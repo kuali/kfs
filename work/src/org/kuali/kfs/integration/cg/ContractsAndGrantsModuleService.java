@@ -15,14 +15,12 @@
  */
 package org.kuali.kfs.integration.cg;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.rice.kim.api.identity.Person;
 
-/**
- * Methods which allow core KFS modules to interact with the ContractsAndGrants module.
- */
 public interface ContractsAndGrantsModuleService {
 
     public Person getProjectDirectorForAccount(String chartOfAccountsCode, String accountNumber);
@@ -38,7 +36,7 @@ public interface ContractsAndGrantsModuleService {
      * @return true if the given account is funded by a federal agency or associated with federal pass through indicator; otherwise,
      *         false
      */
-    public boolean isAwardedByFederalAgency(String chartOfAccountsCode, String accountNumber, List<String> federalAgencyTypeCodes);
+    public boolean isAwardedByFederalAgency(String chartOfAccountsCode, String accountNumber, Collection<String> federalAgencyTypeCodes);
 
     /**
      * get all possible account responsibility ids on contracts & grants Accounts
@@ -56,15 +54,14 @@ public interface ContractsAndGrantsModuleService {
     public boolean hasValidAccountReponsiblityIdIfNotNull(Account account);
     
     public List<String> getParentUnits(String unitNumber);
-
+    
     /**
-     * Returns the proposal number for an award associated with an account and project director
+     * Returns the proposal number for an award associated with an account and project director 
      * 
      * @param chartOfAccountsCode
      * @param accountNumber
      * @return
      */
     public String getProposalNumberForAccountAndProjectDirector(String chartOfAccountsCode, String accountNumber, String projectDirectorId);
-
-
 }
+

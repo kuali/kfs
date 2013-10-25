@@ -570,16 +570,14 @@ public class PerDiemServiceImpl extends ExpenseServiceBase implements PerDiemSer
             for(PerDiemExpense expense : document.getPerDiemExpenses()){
                 if (!StringUtils.isBlank(expense.getMileageRateExpenseTypeCode())) {
                     String mileageCode = null;
-                    if (document instanceof TravelAuthorizationDocument){
-                        if (document.getTripType() != null){
-                            mileageCode = document.getTripType().getEncumbranceObjCode();
-                        }
-                        else{
-                            final String travelerTypeCode = (ObjectUtils.isNull(document.getTraveler())) ? null : document.getTraveler().getTravelerTypeCode();
-                            final ExpenseTypeObjectCode expenseTypeObjectCode = getTravelExpenseService().getExpenseType(expense.getMileageRateExpenseTypeCode(), document.getDocumentTypeName(), document.getTripTypeCode(), travelerTypeCode);
-                            if (expenseTypeObjectCode != null) {
-                                mileageCode = expenseTypeObjectCode.getFinancialObjectCode();
-                            }
+                    if (document instanceof TravelAuthorizationDocument && document.getTripType() != null){
+                        mileageCode = document.getTripType().getEncumbranceObjCode();
+                    }
+                    else{
+                        final String travelerTypeCode = (ObjectUtils.isNull(document.getTraveler())) ? null : document.getTraveler().getTravelerTypeCode();
+                        final ExpenseTypeObjectCode expenseTypeObjectCode = getTravelExpenseService().getExpenseType(expense.getMileageRateExpenseTypeCode(), document.getDocumentTypeName(), document.getTripTypeCode(), travelerTypeCode);
+                        if (expenseTypeObjectCode != null) {
+                            mileageCode = expenseTypeObjectCode.getFinancialObjectCode();
                         }
                     }
                     LOG.debug("Looking up Object Code for chart = "+ defaultChartCode+ " mileageCode = "+ mileageCode);

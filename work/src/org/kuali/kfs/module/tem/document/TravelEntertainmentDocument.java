@@ -499,7 +499,7 @@ public class TravelEntertainmentDocument extends TEMReimbursementDocument implem
         return TemConstants.TravelDocTypes.ENTERTAINMENT_CHECK_ACH_DOCUMENT;
     }
 
-    /**
+    /*
      * This is the tale of ENWF, daughter of the scion of Gorn, fair lady of Vale of Shasteen, who took the sword in battle at the age of sixteen against the dark forces
      * of the armies of Rarrg, and who in that act of heroism, was separated from her noble house and was forced to wander the far stretches, having multiple adventures
      * and facing divers dangers, before finally defeating the king of Rarrg and taking her place as the Queen of the Eight Plains

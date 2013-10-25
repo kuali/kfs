@@ -228,7 +228,7 @@ public class TravelDocumentActualExpenseLineValidation extends TEMDocumentExpens
                 GlobalVariables.getMessageMap().putError(TemPropertyConstants.CURRENCY_RATE, TemKeyConstants.ERROR_ACTUAL_EXPENSE_LODGING_ENTERED);
             }
 
-            if (isPerDiemLodgingEntered(document.getPerDiemExpenses())) {
+            if (isPerDiemLodgingEntered(actualExpense.getExpenseDate(), document.getPerDiemExpenses())) {
                 GlobalVariables.getMessageMap().putWarning(TemPropertyConstants.TEM_ACTUAL_EXPENSE_NOTCE, TemKeyConstants.WARNING_PERDIEM_EXPENSE_LODGING_ENTERED);
             }
         }

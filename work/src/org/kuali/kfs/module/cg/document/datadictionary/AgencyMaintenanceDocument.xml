@@ -201,7 +201,6 @@
 			<list>
 				<bean parent="MaintainableFieldDefinition" p:name="stateAgencyIndicator" />
 				<bean parent="MaintainableFieldDefinition" p:name="dunningCampaign"/>
-				<bean parent="MaintainableFieldDefinition" p:name="collectionStatus" />				
 				<bean parent="MaintainableFieldDefinition" p:name="notes" />
 			</list>
 		</property>

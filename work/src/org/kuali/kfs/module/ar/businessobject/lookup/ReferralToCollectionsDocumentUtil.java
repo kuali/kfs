@@ -1,12 +1,12 @@
 /*
  * Copyright 2012 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -49,15 +49,16 @@ public class ReferralToCollectionsDocumentUtil {
 
     /**
      * This helper method returns a list of award lookup results based on the referral to collections lookup
-     * 
+     *
      * @param invoices The list of invoices.
      * @return Returns the list of ROC lookup result object.
      */
     public static Collection<ReferralToCollectionsLookupResult> getPopulatedReferralToCollectionsLookupResults(Collection<ContractsGrantsInvoiceDocument> invoices) {
         Collection<ReferralToCollectionsLookupResult> populatedReferralToCollectionsLookupResults = new ArrayList<ReferralToCollectionsLookupResult>();
 
-        if (ObjectUtils.isNull(invoices) || CollectionUtils.isEmpty(invoices))
+        if (ObjectUtils.isNull(invoices) || CollectionUtils.isEmpty(invoices)) {
             return populatedReferralToCollectionsLookupResults;
+        }
 
         Iterator iter = getInvoicesByAward(invoices).entrySet().iterator();
         ReferralToCollectionsLookupResult referralToCollectionsLookupResult = null;
@@ -67,7 +68,7 @@ public class ReferralToCollectionsDocumentUtil {
             List<ContractsGrantsInvoiceDocument> list = (List<ContractsGrantsInvoiceDocument>) entry.getValue();
 
             // Get data from first award for agency data
-            ContractsGrantsInvoiceDocument invoice = (ContractsGrantsInvoiceDocument) list.get(0);
+            ContractsGrantsInvoiceDocument invoice = list.get(0);
             ContractsAndGrantsCGBAward award = invoice.getAward();
 
             if (ObjectUtils.isNotNull(award)) {
@@ -91,7 +92,7 @@ public class ReferralToCollectionsDocumentUtil {
 
     /**
      * Gets the Referral To Collections Detail values from invoices list.
-     * 
+     *
      * @param rcDoc The ReferralToCollections object.
      * @param invoices The list of invoices to populate.
      * @return Returns the list of ReferralToCollectionsDetail objects.
@@ -99,8 +100,9 @@ public class ReferralToCollectionsDocumentUtil {
     public static List<ReferralToCollectionsDetail> getPopulatedReferralToCollectionsDetails(ReferralToCollectionsDocument rcDoc, Collection<ContractsGrantsInvoiceDocument> invoices) {
         List<ReferralToCollectionsDetail> populatedReferralToCollectionsDetails = new ArrayList<ReferralToCollectionsDetail>();
 
-        if (CollectionUtils.isEmpty(invoices))
+        if (CollectionUtils.isEmpty(invoices)) {
             return populatedReferralToCollectionsDetails;
+        }
 
         for (ContractsGrantsInvoiceDocument invoice : invoices) {
             ReferralToCollectionsDetail rcDetail = new ReferralToCollectionsDetail();
@@ -139,7 +141,7 @@ public class ReferralToCollectionsDocumentUtil {
 
     /**
      * This helper method returns a map of a list of awards by agency
-     * 
+     *
      * @param invoices The list of invoices for which filtering to be done by award.
      * @return Returns the map of invoices based on key of proposal number.
      */
@@ -150,7 +152,7 @@ public class ReferralToCollectionsDocumentUtil {
 
             Long proposalNumber = invoice.getProposalNumber();
             if (invoicesByAward.containsKey(proposalNumber)) {
-                ((List<ContractsGrantsInvoiceDocument>) invoicesByAward.get(proposalNumber)).add(invoice);
+                invoicesByAward.get(proposalNumber).add(invoice);
             }
             else {
                 List<ContractsGrantsInvoiceDocument> invoicesByProposalNumber = new ArrayList<ContractsGrantsInvoiceDocument>();
@@ -165,7 +167,7 @@ public class ReferralToCollectionsDocumentUtil {
 
     /**
      * Gets the invoice documents from sequence number.
-     * 
+     *
      * @param lookupResultsSequenceNumber The sequence number of search result.
      * @param personId The principal id of the person who searched.
      * @return Returns the list of invoice documents.
@@ -186,7 +188,7 @@ public class ReferralToCollectionsDocumentUtil {
 
     /**
      * Gets the ReferralToCollections Lookup Result objects.
-     * 
+     *
      * @param lookupResultsSequenceNumber The sequence number of result.
      * @param personId The id of logged in person.
      * @return Returns the collection of awards.
@@ -197,7 +199,7 @@ public class ReferralToCollectionsDocumentUtil {
 
     /**
      * Sets the referraltoCollection document detail object collection in form.
-     * 
+     *
      * @param rcForm The ReferralToCollectionsDocumentForm object in which collection to set.
      * @param lookupResultsSequenceNumber The sequence number of result.
      * @param personId The id of logged in person.
@@ -210,10 +212,11 @@ public class ReferralToCollectionsDocumentUtil {
             rcDoc.setAgencyNumber(award.getAgencyNumber());
             rcDoc.setAgencyFullName(award.getAgency().getFullName());
             rcDoc.setCustomerNumber(selectedInvoice.getCustomer() != null ? selectedInvoice.getCustomer().getCustomerNumber() : award.getAgency().getCustomerNumber());
-            rcDoc.setCollectionStatusCode(award.getAgency().getCollectionStatus());
+            // line commented intentionally, will be changed soon.
+//            rcDoc.setCollectionStatusCode(award.getAgency().getCollectionStatus());
             rcDoc.setCustomerTypeCode(award.getAgency().getCustomerTypeCode());
-            Customer customer = (Customer) SpringContext.getBean(CustomerService.class).getByPrimaryKey(rcDoc.getCustomerNumber());
-            if (customer != null) 
+            Customer customer = SpringContext.getBean(CustomerService.class).getByPrimaryKey(rcDoc.getCustomerNumber());
+            if (customer != null)
             {
                 rcDoc.setCustomerName(customer.getCustomerName());
                 rcDoc.setCustomerTypeCode(customer.getCustomerTypeCode());

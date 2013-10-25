@@ -40,7 +40,6 @@ public class Agency implements ContractsAndGrantsCGBAgency, ContractsAndGrantsAg
     private String dunsPlusFourNumber;
     private boolean active;
     private AccountsReceivableCustomer customer;
-    private String collectionStatus;
     private boolean stateAgencyIndicator;
 
     /**
@@ -302,23 +301,6 @@ public class Agency implements ContractsAndGrantsCGBAgency, ContractsAndGrantsAg
      */
     public void setCustomer(AccountsReceivableCustomer customer) {
         this.customer = customer;
-    }
-
-    /**
-     * @see org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAgency#getCollectionStatus()
-     */
-    @Override
-    public String getCollectionStatus() {
-        return collectionStatus;
-    }
-
-    /**
-     * Sets the collectionStatus attribute.
-     *
-     * @param collectionStatus The collectionStatus to set.
-     */
-    public void setCollectionStatus(String collectionStatus) {
-        this.collectionStatus = collectionStatus;
     }
 
     /**

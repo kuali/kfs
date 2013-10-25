@@ -67,7 +67,6 @@
 				<ref bean="Agency-customerTypeCode" />
 				<ref bean="Agency-sponsorCode" />
 				<ref bean="Agency-dunningCampaign" />
-				<ref bean="Agency-collectionStatus"/>
 				<ref bean="Agency-notes"/>
 				<ref bean="Agency-stateAgencyIndicator"/>
 			</list>
@@ -104,13 +103,6 @@
 						</list>
 					</property>
 				</bean>
-				<bean parent="RelationshipDefinition"  p:objectAttributeName="collStatusObj">
-		          <property name="primitiveAttributes">
-		           	 <list>
-		              	<bean parent="PrimitiveAttributeDefinition" p:sourceName="collectionStatus" p:targetName="statusCode"/>
-		           	 </list>
-		          </property>
-		        </bean>
 			</list>
 		</property>
 	</bean>
@@ -600,21 +592,6 @@
 		<property name="required" value="false" />
 		<property name="control">
 			<bean parent="TextControlDefinition" p:size="6" />
-		</property>
-	</bean>
-	
-	<!--  Collections Maintenance tab fields-->
-	<bean id="Agency-collectionStatus" parent="Agency-collectionStatus-parentBean" />
-
-	<bean id="Agency-collectionStatus-parentBean" abstract="true"
-		parent="AttributeDefinition">
-		<property name="name" value="collectionStatus" />
-		<property name="label" value="Collection Status" />
-		<property name="shortLabel" value="Collection Status" />
-		<property name="control">
-			<bean parent="SelectControlDefinition"
-				p:valuesFinderClass="org.kuali.kfs.module.cg.businessobject.options.CollectionStatusValuesFinder"
-				p:includeKeyInLabel="false" />
 		</property>
 	</bean>
 	

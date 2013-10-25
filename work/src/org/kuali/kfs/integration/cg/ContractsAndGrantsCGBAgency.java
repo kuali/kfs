@@ -78,13 +78,6 @@ public interface ContractsAndGrantsCGBAgency extends MutableInactivatable, Exter
     public AccountsReceivableCustomer getCustomer();
 
     /**
-     * Gets collectionStatus attribute.
-     *
-     * @return Returns the collectionStatus.
-     */
-    public String getCollectionStatus();
-
-    /**
      * Gets the stateAgency attribute.
      *
      * @return Returns the stateAgency.

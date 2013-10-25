@@ -21,7 +21,6 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.kuali.kfs.integration.ar.AccountsReceivableCollectionStatus;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomer;
 import org.kuali.kfs.integration.ar.AccountsReceivableInvoiceTemplate;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsAgency;
@@ -83,12 +82,8 @@ public class Agency extends PersistableBusinessObjectBase implements ContractsAn
 
     private List<AgencyAddress> agencyAddresses;
 
-    // Collections Maintenance
-    private String collectionStatus;
     private String notes;
     private boolean stateAgencyIndicator;
-
-    private AccountsReceivableCollectionStatus collStatusObj;
 
     // Creating Customer from Agency
     private AccountsReceivableCustomer customer;
@@ -102,24 +97,6 @@ public class Agency extends PersistableBusinessObjectBase implements ContractsAn
      */
     public Agency() {
         agencyAddresses = new ArrayList<AgencyAddress>();
-    }
-
-    /**
-     * Gets the collStatusObj attribute.
-     *
-     * @return Returns the collStatusObj.
-     */
-    public AccountsReceivableCollectionStatus getCollStatusObj() {
-        return collStatusObj;
-    }
-
-    /**
-     * Sets the collStatusObj attribute value.
-     *
-     * @param collStatusObj The collStatusObj to set.
-     */
-    public void setCollStatusObj(AccountsReceivableCollectionStatus collStatusObj) {
-        this.collStatusObj = collStatusObj;
     }
 
     /**
@@ -705,26 +682,6 @@ public class Agency extends PersistableBusinessObjectBase implements ContractsAn
      */
     public void setDunningCampaign(String dunningCampaign) {
         this.dunningCampaign = dunningCampaign;
-    }
-
-
-    /**
-     * Gets the collectionStatus attribute.
-     *
-     * @return Returns the collectionStatus.
-     */
-    @Override
-    public String getCollectionStatus() {
-        return collectionStatus;
-    }
-
-    /**
-     * Sets the collectionStatus attribute value.
-     *
-     * @param collectionStatus The collectionStatus to set.
-     */
-    public void setCollectionStatus(String collectionStatus) {
-        this.collectionStatus = collectionStatus;
     }
 
     /**

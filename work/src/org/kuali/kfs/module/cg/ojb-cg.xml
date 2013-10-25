@@ -40,7 +40,6 @@
 		<field-descriptor name="sponsorCode" column="SPNSR_CD" jdbc-type="VARCHAR" />
 		<field-descriptor name="dunningCampaign" column="CMPGN_ID" jdbc-type="VARCHAR" />
 		
-		<field-descriptor name="collectionStatus" column="CLCTN_STATUS_CD" jdbc-type="VARCHAR" />
 		<field-descriptor name="stateAgencyIndicator" column="STATE_AGENCY_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
 		<field-descriptor name="notes" column="NTE_TXT" jdbc-type="VARCHAR" />
 		 

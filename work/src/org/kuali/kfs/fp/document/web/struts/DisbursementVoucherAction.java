@@ -49,6 +49,7 @@ import org.kuali.kfs.vnd.businessobject.VendorAddress;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
@@ -84,9 +85,9 @@ public class DisbursementVoucherAction extends KualiAccountingDocumentActionBase
 
         // do not execute the further refreshing logic if a payee is not selected
         String payeeIdNumber = dvDoc.getDvPayeeDetail().getDisbVchrPayeeIdNumber();
-        //check null because complete adhoc allows null value in all the fields
-        if (StringUtils.isNotBlank(payeeIdNumber)) {
-
+        // KFSCNTRB-1735: no need to check for identity and issue a message per KFSMI-8935 if there's no payeeId and the document is saved. On other statuses (e.g. enroute) throw exception if there's no payee
+        if( (payeeIdNumber != null && !payeeIdNumber.isEmpty()) || (!dvDoc.getDocumentHeader().getWorkflowDocument().checkStatus(DocumentStatus.SAVED)) ){
+            
             Entity entity = KimApiServiceLocator.getIdentityService().getEntityByEmployeeId(payeeIdNumber);
 
             //KFSMI-8935: When an employee is inactive, the Payment Type field on DV documents should display the message "Is this payee an employee" = No

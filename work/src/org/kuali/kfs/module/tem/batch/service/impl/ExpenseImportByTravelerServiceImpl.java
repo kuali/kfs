@@ -27,15 +27,12 @@ import org.kuali.kfs.coa.service.ObjectCodeService;
 import org.kuali.kfs.coa.service.ProjectCodeService;
 import org.kuali.kfs.coa.service.SubAccountService;
 import org.kuali.kfs.coa.service.SubObjectCodeService;
-import org.kuali.kfs.module.tem.TemConstants;
+import org.kuali.kfs.module.tem.TemConstants.AgencyStagingDataErrorCodes;
 import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
-import org.kuali.kfs.module.tem.TemConstants.AgencyStagingDataErrorCodes;
 import org.kuali.kfs.module.tem.batch.service.ExpenseImportByTravelerService;
 import org.kuali.kfs.module.tem.batch.service.ImportedExpensePendingEntryService;
 import org.kuali.kfs.module.tem.businessobject.AgencyStagingData;
-import org.kuali.kfs.module.tem.businessobject.ExpenseType;
-import org.kuali.kfs.module.tem.businessobject.ExpenseTypeObjectCode;
 import org.kuali.kfs.module.tem.businessobject.HistoricalTravelExpense;
 import org.kuali.kfs.module.tem.businessobject.TEMProfile;
 import org.kuali.kfs.module.tem.businessobject.TripAccountingInformation;
@@ -49,6 +46,7 @@ import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.ErrorMessage;
 import org.kuali.rice.krad.util.ObjectUtils;
+//import org.kuali.kfs.module.tem.businessobject.ExpenseTypeObjectCode;
 
 public class ExpenseImportByTravelerServiceImpl extends ExpenseImportServiceBase implements ExpenseImportByTravelerService {
 
@@ -385,23 +383,6 @@ public class ExpenseImportByTravelerServiceImpl extends ExpenseImportServiceBase
         LOG.info("Finished distributing expense for agency data: "+ agencyData.getId());
         return true;
     }
-
-    /**
-    *
-    * This method gets the {@link TemTravelExpenseTypeCode} associated with the expense type and traveler type
-    * @param expenseTypeParamCode
-    * @param travelDocumentIdentifier
-    * @return
-    */
-   protected ExpenseTypeObjectCode getTravelExpenseType(TemConstants.ExpenseTypeMetaCategory expenseCategory, String travelerTypeCode) {
-       // get the default expense type for category
-       final ExpenseType expenseType = getTravelExpenseService().getDefaultExpenseTypeForCategory(expenseCategory);
-       if (!ObjectUtils.isNull(expenseType)) {
-           return travelExpenseService.getExpenseType(expenseType.getCode(), TemConstants.TravelDocTypes.TEM_TRANSACTIONAL_DOCUMENT, null, travelerTypeCode);
-       }
-       LOG.error("Unable to retrieve TemTravelExpenseTypeCode");
-       return new ExpenseTypeObjectCode();
-   }
 
 
     /**

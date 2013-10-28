@@ -22,21 +22,20 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Column;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
-import org.kuali.kfs.module.purap.businessobject.PaymentRequestView;
-import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
-import org.kuali.kfs.module.purap.document.RequisitionDocument;
-import org.kuali.kfs.module.purap.util.PurApRelatedViews;
+import org.kuali.kfs.integration.purap.PurchasingAccountsPayableModuleService;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.TemParameterConstants;
 import org.kuali.kfs.module.tem.businessobject.ActualExpense;
 import org.kuali.kfs.module.tem.businessobject.PerDiemExpense;
 import org.kuali.kfs.module.tem.businessobject.TravelPayment;
+import org.kuali.kfs.module.tem.document.service.AccountingDocumentRelationshipService;
 import org.kuali.kfs.module.tem.document.service.ReimbursableDocumentPaymentService;
 import org.kuali.kfs.pdp.businessobject.PaymentGroup;
 import org.kuali.kfs.sys.KFSConstants;
@@ -52,12 +51,10 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.PaymentSource;
 import org.kuali.kfs.sys.document.service.PaymentSourceHelperService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
-import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.krad.document.Document;
-import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 public abstract class TEMReimbursementDocument extends TravelDocumentBase implements PaymentSource {
@@ -66,9 +63,11 @@ public abstract class TEMReimbursementDocument extends TravelDocumentBase implem
     private PaymentSourceWireTransfer wireTransfer;
     private volatile transient Person initiator;
 
-    protected static transient volatile ReimbursableDocumentPaymentService reimbursableDocumentPaymentService;
-    protected static transient volatile PaymentSourceHelperService paymentSourceHelperService;
-    protected static transient volatile PaymentSourceExtractionService paymentSourceExtractionService;
+    private static transient volatile ReimbursableDocumentPaymentService reimbursableDocumentPaymentService;
+    private static transient volatile PaymentSourceHelperService paymentSourceHelperService;
+    private static transient volatile PaymentSourceExtractionService paymentSourceExtractionService;
+    private static transient volatile AccountingDocumentRelationshipService accountingDocumentRelationshipService;
+    private static transient volatile PurchasingAccountsPayableModuleService purapModuleService;
 
     @Column(name = "PAYMENT_METHOD", nullable = true, length = 15)
     public String getPaymentMethod() {
@@ -281,6 +280,17 @@ public abstract class TEMReimbursementDocument extends TravelDocumentBase implem
     }
 
     /**
+     *
+     *
+     * @return
+     */
+    public KualiDecimal getTotalAccountLineAmount() {
+       return  getApprovedAmount().add(getCTSTotal()).add(getCorporateCardTotal());
+
+    }
+
+
+    /**
      * Get eligible amount
      *
      * @return
@@ -316,26 +326,11 @@ public abstract class TEMReimbursementDocument extends TravelDocumentBase implem
     public KualiDecimal getTotalPaidAmountToRequests() {
         KualiDecimal totalPaidAmountToRequests = KualiDecimal.ZERO;
 
-        List<Document> relatedRequisitionDocuments = getTravelDocumentService().getDocumentsRelatedTo(this,
-                TemConstants.REQUISITION_DOCTYPE);
-
-        try {
-            for (Document document : relatedRequisitionDocuments) {
-                PurApRelatedViews relatedviews = ((RequisitionDocument) document).getRelatedViews();
-                if (relatedviews != null && relatedviews.getRelatedPaymentRequestViews() != null && relatedviews.getRelatedPaymentRequestViews().size() > 0) {
-                    List<PaymentRequestView> preqViews = relatedviews.getRelatedPaymentRequestViews();
-                    for (PaymentRequestView preqView : preqViews) {
-                        PaymentRequestDocument preqDocument;
-
-                        preqDocument = (PaymentRequestDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(preqView.getDocumentNumber());
-                        if (preqDocument.getDocumentHeader().getWorkflowDocument().isFinal()) {
-                            totalPaidAmountToRequests = totalPaidAmountToRequests.add(preqDocument.getVendorInvoiceAmount());
-                        }
-                    }
-                }
-            }
-        } catch (WorkflowException ex) {
-            LOG.error(ex.getMessage(), ex);
+        Set<String> documentNumbers = getAccountingDocumentRelationshipService().huntForRelatedDocumentNumbersWithDocumentType(documentNumber, TemConstants.REQUISITION_DOCTYPE);
+        if (documentNumbers != null && !documentNumbers.isEmpty()) {
+            List<String> relatedRequisitionDocumentNumbers = new ArrayList<String>();
+            relatedRequisitionDocumentNumbers.addAll(documentNumbers);
+            totalPaidAmountToRequests = getPurchasingAccountsPayableModuleService().getTotalPaidAmountToRequisitions(relatedRequisitionDocumentNumbers);
         }
         return totalPaidAmountToRequests;
     }
@@ -560,5 +555,18 @@ public abstract class TEMReimbursementDocument extends TravelDocumentBase implem
         return paymentSourceExtractionService;
     }
 
+    public static AccountingDocumentRelationshipService getAccountingDocumentRelationshipService() {
+        if (accountingDocumentRelationshipService == null) {
+            accountingDocumentRelationshipService = SpringContext.getBean(AccountingDocumentRelationshipService.class);
+        }
+        return accountingDocumentRelationshipService;
+    }
+
+    public static PurchasingAccountsPayableModuleService getPurchasingAccountsPayableModuleService() {
+        if (purapModuleService == null) {
+            purapModuleService = SpringContext.getBean(PurchasingAccountsPayableModuleService.class);
+        }
+        return purapModuleService;
+    }
 
 }

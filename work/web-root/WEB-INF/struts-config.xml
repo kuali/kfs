@@ -1107,7 +1107,7 @@
 			<forward name="basic" path="/jsp/fp/DisbursementVoucher.jsp" />
 		</action>
 		
-		<action path="/temCorrectionDocument" name="KualiForm"
+		<action path="/temCorrectionDocument" name="TemCorrectionForm"
             input="/jsp/module/tem/TemCorrectionDocument.jsp"
             type="org.kuali.kfs.module.tem.document.web.struts.TemCorrectionAction" scope="request"
             parameter="methodToCall" validate="true" attribute="KualiForm">

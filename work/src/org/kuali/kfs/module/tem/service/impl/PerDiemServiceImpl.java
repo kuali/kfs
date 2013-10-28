@@ -43,7 +43,7 @@ import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.batch.PerDiemLoadStep;
 import org.kuali.kfs.module.tem.batch.businessobject.MealBreakDownStrategy;
 import org.kuali.kfs.module.tem.businessobject.AccountingDistribution;
-import org.kuali.kfs.module.tem.businessobject.MileageRateObjCode;
+import org.kuali.kfs.module.tem.businessobject.ExpenseTypeObjectCode;
 import org.kuali.kfs.module.tem.businessobject.PerDiem;
 import org.kuali.kfs.module.tem.businessobject.PerDiemExpense;
 import org.kuali.kfs.module.tem.businessobject.TEMExpense;
@@ -57,6 +57,7 @@ import org.kuali.kfs.module.tem.document.TravelReimbursementDocument;
 import org.kuali.kfs.module.tem.document.web.struts.TravelFormBase;
 import org.kuali.kfs.module.tem.service.PerDiemService;
 import org.kuali.kfs.module.tem.service.TEMExpenseService;
+import org.kuali.kfs.module.tem.service.TravelExpenseService;
 import org.kuali.kfs.module.tem.util.ExpenseUtils;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -83,6 +84,7 @@ public class PerDiemServiceImpl extends ExpenseServiceBase implements PerDiemSer
     protected Map<String, MealBreakDownStrategy> mealBreakDownStrategies;
     protected String allStateCodes;
     protected TravelDocumentDao travelDocumentDao;
+    protected TravelExpenseService travelExpenseService;
 
     Collection<PerDiem> persistedPerDiems;
 
@@ -566,14 +568,16 @@ public class PerDiemServiceImpl extends ExpenseServiceBase implements PerDiemSer
 
         if (document.getPerDiemExpenses() != null) {
             for(PerDiemExpense expense : document.getPerDiemExpenses()){
-                if (expense.getMileageRateId() != null) {
-                    String mileageCode = getMileageObjectCodeFrom(document, expense.getMileageRateId());
-                    if (document instanceof TravelAuthorizationDocument){
-                        if (document.getTripType() != null){
-                            mileageCode = document.getTripType().getEncumbranceObjCode();
-                        }
-                        else{
-                            mileageCode = null;
+                if (!StringUtils.isBlank(expense.getMileageRateExpenseTypeCode())) {
+                    String mileageCode = null;
+                    if (document instanceof TravelAuthorizationDocument && document.getTripType() != null){
+                        mileageCode = document.getTripType().getEncumbranceObjCode();
+                    }
+                    else{
+                        final String travelerTypeCode = (ObjectUtils.isNull(document.getTraveler())) ? null : document.getTraveler().getTravelerTypeCode();
+                        final ExpenseTypeObjectCode expenseTypeObjectCode = getTravelExpenseService().getExpenseType(expense.getMileageRateExpenseTypeCode(), document.getDocumentTypeName(), document.getTripTypeCode(), travelerTypeCode);
+                        if (expenseTypeObjectCode != null) {
+                            mileageCode = expenseTypeObjectCode.getFinancialObjectCode();
                         }
                     }
                     LOG.debug("Looking up Object Code for chart = "+ defaultChartCode+ " mileageCode = "+ mileageCode);
@@ -592,33 +596,6 @@ public class PerDiemServiceImpl extends ExpenseServiceBase implements PerDiemSer
                 }
             }
         }
-    }
-
-    protected String getMileageObjectCodeFrom(final TravelDocument travelDocument, Integer mileageRateId) {
-        String objCode = null;
-        if (travelDocument instanceof TravelReimbursementDocument){
-            final String travelerType = travelDocument.getTraveler().getTravelerTypeCode();
-            final String tripType = travelDocument.getTripType().getCode();
-
-
-            Map<String, Object> fields = new HashMap<String, Object>();
-
-            fields.put("travelerTypeCode", travelerType);
-            fields.put("tripTypeCode", tripType);
-            fields.put("mileageRateId", mileageRateId);
-
-            List<MileageRateObjCode> mileageObjCodes = (List<MileageRateObjCode>) businessObjectService.findMatching(MileageRateObjCode.class, fields);
-            for (MileageRateObjCode mileageObjCode : mileageObjCodes) {
-                objCode = mileageObjCode.getFinancialObjectCode();
-            }
-        }
-        else{
-            if (travelDocument.getTripType() != null){
-                objCode = travelDocument.getTripType().getEncumbranceObjCode();
-            }
-        }
-
-        return objCode;
     }
 
     /**
@@ -769,5 +746,13 @@ public class PerDiemServiceImpl extends ExpenseServiceBase implements PerDiemSer
 
     public void setTravelDocumentDao(TravelDocumentDao travelDocumentDao) {
         this.travelDocumentDao = travelDocumentDao;
+    }
+
+    public TravelExpenseService getTravelExpenseService() {
+        return travelExpenseService;
+    }
+
+    public void setTravelExpenseService(TravelExpenseService travelExpenseService) {
+        this.travelExpenseService = travelExpenseService;
     }
 }

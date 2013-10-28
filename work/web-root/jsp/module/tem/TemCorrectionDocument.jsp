@@ -200,7 +200,7 @@
 									title="Edit Method">
 									<html:optionsCollection
 										property="actionFormUtilMap.getOptionsMap~org|kuali|kfs|module|tem|businessobject|options|CorrectionEditMethodValuesFinder"
-										label="label" value="key" />
+										label="value" value="key" />
 								</html:select>
 								<html:image
 									property="methodToCall.selectSystemEditMethod.anchor${currentTabIndex}"
@@ -244,7 +244,7 @@
 
 									<html:optionsCollection
 										property="actionFormUtilMap.getOptionsMap~org|kuali|kfs|module|tem|businessobject|options|AgencyCorrectionGroupEntriesFinder"
-										label="label" value="key" />
+										label="value" value="key" />
 								</html:select>
 
 								<br /> <br />

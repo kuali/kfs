@@ -89,12 +89,19 @@ public class TravelExpenseServiceImpl implements TravelExpenseService {
         if (expenseTypeObjectCodes == null || expenseTypeObjectCodes.isEmpty()) {
             return null;
         }
-        Collections.sort(expenseTypeObjectCodes, new ExpenseTypeObjectCodeComparatorByHierarchyLogic());
+        Collections.sort(expenseTypeObjectCodes, getExpenseTypeObjectCodeComparator());
         final ExpenseTypeObjectCode chosenExpenseTypeObjectCode = expenseTypeObjectCodes.get(0);
         if (LOG.isDebugEnabled()) {
             LOG.debug("I choose you, "+chosenExpenseTypeObjectCode.toString());
         }
         return chosenExpenseTypeObjectCode;
+    }
+
+    /**
+     * @return the comparator that will sort expense type object codes, such that the top one will be selected as the "most" correct
+     */
+    protected Comparator<ExpenseTypeObjectCode> getExpenseTypeObjectCodeComparator() {
+        return new ExpenseTypeObjectCodeComparatorByHierarchyLogic();
     }
 
     /**

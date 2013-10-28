@@ -65,6 +65,7 @@
 			<ref bean="TravelReimbursementDocument-perDiemAdjustment" />
 			<ref bean="TravelReimbursementDocument-appDocStatus" />
 			<ref bean="TravelReimbursementDocument-delinquentTRException" />
+			<ref bean="TravelReimbursementDocument-blanketTravel" />
 		</list>
 		</property>
 	<property name="collections">
@@ -337,6 +338,18 @@
 			<bean parent="CheckboxControlDefinition" />
 		</property>
 	</bean>
+	<bean id="TravelReimbursementDocument-blanketTravel" parent="TravelReimbursementDocument-blanketTravel-parentBean" />
+	<bean id="TravelReimbursementDocument-blanketTravel-parentBean" parent="AttributeDefinition">
+		<property name="name" value="blanketTravel" />
+		<property name="label" value="Blanket Travel" />
+		<property name="shortLabel" value="Blanket Travel" />
+		<property name="maxLength" value="1" />
+		<property name="summary" value="Blanket Travel" />
+		<property name="description" value="Blanket Travel" />
+		<property name="control">
+			<bean parent="CheckboxControlDefinition" />
+		</property>
+	</bean>		
 
 	<!-- Validations -->  
   <bean id="TravelReimbursementDocument-validations" parent="TravelReimbursementDocument-validations-parentBean"/>

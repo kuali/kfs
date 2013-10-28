@@ -29,8 +29,8 @@
 				<ref bean="ActualExpense-convertedAmount" />
 				<ref bean="ActualExpense-airfareSourceCode" />
 				<ref bean="ActualExpense-classOfServiceCode" />
-				<ref bean="ActualExpense-mileageRateId" />
 				<ref bean="ActualExpense-miles" />
+				<ref bean="ActualExpense-mileageRate.rate"/>
 				<ref bean="ActualExpense-mileageOtherRate" />
 				<ref bean="ActualExpense-rentalCarInsurance" />			
 			</list>
@@ -225,18 +225,6 @@
       <property name="control"><bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.tem.businessobject.options.ClassOfServiceValuesFinder" p:includeKeyInLabel="false"/></property>
 	</bean>
 	
-	<bean id="ActualExpense-mileageRateId" parent="ActualExpense-mileageRateId-parentBean" />
-	<bean id="ActualExpense-mileageRateId-parentBean" parent="AttributeDefinition">
-		<property name="name" value="mileageRateId" />
-		<property name="label" value="Mileage Rate" />
-		<property name="shortLabel" value="Mileage Rate" />
-		<property name="maxLength" value="19" />
-		<property name="required" value="false" />
-		<property name="summary" value="Mileage Rate" />
-		<property name="description" value="Mileage Rate" />
-      <property name="control"><bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.tem.businessobject.options.MileageRateValuesFinder" p:includeKeyInLabel="false"/></property>
-	</bean>
-	
 	<bean id="ActualExpense-miles" parent="ActualExpense-miles-parentBean" />
 	<bean id="ActualExpense-miles-parentBean" parent="AttributeDefinition">
 		<property name="name" value="miles" />
@@ -249,7 +237,11 @@
 		<property name="control"><bean parent="TextControlDefinition" p:size="4"/></property>
 		<property name="validationPattern"><bean parent="NumericValidationPattern" /></property>
 	</bean>
-	
+	<bean id="ActualExpense-mileageRate.rate" parent="ActualExpense-mileageRate.rate-parentBean" />
+	<bean id="ActualExpense-mileageRate.rate-parentBean" parent="MileageRate-rate">
+		<property name="name" value="mileageRate.rate"/>
+		<property name="label" value="Mileage Rate"/>
+	</bean>
 	<bean id="ActualExpense-mileageOtherRate" parent="ActualExpense-mileageOtherRate-parentBean" />
 	<bean id="ActualExpense-mileageOtherRate-parentBean" parent="GenericAttributes-genericAmount">
 		<property name="name" value="mileageOtherRate" />

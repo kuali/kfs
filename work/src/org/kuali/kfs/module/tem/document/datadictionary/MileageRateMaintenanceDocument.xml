@@ -7,6 +7,7 @@
 	<bean id="MileageRateMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
 		<property name="businessObjectClass" value="org.kuali.kfs.module.tem.businessobject.MileageRate" />
 		<property name="maintainableClass"   value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl" />
+		<property name="businessRulesClass" value="org.kuali.kfs.module.tem.document.validation.impl.MileageRateRule"/>
 		<property name="maintainableSections" >
 			<list>
 				<ref bean="MileageRateMaintenanceDocument-Section" />
@@ -20,7 +21,11 @@
 		</property>
 		<property name="documentTypeName"        value="TMR" />
 		<property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
-	
+		<property name="defaultExistenceChecks">
+			<list>
+				<bean parent="ReferenceDefinition" p:attributeName="expenseType" p:attributeToHighlightOnFail="expenseTypeCode" p:displayFieldName="Expense Type Code"/>
+			</list>
+		</property>
 	</bean>
 
 	<bean id="MileageRateMaintenanceDocument-Section" parent="MileageRateMaintenanceDocument-Section-parentBean" />
@@ -30,11 +35,10 @@
 		<property name="maintainableItems">
 			<list>
 				<bean parent="MaintainableFieldDefinition" p:name="id" p:required="false"/>
-				<bean parent="MaintainableFieldDefinition" p:name="name" p:required="true"/>
+				<bean parent="MaintainableFieldDefinition" p:name="expenseTypeCode" p:required="true"/>
 				<bean parent="MaintainableFieldDefinition" p:name="rate" p:required="true"/>
 				<bean parent="MaintainableFieldDefinition" p:name="activeFromDate" p:required="true"/>
 				<bean parent="MaintainableFieldDefinition" p:name="activeToDate" p:required="true"/>
-				<bean parent="MaintainableFieldDefinition" p:name="active" p:required="true"/>
 			</list>
 		</property>
 	</bean>

@@ -524,10 +524,10 @@ public class TravelAuthorizationServiceImpl implements TravelAuthorizationServic
     }
 
     /**
-     * @see org.kuali.kfs.module.tem.document.service.TravelAuthorizationService#closeAuthorization(org.kuali.kfs.module.tem.document.TravelAuthorizationDocument, java.lang.String, java.lang.String)
+     * @see org.kuali.kfs.module.tem.document.service.TravelAuthorizationService#closeAuthorization(org.kuali.kfs.module.tem.document.TravelAuthorizationDocument, java.lang.String, java.lang.String, java.lang.String)
      */
     @Override
-    public TravelAuthorizationCloseDocument closeAuthorization(TravelAuthorizationDocument authorization, String annotation, String initiatorPrincipalName) {
+    public TravelAuthorizationCloseDocument closeAuthorization(TravelAuthorizationDocument authorization, String annotation, String initiatorPrincipalName, String reimbursementDocNum) {
         TravelAuthorizationCloseDocument authorizationClose = null;
         try {
             String user = GlobalVariables.getUserSession().getPerson().getLastName() + ", " + GlobalVariables.getUserSession().getPerson().getFirstName();
@@ -543,6 +543,7 @@ public class TravelAuthorizationServiceImpl implements TravelAuthorizationServic
             authorizationClose = authorization.toCopyTAC();
             final Note newNoteTAC = documentService.createNoteFromDocument(authorizationClose, note);
             authorizationClose.addNote(newNoteTAC);
+            authorizationClose.setTravelReimbursementDocumentNumber(reimbursementDocNum);
 
             // add relationship
             String relationDescription = authorization.getDocumentTypeName() + " - " + authorizationClose.getDocumentTypeName();

@@ -27,6 +27,7 @@ import org.kuali.kfs.integration.ar.AccountsReceivableOrganizationOptions;
 import org.kuali.kfs.module.tem.businessobject.ActualExpense;
 import org.kuali.kfs.module.tem.businessobject.ExpenseTypeAware;
 import org.kuali.kfs.module.tem.businessobject.GroupTraveler;
+import org.kuali.kfs.module.tem.businessobject.MileageRate;
 import org.kuali.kfs.module.tem.businessobject.PerDiem;
 import org.kuali.kfs.module.tem.businessobject.PerDiemExpense;
 import org.kuali.kfs.module.tem.businessobject.SpecialCircumstances;
@@ -410,5 +411,15 @@ public class MockTravelDocumentServiceImpl implements TravelDocumentService {
     @Override
     public void setPerDiemMealsAndIncidentals(PerDiemExpense expense, PerDiem perDiem, TripType tripType, Timestamp tripEnd, boolean shouldProrate) {
         realTravelDocumentService.setPerDiemMealsAndIncidentals(expense, perDiem, tripType, tripEnd, shouldProrate);
+    }
+
+    @Override
+    public MileageRate getMileageRate(String expenseTypeCode, Date expenseDate) {
+        return realTravelDocumentService.getMileageRate(expenseTypeCode, expenseDate);
+    }
+
+    @Override
+    public TravelDocument getTravelDocument(String travelDocumentIdentifier) {
+        return realTravelDocumentService.getTravelDocument(travelDocumentIdentifier);
     }
 }

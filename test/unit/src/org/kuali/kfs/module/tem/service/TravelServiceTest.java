@@ -67,11 +67,7 @@ public class TravelServiceTest extends KualiTestBase{
                     PerDiemExpense perDiemExpense = new PerDiemExpense() {
                         @Override
                         public void refreshReferenceObject(String refObject) {
-                            if(refObject.equals("mileageRate")) {
-                                MileageRate rate = new MileageRate();
-                                rate.setRate(new KualiDecimal(0.45));
-                                this.setMileageRate(rate);
-                            } else if(refObject.equals("perDiem")) {
+                            if(refObject.equals("perDiem")) {
                                 PerDiem perDiem = new PerDiem();
                                 perDiem.setBreakfast(new KualiDecimal(12));
                                 perDiem.setLunch(new KualiDecimal(13));
@@ -79,6 +75,13 @@ public class TravelServiceTest extends KualiTestBase{
                                 perDiem.setIncidentals(new KualiDecimal(10));
                                 this.setPerDiem(perDiem);
                             }
+                        }
+                        @Override
+                        public MileageRate getMileageRate() {
+                            MileageRate rate = new MileageRate();
+                            rate.setRate(new KualiDecimal(0.45));
+                            rate.setExpenseTypeCode("MP");
+                            return rate;
                         }
                     };
                     return perDiemExpense;

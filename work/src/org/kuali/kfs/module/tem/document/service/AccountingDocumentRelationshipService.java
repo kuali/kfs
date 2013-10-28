@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -24,7 +24,7 @@ public interface AccountingDocumentRelationshipService {
 
     /**
      * This method gets directly related document numbers
-     * 
+     *
      * @param documentNumber
      * @return
      */
@@ -32,7 +32,7 @@ public interface AccountingDocumentRelationshipService {
 
     /**
      * This method gets all related document numbers (sibling document numbers included).
-     * 
+     *
      * @param documentNumber
      * @return
      */
@@ -40,7 +40,7 @@ public interface AccountingDocumentRelationshipService {
 
     /**
      * This method gets the main root of the document number. The lookup is done recursively.
-     * 
+     *
      * @param documentNumber
      * @return
      */
@@ -48,37 +48,45 @@ public interface AccountingDocumentRelationshipService {
 
     /**
      * This method saves a list of accountingDocumentRelationships
-     * 
+     *
      * @param accountingDocumentRelationships
      */
     public void save(List<AccountingDocumentRelationship> accountingDocumentRelationships);
 
     /**
      * This method saves an accountingDocumentRelationship
-     * 
+     *
      * @param accountingDocumentRelationship
      */
     public void save(AccountingDocumentRelationship accountingDocumentRelationship);
 
     /**
      * This method deletes a list of accountingDocumentRelationships
-     * 
+     *
      * @param accountingDocumentRelationships
      */
     public void delete(List<AccountingDocumentRelationship> accountingDocumentRelationships);
 
     /**
      * This method deletes an accountingDocumentRelationship
-     * 
+     *
      * @param accountingDocumentRelationship
      */
     public void delete(AccountingDocumentRelationship accountingDocumentRelationship);
-    
+
     /**
-     * 
+     *
      * This method finds an accountingDocumentRelationship
      * @param adr
      * @return
      */
     public List<AccountingDocumentRelationship> find(AccountingDocumentRelationship adr);
+
+    /**
+     * This method gets directly related document numbers
+     *
+     * @param documentNumber
+     * @return
+     */
+    public Set<String> huntForRelatedDocumentNumbersWithDocumentType(String documentNumber, String documentType);
 }

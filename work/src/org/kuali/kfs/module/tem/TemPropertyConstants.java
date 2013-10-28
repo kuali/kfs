@@ -51,13 +51,13 @@ public class TemPropertyConstants {
     public static final String TRAVELER_TYPE = "travelerType";
     public static final String TRAVELER_TYPE_CODE = "travelerTypeCode";
     public static final String CUSTOMER = "customer";
+    public static final String BLANKET_IND = "blanketTravel";
 
     public static final String NEW_IMPORTED_EXPENSE_LINE = "newImportedExpenseLine";
     public static final String NEW_IMPORTED_EXPENSE_LINES = "newImportedExpenseLines";
 
     public static final String NEW_ACTUAL_EXPENSE_LINE = "newActualExpenseLine";
     public static final String NEW_ACTUAL_EXPENSE_LINES = "newActualExpenseLines";
-
 
     public static final String EXPENSE_DATE = "expenseDate";
     //TODO: this really should be named expenseDate in the PerDiem
@@ -126,6 +126,8 @@ public class TemPropertyConstants {
     public static final String TRAVEL_CARD_TYPE = "travelCardType";
     //profile accounts
     public static final String CREDIT_CARD_AGENCY_ID = "creditCardAgencyId";
+
+    public static final String RATE = "rate";
 
     public static class TravelAuthorizationFields {
         public static final String TRVL_ADV_REQUESTED = "travelAdvanceRequested";

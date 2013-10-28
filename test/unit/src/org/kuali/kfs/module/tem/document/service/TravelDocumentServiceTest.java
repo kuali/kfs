@@ -93,11 +93,7 @@ public class TravelDocumentServiceTest extends KualiTestBase {
                     PerDiemExpense perDiemExpense = new PerDiemExpense() {
                         @Override
                         public void refreshReferenceObject(String refObject) {
-                            if(refObject.equals("mileageRate")) {
-                                MileageRate rate = new MileageRate();
-                                rate.setRate(new KualiDecimal(0.45));
-                                this.setMileageRate(rate);
-                            } else if(refObject.equals("perDiem")) {
+                            if(refObject.equals("perDiem")) {
                                 PerDiem perDiem = new PerDiem();
                                 perDiem.setBreakfast(new KualiDecimal(12));
                                 perDiem.setLunch(new KualiDecimal(13));
@@ -105,6 +101,13 @@ public class TravelDocumentServiceTest extends KualiTestBase {
                                 perDiem.setIncidentals(new KualiDecimal(10));
                                 this.setPerDiem(perDiem);
                             }
+                        }
+                        @Override
+                        public MileageRate getMileageRate() {
+                            MileageRate rate = new MileageRate();
+                            rate.setRate(new KualiDecimal(0.45));
+                            rate.setExpenseTypeCode("MP");
+                            return rate;
                         }
                     };
                     return perDiemExpense;
@@ -123,11 +126,7 @@ public class TravelDocumentServiceTest extends KualiTestBase {
         PerDiemExpense perDiemExpense = new PerDiemExpense() {
             @Override
             public void refreshReferenceObject(String refObject) {
-                if(refObject.equals("mileageRate")) {
-                    MileageRate rate = new MileageRate();
-                    rate.setRate(new KualiDecimal(0.45));
-                    this.setMileageRate(rate);
-                } else if(refObject.equals("perDiem")) {
+                if(refObject.equals("perDiem")) {
                     PerDiem perDiem = new PerDiem();
                     perDiem.setBreakfast(new KualiDecimal(12));
                     perDiem.setLunch(new KualiDecimal(13));
@@ -135,6 +134,13 @@ public class TravelDocumentServiceTest extends KualiTestBase {
                     perDiem.setIncidentals(new KualiDecimal(10));
                     this.setPerDiem(perDiem);
                 }
+            }
+            @Override
+            public MileageRate getMileageRate() {
+                MileageRate rate = new MileageRate();
+                rate.setRate(new KualiDecimal(0.45));
+                rate.setExpenseTypeCode("MP");
+                return rate;
             }
         };
 
@@ -172,11 +178,7 @@ public class TravelDocumentServiceTest extends KualiTestBase {
         PerDiemExpense perDiemExpense = new PerDiemExpense() {
             @Override
             public void refreshReferenceObject(String refObject) {
-                if(refObject.equals("mileageRate")) {
-                    MileageRate rate = new MileageRate();
-                    rate.setRate(new KualiDecimal(0.45));
-                    this.setMileageRate(rate);
-                } else if(refObject.equals("perDiem")) {
+                if(refObject.equals("perDiem")) {
                     PerDiem perDiem = new PerDiem();
                     perDiem.setBreakfast(new KualiDecimal(12));
                     perDiem.setLunch(new KualiDecimal(13));
@@ -184,6 +186,13 @@ public class TravelDocumentServiceTest extends KualiTestBase {
                     perDiem.setIncidentals(new KualiDecimal(10));
                     this.setPerDiem(perDiem);
                 }
+            }
+            @Override
+            public MileageRate getMileageRate() {
+                MileageRate rate = new MileageRate();
+                rate.setRate(new KualiDecimal(0.45));
+                rate.setExpenseTypeCode("MP");
+                return rate;
             }
         };
 
@@ -210,11 +219,7 @@ public class TravelDocumentServiceTest extends KualiTestBase {
         PerDiemExpense perDiemExpense = new PerDiemExpense() {
             @Override
             public void refreshReferenceObject(String refObject) {
-                if(refObject.equals("mileageRate")) {
-                    MileageRate rate = new MileageRate();
-                    rate.setRate(new KualiDecimal(0.45));
-                    this.setMileageRate(rate);
-                } else if(refObject.equals("perDiem")) {
+                if(refObject.equals("perDiem")) {
                     PerDiem perDiem = new PerDiem();
                     perDiem.setBreakfast(new KualiDecimal(12));
                     perDiem.setLunch(new KualiDecimal(13));
@@ -222,6 +227,13 @@ public class TravelDocumentServiceTest extends KualiTestBase {
                     perDiem.setIncidentals(new KualiDecimal(10));
                     this.setPerDiem(perDiem);
                 }
+            }
+            @Override
+            public MileageRate getMileageRate() {
+                MileageRate rate = new MileageRate();
+                rate.setRate(new KualiDecimal(0.45));
+                rate.setExpenseTypeCode("MP");
+                return rate;
             }
         };
 
@@ -306,11 +318,7 @@ public class TravelDocumentServiceTest extends KualiTestBase {
         PerDiemExpense perDiemExpense = new PerDiemExpense() {
             @Override
             public void refreshReferenceObject(String refObject) {
-                if(refObject.equals("mileageRate")) {
-                    MileageRate rate = new MileageRate();
-                    rate.setRate(new KualiDecimal(0.45));
-                    this.setMileageRate(rate);
-                } else if(refObject.equals("perDiem")) {
+                if(refObject.equals("perDiem")) {
                     PerDiem perDiem = new PerDiem();
                     perDiem.setBreakfast(new KualiDecimal(12));
                     perDiem.setLunch(new KualiDecimal(13));
@@ -318,6 +326,13 @@ public class TravelDocumentServiceTest extends KualiTestBase {
                     perDiem.setIncidentals(new KualiDecimal(10));
                     this.setPerDiem(perDiem);
                 }
+            }
+            @Override
+            public MileageRate getMileageRate() {
+                MileageRate rate = new MileageRate();
+                rate.setRate(new KualiDecimal(0.45));
+                rate.setExpenseTypeCode("MP");
+                return rate;
             }
         };
 
@@ -381,11 +396,7 @@ public class TravelDocumentServiceTest extends KualiTestBase {
         PerDiemExpense perDiemExpense = new PerDiemExpense() {
             @Override
             public void refreshReferenceObject(String refObject) {
-                if(refObject.equals("mileageRate")) {
-                    MileageRate rate = new MileageRate();
-                    rate.setRate(new KualiDecimal(0.45));
-                    this.setMileageRate(rate);
-                } else if(refObject.equals("perDiem")) {
+                if(refObject.equals("perDiem")) {
                     PerDiem perDiem = new PerDiem();
                     perDiem.setBreakfast(new KualiDecimal(12));
                     perDiem.setLunch(new KualiDecimal(13));
@@ -393,6 +404,13 @@ public class TravelDocumentServiceTest extends KualiTestBase {
                     perDiem.setIncidentals(new KualiDecimal(10));
                     this.setPerDiem(perDiem);
                 }
+            }
+            @Override
+            public MileageRate getMileageRate() {
+                MileageRate rate = new MileageRate();
+                rate.setRate(new KualiDecimal(0.45));
+                rate.setExpenseTypeCode("MP");
+                return rate;
             }
         };
 
@@ -573,11 +591,7 @@ public class TravelDocumentServiceTest extends KualiTestBase {
         PerDiemExpense currentPerDiemExpense = new PerDiemExpense() {
             @Override
             public void refreshReferenceObject(String refObject) {
-                if(refObject.equals("mileageRate")) {
-                    MileageRate rate = new MileageRate();
-                    rate.setRate(new KualiDecimal(0.45));
-                    this.setMileageRate(rate);
-                } else if(refObject.equals("perDiem")) {
+                if(refObject.equals("perDiem")) {
                     PerDiem perDiem = new PerDiem();
                     perDiem.setBreakfast(new KualiDecimal(12));
                     perDiem.setLunch(new KualiDecimal(13));
@@ -585,6 +599,13 @@ public class TravelDocumentServiceTest extends KualiTestBase {
                     perDiem.setIncidentals(new KualiDecimal(10));
                     this.setPerDiem(perDiem);
                 }
+            }
+            @Override
+            public MileageRate getMileageRate() {
+                MileageRate rate = new MileageRate();
+                rate.setRate(new KualiDecimal(0.45));
+                rate.setExpenseTypeCode("MP");
+                return rate;
             }
         };
         currentPerDiemExpense.setMiles(perDiemExpense.getMiles());
@@ -607,11 +628,7 @@ public class TravelDocumentServiceTest extends KualiTestBase {
         PerDiemExpense perDiemExpense = new PerDiemExpense() {
             @Override
             public void refreshReferenceObject(String refObject) {
-                if(refObject.equals("mileageRate")) {
-                    MileageRate rate = new MileageRate();
-                    rate.setRate(new KualiDecimal(0.45));
-                    this.setMileageRate(rate);
-                } else if(refObject.equals("perDiem")) {
+                if(refObject.equals("perDiem")) {
                     PerDiem perDiem = new PerDiem();
                     perDiem.setBreakfast(new KualiDecimal(12));
                     perDiem.setLunch(new KualiDecimal(13));
@@ -619,6 +636,13 @@ public class TravelDocumentServiceTest extends KualiTestBase {
                     perDiem.setIncidentals(new KualiDecimal(10));
                     this.setPerDiem(perDiem);
                 }
+            }
+            @Override
+            public MileageRate getMileageRate() {
+                MileageRate rate = new MileageRate();
+                rate.setRate(new KualiDecimal(0.45));
+                rate.setExpenseTypeCode("MP");
+                return rate;
             }
         };
 
@@ -673,19 +697,18 @@ public class TravelDocumentServiceTest extends KualiTestBase {
     public final void testCalculateMileage_mileageRatePresent() {
         ActualExpense actualExpense = new ActualExpense() {
             @Override
-            public void refreshReferenceObject(String refObject) {
-                if(refObject.equals("mileageRate")) {
-                    MileageRate rate = new MileageRate();
-                    rate.setId(1);
-                    rate.setRate(new KualiDecimal(0.45));
-                    this.setMileageRate(rate);
-                }
+            public MileageRate getMileageRate() {
+                MileageRate rate = new MileageRate();
+                rate.setId(1);
+                rate.setRate(new KualiDecimal(0.45));
+                rate.setExpenseTypeCode("MP");
+                return rate;
             }
+
         };
 
         actualExpense.setTravelExpenseTypeCode(mileageType);
         actualExpense.setMiles(50);
-        actualExpense.setMileageRateId(1);
 
         ActualExpense actualExpense2 = new ActualExpense();
         actualExpense2.setTravelExpenseTypeCode(mileageType);
@@ -707,19 +730,18 @@ public class TravelDocumentServiceTest extends KualiTestBase {
     public final void testCalculateExpenseAmountTotalForMileage() {
         ActualExpense actualExpense = new ActualExpense() {
             @Override
-            public void refreshReferenceObject(String refObject) {
-                if(refObject.equals("mileageRate")) {
-                    MileageRate rate = new MileageRate();
-                    rate.setId(1);
-                    rate.setRate(new KualiDecimal(0.45));
-                    this.setMileageRate(rate);
-                }
+            public MileageRate getMileageRate() {
+                MileageRate rate = new MileageRate();
+                rate.setId(1);
+                rate.setRate(new KualiDecimal(0.45));
+                rate.setExpenseTypeCode("MP");
+                return rate;
             }
         };
 
         actualExpense.setTravelExpenseTypeCode(mileageType);
         actualExpense.setMiles(50);
-        actualExpense.setMileageRateId(1);
+        actualExpense.setExpenseTypeCode("MP");
 
         ActualExpense actualExpense2 = new ActualExpense();
         actualExpense2.setTravelExpenseTypeCode(mileageType);
@@ -753,13 +775,12 @@ public class TravelDocumentServiceTest extends KualiTestBase {
         ActualExpense actualExpense_3 = new ActualExpense();
         ActualExpense actualExpense_4 = new ActualExpense(){
             @Override
-            public void refreshReferenceObject(String refObject) {
-                if(refObject.equals("mileageRate")) {
-                    MileageRate rate = new MileageRate();
-                    rate.setId(1);
-                    rate.setRate(new KualiDecimal(0.45));
-                    this.setMileageRate(rate);
-                }
+            public MileageRate getMileageRate() {
+                MileageRate rate = new MileageRate();
+                rate.setId(1);
+                rate.setRate(new KualiDecimal(0.45));
+                rate.setExpenseTypeCode("MP");
+                return rate;
             }
         };
         ActualExpense actualExpense_5 = new ActualExpense();
@@ -784,7 +805,7 @@ public class TravelDocumentServiceTest extends KualiTestBase {
         actualExpense_4.setExpenseAmount(new KualiDecimal(10.00));
         actualExpense_4.setExpenseParentId(new Long(1));
         actualExpense_4.setMiles(100);
-        actualExpense_4.setMileageRateId(1);
+        actualExpense_4.setExpenseTypeCode("MP");
 
         actualExpense_5.setId(new Long(5));
         actualExpense_5.setTravelExpenseTypeCode(airfareType);
@@ -845,11 +866,7 @@ public class TravelDocumentServiceTest extends KualiTestBase {
         PerDiemExpense perDiemExpense = new PerDiemExpense() {
             @Override
             public void refreshReferenceObject(String refObject) {
-                if(refObject.equals("mileageRate")) {
-                    MileageRate rate = new MileageRate();
-                    rate.setRate(new KualiDecimal(0.45));
-                    this.setMileageRate(rate);
-                } else if(refObject.equals("perDiem")) {
+                if(refObject.equals("perDiem")) {
                     PerDiem perDiem = new PerDiem();
                     perDiem.setBreakfast(new KualiDecimal(12));
                     perDiem.setLunch(new KualiDecimal(13));
@@ -857,6 +874,13 @@ public class TravelDocumentServiceTest extends KualiTestBase {
                     perDiem.setIncidentals(new KualiDecimal(10));
                     this.setPerDiem(perDiem);
                 }
+            }
+            @Override
+            public MileageRate getMileageRate() {
+                MileageRate rate = new MileageRate();
+                rate.setRate(new KualiDecimal(0.45));
+                rate.setExpenseTypeCode("MP");
+                return rate;
             }
         };
 
@@ -883,11 +907,7 @@ public class TravelDocumentServiceTest extends KualiTestBase {
         PerDiemExpense perDiemExpense = new PerDiemExpense() {
             @Override
             public void refreshReferenceObject(String refObject) {
-                if(refObject.equals("mileageRate")) {
-                    MileageRate rate = new MileageRate();
-                    rate.setRate(new KualiDecimal(0.45));
-                    this.setMileageRate(rate);
-                } else if(refObject.equals("perDiem")) {
+                if(refObject.equals("perDiem")) {
                     PerDiem perDiem = new PerDiem();
                     perDiem.setBreakfast(new KualiDecimal(12));
                     perDiem.setLunch(new KualiDecimal(13));
@@ -895,6 +915,13 @@ public class TravelDocumentServiceTest extends KualiTestBase {
                     perDiem.setIncidentals(new KualiDecimal(10));
                     this.setPerDiem(perDiem);
                 }
+            }
+            @Override
+            public MileageRate getMileageRate() {
+                MileageRate rate = new MileageRate();
+                rate.setRate(new KualiDecimal(0.45));
+                rate.setExpenseTypeCode("MP");
+                return rate;
             }
         };
 
@@ -921,44 +948,6 @@ public class TravelDocumentServiceTest extends KualiTestBase {
         assertFalse(travelDocumentService.checkNonEmployeeTravelerTypeCode(TemConstants.EMP_TRAVELER_TYP_CD));
         assertTrue(travelDocumentService.checkNonEmployeeTravelerTypeCode(TemConstants.NONEMP_TRAVELER_TYP_CD));
     }
-
-    /**
-     * This method tests {@link TravelDocumentService#calculateTotalsFor(TravelDocument)}
-
-    @Test
-    public void testCalculateTotalsFor() {
-        List<ActualExpense> oteList = new ArrayList<ActualExpense>();
-
-        // Override refreshReferenceObject - setting travelExpenseTypeCode manually
-        ActualExpense ote = new ActualExpense() {
-            public void refreshReferenceObject(String referenceObjectName) {
-                // do nothing;
-            }
-        };
-        ote.setExpenseAmount(new KualiDecimal(EXPENSE_AMOUNT));
-        ote.setMileageIndicator(false);
-        ote.setNonReimbursable(true);
-        oteList.add(ote);
-
-        TravelAuthorizationDocument ta = new TravelAuthorizationDocument();
-        ta.setActualExpenses(oteList);
-
-        Map<String, Object> result = travelDocumentService.calculateTotalsFor(ta);
-        KualiDecimal total = (KualiDecimal) result.get(TemConstants.PER_DIEM_ADJUSTMENT_ATTRIBUTE);
-        assertTrue(total.isZero());
-
-        // set milage reimbursable expense
-        ote.setMileageIndicator(true);
-        ote.setNonReimbursable(false);
-        ote.setMiles(MILEAGE);
-        ote.setMileageOtherRate(new KualiDecimal(MILEAGE_RATE));
-
-        ote.setTravelExpenseTypeCode(mileageType);
-        result = travelDocumentService.calculateTotalsFor(ta);
-        total = (KualiDecimal) result.get(TemConstants.PER_DIEM_ADJUSTMENT_ATTRIBUTE);
-        assertTrue(total.isGreaterThan(KualiDecimal.ZERO));
-    }
-    */
 
     /**
      * This method tests {@link TravelDocumentService#getAdvancesTotalFor(Integer)}

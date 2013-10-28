@@ -16034,40 +16034,17 @@
             <unique-column name="OBJ_ID"/>
         </unique>
     </table>
-    <table name="TEM_MILEAGE_RATE_OBJ_CD_T">
+    <table name="TEM_MILEAGE_RT_T">
         <column name="ID" primaryKey="true" size="22" type="DECIMAL"/>
-        <column name="TRAVELER_TYP_CD" required="true" size="3" type="VARCHAR"/>
-        <column name="TRIP_TYP_CD" required="true" size="3" type="VARCHAR"/>
-        <column name="MILEAGE_RT_ID" required="true" size="22" type="DECIMAL"/>
-        <column name="FIN_OBJECT_CD" required="true" size="4" type="VARCHAR"/>
-        <column name="DOCUMENT_TYPE" size="4" type="VARCHAR"/>
-        <column name="ACTV_IND" required="true" size="1" type="VARCHAR"/>
-        <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
-        <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
-        <foreign-key foreignTable="TEM_TRAVELER_TYP_T" name="TEM_MILEAGE_RATE_OBJ_CD_TR1">
-            <reference foreign="CODE" local="TRAVELER_TYP_CD"/>
-        </foreign-key>
-        <foreign-key foreignTable="TEM_TRIP_TYP_T" name="TEM_MILEAGE_RATE_OBJ_CD_TR2">
-            <reference foreign="CODE" local="TRIP_TYP_CD"/>
-        </foreign-key>
-        <foreign-key foreignTable="TEM_MILEAGE_RATE_T" name="TEM_MILEAGE_RATE_OBJ_CD_TR3">
-            <reference foreign="ID" local="MILEAGE_RT_ID"/>
-        </foreign-key>
-        <unique name="TEM_MILEAGE_RATE_OBJ_CD_TC0">
-            <unique-column name="OBJ_ID"/>
-        </unique>
-    </table>
-    <table name="TEM_MILEAGE_RATE_T">
-        <column name="ID" primaryKey="true" size="22" type="DECIMAL"/>
-        <column name="NM" required="true" size="40" type="VARCHAR"/>
-        <column name="RATE" scale="2" size="19" type="DECIMAL"/>
+        <column name="RT" scale="2" size="19" type="DECIMAL"/>
         <column name="ACTV_FROM_DT" required="true" type="DATE"/>
         <column name="ACTV_TO_DT" required="true" type="DATE"/>
-        <column name="ACTV_IND" required="true" size="1" type="VARCHAR"/>
-        <column name="MIN_MILES" size="22" type="DECIMAL"/>
-        <column name="MAX_MILES" size="22" type="DECIMAL"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
+        <column name="EXP_TYP_CD" size="2" type="VARCHAR"/>
+        <foreign-key foreignTable="TEM_EXP_TYP_T" name="TEM_MILEAGE_RT_TR1">
+            <reference foreign="EXP_TYP_CD" local="EXP_TYP_CD"/>
+        </foreign-key>
         <unique name="TEM_MILEAGE_RATE_TC0">
             <unique-column name="OBJ_ID"/>
         </unique>
@@ -16088,7 +16065,6 @@
         <column default="0" name="INCIDENTALS_VAL" scale="2" size="19" type="DECIMAL"/>
         <column name="PERSONAL" size="1" type="VARCHAR"/>
         <column name="MILES" size="22" type="DECIMAL"/>
-        <column name="MILEAGE_RT_ID" required="true" size="22" type="DECIMAL"/>
         <column default="0" name="LODGING" scale="2" size="19" type="DECIMAL"/>
         <column name="ACCOM_TYP_CD" size="4" type="VARCHAR"/>
         <column name="ACCOM_NM" size="255" type="VARCHAR"/>
@@ -16098,8 +16074,9 @@
         <column name="PER_DIEM_ID" size="22" type="DECIMAL"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
-        <foreign-key foreignTable="TEM_MILEAGE_RATE_T" name="TEM_PER_DIEM_EXP_TR1">
-            <reference foreign="ID" local="MILEAGE_RT_ID"/>
+        <column name="MILEAGE_RT_EXP_TYP_CD" size="2" type="VARCHAR"/>
+        <foreign-key foreignTable="TEM_EXP_TYP_T" name="TEM_PER_DIEM_EXP_TR1">
+            <reference foreign="EXP_TYP_CD" local="MILEAGE_RT_EXP_TYP_CD"/>
         </foreign-key>
         <foreign-key foreignTable="TEM_PER_DIEM_T" name="TEM_PER_DIEM_EXP_TR2">
             <reference foreign="ID" local="PER_DIEM_ID"/>
@@ -16547,7 +16524,7 @@
         <column name="PER_DIEM_ID" required="true" size="22" type="DECIMAL"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
-        <foreign-key foreignTable="TEM_MILEAGE_RATE_T" name="TEM_TRIP_DTL_EST_TR1">
+        <foreign-key foreignTable="TEM_MILEAGE_RT_T" name="TEM_TRIP_DTL_EST_TR1">
             <reference foreign="ID" local="MILEAGE_RT_ID"/>
         </foreign-key>
         <foreign-key foreignTable="TEM_ACCOMM_TYP_T" name="TEM_TRIP_DTL_EST_TR2">
@@ -16657,6 +16634,7 @@
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
         <column name="FDOC_BNK_CD" size="4" type="VARCHAR"/>
         <column name="FDOC_NXT_ADV_NBR" size="7" type="DECIMAL"/>
+        <column name="BLNKT_TRVL_IND" size="1" type="VARCHAR"/>
         <foreign-key foreignTable="TEM_TRAVELER_DTL_T" name="TEM_TRVL_AUTH_AMEND_DOC_TR1">
             <reference foreign="ID" local="TRAVELER_DTL_ID"/>
         </foreign-key>
@@ -16732,6 +16710,7 @@
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
         <column name="FDOC_NXT_ADV_NBR" size="7" type="DECIMAL"/>
+        <column name="BLNKT_TRVL_IND" size="1" type="VARCHAR"/>
         <foreign-key foreignTable="TEM_TRAVELER_DTL_T" name="TEM_TRVL_AUTH_DOC_TR1">
             <reference foreign="ID" local="TRAVELER_DTL_ID"/>
         </foreign-key>
@@ -16774,7 +16753,6 @@
         <column name="DV_EXP_CO_NM" size="40" type="VARCHAR"/>
         <column name="AIRFARE_SRC_CD" size="10" type="VARCHAR"/>
         <column name="CLASS_SVC_CODE" size="10" type="VARCHAR"/>
-        <column name="MILEAGE_RT_ID" size="22" type="DECIMAL"/>
         <column name="MILES" size="22" type="DECIMAL"/>
         <column default="0" name="MILEAGE_OTHR_RT" scale="2" size="19" type="DECIMAL"/>
         <column name="CARD_TYPE" size="40" type="VARCHAR"/>
@@ -16860,6 +16838,7 @@
         <column name="FDOC_BNK_CD" size="4" type="VARCHAR"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
+        <column name="BLNKT_TRVL_IND" size="1" type="VARCHAR"/>
         <foreign-key foreignTable="TEM_TRAVELER_DTL_T" name="TEM_TRVL_REIMB_DOC_TR1">
             <reference foreign="ID" local="TRAVELER_DTL_ID"/>
         </foreign-key>

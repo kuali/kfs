@@ -59,7 +59,7 @@ public class CloseQuestionHandler implements QuestionHandler<TravelDocument> {
             T returnActionForward = (T) ((StrutsInquisitor) asker).getMapping().findForward(MAPPING_BASIC);
             TravelAuthorizationForm form = (TravelAuthorizationForm) ((StrutsInquisitor) asker).getForm();
 
-            TravelAuthorizationCloseDocument tacDocument = travelAuthorizationService.closeAuthorization(document, form.getAnnotation(), GlobalVariables.getUserSession().getPrincipalName());
+            TravelAuthorizationCloseDocument tacDocument = travelAuthorizationService.closeAuthorization(document, form.getAnnotation(), GlobalVariables.getUserSession().getPrincipalName(), null);
 
             form.setDocTypeName(TravelDocTypes.TRAVEL_AUTHORIZATION_CLOSE_DOCUMENT);
             form.setDocument(tacDocument);

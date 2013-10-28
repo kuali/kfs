@@ -97,6 +97,7 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
     private String foreignCurrencyUrl;
     private Observable observable;
     private AccountingDocumentRelationship newAccountingDocumentRelationship;
+    private String defaultPerDiemMileageExpenseType;
 
     private Map<String, List<Document>> relatedDocuments;
     private Map<String, List<Note>> relatedDocumentNotes;
@@ -596,7 +597,7 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
             addExtraButton("methodToCall.returnToFiscalOfficer", appExternalImageURL + "buttonsmall_return_to_fo.gif", "Return to Fiscal Officer");
         }
         if (canCalculate()){
-            addExtraButton("methodToCall.recalculateTripDetailTotal", appExternalImageURL + "buttonsmall_calculate.gif", "Calculate");
+            addExtraButton("methodToCall.recalculate", appExternalImageURL + "buttonsmall_calculate.gif", "Calculate");
         }
 
         return extraButtons;
@@ -1100,6 +1101,16 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
 
     public void setForeignCurrencyUrl(String foreignCurrencyUrl) {
         this.foreignCurrencyUrl = foreignCurrencyUrl;
+    }
+
+    /**
+     * @return the expense type code which should be set as the default in per diem mileage lookups
+     */
+    public String getDefaultPerDiemMileageExpenseType() {
+        if (StringUtils.isBlank(defaultPerDiemMileageExpenseType)) {
+            defaultPerDiemMileageExpenseType = this.getParameterService().getParameterValueAsString(TemParameterConstants.TEM_DOCUMENT.class, TemConstants.TravelParameters.PER_DIEM_MILEAGE_RATE_EXPENSE_TYPE_CODE, KFSConstants.EMPTY_STRING);
+        }
+        return defaultPerDiemMileageExpenseType;
     }
 
 }

@@ -81,7 +81,7 @@ public class TravelAuthTripInformationValidation extends GenericValidation {
                 rulePassed = false;
             }
 
-            if (!document.getTripType().isBlanketTravel() && (document.getDocumentGrandTotal().isLessEqual(KualiDecimal.ZERO))) {
+            if (!document.isBlanketTravel() && (document.getDocumentGrandTotal().isLessEqual(KualiDecimal.ZERO))) {
                 GlobalVariables.getMessageMap().putError(KFSConstants.DOCUMENT_PROPERTY_NAME + "." + TemPropertyConstants.TRVL_AUTH_TOTAL_ESTIMATE, TemKeyConstants.ERROR_DOCUMENT_TOTAL_ESTIMATED);
                 rulePassed = false;
             }

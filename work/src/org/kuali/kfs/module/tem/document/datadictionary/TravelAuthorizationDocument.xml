@@ -58,6 +58,7 @@
 			<ref bean="TravelAuthorizationDocument-mealWithoutLodgingReason" />			
 			<ref bean="TravelAuthorizationDocument-appDocStatus" />
 			<ref bean="TravelAuthorizationDocument-delinquentTRException" />
+			<ref bean="TravelAuthorizationDocument-blanketTravel" />
 		</list>
 		</property>
 		<property name="collections">
@@ -218,6 +219,18 @@
 		<property name="maxLength" value="1" />
 		<property name="summary" value="Delinquent TR Exception" />
 		<property name="description" value="Delinquent TR Exception" />
+		<property name="control">
+			<bean parent="CheckboxControlDefinition" />
+		</property>
+	</bean>		
+	<bean id="TravelAuthorizationDocument-blanketTravel" parent="TravelAuthorizationDocument-blanketTravel-parentBean" />
+	<bean id="TravelAuthorizationDocument-blanketTravel-parentBean" parent="AttributeDefinition">
+		<property name="name" value="blanketTravel" />
+		<property name="label" value="Blanket Travel" />
+		<property name="shortLabel" value="Blanket Travel" />
+		<property name="maxLength" value="1" />
+		<property name="summary" value="Blanket Travel" />
+		<property name="description" value="Blanket Travel" />
 		<property name="control">
 			<bean parent="CheckboxControlDefinition" />
 		</property>

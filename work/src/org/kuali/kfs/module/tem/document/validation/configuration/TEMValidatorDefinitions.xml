@@ -61,8 +61,8 @@
 	<bean id="TravelModule-addAccountingLineAllowedObjCodeValidation"
 		class="org.kuali.kfs.module.tem.document.validation.impl.TEMAccountingLineAllowedObjectCodeValidation" />		
 		
-	<bean id="TravelModule-accountingLineBlanketTripTypeValidation"
-		class="org.kuali.kfs.module.tem.document.validation.impl.TravelAuthAccountingLineBlanketTripTypeValidation" />
+	<!-- <bean id="TravelModule-accountingLineBlanketTripTypeValidation"
+		class="org.kuali.kfs.module.tem.document.validation.impl.TravelAuthAccountingLineBlanketTripTypeValidation" /> -->
 
     <bean id="TravelModule-accountingLineEncumbranceObjectCodeValidation"
         class="org.kuali.kfs.module.tem.document.validation.impl.TravelAuthAccountingLineEncumbranceObjectCodeValidation" />
@@ -143,7 +143,7 @@
                 </bean>
     			<bean parent="TravelModule-accountingObjectLevelValidation" scope="prototype" />
                 <bean parent="TravelModule-addAccountingLineAllowedObjCodeValidation" scope="prototype"/>
-                <bean parent="TravelModule-accountingLineBlanketTripTypeValidation" scope="prototype"/>
+                <!-- <bean parent="TravelModule-accountingLineBlanketTripTypeValidation" scope="prototype"/> -->
             </list>
         </property>
     </bean>

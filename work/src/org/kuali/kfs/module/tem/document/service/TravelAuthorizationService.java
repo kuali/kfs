@@ -59,8 +59,11 @@ public interface TravelAuthorizationService {
      * 2. Copy a new TAC from the TA and route it
      *
      * @param authorization
+     * @param annotation
+     * @param initiatorPrincipalName
+     * @param reimbursementDocumentNumber the document number of the final travel reimbursement spawning the TAC
      */
-    public TravelAuthorizationCloseDocument closeAuthorization(TravelAuthorizationDocument authorization, String annotation, String initiatorPrincipalName);
+    public TravelAuthorizationCloseDocument closeAuthorization(TravelAuthorizationDocument authorization, String annotation, String initiatorPrincipalName, String reimbursementDocumentNumber);
 
     /**
      * Get any Travel Reimbursement documen that is enroute or processed/final from the given Travel Authorization Document

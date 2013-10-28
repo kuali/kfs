@@ -578,8 +578,7 @@ public class TravelAuthorizationAction extends TravelActionBase {
         TravelAuthorizationDocument document = taForm.getTravelAuthorizationDocument();
 
         ActionForward forward = super.updatePerDiemExpenses(mapping, form, request, response);
-        taForm.getNewSourceLine().setAmount(this.getAccountingLineAmountToFillin(taForm));
-
+        taForm.getNewSourceLine().setAmount(this.getAccountingLineAmountToFillIn(taForm));
         getTravelEncumbranceService().updateEncumbranceObjectCode(document, taForm.getNewSourceLine());
 
         return forward;
@@ -624,6 +623,10 @@ public class TravelAuthorizationAction extends TravelActionBase {
      * @throws Exception
      */
     public ActionForward recalculate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+//        TravelAuthorizationForm authForm = (TravelAuthorizationForm) form;
+//        TravelAuthorizationDocument travelReqDoc = authForm.getTravelAuthorizationDocument();
+//        travelReqDoc.propagateAdvanceInformationIfNeeded();
         return recalculateTripDetailTotal(mapping, form, request, response);
     }
 
@@ -887,7 +890,9 @@ public class TravelAuthorizationAction extends TravelActionBase {
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
-    KualiDecimal getAccountingLineAmountToFillin(TravelAuthorizationForm travelAuthForm) {
+    @Override
+    protected KualiDecimal getAccountingLineAmountToFillIn(TravelFormBase travelFormBase) {
+        TravelAuthorizationForm travelAuthForm = (TravelAuthorizationForm) travelFormBase;
         KualiDecimal amount = new KualiDecimal(0);
 
         KualiDecimal encTotal = travelAuthForm.getTravelAuthorizationDocument().getEncumbranceTotal();

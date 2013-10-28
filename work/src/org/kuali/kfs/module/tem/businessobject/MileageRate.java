@@ -22,12 +22,13 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
@@ -36,20 +37,15 @@ import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
  *
  */
 @Entity
-@Table(name="TEM_MILEAGE_RATE_T")
-public class MileageRate extends PersistableBusinessObjectBase implements MutableInactivatable {
-
+@Table(name="TEM_MILEAGE_RT_T")
+public class MileageRate extends PersistableBusinessObjectBase {
     private Integer id;
-
-    private String name;
-
+    private String expenseTypeCode;
     private KualiDecimal rate;
-
     private Date activeFromDate;
-
     private Date activeToDate;
 
-    private boolean active = Boolean.TRUE;
+    private ExpenseType expenseType;
 
     @Id
     @GeneratedValue(generator="TEM_MILEAGE_RT_ID_SEQ")
@@ -63,16 +59,7 @@ public class MileageRate extends PersistableBusinessObjectBase implements Mutabl
         this.id = id;
     }
 
-    @Column(name="nm",length=40,nullable=false)
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    @Column(name="rate",precision=19,scale=2,nullable=false)
+    @Column(name="rt",precision=19,scale=2,nullable=false)
     public KualiDecimal getRate() {
         return rate;
     }
@@ -99,27 +86,37 @@ public class MileageRate extends PersistableBusinessObjectBase implements Mutabl
         this.activeToDate = activeToDate;
     }
 
-    @Override
-    @Column(name="actv_ind",nullable=false,length=1)
-    public boolean isActive() {
-        return active;
+    @Column(name="exp_typ_cd",nullable=false)
+    public String getExpenseTypeCode() {
+        return expenseTypeCode;
     }
 
-    @Override
-    public void setActive(boolean active) {
-        this.active = active;
+    public void setExpenseTypeCode(String expenseTypeCode) {
+        this.expenseTypeCode = expenseTypeCode;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "EXP_TYP_CD")
+    public ExpenseType getExpenseType() {
+        return expenseType;
+    }
+
+    public void setExpenseType(ExpenseType expenseType) {
+        this.expenseType = expenseType;
     }
 
     protected LinkedHashMap<String,String> toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap<String,String> map = new LinkedHashMap<String,String>();
-        map.put("name", name);
-        map.put("rate", name);
+        map.put("id", Integer.toString(id));
+        if (rate != null) {
+            map.put("rate", rate.toString());
+        }
 
         return map;
     }
 
-    public String getCodeAndRate(MileageRateObjCode mileageRateObjectCode){
-        return mileageRateObjectCode.getTripTypeCode() + KFSConstants.BLANK_SPACE + KFSConstants.DASH + KFSConstants.BLANK_SPACE + TemConstants.DOLLAR_SIGN + this.getRate().toString();
+    public String getCodeAndRate(){
+        return getExpenseTypeCode() + KFSConstants.BLANK_SPACE + KFSConstants.DASH + KFSConstants.BLANK_SPACE + TemConstants.DOLLAR_SIGN + this.getRate().toString();
     }
 
 }

@@ -19,6 +19,7 @@ import static org.kuali.kfs.module.tem.TemConstants.TravelParameters.PER_DIEM_CA
 
 import java.util.Collection;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.TemParameterConstants;
@@ -50,7 +51,7 @@ public class TravelAuthTripDetailMileageRateValidation extends GenericValidation
         }
         if (showMileage) {
             for (PerDiemExpense estimate : document.getPerDiemExpenses()) {
-                if (estimate.getMileageRateId() == null) {
+                if (StringUtils.isBlank(estimate.getMileageRateExpenseTypeCode())) {
                     GlobalVariables.getMessageMap().putError("document.perDiemExpenses", TemKeyConstants.ERROR_TA_NO_MILEAGE_RATE);
                     rulePassed = false;
                 }

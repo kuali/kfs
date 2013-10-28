@@ -58,10 +58,10 @@ import org.kuali.kfs.module.tem.businessobject.AccountingDistribution;
 import org.kuali.kfs.module.tem.businessobject.AccountingDocumentRelationship;
 import org.kuali.kfs.module.tem.businessobject.ActualExpense;
 import org.kuali.kfs.module.tem.businessobject.PerDiemExpense;
-import org.kuali.kfs.module.tem.businessobject.TemSourceAccountingLine;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationCloseDocument;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
 import org.kuali.kfs.module.tem.document.TravelDocument;
+import org.kuali.kfs.module.tem.document.TravelDocumentBase;
 import org.kuali.kfs.module.tem.document.TravelReimbursementDocument;
 import org.kuali.kfs.module.tem.document.authorization.TravelReimbursementAuthorizer;
 import org.kuali.kfs.module.tem.document.service.TravelAuthorizationService;
@@ -127,28 +127,9 @@ public class TravelReimbursementAction extends TravelActionBase {
     protected void setButtonPermissions(TravelReimbursementForm form) {
         canSave(form);
 
-        final TravelReimbursementAuthorizer authorizer = getDocumentAuthorizer(form);
-        //certify
-        form.setCanCertify(authorizer.canCertify(form.getTravelReimbursementDocument(), GlobalVariables.getUserSession().getPerson()));
+        setCanCertify(form);
         setCanCalculate(form);
     }
-
-//    /**
-//     * Determines whether or not someone can calculate a travel reimbursement
-//     *
-//     * @param authForm
-//     */
-//    protected void setCanCalculate(TravelReimbursementForm form) {
-//        boolean can = !(isFinal(form) || isProcessed(form));
-//
-//        if (can) {
-//            TravelReimbursementAuthorizer documentAuthorizer = getDocumentAuthorizer(form);
-//            can = documentAuthorizer.canCalculate(form.getTravelReimbursementDocument(), GlobalVariables.getUserSession().getPerson());
-//        }
-//
-//        form.setCanCalculate(can);
-//    }
-
 
     protected void canSave(TravelReimbursementForm reqForm) {
         boolean can = !(isFinal(reqForm) || isProcessed(reqForm));
@@ -174,6 +155,17 @@ public class TravelReimbursementAction extends TravelActionBase {
         else{
             reqForm.getDocumentActions().remove(KRADConstants.KUALI_ACTION_CAN_SAVE);
         }
+    }
+
+    /**
+     * Determines whether or not someone can certify a travel document
+     *
+     * @param authForm
+     */
+    protected void setCanCertify(TravelReimbursementForm form) {
+        final TravelReimbursementAuthorizer authorizer = getDocumentAuthorizer(form);
+        //certify
+        form.setCanCertify(authorizer.canCertify(form.getTravelReimbursementDocument(), GlobalVariables.getUserSession().getPerson()));
     }
 
     public ActionForward printCoversheet(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -251,7 +243,7 @@ public class TravelReimbursementAction extends TravelActionBase {
             final PerDiemExpense mileage = getTravelDocumentService().copyPerDiemExpense(estimate);
             mileage.setDocumentNumber(reimbursement.getDocumentNumber());
 
-            if (mileage.getMileageRateId() != null) {
+            if (!StringUtils.isBlank(mileage.getMileageRateExpenseTypeCode())) {
                 LOG.debug("Adding mileage for estimate with date "+ estimate.getMileageDate());
                 reimbursement.getPerDiemExpenses().add(mileage);
             }
@@ -442,6 +434,7 @@ public class TravelReimbursementAction extends TravelActionBase {
             document.setPrimaryDestinationCountryState(rootDocument.getPrimaryDestinationCountryState());
             document.setGroupTravelers(getTravelDocumentService().copyGroupTravelers(rootDocument.getGroupTravelers(), document.getDocumentNumber()));
             document.setDelinquentTRException(rootDocument.getDelinquentTRException());
+            document.setBlanketTravel(rootDocument.getBlanketTravel());
             document.setMealWithoutLodgingReason(rootDocument.getMealWithoutLodgingReason());
             document.configureTraveler(rootDocument.getTemProfileId(), rootDocument.getTraveler());
             document.setExpenseLimit(rootDocument.getExpenseLimit());
@@ -462,10 +455,7 @@ public class TravelReimbursementAction extends TravelActionBase {
             //only initialize per diem and copy expenses for a TR created from a TA
             if (rootDocument instanceof TravelAuthorizationDocument) {
 
-                //only initialize per diem and copy expenses on the first TR
-                List<TravelReimbursementDocument> reimbursementDocuments = getTravelDocumentService().findReimbursementDocuments(document.getTravelDocumentIdentifier());
-                if (reimbursementDocuments.isEmpty()) {
-
+                if (isCopyPerDiemAndExpenses(document)) {
                     initializePerDiem(document, (TravelAuthorizationDocument)rootDocument);
 
                     document.setActualExpenses((List<ActualExpense>) getTravelDocumentService().copyActualExpenses(rootDocument.getActualExpenses(), document.getDocumentNumber()));
@@ -577,11 +567,13 @@ public class TravelReimbursementAction extends TravelActionBase {
         getTravelDocumentService().showNoTravelAuthorizationError(document);
 
         final KualiDecimal reimbursableTotal = document.getReimbursableGrandTotal(); // the grand total is the amount that's actually reimbursable from this trip
-        if (reimbursableTotal != null && !ObjectUtils.isNull(document.getTravelPayment())) {
+        if (reimbursableTotal != null && !ObjectUtils.isNull(document.getTravelPayment()) && reimbursableTotal.isGreaterEqual(KualiDecimal.ZERO)) {
             document.getTravelPayment().setCheckTotalAmount(reimbursableTotal);
         }
         return retval;
     }
+
+
 
     /**
      * The action called when the "Remove Per Diem Table" buttons are clicked upon. This method will clear out the per diem objects
@@ -647,6 +639,14 @@ public class TravelReimbursementAction extends TravelActionBase {
      * @throws Exception
      */
     public ActionForward recalculate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        TravelFormBase travelReqForm = (TravelFormBase) form;
+        TravelDocumentBase travelReqDoc = (TravelDocumentBase) travelReqForm.getDocument();
+
+        if (travelReqForm.getDocument() instanceof TravelReimbursementDocument) {
+            final boolean showAdvances = getParameterService().getParameterValueAsBoolean(TravelReimbursementDocument.class, DISPLAY_ADVANCES_IN_REIMBURSEMENT_TOTAL_IND);
+            request.setAttribute(SHOW_ADVANCES_ATTRIBUTE, showAdvances);
+        }
+
         return recalculateTripDetailTotal(mapping, form, request, response);
     }
 
@@ -673,10 +673,10 @@ public class TravelReimbursementAction extends TravelActionBase {
             TravelDocument rootDocument = getTravelDocumentService().findRootForTravelReimbursement(travelDocumentIdentifier);
 
             if (ObjectUtils.isNotNull(rootDocument)) {
-                String relationshipDescription = rootDocument.getDocumentTypeName() +" - "+ trDoc.getDocumentTypeName();
-                getAccountingDocumentRelationshipService().save(new AccountingDocumentRelationship(rootDocument.getDocumentNumber(), trDoc.getDocumentNumber(), relationshipDescription));
-            }
+            String relationshipDescription = rootDocument.getDocumentTypeName() +" - "+ trDoc.getDocumentTypeName();
+            getAccountingDocumentRelationshipService().save(new AccountingDocumentRelationship(rootDocument.getDocumentNumber(), trDoc.getDocumentNumber(), relationshipDescription));
         }
+    }
     }
 
 
@@ -780,49 +780,6 @@ public class TravelReimbursementAction extends TravelActionBase {
         }
     }
 
-    /**
-     *
-     * @see org.kuali.kfs.module.tem.document.web.struts.TravelActionBase#getAccountingLineAmountToFillIn(org.kuali.kfs.module.tem.document.web.struts.TravelFormBase)
-     */
-    @Override
-    protected KualiDecimal getAccountingLineAmountToFillIn(TravelFormBase travelReqForm) {
-        KualiDecimal amount = new KualiDecimal(0);
-
-        TravelDocument travelDocument = travelReqForm.getTravelDocument();
-        KualiDecimal encTotal = travelDocument.getEncumbranceTotal();
-        KualiDecimal expenseTotal = travelDocument.getExpenseLimit();
-
-        final List<TemSourceAccountingLine> accountingLines = travelDocument.getSourceAccountingLines();
-
-        KualiDecimal accountingTotal = new KualiDecimal(0);
-        for (TemSourceAccountingLine accountingLine : accountingLines) {
-            if (travelDocument.getDefaultCardTypeCode().equals(accountingLine.getCardType())) {
-                accountingTotal = accountingTotal.add(accountingLine.getAmount());
-            }
-        }
-
-        if (ObjectUtils.isNull(expenseTotal)) {
-            if (encTotal.isGreaterThan(KualiDecimal.ZERO)) {
-                amount = encTotal.subtract(accountingTotal);
-            }
-            else {
-                amount = KualiDecimal.ZERO;
-            }
-        }
-        else if (expenseTotal.isLessThan(encTotal)) {
-            amount = expenseTotal.subtract(accountingTotal);
-        }
-        else {
-            if (encTotal.isGreaterThan(KualiDecimal.ZERO)) {
-                amount = encTotal.subtract(accountingTotal);
-            }
-            else {
-                amount = KualiDecimal.ZERO;
-            }
-        }
-
-        return amount;
-    }
 
     /**
      * Determines the object code for the next source accounting line, based on the distribution for the document
@@ -883,6 +840,31 @@ public class TravelReimbursementAction extends TravelActionBase {
         return forward;
     }
 
+    /**
+     * Should a new TR created from a TR initialize per diem and copy expenses?
+     * Not if there is already a FINAL/PROCESSED TR
+     *
+     * @param newReimbursementDocument
+     * @return
+     */
+    protected boolean isCopyPerDiemAndExpenses(TravelReimbursementDocument newReimbursementDocument) {
+
+        List<TravelReimbursementDocument> reimbursementDocuments = getTravelDocumentService().findReimbursementDocuments(newReimbursementDocument.getTravelDocumentIdentifier());
+        if (!reimbursementDocuments.isEmpty()) {
+
+            for(TravelReimbursementDocument reimbursementDocument : reimbursementDocuments) {
+                if (reimbursementDocument.getDocumentHeader().getWorkflowDocument().isFinal() ||
+                        reimbursementDocument.getDocumentHeader().getWorkflowDocument().isProcessed()) {
+
+                    //a finalized or processed TR exists- not okay to set up per diem or initialize expenses
+                    return false;
+                }
+            }
+        }
+
+        //no TRs exist or there aren't any which have been finalized or processed- okay to set up per diem and initialize expenses
+        return true;
+    }
 
     protected TravelReimbursementService getTravelReimbursementService() {
         return SpringContext.getBean(TravelReimbursementService.class);

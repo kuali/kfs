@@ -151,6 +151,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
     protected String travelDocumentIdentifier;
     protected Integer travelDocumentLinkIdentifier;
     private Boolean delinquentTRException = false;
+    private Boolean blanketTravel = false;
 
     @Transient
     private List<PropertyChangeListener> propertyChangeListeners = new ArrayList<PropertyChangeListener>();
@@ -1402,6 +1403,36 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
      */
     public void setDelinquentTRException(Boolean delinquentTRException) {
         this.delinquentTRException = delinquentTRException;
+    }
+
+    /**
+     * Gets the blanketTravel attribute.
+     *
+     * @return Returns the blanketTravel
+     */
+
+    @Override
+    public Boolean getBlanketTravel() {
+        return blanketTravel;
+    }
+
+    /**
+     * Gets the blanketTravel attribute.
+     *
+     * @return Returns the blanketTravel
+     */
+
+    public Boolean isBlanketTravel() {
+        return getBlanketTravel();
+    }
+
+    /**
+     * Sets the blanketTravel attribute.
+     *
+     * @param blanketTravel The blanketTravel to set.
+     */
+    public void setBlanketTravel(Boolean blanketTravel) {
+        this.blanketTravel = blanketTravel;
     }
 
     /**

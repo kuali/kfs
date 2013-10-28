@@ -55,16 +55,16 @@ public abstract class TEMDocumentExpenseLineValidation extends GenericValidation
         boolean success = true;
         PerDiemType perDiem = null;
         // Check to see if the same expense type is been entered in PerDiem
-        if (actualExpense.getMileageIndicator() && isPerDiemMileageEntered(document.getPerDiemExpenses())) {
+        if (actualExpense.isMileage() && isPerDiemMileageEntered(actualExpense.getExpenseDate(), document.getPerDiemExpenses())) {
             perDiem = PerDiemType.mileage;
         }
-        else if ((actualExpense.isHostedMeal()) && isPerDiemMealsEntered(document.getPerDiemExpenses())) {
+        else if ((actualExpense.isHostedMeal()) && isPerDiemMealsEntered(actualExpense.getExpenseDate(), document.getPerDiemExpenses())) {
             perDiem = PerDiemType.meals;
         }
-        else if (actualExpense.isLodging() && isPerDiemLodgingEntered(document.getPerDiemExpenses())) {
+        else if (actualExpense.isLodging() && isPerDiemLodgingEntered(actualExpense.getExpenseDate(), document.getPerDiemExpenses())) {
             perDiem = PerDiemType.lodging;
         }
-        else if (actualExpense.isIncidental() && isPerDiemIncidentalEntered(document.getPerDiemExpenses())) {
+        else if (actualExpense.isIncidental() && isPerDiemIncidentalEntered(actualExpense.getExpenseDate(), document.getPerDiemExpenses())) {
             perDiem = PerDiemType.incidentals;
         }
         else if (actualExpense.isBreakfast() && isPerDiemBreakfastEntered(actualExpense.getExpenseDate(), document.getPerDiemExpenses())) {
@@ -78,16 +78,29 @@ public abstract class TEMDocumentExpenseLineValidation extends GenericValidation
         }
 
         if (perDiem != null){
-            if (warningOnly) {
-                GlobalVariables.getMessageMap().putWarning(TemPropertyConstants.EXEPENSE_TYPE_OBJECT_CODE_ID, TemKeyConstants.WARNING_DUPLICATE_EXPENSE, perDiem.label);
-            } else {
-                success = false;
-                GlobalVariables.getMessageMap().putError(TemPropertyConstants.EXEPENSE_TYPE_OBJECT_CODE_ID, TemKeyConstants.WARNING_DUPLICATE_EXPENSE, perDiem.label);
-                final String matchingErrorPath = StringUtils.join(GlobalVariables.getMessageMap().getErrorPath(), ".") + "." + TemPropertyConstants.EXEPENSE_TYPE_OBJECT_CODE_ID;
-                GlobalVariables.getMessageMap().removeAllWarningMessagesForProperty(matchingErrorPath);
-            }
+            success &= addPerDiemError(perDiem, warningOnly);
         }
 
+        return success;
+    }
+
+    /**
+     * Adds a per diem error
+     *
+     * @param perDiem the type of the per diem to error about
+     * @param warningOnly whether error should be a true error or a warning only
+     * @return true if rule suceeded, false otherwise
+     */
+    protected boolean addPerDiemError(PerDiemType perDiem, boolean warningOnly) {
+        boolean success = true;
+        if (warningOnly) {
+            GlobalVariables.getMessageMap().putWarning(TemPropertyConstants.EXEPENSE_TYPE_OBJECT_CODE_ID, TemKeyConstants.WARNING_DUPLICATE_EXPENSE, perDiem.label);
+        } else {
+            success = false;
+            GlobalVariables.getMessageMap().putError(TemPropertyConstants.EXEPENSE_TYPE_OBJECT_CODE_ID, TemKeyConstants.WARNING_DUPLICATE_EXPENSE, perDiem.label);
+            final String matchingErrorPath = StringUtils.join(GlobalVariables.getMessageMap().getErrorPath(), ".") + "." + TemPropertyConstants.EXEPENSE_TYPE_OBJECT_CODE_ID;
+            GlobalVariables.getMessageMap().removeAllWarningMessagesForProperty(matchingErrorPath);
+        }
         return success;
     }
 
@@ -97,9 +110,9 @@ public abstract class TEMDocumentExpenseLineValidation extends GenericValidation
      * @param perDiemExpenses
      * @return
      */
-    protected boolean isPerDiemMileageEntered(List<PerDiemExpense> perDiemExpenses) {
+    protected boolean isPerDiemMileageEntered(java.sql.Date expenseDate, List<PerDiemExpense> perDiemExpenses) {
         for (PerDiemExpense perDiemExpenseLine : perDiemExpenses) {
-            if (ObjectUtils.isNotNull(perDiemExpenseLine.getMiles()) && perDiemExpenseLine.getMiles() > 0) {
+            if (KfsDateUtils.isSameDay(perDiemExpenseLine.getMileageDate(), expenseDate) && ObjectUtils.isNotNull(perDiemExpenseLine.getMiles()) && perDiemExpenseLine.getMiles() > 0) {
                 return true;
             }
         }
@@ -112,9 +125,9 @@ public abstract class TEMDocumentExpenseLineValidation extends GenericValidation
      * @param perDiemExpenses
      * @return
      */
-    protected boolean isPerDiemMealsEntered(List<PerDiemExpense> perDiemExpenses) {
+    protected boolean isPerDiemMealsEntered(java.sql.Date expenseDate, List<PerDiemExpense> perDiemExpenses) {
         for (PerDiemExpense perDiemExpenseLine : perDiemExpenses) {
-            if (ObjectUtils.isNotNull(perDiemExpenseLine.getMealsAndIncidentals()) &&
+            if (KfsDateUtils.isSameDay(perDiemExpenseLine.getMileageDate(), expenseDate) && ObjectUtils.isNotNull(perDiemExpenseLine.getMealsAndIncidentals()) &&
                     (perDiemExpenseLine.getMealsAndIncidentals().isGreaterThan(KualiDecimal.ZERO) ||
                     perDiemExpenseLine.getMealsTotal().isGreaterThan(KualiDecimal.ZERO))) {
                 return true;
@@ -129,9 +142,9 @@ public abstract class TEMDocumentExpenseLineValidation extends GenericValidation
      * @param perDiemExpenses
      * @return
      */
-    protected boolean isPerDiemLodgingEntered(List<PerDiemExpense> perDiemExpenses) {
+    protected boolean isPerDiemLodgingEntered(java.sql.Date expenseDate, List<PerDiemExpense> perDiemExpenses) {
         for (PerDiemExpense perDiemExpenseLine : perDiemExpenses) {
-            if (ObjectUtils.isNotNull(perDiemExpenseLine.getLodgingTotal())
+            if (KfsDateUtils.isSameDay(perDiemExpenseLine.getMileageDate(), expenseDate) && ObjectUtils.isNotNull(perDiemExpenseLine.getLodgingTotal())
                     && perDiemExpenseLine.getLodgingTotal().isGreaterThan(KualiDecimal.ZERO)) {
                 return true;
             }
@@ -145,9 +158,9 @@ public abstract class TEMDocumentExpenseLineValidation extends GenericValidation
      * @param perDiemExpenses
      * @return
      */
-    protected boolean isPerDiemIncidentalEntered(List<PerDiemExpense> perDiemExpenses) {
+    protected boolean isPerDiemIncidentalEntered(java.sql.Date expenseDate, List<PerDiemExpense> perDiemExpenses) {
         for (PerDiemExpense perDiemExpenseLine : perDiemExpenses) {
-            if (perDiemExpenseLine.getLodgingTotal().isGreaterThan(KualiDecimal.ZERO)) {
+            if (KfsDateUtils.isSameDay(perDiemExpenseLine.getMileageDate(), expenseDate) && perDiemExpenseLine.getLodgingTotal().isGreaterThan(KualiDecimal.ZERO)) {
                 return true;
             }
         }

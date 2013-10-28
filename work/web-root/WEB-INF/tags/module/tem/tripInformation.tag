@@ -28,13 +28,21 @@
 				<kul:htmlAttributeLabel attributeEntry="${documentAttributes.tripTypeCode}" />
 			</div>
 		</th>
-		<td class="datacell" colspan="3" width="75%">
+		<td class="datacell"  width="25%">
 			<kul:htmlControlAttribute
 			attributeEntry="${documentAttributes.tripTypeCode}"
 			property="document.tripTypeCode" 
 			onchange="document.getElementById('refreshPage').click();"
 			readOnly="${!fullEntryMode}"/>
-			<html:image property="methodToCall.recalculateTripDetailTotal" src="${ConfigProperties.externalizable.images.url}tinybutton-recalculate.gif" alt="calculate" styleClass="tinybutton" styleId="refreshPage" style="display:none; visibility:hidden;"/>			
+			<html:image property="methodToCall.recalculate" src="${ConfigProperties.externalizable.images.url}tinybutton-recalculate.gif" alt="calculate" styleClass="tinybutton" styleId="refreshPage" style="display:none; visibility:hidden;"/>			
+		</td>
+		<th class="bord-l-b" width="25%">
+		<div align="right"><kul:htmlAttributeLabel
+			attributeEntry="${documentAttributes.blanketTravel}" /></div>
+		</th>
+		<td class="datacell" width="25%"><kul:htmlControlAttribute
+			attributeEntry="${documentAttributes.blanketTravel}"
+			property="document.blanketTravel" readOnly="${!blanketTravelMode}"/>
 		</td>
 	</tr>
 	<tr>

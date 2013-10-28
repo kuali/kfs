@@ -519,6 +519,8 @@
     		</list>
     	</property>
     	<property name="perDiemService" ref="perDiemService"/>
+    	<property name="travelExpenseService" ref="travelExpenseService"/>
+    	<property name="noteService" ref="noteService"/>
 	</bean>
   
     <bean id="travelDisbursementService" parent="travelDisbursementService-parentBean" />
@@ -760,6 +762,7 @@
 		<property name="stateService" ref="stateService" />
 		<property name="perDiemDao" ref="perDiemDao" />
 		<property name="travelDocumentDao" ref="travelDocumentDao"/>
+		<property name="travelExpenseService" ref="travelExpenseService"/>
 		<property name="mealBreakDownStrategies">
 			<map>
 				<entry key="DEFAULT">

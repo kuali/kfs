@@ -52,6 +52,8 @@ public class TravelAuthorizationDocumentCustomActionBuilder extends DocumentActi
      * App Doc Status of REIMB_HELD, CANCELLED, PEND_AMENDMENT, CLOSED, or RETIRED_VERSION. Also checks if the person has permission to
      * initiate the target documents. Will not show the new Reimbursement link if a TA already has a TR enroute.
      *
+     * If the document is a TAC, the workflow document status must be FINAL and the App Doc Status must be CLOSED.
+     *
      * check status of document and don't create if the status is not final or processed
      *
      * @param documentSearchResult
@@ -61,14 +63,17 @@ public class TravelAuthorizationDocumentCustomActionBuilder extends DocumentActi
      */
     private boolean showNewDocumentURL(DocumentSearchResult documentSearchResult, String documentType, TravelDocument document) {
         final DocumentStatus documentStatus = documentSearchResult.getDocument().getStatus();
+        boolean documentStatusCheck = (documentStatus.equals(DocumentStatus.FINAL)
+                                      || documentStatus.equals(DocumentStatus.PROCESSED));
+
         final String appDocStatus = documentSearchResult.getDocument().getApplicationDocumentStatus();
-        boolean statusCheck = (documentStatus.equals(DocumentStatus.FINAL)
-                || (documentStatus.equals(DocumentStatus.PROCESSED)))
-                && (!appDocStatus.equals(TravelAuthorizationStatusCodeKeys.REIMB_HELD))
-                && (!appDocStatus.equals(TravelAuthorizationStatusCodeKeys.CANCELLED))
-                && (!appDocStatus.equals(TravelAuthorizationStatusCodeKeys.PEND_AMENDMENT))
-                && (!appDocStatus.equals(TravelAuthorizationStatusCodeKeys.RETIRED_VERSION))
-                && (!appDocStatus.equals(TravelAuthorizationStatusCodeKeys.CLOSED));
+        boolean appDocStatusCheck = (!appDocStatus.equals(TravelAuthorizationStatusCodeKeys.REIMB_HELD)
+                                    && !appDocStatus.equals(TravelAuthorizationStatusCodeKeys.CANCELLED)
+                                    && !appDocStatus.equals(TravelAuthorizationStatusCodeKeys.PEND_AMENDMENT)
+                                    && !appDocStatus.equals(TravelAuthorizationStatusCodeKeys.RETIRED_VERSION)
+                                    && !appDocStatus.equals(TravelAuthorizationStatusCodeKeys.CLOSED));
+
+        boolean statusCheck = documentStatusCheck && appDocStatusCheck;
 
         Person user = GlobalVariables.getUserSession().getPerson();
         boolean hasInitAccess = false;
@@ -80,12 +85,20 @@ public class TravelAuthorizationDocumentCustomActionBuilder extends DocumentActi
         boolean checkRelatedDocs = true;
         if (documentType.equals(TemConstants.TravelDocTypes.TRAVEL_REIMBURSEMENT_DOCUMENT)) {
 
+            //check whether there is already an ENROUTE TR
             List<Document> docs = getTravelDocumentService().getDocumentsRelatedTo(document, documentType);
             for (Document doc : docs) {
                 TravelReimbursementDocument trDoc = (TravelReimbursementDocument)doc;
                 if (trDoc.getDocumentHeader().getWorkflowDocument().isEnroute()) {
                     checkRelatedDocs &= false;
                 }
+            }
+
+            //a TR document can be processed against a closed TA. If the TAC is Final/Closed display the TR link.
+            if (document.getDocumentTypeName().equals(TemConstants.TravelDocTypes.TRAVEL_AUTHORIZATION_CLOSE_DOCUMENT)) {
+                documentStatusCheck = documentStatus.equals(DocumentStatus.FINAL);
+                appDocStatusCheck = appDocStatus.equals(TravelAuthorizationStatusCodeKeys.CLOSED);
+                statusCheck = documentStatusCheck && appDocStatusCheck;
             }
         }
 

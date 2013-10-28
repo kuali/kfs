@@ -264,14 +264,8 @@ public class ImportedExpensePendingEntryServiceImpl implements ImportedExpensePe
         explicitEntry.setOrganizationDocumentNumber(travelDocument.getTravelDocumentIdentifier());
         explicitEntry.setDocumentNumber(travelDocument.getDocumentNumber());
         explicitEntry.setOrganizationReferenceId(travelDocument.getFinancialDocumentTypeCode()+TemConstants.IMPORTED_FLAG);
-        if (isCredit){
-            explicitEntry.setTransactionDebitCreditCode(KFSConstants.GL_CREDIT_CODE);
-            explicitEntry.setProjectCode(null);
-        }
-        else{
-            explicitEntry.setProjectCode(travelDocument.getTemProfileId().toString());
-            explicitEntry.setTransactionDebitCreditCode(KFSConstants.GL_DEBIT_CODE);
-        }
+        final String transactionCode = isCredit ? KFSConstants.GL_CREDIT_CODE : KFSConstants.GL_DEBIT_CODE;
+        explicitEntry.setTransactionDebitCreditCode(transactionCode);
 
         // increment the sequence counter
         sequenceHelper.increment();

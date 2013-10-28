@@ -90,8 +90,9 @@ public interface TravelEncumbranceService {
      *
      * @param document TAC to disencumber
      * @param sequenceHelper the GLPE sequence helper
+     * @param reimbursementEntries if not null, there will be an attempt to apply the TR's to encumbrances - these entries will come from final TR's spawning TAC's
      */
-    public void disencumberTravelAuthorizationClose(TravelAuthorizationCloseDocument document, GeneralLedgerPendingEntrySequenceHelper sequenceHelper);
+    public void disencumberTravelAuthorizationClose(TravelAuthorizationCloseDocument document, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, List<GeneralLedgerPendingEntry> reimbursementPendingEntries);
 
     public void adjustEncumbranceForAmendment(TravelAuthorizationAmendmentDocument taDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper);
 

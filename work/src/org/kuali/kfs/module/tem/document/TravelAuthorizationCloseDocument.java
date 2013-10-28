@@ -15,7 +15,14 @@
  */
 package org.kuali.kfs.module.tem.document;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationStatusCodeKeys;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
@@ -25,6 +32,7 @@ import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 
 public class TravelAuthorizationCloseDocument extends TravelAuthorizationDocument {
+    protected String travelReimbursementDocumentNumber;
 
     @Override
     public boolean generateGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySourceDetail glpeSourceDetail, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
@@ -34,7 +42,14 @@ public class TravelAuthorizationCloseDocument extends TravelAuthorizationDocumen
     @Override
     public boolean generateDocumentGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
         if (isTripGenerateEncumbrance()){
-            getTravelEncumbranceService().disencumberTravelAuthorizationClose(this, sequenceHelper);
+            List<GeneralLedgerPendingEntry> reimbursementPendingEntries = null;
+            if (!StringUtils.isBlank(getTravelReimbursementDocumentNumber())) { // we were spawned by a TR; let's find the GLPE's for that
+                Map<String, String> fieldValues = new HashMap<String, String>();
+                fieldValues.put(KFSPropertyConstants.DOCUMENT_NUMBER, getTravelReimbursementDocumentNumber());
+                reimbursementPendingEntries = (List<GeneralLedgerPendingEntry>)getBusinessObjectService().findMatching(GeneralLedgerPendingEntry.class, fieldValues);
+            }
+
+            getTravelEncumbranceService().disencumberTravelAuthorizationClose(this, sequenceHelper, reimbursementPendingEntries);
         }
         return true;
     }
@@ -80,4 +95,20 @@ public class TravelAuthorizationCloseDocument extends TravelAuthorizationDocumen
     public boolean shouldRevertToOriginalAuthorizationOnCopy() {
         return true;
     }
+
+    /**
+     * @return the document number of the final travel reimbursement which spawned this TAC
+     */
+    public String getTravelReimbursementDocumentNumber() {
+        return travelReimbursementDocumentNumber;
+    }
+
+    /**
+     * Sets the document number of the final travel reimburement document which spawned this document
+     * @param travelReimbursementDocumentNumber the document number to set
+     */
+    public void setTravelReimbursementDocumentNumber(String travelReimbursementDocumentNumber) {
+        this.travelReimbursementDocumentNumber = travelReimbursementDocumentNumber;
+    }
+
 }

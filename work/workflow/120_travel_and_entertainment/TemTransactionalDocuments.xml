@@ -78,6 +78,12 @@
 			<routingVersion>
 				2
             </routingVersion>
+            <policies>
+            	<policy>
+                	<name>INITIATOR_MUST_ROUTE</name>
+                	<value>false</value>
+            	</policy>
+            </policies>
 			<validApplicationStatuses>
 				<status>In Process</status>
 				<status>Awaiting Traveler Review</status>
@@ -115,7 +121,7 @@
 			<routePaths>
 				<routePath>
 					<start name="AdHoc" nextNode="TravelRequiresTravelerApproval" nextAppDocStatus="Awaiting Traveler Review" />
-					<split name="TravelRequiresTravelerApproval" nextNode="TravelRequiresAccountApproval" nextAppDocStatus="Awaiting Traveler Review">
+					<split name="TravelRequiresTravelerApproval" nextNode="Account" nextAppDocStatus="Awaiting Traveler Review">
                         <branch name="True">
                             <role name="Traveler" nextNode="JoinTravelRequiresTravelerApproval" nextAppDocStatus="Awaiting Fiscal Officer Review" />
                         </branch>
@@ -124,15 +130,7 @@
                         </branch>
                         <join name="JoinTravelRequiresTravelerApproval"/>
                     </split>
-					<split name="TravelRequiresAccountApproval" nextNode="AccountingOrganizationHierarchy" nextAppDocStatus="Awaiting Fiscal Officer Review">
-                        <branch name="True">
-                            <role name="Account" nextNode="JoinTravelRequiresAccountApproval" nextAppDocStatus="Awaiting Organization Review" />
-                        </branch>
-                        <branch name="False">
-                            <simple name="NoOpTravelRequiresAccountApproval" nextNode="JoinTravelRequiresAccountApproval" nextAppDocStatus="Awaiting Organization Review" />
-                        </branch>
-                        <join name="JoinTravelRequiresAccountApproval"/>
-                    </split>
+                    <role name="Account" nextNode="AccountingOrganizationHierarchy" nextAppDocStatus="Awaiting Organization Review" />
 					<role name="AccountingOrganizationHierarchy" nextNode="TravelRequiresDivisionApproval" />
 				    <split name="TravelRequiresDivisionApproval" nextNode="TravelHasSpecialRequest" nextAppDocStatus="Awaiting Division Review">
 				        <branch name="True">
@@ -143,32 +141,32 @@
                         </branch>
                         <join name="JoinTravelRequiresDivisionApproval"/>
 				    </split>
-					<split name="TravelHasSpecialRequest" nextNode="TravelIsInternational" nextAppDocStatus="Awaiting Special Request Review">
+					<split name="TravelHasSpecialRequest" nextNode="TravelNeedsRiskManagement" nextAppDocStatus="Awaiting Special Request Review">
 						<branch name="True">
-							<role name="SpecialRequest" nextNode="JoinTravelHasSpecialRequest" />
+							<role name="SpecialRequest" nextNode="JoinTravelHasSpecialRequest" nextAppDocStatus="Awaiting Risk Management Review"/>
 						</branch>
 						<branch name="False">
-							<simple name="NoOpTravelHasSpecialRequest" nextNode="JoinTravelHasSpecialRequest" />
+							<simple name="NoOpTravelHasSpecialRequest" nextNode="JoinTravelHasSpecialRequest" nextAppDocStatus="Awaiting Risk Management Review"/>
 						</branch>
 						<join name="JoinTravelHasSpecialRequest"/>
 					</split>
-                    <split name="TravelIsInternational" nextNode="TravelNeedsRiskManagement" nextAppDocStatus="Awaiting International Travel Review">
+                    <split name="TravelNeedsRiskManagement" nextNode="TravelIsInternational" nextAppDocStatus="Awaiting Risk Management Review">
                         <branch name="True">
-                            <role name="InternationalTravel" nextNode="JoinTravelIsInternational" />
+                            <role name="RiskManagement" nextNode="JoinTravelNeedsRiskManagement" nextAppDocStatus="Awaiting International Travel Review" />
                         </branch>
                         <branch name="False">
-                            <simple name="NoOpTravelIsInternational" nextNode="JoinTravelIsInternational" />
-                        </branch>
-                        <join name="JoinTravelIsInternational"/>
-                    </split>
-                    <split name="TravelNeedsRiskManagement" nextNode="SubFund" nextAppDocStatus="Awaiting Risk Management Review">
-                        <branch name="True">
-                            <role name="RiskManagement" nextNode="JoinTravelNeedsRiskManagement" nextAppDocStatus="Awaiting Sub-Fund Review" />
-                        </branch>
-                        <branch name="False">
-                            <simple name="NoOpTravelNeedsRiskManagement" nextNode="JoinTravelNeedsRiskManagement" nextAppDocStatus="Awaiting Sub-Fund Review" />
+                            <simple name="NoOpTravelNeedsRiskManagement" nextNode="JoinTravelNeedsRiskManagement" nextAppDocStatus="Awaiting International Travel Review" />
                         </branch>
                         <join name="JoinTravelNeedsRiskManagement"/>
+                    </split>
+                    <split name="TravelIsInternational" nextNode="SubFund" nextAppDocStatus="Awaiting International Travel Review">
+                        <branch name="True">
+                            <role name="InternationalTravel" nextNode="JoinTravelIsInternational" nextAppDocStatus="Awaiting Sub-Fund Review"/>
+                        </branch>
+                        <branch name="False">
+                            <simple name="NoOpTravelIsInternational" nextNode="JoinTravelIsInternational" nextAppDocStatus="Awaiting Sub-Fund Review"/>
+                        </branch>
+                        <join name="JoinTravelIsInternational"/>
                     </split>
 					<role name="SubFund" nextNode="Award" nextAppDocStatus="Awaiting Award Review" />
 					<role name="Award" nextNode="RequiresSeparationOfDuties" nextAppDocStatus="Awaiting Separation Of Duties Review"/>
@@ -206,14 +204,6 @@
 					<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
 					<activationType>P</activationType>
 				</role>
-				<join name="JoinTravelRequiresAccountApproval" />
-                <simple name="NoOpTravelRequiresAccountApproval">
-                    <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
-                </simple>
-                <split name="TravelRequiresAccountApproval">
-                    <type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode
-                    </type>
-                </split>
 				<role name="Account">
 					<qualifierResolverClass>
 						org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
@@ -473,24 +463,15 @@
 						</branch>
 						<join name="JoinRequiresSubFund" />
 					</split>
-					<split name="RequiresAward" nextNode="TaxManagerApproval" nextAppDocStatus="Awaiting Award Review">
+					<split name="RequiresAward" nextNode="RequiresSeparationOfDuties" nextAppDocStatus="Awaiting Award Review">
 						<branch name="True">
-							<role name="Award" nextNode="JoinRequiresAward" nextAppDocStatus="Awaiting Tax Manager Review" />
+							<role name="Award" nextNode="JoinRequiresAward" nextAppDocStatus="Awaiting Separation Of Duties Review" />
 						</branch>
 						<branch name="False">
-							<simple name="NoOpAward" nextNode="JoinRequiresAward" nextAppDocStatus="Awaiting Tax Manager Review" />
+							<simple name="NoOpAward" nextNode="JoinRequiresAward" nextAppDocStatus="Awaiting Separation Of Duties Review" />
 						</branch>
 						<join name="JoinRequiresAward" />
 					</split>
-					<split name="TaxManagerApproval" nextNode="RequiresSeparationOfDuties" nextAppDocStatus="Awaiting Tax Manager Review">
-			         	<branch name="True">
-			            	<role name="Tax" nextNode="JoinTaxManager" nextAppDocStatus="Awaiting Separation Of Duties Review" />
-			         	</branch>
-			         	<branch name="False">
-			            	<simple name="NoOpTaxManager" nextNode="JoinTaxManager" nextAppDocStatus="Awaiting Separation Of Duties Review" />
-			         	</branch>	
-			         	<join name="JoinTaxManager" />	         		
-	     			</split>
 	     			<split name="RequiresSeparationOfDuties" nextNode="PaymentMethod" nextAppDocStatus="Awaiting Separation Of Duties Review">
 			         	<branch name="True">
 			            	<role name="SeparationOfDuties" nextNode="JoinRequiresSeparationOfDuties" nextAppDocStatus="Awaiting Disbursement Method Review" />
@@ -501,7 +482,16 @@
 			         	<join name="JoinRequiresSeparationOfDuties" />	         		
 	     			</split>
 	     			<role name="PaymentMethod" nextNode="Travel" nextAppDocStatus="Awaiting Travel Manager Review" />
-					<role name="Travel" nextAppDocStatus="Department Approved" />
+					<role name="Travel" nextNode="TaxManagerApproval" nextAppDocStatus="Awaiting Tax Manager Review" />
+					<split name="TaxManagerApproval" nextAppDocStatus="Awaiting Tax Manager Review">
+			         	<branch name="True">
+			            	<role name="Tax" nextNode="JoinTaxManager" nextAppDocStatus="Department Approved" />
+			         	</branch>
+			         	<branch name="False">
+			            	<simple name="NoOpTaxManager" nextNode="JoinTaxManager" nextAppDocStatus="Department Approved" />
+			         	</branch>	
+			         	<join name="JoinTaxManager" />	         		
+	     			</split>
                 </routePath>
             </routePaths>
             <routeNodes>
@@ -774,16 +764,7 @@
 					<role name="ExecutiveApproval" nextNode="SubFund" nextAppDocStatus="Awaiting Sub-Fund Review" />				
                     
                     <role name="SubFund" nextNode="Award" nextAppDocStatus="Awaiting Award Review" />
-                    <role name="Award" nextNode="TaxManagerApproval" nextAppDocStatus="Awaiting Tax Manager Review" />
-                    <split name="TaxManagerApproval" nextNode="RequiresSeparationOfDuties" nextAppDocStatus="Awaiting Tax Manager Review">
-			         	<branch name="True">
-			            	<role name="Tax" nextNode="JoinTaxManagerApproval" nextAppDocStatus="Awaiting Separation Of Duties Review" />
-			         	</branch>
-			         	<branch name="False">
-			            	<simple name="NoOpTaxManagerApproval" nextNode="JoinTaxManagerApproval" nextAppDocStatus="Awaiting Separation Of Duties Review" />
-			         	</branch>
-                        <join name="JoinTaxManagerApproval"/>		         		
-	     			</split>
+                    <role name="Award" nextNode="RequiresSeparationOfDuties" nextAppDocStatus="Awaiting Separation Of Duties Review" />
                     <split name="RequiresSeparationOfDuties" nextNode="PaymentMethod" nextAppDocStatus="Awaiting Separation Of Duties Review">
                         <branch name="True">
                             <role name="SeparationOfDuties" nextNode="JoinRequiresSeparationOfDuties" nextAppDocStatus="Awaiting Disbursement Method Review" />
@@ -794,7 +775,16 @@
                         <join name="JoinRequiresSeparationOfDuties" />                  
                     </split>
                     <role name="PaymentMethod" nextNode="MovingAndRelocationManager" nextAppDocStatus="Awaiting Moving and Relocation Manager Review" />
-                    <role name="MovingAndRelocationManager" nextAppDocStatus="Moving And Relocation Manager Approved" />
+                    <role name="MovingAndRelocationManager" nextNode="TaxManagerApproval" nextAppDocStatus="Awaiting Tax Manager Review" />
+                    <split name="TaxManagerApproval" nextAppDocStatus="Awaiting Tax Manager Review">
+			         	<branch name="True">
+			            	<role name="Tax" nextNode="JoinTaxManagerApproval" nextAppDocStatus="Moving And Relocation Manager Approved" />
+			         	</branch>
+			         	<branch name="False">
+			            	<simple name="NoOpTaxManagerApproval" nextNode="JoinTaxManagerApproval" nextAppDocStatus="Moving And Relocation Manager Approved" />
+			         	</branch>
+                        <join name="JoinTaxManagerApproval"/>		         		
+	     			</split>
                 </routePath>
             </routePaths> 
             
@@ -1035,24 +1025,16 @@
                     <role name="AccountingOrganizationHierarchy" nextNode="TravelHasSpecialRequest" nextAppDocStatus="Awaiting Special Request Review" />
                  	<split name="TravelHasSpecialRequest" nextNode="SubFund" nextAppDocStatus="Awaiting Special Request Review">
 						<branch name="True">
-							<role name="SpecialRequest" nextNode="JoinTravelHasSpecialRequest" />
+							<role name="SpecialRequest" nextNode="JoinTravelHasSpecialRequest" nextAppDocStatus="Awaiting Sub-Fund Review"/>
 						</branch>
 						<branch name="False">
-							<simple name="NoOpTravelHasSpecialRequest" nextNode="JoinTravelHasSpecialRequest" />
+							<simple name="NoOpTravelHasSpecialRequest" nextNode="JoinTravelHasSpecialRequest" nextAppDocStatus="Awaiting Sub-Fund Review"/>
 						</branch>
 						<join name="JoinTravelHasSpecialRequest"/>
 					</split>
            	        <role name="SubFund" nextNode="Award" nextAppDocStatus="Awaiting Award Review" />
-            	    <role name="Award" nextNode="TaxManager" nextAppDocStatus="Awaiting Tax Manager Review" />
-                    <split name="TaxManager" nextNode="RequiresSeparationOfDuties" nextAppDocStatus="Awaiting Tax Manager Review">
-					   <branch name="True">
-					      <role name="Tax" nextNode="JoinTaxManager" nextAppDocStatus="Awaiting Separation Of Duties Review"/>
-					   </branch>
-					   <branch name="False">
-						  <simple name="NoOpTaxManager" nextNode="JoinTaxManager"  nextAppDocStatus="Awaiting Separation Of Duties Review" />
-					   </branch>
-					   <join name="JoinTaxManager"/>
-					</split>
+            	    <role name="Award" nextNode="RequiresSeparationOfDuties" nextAppDocStatus="Awaiting Separation Of Duties Review" />
+                    
                     <split name="RequiresSeparationOfDuties" nextNode="PaymentMethod" nextAppDocStatus="Awaiting Separation Of Duties Review">
                         <branch name="True">
                             <role name="SeparationOfDuties" nextNode="JoinRequiresSeparationOfDuties" nextAppDocStatus="Awaiting Disbursement Payment Review" />
@@ -1063,7 +1045,16 @@
                         <join name="JoinRequiresSeparationOfDuties" />                  
                     </split>
                     <role name="PaymentMethod" nextNode="EntertainmentManager" nextAppDocStatus="Awaiting Entertainment Manager Review"/>
-					<role name="EntertainmentManager" nextAppDocStatus="Entertainment Manager Approved"/>
+					<role name="EntertainmentManager" nextNode="TaxManager" nextAppDocStatus="Awaiting Tax Manager Review"/>
+					<split name="TaxManager" nextAppDocStatus="Awaiting Tax Manager Review">
+					   <branch name="True">
+					      <role name="Tax" nextNode="JoinTaxManager" nextAppDocStatus="Entertainment Manager Approved"/>
+					   </branch>
+					   <branch name="False">
+						  <simple name="NoOpTaxManager" nextNode="JoinTaxManager"  nextAppDocStatus="Entertainment Manager Approved" />
+					   </branch>
+					   <join name="JoinTaxManager"/>
+					</split>
                 </routePath>
             </routePaths>
             <routeNodes>

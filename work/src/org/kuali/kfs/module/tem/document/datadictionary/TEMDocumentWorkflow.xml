@@ -482,6 +482,15 @@
 			    		</bean>
 			    	</property>
 			    </bean>
+			    <bean class="org.kuali.rice.krad.datadictionary.DocumentValuePathGroup">
+    				<property name="documentValues">
+    					<list>
+    						<value>blanketTotalDollarAmountForRouting</value>
+    						<value>blanketChartForRouting</value>
+    						<value>blanketAccountForRouting</value>
+    					</list>
+    				</property>
+			   	</bean>
     		</list>
     	</property>
     </bean>

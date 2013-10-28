@@ -46,6 +46,10 @@ public class TravelAuthorizationDocumentPresentationController extends TravelAut
         addFullEntryEditMode(document, editModes);
         editModes.remove(TemConstants.EditModes.CHECK_AMOUNT_ENTRY);
         editModes.add(TemConstants.TravelEditMode.ADVANCE_PAYMENT_ENTRY);
+        if (document instanceof TravelAuthorizationDocument &&  (wfDocument.isInitiated() || wfDocument.isSaved())) {
+            editModes.add(TemConstants.EditModes.BLANKET_TRAVEL_ENTRY);
+        }
+
         if (document instanceof TravelAuthorizationDocument && ((TravelAuthorizationDocument)document).shouldProcessAdvanceForDocument() && isAtTravelerNode(wfDocument) || wfDocument.isInitiated() || wfDocument.isSaved()) {
             editModes.add(TemConstants.TravelEditMode.ADVANCE_POLICY_ENTRY);
         }

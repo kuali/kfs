@@ -416,6 +416,11 @@ public interface TravelDocument extends AccountingDocument, TravelEntertainmentM
     public Boolean getDelinquentTRException();
 
     /**
+     * @return
+     */
+    public Boolean getBlanketTravel();
+
+    /**
      * Determines if this document should attempt to refresh the expense type object codes for expenses or not
      * @return true of expense type object codes on expenses should be refreshed; false otherwise
      */

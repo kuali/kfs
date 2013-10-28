@@ -99,6 +99,7 @@
 		<property name="documentService" ref="documentService" />
 		<property name="purapService" ref="purapService"/>
 		<property name="purchaseOrderService" ref="purchaseOrderService"/>
+		<property name="businessObjectService" ref="businessObjectService"/>
 	</bean>
 
 	<bean id="PurapConstants" class="org.kuali.rice.core.api.util.collect.ConstantsMap">

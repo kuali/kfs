@@ -212,7 +212,6 @@ public class AgencyDataImportServiceImpl implements AgencyDataImportService {
                         //if there are errors check for required fields missing or duplicate data- load anything else
                             String errorCode = importedAgencyStagingData.getErrorCode();
                             if (ObjectUtils.isNotNull(errorCode) &&
-                                    !StringUtils.equals(TemConstants.AgencyStagingDataErrorCodes.AGENCY_REQUIRED_FIELDS, errorCode) &&
                                     !StringUtils.equals(TemConstants.AgencyStagingDataErrorCodes.AGENCY_DUPLICATE_DATA, errorCode)) {
 
                                 validAgencyStagingDataMap.put(key,importedAgencyStagingData);
@@ -246,7 +245,6 @@ public class AgencyDataImportServiceImpl implements AgencyDataImportService {
                         //if there are errors check for required fields missing or duplicate data- load anything else
                             String errorCode = importedAgencyStagingData.getErrorCode();
                             if (ObjectUtils.isNotNull(errorCode) &&
-                                    !StringUtils.equals(TemConstants.AgencyStagingDataErrorCodes.AGENCY_REQUIRED_FIELDS, errorCode) &&
                                     !StringUtils.equals(TemConstants.AgencyStagingDataErrorCodes.AGENCY_DUPLICATE_DATA, errorCode)) {
 
                                 validAgencyStagingDataMap.put(key,importedAgencyStagingData);

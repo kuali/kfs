@@ -349,21 +349,6 @@ public class DelegateGlobalRule extends GlobalDocumentRuleBase {
         return true;
     }
 
-
-    private boolean checkStartDate(AccountDelegateGlobalDetail delegateGlobalDetail, int lineNum) {
-        boolean success = true;
-        if (ObjectUtils.isNotNull(delegateGlobalDetail.getAccountDelegateStartDate())) {
-            Timestamp today = getDateTimeService().getCurrentTimestamp();
-            today.setTime(DateUtils.truncate(today, Calendar.DAY_OF_MONTH).getTime());
-            if (delegateGlobalDetail.getAccountDelegateStartDate().before(today)) {
-                success = false;
-                String errorPath = DELEGATE_GLOBALS_PREFIX + "[" + lineNum + "]." + "accountDelegateStartDate";
-                putFieldError(errorPath, KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_STARTDATE_IN_PAST,new String[0]);
-            }
-        }
-        return success;
-   }
-
     /**
      * This method validates the rule that says there can be only one PrimaryRoute delegate for each given docType. It checks the
      * delegateGlobalToTest against the list, to determine whether adding this new delegateGlobalToTest would violate any
@@ -525,9 +510,6 @@ public class DelegateGlobalRule extends GlobalDocumentRuleBase {
             detail.refreshNonUpdateableReferences();
             KualiDecimal fromAmount = detail.getApprovalFromThisAmount();
             KualiDecimal toAmount = detail.getApprovalToThisAmount();
-
-            // check the start date
-            success &= checkStartDate(detail, 0);
 
             // FROM amount must be >= 0 (may not be negative)
             success &= checkDelegateFromAmtGreaterThanEqualZero(fromAmount, 0, true);

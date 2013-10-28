@@ -176,17 +176,6 @@ public class DelegateRule extends KfsMaintenanceDocumentRuleBase {
             success &= false;
         }
 
-        // start date must be greater than or equal to today if active
-        boolean newActive = newDelegate.isActive();
-        if ((ObjectUtils.isNotNull(newDelegate.getAccountDelegateStartDate())) && newActive) {
-            Timestamp today = getDateTimeService().getCurrentTimestamp();
-            today.setTime(DateUtils.truncate(today, Calendar.DAY_OF_MONTH).getTime());
-            if (newDelegate.getAccountDelegateStartDate().before(today)) {
-                putFieldError(KFSPropertyConstants.ACCOUNT_DELEGATE_START_DATE, KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_STARTDATE_IN_PAST);
-                success &= false;
-            }
-        }
-
         // FROM amount must be >= 0 (may not be negative)
         KualiDecimal fromAmount = newDelegate.getFinDocApprovalFromThisAmt();
         if (ObjectUtils.isNotNull(fromAmount)) {

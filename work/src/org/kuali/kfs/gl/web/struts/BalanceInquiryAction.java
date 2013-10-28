@@ -57,11 +57,11 @@ import org.kuali.rice.krad.util.KRADConstants;
 public class BalanceInquiryAction extends KualiAction {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BalanceInquiryAction.class);
 
-    private static final String TOTALS_TABLE_KEY = "totalsTable";
+    protected static final String TOTALS_TABLE_KEY = "totalsTable";
 
-    private ConfigurationService kualiConfigurationService;
+    protected ConfigurationService kualiConfigurationService;
     protected DataDictionaryService dataDictionaryService;
-    private String[] totalTitles;
+    protected String[] totalTitles;
 
     public BalanceInquiryAction() {
         super();
@@ -72,7 +72,7 @@ public class BalanceInquiryAction extends KualiAction {
     /**
      * Sets up total titles
      */
-    private void setTotalTitles() {
+    protected void setTotalTitles() {
         totalTitles = new String[7];
 
         totalTitles[0] = kualiConfigurationService.getPropertyValueAsString(KFSKeyConstants.AccountBalanceService.INCOME);
@@ -164,10 +164,9 @@ public class BalanceInquiryAction extends KualiAction {
 
                     AccountBalance balance = (AccountBalance) incompleteDisplayList.get(listIndex);
 
-                    boolean ok = ObjectHelper.isOneOf(balance.getTitle(), getTotalTitles());
-                    if (ok) {
-
-                        if (totalSize > 7) {
+                    boolean isTotalTitle = ObjectHelper.isOneOf(balance.getTitle(), getTotalTitles());
+                    if (isTotalTitle) {
+                        if (totalSize > totalTitles.length) {
                             totalsTable.add(resultTableAsArray[arrayIndex]);
                         }
                         resultTable.remove(resultTableAsArray[arrayIndex]);

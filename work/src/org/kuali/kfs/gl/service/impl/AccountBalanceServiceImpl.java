@@ -44,8 +44,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class AccountBalanceServiceImpl implements AccountBalanceService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountBalanceServiceImpl.class);
 
-    AccountBalanceDao accountBalanceDao;
-    ConfigurationService kualiConfigurationService;
+    protected AccountBalanceDao accountBalanceDao;
+    protected ConfigurationService kualiConfigurationService;
     protected UniversityDateService universityDateService;
     protected OptionsService optionsService;
 
@@ -149,7 +149,8 @@ public class AccountBalanceServiceImpl implements AccountBalanceService {
         for (Iterator iter = balances.iterator(); iter.hasNext();) {
             Map bal = (Map) iter.next();
             AccountBalance bbc = new AccountBalance(AccountBalance.TYPE_CONSOLIDATION, bal, universityFiscalYear, chartOfAccountsCode, accountNumber);
-
+            // Add variances to the AccountBalance and add the account balance (which will be on the detail line) to the results table (KFSCNTRB-1734)
+            bbc.getDummyBusinessObject().setGenericAmount(bbc.getVariance());
             if ((subAccountNumber != null) && (subAccountNumber.length() > 0)) {
                 if (bbc.getSubAccountNumber().equals(subAccountNumber)) {
                     results.add(bbc);

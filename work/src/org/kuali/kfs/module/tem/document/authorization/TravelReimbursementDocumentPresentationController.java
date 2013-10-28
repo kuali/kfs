@@ -28,7 +28,6 @@ import org.kuali.kfs.module.tem.document.TravelReimbursementDocument;
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
 import org.kuali.kfs.module.tem.document.service.TravelReimbursementService;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.util.ObjectUtils;
 
@@ -64,12 +63,7 @@ public class TravelReimbursementDocumentPresentationController extends TravelDoc
     public Set<String> getDocumentActions(Document document) {
         TravelReimbursementDocument tr = (TravelReimbursementDocument)document;
         TravelAuthorizationDocument ta = null;
-        try {
-            ta = getTravelDocumentService().findCurrentTravelAuthorization(tr);
-        }
-        catch (WorkflowException ex) {
-            LOG.error(ex);
-        }
+        ta = getTravelDocumentService().findCurrentTravelAuthorization(tr);
 
         if (ta != null){
             if(ta.getDelinquentAction() != null && ta.getDelinquentAction().equals(TemConstants.DELINQUENT_STOP) && !ta.getDelinquentTRException()){

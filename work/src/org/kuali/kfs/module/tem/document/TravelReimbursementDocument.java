@@ -309,7 +309,7 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
             return requiresDivisionApprovalRouting() && isNotAutomaticReimbursement();
         }
         if (nodeName.equals(TemWorkflowConstants.SPECIAL_REQUEST)) {
-            return requiresSpecialRequestReviewRouting() && isNotAutomaticReimbursement();
+            return (requiresSpecialRequestReviewRouting() || (isDelinquent() && !hasDelinquencyException())) && isNotAutomaticReimbursement();
         }
         if (nodeName.equals(TemWorkflowConstants.INTL_TRAVEL)) {
             return requiresInternationalTravelReviewRouting() && isNotAutomaticReimbursement();
@@ -371,6 +371,28 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
         KualiDecimal threshold = tripType.getAutoTravelReimbursementLimit();
         if (trTotal.isGreaterEqual(threshold)) {
             return true;
+        }
+        return false;
+    }
+
+    /**
+     * @return true if the TR is delinquent, false otherwise
+     */
+    protected boolean isDelinquent() {
+        return !StringUtils.isBlank(getDelinquentAction());
+    }
+
+    /**
+     * @return true if this reimbursement has a delinquincy exception, false otherwise
+     */
+    protected boolean hasDelinquencyException() {
+        if (getDelinquentTRException() != null && getDelinquentTRException().booleanValue()) {
+            return true;
+        }
+        // didn't find it?  Then we need to look at our current TA
+        final TravelAuthorizationDocument travelAuth = getTravelDocumentService().findCurrentTravelAuthorization(this);
+        if (travelAuth != null && travelAuth.getDelinquentTRException() != null) {
+            return travelAuth.getDelinquentTRException().booleanValue();
         }
         return false;
     }

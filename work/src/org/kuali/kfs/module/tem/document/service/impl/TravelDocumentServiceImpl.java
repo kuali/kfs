@@ -1200,42 +1200,48 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
      * @throws WorkflowException
      */
     @Override
-    public TravelAuthorizationDocument findCurrentTravelAuthorization(TravelDocument document) throws WorkflowException{
+    public TravelAuthorizationDocument findCurrentTravelAuthorization(TravelDocument document) {
 
         TravelAuthorizationDocument travelDocument = null;
 
-        final Map<String, List<Document>> relatedDocuments = getDocumentsRelatedTo(document);
-        List<Document> taDocs  = relatedDocuments.get(TravelDocTypes.TRAVEL_AUTHORIZATION_DOCUMENT);
-        List<Document> taaDocs = relatedDocuments.get(TravelDocTypes.TRAVEL_AUTHORIZATION_AMEND_DOCUMENT);
-        List<Document> tacDocs = relatedDocuments.get(TravelDocTypes.TRAVEL_AUTHORIZATION_CLOSE_DOCUMENT);
+        try {
+            final Map<String, List<Document>> relatedDocuments = getDocumentsRelatedTo(document);
+            List<Document> taDocs  = relatedDocuments.get(TravelDocTypes.TRAVEL_AUTHORIZATION_DOCUMENT);
+            List<Document> taaDocs = relatedDocuments.get(TravelDocTypes.TRAVEL_AUTHORIZATION_AMEND_DOCUMENT);
+            List<Document> tacDocs = relatedDocuments.get(TravelDocTypes.TRAVEL_AUTHORIZATION_CLOSE_DOCUMENT);
 
-        //If TAC exists, it will always be the most current travel auth doc
-        if (tacDocs != null && !tacDocs.isEmpty()) {
-            travelDocument =  (TravelAuthorizationDocument) tacDocs.get(0);
-        }
-        //find the TAA with the correct status
-        else if (taaDocs != null && !taaDocs.isEmpty()){
-            for (Document tempDocument : taaDocs){
-                //Find the doc that is the open to perform actions against.
-                if (isTravelAuthorizationOpened((TravelAuthorizationDocument)tempDocument)){
-                    travelDocument = (TravelAuthorizationDocument) tempDocument;
+            //If TAC exists, it will always be the most current travel auth doc
+            if (tacDocs != null && !tacDocs.isEmpty()) {
+                travelDocument =  (TravelAuthorizationDocument) tacDocs.get(0);
+            }
+            //find the TAA with the correct status
+            else if (taaDocs != null && !taaDocs.isEmpty()){
+                for (Document tempDocument : taaDocs){
+                    //Find the doc that is the open to perform actions against.
+                    if (isTravelAuthorizationOpened((TravelAuthorizationDocument)tempDocument)){
+                        travelDocument = (TravelAuthorizationDocument) tempDocument;
+                    }
+                }
+            }
+            //return TA doc if no amendments exist
+            if (travelDocument == null) {
+                //if the taDocs is null, initialize an empty list
+                taDocs = taDocs == null? new ArrayList<Document>() : taDocs;
+
+                if (taDocs.isEmpty()) {
+                    //this should find the TA document for sure
+                    final List<TravelAuthorizationDocument> tempTaDocs = findAuthorizationDocuments(document.getTravelDocumentIdentifier());
+                    if (!tempTaDocs.isEmpty()){
+                        travelDocument = tempTaDocs.get(0);
+                    }
+                }else{
+                    travelDocument = (TravelAuthorizationDocument) taDocs.get(0);
                 }
             }
         }
-        //return TA doc if no amendments exist
-        if (travelDocument == null) {
-            //if the taDocs is null, initialize an empty list
-            taDocs = taDocs == null? new ArrayList<Document>() : taDocs;
-
-            if (taDocs.isEmpty()) {
-                //this should find the TA document for sure
-                final List<TravelAuthorizationDocument> tempTaDocs = findAuthorizationDocuments(document.getTravelDocumentIdentifier());
-                if (!tempTaDocs.isEmpty()){
-                    travelDocument = tempTaDocs.get(0);
-                }
-            }else{
-                travelDocument = (TravelAuthorizationDocument) taDocs.get(0);
-            }
+        catch (WorkflowException we) {
+            final String docNum = (document != null && !StringUtils.isBlank(document.getDocumentNumber())) ? document.getDocumentNumber() : "???";
+            throw new RuntimeException("Could not find documents related to document #"+docNum);
         }
         return travelDocument;
     }
@@ -1248,46 +1254,51 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
      * @throws WorkflowException
      */
     @Override
-    public TravelDocument findRootForTravelReimbursement(String travelDocumentIdentifier) throws WorkflowException {
+    public TravelDocument findRootForTravelReimbursement(String travelDocumentIdentifier) {
 
         TravelDocument rootTravelDocument = null;
 
-        //look for a current authorization first
+        try {
+            //look for a current authorization first
 
-        //use the travelDocumentIdentifier to find any saved authorization
-        final Collection<TravelAuthorizationDocument> tempTaDocs = getTravelAuthorizationService().find(travelDocumentIdentifier);
+            //use the travelDocumentIdentifier to find any saved authorization
+            final Collection<TravelAuthorizationDocument> tempTaDocs = getTravelAuthorizationService().find(travelDocumentIdentifier);
 
-        if (!tempTaDocs.isEmpty()) {
-            TravelAuthorizationDocument taDoc = null;
-            for(TravelAuthorizationDocument tempTaDoc : tempTaDocs) {
-                taDoc = tempTaDoc;
-                break;
+            if (!tempTaDocs.isEmpty()) {
+                TravelAuthorizationDocument taDoc = null;
+                for(TravelAuthorizationDocument tempTaDoc : tempTaDocs) {
+                    taDoc = tempTaDoc;
+                    break;
+                }
+
+                //find the current travel authorization
+                rootTravelDocument = findCurrentTravelAuthorization(taDoc);
             }
 
-            //find the current travel authorization
-            rootTravelDocument = findCurrentTravelAuthorization(taDoc);
-        }
-
-        //no authorizations exist so the root should be a reimbursement
-        else {
-            final List<TravelReimbursementDocument> tempTrDocs = findReimbursementDocuments(travelDocumentIdentifier);
-            //did not find any reimbursements either so this must be an invalid travelDocumentIdentifier
-            if (tempTrDocs.isEmpty()) {
-                LOG.error("Did not find any authorizations or reimbursements; invalid travelDocumentIndentifier: "+ travelDocumentIdentifier);
-                return null;
-            }
-
-            //if there is only one document then that is the root
-            if (tempTrDocs.size() == 1) {
-                rootTravelDocument = tempTrDocs.get(0);
-            }
+            //no authorizations exist so the root should be a reimbursement
             else {
-                //the root document can be found using any document in the list; just use the first one
-                String rootDocumentNumber = getAccountingDocumentRelationshipService().getRootDocumentNumber(tempTrDocs.get(0).getDocumentNumber());
-                TravelDocument tempDoc = (TravelDocument)documentService.getByDocumentHeaderIdSessionless(rootDocumentNumber);
+                final List<TravelReimbursementDocument> tempTrDocs = findReimbursementDocuments(travelDocumentIdentifier);
+                //did not find any reimbursements either so this must be an invalid travelDocumentIdentifier
+                if (tempTrDocs.isEmpty()) {
+                    LOG.error("Did not find any authorizations or reimbursements; invalid travelDocumentIndentifier: "+ travelDocumentIdentifier);
+                    return null;
+                }
 
-                rootTravelDocument = tempDoc;
+                //if there is only one document then that is the root
+                if (tempTrDocs.size() == 1) {
+                    rootTravelDocument = tempTrDocs.get(0);
+                }
+                else {
+                    //the root document can be found using any document in the list; just use the first one
+                    String rootDocumentNumber = getAccountingDocumentRelationshipService().getRootDocumentNumber(tempTrDocs.get(0).getDocumentNumber());
+                    TravelDocument tempDoc = (TravelDocument)documentService.getByDocumentHeaderIdSessionless(rootDocumentNumber);
+
+                    rootTravelDocument = tempDoc;
+                }
             }
+        }
+        catch (WorkflowException we) {
+            throw new RuntimeException("Could not find documents related to trip id #"+travelDocumentIdentifier);
         }
 
         return rootTravelDocument;
@@ -1325,12 +1336,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
     public KualiDecimal getTotalAuthorizedEncumbrance(TravelDocument document) {
         KualiDecimal taTotal = KualiDecimal.ZERO;
         TravelAuthorizationDocument taDoc = null;
-        try {
-            taDoc = findCurrentTravelAuthorization(document);
-        }
-        catch (WorkflowException ex) {
-            ex.printStackTrace();
-        }
+        taDoc = findCurrentTravelAuthorization(document);
         if(taDoc != null) {
             List<AccountingLine> lines = taDoc.getSourceAccountingLines();
             for(AccountingLine line: lines) {
@@ -1880,14 +1886,9 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
     @Override
     public void showNoTravelAuthorizationError(TravelReimbursementDocument document){
         if (document.getTripType() != null && document.getTripType().getTravelAuthorizationRequired()){
-            try {
-                TravelAuthorizationDocument authorization = findCurrentTravelAuthorization(document);
-                if (authorization == null){
-                    GlobalVariables.getMessageMap().putError(KRADPropertyConstants.DOCUMENT + "." + TemPropertyConstants.TRIP_TYPE_CODE, TemKeyConstants.ERROR_TRIP_TYPE_TA_REQUIRED, document.getTripType().getName());
-                }
-            }
-            catch (WorkflowException ex) {
-                ex.printStackTrace();
+            TravelAuthorizationDocument authorization = findCurrentTravelAuthorization(document);
+            if (authorization == null){
+                GlobalVariables.getMessageMap().putError(KRADPropertyConstants.DOCUMENT + "." + TemPropertyConstants.TRIP_TYPE_CODE, TemKeyConstants.ERROR_TRIP_TYPE_TA_REQUIRED, document.getTripType().getName());
             }
         }
     }
@@ -1900,12 +1901,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
         LOG.debug("Looking for travel advances for travel: "+ travelDocument.getDocumentNumber());
         KualiDecimal retval = KualiDecimal.ZERO;
         TravelAuthorizationDocument authorization = null;
-        try {
-            authorization = findCurrentTravelAuthorization(travelDocument);
-        }
-        catch (WorkflowException ex) {
-            ex.printStackTrace();
-        }
+        authorization = findCurrentTravelAuthorization(travelDocument);
 
         if (authorization == null) {
             return retval;

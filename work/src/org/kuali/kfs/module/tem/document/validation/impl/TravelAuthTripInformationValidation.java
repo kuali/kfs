@@ -36,7 +36,6 @@ import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.kfs.sys.util.KfsDateUtils;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
-import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.service.DictionaryValidationService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -98,15 +97,10 @@ public class TravelAuthTripInformationValidation extends GenericValidation {
 
             if (document.getDocumentHeader().getWorkflowDocument().getDocumentTypeName().equals(TemConstants.TravelDocTypes.TRAVEL_REIMBURSEMENT_DOCUMENT)) {
                 if (document.getTripType().getTravelAuthorizationRequired()) {
-                    try {
-                        TravelAuthorizationDocument taDoc = getTravelDocumentService().findCurrentTravelAuthorization(document);
-                        if (taDoc == null) {
-                            GlobalVariables.getMessageMap().putError(KFSConstants.DOCUMENT_ERRORS, KFSKeyConstants.ERROR_CUSTOM, "Travel Authorization Document is required for this Trip Type [" + document.getTripType().getCode() + "].");
-                            rulePassed = false;
-                        }
-                    }
-                    catch (WorkflowException ex) {
-                        ex.printStackTrace();
+                    TravelAuthorizationDocument taDoc = getTravelDocumentService().findCurrentTravelAuthorization(document);
+                    if (taDoc == null) {
+                        GlobalVariables.getMessageMap().putError(KFSConstants.DOCUMENT_ERRORS, KFSKeyConstants.ERROR_CUSTOM, "Travel Authorization Document is required for this Trip Type [" + document.getTripType().getCode() + "].");
+                        rulePassed = false;
                     }
                 }
             }

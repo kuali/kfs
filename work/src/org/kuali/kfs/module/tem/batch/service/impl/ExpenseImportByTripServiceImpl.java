@@ -24,15 +24,15 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.module.tem.TemConstants;
+import org.kuali.kfs.module.tem.TemKeyConstants;
+import org.kuali.kfs.module.tem.TemParameterConstants;
+import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.TemConstants.AgencyMatchProcessParameter;
 import org.kuali.kfs.module.tem.TemConstants.AgencyStagingDataErrorCodes;
 import org.kuali.kfs.module.tem.TemConstants.AgencyStagingDataValidation;
 import org.kuali.kfs.module.tem.TemConstants.CreditCardStagingDataErrorCodes;
 import org.kuali.kfs.module.tem.TemConstants.ExpenseTypes;
 import org.kuali.kfs.module.tem.TemConstants.TravelParameters;
-import org.kuali.kfs.module.tem.TemKeyConstants;
-import org.kuali.kfs.module.tem.TemParameterConstants;
-import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.batch.AgencyDataImportStep;
 import org.kuali.kfs.module.tem.batch.service.ExpenseImportByTripService;
 import org.kuali.kfs.module.tem.batch.service.ImportedExpensePendingEntryService;
@@ -160,29 +160,35 @@ public class ExpenseImportByTripServiceImpl extends ExpenseImportServiceBase imp
 
         List<ErrorMessage> errorMessages = validateMandatoryFieldsPresent(agencyData);
         if (!errorMessages.isEmpty()) {
+            agencyData.setErrorCode(TemConstants.AgencyStagingDataErrorCodes.AGENCY_REQUIRED_FIELDS);
             return errorMessages;
         }
 
         errorMessages = validateDuplicateData(agencyData);
         if (!errorMessages.isEmpty()) {
+            agencyData.setErrorCode(TemConstants.AgencyStagingDataErrorCodes.AGENCY_DUPLICATE_DATA);
             return errorMessages;
         }
+
+        agencyData.setErrorCode(AgencyStagingDataErrorCodes.AGENCY_NO_ERROR);
 
         errorMessages = validateTripId(agencyData);
-        if (!errorMessages.isEmpty()) {
-            return errorMessages;
-        }
-        else {
-            agencyData.setErrorCode(AgencyStagingDataErrorCodes.AGENCY_NO_ERROR);
-            errorMessages = validateAccountingInfo(agencyData);
-        }
+        if (errorMessages.isEmpty()) {
 
-        if (!isCreditCardAgencyValid(agencyData)) {
-            errorMessages.add(new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_CREDIT_CARD_DATA_INVALID_CCA));
+            errorMessages = validateAccountingInfo(agencyData);
+            if (errorMessages.isEmpty()) {
+
+                if (!isCreditCardAgencyValid(agencyData)) {
+                    errorMessages.add(new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_CREDIT_CARD_DATA_INVALID_CCA));
+                }
+            }
         }
 
         LOG.info("Finished validating agency data. tripId:"+ agencyData.getTripId());
         agencyData.setProcessingTimestamp(dateTimeService.getCurrentTimestamp());
+        if (ObjectUtils.isNull(agencyData.getCreationTimestamp())) {
+            agencyData.setCreationTimestamp(dateTimeService.getCurrentTimestamp());
+        }
         return errorMessages;
     }
 

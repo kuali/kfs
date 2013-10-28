@@ -203,6 +203,21 @@ public class AgencyDataImportServiceImpl implements AgencyDataImportService {
 
                     if(!validAgencyStagingDataMap.containsKey(key)){
                         errorMessages.addAll(expenseImportByTravelerService.validateAgencyData(importedAgencyStagingData));
+
+                        //no errors- load the data
+                        if (errorMessages.isEmpty()) {
+                            validAgencyStagingDataMap.put(key,importedAgencyStagingData);
+                        }
+                        else {
+                        //if there are errors check for required fields missing or duplicate data- load anything else
+                            String errorCode = importedAgencyStagingData.getErrorCode();
+                            if (ObjectUtils.isNotNull(errorCode) &&
+                                    !StringUtils.equals(TemConstants.AgencyStagingDataErrorCodes.AGENCY_REQUIRED_FIELDS, errorCode) &&
+                                    !StringUtils.equals(TemConstants.AgencyStagingDataErrorCodes.AGENCY_DUPLICATE_DATA, errorCode)) {
+
+                                validAgencyStagingDataMap.put(key,importedAgencyStagingData);
+                            }
+                        }
                     }
                     else {
                         // duplicate record found in the file
@@ -222,6 +237,21 @@ public class AgencyDataImportServiceImpl implements AgencyDataImportService {
 
                     if(!validAgencyStagingDataMap.containsKey(key)){
                         errorMessages.addAll(expenseImportByTripService.validateAgencyData(importedAgencyStagingData));
+
+                        //no errors- load the data
+                        if (errorMessages.isEmpty()) {
+                            validAgencyStagingDataMap.put(key,importedAgencyStagingData);
+                        }
+                        else {
+                        //if there are errors check for required fields missing or duplicate data- load anything else
+                            String errorCode = importedAgencyStagingData.getErrorCode();
+                            if (ObjectUtils.isNotNull(errorCode) &&
+                                    !StringUtils.equals(TemConstants.AgencyStagingDataErrorCodes.AGENCY_REQUIRED_FIELDS, errorCode) &&
+                                    !StringUtils.equals(TemConstants.AgencyStagingDataErrorCodes.AGENCY_DUPLICATE_DATA, errorCode)) {
+
+                                validAgencyStagingDataMap.put(key,importedAgencyStagingData);
+                            }
+                        }
                     }
                     else {
                         // duplicate record found in the file.
@@ -230,10 +260,6 @@ public class AgencyDataImportServiceImpl implements AgencyDataImportService {
                                 importedAgencyStagingData.getTransactionPostingDate().toString(), importedAgencyStagingData.getTripExpenseAmount().toString(), itineraryData);
                             errorMessages.add(error);
                     }
-                }
-
-                if (errorMessages.isEmpty()) {
-                      validAgencyStagingDataMap.put(key,importedAgencyStagingData);
                 }
 
                 //writer to error report

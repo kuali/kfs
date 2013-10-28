@@ -681,6 +681,8 @@ public class TemConstants {
         public static final String AGENCY_INVALID_SUBOBJECT = "SOBJ";
         public static final String AGENCY_MOVED_TO_HISTORICAL = "HIS";
         public static final String AGENCY_INVALID_CC_AGENCY = "CCA";
+        public static final String AGENCY_REQUIRED_FIELDS = "REQ";
+        public static final String AGENCY_DUPLICATE_DATA = "DUP";
     }
 
     public static class AgencyStagingDataValidation {

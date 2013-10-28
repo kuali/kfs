@@ -40,6 +40,7 @@ import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.util.ErrorMessage;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * Maintainable instance for the travel agency audit maintenance document
@@ -131,7 +132,8 @@ public class AgencyStagingDataMaintainable extends FinancialSystemMaintainable {
     @Override
     public void processAfterEdit(MaintenanceDocument document, Map<String, String[]> parameters) {
         List<ErrorMessage>  errorMessages = null;
-        AgencyStagingData  agency = (AgencyStagingData)document.getOldMaintainableObject().getBusinessObject();
+        AgencyStagingData  agency = (AgencyStagingData)document.getNewMaintainableObject().getBusinessObject();
+
         if(TemConstants.ExpenseImportTypes.IMPORT_BY_TRIP.equals(agency.getImportBy())) {
            ExpenseImportByTripService expenseImportByTripService =   SpringContext.getBean(ExpenseImportByTripService.class);
            errorMessages = expenseImportByTripService.validateAgencyData(agency);
@@ -145,7 +147,7 @@ public class AgencyStagingDataMaintainable extends FinancialSystemMaintainable {
        for(ErrorMessage message : errorMessages ){
            messageMap.putError(KFSConstants.GLOBAL_ERRORS, message.getErrorKey(), message.getMessageParameters());
        }
-        updateCreditCardAgency((AgencyStagingData)document.getOldMaintainableObject().getBusinessObject());
+
         updateCreditCardAgency((AgencyStagingData)document.getNewMaintainableObject().getBusinessObject());
 
         super.processAfterEdit(document, parameters);
@@ -168,14 +170,14 @@ public class AgencyStagingDataMaintainable extends FinancialSystemMaintainable {
 	    AgencyStagingData agencyStaging = (AgencyStagingData) getBusinessObject();
 
 	    if (agencyStaging.isActive()) {
-    	    //since it is fixed an submitted, changing the status to OK
+    	    //since it is fixed and submitted, changing the status to OK
     	    agencyStaging.setErrorCode(AgencyStagingDataErrorCodes.AGENCY_NO_ERROR);
 
-    	    //if the object is manual created - we should set the system fields
-    	    if (agencyStaging.getManualCreated()){
-    	        // processingTimestamp
-    	        agencyStaging.setProcessingTimestamp(getDateTimeService().getCurrentTimestamp());
-    	    }
+	        agencyStaging.setProcessingTimestamp(getDateTimeService().getCurrentTimestamp());
+
+	        if (ObjectUtils.isNull(agencyStaging.getCreationTimestamp())) {
+	            agencyStaging.setCreationTimestamp(getDateTimeService().getCurrentTimestamp());
+	        }
         }
 
         super.saveBusinessObject();

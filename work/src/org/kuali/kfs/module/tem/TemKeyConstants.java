@@ -239,6 +239,7 @@ public class TemKeyConstants {
     public static final String MESSAGE_AGENCY_DATA_MISSING_ACCOUNT_NUM="message.batch.tem.agencyDataMissingAccountNumber";
     public static final String MESSAGE_AGENCY_DATA_MISSING_TRIP_DATA="message.batch.tem.agencyDataMissingTripData";
     public static final String MESSAGE_AGENCY_DATA_INVALID_TEM_PROFILE="message.batch.tem.agencyDataMissingTemProfile";
+    public static final String MESSAGE_AGENCY_DATA_INVALID_EXPENSE_TYPE_OBJECT_CODE="message.batch.tem.agencyData.notFound.expenseTypeObjectCode";
 
     public static final String MESSAGE_CREDIT_CARD_DATA_REPORT_HEADER = "message.batch.tem.creditcard.DataReportHeader";
     public static final String MESSAGE_CREDIT_CARD_DATA_DUPLICATE_RECORD="message.batch.tem.creditcard.DuplicateRecord";

@@ -24,15 +24,15 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.module.tem.TemConstants;
-import org.kuali.kfs.module.tem.TemKeyConstants;
-import org.kuali.kfs.module.tem.TemParameterConstants;
-import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.TemConstants.AgencyMatchProcessParameter;
 import org.kuali.kfs.module.tem.TemConstants.AgencyStagingDataErrorCodes;
 import org.kuali.kfs.module.tem.TemConstants.AgencyStagingDataValidation;
 import org.kuali.kfs.module.tem.TemConstants.CreditCardStagingDataErrorCodes;
 import org.kuali.kfs.module.tem.TemConstants.ExpenseTypes;
 import org.kuali.kfs.module.tem.TemConstants.TravelParameters;
+import org.kuali.kfs.module.tem.TemKeyConstants;
+import org.kuali.kfs.module.tem.TemParameterConstants;
+import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.batch.AgencyDataImportStep;
 import org.kuali.kfs.module.tem.batch.service.ExpenseImportByTripService;
 import org.kuali.kfs.module.tem.batch.service.ImportedExpensePendingEntryService;
@@ -236,6 +236,14 @@ public class ExpenseImportByTripServiceImpl extends ExpenseImportServiceBase imp
             return errorMessages;
         }
 
+        // will we have an expense type object code when we want to reconcile?
+        final ExpenseTypeObjectCode expenseTypeObjectCode = getTravelExpenseType(agencyData.getExpenseTypeCategory(), travelDocument);
+        if (expenseTypeObjectCode == null) {
+            LOG.error("Could not find an expense type object code record for trip id: "+agencyData.getTripId());
+            errorMessages.add(new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_DATA_INVALID_EXPENSE_TYPE_OBJECT_CODE, agencyData.getTripId(), agencyData.getAgency(), agencyData.getTransactionPostingDate().toString(), agencyData.getTripExpenseAmount().toString()));
+            setErrorCode(agencyData, AgencyStagingDataErrorCodes.AGENCY_INVALID_EXPENSE_TYPE_OBJECT_CODE);
+        }
+
         // Get ACCOUNTING_LINE_VALIDATION parameter to determine which fields to validate
         Collection<String> validationParams = getParameterService().getParameterValuesAsString(AgencyDataImportStep.class, TravelParameters.ACCOUNTING_LINE_VALIDATION);
         if (ObjectUtils.isNull(validationParams)) {
@@ -431,7 +439,8 @@ public class ExpenseImportByTripServiceImpl extends ExpenseImportServiceBase imp
 
                 if (ObjectUtils.isNotNull(ccData)) {
                     LOG.debug("Found a match for Agency: "+ agencyData.getId()+ " Credit Card: "+ ccData.getId()+ " tripId: "+ agencyData.getTripId());
-                    ExpenseTypeObjectCode travelExpenseType = getTravelExpenseType(expenseTypeCategory, agencyData.getTripId());
+                    final TravelDocument travelDocument = getTravelDocumentService().getTravelDocument(agencyData.getTripId());
+                    ExpenseTypeObjectCode travelExpenseType = getTravelExpenseType(expenseTypeCategory, travelDocument);
                     if (travelExpenseType != null) {
                         HistoricalTravelExpense expense = travelExpenseService.createHistoricalTravelExpense(agencyData, ccData, travelExpenseType);
                         AgencyServiceFee serviceFee = getAgencyServiceFee(agencyData.getDistributionCode());
@@ -534,12 +543,10 @@ public class ExpenseImportByTripServiceImpl extends ExpenseImportServiceBase imp
      * @param travelDocumentIdentifier
      * @return
      */
-    protected ExpenseTypeObjectCode getTravelExpenseType(TemConstants.ExpenseTypeMetaCategory expenseCategory, String travelDocumentIdentifier) {
+    protected ExpenseTypeObjectCode getTravelExpenseType(TemConstants.ExpenseTypeMetaCategory expenseCategory, TravelDocument travelDoc) {
         // get the default expense type for category
         final ExpenseType expenseType = getTravelExpenseService().getDefaultExpenseTypeForCategory(expenseCategory);
         // Is there a document associated with this trip?  If so, let's grab the trip type and traveler type from that
-        // Note the tripId has already been validated at this point, so the TA should be there (if the imported expense is for a TA)
-        TravelDocument travelDoc = getTravelDocumentService().getTravelDocument(travelDocumentIdentifier);
         if (ObjectUtils.isNotNull(travelDoc)) {
             return travelExpenseService.getExpenseType(expenseType.getCode(), travelDoc.getDocumentTypeName(), travelDoc.getTripTypeCode(), travelDoc.getTraveler().getTravelerTypeCode());
         }

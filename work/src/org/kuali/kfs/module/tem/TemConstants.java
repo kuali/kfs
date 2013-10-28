@@ -683,6 +683,7 @@ public class TemConstants {
         public static final String AGENCY_INVALID_CC_AGENCY = "CCA";
         public static final String AGENCY_REQUIRED_FIELDS = "REQ";
         public static final String AGENCY_DUPLICATE_DATA = "DUP";
+        public static final String AGENCY_INVALID_EXPENSE_TYPE_OBJECT_CODE = "EXP";
     }
 
     public static class AgencyStagingDataValidation {

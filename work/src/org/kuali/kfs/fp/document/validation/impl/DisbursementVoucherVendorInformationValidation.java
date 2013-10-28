@@ -15,7 +15,10 @@
  */
 package org.kuali.kfs.fp.document.validation.impl;
 
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
+
 import org.kuali.kfs.fp.businessobject.DisbursementVoucherPayeeDetail;
 import org.kuali.kfs.fp.document.DisbursementVoucherConstants;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
@@ -34,6 +37,7 @@ import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kim.api.KimConstants.PersonExternalIdentifierTypes;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.kim.api.identity.employment.EntityEmployment;
 import org.kuali.rice.kim.api.identity.entity.Entity;
 import org.kuali.rice.kim.api.services.IdentityManagementService;
 import org.kuali.rice.kns.service.DataDictionaryService;
@@ -62,15 +66,19 @@ public class DisbursementVoucherVendorInformationValidation extends GenericValid
             
             String initiator = document.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId();
             final Entity entity= SpringContext.getBean(IdentityManagementService.class).getEntityByPrincipalId(initiator);
-            String originatorId = entity.getEmploymentInformation().get(0).getEmployeeId();
-            String employeeId = payeeDetail.getDisbVchrEmployeeIdNumber();
-            // verify that originator does not equal payee
-            if (originatorId.equals(employeeId)) {
-                isValid = false;
-                MessageMap errors = GlobalVariables.getMessageMap();
-                errors.addToErrorPath(KFSPropertyConstants.DOCUMENT);
-                String[] errorName = { "Payee ID " + employeeId ," Originator has the same ID ", "name" };
-                errors.putError(DV_PAYEE_ID_NUMBER_PROPERTY_PATH, KFSKeyConstants.ERROR_DV_VENDOR_NAME_PERSON_NAME_CONFUSION, errorName);
+            // KFSCNTRB-1718- Don't assume that an initiator is an employee.
+            List<EntityEmployment> employmentInformation = entity.getEmploymentInformation();
+            if (employmentInformation != null && employmentInformation.size() > 0) {
+                String originatorId = employmentInformation.get(0).getEmployeeId();
+                String employeeId = payeeDetail.getDisbVchrEmployeeIdNumber();
+                // verify that originator does not equal payee
+                if (originatorId.equals(employeeId)) {
+                    isValid = false;
+                    MessageMap errors = GlobalVariables.getMessageMap();
+                    errors.addToErrorPath(KFSPropertyConstants.DOCUMENT);
+                    String[] errorName = { "Payee ID " + employeeId, " Originator has the same ID ", "name" };
+                    errors.putError(DV_PAYEE_ID_NUMBER_PROPERTY_PATH, KFSKeyConstants.ERROR_DV_VENDOR_NAME_PERSON_NAME_CONFUSION, errorName);
+                }
             }
             return isValid;
         }

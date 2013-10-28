@@ -51,15 +51,20 @@ public class SessionExpirationFilter implements Filter {
 
     protected void applyRedirectHeader(ServletRequest request, ServletResponse response) {
         HttpServletRequest req = (HttpServletRequest)request;
-        String sessionTimeout = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString("http.session.timeout.minutes");
-        if(StringUtils.isNotBlank(sessionTimeout) &&!StringUtils.contains(req.getRequestURI(), "/SessionInvalidateAction")){
-            Integer timeout = Integer.parseInt(sessionTimeout);
-            if(timeout != null && timeout > 0){
-                //convert from minutes to seconds
-                timeout *= 60;
-                HttpServletResponse httpResponse = (HttpServletResponse)response;
-                String url = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString("kfs.url");
-                httpResponse.setHeader("Refresh", timeout - 3 + ";URL="+ url +  "/SessionInvalidateAction.do");
+        // KFSCNTRB-1721- Don't set HTTP refresh header on portal, only on the internal iframe.
+        String queryString = req.getQueryString();
+        if (!StringUtils.contains(queryString,"channelUrl") &&
+                !StringUtils.contains(req.getRequestURI(), "/SessionInvalidateAction")){
+            HttpServletResponse httpResponse = (HttpServletResponse)response;
+            String sessionTimeout = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString("http.session.timeout.minutes");
+            if(StringUtils.isNotBlank(sessionTimeout)){
+                Integer timeout = Integer.parseInt(sessionTimeout);
+                if(timeout != null && timeout > 0){
+                    //convert from minutes to seconds
+                    timeout *= 60;
+                    String url = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString("kfs.url");
+                    httpResponse.setHeader("Refresh", timeout - 3 + ";URL="+ url +  "/SessionInvalidateAction.do");
+                }
             }
         }
     }

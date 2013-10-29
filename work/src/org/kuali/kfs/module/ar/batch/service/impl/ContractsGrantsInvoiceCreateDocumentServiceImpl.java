@@ -31,8 +31,8 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
 import org.kuali.kfs.coa.service.AccountingPeriodService;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAward;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAwardAccount;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAwardAccount;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleRetrieveService;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
@@ -93,9 +93,9 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
      * @see org.kuali.kfs.module.ar.batch.service.ContractsGrantsInvoiceDocumentCreateService#createCGInvoiceDocumentsByAwards(java.lang.String)
      */
     @Override
-    public boolean createCGInvoiceDocumentsByAwards(Collection<ContractsAndGrantsCGBAward> awards, String errOutputFileName) {
+    public boolean createCGInvoiceDocumentsByAwards(Collection<ContractsAndGrantsBillingAward> awards, String errOutputFileName) {
         ContractsGrantsInvoiceDocument cgInvoiceDocument;
-        List<ContractsAndGrantsCGBAwardAccount> tmpAcctList1 = null;
+        List<ContractsAndGrantsBillingAwardAccount> tmpAcctList1 = null;
         String coaCode = null, orgCode = null;
 
 
@@ -103,13 +103,13 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
             // iterate through awards and create cgInvoice documents
             tmpAcctList1 = new ArrayList();
 
-            for (ContractsAndGrantsCGBAward awd : awards) {
+            for (ContractsAndGrantsBillingAward awd : awards) {
                 String invOpt = awd.getInvoicingOptions();
 
                 // case 1: create CGIN by accounts
                 if (invOpt.equals(ArPropertyConstants.INV_ACCOUNT)) {
 
-                    for (ContractsAndGrantsCGBAwardAccount awardAccount : awd.getActiveAwardAccounts()) {
+                    for (ContractsAndGrantsBillingAwardAccount awardAccount : awd.getActiveAwardAccounts()) {
                         if (!awardAccount.isFinalBilledIndicator()) {
                             tmpAcctList1.clear();
                             // only one account is added into the list to create cgin
@@ -183,7 +183,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
                                 Account tmpCtrlAcct = null;
                                 tmpAcctList1.clear();
 
-                                for (ContractsAndGrantsCGBAwardAccount awardAccount : awd.getActiveAwardAccounts()) {
+                                for (ContractsAndGrantsBillingAwardAccount awardAccount : awd.getActiveAwardAccounts()) {
                                     if (!awardAccount.isFinalBilledIndicator()) {
                                         tmpCtrlAcct = awardAccount.getAccount().getContractControlAccount();
                                         if (tmpCtrlAcct.getChartOfAccountsCode().equals(controlAccount.getChartOfAccountsCode()) && tmpCtrlAcct.getAccountNumber().equals(controlAccount.getAccountNumber())) {
@@ -237,8 +237,8 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
 
                             Object[] awardAccounts = awd.getActiveAwardAccounts().toArray();
                             for (int i = 0; i < awardAccounts.length - 1; i++) {
-                                tmpAcct1 = ((ContractsAndGrantsCGBAwardAccount) awardAccounts[i]).getAccount().getContractControlAccount();
-                                tmpAcct2 = ((ContractsAndGrantsCGBAwardAccount) awardAccounts[i + 1]).getAccount().getContractControlAccount();
+                                tmpAcct1 = ((ContractsAndGrantsBillingAwardAccount) awardAccounts[i]).getAccount().getContractControlAccount();
+                                tmpAcct2 = ((ContractsAndGrantsBillingAwardAccount) awardAccounts[i + 1]).getAccount().getContractControlAccount();
 
                                 if (ObjectUtils.isNull(tmpAcct1) || ObjectUtils.isNull(tmpAcct2) || !areTheSameAccounts(tmpAcct1, tmpAcct2)) {
                                     errLines.add("Award/Proposal# " + awd.getProposalNumber().toString() + " is billed by award, but it has different control accounts for award accounts.");
@@ -250,7 +250,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
 
                         if (isValid) {
                             Account account;
-                            for (ContractsAndGrantsCGBAwardAccount awardAccount : awd.getActiveAwardAccounts()) {
+                            for (ContractsAndGrantsBillingAwardAccount awardAccount : awd.getActiveAwardAccounts()) {
                                 account = awardAccount.getAccount();
                                 // coaCode = account.getContractControlFinCoaCode();
                                 // orgCode = account.getContractControlAccount().getOrganizationCode();
@@ -319,7 +319,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
      * @return ContractsGrantsInvoiceDocument
      */
     @Override
-    public ContractsGrantsInvoiceDocument createCGInvoiceDocumentByAwardInfo(ContractsAndGrantsCGBAward awd, List<ContractsAndGrantsCGBAwardAccount> accounts, String chartOfAccountsCode, String organizationCode) {
+    public ContractsGrantsInvoiceDocument createCGInvoiceDocumentByAwardInfo(ContractsAndGrantsBillingAward awd, List<ContractsAndGrantsBillingAwardAccount> accounts, String chartOfAccountsCode, String organizationCode) {
         ContractsGrantsInvoiceDocument cgInvoiceDocument;
         if (ObjectUtils.isNotNull(accounts) && !accounts.isEmpty() && !CollectionUtils.isEmpty(accounts)) {
             if (chartOfAccountsCode != null && organizationCode != null) {
@@ -375,10 +375,10 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
      * @see org.kuali.kfs.module.ar.batch.service.ContractsGrantsInvoiceCreateDocumentService#retrieveAwards()
      */
     @Override
-    public Collection<ContractsAndGrantsCGBAward> retrieveAwards() {
+    public Collection<ContractsAndGrantsBillingAward> retrieveAwards() {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put(KFSPropertyConstants.ACTIVE, true);
-        return SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsCGBAward.class).getExternalizableBusinessObjectsList(ContractsAndGrantsCGBAward.class, map);
+        return SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsBillingAward.class).getExternalizableBusinessObjectsList(ContractsAndGrantsBillingAward.class, map);
 
     }
 
@@ -390,18 +390,18 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
      * @return True if
      */
     @Override
-    public Collection<ContractsAndGrantsCGBAward> validateAwards(Collection<ContractsAndGrantsCGBAward> awards, String errOutputFile) {
+    public Collection<ContractsAndGrantsBillingAward> validateAwards(Collection<ContractsAndGrantsBillingAward> awards, String errOutputFile) {
         boolean isInvalid;
-        Map<ContractsAndGrantsCGBAward, List<String>> invalidGroup = new HashMap<ContractsAndGrantsCGBAward, List<String>>();
+        Map<ContractsAndGrantsBillingAward, List<String>> invalidGroup = new HashMap<ContractsAndGrantsBillingAward, List<String>>();
         List<String> errorList = new ArrayList<String>();
-        List<ContractsAndGrantsCGBAward> qualifiedAwards = new ArrayList<ContractsAndGrantsCGBAward>();
-        List<ContractsAndGrantsCGBAward> tmpAwards = new ArrayList<ContractsAndGrantsCGBAward>();
+        List<ContractsAndGrantsBillingAward> qualifiedAwards = new ArrayList<ContractsAndGrantsBillingAward>();
+        List<ContractsAndGrantsBillingAward> tmpAwards = new ArrayList<ContractsAndGrantsBillingAward>();
 
 
         // validation for billing frequency for the collection of awards
         Collection<AccountingPeriod> accPeriods = accountingPeriodService.getAllAccountingPeriods();
 
-        for (ContractsAndGrantsCGBAward award : awards) {
+        for (ContractsAndGrantsBillingAward award : awards) {
             errorList = new ArrayList<String>();
             if (award.getAwardBeginningDate() != null) {
                 if (award.getPreferredBillingFrequency() != null && contractsGrantsInvoiceDocumentService.isValueOfPreferredBillingFrequencyValid(award)) {
@@ -422,9 +422,9 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
 
 
         // To check for every award if its within the billing frequency.
-        Collection<ContractsAndGrantsCGBAward> awardsToBill = new ArrayList<ContractsAndGrantsCGBAward>();
+        Collection<ContractsAndGrantsBillingAward> awardsToBill = new ArrayList<ContractsAndGrantsBillingAward>();
         boolean isValid = true;
-        for (ContractsAndGrantsCGBAward awd : tmpAwards) {
+        for (ContractsAndGrantsBillingAward awd : tmpAwards) {
             errorList = new ArrayList<String>();
             isValid = verifyBillingFrequencyService.validatBillingFrequency(awd);
             if (isValid) {
@@ -441,7 +441,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
         // filter out invalid awards from the awards collection
         if (!CollectionUtils.isEmpty(awardsToBill)) {
             String proposalId;
-            for (ContractsAndGrantsCGBAward award : awardsToBill) {
+            for (ContractsAndGrantsBillingAward award : awardsToBill) {
                 isInvalid = false;
                 errorList = new ArrayList<String>();
                 // use business rules to validate awards
@@ -603,7 +603,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
         return qualifiedAwards;
     }
 
-    protected void writeErrorToFile(Map<ContractsAndGrantsCGBAward, List<String>> invalidGroup, String errOutputFile) {
+    protected void writeErrorToFile(Map<ContractsAndGrantsBillingAward, List<String>> invalidGroup, String errOutputFile) {
         PrintStream outputFileStream = null;
         File errOutPutfile = new File(errOutputFile);
         try {
@@ -614,7 +614,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
             throw new RuntimeException(e);
         }
 
-        for (ContractsAndGrantsCGBAward award : invalidGroup.keySet()) {
+        for (ContractsAndGrantsBillingAward award : invalidGroup.keySet()) {
             try {
                 writeErrorEntryByAward(award, invalidGroup.get(award), outputFileStream);
             }
@@ -772,7 +772,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
         }
     }
 
-    protected void writeErrorEntryByAward(ContractsAndGrantsCGBAward award, List<String> validationCategory, PrintStream printStream) throws IOException {
+    protected void writeErrorEntryByAward(ContractsAndGrantsBillingAward award, List<String> validationCategory, PrintStream printStream) throws IOException {
         // %15s %18s %20s %19s %15s %18s %23s %18s
         boolean firstLineFlag = true;
 
@@ -783,7 +783,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
 
         KualiDecimal cumulativeExpenses = KualiDecimal.ZERO;
         // calculate cumulativeExpenses
-        for (ContractsAndGrantsCGBAwardAccount awardAccount : award.getActiveAwardAccounts()) {
+        for (ContractsAndGrantsBillingAwardAccount awardAccount : award.getActiveAwardAccounts()) {
 
             cumulativeExpenses = cumulativeExpenses.add(contractsGrantsInvoiceDocumentService.getBudgetAndActualsForAwardAccount(awardAccount, ArPropertyConstants.ACTUAL_BALANCE_TYPE, award.getAwardBeginningDate()));
 
@@ -791,7 +791,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
 
         try {
             if (award.getActiveAwardAccounts().size() > 0) {
-                for (ContractsAndGrantsCGBAwardAccount awardAccount : award.getActiveAwardAccounts()) {
+                for (ContractsAndGrantsBillingAwardAccount awardAccount : award.getActiveAwardAccounts()) {
                     if (firstLineFlag) {
                         writeToReport(proposalNumber, awardAccount.getAccountNumber(), awardBeginningDate, awardEndingDate, awardTotalAmount, cumulativeExpenses.toString(), printStream);
                         firstLineFlag = false;
@@ -879,14 +879,14 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
      * @param awardAccounts
      * @return valid awardAccounts
      */
-    private List<ContractsAndGrantsCGBAwardAccount> getValidAwardAccounts(List<ContractsAndGrantsCGBAwardAccount> awardAccounts, ContractsAndGrantsCGBAward award) {
-        List<ContractsAndGrantsCGBAwardAccount> awdAcctsToCheck = new ArrayList<ContractsAndGrantsCGBAwardAccount>();
-        List<ContractsAndGrantsCGBAwardAccount> validAwardAccounts = new ArrayList<ContractsAndGrantsCGBAwardAccount>();
+    private List<ContractsAndGrantsBillingAwardAccount> getValidAwardAccounts(List<ContractsAndGrantsBillingAwardAccount> awardAccounts, ContractsAndGrantsBillingAward award) {
+        List<ContractsAndGrantsBillingAwardAccount> awdAcctsToCheck = new ArrayList<ContractsAndGrantsBillingAwardAccount>();
+        List<ContractsAndGrantsBillingAwardAccount> validAwardAccounts = new ArrayList<ContractsAndGrantsBillingAwardAccount>();
         if (!award.getPreferredBillingFrequency().equalsIgnoreCase(ArPropertyConstants.MILESTONE_BILLING_SCHEDULE_CODE) && !award.getPreferredBillingFrequency().equalsIgnoreCase(ArPropertyConstants.PREDETERMINED_BILLING_SCHEDULE_CODE)) {
             // To set the amount to Draw for each award account. Then test if the amount to Draw is zero dollars. if zero dollars.
             // then the account is not valid.
             // To make sure that the LOC Review indicator is false so the amounts can be updated.
-            for (ContractsAndGrantsCGBAwardAccount awdAcct : awardAccounts) {
+            for (ContractsAndGrantsBillingAwardAccount awdAcct : awardAccounts) {
                 if (!awdAcct.isLetterOfCreditReviewIndicator()) {
                     awdAcctsToCheck.add(awdAcct);
                 }
@@ -894,7 +894,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
             contractsGrantsInvoiceDocumentService.setAwardAccountToDraw(awdAcctsToCheck, award);
             // 1. To check the amounts for all accounts, even if they are set from LOC Review Document.
             // 2. TO check if there are invoices in progress.
-            for (ContractsAndGrantsCGBAwardAccount awardAccount : awardAccounts) {
+            for (ContractsAndGrantsBillingAwardAccount awardAccount : awardAccounts) {
                     if (StringUtils.isBlank(awardAccount.getInvoiceDocumentStatus()) || awardAccount.getInvoiceDocumentStatus().equalsIgnoreCase("FINAL") || awardAccount.getInvoiceDocumentStatus().equalsIgnoreCase("CANCELED") || awardAccount.getInvoiceDocumentStatus().equalsIgnoreCase("DISAPPROVED")) {
                         validAwardAccounts.add(awardAccount);
                     }

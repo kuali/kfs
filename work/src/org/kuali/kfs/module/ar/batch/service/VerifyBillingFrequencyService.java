@@ -19,7 +19,7 @@ import java.sql.Date;
 import java.util.ArrayList;
 
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAward;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 
 /**
  * Interface class for Billing Frequency validation.
@@ -31,7 +31,7 @@ public interface VerifyBillingFrequencyService {
      * @param award
      * @return true if valid else false.
      */
-    public boolean validatBillingFrequency(ContractsAndGrantsCGBAward award);
+    public boolean validatBillingFrequency(ContractsAndGrantsBillingAward award);
 
     /**
      * This method returns the start and end date of previous billing period.
@@ -39,7 +39,7 @@ public interface VerifyBillingFrequencyService {
      * @param currPeriod
      * @return
      */
-    public Date[] getStartDateAndEndDateOfPreviousBillingPeriod(ContractsAndGrantsCGBAward award, AccountingPeriod currPeriod);
+    public Date[] getStartDateAndEndDateOfPreviousBillingPeriod(ContractsAndGrantsBillingAward award, AccountingPeriod currPeriod);
     
     /**
      * This method gets a sorted list of end dates of each period of current fiscal year.

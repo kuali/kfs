@@ -24,8 +24,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.coa.businessobject.OffsetDefinition;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAward;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAwardAccount;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAwardAccount;
 import org.kuali.kfs.module.ar.batch.service.ContractsGrantsInvoiceCreateDocumentService;
 import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
 import org.kuali.kfs.module.ar.businessobject.Customer;
@@ -50,7 +50,7 @@ public class CGInvoiceDocumentSetupTest extends KualiTestBase {
     BusinessObjectService boService;
     DocumentService documentService;
     ContractsGrantsInvoiceCreateDocumentService cginService;
-    ContractsAndGrantsCGBAward award;
+    ContractsAndGrantsBillingAward award;
     ContractsGrantsInvoiceDocument document;
 
     @ConfigureContext(session = khuntley)
@@ -71,9 +71,9 @@ public class CGInvoiceDocumentSetupTest extends KualiTestBase {
 
 
             // creating invoice document directly without using the service to get over validations.
-            for (ContractsAndGrantsCGBAwardAccount awardAccount : award.getActiveAwardAccounts()) {
+            for (ContractsAndGrantsBillingAwardAccount awardAccount : award.getActiveAwardAccounts()) {
                 if (!awardAccount.isFinalBilledIndicator()) {
-                    List<ContractsAndGrantsCGBAwardAccount> list = new ArrayList<ContractsAndGrantsCGBAwardAccount>();
+                    List<ContractsAndGrantsBillingAwardAccount> list = new ArrayList<ContractsAndGrantsBillingAwardAccount>();
                     list.clear();
                     // only one account is added into the list to create cgin
                     list.add(awardAccount);

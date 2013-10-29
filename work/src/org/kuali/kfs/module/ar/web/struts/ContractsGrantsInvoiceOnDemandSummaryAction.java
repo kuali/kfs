@@ -28,7 +28,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAward;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleService;
 import org.kuali.kfs.integration.cg.businessobject.Award;
 import org.kuali.kfs.module.ar.ArConstants;
@@ -114,7 +114,7 @@ public class ContractsGrantsInvoiceOnDemandSummaryAction extends KualiAction {
 
             String errOutputFile1 = destinationFolderPath + File.separator + ArConstants.BatchFileSystem.ONDEMAND_VALIDATION_ERROR_OUTPUT_FILE + "_" + runtimeStamp + ArConstants.BatchFileSystem.EXTENSION;
             String errOutputFile2 = destinationFolderPath + File.separator + ArConstants.BatchFileSystem.ONDEMAND_CREATION_ERROR_OUTPUT_FILE + "_" + runtimeStamp + ArConstants.BatchFileSystem.EXTENSION;
-            Collection<ContractsAndGrantsCGBAward> awards = contractsGrantsInvoiceOnDemandLookupResult.getAwards();
+            Collection<ContractsAndGrantsBillingAward> awards = contractsGrantsInvoiceOnDemandLookupResult.getAwards();
             awards = cgInvoiceDocumentCreateService.validateAwards(awards, errOutputFile1);
 
             cgInvoiceDocumentCreateService.createCGInvoiceDocumentsByAwards(awards, errOutputFile2);

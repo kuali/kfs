@@ -27,10 +27,8 @@ import org.kuali.kfs.integration.ar.AccountsReceivableBill;
 import org.kuali.kfs.integration.ar.AccountsReceivableMilestone;
 import org.kuali.kfs.integration.ar.AccountsReceivableMilestoneSchedule;
 import org.kuali.kfs.integration.ar.AccountsReceivableModuleService;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsAccountAwardInformation;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsAward;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAward;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAwardAccount;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAwardAccount;
 import org.kuali.kfs.integration.cg.ContractsGrantsAwardInvoiceAccountInformation;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -39,8 +37,6 @@ import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kim.api.identity.Person;
-import org.kuali.rice.kim.api.identity.PersonService;
-import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.krad.service.KualiModuleService;
@@ -49,7 +45,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
 /**
  * Defines a financial award object.
  */
-public class Award extends PersistableBusinessObjectBase implements MutableInactivatable, ContractsAndGrantsCGBAward, ContractsAndGrantsAward {
+public class Award extends PersistableBusinessObjectBase implements MutableInactivatable, ContractsAndGrantsBillingAward {
     private static final String AWARD_INQUIRY_TITLE_PROPERTY = "message.inquiry.award.title";
     private Long proposalNumber;
     private String awardId;
@@ -1212,15 +1208,15 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
      * @return Returns the active awardAccounts.
      */
     @Override
-    public List<ContractsAndGrantsCGBAwardAccount> getActiveAwardAccounts() {
-        List<ContractsAndGrantsCGBAwardAccount> activeAwardAccounts = new ArrayList<ContractsAndGrantsCGBAwardAccount>();
+    public List<ContractsAndGrantsBillingAwardAccount> getActiveAwardAccounts() {
+        List<ContractsAndGrantsBillingAwardAccount> activeAwardAccounts = new ArrayList<ContractsAndGrantsBillingAwardAccount>();
         List<AwardAccount> awdAccts = new ArrayList<AwardAccount>();
         for (AwardAccount awardAccount : awardAccounts) {
             if (awardAccount.isActive()) {
                 awdAccts.add(awardAccount);
             }
         }
-        activeAwardAccounts = new ArrayList<ContractsAndGrantsCGBAwardAccount>(awdAccts);
+        activeAwardAccounts = new ArrayList<ContractsAndGrantsBillingAwardAccount>(awdAccts);
         return activeAwardAccounts;
     }
 

@@ -23,8 +23,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAgency;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAward;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAgency;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleRetrieveService;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.ContractsGrantsInvoiceOnDemandLookupResult;
@@ -41,7 +41,7 @@ public class ContractsGrantsInvoiceOnDemandLookupUtil {
      * @param award
      * @return
      */
-    public static Collection<ContractsGrantsInvoiceOnDemandLookupResult> getPopulatedContractsGrantsInvoiceOnDemandLookupResults(Collection<ContractsAndGrantsCGBAward> awards) {
+    public static Collection<ContractsGrantsInvoiceOnDemandLookupResult> getPopulatedContractsGrantsInvoiceOnDemandLookupResults(Collection<ContractsAndGrantsBillingAward> awards) {
         Collection<ContractsGrantsInvoiceOnDemandLookupResult> populatedContractsGrantsInvoiceOnDemandLookupResults = new ArrayList<ContractsGrantsInvoiceOnDemandLookupResult>();
 
         if (awards.size() == 0)
@@ -52,10 +52,10 @@ public class ContractsGrantsInvoiceOnDemandLookupUtil {
         while (iter.hasNext()) {
 
             Map.Entry entry = (Map.Entry) iter.next();
-            List<ContractsAndGrantsCGBAward> list = (List<ContractsAndGrantsCGBAward>) entry.getValue();
+            List<ContractsAndGrantsBillingAward> list = (List<ContractsAndGrantsBillingAward>) entry.getValue();
 
             // Get data from first award for agency data
-            ContractsAndGrantsCGBAgency agency = ((ContractsAndGrantsCGBAward) list.get(0)).getAgency();
+            ContractsAndGrantsBillingAgency agency = ((ContractsAndGrantsBillingAward) list.get(0)).getAgency();
             contractsGrantsInvoiceOnDemandLookupResult = new ContractsGrantsInvoiceOnDemandLookupResult();
             contractsGrantsInvoiceOnDemandLookupResult.setAgencyNumber(agency.getAgencyNumber());
             contractsGrantsInvoiceOnDemandLookupResult.setAgencyReportingName(agency.getReportingName());
@@ -76,18 +76,18 @@ public class ContractsGrantsInvoiceOnDemandLookupUtil {
      * @param awards
      * @return
      */
-    public static Map<String, List<ContractsAndGrantsCGBAward>> getAwardByAgency(Collection<ContractsAndGrantsCGBAward> awards) {
+    public static Map<String, List<ContractsAndGrantsBillingAward>> getAwardByAgency(Collection<ContractsAndGrantsBillingAward> awards) {
         // use a map to sort awards by agency
-        Map<String, List<ContractsAndGrantsCGBAward>> awardsByAgency = new HashMap<String, List<ContractsAndGrantsCGBAward>>();
-        for (ContractsAndGrantsCGBAward award : awards) {// To display awards only if their preferred Billing frequency is not LOC
+        Map<String, List<ContractsAndGrantsBillingAward>> awardsByAgency = new HashMap<String, List<ContractsAndGrantsBillingAward>>();
+        for (ContractsAndGrantsBillingAward award : awards) {// To display awards only if their preferred Billing frequency is not LOC
                                                          // Billing
             if (StringUtils.isNotEmpty(award.getPreferredBillingFrequency()) && !award.getPreferredBillingFrequency().equalsIgnoreCase(ArPropertyConstants.LOC_BILLING_SCHEDULE_CODE)) {
                 String agencyNumber = award.getAgencyNumber();
                 if (awardsByAgency.containsKey(agencyNumber)) {
-                    ((List<ContractsAndGrantsCGBAward>) awardsByAgency.get(agencyNumber)).add(award);
+                    ((List<ContractsAndGrantsBillingAward>) awardsByAgency.get(agencyNumber)).add(award);
                 }
                 else {
-                    List<ContractsAndGrantsCGBAward> awardsByAgencyNumber = new ArrayList<ContractsAndGrantsCGBAward>();
+                    List<ContractsAndGrantsBillingAward> awardsByAgencyNumber = new ArrayList<ContractsAndGrantsBillingAward>();
                     awardsByAgencyNumber.add(award);
                     awardsByAgency.put(agencyNumber, awardsByAgencyNumber);
                 }
@@ -97,10 +97,10 @@ public class ContractsGrantsInvoiceOnDemandLookupUtil {
         return awardsByAgency;
     }
 
-    public static Collection<ContractsAndGrantsCGBAward> getAwardsFromLookupResultsSequenceNumber(String lookupResultsSequenceNumber, String personId) {
+    public static Collection<ContractsAndGrantsBillingAward> getAwardsFromLookupResultsSequenceNumber(String lookupResultsSequenceNumber, String personId) {
         ContractsAndGrantsModuleRetrieveService moduleRetrieveService = SpringContext.getBean(ContractsAndGrantsModuleRetrieveService.class);
 
-        Collection<ContractsAndGrantsCGBAward> awards = new ArrayList<ContractsAndGrantsCGBAward>();
+        Collection<ContractsAndGrantsBillingAward> awards = new ArrayList<ContractsAndGrantsBillingAward>();
         awards = moduleRetrieveService.getAwardsFromLookupResultsSequenceNumber(lookupResultsSequenceNumber, personId);
 
         return awards;

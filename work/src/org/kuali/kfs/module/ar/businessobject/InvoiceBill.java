@@ -19,7 +19,7 @@ import java.util.Date;
 import java.util.LinkedHashMap;
 
 import org.kuali.kfs.integration.ar.AccountsReceivableBill;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAward;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.sys.KFSPropertyConstants;

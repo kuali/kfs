@@ -27,8 +27,8 @@ import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.log4j.Logger;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAward;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAwardAccount;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAwardAccount;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsLetterOfCreditFund;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsLetterOfCreditFundGroup;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleUpdateService;
@@ -273,14 +273,14 @@ public class ContractsGrantsLetterOfCreditReviewDocument extends FinancialSystem
         // To exclude awards with milestones and predetermined schedule.
         criteria.put(ArPropertyConstants.PREFERRED_BILLING_FREQUENCY, ArPropertyConstants.LOC_BILLING_SCHEDULE_CODE);
 
-        List<ContractsAndGrantsCGBAward> awards = contractsGrantsInvoiceDocumentService.getActiveAwardsByCriteria(criteria);
+        List<ContractsAndGrantsBillingAward> awards = contractsGrantsInvoiceDocumentService.getActiveAwardsByCriteria(criteria);
 
         if (CollectionUtils.isEmpty(awards)) {
             GlobalVariables.getMessageMap().putErrorForSectionId("Contracts Grants LOC Review Initiation", ArKeyConstants.ContractsGrantsInvoiceConstants.ERROR_NO_AWARDS_RETRIEVED);
         }
         else {
 
-            List<ContractsAndGrantsCGBAward> validAwards = new ArrayList<ContractsAndGrantsCGBAward>();
+            List<ContractsAndGrantsBillingAward> validAwards = new ArrayList<ContractsAndGrantsBillingAward>();
 
             // To retrieve the batch file directory name as "reports/cg"
             ModuleConfiguration systemConfiguration = SpringContext.getBean(KualiModuleService.class).getModuleServiceByNamespaceCode("KFS-AR").getModuleConfiguration();
@@ -290,7 +290,7 @@ public class ContractsGrantsLetterOfCreditReviewDocument extends FinancialSystem
             String runtimeStamp = dateTimeService.toDateTimeStringForFilename(new java.util.Date());
             String errOutputFile1 = destinationFolderPath + File.separator + ArConstants.BatchFileSystem.LOC_REVIEW_VALIDATION_ERROR_OUTPUT_FILE + "_" + runtimeStamp + ArConstants.BatchFileSystem.EXTENSION;
 
-            validAwards = (List<ContractsAndGrantsCGBAward>) contractsGrantsInvoiceCreateDocumentService.validateAwards(awards, errOutputFile1);
+            validAwards = (List<ContractsAndGrantsBillingAward>) contractsGrantsInvoiceCreateDocumentService.validateAwards(awards, errOutputFile1);
 
 
             if (CollectionUtils.isEmpty(validAwards)) {
@@ -298,7 +298,7 @@ public class ContractsGrantsLetterOfCreditReviewDocument extends FinancialSystem
             }
             else {
                 setStatusCode(ArConstants.CustomerCreditMemoStatuses.IN_PROCESS);
-                for (ContractsAndGrantsCGBAward award : validAwards) {
+                for (ContractsAndGrantsBillingAward award : validAwards) {
 
                     // To set the amount to draw for the award accounts as a whole.
                     contractsGrantsInvoiceDocumentService.setAwardAccountToDraw(award.getActiveAwardAccounts(), award);
@@ -326,7 +326,7 @@ public class ContractsGrantsLetterOfCreditReviewDocument extends FinancialSystem
                     headerReviewDetails.add(locReviewDtl);
 
                     // Creating sub rows for the individual accounts.
-                    for (ContractsAndGrantsCGBAwardAccount awardAccount : award.getActiveAwardAccounts()) {
+                    for (ContractsAndGrantsBillingAwardAccount awardAccount : award.getActiveAwardAccounts()) {
                         locReviewDtl = new ContractsGrantsLetterOfCreditReviewDetail();
                         locReviewDtl.setDocumentNumber(this.documentNumber);
                         locReviewDtl.setProposalNumber(award.getProposalNumber());
@@ -384,7 +384,7 @@ public class ContractsGrantsLetterOfCreditReviewDocument extends FinancialSystem
 
             Map<String, Object> map = new HashMap<String, Object>();
             map.put(KFSPropertyConstants.PROPOSAL_NUMBER, detail.getProposalNumber());
-            ContractsAndGrantsCGBAward award = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsCGBAward.class).getExternalizableBusinessObject(ContractsAndGrantsCGBAward.class, map);
+            ContractsAndGrantsBillingAward award = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsBillingAward.class).getExternalizableBusinessObject(ContractsAndGrantsBillingAward.class, map);
             // to set funds Not Drawn as a difference between amountToDraw and hiddenAmountToDraw.
 
 
@@ -405,7 +405,7 @@ public class ContractsGrantsLetterOfCreditReviewDocument extends FinancialSystem
 
                 // a. set locreview indicator to yes in award account
                 // b.then set amounts to draw in award account
-                for (ContractsAndGrantsCGBAwardAccount awardAccount : award.getActiveAwardAccounts()) {
+                for (ContractsAndGrantsBillingAwardAccount awardAccount : award.getActiveAwardAccounts()) {
                     // set the amount to Draw in the award Account
                     Map<String, Object> criteria = new HashMap<String, Object>();
                     criteria.put(KFSPropertyConstants.ACCOUNT_NUMBER, awardAccount.getAccountNumber());
@@ -462,7 +462,7 @@ public class ContractsGrantsLetterOfCreditReviewDocument extends FinancialSystem
     public void doRouteStatusChange(DocumentRouteStatusChange statusChangeEvent) {
         DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
         ContractsGrantsInvoiceCreateDocumentService contractsGrantsInvoiceCreateDocumentService = SpringContext.getBean(ContractsGrantsInvoiceCreateDocumentService.class);
-        List<ContractsAndGrantsCGBAward> awards = new ArrayList<ContractsAndGrantsCGBAward>();
+        List<ContractsAndGrantsBillingAward> awards = new ArrayList<ContractsAndGrantsBillingAward>();
 
 
         Set<Long> proposalNumberSet = new HashSet<Long>();
@@ -488,12 +488,12 @@ public class ContractsGrantsLetterOfCreditReviewDocument extends FinancialSystem
 
                 Map<String, Object> map = new HashMap<String, Object>();
                 map.put(KFSPropertyConstants.PROPOSAL_NUMBER, iterator.next());
-                ContractsAndGrantsCGBAward awd = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsCGBAward.class).getExternalizableBusinessObject(ContractsAndGrantsCGBAward.class, map);
+                ContractsAndGrantsBillingAward awd = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsBillingAward.class).getExternalizableBusinessObject(ContractsAndGrantsBillingAward.class, map);
                 awards.add(awd);
             }
             // To set the loc Creation Type to award based on the LOC Review document being retrieved.
 
-            for (ContractsAndGrantsCGBAward award : awards) {
+            for (ContractsAndGrantsBillingAward award : awards) {
                 if (ObjectUtils.isNotNull(this.getLetterOfCreditFundCode())) {
 
                     SpringContext.getBean(ContractsAndGrantsModuleUpdateService.class).setLOCCreationTypeToAward(award.getProposalNumber(), ArConstants.LOC_BY_LOC_FUND);
@@ -531,8 +531,8 @@ public class ContractsGrantsLetterOfCreditReviewDocument extends FinancialSystem
 
             // The next important step is to set the locReviewIndicator to false and amount to Draw fields in award Account to zero.
             // This should not affect any further invoicing.
-            for (ContractsAndGrantsCGBAward award : awards) {
-                for (ContractsAndGrantsCGBAwardAccount awardAccount : award.getActiveAwardAccounts()) {
+            for (ContractsAndGrantsBillingAward award : awards) {
+                for (ContractsAndGrantsBillingAwardAccount awardAccount : award.getActiveAwardAccounts()) {
                     Map<String, Object> criteria = new HashMap<String, Object>();
                     criteria.put(KFSPropertyConstants.ACCOUNT_NUMBER, awardAccount.getAccountNumber());
                     criteria.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, awardAccount.getChartOfAccountsCode());

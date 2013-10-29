@@ -25,7 +25,7 @@ import java.util.TreeSet;
 
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
 import org.kuali.kfs.coa.service.AccountingPeriodService;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAward;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.batch.service.VerifyBillingFrequencyService;
 import org.kuali.kfs.sys.service.UniversityDateService;
@@ -47,7 +47,7 @@ public class VerifyBillingFrequencyServiceImpl implements VerifyBillingFrequency
     }
 
 
-    public boolean validatBillingFrequency(ContractsAndGrantsCGBAward award) {
+    public boolean validatBillingFrequency(ContractsAndGrantsBillingAward award) {
 
         // first we need to get the period itself to check these things
         boolean isValid = true;
@@ -100,7 +100,7 @@ public class VerifyBillingFrequencyServiceImpl implements VerifyBillingFrequency
     }
 
     // (assume there are 12 periods in a fiscal year)
-    public Date[] getStartDateAndEndDateOfPreviousBillingPeriod(ContractsAndGrantsCGBAward award, AccountingPeriod currPeriod) {
+    public Date[] getStartDateAndEndDateOfPreviousBillingPeriod(ContractsAndGrantsBillingAward award, AccountingPeriod currPeriod) {
         Date[] startDt_EndDt = new Date[2];
         Date previousAccountingPeriodEndDay = null;
         Date previousAccountingPeriodStartDay = null;

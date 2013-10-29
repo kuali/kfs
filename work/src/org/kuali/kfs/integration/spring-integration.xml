@@ -99,18 +99,18 @@
 					key="org.kuali.kfs.integration.cg.ContractsAndGrantsAccountAwardInformation"
 					value="org.kuali.kfs.integration.cg.businessobject.AwardAccount" />
 				<entry
-					key="org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAwardAccount"
+					key="org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAwardAccount"
 					value="org.kuali.kfs.integration.cg.businessobject.AwardAccount" />
 				<entry
 					key="org.kuali.kfs.integration.cg.ContractsGrantsAwardInvoiceAccountInformation"
 					value="org.kuali.kfs.integration.cg.businessobject.AwardInvoiceAccount" />
-				<entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAward"
+				<entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward"
 					value="org.kuali.kfs.integration.cg.businessobject.Award" />
 				<entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsAward"
 					value="org.kuali.kfs.integration.cg.businessobject.Award" />
 				<entry key="org.kuali.kfs.integration.cg.ContractAndGrantsProposal"
 					value="org.kuali.kfs.integration.cg.businessobject.Proposal" />
-				<entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAgency"
+				<entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAgency"
 					value="org.kuali.kfs.integration.cg.businessobject.Agency" />
 				<entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsAgency"
 					value="org.kuali.kfs.integration.cg.businessobject.Agency" />

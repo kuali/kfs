@@ -25,7 +25,7 @@ import java.util.Properties;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.ojb.broker.query.Criteria;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAward;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.CollectorInformation;
 import org.kuali.kfs.module.ar.businessobject.CustomerCollector;
@@ -313,7 +313,7 @@ public class TicklersReportLookupableHelperServiceImpl extends ContractsGrantsRe
      */
     private String getAwardLookupUrl(String proposalNumber) {
         Properties params = new Properties();
-        params.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, ContractsAndGrantsCGBAward.class.getName());
+        params.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, ContractsAndGrantsBillingAward.class.getName());
         params.put(KFSConstants.RETURN_LOCATION_PARAMETER, "portal.do");
         params.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.START_METHOD);
         params.put(KFSConstants.DOC_FORM_KEY, "88888888");

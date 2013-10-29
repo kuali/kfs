@@ -30,7 +30,7 @@ import java.util.Set;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
 import org.kuali.kfs.integration.ar.businessobject.Customer;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAgency;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAgency;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.AppliedPayment;
@@ -1056,10 +1056,10 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
      * @param customerNumber
      * @return Returns the agency for the customer
      */
-    private ContractsAndGrantsCGBAgency getAgencyByCustomer(String customerNumber) {
+    private ContractsAndGrantsBillingAgency getAgencyByCustomer(String customerNumber) {
         Map args = new HashMap();
         args.put(KFSPropertyConstants.CUSTOMER_NUMBER, customerNumber);
-        return SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsCGBAgency.class).getExternalizableBusinessObject(ContractsAndGrantsCGBAgency.class, args);
+        return SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsBillingAgency.class).getExternalizableBusinessObject(ContractsAndGrantsBillingAgency.class, args);
     }
 
 }

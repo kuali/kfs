@@ -23,8 +23,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAgency;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAward;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAgency;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.integration.cg.ContractsGrantsAwardInvoiceAccountInformation;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
@@ -87,7 +87,7 @@ public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
         DocumentService documentService = SpringContext.getBean(DocumentService.class);
         ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument = ContractsGrantsInvoiceDocumentFixture.CG_INV_DOC1.createContractsGrantsInvoiceDocument(documentService);
 
-        ContractsAndGrantsCGBAward award = ARAwardFixture.CG_AWARD1.createAward();
+        ContractsAndGrantsBillingAward award = ARAwardFixture.CG_AWARD1.createAward();
         contractsGrantsInvoiceDocument.setAward(award);
 
         InvoiceGeneralDetail invoiceGeneralDetail = InvoiceGeneralDetailFixture.INV_GNRL_DTL1.createInvoiceGeneralDetail();
@@ -144,7 +144,7 @@ public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
      * Tests the invoice create date and award ending date comparision.
      */
     public void isInvoiceCreateDateAfterAwardEndingDate() {
-        ContractsAndGrantsCGBAward award = ARAwardFixture.CG_AWARD1.createAward();
+        ContractsAndGrantsBillingAward award = ARAwardFixture.CG_AWARD1.createAward();
         DocumentService documentService = SpringContext.getBean(DocumentService.class);
         ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument = ContractsGrantsInvoiceDocumentFixture.CG_INV_DOC1.createContractsGrantsInvoiceDocument(documentService);
 
@@ -218,7 +218,7 @@ public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
         DocumentService documentService = SpringContext.getBean(DocumentService.class);
         ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument = ContractsGrantsInvoiceDocumentFixture.CG_INV_DOC1.createContractsGrantsInvoiceDocument(documentService);
 
-        ContractsAndGrantsCGBAward award = ARAwardFixture.CG_AWARD1.createAward();
+        ContractsAndGrantsBillingAward award = ARAwardFixture.CG_AWARD1.createAward();
         contractsGrantsInvoiceDocument.setAward(award);
 
         InvoiceGeneralDetail invoiceGeneralDetail = InvoiceGeneralDetailFixture.INV_GNRL_DTL1.createInvoiceGeneralDetail();
@@ -291,9 +291,9 @@ public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
         DocumentService documentService = SpringContext.getBean(DocumentService.class);
         ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument = ContractsGrantsInvoiceDocumentFixture.CG_INV_DOC1.createContractsGrantsInvoiceDocument(documentService);
         assertNotNull(contractsGrantsInvoiceDocument);
-        ContractsAndGrantsCGBAward award = ARAwardFixture.CG_AWARD2.createAward();
+        ContractsAndGrantsBillingAward award = ARAwardFixture.CG_AWARD2.createAward();
 
-        ContractsAndGrantsCGBAgency agency = ARAgencyFixture.CG_AGENCY1.createAgency();
+        ContractsAndGrantsBillingAgency agency = ARAgencyFixture.CG_AGENCY1.createAgency();
 
         contractsGrantsInvoiceDocument.setAward(award);
 
@@ -502,7 +502,7 @@ public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
 
         // 1. Invoicing by Award
         contractsGrantsInvoiceDocument.setInvoiceGeneralDetail(inv_Gnrl_Dtl_1);
-        ContractsAndGrantsCGBAward awardInvAward = ARAwardFixture.CG_AWARD_INV_AWARD.createAward();
+        ContractsAndGrantsBillingAward awardInvAward = ARAwardFixture.CG_AWARD_INV_AWARD.createAward();
         awardInvAward.getActiveAwardInvoiceAccounts().clear();
         awardInvAward.getActiveAwardInvoiceAccounts().add(awdInvAcct);
         contractsGrantsInvoiceDocument.setAward(awardInvAward);

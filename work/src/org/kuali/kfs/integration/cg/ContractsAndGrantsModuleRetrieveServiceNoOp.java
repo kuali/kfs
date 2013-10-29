@@ -46,7 +46,7 @@ public class ContractsAndGrantsModuleRetrieveServiceNoOp implements ContractsAnd
      * @param personId
      * @return
      */
-    public Collection<ContractsAndGrantsCGBAward> getAwardsFromLookupResultsSequenceNumber(String lookupResultsSequenceNumber, String personId) {
+    public Collection<ContractsAndGrantsBillingAward> getAwardsFromLookupResultsSequenceNumber(String lookupResultsSequenceNumber, String personId) {
         LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
         return new ArrayList();
     }

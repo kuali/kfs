@@ -19,7 +19,7 @@ import java.sql.Date;
 import java.util.LinkedHashMap;
 
 import org.kuali.kfs.integration.ar.AccountsReceivableMilestone;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAward;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.module.ar.businessobject.Milestone;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
@@ -49,7 +49,7 @@ public class InvoiceMilestone extends PersistableBusinessObjectBase implements A
     private Date milestoneExpectedCompletionDate;
 
 
-    private ContractsAndGrantsCGBAward award;
+    private ContractsAndGrantsBillingAward award;
     private ContractsGrantsInvoiceDocument invoiceDocument;
 
     /**
@@ -65,8 +65,8 @@ public class InvoiceMilestone extends PersistableBusinessObjectBase implements A
      * @return Returns the award.
      */
     @Override
-    public ContractsAndGrantsCGBAward getAward() {
-        return award = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsCGBAward.class).retrieveExternalizableBusinessObjectIfNecessary(this, award, "award");
+    public ContractsAndGrantsBillingAward getAward() {
+        return award = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsBillingAward.class).retrieveExternalizableBusinessObjectIfNecessary(this, award, "award");
     }
 
     /**
@@ -170,7 +170,7 @@ public class InvoiceMilestone extends PersistableBusinessObjectBase implements A
      *
      * @param award The award to set.
      */
-    public void setAward(ContractsAndGrantsCGBAward award) {
+    public void setAward(ContractsAndGrantsBillingAward award) {
         this.award = award;
     }
 

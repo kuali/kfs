@@ -18,8 +18,8 @@ package org.kuali.kfs.module.ar.batch.service;
 import java.util.Collection;
 import java.util.List;
 
-import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAward;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAwardAccount;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAwardAccount;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 
 
@@ -34,7 +34,7 @@ public interface ContractsGrantsInvoiceCreateDocumentService {
      * @param fileNaem Name of file to be uploaded and processed.
      * @return True if the file load and store was successful, false otherwise.
      */
-    public Collection<ContractsAndGrantsCGBAward> retrieveAwards();
+    public Collection<ContractsAndGrantsBillingAward> retrieveAwards();
 
     /**
      * This method validates awards and output an error file of unqualified awards with reason stated.
@@ -42,12 +42,12 @@ public interface ContractsGrantsInvoiceCreateDocumentService {
      * @param errOutputFile The name of the file recording unqualified awards with reason stated.
      * @return
      */
-    public Collection<ContractsAndGrantsCGBAward> validateAwards(Collection<ContractsAndGrantsCGBAward> awards, String errOutputFile);
+    public Collection<ContractsAndGrantsBillingAward> validateAwards(Collection<ContractsAndGrantsBillingAward> awards, String errOutputFile);
 
     /**
      * The default implementation to create Contracts Grants Invoice Documents by Awards.
      */
-    public boolean createCGInvoiceDocumentsByAwards(Collection<ContractsAndGrantsCGBAward> awards, String errOutputFile);
+    public boolean createCGInvoiceDocumentsByAwards(Collection<ContractsAndGrantsBillingAward> awards, String errOutputFile);
 
 
     /**
@@ -67,7 +67,7 @@ public interface ContractsGrantsInvoiceCreateDocumentService {
      * @param orgCode
      * @return
      */
-    public ContractsGrantsInvoiceDocument createCGInvoiceDocumentByAwardInfo(ContractsAndGrantsCGBAward award, List<ContractsAndGrantsCGBAwardAccount> list, String coaCode, String orgCode);
+    public ContractsGrantsInvoiceDocument createCGInvoiceDocumentByAwardInfo(ContractsAndGrantsBillingAward award, List<ContractsAndGrantsBillingAwardAccount> list, String coaCode, String orgCode);
 
 
 }

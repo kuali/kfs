@@ -27,8 +27,8 @@ import java.util.Map;
 import java.util.Set;
 
 import org.kuali.kfs.integration.cg.ContractAndGrantsProposal;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAward;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAwardAccount;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAwardAccount;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleUpdateService;
 import org.kuali.kfs.module.ar.businessobject.ContractsAndGrantsCategories;
 import org.kuali.kfs.module.ar.businessobject.InvoiceAccountDetail;
@@ -160,13 +160,13 @@ public class ContractsGrantsInvoiceDocumentTest extends KualiTestBase {
         ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument_2 = ContractsGrantsInvoiceDocumentFixture.CG_INV_DOC1.createContractsGrantsInvoiceDocument(documentService);
         ContractAndGrantsProposal proposal = ARProposalFixture.CG_PRPSL1.createProposal();
 
-        ContractsAndGrantsCGBAward award = ARAwardFixture.CG_AWARD1.createAward();
+        ContractsAndGrantsBillingAward award = ARAwardFixture.CG_AWARD1.createAward();
 
         award.getActiveAwardAccounts().clear();
-        ContractsAndGrantsCGBAwardAccount awardAccount_1 = ARAwardAccountFixture.AWD_ACCT_1.createAwardAccount();
-        ContractsAndGrantsCGBAwardAccount awardAccount_2 = ARAwardAccountFixture.AWD_ACCT_2.createAwardAccount();
+        ContractsAndGrantsBillingAwardAccount awardAccount_1 = ARAwardAccountFixture.AWD_ACCT_1.createAwardAccount();
+        ContractsAndGrantsBillingAwardAccount awardAccount_2 = ARAwardAccountFixture.AWD_ACCT_2.createAwardAccount();
 
-        List<ContractsAndGrantsCGBAwardAccount> awardAccounts = new ArrayList<ContractsAndGrantsCGBAwardAccount>();
+        List<ContractsAndGrantsBillingAwardAccount> awardAccounts = new ArrayList<ContractsAndGrantsBillingAwardAccount>();
         awardAccounts.add(awardAccount_1);
         awardAccounts.add(awardAccount_2);
 
@@ -207,9 +207,9 @@ public class ContractsGrantsInvoiceDocumentTest extends KualiTestBase {
         mapKey.put(KFSPropertyConstants.ACCOUNT_NUMBER, awardAccount_1.getAccountNumber());
         mapKey.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, awardAccount_1.getChartOfAccountsCode());
         mapKey.put(KFSPropertyConstants.PROPOSAL_NUMBER, awardAccount_1.getProposalNumber());
-        ContractsAndGrantsCGBAwardAccount awdAcct_1 = (ContractsAndGrantsCGBAwardAccount) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsCGBAwardAccount.class).getExternalizableBusinessObject(ContractsAndGrantsCGBAwardAccount.class, mapKey);
+        ContractsAndGrantsBillingAwardAccount awdAcct_1 = (ContractsAndGrantsBillingAwardAccount) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsBillingAwardAccount.class).getExternalizableBusinessObject(ContractsAndGrantsBillingAwardAccount.class, mapKey);
         mapKey.put(KFSPropertyConstants.ACCOUNT_NUMBER, awardAccount_2.getAccountNumber());
-        ContractsAndGrantsCGBAwardAccount awdAcct_2 = (ContractsAndGrantsCGBAwardAccount) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsCGBAwardAccount.class).getExternalizableBusinessObject(ContractsAndGrantsCGBAwardAccount.class, mapKey);
+        ContractsAndGrantsBillingAwardAccount awdAcct_2 = (ContractsAndGrantsBillingAwardAccount) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsBillingAwardAccount.class).getExternalizableBusinessObject(ContractsAndGrantsBillingAwardAccount.class, mapKey);
 
 
         assertEquals(lastBilledDate_1, awdAcct_1.getCurrentLastBilledDate());
@@ -223,15 +223,15 @@ public class ContractsGrantsInvoiceDocumentTest extends KualiTestBase {
         mapKey.put(KFSPropertyConstants.ACCOUNT_NUMBER, awardAccount_1.getAccountNumber());
         mapKey.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, awardAccount_1.getChartOfAccountsCode());
         mapKey.put(KFSPropertyConstants.PROPOSAL_NUMBER, awardAccount_1.getProposalNumber());
-        awdAcct_1 = (ContractsAndGrantsCGBAwardAccount) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsCGBAwardAccount.class).getExternalizableBusinessObject(ContractsAndGrantsCGBAwardAccount.class, mapKey);
+        awdAcct_1 = (ContractsAndGrantsBillingAwardAccount) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsBillingAwardAccount.class).getExternalizableBusinessObject(ContractsAndGrantsBillingAwardAccount.class, mapKey);
         mapKey.put(KFSPropertyConstants.ACCOUNT_NUMBER, awardAccount_2.getAccountNumber());
-        awdAcct_2 = (ContractsAndGrantsCGBAwardAccount) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsCGBAwardAccount.class).getExternalizableBusinessObject(ContractsAndGrantsCGBAwardAccount.class, mapKey);
+        awdAcct_2 = (ContractsAndGrantsBillingAwardAccount) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsBillingAwardAccount.class).getExternalizableBusinessObject(ContractsAndGrantsBillingAwardAccount.class, mapKey);
 
         assertEquals(lastBilledDate_1, awdAcct_1.getCurrentLastBilledDate());
         assertEquals(lastBilledDate_2, awdAcct_2.getCurrentLastBilledDate());
         mapKey.clear();
         mapKey.put(KFSPropertyConstants.PROPOSAL_NUMBER, award.getProposalNumber());
-        award = (ContractsAndGrantsCGBAward) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsCGBAward.class).getExternalizableBusinessObject(ContractsAndGrantsCGBAward.class, mapKey);
+        award = (ContractsAndGrantsBillingAward) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsBillingAward.class).getExternalizableBusinessObject(ContractsAndGrantsBillingAward.class, mapKey);
         assertEquals(lastBilledDate_1, award.getLastBilledDate());
 
         invoiceStatus = "CORRECTED";
@@ -241,15 +241,15 @@ public class ContractsGrantsInvoiceDocumentTest extends KualiTestBase {
         mapKey.put(KFSPropertyConstants.ACCOUNT_NUMBER, awardAccount_1.getAccountNumber());
         mapKey.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, awardAccount_1.getChartOfAccountsCode());
         mapKey.put(KFSPropertyConstants.PROPOSAL_NUMBER, awardAccount_1.getProposalNumber());
-        awdAcct_1 = (ContractsAndGrantsCGBAwardAccount) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsCGBAwardAccount.class).getExternalizableBusinessObject(ContractsAndGrantsCGBAwardAccount.class, mapKey);
+        awdAcct_1 = (ContractsAndGrantsBillingAwardAccount) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsBillingAwardAccount.class).getExternalizableBusinessObject(ContractsAndGrantsBillingAwardAccount.class, mapKey);
         mapKey.put(KFSPropertyConstants.ACCOUNT_NUMBER, awardAccount_2.getAccountNumber());
-        awdAcct_2 = (ContractsAndGrantsCGBAwardAccount) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsCGBAwardAccount.class).getExternalizableBusinessObject(ContractsAndGrantsCGBAwardAccount.class, mapKey);
+        awdAcct_2 = (ContractsAndGrantsBillingAwardAccount) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsBillingAwardAccount.class).getExternalizableBusinessObject(ContractsAndGrantsBillingAwardAccount.class, mapKey);
 
         assertEquals(null, awdAcct_1.getCurrentLastBilledDate());
         assertEquals(lastBilledDate_2, awdAcct_2.getCurrentLastBilledDate());
         mapKey.clear();
         mapKey.put(KFSPropertyConstants.PROPOSAL_NUMBER, award.getProposalNumber());
-        award = (ContractsAndGrantsCGBAward) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsCGBAward.class).getExternalizableBusinessObject(ContractsAndGrantsCGBAward.class, mapKey);
+        award = (ContractsAndGrantsBillingAward) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsBillingAward.class).getExternalizableBusinessObject(ContractsAndGrantsBillingAward.class, mapKey);
 
         assertEquals(null, award.getLastBilledDate());
 

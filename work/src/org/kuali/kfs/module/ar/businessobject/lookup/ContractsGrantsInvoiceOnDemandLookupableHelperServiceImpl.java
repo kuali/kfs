@@ -26,7 +26,7 @@ import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAward;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleRetrieveService;
 import org.kuali.kfs.module.ar.businessobject.ContractsGrantsInvoiceOnDemandLookupResult;
 import org.kuali.kfs.module.ar.businessobject.inquiry.ContractsGrantsInvoiceOnDemandLookupResultInquirableImpl;
@@ -89,7 +89,7 @@ public class ContractsGrantsInvoiceOnDemandLookupableHelperServiceImpl extends K
             BusinessObjectRestrictions businessObjectRestrictions = getBusinessObjectAuthorizationService().getLookupResultRestrictions(result, user);
             // add list of awards to sub Result rows
             List<ResultRow> subResultRows = new ArrayList<ResultRow>();
-            for (ContractsAndGrantsCGBAward award : result.getAwards()) {
+            for (ContractsAndGrantsBillingAward award : result.getAwards()) {
 
                 List<Column> subResultColumns = new ArrayList<Column>();
 

@@ -23,8 +23,8 @@ import java.io.OutputStream;
 import java.util.Collection;
 import java.util.List;
 
-import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAgency;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAward;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAgency;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.module.ar.document.ContractsGrantsLetterOfCreditReviewDocument;
@@ -65,7 +65,7 @@ public interface ContractsGrantsInvoiceReportService extends ContractsGrantsRepo
      * @return File returns the report generated.
      * @throws Exception
      */
-    public File generateFederalFinancialForm(ContractsAndGrantsCGBAward award, String period, String year, String formType, ContractsAndGrantsCGBAgency agency) throws Exception;
+    public File generateFederalFinancialForm(ContractsAndGrantsBillingAward award, String period, String year, String formType, ContractsAndGrantsBillingAgency agency) throws Exception;
 
     /**
      * This method marks invoices for the ArEmailService for Email reports delivery.

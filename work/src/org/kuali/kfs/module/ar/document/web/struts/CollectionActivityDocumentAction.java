@@ -33,7 +33,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAward;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
@@ -360,7 +360,7 @@ public class CollectionActivityDocumentAction extends FinancialSystemTransaction
         }
         if (StringUtils.equals(KFSConstants.AWARD_LOOKUP, collectionActivityDocumentForm.getRefreshCaller())) {
             if (ObjectUtils.isNotNull(colActDoc.getProposalNumber())) {
-                ContractsAndGrantsCGBAward award = collectionActivityDocumentService.retrieveAwardByProposalNumber(colActDoc.getProposalNumber());
+                ContractsAndGrantsBillingAward award = collectionActivityDocumentService.retrieveAwardByProposalNumber(colActDoc.getProposalNumber());
                 if (ObjectUtils.isNotNull(award)) {
                     colActDoc.setAgencyNumber(award.getAgencyNumber());
                     colActDoc.setAgencyName(award.getAgency().getFullName());

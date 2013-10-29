@@ -152,7 +152,7 @@
 
 	<bean id="ContractsAndGrantsAgingReport-proposalNumber-parentBean"
 		abstract="true" parent="ExternalizableAttributeDefinitionProxy"
-		p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAward"
+		p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward"
 		p:sourceAttributeName="proposalNumber">
 		<property name="name" value="proposalNumber" />
 		<property name="forceUppercase" value="true" />
@@ -171,7 +171,7 @@
 		parent="ContractsAndGrantsAgingReport-awardDocumentNumber-parentBean" />
 	<bean id="ContractsAndGrantsAgingReport-awardDocumentNumber-parentBean"
 		abstract="true" parent="ExternalizableAttributeDefinitionProxy"
-		p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAward"
+		p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward"
 		p:sourceAttributeName="awardDocumentNumber">
 		<property name="name" value="awardDocumentNumber" />
 		<property name="label" value="Award Document Number" />

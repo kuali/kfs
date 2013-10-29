@@ -21,7 +21,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAward;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsFundManager;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -55,7 +55,7 @@ public class FundsManagerDerivedRoleTypeServiceImpl extends DerivedRoleTypeServi
             String documentNumber = qualification.get("documentNumber");
             if (StringUtils.isNotBlank(documentNumber)) {
                 ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument = (ContractsGrantsInvoiceDocument) getDocument(documentNumber);
-                ContractsAndGrantsCGBAward award = contractsGrantsInvoiceDocument.getAward();
+                ContractsAndGrantsBillingAward award = contractsGrantsInvoiceDocument.getAward();
                 Map<String, Object> map = new HashMap<String, Object>();
                 map.put(KFSPropertyConstants.ACTIVE, true);
                 map.put(KFSPropertyConstants.PROPOSAL_NUMBER, award.getProposalNumber());

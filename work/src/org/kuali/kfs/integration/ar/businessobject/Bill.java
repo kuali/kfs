@@ -18,7 +18,7 @@ package org.kuali.kfs.integration.ar.businessobject;
 import java.util.Date;
 
 import org.kuali.kfs.integration.ar.AccountsReceivableBill;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAward;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 /**
@@ -37,7 +37,7 @@ public class Bill implements AccountsReceivableBill {
     private boolean billedIndicator;
 
 
-    private ContractsAndGrantsCGBAward award;
+    private ContractsAndGrantsBillingAward award;
 
     /**
      * Constructs a Bills.java.
@@ -174,7 +174,7 @@ public class Bill implements AccountsReceivableBill {
      * 
      * @return Returns the award.
      */
-    public ContractsAndGrantsCGBAward getAward() {
+    public ContractsAndGrantsBillingAward getAward() {
         return award;
     }
 
@@ -183,7 +183,7 @@ public class Bill implements AccountsReceivableBill {
      * 
      * @param award The award to set.
      */
-    public void setAward(ContractsAndGrantsCGBAward award) {
+    public void setAward(ContractsAndGrantsBillingAward award) {
         this.award = award;
     }
 

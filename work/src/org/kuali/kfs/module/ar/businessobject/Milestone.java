@@ -21,7 +21,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.kuali.kfs.integration.ar.AccountsReceivableMilestone;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAward;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -46,7 +46,7 @@ public class Milestone extends PersistableBusinessObjectBase implements Accounts
     private boolean billedIndicator;
 
 
-    private ContractsAndGrantsCGBAward award;
+    private ContractsAndGrantsBillingAward award;
 
 
     /**
@@ -204,11 +204,11 @@ public class Milestone extends PersistableBusinessObjectBase implements Accounts
      * @return Returns the award.
      */
     @Override
-    public ContractsAndGrantsCGBAward getAward() {
+    public ContractsAndGrantsBillingAward getAward() {
         if (award == null && proposalNumber != null) {
             Map<String, Object> map = new HashMap<String, Object> ();
             map.put("proposalNumber", this.proposalNumber);
-            award = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsCGBAward.class).getExternalizableBusinessObject(ContractsAndGrantsCGBAward.class, map);
+            award = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsBillingAward.class).getExternalizableBusinessObject(ContractsAndGrantsBillingAward.class, map);
         }
         return award;
     }
@@ -218,7 +218,7 @@ public class Milestone extends PersistableBusinessObjectBase implements Accounts
      *
      * @param award The award to set.
      */
-    public void setAward(ContractsAndGrantsCGBAward award) {
+    public void setAward(ContractsAndGrantsBillingAward award) {
         this.award = award;
     }
 

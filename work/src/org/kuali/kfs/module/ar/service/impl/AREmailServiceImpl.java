@@ -38,7 +38,7 @@ import javax.mail.util.ByteArrayDataSource;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsAgencyAddress;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAward;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.batch.ContractsGrantsInvoiceEmailReportsBatchStep;
@@ -273,7 +273,7 @@ public class AREmailServiceImpl extends MailerImpl implements AREmailService {
      * @see org.kuali.kfs.module.ar.service.CGEmailService#sendEmail(java.util.List, org.kuali.kfs.module.ar.businessobject.Award)
      */
     @Override
-    public void sendEmail(List<Milestone> milestones, ContractsAndGrantsCGBAward award) {
+    public void sendEmail(List<Milestone> milestones, ContractsAndGrantsBillingAward award) {
         LOG.debug("sendEmail() starting");
 
         MailMessage message = new MailMessage();

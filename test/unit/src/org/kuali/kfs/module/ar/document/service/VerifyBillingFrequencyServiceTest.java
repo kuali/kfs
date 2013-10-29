@@ -21,7 +21,7 @@ import java.sql.Date;
 
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
 import org.kuali.kfs.coa.service.AccountingPeriodService;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAward;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleUpdateService;
 import org.kuali.kfs.module.ar.batch.service.VerifyBillingFrequencyService;
 import org.kuali.kfs.module.ar.fixture.ARAwardFixture;
@@ -63,7 +63,7 @@ public class VerifyBillingFrequencyServiceTest extends KualiTestBase {
         AccountingPeriod currPeriod = SpringContext.getBean(AccountingPeriodService.class).getByDate(date);
         // Now to set currentPeriod based on the billing frequency we would want to test.
         // 1. MONTHLY / Milestone/Predetermined.
-        ContractsAndGrantsCGBAward award = ARAwardFixture.CG_AWARD_MONTHLY_BILLED_DATE_NULL.createAward();
+        ContractsAndGrantsBillingAward award = ARAwardFixture.CG_AWARD_MONTHLY_BILLED_DATE_NULL.createAward();
 
 
         testEndDay = Date.valueOf("2011-09-30");

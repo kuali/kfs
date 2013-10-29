@@ -21,7 +21,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.kuali.kfs.integration.ar.AccountsReceivableBill;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAward;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
@@ -44,7 +44,7 @@ public class Bill extends PersistableBusinessObjectBase implements AccountsRecei
     private boolean billedIndicator;
 
 
-    private ContractsAndGrantsCGBAward award;
+    private ContractsAndGrantsBillingAward award;
 
     /**
      * Constructs a Bills.java.
@@ -181,11 +181,11 @@ public class Bill extends PersistableBusinessObjectBase implements AccountsRecei
      *
      * @return Returns the award.
      */
-    public ContractsAndGrantsCGBAward getAward() {
+    public ContractsAndGrantsBillingAward getAward() {
         if (award == null && proposalNumber != null) {
             Map<String, Object> map = new HashMap<String, Object> ();
             map.put("proposalNumber", this.proposalNumber);
-            award = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsCGBAward.class).getExternalizableBusinessObject(ContractsAndGrantsCGBAward.class, map);
+            award = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsBillingAward.class).getExternalizableBusinessObject(ContractsAndGrantsBillingAward.class, map);
         }
         return award;
     }
@@ -195,7 +195,7 @@ public class Bill extends PersistableBusinessObjectBase implements AccountsRecei
      *
      * @param award The award to set.
      */
-    public void setAward(ContractsAndGrantsCGBAward award) {
+    public void setAward(ContractsAndGrantsBillingAward award) {
         this.award = award;
     }
 

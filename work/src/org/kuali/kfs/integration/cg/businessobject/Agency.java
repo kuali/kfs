@@ -17,15 +17,14 @@
 package org.kuali.kfs.integration.cg.businessobject;
 
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomer;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsAgency;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAgency;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAgency;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 /**
  * This class defines an agency as it is used and referenced within the Contracts and Grants portion of a college or university
  * financial system.
  */
-public class Agency implements ContractsAndGrantsCGBAgency, ContractsAndGrantsAgency {
+public class Agency implements ContractsAndGrantsBillingAgency {
 
     private String agencyNumber;
     private String reportingName;
@@ -287,7 +286,7 @@ public class Agency implements ContractsAndGrantsCGBAgency, ContractsAndGrantsAg
     }
 
     /**
-     * @see org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAgency#getCustomer()
+     * @see org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAgency#getCustomer()
      */
     @Override
     public AccountsReceivableCustomer getCustomer() {

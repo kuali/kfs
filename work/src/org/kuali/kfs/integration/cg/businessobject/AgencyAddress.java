@@ -18,7 +18,7 @@ package org.kuali.kfs.integration.cg.businessobject;
 import java.sql.Date;
 
 import org.kuali.kfs.integration.cg.ContractsAndGrantsAgencyAddress;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAgency;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAgency;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
 
@@ -59,7 +59,7 @@ public class AgencyAddress implements ContractsAndGrantsAgencyAddress {
     private Integer agencyCopiesToPrint;
     private Integer agencyPrintEnvelopesNumber;
 
-    private ContractsAndGrantsCGBAgency agency;
+    private ContractsAndGrantsBillingAgency agency;
 
     /**
      * Default constructor.
@@ -524,7 +524,7 @@ public class AgencyAddress implements ContractsAndGrantsAgencyAddress {
      * 
      * @return Returns the agency.
      */
-    public ContractsAndGrantsCGBAgency getAgency() {
+    public ContractsAndGrantsBillingAgency getAgency() {
         return agency;
     }
 
@@ -533,7 +533,7 @@ public class AgencyAddress implements ContractsAndGrantsAgencyAddress {
      * 
      * @param agency The agency to set.
      */
-    public void setAgency(ContractsAndGrantsCGBAgency agency) {
+    public void setAgency(ContractsAndGrantsBillingAgency agency) {
         this.agency = agency;
     }
 

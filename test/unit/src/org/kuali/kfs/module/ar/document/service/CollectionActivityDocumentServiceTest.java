@@ -23,7 +23,7 @@ import java.util.Collection;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.log4j.Logger;
 import org.apache.ojb.broker.query.Criteria;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAward;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.module.ar.businessobject.Event;
 import org.kuali.kfs.module.ar.document.CollectionActivityDocument;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
@@ -139,7 +139,7 @@ public class CollectionActivityDocumentServiceTest extends KualiTestBase {
      * Tests the retrieveAwardByProposalNumber() method of service.
      */
     public void testRetrieveAwardByProposalNumber() {
-        ContractsAndGrantsCGBAward award = collectionActivityDocumentService.retrieveAwardByProposalNumber(PROPOSAL_NUMBER);
+        ContractsAndGrantsBillingAward award = collectionActivityDocumentService.retrieveAwardByProposalNumber(PROPOSAL_NUMBER);
         assertNotNull(award);
         assertEquals(AGENCY_NUMBER, award.getAgencyNumber());
     }

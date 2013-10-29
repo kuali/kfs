@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.integration.ar.AccountsReceivableMilestoneSchedule;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAward;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
@@ -48,7 +48,7 @@ public class MilestoneSchedule extends PersistableBusinessObjectBase implements 
     private String milestoneScheduleInquiryTitle;
 
     private List<Milestone> milestones;
-    private ContractsAndGrantsCGBAward award;
+    private ContractsAndGrantsBillingAward award;
 
     public MilestoneSchedule() {
         // Must use ArrayList because its get() method automatically grows the array for Struts.
@@ -61,7 +61,7 @@ public class MilestoneSchedule extends PersistableBusinessObjectBase implements 
      *
      * @param proposal
      */
-    public MilestoneSchedule(ContractsAndGrantsCGBAward award) {
+    public MilestoneSchedule(ContractsAndGrantsBillingAward award) {
         this();
     }
 
@@ -216,11 +216,11 @@ public class MilestoneSchedule extends PersistableBusinessObjectBase implements 
      * @return Returns the award.
      */
     @Override
-    public ContractsAndGrantsCGBAward getAward() {
+    public ContractsAndGrantsBillingAward getAward() {
         if (award == null && proposalNumber != null) {
             Map<String, Object> map = new HashMap<String, Object> ();
             map.put("proposalNumber", this.proposalNumber);
-            award = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsCGBAward.class).getExternalizableBusinessObject(ContractsAndGrantsCGBAward.class, map);
+            award = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsBillingAward.class).getExternalizableBusinessObject(ContractsAndGrantsBillingAward.class, map);
         }
         return award;
     }
@@ -231,7 +231,7 @@ public class MilestoneSchedule extends PersistableBusinessObjectBase implements 
      *
      * @param award The award to set.
      */
-    public void setAward(ContractsAndGrantsCGBAward award) {
+    public void setAward(ContractsAndGrantsBillingAward award) {
         this.award = award;
     }
 

@@ -16,18 +16,17 @@
 package org.kuali.kfs.integration.cg;
 
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomer;
-import org.kuali.rice.krad.bo.ExternalizableBusinessObject;
-import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 
 /**
  * Methods which return information needed about Contracts and Grants agencies by other modules.
  */
-public interface ContractsAndGrantsCGBAgency extends MutableInactivatable, ExternalizableBusinessObject {
+public interface ContractsAndGrantsBillingAgency extends ContractsAndGrantsAgency {
     /**
      * Returns the agency number for this agency
      *
      * @return the agency number for the given agency
      */
+    @Override
     public abstract String getAgencyNumber();
 
 

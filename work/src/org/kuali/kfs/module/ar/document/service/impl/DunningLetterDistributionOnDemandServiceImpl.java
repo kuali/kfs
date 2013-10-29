@@ -35,7 +35,7 @@ import java.util.zip.ZipOutputStream;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsAgencyAddress;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAward;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.CollectionActivityType;
@@ -215,7 +215,7 @@ public class DunningLetterDistributionOnDemandServiceImpl implements DunningLett
      * @return
      */
     private Map<String, String> getTemplateParameterList(List<ContractsGrantsInvoiceDocument> invoices) {
-        ContractsAndGrantsCGBAward award = invoices.get(0).getAward();
+        ContractsAndGrantsBillingAward award = invoices.get(0).getAward();
         Map<String, String> parameterMap = new HashMap<String, String>();
         Map primaryKeys = new HashMap<String, Object>();
         parameterMap.put("#award.proposalNumber", returnProperStringValue(award.getProposalNumber()));

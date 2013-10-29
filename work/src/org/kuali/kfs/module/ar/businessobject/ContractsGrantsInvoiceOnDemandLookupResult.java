@@ -22,7 +22,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingFrequency;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAward;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -46,7 +46,7 @@ public class ContractsGrantsInvoiceOnDemandLookupResult extends TransientBusines
     private Date awardEndingDate;
     private String awardBillingFrequency;
     private KualiDecimal awardTotal = KualiDecimal.ZERO;
-    private Collection<ContractsAndGrantsCGBAward> awards;
+    private Collection<ContractsAndGrantsBillingAward> awards;
     private ContractsAndGrantsBillingFrequency billingFrequency;
 
     public ContractsGrantsInvoiceOnDemandLookupResult() {
@@ -178,7 +178,7 @@ public class ContractsGrantsInvoiceOnDemandLookupResult extends TransientBusines
      * 
      * @return Returns the awards.
      */
-    public Collection<ContractsAndGrantsCGBAward> getAwards() {
+    public Collection<ContractsAndGrantsBillingAward> getAwards() {
 
         return awards;
     }

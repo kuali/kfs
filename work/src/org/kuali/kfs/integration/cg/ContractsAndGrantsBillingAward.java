@@ -26,7 +26,7 @@ import org.kuali.rice.core.api.util.type.KualiDecimal;
 /**
  * Integration interface for Award (specific to CGB functionality)
  */
-public interface ContractsAndGrantsCGBAward extends ExternalizableBusinessObject {
+public interface ContractsAndGrantsBillingAward extends ContractsAndGrantsAward {
 
     /**
      * Gets the proposalNumber attribute.
@@ -320,14 +320,14 @@ public interface ContractsAndGrantsCGBAward extends ExternalizableBusinessObject
      *
      * @return Returns the active awardAccounts.
      */
-    public List<ContractsAndGrantsCGBAwardAccount> getActiveAwardAccounts();
+    public List<ContractsAndGrantsBillingAwardAccount> getActiveAwardAccounts();
 
     /**
      * Gets the agency attribute.
      *
      * @return Returns the agency.
      */
-    public ContractsAndGrantsCGBAgency getAgency();
+    public ContractsAndGrantsBillingAgency getAgency();
 
     /**
      * Gets the routingOrg attribute.

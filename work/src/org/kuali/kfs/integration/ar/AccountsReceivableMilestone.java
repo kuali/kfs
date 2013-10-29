@@ -17,7 +17,7 @@ package org.kuali.kfs.integration.ar;
 
 import java.sql.Date;
 
-import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAward;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.rice.krad.bo.ExternalizableBusinessObject;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 
@@ -88,7 +88,7 @@ public interface AccountsReceivableMilestone extends ExternalizableBusinessObjec
      *
      * @return Returns the award.
      */
-    public ContractsAndGrantsCGBAward getAward();
+    public ContractsAndGrantsBillingAward getAward();
 
 
 }

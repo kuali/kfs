@@ -103,7 +103,7 @@ public class ContractsAndGrantsModuleUpdateServiceNoOp implements ContractsAndGr
      * @see org.kuali.kfs.integration.cg.ContractsAndGrantsModuleUpdateService#setTestValuesToAward(java.lang.Long, java.util.Map)
      */
     @Override
-    public void setAwardAccountsToAward(Long proposalNumber, List<ContractsAndGrantsCGBAwardAccount> awardAccounts) {
+    public void setAwardAccountsToAward(Long proposalNumber, List<ContractsAndGrantsBillingAwardAccount> awardAccounts) {
         LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
     }
 

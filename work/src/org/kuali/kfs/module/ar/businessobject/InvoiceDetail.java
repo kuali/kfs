@@ -27,7 +27,7 @@ import java.util.Set;
 
 import org.kuali.kfs.gl.businessobject.Balance;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAwardAccount;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAwardAccount;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.sys.KFSConstants;
@@ -321,10 +321,10 @@ public class InvoiceDetail extends PersistableBusinessObjectBase {
      * @param awardAccounts - accounts for a particular award.
      * @param objectCodes - set of object codes pertaining to a single category
      */
-    public void performBudgetCalculations(List<ContractsAndGrantsCGBAwardAccount> awardAccounts, Set<String> completeObjectCodeArrayForSingleCategory, Date awardBeginningDate) {
+    public void performBudgetCalculations(List<ContractsAndGrantsBillingAwardAccount> awardAccounts, Set<String> completeObjectCodeArrayForSingleCategory, Date awardBeginningDate) {
         KualiDecimal budAmt = KualiDecimal.ZERO;
         KualiDecimal balAmt = KualiDecimal.ZERO;
-        for (ContractsAndGrantsCGBAwardAccount awardAccount : awardAccounts) {
+        for (ContractsAndGrantsBillingAwardAccount awardAccount : awardAccounts) {
             // To retrieve the complete set of object codes and then categorize them based on object codes and BalanceType
             List<Balance> glBalances = new ArrayList<Balance>();
             Integer currentYear = SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear();

@@ -17,7 +17,7 @@ package org.kuali.kfs.module.ar.batch.service;
 
 import java.util.List;
 
-import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAward;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.module.ar.businessobject.Milestone;
 
 
@@ -29,7 +29,7 @@ public interface UpcomingMilestoneNotificationService {
     /**
      * Sends advice notifications to award primary fund manager on upcoming milestones.
      */
-    public void sendAdviceNotifications(List<Milestone> milestones, ContractsAndGrantsCGBAward award);
+    public void sendAdviceNotifications(List<Milestone> milestones, ContractsAndGrantsBillingAward award);
 
 
 }

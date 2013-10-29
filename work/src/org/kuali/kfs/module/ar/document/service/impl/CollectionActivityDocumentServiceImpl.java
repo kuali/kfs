@@ -23,8 +23,8 @@ import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.ojb.broker.query.Criteria;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAgency;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAward;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAgency;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.Event;
 import org.kuali.kfs.module.ar.dataaccess.EventDao;
@@ -159,7 +159,7 @@ public class CollectionActivityDocumentServiceImpl implements CollectionActivity
             if (ObjectUtils.isNotNull(invoices) && CollectionUtils.isNotEmpty(invoices)) {
                 ContractsGrantsInvoiceDocument invoice = invoices.get(0);
                 if (ObjectUtils.isNotNull(invoice.getAward()) && ObjectUtils.isNotNull(invoice.getAward().getAgency())) {
-                    ContractsAndGrantsCGBAgency agency = invoice.getAward().getAgency();
+                    ContractsAndGrantsBillingAgency agency = invoice.getAward().getAgency();
                     colActDoc.setAgencyNumber(agency.getAgencyNumber());
                     colActDoc.setAgencyName(agency.getFullName());
                 }
@@ -183,12 +183,12 @@ public class CollectionActivityDocumentServiceImpl implements CollectionActivity
      * @see org.kuali.kfs.module.ar.document.service.CollectionActivityDocumentService#retrieveAwardByProposalNumber(java.lang.Long)
      */
     @Override
-    public ContractsAndGrantsCGBAward retrieveAwardByProposalNumber(Long proposalNumber) {
-        ContractsAndGrantsCGBAward award = null;
+    public ContractsAndGrantsBillingAward retrieveAwardByProposalNumber(Long proposalNumber) {
+        ContractsAndGrantsBillingAward award = null;
         if (ObjectUtils.isNotNull(proposalNumber)) {
             Map<String, Object> map = new HashMap<String, Object>();
             map.put(ArPropertyConstants.TicklersReportFields.PROPOSAL_NUMBER, proposalNumber);
-            award = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsCGBAward.class).getExternalizableBusinessObject(ContractsAndGrantsCGBAward.class, map);
+            award = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsBillingAward.class).getExternalizableBusinessObject(ContractsAndGrantsBillingAward.class, map);
         }
         return award;
     }

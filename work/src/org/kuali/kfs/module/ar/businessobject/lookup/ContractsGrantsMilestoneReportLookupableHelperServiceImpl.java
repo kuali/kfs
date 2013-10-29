@@ -24,8 +24,8 @@ import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAward;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAwardAccount;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAwardAccount;
 import org.kuali.kfs.module.ar.businessobject.Milestone;
 import org.kuali.kfs.module.ar.businessobject.ContractsGrantsMilestoneReport;
 import org.kuali.kfs.module.ar.report.ContractsGrantsReportUtils;
@@ -92,8 +92,8 @@ public class ContractsGrantsMilestoneReportLookupableHelperServiceImpl extends C
             ContractsGrantsMilestoneReport cgMilestoneReport = new ContractsGrantsMilestoneReport();
             cgMilestoneReport.setProposalNumber(milestone.getProposalNumber());
 
-            ContractsAndGrantsCGBAward award = milestone.getAward();
-            List<ContractsAndGrantsCGBAwardAccount> awardAccounts = (ObjectUtils.isNull(award)) ? new ArrayList() : award.getActiveAwardAccounts();
+            ContractsAndGrantsBillingAward award = milestone.getAward();
+            List<ContractsAndGrantsBillingAwardAccount> awardAccounts = (ObjectUtils.isNull(award)) ? new ArrayList() : award.getActiveAwardAccounts();
             String accountNumber = (awardAccounts.size() > 0) ? awardAccounts.get(0).getAccountNumber() : "";
 
             cgMilestoneReport.setAccountNumber(accountNumber);

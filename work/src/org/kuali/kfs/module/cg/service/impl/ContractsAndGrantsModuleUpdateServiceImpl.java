@@ -17,17 +17,14 @@ package org.kuali.kfs.module.cg.service.impl;
 
 import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.ojb.broker.query.Criteria;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAwardAccount;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAwardAccount;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleUpdateService;
 import org.kuali.kfs.module.cg.businessobject.Award;
 import org.kuali.kfs.module.cg.businessobject.AwardAccount;
-import org.kuali.kfs.integration.ar.AccountsReceivableBill;
 import org.kuali.kfs.module.cg.businessobject.Proposal;
 import org.kuali.kfs.module.cg.service.AwardService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -163,7 +160,7 @@ public class ContractsAndGrantsModuleUpdateServiceImpl implements ContractsAndGr
      */
     @Override
     @SuppressWarnings("deprecation")
-    public void setAwardAccountsToAward(Long proposalNumber, List<ContractsAndGrantsCGBAwardAccount> awardAccounts) {
+    public void setAwardAccountsToAward(Long proposalNumber, List<ContractsAndGrantsBillingAwardAccount> awardAccounts) {
 
         // Award and proposal is being saved
         Proposal proposal = SpringContext.getBean(BusinessObjectService.class).findBySinglePrimaryKey(Proposal.class, proposalNumber);
@@ -184,7 +181,7 @@ public class ContractsAndGrantsModuleUpdateServiceImpl implements ContractsAndGr
         List<AwardAccount> awdAccts = new ArrayList<AwardAccount>();
 
 
-        for (ContractsAndGrantsCGBAwardAccount awardAccount : awardAccounts) {
+        for (ContractsAndGrantsBillingAwardAccount awardAccount : awardAccounts) {
             Map<String, Object> mapKey = new HashMap<String, Object>();
             mapKey.put(KFSPropertyConstants.ACCOUNT_NUMBER, awardAccount.getAccountNumber());
             mapKey.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, awardAccount.getChartOfAccountsCode());

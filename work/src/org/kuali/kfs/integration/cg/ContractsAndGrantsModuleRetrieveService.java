@@ -44,7 +44,7 @@ public interface ContractsAndGrantsModuleRetrieveService {
      * @param personId
      * @return
      */
-    public Collection<ContractsAndGrantsCGBAward> getAwardsFromLookupResultsSequenceNumber(String lookupResultsSequenceNumber, String personId);
+    public Collection<ContractsAndGrantsBillingAward> getAwardsFromLookupResultsSequenceNumber(String lookupResultsSequenceNumber, String personId);
 
     /**
      * Determines whether the CG and Billing Enhancements are on from the system parameters

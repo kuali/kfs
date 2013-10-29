@@ -19,7 +19,7 @@ package org.kuali.kfs.module.ar.businessobject;
 import java.sql.Date;
 import java.util.LinkedHashMap;
 
-import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAward;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService;
@@ -82,7 +82,7 @@ public class InvoiceGeneralDetail extends PersistableBusinessObjectBase {
      *
      * @param award The associated award that the invoice will be linked to.
      */
-    public void populateInvoiceFromAward(ContractsAndGrantsCGBAward award) {
+    public void populateInvoiceFromAward(ContractsAndGrantsBillingAward award) {
         ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService = SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class);
         // copy General details from award to the invoice
         this.setAwardTotal(award.getAwardTotalAmount());

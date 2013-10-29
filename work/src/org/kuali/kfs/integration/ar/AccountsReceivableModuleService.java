@@ -20,7 +20,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAgency;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAgency;
 import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
 import org.kuali.kfs.sys.service.ElectronicPaymentClaimingDocumentGenerationStrategy;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
@@ -80,7 +80,7 @@ public interface AccountsReceivableModuleService {
      * @return customerNumber
      * @throws WorkflowException
      */
-    public String createAndSaveCustomer(String description, ContractsAndGrantsCGBAgency agency) throws WorkflowException;
+    public String createAndSaveCustomer(String description, ContractsAndGrantsBillingAgency agency) throws WorkflowException;
 
 
     /**

@@ -25,7 +25,7 @@ import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAgency;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAgency;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.ContractsGrantsAgingOpenInvoicesReport;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
@@ -173,7 +173,7 @@ public class ContractsGrantsAgingOpenInvoicesReportServiceImpl implements Contra
             detail.setProposalNumber(invoice.getProposalNumber().toString());
 
             // Set Agency Number
-            ContractsAndGrantsCGBAgency cgAgency = this.getAgencyByCustomer(invoice.getAccountsReceivableDocumentHeader().getCustomerNumber());
+            ContractsAndGrantsBillingAgency cgAgency = this.getAgencyByCustomer(invoice.getAccountsReceivableDocumentHeader().getCustomerNumber());
             if (ObjectUtils.isNotNull(cgAgency)) {
                 detail.setAgencyNumber(cgAgency.getAgencyNumber());
             }
@@ -193,9 +193,9 @@ public class ContractsGrantsAgingOpenInvoicesReportServiceImpl implements Contra
      * @param customerNumber
      * @return Returns the agency for the customer
      */
-    private ContractsAndGrantsCGBAgency getAgencyByCustomer(String customerNumber) {
+    private ContractsAndGrantsBillingAgency getAgencyByCustomer(String customerNumber) {
         Map args = new HashMap();
         args.put(KFSPropertyConstants.CUSTOMER_NUMBER, customerNumber);
-        return SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsCGBAgency.class).getExternalizableBusinessObject(ContractsAndGrantsCGBAgency.class, args);
+        return SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsBillingAgency.class).getExternalizableBusinessObject(ContractsAndGrantsBillingAgency.class, args);
     }
 }

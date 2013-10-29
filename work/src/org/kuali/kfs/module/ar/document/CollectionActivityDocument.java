@@ -25,7 +25,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAward;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.CollectionActivityInvoiceLookup;
 import org.kuali.kfs.module.ar.businessobject.Customer;
@@ -57,7 +57,7 @@ public class CollectionActivityDocument extends FinancialSystemTransactionalDocu
     private String customerNumber;
     private String customerName;
     protected String selectedInvoiceDocumentNumber;
-    protected transient ContractsAndGrantsCGBAward award;
+    protected transient ContractsAndGrantsBillingAward award;
     protected transient Customer customer;
     protected Event newEvent;
     protected Event globalEvent;
@@ -189,7 +189,7 @@ public class CollectionActivityDocument extends FinancialSystemTransactionalDocu
      *
      * @return Returns the award.
      */
-    public ContractsAndGrantsCGBAward getAward() {
+    public ContractsAndGrantsBillingAward getAward() {
         return award;
     }
 
@@ -198,7 +198,7 @@ public class CollectionActivityDocument extends FinancialSystemTransactionalDocu
      *
      * @param award The award to set.
      */
-    public void setAward(ContractsAndGrantsCGBAward award) {
+    public void setAward(ContractsAndGrantsBillingAward award) {
         this.award = award;
     }
 

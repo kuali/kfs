@@ -203,7 +203,7 @@ public interface ContractsAndGrantsAgencyAddress extends ExternalizableBusinessO
      * 
      * @return Returns the agency.
      */
-    public ContractsAndGrantsCGBAgency getAgency();
+    public ContractsAndGrantsBillingAgency getAgency();
 
     public boolean isPrimary();
 }

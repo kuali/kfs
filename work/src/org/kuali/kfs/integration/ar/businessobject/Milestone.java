@@ -17,7 +17,7 @@ package org.kuali.kfs.integration.ar.businessobject;
 
 import java.sql.Date;
 
-import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAward;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.integration.ar.AccountsReceivableMilestone;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 
@@ -36,7 +36,7 @@ public class Milestone implements AccountsReceivableMilestone {
     private Date milestoneActualCompletionDate;
     private Date milestoneExpectedCompletionDate;
     private boolean billedIndicator;
-    private ContractsAndGrantsCGBAward award;
+    private ContractsAndGrantsBillingAward award;
 
     /**
      * Constructs a Milestones.java.
@@ -193,7 +193,7 @@ public class Milestone implements AccountsReceivableMilestone {
      * @return Returns the award.
      */
     @Override
-    public ContractsAndGrantsCGBAward getAward() {
+    public ContractsAndGrantsBillingAward getAward() {
         return award;
     }
 
@@ -202,7 +202,7 @@ public class Milestone implements AccountsReceivableMilestone {
      *
      * @param award The award to set.
      */
-    public void setAward(ContractsAndGrantsCGBAward award) {
+    public void setAward(ContractsAndGrantsBillingAward award) {
         this.award = award;
     }
 

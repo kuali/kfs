@@ -23,9 +23,9 @@ import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.kuali.kfs.coa.businessobject.Account;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAgency;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAward;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAwardAccount;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAgency;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAwardAccount;
 import org.kuali.kfs.integration.cg.businessobject.Award;
 import org.kuali.kfs.module.ar.batch.service.ContractsGrantsInvoiceCreateDocumentService;
 import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
@@ -75,10 +75,10 @@ public class ContractsGrantsInvoiceCreateDocumentServiceTest extends KualiTestBa
         accountsReceivableDocumentHeader.setProcessingOrganizationCode(orgCode);
 
         contractsGrantsInvoiceDocument_1.setAccountsReceivableDocumentHeader(accountsReceivableDocumentHeader);
-        ContractsAndGrantsCGBAward award = ARAwardFixture.CG_AWARD_MONTHLY_BILLED_DATE_NULL.createAward();
-        ContractsAndGrantsCGBAgency agency = ARAgencyFixture.CG_AGENCY1.createAgency();
-        ContractsAndGrantsCGBAwardAccount awardAccount_1 = ARAwardAccountFixture.AWD_ACCT_1.createAwardAccount();
-        List<ContractsAndGrantsCGBAwardAccount> awardAccounts = new ArrayList<ContractsAndGrantsCGBAwardAccount>();
+        ContractsAndGrantsBillingAward award = ARAwardFixture.CG_AWARD_MONTHLY_BILLED_DATE_NULL.createAward();
+        ContractsAndGrantsBillingAgency agency = ARAgencyFixture.CG_AGENCY1.createAgency();
+        ContractsAndGrantsBillingAwardAccount awardAccount_1 = ARAwardAccountFixture.AWD_ACCT_1.createAwardAccount();
+        List<ContractsAndGrantsBillingAwardAccount> awardAccounts = new ArrayList<ContractsAndGrantsBillingAwardAccount>();
         awardAccounts.add(awardAccount_1);
         award.getActiveAwardAccounts().clear();
 
@@ -111,8 +111,8 @@ public class ContractsGrantsInvoiceCreateDocumentServiceTest extends KualiTestBa
     
     public void testValidateAwards(){
         
-        ContractsAndGrantsCGBAward invalidAward = ARAwardFixture.CG_AWARD2.createAward();
-        List<ContractsAndGrantsCGBAward> awards = new ArrayList<ContractsAndGrantsCGBAward>();
+        ContractsAndGrantsBillingAward invalidAward = ARAwardFixture.CG_AWARD2.createAward();
+        List<ContractsAndGrantsBillingAward> awards = new ArrayList<ContractsAndGrantsBillingAward>();
         awards.add(invalidAward);
         // To retrieve the batch file directory name as "reports/ar"
         ModuleConfiguration systemConfiguration = SpringContext.getBean(KualiModuleService.class).getModuleServiceByNamespaceCode("KFS-AR").getModuleConfiguration();
@@ -122,7 +122,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceTest extends KualiTestBa
         
         String errorOutputFile = destinationFolderPath + "JUNIT TEST.log";
         
-        Collection<ContractsAndGrantsCGBAward> validAwards = SpringContext.getBean(ContractsGrantsInvoiceCreateDocumentService.class).validateAwards(awards, errorOutputFile);
+        Collection<ContractsAndGrantsBillingAward> validAwards = SpringContext.getBean(ContractsGrantsInvoiceCreateDocumentService.class).validateAwards(awards, errorOutputFile);
         
         assertTrue(CollectionUtils.isEmpty(validAwards));
         

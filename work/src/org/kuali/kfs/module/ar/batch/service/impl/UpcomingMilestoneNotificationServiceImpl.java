@@ -18,7 +18,7 @@ package org.kuali.kfs.module.ar.batch.service.impl;
 import java.util.List;
 
 import org.kuali.kfs.module.ar.batch.service.UpcomingMilestoneNotificationService;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAward;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.module.ar.businessobject.Milestone;
 import org.kuali.kfs.module.ar.service.AREmailService;
 import org.kuali.kfs.sys.service.NonTransactional;
@@ -41,7 +41,7 @@ public class UpcomingMilestoneNotificationServiceImpl implements UpcomingMilesto
      */
     @Override
     @NonTransactional
-    public void sendAdviceNotifications(List<Milestone> milestones, ContractsAndGrantsCGBAward award) {
+    public void sendAdviceNotifications(List<Milestone> milestones, ContractsAndGrantsBillingAward award) {
 
         arEmailService.sendEmail(milestones, award);
 

@@ -35,9 +35,9 @@ import org.apache.ojb.broker.query.Criteria;
 import org.kuali.kfs.coa.businessobject.IndirectCostRecoveryRateDetail;
 import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsAgencyAddress;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAgency;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAward;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAwardAccount;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAgency;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAwardAccount;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.ContractsGrantsLetterOfCreditReviewDetail;
@@ -287,11 +287,11 @@ public class ContractsGrantsInvoiceReportServiceImpl extends ContractsGrantsRepo
     }
 
     /**
-     * @see org.kuali.kfs.module.ar.report.service.ContractsGrantsInvoiceReportService#generateFederalFinancialForm(org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAward,
-     *      java.lang.String, java.lang.String, java.lang.String, org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAgency)
+     * @see org.kuali.kfs.module.ar.report.service.ContractsGrantsInvoiceReportService#generateFederalFinancialForm(org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward,
+     *      java.lang.String, java.lang.String, java.lang.String, org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAgency)
      */
     @Override
-    public File generateFederalFinancialForm(ContractsAndGrantsCGBAward award, String period, String year, String formType, ContractsAndGrantsCGBAgency agency) throws Exception {
+    public File generateFederalFinancialForm(ContractsAndGrantsBillingAward award, String period, String year, String formType, ContractsAndGrantsBillingAgency agency) throws Exception {
         Date runDate = new Date();
         String reportFileName = contractsGrantsInvoiceReportInfo.getReportFileName();
         String reportDirectory = contractsGrantsInvoiceReportInfo.getReportsDirectory();
@@ -334,7 +334,7 @@ public class ContractsGrantsInvoiceReportServiceImpl extends ContractsGrantsRepo
      * @param award
      * @return
      */
-    protected KualiDecimal getCashReceipts(ContractsAndGrantsCGBAward award) {
+    protected KualiDecimal getCashReceipts(ContractsAndGrantsBillingAward award) {
     	KualiDecimal cashReceipt = KualiDecimal.ZERO;
     	Criteria key = new Criteria();
         key.addEqualTo("proposalNumber", award.getProposalNumber());
@@ -360,11 +360,11 @@ public class ContractsGrantsInvoiceReportServiceImpl extends ContractsGrantsRepo
      * @param reportingPeriod
      * @param year
      */
-    private void populateListByAward(ContractsAndGrantsCGBAward award, String reportingPeriod, String year) {
+    private void populateListByAward(ContractsAndGrantsBillingAward award, String reportingPeriod, String year) {
         replacementList.clear();
         ContractsGrantsInvoiceDocumentService service = SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class);
         KualiDecimal cashDisbursement = KualiDecimal.ZERO;
-        for (ContractsAndGrantsCGBAwardAccount awardAccount : award.getActiveAwardAccounts()) {
+        for (ContractsAndGrantsBillingAwardAccount awardAccount : award.getActiveAwardAccounts()) {
             int index = 0;
             KualiDecimal baseSum = KualiDecimal.ZERO;
             KualiDecimal amountSum = KualiDecimal.ZERO;
@@ -484,7 +484,7 @@ public class ContractsGrantsInvoiceReportServiceImpl extends ContractsGrantsRepo
      * @param agency
      * @return total amount
      */
-    private List<KualiDecimal> populateListByAgency(List<ContractsAndGrantsCGBAward> awards, String reportingPeriod, String year, ContractsAndGrantsCGBAgency agency) {
+    private List<KualiDecimal> populateListByAgency(List<ContractsAndGrantsBillingAward> awards, String reportingPeriod, String year, ContractsAndGrantsBillingAgency agency) {
         replacementList.clear();
         replacementList.put("Reporting Period End Date", returnProperStringValue(getReportingPeriodEndDate(reportingPeriod, year)));
         replacementList.put("Federal Agency", returnProperStringValue(returnProperStringValue(agency.getFullName())));
@@ -547,7 +547,7 @@ public class ContractsGrantsInvoiceReportServiceImpl extends ContractsGrantsRepo
                 replacementList.put("Federal Cash Disbursement " + (i + 1), returnProperStringValue(this.getCashReceipts(awards.get(i))));
                 totalCashControl = totalCashControl.add(this.getCashReceipts(awards.get(i)));
 
-                for (ContractsAndGrantsCGBAwardAccount awardAccount : awards.get(i).getActiveAwardAccounts()) {
+                for (ContractsAndGrantsBillingAwardAccount awardAccount : awards.get(i).getActiveAwardAccounts()) {
                     totalCashDisbursement = totalCashDisbursement.add(service.getBudgetAndActualsForAwardAccount(awardAccount, ArPropertyConstants.ACTUAL_BALANCE_TYPE, awards.get(i).getAwardBeginningDate()));
                 }
             }
@@ -589,7 +589,7 @@ public class ContractsGrantsInvoiceReportServiceImpl extends ContractsGrantsRepo
      * @param returnStream The output stream the federal form will be written to.
      * @throws Exception
      */
-    protected void stampPdfFormValues425(ContractsAndGrantsCGBAward award, String reportingPeriod, String year, OutputStream returnStream) throws Exception {
+    protected void stampPdfFormValues425(ContractsAndGrantsBillingAward award, String reportingPeriod, String year, OutputStream returnStream) throws Exception {
         String reportTemplateName = FF_425_TEMPLATE_NM + ".pdf";
         try {
             String federalReportTemplatePath = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(KFSConstants.EXTERNALIZABLE_HELP_URL_KEY);
@@ -618,14 +618,14 @@ public class ContractsGrantsInvoiceReportServiceImpl extends ContractsGrantsRepo
      * @param returnStream The output stream the federal form will be written to.
      * @throws Exception
      */
-    protected void stampPdfFormValues425A(ContractsAndGrantsCGBAgency agency, String reportingPeriod, String year, OutputStream returnStream) throws Exception {
+    protected void stampPdfFormValues425A(ContractsAndGrantsBillingAgency agency, String reportingPeriod, String year, OutputStream returnStream) throws Exception {
         String reportTemplateName = FF_425A_TEMPLATE_NM + ".pdf";
         String federalReportTemplatePath = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(KFSConstants.EXTERNALIZABLE_HELP_URL_KEY);
         try {
             Map fieldValues = new HashMap<String, String>();
             fieldValues.put(KFSPropertyConstants.AGENCY_NUMBER, agency.getAgencyNumber());
             fieldValues.put(KFSPropertyConstants.ACTIVE, true);
-            List<ContractsAndGrantsCGBAward> awards = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsCGBAward.class).getExternalizableBusinessObjectsList(ContractsAndGrantsCGBAward.class, fieldValues);
+            List<ContractsAndGrantsBillingAward> awards = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsBillingAward.class).getExternalizableBusinessObjectsList(ContractsAndGrantsBillingAward.class, fieldValues);
             Integer pageNumber = 1, totalPages;
             totalPages = (awards.size() / 30) + 1;
             PdfCopyFields copy = new PdfCopyFields(returnStream);
@@ -636,7 +636,7 @@ public class ContractsGrantsInvoiceReportServiceImpl extends ContractsGrantsRepo
             KualiDecimal sumCashControl = KualiDecimal.ZERO;
             KualiDecimal sumCumExp = KualiDecimal.ZERO;
             while (pageNumber <= totalPages) {
-                List<ContractsAndGrantsCGBAward> awardsList = new ArrayList<ContractsAndGrantsCGBAward>();
+                List<ContractsAndGrantsBillingAward> awardsList = new ArrayList<ContractsAndGrantsBillingAward>();
                 for (int i = ((pageNumber - 1) * 30); i < (pageNumber * 30); i++) {
                     if (i < awards.size()) {
                         awardsList.add(awards.get(i));

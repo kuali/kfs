@@ -23,7 +23,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Account;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAward;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleRetrieveService;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleService;
 import org.kuali.kfs.module.cg.businessobject.lookup.AwardLookupableHelperServiceImpl;
@@ -111,8 +111,8 @@ public class ContractsAndGrantsModuleRetrieveServiceImpl implements ContractsAnd
      * @return
      */
     @Override
-    public Collection<ContractsAndGrantsCGBAward> getAwardsFromLookupResultsSequenceNumber(String lookupResultsSequenceNumber, String personId){
-        Collection<ContractsAndGrantsCGBAward> intgAwards = new ArrayList<ContractsAndGrantsCGBAward>();
+    public Collection<ContractsAndGrantsBillingAward> getAwardsFromLookupResultsSequenceNumber(String lookupResultsSequenceNumber, String personId){
+        Collection<ContractsAndGrantsBillingAward> intgAwards = new ArrayList<ContractsAndGrantsBillingAward>();
         Collection<Award> awards = new ArrayList<Award>();
         try {
             for (PersistableBusinessObject obj : SpringContext.getBean(LookupResultsService.class).retrieveSelectedResultBOs(lookupResultsSequenceNumber, Award.class, personId)) {
@@ -122,7 +122,7 @@ public class ContractsAndGrantsModuleRetrieveServiceImpl implements ContractsAnd
         catch (Exception e) {
             throw new RuntimeException(e);
         }
-        intgAwards = new ArrayList<ContractsAndGrantsCGBAward>(awards);
+        intgAwards = new ArrayList<ContractsAndGrantsBillingAward>(awards);
         return intgAwards;
     }
 

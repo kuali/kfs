@@ -18,7 +18,7 @@ package org.kuali.kfs.integration.ar.businessobject;
 import java.util.List;
 
 import org.kuali.kfs.integration.ar.AccountsReceivableMilestoneSchedule;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAward;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.integration.ar.businessobject.Milestone;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 
@@ -31,7 +31,7 @@ public class MilestoneSchedule implements AccountsReceivableMilestoneSchedule {
     private String milestoneScheduleInquiryTitle;
 
     private List<Milestone> milestones;
-    private ContractsAndGrantsCGBAward award;
+    private ContractsAndGrantsBillingAward award;
 
     @Override
     public Long getProposalNumber() {
@@ -78,11 +78,11 @@ public class MilestoneSchedule implements AccountsReceivableMilestoneSchedule {
     }
 
     @Override
-    public ContractsAndGrantsCGBAward getAward() {
+    public ContractsAndGrantsBillingAward getAward() {
         return award;
     }
 
-    public void setAward(ContractsAndGrantsCGBAward award) {
+    public void setAward(ContractsAndGrantsBillingAward award) {
         this.award = award;
     }
 

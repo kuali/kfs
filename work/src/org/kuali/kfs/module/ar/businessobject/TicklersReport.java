@@ -18,8 +18,8 @@ package org.kuali.kfs.module.ar.businessobject;
 import java.sql.Date;
 import java.util.LinkedHashMap;
 
-import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAgency;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAward;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAgency;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -56,8 +56,8 @@ public class TicklersReport extends TransientBusinessObjectBase {
     private final String userLookupRoleName = KFSConstants.SysKimApiConstants.ACCOUNTS_RECEIVABLE_COLLECTOR;
     private static final String COLLECTION_ACTIVITY_TITLE_PROPERTY = ArKeyConstants.CollectionActivityDocumentConstants.COLLECTION_ACTIVITY_TITLE_PROPERTY;
     private String collectionActivityInquiryTitle;
-    private ContractsAndGrantsCGBAward award;
-    private ContractsAndGrantsCGBAgency agency;
+    private ContractsAndGrantsBillingAward award;
+    private ContractsAndGrantsBillingAgency agency;
 
     /**
      * Default constructor.
@@ -379,7 +379,7 @@ public class TicklersReport extends TransientBusinessObjectBase {
      *
      * @return Returns the award.
      */
-    public ContractsAndGrantsCGBAward getAward() {
+    public ContractsAndGrantsBillingAward getAward() {
         return award;
     }
 
@@ -388,7 +388,7 @@ public class TicklersReport extends TransientBusinessObjectBase {
      *
      * @param award The award to set.
      */
-    public void setAward(ContractsAndGrantsCGBAward award) {
+    public void setAward(ContractsAndGrantsBillingAward award) {
         this.award = award;
     }
 
@@ -397,7 +397,7 @@ public class TicklersReport extends TransientBusinessObjectBase {
      *
      * @return Returns the agency.
      */
-    public ContractsAndGrantsCGBAgency getAgency() {
+    public ContractsAndGrantsBillingAgency getAgency() {
         return agency;
     }
 
@@ -406,7 +406,7 @@ public class TicklersReport extends TransientBusinessObjectBase {
      *
      * @param agency The agency to set.
      */
-    public void setAgency(ContractsAndGrantsCGBAgency agency) {
+    public void setAgency(ContractsAndGrantsBillingAgency agency) {
         this.agency = agency;
     }
 

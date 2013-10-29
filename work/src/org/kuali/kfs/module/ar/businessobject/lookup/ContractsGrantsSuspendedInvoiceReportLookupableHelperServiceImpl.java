@@ -24,7 +24,7 @@ import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAward;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.ContractsGrantsInvoiceReport;
 import org.kuali.kfs.module.ar.businessobject.ContractsGrantsSuspendedInvoiceReport;
@@ -133,7 +133,7 @@ public class ContractsGrantsSuspendedInvoiceReportLookupableHelperServiceImpl ex
                 String fundManagerPrincipalName = "";
                 String projectDirectorPrincipalName = "";
 
-                ContractsAndGrantsCGBAward award = cgInvoiceDoc.getAward();
+                ContractsAndGrantsBillingAward award = cgInvoiceDoc.getAward();
                 try {
                     fundManager = award.getAwardPrimaryFundManager().getFundManager();
                     fundManagerPrincipalName = fundManager.getPrincipalName();

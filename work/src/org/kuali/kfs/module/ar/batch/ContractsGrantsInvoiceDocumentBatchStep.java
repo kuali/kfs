@@ -19,7 +19,7 @@ import java.io.File;
 import java.util.Collection;
 import java.util.Date;
 
-import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAward;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.batch.service.ContractsGrantsInvoiceCreateDocumentService;
 import org.kuali.kfs.sys.batch.AbstractStep;
@@ -44,9 +44,9 @@ public class ContractsGrantsInvoiceDocumentBatchStep extends AbstractStep {
         String runtimeStamp = dateTimeService.toDateTimeStringForFilename(new java.util.Date());
         String errOutputFile1 = batchFileDirectoryName + File.separator + ArConstants.BatchFileSystem.CGINVOICE_VALIDATION_ERROR_OUTPUT_FILE + "_" + runtimeStamp + ArConstants.BatchFileSystem.EXTENSION;
         String errOutputFile2 = batchFileDirectoryName + File.separator + ArConstants.BatchFileSystem.CGINVOICE_CREATION_ERROR_OUTPUT_FILE + "_" + runtimeStamp + ArConstants.BatchFileSystem.EXTENSION;
-        Collection<ContractsAndGrantsCGBAward> awards = cgInvoiceDocumentCreateService.retrieveAwards();
+        Collection<ContractsAndGrantsBillingAward> awards = cgInvoiceDocumentCreateService.retrieveAwards();
 
-        Collection<ContractsAndGrantsCGBAward> validAwards = cgInvoiceDocumentCreateService.validateAwards(awards, errOutputFile1);
+        Collection<ContractsAndGrantsBillingAward> validAwards = cgInvoiceDocumentCreateService.validateAwards(awards, errOutputFile1);
 
         return cgInvoiceDocumentCreateService.createCGInvoiceDocumentsByAwards(validAwards, errOutputFile2);
 

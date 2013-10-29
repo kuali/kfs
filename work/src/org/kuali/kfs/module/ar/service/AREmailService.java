@@ -20,7 +20,7 @@ import java.util.List;
 import javax.mail.MessagingException;
 import javax.mail.internet.AddressException;
 
-import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAward;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.module.ar.businessobject.Milestone;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 
@@ -41,6 +41,6 @@ public interface AREmailService {
     /**
      * Send email for upcoming milestones for Award
      */
-    public void sendEmail(List<Milestone> milestones, ContractsAndGrantsCGBAward award);
+    public void sendEmail(List<Milestone> milestones, ContractsAndGrantsBillingAward award);
 
 }

@@ -22,8 +22,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.kfs.coa.businessobject.Account;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAgency;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAward;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAgency;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -48,8 +48,8 @@ public class ReferralToCollectionsLookupResult extends TransientBusinessObjectBa
     private KualiDecimal awardTotal = KualiDecimal.ZERO;
 
     private Collection<ContractsGrantsInvoiceDocument> invoices;
-    private ContractsAndGrantsCGBAward award;
-    private ContractsAndGrantsCGBAgency agency;
+    private ContractsAndGrantsBillingAward award;
+    private ContractsAndGrantsBillingAgency agency;
     private Customer customer;
     private Account account;
 
@@ -269,7 +269,7 @@ public class ReferralToCollectionsLookupResult extends TransientBusinessObjectBa
      * 
      * @return Returns the award.
      */
-    public ContractsAndGrantsCGBAward getAward() {
+    public ContractsAndGrantsBillingAward getAward() {
         return award;
     }
 
@@ -278,7 +278,7 @@ public class ReferralToCollectionsLookupResult extends TransientBusinessObjectBa
      * 
      * @param award The award to set.
      */
-    public void setAward(ContractsAndGrantsCGBAward award) {
+    public void setAward(ContractsAndGrantsBillingAward award) {
         this.award = award;
     }
 
@@ -287,7 +287,7 @@ public class ReferralToCollectionsLookupResult extends TransientBusinessObjectBa
      * 
      * @return Returns the agency.
      */
-    public ContractsAndGrantsCGBAgency getAgency() {
+    public ContractsAndGrantsBillingAgency getAgency() {
         return agency;
     }
 
@@ -296,7 +296,7 @@ public class ReferralToCollectionsLookupResult extends TransientBusinessObjectBa
      * 
      * @param agency The agency to set.
      */
-    public void setAgency(ContractsAndGrantsCGBAgency agency) {
+    public void setAgency(ContractsAndGrantsBillingAgency agency) {
         this.agency = agency;
     }
 

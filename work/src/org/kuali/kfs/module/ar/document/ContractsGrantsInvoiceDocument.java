@@ -25,7 +25,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAward;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleUpdateService;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
@@ -75,7 +75,7 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
     private List<InvoiceMilestone> invoiceMilestones;
     private List<InvoiceBill> invoiceBills;
     private List<InvoiceSuspensionCategory> invoiceSuspensionCategories;
-    private ContractsAndGrantsCGBAward award;
+    private ContractsAndGrantsBillingAward award;
     private static final SimpleDateFormat FILE_NAME_TIMESTAMP = new SimpleDateFormat("MM-dd-yyyy");
 
     protected String letterOfCreditCreationType;// To categorize the CG Invoices based on Award LOC Type
@@ -251,7 +251,7 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
 
 
     /**
-     * This method updates the ContractsAndGrantsCGBAwardAccount object's invoiceDocumentStatus Variable with the value provided
+     * This method updates the ContractsAndGrantsBillingAwardAccount object's invoiceDocumentStatus Variable with the value provided
      *
      * @param id
      * @param value
@@ -463,10 +463,10 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
      *
      * @return Returns the award.
      */
-    public ContractsAndGrantsCGBAward getAward() {
+    public ContractsAndGrantsBillingAward getAward() {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put(KFSPropertyConstants.PROPOSAL_NUMBER, this.getProposalNumber());
-        return award = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsCGBAward.class).getExternalizableBusinessObject(ContractsAndGrantsCGBAward.class, map);
+        return award = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsBillingAward.class).getExternalizableBusinessObject(ContractsAndGrantsBillingAward.class, map);
     }
 
     /**
@@ -474,7 +474,7 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
      *
      * @param award The award to set.
      */
-    public void setAward(ContractsAndGrantsCGBAward award) {
+    public void setAward(ContractsAndGrantsBillingAward award) {
         this.award = award;
     }
 

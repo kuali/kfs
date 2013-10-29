@@ -81,7 +81,7 @@ public interface ContractsAndGrantsModuleUpdateService {
      * @param proposalNumber
      * @param fieldValues
      */
-    public void setAwardAccountsToAward(Long proposalNumber, List<ContractsAndGrantsCGBAwardAccount> awardAccounts);
+    public void setAwardAccountsToAward(Long proposalNumber, List<ContractsAndGrantsBillingAwardAccount> awardAccounts);
 
 
     /**

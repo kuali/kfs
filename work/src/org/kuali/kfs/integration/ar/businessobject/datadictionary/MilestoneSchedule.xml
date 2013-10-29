@@ -50,7 +50,7 @@
 		<property name="relationships">
 			<list>
 				<bean parent="RelationshipDefinition" p:objectAttributeName="award"
-					p:targetClass="org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAward">
+					p:targetClass="org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward">
 					<property name="primitiveAttributes">
 						<list>
 							<bean parent="PrimitiveAttributeDefinition" p:sourceName="proposalNumber"
@@ -75,7 +75,7 @@
 
 	<bean id="MilestoneSchedule-proposalNumber-parentBean" abstract="true"
 		parent="ExternalizableAttributeDefinitionProxy"
-		p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAward"
+		p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward"
 		p:sourceAttributeName="proposalNumber">
 		<property name="name" value="proposalNumber" />
 		<property name="label" value="Proposal Number" />
@@ -87,7 +87,7 @@
 
 	<bean id="MilestoneSchedule-award.agency.fullName-parentBean"
 		abstract="true" parent="ExternalizableAttributeDefinitionProxy"
-		p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAward"
+		p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward"
 		p:sourceAttributeName="agency.fullName">
 		<property name="name" value="award.agency.fullName" />
 		<property name="label" value="Agency Name" />
@@ -98,7 +98,7 @@
 
 	<bean id="MilestoneSchedule-award.awardTotalAmount-parentBean"
 		abstract="true" parent="ExternalizableAttributeDefinitionProxy"
-		p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAward"
+		p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward"
 		p:sourceAttributeName="awardTotalAmount">
 		<property name="name" value="award.awardTotalAmount" />
 		<property name="label" value="Total Award Amount" />
@@ -155,7 +155,7 @@
 
 	<bean id="MilestoneSchedule-award.awardEndingDate-parentBean"
 		abstract="true" parent="ExternalizableAttributeDefinitionProxy"
-		p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAward"
+		p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward"
 		p:sourceAttributeName="awardEndingDate">
 		<property name="name" value="award.awardEndingDate" />
 		<property name="label" value="Award Expiration Date" />

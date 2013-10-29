@@ -17,7 +17,7 @@ package org.kuali.kfs.integration.ar;
 
 import java.util.List;
 
-import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAward;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.integration.ar.businessobject.Milestone;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.bo.ExternalizableBusinessObject;
@@ -43,7 +43,7 @@ public interface AccountsReceivableMilestoneSchedule extends ExternalizableBusin
      *
      * @return Returns the award.
      */
-    public ContractsAndGrantsCGBAward getAward();
+    public ContractsAndGrantsBillingAward getAward();
 
     /**
      * Gets the totalAmountScheduled attribute.

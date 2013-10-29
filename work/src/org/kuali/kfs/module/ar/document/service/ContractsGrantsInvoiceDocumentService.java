@@ -25,8 +25,8 @@ import java.util.Set;
 import org.apache.ojb.broker.query.Criteria;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.gl.businessobject.Balance;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAward;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAwardAccount;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAwardAccount;
 import org.kuali.kfs.module.ar.businessobject.AwardAccountObjectCodeTotalBilled;
 import org.kuali.kfs.module.ar.businessobject.ContractsAndGrantsCategories;
 import org.kuali.kfs.module.ar.businessobject.DunningLetterDistributionOnDemandLookupResult;
@@ -95,7 +95,7 @@ public interface ContractsGrantsInvoiceDocumentService extends CustomerInvoiceDo
      * @param awardAccounts
      * @return
      */
-    public List<AwardAccountObjectCodeTotalBilled> getAwardAccountObjectCodeTotalBuildByProposalNumberAndAccount(List<ContractsAndGrantsCGBAwardAccount> awardAccounts);
+    public List<AwardAccountObjectCodeTotalBilled> getAwardAccountObjectCodeTotalBuildByProposalNumberAndAccount(List<ContractsAndGrantsBillingAwardAccount> awardAccounts);
 
     /**
      * @param contractsGrantsInvoiceDocument
@@ -130,7 +130,7 @@ public interface ContractsGrantsInvoiceDocumentService extends CustomerInvoiceDo
      * @param awardAccounts
      * @return
      */
-    public void setAwardAccountToDraw(List<ContractsAndGrantsCGBAwardAccount> awardAccounts, ContractsAndGrantsCGBAward award);
+    public void setAwardAccountToDraw(List<ContractsAndGrantsBillingAwardAccount> awardAccounts, ContractsAndGrantsBillingAward award);
 
 
     /**
@@ -139,7 +139,7 @@ public interface ContractsGrantsInvoiceDocumentService extends CustomerInvoiceDo
      * @param awardTotalAmount
      * @param awardAccount
      */
-    public KualiDecimal getAmountAvailableToDraw(KualiDecimal awardTotalAmount, List<ContractsAndGrantsCGBAwardAccount> awardAccounts);
+    public KualiDecimal getAmountAvailableToDraw(KualiDecimal awardTotalAmount, List<ContractsAndGrantsBillingAwardAccount> awardAccounts);
 
 
     /**
@@ -147,7 +147,7 @@ public interface ContractsGrantsInvoiceDocumentService extends CustomerInvoiceDo
      * 
      * @param awardAccount
      */
-    public KualiDecimal getClaimOnCashforAwardAccount(ContractsAndGrantsCGBAwardAccount awardAccount, java.sql.Date awardBeginningDate);
+    public KualiDecimal getClaimOnCashforAwardAccount(ContractsAndGrantsBillingAwardAccount awardAccount, java.sql.Date awardBeginningDate);
 
 
     /**
@@ -230,7 +230,7 @@ public interface ContractsGrantsInvoiceDocumentService extends CustomerInvoiceDo
      * @param award
      * @return
      */
-    public KualiDecimal calculateTotalPaymentsToDateByAward(ContractsAndGrantsCGBAward award);
+    public KualiDecimal calculateTotalPaymentsToDateByAward(ContractsAndGrantsBillingAward award);
 
 
     /**
@@ -239,7 +239,7 @@ public interface ContractsGrantsInvoiceDocumentService extends CustomerInvoiceDo
      * @param awardAccount
      * @return
      */
-    public KualiDecimal getBudgetAndActualsForAwardAccount(ContractsAndGrantsCGBAwardAccount awardAccount, String balanceTypeCode, Date awardBeginningDate);
+    public KualiDecimal getBudgetAndActualsForAwardAccount(ContractsAndGrantsBillingAwardAccount awardAccount, String balanceTypeCode, Date awardBeginningDate);
 
 
     /**
@@ -248,7 +248,7 @@ public interface ContractsGrantsInvoiceDocumentService extends CustomerInvoiceDo
      * @param award
      * @return True if award's closing date is before the current day.
      */
-    public boolean isAwardClosed(ContractsAndGrantsCGBAward award);
+    public boolean isAwardClosed(ContractsAndGrantsBillingAward award);
 
 
     /**
@@ -256,35 +256,35 @@ public interface ContractsGrantsInvoiceDocumentService extends CustomerInvoiceDo
      * 
      * @return
      */
-    public boolean isAwardInvoicingSuspendedByUser(ContractsAndGrantsCGBAward award);
+    public boolean isAwardInvoicingSuspendedByUser(ContractsAndGrantsBillingAward award);
 
     /**
      * Check if Award is past the stop date
      * 
      * @return
      */
-    public boolean isAwardPassedStopDate(ContractsAndGrantsCGBAward award);
+    public boolean isAwardPassedStopDate(ContractsAndGrantsBillingAward award);
 
     /**
      * Check if Award contains expired account or accounts
      * 
      * @return
      */
-    public boolean hasExpiredAccounts(ContractsAndGrantsCGBAward award);
+    public boolean hasExpiredAccounts(ContractsAndGrantsBillingAward award);
 
     /**
      * Check if Award Invoicing Option is missing
      * 
      * @return
      */
-    public boolean isAwardInvoicingOptionMissing(ContractsAndGrantsCGBAward award);
+    public boolean isAwardInvoicingOptionMissing(ContractsAndGrantsBillingAward award);
 
     /**
      * Check if Award Organization is incomplete
      * 
      * @return
      */
-    public boolean isAwardOrganizationIncomplete(ContractsAndGrantsCGBAward award);
+    public boolean isAwardOrganizationIncomplete(ContractsAndGrantsBillingAward award);
 
 
     /**
@@ -292,7 +292,7 @@ public interface ContractsGrantsInvoiceDocumentService extends CustomerInvoiceDo
      * 
      * @return
      */
-    public Collection<Account> getContractControlAccounts(ContractsAndGrantsCGBAward award);
+    public Collection<Account> getContractControlAccounts(ContractsAndGrantsBillingAward award);
 
 
     /**
@@ -300,7 +300,7 @@ public interface ContractsGrantsInvoiceDocumentService extends CustomerInvoiceDo
      * 
      * @return
      */
-    public boolean hasNoActiveAccountsAssigned(ContractsAndGrantsCGBAward award);
+    public boolean hasNoActiveAccountsAssigned(ContractsAndGrantsBillingAward award);
 
 
     /**
@@ -310,7 +310,7 @@ public interface ContractsGrantsInvoiceDocumentService extends CustomerInvoiceDo
      * @return False if preferred billing schedule is set as perdetermined billing schedule or milestone billing schedule, and award
      *         has no award account or more than 1 award accounts assigned.
      */
-    public boolean isPreferredBillingFrequencySetCorrectly(ContractsAndGrantsCGBAward award);
+    public boolean isPreferredBillingFrequencySetCorrectly(ContractsAndGrantsBillingAward award);
 
 
     /**
@@ -319,7 +319,7 @@ public interface ContractsGrantsInvoiceDocumentService extends CustomerInvoiceDo
      * @param award
      * @return
      */
-    public boolean isValueOfPreferredBillingFrequencyValid(ContractsAndGrantsCGBAward award);
+    public boolean isValueOfPreferredBillingFrequencyValid(ContractsAndGrantsBillingAward award);
 
     /**
      * Check if the final Invoice for all accounts in the invoice have already been built.
@@ -327,7 +327,7 @@ public interface ContractsGrantsInvoiceDocumentService extends CustomerInvoiceDo
      * @param award
      * @return
      */
-    public boolean isAwardFinalInvoiceAlreadyBuilt(ContractsAndGrantsCGBAward award);
+    public boolean isAwardFinalInvoiceAlreadyBuilt(ContractsAndGrantsBillingAward award);
 
 
     /**
@@ -335,7 +335,7 @@ public interface ContractsGrantsInvoiceDocumentService extends CustomerInvoiceDo
      * 
      * @return
      */
-    public Collection<Account> getExpiredAccountsOfAward(ContractsAndGrantsCGBAward award);
+    public Collection<Account> getExpiredAccountsOfAward(ContractsAndGrantsBillingAward award);
 
 
     /**
@@ -343,14 +343,14 @@ public interface ContractsGrantsInvoiceDocumentService extends CustomerInvoiceDo
      * 
      * @return true if has valid milestones to invoice. false if not.
      */
-    public boolean hasNoMilestonesToInvoice(ContractsAndGrantsCGBAward award);
+    public boolean hasNoMilestonesToInvoice(ContractsAndGrantsBillingAward award);
 
     /**
      * Checks if the award has valid milestones to invoice.
      * 
      * @return true if has valid milestones to invoice. false if not.
      */
-    public boolean hasNoBillsToInvoice(ContractsAndGrantsCGBAward award);
+    public boolean hasNoBillsToInvoice(ContractsAndGrantsBillingAward award);
 
 
     /**
@@ -358,14 +358,14 @@ public interface ContractsGrantsInvoiceDocumentService extends CustomerInvoiceDo
      * 
      * @return
      */
-    public List<ContractsAndGrantsCGBAward> getActiveAwardsByCriteria(Map<String, Object> criteria);
+    public List<ContractsAndGrantsBillingAward> getActiveAwardsByCriteria(Map<String, Object> criteria);
 
     /**
      * Check if agency owning award has no customer record
      * 
      * @return
      */
-    public boolean owningAgencyHasNoCustomerRecord(ContractsAndGrantsCGBAward award);
+    public boolean owningAgencyHasNoCustomerRecord(ContractsAndGrantsBillingAward award);
 
 
     /**
@@ -384,7 +384,7 @@ public interface ContractsGrantsInvoiceDocumentService extends CustomerInvoiceDo
      * @param award
      * @return
      */
-    public boolean isChartAndOrgNotSetupForInvoicing(ContractsAndGrantsCGBAward award);
+    public boolean isChartAndOrgNotSetupForInvoicing(ContractsAndGrantsBillingAward award);
 
     /**
      * this method checks If all accounts of award has invoices in progress.
@@ -392,7 +392,7 @@ public interface ContractsGrantsInvoiceDocumentService extends CustomerInvoiceDo
      * @param award
      * @return
      */
-    public boolean isInvoiceInProgress(ContractsAndGrantsCGBAward award);
+    public boolean isInvoiceInProgress(ContractsAndGrantsBillingAward award);
 
     /**
      * This method checks if there is atleast one AR Invoice Account present when the GLPE is 3.
@@ -400,7 +400,7 @@ public interface ContractsGrantsInvoiceDocumentService extends CustomerInvoiceDo
      * @param award
      * @return
      */
-    public boolean hasARInvoiceAccountAssigned(ContractsAndGrantsCGBAward award);
+    public boolean hasARInvoiceAccountAssigned(ContractsAndGrantsBillingAward award);
 
     /**
      * This method checks if the Offset Definition is setup for the Chart Code from the award accounts.
@@ -408,7 +408,7 @@ public interface ContractsGrantsInvoiceDocumentService extends CustomerInvoiceDo
      * @param award
      * @return
      */
-    public boolean isOffsetDefNotSetupForInvoicing(ContractsAndGrantsCGBAward award);
+    public boolean isOffsetDefNotSetupForInvoicing(ContractsAndGrantsBillingAward award);
 
     /**
      * To retrieve processing chart code and org code from the billing chart code and org code
@@ -527,7 +527,7 @@ public interface ContractsGrantsInvoiceDocumentService extends CustomerInvoiceDo
      *
      * @param award The associated award that the invoice will be linked to.
      */
-    public void populateInvoiceFromAward(ContractsAndGrantsCGBAward award, List<ContractsAndGrantsCGBAwardAccount> awardAccounts,ContractsGrantsInvoiceDocument document);
+    public void populateInvoiceFromAward(ContractsAndGrantsBillingAward award, List<ContractsAndGrantsBillingAwardAccount> awardAccounts,ContractsGrantsInvoiceDocument document);
     
     /**
      * This method takes a ContractsAndGrantsCategory, retrieves the specified object code or object code range. It then parses this

@@ -26,7 +26,7 @@ import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAgency;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAgency;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.CollectionActivityInvoiceLookup;
 import org.kuali.kfs.module.ar.businessobject.Customer;
@@ -287,7 +287,7 @@ public class CollectionActivityInvoiceLookupableHelperServiceImpl extends KualiL
      */
     private String getAgencyInquiryUrl(ReferralToCollectionsReport bo) {
         Properties params = new Properties();
-        params.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, ContractsAndGrantsCGBAgency.class.getName());
+        params.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, ContractsAndGrantsBillingAgency.class.getName());
         params.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, "continueWithInquiry");
         params.put(KFSConstants.DOC_FORM_KEY, "88888888");
         params.put(KFSConstants.HIDE_LOOKUP_RETURN_LINK, "true");

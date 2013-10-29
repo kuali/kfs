@@ -23,8 +23,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAgency;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAward;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAgency;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.module.ar.businessobject.Customer;
 import org.kuali.kfs.module.ar.businessobject.InvoiceAccountDetail;
 import org.kuali.kfs.module.ar.businessobject.ReferralToCollectionsDetail;
@@ -69,10 +69,10 @@ public class ReferralToCollectionsDocumentUtil {
 
             // Get data from first award for agency data
             ContractsGrantsInvoiceDocument invoice = list.get(0);
-            ContractsAndGrantsCGBAward award = invoice.getAward();
+            ContractsAndGrantsBillingAward award = invoice.getAward();
 
             if (ObjectUtils.isNotNull(award)) {
-                ContractsAndGrantsCGBAgency agency = award.getAgency();
+                ContractsAndGrantsBillingAgency agency = award.getAgency();
                 referralToCollectionsLookupResult = new ReferralToCollectionsLookupResult();
                 referralToCollectionsLookupResult.setAgencyNumber(agency.getAgencyNumber());
                 referralToCollectionsLookupResult.setCustomerNumber(ObjectUtils.isNotNull(invoice.getCustomer()) ? invoice.getCustomer().getCustomerNumber() : agency.getCustomerNumber());
@@ -106,8 +106,8 @@ public class ReferralToCollectionsDocumentUtil {
 
         for (ContractsGrantsInvoiceDocument invoice : invoices) {
             ReferralToCollectionsDetail rcDetail = new ReferralToCollectionsDetail();
-            ContractsAndGrantsCGBAward award = invoice.getAward();
-            ContractsAndGrantsCGBAgency agency = award.getAgency();
+            ContractsAndGrantsBillingAward award = invoice.getAward();
+            ContractsAndGrantsBillingAgency agency = award.getAgency();
 
             // Get data from first award for agency data
             rcDoc.setReferralTypeCode(invoice.getReferralTypeCode());
@@ -208,7 +208,7 @@ public class ReferralToCollectionsDocumentUtil {
         Collection<ContractsGrantsInvoiceDocument> invoices = getCGInvoiceDocumentsFromLookupResultsSequenceNumber(lookupResultsSequenceNumber, personId);
         if (ObjectUtils.isNotNull(invoices) && CollectionUtils.isNotEmpty(invoices)) {
             ContractsGrantsInvoiceDocument selectedInvoice = invoices.iterator().next();
-            ContractsAndGrantsCGBAward award = selectedInvoice.getAward();
+            ContractsAndGrantsBillingAward award = selectedInvoice.getAward();
             rcDoc.setAgencyNumber(award.getAgencyNumber());
             rcDoc.setAgencyFullName(award.getAgency().getFullName());
             rcDoc.setCustomerNumber(selectedInvoice.getCustomer() != null ? selectedInvoice.getCustomer().getCustomerNumber() : award.getAgency().getCustomerNumber());

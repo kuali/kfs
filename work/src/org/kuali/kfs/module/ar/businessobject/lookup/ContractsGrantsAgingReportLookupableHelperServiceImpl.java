@@ -29,7 +29,7 @@ import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAgency;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAgency;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.AppliedPayment;
@@ -218,7 +218,7 @@ public class ContractsGrantsAgingReportLookupableHelperServiceImpl extends Kuali
             for (ContractsAndGrantsAgingReport detail : knownCustomers.values()) {
 
                 // get agency name for customer
-                ContractsAndGrantsCGBAgency agencyObj = getAgencyByCustomer(detail.getCustomerNumber());
+                ContractsAndGrantsBillingAgency agencyObj = getAgencyByCustomer(detail.getCustomerNumber());
                 if (ObjectUtils.isNotNull(agencyObj)) {
                     detail.setReportingName(agencyObj.getReportingName());
                     detail.setAgencyNumber(agencyObj.getAgencyNumber());
@@ -704,7 +704,7 @@ public class ContractsGrantsAgingReportLookupableHelperServiceImpl extends Kuali
     private String getAgencyInquiryUrl(BusinessObject bo, String columnTitle) {
         Properties params = new Properties();
         ContractsAndGrantsAgingReport detail = (ContractsAndGrantsAgingReport) bo;
-        params.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, ContractsAndGrantsCGBAgency.class.getName());
+        params.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, ContractsAndGrantsBillingAgency.class.getName());
         params.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, "continueWithInquiry");
         params.put(KFSConstants.DOC_FORM_KEY, "88888888");
         params.put(KFSConstants.HIDE_LOOKUP_RETURN_LINK, "true");
@@ -957,10 +957,10 @@ public class ContractsGrantsAgingReportLookupableHelperServiceImpl extends Kuali
      * @param customerNumber
      * @return Returns the agency for the customer
      */
-    private ContractsAndGrantsCGBAgency getAgencyByCustomer(String customerNumber) {
+    private ContractsAndGrantsBillingAgency getAgencyByCustomer(String customerNumber) {
         Map args = new HashMap();
         args.put(KFSPropertyConstants.CUSTOMER_NUMBER, customerNumber);
-        return SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsCGBAgency.class).getExternalizableBusinessObject(ContractsAndGrantsCGBAgency.class, args);
+        return SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsBillingAgency.class).getExternalizableBusinessObject(ContractsAndGrantsBillingAgency.class, args);
     }
 
     /**

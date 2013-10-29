@@ -52,9 +52,9 @@ import org.kuali.kfs.gl.businessobject.Balance;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsAgencyAddress;
 import org.kuali.kfs.module.ar.businessobject.Bill;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingFrequency;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAgency;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAward;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAwardAccount;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAgency;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAwardAccount;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleUpdateService;
 import org.kuali.kfs.integration.cg.ContractsGrantsAwardInvoiceAccountInformation;
 import org.kuali.kfs.module.ar.ArConstants;
@@ -583,7 +583,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
      * @see org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService#getAwardAccountObjectCodeTotalBuildByProposalNumberAndAccount(java.util.List)
      */
     @Override
-    public List<AwardAccountObjectCodeTotalBilled> getAwardAccountObjectCodeTotalBuildByProposalNumberAndAccount(List<ContractsAndGrantsCGBAwardAccount> awardAccounts) {
+    public List<AwardAccountObjectCodeTotalBilled> getAwardAccountObjectCodeTotalBuildByProposalNumberAndAccount(List<ContractsAndGrantsBillingAwardAccount> awardAccounts) {
         return awardAccountObjectCodeTotalBilledDao.getAwardAccountObjectCodeTotalBuildByProposalNumberAndAccount(awardAccounts);
     }
 
@@ -1080,7 +1080,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
      * @return
      */
     @Override
-    public KualiDecimal getBudgetAndActualsForAwardAccount(ContractsAndGrantsCGBAwardAccount awardAccount, String balanceTypeCode, Date awardBeginningDate) {
+    public KualiDecimal getBudgetAndActualsForAwardAccount(ContractsAndGrantsBillingAwardAccount awardAccount, String balanceTypeCode, Date awardBeginningDate) {
         List<Balance> glBalances = new ArrayList<Balance>();
         KualiDecimal balanceAmount = KualiDecimal.ZERO;
         KualiDecimal balAmt = KualiDecimal.ZERO;
@@ -1121,14 +1121,14 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
      * @return
      */
     @Override
-    public void setAwardAccountToDraw(List<ContractsAndGrantsCGBAwardAccount> awardAccounts, ContractsAndGrantsCGBAward award) {
+    public void setAwardAccountToDraw(List<ContractsAndGrantsBillingAwardAccount> awardAccounts, ContractsAndGrantsBillingAward award) {
 
         boolean isValid = true;
         // 1. To get the billed to date amount for every award account based on the criteria passed.
         List<AwardAccountObjectCodeTotalBilled> awardAccountTotalBilledAmounts = awardAccountObjectCodeTotalBilledDao.getAwardAccountObjectCodeTotalBuildByProposalNumberAndAccount(awardAccounts);
 
 
-        for (ContractsAndGrantsCGBAwardAccount awardAccount : awardAccounts) {
+        for (ContractsAndGrantsBillingAwardAccount awardAccount : awardAccounts) {
 
             // 2. Get the Cumulative amount from GL Balances.
 
@@ -1162,7 +1162,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
      * @return
      */
     @Override
-    public KualiDecimal getClaimOnCashforAwardAccount(ContractsAndGrantsCGBAwardAccount awardAccount, java.sql.Date awardBeginningDate) {
+    public KualiDecimal getClaimOnCashforAwardAccount(ContractsAndGrantsBillingAwardAccount awardAccount, java.sql.Date awardBeginningDate) {
 
         // 2. Get the Cumulative amount from GL Balances.
         KualiDecimal balAmt = KualiDecimal.ZERO;
@@ -1216,7 +1216,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
      * @param awardAccount
      */
     @Override
-    public KualiDecimal getAmountAvailableToDraw(KualiDecimal awardTotalAmount, List<ContractsAndGrantsCGBAwardAccount> awardAccounts) {
+    public KualiDecimal getAmountAvailableToDraw(KualiDecimal awardTotalAmount, List<ContractsAndGrantsBillingAwardAccount> awardAccounts) {
 
         // 1. To get the billed to date amount for every award account based on the criteria passed.
         List<AwardAccountObjectCodeTotalBilled> awardAccountTotalBilledAmounts = awardAccountObjectCodeTotalBilledDao.getAwardAccountObjectCodeTotalBuildByProposalNumberAndAccount(awardAccounts);
@@ -1240,7 +1240,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
     @Override
     public void updateSuspensionCategoriesOnDocument(ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument) {
 
-        ContractsAndGrantsCGBAward award = contractsGrantsInvoiceDocument.getAward();
+        ContractsAndGrantsBillingAward award = contractsGrantsInvoiceDocument.getAward();
         String documentNumber = contractsGrantsInvoiceDocument.getDocumentNumber();
         // ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService =
         // SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class);
@@ -1470,7 +1470,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
      * @param agency
      * @return
      */
-    public boolean isAgencyPrimaryAddressComplete(ContractsAndGrantsCGBAgency agency) {
+    public boolean isAgencyPrimaryAddressComplete(ContractsAndGrantsBillingAgency agency) {
 
         List<ContractsAndGrantsAgencyAddress> agencyAddresses = new ArrayList<ContractsAndGrantsAgencyAddress>();
         Map<String, Object> map = new HashMap<String, Object>();
@@ -1488,7 +1488,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
      * @param agency
      * @return
      */
-    public boolean isAgencyAlternateAddressComplete(ContractsAndGrantsCGBAgency agency) {
+    public boolean isAgencyAlternateAddressComplete(ContractsAndGrantsBillingAgency agency) {
 
         List<ContractsAndGrantsAgencyAddress> agencyAddresses = new ArrayList<ContractsAndGrantsAgencyAddress>();
         Map<String, Object> map = new HashMap<String, Object>();
@@ -1552,7 +1552,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
      * @param award
      * @return
      */
-    public boolean isAwardMarkedStopWork(ContractsAndGrantsCGBAward award) {
+    public boolean isAwardMarkedStopWork(ContractsAndGrantsBillingAward award) {
         return award.isStopWorkIndicator();
     }
 
@@ -1561,7 +1561,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
      * @param award
      * @return
      */
-    public boolean isAwardInvoiceTypeMissing(ContractsAndGrantsCGBAward award) {
+    public boolean isAwardInvoiceTypeMissing(ContractsAndGrantsBillingAward award) {
         return StringUtils.isEmpty(award.getInvoicingOptions());
     }
 
@@ -1582,11 +1582,11 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
      * @param award
      * @return
      */
-    public boolean isAwardHasActiveExpiredAccount(ContractsAndGrantsCGBAward award) {
+    public boolean isAwardHasActiveExpiredAccount(ContractsAndGrantsBillingAward award) {
         Calendar calendar = Calendar.getInstance();
         Date now = calendar.getTime();
-        List<ContractsAndGrantsCGBAwardAccount> awardAccounts = award.getActiveAwardAccounts();
-        for (ContractsAndGrantsCGBAwardAccount awardAccount : awardAccounts) {
+        List<ContractsAndGrantsBillingAwardAccount> awardAccounts = award.getActiveAwardAccounts();
+        for (ContractsAndGrantsBillingAwardAccount awardAccount : awardAccounts) {
             if (ObjectUtils.isNotNull(awardAccount.getAccount())) {
                 Date accountExpirationDate = awardAccount.getAccount().getAccountExpirationDate();
                 if (accountExpirationDate != null && now.after(accountExpirationDate) && awardAccount.getAccount().isActive()) {
@@ -1601,7 +1601,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
      * @param award
      * @return
      */
-    public boolean isAwardExpired(ContractsAndGrantsCGBAward award) {
+    public boolean isAwardExpired(ContractsAndGrantsBillingAward award) {
         Calendar calendar = Calendar.getInstance();
         Date now = calendar.getTime();
         return now.after(award.getAwardEndingDate());
@@ -1647,7 +1647,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
      * @param award
      * @return
      */
-    public boolean isAwardBillingFrequencyIsMilestone(ContractsAndGrantsCGBAward award) {
+    public boolean isAwardBillingFrequencyIsMilestone(ContractsAndGrantsBillingAward award) {
         if (ObjectUtils.isNull(award.getPreferredBillingFrequency())) {
             return false;
         }
@@ -1659,7 +1659,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
      * @param award
      * @return
      */
-    public boolean isAwardIBillingFrequencyIsPredetermined(ContractsAndGrantsCGBAward award) {
+    public boolean isAwardIBillingFrequencyIsPredetermined(ContractsAndGrantsBillingAward award) {
         if (ObjectUtils.isNull(award.getPreferredBillingFrequency())) {
             return false;
         }
@@ -1840,10 +1840,10 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
     }
 
     /**
-     * @see org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService#calculateTotalPaymentsToDateByAward(org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAward)
+     * @see org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService#calculateTotalPaymentsToDateByAward(org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward)
      */
     @Override
-    public KualiDecimal calculateTotalPaymentsToDateByAward(ContractsAndGrantsCGBAward award) {
+    public KualiDecimal calculateTotalPaymentsToDateByAward(ContractsAndGrantsBillingAward award) {
         KualiDecimal totalPayments = KualiDecimal.ZERO;
 
         Map<String, Object> criteria = new HashMap<String, Object>();
@@ -1869,7 +1869,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
      * @param awardAccount
      * @return
      */
-    public KualiDecimal getCumulativeCashDisbursement(ContractsAndGrantsCGBAwardAccount awardAccount, java.sql.Date awardBeginningDate) {
+    public KualiDecimal getCumulativeCashDisbursement(ContractsAndGrantsBillingAwardAccount awardAccount, java.sql.Date awardBeginningDate) {
         Integer currentYear = SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear();
         KualiDecimal cumAmt = KualiDecimal.ZERO;
         KualiDecimal balAmt = KualiDecimal.ZERO;
@@ -1905,10 +1905,10 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
 
     /**
-     * @see org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService#isAwardInvoicingOptionMissing(org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAward)
+     * @see org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService#isAwardInvoicingOptionMissing(org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward)
      */
     @Override
-    public boolean isAwardInvoicingOptionMissing(ContractsAndGrantsCGBAward award) {
+    public boolean isAwardInvoicingOptionMissing(ContractsAndGrantsBillingAward award) {
         String invOption = award.getInvoicingOptions();
         if (invOption == null || invOption.isEmpty()) {
             return true;
@@ -1918,10 +1918,10 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
 
     /**
-     * @see org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService#isAwardClosed(org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAward)
+     * @see org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService#isAwardClosed(org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward)
      */
     @Override
-    public boolean isAwardClosed(ContractsAndGrantsCGBAward award) {
+    public boolean isAwardClosed(ContractsAndGrantsBillingAward award) {
         Date today, clsDt;
         today = dateTimeService.getCurrentSqlDateMidnight();
         clsDt = award.getAwardClosingDate();
@@ -1933,10 +1933,10 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
     }
 
     /**
-     * @see org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService#hasExpiredAccounts(org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAward)
+     * @see org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService#hasExpiredAccounts(org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward)
      */
     @Override
-    public boolean hasExpiredAccounts(ContractsAndGrantsCGBAward award) {
+    public boolean hasExpiredAccounts(ContractsAndGrantsBillingAward award) {
         Collection<Account> accounts = getExpiredAccountsOfAward(award);
         if (ObjectUtils.isNotNull(accounts) && !accounts.isEmpty()) {
             return true;
@@ -1945,12 +1945,12 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
     }
 
     /**
-     * @see org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService#hasNoAccountsAssigned(org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAward)
+     * @see org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService#hasNoAccountsAssigned(org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward)
      */
     @Override
-    public boolean hasNoActiveAccountsAssigned(ContractsAndGrantsCGBAward award) {
+    public boolean hasNoActiveAccountsAssigned(ContractsAndGrantsBillingAward award) {
 
-        Collection<ContractsAndGrantsCGBAwardAccount> awardAccounts = award.getActiveAwardAccounts();
+        Collection<ContractsAndGrantsBillingAwardAccount> awardAccounts = award.getActiveAwardAccounts();
         if (awardAccounts.isEmpty()) {
             return true;
         }
@@ -1959,29 +1959,29 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
 
     /**
-     * @see org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService#isAwardInvoicingSuspendedByUser(org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAward)
+     * @see org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService#isAwardInvoicingSuspendedByUser(org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward)
      */
     @Override
-    public boolean isAwardInvoicingSuspendedByUser(ContractsAndGrantsCGBAward award) {
+    public boolean isAwardInvoicingSuspendedByUser(ContractsAndGrantsBillingAward award) {
 
         return award.isSuspendInvoicingIndicator();
     }
 
     /**
-     * @see org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService#isAwardOrganizationIncomplete(org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAward)
+     * @see org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService#isAwardOrganizationIncomplete(org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward)
      */
     @Override
-    public boolean isAwardOrganizationIncomplete(ContractsAndGrantsCGBAward award) {
+    public boolean isAwardOrganizationIncomplete(ContractsAndGrantsBillingAward award) {
 
         return false;
     }
 
 
     /**
-     * @see org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService#isAwardPassedStopDate(org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAward)
+     * @see org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService#isAwardPassedStopDate(org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward)
      */
     @Override
-    public boolean isAwardPassedStopDate(ContractsAndGrantsCGBAward award) {
+    public boolean isAwardPassedStopDate(ContractsAndGrantsBillingAward award) {
 
         Date today = dateTimeService.getCurrentSqlDateMidnight();
         Date stopDt = award.getAwardEndingDate();
@@ -1999,7 +1999,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
      *         and award has no award account or more than 1 award accounts assigned.
      */
     @Override
-    public boolean isPreferredBillingFrequencySetCorrectly(ContractsAndGrantsCGBAward award) {
+    public boolean isPreferredBillingFrequencySetCorrectly(ContractsAndGrantsBillingAward award) {
 
         if (award.getPreferredBillingFrequency() == null || ((award.getPreferredBillingFrequency().equalsIgnoreCase(ArPropertyConstants.PREDETERMINED_BILLING_SCHEDULE_CODE) || award.getPreferredBillingFrequency().equalsIgnoreCase(ArPropertyConstants.MILESTONE_BILLING_SCHEDULE_CODE)) && award.getActiveAwardAccounts().size() != 1)) {
             return false;
@@ -2015,7 +2015,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
      * @return
      */
     @Override
-    public boolean isValueOfPreferredBillingFrequencyValid(ContractsAndGrantsCGBAward award) {
+    public boolean isValueOfPreferredBillingFrequencyValid(ContractsAndGrantsBillingAward award) {
         Boolean isValid = false;
         if (award.getPreferredBillingFrequency() != null) {
             Map<String, Object> criteria = new HashMap<String, Object>();
@@ -2034,20 +2034,20 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
 
     /**
-     * @see org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService#getExpiredAccountsOfAward(org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAward)
+     * @see org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService#getExpiredAccountsOfAward(org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward)
      *      Retrive all the expired accounts of an award
      */
     @Override
-    public Collection<Account> getExpiredAccountsOfAward(ContractsAndGrantsCGBAward award) {
+    public Collection<Account> getExpiredAccountsOfAward(ContractsAndGrantsBillingAward award) {
 
-        Collection<ContractsAndGrantsCGBAwardAccount> awardAccounts = award.getActiveAwardAccounts();
+        Collection<ContractsAndGrantsBillingAwardAccount> awardAccounts = award.getActiveAwardAccounts();
         Collection<Account> expiredAwardAccounts = new ArrayList<Account>();
 
         if (awardAccounts != null && !awardAccounts.isEmpty()) {
 
             Date today = dateTimeService.getCurrentSqlDateMidnight();
 
-            for (ContractsAndGrantsCGBAwardAccount awardAccount : awardAccounts) {
+            for (ContractsAndGrantsBillingAwardAccount awardAccount : awardAccounts) {
                 Account account = awardAccount.getAccount();
 
                 if (account != null) {
@@ -2068,14 +2068,14 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
 
     /**
-     * @see org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService#getContractControlAccounts(org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAward)
+     * @see org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService#getContractControlAccounts(org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward)
      */
     @Override
-    public Collection<Account> getContractControlAccounts(ContractsAndGrantsCGBAward award) {
+    public Collection<Account> getContractControlAccounts(ContractsAndGrantsBillingAward award) {
 
         if (!this.hasNoActiveAccountsAssigned(award)) {
             Collection<Account> controlAccounts = new ArrayList<Account>();
-            for (ContractsAndGrantsCGBAwardAccount awardAccount : award.getActiveAwardAccounts()) {
+            for (ContractsAndGrantsBillingAwardAccount awardAccount : award.getActiveAwardAccounts()) {
                 if (ObjectUtils.isNotNull(awardAccount.getAccount().getContractControlAccount())) {
                     controlAccounts.add(awardAccount.getAccount().getContractControlAccount());
                 }
@@ -2123,13 +2123,13 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
     }
 
     /**
-     * @see org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService#isAwardFinalInvoiceAlreadyBuilt(org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAward)
+     * @see org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService#isAwardFinalInvoiceAlreadyBuilt(org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward)
      */
     @Override
-    public boolean isAwardFinalInvoiceAlreadyBuilt(ContractsAndGrantsCGBAward award) {
-        List<ContractsAndGrantsCGBAwardAccount> awardAccounts = new ArrayList<ContractsAndGrantsCGBAwardAccount>();
-        ContractsAndGrantsCGBAwardAccount awardAccount;
-        Iterator<ContractsAndGrantsCGBAwardAccount> iterator = award.getActiveAwardAccounts().iterator();
+    public boolean isAwardFinalInvoiceAlreadyBuilt(ContractsAndGrantsBillingAward award) {
+        List<ContractsAndGrantsBillingAwardAccount> awardAccounts = new ArrayList<ContractsAndGrantsBillingAwardAccount>();
+        ContractsAndGrantsBillingAwardAccount awardAccount;
+        Iterator<ContractsAndGrantsBillingAwardAccount> iterator = award.getActiveAwardAccounts().iterator();
         while (iterator.hasNext()) {
             awardAccount = iterator.next();
             if (!awardAccount.isFinalBilledIndicator()) {
@@ -2151,11 +2151,11 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
      * @return
      */
     @Override
-    public boolean isInvoiceInProgress(ContractsAndGrantsCGBAward award) {
+    public boolean isInvoiceInProgress(ContractsAndGrantsBillingAward award) {
 
-        List<ContractsAndGrantsCGBAwardAccount> awardAccounts = new ArrayList<ContractsAndGrantsCGBAwardAccount>();
-        ContractsAndGrantsCGBAwardAccount awardAccount;
-        Iterator<ContractsAndGrantsCGBAwardAccount> iterator = award.getActiveAwardAccounts().iterator();
+        List<ContractsAndGrantsBillingAwardAccount> awardAccounts = new ArrayList<ContractsAndGrantsBillingAwardAccount>();
+        ContractsAndGrantsBillingAwardAccount awardAccount;
+        Iterator<ContractsAndGrantsBillingAwardAccount> iterator = award.getActiveAwardAccounts().iterator();
         while (iterator.hasNext()) {
             awardAccount = iterator.next();
             if (StringUtils.isBlank(awardAccount.getInvoiceDocumentStatus()) || awardAccount.getInvoiceDocumentStatus().equalsIgnoreCase(KewApiConstants.ROUTE_HEADER_FINAL_LABEL) || awardAccount.getInvoiceDocumentStatus().equalsIgnoreCase(KewApiConstants.ROUTE_HEADER_CANCEL_LABEL) || awardAccount.getInvoiceDocumentStatus().equalsIgnoreCase(KewApiConstants.ROUTE_HEADER_DISAPPROVED_LABEL)) {
@@ -2173,16 +2173,16 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
      * @see org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService#getActiveAwardsByCriteria(java.util.Map)
      */
     @Override
-    public List<ContractsAndGrantsCGBAward> getActiveAwardsByCriteria(Map<String, Object> criteria) {
+    public List<ContractsAndGrantsBillingAward> getActiveAwardsByCriteria(Map<String, Object> criteria) {
 
-        return SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsCGBAward.class).getExternalizableBusinessObjectsList(ContractsAndGrantsCGBAward.class, criteria);
+        return SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsBillingAward.class).getExternalizableBusinessObjectsList(ContractsAndGrantsBillingAward.class, criteria);
     }
 
     /**
-     * @see org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService#hasNoMilestonesToInvoice(org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAward)
+     * @see org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService#hasNoMilestonesToInvoice(org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward)
      */
     @Override
-    public boolean hasNoMilestonesToInvoice(ContractsAndGrantsCGBAward award) {
+    public boolean hasNoMilestonesToInvoice(ContractsAndGrantsBillingAward award) {
         boolean isValid = false;
         if (award.getPreferredBillingFrequency().equalsIgnoreCase(ArPropertyConstants.MILESTONE_BILLING_SCHEDULE_CODE)) {
             List<Milestone> milestones = new ArrayList<Milestone>();
@@ -2214,10 +2214,10 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
     }
 
     /**
-     * @see org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService#hasNoBillsToInvoice(org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAward)
+     * @see org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService#hasNoBillsToInvoice(org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward)
      */
     @Override
-    public boolean hasNoBillsToInvoice(ContractsAndGrantsCGBAward award) {
+    public boolean hasNoBillsToInvoice(ContractsAndGrantsBillingAward award) {
         boolean isValid = false;
         if (award.getPreferredBillingFrequency().equalsIgnoreCase(ArPropertyConstants.PREDETERMINED_BILLING_SCHEDULE_CODE)) {
 
@@ -2248,10 +2248,10 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
     }
 
     /**
-     * @see org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService#owningAgencyHasNoCustomerRecord(org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAward)
+     * @see org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService#owningAgencyHasNoCustomerRecord(org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward)
      */
     @Override
-    public boolean owningAgencyHasNoCustomerRecord(ContractsAndGrantsCGBAward award) {
+    public boolean owningAgencyHasNoCustomerRecord(ContractsAndGrantsBillingAward award) {
         boolean isValid = true;
         CustomerService customerService = SpringContext.getBean(CustomerService.class);
         if (ObjectUtils.isNotNull(award.getAgency().getCustomerNumber())) {
@@ -2290,7 +2290,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
      * @return
      */
     @Override
-    public boolean isChartAndOrgNotSetupForInvoicing(ContractsAndGrantsCGBAward award) {
+    public boolean isChartAndOrgNotSetupForInvoicing(ContractsAndGrantsBillingAward award) {
         String coaCode = null, orgCode = null;
         String procCoaCode = null, procOrgCode = null;
         Integer currentYear = SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear();
@@ -2304,7 +2304,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         // To get the chart code and org code for invoicing depending on the invoicing options.
         if (ObjectUtils.isNotNull(award.getInvoicingOptions())) {
             if (award.getInvoicingOptions().equalsIgnoreCase(ArPropertyConstants.INV_ACCOUNT)) {
-                for (ContractsAndGrantsCGBAwardAccount awardAccount : award.getActiveAwardAccounts()) {
+                for (ContractsAndGrantsBillingAwardAccount awardAccount : award.getActiveAwardAccounts()) {
                     coaCode = awardAccount.getAccount().getChartOfAccountsCode();
                     orgCode = awardAccount.getAccount().getOrganizationCode();
                     criteria.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, coaCode);
@@ -2408,7 +2408,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
      * @return
      */
     @Override
-    public boolean isOffsetDefNotSetupForInvoicing(ContractsAndGrantsCGBAward award) {
+    public boolean isOffsetDefNotSetupForInvoicing(ContractsAndGrantsBillingAward award) {
         String coaCode = null, orgCode = null;
         Integer currentYear = SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear();
         String receivableOffsetOption = SpringContext.getBean(ParameterService.class).getParameterValueAsString(CustomerInvoiceDocument.class, ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD);
@@ -2423,7 +2423,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             // 1. To get the chart code and org code for invoicing depending on the invoicing options.
             if (ObjectUtils.isNotNull(award.getInvoicingOptions())) {
                 if (award.getInvoicingOptions().equalsIgnoreCase(ArPropertyConstants.INV_ACCOUNT)) {
-                    for (ContractsAndGrantsCGBAwardAccount awardAccount : award.getActiveAwardAccounts()) {
+                    for (ContractsAndGrantsBillingAwardAccount awardAccount : award.getActiveAwardAccounts()) {
                         coaCode = awardAccount.getAccount().getChartOfAccountsCode();
                         criteria.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, coaCode);
                         OffsetDefinition offset = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(OffsetDefinition.class, criteria);
@@ -2550,7 +2550,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
      * @return
      */
     @Override
-    public boolean hasARInvoiceAccountAssigned(ContractsAndGrantsCGBAward award) {
+    public boolean hasARInvoiceAccountAssigned(ContractsAndGrantsBillingAward award) {
         boolean isValid = true;
         String receivableOffsetOption = SpringContext.getBean(ParameterService.class).getParameterValueAsString(CustomerInvoiceDocument.class, ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD);
         boolean isUsingReceivableFAU = receivableOffsetOption.equals("3");
@@ -2760,7 +2760,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
                 // To override agingBucketStartValue and agingBucketEndValue if State Agency Final is true.
 
-                ContractsAndGrantsCGBAgency agency = invoice.getAward().getAgency();
+                ContractsAndGrantsBillingAgency agency = invoice.getAward().getAgency();
                 if (agency.isStateAgencyIndicator()) {
                     stateAgencyFinalCutOffDate = SpringContext.getBean(ParameterService.class).getParameterValueAsString(DunningCampaign.class, ArConstants.DunningLetters.DYS_PST_DUE_STATE_AGENCY_FINAL_PARM);
                 }
@@ -3207,7 +3207,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
      * @return
      */
     private Map<String, String> getTemplateParameterList(ContractsGrantsInvoiceDocument document) {
-        ContractsAndGrantsCGBAward award = document.getAward();
+        ContractsAndGrantsBillingAward award = document.getAward();
         Map<String, String> parameterMap = new HashMap<String, String>();
         Map primaryKeys = new HashMap<String, Object>();
         primaryKeys.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, document.getAccountingPeriod().getUniversityFiscalYear());
@@ -3535,8 +3535,8 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         java.sql.Date awdLastBilledDate;
         Map<String, Object> map = new HashMap<String, Object>();
         map.put(KFSPropertyConstants.PROPOSAL_NUMBER, document.getProposalNumber());
-        ContractsAndGrantsCGBAward award = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsCGBAward.class).getExternalizableBusinessObject(ContractsAndGrantsCGBAward.class, map);
-        ContractsAndGrantsCGBAwardAccount awardAccount = award.getActiveAwardAccounts().get(0);
+        ContractsAndGrantsBillingAward award = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsBillingAward.class).getExternalizableBusinessObject(ContractsAndGrantsBillingAward.class, map);
+        ContractsAndGrantsBillingAwardAccount awardAccount = award.getActiveAwardAccounts().get(0);
         awdLastBilledDate = award.getActiveAwardAccounts().get(0).getCurrentLastBilledDate();
         for (int i = 0; i < award.getActiveAwardAccounts().size(); i++) {
             if (ObjectUtils.isNull(awdLastBilledDate) || ObjectUtils.isNull(award.getActiveAwardAccounts().get(i).getCurrentLastBilledDate())) {
@@ -3630,7 +3630,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
     }
 
     /**
-     * This method updates the ContractsAndGrantsCGBAwardAccount object's FinalBilled Variable with the value provided
+     * This method updates the ContractsAndGrantsBillingAwardAccount object's FinalBilled Variable with the value provided
      * 
      * @param id
      * @param value
@@ -3764,7 +3764,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
      * @param award The associated award that the invoice will be linked to.
      */
     @Override
-    public void populateInvoiceFromAward(ContractsAndGrantsCGBAward award, List<ContractsAndGrantsCGBAwardAccount> awardAccounts, ContractsGrantsInvoiceDocument document) {
+    public void populateInvoiceFromAward(ContractsAndGrantsBillingAward award, List<ContractsAndGrantsBillingAwardAccount> awardAccounts, ContractsGrantsInvoiceDocument document) {
         List<Milestone> milestones = new ArrayList<Milestone>();
         List<Bill> bills = new ArrayList<Bill>();
         Map<String, Object> map = new HashMap<String, Object>();
@@ -3886,7 +3886,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
             // copy award's accounts to invoice account details
             document.getAccountDetails().clear();
-            for (ContractsAndGrantsCGBAwardAccount awardAccount : awardAccounts) {
+            for (ContractsAndGrantsBillingAwardAccount awardAccount : awardAccounts) {
 
                 InvoiceAccountDetail invoiceAccountDetail = new InvoiceAccountDetail();
                 invoiceAccountDetail.setDocumentNumber(document.getDocumentNumber());
@@ -3910,7 +3910,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
     /**
      * This method helps in setting up basic values for Contracts Grants Invoice Document
      */
-    public void setUpValuesForContractsGrantsInvoiceDocument(ContractsAndGrantsCGBAward award, ContractsGrantsInvoiceDocument document) {
+    public void setUpValuesForContractsGrantsInvoiceDocument(ContractsAndGrantsBillingAward award, ContractsGrantsInvoiceDocument document) {
         if (ObjectUtils.isNotNull(award.getAgency())) {
             if (ObjectUtils.isNotNull(document.getAccountsReceivableDocumentHeader())) {
                 document.getAccountsReceivableDocumentHeader().setCustomerNumber(award.getAgency().getCustomerNumber());
@@ -4012,7 +4012,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             currentExpenditureAmount = invAcctD.getCumulativeAmount().subtract(invAcctD.getBilledAmount());
             invAcctD.setExpenditureAmount(currentExpenditureAmount);
             // overwriting account detail expenditure amount if locReview Indicator is true - and award belongs to LOC Billing
-            for (ContractsAndGrantsCGBAwardAccount awardAccount : award.getActiveAwardAccounts()) {
+            for (ContractsAndGrantsBillingAwardAccount awardAccount : award.getActiveAwardAccounts()) {
                 if (awardAccount.getAccountNumber().equals(invAcctD.getAccountNumber()) && awardAccount.isLetterOfCreditReviewIndicator() && award.getPreferredBillingFrequency().equalsIgnoreCase(ArPropertyConstants.LOC_BILLING_SCHEDULE_CODE)) {
                     currentExpenditureAmount = awardAccount.getAmountToDraw();
                     invAcctD.setExpenditureAmount(currentExpenditureAmount);
@@ -4039,7 +4039,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
      * @param awardAccounts
      * @param award
      */
-    public void generateValuesForAccountObjectCodes(List<ContractsAndGrantsCGBAwardAccount> awardAccounts, ContractsAndGrantsCGBAward award, ContractsGrantsInvoiceDocument document) {
+    public void generateValuesForAccountObjectCodes(List<ContractsAndGrantsBillingAwardAccount> awardAccounts, ContractsAndGrantsBillingAward award, ContractsGrantsInvoiceDocument document) {
 
         List<Balance> glBalances = new ArrayList<Balance>();
         List<Integer> fiscalYears = new ArrayList<Integer>();
@@ -4056,7 +4056,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             objectCodeFromCategoriesMap.put(category.getCategoryCode(), getObjectCodeArrayFromSingleCategory(category, document));
 
         }
-        for (ContractsAndGrantsCGBAwardAccount awardAccount : awardAccounts) {
+        for (ContractsAndGrantsBillingAwardAccount awardAccount : awardAccounts) {
             // Changes made to retrieve balances of previous years (useful when the award is billed for the first time and in case
             // of fiscal year change)
             // 1. If award is billed for the first time.
@@ -4139,7 +4139,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         // Modifying the code to set invoiceDetailaccountobject codes calculation here checking with loc review indicator and also
         // accounting more than one fiscal years.
 
-        for (ContractsAndGrantsCGBAwardAccount awdAcct : awardAccounts) {
+        for (ContractsAndGrantsBillingAwardAccount awdAcct : awardAccounts) {
             if (awdAcct.isLetterOfCreditReviewIndicator() && award.getPreferredBillingFrequency().equalsIgnoreCase(ArPropertyConstants.LOC_BILLING_SCHEDULE_CODE)) {
                 KualiDecimal amountToDrawForObjectCodes = KualiDecimal.ZERO;
 
@@ -4190,7 +4190,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
      * Once the object codes are retrieved and categories are set the performAccountingCalculations method of InvoiceDetail BO will
      * do all the accounting calculations.
      */
-    public void generateValuesForCategories(List<ContractsAndGrantsCGBAwardAccount> awardAccounts, ContractsGrantsInvoiceDocument document) {
+    public void generateValuesForCategories(List<ContractsAndGrantsBillingAwardAccount> awardAccounts, ContractsGrantsInvoiceDocument document) {
 
         Set<String> categoryArray = new HashSet<String>();
 

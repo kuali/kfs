@@ -19,7 +19,7 @@ import java.util.List;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAwardAccount;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAwardAccount;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.AwardAccountObjectCodeTotalBilled;
 import org.kuali.kfs.module.ar.dataaccess.AwardAccountObjectCodeTotalBilledDao;
@@ -45,10 +45,10 @@ public class AwardAccountObjectCodeTotalBilledDaoOjb extends PlatformAwareDaoBas
      * @see org.kuali.kfs.module.ar.dataaccess.AwardAccountObjectCodeTotalBilledDao#
      * getAwardAccountObjectCodeTotalBuildByProposalNumberAndAccount(java.util.List)
      */
-    public List<AwardAccountObjectCodeTotalBilled> getAwardAccountObjectCodeTotalBuildByProposalNumberAndAccount(List<ContractsAndGrantsCGBAwardAccount> awardAccounts) {
+    public List<AwardAccountObjectCodeTotalBilled> getAwardAccountObjectCodeTotalBuildByProposalNumberAndAccount(List<ContractsAndGrantsBillingAwardAccount> awardAccounts) {
         Criteria criteria = new Criteria();
 
-        for (ContractsAndGrantsCGBAwardAccount awardAccount : awardAccounts) {
+        for (ContractsAndGrantsBillingAwardAccount awardAccount : awardAccounts) {
             Criteria accounts = new Criteria();
             Criteria chartOfAccount = new Criteria();
             Criteria accountNumber = new Criteria();

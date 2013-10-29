@@ -17,74 +17,13 @@ package org.kuali.kfs.integration.cg;
 
 import java.sql.Date;
 
-import org.kuali.kfs.coa.businessobject.Account;
-import org.kuali.kfs.coa.businessobject.Chart;
-import org.kuali.rice.krad.bo.ExternalizableBusinessObject;
-import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 /**
  * Integration interface for AwardAccount
  */
-public interface ContractsAndGrantsCGBAwardAccount extends MutableInactivatable, ExternalizableBusinessObject {
+public interface ContractsAndGrantsBillingAwardAccount extends ContractsAndGrantsAccountAwardInformation{
 
-    /**
-     * Gets the proposalNumber attribute.
-     *
-     * @return Returns the proposalNumber
-     */
-    public Long getProposalNumber();
-
-    /**
-     * Gets the chartOfAccountsCode attribute.
-     *
-     * @return Returns the chartOfAccountsCode
-     */
-    public String getChartOfAccountsCode();
-
-    /**
-     * Gets the accountNumber attribute.
-     *
-     * @return Returns the accountNumber
-     */
-    public String getAccountNumber();
-
-    /**
-     * Gets the principalId attribute.
-     *
-     * @return Returns the principalId
-     */
-    public String getPrincipalId();
-
-    /**
-     * Gets the account attribute.
-     *
-     * @return Returns the account
-     */
-    public Account getAccount();
-
-    /**
-     * Gets the chartOfAccounts attribute.
-     *
-     * @return Returns the chartOfAccounts
-     */
-    public Chart getChartOfAccounts();
-
-    /**
-     * This method returns the Award object associated with this AwardAccount.
-     *
-     * @return The Award object associated with this AwardAccount.
-     */
-
-    // KFSMI-861 : Removing this method as it's not being referenced.
-    // public ContractsAndGrantsAward getAward();
-
-    /**
-     * Gets the name of the project director for the associated award.
-     *
-     * @return the name of the project director
-     */
-    public String getProjectDirectorName();
 
 
     /**

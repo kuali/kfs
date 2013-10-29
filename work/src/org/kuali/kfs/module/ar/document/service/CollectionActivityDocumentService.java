@@ -18,7 +18,7 @@ package org.kuali.kfs.module.ar.document.service;
 import java.util.Collection;
 
 import org.apache.ojb.broker.query.Criteria;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAward;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.module.ar.businessobject.Event;
 import org.kuali.kfs.module.ar.document.CollectionActivityDocument;
 import org.kuali.rice.kew.api.exception.WorkflowException;
@@ -69,7 +69,7 @@ public interface CollectionActivityDocumentService {
      * @param proposalNumber The proposal number of award.
      * @return Returns the award object.
      */
-    public ContractsAndGrantsCGBAward retrieveAwardByProposalNumber(Long proposalNumber);
+    public ContractsAndGrantsBillingAward retrieveAwardByProposalNumber(Long proposalNumber);
 
     /**
      * Validates the invoices for events with saved state for that particular document.

@@ -17,7 +17,7 @@ package org.kuali.kfs.module.ar.dataaccess;
 
 import java.util.List;
 
-import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAwardAccount;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAwardAccount;
 import org.kuali.kfs.integration.cg.businessobject.AwardAccount;
 import org.kuali.kfs.module.ar.businessobject.AwardAccountObjectCodeTotalBilled;
 
@@ -34,6 +34,6 @@ public interface AwardAccountObjectCodeTotalBilledDao {
      */
     public void save(AwardAccountObjectCodeTotalBilled invoiceAccountTotalBilled);
     
-    public List<AwardAccountObjectCodeTotalBilled> getAwardAccountObjectCodeTotalBuildByProposalNumberAndAccount(List<ContractsAndGrantsCGBAwardAccount> awardAccounts);
+    public List<AwardAccountObjectCodeTotalBilled> getAwardAccountObjectCodeTotalBuildByProposalNumberAndAccount(List<ContractsAndGrantsBillingAwardAccount> awardAccounts);
 
 }

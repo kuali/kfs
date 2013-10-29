@@ -17,7 +17,7 @@ package org.kuali.kfs.module.ar.fixture;
 
 import java.sql.Date;
 
-import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAgency;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAgency;
 import org.kuali.kfs.integration.cg.businessobject.Award;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.DunningCampaign;
@@ -93,7 +93,7 @@ public enum ARAwardFixture {
     }
 
     public Award setAgencyFromFixture(Award award) {
-        ContractsAndGrantsCGBAgency agency = ARAgencyFixture.CG_AGENCY1.createAgency();
+        ContractsAndGrantsBillingAgency agency = ARAgencyFixture.CG_AGENCY1.createAgency();
         award.setAgency(agency);
         return award;
     }

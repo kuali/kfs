@@ -24,7 +24,7 @@ import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAward;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.DunningLetterDistributionOnDemandLookupResult;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
@@ -59,7 +59,7 @@ public class DunningLetterDistributionOnDemandLookupUtil {
             List<ContractsGrantsInvoiceDocument> list = (List<ContractsGrantsInvoiceDocument>) entry.getValue();
 
             // Get data from first award for agency data
-            ContractsAndGrantsCGBAward award = list.get(0).getAward();
+            ContractsAndGrantsBillingAward award = list.get(0).getAward();
             if (!award.isStopWorkIndicator()) {
                 dunningLetterDistributionOnDemandLookupResult = new DunningLetterDistributionOnDemandLookupResult();
                 dunningLetterDistributionOnDemandLookupResult.setProposalNumber(award.getProposalNumber());

@@ -87,10 +87,4 @@ public class AwardRuleTest extends MaintenanceRuleTestBase {
         rule.newAwardCopy = award;
         assertTrue(rule.checkInvoicingOptions());
     }
-    
-    public void testCheckAwardInvoiceAccounts_True() {
-        award = AwardFixture.CG_AWARD_INV_ACCOUNT.createAward();
-        rule.newAwardCopy = award;
-        assertTrue(rule.checkAwardInvoiceAccounts());
-    }
 }

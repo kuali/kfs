@@ -29,7 +29,6 @@ import org.kuali.kfs.integration.ar.AccountsReceivableMilestoneSchedule;
 import org.kuali.kfs.integration.ar.AccountsReceivableModuleService;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAwardAccount;
-import org.kuali.kfs.integration.cg.ContractsGrantsAwardInvoiceAccountInformation;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -104,7 +103,6 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
     private List<AwardFundManager> awardFundManagers;
     private AwardFundManager awardPrimaryFundManager;
     private List<AwardAccount> awardAccounts;
-    private List<AwardInvoiceAccount> awardInvoiceAccounts;
     private List<AwardSubcontractor> awardSubcontractors;
     private List<AwardOrganization> awardOrganizations;
     private List<AccountsReceivableMilestone> milestones;
@@ -164,7 +162,6 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
         awardOrganizations = new ArrayList<AwardOrganization>();
         milestones = new ArrayList<AccountsReceivableMilestone>();
 //        bills = new ArrayList<AccountsReceivableBill>();
-        awardInvoiceAccounts = new ArrayList<AwardInvoiceAccount>();
     }
 
     /**
@@ -221,7 +218,6 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
         managedLists.add(ObjectUtils.isNull(getAwardProjectDirectors()) ? new ArrayList() : new ArrayList(getAwardProjectDirectors()));
         managedLists.add(ObjectUtils.isNull(getAwardFundManagers()) ? new ArrayList() : new ArrayList(getAwardFundManagers()));
         managedLists.add(ObjectUtils.isNull(getAwardSubcontractors()) ? new ArrayList() : new ArrayList(getAwardSubcontractors()));
-        managedLists.add(ObjectUtils.isNull(getAwardInvoiceAccounts()) ? new ArrayList() : new ArrayList(getAwardInvoiceAccounts()));
         return managedLists;
     }
 
@@ -1778,24 +1774,6 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
     }
 
     /**
-     * Gets the awardInvoiceAccounts attribute.
-     *
-     * @return Returns the awardInvoiceAccounts.
-     */
-    public List<AwardInvoiceAccount> getAwardInvoiceAccounts() {
-        return awardInvoiceAccounts;
-    }
-
-    /**
-     * Sets the awardInvoiceAccounts attribute value.
-     *
-     * @param awardInvoiceAccounts The awardInvoiceAccounts to set.
-     */
-    public void setAwardInvoiceAccounts(List<AwardInvoiceAccount> awardInvoiceAccounts) {
-        this.awardInvoiceAccounts = awardInvoiceAccounts;
-    }
-
-    /**
      * Gets the lookupFundMgrPersonUniversalIdentifier attribute.
      *
      * @return Returns the lookupFundMgrPersonUniversalIdentifier.
@@ -1951,27 +1929,6 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
     public void setStopWorkIndicator(boolean stopWorkIndicator) {
         this.stopWorkIndicator = stopWorkIndicator;
     }
-
-    /**
-     * Gets the list of active award invoice accounts. The integration object is used here - as this would be referred only from AR
-     * module.
-     *
-     * @return Returns the active awardInvoiceAccounts.
-     */
-    @Override
-    public List<ContractsGrantsAwardInvoiceAccountInformation> getActiveAwardInvoiceAccounts() {
-        List<ContractsGrantsAwardInvoiceAccountInformation> activeAwardInvoiceAccounts = new ArrayList<ContractsGrantsAwardInvoiceAccountInformation>();
-        List<AwardInvoiceAccount> awdInvAccts = new ArrayList<AwardInvoiceAccount>();
-        for (AwardInvoiceAccount awardInvAccount : awardInvoiceAccounts) {
-            if (awardInvAccount.isActive()) {
-                awdInvAccts.add(awardInvAccount);
-            }
-        }
-        activeAwardInvoiceAccounts = new ArrayList<ContractsGrantsAwardInvoiceAccountInformation>(awdInvAccts);
-        return activeAwardInvoiceAccounts;
-
-    }
-
 
     /**
      * This method maps the proposal number into a hash map with "proposalNumber" as the identifier.

@@ -17,16 +17,15 @@ package org.kuali.kfs.integration.cg;
 
 import java.sql.Date;
 import java.sql.Timestamp;
-import java.util.List;
 
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.bo.ExternalizableBusinessObject;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 /**
  * Integration interface for Award (specific to CGB functionality)
  */
-public interface ContractsAndGrantsBillingAward extends ContractsAndGrantsAward {
+public interface ContractsAndGrantsCGBAward extends ExternalizableBusinessObject {
 
     /**
      * Gets the proposalNumber attribute.
@@ -314,20 +313,6 @@ public interface ContractsAndGrantsBillingAward extends ContractsAndGrantsAward 
      * @return Returns the kimGroupNames.
      */
     public String getKimGroupNames();
-
-    /**
-     * Gets the list of active award accounts.
-     *
-     * @return Returns the active awardAccounts.
-     */
-    public List<ContractsAndGrantsBillingAwardAccount> getActiveAwardAccounts();
-
-    /**
-     * Gets the agency attribute.
-     *
-     * @return Returns the agency.
-     */
-    public ContractsAndGrantsBillingAgency getAgency();
 
     /**
      * Gets the routingOrg attribute.

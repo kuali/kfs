@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.kuali.kfs.integration.cg.businessobject;
+package org.kuali.kfs.integration.ar.businessobject;
 
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
@@ -22,15 +22,15 @@ import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.ProjectCode;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubObjectCode;
-import org.kuali.kfs.integration.cg.ContractsGrantsAwardInvoiceAccountInformation;
+import org.kuali.kfs.integration.ar.AccountsReceivableCustomerInvoiceAccountInformation;
 
 /**
  * This class represents an association between an award and an account with reference to invoices. way an award can maintain a
  * collection of these references instead of owning accounts directly.
  */
-public class AwardInvoiceAccount implements ContractsGrantsAwardInvoiceAccountInformation {
+public class CustomerInvoiceAccount implements AccountsReceivableCustomerInvoiceAccountInformation {
 
-    private Long proposalNumber;
+    private String customerNumber;
     private String chartOfAccountsCode;
     private Integer universityFiscalYear;
     private String objectCode;
@@ -40,24 +40,13 @@ public class AwardInvoiceAccount implements ContractsGrantsAwardInvoiceAccountIn
     private boolean active = true;
     private String accountType;
 
-
-    /***
-     * @see org.kuali.kfs.integration.businessobject.cg.ContractsGrantsAwardInvoiceAccountInformation#getProposalNumber()
-     */
-    public Long getProposalNumber() {
-        return proposalNumber;
+    public String getCustomerNumber() {
+        return customerNumber;
     }
 
-
-    /**
-     * Sets the proposalNumber attribute.
-     * 
-     * @param proposalNumber The proposalNumber to set.
-     */
-    public void setProposalNumber(Long proposalNumber) {
-        this.proposalNumber = proposalNumber;
+    public void setCustomerNumber(String customerNumber) {
+        this.customerNumber = customerNumber;
     }
-
 
     /***
      * @see org.kuali.kfs.integration.businessobject.cg.ContractsGrantsAwardInvoiceAccountInformation#getChartOfAccountsCode()

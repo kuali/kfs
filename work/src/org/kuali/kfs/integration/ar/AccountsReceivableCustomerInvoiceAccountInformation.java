@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.integration.cg;
+package org.kuali.kfs.integration.ar;
 
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
@@ -25,17 +25,12 @@ import org.kuali.rice.krad.bo.ExternalizableBusinessObject;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 
 /**
- * Integration interface for AwardInvoiceAccount
+ * Integration interface for CustomerInvoiceAccount
  */
-public interface ContractsGrantsAwardInvoiceAccountInformation extends MutableInactivatable, ExternalizableBusinessObject {
+public interface AccountsReceivableCustomerInvoiceAccountInformation extends MutableInactivatable, ExternalizableBusinessObject {
 
-    /**
-     * Gets the proposalNumber attribute.
-     * 
-     * @return Returns the proposalNumber
-     */
-    public Long getProposalNumber();
-
+    public String getCustomerNumber();
+    
     /**
      * Gets the chartOfAccountsCode attribute.
      * 

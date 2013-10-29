@@ -555,14 +555,6 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
                     isInvalid = true;
                 }
 
-                // 15. if there is no AR Invoice Account present when the GLPE is 3.
-                if (!contractsGrantsInvoiceDocumentService.hasARInvoiceAccountAssigned(award)) {
-                    errorList.add(SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(ArConstants.BatchFileSystem.CGINVOICE_CREATION_AWARD_NO_AR_INV_ACCOUNT));
-                    invalidGroup.put(award, errorList);
-
-                    isInvalid = true;
-                }
-
                 // 16. If all accounts of award has invoices in progress.
                 if ((award.getPreferredBillingFrequency().equalsIgnoreCase(ArPropertyConstants.MILESTONE_BILLING_SCHEDULE_CODE) || award.getPreferredBillingFrequency().equalsIgnoreCase(ArPropertyConstants.PREDETERMINED_BILLING_SCHEDULE_CODE)) && contractsGrantsInvoiceDocumentService.isInvoiceInProgress(award)) {
                     errorList.add(SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(ArConstants.BatchFileSystem.CGINVOICE_CREATION_AWARD_INVOICES_IN_PROGRESS));

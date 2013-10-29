@@ -39,14 +39,14 @@
 				<ref bean="Award-awardFundManagers.principalId" />
 				<ref bean="Award-awardPrimaryFundManager.fundManager.name" />
 				<ref bean="Award-milestoneSchedule.milestoneScheduleInquiryTitle" />
-<!--  				<ref bean="Award-bills.proposalNumber" />
+ 				<!-- <ref bean="Award-bill.proposalNumber" />
 				<ref bean="Award-bills.billNumber" />
 				<ref bean="Award-bills.billDescription" />
 				<ref bean="Award-bills.billIdentifier" />
 				<ref bean="Award-bills.billDate" />
-				<ref bean="Award-bills.estimatedAmount" />
-				<ref bean="Award-bills.billedIndicator" />
- --> 				<ref bean="Award-lookupPersonUniversalIdentifier" />
+				<ref bean="Award-bills.estimatedAmount" /
+				<ref bean="Award-bills.billedIndicator" /> >-->
+  				<ref bean="Award-lookupPersonUniversalIdentifier" />
 				<ref bean="Award-lookupPerson.principalName" />
 				<ref bean="Award-lookupPerson.name" />
 				<ref bean="Award-userLookupRoleNamespaceCode" />
@@ -120,9 +120,6 @@
 					p:label="Fund Managers" p:shortLabel="Fund Manager" p:elementLabel="Fund Manager" />
 				<bean parent="CollectionDefinition" p:name="awardAccounts"
 					p:label="Award Accounts" p:shortLabel="Accounts" p:elementLabel="Account" />
-				<bean parent="CollectionDefinition" p:name="awardInvoiceAccounts"
-					p:label="Award Invoice Accounts" p:shortLabel="Invoice Accounts"
-					p:elementLabel="Invoice Account" />
 				<bean parent="CollectionDefinition" p:name="awardOrganizations"
 					p:label="Award Organizations" p:shortLabel="Organizations"
 					p:elementLabel="Organization" />
@@ -130,7 +127,7 @@
 					p:label="Award Subcontractors" p:shortLabel="Subcontractors"
 					p:elementLabel="Subcontractor" />
 				<bean parent="CollectionDefinition" p:name="bills" p:label="Bills"
-					p:shortLabel="Bills" p:elementLabel="Bill" />
+					p:shortLabel="Bills" p:elementLabel="Bill" p:dataObjectClass="org.kuali.kfs.integration.ar.AccountsReceivableBill" />
 				<bean parent="CollectionDefinition" p:name="milestones"
 					p:label="Milestones" p:shortLabel="Milestones" p:elementLabel="Milestone" />
 
@@ -205,13 +202,6 @@
 						</list>
 					</property>
 				</bean>
-				<bean parent="RelationshipDefinition" p:objectAttributeName="bills" p:targetClass="org.kuali.kfs.integration.ar.AccountsReceivableBill">
-					<property name="primitiveAttributes">
-						<list>
-		        			<bean parent="PrimitiveAttributeDefinition" p:sourceName="proposalNumber" p:targetName="proposalNumber" />
-		        		</list>
-		        	</property>
-		        </bean>
 				 
 				<!--bean parent="RelationshipDefinition">
 					<property name="objectAttributeName" value="milestoneSchedule" />
@@ -316,16 +306,6 @@
 		<property name="name" value="awardAccounts.account.accountNumber" />
 		<property name="label" value="Award Account Number" />
 		<property name="shortLabel" value="Acct Num" />
-	</bean>
-
-	<bean id="Award-awardInvoiceAccounts.account.accountNumber"
-		parent="Award-awardInvoiceAccounts.account.accountNumber-parentBean" />
-
-	<bean id="Award-awardInvoiceAccounts.account.accountNumber-parentBean"
-		abstract="true" parent="Account-accountNumber">
-		<property name="name" value="awardInvoiceAccounts.account.accountNumber" />
-		<property name="label" value="Award Invoice Account Number" />
-		<property name="shortLabel" value="Inv Acct Num" />
 	</bean>
 
 	<bean id="Award-awardOrganizations.organization.organizationCode"
@@ -1393,40 +1373,6 @@
 						</list>
 					</property>
 				</bean>
-				<bean parent="InquirySectionDefinition">
-					<property name="title" value="Invoice Accounts" />
-					<property name="numberOfColumns" value="1" />
-					<property name="inquiryFields">
-						<list>
-							<bean parent="InquiryCollectionDefinition">
-								<property name="attributeName" value="awardInvoiceAccounts" />
-								<property name="businessObjectClass"
-									value="org.kuali.kfs.module.cg.businessobject.AwardInvoiceAccount" />
-								<property name="numberOfColumns" value="1" />
-								<property name="inquiryFields">
-									<list>
-										<bean parent="FieldDefinition" p:attributeName="accountNumber" />
-										<bean parent="FieldDefinition" p:attributeName="subAccountNumber" />
-										<bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode" />
-										<bean parent="FieldDefinition" p:attributeName="objectCode" />
-										<bean parent="FieldDefinition" p:attributeName="subObjectCode" />
-										<bean parent="FieldDefinition" p:attributeName="accountType" />
-									</list>
-								</property>
-								<property name="summaryFields">
-									<list>
-										<bean parent="FieldDefinition" p:attributeName="accountNumber" />
-										<bean parent="FieldDefinition" p:attributeName="subAccountNumber" />
-										<bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode" />
-										<bean parent="FieldDefinition" p:attributeName="objectCode" />
-										<bean parent="FieldDefinition" p:attributeName="subObjectCode" />
-										<bean parent="FieldDefinition" p:attributeName="accountType" />
-									</list>
-								</property>
-							</bean>
-						</list>
-					</property>
-				</bean>
 				<bean parent="InquirySectionDefinition" p:title="Milestone Schedule">
 					<property name="inquiryFields">
 						<list>
@@ -1435,7 +1381,7 @@
 						</list>
 					</property>
 				</bean>
-				<!-- <bean parent="InquirySectionDefinition" p:title="Milestones - Completed">
+				<bean parent="InquirySectionDefinition" p:title="Milestones - Completed">
 					<property name="inquiryFields">
 						<list>
 							<bean parent="InquiryCollectionDefinition" p:attributeName="milestones"
@@ -1447,23 +1393,20 @@
 										<bean parent="FieldDefinition" p:attributeName="milestoneDescription" />
 										<bean parent="FieldDefinition" p:attributeName="milestoneAmount" />
 										<bean parent="FieldDefinition" p:attributeName="milestoneActualCompletionDate" />
-										<bean parent="FieldDefinition" p:attributeName="billedIndicator" />
+										<!-- <bean parent="FieldDefinition" p:attributeName="billedIndicator" /> -->
 									</list>
 								</property>
 							</bean>
 						</list>
 					</property>
-				</bean> -->
+				</bean>
 				<bean parent="InquirySectionDefinition">
 					<property name="title" value="Predetermined Schedule" />
 					<property name="numberOfColumns" value="1" />
 					<property name="inquiryFields">
 						<list>
-							<bean parent="InquiryCollectionDefinition">
-								<property name="attributeName" value="bills" />
-								<property name="businessObjectClass"
-									value="org.kuali.kfs.integration.ar.AccountsReceivableBill" />
-								<property name="numberOfColumns" value="1" />
+							<bean parent="InquiryCollectionDefinition" p:attributeName="bills"
+							p:businessObjectClass="org.kuali.kfs.integration.ar.AccountsReceivableBill" >
 								<property name="inquiryFields">
 									<list>
 										<bean parent="FieldDefinition" p:attributeName="proposalNumber" />

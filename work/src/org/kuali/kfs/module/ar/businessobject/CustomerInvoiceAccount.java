@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.kuali.kfs.module.cg.businessobject;
+package org.kuali.kfs.module.ar.businessobject;
 
 import java.util.LinkedHashMap;
 
@@ -24,7 +24,8 @@ import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.ProjectCode;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubObjectCode;
-import org.kuali.kfs.integration.cg.ContractsGrantsAwardInvoiceAccountInformation;
+import org.kuali.kfs.integration.ar.AccountsReceivableCustomerInvoiceAccountInformation;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAward;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
@@ -35,9 +36,9 @@ import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
  * This class represents an association between an award and an account with reference to invoices. way an award can maintain a
  * collection of these references instead of owning accounts directly.
  */
-public class AwardInvoiceAccount extends PersistableBusinessObjectBase implements MutableInactivatable, ContractsGrantsAwardInvoiceAccountInformation {
+public class CustomerInvoiceAccount extends PersistableBusinessObjectBase implements MutableInactivatable, AccountsReceivableCustomerInvoiceAccountInformation {
 
-    private Long proposalNumber;
+    private String customerNumber;
     private Integer universityFiscalYear;
     private String chartOfAccountsCode;
     private String objectCode;
@@ -52,13 +53,14 @@ public class AwardInvoiceAccount extends PersistableBusinessObjectBase implement
     private ProjectCode project;
     private SubObjectCode subObject;
     private SubAccount subAccount;
-    private Award award;
+//    private ContractsAndGrantsCGBAward award;
+    private Customer customer;
 
 
     /**
      * Default constructor.
      */
-    public AwardInvoiceAccount() {
+    public CustomerInvoiceAccount() {
         // to set fiscal year to current for now. To be updated when period 13 logic comes in.
         universityFiscalYear = SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear();
 
@@ -83,27 +85,6 @@ public class AwardInvoiceAccount extends PersistableBusinessObjectBase implement
     public void setUniversityFiscalYear(Integer universityFiscalYear) {
         this.universityFiscalYear = universityFiscalYear;
     }
-
-
-    /**
-     * Gets the proposalNumber attribute.
-     * 
-     * @return Returns the proposalNumber.
-     */
-    public Long getProposalNumber() {
-        return proposalNumber;
-    }
-
-
-    /**
-     * Sets the proposalNumber attribute value.
-     * 
-     * @param proposalNumber The proposalNumber to set.
-     */
-    public void setProposalNumber(Long proposalNumber) {
-        this.proposalNumber = proposalNumber;
-    }
-
 
     /**
      * Gets the chartOfAccountsCode attribute.
@@ -331,29 +312,29 @@ public class AwardInvoiceAccount extends PersistableBusinessObjectBase implement
     
     protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
-        if (this.proposalNumber != null) {
-            m.put(KFSPropertyConstants.PROPOSAL_NUMBER, this.proposalNumber.toString());
+        if (this.customerNumber != null) {
+            m.put(KFSPropertyConstants.CUSTOMER_NUMBER, this.customerNumber.toString());
         }
         m.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, this.chartOfAccountsCode);
         m.put(KFSPropertyConstants.ACCOUNT_NUMBER, this.accountNumber);
         return m;
     }
 
-    /***
-     * @see org.kuali.kfs.integration.businessobject.cg.ContractsAndGrantsAccountAwardInformation#getAward()
-     */
-    public Award getAward() {
-        return award;
-    }
-
-    /**
-     * This method sets the associated award to the value provided.
-     * 
-     * @param award Value to be assigned to the associated Award object.
-     */
-    public void setAward(Award award) {
-        this.award = award;
-    }
+//    /***
+//     * @see org.kuali.kfs.integration.businessobject.cg.ContractsAndGrantsAccountAwardInformation#getAward()
+//     */
+//    public ContractsAndGrantsCGBAward getAward() {
+//        return award;
+//    }
+//
+//    /**
+//     * This method sets the associated award to the value provided.
+//     * 
+//     * @param award Value to be assigned to the associated Award object.
+//     */
+//    public void setAward(ContractsAndGrantsCGBAward award) {
+//        this.award = award;
+//    }
 
     /**
      * @see org.kuali.rice.core.api.mo.common.active.MutableInactivatable#isActive()
@@ -389,5 +370,24 @@ public class AwardInvoiceAccount extends PersistableBusinessObjectBase implement
         this.accountType = accountType;
     }
 
+
+    public String getCustomerNumber() {
+        return customerNumber;
+    }
+
+
+    public void setCustomerNumber(String customerNumber) {
+        this.customerNumber = customerNumber;
+    }
+
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
 
 }

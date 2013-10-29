@@ -50,20 +50,20 @@ import org.kuali.kfs.coa.service.ObjectCodeService;
 import org.kuali.kfs.coa.service.ObjectLevelService;
 import org.kuali.kfs.gl.businessobject.Balance;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsAgencyAddress;
-import org.kuali.kfs.module.ar.businessobject.Bill;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingFrequency;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAgency;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAwardAccount;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleUpdateService;
-import org.kuali.kfs.integration.cg.ContractsGrantsAwardInvoiceAccountInformation;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.batch.service.VerifyBillingFrequencyService;
 import org.kuali.kfs.module.ar.businessobject.AwardAccountObjectCodeTotalBilled;
+import org.kuali.kfs.module.ar.businessobject.Bill;
 import org.kuali.kfs.module.ar.businessobject.ContractsAndGrantsCategories;
 import org.kuali.kfs.module.ar.businessobject.Customer;
+import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceAccount;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.DunningCampaign;
 import org.kuali.kfs.module.ar.businessobject.DunningLetterDistribution;
@@ -224,12 +224,12 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
      */
     @Override
     public void createSourceAccountingLinesAndGLPEs(ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument) throws WorkflowException {
-        List<ContractsGrantsAwardInvoiceAccountInformation> awardInvoiceAccounts = new ArrayList<ContractsGrantsAwardInvoiceAccountInformation>();
+        List<CustomerInvoiceAccount> customerInvoiceAccounts = new ArrayList<CustomerInvoiceAccount>();
         if (ObjectUtils.isNotNull(contractsGrantsInvoiceDocument.getAward())) {
             Map<String, Object> map = new HashMap<String, Object>();
             map.put(KFSPropertyConstants.PROPOSAL_NUMBER, contractsGrantsInvoiceDocument.getAward().getProposalNumber());
             map.put(KFSPropertyConstants.ACTIVE, true);
-            awardInvoiceAccounts = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsGrantsAwardInvoiceAccountInformation.class).getExternalizableBusinessObjectsList(ContractsGrantsAwardInvoiceAccountInformation.class, map);
+            customerInvoiceAccounts = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(CustomerInvoiceAccount.class).getExternalizableBusinessObjectsList(CustomerInvoiceAccount.class, map);
         }
         boolean awardBillByControlAccountInd = false;
         boolean awardBillByInvoicingAccountInd = false;
@@ -243,14 +243,14 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             String receivableOffsetOption = SpringContext.getBean(ParameterService.class).getParameterValueAsString(CustomerInvoiceDocument.class, ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD);
             boolean isUsingReceivableFAU = ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_FAU.equals(receivableOffsetOption);
             if (isUsingReceivableFAU) {
-                if (ObjectUtils.isNotNull(contractsGrantsInvoiceDocument.getAward()) && CollectionUtils.isNotEmpty(awardInvoiceAccounts)) {
-                    for (ContractsGrantsAwardInvoiceAccountInformation awardInvoiceAccount : awardInvoiceAccounts) {
-                        if (awardInvoiceAccount.getAccountType().equals(ArPropertyConstants.INCOME_ACCOUNT)) {
-                            if (awardInvoiceAccount.isActive()) {// Consider the active invoice account only.
+                if (ObjectUtils.isNotNull(contractsGrantsInvoiceDocument.getAward()) && CollectionUtils.isNotEmpty(customerInvoiceAccounts)) {
+                    for (CustomerInvoiceAccount customerInvoiceAccount : customerInvoiceAccounts) {
+                        if (customerInvoiceAccount.getAccountType().equals(ArPropertyConstants.INCOME_ACCOUNT)) {
+                            if (customerInvoiceAccount.isActive()) {// Consider the active invoice account only.
                                 awardBillByInvoicingAccountInd = true;
-                                invoiceAccountDetails.add(awardInvoiceAccount.getChartOfAccountsCode());
-                                invoiceAccountDetails.add(awardInvoiceAccount.getAccountNumber());
-                                invoiceAccountDetails.add(awardInvoiceAccount.getObjectCode());
+                                invoiceAccountDetails.add(customerInvoiceAccount.getChartOfAccountsCode());
+                                invoiceAccountDetails.add(customerInvoiceAccount.getAccountNumber());
+                                invoiceAccountDetails.add(customerInvoiceAccount.getObjectCode());
                             }
                         }
                     }
@@ -2542,40 +2542,6 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         return billedToDate;
     }
 
-
-    /**
-     * This method checks if there is atleast one AR Invoice Account present when the GLPE is 3.
-     * 
-     * @param award
-     * @return
-     */
-    @Override
-    public boolean hasARInvoiceAccountAssigned(ContractsAndGrantsBillingAward award) {
-        boolean isValid = true;
-        String receivableOffsetOption = SpringContext.getBean(ParameterService.class).getParameterValueAsString(CustomerInvoiceDocument.class, ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD);
-        boolean isUsingReceivableFAU = receivableOffsetOption.equals("3");
-        // This condition is validated only if GLPE is 3 and CG enhancements is ON
-        if (isUsingReceivableFAU) {
-            if (ObjectUtils.isNull(award.getActiveAwardInvoiceAccounts()) || CollectionUtils.isEmpty(award.getActiveAwardInvoiceAccounts())) {
-                isValid = false;
-            }
-            else {
-                int arCount = 0;
-                for (ContractsGrantsAwardInvoiceAccountInformation awardInvoiceAccount : award.getActiveAwardInvoiceAccounts()) {
-                    if (awardInvoiceAccount.getAccountType().equals(ArPropertyConstants.AR_ACCOUNT)) {
-                        arCount++;
-
-                    }
-                }
-                if (arCount == 0) {
-                    isValid = false;
-                }
-            }
-        }
-        return isValid;
-    }
-
-
     @Override
     public Collection<DunningLetterDistributionOnDemandLookupResult> getInvoiceDocumentsForDunningLetterOnDemandLookup(Map<String, String> fieldValues) {
 
@@ -3941,21 +3907,21 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
         String receivableOffsetOption = SpringContext.getBean(ParameterService.class).getParameterValueAsString(CustomerInvoiceDocument.class, ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD);
         boolean isUsingReceivableFAU = ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_FAU.equals(receivableOffsetOption);
-        List<ContractsGrantsAwardInvoiceAccountInformation> awardInvoiceAccounts = new ArrayList<ContractsGrantsAwardInvoiceAccountInformation>();
+        List<CustomerInvoiceAccount> customerInvoiceAccounts = new ArrayList<CustomerInvoiceAccount>();
         Map<String, Object> map = new HashMap<String, Object>();
         map.put(KFSPropertyConstants.PROPOSAL_NUMBER, award.getProposalNumber());
         map.put(KFSPropertyConstants.ACTIVE, true);
-        awardInvoiceAccounts = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsGrantsAwardInvoiceAccountInformation.class).getExternalizableBusinessObjectsList(ContractsGrantsAwardInvoiceAccountInformation.class, map);
+        customerInvoiceAccounts = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(CustomerInvoiceAccount.class).getExternalizableBusinessObjectsList(CustomerInvoiceAccount.class, map);
         if (isUsingReceivableFAU) {
-            if (CollectionUtils.isNotEmpty(awardInvoiceAccounts)) {
-                for (ContractsGrantsAwardInvoiceAccountInformation awardInvoiceAccount : awardInvoiceAccounts) {
-                    if (awardInvoiceAccount.getAccountType().equals(ArPropertyConstants.AR_ACCOUNT)) {
-                        if (awardInvoiceAccount.isActive()) {// consider the active invoice account only.
-                            document.setPaymentChartOfAccountsCode(awardInvoiceAccount.getChartOfAccountsCode());
-                            document.setPaymentAccountNumber(awardInvoiceAccount.getAccountNumber());
-                            document.setPaymentSubAccountNumber(awardInvoiceAccount.getSubAccountNumber());
-                            document.setPaymentFinancialObjectCode(awardInvoiceAccount.getObjectCode());
-                            document.setPaymentFinancialSubObjectCode(awardInvoiceAccount.getSubObjectCode());
+            if (CollectionUtils.isNotEmpty(customerInvoiceAccounts)) {
+                for (CustomerInvoiceAccount customerInvoiceAccount : customerInvoiceAccounts) {
+                    if (customerInvoiceAccount.getAccountType().equals(ArPropertyConstants.AR_ACCOUNT)) {
+                        if (customerInvoiceAccount.isActive()) {// consider the active invoice account only.
+                            document.setPaymentChartOfAccountsCode(customerInvoiceAccount.getChartOfAccountsCode());
+                            document.setPaymentAccountNumber(customerInvoiceAccount.getAccountNumber());
+                            document.setPaymentSubAccountNumber(customerInvoiceAccount.getSubAccountNumber());
+                            document.setPaymentFinancialObjectCode(customerInvoiceAccount.getObjectCode());
+                            document.setPaymentFinancialSubObjectCode(customerInvoiceAccount.getSubObjectCode());
                         }
                     }
                 }

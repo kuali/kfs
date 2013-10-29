@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.module.cg.fixture;
 
-import org.kuali.kfs.integration.cg.businessobject.AwardInvoiceAccount;
 import org.kuali.kfs.module.cg.CGPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
@@ -50,19 +49,5 @@ public enum AwardInvoiceAccountFixture {
         this.accountType = accountType;
 
 
-    }
-
-    public AwardInvoiceAccount createAwardAccount() {
-        AwardInvoiceAccount awardInvoiceAccount = new AwardInvoiceAccount();
-
-        awardInvoiceAccount.setProposalNumber(this.proposalNumber);
-        awardInvoiceAccount.setChartOfAccountsCode(this.chartOfAccountsCode);
-        awardInvoiceAccount.setUniversityFiscalYear(this.universityFiscalYear);
-        awardInvoiceAccount.setAccountNumber(this.accountNumber);
-        awardInvoiceAccount.setObjectCode(this.objectCode);
-        awardInvoiceAccount.setSubObjectCode(this.subObjectCode);
-        awardInvoiceAccount.setSubAccountNumber(this.subAccountNumber);
-        awardInvoiceAccount.setAccountType(this.accountType);
-        return awardInvoiceAccount;
     }
 }

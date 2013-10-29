@@ -22,17 +22,13 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.integration.ar.AccountsReceivableModuleService;
-
+import org.kuali.kfs.integration.ar.businessobject.CustomerInvoiceAccount;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleRetrieveService;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleService;
-import org.kuali.kfs.module.cg.CGConstants;
-
 import org.kuali.kfs.module.cg.CGKeyConstants;
 import org.kuali.kfs.module.cg.CGPropertyConstants;
 import org.kuali.kfs.module.cg.businessobject.Award;
 import org.kuali.kfs.module.cg.businessobject.AwardAccount;
 import org.kuali.kfs.module.cg.businessobject.AwardFundManager;
-import org.kuali.kfs.module.cg.businessobject.AwardInvoiceAccount;
 import org.kuali.kfs.module.cg.businessobject.AwardOrganization;
 import org.kuali.kfs.module.cg.businessobject.AwardProjectDirector;
 import org.kuali.kfs.module.cg.businessobject.AwardSubcontractor;
@@ -42,10 +38,9 @@ import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.api.identity.Person;
-import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 
@@ -101,7 +96,6 @@ public class AwardRule extends CGMaintenanceDocumentRuleBase {
         success &= checkSuspendedAwardInvoicing();
         success &= checkAgencyNotEqualToFederalPassThroughAgency(newAwardCopy.getAgency(), newAwardCopy.getFederalPassThroughAgency(), KFSPropertyConstants.AGENCY_NUMBER, KFSPropertyConstants.FEDERAL_PASS_THROUGH_AGENCY_NUMBER);
         success &= checkInvoicingOptions();
-        success &= checkAwardInvoiceAccounts();
         LOG.info("Leaving AwardRule.processCustomRouteDocumentBusinessRules");
         return success;
     }
@@ -264,54 +258,6 @@ public class AwardRule extends CGMaintenanceDocumentRuleBase {
             }
         }
 
-        if (line instanceof AwardInvoiceAccount) {
-            AwardInvoiceAccount newAwardInvoiceAccount = (AwardInvoiceAccount) line;
-            if (collectionName.equals(CGPropertyConstants.AWARD_INVOICE_ACCOUNTS)) {
-                newAwardCopy = (Award) document.getNewMaintainableObject().getBusinessObject();
-                List<AwardInvoiceAccount> awardInvoiceAccounts = newAwardCopy.getAwardInvoiceAccounts();
-
-                // Check if there is already an Award Invoice Account of same type in the collection.
-                int arCount = 0;
-                int incomeCount = 0;
-                for (AwardInvoiceAccount awardInvoiceAccount : awardInvoiceAccounts) {
-                    if (awardInvoiceAccount.getAccountType().equals(CGPropertyConstants.AR_ACCOUNT)) {
-                        if (awardInvoiceAccount.isActive()) {
-                            arCount++;
-
-                            if (newAwardInvoiceAccount.getAccountType().equals(CGPropertyConstants.AR_ACCOUNT)) {
-                                if (newAwardInvoiceAccount.isActive()) {
-                                    putFieldError(CGPropertyConstants.AWARD_INVOICE_ACCOUNTS, CGKeyConstants.AwardConstants.ERROR_MULTIPLE_INV_ACCT, CGPropertyConstants.AR_ACCOUNT);
-                                    return false;
-                                }
-                            }
-                        }
-                    }
-                    else if (awardInvoiceAccount.getAccountType().equals(CGPropertyConstants.INCOME_ACCOUNT)) {
-                        if (awardInvoiceAccount.isActive()) {
-                            incomeCount++;
-
-                            if (newAwardInvoiceAccount.getAccountType().equals(CGPropertyConstants.INCOME_ACCOUNT)) {
-                                if (newAwardInvoiceAccount.isActive()) {
-                                    putFieldError(CGPropertyConstants.AWARD_INVOICE_ACCOUNTS, CGKeyConstants.AwardConstants.ERROR_MULTIPLE_INV_ACCT, CGPropertyConstants.INCOME_ACCOUNT);
-                                    return false;
-                                }
-                            }
-                        }
-                    }
-                }
-
-                if (arCount > 1) {
-                    putFieldError(CGPropertyConstants.AWARD_INVOICE_ACCOUNTS, CGKeyConstants.AwardConstants.ERROR_MULTIPLE_INV_ACCT, CGPropertyConstants.AR_ACCOUNT);
-                    return false;
-                }
-                if (incomeCount > 1) {
-                    putFieldError(CGPropertyConstants.AWARD_INVOICE_ACCOUNTS, CGKeyConstants.AwardConstants.ERROR_MULTIPLE_INV_ACCT, CGPropertyConstants.INCOME_ACCOUNT);
-                    return false;
-                }
-
-            }
-        }
-
         return super.processAddCollectionLineBusinessRules(document, collectionName, line);
     }
 
@@ -469,59 +415,4 @@ public class AwardRule extends CGMaintenanceDocumentRuleBase {
         }
         return success;
     }
-
-
-    /**
-     * checks to see if at least and atmost ACTIVE 1 award invoice account of AR type exists when the GLPE parameter is set to 3.
-     *
-     * @return true if the award contains at least and atmost 1 ACTIVE {@link AwardInvoiceAccount}, false otherwise
-     */
-    protected boolean checkAwardInvoiceAccounts() {
-        boolean success = true;
-        Collection<AwardInvoiceAccount> awardInvoiceAccounts = newAwardCopy.getAwardInvoiceAccounts();
-        // To get parameter Value of GLPE Recievable offset generation method.
-        String receivableOffsetOption = SpringContext.getBean(AccountsReceivableModuleService.class).retrieveGLPEReceivableParameterValue();
-
-        boolean isUsingReceivableFAU = receivableOffsetOption.equals("3");
-        //This condition is validated only if GLPE is 3 and CG enhancements is ON
-        if (isUsingReceivableFAU && contractsGrantsBillingEnhancementsInd) {
-            if (!ObjectUtils.isNull(awardInvoiceAccounts) || !awardInvoiceAccounts.isEmpty()) {
-                int arCount = 0;
-                int incomeCount = 0;
-                for (AwardInvoiceAccount awardInvoiceAccount : awardInvoiceAccounts) {
-                    if (awardInvoiceAccount.getAccountType().equals(CGPropertyConstants.AR_ACCOUNT)) {
-                        if (awardInvoiceAccount.isActive()) {
-                            arCount++;
-                        }
-                    }
-                    else if (awardInvoiceAccount.getAccountType().equals(CGPropertyConstants.INCOME_ACCOUNT)) {
-                        if (awardInvoiceAccount.isActive()) {
-                            incomeCount++;
-                        }
-                    }
-                }
-
-                if (arCount == 0) {
-
-                    putFieldError(CGPropertyConstants.AWARD_INVOICE_ACCOUNTS, CGKeyConstants.AwardConstants.ERROR_ONE_AR_INV_ACCT_REQD);
-                    success = false;
-                }
-                else if (arCount > 1) {
-                    putFieldError(CGPropertyConstants.AWARD_INVOICE_ACCOUNTS, CGKeyConstants.AwardConstants.ERROR_MULTIPLE_INV_ACCT, CGPropertyConstants.AR_ACCOUNT);
-                    return false;
-                }
-                if (incomeCount > 1) {
-                    putFieldError(CGPropertyConstants.AWARD_INVOICE_ACCOUNTS, CGKeyConstants.AwardConstants.ERROR_MULTIPLE_INV_ACCT, CGPropertyConstants.INCOME_ACCOUNT);
-                    return false;
-                }
-            }
-            else {
-
-                putFieldError(CGPropertyConstants.AWARD_INVOICE_ACCOUNTS, CGKeyConstants.AwardConstants.ERROR_ONE_AR_INV_ACCT_REQD);
-                success = false;
-            }
-        }
-        return success;
-    }
-
 }

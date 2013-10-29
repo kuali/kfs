@@ -28,6 +28,7 @@
         <ref bean="CustomerMaintenanceDocument-CorporateInformation"/>
         <ref bean="CustomerMaintenanceDocument-ContactInformation"/>
         <ref bean="CustomerMaintenanceDocument-Addresses"/>
+    	<ref bean="CustomerMaintenanceDocument-InvoiceAccounts" />
         <!-- <ref bean="CustomerMaintenanceDocument-CustomerCollector"/> -->
         <ref bean="CustomerMaintenanceDocument-CollectionsMaintenance"/>
       </list>
@@ -175,6 +176,45 @@
       </list>
     </property>
   </bean> -->
+  
+  	<bean id="CustomerMaintenanceDocument-InvoiceAccounts" parent="CustomerMaintenanceDocument-InvoiceAccounts-parentBean" />
+
+	<bean id="CustomerMaintenanceDocument-InvoiceAccounts-parentBean"
+		abstract="true" parent="MaintainableSectionDefinition">
+		<property name="id" value="Invoice Accounts" />
+		<property name="title" value="Invoice Accounts" />
+		<property name="maintainableItems">
+			<list>
+				<bean parent="MaintainableCollectionDefinition">
+					<property name="name" value="customerInvoiceAccounts" />
+					<property name="businessObjectClass" value="org.kuali.kfs.module.ar.businessobject.CustomerInvoiceAccount" />
+					<property name="summaryFields">
+						<list>
+							<bean parent="MaintainableFieldDefinition" p:name="accountNumber" />
+							<bean parent="MaintainableFieldDefinition" p:name="subAccountNumber" />
+							<bean parent="MaintainableFieldDefinition" p:name="chartOfAccountsCode" />
+							<bean parent="MaintainableFieldDefinition" p:name="objectCode" />
+							<bean parent="MaintainableFieldDefinition" p:name="subObjectCode" />
+							<bean parent="MaintainableFieldDefinition" p:name="accountType" />
+						</list>
+					</property>
+					<property name="maintainableFields">
+						<list>
+							<bean parent="MaintainableFieldDefinition" p:name="chartOfAccountsCode"	p:required="true" p:webUILeaveFieldFunction="onblur_chartCode" />
+							<bean parent="MaintainableFieldDefinition" p:name="accountNumber"	p:required="true" p:webUILeaveFieldFunction="onblur_accountNumber" />
+							<bean parent="MaintainableFieldDefinition" p:name="subAccountNumber" />
+							<bean parent="MaintainableFieldDefinition" p:name="account.accountName"  p:unconditionallyReadOnly="true" />
+							<bean parent="MaintainableFieldDefinition" p:name="objectCode"	p:required="true" />
+							<bean parent="MaintainableFieldDefinition" p:name="subObjectCode" />
+							<bean parent="MaintainableFieldDefinition" p:name="accountType" p:required="true" />
+<!-- 							<bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true" /> -->
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+  
         
     <bean id="CustomerMaintenanceDocument-CollectionsMaintenance" parent="CustomerMaintenanceDocument-CollectionsMaintenance-parentBean" />
 

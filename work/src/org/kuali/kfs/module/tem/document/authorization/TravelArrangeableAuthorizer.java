@@ -70,8 +70,12 @@ abstract public class TravelArrangeableAuthorizer extends AccountingDocumentAuth
 
                 final TEMProfile profile = getBusinessObjectService().findBySinglePrimaryKey(TEMProfile.class, document.getProfileId());
                 if (profile != null) {
-                    qualification.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, profile.getHomeDeptChartOfAccountsCode());
-                    qualification.put(KFSPropertyConstants.ORGANIZATION_CODE, profile.getHomeDeptOrgCode());
+                	if (!qualification.containsKey(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE)) {
+                	    qualification.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, profile.getHomeDeptChartOfAccountsCode());
+                	}
+                	if (!qualification.containsKey(KFSPropertyConstants.ORGANIZATION_CODE)) {
+                	    qualification.put(KFSPropertyConstants.ORGANIZATION_CODE, profile.getHomeDeptOrgCode());
+                	}
                 }
             }
             if (ObjectUtils.isNotNull(document.getTraveler())) {

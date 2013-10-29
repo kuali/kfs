@@ -27,9 +27,9 @@ import org.kuali.kfs.coa.service.ObjectCodeService;
 import org.kuali.kfs.coa.service.ProjectCodeService;
 import org.kuali.kfs.coa.service.SubAccountService;
 import org.kuali.kfs.coa.service.SubObjectCodeService;
-import org.kuali.kfs.module.tem.TemConstants.AgencyStagingDataErrorCodes;
 import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
+import org.kuali.kfs.module.tem.TemConstants.AgencyStagingDataErrorCodes;
 import org.kuali.kfs.module.tem.batch.service.ExpenseImportByTravelerService;
 import org.kuali.kfs.module.tem.batch.service.ImportedExpensePendingEntryService;
 import org.kuali.kfs.module.tem.businessobject.AgencyStagingData;
@@ -46,7 +46,6 @@ import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.ErrorMessage;
 import org.kuali.rice.krad.util.ObjectUtils;
-//import org.kuali.kfs.module.tem.businessobject.ExpenseTypeObjectCode;
 
 public class ExpenseImportByTravelerServiceImpl extends ExpenseImportServiceBase implements ExpenseImportByTravelerService {
 
@@ -137,15 +136,11 @@ public class ExpenseImportByTravelerServiceImpl extends ExpenseImportServiceBase
         agencyData.setErrorCode(AgencyStagingDataErrorCodes.AGENCY_NO_ERROR);
 
         errorMessages = validateTraveler(agencyData);
-        if (errorMessages.isEmpty()) {
 
-            errorMessages = validateAccountingInfo(agencyData);
-            if (errorMessages.isEmpty()) {
+        errorMessages.addAll(validateAccountingInfo(agencyData));
 
-                if (!isCreditCardAgencyValid(agencyData)){
-                    errorMessages.add(new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_CREDIT_CARD_DATA_INVALID_CCA));
-                }
-            }
+        if (!isCreditCardAgencyValid(agencyData)){
+            errorMessages.add(new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_CREDIT_CARD_DATA_INVALID_CCA));
         }
 
         LOG.info("Finished validating agency data.");
@@ -212,14 +207,6 @@ public class ExpenseImportByTravelerServiceImpl extends ExpenseImportServiceBase
     @Override
     public List<ErrorMessage> validateAccountingInfo(final AgencyStagingData agencyData) {
         List<ErrorMessage> errorMessages = new ArrayList<ErrorMessage>();
-
-        final TEMProfile profile = getTraveler(agencyData);
-
-        if (ObjectUtils.isNull(profile)) {
-            errorMessages.add(new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_DATA_INVALID_TRAVELER, agencyData.getTravelerId()));
-            setErrorCode(agencyData, AgencyStagingDataErrorCodes.AGENCY_INVALID_TRAVELER);
-            return errorMessages;
-        }
 
         final List<TripAccountingInformation> accountingInfos = agencyData.getTripAccountingInformation();
 

@@ -28,15 +28,18 @@ import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants.TEMProfileProperties;
 import org.kuali.kfs.module.tem.businessobject.TEMProfile;
+import org.kuali.kfs.module.tem.businessobject.TEMProfileArranger;
 import org.kuali.kfs.module.tem.businessobject.TemProfileFromCustomer;
 import org.kuali.kfs.module.tem.businessobject.TemProfileFromKimPerson;
 import org.kuali.kfs.module.tem.datadictionary.MappedDefinition;
+import org.kuali.kfs.module.tem.document.service.TravelArrangerDocumentService;
 import org.kuali.kfs.module.tem.service.TEMRoleService;
 import org.kuali.kfs.module.tem.service.TemProfileService;
 import org.kuali.kfs.module.tem.service.TravelerService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
@@ -62,6 +65,7 @@ public class TEMProfileLookupableHelperServiceImpl extends KualiLookupableHelper
     private PersonService personService;
     private TemProfileService temProfileService;
     private IdentityManagementService identityManagementService;
+    private TravelArrangerDocumentService travelArrangerDocumentService;
 
     private static final String[] addressLookupFields = { TEMProfileProperties.ADDRESS_1, TEMProfileProperties.ADDRESS_2, TEMProfileProperties.CITY_NAME, TEMProfileProperties.STATE_CODE, TEMProfileProperties.ZIP_CODE, TEMProfileProperties.COUNTRY_CODE };
 
@@ -71,6 +75,8 @@ public class TEMProfileLookupableHelperServiceImpl extends KualiLookupableHelper
     @Override
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
 
+        boolean arrangeesOnly = false;
+        Person currentUser = GlobalVariables.getUserSession().getPerson();
         // split homeDepartment field value into org code and coa code for TEMProfile lookup
         if (fieldValues != null) {
             String homeDepartment = fieldValues.get(TemConstants.TEM_PROFILE_HOME_DEPARTMENT);
@@ -85,6 +91,15 @@ public class TEMProfileLookupableHelperServiceImpl extends KualiLookupableHelper
                     fieldValues.remove(TemConstants.TEM_PROFILE_HOME_DEPARTMENT);
                 }
             }
+
+            if (fieldValues.containsKey(TemPropertyConstants.TEMProfileProperties.ONLY_ARRANGEES_IN_LOOKUP)) {
+                final String arrangeesOnlyValue = fieldValues.remove(TemPropertyConstants.TEMProfileProperties.ONLY_ARRANGEES_IN_LOOKUP);
+                if (!StringUtils.isBlank(arrangeesOnlyValue)) {
+                    OjbCharBooleanConversion booleanConverter = new OjbCharBooleanConversion();
+                    final Boolean arrangeesOnlyBool = (Boolean)booleanConverter.sqlToJava(arrangeesOnlyValue);
+                    arrangeesOnly = arrangeesOnlyBool.booleanValue();
+                }
+            }
         }
 
         List<TEMProfile> searchResults = (List<TEMProfile>) super.getSearchResults(fieldValues);
@@ -94,7 +109,9 @@ public class TEMProfileLookupableHelperServiceImpl extends KualiLookupableHelper
             if (!StringUtils.isBlank(profile.getPrincipalId())) {
                 getTravelerService().populateTEMProfile(profile);
             }
-            profiles.add(profile);
+            if (!arrangeesOnly || isArranger(currentUser, profile)) {
+                profiles.add(profile);
+            }
         }
 
         // Need to also search kim. This is necessary because data could be different between kim and the tem profile,
@@ -133,6 +150,25 @@ public class TEMProfileLookupableHelperServiceImpl extends KualiLookupableHelper
         }
 
         return profiles;
+    }
+
+    /**
+     * Determines if the given possibleArranger is an arranger for the given possibleArrangee
+     * @param possibleArranger the Person who could be the arranger of the given profile
+     * @param possibleArrangee the profile, who could have trips arranged by the possibleArranger
+     * @return true if possibleArranger is an arranger for possibleArrangee, false otherwise
+     */
+    protected boolean isArranger(Person possibleArranger, TEMProfile possibleArrangee) {
+        if (possibleArranger == null) {
+            // there's no current user running this lookup?  Weird.
+            return false;
+        }
+        if (possibleArrangee == null) {
+            // there's no profile but we're adding it to a list?  even weirder
+            return false;
+        }
+        final TEMProfileArranger temProfileArranger = getTravelArrangerDocumentService().findTemProfileArranger(possibleArranger.getPrincipalId(), possibleArrangee.getProfileId());
+        return temProfileArranger != null;
     }
 
     @Override
@@ -381,6 +417,14 @@ public class TEMProfileLookupableHelperServiceImpl extends KualiLookupableHelper
 
     public void setIdentityManagementService(IdentityManagementService identityManagementService) {
         this.identityManagementService = identityManagementService;
+    }
+
+    public TravelArrangerDocumentService getTravelArrangerDocumentService() {
+        return travelArrangerDocumentService;
+    }
+
+    public void setTravelArrangerDocumentService(TravelArrangerDocumentService travelArrangerDocumentService) {
+        this.travelArrangerDocumentService = travelArrangerDocumentService;
     }
 
 }

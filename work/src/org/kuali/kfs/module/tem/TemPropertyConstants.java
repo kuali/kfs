@@ -222,6 +222,8 @@ public class TemPropertyConstants {
         public static final String PHONE_NUMBER = "phoneNumber";
         public static final String CUSTOMER_NUMBER = "customerNumber";
 
+        public static final String ONLY_ARRANGEES_IN_LOOKUP = "onlyArrangeesInLookup";
+
         public static final String EXPIRATION_DATE = "expirationDate";
         public static final String EFFECTIVE_DATE = "effectiveDate";
         public static final String ACCOUNT_NUMBER = "accountNumber";

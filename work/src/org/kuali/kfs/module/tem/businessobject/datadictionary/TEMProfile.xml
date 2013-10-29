@@ -53,6 +53,7 @@
 				<ref bean="TEMProfile-defaultProjectCode" />
  				<ref bean="TEMProfile-achSignUp" />
 				<ref bean="TEMProfile-achTransactionType" />
+				<ref bean="TEMProfile-onlyArrangeesInLookup"/>
 				<ref bean="TEMProfile-active" />
 				<ref bean="TEMProfile-versionNumber" />
 			</list>
@@ -612,6 +613,13 @@
 		<property name="name" value="defaultProjectCode" />
 		<property name="required" value="false" />
 	</bean>
+	
+	<bean id="TEMProfile-onlyArrangeesInLookup" parent="TEMProfile-onlyArrangeesInLookup-parentBean"/>
+	<bean id="TEMProfile-onlyArrangeesInLookup-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
+		<property name="name" value="onlyArrangeesInLookup"/>
+		<property name="label" value="Return Only my Travelers?"/>
+		<property name="shortLabel" value="My Travelers"/>
+	</bean>
 
 	<bean id="TEMProfile-active" parent="TEMProfile-active-parentBean" />
 	<bean id="TEMProfile-active-parentBean" parent="GenericAttributes-genericBoolean">
@@ -809,6 +817,7 @@
 				<bean parent="FieldDefinition" p:attributeName="homeDepartment" />
                 <bean parent="FieldDefinition" p:attributeName="defaultChartCode" />
 				<bean parent="FieldDefinition" p:attributeName="defaultAccount" />
+				<bean parent="FieldDefinition" p:attributeName="onlyArrangeesInLookup"/>
 				<bean parent="FieldDefinition" p:attributeName="active" p:defaultValue="Y"/>
 			</list>
 		</property>

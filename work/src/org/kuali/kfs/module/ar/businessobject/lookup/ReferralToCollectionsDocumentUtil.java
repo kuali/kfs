@@ -212,8 +212,6 @@ public class ReferralToCollectionsDocumentUtil {
             rcDoc.setAgencyNumber(award.getAgencyNumber());
             rcDoc.setAgencyFullName(award.getAgency().getFullName());
             rcDoc.setCustomerNumber(selectedInvoice.getCustomer() != null ? selectedInvoice.getCustomer().getCustomerNumber() : award.getAgency().getCustomerNumber());
-            // line commented intentionally, will be changed soon.
-//            rcDoc.setCollectionStatusCode(award.getAgency().getCollectionStatus());
             rcDoc.setCustomerTypeCode(award.getAgency().getCustomerTypeCode());
             Customer customer = SpringContext.getBean(CustomerService.class).getByPrimaryKey(rcDoc.getCustomerNumber());
             if (customer != null)

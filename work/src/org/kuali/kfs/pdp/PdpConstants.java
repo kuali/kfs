@@ -118,6 +118,7 @@ public class PdpConstants {
 
     public static final String MAPPING_SELECTION = "selection";
     public static final String MAPPING_CONTINUE = "continue";
+    public static final String MAPPING_RUNNING = "running";
     public static final String MAPPING_FINISHED = "finished";
 
     public static class PDPEditMode {
@@ -192,7 +193,7 @@ public class PdpConstants {
         public static final String CHECK_STUB_TEXT = "checkStubText";
         public static final String AMOUNT = "amount";
     }
-    
+
     public static class PayeeACHAccountDocumentStrings{
         public static final String PAYEE_NAME = "Payee Name";
         public static final String PAYEE_EMAIL_ADDRESS = "Email Address";

@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -36,6 +36,7 @@ public class FormatForm extends KualiForm {
     private String campus;
     private String paymentDate;
     private String paymentTypes;
+    private String initiatorEmail;
 
     private FormatProcessSummary formatProcessSummary;
 
@@ -48,14 +49,14 @@ public class FormatForm extends KualiForm {
     public FormatForm() {
         super();
         customers = new ArrayList<CustomerProfile>();
-        ranges = new ArrayList<DisbursementNumberRange>();        
-        
+        ranges = new ArrayList<DisbursementNumberRange>();
+
          this.setFormatterType("range.lastAssignedDisbNbr", DisbursementNumberFormatter.class);
     }
 
     /**
      * This method gets campus
-     * 
+     *
      * @return campus
      */
     public String getCampus() {
@@ -64,7 +65,7 @@ public class FormatForm extends KualiForm {
 
     /**
      * This method sets campus
-     * 
+     *
      * @param campus
      */
     public void setCampus(String campus) {
@@ -73,7 +74,7 @@ public class FormatForm extends KualiForm {
 
     /**
      * This method gets payment types
-     * 
+     *
      * @return paymentTypes
      */
     public String getPaymentTypes() {
@@ -82,16 +83,24 @@ public class FormatForm extends KualiForm {
 
     /**
      * This method sets paymentTypes
-     * 
+     *
      * @param paymentTypes
      */
     public void setPaymentTypes(String paymentTypes) {
         this.paymentTypes = paymentTypes;
     }
 
+    public String getInitiatorEmail() {
+        return initiatorEmail;
+    }
+
+    public void setInitiatorEmail(String initiatorEmail) {
+        this.initiatorEmail = initiatorEmail;
+    }
+
     /**
      * This method gets customers
-     * 
+     *
      * @return customers
      */
     public List<CustomerProfile> getCustomers() {
@@ -100,7 +109,7 @@ public class FormatForm extends KualiForm {
 
     /**
      * This method sets customers
-     * 
+     *
      * @param customers
      */
     public void setCustomers(List<CustomerProfile> customers) {
@@ -109,7 +118,7 @@ public class FormatForm extends KualiForm {
 
     /**
      * This method retrieves a specific customer profile from the list, by index
-     * 
+     *
      * @param index the index of the customers to retrieve the customer profile from
      * @return a CustomerProfile
      */
@@ -119,12 +128,12 @@ public class FormatForm extends KualiForm {
                 customers.add(new CustomerProfile());
             }
         }
-        return (CustomerProfile) customers.get(index);
+        return customers.get(index);
     }
 
     /**
      * This method sets a customer profile.
-     * 
+     *
      * @param key the index of the value
      * @param value the new value
      */
@@ -135,7 +144,7 @@ public class FormatForm extends KualiForm {
 
     /**
      * This method gets the ranges.
-     * 
+     *
      * @return ranges list
      */
     public List<DisbursementNumberRange> getRanges() {
@@ -144,7 +153,7 @@ public class FormatForm extends KualiForm {
 
     /**
      * This method sets ranges list.
-     * 
+     *
      * @param ranges
      */
     public void setRanges(List<DisbursementNumberRange> ranges) {
@@ -153,7 +162,7 @@ public class FormatForm extends KualiForm {
 
     /**
      * This method retrieves a specific disbursement number range from the list, by index
-     * 
+     *
      * @param index the index of the ranges to retrieve the disbursement number range from
      * @return a DisbursementNumberRange
      */
@@ -163,12 +172,12 @@ public class FormatForm extends KualiForm {
                 ranges.add(new DisbursementNumberRange());
             }
         }
-        return (DisbursementNumberRange) ranges.get(index);
+        return ranges.get(index);
     }
 
     /**
      * This method gets the currency formated value of the total amount.
-     * 
+     *
      * @return the currency formated value of the total amount
      */
     public String getCurrencyFormattedTotalAmount() {
@@ -177,7 +186,7 @@ public class FormatForm extends KualiForm {
 
     /**
      * This method gets the payment date.
-     * 
+     *
      * @return paymentDate
      */
     public String getPaymentDate() {
@@ -186,7 +195,7 @@ public class FormatForm extends KualiForm {
 
     /**
      * This method sets the payment date.
-     * 
+     *
      * @param paymentDate
      */
     public void setPaymentDate(String paymentDate) {
@@ -195,7 +204,7 @@ public class FormatForm extends KualiForm {
 
     /**
      * This method gets the format process summary.
-     * 
+     *
      * @return formatProcessSummary
      */
     public FormatProcessSummary getFormatProcessSummary() {
@@ -204,13 +213,13 @@ public class FormatForm extends KualiForm {
 
     /**
      * This method sets the format process summary.
-     * 
+     *
      * @param formatProcessSummary
      */
     public void setFormatProcessSummary(FormatProcessSummary formatProcessSummary) {
         this.formatProcessSummary = formatProcessSummary;
     }
-    
+
     /**
      * @see org.apache.struts.action.ActionForm#reset(org.apache.struts.action.ActionMapping, javax.servlet.http.HttpServletRequest)
      */

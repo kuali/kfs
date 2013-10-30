@@ -297,9 +297,6 @@ public class TravelEncumbranceServiceImpl implements TravelEncumbranceService {
                 encumbranceMap.put(key, encumbrance);
             }
 
-            //processRelatedDocuments(document);
-
-
             //Adjust current encumbrances with the new amounts If new pending entry is found in encumbrance map, create a pending
             // entry to balance the difference by either crediting or debiting. If not found just continue on to be processed as
             // normal.
@@ -323,25 +320,32 @@ public class TravelEncumbranceServiceImpl implements TravelEncumbranceService {
                                 pendingEntry.setTransactionDebitCreditCode(KFSConstants.GL_DEBIT_CODE);
                             }
                             pendingEntry.setTransactionLedgerEntryAmount(difference);
-                            pendingEntriesIterator.next().setTransactionLedgerEntryAmount(difference);
+                            GeneralLedgerPendingEntry offset = pendingEntriesIterator.next();
+                            offset.setTransactionLedgerEntryAmount(difference);
                         }
                         else if (difference.isLessEqual(KualiDecimal.ZERO)) {
                             difference = difference.negated();
                             pendingEntry.setTransactionLedgerEntryAmount(difference);
-                            pendingEntriesIterator.next().setTransactionLedgerEntryAmount(difference);
+                            GeneralLedgerPendingEntry offset = pendingEntriesIterator.next();
+                            offset.setTransactionLedgerEntryAmount(difference);
                         }
                     }
                 }
             }
 
-             //Loop through and remove encumbrances from map. This is done here because there is a possibility of pending entries
-             //with the same account number.
+            //Loop through and remove encumbrances from map. This is done here because there is a possibility of pending entries
+            //with the same account number. Also, filter out 0 amount entries
+            List<GeneralLedgerPendingEntry> continuingPendingEntries = new ArrayList<GeneralLedgerPendingEntry>();
             for (GeneralLedgerPendingEntry pendingEntry : document.getGeneralLedgerPendingEntries()) {
                 if (!StringUtils.defaultString(pendingEntry.getOrganizationReferenceId()).contains(TemConstants.IMPORTED_FLAG) && !pendingEntry.isTransactionEntryOffsetIndicator()) {
                     final String key = buildKey(pendingEntry);
                     encumbranceMap.remove(key);
                 }
+                if (!pendingEntry.getTransactionLedgerEntryAmount().equals(KualiDecimal.ZERO)) {
+                    continuingPendingEntries.add(pendingEntry);
+                }
             }
+            document.setGeneralLedgerPendingEntries(continuingPendingEntries);
 
             //Find any remaining encumbrances that no longer should exist in the new TAA.
             if (!encumbranceMap.isEmpty()) {

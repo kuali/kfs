@@ -30,4 +30,9 @@ public interface TravelEntertainmentMovingModuleService {
     public boolean isTravelReimbursementDocument(TravelEntertainmentMovingTravelDocument document);
 
     public void createAccountingDocumentRelationship(String documentNumber, String relDocumentNumber, String relationDescription);
+
+    /**
+     * @return the name of the sub unit that PDP will use to pay and cancel TEM payments
+     */
+    public String getPdpSubUnit();
 }

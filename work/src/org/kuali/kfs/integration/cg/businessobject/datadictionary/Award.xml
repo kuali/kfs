@@ -25,6 +25,7 @@
     <property name="attributes">
       <list>
         <ref bean="Award-proposalNumber"/>
+        <ref bean="Award-awardTotalAmount" />
       </list>
     </property>
   </bean>
@@ -47,4 +48,15 @@
       <bean parent="TextControlDefinition" p:size="14"/>
     </property>
   </bean>
+  
+  	<bean id="Award-awardTotalAmount" parent="Award-awardTotalAmount-parentBean" />
+
+	<bean id="Award-awardTotalAmount-parentBean" abstract="true"
+		parent="GenericAttributes-genericAmount">
+		<property name="name" value="awardTotalAmount" />
+		<property name="label" value="Total Amount" />
+		<property name="shortLabel" value="Total" />
+		<property name="formatterClass"
+			value="org.kuali.rice.core.web.format.CurrencyFormatter" />
+	</bean>
 </beans>

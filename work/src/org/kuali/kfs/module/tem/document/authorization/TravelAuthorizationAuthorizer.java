@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.tem.document.authorization;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -28,9 +29,11 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
+import org.kuali.rice.kew.api.doctype.DocumentTypeService;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.role.RoleService;
+import org.kuali.rice.kim.util.KimCommonUtils;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -200,8 +203,23 @@ public class TravelAuthorizationAuthorizer extends TravelArrangeableAuthorizer {
             final List<Map<String,String>> userAccountingReviewQualifiers = getRoleService().getRoleQualifersForPrincipalByNamespaceAndRolename(currentUser.getPrincipalId(), KFSConstants.SysKimApiConstants.ACCOUNTING_REVIEWER_ROLE_NAMESPACECODE, KFSConstants.SysKimApiConstants.ACCOUNTING_REVIEWER_ROLE_NAME, testQualifier);
 
             if (userAccountingReviewQualifiers != null && !userAccountingReviewQualifiers.isEmpty()) {
-                attributes.putAll(userAccountingReviewQualifiers.get(0)); // the whole list matches but let's just use the first
-                return true;
+                // let's make sure that our given doc type actually matches - we've seen weird bugs with that
+                for (Map<String, String> qualifier : userAccountingReviewQualifiers) {
+                    if (qualifier.containsKey(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME)) {
+                        Set<String> possibleParentDocumentTypes = new HashSet<String>();
+                        possibleParentDocumentTypes.add(qualifier.get(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME));
+
+                        final String closestParent = KimCommonUtils.getClosestParentDocumentTypeName(SpringContext.getBean(DocumentTypeService.class).getDocumentTypeByName(testQualifier.get(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME)), possibleParentDocumentTypes);
+                        if (closestParent != null) {
+                            attributes.putAll(qualifier);
+                            return true;
+                        }
+                    } else {
+                        // no doc type.  That's weird, but whatever - it passes
+                        attributes.putAll(qualifier);
+                        return true;
+                    }
+                }
             }
         }
         return false;

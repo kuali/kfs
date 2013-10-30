@@ -76,11 +76,18 @@
 
 	<bean
 		id="LetterOfCreditFund-letterOfCreditFundGroup.letterOfCreditFundGroupDescription-parent"
-		parent="LetterOfCreditFundGroup-letterOfCreditFundGroupDescription"
-		abstract="true">
+		abstract="true" parent="AttributeDefinition">
 		<property name="name"
 			value="letterOfCreditFundGroup.letterOfCreditFundGroupDescription" />
 		<property name="label" value="LOC Fund Group Description" />
+		<property name="shortLabel" value="Description" />
+		<property name="maxLength" value="40" />
+		<property name="validationPattern">
+			<ref bean="AnyCharacterWithWhitespaceValidation" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="42" />
+		</property>
 	</bean>
 
 	<bean id="LetterOfCreditFund-documentNumber-parentBean" abstract="true"

@@ -26,6 +26,8 @@
       <list>
         <ref bean="Award-proposalNumber"/>
         <ref bean="Award-awardTotalAmount" />
+        <ref bean="Award-awardEndingDate" />
+        <ref bean="Award-awardDocumentNumber" />
       </list>
     </property>
   </bean>
@@ -58,5 +60,30 @@
 		<property name="shortLabel" value="Total" />
 		<property name="formatterClass"
 			value="org.kuali.rice.core.web.format.CurrencyFormatter" />
+	</bean>
+
+	<bean id="Award-awardEndingDate" parent="Award-awardEndingDate-parentBean" />
+
+	<bean id="Award-awardEndingDate-parentBean" abstract="true"
+		parent="GenericAttributes-genericDate">
+		<property name="name" value="awardEndingDate" />
+		<property name="label" value="Stop Date" />
+		<property name="shortLabel" value="Stop" />
+	</bean>
+	
+		<bean id="Award-awardDocumentNumber" parent="Award-awardDocumentNumber-parentBean" />
+
+	<bean id="Award-awardDocumentNumber-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="name" value="awardDocumentNumber" />
+		<property name="label" value="Award Document Number" />
+		<property name="shortLabel" value="Number" />
+		<property name="maxLength" value="12" />
+		<property name="validationPattern">
+			<ref bean="AnyCharacterValidation" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="14" />
+		</property>
 	</bean>
 </beans>

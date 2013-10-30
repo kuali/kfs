@@ -92,8 +92,8 @@
 
 	<bean id="MilestoneSchedule-award.agency.fullName-parentBean"
 		abstract="true" parent="ExternalizableAttributeDefinitionProxy"
-		p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward"
-		p:sourceAttributeName="agency.fullName">
+		p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAgency"
+		p:sourceAttributeName="fullName">
 		<property name="name" value="award.agency.fullName" />
 		<property name="label" value="Agency Name" />
 		<property name="shortLabel" value="Name" />

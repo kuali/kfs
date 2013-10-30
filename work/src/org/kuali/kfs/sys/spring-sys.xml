@@ -126,7 +126,7 @@
 		</property>
 	</bean>
 	
-    <bean id="kfsSoapServiceDefinition" parent="kfsSoapServiceDefinition-parentBean">
+    <bean id="kfsSoapServiceDefinition" parent="kfsSoapServiceDefinition-parentBean"/>
  
     <bean id="kfsSoapServiceDefinition-parentBean" abstract="true" 
           class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition"

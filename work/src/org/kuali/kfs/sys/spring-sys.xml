@@ -126,15 +126,17 @@
 		</property>
 	</bean>
 	
-	<bean id="kfsSoapServiceDefinition" abstract="true" 
-		  class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition"
-		  p:jaxWsService="true"
-		  p:priority="3"
-		  p:retryAttempts="0"
-		  p:busSecurity="${soap.service.default.service.bus.security.enabled}"
-		  p:serviceVersion="${kfs.version}"
-		  p:servicePath=""
-		  p:serviceNameSpaceURI="${kfs.service.namespace.uri}" />
+    <bean id="kfsSoapServiceDefinition" parent="kfsSoapServiceDefinition-parentBean">
+ 
+    <bean id="kfsSoapServiceDefinition-parentBean" abstract="true" 
+          class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition"
+          p:jaxWsService="true"
+          p:priority="3"
+          p:retryAttempts="0"
+          p:busSecurity="${soap.service.default.service.bus.security.enabled}"
+          p:serviceVersion="${kfs.version}"
+          p:serviceNameSpaceURI="${kfs.service.namespace.uri}"
+          p:servicePath="" />
 
 	<bean id="kfsServiceBusExporter" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter" abstract="true"
 		  p:serviceBus-ref="rice.ksb.serviceBus" />

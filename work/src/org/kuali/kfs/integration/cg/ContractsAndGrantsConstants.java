@@ -1,12 +1,12 @@
 /*
  * Copyright 2010 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -20,45 +20,6 @@ public class ContractsAndGrantsConstants {
     public static final String MODULE_TARGET_NAMESPACE = "KFS";
 
     private ContractsAndGrantsConstants() {
-    }
-
-    public static class KcWebService {
-        public static final String STATUS_KC_SUCCESS = "success";
-        public static final String STATUS_KC_FAILURE = "failure";
-        public static final String ERROR_KC_WEB_SERVICE_FAILURE = "error.kc.document.unable to access the KC web server: ";
-    }
-
-    public static class AwardCreationService {
-        public static final String WEB_SERVICE_NAME = "awardCreationService";
-        public static final String ERROR_KC_DOCUMENT_INVALID_USER = "error.kc.document.invalid.user";
-        public static final String ERROR_UNABLE_TO_UPDATE_AWARD_RECORD_NOT_FOUND = "Unable to update Award because record is not found";
-        public static final String AUTOMATIC_CREATE_CG_AWARD_MAINTENANCE_DOCUMENT_DESCRIPTION = "Automatic CG Award Document Creation";
-        public static final String AUTOMATIC_UPDATE_CG_AWARD_MAINTENANCE_DOCUMENT_DESCRIPTION = "Automatic CG Award Document Update";
-        public static final String WARNING_KC_DOCUMENT_WORKFLOW_EXCEPTION_DOCUMENT_ACTIONS = "warning.kc.document.workflowException.document.actions";
-        public static final String ERROR_CG_PROPOSAL_CREATION_FAILED = "error.kc.document.proposal.creation.failed";
-        public static final String ERROR_CG_AWARD_TO_UPDATE_NOT_YET_FINAL = "error.cg.award.to.update.not.yet.final";
-        public static final String ACCOUNT_NUMBER_AND_CHART_CODE_CANNOT_BE_BLANK = "Account Number and Chart Code cannot be blank";
-        public static final String ACCOUNT_NUMBER_AND_CHART_CODE_CANNOT_DOES_NOT_EXIST = "error.cg.award.account.number.chart.code.does.not.exist";
-        public static final String ERROR_SPONSOR_CODE_DOES_NOT_EXIST = "error.cg.sponsor.code.does.not.exist";
-    }
-
-    public static class AgencyCreationService {
-        public static final String WEB_SERVICE_NAME = "agencyCreationService";
-        public static final String ERROR_KC_DOCUMENT_INVALID_USER = "error.kc.document.invalid.user";
-        public static final String AUTOMATIC_CREATE_CG_AGENCY_MAINTENANCE_DOCUMENT_DESCRIPTION = "Automatic CG Agency Document Creation";
-        public static final String AUTOMATIC_UPDATE_CG_AGENCY_MAINTENANCE_DOCUMENT_DESCRIPTION = "Automatic CG Agency Document Update";
-        public static final String WARNING_KC_DOCUMENT_WORKFLOW_EXCEPTION_DOCUMENT_ACTIONS = "warning.kc.document.workflowException.document.actions";
-        public static final String ERROR_UNABLE_TO_UPDATE_AGENCY_RECORD_NOT_FOUND = "Unable to update agency because record is not found";
-        public static final String PARAMETER_DEFAULT_AGENCY_TYPE_CODE = "DEFAULT_AGENCY_TYPE_CODE";
-        public static final String PARAMETER_COMPONENT_AGENCY_TYPE = "AgencyType";
-    }
-
-    public static class ProposalCreationService {
-        public static final String WEB_SERVICE_NAME = "proposalCreationService";
-        public static final String ERROR_KC_DOCUMENT_INVALID_USER = "error.kc.document.invalid.user";
-        public static final String AUTOMATIC_CREATE_CG_PROPOSAL_MAINTENANCE_DOCUMENT_DESCRIPTION = "Automatic CG Proposal Document Creation";
-        public static final String ERROR_KC_PROPOSAL_PARAMS_UNIT_NOTFOUND = "error.kc.proposal.params.unit.notfound";
-        public static final String ERROR_KC_DOCUMENT_PROPOSAL_RULES_EXCEPTION = "error.kc.document.proposal.rules.exception";
     }
 
     public static class AccountCreationService {

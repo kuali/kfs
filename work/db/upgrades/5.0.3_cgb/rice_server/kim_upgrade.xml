@@ -283,37 +283,8 @@
 		</insert>
 	</changeSet>
 
-	<!-- Create Funds Manager role and assign responsibility -->
-
-	<changeSet author="kfs" id="FIX_FUND_MANAGER_RSP_ATTR_DATA_1">
-		<update tableName="krim_rsp_attr_data_t">
-			<column name="RSP_ID">169</column>
-			<where>ATTR_DATA_ID='KFS169'</where>
-		</update>
-	</changeSet>
-
-	<changeSet author="kfs" id="FIX_FUND_MANAGER_RSP_ATTR_DATA_2">
-		<update tableName="krim_rsp_attr_data_t">
-			<column name="RSP_ID">169</column>
-			<where>ATTR_DATA_ID='KFS170'</where>
-		</update>
-	</changeSet>
-
-	<changeSet author="kfs" id="FIX_FUND_MANAGER_RSP_ATTR_DATA_3">
-		<update tableName="krim_rsp_attr_data_t">
-			<column name="RSP_ID">169</column>
-			<where>ATTR_DATA_ID='KFS171'</where>
-		</update>
-	</changeSet>
-
-	<changeSet author="kfs" id="FIX_FUND_MANAGER_RSP_ATTR_DATA_4">
-		<update tableName="krim_rsp_attr_data_t">
-			<column name="RSP_ID">169</column>
-			<where>ATTR_DATA_ID='KFS172'</where>
-		</update>
-	</changeSet>
 <changeSet author="kfs" id="ADD_FUND_MANAGER_RSP_ATTR_DATA">
-		<insert tableName="KRIM_ROLE_PERM_T">
+		<insert tableName="krim_rsp_attr_data_t">
 			<column name="ATTR_DATA_ID" value="KFS169" />
 			<column name="OBJ_ID" value="KFS169" />
 			<column name="VER_NBR" value="1" />
@@ -323,7 +294,7 @@
 			<column name="ATTR_VAL" value="FundsManager" />
 		</insert>
 
-		<insert tableName="KRIM_ROLE_PERM_T">
+		<insert tableName="krim_rsp_attr_data_t">
 			<column name="ATTR_DATA_ID" value="KFS170" />
 			<column name="OBJ_ID" value="KFS170" />
 			<column name="VER_NBR" value="1" />
@@ -333,7 +304,7 @@
 			<column name="ATTR_VAL" value="CGIN" />
 		</insert>
 
-		<insert tableName="KRIM_ROLE_PERM_T">
+		<insert tableName="krim_rsp_attr_data_t">
 			<column name="ATTR_DATA_ID" value="KFS171" />
 			<column name="OBJ_ID" value="KFS171" />
 			<column name="VER_NBR" value="1" />
@@ -343,7 +314,7 @@
 			<column name="ATTR_VAL" value="FALSE" />
 		</insert>
 
-		<insert tableName="KRIM_ROLE_PERM_T">
+		<insert tableName="krim_rsp_attr_data_t">
 			<column name="ATTR_DATA_ID" value="KFS172" />
 			<column name="OBJ_ID" value="KFS172" />
 			<column name="VER_NBR" value="1" />

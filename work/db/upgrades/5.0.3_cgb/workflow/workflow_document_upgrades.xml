@@ -1,0 +1,943 @@
+<data xmlns="ns:workflow" xsi:schemaLocation="ns:workflow resource:WorkflowData"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+	<ruleAttributes xmlns="ns:workflow/RuleAttribute"
+		xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
+
+	</ruleAttributes>
+
+	<documentTypes xmlns="ns:workflow/DocumentType"
+		xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+		<!-- Added from AccountsReceivableSimpleMaintenanceDocuments.xml -->
+		<documentType>
+			<name>
+				CATY
+			</name>
+			<parent>
+				ARSM
+			</parent>
+			<label>
+				Customer Address Type
+			</label>
+			<helpDefinitionURL>
+				default.htm?turl=WordDocuments%2Fcustomeraddresstype.htm
+			</helpDefinitionURL>
+			<active>
+				true
+			</active>
+			<routingVersion>
+				2
+			</routingVersion>
+		</documentType>
+		<documentType>
+			<name>
+				IICO
+			</name>
+			<parent>
+				ARSM
+			</parent>
+			<label>
+				Customer Invoice Item Code
+			</label>
+			<helpDefinitionURL>
+				default.htm?turl=WordDocuments%2Fcustomerinvoiceitemcode.htm
+			</helpDefinitionURL>
+			<active>
+				true
+			</active>
+			<routingVersion>
+				2
+			</routingVersion>
+		</documentType>
+		<documentType>
+			<name>
+				CTY
+			</name>
+			<parent>
+				ARSM
+			</parent>
+			<label>
+				Customer Type
+			</label>
+			<helpDefinitionURL>
+				default.htm?turl=WordDocuments%2Fcustomertype.htm
+			</helpDefinitionURL>
+			<active>
+				true
+			</active>
+			<routingVersion>
+				2
+			</routingVersion>
+		</documentType>
+		<documentType>
+			<name>
+				CATP
+			</name>
+			<parent>
+				ARSM
+			</parent>
+			<label>
+				Collection Activity Type
+			</label>
+			<helpDefinitionURL>
+				default.htm?turl=WordDocuments%2Fcollectionactivitytype.htm
+			</helpDefinitionURL>
+			<active>
+				true
+			</active>
+			<routingVersion>
+				2
+			</routingVersion>
+		</documentType>
+		<documentType>
+			<name>
+				CSTS
+			</name>
+			<parent>
+				ARSM
+			</parent>
+			<label>
+				Collection Status
+			</label>
+			<helpDefinitionURL>
+				default.htm?turl=WordDocuments%2Fcollectionstatus.htm
+			</helpDefinitionURL>
+			<active>
+				true
+			</active>
+			<routingVersion>
+				2
+			</routingVersion>
+		</documentType>
+		<documentType>
+			<name>
+				DLTS
+			</name>
+			<parent>
+				ARSM
+			</parent>
+			<label>
+				Dunning Letter Templates
+			</label>
+			<helpDefinitionURL>
+				default.htm?turl=WordDocuments%2Fdunninglettertemplates.htm
+			</helpDefinitionURL>
+			<active>
+				true
+			</active>
+			<routingVersion>
+				2
+			</routingVersion>
+		</documentType>
+		<documentType>
+			<name>
+				DUNC
+			</name>
+			<parent>
+				ARSM
+			</parent>
+			<label>
+				Dunning Campaign
+			</label>
+			<helpDefinitionURL>
+				default.htm?turl=WordDocuments%2FdunningCampaign.htm
+			</helpDefinitionURL>
+			<active>
+				true
+			</active>
+			<routingVersion>
+				2
+			</routingVersion>
+		</documentType>
+		<documentType>
+			<name>
+				PMED
+			</name>
+			<parent>
+				ARSM
+			</parent>
+			<label>
+				Payment Medium
+			</label>
+			<helpDefinitionURL>
+				default.htm?turl=WordDocuments%2Fpaymentmedium.htm
+			</helpDefinitionURL>
+			<active>
+				true
+			</active>
+			<routingVersion>
+				2
+			</routingVersion>
+		</documentType>
+		<documentType>
+			<name>
+				ARSI
+			</name>
+			<parent>
+				ARSM
+			</parent>
+			<label>
+				System Information
+			</label>
+			<helpDefinitionURL>
+				default.htm?turl=WordDocuments%2Fsysteminformation.htm
+			</helpDefinitionURL>
+			<active>
+				true
+			</active>
+			<routingVersion>
+				2
+			</routingVersion>
+		</documentType>
+		<documentType>
+			<name>
+				CGCT
+			</name>
+			<parent>
+				ARSM
+			</parent>
+			<label>
+				Category
+			</label>
+			<helpDefinitionURL>
+				default.htm?turl=WordDocuments%2Fcategoryhelp.htm
+			</helpDefinitionURL>
+			<active>
+				true
+			</active>
+			<routingVersion>
+				2
+			</routingVersion>
+		</documentType>
+		<documentType>
+			<name>
+				CGSC
+			</name>
+			<parent>
+				ARSM
+			</parent>
+			<label>
+				Suspension Category
+			</label>
+			<helpDefinitionURL>
+				default.htm?turl=WordDocuments%2Fsuspensioncategory.htm
+			</helpDefinitionURL>
+			<active>
+				true
+			</active>
+			<routingVersion>
+				2
+			</routingVersion>
+		</documentType>
+		<documentType>
+			<name>
+				FDSP
+			</name>
+			<parent>
+				ARSM
+			</parent>
+			<label>
+				Final Disposition
+			</label>
+			<helpDefinitionURL>
+				default.htm?turl=WordDocuments%2FfinalDisposition.htm
+			</helpDefinitionURL>
+			<active>
+				true
+			</active>
+			<routingVersion>
+				2
+			</routingVersion>
+		</documentType>
+		<documentType>
+			<name>
+				RFTY
+			</name>
+			<parent>
+				ARSM
+			</parent>
+			<label>
+				Referral Type
+			</label>
+			<helpDefinitionURL>
+				default.htm?turl=WordDocuments%2FreferralType.htm
+			</helpDefinitionURL>
+			<active>
+				true
+			</active>
+			<routingVersion>
+				2
+			</routingVersion>
+		</documentType>
+		<documentType>
+			<name>
+				CGMS
+			</name>
+			<parent>
+				CGSM
+			</parent>
+			<label>
+				Milestone Schedule
+			</label>
+			<helpDefinitionURL>
+				default.htm?turl=WordDocuments%2Fmilestoneschedule.htm
+			</helpDefinitionURL>
+			<active>
+				true
+			</active>
+			<routingVersion>
+				2
+			</routingVersion>
+		</documentType>
+
+		<!-- Added from AccountsReceivableMaintenanceDocuments.xml -->
+		<documentType>
+			<name>
+				INVR
+			</name>
+			<parent>
+				ARM
+			</parent>
+			<label>
+				Invoice Recurrence
+			</label>
+			<helpDefinitionURL>
+				default.htm?turl=WordDocuments%2Finvoicerecurrence.htm
+			</helpDefinitionURL>
+			<active>
+				true
+			</active>
+			<routingVersion>
+				2
+			</routingVersion>
+			<routePaths>
+				<routePath>
+					<start name="AdHoc" nextNode="InvoiceRecurrenceIsInactivating" />
+					<split name="InvoiceRecurrenceIsInactivating" nextNode="InitiatedBySystemUser">
+						<branch name="True">
+							<role name="RecurrenceCreator" nextNode="JoinInvoiceRecurrenceIsInactivating" />
+						</branch>
+						<branch name="False">
+							<simple name="NoOpInvoiceRecurrenceIsInactivating"
+								nextNode="JoinInvoiceRecurrenceIsInactivating" />
+						</branch>
+						<join name="JoinInvoiceRecurrenceIsInactivating" />
+					</split>
+					<split name="InitiatedBySystemUser">
+						<branch name="True">
+							<simple name="NoOpInitiatedBySystemUser" nextNode="JoinInitiatedBySystemUser" />
+						</branch>
+						<branch name="False">
+							<role name="Account" nextNode="Recurrence" />
+							<role name="Recurrence" nextNode="JoinInitiatedBySystemUser" />
+						</branch>
+						<join name="JoinInitiatedBySystemUser" />
+					</split>
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="AdHoc" />
+				<split name="InvoiceRecurrenceIsInactivating">
+					<type>
+						org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode
+					</type>
+				</split>
+				<role name="RecurrenceCreator">
+					<qualifierResolverClass>
+						org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
+					</qualifierResolverClass>
+					<activationType>
+						P
+					</activationType>
+				</role>
+				<join name="JoinInvoiceRecurrenceIsInactivating" />
+				<simple name="NoOpInvoiceRecurrenceIsInactivating">
+					<type>
+						org.kuali.rice.kew.engine.node.NoOpNode
+					</type>
+				</simple>
+				<split name="InitiatedBySystemUser">
+					<type>
+						org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode
+					</type>
+				</split>
+				<simple name="NoOpInitiatedBySystemUser">
+					<type>
+						org.kuali.rice.kew.engine.node.NoOpNode
+					</type>
+				</simple>
+				<join name="JoinInitiatedBySystemUser" />
+				<role name="Recurrence">
+					<qualifierResolverClass>
+						org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
+					</qualifierResolverClass>
+					<activationType>
+						P
+					</activationType>
+				</role>
+				<role name="Account">
+					<qualifierResolverClass>
+						org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
+					</qualifierResolverClass>
+					<activationType>
+						P
+					</activationType>
+				</role>
+			</routeNodes>
+		</documentType>
+		<documentType>
+			<name>
+				CUS
+			</name>
+			<parent>
+				ARM
+			</parent>
+			<label>
+				Customer
+			</label>
+			<helpDefinitionURL>
+				default.htm?turl=WordDocuments%2Fcustomer.htm
+			</helpDefinitionURL>
+			<active>
+				true
+			</active>
+			<routingVersion>
+				2
+			</routingVersion>
+			<routePaths>
+				<routePath>
+					<start name="AdHoc" nextNode="RequiresApproval" />
+					<split name="RequiresApproval">
+						<branch name="True">
+							<role name="Management" nextNode="Join" />
+						</branch>
+						<branch name="False">
+							<simple name="NoOp" nextNode="Join" />
+						</branch>
+						<join name="Join" />
+					</split>
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="AdHoc" />
+				<split name="RequiresApproval">
+					<type>
+						org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode
+					</type>
+				</split>
+				<role name="Management">
+					<qualifierResolverClass>
+						org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
+					</qualifierResolverClass>
+				</role>
+				<join name="Join" />
+				<simple name="NoOp">
+					<type>
+						org.kuali.rice.kew.engine.node.NoOpNode
+					</type>
+				</simple>
+			</routeNodes>
+		</documentType>
+		<documentType>
+			<name>
+				OADF
+			</name>
+			<parent>
+				ARM
+			</parent>
+			<label>
+				Organization Accounting Default
+			</label>
+			<helpDefinitionURL>
+				default.htm?turl=WordDocuments%2Forganizationaccountingdefault.htm
+			</helpDefinitionURL>
+			<active>
+				true
+			</active>
+			<routingVersion>
+				2
+			</routingVersion>
+			<routePaths>
+				<routePath>
+					<start name="AdHoc" nextNode="OrganizationHierarchy" />
+					<role name="OrganizationHierarchy" />
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="AdHoc" />
+				<role name="OrganizationHierarchy">
+					<qualifierResolverClass>
+						org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
+					</qualifierResolverClass>
+				</role>
+			</routeNodes>
+		</documentType>
+		<documentType>
+			<name>
+				OOPT
+			</name>
+			<parent>
+				ARM
+			</parent>
+			<label>
+				Organization Options
+			</label>
+			<helpDefinitionURL>
+				default.htm?turl=WordDocuments%2Forganizationoptions.htm
+			</helpDefinitionURL>
+			<active>
+				true
+			</active>
+			<routingVersion>
+				2
+			</routingVersion>
+			<routePaths>
+				<routePath>
+					<start name="AdHoc" nextNode="OrganizationHierarchy" />
+					<role name="OrganizationHierarchy" nextNode="Management" />
+					<role name="Management" />
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="AdHoc" />
+				<role name="OrganizationHierarchy">
+					<qualifierResolverClass>
+						org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
+					</qualifierResolverClass>
+				</role>
+				<role name="Management">
+					<qualifierResolverClass>
+						org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
+					</qualifierResolverClass>
+				</role>
+			</routeNodes>
+		</documentType>
+
+		<!-- Added from AccountsReceivableTransactionalDocuments.xml -->
+		<documentType>
+			<name>
+				CTRL
+			</name>
+			<parent>
+				AR
+			</parent>
+			<label>
+				Cash Control
+			</label>
+			<docHandler>
+				${kfs.url}/arCashControlDocument.do?methodToCall=docHandler
+			</docHandler>
+			<helpDefinitionURL>
+				default.htm?turl=WordDocuments%2Fcashcontrol.htm
+			</helpDefinitionURL>
+			<docSearchHelpURL>
+				default.htm?turl=WordDocuments%2Fcustomdocumentsearches.htm
+			</docSearchHelpURL>
+			<active>
+				true
+			</active>
+			<routingVersion>
+				2
+			</routingVersion>
+			<routePaths>
+				<routePath>
+					<start name="AdHoc" nextNode="Lockbox" />
+					<role name="Lockbox" nextNode="AssociatedWithElectronicPayment" />
+					<split name="AssociatedWithElectronicPayment">
+						<branch name="True">
+							<role name="ElectronicPayment" nextNode="Join" />
+						</branch>
+						<branch name="False">
+							<simple name="NoOp" nextNode="Join" />
+						</branch>
+						<join name="Join" />
+					</split>
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="AdHoc" />
+				<role name="Lockbox">
+					<qualifierResolverClass>
+						org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+					</qualifierResolverClass>
+					<mandatoryRoute>
+						true
+					</mandatoryRoute>
+				</role>
+				<split name="AssociatedWithElectronicPayment">
+					<type>
+						org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode
+					</type>
+				</split>
+				<role name="ElectronicPayment">
+					<qualifierResolverClass>
+						org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+					</qualifierResolverClass>
+				</role>
+				<join name="Join" />
+				<simple name="NoOp">
+					<type>
+						org.kuali.rice.kew.engine.node.NoOpNode
+					</type>
+				</simple>
+			</routeNodes>
+		</documentType>
+		<documentType>
+			<name>
+				APP
+			</name>
+			<parent>
+				AR
+			</parent>
+			<label>
+				Application
+			</label>
+			<docHandler>
+				${kfs.url}/arPaymentApplicationDocument.do?methodToCall=docHandler
+			</docHandler>
+			<helpDefinitionURL>
+				default.htm?turl=WordDocuments%2Fpaymentapplication.htm
+			</helpDefinitionURL>
+			<docSearchHelpURL>
+				default.htm?turl=WordDocuments%2Fcustomdocumentsearches.htm
+			</docSearchHelpURL>
+			<active>
+				true
+			</active>
+			<routingVersion>
+				2
+			</routingVersion>
+		</documentType>
+		<documentType>
+			<name>
+				CATD
+			</name>
+			<parent>
+				AR
+			</parent>
+			<label>
+				Collection Activity
+			</label>
+			<docHandler>
+				${kfs.url}/arCollectionActivityDocument.do?methodToCall=docHandler
+			</docHandler>
+			<helpDefinitionURL>
+				default.htm?turl=WordDocuments%2Fcollectionactivity.htm
+			</helpDefinitionURL>
+			<docSearchHelpURL>
+				default.htm?turl=WordDocuments%2Fcustomdocumentsearches.htm
+			</docSearchHelpURL>
+			<active>
+				true
+			</active>
+			<routingVersion>
+				2
+			</routingVersion>
+		</documentType>
+		<documentType>
+			<name>
+				RTCL
+			</name>
+			<parent>
+				AR
+			</parent>
+			<label>
+				Referral To Collections
+			</label>
+			<docHandler>
+				${kfs.url}/arReferralToCollectionsDocument.do?methodToCall=docHandler
+			</docHandler>
+			<helpDefinitionURL>
+				default.htm?turl=WordDocuments%2Freferraltocollections.htm
+			</helpDefinitionURL>
+			<docSearchHelpURL>
+				default.htm?turl=WordDocuments%2Fcustomdocumentsearches.htm
+			</docSearchHelpURL>
+			<active>
+				true
+			</active>
+			<routingVersion>
+				2
+			</routingVersion>
+		</documentType>
+		<documentType>
+			<name>
+				INVW
+			</name>
+			<parent>
+				AR
+			</parent>
+			<label>
+				Customer Invoice Writeoff
+			</label>
+			<docHandler>
+				${kfs.url}/arCustomerInvoiceWriteoffDocument.do?methodToCall=docHandler
+			</docHandler>
+			<helpDefinitionURL>
+				default.htm?turl=WordDocuments%2Fcustomerinvoicewriteoff.htm
+			</helpDefinitionURL>
+			<docSearchHelpURL>
+				default.htm?turl=WordDocuments%2Fcustomdocumentsearches.htm
+			</docSearchHelpURL>
+			<active>
+				true
+			</active>
+			<routingVersion>
+				2
+			</routingVersion>
+			<routePaths>
+				<routePath>
+					<start name="AdHoc" nextNode="RequiresApproval" />
+					<split name="RequiresApproval">
+						<branch name="True">
+							<role name="Account" nextNode="Join" />
+						</branch>
+						<branch name="False">
+							<simple name="NoOp" nextNode="Join" />
+						</branch>
+						<join name="Join" />
+					</split>
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="AdHoc" />
+				<split name="RequiresApproval">
+					<type>
+						org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode
+					</type>
+				</split>
+				<role name="Account">
+					<qualifierResolverClass>
+						org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+					</qualifierResolverClass>
+					<activationType>
+						P
+					</activationType>
+				</role>
+				<join name="Join" />
+				<simple name="NoOp">
+					<type>
+						org.kuali.rice.kew.engine.node.NoOpNode
+					</type>
+				</simple>
+			</routeNodes>
+		</documentType>
+		<documentType>
+			<name>
+				CRM
+			</name>
+			<parent>
+				AR
+			</parent>
+			<label>
+				Customer Credit Memo
+			</label>
+			<docHandler>
+				${kfs.url}/arCustomerCreditMemoDocument.do?methodToCall=docHandler
+			</docHandler>
+			<helpDefinitionURL>
+				default.htm?turl=WordDocuments%2Fcustomercreditmemo.htm
+			</helpDefinitionURL>
+			<docSearchHelpURL>
+				default.htm?turl=WordDocuments%2Fcustomdocumentsearches.htm
+			</docSearchHelpURL>
+			<active>
+				true
+			</active>
+			<routingVersion>
+				2
+			</routingVersion>
+			<routePaths>
+				<routePath>
+					<start name="AdHoc" nextNode="Account" />
+					<role name="Account" />
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="AdHoc" />
+				<role name="Account">
+					<qualifierResolverClass>
+						org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+					</qualifierResolverClass>
+					<activationType>
+						P
+					</activationType>
+				</role>
+			</routeNodes>
+		</documentType>
+		<documentType>
+			<name>
+				INV
+			</name>
+			<parent>
+				AR
+			</parent>
+			<label>
+				Customer Invoice
+			</label>
+			<docHandler>
+				${kfs.url}/arCustomerInvoiceDocument.do?methodToCall=docHandler
+			</docHandler>
+			<helpDefinitionURL>
+				default.htm?turl=WordDocuments%2Fcustomerinvoice.htm
+			</helpDefinitionURL>
+			<docSearchHelpURL>
+				default.htm?turl=WordDocuments%2Fcustomdocumentsearches.htm
+			</docSearchHelpURL>
+			<active>
+				true
+			</active>
+			<routingVersion>
+				2
+			</routingVersion>
+			<routePaths>
+				<routePath>
+					<start name="AdHoc" nextNode="HasReccurence" />
+					<split name="HasReccurence">
+						<branch name="True">
+							<role name="Account" nextNode="Recurrence" />
+							<role name="Recurrence" nextNode="Join" />
+						</branch>
+						<branch name="False">
+							<simple name="NoOp" nextNode="Join" />
+						</branch>
+						<join name="Join" />
+					</split>
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="AdHoc" />
+				<split name="HasReccurence">
+					<type>
+						org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode
+					</type>
+				</split>
+				<role name="Account">
+					<qualifierResolverClass>
+						org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+					</qualifierResolverClass>
+					<activationType>
+						P
+					</activationType>
+				</role>
+				<role name="Recurrence">
+					<qualifierResolverClass>
+						org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+					</qualifierResolverClass>
+					<activationType>
+						P
+					</activationType>
+				</role>
+				<join name="Join" />
+				<simple name="NoOp">
+					<type>
+						org.kuali.rice.kew.engine.node.NoOpNode
+					</type>
+				</simple>
+			</routeNodes>
+		</documentType>
+		<documentType>
+			<name>
+				CGIN
+			</name>
+			<parent>
+				AR
+			</parent>
+			<label>
+				Contracts and Grants Invoice
+			</label>
+			<docHandler>
+				${kfs.url}/arContractsGrantsInvoiceDocument.do?methodToCall=docHandler
+			</docHandler>
+			<helpDefinitionURL>
+				default.htm?turl=WordDocuments%2FContractsGrantsInvoice.htm
+			</helpDefinitionURL>
+			<docSearchHelpURL>
+				default.htm?turl=WordDocuments%2Fcustomdocumentsearches.htm
+			</docSearchHelpURL>
+			<active>
+				true
+			</active>
+			<routingVersion>
+				2
+			</routingVersion>
+			<routePaths>
+				<routePath>
+					<start name="AdHoc" nextNode="RequiresApprovalSplit" />
+					<split name="RequiresApprovalSplit">
+						<branch name="True">
+							<role name="FundsManager" nextNode="RequiresApprovalJoin" />
+						</branch>
+						<branch name="False">
+							<simple name="NoOpNode" nextNode="RequiresApprovalJoin" />
+						</branch>
+						<join name="RequiresApprovalJoin" />
+					</split>
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="AdHoc" />
+				<split name="RequiresApprovalSplit">
+					<type>
+						org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode
+					</type>
+				</split>
+				<role name="FundsManager">
+					<qualifierResolverClass>
+						org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+					</qualifierResolverClass>
+				</role>
+				<simple name="NoOpNode">
+					<type>
+						org.kuali.rice.kew.engine.node.NoOpNode
+					</type>
+				</simple>
+				<join name="RequiresApprovalJoin" />
+			</routeNodes>
+		</documentType>
+		<documentType>
+			<name>
+				CGLR
+			</name>
+			<parent>
+				AR
+			</parent>
+			<label>
+				Contracts and Grants Letter of Credit Review
+			</label>
+			<docHandler>
+				${kfs.url}/arContractsGrantsLetterOfCreditReviewDocument.do?methodToCall=docHandler
+			</docHandler>
+			<helpDefinitionURL>
+				default.htm?turl=WordDocuments%2FContractsGrantsLOCReview.htm
+			</helpDefinitionURL>
+			<docSearchHelpURL>
+				default.htm?turl=WordDocuments%2Fcustomdocumentsearches.htm
+			</docSearchHelpURL>
+			<active>
+				true
+			</active>
+		</documentType>
+		<documentType>
+			<name>
+				FIR
+			</name>
+			<parent>
+				AR
+			</parent>
+			<label>
+				Final Invoice Reversal
+			</label>
+			<docHandler>${kfs.url}/arFinalInvoiceReversalDocument.do?methodToCall=docHandler
+			</docHandler>
+			<routePaths>
+				<routePath>
+					<start name="AdHoc" />
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="AdHoc" />
+			</routeNodes>
+		</documentType>
+	</documentTypes>
+</data>

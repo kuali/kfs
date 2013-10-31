@@ -122,14 +122,9 @@
 			<column name="PERM_ID" value="CGPERMFFR" />
 			<column name="PERM_TMPL_ID" value="29" />
 			<column name="NMSPC_CD" value="KFS-CG" />
-			<column name="NM" value="Use 
-		Screen CG Federal Form Generation 
-		Process" />
+			<column name="NM" value="Use Screen CG Federal Form Generation Process" />
 			<column name="DESC_TXT"
-				value="Allows users access to screens 
-		in the KFS-CG module that are not documents, lookups, inquiries, or batch 
-		uploads, i.e. this primarily provides access to CG Federal Form Generation 
-		Process" />
+				value="Allows users access to screens in the KFS-CG module that are not documents, lookups, inquiries, or batch uploads, i.e. this primarily provides access to CG Federal Form Generation Process" />
 			<column name="OBJ_ID" value="KFSCG03" />
 			<column name="VER_NBR" value="1" />
 			<column name="ACTV_IND" value="Y" />
@@ -171,15 +166,10 @@
 			<column name="PERM_ID" value="CGPERMIRD" />
 			<column name="PERM_TMPL_ID" value="29" />
 			<column name="NMSPC_CD" value="KFS-CG" />
-			<column name="NM" value="Use 
-		Screen CG Invoice Report Delivery 
-		Process" />
+				<column name="NM" value="Use Screen CG Invoice Report Delivery Process" />
 			<column name="DESC_TXT"
-				value="Allows users access to screens 
-		in the KFS-CG module that are not documents, lookups, inquiries, or batch 
-		uploads, i.e. this primarily provides access to CG Invoice Report Delivery 
-		Process" />
-			<column name="OBJ_ID" valueComputed="SYS_GUID()" />
+				value="Allows users access to screens in the KFS-CG module that are not documents, lookups, inquiries, or batch uploads, i.e. this primarily provides access to CG Invoice Report Delivery Process" />
+			<column name="OBJ_ID" valueComputed="KFSCG04" />
 			<column name="VER_NBR" value="1" />
 			<column name="ACTV_IND" value="Y" />
 		</insert>
@@ -325,6 +315,47 @@
 			<column name="RSP_ID">169</column>
 			<where>ATTR_DATA_ID='KFS172'</where>
 		</update>
+	</changeSet>
+<changeSet author="kfs" id="ADD_FUND_MANAGER_RSP_ATTR_DATA">
+		<insert tableName="KRIM_ROLE_PERM_T">
+			<column name="ATTR_DATA_ID" value="KFS169" />
+			<column name="OBJ_ID" value="KFS169" />
+			<column name="VER_NBR" value="1" />
+			<column name="RSP_ID" value="169" />
+			<column name="KIM_TYP_ID" value="7" />
+			<column name="KIM_ATTR_DEFN_ID" value="16" />
+			<column name="ATTR_VAL" value="FundsManager" />
+		</insert>
+
+		<insert tableName="KRIM_ROLE_PERM_T">
+			<column name="ATTR_DATA_ID" value="KFS170" />
+			<column name="OBJ_ID" value="KFS170" />
+			<column name="VER_NBR" value="1" />
+			<column name="RSP_ID" value="169" />
+			<column name="KIM_TYP_ID" value="7" />
+			<column name="KIM_ATTR_DEFN_ID" value="13" />
+			<column name="ATTR_VAL" value="CGIN" />
+		</insert>
+
+		<insert tableName="KRIM_ROLE_PERM_T">
+			<column name="ATTR_DATA_ID" value="KFS171" />
+			<column name="OBJ_ID" value="KFS171" />
+			<column name="VER_NBR" value="1" />
+			<column name="RSP_ID" value="169" />
+			<column name="KIM_TYP_ID" value="7" />
+			<column name="KIM_ATTR_DEFN_ID" value="41" />
+			<column name="ATTR_VAL" value="FALSE" />
+		</insert>
+
+		<insert tableName="KRIM_ROLE_PERM_T">
+			<column name="ATTR_DATA_ID" value="KFS172" />
+			<column name="OBJ_ID" value="KFS172" />
+			<column name="VER_NBR" value="1" />
+			<column name="RSP_ID" value="169" />
+			<column name="KIM_TYP_ID" value="7" />
+			<column name="KIM_ATTR_DEFN_ID" value="40" />
+			<column name="ATTR_VAL" value="FALSE" />
+		</insert>
 	</changeSet>
 	
 </databaseChangeLog>

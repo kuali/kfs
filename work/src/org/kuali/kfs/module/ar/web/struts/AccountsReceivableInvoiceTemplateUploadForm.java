@@ -18,7 +18,7 @@ package org.kuali.kfs.module.ar.web.struts;
 import java.util.List;
 
 import org.apache.struts.upload.FormFile;
-import org.kuali.kfs.module.cg.businessobject.options.AgencyInvoiceTemplateValuesFinder;
+import org.kuali.kfs.module.ar.businessobject.options.AgencyInvoiceTemplateValuesFinder;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 
 

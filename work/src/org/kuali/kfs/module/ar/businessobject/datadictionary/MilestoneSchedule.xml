@@ -65,12 +65,6 @@
 				</bean>
 			</list>
 		</property>
-		<property name="inactivationBlockingDefinitions">
-			<list>
-				<bean parent="InactivationBlockingDefinition"
-					p:blockedReferencePropertyName="award" />
-			</list>
-		</property>
 	</bean>
 
 	<!-- Attribute Definitions -->

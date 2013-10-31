@@ -256,6 +256,7 @@ public class TemKeyConstants {
 
     public static final String ERROR_TEM_IMPORT_EXPENSES_PROFILE_MISSING="error.document.tem.travel.import.profile.missing";
     public static final String ERROR_TEM_IMPORT_EXPENSES_PRIMARY_DESTINATION_MISSING="error.document.tem.travel.import.primary.destination.missing";
+    public static final String ERROR_TEM_IMPORT_EXPENSE_TYPE_NOT_ALLOWED = "error.document.tem.travel.import.expense.type.not.allowed";
 
     public static final String INFO_TEM_IMPORT_CURRENCY_CONVERSION="info.document.tem.travel.import.currency.conversion";
     public static final String INFO_TEM_ACTUAL_EXPENSE_LODGING_ALLOWANCE = "info.document.tem.actualexpense.lodgingallowance";

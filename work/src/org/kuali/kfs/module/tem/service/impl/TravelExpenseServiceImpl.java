@@ -274,7 +274,10 @@ public class TravelExpenseServiceImpl implements TravelExpenseService {
         expense.setCreditCardAgencyId(ccAgency.getId());
         expense.setCreditCardAgency(ccAgency);
         expense.setCreditCardOrAgencyCode(ccAgency.getCreditCardOrAgencyCode());
-        expense.setTravelExpenseType(agency.getExpenseType());
+        final ExpenseType expenseType = getDefaultExpenseTypeForCategory(agency.getExpenseTypeCategory());
+        if (expenseType != null) {
+            expense.setTravelExpenseType(expenseType.getCode());
+        }
         expense.setTravelCompany(agency.getMerchantName());
         expense.setAmount(agency.getTripExpenseAmount());
         expense.setTransactionPostingDate(agency.getTransactionPostingDate());

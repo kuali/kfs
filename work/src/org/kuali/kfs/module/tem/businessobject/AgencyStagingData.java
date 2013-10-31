@@ -34,7 +34,6 @@ import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemConstants.ExpenseImport;
 import org.kuali.kfs.module.tem.TemConstants.ExpenseTypeMetaCategory;
-import org.kuali.kfs.module.tem.TemConstants.ExpenseTypes;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
@@ -1469,69 +1468,25 @@ public class AgencyStagingData extends PersistableBusinessObjectBase implements 
     }
 
     /**
-     *
-     * This method returns the expense type based on whether the Air Ticket Number,
-     * Lodging Itinerary Number or Rental Car Itinerary Number is set.
-     * @return
-     */
-    public String getExpenseType() {
-
-        String expenseType = ExpenseTypes.AIRFARE;
-        if (StringUtils.isNotEmpty(this.getAirTicketNumber())) {
-            expenseType = ExpenseTypes.AIRFARE;
-        }
-        else if (StringUtils.isNotEmpty(this.getLodgingItineraryNumber())) {
-            expenseType = ExpenseTypes.LODGING;
-        }
-        else if (StringUtils.isNotEmpty(this.getRentalCarItineraryNumber())) {
-            expenseType = ExpenseTypes.RENTAL_CAR;
-        }
-        return expenseType;
-    }
-
-    /**
     *
     * This method returns the expense type category based on expense type.
     * @return
     */
    public ExpenseTypeMetaCategory getExpenseTypeCategory() {
-
-       String expenseType = getExpenseType();
        ExpenseTypeMetaCategory expenseTypeCategory = null;
 
-       if (StringUtils.equalsIgnoreCase(expenseType, ExpenseTypes.AIRFARE)) {
+       if (StringUtils.isNotEmpty(this.getAirTicketNumber())) {
            expenseTypeCategory = TemConstants.ExpenseTypeMetaCategory.AIRFARE;
        }
-       else if (StringUtils.equalsIgnoreCase(expenseType, ExpenseTypes.LODGING)) {
+       else if (StringUtils.isNotEmpty(this.getLodgingItineraryNumber())) {
            expenseTypeCategory = TemConstants.ExpenseTypeMetaCategory.LODGING;
        }
-       else if (StringUtils.equalsIgnoreCase(expenseType, ExpenseTypes.RENTAL_CAR)) {
+       else if (StringUtils.isNotEmpty(this.getRentalCarItineraryNumber())) {
            expenseTypeCategory = TemConstants.ExpenseTypeMetaCategory.RENTAL_CAR;
        }
 
        return expenseTypeCategory;
    }
-
-    /**
-     *
-     * This method returns the expense type name based on whether the Air Ticket Number,
-     * Lodging Itinerary Number or Rental Car Itinerary Number is set.
-     * @return
-     */
-    public String getExpenseTypeName() {
-
-        String expenseType = ExpenseTypes.AIRFARE;
-        if (StringUtils.isNotEmpty(this.getAirTicketNumber())) {
-            expenseType = ExpenseTypes.AIRFARE;
-        }
-        else if (StringUtils.isNotEmpty(this.getLodgingItineraryNumber())) {
-            expenseType = ExpenseTypes.LODGING;
-        }
-        else if (StringUtils.isNotEmpty(this.getRentalCarItineraryNumber())) {
-            expenseType = ExpenseTypes.RENTAL_CAR;
-        }
-        return expenseType;
-    }
 
     /**
      * Gets the profile attribute.

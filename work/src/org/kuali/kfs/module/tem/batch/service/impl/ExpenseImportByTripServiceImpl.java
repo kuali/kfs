@@ -24,15 +24,14 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.module.tem.TemConstants;
-import org.kuali.kfs.module.tem.TemKeyConstants;
-import org.kuali.kfs.module.tem.TemParameterConstants;
-import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.TemConstants.AgencyMatchProcessParameter;
 import org.kuali.kfs.module.tem.TemConstants.AgencyStagingDataErrorCodes;
 import org.kuali.kfs.module.tem.TemConstants.AgencyStagingDataValidation;
 import org.kuali.kfs.module.tem.TemConstants.CreditCardStagingDataErrorCodes;
-import org.kuali.kfs.module.tem.TemConstants.ExpenseTypes;
 import org.kuali.kfs.module.tem.TemConstants.TravelParameters;
+import org.kuali.kfs.module.tem.TemKeyConstants;
+import org.kuali.kfs.module.tem.TemParameterConstants;
+import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.batch.AgencyDataImportStep;
 import org.kuali.kfs.module.tem.batch.service.ExpenseImportByTripService;
 import org.kuali.kfs.module.tem.batch.service.ImportedExpensePendingEntryService;
@@ -415,20 +414,19 @@ public class ExpenseImportByTripServiceImpl extends ExpenseImportServiceBase imp
 
             if (AgencyStagingDataErrorCodes.AGENCY_NO_ERROR.equals(agencyData.getErrorCode())) {
 
-                String expenseType = agencyData.getExpenseType();
                 TemConstants.ExpenseTypeMetaCategory expenseTypeCategory = agencyData.getExpenseTypeCategory();
 
                 // This is the "match process" - see if there's credit card data that matches the agency data
                 CreditCardStagingData ccData = null;
-                if (StringUtils.equalsIgnoreCase(expenseType, ExpenseTypes.AIRFARE)) {
+                if (expenseTypeCategory == TemConstants.ExpenseTypeMetaCategory.AIRFARE) {
                     // see if there's a CC that matches ticket number, service fee number, amount
                     ccData = travelExpenseService.findImportedCreditCardExpense(agencyData.getTripExpenseAmount(), agencyData.getAirTicketNumber(), agencyData.getAirServiceFeeNumber());
                 }
-                else if (StringUtils.equalsIgnoreCase(expenseType, ExpenseTypes.LODGING)) {
+                else if (expenseTypeCategory == TemConstants.ExpenseTypeMetaCategory.LODGING) {
                     // see if there's a CC that matches lodging itinerary number and amount
                     ccData = travelExpenseService.findImportedCreditCardExpense(agencyData.getTripExpenseAmount(), agencyData.getLodgingItineraryNumber());
                 }
-                else if (StringUtils.equalsIgnoreCase(expenseType, ExpenseTypes.RENTAL_CAR)) {
+                else if (expenseTypeCategory == TemConstants.ExpenseTypeMetaCategory.RENTAL_CAR) {
                     // see if there's a CC that matches rental car itinerary number and amount
                     ccData = travelExpenseService.findImportedCreditCardExpense(agencyData.getTripExpenseAmount(), agencyData.getRentalCarItineraryNumber());
                 }

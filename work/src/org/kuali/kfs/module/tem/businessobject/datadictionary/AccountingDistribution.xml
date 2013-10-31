@@ -40,7 +40,7 @@
 	</bean>
 	
 	<bean id="AccountingDistribution-remainingAmount" parent="AccountingDistribution-remainingAmount-parentBean" />
-	<bean id="AccountingDistribution-remainingAmount-parentBean" parent="GenericAttributes-genericAmount">
+	<bean id="AccountingDistribution-remainingAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
 		<property name="name" value="remainingAmount" />
 		<property name="label" value="Remaining Amount" />
 		<property name="shortLabel" value="Remaining Amount" />
@@ -51,7 +51,7 @@
 	</bean>
 
 	<bean id="AccountingDistribution-subTotal" parent="AccountingDistribution-subTotal-parentBean" />
-	<bean id="AccountingDistribution-subTotal-parentBean" parent="GenericAttributes-genericAmount">
+	<bean id="AccountingDistribution-subTotal-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
 		<property name="name" value="subTotal" />
 		<property name="label" value="Sub Total" />
 		<property name="shortLabel" value="Sub Total" />
@@ -62,10 +62,10 @@
 	</bean>
 
 	<bean id="AccountingDistribution-cardType" parent="AccountingDistribution-cardType-parentBean" />
-    <bean id="AccountingDistribution-cardType-parentBean" parent="TravelDocumentAccountingLine-cardType" />
+    <bean id="AccountingDistribution-cardType-parentBean" abstract="true" parent="TravelDocumentAccountingLine-cardType" />
 
 	<bean id="AccountingDistribution-selected" parent="AccountingDistribution-selected-parentBean" />
-	<bean id="AccountingDistribution-selected-parentBean" parent="GenericAttributes-genericBoolean">
+	<bean id="AccountingDistribution-selected-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
 		<property name="name" value="selected" />
 		<property name="label" value="Select" />
 		<property name="shortLabel" value="Select" />

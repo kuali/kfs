@@ -328,8 +328,7 @@
 	
 	<!-- Validations -->  
   <bean id="TravelAuthorizationDocument-validations" parent="TravelAuthorizationDocument-validations-parentBean"/>
-  
-  <bean id="TravelAuthorizationDocument-validations-parentBean" class="org.springframework.beans.factory.config.MapFactoryBean">
+  <bean id="TravelAuthorizationDocument-validations-parentBean" abstract="true" class="org.springframework.beans.factory.config.MapFactoryBean">
     <property name="sourceMap">
         <map key-type="java.lang.Class">
             <entry>

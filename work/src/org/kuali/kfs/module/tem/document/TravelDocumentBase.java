@@ -1968,8 +1968,8 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
      */
     @Override
     public boolean generateDocumentGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
-        getTravelExpenseService().getExpenseServiceByType(ExpenseType.importedCTS).processExpense(this);
-        getTravelExpenseService().getExpenseServiceByType(ExpenseType.importedCorpCard).processExpense(this);
+        getTravelExpenseService().getExpenseServiceByType(ExpenseType.importedCTS).processExpense(this, sequenceHelper);
+        getTravelExpenseService().getExpenseServiceByType(ExpenseType.importedCorpCard).processExpense(this, sequenceHelper);
 
         return true;
     }
@@ -2150,5 +2150,13 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
             return false;
         }
         return KfsDateUtils.isSameDay(getTripEnd(), perDiemExpense.getMileageDate());
+    }
+
+    /**
+     * @return the amount on the document that needs to be matched by accounting lines
+     */
+    @Override
+    public KualiDecimal getTotalAccountLineAmount() {
+       return getApprovedAmount();
     }
 }

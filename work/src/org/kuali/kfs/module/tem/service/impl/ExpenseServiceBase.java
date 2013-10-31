@@ -26,6 +26,7 @@ import org.kuali.kfs.module.tem.businessobject.TEMExpense;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
 import org.kuali.kfs.module.tem.service.TEMExpenseService;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
@@ -148,7 +149,7 @@ public abstract class ExpenseServiceBase implements TEMExpenseService {
      * @see org.kuali.kfs.module.tem.service.TEMExpenseService#processExpense(org.kuali.kfs.module.tem.document.TravelDocument)
      */
     @Override
-    abstract public void processExpense(TravelDocument travelDocument);
+    abstract public void processExpense(TravelDocument travelDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper);
 
     /**
      * @see org.kuali.kfs.module.tem.service.TEMExpenseService#updateExpense(org.kuali.kfs.module.tem.document.TravelDocument)

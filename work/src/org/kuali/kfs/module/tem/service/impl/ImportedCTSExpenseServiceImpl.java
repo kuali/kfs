@@ -122,13 +122,12 @@ public class ImportedCTSExpenseServiceImpl extends ExpenseServiceBase implements
      * If no change, original account info is correct and nothing needs to be done.
      */
     @Override
-    public void processExpense(TravelDocument travelDocument){
+    public void processExpense(TravelDocument travelDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper){
 
         String distributionIncomeAndExpenseDocumentType = SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(DistributionOfIncomeAndExpenseDocument.class);
 
         //build map of the accounting line info and amount
         List<TemSourceAccountingLine> lines = travelDocument.getSourceAccountingLines();
-        GeneralLedgerPendingEntrySequenceHelper sequenceHelper = new GeneralLedgerPendingEntrySequenceHelper(travelDocument.getGeneralLedgerPendingEntries().size()+1);
         Map<String,KualiDecimal> accountingLineMap = new HashMap<String, KualiDecimal>();
         for (TemSourceAccountingLine line : lines){
            if (line.getCardType().equals(TemConstants.TRAVEL_TYPE_CTS)){

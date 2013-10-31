@@ -519,10 +519,13 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
         return grandTotal.subtract(getAdvancesTotal());
     }
 
+    /**
+     * Overridden to remove advances
+     * @see org.kuali.kfs.module.tem.document.TravelDocumentBase#getTotalAccountLineAmount()
+     */
     @Override
     public KualiDecimal getTotalAccountLineAmount() {
-
-        return super.getTotalAccountLineAmount().subtract(getAdvancesTotal());
+        return getApprovedAmount().subtract(getAdvancesTotal());
     }
 
     /**

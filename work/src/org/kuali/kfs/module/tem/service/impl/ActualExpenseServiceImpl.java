@@ -26,6 +26,7 @@ import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.service.TEMExpenseService;
 import org.kuali.kfs.module.tem.util.ExpenseUtils;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 public class ActualExpenseServiceImpl extends ExpenseServiceBase implements TEMExpenseService {
@@ -101,7 +102,7 @@ public class ActualExpenseServiceImpl extends ExpenseServiceBase implements TEME
      * @see org.kuali.kfs.module.tem.service.impl.ExpenseServiceBase#processExpense(org.kuali.kfs.module.tem.document.TravelDocument)
      */
     @Override
-    public void processExpense(TravelDocument travelDocument) {
+    public void processExpense(TravelDocument travelDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
         //do nothing
     }
 

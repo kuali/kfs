@@ -77,7 +77,6 @@ import org.kuali.kfs.module.tem.businessobject.TEMProfile;
 import org.kuali.kfs.module.tem.businessobject.TemDistributionAccountingLine;
 import org.kuali.kfs.module.tem.businessobject.TemSourceAccountingLine;
 import org.kuali.kfs.module.tem.businessobject.TravelerDetail;
-import org.kuali.kfs.module.tem.document.TEMReimbursementDocument;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.TravelDocumentBase;
@@ -884,22 +883,20 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
 
 
     protected KualiDecimal getAccountingLineAmountToFillIn(TravelFormBase travelReqForm) {
-        KualiDecimal amount = new KualiDecimal(0);
+        KualiDecimal amount = KualiDecimal.ZERO;
 
-        TEMReimbursementDocument travelDocument = (TEMReimbursementDocument)travelReqForm.getTravelDocument();
-        KualiDecimal reimbursementTotal = travelDocument.getTotalAccountLineAmount();
+        TravelDocument travelDocument = travelReqForm.getTravelDocument();
+        KualiDecimal amountToBePaid = travelDocument.getTotalAccountLineAmount();
 
         final List<TemSourceAccountingLine> accountingLines = travelDocument.getSourceAccountingLines();
 
-        KualiDecimal accountingTotal = new KualiDecimal(0);
+        KualiDecimal accountingTotal = KualiDecimal.ZERO;
         for (TemSourceAccountingLine accountingLine : accountingLines) {
-            if (travelDocument.getDefaultCardTypeCode().equals(accountingLine.getCardType())) {
-                accountingTotal = accountingTotal.add(accountingLine.getAmount());
-            }
+            accountingTotal = accountingTotal.add(accountingLine.getAmount());
         }
 
-        if (!ObjectUtils.isNull(reimbursementTotal)) {
-            amount = reimbursementTotal.subtract(accountingTotal);
+        if (!ObjectUtils.isNull(amountToBePaid) && amountToBePaid.isGreaterEqual(accountingTotal)) {
+            amount = amountToBePaid.subtract(accountingTotal);
         }
 
         return amount;

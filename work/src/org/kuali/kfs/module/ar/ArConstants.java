@@ -433,5 +433,16 @@ public class ArConstants{
     public static final String CORRECTED_INVOICE_NOT_FOUND_ERROR = "error.invoice.not.correct";
 
     static final public String AWARD_MILESTONE_REMINDER_EMAIL_SUBJECT = "AWARD_MILESTONE_REMINDER_EMAIL_SUBJECT";
+    
+    // Agency Collections Maitenance
+    public static final String CHAPTER7_CODE = "C7";
+    public static final String CHAPTER11_CODE = "C11";
+    public static final String CHAPTER13_CODE = "C13";
+    public static final String JUDGMENT_OBTAINED_CODE = "JO";
+
+    public static final String CHAPTER7  = "Chapter 7";
+    public static final String CHAPTER11 = "Chapter 11";
+    public static final String CHAPTER13 = "Chapter 13";
+    public static final String JUDGMENT_OBTAINED= "Judgment Obtained";
 
 }

@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.integration.cg.businessobject.options;
+package org.kuali.kfs.module.ar.businessobject.options;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.kfs.module.cg.CGConstants;
+import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.rice.core.api.util.KeyValue; import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 
@@ -33,10 +33,10 @@ public class BankruptcyTypeOptionsValuesFinder extends KeyValuesBase {
     public List<KeyValue> getKeyValues() {
         List<KeyValue> activeLabels = new ArrayList<KeyValue>();
 
-        activeLabels.add(new ConcreteKeyValue(CGConstants.CHAPTER11_CODE, CGConstants.CHAPTER11));
-        activeLabels.add(new ConcreteKeyValue(CGConstants.CHAPTER7_CODE, CGConstants.CHAPTER7));
-        activeLabels.add(new ConcreteKeyValue(CGConstants.CHAPTER13_CODE, CGConstants.CHAPTER13));
-        activeLabels.add(new ConcreteKeyValue(CGConstants.JUDGMENT_OBTAINED_CODE, CGConstants.JUDGMENT_OBTAINED));
+        activeLabels.add(new ConcreteKeyValue(ArConstants.CHAPTER11_CODE, ArConstants.CHAPTER11));
+        activeLabels.add(new ConcreteKeyValue(ArConstants.CHAPTER7_CODE, ArConstants.CHAPTER7));
+        activeLabels.add(new ConcreteKeyValue(ArConstants.CHAPTER13_CODE, ArConstants.CHAPTER13));
+        activeLabels.add(new ConcreteKeyValue(ArConstants.JUDGMENT_OBTAINED_CODE, ArConstants.JUDGMENT_OBTAINED));
 
         return activeLabels;
     }

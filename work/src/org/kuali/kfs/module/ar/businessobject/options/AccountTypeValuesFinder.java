@@ -13,13 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.integration.cg.businessobject.options;
+package org.kuali.kfs.module.ar.businessobject.options;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.kfs.module.cg.CGPropertyConstants;
-import org.kuali.rice.core.api.util.KeyValue; import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.kfs.module.ar.ArPropertyConstants;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 
 /**
@@ -32,8 +33,8 @@ public class AccountTypeValuesFinder extends KeyValuesBase {
      */
     public List<KeyValue> getKeyValues() {
         List<KeyValue> activeLabels = new ArrayList<KeyValue>();
-        activeLabels.add(new ConcreteKeyValue(CGPropertyConstants.INCOME_ACCOUNT, CGPropertyConstants.INCOME_ACCOUNT));
-        activeLabels.add(new ConcreteKeyValue(CGPropertyConstants.AR_ACCOUNT, CGPropertyConstants.AR_ACCOUNT));
+        activeLabels.add(new ConcreteKeyValue(ArPropertyConstants.INCOME_ACCOUNT, ArPropertyConstants.INCOME_ACCOUNT));
+        activeLabels.add(new ConcreteKeyValue(ArPropertyConstants.AR_ACCOUNT, ArPropertyConstants.AR_ACCOUNT));
         return activeLabels;
     }
 

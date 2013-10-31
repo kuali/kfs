@@ -460,7 +460,7 @@
 		<property name="shortLabel" value="Bankruptcy Type" />
 		<property name="control">
 			<bean parent="SelectControlDefinition"
-				p:valuesFinderClass="org.kuali.kfs.integration.cg.businessobject.options.BankruptcyTypeOptionsValuesFinder"
+				p:valuesFinderClass="org.kuali.kfs.module.ar.businessobject.options.BankruptcyTypeOptionsValuesFinder"
 				p:includeKeyInLabel="false" />
 		</property>
 	</bean>

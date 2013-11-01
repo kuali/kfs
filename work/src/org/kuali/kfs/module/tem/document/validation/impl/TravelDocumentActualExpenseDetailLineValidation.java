@@ -28,7 +28,7 @@ import org.kuali.rice.krad.service.DataDictionaryService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 
-public class TravelDocumentActualExpenseDetailLineValidation extends TEMDocumentExpenseLineValidation implements ActualExpenseDetailValidation {
+public class TravelDocumentActualExpenseDetailLineValidation extends TemDocumentExpenseLineValidation implements ActualExpenseDetailValidation {
     protected ActualExpense actualExpenseForValidation;
     protected ActualExpense actualExpenseDetailForValidation;
 

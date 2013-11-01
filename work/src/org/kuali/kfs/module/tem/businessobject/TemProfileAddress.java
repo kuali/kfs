@@ -39,7 +39,7 @@ public class TemProfileAddress extends PersistableBusinessObjectBase {
     private String zipCode;
     private String countryCode;
 
-    private TEMProfile profile;
+    private TemProfile profile;
 
     private String customerNumber;
     private Integer customerAddressIdentifier;
@@ -196,7 +196,7 @@ public class TemProfileAddress extends PersistableBusinessObjectBase {
      * Gets the profile attribute.
      * @return Returns the profile.
      */
-    public TEMProfile getProfile() {
+    public TemProfile getProfile() {
         return profile;
     }
 
@@ -205,7 +205,7 @@ public class TemProfileAddress extends PersistableBusinessObjectBase {
      * Sets the profile attribute value.
      * @param profile The profile to set.
      */
-    public void setProfile(TEMProfile profile) {
+    public void setProfile(TemProfile profile) {
         this.profile = profile;
     }
 

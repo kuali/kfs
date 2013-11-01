@@ -22,13 +22,12 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
-import org.kuali.kfs.module.tem.TemPropertyConstants.TEMProfileProperties;
 import org.kuali.kfs.module.tem.businessobject.ActualExpense;
 import org.kuali.kfs.module.tem.businessobject.ExpenseTypeObjectCode;
 import org.kuali.kfs.module.tem.businessobject.HistoricalTravelExpense;
 import org.kuali.kfs.module.tem.businessobject.ImportedExpense;
-import org.kuali.kfs.module.tem.businessobject.TEMExpense;
-import org.kuali.kfs.module.tem.businessobject.TEMProfile;
+import org.kuali.kfs.module.tem.businessobject.TemExpense;
+import org.kuali.kfs.module.tem.businessobject.TemProfile;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.service.TravelExpenseService;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -87,8 +86,8 @@ public class ExpenseUtils {
         String defaultChartCode = null;
         if (document.getTemProfile() == null && document.getTemProfileId() != null) {
             Map<String, Object> primaryKeys = new HashMap<String, Object>();
-            primaryKeys.put(TEMProfileProperties.PROFILE_ID, document.getTemProfileId().toString());
-            TEMProfile profile = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(TEMProfile.class, primaryKeys);
+            primaryKeys.put(TemPropertyConstants.TemProfileProperties.PROFILE_ID, document.getTemProfileId().toString());
+            TemProfile profile = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(TemProfile.class, primaryKeys);
             defaultChartCode = profile.getDefaultChartCode();
         }
         else if (document.getTemProfile() != null) {
@@ -113,7 +112,7 @@ public class ExpenseUtils {
             if (!StringUtils.isBlank(actualExpense.getExpenseTypeCode()) && actualExpense.isMileage()){
                 actualExpense.setCurrencyRate(new KualiDecimal(1));
                 KualiDecimal total = KualiDecimal.ZERO;
-                for (TEMExpense detail : actualExpense.getExpenseDetails()){
+                for (TemExpense detail : actualExpense.getExpenseDetails()){
                     ActualExpense detailExpense = (ActualExpense) detail;
                     if (detailExpense.getMileageRate() != null) {
                         KualiDecimal mileage = (new KualiDecimal(detailExpense.getMiles())).multiply(detailExpense.getMileageRate().getRate());

@@ -26,7 +26,7 @@ import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemConstants.NotificationPreference;
 import org.kuali.kfs.module.tem.TemParameterConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
-import org.kuali.kfs.module.tem.businessobject.TEMProfile;
+import org.kuali.kfs.module.tem.businessobject.TemProfile;
 import org.kuali.kfs.module.tem.businessobject.TravelerDetail;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
 import org.kuali.kfs.module.tem.document.TravelDocument;
@@ -67,7 +67,7 @@ public class TravelDocumentNotificationServiceImpl implements TravelDocumentNoti
         String documentTypeCode = travelDocument.getDocumentHeader().getWorkflowDocument().getDocumentTypeName();
         NotificationPreference preference = null;
         if (this.isNotificationEnabled()) {
-            TEMProfile travelProfile = this.getTravelProfile(travelDocument);
+            TemProfile travelProfile = this.getTravelProfile(travelDocument);
             String newRouteStatus = statusChangeDTO.getNewRouteStatus();
 
             if (travelProfile == null) {
@@ -118,10 +118,10 @@ public class TravelDocumentNotificationServiceImpl implements TravelDocumentNoti
     /**
      * get the traveler profile associated with the given travel document
      */
-    protected TEMProfile getTravelProfile(TravelDocument travelDocument) {
+    protected TemProfile getTravelProfile(TravelDocument travelDocument) {
         Integer travelProfileId = travelDocument.getProfileId();
         if (travelProfileId != null) {
-            return this.getBusinessObjectService().findBySinglePrimaryKey(TEMProfile.class, travelProfileId);
+            return this.getBusinessObjectService().findBySinglePrimaryKey(TemProfile.class, travelProfileId);
         }
         return null;
     }
@@ -157,7 +157,7 @@ public class TravelDocumentNotificationServiceImpl implements TravelDocumentNoti
         TravelerDetail traveler = travelDocument.getTraveler();
         String travelerEmailAddress = null;
         if (traveler == null && travelDocument.getProfileId() != null) {
-            TEMProfile profile = SpringContext.getBean(TemProfileService.class).findTemProfileById(travelDocument.getProfileId());
+            TemProfile profile = SpringContext.getBean(TemProfileService.class).findTemProfileById(travelDocument.getProfileId());
             travelerEmailAddress = profile.getEmailAddress();
         }else{
             travelerEmailAddress = traveler.getEmailAddress();

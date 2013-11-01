@@ -36,7 +36,7 @@ import javax.xml.transform.stream.StreamResult;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.tem.TemConstants;
-import org.kuali.kfs.module.tem.businessobject.TEMProfile;
+import org.kuali.kfs.module.tem.businessobject.TemProfile;
 import org.kuali.kfs.module.tem.service.TemProfileService;
 import org.kuali.kfs.sys.batch.AbstractStep;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
@@ -58,7 +58,7 @@ public class TemProfileExportStep extends AbstractStep {
 
 	@Override
 	public boolean execute(String jobName, Date jobRunDate) throws InterruptedException {
-		List<TEMProfile> profiles = temProfileService.getAllActiveTemProfile();
+		List<TemProfile> profiles = temProfileService.getAllActiveTemProfile();
 
 		//Accessing EXPORT_FILE_FORMAT sys param for export file extension
         LOG.info("Accessing EXPORT_FILE_FORMAT system parameter for file extension");
@@ -86,7 +86,7 @@ public class TemProfileExportStep extends AbstractStep {
 			}
 		} else {
 			OUTPUT_GLE_FILE_ps.printf("%s\n", getDateTimeService().toDateTimeString(getDateTimeService().getCurrentDate()) + "," + getParameterService().getParameterValueAsString(KfsParameterConstants.FINANCIAL_SYSTEM_ALL.class, KfsParameterConstants.INSTITUTION_NAME));
-			for(TEMProfile profile : profiles) {
+			for(TemProfile profile : profiles) {
 				try {
 					OUTPUT_GLE_FILE_ps.printf("%s\n", generateCSVEntry(profile));
 		        }
@@ -101,7 +101,7 @@ public class TemProfileExportStep extends AbstractStep {
 		return false;
 	}
 
-	private String generateXMLDoc(List<TEMProfile> profiles) throws ParserConfigurationException, TransformerException {
+	private String generateXMLDoc(List<TemProfile> profiles) throws ParserConfigurationException, TransformerException {
 
 		DocumentBuilderFactory dbfac = DocumentBuilderFactory.newInstance();
         DocumentBuilder docBuilder = dbfac.newDocumentBuilder();
@@ -114,7 +114,7 @@ public class TemProfileExportStep extends AbstractStep {
 
         //Create the Profile Detail section
 		Element profileDetailList = doc.createElement("profiles");
-        for(TEMProfile profile : profiles) {
+        for(TemProfile profile : profiles) {
         	profileDetailList.appendChild(generateProfileDetailElement(doc, profile));
 		}
 
@@ -138,7 +138,7 @@ public class TemProfileExportStep extends AbstractStep {
         return sw.toString();
 	}
 
-	private Element generateProfileDetailElement(Document doc, TEMProfile profile) {
+	private Element generateProfileDetailElement(Document doc, TemProfile profile) {
 		Element profileDetail = doc.createElement("profileDetail");
 
 		profileDetail.appendChild(createElement(doc, "travelerProfileID", profile.getProfileId().toString()));
@@ -185,7 +185,7 @@ public class TemProfileExportStep extends AbstractStep {
         return element;
 	}
 
-	private String generateCSVEntry(TEMProfile profile) {
+	private String generateCSVEntry(TemProfile profile) {
 		StringBuffer line = new StringBuffer();
 
 		line.append(profile.getProfileId().toString()).append(",");

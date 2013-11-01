@@ -16,7 +16,7 @@
 package org.kuali.kfs.module.tem.batch.service;
 
 import org.junit.Test;
-import org.kuali.kfs.module.tem.businessobject.TEMProfile;
+import org.kuali.kfs.module.tem.businessobject.TemProfile;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -59,8 +59,8 @@ public class CreditCardDataImportServiceTest extends KualiTestBase{
         assertEquals(VISA_CREDIT_CARD_NUMBER, creditCardData.getCreditCardNumber());*/
     }
 
-    protected TEMProfile createTemProfile() {
-        TEMProfile profile = new TEMProfile();
+    protected TemProfile createTemProfile() {
+        TemProfile profile = new TemProfile();
         /*TEMProfileAccount temAccount = new TEMProfileAccount();
         List<TEMProfileAccount> accounts = new ArrayList<TEMProfileAccount>();
 

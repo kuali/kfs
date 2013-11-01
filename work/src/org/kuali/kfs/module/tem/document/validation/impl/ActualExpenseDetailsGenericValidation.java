@@ -1,12 +1,12 @@
 /*
  * Copyright 2013 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -18,7 +18,7 @@ package org.kuali.kfs.module.tem.document.validation.impl;
 import java.util.List;
 
 import org.kuali.kfs.module.tem.businessobject.ActualExpense;
-import org.kuali.kfs.module.tem.businessobject.TEMExpense;
+import org.kuali.kfs.module.tem.businessobject.TemExpense;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -37,25 +37,25 @@ public class ActualExpenseDetailsGenericValidation extends GenericValidation {
     @Override
     public boolean validate(AttributedDocumentEvent event) {
         boolean success = true;
-        
+
         int count = 0;
-        for (TEMExpense genericDetail : getActualExpenseForValidation().getExpenseDetails()) {
+        for (TemExpense genericDetail : getActualExpenseForValidation().getExpenseDetails()) {
             final ActualExpense detail = (ActualExpense)genericDetail;
             final String expenseDetailIdentifier = "expenseDetails["+count+"]";
-            
+
             GlobalVariables.getMessageMap().addToErrorPath(expenseDetailIdentifier);
-            
+
             for (ActualExpenseDetailValidation subValidation : detailValidations) {
                 subValidation.setActualExpenseForValidation(getActualExpenseForValidation());
                 subValidation.setActualExpenseDetailForValidation(detail);
                 success = subValidation.validate(event);
             }
-            
+
             GlobalVariables.getMessageMap().removeFromErrorPath(expenseDetailIdentifier);
-            
+
             count += 1;
         }
-        
+
         return success;
     }
 
@@ -75,5 +75,5 @@ public class ActualExpenseDetailsGenericValidation extends GenericValidation {
         this.detailValidations = detailValidations;
     }
 
-    
+
 }

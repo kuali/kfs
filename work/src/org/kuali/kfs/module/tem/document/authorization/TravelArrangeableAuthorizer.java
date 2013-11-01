@@ -22,13 +22,13 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.module.tem.TemConstants;
-import org.kuali.kfs.module.tem.TemPropertyConstants.TEMProfileProperties;
-import org.kuali.kfs.module.tem.businessobject.TEMProfile;
+import org.kuali.kfs.module.tem.TemPropertyConstants.TemProfileProperties;
+import org.kuali.kfs.module.tem.businessobject.TemProfile;
 import org.kuali.kfs.module.tem.businessobject.TravelerDetail;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
 import org.kuali.kfs.module.tem.identity.TemKimAttributes;
-import org.kuali.kfs.module.tem.service.TEMRoleService;
+import org.kuali.kfs.module.tem.service.TemRoleService;
 import org.kuali.kfs.module.tem.service.TravelService;
 import org.kuali.kfs.module.tem.service.TravelerService;
 import org.kuali.kfs.sys.KFSConstants;
@@ -65,10 +65,10 @@ abstract public class TravelArrangeableAuthorizer extends AccountingDocumentAuth
             TravelDocument document = (TravelDocument) dataObject;
             // add the qualifications - profile and document type
             if (ObjectUtils.isNotNull(document.getProfileId())) {
-                qualification.put(TEMProfileProperties.PROFILE_ID, document.getProfileId().toString());
+                qualification.put(TemProfileProperties.PROFILE_ID, document.getProfileId().toString());
                 qualification.put(KFSPropertyConstants.DOCUMENT_TYPE_NAME, document.getDocumentTypeName());
 
-                final TEMProfile profile = getBusinessObjectService().findBySinglePrimaryKey(TEMProfile.class, document.getProfileId());
+                final TemProfile profile = getBusinessObjectService().findBySinglePrimaryKey(TemProfile.class, document.getProfileId());
                 if (profile != null) {
                 	if (!qualification.containsKey(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE)) {
                 	    qualification.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, profile.getHomeDeptChartOfAccountsCode());
@@ -216,8 +216,8 @@ abstract public class TravelArrangeableAuthorizer extends AccountingDocumentAuth
         return SpringContext.getBean(TravelService.class);
     }
 
-    protected TEMRoleService getTemRoleService() {
-        return SpringContext.getBean(TEMRoleService.class);
+    protected TemRoleService getTemRoleService() {
+        return SpringContext.getBean(TemRoleService.class);
     }
 
     protected RoleService getRoleService() {

@@ -27,7 +27,7 @@ import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.businessobject.CreditCardAgency;
-import org.kuali.kfs.module.tem.businessobject.TEMProfileAccount;
+import org.kuali.kfs.module.tem.businessobject.TemProfileAccount;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.web.format.DateFormatter;
@@ -70,7 +70,7 @@ public class TemCTSCardApplicationDocument extends CardApplicationDocumentBase i
         super.doRouteStatusChange(statusChangeEvent);
         DocumentStatus status = getDocumentHeader().getWorkflowDocument().getStatus();
         if (status.equals(DocumentStatus.FINAL) || status.equals(DocumentStatus.PROCESSED)){
-            TEMProfileAccount profileAccount = new TEMProfileAccount();
+            TemProfileAccount profileAccount = new TemProfileAccount();
             Calendar cal = Calendar.getInstance();
             profileAccount.setEffectiveDate(new java.sql.Date(cal.getTimeInMillis()));
             String code = getParameterService().getParameterValueAsString(TemCTSCardApplicationDocument.class, TemConstants.CENTRAL_TRAVEL_SYSTEM_CARD_CODE);

@@ -651,7 +651,7 @@ public class TemConstants {
         public static final String TRAVEL_CREDIT_CARD_CLEARING_OBJECT_CODE = "TRAVEL_CREDIT_CARD_CLEARING_OBJECT_CODE";
     }
 
-    public static final class TEMRoleNames {
+    public static final class TemRoleNames {
         public static final String SPECIAL_REQUEST_REVIEWER = "Special Request Reviewer";
         public static final String INTERNATIONAL_TRAVEL_REVIEWER = "International Travel Reviewer";
         public static final String RISK_MANAGEMENT = "Risk Management";
@@ -763,14 +763,14 @@ public class TemConstants {
         public static final String DV_URL = "temDV.do?methodToCall=docHandler&command=initiate&docTypeName=DV&temDocID=";
     }
 
-    public static class TEMTripTypes {
+    public static class TemTripTypes {
         public static final String DOMESTIC = "DOM";
         public static final String INTERNATIONAL = "INT";
         public static final String IN_STATE = "IN";
         public static final String OUT_OF_STATE = "OUT";
     }
 
-    public static class TEMExpenseTypes {
+    public static class TemExpenseTypes {
         public static final String PER_DIEM = "perDiemService";
         public static final String ACTUAL = "actualExpenseService";
         public static final String IMPORTED_CTS = "importedCTSExpenseService";
@@ -778,10 +778,10 @@ public class TemConstants {
     }
 
     public enum ExpenseType {
-        actual(TEMExpenseTypes.ACTUAL),
-        importedCTS(TEMExpenseTypes.IMPORTED_CTS),
-        importedCorpCard(TEMExpenseTypes.IMPORTED_CORP_CARD),
-        perDiem(TEMExpenseTypes.PER_DIEM);
+        actual(TemExpenseTypes.ACTUAL),
+        importedCTS(TemExpenseTypes.IMPORTED_CTS),
+        importedCorpCard(TemExpenseTypes.IMPORTED_CORP_CARD),
+        perDiem(TemExpenseTypes.PER_DIEM);
 
         public String service;
 

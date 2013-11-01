@@ -45,7 +45,7 @@ public class TemKeyConstants {
     public static final String PASS_TRIP_ID_TO_AGENCY_SITES  = "config.document.travelRelocation.agencySites.include.tripId";
 
     public static final String TEM_PROFILE_ARRANGERS_QUESTION       = "tem.profile.arrangers.question.text";
-    public static final String GENERATE_TEM_PROFILE_ID_QUESTION_ID  = "GenerateTEMProfileQuestionID";
+    public static final String GENERATE_TEM_PROFILE_ID_QUESTION_ID  = "GenerateTemProfileQuestionID";
     public static final String TA_MESSAGE_AMEND_DOCUMENT_CANCELLED_TEXT = "travelAuthorization.message.amend.cancelled.text";
 
     // errors

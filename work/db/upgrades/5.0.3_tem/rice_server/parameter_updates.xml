@@ -767,7 +767,7 @@
 		</insert>
 		<insert tableName="KRCR_PARM_T">
 			<column name="NMSPC_CD" value="KFS-TEM"/>
-			<column name="CMPNT_CD" value="TEMProfile"/>
+			<column name="CMPNT_CD" value="TemProfile"/>
 			<column name="PARM_NM" value="VALID_TRAVELER_TYPE_BY_CUSTOMER_TYPE"/>
 			<column name="OBJ_ID" value="KFS-TEM-PARM-102"/>
 			<column name="PARM_TYP_CD" value="CONFG"/>
@@ -778,7 +778,7 @@
 		</insert>
 		<insert tableName="KRCR_PARM_T">
 			<column name="NMSPC_CD" value="KFS-TEM"/>
-			<column name="CMPNT_CD" value="TEMProfile"/>
+			<column name="CMPNT_CD" value="TemProfile"/>
 			<column name="PARM_NM" value="VALID_KIM_TYPE_AFFILIATION_BY_TRAVER_TYPE"/>
 			<column name="OBJ_ID" value="KFS-TEM-PARM-103"/>
 			<column name="PARM_TYP_CD" value="CONFG"/>

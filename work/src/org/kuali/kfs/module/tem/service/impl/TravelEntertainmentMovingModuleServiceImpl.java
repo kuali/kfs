@@ -68,7 +68,7 @@ public class TravelEntertainmentMovingModuleServiceImpl implements TravelEnterta
 	}
 
 	@Override
-	public boolean isTEMProfileEmployee(TravelEntertainmentMovingTravelDocument document) {
+	public boolean isTemProfileEmployee(TravelEntertainmentMovingTravelDocument document) {
 		return travelerService.isEmployee(((TravelDocument)document).getTraveler());
 	}
 

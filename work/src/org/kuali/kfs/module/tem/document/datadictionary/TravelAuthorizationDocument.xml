@@ -127,7 +127,7 @@
     </bean>
 
 	<bean id="TravelAuthorizationDocument-temProfileId" parent="TravelAuthorizationDocument-temProfileId-parentBean" />
-	<bean id="TravelAuthorizationDocument-temProfileId-parentBean" abstract="true" parent="TEMProfile-profileId">
+	<bean id="TravelAuthorizationDocument-temProfileId-parentBean" abstract="true" parent="TemProfile-profileId">
 		<property name="name" value="temProfileId" />
 		<property name="label" value="Traveler Detail Id" />
 		<property name="shortLabel" value="Traveler Detail Id" />

@@ -20,12 +20,12 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.junit.Test;
 import org.kuali.kfs.module.tem.TemConstants;
-import org.kuali.kfs.module.tem.TemParameterConstants;
 import org.kuali.kfs.module.tem.TemConstants.AgencyMatchProcessParameter;
 import org.kuali.kfs.module.tem.TemConstants.AgencyStagingDataErrorCodes;
 import org.kuali.kfs.module.tem.TemConstants.ExpenseImportTypes;
+import org.kuali.kfs.module.tem.TemParameterConstants;
 import org.kuali.kfs.module.tem.businessobject.AgencyStagingData;
-import org.kuali.kfs.module.tem.businessobject.TEMProfile;
+import org.kuali.kfs.module.tem.businessobject.TemProfile;
 import org.kuali.kfs.module.tem.businessobject.TripAccountingInformation;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
@@ -64,13 +64,13 @@ public class ExpenseImportByTravelerServiceTest extends KualiTestBase {
 
     /**
      *
-     * This method tests {@link ExpenseImportByTravelerService#validateAccountingInfo(TEMProfile, AgencyStagingData)}
+     * This method tests {@link ExpenseImportByTravelerService#validateAccountingInfo(TemProfile, AgencyStagingData)}
      */
     @Test
     @ConfigureContext(shouldCommitTransactions = false)
     public void testValidateAccountingInfo() {
         AgencyStagingData agency = createAgencyStagingData();
-        TEMProfile profile = createTemProfile();
+        TemProfile profile = createTemProfile();
         // parameter is defaulted to 6000, but there are no valid combos that
         // will work with 6000. Set it to 5000 for testing purposes.
         Parameter param = parameterService.getParameter(TemParameterConstants.TEM_ALL.class, AgencyMatchProcessParameter.TRAVEL_CREDIT_CARD_AIRFARE_OBJECT_CODE);
@@ -134,12 +134,12 @@ public class ExpenseImportByTravelerServiceTest extends KualiTestBase {
     @Test
     @ConfigureContext(shouldCommitTransactions = false)
     public void testValidateTraveler() {
-        TEMProfile employee = createTemProfile();
+        TemProfile employee = createTemProfile();
         employee.setTravelerTypeCode(TemConstants.EMP_TRAVELER_TYP_CD);
         employee.setEmployeeId(EMPLOYEE_ID);
         businessObjectService.save(employee);
 
-        TEMProfile customer = createTemProfile();
+        TemProfile customer = createTemProfile();
         customer.setTravelerTypeCode(TemConstants.NONEMP_TRAVELER_TYP_CD);
         customer.setCustomerNumber(CUSTOMER_NUM);
         businessObjectService.save(customer);
@@ -152,14 +152,14 @@ public class ExpenseImportByTravelerServiceTest extends KualiTestBase {
 
         agency.setTravelerId(EMPLOYEE_ID);
         agency.setErrorCode(AgencyStagingDataErrorCodes.AGENCY_NO_ERROR);
-        TEMProfile empProfile = expenseImportByTravelerService.getTraveler(agency);
+        TemProfile empProfile = expenseImportByTravelerService.getTraveler(agency);
         assertTrue(empProfile.getEmployeeId().equals(agency.getTravelerId()));
         assertTrue(agency.getErrorCode().equals(AgencyStagingDataErrorCodes.AGENCY_NO_ERROR));
 
         agency = createAgencyStagingData();
         agency.setTravelerId(CUSTOMER_NUM);
         agency.setErrorCode(AgencyStagingDataErrorCodes.AGENCY_NO_ERROR);
-        TEMProfile custProfile = expenseImportByTravelerService.getTraveler(agency);
+        TemProfile custProfile = expenseImportByTravelerService.getTraveler(agency);
         assertTrue(custProfile.getCustomerNumber().equals(agency.getTravelerId()));
         assertTrue(agency.getErrorCode().equals(AgencyStagingDataErrorCodes.AGENCY_NO_ERROR));
 
@@ -224,8 +224,8 @@ public class ExpenseImportByTravelerServiceTest extends KualiTestBase {
         assertFalse(errors.isEmpty());
     }
 
-    protected TEMProfile createTemProfile() {
-        TEMProfile profile = new TEMProfile();
+    protected TemProfile createTemProfile() {
+        TemProfile profile = new TemProfile();
         Integer newProfileId = sas.getNextAvailableSequenceNumber(TemConstants.TEM_PROFILE_SEQ_NAME).intValue();
         profile.setProfileId(newProfileId);
         profile.getTemProfileAddress().setProfileId(newProfileId);

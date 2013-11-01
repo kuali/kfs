@@ -16,7 +16,7 @@
 package org.kuali.kfs.module.tem.document;
 
 import org.kuali.kfs.module.tem.TemWorkflowConstants;
-import org.kuali.kfs.module.tem.businessobject.TEMProfile;
+import org.kuali.kfs.module.tem.businessobject.TemProfile;
 import org.kuali.kfs.module.tem.document.service.TravelArrangerDocumentService;
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -37,7 +37,7 @@ public class TravelArrangerDocument extends FinancialSystemTransactionalDocument
     private Boolean resign = Boolean.FALSE;
     private Boolean primaryInd = Boolean.FALSE;
 
-    private TEMProfile profile;
+    private TemProfile profile;
     private Person arranger;
 
     /**
@@ -154,14 +154,14 @@ public class TravelArrangerDocument extends FinancialSystemTransactionalDocument
      * Gets the profile attribute.
      * @return Returns the profile.
      */
-    public TEMProfile getProfile() {
+    public TemProfile getProfile() {
         return profile;
     }
     /**
      * Sets the profile attribute value.
      * @param profile The profile to set.
      */
-    public void setProfile(TEMProfile profile) {
+    public void setProfile(TemProfile profile) {
         this.profile = profile;
     }
     /**

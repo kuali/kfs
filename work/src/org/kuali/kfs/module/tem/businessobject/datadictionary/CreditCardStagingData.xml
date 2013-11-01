@@ -383,7 +383,7 @@
 		<property name="control"><bean parent="TextControlDefinition" p:size="19"/></property>
 	</bean>
     <bean id="CreditCardStagingData-profile_employeeId" parent="CreditCardStagingData-profile_employeeId-parentBean" />
-    <bean id="CreditCardStagingData-profile_employeeId-parentBean" parent="TEMProfile-employeeId">
+    <bean id="CreditCardStagingData-profile_employeeId-parentBean" parent="TemProfile-employeeId">
       <property name="name" value="profile.employeeId" />
     </bean>
     <bean id="CreditCardStagingData-creditCardAgency_creditCardOrAgencyCode" parent="CreditCardStagingData-creditCardAgency_creditCardOrAgencyCode-parentBean" />

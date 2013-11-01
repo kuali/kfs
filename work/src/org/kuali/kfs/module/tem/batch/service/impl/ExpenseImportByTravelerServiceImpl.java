@@ -27,14 +27,14 @@ import org.kuali.kfs.coa.service.ObjectCodeService;
 import org.kuali.kfs.coa.service.ProjectCodeService;
 import org.kuali.kfs.coa.service.SubAccountService;
 import org.kuali.kfs.coa.service.SubObjectCodeService;
+import org.kuali.kfs.module.tem.TemConstants.AgencyStagingDataErrorCodes;
 import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
-import org.kuali.kfs.module.tem.TemConstants.AgencyStagingDataErrorCodes;
 import org.kuali.kfs.module.tem.batch.service.ExpenseImportByTravelerService;
 import org.kuali.kfs.module.tem.batch.service.ImportedExpensePendingEntryService;
 import org.kuali.kfs.module.tem.businessobject.AgencyStagingData;
 import org.kuali.kfs.module.tem.businessobject.HistoricalTravelExpense;
-import org.kuali.kfs.module.tem.businessobject.TEMProfile;
+import org.kuali.kfs.module.tem.businessobject.TemProfile;
 import org.kuali.kfs.module.tem.businessobject.TripAccountingInformation;
 import org.kuali.kfs.module.tem.service.TemProfileService;
 import org.kuali.kfs.module.tem.service.TravelExpenseService;
@@ -159,7 +159,7 @@ public class ExpenseImportByTravelerServiceImpl extends ExpenseImportServiceBase
     public List<ErrorMessage> validateTraveler(final AgencyStagingData agencyData) {
 
         List<ErrorMessage> errorMessages = new ArrayList<ErrorMessage>();
-        TEMProfile profile = getTraveler(agencyData);
+        TemProfile profile = getTraveler(agencyData);
 
         if (ObjectUtils.isNotNull(profile)) {
             agencyData.setTemProfileId(profile.getProfileId());
@@ -177,10 +177,10 @@ public class ExpenseImportByTravelerServiceImpl extends ExpenseImportServiceBase
      * @see org.kuali.kfs.module.tem.batch.service.ExpenseImportByTravelerService#getTraveler(org.kuali.kfs.module.tem.businessobject.AgencyStagingData)
      */
     @Override
-    public TEMProfile getTraveler(final AgencyStagingData agencyData) {
+    public TemProfile getTraveler(final AgencyStagingData agencyData) {
 
         // First try and get a profile by employee id
-        TEMProfile profile = temProfileService.findTemProfileByEmployeeId(agencyData.getTravelerId());
+        TemProfile profile = temProfileService.findTemProfileByEmployeeId(agencyData.getTravelerId());
         if (ObjectUtils.isNotNull(profile)) {
             LOG.info("Traveler is an Employee: " + agencyData.getTravelerId());
             agencyData.setTemProfileId(profile.getProfileId());
@@ -202,7 +202,7 @@ public class ExpenseImportByTravelerServiceImpl extends ExpenseImportServiceBase
 
     /**
      *
-     * @see org.kuali.kfs.module.tem.batch.service.ExpenseImportByTravelerService#validateAccountingInfo(org.kuali.kfs.module.tem.businessobject.TEMProfile, org.kuali.kfs.module.tem.businessobject.AgencyStagingData)
+     * @see org.kuali.kfs.module.tem.batch.service.ExpenseImportByTravelerService#validateAccountingInfo(org.kuali.kfs.module.tem.businessobject.TemProfile, org.kuali.kfs.module.tem.businessobject.AgencyStagingData)
      */
     @Override
     public List<ErrorMessage> validateAccountingInfo(final AgencyStagingData agencyData) {

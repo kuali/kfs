@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.module.tem.TemWorkflowConstants;
-import org.kuali.kfs.module.tem.businessobject.TEMProfile;
+import org.kuali.kfs.module.tem.businessobject.TemProfile;
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
@@ -36,17 +36,17 @@ import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
 
 public abstract class CardApplicationDocumentBase extends FinancialSystemTransactionalDocumentBase implements CardApplicationDocument {
     protected static Logger LOG = Logger.getLogger(CardApplicationDocumentBase.class);
-    protected TEMProfile temProfile;
+    protected TemProfile temProfile;
     protected Integer temProfileId;
     protected boolean userAgreement;
     private String dummyAppDocStatus;
 
     @Override
-    public TEMProfile getTemProfile() {
+    public TemProfile getTemProfile() {
         return temProfile;
     }
     @Override
-    public void setTemProfile(TEMProfile temProfile) {
+    public void setTemProfile(TemProfile temProfile) {
         this.temProfile = temProfile;
     }
     @Override

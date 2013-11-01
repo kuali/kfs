@@ -18,7 +18,7 @@ package org.kuali.kfs.module.tem.service.impl;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.kfs.module.tem.businessobject.TEMProfile;
+import org.kuali.kfs.module.tem.businessobject.TemProfile;
 import org.kuali.kfs.module.tem.businessobject.TemProfileAddress;
 import org.kuali.kfs.module.tem.service.TemProfileService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
@@ -32,17 +32,17 @@ public class MockTemProfileServiceImpl implements TemProfileService {
     public static final int VALID_TEM_PROFILE_ID = 37;
 
     @Override
-    public TEMProfile findTemProfileByEmployeeId(String employeeId) {
+    public TemProfile findTemProfileByEmployeeId(String employeeId) {
         return createTemProfileForEmployee(employeeId);
     }
 
     @Override
-    public TEMProfile findTemProfileByCustomerNumber(String customerNumber) {
+    public TemProfile findTemProfileByCustomerNumber(String customerNumber) {
         return createTemProfileForCustomer(customerNumber);
     }
 
-    protected TEMProfile createTemProfileForEmployee(String employeeId) {
-        TEMProfile profile = new TEMProfile();
+    protected TemProfile createTemProfileForEmployee(String employeeId) {
+        TemProfile profile = new TemProfile();
         profile.setProfileId(VALID_TEM_PROFILE_ID);
         profile.getTemProfileAddress().setProfileId(VALID_TEM_PROFILE_ID);
         profile.setEmployeeId(employeeId);
@@ -57,8 +57,8 @@ public class MockTemProfileServiceImpl implements TemProfileService {
         return profile;
     }
 
-    protected TEMProfile createTemProfileForCustomer(String customerNumber) {
-        TEMProfile profile = new TEMProfile();
+    protected TemProfile createTemProfileForCustomer(String customerNumber) {
+        TemProfile profile = new TemProfile();
         profile.setProfileId(VALID_TEM_PROFILE_ID);
         profile.getTemProfileAddress().setProfileId(VALID_TEM_PROFILE_ID);
         profile.setCustomerNumber(customerNumber);
@@ -90,42 +90,42 @@ public class MockTemProfileServiceImpl implements TemProfileService {
     }
 
     @Override
-    public TEMProfile findTemProfile(Map<String, String> criteria) {
+    public TemProfile findTemProfile(Map<String, String> criteria) {
         return realTemProfileService.findTemProfile(criteria);
     }
 
     @Override
-    public TEMProfile findTemProfileById(Integer profileId) {
+    public TemProfile findTemProfileById(Integer profileId) {
         return realTemProfileService.findTemProfileById(profileId);
     }
 
     @Override
-    public TEMProfile findTemProfileByPrincipalId(String principalId) {
+    public TemProfile findTemProfileByPrincipalId(String principalId) {
         return realTemProfileService.findTemProfileByPrincipalId(principalId);
     }
 
     @Override
-    public TemProfileAddress getAddressFromProfile(TEMProfile profile, TemProfileAddress defaultAddress) {
+    public TemProfileAddress getAddressFromProfile(TemProfile profile, TemProfileAddress defaultAddress) {
         return realTemProfileService.getAddressFromProfile(profile, defaultAddress);
     }
 
     @Override
-    public List<TEMProfile> getAllActiveTemProfile() {
+    public List<TemProfile> getAllActiveTemProfile() {
         return realTemProfileService.getAllActiveTemProfile();
     }
 
     @Override
-    public void updateACHAccountInfo(TEMProfile profile) {
+    public void updateACHAccountInfo(TemProfile profile) {
         realTemProfileService.updateACHAccountInfo(profile);
     }
 
     @Override
-    public boolean hasActiveArrangers(TEMProfile profile) {
+    public boolean hasActiveArrangers(TemProfile profile) {
         return realTemProfileService.hasActiveArrangers(profile);
     }
 
     @Override
-    public boolean isProfileNonEmploye(TEMProfile profile) {
+    public boolean isProfileNonEmploye(TemProfile profile) {
         return realTemProfileService.isProfileNonEmploye(profile);
     }
 }

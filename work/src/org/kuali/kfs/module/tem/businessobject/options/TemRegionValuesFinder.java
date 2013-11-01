@@ -75,14 +75,14 @@ public class TemRegionValuesFinder extends KeyValuesBase {
 
 
         Map<String, String> fieldValues = new HashMap<String, String>();
-        if (StringUtils.isEmpty(tripTypeCode) || tripTypeCode.equals(TemConstants.TEMTripTypes.IN_STATE)) {
-            fieldValues.put("tripTypeCode", TemConstants.TEMTripTypes.IN_STATE);
+        if (StringUtils.isEmpty(tripTypeCode) || tripTypeCode.equals(TemConstants.TemTripTypes.IN_STATE)) {
+            fieldValues.put("tripTypeCode", TemConstants.TemTripTypes.IN_STATE);
             List<TemRegion> inRegions = (List<TemRegion>) service.findMatching(TemRegion.class, fieldValues);
             usRegions.addAll(inRegions);
         }
 
-        if (StringUtils.isEmpty(tripTypeCode) || tripTypeCode.equals(TemConstants.TEMTripTypes.OUT_OF_STATE)) {
-            fieldValues.put("tripTypeCode", TemConstants.TEMTripTypes.OUT_OF_STATE);
+        if (StringUtils.isEmpty(tripTypeCode) || tripTypeCode.equals(TemConstants.TemTripTypes.OUT_OF_STATE)) {
+            fieldValues.put("tripTypeCode", TemConstants.TemTripTypes.OUT_OF_STATE);
             List<TemRegion> outRegions = (List<TemRegion>) service.findMatching(TemRegion.class, fieldValues);
             Collections.sort(outRegions);
             usRegions.addAll(outRegions);
@@ -99,26 +99,26 @@ public class TemRegionValuesFinder extends KeyValuesBase {
 
             String tempKey = temRegion.getRegionName();
             if (!tempKey.equals(key)){
-                keyValues.add(new ConcreteKeyValue(temRegion.getRegionCode().toUpperCase(), temRegion.getRegionName().toUpperCase()));
+                keyValues.add(new ConcreteKeyValue(temRegion.getRegionCode().toUpperCase(), temRegion.getRegionCode().toUpperCase()));
             }
             key = tempKey;
         }
 
 
-        if (StringUtils.isEmpty(tripTypeCode) || tripTypeCode.equals(TemConstants.TEMTripTypes.INTERNATIONAL)) {
+        if (StringUtils.isEmpty(tripTypeCode) || tripTypeCode.equals(TemConstants.TemTripTypes.INTERNATIONAL)) {
 
-            fieldValues.put("tripTypeCode", TemConstants.TEMTripTypes.INTERNATIONAL);
+            fieldValues.put("tripTypeCode", TemConstants.TemTripTypes.INTERNATIONAL);
             List<TemRegion> intRegions = (List<TemRegion>) service.findMatching(TemRegion.class, fieldValues);
             Collections.sort(intRegions);
 
 
-            keyValues.add(new ConcreteKeyValue("---", "---------------------------------"));
+            keyValues.add(new ConcreteKeyValue("---", "---"));
             it = intRegions.iterator();
             while (it.hasNext()) {
                 TemRegion temRegion = it.next();
                 String tempKey = temRegion.getRegionName();
                 if (!tempKey.equals(key)) {
-                    keyValues.add(new ConcreteKeyValue(temRegion.getRegionCode().toUpperCase(), temRegion.getRegionName().toUpperCase()));
+                    keyValues.add(new ConcreteKeyValue(temRegion.getRegionCode().toUpperCase(), temRegion.getRegionCode().toUpperCase()));
                 }
                 key = tempKey;
             }

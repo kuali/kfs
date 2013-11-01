@@ -46,7 +46,7 @@ public class HistoricalTravelExpenseDaoOjb extends PlatformAwareDaoBaseOjb imple
     @Override
     public List<HistoricalTravelExpense> getImportedExpesnesToBeNotified(Integer travelerProfileId) {
         Criteria criteria = new Criteria();
-        criteria.addEqualTo(TemPropertyConstants.TEMProfileProperties.PROFILE_ID, travelerProfileId);
+        criteria.addEqualTo(TemPropertyConstants.TemProfileProperties.PROFILE_ID, travelerProfileId);
         criteria.addIsNull(TemPropertyConstants.EXPENSE_NOTIFICATION_DATE);
 
         Query query = QueryFactory.newQuery(HistoricalTravelExpense.class, criteria);

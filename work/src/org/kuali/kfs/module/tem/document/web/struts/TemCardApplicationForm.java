@@ -22,7 +22,7 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.module.tem.TemWorkflowConstants;
-import org.kuali.kfs.module.tem.businessobject.TEMProfile;
+import org.kuali.kfs.module.tem.businessobject.TemProfile;
 import org.kuali.kfs.module.tem.document.CardApplicationDocument;
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
 import org.kuali.kfs.sys.KFSConstants;
@@ -109,7 +109,7 @@ public class TemCardApplicationForm extends FinancialSystemTransactionalDocument
         Person currentUser = GlobalVariables.getUserSession().getPerson();
         CardApplicationDocument document = (CardApplicationDocument) this.getDocument();
 
-        TEMProfile profile = document.getTemProfile();
+        TemProfile profile = document.getTemProfile();
         if (profile != null){
             Account account = null;
             Map<String,String> fieldValues = new HashMap<String,String>();

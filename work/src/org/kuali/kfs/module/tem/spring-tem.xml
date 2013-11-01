@@ -194,7 +194,7 @@
 	</bean>
 
 	<bean id="temProfileLookupHelperService" parent="temProfileLookupHelperService-parentBean" scope="prototype"/>
-	<bean id="temProfileLookupHelperService-parentBean" abstract="true" parent="baseProfileLookupableHelperService" class="org.kuali.kfs.module.tem.businessobject.lookup.TEMProfileLookupableHelperServiceImpl">
+	<bean id="temProfileLookupHelperService-parentBean" abstract="true" parent="baseProfileLookupableHelperService" class="org.kuali.kfs.module.tem.businessobject.lookup.TemProfileLookupableHelperServiceImpl">
 		<property name="travelArrangerDocumentService" ref="temArrangerDocumentService"/>
 	</bean>
 	<bean id="temProfileLookupable" parent="temProfileLookupable-parentBean" scope="prototype"/>
@@ -292,7 +292,7 @@
 	</bean>
 
     <bean id="temRoleService" parent="temRoleService-parentBean" />
-    <bean id="temRoleService-parentBean" abstract="true" class="org.kuali.kfs.module.tem.service.impl.TEMRoleServiceImpl">
+    <bean id="temRoleService-parentBean" abstract="true" class="org.kuali.kfs.module.tem.service.impl.TemRoleServiceImpl">
         <property name="roleService" ref="kimRoleService" />
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="arrangerDocumentService" ref="temArrangerDocumentService" />
@@ -1334,7 +1334,7 @@
 		<property name="paymentSourceToExtractService" ref="temAuthorizationDocumentExtractionHelperService"/>
 	</bean>
     
-	<import resource="document/validation/configuration/TEMValidatorDefinitions.xml" /> 
+	<import resource="document/validation/configuration/TemValidatorDefinitions.xml" /> 
 	
 	<!-- Spring beans for TMCP document/action -->
 	<bean id="agencyEntryService" class="org.kuali.kfs.module.tem.service.impl.AgencyEntryServiceImpl">
@@ -1420,7 +1420,7 @@
     </bean>
 
 	<bean id="temProfileAccountLookupHelperService"
-		class="org.kuali.kfs.module.tem.businessobject.lookup.TEMProfileAccountLookupableHelperServiceImpl"
+		class="org.kuali.kfs.module.tem.businessobject.lookup.TemProfileAccountLookupableHelperServiceImpl"
 		scope="prototype">
 		<property name="travelService" ref="temTravelService" />
 		<property name="travelerService" ref="travelerService" />

@@ -21,15 +21,15 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.module.tem.businessobject.AccountingDistribution;
-import org.kuali.kfs.module.tem.businessobject.TEMExpense;
+import org.kuali.kfs.module.tem.businessobject.TemExpense;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
 import org.kuali.kfs.module.tem.document.TravelDocument;
-import org.kuali.kfs.module.tem.service.TEMExpenseService;
+import org.kuali.kfs.module.tem.service.TemExpenseService;
 import org.kuali.kfs.module.tem.util.ExpenseUtils;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.rice.krad.util.ObjectUtils;
 
-public class ActualExpenseServiceImpl extends ExpenseServiceBase implements TEMExpenseService {
+public class ActualExpenseServiceImpl extends ExpenseServiceBase implements TemExpenseService {
 
     public static Logger LOG = Logger.getLogger(ActualExpenseServiceImpl.class);
 
@@ -37,10 +37,10 @@ public class ActualExpenseServiceImpl extends ExpenseServiceBase implements TEME
      * @see org.kuali.kfs.module.tem.service.impl.ExpenseServiceBase#calculateDistributionTotals(org.kuali.kfs.module.tem.document.TravelDocument, java.util.Map, java.util.List)
      */
     @Override
-    public void calculateDistributionTotals(TravelDocument document, Map<String, AccountingDistribution> distributionMap, List<? extends TEMExpense> expenses){
+    public void calculateDistributionTotals(TravelDocument document, Map<String, AccountingDistribution> distributionMap, List<? extends TemExpense> expenses){
 
         //calculate the distribution map for all actual expenses
-        for (TEMExpense expense : expenses) {
+        for (TemExpense expense : expenses) {
 
             if (expense.getExpenseDetails() != null && expense.getExpenseDetails().size() > 0){
                 //calculate using detail as it might have different details' object code
@@ -91,10 +91,10 @@ public class ActualExpenseServiceImpl extends ExpenseServiceBase implements TEME
     }
 
     /**
-     * @see org.kuali.kfs.module.tem.service.TEMExpenseService#getExpenseDetails(org.kuali.kfs.module.tem.document.TravelDocument)
+     * @see org.kuali.kfs.module.tem.service.TemExpenseService#getExpenseDetails(org.kuali.kfs.module.tem.document.TravelDocument)
      */
     @Override
-    public List<? extends TEMExpense> getExpenseDetails(TravelDocument document) {
+    public List<? extends TemExpense> getExpenseDetails(TravelDocument document) {
         return document.getActualExpenses();
     }
 

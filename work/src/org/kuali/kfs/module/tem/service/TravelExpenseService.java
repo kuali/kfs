@@ -115,7 +115,7 @@ public interface TravelExpenseService {
      * @param expenseType
      * @return
      */
-    public TEMExpenseService getExpenseServiceByType(TemConstants.ExpenseType expenseType);
+    public TemExpenseService getExpenseServiceByType(TemConstants.ExpenseType expenseType);
 
     /**
      * Check the expense amount against the travel expense threshold value (if provided)

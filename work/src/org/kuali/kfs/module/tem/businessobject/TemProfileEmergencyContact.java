@@ -28,16 +28,16 @@ import javax.persistence.Table;
 @Entity
 @Table(name="TEM_PROFILE_EM_CONT_T")
 public class TemProfileEmergencyContact extends EmergencyContact {
-    private TEMProfile profile;
+    private TemProfile profile;
     private Integer profileId;
 
     @ManyToOne
     @JoinColumn(name="tem_profile_id")
-    public TEMProfile getProfile() {
+    public TemProfile getProfile() {
         return profile ;
     }
 
-    public void setProfile(TEMProfile profile) {
+    public void setProfile(TemProfile profile) {
         this.profile = profile;
     }
 

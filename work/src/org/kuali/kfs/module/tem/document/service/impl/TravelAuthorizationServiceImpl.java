@@ -47,7 +47,7 @@ import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationParameters;
 import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationStatusCodeKeys;
 import org.kuali.kfs.module.tem.businessobject.AccountingDocumentRelationship;
 import org.kuali.kfs.module.tem.businessobject.ExpenseTypeObjectCode;
-import org.kuali.kfs.module.tem.businessobject.TEMProfile;
+import org.kuali.kfs.module.tem.businessobject.TemProfile;
 import org.kuali.kfs.module.tem.businessobject.TravelAdvance;
 import org.kuali.kfs.module.tem.businessobject.TravelerDetail;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationAmendmentDocument;
@@ -125,7 +125,7 @@ public class TravelAuthorizationServiceImpl implements TravelAuthorizationServic
         if (enableInvoice && travelAuthorizationDocument.shouldProcessAdvanceForDocument()) {
             KualiDecimal amount = travelAuthorizationDocument.getTravelAdvance().getTravelAdvanceRequested();
             if (KualiDecimal.ZERO.isLessThan(amount)) {
-                TEMProfile profile = travelAuthorizationDocument.getTemProfile();
+                TemProfile profile = travelAuthorizationDocument.getTemProfile();
                 if (profile == null){
                     //Get the TEM Profile associated with this TA
                     profile = temProfileService.findTemProfileById(travelAuthorizationDocument.getTemProfileId());
@@ -196,7 +196,7 @@ public class TravelAuthorizationServiceImpl implements TravelAuthorizationServic
                     //Make sure the address from the TA is a customer address for the Invoice that is getting created
                     AccountsReceivableCustomerAddress customerBillToAddress = null;
                     TravelerDetail traveler = travelAuthorizationDocument.getTraveler();
-                    TEMProfile profile = travelAuthorizationDocument.getTemProfile();
+                    TemProfile profile = travelAuthorizationDocument.getTemProfile();
                     if (profile == null){
                         //Get the TEM Profile associated with this TA
                         profile = temProfileService.findTemProfileById(travelAuthorizationDocument.getTemProfileId());
@@ -561,7 +561,7 @@ public class TravelAuthorizationServiceImpl implements TravelAuthorizationServic
         return authorizationClose;
     }
 
-    protected AccountsReceivableCustomer createNewCustomer(TEMProfile profile) {
+    protected AccountsReceivableCustomer createNewCustomer(TemProfile profile) {
         profile.setCustomer(accountsReceivableModuleService.createCustomer());
         profile.getCustomer().setCustomerName(profile.getName());
 
@@ -581,7 +581,7 @@ public class TravelAuthorizationServiceImpl implements TravelAuthorizationServic
         profile.getCustomer().setCustomerTypeCode(customerTypeCode);
         profile.getCustomer().setActive(true);
 
-        SpringContext.getBean(TravelerService.class).copyTEMProfileToCustomer(profile, profile.getCustomer());
+        SpringContext.getBean(TravelerService.class).copyTemProfileToCustomer(profile, profile.getCustomer());
         accountsReceivableModuleService.saveCustomer(profile.getCustomer());
 
         return profile.getCustomer();

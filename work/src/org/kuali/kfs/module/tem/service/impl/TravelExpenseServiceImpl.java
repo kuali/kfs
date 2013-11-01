@@ -44,11 +44,11 @@ import org.kuali.kfs.module.tem.businessobject.ExpenseType;
 import org.kuali.kfs.module.tem.businessobject.ExpenseTypeObjectCode;
 import org.kuali.kfs.module.tem.businessobject.HistoricalTravelExpense;
 import org.kuali.kfs.module.tem.businessobject.OtherExpense;
-import org.kuali.kfs.module.tem.businessobject.TEMExpense;
+import org.kuali.kfs.module.tem.businessobject.TemExpense;
 import org.kuali.kfs.module.tem.dataaccess.ExpenseTypeObjectCodeDao;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.web.struts.TravelFormBase;
-import org.kuali.kfs.module.tem.service.TEMExpenseService;
+import org.kuali.kfs.module.tem.service.TemExpenseService;
 import org.kuali.kfs.module.tem.service.TravelExpenseService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -462,8 +462,8 @@ public class TravelExpenseServiceImpl implements TravelExpenseService {
      * @see org.kuali.kfs.module.tem.service.TravelExpenseService#getExpenseServiceByType(org.kuali.kfs.module.tem.TemConstants.ExpenseType)
      */
     @Override
-    public TEMExpenseService getExpenseServiceByType(TemConstants.ExpenseType expenseType){
-        return (TEMExpenseService) SpringContext.getBean(TEMExpense.class, expenseType.service);
+    public TemExpenseService getExpenseServiceByType(TemConstants.ExpenseType expenseType){
+        return (TemExpenseService) SpringContext.getBean(TemExpense.class, expenseType.service);
     }
 
     /**

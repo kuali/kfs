@@ -19,7 +19,7 @@ import java.util.List;
 
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomer;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomerAddress;
-import org.kuali.kfs.module.tem.businessobject.TEMProfile;
+import org.kuali.kfs.module.tem.businessobject.TemProfile;
 import org.kuali.kfs.module.tem.businessobject.TemProfileAddress;
 import org.kuali.kfs.module.tem.businessobject.TemProfileFromCustomer;
 import org.kuali.kfs.module.tem.businessobject.TemProfileFromKimPerson;
@@ -69,21 +69,21 @@ public interface TravelerService {
      * @param isRiskManagement
      * @return
      */
-    public boolean canIncludeProfileInSearch(TEMProfile profile, String docType, Person user, boolean isProfileAdmin, boolean isAssignedArranger, boolean isOrgArranger, boolean isArrangerDoc, boolean isRiskManagement);
+    public boolean canIncludeProfileInSearch(TemProfile profile, String docType, Person user, boolean isProfileAdmin, boolean isAssignedArranger, boolean isOrgArranger, boolean isArrangerDoc, boolean isRiskManagement);
 
     /**
      *
      * @param profile
      * @param customer
      */
-    public void copyTEMProfileToCustomer(TEMProfile profile, AccountsReceivableCustomer customer);
+    public void copyTemProfileToCustomer(TemProfile profile, AccountsReceivableCustomer customer);
 
     /**
      *
      * @param profile
      * @param customer
      */
-    public void copyCustomerToTEMProfile(TEMProfile profile, AccountsReceivableCustomer customer);
+    public void copyCustomerToTemProfile(TemProfile profile, AccountsReceivableCustomer customer);
 
     /**
      *
@@ -91,7 +91,7 @@ public interface TravelerService {
      * @param principal
      * @param kimEntityInfo
      */
-    public void copyKimDataToTEMProfile(TEMProfile profile, Person principal, Entity kimEntityInfo);
+    public void copyKimDataToTemProfile(TemProfile profile, Person principal, Entity kimEntityInfo);
 
     /**
      *
@@ -112,7 +112,7 @@ public interface TravelerService {
     TemProfileFromCustomer convertToTemProfileFromCustomer(AccountsReceivableCustomer person);
 
 
-    public void convertTEMProfileToTravelerDetail(TEMProfile profile, TravelerDetail detail);
+    public void convertTemProfileToTravelerDetail(TemProfile profile, TravelerDetail detail);
 
     /**
      *
@@ -135,7 +135,7 @@ public interface TravelerService {
      *
      * @param profile
      */
-    public void populateTEMProfile(TEMProfile profile);
+    public void populateTemProfile(TemProfile profile);
 
     /**
      *

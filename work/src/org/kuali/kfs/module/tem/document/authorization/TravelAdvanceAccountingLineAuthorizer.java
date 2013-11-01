@@ -29,7 +29,7 @@ import org.kuali.rice.kim.api.identity.Person;
 /**
  * Authorizer for accounting lines associated with the travel advance
  */
-public class TravelAdvanceAccountingLineAuthorizer extends TEMAccountingLineAuthorizer {
+public class TravelAdvanceAccountingLineAuthorizer extends TemAccountingLineAuthorizer {
     /**
      *
      * @see org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizerBase#isGroupEditable(org.kuali.kfs.sys.document.AccountingDocument, java.util.List, org.kuali.rice.kim.api.identity.Person)
@@ -56,7 +56,7 @@ public class TravelAdvanceAccountingLineAuthorizer extends TEMAccountingLineAuth
 
     /**
      *
-     * @see org.kuali.kfs.module.tem.document.authorization.TEMAccountingLineAuthorizer#determineEditPermissionOnLine(org.kuali.kfs.sys.document.AccountingDocument, org.kuali.kfs.sys.businessobject.AccountingLine, java.lang.String, boolean, boolean)
+     * @see org.kuali.kfs.module.tem.document.authorization.TemAccountingLineAuthorizer#determineEditPermissionOnLine(org.kuali.kfs.sys.document.AccountingDocument, org.kuali.kfs.sys.businessobject.AccountingLine, java.lang.String, boolean, boolean)
      */
     @Override
     public boolean determineEditPermissionOnLine(AccountingDocument accountingDocument, AccountingLine accountingLine, String accountingLineCollectionProperty, boolean currentUserIsDocumentInitiator, boolean pageIsEditable) {

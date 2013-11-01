@@ -16,6 +16,6 @@
 package org.kuali.kfs.module.tem.businessobject;
 
 /**
- * Simple extension of TEMProfile, used to define a secondary lookup that will be used in travel documents - the TA, TAA, TAC, TR, RELO, and ENT
+ * Simple extension of TemProfile, used to define a secondary lookup that will be used in travel documents - the TA, TAA, TAC, TR, RELO, and ENT
  */
-public class TravelerProfileForLookup extends TEMProfile {}
+public class TravelerProfileForLookup extends TemProfile {}

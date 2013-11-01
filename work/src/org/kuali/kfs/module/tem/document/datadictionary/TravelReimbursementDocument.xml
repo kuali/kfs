@@ -143,7 +143,7 @@
 		<property name="description" value="Final Reimbursement" />
 	</bean>
 	<bean id="TravelReimbursementDocument-temProfileId" parent="TravelReimbursementDocument-temProfileId-parentBean" />
-	<bean id="TravelReimbursementDocument-temProfileId-parentBean" abstract="true" parent="TEMProfile-profileId">
+	<bean id="TravelReimbursementDocument-temProfileId-parentBean" abstract="true" parent="TemProfile-profileId">
 		<property name="name" value="temProfileId" />
 		<property name="label" value="Traveler Detail Id" />
 		<property name="shortLabel" value="Traveler Detail Id" />

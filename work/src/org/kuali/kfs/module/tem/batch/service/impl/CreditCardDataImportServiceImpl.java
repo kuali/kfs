@@ -30,11 +30,11 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.tem.TemConstants;
-import org.kuali.kfs.module.tem.TemKeyConstants;
-import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.TemConstants.CreditCardStagingDataErrorCodes;
 import org.kuali.kfs.module.tem.TemConstants.ExpenseImport;
 import org.kuali.kfs.module.tem.TemConstants.ExpenseTypes;
+import org.kuali.kfs.module.tem.TemKeyConstants;
+import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.batch.service.CreditCardDataImportService;
 import org.kuali.kfs.module.tem.batch.service.DataReportService;
 import org.kuali.kfs.module.tem.businessobject.CreditCardAgency;
@@ -42,7 +42,7 @@ import org.kuali.kfs.module.tem.businessobject.CreditCardImportData;
 import org.kuali.kfs.module.tem.businessobject.CreditCardStagingData;
 import org.kuali.kfs.module.tem.businessobject.ExpenseType;
 import org.kuali.kfs.module.tem.businessobject.HistoricalTravelExpense;
-import org.kuali.kfs.module.tem.businessobject.TEMProfileAccount;
+import org.kuali.kfs.module.tem.businessobject.TemProfileAccount;
 import org.kuali.kfs.module.tem.service.CreditCardAgencyService;
 import org.kuali.kfs.module.tem.service.TemProfileService;
 import org.kuali.kfs.module.tem.service.TravelExpenseService;
@@ -177,7 +177,7 @@ public class CreditCardDataImportServiceImpl implements CreditCardDataImportServ
                 if(validateAndSetCreditCardAgency(creditCardData)){
 
                     if(creditCardData.getExpenseImport() == ExpenseImport.traveler){
-                        TEMProfileAccount temProfileAccount  = findTraveler(creditCardData);
+                        TemProfileAccount temProfileAccount  = findTraveler(creditCardData);
 
                         if(ObjectUtils.isNull(temProfileAccount)){
                             LOG.error("Invalid Traveler in Credit Card Data record.");
@@ -285,11 +285,11 @@ public class CreditCardDataImportServiceImpl implements CreditCardDataImportServ
      * @see org.kuali.kfs.module.tem.batch.service.CreditCardDataImportService#findTraveler(org.kuali.kfs.module.tem.businessobject.CreditCardStagingData)
      */
     @Override
-    public TEMProfileAccount findTraveler(CreditCardStagingData creditCardData){
+    public TemProfileAccount findTraveler(CreditCardStagingData creditCardData){
         Map<String,String> criteria = new HashMap<String,String>(1);
         criteria.put(TemPropertyConstants.ACCOUNT_NUMBER, creditCardData.getCreditCardNumber());
 
-        Collection<TEMProfileAccount> temProfileAccounts = businessObjectService.findMatching(TEMProfileAccount.class, criteria);
+        Collection<TemProfileAccount> temProfileAccounts = businessObjectService.findMatching(TemProfileAccount.class, criteria);
 
         if(ObjectUtils.isNotNull(temProfileAccounts) && temProfileAccounts.size() > 0) {
             return temProfileAccounts.iterator().next();

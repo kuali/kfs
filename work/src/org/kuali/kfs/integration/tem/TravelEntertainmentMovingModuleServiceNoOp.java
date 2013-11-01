@@ -31,7 +31,7 @@ public class TravelEntertainmentMovingModuleServiceNoOp implements TravelEnterta
 	}
 
 	@Override
-	public boolean isTEMProfileEmployee(
+	public boolean isTemProfileEmployee(
 			TravelEntertainmentMovingTravelDocument document) {
 		return false;
 	}

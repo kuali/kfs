@@ -21,11 +21,11 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.integration.ar.AccountsReceivableModuleService;
 import org.kuali.kfs.module.tem.TemConstants;
-import org.kuali.kfs.module.tem.businessobject.TEMProfile;
+import org.kuali.kfs.module.tem.businessobject.TemProfile;
 import org.kuali.kfs.module.tem.businessobject.TravelCardType;
 import org.kuali.kfs.module.tem.dataaccess.TravelDocumentDao;
 import org.kuali.kfs.module.tem.document.TravelDocument;
-import org.kuali.kfs.module.tem.service.TEMRoleService;
+import org.kuali.kfs.module.tem.service.TemRoleService;
 import org.kuali.kfs.module.tem.service.TravelService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
@@ -42,7 +42,7 @@ public class TravelServiceImpl implements TravelService {
     private BusinessObjectService businessObjectService;
     private ParameterService parameterService;
     private AccountsReceivableModuleService accountsReceivableModuleService;
-    private TEMRoleService temRoleService;
+    private TemRoleService temRoleService;
     private TravelDocumentDao travelDocumentDao;
 
     /**
@@ -91,7 +91,7 @@ public class TravelServiceImpl implements TravelService {
      * @see org.kuali.kfs.module.tem.service.TravelService#findTemProfileByPrincipalId(java.lang.String)
      */
     @Override
-    public TEMProfile findTemProfileByPrincipalId(String principalId) {
+    public TemProfile findTemProfileByPrincipalId(String principalId) {
         return SpringContext.getBean(TemProfileServiceImpl.class).findTemProfileByPrincipalId(principalId);
     }
 
@@ -140,7 +140,7 @@ public class TravelServiceImpl implements TravelService {
         this.travelDocumentDao = travelDocumentDao;
     }
 
-    public void setTemRoleService(TEMRoleService temRoleService){
+    public void setTemRoleService(TemRoleService temRoleService){
         this.temRoleService = temRoleService;
     }
 

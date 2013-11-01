@@ -119,7 +119,7 @@
 						<kul:htmlControlAttribute attributeEntry="${attendeeAttributes.name}" property="newAttendeeLines[0].name" readOnly="${!fullEntryMode}" />
 						<c:if test="${fullEntryMode}">
 							<kul:lookup
-								boClassName="org.kuali.kfs.module.tem.businessobject.TEMProfile"
+								boClassName="org.kuali.kfs.module.tem.businessobject.TemProfile"
 								fieldConversions="firstName:document.attendeeDetail.firstName,middleName:document.attendeeDetail.middleName,lastName:document.attendeeDetail.lastName" />
 						</c:if>
 					</td>

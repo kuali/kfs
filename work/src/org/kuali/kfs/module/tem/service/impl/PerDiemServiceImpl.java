@@ -46,7 +46,7 @@ import org.kuali.kfs.module.tem.businessobject.AccountingDistribution;
 import org.kuali.kfs.module.tem.businessobject.ExpenseTypeObjectCode;
 import org.kuali.kfs.module.tem.businessobject.PerDiem;
 import org.kuali.kfs.module.tem.businessobject.PerDiemExpense;
-import org.kuali.kfs.module.tem.businessobject.TEMExpense;
+import org.kuali.kfs.module.tem.businessobject.TemExpense;
 import org.kuali.kfs.module.tem.businessobject.TravelerDetail;
 import org.kuali.kfs.module.tem.businessobject.TripType;
 import org.kuali.kfs.module.tem.dataaccess.PerDiemDao;
@@ -56,7 +56,7 @@ import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.TravelReimbursementDocument;
 import org.kuali.kfs.module.tem.document.web.struts.TravelFormBase;
 import org.kuali.kfs.module.tem.service.PerDiemService;
-import org.kuali.kfs.module.tem.service.TEMExpenseService;
+import org.kuali.kfs.module.tem.service.TemExpenseService;
 import org.kuali.kfs.module.tem.service.TravelExpenseService;
 import org.kuali.kfs.module.tem.util.ExpenseUtils;
 import org.kuali.kfs.sys.KFSConstants;
@@ -73,7 +73,7 @@ import org.kuali.rice.location.api.state.StateService;
 /**
  * implement the service method calls defined in PerDiemService
  */
-public class PerDiemServiceImpl extends ExpenseServiceBase implements PerDiemService, TEMExpenseService {
+public class PerDiemServiceImpl extends ExpenseServiceBase implements PerDiemService, TemExpenseService {
 
     private static Logger LOG = Logger.getLogger(PerDiemServiceImpl.class);
 
@@ -715,12 +715,12 @@ public class PerDiemServiceImpl extends ExpenseServiceBase implements PerDiemSer
     }
 
     @Override
-    public void calculateDistributionTotals(TravelDocument document, Map<String, AccountingDistribution> distributionMap, List<? extends TEMExpense> expenses) {
+    public void calculateDistributionTotals(TravelDocument document, Map<String, AccountingDistribution> distributionMap, List<? extends TemExpense> expenses) {
         //not used for PerDiem
     }
 
     @Override
-    public List<? extends TEMExpense> getExpenseDetails(TravelDocument document) {
+    public List<? extends TemExpense> getExpenseDetails(TravelDocument document) {
         //not used for PerDiem
         return null;
     }

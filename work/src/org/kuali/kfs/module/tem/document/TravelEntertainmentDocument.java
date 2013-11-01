@@ -40,7 +40,7 @@ import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.TemWorkflowConstants;
 import org.kuali.kfs.module.tem.businessobject.Attendee;
 import org.kuali.kfs.module.tem.businessobject.Purpose;
-import org.kuali.kfs.module.tem.businessobject.TEMProfile;
+import org.kuali.kfs.module.tem.businessobject.TemProfile;
 import org.kuali.kfs.module.tem.businessobject.TravelerDetail;
 import org.kuali.kfs.module.tem.businessobject.TravelerType;
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
@@ -79,7 +79,7 @@ public class TravelEntertainmentDocument extends TEMReimbursementDocument implem
     private Boolean attendeeListAttached;
     private Integer numberOfAttendees;
     private TravelerDetail host;
-    private TEMProfile hostProfile;
+    private TemProfile hostProfile;
     private TravelerDetail attendeeDetail;
 
     private List<Attendee> attendee = new ArrayList<Attendee>();
@@ -96,8 +96,8 @@ public class TravelEntertainmentDocument extends TEMReimbursementDocument implem
         this.hostProfileId = hostProfileId;
         BusinessObjectService service = (BusinessObjectService) SpringContext.getService("businessObjectService");
         Map<String, Object> primaryKeys = new HashMap<String, Object>();
-        primaryKeys.put(TemPropertyConstants.TEMProfileProperties.PROFILE_ID, hostProfileId);
-        setHostProfile(service.findByPrimaryKey(TEMProfile.class, primaryKeys));
+        primaryKeys.put(TemPropertyConstants.TemProfileProperties.PROFILE_ID, hostProfileId);
+        setHostProfile(service.findByPrimaryKey(TemProfile.class, primaryKeys));
     }
 
     @Column(name = "TITLE", length = 100, nullable = true)
@@ -231,7 +231,7 @@ public class TravelEntertainmentDocument extends TEMReimbursementDocument implem
         this.attendeeDetail = attendeeDetail;
     }
 
-    public TEMProfile getHostProfile() {
+    public TemProfile getHostProfile() {
         return hostProfile;
     }
 
@@ -443,11 +443,11 @@ public class TravelEntertainmentDocument extends TEMReimbursementDocument implem
      *
      * @param hostProfile
      */
-    public void setHostProfile(TEMProfile hostProfile) {
+    public void setHostProfile(TemProfile hostProfile) {
         this.hostProfile = hostProfile;
         if (hostProfile != null) {
             TravelerService service = (TravelerService) SpringContext.getService("travelerService");
-            service.populateTEMProfile(hostProfile);
+            service.populateTemProfile(hostProfile);
             if (hostProfile.getTravelerType() == null) {
                 BusinessObjectService boService = (BusinessObjectService) SpringContext.getService("businessObjectService");
                 Map<String, Object> fieldValues = new HashMap<String, Object>();

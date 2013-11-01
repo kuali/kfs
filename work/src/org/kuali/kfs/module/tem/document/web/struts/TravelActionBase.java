@@ -73,8 +73,8 @@ import org.kuali.kfs.module.tem.businessobject.PerDiem;
 import org.kuali.kfs.module.tem.businessobject.PerDiemExpense;
 import org.kuali.kfs.module.tem.businessobject.PrimaryDestination;
 import org.kuali.kfs.module.tem.businessobject.SpecialCircumstances;
-import org.kuali.kfs.module.tem.businessobject.TEMProfile;
 import org.kuali.kfs.module.tem.businessobject.TemDistributionAccountingLine;
+import org.kuali.kfs.module.tem.businessobject.TemProfile;
 import org.kuali.kfs.module.tem.businessobject.TemSourceAccountingLine;
 import org.kuali.kfs.module.tem.businessobject.TravelerDetail;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
@@ -93,8 +93,8 @@ import org.kuali.kfs.module.tem.document.web.bean.TravelMvcWrapperBean;
 import org.kuali.kfs.module.tem.report.service.TravelReportService;
 import org.kuali.kfs.module.tem.service.AccountingDistributionService;
 import org.kuali.kfs.module.tem.service.PerDiemService;
-import org.kuali.kfs.module.tem.service.TEMRoleService;
 import org.kuali.kfs.module.tem.service.TemProfileService;
+import org.kuali.kfs.module.tem.service.TemRoleService;
 import org.kuali.kfs.module.tem.service.TravelService;
 import org.kuali.kfs.module.tem.service.TravelerService;
 import org.kuali.kfs.module.tem.util.ExpenseUtils;
@@ -160,8 +160,8 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
         return SpringContext.getBean(TravelEncumbranceService.class);
     }
 
-    protected TEMRoleService getTemRoleService() {
-        return SpringContext.getBean(TEMRoleService.class);
+    protected TemRoleService getTemRoleService() {
+        return SpringContext.getBean(TemRoleService.class);
     }
 
     public PersonService getPersonService() {
@@ -289,7 +289,7 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
 
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        GlobalVariables.getUserSession().removeObject(TemPropertyConstants.TEMProfileProperties.PROFILE_ID);
+        GlobalVariables.getUserSession().removeObject(TemPropertyConstants.TemProfileProperties.PROFILE_ID);
         GlobalVariables.getUserSession().removeObject(KFSPropertyConstants.DOCUMENT_TYPE_CODE);
         TravelFormBase travelFormBase = (TravelFormBase) form;
         final String methodToCall = travelFormBase.getMethodToCall();
@@ -407,7 +407,7 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
                 return mapping.findForward(KFSConstants.MAPPING_BASIC);
             }
             travelForm.setRefreshCaller(KFSConstants.MULTIPLE_VALUE);
-            GlobalVariables.getUserSession().addObject(TemPropertyConstants.TEMProfileProperties.PROFILE_ID, document.getTemProfileId());
+            GlobalVariables.getUserSession().addObject(TemPropertyConstants.TemProfileProperties.PROFILE_ID, document.getTemProfileId());
             GlobalVariables.getUserSession().addObject(TemPropertyConstants.ARRANGER_PROFILE_ID, getTemProfileService().findTemProfileByPrincipalId(GlobalVariables.getUserSession().getPrincipalId()).getProfileId());
             GlobalVariables.getUserSession().addObject(KFSPropertyConstants.DOCUMENT_TYPE_CODE, document.getFinancialDocumentTypeCode());
         }
@@ -986,14 +986,14 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
     protected boolean setTravelArranger(TravelFormBase form) {
 
         TravelDocument travelDocument = form.getTravelDocument();
-        TEMProfile profile = null;
+        TemProfile profile = null;
 
         //default to nulls
         String profileId=null;
         String homeDepartment = null;
 
         if (ObjectUtils.isNotNull(travelDocument.getTemProfileId())) {
-            profile = SpringContext.getBean(BusinessObjectService.class).findBySinglePrimaryKey(TEMProfile.class, travelDocument.getTemProfileId());
+            profile = SpringContext.getBean(BusinessObjectService.class).findBySinglePrimaryKey(TemProfile.class, travelDocument.getTemProfileId());
             if (ObjectUtils.isNotNull(profile)) {
                 homeDepartment = profile.getHomeDepartment();
                 profileId = profile.getProfileId().toString();

@@ -32,7 +32,7 @@ import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
-public class TemRegionValuesFinder extends KeyValuesBase {
+public class TemRegionCodeValuesFinder extends KeyValuesBase {
 
     /**
      * @see org.kuali.rice.krad.keyvalues.KeyValuesFinder#getKeyValues()
@@ -41,28 +41,7 @@ public class TemRegionValuesFinder extends KeyValuesBase {
     @Override
     public List<KeyValue> getKeyValues() {
 
-   //     KualiForm form = KNSGlobalVariables.getKualiForm();
         String tripTypeCode = "";
-
-//        if (form instanceof LookupForm) {
-//            LookupForm lookupForm = (LookupForm)form;
-//            final String docNum = lookupForm.getDocNum();
-//            if(!StringUtils.isBlank(docNum)) {
-//               TravelDocument document = null;
-//               try {
-//                   document = (TravelDocument)SpringContext.getBean(DocumentService.class).getByDocumentHeaderIdSessionless(docNum);
-//               } catch (WorkflowException ex) {
-//                // TODO Auto-generated catch block
-//                ex.printStackTrace();
-//               }
-//        //       tripTypeCode = document.getTripTypeCode();
-//            }
-//        }
-//        if (form instanceof TravelFormBase) {
-//
-//            TravelDocument document = ((TravelFormBase)form).getTravelDocument();
-//            tripTypeCode = document.getTripTypeCode();
-//        }
 
 
 
@@ -99,7 +78,7 @@ public class TemRegionValuesFinder extends KeyValuesBase {
 
             String tempKey = temRegion.getRegionName();
             if (!tempKey.equals(key)){
-                keyValues.add(new ConcreteKeyValue(temRegion.getRegionCode().toUpperCase(), temRegion.getRegionName().toUpperCase()));
+                keyValues.add(new ConcreteKeyValue(temRegion.getRegionCode().toUpperCase(), temRegion.getRegionCode().toUpperCase()));
             }
             key = tempKey;
         }
@@ -112,13 +91,13 @@ public class TemRegionValuesFinder extends KeyValuesBase {
             Collections.sort(intRegions);
 
 
-            keyValues.add(new ConcreteKeyValue("---", "-------------------------------"));
+            keyValues.add(new ConcreteKeyValue("---", "---"));
             it = intRegions.iterator();
             while (it.hasNext()) {
                 TemRegion temRegion = it.next();
                 String tempKey = temRegion.getRegionName();
                 if (!tempKey.equals(key)) {
-                    keyValues.add(new ConcreteKeyValue(temRegion.getRegionCode().toUpperCase(), temRegion.getRegionName().toUpperCase()));
+                    keyValues.add(new ConcreteKeyValue(temRegion.getRegionCode().toUpperCase(), temRegion.getRegionCode().toUpperCase()));
                 }
                 key = tempKey;
             }

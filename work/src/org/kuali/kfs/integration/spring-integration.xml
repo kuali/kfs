@@ -27,11 +27,11 @@
 	<bean id="kcModuleService-parentBean" class="org.kuali.kfs.integration.cg.KcModuleServiceNoOp"
 		abstract="true" />
 		
-		<bean id="contractsAndGrantsModuleUpdateService"
-		class="org.kuali.kfs.integration.cg.ContractsAndGrantsModuleUpdateServiceNoOp" />
+		<bean id="contractsAndGrantsModuleUpdateService" parent="contractsAndGrantsModuleUpdateService-parentBean"/>
+		<bean id="contractsAndGrantsModuleUpdateService-parentBean" class="org.kuali.kfs.integration.cg.ContractsAndGrantsModuleUpdateServiceNoOp" />
 
-	<bean id="contractsAndGrantsModuleRetreiveService"
-		class="org.kuali.kfs.integration.cg.ContractsAndGrantsModuleRetrieveServiceNoOp" />
+	<bean id="contractsAndGrantsModuleRetreiveService" parent="contractsAndGrantsModuleRetreiveService-parentBean"/>
+		<bean id="contractsAndGrantsModuleRetreiveService-parentBean"	class="org.kuali.kfs.integration.cg.ContractsAndGrantsModuleRetrieveServiceNoOp" />
 				
 				
 	<bean id="ldModuleConfiguration"  parent="ldModuleConfiguration-parentBean"/>

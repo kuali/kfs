@@ -483,9 +483,9 @@
 		</property>
 	</bean>
 
-	<bean id="GenericAttributes-billingFrequency" parent="GenericAttributes-frequency-parentBean" />
+	<bean id="GenericAttributes-billingFrequency" parent="GenericAttributes-billingFrequency-parentBean" />
 
-	<bean id="GenericAttributes-frequency-parentBean" abstract="true"
+	<bean id="GenericAttributes-billingFrequency-parentBean" abstract="true"
 		parent="AttributeDefinition">
 		<property name="name" value="frequency" />
 		<property name="forceUppercase" value="true" />

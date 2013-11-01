@@ -496,7 +496,7 @@
 		</delete>
 	</target>
 
-	<target name="clean-rice" depends="init-properties">
+	<target name="clean-rice" unless="dont.filter.project.rice" depends="init-properties">
 		<echo message="Cleaning Rice web content from KFS ${webroot.directory}" />
 		<delete failonerror="false" includeemptydirs="true">
 			<fileset dir="${basedir.safe}">

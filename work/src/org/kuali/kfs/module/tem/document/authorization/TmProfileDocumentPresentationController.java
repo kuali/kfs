@@ -19,12 +19,12 @@ import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
-import org.kuali.kfs.module.tem.businessobject.TemProfile;
+import org.kuali.kfs.module.tem.businessobject.TmProfile;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentPresentationControllerBase;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.krad.document.Document;
 
-public class TemProfileDocumentPresentationController extends FinancialSystemMaintenanceDocumentPresentationControllerBase {
+public class TmProfileDocumentPresentationController extends FinancialSystemMaintenanceDocumentPresentationControllerBase {
 
     /**
      * @see org.kuali.rice.kns.document.authorization.MaintenanceDocumentPresentationControllerBase#getConditionallyReadOnlyPropertyNames(org.kuali.rice.kns.document.MaintenanceDocument)
@@ -34,7 +34,7 @@ public class TemProfileDocumentPresentationController extends FinancialSystemMai
         // TODO Auto-generated method stub
         Set<String> readOnlyPropertyNames = super.getConditionallyReadOnlyPropertyNames(document);
 
-        TemProfile profile = (TemProfile) document.getNewMaintainableObject().getBusinessObject();
+        TmProfile profile = (TmProfile) document.getNewMaintainableObject().getBusinessObject();
         if (!StringUtils.isBlank(profile.getPrincipalId())){
             readOnlyPropertyNames.addAll(TemPropertyConstants.KIMReadOnly().keySet());
         }

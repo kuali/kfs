@@ -37,9 +37,9 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
 import org.kuali.rice.krad.util.ObjectUtils;
 
-public abstract class TemDocumentExpenseLineValidation extends GenericValidation {
+public abstract class TmDocumentExpenseLineValidation extends GenericValidation {
 
-    public TemDocumentExpenseLineValidation() {
+    public TmDocumentExpenseLineValidation() {
         super();
     }
 

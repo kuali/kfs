@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
-import org.kuali.kfs.module.tem.businessobject.TemProfileAccount;
+import org.kuali.kfs.module.tem.businessobject.TmProfileAccount;
 import org.kuali.kfs.module.tem.service.TemProfileService;
 import org.kuali.kfs.module.tem.service.TravelService;
 import org.kuali.kfs.module.tem.service.TravelerService;
@@ -31,9 +31,9 @@ import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.util.KRADConstants;
 
 @SuppressWarnings("deprecation")
-public class TemProfileAccountLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
+public class TmProfileAccountLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
 
-    public static Logger LOG = Logger.getLogger(TemProfileAccountLookupableHelperServiceImpl.class);
+    public static Logger LOG = Logger.getLogger(TmProfileAccountLookupableHelperServiceImpl.class);
 
     private TravelerService travelerService;
     private TravelService travelService;
@@ -44,7 +44,7 @@ public class TemProfileAccountLookupableHelperServiceImpl extends KualiLookupabl
     @Override
     public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
         List<HtmlData> htmlDataList = new ArrayList<HtmlData>();
-        TemProfileAccount account = (TemProfileAccount) businessObject;
+        TmProfileAccount account = (TmProfileAccount) businessObject;
         List<String> primaryKeys = getBusinessObjectMetaDataService().listPrimaryKeyFieldNames(account.getProfile().getClass());
         htmlDataList.add(getUrlData(account.getProfile(), KRADConstants.MAINTENANCE_EDIT_METHOD_TO_CALL, primaryKeys));
 

@@ -28,7 +28,7 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DataDictionaryService;
 import org.kuali.rice.krad.service.SequenceAccessorService;
 
-public class TemProfileTest extends KualiTestBase {
+public class TmProfileTest extends KualiTestBase {
 
     private BusinessObjectService businessObjectService;
     private DataDictionaryService dataDictionaryService;
@@ -48,7 +48,7 @@ public class TemProfileTest extends KualiTestBase {
     @SuppressWarnings("deprecation")
     @ConfigureContext(shouldCommitTransactions = false)
     public void testOJBConfiguration() throws Exception {
-        TemProfile profile = new TemProfile();
+        TmProfile profile = new TmProfile();
         Integer newProfileId = sas.getNextAvailableSequenceNumber(TemConstants.TEM_PROFILE_SEQ_NAME).intValue();
         profile.setProfileId(newProfileId);
         profile.getTemProfileAddress().setProfileId(newProfileId);
@@ -74,7 +74,7 @@ public class TemProfileTest extends KualiTestBase {
         Map<String, Object> values = new HashMap<String, Object>();
         //values.put(TemPropertyConstants.TEMProfileProperties.PRINCIPAL_ID, "555555555");
 
-        List<TemProfile> profileList = (List<TemProfile>) businessObjectService.findMatching(TemProfile.class, values);
+        List<TmProfile> profileList = (List<TmProfile>) businessObjectService.findMatching(TmProfile.class, values);
         try{
             assertTrue(profile.getCustomerNumber().equals(profileList.get(0).getCustomerNumber()));
             assertTrue(profile.getPrincipalId().equals(profileList.get(0).getPrincipalId()));

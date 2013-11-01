@@ -19,7 +19,7 @@ import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.businessobject.ActualExpense;
 import org.kuali.kfs.module.tem.businessobject.ImportedExpense;
-import org.kuali.kfs.module.tem.businessobject.TemExpense;
+import org.kuali.kfs.module.tem.businessobject.TmExpense;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
@@ -27,7 +27,7 @@ import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADPropertyConstants;
 
-public class TemExpenseTotalsValidation extends GenericValidation {
+public class TmExpenseTotalsValidation extends GenericValidation {
 
     @Override
     public boolean validate(AttributedDocumentEvent event) {
@@ -64,7 +64,7 @@ public class TemExpenseTotalsValidation extends GenericValidation {
              * Determine if the detail is an amount that doesn't go over the threshold
              */
             KualiDecimal total = KualiDecimal.ZERO;
-            for (TemExpense detail : importedExpense.getExpenseDetails()) {
+            for (TmExpense detail : importedExpense.getExpenseDetails()) {
                 total = total.add(detail.getExpenseAmount());
             }
             if (!total.isZero()) {

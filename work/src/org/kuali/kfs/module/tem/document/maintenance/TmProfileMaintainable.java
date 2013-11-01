@@ -30,11 +30,11 @@ import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.TemWorkflowConstants;
-import org.kuali.kfs.module.tem.businessobject.TemProfile;
-import org.kuali.kfs.module.tem.businessobject.TemProfileAccount;
+import org.kuali.kfs.module.tem.businessobject.TmProfile;
+import org.kuali.kfs.module.tem.businessobject.TmProfileAccount;
 import org.kuali.kfs.module.tem.datadictionary.mask.CreditCardMaskFormatter;
+import org.kuali.kfs.module.tem.service.TmRoleService;
 import org.kuali.kfs.module.tem.service.TemProfileService;
-import org.kuali.kfs.module.tem.service.TemRoleService;
 import org.kuali.kfs.module.tem.service.TravelerService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -60,9 +60,9 @@ import org.kuali.rice.krad.service.SequenceAccessorService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 
-public class TemProfileMaintainable extends FinancialSystemMaintainable {
+public class TmProfileMaintainable extends FinancialSystemMaintainable {
 
-    private static final Logger LOG = Logger.getLogger(TemProfileMaintainable.class);
+    private static final Logger LOG = Logger.getLogger(TmProfileMaintainable.class);
 
 	/**
      * This will create a new profile from either a principal id or from a customer number depending on what got filled out
@@ -76,7 +76,7 @@ public class TemProfileMaintainable extends FinancialSystemMaintainable {
         TravelerService travelerService = SpringContext.getBean(TravelerService.class);
         SequenceAccessorService sas = SpringContext.getBean(SequenceAccessorService.class);
 
-        TemProfile temProfile = (TemProfile) super.getBusinessObject();
+        TmProfile temProfile = (TmProfile) super.getBusinessObject();
         Integer profileId = temProfile.getProfileId();
         if(ObjectUtils.isNull(profileId)) {
             Integer newProfileId = sas.getNextAvailableSequenceNumber(TemConstants.TEM_PROFILE_SEQ_NAME).intValue();
@@ -113,7 +113,7 @@ public class TemProfileMaintainable extends FinancialSystemMaintainable {
             }
         }
 
-        travelerService.populateTemProfile(temProfile);
+        travelerService.populateTEMProfile(temProfile);
         if (document.isNew()) {
             if (StringUtils.isNotBlank(principalId)) {
                 document.getDocumentHeader().setDocumentDescription(trimDescription(TemConstants.NEW_TEM_PROFILE_DESCRIPTION_PREFIX + temProfile.getPrincipal().getName()));
@@ -133,10 +133,10 @@ public class TemProfileMaintainable extends FinancialSystemMaintainable {
 
         List<Section> sections = super.getSections(document, document.getOldMaintainableObject());
         Person currentUser = GlobalVariables.getUserSession().getPerson();
-        TemProfile temProfile = (TemProfile) super.getBusinessObject();
-        boolean profileAdmin = getTemRoleService().isProfileAdmin(currentUser, temProfile.getHomeDepartment());
+        TmProfile temProfile = (TmProfile) super.getBusinessObject();
+        boolean profileAdmin = getTEMRoleService().isProfileAdmin(currentUser, temProfile.getHomeDepartment());
 
-        if (!user.getPrincipalId().equals(((TemProfile)document.getOldMaintainableObject().getBusinessObject()).getPrincipalId())){
+        if (!user.getPrincipalId().equals(((TmProfile)document.getOldMaintainableObject().getBusinessObject()).getPrincipalId())){
             if (!profileAdmin) {
                 // user is not the traveler or a profile admin
                 for (Section section : sections){
@@ -155,7 +155,7 @@ public class TemProfileMaintainable extends FinancialSystemMaintainable {
                                                 CreditCardMaskFormatter formatter = new CreditCardMaskFormatter();
                                                 Mask mask = new Mask();
                                                 mask.setMaskFormatter(formatter);
-                                                String display = mask.maskValue(((TemProfile)document.getDocumentBusinessObject()).getAccounts().get(index).getAccountNumber());
+                                                String display = mask.maskValue(((TmProfile)document.getDocumentBusinessObject()).getAccounts().get(index).getAccountNumber());
                                                 containerField.setDisplayMaskValue(display);
                                             }
                                         }
@@ -180,17 +180,17 @@ public class TemProfileMaintainable extends FinancialSystemMaintainable {
     }
 
     /**
-     * Populate the TemProfile details
+     * Populate the TEMProfile details
      *
      * @param profile
      */
-    protected void populateInfo(TemProfile profile) {
-        SpringContext.getBean(TravelerService.class).populateTemProfile(profile);
+    protected void populateInfo(TmProfile profile) {
+        SpringContext.getBean(TravelerService.class).populateTEMProfile(profile);
         SpringContext.getBean(TemProfileService.class).updateACHAccountInfo(profile);
     }
 
-    protected void maskAccountNumbers(TemProfile profile) {
-        for (TemProfileAccount account : profile.getAccounts()){
+    protected void maskAccountNumbers(TmProfile profile) {
+        for (TmProfileAccount account : profile.getAccounts()){
             String accountSubStr = account.getAccountNumber().substring(account.getAccountNumber().length()-4);
             account.setAccountNumber("************"+accountSubStr);
         }
@@ -201,8 +201,8 @@ public class TemProfileMaintainable extends FinancialSystemMaintainable {
      */
     @Override
     public void processAfterEdit(MaintenanceDocument document, Map<String, String[]> parameters) {
-        populateInfo((TemProfile)document.getOldMaintainableObject().getBusinessObject());
-        populateInfo((TemProfile)document.getNewMaintainableObject().getBusinessObject());
+        populateInfo((TmProfile)document.getOldMaintainableObject().getBusinessObject());
+        populateInfo((TmProfile)document.getNewMaintainableObject().getBusinessObject());
         super.processAfterEdit(document, parameters);
     }
 
@@ -211,7 +211,7 @@ public class TemProfileMaintainable extends FinancialSystemMaintainable {
         super.doRouteStatusChange(documentHeader);
 
         if (documentHeader.getWorkflowDocument().isProcessed()){
-            TemProfile temProfile = (TemProfile) super.getBusinessObject();
+            TmProfile temProfile = (TmProfile) super.getBusinessObject();
             if(NONEMP_TRAVELER_TYP_CD.equals(temProfile.getTravelerTypeCode())) {
                 updateCustomerPrimaryAddress(temProfile);
 
@@ -219,7 +219,7 @@ public class TemProfileMaintainable extends FinancialSystemMaintainable {
         }
     }
 
-    protected void updateCustomerPrimaryAddress(TemProfile temProfile) {
+    protected void updateCustomerPrimaryAddress(TmProfile temProfile) {
       AccountsReceivableCustomer customer = temProfile.getCustomer();
        for(AccountsReceivableCustomerAddress customerAddress : customer.getAccountsReceivableCustomerAddresses()) {
            if(ArKeyConstants.CustomerConstants.CUSTOMER_ADDRESS_TYPE_CODE_PRIMARY.equals(customerAddress.getAccountsReceivableCustomerAddressType().getCustomerAddressTypeCode())) {
@@ -255,7 +255,7 @@ public class TemProfileMaintainable extends FinancialSystemMaintainable {
     }
 
     /**
-     * Overriding to return - TemProfile doesn't need this
+     * Overriding to return - TEMProfile doesn't need this
      *
      * @see org.kuali.kfs.sys.document.FinancialSystemMaintainable#populateChartOfAccountsCodeFields()
      */
@@ -275,8 +275,8 @@ public class TemProfileMaintainable extends FinancialSystemMaintainable {
      * @return
      */
     protected boolean taxManagerRequiredRouting() {
-        TemProfile newTemProfile = (TemProfile) getParentMaintDoc().getNewMaintainableObject().getBusinessObject();
-        TemProfile oldTemProfile = (TemProfile) getParentMaintDoc().getOldMaintainableObject().getBusinessObject();
+        TmProfile newTemProfile = (TmProfile) getParentMaintDoc().getNewMaintainableObject().getBusinessObject();
+        TmProfile oldTemProfile = (TmProfile) getParentMaintDoc().getOldMaintainableObject().getBusinessObject();
 
         //edit profile
         if (ObjectUtils.isNotNull(oldTemProfile.getProfileId())) {
@@ -309,7 +309,7 @@ public class TemProfileMaintainable extends FinancialSystemMaintainable {
     }
 
     protected boolean travelerRequiredRouting() {
-        TemProfile newTemProfile = (TemProfile) getParentMaintDoc().getNewMaintainableObject().getBusinessObject();
+        TmProfile newTemProfile = (TmProfile) getParentMaintDoc().getNewMaintainableObject().getBusinessObject();
         String initiator = getParentMaintDoc().getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId();
         if (newTemProfile.getPrincipalId() != null &&!newTemProfile.getPrincipalId().equals(initiator)) {
             return true;
@@ -391,7 +391,7 @@ public class TemProfileMaintainable extends FinancialSystemMaintainable {
 	 * @param temProfile
 	 * @return
 	 */
-	protected Note addCustomerCreatedNote(TemProfile temProfile) {
+	protected Note addCustomerCreatedNote(TmProfile temProfile) {
 	    String text = "AR Customer ID " + temProfile.getCustomer().getCustomerNumber() + " has been generated";
         Note note = new Note();
 
@@ -413,8 +413,8 @@ public class TemProfileMaintainable extends FinancialSystemMaintainable {
     public PersistableBusinessObject getNewCollectionLine( String collectionName ) {
         PersistableBusinessObject addLine = super.getNewCollectionLine(collectionName);
         if (collectionName.equals("accounts")){
-            TemProfileAccount account = (TemProfileAccount) addLine;
-            TemProfile temProfile = (TemProfile) super.getBusinessObject();
+            TmProfileAccount account = (TmProfileAccount) addLine;
+            TmProfile temProfile = (TmProfile) super.getBusinessObject();
             account.setProfile(temProfile);
             return account;
         }
@@ -428,8 +428,8 @@ public class TemProfileMaintainable extends FinancialSystemMaintainable {
     }
 
 
-    public TemRoleService getTemRoleService(){
-        return SpringContext.getBean(TemRoleService.class);
+    public TmRoleService getTEMRoleService(){
+        return SpringContext.getBean(TmRoleService.class);
     }
 
     public TravelerService getTravelerService(){

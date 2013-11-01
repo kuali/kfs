@@ -13,18 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.module.tem.document.validation.event;
+package org.kuali.kfs.module.tem.businessobject.options;
 
-import org.kuali.kfs.module.tem.businessobject.TemExpense;
-import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
+import org.kuali.kfs.module.tem.TemConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.krad.service.SequenceAccessorService;
+import org.kuali.rice.krad.valuefinder.ValueFinder;
 
-public interface TemExpenseLineEvent<E extends TemExpense> extends KualiDocumentEvent{
+public class TmProfileIdFinder implements ValueFinder {
 
-    /**
-     *
-     * This method returns the other travel expense object associated with this event
-     * @return group traveler
-     */
-    public E getExpenseLine();
+    @Override
+    public String getValue() {
+        SequenceAccessorService sas = SpringContext.getBean(SequenceAccessorService.class);
+        return sas.getNextAvailableSequenceNumber(TemConstants.TEM_PROFILE_SEQ_NAME).toString();
+    }
 
 }

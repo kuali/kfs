@@ -18,7 +18,6 @@ package org.kuali.kfs.integration.cg.businessobject;
 import java.sql.Date;
 
 import org.kuali.kfs.integration.cg.ContractsAndGrantsLetterOfCreditFund;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsLetterOfCreditFundGroup;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 /**
@@ -35,7 +34,7 @@ public class LetterOfCreditFund implements ContractsAndGrantsLetterOfCreditFund 
     private Date letterOfCreditFundStartDate;
     private Date letterOfCreditFundExpirationDate;
 
-    private ContractsAndGrantsLetterOfCreditFundGroup letterOfCreditFundGroup;
+    private LetterOfCreditFundGroup letterOfCreditFundGroup;
     private boolean active;
 
 
@@ -64,7 +63,7 @@ public class LetterOfCreditFund implements ContractsAndGrantsLetterOfCreditFund 
      * 
      * @return Returns the letterOfCreditFundGroup.
      */
-    public ContractsAndGrantsLetterOfCreditFundGroup getLetterOfCreditFundGroup() {
+    public LetterOfCreditFundGroup getLetterOfCreditFundGroup() {
         return letterOfCreditFundGroup;
     }
 
@@ -74,7 +73,7 @@ public class LetterOfCreditFund implements ContractsAndGrantsLetterOfCreditFund 
      * 
      * @param letterOfCreditFundGroup The letterOfCreditFundGroup to set.
      */
-    public void setLetterOfCreditFundGroup(ContractsAndGrantsLetterOfCreditFundGroup letterOfCreditFundGroup) {
+    public void setLetterOfCreditFundGroup(LetterOfCreditFundGroup letterOfCreditFundGroup) {
         this.letterOfCreditFundGroup = letterOfCreditFundGroup;
     }
 

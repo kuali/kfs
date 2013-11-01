@@ -119,7 +119,7 @@ public interface TemRoleService {
      * @param parameterNamespace
      * @return
      */
-    public boolean checkUserTemRole(final Person user, String role);
+    public boolean checkUserTEMRole(final Person user, String role);
 
     /**
      *

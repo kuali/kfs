@@ -44,6 +44,7 @@ public interface TemExpenseService {
      * @return
      */
     public List<? extends TemExpense> getExpenseDetails(TravelDocument document);
+
     /**
      * Validation for expense calculation
      *
@@ -70,7 +71,6 @@ public interface TemExpenseService {
      *
      * @param travelDocument
      */
-
     public void processExpense(TravelDocument travelDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper);
 
     /**

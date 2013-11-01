@@ -68,8 +68,22 @@
 		</property>
 	</bean>
 
-	<bean id="LetterOfCreditFund-letterOfCreditFundGroupCode" parent="LetterOfCreditFundGroup-letterOfCreditFundGroupCode" />
+	<bean id="LetterOfCreditFund-letterOfCreditFundGroupCode" parent="LetterOfCreditFund-letterOfCreditFundGroupCode-parentBean" />
 
+	<bean id="LetterOfCreditFund-letterOfCreditFundGroupCode-parentBean"
+		abstract="true" parent="AttributeDefinition">
+		<property name="name" value="letterOfCreditFundGroupCode" />
+		<property name="forceUppercase" value="true" />
+		<property name="label" value="Letter Of Credit Fund Group Code" />
+		<property name="shortLabel" value="Code" />
+		<property name="maxLength" value="4" />
+		<property name="validationPattern">
+			<ref bean="AlphaNumericValidation" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="6" />
+		</property>
+	</bean>
 	<bean
 		id="LetterOfCreditFund-letterOfCreditFundGroup.letterOfCreditFundGroupDescription"
 		parent="LetterOfCreditFund-letterOfCreditFundGroup.letterOfCreditFundGroupDescription-parent" />

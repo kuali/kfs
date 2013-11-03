@@ -33,21 +33,21 @@ public class KualiDecimalUtilsTest extends KualiTestBase {
         allocationResults = KualiDecimalUtils.allocateByQuantity(new KualiDecimal(10.00), 15);
 
         assertEquals(allocationResults.length, 15);
-        assertEquals(allocationResults[0], new KualiDecimal(0.66));
-        assertEquals(allocationResults[1], new KualiDecimal(0.66));
-        assertEquals(allocationResults[2], new KualiDecimal(0.66));
-        assertEquals(allocationResults[3], new KualiDecimal(0.66));
-        assertEquals(allocationResults[4], new KualiDecimal(0.66));
+        assertEquals(allocationResults[0], new KualiDecimal(0.67));
+        assertEquals(allocationResults[1], new KualiDecimal(0.67));
+        assertEquals(allocationResults[2], new KualiDecimal(0.67));
+        assertEquals(allocationResults[3], new KualiDecimal(0.67));
+        assertEquals(allocationResults[4], new KualiDecimal(0.67));
         assertEquals(allocationResults[5], new KualiDecimal(0.67));
         assertEquals(allocationResults[6], new KualiDecimal(0.67));
         assertEquals(allocationResults[7], new KualiDecimal(0.67));
         assertEquals(allocationResults[8], new KualiDecimal(0.67));
         assertEquals(allocationResults[9], new KualiDecimal(0.67));
-        assertEquals(allocationResults[10], new KualiDecimal(0.67));
-        assertEquals(allocationResults[11], new KualiDecimal(0.67));
-        assertEquals(allocationResults[12], new KualiDecimal(0.67));
-        assertEquals(allocationResults[13], new KualiDecimal(0.67));
-        assertEquals(allocationResults[14], new KualiDecimal(0.67));
+        assertEquals(allocationResults[10], new KualiDecimal(0.66));
+        assertEquals(allocationResults[11], new KualiDecimal(0.66));
+        assertEquals(allocationResults[12], new KualiDecimal(0.66));
+        assertEquals(allocationResults[13], new KualiDecimal(0.66));
+        assertEquals(allocationResults[14], new KualiDecimal(0.66));
 
         allocationResults = KualiDecimalUtils.allocateByQuantity(new KualiDecimal(5.00), 7);
 
@@ -65,8 +65,7 @@ public class KualiDecimalUtilsTest extends KualiTestBase {
         KualiDecimal[] values = KualiDecimalUtils.allocateByRatio(new KualiDecimal(13), new double[] { 0.533333 });
         assertNotNull(values);
         assertEquals(1, values.length);
-        assertEquals(new KualiDecimal(6.93), values[0]);
-        assertEquals(6.93d, values[0].doubleValue());
+        assertEquals(new KualiDecimal(6.94), values[0]);
         values = KualiDecimalUtils.allocateByRatio(new KualiDecimal(13), new double[] { 0.2820512821, 0.333333333, 0.384615385 });
         assertNotNull(values);
         assertEquals(3, values.length);

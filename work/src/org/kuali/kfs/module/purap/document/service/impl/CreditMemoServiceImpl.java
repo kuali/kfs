@@ -213,7 +213,7 @@ public class CreditMemoServiceImpl implements CreditMemoService {
      * @param appDocStatus
      * @return
      */
-    private List<String> filterCreditMemoByAppDocStatus(List<String> lookupDocNumbers, String... appDocStatus) {
+    protected List<String> filterCreditMemoByAppDocStatus(List<String> lookupDocNumbers, String... appDocStatus) {
         boolean valid = false;
 
         final String DOC_NUM_DELIM = "|";

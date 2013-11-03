@@ -33,15 +33,15 @@ import org.kuali.kfs.sys.service.ReportWriterService;
  * load. Functions performed by this step: 1) Lookup path and filename from APC for the pcard input file 2) Load the pcard xml file
  * 3) Parse each transaction and validate against the data dictionary 4) Clean fp_prcrmnt_card_trn_mt from the previous run 5) Load
  * new transactions into fp_prcrmnt_card_trn_mt 6) Rename input file using the current date (backup) RESTART: All functions performed
- * withing a single transaction. Step can be restarted as needed.
+ * within a single transaction. Step can be restarted as needed.
  */
 public class ProcurementCardLoadStep extends AbstractStep {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProcurementCardLoadStep.class);
 
-    private ProcurementCardLoadTransactionsService procurementCardLoadTransactionsService;
-    private BatchInputFileService batchInputFileService;
-    private BatchInputFileType procurementCardInputFileType;
-    private ReportWriterService reportWriterService;
+    protected ProcurementCardLoadTransactionsService procurementCardLoadTransactionsService;
+    protected BatchInputFileService batchInputFileService;
+    protected BatchInputFileType procurementCardInputFileType;
+    protected ReportWriterService reportWriterService;
 
     /**
      * custom get requiredDirectoryNames step- assign the passed in procurementInputFileType to the batchInputFileType
@@ -81,7 +81,7 @@ public class ProcurementCardLoadStep extends AbstractStep {
     /**
      * Clears out associated .done files for the processed data files.
      */
-    private void removeDoneFiles(List<String> dataFileNames) {
+    protected void removeDoneFiles(List<String> dataFileNames) {
         for (String dataFileName : dataFileNames) {
             File doneFile = new File(StringUtils.substringBeforeLast(dataFileName, ".") + ".done");
             if (doneFile.exists()) {

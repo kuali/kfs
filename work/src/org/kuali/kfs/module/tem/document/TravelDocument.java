@@ -450,4 +450,9 @@ public interface TravelDocument extends AccountingDocument, TravelEntertainmentM
      * @return true if the per diem expense is on the trip end date, false otherwise
      */
     public boolean isOnTripEnd(PerDiemExpense perDiemExpense);
+
+    /**
+     * @return the amount on the document that needs to be matched by accounting lines
+     */
+    public KualiDecimal getTotalAccountLineAmount();
 }

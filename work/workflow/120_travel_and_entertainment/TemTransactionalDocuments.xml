@@ -377,11 +377,11 @@
             <validApplicationStatuses>
                 <status>In Process</status>
                 <status>Awaiting Traveler Review</status>
+                <status>Awaiting Special Request Review</status>
                 <status>Awaiting Fiscal Officer Review</status>
                 <status>Awaiting Organization Review</status>
                 <status>Awaiting Travel Accounting Review</status>
                 <status>Awaiting Division Review</status>
-                <status>Awaiting Special Request Review</status>
                 <status>Awaiting International Travel Review</status>
                 <status>Awaiting Sub-Fund Review</status>
                 <status>Awaiting Award Review</status>
@@ -391,10 +391,10 @@
                 <status>Awaiting Travel Manager Review</status>
                 <status>Department Approved</status>
                 <status>Disapproved - Traveler</status>
+                <status>Disapproved - Special Request</status>
                 <status>Disapproved - Fiscal Officer</status>
                 <status>Disapproved - Travel Accounting</status>
                 <status>Disapproved - Division</status>
-                <status>Disapproved - Special Request</status>
                 <status>Disapproved - International Travel</status>
                 <status>Disapproved - Sub-Fund</status>
                 <status>Disapproved - Award</status>
@@ -407,15 +407,24 @@
             <routePaths>
                 <routePath>
                     <start name="AdHoc" nextNode="TravelRequiresTravelerApproval" nextAppDocStatus="Awaiting Traveler Review"/>
-                    <split name="TravelRequiresTravelerApproval" nextNode="TravelRequiresAccountApproval" nextAppDocStatus="Awaiting Traveler Review">
+                    <split name="TravelRequiresTravelerApproval" nextNode="TravelHasSpecialRequest" nextAppDocStatus="Awaiting Traveler Review">
                         <branch name="True">
-                            <role name="Traveler" nextNode="JoinTravelRequiresTravelerApproval" nextAppDocStatus="Awaiting Fiscal Officer Review" />
+                            <role name="Traveler" nextNode="JoinTravelRequiresTravelerApproval" nextAppDocStatus="Awaiting Special Request Review" />
                         </branch>
                         <branch name="False">
-                            <simple name="NoOpTravelRequiresTravelerApproval" nextNode="JoinTravelRequiresTravelerApproval" nextAppDocStatus="Awaiting Fiscal Officer Review" />
+                            <simple name="NoOpTravelRequiresTravelerApproval" nextNode="JoinTravelRequiresTravelerApproval" nextAppDocStatus="Awaiting Special Request Review" />
                         </branch>
                         <join name="JoinTravelRequiresTravelerApproval"/>
                     </split>
+                    <split name="TravelHasSpecialRequest" nextNode="TravelRequiresAccountApproval" nextAppDocStatus="Awaiting Special Request Review">
+						<branch name="True">
+							<role name="SpecialRequest" nextNode="JoinTravelHasSpecialRequest" nextAppDocStatus="Awaiting Fiscal Officer Review" />
+						</branch>
+						<branch name="False">
+							<simple name="NoOpTravelHasSpecialRequest" nextNode="JoinTravelHasSpecialRequest" nextAppDocStatus="Awaiting Fiscal Officer Review" />
+						</branch>
+						<join name="JoinTravelHasSpecialRequest" />
+					</split>
                     <split name="TravelRequiresAccountApproval" nextNode="AccountingOrganizationHierarchy" nextAppDocStatus="Awaiting Fiscal Officer Review">
 						<branch name="True">
 							<role name="Account" nextNode="JoinRequiresAccountApproval" nextAppDocStatus="Awaiting Organization Review" />
@@ -427,24 +436,15 @@
 					</split>
 					<role name="AccountingOrganizationHierarchy" nextNode="ReimbursementOverage" nextAppDocStatus="Awaiting Travel Accounting Review" />
 					<role name="ReimbursementOverage" nextNode="TravelRequiresDivisionApproval" nextAppDocStatus="Awaiting Division Review"/>
-                    <split name="TravelRequiresDivisionApproval" nextNode="TravelHasSpecialRequest" nextAppDocStatus="Awaiting Division Review">
+                    <split name="TravelRequiresDivisionApproval" nextNode="TravelIsInternational" nextAppDocStatus="Awaiting Division Review">
                         <branch name="True">
-                            <role name="Division" nextNode="JoinTravelRequiresDivisionApproval" nextAppDocStatus="Awaiting Special Request Review" />
+                            <role name="Division" nextNode="JoinTravelRequiresDivisionApproval" nextAppDocStatus="Awaiting International Travel Review" />
                         </branch>
                         <branch name="False">
-                            <simple name="NoOpTravelRequiresDivisionApproval" nextNode="JoinTravelRequiresDivisionApproval" nextAppDocStatus="Awaiting Special Request Review" />
+                            <simple name="NoOpTravelRequiresDivisionApproval" nextNode="JoinTravelRequiresDivisionApproval" nextAppDocStatus="Awaiting International Travel Review" />
                         </branch>
                         <join name="JoinTravelRequiresDivisionApproval"/>
                     </split>
-                    <split name="TravelHasSpecialRequest" nextNode="TravelIsInternational" nextAppDocStatus="Awaiting Special Request Review">
-						<branch name="True">
-							<role name="SpecialRequest" nextNode="JoinTravelHasSpecialRequest" nextAppDocStatus="Awaiting International Travel Review" />
-						</branch>
-						<branch name="False">
-							<simple name="NoOpTravelHasSpecialRequest" nextNode="JoinTravelHasSpecialRequest" nextAppDocStatus="Awaiting International Travel Review" />
-						</branch>
-						<join name="JoinTravelHasSpecialRequest" />
-					</split>
                     <split name="TravelIsInternational" nextNode="RequiresSubFund" nextAppDocStatus="Awaiting International Travel Review">
 						<branch name="True">
 							<role name="InternationalTravel" nextNode="JoinTravelIsInternational" nextAppDocStatus="Awaiting Sub-Fund Review" />

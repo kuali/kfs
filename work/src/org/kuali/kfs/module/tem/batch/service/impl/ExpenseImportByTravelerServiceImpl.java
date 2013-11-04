@@ -27,28 +27,21 @@ import org.kuali.kfs.coa.service.ObjectCodeService;
 import org.kuali.kfs.coa.service.ProjectCodeService;
 import org.kuali.kfs.coa.service.SubAccountService;
 import org.kuali.kfs.coa.service.SubObjectCodeService;
-import org.kuali.kfs.module.tem.TemConstants;
-import org.kuali.kfs.module.tem.TemKeyConstants;
-import org.kuali.kfs.module.tem.TemParameterConstants;
-import org.kuali.kfs.module.tem.TemPropertyConstants;
-import org.kuali.kfs.module.tem.TemConstants.AgencyMatchProcessParameter;
 import org.kuali.kfs.module.tem.TemConstants.AgencyStagingDataErrorCodes;
+import org.kuali.kfs.module.tem.TemKeyConstants;
+import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.batch.service.ExpenseImportByTravelerService;
 import org.kuali.kfs.module.tem.batch.service.ImportedExpensePendingEntryService;
 import org.kuali.kfs.module.tem.businessobject.AgencyStagingData;
-import org.kuali.kfs.module.tem.businessobject.ExpenseType;
-import org.kuali.kfs.module.tem.businessobject.ExpenseTypeObjectCode;
 import org.kuali.kfs.module.tem.businessobject.HistoricalTravelExpense;
 import org.kuali.kfs.module.tem.businessobject.TemProfile;
 import org.kuali.kfs.module.tem.businessobject.TripAccountingInformation;
 import org.kuali.kfs.module.tem.service.TemProfileService;
 import org.kuali.kfs.module.tem.service.TravelExpenseService;
-import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.ErrorMessage;
@@ -126,12 +119,14 @@ public class ExpenseImportByTravelerServiceImpl extends ExpenseImportServiceBase
 
         List<ErrorMessage> errorMessages = validateMandatoryFieldsPresent(agencyData);
         if (!errorMessages.isEmpty()) {
+            agencyData.setErrorCode(AgencyStagingDataErrorCodes.AGENCY_REQUIRED_FIELDS);
             return errorMessages;
         }
 
         // Perform a duplicate check first.
         errorMessages = validateDuplicateData(agencyData);
         if (!errorMessages.isEmpty()) {
+            agencyData.setErrorCode(AgencyStagingDataErrorCodes.AGENCY_DUPLICATE_DATA);
             return errorMessages;
         }
 
@@ -141,11 +136,8 @@ public class ExpenseImportByTravelerServiceImpl extends ExpenseImportServiceBase
         agencyData.setErrorCode(AgencyStagingDataErrorCodes.AGENCY_NO_ERROR);
 
         errorMessages = validateTraveler(agencyData);
-        if (!errorMessages.isEmpty()) {
-            return errorMessages;
-        }
 
-        errorMessages = validateAccountingInfo(agencyData);
+        errorMessages.addAll(validateAccountingInfo(agencyData));
 
         if (!isCreditCardAgencyValid(agencyData)){
             errorMessages.add(new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_CREDIT_CARD_DATA_INVALID_CCA));
@@ -153,6 +145,9 @@ public class ExpenseImportByTravelerServiceImpl extends ExpenseImportServiceBase
 
         LOG.info("Finished validating agency data.");
         agencyData.setProcessingTimestamp(dateTimeService.getCurrentTimestamp());
+        if (ObjectUtils.isNull(agencyData.getCreationTimestamp())) {
+            agencyData.setCreationTimestamp(dateTimeService.getCurrentTimestamp());
+        }
         return errorMessages;
     }
 
@@ -213,25 +208,7 @@ public class ExpenseImportByTravelerServiceImpl extends ExpenseImportServiceBase
     public List<ErrorMessage> validateAccountingInfo(final AgencyStagingData agencyData) {
         List<ErrorMessage> errorMessages = new ArrayList<ErrorMessage>();
 
-        final TemProfile profile = getTraveler(agencyData);
-
-        if (ObjectUtils.isNull(profile)) {
-            errorMessages.add(new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_DATA_INVALID_TRAVELER, agencyData.getTravelerId()));
-            setErrorCode(agencyData, AgencyStagingDataErrorCodes.AGENCY_INVALID_TRAVELER);
-            return errorMessages;
-        }
-
         final List<TripAccountingInformation> accountingInfos = agencyData.getTripAccountingInformation();
-
-        if (accountingInfos.isEmpty()) {
-            TripAccountingInformation profileAccount = new TripAccountingInformation();
-            profileAccount.setTripChartCode(profile.getDefaultChartCode());
-            profileAccount.setTripAccountNumber(profile.getDefaultAccount());
-            profileAccount.setTripSubAccountNumber(profile.getDefaultSubAccount());
-            profileAccount.setProjectCode(profile.getDefaultProjectCode());
-
-            accountingInfos.add(profileAccount);
-        }
 
         for (final TripAccountingInformation account : accountingInfos) {
 
@@ -378,78 +355,9 @@ public class ExpenseImportByTravelerServiceImpl extends ExpenseImportServiceBase
 
                 final HistoricalTravelExpense expense = travelExpenseService.createHistoricalTravelExpense(agencyData);
 
-                final List<GeneralLedgerPendingEntry> entries = new ArrayList<GeneralLedgerPendingEntry>();
-
-                final List<TripAccountingInformation> accountingInfo = agencyData.getTripAccountingInformation();
-
-                if (!accountingInfo.isEmpty()) {
-
-                    //retrieve the expense type category to find the correct object code for the expense type
-                    TemConstants.ExpenseTypeMetaCategory expenseTypeCategory = agencyData.getExpenseTypeCategory();
-                    ExpenseTypeObjectCode travelExpenseType = getTravelExpenseType(expenseTypeCategory, getTraveler(agencyData).getTravelerTypeCode());
-
-                    // Need to split up the amounts if there are multiple accounts
-                    KualiDecimal remainingAmount = agencyData.getTripExpenseAmount();
-                    KualiDecimal numAccounts = new KualiDecimal(accountingInfo.size());
-                    KualiDecimal currentAmount = agencyData.getTripExpenseAmount().divide(numAccounts);
-
-                    final String creditObjectCode = getParameterService().getParameterValueAsString(TemParameterConstants.TEM_ALL.class, AgencyMatchProcessParameter.TRAVEL_CREDIT_CARD_CLEARING_OBJECT_CODE);
-
-                    boolean allGlpesCreated = true;
-
-                    for (int i = 0; i < accountingInfo.size(); i++) {
-                        TripAccountingInformation info = accountingInfo.get(i);
-
-                        // If its the last account, use the remainingAmount to resolve rounding
-                        if (i < accountingInfo.size() - 1) {
-                            remainingAmount = remainingAmount.subtract(currentAmount);
-                        }
-                        else {
-                            currentAmount = remainingAmount;
-                        }
-
-                        //attempt to set the object code
-                        String objectCode = info.getObjectCode();
-                        if (StringUtils.isEmpty(objectCode)) {
-
-                            if (ObjectUtils.isNotNull(travelExpenseType)) {
-                                info.setObjectCode(travelExpenseType.getFinancialObjectCode());
-                            }
-                            else {
-                                LOG.error("Agency Data: "+ agencyData.getId() +"; could not find a valid object code. Will not distribute.");
-                                agencyData.setErrorCode(AgencyStagingDataErrorCodes.AGENCY_INVALID_OBJECT);
-                                return false;
-                            }
-                        }
-                        //else the accounting line has an object code which has already been validated
-
-                        // set the amount on the accounting info for by documents pulling in imported expenses
-                        info.setAmount(currentAmount);
-
-                        final boolean generateOffset = true;
-                        List<GeneralLedgerPendingEntry> pendingEntries = importedExpensePendingEntryService.buildDebitPendingEntry(agencyData, info, sequenceHelper, info.getObjectCode(), currentAmount, generateOffset);
-                        allGlpesCreated = importedExpensePendingEntryService.checkAndAddPendingEntriesToList(pendingEntries, entries, agencyData, false, generateOffset);
-
-                        pendingEntries = importedExpensePendingEntryService.buildCreditPendingEntry(agencyData, info, sequenceHelper, creditObjectCode, currentAmount, generateOffset);
-                        allGlpesCreated &= importedExpensePendingEntryService.checkAndAddPendingEntriesToList(pendingEntries, entries, agencyData, true, generateOffset);
-                    }
-
-                    if (entries.size() > 0 && allGlpesCreated) {
-                        businessObjectService.save(expense);
-                        businessObjectService.save(entries);
-                        agencyData.setMoveToHistoryIndicator(true);
-                        agencyData.setErrorCode(AgencyStagingDataErrorCodes.AGENCY_MOVED_TO_HISTORICAL);
-                    }
-                    else {
-                        LOG.error("An error occured while creating GLPEs for agency: "+ agencyData.getId()+ " travelerId"+ agencyData.getTravelerId()+ ". Not creating historical expense for this agency record.");
-                        return false;
-                    }
-                }
-                else {
-                    LOG.error("Agency Data: "+ agencyData.getId() +" does not have any accounting information. Will not distribute.");
-                    agencyData.setErrorCode(AgencyStagingDataErrorCodes.AGENCY_INVALID_ACCOUNT);
-                    return false;
-                }
+                businessObjectService.save(expense);
+                agencyData.setMoveToHistoryIndicator(true);
+                agencyData.setErrorCode(AgencyStagingDataErrorCodes.AGENCY_MOVED_TO_HISTORICAL);
             }
             else {
                 LOG.info("Agency Data: "+ agencyData.getId() +"; expected errorCode="+ AgencyStagingDataErrorCodes.AGENCY_NO_ERROR +", received errorCode="+ agencyData.getErrorCode() +". Will not attempt to distribute expense.");
@@ -462,23 +370,6 @@ public class ExpenseImportByTravelerServiceImpl extends ExpenseImportServiceBase
         LOG.info("Finished distributing expense for agency data: "+ agencyData.getId());
         return true;
     }
-
-    /**
-    *
-    * This method gets the {@link TemTravelExpenseTypeCode} associated with the expense type and traveler type
-    * @param expenseTypeParamCode
-    * @param travelDocumentIdentifier
-    * @return
-    */
-   protected ExpenseTypeObjectCode getTravelExpenseType(TemConstants.ExpenseTypeMetaCategory expenseCategory, String travelerTypeCode) {
-       // get the default expense type for category
-       final ExpenseType expenseType = getTravelExpenseService().getDefaultExpenseTypeForCategory(expenseCategory);
-       if (!ObjectUtils.isNull(expenseType)) {
-           return travelExpenseService.getExpenseType(expenseType.getCode(), TemConstants.TravelDocTypes.TEM_TRANSACTIONAL_DOCUMENT, null, travelerTypeCode);
-       }
-       LOG.error("Unable to retrieve TemTravelExpenseTypeCode");
-       return new ExpenseTypeObjectCode();
-   }
 
 
     /**

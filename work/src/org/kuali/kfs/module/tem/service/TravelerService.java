@@ -76,14 +76,14 @@ public interface TravelerService {
      * @param profile
      * @param customer
      */
-    public void copyTEMProfileToCustomer(TemProfile profile, AccountsReceivableCustomer customer);
+    public void copyTemProfileToCustomer(TemProfile profile, AccountsReceivableCustomer customer);
 
     /**
      *
      * @param profile
      * @param customer
      */
-    public void copyCustomerToTEMProfile(TemProfile profile, AccountsReceivableCustomer customer);
+    public void copyCustomerToTemProfile(TemProfile profile, AccountsReceivableCustomer customer);
 
     /**
      *
@@ -91,7 +91,7 @@ public interface TravelerService {
      * @param principal
      * @param kimEntityInfo
      */
-    public void copyKimDataToTEMProfile(TemProfile profile, Person principal, Entity kimEntityInfo);
+    public void copyKimDataToTemProfile(TemProfile profile, Person principal, Entity kimEntityInfo);
 
     /**
      *
@@ -112,7 +112,7 @@ public interface TravelerService {
     TemProfileFromCustomer convertToTemProfileFromCustomer(AccountsReceivableCustomer person);
 
 
-    public void convertTEMProfileToTravelerDetail(TemProfile profile, TravelerDetail detail);
+    public void convertTemProfileToTravelerDetail(TemProfile profile, TravelerDetail detail);
 
     /**
      *
@@ -135,7 +135,7 @@ public interface TravelerService {
      *
      * @param profile
      */
-    public void populateTEMProfile(TemProfile profile);
+    public void populateTemProfile(TemProfile profile);
 
     /**
      *

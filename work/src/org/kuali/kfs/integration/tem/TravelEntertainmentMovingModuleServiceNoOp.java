@@ -31,7 +31,7 @@ public class TravelEntertainmentMovingModuleServiceNoOp implements TravelEnterta
 	}
 
 	@Override
-	public boolean isTEMProfileEmployee(
+	public boolean isTemProfileEmployee(
 			TravelEntertainmentMovingTravelDocument document) {
 		return false;
 	}
@@ -50,4 +50,12 @@ public class TravelEntertainmentMovingModuleServiceNoOp implements TravelEnterta
     public void createAccountingDocumentRelationship(String documentNumber, String relDocumentNumber, String relationDescription) {
     }
 
+    /**
+     * Simply return null here
+     * @see org.kuali.kfs.integration.tem.TravelEntertainmentMovingModuleService#getPdpSubUnit()
+     */
+    @Override
+    public String getPdpSubUnit() {
+        return null;
+    }
 }

@@ -539,6 +539,7 @@
 		</property>
 		<property name="paymentSourceHelperService" ref="paymentSourceHelperService"/>
 		<property name="documentService" ref="documentService" />
+		<property name="travelEntertainmentMovingModuleService" ref="travelEntertainmentMovingModuleService"/>
 	</bean>
     <bean id="batchLookupableHelperService" parent="batchLookupableHelperService-parentBean"  scope="prototype"/>
 

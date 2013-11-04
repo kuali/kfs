@@ -134,8 +134,7 @@ public class ImportedCorporateCardExpenseServiceImpl extends ExpenseServiceBase 
      * @see org.kuali.kfs.module.tem.service.impl.ExpenseServiceBase#processExpense(org.kuali.kfs.module.tem.document.TravelDocument)
      */
     @Override
-    public void processExpense(TravelDocument travelDocument) {
-        GeneralLedgerPendingEntrySequenceHelper sequenceHelper = new GeneralLedgerPendingEntrySequenceHelper(travelDocument.getGeneralLedgerPendingEntries().size()+1);
+    public void processExpense(TravelDocument travelDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
         //create glpe's for just corp cards;
         for (TemSourceAccountingLine line : (List<TemSourceAccountingLine>)travelDocument.getSourceAccountingLines()){
             if (creditCardAgencyService.getCorpCreditCardAgencyCodeList().contains(line.getCardType())){

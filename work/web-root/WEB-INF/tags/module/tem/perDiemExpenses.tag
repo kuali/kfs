@@ -54,7 +54,7 @@
 					</tr>
 					<tr>
 			
-						<kul:htmlAttributeHeaderCell attributeEntry="${perDiemExpensesAttributes.countryState}" />
+						<kul:htmlAttributeHeaderCell attributeEntry="${perDiemExpensesAttributes.countryStateCode}" />
 						<kul:htmlAttributeHeaderCell attributeEntry="${perDiemExpensesAttributes.county}" />
 						<kul:htmlAttributeHeaderCell attributeEntry="${perDiemExpensesAttributes.primaryDestination}" />
 						<kul:htmlAttributeHeaderCell attributeEntry="${perDiemExpensesAttributes.personal}" />

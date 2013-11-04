@@ -26,7 +26,7 @@
 		</property>
 	</bean>
 	
-	<bean id="TemCorporateCardApplicationDocument-temProfileId" parent="TEMProfile-profileId-parentBean" >
+	<bean id="TemCorporateCardApplicationDocument-temProfileId" parent="TemProfile-profileId-parentBean" >
 		<property name="name" value="temProfileId" />
 	</bean>
 	

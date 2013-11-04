@@ -14,7 +14,7 @@
  limitations under the License.
 --%>
 <%@ include file="/jsp/sys/kfsTldHeader.jsp"%>
-<c:set var="profileAttributes" value="${DataDictionary.TEMProfile.attributes}" />
+<c:set var="profileAttributes" value="${DataDictionary.TemProfile.attributes}" />
 <c:set var="travelerAttributes" value="${DataDictionary.TravelerDetail.attributes}" />
 <kul:tab tabTitle="TEM Profile" defaultOpen="true">
 	<div class="tab-container" align="center">
@@ -205,7 +205,7 @@
 
 <!--
 <bean parent="MaintainableSubSectionHeaderDefinition" p:name="TEM Profile"/>
-				<bean parent="MaintainableFieldDefinition" p:name="profileId" p:required="true" p:unconditionallyReadOnly="true" p:defaultValueFinderClass="org.kuali.kfs.module.tem.businessobject.options.TEMProfileIDFinder" />
+				<bean parent="MaintainableFieldDefinition" p:name="profileId" p:required="true" p:unconditionallyReadOnly="true" p:defaultValueFinderClass="org.kuali.kfs.module.tem.businessobject.options.TemProfileIdFinder" />
 				<bean parent="MaintainableFieldDefinition" p:name="travelerTypeCode" p:required="true" p:noLookup="true" />
 				<bean parent="MaintainableFieldDefinition" p:name="lastUpdate" p:required="false" p:unconditionallyReadOnly="true" />
 				<bean parent="MaintainableFieldDefinition" p:name="updatedBy" p:required="false" p:unconditionallyReadOnly="true" />

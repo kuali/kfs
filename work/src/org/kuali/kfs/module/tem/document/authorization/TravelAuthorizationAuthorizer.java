@@ -15,6 +15,9 @@
  */
 package org.kuali.kfs.module.tem.document.authorization;
 
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -22,14 +25,21 @@ import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.businessobject.TemSourceAccountingLine;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
 import org.kuali.kfs.module.tem.document.TravelDocument;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
+import org.kuali.rice.kew.api.doctype.DocumentTypeService;
+import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.role.RoleService;
+import org.kuali.rice.kim.util.KimCommonUtils;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 public class TravelAuthorizationAuthorizer extends TravelArrangeableAuthorizer {
+    protected volatile RoleService roleService;
 
     /**
      *  check permission to close
@@ -102,6 +112,9 @@ public class TravelAuthorizationAuthorizer extends TravelArrangeableAuthorizer {
         if (dataObject instanceof TravelAuthorizationDocument) {
             addAccountQualification((TravelAuthorizationDocument)dataObject, qualification);
             addTemProfileQualification((TravelAuthorizationDocument)dataObject, qualification);
+            if (!qualification.containsKey(KFSPropertyConstants.ACCOUNT_NUMBER)) { // FO permissions have precedence over accounting review permissions, so only overwrite if qualifiers for FO are missing
+                addAccountingReviewerQualification((TravelAuthorizationDocument)dataObject, qualification);
+            }
         }
 
         super.addRoleQualification(dataObject, qualification);
@@ -128,12 +141,6 @@ public class TravelAuthorizationAuthorizer extends TravelArrangeableAuthorizer {
             foundQualification = addAccountQualificationForLine(accountingLine, attributes, currentUser);
             count += 1;
         }
-        count = 0;
-        while (!foundQualification && authorizationDoc.shouldProcessAdvanceForDocument() && !ObjectUtils.isNull(authorizationDoc.getAdvanceAccountingLines()) && count < authorizationDoc.getAdvanceAccountingLines().size()) {
-            final TemSourceAccountingLine accountingLine = authorizationDoc.getAdvanceAccountingLine(count);
-            foundQualification = addAccountQualificationForLine(accountingLine, attributes, currentUser);
-            count += 1;
-        }
     }
 
     /**
@@ -156,12 +163,75 @@ public class TravelAuthorizationAuthorizer extends TravelArrangeableAuthorizer {
     }
 
     /**
+     * Goes through the given List of accounting lines and finds one line where the current user is the accounting reviewer; it uses that line to add
+     * accounting review qualifications to the qualifier
+     * @param accountingLines a List of AccountingLines
+     * @param attributes a Map of role qualification attributes
+     */
+    protected void addAccountingReviewerQualification(TravelAuthorizationDocument authorizationDoc, Map<String, String> attributes) {
+        final Person currentUser = GlobalVariables.getUserSession().getPerson();
+
+        boolean foundQualification = false;
+        int count = 0;
+        while (!foundQualification && !ObjectUtils.isNull(authorizationDoc.getSourceAccountingLines()) && count < authorizationDoc.getSourceAccountingLines().size()) {
+            final TemSourceAccountingLine accountingLine = (TemSourceAccountingLine)authorizationDoc.getSourceAccountingLines().get(count);
+            foundQualification = addAccountingReviewQualificationForLine(authorizationDoc, accountingLine, attributes, currentUser);
+            count += 1;
+        }
+    }
+
+    /**
+     * If the given user is an accounting reviewer based on accounting line, then add that account as a qualification
+     * @param line the accounting line to check
+     * @param attributes the role qualification to fill
+     * @param currentUser the currently logged in user, whom we are doing permission checks for
+     * @return true if qualifications were added based on the line, false otherwise
+     */
+    protected boolean addAccountingReviewQualificationForLine(TravelAuthorizationDocument travelAuth, TemSourceAccountingLine line, Map<String, String> attributes, Person currentUser) {
+        if (ObjectUtils.isNull(line.getAccount())) {
+            line.refreshReferenceObject(KFSPropertyConstants.ACCOUNT);
+        }
+
+        if (!ObjectUtils.isNull(line.getAccount())) {
+            Map<String, String> testQualifier = new HashMap<String, String>();
+            testQualifier.put(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE, line.getChartOfAccountsCode());
+            testQualifier.put(KfsKimAttributes.ORGANIZATION_CODE, line.getAccount().getOrganizationCode());
+            testQualifier.put(KfsKimAttributes.FINANCIAL_DOCUMENT_TOTAL_AMOUNT, travelAuth.getTotalDollarAmount().toString());
+            testQualifier.put(KfsKimAttributes.ACCOUNTING_LINE_OVERRIDE_CODE, line.getOverrideCode());
+            testQualifier.put(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME, travelAuth.getDocumentTypeName());
+
+            final List<Map<String,String>> userAccountingReviewQualifiers = getRoleService().getRoleQualifersForPrincipalByNamespaceAndRolename(currentUser.getPrincipalId(), KFSConstants.SysKimApiConstants.ACCOUNTING_REVIEWER_ROLE_NAMESPACECODE, KFSConstants.SysKimApiConstants.ACCOUNTING_REVIEWER_ROLE_NAME, testQualifier);
+
+            if (userAccountingReviewQualifiers != null && !userAccountingReviewQualifiers.isEmpty()) {
+                // let's make sure that our given doc type actually matches - we've seen weird bugs with that
+                for (Map<String, String> qualifier : userAccountingReviewQualifiers) {
+                    if (qualifier.containsKey(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME)) {
+                        Set<String> possibleParentDocumentTypes = new HashSet<String>();
+                        possibleParentDocumentTypes.add(qualifier.get(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME));
+
+                        final String closestParent = KimCommonUtils.getClosestParentDocumentTypeName(SpringContext.getBean(DocumentTypeService.class).getDocumentTypeByName(testQualifier.get(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME)), possibleParentDocumentTypes);
+                        if (closestParent != null) {
+                            attributes.putAll(qualifier);
+                            return true;
+                        }
+                    } else {
+                        // no doc type.  That's weird, but whatever - it passes
+                        attributes.putAll(qualifier);
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Generic way of calling permissions
      *
-     * @param travelDocument
-     * @param user
-     * @param action
-     * @param canInitiatorAct
-     * @return
+     * @param travelDocument the authorization we're authorizing actions against
+     * @param user the user to check permission for
+     * @param permission the name of the KFS-TEM namespace permission to check
+     * @return true if the permission is granted, false otherwise
      */
     protected boolean getActionPermission(final TravelDocument travelDocument, final Person user, final String permission){
         final String nameSpaceCode = TemConstants.PARAM_NAMESPACE;
@@ -196,4 +266,11 @@ public class TravelAuthorizationAuthorizer extends TravelArrangeableAuthorizer {
         return actions;
     }
 
+    @Override
+    protected RoleService getRoleService() {
+        if (roleService == null) {
+            roleService = SpringContext.getBean(RoleService.class);
+        }
+        return roleService;
+    }
 }

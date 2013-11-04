@@ -50,7 +50,7 @@ public class ImportedExpenseLookupableHelperServiceImpl extends KualiLookupableH
     @SuppressWarnings("rawtypes")
     @Override
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
-        Integer profileID = (Integer) GlobalVariables.getUserSession().retrieveObject(TemPropertyConstants.TEMProfileProperties.PROFILE_ID);
+        Integer profileID = (Integer) GlobalVariables.getUserSession().retrieveObject(TemPropertyConstants.TemProfileProperties.PROFILE_ID);
 
         List<String> lookupableProfileId = new ArrayList<String>();
         lookupableProfileId.add(profileID.toString());
@@ -66,7 +66,7 @@ public class ImportedExpenseLookupableHelperServiceImpl extends KualiLookupableH
         StrBuilder builder = new StrBuilder();
         builder.appendWithSeparators(lookupableProfileId, "|");
 
-        fieldValues.put(TemPropertyConstants.TEMProfileProperties.PROFILE_ID, builder.toString());
+        fieldValues.put(TemPropertyConstants.TemProfileProperties.PROFILE_ID, builder.toString());
         String value = GlobalVariables.getUserSession().retrieveObject(KFSPropertyConstants.DOCUMENT_TYPE_CODE).toString();
 
         List<HistoricalTravelExpense> results = (List<HistoricalTravelExpense>) super.getSearchResultsHelper(fieldValues, true);

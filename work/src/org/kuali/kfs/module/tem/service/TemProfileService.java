@@ -69,7 +69,7 @@ public interface TemProfileService {
 
     /**
      *
-     * This method returns all active TEMProfiles
+     * This method returns all active TemProfiles
      * @return
      */
     public List<TemProfile> getAllActiveTemProfile();

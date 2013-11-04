@@ -577,10 +577,10 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
     @Override
     @Transient
     public KualiDecimal getEncumbranceTotal() {
-        TemExpenseService service = (TemExpenseService) SpringContext.getBean(TemExpense.class,TemConstants.TEMExpenseTypes.PER_DIEM);
+        TemExpenseService service = (TemExpenseService) SpringContext.getBean(TemExpense.class,TemConstants.TemExpenseTypes.PER_DIEM);
         KualiDecimal encTotal = service.getAllExpenseTotal(this, false);
 
-        service = (TemExpenseService) SpringContext.getBean(TemExpense.class,TemConstants.TEMExpenseTypes.ACTUAL);
+        service = (TemExpenseService) SpringContext.getBean(TemExpense.class,TemConstants.TemExpenseTypes.ACTUAL);
         encTotal = service.getAllExpenseTotal(this, false).add(encTotal);
 
         if (ObjectUtils.isNotNull(this.perDiemAdjustment) && perDiemAdjustment.isPositive()) {

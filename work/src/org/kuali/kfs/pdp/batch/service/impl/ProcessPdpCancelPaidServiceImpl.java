@@ -24,6 +24,7 @@ import java.util.Set;
 
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.integration.purap.PurchasingAccountsPayableModuleService;
+import org.kuali.kfs.integration.tem.TravelEntertainmentMovingModuleService;
 import org.kuali.kfs.pdp.PdpConstants;
 import org.kuali.kfs.pdp.PdpParameterConstants;
 import org.kuali.kfs.pdp.batch.ProcessPdPCancelsAndPaidStep;
@@ -53,6 +54,7 @@ public class ProcessPdpCancelPaidServiceImpl implements ProcessPdpCancelPaidServ
     protected ParameterService parameterService;
     protected DateTimeService dateTimeService;
     protected PurchasingAccountsPayableModuleService purchasingAccountsPayableModuleService;
+    protected TravelEntertainmentMovingModuleService travelEntertainmentMovingModuleService;
     protected PaymentSourceHelperService paymentSourceHelperService;
     protected DocumentService documentService;
 
@@ -123,10 +125,12 @@ public class ProcessPdpCancelPaidServiceImpl implements ProcessPdpCancelPaidServ
         String organization = parameterService.getParameterValueAsString(KfsParameterConstants.PURCHASING_BATCH.class, KFSParameterKeyConstants.PurapPdpParameterConstants.PURAP_PDP_ORG_CODE);
         String purapSubUnit = parameterService.getParameterValueAsString(KfsParameterConstants.PURCHASING_BATCH.class, KFSParameterKeyConstants.PurapPdpParameterConstants.PURAP_PDP_SUB_UNIT_CODE);
         String dvSubUnit = parameterService.getParameterValueAsString(DisbursementVoucherDocument.class, KFSParameterKeyConstants.PdpExtractBatchParameters.PDP_SBUNT_CODE);
+        String temSubUnit = getTravelEntertainmentMovingModuleService().getPdpSubUnit();
 
         List<String> subUnits = new ArrayList<String>();
         subUnits.add(purapSubUnit);
         subUnits.add(dvSubUnit);
+        subUnits.add(temSubUnit);
 
         Iterator<PaymentDetail> details = paymentDetailService.getUnprocessedPaidDetails(organization, subUnits);
         while (details.hasNext()) {
@@ -225,4 +229,13 @@ public class ProcessPdpCancelPaidServiceImpl implements ProcessPdpCancelPaidServ
     public void setPaymentSourceHelperService(PaymentSourceHelperService paymentSourceHelperService) {
         this.paymentSourceHelperService = paymentSourceHelperService;
     }
+
+    public TravelEntertainmentMovingModuleService getTravelEntertainmentMovingModuleService() {
+        return travelEntertainmentMovingModuleService;
+    }
+
+    public void setTravelEntertainmentMovingModuleService(TravelEntertainmentMovingModuleService travelEntertainmentMovingModuleService) {
+        this.travelEntertainmentMovingModuleService = travelEntertainmentMovingModuleService;
+    }
+
 }

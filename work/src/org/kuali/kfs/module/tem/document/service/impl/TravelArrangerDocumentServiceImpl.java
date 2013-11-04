@@ -20,7 +20,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.kfs.module.tem.TemPropertyConstants.TEMProfileProperties;
+import org.kuali.kfs.module.tem.TemPropertyConstants.TemProfileProperties;
 import org.kuali.kfs.module.tem.businessobject.TemProfileArranger;
 import org.kuali.kfs.module.tem.document.TravelArrangerDocument;
 import org.kuali.kfs.module.tem.document.service.TravelArrangerDocumentService;
@@ -103,8 +103,8 @@ public class TravelArrangerDocumentServiceImpl implements TravelArrangerDocument
     @Override
     public TemProfileArranger findTemProfileArranger(String principalId, Integer profileId) {
         Map fieldValues = new HashMap();
-        fieldValues.put(TEMProfileProperties.PRINCIPAL_ID, principalId);
-        fieldValues.put(TEMProfileProperties.PROFILE_ID, profileId);
+        fieldValues.put(TemProfileProperties.PRINCIPAL_ID, principalId);
+        fieldValues.put(TemProfileProperties.PROFILE_ID, profileId);
         //find active profile arrangers only
         fieldValues.put(KRADPropertyConstants.ACTIVE, "Y");
 

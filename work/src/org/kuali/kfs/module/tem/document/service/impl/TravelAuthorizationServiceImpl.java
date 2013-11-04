@@ -581,7 +581,7 @@ public class TravelAuthorizationServiceImpl implements TravelAuthorizationServic
         profile.getCustomer().setCustomerTypeCode(customerTypeCode);
         profile.getCustomer().setActive(true);
 
-        SpringContext.getBean(TravelerService.class).copyTEMProfileToCustomer(profile, profile.getCustomer());
+        SpringContext.getBean(TravelerService.class).copyTemProfileToCustomer(profile, profile.getCustomer());
         accountsReceivableModuleService.saveCustomer(profile.getCustomer());
 
         return profile.getCustomer();

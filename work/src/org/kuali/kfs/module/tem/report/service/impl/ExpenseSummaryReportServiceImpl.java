@@ -42,7 +42,6 @@ import org.kuali.kfs.sys.util.KfsDateUtils;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
-import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.springframework.transaction.annotation.Transactional;
@@ -185,15 +184,9 @@ public class ExpenseSummaryReportServiceImpl implements ExpenseSummaryReportServ
             final boolean showTAEstimate = getParameterService().getParameterValueAsBoolean(TravelReimbursementDocument.class, DISPLAY_TRAVEL_AUTHORIZATION_ESTIMATE_IN_SUMMARY_REPORT_IND);
 
             if (showTAEstimate) {
-                try {
-                    TravelDocument ta = getTravelDocumentService().findCurrentTravelAuthorization(travelDocument);
-                    if (ta != null) {
-                        summary.add(new ExpenseSummaryReport.Detail("Expense Total Estimate", "SUMMARY", ta.getDocumentGrandTotal(), ta.getTripBegin()));
-                    }
-                }
-                catch (WorkflowException ex) {
-                    // TODO Auto-generated catch block
-                    ex.printStackTrace();
+                TravelDocument ta = getTravelDocumentService().findCurrentTravelAuthorization(travelDocument);
+                if (ta != null) {
+                    summary.add(new ExpenseSummaryReport.Detail("Expense Total Estimate", "SUMMARY", ta.getDocumentGrandTotal(), ta.getTripBegin()));
                 }
             }
         }

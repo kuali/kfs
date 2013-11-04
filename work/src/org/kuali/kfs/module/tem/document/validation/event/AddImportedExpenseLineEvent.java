@@ -61,7 +61,6 @@ public class AddImportedExpenseLineEvent<E extends ImportedExpense> extends Attr
 
     @Override
     public E getExpenseLine() {
-        // TODO Auto-generated method stub
         return expense;
     }
 

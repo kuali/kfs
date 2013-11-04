@@ -28,7 +28,6 @@ import org.kuali.kfs.module.tem.TemConstants.AgencyMatchProcessParameter;
 import org.kuali.kfs.module.tem.TemConstants.AgencyStagingDataErrorCodes;
 import org.kuali.kfs.module.tem.TemConstants.AgencyStagingDataValidation;
 import org.kuali.kfs.module.tem.TemConstants.CreditCardStagingDataErrorCodes;
-import org.kuali.kfs.module.tem.TemConstants.ExpenseTypes;
 import org.kuali.kfs.module.tem.TemConstants.TravelParameters;
 import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.TemParameterConstants;
@@ -160,22 +159,21 @@ public class ExpenseImportByTripServiceImpl extends ExpenseImportServiceBase imp
 
         List<ErrorMessage> errorMessages = validateMandatoryFieldsPresent(agencyData);
         if (!errorMessages.isEmpty()) {
+            agencyData.setErrorCode(TemConstants.AgencyStagingDataErrorCodes.AGENCY_REQUIRED_FIELDS);
             return errorMessages;
         }
 
         errorMessages = validateDuplicateData(agencyData);
         if (!errorMessages.isEmpty()) {
+            agencyData.setErrorCode(TemConstants.AgencyStagingDataErrorCodes.AGENCY_DUPLICATE_DATA);
             return errorMessages;
         }
 
+        agencyData.setErrorCode(AgencyStagingDataErrorCodes.AGENCY_NO_ERROR);
+
         errorMessages = validateTripId(agencyData);
-        if (!errorMessages.isEmpty()) {
-            return errorMessages;
-        }
-        else {
-            agencyData.setErrorCode(AgencyStagingDataErrorCodes.AGENCY_NO_ERROR);
-            errorMessages = validateAccountingInfo(agencyData);
-        }
+
+        errorMessages.addAll(validateAccountingInfo(agencyData));
 
         if (!isCreditCardAgencyValid(agencyData)) {
             errorMessages.add(new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_CREDIT_CARD_DATA_INVALID_CCA));
@@ -183,6 +181,9 @@ public class ExpenseImportByTripServiceImpl extends ExpenseImportServiceBase imp
 
         LOG.info("Finished validating agency data. tripId:"+ agencyData.getTripId());
         agencyData.setProcessingTimestamp(dateTimeService.getCurrentTimestamp());
+        if (ObjectUtils.isNull(agencyData.getCreationTimestamp())) {
+            agencyData.setCreationTimestamp(dateTimeService.getCurrentTimestamp());
+        }
         return errorMessages;
     }
 
@@ -228,6 +229,14 @@ public class ExpenseImportByTripServiceImpl extends ExpenseImportServiceBase imp
             LOG.error("Found null profile on TravelDocument: "+ travelDocument.getDocumentNumber());
             errorMessages.add(new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_DATA_INVALID_TEM_PROFILE,travelDocument.getDocumentNumber()));
             return errorMessages;
+        }
+
+        // will we have an expense type object code when we want to reconcile?
+        final ExpenseTypeObjectCode expenseTypeObjectCode = getTravelExpenseType(agencyData.getExpenseTypeCategory(), travelDocument);
+        if (expenseTypeObjectCode == null) {
+            LOG.error("Could not find an expense type object code record for trip id: "+agencyData.getTripId());
+            errorMessages.add(new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_DATA_INVALID_EXPENSE_TYPE_OBJECT_CODE, agencyData.getTripId(), agencyData.getAgency(), agencyData.getTransactionPostingDate().toString(), agencyData.getTripExpenseAmount().toString()));
+            setErrorCode(agencyData, AgencyStagingDataErrorCodes.AGENCY_INVALID_EXPENSE_TYPE_OBJECT_CODE);
         }
 
         // Get ACCOUNTING_LINE_VALIDATION parameter to determine which fields to validate
@@ -405,27 +414,27 @@ public class ExpenseImportByTripServiceImpl extends ExpenseImportServiceBase imp
 
             if (AgencyStagingDataErrorCodes.AGENCY_NO_ERROR.equals(agencyData.getErrorCode())) {
 
-                String expenseType = agencyData.getExpenseType();
                 TemConstants.ExpenseTypeMetaCategory expenseTypeCategory = agencyData.getExpenseTypeCategory();
 
                 // This is the "match process" - see if there's credit card data that matches the agency data
                 CreditCardStagingData ccData = null;
-                if (StringUtils.equalsIgnoreCase(expenseType, ExpenseTypes.AIRFARE)) {
+                if (expenseTypeCategory == TemConstants.ExpenseTypeMetaCategory.AIRFARE) {
                     // see if there's a CC that matches ticket number, service fee number, amount
                     ccData = travelExpenseService.findImportedCreditCardExpense(agencyData.getTripExpenseAmount(), agencyData.getAirTicketNumber(), agencyData.getAirServiceFeeNumber());
                 }
-                else if (StringUtils.equalsIgnoreCase(expenseType, ExpenseTypes.LODGING)) {
+                else if (expenseTypeCategory == TemConstants.ExpenseTypeMetaCategory.LODGING) {
                     // see if there's a CC that matches lodging itinerary number and amount
                     ccData = travelExpenseService.findImportedCreditCardExpense(agencyData.getTripExpenseAmount(), agencyData.getLodgingItineraryNumber());
                 }
-                else if (StringUtils.equalsIgnoreCase(expenseType, ExpenseTypes.RENTAL_CAR)) {
+                else if (expenseTypeCategory == TemConstants.ExpenseTypeMetaCategory.RENTAL_CAR) {
                     // see if there's a CC that matches rental car itinerary number and amount
                     ccData = travelExpenseService.findImportedCreditCardExpense(agencyData.getTripExpenseAmount(), agencyData.getRentalCarItineraryNumber());
                 }
 
                 if (ObjectUtils.isNotNull(ccData)) {
                     LOG.debug("Found a match for Agency: "+ agencyData.getId()+ " Credit Card: "+ ccData.getId()+ " tripId: "+ agencyData.getTripId());
-                    ExpenseTypeObjectCode travelExpenseType = getTravelExpenseType(expenseTypeCategory, agencyData.getTripId());
+                    final TravelDocument travelDocument = getTravelDocumentService().getTravelDocument(agencyData.getTripId());
+                    ExpenseTypeObjectCode travelExpenseType = getTravelExpenseType(expenseTypeCategory, travelDocument);
                     if (travelExpenseType != null) {
                         HistoricalTravelExpense expense = travelExpenseService.createHistoricalTravelExpense(agencyData, ccData, travelExpenseType);
                         AgencyServiceFee serviceFee = getAgencyServiceFee(agencyData.getDistributionCode());
@@ -528,12 +537,10 @@ public class ExpenseImportByTripServiceImpl extends ExpenseImportServiceBase imp
      * @param travelDocumentIdentifier
      * @return
      */
-    protected ExpenseTypeObjectCode getTravelExpenseType(TemConstants.ExpenseTypeMetaCategory expenseCategory, String travelDocumentIdentifier) {
+    protected ExpenseTypeObjectCode getTravelExpenseType(TemConstants.ExpenseTypeMetaCategory expenseCategory, TravelDocument travelDoc) {
         // get the default expense type for category
         final ExpenseType expenseType = getTravelExpenseService().getDefaultExpenseTypeForCategory(expenseCategory);
         // Is there a document associated with this trip?  If so, let's grab the trip type and traveler type from that
-        // Note the tripId has already been validated at this point, so the TA should be there (if the imported expense is for a TA)
-        TravelDocument travelDoc = getTravelDocumentService().getTravelDocument(travelDocumentIdentifier);
         if (ObjectUtils.isNotNull(travelDoc)) {
             return travelExpenseService.getExpenseType(expenseType.getCode(), travelDoc.getDocumentTypeName(), travelDoc.getTripTypeCode(), travelDoc.getTraveler().getTravelerTypeCode());
         }

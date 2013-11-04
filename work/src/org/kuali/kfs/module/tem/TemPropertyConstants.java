@@ -184,7 +184,7 @@ public class TemPropertyConstants {
         public static final String RESIGN = "resign";
     }
 
-    public class TEMProfileProperties {
+    public class TemProfileProperties {
         public static final String PROFILE_ID = "profileId";
         public static final String PRINCIPAL_ID = "principalId";
         public static final String EMPLOYEE_ID = "employeeId";
@@ -222,13 +222,15 @@ public class TemPropertyConstants {
         public static final String PHONE_NUMBER = "phoneNumber";
         public static final String CUSTOMER_NUMBER = "customerNumber";
 
+        public static final String ONLY_ARRANGEES_IN_LOOKUP = "onlyArrangeesInLookup";
+
         public static final String EXPIRATION_DATE = "expirationDate";
         public static final String EFFECTIVE_DATE = "effectiveDate";
         public static final String ACCOUNT_NUMBER = "accountNumber";
         public static final String ACCOUNTS = "accounts";
 
         public static final String TEM_PROFILE = "TemProfile";
-        public static final String TEM_PROFILE_ADMINISTRATOR = "TEMProfileAdministrator";
+        public static final String TEM_PROFILE_ADMINISTRATOR = "TemProfileAdministrator";
     }
 
     public static class TravelAgencyAuditReportFields {
@@ -247,28 +249,28 @@ public class TemPropertyConstants {
     @SuppressWarnings("rawtypes")
     public static final Map<String, Class> KIMReadOnly() {
         Map<String, Class> returnMap = new HashMap<String, Class>();
-        returnMap.put(TemPropertyConstants.TEMProfileProperties.FIRST_NAME, null);
-        returnMap.put(TemPropertyConstants.TEMProfileProperties.LAST_NAME, null);
-        returnMap.put(TemPropertyConstants.TEMProfileProperties.MIDDLE_NAME, null);
-        returnMap.put(TemPropertyConstants.TEMProfileProperties.HOME_DEPARTMENT, null);
-        returnMap.put(TemPropertyConstants.TEMProfileProperties.ADDRESS_1, null);
-        returnMap.put(TemPropertyConstants.TEMProfileProperties.ADDRESS_2, null);
-        returnMap.put(TemPropertyConstants.TEMProfileProperties.CITY_NAME, null);
-        returnMap.put(TemPropertyConstants.TEMProfileProperties.STATE_CODE, null);
-        returnMap.put(TemPropertyConstants.TEMProfileProperties.ZIP_CODE, null);
-        returnMap.put(TemPropertyConstants.TEMProfileProperties.COUNTRY_CODE, null);
-        returnMap.put(TemPropertyConstants.TEMProfileProperties.EMAIL_ADDRESS, null);
-        returnMap.put(TemPropertyConstants.TEMProfileProperties.PHONE_NUMBER, null);
+        returnMap.put(TemPropertyConstants.TemProfileProperties.FIRST_NAME, null);
+        returnMap.put(TemPropertyConstants.TemProfileProperties.LAST_NAME, null);
+        returnMap.put(TemPropertyConstants.TemProfileProperties.MIDDLE_NAME, null);
+        returnMap.put(TemPropertyConstants.TemProfileProperties.HOME_DEPARTMENT, null);
+        returnMap.put(TemPropertyConstants.TemProfileProperties.ADDRESS_1, null);
+        returnMap.put(TemPropertyConstants.TemProfileProperties.ADDRESS_2, null);
+        returnMap.put(TemPropertyConstants.TemProfileProperties.CITY_NAME, null);
+        returnMap.put(TemPropertyConstants.TemProfileProperties.STATE_CODE, null);
+        returnMap.put(TemPropertyConstants.TemProfileProperties.ZIP_CODE, null);
+        returnMap.put(TemPropertyConstants.TemProfileProperties.COUNTRY_CODE, null);
+        returnMap.put(TemPropertyConstants.TemProfileProperties.EMAIL_ADDRESS, null);
+        returnMap.put(TemPropertyConstants.TemProfileProperties.PHONE_NUMBER, null);
         return returnMap;
     }
 
     public static final Map<String, String> encryptedFields() {
         Map<String, String> returnMap = new HashMap<String, String>();
-        returnMap.put(TemPropertyConstants.TEMProfileProperties.DRIVERS_LICENSE_EXP_DATE, null);
-        returnMap.put(TemPropertyConstants.TEMProfileProperties.DRIVERS_LICENSE_STATE, null);
-        returnMap.put(TemPropertyConstants.TEMProfileProperties.DRIVERS_LICENSE_NUMBER, null);
-        returnMap.put(TemPropertyConstants.TEMProfileProperties.DATE_OF_BIRTH, null);
-        returnMap.put(TemPropertyConstants.TEMProfileProperties.ACCOUNT_NUMBER, null);
+        returnMap.put(TemPropertyConstants.TemProfileProperties.DRIVERS_LICENSE_EXP_DATE, null);
+        returnMap.put(TemPropertyConstants.TemProfileProperties.DRIVERS_LICENSE_STATE, null);
+        returnMap.put(TemPropertyConstants.TemProfileProperties.DRIVERS_LICENSE_NUMBER, null);
+        returnMap.put(TemPropertyConstants.TemProfileProperties.DATE_OF_BIRTH, null);
+        returnMap.put(TemPropertyConstants.TemProfileProperties.ACCOUNT_NUMBER, null);
         return returnMap;
     }
 
@@ -287,7 +289,7 @@ public class TemPropertyConstants {
         return returnMap;
     }
 
-    public class TEMProfileArrangerProperties {
+    public class TemProfileArrangerProperties {
 
     }
 

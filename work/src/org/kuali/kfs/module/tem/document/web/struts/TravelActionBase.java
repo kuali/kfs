@@ -73,11 +73,10 @@ import org.kuali.kfs.module.tem.businessobject.PerDiem;
 import org.kuali.kfs.module.tem.businessobject.PerDiemExpense;
 import org.kuali.kfs.module.tem.businessobject.PrimaryDestination;
 import org.kuali.kfs.module.tem.businessobject.SpecialCircumstances;
-import org.kuali.kfs.module.tem.businessobject.TemProfile;
 import org.kuali.kfs.module.tem.businessobject.TemDistributionAccountingLine;
+import org.kuali.kfs.module.tem.businessobject.TemProfile;
 import org.kuali.kfs.module.tem.businessobject.TemSourceAccountingLine;
 import org.kuali.kfs.module.tem.businessobject.TravelerDetail;
-import org.kuali.kfs.module.tem.document.TEMReimbursementDocument;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.TravelDocumentBase;
@@ -94,8 +93,8 @@ import org.kuali.kfs.module.tem.document.web.bean.TravelMvcWrapperBean;
 import org.kuali.kfs.module.tem.report.service.TravelReportService;
 import org.kuali.kfs.module.tem.service.AccountingDistributionService;
 import org.kuali.kfs.module.tem.service.PerDiemService;
-import org.kuali.kfs.module.tem.service.TemRoleService;
 import org.kuali.kfs.module.tem.service.TemProfileService;
+import org.kuali.kfs.module.tem.service.TemRoleService;
 import org.kuali.kfs.module.tem.service.TravelService;
 import org.kuali.kfs.module.tem.service.TravelerService;
 import org.kuali.kfs.module.tem.util.ExpenseUtils;
@@ -290,7 +289,7 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
 
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        GlobalVariables.getUserSession().removeObject(TemPropertyConstants.TEMProfileProperties.PROFILE_ID);
+        GlobalVariables.getUserSession().removeObject(TemPropertyConstants.TemProfileProperties.PROFILE_ID);
         GlobalVariables.getUserSession().removeObject(KFSPropertyConstants.DOCUMENT_TYPE_CODE);
         TravelFormBase travelFormBase = (TravelFormBase) form;
         final String methodToCall = travelFormBase.getMethodToCall();
@@ -408,7 +407,7 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
                 return mapping.findForward(KFSConstants.MAPPING_BASIC);
             }
             travelForm.setRefreshCaller(KFSConstants.MULTIPLE_VALUE);
-            GlobalVariables.getUserSession().addObject(TemPropertyConstants.TEMProfileProperties.PROFILE_ID, document.getTemProfileId());
+            GlobalVariables.getUserSession().addObject(TemPropertyConstants.TemProfileProperties.PROFILE_ID, document.getTemProfileId());
             GlobalVariables.getUserSession().addObject(TemPropertyConstants.ARRANGER_PROFILE_ID, getTemProfileService().findTemProfileByPrincipalId(GlobalVariables.getUserSession().getPrincipalId()).getProfileId());
             GlobalVariables.getUserSession().addObject(KFSPropertyConstants.DOCUMENT_TYPE_CODE, document.getFinancialDocumentTypeCode());
         }
@@ -884,22 +883,20 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
 
 
     protected KualiDecimal getAccountingLineAmountToFillIn(TravelFormBase travelReqForm) {
-        KualiDecimal amount = new KualiDecimal(0);
+        KualiDecimal amount = KualiDecimal.ZERO;
 
-        TEMReimbursementDocument travelDocument = (TEMReimbursementDocument)travelReqForm.getTravelDocument();
-        KualiDecimal reimbursementTotal = travelDocument.getTotalAccountLineAmount();
+        TravelDocument travelDocument = travelReqForm.getTravelDocument();
+        KualiDecimal amountToBePaid = travelDocument.getTotalAccountLineAmount();
 
         final List<TemSourceAccountingLine> accountingLines = travelDocument.getSourceAccountingLines();
 
-        KualiDecimal accountingTotal = new KualiDecimal(0);
+        KualiDecimal accountingTotal = KualiDecimal.ZERO;
         for (TemSourceAccountingLine accountingLine : accountingLines) {
-            if (travelDocument.getDefaultCardTypeCode().equals(accountingLine.getCardType())) {
-                accountingTotal = accountingTotal.add(accountingLine.getAmount());
-            }
+            accountingTotal = accountingTotal.add(accountingLine.getAmount());
         }
 
-        if (!ObjectUtils.isNull(reimbursementTotal)) {
-            amount = reimbursementTotal.subtract(accountingTotal);
+        if (!ObjectUtils.isNull(amountToBePaid) && amountToBePaid.isGreaterEqual(accountingTotal)) {
+            amount = amountToBePaid.subtract(accountingTotal);
         }
 
         return amount;

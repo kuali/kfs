@@ -29,7 +29,7 @@ import org.apache.cxf.common.util.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomerAddress;
 import org.kuali.kfs.integration.ar.AccountsReceivableModuleService;
-import org.kuali.kfs.module.tem.TemPropertyConstants.TEMProfileProperties;
+import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.businessobject.TemProfileAddress;
 import org.kuali.kfs.module.tem.dataaccess.TravelerDao;
 import org.kuali.kfs.module.tem.service.TravelerService;
@@ -110,7 +110,7 @@ public class TemProfileAddressLookupableHelperServiceImpl extends KualiLookupabl
 
         List<TemProfileAddress> searchResults = new ArrayList<TemProfileAddress>();
 
-        if (fieldValues.containsKey(TEMProfileProperties.PRINCIPAL_ID) && !StringUtils.isEmpty(fieldValues.get(TEMProfileProperties.PRINCIPAL_ID))) {
+        if (fieldValues.containsKey(TemPropertyConstants.TemProfileProperties.PRINCIPAL_ID) && !StringUtils.isEmpty(fieldValues.get(TemPropertyConstants.TemProfileProperties.PRINCIPAL_ID))) {
         	final Map<String, String> kimFieldsForLookup = this.getPersonFieldValues(fieldValues);
         	kimFieldsForLookup.put(KFSPropertyConstants.KUALI_USER_PERSON_ACTIVE_INDICATOR, KFSConstants.ACTIVE_INDICATOR);
 
@@ -118,12 +118,12 @@ public class TemProfileAddressLookupableHelperServiceImpl extends KualiLookupabl
 
         	for (EntityAddressBo address : addresses) {
         		TemProfileAddress temAddress = getTravelerService().convertToTemProfileAddressFromKimAddress(address);
-        		temAddress.setPrincipalId(fieldValues.get(TEMProfileProperties.PRINCIPAL_ID));
+        		temAddress.setPrincipalId(fieldValues.get(TemPropertyConstants.TemProfileProperties.PRINCIPAL_ID));
                 searchResults.add(temAddress);
             }
         }
 
-        if (searchResults.isEmpty() && fieldValues.containsKey(TEMProfileProperties.CUSTOMER_NUMBER) && !StringUtils.isEmpty(fieldValues.get(TEMProfileProperties.CUSTOMER_NUMBER))) {
+        if (searchResults.isEmpty() && fieldValues.containsKey(TemPropertyConstants.TemProfileProperties.CUSTOMER_NUMBER) && !StringUtils.isEmpty(fieldValues.get(TemPropertyConstants.TemProfileProperties.CUSTOMER_NUMBER))) {
         	final Map<String, String> customerFieldsForLookup = this.getCustomerFieldValues(fieldValues);
 
             LOG.debug("Using fieldsForLookup "+ customerFieldsForLookup);
@@ -190,7 +190,7 @@ public class TemProfileAddressLookupableHelperServiceImpl extends KualiLookupabl
     	Map<String, String> kimFieldValues = new HashMap<String, String>();
 
     	for(Entry<String, String> entry : fieldValues.entrySet()) {
-    		if (entry.getKey().equalsIgnoreCase(TEMProfileProperties.PRINCIPAL_ID) && !StringUtils.isEmpty(entry.getValue())) {
+    		if (entry.getKey().equalsIgnoreCase(TemPropertyConstants.TemProfileProperties.PRINCIPAL_ID) && !StringUtils.isEmpty(entry.getValue())) {
     	    	Principal principal = this.getIdentityService().getPrincipal(entry.getValue());
     			kimFieldValues.put(temProfileAddressToKimAddress.get(entry.getKey()), principal.getEntityId());
     		}

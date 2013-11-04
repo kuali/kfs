@@ -62,7 +62,7 @@ public class MockTravelDocumentServiceImpl implements TravelDocumentService {
     public static final int VALID_TEM_PROFILE_ID = 37;
 
     @Override
-    public TravelDocument findRootForTravelReimbursement(String travelDocumentIdentifier) throws WorkflowException {
+    public TravelDocument findRootForTravelReimbursement(String travelDocumentIdentifier) {
 
         if (StringUtils.equals(travelDocumentIdentifier, VALID_DOCUMENT_IDENTIFIER)) {
             return createTA();
@@ -263,7 +263,7 @@ public class MockTravelDocumentServiceImpl implements TravelDocumentService {
     }
 
     @Override
-    public TravelAuthorizationDocument findCurrentTravelAuthorization(TravelDocument document) throws WorkflowException {
+    public TravelAuthorizationDocument findCurrentTravelAuthorization(TravelDocument document) {
         return realTravelDocumentService.findCurrentTravelAuthorization(document);
     }
 

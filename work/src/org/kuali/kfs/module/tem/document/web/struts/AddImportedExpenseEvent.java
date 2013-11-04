@@ -24,7 +24,6 @@ import java.util.Observer;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.kuali.kfs.module.tem.TemConstants;
-import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.businessobject.HistoricalTravelExpense;
 import org.kuali.kfs.module.tem.businessobject.ImportedExpense;
 import org.kuali.kfs.module.tem.businessobject.TemSourceAccountingLine;
@@ -51,10 +50,6 @@ public class AddImportedExpenseEvent implements Observer {
 
         final TravelDocument document = wrapper.getTravelDocument();
         final ImportedExpense newImportedExpenseLine = wrapper.getNewImportedExpenseLine();
-
-        if(newImportedExpenseLine != null){
-            newImportedExpenseLine.refreshReferenceObject(TemPropertyConstants.EXPENSE_TYPE_OBJECT_CODE);
-        }
 
         boolean rulePassed = true;
 

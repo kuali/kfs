@@ -61,8 +61,8 @@ public class CreditCardDataImportServiceTest extends KualiTestBase{
 
     protected TemProfile createTemProfile() {
         TemProfile profile = new TemProfile();
-        /*TemProfileAccount temAccount = new TemProfileAccount();
-        List<TemProfileAccount> accounts = new ArrayList<TemProfileAccount>();
+        /*TEMProfileAccount temAccount = new TEMProfileAccount();
+        List<TEMProfileAccount> accounts = new ArrayList<TEMProfileAccount>();
 
         CreditCardAgency ccAgency = new CreditCardAgency();
         ccAgency.setCreditCardOrAgencyCode(sas.getNextAvailableSequenceNumber(TemConstants.TEM_CREDIT_CARD_AGENCY_SEQ_NAME).intValue());

@@ -18,7 +18,7 @@
 		</property>
 	</bean>
 	<bean id="AdvancePaymentReason-code" parent="AdvancePaymentReason-code-parentBean" />
-	<bean id="AdvancePaymentReason-code-parentBean" parent="AttributeDefinition">
+	<bean id="AdvancePaymentReason-code-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="code" />
 		<property name="label" value="Code" />
 		<property name="shortLabel" value="Code" />
@@ -29,7 +29,7 @@
 		<property name="control"><bean parent="TextControlDefinition" p:size="2"/></property>
 	</bean>
 	<bean id="AdvancePaymentReason-description" parent="AdvancePaymentReason-description-parentBean" />
-	<bean id="AdvancePaymentReason-description-parentBean" parent="AttributeDefinition">
+	<bean id="AdvancePaymentReason-description-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="description" />
 		<property name="label" value="Description" />
 		<property name="shortLabel" value="Description" />
@@ -42,7 +42,7 @@
 		</property>
 	</bean>
 	<bean id="AdvancePaymentReason-active" parent="AdvancePaymentReason-active-parentBean" />
-	<bean id="AdvancePaymentReason-active-parentBean" parent="GenericAttributes-genericBoolean">
+	<bean id="AdvancePaymentReason-active-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
 		<property name="name" value="active" />
 		<property name="label" value="Active" />
 		<property name="shortLabel" value="Active" />

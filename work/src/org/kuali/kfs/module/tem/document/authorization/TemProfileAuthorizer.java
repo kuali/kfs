@@ -67,7 +67,7 @@ public class TemProfileAuthorizer extends FinancialSystemMaintenanceDocumentAuth
 
         // Add the profileId from the profile to grant permission to the assigned arrangers modifying the profile.
         if (ObjectUtils.isNotNull(profile.getProfileId())) {
-            attributes.put(TemPropertyConstants.TEMProfileProperties.PROFILE_ID, profile.getProfileId().toString());
+            attributes.put(TemPropertyConstants.TemProfileProperties.PROFILE_ID, profile.getProfileId().toString());
         }
     }
 

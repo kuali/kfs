@@ -24,7 +24,7 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemConstants.TravelDocTypes;
-import org.kuali.kfs.module.tem.TemPropertyConstants.TEMProfileProperties;
+import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.businessobject.TemProfileArranger;
 import org.kuali.kfs.module.tem.document.service.TravelArrangerDocumentService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -47,7 +47,7 @@ public class ArrangerDerivedRoleTypeServiceImpl extends DerivedRoleTypeServiceBa
     public boolean hasDerivedRole(String principalId, List<String> groupIds, String namespaceCode, String roleName, Map<String,String> qualification) {
         //first we need to grab the profileId if it exists
         if(qualification!=null && !qualification.isEmpty()){
-            final String profileId = qualification.get(TEMProfileProperties.PROFILE_ID);
+            final String profileId = qualification.get(TemPropertyConstants.TemProfileProperties.PROFILE_ID);
             final String documentType = qualification.get(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME);
             if(!StringUtils.isBlank(profileId)) {
 
@@ -78,7 +78,7 @@ public class ArrangerDerivedRoleTypeServiceImpl extends DerivedRoleTypeServiceBa
         //simply check whether the person is an arranger (not particularly tied to a profile)
         if(StringUtils.isNotBlank(principalId) && (qualification == null || !qualification.containsKey(TemKimAttributes.PROFILE_ID) || qualification.get(TemKimAttributes.PROFILE_ID) == null)) {
             Map fieldValues = new HashMap();
-            fieldValues.put(TEMProfileProperties.PRINCIPAL_ID, principalId);
+            fieldValues.put(TemPropertyConstants.TemProfileProperties.PRINCIPAL_ID, principalId);
             fieldValues.put(KFSPropertyConstants.ACTIVE, "Y");
             Collection<TemProfileArranger> arrangers = getBusinessObjectService().findMatching(TemProfileArranger.class, fieldValues);
             //List<TemProfileArranger> profileArrangers = new ArrayList<TemProfileArranger>( getBusinessObjectService().findMatching(TemProfileArranger.class, fieldValues));

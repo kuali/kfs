@@ -322,8 +322,7 @@
 	
    <!-- Validations -->  
   <bean id="TravelEntertainmentDocument-validations" parent="TravelEntertainmentDocument-validations-parentBean"/>
-  
-  <bean id="TravelEntertainmentDocument-validations-parentBean" class="org.springframework.beans.factory.config.MapFactoryBean">
+  <bean id="TravelEntertainmentDocument-validations-parentBean" abstract="true" class="org.springframework.beans.factory.config.MapFactoryBean">
     <property name="sourceMap">
      	<map key-type="java.lang.Class">
 			<entry>

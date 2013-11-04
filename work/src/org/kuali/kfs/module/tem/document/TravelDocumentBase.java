@@ -71,8 +71,8 @@ import org.kuali.kfs.module.tem.document.service.TravelEncumbranceService;
 import org.kuali.kfs.module.tem.document.service.TravelReimbursementService;
 import org.kuali.kfs.module.tem.service.AccountingDistributionService;
 import org.kuali.kfs.module.tem.service.PerDiemService;
-import org.kuali.kfs.module.tem.service.TemRoleService;
 import org.kuali.kfs.module.tem.service.TemProfileService;
+import org.kuali.kfs.module.tem.service.TemRoleService;
 import org.kuali.kfs.module.tem.service.TravelDocumentNotificationService;
 import org.kuali.kfs.module.tem.service.TravelExpenseService;
 import org.kuali.kfs.module.tem.service.TravelService;
@@ -354,7 +354,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
     public void setPrimaryDestination(PrimaryDestination primaryDestination) {
         this.primaryDestination = primaryDestination;
         if (primaryDestination !=  null){
-            this.setPrimaryDestinationCountryState(primaryDestination.getRegionCode());
+            this.setPrimaryDestinationCountryState(primaryDestination.getRegion().getRegionName());
             this.setPrimaryDestinationCounty(primaryDestination.getCounty());
             this.setPrimaryDestinationName(primaryDestination.getPrimaryDestinationName());
 
@@ -1170,7 +1170,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
     public void setProfileId(Integer profileId) {
         this.temProfileId = profileId;
         Map<String, Object> primaryKeys = new HashMap<String, Object>();
-        primaryKeys.put(TemPropertyConstants.TEMProfileProperties.PROFILE_ID, profileId);
+        primaryKeys.put(TemPropertyConstants.TemProfileProperties.PROFILE_ID, profileId);
         setTemProfile(getBusinessObjectService().findByPrimaryKey(TemProfile.class, primaryKeys));
     }
 
@@ -1209,7 +1209,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
     public void setTemProfile(TemProfile temProfile) {
         this.temProfile = temProfile;
         if(temProfile != null){
-            getTravelerService().populateTEMProfile(temProfile);
+            getTravelerService().populateTemProfile(temProfile);
             if (temProfile.getTravelerType() == null){
                 Map<String, Object> fieldValues = new HashMap<String, Object>();
                 fieldValues.put(KFSPropertyConstants.CODE, temProfile.getTravelerTypeCode());
@@ -1222,7 +1222,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
                 setTraveler(new TravelerDetail());
             }
             traveler.setDocumentNumber(this.documentNumber);
-            getTravelerService().convertTEMProfileToTravelerDetail(temProfile,(traveler == null?new TravelerDetail():traveler));
+            getTravelerService().convertTemProfileToTravelerDetail(temProfile,(traveler == null?new TravelerDetail():traveler));
         }
     }
 
@@ -1240,7 +1240,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
             // setting it up from the profile, which is why setProfileId() is not called here.
             this.temProfileId = temProfileId;
             Map<String, Object> primaryKeys = new HashMap<String, Object>();
-            primaryKeys.put(TemPropertyConstants.TEMProfileProperties.PROFILE_ID, temProfileId);
+            primaryKeys.put(TemPropertyConstants.TemProfileProperties.PROFILE_ID, temProfileId);
             this.temProfile = getBusinessObjectService().findByPrimaryKey(TemProfile.class, primaryKeys);
 
             this.traveler = getTravelerService().copyTravelerDetail(traveler, this.documentNumber);
@@ -1533,7 +1533,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
 
             if (getTraveler().getPrincipalId() != null){
                 RoleService service = SpringContext.getBean(RoleService.class);
-                List<String> principalIds = (List<String>) service.getRoleMemberPrincipalIds(TemConstants.PARAM_NAMESPACE, TemConstants.TEMRoleNames.DIVISION_REVIEWER, null);
+                List<String> principalIds = (List<String>) service.getRoleMemberPrincipalIds(TemConstants.PARAM_NAMESPACE, TemConstants.TemRoleNames.DIVISION_REVIEWER, null);
                 for (String id : principalIds){
                     if (id.equals(getTraveler().getPrincipalId())){
                         return true;
@@ -1968,8 +1968,8 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
      */
     @Override
     public boolean generateDocumentGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
-        getTravelExpenseService().getExpenseServiceByType(ExpenseType.importedCTS).processExpense(this);
-        getTravelExpenseService().getExpenseServiceByType(ExpenseType.importedCorpCard).processExpense(this);
+        getTravelExpenseService().getExpenseServiceByType(ExpenseType.importedCTS).processExpense(this, sequenceHelper);
+        getTravelExpenseService().getExpenseServiceByType(ExpenseType.importedCorpCard).processExpense(this, sequenceHelper);
 
         return true;
     }
@@ -2150,5 +2150,13 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
             return false;
         }
         return KfsDateUtils.isSameDay(getTripEnd(), perDiemExpense.getMileageDate());
+    }
+
+    /**
+     * @return the amount on the document that needs to be matched by accounting lines
+     */
+    @Override
+    public KualiDecimal getTotalAccountLineAmount() {
+       return getApprovedAmount();
     }
 }

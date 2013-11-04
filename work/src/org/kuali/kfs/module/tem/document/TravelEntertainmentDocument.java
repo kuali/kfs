@@ -96,7 +96,7 @@ public class TravelEntertainmentDocument extends TEMReimbursementDocument implem
         this.hostProfileId = hostProfileId;
         BusinessObjectService service = (BusinessObjectService) SpringContext.getService("businessObjectService");
         Map<String, Object> primaryKeys = new HashMap<String, Object>();
-        primaryKeys.put(TemPropertyConstants.TEMProfileProperties.PROFILE_ID, hostProfileId);
+        primaryKeys.put(TemPropertyConstants.TemProfileProperties.PROFILE_ID, hostProfileId);
         setHostProfile(service.findByPrimaryKey(TemProfile.class, primaryKeys));
     }
 
@@ -447,7 +447,7 @@ public class TravelEntertainmentDocument extends TEMReimbursementDocument implem
         this.hostProfile = hostProfile;
         if (hostProfile != null) {
             TravelerService service = (TravelerService) SpringContext.getService("travelerService");
-            service.populateTEMProfile(hostProfile);
+            service.populateTemProfile(hostProfile);
             if (hostProfile.getTravelerType() == null) {
                 BusinessObjectService boService = (BusinessObjectService) SpringContext.getService("businessObjectService");
                 Map<String, Object> fieldValues = new HashMap<String, Object>();

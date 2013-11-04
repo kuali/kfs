@@ -127,7 +127,7 @@
     </bean>
 
 	<bean id="TravelAuthorizationDocument-temProfileId" parent="TravelAuthorizationDocument-temProfileId-parentBean" />
-	<bean id="TravelAuthorizationDocument-temProfileId-parentBean" abstract="true" parent="TEMProfile-profileId">
+	<bean id="TravelAuthorizationDocument-temProfileId-parentBean" abstract="true" parent="TemProfile-profileId">
 		<property name="name" value="temProfileId" />
 		<property name="label" value="Traveler Detail Id" />
 		<property name="shortLabel" value="Traveler Detail Id" />
@@ -328,8 +328,7 @@
 	
 	<!-- Validations -->  
   <bean id="TravelAuthorizationDocument-validations" parent="TravelAuthorizationDocument-validations-parentBean"/>
-  
-  <bean id="TravelAuthorizationDocument-validations-parentBean" class="org.springframework.beans.factory.config.MapFactoryBean">
+  <bean id="TravelAuthorizationDocument-validations-parentBean" abstract="true" class="org.springframework.beans.factory.config.MapFactoryBean">
     <property name="sourceMap">
         <map key-type="java.lang.Class">
             <entry>

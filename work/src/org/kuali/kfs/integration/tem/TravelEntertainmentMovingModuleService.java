@@ -23,11 +23,16 @@ public interface TravelEntertainmentMovingModuleService {
 
 	public TravelEntertainmentMovingTravelDocument getTEMDocument(String temDocId);
 
-	public boolean isTEMProfileEmployee(TravelEntertainmentMovingTravelDocument document);
+	public boolean isTemProfileEmployee(TravelEntertainmentMovingTravelDocument document);
 
     public boolean isTravelManager(final Person user);
 
     public boolean isTravelReimbursementDocument(TravelEntertainmentMovingTravelDocument document);
 
     public void createAccountingDocumentRelationship(String documentNumber, String relDocumentNumber, String relationDescription);
+
+    /**
+     * @return the name of the sub unit that PDP will use to pay and cancel TEM payments
+     */
+    public String getPdpSubUnit();
 }

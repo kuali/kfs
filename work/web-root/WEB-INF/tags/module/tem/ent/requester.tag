@@ -43,7 +43,7 @@
 			<div align="left">
 				<kul:htmlControlAttribute attributeEntry="${documentAttributes.hostName}" property="document.hostName" readOnly="${!fullEntryMode}" />
 				<c:if test="${fullEntryMode}">
-					<kul:lookup boClassName="org.kuali.kfs.module.tem.businessobject.TEMProfile" lookupParameters="document.host.travelerTypeCode:travelerTypeCode" fieldConversions="profileId:document.hostProfileId" />
+					<kul:lookup boClassName="org.kuali.kfs.module.tem.businessobject.TemProfile" lookupParameters="document.host.travelerTypeCode:travelerTypeCode" fieldConversions="profileId:document.hostProfileId" />
 				</c:if>
 			</div>
 		</td>

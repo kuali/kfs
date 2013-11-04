@@ -475,13 +475,6 @@ public class TravelReimbursementAction extends TravelActionBase {
         }
         // do the distribution
         travelForm.setDistribution(getAccountingDistributionService().buildDistributionFrom(travelForm.getTravelDocument()));
-        // and update the new source line if possible
-        if (travelForm.getNewSourceLine() != null) {
-            final String objectCode = getObjectCodeForNewSourceAccountingLine(travelForm);
-            if (!StringUtils.isBlank(objectCode)) {
-                travelForm.getNewSourceLine().setFinancialObjectCode(objectCode);
-            }
-        }
     }
 
     @Override
@@ -570,6 +563,12 @@ public class TravelReimbursementAction extends TravelActionBase {
         if (reimbursableTotal != null && !ObjectUtils.isNull(document.getTravelPayment()) && reimbursableTotal.isGreaterEqual(KualiDecimal.ZERO)) {
             document.getTravelPayment().setCheckTotalAmount(reimbursableTotal);
         }
+        // and update the new source line if possible
+        if (reimbForm.getNewSourceLine() != null) {
+            final String objectCode = getObjectCodeForNewSourceAccountingLine(reimbForm);
+            reimbForm.getNewSourceLine().setFinancialObjectCode(objectCode);
+        }
+
         return retval;
     }
 
@@ -808,7 +807,7 @@ public class TravelReimbursementAction extends TravelActionBase {
                 }
             }
         }
-        return null;
+        return "";
     }
 
     /**
@@ -820,24 +819,6 @@ public class TravelReimbursementAction extends TravelActionBase {
             codes.add(line.getFinancialObjectCode());
         }
         return codes;
-    }
-
-    /**
-     * Overridden to set the object code on the new line
-     * @see org.kuali.kfs.sys.web.struts.KualiAccountingDocumentActionBase#insertSourceLine(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-     */
-    @Override
-    public ActionForward insertSourceLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ActionForward forward = super.insertSourceLine(mapping, form, request, response);
-        TravelReimbursementForm travelForm = (TravelReimbursementForm)form;
-        // and update the new source line if possible
-        if (travelForm.getNewSourceLine() != null) {
-            final String objectCode = getObjectCodeForNewSourceAccountingLine(travelForm);
-            if (!StringUtils.isBlank(objectCode)) {
-                travelForm.getNewSourceLine().setFinancialObjectCode(objectCode);
-            }
-        }
-        return forward;
     }
 
     /**

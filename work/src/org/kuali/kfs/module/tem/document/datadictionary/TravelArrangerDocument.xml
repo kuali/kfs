@@ -163,8 +163,7 @@
 	</bean>
 
 	<bean id="TravelArrangerDocument-validations" parent="TravelArrangerDocument-validations-parentBean" />
-
-	<bean id="TravelArrangerDocument-validations-parentBean" class="org.springframework.beans.factory.config.MapFactoryBean">
+	<bean id="TravelArrangerDocument-validations-parentBean" abstract="true" class="org.springframework.beans.factory.config.MapFactoryBean">
 		<property name="sourceMap">
 			<map key-type="java.lang.Class"> 
 				<entry>

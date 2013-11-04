@@ -413,7 +413,7 @@
 
     <!-- Validations -->
     <bean id="TravelRelocationDocument-validations" parent="TravelRelocationDocument-validations-parentBean" />
-    <bean id="TravelRelocationDocument-validations-parentBean" class="org.springframework.beans.factory.config.MapFactoryBean">
+    <bean id="TravelRelocationDocument-validations-parentBean" abstract="true" class="org.springframework.beans.factory.config.MapFactoryBean">
         <property name="sourceMap">
             <map key-type="java.lang.Class">
                 <entry>

@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.module.tem.TemConstants;
-import org.kuali.kfs.module.tem.TemPropertyConstants.TEMProfileProperties;
+import org.kuali.kfs.module.tem.TemPropertyConstants.TemProfileProperties;
 import org.kuali.kfs.module.tem.businessobject.TemProfile;
 import org.kuali.kfs.module.tem.businessobject.TravelerDetail;
 import org.kuali.kfs.module.tem.document.TravelDocument;
@@ -65,13 +65,17 @@ abstract public class TravelArrangeableAuthorizer extends AccountingDocumentAuth
             TravelDocument document = (TravelDocument) dataObject;
             // add the qualifications - profile and document type
             if (ObjectUtils.isNotNull(document.getProfileId())) {
-                qualification.put(TEMProfileProperties.PROFILE_ID, document.getProfileId().toString());
+                qualification.put(TemProfileProperties.PROFILE_ID, document.getProfileId().toString());
                 qualification.put(KFSPropertyConstants.DOCUMENT_TYPE_NAME, document.getDocumentTypeName());
 
                 final TemProfile profile = getBusinessObjectService().findBySinglePrimaryKey(TemProfile.class, document.getProfileId());
                 if (profile != null) {
-                    qualification.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, profile.getHomeDeptChartOfAccountsCode());
-                    qualification.put(KFSPropertyConstants.ORGANIZATION_CODE, profile.getHomeDeptOrgCode());
+                	if (!qualification.containsKey(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE)) {
+                	    qualification.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, profile.getHomeDeptChartOfAccountsCode());
+                	}
+                	if (!qualification.containsKey(KFSPropertyConstants.ORGANIZATION_CODE)) {
+                	    qualification.put(KFSPropertyConstants.ORGANIZATION_CODE, profile.getHomeDeptOrgCode());
+                	}
                 }
             }
             if (ObjectUtils.isNotNull(document.getTraveler())) {

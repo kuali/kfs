@@ -22,10 +22,10 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.tem.TemConstants;
-import org.kuali.kfs.module.tem.TemPropertyConstants.TEMProfileProperties;
+import org.kuali.kfs.module.tem.TemPropertyConstants.TemProfileProperties;
 import org.kuali.kfs.module.tem.businessobject.TemProfile;
-import org.kuali.kfs.module.tem.businessobject.TemProfileArranger;
 import org.kuali.kfs.module.tem.businessobject.TemProfileAddress;
+import org.kuali.kfs.module.tem.businessobject.TemProfileArranger;
 import org.kuali.kfs.module.tem.service.TemProfileService;
 import org.kuali.kfs.pdp.businessobject.PayeeACHAccount;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -45,7 +45,7 @@ public class TemProfileServiceImpl implements TemProfileService {
     @Override
     public TemProfile findTemProfileByPrincipalId(String principalId) {
         Map<String,String> criteria = new HashMap<String,String>(1);
-        criteria.put(TEMProfileProperties.PRINCIPAL_ID, principalId);
+        criteria.put(TemProfileProperties.PRINCIPAL_ID, principalId);
         return findTemProfile(criteria);
     }
 
@@ -55,7 +55,7 @@ public class TemProfileServiceImpl implements TemProfileService {
     @Override
     public TemProfile findTemProfileById(Integer profileId) {
         Map<String,String> criteria = new HashMap<String,String>(1);
-        criteria.put(TEMProfileProperties.PROFILE_ID, String.valueOf(profileId));
+        criteria.put(TemProfileProperties.PROFILE_ID, String.valueOf(profileId));
         return findTemProfile(criteria);
     }
 
@@ -166,7 +166,7 @@ public class TemProfileServiceImpl implements TemProfileService {
     @Override
     public TemProfile findTemProfileByEmployeeId(String employeeId) {
         final Map<String,String> criteria = new HashMap<String,String>(1);
-        criteria.put(TEMProfileProperties.EMPLOYEE_ID, employeeId);
+        criteria.put(TemProfileProperties.EMPLOYEE_ID, employeeId);
         return findTemProfile(criteria);
     }
 
@@ -176,7 +176,7 @@ public class TemProfileServiceImpl implements TemProfileService {
     @Override
     public TemProfile findTemProfileByCustomerNumber(String customerNumber) {
         final Map<String,String> criteria = new HashMap<String,String>(1);
-        criteria.put(TEMProfileProperties.CUSTOMER_NUMBER, customerNumber);
+        criteria.put(TemProfileProperties.CUSTOMER_NUMBER, customerNumber);
         return findTemProfile(criteria);
     }
 

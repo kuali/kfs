@@ -22,7 +22,6 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
-import org.kuali.kfs.module.tem.TemPropertyConstants.TEMProfileProperties;
 import org.kuali.kfs.module.tem.businessobject.ActualExpense;
 import org.kuali.kfs.module.tem.businessobject.ExpenseTypeObjectCode;
 import org.kuali.kfs.module.tem.businessobject.HistoricalTravelExpense;
@@ -34,6 +33,7 @@ import org.kuali.kfs.module.tem.service.TravelExpenseService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public class ExpenseUtils {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ExpenseUtils.class);
@@ -60,15 +60,16 @@ public class ExpenseUtils {
             importedExpense.setConvertedAmount(historicalTravelExpense.getConvertedAmount());
             importedExpense.setExpenseAmount(historicalTravelExpense.getAmount());
             importedExpense.setTravelCompanyCodeName(historicalTravelExpense.getTravelCompany());
+            importedExpense.setExpenseTypeCode(historicalTravelExpense.getTravelExpenseType());
 
-            ExpenseTypeObjectCode travelExpenseTypeCode = SpringContext.getBean(TravelExpenseService.class).getExpenseType(historicalTravelExpense.getTravelExpenseType(), travelDocument.getDocumentTypeName(), travelDocument.getTripTypeCode(), travelDocument.getTraveler().getTravelerTypeCode());
+            final String travelerTypeCode = ObjectUtils.isNull(travelDocument.getTraveler()) ? null : travelDocument.getTraveler().getTravelerTypeCode(); // we shouldn't get here if traveler type is null, but just in case
+            final ExpenseTypeObjectCode travelExpenseTypeCode = SpringContext.getBean(TravelExpenseService.class).getExpenseType(importedExpense.getExpenseTypeCode(), travelDocument.getDocumentTypeName(), travelDocument.getTripTypeCode(), travelerTypeCode);
 
             if (travelExpenseTypeCode != null) {
                 historicalTravelExpense.setDescription(travelExpenseTypeCode.getExpenseType().getName());
                 importedExpense.setDescription(historicalTravelExpense.getDescription());
                 importedExpense.setTravelExpenseTypeCode(travelExpenseTypeCode);
                 importedExpense.setExpenseTypeObjectCodeId(travelExpenseTypeCode.getExpenseTypeObjectCodeId());
-                importedExpense.setExpenseTypeCode(historicalTravelExpense.getTravelExpenseType());
             }
 
             importedExpense.setHistoricalTravelExpenseId(historicalTravelExpense.getId());
@@ -85,7 +86,7 @@ public class ExpenseUtils {
         String defaultChartCode = null;
         if (document.getTemProfile() == null && document.getTemProfileId() != null) {
             Map<String, Object> primaryKeys = new HashMap<String, Object>();
-            primaryKeys.put(TEMProfileProperties.PROFILE_ID, document.getTemProfileId().toString());
+            primaryKeys.put(TemPropertyConstants.TemProfileProperties.PROFILE_ID, document.getTemProfileId().toString());
             TemProfile profile = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(TemProfile.class, primaryKeys);
             defaultChartCode = profile.getDefaultChartCode();
         }

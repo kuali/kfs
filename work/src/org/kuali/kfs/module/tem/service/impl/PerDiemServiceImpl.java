@@ -61,6 +61,7 @@ import org.kuali.kfs.module.tem.service.TravelExpenseService;
 import org.kuali.kfs.module.tem.util.ExpenseUtils;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
@@ -704,7 +705,7 @@ public class PerDiemServiceImpl extends ExpenseServiceBase implements PerDiemSer
     }
 
     @Override
-    public void processExpense(TravelDocument travelDocument) {
+    public void processExpense(TravelDocument travelDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
         //do nothing
     }
 

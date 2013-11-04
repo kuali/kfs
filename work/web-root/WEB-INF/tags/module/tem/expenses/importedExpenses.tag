@@ -35,11 +35,6 @@
 			</td>
 		</tr>
 		
-		<%--<c:if test="${fullEntryMode}">
-        	<tem-exp:importedExpenseHeader isCTS="false" />
-			<tem-exp:importedExpenseLine expense="newImportedExpenseLine" />
-		</c:if>
-        --%>
 		<logic:iterate indexId="ctr" name="KualiForm"
 			property="document.importedExpenses" id="currentLine">
 			<c:set var="lineCounter" value="${lineCounter + 1}" />

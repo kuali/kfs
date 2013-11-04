@@ -24,21 +24,21 @@
 		</property>
 	</bean>
 	<bean id="TemProfileAddress-principalId" parent="TemProfileAddress-principalId-parentBean" />
-	<bean id="TemProfileAddress-principalId-parentBean" parent="TEMProfile-principalId">
+	<bean id="TemProfileAddress-principalId-parentBean" parent="TemProfile-principalId">
 		<property name="control">
 			<ref bean="HiddenControl" />
 		</property>
 	</bean>
 	
 	<bean id="TemProfileAddress-customerNumber" parent="TemProfileAddress-customerNumber-parentBean" />
-	<bean id="TemProfileAddress-customerNumber-parentBean" parent="TEMProfile-customerNumber">
+	<bean id="TemProfileAddress-customerNumber-parentBean" parent="TemProfile-customerNumber">
 		<property name="control">
 			<ref bean="HiddenControl" />
 		</property>
 	</bean>
 	
 	<bean id="TemProfileAddress-profileId" parent="TemProfileAddress-profileId-parentBean" />
-	<bean id="TemProfileAddress-profileId-parentBean" parent="TEMProfile-profileId"/>
+	<bean id="TemProfileAddress-profileId-parentBean" parent="TemProfile-profileId"/>
 	 
 	<bean id="TemProfileAddress-streetAddressLine1" parent="TemProfileAddress-streetAddressLine1-parentBean" />
 	<bean id="TemProfileAddress-streetAddressLine1-parentBean" parent="AttributeDefinition">

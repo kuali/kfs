@@ -104,7 +104,7 @@
 			<list>
 				<bean parent="ProcurementCard-accountingLine-newAccountingLineBranchingValidation" scope="prototype" />
 				<bean parent="ProcurementCard-addAccountingLine-failFastValidation" scope="prototype" />
-				<bean parent="AccountingDocument-accountingLineAccessibleValidation" scope="prototype">
+				<bean parent="ProcurementCard-accountAccessibilityValidation" scope="prototype">
 					<property name="parameterProperties">
 						<list>
 							<bean parent="validationFieldConversion">
@@ -202,7 +202,7 @@
   			<list>
 			 	<bean parent="ProcurementCard-updatedAccountingLine-newAccountingLineBranchingValidation" scope="prototype" />
 				<bean parent="ProcurementCard-updateAccountingLine-failFastValidation" scope="prototype" />
-				<bean parent="AccountingDocument-accountingLineAccessibleValidation" scope="prototype">
+				<bean parent="ProcurementCard-accountAccessibilityValidation" scope="prototype">
 					<property name="parameterProperties">
 						<list>
 							<bean parent="accountingDocumentFieldConversion" />

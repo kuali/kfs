@@ -39,6 +39,13 @@
 			<li><portal:portalLink displayTitle="true" title="Labor Enterprise Feed Upload" url="laborBatchUploadFileSet.do?methodToCall=start&batchUpload.batchInputTypeName=laborEnterpriseFeederFileSetType" /></li>
 		</c:if>
 	</ul>
+	<strong>Purchasing/Accounts Payable</strong><br/>
+    <ul class="chan">
+	    <li><portal:portalLink displayTitle="true" title="Electronic Invoice Upload" url="batchUpload.do?methodToCall=start&batchUpload.batchInputTypeName=electronicInvoiceInputFileType" /></li>
+    	<c:if test="${!KualiConfigurationService.isProductionEnvironment}">
+			<li><portal:portalLink displayTitle="true" title="Electronic Invoice Test File Generation" url="purapElectronicInvoiceTestFileGeneration.do" /></li>				
+	    </c:if>
+	</ul>
 	<c:if test="${ConfigProperties.module.travel.enabled == 'true'}">
     <strong>Travel</strong><br/>
 	<ul class="chan">
@@ -48,13 +55,6 @@
 	    <li><portal:portalLink displayTitle="true" title="Travel Agency Data Upload" url="batchUpload.do?methodToCall=start&batchUpload.batchInputTypeName=agencyDataXmlInputFileType" /></li>
     </ul>	
 	</c:if>
-	<strong>Purchasing/Accounts Payable</strong><br/>
-    <ul class="chan">
-	    <li><portal:portalLink displayTitle="true" title="Electronic Invoice Upload" url="batchUpload.do?methodToCall=start&batchUpload.batchInputTypeName=electronicInvoiceInputFileType" /></li>
-    	<c:if test="${!KualiConfigurationService.isProductionEnvironment}">
-			<li><portal:portalLink displayTitle="true" title="Electronic Invoice Test File Generation" url="purapElectronicInvoiceTestFileGeneration.do" /></li>				
-	    </c:if>
-	</ul>
 	<strong>Vendor</strong><br/>
 	<ul class="chan">
 	    <li><portal:portalLink displayTitle="true" title="Vendor Exclusion Upload" url="batchUpload.do?methodToCall=start&batchUpload.batchInputTypeName=vendorExcludeInputFileType" /></li>

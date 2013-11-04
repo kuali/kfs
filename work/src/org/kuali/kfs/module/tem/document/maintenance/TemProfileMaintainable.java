@@ -18,7 +18,6 @@ package org.kuali.kfs.module.tem.document.maintenance;
 import static org.kuali.kfs.module.tem.TemConstants.EMP_TRAVELER_TYP_CD;
 import static org.kuali.kfs.module.tem.TemConstants.NONEMP_TRAVELER_TYP_CD;
 
-import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
@@ -32,7 +31,6 @@ import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.TemWorkflowConstants;
 import org.kuali.kfs.module.tem.businessobject.TemProfile;
 import org.kuali.kfs.module.tem.businessobject.TemProfileAccount;
-import org.kuali.kfs.module.tem.datadictionary.mask.CreditCardMaskFormatter;
 import org.kuali.kfs.module.tem.document.authorization.TemProfileAuthorizer;
 import org.kuali.kfs.module.tem.service.TemProfileService;
 import org.kuali.kfs.module.tem.service.TemRoleService;
@@ -48,14 +46,9 @@ import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.maintenance.Maintainable;
-import org.kuali.rice.kns.web.ui.Field;
-import org.kuali.rice.kns.web.ui.Row;
-import org.kuali.rice.kns.web.ui.Section;
 import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
-import org.kuali.rice.krad.datadictionary.mask.Mask;
 import org.kuali.rice.krad.exception.AuthorizationException;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
@@ -166,60 +159,6 @@ public class TemProfileMaintainable extends FinancialSystemMaintainable {
         return StringUtils.equals(principalId, currentUser.getPrincipalId());
     }
 
-    /**
-     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#getSections(org.kuali.rice.kns.document.MaintenanceDocument, org.kuali.rice.kns.maintenance.Maintainable)
-     */
-    @Override
-    public List<Section> getSections(MaintenanceDocument document, Maintainable oldMaintainable) {
-        Person user = GlobalVariables.getUserSession().getPerson();
-
-        List<Section> sections = super.getSections(document, document.getOldMaintainableObject());
-        Person currentUser = GlobalVariables.getUserSession().getPerson();
-        TemProfile temProfile = (TemProfile) super.getBusinessObject();
-        boolean profileAdmin = getTemRoleService().isProfileAdmin(currentUser, temProfile.getHomeDepartment());
-
-        if (!user.getPrincipalId().equals(((TemProfile)document.getOldMaintainableObject().getBusinessObject()).getPrincipalId())){
-            if (!profileAdmin) {
-                // user is not the traveler or a profile admin
-                for (Section section : sections){
-                    if (section.getSectionId().equals(TemPropertyConstants.TemProfileProperties.TEM_PROFILE_ADMINISTRATOR)){
-                    	for (Row row : section.getRows()){
-                            for (Field field : row.getFields()){
-                               if (field.getContainerRows() != null && field.getContainerRows().size() > 0){
-                                    for (Row containerRow :field.getContainerRows()){
-                                        for (Field containerField : containerRow.getFields()){
-                                            //Get only the accounts that have already been created
-                                            if (containerField.getPropertyName().contains("]." + TemPropertyConstants.TemProfileProperties.ACCOUNT_NUMBER)){
-                                                String[] splitTemp = containerField.getPropertyName().split("\\[");
-                                                splitTemp = splitTemp[1].split("\\]");
-                                                int index = Integer.parseInt(splitTemp[0]);
-                                                containerField.setSecure(true);
-                                                CreditCardMaskFormatter formatter = new CreditCardMaskFormatter();
-                                                Mask mask = new Mask();
-                                                mask.setMaskFormatter(formatter);
-                                                String display = mask.maskValue(((TemProfile)document.getDocumentBusinessObject()).getAccounts().get(index).getAccountNumber());
-                                                containerField.setDisplayMaskValue(display);
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        for (Section section : sections){
-            if (section.getSectionId().equals(TemPropertyConstants.TemProfileProperties.TEM_PROFILE_ADMINISTRATOR)){
-                if (!profileAdmin) {
-                    section.setReadOnly(true);
-                }
-            }
-        }
-
-        return sections;
-    }
 
     /**
      * Populate the TemProfile details
@@ -231,12 +170,6 @@ public class TemProfileMaintainable extends FinancialSystemMaintainable {
         SpringContext.getBean(TemProfileService.class).updateACHAccountInfo(profile);
     }
 
-    protected void maskAccountNumbers(TemProfile profile) {
-        for (TemProfileAccount account : profile.getAccounts()){
-            String accountSubStr = account.getAccountNumber().substring(account.getAccountNumber().length()-4);
-            account.setAccountNumber("************"+accountSubStr);
-        }
-    }
 
     /**
      * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#processAfterEdit(org.kuali.rice.kns.document.MaintenanceDocument, java.util.Map)
@@ -405,10 +338,6 @@ public class TemProfileMaintainable extends FinancialSystemMaintainable {
         return newReference;
     }
 
-    @Override
-    public void processAfterPost(MaintenanceDocument document, Map<String, String[]> parameters) {
-        super.processAfterPost(document, parameters);
-    }
 
 
 	/**

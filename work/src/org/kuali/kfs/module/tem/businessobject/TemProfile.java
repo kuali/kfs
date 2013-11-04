@@ -482,6 +482,7 @@ public class TemProfile extends BaseTemProfile {
      * @return Returns the principal.
      */
     public Person getPrincipal() {
+        principal = SpringContext.getBean(org.kuali.rice.kim.api.identity.PersonService.class).updatePersonIfNecessary(principalId, principal);
         return principal;
     }
 

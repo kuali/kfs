@@ -139,14 +139,13 @@
 					<property name="objectAttributeName" value="principal" />
 					<property name="primitiveAttributes">
 						<list>
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="principalId"
-								p:targetName="principalId" />
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="principalId" p:targetName="principalId" />
+							
 						</list>
 					</property>
 					<property name="supportAttributes">
 						<list>
-							<bean parent="SupportAttributeDefinition" p:identifier="true"
-								p:sourceName="principal.principalName" p:targetName="principalName" />
+							<bean parent="SupportAttributeDefinition" p:identifier="true" p:sourceName="principal.principalName" p:targetName="principalName" />
 						</list>
 					</property>
 				</bean>
@@ -646,7 +645,7 @@
 					<property name="inquiryFields">
 						<list>
 							<bean parent="FieldDefinition" p:attributeName="profileId" />
-							<bean parent="FieldDefinition" p:attributeName="principalName" />
+							<bean parent="FieldDefinition" p:attributeName="principal.principalName" />
 							<bean parent="FieldDefinition" p:attributeName="customerNumber" />
 							<bean parent="FieldDefinition" p:attributeName="driversLicenseNumber" />
 							<bean parent="FieldDefinition" p:attributeName="driversLicenseState" />
@@ -787,7 +786,6 @@
 									</list>
 								</property>
 							</bean>
-			                <bean parent="FieldDefinition" p:attributeName="principalId" />
 						</list>
 					</property>
 				</bean>

@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,9 +16,11 @@
 package org.kuali.kfs.module.cg.document.validation.impl;
 
 import java.util.Collection;
+import java.util.HashSet;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.kuali.kfs.module.cg.CGKeyConstants;
 import org.kuali.kfs.module.cg.businessobject.Award;
 import org.kuali.kfs.module.cg.businessobject.AwardAccount;
 import org.kuali.kfs.module.cg.businessobject.AwardOrganization;
@@ -59,6 +61,9 @@ public class AwardRule extends CGMaintenanceDocumentRuleBase {
         success &= checkEndAfterBegin(newAwardCopy.getAwardBeginningDate(), newAwardCopy.getAwardEndingDate(), KFSPropertyConstants.AWARD_ENDING_DATE);
         success &= checkPrimary(newAwardCopy.getAwardOrganizations(), AwardOrganization.class, KFSPropertyConstants.AWARD_ORGRANIZATIONS, Award.class);
         success &= checkPrimary(newAwardCopy.getAwardProjectDirectors(), AwardProjectDirector.class, KFSPropertyConstants.AWARD_PROJECT_DIRECTORS, Award.class);
+        success &= checkForDuplicateAccoutnts();
+        success &= checkForDuplicateAwardProjectDirector();
+        success &= checkForDuplicateAwardOrganization();
         success &= checkAccounts();
         success &= checkProjectDirectorsExist(newAwardCopy.getAwardProjectDirectors(), AwardProjectDirector.class, KFSPropertyConstants.AWARD_PROJECT_DIRECTORS);
         success &= checkProjectDirectorsExist(newAwardCopy.getAwardAccounts(), AwardAccount.class, KFSPropertyConstants.AWARD_ACCOUNTS);
@@ -71,7 +76,7 @@ public class AwardRule extends CGMaintenanceDocumentRuleBase {
 
     /**
      * checks to see if at least 1 award account exists
-     * 
+     *
      * @return true if the award contains at least 1 {@link AwardAccount}, false otherwise
      */
     protected boolean checkAccounts() {
@@ -93,7 +98,7 @@ public class AwardRule extends CGMaintenanceDocumentRuleBase {
      * <li>a proposal has already been awarded
      * <li>a proposal is inactive
      * </ol>
-     * 
+     *
      * @return
      */
     protected boolean checkProposal() {
@@ -113,7 +118,7 @@ public class AwardRule extends CGMaintenanceDocumentRuleBase {
 
     /**
      * checks if the required federal pass through fields are filled in if the federal pass through indicator is yes
-     * 
+     *
      * @return
      */
     protected boolean checkFederalPassThrough() {
@@ -127,7 +132,7 @@ public class AwardRule extends CGMaintenanceDocumentRuleBase {
                 success = false;
             }
         }
-        
+
         return success;
     }
 
@@ -254,12 +259,72 @@ public class AwardRule extends CGMaintenanceDocumentRuleBase {
             String errorPath = KFSConstants.MAINTENANCE_ADD_PREFIX + KFSPropertyConstants.AWARD_PROJECT_DIRECTORS + "." + "projectDirector.principalName";
             String label = this.getDataDictionaryService().getAttributeLabel(AwardProjectDirector.class, "projectDirector.principalName");
             String message = label + "(" + awardProjectDirector.getPrincipalId() + ")";
-            
+
             putFieldError(errorPath, KFSKeyConstants.ERROR_EXISTENCE, message);
 
             success &= false;
         }
+        return success;
+    }
 
+    protected boolean checkForDuplicateAccoutnts() {
+        boolean success = true;
+        String accountNumber;
+        String accountChart;
+        Collection<AwardAccount> awardAccounts = newAwardCopy.getAwardAccounts();
+        HashSet<String> accountHash = new HashSet<String>();
+
+        //validate if the newly entered award account is already on that award
+        for(AwardAccount account: awardAccounts){
+            if(account!=null && StringUtils.isNotEmpty(account.getAccountNumber())){
+                 accountNumber = account.getAccountNumber();
+                 accountChart  = account.getChartOfAccountsCode();
+                 if (!accountHash.add(accountChart+accountNumber)){
+                     putFieldError(KFSPropertyConstants.AWARD_ACCOUNTS, CGKeyConstants.ERROR_DUPLICATE_AWARD_ACCOUNT, accountChart + "-" + accountNumber);
+                     return false;
+                 }
+             }
+        }
+        return success;
+    }
+
+    protected boolean checkForDuplicateAwardProjectDirector() {
+        boolean success = true;
+        String principalId;
+        Collection<AwardProjectDirector> awardProjectDirectors = newAwardCopy.getAwardProjectDirectors();
+        HashSet<String> principalIdHash = new HashSet<String>();
+
+        //validate if the newly entered AwardProjectDirector is already on that award
+        for(AwardProjectDirector projectDirector: awardProjectDirectors){
+            if(projectDirector!=null && StringUtils.isNotEmpty(projectDirector.getPrincipalId())){
+                principalId = projectDirector.getPrincipalId();
+                if (!principalIdHash.add(principalId)){
+                    putFieldError(KFSPropertyConstants.AWARD_PROJECT_DIRECTORS, CGKeyConstants.ERROR_DUPLICATE_AWARD_PROJECT_DIRECTOR, principalId);
+                    return false;
+                }
+            }
+        }
+        return success;
+    }
+
+    protected boolean checkForDuplicateAwardOrganization() {
+        boolean success = true;
+        String organizationCode;
+        String organizationChart;
+        Collection<AwardOrganization> awardOrganizations = newAwardCopy.getAwardOrganizations();
+        HashSet<String> orgaizationHash = new HashSet<String>();
+
+        //validate if the newly entered awardOrganization is already on that award
+        for(AwardOrganization awardOrganization: awardOrganizations){
+            if(awardOrganization!=null && StringUtils.isNotEmpty(awardOrganization.getOrganizationCode())){
+                organizationCode = awardOrganization.getOrganizationCode();
+                organizationChart  = awardOrganization.getChartOfAccountsCode();
+                if (!orgaizationHash.add(organizationChart+organizationCode)){
+                    putFieldError(KFSPropertyConstants.AWARD_ORGRANIZATIONS, CGKeyConstants.ERROR_DUPLICATE_AWARD_ORGANIZATION, organizationChart + "-" + organizationCode);
+                    return false;
+                }
+            }
+        }
         return success;
     }
 }

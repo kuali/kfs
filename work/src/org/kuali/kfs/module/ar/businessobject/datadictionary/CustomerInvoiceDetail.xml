@@ -214,13 +214,13 @@
     <property name="forceUppercase" value="true"/>
     <property name="label" value="Invoice Item Quantity"/>
     <property name="shortLabel" value="Quantity"/>
-    <property name="maxLength" value="11"/>
+    <property name="maxLength" value="20"/>
     <property name="validationPattern">
-      <bean parent="FixedPointValidationPattern" p:precision="11" p:scale="2" p:allowNegative="false"/>
+      <bean parent="FloatingPointValidation"/>
     </property>
     <property name="required" value="true"/>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="13"/>
+      <bean parent="TextControlDefinition" p:size="15"/>
     </property>
   </bean>
   <bean id="CustomerInvoiceDetail-invoiceItemServiceDate" parent="CustomerInvoiceDetail-invoiceItemServiceDate-parentBean"/>

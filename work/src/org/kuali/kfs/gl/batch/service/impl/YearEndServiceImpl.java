@@ -1,12 +1,12 @@
 /*
  * Copyright 2006 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -59,24 +59,24 @@ import org.springframework.transaction.annotation.Transactional;
 public class YearEndServiceImpl implements YearEndService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(YearEndServiceImpl.class);
 
-    private EncumbranceDao encumbranceDao;
-    private OriginEntryService originEntryService;
-    private OriginEntryGroupService originEntryGroupService;
-    private DateTimeService dateTimeService;
-    private BalanceService balanceService;
-    private BalanceTypeService balanceTypeService;
-    private ObjectTypeService objectTypeService;
-    private ParameterService parameterService;
-    private ConfigurationService configurationService;
-    private PriorYearAccountService priorYearAccountService;
-    private SubFundGroupService subFundGroupService;
-    private PersistenceService persistenceService;
-    private YearEndDao yearEndDao;
-    private String batchFileDirectoryName;
-    private EncumbranceClosingOriginEntryGenerationService encumbranceClosingOriginEntryGenerationService;
-    private ReportWriterService nominalActivityClosingReportWriterService;
-    private ReportWriterService balanceForwardReportWriterService;
-    private ReportWriterService encumbranceClosingReportWriterService;
+    protected EncumbranceDao encumbranceDao;
+    protected OriginEntryService originEntryService;
+    protected OriginEntryGroupService originEntryGroupService;
+    protected DateTimeService dateTimeService;
+    protected BalanceService balanceService;
+    protected BalanceTypeService balanceTypeService;
+    protected ObjectTypeService objectTypeService;
+    protected ParameterService parameterService;
+    protected ConfigurationService configurationService;
+    protected PriorYearAccountService priorYearAccountService;
+    protected SubFundGroupService subFundGroupService;
+    protected PersistenceService persistenceService;
+    protected YearEndDao yearEndDao;
+    protected String batchFileDirectoryName;
+    protected EncumbranceClosingOriginEntryGenerationService encumbranceClosingOriginEntryGenerationService;
+    protected ReportWriterService nominalActivityClosingReportWriterService;
+    protected ReportWriterService balanceForwardReportWriterService;
+    protected ReportWriterService encumbranceClosingReportWriterService;
 
     public static final String TRANSACTION_DATE_FORMAT_STRING = "yyyy-MM-dd";
 
@@ -90,21 +90,22 @@ public class YearEndServiceImpl implements YearEndService {
     /**
      * This class actually generates all the origin entries for nominal activity closing and saves them to the proper origin entry
      * group. Note: Much (but no longer all) of the original COBOL program this code is based off of is within the comments.
-     * 
+     *
      * @param nominalClosingOriginEntryGroup the origin entry group to save the generated nominal closing entries to
      * @param nominalClosingJobParameters a map of parameters for the job:
      * @param nominalClosingCounts various statistical counts
      * @see org.kuali.kfs.gl.batch.service.YearEndService#closeNominalActivity()
      */
+    @Override
     public void closeNominalActivity(String nominalClosingFileName, Map nominalClosingJobParameters) {
 
         Integer varFiscalYear = (Integer) nominalClosingJobParameters.get(GeneralLedgerConstants.ColumnNames.UNIVERSITY_FISCAL_YEAR);
         NominalActivityClosingHelper closingHelper = new NominalActivityClosingHelper(varFiscalYear, (Date) nominalClosingJobParameters.get(GeneralLedgerConstants.ColumnNames.UNIV_DT), parameterService, configurationService);
-        
+
         closingHelper.addNominalClosingJobParameters(nominalClosingJobParameters);
 
         Map<String, Integer> nominalActivityClosingCounts = new HashMap<String, Integer>();
-        
+
         nominalActivityClosingCounts.put("globalReadCount", new Integer(balanceService.countBalancesForFiscalYear(varFiscalYear)));
         Iterator<Balance> balanceIterator = balanceService.findNominalActivityBalancesForFiscalYear(varFiscalYear);
 
@@ -122,15 +123,15 @@ public class YearEndServiceImpl implements YearEndService {
         //create files
         File nominalClosingFile = new File(batchFileDirectoryName + File.separator + nominalClosingFileName);
         PrintStream nominalClosingPs = null;
-        
+
         try {
             nominalClosingPs = new PrintStream(nominalClosingFile);
         } catch (FileNotFoundException e) {
             throw new RuntimeException("nominalClosingFile Files doesn't exist " + nominalClosingFileName);
         }
-        
+
         LedgerSummaryReport ledgerReport = new LedgerSummaryReport();
-        
+
         while (balanceIterator.hasNext()) {
 
             Balance balance = balanceIterator.next();
@@ -157,7 +158,7 @@ public class YearEndServiceImpl implements YearEndService {
                 if (0 == nominalActivityClosingCounts.get("sequenceCheckCount").intValue() % 1000) {
                     LOG.info(new StringBuffer("  SEQUENTIAL RECORDS WRITTEN = ").append(nominalActivityClosingCounts.get("sequenceCheckCount")).toString());
                 }
-                OriginEntryFull offsetEntry = closingHelper.generateOffset(balance, new Integer(1));           
+                OriginEntryFull offsetEntry = closingHelper.generateOffset(balance, new Integer(1));
                 originEntryService.createEntry(offsetEntry, nominalClosingPs);
                 ledgerReport.summarizeEntry(offsetEntry);
                 incrementCount(nominalActivityClosingCounts, "sequenceWriteCount");
@@ -176,7 +177,7 @@ public class YearEndServiceImpl implements YearEndService {
         }
         nominalActivityClosingCounts.put("nonFatalCount", closingHelper.getNonFatalErrorCount());
         nominalClosingPs.close();
-        
+
         // now write parameters
         for (Object jobParameterKeyAsObject : nominalClosingJobParameters.keySet()) {
             if (jobParameterKeyAsObject != null) {
@@ -184,13 +185,13 @@ public class YearEndServiceImpl implements YearEndService {
                 getNominalActivityClosingReportWriterService().writeParameterLine("%32s %10s", jobParameterKey, nominalClosingJobParameters.get(jobParameterKey));
             }
         }
-        
+
         // now write statistics
         getNominalActivityClosingReportWriterService().writeStatisticLine("NUMBER OF GLBL RECORDS READ       %9d", nominalActivityClosingCounts.get("globalReadCount"));
         getNominalActivityClosingReportWriterService().writeStatisticLine("NUMBER OF GLBL RECORDS SELECTED   %9d", nominalActivityClosingCounts.get("globalSelectCount"));
         getNominalActivityClosingReportWriterService().writeStatisticLine("NUMBER OF SEQ RECORDS WRITTEN     %9d", nominalActivityClosingCounts.get("sequenceWriteCount"));
         getNominalActivityClosingReportWriterService().pageBreak();
-        
+
         // finally, put a header on the ledger report and write it
         getNominalActivityClosingReportWriterService().writeSubTitle(configurationService.getPropertyValueAsString(KFSKeyConstants.MESSAGE_REPORT_YEAR_END_NOMINAL_ACTIVITY_CLOSING_LEDGER_TITLE_LINE));
         ledgerReport.writeReport(getNominalActivityClosingReportWriterService());
@@ -198,7 +199,7 @@ public class YearEndServiceImpl implements YearEndService {
 
     /**
      * A method that increments a count within a Map by 1
-     * 
+     *
      * @param counts a Map of count statistics
      * @param countName the name of the specific count ot update
      * @return the newly incremented amount
@@ -215,7 +216,7 @@ public class YearEndServiceImpl implements YearEndService {
      * whole. This method delegates all of the specific logic in terms of what balances to forward, according to what criteria, how
      * origin entries are generated, etc. This relationship makes YearEndServiceImpl and BalanceForwardRuleHelper heavily dependent
      * upon one another in terms of expected behavior.
-     * 
+     *
      * @param balanceForwardsUnclosedPriorYearAccountGroup the origin entry group to save balance forwarding origin entries with
      *        open accounts
      * @param balanceForwardsClosedPriorYearAccountGroup the origin entry group to save balance forwarding origin entries with
@@ -223,6 +224,7 @@ public class YearEndServiceImpl implements YearEndService {
      * @param balanceForwardRuleHelper the BalanceForwardRuleHelper which holds the important state - the job parameters and
      *        statistics - for the job to run
      */
+    @Override
     public void forwardBalances(String balanceForwardsUnclosedFileName, String balanceForwardsclosedFileName, BalanceForwardRuleHelper balanceForwardRuleHelper) {
         LOG.debug("forwardBalances() started");
 
@@ -242,14 +244,14 @@ public class YearEndServiceImpl implements YearEndService {
         File closedOutputFile = new File(batchFileDirectoryName + File.separator + balanceForwardsclosedFileName);
         PrintStream unclosedPs = null;
         PrintStream closedPs = null;
-        
+
         try {
             unclosedPs = new PrintStream(unclosedOutputFile);
             closedPs = new PrintStream(closedOutputFile);
         } catch (FileNotFoundException e) {
             throw new RuntimeException("balanceForwards Files don't exist " + balanceForwardsUnclosedFileName + " and " + balanceForwardsclosedFileName);
         }
-        
+
         // do the general forwards
         Iterator<Balance> generalBalances = balanceService.findGeneralBalancesToForwardForFiscalYear(balanceForwardRuleHelper.getClosingFiscalYear());
         while (generalBalances.hasNext()) {
@@ -275,14 +277,14 @@ public class YearEndServiceImpl implements YearEndService {
         getBalanceForwardReportWriterService().writeParameterLine("%32s %10s", GeneralLedgerConstants.ANNUAL_CLOSING_FISCAL_YEAR_PARM, balanceForwardRuleHelper.getClosingFiscalYear().toString());
         getBalanceForwardReportWriterService().writeParameterLine("%32s %10s", KFSConstants.SystemGroupParameterNames.GL_ANNUAL_CLOSING_DOC_TYPE, balanceForwardRuleHelper.getAnnualClosingDocType());
         getBalanceForwardReportWriterService().writeParameterLine("%32s %10s", KFSConstants.SystemGroupParameterNames.GL_ORIGINATION_CODE, balanceForwardRuleHelper.getGlOriginationCode());
-        
+
         // write statistics
         getBalanceForwardReportWriterService().writeStatisticLine("NUMBER OF GLBL RECORDS READ....: %10d", balanceForwardRuleHelper.getState().getGlobalReadCount());
         getBalanceForwardReportWriterService().writeStatisticLine("NUMBER OF GLBL RECORDS SELECTED: %10d", balanceForwardRuleHelper.getState().getGlobalSelectCount());
         getBalanceForwardReportWriterService().writeStatisticLine("NUMBER OF SEQ RECORDS WRITTEN..: %10d", balanceForwardRuleHelper.getState().getSequenceWriteCount());
         getBalanceForwardReportWriterService().writeStatisticLine("RECORDS FOR CLOSED ACCOUNTS....: %10d", balanceForwardRuleHelper.getState().getSequenceClosedCount());
         getBalanceForwardReportWriterService().pageBreak();
-        
+
         // write ledger reports
         getBalanceForwardReportWriterService().writeSubTitle(configurationService.getPropertyValueAsString(KFSKeyConstants.MESSAGE_REPORT_YEAR_END_BALANCE_FORWARD_OPEN_ACCOUNT_LEDGER_TITLE_LINE));
         balanceForwardRuleHelper.writeOpenAccountBalanceForwardLedgerSummaryReport(getBalanceForwardReportWriterService());
@@ -293,12 +295,13 @@ public class YearEndServiceImpl implements YearEndService {
 
     /**
      * Create origin entries to carry forward all open encumbrances from the closing fiscal year into the opening fiscal year.
-     * 
+     *
      * @param originEntryGroup the origin entry group where generated origin entries should be saved
      * @param jobParameters the parameters necessary to run this job: the fiscal year to close and the university date the job was
      *        run
      * @param forwardEncumbrancesCounts the statistical counts generated by this job
      */
+    @Override
     public void forwardEncumbrances(String encumbranceForwardFileName, Map jobParameters, Map<String, Integer> counts) {
         LOG.debug("forwardEncumbrances() started");
 
@@ -306,13 +309,13 @@ public class YearEndServiceImpl implements YearEndService {
         counts.put("encumbrancesRead", new Integer(0));
         counts.put("encumbrancesSelected", new Integer(0));
         counts.put("originEntriesWritten", new Integer(0));
-        
+
         LedgerSummaryReport forwardEncumbranceLedgerReport = new LedgerSummaryReport();
 
         //create files
         File encumbranceForwardFile = new File(batchFileDirectoryName + File.separator + encumbranceForwardFileName);
         PrintStream encumbranceForwardPs = null;
-        
+
         try {
             encumbranceForwardPs = new PrintStream(encumbranceForwardFile);
         } catch (FileNotFoundException e) {
@@ -325,7 +328,7 @@ public class YearEndServiceImpl implements YearEndService {
 
             Encumbrance encumbrance = (Encumbrance) encumbranceIterator.next();
             incrementCount(counts, "encumbrancesRead");
-            
+
             // if the encumbrance is not completely relieved
             if (getEncumbranceClosingOriginEntryGenerationService().shouldForwardEncumbrance(encumbrance)) {
 
@@ -383,7 +386,7 @@ public class YearEndServiceImpl implements YearEndService {
             }
         }
         encumbranceForwardPs.close();
-        
+
         // write job parameters
         for (Object jobParameterKeyAsObject : jobParameters.keySet()) {
             if (jobParameterKeyAsObject != null) {
@@ -391,13 +394,13 @@ public class YearEndServiceImpl implements YearEndService {
                 getEncumbranceClosingReportWriterService().writeParameterLine("%32s %10s", jobParameterKey, jobParameters.get(jobParameterKey));
             }
         }
-        
+
         // write statistics
         getEncumbranceClosingReportWriterService().writeStatisticLine("NUMBER OF ENCUMBRANCE RECORDS READ:     %10d", counts.get("encumbrancesRead"));
         getEncumbranceClosingReportWriterService().writeStatisticLine("NUMBER OF ENCUMBRANCE RECORDS SELECTED  %10d", counts.get("encumbrancesSelected"));
         getEncumbranceClosingReportWriterService().writeStatisticLine("NUMBER OF SEQ RECORDS WRITTEN           %10d", counts.get("originEntriesWritten"));
         getEncumbranceClosingReportWriterService().pageBreak();
-        
+
         // write ledger summary report
         getEncumbranceClosingReportWriterService().writeSubTitle(configurationService.getPropertyValueAsString(KFSKeyConstants.MESSAGE_REPORT_YEAR_END_ENCUMBRANCE_FORWARDS_LEDGER_TITLE_LINE));
         forwardEncumbranceLedgerReport.writeReport(getEncumbranceClosingReportWriterService());
@@ -407,6 +410,7 @@ public class YearEndServiceImpl implements YearEndService {
      * @param balanceFiscalYear the fiscal year to find balances encumbrances for
      * @see org.kuali.kfs.gl.batch.service.YearEndService#logAllMissingPriorYearAccounts(java.lang.Integer)
      */
+    @Override
     public void logAllMissingPriorYearAccounts(Integer fiscalYear) {
         Set<Map<String, String>> missingPriorYearAccountKeys = yearEndDao.findKeysOfMissingPriorYearAccountsForBalances(fiscalYear);
         missingPriorYearAccountKeys.addAll(yearEndDao.findKeysOfMissingPriorYearAccountsForOpenEncumbrances(fiscalYear));
@@ -419,6 +423,7 @@ public class YearEndServiceImpl implements YearEndService {
      * @param balanceFiscalYear the fiscal year to find balances encumbrances for
      * @see org.kuali.kfs.gl.batch.service.YearEndService#logAllMissingSubFundGroups(java.lang.Integer)
      */
+    @Override
     public void logAllMissingSubFundGroups(Integer fiscalYear) {
         Set missingSubFundGroupKeys = yearEndDao.findKeysOfMissingSubFundGroupsForBalances(fiscalYear);
         missingSubFundGroupKeys.addAll(yearEndDao.findKeysOfMissingSubFundGroupsForOpenEncumbrances(fiscalYear));
@@ -431,7 +436,7 @@ public class YearEndServiceImpl implements YearEndService {
     /**
      * Sets the encumbranceDao attribute, allowing the injection of an implementation of the data access object that uses a specific
      * O/R mechanism.
-     * 
+     *
      * @param encumbranceDao the implementation of encumbranceDao to set
      * @see org.kuali.kfs.gl.dataaccess.EncumbranceDao
      */
@@ -441,7 +446,7 @@ public class YearEndServiceImpl implements YearEndService {
 
     /**
      * Sets the originEntryService attribute, allowing the injection of an implementation of that service
-     * 
+     *
      * @param originEntryService the implementation of originEntryService to set
      * @see org.kuali.kfs.gl.service.OriginEntryService
      */
@@ -484,7 +489,7 @@ public class YearEndServiceImpl implements YearEndService {
 
     /**
      * Sets the persistenceService attribute value.
-     * 
+     *
      * @param persistenceService The persistenceService to set.
      */
     public void setPersistenceService(PersistenceService persistenceService) {
@@ -504,7 +509,7 @@ public class YearEndServiceImpl implements YearEndService {
     }
 
     /**
-     * Gets the encumbranceClosingOriginEntryGenerationService attribute. 
+     * Gets the encumbranceClosingOriginEntryGenerationService attribute.
      * @return Returns the encumbranceClosingOriginEntryGenerationService.
      */
     public EncumbranceClosingOriginEntryGenerationService getEncumbranceClosingOriginEntryGenerationService() {
@@ -520,7 +525,7 @@ public class YearEndServiceImpl implements YearEndService {
     }
 
     /**
-     * Gets the nominalActivityClosingReportWriterService attribute. 
+     * Gets the nominalActivityClosingReportWriterService attribute.
      * @return Returns the nominalActivityClosingReportWriterService.
      */
     public ReportWriterService getNominalActivityClosingReportWriterService() {
@@ -536,7 +541,7 @@ public class YearEndServiceImpl implements YearEndService {
     }
 
     /**
-     * Gets the balanceForwardReportWriterService attribute. 
+     * Gets the balanceForwardReportWriterService attribute.
      * @return Returns the balanceForwardReportWriterService.
      */
     public ReportWriterService getBalanceForwardReportWriterService() {
@@ -552,7 +557,7 @@ public class YearEndServiceImpl implements YearEndService {
     }
 
     /**
-     * Gets the encumbranceClosingReportWriterService attribute. 
+     * Gets the encumbranceClosingReportWriterService attribute.
      * @return Returns the encumbranceClosingReportWriterService.
      */
     public ReportWriterService getEncumbranceClosingReportWriterService() {

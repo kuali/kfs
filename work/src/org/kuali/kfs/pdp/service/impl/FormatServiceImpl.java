@@ -20,9 +20,12 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+
+import javax.mail.MessagingException;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.pdp.PdpConstants;
@@ -62,11 +65,14 @@ import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.api.mail.MailMessage;
 import org.kuali.rice.core.api.util.type.KualiInteger;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.krad.exception.InvalidAddressException;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.MailService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
@@ -305,7 +311,11 @@ public class FormatServiceImpl implements FormatService {
         // step 6 tell the extract batch job to start
         LOG.debug("performFormat() Start extract");
         extractChecks();
-        LOG.info("extracting done.."); //remove this
+
+        Person user = GlobalVariables.getUserSession().getPerson();
+        LOG.info("Sending email to " + user.getEmailAddress());
+        sendEmail(user.getEmailAddress(), processId);
+
     }
 
     /**
@@ -855,6 +865,24 @@ public class FormatServiceImpl implements FormatService {
         public PaymentInfo(KualiInteger disbursementNumber, KualiInteger noteLines) {
             this.disbursementNumber = disbursementNumber;
             this.noteLines = noteLines;
+        }
+    }
+
+    protected void sendEmail(String toAddress, int processId) {
+        MailMessage message = new MailMessage();
+        message.setFromAddress(SpringContext.getBean(ParameterService.class).getParameterValueAsString(KFSConstants.CoreModuleNamespaces.PDP, KfsParameterConstants.BATCH_COMPONENT, KFSConstants.FROM_EMAIL_ADDRESS_PARM_NM));
+        message.setSubject("PDP Format Completed for Process ID " + processId);
+        message.setToAddresses(new HashSet());
+        message.addToAddress(toAddress);
+        message.setMessage("The PDP format for Process ID " + processId + " is complete. Please access the PDP Format Summary lookup for the final disbursement numbers and amounts");
+        try {
+            SpringContext.getBean(MailService.class).sendMessage(message);
+        }
+        catch (InvalidAddressException e) {
+            LOG.error("sendErrorEmail() Invalid email address. Message not sent", e);
+        }
+        catch (MessagingException me) {
+            throw new RuntimeException("Could not send mail", me);
         }
     }
 

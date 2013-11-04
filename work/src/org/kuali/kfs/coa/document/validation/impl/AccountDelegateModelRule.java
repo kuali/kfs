@@ -146,7 +146,6 @@ public class AccountDelegateModelRule extends KfsMaintenanceDocumentRuleBase {
         boolean success = true;
 
         if (delegateModel.isActive()) {
-            success &= checkStartDate(delegateModel);
             success &= checkDelegateFromAmountPositive(delegateModel);
             success &= checkDelegateToAmountGreaterThanFromAmount(delegateModel);
             success &= checkDelegateUserRules(document, delegateModel);
@@ -156,20 +155,6 @@ public class AccountDelegateModelRule extends KfsMaintenanceDocumentRuleBase {
 
         return success;
     }
-
-    private boolean checkStartDate(AccountDelegateModelDetail delegateModel) {
-        boolean success = true;
-        if (ObjectUtils.isNotNull(delegateModel.getAccountDelegateStartDate())) {
-            Timestamp today = getDateTimeService().getCurrentTimestamp();
-            today.setTime(DateUtils.truncate(today, Calendar.DAY_OF_MONTH).getTime());
-            if (delegateModel.getAccountDelegateStartDate().before(today)) {
-                success = false;
-                GlobalVariables.getMessageMap().putError("accountDelegateStartDate", KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_STARTDATE_IN_PAST, new String[0]);
-            }
-        }
-        return success;
-   }
-
 
     /**
      * This method makes certain that the collection of account delegates in the "mo itdel" has at least one account delegate

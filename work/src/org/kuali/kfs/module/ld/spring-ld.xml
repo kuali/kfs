@@ -371,10 +371,11 @@
         <property name="batchFileDirectoryName" value="${staging.directory}/ld/originEntry" />
     </bean>
 
-    <bean id="laborGLScrubberValidator" class="org.kuali.kfs.module.ld.batch.service.impl.LaborGLScrubberValidatorImpl"
-        parent="scrubberValidator" />
+    <bean id="laborGLScrubberValidator" parent="laborGLScrubberValidator-parentBean" />
+    <bean id="laborGLScrubberValidator-parentBean" class="org.kuali.kfs.module.ld.batch.service.impl.LaborGLScrubberValidatorImpl" parent="scrubberValidator" abstract="true" />
 
-    <bean id="laborScrubberValidator" class="org.kuali.kfs.module.ld.batch.service.impl.ScrubberValidatorImpl">
+    <bean id="laborScrubberValidator" parent="laborScrubberValidator-parentBean" />
+    <bean id="laborScrubberValidator-parentBean" class="org.kuali.kfs.module.ld.batch.service.impl.ScrubberValidatorImpl" abstract="true">
         <property name="scrubberValidator">
             <ref bean="laborGLScrubberValidator" />
         </property>
@@ -585,8 +586,8 @@
             </map>
         </property>
     </bean>
+    
     <bean id="laborSummaryReportWriterService" parent="laborSummaryReportWriterService-parentBean" />
-
     <bean id="laborSummaryReportWriterService-parentBean"  abstract="true" parent="reportWriterService"
         class="org.kuali.kfs.sys.service.impl.BalanceSummaryReportWriterTextServiceImpl"
     >
@@ -599,19 +600,22 @@
         <property name="aggregationModeOn" value="true" />
     </bean>
 
-    <bean id="laborLedgerEntryPoster" class="org.kuali.kfs.module.ld.batch.service.impl.LaborLedgerEntryPoster">
+    <bean id="laborLedgerEntryPoster" parent="laborLedgerEntryPoster-parentBean" />
+    <bean id="laborLedgerEntryPoster-parentBean" class="org.kuali.kfs.module.ld.batch.service.impl.LaborLedgerEntryPoster" abstract="true">
         <property name="laborAccountingCycleCachingService">
             <ref bean="laborAccountingCycleCachingService" />
         </property>
     </bean>
 
-    <bean id="laborLedgerBalancePoster" class="org.kuali.kfs.module.ld.batch.service.impl.LaborLedgerBalancePoster">
+    <bean id="laborLedgerBalancePoster" parent="laborLedgerBalancePoster-parentBean" />
+    <bean id="laborLedgerBalancePoster-parentBean" class="org.kuali.kfs.module.ld.batch.service.impl.LaborLedgerBalancePoster" abstract="true">
         <property name="laborAccountingCycleCachingService">
             <ref bean="laborAccountingCycleCachingService" />
         </property>
     </bean>
 
-    <bean id="laborGLLedgerEntryPoster" class="org.kuali.kfs.module.ld.batch.service.impl.LaborGLLedgerEntryPoster">
+    <bean id="laborGLLedgerEntryPoster" parent="laborGLLedgerEntryPoster-parentBean" />
+    <bean id="laborGLLedgerEntryPoster-parentBean" class="org.kuali.kfs.module.ld.batch.service.impl.LaborGLLedgerEntryPoster" abstract="true">
         <property name="laborGeneralLedgerEntryService">
             <ref bean="laborGeneralLedgerEntryService" />
         </property>
@@ -620,9 +624,10 @@
         </property>
     </bean>
 
-    <bean id="laborPosterTransactionValidator" class="org.kuali.kfs.module.ld.batch.service.impl.LaborPosterTransactionValidator" />
+    <bean id="laborPosterTransactionValidator" parent="laborPosterTransactionValidator-parentBean" />
+    <bean id="laborPosterTransactionValidator-parentBean" class="org.kuali.kfs.module.ld.batch.service.impl.LaborPosterTransactionValidator" abstract="true" />
+    
     <bean id="laborYearEndBalanceForwardService" parent="laborYearEndBalanceForwardService-parentBean" />
-
     <bean id="laborYearEndBalanceForwardService-parentBean" class="org.kuali.kfs.module.ld.batch.service.impl.LaborYearEndBalanceForwardServiceImpl" abstract="true">
         <property name="laborLedgerBalanceService">
             <ref bean="laborLedgerBalanceService" />

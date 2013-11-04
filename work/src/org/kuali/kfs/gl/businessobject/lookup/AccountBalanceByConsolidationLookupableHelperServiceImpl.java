@@ -39,7 +39,7 @@ public class AccountBalanceByConsolidationLookupableHelperServiceImpl extends Ab
 
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountBalanceByConsolidationLookupableHelperServiceImpl.class);
 
-    private AccountBalanceService accountBalanceService;
+    protected AccountBalanceService accountBalanceService;
 
     public void setAccountBalanceService(AccountBalanceService abs) {
         accountBalanceService = abs;
@@ -114,11 +114,6 @@ public class AccountBalanceByConsolidationLookupableHelperServiceImpl extends Ab
             dbo.setCostShareOption(costShareOption);
             dbo.setPendingEntryOption(pendingEntryOption);
             dbo.setLinkButtonOption(Constant.LOOKUP_BUTTON_VALUE);
-
-            // Set the variance on the detail lines
-            if (count > 7) {
-                dbo.setGenericAmount(ab.getVariance());
-            }
         }
         return new CollectionIncomplete(results, new Long(results.size()));
     }

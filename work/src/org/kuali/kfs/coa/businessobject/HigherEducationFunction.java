@@ -1,12 +1,12 @@
 /*
  * Copyright 2005 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -21,20 +21,20 @@ import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
- * 
+ *
  */
 public class HigherEducationFunction extends PersistableBusinessObjectBase implements MutableInactivatable {
 
-    private String financialHigherEdFunctionCd;
-    private String financialHigherEdFunctionNm;
-    private String finUnivBdgtOfficeFunctionCd;
-    private String finAicpaFunctionCode;
-    private String financialFederalFunctionCode;
-    private boolean active;
+    protected String financialHigherEdFunctionCd;
+    protected String financialHigherEdFunctionNm;
+    protected String finUnivBdgtOfficeFunctionCd;
+    protected String finAicpaFunctionCode;
+    protected String financialFederalFunctionCode;
+    protected boolean active;
 
-    private UniversityBudgetOfficeFunction universityBudgetOfficeFunction;
-    private FederalFunction federalFunction;
-    private AICPAFunction aicpaFunction; // American Institute of Certified Public Accountants
+    protected UniversityBudgetOfficeFunction universityBudgetOfficeFunction;
+    protected FederalFunction federalFunction;
+    protected AICPAFunction aicpaFunction; // American Institute of Certified Public Accountants
 
     /**
      * Default no-arg constructor.
@@ -45,7 +45,7 @@ public class HigherEducationFunction extends PersistableBusinessObjectBase imple
 
     /**
      * Gets the financialHigherEdFunctionCd attribute.
-     * 
+     *
      * @return Returns the financialHigherEdFunctionCd
      */
     public String getFinancialHigherEdFunctionCd() {
@@ -54,7 +54,7 @@ public class HigherEducationFunction extends PersistableBusinessObjectBase imple
 
     /**
      * Sets the financialHigherEdFunctionCd attribute.
-     * 
+     *
      * @param financialHigherEdFunctionCd The financialHigherEdFunctionCd to set.
      */
     public void setFinancialHigherEdFunctionCd(String financialHigherEdFunctionCd) {
@@ -63,7 +63,7 @@ public class HigherEducationFunction extends PersistableBusinessObjectBase imple
 
     /**
      * Gets the financialHigherEdFunctionNm attribute.
-     * 
+     *
      * @return Returns the financialHigherEdFunctionNm
      */
     public String getFinancialHigherEdFunctionNm() {
@@ -72,7 +72,7 @@ public class HigherEducationFunction extends PersistableBusinessObjectBase imple
 
     /**
      * Sets the financialHigherEdFunctionNm attribute.
-     * 
+     *
      * @param financialHigherEdFunctionNm The financialHigherEdFunctionNm to set.
      */
     public void setFinancialHigherEdFunctionNm(String financialHigherEdFunctionNm) {
@@ -81,7 +81,7 @@ public class HigherEducationFunction extends PersistableBusinessObjectBase imple
 
     /**
      * Gets the finUnivBdgtOfficeFunctionCd attribute.
-     * 
+     *
      * @return Returns the finUnivBdgtOfficeFunctionCd
      */
     public String getFinUnivBdgtOfficeFunctionCd() {
@@ -90,7 +90,7 @@ public class HigherEducationFunction extends PersistableBusinessObjectBase imple
 
     /**
      * Sets the finUnivBdgtOfficeFunctionCd attribute.
-     * 
+     *
      * @param finUnivBdgtOfficeFunctionCd The finUnivBdgtOfficeFunctionCd to set.
      */
     public void setFinUnivBdgtOfficeFunctionCd(String finUnivBdgtOfficeFunctionCd) {
@@ -99,7 +99,7 @@ public class HigherEducationFunction extends PersistableBusinessObjectBase imple
 
     /**
      * Gets the finAicpaFunctionCode attribute.
-     * 
+     *
      * @return Returns the finAicpaFunctionCode
      */
     public String getFinAicpaFunctionCode() {
@@ -108,7 +108,7 @@ public class HigherEducationFunction extends PersistableBusinessObjectBase imple
 
     /**
      * Sets the finAicpaFunctionCode attribute.
-     * 
+     *
      * @param finAicpaFunctionCode The finAicpaFunctionCode to set.
      */
     public void setFinAicpaFunctionCode(String finAicpaFunctionCode) {
@@ -117,7 +117,7 @@ public class HigherEducationFunction extends PersistableBusinessObjectBase imple
 
     /**
      * Gets the financialFederalFunctionCode attribute.
-     * 
+     *
      * @return Returns the financialFederalFunctionCode
      */
     public String getFinancialFederalFunctionCode() {
@@ -126,7 +126,7 @@ public class HigherEducationFunction extends PersistableBusinessObjectBase imple
 
     /**
      * Sets the financialFederalFunctionCode attribute.
-     * 
+     *
      * @param financialFederalFunctionCode The financialFederalFunctionCode to set.
      */
     public void setFinancialFederalFunctionCode(String financialFederalFunctionCode) {
@@ -144,6 +144,7 @@ public class HigherEducationFunction extends PersistableBusinessObjectBase imple
      * @param universityBudgetOfficeFunction The universityBudgetOfficeFunction to set.
      * @deprecated
      */
+    @Deprecated
     public void setUniversityBudgetOfficeFunction(UniversityBudgetOfficeFunction universityBudgetOfficeFunction) {
         this.universityBudgetOfficeFunction = universityBudgetOfficeFunction;
     }
@@ -159,6 +160,7 @@ public class HigherEducationFunction extends PersistableBusinessObjectBase imple
      * @param federalFunction The federalFunction to set.
      * @deprecated
      */
+    @Deprecated
     public void setFederalFunction(FederalFunction federalFunction) {
         this.federalFunction = federalFunction;
     }
@@ -174,6 +176,7 @@ public class HigherEducationFunction extends PersistableBusinessObjectBase imple
      * @param aicpaFunction The aicpaFunction to set.
      * @deprecated
      */
+    @Deprecated
     public void setAicpaFunction(AICPAFunction aicpaFunction) {
         this.aicpaFunction = aicpaFunction;
     }
@@ -197,9 +200,10 @@ public class HigherEducationFunction extends PersistableBusinessObjectBase imple
     }
 
     /**
-     * Gets the active attribute. 
+     * Gets the active attribute.
      * @return Returns the active.
      */
+    @Override
     public boolean isActive() {
         return active;
     }
@@ -208,6 +212,7 @@ public class HigherEducationFunction extends PersistableBusinessObjectBase imple
      * Sets the active attribute value.
      * @param active The active to set.
      */
+    @Override
     public void setActive(boolean active) {
         this.active = active;
     }

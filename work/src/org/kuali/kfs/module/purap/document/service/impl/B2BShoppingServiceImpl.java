@@ -16,7 +16,9 @@
 package org.kuali.kfs.module.purap.document.service.impl;
 
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -38,9 +40,9 @@ import org.kuali.kfs.module.purap.document.service.B2BShoppingService;
 import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.module.purap.document.service.PurchasingService;
 import org.kuali.kfs.module.purap.exception.B2BShoppingException;
+import org.kuali.kfs.module.purap.util.PurApDateFormatUtils;
 import org.kuali.kfs.module.purap.util.cxml.B2BParserHelper;
 import org.kuali.kfs.module.purap.util.cxml.B2BShoppingCart;
-import org.kuali.kfs.module.purap.util.cxml.PunchOutSetupCxml;
 import org.kuali.kfs.module.purap.util.cxml.PunchOutSetupResponse;
 import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -55,6 +57,7 @@ import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.kfs.vnd.service.PhoneNumberService;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
@@ -107,17 +110,86 @@ public class B2BShoppingServiceImpl implements B2BShoppingService {
         // retrieve info for punchout (url, password, etc)
         B2BInformation b2b = getB2bShoppingConfigurationInformation();
 
-        // create purnchout cxml
-        PunchOutSetupCxml cxml = new PunchOutSetupCxml(user, b2b);
-
         // send punchout request
-        String response = b2bDao.sendPunchOutRequest(cxml.getPunchOutSetupRequestMessage(), b2b.getPunchoutURL());
+        String response = b2bDao.sendPunchOutRequest(getPunchOutSetupRequestMessage(user, b2b), b2b.getPunchoutURL());
 
         // parse response
         PunchOutSetupResponse posr = B2BParserHelper.getInstance().parsePunchOutSetupResponse(response);
 
         // return url to use for punchout
         return posr.getPunchOutUrl();
+    }
+
+    /**
+     * @see org.kuali.kfs.module.purap.document.service.B2BService#getPunchOutSetupRequestMessage(org.kuali.rice.kim.api.identity.Person,org.kuali.kfs.module.purap.businessobject.B2BInformation)
+     */
+    @Override
+    public String getPunchOutSetupRequestMessage(Person user, B2BInformation b2bInformation) {
+      StringBuffer cxml = new StringBuffer();
+      Date d = SpringContext.getBean(DateTimeService.class).getCurrentDate();
+      SimpleDateFormat date = PurApDateFormatUtils.getSimpleDateFormat(PurapConstants.NamedDateFormats.CXML_SIMPLE_DATE_FORMAT);
+      SimpleDateFormat time = PurApDateFormatUtils.getSimpleDateFormat(PurapConstants.NamedDateFormats.CXML_SIMPLE_TIME_FORMAT);
+
+      // doing as two parts b/c they want a T instead of space
+      // between them, and SimpleDateFormat doesn't allow putting the
+      // constant "T" in the string
+
+      cxml.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
+      cxml.append("<!DOCTYPE cXML SYSTEM \"cXML.dtd\">\n");
+      cxml.append("<cXML payloadID=\"irrelevant\" xml:lang=\"en-US\" timestamp=\"").append(date.format(d)).append("T")
+          .append(time.format(d)).append("-05:00").append("\">\n");
+
+      // note that timezone is hard coded b/c this is the format
+      // they wanted, but SimpleDateFormat returns -0500, so rather than
+      // parse it just hard-coded
+
+      cxml.append("  <Header>\n");
+      cxml.append("    <From>\n");
+      cxml.append("      <Credential domain=\"NetworkId\">\n");
+      cxml.append("        <Identity>").append(b2bInformation.getIdentity()).append("</Identity>\n");
+      cxml.append("      </Credential>\n");
+      cxml.append("    </From>\n");
+      cxml.append("    <To>\n");
+      cxml.append("      <Credential domain=\"DUNS\">\n");
+      cxml.append("        <Identity>").append(b2bInformation.getIdentity()).append("</Identity>\n");
+      cxml.append("      </Credential>\n");
+      cxml.append("      <Credential domain=\"internalsupplierid\">\n");
+      cxml.append("        <Identity>1016</Identity>\n");
+      cxml.append("      </Credential>\n");
+      cxml.append("    </To>\n");
+      cxml.append("    <Sender>\n");
+      cxml.append("      <Credential domain=\"TOPSNetworkUserId\">\n");
+      cxml.append("        <Identity>").append(user.getPrincipalName().toUpperCase()).append("</Identity>\n");
+      cxml.append("        <SharedSecret>").append(b2bInformation.getPassword()).append("</SharedSecret>\n");
+      cxml.append("      </Credential>\n");
+      cxml.append("      <UserAgent>").append(b2bInformation.getUserAgent()).append("</UserAgent>\n");
+      cxml.append("    </Sender>\n");
+      cxml.append("  </Header>\n");
+      cxml.append("  <Request deploymentMode=\"").append(b2bInformation.getEnvironment()).append("\">\n");
+      cxml.append("    <PunchOutSetupRequest operation=\"create\">\n");
+      cxml.append("      <BuyerCookie>").append(user.getPrincipalName().toUpperCase()).append("</BuyerCookie>\n");
+      //cxml.append(" <Extrinsic
+      // name=\"UserEmail\">jdoe@TOPS.com</Extrinsic>\n"); // we can't reliably
+      // get the e-mail address, so we're leaving it out
+      cxml.append("      <Extrinsic name=\"UniqueName\">").append(user.getPrincipalName().toUpperCase()).append("</Extrinsic>\n");
+      cxml.append("      <Extrinsic name=\"Department\">IU").append(user.getCampusCode()).append(user.getPrimaryDepartmentCode()).append("</Extrinsic>\n");
+      cxml.append("      <Extrinsic name=\"Campus\">").append(user.getCampusCode()).append("</Extrinsic>\n");
+      cxml.append("      <BrowserFormPost>\n");
+      cxml.append("        <URL>").append(b2bInformation.getPunchbackURL()).append("</URL>\n");
+      cxml.append("      </BrowserFormPost>\n");
+      cxml.append("      <Contact role=\"endUser\">\n");
+      cxml.append("        <Name xml:lang=\"en\">").append(user.getName()).append("</Name>\n");
+      //cxml.append(" <Email>jdoe@TOPS.com</Email>\n"); // again, we can't
+      // reliably get this, so we're leaving it out
+      cxml.append("      </Contact>\n");
+      cxml.append("      <SupplierSetup>\n");
+      cxml.append("        <URL>").append(b2bInformation.getPunchoutURL()).append("</URL>\n");
+      cxml.append("      </SupplierSetup>\n");
+      cxml.append("    </PunchOutSetupRequest>\n");
+      cxml.append("  </Request>\n");
+      cxml.append("</cXML>\n");
+
+      return cxml.toString();
     }
 
     /**

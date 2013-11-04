@@ -55,7 +55,7 @@
     <property name="forceUppercase" value="false"/>
     <property name="label" value="Document Number"/>
     <property name="shortLabel" value="DocNum"/>
-    <property name="maxLength" value="12"/>
+    <property name="maxLength" value="14"/>
     <property name="control">
       <ref bean="HiddenControl" />
     </property>

@@ -144,7 +144,12 @@ public class CustomerInvoiceDocumentAction extends KualiAccountingDocumentAction
             return forward;
         }
 
-        return super.copy(mapping, form, request, response);
+        forward = super.copy(mapping, form, request, response);
+        // KFSCNTRB-1737- We don't want to copy the closed date if the (copied) invoice isn't closed.
+        if (customerInvoiceDocument.isOpenInvoiceIndicator()) {
+                customerInvoiceDocument.setClosedDate(null);
+        }
+        return forward;
     }
 
 

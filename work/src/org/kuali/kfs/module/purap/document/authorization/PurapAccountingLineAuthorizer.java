@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -29,7 +29,6 @@ import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocumentBase;
-import org.kuali.kfs.module.purap.document.PurchasingDocument;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -57,7 +56,7 @@ public class PurapAccountingLineAuthorizer extends AccountingLineAuthorizerBase 
      * Overrides the method in AccountingLineAuthorizerBase so that the add button would
      * have the line item number in addition to the rest of the insertxxxx String for
      * methodToCall when the user clicks on the add button.
-     * 
+     *
      * @param accountingLine
      * @param accountingLineProperty
      * @return
@@ -74,12 +73,12 @@ public class PurapAccountingLineAuthorizer extends AccountingLineAuthorizerBase 
         }
         return "insert"+infix + "Line.line" + lineNumber + "." + "anchoraccounting"+infix+"Anchor";
     }
-    
+
     /**
      * Overrides the method in AccountingLineAuthorizerBase so that the delete button would have both
      * the line item number and the accounting line number for methodToCall when the user clicks on
      * the delete button.
-     * 
+     *
      * @see org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizerBase#getDeleteLineMethod(org.kuali.kfs.sys.businessobject.AccountingLine, java.lang.String, java.lang.Integer)
      */
     @Override
@@ -92,10 +91,10 @@ public class PurapAccountingLineAuthorizer extends AccountingLineAuthorizerBase 
         String accountingLineNumber = StringUtils.substringBetween(accountingLineProperty, "sourceAccountingLine[", "]");
         return "delete"+infix+"Line.line"+ lineNumber + ":" + accountingLineNumber + ".anchoraccounting"+infix+"Anchor";
     }
-    
+
     /**
-     * Overrides the method in AccountingLineAuthorizerBase so that the balance inquiry button would 
-     * have both the line item number and the accounting line number for methodToCall when the user 
+     * Overrides the method in AccountingLineAuthorizerBase so that the balance inquiry button would
+     * have both the line item number and the accounting line number for methodToCall when the user
      * clicks on the balance inquiry button.
      * @see org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizerBase#getBalanceInquiryMethod(org.kuali.kfs.sys.businessobject.AccountingLine, java.lang.String, java.lang.Integer)
      */
@@ -109,7 +108,7 @@ public class PurapAccountingLineAuthorizer extends AccountingLineAuthorizerBase 
         String accountingLineNumber = StringUtils.substringBetween(accountingLineProperty, "sourceAccountingLine[", "]");
         return "performBalanceInquiryFor"+infix+"Line.line"+ ":" + lineNumber + ":" + accountingLineNumber + ".anchoraccounting"+infix+ "existingLineLineAnchor"+accountingLineNumber;
     }
-    
+
     /**
      * @see org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizerBase#getUnviewableBlocks(org.kuali.kfs.sys.document.AccountingDocument, org.kuali.kfs.sys.businessobject.AccountingLine, boolean, org.kuali.rice.kim.api.identity.Person)
      */
@@ -124,18 +123,19 @@ public class PurapAccountingLineAuthorizer extends AccountingLineAuthorizerBase 
         }
         return unviewableBlocks;
     }
-    
+
     private boolean showAmountOnly(AccountingDocument accountingDocument) {
         PurapService purapService = SpringContext.getBean(PurapService.class);
-        if (accountingDocument instanceof PurchasingAccountsPayableDocument)
+        if (accountingDocument instanceof PurchasingAccountsPayableDocument) {
             if (purapService.isFullDocumentEntryCompleted((PurchasingAccountsPayableDocument)accountingDocument)) {
                 return true;
             }
+        }
         return false;
     }
-    
+
     /**
-     * 
+     *
      * @param accountingDocument
      * @return
      */
@@ -153,12 +153,13 @@ public class PurapAccountingLineAuthorizer extends AccountingLineAuthorizerBase 
         }
         return presentationController;
     }
-    
+
     /**
-     * 
+     *
      * @param accountingDocument
      * @return
      */
+    @Override
     protected FinancialSystemTransactionalDocumentAuthorizerBase getDocumentAuthorizer(AccountingDocument accountingDocument) {
         final Class<? extends DocumentAuthorizer> documentAuthorizerClass = ((TransactionalDocumentEntry)SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getDictionaryObjectEntry(accountingDocument.getClass().getName())).getDocumentAuthorizerClass();
         FinancialSystemTransactionalDocumentAuthorizerBase documentAuthorizer = null;
@@ -173,85 +174,90 @@ public class PurapAccountingLineAuthorizer extends AccountingLineAuthorizerBase 
         }
         return documentAuthorizer;
     }
-    
+
     @Override
-    public boolean isGroupEditable(AccountingDocument accountingDocument, 
-                                   List<? extends AccountingLineRenderingContext> accountingLineRenderingContexts, 
+    public boolean isGroupEditable(AccountingDocument accountingDocument,
+                                   List<? extends AccountingLineRenderingContext> accountingLineRenderingContexts,
                                    Person currentUser) {
-        
+
         boolean isEditable = super.isGroupEditable(accountingDocument, accountingLineRenderingContexts, currentUser);
-        
+
         if (isEditable){
             if (accountingLineRenderingContexts.size() == 0) {
                 return false;
             }
             isEditable = allowAccountingLinesAreEditable(accountingDocument,accountingLineRenderingContexts.get(0).getAccountingLine());
         }
-        
+
         return isEditable;
     }
-    
+
     @Override
-    public boolean determineEditPermissionOnField(AccountingDocument accountingDocument, 
-                                                  AccountingLine accountingLine, 
-                                                  String accountingLineCollectionProperty, 
+    public boolean determineEditPermissionOnField(AccountingDocument accountingDocument,
+                                                  AccountingLine accountingLine,
+                                                  String accountingLineCollectionProperty,
                                                   String fieldName,
                                                   boolean editablePage) {
-        
+
+        // the fields in a new line should be always editable
+        if (accountingLine.getSequenceNumber() == null) {
+            return true;
+        }
+
         boolean isEditable = super.determineEditPermissionOnField(accountingDocument, accountingLine, accountingLineCollectionProperty,fieldName,editablePage);
-        
+
         if (isEditable){
             isEditable = allowAccountingLinesAreEditable(accountingDocument,accountingLine);
         }
-        
+
         return isEditable;
     }
-    
+
     @Override
-    public boolean determineEditPermissionOnLine(AccountingDocument accountingDocument, 
-                                                 AccountingLine accountingLine, 
+    public boolean determineEditPermissionOnLine(AccountingDocument accountingDocument,
+                                                 AccountingLine accountingLine,
                                                  String accountingLineCollectionProperty,
-                                                 boolean currentUserIsDocumentInitiator, 
+                                                 boolean currentUserIsDocumentInitiator,
                                                  boolean pageIsEditable) {
-        
+
         boolean isEditable = super.determineEditPermissionOnLine(accountingDocument, accountingLine, accountingLineCollectionProperty, currentUserIsDocumentInitiator, pageIsEditable);
-        
+
         if (isEditable){
             isEditable = allowAccountingLinesAreEditable(accountingDocument,accountingLine);
         }
-        
+
         return (isEditable && pageIsEditable);
     }
-    
+
     /**
      * This method checks whether the accounting lines are editable for a specific item type.
-     * 
+     *
      */
     protected boolean allowAccountingLinesAreEditable(AccountingDocument accountingDocument,
                                                             AccountingLine accountingLine){
-        
+
         PurApAccountingLine purapAccount = (PurApAccountingLine)accountingLine;
         @SuppressWarnings("rawtypes")
         Class clazz = getPurapDocumentClass(accountingDocument);
         if (clazz == null){
             return true;
         }
-        
+
         //if not calculated yet then the line is editable
         PurchasingAccountsPayableDocumentBase purapDoc = (PurchasingAccountsPayableDocumentBase) accountingDocument;
         if (!purapDoc.isCalculated()) {
             return true;
         }
-        
+
         Collection<String> restrictedItemTypesList = new ArrayList<String>( SpringContext.getBean(ParameterService.class).getParameterValuesAsString(clazz, PurapParameterConstants.PURAP_ITEM_TYPES_RESTRICTING_ACCOUNT_EDIT) );
 
         // This call determines a new special case in which an item marked for trade-in cannot have editable accounting lines
         // once the calculate button image is clicked, even if the accounting line has not been saved yet.
         boolean retval = true;
         retval = isEditableBasedOnTradeInRestriction(accountingDocument, accountingLine);
-        
+
         if (restrictedItemTypesList != null && purapAccount.getPurapItem() != null){
-            return (!restrictedItemTypesList.contains(((PurApItem) purapAccount.getPurapItem()).getItemTypeCode()) && retval);
+            return (!restrictedItemTypesList.contains(purapAccount.getPurapItem().getItemTypeCode()) && retval);
         } else if (restrictedItemTypesList != null && purapAccount.getPurapItem() == null) {
             return retval;
         } else {
@@ -261,11 +267,11 @@ public class PurapAccountingLineAuthorizer extends AccountingLineAuthorizerBase 
 
     /**
      * Find the item to which an accounting line belongs. Convenience/Utility method.
-     * 
+     *
      * Some methods that require an accounting line with a purApItem attached were getting accounting lines
-     * passed in that did not yet have a purApItem. I needed a way to match the accounting line to the 
+     * passed in that did not yet have a purApItem. I needed a way to match the accounting line to the
      * proper item.
-     * 
+     *
      * @param accountingDocument the document holding both the accounting line and the item to which the
      * accounting line is attached
      * @param accountingLine the accounting line of interest, for which a containing item should be found
@@ -301,13 +307,13 @@ public class PurapAccountingLineAuthorizer extends AccountingLineAuthorizerBase 
 
     /**
      * Handles a restriction on accounting lines assigned to trade-in items.
-     * If the accounting Line is for a trade-in item type, and the accounting line has contents, 
-     * the user is not allowed to change the contents of the calculated values. 
-     * 
-     * The trade-in may not yet have a sequence number, so the old way of relying solely on sequence 
-     * number (in method super.approvedForUnqualifiedEditing() is incomplete, and needs this extra check 
+     * If the accounting Line is for a trade-in item type, and the accounting line has contents,
+     * the user is not allowed to change the contents of the calculated values.
+     *
+     * The trade-in may not yet have a sequence number, so the old way of relying solely on sequence
+     * number (in method super.approvedForUnqualifiedEditing() is incomplete, and needs this extra check
      * for trade-ins.
-     * 
+     *
      * @param accountingLine the accounting line being examined
      * @return whether the accounting line is editable according to the trade-in/non-empty restriction
      */
@@ -340,7 +346,7 @@ public class PurapAccountingLineAuthorizer extends AccountingLineAuthorizerBase 
         }
         return retval;
     }
-    
+
     @SuppressWarnings("rawtypes")
     private Class getPurapDocumentClass(AccountingDocument accountingDocument){
         if (accountingDocument instanceof RequisitionDocument){
@@ -357,12 +363,12 @@ public class PurapAccountingLineAuthorizer extends AccountingLineAuthorizerBase 
     /**
      * Determines if the given line is editable, no matter what a KIM check would say about line editability.  In the default case,
      * any accounting line is editable - minus KIM check - when the document is PreRoute, or if the line is a new line
-     * 
+     *
      * This overriding implementation is required because the Purap module has a new restriction that requires
-     * that an accounting line for a Trade-In item cannot be manually editable, even if not yet saved ("not yet saved" means it has 
-     * no sequence number). Therefore, the base implementation that determines editability on the sequence number alone has to be 
-     * preceded by a check that declares ineligible for editing if it is a trade-in. 
-     * 
+     * that an accounting line for a Trade-In item cannot be manually editable, even if not yet saved ("not yet saved" means it has
+     * no sequence number). Therefore, the base implementation that determines editability on the sequence number alone has to be
+     * preceded by a check that declares ineligible for editing if it is a trade-in.
+     *
      * @see org.kuali.kfs.module.purap.document.authorization.PurapAccountingLineAuthorizer#allowAccountingLinesAreEditable(AccountingDocument, AccountingLine)
      *
      * @param accountingDocument the accounting document the line is or wants to be associated with

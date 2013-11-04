@@ -328,7 +328,7 @@ public class CustomerCreditMemoDocument extends GeneralLedgerPostingDocumentBase
      */
     public void populateCustomerCreditMemoDetails() {
         CustomerCreditMemoDetail customerCreditMemoDetail;
-        KualiDecimal invItemTaxAmount, openInvoiceQuantity, openInvoiceAmount;
+        KualiDecimal invItemTaxAmount, openInvoiceAmount;
 
         CustomerInvoiceDetailService customerInvoiceDetailService = SpringContext.getBean(CustomerInvoiceDetailService.class);
         setStatusCode(ArConstants.CustomerCreditMemoStatuses.IN_PROCESS);

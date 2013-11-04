@@ -14,6 +14,46 @@
 ## KIND, either express or implied.  See the License for the
 ## specific language governing permissions and limitations
 ## under the License.
+
+## Changes made to this template for KULRICE-9021 - Impex tool does
+## not import into mysql properly for MySQL 5.6.x and indexes on large columns
+
+## Create needed variables
+#set($comma = ",")
+#set($maxIndexSize = "(255)")
+
 #foreach ($index in $table.Indices)
-    , INDEX $index.Name ($index.ColumnList)
+    #set($updatedIndexCols = "")
+    #set($columnsForIndex = $index.Columns)
+    #set($allColumns = $table.Columns)
+    #set ($firstTime = "true")
+    #foreach ($col in $columnsForIndex)
+        #set ($truncateSize = "")
+
+        ## If the index column is a VARCHAR and the size is
+        ## more than 255 truncate the index length to 255
+        #foreach ($singleCol in $allColumns)
+            #if ($singleCol.Name eq $col)
+                #if ($singleCol.Type eq "VARCHAR")
+                    #set($intString = $singleCol.Size)
+                    #set($Integer = 0)
+                    #set($sizeInt = $Integer.parseInt($intString))
+                    #if($sizeInt gt 255)
+                        #set($truncateSize = $maxIndexSize)
+                    #end
+                #end
+            #end
+        #end
+
+        ## If the index only has a single column we don't need
+        ## to concatenate the column names.
+        #if ($firstTime eq "true")
+            #set ($updatedIndexCols = "${col} $!{truncateSize}")
+            #set ($firstTime = "false")
+        #else
+            #set ($updatedIndexCols = "$!{updatedIndexCols}${comma} ${col} $!{truncateSize}")
+        #end
+    #end
+
+, INDEX $index.Name ($updatedIndexCols)
 #end

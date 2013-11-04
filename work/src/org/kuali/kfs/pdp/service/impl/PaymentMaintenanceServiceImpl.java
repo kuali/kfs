@@ -420,7 +420,9 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
                     // set primary cancel indicator for EPIC to use
                     // these payment details will be canceled when running processPdpCancelAndPaidJOb
                     Map<String, KualiInteger> primaryKeys = new HashMap<String, KualiInteger>();
-                    primaryKeys.put(PdpPropertyConstants.PaymentDetail.PAYMENT_ID, element.getId());
+                    // KFSCNTRB-1705: use PAYMENT_DETAIL_PAYMENT_GROUP_ID instead of PAYMENT_ID since now we're starting to have Payment Group ID
+                    // values assigned in PDP whose values just happen to not have identical values in the Payment Detail ID field.
+                    primaryKeys.put(PdpPropertyConstants.PaymentDetail.PAYMENT_DETAIL_PAYMENT_GROUP_ID, element.getId());
 
                     // cancel all  payment details for payment group
                     List<PaymentDetail> pds = (List<PaymentDetail>) this.businessObjectService.findMatching(PaymentDetail.class, primaryKeys);

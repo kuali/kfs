@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -35,44 +35,44 @@ import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
- * 
+ *
  */
 public class ObjectCodeGlobal extends PersistableBusinessObjectBase implements GlobalBusinessObject {
 
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ObjectCodeGlobal.class);
 
-    private String documentNumber;
-    private Integer universityFiscalYear;
-    private String chartOfAccountsCode;
-    private String financialObjectCode;
-    private String financialObjectCodeName;
-    private String financialObjectCodeShortName;
-    private String financialObjectLevelCode;
-    private String reportsToChartOfAccountsCode;
-    private String reportsToFinancialObjectCode;
-    private String financialObjectTypeCode;
-    private String financialObjectSubTypeCode;
-    private String historicalFinancialObjectCode;
-    private boolean financialObjectActiveIndicator;
-    private String financialBudgetAggregationCd;
-    private String finObjMandatoryTrnfrOrElimCd;
-    private String financialFederalFundedCode;
-    private String nextYearFinancialObjectCode;
+    protected String documentNumber;
+    protected Integer universityFiscalYear;
+    protected String chartOfAccountsCode;
+    protected String financialObjectCode;
+    protected String financialObjectCodeName;
+    protected String financialObjectCodeShortName;
+    protected String financialObjectLevelCode;
+    protected String reportsToChartOfAccountsCode;
+    protected String reportsToFinancialObjectCode;
+    protected String financialObjectTypeCode;
+    protected String financialObjectSubTypeCode;
+    protected String historicalFinancialObjectCode;
+    protected boolean financialObjectActiveIndicator;
+    protected String financialBudgetAggregationCd;
+    protected String finObjMandatoryTrnfrOrElimCd;
+    protected String financialFederalFundedCode;
+    protected String nextYearFinancialObjectCode;
 
-    private DocumentHeader financialDocument;
-    private ObjectCode financialObject;
-    private ObjectCode reportsToFinancialObject;
-    private SystemOptions universityFiscal;
-    private Chart chartOfAccounts;
-    private Chart reportsToChartOfAccounts;
-    private ObjectType financialObjectType;
-    private ObjectSubType financialObjectSubType;
-    private ObjectLevel financialObjectLevel;
-    private BudgetAggregationCode financialBudgetAggregation;
-    private MandatoryTransferEliminationCode finObjMandatoryTrnfrelim;
-    private FederalFundedCode financialFederalFunded;
+    protected DocumentHeader financialDocument;
+    protected ObjectCode financialObject;
+    protected ObjectCode reportsToFinancialObject;
+    protected SystemOptions universityFiscal;
+    protected Chart chartOfAccounts;
+    protected Chart reportsToChartOfAccounts;
+    protected ObjectType financialObjectType;
+    protected ObjectSubType financialObjectSubType;
+    protected ObjectLevel financialObjectLevel;
+    protected BudgetAggregationCode financialBudgetAggregation;
+    protected MandatoryTransferEliminationCode finObjMandatoryTrnfrelim;
+    protected FederalFundedCode financialFederalFunded;
 
-    private List<ObjectCodeGlobalDetail> objectCodeGlobalDetails;
+    protected List<ObjectCodeGlobalDetail> objectCodeGlobalDetails;
 
     /**
      * Default constructor.
@@ -83,18 +83,20 @@ public class ObjectCodeGlobal extends PersistableBusinessObjectBase implements G
 
     /**
      * Gets the documentNumber attribute.
-     * 
+     *
      * @return Returns the documentNumber
      */
+    @Override
     public String getDocumentNumber() {
         return documentNumber;
     }
 
     /**
      * Sets the documentNumber attribute.
-     * 
+     *
      * @param documentNumber The documentNumber to set.
      */
+    @Override
     public void setDocumentNumber(String documentNumber) {
         this.documentNumber = documentNumber;
     }
@@ -102,7 +104,7 @@ public class ObjectCodeGlobal extends PersistableBusinessObjectBase implements G
 
     /**
      * Gets the universityFiscalYear attribute.
-     * 
+     *
      * @return Returns the universityFiscalYear
      */
     public Integer getUniversityFiscalYear() {
@@ -111,7 +113,7 @@ public class ObjectCodeGlobal extends PersistableBusinessObjectBase implements G
 
     /**
      * Sets the universityFiscalYear attribute.
-     * 
+     *
      * @param universityFiscalYear The universityFiscalYear to set.
      */
     public void setUniversityFiscalYear(Integer universityFiscalYear) {
@@ -121,7 +123,7 @@ public class ObjectCodeGlobal extends PersistableBusinessObjectBase implements G
 
     /**
      * Gets the chartOfAccountsCode attribute.
-     * 
+     *
      * @return Returns the chartOfAccountsCode
      */
     public String getChartOfAccountsCode() {
@@ -130,7 +132,7 @@ public class ObjectCodeGlobal extends PersistableBusinessObjectBase implements G
 
     /**
      * Sets the chartOfAccountsCode attribute.
-     * 
+     *
      * @param chartOfAccountsCode The chartOfAccountsCode to set.
      */
     public void setChartOfAccountsCode(String chartOfAccountsCode) {
@@ -140,7 +142,7 @@ public class ObjectCodeGlobal extends PersistableBusinessObjectBase implements G
 
     /**
      * Gets the financialObjectCode attribute.
-     * 
+     *
      * @return Returns the financialObjectCode
      */
     public String getFinancialObjectCode() {
@@ -149,7 +151,7 @@ public class ObjectCodeGlobal extends PersistableBusinessObjectBase implements G
 
     /**
      * Sets the financialObjectCode attribute.
-     * 
+     *
      * @param financialObjectCode The financialObjectCode to set.
      */
     public void setFinancialObjectCode(String financialObjectCode) {
@@ -159,7 +161,7 @@ public class ObjectCodeGlobal extends PersistableBusinessObjectBase implements G
 
     /**
      * Gets the financialObjectCodeName attribute.
-     * 
+     *
      * @return Returns the financialObjectCodeName
      */
     public String getFinancialObjectCodeName() {
@@ -168,7 +170,7 @@ public class ObjectCodeGlobal extends PersistableBusinessObjectBase implements G
 
     /**
      * Sets the financialObjectCodeName attribute.
-     * 
+     *
      * @param financialObjectCodeName The financialObjectCodeName to set.
      */
     public void setFinancialObjectCodeName(String financialObjectCodeName) {
@@ -178,7 +180,7 @@ public class ObjectCodeGlobal extends PersistableBusinessObjectBase implements G
 
     /**
      * Gets the financialObjectCodeShortName attribute.
-     * 
+     *
      * @return Returns the financialObjectCodeShortName
      */
     public String getFinancialObjectCodeShortName() {
@@ -187,7 +189,7 @@ public class ObjectCodeGlobal extends PersistableBusinessObjectBase implements G
 
     /**
      * Sets the financialObjectCodeShortName attribute.
-     * 
+     *
      * @param financialObjectCodeShortName The financialObjectCodeShortName to set.
      */
     public void setFinancialObjectCodeShortName(String financialObjectCodeShortName) {
@@ -197,7 +199,7 @@ public class ObjectCodeGlobal extends PersistableBusinessObjectBase implements G
 
     /**
      * Gets the financialObjectLevelCode attribute.
-     * 
+     *
      * @return Returns the financialObjectLevelCode
      */
     public String getFinancialObjectLevelCode() {
@@ -206,7 +208,7 @@ public class ObjectCodeGlobal extends PersistableBusinessObjectBase implements G
 
     /**
      * Sets the financialObjectLevelCode attribute.
-     * 
+     *
      * @param financialObjectLevelCode The financialObjectLevelCode to set.
      */
     public void setFinancialObjectLevelCode(String financialObjectLevelCode) {
@@ -216,7 +218,7 @@ public class ObjectCodeGlobal extends PersistableBusinessObjectBase implements G
 
     /**
      * Gets the reportsToChartOfAccountsCode attribute.
-     * 
+     *
      * @return Returns the reportsToChartOfAccountsCode
      */
     public String getReportsToChartOfAccountsCode() {
@@ -225,7 +227,7 @@ public class ObjectCodeGlobal extends PersistableBusinessObjectBase implements G
 
     /**
      * Sets the reportsToChartOfAccountsCode attribute.
-     * 
+     *
      * @param reportsToChartOfAccountsCode The reportsToChartOfAccountsCode to set.
      */
     public void setReportsToChartOfAccountsCode(String reportsToChartOfAccountsCode) {
@@ -235,7 +237,7 @@ public class ObjectCodeGlobal extends PersistableBusinessObjectBase implements G
 
     /**
      * Gets the reportsToFinancialObjectCode attribute.
-     * 
+     *
      * @return Returns the reportsToFinancialObjectCode
      */
     public String getReportsToFinancialObjectCode() {
@@ -244,7 +246,7 @@ public class ObjectCodeGlobal extends PersistableBusinessObjectBase implements G
 
     /**
      * Sets the reportsToFinancialObjectCode attribute.
-     * 
+     *
      * @param reportsToFinancialObjectCode The reportsToFinancialObjectCode to set.
      */
     public void setReportsToFinancialObjectCode(String reportsToFinancialObjectCode) {
@@ -254,7 +256,7 @@ public class ObjectCodeGlobal extends PersistableBusinessObjectBase implements G
 
     /**
      * Gets the financialObjectTypeCode attribute.
-     * 
+     *
      * @return Returns the financialObjectTypeCode
      */
     public String getFinancialObjectTypeCode() {
@@ -263,7 +265,7 @@ public class ObjectCodeGlobal extends PersistableBusinessObjectBase implements G
 
     /**
      * Sets the financialObjectTypeCode attribute.
-     * 
+     *
      * @param financialObjectTypeCode The financialObjectTypeCode to set.
      */
     public void setFinancialObjectTypeCode(String financialObjectTypeCode) {
@@ -273,7 +275,7 @@ public class ObjectCodeGlobal extends PersistableBusinessObjectBase implements G
 
     /**
      * Gets the financialObjectSubTypeCode attribute.
-     * 
+     *
      * @return Returns the financialObjectSubTypeCode
      */
     public String getFinancialObjectSubTypeCode() {
@@ -282,7 +284,7 @@ public class ObjectCodeGlobal extends PersistableBusinessObjectBase implements G
 
     /**
      * Sets the financialObjectSubTypeCode attribute.
-     * 
+     *
      * @param financialObjectSubTypeCode The financialObjectSubTypeCode to set.
      */
     public void setFinancialObjectSubTypeCode(String financialObjectSubTypeCode) {
@@ -292,7 +294,7 @@ public class ObjectCodeGlobal extends PersistableBusinessObjectBase implements G
 
     /**
      * Gets the historicalFinancialObjectCode attribute.
-     * 
+     *
      * @return Returns the historicalFinancialObjectCode
      */
     public String getHistoricalFinancialObjectCode() {
@@ -301,7 +303,7 @@ public class ObjectCodeGlobal extends PersistableBusinessObjectBase implements G
 
     /**
      * Sets the historicalFinancialObjectCode attribute.
-     * 
+     *
      * @param historicalFinancialObjectCode The historicalFinancialObjectCode to set.
      */
     public void setHistoricalFinancialObjectCode(String historicalFinancialObjectCode) {
@@ -311,7 +313,7 @@ public class ObjectCodeGlobal extends PersistableBusinessObjectBase implements G
 
     /**
      * Gets the financialObjectActiveIndicator attribute.
-     * 
+     *
      * @return Returns the financialObjectActiveIndicator
      */
     public boolean isFinancialObjectActiveIndicator() {
@@ -321,7 +323,7 @@ public class ObjectCodeGlobal extends PersistableBusinessObjectBase implements G
 
     /**
      * Sets the financialObjectActiveIndicator attribute.
-     * 
+     *
      * @param financialObjectActiveIndicator The financialObjectActiveIndicator to set.
      */
     public void setFinancialObjectActiveIndicator(boolean financialObjectActiveIndicator) {
@@ -331,7 +333,7 @@ public class ObjectCodeGlobal extends PersistableBusinessObjectBase implements G
 
     /**
      * Gets the financialBudgetAggregationCd attribute.
-     * 
+     *
      * @return Returns the financialBudgetAggregationCd
      */
     public String getFinancialBudgetAggregationCd() {
@@ -340,7 +342,7 @@ public class ObjectCodeGlobal extends PersistableBusinessObjectBase implements G
 
     /**
      * Sets the financialBudgetAggregationCd attribute.
-     * 
+     *
      * @param financialBudgetAggregationCd The financialBudgetAggregationCd to set.
      */
     public void setFinancialBudgetAggregationCd(String financialBudgetAggregationCd) {
@@ -350,7 +352,7 @@ public class ObjectCodeGlobal extends PersistableBusinessObjectBase implements G
 
     /**
      * Gets the finObjMandatoryTrnfrOrElimCd attribute.
-     * 
+     *
      * @return Returns the finObjMandatoryTrnfrOrElimCd
      */
     public String getFinObjMandatoryTrnfrOrElimCd() {
@@ -359,7 +361,7 @@ public class ObjectCodeGlobal extends PersistableBusinessObjectBase implements G
 
     /**
      * Sets the finObjMandatoryTrnfrOrElimCd attribute.
-     * 
+     *
      * @param finObjMandatoryTrnfrOrElimCd The finObjMandatoryTrnfrOrElimCd to set.
      */
     public void setFinObjMandatoryTrnfrOrElimCd(String finObjMandatoryTrnfrOrElimCd) {
@@ -369,7 +371,7 @@ public class ObjectCodeGlobal extends PersistableBusinessObjectBase implements G
 
     /**
      * Gets the financialFederalFundedCode attribute.
-     * 
+     *
      * @return Returns the financialFederalFundedCode
      */
     public String getFinancialFederalFundedCode() {
@@ -378,7 +380,7 @@ public class ObjectCodeGlobal extends PersistableBusinessObjectBase implements G
 
     /**
      * Sets the financialFederalFundedCode attribute.
-     * 
+     *
      * @param financialFederalFundedCode The financialFederalFundedCode to set.
      */
     public void setFinancialFederalFundedCode(String financialFederalFundedCode) {
@@ -388,7 +390,7 @@ public class ObjectCodeGlobal extends PersistableBusinessObjectBase implements G
 
     /**
      * Gets the nextYearFinancialObjectCode attribute.
-     * 
+     *
      * @return Returns the nextYearFinancialObjectCode
      */
     public String getNextYearFinancialObjectCode() {
@@ -397,7 +399,7 @@ public class ObjectCodeGlobal extends PersistableBusinessObjectBase implements G
 
     /**
      * Sets the nextYearFinancialObjectCode attribute.
-     * 
+     *
      * @param nextYearFinancialObjectCode The nextYearFinancialObjectCode to set.
      */
     public void setNextYearFinancialObjectCode(String nextYearFinancialObjectCode) {
@@ -407,7 +409,7 @@ public class ObjectCodeGlobal extends PersistableBusinessObjectBase implements G
 
     /**
      * Gets the financialDocument attribute.
-     * 
+     *
      * @return Returns the financialDocument
      */
     public DocumentHeader getFinancialDocument() {
@@ -416,17 +418,18 @@ public class ObjectCodeGlobal extends PersistableBusinessObjectBase implements G
 
     /**
      * Sets the financialDocument attribute.
-     * 
+     *
      * @param financialDocument The financialDocument to set.
      * @deprecated
      */
+    @Deprecated
     public void setFinancialDocument(DocumentHeader financialDocument) {
         this.financialDocument = financialDocument;
     }
 
     /**
      * Gets the financialObject attribute.
-     * 
+     *
      * @return Returns the financialObject
      */
     public ObjectCode getFinancialObject() {
@@ -435,17 +438,18 @@ public class ObjectCodeGlobal extends PersistableBusinessObjectBase implements G
 
     /**
      * Sets the financialObject attribute.
-     * 
+     *
      * @param financialObject The financialObject to set.
      * @deprecated
      */
+    @Deprecated
     public void setFinancialObject(ObjectCode financialObject) {
         this.financialObject = financialObject;
     }
 
     /**
      * Gets the reportsToFinancialObject attribute.
-     * 
+     *
      * @return Returns the reportsToFinancialObject
      */
     public ObjectCode getReportsToFinancialObject() {
@@ -454,17 +458,18 @@ public class ObjectCodeGlobal extends PersistableBusinessObjectBase implements G
 
     /**
      * Sets the reportsToFinancialObject attribute.
-     * 
+     *
      * @param reportsToFinancialObject The reportsToFinancialObject to set.
      * @deprecated
      */
+    @Deprecated
     public void setReportsToFinancialObject(ObjectCode reportsToFinancialObject) {
         this.reportsToFinancialObject = reportsToFinancialObject;
     }
 
     /**
      * Gets the universityFiscal attribute.
-     * 
+     *
      * @return Returns the universityFiscal
      */
     public SystemOptions getUniversityFiscal() {
@@ -473,17 +478,18 @@ public class ObjectCodeGlobal extends PersistableBusinessObjectBase implements G
 
     /**
      * Sets the universityFiscal attribute.
-     * 
+     *
      * @param universityFiscal The universityFiscal to set.
      * @deprecated
      */
+    @Deprecated
     public void setUniversityFiscal(SystemOptions universityFiscal) {
         this.universityFiscal = universityFiscal;
     }
 
     /**
      * Gets the chartOfAccounts attribute.
-     * 
+     *
      * @return Returns the chartOfAccounts
      */
     public Chart getChartOfAccounts() {
@@ -492,17 +498,18 @@ public class ObjectCodeGlobal extends PersistableBusinessObjectBase implements G
 
     /**
      * Sets the chartOfAccounts attribute.
-     * 
+     *
      * @param chartOfAccounts The chartOfAccounts to set.
      * @deprecated
      */
+    @Deprecated
     public void setChartOfAccounts(Chart chartOfAccounts) {
         this.chartOfAccounts = chartOfAccounts;
     }
 
     /**
      * Gets the reportsToChartOfAccounts attribute.
-     * 
+     *
      * @return Returns the reportsToChartOfAccounts
      */
     public Chart getReportsToChartOfAccounts() {
@@ -511,17 +518,18 @@ public class ObjectCodeGlobal extends PersistableBusinessObjectBase implements G
 
     /**
      * Sets the reportsToChartOfAccounts attribute.
-     * 
+     *
      * @param reportsToChartOfAccounts The reportsToChartOfAccounts to set.
      * @deprecated
      */
+    @Deprecated
     public void setReportsToChartOfAccounts(Chart reportsToChartOfAccounts) {
         this.reportsToChartOfAccounts = reportsToChartOfAccounts;
     }
 
     /**
      * This method returns the FinancialObjectSubType attribute.
-     * 
+     *
      * @return Returns FinancialObjectSubType attribute.
      */
     public ObjectSubType getFinancialObjectSubType() {
@@ -530,17 +538,18 @@ public class ObjectCodeGlobal extends PersistableBusinessObjectBase implements G
 
     /**
      * This method sets the FinancialObjectSubType attribute.
-     * 
+     *
      * @param financialObjectSubType The financialObjectSubType to set.
      * @deprecated
      */
+    @Deprecated
     public void setFinancialObjectSubType(ObjectSubType financialObjectSubType) {
         this.financialObjectSubType = financialObjectSubType;
     }
 
     /**
      * This method returns the FinancialObjectType
-     * 
+     *
      * @return an ObjectType for this ObjectCodeGlobal.
      */
     public ObjectType getFinancialObjectType() {
@@ -549,17 +558,18 @@ public class ObjectCodeGlobal extends PersistableBusinessObjectBase implements G
 
     /**
      * This method sets a FinancialObjectType
-     * 
+     *
      * @param financialObjectType the ObjectType to set.
      * @deprecated
      */
+    @Deprecated
     public void setFinancialObjectType(ObjectType financialObjectType) {
         this.financialObjectType = financialObjectType;
     }
 
     /**
      * This method returns the FinancialBudgetAggregation
-     * 
+     *
      * @return the FinancialBudgetAggregation
      */
     public BudgetAggregationCode getFinancialBudgetAggregation() {
@@ -568,17 +578,18 @@ public class ObjectCodeGlobal extends PersistableBusinessObjectBase implements G
 
     /**
      * This method sets a FinancialBudgetAggregation
-     * 
+     *
      * @param financialBudgetAggregation the BudgetAggregationCode to set
      * @deprecated
      */
+    @Deprecated
     public void setFinancialBudgetAggregation(BudgetAggregationCode financialBudgetAggregation) {
         this.financialBudgetAggregation = financialBudgetAggregation;
     }
 
     /**
      * This method the financial federal funded code for this ObjectCodeGlobal
-     * 
+     *
      * @return the Federal Funded Code
      */
     public FederalFundedCode getFinancialFederalFunded() {
@@ -587,17 +598,18 @@ public class ObjectCodeGlobal extends PersistableBusinessObjectBase implements G
 
     /**
      * This method sets FinancialFederalFunded
-     * 
+     *
      * @param financialFederalFunded the FederalFundedCode to set
      * @deprecated
      */
+    @Deprecated
     public void setFinancialFederalFunded(FederalFundedCode financialFederalFunded) {
         this.financialFederalFunded = financialFederalFunded;
     }
 
     /**
      * This method returns the Object Level
-     * 
+     *
      * @return ObjectLevel
      */
     public ObjectLevel getFinancialObjectLevel() {
@@ -606,17 +618,18 @@ public class ObjectCodeGlobal extends PersistableBusinessObjectBase implements G
 
     /**
      * This method sets the FinancialObjectLevel
-     * 
+     *
      * @param financialObjectLevel the ObjLevel to set
      * @deprecated
      */
+    @Deprecated
     public void setFinancialObjectLevel(ObjectLevel financialObjectLevel) {
         this.financialObjectLevel = financialObjectLevel;
     }
 
     /**
      * This method returns the Mandatory Transfer or Elimination Code
-     * 
+     *
      * @return the MandatoryTransferEliminationCode
      */
     public MandatoryTransferEliminationCode getFinObjMandatoryTrnfrelim() {
@@ -625,10 +638,11 @@ public class ObjectCodeGlobal extends PersistableBusinessObjectBase implements G
 
     /**
      * This method pretty much sets the FinObjMandatoryTrnfrelm (the Mandatory Transfer or Elimination Code)
-     * 
+     *
      * @param finObjMandatoryTrnfrelim the MandatoryTransferEliminationCode to set
      * @deprecated
      */
+    @Deprecated
     public void setFinObjMandatoryTrnfrelim(MandatoryTransferEliminationCode finObjMandatoryTrnfrelim) {
         this.finObjMandatoryTrnfrelim = finObjMandatoryTrnfrelim;
     }
@@ -653,15 +667,17 @@ public class ObjectCodeGlobal extends PersistableBusinessObjectBase implements G
     /**
      * @see org.kuali.rice.krad.document.GlobalBusinessObject#getGlobalChangesToDelete()
      */
+    @Override
     public List<PersistableBusinessObject> generateDeactivationsToPersist() {
         return null;
     }
 
     /**
      * This returns a list of Object Codes to Update and/or Add
-     * 
+     *
      * @see org.kuali.rice.krad.document.GlobalBusinessObject#applyGlobalChanges()
      */
+    @Override
     public List<PersistableBusinessObject> generateGlobalChangesToPersist() {
         LOG.debug("applyGlobalChanges");
         List<PersistableBusinessObject> persistables = new ArrayList<PersistableBusinessObject>();
@@ -681,7 +697,7 @@ public class ObjectCodeGlobal extends PersistableBusinessObjectBase implements G
                 pk.put("FIN_COA_CD", chart);
                 pk.put("FIN_OBJECT_CD", financialObjectCode);
 
-                ObjectCode objectCode = (ObjectCode) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(ObjectCode.class, pk);
+                ObjectCode objectCode = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(ObjectCode.class, pk);
                 if (objectCode == null) {
                     objectCode = new ObjectCode(fiscalYear, chart, financialObjectCode);
                     objectCode.setFinancialObjectActiveCode(true);
@@ -717,27 +733,29 @@ public class ObjectCodeGlobal extends PersistableBusinessObjectBase implements G
 
     /**
      * This method returns newvalue iff it is not empty
-     * 
+     *
      * @param oldValue
      * @param newValue
      * @return
      */
-    private String update(String newValue, String oldValue) {
+    protected String update(String newValue, String oldValue) {
         if (newValue == null || newValue.length() == 0) {
             return oldValue;
         }
         return newValue;
     }
 
-    private boolean update(boolean newValue, boolean oldValue) {
+    protected boolean update(boolean newValue, boolean oldValue) {
         return newValue;
     }
 
 
+    @Override
     public boolean isPersistable() {
         return true;
     }
 
+    @Override
     public List<? extends GlobalBusinessObjectDetail> getAllDetailObjects() {
         return getObjectCodeGlobalDetails();
     }

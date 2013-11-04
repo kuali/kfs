@@ -192,19 +192,14 @@ public class SpringConfigurationConsistencyCheckTest extends KualiTestBase {
                     || StringUtils.contains( beanDef.getResourceDescription(), "-test.xml" ) ) {
                 continue;
             }
-            if ( beanName.endsWith("Service") && !beanDef.isAbstract() ) {
-                String serviceClass = beanDef.getBeanClassName();
-                // skip Rice classes
-                if ( serviceClass != null && serviceClass.startsWith("org.kuali.rice") ) {
-                    continue;
-                }
+            String serviceClass = beanDef.getBeanClassName();
+            if (  StringUtils.contains(serviceClass, "service.impl") &&  //should be a service
+                    !StringUtils.startsWith(serviceClass, "org.kuali.rice") && //let rice test their code
+                    !beanDef.isAbstract() ) { //abstract = parent
+
                 try {
                     BeanDefinition parentBean = SpringContext.applicationContext.getBeanFactory().getBeanDefinition(beanName + "-parentBean");
                     String parentClass = parentBean.getBeanClassName();
-                    // skip Rice classes
-                    if ( parentClass != null && parentClass.startsWith("org.kuali.rice") ) {
-                        continue;
-                    }
                 } catch ( NoSuchBeanDefinitionException ex ) {
                     failingBeanNames.add(beanName + " : " + beanDef.getResourceDescription()+"\n");
                 }

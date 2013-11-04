@@ -37,15 +37,15 @@ import org.kuali.kfs.coa.businessobject.AccountDelegate;
 import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.integration.purap.CapitalAssetSystem;
 import org.kuali.kfs.module.purap.PurapConstants;
+import org.kuali.kfs.module.purap.PurapKeyConstants;
+import org.kuali.kfs.module.purap.PurapParameterConstants;
+import org.kuali.kfs.module.purap.PurapPropertyConstants;
+import org.kuali.kfs.module.purap.PurapRuleConstants;
 import org.kuali.kfs.module.purap.PurapConstants.PODocumentsStrings;
 import org.kuali.kfs.module.purap.PurapConstants.POTransmissionMethods;
 import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderDocTypes;
 import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderStatuses;
 import org.kuali.kfs.module.purap.PurapConstants.RequisitionSources;
-import org.kuali.kfs.module.purap.PurapKeyConstants;
-import org.kuali.kfs.module.purap.PurapParameterConstants;
-import org.kuali.kfs.module.purap.PurapPropertyConstants;
-import org.kuali.kfs.module.purap.PurapRuleConstants;
 import org.kuali.kfs.module.purap.batch.AutoCloseRecurringOrdersStep;
 import org.kuali.kfs.module.purap.businessobject.AutoClosePurchaseOrderView;
 import org.kuali.kfs.module.purap.businessobject.ContractManagerAssignmentDetail;
@@ -1043,6 +1043,12 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                         Note note = documentService.createNoteFromDocument(po, noteText);
                         po.addNote(note);
                         noteService.save(note);
+                        if(GlobalVariables.getMessageMap().hasErrors()) {
+                            // clear out GlobalVariable message map, since we have taken care of the errors
+                            //If errors were discovered during the routing of the Vendor, although the exception is caught, the errors are still added to the message map.
+                            //This is causing the PO to go into exception routing although the error was only with the Vendor doc
+                            GlobalVariables.setMessageMap(new MessageMap());
+                        }
                     }
                 }
             }

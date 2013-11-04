@@ -62,13 +62,13 @@
     <property name="forceUppercase" value="true"/>
     <property name="label" value="Invoice Item Quantity"/>
     <property name="shortLabel" value="Quantity"/>
-    <property name="maxLength" value="9"/>
+    <property name="maxLength" value="20"/>
     <property name="validationPattern">
-      <ref bean="FloatingPointValidation" />
+      <bean parent="FloatingPointValidation"/>
     </property>
     <property name="required" value="false"/>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="11"/>
+      <bean parent="TextControlDefinition" p:size="15"/>
     </property>
   </bean>
   
@@ -105,12 +105,21 @@
   </bean>
   
   <bean id="CustomerCreditMemoDetail-invoiceOpenItemQuantity" parent="CustomerCreditMemoDetail-invoiceOpenItemQuantity-parentBean"/>
-  <bean id="CustomerCreditMemoDetail-invoiceOpenItemQuantity-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+  <bean id="CustomerCreditMemoDetail-invoiceOpenItemQuantity-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="invoiceOpenItemQuantity"/>
     <property name="label" value="Open Invoice Quantity"/>
     <property name="shortLabel" value="Open Invoice Quantity"/>
+    <property name="forceUppercase" value="true"/>    
+    <!-- 
+    	Increased maxLength to accommodate higher precision scale of 10; 
+    	Removed validation as it is not needed because this field is always calculated.
+    -->
+    <property name="maxLength" value="20"/>
     <property name="required" value="false"/>
-  </bean>  
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="15"/>
+    </property>
+  </bean>
   
   <bean id="CustomerCreditMemoDetail-invoiceOpenItemAmount" parent="CustomerCreditMemoDetail-invoiceOpenItemAmount-parentBean"/>
   <bean id="CustomerCreditMemoDetail-invoiceOpenItemAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">

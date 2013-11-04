@@ -15,26 +15,16 @@
 	<bean parent="DataDictionaryBeanOverride">
 		<property name="beanName" value="Account-inquiryDefinition" />
 		<property name="fieldOverrides">
-			<list>
-				<bean parent="FieldOverrideForListElementInsert">
-					<property name="propertyName" value="inquirySections" />
-					<property name="propertyNameForElementCompare" value="title" />
-					<property name="element">
-						<bean parent="InquirySectionDefinition" p:title="Account Description" />
-					</property>
-					<property name="insertAfter">
-						<list>
-							<bean parent="InquirySectionDefinition" p:title="Account Details">
-								<property name="inquiryFields">
-									<list>
-										<bean parent="FieldDefinition" p:attributeName="laborBenefitRateCategoryCode" />
-									</list>
-								</property>
-							</bean>
-						</list>
-					</property>
-				</bean>
-			</list>
+           <list>
+                <bean parent="FieldOverrideForListElementInsert">
+                    <property name="propertyName" value="inquirySections[0].inquiryFields" />
+                    <property name="insertAfter">
+                        <list>
+                            <bean parent="FieldDefinition" p:attributeName="laborBenefitRateCategoryCode" />
+                        </list>
+                    </property>
+                </bean>
+            </list>
 		</property>
 	</bean>
 </beans>

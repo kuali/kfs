@@ -16,20 +16,13 @@
 package org.kuali.kfs.sys.identity;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.core.api.uif.RemotableAttributeError;
-import org.kuali.rice.coreservice.api.namespace.Namespace;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.permission.Permission;
-import org.kuali.rice.kim.api.type.KimType;
-import org.kuali.rice.krad.kim.NamespacePermissionTypeServiceImpl;
-import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
+import org.kuali.rice.krad.kim.NamespaceWildcardAllowedAndOrStringExactMatchPermissionTypeServiceImpl;
 
 /**
  * This is a permission type service with attributes for wildcard matching on the namespace and/or
@@ -50,11 +43,10 @@ import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
  * 8.       Blank       Partial
  */
 public class NamespaceWildcardAllowedAndOrStringWildcardAllowedPermissionTypeServiceImpl
-		extends NamespacePermissionTypeServiceImpl {
+		extends NamespaceWildcardAllowedAndOrStringExactMatchPermissionTypeServiceImpl {
     org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(NamespaceWildcardAllowedAndOrStringWildcardAllowedPermissionTypeServiceImpl.class);
 	protected static final String NAMESPACE_CODE = KimConstants.AttributeConstants.NAMESPACE_CODE;
 
-	protected String wildcardMatchStringAttributeName;
 	protected boolean namespaceRequiredOnStoredAttributeSet;
 
     /**
@@ -235,7 +227,7 @@ public class NamespaceWildcardAllowedAndOrStringWildcardAllowedPermissionTypeSer
      * @return the attribute to match wildcards against
      */
     protected String getWildcardMatchStringAttributeName() {
-        return this.wildcardMatchStringAttributeName;
+        return this.exactMatchStringAttributeName;
     }
 
     /**
@@ -246,43 +238,20 @@ public class NamespaceWildcardAllowedAndOrStringWildcardAllowedPermissionTypeSer
 	}
 
 	public void setWildcardMatchStringAttributeName(String wildcardMatchStringAttributeName) {
-		this.wildcardMatchStringAttributeName = wildcardMatchStringAttributeName;
+		super.setExactMatchStringAttributeName(wildcardMatchStringAttributeName);
 	}
 
 	public void setNamespaceRequiredOnStoredAttributeSet(boolean namespaceRequiredOnStoredAttributeSet) {
 		this.namespaceRequiredOnStoredAttributeSet = namespaceRequiredOnStoredAttributeSet;
 	}
 
-	/**
-	 * Overrides the superclass's version of this method in order to account for "namespaceCode" permission detail values containing wildcards.
-	 */
-	@Override
-	protected List<RemotableAttributeError> validateReferencesExistAndActive(KimType kimType, Map<String, String> attributes, List<RemotableAttributeError> previousValidationErrors) {
-	    List<RemotableAttributeError> errors = new ArrayList<RemotableAttributeError>();
-		Map<String, String> nonNamespaceCodeAttributes = new HashMap<String, String>(attributes);
+    /**
+     * Exact match helper method that isn't applicable in wildcard match
+     * @see org.kuali.rice.krad.kim.NamespaceWildcardAllowedAndOrStringExactMatchPermissionTypeServiceImpl#setExactMatchStringAttributeName(java.lang.String)
+     */
+    @Override
+    public void setExactMatchStringAttributeName(String exactMatchStringAttributeName) {
+        throw new UnsupportedOperationException();
+    }
 
-		// Check if "namespaceCode" is one of the permission detail values.
-		if (attributes.containsKey(NAMESPACE_CODE)) {
-			nonNamespaceCodeAttributes.remove(NAMESPACE_CODE);
-			Collection<Namespace> namespaces = KRADServiceLocatorWeb.getLookupService().findCollectionBySearchUnbounded(
-					Namespace.class, Collections.singletonMap("code", attributes.get(NAMESPACE_CODE)));
-			// If the lookup service found at least one namespace, perform exists-and-active checks on each one.
-			if (namespaces != null && !namespaces.isEmpty()) {
-				for (Namespace namespace : namespaces) {
-				    Map<String, String> attr = new HashMap<String, String>();
-				    attr.put(NAMESPACE_CODE, namespace.getCode());
-					errors.addAll(super.validateReferencesExistAndActive(kimType, attr, previousValidationErrors));
-				}
-			} else {
-				// If no namespaces were found, let the superclass generate an appropriate error.
-			    Map<String, String> attr = new HashMap<String, String>();
-			    attr.put(NAMESPACE_CODE, attributes.get(NAMESPACE_CODE));
-				errors.addAll(super.validateReferencesExistAndActive(kimType, attr, previousValidationErrors));
-			}
-		}
-
-		// Validate all non-namespaceCode attributes.
-		errors.addAll(super.validateReferencesExistAndActive(kimType, nonNamespaceCodeAttributes, previousValidationErrors));
-		return errors;
-	}
 }

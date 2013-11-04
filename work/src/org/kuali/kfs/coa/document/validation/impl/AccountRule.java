@@ -1237,6 +1237,9 @@ public class AccountRule extends IndirectCostRecoveryAccountsRule {
         boolean success = true;
         if(!oldAccount.isClosed() && newAccount.isClosed()){
             Map<String, String> pkMap = new HashMap<String, String>();
+            pkMap.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR,
+                    SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear().toString() );
+            pkMap.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, oldAccount.getChartOfAccountsCode());
             pkMap.put(KFSPropertyConstants.ACCOUNT_NUMBER, oldAccount.getAccountNumber());
             int encumbranceCount = getEncumbranceService().getOpenEncumbranceRecordCount(pkMap, false);
             if ( encumbranceCount > 0){

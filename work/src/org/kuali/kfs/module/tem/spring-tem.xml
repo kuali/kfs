@@ -598,7 +598,10 @@
 
 	<bean id="travelerDerivedRoleTypeService" class="org.kuali.kfs.module.tem.identity.TravelerDerivedRoleTypeServiceImpl"/>
 
-	<bean id="temProfileDerivedRoleTypeService" class="org.kuali.kfs.module.tem.identity.TemProfileDerivedRoleTypeServiceImpl" />
+	<bean id="temProfileDerivedRoleTypeService" parent="temProfileDerivedRoleTypeService-parentBean"/>
+	<bean id="temProfileDerivedRoleTypeService-parentBean" abstract="true" class="org.kuali.kfs.module.tem.identity.TemProfileDerivedRoleTypeServiceImpl">
+		<property name="businessObjectService" ref="businessObjectService"/>
+	</bean>
 
 	<bean id="temProfileOrganizationHierarchyRoleTypeService"
 		class="org.kuali.kfs.module.tem.identity.TemProfileOrganizationHierarchyRoleTypeServiceImpl">

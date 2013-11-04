@@ -457,7 +457,9 @@ public class TemConstants {
         public static final String CLOSE_TA = "Close TA";
         public static final String RETURN_TO_FO = "Return to Fiscal Officer";
         public static final String EDIT_TAXABLE_IND = "Edit Taxable Indicator";
-        public static final String CREATE_PROFILE = "Create TEM Profile";
+        public static final String EDIT_OWN_PROFILE = "Edit My TEM Profile";
+        public static final String EDIT_ANY_PROFILE = "Edit All TEM Profiles";
+        public static final String CREATE_ANY_PROFILE = "Create All TEM Profiles";
 
         //Non-existing Permission
         public static final String HIDE_BUTTONS = "Hide Buttons TA";

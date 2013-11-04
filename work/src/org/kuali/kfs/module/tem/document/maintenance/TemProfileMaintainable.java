@@ -33,14 +33,17 @@ import org.kuali.kfs.module.tem.TemWorkflowConstants;
 import org.kuali.kfs.module.tem.businessobject.TemProfile;
 import org.kuali.kfs.module.tem.businessobject.TemProfileAccount;
 import org.kuali.kfs.module.tem.datadictionary.mask.CreditCardMaskFormatter;
+import org.kuali.kfs.module.tem.document.authorization.TemProfileAuthorizer;
 import org.kuali.kfs.module.tem.service.TemProfileService;
 import org.kuali.kfs.module.tem.service.TemRoleService;
 import org.kuali.kfs.module.tem.service.TravelerService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemMaintainable;
 import org.kuali.kfs.sys.document.FinancialSystemMaintenanceDocument;
+import org.kuali.kfs.sys.service.FinancialSystemUserService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.Person;
@@ -53,6 +56,7 @@ import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.datadictionary.mask.Mask;
+import org.kuali.rice.krad.exception.AuthorizationException;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.service.NoteService;
@@ -63,6 +67,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
 public class TemProfileMaintainable extends FinancialSystemMaintainable {
 
     private static final Logger LOG = Logger.getLogger(TemProfileMaintainable.class);
+    protected TemProfileAuthorizer authorizer;
 
 	/**
      * This will create a new profile from either a principal id or from a customer number depending on what got filled out
@@ -87,13 +92,26 @@ public class TemProfileMaintainable extends FinancialSystemMaintainable {
             principalId = parameters.get(KFSPropertyConstants.PRINCIPAL_ID)[0];
             if(StringUtils.isNotBlank(principalId)) {
                 //we want to set the principal
-                Person person = getPersonService().getPerson(principalId);
+                final Person person = getPersonService().getPerson(principalId);
                 temProfile.setPrincipal(person);
                 temProfile.setPrincipalId(principalId);
                 if(travelerService.isKimPersonEmployee(person)) {
                     temProfile.setTravelerTypeCode(EMP_TRAVELER_TYP_CD);
                 } else {
                     temProfile.setTravelerTypeCode(NONEMP_TRAVELER_TYP_CD);
+                }
+                // set the profile's chart/org for permission check
+                String primaryDeptCode[] = person.getPrimaryDepartmentCode().split("-");
+                if(primaryDeptCode != null && primaryDeptCode.length == 2){
+                    temProfile.setHomeDeptChartOfAccountsCode(primaryDeptCode[0]);
+                    temProfile.setHomeDeptOrgCode(primaryDeptCode[1]);
+                }
+                // is this user the current user & we have edit own tem profile perm? or if this user isn't the current user, do we have edit all profiles perm?  If not, then we're going to throw an exception
+                final Person currentUser = GlobalVariables.getUserSession().getPerson();
+                if (!(doesProfilePrincipalMatchCurrentUser(principalId) && getTemProfileAuthorizer().canEditOwnProfile(document, currentUser)) && !(getTemProfileAuthorizer().canCreateAnyProfile(document, currentUser))) {
+                    throw new AuthorizationException(currentUser.getPrincipalName(),
+                            TemConstants.Permission.EDIT_ANY_PROFILE,
+                            this.getClass().getSimpleName());
                 }
             }
         }
@@ -110,6 +128,17 @@ public class TemProfileMaintainable extends FinancialSystemMaintainable {
                 } else {
                     temProfile.setTravelerTypeCode(NONEMP_TRAVELER_TYP_CD);
                 }
+                // set the profile to the current user's chart/org for perm check
+                final Person currentUser = GlobalVariables.getUserSession().getPerson();
+                final ChartOrgHolder chartOrg = SpringContext.getBean(FinancialSystemUserService.class).getPrimaryOrganization(currentUser, TemConstants.NAMESPACE);
+                temProfile.setHomeDeptChartOfAccountsCode(chartOrg.getChartOfAccountsCode());
+                temProfile.setHomeDeptOrgCode(chartOrg.getOrganizationCode());
+                // does the current user have the ability to initiate all tem profiles? if not, throw an exception
+                if (!(getTemProfileAuthorizer().canEditAllProfiles(document, currentUser))) {
+                    throw new AuthorizationException(currentUser.getPrincipalName(),
+                            TemConstants.Permission.EDIT_ANY_PROFILE,
+                            this.getClass().getSimpleName());
+                }
             }
         }
 
@@ -122,6 +151,19 @@ public class TemProfileMaintainable extends FinancialSystemMaintainable {
                 document.getDocumentHeader().setDocumentDescription(trimDescription(TemConstants.NEW_TEM_PROFILE_DESCRIPTION_PREFIX + temProfile.getCustomer().getCustomerName()));
             }
         }
+    }
+
+    /**
+     * Determines if the currently logged in user is the given principal
+     * @param principalId the principal to check
+     * @return true if the principal id belongs to the currently logged in user, false otherwise
+     */
+    protected boolean doesProfilePrincipalMatchCurrentUser(String principalId) {
+        final Person currentUser = GlobalVariables.getUserSession().getPerson();
+        if (currentUser == null) {
+            return false; // no current user?  weird.  But no, you can't initialize profiles, you no one!
+        }
+        return StringUtils.equals(principalId, currentUser.getPrincipalId());
     }
 
     /**
@@ -444,4 +486,13 @@ public class TemProfileMaintainable extends FinancialSystemMaintainable {
         return KRADServiceLocator.getNoteService();
     }
 
+    /**
+     * @return an authorizer we can ask TemProfile specific questions of
+     */
+    protected TemProfileAuthorizer getTemProfileAuthorizer() {
+        if (this.authorizer == null) {
+            authorizer = (TemProfileAuthorizer)getDocumentHelperService().getDocumentAuthorizer(TemConstants.TravelDocTypes.TRAVEL_PROFILE_DOCUMENT);
+        }
+        return authorizer;
+    }
 }

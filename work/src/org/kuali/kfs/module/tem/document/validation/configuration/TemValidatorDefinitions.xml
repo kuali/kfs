@@ -61,8 +61,8 @@
 	<bean id="TravelModule-addAccountingLineAllowedObjCodeValidation"
 		class="org.kuali.kfs.module.tem.document.validation.impl.TemAccountingLineAllowedObjectCodeValidation" />		
 		
-	<!-- <bean id="TravelModule-accountingLineBlanketTripTypeValidation"
-		class="org.kuali.kfs.module.tem.document.validation.impl.TravelAuthAccountingLineBlanketTripTypeValidation" /> -->
+	<bean id="TravelModule-accountingLineBlanketTripTypeValidation"
+		class="org.kuali.kfs.module.tem.document.validation.impl.TravelAuthAccountingLineBlanketTripTypeValidation" />
 
     <bean id="TravelModule-accountingLineEncumbranceObjectCodeValidation"
         class="org.kuali.kfs.module.tem.document.validation.impl.TravelAuthAccountingLineEncumbranceObjectCodeValidation" />
@@ -86,8 +86,10 @@
 		<property name="personService" ref="personService" />
 	</bean>
 	
-	<bean id="TravelModule-addImportedExpenseLineValidation"
-		class="org.kuali.kfs.module.tem.document.validation.impl.TravelDocumentImportedExpenseLineValidation"/>
+	<bean id="TravelModule-importedExpenseLineExpenseTypeValidation" abstract="true" parent="TravelModule-importedExpenseLineExpenseTypeValidation-parentBean"/>
+	<bean id="TravelModule-importedExpenseLineExpenseTypeValidation-parentBean" abstract="true" class="org.kuali.kfs.module.tem.document.validation.impl.ImportedExpenseLineExpenseTypeValidation">
+		<property name="travelExpenseService" ref="travelExpenseService"/>
+	</bean>
 		
 	<bean id="TravelModule-addImportedExpenseDetailLineValidation"
 		class="org.kuali.kfs.module.tem.document.validation.impl.TravelDocumentImportedExpenseDetailLineValidation"/>
@@ -143,7 +145,7 @@
                 </bean>
     			<bean parent="TravelModule-accountingObjectLevelValidation" scope="prototype" />
                 <bean parent="TravelModule-addAccountingLineAllowedObjCodeValidation" scope="prototype"/>
-                <!-- <bean parent="TravelModule-accountingLineBlanketTripTypeValidation" scope="prototype"/> -->
+                <bean parent="TravelModule-accountingLineBlanketTripTypeValidation" scope="prototype"/>
             </list>
         </property>
     </bean>
@@ -499,6 +501,21 @@
 					<property name="detailValidations">
 						<list>
 							<bean parent="TravelDocument-actualExpenseDetailLineValidation" scope="prototype"/>
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="TravelModule-addImportedExpenseLineValidation" parent="TravelModule-addImportedExpenseLineValidation-parentBean" scope="prototype"/>
+	<bean id="TravelModule-addImportedExpenseLineValidation-parentBean" parent="CompositeValidation" abstract="true">
+		<property name="validations">
+			<list>
+				<bean parent="TravelModule-importedExpenseLineExpenseTypeValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+								<bean parent="validationFieldConversion" p:sourceEventProperty="expenseLine" p:targetValidationProperty="importedExpenseForValidation"/>
 						</list>
 					</property>
 				</bean>

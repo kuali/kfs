@@ -26,13 +26,13 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
-import org.kuali.kfs.module.tem.TemPropertyConstants.TEMProfileProperties;
+import org.kuali.kfs.module.tem.TemPropertyConstants.TemProfileProperties;
 import org.kuali.kfs.module.tem.businessobject.TemProfile;
 import org.kuali.kfs.module.tem.businessobject.TemProfileFromCustomer;
 import org.kuali.kfs.module.tem.businessobject.TemProfileFromKimPerson;
 import org.kuali.kfs.module.tem.datadictionary.MappedDefinition;
-import org.kuali.kfs.module.tem.service.TemRoleService;
 import org.kuali.kfs.module.tem.service.TemProfileService;
+import org.kuali.kfs.module.tem.service.TemRoleService;
 import org.kuali.kfs.module.tem.service.TravelerService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -63,7 +63,7 @@ public class TemProfileLookupableHelperServiceImpl extends KualiLookupableHelper
     private TemProfileService temProfileService;
     private IdentityManagementService identityManagementService;
 
-    private static final String[] addressLookupFields = { TEMProfileProperties.ADDRESS_1, TEMProfileProperties.ADDRESS_2, TEMProfileProperties.CITY_NAME, TEMProfileProperties.STATE_CODE, TEMProfileProperties.ZIP_CODE, TEMProfileProperties.COUNTRY_CODE };
+    private static final String[] addressLookupFields = { TemProfileProperties.ADDRESS_1, TemProfileProperties.ADDRESS_2, TemProfileProperties.CITY_NAME, TemProfileProperties.STATE_CODE, TemProfileProperties.ZIP_CODE, TemProfileProperties.COUNTRY_CODE };
 
     /**
      * @see org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl#getSearchResults(java.util.Map)
@@ -92,7 +92,7 @@ public class TemProfileLookupableHelperServiceImpl extends KualiLookupableHelper
         for (TemProfile profile : searchResults){
             //only repopulate kim based tem profiles
             if (!StringUtils.isBlank(profile.getPrincipalId())) {
-                getTravelerService().populateTEMProfile(profile);
+                getTravelerService().populateTemProfile(profile);
             }
             profiles.add(profile);
         }
@@ -113,7 +113,7 @@ public class TemProfileLookupableHelperServiceImpl extends KualiLookupableHelper
                 if (ObjectUtils.isNotNull(profileFromKim)) {
 
                     // Found the tem profile for this person, see if the tem profile search returned their profile.
-                    getTravelerService().populateTEMProfile(profileFromKim);
+                    getTravelerService().populateTemProfile(profileFromKim);
                     Boolean isFound = false;
                     for (TemProfile profile : profiles) {
                         if (profile.getProfileId() == profileFromKim.getProfileId()) {
@@ -172,7 +172,7 @@ public class TemProfileLookupableHelperServiceImpl extends KualiLookupableHelper
     @Override
     protected String getReturnHref(Properties parameters, LookupForm lookupForm, List returnKeys) {
         String url = super.getReturnHref(parameters, lookupForm, returnKeys);
-        url = url.replaceAll(TemPropertyConstants.TEMProfileProperties.PROFILE_ID, "document." + TemPropertyConstants.TEMProfileProperties.PROFILE_ID);
+        url = url.replaceAll(TemPropertyConstants.TemProfileProperties.PROFILE_ID, "document." + TemPropertyConstants.TemProfileProperties.PROFILE_ID);
         return url;
     }
 

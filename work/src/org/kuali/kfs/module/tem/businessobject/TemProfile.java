@@ -75,6 +75,8 @@ public class TemProfile extends BaseTemProfile {
     private String achSignUp;
     private String achTransactionType;
 
+    private boolean onlyArrangeesInLookup;
+
     private List<TemProfileEmergencyContact> emergencyContacts;
     private List<Note> boNotes;
 
@@ -553,8 +555,23 @@ public class TemProfile extends BaseTemProfile {
         this.homeDepartment = homeDepartment;
     }
 
+    /**
+     * @return true if only the arrangees of the current user should be displayed in the lookup, false otherwise
+     */
+	public boolean isOnlyArrangeesInLookup() {
+        return onlyArrangeesInLookup;
+    }
 
 	/**
+	 * Do not use this method.  It's really for the framework to determine if only the current users's arrangees should appear in the lookup.
+	 * Otherwise, the field is transient and only has meaning within the lookup
+	 * @param onlyArrangeesInLookup whether the lookup should only include arrangees of the current user or not
+	 */
+    public void setOnlyArrangeesInLookup(boolean onlyArrangeesInLookup) {
+        this.onlyArrangeesInLookup = onlyArrangeesInLookup;
+    }
+
+    /**
 	 * Sets the accounts attribute value.
 	 * @param accounts The accounts to set.
 	 */

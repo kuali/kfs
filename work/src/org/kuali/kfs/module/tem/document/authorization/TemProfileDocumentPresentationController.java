@@ -38,7 +38,7 @@ public class TemProfileDocumentPresentationController extends FinancialSystemMai
         if (!StringUtils.isBlank(profile.getPrincipalId())){
             readOnlyPropertyNames.addAll(TemPropertyConstants.KIMReadOnly().keySet());
         }
-        readOnlyPropertyNames.add(TemPropertyConstants.TEMProfileProperties.TRAVELER_TYPE_CODE);
+        readOnlyPropertyNames.add(TemPropertyConstants.TemProfileProperties.TRAVELER_TYPE_CODE);
         return readOnlyPropertyNames;
     }
 

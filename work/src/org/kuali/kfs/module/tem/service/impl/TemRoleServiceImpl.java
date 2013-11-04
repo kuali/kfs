@@ -26,7 +26,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemConstants.TravelDocTypes;
-import org.kuali.kfs.module.tem.TemPropertyConstants.TEMProfileProperties;
+import org.kuali.kfs.module.tem.TemPropertyConstants.TemProfileProperties;
 import org.kuali.kfs.module.tem.businessobject.TemProfile;
 import org.kuali.kfs.module.tem.businessobject.TemProfileArranger;
 import org.kuali.kfs.module.tem.document.TravelDocument;
@@ -130,7 +130,7 @@ public class TemRoleServiceImpl implements TemRoleService{
         boolean isProfileArranger = false;
         if(StringUtils.isNotBlank(arrangerId)) {
             Map fieldValues = new HashMap();
-            fieldValues.put(TEMProfileProperties.PRINCIPAL_ID, arrangerId);
+            fieldValues.put(TemProfileProperties.PRINCIPAL_ID, arrangerId);
             List<TemProfileArranger> profileArrangers = new ArrayList<TemProfileArranger>( businessObjectService.findMatching(TemProfileArranger.class, fieldValues));
             isProfileArranger = ObjectUtils.isNotNull(profileArrangers) && !profileArrangers.isEmpty();
         }
@@ -142,8 +142,8 @@ public class TemRoleServiceImpl implements TemRoleService{
      */
     @Override
     public boolean isProfileAdmin(Person currentUser, String homeDepartment) {
-        boolean hasAdminRole = checkUserRole(currentUser, TemConstants.TEMRoleNames.TEM_PROFILE_ADMINISTRATOR, TemConstants.PARAM_NAMESPACE, null);
-        boolean hasOrgRole = checkOrganizationRole(currentUser, TemConstants.TEMRoleNames.TEM_PROFILE_ADMINISTRATOR, TemConstants.PARAM_NAMESPACE, homeDepartment);
+        boolean hasAdminRole = checkUserRole(currentUser, TemConstants.TemRoleNames.TEM_PROFILE_ADMINISTRATOR, TemConstants.PARAM_NAMESPACE, null);
+        boolean hasOrgRole = checkOrganizationRole(currentUser, TemConstants.TemRoleNames.TEM_PROFILE_ADMINISTRATOR, TemConstants.PARAM_NAMESPACE, homeDepartment);
 
         return hasAdminRole && hasOrgRole;
     }
@@ -156,7 +156,7 @@ public class TemRoleServiceImpl implements TemRoleService{
 
         //add the role qualification
         Map<String,String> qualification = new HashMap<String,String>();
-        qualification.put(TEMProfileProperties.PROFILE_ID, profileId);
+        qualification.put(TemProfileProperties.PROFILE_ID, profileId);
         qualification.put(KFSPropertyConstants.DOCUMENT_TYPE_NAME, documentType);
 
         boolean checkProfileAssignedRole = checkUserRole(user, TemConstants.TEM_ASSIGNED_PROFILE_ARRANGER, TemConstants.PARAM_NAMESPACE, qualification);
@@ -256,7 +256,7 @@ public class TemRoleServiceImpl implements TemRoleService{
         qualification.put(KfsKimAttributes.DESCEND_HIERARCHY, "Y");
 
         RoleService roleService = KimApiServiceLocator.getRoleService();
-        String roleId = roleService.getRoleIdByNamespaceCodeAndName(TemConstants.PARAM_NAMESPACE, TemConstants.TEMRoleNames.TEM_ORGANIZATION_PROFILE_ARRANGER);
+        String roleId = roleService.getRoleIdByNamespaceCodeAndName(TemConstants.PARAM_NAMESPACE, TemConstants.TemRoleNames.TEM_ORGANIZATION_PROFILE_ARRANGER);
 
         Collection<RoleMembership> roleMemberships = roleService.getRoleMembers(Collections.singletonList(roleId), qualification);
 

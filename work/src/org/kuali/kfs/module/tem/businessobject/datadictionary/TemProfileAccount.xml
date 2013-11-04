@@ -2,33 +2,33 @@
 	xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
-	<bean id="TEMProfileAccount" parent="TEMProfileAccount-parentBean" />
-	<bean id="TEMProfileAccount-parentBean" abstract="true" parent="BusinessObjectEntry" >
+	<bean id="TemProfileAccount" parent="TemProfileAccount-parentBean" />
+	<bean id="TemProfileAccount-parentBean" abstract="true" parent="BusinessObjectEntry" >
 		<property name="businessObjectClass" value="org.kuali.kfs.module.tem.businessobject.TemProfileAccount" />
-		<property name="lookupDefinition" ref="TEMProfileAccount-lookupDefinition" />
-		<property name="inquiryDefinition" ref="TEMProfileAccount-inquiryDefinition" />
+		<property name="lookupDefinition" ref="TemProfileAccount-lookupDefinition" />
+		<property name="inquiryDefinition" ref="TemProfileAccount-inquiryDefinition" />
 		<property name="titleAttribute" value="accountId" />
-		<property name="objectLabel" value="TEMProfileAccount" />
+		<property name="objectLabel" value="TemProfileAccount" />
 		<property name="attributes">
 		<list>
-			<ref bean="TEMProfileAccount-accountId" />
-			<ref bean="TEMProfileAccount-profileId" />
-			<ref bean="TEMProfileAccount-name" />
-			<ref bean="TEMProfileAccount-accountNumber" />
-			<ref bean="TEMProfileAccount-expirationDate" />
-			<ref bean="TEMProfileAccount-effectiveDate" />
-			<ref bean="TEMProfileAccount-note" />
-			<ref bean="TEMProfileAccount-active" />
-			<ref bean="TEMProfileAccount-versionNumber" />
-			<ref bean="TEMProfileAccount-creditCardAgencyId" />
-			<ref bean="TEMProfileAccount-profile.principal.principalId" />
-			<ref bean="TEMProfileAccount-profile.firstName" />
-			<ref bean="TEMProfileAccount-profile.lastName" />
-			<ref bean="TEMProfileAccount-profile.travelerTypeCode" />
-			<ref bean="TEMProfileAccount-profile.homeDepartment" />
-			<ref bean="TEMProfileAccount-profile.defaultChartCode" />
-			<ref bean="TEMProfileAccount-profile.account.accountNumber" />
-			<ref bean="TEMProfileAccount-profile.active" />
+			<ref bean="TemProfileAccount-accountId" />
+			<ref bean="TemProfileAccount-profileId" />
+			<ref bean="TemProfileAccount-name" />
+			<ref bean="TemProfileAccount-accountNumber" />
+			<ref bean="TemProfileAccount-expirationDate" />
+			<ref bean="TemProfileAccount-effectiveDate" />
+			<ref bean="TemProfileAccount-note" />
+			<ref bean="TemProfileAccount-active" />
+			<ref bean="TemProfileAccount-versionNumber" />
+			<ref bean="TemProfileAccount-creditCardAgencyId" />
+			<ref bean="TemProfileAccount-profile.principal.principalId" />
+			<ref bean="TemProfileAccount-profile.firstName" />
+			<ref bean="TemProfileAccount-profile.lastName" />
+			<ref bean="TemProfileAccount-profile.travelerTypeCode" />
+			<ref bean="TemProfileAccount-profile.homeDepartment" />
+			<ref bean="TemProfileAccount-profile.defaultChartCode" />
+			<ref bean="TemProfileAccount-profile.account.accountNumber" />
+			<ref bean="TemProfileAccount-profile.active" />
 			
 		</list>
 		</property>
@@ -86,8 +86,8 @@
 		</list>
 		</property>
 	</bean>
-	<bean id="TEMProfileAccount-accountId" parent="TEMProfileAccount-accountId-parentBean" />
-	<bean id="TEMProfileAccount-accountId-parentBean" parent="AttributeDefinition">
+	<bean id="TemProfileAccount-accountId" parent="TemProfileAccount-accountId-parentBean" />
+	<bean id="TemProfileAccount-accountId-parentBean" parent="AttributeDefinition">
 		<property name="name" value="accountId" />
 		<property name="label" value="Account Id" />
 		<property name="shortLabel" value="Account Id" />
@@ -98,8 +98,8 @@
 		<property name="control"><bean parent="HiddenControlDefinition" /></property>
 		<property name="validationPattern"><bean parent="NumericValidationPattern" /></property>
 	</bean>
-	<bean id="TEMProfileAccount-profileId" parent="TEMProfileAccount-profileId-parentBean" />
-	<bean id="TEMProfileAccount-profileId-parentBean" parent="AttributeDefinition">
+	<bean id="TemProfileAccount-profileId" parent="TemProfileAccount-profileId-parentBean" />
+	<bean id="TemProfileAccount-profileId-parentBean" parent="AttributeDefinition">
 		<property name="name" value="profileId" />
 		<property name="label" value="Profile Id" />
 		<property name="shortLabel" value="Profile Id" />
@@ -109,8 +109,8 @@
 		<property name="description" value="Profile Id" />
 		<property name="control"><bean parent="TextControlDefinition" /></property>
 	</bean>
-	<bean id="TEMProfileAccount-name" parent="TEMProfileAccount-name-parentBean" />
-	<bean id="TEMProfileAccount-name-parentBean" parent="AttributeDefinition">
+	<bean id="TemProfileAccount-name" parent="TemProfileAccount-name-parentBean" />
+	<bean id="TemProfileAccount-name-parentBean" parent="AttributeDefinition">
 		<property name="name" value="name" />
 		<property name="label" value="Credit Card/Agency Name" />
 		<property name="shortLabel" value="Credit Card/Agency Name" />
@@ -120,8 +120,8 @@
 		<property name="description" value="Credit Card/Agency Name" />
 		<property name="control"><bean parent="TextControlDefinition" p:size="50"/></property>
 	</bean>
-	<bean id="TEMProfileAccount-accountNumber" parent="TEMProfileAccount-accountNumber-parentBean" />
-	<bean id="TEMProfileAccount-accountNumber-parentBean" parent="AttributeDefinition">
+	<bean id="TemProfileAccount-accountNumber" parent="TemProfileAccount-accountNumber-parentBean" />
+	<bean id="TemProfileAccount-accountNumber-parentBean" parent="AttributeDefinition">
 		<property name="name" value="accountNumber" />
 		<property name="label" value="Account Number" />
 		<property name="shortLabel" value="Account Number" />
@@ -131,24 +131,24 @@
 		<property name="description" value="Account Number" />
 		<property name="control"><bean parent="TextControlDefinition" p:size="50"/></property>
 	</bean>
-	<bean id="TEMProfileAccount-expirationDate" parent="TEMProfileAccount-expirationDate-parentBean" />
-	<bean id="TEMProfileAccount-expirationDate-parentBean" parent="GenericAttributes-genericDate">
+	<bean id="TemProfileAccount-expirationDate" parent="TemProfileAccount-expirationDate-parentBean" />
+	<bean id="TemProfileAccount-expirationDate-parentBean" parent="GenericAttributes-genericDate">
 		<property name="name" value="expirationDate" />
 		<property name="label" value="Expiration Date" />
 		<property name="shortLabel" value="Expiration Date" />
 		<property name="summary" value="Expiration Date" />
 		<property name="description" value="Expiration Date" />
 	</bean>
-	<bean id="TEMProfileAccount-effectiveDate" parent="TEMProfileAccount-effectiveDate-parentBean" />
-	<bean id="TEMProfileAccount-effectiveDate-parentBean" parent="GenericAttributes-genericDate">
+	<bean id="TemProfileAccount-effectiveDate" parent="TemProfileAccount-effectiveDate-parentBean" />
+	<bean id="TemProfileAccount-effectiveDate-parentBean" parent="GenericAttributes-genericDate">
 		<property name="name" value="effectiveDate" />
 		<property name="label" value="Effective Date" />
 		<property name="shortLabel" value="Effective Date" />
 		<property name="summary" value="Effective Date" />
 		<property name="description" value="Effective Date" />
 	</bean>
-	<bean id="TEMProfileAccount-note" parent="TEMProfileAccount-note-parentBean" />
-	<bean id="TEMProfileAccount-note-parentBean" parent="AttributeDefinition">
+	<bean id="TemProfileAccount-note" parent="TemProfileAccount-note-parentBean" />
+	<bean id="TemProfileAccount-note-parentBean" parent="AttributeDefinition">
 		<property name="name" value="note" />
 		<property name="label" value="Note" />
 		<property name="shortLabel" value="Note" />
@@ -157,8 +157,8 @@
 		<property name="description" value="Note" />
 		<property name="control"><bean parent="TextareaControlDefinition" p:rows="5" p:cols="60"/></property>
 	</bean>
-	<bean id="TEMProfileAccount-active" parent="TEMProfileAccount-active-parentBean" />
-	<bean id="TEMProfileAccount-active-parentBean" parent="GenericAttributes-genericBoolean">
+	<bean id="TemProfileAccount-active" parent="TemProfileAccount-active-parentBean" />
+	<bean id="TemProfileAccount-active-parentBean" parent="GenericAttributes-genericBoolean">
 		<property name="name" value="active" />
 		<property name="label" value="Active" />
 		<property name="shortLabel" value="Active" />
@@ -166,16 +166,16 @@
 		<property name="summary" value="Active" />
 		<property name="description" value="Active" />
 	</bean>
-	<bean id="TEMProfileAccount-versionNumber" parent="TEMProfileAccount-versionNumber-parentBean" />
-	<bean id="TEMProfileAccount-versionNumber-parentBean" parent="GenericAttributes-versionNumber">
+	<bean id="TemProfileAccount-versionNumber" parent="TemProfileAccount-versionNumber-parentBean" />
+	<bean id="TemProfileAccount-versionNumber-parentBean" parent="GenericAttributes-versionNumber">
 		<property name="name" value="versionNumber" />
 		<property name="label" value="Version Number" />
 		<property name="shortLabel" value="Version Number" />
 		<property name="summary" value="Version Number" />
 		<property name="description" value="Version Number" />
 	</bean>
-	<bean id="TEMProfileAccount-creditCardAgencyId" parent="TEMProfileAccount-creditCardAgencyId-parentBean" />
-	<bean id="TEMProfileAccount-creditCardAgencyId-parentBean" parent="AttributeDefinition">
+	<bean id="TemProfileAccount-creditCardAgencyId" parent="TemProfileAccount-creditCardAgencyId-parentBean" />
+	<bean id="TemProfileAccount-creditCardAgencyId-parentBean" parent="AttributeDefinition">
 		<property name="name" value="creditCardAgencyId" />
 		<property name="label" value="Credit Card Agency Id" />
 		<property name="shortLabel" value="Credit Card Agency Id" />
@@ -185,32 +185,32 @@
 		<property name="control"><bean parent="TextControlDefinition" p:size="4"/></property>
 	</bean>
 	
-	<bean id="TEMProfileAccount-profile.principal.principalId" parent="TEMProfile-principalId">
+	<bean id="TemProfileAccount-profile.principal.principalId" parent="TemProfile-principalId">
 		<property name="name" value="profile.principal.principalId" />
 	</bean>
-	<bean id="TEMProfileAccount-profile.firstName" parent="TEMProfile-firstName">
+	<bean id="TemProfileAccount-profile.firstName" parent="TemProfile-firstName">
 		<property name="name" value="profile.firstName" />
 	</bean>
-	<bean id="TEMProfileAccount-profile.lastName" parent="TEMProfile-lastName">
+	<bean id="TemProfileAccount-profile.lastName" parent="TemProfile-lastName">
 		<property name="name" value="profile.lastName" />
 	</bean>
-	<bean id="TEMProfileAccount-profile.travelerTypeCode" parent="TEMProfile-travelerTypeCode">
+	<bean id="TemProfileAccount-profile.travelerTypeCode" parent="TemProfile-travelerTypeCode">
 		<property name="name" value="profile.travelerTypeCode" />
 	</bean>
-	<bean id="TEMProfileAccount-profile.homeDepartment" parent="TEMProfile-homeDepartment">
+	<bean id="TemProfileAccount-profile.homeDepartment" parent="TemProfile-homeDepartment">
 		<property name="name" value="profile.homeDepartment" />
 	</bean>
-	<bean id="TEMProfileAccount-profile.defaultChartCode" parent="TEMProfile-defaultChartCode">
+	<bean id="TemProfileAccount-profile.defaultChartCode" parent="TemProfile-defaultChartCode">
 		<property name="name" value="profile.defaultChartCode" />
 	</bean>
-	<bean id="TEMProfileAccount-profile.account.accountNumber" parent="TEMProfile-defaultAccount">
+	<bean id="TemProfileAccount-profile.account.accountNumber" parent="TemProfile-defaultAccount">
 		<property name="name" value="profile.account.accountNumber" />
 		<property name="label" value="Profile Default Account" />
 		<property name="shortLabel" value="Profile Default Account" />
 		<property name="summary" value="Profile Default Account" />
 		<property name="description" value="Profile Default Account" />
 	</bean>
-	<bean id="TEMProfileAccount-profile.active" parent="TEMProfile-active">
+	<bean id="TemProfileAccount-profile.active" parent="TemProfile-active">
 		<property name="name" value="profile.active" />
 		<property name="label" value="Active (Profile)" />
 		<property name="shortLabel" value="Active (Profile)" />
@@ -219,8 +219,8 @@
 	</bean>
 	
 	
-	<bean id="TEMProfileAccount-inquiryDefinition" parent="TEMProfileAccount-inquiryDefinition-parentBean" />
-	<bean id="TEMProfileAccount-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+	<bean id="TemProfileAccount-inquiryDefinition" parent="TemProfileAccount-inquiryDefinition-parentBean" />
+	<bean id="TemProfileAccount-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
 		<property name="title" value="TEM Profile Account Inquiry"/>
 		<property name="inquirySections">
 		<list>
@@ -243,8 +243,8 @@
 		</list>
 		</property>
 	</bean>
-	<bean id="TEMProfileAccount-lookupDefinition" parent="TEMProfileAccount-lookupDefinition-parentBean" />
-	<bean id="TEMProfileAccount-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+	<bean id="TemProfileAccount-lookupDefinition" parent="TemProfileAccount-lookupDefinition-parentBean" />
+	<bean id="TemProfileAccount-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
 		<property name="title" value="TEM Cardholder Lookup" />
 		<property name="lookupableID" value="temProfileAccountLookupable" />
 		<property name="defaultSort">

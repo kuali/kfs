@@ -33,8 +33,8 @@ import org.kuali.kfs.module.tem.TemWorkflowConstants;
 import org.kuali.kfs.module.tem.businessobject.TemProfile;
 import org.kuali.kfs.module.tem.businessobject.TemProfileAccount;
 import org.kuali.kfs.module.tem.datadictionary.mask.CreditCardMaskFormatter;
-import org.kuali.kfs.module.tem.service.TemRoleService;
 import org.kuali.kfs.module.tem.service.TemProfileService;
+import org.kuali.kfs.module.tem.service.TemRoleService;
 import org.kuali.kfs.module.tem.service.TravelerService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -98,8 +98,8 @@ public class TemProfileMaintainable extends FinancialSystemMaintainable {
             }
         }
         String customerNumber = "";
-        if (parameters.containsKey(TemPropertyConstants.TEMProfileProperties.CUSTOMER_NUMBER)) {
-            customerNumber = parameters.get(TemPropertyConstants.TEMProfileProperties.CUSTOMER_NUMBER)[0];
+        if (parameters.containsKey(TemPropertyConstants.TemProfileProperties.CUSTOMER_NUMBER)) {
+            customerNumber = parameters.get(TemPropertyConstants.TemProfileProperties.CUSTOMER_NUMBER)[0];
             if(StringUtils.isNotBlank(customerNumber)) {
                 //we want to set the customer
                 AccountsReceivableCustomer person = getAccountsReceivableModuleService().findCustomer(customerNumber);
@@ -113,7 +113,7 @@ public class TemProfileMaintainable extends FinancialSystemMaintainable {
             }
         }
 
-        travelerService.populateTEMProfile(temProfile);
+        travelerService.populateTemProfile(temProfile);
         if (document.isNew()) {
             if (StringUtils.isNotBlank(principalId)) {
                 document.getDocumentHeader().setDocumentDescription(trimDescription(TemConstants.NEW_TEM_PROFILE_DESCRIPTION_PREFIX + temProfile.getPrincipal().getName()));
@@ -140,14 +140,14 @@ public class TemProfileMaintainable extends FinancialSystemMaintainable {
             if (!profileAdmin) {
                 // user is not the traveler or a profile admin
                 for (Section section : sections){
-                    if (section.getSectionId().equals(TemPropertyConstants.TEMProfileProperties.TEM_PROFILE_ADMINISTRATOR)){
+                    if (section.getSectionId().equals(TemPropertyConstants.TemProfileProperties.TEM_PROFILE_ADMINISTRATOR)){
                     	for (Row row : section.getRows()){
                             for (Field field : row.getFields()){
                                if (field.getContainerRows() != null && field.getContainerRows().size() > 0){
                                     for (Row containerRow :field.getContainerRows()){
                                         for (Field containerField : containerRow.getFields()){
                                             //Get only the accounts that have already been created
-                                            if (containerField.getPropertyName().contains("]." + TemPropertyConstants.TEMProfileProperties.ACCOUNT_NUMBER)){
+                                            if (containerField.getPropertyName().contains("]." + TemPropertyConstants.TemProfileProperties.ACCOUNT_NUMBER)){
                                                 String[] splitTemp = containerField.getPropertyName().split("\\[");
                                                 splitTemp = splitTemp[1].split("\\]");
                                                 int index = Integer.parseInt(splitTemp[0]);
@@ -169,7 +169,7 @@ public class TemProfileMaintainable extends FinancialSystemMaintainable {
         }
 
         for (Section section : sections){
-            if (section.getSectionId().equals(TemPropertyConstants.TEMProfileProperties.TEM_PROFILE_ADMINISTRATOR)){
+            if (section.getSectionId().equals(TemPropertyConstants.TemProfileProperties.TEM_PROFILE_ADMINISTRATOR)){
                 if (!profileAdmin) {
                     section.setReadOnly(true);
                 }
@@ -185,7 +185,7 @@ public class TemProfileMaintainable extends FinancialSystemMaintainable {
      * @param profile
      */
     protected void populateInfo(TemProfile profile) {
-        SpringContext.getBean(TravelerService.class).populateTEMProfile(profile);
+        SpringContext.getBean(TravelerService.class).populateTemProfile(profile);
         SpringContext.getBean(TemProfileService.class).updateACHAccountInfo(profile);
     }
 

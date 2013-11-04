@@ -35,7 +35,10 @@
 	<bean id="CreditCardImportedExpenseClearingDetail-creditCardStagingDataId" parent="CreditCardStagingData-id">
 		<property name="name" value="creditCardStagingDataId" />
 	</bean>
-	<bean id="CreditCardImportedExpenseClearingDetail-travelerName" parent="CreditCardStagingData-travelerName-parentBean" />
-	<bean id="CreditCardImportedExpenseClearingDetail-merchantName" parent="CreditCardStagingData-merchantName-parentBean" />
-	<bean id="CreditCardImportedExpenseClearingDetail-bankPostDate" parent="CreditCardStagingData-bankPostDate-parentBean" />
+	<bean id="CreditCardImportedExpenseClearingDetail-travelerName" parent="CreditCardImportedExpenseClearingDetail-travelerName-parentBean" />
+	<bean id="CreditCardImportedExpenseClearingDetail-travelerName-parentBean" abstract="true" parent="CreditCardStagingData-travelerName" />
+	<bean id="CreditCardImportedExpenseClearingDetail-merchantName" parent="CreditCardImportedExpenseClearingDetail-merchantName-parentBean" />
+	<bean id="CreditCardImportedExpenseClearingDetail-merchantName-parentBean" abstract="true" parent="CreditCardStagingData-merchantName" />
+	<bean id="CreditCardImportedExpenseClearingDetail-bankPostDate" parent="CreditCardImportedExpenseClearingDetail-bankPostDate-parentBean" />
+	<bean id="CreditCardImportedExpenseClearingDetail-bankPostDate-parentBean" abstract="true" parent="CreditCardStagingData-bankPostDate" />
 </beans>

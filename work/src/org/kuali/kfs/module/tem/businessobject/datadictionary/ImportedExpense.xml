@@ -32,7 +32,7 @@
 		</property>
 	</bean>
 	<bean id="ImportedExpense-id" parent="ImportedExpense-id-parentBean" />
-	<bean id="ImportedExpense-id-parentBean" parent="AttributeDefinition">
+	<bean id="ImportedExpense-id-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="id" />
 		<property name="label" value="Id" />
 		<property name="shortLabel" value="Id" />
@@ -44,7 +44,7 @@
 		<property name="validationPattern"><bean parent="NumericValidationPattern" /></property>
 	</bean>
 	<bean id="ImportedExpense-documentNumber" parent="ImportedExpense-documentNumber-parentBean" />
-	<bean id="ImportedExpense-documentNumber-parentBean" parent="AttributeDefinition">
+	<bean id="ImportedExpense-documentNumber-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="documentNumber" />
 		<property name="label" value="Document Number" />
 		<property name="shortLabel" value="Document Number" />
@@ -55,12 +55,12 @@
 		<property name="control"><bean parent="TextControlDefinition" p:size="14"/></property>
 	</bean>
 	<bean id="ImportedExpense-cardType" parent="ImportedExpense-cardType-parentBean" />
-	<bean id="ImportedExpense-cardType-parentBean" parent="TravelCardType-code-parentBean">
+	<bean id="ImportedExpense-cardType-parentBean" abstract="true" parent="TravelCardType-code-parentBean">
 		<property name="name" value="cardType" />
 		<property name="label" value="Travel Card Type" />
 	</bean>
 	<bean id="ImportedExpense-currencyRate" parent="ImportedExpense-currencyRate-parentBean" />
-	<bean id="ImportedExpense-currencyRate-parentBean" parent="AttributeDefinition">
+	<bean id="ImportedExpense-currencyRate-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="currencyRate" />
 		<property name="label" value="Currency Rate" />
 		<property name="shortLabel" value="Currency Rate" />
@@ -71,7 +71,7 @@
 		<property name="control"><bean parent="TextControlDefinition" p:size="6"/></property>
 	</bean>
 	<bean id="ImportedExpense-countryCode" parent="ImportedExpense-countryCode-parentBean" />
-	<bean id="ImportedExpense-countryCode-parentBean" parent="AttributeDefinition">
+	<bean id="ImportedExpense-countryCode-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="countryCode" />
 		<property name="label" value="Country" />
 		<property name="shortLabel" value="Country" />
@@ -82,7 +82,7 @@
 		<property name="control"><bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.location.framework.country.CountryValuesFinder" p:includeKeyInLabel="false"/></property>
 	</bean>
 	<bean id="ImportedExpense-expenseDate" parent="ImportedExpense-expenseDate-parentBean" />
-	<bean id="ImportedExpense-expenseDate-parentBean" parent="GenericAttributes-genericDate">
+	<bean id="ImportedExpense-expenseDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
 		<property name="name" value="expenseDate" />
 		<property name="label" value="Expense Date" />
 		<property name="shortLabel" value="Expense Date" />
@@ -91,7 +91,7 @@
 		<property name="description" value="Expense Date" />
 	</bean>
 	<bean id="ImportedExpense-expenseAmount" parent="ImportedExpense-expenseAmount-parentBean" />
-	<bean id="ImportedExpense-expenseAmount-parentBean" parent="GenericAttributes-genericAmount">
+	<bean id="ImportedExpense-expenseAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
 		<property name="name" value="expenseAmount" />
 		<property name="label" value="Expense Amount" />
 		<property name="shortLabel" value="Expense Amount" />
@@ -100,7 +100,7 @@
 		<property name="required" value="true" />
 	</bean>
 	<bean id="ImportedExpense-convertedAmount" parent="ImportedExpense-convertedAmount-parentBean" />
-	<bean id="ImportedExpense-convertedAmount-parentBean" parent="GenericAttributes-genericAmount">
+	<bean id="ImportedExpense-convertedAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
 		<property name="name" value="convertedAmount" />
 		<property name="label" value="Converted Amount" />
 		<property name="shortLabel" value="Converted Amount" />
@@ -108,7 +108,7 @@
 		<property name="description" value="Converted Amount" />
 	</bean>
 	<bean id="ImportedExpense-description" parent="ImportedExpense-description-parentBean" />
-	<bean id="ImportedExpense-description-parentBean" parent="AttributeDefinition">
+	<bean id="ImportedExpense-description-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="description" />
 		<property name="label" value="Notes" />
 		<property name="shortLabel" value="Notes" />
@@ -119,7 +119,7 @@
 		<property name="control"><bean parent="TextControlDefinition" p:size="40"/></property>
 	</bean>
 	<bean id="ImportedExpense-expenseTypeObjectCodeId" parent="ImportedExpense-expenseTypeObjectCodeId-parentBean" />
-	<bean id="ImportedExpense-expenseTypeObjectCodeId-parentBean" parent="ExpenseTypeObjectCode-expenseTypeObjectCodeId-parentBean">
+	<bean id="ImportedExpense-expenseTypeObjectCodeId-parentBean" abstract="true" parent="ExpenseTypeObjectCode-expenseTypeObjectCodeId-parentBean">
 		<property name="name" value="expenseTypeObjectCodeId" />
 		<property name="label" value="Expense Type" />
 		<property name="shortLabel" value="Expense Type" />
@@ -129,7 +129,8 @@
 		<property name="required" value="false"/>
 		<property name="control"><bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.tem.businessobject.options.TravelExpenseTypeValuesFinder" p:includeKeyInLabel="false"/></property>
 	</bean>
-    <bean id="ImportedExpense-travelCompanyCodeName" parent="TravelCompanyCode-name-parentBean">
+	<bean id="ImportedExpense-travelCompanyCodeName" parent="ImportedExpense-travelCompanyCodeName-parentBean"/>
+    <bean id="ImportedExpense-travelCompanyCodeName-parentBean" abstract="true" parent="TravelCompanyCode-name-parentBean">
       <property name="name" value="travelCompanyCodeName" />
       <property name="label" value="Company Name" />
       <property name="required" value="true" />
@@ -141,7 +142,7 @@
     </bean>
     
     <bean id="ImportedExpense-documentLineNumber" parent="ImportedExpense-documentLineNumber-parentBean" />
-	<bean id="ImportedExpense-documentLineNumber-parentBean" parent="AttributeDefinition">
+	<bean id="ImportedExpense-documentLineNumber-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="documentLineNumber" />
 		<property name="label" value="Document Line Number" />
 		<property name="shortLabel" value="Document Line Number" />
@@ -153,7 +154,7 @@
 	</bean>
 	
 	<bean id="ImportedExpense-expenseParentId" parent="ImportedExpense-expenseParentId-parentBean" />
-	<bean id="ImportedExpense-expenseParentId-parentBean" parent="AttributeDefinition">
+	<bean id="ImportedExpense-expenseParentId-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="expenseParentId" />
 		<property name="label" value="Parent Id" />
 		<property name="shortLabel" value="Parent Id" />
@@ -165,7 +166,7 @@
 	</bean>     
     
     <bean id="ImportedExpense-nonReimbursable" parent="ImportedExpense-nonReimbursable-parentBean" />	
-	<bean id="ImportedExpense-nonReimbursable-parentBean" parent="GenericAttributes-genericBoolean">		
+	<bean id="ImportedExpense-nonReimbursable-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">		
 		<property name="name" value="nonReimbursable" />
 		<property name="label" value="Non- Reimbursable" />
 		<property name="shortLabel" value="Non- Reimbursable" />
@@ -176,7 +177,7 @@
 	</bean>
 	
     <bean id="ImportedExpense-taxable" parent="ImportedExpense-taxable-parentBean" />
-	<bean id="ImportedExpense-taxable-parentBean" parent="GenericAttributes-genericBoolean">
+	<bean id="ImportedExpense-taxable-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
 		<property name="name" value="taxable" />
 		<property name="label" value="Taxable" />
 		<property name="shortLabel" value="Taxable" />
@@ -187,7 +188,7 @@
 	</bean>
 	
 	<bean id="ImportedExpense-missingReceipt" parent="ImportedExpense-missingReceipt-parentBean" />
-	<bean id="ImportedExpense-missingReceipt-parentBean" parent="GenericAttributes-genericBoolean">
+	<bean id="ImportedExpense-missingReceipt-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
 		<property name="name" value="missingReceipt" />
 		<property name="label" value="Missing Receipt" />
 		<property name="shortLabel" value="Missing Receipt" />
@@ -197,7 +198,7 @@
 		<property name="description" value="Missing Receipt" />		
 	</bean>
     <bean id="ImportedExpense-receiptRequired" parent="ImportedExpense-receiptRequired-parentBean" />
-	<bean id="ImportedExpense-receiptRequired-parentBean" parent="GenericAttributes-genericBoolean">
+	<bean id="ImportedExpense-receiptRequired-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
 		<property name="name" value="receiptRequired" />
 		<property name="label" value="Receipt Required" />
 		<property name="shortLabel" value="Receipt Required" />
@@ -209,7 +210,7 @@
 	
     
 	<bean id="ImportedExpense-versionNumber" parent="ImportedExpense-versionNumber-parentBean" />
-	<bean id="ImportedExpense-versionNumber-parentBean" parent="GenericAttributes-versionNumber">
+	<bean id="ImportedExpense-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
 		<property name="name" value="versionNumber" />
 		<property name="label" value="Version Number" />
 		<property name="shortLabel" value="Version Number" />

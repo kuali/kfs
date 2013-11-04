@@ -171,7 +171,7 @@
 		</property>
 	</bean>
 	<bean id="TemProfile-profileId" parent="TemProfile-profileId-parentBean" />
-	<bean id="TemProfile-profileId-parentBean" parent="AttributeDefinition">
+	<bean id="TemProfile-profileId-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="profileId" />
 		<property name="label" value="Profile Id" />
 		<property name="shortLabel" value="Profile Id" />
@@ -185,12 +185,12 @@
 	</bean>
 
 	<bean id="TemProfile-principalId" parent="TemProfile-principalId-parentBean" />
-	<bean id="TemProfile-principalId-parentBean" parent="KimBaseBeans-principalId">
+	<bean id="TemProfile-principalId-parentBean" abstract="true" parent="KimBaseBeans-principalId">
 		<property name="label" value="KIM Principal Id" />
 	</bean>
 	
 	<bean id="TemProfile-principal.principalName" parent="TemProfile-principal.principalName-parentBean" />
-	<bean id="TemProfile-principal.principalName-parentBean" parent="PersonImpl-principalName">
+	<bean id="TemProfile-principal.principalName-parentBean" abstract="true" parent="PersonImpl-principalName">
 		<property name="label" value="KIM Principal Name" />
 		<property name="name" value="principal.principalName" />
 	</bean>
@@ -202,7 +202,7 @@
 	</bean>
 
 	<bean id="TemProfile-driversLicenseNumber" parent="TemProfile-driversLicenseNumber-parentBean" />
-	<bean id="TemProfile-driversLicenseNumber-parentBean" parent="AttributeDefinition">
+	<bean id="TemProfile-driversLicenseNumber-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="driversLicenseNumber" />
 		<property name="label" value="Driver's License Number" />
 		<property name="shortLabel" value="Driver's License Number" />
@@ -223,7 +223,7 @@
 	</bean>
 
 	<bean id="TemProfile-driversLicenseState" parent="TemProfile-driversLicenseState-parentBean" />
-	<bean id="TemProfile-driversLicenseState-parentBean" parent="State-code-parentBean">
+	<bean id="TemProfile-driversLicenseState-parentBean" abstract="true" parent="State-code-parentBean">
 		<property name="name" value="driversLicenseState" />
 		<property name="label" value="Driver's License State" />
 		<property name="shortLabel" value="Driver's License State" />
@@ -243,7 +243,7 @@
 	</bean>
 
 	<bean id="TemProfile-driversLicenseExpDate" parent="TemProfile-driversLicenseExpDate-parentBean" />
-	<bean id="TemProfile-driversLicenseExpDate-parentBean" parent="GenericAttributes-genericDate">
+	<bean id="TemProfile-driversLicenseExpDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
 		<property name="name" value="driversLicenseExpDate" />
 		<property name="label" value="Driver's License Expiration Date" />
 		<property name="shortLabel" value="Driver's License Expiration Date" />
@@ -260,7 +260,7 @@
 	</bean>
 
 	<bean id="TemProfile-citizenship" parent="TemProfile-citizenship-parentBean" />
-	<bean id="TemProfile-citizenship-parentBean" parent="AttributeDefinition">
+	<bean id="TemProfile-citizenship-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="citizenship" />
 		<property name="label" value="Citizenship" />
 		<property name="shortLabel" value="Citizenship" />
@@ -275,7 +275,7 @@
 	</bean>
 
 	<bean id="TemProfile-updatedBy" parent="TemProfile-updatedBy-parentBean" />
-	<bean id="TemProfile-updatedBy-parentBean" parent="AttributeDefinition">
+	<bean id="TemProfile-updatedBy-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="updatedBy" />
 		<property name="label" value="Updated By" />
 		<property name="shortLabel" value="Updated By" />
@@ -288,7 +288,7 @@
 	</bean>
 
 	<bean id="TemProfile-lastUpdate" parent="TemProfile-lastUpdate-parentBean" />
-	<bean id="TemProfile-lastUpdate-parentBean" parent="GenericAttributes-genericDate">
+	<bean id="TemProfile-lastUpdate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
 		<property name="name" value="lastUpdate" />
 		<property name="label" value="Last Update" />
 		<property name="shortLabel" value="Last Update" />
@@ -297,7 +297,7 @@
 	</bean>
 
 	<bean id="TemProfile-travelerTypeCode" parent="TemProfile-travelerTypeCode-parentBean" />
-	<bean id="TemProfile-travelerTypeCode-parentBean" parent="AttributeDefinition">
+	<bean id="TemProfile-travelerTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="travelerTypeCode" />
 		<property name="label" value="Traveler Type Code" />
 		<property name="shortLabel" value="Traveler Type Code" />
@@ -313,7 +313,7 @@
 	</bean>
 
 	<bean id="TemProfile-firstName" parent="TemProfile-firstName-parentBean" />
-	<bean id="TemProfile-firstName-parentBean" parent="PersonImpl-firstName">
+	<bean id="TemProfile-firstName-parentBean" abstract="true" parent="PersonImpl-firstName">
 		<property name="required" value="true" />
 		<property name="maxLength" value="30" />
         <property name="forceUppercase" value="true"/>
@@ -321,14 +321,14 @@
 
 
 	<bean id="TemProfile-middleName" parent="TemProfile-middleName-parentBean" />
-	<bean id="TemProfile-middleName-parentBean" parent="PersonImpl-middleName">
+	<bean id="TemProfile-middleName-parentBean" abstract="true" parent="PersonImpl-middleName">
 		<property name="required" value="true" />
 		<property name="maxLength" value="30" />
         <property name="forceUppercase" value="true"/>
 	</bean>
 
 	<bean id="TemProfile-lastName" parent="TemProfile-lastName-parentBean" />
-	<bean id="TemProfile-lastName-parentBean" parent="PersonImpl-lastName">
+	<bean id="TemProfile-lastName-parentBean" abstract="true" parent="PersonImpl-lastName">
 		<property name="required" value="true" />
 		<property name="maxLength" value="30" />
         <property name="forceUppercase" value="true"/>
@@ -383,13 +383,13 @@
 	</bean>
 
 	<bean id="TemProfile-emailAddress" parent="TemProfile-emailAddress-parentBean" />
-	<bean id="TemProfile-emailAddress-parentBean" parent="GenericAttributes-emailAddress">
+	<bean id="TemProfile-emailAddress-parentBean" abstract="true" parent="GenericAttributes-emailAddress">
 		<property name="maxLength" value="60" />
         <property name="forceUppercase" value="true"/>
 	</bean>
 
 	<bean id="TemProfile-phoneNumber" parent="TemProfile-phoneNumber-parentBean" />
-	<bean id="TemProfile-phoneNumber-parentBean" parent="AttributeDefinition">
+	<bean id="TemProfile-phoneNumber-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="phoneNumber" />
 		<property name="label" value="Phone Number" />
 		<property name="shortLabel" value="Phone Number" />
@@ -402,7 +402,7 @@
 	</bean>
 
 	<bean id="TemProfile-achSignUp" parent="TemProfile-achSignUp-parentBean" />
-	<bean id="TemProfile-achSignUp-parentBean" parent="AttributeDefinition">
+	<bean id="TemProfile-achSignUp-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="achSignUp" />
 		<property name="label" value="ACH Sign Up" />
 		<property name="shortLabel" value="ACH Sign Up" />
@@ -415,7 +415,7 @@
 	</bean>
 
 	<bean id="TemProfile-achTransactionType" parent="TemProfile-achTransactionType-parentBean" />
-	<bean id="TemProfile-achTransactionType-parentBean" parent="AttributeDefinition">
+	<bean id="TemProfile-achTransactionType-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="achTransactionType" />
 		<property name="label" value="ACH Transaction Type" />
 		<property name="shortLabel" value="ACH Transaction Type" />
@@ -428,7 +428,7 @@
 	</bean>
 
 	<bean id="TemProfile-dateOfBirth" parent="TemProfile-dateOfBirth-parentBean" />
-	<bean id="TemProfile-dateOfBirth-parentBean" parent="GenericAttributes-genericDate">
+	<bean id="TemProfile-dateOfBirth-parentBean" abstract="true" parent="GenericAttributes-genericDate">
 		<property name="name" value="dateOfBirth" />
 		<property name="label" value="Date Of Birth" />
 		<property name="shortLabel" value="Date Of Birth" />
@@ -446,7 +446,7 @@
 	</bean>
 
 	<bean id="TemProfile-gender" parent="TemProfile-gender-parentBean" />
-	<bean id="TemProfile-gender-parentBean" parent="AttributeDefinition">
+	<bean id="TemProfile-gender-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="gender" />
 		<property name="label" value="Gender" />
 		<property name="shortLabel" value="Gender" />
@@ -470,7 +470,7 @@
 	</bean>
 
 	<bean id="TemProfile-nonResidentAlien" parent="TemProfile-nonResidentAlien-parentBean" />
-	<bean id="TemProfile-nonResidentAlien-parentBean" parent="AttributeDefinition">
+	<bean id="TemProfile-nonResidentAlien-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="nonResidentAlien" />
 		<property name="label" value="Non Resident Alien" />
 		<property name="shortLabel" value="Non Resident Alien" />
@@ -486,7 +486,7 @@
 
 
 	<bean id="TemProfile-motorVehicleRecordCheck" parent="TemProfile-motorVehicleRecordCheck-parentBean" />
-	<bean id="TemProfile-motorVehicleRecordCheck-parentBean" parent="AttributeDefinition">
+	<bean id="TemProfile-motorVehicleRecordCheck-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="motorVehicleRecordCheck" />
 		<property name="label" value="Motor Vehicle Record Check" />
 		<property name="shortLabel" value="Motor Vehicle Record Check" />
@@ -499,7 +499,7 @@
 	</bean>
 
 	<bean id="TemProfile-notifyTAFinal" parent="TemProfile-notifyTAFinal-parentBean" />
-	<bean id="TemProfile-notifyTAFinal-parentBean" parent="AttributeDefinition">
+	<bean id="TemProfile-notifyTAFinal-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="notifyTAFinal" />
 		<property name="label" value="Travel Authorization (TA) FINAL" />
 		<property name="shortLabel" value="Travel Authorization (TA) FINAL" />
@@ -512,7 +512,7 @@
 	</bean>
 
 	<bean id="TemProfile-notifyTAStatusChange" parent="TemProfile-notifyTAStatusChange-parentBean" />
-	<bean id="TemProfile-notifyTAStatusChange-parentBean" parent="AttributeDefinition">
+	<bean id="TemProfile-notifyTAStatusChange-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="notifyTAStatusChange" />
 		<property name="label" value="Travel Authorization (TA) Status Change" />
 		<property name="shortLabel" value="Travel Authorization (TA) Status Change" />
@@ -525,7 +525,7 @@
 	</bean>
 
 	<bean id="TemProfile-notifyTERFinal" parent="TemProfile-notifyTERFinal-parentBean" />
-	<bean id="TemProfile-notifyTERFinal-parentBean" parent="AttributeDefinition">
+	<bean id="TemProfile-notifyTERFinal-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="notifyTERFinal" />
 		<property name="label" value="Travel Expense Report (TR, ENT, RELO) FINAL" />
 		<property name="shortLabel" value="Travel Expense Report (TR, ENT, RELO) FINAL" />
@@ -538,7 +538,7 @@
 	</bean>
 
 	<bean id="TemProfile-notifyTERStatusChange" parent="TemProfile-notifyTERStatusChange-parentBean" />
-	<bean id="TemProfile-notifyTERStatusChange-parentBean" parent="AttributeDefinition">
+	<bean id="TemProfile-notifyTERStatusChange-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="notifyTERStatusChange" />
 		<property name="label"
 			value="Travel Expense Report (TR, ENT, RELO) Status Change" />
@@ -557,7 +557,7 @@
 	<bean id="TemProfile-employeeId" parent="PersonImpl-employeeId" />
 
 	<bean id="TemProfile-homeDepartment" parent="TemProfile-homeDepartment-parentBean" />
-	<bean id="TemProfile-homeDepartment-parentBean" parent="PersonImpl-primaryDepartmentCode">
+	<bean id="TemProfile-homeDepartment-parentBean" abstract="true" parent="PersonImpl-primaryDepartmentCode">
 		<property name="name" value="homeDepartment" />
 		<property name="required" value="true" />
 		<property name="control">
@@ -566,7 +566,6 @@
 	</bean>
 
 	<bean id="TemProfile-homeDepartmentChartOfAccountsCode" parent="TemProfile-homeDepartmentChartOfAccountsCode-parentBean" />
-
 	<bean id="TemProfile-homeDepartmentChartOfAccountsCode-parentBean"
 		abstract="true" parent="Chart-chartOfAccountsCode">
 		<property name="name" value="homeDeptChartOfAccountsCode" />
@@ -574,7 +573,7 @@
 		<!--property name="required" value="true" / -->
 	</bean>
 	<bean id="TemProfile-homeDepartmentOrgCode" parent="TemProfile-homeDepartmentOrgCode-parentBean" />
-	<bean id="TemProfile-homeDepartmentOrgCode-parentBean" parent="Organization-organizationCode">
+	<bean id="TemProfile-homeDepartmentOrgCode-parentBean" abstract="true" parent="Organization-organizationCode">
 		<property name="name" value="homeDeptOrgCode" />
 		<property name="label" value="Home Department Organization Code" />
 		<property name="shortLabel" value="Home Dept Org Code" />
@@ -585,7 +584,7 @@
 	</bean>
 
 	<bean id="TemProfile-defaultChartCode" parent="TemProfile-defaultChartCode-parentBean" />
-	<bean id="TemProfile-defaultChartCode-parentBean" parent="Chart-chartOfAccountsCode">
+	<bean id="TemProfile-defaultChartCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
 		<property name="name" value="defaultChartCode" />
 		<property name="required" value="false" />
 		<property name="control">
@@ -596,19 +595,19 @@
 	</bean>
 
 	<bean id="TemProfile-defaultAccount" parent="TemProfile-defaultAccount-parentBean" />
-	<bean id="TemProfile-defaultAccount-parentBean" parent="Account-accountNumber">
+	<bean id="TemProfile-defaultAccount-parentBean" abstract="true" parent="Account-accountNumber">
 		<property name="name" value="defaultAccount" />
 		<property name="required" value="false" />
 	</bean>
 
 	<bean id="TemProfile-defaultSubAccount" parent="TemProfile-defaultSubAccount-parentBean" />
-	<bean id="TemProfile-defaultSubAccount-parentBean" parent="SubAccount-subAccountNumber">
+	<bean id="TemProfile-defaultSubAccount-parentBean" abstract="true" parent="SubAccount-subAccountNumber">
 		<property name="name" value="defaultSubAccount" />
 		<property name="required" value="false" />
 	</bean>
 
 	<bean id="TemProfile-defaultProjectCode" parent="TemProfile-defaultProjectCode-parentBean" />
-	<bean id="TemProfile-defaultProjectCode-parentBean" parent="ProjectCode-code">
+	<bean id="TemProfile-defaultProjectCode-parentBean" abstract="true" parent="ProjectCode-code">
 		<property name="name" value="defaultProjectCode" />
 		<property name="required" value="false" />
 	</bean>
@@ -621,7 +620,7 @@
 	</bean>
 
 	<bean id="TemProfile-active" parent="TemProfile-active-parentBean" />
-	<bean id="TemProfile-active-parentBean" parent="GenericAttributes-genericBoolean">
+	<bean id="TemProfile-active-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
 		<property name="name" value="active" />
 		<property name="label" value="Active" />
 		<property name="shortLabel" value="Active" />
@@ -630,7 +629,8 @@
 		<property name="description" value="Active" />
 	</bean>
 
-	<bean id="TemProfile-versionNumber" parent="GenericAttributes-versionNumber" />
+	<bean id="TemProfile-versionNumber" parent="TemProfile-versionNumber-parentBean" />
+	<bean id="TemProfile-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber" />
 
 	<bean id="TemProfile-inquiryDefinition" parent="TemProfile-inquiryDefinition-parentBean" />
 	<bean id="TemProfile-inquiryDefinition-parentBean" abstract="true"

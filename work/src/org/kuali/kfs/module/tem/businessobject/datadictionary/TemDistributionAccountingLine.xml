@@ -64,7 +64,7 @@
 	</bean>
 
 	<bean id="TemDistributionAccountingLine-financialObjectCode" parent="TemDistributionAccountingLine-financialObjectCode-parentBean" />
-	<bean id="TemDistributionAccountingLine-financialObjectCode-parentBean" parent="AttributeDefinition">
+	<bean id="TemDistributionAccountingLine-financialObjectCode-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="financialObjectCode" />
 		<property name="forceUppercase" value="true" />
 		<property name="label" value="Object Code" />
@@ -77,7 +77,6 @@
 
 
 	<bean id="TemDistributionAccountingLine-amount" parent="TemDistributionAccountingLine-amount-parentBean" />
-
 	<bean id="TemDistributionAccountingLine-amount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
 		<property name="name" value="amount" />
 		<property name="required" value="false" />
@@ -86,7 +85,7 @@
 
 	<!-- Attribute Definitions -->
 	<bean id="TemDistributionAccountingLine-accountLinePercent" parent="TemDistributionAccountingLine-accountLinePercent-parentBean" />
-	<bean id="TemDistributionAccountingLine-accountLinePercent-parentBean" parent="AttributeDefinition">
+	<bean id="TemDistributionAccountingLine-accountLinePercent-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="accountLinePercent" />
 		<property name="label" value="Account Line Percent" />
 		<property name="shortLabel" value="Percent" />
@@ -101,6 +100,6 @@
 	</bean>
 
 	<bean id="TemDistributionAccountingLine-cardType" parent="TemDistributionAccountingLine-cardType-parentBean" />
-	<bean id="TemDistributionAccountingLine-cardType-parentBean" parent="TravelDocumentAccountingLine-cardType" />
+	<bean id="TemDistributionAccountingLine-cardType-parentBean" abstract="true" parent="TravelDocumentAccountingLine-cardType" />
     
 </beans>

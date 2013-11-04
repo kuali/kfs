@@ -63,7 +63,7 @@
 		<property name="jobNames">
 			<list>
 				<value>assetDepreciationBatchJob</value>
-				<!-- CSU 6702 BEGIN --><!-- <value>assetYearEndDepreciationBatchJob</value> --><!-- CSU 6702 END -->
+				<!-- CSU 6702 BEGIN --><value>assetYearEndDepreciationBatchJob</value><!-- CSU 6702 END -->
 			</list>
 		</property>
 		<property name="fiscalYearMakers">
@@ -71,14 +71,6 @@
             <ref bean="assetObjectCodeFiscalYearMaker" />
           </list>
         </property>
-		<!-- Asset Depreciation batch - START -->
-		<property name="triggerNames">
-			<list>
-				<!-- CSU 6702 BEGIN --><!-- <value>assetYearEndDepreciationBatchJobTrigger</value> --><!-- CSU 6702 END -->
-				<value>assetDepreciationBatchJobTrigger</value>
-			</list>
-		</property>
-		<!-- Asset Depreciation batch - END -->
 		<property name="batchFileDirectories">
          	<list>
             	<value>${reports.directory}/cam</value>

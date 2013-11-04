@@ -1050,6 +1050,7 @@
 		<property name="travelExpenseService" ref="travelExpenseService" />
         <property name="importedExpensePendingEntryService" ref="importedExpensePendingEntryService" />
         <property name="travelDocumentService" ref="temTravelDocumentService" />
+       	<property name="agencyStagingDataDao" ref="agencyStagingDataDao" />
 	</bean>
     <bean id="importedExpensePendingEntryService" parent="importedExpensePendingEntryService-parentBean" />
     <bean id="importedExpensePendingEntryService-parentBean" class="org.kuali.kfs.module.tem.batch.service.impl.ImportedExpensePendingEntryServiceImpl">
@@ -1270,6 +1271,8 @@
     <bean id="temExecutiveManagerRoleTypeService" class="org.kuali.kfs.module.tem.identity.ExecutiveManagerRoleTypeServiceImpl" />
     
     <bean id="historicalTravelExpenseDao" parent="platformAwareDao" class="org.kuali.kfs.module.tem.dataaccess.impl.HistoricalTravelExpenseDaoOjb"/>
+   
+    <bean id="agencyStagingDataDao" parent="platformAwareDao" class="org.kuali.kfs.module.tem.dataaccess.impl.AgencyStagingDataDaoOjb"/>
  
     <bean id="historicalTravelExpenseService" class="org.kuali.kfs.module.tem.service.impl.HistoricalTravelExpenseServiceImpl">
     	<property name="historicalTravelExpenseDao" ref="historicalTravelExpenseDao" />

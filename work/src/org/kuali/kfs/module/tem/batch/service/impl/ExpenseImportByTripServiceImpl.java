@@ -43,6 +43,7 @@ import org.kuali.kfs.module.tem.businessobject.ExpenseTypeObjectCode;
 import org.kuali.kfs.module.tem.businessobject.HistoricalTravelExpense;
 import org.kuali.kfs.module.tem.businessobject.TemProfile;
 import org.kuali.kfs.module.tem.businessobject.TripAccountingInformation;
+import org.kuali.kfs.module.tem.dataaccess.AgencyStagingDataDao;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.service.TravelAuthorizationService;
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
@@ -72,6 +73,7 @@ public class ExpenseImportByTripServiceImpl extends ExpenseImportServiceBase imp
     private TravelExpenseService travelExpenseService;
     private ImportedExpensePendingEntryService importedExpensePendingEntryService;
     private TravelDocumentService travelDocumentService;
+    private AgencyStagingDataDao agencyStagingDataDao;
 
     /**
      *
@@ -333,36 +335,36 @@ public class ExpenseImportByTripServiceImpl extends ExpenseImportServiceBase imp
             return errorMessages;
         }
 
-        Map<String, Object> fieldValues = new HashMap<String, Object>();
-
-        if (StringUtils.isNotEmpty(agencyData.getTripId())) {
-            fieldValues.put(TemPropertyConstants.TRIP_ID, agencyData.getTripId());
-        }
-        if (StringUtils.isNotEmpty(agencyData.getCreditCardOrAgencyCode())) {
-            fieldValues.put(TemPropertyConstants.CREDIT_CARD_AGENCY_CODE, agencyData.getCreditCardOrAgencyCode());
-        }
-        if (ObjectUtils.isNotNull(agencyData.getTransactionPostingDate())) {
-            fieldValues.put(TemPropertyConstants.TRANSACTION_POSTING_DATE, agencyData.getTransactionPostingDate());
-        }
-        if (ObjectUtils.isNotNull(agencyData.getTripExpenseAmount())) {
-            fieldValues.put(TemPropertyConstants.TRIP_EXPENSE_AMOUNT, agencyData.getTripExpenseAmount());
-        }
-        if (StringUtils.isNotEmpty(agencyData.getAirTicketNumber())) {
-            fieldValues.put(TemPropertyConstants.AIR_TICKET_NUMBER, agencyData.getAirTicketNumber());
-        }
-        if (StringUtils.isNotEmpty(agencyData.getLodgingItineraryNumber())) {
-            fieldValues.put(TemPropertyConstants.LODGING_ITINERARY_NUMBER, agencyData.getLodgingItineraryNumber());
-        }
-        if (StringUtils.isNotEmpty(agencyData.getRentalCarItineraryNumber())) {
-            fieldValues.put(TemPropertyConstants.RENTAL_CAR_ITINERARY_NUMBER, agencyData.getRentalCarItineraryNumber());
-        }
-
-        if (fieldValues.isEmpty()) {
-            errorMessages.add(new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_DATA_NO_MANDATORY_FIELDS_GENERIC));
-        }
+//        Map<String, Object> fieldValues = new HashMap<String, Object>();
+//
+//        if (StringUtils.isNotEmpty(agencyData.getTripId())) {
+//            fieldValues.put(TemPropertyConstants.TRIP_ID, agencyData.getTripId());
+//        }
+//        if (StringUtils.isNotEmpty(agencyData.getCreditCardOrAgencyCode())) {
+//            fieldValues.put(TemPropertyConstants.CREDIT_CARD_AGENCY_CODE, agencyData.getCreditCardOrAgencyCode());
+//        }
+//        if (ObjectUtils.isNotNull(agencyData.getTransactionPostingDate())) {
+//            fieldValues.put(TemPropertyConstants.TRANSACTION_POSTING_DATE, agencyData.getTransactionPostingDate());
+//        }
+//        if (ObjectUtils.isNotNull(agencyData.getTripExpenseAmount())) {
+//            fieldValues.put(TemPropertyConstants.TRIP_EXPENSE_AMOUNT, agencyData.getTripExpenseAmount());
+//        }
+//        if (StringUtils.isNotEmpty(agencyData.getAirTicketNumber())) {
+//            fieldValues.put(TemPropertyConstants.AIR_TICKET_NUMBER, agencyData.getAirTicketNumber());
+//        }
+//        if (StringUtils.isNotEmpty(agencyData.getLodgingItineraryNumber())) {
+//            fieldValues.put(TemPropertyConstants.LODGING_ITINERARY_NUMBER, agencyData.getLodgingItineraryNumber());
+//        }
+//        if (StringUtils.isNotEmpty(agencyData.getRentalCarItineraryNumber())) {
+//            fieldValues.put(TemPropertyConstants.RENTAL_CAR_ITINERARY_NUMBER, agencyData.getRentalCarItineraryNumber());
+//        }
+//
+//        if (fieldValues.isEmpty()) {
+//            errorMessages.add(new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_DATA_NO_MANDATORY_FIELDS_GENERIC));
+//        }
         else {
 
-            List<AgencyStagingData> agencyDataList = (List<AgencyStagingData>) businessObjectService.findMatching(AgencyStagingData.class, fieldValues);
+            Collection<AgencyStagingData> agencyDataList = agencyStagingDataDao.checkForDuplicates(agencyData);
             if (ObjectUtils.isNotNull(agencyDataList) && !agencyDataList.isEmpty()) {
 
                 boolean isDuplicate = false;
@@ -661,5 +663,26 @@ public class ExpenseImportByTripServiceImpl extends ExpenseImportServiceBase imp
     public void setTravelDocumentService(TravelDocumentService travelDocumentService) {
         this.travelDocumentService = travelDocumentService;
     }
+
+    /**
+     * Gets the agencyStagingDataDao attribute.
+     *
+     * @return Returns the agencyStagingDataDao
+     */
+
+    public AgencyStagingDataDao getAgencyStagingDataDao() {
+        return agencyStagingDataDao;
+    }
+
+    /**
+     * Sets the agencyStagingDataDao attribute.
+     *
+     * @param agencyStagingDataDao The agencyStagingDataDao to set.
+     */
+    public void setAgencyStagingDataDao(AgencyStagingDataDao agencyStagingDataDao) {
+        this.agencyStagingDataDao = agencyStagingDataDao;
+    }
+
+
 
 }

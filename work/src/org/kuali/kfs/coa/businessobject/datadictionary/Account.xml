@@ -975,7 +975,12 @@
 		abstract="true" parent="ExternalizableAttributeDefinitionProxy"
 		p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.integration.ld.LaborBenefitRateCategory"
 	 	p:sourceAttributeName="laborBenefitRateCategoryCode">	
-	 	<property name="name" value="laborBenefitRateCategoryCode"></property>	
+	 	<property name="name" value="laborBenefitRateCategoryCode" />
+	 	<!-- 
+	 	 The following shouldn't be necessary.  There is a bit of a bug in the ExternalizableAttributeDefinitionProxy
+	 	 which does not fetch the info from the parent bean but instead uses the default set in AttributeDefinition.
+	 	 -->
+	 	<property name="forceUppercase" value="true" />
 	</bean>
 	
 	<bean id="Account-subFundGroup.fundGroupCode" parent="Account-subFundGroup.fundGroupCode-parentBean" />

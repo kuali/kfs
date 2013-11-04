@@ -31,12 +31,15 @@ import java.text.DateFormat;
 import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.ProjectCode;
@@ -350,7 +353,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
     @Override
     public boolean routeProcurementCardDocuments() {
 
-        List<String> documentIdList = retrieveProcurementCardDocumentsToRoute(KewApiConstants.ROUTE_HEADER_SAVED_CD);
+        Collection<String> documentIdList = retrieveProcurementCardDocumentsToRoute(KewApiConstants.ROUTE_HEADER_SAVED_CD);
 
         //Collections.reverse(documentIdList);
         if ( LOG.isInfoEnabled() ) {
@@ -385,8 +388,8 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
      * Returns a list of all initiated but not yet routed procurement card documents, using the KualiWorkflowInfo service.
      * @return a list of procurement card documents to route
      */
-    protected List<String> retrieveProcurementCardDocumentsToRoute(String statusCode){
-        List<String> documentIds = new ArrayList<String>();
+    protected Collection<String> retrieveProcurementCardDocumentsToRoute(String statusCode){
+        Set<String> documentIds = new HashSet<String>();
 
         DocumentSearchCriteria.Builder criteria = DocumentSearchCriteria.Builder.create();
         criteria.setDocumentTypeName(KFSConstants.FinancialDocumentTypeCodes.PROCUREMENT_CARD);
@@ -436,7 +439,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
             return true;
         }
 
-        List<String> documentIdList = retrieveProcurementCardDocumentsToRoute(KewApiConstants.ROUTE_HEADER_ENROUTE_CD);
+        Collection<String> documentIdList = retrieveProcurementCardDocumentsToRoute(KewApiConstants.ROUTE_HEADER_ENROUTE_CD);
 
         // get number of days and type for auto approve
         int autoApproveNumberDays = Integer.parseInt(parameterService.getParameterValueAsString(ProcurementCardAutoApproveDocumentsStep.class, AUTO_APPROVE_NUMBER_OF_DAYS));

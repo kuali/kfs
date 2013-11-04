@@ -24,7 +24,7 @@ import org.kuali.rice.krad.rules.rule.BusinessRule;
  * Event triggered when an {@link ImportedExpense} instance
  * is added to a {@link Document}
  */
-public class AddImportedExpenseLineEvent<E extends ImportedExpense> extends AttributedDocumentEventBase implements TmExpenseLineEvent<E> {
+public class AddImportedExpenseLineEvent<E extends ImportedExpense> extends AttributedDocumentEventBase implements TemExpenseLineEvent<E> {
 
     private final E expense;
 

@@ -73,7 +73,7 @@ import org.kuali.kfs.module.tem.businessobject.PerDiem;
 import org.kuali.kfs.module.tem.businessobject.PerDiemExpense;
 import org.kuali.kfs.module.tem.businessobject.PrimaryDestination;
 import org.kuali.kfs.module.tem.businessobject.SpecialCircumstances;
-import org.kuali.kfs.module.tem.businessobject.TmProfile;
+import org.kuali.kfs.module.tem.businessobject.TemProfile;
 import org.kuali.kfs.module.tem.businessobject.TemDistributionAccountingLine;
 import org.kuali.kfs.module.tem.businessobject.TemSourceAccountingLine;
 import org.kuali.kfs.module.tem.businessobject.TravelerDetail;
@@ -94,7 +94,7 @@ import org.kuali.kfs.module.tem.document.web.bean.TravelMvcWrapperBean;
 import org.kuali.kfs.module.tem.report.service.TravelReportService;
 import org.kuali.kfs.module.tem.service.AccountingDistributionService;
 import org.kuali.kfs.module.tem.service.PerDiemService;
-import org.kuali.kfs.module.tem.service.TmRoleService;
+import org.kuali.kfs.module.tem.service.TemRoleService;
 import org.kuali.kfs.module.tem.service.TemProfileService;
 import org.kuali.kfs.module.tem.service.TravelService;
 import org.kuali.kfs.module.tem.service.TravelerService;
@@ -161,8 +161,8 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
         return SpringContext.getBean(TravelEncumbranceService.class);
     }
 
-    protected TmRoleService getTemRoleService() {
-        return SpringContext.getBean(TmRoleService.class);
+    protected TemRoleService getTemRoleService() {
+        return SpringContext.getBean(TemRoleService.class);
     }
 
     public PersonService getPersonService() {
@@ -989,14 +989,14 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
     protected boolean setTravelArranger(TravelFormBase form) {
 
         TravelDocument travelDocument = form.getTravelDocument();
-        TmProfile profile = null;
+        TemProfile profile = null;
 
         //default to nulls
         String profileId=null;
         String homeDepartment = null;
 
         if (ObjectUtils.isNotNull(travelDocument.getTemProfileId())) {
-            profile = SpringContext.getBean(BusinessObjectService.class).findBySinglePrimaryKey(TmProfile.class, travelDocument.getTemProfileId());
+            profile = SpringContext.getBean(BusinessObjectService.class).findBySinglePrimaryKey(TemProfile.class, travelDocument.getTemProfileId());
             if (ObjectUtils.isNotNull(profile)) {
                 homeDepartment = profile.getHomeDepartment();
                 profileId = profile.getProfileId().toString();

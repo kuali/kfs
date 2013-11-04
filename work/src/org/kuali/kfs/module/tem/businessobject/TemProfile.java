@@ -45,14 +45,14 @@ import org.kuali.rice.krad.util.ObjectUtils;
 
 @Entity
 @Table(name = "TEM_PROFILE_T")
-public class TmProfile extends BaseTemProfile {
+public class TemProfile extends BaseTemProfile {
     private Integer profileId;
 
     private String updatedBy;
     private Date lastUpdate;
 
-    private List<TmProfileArranger> arrangers;
-    private List<TmProfileAccount> accounts;
+    private List<TemProfileArranger> arrangers;
+    private List<TemProfileAccount> accounts;
     private TemProfileAddress temProfileAddress;
 
     private String employeeId;
@@ -78,11 +78,11 @@ public class TmProfile extends BaseTemProfile {
     private List<TemProfileEmergencyContact> emergencyContacts;
     private List<Note> boNotes;
 
-    public TmProfile() {
+    public TemProfile() {
         super();
         emergencyContacts = new ArrayList<TemProfileEmergencyContact>();
-        arrangers = new ArrayList<TmProfileArranger>();
-        accounts = new ArrayList<TmProfileAccount>();
+        arrangers = new ArrayList<TemProfileArranger>();
+        accounts = new ArrayList<TemProfileAccount>();
         temProfileAddress = new TemProfileAddress();
     }
 
@@ -164,16 +164,16 @@ public class TmProfile extends BaseTemProfile {
 
     @OneToMany
     @JoinColumn(name = "arranger_id")
-    public List<TmProfileArranger> getArrangers() {
+    public List<TemProfileArranger> getArrangers() {
         return arrangers;
     }
 
 
-    public void setArrangers(List<TmProfileArranger> arrangers) {
+    public void setArrangers(List<TemProfileArranger> arrangers) {
         this.arrangers = arrangers;
     }
 
-    public List<TmProfileAccount> getAccounts() {
+    public List<TemProfileAccount> getAccounts() {
         return accounts;
     }
 
@@ -558,7 +558,7 @@ public class TmProfile extends BaseTemProfile {
 	 * Sets the accounts attribute value.
 	 * @param accounts The accounts to set.
 	 */
-	public void setAccounts(List<TmProfileAccount> accounts) {
+	public void setAccounts(List<TemProfileAccount> accounts) {
 		this.accounts = accounts;
 	}
 

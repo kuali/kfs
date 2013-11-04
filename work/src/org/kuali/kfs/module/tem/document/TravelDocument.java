@@ -28,8 +28,8 @@ import org.kuali.kfs.module.tem.businessobject.ImportedExpense;
 import org.kuali.kfs.module.tem.businessobject.PerDiemExpense;
 import org.kuali.kfs.module.tem.businessobject.PrimaryDestination;
 import org.kuali.kfs.module.tem.businessobject.SpecialCircumstances;
-import org.kuali.kfs.module.tem.businessobject.TmExpense;
-import org.kuali.kfs.module.tem.businessobject.TmProfile;
+import org.kuali.kfs.module.tem.businessobject.TemExpense;
+import org.kuali.kfs.module.tem.businessobject.TemProfile;
 import org.kuali.kfs.module.tem.businessobject.TransportationModeDetail;
 import org.kuali.kfs.module.tem.businessobject.TravelerDetail;
 import org.kuali.kfs.module.tem.businessobject.TripType;
@@ -272,13 +272,13 @@ public interface TravelDocument extends AccountingDocument, TravelEntertainmentM
 
     public void setTemProfileId(Integer temProfileId);
 
-    public TmProfile getTemProfile();
+    public TemProfile getTemProfile();
 
     /**
-     * Sets the tmProfile attribute value.
-     * @param tmProfile The tmProfile to set.
+     * Sets the temProfile attribute value.
+     * @param temProfile The temProfile to set.
      */
-    public void setTemProfile(TmProfile tmProfile);
+    public void setTemProfile(TemProfile temProfile);
     public List<TransportationModeDetail> getTransportationModes();
 
     public void setTransportationModes(List<TransportationModeDetail> transportationModes);
@@ -307,13 +307,13 @@ public interface TravelDocument extends AccountingDocument, TravelEntertainmentM
 
     public KualiDecimal getApprovedAmount();
 
-    public void addExpense(TmExpense line);
+    public void addExpense(TemExpense line);
 
-    public void addExpenseDetail(TmExpense line, Integer index);
+    public void addExpenseDetail(TemExpense line, Integer index);
 
-    void removeExpense(TmExpense line, Integer index);
+    void removeExpense(TemExpense line, Integer index);
 
-    void removeExpenseDetail(TmExpense line, Integer index);
+    void removeExpenseDetail(TemExpense line, Integer index);
 
     public KualiDecimal getCTSTotal();
 

@@ -20,7 +20,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.kuali.kfs.module.tem.businessobject.TmProfile;
+import org.kuali.kfs.module.tem.businessobject.TemProfile;
 import org.kuali.kfs.module.tem.service.TemProfileService;
 import org.kuali.kfs.sys.businessobject.inquiry.KfsInquirableImpl;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -35,16 +35,16 @@ import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 @SuppressWarnings({ "rawtypes", "deprecation" })
-public class TmProfileInquirableImpl extends KfsInquirableImpl {
+public class TemProfileInquirableImpl extends KfsInquirableImpl {
 
-    private static final Logger LOG = Logger.getLogger(TmProfileInquirableImpl.class);
+    private static final Logger LOG = Logger.getLogger(TemProfileInquirableImpl.class);
 
 	/**
 	 * @see org.kuali.rice.kns.inquiry.KualiInquirableImpl#getBusinessObject(java.util.Map)
 	 */
     @Override
     public BusinessObject getBusinessObject(Map fieldValues) {
-        TmProfile profile = (TmProfile)super.getBusinessObject(fieldValues);
+        TemProfile profile = (TemProfile)super.getBusinessObject(fieldValues);
         SpringContext.getBean(TemProfileService.class).updateACHAccountInfo(profile);
         return profile;
     }
@@ -62,7 +62,7 @@ public class TmProfileInquirableImpl extends KfsInquirableImpl {
         // This is to allow users to view their own profile. If the principalId from the profile
         // matches, the current user then fields are unmasked. Otherwise the other roles will handle the appropriate
         // masking/unmasking of fields (see TemProfileOrganizationHierarchyRoleTypeServiceImpl).
-        TmProfile profile = (TmProfile) bo;
+        TemProfile profile = (TemProfile) bo;
         String principalId = profile.getPrincipalId();
         FieldRestriction restriction;
 

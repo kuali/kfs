@@ -21,7 +21,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.businessobject.ActualExpense;
 import org.kuali.kfs.module.tem.businessobject.ExpenseTypeObjectCode;
-import org.kuali.kfs.module.tem.businessobject.TmExpense;
+import org.kuali.kfs.module.tem.businessobject.TemExpense;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
@@ -75,8 +75,8 @@ public class ActualExpenseNotesValidation extends GenericValidation {
      * @param expenseDetails the detail lines to check
      * @return true if all details have notes, false if any of them are blank
      */
-    protected boolean allDetailsHaveNotes(List<? extends TmExpense> expenseDetails) {
-        for (TmExpense expenseDetail : expenseDetails) {
+    protected boolean allDetailsHaveNotes(List<? extends TemExpense> expenseDetails) {
+        for (TemExpense expenseDetail : expenseDetails) {
             if (StringUtils.isBlank(expenseDetail.getDescription())) {
                 return false;
             }

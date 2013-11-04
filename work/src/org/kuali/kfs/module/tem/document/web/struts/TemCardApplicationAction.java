@@ -29,8 +29,8 @@ import org.apache.struts.action.ActionMessages;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.TemWorkflowConstants;
-import org.kuali.kfs.module.tem.businessobject.TmProfile;
-import org.kuali.kfs.module.tem.businessobject.TmProfileAccount;
+import org.kuali.kfs.module.tem.businessobject.TemProfile;
+import org.kuali.kfs.module.tem.businessobject.TemProfileAccount;
 import org.kuali.kfs.module.tem.document.CardApplicationDocument;
 import org.kuali.kfs.module.tem.document.TemCorporateCardApplicationDocument;
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
@@ -64,7 +64,7 @@ public class TemCardApplicationAction extends FinancialSystemTransactionalDocume
 
         String command = applicationForm.getCommand();
         if (StringUtils.equals(KewApiConstants.INITIATE_COMMAND,command)) {
-            final TmProfile profile = SpringContext.getBean(TemProfileService.class).findTemProfileByPrincipalId(currentUser.getPrincipalId());
+            final TemProfile profile = SpringContext.getBean(TemProfileService.class).findTemProfileByPrincipalId(currentUser.getPrincipalId());
             if (profile == null){
                 applicationForm.setEmptyProfile(true);
                 forward =  mapping.findForward(ERROR_FORWARD);
@@ -175,7 +175,7 @@ public class TemCardApplicationAction extends FinancialSystemTransactionalDocume
 
         TemCardApplicationForm applicationForm = (TemCardApplicationForm) kualiDocumentFormBase;
         final Person currentUser = GlobalVariables.getUserSession().getPerson();
-        TmProfile profile = SpringContext.getBean(TemProfileService.class).findTemProfileByPrincipalId(currentUser.getPrincipalId());
+        TemProfile profile = SpringContext.getBean(TemProfileService.class).findTemProfileByPrincipalId(currentUser.getPrincipalId());
 
         CardApplicationDocument document = (CardApplicationDocument)applicationForm.getDocument();
         document.getDocumentHeader().getWorkflowDocument().setApplicationDocumentStatus(TemWorkflowConstants.RouteNodeNames.APPLICATION);
@@ -190,7 +190,7 @@ public class TemCardApplicationAction extends FinancialSystemTransactionalDocume
 
         TemCardApplicationForm applicationForm = (TemCardApplicationForm) form;
         Person currentUser = GlobalVariables.getUserSession().getPerson();
-        TmProfile profile = SpringContext.getBean(TemProfileService.class).findTemProfileByPrincipalId(currentUser.getPrincipalId());
+        TemProfile profile = SpringContext.getBean(TemProfileService.class).findTemProfileByPrincipalId(currentUser.getPrincipalId());
 
         if (profile == null) {
             applicationForm.setEmptyProfile(true);
@@ -199,7 +199,7 @@ public class TemCardApplicationAction extends FinancialSystemTransactionalDocume
 
         if (profile.getAccounts() != null && profile.getAccounts().size() > 0){
             boolean hasCardType = false;
-            for (TmProfileAccount account : profile.getAccounts()){
+            for (TemProfileAccount account : profile.getAccounts()){
                 if (account.getCreditCardAgency().getTravelCardTypeCode().equals(TemConstants.TRAVEL_TYPE_CTS) && applicationForm.getDocTypeName().equals(TemConstants.TravelDocTypes.TRAVEL_CTS_CARD_DOCUMENT) ){
                     hasCardType = true;
                     break;

@@ -29,8 +29,8 @@ import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationParameters;
 import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants.TravelAuthorizationFields;
-import org.kuali.kfs.module.tem.businessobject.TmProfile;
-import org.kuali.kfs.module.tem.businessobject.TmProfileAccount;
+import org.kuali.kfs.module.tem.businessobject.TemProfile;
+import org.kuali.kfs.module.tem.businessobject.TemProfileAccount;
 import org.kuali.kfs.module.tem.businessobject.TravelAdvance;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
 import org.kuali.kfs.module.tem.service.TemProfileService;
@@ -127,13 +127,13 @@ public class TravelAuthTravelAdvanceValidation extends GenericValidation {
                 cardTypeMap.put(cardType.toUpperCase(), cardType.toUpperCase());
             }
 
-            TmProfile tmProfile = document.getTemProfile();
-            if (tmProfile == null && travelerID != null){
-                tmProfile = temProfileService.findTemProfileByPrincipalId(travelerID);
+            TemProfile temProfile = document.getTemProfile();
+            if (temProfile == null && travelerID != null){
+                temProfile = temProfileService.findTemProfileByPrincipalId(travelerID);
             }
 
-            if (tmProfile != null && tmProfile.getAccounts() != null && tmProfile.getAccounts().size() > 0){
-                for (TmProfileAccount account  : tmProfile.getAccounts()){
+            if (temProfile != null && temProfile.getAccounts() != null && temProfile.getAccounts().size() > 0){
+                for (TemProfileAccount account  : temProfile.getAccounts()){
                     if (cardTypeMap.containsKey(account.getName().toUpperCase())){
                         if (StringUtils.isBlank(advance.getAdditionalJustification())){
                             success = false;

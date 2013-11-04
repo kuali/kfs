@@ -26,7 +26,7 @@ import org.kuali.kfs.module.tem.TemParameterConstants;
 import org.kuali.kfs.module.tem.batch.TravelImportedExpenseNotificationStep;
 import org.kuali.kfs.module.tem.batch.service.TravelImportedExpenseNotificationService;
 import org.kuali.kfs.module.tem.businessobject.HistoricalTravelExpense;
-import org.kuali.kfs.module.tem.businessobject.TmProfile;
+import org.kuali.kfs.module.tem.businessobject.TemProfile;
 import org.kuali.kfs.module.tem.service.HistoricalTravelExpenseService;
 import org.kuali.kfs.module.tem.service.TemProfileService;
 import org.kuali.kfs.sys.KFSConstants;
@@ -101,7 +101,7 @@ public class TravelImportedExpenseNotificationServiceImpl implements TravelImpor
         String senderEmailAddress = this.getNotificationSender();
         mailMessage.setFromAddress(senderEmailAddress);
 
-        TmProfile travelerProfile = this.getTemProfileService().findTemProfileById(travelerProfileId);
+        TemProfile travelerProfile = this.getTemProfileService().findTemProfileById(travelerProfileId);
         String travelerEmailAddress = travelerProfile.getEmailAddress();
         mailMessage.addToAddress(travelerEmailAddress);
 
@@ -117,7 +117,7 @@ public class TravelImportedExpenseNotificationServiceImpl implements TravelImpor
     /**
      * collect all the information from the given customer invoice document and build the notification body
      */
-    protected String buildNotificationBody(TmProfile travelerProfile, List<HistoricalTravelExpense> expensesOfTraveler) {
+    protected String buildNotificationBody(TemProfile travelerProfile, List<HistoricalTravelExpense> expensesOfTraveler) {
         Map<String, Object> notificationInformationHolder = new HashMap<String, Object>();
 
         notificationInformationHolder.put(TemConstants.TRAVELER_PROFILE_KEY, travelerProfile);

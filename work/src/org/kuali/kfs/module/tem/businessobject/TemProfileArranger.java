@@ -32,13 +32,13 @@ import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 @Entity
 @Table(name = "TEM_PROFILE_ARRANGER_T")
-public class TmProfileArranger extends PersistableBusinessObjectBase {
+public class TemProfileArranger extends PersistableBusinessObjectBase {
 
     private Integer arrangerId;
     private String principalId;
     private String principalName;
     private Integer profileId;
-    private TmProfile profile;
+    private TemProfile profile;
     private Boolean taInd = Boolean.FALSE;
     private Boolean trInd = Boolean.FALSE;
     private Boolean active = Boolean.TRUE;
@@ -187,7 +187,7 @@ public class TmProfileArranger extends PersistableBusinessObjectBase {
      * @return Returns the profile.
      */
     @JoinColumn(name = "profile_id")
-    public TmProfile getProfile() {
+    public TemProfile getProfile() {
         return profile;
     }
 
@@ -196,7 +196,7 @@ public class TmProfileArranger extends PersistableBusinessObjectBase {
      * Sets the profile attribute value.
      * @param profile The profile to set.
      */
-    public void setProfile(TmProfile profile) {
+    public void setProfile(TemProfile profile) {
         this.profile = profile;
     }
 

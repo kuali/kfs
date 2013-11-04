@@ -4,7 +4,7 @@
 
 	<bean id="TEMProfileArranger" parent="TEMProfileArranger-parentBean" />
 	<bean id="TEMProfileArranger-parentBean" abstract="true" parent="BusinessObjectEntry" >
-		<property name="businessObjectClass" value="org.kuali.kfs.module.tem.businessobject.TmProfileArranger" />
+		<property name="businessObjectClass" value="org.kuali.kfs.module.tem.businessobject.TemProfileArranger" />
 		<property name="lookupDefinition" ref="TEMProfileArranger-lookupDefinition" />
 		<property name="inquiryDefinition" ref="TEMProfileArranger-inquiryDefinition" />
 		<property name="titleAttribute" value="arrangerId" />

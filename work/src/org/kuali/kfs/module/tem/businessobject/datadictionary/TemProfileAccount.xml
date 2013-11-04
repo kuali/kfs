@@ -4,7 +4,7 @@
 
 	<bean id="TEMProfileAccount" parent="TEMProfileAccount-parentBean" />
 	<bean id="TEMProfileAccount-parentBean" abstract="true" parent="BusinessObjectEntry" >
-		<property name="businessObjectClass" value="org.kuali.kfs.module.tem.businessobject.TmProfileAccount" />
+		<property name="businessObjectClass" value="org.kuali.kfs.module.tem.businessobject.TemProfileAccount" />
 		<property name="lookupDefinition" ref="TEMProfileAccount-lookupDefinition" />
 		<property name="inquiryDefinition" ref="TEMProfileAccount-inquiryDefinition" />
 		<property name="titleAttribute" value="accountId" />

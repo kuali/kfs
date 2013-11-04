@@ -4,8 +4,8 @@
 	<bean id="TEMProfileMaintenanceDocument" parent="TEMProfileMaintenanceDocument-parentBean" />
 
 	<bean id="TEMProfileMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-		<property name="businessObjectClass" value="org.kuali.kfs.module.tem.businessobject.TmProfile" />
-		<property name="maintainableClass" value="org.kuali.kfs.module.tem.document.maintenance.TmProfileMaintainable" />
+		<property name="businessObjectClass" value="org.kuali.kfs.module.tem.businessobject.TemProfile" />
+		<property name="maintainableClass" value="org.kuali.kfs.module.tem.document.maintenance.TemProfileMaintainable" />
 		<property name="maintainableSections">
 			<list>
 				<ref bean="TEMProfileOverview-Section" />
@@ -24,9 +24,9 @@
 		</property>
 		<property name="documentTypeName" value="TTP" />
         <property name="documentAuthorizerClass" value="org.kuali.kfs.module.tem.document.authorization.TemProfileAuthorizer"/>
-		<property name="businessRulesClass" value="org.kuali.kfs.module.tem.document.validation.impl.TmProfileValidation" />
-		<property name="documentPresentationControllerClass" value="org.kuali.kfs.module.tem.document.authorization.TmProfileDocumentPresentationController" />
-		<property name="attachmentTypesValuesFinderClass" value="org.kuali.kfs.module.tem.businessobject.options.TmProfileAttachmentTypeValuesFinder"/>
+		<property name="businessRulesClass" value="org.kuali.kfs.module.tem.document.validation.impl.TemProfileValidation" />
+		<property name="documentPresentationControllerClass" value="org.kuali.kfs.module.tem.document.authorization.TemProfileDocumentPresentationController" />
+		<property name="attachmentTypesValuesFinderClass" value="org.kuali.kfs.module.tem.businessobject.options.TemProfileAttachmentTypeValuesFinder"/>
 		<property name="workflowAttributes" ref="TEMProfileMaintenanceDocument-workflowAttributes"/>
 	</bean>
 
@@ -37,7 +37,7 @@
 		<property name="maintainableItems">
 			<list>
 			    <bean parent="MaintainableSubSectionHeaderDefinition" p:name="TEM Profile"/>
-				<bean parent="MaintainableFieldDefinition" p:name="profileId" p:required="true" p:unconditionallyReadOnly="true" p:defaultValueFinderClass="org.kuali.kfs.module.tem.businessobject.options.TmProfileIDFinder" />
+				<bean parent="MaintainableFieldDefinition" p:name="profileId" p:required="true" p:unconditionallyReadOnly="true" p:defaultValueFinderClass="org.kuali.kfs.module.tem.businessobject.options.TemProfileHIJAMESFinder" />
 				<bean parent="MaintainableFieldDefinition" p:name="travelerTypeCode" p:required="true" p:noLookup="true" />
 				<bean parent="MaintainableFieldDefinition" p:name="lastUpdate" p:required="false" p:unconditionallyReadOnly="true" />
 				<bean parent="MaintainableFieldDefinition" p:name="updatedBy" p:required="false" p:unconditionallyReadOnly="true" />
@@ -127,7 +127,7 @@
 			<list>
 				<bean parent="MaintainableCollectionDefinition">
 					<property name="name" value="arrangers" />
-					<property name="businessObjectClass" value="org.kuali.kfs.module.tem.businessobject.TmProfileArranger" />
+					<property name="businessObjectClass" value="org.kuali.kfs.module.tem.businessobject.TemProfileArranger" />
 					<property name="summaryTitle" value="Arranger Information" />
 					<property name="summaryFields">
 						<list>
@@ -170,7 +170,7 @@
 			<list>
 				<bean parent="MaintainableCollectionDefinition">
 					<property name="name" value="accounts" />
-					<property name="businessObjectClass" value="org.kuali.kfs.module.tem.businessobject.TmProfileAccount" />
+					<property name="businessObjectClass" value="org.kuali.kfs.module.tem.businessobject.TemProfileAccount" />
 					<property name="summaryTitle" value="Corporate Credit Card and External Agency Accounts" />
 					<property name="summaryFields">
 						<list>

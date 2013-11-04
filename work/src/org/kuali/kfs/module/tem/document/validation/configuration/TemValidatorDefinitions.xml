@@ -55,11 +55,11 @@
 	</bean>
 	
 	<bean id="TravelModule-accountingTotalsValidation"
-		class="org.kuali.kfs.module.tem.document.validation.impl.TmAccountingLineTotalsValidation">
+		class="org.kuali.kfs.module.tem.document.validation.impl.TemAccountingLineTotalsValidation">
 	</bean>
 		
 	<bean id="TravelModule-addAccountingLineAllowedObjCodeValidation"
-		class="org.kuali.kfs.module.tem.document.validation.impl.TmAccountingLineAllowedObjectCodeValidation" />		
+		class="org.kuali.kfs.module.tem.document.validation.impl.TemAccountingLineAllowedObjectCodeValidation" />		
 		
 	<!-- <bean id="TravelModule-accountingLineBlanketTripTypeValidation"
 		class="org.kuali.kfs.module.tem.document.validation.impl.TravelAuthAccountingLineBlanketTripTypeValidation" /> -->
@@ -188,7 +188,7 @@
     </bean>
 		
 	<bean id="TravelModule-expenseTotalsValidation"
-		class="org.kuali.kfs.module.tem.document.validation.impl.TmExpenseTotalsValidation"/>
+		class="org.kuali.kfs.module.tem.document.validation.impl.TemExpenseTotalsValidation"/>
 		
 	<bean id="TravelDocument-actualExpenseDatesValidation" parent="TravelDocument-actualExpenseDatesValidation-parentBean"/>
 	<bean id="TravelDocument-actualExpenseDatesValidation-parentBean" class="org.kuali.kfs.module.tem.document.validation.impl.ActualExpenseDatesValidation" abstract="true">

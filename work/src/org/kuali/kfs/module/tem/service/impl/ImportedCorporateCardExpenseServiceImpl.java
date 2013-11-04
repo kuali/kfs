@@ -35,14 +35,14 @@ import org.kuali.kfs.module.tem.businessobject.AccountingDocumentRelationship;
 import org.kuali.kfs.module.tem.businessobject.ExpenseTypeObjectCode;
 import org.kuali.kfs.module.tem.businessobject.HistoricalTravelExpense;
 import org.kuali.kfs.module.tem.businessobject.ImportedExpense;
-import org.kuali.kfs.module.tem.businessobject.TmExpense;
+import org.kuali.kfs.module.tem.businessobject.TemExpense;
 import org.kuali.kfs.module.tem.businessobject.TemSourceAccountingLine;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.TravelRelocationDocument;
 import org.kuali.kfs.module.tem.document.service.AccountingDocumentRelationshipService;
 import org.kuali.kfs.module.tem.document.service.TravelDisbursementService;
 import org.kuali.kfs.module.tem.service.CreditCardAgencyService;
-import org.kuali.kfs.module.tem.service.TmExpenseService;
+import org.kuali.kfs.module.tem.service.TemExpenseService;
 import org.kuali.kfs.module.tem.service.TravelExpenseService;
 import org.kuali.kfs.module.tem.util.ExpenseUtils;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
@@ -50,7 +50,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
 
-public class ImportedCorporateCardExpenseServiceImpl extends ExpenseServiceBase implements TmExpenseService {
+public class ImportedCorporateCardExpenseServiceImpl extends ExpenseServiceBase implements TemExpenseService {
 
     protected static Logger LOG = Logger.getLogger(ImportedCorporateCardExpenseServiceImpl.class);
 
@@ -59,10 +59,10 @@ public class ImportedCorporateCardExpenseServiceImpl extends ExpenseServiceBase 
     CreditCardAgencyService creditCardAgencyService;
 
     /**
-     * @see org.kuali.kfs.module.tem.service.TmExpenseService#calculateDistributionTotals(org.kuali.kfs.module.tem.document.TravelDocument, java.util.Map, java.util.List)
+     * @see org.kuali.kfs.module.tem.service.TemExpenseService#calculateDistributionTotals(org.kuali.kfs.module.tem.document.TravelDocument, java.util.Map, java.util.List)
      */
     @Override
-    public void calculateDistributionTotals(TravelDocument document, Map<String, AccountingDistribution> distributionMap, List<? extends TmExpense> expenses){
+    public void calculateDistributionTotals(TravelDocument document, Map<String, AccountingDistribution> distributionMap, List<? extends TemExpense> expenses){
         String defaultChartCode = ExpenseUtils.getDefaultChartCode(document);
         for (ImportedExpense expense : (List<ImportedExpense>) expenses) {
 
@@ -113,18 +113,18 @@ public class ImportedCorporateCardExpenseServiceImpl extends ExpenseServiceBase 
     }
 
     /**
-     * @see org.kuali.kfs.module.tem.service.TmExpenseService#getExpenseDetails(org.kuali.kfs.module.tem.document.TravelDocument)
+     * @see org.kuali.kfs.module.tem.service.TemExpenseService#getExpenseDetails(org.kuali.kfs.module.tem.document.TravelDocument)
      */
     @Override
-    public List<? extends TmExpense> getExpenseDetails(TravelDocument document) {
+    public List<? extends TemExpense> getExpenseDetails(TravelDocument document) {
         return document.getImportedExpenses();
     }
 
     /**
-     * @see org.kuali.kfs.module.tem.service.impl.ExpenseServiceBase#validateExpenseCalculation(org.kuali.kfs.module.tem.businessobject.TmExpense)
+     * @see org.kuali.kfs.module.tem.service.impl.ExpenseServiceBase#validateExpenseCalculation(org.kuali.kfs.module.tem.businessobject.TemExpense)
      */
     @Override
-    public boolean validateExpenseCalculation(TmExpense expense){
+    public boolean validateExpenseCalculation(TemExpense expense){
         return (expense instanceof ImportedExpense)
                 && ((ImportedExpense)expense).getCardType() != null
                 && !StringUtils.defaultString(((ImportedExpense)expense).getCardType()).equals(TemConstants.TRAVEL_TYPE_CTS);

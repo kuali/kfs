@@ -25,7 +25,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemConstants.TravelDocTypes;
 import org.kuali.kfs.module.tem.TemPropertyConstants.TEMProfileProperties;
-import org.kuali.kfs.module.tem.businessobject.TmProfileArranger;
+import org.kuali.kfs.module.tem.businessobject.TemProfileArranger;
 import org.kuali.kfs.module.tem.document.service.TravelArrangerDocumentService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.kim.api.KimConstants;
@@ -52,7 +52,7 @@ public class ArrangerDerivedRoleTypeServiceImpl extends DerivedRoleTypeServiceBa
             if(!StringUtils.isBlank(profileId)) {
 
                 final Integer profIdAsInt = new Integer(profileId);
-                final TmProfileArranger arranger = getArrangerDocumentService().findTemProfileArranger(principalId, profIdAsInt);
+                final TemProfileArranger arranger = getArrangerDocumentService().findTemProfileArranger(principalId, profIdAsInt);
                 if (arranger != null){
                     if (!StringUtils.isBlank(documentType)) {
                         if (TravelDocTypes.getAuthorizationDocTypes().contains(documentType)){
@@ -80,8 +80,8 @@ public class ArrangerDerivedRoleTypeServiceImpl extends DerivedRoleTypeServiceBa
             Map fieldValues = new HashMap();
             fieldValues.put(TEMProfileProperties.PRINCIPAL_ID, principalId);
             fieldValues.put(KFSPropertyConstants.ACTIVE, "Y");
-            Collection<TmProfileArranger> arrangers = getBusinessObjectService().findMatching(TmProfileArranger.class, fieldValues);
-            //List<TmProfileArranger> profileArrangers = new ArrayList<TmProfileArranger>( getBusinessObjectService().findMatching(TmProfileArranger.class, fieldValues));
+            Collection<TemProfileArranger> arrangers = getBusinessObjectService().findMatching(TemProfileArranger.class, fieldValues);
+            //List<TemProfileArranger> profileArrangers = new ArrayList<TemProfileArranger>( getBusinessObjectService().findMatching(TemProfileArranger.class, fieldValues));
             return ObjectUtils.isNotNull(arrangers) && !arrangers.isEmpty();
         }
         return false;

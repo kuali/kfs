@@ -47,7 +47,7 @@ public class AgencyStagingData extends PersistableBusinessObjectBase implements 
     private String errorCode;
     private Integer duplicateRecordId;
     private Integer temProfileId;
-    private TmProfile profile;
+    private TemProfile profile;
 
     private String importBy;
 
@@ -1537,7 +1537,7 @@ public class AgencyStagingData extends PersistableBusinessObjectBase implements 
      * Gets the profile attribute.
      * @return Returns the profile.
      */
-    public TmProfile getProfile() {
+    public TemProfile getProfile() {
         return profile;
     }
 
@@ -1545,7 +1545,7 @@ public class AgencyStagingData extends PersistableBusinessObjectBase implements 
      * Sets the profile attribute value.
      * @param profile The profile to set.
      */
-    public void setProfile(TmProfile profile) {
+    public void setProfile(TemProfile profile) {
         this.profile = profile;
     }
 

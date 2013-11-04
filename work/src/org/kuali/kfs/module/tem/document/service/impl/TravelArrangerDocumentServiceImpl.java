@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.module.tem.TemPropertyConstants.TEMProfileProperties;
-import org.kuali.kfs.module.tem.businessobject.TmProfileArranger;
+import org.kuali.kfs.module.tem.businessobject.TemProfileArranger;
 import org.kuali.kfs.module.tem.document.TravelArrangerDocument;
 import org.kuali.kfs.module.tem.document.service.TravelArrangerDocumentService;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -38,7 +38,7 @@ public class TravelArrangerDocumentServiceImpl implements TravelArrangerDocument
         Integer profileId = arrangerDoc.getProfileId();
         String arrangerId = arrangerDoc.getArrangerId();
 
-        TmProfileArranger profileArranger = findTemProfileArranger(arrangerId, profileId);
+        TemProfileArranger profileArranger = findTemProfileArranger(arrangerId, profileId);
         if(ObjectUtils.isNull(profileArranger)) {
            profileArranger = createNewTravelProfileArranger(arrangerDoc);
         } else {
@@ -57,7 +57,7 @@ public class TravelArrangerDocumentServiceImpl implements TravelArrangerDocument
     public void inactivateTravelProfileArranger(TravelArrangerDocument arrangerDoc) {
         Integer profileId = arrangerDoc.getProfileId();
         String arrangerId = arrangerDoc.getArrangerId();
-        TmProfileArranger profileArranger = findTemProfileArranger(arrangerId, profileId);
+        TemProfileArranger profileArranger = findTemProfileArranger(arrangerId, profileId);
         if(ObjectUtils.isNotNull(profileArranger)) {
             profileArranger.setActive(Boolean.FALSE);
             businessObjectService.save(profileArranger);
@@ -66,13 +66,13 @@ public class TravelArrangerDocumentServiceImpl implements TravelArrangerDocument
     }
 
     @Override
-    public TmProfileArranger findPrimaryTravelProfileArranger(String arrangerId, Integer profileId) {
+    public TemProfileArranger findPrimaryTravelProfileArranger(String arrangerId, Integer profileId) {
         Map fieldValues = new HashMap();
         fieldValues.put("profileId", profileId);
 
-        List<TmProfileArranger> profileArrangers = new ArrayList<TmProfileArranger>( businessObjectService.findMatching(TmProfileArranger.class, fieldValues));
+        List<TemProfileArranger> profileArrangers = new ArrayList<TemProfileArranger>( businessObjectService.findMatching(TemProfileArranger.class, fieldValues));
 
-        for(TmProfileArranger profileArranger: profileArrangers) {
+        for(TemProfileArranger profileArranger: profileArrangers) {
             if(profileArranger.getPrimary() && !profileArranger.getPrincipalId().equals(arrangerId)) {
                 return profileArranger;
             }
@@ -85,8 +85,8 @@ public class TravelArrangerDocumentServiceImpl implements TravelArrangerDocument
      * @param arrangerDoc
      * @return
      */
-    private TmProfileArranger createNewTravelProfileArranger(TravelArrangerDocument arrangerDoc) {
-        TmProfileArranger profileArranger = new TmProfileArranger();
+    private TemProfileArranger createNewTravelProfileArranger(TravelArrangerDocument arrangerDoc) {
+        TemProfileArranger profileArranger = new TemProfileArranger();
         profileArranger.setActive(true);
         profileArranger.setProfileId(arrangerDoc.getProfileId());
         profileArranger.setPrincipalId(arrangerDoc.getArrangerId());
@@ -101,14 +101,14 @@ public class TravelArrangerDocumentServiceImpl implements TravelArrangerDocument
      * @see org.kuali.kfs.module.tem.document.service.TravelArrangerDocumentService#findTemProfileArranger(java.lang.Integer, java.lang.String)
      */
     @Override
-    public TmProfileArranger findTemProfileArranger(String principalId, Integer profileId) {
+    public TemProfileArranger findTemProfileArranger(String principalId, Integer profileId) {
         Map fieldValues = new HashMap();
         fieldValues.put(TEMProfileProperties.PRINCIPAL_ID, principalId);
         fieldValues.put(TEMProfileProperties.PROFILE_ID, profileId);
         //find active profile arrangers only
         fieldValues.put(KRADPropertyConstants.ACTIVE, "Y");
 
-        List<TmProfileArranger> profileArrangers = new ArrayList<TmProfileArranger>( businessObjectService.findMatching(TmProfileArranger.class, fieldValues));
+        List<TemProfileArranger> profileArrangers = new ArrayList<TemProfileArranger>( businessObjectService.findMatching(TemProfileArranger.class, fieldValues));
         if(profileArrangers.size() == 1) {
             return profileArrangers.get(0);
         } else if (profileArrangers.size() == 0) {

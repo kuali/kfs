@@ -27,7 +27,7 @@ import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.businessobject.CreditCardAgency;
-import org.kuali.kfs.module.tem.businessobject.TmProfileAccount;
+import org.kuali.kfs.module.tem.businessobject.TemProfileAccount;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.web.format.DateFormatter;
@@ -70,7 +70,7 @@ public class TemCTSCardApplicationDocument extends CardApplicationDocumentBase i
         super.doRouteStatusChange(statusChangeEvent);
         DocumentStatus status = getDocumentHeader().getWorkflowDocument().getStatus();
         if (status.equals(DocumentStatus.FINAL) || status.equals(DocumentStatus.PROCESSED)){
-            TmProfileAccount profileAccount = new TmProfileAccount();
+            TemProfileAccount profileAccount = new TemProfileAccount();
             Calendar cal = Calendar.getInstance();
             profileAccount.setEffectiveDate(new java.sql.Date(cal.getTimeInMillis()));
             String code = getParameterService().getParameterValueAsString(TemCTSCardApplicationDocument.class, TemConstants.CENTRAL_TRAVEL_SYSTEM_CARD_CODE);
@@ -82,13 +82,13 @@ public class TemCTSCardApplicationDocument extends CardApplicationDocumentBase i
             profileAccount.setCreditCardAgencyId(creditCardAgency.getId());
             profileAccount.setName(creditCardAgency.getCreditCardOrAgencyName());
             profileAccount.setActive(true);
-            profileAccount.setAccountNumber(tmProfile.getEmployeeId());
+            profileAccount.setAccountNumber(temProfile.getEmployeeId());
             String text = getConfigurationService().getPropertyValueAsString(TemKeyConstants.CARD_NOTE_TEXT);
             DateFormatter formatter = new DateFormatter();
             String note = MessageFormat.format(text, formatter.format(new java.util.Date()), getDocumentHeader().getDocumentNumber());
             profileAccount.setNote(note);
             getTemProfile().getAccounts().add(profileAccount);
-            getBusinessObjectService().save(tmProfile);
+            getBusinessObjectService().save(temProfile);
         }
     }
     @Override

@@ -76,7 +76,7 @@ import org.kuali.kfs.module.tem.businessobject.PerDiemExpense;
 import org.kuali.kfs.module.tem.businessobject.PrimaryDestination;
 import org.kuali.kfs.module.tem.businessobject.SpecialCircumstances;
 import org.kuali.kfs.module.tem.businessobject.SpecialCircumstancesQuestion;
-import org.kuali.kfs.module.tem.businessobject.TmExpense;
+import org.kuali.kfs.module.tem.businessobject.TemExpense;
 import org.kuali.kfs.module.tem.businessobject.TemRegion;
 import org.kuali.kfs.module.tem.businessobject.TransportationModeDetail;
 import org.kuali.kfs.module.tem.businessobject.TravelAdvance;
@@ -95,7 +95,7 @@ import org.kuali.kfs.module.tem.document.web.struts.TravelFormBase;
 import org.kuali.kfs.module.tem.exception.UploadParserException;
 import org.kuali.kfs.module.tem.service.CsvRecordFactory;
 import org.kuali.kfs.module.tem.service.PerDiemService;
-import org.kuali.kfs.module.tem.service.TmRoleService;
+import org.kuali.kfs.module.tem.service.TemRoleService;
 import org.kuali.kfs.module.tem.service.TravelExpenseService;
 import org.kuali.kfs.module.tem.service.TravelerService;
 import org.kuali.kfs.module.tem.util.ExpenseUtils;
@@ -169,7 +169,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
     protected ParameterService parameterService;
     protected TravelerService travelerService;
     protected AccountingDocumentRelationshipService accountingDocumentRelationshipService;
-    protected TmRoleService temRoleService;
+    protected TemRoleService temRoleService;
     protected WorkflowDocumentService workflowDocumentService;
     protected KualiRuleService kualiRuleService;
     protected StateService stateService;
@@ -1100,11 +1100,11 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
         this.accountingDocumentRelationshipService = accountingDocumentRelationshipService;
     }
 
-    public TmRoleService getTemRoleService() {
+    public TemRoleService getTemRoleService() {
         return temRoleService;
     }
 
-    public void setTemRoleService(TmRoleService temRoleService) {
+    public void setTemRoleService(TemRoleService temRoleService) {
         this.temRoleService = temRoleService;
     }
 
@@ -1753,11 +1753,11 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
      * @see org.kuali.kfs.module.tem.document.service.TravelDocumentService#copyActualExpenses(java.util.List, java.lang.String)
      */
     @Override
-    public List<? extends TmExpense> copyActualExpenses(List<? extends TmExpense> actualExpenses, String documentNumber) {
+    public List<? extends TemExpense> copyActualExpenses(List<? extends TemExpense> actualExpenses, String documentNumber) {
         List<ActualExpense> newActualExpenses = new ArrayList<ActualExpense>();
 
         if (actualExpenses != null) {
-            for (TmExpense expense : actualExpenses) {
+            for (TemExpense expense : actualExpenses) {
                 ActualExpense actualExpense = (ActualExpense)expense;
                 ActualExpense newActualExpense = new ActualExpense();
                 boolean nullCheck = false;
@@ -1771,7 +1771,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
                     newActualExpense.setExpenseDate(null);
                 }
 
-                List<TmExpense> newDetails = (List<TmExpense>) this.copyActualExpenses(actualExpense.getExpenseDetails(), documentNumber);
+                List<TemExpense> newDetails = (List<TemExpense>) this.copyActualExpenses(actualExpense.getExpenseDetails(), documentNumber);
                 newActualExpense.setExpenseDetails(newDetails);
                 newActualExpense.setDocumentNumber(documentNumber);
                 newActualExpense.setVersionNumber(new Long(1));
@@ -2222,7 +2222,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
     public void disableDuplicateExpenses(TravelDocument trDocument, ActualExpense actualExpense) {
         if (trDocument.getPerDiemExpenses() != null && !trDocument.getPerDiemExpenses().isEmpty()) {  // no per diems? then let's not bother
             if (actualExpense.getExpenseDetails() != null && !actualExpense.getExpenseDetails().isEmpty()) {
-                for (TmExpense detail : actualExpense.getExpenseDetails()) {
+                for (TemExpense detail : actualExpense.getExpenseDetails()) {
                     checkActualExpenseAgainstPerDiems(trDocument, (ActualExpense)detail);
                 }
             } else {

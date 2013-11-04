@@ -46,8 +46,8 @@ import org.kuali.kfs.module.tem.TemWorkflowConstants;
 import org.kuali.kfs.module.tem.businessobject.ActualExpense;
 import org.kuali.kfs.module.tem.businessobject.ImportedExpense;
 import org.kuali.kfs.module.tem.businessobject.PerDiemExpense;
-import org.kuali.kfs.module.tem.businessobject.TmExpense;
-import org.kuali.kfs.module.tem.businessobject.TmProfile;
+import org.kuali.kfs.module.tem.businessobject.TemExpense;
+import org.kuali.kfs.module.tem.businessobject.TemProfile;
 import org.kuali.kfs.module.tem.businessobject.TemSourceAccountingLine;
 import org.kuali.kfs.module.tem.businessobject.TransportationModeDetail;
 import org.kuali.kfs.module.tem.businessobject.TravelAdvance;
@@ -55,7 +55,7 @@ import org.kuali.kfs.module.tem.businessobject.TravelPayment;
 import org.kuali.kfs.module.tem.businessobject.TravelerDetailEmergencyContact;
 import org.kuali.kfs.module.tem.document.service.TravelAuthorizationDocumentPaymentService;
 import org.kuali.kfs.module.tem.document.service.TravelAuthorizationService;
-import org.kuali.kfs.module.tem.service.TmExpenseService;
+import org.kuali.kfs.module.tem.service.TemExpenseService;
 import org.kuali.kfs.pdp.businessobject.PaymentGroup;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSParameterKeyConstants;
@@ -577,10 +577,10 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
     @Override
     @Transient
     public KualiDecimal getEncumbranceTotal() {
-        TmExpenseService service = (TmExpenseService) SpringContext.getBean(TmExpense.class,TemConstants.TEMExpenseTypes.PER_DIEM);
+        TemExpenseService service = (TemExpenseService) SpringContext.getBean(TemExpense.class,TemConstants.TEMExpenseTypes.PER_DIEM);
         KualiDecimal encTotal = service.getAllExpenseTotal(this, false);
 
-        service = (TmExpenseService) SpringContext.getBean(TmExpense.class,TemConstants.TEMExpenseTypes.ACTUAL);
+        service = (TemExpenseService) SpringContext.getBean(TemExpense.class,TemConstants.TEMExpenseTypes.ACTUAL);
         encTotal = service.getAllExpenseTotal(this, false).add(encTotal);
 
         if (ObjectUtils.isNotNull(this.perDiemAdjustment) && perDiemAdjustment.isPositive()) {
@@ -1056,11 +1056,11 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
     }
 
     /**
-     * @see org.kuali.kfs.module.tem.document.TravelDocumentBase#setTemProfile(org.kuali.kfs.module.tem.businessobject.TmProfile)
+     * @see org.kuali.kfs.module.tem.document.TravelDocumentBase#setTemProfile(org.kuali.kfs.module.tem.businessobject.TemProfile)
      */
     @Override
-    public void setTemProfile(TmProfile tmProfile) {
-        super.setTemProfile(tmProfile);
+    public void setTemProfile(TemProfile temProfile) {
+        super.setTemProfile(temProfile);
         if (!ObjectUtils.isNull(getTravelAdvance())) {
             getTravelAdvance().setTravelAdvancePolicy(false);
         }

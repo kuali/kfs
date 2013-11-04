@@ -42,7 +42,7 @@ import org.kuali.kfs.module.tem.businessobject.CreditCardStagingData;
 import org.kuali.kfs.module.tem.businessobject.ExpenseType;
 import org.kuali.kfs.module.tem.businessobject.ExpenseTypeObjectCode;
 import org.kuali.kfs.module.tem.businessobject.HistoricalTravelExpense;
-import org.kuali.kfs.module.tem.businessobject.TmProfile;
+import org.kuali.kfs.module.tem.businessobject.TemProfile;
 import org.kuali.kfs.module.tem.businessobject.TripAccountingInformation;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.service.TravelAuthorizationService;
@@ -209,7 +209,7 @@ public class ExpenseImportByTripServiceImpl extends ExpenseImportServiceBase imp
 
     /**
      *
-     * @see org.kuali.kfs.module.tem.batch.service.ExpenseImportByTripService#validateAccountingInfo(org.kuali.kfs.module.tem.businessobject.TmProfile, org.kuali.kfs.module.tem.businessobject.AgencyStagingData)
+     * @see org.kuali.kfs.module.tem.batch.service.ExpenseImportByTripService#validateAccountingInfo(org.kuali.kfs.module.tem.businessobject.TemProfile, org.kuali.kfs.module.tem.businessobject.AgencyStagingData)
      */
     @Override
     public List<ErrorMessage> validateAccountingInfo(AgencyStagingData agencyData) {
@@ -223,7 +223,7 @@ public class ExpenseImportByTripServiceImpl extends ExpenseImportServiceBase imp
             return errorMessages;
         }
 
-        TmProfile profile = travelDocument.getTemProfile();
+        TemProfile profile = travelDocument.getTemProfile();
         if (ObjectUtils.isNull(profile)) {
             LOG.error("Found null profile on TravelDocument: "+ travelDocument.getDocumentNumber());
             errorMessages.add(new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_DATA_INVALID_TEM_PROFILE,travelDocument.getDocumentNumber()));

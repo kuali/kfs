@@ -52,7 +52,7 @@
 		<property name="accountingLineView" ref="TravelDocument-accountingLineView" />
 		<property name="accountingLineClass" value="org.kuali.kfs.module.tem.businessobject.TemSourceAccountingLine" />
 		<property name="groupLabel" value="Source" />
-		<property name="accountingLineAuthorizerClass" value="org.kuali.kfs.module.tem.document.authorization.TmAccountingLineAuthorizer" />
+		<property name="accountingLineAuthorizerClass" value="org.kuali.kfs.module.tem.document.authorization.TemAccountingLineAuthorizer" />
 		<property name="importedLinePropertyPrefix" value="source" />
 		<property name="totals" ref="AccountingDocument-sourceGroupTotals" />
 		<property name="errorKey" value="document.sourceAccounting*,sourceAccountingLines,newSourceLine*" />
@@ -63,7 +63,7 @@
 	    <property name="accountingLineView" ref="TravelDocument-accountDistributionAccountingLineView"/>
 	    <property name="accountingLineClass" value="org.kuali.kfs.module.tem.businessobject.TemDistributionAccountingLine"/>
     	<property name="groupLabel" value="Assign Accounts"/>
-        <property name="accountingLineAuthorizerClass" value="org.kuali.kfs.module.tem.document.authorization.TmAccountingLineAuthorizer"/>
+        <property name="accountingLineAuthorizerClass" value="org.kuali.kfs.module.tem.document.authorization.TemAccountingLineAuthorizer"/>
 	    <property name="importedLinePropertyPrefix" value="accountDistribution"/>	  
 	    <property name="errorKey" value="accountDistributionsourceAccountingLines*,accountDistributionnewSourceLine,accountDistribution*"/> 
 	    <property name="importingAllowed" value="true"/> 

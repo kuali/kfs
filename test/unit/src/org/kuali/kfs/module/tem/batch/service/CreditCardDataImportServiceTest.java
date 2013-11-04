@@ -16,7 +16,7 @@
 package org.kuali.kfs.module.tem.batch.service;
 
 import org.junit.Test;
-import org.kuali.kfs.module.tem.businessobject.TmProfile;
+import org.kuali.kfs.module.tem.businessobject.TemProfile;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -49,7 +49,7 @@ public class CreditCardDataImportServiceTest extends KualiTestBase{
     @Test
     @ConfigureContext(shouldCommitTransactions = false)
     public void validateCreditCardData() {
-        /*TmProfile profile = createTemProfile();
+        /*TemProfile profile = createTemProfile();
         businessObjectService.save(profile);
 
         CreditCardStagingData creditCardData = new CreditCardStagingData();
@@ -59,10 +59,10 @@ public class CreditCardDataImportServiceTest extends KualiTestBase{
         assertEquals(VISA_CREDIT_CARD_NUMBER, creditCardData.getCreditCardNumber());*/
     }
 
-    protected TmProfile createTemProfile() {
-        TmProfile profile = new TmProfile();
-        /*TmProfileAccount temAccount = new TmProfileAccount();
-        List<TmProfileAccount> accounts = new ArrayList<TmProfileAccount>();
+    protected TemProfile createTemProfile() {
+        TemProfile profile = new TemProfile();
+        /*TemProfileAccount temAccount = new TemProfileAccount();
+        List<TemProfileAccount> accounts = new ArrayList<TemProfileAccount>();
 
         CreditCardAgency ccAgency = new CreditCardAgency();
         ccAgency.setCreditCardOrAgencyCode(sas.getNextAvailableSequenceNumber(TemConstants.TEM_CREDIT_CARD_AGENCY_SEQ_NAME).intValue());

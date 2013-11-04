@@ -29,7 +29,7 @@ import org.kuali.kfs.module.tem.businessobject.MileageRate;
 import org.kuali.kfs.module.tem.businessobject.PerDiem;
 import org.kuali.kfs.module.tem.businessobject.PerDiemExpense;
 import org.kuali.kfs.module.tem.businessobject.SpecialCircumstances;
-import org.kuali.kfs.module.tem.businessobject.TmExpense;
+import org.kuali.kfs.module.tem.businessobject.TemExpense;
 import org.kuali.kfs.module.tem.businessobject.TransportationModeDetail;
 import org.kuali.kfs.module.tem.businessobject.TravelAdvance;
 import org.kuali.kfs.module.tem.businessobject.TripType;
@@ -258,7 +258,7 @@ public interface TravelDocumentService {
     /**
      * Copies other travel expenses and sets new document number
      */
-    public List<? extends TmExpense> copyActualExpenses(List<? extends TmExpense> actualExpenses, String documentNumber);
+    public List<? extends TemExpense> copyActualExpenses(List<? extends TemExpense> actualExpenses, String documentNumber);
 
     /**
      * Copies per diem expenses and sets new document number

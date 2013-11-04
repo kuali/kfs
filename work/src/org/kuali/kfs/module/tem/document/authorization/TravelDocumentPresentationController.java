@@ -22,7 +22,7 @@ import org.kuali.kfs.module.tem.TemWorkflowConstants;
 import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationParameters;
 import org.kuali.kfs.module.tem.TemConstants.TravelEditMode;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
-import org.kuali.kfs.module.tem.service.TmRoleService;
+import org.kuali.kfs.module.tem.service.TemRoleService;
 import org.kuali.kfs.module.tem.service.TemProfileService;
 import org.kuali.kfs.sys.KfsAuthorizationConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -132,8 +132,8 @@ public class TravelDocumentPresentationController extends FinancialSystemTransac
         return SpringContext.getBean(ParameterService.class);
     }
 
-    protected TmRoleService getTemRoleService() {
-        return SpringContext.getBean(TmRoleService.class);
+    protected TemRoleService getTemRoleService() {
+        return SpringContext.getBean(TemRoleService.class);
     }
 
     protected TemProfileService getTemProfileService() {

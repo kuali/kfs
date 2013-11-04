@@ -31,7 +31,7 @@ import org.apache.log4j.Logger;
 import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.businessobject.ActualExpense;
-import org.kuali.kfs.module.tem.businessobject.TmProfile;
+import org.kuali.kfs.module.tem.businessobject.TemProfile;
 import org.kuali.kfs.module.tem.businessobject.TravelerDetail;
 import org.kuali.kfs.module.tem.document.TravelEntertainmentDocument;
 import org.kuali.kfs.module.tem.document.TravelReimbursementDocument;
@@ -128,7 +128,7 @@ public class TravelEntertainmentHostCertificationServiceImpl implements TravelEn
     public String getApprovingDepartment(final TravelerDetail traveler) {
         String approvingDepartment=KFSConstants.EMPTY_STRING;
         if(ObjectUtils.isNotNull(traveler)&&ObjectUtils.isNotNull(traveler.getPrincipalId())){
-            TmProfile profile=getTemProfileService().findTemProfileByPrincipalId(traveler.getPrincipalId());
+            TemProfile profile=getTemProfileService().findTemProfileByPrincipalId(traveler.getPrincipalId());
             if(ObjectUtils.isNotNull(profile)&&ObjectUtils.isNotNull(profile.getHomeDepartment())) {
                 approvingDepartment=profile.getHomeDepartment();
             }
@@ -136,7 +136,7 @@ public class TravelEntertainmentHostCertificationServiceImpl implements TravelEn
             Map<String,String> criteria=new HashMap<String, String>();
             criteria.put("firstName", traveler.getFirstName());
             criteria.put("lastName", traveler.getLastName());
-            TmProfile profile=getTemProfileService().findTemProfile(criteria);
+            TemProfile profile=getTemProfileService().findTemProfile(criteria);
             if(ObjectUtils.isNotNull(profile)&&ObjectUtils.isNotNull(profile.getHomeDepartment())) {
                 approvingDepartment=profile.getHomeDepartment();
             }

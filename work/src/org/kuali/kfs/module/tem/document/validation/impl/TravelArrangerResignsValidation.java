@@ -18,8 +18,8 @@ package org.kuali.kfs.module.tem.document.validation.impl;
 import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants.ArrangerFields;
-import org.kuali.kfs.module.tem.businessobject.TmProfile;
-import org.kuali.kfs.module.tem.businessobject.TmProfileArranger;
+import org.kuali.kfs.module.tem.businessobject.TemProfile;
+import org.kuali.kfs.module.tem.businessobject.TemProfileArranger;
 import org.kuali.kfs.module.tem.document.TravelArrangerDocument;
 import org.kuali.kfs.module.tem.service.TemProfileService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -58,8 +58,8 @@ public class TravelArrangerResignsValidation extends GenericValidation {
      * @param arrangerId the arranger to ignore
      * @return true if there are active arrangers besides the resigner; false otherwise
      */
-    protected boolean isAnyActiveArrangersBesidesResigner(TmProfile profile, String arrangerId) {
-        for (TmProfileArranger arranger : profile.getArrangers()) {
+    protected boolean isAnyActiveArrangersBesidesResigner(TemProfile profile, String arrangerId) {
+        for (TemProfileArranger arranger : profile.getArrangers()) {
             if (arranger.isActive() && !arranger.getPrincipalId().equals(arrangerId)) {
                 return true;
             }

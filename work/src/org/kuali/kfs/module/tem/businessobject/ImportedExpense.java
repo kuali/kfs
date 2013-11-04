@@ -27,7 +27,7 @@ import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
 @Entity
 @Table(name="TEM_TRVL_EXP_T")
-public class ImportedExpense extends AbstractExpense implements TmExpense, ExpenseTypeAware {
+public class ImportedExpense extends AbstractExpense implements TemExpense, ExpenseTypeAware {
 
     private String cardType = "";
     private Boolean receiptRequired = Boolean.FALSE;

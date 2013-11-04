@@ -24,9 +24,9 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.apache.log4j.Logger;
-import org.kuali.kfs.module.tem.businessobject.TmProfile;
+import org.kuali.kfs.module.tem.businessobject.TemProfile;
 import org.kuali.kfs.module.tem.businessobject.TemProfileFromKimPerson;
-import org.kuali.kfs.module.tem.service.TmRoleService;
+import org.kuali.kfs.module.tem.service.TemRoleService;
 import org.kuali.kfs.module.tem.service.TemProfileService;
 import org.kuali.kfs.module.tem.service.TravelerService;
 import org.kuali.kfs.sys.KFSConstants;
@@ -148,7 +148,7 @@ public class TemProfileFromKimLookupableHelperServiceImpl extends KualiLookupabl
         List<HtmlData> htmlDataList = super.getCustomActionUrls(businessObject, pkNames);
 
 
-        TmRoleService temRoleService = SpringContext.getBean(TmRoleService.class);
+        TemRoleService temRoleService = SpringContext.getBean(TemRoleService.class);
         boolean profileAdmin = temRoleService.isProfileAdmin(GlobalVariables.getUserSession().getPerson(), ((TemProfileFromKimPerson)businessObject).getPrimaryDepartmentCode());
 
         if (!profileAdmin) {
@@ -158,7 +158,7 @@ public class TemProfileFromKimLookupableHelperServiceImpl extends KualiLookupabl
         String principalId = ((TemProfileFromKimPerson) businessObject).getPrincipalId();
 
         Properties parameters = new Properties();
-        parameters.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, TmProfile.class.getName());
+        parameters.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, TemProfile.class.getName());
         parameters.put(KFSConstants.OVERRIDE_KEYS, "principalId");
         parameters.put(KFSConstants.REFRESH_CALLER, "principalId" + "::" + principalId);
         parameters.put("principalId", principalId);

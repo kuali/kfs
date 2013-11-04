@@ -24,7 +24,7 @@ import org.kuali.kfs.module.tem.TemConstants.TravelDocTypes;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
-import org.kuali.kfs.module.tem.service.TmRoleService;
+import org.kuali.kfs.module.tem.service.TemRoleService;
 import org.kuali.kfs.module.tem.service.TemProfileService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.workflow.KFSDocumentSearchCustomizer;
@@ -151,8 +151,8 @@ public class TravelDocumentSearchCustomizer extends KFSDocumentSearchCustomizer 
         return SpringContext.getBean(TravelDocumentService.class);
     }
 
-    protected TmRoleService getTemRoleService() {
-        return SpringContext.getBean(TmRoleService.class);
+    protected TemRoleService getTemRoleService() {
+        return SpringContext.getBean(TemRoleService.class);
     }
 
     protected TemProfileService getTemProfileService() {

@@ -31,7 +31,7 @@ public class TemWorkflowConstants {
     public static final String REQUIRES_AP_TRAVEL = "RequiresTravel";
     public static final String REQUIRES_TRAVELER_REVIEW = "TravelRequiresTravelerApproval";
     public static final String REQUIRES_PROFILE_REVIEW = "ProfileReviewRequired";
-    // TmProfile constants
+    // TemProfile constants
     public static final String TAX_MANAGER_REQUIRED = "ProfileIsTaxManagerRequired";
     //RELO/TR tax manager
     public static final String TAX_MANAGER_APPROVAL_REQUIRED = "TaxManagerApproval";

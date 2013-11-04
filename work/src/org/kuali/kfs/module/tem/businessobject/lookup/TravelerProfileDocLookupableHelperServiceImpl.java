@@ -22,7 +22,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.tem.TemConstants;
-import org.kuali.kfs.module.tem.businessobject.TmProfile;
+import org.kuali.kfs.module.tem.businessobject.TemProfile;
 import org.kuali.kfs.module.tem.businessobject.TravelerProfileForLookup;
 import org.kuali.kfs.module.tem.identity.TemKimAttributes;
 import org.kuali.kfs.sys.KFSConstants;
@@ -41,14 +41,14 @@ import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * Overridden to filter results to only those available to the currently logged in user to use.  This will be used within TA, TR, ENT, and RELO
- * document traveler lookups - NOT the non-document TmProfile lookup
+ * document traveler lookups - NOT the non-document TemProfile lookup
  */
-public class TravelerProfileDocLookupableHelperServiceImpl extends TmProfileLookupableHelperServiceImpl {
+public class TravelerProfileDocLookupableHelperServiceImpl extends TemProfileLookupableHelperServiceImpl {
     protected PermissionService permissionService;
 
     /**
      * Filters searched for profiles so they include only those the user should be able to access to use as a traveler on a travel, relocation, or entertainment document
-     * @see org.kuali.kfs.module.tem.businessobject.lookup.TmProfileLookupableHelperServiceImpl#getSearchResults(java.util.Map)
+     * @see org.kuali.kfs.module.tem.businessobject.lookup.TemProfileLookupableHelperServiceImpl#getSearchResults(java.util.Map)
      */
     @Override
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
@@ -56,9 +56,9 @@ public class TravelerProfileDocLookupableHelperServiceImpl extends TmProfileLook
         final String currentUserPrincipalId = GlobalVariables.getUserSession().getPrincipalId();
         final String documentTypeName = updateAuthorizationDocumentType(getCurrentDocumentTypeName());
 
-        final List<TmProfile> allProfiles = (List<TmProfile>)super.getSearchResults(fieldValues);
-        List<TmProfile> qualifyingProfiles = new ArrayList<TmProfile>();
-        for (TmProfile profile : allProfiles) {
+        final List<TemProfile> allProfiles = (List<TemProfile>)super.getSearchResults(fieldValues);
+        List<TemProfile> qualifyingProfiles = new ArrayList<TemProfile>();
+        for (TemProfile profile : allProfiles) {
             final Map<String, String> roleQualifier = getRoleQualifierForViewRecordsCheck(profile, documentTypeName);
             if (getPermissionService().isAuthorizedByTemplate(currentUserPrincipalId, KFSConstants.PermissionTemplate.VIEW_RECORD.namespace, KFSConstants.PermissionTemplate.VIEW_RECORD.name, viewRecordPermissionDetails, roleQualifier)) {
                 qualifyingProfiles.add(profile);
@@ -81,7 +81,7 @@ public class TravelerProfileDocLookupableHelperServiceImpl extends TmProfileLook
      * @param profile the profile to pull qualifications from
      * @return a role qualifier with attribute values from the profile
      */
-    protected Map<String, String> getRoleQualifierForViewRecordsCheck(TmProfile profile, String documentTypeName) {
+    protected Map<String, String> getRoleQualifierForViewRecordsCheck(TemProfile profile, String documentTypeName) {
         Map<String, String> roleQualifier = new HashMap<String, String>();
         roleQualifier.put(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE, profile.getHomeDeptChartOfAccountsCode());
         roleQualifier.put(KfsKimAttributes.ORGANIZATION_CODE, profile.getHomeDeptOrgCode());
@@ -129,17 +129,17 @@ public class TravelerProfileDocLookupableHelperServiceImpl extends TmProfileLook
     }
 
     /**
-     * Overridden to always return TmProfile
+     * Overridden to always return TemProfile
      * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getBusinessObjectClass()
      */
     @Override
     public Class getBusinessObjectClass() {
-        return TmProfile.class;
+        return TemProfile.class;
     }
 
     /**
      * This lookup only occurs within documents; it should never have a supplemental menu bar
-     * @see org.kuali.kfs.module.tem.businessobject.lookup.TmProfileLookupableHelperServiceImpl#getSupplementalMenuBar()
+     * @see org.kuali.kfs.module.tem.businessobject.lookup.TemProfileLookupableHelperServiceImpl#getSupplementalMenuBar()
      */
     @Override
     public String getSupplementalMenuBar() {

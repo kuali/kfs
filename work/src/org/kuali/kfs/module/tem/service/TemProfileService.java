@@ -18,7 +18,7 @@ package org.kuali.kfs.module.tem.service;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.kfs.module.tem.businessobject.TmProfile;
+import org.kuali.kfs.module.tem.businessobject.TemProfile;
 import org.kuali.kfs.module.tem.businessobject.TemProfileAddress;
 import org.kuali.rice.kim.api.identity.Person;
 
@@ -26,11 +26,11 @@ public interface TemProfileService {
 
     /**
      *
-     * This method returns a TmProfile associated with the principalId.
+     * This method returns a TemProfile associated with the principalId.
      * @param principalId
      * @return
      */
-    public TmProfile findTemProfileByPrincipalId(String principalId);
+    public TemProfile findTemProfileByPrincipalId(String principalId);
 
     /**
      *
@@ -39,7 +39,7 @@ public interface TemProfileService {
      * @param defaultAddress
      * @return
      */
-    public TemProfileAddress getAddressFromProfile(TmProfile profile, TemProfileAddress defaultAddress);
+    public TemProfileAddress getAddressFromProfile(TemProfile profile, TemProfileAddress defaultAddress);
 
     /**
      *
@@ -53,26 +53,26 @@ public interface TemProfileService {
 
     /**
      *
-     * This method returns a TmProfile matching the criteria passed in.
+     * This method returns a TemProfile matching the criteria passed in.
      * @param criteria
      * @return
      */
-    public TmProfile findTemProfile(Map<String,String> criteria);
+    public TemProfile findTemProfile(Map<String,String> criteria);
 
     /**
      *
-     * This method returns a TmProfile from the profileId
+     * This method returns a TemProfile from the profileId
      * @param profileId
      * @return
      */
-    public TmProfile findTemProfileById(Integer profileId);
+    public TemProfile findTemProfileById(Integer profileId);
 
     /**
      *
      * This method returns all active TEMProfiles
      * @return
      */
-    public List<TmProfile> getAllActiveTemProfile();
+    public List<TemProfile> getAllActiveTemProfile();
 
     /**
      * Lookup PayeeACHAccount with matching employee number in the payee Id field.
@@ -80,35 +80,35 @@ public interface TemProfileService {
      *
      * @param profile
      */
-    public void updateACHAccountInfo(TmProfile profile);
+    public void updateACHAccountInfo(TemProfile profile);
 
     /**
      * Determines if the given profile is a record for a non-employee
      * @param profile the profile to check
      * @return true if profile is a non-employee, false if the profile is an employee or if it could not be determined
      */
-    public boolean isProfileNonEmploye(TmProfile profile);
+    public boolean isProfileNonEmploye(TemProfile profile);
 
     /**
      * Determines if the given profile has any active arrangers
      * @param profile the profile to check
      * @return true if there are active arrangers associated with the profile, false otherwise
      */
-    public boolean hasActiveArrangers(TmProfile profile);
+    public boolean hasActiveArrangers(TemProfile profile);
 
     /**
-     * This method returns a TmProfile for the given employeeId
+     * This method returns a TemProfile for the given employeeId
      *
      * @param employeeId
      * @return
      */
-    public TmProfile findTemProfileByEmployeeId(String employeeId);
+    public TemProfile findTemProfileByEmployeeId(String employeeId);
 
     /**
-     * This method returns a TmProfile for the given customer number
+     * This method returns a TemProfile for the given customer number
      *
      * @param customerNumber
      * @return
      */
-    public TmProfile findTemProfileByCustomerNumber(String customerNumber);
+    public TemProfile findTemProfileByCustomerNumber(String customerNumber);
 }

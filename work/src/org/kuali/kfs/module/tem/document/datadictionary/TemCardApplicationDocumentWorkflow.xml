@@ -31,7 +31,7 @@
     <bean id="TemCardApplicationDocument-SearchingTypeDefinition-temProfile.firstName" class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
         <property name="searchingAttribute">
             <bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
-                <property name="businessObjectClassName" value="org.kuali.kfs.module.tem.businessobject.TmProfile" />
+                <property name="businessObjectClassName" value="org.kuali.kfs.module.tem.businessobject.TemProfile" />
                 <property name="attributeName" value="firstName" />
                 <property name="showAttributeInResultSet" value="true" />
                 <property name="showAttributeInSearchCriteria" value="true" />
@@ -47,7 +47,7 @@
     <bean id="TemCardApplicationDocument-SearchingTypeDefinition-temProfile.lastName" class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
         <property name="searchingAttribute">
             <bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
-                <property name="businessObjectClassName" value="org.kuali.kfs.module.tem.businessobject.TmProfile" />
+                <property name="businessObjectClassName" value="org.kuali.kfs.module.tem.businessobject.TemProfile" />
                 <property name="attributeName" value="lastName" />
                 <property name="showAttributeInResultSet" value="true" />
                 <property name="showAttributeInSearchCriteria" value="true" />
@@ -63,7 +63,7 @@
     <bean id="TemCardApplicationDocument-SearchingTypeDefinition-temProfile.homeDepartment" class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
         <property name="searchingAttribute">
             <bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
-                <property name="businessObjectClassName" value="org.kuali.kfs.module.tem.businessobject.TmProfile" />
+                <property name="businessObjectClassName" value="org.kuali.kfs.module.tem.businessobject.TemProfile" />
                 <property name="attributeName" value="homeDepartment" />
                 <property name="showAttributeInResultSet" value="true" />
                 <property name="showAttributeInSearchCriteria" value="true" />
@@ -79,7 +79,7 @@
     <bean id="TemCardApplicationDocument-SearchingTypeDefinition-temProfile.defaultChartCode" class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
         <property name="searchingAttribute">
             <bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
-                <property name="businessObjectClassName" value="org.kuali.kfs.module.tem.businessobject.TmProfile" />
+                <property name="businessObjectClassName" value="org.kuali.kfs.module.tem.businessobject.TemProfile" />
                 <property name="attributeName" value="defaultChartCode" />
                 <property name="showAttributeInResultSet" value="true" />
                 <property name="showAttributeInSearchCriteria" value="true" />
@@ -95,7 +95,7 @@
     <bean id="TemCardApplicationDocument-SearchingTypeDefinition-temProfile.defaultAccount" class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
         <property name="searchingAttribute">
             <bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
-                <property name="businessObjectClassName" value="org.kuali.kfs.module.tem.businessobject.TmProfile" />
+                <property name="businessObjectClassName" value="org.kuali.kfs.module.tem.businessobject.TemProfile" />
                 <property name="attributeName" value="defaultAccount" />
                 <property name="showAttributeInResultSet" value="true" />
                 <property name="showAttributeInSearchCriteria" value="true" />

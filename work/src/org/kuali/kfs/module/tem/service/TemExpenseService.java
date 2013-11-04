@@ -19,11 +19,11 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.module.tem.businessobject.AccountingDistribution;
-import org.kuali.kfs.module.tem.businessobject.TmExpense;
+import org.kuali.kfs.module.tem.businessobject.TemExpense;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 
-public interface TmExpenseService {
+public interface TemExpenseService {
 
     public Map<String, AccountingDistribution> getAccountingDistribution(TravelDocument document);
     
@@ -34,7 +34,7 @@ public interface TmExpenseService {
      * @param distributionMap
      * @param expenses
      */
-    public void calculateDistributionTotals(TravelDocument document, Map<String, AccountingDistribution> distributionMap, List<? extends TmExpense> expenses);
+    public void calculateDistributionTotals(TravelDocument document, Map<String, AccountingDistribution> distributionMap, List<? extends TemExpense> expenses);
     
     /**
      * Get the appropriate expense detail from the document
@@ -42,14 +42,14 @@ public interface TmExpenseService {
      * @param document
      * @return
      */
-    public List<? extends TmExpense> getExpenseDetails(TravelDocument document);
+    public List<? extends TemExpense> getExpenseDetails(TravelDocument document);
     
     /**
      * Validation for expense calculation
      * 
      * @param expenses
      */
-    public boolean validateExpenseCalculation(TmExpense expense);
+    public boolean validateExpenseCalculation(TemExpense expense);
     
     /**
      * 

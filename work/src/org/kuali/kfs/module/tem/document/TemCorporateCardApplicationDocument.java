@@ -28,7 +28,7 @@ import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.businessobject.CorporateCardPseudoNumber;
 import org.kuali.kfs.module.tem.businessobject.CreditCardAgency;
-import org.kuali.kfs.module.tem.businessobject.TmProfileAccount;
+import org.kuali.kfs.module.tem.businessobject.TemProfileAccount;
 import org.kuali.rice.core.web.format.DateFormatter;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
@@ -84,7 +84,7 @@ public class TemCorporateCardApplicationDocument extends CardApplicationDocument
         super.doRouteStatusChange(statusChangeEvent);
         DocumentStatus status = getDocumentHeader().getWorkflowDocument().getStatus();
         if (status.equals(DocumentStatus.FINAL) || status.equals(DocumentStatus.PROCESSED)){
-            TmProfileAccount profileAccount = new TmProfileAccount();
+            TemProfileAccount profileAccount = new TemProfileAccount();
             profileAccount.setAccountNumber(this.getPseudoNumber());
             Date now = new Date();
             profileAccount.setEffectiveDate(new java.sql.Date(now.getTime()));
@@ -103,7 +103,7 @@ public class TemCorporateCardApplicationDocument extends CardApplicationDocument
             String note = MessageFormat.format(text, formatter.format(now), getDocumentHeader().getDocumentNumber());
             profileAccount.setNote(note);
             getTemProfile().getAccounts().add(profileAccount);
-            getBusinessObjectService().save(tmProfile);
+            getBusinessObjectService().save(temProfile);
 
         }
     }

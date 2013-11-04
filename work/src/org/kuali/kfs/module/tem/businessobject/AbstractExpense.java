@@ -42,7 +42,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
 
 @Entity
 @Table(name="tem_trvl_exp_t")
-public abstract class AbstractExpense extends PersistableBusinessObjectBase implements TmExpense {
+public abstract class AbstractExpense extends PersistableBusinessObjectBase implements TemExpense {
 
     public static Logger LOG = Logger.getLogger(AbstractExpense.class);
 
@@ -66,7 +66,7 @@ public abstract class AbstractExpense extends PersistableBusinessObjectBase impl
     private Boolean taxable = Boolean.FALSE;
     private Boolean missingReceipt = Boolean.FALSE;
     private KualiDecimal convertedAmount;
-    private List<TmExpense> expenseDetails = new ArrayList<TmExpense>();
+    private List<TemExpense> expenseDetails = new ArrayList<TemExpense>();
 
     @Override
     @Id
@@ -222,7 +222,7 @@ public abstract class AbstractExpense extends PersistableBusinessObjectBase impl
     /**
      * Sets the value of the expense type object code
      * @param expenseTypeObjectCode the expense type object code value to set
-     * @see org.kuali.kfs.module.tem.businessobject.TmExpense#setExpenseTypeObjectCode(org.kuali.kfs.module.tem.businessobject.ExpenseTypeObjectCode)
+     * @see org.kuali.kfs.module.tem.businessobject.TemExpense#setExpenseTypeObjectCode(org.kuali.kfs.module.tem.businessobject.ExpenseTypeObjectCode)
      */
     @Override
     public void setExpenseTypeObjectCode(ExpenseTypeObjectCode expenseTypeObjectCode) {
@@ -395,7 +395,7 @@ public abstract class AbstractExpense extends PersistableBusinessObjectBase impl
 
     /**
      *
-     * @see org.kuali.kfs.module.tem.businessobject.TmExpense#refreshExpenseTypeObjectCode(java.lang.String, java.lang.String)
+     * @see org.kuali.kfs.module.tem.businessobject.TemExpense#refreshExpenseTypeObjectCode(java.lang.String, java.lang.String)
      */
     @Override
     public void refreshExpenseTypeObjectCode(String documentTypeName, String travelerTypeCode, String tripTypeCode) {
@@ -405,7 +405,7 @@ public abstract class AbstractExpense extends PersistableBusinessObjectBase impl
             this.expenseTypeObjectCode = expenseTypeObjectCode;
 
             // and set this on details
-            for (TmExpense detail : getExpenseDetails()) {
+            for (TemExpense detail : getExpenseDetails()) {
                 detail.setExpenseTypeObjectCodeId(expenseTypeObjectCode.getExpenseTypeObjectCodeId());
                 detail.setExpenseTypeObjectCode(expenseTypeObjectCode);
             }
@@ -417,9 +417,9 @@ public abstract class AbstractExpense extends PersistableBusinessObjectBase impl
      * @return Returns the expenseDetails.
      */
     @Override
-    public List<? extends TmExpense> getExpenseDetails() {
+    public List<? extends TemExpense> getExpenseDetails() {
         if (expenseDetails == null){
-            expenseDetails = new ArrayList<TmExpense>();
+            expenseDetails = new ArrayList<TemExpense>();
         }
         return expenseDetails;
     }
@@ -429,7 +429,7 @@ public abstract class AbstractExpense extends PersistableBusinessObjectBase impl
      * @return Returns the expenseDetails.
      */
     @Override
-    public void addExpenseDetails(TmExpense expense) {
+    public void addExpenseDetails(TemExpense expense) {
         expenseDetails.add(expense);
     }
 
@@ -438,7 +438,7 @@ public abstract class AbstractExpense extends PersistableBusinessObjectBase impl
      * @param expenseDetails The expenseDetails to set.
      */
     @Override
-    public void setExpenseDetails(List<TmExpense> expenseDetails) {
+    public void setExpenseDetails(List<TemExpense> expenseDetails) {
         this.expenseDetails = expenseDetails;
     }
 
@@ -511,12 +511,12 @@ public abstract class AbstractExpense extends PersistableBusinessObjectBase impl
     }
 
     /**
-     * @see org.kuali.kfs.module.tem.businessobject.TmExpense#getTotalDetailExpenseAmount()
+     * @see org.kuali.kfs.module.tem.businessobject.TemExpense#getTotalDetailExpenseAmount()
      */
     @Override
     public KualiDecimal getTotalDetailExpenseAmount() {
         KualiDecimal totalDetailExpenseAmount = KualiDecimal.ZERO;
-        for(TmExpense expense: getExpenseDetails()){
+        for(TemExpense expense: getExpenseDetails()){
             totalDetailExpenseAmount = totalDetailExpenseAmount.add(expense.getExpenseAmount());
         }
         return totalDetailExpenseAmount;

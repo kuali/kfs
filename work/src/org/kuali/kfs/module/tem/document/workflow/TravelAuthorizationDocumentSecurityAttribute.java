@@ -17,7 +17,7 @@ package org.kuali.kfs.module.tem.document.workflow;
 
 import org.kuali.kfs.module.tem.TemConstants.TravelDocTypes;
 import org.kuali.kfs.module.tem.document.TravelDocument;
-import org.kuali.kfs.module.tem.service.TmRoleService;
+import org.kuali.kfs.module.tem.service.TemRoleService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.api.document.Document;
 import org.kuali.rice.kim.api.identity.Person;
@@ -53,8 +53,8 @@ public class TravelAuthorizationDocumentSecurityAttribute extends TEMSecurityAtt
 
     }
 
-    protected TmRoleService getTemRoleService() {
-        return SpringContext.getBean(TmRoleService.class);
+    protected TemRoleService getTemRoleService() {
+        return SpringContext.getBean(TemRoleService.class);
     }
 
 }

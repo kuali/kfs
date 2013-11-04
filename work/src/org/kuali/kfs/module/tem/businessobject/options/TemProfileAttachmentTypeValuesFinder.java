@@ -23,7 +23,7 @@ import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 
-public class TmProfileAttachmentTypeValuesFinder extends KeyValuesBase {
+public class TemProfileAttachmentTypeValuesFinder extends KeyValuesBase {
 
     /**
      * @see org.kuali.rice.krad.keyvalues.KeyValuesFinder#getKeyValues()

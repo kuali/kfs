@@ -22,7 +22,7 @@ import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemConstants.AgencyStagingDataErrorCodes;
 import org.kuali.kfs.module.tem.TemConstants.ExpenseImportTypes;
 import org.kuali.kfs.module.tem.businessobject.AgencyStagingData;
-import org.kuali.kfs.module.tem.businessobject.TmProfile;
+import org.kuali.kfs.module.tem.businessobject.TemProfile;
 import org.kuali.kfs.module.tem.businessobject.TripAccountingInformation;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
 import org.kuali.kfs.sys.ConfigureContext;
@@ -61,7 +61,7 @@ public class ExpenseImportByTripServiceTest extends KualiTestBase {
 
     /**
      *
-     * This method tests {@link ExpenseImportByTripService#validateAccountingInfo(TmProfile, AgencyStagingData)}
+     * This method tests {@link ExpenseImportByTripService#validateAccountingInfo(TemProfile, AgencyStagingData)}
      */
     @Test
     @ConfigureContext(shouldCommitTransactions = false)
@@ -175,8 +175,8 @@ public class ExpenseImportByTripServiceTest extends KualiTestBase {
         assertFalse(errorMessages.isEmpty());
     }
 
-    protected TmProfile createTemProfile() {
-        TmProfile profile = new TmProfile();
+    protected TemProfile createTemProfile() {
+        TemProfile profile = new TemProfile();
         Integer newProfileId = sas.getNextAvailableSequenceNumber(TemConstants.TEM_PROFILE_SEQ_NAME).intValue();
         profile.setProfileId(newProfileId);
         profile.getTemProfileAddress().setProfileId(newProfileId);

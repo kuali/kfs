@@ -194,7 +194,7 @@
 	</bean>
 
 	<bean id="temProfileLookupHelperService" parent="temProfileLookupHelperService-parentBean" scope="prototype"/>
-	<bean id="temProfileLookupHelperService-parentBean" abstract="true" parent="baseProfileLookupableHelperService" class="org.kuali.kfs.module.tem.businessobject.lookup.TmProfileLookupableHelperServiceImpl"/>
+	<bean id="temProfileLookupHelperService-parentBean" abstract="true" parent="baseProfileLookupableHelperService" class="org.kuali.kfs.module.tem.businessobject.lookup.TemProfileLookupableHelperServiceImpl"/>
 	<bean id="temProfileLookupable" parent="temProfileLookupable-parentBean" scope="prototype"/>
 	<bean id="temProfileLookupable-parentBean" abstract="true" class="org.kuali.kfs.module.tem.businessobject.lookup.TemProfileLookupableImpl">
 		<property name="lookupableHelperService">
@@ -290,7 +290,7 @@
 	</bean>
 
     <bean id="temRoleService" parent="temRoleService-parentBean" />
-    <bean id="temRoleService-parentBean" abstract="true" class="org.kuali.kfs.module.tem.service.impl.TmRoleServiceImpl">
+    <bean id="temRoleService-parentBean" abstract="true" class="org.kuali.kfs.module.tem.service.impl.TemRoleServiceImpl">
         <property name="roleService" ref="kimRoleService" />
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="arrangerDocumentService" ref="temArrangerDocumentService" />
@@ -1418,7 +1418,7 @@
     </bean>
 
 	<bean id="temProfileAccountLookupHelperService"
-		class="org.kuali.kfs.module.tem.businessobject.lookup.TmProfileAccountLookupableHelperServiceImpl"
+		class="org.kuali.kfs.module.tem.businessobject.lookup.TemProfileAccountLookupableHelperServiceImpl"
 		scope="prototype">
 		<property name="travelService" ref="temTravelService" />
 		<property name="travelerService" ref="travelerService" />

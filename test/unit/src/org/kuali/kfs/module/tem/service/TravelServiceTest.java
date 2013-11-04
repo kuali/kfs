@@ -28,7 +28,7 @@ import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.businessobject.MileageRate;
 import org.kuali.kfs.module.tem.businessobject.PerDiem;
 import org.kuali.kfs.module.tem.businessobject.PerDiemExpense;
-import org.kuali.kfs.module.tem.businessobject.TmProfile;
+import org.kuali.kfs.module.tem.businessobject.TemProfile;
 import org.kuali.kfs.module.tem.businessobject.TravelerType;
 import org.kuali.kfs.module.tem.service.impl.TravelServiceImpl;
 import org.kuali.kfs.sys.ConfigureContext;
@@ -127,7 +127,7 @@ public class TravelServiceTest extends KualiTestBase{
      */
     @Test
     public void testFindTemProfileByPrincipalId() {
-        TmProfile profile = new TmProfile();
+        TemProfile profile = new TemProfile();
         Integer newProfileId = sas.getNextAvailableSequenceNumber(TemConstants.TEM_PROFILE_SEQ_NAME).intValue();
         profile.setProfileId(newProfileId);
         profile.getTemProfileAddress().setProfileId(newProfileId);

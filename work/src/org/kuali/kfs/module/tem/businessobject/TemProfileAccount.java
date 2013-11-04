@@ -27,10 +27,10 @@ import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 @Entity
 @Table(name = "TEM_PROFILE_ACCOUNT_T")
-public class TmProfileAccount extends PersistableBusinessObjectBase {
+public class TemProfileAccount extends PersistableBusinessObjectBase {
 
     private Integer profileId;
-    private TmProfile profile;
+    private TemProfile profile;
     private CreditCardAgency creditCardAgency;
     private String creditCardOrAgencyName;
     private Integer creditCardAgencyId;
@@ -200,7 +200,7 @@ public class TmProfileAccount extends PersistableBusinessObjectBase {
      * @return Returns the profile.
      */
     @JoinColumn(name = "profile_id")
-    public TmProfile getProfile() {
+    public TemProfile getProfile() {
         return profile;
     }
 
@@ -209,7 +209,7 @@ public class TmProfileAccount extends PersistableBusinessObjectBase {
      *
      * @param profile The profile to set.
      */
-    public void setProfile(TmProfile profile) {
+    public void setProfile(TemProfile profile) {
         this.profile = profile;
     }
 

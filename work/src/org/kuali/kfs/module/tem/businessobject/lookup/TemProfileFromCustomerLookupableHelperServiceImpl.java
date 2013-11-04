@@ -29,7 +29,7 @@ import org.kuali.kfs.integration.ar.AccountsReceivableCustomerType;
 import org.kuali.kfs.integration.ar.AccountsReceivableModuleService;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
-import org.kuali.kfs.module.tem.businessobject.TEMProfile;
+import org.kuali.kfs.module.tem.businessobject.TmProfile;
 import org.kuali.kfs.module.tem.businessobject.TemProfileFromCustomer;
 import org.kuali.kfs.module.tem.dataaccess.TravelerDao;
 import org.kuali.kfs.module.tem.datadictionary.MappedDefinition;
@@ -187,7 +187,7 @@ public class TemProfileFromCustomerLookupableHelperServiceImpl extends KualiLook
         String customerNumber = ((TemProfileFromCustomer) businessObject).getCustomerNumber();
 
         Properties parameters = new Properties();
-        parameters.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, TEMProfile.class.getName());
+        parameters.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, TmProfile.class.getName());
         parameters.put(KFSConstants.OVERRIDE_KEYS, "customerNumber");
         parameters.put(KFSConstants.REFRESH_CALLER, "customerNumber" + "::" + customerNumber);
         parameters.put("customerNumber", customerNumber);

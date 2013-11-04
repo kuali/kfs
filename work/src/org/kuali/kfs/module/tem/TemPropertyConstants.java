@@ -227,7 +227,7 @@ public class TemPropertyConstants {
         public static final String ACCOUNT_NUMBER = "accountNumber";
         public static final String ACCOUNTS = "accounts";
 
-        public static final String TEM_PROFILE = "TEMProfile";
+        public static final String TEM_PROFILE = "TmProfile";
         public static final String TEM_PROFILE_ADMINISTRATOR = "TEMProfileAdministrator";
     }
 

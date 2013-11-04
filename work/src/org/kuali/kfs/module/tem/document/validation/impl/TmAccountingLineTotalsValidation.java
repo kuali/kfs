@@ -36,7 +36,7 @@ import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADPropertyConstants;
 
-public class TEMAccountingLineTotalsValidation extends GenericValidation {
+public class TmAccountingLineTotalsValidation extends GenericValidation {
 
     /**
      * @see org.kuali.kfs.sys.document.validation.Validation#validate(org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent)

@@ -15,16 +15,16 @@
  */
 package org.kuali.kfs.module.tem.document.service;
 
-import org.kuali.kfs.module.tem.businessobject.TEMProfileArranger;
+import org.kuali.kfs.module.tem.businessobject.TmProfileArranger;
 import org.kuali.kfs.module.tem.document.TravelArrangerDocument;
 
 public interface TravelArrangerDocumentService {
 
     public void createTravelProfileArranger(TravelArrangerDocument arrangerDoc);
 
-    public TEMProfileArranger findPrimaryTravelProfileArranger(String arrangerId, Integer profileId);
+    public TmProfileArranger findPrimaryTravelProfileArranger(String arrangerId, Integer profileId);
 
-    public TEMProfileArranger findTemProfileArranger(String principalId, Integer profileId);
+    public TmProfileArranger findTemProfileArranger(String principalId, Integer profileId);
 
     public void inactivateTravelProfileArranger(TravelArrangerDocument arrangerDoc);
 

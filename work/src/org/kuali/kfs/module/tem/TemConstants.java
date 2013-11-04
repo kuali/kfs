@@ -284,7 +284,7 @@ public class TemConstants {
     }
 
     public static class TemProfileParameters {
-        public static final String PARAM_DTL_TYPE = "TemProfile";
+        public static final String PARAM_DTL_TYPE = "TmProfile";
         public static final String VALID_TRAVELER_TYPE_BY_CUSTOMER_TYPE = "VALID_TRAVELER_TYPE_BY_CUSTOMER_TYPE";
         public static final String VALID_KIM_TYPE_AFFILIATION_BY_TRAVER_TYPE = "VALID_KIM_TYPE_AFFILIATION_BY_TRAVER_TYPE";
         public static final String EXPORT_FILE_FORMAT = "EXPORT_FILE_FORMAT";
@@ -663,7 +663,7 @@ public class TemConstants {
         public static final String EXECUTIVE_APPROVER = "Executive Approver";
         public static final String SEPARATION_OF_DUTIES_REVIEWER = "Separation Of Duties Reviewer";
         public static final String TRAVELER = "Traveler";
-        public static final String TEM_PROFILE = "TemProfile";
+        public static final String TEM_PROFILE = "TmProfile";
         public static final String TEM_PROFILE_ADMINISTRATOR = "TEM Profile Administrator";
         public static final String TEM_ORGANIZATION_PROFILE_ARRANGER = "TEM Organization Profile Arranger";
         public static final String TEM_ASSIGNED_PROFILE_ARRANGER = "TEM Assigned Profile Arranger";

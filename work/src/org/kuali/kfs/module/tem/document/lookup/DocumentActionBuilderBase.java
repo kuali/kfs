@@ -21,7 +21,7 @@ import org.apache.log4j.Logger;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
-import org.kuali.kfs.module.tem.service.TEMRoleService;
+import org.kuali.kfs.module.tem.service.TmRoleService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
@@ -36,7 +36,7 @@ public abstract class DocumentActionBuilderBase {
     protected volatile ConfigurationService configurationService;
     protected volatile ParameterService parameterService;
     protected volatile DocumentTypeService documentTypeService;
-    protected volatile TEMRoleService superEvilTemRoleService;
+    protected volatile TmRoleService superEvilTemRoleService;
 
     /**
      *
@@ -189,9 +189,9 @@ public abstract class DocumentActionBuilderBase {
     /**
      * @return the default implementation of TEM's Role Service
      */
-    protected TEMRoleService getTemRoleService() {
+    protected TmRoleService getTemRoleService() {
         if (superEvilTemRoleService == null) {
-            superEvilTemRoleService = SpringContext.getBean(TEMRoleService.class);
+            superEvilTemRoleService = SpringContext.getBean(TmRoleService.class);
         }
         return superEvilTemRoleService;
     }

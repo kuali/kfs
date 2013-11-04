@@ -20,7 +20,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.krad.service.SequenceAccessorService;
 import org.kuali.rice.krad.valuefinder.ValueFinder;
 
-public class TEMProfileIDFinder implements ValueFinder {
+public class TmProfileIDFinder implements ValueFinder {
 
     @Override
     public String getValue() {

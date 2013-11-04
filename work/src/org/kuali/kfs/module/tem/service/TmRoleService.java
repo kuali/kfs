@@ -22,7 +22,7 @@ import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.role.RoleMembership;
 
-public interface TEMRoleService {
+public interface TmRoleService {
 
 
     /**

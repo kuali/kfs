@@ -70,7 +70,7 @@ public class CreditCardStagingData extends PersistableBusinessObjectBase {
     private Integer temProfileId;
     private String stagingFileName;
 
-    private TEMProfile profile;
+    private TmProfile profile;
     private CreditCardAgency creditCardAgency;
 
     /**
@@ -526,12 +526,12 @@ public class CreditCardStagingData extends PersistableBusinessObjectBase {
     }
 
 
-    public TEMProfile getProfile() {
+    public TmProfile getProfile() {
         return profile;
     }
 
 
-    public void setProfile(TEMProfile profile) {
+    public void setProfile(TmProfile profile) {
         this.profile = profile;
     }
 

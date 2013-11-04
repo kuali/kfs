@@ -32,9 +32,9 @@ import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants.TEMProfileProperties;
-import org.kuali.kfs.module.tem.businessobject.TEMProfile;
-import org.kuali.kfs.module.tem.businessobject.TEMProfileAccount;
-import org.kuali.kfs.module.tem.businessobject.TEMProfileArranger;
+import org.kuali.kfs.module.tem.businessobject.TmProfile;
+import org.kuali.kfs.module.tem.businessobject.TmProfileAccount;
+import org.kuali.kfs.module.tem.businessobject.TmProfileArranger;
 import org.kuali.kfs.module.tem.service.TemProfileService;
 import org.kuali.kfs.module.tem.service.TravelService;
 import org.kuali.kfs.sys.KFSConstants;
@@ -50,7 +50,7 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 
-public class TEMProfileValidation extends MaintenanceDocumentRuleBase{
+public class TmProfileValidation extends MaintenanceDocumentRuleBase{
     protected static final String TRAVEL_ARRANGERS_SECTION_ID = "TEMProfileArrangers";
     protected volatile static TemProfileService temProfileService;
 
@@ -60,7 +60,7 @@ public class TEMProfileValidation extends MaintenanceDocumentRuleBase{
     @Override
     protected boolean dataDictionaryValidate(MaintenanceDocument document) {
         BusinessObjectService businessObjectService = getBusinessObjectService();
-        TEMProfile profile = (TEMProfile) document.getNewMaintainableObject().getBusinessObject();
+        TmProfile profile = (TmProfile) document.getNewMaintainableObject().getBusinessObject();
         TravelService travelService = SpringContext.getBean(TravelService.class);
 
         boolean success = true;
@@ -133,7 +133,7 @@ public class TEMProfileValidation extends MaintenanceDocumentRuleBase{
 
         for (int i=0;i<profile.getAccounts().size();i++){
             paths.add(TemPropertyConstants.TEMProfileProperties.ACCOUNTS + "[" + i + "]");
-            TEMProfileAccount account = profile.getAccounts().get(i);
+            TmProfileAccount account = profile.getAccounts().get(i);
             paths.remove(paths.size()-1);
         }
 
@@ -141,7 +141,7 @@ public class TEMProfileValidation extends MaintenanceDocumentRuleBase{
         if(profile.getArrangers() != null){
             int arrangerPrimaryCount = 0;
             Set<String> arrangerId = new HashSet<String>();
-            for (TEMProfileArranger arranger : profile.getArrangers()){
+            for (TmProfileArranger arranger : profile.getArrangers()){
                 if(arranger.getPrimary()){
                     arrangerPrimaryCount++;
                 }
@@ -188,10 +188,10 @@ public class TEMProfileValidation extends MaintenanceDocumentRuleBase{
     public boolean processCustomAddCollectionLineBusinessRules(MaintenanceDocument document, String collectionName, PersistableBusinessObject line) {
 
         //set other arranger as primary false if the new arranger is the primary
-        if (line instanceof TEMProfileArranger){
+        if (line instanceof TmProfileArranger){
 
-            TEMProfile profile = (TEMProfile)document.getNewMaintainableObject().getBusinessObject();
-            TEMProfileArranger arranger = (TEMProfileArranger)line;
+            TmProfile profile = (TmProfile)document.getNewMaintainableObject().getBusinessObject();
+            TmProfileArranger arranger = (TmProfileArranger)line;
 
 
 
@@ -204,7 +204,7 @@ public class TEMProfileValidation extends MaintenanceDocumentRuleBase{
             }
 
             if (arranger.getPrimary()){
-                for (TEMProfileArranger tempArranger : ((TEMProfile)document.getNewMaintainableObject().getBusinessObject()).getArrangers()){
+                for (TmProfileArranger tempArranger : ((TmProfile)document.getNewMaintainableObject().getBusinessObject()).getArrangers()){
                     tempArranger.setPrimary(false);
                 }
 
@@ -223,8 +223,8 @@ public class TEMProfileValidation extends MaintenanceDocumentRuleBase{
             }
         }
         // check for CreditCardAgency accounts
-        else if (line instanceof TEMProfileAccount){
-            TEMProfileAccount account = (TEMProfileAccount) line;
+        else if (line instanceof TmProfileAccount){
+            TmProfileAccount account = (TmProfileAccount) line;
             //minimum length
             if (StringUtils.isNotEmpty(account.getAccountNumber()) && account.getAccountNumber().length() < 4){
             	String errorMessage[] = null;
@@ -238,7 +238,7 @@ public class TEMProfileValidation extends MaintenanceDocumentRuleBase{
                 Map<String,Object> criteria = new HashMap<String,Object>();
                 criteria.put(TemPropertyConstants.ACCOUNT_NUMBER, account.getAccountNumber());
                 criteria.put(TemPropertyConstants.CREDIT_CARD_AGENCY_ID, account.getCreditCardAgencyId());
-                Collection<TEMProfileAccount> profileAccounts = getBusinessObjectService().findMatching(TEMProfileAccount.class, criteria);
+                Collection<TmProfileAccount> profileAccounts = getBusinessObjectService().findMatching(TmProfileAccount.class, criteria);
                 if (!profileAccounts.isEmpty()){
                     GlobalVariables.getMessageMap().putError(TemPropertyConstants.TEMProfileProperties.ACCOUNT_NUMBER, TemKeyConstants.ERROR_TEM_PROFILE_ACCOUNT_ID_DUPLICATE, account.getAccountNumber());
                     return false;
@@ -254,7 +254,7 @@ public class TEMProfileValidation extends MaintenanceDocumentRuleBase{
      * @param profile the profile to check
      * @return true if the profile passed the validation, false otherwise
      */
-    protected boolean checkActiveArrangersForNonEmployees(TEMProfile profile) {
+    protected boolean checkActiveArrangersForNonEmployees(TmProfile profile) {
         boolean success = true;
         if (profile != null && getTemProfileService().isProfileNonEmploye(profile)) {
             // we've got a non-employee.  let's see if they have at least one active arranger
@@ -269,7 +269,7 @@ public class TEMProfileValidation extends MaintenanceDocumentRuleBase{
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
         boolean success = true;
-        TEMProfile profile = (TEMProfile) document.getNewMaintainableObject().getBusinessObject();
+        TmProfile profile = (TmProfile) document.getNewMaintainableObject().getBusinessObject();
         if (ObjectUtils.isNotNull(profile.getHomeDeptOrg())){
             if (!profile.getHomeDeptOrg().isActive()) {
                 putFieldError(TEMProfileProperties.HOME_DEPARTMENT, TemKeyConstants.ERROR_TEM_PROFILE_ORGANIZATION_INACTIVE, profile.getHomeDeptChartOfAccountsCode()+"-"+profile.getHomeDeptOrgCode());

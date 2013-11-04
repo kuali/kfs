@@ -49,7 +49,7 @@ public class ReimbursementAccountingTotalsValidationTest extends KualiTestBase {
     private static final String DEFAULT_CHART_CODE = "BL";
     private static final int EXPENSE_AMOUNT = 100;
     private static final int ACCOUNTING_LINE_AMOUNT = 100;
-    private TEMAccountingLineTotalsValidation validation;
+    private TmAccountingLineTotalsValidation validation;
     private static final String AIRLINE_EXPENSE_TYPE_CODE = "A";
     private static final String FINANCIAL_OBJECT_CODE = "6100";
     private BusinessObjectService businessObjectService;
@@ -66,7 +66,7 @@ public class ReimbursementAccountingTotalsValidationTest extends KualiTestBase {
     @Before
     protected void setUp() throws Exception {
         super.setUp();
-        validation = new TEMAccountingLineTotalsValidation();
+        validation = new TmAccountingLineTotalsValidation();
         businessObjectService = SpringContext.getBean(BusinessObjectService.class);
         objectCodeService = SpringContext.getBean(ObjectCodeService.class);
 

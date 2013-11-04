@@ -28,8 +28,8 @@ import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kns.service.DocumentHelperService;
 import org.kuali.rice.krad.util.KRADConstants;
 
-public class TEMAccountingLineAuthorizer extends AccountingLineAuthorizerBase {
-    private static Log LOG = LogFactory.getLog(TEMAccountingLineAuthorizer.class);
+public class TmAccountingLineAuthorizer extends AccountingLineAuthorizerBase {
+    private static Log LOG = LogFactory.getLog(TmAccountingLineAuthorizer.class);
 
     private DocumentHelperService getDocumentHelperService() {
         return SpringContext.getBean(DocumentHelperService.class);

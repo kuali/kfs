@@ -18,7 +18,7 @@ package org.kuali.kfs.module.tem.batch.service;
 import java.util.List;
 
 import org.kuali.kfs.module.tem.businessobject.AgencyStagingData;
-import org.kuali.kfs.module.tem.businessobject.TEMProfile;
+import org.kuali.kfs.module.tem.businessobject.TmProfile;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.rice.krad.util.ErrorMessage;
 
@@ -50,12 +50,12 @@ public interface ExpenseImportByTravelerService {
     public List<ErrorMessage> validateTraveler(AgencyStagingData agencyData);
 
     /**
-     * This method looks up the {@link TEMProfile} by Employee ID first, and then Customer Number if it is not found.
+     * This method looks up the {@link TmProfile} by Employee ID first, and then Customer Number if it is not found.
      *
      * @param agencyData
      * @return
      */
-    public TEMProfile getTraveler(AgencyStagingData agencyData);
+    public TmProfile getTraveler(AgencyStagingData agencyData);
 
     /**
      *

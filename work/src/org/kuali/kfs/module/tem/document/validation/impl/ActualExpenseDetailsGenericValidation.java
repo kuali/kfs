@@ -18,7 +18,7 @@ package org.kuali.kfs.module.tem.document.validation.impl;
 import java.util.List;
 
 import org.kuali.kfs.module.tem.businessobject.ActualExpense;
-import org.kuali.kfs.module.tem.businessobject.TEMExpense;
+import org.kuali.kfs.module.tem.businessobject.TmExpense;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -39,7 +39,7 @@ public class ActualExpenseDetailsGenericValidation extends GenericValidation {
         boolean success = true;
         
         int count = 0;
-        for (TEMExpense genericDetail : getActualExpenseForValidation().getExpenseDetails()) {
+        for (TmExpense genericDetail : getActualExpenseForValidation().getExpenseDetails()) {
             final ActualExpense detail = (ActualExpense)genericDetail;
             final String expenseDetailIdentifier = "expenseDetails["+count+"]";
             

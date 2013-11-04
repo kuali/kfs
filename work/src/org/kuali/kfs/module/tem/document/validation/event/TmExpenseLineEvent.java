@@ -15,10 +15,10 @@
  */
 package org.kuali.kfs.module.tem.document.validation.event;
 
-import org.kuali.kfs.module.tem.businessobject.TEMExpense;
+import org.kuali.kfs.module.tem.businessobject.TmExpense;
 import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
 
-public interface TEMExpenseLineEvent<E extends TEMExpense> extends KualiDocumentEvent{
+public interface TmExpenseLineEvent<E extends TmExpense> extends KualiDocumentEvent{
 
     /**
      *

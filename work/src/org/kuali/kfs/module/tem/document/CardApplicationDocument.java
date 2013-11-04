@@ -15,15 +15,15 @@
  */
 package org.kuali.kfs.module.tem.document;
 
-import org.kuali.kfs.module.tem.businessobject.TEMProfile;
+import org.kuali.kfs.module.tem.businessobject.TmProfile;
 import org.kuali.rice.krad.bo.DocumentHeader;
 
 
 public interface CardApplicationDocument {
 
-    public abstract TEMProfile getTemProfile();
+    public abstract TmProfile getTemProfile();
 
-    public abstract void setTemProfile(TEMProfile temProfile);
+    public abstract void setTemProfile(TmProfile tmProfile);
 
     public abstract Integer getTemProfileId();
 

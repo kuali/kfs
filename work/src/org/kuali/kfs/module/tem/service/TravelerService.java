@@ -19,7 +19,7 @@ import java.util.List;
 
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomer;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomerAddress;
-import org.kuali.kfs.module.tem.businessobject.TEMProfile;
+import org.kuali.kfs.module.tem.businessobject.TmProfile;
 import org.kuali.kfs.module.tem.businessobject.TemProfileAddress;
 import org.kuali.kfs.module.tem.businessobject.TemProfileFromCustomer;
 import org.kuali.kfs.module.tem.businessobject.TemProfileFromKimPerson;
@@ -69,21 +69,21 @@ public interface TravelerService {
      * @param isRiskManagement
      * @return
      */
-    public boolean canIncludeProfileInSearch(TEMProfile profile, String docType, Person user, boolean isProfileAdmin, boolean isAssignedArranger, boolean isOrgArranger, boolean isArrangerDoc, boolean isRiskManagement);
+    public boolean canIncludeProfileInSearch(TmProfile profile, String docType, Person user, boolean isProfileAdmin, boolean isAssignedArranger, boolean isOrgArranger, boolean isArrangerDoc, boolean isRiskManagement);
 
     /**
      *
      * @param profile
      * @param customer
      */
-    public void copyTEMProfileToCustomer(TEMProfile profile, AccountsReceivableCustomer customer);
+    public void copyTEMProfileToCustomer(TmProfile profile, AccountsReceivableCustomer customer);
 
     /**
      *
      * @param profile
      * @param customer
      */
-    public void copyCustomerToTEMProfile(TEMProfile profile, AccountsReceivableCustomer customer);
+    public void copyCustomerToTEMProfile(TmProfile profile, AccountsReceivableCustomer customer);
 
     /**
      *
@@ -91,12 +91,12 @@ public interface TravelerService {
      * @param principal
      * @param kimEntityInfo
      */
-    public void copyKimDataToTEMProfile(TEMProfile profile, Person principal, Entity kimEntityInfo);
+    public void copyKimDataToTEMProfile(TmProfile profile, Person principal, Entity kimEntityInfo);
 
     /**
      *
      * This method converts a KIM Person to a TemProfileFromKim object so that we can then use it to
-     * actually create a TemProfile from it
+     * actually create a TmProfile from it
      * @param personDetail
      * @return the TemProfileFromKimPerson object populated from the search
      */
@@ -105,14 +105,14 @@ public interface TravelerService {
     /**
      *
      * This method converts a Customer to a TemProfileFromCustomer object so that we can then use it to
-     * actually create a TemProfile from it
+     * actually create a TmProfile from it
      * @param person to create {@link TemProfileFromCustomer} instance from
      * @return a new {@link TemProfileFromCustomer} instance
      */
     TemProfileFromCustomer convertToTemProfileFromCustomer(AccountsReceivableCustomer person);
 
 
-    public void convertTEMProfileToTravelerDetail(TEMProfile profile, TravelerDetail detail);
+    public void convertTEMProfileToTravelerDetail(TmProfile profile, TravelerDetail detail);
 
     /**
      *
@@ -135,7 +135,7 @@ public interface TravelerService {
      *
      * @param profile
      */
-    public void populateTEMProfile(TEMProfile profile);
+    public void populateTEMProfile(TmProfile profile);
 
     /**
      *
@@ -154,7 +154,7 @@ public interface TravelerService {
     /**
      *
      * This method converts a CustomerAddress to a TemProfileAddress object so that we can then use it to
-     * actually create a TemProfile from it
+     * actually create a TmProfile from it
      * @param person to create {@link CustomerAddress} instance from
      * @return a new {@link TemProfileAddress} instance
      */
@@ -163,7 +163,7 @@ public interface TravelerService {
 	/**
      *
      * This method converts a KimEntityAddressImpl to a TemProfileAddress object so that we can then use it to
-     * actually create a TemProfile from it
+     * actually create a TmProfile from it
      * @param person to create {@link KimEntityAddressImpl} instance from
      * @return a new {@link TemProfileAddress} instance
      */

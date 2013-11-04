@@ -17,7 +17,7 @@ package org.kuali.kfs.module.tem.service;
 
 import java.util.List;
 
-import org.kuali.kfs.module.tem.businessobject.TEMProfile;
+import org.kuali.kfs.module.tem.businessobject.TmProfile;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.rice.kim.api.identity.Person;
 
@@ -43,11 +43,11 @@ public interface TravelService {
 
     /**
      *
-     * This method returns a TEMProfile associated with the principalId.
+     * This method returns a TmProfile associated with the principalId.
      * @param principalId
      * @return
      */
-    public TEMProfile findTemProfileByPrincipalId(String principalId);
+    public TmProfile findTemProfileByPrincipalId(String principalId);
 
     /**
      * Determine if the user is the initiator or it is the arranger for the document (base on specific doc

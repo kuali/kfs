@@ -31,8 +31,8 @@ import org.kuali.kfs.module.tem.businessobject.MileageRate;
 import org.kuali.kfs.module.tem.businessobject.PerDiem;
 import org.kuali.kfs.module.tem.businessobject.PerDiemExpense;
 import org.kuali.kfs.module.tem.businessobject.SpecialCircumstances;
-import org.kuali.kfs.module.tem.businessobject.TEMExpense;
-import org.kuali.kfs.module.tem.businessobject.TEMProfile;
+import org.kuali.kfs.module.tem.businessobject.TmExpense;
+import org.kuali.kfs.module.tem.businessobject.TmProfile;
 import org.kuali.kfs.module.tem.businessobject.TransportationModeDetail;
 import org.kuali.kfs.module.tem.businessobject.TravelAdvance;
 import org.kuali.kfs.module.tem.businessobject.TripType;
@@ -82,8 +82,8 @@ public class MockTravelDocumentServiceImpl implements TravelDocumentService {
         return ta;
     }
 
-    protected TEMProfile createTemProfile() {
-        TEMProfile profile = new TEMProfile();
+    protected TmProfile createTemProfile() {
+        TmProfile profile = new TmProfile();
         profile.setProfileId(VALID_TEM_PROFILE_ID);
         profile.getTemProfileAddress().setProfileId(VALID_TEM_PROFILE_ID);
         profile.setDefaultChartCode("BL");
@@ -298,7 +298,7 @@ public class MockTravelDocumentServiceImpl implements TravelDocumentService {
     }
 
     @Override
-    public List<? extends TEMExpense> copyActualExpenses(List<? extends TEMExpense> actualExpenses, String documentNumber) {
+    public List<? extends TmExpense> copyActualExpenses(List<? extends TmExpense> actualExpenses, String documentNumber) {
         return realTravelDocumentService.copyActualExpenses(actualExpenses, documentNumber);
     }
 

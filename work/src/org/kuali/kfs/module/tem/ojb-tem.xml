@@ -67,7 +67,7 @@
         <reference-descriptor name="contactRelationType" class-ref="org.kuali.kfs.module.tem.businessobject.ContactRelationType" auto-retrieve="false" auto-update="none" auto-delete="none">
             <foreignkey field-ref="contactRelationTypeCode"/>
         </reference-descriptor>
-        <reference-descriptor name="profile" class-ref="org.kuali.kfs.module.tem.businessobject.TEMProfile" auto-retrieve="false" auto-update="none" auto-delete="none">
+        <reference-descriptor name="profile" class-ref="org.kuali.kfs.module.tem.businessobject.TmProfile" auto-retrieve="false" auto-update="none" auto-delete="none">
             <foreignkey field-ref="profileId"/>
         </reference-descriptor>
     </class-descriptor>      
@@ -267,7 +267,7 @@
         <reference-descriptor name="documentHeader" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object">
             <foreignkey field-ref="documentNumber"/>
         </reference-descriptor>
-        <reference-descriptor name="temProfile" class-ref="org.kuali.kfs.module.tem.businessobject.TEMProfile" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <reference-descriptor name="temProfile" class-ref="org.kuali.kfs.module.tem.businessobject.TmProfile" auto-retrieve="true" auto-update="none" auto-delete="none">
             <foreignkey field-ref="temProfileId"/>
         </reference-descriptor>
         <reference-descriptor name="traveler" class-ref="org.kuali.kfs.module.tem.businessobject.TravelerDetail" auto-retrieve="true" auto-update="object" auto-delete="object">
@@ -372,7 +372,7 @@
         <reference-descriptor name="traveler" class-ref="org.kuali.kfs.module.tem.businessobject.TravelerDetail" auto-retrieve="true" auto-update="object" auto-delete="object">
             <foreignkey field-ref="travelerDetailId"/>
         </reference-descriptor>
-        <reference-descriptor name="temProfile" class-ref="org.kuali.kfs.module.tem.businessobject.TEMProfile" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <reference-descriptor name="temProfile" class-ref="org.kuali.kfs.module.tem.businessobject.TmProfile" auto-retrieve="true" auto-update="none" auto-delete="none">
             <foreignkey field-ref="temProfileId"/>
         </reference-descriptor>
         <reference-descriptor name="tripType" class-ref="org.kuali.kfs.module.tem.businessobject.TripType" auto-retrieve="true" auto-update="none" auto-delete="none">
@@ -474,7 +474,7 @@
         <reference-descriptor name="traveler" class-ref="org.kuali.kfs.module.tem.businessobject.TravelerDetail" auto-retrieve="true" auto-update="object" auto-delete="object">
             <foreignkey field-ref="travelerDetailId"/>
         </reference-descriptor>
-        <reference-descriptor name="temProfile" class-ref="org.kuali.kfs.module.tem.businessobject.TEMProfile" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <reference-descriptor name="temProfile" class-ref="org.kuali.kfs.module.tem.businessobject.TmProfile" auto-retrieve="true" auto-update="none" auto-delete="none">
             <foreignkey field-ref="temProfileId"/>
         </reference-descriptor>
         <reference-descriptor name="tripType" class-ref="org.kuali.kfs.module.tem.businessobject.TripType" auto-retrieve="true" auto-update="none" auto-delete="none">
@@ -560,7 +560,7 @@
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR"/>
         <field-descriptor name="versionNumber" locking="true" column="VER_NBR" jdbc-type="BIGINT"/>
         
-        <reference-descriptor name="profile" class-ref="org.kuali.kfs.module.tem.businessobject.TEMProfile" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <reference-descriptor name="profile" class-ref="org.kuali.kfs.module.tem.businessobject.TmProfile" auto-retrieve="true" auto-update="none" auto-delete="none">
             <foreignkey field-ref="profileId"/>
         </reference-descriptor>
         <reference-descriptor name="documentHeader" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object">
@@ -669,7 +669,7 @@
 		 <reference-descriptor name="traveler" class-ref="org.kuali.kfs.module.tem.businessobject.TravelerDetail" auto-retrieve="true" auto-update="object" auto-delete="object">
             <foreignkey field-ref="travelerDetailId"/>
         </reference-descriptor>
-        <reference-descriptor name="temProfile" class-ref="org.kuali.kfs.module.tem.businessobject.TEMProfile" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <reference-descriptor name="temProfile" class-ref="org.kuali.kfs.module.tem.businessobject.TmProfile" auto-retrieve="true" auto-update="none" auto-delete="none">
             <foreignkey field-ref="temProfileId"/>
         </reference-descriptor>
         <reference-descriptor name="tripType" class-ref="org.kuali.kfs.module.tem.businessobject.TripType" auto-retrieve="true" auto-update="none" auto-delete="none">
@@ -754,7 +754,7 @@
         <reference-descriptor name="traveler" class-ref="org.kuali.kfs.module.tem.businessobject.TravelerDetail" auto-retrieve="true" auto-update="object" auto-delete="object">
             <foreignkey field-ref="travelerDetailId"/>
         </reference-descriptor>
-        <reference-descriptor name="temProfile" class-ref="org.kuali.kfs.module.tem.businessobject.TEMProfile" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <reference-descriptor name="temProfile" class-ref="org.kuali.kfs.module.tem.businessobject.TmProfile" auto-retrieve="true" auto-update="none" auto-delete="none">
             <foreignkey field-ref="temProfileId"/>
         </reference-descriptor>
         <reference-descriptor name="tripType" class-ref="org.kuali.kfs.module.tem.businessobject.TripType" auto-retrieve="true" auto-update="none" auto-delete="none">
@@ -853,7 +853,7 @@
         <reference-descriptor name="traveler" class-ref="org.kuali.kfs.module.tem.businessobject.TravelerDetail" auto-retrieve="true" auto-update="object" auto-delete="object">
             <foreignkey field-ref="travelerDetailId"/>
         </reference-descriptor>
-        <reference-descriptor name="temProfile" class-ref="org.kuali.kfs.module.tem.businessobject.TEMProfile" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <reference-descriptor name="temProfile" class-ref="org.kuali.kfs.module.tem.businessobject.TmProfile" auto-retrieve="true" auto-update="none" auto-delete="none">
             <foreignkey field-ref="temProfileId"/>
         </reference-descriptor>
         <reference-descriptor name="tripType" class-ref="org.kuali.kfs.module.tem.businessobject.TripType" auto-retrieve="true" auto-update="none" auto-delete="none">
@@ -1027,7 +1027,7 @@
 		</reference-descriptor>
 	</class-descriptor>
     
-    <class-descriptor class="org.kuali.kfs.module.tem.businessobject.TEMProfile" table="TEM_PROFILE_T">
+    <class-descriptor class="org.kuali.kfs.module.tem.businessobject.TmProfile" table="TEM_PROFILE_T">
 		<field-descriptor name="profileId" primarykey="true" column="PROFILE_ID" jdbc-type="INTEGER" sequence-name="TEM_PROFILE_ID_SEQ" auto-increment="true"/>
 		<field-descriptor name="principalId" column="PRNCPL_ID" jdbc-type="VARCHAR"/>
 		<field-descriptor name="customerNumber" column="CUSTOMER_NUM" jdbc-type="VARCHAR"/>
@@ -1064,10 +1064,10 @@
 		<reference-descriptor name="travelerType" class-ref="org.kuali.kfs.module.tem.businessobject.TravelerType" auto-retrieve="false" auto-update="none" auto-delete="none">
 			<foreignkey field-ref="travelerTypeCode"/>
 		</reference-descriptor>
-		<collection-descriptor name="arrangers" element-class-ref="org.kuali.kfs.module.tem.businessobject.TEMProfileArranger" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="true">
+		<collection-descriptor name="arrangers" element-class-ref="org.kuali.kfs.module.tem.businessobject.TmProfileArranger" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="true">
             <inverse-foreignkey field-ref="profileId"/>
         </collection-descriptor>
-        <collection-descriptor name="accounts" element-class-ref="org.kuali.kfs.module.tem.businessobject.TEMProfileAccount" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="true">
+        <collection-descriptor name="accounts" element-class-ref="org.kuali.kfs.module.tem.businessobject.TmProfileAccount" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="true">
             <inverse-foreignkey field-ref="profileId"/>
         </collection-descriptor>
         <collection-descriptor name="emergencyContacts" element-class-ref="org.kuali.kfs.module.tem.businessobject.TemProfileEmergencyContact" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="true">
@@ -1099,7 +1099,7 @@
         <field-descriptor name="customerAddressIdentifier" column="CUST_ADDR_ID" jdbc-type="INTEGER"/>
     </class-descriptor>
 
-	<class-descriptor class="org.kuali.kfs.module.tem.businessobject.TEMProfileArranger" table="TEM_PROFILE_ARRANGER_T">
+	<class-descriptor class="org.kuali.kfs.module.tem.businessobject.TmProfileArranger" table="TEM_PROFILE_ARRANGER_T">
 		<field-descriptor name="arrangerId" primarykey="true" sequence-name="TEM_PROFILE_ARRANGER_ID_SEQ" autoincrement="true" column="ARRANGER_ID" jdbc-type="INTEGER"/>
 		<field-descriptor name="principalId" column="PRNCPL_ID" jdbc-type="VARCHAR"/>
 		<field-descriptor name="profileId" column="PROFILE_ID" jdbc-type="INTEGER"/>
@@ -1109,12 +1109,12 @@
 		<field-descriptor name="primary" column="PRIMARY_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR"/>
 		<field-descriptor name="versionNumber" locking="true" column="VER_NBR" jdbc-type="BIGINT"/>
-		<reference-descriptor name="profile" class-ref="org.kuali.kfs.module.tem.businessobject.TEMProfile" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<reference-descriptor name="profile" class-ref="org.kuali.kfs.module.tem.businessobject.TmProfile" auto-retrieve="true" auto-update="none" auto-delete="none">
 			<foreignkey field-ref="profileId"/>
 		</reference-descriptor>
 	</class-descriptor>
 	
-	<class-descriptor class="org.kuali.kfs.module.tem.businessobject.TEMProfileAccount" table="TEM_PROFILE_ACCOUNT_T">
+	<class-descriptor class="org.kuali.kfs.module.tem.businessobject.TmProfileAccount" table="TEM_PROFILE_ACCOUNT_T">
 		<field-descriptor name="accountId" primarykey="true" sequence-name="TEM_PROFILE_ACCOUNT_ID_SEQ" autoincrement="true" column="ACCOUNT_ID" jdbc-type="INTEGER"/>
 		<field-descriptor name="profileId" column="PROFILE_ID" jdbc-type="INTEGER"/>
 		<field-descriptor name="creditCardAgencyId" column="CARD_ID" jdbc-type="INTEGER"/>
@@ -1126,7 +1126,7 @@
 		<field-descriptor name="active" column="ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR"/>
 		<field-descriptor name="versionNumber" locking="true" column="VER_NBR" jdbc-type="BIGINT"/>
-		<reference-descriptor name="profile" class-ref="org.kuali.kfs.module.tem.businessobject.TEMProfile" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<reference-descriptor name="profile" class-ref="org.kuali.kfs.module.tem.businessobject.TmProfile" auto-retrieve="true" auto-update="none" auto-delete="none">
 			<foreignkey field-ref="profileId"/>
 		</reference-descriptor>
 		<reference-descriptor name="creditCardAgency" class-ref="org.kuali.kfs.module.tem.businessobject.CreditCardAgency" auto-retrieve="true" auto-update="none" auto-delete="none">
@@ -1335,7 +1335,7 @@
 		<collection-descriptor name="tripAccountingInformation" element-class-ref="org.kuali.kfs.module.tem.businessobject.TripAccountingInformation" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="true">
 			<inverse-foreignkey field-ref="agencyStagingDataId"/>
 		</collection-descriptor>
-        <reference-descriptor name="profile" class-ref="org.kuali.kfs.module.tem.businessobject.TEMProfile" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <reference-descriptor name="profile" class-ref="org.kuali.kfs.module.tem.businessobject.TmProfile" auto-retrieve="true" auto-update="none" auto-delete="none">
             <foreignkey field-ref="temProfileId"/>
         </reference-descriptor>
         <reference-descriptor name="creditCardAgency" class-ref="org.kuali.kfs.module.tem.businessobject.CreditCardAgency" auto-retrieve="true" auto-update="none" auto-delete="none">
@@ -1422,7 +1422,7 @@
         <field-descriptor name="creditCardAgencyId" column="CC_AGENCY_ID" jdbc-type="INTEGER"/>
         <field-descriptor name="stagingFileName" column="STAGING_FILE_NM" jdbc-type="VARCHAR"/>
     
-        <reference-descriptor name="profile" class-ref="org.kuali.kfs.module.tem.businessobject.TEMProfile" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <reference-descriptor name="profile" class-ref="org.kuali.kfs.module.tem.businessobject.TmProfile" auto-retrieve="true" auto-update="none" auto-delete="none">
             <foreignkey field-ref="temProfileId"/>
         </reference-descriptor>
         <reference-descriptor name="creditCardAgency" class-ref="org.kuali.kfs.module.tem.businessobject.CreditCardAgency" auto-retrieve="true" auto-update="none" auto-delete="none">
@@ -1626,7 +1626,7 @@
             <foreignkey field-ref="documentNumber"/>
         </reference-descriptor>
         
-        <reference-descriptor name="temProfile" class-ref="org.kuali.kfs.module.tem.businessobject.TEMProfile" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <reference-descriptor name="temProfile" class-ref="org.kuali.kfs.module.tem.businessobject.TmProfile" auto-retrieve="true" auto-update="none" auto-delete="none">
             <foreignkey field-ref="temProfileId"/>
         </reference-descriptor>
 	</class-descriptor>
@@ -1644,7 +1644,7 @@
             <foreignkey field-ref="documentNumber"/>
         </reference-descriptor> 
         
-        <reference-descriptor name="temProfile" class-ref="org.kuali.kfs.module.tem.businessobject.TEMProfile" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <reference-descriptor name="temProfile" class-ref="org.kuali.kfs.module.tem.businessobject.TmProfile" auto-retrieve="true" auto-update="none" auto-delete="none">
             <foreignkey field-ref="temProfileId"/>
         </reference-descriptor>
 	</class-descriptor>

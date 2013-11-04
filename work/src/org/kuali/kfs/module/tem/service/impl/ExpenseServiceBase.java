@@ -22,20 +22,20 @@ import java.util.Map;
 import org.kuali.kfs.coa.service.ObjectCodeService;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.businessobject.AccountingDistribution;
-import org.kuali.kfs.module.tem.businessobject.TEMExpense;
+import org.kuali.kfs.module.tem.businessobject.TmExpense;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
-import org.kuali.kfs.module.tem.service.TEMExpenseService;
+import org.kuali.kfs.module.tem.service.TmExpenseService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.ObjectUtils;
 
-public abstract class ExpenseServiceBase implements TEMExpenseService {
+public abstract class ExpenseServiceBase implements TmExpenseService {
 
     /**
-     * @see org.kuali.kfs.module.tem.service.TEMExpenseService#getAccountingDistribution(org.kuali.kfs.module.tem.document.TravelDocument)
+     * @see org.kuali.kfs.module.tem.service.TmExpenseService#getAccountingDistribution(org.kuali.kfs.module.tem.document.TravelDocument)
      */
     @Override
     public Map<String, AccountingDistribution> getAccountingDistribution(TravelDocument document) {
@@ -45,16 +45,16 @@ public abstract class ExpenseServiceBase implements TEMExpenseService {
     }
 
     /**
-     * @see org.kuali.kfs.module.tem.service.TEMExpenseService#calculateDistributionTotals(org.kuali.kfs.module.tem.document.TravelDocument, java.util.Map, java.util.List)
+     * @see org.kuali.kfs.module.tem.service.TmExpenseService#calculateDistributionTotals(org.kuali.kfs.module.tem.document.TravelDocument, java.util.Map, java.util.List)
      */
     @Override
-    abstract public void calculateDistributionTotals(TravelDocument document, Map<String, AccountingDistribution> distributionMap, List<? extends TEMExpense> expenses);
+    abstract public void calculateDistributionTotals(TravelDocument document, Map<String, AccountingDistribution> distributionMap, List<? extends TmExpense> expenses);
 
     /**
-     * @see org.kuali.kfs.module.tem.service.TEMExpenseService#getExpenseDetails(org.kuali.kfs.module.tem.document.TravelDocument)
+     * @see org.kuali.kfs.module.tem.service.TmExpenseService#getExpenseDetails(org.kuali.kfs.module.tem.document.TravelDocument)
      */
     @Override
-    abstract public List<? extends TEMExpense> getExpenseDetails(TravelDocument document);
+    abstract public List<? extends TmExpense> getExpenseDetails(TravelDocument document);
 
     public ObjectCodeService getObjectCodeService() {
         return SpringContext.getBean(ObjectCodeService.class);
@@ -73,7 +73,7 @@ public abstract class ExpenseServiceBase implements TEMExpenseService {
     }
 
     /**
-     * @see org.kuali.kfs.module.tem.service.TEMExpenseService#getAllExpenseTotal(org.kuali.kfs.module.tem.document.TravelDocument, boolean)
+     * @see org.kuali.kfs.module.tem.service.TmExpenseService#getAllExpenseTotal(org.kuali.kfs.module.tem.document.TravelDocument, boolean)
      */
     @Override
     public KualiDecimal getAllExpenseTotal(TravelDocument document, boolean includeNonReimbursable) {
@@ -89,7 +89,7 @@ public abstract class ExpenseServiceBase implements TEMExpenseService {
     }
 
     /**
-     * @see org.kuali.kfs.module.tem.service.TEMExpenseService#getNonReimbursableExpenseTotal(org.kuali.kfs.module.tem.document.TravelDocument)
+     * @see org.kuali.kfs.module.tem.service.TmExpenseService#getNonReimbursableExpenseTotal(org.kuali.kfs.module.tem.document.TravelDocument)
      */
     @Override
     public KualiDecimal getNonReimbursableExpenseTotal(TravelDocument document) {
@@ -107,8 +107,8 @@ public abstract class ExpenseServiceBase implements TEMExpenseService {
      * @param code
      * @return
      */
-    private KualiDecimal calculateTotals(KualiDecimal total, List<? extends TEMExpense> expenses, String code){
-        for (TEMExpense expense : expenses){
+    private KualiDecimal calculateTotals(KualiDecimal total, List<? extends TmExpense> expenses, String code){
+        for (TmExpense expense : expenses){
             //allow for custom validation per different expense type
             if (validateExpenseCalculation(expense)){
                 //NOTE: CTS Expense did not sum the details, may have been a bug - CLEANUP
@@ -136,22 +136,22 @@ public abstract class ExpenseServiceBase implements TEMExpenseService {
     }
 
     /**
-     * @see org.kuali.kfs.module.tem.service.TEMExpenseService#validateExpenseCalculation(org.kuali.kfs.module.tem.businessobject.TEMExpense)
+     * @see org.kuali.kfs.module.tem.service.TmExpenseService#validateExpenseCalculation(org.kuali.kfs.module.tem.businessobject.TmExpense)
      */
     @Override
-    public boolean validateExpenseCalculation(TEMExpense expense){
+    public boolean validateExpenseCalculation(TmExpense expense){
         //no validation needed by default
         return true;
     }
 
     /**
-     * @see org.kuali.kfs.module.tem.service.TEMExpenseService#processExpense(org.kuali.kfs.module.tem.document.TravelDocument)
+     * @see org.kuali.kfs.module.tem.service.TmExpenseService#processExpense(org.kuali.kfs.module.tem.document.TravelDocument)
      */
     @Override
     abstract public void processExpense(TravelDocument travelDocument);
 
     /**
-     * @see org.kuali.kfs.module.tem.service.TEMExpenseService#updateExpense(org.kuali.kfs.module.tem.document.TravelDocument)
+     * @see org.kuali.kfs.module.tem.service.TmExpenseService#updateExpense(org.kuali.kfs.module.tem.document.TravelDocument)
      */
     @Override
     abstract public void updateExpense(TravelDocument travelDocument);

@@ -27,11 +27,11 @@ import org.apache.log4j.Logger;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemConstants.TravelDocTypes;
 import org.kuali.kfs.module.tem.TemPropertyConstants.TEMProfileProperties;
-import org.kuali.kfs.module.tem.businessobject.TEMProfile;
-import org.kuali.kfs.module.tem.businessobject.TEMProfileArranger;
+import org.kuali.kfs.module.tem.businessobject.TmProfile;
+import org.kuali.kfs.module.tem.businessobject.TmProfileArranger;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.service.TravelArrangerDocumentService;
-import org.kuali.kfs.module.tem.service.TEMRoleService;
+import org.kuali.kfs.module.tem.service.TmRoleService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -43,16 +43,16 @@ import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.ObjectUtils;
 
-public class TEMRoleServiceImpl implements TEMRoleService{
+public class TmRoleServiceImpl implements TmRoleService{
 
-    public static Logger LOG = Logger.getLogger(TEMRoleServiceImpl.class);
+    public static Logger LOG = Logger.getLogger(TmRoleServiceImpl.class);
 
     RoleService roleService;
     BusinessObjectService businessObjectService;
     TravelArrangerDocumentService arrangerDocumentService;
 
     /**
-     * @see org.kuali.kfs.module.tem.service.TEMRoleService#canAccessTravelDocument(org.kuali.kfs.module.tem.document.TravelDocument, org.kuali.rice.kim.bo.Person)
+     * @see org.kuali.kfs.module.tem.service.TmRoleService#canAccessTravelDocument(org.kuali.kfs.module.tem.document.TravelDocument, org.kuali.rice.kim.bo.Person)
      */
     @Override
     public boolean canAccessTravelDocument(TravelDocument travelDocument, Person currentUser){
@@ -66,7 +66,7 @@ public class TEMRoleServiceImpl implements TEMRoleService{
         else if (ObjectUtils.isNotNull(travelDocument.getTemProfileId())) {
 
             //Get the profile from the document
-            TEMProfile profile = SpringContext.getBean(BusinessObjectService.class).findBySinglePrimaryKey(TEMProfile.class, travelDocument.getTemProfileId());
+            TmProfile profile = SpringContext.getBean(BusinessObjectService.class).findBySinglePrimaryKey(TmProfile.class, travelDocument.getTemProfileId());
 
             if (ObjectUtils.isNotNull(profile)){
 
@@ -91,7 +91,7 @@ public class TEMRoleServiceImpl implements TEMRoleService{
     }
 
     /**
-     * @see org.kuali.kfs.module.tem.service.TEMRoleService#isArrangerForProfile(java.lang.String, int)
+     * @see org.kuali.kfs.module.tem.service.TmRoleService#isArrangerForProfile(java.lang.String, int)
      */
     @Override
     public boolean isArrangerForProfile(String principalId, int profileId) {
@@ -110,7 +110,7 @@ public class TEMRoleServiceImpl implements TEMRoleService{
     public boolean isTravelDocumentArrangerForProfile(String documentType, String principalId, Integer profileId) {
         boolean isTravelArranger = false;
 
-        TEMProfileArranger arranger = arrangerDocumentService.findTemProfileArranger(principalId, profileId);
+        TmProfileArranger arranger = arrangerDocumentService.findTemProfileArranger(principalId, profileId);
         if (arranger != null){
             if (TravelDocTypes.getAuthorizationDocTypes().contains(documentType)){
                 isTravelArranger = arranger.getTaInd();
@@ -122,7 +122,7 @@ public class TEMRoleServiceImpl implements TEMRoleService{
     }
 
     /**
-     * @see org.kuali.kfs.module.tem.service.TEMRoleService#isProfileArranger(java.lang.String)
+     * @see org.kuali.kfs.module.tem.service.TmRoleService#isProfileArranger(java.lang.String)
      */
     @SuppressWarnings("rawtypes")
     @Override
@@ -131,14 +131,14 @@ public class TEMRoleServiceImpl implements TEMRoleService{
         if(StringUtils.isNotBlank(arrangerId)) {
             Map fieldValues = new HashMap();
             fieldValues.put(TEMProfileProperties.PRINCIPAL_ID, arrangerId);
-            List<TEMProfileArranger> profileArrangers = new ArrayList<TEMProfileArranger>( businessObjectService.findMatching(TEMProfileArranger.class, fieldValues));
+            List<TmProfileArranger> profileArrangers = new ArrayList<TmProfileArranger>( businessObjectService.findMatching(TmProfileArranger.class, fieldValues));
             isProfileArranger = ObjectUtils.isNotNull(profileArrangers) && !profileArrangers.isEmpty();
         }
         return isProfileArranger;
     }
 
     /**
-     * @see org.kuali.kfs.module.tem.service.TEMRoleService#isProfileAdmin(org.kuali.rice.kim.bo.Person, java.lang.String)
+     * @see org.kuali.kfs.module.tem.service.TmRoleService#isProfileAdmin(org.kuali.rice.kim.bo.Person, java.lang.String)
      */
     @Override
     public boolean isProfileAdmin(Person currentUser, String homeDepartment) {
@@ -183,7 +183,7 @@ public class TEMRoleServiceImpl implements TEMRoleService{
     }
 
     /**
-     * @see org.kuali.kfs.module.tem.service.TEMRoleService#checkUserTEMRole(org.kuali.rice.kim.bo.Person, java.lang.String)
+     * @see org.kuali.kfs.module.tem.service.TmRoleService#checkUserTEMRole(org.kuali.rice.kim.bo.Person, java.lang.String)
      */
     @Override
     public boolean checkUserTEMRole(final Person user, String role){
@@ -191,7 +191,7 @@ public class TEMRoleServiceImpl implements TEMRoleService{
     }
 
     /**
-     * @see org.kuali.kfs.module.tem.service.TEMRoleService#checkUserRole(org.kuali.rice.kim.bo.Person, java.lang.String, java.lang.String, org.kuali.rice.kim.bo.types.dto.Map<String,String>)
+     * @see org.kuali.kfs.module.tem.service.TmRoleService#checkUserRole(org.kuali.rice.kim.bo.Person, java.lang.String, java.lang.String, org.kuali.rice.kim.bo.types.dto.Map<String,String>)
      */
     @Override
     public boolean checkUserRole(final Person user, String role, String parameterNamespace, Map<String,String> qualification){
@@ -207,7 +207,7 @@ public class TEMRoleServiceImpl implements TEMRoleService{
     }
 
     /**
-     * @see org.kuali.kfs.module.tem.service.TEMRoleService#checkOrganizationRole(org.kuali.rice.kim.bo.Person, java.lang.String, java.lang.String, java.lang.String)
+     * @see org.kuali.kfs.module.tem.service.TmRoleService#checkOrganizationRole(org.kuali.rice.kim.bo.Person, java.lang.String, java.lang.String, java.lang.String)
      */
     @Override
     public boolean checkOrganizationRole(final Person user, String role, String parameterNamespace, String primaryDepartmentCode){

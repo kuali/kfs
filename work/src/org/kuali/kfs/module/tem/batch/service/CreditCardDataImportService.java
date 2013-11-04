@@ -19,7 +19,7 @@ import java.util.List;
 
 import org.kuali.kfs.module.tem.businessobject.CreditCardImportData;
 import org.kuali.kfs.module.tem.businessobject.CreditCardStagingData;
-import org.kuali.kfs.module.tem.businessobject.TEMProfileAccount;
+import org.kuali.kfs.module.tem.businessobject.TmProfileAccount;
 import org.kuali.kfs.sys.batch.BatchInputFileType;
 import org.kuali.rice.krad.util.ErrorMessage;
 
@@ -30,7 +30,7 @@ public interface CreditCardDataImportService {
 
     public boolean isDuplicate(CreditCardStagingData creditCardData, List<ErrorMessage> errorMessages);
 
-    public TEMProfileAccount findTraveler(CreditCardStagingData creditCardData);
+    public TmProfileAccount findTraveler(CreditCardStagingData creditCardData);
 
     public List<CreditCardStagingData> validateCreditCardData(CreditCardImportData creditCardList, String dataFileName);
 

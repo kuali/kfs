@@ -42,7 +42,7 @@ import org.kuali.kfs.module.tem.businessobject.CreditCardImportData;
 import org.kuali.kfs.module.tem.businessobject.CreditCardStagingData;
 import org.kuali.kfs.module.tem.businessobject.ExpenseType;
 import org.kuali.kfs.module.tem.businessobject.HistoricalTravelExpense;
-import org.kuali.kfs.module.tem.businessobject.TEMProfileAccount;
+import org.kuali.kfs.module.tem.businessobject.TmProfileAccount;
 import org.kuali.kfs.module.tem.service.CreditCardAgencyService;
 import org.kuali.kfs.module.tem.service.TemProfileService;
 import org.kuali.kfs.module.tem.service.TravelExpenseService;
@@ -177,7 +177,7 @@ public class CreditCardDataImportServiceImpl implements CreditCardDataImportServ
                 if(validateAndSetCreditCardAgency(creditCardData)){
 
                     if(creditCardData.getExpenseImport() == ExpenseImport.traveler){
-                        TEMProfileAccount temProfileAccount  = findTraveler(creditCardData);
+                        TmProfileAccount temProfileAccount  = findTraveler(creditCardData);
 
                         if(ObjectUtils.isNull(temProfileAccount)){
                             LOG.error("Invalid Traveler in Credit Card Data record.");
@@ -285,11 +285,11 @@ public class CreditCardDataImportServiceImpl implements CreditCardDataImportServ
      * @see org.kuali.kfs.module.tem.batch.service.CreditCardDataImportService#findTraveler(org.kuali.kfs.module.tem.businessobject.CreditCardStagingData)
      */
     @Override
-    public TEMProfileAccount findTraveler(CreditCardStagingData creditCardData){
+    public TmProfileAccount findTraveler(CreditCardStagingData creditCardData){
         Map<String,String> criteria = new HashMap<String,String>(1);
         criteria.put(TemPropertyConstants.ACCOUNT_NUMBER, creditCardData.getCreditCardNumber());
 
-        Collection<TEMProfileAccount> temProfileAccounts = businessObjectService.findMatching(TEMProfileAccount.class, criteria);
+        Collection<TmProfileAccount> temProfileAccounts = businessObjectService.findMatching(TmProfileAccount.class, criteria);
 
         if(ObjectUtils.isNotNull(temProfileAccounts) && temProfileAccounts.size() > 0) {
             return temProfileAccounts.iterator().next();

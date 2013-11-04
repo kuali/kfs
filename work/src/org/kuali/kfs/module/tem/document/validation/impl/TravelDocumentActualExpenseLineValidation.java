@@ -30,7 +30,7 @@ import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 
-public class TravelDocumentActualExpenseLineValidation extends TEMDocumentExpenseLineValidation {
+public class TravelDocumentActualExpenseLineValidation extends TmDocumentExpenseLineValidation {
     protected boolean warningOnly = true;
     protected ActualExpense actualExpenseForValidation;
 

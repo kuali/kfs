@@ -27,7 +27,7 @@ import org.kuali.kfs.fp.businessobject.TravelCompanyCode;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 
-public interface TEMExpense {
+public interface TmExpense {
 
     @Id
     @Column(name = "id", nullable = false)
@@ -199,13 +199,13 @@ public interface TEMExpense {
      * Gets the expenseDetails attribute.
      * @return Returns the expenseDetails.
      */
-    public List<? extends TEMExpense> getExpenseDetails();
+    public List<? extends TmExpense> getExpenseDetails();
 
     /**
      * Sets the expenseDetails attribute value.
      * @param expenseDetails The expenseDetails to set.
      */
-    public void setExpenseDetails(List<TEMExpense> expenseDetails);
+    public void setExpenseDetails(List<TmExpense> expenseDetails);
 
     /**
      * Get the total detail expenses amount
@@ -217,7 +217,7 @@ public interface TEMExpense {
     /**
      * @param expense
      */
-    public void addExpenseDetails(TEMExpense expense);
+    public void addExpenseDetails(TmExpense expense);
 
     public String getSequenceName();
 

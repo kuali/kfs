@@ -23,12 +23,12 @@ import java.util.Map;
 
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants.TEMProfileProperties;
-import org.kuali.kfs.module.tem.businessobject.TEMProfile;
+import org.kuali.kfs.module.tem.businessobject.TmProfile;
 import org.kuali.kfs.module.tem.businessobject.TravelerDetail;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
 import org.kuali.kfs.module.tem.identity.TemKimAttributes;
-import org.kuali.kfs.module.tem.service.TEMRoleService;
+import org.kuali.kfs.module.tem.service.TmRoleService;
 import org.kuali.kfs.module.tem.service.TravelService;
 import org.kuali.kfs.module.tem.service.TravelerService;
 import org.kuali.kfs.sys.KFSConstants;
@@ -68,7 +68,7 @@ abstract public class TravelArrangeableAuthorizer extends AccountingDocumentAuth
                 qualification.put(TEMProfileProperties.PROFILE_ID, document.getProfileId().toString());
                 qualification.put(KFSPropertyConstants.DOCUMENT_TYPE_NAME, document.getDocumentTypeName());
 
-                final TEMProfile profile = getBusinessObjectService().findBySinglePrimaryKey(TEMProfile.class, document.getProfileId());
+                final TmProfile profile = getBusinessObjectService().findBySinglePrimaryKey(TmProfile.class, document.getProfileId());
                 if (profile != null) {
                     qualification.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, profile.getHomeDeptChartOfAccountsCode());
                     qualification.put(KFSPropertyConstants.ORGANIZATION_CODE, profile.getHomeDeptOrgCode());
@@ -212,8 +212,8 @@ abstract public class TravelArrangeableAuthorizer extends AccountingDocumentAuth
         return SpringContext.getBean(TravelService.class);
     }
 
-    protected TEMRoleService getTemRoleService() {
-        return SpringContext.getBean(TEMRoleService.class);
+    protected TmRoleService getTemRoleService() {
+        return SpringContext.getBean(TmRoleService.class);
     }
 
     protected RoleService getRoleService() {

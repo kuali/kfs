@@ -19,7 +19,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
-import org.kuali.kfs.module.tem.businessobject.TEMProfile;
+import org.kuali.kfs.module.tem.businessobject.TmProfile;
 import org.kuali.kfs.module.tem.identity.TemKimAttributes;
 import org.kuali.kfs.sys.document.FinancialSystemMaintenanceDocument;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase;
@@ -37,21 +37,21 @@ public class TemProfileAuthorizer extends FinancialSystemMaintenanceDocumentAuth
         super.addRoleQualification(dataObject, attributes);
         if (dataObject instanceof FinancialSystemMaintenanceDocument) {
             FinancialSystemMaintenanceDocument maintDoc = (FinancialSystemMaintenanceDocument) dataObject;
-            if (maintDoc.getNewMaintainableObject().getBusinessObject() instanceof TEMProfile) {
-                final TEMProfile profile = (TEMProfile) maintDoc.getNewMaintainableObject().getBusinessObject();
+            if (maintDoc.getNewMaintainableObject().getBusinessObject() instanceof TmProfile) {
+                final TmProfile profile = (TmProfile) maintDoc.getNewMaintainableObject().getBusinessObject();
                 addRoleQualificationsFromProfile(profile, attributes);
             }
-        } else if (dataObject instanceof TEMProfile) {
-            addRoleQualificationsFromProfile((TEMProfile)dataObject, attributes);
+        } else if (dataObject instanceof TmProfile) {
+            addRoleQualificationsFromProfile((TmProfile)dataObject, attributes);
         }
     }
 
     /**
-     * Adds role qualifiers harvested from the TEMProfile to the attributes Map
-     * @param profile the TEMProfile to harvest qualifiers from
+     * Adds role qualifiers harvested from the TmProfile to the attributes Map
+     * @param profile the TmProfile to harvest qualifiers from
      * @param attributes the Map of qualifiers to add into
      */
-    protected void addRoleQualificationsFromProfile(TEMProfile profile, Map<String, String> attributes) {
+    protected void addRoleQualificationsFromProfile(TmProfile profile, Map<String, String> attributes) {
         // Add the principalId from the profile to grant permission to users modifying their own profile.
         if (!StringUtils.isBlank(profile.getPrincipalId())) {
             attributes.put(TemKimAttributes.PROFILE_PRINCIPAL_ID, profile.getPrincipalId());

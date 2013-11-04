@@ -39,7 +39,7 @@ import org.kuali.kfs.module.tem.businessobject.AgencyStagingData;
 import org.kuali.kfs.module.tem.businessobject.ExpenseType;
 import org.kuali.kfs.module.tem.businessobject.ExpenseTypeObjectCode;
 import org.kuali.kfs.module.tem.businessobject.HistoricalTravelExpense;
-import org.kuali.kfs.module.tem.businessobject.TEMProfile;
+import org.kuali.kfs.module.tem.businessobject.TmProfile;
 import org.kuali.kfs.module.tem.businessobject.TripAccountingInformation;
 import org.kuali.kfs.module.tem.service.TemProfileService;
 import org.kuali.kfs.module.tem.service.TravelExpenseService;
@@ -164,7 +164,7 @@ public class ExpenseImportByTravelerServiceImpl extends ExpenseImportServiceBase
     public List<ErrorMessage> validateTraveler(final AgencyStagingData agencyData) {
 
         List<ErrorMessage> errorMessages = new ArrayList<ErrorMessage>();
-        TEMProfile profile = getTraveler(agencyData);
+        TmProfile profile = getTraveler(agencyData);
 
         if (ObjectUtils.isNotNull(profile)) {
             agencyData.setTemProfileId(profile.getProfileId());
@@ -182,10 +182,10 @@ public class ExpenseImportByTravelerServiceImpl extends ExpenseImportServiceBase
      * @see org.kuali.kfs.module.tem.batch.service.ExpenseImportByTravelerService#getTraveler(org.kuali.kfs.module.tem.businessobject.AgencyStagingData)
      */
     @Override
-    public TEMProfile getTraveler(final AgencyStagingData agencyData) {
+    public TmProfile getTraveler(final AgencyStagingData agencyData) {
 
         // First try and get a profile by employee id
-        TEMProfile profile = temProfileService.findTemProfileByEmployeeId(agencyData.getTravelerId());
+        TmProfile profile = temProfileService.findTemProfileByEmployeeId(agencyData.getTravelerId());
         if (ObjectUtils.isNotNull(profile)) {
             LOG.info("Traveler is an Employee: " + agencyData.getTravelerId());
             agencyData.setTemProfileId(profile.getProfileId());
@@ -207,13 +207,13 @@ public class ExpenseImportByTravelerServiceImpl extends ExpenseImportServiceBase
 
     /**
      *
-     * @see org.kuali.kfs.module.tem.batch.service.ExpenseImportByTravelerService#validateAccountingInfo(org.kuali.kfs.module.tem.businessobject.TEMProfile, org.kuali.kfs.module.tem.businessobject.AgencyStagingData)
+     * @see org.kuali.kfs.module.tem.batch.service.ExpenseImportByTravelerService#validateAccountingInfo(org.kuali.kfs.module.tem.businessobject.TmProfile, org.kuali.kfs.module.tem.businessobject.AgencyStagingData)
      */
     @Override
     public List<ErrorMessage> validateAccountingInfo(final AgencyStagingData agencyData) {
         List<ErrorMessage> errorMessages = new ArrayList<ErrorMessage>();
 
-        final TEMProfile profile = getTraveler(agencyData);
+        final TmProfile profile = getTraveler(agencyData);
 
         if (ObjectUtils.isNull(profile)) {
             errorMessages.add(new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_DATA_INVALID_TRAVELER, agencyData.getTravelerId()));

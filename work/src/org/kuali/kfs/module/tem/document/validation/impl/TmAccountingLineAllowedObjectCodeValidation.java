@@ -30,7 +30,7 @@ import org.kuali.kfs.module.tem.TemPropertyConstants.TravelAuthorizationFields;
 import org.kuali.kfs.module.tem.TemWorkflowConstants;
 import org.kuali.kfs.module.tem.businessobject.AccountingDistribution;
 import org.kuali.kfs.module.tem.businessobject.ActualExpense;
-import org.kuali.kfs.module.tem.businessobject.TEMExpense;
+import org.kuali.kfs.module.tem.businessobject.TmExpense;
 import org.kuali.kfs.module.tem.businessobject.TemSourceAccountingLine;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
 import org.kuali.kfs.module.tem.document.TravelDocument;
@@ -56,7 +56,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADPropertyConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
 
-public class TEMAccountingLineAllowedObjectCodeValidation extends GenericValidation {
+public class TmAccountingLineAllowedObjectCodeValidation extends GenericValidation {
 
     /**
      * @see org.kuali.kfs.sys.document.validation.Validation#validate(org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent)
@@ -132,7 +132,7 @@ public class TEMAccountingLineAllowedObjectCodeValidation extends GenericValidat
         if (valid){
           //Fly America validation
             TravelDocument document = (TravelDocument) event.getDocument();
-            List<TEMExpense> allExpenses = new ArrayList<TEMExpense>();
+            List<TmExpense> allExpenses = new ArrayList<TmExpense>();
             allExpenses.addAll(document.getImportedExpenses());
             allExpenses.addAll(document.getActualExpenses());
             if (allExpenses.size() > 0){
@@ -146,7 +146,7 @@ public class TEMAccountingLineAllowedObjectCodeValidation extends GenericValidat
                 }
                 boolean isCGEnabled = SpringContext.getBean(ParameterService.class).getParameterValueAsBoolean(KFSConstants.CoreModuleNamespaces.CHART, KFSConstants.RouteLevelNames.ACCOUNT, KFSConstants.ChartApcParms.ACCOUNT_FUND_GROUP_DENOTES_CG);
                 if (isCGEnabled){
-                    for (TEMExpense expense : allExpenses){
+                    for (TmExpense expense : allExpenses){
                         if (expense.getExpenseTypeCode().equals(TemConstants.ExpenseTypes.AIRFARE)){
                             Map<String,Object> fieldValues = new HashMap<String, Object>();
                             fieldValues.put(KRADPropertyConstants.CODE,TemConstants.ExpenseTypes.AIRFARE);

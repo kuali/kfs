@@ -215,7 +215,7 @@ public class AssetGlobalServiceImpl implements AssetGlobalService {
     }
 
     protected boolean isPaymentFinancialObjectActive(AssetPaymentDetail assetPayment) {
-        ObjectCode financialObjectCode = (ObjectCode) objectCodeService.getByPrimaryIdForCurrentYear(assetPayment.getChartOfAccountsCode(),assetPayment.getFinancialObjectCode());
+        ObjectCode financialObjectCode = objectCodeService.getByPrimaryIdForCurrentYear(assetPayment.getChartOfAccountsCode(),assetPayment.getFinancialObjectCode());
         if ( financialObjectCode != null ) {
             return financialObjectCode.isActive();
         }
@@ -280,7 +280,7 @@ public class AssetGlobalServiceImpl implements AssetGlobalService {
         // create new assets with inner loop handling payments
         Iterator<AssetGlobalDetail> assetGlobalDetailsIterator = assetGlobal.getAssetGlobalDetails().iterator();
         for (int assetGlobalDetailsIndex = 0; assetGlobalDetailsIterator.hasNext(); assetGlobalDetailsIndex++) {
-            AssetGlobalDetail assetGlobalDetail = (AssetGlobalDetail) assetGlobalDetailsIterator.next();
+            AssetGlobalDetail assetGlobalDetail = assetGlobalDetailsIterator.next();
 
             // Create the asset with most fields set as required
             Asset asset = setupAsset(assetGlobal, assetGlobalDetail, false);
@@ -436,8 +436,7 @@ public class AssetGlobalServiceImpl implements AssetGlobalService {
         assetPayment.setPaymentSequenceNumber(assetPaymentDetail.getSequenceNumber());
         assetPayment.setTransferPaymentCode(CamsConstants.AssetPayment.TRANSFER_PAYMENT_CODE_N);
         // Running this every time of the loop is inefficient, could be put into HashMap
-        KualiDecimalUtils kualiDecimalService = new KualiDecimalUtils(assetPaymentDetail.getAmount(), CamsConstants.CURRENCY_USD);
-        KualiDecimal[] amountBuckets = kualiDecimalService.allocateByQuantity(assetGlobalDetailsSize);
+        KualiDecimal[] amountBuckets = KualiDecimalUtils.allocateByQuantity(assetPaymentDetail.getAmount(), assetGlobalDetailsSize);
 
         assetPayment.setAccountChargeAmount(amountBuckets[assetGlobalDetailsIndex]);
         ObjectCode objectCode = objectCodeService.getByPrimaryIdForCurrentYear(assetPayment.getChartOfAccountsCode(), assetPayment.getFinancialObjectCode());

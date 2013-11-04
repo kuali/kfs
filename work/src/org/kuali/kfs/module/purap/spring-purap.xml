@@ -690,9 +690,11 @@
         </property> 
     </bean>
 
-	<bean id="purapObjectCodeDynamicNameLabelGenerator" class="org.kuali.kfs.module.purap.document.service.impl.PurapObjectCodeDynamicNameLabelGeneratorImpl" />
+	<bean id="purapObjectCodeDynamicNameLabelGenerator" parent="purapObjectCodeDynamicNameLabelGenerator-parentBean" />
+	<bean id="purapObjectCodeDynamicNameLabelGenerator-parentBean" class="org.kuali.kfs.module.purap.document.service.impl.PurapObjectCodeDynamicNameLabelGeneratorImpl" abstract="true" />
 
-	<bean id="purapSubObjectCodeDynamicNameLabelGenerator" class="org.kuali.kfs.module.purap.document.service.impl.PurapSubObjectCodeDynamicNameLabelGeneratorImpl" />
+	<bean id="purapSubObjectCodeDynamicNameLabelGenerator" parent="purapSubObjectCodeDynamicNameLabelGenerator-parentBean" />
+	<bean id="purapSubObjectCodeDynamicNameLabelGenerator-parentBean" class="org.kuali.kfs.module.purap.document.service.impl.PurapSubObjectCodeDynamicNameLabelGeneratorImpl" abstract="true" />
 	
 	<bean id="b2bPOResponseFileType" class="org.kuali.kfs.module.purap.util.cxml.B2BPOResponseFileType">
 	    <property name="digestorRulesFileName">

@@ -45,6 +45,7 @@ import org.kuali.rice.core.api.util.type.KualiInteger;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.web.struts.action.KualiAction;
+import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.exception.AuthorizationException;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -181,19 +182,15 @@ public class FormatAction extends KualiAction {
     public ActionForward continueFormat(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         FormatForm formatForm = (FormatForm) form;
         KualiInteger processId = formatForm.getFormatProcessSummary().getProcessId();
-
+        formatForm.setInitiatorEmail(GlobalVariables.getUserSession().getPerson().getEmailAddress());
         try {
-            formatService.performFormat(processId.intValue());
-            LOG.info("Formatting done.."); //remove this
+            new Thread(new FormatProcess(processId.intValue(), GlobalVariables.getUserSession())).start();
         }
         catch (FormatException e) {
             // errors added to global message map
             return mapping.findForward(PdpConstants.MAPPING_CONTINUE);
         }
-
-        String lookupUrl = buildUrl(String.valueOf(processId.intValue()));
-        LOG.info("Forwarding to lookup"); //remove this
-        return new ActionForward(lookupUrl, true);
+        return mapping.findForward(PdpConstants.MAPPING_RUNNING);
     }
 
     /**
@@ -285,5 +282,23 @@ public class FormatAction extends KualiAction {
         String lookupUrl = UrlFactory.parameterizeUrl(basePath + "/" + KFSConstants.LOOKUP_ACTION, parameters);
 
         return lookupUrl;
+    }
+
+    public ActionForward returnToPortal(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        return mapping.findForward(KFSConstants.MAPPING_PORTAL);
+    }
+
+    private class FormatProcess implements Runnable {
+        int processId;
+        UserSession session;
+        public FormatProcess(int processId, UserSession session) {
+            this.processId = processId;
+            this.session = session;
+        }
+        @Override
+        public void run() {
+            GlobalVariables.setUserSession(session);
+            formatService.performFormat(processId);
+        }
     }
 }

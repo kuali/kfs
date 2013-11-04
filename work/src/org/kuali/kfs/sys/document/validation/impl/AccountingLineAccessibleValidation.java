@@ -175,10 +175,10 @@ public class AccountingLineAccessibleValidation extends GenericValidation {
         } else {
             propertyName = accountingLineForValidation.isSourceAccountingLine() ? KFSConstants.PermissionAttributeValue.SOURCE_ACCOUNTING_LINES.value : KFSConstants.PermissionAttributeValue.TARGET_ACCOUNTING_LINES.value;
         }
-        if (propertyName.equals("newSourceLine")) {
+        if (propertyName.startsWith("newSourceLine")) {
             return KFSConstants.PermissionAttributeValue.SOURCE_ACCOUNTING_LINES.value;
         }
-        if (propertyName.equals("newTargetLine")) {
+        if (propertyName.startsWith("newTargetLine")) {
             return KFSConstants.PermissionAttributeValue.TARGET_ACCOUNTING_LINES.value;
         }
         return propertyName;

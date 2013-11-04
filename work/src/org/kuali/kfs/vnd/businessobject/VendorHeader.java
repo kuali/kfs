@@ -16,13 +16,20 @@
 
 package org.kuali.kfs.vnd.businessobject;
 
+import java.lang.reflect.Field;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.log4j.Logger;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.krad.datadictionary.AttributeSecurity;
+import org.kuali.rice.krad.service.DataDictionaryService;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * Contains information specific to a parent Vendor, which may be shared by its division Vendors if it has any. Contained by a
@@ -151,8 +158,9 @@ public class VendorHeader extends PersistableBusinessObjectBase {
 
     public VendorType getVendorType() {
         // refresh because proxy doesn't work properly and vendor type sometimes is null
-        if (vendorType == null)
+        if (vendorType == null) {
             this.refreshReferenceObject("vendorType");
+        }
         return vendorType;
     }
 
@@ -162,6 +170,7 @@ public class VendorHeader extends PersistableBusinessObjectBase {
      * @param vendorType The vendorType to set.
      * @deprecated
      */
+    @Deprecated
     public void setVendorType(VendorType vendorType) {
         this.vendorType = vendorType;
     }
@@ -177,6 +186,7 @@ public class VendorHeader extends PersistableBusinessObjectBase {
      * @param vendorOwnership The vendorOwnership to set.
      * @deprecated
      */
+    @Deprecated
     public void setVendorOwnership(OwnershipType vendorOwnership) {
         this.vendorOwnership = vendorOwnership;
     }
@@ -192,6 +202,7 @@ public class VendorHeader extends PersistableBusinessObjectBase {
      * @param vendorOwnershipCategory The vendorOwnershipCategory to set.
      * @deprecated
      */
+    @Deprecated
     public void setVendorOwnershipCategory(OwnershipCategory vendorOwnershipCategory) {
         this.vendorOwnershipCategory = vendorOwnershipCategory;
     }
@@ -289,6 +300,33 @@ public class VendorHeader extends PersistableBusinessObjectBase {
                 .append(getVendorDebarredIndicator(), vh.getVendorDebarredIndicator())
                 .append(getVendorForeignIndicator(), vh.getVendorForeignIndicator())
                 .isEquals();
+    }
+
+    @Override
+    public String toString() {
+        class VendorHeaderToStringBuilder extends ReflectionToStringBuilder {
+            private VendorHeaderToStringBuilder(Object object) {
+                super(object);
+            }
+
+            @Override
+            public boolean accept(Field field) {
+                if (BusinessObject.class.isAssignableFrom(field.getType())) {
+                    return false;
+                }
+
+                DataDictionaryService dataDictionaryService = SpringContext.getBean(DataDictionaryService.class);
+                AttributeSecurity attributeSecurity = dataDictionaryService.getAttributeSecurity(VendorHeader.class.getName(), field.getName());
+                if (ObjectUtils.isNotNull(attributeSecurity)
+                                && (attributeSecurity.isHide() || attributeSecurity.isMask() || attributeSecurity.isPartialMask())) {
+                    return false;
+                }
+
+                return super.accept(field);
+            }
+        };
+        ReflectionToStringBuilder toStringBuilder = new VendorHeaderToStringBuilder(this);
+        return toStringBuilder.toString();
     }
 
 }

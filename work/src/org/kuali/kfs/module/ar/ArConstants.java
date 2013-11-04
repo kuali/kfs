@@ -84,6 +84,10 @@ public class ArConstants{
 
     public static final String CUSTOMER_INVOICE_DETAIL_DEFAULT_DISCOUNT_DESCRIPTION_PREFIX = "LINE ITEM DISCOUNT";
 
+    // We need a higher scale than the default 2 for item quantity in Customer Invoice and Credit Memo,
+    // because we might have a very small invoice open amount and need to apply very small item quantity in credit memo.
+    public static int ITEM_QUANTITY_SCALE = 10;
+
     public static final String INV_DOCUMENT_TYPE = "INV";
     public static final String INV_DOCUMENT_DESCRIPTION = "Customer Invoice Document";
     public static final String DEFAULT_PROCESSING_CHART = "DEFAULT_PROCESSING_CHART";

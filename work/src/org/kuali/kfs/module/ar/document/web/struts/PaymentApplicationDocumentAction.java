@@ -384,9 +384,7 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
         // add only entries that do not have the loaded customer number
         String currentCustomerNumber = findCustomerNumber(paymentApplicationDocumentForm);
         for (InvoicePaidApplied invoicePaidApplied : invoicePaidApplieds) {
-            if (! currentCustomerNumber.equals( invoicePaidApplied.getCustomerInvoiceDocument().getCustomer().getCustomerNumber())) {
                 filteredInvoicePaidApplieds.add(invoicePaidApplied);
-            }
         }
         return filteredInvoicePaidApplieds;
     }
@@ -431,11 +429,10 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
 
                 String documentNumber, String refInvoiceDocNumber, Integer invoiceSequenceNumber, KualiDecimal appliedAmount, Integer paidAppliedItemNumber) {
     */
-    protected boolean containsIdentical(CustomerInvoiceDetail customerInvoiceDetail,  List<InvoicePaidApplied> invoicePaidApplieds ) {
+    protected boolean containsIdentical(CustomerInvoiceDetail customerInvoiceDetail,  KualiDecimal amountApplied, List<InvoicePaidApplied> invoicePaidApplieds ) {
         boolean identicalFlag = false;
         String custRefInvoiceDocNumber = customerInvoiceDetail.getDocumentNumber();
         Integer custInvoiceSequenceNumber = customerInvoiceDetail.getInvoiceItemNumber();
-        KualiDecimal custAppliedAmount = customerInvoiceDetail.getAmountApplied();
 
         for (InvoicePaidApplied invoicePaidApplied : invoicePaidApplieds) {
             String payAppDocNumber = invoicePaidApplied.getDocumentNumber();
@@ -443,7 +440,7 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
             Integer invoiceSequenceNumber = invoicePaidApplied.getInvoiceItemNumber();
             KualiDecimal appliedAmount = invoicePaidApplied.getInvoiceItemAppliedAmount();
             Integer paidAppliedItemNumber = invoicePaidApplied.getPaidAppliedItemNumber();
-            if (custRefInvoiceDocNumber.equals(refInvoiceDocNumber) && custInvoiceSequenceNumber.equals(invoiceSequenceNumber) && custAppliedAmount.equals(appliedAmount)) {
+            if (custRefInvoiceDocNumber.equals(refInvoiceDocNumber) && custInvoiceSequenceNumber.equals(invoiceSequenceNumber) && amountApplied.equals(appliedAmount)) {
                 identicalFlag = true;
                 break;
             }

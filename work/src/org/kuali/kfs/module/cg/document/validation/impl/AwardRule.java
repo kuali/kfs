@@ -84,6 +84,9 @@ public class AwardRule extends CGMaintenanceDocumentRuleBase {
         success &= checkEndAfterBegin(newAwardCopy.getAwardBeginningDate(), newAwardCopy.getAwardEndingDate(), KFSPropertyConstants.AWARD_ENDING_DATE);
         success &= checkPrimary(newAwardCopy.getAwardOrganizations(), AwardOrganization.class, KFSPropertyConstants.AWARD_ORGRANIZATIONS, Award.class);
         success &= checkPrimary(newAwardCopy.getAwardProjectDirectors(), AwardProjectDirector.class, KFSPropertyConstants.AWARD_PROJECT_DIRECTORS, Award.class);
+        success &= checkForDuplicateAccoutnts();
+        success &= checkForDuplicateAwardProjectDirector();
+        success &= checkForDuplicateAwardOrganization();
         if(contractsGrantsBillingEnhancementsInd){
         success &= checkPrimary(newAwardCopy.getAwardFundManagers(), AwardFundManager.class, KFSPropertyConstants.AWARD_FUND_MANAGERS, Award.class);
         }
@@ -372,7 +375,67 @@ public class AwardRule extends CGMaintenanceDocumentRuleBase {
 
             success &= false;
         }
+        return success;
+    }
 
+    protected boolean checkForDuplicateAccoutnts() {
+        boolean success = true;
+        String accountNumber;
+        String accountChart;
+        Collection<AwardAccount> awardAccounts = newAwardCopy.getAwardAccounts();
+        HashSet<String> accountHash = new HashSet<String>();
+
+        //validate if the newly entered award account is already on that award
+        for(AwardAccount account: awardAccounts){
+            if(account!=null && StringUtils.isNotEmpty(account.getAccountNumber())){
+                 accountNumber = account.getAccountNumber();
+                 accountChart  = account.getChartOfAccountsCode();
+                 if (!accountHash.add(accountChart+accountNumber)){
+                     putFieldError(KFSPropertyConstants.AWARD_ACCOUNTS, CGKeyConstants.ERROR_DUPLICATE_AWARD_ACCOUNT, accountChart + "-" + accountNumber);
+                     return false;
+                 }
+             }
+        }
+        return success;
+    }
+
+    protected boolean checkForDuplicateAwardProjectDirector() {
+        boolean success = true;
+        String principalId;
+        Collection<AwardProjectDirector> awardProjectDirectors = newAwardCopy.getAwardProjectDirectors();
+        HashSet<String> principalIdHash = new HashSet<String>();
+
+        //validate if the newly entered AwardProjectDirector is already on that award
+        for(AwardProjectDirector projectDirector: awardProjectDirectors){
+            if(projectDirector!=null && StringUtils.isNotEmpty(projectDirector.getPrincipalId())){
+                principalId = projectDirector.getPrincipalId();
+                if (!principalIdHash.add(principalId)){
+                    putFieldError(KFSPropertyConstants.AWARD_PROJECT_DIRECTORS, CGKeyConstants.ERROR_DUPLICATE_AWARD_PROJECT_DIRECTOR, principalId);
+                    return false;
+                }
+            }
+        }
+        return success;
+    }
+
+    protected boolean checkForDuplicateAwardOrganization() {
+        boolean success = true;
+        String organizationCode;
+        String organizationChart;
+        Collection<AwardOrganization> awardOrganizations = newAwardCopy.getAwardOrganizations();
+        HashSet<String> orgaizationHash = new HashSet<String>();
+
+        //validate if the newly entered awardOrganization is already on that award
+        for(AwardOrganization awardOrganization: awardOrganizations){
+            if(awardOrganization!=null && StringUtils.isNotEmpty(awardOrganization.getOrganizationCode())){
+                organizationCode = awardOrganization.getOrganizationCode();
+                organizationChart  = awardOrganization.getChartOfAccountsCode();
+                if (!orgaizationHash.add(organizationChart+organizationCode)){
+                    putFieldError(KFSPropertyConstants.AWARD_ORGRANIZATIONS, CGKeyConstants.ERROR_DUPLICATE_AWARD_ORGANIZATION, organizationChart + "-" + organizationCode);
+                    return false;
+                }
+            }
+        }
         return success;
     }
 

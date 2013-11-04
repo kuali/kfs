@@ -1079,6 +1079,7 @@
 			validate="false" attribute="KualiForm">
 			<forward name="selection" path="/jsp/pdp/format/formatSelection.jsp" />
 			<forward name="continue" path="/jsp/pdp/format/formatContinue.jsp" />
+			<forward name="running" path="/jsp/pdp/format/processRunning.jsp" />
 		</action>
 		
 		<action path="/glTrialBalance"

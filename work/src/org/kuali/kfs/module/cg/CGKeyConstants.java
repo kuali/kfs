@@ -26,6 +26,10 @@ public class CGKeyConstants {
     public static final String MESSAGE_CLOSE_JOB_SUCCEEDED = "message.closeJob.succeeded";
     public static final String ERROR_CLOSE_JOB_FAILED = "error.cg.closeJobFailed";
 
+    public static final String ERROR_DUPLICATE_AWARD_ACCOUNT = "error.cg.duplicate.awardAccount";
+    public static final String ERROR_DUPLICATE_AWARD_PROJECT_DIRECTOR = "error.cg.duplicate.awardProjectDirector";
+    public static final String ERROR_DUPLICATE_AWARD_ORGANIZATION = "error.cg.duplicate.awardOrganization";
+
     // Award Constants and errors
     public static class AwardConstants {
         public static final String ERROR_NO_CTRL_ACCT = "error.cg.no.control.account";

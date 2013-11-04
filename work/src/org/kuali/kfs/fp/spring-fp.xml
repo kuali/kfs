@@ -405,7 +405,9 @@
 		<property name="electronicPaymentClaimingService"><ref bean="electronicPaymentClaimingService" /></property>
 		<property name="parameterService"><ref bean="parameterService" /></property>
 	</bean>
-	<bean id="yearEndDistributionOfIncomeAndExpenseElectronicPaymentClaimingDocumentHelper" class="org.kuali.kfs.fp.batch.service.impl.YearEndDistributionOfIncomeAndExpenseElectronicPaymentClaimingHelperStrategyImpl" parent="distributionOfIncomeAndExpenseElectronicPaymentClaimingDocumentHelper" />
+	
+	<bean id="yearEndDistributionOfIncomeAndExpenseElectronicPaymentClaimingDocumentHelper" parent="yearEndDistributionOfIncomeAndExpenseElectronicPaymentClaimingDocumentHelper-parentBean" />
+	<bean id="yearEndDistributionOfIncomeAndExpenseElectronicPaymentClaimingDocumentHelper-parentBean" class="org.kuali.kfs.fp.batch.service.impl.YearEndDistributionOfIncomeAndExpenseElectronicPaymentClaimingHelperStrategyImpl" parent="distributionOfIncomeAndExpenseElectronicPaymentClaimingDocumentHelper" abstract="true" />
 	
 	<bean id="transferOfFundsService"  parent="transferOfFundsService-parentBean"/>
 	<bean id="transferOfFundsService-parentBean" class="org.kuali.kfs.fp.document.service.impl.TransferOfFundsServiceImpl" abstract="true">

@@ -65,8 +65,8 @@ import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.core.api.util.type.KualiInteger;
 import org.kuali.rice.coreservice.api.parameter.Parameter;
-import org.kuali.rice.coreservice.api.parameter.ParameterType;
 import org.kuali.rice.coreservice.api.parameter.Parameter.Builder;
+import org.kuali.rice.coreservice.api.parameter.ParameterType;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.Person;
@@ -708,8 +708,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
           if (creditMemoDocType.equals(documentType)) {
              lineAmount = lineAmount.negated();
           }
-
-          paymentAccountDetail.setAccountNetAmount(sourceAccountingLine.getAmount());
+          paymentAccountDetail.setAccountNetAmount(lineAmount);
           paymentAccountDetail.setFinChartCode(sourceAccountingLine.getChartOfAccountsCode());
           paymentAccountDetail.setFinObjectCode(sourceAccountingLine.getFinancialObjectCode());
 

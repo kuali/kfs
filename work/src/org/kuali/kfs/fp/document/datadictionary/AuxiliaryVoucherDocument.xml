@@ -160,31 +160,51 @@
   	<property name="elements">
 		<list>
 			<bean parent="AccountingLineView-sequenceNumber"/>
-			<bean parent="AccountingLineView-field" p:name="chartOfAccountsCode" p:required="true" p:webUILeaveFieldFunction="loadChartInfo" p:dynamicLabelProperty="chart.finChartOfAccountDescription"/>
-			<bean parent="AccountingLineView-field" p:name="accountNumber" p:required="true" p:webUILeaveFieldFunction="loadAccountInfo" p:dynamicLabelProperty="account.accountName">
-				<property name="overrideFields">
+			<bean parent="AccountingLineView-lines">
+				<property name="lines">
 					<list>
-						<bean parent="AccountingLineView-overrideField" p:name="accountExpiredOverride"/>
-						<bean parent="AccountingLineView-overrideField" p:name="nonFringeAccountOverride"/>
+						<bean parent="AccountingLineView-line">
+							<property name="elementName" value="accountingInformation" />
+							<property name="fields">
+								<list>								
+			                        <bean parent="AccountingLineView-field" p:name="chartOfAccountsCode" p:required="true" p:webUILeaveFieldFunction="loadChartInfo" p:dynamicLabelProperty="chart.finChartOfAccountDescription"/>
+			                        <bean parent="AccountingLineView-field" p:name="accountNumber" p:required="true" p:webUILeaveFieldFunction="loadAccountInfo" p:dynamicLabelProperty="account.accountName">
+				                        <property name="overrideFields">
+					                        <list>
+						                        <bean parent="AccountingLineView-overrideField" p:name="accountExpiredOverride"/>
+						                        <bean parent="AccountingLineView-overrideField" p:name="nonFringeAccountOverride"/>
+					                        </list>
+				                        </property>
+			                        </bean>
+			                        <bean parent="AccountingLineView-field" p:name="subAccountNumber" p:webUILeaveFieldFunction="loadSubAccountInfo" p:dynamicLabelProperty="subAccount.subAccountName"/>
+			                        <bean parent="AccountingLineView-field" p:name="financialObjectCode" p:required="true" p:dynamicNameLabelGeneratorBeanName="objectCodeDynamicNameLabelGenerator">
+				                        <property name="overrideFields">
+					                        <list>
+						                        <bean parent="AccountingLineView-overrideField" p:name="objectBudgetOverride"/>
+					                        </list>
+				                        </property>
+			                        </bean>
+			                        <bean parent="AccountingLineView-field" p:name="financialSubObjectCode" p:dynamicNameLabelGeneratorBeanName="subObjectCodeDynamicNameLabelGenerator" />
+			                        <bean parent="AccountingLineView-field" p:name="projectCode" p:webUILeaveFieldFunction="loadProjectInfo" p:dynamicLabelProperty="project.projectDescription"/>
+			                        <bean parent="AccountingLineView-field" p:name="organizationReferenceId"/>
+
+
+                                </list>
+						    </property>
+						</bean>
+                        <ref bean="AccountingLineView-lineDescription" />
 					</list>
 				</property>
 			</bean>
-			<bean parent="AccountingLineView-field" p:name="subAccountNumber" p:webUILeaveFieldFunction="loadSubAccountInfo" p:dynamicLabelProperty="subAccount.subAccountName"/>
-			<bean parent="AccountingLineView-field" p:name="financialObjectCode" p:required="true" p:dynamicNameLabelGeneratorBeanName="objectCodeDynamicNameLabelGenerator">
-				<property name="overrideFields">
-					<list>
-						<bean parent="AccountingLineView-overrideField" p:name="objectBudgetOverride"/>
-					</list>
-				</property>
-			</bean>
-			<bean parent="AccountingLineView-field" p:name="financialSubObjectCode" p:dynamicNameLabelGeneratorBeanName="subObjectCodeDynamicNameLabelGenerator" />
-			<bean parent="AccountingLineView-field" p:name="projectCode" p:webUILeaveFieldFunction="loadProjectInfo" p:dynamicLabelProperty="project.projectDescription"/>
-			<bean parent="AccountingLineView-field" p:name="organizationReferenceId"/>
+
 			<bean parent="AccountingLineView-debitCreditAmountField"/>
 			<bean parent="AccountingLineView-actions"/>
+			
 		</list>
 	</property>
   </bean>
+  
+  
   
   <!-- workflow attributes for routing -->
 	<bean id="AuxiliaryVoucherDocument-workflowAttributes" parent="AuxiliaryVoucherDocument-workflowAttributes-parentBean"/>

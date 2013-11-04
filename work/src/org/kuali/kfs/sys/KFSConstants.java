@@ -28,7 +28,6 @@ import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.core.api.util.type.KualiInteger;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.util.KRADConstants;
 
 /**
@@ -40,8 +39,6 @@ public class KFSConstants {
     public static final String APPLICATION_NAMESPACE_CODE = "KFS";
 
     public static final String KFS_CORE_SERVICE_NAMESPACE = "http://kfs.kuali.org/core/v5_0";
-
-    public static final String KFS_CORE_DISTRIBUTED_CACHE_MANAGER = "kfs.core.DistributedCacheManager";
 
     @Deprecated // Please switch all references to KFSConstants.CoreModuleNamespaces
     public static class ParameterNamespaces {
@@ -851,7 +848,6 @@ public class KFSConstants {
     public static class PENDING_ENTRY_APPROVED_STATUS_CODE {
         public static final String APPROVED = "A";
         public static final String PROCESSED = "X";
-        public static final String HOLD = "H";
     }
 
     public static class TableRenderConstants {
@@ -1044,6 +1040,8 @@ public class KFSConstants {
         public static final String VENDOR_CREDIT_MEMO = "CM";
         public static final String BULK_RECEIVING = "RCVB";
         public static final String ELECTRONIC_INVOICE_REJECT = "EIRT";
+
+        public static final String INTRA_ACCOUNT_ADJUSTMENT = "IAA";
         public static final String CONTRACT_MANAGER_ASSIGNMENT = "ACM";
     }
 
@@ -1234,6 +1232,7 @@ public class KFSConstants {
     public static final String BANK_ENTRY_VIEWABLE_EDITING_MODE = "bankEntryViewable";
     public static final String BANK_ENTRY_EDITABLE_EDITING_MODE = "bankEntry";
 
+
     public class RouteLevelNames {
         public static final String ACCOUNT = "Account";
         public static final String ACCOUNTING_ORGANIZATION_HIERARCHY = "AccountingOrganizationHierarchy";
@@ -1333,18 +1332,30 @@ public class KFSConstants {
 
     public static final String OVERRIDE_ACCOUNT_FOR_EXPIRED_QUESTION_ID = "OverrideAccountForExpiredQuestion";
 
-    public static final String NOTIFICATION_TEXT_KEY = "notificationText";
-    public static final int NOTIFICATION_TEXT_LINE_LENGTH = 80;
+    static final public String TRIAL_BAL_LOOKUPABLE_ID = "glTrialBalanceReportLookupable";
+    static final public String TRIAL_BAL_SELECT_SUB_SECTION = "selectionConditions";
+    static final public String TRIAL_BAL_DISPLAY_SUB_SECTION = "displayFields";
+    static final public String TRIAL_BAL_REPORT_YEAR = "reportYear";
+    // Pcard Email Notification
+    public static final String ProcurementCardEmailTimeFormat = "EEE, MMM d, yyyy HH:mm:ss z";
+    public static final String ProcurementCardTransactionTimeFormat = "EEE, MMM d, yyyy";
 
-    private static Integer MAX_LENGTH_OF_DOCUMENT_DESCRIPTION = null;
-    public static Integer getMaxLengthOfDocumentDescription() {
-        if (MAX_LENGTH_OF_DOCUMENT_DESCRIPTION == null) {
-            MAX_LENGTH_OF_DOCUMENT_DESCRIPTION = SpringContext.getBean(DataDictionaryService.class).getAttributeMaxLength(DocumentHeader.class, KFSPropertyConstants.DOCUMENT_DESCRIPTION);
-        }
-        return MAX_LENGTH_OF_DOCUMENT_DESCRIPTION;
+    public static class ProcurementCardEmailVariableTemplate {
+        public static final String DOC_CREATE_DATE = "docCreateDate";
+        public static final String TRANSACTION_COUNTER = "transactionCounter";
+        public static final String TRANSACTION_SUMMARY_LIST = "transactionSummaryList";
     }
 
+    public static class ProcurementCardParameters {
+        public static final String PCARD_BATCH_SUMMARY_TO_EMAIL_ADDRESSES = "PCARD_BATCH_SUMMARY_TO_EMAIL_ADDRESSES";
+        public static final String BATCH_SUMMARY_RUNNING_TIMESTAMP_FORMAT = "BATCH_SUMMARY_RUNNING_TIMESTAMP_FORMAT";
+        public static final String BATCH_SUMMARY_POSTING_DATE_FORMAT = "BATCH_SUMMARY_POSTING_DATE_FORMAT";
+        public static final String PCARD_BATCH_LOAD_STEP = "ProcurementCardLoadStep";
+        public static final String PCARD_BATCH_CREATE_DOC_STEP="ProcurementCardCreateDocumentsStep";
+    }
     public static final String BATCH_LOGGER_DEFAULT_CONVERSION_PATTERN = "%d [%t] u:%X{user}/d:%X{docId} %-5p %c :: %m%n";
     public static final Layout BATCH_LOGGER_DEFAULT_PATTERN_LAYOUT = new PatternLayout(BATCH_LOGGER_DEFAULT_CONVERSION_PATTERN);
+
+    public static final String MONTH_DAY_YEAR_DATE_FORMAT = "MM/dd/yyyy";
 }
 

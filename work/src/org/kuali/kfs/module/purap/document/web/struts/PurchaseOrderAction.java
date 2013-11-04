@@ -72,7 +72,9 @@ import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.document.authorization.DocumentAuthorizer;
@@ -90,8 +92,10 @@ import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.KualiRuleService;
 import org.kuali.rice.krad.service.NoteService;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.krad.util.UrlFactory;
+import org.kuali.kfs.vnd.VendorPropertyConstants; 
 
 /**
  * Struts Action for Purchase Order document.
@@ -1706,6 +1710,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
                 // use PO type address to fill in vendor address
                 String campusCode = GlobalVariables.getUserSession().getPerson().getCampusCode();
                 VendorAddress pova = SpringContext.getBean(VendorService.class).getVendorDefaultAddress(headID, detailID, AddressTypes.PURCHASE_ORDER, campusCode);
+                if(pova!=null){
                 document.setVendorLine1Address(pova.getVendorLine1Address());
                 document.setVendorLine2Address(pova.getVendorLine2Address());
                 document.setVendorCityName(pova.getVendorCityName());
@@ -1713,14 +1718,29 @@ public class PurchaseOrderAction extends PurchasingActionBase {
                 document.setVendorPostalCode(pova.getVendorZipCode());
                 document.setVendorCountryCode(pova.getVendorCountryCode());
                 document.setVendorFaxNumber(pova.getVendorFaxNumber());
+                }
 
                 document.updateAndSaveAppDocStatus(PurapConstants.PurchaseOrderStatuses.APPDOC_IN_PROCESS);
 
                 document.setStatusChange(PurapConstants.PurchaseOrderStatuses.APPDOC_IN_PROCESS);
                 SpringContext.getBean(PurapService.class).saveDocumentNoValidation(document);
+                
+                if(pova==null){
+                    document.setVendorLine1Address("");
+                    document.setVendorLine2Address("");
+                    document.setVendorCityName("");
+                    document.setVendorStateCode("");
+                    document.setVendorPostalCode("");
+                    document.setVendorCountryCode("");
+                    document.setVendorFaxNumber("");
+                    
+                    document.setStatusChange(PurchaseOrderStatuses.APPDOC_IN_PROCESS);
+                    GlobalVariables.getMessageMap().putError(VendorPropertyConstants.VENDOR_DOC_ADDRESS, PurapKeyConstants.ERROR_INACTIVE_VENDORADDRESS);
+                    return mapping.findForward(KFSConstants.MAPPING_BASIC);
+                }
             }
         }
-
+       // document.setStatusChange(PurchaseOrderStatuses.APPDOC_IN_PROCESS);
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
@@ -1793,13 +1813,17 @@ public class PurchaseOrderAction extends PurchasingActionBase {
     public ActionForward cancel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         Object question = request.getParameter(KFSConstants.QUESTION_INST_ATTRIBUTE_NAME);
         // this should probably be moved into a protected instance variable
+        String operation =KewApiConstants.ACTION_REQUEST_CANCEL_REQ_LABEL;
         ConfigurationService kualiConfiguration = SpringContext.getBean(ConfigurationService.class);
+        String questionText = kualiConfiguration.getPropertyValueAsString(PurapKeyConstants.PURCHASE_ORDER_QUESTION_DOCUMENT);
+        questionText = StringUtils.replace(questionText, "{0}", operation);
+        String reason = request.getParameter(KFSConstants.QUESTION_REASON_ATTRIBUTE_NAME);
 
         // logic for cancel question
         if (question == null) {
 
             // ask question if not already asked
-            return this.performQuestionWithoutInput(mapping, form, request, response, KFSConstants.DOCUMENT_CANCEL_QUESTION, kualiConfiguration.getPropertyValueAsString("document.question.cancel.text"), KFSConstants.CONFIRMATION_QUESTION, KFSConstants.MAPPING_CANCEL, "");
+            return this.performQuestionWithInput(mapping, form, request, response, KFSConstants.DOCUMENT_CANCEL_QUESTION, kualiConfiguration.getPropertyValueAsString("document.question.cancel.text"), KFSConstants.CONFIRMATION_QUESTION, KFSConstants.MAPPING_CANCEL, "");
         }
         else {
             Object buttonClicked = request.getParameter(KFSConstants.QUESTION_CLICKED_BUTTON);
@@ -1807,6 +1831,21 @@ public class PurchaseOrderAction extends PurchasingActionBase {
 
                 // if no button clicked just reload the doc
                 return mapping.findForward(KFSConstants.MAPPING_BASIC);
+            }else{
+                reason =(reason ==null)? new String():reason;
+                int cancelNoteTextLength = reason.length();
+
+                // get note text max length from DD
+                int noteTextMaxLength = getDataDictionaryService().getAttributeMaxLength(Note.class, KRADConstants.NOTE_TEXT_PROPERTY_NAME).intValue();
+                if (StringUtils.isBlank(reason) || (cancelNoteTextLength > noteTextMaxLength)) {
+                    // figure out exact number of characters that the user can enter
+                    int reasonLimit = noteTextMaxLength - cancelNoteTextLength;
+
+                    return this.performQuestionWithInputAgainBecauseOfErrors(mapping, form, request, response, KRADConstants.DOCUMENT_CANCEL_QUESTION, questionText, KRADConstants.CONFIRMATION_QUESTION, KRADConstants.MAPPING_CANCEL, "", reason, RiceKeyConstants.ERROR_DOCUMENT_DISAPPROVE_REASON_REQUIRED, KRADConstants.QUESTION_REASON_ATTRIBUTE_NAME, new Integer(reasonLimit).toString());
+                }
+
+
+
             }
             // else go to cancel logic below
         }

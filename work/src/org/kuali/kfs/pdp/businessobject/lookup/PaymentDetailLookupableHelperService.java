@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,6 +16,7 @@
 package org.kuali.kfs.pdp.businessobject.lookup;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
@@ -28,22 +29,35 @@ import org.kuali.kfs.pdp.PdpConstants;
 import org.kuali.kfs.pdp.PdpKeyConstants;
 import org.kuali.kfs.pdp.PdpParameterConstants;
 import org.kuali.kfs.pdp.PdpPropertyConstants;
+import org.kuali.kfs.pdp.businessobject.CustomerProfile;
 import org.kuali.kfs.pdp.businessobject.PaymentDetail;
 import org.kuali.kfs.pdp.businessobject.PaymentGroupHistory;
 import org.kuali.kfs.pdp.service.PdpAuthorizationService;
+import org.kuali.kfs.pdp.service.ResearchParticipantPaymentValidationService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.web.format.BooleanFormatter;
 import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kns.document.authorization.BusinessObjectRestrictions;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
+import org.kuali.rice.kns.lookup.LookupUtils;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.kns.web.comparator.CellComparatorHelper;
+import org.kuali.rice.kns.web.struts.form.LookupForm;
+import org.kuali.rice.kns.web.ui.Column;
+import org.kuali.rice.kns.web.ui.ResultRow;
 import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.datadictionary.AttributeDefinition;
+import org.kuali.rice.krad.datadictionary.AttributeSecurity;
+import org.kuali.rice.krad.datadictionary.BusinessObjectEntry;
 import org.kuali.rice.krad.exception.ValidationException;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.krad.util.UrlFactory;
 
 public class PaymentDetailLookupableHelperService extends KualiLookupableHelperServiceImpl {
@@ -170,16 +184,16 @@ public class PaymentDetailLookupableHelperService extends KualiLookupableHelperS
         if (GlobalVariables.getMessageMap().hasErrors()) {
             throw new ValidationException("errors in search criteria");
         }
-        
-        buildAndStoreReturnUrl(fieldValues);     
+
+        buildAndStoreReturnUrl(fieldValues);
      }
 
-    /** 
+    /**
      * Create a return URL for hold, cancel,set as and immediate keys to return back.  - the return url is stored and then retreived in PaymentDetailAction buildURL
-     * 
+     *
      * @param fieldValues
      */
-    protected void buildAndStoreReturnUrl(Map<String, String> fieldValues) {       
+    protected void buildAndStoreReturnUrl(Map<String, String> fieldValues) {
         String basePath = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(KFSConstants.APPLICATION_URL_KEY);
         Properties parameters = new Properties();
         parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.SEARCH_METHOD);
@@ -192,8 +206,8 @@ public class PaymentDetailLookupableHelperService extends KualiLookupableHelperS
         Object lookupUrl = UrlFactory.parameterizeUrl(basePath + "/" + KFSConstants.LOOKUP_ACTION, parameters);
         GlobalVariables.getUserSession().addObject(PDP_PAYMENTDETAIL_KEY,  lookupUrl);
     }
-        
-    
+
+
     /**
      * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getCustomActionUrls(org.kuali.rice.krad.bo.BusinessObject,
      *      java.util.List)
@@ -251,7 +265,7 @@ public class PaymentDetailLookupableHelperService extends KualiLookupableHelperS
                 AnchorHtmlData anchorHtmlData = new AnchorHtmlData(url, PdpConstants.ActionMethods.CONFIRM_REMOVE_HOLD_ACTION, linkText);
                 anchorHtmlDataList.add(anchorHtmlData);
             }
-            
+
             boolean showRemoveImmediatePrint = paymentDetailStatus != null && (paymentDetailStatus.equalsIgnoreCase(PdpConstants.PaymentStatusCodes.OPEN) && pdpAuthorizationService.hasSetAsImmediatePayPermission(person.getPrincipalId()) && paymentDetail.getPaymentGroup().getProcessImmediate());
 
             if (showRemoveImmediatePrint) {
@@ -315,7 +329,7 @@ public class PaymentDetailLookupableHelperService extends KualiLookupableHelperS
                 anchorHtmlDataList.add(anchorHtmlData);
 
             }
-            
+
             boolean showReissue = paymentDetailStatus != null && (paymentDetailStatus.equalsIgnoreCase(PdpConstants.PaymentStatusCodes.CANCEL_DISBURSEMENT) && (pdpAuthorizationService.hasCancelPaymentPermission(person.getPrincipalId()) && paymentDetail.isDisbursementActionAllowed()));
             if (showReissue) {
                 Properties params = new Properties();
@@ -326,7 +340,7 @@ public class PaymentDetailLookupableHelperService extends KualiLookupableHelperS
                 linkText = kualiConfigurationService.getPropertyValueAsString(PdpKeyConstants.PaymentDetail.LinkText.REISSUE);
 
                 AnchorHtmlData anchorHtmlData = new AnchorHtmlData(url, PdpConstants.ActionMethods.CONFIRM_REISSUE_ACTION, linkText);
-                anchorHtmlDataList.add(anchorHtmlData);                
+                anchorHtmlDataList.add(anchorHtmlData);
             }
 
             boolean showReissueCancel = paymentDetailStatus != null && ((paymentDetailStatus.equalsIgnoreCase(PdpConstants.PaymentStatusCodes.PENDING_ACH) && (pdpAuthorizationService.hasCancelPaymentPermission(person.getPrincipalId()))) || (paymentDetailStatus.equalsIgnoreCase(PdpConstants.PaymentStatusCodes.EXTRACTED) && pdpAuthorizationService.hasCancelPaymentPermission(person.getPrincipalId()) && paymentDetail.getPaymentGroup().getDisbursementDate() != null && paymentDetail.isDisbursementActionAllowed()));
@@ -356,7 +370,7 @@ public class PaymentDetailLookupableHelperService extends KualiLookupableHelperS
 
     /**
      * This method builds the search fields for PaymentGroupHistory.
-     * 
+     *
      * @param fieldValues entry fields from PaymentDetail
      * @return the fields map
      */
@@ -451,7 +465,7 @@ public class PaymentDetailLookupableHelperService extends KualiLookupableHelperS
 
     /**
      * This method searches for PaymentGroupHistory
-     * 
+     *
      * @param fieldValues search field values
      * @return the list of PaymentGroupHistory
      */
@@ -464,7 +478,7 @@ public class PaymentDetailLookupableHelperService extends KualiLookupableHelperS
 
     /**
      * This method gets the PaymentDetails for the given list og PaymentGroupHistory
-     * 
+     *
      * @param resultsForPaymentGroupHistory the list of PaymentGoupHistory objects
      * @return the list of PaymentDetails
      */
@@ -479,31 +493,172 @@ public class PaymentDetailLookupableHelperService extends KualiLookupableHelperS
 
     /**
      * This method sorts the given list by payee name
-     * 
+     *
      * @param searchResults the list to be sorted
      */
     protected void sortResultListByPayeeName(List searchResults) {
         Collections.sort(searchResults, new Comparator() {
+            @Override
             public int compare(Object o1, Object o2) {
                 PaymentDetail detail1 = (org.kuali.kfs.pdp.businessobject.PaymentDetail) o1;
                 PaymentDetail detail2 = (org.kuali.kfs.pdp.businessobject.PaymentDetail) o2;
-                
+
                 if (detail1 == null || detail1.getPaymentGroup() == null || detail1.getPaymentGroup().getPayeeName() == null) {
                     return -1;
                 }
-                
+
                 if (detail2 == null || detail2.getPaymentGroup() == null || detail2.getPaymentGroup().getPayeeName() == null) {
                     return 1;
-                }                
-                
+                }
+
                 return detail1.getPaymentGroup().getPayeeName().compareTo(detail2.getPaymentGroup().getPayeeName());
             }
         });
     }
 
     /**
+     * Overrides superclass method so that we could mask the payee name field whenever the customer profile is
+     * the one for Research Participant Upload and don't need to mask the payee name field for any other cases.
+     *
+     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#performLookup(org.kuali.rice.kns.web.struts.form.LookupForm, java.util.Collection, boolean)
+     */
+    @Override
+    public Collection<? extends BusinessObject> performLookup(LookupForm lookupForm, Collection<ResultRow> resultTable, boolean bounded) {
+        Map lookupFormFields = lookupForm.getFieldsForLookup();
+
+        setBackLocation((String) lookupFormFields.get(KRADConstants.BACK_LOCATION));
+        setDocFormKey((String) lookupFormFields.get(KRADConstants.DOC_FORM_KEY));
+        Collection<? extends BusinessObject> displayList;
+
+        LookupUtils.preProcessRangeFields(lookupFormFields);
+
+        // call search method to get results
+        if (bounded) {
+            displayList = getSearchResults(lookupFormFields);
+        } else {
+            displayList = getSearchResultsUnbounded(lookupFormFields);
+        }
+
+        boolean hasReturnableRow = false;
+
+        List<String> returnKeys = getReturnKeys();
+        List<String> pkNames = getBusinessObjectMetaDataService().listPrimaryKeyFieldNames(getBusinessObjectClass());
+        Person user = GlobalVariables.getUserSession().getPerson();
+
+        //Get and keep a copy of the original attributeSecurity of payeeName from the DD
+        BusinessObjectEntry businessObjectEntry = getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(PaymentDetail.class.getName());
+        AttributeDefinition attributeDefinition = businessObjectEntry.getAttributeDefinition("paymentGroup.payeeName");
+        AttributeSecurity originalPayeeNameAttributeSecurity = attributeDefinition.getAttributeSecurity();
+
+        // iterate through result list and wrap rows with return url and action
+        // urls
+        for (BusinessObject element : displayList) {
+            BusinessObject baseElement = element;
+
+            if(element instanceof PersistableBusinessObject){
+                lookupForm.setLookupObjectId(((PersistableBusinessObject)element).getObjectId());
+            }
+
+            CustomerProfile customerProfile = ((PaymentDetail)element).getPaymentGroup().getBatch().getCustomerProfile();
+
+            if (!(SpringContext.getBean(ResearchParticipantPaymentValidationService.class)).isResearchParticipantPayment(customerProfile)) {
+                // This is not the case for the Research Upload, so we don't need to apply mask on the payee name.
+                attributeDefinition.setAttributeSecurity(null);
+            }
+            else {
+                // setting back the attribute security just as in DD so that we don't override it with null.
+                attributeDefinition.setAttributeSecurity(originalPayeeNameAttributeSecurity);
+            }
+
+            final String lookupId = getLookupResultsService().getLookupId(baseElement);
+            if (lookupId != null) {
+                lookupForm.setLookupObjectId(lookupId);
+            }
+
+            BusinessObjectRestrictions businessObjectRestrictions = getBusinessObjectAuthorizationService()
+                    .getLookupResultRestrictions(element, user);
+
+            HtmlData returnUrl = getReturnUrl(element, lookupForm, returnKeys, businessObjectRestrictions);
+            String actionUrls = getActionUrls(element, pkNames, businessObjectRestrictions);
+            // Fix for JIRA - KFSMI-2417
+            if ("".equals(actionUrls)) {
+                actionUrls = ACTION_URLS_EMPTY;
+            }
+
+            List<Column> columns = getColumns();
+            for (Iterator iterator = columns.iterator(); iterator.hasNext();) {
+                Column col = (Column) iterator.next();
+
+                String propValue = ObjectUtils.getFormattedPropertyValue(element, col.getPropertyName(), col.getFormatter());
+                Class propClass = getPropertyClass(element, col.getPropertyName());
+
+                col.setComparator(CellComparatorHelper.getAppropriateComparatorForPropertyClass(propClass));
+                col.setValueComparator(CellComparatorHelper.getAppropriateValueComparatorForPropertyClass(propClass));
+
+                String propValueBeforePotientalMasking = propValue;
+                propValue = maskValueIfNecessary(element.getClass(), col.getPropertyName(), propValue,
+                        businessObjectRestrictions);
+                col.setPropertyValue(propValue);
+
+                // if property value is masked, don't display additional or alternate properties, or allow totals
+                if (StringUtils.equals(propValueBeforePotientalMasking, propValue)) {
+                    if (StringUtils.isNotBlank(col.getAlternateDisplayPropertyName())) {
+                        String alternatePropertyValue = ObjectUtils.getFormattedPropertyValue(element, col
+                                .getAlternateDisplayPropertyName(), null);
+                        col.setPropertyValue(alternatePropertyValue);
+                    }
+
+                    if (StringUtils.isNotBlank(col.getAdditionalDisplayPropertyName())) {
+                        String additionalPropertyValue = ObjectUtils.getFormattedPropertyValue(element, col
+                                .getAdditionalDisplayPropertyName(), null);
+                        col.setPropertyValue(col.getPropertyValue() + " *-* " + additionalPropertyValue);
+                    }
+                } else {
+                    col.setTotal(false);
+                }
+
+                if (col.isTotal()) {
+                    Object unformattedPropValue = ObjectUtils.getPropertyValue(element, col.getPropertyName());
+                    col.setUnformattedPropertyValue(unformattedPropValue);
+                }
+
+                if (StringUtils.isNotBlank(propValue)) {
+                    col.setColumnAnchor(getInquiryUrl(element, col.getPropertyName()));
+                }
+            }
+
+            ResultRow row = new ResultRow(columns, returnUrl.constructCompleteHtmlTag(), actionUrls);
+            row.setRowId(returnUrl.getName());
+            row.setReturnUrlHtmlData(returnUrl);
+
+            // because of concerns of the BO being cached in session on the
+            // ResultRow,
+            // let's only attach it when needed (currently in the case of
+            // export)
+            if (getBusinessObjectDictionaryService().isExportable(getBusinessObjectClass())) {
+                row.setBusinessObject(element);
+            }
+
+            if (lookupId != null) {
+                row.setObjectId(lookupId);
+            }
+
+            boolean rowReturnable = isResultReturnable(element);
+            row.setRowReturnable(rowReturnable);
+            if (rowReturnable) {
+                hasReturnableRow = true;
+            }
+            resultTable.add(row);
+        }
+
+        lookupForm.setHasReturnableRow(hasReturnableRow);
+
+        return displayList;
+    }
+
+    /**
      * Sets the kualiConfigurationService attribute value.
-     * 
+     *
      * @param kualiConfigurationService The kualiConfigurationService to set.
      */
     public void setConfigurationService(ConfigurationService kualiConfigurationService) {
@@ -512,7 +667,7 @@ public class PaymentDetailLookupableHelperService extends KualiLookupableHelperS
 
     /**
      * This method sets the pdpAuthorizationService attribute valuse
-     * 
+     *
      * @param pdpAuthorizationService The pdpAuthorizationService to set.
      */
     public void setPdpAuthorizationService(PdpAuthorizationService pdpAuthorizationService) {

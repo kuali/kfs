@@ -125,7 +125,12 @@ public class AssetTransferServiceImpl implements AssetTransferService {
         }
         ObjectCodeService objectCodeService = SpringContext.getBean(ObjectCodeService.class);
         ObjectCode objectCode = objectCodeService.getByPrimaryIdForCurrentYear(assetPayment.getChartOfAccountsCode(), assetPayment.getFinancialObjectCode());
-        postable.setChartOfAccountsCode(organizationOwnerChartOfAccountsCode);
+        if (isSource) {
+            String plantChartOfAccountsCode = plantAccount.getChartOfAccountsCode();
+            postable.setChartOfAccountsCode(plantChartOfAccountsCode);
+        } else {
+            postable.setChartOfAccountsCode(organizationOwnerChartOfAccountsCode);
+        }
         postable.setDocumentNumber(document.getDocumentNumber());
         postable.setFinancialSubObjectCode(assetPayment.getFinancialSubObjectCode());
         postable.setPostingYear(getUniversityDateService().getCurrentUniversityDate().getUniversityFiscalYear());
@@ -255,6 +260,7 @@ public class AssetTransferServiceImpl implements AssetTransferService {
      */
     protected void createSourceGLPostables(AssetTransferDocument document, List<AssetPayment> assetPayments, boolean movableAsset) {
         Account srcPlantAcct = null;
+        Account paymentSrcPlantAcct = null;
         OffsetDefinition offsetDefinition = SpringContext.getBean(OffsetDefinitionService.class).getByPrimaryId(getUniversityDateService().getCurrentFiscalYear(), document.getAsset().getOrganizationOwnerChartOfAccountsCode(), CamsConstants.AssetTransfer.DOCUMENT_TYPE_CODE, CamsConstants.Postable.GL_BALANCE_TYPE_CODE_AC);
 
         if (movableAsset) {
@@ -269,14 +275,19 @@ public class AssetTransferServiceImpl implements AssetTransferService {
             if (getAssetPaymentService().isPaymentEligibleForGLPosting(assetPayment)) {
                  ObjectCode objectCode = objectCodeService.getByPrimaryIdForCurrentYear(assetPayment.getChartOfAccountsCode(), assetPayment.getFinancialObjectCode());
                 if (ObjectUtils.isNotNull(objectCode)) {
+                    if (movableAsset) {
+                        paymentSrcPlantAcct = assetPayment.getAccount().getOrganization().getOrganizationPlantAccount();
+                    } else {
+                        paymentSrcPlantAcct = assetPayment.getAccount().getOrganization().getCampusPlantAccount();
+                    }
                     if (getAssetPaymentService().isPaymentEligibleForCapitalizationGLPosting(assetPayment)) {
-                        document.getSourceAssetGlpeSourceDetails().add(createAssetGlpePostable(document, srcPlantAcct, assetPayment, true, AmountCategory.CAPITALIZATION));
+                        document.getSourceAssetGlpeSourceDetails().add(createAssetGlpePostable(document, paymentSrcPlantAcct, assetPayment, true, AmountCategory.CAPITALIZATION));
                     }
                     if (getAssetPaymentService().isPaymentEligibleForAccumDeprGLPosting(assetPayment)) {
-                        document.getSourceAssetGlpeSourceDetails().add(createAssetGlpePostable(document, srcPlantAcct, assetPayment, true, AmountCategory.ACCUM_DEPRECIATION));
+                        document.getSourceAssetGlpeSourceDetails().add(createAssetGlpePostable(document, paymentSrcPlantAcct, assetPayment, true, AmountCategory.ACCUM_DEPRECIATION));
                     }
                     if (getAssetPaymentService().isPaymentEligibleForOffsetGLPosting(assetPayment)) {
-                        document.getSourceAssetGlpeSourceDetails().add(createAssetGlpePostable(document, srcPlantAcct, assetPayment, true, AmountCategory.OFFSET_AMOUNT));
+                        document.getSourceAssetGlpeSourceDetails().add(createAssetGlpePostable(document, paymentSrcPlantAcct, assetPayment, true, AmountCategory.OFFSET_AMOUNT));
                     }
                 }
             }

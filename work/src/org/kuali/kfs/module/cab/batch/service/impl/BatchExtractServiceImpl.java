@@ -65,6 +65,7 @@ import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.VendorCreditMemoDocument;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
@@ -129,6 +130,7 @@ public class BatchExtractServiceImpl implements BatchExtractService {
     }
 
     @Override
+    @NonTransactional
     public void allocateAdditionalCharges(HashSet<PurchasingAccountsPayableDocument> purApDocuments) {
         List<PurchasingAccountsPayableActionHistory> actionsTakenHistory = new ArrayList<PurchasingAccountsPayableActionHistory>();
         List<PurchasingAccountsPayableDocument> candidateDocs = new ArrayList<PurchasingAccountsPayableDocument>();
@@ -246,6 +248,7 @@ public class BatchExtractServiceImpl implements BatchExtractService {
      * @see org.kuali.kfs.module.cab.batch.service.BatchExtractService#findElgibleGLEntries()
      */
     @Override
+    @NonTransactional
     public Collection<Entry> findElgibleGLEntries(ExtractProcessLog processLog) {
         BatchParameters parameters = createCabBatchParameters();
         processLog.setLastExtractTime(parameters.getLastRunTime());
@@ -256,6 +259,7 @@ public class BatchExtractServiceImpl implements BatchExtractService {
      * @see org.kuali.kfs.module.cab.batch.service.BatchExtractService#findPreTaggablePOAccounts()
      */
     @Override
+    @NonTransactional
     public Collection<PurchaseOrderAccount> findPreTaggablePOAccounts() {
         BatchParameters parameters = createPreTagBatchParameters();
         return extractDao.findPreTaggablePOAccounts(parameters);
@@ -645,6 +649,7 @@ public class BatchExtractServiceImpl implements BatchExtractService {
      * @see org.kuali.kfs.module.cab.batch.service.BatchExtractService#findPurapAccountHistory()
      */
     @Override
+    @NonTransactional
     public Collection<PurApAccountingLineBase> findPurapAccountRevisions() {
         Collection<PurApAccountingLineBase> purapAcctLines = new ArrayList<PurApAccountingLineBase>();
         Collection<CreditMemoAccountRevision> cmAccountHistory = extractDao.findCreditMemoAccountRevisions(createCabBatchParameters());
@@ -810,6 +815,7 @@ public class BatchExtractServiceImpl implements BatchExtractService {
      *      java.util.Collection)
      */
     @Override
+    @NonTransactional
     public void separatePOLines(List<Entry> fpLines, List<Entry> purapLines, Collection<Entry> elgibleGLEntries) {
         for (Entry entry : elgibleGLEntries) {
             if (CabConstants.PREQ.equals(entry.getFinancialDocumentTypeCode())) {
@@ -840,6 +846,7 @@ public class BatchExtractServiceImpl implements BatchExtractService {
      * @see org.kuali.kfs.module.cab.batch.service.BatchExtractService#updateLastExtractTime(java.sql.Timestamp)
      */
     @Override
+    @NonTransactional
     public void updateLastExtractTime(Timestamp time) {
         Parameter parameter = parameterService.getParameter(CabConstants.Parameters.NAMESPACE, CabConstants.Parameters.DETAIL_TYPE_BATCH, CabConstants.Parameters.LAST_EXTRACT_TIME);
 
@@ -895,6 +902,7 @@ public class BatchExtractServiceImpl implements BatchExtractService {
      * @see org.kuali.kfs.module.cab.batch.service.BatchExtractService#updateLastExtractDate(java.sql.Date)
      */
     @Override
+    @NonTransactional
     public void updateLastExtractDate(java.sql.Date dt) {
         Parameter parameter = parameterService.getParameter(CabConstants.Parameters.NAMESPACE, CabConstants.Parameters.DETAIL_TYPE_PRE_ASSET_TAGGING_STEP, CabConstants.Parameters.LAST_EXTRACT_DATE);
 
@@ -904,7 +912,7 @@ public class BatchExtractServiceImpl implements BatchExtractService {
 
             Parameter.Builder updatedParameter = Parameter.Builder.create(parameter);
             updatedParameter.setValue(format.format(dt));
-            parameterService.updateParameter(parameter);
+            parameterService.updateParameter(updatedParameter.build());
         }
     }
 
@@ -913,6 +921,7 @@ public class BatchExtractServiceImpl implements BatchExtractService {
      *
      * @param businessObjectService The businessObjectService to set.
      */
+    @NonTransactional
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
@@ -922,6 +931,7 @@ public class BatchExtractServiceImpl implements BatchExtractService {
      *
      * @param extractDao The extractDao to set.
      */
+    @NonTransactional
     public void setExtractDao(ExtractDao extractDao) {
         this.extractDao = extractDao;
     }
@@ -931,6 +941,7 @@ public class BatchExtractServiceImpl implements BatchExtractService {
      *
      * @param dateTimeService The dateTimeService to set.
      */
+    @NonTransactional
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;
     }
@@ -940,6 +951,7 @@ public class BatchExtractServiceImpl implements BatchExtractService {
      *
      * @param parameterService The parameterService to set.
      */
+    @NonTransactional
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
     }
@@ -949,6 +961,7 @@ public class BatchExtractServiceImpl implements BatchExtractService {
      *
      * @param purchasingAccountsPayableItemAssetDao The purchasingAccountsPayableItemAssetDao to set.
      */
+    @NonTransactional
     public void setPurchasingAccountsPayableItemAssetDao(PurchasingAccountsPayableItemAssetDao purchasingAccountsPayableItemAssetDao) {
         this.purchasingAccountsPayableItemAssetDao = purchasingAccountsPayableItemAssetDao;
     }
@@ -958,6 +971,7 @@ public class BatchExtractServiceImpl implements BatchExtractService {
      *
      * @param purApLineService The purApLineService to set.
      */
+    @NonTransactional
     public void setPurApLineService(PurApLineService purApLineService) {
         this.purApLineService = purApLineService;
     }
@@ -967,6 +981,7 @@ public class BatchExtractServiceImpl implements BatchExtractService {
      *
      * @param purApInfoService The purApInfoService to set.
      */
+    @NonTransactional
     public void setPurApInfoService(PurApInfoService purApInfoService) {
         this.purApInfoService = purApInfoService;
     }

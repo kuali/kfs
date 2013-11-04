@@ -24,23 +24,16 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.fp.businessobject.DisbursementPayee;
-import org.kuali.kfs.integration.ar.AccountsReceivableCustomer;
-import org.kuali.kfs.integration.ar.AccountsReceivableModuleService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.vnd.VendorPropertyConstants;
-import org.kuali.kfs.vnd.businessobject.VendorDetail;
-import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.impl.KIMPropertyConstants;
-import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.util.MessageList;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
 import org.kuali.rice.kns.web.ui.ResultRow;
 import org.kuali.rice.krad.bo.BusinessObject;
-import org.kuali.rice.krad.datadictionary.AttributeSecurity;
 import org.kuali.rice.krad.exception.ValidationException;
 import org.kuali.rice.krad.lookup.CollectionIncomplete;
 import org.kuali.rice.krad.util.BeanPropertyComparator;
@@ -50,7 +43,8 @@ public class DisbursementPayeeLookupableHelperServiceImpl extends AbstractPayeeL
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DisbursementPayeeLookupableHelperServiceImpl.class);
     private static final int NAME_REQUIRED_FILLED_WITH_WILDCARD = 4;
 
-    private AccountsReceivableModuleService accountsReceivableModuleService;
+
+
 
     /**
      * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#validateSearchParameters(java.util.Map)
@@ -298,83 +292,6 @@ public class DisbursementPayeeLookupableHelperServiceImpl extends AbstractPayeeL
         return StringUtils.contains(s, "*") || StringUtils.contains(s, "%");
     }
 
-
-    @Override
-    protected DisbursementPayee getPayeeFromVendor(VendorDetail vendorDetail, Map<String, String> fieldValues) {
-        DisbursementPayee payee = disbursementVoucherPayeeService.getPayeeFromVendor(vendorDetail);
-        payee.setPaymentReasonCode(fieldValues.get(KFSPropertyConstants.PAYMENT_REASON_CODE));
-
-        //KFSMI-5497
-        //get the attributeSecurity property and mask the field so that on results screen will be shown masked.
-        DataDictionaryService dataDictionaryService = SpringContext.getBean(DataDictionaryService.class);
-        AttributeSecurity attributeSecurity =  dataDictionaryService.getAttributeSecurity(DisbursementPayee.class.getName(), "taxNumber");
-        if (attributeSecurity != null) {
-            attributeSecurity.setMask(true);
-        }
-
-        return payee;
-    }
-
-    @Override
-    protected DisbursementPayee getPayeeFromPerson(Person personDetail, Map<String, String> fieldValues) {
-        DisbursementPayee payee = disbursementVoucherPayeeService.getPayeeFromPerson(personDetail);
-        payee.setPaymentReasonCode(fieldValues.get(KFSPropertyConstants.PAYMENT_REASON_CODE));
-
-        //KFSMI-5497
-        //get the attributeSecurity property and unmask the field so that on results screen, it will set as blank.
-        DataDictionaryService dataDictionaryService = SpringContext.getBean(DataDictionaryService.class);
-        AttributeSecurity attributeSecurity =  dataDictionaryService.getAttributeSecurity(DisbursementPayee.class.getName(), "taxNumber");
-        if (attributeSecurity != null) {
-            attributeSecurity.setMask(false);
-        }
-        return payee;
-    }
-
-    /**
-     * perform customer search
-     *
-     * @param fieldValues
-     * @return
-     */
-    protected List<DisbursementPayee> getCustomersAsPayees(Map<String, String> fieldValues) {
-        List<DisbursementPayee> payeeList = new ArrayList<DisbursementPayee>();
-
-        Map<String, String> fieldsForLookup = this.getCustomerFieldValues(fieldValues);
-
-        List<AccountsReceivableCustomer> customerList = (List<AccountsReceivableCustomer>) accountsReceivableModuleService.searchForCustomers(fieldsForLookup);
-        for (AccountsReceivableCustomer customer : customerList) {
-            DisbursementPayee payee = getPayeeFromCustomer(customer, fieldValues);
-            payeeList.add(payee);
-        }
-
-        return payeeList;
-    }
-
-    // get the search criteria valid for customer lookup
-    private Map<String, String> getCustomerFieldValues(Map<String, String> fieldValues) {
-        Map<String, String> customerFieldValues = new HashMap<String, String>();
-
-        customerFieldValues.put(KFSPropertyConstants.CUSTOMER_NUMBER, fieldValues.get(KFSPropertyConstants.CUSTOMER_NUMBER));
-        customerFieldValues.put(KFSPropertyConstants.CUSTOMER_NAME, fieldValues.get(KFSPropertyConstants.CUSTOMER_NAME));
-        customerFieldValues.put(KFSPropertyConstants.CUSTOMER_TAX_NUMBER, fieldValues.get(KFSPropertyConstants.TAX_NUMBER));
-        customerFieldValues.put(KFSPropertyConstants.ACTIVE, fieldValues.get(KFSPropertyConstants.ACTIVE));
-
-        return customerFieldValues;
-    }
-
-    /**
-     *
-     * @param customer
-     * @param fieldValues
-     * @return
-     */
-    protected DisbursementPayee getPayeeFromCustomer(AccountsReceivableCustomer customer, Map<String, String> fieldValues) {
-        DisbursementPayee payee = DisbursementPayee.getPayeeFromCustomer(customer);
-        payee.setPaymentReasonCode(fieldValues.get(KFSPropertyConstants.PAYMENT_REASON_CODE));
-
-        return payee;
-    }
-
     /**
      * Removes its return URLs if a row is not qualified for returning.
      *
@@ -397,14 +314,6 @@ public class DisbursementPayeeLookupableHelperServiceImpl extends AbstractPayeeL
                 resultRowList.get(index).setReturnUrl(StringUtils.EMPTY);
             }
         }
-    }
-
-    protected AccountsReceivableModuleService getAccountsReceivableModuleService() {
-        return accountsReceivableModuleService;
-    }
-
-    public void setAccountsReceivableModuleService(AccountsReceivableModuleService accountsReceivableModuleService) {
-        this.accountsReceivableModuleService = accountsReceivableModuleService;
     }
 
 }

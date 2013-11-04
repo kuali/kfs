@@ -1,3 +1,18 @@
+<!--
+    Copyright 2012 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+-->
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
@@ -28,23 +43,28 @@
 		</delete>
 	</changeSet>
 
-	<changeSet id="KFSMI-8967" author="KFS502">
-		<comment>Fix adhoc router completion permission</comment>
-		<update tableName="KRIM_PERM_T">
-			<column name="PERM_TMPL_ID" value="9" />
-			<where>PERM_ID='KFSMI9071-PRM1'</where>
-		</update>
-		<insert tableName="KRIM_ROLE_PERM_T">
-			<column name="ROLE_PERM_ID" value="KFSMI9071-RLPRM1" />
-			<column name="OBJ_ID" valueNumeric="sys_guid() " />
+	<changeSet author="KFS502" id="KFSMI9562_ADD_NEW_DEFAULT_ROLE_TYPE_FOR_FO_DELEGATION">
+		<insert tableName="KRIM_TYP_T">
+			<column name="KIM_TYP_ID" value="KFSMI9562-TYP"/>
+			<column name="OBJ_ID" value="KFSCNTRB199-TYP"/>
 			<column name="VER_NBR" value="1" />
-			<column name="ROLE_ID" value="54" />
-			<column name="PERM_ID" value="KFSMI9071-PRM1" />
+			<column name="NMSPC_CD" value="KFS-SYS" />
+			<column name="NM" value="Default" />
+			<column name="SRVC_NM" value="{http://kfs.kuali.org/kfs/v5_0}defaultRoleTypeService" />
 			<column name="ACTV_IND" value="Y" />
 		</insert>
-		<modifySql dbms='mysql'>
-			<replace replace="sys_guid()" with="uuid()" />
-		</modifySql>
+		<update tableName="KRIM_DLGN_T">
+			<column name="KIM_TYP_ID" value="KFSMI9562-TYP" />
+			<where>KIM_TYP_ID = 1</where>
+		</update>
 	</changeSet>
-
+		
+	<changeSet id="KFSMI9541_RENAME_ROLE_KFS-VND_EXCLUDE_SINGLE_ACTOR_REVIEWER" author="KFS502">
+		<comment>Rename role "KFS-VND Exclude Single Actor Reviewer" to be "KFS-VND Reviewer Omit Initiator".</comment>
+		<update tableName="KRIM_ROLE_T">
+			<column name="ROLE_NM" value="Reviewer Omit Initiator" />
+			<where>ROLE_ID = 'KFSMI4553-2'</where>
+		</update>
+	</changeSet>
+	
 </databaseChangeLog>

@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -18,7 +18,6 @@ package org.kuali.kfs.module.cam.fixture;
 import java.io.IOException;
 import java.util.Properties;
 
-import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.businessobject.AssetPayment;
 import org.kuali.kfs.sys.TestDataPreparator;
@@ -51,19 +50,14 @@ public enum PaymentSummaryFixture {
         return asset;
     }
 
-    @SuppressWarnings("deprecation")
     public AssetPayment newAssetPayment() {
         String propertyKey = "assetPayment.testData" + testDataPos;
         String deliminator = properties.getProperty("deliminator");
         String fieldNames = properties.getProperty("assetPayment.fieldNames");
         AssetPayment assetPayment = TestDataPreparator.buildTestDataObject(AssetPayment.class, properties, propertyKey, fieldNames, deliminator);
 
-        // TODO this has to be re-implemented
-        assetPayment.setFinancialObject(new ObjectCode() {
-            public String getFinancialObjectSubTypeCode() {
-                return "BF";
-            }
-        });
+        assetPayment.setChartOfAccountsCode("BL");
+        assetPayment.setFinancialObjectCode("7305");
         return assetPayment;
     }
 }

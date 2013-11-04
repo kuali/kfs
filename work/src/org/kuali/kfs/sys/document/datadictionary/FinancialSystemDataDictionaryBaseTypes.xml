@@ -84,6 +84,18 @@
     
     <bean id="AccountingLineView-columns" abstract="true" class="org.kuali.kfs.sys.document.datadictionary.AccountingLineViewColumnsDefinition" />
     
+	<bean id="AccountingLineView-lineDescription" parent="AccountingLineView-line">
+		<property name="elementName" value="lineDescription" />
+		<property name="fields">
+			<list>
+				<bean parent="AccountingLineView-field" p:name="financialDocumentLineDescription" p:overrideColSpan="2" />
+			</list>
+		</property>
+	</bean>
+	    
+    
+    
+    
     <bean id="accountingInformation" parent="accountingInformation-parent" />
 
 	<bean id="accountingInformation-parent" parent="AccountingLineView-line" abstract="true">
@@ -465,4 +477,10 @@
 	   		</list>
    		</property>
    	</bean>
+   	
+   	<bean id="RoutingAttribute-financialObjectCode" class="org.kuali.rice.krad.datadictionary.RoutingAttribute">
+		<property name="qualificationAttributeName" value="financialObjectCode" />
+	</bean>
+   	
+  
 </beans>

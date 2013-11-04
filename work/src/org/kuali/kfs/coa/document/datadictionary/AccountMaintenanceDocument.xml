@@ -69,6 +69,8 @@
         <value>../dwr/interface/SubFundGroupService.js</value>
         <value>../dwr/interface/AccountService.js</value>
         <value>../scripts/coa/accountDocument.js</value>
+        <value>../dwr/interface/OrganizationService.js</value>
+        <value>../dwr/interface/ResponsibilityCenterService.js</value>
       </list>
     </property>
 
@@ -87,7 +89,9 @@
         <dd:maintField attributeName="chartOfAccountsCode" required="true"/>
         <dd:maintField attributeName="accountNumber" required="true"/>
         <dd:maintField attributeName="accountName" required="true"/>
-        <dd:maintField attributeName="organizationCode" required="true"/>
+        <dd:maintField attributeName="organizationCode" required="true" javascriptLeaveFieldFunction="onblur_responsibilityCenterCode"/>
+        <dd:maintField attributeName="organization.responsibilityCenterCode" unconditionallyReadOnly="true"/>
+        <dd:maintField attributeName="organization.responsibilityCenter.responsibilityCenterName" unconditionallyReadOnly="true"/>
         <dd:maintField attributeName="accountPhysicalCampusCode" required="true"/>
         <dd:maintField attributeName="accountCreateDate"/>
         <dd:maintField attributeName="accountEffectiveDate" required="true" defaultValueFinderClass="org.kuali.kfs.sys.businessobject.defaultvalue.CurrentDateMMDDYYYYFinder"/>
@@ -220,6 +224,33 @@
     					</list>
     				</property>
     			</bean>
+    			<bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
+    				<property name="searchingAttribute">
+    					<bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
+    						<property name="businessObjectClassName" value="org.kuali.kfs.coa.businessobject.Organization"/>
+    						<property name="attributeName" value="responsibilityCenterCode"/>
+    					</bean>
+    				</property>
+    				<property name="documentValues">
+    					<list>
+    						<value>newMaintainableObject.businessObject.organization.responsibilityCenterCode</value>
+    					</list>
+    				</property>
+    			</bean>
+    			<bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
+    				<property name="searchingAttribute">
+    					<bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
+    						<property name="businessObjectClassName" value="org.kuali.kfs.coa.businessobject.Organization"/>
+    						<property name="attributeName" value="reportsToOrganizationCode"/>
+    					</bean>
+    				</property>
+    				<property name="documentValues">
+    					<list>
+    						<value>newMaintainableObject.businessObject.organization.reportsToOrganizationCode</value>
+    					</list>
+    				</property>
+    			</bean>
+    			
     			<bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
     				<property name="searchingAttribute">
     					<bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">

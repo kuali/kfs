@@ -209,11 +209,17 @@
 		<property name="parameterService" ref="parameterService" />
 		<property name="businessObjectService" ref="businessObjectService" />
 		<property name="documentService" ref="documentService" />
-    <property name="workflowDocumentService" ref="workflowDocumentService" />
+    	<property name="workflowDocumentService" ref="workflowDocumentService" />
 		<property name="dataDictionaryService" ref="dataDictionaryService" />
 		<property name="dateTimeService" ref="dateTimeService" />
 		<property name="accountingLineRuleUtil" ref="accountingLineRuleHelperService" />
 		<property name="capitalAssetBuilderModuleService" ref="capitalAssetBuilderModuleService" />
+		<property name="procurementCardCreateEmailService" ref="procurementCardCreateEmailService" />
+	</bean>
+
+	<bean id="procurementCardCreateEmailService"  parent="procurementCardCreateEmailService-parentBean"/>
+	<bean id="procurementCardCreateEmailService-parentBean" parent="velocityEmailServiceBase" class="org.kuali.kfs.fp.batch.service.impl.ProcurementCardCreateEmailServiceImpl" abstract="true">
+		<property name="templateUrl" value="org/kuali/kfs/fp/batch/template/pcard-create-doc-summary-email-plain-text.vm"/>	
 	</bean>
 
 	<bean id="procurementCardLoadTransactionsService"  parent="procurementCardLoadTransactionsService-parentBean"/>
@@ -427,11 +433,7 @@
 	</bean>
  
  	<bean id="disbursementPayeeLookupableHelperService" scope="prototype" parent="disbursementPayeeLookupableHelperService-parentBean"/>
-	<bean id="disbursementPayeeLookupableHelperService-parentBean"  parent="payeeLookupableHelperServiceImpl-parentBean" abstract="true"  class="org.kuali.kfs.fp.businessobject.lookup.DisbursementPayeeLookupableHelperServiceImpl" scope="prototype" >
-        <property name="accountsReceivableModuleService">
-            <ref bean="accountsReceivableModuleService" />
-        </property> 
-	</bean>
+	<bean id="disbursementPayeeLookupableHelperService-parentBean"  parent="payeeLookupableHelperServiceImpl-parentBean" abstract="true"  class="org.kuali.kfs.fp.businessobject.lookup.DisbursementPayeeLookupableHelperServiceImpl" scope="prototype" />
 	
 	<bean id="disbursementPayeeInquirable" class="org.kuali.kfs.fp.businessobject.inquirable.DisbursementPayeeInquirableImpl" scope="prototype" parent="kualiInquirable"/>
 	
@@ -519,5 +521,6 @@
 	<import resource="document/validation/configuration/PreEncumbranceValidation.xml" />
 	<import resource="document/validation/configuration/ProcurementCardValidation.xml" />
 	<import resource="document/validation/configuration/DisbursementVoucherValidation.xml" />
+	<import resource="document/validation/configuration/IntraAccountAdjustmentValidation.xml" />
 	<import resource="spring-fp-bus-exports.xml"/>
 </beans>

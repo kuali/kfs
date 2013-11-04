@@ -1,14 +1,15 @@
 ***********************
-** KFS Release 5.0   **
+** KFS Release 5.0.2   **
 ***********************
 
 ****** Documentation Links:
 
 Main Documentation Home:
-	https://wiki.kuali.org/confluence/display/KULDOC/Home
+	https://wiki.kuali.org/x/UgACEw
 
 Technical Release Notes / Upgrade Documentation:
-	https://docs.google.com/a/kuali.org/#folders/0B1dW7BM9X5-rSlZHdkdLV3JKYjg
+	https://wiki.kuali.org/x/gYSBEw - KFS 5.0.2 Technical Release Notes
+	https://wiki.kuali.org/x/BoSBEw - KFS 4.1.1 to 5.0.2 Upgrade Notes
 
 ****** Quick Start:
 
@@ -19,6 +20,8 @@ Technical Release Notes / Upgrade Documentation:
    and running your server.
 
 ****** What's Here:
+
+
 
 release-details.txt - What revisions of the code you're working with.
 

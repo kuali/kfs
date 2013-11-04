@@ -48,6 +48,7 @@ import org.kuali.kfs.module.ar.document.service.PaymentApplicationDocumentServic
 import org.kuali.kfs.module.ar.document.service.SystemInformationService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
@@ -99,16 +100,19 @@ public class LockboxServiceImpl implements LockboxService {
     private LockboxDao lockboxDao;
     private String reportsDirectory;
 
-    Lockbox ctrlLockbox = new Lockbox();
+    Lockbox ctrlLockbox;
     CashControlDocument cashControlDocument;
-    boolean anyRecordsFound = false;
+    boolean anyRecordsFound;
 
 
 
     @Override
+    @NonTransactional
     public boolean processLockboxes() throws WorkflowException {
 
+        ctrlLockbox = new Lockbox();
         cashControlDocument = null;
+        anyRecordsFound = false;
         //  create the pdf doc
         com.lowagie.text.Document pdfdoc = getPdfDoc();
 
@@ -258,16 +262,11 @@ public class LockboxServiceImpl implements LockboxService {
 
             //  setup the AR header for this CashControl doc
             LOG.info("   creating AR header for customer: [" + lockbox.getCustomerNumber() + "] and ProcessingOrg: " + sysInfo.getProcessingChartOfAccountCode() + "-" + sysInfo.getProcessingOrganizationCode() + ".");
-            AccountsReceivableDocumentHeader arDocHeader;
-            try {
-                arDocHeader = accountsReceivableDocumentHeaderService.getNewAccountsReceivableDocumentHeader(
-                        sysInfo.getProcessingChartOfAccountCode(), sysInfo.getProcessingOrganizationCode());
-            }
-            catch (Exception e) {
-                LOG.error("An Exception was thrown while trying to create a new AccountsReceivableDocumentHeader for the current user: '" + principal.getPrincipalName() + "'.", e);
-                throw new RuntimeException("An Exception was thrown while trying to create a new AccountsReceivableDocumentHeader for the current user: '" + principal.getPrincipalName() + "'.", e);
-            }
+            AccountsReceivableDocumentHeader arDocHeader = new AccountsReceivableDocumentHeader();
+            arDocHeader.setProcessingChartOfAccountCode(sysInfo.getProcessingChartOfAccountCode());
+            arDocHeader.setProcessingOrganizationCode(sysInfo.getProcessingOrganizationCode());
             arDocHeader.setDocumentNumber(cashControlDocument.getDocumentNumber());
+
             if(ObjectUtils.isNotNull(lockbox.getCustomerNumber())) {
                 Customer customer = customerService.getByPrimaryKey(lockbox.getCustomerNumber());
                 if (ObjectUtils.isNotNull(customer)) {
@@ -682,34 +681,42 @@ public class LockboxServiceImpl implements LockboxService {
     }
 
     @Override
+    @Transactional
     public Long getMaxLockboxSequenceNumber() {
         return lockboxDao.getMaxLockboxSequenceNumber();
     }
 
+    @NonTransactional
     public LockboxDao getLockboxDao() {
         return lockboxDao;
     }
 
+    @NonTransactional
     public void setLockboxDao(LockboxDao lockboxDao) {
         this.lockboxDao = lockboxDao;
     }
 
+    @NonTransactional
     public SystemInformationService getSystemInformationService() {
         return systemInformationService;
     }
 
+    @NonTransactional
     public void setSystemInformationService(SystemInformationService systemInformationService) {
         this.systemInformationService = systemInformationService;
     }
 
+    @NonTransactional
     public AccountsReceivableDocumentHeaderService getAccountsReceivableDocumentHeaderService() {
         return accountsReceivableDocumentHeaderService;
     }
 
+    @NonTransactional
     public void setAccountsReceivableDocumentHeaderService(AccountsReceivableDocumentHeaderService accountsReceivableDocumentHeaderService) {
         this.accountsReceivableDocumentHeaderService = accountsReceivableDocumentHeaderService;
     }
 
+    @NonTransactional
     public void setPaymentApplicationDocumentService(PaymentApplicationDocumentService paymentApplicationDocumentService) {
         this.payAppDocService = paymentApplicationDocumentService;
     }
@@ -718,6 +725,7 @@ public class LockboxServiceImpl implements LockboxService {
      * Gets the documentService attribute.
      * @return Returns the documentService.
      */
+    @NonTransactional
     public DocumentService getDocumentService() {
         return documentService;
     }
@@ -726,6 +734,7 @@ public class LockboxServiceImpl implements LockboxService {
      * Sets the documentService attribute value.
      * @param documentService The documentService to set.
      */
+    @NonTransactional
     public void setDocumentService(DocumentService documentService) {
         this.documentService = documentService;
     }
@@ -734,26 +743,32 @@ public class LockboxServiceImpl implements LockboxService {
      * Sets the dataDictionaryService attribute value.
      * @param dataDictionaryService The dataDictionaryService to set.
      */
+    @NonTransactional
     public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
         this.dataDictionaryService = dataDictionaryService;
     }
 
+    @NonTransactional
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;
     }
 
+    @NonTransactional
     public CashControlDocumentService getCashControlDocumentService() {
         return cashControlDocumentService;
     }
 
+    @NonTransactional
     public void setCashControlDocumentService(CashControlDocumentService cashControlDocumentService) {
         this.cashControlDocumentService = cashControlDocumentService;
     }
 
+    @NonTransactional
     public void setReportsDirectory(String reportsDirectory) {
         this.reportsDirectory = reportsDirectory;
     }
 
+    @NonTransactional
     public void setBoService(BusinessObjectService boService) {
         this.boService = boService;
     }
@@ -763,7 +778,7 @@ public class LockboxServiceImpl implements LockboxService {
      *
      * @return Returns the customerService
      */
-
+    @NonTransactional
     public CustomerService getCustomerService() {
         return customerService;
     }
@@ -773,6 +788,7 @@ public class LockboxServiceImpl implements LockboxService {
      *
      * @param customerService The customerService to set.
      */
+    @NonTransactional
     public void setCustomerService(CustomerService customerService) {
         this.customerService = customerService;
     }

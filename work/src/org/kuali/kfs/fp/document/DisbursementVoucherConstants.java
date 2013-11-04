@@ -19,13 +19,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.apache.commons.beanutils.PropertyUtils;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.parameter.ParameterEvaluatorService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kim.api.KimConstants;
+import org.apache.commons.beanutils.PropertyUtils;
+ 
 
 /**
  * Holds constants for disbursement voucher and payee documents.
@@ -45,7 +46,6 @@ public interface DisbursementVoucherConstants {
     // payee types
     public static final String DV_PAYEE_TYPE_EMPLOYEE = "E";
     public static final String DV_PAYEE_TYPE_VENDOR = "V";
-    public static final String DV_PAYEE_TYPE_CUSTOMER = "C";
     public static final String DV_PAYEE_TYPE_SUBJECT_PAYMENT_VENDOR = "VSP";
     public static final String DV_PAYEE_TYPE_REVOLVING_FUND_VENDOR = "VRF";
 
@@ -183,7 +183,6 @@ public interface DisbursementVoucherConstants {
 
     public static final String NON_VENDOR_EMPLOYEE_PAYEE_TYPE_LABEL_PARM_NM = "NON_VENDOR_EMPLOYEE_PAYEE_TYPE_LABEL";
     public static final String PO_AND_DV_PAYEE_TYPE_LABEL_PARM_NM = "PO_AND_DV_PAYEE_TYPE_LABEL";
-    public static final String PAYEE_TYPE_NAME = "PAYEE_TYPE_NAME";
     public static final String INDIVIDUAL_OWNERSHIP_TYPES_PARM_NM = "INDIVIDUAL_OWNERSHIP_TYPES";
     public static final String PAYMENT_REASONS_REQUIRING_TAX_REVIEW_PARM_NM = "PAYMENT_REASONS_REQUIRING_TAX_REVIEW";
     public static final String CAMPUSES_TAXED_FOR_MOVING_REIMBURSEMENTS_PARM_NM = "CAMPUSES_TAXED_FOR_MOVING_REIMBURSEMENTS";
@@ -231,4 +230,7 @@ public interface DisbursementVoucherConstants {
         public static final String CAMPUS = "Campus";
         public static final String PAYMENT_METHOD = "PaymentMethod";
     }
+
+    public static final String DV_DOC_NAME = "Disbursement Voucher";
+
 }

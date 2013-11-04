@@ -22,12 +22,10 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.kuali.kfs.module.bc.document.web.struts.BudgetConstructionRequestImportAction;
-import org.kuali.kfs.module.bc.document.web.struts.MonthlyBudgetAction;
 import org.kuali.kfs.module.bc.document.web.struts.OrganizationSelectionTreeAction;
-import org.kuali.kfs.module.bc.document.web.struts.QuickSalarySettingAction;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSConstants.ParameterValues;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.KFSConstants.ParameterValues;
 
 public class BCConstants {
     public static final String BUDGET_CONSTRUCTION_NAMESPACE = "KFS-BC";
@@ -150,11 +148,11 @@ public class BCConstants {
     public static final String BC_DOCUMENT_PULLUP_METHOD = "performAccountPullup";
     public static final String BC_DOCUMENT_PUSHDOWN_METHOD = "performAccountPushdown";
 
-    public static final String MONTHLY_BUDGET_REFRESH_CALLER = MonthlyBudgetAction.class.getName();
+    public static final String MONTHLY_BUDGET_REFRESH_CALLER = "MonthlyBudgetAction";
     public static final String MONTHLY_BUDGET_ACTION = "budgetMonthlyBudget.do";
     public static final String MONTHLY_BUDGET_METHOD = "loadExpansionScreen";
 
-    public static final String QUICK_SALARY_SETTING_REFRESH_CALLER = QuickSalarySettingAction.class.getName();
+    public static final String QUICK_SALARY_SETTING_REFRESH_CALLER = "QuickSalarySettingAction";
     public static final String QUICK_SALARY_SETTING_ACTION = "budgetQuickSalarySetting.do";
     public static final String QUICK_SALARY_SETTING_METHOD = "loadExpansionScreen";
 
@@ -169,7 +167,7 @@ public class BCConstants {
     public static final String INCUMBENT_SALARY_SETTING_TITLE = "Salary Setting by Incumbent";
 
     public static final String LOAD_EXPANSION_SCREEN_METHOD = "loadExpansionScreen";
-    public static final String LOAD_EXPANSION_SCREEN_METHOD_SESSION_TIMEOUT = "loadExpansionScreenSessionTimeOut";
+    public static final String SECOND_WINDOW_TARGET_NAME = "BCSecondWindow";
 
     public static final String REPORT_RUNNER_ACTION = "budgetReportRunner.do";
 
@@ -575,7 +573,7 @@ public class BCConstants {
 
     public class ErrorKey {
         public static final String DETAIL_SALARY_SETTING_TAB_ERRORS = "newBCAFLine*,budgetConstructionIntendedIncumbent.pendingBudgetConstructionAppointmentFunding*,budgetConstructionPosition.pendingBudgetConstructionAppointmentFunding*";
-        public static final String QUICK_SALARY_SETTING_TAB_ERRORS = "salarySettingExpansion.pendingBudgetConstructionAppointmentFunding*,adjustment*,newBCAFLine*";
+        public static final String QUICK_SALARY_SETTING_TAB_ERRORS = "salarySettingExpansion*,salarySettingExpansion.pendingBudgetConstructionAppointmentFunding*,adjustment*,newBCAFLine*";
         public static final String RETURNED_DETAIL_SALARY_SETTING_TAB_ERRORS = "newBCAFLine*";
         public static final String ORGANIZATION_REPORTS_SELECTION_ERRORS = "budgetConstructionReportThresholdSettings*";
     }

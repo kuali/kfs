@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.sys.batch.service.impl;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -46,6 +47,7 @@ import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.KualiModuleService;
 import org.kuali.rice.krad.service.MailService;
 import org.kuali.rice.krad.service.ModuleService;
+import org.quartz.CronExpression;
 import org.quartz.JobDetail;
 import org.quartz.JobExecutionContext;
 import org.quartz.ObjectAlreadyExistsException;
@@ -849,5 +851,30 @@ public class SchedulerServiceImpl implements SchedulerService {
         } catch (Exception e) {
             LOG.error("Error occurred while trying to reinitialize jobs", e);
         }
+    }
+
+    @Override
+    public boolean cronConditionMet(String cronExpressionString) {
+        boolean cronConditionMet = false;
+
+        CronExpression cronExpression;
+        try {
+            cronExpression = new CronExpression(cronExpressionString);
+            Date currentDate = dateTimeService.getCurrentDate();
+            Date validTimeAfter = cronExpression.getNextValidTimeAfter(dateTimeService.getCurrentDate());
+            if (validTimeAfter != null) {
+                String cronDate = dateTimeService.toString(validTimeAfter, KFSConstants.MONTH_DAY_YEAR_DATE_FORMAT);
+                if (cronDate.equals(dateTimeService.toString(currentDate, KFSConstants.MONTH_DAY_YEAR_DATE_FORMAT))){
+                    cronConditionMet = true;
+                }
+            } else {
+                LOG.error("Null date returned when calling CronExpression.nextValidTimeAfter() for cronExpression: " + cronExpressionString);
+            }
+        }
+        catch (ParseException ex) {
+            LOG.error("Error parsing cronExpression: " + cronExpressionString, ex);
+        }
+
+        return cronConditionMet;
     }
 }

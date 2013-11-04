@@ -49,11 +49,11 @@ import org.kuali.kfs.vnd.businessobject.PaymentTermType;
 import org.kuali.kfs.vnd.businessobject.VendorAddress;
 import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
-import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kns.service.TransactionalDocumentDictionaryService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.SequenceAccessorService;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * This class is used to create and test populated Payment Request Documents of various kinds.
@@ -356,6 +356,21 @@ public class PaymentRequestDocumentTest extends KualiTestBase {
      * @ConfigureContext(shouldCommitTransactions=false)
      */
     public final PurchaseOrderDocument createPurchaseOrderDocument(PurchaseOrderDocumentFixture poFixture, boolean routePO) throws Exception {
+        return createPurchaseOrderDocument(poFixture, routePO, null);
+    }
+
+    /**
+     * Creates a purchase order document with a provided purchase order document.
+     * At a minimum saves the document, but can additionally route the document (stipulation: coded to work only for budget review).
+     *
+     * @param poFixture - purchase order document fixture to source test data
+     * @param routePO - An option to route the purchase order if set to true
+     * @param accountsPayablePurchasingDocumentLinkIdentifier - Integer accountsPayablePurchasingDocumentLinkIdentifier to set on the PO if not null
+     * @return
+     * @throws Exception
+     * @ConfigureContext(shouldCommitTransactions=false)
+     */
+    public final PurchaseOrderDocument createPurchaseOrderDocument(PurchaseOrderDocumentFixture poFixture, boolean routePO, Integer accountsPayablePurchasingDocumentLinkIdentifier) throws Exception {
 
         // check if test has been setup
         if (documentService == null) {
@@ -367,6 +382,9 @@ public class PaymentRequestDocumentTest extends KualiTestBase {
         PurchaseOrderDocument po = poFixture.createPurchaseOrderDocument();
         po.setApplicationDocumentStatus(PurchaseOrderStatuses.APPDOC_OPEN);
         po.refreshNonUpdateableReferences();
+        if (ObjectUtils.isNotNull(accountsPayablePurchasingDocumentLinkIdentifier)) {
+            po.setAccountsPayablePurchasingDocumentLinkIdentifier(accountsPayablePurchasingDocumentLinkIdentifier);
+        }
         AccountingDocumentTestUtils.testSaveDocument(po, documentService);
 
         // retrieve saved purchase order
@@ -447,6 +465,7 @@ public class PaymentRequestDocumentTest extends KualiTestBase {
         PurchaseOrderAccount poAccount = new PurchaseOrderAccount();
         poAccount.setAccountNumber("1031400");
         poAccount.setAccountLinePercent(BigDecimal.valueOf(70));
+        poAccount.setAmount(new KualiDecimal(70));
         poAccount.setChartOfAccountsCode(chart_code);
         poAccount.setFinancialObjectCode("5000");
         lines.add(poAccount);
@@ -454,12 +473,14 @@ public class PaymentRequestDocumentTest extends KualiTestBase {
         PurchaseOrderAccount poAccount1 = new PurchaseOrderAccount();
         poAccount1.setAccountNumber("1031420");
         poAccount1.setAccountLinePercent(BigDecimal.valueOf(30));
+        poAccount1.setAmount(new KualiDecimal(30));
         poAccount1.setChartOfAccountsCode(chart_code);
         poAccount1.setFinancialObjectCode("5000");
         lines.add(poAccount1);
 
         poi.setSourceAccountingLines(lines);
         poi.setItemActiveIndicator(true);
+        poi.refreshNonUpdateableReferences();
         return poi;
 
     }
@@ -624,7 +645,7 @@ public class PaymentRequestDocumentTest extends KualiTestBase {
             }
 
             for (PurApAccountingLine accountingLine : pri.getSourceAccountingLines()) {
-                accountingLine.setAmount(pri.getExtendedPrice());
+                accountingLine.setAmount(pri.getExtendedPrice().multiply(new KualiDecimal(accountingLine.getAccountLinePercent())).divide(new KualiDecimal(100)));
             }
         }
 

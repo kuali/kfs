@@ -48,11 +48,11 @@
 				<ref bean="SystemInformation-universityClearingObjectCode" />
 				<ref bean="SystemInformation-universityClearingSubObjectCode" />
 				<!--
-					<ref bean="SystemInformation-wireSubAccountNumber" /> 
-                    <ref bean ="SystemInformation-wireChartOfAccountsCode" /> 
-                    <ref bean="SystemInformation-wireAccountNumber" /> 
-                    <ref bean="SystemInformation-wireObjectCode" /> 
-                    <ref bean="SystemInformation-wireSubObjectCode" />
+					<ref bean="SystemInformation-wireSubAccountNumber" /> <ref
+					bean="SystemInformation-wireChartOfAccountsCode" /> <ref
+					bean="SystemInformation-wireAccountNumber" /> <ref
+					bean="SystemInformation-wireObjectCode" /> <ref
+					bean="SystemInformation-wireSubObjectCode" />
 				-->
 				<ref bean="SystemInformation-organizationCheckPayableToName" />
 				<ref bean="SystemInformation-organizationRemitToAddressName" />
@@ -61,7 +61,8 @@
 				<ref bean="SystemInformation-organizationRemitToCityName" />
 				<ref bean="SystemInformation-organizationRemitToStateCode" />
 				<ref bean="SystemInformation-organizationRemitToZipCode" />
-				<ref bean="SystemInformation-universityFederalEmployerIdentificationNumber" />
+				<ref
+					bean="SystemInformation-universityFederalEmployerIdentificationNumber" />
 			</list>
 		</property>
 		<property name="relationships">

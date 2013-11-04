@@ -84,6 +84,7 @@ import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.exception.ParseException;
 import org.kuali.kfs.sys.service.BankService;
+import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
@@ -122,7 +123,6 @@ import org.w3c.dom.Node;
  * provides helper methods to the reject document to match it with a PO and create PREQ.
  */
 
-
 public class ElectronicInvoiceHelperServiceImpl extends InitiateDirectoryBase implements ElectronicInvoiceHelperService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ElectronicInvoiceHelperServiceImpl.class);
 
@@ -144,6 +144,7 @@ public class ElectronicInvoiceHelperServiceImpl extends InitiateDirectoryBase im
     protected ParameterService parameterService;
 
     @Override
+    @NonTransactional
     public ElectronicInvoiceLoad loadElectronicInvoices() {
 
         //add a step to check for directory paths
@@ -476,6 +477,7 @@ public class ElectronicInvoiceHelperServiceImpl extends InitiateDirectoryBase im
      * @param eInvoiceLoad the load summary to be modified
      * @return boolean where true means there has been some type of reject
      */
+
     @Transactional
     protected boolean processElectronicInvoice(ElectronicInvoiceLoad eInvoiceLoad,
                                              File invoiceFile,
@@ -853,6 +855,7 @@ public class ElectronicInvoiceHelperServiceImpl extends InitiateDirectoryBase im
         SpringContext.getBean(NoteService.class).save(note);
     }
 
+    @NonTransactional
     public ElectronicInvoiceRejectDocument createRejectDocument(ElectronicInvoice eInvoice,
                                                                 ElectronicInvoiceOrder electronicInvoiceOrder,
                                                                 ElectronicInvoiceLoad eInvoiceLoad) {
@@ -963,6 +966,7 @@ public class ElectronicInvoiceHelperServiceImpl extends InitiateDirectoryBase im
         return description;
     }
 
+    @NonTransactional
     public ElectronicInvoiceLoadSummary getOrCreateLoadSummary(ElectronicInvoiceLoad eInvoiceLoad,
                                                                String fileDunsNumber){
         ElectronicInvoiceLoadSummary eInvoiceLoadSummary;
@@ -978,6 +982,7 @@ public class ElectronicInvoiceHelperServiceImpl extends InitiateDirectoryBase im
 
     }
 
+    @NonTransactional
     public ElectronicInvoice loadElectronicInvoice(byte[] xmlAsBytes)
     throws CxmlParseException {
 
@@ -1114,6 +1119,7 @@ public class ElectronicInvoiceHelperServiceImpl extends InitiateDirectoryBase im
      * @return true if the matching process is succeed
      */
     @Override
+    @NonTransactional
     public boolean doMatchingProcess(ElectronicInvoiceRejectDocument rejectDocument){
 
         /**
@@ -1164,6 +1170,7 @@ public class ElectronicInvoiceHelperServiceImpl extends InitiateDirectoryBase im
     }
 
     @Override
+    @NonTransactional
     public boolean createPaymentRequest(ElectronicInvoiceRejectDocument rejectDocument){
 
         if (rejectDocument.getInvoiceRejectReasons().size() > 0){
@@ -1838,6 +1845,7 @@ public class ElectronicInvoiceHelperServiceImpl extends InitiateDirectoryBase im
      * This validates an electronic invoice and makes sure it can be turned into a Payment Request
      *
      */
+    @NonTransactional
     public void validateInvoiceOrderValidForPREQCreation(ElectronicInvoiceOrderHolder orderHolder){
 
         if (LOG.isInfoEnabled()){
@@ -1939,10 +1947,12 @@ public class ElectronicInvoiceHelperServiceImpl extends InitiateDirectoryBase im
         return electronicInvoiceInputFileType.getDirectoryPath() + File.separator;
     }
 
+    @NonTransactional
     public String getRejectDirName(){
         return getBaseDirName() + "reject" + File.separator;
     }
 
+    @NonTransactional
     public String getAcceptDirName(){
         return getBaseDirName() + "accept" + File.separator;
     }
@@ -1957,46 +1967,57 @@ public class ElectronicInvoiceHelperServiceImpl extends InitiateDirectoryBase im
         return eils;
     }
 
+    @NonTransactional
     public void setElectronicInvoiceInputFileType(ElectronicInvoiceInputFileType electronicInvoiceInputFileType) {
         this.electronicInvoiceInputFileType = electronicInvoiceInputFileType;
     }
 
+    @NonTransactional
     public void setMailService(MailService mailService) {
         this.mailService = mailService;
     }
 
+    @NonTransactional
     public void setElectronicInvoicingDao(ElectronicInvoicingDao electronicInvoicingDao) {
         this.electronicInvoicingDao = electronicInvoicingDao;
     }
 
+    @NonTransactional
     public void setBatchInputFileService(BatchInputFileService batchInputFileService) {
         this.batchInputFileService = batchInputFileService;
     }
 
+    @NonTransactional
     public void setElectronicInvoiceMatchingService(ElectronicInvoiceMatchingService matchingService) {
         this.matchingService = matchingService;
     }
 
+    @NonTransactional
     public void setVendorService(VendorService vendorService) {
         this.vendorService = vendorService;
     }
 
+    @NonTransactional
     public void setPurchaseOrderService(PurchaseOrderService purchaseOrderService) {
         this.purchaseOrderService = purchaseOrderService;
     }
 
+    @NonTransactional
     public void setPaymentRequestService(PaymentRequestService paymentRequestService) {
         this.paymentRequestService = paymentRequestService;
     }
 
+    @NonTransactional
     public void setConfigurationService(ConfigurationService kualiConfigurationService) {
         this.kualiConfigurationService = kualiConfigurationService;
     }
 
+    @NonTransactional
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;
     }
 
+    @NonTransactional
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
     }
@@ -2005,6 +2026,7 @@ public class ElectronicInvoiceHelperServiceImpl extends InitiateDirectoryBase im
      * @see org.kuali.kfs.sys.batch.service.impl.InitiateDirectoryImpl#getRequiredDirectoryNames()
      */
     @Override
+    @NonTransactional
     public List<String> getRequiredDirectoryNames() {
         return new ArrayList<String>() {{add(getBaseDirName()); add(getAcceptDirName()); add(getRejectDirName()); }};
     }

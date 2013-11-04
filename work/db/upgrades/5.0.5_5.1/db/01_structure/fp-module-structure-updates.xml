@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog'
+	xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+	xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd'>
+	
+  	<changeSet author="KFSCNTRB-758" id="KFSCNTRB-758_FP_BDGT_ADJ_DTL_T">
+		<comment>KFSCNTRB-758 Need this column to hold the line description field for budget adjustment accounting lines.</comment>
+		<addColumn tableName="FP_BDGT_ADJ_DTL_T">
+			<column name="FDOC_LINE_DESC" type="VARCHAR2(40)" />
+		</addColumn>
+		<modifySql dbms="mysql">
+			<replace replace="VARCHAR2" with="VARCHAR" />
+		</modifySql>
+	</changeSet>
+	
+</databaseChangeLog>

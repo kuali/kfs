@@ -17,7 +17,6 @@
   <!-- Non-kuali packages that all modules can depend on (javax, org.apache, etc) -->
 	<package name="apache" package="org.apache" subpackages="include" needdeclarations="false"/>
 	<package name="displaytag" package="org.displaytag" subpackages="include" needdeclarations="false"/>
-	<package name="edu" package="edu" subpackages="include" needdeclarations="false"/>
 	<package name="javax" package="javax" subpackages="include" needdeclarations="false"/>
 	<package name="lowagie" package="com.lowagie" subpackages="include" needdeclarations="false"/>
 	<package name="rice" package="org.kuali.rice" subpackages="include" needdeclarations="false"/>
@@ -26,12 +25,15 @@
 	<package name="w3c" package="org.w3c" subpackages="include" needdeclarations="false"/>
 	<package name="jasper" package="net.sf.jasperreports" subpackages="include" needdeclarations="false" />
 	<package name="sax" package="org.xml" subpackages="include" needdeclarations="false"/>
-	<package name="opensymphony" package="com.opensymphony" subpackages="include" needdeclarations="false"/>
-    <package name="junit" package="junit" subpackages="include" needdeclarations="false"/>
-	
-  <!-- Core Kuali packages that all optional modules can depend on -->
+    <package name="joda" package="org.joda" subpackages="include" needdeclarations="false"/>
+	<package name="opencsv" package="au.com.bytecode.opencsv" subpackages="include" needdeclarations="false"/>
+
+  <!-- Non-kuali packages that some modules can depend on -->
 	<package name="quartz" package="org.quartz" subpackages="include" />
 	<package name="dwr" package="uk.ltd.getahead.dwr" subpackages="include" />
+	<package name="directwebremoting" package="org.directwebremoting" subpackages="include" />
+
+  <!-- Core Kuali packages that all optional modules can depend on -->
 	<package name="coa" package="org.kuali.kfs.coa" subpackages="include" needdeclarations="false" />
 	<package name="fp" package="org.kuali.kfs.fp" subpackages="include" needdeclarations="false"/>
 	<package name="gl" package="org.kuali.kfs.gl" subpackages="include" needdeclarations="false"/>
@@ -39,9 +41,13 @@
 	<package name="sys" package="org.kuali.kfs.sys" subpackages="include" needdeclarations="false">
 		<depends>quartz</depends>
 		<depends>dwr</depends>
+		<depends>directwebremoting</depends>
 	</package>
 	<package name="vnd" package="org.kuali.kfs.vnd" subpackages="include" needdeclarations="false"/>
 	<package name="integration" package="org.kuali.kfs.integration" subpackages="include" needdeclarations="false"/>
+
+  <!-- Core Kuali packages that optional modules should not depend on -->
+	<package name="sec" package="org.kuali.kfs.sec" subpackages="include"/>
   
   <!-- Optional module packages -->
 	<package name="ar" package="org.kuali.kfs.module.ar" subpackages="include"/>
@@ -49,10 +55,16 @@
 	<package name="cam" package="org.kuali.kfs.module.cam" subpackages="include"/>
 	<package name="cg" package="org.kuali.kfs.module.cg" subpackages="include"/>
 	<package name="ec" package="org.kuali.kfs.module.ec" subpackages="include"/>
+	<package name="endow" package="org.kuali.kfs.module.endow" subpackages="include"/>
 	<package name="ld" package="org.kuali.kfs.module.ld" subpackages="include"/>
 	<package name="purap" package="org.kuali.kfs.module.purap" subpackages="include"/>
 	<package name="cab" package="org.kuali.kfs.module.cab" subpackages="include">
 		<depends>cam</depends>
 		<depends>purap</depends>
 	</package>
+	<package name="kra" package="org.kuali.kra.external" subpackages="include"/>
+	<package name="kc" package="org.kuali.kfs.module.external.kc" subpackages="include">
+		<depends>kra</depends>
+	</package>
+	
 </design>

@@ -30,6 +30,7 @@ are intended for use only by Kuali Foundation developers.
 	<target name="build-eclipse-classpath" />
 	<target name="extract-rice-libraries" />
 	<target name="refresh-kfs-db" />
+	<target name="make-javadoc" />
 
 	<target name="init-additional-properties" depends="init-properties">
 		<echo message="Reading Properties: ${properties.directory}/build-foundation.properties" />
@@ -44,40 +45,48 @@ are intended for use only by Kuali Foundation developers.
 	</target>
 
 	<!-- REMOVE FROM DISTRIBUTION -->
-	<target name="modularization-test" depends="init-additional-properties,make-source">
-        <javac destdir="${war.classes.directory}" debug="true" nowarn="true" optimize="true" fork="true" memoryinitialsize="${compile.min.memory}" memorymaximumsize="${compile.max.memory}">
-            <classpath refid="compile.tests.classpath" />
-            <src path="${test.infrastructure.source.directory}" />
-            <src path="${test.unit.source.directory}" />
-            <src path="${test.integration.source.directory}" />
-        </javac>
-        <copy todir="${war.classes.directory}">
-            <fileset dir="${test.infrastructure.source.directory}" includes="${non.java.resources}" />
-            <fileset dir="${test.unit.source.directory}" includes="${non.java.resources}" />
-            <fileset dir="${test.integration.source.directory}" includes="${non.java.resources}" />
-        </copy>
+	<target name="modularization-prep" depends="init-additional-properties,make-source">
+
+		<echo message="Reading Properties: ${properties.directory}/checkmodularization.properties" />
+		<property file="${properties.directory}/checkmodularization.properties" />
+
+		<echo message="coreservice.override.spring.files: ${checkmodularization.coreservice.override.spring.files}" />
+		
+		<propertyfile file="${classes.directory}/${configuration.file}">
+			<entry key="module.endowment.enabled" default="" operation="=" value="${checkmodularization.module.endowment.enabled}"/>
+			<entry key="module.access.security.enabled" default="" operation="=" value="${checkmodularization.module.access.security.enabled}"/>
+			<entry key="rice.coreservice.additionalSpringFiles" default="" operation="+" value=",${checkmodularization.coreservice.override.spring.files}"/>
+			<entry key="rice.kim.additionalSpringFiles" default="" operation="+" value=",${checkmodularization.kim.override.spring.files}"/>
+			<entry key="rice.kew.additionalSpringFiles" default="" operation="+" value=",${checkmodularization.kew.override.spring.files}"/>
+			<entry key="rice.location.additionalSpringFiles" default="" operation="+" value=",${checkmodularization.location.override.spring.files}"/>
+		</propertyfile>
+	</target>
+
+	<target name="modularization-test" depends="modularization-prep">
     	<java classname="org.kuali.kfs.sys.context.CheckModularization" fork="true" resultproperty="context.test.results">
 			<jvmarg value="-Xms512m" />
 			<jvmarg value="-Xmx2g" />
 			<jvmarg value="-XX:MaxPermSize=256m" />
 			<classpath>
-				<pathelement location="${war.classes.directory}" />
+				<pathelement location="${classes.directory}" />
 				<path refid="compile.source.classpath" />
+				<path refid="database.drivers.classpath" />
 			</classpath>
 		</java>
-		<!--
- 		<verifydesign design="work/src/design.xml">
-			<path>
-				<fileset dir="${war.classes.directory}/org/kuali/kfs" includes="**/*.class" excludes="**/*Test.class,**/*Fixture.class" />
-      		</path>
-    	</verifydesign>
 		<condition property="context.test.failed" value="true">
 			<equals arg1="${context.test.results}" arg2="1" />
 		</condition>
-		-->
 	</target>
 
-	<target name="check-modularization" depends="modularization-test">
+	<target name="verify-design" depends="modularization-prep">
+		<verifydesign design="work/src/design.xml">
+			<path>
+				<fileset dir="${classes.directory}/org/kuali/kfs" includes="**/*.class" excludes="**/*Test.class,**/*Fixture.class" />
+	  		</path>
+		</verifydesign>
+	</target>
+
+	<target name="check-modularization" depends="modularization-test, verify-design">
 		<fail if="context.test.failed" message="CheckModularization.java failed" />
   	</target>
 	<!-- END REMOVE FROM DISTRIBUTION -->
@@ -149,17 +158,22 @@ are intended for use only by Kuali Foundation developers.
 	 </typedef>
 
 	<target name="prep-temp-dir" depends="init-properties">
+		<if>
+			<available file="${all.temp.directory}" type="dir" />
+			<then>
 		<echo>Deleting contents of temp directory: ${all.temp.directory}</echo>
     	<delete>
     		<fileset dir="${all.temp.directory}">
     			<include name="**/*" />
     		</fileset>
     	</delete>
+			</then>
+		</if>
 	</target>
 	
 	<target name="export-to-temp" depends="clean-all,prep-temp-dir">
 		<echo>Exporting project to temp directory for packaging.</echo>
-		<svn>
+		<svn svnkit="false" javahl="true">
 			<export srcPath="${basedir.safe}" destPath="${all.temp.directory}/kfs" />
 		</svn>
 	</target>
@@ -181,7 +195,7 @@ are intended for use only by Kuali Foundation developers.
 			<not><available file="${database.directory}/kfs-db/demo" type="dir" /></not>
 			<then>
 				<echo>Building copy of development repository for demo dataset.</echo>
-				<svn>
+				<svn svnkit="false" javahl="true">
 					<copy srcPath="${database.directory}/kfs-db/development"
 						 destPath="${database.directory}/kfs-db/demo"/>
 				</svn>
@@ -191,13 +205,13 @@ are intended for use only by Kuali Foundation developers.
 			<not><available file="${database.directory}/kfs-db/bootstrap" type="dir" /></not>
 			<then>
 				<echo>Building copy of development repository for bootstrap dataset.</echo>
-				<svn>
+				<svn svnkit="false" javahl="true">
 					<copy srcPath="${database.directory}/kfs-db/development"
 						 destPath="${database.directory}/kfs-db/bootstrap"/>
 				</svn>
 			</then>
 		</if>
-		<svn username="${svn.username}" password="${svn.password}">
+		<svn svnkit="false" javahl="true" username="${svn.username}" password="${svn.password}">
 			<commit dir="${database.directory}/kfs-db" message="Copying development datasource in preparation for release dataset creation."/>
 		</svn>
 	</target>
@@ -243,8 +257,8 @@ are intended for use only by Kuali Foundation developers.
 			<property name="svn.base" value="${svn.info.url}"/>
 			<property name="data.svn.path" value="demo"/>
 		</ant>
-		<delete dir="${database.directory}/new_export" />
-		<delete file="${database.directory}/merge.complete" />
+		<delete dir="${database.directory}/kfs-db/new_export" />
+		<delete file="${database.directory}/kfs-db/merge.complete" />
 		-->
 	</target>
 
@@ -264,7 +278,7 @@ are intended for use only by Kuali Foundation developers.
 	<target name="create-and-export-bootstrap-dataset" depends="create-bootstrap-dataset,export-bootstrap-dataset" />
 	
 	<target name="export-bootstrap-dataset" depends="set-temp-export-db-properties,init-additional-properties,init-make-references">
-		<svn>
+		<svn svnkit="false" javahl="true">
 			<info target="${basedir.safe}" />
 		</svn>
 		<echo>${svn.info.url}</echo>
@@ -284,15 +298,15 @@ are intended for use only by Kuali Foundation developers.
 			<property name="svn.base" value="${svn.info.url}"/>
 			<property name="data.svn.path" value="bootstrap"/>
 		</ant>
-		<delete dir="${database.directory}/new_export" />
-		<delete file="${database.directory}/merge.complete" />
+		<delete dir="${database.directory}/kfs-db/new_export" />
+		<delete file="${database.directory}/kfs-db/merge.complete" />
 	</target>
 		
 	<target name="remove-distribution-dataset-dirs" depends="init-additional-properties">
 		<if>
 			<available file="${database.directory}/kfs-db/demo" type="dir" />
 			<then>
-				<svn>
+				<svn svnkit="false" javahl="true">
 					<delete dir="${database.directory}/kfs-db/demo" force="true" />
 				</svn>
 			</then>
@@ -300,25 +314,25 @@ are intended for use only by Kuali Foundation developers.
 		<if>
 			<available file="${database.directory}/kfs-db/bootstrap" type="dir" />
 			<then>
-				<svn>
+				<svn svnkit="false" javahl="true">
 					<delete dir="${database.directory}/kfs-db/bootstrap" force="true" />
 				</svn>
 			</then>
 		</if>
-		<svn username="${svn.username}" password="${svn.password}" failonerror="false">
+		<svn svnkit="false" javahl="true" username="${svn.username}" password="${svn.password}" failonerror="false">
 			<commit dir="${database.directory}/kfs-db" message="Removing distribution datasource directories." />
 		</svn>
 	</target>
 
 	<target name="commit-distribution-dataset-dirs" depends="init-additional-properties">
-		<svn username="${svn.username}" password="${svn.password}">
+		<svn svnkit="false" javahl="true" username="${svn.username}" password="${svn.password}">
 			<commit dir="${database.directory}/kfs-db" message="Adding distribution datasource directories."/>
 		</svn>
 	</target>
 	
 	<target name="build-distribution-datasets" depends="set-temp-export-db-properties,remove-distribution-dataset-dirs,prepare-dataset-paths,export-dev-db-to-temp,create-and-export-demo-dataset,create-and-export-bootstrap-dataset,commit-distribution-dataset-dirs" />
 	
-	<target name="package" depends="prep-temp-dir,export-to-temp,delete-nondistribution-files,replace-foundation-references,remove-distribution-portions-of-build-file,add-doc-files,zip-package"
+	<target name="package" depends="prep-temp-dir,export-to-temp,delete-nondistribution-files,replace-foundation-references,remove-distribution-portions-of-build-file,add-doc-files,add-javadoc,zip-package"
 			description="Cleans up the project, manipulates the contents slightly, and packs it up for distribution on the Kuali web site.">
     	<delete dir="${all.temp.directory}" verbose="false" />
 	</target>
@@ -328,17 +342,29 @@ are intended for use only by Kuali Foundation developers.
 			<fileset dir="${all.temp.directory}/kfs">
 				<!-- remove the distribution build files -->
 				<include name="build/properties/distribution.properties" />
+				<!-- remove the check modularization build files -->
+				<include name="build/properties/checkmodularization.properties" />
 				<!-- files we do not have the authority to distribute -->
-				<include name="build/svn*.jar" />    <!-- SVN libraries -->
-				<include name="build/ganymed.jar" /> <!-- SVN helper library -->
-				<include name="**/mysql*.jar" />     <!-- Mysql JDBC driver -->
-				<include name="**/ojdbc*.jar" />     <!-- Oracle JDBC Driver -->
+				<include name="build/svn*.jar" />         <!-- SVN libraries -->
+				<include name="build/ganymed.jar" />      <!-- SVN helper library -->
+				<include name="**/mysql*.jar" />          <!-- Mysql JDBC driver -->
+				<include name="**/ojdbc*.jar" />          <!-- Oracle JDBC Driver -->
+				<include name="test/lib/cobertura.jar" /> <!-- Cobertura code coverarage utility -->
 			</fileset>
 		</delete>
 		<!-- Incomplete Maven Build Files -->
 		<delete dir="${all.temp.directory}/kfs/m2" />
+		<!-- Groovy script for packaging -->
+		<delete dir="${all.temp.directory}/kfs/build/groovy" />
 		<!-- Development database contents -->
 		<delete dir="${all.temp.directory}/kfs/work/db/kfs-db/development" />
+		<!-- Development impex files -->
+		<delete verbose="true">
+			<fileset dir="${all.temp.directory}/kfs/work/db">
+				<exclude name="fieldsToEncrypt.properties" />
+			</fileset>
+		</delete>
+		<delete dir="${all.temp.directory}/kfs/work/db/kfs-db/db-impex/export-to-svn" />
 		<!-- Remove all the instance build files *except* for a few examples. -->
 		<delete verbose="true">
 			<fileset dir="${all.temp.directory}/kfs">
@@ -351,28 +377,9 @@ are intended for use only by Kuali Foundation developers.
 	</target>
 
 	<target name="remove-distribution-portions-of-build-file" depends="init-properties">
-		<groovy><![CDATA[
-			inputFile = new File( "${properties['all.temp.directory']}/kfs/build-foundation.xml" );
-			outputFile = new File( "${properties['all.temp.directory']}/kfs/build-foundation.tmp" );
-			skip = false
-
-			outputFile.withWriter { writer ->
-
-				inputFile.eachLine { line ->
-					if ( !skip && line =~ "REMOVE FROM DISTRIBUTION" ) {
-						println "Starting Exclusion: " + line
-						skip = true;
-					} else if ( skip && line =~ "END REMOVE FROM DISTRIBUTION" ) {
-						println "Ending Exclusion: " + line
-						skip = false;
-					} else {
-						if ( !skip ) {
-							writer.writeLine( line );
-						}
-					}
-				}
-			}
-		]]></groovy>
+		<groovy src="build/groovy/distribution.groovy"/>
+		<move file="${all.temp.directory}/kfs/build-foundation.tmp" 
+			tofile="${all.temp.directory}/kfs/build-foundation.xml"/>
 	</target>
 
 	<target name="replace-foundation-references" depends="init-additional-properties">
@@ -381,6 +388,7 @@ are intended for use only by Kuali Foundation developers.
 			<include name="**/*.properties" />
 			<include name="**/*.txt" />
 			<include name="**/*.sh" />
+			<include name="**/*.xml" />
 			<!-- SVN -->
       		<replacefilter token="https://svn.kuali.org/repos/" value="" />
       		<replacefilter token="https://svn.kuali.org/repos" value="" />
@@ -403,7 +411,7 @@ are intended for use only by Kuali Foundation developers.
 
 	<target name="add-doc-files" depends="init-additional-properties">
 		<!-- get the current revision numbers for each SVN path we are including in the export -->
-		<svn>
+		<svn svnkit="false" javahl="true">
 			<info target="${basedir.safe}"
 				  propPrefix="svn.info.kfs" verbose="true" />			
 		</svn>
@@ -412,6 +420,15 @@ are intended for use only by Kuali Foundation developers.
 KFS URL: ${svn.info.kfs.url} (@${svn.info.kfs.lastRev})
 Date   : ${svn.info.kfs.lastDate}
     	</echo>	
+	</target>
+
+	<target name="add-javadoc" depends="init-additional-properties, make-javadoc">
+		<!-- create javadoc zip -->
+		<zip destfile="kfs-javadoc.zip" basedir="${doc.directory}" compress="true" />
+		<!-- move javadoc zip -->
+		<move file="kfs-javadoc.zip" todir="${all.temp.directory}/kfs"/>
+		<!-- cleanup doc directory -->
+		<delete dir="${doc.directory}" />
 	</target>
 	
 	<target name="zip-package" depends="init-additional-properties">

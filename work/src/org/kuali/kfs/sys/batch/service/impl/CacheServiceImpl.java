@@ -18,6 +18,7 @@ package org.kuali.kfs.sys.batch.service.impl;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.batch.service.CacheService;
 import org.kuali.kfs.sys.service.NonTransactional;
+import org.kuali.rice.core.api.exception.RiceIllegalArgumentException;
 import org.kuali.rice.core.impl.services.CoreImplServiceLocator;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
@@ -43,21 +44,27 @@ public class CacheServiceImpl implements CacheService {
 
     @Override
     public void clearNamedCache(String cacheName) {
-        CacheManager cm = CoreImplServiceLocator.getCacheManagerRegistry().getCacheManager(KFSConstants.KFS_CORE_DISTRIBUTED_CACHE_MANAGER);
-        if ( cm != null ) {
-            Cache cache = cm.getCache(cacheName);
-            if (cache != null) {
-                cache.clear();
-                if ( LOG.isDebugEnabled() ) {
-                    LOG.debug( "Cleared " + cacheName + " cache in cache manager " + KFSConstants.KFS_CORE_DISTRIBUTED_CACHE_MANAGER + "." );
+
+        try {
+            CacheManager cm = CoreImplServiceLocator.getCacheManagerRegistry().getCacheManagerByCacheName(cacheName);
+            if ( cm != null ) {
+                Cache cache = cm.getCache(cacheName);
+                if (cache != null) {
+                    cache.clear();
+                    if ( LOG.isDebugEnabled() ) {
+                        LOG.debug( "Cleared " + cacheName + " cache." );
+                    }
+                } else {
+                    // this is at debug level intentionally, since not all BOs have caches
+                    LOG.debug( "Unable to find cache for " + cacheName + ".");
                 }
             } else {
-                // this is at debug level intentionally, since not all BOs have caches
-                LOG.debug( "Unable to find cache for " + cacheName + " in cache manager " + KFSConstants.KFS_CORE_DISTRIBUTED_CACHE_MANAGER);
+                LOG.info( "Unable to find cache manager when attempting to clear " + cacheName );
             }
-        } else {
-            LOG.info( "Unable to find cache manager " + KFSConstants.KFS_CORE_DISTRIBUTED_CACHE_MANAGER + " when attempting to clear " + cacheName );
+        } catch (RiceIllegalArgumentException e) {
+            LOG.info( "Cache manager not found when attempting to clear " + cacheName );
         }
+
     }
 
     @Override
@@ -65,5 +72,5 @@ public class CacheServiceImpl implements CacheService {
         String cacheName = KFSConstants.APPLICATION_NAMESPACE_CODE + "/" + boClass.getSimpleName();
         clearNamedCache(cacheName);
     }
-    
+
 }

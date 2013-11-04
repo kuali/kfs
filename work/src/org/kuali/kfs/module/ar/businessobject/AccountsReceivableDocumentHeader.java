@@ -31,7 +31,7 @@ import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class AccountsReceivableDocumentHeader extends PersistableBusinessObjectBase implements org.kuali.kfs.integration.ar.AccountsReceivableDocumentHeader{
+public class AccountsReceivableDocumentHeader extends PersistableBusinessObjectBase {
 
 	private String documentNumber;
 	private String customerNumber;
@@ -68,10 +68,10 @@ public class AccountsReceivableDocumentHeader extends PersistableBusinessObjectB
 	 * @param documentNumber The documentNumber to set.
 	 *
 	 */
-	@Override
-    public void setDocumentNumber(String documentNumber) {
+	public void setDocumentNumber(String documentNumber) {
 		this.documentNumber = documentNumber;
 	}
+
 
 	/**
 	 * Gets the customerNumber attribute.
@@ -79,8 +79,7 @@ public class AccountsReceivableDocumentHeader extends PersistableBusinessObjectB
 	 * @return Returns the customerNumber
 	 *
 	 */
-	@Override
-    public String getCustomerNumber() {
+	public String getCustomerNumber() {
 		return StringUtils.upperCase(customerNumber);
 	}
 
@@ -90,8 +89,7 @@ public class AccountsReceivableDocumentHeader extends PersistableBusinessObjectB
 	 * @param customerNumber The customerNumber to set.
 	 *
 	 */
-	@Override
-    public void setCustomerNumber(String customerNumber) {
+	public void setCustomerNumber(String customerNumber) {
 		this.customerNumber = customerNumber;
 	}
 
@@ -101,8 +99,7 @@ public class AccountsReceivableDocumentHeader extends PersistableBusinessObjectB
 	 * @return Returns the processingChartOfAccountCode
 	 *
 	 */
-	@Override
-    public String getProcessingChartOfAccountCode() {
+	public String getProcessingChartOfAccountCode() {
 		return processingChartOfAccountCode;
 	}
 
@@ -112,8 +109,7 @@ public class AccountsReceivableDocumentHeader extends PersistableBusinessObjectB
 	 * @param processingChartOfAccountCode The processingChartOfAccountCode to set.
 	 *
 	 */
-	@Override
-    public void setProcessingChartOfAccountCode(String processingChartOfAccountCode) {
+	public void setProcessingChartOfAccountCode(String processingChartOfAccountCode) {
 		this.processingChartOfAccountCode = processingChartOfAccountCode;
 	}
 
@@ -124,8 +120,7 @@ public class AccountsReceivableDocumentHeader extends PersistableBusinessObjectB
 	 * @return Returns the processingOrganizationCode
 	 *
 	 */
-	@Override
-    public String getProcessingOrganizationCode() {
+	public String getProcessingOrganizationCode() {
 		return processingOrganizationCode;
 	}
 
@@ -135,8 +130,7 @@ public class AccountsReceivableDocumentHeader extends PersistableBusinessObjectB
 	 * @param processingOrganizationCode The processingOrganizationCode to set.
 	 *
 	 */
-	@Override
-    public void setProcessingOrganizationCode(String processingOrganizationCode) {
+	public void setProcessingOrganizationCode(String processingOrganizationCode) {
 		this.processingOrganizationCode = processingOrganizationCode;
 	}
 
@@ -278,7 +272,7 @@ public class AccountsReceivableDocumentHeader extends PersistableBusinessObjectB
 	/**
 	 * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
 	 */
-    @SuppressWarnings({ "unchecked", "rawtypes" })
+    @SuppressWarnings("unchecked")
 	protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
 	    LinkedHashMap m = new LinkedHashMap();
         m.put("documentNumber", this.documentNumber);

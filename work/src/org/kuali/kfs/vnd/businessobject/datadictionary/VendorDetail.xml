@@ -92,6 +92,7 @@
 				<ref bean="VendorDetail-vendorParentName" />
 				<ref bean="VendorDetail-vendorAliasesAsString" />
 				<ref bean="VendorDetail-vendorCommoditiesAsString" />
+				<ref bean="VendorDetail-vendorContracts.vendorContractGeneratedIdentifier"/>
 			</list>
 		</property>
 		<property name="collections">
@@ -728,6 +729,15 @@
 		</property>
 	</bean>
 
+    <bean id="VendorDetail-vendorContracts.vendorContractGeneratedIdentifier" parent="VendorContract-vendorContractGeneratedIdentifier-parentBean" >
+      <property name="name" value="vendorContracts.vendorContractGeneratedIdentifier"/>
+  	</bean>
+  	  
+    <bean id="VendorDetail-vendorContracts.vendorContractGeneratedIdentifier-parentBean"  abstract="true" parent="VendorContract-vendorContractGeneratedIdentifier" />
+  	  
+    
+    
+  
 	<!-- Business Object Inquiry Definition -->
 
 
@@ -1217,6 +1227,7 @@
 		<property name="summaryTitle" value="Contract" />
 		<property name="inquiryFields">
 			<list>
+			    <bean parent="FieldDefinition" p:attributeName="vendorContractGeneratedIdentifier"/>
 				<bean parent="FieldDefinition" p:attributeName="vendorContractName" />
 				<bean parent="FieldDefinition" p:attributeName="vendorB2bIndicator" />
 				<bean parent="FieldDefinition" p:attributeName="vendorContractDescription" />
@@ -1333,6 +1344,7 @@
 				<bean parent="FieldDefinition" p:attributeName="vendorCommodities.purchasingCommodityCode" />
 				<bean parent="FieldDefinition"
 					p:attributeName="vendorHeader.vendorSupplierDiversities.vendorSupplierDiversityCode" />
+                <bean parent="FieldDefinition" p:attributeName="vendorContracts.vendorContractGeneratedIdentifier"/>					
 			</list>
 		</property>
 		<property name="resultFields">

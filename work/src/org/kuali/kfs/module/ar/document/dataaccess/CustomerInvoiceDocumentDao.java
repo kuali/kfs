@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.module.ar.document.dataaccess;
 
-import java.sql.Date;
 import java.util.Collection;
 import java.util.List;
 
@@ -62,7 +61,7 @@ public interface CustomerInvoiceDocumentDao {
      * @return
      */
     public List<String> getPrintableCustomerInvoiceDocumentNumbersByBillingChartAndOrg(String chartOfAccountsCode, String organizationCode);
-    
+
     /**
      * 
      * Retrieves all Invoice document numbers in the system associated with the given 
@@ -162,47 +161,4 @@ public interface CustomerInvoiceDocumentDao {
      * @return
      */
     public CustomerInvoiceDocument getInvoiceByInvoiceDocumentNumber(String documentNumber);
-
-    /**
-     * get all customer invoice documents that are open and with the given billing date range
-     * 
-     * @param charts the selected charts of accounts
-     * @param organizations the selected organization codes
-     * @param invoiceBillingDateFrom the starting invoice billing date of a range. The starting billing date is included
-     * @param invoiceBillingDateTo the ending invoice billing date of a range. The ending billing date is not included
-     * @return all customer invoice documents that are open and with the billing date range
-     */
-    public Collection<CustomerInvoiceDocument> getAllAgingInvoiceDocumentsByBilling(List<String> charts, List<String> organizations, Date invoiceBillingDateFrom, Date invoiceBillingDateTo);
-    
-    /**
-     * get all customer invoice documents that are open and with the given billing date range
-     * 
-     * @param charts the selected charts of accounts
-     * @param organizations the selected organization codes
-     * @param invoiceBillingDateFrom the starting invoice billing date of a range. The starting billing date is included
-     * @param invoiceBillingDateTo the ending invoice billing date of a range. The ending billing date is not included
-     * @return all customer invoice documents that are open and with the billing date range
-     */
-    public Collection<CustomerInvoiceDocument> getAllAgingInvoiceDocumentsByProcessing(List<String> charts, List<String> organizations, Date invoiceBillingDateFrom, Date invoiceBillingDateTo);
-    
-    /**
-     * get all customer invoice documents that are open and with the given billing date range
-     * 
-     * @param charts the selected charts of accounts
-     * @param accounts the selected account numbers
-     * @param invoiceBillingDateFrom the starting invoice billing date of a range. The starting billing date is included
-     * @param invoiceBillingDateTo the ending invoice billing date of a range. The ending billing date is not included
-     * @return all customer invoice documents that are open and with the billing date range
-     */
-    public Collection<CustomerInvoiceDocument> getAllAgingInvoiceDocumentsByAccounts(List<String> charts, List<String> accounts, Date invoiceBillingDateFrom, Date invoiceBillingDateTo);
-
-    /**
-     * get all customer invoice documents that are open and with the given billing date range
-     * 
-     * @param customerTypes the given customer type codes
-     * @param invoiceBillingDateFrom the starting invoice billing date of a range. The starting billing date is included
-     * @param invoiceBillingDateTo the ending invoice billing date of a range. The ending billing date is not included
-     * @return all customer invoice documents that are open and with the billing date range
-     */
-    public Collection<CustomerInvoiceDocument> getAllAgingInvoiceDocumentsByCustomerTypes(List<String> customerTypes, Date invoiceBillingDateFrom, Date invoiceBillingDateTo);
 }

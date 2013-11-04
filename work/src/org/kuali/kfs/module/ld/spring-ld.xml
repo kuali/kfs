@@ -72,13 +72,13 @@
 
             </list>
         </property>
-        <!-- <property name="fiscalYearMakers">
+        <property name="fiscalYearMakers">
             <list>
                 <ref bean="benefitsCalculationFiscalYearMaker" />
                 <ref bean="laborObjectDefinitionFiscalYearMaker" />
                 <ref bean="positionObjectBenefitDefinitionFiscalYearMaker" />
             </list>
-        </property> -->
+        </property>
         <property name="externalizableBusinessObjectImplementations">
             <map>
                 <entry key="org.kuali.kfs.integration.ld.LaborLedgerBenefitsCalculation" value="org.kuali.kfs.module.ld.businessobject.BenefitsCalculation" />
@@ -88,6 +88,7 @@
  				<entry key="org.kuali.kfs.integration.ld.LaborLedgerEntryGLSummary" value="org.kuali.kfs.module.ld.businessobject.LedgerEntryGLSummary" />
  				<entry key="org.kuali.kfs.integration.ld.LaborLedgerEntryForExpenseTransfer" value="org.kuali.kfs.module.ld.businessobject.LedgerEntryForExpenseTransfer" />
                 <entry key="org.kuali.kfs.integration.ld.LaborLedgerObject" value="org.kuali.kfs.module.ld.businessobject.LaborObject" />
+                <entry key="org.kuali.kfs.integration.ld.LaborLedgerPositionData" value="org.kuali.kfs.module.ld.businessobject.PositionData" />
                 <entry key="org.kuali.kfs.integration.ld.LaborLedgerPositionObjectBenefit" value="org.kuali.kfs.module.ld.businessobject.PositionObjectBenefit" />
                 <entry key="org.kuali.kfs.integration.ld.LaborLedgerPositionObjectGroup" value="org.kuali.kfs.module.ld.businessobject.PositionObjectGroup" />
                 <entry key="org.kuali.kfs.integration.ld.LaborLedgerExpenseTransferSourceAccountingLine" value="org.kuali.kfs.module.ld.businessobject.ExpenseTransferSourceAccountingLine" />

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+    Copyright 2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+-->
+<databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog'
+	xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+	xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd'>
+
+	<changeSet author="kfs" id="KFSMI10913_KFSKC_BOOTSTRAP_LOAD_KRIM_ROLE_MBR_T">
+		<insert tableName="KRIM_ROLE_MBR_T">
+			<column name="ROLE_MBR_ID" value="KFSKC1001"/>
+			<column name="OBJ_ID" valueComputed="SYS_GUID()"/>
+			<column name="VER_NBR" value="1"/>
+			<column name="ROLE_ID" valueComputed="(select role_id from KRIM_ROLE_T where nmspc_cd = 'KFS-SYS' and role_nm like 'Contracts % Grants Project Director') "/>
+			<column name="MBR_ID" valueComputed="(select role_id from KRIM_ROLE_T where nmspc_cd = 'KC-WKFLW' and role_nm like 'PI') "/>
+			<column name="MBR_TYP_CD" value="R"/>
+		</insert>
+		<modifySql dbms="mysql">
+	      	<replace replace="SYS_GUID()" with="UUID()" />
+	    </modifySql>
+    </changeSet>   
+	
+</databaseChangeLog>

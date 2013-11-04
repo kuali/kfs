@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -23,6 +23,7 @@ import java.util.List;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public class AssetPaymentAssetDetail extends PersistableBusinessObjectBase {
     private String documentNumber;
@@ -30,7 +31,7 @@ public class AssetPaymentAssetDetail extends PersistableBusinessObjectBase {
     private KualiDecimal previousTotalCostAmount;
     private KualiDecimal allocatedAmount = KualiDecimal.ZERO;
     private KualiDecimal allocatedUserValue = KualiDecimal.ZERO;
-    private BigDecimal allocatedUserValuePct = BigDecimal.ZERO;  
+    private BigDecimal allocatedUserValuePct = BigDecimal.ZERO;
 
     private Asset asset;
     private List<AssetPaymentDetail> assetPaymentDetails;
@@ -111,14 +112,22 @@ public class AssetPaymentAssetDetail extends PersistableBusinessObjectBase {
      * Set the allocated amount
      */
     public void setAllocatedAmount(KualiDecimal allocatedAmount) {
-        this.allocatedAmount = allocatedAmount;
+        if (allocatedAmount == null) {
+            this.allocatedAmount = KualiDecimal.ZERO;
+        } else {
+            this.allocatedAmount = allocatedAmount;
+        }
     }
 
 	/**
-	 * Set the value the user allocates when editable 
+	 * Set the value the user allocates when editable
 	 */
 	public void setAllocatedUserValue(KualiDecimal allocatedUserValue) {
-		this.allocatedUserValue = allocatedUserValue;
+        if (allocatedUserValue == null) {
+            this.allocatedUserValue = KualiDecimal.ZERO;
+        } else {
+            this.allocatedUserValue = allocatedUserValue;
+        }
 		setAllocatedAmount(allocatedUserValue);
 	}
 
@@ -129,17 +138,21 @@ public class AssetPaymentAssetDetail extends PersistableBusinessObjectBase {
 		return allocatedUserValue;
 	}
 
-	
-	/**
-	 * Return the New total allocation amount 
-	 * @return
-	 */
-	public KualiDecimal getNewTotal() {
-		return getAllocatedAmount().add(getPreviousTotalCostAmount());
-	}
+    /**
+     * Return the New total allocation amount
+     * @return
+     */
+    public KualiDecimal getNewTotal() {
+        KualiDecimal previousCostAmount = getPreviousTotalCostAmount();
+        // KFSCNTRB-1667: if previous cost doesn't exist, regard the previous total as 0 amount
+        if (ObjectUtils.isNull(previousCostAmount)) {
+            previousCostAmount = new KualiDecimal(0);
+        }
+        return getAllocatedAmount().add(previousCostAmount);
+    }
 
     /**
-     * Return the percent invariant value if percentages are used 
+     * Return the percent invariant value if percentages are used
      */
     public BigDecimal getAllocatedUserValuePct() {
         return allocatedUserValuePct;

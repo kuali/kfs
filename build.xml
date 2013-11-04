@@ -223,6 +223,9 @@
 		<property name="rice.server.datasource.driver.class" value="${datasource.driver.class}" />
 		<property name="rice.server.datasource.url" value="${datasource.url}" />
 		<condition property="rice.server.datasource.platform" value="${mysql.server.datasource.platform}" else="${oracle.server.datasource.platform}"><equals arg1="${datasource.ojb.platform}" arg2="${mysql.ojb.platform}" /></condition>
+		<pathconvert property="drivers.path" dirsep="/" pathsep=";">
+			<path location="${drivers.directory}" />
+		</pathconvert>
 	</target>
 
 	<target name="init-spring-properties" depends="init-property-files">
@@ -251,9 +254,6 @@
 		<condition property="internal.endowment.spring.files" value="${endowment.spring.files}" else="">
 			<istrue value="${module.endowment.enabled}"/>
 		</condition>
-		<condition property="internal.travel.spring.files" value="${travel.spring.files}" else="">
-			<istrue value="${module.travel.enabled}"/>
-		</condition>
 
 		<!-- Do the same for the test configurations for the optional modules -->
 		<condition property="internal.contracts.and.grants.spring.test.files" value="${contracts.and.grants.spring.test.files}" else="">
@@ -273,9 +273,6 @@
 		</condition>
 		<condition property="internal.endowment.spring.test.files" value="${endowment.spring.test.files}" else="">
 			<istrue value="${module.endowment.enabled}"/>
-		</condition>
-		<condition property="internal.travel.spring.test.files" value="${travel.spring.test.files}" else="">
-			<istrue value="${module.travel.enabled}"/>
 		</condition>
 		
 		<!-- Access security files - these are split into three files, since pieces 
@@ -305,8 +302,8 @@
         </condition>
 		
 		<!-- build the optional module spring files lists, but defer to ones set by the institution -->
-		<property name="optional.module.spring.source.files" value="${internal.contracts.and.grants.spring.files}${internal.kuali.coeus.spring.files}${internal.accounts.receivable.spring.files}${internal.purchasing.spring.files}${internal.access.security.purap.spring.files}${internal.capital.asset.spring.files}${internal.labor.distribution.spring.files}${internal.access.security.ld.spring.files}${internal.endowment.spring.files}${internal.travel.spring.files}" />
-		<property name="optional.module.spring.test.files" value="${internal.contracts.and.grants.spring.test.files}${internal.accounts.receivable.spring.test.files}${internal.purchasing.spring.test.files}${internal.capital.asset.spring.test.files}${internal.labor.distribution.spring.test.files}${internal.endowment.spring.test.files}${internal.travel.spring.test.files}" />
+		<property name="optional.module.spring.source.files" value="${internal.contracts.and.grants.spring.files}${internal.kuali.coeus.spring.files}${internal.accounts.receivable.spring.files}${internal.purchasing.spring.files}${internal.access.security.purap.spring.files}${internal.capital.asset.spring.files}${internal.labor.distribution.spring.files}${internal.access.security.ld.spring.files}${internal.endowment.spring.files}" />
+		<property name="optional.module.spring.test.files" value="${internal.contracts.and.grants.spring.test.files}${internal.accounts.receivable.spring.test.files}${internal.purchasing.spring.test.files}${internal.capital.asset.spring.test.files}${internal.labor.distribution.spring.test.files}${internal.endowment.spring.test.files}" />
 		
 		<!-- set the final properties used by the server (placed into configuration.properties) -->
 		<property name="spring.source.files"
@@ -484,8 +481,8 @@
 	</target>
 	
 	<target name="make-javadoc" depends="init-make-references">
-		<mkdir dir="${build.doc.directory}"/>
-		<javadoc destdir="${build.doc.directory}" packagenames="org.*" locale="en" useexternalfile="yes" maxmemory="${javadoc.max.memory}">
+		<mkdir dir="${doc.directory}"/>
+		<javadoc destdir="${doc.directory}" packagenames="org.*" locale="en" useexternalfile="yes" maxmemory="${javadoc.max.memory}">
 			<sourcepath><pathelement location="${source.directory}"/></sourcepath>
 			<classpath refid="compile.source.classpath"/>
 		</javadoc>
@@ -503,18 +500,20 @@
 		<echo message="Cleaning Rice web content from KFS ${webroot.directory}" />
 		<delete failonerror="false" includeemptydirs="true">
 			<fileset dir="${basedir.safe}">
-				<include name="${webroot.directory}/ksb/**" />
-				<include name="${webroot.directory}/kew/**" />
-				<include name="${webroot.directory}/kr/**" />
-				<include name="${webroot.directory}/kr-krad/**" />
-				<include name="${webroot.directory}/ken/**" />
+				<include name="${webroot.directory}/core/**" />
 				<include name="${webroot.directory}/kcb/**" />
+				<include name="${webroot.directory}/ken/**" />
+				<include name="${webroot.directory}/kew/**" />
 				<include name="${webroot.directory}/kim/**" />
+				<include name="${webroot.directory}/kr/**" />
+				<include name="${webroot.directory}/krad/**" />
+				<include name="${webroot.directory}/krms/**" />
+				<include name="${webroot.directory}/ksb/**" />
 				<include name="${webroot.directory}/rice-portal/**" />
+				<include name="${tags.directory}/kew/**" />
+				<include name="${tags.directory}/kim/**" />
 				<include name="${tags.directory}/kr/**" />
 				<include name="${tags.directory}/krad/**" />
-				<include name="${tags.directory}/kim/**" />
-				<include name="${tags.directory}/kew/**" />
 				<include name="${tags.directory}/rice-portal/**" />
 			</fileset>
 		</delete>
@@ -536,6 +535,7 @@
 				<include name="*.war" />
 				<include name="*.zip" />
 				<include name="workflow.xml"/>
+				<exclude name="kfs-javadoc.zip" />
 			</fileset>
 		</delete>
 		<delete verbose="true" includeemptydirs="true" failonerror="false">
@@ -859,7 +859,7 @@ Excludes: ${tests.compile.excludes}
                 <fileset dir="${institution.lib.directory}">
                     <include name="*.jar"/>
                 </fileset>
-                <fileset dir="${institution.test.lib.directory}">
+            	<fileset dir="${institution.test.lib.directory}" erroronmissingdir="false">
                     <include name="*.jar" />
                 </fileset>
             </classpath>
@@ -888,30 +888,53 @@ Excludes: ${tests.compile.excludes}
 			<classpath refid="cobertura.classpath" />
 			<test name="org.kuali.kfs.sys.context.${tests.startup.class}" todir="${test.xml.results.directory}" />
 		</junit>
-		<junit showoutput="true" fork="true" forkmode="once" failureproperty="tests.failed" errorproperty="tests.errored" tempdir="${all.temp.directory}" >
-	        <sysproperty key="net.sourceforge.cobertura.datafile"
-		file="${test.directory}/cobertura.ser" />
-			<jvmarg value="-DKualiTestBase.skipOpenOrInProgressOrReopenedJiraIssues" />
-			<jvmarg value="-Dorg.terracotta.quartz.skipUpdateCheck=true" />
-			<jvmarg value="-Xms${run.tests.min.memory}" />
-			<jvmarg value="-Xmx${run.tests.max.memory}" />
-			<jvmarg value="-XX:MaxPermSize=${run.tests.max.permsize}" />
-			<classpath refid="run.tests.classpath" />
-			<classpath refid="cobertura.classpath" />
-			<formatter type="xml" />
-			<batchtest todir="${test.xml.results.directory}">
-				<!-- use of the single "includes" attribute allows multiple comma-delimited patterns to be provided -->
-				<fileset dir="${test.unit.source.directory}" includes="${tests.includes}" excludes="${test.excludes}" />
-				<fileset dir="${test.integration.source.directory}" includes="${tests.includes}" excludes="${test.excludes}" />
-			</batchtest>
-			<!-- run institution tests if possible -->
-			<!--
-			<batchtest todir="${test.xml.results.directory}" if="institution.test.source.directory" haltonerror="false">
-				<fileset dir="${institution.test.source.directory}" includes="${tests.includes}" excludes="${test.excludes}" />
-			</batchtest>
-			-->
-			<test name="org.kuali.kfs.sys.context.${tests.shutdown.class}" todir="${test.xml.results.directory}" />
-		</junit>
+		<if>
+			<isset property="institution.test.source.directory" />
+            <then>
+				<junit showoutput="true" fork="true" forkmode="once" failureproperty="tests.failed" errorproperty="tests.errored" tempdir="${all.temp.directory}" >
+			        <sysproperty key="net.sourceforge.cobertura.datafile"
+				file="${test.directory}/cobertura.ser" />
+					<jvmarg value="-DKualiTestBase.skipOpenOrInProgressOrReopenedJiraIssues" />
+					<jvmarg value="-Dorg.terracotta.quartz.skipUpdateCheck=true" />
+					<jvmarg value="-Xms${run.tests.min.memory}" />
+					<jvmarg value="-Xmx${run.tests.max.memory}" />
+					<jvmarg value="-XX:MaxPermSize=${run.tests.max.permsize}" />
+					<classpath refid="run.tests.classpath" />
+					<classpath refid="cobertura.classpath" />
+					<formatter type="xml" />
+					<batchtest todir="${test.xml.results.directory}">
+						<!-- use of the single "includes" attribute allows multiple comma-delimited patterns to be provided -->
+						<fileset dir="${test.unit.source.directory}" includes="${tests.includes}" excludes="${test.excludes}" />
+						<fileset dir="${test.integration.source.directory}" includes="${tests.includes}" excludes="${test.excludes}" />
+					</batchtest>
+					<!-- run institution tests if possible -->
+					<batchtest todir="${test.xml.results.directory}" if="institution.test.source.directory" haltonerror="false">
+						<fileset dir="${institution.test.source.directory}" includes="${tests.includes}" excludes="${test.excludes}" />
+					</batchtest>
+					<test name="org.kuali.kfs.sys.context.${tests.shutdown.class}" todir="${test.xml.results.directory}" />
+				</junit>
+			</then>
+			<else>
+				<junit showoutput="true" fork="true" forkmode="once" failureproperty="tests.failed" errorproperty="tests.errored" tempdir="${all.temp.directory}" >
+			        <sysproperty key="net.sourceforge.cobertura.datafile"
+				file="${test.directory}/cobertura.ser" />
+					<jvmarg value="-DKualiTestBase.skipOpenOrInProgressOrReopenedJiraIssues" />
+					<jvmarg value="-Dorg.terracotta.quartz.skipUpdateCheck=true" />
+					<jvmarg value="-Xms${run.tests.min.memory}" />
+					<jvmarg value="-Xmx${run.tests.max.memory}" />
+					<jvmarg value="-XX:MaxPermSize=${run.tests.max.permsize}" />
+					<classpath refid="run.tests.classpath" />
+					<classpath refid="cobertura.classpath" />
+					<formatter type="xml" />
+					<batchtest todir="${test.xml.results.directory}">
+						<!-- use of the single "includes" attribute allows multiple comma-delimited patterns to be provided -->
+						<fileset dir="${test.unit.source.directory}" includes="${tests.includes}" excludes="${test.excludes}" />
+						<fileset dir="${test.integration.source.directory}" includes="${tests.includes}" excludes="${test.excludes}" />
+					</batchtest>
+					<test name="org.kuali.kfs.sys.context.${tests.shutdown.class}" todir="${test.xml.results.directory}" />
+				</junit>
+			</else>
+		</if>
 		<mkdir dir="${test.html.results.directory}" />
 		<junitreport todir="${test.html.results.directory}">
 			<fileset dir="${test.xml.results.directory}">
@@ -1225,7 +1248,6 @@ Admin Password = $${rice.server.impex.admin.password} (not shown)
 		</echo>
 		<mkdir dir="${all.temp.directory}" />
 		<property name="impex.properties" location="${all.temp.directory}/impex-build.properties"/>
-	    <property name="impex.log.level" value="info" />
 		<property name="rice.impex.import.targets" value="drop-schema create-schema import" />
 
 		<!-- build temp impex-build.properties -->
@@ -1241,7 +1263,6 @@ Admin Password = $${rice.server.impex.admin.password} (not shown)
 			import.torque.database.user=${rice.server.datasource.username}
 			import.torque.database.schema=${rice.server.datasource.username}
 			import.torque.database.password=${rice.server.datasource.password}
-		    import.torque.log=${impex.log.level}
 
 			liquibase.logLevel=${liquibase.logLevel}
 			
@@ -1271,6 +1292,8 @@ Admin Password = $${rice.server.impex.admin.password} (not shown)
 			import.admin.password=${rice.server.impex.admin.password}
 			
 			oracle.usermaint.user=${oracle.impex.tool.schema}
+			
+			drivers.directory=${drivers.path}
 		</echo>
 		<!-- run import tool for Rice tables/objects -->
 		<!-- Due to CloverETL issues with execution directory, we need to run Ant
@@ -1308,7 +1331,6 @@ Admin Password = $${impex.admin.password} (not shown)
 		</echo>
 		<mkdir dir="${all.temp.directory}" />
 		<property name="impex.properties" location="${all.temp.directory}/impex-build.properties"/>
-		<property name="impex.log.level" value="info" />
 		<!-- special condition here - we don't want to drop the schema if we are importing both Rice and KFS into the same schema -->
 		<if>
 			<equals arg1="${datasource.url}${datasource.username}" arg2="${rice.server.datasource.url}${rice.server.datasource.username}"/>
@@ -1331,8 +1353,7 @@ Admin Password = $${impex.admin.password} (not shown)
 			import.torque.database.user=${datasource.username}
 			import.torque.database.schema=${datasource.username}
 			import.torque.database.password=${datasource.password}
-		    import.torque.log=${impex.log.level}
-		    
+
 			liquibase.logLevel=${liquibase.logLevel}
 
 			import.admin.url=${adminUrl}
@@ -1340,6 +1361,8 @@ Admin Password = $${impex.admin.password} (not shown)
 			import.admin.password=${impex.admin.password}
 			
 			oracle.usermaint.user=${oracle.impex.tool.schema}
+			
+			drivers.directory=${drivers.path}
 		</echo>
 		<!-- run import tool for KFS tables/objects -->
 		<!-- Due to CloverETL issues with execution directory, we need to run Ant
@@ -1563,25 +1586,33 @@ Admin Password = $${impex.admin.password} (not shown)
 				to
 					${user.home.safe}
 			    - If desired, add your email address to the notification addresses.			
-			    - The default database setup which will be used is in ${basedir.safe}/dev-build.properties.
+			    - The default database setup which will be used is in ${basedir.safe}/build/properties/database.properties
+		          and some are overridden by ${basedir.safe}/dev-build.properties.
 				-- You can copy any properties from there (or any other property file) to your kfs-build.properties
-					file to override the defaults in the project.
+				   file to override the defaults in the project.
 			    - save your changes
 
-			2. Run the refresh-db Ant target
+			2. Copy your JDBC driver(s) into the ${basedir.safe}/build/drivers directory 
+				or set the drivers.directory property to a directory where you have your drivers.
+			
+			3. Run the refresh-db Ant target
 				This will use the information in your configuration files to
 				log into the database and install the tables.
+				- The default impex database setup which will be used is in ${basedir.safe}/build/properties/database.properties,
+					in particular the *impex* properties.
+				-- You can copy any properties from there to your kfs-build.properties file to override 
+					the defaults in the project.
 			
-			3. Run the dist-local Ant target
+			4. Run the dist-local Ant target
 				This reads the above configuration files and builds the "final"
 				configuration files used by the application.  Some files are
 				placed into work/src and others are placed into ${external.config.directory}
 
-			4. Run the run-dev Ant target
+			5. Run the run-dev Ant target
 
-			5. Wait.  The process will take from 1-3 minutes depending on your system's speed.
+			6. Wait.  The process will take from 1-3 minutes depending on your system's speed.
 			
-			6. Launch a browser and access ${application.url}
+			7. Launch a browser and access ${application.url}
 
 	You can override the default log4j settings for your local deployments by copying
 		${basedir.safe}/${build.external.directory}/${log4j.file} to

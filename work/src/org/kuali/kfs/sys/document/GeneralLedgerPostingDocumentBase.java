@@ -133,10 +133,7 @@ public class GeneralLedgerPostingDocumentBase extends LedgerPostingDocumentBase 
      */
     protected void changeGeneralLedgerPendingEntriesApprovedStatusCode() {
         for (GeneralLedgerPendingEntry glpe : getGeneralLedgerPendingEntries()) {
-        	//Do not want to set the approval code to 'A' if the approval code is the 'H' (Hold) code used in the TEM module
-        	if(glpe.getFinancialDocumentApprovedCode() != null && !glpe.getFinancialDocumentApprovedCode().equals(KFSConstants.PENDING_ENTRY_APPROVED_STATUS_CODE.HOLD)) {
-        		glpe.setFinancialDocumentApprovedCode(KFSConstants.DocumentStatusCodes.APPROVED);
-        	}
+            glpe.setFinancialDocumentApprovedCode(KFSConstants.DocumentStatusCodes.APPROVED);
         }
     }
 

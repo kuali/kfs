@@ -24,6 +24,7 @@ import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -31,6 +32,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.gl.service.SufficientFundsService;
@@ -99,6 +101,7 @@ import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.framework.postprocessor.ActionTakenEvent;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteLevelChange;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
+import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kns.service.DataDictionaryService;
@@ -247,7 +250,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
         Set<String> nodeNames = this.getFinancialSystemDocumentHeader().getWorkflowDocument().getCurrentNodeNames();
 
         String routeLevel = "";
-        if (nodeNames.size() >= 1) {
+        if (CollectionUtils.isNotEmpty(nodeNames) && nodeNames.size() >= 1) {
             routeLevel = nodeNames.iterator().next();
         }
 
@@ -649,13 +652,10 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
                     if (ObjectUtils.isNotNull(disapprovalStatus)) {
                         //update the appDocStatus and save the workflow data
                         updateAndSaveAppDocStatus(disapprovalStatus);
-
-                        RequisitionDocument req = getPurApSourceDocumentIfPossible();
-                        String principalId = req.getFinancialSystemDocumentHeader().getWorkflowDocument().getRoutedByPrincipalId();
-                        appSpecificRouteDocumentToUser(this.getFinancialSystemDocumentHeader().getWorkflowDocument(), principalId, "Notification of Order Disapproval for Requisition " + req.getPurapDocumentIdentifier() + "(document id " + req.getDocumentNumber() + ")", "Requisition Routed By User");
-                        return;
+                    }else{
+                        logAndThrowRuntimeException("No status found to set for document being disapproved in node '" + nodeName + "'");
                     }
-                    logAndThrowRuntimeException("No status found to set for document being disapproved in node '" + nodeName + "'");
+
                 }
                 // DOCUMENT CANCELED
                 else if (this.getFinancialSystemDocumentHeader().getWorkflowDocument().isCanceled()) {
@@ -666,7 +666,39 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
                 logAndThrowRuntimeException("Error saving routing data while saving document with id " + getDocumentNumber(), e);
             }
         }
+
+
+
+        if (shouldAdhocFyi()) {
+
+            try {
+                SpringContext.getBean(WorkflowDocumentService.class).saveRoutingData(this.getFinancialSystemDocumentHeader().getWorkflowDocument());
+            }
+            catch (WorkflowException ex) {
+                logAndThrowRuntimeException("Error saving routing data while saving document with id " + getDocumentNumber(), ex);
+            }
+            SpringContext.getBean(PurchaseOrderService.class).sendAdhocFyi(this);
+        }
     }
+
+    protected boolean shouldAdhocFyi() {
+        Collection<String> excludeList = new ArrayList<String>();
+        if (SpringContext.getBean(ParameterService.class).parameterExists(PurchaseOrderDocument.class, PurapParameterConstants.PO_NOTIFY_EXCLUSIONS)) {
+            excludeList = SpringContext.getBean(ParameterService.class).getParameterValuesAsString(PurchaseOrderDocument.class, PurapParameterConstants.PO_NOTIFY_EXCLUSIONS);
+        }
+        String currentDocumentTypeName = this.getDocumentHeader().getWorkflowDocument().getDocumentTypeName();
+        if (getDocumentHeader().getWorkflowDocument().isDisapproved() || getDocumentHeader().getWorkflowDocument().isCanceled()) {
+            return true;
+        }
+
+        if (getDocumentHeader().getWorkflowDocument().isFinal() && !excludeList.contains(getRequisitionSourceCode()) &&
+                !PurchaseOrderStatuses.APPDOC_PENDING_PRINT.equals(this.getApplicationDocumentStatus())) {
+            return true;
+        }
+        return false;
+    }
+
+
 
     /**
      * Returns the name of the current route node.
@@ -694,13 +726,24 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
      * @param responsibility the responsibility specified in the request.
      * @throws WorkflowException
      */
-    public void appSpecificRouteDocumentToUser(WorkflowDocument workflowDocument, String routePrincipalName, String annotation, String responsibility) throws WorkflowException {
+    public void appSpecificRouteDocumentToUser(WorkflowDocument workflowDocument, String routePrincipalId, String annotation, String responsibility) throws WorkflowException {
+        boolean isActiveUser = this.isActiveUser(routePrincipalId);
+        if(!isActiveUser){
+            LOG.info("cannot send FYI to the inactive user: " + routePrincipalId + "; Annotation: " + annotation);
+            return;
+        }
         if (ObjectUtils.isNotNull(workflowDocument)) {
             String annotationNote = (ObjectUtils.isNull(annotation)) ? "" : annotation;
             String responsibilityNote = (ObjectUtils.isNull(responsibility)) ? "" : responsibility;
             String currentNodeName = getCurrentRouteNodeName(workflowDocument);
-            workflowDocument.adHocToPrincipal( ActionRequestType.FYI, currentNodeName, annotationNote, routePrincipalName, responsibilityNote, true);
+            workflowDocument.adHocToPrincipal( ActionRequestType.FYI, currentNodeName, annotationNote, routePrincipalId, responsibilityNote, true);
         }
+    }
+
+    protected boolean isActiveUser(String principalId){
+        Person principal = KimApiServiceLocator.getPersonService().getPerson(principalId);
+
+        return ObjectUtils.isNotNull(principal) && principal.isActive();
     }
 
     /**

@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.time.DateUtils;
+import org.kuali.kfs.fp.businessobject.CapitalAssetAccountsGroupDetails;
 import org.kuali.kfs.fp.businessobject.CapitalAssetInformation;
 import org.kuali.kfs.fp.businessobject.CapitalAssetInformationDetail;
 import org.kuali.kfs.gl.businessobject.Entry;
@@ -34,6 +35,7 @@ import org.kuali.kfs.module.cam.businessobject.AssetPaymentDetail;
 import org.kuali.kfs.module.cam.document.AssetPaymentDocument;
 import org.kuali.kfs.module.cam.document.service.AssetGlobalService;
 import org.kuali.kfs.sys.ConfigureContext;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.fixture.UserNameFixture;
@@ -82,6 +84,25 @@ public class GlLineServiceTest extends KualiTestBase {
         businessObjectService.save(assetInformationDetail);
 
         return assetInformationDetail;
+    }
+
+    private CapitalAssetAccountsGroupDetails createNewCapitalAssetAcountsGroupDetails() {
+        CapitalAssetAccountsGroupDetails capitalAssetAccountsGroupDetails = new CapitalAssetAccountsGroupDetails();
+        capitalAssetAccountsGroupDetails.setDocumentNumber("1001");
+        capitalAssetAccountsGroupDetails.setChartOfAccountsCode(primary.getChartOfAccountsCode());
+        capitalAssetAccountsGroupDetails.setAccountNumber(primary.getAccountNumber());
+        capitalAssetAccountsGroupDetails.setSubAccountNumber(primary.getSubAccountNumber());
+        capitalAssetAccountsGroupDetails.setFinancialDocumentLineTypeCode(KFSConstants.GL_CREDIT_CODE.equals(primary.getTransactionDebitCreditCode()) ? KFSConstants.SOURCE_ACCT_LINE_TYPE_CODE : KFSConstants.TARGET_ACCT_LINE_TYPE_CODE);
+        capitalAssetAccountsGroupDetails.setCapitalAssetAccountLineNumber(1);
+        capitalAssetAccountsGroupDetails.setCapitalAssetLineNumber(1);
+        capitalAssetAccountsGroupDetails.setFinancialObjectCode(primary.getFinancialObjectCode());
+        capitalAssetAccountsGroupDetails.setFinancialSubObjectCode(primary.getFinancialSubObjectCode());
+        capitalAssetAccountsGroupDetails.setProjectCode(primary.getProjectCode());
+        capitalAssetAccountsGroupDetails.setOrganizationReferenceId(primary.getOrganizationReferenceId());
+        capitalAssetAccountsGroupDetails.setSequenceNumber(0);
+        capitalAssetAccountsGroupDetails.setAmount(KualiDecimal.ZERO);
+
+        return capitalAssetAccountsGroupDetails;
     }
 
     private CapitalAssetInformation createNewCapitalAssetInformation() {
@@ -153,13 +174,14 @@ public class GlLineServiceTest extends KualiTestBase {
         List<AssetGlobalDetail> assetGlobalDetails = assetGlobal.getAssetSharedDetails();
         assertTrue(assetGlobalDetails.isEmpty());
         List<AssetPaymentDetail> assetPaymentDetails = assetGlobal.getAssetPaymentDetails();
-        assertEquals(1, assetPaymentDetails.size());
-        assertAssetPaymentDetail(assetGlobalDocument, assetPaymentDetails.get(0), "1031400", new KualiDecimal(5200.50), Integer.valueOf(0));
+        assertEquals(0, assetPaymentDetails.size());
     }
 
     public void testCreateAssetGlobalDocument_FPData() throws Exception {
         CapitalAssetInformation assetInformation = createNewCapitalAssetInformation();
         assetInformation.getCapitalAssetInformationDetails().add(createNewCapitalAssetInformationDetail());
+        assetInformation.getCapitalAssetAccountsGroupDetails().add(createNewCapitalAssetAcountsGroupDetails());
+
         businessObjectService.save(assetInformation);
         assetInformation.refreshNonUpdateableReferences();
         MaintenanceDocument assetGlobalDocument = (MaintenanceDocument) glLineService.createAssetGlobalDocument(primary, 1);
@@ -187,7 +209,7 @@ public class GlLineServiceTest extends KualiTestBase {
         assertEquals("SER", assetGlobalDetail.getSerialNumber());
         List<AssetPaymentDetail> assetPaymentDetails = assetGlobal.getAssetPaymentDetails();
         assertEquals(1, assetPaymentDetails.size());
-        assertAssetPaymentDetail(assetGlobalDocument, assetPaymentDetails.get(0), "1031400", new KualiDecimal(5200.50), Integer.valueOf(0));
+        assertAssetPaymentDetail(assetGlobalDocument, assetPaymentDetails.get(0), "1031400", new KualiDecimal(5200.50), Integer.valueOf(1));
     }
 
     private void assertAssetPaymentDetail(Document document, AssetPaymentDetail detail, String accountNumber, KualiDecimal amount, Integer seqNo) {
@@ -215,12 +237,12 @@ public class GlLineServiceTest extends KualiTestBase {
         assertNotNull(document);
         // assert here
         List<AssetPaymentDetail> assetPaymentDetails = document.getSourceAccountingLines();
-        assertEquals(1, assetPaymentDetails.size());
-        assertAssetPaymentDetail(document, assetPaymentDetails.get(0), "1031400", new KualiDecimal(5200.50), Integer.valueOf(0));
+        assertEquals(0, assetPaymentDetails.size());
     }
 
     public void testCreateAssetPaymentDocument_FPData() throws Exception {
         CapitalAssetInformation assetInformation = new CapitalAssetInformation();
+        assetInformation.getCapitalAssetAccountsGroupDetails().add(createNewCapitalAssetAcountsGroupDetails());
         assetInformation.setDocumentNumber("1001");
         assetInformation.setCapitalAssetNumber(1594L);
         assetInformation.setCapitalAssetLineAmount(new KualiDecimal(5200.50));
@@ -235,6 +257,6 @@ public class GlLineServiceTest extends KualiTestBase {
         List<AssetPaymentDetail> assetPaymentDetails = document.getSourceAccountingLines();
         assertEquals(1, assetPaymentDetails.size());
 
-        assertAssetPaymentDetail(document, assetPaymentDetails.get(0), "1031400", new KualiDecimal(5200.50), Integer.valueOf(0));
+        assertAssetPaymentDetail(document, assetPaymentDetails.get(0), "1031400", new KualiDecimal(5200.50), Integer.valueOf(1));
     }
 }

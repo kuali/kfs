@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -33,7 +33,7 @@ public class PurchaseOrderPaymentHoldDocument extends PurchaseOrderDocument {
 
     /**
      * General Ledger pending entries are not created for this document. Overriding this method so that entries are not created.
-     * 
+     *
      * @see org.kuali.kfs.module.purap.document.PurchaseOrderDocument#customPrepareForSave(org.kuali.rice.krad.rule.event.KualiDocumentEvent)
      */
     @Override
@@ -43,20 +43,20 @@ public class PurchaseOrderPaymentHoldDocument extends PurchaseOrderDocument {
 
     /**
      * When Purchase Order Payment Hold document has been Processed through Workflow, the PO status changes to "Payment Hold".
-     * 
+     *
      * @see org.kuali.kfs.module.purap.document.PurchaseOrderDocument#doRouteStatusChange()
      */
     @Override
     public void doRouteStatusChange(DocumentRouteStatusChange statusChangeEvent) {
         super.doRouteStatusChange(statusChangeEvent);
-        
+
         try {
             // DOCUMENT PROCESSED
             if (this.getFinancialSystemDocumentHeader().getWorkflowDocument().isProcessed()) {
                 SpringContext.getBean(PurchaseOrderService.class).setCurrentAndPendingIndicatorsForApprovedPODocuments(this);
 
                 // for app doc status
-                updateAndSaveAppDocStatus(PurchaseOrderStatuses.APPDOC_PAYMENT_HOLD);           
+                updateAndSaveAppDocStatus(PurchaseOrderStatuses.APPDOC_PAYMENT_HOLD);
             }
             // DOCUMENT DISAPPROVED
             else if (this.getFinancialSystemDocumentHeader().getWorkflowDocument().isDisapproved()) {
@@ -83,4 +83,8 @@ public class PurchaseOrderPaymentHoldDocument extends PurchaseOrderDocument {
             logAndThrowRuntimeException("Error saving routing data while saving document with id " + getDocumentNumber(), e);
         }
     }
+    @Override
+    protected boolean shouldAdhocFyi() {
+        return false;
+      }
 }

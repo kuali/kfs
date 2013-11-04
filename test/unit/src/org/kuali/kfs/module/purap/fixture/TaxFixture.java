@@ -1,12 +1,12 @@
 /*
  * Copyright 2008-2009 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -27,7 +27,7 @@ import org.kuali.rice.core.api.datetime.DateTimeService;
 public class TaxFixture {
 
     public enum TaxTestCaseFixture {
-        
+
         SalesTaxHappyPathTest(
                     true, //isItemTypeTaxable
                     true, //isItemTaxAmountNull
@@ -37,7 +37,7 @@ public class TaxFixture {
                     true, //isDeliveryStateTaxable
                     false //isUseTax
                     ),
-                    
+
         SalesTaxItemTypeNotTaxableTest(
                     false, //isItemTypeTaxable
                     true, //isItemTaxAmountNull
@@ -47,7 +47,7 @@ public class TaxFixture {
                     true, //isDeliveryStateTaxable
                     false //isUseTax
                     ),
-                    
+
          SalesTaxItemTaxFieldNullTest(
                     true, //isItemTypeTaxable
                     false, //isItemTaxAmountNull
@@ -57,7 +57,7 @@ public class TaxFixture {
                     true, //isDeliveryStateTaxable
                     false //isUseTax
                     ),
-                    
+
           SalesTaxCommodityCodeNullTest(
                     true, //isItemTypeTaxable
                     true, //isItemTaxAmountNull
@@ -67,7 +67,7 @@ public class TaxFixture {
                     true, //isDeliveryStateTaxable
                     false //isUseTax
                     ),
-                    
+
           SalesTaxDeliveryStateExemptTest(
                     true, //isItemTypeTaxable
                     true, //isItemTaxAmountNull
@@ -77,7 +77,7 @@ public class TaxFixture {
                     false, //isDeliveryStateTaxable
                     false //isUseTax
                     ),
-                    
+
           SalesTaxDeliveryStateExemptWithNonTaxableFundTest(
                     true, //isItemTypeTaxable
                     true, //isItemTaxAmountNull
@@ -87,7 +87,7 @@ public class TaxFixture {
                     false, //isDeliveryStateTaxable
                     false //isUseTax
                     ),
-                    
+
            SalesTaxAccountNotTaxableTest(
                     true, //isItemTypeTaxable
                     true, //isItemTaxAmountNull
@@ -96,8 +96,8 @@ public class TaxFixture {
                     true, //objectCodeTaxable
                     true, //isDeliveryStateTaxable
                     false //isUseTax
-                    ),     
-                    
+                    ),
+
            SalesTaxObjectCodeNotTaxableTest(
                     true, //isItemTypeTaxable
                     true, //isItemTaxAmountNull
@@ -107,7 +107,7 @@ public class TaxFixture {
                     true, //isDeliveryStateTaxable
                     false //isUseTax
                     ),
-                    
+
             SalesTaxParamDisabledTest(
                     true, //isItemTypeTaxable
                     true, //isItemTaxAmountNull
@@ -118,7 +118,7 @@ public class TaxFixture {
                     false, //isUseTax
                     false //isSalesTaxEnabled
                     ),
-                    
+
             UseTaxHappyPathTest(
                     true, //isItemTypeTaxable
                     true, //isItemTaxAmountNull
@@ -128,7 +128,7 @@ public class TaxFixture {
                     true, //isDeliveryStateTaxable
                     true //isUseTax
                     ),
-                   
+
             UseTaxItemTypeNotTaxableTest(
                     false, //isItemTypeTaxable
                     true, //isItemTaxAmountNull
@@ -137,8 +137,8 @@ public class TaxFixture {
                     true, //objectCodeTaxable
                     true, //isDeliveryStateTaxable
                     true //isUseTax
-                    );      
-        
+                    );
+
         private boolean isSalesTaxEnabled;
         private final  boolean isItemTypeTaxable;
         private final  boolean isItemTaxAmountNull;
@@ -172,7 +172,7 @@ public class TaxFixture {
                            boolean objectCodeTaxable,
                            boolean isDeliveryStateTaxable,
                            boolean isUseTax,
-                           boolean isSalesTaxEnabled) { 
+                           boolean isSalesTaxEnabled) {
             this.isItemTypeTaxable = isItemTypeTaxable;
             this.isItemTaxAmountNull = isItemTaxAmountNull;
             this.iscommodityCodeNull = iscommodityCodeNull;
@@ -182,7 +182,7 @@ public class TaxFixture {
             this.isUseTax = isUseTax;
             this.isSalesTaxEnabled = isSalesTaxEnabled;
         }
-        
+
         public boolean isConsolidationObjectCode() {
             return objectCodeTaxable;
         }
@@ -219,14 +219,14 @@ public class TaxFixture {
             return isSalesTaxEnabled;
         }
     }
-    
+
     /**
      * All the below tax fixtures are copied from TaxServiceTest
      */
     public enum TaxRegionFixture {
 
-        TAX_REGION_NO_USE_TAX("NOUSETAX", "NOUSETAX", "POST", "BA", " 6044900", "1500", false, true),
-        TAX_REGION_WITH_USE_TAX("USETAX", "USETAX", "ST", "BA", " 6044900", "1500", true, true), ;
+        TAX_REGION_NO_USE_TAX("NOUSETAX", "NOUSETAX", "POST", "BA", "6044900", "1500", false, true),
+        TAX_REGION_WITH_USE_TAX("USETAX", "USETAX", "ST", "BA", "6044900", "1500", true, true), ;
 
         public String taxRegionCode;
         public String taxRegionName;
@@ -237,13 +237,13 @@ public class TaxFixture {
         public boolean taxRegionUseTaxIndicator;
         public boolean active;
 
-        private TaxRegionFixture(String taxRegionCode, 
-                                 String taxRegionName, 
-                                 String taxRegionTypeCode, 
-                                 String chartOfAccountsCode, 
-                                 String accountNumber, 
-                                 String financialObjectCode, 
-                                 boolean taxRegionUseTaxIndicator, 
+        private TaxRegionFixture(String taxRegionCode,
+                                 String taxRegionName,
+                                 String taxRegionTypeCode,
+                                 String chartOfAccountsCode,
+                                 String accountNumber,
+                                 String financialObjectCode,
+                                 boolean taxRegionUseTaxIndicator,
                                  boolean active) {
             this.taxRegionCode = taxRegionCode;
             this.taxRegionName = taxRegionName;
@@ -255,12 +255,12 @@ public class TaxFixture {
             this.active = active;
         }
 
-        public TaxRegion createTaxRegion(TaxRegionRateFixture[] taxRegionRateFixtures, 
-                                         TaxRegionPostalCodeFixture[] taxRegionPostalCodeFixtures, 
+        public TaxRegion createTaxRegion(TaxRegionRateFixture[] taxRegionRateFixtures,
+                                         TaxRegionPostalCodeFixture[] taxRegionPostalCodeFixtures,
                                          TaxRegionStateFixture[] taxRegionStateFixtures) {
-            
+
             TaxRegion taxRegion = new TaxRegion();
-            
+
             taxRegion.setTaxRegionCode(this.taxRegionCode);
             taxRegion.setTaxRegionName(this.taxRegionName);
             taxRegion.setTaxRegionTypeCode(this.taxRegionTypeCode);
@@ -281,16 +281,16 @@ public class TaxFixture {
                     taxRegionPostalCodeFixture.addTo(taxRegion);
                 }
             }
-            
+
             if (taxRegionStateFixtures != null) {
                 for (TaxRegionStateFixture taxRegionStateFixture : taxRegionStateFixtures) {
                     taxRegionStateFixture.addTo(taxRegion);
                 }
-            }            
+            }
 
             return taxRegion;
         }
-        
+
     }
 
     /**

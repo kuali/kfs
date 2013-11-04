@@ -21,7 +21,6 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.Organization;
-import org.kuali.kfs.integration.ar.AccountsReceivableOrganizationOptions;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.document.service.SystemInformationService;
 import org.kuali.kfs.sys.KFSConstants;
@@ -39,7 +38,7 @@ import org.kuali.rice.location.framework.state.StateEbo;
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class OrganizationOptions extends PersistableBusinessObjectBase implements AccountsReceivableOrganizationOptions {
+public class OrganizationOptions extends PersistableBusinessObjectBase {
 
 	protected String chartOfAccountsCode;
 	protected String organizationCode;
@@ -135,8 +134,7 @@ public class OrganizationOptions extends PersistableBusinessObjectBase implement
 	 * @return Returns the processingChartOfAccountCode
 	 *
 	 */
-	@Override
-    public String getProcessingChartOfAccountCode() {
+	public String getProcessingChartOfAccountCode() {
 		return processingChartOfAccountCode;
 	}
 
@@ -157,8 +155,7 @@ public class OrganizationOptions extends PersistableBusinessObjectBase implement
 	 * @return Returns the processingOrganizationCode
 	 *
 	 */
-	@Override
-    public String getProcessingOrganizationCode() {
+	public String getProcessingOrganizationCode() {
 		return processingOrganizationCode;
 	}
 
@@ -178,8 +175,7 @@ public class OrganizationOptions extends PersistableBusinessObjectBase implement
 	 * @return Returns the printInvoiceIndicator
 	 *
 	 */
-	@Override
-    public String getPrintInvoiceIndicator() {
+	public String getPrintInvoiceIndicator() {
 		return printInvoiceIndicator;
 	}
 
@@ -200,8 +196,7 @@ public class OrganizationOptions extends PersistableBusinessObjectBase implement
 	 * @return Returns the organizationPaymentTermsText
 	 *
 	 */
-	@Override
-    public String getOrganizationPaymentTermsText() {
+	public String getOrganizationPaymentTermsText() {
 		return organizationPaymentTermsText;
 	}
 

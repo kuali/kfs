@@ -271,14 +271,14 @@
 		abstract="true" parent="AttributeDefinition">
 		<property name="name" value="vendorContractGeneratedIdentifier" />
 		<property name="forceUppercase" value="true" />
-		<property name="label" value="Vendor Contract Generated Identifier" />
-		<property name="shortLabel" value="Vendor Contract Generated Identifier" />
+		<property name="label" value="Vendor Contract Number" />
+		<property name="shortLabel" value="Vendor Contract Number" />
 		<property name="maxLength" value="8" />
 		<property name="validationPattern">
 			<ref bean="NumericValidation" />
 		</property>
 		<property name="control">
-			<ref bean="HiddenControl" />
+			<bean parent="TextControlDefinition" p:size="10"/>
 		</property>
 	</bean>
 	<bean
@@ -401,6 +401,7 @@
 		</property>
 		<property name="lookupFields">
 			<list>
+			    <bean parent="FieldDefinition" p:attributeName="vendorContractGeneratedIdentifier"/>
 				<bean parent="FieldDefinition" p:attributeName="vendorCampusCode" />
 				<bean parent="FieldDefinition" p:attributeName="vendorNumber" />
 				<bean parent="FieldDefinition" p:attributeName="vendorDetail.vendorName" />
@@ -420,6 +421,7 @@
 			<list>
 				<bean parent="FieldDefinition" p:attributeName="vendorNumber" />
 				<bean parent="FieldDefinition" p:attributeName="vendorDetail.vendorName" />
+				<bean parent="FieldDefinition" p:attributeName="vendorContractGeneratedIdentifier"/>
 				<bean parent="FieldDefinition" p:attributeName="vendorContractName" />
 				<bean parent="FieldDefinition" p:attributeName="vendorContractDescription" />
 				<bean parent="FieldDefinition"

@@ -234,39 +234,74 @@ public class VendorServiceImpl implements VendorService {
         criteria.put(VendorPropertyConstants.VENDOR_ADDRESS_TYPE_CODE, addressType);
         Collection<VendorAddress> addresses = businessObjectService.findMatching(VendorAddress.class, criteria);
         LOG.debug("Exiting getVendorDefaultAddress.");
-        return getVendorDefaultAddress(addresses, addressType, campus);
+        return getVendorDefaultAddress(addresses, addressType, campus,true);
     }
-
+    
+    
+    
     /**
-     * @see org.kuali.kfs.vnd.document.service.VendorService#getVendorDefaultAddress(List, String, String)
+     * @see org.kuali.kfs.vnd.document.service.VendorService#getVendorDefaultAddress(java.lang.Integer, java.lang.Integer, java.lang.String, java.lang.String, boolean)
+     */
+    @Override
+   // In the case of Vendor credit memo document and during vendor quote complete process in PO,the active indicator check is not required.
+    public VendorAddress getVendorDefaultAddress(Integer vendorHeaderId, Integer vendorDetailId, String addressType, String campus,boolean activeCheck) {
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("Entering getVendorDefaultAddress for vendorHeaderId:" + vendorHeaderId + ", vendorDetailId:" + vendorDetailId + ", addressType:" + addressType + ", campus:" + campus);
+        }
+        HashMap<String, Object> criteria = new HashMap<String, Object>();
+        criteria.put(VendorPropertyConstants.VENDOR_HEADER_GENERATED_ID, vendorHeaderId);
+        criteria.put(VendorPropertyConstants.VENDOR_DETAIL_ASSIGNED_ID, vendorDetailId);
+        criteria.put(VendorPropertyConstants.VENDOR_ADDRESS_TYPE_CODE, addressType);
+        Collection<VendorAddress> addresses = businessObjectService.findMatching(VendorAddress.class, criteria);
+        LOG.debug("Exiting getVendorDefaultAddress.");
+        return getVendorDefaultAddress(addresses, addressType, campus,activeCheck);
+    }
+    
+    
+   /**
+     * @see org.kuali.kfs.vnd.document.service.VendorService#getVendorDefaultAddress(java.util.Collection, java.lang.String, java.lang.String)
      */
     @Override
     public VendorAddress getVendorDefaultAddress(Collection<VendorAddress> addresses, String addressType, String campus) {
+       return getVendorDefaultAddress(addresses, addressType, campus,true);
+    }
+
+   
+   /**
+     * @see org.kuali.kfs.vnd.document.service.VendorService#getVendorDefaultAddress(List, String, String)
+     */
+    // Retrieves the vendor default address based on whether active indicator check is required or not.
+    // In the case of Vendor credit memo document and during vendor quote complete process in PO,the active indicator check is not required.
+    private VendorAddress getVendorDefaultAddress(Collection<VendorAddress> addresses, String addressType, String campus,boolean activeCheck) {
         LOG.debug("Entering getVendorDefaultAddress.");
         VendorAddress allDefaultAddress = null;
         for (VendorAddress address : addresses) {
             // if address is of the right type, continue check
-            if (addressType.equals(address.getVendorAddressTypeCode())) {
+             if (addressType.equals(address.getVendorAddressTypeCode())) {
                 // if campus was passed in and list of campuses on address exist, continue check
                 if (StringUtils.isNotEmpty(campus) && address.getVendorDefaultAddresses() != null) {
-                    // looping through list of campus defaults to find a match for the passed in campus
+                    // looping through list of campus defaults to find a match for the passed in campus and based on activeCheck.
                     for (VendorDefaultAddress defaultCampus : address.getVendorDefaultAddresses()) {
-                        if (campus.equals(defaultCampus.getVendorCampusCode())) {
-                            // found campus default; return it
-                            LOG.debug("Exiting getVendorDefaultAddress with single campus default.");
-                            return address;
-                        }
-                    }// endfor campuses
+                        if (activeCheck ? (campus.equals(defaultCampus.getVendorCampusCode()) && defaultCampus.isActive()) :(campus.equals(defaultCampus.getVendorCampusCode()))) {
+                               LOG.debug("Exiting getVendorDefaultAddress with single campus default.");
+                               if(activeCheck){
+                                    if(address.isActive() && address.isVendorDefaultAddressIndicator()){
+                                       return address;
+                                    }   
+                               }else{
+                                   return address;
+                               }
+                       }
+                  
+                    }//end inner for loop
                 }
 
-                // if this address is set as the default for this address type; keep it for possible future use
-                if (address.isVendorDefaultAddressIndicator()) {
+                if (activeCheck ? (address.isVendorDefaultAddressIndicator() && address.isActive()) :(address.isVendorDefaultAddressIndicator())) {
                     allDefaultAddress = address;
                 }
             }
-        }// endfor addresses
-
-        // if we got this far, there is no campus default; so return the default set for all (could return null)
+            
+        }//end outer for loop
         LOG.debug("Exiting getVendorDefaultAddress with default set for all.");
         return allDefaultAddress;
     }

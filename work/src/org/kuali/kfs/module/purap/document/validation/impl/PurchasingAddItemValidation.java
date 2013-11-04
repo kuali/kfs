@@ -165,9 +165,20 @@ public class PurchasingAddItemValidation extends PurchasingAccountsPayableAddIte
                     valid = false;
                     GlobalVariables.getMessageMap().putError(KFSPropertyConstants.ITEM_UNIT_OF_MEASURE_CODE, PurapKeyConstants.PUR_ITEM_UNIT_OF_MEASURE_CODE_INVALID,  " in " + item.getItemIdentifierString());
                 }
+                //Validate UOM for active check.
+                if(ObjectUtils.isNotNull(purItem.getItemUnitOfMeasure())){
+                    if(!purItem.getItemUnitOfMeasure().isActive()){
+                      valid = false;
+                      String attributeLabel = dataDictionaryService.
+                                              getDataDictionary().getBusinessObjectEntry(item.getClass().getName()).
+                                              getAttributeDefinition(PurapPropertyConstants.ITEM_UNIT_OF_MEASURE_CODE).getLabel();
+                         GlobalVariables.getMessageMap().putError(PurapPropertyConstants.ITEM_UNIT_OF_MEASURE_CODE, PurapKeyConstants.ERROR_ITEM_UOM_INACTIVE, attributeLabel + " in " + item.getItemIdentifierString());
+                     }
+                 }
             }
         }
         
+               
         // Validations for non-quantity based item type
          if (purItem.getItemType().isAmountBasedGeneralLedgerIndicator() && StringUtils.isNotBlank(purItem.getItemUnitOfMeasureCode())) {
              valid = false;

@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -31,9 +31,9 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.fp.service.FiscalYearFunctionControlService;
 import org.kuali.kfs.module.bc.BCConstants;
-import org.kuali.kfs.module.bc.BCConstants.OrgSelOpMode;
 import org.kuali.kfs.module.bc.BCKeyConstants;
 import org.kuali.kfs.module.bc.BCPropertyConstants;
+import org.kuali.kfs.module.bc.BCConstants.OrgSelOpMode;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAccountOrganizationHierarchy;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAccountSelect;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionHeader;
@@ -49,8 +49,8 @@ import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
-import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.KualiRuleService;
 import org.kuali.rice.krad.service.PersistenceService;
@@ -87,7 +87,7 @@ public class BudgetConstructionSelectionAction extends BudgetExpansionAction {
     /**
      * Performs the initial load of the selection screen. Checks for the active BC fiscal year and initializes the fiscal year to be
      * budgeted and used for all other operations throughout the system
-     * 
+     *
      * @param mapping
      * @param form
      * @param request
@@ -154,33 +154,13 @@ public class BudgetConstructionSelectionAction extends BudgetExpansionAction {
 
         budgetConstructionSelectionForm.getBudgetConstructionHeader().setUniversityFiscalYear(budgetConstructionSelectionForm.getUniversityFiscalYear());
 
-        // add the heart beat flag used to test for session time out in the expansion screens
-        GlobalVariables.getUserSession().addObject(BCConstants.BC_HEARTBEAT_SESSIONFLAG, Boolean.TRUE);
-
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
-    }
-
-    /**
-     * called when a session time out happens in one of the BC expansion screens to load the selection screen with a message
-     * notifying the user about the session time out.
-     * 
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
-     */
-    public ActionForward loadExpansionScreenSessionTimeOut(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-
-        KNSGlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_BUDGET_PREVIOUS_SESSION_TIMEOUT);
-        return loadExpansionScreen(mapping, form, request, response);
     }
 
     /**
      * Opens a Budget Construction document. Creates a new (blank) BC document, if one does not exist. The new BC document is
      * created at level zero and the associated account organization hierarchy is built.
-     * 
+     *
      * @param mapping
      * @param form
      * @param request
@@ -206,7 +186,7 @@ public class BudgetConstructionSelectionAction extends BudgetExpansionAction {
             subAccountNumber = bcHeader.getSubAccountNumber();
         }
 
-        BudgetConstructionHeader tHeader = (BudgetConstructionHeader) SpringContext.getBean(BudgetDocumentService.class).getByCandidateKey(chartOfAccountsCode, accountNumber, subAccountNumber, universityFiscalYear);
+        BudgetConstructionHeader tHeader = SpringContext.getBean(BudgetDocumentService.class).getByCandidateKey(chartOfAccountsCode, accountNumber, subAccountNumber, universityFiscalYear);
         if (tHeader == null) {
 
             // get a bare bones BC document to run the rule engine against
@@ -221,7 +201,7 @@ public class BudgetConstructionSelectionAction extends BudgetExpansionAction {
 
             boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new AddBudgetConstructionDocumentEvent(BCPropertyConstants.BUDGET_CONSTRUCTION_HEADER, budgetConstructionDocument));
             if (rulePassed) {
-                List<BudgetConstructionAccountOrganizationHierarchy> newAccountOrganizationHierarchy = (List<BudgetConstructionAccountOrganizationHierarchy>) SpringContext.getBean(BudgetDocumentService.class).retrieveOrBuildAccountOrganizationHierarchy(universityFiscalYear, chartOfAccountsCode, accountNumber);
+                List<BudgetConstructionAccountOrganizationHierarchy> newAccountOrganizationHierarchy = SpringContext.getBean(BudgetDocumentService.class).retrieveOrBuildAccountOrganizationHierarchy(universityFiscalYear, chartOfAccountsCode, accountNumber);
                 if (newAccountOrganizationHierarchy == null || newAccountOrganizationHierarchy.isEmpty()) {
                     GlobalVariables.getMessageMap().putError("budgetConstructionHeader", BCKeyConstants.ERROR_BUDGET_ACCOUNT_ORGANIZATION_HIERARCHY, chartOfAccountsCode + "-" + accountNumber);
                     return mapping.findForward(KFSConstants.MAPPING_BASIC);
@@ -231,7 +211,7 @@ public class BudgetConstructionSelectionAction extends BudgetExpansionAction {
                 // SpringContext.getBean(BudgetDocumentService.class).instantiateNewBudgetConstructionDocument(universityFiscalYear,
                 // chartOfAccountsCode, accountNumber, subAccountNumber);
                 SpringContext.getBean(BudgetDocumentService.class).instantiateNewBudgetConstructionDocument(budgetConstructionDocument);
-                tHeader = (BudgetConstructionHeader) SpringContext.getBean(BudgetDocumentService.class).getByCandidateKey(chartOfAccountsCode, accountNumber, subAccountNumber, universityFiscalYear);
+                tHeader = SpringContext.getBean(BudgetDocumentService.class).getByCandidateKey(chartOfAccountsCode, accountNumber, subAccountNumber, universityFiscalYear);
                 if (tHeader == null) {
 
                     GlobalVariables.getMessageMap().putError("budgetConstructionHeader", KFSKeyConstants.ERROR_EXISTENCE, "BC Document");
@@ -290,6 +270,7 @@ public class BudgetConstructionSelectionAction extends BudgetExpansionAction {
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
+    @Override
     public ActionForward returnToCaller(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         BudgetConstructionSelectionForm budgetConstructionSelectionForm = (BudgetConstructionSelectionForm) form;
@@ -309,7 +290,7 @@ public class BudgetConstructionSelectionAction extends BudgetExpansionAction {
     /**
      * This method sets up to forward to the BC Organization Selection screen using a specific operating mode. The various operating
      * modes include PULLUP, PUSHDOWN, REPORTS, SALSET, ACCOUNT.
-     * 
+     *
      * @param opMode
      * @param mapping
      * @param form
@@ -335,7 +316,7 @@ public class BudgetConstructionSelectionAction extends BudgetExpansionAction {
 
     /**
      * Passes control to the Organization Selection to run the organization reports subsystem
-     * 
+     *
      * @param mapping
      * @param form
      * @param request
@@ -352,7 +333,7 @@ public class BudgetConstructionSelectionAction extends BudgetExpansionAction {
 
     /**
      * Passes control to the request import subsystem
-     * 
+     *
      * @param mapping
      * @param form
      * @param request
@@ -371,7 +352,7 @@ public class BudgetConstructionSelectionAction extends BudgetExpansionAction {
 
     /**
      * Passes control to the Pay Rate import/export subsystem
-     * 
+     *
      * @param mapping
      * @param form
      * @param request
@@ -391,7 +372,7 @@ public class BudgetConstructionSelectionAction extends BudgetExpansionAction {
     /**
      * Builds forward URL to lock monitor page, following expansion screen pattern. Also checks if the user has permission for the
      * unlock action and sets the show action column property accordingly.
-     * 
+     *
      * @see org.kuali.rice.kns.web.struts.action.KualiAction#execute(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
@@ -409,7 +390,7 @@ public class BudgetConstructionSelectionAction extends BudgetExpansionAction {
 
     /**
      * Passes control to the Organization Selection to run the organization pullup subsystem
-     * 
+     *
      * @param mapping
      * @param form
      * @param request
@@ -426,7 +407,7 @@ public class BudgetConstructionSelectionAction extends BudgetExpansionAction {
 
     /**
      * Passes control to the Organization Selection to run the organization pushdown subsystem
-     * 
+     *
      * @param mapping
      * @param form
      * @param request
@@ -444,7 +425,7 @@ public class BudgetConstructionSelectionAction extends BudgetExpansionAction {
     /**
      * Calls service to build the account list for which the user is a manager and delegate. Then forwards to temp list action to
      * display the results.
-     * 
+     *
      * @see org.kuali.rice.kns.web.struts.action.KualiAction#execute(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
@@ -469,7 +450,7 @@ public class BudgetConstructionSelectionAction extends BudgetExpansionAction {
 
     /**
      * Passes control to the Organization Selection to run the organization budgeted account list subsystem
-     * 
+     *
      * @param mapping
      * @param form
      * @param request

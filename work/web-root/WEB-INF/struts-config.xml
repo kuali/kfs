@@ -39,6 +39,9 @@
 			type="org.kuali.kfs.sys.web.struts.ElectronicFundTransferForm" />
 
 		<!--  Financial Module Bean Definitions -->
+		
+		<form-bean name="IntraAccountAdjustmentForm" 
+			type="org.kuali.kfs.fp.document.web.struts.IntraAccountAdjustmentForm" />	
 		<form-bean name="DepositWizardForm"
 			type="org.kuali.kfs.fp.document.web.struts.DepositWizardForm" />
 		<form-bean name="CashReceiptForm"
@@ -173,6 +176,8 @@
 			type="org.kuali.kfs.gl.web.struts.BalanceInquiryForm" />
 		<form-bean name="BalanceInquiryLookupForm"
 			type="org.kuali.kfs.gl.web.struts.BalanceInquiryLookupForm" />
+		<form-bean name="TrialBalanceReportForm"
+			type="org.kuali.kfs.gl.web.struts.TrialBalanceReportForm" />
 
 		<!-- PURAP Module Bean Definitions -->
  
@@ -290,33 +295,6 @@
 		<form-bean name="AssetStatementForm"
 			type="org.kuali.kfs.module.endow.web.struts.AssetStatementForm" />
 
-		<!-- TEM Module Bean Definitions -->
-		<form-bean name="TravelAuthorizationForm"
-            type="org.kuali.kfs.module.tem.document.web.struts.TravelAuthorizationForm" />
-        <form-bean name="TravelReimbursementForm"
-            type="org.kuali.kfs.module.tem.document.web.struts.TravelReimbursementForm" />
-        <form-bean name="TravelEntertainmentForm"
-            type="org.kuali.kfs.module.tem.document.web.struts.TravelEntertainmentForm" />
-        <form-bean name="TravelRelocationForm"
-            type="org.kuali.kfs.module.tem.document.web.struts.TravelRelocationForm" />
-        <form-bean name="TravelArrangerForm"
-            type="org.kuali.kfs.module.tem.document.web.struts.TravelArrangerForm" />
-        <form-bean name="TravelDisbursementVoucherForm"
-            type="org.kuali.kfs.module.tem.document.web.struts.TravelDisbursementVoucherForm" />
-        <form-bean name="TravelRequisitionForm"
-            type="org.kuali.kfs.module.tem.document.web.struts.TravelRequisitionForm" />
-        <form-bean name="TemCorrectionForm"
-            type="org.kuali.kfs.module.tem.document.web.struts.TemCorrectionForm" />    
-
-        <form-bean name="ReportForm"
-            type="org.kuali.kfs.module.tem.report.web.struts.ReportForm" />
-            
-        <form-bean name="TaxableRamificationForm"
-            type="org.kuali.kfs.module.tem.document.web.struts.TaxableRamificationForm" />  
-            
-        <form-bean name="TemCardApplicationForm"
-            type="org.kuali.kfs.module.tem.document.web.struts.TemCardApplicationForm" />    
-        
 
         <!-- VND Module Bean Definitions -->
 	    <form-bean name="VendorExclusionForm"
@@ -498,7 +476,10 @@
 			<set-property property="cancellable" value="true" />
 			<forward name="basic" path="/jsp/fp/{1}.jsp" />
 		</action>
-
+		
+		
+		
+		
 		<action path="/financialCashManagement" name="CashManagementForm"
 			input="/jsp/fp/CashManagement.jsp" type="org.kuali.kfs.fp.document.web.struts.CashManagementAction"
 			scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
@@ -600,7 +581,6 @@
 			<forward name="basic" path="/jsp/module/bc/{1}.jsp" />
 			<forward name="organizationSalarySettingReturning"
 				path="/jsp/module/bc/OrganizationSalarySettingReturning.jsp" />
-			<forward name="lostSessionReturning" path="/jsp/module/bc/LostSessionReturning.jsp" />
 			<forward name="import_export"
 				path="/jsp/module/bc/BudgetConstructionImportExport.jsp" />
 		</action>
@@ -611,7 +591,6 @@
 			scope="session" parameter="methodToCall" validate="true" attribute="KualiForm">
 			<set-property property="cancellable" value="true" />
 			<forward name="basic" path="/jsp/module/bc/OrganizationSelectionTree.jsp" />
-			<forward name="lostSessionReturning" path="/jsp/module/bc/LostSessionReturning.jsp" />
 		</action>
 
         <action path="/budgetOrganizationReportSelection" name="OrganizationReportSelectionForm"
@@ -620,7 +599,6 @@
             scope="session" parameter="methodToCall" validate="true" attribute="KualiForm">
             <set-property property="cancellable" value="true" />
             <forward name="basic" path="/jsp/module/bc/OrganizationReportSelection.jsp" />
-            <forward name="lostSessionReturning" path="/jsp/module/bc/LostSessionReturning.jsp" />
         </action>
 
 		<action path="/budgetMonthlyBudget" name="MonthlyBudgetForm"
@@ -629,7 +607,6 @@
 			scope="session" parameter="methodToCall" validate="true" attribute="KualiForm">
 			<set-property property="cancellable" value="true" />
 			<forward name="basic" path="/jsp/module/bc/MonthlyBudget.jsp" />
-			<forward name="lostSessionReturning" path="/jsp/module/bc/LostSessionReturning.jsp" />
 		</action>
 
 		<action path="/budgetQuickSalarySetting" name="QuickSalarySettingForm"
@@ -638,7 +615,6 @@
 			scope="session" parameter="methodToCall" validate="true" attribute="KualiForm">
 			<set-property property="cancellable" value="true" />
 			<forward name="basic" path="/jsp/module/bc/QuickSalarySetting.jsp" />
-			<forward name="lostSessionReturning" path="/jsp/module/bc/LostSessionReturning.jsp" />
 		</action>
 
 		<action path="/budgetPositionSalarySetting" name="PositionSalarySettingForm"
@@ -649,7 +625,6 @@
 			<forward name="basic" path="/jsp/module/bc/PositionSalarySetting.jsp" />
 			<forward name="organizationSalarySettingReturning"
 				path="/jsp/module/bc/OrganizationSalarySettingReturning.jsp" />
-			<forward name="lostSessionReturning" path="/jsp/module/bc/LostSessionReturning.jsp" />
 		</action>
 
 		<action path="/budgetIncumbentSalarySetting" name="IncumbentSalarySettingForm"
@@ -660,7 +635,6 @@
 			<forward name="basic" path="/jsp/module/bc/IncumbentSalarySetting.jsp" />
 			<forward name="organizationSalarySettingReturning"
 				path="/jsp/module/bc/OrganizationSalarySettingReturning.jsp" />
-			<forward name="lostSessionReturning" path="/jsp/module/bc/LostSessionReturning.jsp" />
 		</action>
 
 		<action path="/cashManagementStatus" name="CashManagementStatusForm"
@@ -768,57 +742,15 @@
 			<forward name="selection" path="/jsp/pdp/format/formatSelection.jsp" />
 			<forward name="continue" path="/jsp/pdp/format/formatContinue.jsp" />
 		</action>
-
-		<!-- These are TEM items -->
-		<action path="/tem*" name="{1}Form"
-			input="/jsp/module/tem/{1}.jsp"
-			type="org.kuali.kfs.module.tem.document.web.struts.{1}Action"
-			scope="request" parameter="methodToCall" validate="true"
-			attribute="KualiForm">
-			<set-property property="cancellable" value="true" />
-			<forward name="basic" path="/jsp/module/tem/{1}.jsp" />		
-		</action>
-		<action path="/temDV" name="TravelDisbursementVoucherForm"
-			input="/jsp/fp/DisbursementVoucher.jsp"
-			type="org.kuali.kfs.module.tem.document.web.struts.TravelDisbursementVoucherAction" scope="request"
-			parameter="methodToCall" validate="true" attribute="KualiForm">
-			<set-property property="cancellable" value="true" />
-			<forward name="basic" path="/jsp/fp/DisbursementVoucher.jsp" />
-		</action>
 		
-		<action path="/temREQS" name="TravelRequisitionForm"
-			input="/jsp/module/purap/Requisition.jsp"
-			type="org.kuali.kfs.module.tem.document.web.struts.TravelRequisitionAction"
-			scope="request" parameter="methodToCall" validate="true"
-			attribute="KualiForm">
-			<set-property property="cancellable" value="true" />
-			<forward name="basic" path="/jsp/module/purap/Requisition.jsp" />
-			<forward name="printPurchaseOrderPDF"
-				path="/jsp/module/purap/PrintForward.jsp" redirect="false" />
-			<forward name="retransmitPurchaseOrderPDF"
-				path="/jsp/module/purap/RetransmitForward.jsp" redirect="false" />
-			<forward name="printReceivingTicketPDF"
-				path="/jsp/module/purap/ReceivingTicketForward.jsp"
-				redirect="false" />
-			<forward name="printPOQuoteListPDF"
-				path="/jsp/module/purap/PrintPOQuoteListForward.jsp" redirect="false" />				
-		</action>
-		<action path="/temCorrectionDocument" name="KualiForm"
-            input="/jsp/module/tem/TemCorrectionDocument.jsp"
-            type="org.kuali.kfs.module.tem.document.web.struts.TemCorrectionAction" scope="request"
-            parameter="methodToCall" validate="true" attribute="KualiForm">
-            <set-property property="cancellable" value="true" />
-            <forward name="basic" path="/jsp/module/tem/TemCorrectionDocument.jsp" />
-        </action>
-        
-		<action path="/tem*CardApplication" name="TemCardApplicationForm"
-            input="/jsp/module/tem/{1}CardApplication.jsp"
-            type="org.kuali.kfs.module.tem.document.web.struts.TemCardApplicationAction" scope="request"
-            parameter="methodToCall" validate="true" attribute="KualiForm">
-            <set-property property="cancellable" value="true" />
-            <forward name="basic" path="/jsp/module/tem/{1}CardApplicationDocument.jsp" />
-            <forward name="cardApplicationError" path="/jsp/module/tem/CardApplicationError.jsp" />
-        </action>
+		<action path="/glTrialBalance"
+		    name="TrialBalanceReportForm"
+		    type="org.kuali.kfs.gl.web.struts.TrialBalanceReportAction"
+			scope="request" parameter="methodToCall" validate="false"
+            attribute="KualiForm" >
+            <forward name="basic"
+				path="/jsp/gl/TrialBalanceReportLookup.jsp" />
+         </action>
 
 		<!-- These are VND items -->
 		

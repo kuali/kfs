@@ -34,6 +34,7 @@ import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.exception.ValidationException;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -103,10 +104,10 @@ public class CapitalAssetManagementModuleServiceImpl implements CapitalAssetMana
             if (ObjectUtils.isNotNull(capitalAssetInformation) && ObjectUtils.isNotNull(capitalAssetInformation.getCapitalAssetNumber())) {
                 capitalAssetNumbers.add(capitalAssetInformation.getCapitalAssetNumber());
                 if (capitalAssetToBeLocked.isEmpty()) {
-                    capitalAssetToBeLocked.concat(capitalAssetInformation.getCapitalAssetNumber().toString());
+                    capitalAssetToBeLocked = capitalAssetToBeLocked.concat(capitalAssetInformation.getCapitalAssetNumber().toString());
                 }
                 else {
-                    capitalAssetToBeLocked.concat(",").concat(capitalAssetInformation.getCapitalAssetNumber().toString());
+                    capitalAssetToBeLocked = capitalAssetToBeLocked.concat(",").concat(capitalAssetInformation.getCapitalAssetNumber().toString());
                 }
 
             }
@@ -197,16 +198,13 @@ public class CapitalAssetManagementModuleServiceImpl implements CapitalAssetMana
     @Override
     public void deleteDocumentAssetLocks(Document document) {
         WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
+        // remove all current locks
+        this.deleteAssetLocks(document.getDocumentNumber(), null);
 
-        List<CapitalAssetInformation> capitalAssets = ((CapitalAssetEditable) document).getCapitalAssetInformation();
-
-        for (CapitalAssetInformation capitalAssetInformation : capitalAssets) {
-            // Deleting document lock
-            if (workflowDocument.isCanceled() || workflowDocument.isDisapproved()) {
-                if (ObjectUtils.isNotNull(capitalAssetInformation) && isAssetLockedByCurrentDocument(document.getDocumentNumber(), null)) {
-                    this.deleteAssetLocks(document.getDocumentNumber(), null);
-                }
-            }
+        // if document is not cancelled nor disapproved nor recalled regenerate them all again based on set
+        if (!workflowDocument.isCanceled() && !workflowDocument.isDisapproved() && !workflowDocument.isRecalled()) {
+            String documentTypeName = SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(document.getClass());
+            generateCapitalAssetLock(document, documentTypeName);
         }
     }
 }

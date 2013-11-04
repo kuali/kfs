@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+	
+	
+	 <bean id="IntraAccountAdjustmentTargetAccountingLine" parent="IntraAccountAdjustmentTargetAccountingLine-parentBean"/>
+	
+	 <bean id="IntraAccountAdjustmentTargetAccountingLine-parentBean" abstract="true" parent="TargetAccountingLine-parentBean">
+		<property name="businessObjectClass" value="org.kuali.kfs.fp.businessobject.IntraAccountAdjustmentTargetAccountingLine"/>
+		<property name="objectLabel" value="Intra-Account Adjustment Target Accounting Line"/>
+		<property name="attributes">
+			<list>
+		        <ref bean="TargetAccountingLine-balanceTypeCode"/>
+		        <ref bean="IntraAccountAdjustmentTargetAccountingLine-referenceNumber"/>
+		        <ref bean="TargetAccountingLine-sequenceNumber"/>
+		        <ref bean="TargetAccountingLine-financialObjectCode"/>
+		        <ref bean="IntraAccountAdjustmentTargetAccountingLine-accountNumber"/>
+		        <ref bean="TargetAccountingLine-organizationReferenceId"/>
+		        <ref bean="TargetAccountingLine-chartOfAccountsCode"/>
+		        <ref bean="TargetAccountingLine-postingYear"/>
+		        <ref bean="TargetAccountingLine-referenceOriginCode"/>
+		        <ref bean="TargetAccountingLine-overrideCode"/>
+		        <ref bean="TargetAccountingLine-amount"/>
+		        <ref bean="TargetAccountingLine-subAccountNumber"/>
+		        <ref bean="TargetAccountingLine-referenceTypeCode"/>
+		        <ref bean="TargetAccountingLine-projectCode"/>
+		        <ref bean="TargetAccountingLine-financialSubObjectCode"/>
+		        <ref bean="TargetAccountingLine-documentNumber"/>
+		        <ref bean="TargetAccountingLine-debitCreditCode"/>
+		        <ref bean="TargetAccountingLine-encumbranceUpdateCode"/>
+		        <ref bean="TargetAccountingLine-objectTypeCode"/>
+		        <ref bean="TargetAccountingLine-accountExpiredOverride"/>
+		        <ref bean="TargetAccountingLine-nonFringeAccountOverride"/>
+		        <ref bean="TargetAccountingLine-objectBudgetOverride"/>
+		        <ref bean="TargetAccountingLine-financialDocumentLineDescription"/>
+		        <ref bean="TargetAccountingLine-salesTaxRequired"/>
+		        <ref bean="TargetAccountingLine-salesTax.chartOfAccountsCode"/>
+		        <ref bean="TargetAccountingLine-salesTax.accountNumber"/>
+		        <ref bean="TargetAccountingLine-salesTax.financialDocumentGrossSalesAmount"/>
+		        <ref bean="TargetAccountingLine-salesTax.financialDocumentTaxableSalesAmount"/>
+		        <ref bean="TargetAccountingLine-salesTax.financialDocumentSaleDate"/>
+   			</list>
+    	</property>
+	</bean>
+	
+	<bean id="IntraAccountAdjustmentTargetAccountingLine-accountNumber" parent="IntraAccountAdjustmentTargetAccountingLine-accountNumber-parentBean"/>	
+	
+	<bean id="IntraAccountAdjustmentTargetAccountingLine-accountNumber-parentBean" abstract="true" parent="TargetAccountingLine-accountNumber">
+		<property name="required" value="true"/>
+	</bean>
+	
+	<bean id="IntraAccountAdjustmentTargetAccountingLine-referenceNumber" parent="IntraAccountAdjustmentTargetAccountingLine-referenceNumber-parentBean"/>
+	
+	<bean id="IntraAccountAdjustmentTargetAccountingLine-referenceNumber-parentBean" abstract="true" parent="TargetAccountingLine-referenceNumber">
+		<property name="required" value="true"/>
+	</bean>
+	
+	
+</beans>

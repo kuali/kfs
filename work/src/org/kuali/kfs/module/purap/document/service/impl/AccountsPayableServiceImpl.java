@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.purap.document.service.impl;
 
+import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -50,6 +51,7 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
@@ -58,6 +60,8 @@ import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.action.DocumentActionParameters;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.kim.api.identity.principal.Principal;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.bo.Note;
@@ -223,7 +227,8 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
 
             // only print out accounts that were replaced and not missing a continuation account
             if (originalAccount.isContinuationAccountMissing() == false) {
-                sb.append(" Account " + originalAccount.getAccountString() + " was replaced with account " + replacementAccount.getAccountString() + " ; ");
+                String nteMsg = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(PurapKeyConstants.KEY_ACCT_EXPIRED_NOTE);
+                sb.append(MessageFormat.format(nteMsg, new Object[] { originalAccount.getAccountString(), replacementAccount.getAccountString() }));
             }
 
         }
@@ -232,6 +237,8 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
         if (sb.toString().length() > 0) {
             try {
                 Note resetNote = documentService.createNoteFromDocument(document, sb.toString());
+                Principal kfs = KimApiServiceLocator.getIdentityService().getPrincipalByPrincipalName(KFSConstants.SYSTEM_USER);
+                resetNote.setAuthorUniversalIdentifier(kfs.getPrincipalId());
                 document.addNote(resetNote);
             }
             catch (Exception e) {
@@ -240,6 +247,7 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
         }
     }
 
+    
     /**
      * Gets the replacement account for the specified closed account.
      * In this case it's the continuation account of the the specified account.

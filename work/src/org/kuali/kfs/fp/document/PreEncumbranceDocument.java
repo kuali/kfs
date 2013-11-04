@@ -28,7 +28,6 @@ import org.kuali.kfs.sys.businessobject.SufficientFundsItem;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocumentBase;
 import org.kuali.kfs.sys.document.AmountTotaling;
-import org.kuali.kfs.sys.document.Correctable;
 import org.kuali.kfs.sys.document.service.DebitDeterminerService;
 import org.kuali.kfs.sys.service.HomeOriginationService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
@@ -40,7 +39,7 @@ import org.kuali.rice.krad.document.Copyable;
  * Plant work orders. These transactions are for the use of the account manager to earmark funds for which unofficial commitments
  * have already been made.
  */
-public class PreEncumbranceDocument extends AccountingDocumentBase implements Copyable, Correctable, AmountTotaling {
+public class PreEncumbranceDocument extends AccountingDocumentBase implements Copyable, AmountTotaling {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PreEncumbranceDocument.class);
 
     protected java.sql.Date reversalDate;
@@ -99,8 +98,8 @@ public class PreEncumbranceDocument extends AccountingDocumentBase implements Co
     }
 
     /**
-     * This method limits valid debits to only expense object type codes.  Additionally, an
-     * IllegalStateException will be thrown if the accounting line passed in is not an expense,
+     * This method limits valid debits to only income object type codes.  Additionally, an
+     * IllegalStateException will be thrown if the accounting line passed in is not an income,
      * is an error correction with a positive dollar amount or is not an error correction and
      * has a negative amount.
      *
@@ -113,17 +112,28 @@ public class PreEncumbranceDocument extends AccountingDocumentBase implements Co
      *      org.kuali.rice.krad.bo.AccountingLine)
      */
     @Override
-    public boolean isDebit(GeneralLedgerPendingEntrySourceDetail postable) {
+     public boolean isDebit(GeneralLedgerPendingEntrySourceDetail postable) {
         AccountingLine accountingLine = (AccountingLine)postable;
-        // if not expense, or positive amount on an error-correction, or negative amount on a non-error-correction, throw exception
+
         DebitDeterminerService isDebitUtils = SpringContext.getBean(DebitDeterminerService.class);
-        if (!isDebitUtils.isExpense(accountingLine) || (isDebitUtils.isErrorCorrection(this) == accountingLine.getAmount().isPositive())) {
+
+
+        if (isDebitUtils.isErrorCorrection(this) == accountingLine.getAmount().isPositive()) {
             throw new IllegalStateException(isDebitUtils.getDebitCalculationIllegalStateExceptionMessage());
         }
 
-        return !isDebitUtils.isDebitConsideringSection(this, accountingLine);
-    }
+        boolean isDebit = false;
 
+        if(isDebitUtils.isIncome(postable))
+        {
+            isDebit = isDebitUtils.isDebitConsideringSection(this, accountingLine);
+        }
+        else
+        {
+            isDebit = !isDebitUtils.isDebitConsideringSection(this, accountingLine);
+        }
+        return isDebit;
+    }
     /**
      * This method contains PreEncumbrance document specific general ledger pending entry explicit entry
      * attribute assignments.  These attributes include financial balance type code, reversal date and

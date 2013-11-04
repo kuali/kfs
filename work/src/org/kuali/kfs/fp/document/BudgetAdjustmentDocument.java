@@ -417,7 +417,27 @@ public class BudgetAdjustmentDocument extends AccountingDocumentBase implements 
      */
     @Override
     public KualiDecimal getTotalDollarAmount() {
-        return getTargetCurrentBudgetTotal().equals(KualiDecimal.ZERO) ? getSourceCurrentBudgetTotal() : getTargetCurrentBudgetTotal();
+
+        // this convoluted chain is how the FIS decided what total to display
+        if (this.getTargetBaseBudgetExpenseTotal().isNonZero()) {
+            return this.getTargetBaseBudgetExpenseTotal().kualiDecimalValue();
+        }
+        if (this.getTargetCurrentBudgetExpenseTotal().isNonZero()){
+            return this.getTargetCurrentBudgetExpenseTotal();
+        }
+        if (this.getTargetBaseBudgetIncomeTotal().isNonZero()){
+            return this.getTargetBaseBudgetIncomeTotal().kualiDecimalValue();
+        }
+        if (this.getTargetCurrentBudgetIncomeTotal().isNonZero()){
+            return this.getTargetCurrentBudgetIncomeTotal();
+        }
+        if (this.getSourceBaseBudgetExpenseTotal().isNonZero()){
+            return this.getSourceBaseBudgetExpenseTotal().kualiDecimalValue();
+        }
+        if (this.getSourceCurrentBudgetExpenseTotal().isNonZero()){
+            return this.getSourceCurrentBudgetExpenseTotal();
+        }
+        return KualiDecimal.ZERO;
     }
 
     /**

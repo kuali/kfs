@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -66,7 +66,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 /**
  * implements the service methods defined in the SalarySettingService
- * 
+ *
  * @see org.kuali.kfs.module.bc.document.service.SalarySettingService
  */
 @Transactional
@@ -86,7 +86,7 @@ public class SalarySettingServiceImpl implements SalarySettingService {
 
     /**
      * for now just return false, implement application parameter if decision is made implement this functionality
-     * 
+     *
      * @see org.kuali.kfs.module.bc.document.service.SalarySettingService#isSalarySettingDisabled()
      */
     public boolean isSalarySettingDisabled() {
@@ -118,11 +118,17 @@ public class SalarySettingServiceImpl implements SalarySettingService {
     public KualiInteger calculateAnnualPayAmount(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
         LOG.debug("calculateAnnualPayAmount() start");
 
+        KualiInteger annualPayAmount = KualiInteger.ZERO;
         BigDecimal hourlyPayRate = appointmentFunding.getAppointmentRequestedPayRate();
         BigDecimal fteQuantity = this.calculateFteQuantityFromAppointmentFunding(appointmentFunding);
-        BigDecimal annualWorkingHours = BigDecimal.valueOf(BudgetParameterFinder.getAnnualWorkingHours());
-        BigDecimal totalPayHoursForYear = fteQuantity.multiply(annualWorkingHours);
-        KualiInteger annualPayAmount = new KualiInteger(hourlyPayRate.multiply(totalPayHoursForYear));
+        if (fteQuantity.compareTo(BigDecimal.ZERO) == 0){
+            // revert to entered amount for zero FTE to allow error message
+            annualPayAmount = appointmentFunding.getAppointmentRequestedAmount();
+        } else {
+            BigDecimal annualWorkingHours = BigDecimal.valueOf(BudgetParameterFinder.getAnnualWorkingHours());
+            BigDecimal totalPayHoursForYear = fteQuantity.multiply(annualWorkingHours);
+            annualPayAmount = new KualiInteger(hourlyPayRate.multiply(totalPayHoursForYear));
+        }
 
         return annualPayAmount;
     }
@@ -149,6 +155,8 @@ public class SalarySettingServiceImpl implements SalarySettingService {
             if (currentHourlyPayRate != null) {
                 KualiInteger annualPayAmount = this.calculateAnnualPayAmount(appointmentFunding);
                 appointmentFunding.setAppointmentRequestedAmount(annualPayAmount);
+            } else {
+                appointmentFunding.setAppointmentRequestedPayRate(BigDecimal.ZERO);
             }
         }
     }
@@ -657,7 +665,7 @@ public class SalarySettingServiceImpl implements SalarySettingService {
         this.resetDeletedFundingLines(appointmentFundings);
 
         this.updateAppointmentFundingsBeforeSaving(savableAppointmentFundings);
-        
+
         // save each line so deletion aware reasons get removed when needed
         for (PendingBudgetConstructionAppointmentFunding savableAppointmentFunding : savableAppointmentFundings){
             businessObjectService.save(savableAppointmentFunding);
@@ -673,7 +681,7 @@ public class SalarySettingServiceImpl implements SalarySettingService {
         Map<String, Object> fieldValues = ObjectUtil.buildPropertyMap(appointmentFunding, SalarySettingExpansion.getPrimaryKeyFields());
         fieldValues.put(KFSPropertyConstants.DOCUMENT_NUMBER, budgetDocument.getDocumentNumber());
 
-        return (SalarySettingExpansion) businessObjectService.findByPrimaryKey(SalarySettingExpansion.class, fieldValues);
+        return businessObjectService.findByPrimaryKey(SalarySettingExpansion.class, fieldValues);
     }
 
     /**
@@ -843,7 +851,7 @@ public class SalarySettingServiceImpl implements SalarySettingService {
     /**
      * reset the amount values of each line in the given appointment fundings as zeros and remove the reason annotations if the line
      * is marked as deleted
-     * 
+     *
      * @param pendingBudgetConstructionAppointmentFunding the given appointment fundings
      */
     protected void resetDeletedFundingLines(List<PendingBudgetConstructionAppointmentFunding> pendingBudgetConstructionAppointmentFunding) {
@@ -864,7 +872,7 @@ public class SalarySettingServiceImpl implements SalarySettingService {
 
     /**
      * get the csf tracker amount of the given appointment funding
-     * 
+     *
      * @param appointmentFunding the given appointment funding
      * @return the csf tracker amount of the given appointment funding if any; otherwise, return zero
      */
@@ -883,7 +891,7 @@ public class SalarySettingServiceImpl implements SalarySettingService {
 
     /**
      * determine whether there exists at lease one vacant funding line for the given appointment funding
-     * 
+     *
      * @param appointmentFunding the given appointment funding
      * @return true if there exists at lease one vacant funding line for the given appointment funding; otherwise, return false
      */
@@ -896,7 +904,7 @@ public class SalarySettingServiceImpl implements SalarySettingService {
 
     /**
      * create a vacant appointment funding based on the given budget funding
-     * 
+     *
      * @param appointmentFunding the given appointment funding
      * @return a vacant appointment funding
      */
@@ -908,6 +916,7 @@ public class SalarySettingServiceImpl implements SalarySettingService {
         vacantAppointmentFunding.setAppointmentFundingDeleteIndicator(false);
         vacantAppointmentFunding.setPersistedDeleteIndicator(false);
         vacantAppointmentFunding.setVersionNumber(null);
+        vacantAppointmentFunding.setNewLineIndicator(true);
 
         return vacantAppointmentFunding;
     }
@@ -915,7 +924,7 @@ public class SalarySettingServiceImpl implements SalarySettingService {
     /**
      * create a pseudo appointment funding for the salary setting expansion this is used when there are no funding lines for the
      * salary setting expansion to get a funding line to be used to pass primary key info
-     * 
+     *
      * @param salarySettingExpansion
      * @return a pseudo appointment funding
      */
@@ -937,13 +946,13 @@ public class SalarySettingServiceImpl implements SalarySettingService {
 
     /**
      * preprocess the funding reason of the given appointment funding before the funding is saved
-     * 
+     *
      * @param appointmentFunding the given appointment funding
      */
     public void preprocessFundingReason(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
 
         List<BudgetConstructionAppointmentFundingReason> fundingReasons = appointmentFunding.getBudgetConstructionAppointmentFundingReason();
-        
+
         // do special removal of any reason rows where the reason code is blank
         if (!fundingReasons.isEmpty() && StringUtils.isBlank(fundingReasons.get(0).getAppointmentFundingReasonCode())) {
             fundingReasons.clear();
@@ -952,7 +961,7 @@ public class SalarySettingServiceImpl implements SalarySettingService {
 
     /**
      * preprocess the leave request of the given appointment funding before the funding is saved
-     * 
+     *
      * @param appointmentFunding the given appointment funding
      */
     public void preprocessLeaveRequest(PendingBudgetConstructionAppointmentFunding appointmentFunding) {
@@ -978,7 +987,7 @@ public class SalarySettingServiceImpl implements SalarySettingService {
 
     /**
      * Sets the kualiConfigurationService attribute value.
-     * 
+     *
      * @param kualiConfigurationService The kualiConfigurationService to set.
      */
     public void setConfigurationService(ConfigurationService kualiConfigurationService) {
@@ -987,7 +996,7 @@ public class SalarySettingServiceImpl implements SalarySettingService {
 
     /**
      * Sets the businessObjectService attribute value.
-     * 
+     *
      * @param businessObjectService The businessObjectService to set.
      */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
@@ -996,7 +1005,7 @@ public class SalarySettingServiceImpl implements SalarySettingService {
 
     /**
      * Sets the laborModuleService attribute value.
-     * 
+     *
      * @param laborModuleService The laborModuleService to set.
      */
     public void setLaborModuleService(LaborModuleService laborModuleService) {
@@ -1005,7 +1014,7 @@ public class SalarySettingServiceImpl implements SalarySettingService {
 
     /**
      * Sets the budgetDocumentService attribute value.
-     * 
+     *
      * @param budgetDocumentService The budgetDocumentService to set.
      */
     public void setBudgetDocumentService(BudgetDocumentService budgetDocumentService) {
@@ -1014,7 +1023,7 @@ public class SalarySettingServiceImpl implements SalarySettingService {
 
     /**
      * Sets the benefitsCalculationService attribute value.
-     * 
+     *
      * @param benefitsCalculationService The benefitsCalculationService to set.
      */
     public void setBenefitsCalculationService(BenefitsCalculationService benefitsCalculationService) {
@@ -1023,7 +1032,7 @@ public class SalarySettingServiceImpl implements SalarySettingService {
 
     /**
      * Sets the optionsService attribute value.
-     * 
+     *
      * @param optionsService The optionsService to set.
      */
     public void setOptionsService(OptionsService optionsService) {
@@ -1032,7 +1041,7 @@ public class SalarySettingServiceImpl implements SalarySettingService {
 
     /**
      * Sets the lockService attribute value.
-     * 
+     *
      * @param lockService The lockService to set.
      */
     public void setLockService(LockService lockService) {
@@ -1041,7 +1050,7 @@ public class SalarySettingServiceImpl implements SalarySettingService {
 
     /**
      * Gets the documentHelperService attribute.
-     * 
+     *
      * @return Returns the documentHelperService.
      */
     public DocumentHelperService getDocumentHelperService() {
@@ -1053,7 +1062,7 @@ public class SalarySettingServiceImpl implements SalarySettingService {
 
     /**
      * Sets the documentHelperService attribute value.
-     * 
+     *
      * @param documentHelperService The documentHelperService to set.
      */
     public void setDocumentHelperService(DocumentHelperService documentHelperService) {
@@ -1062,7 +1071,7 @@ public class SalarySettingServiceImpl implements SalarySettingService {
 
     /**
      * Sets the documentService attribute value.
-     * 
+     *
      * @param documentService The documentService to set.
      */
     public void setDocumentService(DocumentService documentService) {
@@ -1071,7 +1080,7 @@ public class SalarySettingServiceImpl implements SalarySettingService {
 
     /**
      * Sets the budgetConstructionProcessorService attribute value.
-     * 
+     *
      * @param budgetConstructionProcessorService The budgetConstructionProcessorService to set.
      */
     public void setBudgetConstructionProcessorService(BudgetConstructionProcessorService budgetConstructionProcessorService) {

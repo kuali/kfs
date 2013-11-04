@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -39,7 +39,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
 /**
  * Contains all data for a specific parent or division Vendor, including a link to the <code>VendorHeader</code>, which only
  * contains information about the parent company, but can be shared between division Vendors.
- * 
+ *
  * @see org.kuali.kfs.vnd.businessobject.VendorHeader
  */
 public class VendorDetail extends PersistableBusinessObjectBase implements VendorRoutingComparable {
@@ -85,7 +85,7 @@ public class VendorDetail extends PersistableBusinessObjectBase implements Vendo
     private List<VendorPhoneNumber> vendorPhoneNumbers;
     private List<VendorShippingSpecialCondition> vendorShippingSpecialConditions;
     private List<VendorCommodityCode> vendorCommodities;
-    
+
     private VendorHeader vendorHeader;
     private VendorInactiveReason vendorInactiveReason;
     private PaymentTermType vendorPaymentTerms;
@@ -93,7 +93,7 @@ public class VendorDetail extends PersistableBusinessObjectBase implements Vendo
     private ShippingPaymentTerms vendorShippingPaymentTerms;
     private VendorDetail soldToVendorDetail;
     private Person vendorRestrictedPerson;
-    
+
     private String vendorParentName; // not persisted in the db
     private String defaultAddressLine1; // not persisted in the db
     private String defaultAddressLine2; // not persisted in the db
@@ -139,7 +139,7 @@ public class VendorDetail extends PersistableBusinessObjectBase implements Vendo
 
     /**
      * A concatenation of the vendorHeaderGeneratedIdentifier, a dash, and the vendorDetailAssignedIdentifier
-     * 
+     *
      * @return Returns the vendorNumber.
      */
     public String getVendorNumber() {
@@ -163,7 +163,7 @@ public class VendorDetail extends PersistableBusinessObjectBase implements Vendo
      * Sets the vendorNumber attribute value.
      * If vendorNumber is empty, clears header and detail IDs.
      * If vendorNumber is invalid, leaves header and detail IDs as were.
-     * 
+     *
      * @param vendorNumber The vendorNumber to set.
      */
     public void setVendorNumber(String vendorNumber) {
@@ -174,7 +174,7 @@ public class VendorDetail extends PersistableBusinessObjectBase implements Vendo
             vendorDetailAssignedIdentifier = null;
             return;
         }
-            
+
         int dashInd = vendorNumber.indexOf('-');
         // make sure there's at least one char before and after '-'
         if (dashInd > 0 && dashInd < vendorNumber.length() - 1) {
@@ -195,7 +195,7 @@ public class VendorDetail extends PersistableBusinessObjectBase implements Vendo
     public void setVendorName(String vendorName) {
         this.vendorName = vendorName;
     }
-    
+
     public Integer getVendorSoldToGeneratedIdentifier() {
         return vendorSoldToGeneratedIdentifier;
     }
@@ -214,7 +214,7 @@ public class VendorDetail extends PersistableBusinessObjectBase implements Vendo
 
     /**
      * Gets the vendorSoldToNumber attribute.
-     * 
+     *
      * @return Returns the vendorSoldToNumber.
      */
     public String getVendorSoldToNumber() {
@@ -239,18 +239,18 @@ public class VendorDetail extends PersistableBusinessObjectBase implements Vendo
      * Sets the vendorSoldToNumber attribute value.
      * If vendorSoldToNumber is empty, clears soldToVendor header and detail IDs.
      * If vendorSoldToNumber is invalid, leaves soldToVendor header and detail IDs as were.
-     * 
+     *
      * @param vendorSoldToNumber The vendorSoldToNumber to set.
      */
     public void setVendorSoldToNumber(String vendorSoldToNumber) {
         this.vendorSoldToNumber = vendorSoldToNumber;
-        
+
         if (StringUtils.isEmpty(vendorSoldToNumber)) {
             vendorSoldToGeneratedIdentifier = null;
             vendorSoldToAssignedIdentifier = null;
             return;
         }
-            
+
         int dashInd = vendorSoldToNumber.indexOf('-');
         // make sure there's at least one char before and after '-'
         if (dashInd > 0 && dashInd < vendorSoldToNumber.length() - 1) {
@@ -261,12 +261,12 @@ public class VendorDetail extends PersistableBusinessObjectBase implements Vendo
             catch (NumberFormatException e) {
                 // in case of invalid number format
             }
-        }        
+        }
     }
 
     /**
      * Gets the vendorSoldToName attribute.
-     * 
+     *
      * @return Returns the vendorSoldToName
      */
     public String getVendorSoldToName() {
@@ -300,7 +300,7 @@ public class VendorDetail extends PersistableBusinessObjectBase implements Vendo
     public void setVendorParentIndicator(boolean vendorParentIndicator) {
         this.vendorParentIndicator = vendorParentIndicator;
     }
-    
+
     public boolean isTaxableIndicator() {
         return taxableIndicator;
     }
@@ -447,10 +447,11 @@ public class VendorDetail extends PersistableBusinessObjectBase implements Vendo
 
     /**
      * Sets the vendorPaymentTerms attribute.
-     * 
+     *
      * @param vendorPaymentTerms The vendorPaymentTerms to set.
      * @deprecated
      */
+    @Deprecated
     public void setVendorPaymentTerms(PaymentTermType vendorPaymentTerms) {
         this.vendorPaymentTerms = vendorPaymentTerms;
     }
@@ -461,10 +462,11 @@ public class VendorDetail extends PersistableBusinessObjectBase implements Vendo
 
     /**
      * Sets the vendorShippingTitle attribute.
-     * 
+     *
      * @param vendorShippingTitle The vendorShippingTitle to set.
      * @deprecated
      */
+    @Deprecated
     public void setVendorShippingTitle(ShippingTitle vendorShippingTitle) {
         this.vendorShippingTitle = vendorShippingTitle;
     }
@@ -475,10 +477,11 @@ public class VendorDetail extends PersistableBusinessObjectBase implements Vendo
 
     /**
      * Sets the vendorShippingPaymentTerms attribute.
-     * 
+     *
      * @param vendorShippingPaymentTerms The vendorShippingPaymentTerms to set.
      * @deprecated
      */
+    @Deprecated
     public void setVendorShippingPaymentTerms(ShippingPaymentTerms vendorShippingPaymentTerms) {
         this.vendorShippingPaymentTerms = vendorShippingPaymentTerms;
     }
@@ -489,10 +492,11 @@ public class VendorDetail extends PersistableBusinessObjectBase implements Vendo
 
     /**
      * Sets the vendorInactiveReason attribute value.
-     * 
+     *
      * @param vendorInactiveReason The vendorInactiveReason to set.
      * @deprecated
      */
+    @Deprecated
     public void setVendorInactiveReason(VendorInactiveReason vendorInactiveReason) {
         this.vendorInactiveReason = vendorInactiveReason;
     }
@@ -540,7 +544,7 @@ public class VendorDetail extends PersistableBusinessObjectBase implements Vendo
     public List<VendorCommodityCode> getVendorCommodities() {
         return vendorCommodities;
     }
-    
+
     public String getVendorCommoditiesAsString() {
         StringBuilder sb = new StringBuilder("[");
 
@@ -550,13 +554,13 @@ public class VendorDetail extends PersistableBusinessObjectBase implements Vendo
                 sb.append(", ");
             } else {
                 first = false;
-            }            
+            }
             sb.append(vcc.getCommodityCode().getPurchasingCommodityCode());
         }
         sb.append(']');
         return sb.toString();
     }
-    
+
     public void setVendorCommodities(List<VendorCommodityCode> vendorCommodities) {
         this.vendorCommodities = vendorCommodities;
     }
@@ -624,10 +628,11 @@ public class VendorDetail extends PersistableBusinessObjectBase implements Vendo
 
     /**
      * Sets the vendorRestrictedPerson attribute.
-     * 
+     *
      * @param vendorRestrictedPerson The vendorRestrictedPerson to set.
      * @deprecated
      */
+    @Deprecated
     public void setVendorRestrictedPerson(Person vendorRestrictedPerson) {
         this.vendorRestrictedPerson = vendorRestrictedPerson;
     }
@@ -696,9 +701,11 @@ public class VendorDetail extends PersistableBusinessObjectBase implements Vendo
         this.defaultFaxNumber = defaultFaxNumber;
     }
 
+
     /**
      * @see org.kuali.kfs.vnd.document.routing.VendorRoutingComparable#isEqualForRouting(java.lang.Object)
      */
+    @Override
     public boolean isEqualForRouting(Object toCompare) {
         LOG.debug("Entering isEqualForRouting.");
         if ((ObjectUtils.isNull(toCompare)) || !(toCompare instanceof VendorDetail)) {
@@ -737,12 +744,12 @@ public class VendorDetail extends PersistableBusinessObjectBase implements Vendo
     }
 
     /**
-     *  The vendor is B2B if they have a contract that has the B2B 
+     *  The vendor is B2B if they have a contract that has the B2B
      *  indicator set to Yes. This method returns true if this vendor
      *  is a B2B vendor and false otherwise.
-     * 
+     *
      * @return true if this vendor is a B2B vendor and false otherwise.
-     * 
+     *
      */
     public boolean isB2BVendor() {
         for (VendorContract contract : this.getVendorContracts()) {
@@ -752,13 +759,13 @@ public class VendorDetail extends PersistableBusinessObjectBase implements Vendo
         }
         return false;
     }
-    
+
     public VendorDetail getVendorParent() {
         Map<String, String> tmpValues = new HashMap<String, String>();
         List<VendorDetail> relatedVendors = new ArrayList<VendorDetail>();
         tmpValues.put(VendorPropertyConstants.VENDOR_HEADER_GENERATED_ID, getVendorHeaderGeneratedIdentifier().toString());
         tmpValues.put(VendorPropertyConstants.VENDOR_PARENT_INDICATOR, "Y");
-        VendorDetail parentVendor = (VendorDetail) SpringContext.getBean(LookupService.class).findObjectBySearch(VendorDetail.class, tmpValues);
+        VendorDetail parentVendor = SpringContext.getBean(LookupService.class).findObjectBySearch(VendorDetail.class, tmpValues);
         return parentVendor;
     }
 
@@ -791,7 +798,7 @@ public class VendorDetail extends PersistableBusinessObjectBase implements Vendo
                     sb.append(", ");
                 } else {
                     first = false;
-                }            
+                }
                 sb.append(vsd.getVendorAliasName());
             }
         }
@@ -817,23 +824,23 @@ public class VendorDetail extends PersistableBusinessObjectBase implements Vendo
 
     /**
      * Gets the boNotes attribute.
-     * 
+     *
      * @return Returns the boNotes
      */
-    
-    public List<Note> getBoNotes() {    
+
+    public List<Note> getBoNotes() {
         VendorService vendorService = SpringContext.getBean(VendorService.class);
         return vendorService.getVendorNotes(this);
     }
 
-    /** 
+    /**
      * Sets the boNotes attribute.
-     * 
+     *
      * @param boNotes The boNotes to set.
      */
     public void setBoNotes(List boNotes) {
         this.boNotes = boNotes;
     }
-    
+
 }
 

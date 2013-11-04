@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.module.ar.document.service;
 
-import java.sql.Date;
 import java.util.Collection;
 import java.util.List;
 
@@ -177,7 +176,7 @@ public interface CustomerInvoiceDocumentService {
     public List<CustomerInvoiceDocument> getPrintableCustomerInvoiceDocumentsByBillingChartAndOrg(String chartOfAccountsCode, String organizationCode);
 
     public List<CustomerInvoiceDocument> getPrintableCustomerInvoiceDocumentsForBillingStatementByBillingChartAndOrg(String chartOfAccountsCode, String organizationCode);
-        
+    
     public List<CustomerInvoiceDocument> getPrintableCustomerInvoiceDocumentsByProcessingChartAndOrg(String chartOfAccountsCode, String organizationCode);
 
     public List<CustomerInvoiceDocument> getCustomerInvoiceDocumentsByBillingChartAndOrg(String chartOfAccountsCode, String organizationCode);
@@ -248,7 +247,7 @@ public interface CustomerInvoiceDocumentService {
     public KualiDecimal getOriginalTotalAmountForCustomerInvoiceDocument(CustomerInvoiceDocument customerInvoiceDocument);
 
     public boolean checkIfInvoiceNumberIsFinal(String invDocumentNumber);
-
+    
     /**
      * Updates report date
      * 
@@ -262,48 +261,4 @@ public interface CustomerInvoiceDocumentService {
      * @param data
      */
     public void updateReportedInvoiceInfo(CustomerStatementResultHolder data);
-    
-    /**
-     * get all customer invoice documents that are open and with the given age
-     *
-     * @param charts the selected charts of accounts
-     * @param organizations the selected organization codes
-     * @param invoiceAge the given invoice document age
-     * 
-     * @return all customer invoice documents that are open and with the given age
-     */
-    public Collection<CustomerInvoiceDocument> getAllAgingInvoiceDocumentsByBilling(List<String> charts, List<String> organizations, Integer invoiceAge);
-    
-    /**
-     * get all customer invoice documents that are open and with the given age
-     *
-     * @param charts the selected charts of accounts
-     * @param organizations the selected organization codes
-     * @param invoiceAge the given invoice document age
-     * 
-     * @return all customer invoice documents that are open and with the given age
-     */
-    public Collection<CustomerInvoiceDocument> getAllAgingInvoiceDocumentsByProcessing(List<String> charts, List<String> organizations, Integer invoiceAge);
-    
-    /**
-     * get all customer invoice documents that are open and with the given age
-     *
-     * @param charts the selected charts of accounts
-     * @param accounts the selected account numbers
-     * @param invoiceAge the given invoice document age
-     * 
-     * @return all customer invoice documents that are open and with the given age
-     */
-    public Collection<CustomerInvoiceDocument> getAllAgingInvoiceDocumentsByAccounts(List<String> charts, List<String> accounts, Integer invoiceAge);
-    
-    /**
-     * get all customer invoice documents that are open and with the given age and customer types
-     *
-     * @param customerTypes the given customer types
-     * @param invoiceAge the given invoice document age
-     * @param invoiceBillingDateFrom the given invoice billing from date
-     * 
-     * @return all customer invoice documents that are open and with the given age
-     */
-    public Collection<CustomerInvoiceDocument> getAllAgingInvoiceDocumentsByCustomerTypes(List<String> customerTypes, Integer invoiceAge, Date invoiceBillingDateFrom);
 }

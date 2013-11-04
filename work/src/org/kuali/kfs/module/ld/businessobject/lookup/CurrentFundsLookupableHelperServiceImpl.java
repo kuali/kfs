@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -28,12 +28,12 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.gl.Constant;
 import org.kuali.kfs.gl.businessobject.TransientBalanceInquiryAttributes;
 import org.kuali.kfs.integration.ld.LaborLedgerObject;
+import org.kuali.kfs.integration.ld.businessobject.inquiry.AbstractPositionDataDetailsInquirableImpl;
 import org.kuali.kfs.module.ld.LaborKeyConstants;
 import org.kuali.kfs.module.ld.businessobject.AccountStatusCurrentFunds;
 import org.kuali.kfs.module.ld.businessobject.July1PositionFunding;
 import org.kuali.kfs.module.ld.businessobject.LaborObject;
 import org.kuali.kfs.module.ld.businessobject.LedgerBalance;
-import org.kuali.kfs.module.ld.businessobject.inquiry.AbstractLaborInquirableImpl;
 import org.kuali.kfs.module.ld.businessobject.inquiry.CurrentFundsInquirableImpl;
 import org.kuali.kfs.module.ld.businessobject.inquiry.PositionDataDetailsInquirableImpl;
 import org.kuali.kfs.module.ld.dataaccess.LaborDao;
@@ -46,7 +46,6 @@ import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
-import org.kuali.rice.kns.web.ui.Row;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.lookup.CollectionIncomplete;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -71,7 +70,7 @@ public class CurrentFundsLookupableHelperServiceImpl extends AbstractLookupableH
     public HtmlData getInquiryUrl(BusinessObject bo, String propertyName) {
         if (KFSPropertyConstants.POSITION_NUMBER.equals(propertyName)) {
             LedgerBalance balance = (LedgerBalance) bo;
-            AbstractLaborInquirableImpl positionDataDetailsInquirable = new PositionDataDetailsInquirableImpl();
+            AbstractPositionDataDetailsInquirableImpl positionDataDetailsInquirable = new PositionDataDetailsInquirableImpl();
 
             Map<String, String> fieldValues = new HashMap<String, String>();
             fieldValues.put(propertyName, balance.getPositionNumber());
@@ -85,12 +84,12 @@ public class CurrentFundsLookupableHelperServiceImpl extends AbstractLookupableH
 
     /**
      * Gets a list with the fields that will be displayed on page
-     * 
+     *
      * @param fieldValues list of fields that are used as a key to filter out data
      * @see org.kuali.rice.kns.lookup.Lookupable#getSearchResults(java.util.Map)
-     * 
+     *
      * KRAD Conversion: Lookupable performs customization of the search results.
-     * 
+     *
      * No uses data dictionary.
      */
     @Override
@@ -100,16 +99,16 @@ public class CurrentFundsLookupableHelperServiceImpl extends AbstractLookupableH
         boolean unbounded = false;
         Long actualCountIfTruncated = new Long(0);
 
-        setBackLocation((String) fieldValues.get(KFSConstants.BACK_LOCATION));
-        setDocFormKey((String) fieldValues.get(KFSConstants.DOC_FORM_KEY));
+        setBackLocation(fieldValues.get(KFSConstants.BACK_LOCATION));
+        setDocFormKey(fieldValues.get(KFSConstants.DOC_FORM_KEY));
 
         // get the pending entry option. This method must be prior to the get search results
         String pendingEntryOption = laborInquiryOptionsService.getSelectedPendingEntryOption(fieldValues);
 
         // get the consolidation option
-        boolean isConsolidated = laborInquiryOptionsService.isConsolidationSelected(fieldValues, (Collection<Row>) getRows());
+        boolean isConsolidated = laborInquiryOptionsService.isConsolidationSelected(fieldValues, getRows());
 
-        String searchObjectCodeVal = (String) fieldValues.get(KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
+        String searchObjectCodeVal = fieldValues.get(KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
         // Check for a valid labor object code for this inquiry
         if (StringUtils.isNotBlank(searchObjectCodeVal)) {
             Map objectCodeFieldValues = new HashMap();
@@ -117,7 +116,7 @@ public class CurrentFundsLookupableHelperServiceImpl extends AbstractLookupableH
             objectCodeFieldValues.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, fieldValues.get(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE));
             objectCodeFieldValues.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, searchObjectCodeVal);
 
-            LaborLedgerObject foundObjectCode = (LaborLedgerObject) businessObjectService.findByPrimaryKey(LaborObject.class, objectCodeFieldValues);
+            LaborLedgerObject foundObjectCode = businessObjectService.findByPrimaryKey(LaborObject.class, objectCodeFieldValues);
 
             if (foundObjectCode == null) {
                 GlobalVariables.getMessageMap().putError(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, LaborKeyConstants.ERROR_INVALID_LABOR_OBJECT_CODE, "2");
@@ -146,25 +145,41 @@ public class CurrentFundsLookupableHelperServiceImpl extends AbstractLookupableH
 
     /**
      * Adds the july1 budget amount to each account found in the
-     * 
+     *
      * @param searchResultsCollection collection with the list of current funds where the amount is added
      * @param july1PositionFundings collection of current funds with july1st budget amounts
      * @param isConsolidated
      */
     private void updateJuly1BalanceAmount(Collection<AccountStatusCurrentFunds> searchResultsCollection, Collection<July1PositionFunding> july1PositionFundings, boolean isConsolidated) {
         for (July1PositionFunding july1PositionFunding : july1PositionFundings) {
+            boolean flag = false;
             for (AccountStatusCurrentFunds accountStatus : searchResultsCollection) {
                 boolean found = ObjectUtil.equals(accountStatus, july1PositionFunding, accountStatus.getKeyFieldList(isConsolidated));
                 if (found) {
+                    flag = true;
                     accountStatus.setJuly1BudgetAmount(accountStatus.getJuly1BudgetAmount().add(july1PositionFunding.getJuly1BudgetAmount()));
                 }
+            }
+            if (!flag) {
+                AccountStatusCurrentFunds accountStatus = new AccountStatusCurrentFunds();
+                ObjectUtil.buildObject(accountStatus, july1PositionFunding, accountStatus.getKeyFieldList(isConsolidated));
+                accountStatus.setJuly1BudgetAmount(july1PositionFunding.getJuly1BudgetAmount());
+                accountStatus.setVariance(july1PositionFunding.getJuly1BudgetAmount()); // because YTD actual amount is 0
+                if (isConsolidated) {
+                    accountStatus.setSubAccountNumber("*ALL*");
+                    accountStatus.setFinancialSubObjectCode("*ALL*");
+                } else {
+                    accountStatus.setSubAccountNumber(july1PositionFunding.getSubAccountNumber());
+                    accountStatus.setSubObjectCode(july1PositionFunding.getSubObjectCode());
+                }
+                searchResultsCollection.add(accountStatus);
             }
         }
     }
 
     /**
      * Returns a list with the current funds.
-     * 
+     *
      * @param iterator the iterator of search results of account status
      * @param isConsolidated determine if the consolidated result is desired
      * @param pendingEntryOption the given pending entry option that can be no, approved or all
@@ -184,7 +199,7 @@ public class CurrentFundsLookupableHelperServiceImpl extends AbstractLookupableH
 
     /**
      * Builds the current funds collection with consolidation option from an iterator
-     * 
+     *
      * @param iterator
      * @param pendingEntryOption the selected pending entry option
      * @return the consolidated current funds collection
@@ -201,7 +216,7 @@ public class CurrentFundsLookupableHelperServiceImpl extends AbstractLookupableH
                 }
                 for (Object element : array) {
                     if (LOG.isDebugEnabled()) {
-                        LOG.debug("I found this element " + element);    
+                        LOG.debug("I found this element " + element);
                     }
                 }
 
@@ -254,7 +269,7 @@ public class CurrentFundsLookupableHelperServiceImpl extends AbstractLookupableH
 
     /**
      * Builds the current funds collection with detail option from an iterator
-     * 
+     *
      * @param iterator the current funds iterator
      * @param pendingEntryOption the selected pending entry option
      * @return the detailed balance collection
@@ -280,7 +295,7 @@ public class CurrentFundsLookupableHelperServiceImpl extends AbstractLookupableH
 
     /**
      * Gets the outstanding encumbrance amount
-     * 
+     *
      * @param AccountStatusCurrentFunds
      * @param Map fieldValues
      */
@@ -305,14 +320,14 @@ public class CurrentFundsLookupableHelperServiceImpl extends AbstractLookupableH
         fieldValues.put(KFSPropertyConstants.EMPLID, bo.getEmplid());
         if (LOG.isDebugEnabled()) {
             LOG.debug("using " + fieldValues.values());
-            LOG.debug("using " + fieldValues.keySet());    
+            LOG.debug("using " + fieldValues.keySet());
         }
         return (KualiDecimal) laborDao.getEncumbranceTotal(fieldValues);
     }
 
     /**
      * Sets the balanceService attribute value.
-     * 
+     *
      * @param balanceService The balanceService to set.
      */
     public void setBalanceService(LaborLedgerBalanceService balanceService) {
@@ -321,7 +336,7 @@ public class CurrentFundsLookupableHelperServiceImpl extends AbstractLookupableH
 
     /**
      * Sets the laborDao attribute value.
-     * 
+     *
      * @param laborDao The laborDao to set.
      */
     public void setLaborDao(LaborDao laborDao) {
@@ -330,7 +345,7 @@ public class CurrentFundsLookupableHelperServiceImpl extends AbstractLookupableH
 
     /**
      * Sets the laborInquiryOptionsService attribute value.
-     * 
+     *
      * @param laborInquiryOptionsService The laborInquiryOptionsService to set.
      */
     public void setLaborInquiryOptionsService(LaborInquiryOptionsService laborInquiryOptionsService) {
@@ -339,9 +354,10 @@ public class CurrentFundsLookupableHelperServiceImpl extends AbstractLookupableH
 
     /**
      * Sets the businessObjectService attribute value.
-     * 
+     *
      * @param businessObjectService The businessObjectService to set.
      */
+    @Override
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }

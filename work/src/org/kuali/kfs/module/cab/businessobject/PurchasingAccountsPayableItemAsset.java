@@ -1,12 +1,12 @@
 /*
  * Copyright 2008-2009 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -84,7 +84,7 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
 
     private String preTagInquiryUrl;
     private List<Long> approvedAssetNumbers;
-    
+
     private Integer paymentRequestIdentifier;
 
     public PurchasingAccountsPayableItemAsset() {
@@ -120,7 +120,7 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
 
 
     /**
-     * Gets the lockingInformation attribute. 
+     * Gets the lockingInformation attribute.
      * @return Returns the lockingInformation.
      */
     public String getLockingInformation() {
@@ -137,7 +137,7 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
 
     /**
      * Gets the capitalAssetSystemIdentifier attribute.
-     * 
+     *
      * @return Returns the capitalAssetSystemIdentifier.
      */
     public Integer getCapitalAssetSystemIdentifier() {
@@ -146,7 +146,7 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
 
     /**
      * Sets the capitalAssetSystemIdentifier attribute value.
-     * 
+     *
      * @param capitalAssetSystemIdentifier The capitalAssetSystemIdentifier to set.
      */
     public void setCapitalAssetSystemIdentifier(Integer capitalAssetSystemIdentifier) {
@@ -155,7 +155,7 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
 
     /**
      * Gets the purchaseOrderItemIdentifier attribute.
-     * 
+     *
      * @return Returns the purchaseOrderItemIdentifier.
      */
     public Integer getPurchaseOrderItemIdentifier() {
@@ -164,7 +164,7 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
 
     /**
      * Sets the purchaseOrderItemIdentifier attribute value.
-     * 
+     *
      * @param purchaseOrderItemIdentifier The purchaseOrderItemIdentifier to set.
      */
     public void setPurchaseOrderItemIdentifier(Integer purchaseOrderItemIdentifier) {
@@ -174,7 +174,7 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
 
     /**
      * Gets the capitalAssetNumbers attribute.
-     * 
+     *
      * @return Returns the capitalAssetNumbers.
      */
     public List<ItemCapitalAsset> getPurApItemAssets() {
@@ -183,7 +183,7 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
 
     /**
      * Sets the capitalAssetNumbers attribute value.
-     * 
+     *
      * @param capitalAssetNumbers The capitalAssetNumbers to set.
      */
     public void setPurApItemAssets(List<ItemCapitalAsset> capitalAssetNumbers) {
@@ -192,20 +192,20 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
 
     /**
      * Gets the capitalAssetNumbers attribute.
-     * 
+     *
      * @return Returns the capitalAssetNumbers.
      */
     public ItemCapitalAsset getPurApItemAsset(int index) {
         while (getPurApItemAssets().size() <= index) {
             getPurApItemAssets().add(new PurchaseOrderItemCapitalAsset());
         }
-        return (ItemCapitalAsset) getPurApItemAssets().get(index);
+        return getPurApItemAssets().get(index);
     }
 
 
     /**
      * Gets the createAssetIndicator attribute.
-     * 
+     *
      * @return Returns the createAssetIndicator.
      */
     public boolean isCreateAssetIndicator() {
@@ -214,7 +214,7 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
 
     /**
      * Sets the createAssetIndicator attribute value.
-     * 
+     *
      * @param createAssetIndicator The createAssetIndicator to set.
      */
     public void setCreateAssetIndicator(boolean createAssetIndicator) {
@@ -223,7 +223,7 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
 
     /**
      * Gets the applyPaymentIndicator attribute.
-     * 
+     *
      * @return Returns the applyPaymentIndicator.
      */
     public boolean isApplyPaymentIndicator() {
@@ -232,7 +232,7 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
 
     /**
      * Sets the applyPaymentIndicator attribute value.
-     * 
+     *
      * @param applyPaymentIndicator The applyPaymentIndicator to set.
      */
     public void setApplyPaymentIndicator(boolean applyPaymentIndicator) {
@@ -241,7 +241,7 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
 
     /**
      * Gets the selectedValue attribute.
-     * 
+     *
      * @return Returns the selectedValue.
      */
     public boolean isSelectedValue() {
@@ -250,7 +250,7 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
 
     /**
      * Sets the selectedValue attribute value.
-     * 
+     *
      * @param selectedValue The selectedValue to set.
      */
     public void setSelectedValue(boolean selectedValue) {
@@ -259,7 +259,7 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
 
     /**
      * Gets the itemTypeCode attribute.
-     * 
+     *
      * @return Returns the itemTypeCode.
      */
     public String getItemTypeCode() {
@@ -268,7 +268,7 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
 
     /**
      * Sets the itemTypeCode attribute value.
-     * 
+     *
      * @param itemTypeCode The itemTypeCode to set.
      */
     public void setItemTypeCode(String itemTypeCode) {
@@ -277,7 +277,7 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
 
     /**
      * Gets the capitalAssetTransactionTypeCode attribute.
-     * 
+     *
      * @return Returns the capitalAssetTransactionTypeCode.
      */
     public String getCapitalAssetTransactionTypeCode() {
@@ -286,7 +286,7 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
 
     /**
      * Sets the capitalAssetTransactionTypeCode attribute value.
-     * 
+     *
      * @param capitalAssetTransactionTypeCode The capitalAssetTransactionTypeCode to set.
      */
     public void setCapitalAssetTransactionTypeCode(String capitalAssetTransactionTypeCode) {
@@ -295,7 +295,7 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
 
     /**
      * Gets the additionalChargeNonTradeInIndicator attribute.
-     * 
+     *
      * @return Returns the additionalChargeNonTradeInIndicator.
      */
     public boolean isAdditionalChargeNonTradeInIndicator() {
@@ -304,7 +304,7 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
 
     /**
      * Sets the additionalChargeNonTradeInIndicator attribute value.
-     * 
+     *
      * @param additionalChargeNonTradeInIndicator The additionalChargeNonTradeInIndicator to set.
      */
     public void setAdditionalChargeNonTradeInIndicator(boolean additionalChargeNonTradeInIndicator) {
@@ -313,7 +313,7 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
 
     /**
      * Gets the tradeInAllowance attribute.
-     * 
+     *
      * @return Returns the tradeInAllowance.
      */
     public boolean isTradeInAllowance() {
@@ -322,7 +322,7 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
 
     /**
      * Sets the tradeInAllowance attribute value.
-     * 
+     *
      * @param tradeInAllowance The tradeInAllowance to set.
      */
     public void setTradeInAllowance(boolean tradeInAllowance) {
@@ -331,7 +331,7 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
 
     /**
      * Gets the splitQty attribute.
-     * 
+     *
      * @return Returns the splitQty.
      */
     public KualiDecimal getSplitQty() {
@@ -340,7 +340,7 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
 
     /**
      * Sets the splitQty attribute value.
-     * 
+     *
      * @param splitQty The splitQty to set.
      */
     public void setSplitQty(KualiDecimal splitQty) {
@@ -350,7 +350,7 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
 
     /**
      * Gets the purchasingAccountsPayableLineAssetAccounts attribute.
-     * 
+     *
      * @return Returns the purchasingAccountsPayableLineAssetAccounts.
      */
     public List<PurchasingAccountsPayableLineAssetAccount> getPurchasingAccountsPayableLineAssetAccounts() {
@@ -359,7 +359,7 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
 
     /**
      * Sets the purchasingAccountsPayableLineAssetAccounts attribute value.
-     * 
+     *
      * @param purchasingAccountsPayableLineAssetAccounts The purchasingAccountsPayableLineAssetAccounts to set.
      */
     public void setPurchasingAccountsPayableLineAssetAccounts(List<PurchasingAccountsPayableLineAssetAccount> purchasingAccountsPayableLineAssetAccounts) {
@@ -368,7 +368,7 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
 
     /**
      * Gets the documentNumber attribute.
-     * 
+     *
      * @return Returns the documentNumber.
      */
     public String getDocumentNumber() {
@@ -377,7 +377,7 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
 
     /**
      * Sets the documentNumber attribute value.
-     * 
+     *
      * @param documentNumber The documentNumber to set.
      */
     public void setDocumentNumber(String documentNumber) {
@@ -386,7 +386,7 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
 
     /**
      * Gets the accountsPayableLineItemIdentifier attribute.
-     * 
+     *
      * @return Returns the accountsPayableLineItemIdentifier.
      */
     public Integer getAccountsPayableLineItemIdentifier() {
@@ -395,7 +395,7 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
 
     /**
      * Sets the accountsPayableLineItemIdentifier attribute value.
-     * 
+     *
      * @param accountsPayableLineItemIdentifier The accountsPayableLineItemIdentifier to set.
      */
     public void setAccountsPayableLineItemIdentifier(Integer accountsPayableLineItemIdentifier) {
@@ -404,7 +404,7 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
 
     /**
      * Gets the accountsPayableLineItemDescription attribute.
-     * 
+     *
      * @return Returns the accountsPayableLineItemDescription.
      */
     public String getAccountsPayableLineItemDescription() {
@@ -413,7 +413,7 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
 
     /**
      * Sets the accountsPayableLineItemDescription attribute value.
-     * 
+     *
      * @param accountsPayableLineItemDescription The accountsPayableLineItemDescription to set.
      */
     public void setAccountsPayableLineItemDescription(String accountsPayableLineItemDescription) {
@@ -422,7 +422,7 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
 
     /**
      * Gets the accountsPayableItemQuantity attribute.
-     * 
+     *
      * @return Returns the accountsPayableItemQuantity.
      */
     public KualiDecimal getAccountsPayableItemQuantity() {
@@ -431,7 +431,7 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
 
     /**
      * Sets the accountsPayableItemQuantity attribute value.
-     * 
+     *
      * @param accountsPayableItemQuantity The accountsPayableItemQuantity to set.
      */
     public void setAccountsPayableItemQuantity(KualiDecimal accountsPayableItemQuantity) {
@@ -440,7 +440,7 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
 
     /**
      * Gets the capitalAssetBuilderLineNumber attribute.
-     * 
+     *
      * @return Returns the capitalAssetBuilderLineNumber
      */
     public Integer getCapitalAssetBuilderLineNumber() {
@@ -449,7 +449,7 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
 
     /**
      * Sets the capitalAssetBuilderLineNumber attribute.
-     * 
+     *
      * @param capitalAssetBuilderLineNumber The capitalAssetBuilderLineNumber to set.
      */
     public void setCapitalAssetBuilderLineNumber(Integer capitalAssetBuilderLineNumber) {
@@ -459,7 +459,7 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
 
     /**
      * Gets the capitalAssetManagementDocumentNumber attribute.
-     * 
+     *
      * @return Returns the capitalAssetManagementDocumentNumber
      */
     public String getCapitalAssetManagementDocumentNumber() {
@@ -468,7 +468,7 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
 
     /**
      * Sets the capitalAssetManagementDocumentNumber attribute.
-     * 
+     *
      * @param capitalAssetManagementDocumentNumber The capitalAssetManagementDocumentNumber to set.
      */
     public void setCapitalAssetManagementDocumentNumber(String capitalAssetManagementDocumentNumber) {
@@ -496,16 +496,17 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
 
     /**
      * Gets the active attribute.
-     * 
+     *
      * @return Returns the active.
      */
     public boolean isActive() {
-        return CabConstants.ActivityStatusCode.NEW.equalsIgnoreCase(this.getActivityStatusCode()) || CabConstants.ActivityStatusCode.MODIFIED.equalsIgnoreCase(this.getActivityStatusCode());
+        return CabConstants.ActivityStatusCode.NEW.equalsIgnoreCase(this.getActivityStatusCode()) ||
+                CabConstants.ActivityStatusCode.MODIFIED.equalsIgnoreCase(this.getActivityStatusCode());
     }
 
     /**
      * Gets the activityStatusCode attribute.
-     * 
+     *
      * @return Returns the activityStatusCode.
      */
     public String getActivityStatusCode() {
@@ -514,7 +515,7 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
 
     /**
      * Sets the activityStatusCode attribute value.
-     * 
+     *
      * @param activityStatusCode The activityStatusCode to set.
      */
     public void setActivityStatusCode(String activityStatusCode) {
@@ -523,7 +524,7 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
 
     /**
      * Gets the purchasingAccountsPayableDocument attribute.
-     * 
+     *
      * @return Returns the purchasingAccountsPayableDocument.
      */
     public PurchasingAccountsPayableDocument getPurchasingAccountsPayableDocument() {
@@ -532,7 +533,7 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
 
     /**
      * Sets the purchasingAccountsPayableDocument attribute value.
-     * 
+     *
      * @param purchasingAccountsPayableDocument The purchasingAccountsPayableDocument to set.
      */
     public void setPurchasingAccountsPayableDocument(PurchasingAccountsPayableDocument purchasingAccountsPayableDocument) {
@@ -541,7 +542,7 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
 
     /**
      * Gets the itemAssignedToTradeInIndicator attribute.
-     * 
+     *
      * @return Returns the itemAssignedToTradeInIndicator.
      */
     public boolean isItemAssignedToTradeInIndicator() {
@@ -550,7 +551,7 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
 
     /**
      * Sets the itemAssignedToTradeInIndicator attribute value.
-     * 
+     *
      * @param itemAssignedToTradeInIndicator The itemAssignedToTradeInIndicator to set.
      */
     public void setItemAssignedToTradeInIndicator(boolean itemAssignedToTradeInIndicator) {
@@ -559,7 +560,7 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
 
     /**
      * Gets the unitCost attribute.
-     * 
+     *
      * @return Returns the unitCost.
      */
     public KualiDecimal getUnitCost() {
@@ -568,7 +569,7 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
 
     /**
      * Sets the unitCost attribute value.
-     * 
+     *
      * @param unitCost The unitCost to set.
      */
     public void setUnitCost(KualiDecimal unitCost) {
@@ -577,7 +578,7 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
 
     /**
      * Gets the totalCost attribute.
-     * 
+     *
      * @return Returns the totalCost.
      */
     public KualiDecimal getTotalCost() {
@@ -586,7 +587,7 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
 
     /**
      * Sets the totalCost attribute value.
-     * 
+     *
      * @param totalCost The totalCost to set.
      */
     public void setTotalCost(KualiDecimal totalCost) {
@@ -595,7 +596,7 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
 
     /**
      * Gets the firstFincialObjectCode attribute.
-     * 
+     *
      * @return Returns the firstFincialObjectCode.
      */
     public String getFirstFincialObjectCode() {
@@ -604,7 +605,7 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
 
     /**
      * Sets the firstFincialObjectCode attribute value.
-     * 
+     *
      * @param firstFincialObjectCode The firstFincialObjectCode to set.
      */
     public void setFirstFincialObjectCode(String firstFincialObjectCode) {
@@ -639,6 +640,7 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
     /**
      * @see java.lang.Comparable#compareTo(java.lang.Object)
      */
+    @Override
     public int compareTo(PurchasingAccountsPayableItemAsset o) {
         boolean o1ItemTypeBelowTheLine = this.isAdditionalChargeNonTradeInIndicator() || this.isTradeInAllowance();
         boolean o2ItemTypeBelowTheLine = o.isAdditionalChargeNonTradeInIndicator() || o.isTradeInAllowance();
@@ -653,7 +655,7 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
 
     /**
      * Gets the approvedAssetNumbers attribute.
-     * 
+     *
      * @return Returns the approvedAssetNumbers.
      */
     public List<Long> getApprovedAssetNumbers() {
@@ -695,12 +697,12 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
         while (size <= index || getPurchasingAccountsPayableLineAssetAccounts().get(index) == null) {
             getPurchasingAccountsPayableLineAssetAccounts().add(size++, new PurchasingAccountsPayableLineAssetAccount());
         }
-        return (PurchasingAccountsPayableLineAssetAccount) getPurchasingAccountsPayableLineAssetAccounts().get(index);
+        return getPurchasingAccountsPayableLineAssetAccounts().get(index);
 
     }
 
     /**
-     * Gets the paymentRequestIdentifier attribute. 
+     * Gets the paymentRequestIdentifier attribute.
      * @return Returns the paymentRequestIdentifier.
      */
     public Integer getPaymentRequestIdentifier() {
@@ -714,6 +716,37 @@ public class PurchasingAccountsPayableItemAsset extends PersistableBusinessObjec
     public void setPaymentRequestIdentifier(Integer paymentRequestIdentifier) {
         this.paymentRequestIdentifier = paymentRequestIdentifier;
     }
-    
-    
+
+    /**
+     * KFSCNTRB-1676/FSKD-5487
+     * Returns true if it is an active TRDI additional charge asset line.
+     */
+    public boolean isActiveAdditionalTRDI() {
+        return isTradeInAllowance() && isActive();
+    }
+
+    /**
+     * KFSCNTRB-1676/FSKD-5487
+     * Returns true if it is an active non-TRDI additional charge asset line.
+     */
+    public boolean isActiveAdditionalNonTRDI() {
+        return isAdditionalChargeNonTradeInIndicator() && isActive();
+    }
+
+    /**
+     * KFSCNTRB-1676/FSKD-5487
+     * Returns true if it is an active trade-in ITEM asset line.
+     */
+    public boolean isActiveItemTradeIn() {
+        return !isAdditionalChargeNonTradeInIndicator() && !isTradeInAllowance() && isItemAssignedToTradeInIndicator() && isActive();
+    }
+
+    /**
+     * KFSCNTRB-1676/FSKD-5487
+     * Returns true if it is an active ITEM asset line.
+     */
+    public boolean isActiveItemLine() {
+        return !isAdditionalChargeNonTradeInIndicator() && !isTradeInAllowance() && isActive();
+    }
+
 }

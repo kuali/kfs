@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -33,7 +33,7 @@ public class PurchaseOrderRemoveHoldDocument extends PurchaseOrderDocument {
 
     /**
      * General Ledger pending entries are not created for this document. Overriding this method so that entries are not created.
-     * 
+     *
      * @see org.kuali.kfs.module.purap.document.PurchaseOrderDocument#customPrepareForSave(org.kuali.rice.krad.rule.event.KualiDocumentEvent)
      */
     @Override
@@ -43,7 +43,7 @@ public class PurchaseOrderRemoveHoldDocument extends PurchaseOrderDocument {
 
     /**
      * When Purchase Order Remove Payment Hold document has been Processed through Workflow, the PO status changes to "OPEN".
-     * 
+     *
      * @see org.kuali.kfs.module.purap.document.PurchaseOrderDocument#doRouteStatusChange()
      */
     @Override
@@ -56,12 +56,12 @@ public class PurchaseOrderRemoveHoldDocument extends PurchaseOrderDocument {
                 SpringContext.getBean(PurchaseOrderService.class).setCurrentAndPendingIndicatorsForApprovedPODocuments(this);
 
                 // for app doc status
-                updateAndSaveAppDocStatus(PurchaseOrderStatuses.APPDOC_OPEN); 
+                updateAndSaveAppDocStatus(PurchaseOrderStatuses.APPDOC_OPEN);
             }
             // DOCUMENT DISAPPROVED
             else if (this.getFinancialSystemDocumentHeader().getWorkflowDocument().isDisapproved()) {
                 SpringContext.getBean(PurchaseOrderService.class).setCurrentAndPendingIndicatorsForDisapprovedRemoveHoldPODocuments(this);
-                
+
                 // for app doc status
                 try {
                     String nodeName = SpringContext.getBean(WorkflowDocumentService.class).getCurrentRouteLevelName(this.getFinancialSystemDocumentHeader().getWorkflowDocument());
@@ -75,11 +75,17 @@ public class PurchaseOrderRemoveHoldDocument extends PurchaseOrderDocument {
             else if (this.getFinancialSystemDocumentHeader().getWorkflowDocument().isCanceled()) {
                 SpringContext.getBean(PurchaseOrderService.class).setCurrentAndPendingIndicatorsForCancelledRemoveHoldPODocuments(this);
                 // for app doc status
-                updateAndSaveAppDocStatus(PurchaseOrderStatuses.APPDOC_CANCELLED);                
+                updateAndSaveAppDocStatus(PurchaseOrderStatuses.APPDOC_CANCELLED);
             }
         }
         catch (WorkflowException e) {
             logAndThrowRuntimeException("Error saving routing data while saving document with id " + getDocumentNumber(), e);
         }
     }
+
+    @Override
+    protected boolean shouldAdhocFyi() {
+        return false;
+    }
+
 }

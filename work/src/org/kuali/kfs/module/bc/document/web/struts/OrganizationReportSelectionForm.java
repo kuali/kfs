@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -21,6 +21,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kfs.module.bc.BCPropertyConstants;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionObjectPick;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionReasonCodePick;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionReportThresholdSettings;
@@ -56,17 +57,9 @@ public class OrganizationReportSelectionForm extends BudgetExpansionForm {
         budgetConstructionReportThresholdSettings = new BudgetConstructionReportThresholdSettings();
     }
 
-    @Override
-    public void populate(HttpServletRequest request) {
-
-        if (!this.isLostSessionDetected(request)){
-            super.populate(request);
-        }
-    }
-
     /**
      * Gets the subFundPickList
-     * 
+     *
      * @return Returns the subFundPickList
      */
     public List<BudgetConstructionSubFundPick> getSubFundPickList() {
@@ -75,7 +68,7 @@ public class OrganizationReportSelectionForm extends BudgetExpansionForm {
 
     /**
      * Sets the subFundPickList
-     * 
+     *
      * @param subFundPickList The subFundPickList to set.
      */
     public void setSubFundPickList(List<BudgetConstructionSubFundPick> bcSubFunds) {
@@ -84,7 +77,7 @@ public class OrganizationReportSelectionForm extends BudgetExpansionForm {
 
     /**
      * Gets the objectCodePickList attribute.
-     * 
+     *
      * @return Returns the objectCodePickList.
      */
     public List<BudgetConstructionObjectPick> getObjectCodePickList() {
@@ -93,7 +86,7 @@ public class OrganizationReportSelectionForm extends BudgetExpansionForm {
 
     /**
      * Sets the objectCodePickList attribute value.
-     * 
+     *
      * @param objectCodePickList The objectCodePickList to set.
      */
     public void setObjectCodePickList(List<BudgetConstructionObjectPick> objectCodePickList) {
@@ -102,7 +95,7 @@ public class OrganizationReportSelectionForm extends BudgetExpansionForm {
 
     /**
      * Gets the reasonCodePickList attribute.
-     * 
+     *
      * @return Returns the reasonCodePickList.
      */
     public List<BudgetConstructionReasonCodePick> getReasonCodePickList() {
@@ -111,7 +104,7 @@ public class OrganizationReportSelectionForm extends BudgetExpansionForm {
 
     /**
      * Sets the reasonCodePickList attribute value.
-     * 
+     *
      * @param reasonCodePickList The reasonCodePickList to set.
      */
     public void setReasonCodePickList(List<BudgetConstructionReasonCodePick> reasonCodePickList) {
@@ -120,7 +113,7 @@ public class OrganizationReportSelectionForm extends BudgetExpansionForm {
 
     /**
      * Gets the operatingModeTitle
-     * 
+     *
      * @return Returns the operatingModeTitle
      */
     public String getOperatingModeTitle() {
@@ -129,16 +122,16 @@ public class OrganizationReportSelectionForm extends BudgetExpansionForm {
 
     /**
      * Sets the operatingModeTitle
-     * 
+     *
      * @param operatingModeTitle The operatingModeTitle to set.
      */
     public void setOperatingModeTitle(String operatingModeTitle) {
         this.operatingModeTitle = operatingModeTitle;
     }
-  
+
     /**
      * Gets the reportConsolidation
-     * 
+     *
      * @return Returns the reportConsolidation
      */
     public boolean isReportConsolidation() {
@@ -147,7 +140,7 @@ public class OrganizationReportSelectionForm extends BudgetExpansionForm {
 
     /**
      * Sets the reportConsolidation
-     * 
+     *
      * @param reportConsolidation The reportConsolidation to set.
      */
     public void setReportConsolidation(boolean reportConsolidation) {
@@ -156,7 +149,7 @@ public class OrganizationReportSelectionForm extends BudgetExpansionForm {
 
     /**
      * Gets the reportMode
-     * 
+     *
      * @return Returns the reportMode
      */
     public String getReportMode() {
@@ -165,7 +158,7 @@ public class OrganizationReportSelectionForm extends BudgetExpansionForm {
 
     /**
      * Sets the reportMode
-     * 
+     *
      * @param reportMode The reportMode to set.
      */
     public void setReportMode(String reportMode) {
@@ -174,7 +167,7 @@ public class OrganizationReportSelectionForm extends BudgetExpansionForm {
 
     /**
      * Gets the currentPointOfViewKeyCode attribute.
-     * 
+     *
      * @return Returns the currentPointOfViewKeyCode.
      */
     public String getCurrentPointOfViewKeyCode() {
@@ -183,7 +176,7 @@ public class OrganizationReportSelectionForm extends BudgetExpansionForm {
 
     /**
      * Sets the currentPointOfViewKeyCode attribute value.
-     * 
+     *
      * @param currentPointOfViewKeyCode The currentPointOfViewKeyCode to set.
      */
     public void setCurrentPointOfViewKeyCode(String currentPointOfViewKeyCode) {
@@ -192,7 +185,7 @@ public class OrganizationReportSelectionForm extends BudgetExpansionForm {
 
     /**
      * Gets the budgetConstructionReportThresholdSettings attribute.
-     * 
+     *
      * @return Returns the budgetConstructionReportThresholdSettings.
      */
     public BudgetConstructionReportThresholdSettings getBudgetConstructionReportThresholdSettings() {
@@ -201,7 +194,7 @@ public class OrganizationReportSelectionForm extends BudgetExpansionForm {
 
     /**
      * Sets the budgetConstructionReportThresholdSettings attribute value.
-     * 
+     *
      * @param budgetConstructionReportThresholdSettings The budgetConstructionReportThresholdSettings to set.
      */
     public void setBudgetConstructionReportThresholdSettings(BudgetConstructionReportThresholdSettings budgetConstructionReportThresholdSettings) {
@@ -226,4 +219,17 @@ public class OrganizationReportSelectionForm extends BudgetExpansionForm {
         }
         budgetConstructionReportThresholdSettings.setUseThreshold(false);
     }
+
+    /**
+     * @see org.kuali.rice.kns.web.struts.form.KualiForm#shouldPropertyBePopulatedInForm(java.lang.String, javax.servlet.http.HttpServletRequest)
+     */
+    @Override
+    public boolean shouldPropertyBePopulatedInForm(String requestParameterName, HttpServletRequest request) {
+
+        if (requestParameterName.startsWith(BCPropertyConstants.OBJECT_CODE_PICK_LIST)) {
+            return true;
+        }
+        return super.shouldPropertyBePopulatedInForm(requestParameterName, request);
+    }
+
 }

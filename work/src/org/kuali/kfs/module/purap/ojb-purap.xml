@@ -378,6 +378,7 @@
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
     <field-descriptor name="requisitionSourceDescription" column="REQS_SRC_DESC" jdbc-type="VARCHAR" index="true"/>
+    <field-descriptor name="allowCopyDays" column="ALLOW_COPY_DAYS" jdbc-type="INTEGER" index="true"/>
     <field-descriptor name="active" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
 </class-descriptor>
 

@@ -25,8 +25,6 @@ import org.kuali.rice.krad.bo.KualiCodeBase;
 public class TravelExpenseTypeCode extends KualiCodeBase implements MutableInactivatable {
     boolean prepaidExpense;
 
-    private String financialObjectCode;
-    
     /**
      * Default no-arg constructor.
      */
@@ -46,13 +44,5 @@ public class TravelExpenseTypeCode extends KualiCodeBase implements MutableInact
      */
     public void setPrepaidExpense(boolean prepaidExpense) {
         this.prepaidExpense = prepaidExpense;
-    }
-    
-    public String getFinancialObjectCode() {
-        return financialObjectCode;
-    }
-
-    public void setFinancialObjectCode(String financialObjectCode) {
-        this.financialObjectCode = financialObjectCode;
     }
 }

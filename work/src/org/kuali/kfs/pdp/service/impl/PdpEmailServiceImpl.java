@@ -141,19 +141,23 @@ public class PdpEmailServiceImpl implements PdpEmailService {
 
         body.append("\n" + getMessage(PdpKeyConstants.MESSAGE_PAYMENT_EMAIL_ERROR_MESSAGES) + "\n");
         List<ErrorMessage> errorMessages = errors.getMessages(KFSConstants.GLOBAL_ERRORS);
-        for (ErrorMessage errorMessage : errorMessages) {
-            body.append(getMessage(errorMessage.getErrorKey(), (Object[]) errorMessage.getMessageParameters()) + "\n\n");
-        }
+        if (errorMessages != null) {
+            for (ErrorMessage errorMessage : errorMessages) {
+                body.append(getMessage(errorMessage.getErrorKey(), (Object[]) errorMessage.getMessageParameters()) + "\n\n");
+            }
 
-        message.setMessage(body.toString());
+            message.setMessage(body.toString());
 
-        // KFSMI-6475 - if not a production instance, replace the recipients with the testers list
-        alterMessageWhenNonProductionInstance(message, null);
+            // KFSMI-6475 - if not a production instance, replace the recipients with the testers list
+            alterMessageWhenNonProductionInstance(message, null);
 
-        try {
-            mailService.sendMessage(message);
-        } catch (Exception e) {
-            LOG.error("sendErrorEmail() Invalid email address.  Message not sent", e);
+            try {
+                mailService.sendMessage(message);
+            }
+            catch (Exception e) {
+                LOG.error("sendErrorEmail() caught an exception while trying to sendMessage.  Message not sent", e);
+                throw new RuntimeException (e);
+            }
         }
     }
 

@@ -26,21 +26,18 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Scanner;
-import java.util.logging.Level;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.apache.commons.collections.bidimap.TreeBidiMap;
 import org.apache.commons.lang.StringUtils;
-import org.apache.cxf.common.logging.LogUtils;
-import org.apache.cxf.endpoint.ServerImpl;
 import org.directwebremoting.util.LogErrorHandler;
-import org.hibernate.util.DTDEntityResolver;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.rice.core.api.util.ClassLoaderUtils;
 import org.kuali.rice.kns.datadictionary.KNSDocumentEntry;
@@ -62,7 +59,17 @@ import org.w3c.dom.NodeList;
 
 public class CheckModularization {
 
+    /*
+     * Since endowment is currently turned off in KFS foundation base code, it is not included in the
+     * optional namespace codes below. If the endowment module is turned back on, it should be added
+     * to the list below with
+     *
+     *         OPTIONAL_NAMESPACE_CODES_TO_SPRING_FILE_SUFFIX.put("KFS-ENDOW", "endow");
+     *
+     */
     private static final Map<String, String> OPTIONAL_NAMESPACE_CODES_TO_SPRING_FILE_SUFFIX = new HashMap<String, String>();
+    // NOTE: Access Security (KFS-SEC) is considered a "core" module, but one which other modules shouldn't depend
+    // upon, so it's included in this group to verify that no other modules depend upon it.
     static {
         OPTIONAL_NAMESPACE_CODES_TO_SPRING_FILE_SUFFIX.put("KFS-AR", "ar");
         OPTIONAL_NAMESPACE_CODES_TO_SPRING_FILE_SUFFIX.put("KFS-BC", "bc");
@@ -72,6 +79,7 @@ public class CheckModularization {
         OPTIONAL_NAMESPACE_CODES_TO_SPRING_FILE_SUFFIX.put("KFS-EC", "ec");
         OPTIONAL_NAMESPACE_CODES_TO_SPRING_FILE_SUFFIX.put("KFS-LD", "ld");
         OPTIONAL_NAMESPACE_CODES_TO_SPRING_FILE_SUFFIX.put("KFS-PURAP", "purap");
+        OPTIONAL_NAMESPACE_CODES_TO_SPRING_FILE_SUFFIX.put("KFS-SEC", "sec");
     }
 
     private static final Map<String, String> OPTIONAL_SPRING_FILE_SUFFIX_TO_NAMESPACE_CODES =
@@ -92,6 +100,7 @@ public class CheckModularization {
     private static Map<String,List<String>> DWR_FILES_BY_MODULE = new HashMap<String, List<String>>();
 
     private static String MODULE_SPRING_PATH_PATTERN = "org/kuali/kfs/module/{0}/spring-{0}.xml";
+    private static String KFS_SEC_MODULE_SPRING_PATH_PATTERN = "org/kuali/kfs/{0}/spring-{0}.xml";
 
     /*
      * open up classpath:configuration.properties - get locations of spring files?
@@ -113,13 +122,12 @@ public class CheckModularization {
             System.out.println( "Path: " + propLocation.getPath() );
             configPropertiesFile = new File( propLocation.getPath() );
             configProps.load( CheckModularization.class.getClassLoader().getResourceAsStream("configuration.properties") );
-            coreSpringFiles = configProps.getProperty("core.spring.source.files");
+            coreSpringFiles = configProps.getProperty("core.spring.source.files") + configProps.getProperty("integration.spring.files") + ",classpath:org/kuali/kfs/sys/context/spring-kfs-checkmodularization-overrides.xml";
             coreSpringTestFiles = configProps.getProperty("core.spring.test.files");
 
-            LogUtils.getL7dLogger(ServerImpl.class).setLevel(Level.SEVERE);
             try {
                 SpringContextForBatchRunner.initializeKfs();
-                KualiModuleService kualiModuleService = (KualiModuleService)SpringContext.getBean(KualiModuleService.class);
+                KualiModuleService kualiModuleService = SpringContext.getBean(KualiModuleService.class);
 
                 for ( ModuleService module : kualiModuleService.getInstalledModuleServices() ) {
                     PACKAGE_PREFIXES_BY_MODULE.put(module.getModuleConfiguration().getNamespaceCode(), module.getModuleConfiguration().getPackagePrefixes() );
@@ -174,7 +182,6 @@ public class CheckModularization {
             } else {
                 System.out.println( "SUCCEEDED" );
             }
-//            testsPassed &= mt.testDd();
 
             if ( !testsPassed ) {
                 System.exit(1);
@@ -190,12 +197,27 @@ public class CheckModularization {
 
     protected String buildOptionalModuleSpringFileList( ModuleGroup moduleGroup ) {
         StringBuffer sb = new StringBuffer();
-        sb.append( MessageFormat.format(MODULE_SPRING_PATH_PATTERN, OPTIONAL_NAMESPACE_CODES_TO_SPRING_FILE_SUFFIX.get( moduleGroup.namespaceCode ) ) );
+        sb.append( MessageFormat.format(getModuleSpringPathPattern(moduleGroup.namespaceCode), OPTIONAL_NAMESPACE_CODES_TO_SPRING_FILE_SUFFIX.get( moduleGroup.namespaceCode ) ) );
         for ( String depMod : moduleGroup.optionalModuleDependencyNamespaceCodes ) {
             sb.append( ',' );
-            sb.append( MessageFormat.format(MODULE_SPRING_PATH_PATTERN, OPTIONAL_NAMESPACE_CODES_TO_SPRING_FILE_SUFFIX.get( depMod ) ) );
+            sb.append( MessageFormat.format(getModuleSpringPathPattern(depMod), OPTIONAL_NAMESPACE_CODES_TO_SPRING_FILE_SUFFIX.get( depMod ) ) );
         }
         return sb.toString();
+    }
+
+    /**
+     * Since we're treating Access Security like an optional module for modularization validation purposes
+     * but it follows the core package naming convention, we have to account for that, which this method does.
+     *
+     * @param moduleNamespaceCode
+     * @return String the correct module string path pattern for this module
+     */
+    private String getModuleSpringPathPattern(String moduleNamespaceCode) {
+        if (moduleNamespaceCode.equals(KFSConstants.CoreModuleNamespaces.ACCESS_SECURITY)) {
+            return KFS_SEC_MODULE_SPRING_PATH_PATTERN;
+        } else {
+            return MODULE_SPRING_PATH_PATTERN;
+        }
     }
 
     StringBuffer dwrErrorMessage = new StringBuffer("The following optional modules have interdependencies in DWR configuration:");
@@ -217,7 +239,13 @@ public class CheckModularization {
         errorMessage.append( "The following optional modules have interdependencies in Spring configuration:\n");
         List<ModuleGroup> optionalModuleGroups = retrieveOptionalModuleGroups();
         for (ModuleGroup optionalModuleGroup : optionalModuleGroups) {
-//            if ( !optionalModuleGroup.namespaceCode.equals( "KFS-AR" ) ) continue;
+/*
+ * For ease in debugging, uncomment the following, changing namespaceCode as necessary, to limit the testing
+ * to a single module
+ */
+//            if ( !optionalModuleGroup.namespaceCode.equals( "KFS-EC" ) ) {
+//                continue;
+//            }
             System.out.println( "\n\n------>Testing for optional module group: " + optionalModuleGroup );
             System.out.println( "------>Using Base Configuration:   " + coreSpringFiles );
             String moduleConfigFiles = buildOptionalModuleSpringFileList(optionalModuleGroup);
@@ -233,14 +261,20 @@ public class CheckModularization {
     protected boolean testOptionalModuleSpringConfiguration(ModuleGroup optionalModuleGroup, String springConfigFiles, StringBuffer errorMessage) {
         try {
             // update the configuration.properties file
+            PropertyLoadingFactoryBean.clear();
             Properties configProps = new Properties();
             configProps.load( new FileInputStream( configPropertiesFile ) );
             configProps.setProperty( "spring.source.files", springConfigFiles );
             configProps.setProperty( "spring.test.files", coreSpringTestFiles );
-            configProps.setProperty( "validate.ebo.references", "false" );
+            configProps.setProperty( "validate.data.dictionary.ebo.references", "false" );
             configProps.store( new FileOutputStream( configPropertiesFile ), "Testing Module: " + optionalModuleGroup.namespaceCode );
             configProps.load( new FileInputStream( configPropertiesFile ) );
+
+            // clear out  existing services before new services get added or else they just keep accumulating and that's not what we want
+            KualiModuleService kualiModuleService = SpringContext.getBean(KualiModuleService.class);
+            kualiModuleService.setInstalledModuleServices(new ArrayList<ModuleService>());
             SpringContextForBatchRunner.initializeKfs();
+
             dwrTestSucceeded &= testDwrModuleConfiguration(optionalModuleGroup, dwrErrorMessage);
             ddTestSucceeded &= testDdModuleConfiguration(optionalModuleGroup, ddErrorMessage);
             return true;
@@ -275,17 +309,21 @@ public class CheckModularization {
         boolean testSucceeded = true;
         for (String referencedNamespaceCode : OPTIONAL_NAMESPACE_CODES_TO_SPRING_FILE_SUFFIX.keySet()) {
             if (!(moduleGroup.namespaceCode.equals(referencedNamespaceCode) || moduleGroup.optionalModuleDependencyNamespaceCodes.contains(referencedNamespaceCode))) {
-                if ( OJB_FILES_BY_MODULE.get(moduleGroup.namespaceCode).isEmpty() ) continue;
+                if ( OJB_FILES_BY_MODULE.get(moduleGroup.namespaceCode) == null || OJB_FILES_BY_MODULE.get(moduleGroup.namespaceCode).isEmpty() ) {
+                    continue;
+                }
                 String firstDatabaseRepositoryFilePath = OJB_FILES_BY_MODULE.get(moduleGroup.namespaceCode).iterator().next();
                 // the first database repository file path is typically the file that comes shipped with KFS.  If institutions override it, this unit test will not test them
                 Scanner scanner = new Scanner(new File("work/src/" + firstDatabaseRepositoryFilePath));
                 int count = 0;
                 while (scanner.hasNext()) {
                     String token = scanner.next();
-                    String firstPackagePrefix = PACKAGE_PREFIXES_BY_MODULE.get( referencedNamespaceCode ).iterator().next();
-                    // A module may be responsible for many packages, but the first one should be the KFS built-in package that is *not* the module's integration package
-                    if (token.contains(firstPackagePrefix)) {
-                        count++;
+                    if (PACKAGE_PREFIXES_BY_MODULE.get( referencedNamespaceCode ) != null) {
+                        String firstPackagePrefix = PACKAGE_PREFIXES_BY_MODULE.get( referencedNamespaceCode ).iterator().next();
+                        // A module may be responsible for many packages, but the first one should be the KFS built-in package that is *not* the module's integration package
+                        if (token.contains(firstPackagePrefix)) {
+                            count++;
+                        }
                     }
                 }
                 if (count > 0) {
@@ -333,20 +371,28 @@ public class CheckModularization {
         List<String> dwrBeanClassNames = retrieveDwrBeanClassNames(dwrDocument);
         for (String referencedNamespaceCode : OPTIONAL_NAMESPACE_CODES_TO_SPRING_FILE_SUFFIX.keySet()) {
             if (!(referencedNamespaceCode.equals(moduleGroup.namespaceCode) || moduleGroup.optionalModuleDependencyNamespaceCodes.contains(referencedNamespaceCode))) {
-                String firstPackagePrefix = PACKAGE_PREFIXES_BY_MODULE.get(referencedNamespaceCode).iterator().next();
-                // A module may be responsible for many packages, but the first one should be the KFS built-in package that is *not* the module's integration package
-                if (!firstPackagePrefix.endsWith(".")) {
-                    firstPackagePrefix = firstPackagePrefix + ".";
-                }
-                int count = 0;
-                for (String className : dwrBeanClassNames) {
-                    if (className.contains(firstPackagePrefix)) {
-                        count++;
+                List<String> packagePrefixes = PACKAGE_PREFIXES_BY_MODULE.get(referencedNamespaceCode);
+                if (packagePrefixes != null) {
+                    Iterator<String> it = packagePrefixes.iterator();
+                    if (it.hasNext()) {
+                        String firstPackagePrefix = it.next();
+                        // A module may be responsible for many packages, but the first one should be the KFS built-in package that is *not* the module's integration package
+                        if (!firstPackagePrefix.endsWith(".")) {
+                            firstPackagePrefix = firstPackagePrefix + ".";
+                        }
+                        int count = 0;
+                        for (String className : dwrBeanClassNames) {
+                            if (className.contains(firstPackagePrefix)) {
+                                count++;
+                            }
+                        }
+                        if (count > 0) {
+                            testSucceeded = false;
+                            errorMessage.append("\n\n").append(dwrFileName).append(" (in module ").append(moduleGroup.namespaceCode).append(") has ").append(count).append(" references to business objects from ").append(referencedNamespaceCode);
+                        }
                     }
-                }
-                if (count > 0) {
-                    testSucceeded = false;
-                    errorMessage.append("\n\n").append(dwrFileName).append(" (in module ").append(moduleGroup.namespaceCode).append(") has ").append(count).append(" references to business objects from ").append(referencedNamespaceCode);
+                } else {
+                    System.err.println("no package prefixes " + referencedNamespaceCode);
                 }
             }
         }
@@ -390,7 +436,6 @@ public class CheckModularization {
         dbf.setValidating(true);
 
         DocumentBuilder db = dbf.newDocumentBuilder();
-        db.setEntityResolver(new DTDEntityResolver());
         db.setErrorHandler(new LogErrorHandler());
 
         Document doc = db.parse(in);
@@ -454,8 +499,8 @@ public class CheckModularization {
         for ( String otherNamespace : PACKAGE_PREFIXES_BY_MODULE.keySet() ) {
             // if an optional module
             if ( OPTIONAL_NAMESPACE_CODES_TO_SPRING_FILE_SUFFIX.containsKey( otherNamespace ) ) {
-                // and not the current module
-                if ( !otherNamespace.equals( moduleGroup.namespaceCode ) ) {
+                // and not the current module or a dependency
+                if ( !otherNamespace.equals( moduleGroup.namespaceCode ) && !moduleGroup.optionalModuleDependencyNamespaceCodes.contains(otherNamespace)) {
                     // add to disallowed list
                     disallowedPackagesForModule.addAll( PACKAGE_PREFIXES_BY_MODULE.get(otherNamespace) );
                 }
@@ -467,14 +512,15 @@ public class CheckModularization {
         Collection<org.kuali.rice.krad.datadictionary.BusinessObjectEntry> bos = dd.getBusinessObjectEntries().values();
         for ( org.kuali.rice.krad.datadictionary.BusinessObjectEntry bo : bos ) {
             // only check bos for the current module (or all modules if checking the core)
-            if ( ("KFS-SYS".equals( moduleGroup.namespaceCode)
-                    || doesPackagePrefixMatch( bo.getFullClassName(), PACKAGE_PREFIXES_BY_MODULE.get( moduleGroup.namespaceCode ) ))
+            if ( ((KFSConstants.CoreModuleNamespaces.KFS.equals( moduleGroup.namespaceCode) && (isClassInCore(bo.getFullClassName())))
+                    ||
+                    doesPackagePrefixMatch( bo.getFullClassName(), PACKAGE_PREFIXES_BY_MODULE.get( moduleGroup.namespaceCode ) ))
                     && !bo.getFullClassName().startsWith("org.kuali.rice") ) {
                 try {
                     if ( bo.getInactivationBlockingDefinitions() != null ) {
                         for ( InactivationBlockingDefinition ibd : bo.getInactivationBlockingDefinitions() ) {
-                            validateDdBusinessObjectClassReference("Invalid Blocked BO Class", ibd.getBlockedBusinessObjectClass(), moduleGroup.namespaceCode, bo.getFullClassName(), null, disallowedPackagesForModule);
-                            validateDdBusinessObjectClassReference("Invalid Blocking Reference BO Class", ibd.getBlockingReferenceBusinessObjectClass(), moduleGroup.namespaceCode, bo.getFullClassName(), null, disallowedPackagesForModule);
+                            testPassed &= validateDdBusinessObjectClassReference("Invalid Blocked BO Class", ibd.getBlockedBusinessObjectClass(), moduleGroup.namespaceCode, bo.getFullClassName(), null, disallowedPackagesForModule);
+                            testPassed &= validateDdBusinessObjectClassReference("Invalid Blocking Reference BO Class", ibd.getBlockingReferenceBusinessObjectClass(), moduleGroup.namespaceCode, bo.getFullClassName(), null, disallowedPackagesForModule);
                             if ( ibd.getInactivationBlockingDetectionServiceBeanName() != null ) {
                                 try {
                                     SpringContext.getBean( ibd.getInactivationBlockingDetectionServiceBeanName() );
@@ -488,10 +534,10 @@ public class CheckModularization {
                     for ( AttributeDefinition ad : bo.getAttributes() ) {
                         try {
                             ControlDefinition cd = ad.getControl();
-                            validateDdBusinessObjectClassReference("Invalid Formatter Class", ad.getFormatterClass(), moduleGroup.namespaceCode, bo.getFullClassName(), ad.getName(), disallowedPackagesForModule);
+                            testPassed &= validateDdBusinessObjectClassReference("Invalid Formatter Class", ad.getFormatterClass(), moduleGroup.namespaceCode, bo.getFullClassName(), ad.getName(), disallowedPackagesForModule);
                             if ( cd != null ) {
-                                validateDdBusinessObjectClassReference("Invalid Control Value Finder", cd.getValuesFinderClass(), moduleGroup.namespaceCode, bo.getFullClassName(), ad.getName(), disallowedPackagesForModule);
-                                validateDdBusinessObjectClassReference("Invalid BO class for KeyLabelBusinessObjectValueFinder", cd.getBusinessObjectClass(), moduleGroup.namespaceCode, bo.getFullClassName(), ad.getName(), disallowedPackagesForModule);
+                                testPassed &= validateDdBusinessObjectClassReference("Invalid Control Value Finder", cd.getValuesFinderClass(), moduleGroup.namespaceCode, bo.getFullClassName(), ad.getName(), disallowedPackagesForModule);
+                                testPassed &= validateDdBusinessObjectClassReference("Invalid BO class for KeyLabelBusinessObjectValueFinder", cd.getBusinessObjectClass(), moduleGroup.namespaceCode, bo.getFullClassName(), ad.getName(), disallowedPackagesForModule);
                             }
                         } catch ( Exception ex ) {
                             addDdBusinessObjectError("Exception Testing BO", moduleGroup.namespaceCode, bo.getFullClassName(), ad.getName(), ex.getClass().getName() + " : " + ex.getMessage() );
@@ -510,14 +556,15 @@ public class CheckModularization {
         }
 
         for ( org.kuali.rice.krad.datadictionary.DocumentEntry de : dd.getDocumentEntries().values() ) {
-            if ( (de instanceof org.kuali.rice.kns.datadictionary.MaintenanceDocumentEntry && ("KFS-SYS".equals( moduleGroup.namespaceCode)
-                    || doesPackagePrefixMatch( ((org.kuali.rice.kns.datadictionary.MaintenanceDocumentEntry)de).getDataObjectClass().getName(), PACKAGE_PREFIXES_BY_MODULE.get( moduleGroup.namespaceCode )) ))
-                    || (de instanceof org.kuali.rice.kns.datadictionary.TransactionalDocumentEntry && ("KFS-SYS".equals( moduleGroup.namespaceCode) || doesPackagePrefixMatch( de.getDocumentClass().getName(), PACKAGE_PREFIXES_BY_MODULE.get( moduleGroup.namespaceCode ))) ) ) {
+            if ( (de instanceof org.kuali.rice.kns.datadictionary.MaintenanceDocumentEntry && ((KFSConstants.CoreModuleNamespaces.KFS.equals( moduleGroup.namespaceCode) && isClassInCore(((org.kuali.rice.kns.datadictionary.MaintenanceDocumentEntry)de).getDataObjectClass().getName())) ||
+                    doesPackagePrefixMatch( ((org.kuali.rice.kns.datadictionary.MaintenanceDocumentEntry)de).getDataObjectClass().getName(), PACKAGE_PREFIXES_BY_MODULE.get( moduleGroup.namespaceCode )) ))
+                    || (de instanceof org.kuali.rice.kns.datadictionary.TransactionalDocumentEntry && ((KFSConstants.CoreModuleNamespaces.KFS.equals( moduleGroup.namespaceCode) && isClassInCore( de.getDocumentClass().getName())) ||
+                            doesPackagePrefixMatch( de.getDocumentClass().getName(), PACKAGE_PREFIXES_BY_MODULE.get( moduleGroup.namespaceCode ))) ) ) {
                 KNSDocumentEntry knsDocEntry = (KNSDocumentEntry)de;
                 try {
                     if ( de instanceof org.kuali.rice.kns.datadictionary.MaintenanceDocumentEntry ) {
                         org.kuali.rice.kns.datadictionary.MaintenanceDocumentEntry mde = (org.kuali.rice.kns.datadictionary.MaintenanceDocumentEntry)de;
-                        validateDdDocumentClassReference("Invalid Maintainable Class", mde.getMaintainableClass(), moduleGroup.namespaceCode, knsDocEntry.getDocumentTypeName(), null, disallowedPackagesForModule);
+                        testPassed &= validateDdDocumentClassReference("Invalid Maintainable Class", mde.getMaintainableClass(), moduleGroup.namespaceCode, knsDocEntry.getDocumentTypeName(), null, disallowedPackagesForModule);
                         for ( MaintainableSectionDefinition msd : mde.getMaintainableSections() ) {
                             for ( MaintainableItemDefinition mid : msd.getMaintainableItems() ) {
                                 if ( mid instanceof MaintainableCollectionDefinition ) {
@@ -531,12 +578,11 @@ public class CheckModularization {
                     } else { // trans doc
 
                     }
-                    validateDdDocumentClassReference("Invalid Business Rules Class", knsDocEntry.getBusinessRulesClass(), moduleGroup.namespaceCode, knsDocEntry.getDocumentTypeName(), null, disallowedPackagesForModule);
-                    validateDdDocumentClassReference("Invalid DerivedValuesSetterClass", knsDocEntry.getDerivedValuesSetterClass(), moduleGroup.namespaceCode, knsDocEntry.getDocumentTypeName(), null, disallowedPackagesForModule);
-                    validateDdDocumentClassReference("Invalid DocumentAuthorizerClass", knsDocEntry.getDocumentAuthorizerClass(), moduleGroup.namespaceCode, knsDocEntry.getDocumentTypeName(), null, disallowedPackagesForModule);
-                    validateDdDocumentClassReference("Invalid DocumentPresentationControllerClass", knsDocEntry.getDocumentPresentationControllerClass(), moduleGroup.namespaceCode, knsDocEntry.getDocumentTypeName(), null, disallowedPackagesForModule);
-//                    validateDdDocumentClassReference("Invalid DocumentSearchGeneratorClass", knsDocEntry.getDocumentSearchGeneratorClass(), moduleGroup.namespaceCode, knsDocEntry.getDocumentTypeName(), null, disallowedPackagesForModule);
-                    validateDdDocumentClassReference("Invalid PromptBeforeValidationClass", knsDocEntry.getPromptBeforeValidationClass(), moduleGroup.namespaceCode, knsDocEntry.getDocumentTypeName(), null, disallowedPackagesForModule);
+                    testPassed &= validateDdDocumentClassReference("Invalid Business Rules Class", knsDocEntry.getBusinessRulesClass(), moduleGroup.namespaceCode, knsDocEntry.getDocumentTypeName(), null, disallowedPackagesForModule);
+                    testPassed &= validateDdDocumentClassReference("Invalid DerivedValuesSetterClass", knsDocEntry.getDerivedValuesSetterClass(), moduleGroup.namespaceCode, knsDocEntry.getDocumentTypeName(), null, disallowedPackagesForModule);
+                    testPassed &= validateDdDocumentClassReference("Invalid DocumentAuthorizerClass", knsDocEntry.getDocumentAuthorizerClass(), moduleGroup.namespaceCode, knsDocEntry.getDocumentTypeName(), null, disallowedPackagesForModule);
+                    testPassed &= validateDdDocumentClassReference("Invalid DocumentPresentationControllerClass", knsDocEntry.getDocumentPresentationControllerClass(), moduleGroup.namespaceCode, knsDocEntry.getDocumentTypeName(), null, disallowedPackagesForModule);
+                    testPassed &= validateDdDocumentClassReference("Invalid PromptBeforeValidationClass", knsDocEntry.getPromptBeforeValidationClass(), moduleGroup.namespaceCode, knsDocEntry.getDocumentTypeName(), null, disallowedPackagesForModule);
                 } catch ( Exception ex ) {
                     addDdDocumentError("Exception validating Document", moduleGroup.namespaceCode, knsDocEntry.getDocumentTypeName(), null, ex.getClass().getName() + " : " + ex.getMessage() );
                     System.err.println( "Exception validating Document: " + knsDocEntry.getDocumentTypeName() );
@@ -547,6 +593,20 @@ public class CheckModularization {
 
         return testPassed;
     }
+
+    private boolean isClassInCore(String fullClassName) {
+        boolean isBoInCore = false;
+
+        for (String namespaceCode : SYSTEM_NAMESPACE_CODES_TO_SPRING_FILE_SUFFIX.keySet()) {
+            if (doesPackagePrefixMatch( fullClassName, PACKAGE_PREFIXES_BY_MODULE.get( namespaceCode ) )) {
+                isBoInCore = true;
+                break;
+            }
+        }
+
+        return isBoInCore;
+    }
+
 
     protected void addDdBusinessObjectError( String errorType, String namespaceCode, String businessObjectClassName, String attributeName, String problemClassName ) {
         ddErrorMessage.append( "\n" ).append( namespaceCode ).append( " - BO: " );
@@ -562,7 +622,7 @@ public class CheckModularization {
             return true;
         }
         try {
-            Class<?> testClass = Class.forName(testClassName);
+            Class<?> testClass = Class.forName(testClassName.trim());
             return validateDdBusinessObjectClassReference(errorType, testClass, namespaceCode, businessObjectClassName, attributeName, disallowedPackages);
         }
         catch (ClassNotFoundException e) {
@@ -627,9 +687,11 @@ public class CheckModularization {
     }
 
     protected boolean doesPackagePrefixMatch( String className, List<String> packagePrefixList ) {
-        for ( String pkg : packagePrefixList ) {
-            if ( className.startsWith(pkg) ) {
-                return true;
+        if (packagePrefixList != null) {
+            for ( String pkg : packagePrefixList ) {
+                if ( className.startsWith(pkg) ) {
+                    return true;
+                }
             }
         }
         return false;

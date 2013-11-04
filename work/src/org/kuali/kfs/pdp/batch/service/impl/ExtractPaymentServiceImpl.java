@@ -17,12 +17,15 @@ package org.kuali.kfs.pdp.batch.service.impl;
 
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.sql.Timestamp;
 import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -30,6 +33,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.WordUtils;
 import org.kuali.kfs.pdp.PdpConstants;
 import org.kuali.kfs.pdp.PdpKeyConstants;
 import org.kuali.kfs.pdp.batch.service.ExtractPaymentService;
@@ -40,18 +44,22 @@ import org.kuali.kfs.pdp.businessobject.PaymentGroupHistory;
 import org.kuali.kfs.pdp.businessobject.PaymentNoteText;
 import org.kuali.kfs.pdp.businessobject.PaymentProcess;
 import org.kuali.kfs.pdp.businessobject.PaymentStatus;
+import org.kuali.kfs.pdp.businessobject.ProcessSummary;
 import org.kuali.kfs.pdp.dataaccess.PaymentGroupHistoryDao;
 import org.kuali.kfs.pdp.dataaccess.ProcessDao;
 import org.kuali.kfs.pdp.service.PaymentDetailService;
 import org.kuali.kfs.pdp.service.PaymentGroupService;
 import org.kuali.kfs.pdp.service.PdpEmailService;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.batch.InitiateDirectoryBase;
 import org.kuali.kfs.sys.businessobject.Bank;
+import org.kuali.kfs.sys.report.BusinessObjectReportHelper;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.DataDictionaryService;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.location.api.country.Country;
 import org.kuali.rice.location.api.country.CountryService;
@@ -73,6 +81,7 @@ public class ExtractPaymentServiceImpl extends InitiateDirectoryBase implements 
     protected BusinessObjectService businessObjectService;
     protected ConfigurationService kualiConfigurationService;
     protected CountryService countryService;
+    protected DataDictionaryService dataDictionaryService;
 
     // Set this to true to run this process without updating the database. This
     // should stay false for production.
@@ -188,7 +197,7 @@ public class ExtractPaymentServiceImpl extends InitiateDirectoryBase implements 
 
         Date processDate = dateTimeService.getCurrentDate();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        PaymentStatus extractedStatus = (PaymentStatus) this.businessObjectService.findBySinglePrimaryKey(PaymentStatus.class, PdpConstants.PaymentStatusCodes.EXTRACTED);
+        PaymentStatus extractedStatus = this.businessObjectService.findBySinglePrimaryKey(PaymentStatus.class, PdpConstants.PaymentStatusCodes.EXTRACTED);
 
         String achFilePrefix = this.kualiConfigurationService.getPropertyValueAsString(PdpKeyConstants.ExtractPayment.ACH_FILENAME);
         achFilePrefix = MessageFormat.format(achFilePrefix, new Object[] { null });
@@ -215,7 +224,7 @@ public class ExtractPaymentServiceImpl extends InitiateDirectoryBase implements 
 
         Date processDate = dateTimeService.getCurrentDate();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        PaymentStatus extractedStatus = (PaymentStatus) this.businessObjectService.findBySinglePrimaryKey(PaymentStatus.class, PdpConstants.PaymentStatusCodes.EXTRACTED);
+        PaymentStatus extractedStatus = this.businessObjectService.findBySinglePrimaryKey(PaymentStatus.class, PdpConstants.PaymentStatusCodes.EXTRACTED);
 
         String checkFilePrefix = this.kualiConfigurationService.getPropertyValueAsString(PdpKeyConstants.ExtractPayment.CHECK_FILENAME);
         checkFilePrefix = MessageFormat.format(checkFilePrefix, new Object[] { null });
@@ -233,13 +242,42 @@ public class ExtractPaymentServiceImpl extends InitiateDirectoryBase implements 
         }
     }
 
+    protected boolean isResearchParticipantExtractFile(Integer processId) {
+        boolean result = false;
+        if (parameterService.parameterExists(PaymentDetail.class, PdpConstants.RESEARCH_PARTICIPANT_CUSTOMER_PROFILE)) {
+            Map fieldValues = new HashMap<String, Integer>();
+            fieldValues.put("processId", processId);
+            Collection<ProcessSummary> processSummaryList = this.businessObjectService.findMatching(ProcessSummary.class, fieldValues);
+            ProcessSummary processSummary = processSummaryList.iterator().next();
+            Collection<String> researchParticipantCustomers = parameterService.getParameterValuesAsString(PaymentDetail.class, PdpConstants.RESEARCH_PARTICIPANT_CUSTOMER_PROFILE);
+            for (String researchParticipantCustomer : researchParticipantCustomers) {
+                String[] customerArray = researchParticipantCustomer.split(KFSConstants.DASH);
+                CustomerProfile customer = processSummary.getCustomer();
+                if (customer.getChartCode().equals(customerArray[0]) && customer.getUnitCode().equals(customerArray[1]) && customer.getSubUnitCode().equals(customerArray[2])) {
+                    return true;
+                }
+            }
+        }
+        return result;
+    }
+
     protected void writeExtractCheckFile(PaymentStatus extractedStatus, PaymentProcess p, String filename, Integer processId) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Date processDate = dateTimeService.getCurrentDate();
         BufferedWriter os = null;
 
+        //Check whether this is for research participant upload. If the customer profile matches research participant's
+        //customer profile, then change the filename to append the RP-Upload prefix.
+        if (isResearchParticipantExtractFile(processId)) {
+            String checkFilePrefix = this.kualiConfigurationService.getPropertyValueAsString(PdpKeyConstants.ExtractPayment.CHECK_FILENAME);
+            checkFilePrefix = MessageFormat.format(checkFilePrefix, new Object[] { null });
+            checkFilePrefix = PdpConstants.RESEARCH_PARTICIPANT_FILE_PREFIX + KFSConstants.DASH + checkFilePrefix;
+            filename = getOutputFile(checkFilePrefix, processDate);
+        }
+
         try {
-            os = new BufferedWriter(new FileWriter(filename));
+            OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(filename), "UTF-8");
+            os = new BufferedWriter(writer);
             os.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
             writeOpenTagAttribute(os, 0, "checks", "processId", processId.toString(), "campusCode", p.getCampusCode());
 
@@ -350,7 +388,8 @@ public class ExtractPaymentServiceImpl extends InitiateDirectoryBase implements 
     protected void writeExtractAchFile(PaymentStatus extractedStatus, String filename, Date processDate, SimpleDateFormat sdf) {
         BufferedWriter os = null;
         try {
-            os = new BufferedWriter(new FileWriter(filename));
+            OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(filename), "UTF-8");
+            os = new BufferedWriter(writer);
             os.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
             writeOpenTag(os, 0, "achPayments");
 
@@ -699,5 +738,38 @@ public class ExtractPaymentServiceImpl extends InitiateDirectoryBase implements 
     public List<String> getRequiredDirectoryNames() {
         return new ArrayList<String>() {{add(directoryName); }};
     }
+
+    public DataDictionaryService getDataDictionaryService() {
+        return dataDictionaryService;
+    }
+
+    public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
+        this.dataDictionaryService = dataDictionaryService;
+    }
+
+    /**
+     * @see org.kuali.kfs.pdp.batch.service.ExtractPaymentService#formatCheckNoteLines(java.lang.String)
+     *
+     * Long check stub note
+     */
+   @Override
+   public List<String> formatCheckNoteLines(String checkNote) {
+       List<String> formattedCheckNoteLines = new ArrayList<String>();
+
+       if (StringUtils.isBlank(checkNote)) {
+           return formattedCheckNoteLines;
+       }
+
+       String[] textLines = StringUtils.split(checkNote, BusinessObjectReportHelper.LINE_BREAK);
+       int maxLengthOfNoteLine = dataDictionaryService.getAttributeMaxLength(PaymentNoteText.class, "customerNoteText");
+       for (String textLine : textLines) {
+           String text = WordUtils.wrap(textLine, maxLengthOfNoteLine, BusinessObjectReportHelper.LINE_BREAK, true);
+           String[] wrappedTextLines = StringUtils.split(text, BusinessObjectReportHelper.LINE_BREAK);
+           for (String wrappedText : wrappedTextLines) {
+               formattedCheckNoteLines.add(wrappedText);
+           }
+       }
+       return formattedCheckNoteLines;
+   }
 
 }

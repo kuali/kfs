@@ -759,11 +759,17 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
         }
         document.fixItemReferences();
 
-      //if distribution method is sequential and document is PREQ or VCM then...
+        // if distribution method is sequential and document is PREQ or VCM then...
         if (((document instanceof PaymentRequestDocument) || (document instanceof VendorCreditMemoDocument)) && PurapConstants.AccountDistributionMethodCodes.SEQUENTIAL_CODE.equalsIgnoreCase(accountDistributionMethod)) {
             if (document instanceof VendorCreditMemoDocument) {
                 VendorCreditMemoDocument cmDocument = (VendorCreditMemoDocument) document;
                 cmDocument.updateExtendedPriceOnItems();
+
+                for (PurApItem item : document.getItems()) {
+                    for (PurApAccountingLine account : item.getSourceAccountingLines()) {
+                        account.setAmount(KualiDecimal.ZERO);
+                    }
+                }
             }
 
             // update the accounts amounts for PREQ and distribution method = sequential
@@ -774,12 +780,18 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
             return;
         }
 
-        //if distribution method is proportional and document is PREQ or VCM then...
+        // if distribution method is proportional and document is PREQ or VCM then...
         if (((document instanceof PaymentRequestDocument) || (document instanceof VendorCreditMemoDocument)) && PurapConstants.AccountDistributionMethodCodes.PROPORTIONAL_CODE.equalsIgnoreCase(accountDistributionMethod)) {
             // update the accounts amounts for PREQ and distribution method = sequential
             if (document instanceof VendorCreditMemoDocument) {
                 VendorCreditMemoDocument cmDocument = (VendorCreditMemoDocument) document;
                 cmDocument.updateExtendedPriceOnItems();
+
+                for (PurApItem item : document.getItems()) {
+                    for (PurApAccountingLine account : item.getSourceAccountingLines()) {
+                        account.setAmount(KualiDecimal.ZERO);
+                    }
+                }
             }
 
             for (PurApItem item : document.getItems()) {
@@ -806,7 +818,7 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
             }
         }
 
-        //do recalculate only if the account distribution method code is not equal to "S" sequential method.
+        // do recalculate only if the account distribution method code is not equal to "S" sequential method.
         if (!PurapConstants.AccountDistributionMethodCodes.SEQUENTIAL_CODE.equalsIgnoreCase(accountDistributionMethod)) {
             for (PurApItem item : document.getItems()) {
                 boolean rulePassed = true;
@@ -878,7 +890,8 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
                             if (ObjectUtils.isNull(account.getAmount()) || account.getAmount().isZero()) {
                                 account.setAmount(new KualiDecimal(pct.multiply(new BigDecimal(totalAmount.toString())).setScale(KualiDecimal.SCALE, KualiDecimal.ROUND_BEHAVIOR)));
                             }
-                        } else {
+                        }
+                        else {
                             account.setAmount(new KualiDecimal(pct.multiply(new BigDecimal(discountAmount.toString())).setScale(KualiDecimal.SCALE, KualiDecimal.ROUND_BEHAVIOR)));
                         }
                     }
@@ -899,7 +912,8 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
                 KualiDecimal difference = new KualiDecimal(0);
                 if (noDiscount) {
                     difference = totalAmount.subtract(accountTotal);
-                } else {
+                }
+                else {
                     difference = discountAmount.subtract(accountTotal);
                 }
                 if (ObjectUtils.isNotNull(lastAccount.getAmount())) {
@@ -974,7 +988,8 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
                     lastAccount.setAccountLinePercent(lastAccount.getAccountLinePercent().add(percentDifference));
                 }
             }
-        } else {
+        }
+        else {
             for (T account : sourceAccountingLines) {
                 account.setAmount(KualiDecimal.ZERO);
             }
@@ -993,8 +1008,8 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
     }
 
     /**
-     * calculates values for a list of accounting lines based on an amount.  Preq item's extended
-     * cost is distributed to the accounting lines.
+     * calculates values for a list of accounting lines based on an amount. Preq item's extended cost is distributed to the
+     * accounting lines.
      *
      * @param sourceAccountingLines
      * @param totalAmount
@@ -1007,11 +1022,12 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
             T lastAccount = null;
 
             for (T account : sourceAccountingLines) {
-                //look at lines where amount is non-zero..
+                // look at lines where amount is non-zero..
                 if (account.getAmount().isGreaterThan(KualiDecimal.ZERO)) {
                     if (totalAmount.isZero()) {
                         account.setAmount(KualiDecimal.ZERO);
-                    } else {
+                    }
+                    else {
                         if (account.getAmount().isGreaterThan(totalAmount)) {
                             account.setAmount(totalAmount);
                         }
@@ -1035,10 +1051,11 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
             accountTotal = totalAmount.subtract(accountTotal);
 
             if (accountTotal.isGreaterThan(KualiDecimal.ZERO) && ObjectUtils.isNotNull(lastAccount)) {
-                //add the difference to the last overage account....
+                // add the difference to the last overage account....
                 lastAccount.setAmount(lastAccount.getAmount().add(accountTotal));
             }
-        } else {
+        }
+        else {
             for (T account : sourceAccountingLines) {
                 account.setAmount(KualiDecimal.ZERO);
             }
@@ -1097,6 +1114,7 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
             if (item.getTotalAmount() != null && item.getTotalAmount().isNonZero()) {
                 int numOfAccounts = item.getSourceAccountingLines().size();
                 BigDecimal percentTotal = BigDecimal.ZERO;
+                BigDecimal percentTotalRoundUp = BigDecimal.ZERO;
                 KualiDecimal accountTotal = KualiDecimal.ZERO;
                 int accountIdentifier = 0;
 
@@ -1139,10 +1157,15 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
                         LOG.debug("convertMoneyToPercent() updating percent to " + tmpPercent);
                     }
                     account.setAccountLinePercent(tmpPercent.multiply(new BigDecimal(100)));
+                    // handle 33.33% issue
+                    if (accountIdentifier == numOfAccounts) {
+                        account.setAccountLinePercent(new BigDecimal(100).subtract(percentTotalRoundUp));
+                    }
 
                     // check total based on adjusted amount
                     accountTotal = accountTotal.add(calcAmount);
                     percentTotal = percentTotal.add(tmpPercent);
+                    percentTotalRoundUp = percentTotalRoundUp.add(account.getAccountLinePercent());
                 }
             }
         }

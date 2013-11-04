@@ -20,6 +20,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -47,6 +48,9 @@ import org.kuali.kfs.module.ld.service.LaborLedgerPendingEntryService;
 import org.kuali.kfs.module.ld.service.LaborOriginEntryService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.businessobject.AccountingLine;
+import org.kuali.kfs.sys.businessobject.AccountingLineOverride;
+import org.kuali.kfs.sys.businessobject.AccountingLineOverride.COMPONENT;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
@@ -473,5 +477,22 @@ public class LaborModuleServiceImpl implements LaborModuleService {
     @Override
     public String getCostSharingSourceChartOfAccountsCode() {
         return getLaborBenefitsCalculationService().getCostSharingSourceAccountChartOfAccountsCode();
+    }
+
+    @Override
+    public AccountingLineOverride determineNeededOverrides(AccountingLine line) {
+        Set<Integer> neededOverrideComponents = new HashSet<Integer>();
+        if (AccountingLineOverride.needsExpiredAccountOverride(line.getAccount())) {
+            neededOverrideComponents.add(COMPONENT.EXPIRED_ACCOUNT);
+        }
+        if (AccountingLineOverride.needsObjectBudgetOverride(line.getAccount(), line.getObjectCode())) {
+            neededOverrideComponents.add(COMPONENT.NON_BUDGETED_OBJECT);
+        }
+        if (AccountingLineOverride.needsNonFringAccountOverride(line.getAccount())) {
+            neededOverrideComponents.add(COMPONENT.NON_FRINGE_ACCOUNT_USED);
+        }
+        Integer[] inputComponentArray = neededOverrideComponents.toArray(new Integer[neededOverrideComponents.size()]);
+
+        return AccountingLineOverride.valueOf(inputComponentArray);
     }
 }

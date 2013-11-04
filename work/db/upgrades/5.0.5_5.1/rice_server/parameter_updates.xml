@@ -1,0 +1,220 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+
+
+	<changeSet id="KFSCNTRB-705 KIM" author="KFS52">
+		<comment>Add the necessary KIM data for the Rice permission and system parameter which are used for research participant upload.</comment>
+
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-PDP" />
+			<column name="CMPNT_CD" value="PaymentDetail" />
+			<column name="PARM_NM" value="RESEARCH_PARTICIPANT_UPLOAD_CUSTOMER_PROFILE" />
+			<column name="VAL" value="" />
+			<column name="OBJ_ID" valueComputed="SYS_GUID()" />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="PARM_TYP_CD" value="CONFG" />
+			<column name="PARM_DESC_TXT" value="The Customer Profile for Research Participant Accounting Office PDP Upload" />
+			<column name="EVAL_OPRTR_CD" value="A" />
+			<column name="APPL_ID" value="KFS" />
+		</insert>	
+		
+		<modifySql dbms="mysql">
+	        <replace replace="SYS_GUID()" with="UUID()" />
+	    </modifySql>
+	</changeSet>
+	
+	<changeSet author="KFS52" id="KFSCNTRB717_PCARD_BATCH_SUMMARY_TO_EMAIL_ADDRESSES">
+		<comment>KFSCNTRB-717 Pcard Email Notification In KFS</comment>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-FP" />
+			<column name="CMPNT_CD" value="ProcurementCardCreateDocumentsStep" />
+			<column name="PARM_NM" value="PCARD_BATCH_SUMMARY_TO_EMAIL_ADDRESSES" />
+			<column name="VAL" value="knoreceipt-l@indiana.edu" />
+			<column name="OBJ_ID" valueComputed="SYS_GUID()" />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="PARM_TYP_CD" value="CONFG" />
+			<column name="PARM_DESC_TXT" value="A central administrative email address to send summary information when Procurement Card Load batch job completes of creating PCDO documents." />
+			<column name="EVAL_OPRTR_CD" value="A" />
+			<column name="APPL_ID" value="KFS" />
+		</insert>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-FP" />
+			<column name="CMPNT_CD" value="ProcurementCardCreateDocumentsStep" />
+			<column name="PARM_NM" value="BATCH_SUMMARY_RUNNING_TIMESTAMP_FORMAT" />
+			<column name="VAL" value="EEE, MMM d, yyyy HH:mm:ss z" />
+			<column name="OBJ_ID" valueComputed="SYS_GUID()" />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="PARM_TYP_CD" value="CONFG" />
+			<column name="PARM_DESC_TXT" value="A single date format string that will be used to format current batch running timestamp in the summary report generated when Procurement Card Load batch job completes of creating PCDO documents." />
+			<column name="EVAL_OPRTR_CD" value="A" />
+			<column name="APPL_ID" value="KFS" />
+		</insert>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-FP" />
+			<column name="CMPNT_CD" value="ProcurementCardCreateDocumentsStep" />
+			<column name="PARM_NM" value="BATCH_SUMMARY_POSTING_DATE_FORMAT" />
+			<column name="VAL" value="EEE, MMM d, yyyy" />
+			<column name="OBJ_ID" valueComputed="SYS_GUID()" />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="PARM_TYP_CD" value="CONFG" />
+			<column name="PARM_DESC_TXT" value="A single date format string that will be used to format PCDO transaction posting date in the summary report generated when Procurement Card Load batch job completes of creating PCDO documents." />
+			<column name="EVAL_OPRTR_CD" value="A" />
+			<column name="APPL_ID" value="KFS" />
+		</insert>
+		<modifySql dbms="mysql">
+			<replace replace="SYS_GUID()" with="UUID()" />
+		</modifySql>		
+	</changeSet>
+	
+	<changeSet author="KFS52" id="KFSCNTRB-1246">
+		<comment>KFSCNTRB-1246 Ability to enter PREQs for the total invoice, if it matches PO exactly</comment>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-PURAP" />
+			<column name="CMPNT_CD" value="PaymentRequest" />
+			<column name="PARM_NM" value="SHOW_CLEAR_AND_LOAD_QUANTITY_BUTTONS_IND" />
+			<column name="VAL" value="Y" />
+			<column name="OBJ_ID" valueComputed="SYS_GUID()" />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="PARM_TYP_CD" value="CONFG" />
+			<column name="PARM_DESC_TXT" value="Allows the display of the clear and load quantity buttons on the payment request document to facilitate creating PREQs for the total invoice, if it matches the PO exactly." />
+			<column name="EVAL_OPRTR_CD" value="A" />
+			<column name="APPL_ID" value="KFS" />
+		</insert>
+		<modifySql dbms="mysql">
+			<replace replace="SYS_GUID()" with="UUID()" />
+		</modifySql>
+	</changeSet>
+	
+	<changeSet author="KFS52" id="KFSCNTRB-735">
+		<comment>KFSCNTRB-735:PRE ENCUMBERANCE FORM - ALLOW REVENUE ON PRE ENCUMBRANCES</comment>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-FP"/>
+			<column name="CMPNT_CD" value="PreEncumbrance"/>
+			<column name="PARM_NM" value="OBJECT_CONSOLIDATIONS"/>
+			<column name="VAL" value=""/>
+			<column name="OBJ_ID" valueComputed="SYS_GUID()"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="PARM_TYP_CD" value="VALID"/>
+			<column name="PARM_DESC_TXT" value="Object Consolidation(s) restricted from use on the Pre Encumbrance document."/>
+			<column name="EVAL_OPRTR_CD" value="D"/>
+			<column name="APPL_ID" value="KFS"/>
+		</insert>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-FP"/>
+			<column name="CMPNT_CD" value="PreEncumbrance"/>
+			<column name="PARM_NM" value="OBJECT_SUB_TYPES"/>
+			<column name="VAL" value=""/>
+			<column name="OBJ_ID" valueComputed="SYS_GUID()"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="PARM_TYP_CD" value="VALID"/>
+			<column name="PARM_DESC_TXT" value="Object Sub-Type(s) restricted from use on the Pre Encumbrance document."/>
+			<column name="EVAL_OPRTR_CD" value="D"/>
+			<column name="APPL_ID" value="KFS"/>
+		</insert>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-FP"/>
+			<column name="CMPNT_CD" value="PreEncumbrance"/>
+			<column name="PARM_NM" value="INVALID_SUBFUND_GROUPS_BY_OBJ_TYPE"/>
+			<column name="VAL" value=""/>
+			<column name="OBJ_ID" valueComputed="SYS_GUID()"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="PARM_TYP_CD" value="VALID"/>
+			<column name="PARM_DESC_TXT" value="Restrict the use of selected object types by selected sub-funds. Format of the list is: object code type 1=subfund1,subfund2."/>
+			<column name="EVAL_OPRTR_CD" value="D"/>
+			<column name="APPL_ID" value="KFS"/>
+		</insert>
+		<update tableName="KRCR_PARM_T">
+			<column name="VAL"
+				value="EX"/>
+			<where>NMSPC_CD='KFS-FP' AND PARM_NM='OBJECT_TYPES' AND CMPNT_CD = 'PreEncumbrance' AND APPL_ID = 'KFS'</where>
+		</update>
+        <modifySql dbms="mysql"><replace with="UUID()" replace="SYS_GUID()"/></modifySql>			
+	</changeSet>
+						
+	<changeSet author="KFS52" id="KFSCNTRB-764">
+		<comment>KFSCNTRB-764 Offset entry to have the same transaction date as the original transaction for Payroll Posting when uploaded as Enterprise Feed</comment>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-GL" />
+			<column name="CMPNT_CD" value="ScrubberStep" />
+			<column name="PARM_NM" value="TRANSACTION_DATE_BYPASS_ORIGINATIONS" />
+			<column name="OBJ_ID" valueComputed="SYS_GUID()" />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="VAL" value="02;" />
+			<column name="PARM_TYP_CD" value="CONFG" />
+			<column name="PARM_DESC_TXT" value="Origination codes that will allow offset entry to have the same transaction date as the original." />
+			<column name="EVAL_OPRTR_CD" value="A" />
+			<column name="APPL_ID" value="KFS" />
+		</insert>
+		<modifySql dbms="mysql">
+			<replace replace="SYS_GUID()" with="UUID()" />
+		</modifySql>
+	</changeSet>
+	
+  <changeSet author="KFS52" id="KFSCNTRB-739">
+    <comment>KFSCNTRB-739:Create an Intra Account Adjustment eDoc</comment> 
+	<insert tableName="KRCR_PARM_T">
+	  <column name="NMSPC_CD" value="KFS-FP"/> 
+	  <column name="CMPNT_CD" value="IntraAccountAdjustment"/> 
+	  <column name="PARM_NM" value="OBJECT_TYPES"/> 
+	  <column name="VAL" value="IN;EX" />   
+	  <column name="OBJ_ID" valueComputed="SYS_GUID()"/>
+	  <column name="VER_NBR" valueNumeric="1"/> 
+	  <column name="PARM_TYP_CD" value="VALID"/> 
+	  <column name="PARM_DESC_TXT" value="Allowed object type code(s) for use on the Intra-Account Adjustment document."/> 
+	  <column name="EVAL_OPRTR_CD" value="A"/> 
+	  <column name="APPL_ID" value="KFS" /> 
+	  </insert>
+	 <insert tableName="KRCR_PARM_T">
+	  <column name="NMSPC_CD" value="KFS-FP"/> 
+	  <column name="CMPNT_CD" value="IntraAccountAdjustment"/> 
+	  <column name="PARM_NM" value="OBJECT_SUB_TYPES"/> 
+	  <column name="VAL" value="FR;HW;SA"/> 
+	   <column name="OBJ_ID" valueComputed="SYS_GUID()"/>
+	  <column name="VER_NBR" valueNumeric="1" /> 
+	  <column name="PARM_TYP_CD" value="VALID" /> 
+	  <column name="PARM_DESC_TXT" value="Object Sub-Type(s) restricted from use on the Intra-Account Adjustment document." /> 
+	  <column name="EVAL_OPRTR_CD" value="D" /> 
+	  <column name="APPL_ID" value="KFS" /> 
+	  </insert>
+	
+	 <update tableName="KRCR_PARM_T">
+	    <column name="VAL" value="JV;AA;IAA"/> 
+	    <where>NMSPC_CD='KFS-GL' AND PARM_NM='COST_SHARE_DOCUMENT_TYPES' AND CMPNT_CD = 'ScrubberStep' AND APPL_ID = 'KFS'</where> 
+	 </update>
+	 <update tableName="KRCR_PARM_T">
+	      <column name="VAL" value="ACLO;TF;YETF;AV;AVAC;AVAE;AVRC;IAA" /> 
+	      <where>NMSPC_CD='KFS-GL' AND PARM_NM='LIABILITY_DOCUMENT_TYPES' AND CMPNT_CD = 'ScrubberStep' AND APPL_ID = 'KFS'</where> 
+	  </update>
+	
+	<modifySql dbms="mysql"><replace with="UUID()" replace="SYS_GUID()"/></modifySql>
+	</changeSet>
+	
+	<changeSet author="KFS52" id="KFSCNTRB-715">
+       <comment>KFSCNTRB-715:Purchase Order Notifications to Department</comment> 
+		<insert tableName="KRCR_PARM_T">
+		  <column name="NMSPC_CD" value="KFS-PURAP"/> 
+		  <column name="CMPNT_CD" value="PurchaseOrder"/> 
+		  <column name="PARM_NM" value="NOTIFY_REQUISITION_SOURCES"/> 
+		  <column name="VAL" value="" />   
+		  <column name="OBJ_ID" valueComputed="SYS_GUID()"/>
+		  <column name="VER_NBR" valueNumeric="1"/> 
+		  <column name="PARM_TYP_CD" value="CONFG"/> 
+		  <column name="PARM_DESC_TXT" value="Requisition source codes listed here will be excluded from FYI notifications sent to Requisition Initiator &amp; FO (Primary Delegate) when PO status becomes FINAL (open, amend, close, reopen, split, void) and when PO operations are Cancelled and Disapproved.  If blank or null, the FYI notifications are sent to all active requisition source codes." /> 
+		  <column name="EVAL_OPRTR_CD" value="D"/> 
+		  <column name="APPL_ID" value="KFS"/> 
+		</insert>
+     <modifySql dbms="mysql"><replace with="UUID()" replace="SYS_GUID()"/></modifySql>
+   </changeSet>
+
+ <changeSet author="KFS52" id="KFSCNTRB-1276">
+		<comment>KFSCNTRB-1276 Need this column to hold number of days after the creation of a requisition in which it can be copied.The value 9999 would indicate that a copy would be allowed for an infinite number of days and the value 0 would indicate that copy is not allowed</comment>		
+		<delete tableName="KRCR_PARM_T">
+    		<where>NMSPC_CD='KFS-PURAP' AND CMPNT_CD='Requisition' AND PARM_NM='B2B_ALLOW_COPY_DAYS'</where>
+		</delete>
+		<modifySql dbms="mysql">
+			<replace replace="NUMBER" with="DECIMAL" />
+		</modifySql>
+</changeSet>
+		
+</databaseChangeLog>

@@ -24,8 +24,6 @@ import org.kuali.rice.krad.bo.KualiCodeBase;
  */
 public class TravelCompanyCode extends KualiCodeBase implements MutableInactivatable {
     private TravelExpenseTypeCode travelExpenseTypeCode;
-    
-    private boolean foreignCompany = false;
 
     /**
      * Default no-arg constructor.
@@ -50,14 +48,6 @@ public class TravelCompanyCode extends KualiCodeBase implements MutableInactivat
      */
     public void setTravelExpenseTypeCode(TravelExpenseTypeCode travelExpenseTypeCode) {
         this.travelExpenseTypeCode = travelExpenseTypeCode;
-    }
-
-    public boolean isForeignCompany() {
-        return foreignCompany;
-    }
-
-    public void setForeignCompany(boolean foreignCompany) {
-        this.foreignCompany = foreignCompany;
     }
 
 }

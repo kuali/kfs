@@ -21,7 +21,6 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.EqualsBuilder;
-import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
@@ -74,10 +73,11 @@ public abstract class PurApAccountingLineBase extends SourceAccountingLine imple
     @Override
     public BigDecimal getAccountLinePercent() {
         if (accountLinePercent != null) {
+            accountLinePercent = accountLinePercent.setScale(2, BigDecimal.ROUND_HALF_UP);
             return accountLinePercent;
         }
         else {
-            return BigDecimal.ZERO.setScale(PurapConstants.CREDITMEMO_PRORATION_SCALE.intValue(), BigDecimal.ROUND_HALF_UP);
+            return BigDecimal.ZERO.setScale(2, 2);
         }
     }
 
@@ -149,7 +149,6 @@ public abstract class PurApAccountingLineBase extends SourceAccountingLine imple
     /**
      * @see org.kuali.kfs.sys.businessobject.AccountingLineBase#toStringMapper()
      */
-
     @Override
     protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
@@ -245,7 +244,6 @@ public abstract class PurApAccountingLineBase extends SourceAccountingLine imple
      * @deprecated
      * @param item
      */
-    @Deprecated
     @Override
     public void setPurapItem(PurApItem item) {
         purapItem = item;
@@ -278,7 +276,6 @@ public abstract class PurApAccountingLineBase extends SourceAccountingLine imple
      *
      * @return Returns the purApSequenceNumber
      */
-
     @Override
     public Integer getPurApSequenceNumber() {
         return super.getSequenceNumber();

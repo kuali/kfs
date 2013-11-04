@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -32,8 +32,8 @@ import org.kuali.kfs.coa.service.BalanceTypeService;
 import org.kuali.kfs.gl.Constant;
 import org.kuali.kfs.gl.OJBUtility;
 import org.kuali.kfs.gl.businessobject.lookup.BalanceLookupableHelperServiceImpl;
+import org.kuali.kfs.integration.ld.businessobject.inquiry.AbstractPositionDataDetailsInquirableImpl;
 import org.kuali.kfs.module.ld.businessobject.LedgerBalance;
-import org.kuali.kfs.module.ld.businessobject.inquiry.AbstractLaborInquirableImpl;
 import org.kuali.kfs.module.ld.businessobject.inquiry.LedgerBalanceInquirableImpl;
 import org.kuali.kfs.module.ld.businessobject.inquiry.PositionDataDetailsInquirableImpl;
 import org.kuali.kfs.module.ld.service.LaborInquiryOptionsService;
@@ -68,7 +68,7 @@ public class LedgerBalanceLookupableHelperServiceImpl extends BalanceLookupableH
     public HtmlData getInquiryUrl(BusinessObject bo, String propertyName) {
         if (KFSPropertyConstants.POSITION_NUMBER.equals(propertyName)) {
             LedgerBalance balance = (LedgerBalance) bo;
-            AbstractLaborInquirableImpl positionDataDetailsInquirable = new PositionDataDetailsInquirableImpl();
+            AbstractPositionDataDetailsInquirableImpl positionDataDetailsInquirable = new PositionDataDetailsInquirableImpl();
 
             Map<String, String> fieldValues = new HashMap<String, String>();
             fieldValues.put(propertyName, balance.getPositionNumber());
@@ -85,7 +85,7 @@ public class LedgerBalanceLookupableHelperServiceImpl extends BalanceLookupableH
      */
     @Override
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
-        String wildCards = "";       
+        String wildCards = "";
         for (SearchOperator op : SearchOperator.QUERY_CHARACTERS) {
             wildCards += op.op();
         }
@@ -99,8 +99,8 @@ public class LedgerBalanceLookupableHelperServiceImpl extends BalanceLookupableH
             return new CollectionIncomplete(emptySearchResults, actualCountIfTruncated);
         }
 
-        setBackLocation((String) fieldValues.get(KFSConstants.BACK_LOCATION));
-        setDocFormKey((String) fieldValues.get(KFSConstants.DOC_FORM_KEY));
+        setBackLocation(fieldValues.get(KFSConstants.BACK_LOCATION));
+        setDocFormKey(fieldValues.get(KFSConstants.DOC_FORM_KEY));
 
         // get the pending entry option. This method must be prior to the get search results
         String pendingEntryOption = laborInquiryOptionsService.getSelectedPendingEntryOption(fieldValues);
@@ -111,7 +111,7 @@ public class LedgerBalanceLookupableHelperServiceImpl extends BalanceLookupableH
         // get Amount View Option and determine if the results has to be accumulated
         String amountViewOption = getSelectedAmountViewOption(fieldValues);
         boolean isAccumulated = amountViewOption.equals(Constant.ACCUMULATE);
-        
+
         // get the input balance type code
         String balanceTypeCode = fieldValues.get(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE).toString();
         boolean isA21Balance = StringUtils.isNotEmpty(balanceTypeCode) && BALANCE_TYPE_AC_AND_A21.equals(balanceTypeCode.trim());
@@ -141,17 +141,17 @@ public class LedgerBalanceLookupableHelperServiceImpl extends BalanceLookupableH
 
         // perform the accumulation of the amounts
         accumulate(searchResultsCollection, isAccumulated);
-        
+
         // get the actual size of all qualified search results
         Integer recordCount = recordCountForActualBalance + recordCountForEffortBalance;
         Long actualSize = OJBUtility.getResultActualSize(searchResultsCollection, recordCount, fieldValues, new LedgerBalance());
-        
+
         return this.buildSearchResultList(searchResultsCollection, actualSize);
     }
 
     /**
      * This method builds the balance collection based on the input iterator
-     * 
+     *
      * @param iterator the iterator of search results of balance
      * @param isConsolidated determine if the consolidated result is desired
      * @param pendingEntryOption the given pending entry option that can be no, approved or all
@@ -171,7 +171,7 @@ public class LedgerBalanceLookupableHelperServiceImpl extends BalanceLookupableH
 
     /**
      * This method builds the balance collection with consolidation option from an iterator
-     * 
+     *
      * @param iterator
      * @param pendingEntryOption the selected pending entry option
      * @return the consolidated balance collection
@@ -245,7 +245,7 @@ public class LedgerBalanceLookupableHelperServiceImpl extends BalanceLookupableH
 
     /**
      * This method builds the balance collection with detail option from an iterator
-     * 
+     *
      * @param iterator the balance iterator
      * @param pendingEntryOption the selected pending entry option
      * @return the detailed balance collection
@@ -307,16 +307,17 @@ public class LedgerBalanceLookupableHelperServiceImpl extends BalanceLookupableH
 
     /**
      * build the serach result list from the given collection and the number of all qualified search results
-     * 
+     *
      * @param searchResultsCollection the given search results, which may be a subset of the qualified search results
      * @param actualSize the number of all qualified search results
      * @return the serach result list with the given results and actual size
      */
+    @Override
     protected List buildSearchResultList(Collection searchResultsCollection, Long actualSize) {
         CollectionIncomplete results = new CollectionIncomplete(searchResultsCollection, actualSize);
 
         // sort list if default sort column given
-        List searchResults = (List) results;
+        List searchResults = results;
         List defaultSortColumns = getDefaultSortColumns();
         if (defaultSortColumns.size() > 0) {
             Collections.sort(results, new BeanPropertyComparator(defaultSortColumns, true));
@@ -326,7 +327,7 @@ public class LedgerBalanceLookupableHelperServiceImpl extends BalanceLookupableH
 
     /**
      * Gets a list of encumbrance balance types.
-     * 
+     *
      * @param fieldValues
      * @return a list of encumbrance balance types.
      */
@@ -335,7 +336,7 @@ public class LedgerBalanceLookupableHelperServiceImpl extends BalanceLookupableH
 
         if (fieldValues.containsKey(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR)) {
             // parse the university fiscal year since it's a required field from the lookups
-            String universityFiscalYearStr = (String) fieldValues.get(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
+            String universityFiscalYearStr = fieldValues.get(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
             Integer universityFiscalYear = new Integer(universityFiscalYearStr);
             encumbranceBalanceTypes = balanceTypService.getEncumbranceBalanceTypes(universityFiscalYear);
         }
@@ -345,7 +346,7 @@ public class LedgerBalanceLookupableHelperServiceImpl extends BalanceLookupableH
 
     /**
      * Sets the laborInquiryOptionsService attribute value.
-     * 
+     *
      * @param laborInquiryOptionsService The laborInquiryOptionsService to set.
      */
     public void setLaborInquiryOptionsService(LaborInquiryOptionsService laborInquiryOptionsService) {
@@ -354,7 +355,7 @@ public class LedgerBalanceLookupableHelperServiceImpl extends BalanceLookupableH
 
     /**
      * Sets the balanceService attribute value.
-     * 
+     *
      * @param balanceService The balanceService to set.
      */
     public void setBalanceService(LaborLedgerBalanceService balanceService) {
@@ -363,7 +364,7 @@ public class LedgerBalanceLookupableHelperServiceImpl extends BalanceLookupableH
 
     /**
      * Gets the balanceService attribute.
-     * 
+     *
      * @return Returns the balanceService.
      */
     public LaborLedgerBalanceService getBalanceService() {
@@ -372,7 +373,7 @@ public class LedgerBalanceLookupableHelperServiceImpl extends BalanceLookupableH
 
     /**
      * Sets the balanceTypService.
-     * 
+     *
      * @param balanceTypService
      */
     public void setBalanceTypService(BalanceTypeService balanceTypService) {

@@ -38,9 +38,11 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocumentTestUtils;
 import org.kuali.kfs.sys.document.workflow.WorkflowTestUtils;
 import org.kuali.kfs.sys.fixture.UserNameFixture;
+import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kns.service.TransactionalDocumentDictionaryService;
 import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
 
 /**
  * Used to create and test populated Purchase Order Documents of various kinds.
@@ -89,7 +91,8 @@ public class PurchaseOrderDocumentTest extends KualiTestBase {
         assertFalse("Document should not have been in ENROUTE status.",DocumentStatus.ENROUTE.equals(poDocument.getDocumentHeader().getWorkflowDocument().getStatus()));
         AccountingDocumentTestUtils.routeDocument(poDocument, "test annotation", null, documentService);
         WorkflowTestUtils.waitForDocumentApproval(poDocument.getDocumentNumber());
-        assertTrue("Document should now be final.", poDocument.getDocumentHeader().getWorkflowDocument().isFinal());
+        WorkflowDocument workflowDocument = SpringContext.getBean(WorkflowDocumentService.class).loadWorkflowDocument(poDocument.getDocumentNumber(), UserNameFixture.kfs.getPerson() );
+        assertTrue("Document should now be final.", workflowDocument.isFinal());
     }
 
     @ConfigureContext(session = parke, shouldCommitTransactions=true)

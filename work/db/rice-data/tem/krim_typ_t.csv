@@ -1,8 +1,0 @@
-KIM_TYP_ID,OBJ_ID,VER_NBR,NM,SRVC_NM,ACTV_IND,NMSPC_CD
-10000,KFS-TEM-TYP-001,1,Derived Role: Travel Document,travelerDerivedRoleTypeService,Y,KFS-TEM
-10001,KFS-TEM-TYP-002,1,Derived Role: TEM Profile,temProfileDerivedRoleTypeService,Y,KFS-TEM
-10002,KFS-TEM-TYP-003,1,TEM Profile Organization Hierarchy,temProfileOrganizationHierarchyRoleTypeService,Y,KFS-TEM
-10003,KFS-TEM-TYP-004,1,TEM Profile Arranger Organization Hierarchy,temProfileArrangerOrganizationHierarchyRoleTypeService,Y,KFS-TEM
-10004,KFS-TEM-TYP-005,1,Derived Role: TEM Profile Arranger,arrangerDerivedRoleTypeService,Y,KFS-TEM
-10005,KFS-TEM-TYP-006,1,Traveler Type,internationalTravelManagerRoleTypeService,Y,KFS-TEM
-10006,KFS-TEM-TYP-007,1,Job Classification,temExecutiveManagerRoleTypeService,Y,KFS-TEM

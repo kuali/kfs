@@ -26,7 +26,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.time.DateUtils;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
 import org.kuali.kfs.module.ar.businessobject.Customer;
@@ -52,7 +51,6 @@ import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.FinancialSystemUserService;
 import org.kuali.kfs.sys.service.UniversityDateService;
-import org.kuali.kfs.sys.util.KfsDateUtils;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
@@ -843,58 +841,4 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
         return success;
     }
 
-    /**
-     * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService#getAllAgingInvoiceDocumentsByBilling(java.util.List, java.util.List, java.lang.Integer)
-     */
-    @Override
-    public Collection<CustomerInvoiceDocument> getAllAgingInvoiceDocumentsByBilling(List<String> charts, List<String> organizations, Integer invoiceAge) {
-        Date invoiceBillingDateFrom = null;
-        Date invoiceBillingDateTo = this.getPastDate(invoiceAge - 1) ;
-
-        return customerInvoiceDocumentDao.getAllAgingInvoiceDocumentsByBilling(charts, organizations, invoiceBillingDateFrom, invoiceBillingDateTo);
-    }
-
-    /**
-     * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService#getAllAgingInvoiceDocumentsByAccounts(java.util.List, java.util.List, java.lang.Integer)
-     */
-    @Override
-    public Collection<CustomerInvoiceDocument> getAllAgingInvoiceDocumentsByAccounts(List<String> charts, List<String> accounts, Integer invoiceAge) {
-        Date invoiceBillingDateFrom = null;
-        Date invoiceBillingDateTo = this.getPastDate(invoiceAge - 1) ;
-
-        return customerInvoiceDocumentDao.getAllAgingInvoiceDocumentsByAccounts(charts, accounts, invoiceBillingDateFrom, invoiceBillingDateTo);
-    }
-
-    /**
-     * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService#getAllAgingInvoiceDocumentsByProcessing(java.util.List, java.util.List, java.lang.Integer)
-     */
-    @Override
-    public Collection<CustomerInvoiceDocument> getAllAgingInvoiceDocumentsByProcessing(List<String> charts, List<String> organizations, Integer invoiceAge) {
-        Date invoiceBillingDateFrom = null;
-        Date invoiceBillingDateTo = this.getPastDate(invoiceAge - 1) ;
-
-        return customerInvoiceDocumentDao.getAllAgingInvoiceDocumentsByProcessing(charts, organizations, invoiceBillingDateFrom, invoiceBillingDateTo);
-    }
-
-    /**
-     * get the date before the given amount of days
-     */
-    protected Date getPastDate(Integer amount){
-        Integer pastDateAmount = -1 * amount;
-
-        java.util.Date today = this.getDateTimeService().getCurrentDate();
-        java.util.Date pastDate = DateUtils.addDays(today, pastDateAmount);
-
-        return KfsDateUtils.convertToSqlDate(pastDate);
-    }
-
-    /**
-     * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService#getAllAgingInvoiceDocumentsByCustomerTypes(java.util.List, java.lang.Integer, java.sql.Date)
-     */
-    @Override
-    public Collection<CustomerInvoiceDocument> getAllAgingInvoiceDocumentsByCustomerTypes(List<String> customerTypes, Integer invoiceAge, Date invoiceBillingDateFrom) {
-        Date invoiceBillingDateTo = this.getPastDate(invoiceAge - 1) ;
-
-        return customerInvoiceDocumentDao.getAllAgingInvoiceDocumentsByCustomerTypes(customerTypes, invoiceBillingDateFrom, invoiceBillingDateTo);
-    }
 }

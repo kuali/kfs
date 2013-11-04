@@ -17,6 +17,7 @@ package org.kuali.kfs.fp.document.authorization;
 
 import java.util.Set;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.kuali.kfs.fp.businessobject.CashDrawer;
 import org.kuali.kfs.fp.document.CashReceiptDocument;
 import org.kuali.kfs.fp.service.CashDrawerService;
@@ -51,7 +52,7 @@ public class CashReceiptDocumentPresentationController extends LedgerPostingDocu
         if(!this.isInCashManageConfirmMode(document)){
             return false;
         }
-        
+
         return this.canApproveOrBlanketApprove(document) ? super.canBlanketApprove(document) : false;
     }
 
@@ -82,7 +83,8 @@ public class CashReceiptDocumentPresentationController extends LedgerPostingDocu
      */
     @Override
     public boolean canEdit(Document document) {
-        if (document.getDocumentHeader().getWorkflowDocument().getCurrentNodeNames().contains(CashReceiptDocumentPresentationController.CASH_MANAGEMENT_NODE_NAME)) {
+        Set<String> currentNodeNames = document.getDocumentHeader().getWorkflowDocument().getCurrentNodeNames();
+        if (CollectionUtils.isNotEmpty(currentNodeNames) && currentNodeNames.contains(CashReceiptDocumentPresentationController.CASH_MANAGEMENT_NODE_NAME)) {
             return false;
         }
         return super.canEdit(document);
@@ -100,7 +102,7 @@ public class CashReceiptDocumentPresentationController extends LedgerPostingDocu
         return editModes;
     }
 
-    protected void addFullEntryEntryMode(Document document, Set<String> editModes) {        
+    protected void addFullEntryEntryMode(Document document, Set<String> editModes) {
         if (this.isInCashManageConfirmMode(document)){
             editModes.add(KfsAuthorizationConstants.CashReceiptEditMode.CASH_MANAGER_CONFIRM_MODE);
         }
@@ -112,7 +114,7 @@ public class CashReceiptDocumentPresentationController extends LedgerPostingDocu
             editModes.add(KfsAuthorizationConstants.CashReceiptEditMode.CHANGE_REQUEST_MODE);
         }
     }
-    
+
     /**
      * determine whether the given document is in cash management confirm edit mode
      */
@@ -121,11 +123,11 @@ public class CashReceiptDocumentPresentationController extends LedgerPostingDocu
 
         if (workflowDocument.isEnroute()) {
             Set<String> currentRouteLevels = workflowDocument.getCurrentNodeNames();
-            if(currentRouteLevels.contains(CASH_MANAGEMENT_NODE_NAME)) {
+            if(CollectionUtils.isNotEmpty(currentRouteLevels) && currentRouteLevels.contains(CASH_MANAGEMENT_NODE_NAME)) {
                 return true;
             }
         }
-        
+
         return false;
     }
 }

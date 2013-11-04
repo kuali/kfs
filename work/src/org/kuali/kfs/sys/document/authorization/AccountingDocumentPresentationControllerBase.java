@@ -1,12 +1,12 @@
 /*
  * Copyright 2009 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.sys.KFSConstants;
@@ -53,7 +54,7 @@ public class AccountingDocumentPresentationControllerBase extends LedgerPostingD
         WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
         Set<String> currentRouteLevels = workflowDocument.getCurrentNodeNames();
 
-        if (workflowDocument.isEnroute() && currentRouteLevels.contains(KFSConstants.RouteLevelNames.ACCOUNT)) {
+        if (workflowDocument.isEnroute() && CollectionUtils.isNotEmpty(currentRouteLevels) && currentRouteLevels.contains(KFSConstants.RouteLevelNames.ACCOUNT)) {
             AccountingDocument accountingDocument = (AccountingDocument) document;
 
             List<AccountingLine> lineList = new ArrayList<AccountingLine>();
@@ -81,7 +82,7 @@ public class AccountingDocumentPresentationControllerBase extends LedgerPostingD
         else if (workflowDocument.isEnroute()) {
             Set<String> currentRouteLevels = workflowDocument.getCurrentNodeNames();
 
-            if (currentRouteLevels.contains(RouteLevelNames.ACCOUNTING_ORGANIZATION_HIERARCHY)) {
+            if (CollectionUtils.isNotEmpty(currentRouteLevels) && currentRouteLevels.contains(RouteLevelNames.ACCOUNTING_ORGANIZATION_HIERARCHY)) {
                 return false;
             }
         }
@@ -96,9 +97,10 @@ public class AccountingDocumentPresentationControllerBase extends LedgerPostingD
      */
     protected boolean userOwnsAnyAccountingLine(Person user, List<AccountingLine> accountingLines) {
         for (AccountingLine accountingLine : accountingLines) {
-            if (StringUtils.isNotEmpty(accountingLine.getAccountNumber()) && ObjectUtils.isNotNull(accountingLine.getAccount()))
+            if (StringUtils.isNotEmpty(accountingLine.getAccountNumber()) && ObjectUtils.isNotNull(accountingLine.getAccount())) {
                 if (SpringContext.getBean(AccountService.class).hasResponsibilityOnAccount(user, accountingLine.getAccount())) {
                     return true;
+            }
             }
         }
         return false;

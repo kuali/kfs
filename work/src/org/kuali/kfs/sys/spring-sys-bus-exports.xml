@@ -32,6 +32,10 @@
 		p:callbackService-ref="batchJobModifierRoleTypeService" 
 		p:localServiceName="batchJobModifierRoleTypeService" /> 
 
+	<bean parent="roleTypeServiceCallback" 
+		p:callbackService-ref="defaultRoleTypeService" 
+		p:localServiceName="defaultRoleTypeService"  />
+
 	<bean parent="permissionTypeServiceCallback" 
 		p:callbackService-ref="financialSystemDocumentTypePermissionTypeService" 
 		p:localServiceName="financialSystemDocumentTypePermissionTypeService" /> 
@@ -52,6 +56,9 @@
 		p:callbackService-ref="KFSDocumentSearchCustomizer" p:localServiceName="KFSDocumentSearchCustomizer" /> 
 	
 	<bean parent="searchableAttributeCallback" 
-		p:callbackService-ref="FinancialSystemSearchableAttribute" p:localServiceName="FinancialSystemSearchableAttribute" /> 
+		p:callbackService-ref="FinancialSystemSearchableAttribute" p:localServiceName="FinancialSystemSearchableAttribute" />
+
+	<bean parent="sensitiveDataSecurityAttributeCallback" 
+		p:callbackService-ref="SensitiveDataSecurityAttribute" p:localServiceName="SensitiveDataSecurityAttribute" />	 
 	
 </beans>

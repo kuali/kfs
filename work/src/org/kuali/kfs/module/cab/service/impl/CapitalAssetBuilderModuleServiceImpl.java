@@ -43,6 +43,7 @@ import org.kuali.kfs.fp.document.CreditCardReceiptDocument;
 import org.kuali.kfs.fp.document.DistributionOfIncomeAndExpenseDocument;
 import org.kuali.kfs.fp.document.GeneralErrorCorrectionDocument;
 import org.kuali.kfs.fp.document.InternalBillingDocument;
+import org.kuali.kfs.fp.document.IntraAccountAdjustmentDocument;
 import org.kuali.kfs.fp.document.ProcurementCardDocument;
 import org.kuali.kfs.fp.document.ServiceBillingDocument;
 import org.kuali.kfs.fp.document.YearEndDistributionOfIncomeAndExpenseDocument;
@@ -62,6 +63,7 @@ import org.kuali.kfs.module.cab.CabPropertyConstants;
 import org.kuali.kfs.module.cab.businessobject.AssetTransactionType;
 import org.kuali.kfs.module.cab.businessobject.GeneralLedgerEntry;
 import org.kuali.kfs.module.cab.businessobject.GeneralLedgerEntryAsset;
+import org.kuali.kfs.module.cab.businessobject.PretagDetail;
 import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableDocument;
 import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableItemAsset;
 import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableLineAssetAccount;
@@ -100,6 +102,7 @@ import org.kuali.kfs.sys.businessobject.Building;
 import org.kuali.kfs.sys.businessobject.Room;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.businessobject.TargetAccountingLine;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
@@ -407,15 +410,14 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         boolean valid = true;
         if (asset.getCapitalAssetNumber() == null) {
             valid = false;
-        }
-        else {
+        } else {
             valid = dictionaryValidationService.isBusinessObjectValid(asset);
         }
         if (!valid) {
             String propertyName = "newPurchasingItemCapitalAssetLine." + PurapPropertyConstants.CAPITAL_ASSET_NUMBER;
             String errorKey = PurapKeyConstants.ERROR_CAPITAL_ASSET_ASSET_NUMBER_MUST_BE_LONG_NOT_NULL;
             GlobalVariables.getMessageMap().putError(propertyName, errorKey);
-        }else{
+        } else {
             Map<String, String> params = new HashMap<String, String>();
             params.put(KFSPropertyConstants.CAPITAL_ASSET_NUMBER, asset.getCapitalAssetNumber().toString());
             Asset retrievedAsset = businessObjectService.findByPrimaryKey(Asset.class, params);
@@ -424,8 +426,16 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
                 valid = false;
                 String label = this.getDataDictionaryService().getAttributeLabel(CapitalAssetInformation.class, KFSPropertyConstants.CAPITAL_ASSET_NUMBER);
                 GlobalVariables.getMessageMap().putError("newPurchasingItemCapitalAssetLine." + KFSPropertyConstants.CAPITAL_ASSET_NUMBER, KFSKeyConstants.ERROR_EXISTENCE, label);
-            }
+            } else {
+                boolean isCapitalAsset = assetService.isCapitalAsset(retrievedAsset) && !assetService.isAssetRetired(retrievedAsset);
 
+                if (!isCapitalAsset) {
+                    valid = false;
+                    String propertyName = "newPurchasingItemCapitalAssetLine." + PurapPropertyConstants.CAPITAL_ASSET_NUMBER;
+                    String errorKey = CabKeyConstants.CapitalAssetInformation.ERROR_ASSET_ACTIVE_CAPITAL_ASSET_REQUIRED;
+                    GlobalVariables.getMessageMap().putError(propertyName, errorKey);
+                }
+            }
         }
         return valid;
     }
@@ -438,7 +448,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument purapDocument = (org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument) accountingDocument;
         for (PurApItem item : purapDocument.getItems()) {
             if (item.getItemType().isLineItemIndicator() && item.getItemType().isQuantityBasedGeneralLedgerIndicator()) {
-              
+
                 if(!ObjectUtils.isNull(item.getItemUnitPrice())){
                 List<PurApAccountingLine> accounts = item.getSourceAccountingLines();
                 BigDecimal unitPrice = item.getItemUnitPrice();
@@ -1110,27 +1120,51 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         String alternativeItemTypeStr = null;
         String capitalAssetSubtypeRequiredText = null;
 
-        if (quantityBasedItem) {
-            String capitalAssetQuantitySubtypeRequiredText = capitalAssetTransactionType.getCapitalAssetQuantitySubtypeRequiredText();
-            itemTypeStr = PurapConstants.ITEM_TYPE_QTY;
-            alternativeItemTypeStr = PurapConstants.ITEM_TYPE_NO_QTY;
-            capitalAssetSubtypeRequiredText = capitalAssetQuantitySubtypeRequiredText;
-            if (capitalAssetQuantitySubtypeRequiredText != null) {
-                objectCodeSubTypes = StringUtils.split(capitalAssetQuantitySubtypeRequiredText, ";");
+        if (isCapitalAssetObjectCode(objectCode)) {
+            if (quantityBasedItem) {
+                String capitalAssetQuantitySubtypeRequiredText = capitalAssetTransactionType.getCapitalAssetQuantitySubtypeRequiredText();
+                itemTypeStr = PurapConstants.ITEM_TYPE_QTY;
+                alternativeItemTypeStr = PurapConstants.ITEM_TYPE_NO_QTY;
+                capitalAssetSubtypeRequiredText = capitalAssetQuantitySubtypeRequiredText;
+                if (capitalAssetQuantitySubtypeRequiredText != null) {
+                    objectCodeSubTypes = StringUtils.split(capitalAssetQuantitySubtypeRequiredText, ";");
+                }
             }
-        }
-        else {
-            String capitalAssetNonquantitySubtypeRequiredText = capitalAssetTransactionType.getCapitalAssetNonquantitySubtypeRequiredText();
-            itemTypeStr = PurapConstants.ITEM_TYPE_NO_QTY;
-            alternativeItemTypeStr = PurapConstants.ITEM_TYPE_QTY;
-            capitalAssetSubtypeRequiredText = capitalAssetNonquantitySubtypeRequiredText;
-            if (capitalAssetNonquantitySubtypeRequiredText != null) {
-                objectCodeSubTypes = StringUtils.split(capitalAssetNonquantitySubtypeRequiredText, ";");
+            else {
+                String capitalAssetNonquantitySubtypeRequiredText = capitalAssetTransactionType.getCapitalAssetNonquantitySubtypeRequiredText();
+                itemTypeStr = PurapConstants.ITEM_TYPE_NO_QTY;
+                alternativeItemTypeStr = PurapConstants.ITEM_TYPE_QTY;
+                capitalAssetSubtypeRequiredText = capitalAssetNonquantitySubtypeRequiredText;
+                if (capitalAssetNonquantitySubtypeRequiredText != null) {
+                    objectCodeSubTypes = StringUtils.split(capitalAssetNonquantitySubtypeRequiredText, ";");
+                }
+            }
+
+            boolean found = false;
+            for (String subType : objectCodeSubTypes) {
+                if (StringUtils.equals(subType, objectCode.getFinancialObjectSubTypeCode())) {
+                    found = true;
+                    break;
+                }
+            }
+
+            if (!found) {
+                List<String> errorPath = GlobalVariables.getMessageMap().getErrorPath();
+                if (errorPath != null && errorPath.isEmpty()) {
+                    String errorPathPrefix = KFSConstants.DOCUMENT_PROPERTY_NAME + "." + PurapPropertyConstants.ITEM;
+                    GlobalVariables.getMessageMap().addToErrorPath(errorPathPrefix);
+                    GlobalVariables.getMessageMap().putError(PurapPropertyConstants.ITEM_CAPITAL_ASSET_TRANSACTION_TYPE, CabKeyConstants.ERROR_ITEM_TRAN_TYPE_OBJECT_CODE_SUBTYPE, itemIdentifier, itemTypeStr, capitalAssetTransactionType.getCapitalAssetTransactionTypeDescription(), objectCode.getFinancialObjectCodeName(), capitalAssetSubtypeRequiredText, alternativeItemTypeStr);
+                    GlobalVariables.getMessageMap().removeFromErrorPath(errorPathPrefix);
+                }
+                else {
+                    GlobalVariables.getMessageMap().putError(PurapPropertyConstants.ITEM_CAPITAL_ASSET_TRANSACTION_TYPE, CabKeyConstants.ERROR_ITEM_TRAN_TYPE_OBJECT_CODE_SUBTYPE, itemIdentifier, itemTypeStr, capitalAssetTransactionType.getCapitalAssetTransactionTypeDescription(), objectCode.getFinancialObjectCodeName(), capitalAssetSubtypeRequiredText, alternativeItemTypeStr);
+                }
+                valid &= false;
             }
         }
 
         return valid;
-    
+
     }
 
     /**
@@ -2495,6 +2529,9 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         else if (accountingDocument instanceof ProcurementCardDocument) {
             documentTypeName = KFSConstants.FinancialDocumentTypeCodes.PROCUREMENT_CARD;
         }
+        else if (accountingDocument instanceof IntraAccountAdjustmentDocument) {
+            documentTypeName = KFSConstants.FinancialDocumentTypeCodes.INTRA_ACCOUNT_ADJUSTMENT;
+        }
         else {
             throw new RuntimeException("Invalid FP document type.");
         }
@@ -2861,5 +2898,20 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
 
     public void setPurchasingAccountsPayableModuleService(PurchasingAccountsPayableModuleService purchasingAccountsPayableModuleService) {
         this.purchasingAccountsPayableModuleService = purchasingAccountsPayableModuleService;
+    }
+
+    @Override
+    public void reactivatePretagDetails(String campusTagNumber) {
+        if (campusTagNumber != null && !campusTagNumber.isEmpty()) {
+            Map<String, String> map = new HashMap<String, String>();
+            map.put(CabPropertyConstants.PretagDetail.CAMPUS_TAG_NUMBER, campusTagNumber);
+            List<PretagDetail> pretagDetailList = (List<PretagDetail>) SpringContext.getBean(BusinessObjectService.class).findMatching(PretagDetail.class, map);
+            if (ObjectUtils.isNotNull(pretagDetailList)) {
+                for (PretagDetail pretagDetail : pretagDetailList) {
+                    pretagDetail.setActive(true);
+                    SpringContext.getBean(BusinessObjectService.class).save(pretagDetail);
+                }
+            }
+        }
     }
 }

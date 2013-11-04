@@ -83,7 +83,7 @@ public abstract class BatchTestBase extends KualiTestBase {
     }
 
     protected Parameter findCabExtractTimeParam() {
-        Parameter lastExtractTime = SpringContext.getBean(ParameterService.class).getParameter(CabConstants.Parameters.NAMESPACE, CabConstants.Parameters.DETAIL_TYPE_PRE_ASSET_TAGGING_STEP, CabConstants.Parameters.LAST_EXTRACT_DATE);
+        Parameter lastExtractTime = SpringContext.getBean(ParameterService.class).getParameter(CabConstants.Parameters.NAMESPACE, CabConstants.Parameters.DETAIL_TYPE_BATCH, CabConstants.Parameters.LAST_EXTRACT_TIME);
         return lastExtractTime;
     }
 

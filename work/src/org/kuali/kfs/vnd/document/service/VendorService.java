@@ -203,5 +203,18 @@ public interface VendorService {
      * @return true if vendor contract expired end date is not expired else return false.
      */
     public boolean isVendorContractExpired(Document document, Integer vendorContractGeneratedIdentifier, VendorDetail vendorDetail);
+ 
 
-}
+    /**
+     * Finds the addresses for the given vendor and then calls the method to determine the default address from this list.
+     *
+     * @param vendorHeaderId Integer - Header ID of vendor.
+     * @param vendorDetailId Integer - Detail ID of vendor.
+     * @param addressType String - Address type of desired default.
+     * @param campus String - Campus of desired default.
+     * @param activeCheck boolean - active indicator Check required or not.
+     * @return VendorAddress Desired default address; return null is possible if no defaults set.
+     */
+    public VendorAddress getVendorDefaultAddress(Integer vendorHeaderId, Integer vendorDetailId, String addressType, String campus,boolean activeCheck);
+    
+ }

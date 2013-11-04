@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -77,18 +77,16 @@ public class OrganizationSelectionTreeForm extends BudgetExpansionForm {
     @Override
     public void populate(HttpServletRequest request) {
 
-        if (!this.isLostSessionDetected(request)){
-            super.populate(request);
-            populatePreviousBranchOrgs();
-            populateSelectionSubTreeOrgs();
-        }
+        super.populate(request);
+        populatePreviousBranchOrgs();
+        populateSelectionSubTreeOrgs();
     }
 
     public void populateSelectionSubTreeOrgs() {
 
         Iterator<BudgetConstructionPullup> selectionOrgs = getSelectionSubTreeOrgs().iterator();
         while (selectionOrgs.hasNext()) {
-            BudgetConstructionPullup selectionOrg = (BudgetConstructionPullup) selectionOrgs.next();
+            BudgetConstructionPullup selectionOrg = selectionOrgs.next();
 
             final List<String> REFRESH_FIELDS = Collections.unmodifiableList(Arrays.asList(new String[] { "organization" }));
             SpringContext.getBean(PersistenceService.class).retrieveReferenceObjects(selectionOrg, REFRESH_FIELDS);
@@ -100,7 +98,7 @@ public class OrganizationSelectionTreeForm extends BudgetExpansionForm {
 
         Iterator<BudgetConstructionPullup> previousBranchOrgs = getPreviousBranchOrgs().iterator();
         while (previousBranchOrgs.hasNext()) {
-            BudgetConstructionPullup previousBranchOrg = (BudgetConstructionPullup) previousBranchOrgs.next();
+            BudgetConstructionPullup previousBranchOrg = previousBranchOrgs.next();
             final List<String> REFRESH_FIELDS = Collections.unmodifiableList(Arrays.asList(new String[] { "organization" }));
             SpringContext.getBean(PersistenceService.class).retrieveReferenceObjects(previousBranchOrg, REFRESH_FIELDS);
         }
@@ -109,7 +107,7 @@ public class OrganizationSelectionTreeForm extends BudgetExpansionForm {
 
     /**
      * Gets the pointOfViewOrg attribute.
-     * 
+     *
      * @return Returns the pointOfViewOrg.
      */
     public BudgetConstructionOrganizationReports getPointOfViewOrg() {
@@ -118,7 +116,7 @@ public class OrganizationSelectionTreeForm extends BudgetExpansionForm {
 
     /**
      * Sets the pointOfViewOrg attribute value.
-     * 
+     *
      * @param pointOfViewOrg The pointOfViewOrg to set.
      */
     public void setPointOfViewOrg(BudgetConstructionOrganizationReports pointOfViewOrg) {
@@ -127,7 +125,7 @@ public class OrganizationSelectionTreeForm extends BudgetExpansionForm {
 
     /**
      * Gets the hideDetails attribute.
-     * 
+     *
      * @return Returns the hideDetails.
      */
     public boolean isHideDetails() {
@@ -136,7 +134,7 @@ public class OrganizationSelectionTreeForm extends BudgetExpansionForm {
 
     /**
      * Sets the hideDetails attribute value.
-     * 
+     *
      * @param hideDetails The hideDetails to set.
      */
     public void setHideDetails(boolean hideDetails) {
@@ -145,7 +143,7 @@ public class OrganizationSelectionTreeForm extends BudgetExpansionForm {
 
     /**
      * Gets the operatingMode attribute.
-     * 
+     *
      * @return Returns the operatingMode.
      */
     public String getOperatingMode() {
@@ -154,7 +152,7 @@ public class OrganizationSelectionTreeForm extends BudgetExpansionForm {
 
     /**
      * Sets the operatingMode attribute value.
-     * 
+     *
      * @param operatingMode The operatingMode to set.
      */
     public void setOperatingMode(String operatingMode) {
@@ -163,7 +161,7 @@ public class OrganizationSelectionTreeForm extends BudgetExpansionForm {
 
     /**
      * Gets the operatingModeTitle attribute.
-     * 
+     *
      * @return Returns the operatingModeTitle.
      */
     public String getOperatingModeTitle() {
@@ -172,7 +170,7 @@ public class OrganizationSelectionTreeForm extends BudgetExpansionForm {
 
     /**
      * Sets the operatingModeTitle attribute value.
-     * 
+     *
      * @param operatingModeTitle The operatingModeTitle to set.
      */
     public void setOperatingModeTitle(String operatingModeTitle) {
@@ -181,7 +179,7 @@ public class OrganizationSelectionTreeForm extends BudgetExpansionForm {
 
     /**
      * Gets the currentPointOfViewKeyCode attribute.
-     * 
+     *
      * @return Returns the currentPointOfViewKeyCode.
      */
     public String getCurrentPointOfViewKeyCode() {
@@ -190,7 +188,7 @@ public class OrganizationSelectionTreeForm extends BudgetExpansionForm {
 
     /**
      * Sets the currentPointOfViewKeyCode attribute value.
-     * 
+     *
      * @param currentPointOfViewKeyCode The currentPointOfViewKeyCode to set.
      */
     public void setCurrentPointOfViewKeyCode(String currentPointOfViewKeyCode) {
@@ -199,7 +197,7 @@ public class OrganizationSelectionTreeForm extends BudgetExpansionForm {
 
     /**
      * Gets the previousPointOfViewKeyCode attribute.
-     * 
+     *
      * @return Returns the previousPointOfViewKeyCode.
      */
     public String getPreviousPointOfViewKeyCode() {
@@ -208,7 +206,7 @@ public class OrganizationSelectionTreeForm extends BudgetExpansionForm {
 
     /**
      * Sets the previousPointOfViewKeyCode attribute value.
-     * 
+     *
      * @param previousPointOfViewKeyCode The previousPointOfViewKeyCode to set.
      */
     public void setPreviousPointOfViewKeyCode(String previousPointOfViewKeyCode) {
@@ -217,7 +215,7 @@ public class OrganizationSelectionTreeForm extends BudgetExpansionForm {
 
     /**
      * Gets the selectionSubTree attribute.
-     * 
+     *
      * @return Returns the selectionSubTree.
      */
     public List<BudgetConstructionPullup> getSelectionSubTreeOrgs() {
@@ -226,7 +224,7 @@ public class OrganizationSelectionTreeForm extends BudgetExpansionForm {
 
     /**
      * Sets the selectionSubTree attribute value.
-     * 
+     *
      * @param selectionSubTree The selectionSubTree to set.
      */
     public void setSelectionSubTreeOrgs(List<BudgetConstructionPullup> selectionSubTree) {
@@ -235,7 +233,7 @@ public class OrganizationSelectionTreeForm extends BudgetExpansionForm {
 
     /**
      * Gets the previousBranchOrgs attribute.
-     * 
+     *
      * @return Returns the previousBranchOrgs.
      */
     public List<BudgetConstructionPullup> getPreviousBranchOrgs() {
@@ -244,7 +242,7 @@ public class OrganizationSelectionTreeForm extends BudgetExpansionForm {
 
     /**
      * Sets the previousBranchOrgs attribute value.
-     * 
+     *
      * @param previousBranchOrgs The previousBranchOrgs to set.
      */
     public void setPreviousBranchOrgs(List<BudgetConstructionPullup> previousBranchOrgs) {
@@ -253,7 +251,7 @@ public class OrganizationSelectionTreeForm extends BudgetExpansionForm {
 
     /**
      * Gets the pullFlagKeyLabels attribute.
-     * 
+     *
      * @return Returns the pullFlagKeyLabels.
      */
     public List<KeyValue> getPullFlagKeyLabels() {
@@ -262,7 +260,7 @@ public class OrganizationSelectionTreeForm extends BudgetExpansionForm {
 
     /**
      * Sets the pullFlagKeyLabels attribute value.
-     * 
+     *
      * @param pullFlagKeyLabels The pullFlagKeyLabels to set.
      */
     public void setPullFlagKeyLabels(List<KeyValue> pullFlagKeyLabels) {
@@ -271,7 +269,7 @@ public class OrganizationSelectionTreeForm extends BudgetExpansionForm {
 
     /**
      * Gets the operatingModePullFlagLabel attribute.
-     * 
+     *
      * @return Returns the operatingModePullFlagLabel.
      */
     public String getOperatingModePullFlagLabel() {
@@ -280,7 +278,7 @@ public class OrganizationSelectionTreeForm extends BudgetExpansionForm {
 
     /**
      * Sets the operatingModePullFlagLabel attribute value.
-     * 
+     *
      * @param operatingModePullFlagLabel The operatingModePullFlagLabel to set.
      */
     public void setOperatingModePullFlagLabel(String operatingModePullFlagLabel) {
@@ -357,7 +355,7 @@ public class OrganizationSelectionTreeForm extends BudgetExpansionForm {
 
     /**
      * Gets the noResetOnReturn attribute.
-     * 
+     *
      * @return Returns the noResetOnReturn.
      */
     public boolean isNoResetOnReturn() {
@@ -366,7 +364,7 @@ public class OrganizationSelectionTreeForm extends BudgetExpansionForm {
 
     /**
      * Sets the noResetOnReturn attribute value.
-     * 
+     *
      * @param noResetOnReturn The noResetOnReturn to set.
      */
     public void setNoResetOnReturn(boolean noResetOnReturn) {

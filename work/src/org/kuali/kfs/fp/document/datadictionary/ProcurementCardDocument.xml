@@ -23,6 +23,7 @@
     <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.ProcurementCardDocumentAuthorizer"/>
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.fp.document.authorization.ProcurementCardDocumentPresentationController"/>
+   
     
     <property name="sessionDocument" value="true"/>
     <property name="allowsErrorCorrection" value="false"/>
@@ -36,7 +37,7 @@
 	    	</entry>
     	</map>
     </property>  
-    <property name="importedLineParserClass" value="org.kuali.kfs.sys.businessobject.AccountingLineParserBase"/>
+    <property name="importedLineParserClass" value="org.kuali.kfs.fp.businessobject.ProcurementCardAccountingLineParser"/>
     <property name="workflowAttributes">
     	<ref bean="ProcurementCardDocument-workflowAttributes"/>
     </property>   
@@ -91,7 +92,7 @@
 	  <property name="accountingLineClass" value="org.kuali.kfs.fp.businessobject.ProcurementCardTargetAccountingLine"/>
 	  <property name="groupLabel" value="Accounting Lines"/>
 	  <property name="accountingLineAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.ProcurementCardAccountingLineAuthorizer"/>
-	  <property name="importingAllowed" value="false"/>
+	  <property name="importedLinePropertyPrefix" value="target"/>
 	  <property name="totals" ref="ProcurementCard-targetGroupTotals"/>
 	  <property name="errorKey" value="document.transactionEntries*,*targetAccountingLines*,*newTargetLine*"/>
 	  <property name="accountingLineGroupClass" value="org.kuali.kfs.sys.document.web.CollectionAccountingLineGroupImpl"/>

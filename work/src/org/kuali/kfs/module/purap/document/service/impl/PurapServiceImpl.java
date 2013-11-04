@@ -27,14 +27,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.purap.PurapConstants;
+import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderStatuses;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
+import org.kuali.kfs.module.purap.PurapParameterConstants.TaxParameters;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.PurapRuleConstants;
-import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderStatuses;
-import org.kuali.kfs.module.purap.PurapParameterConstants.TaxParameters;
 import org.kuali.kfs.module.purap.businessobject.AccountsPayableItem;
 import org.kuali.kfs.module.purap.businessobject.BulkReceivingView;
 import org.kuali.kfs.module.purap.businessobject.CorrectionReceivingView;
@@ -105,18 +106,18 @@ import org.kuali.rice.krad.util.ObjectUtils;
 public class PurapServiceImpl implements PurapService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurapServiceImpl.class);
 
-    private BusinessObjectService businessObjectService;
-    private DataDictionaryService dataDictionaryService;
-    private DateTimeService dateTimeService;
-    private DocumentService documentService;
-    private NoteService noteService;
-    private ParameterService parameterService;
-    private PersistenceService persistenceService;
-    private PurchaseOrderService purchaseOrderService;
-    private UniversityDateService universityDateService;
-    private VendorService vendorService;
-    private TaxService taxService;
-    private PurapAccountingService purapAccountingService;
+    protected BusinessObjectService businessObjectService;
+    protected DataDictionaryService dataDictionaryService;
+    protected DateTimeService dateTimeService;
+    protected DocumentService documentService;
+    protected NoteService noteService;
+    protected ParameterService parameterService;
+    protected PersistenceService persistenceService;
+    protected PurchaseOrderService purchaseOrderService;
+    protected UniversityDateService universityDateService;
+    protected VendorService vendorService;
+    protected TaxService taxService;
+    protected PurapAccountingService purapAccountingService;
 
     public void setBusinessObjectService(BusinessObjectService boService) {
         this.businessObjectService = boService;
@@ -537,7 +538,7 @@ public class PurapServiceImpl implements PurapService {
             organizationParameter.setOrganizationCode(org);
             Map orgParamKeys = persistenceService.getPrimaryKeyFieldValues(organizationParameter);
             orgParamKeys.put(KRADPropertyConstants.ACTIVE_INDICATOR, true);
-            organizationParameter = (OrganizationParameter)businessObjectService.findByPrimaryKey(OrganizationParameter.class, orgParamKeys);
+            organizationParameter = businessObjectService.findByPrimaryKey(OrganizationParameter.class, orgParamKeys);
             purchaseOrderTotalLimit = (organizationParameter == null) ? null : organizationParameter.getOrganizationAutomaticPurchaseOrderLimit();
         }
 
@@ -802,7 +803,7 @@ public class PurapServiceImpl implements PurapService {
     public boolean isDocumentStoppedInRouteNode(PurchasingAccountsPayableDocument document, String nodeName) {
         WorkflowDocument workflowDoc = document.getDocumentHeader().getWorkflowDocument();
         Set<String> currentRouteLevels = workflowDoc.getCurrentNodeNames();
-        if (currentRouteLevels.contains(nodeName) && workflowDoc.isApprovalRequested()) {
+        if (CollectionUtils.isNotEmpty(currentRouteLevels) && currentRouteLevels.contains(nodeName) && workflowDoc.isApprovalRequested()) {
             return true;
         }
         return false;

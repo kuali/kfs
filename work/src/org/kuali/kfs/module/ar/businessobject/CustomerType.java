@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- *
+ * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
+ * 
  * http://www.opensource.org/licenses/ecl2.php
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,7 +17,6 @@ package org.kuali.kfs.module.ar.businessobject;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.kfs.integration.ar.AccountsReceivableCustomerType;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
@@ -25,7 +24,7 @@ import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
 
-public class CustomerType extends PersistableBusinessObjectBase implements MutableInactivatable, AccountsReceivableCustomerType {
+public class CustomerType extends PersistableBusinessObjectBase implements MutableInactivatable {
 
 	private String customerTypeCode;
 	private String customerTypeDescription;
@@ -40,20 +39,19 @@ public class CustomerType extends PersistableBusinessObjectBase implements Mutab
 
 	/**
 	 * Gets the customerTypeCode attribute.
-	 *
+	 * 
 	 * @return Returns the customerTypeCode
-	 *
+	 * 
 	 */
-	@Override
-    public String getCustomerTypeCode() {
+	public String getCustomerTypeCode() { 
 		return customerTypeCode;
 	}
 
 	/**
 	 * Sets the customerTypeCode attribute.
-	 *
+	 * 
 	 * @param customerTypeCode The customerTypeCode to set.
-	 *
+	 * 
 	 */
 	public void setCustomerTypeCode(String customerTypeCode) {
 		this.customerTypeCode = customerTypeCode;
@@ -62,46 +60,42 @@ public class CustomerType extends PersistableBusinessObjectBase implements Mutab
 
 	/**
 	 * Gets the customerTypeDescription attribute.
-	 *
+	 * 
 	 * @return Returns the customerTypeDescription
-	 *
+	 * 
 	 */
-	@Override
-    public String getCustomerTypeDescription() {
+	public String getCustomerTypeDescription() { 
 		return customerTypeDescription;
 	}
 
 	/**
 	 * Sets the customerTypeDescription attribute.
-	 *
+	 * 
 	 * @param customerTypeDescription The customerTypeDescription to set.
-	 *
+	 * 
 	 */
-	@Override
-    public void setCustomerTypeDescription(String customerTypeDescription) {
+	public void setCustomerTypeDescription(String customerTypeDescription) {
 		this.customerTypeDescription = customerTypeDescription;
 	}
 
 
 	/**
 	 * Gets the active attribute.
-	 *
+	 * 
 	 * @return Returns the active
-	 *
+	 * 
 	 */
-	@Override
-    public boolean isActive() {
+	public boolean isActive() { 
 		return active;
 	}
 
 	/**
 	 * Sets the active attribute.
-	 *
+	 * 
 	 * @param active The active to set.
-	 *
+	 * 
 	 */
-	@Override
-    public void setActive(boolean active) {
+	public void setActive(boolean active) {
 		this.active = active;
 	}
 
@@ -111,7 +105,7 @@ public class CustomerType extends PersistableBusinessObjectBase implements Mutab
 	 */
     @SuppressWarnings("unchecked")
 	protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
-	    LinkedHashMap m = new LinkedHashMap();
+	    LinkedHashMap m = new LinkedHashMap();	    
         m.put("customerTypeCode", this.customerTypeCode);
 	    return m;
     }

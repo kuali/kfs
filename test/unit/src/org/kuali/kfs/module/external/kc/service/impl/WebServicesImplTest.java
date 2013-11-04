@@ -1,11 +1,11 @@
 /*
  * Copyright 2010 The Kuali Foundation.
  * 
- * Licensed under the Educational Community License, Version 1.0 (the "License");
+ * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  * 
- * http://www.opensource.org/licenses/ecl1.php
+ * http://www.opensource.org/licenses/ecl2.php
  * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -28,6 +28,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.kuali.kfs.module.external.kc.service.KfsService;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
+import org.mortbay.log.Log;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider;
 import org.springframework.core.type.filter.AssignableTypeFilter;
@@ -61,7 +62,7 @@ public class WebServicesImplTest extends KualiTestBase {
             DocumentBuilder db = dbf.newDocumentBuilder();
             Document doc = db.parse(location.openStream());
             doc.getDocumentElement().normalize();
-            LOG.debug("Root Element " + doc.getDocumentElement().getNodeName());
+            Log.debug("Root Element " + doc.getDocumentElement().getNodeName());
             return true;
         }
         catch (ParserConfigurationException ex) {

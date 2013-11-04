@@ -20,6 +20,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.kfs.pdp.PdpConstants;
 import org.kuali.kfs.sys.FinancialSystemModuleConfiguration;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.batch.BatchFile;
@@ -33,25 +34,40 @@ import org.kuali.rice.kim.api.services.IdentityManagementService;
 import org.kuali.rice.krad.bo.ModuleConfiguration;
 import org.kuali.rice.krad.service.KualiModuleService;
 import org.kuali.rice.krad.service.ModuleService;
-import org.kuali.rice.krad.util.KRADConstants;
 
 public class BatchFileAdminAuthorizationServiceImpl implements BatchFileAdminAuthorizationService {
 
+    private static final String RESEARCH_PARTICIPANTS_PERMISSION = "Download Research Participant Check File(s)";
     private IdentityManagementService identityManagementService;
     private KualiModuleService kualiModuleService;
 
     @Override
     public boolean canDownload(BatchFile batchFile, Person user) {
-        return getIdentityManagementService().isAuthorizedByTemplateName(user.getPrincipalId(),
+
+        boolean isAuthorized = false;
+        if (batchFile.getFileName().indexOf(PdpConstants.RESEARCH_PARTICIPANT_FILE_PREFIX) >= 0) {
+              isAuthorized = getIdentityManagementService().hasPermissionByTemplateName(user.getPrincipalId(), KFSConstants.ParameterNamespaces.KFS, KFSConstants.PermissionTemplate.VIEW_BATCH_FILES.name, generateDownloadCheckPermissionDetails(batchFile, user));
+        }
+        else {
+            isAuthorized = getIdentityManagementService().isAuthorizedByTemplateName(user.getPrincipalId(),
                 KFSConstants.PermissionTemplate.VIEW_BATCH_FILES.namespace, KFSConstants.PermissionTemplate.VIEW_BATCH_FILES.name,
                 generateDownloadCheckPermissionDetails(batchFile, user), generateDownloadCheckRoleQualifiers(batchFile, user));
+        }
+        return isAuthorized;
     }
 
     @Override
     public boolean canDelete(BatchFile batchFile, Person user) {
-        return getIdentityManagementService().isAuthorizedByTemplateName(user.getPrincipalId(),
+        boolean isAuthorized = false;
+        if (batchFile.getFileName().indexOf(PdpConstants.RESEARCH_PARTICIPANT_FILE_PREFIX) >= 0) {
+            isAuthorized = getIdentityManagementService().hasPermissionByTemplateName(user.getPrincipalId(), KFSConstants.ParameterNamespaces.KFS, KFSConstants.PermissionTemplate.VIEW_BATCH_FILES.name, generateDownloadCheckPermissionDetails(batchFile, user));
+        }
+        else {
+            isAuthorized = getIdentityManagementService().isAuthorizedByTemplateName(user.getPrincipalId(),
                 KFSConstants.PermissionTemplate.VIEW_BATCH_FILES.namespace, KFSConstants.PermissionTemplate.VIEW_BATCH_FILES.name,
                 generateDownloadCheckPermissionDetails(batchFile, user), generateDownloadCheckRoleQualifiers(batchFile, user));
+        }
+        return isAuthorized;
     }
 
     protected String determineNamespaceCode(BatchFile batchFile) {

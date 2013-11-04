@@ -398,14 +398,6 @@ public class DisbursementVoucherForm extends KualiAccountingDocumentFormBase {
         DisbursementVoucherDocument disbursementVoucherDocument = (DisbursementVoucherDocument) this.getDocument();
         return disbursementVoucherDocument.getDvPayeeDetail().isVendor();
     }
-    
-    /**
-     * determine whether the selected payee is a customer
-     */
-    public boolean isCustomer() {
-        DisbursementVoucherDocument disbursementVoucherDocument = (DisbursementVoucherDocument) this.getDocument();
-        return disbursementVoucherDocument.getDvPayeeDetail().isCustomer();
-    }
 
     /**
      * @see org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase#shouldMethodToCallParameterBeUsed(java.lang.String,

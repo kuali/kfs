@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,13 +15,13 @@
  */
 package org.kuali.kfs.sys.businessobject;
 
-import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.kfs;
 
 import java.io.ByteArrayInputStream;
 import java.util.Arrays;
 import java.util.List;
 
-import org.kuali.kfs.fp.document.InternalBillingDocument;
+import org.kuali.kfs.fp.document.ProcurementCardDocument;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.KualiTestBase;
@@ -37,7 +37,7 @@ import org.kuali.rice.krad.service.DocumentService;
  * Test class for testing <code>{@link AccountingLineParserBase}</code>
  */
 @AnnotationTestSuite(CrossSectionSuite.class)
-@ConfigureContext(session = khuntley)
+@ConfigureContext(session = kfs)
 public class AccountingLineParserBaseTest extends KualiTestBase {
 
     private AccountingDocument accountingDocument;
@@ -46,7 +46,7 @@ public class AccountingLineParserBaseTest extends KualiTestBase {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        accountingDocument = (AccountingDocument) SpringContext.getBean(DocumentService.class).getNewDocument(InternalBillingDocument.class);
+        accountingDocument = (AccountingDocument) SpringContext.getBean(DocumentService.class).getNewDocument(ProcurementCardDocument.class);
         parser = accountingDocument.getAccountingLineParser();
     }
 
@@ -73,7 +73,7 @@ public class AccountingLineParserBaseTest extends KualiTestBase {
      */
     public void testParseTargetAccountingLine_failure_notANumber() {
         try {
-            parser.parseTargetAccountingLine(accountingDocument, "BL,4631672, , ,KUL, , , b");
+            parser.parseTargetAccountingLine(accountingDocument, "BL,4631672, , ,KUL, , , , b");
             fail("didn't throw AccountingLineParserException");
         }
         catch (AccountingLineParserException e) {
@@ -143,6 +143,7 @@ public class AccountingLineParserBaseTest extends KualiTestBase {
         String chartOfAccountsCode = "BL";
         String accountNumber = "463172";
         String projectCode = "KUL";
+        String description = "test target accounting line";
         String amount = "12.31";
 
         StringBuffer sb = new StringBuffer();
@@ -152,6 +153,8 @@ public class AccountingLineParserBaseTest extends KualiTestBase {
         sb.append(",,,,");
         sb.append(projectCode);
         sb.append(",,");
+        sb.append(description);
+        sb.append(",");
         sb.append(amount);
         TargetAccountingLine result = parser.parseTargetAccountingLine(accountingDocument, sb.toString());
 
@@ -170,6 +173,7 @@ public class AccountingLineParserBaseTest extends KualiTestBase {
         String chartOfAccountsCode = "bl";
         String accountNumber = "463172";
         String projectCode = "kul";
+        String description = "test target accounting line";
         String amount = "12.31";
 
         StringBuffer sb = new StringBuffer();
@@ -179,6 +183,8 @@ public class AccountingLineParserBaseTest extends KualiTestBase {
         sb.append(",,,,");
         sb.append(projectCode);
         sb.append(",,");
+        sb.append(description);
+        sb.append(",");
         sb.append(amount);
         TargetAccountingLine result = parser.parseTargetAccountingLine(accountingDocument, sb.toString());
 

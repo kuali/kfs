@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -20,6 +20,9 @@ import static org.kuali.kfs.vnd.fixture.VendorAddressFixture.address1;
 import static org.kuali.kfs.vnd.fixture.VendorAddressFixture.address2;
 import static org.kuali.kfs.vnd.fixture.VendorAddressFixture.address3;
 import static org.kuali.kfs.vnd.fixture.VendorAddressFixture.address4;
+import static org.kuali.kfs.vnd.fixture.VendorAddressFixture.address5;
+import static org.kuali.kfs.vnd.fixture.VendorAddressFixture.address6;
+import static org.kuali.kfs.vnd.fixture.VendorAddressFixture.address7;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,8 +74,8 @@ public class VendorServiceTest extends KualiTestBase {
     }
 
     public void testGetVendorDefaultAddress_test1() {
-        addresses = setupAddresses(new VendorAddressFixture[] { address1, address2 });
-        testGetVendorDefaultAddress(address2.vendorAddressGeneratedIdentifier, addresses, "PO", "IN");
+        addresses = setupAddresses(new VendorAddressFixture[] { address5, address6 });
+        testGetVendorDefaultAddress(address6.vendorAddressGeneratedIdentifier, addresses, "PO", "IN");
     }
 
     public void testGetVendorDefaultAddress_test2() {
@@ -96,9 +99,10 @@ public class VendorServiceTest extends KualiTestBase {
     }
 
     public void testGetVendorDefaultAddress_test6() {
-        addresses = setupAddresses(new VendorAddressFixture[] { address1, address2, address3, address4 });
-        testGetVendorDefaultAddress(address4.vendorAddressGeneratedIdentifier, addresses, "RM", "SB");
+        addresses = setupAddresses(new VendorAddressFixture[] { address1, address2, address4, address7 });
+        testGetVendorDefaultAddress(address7.vendorAddressGeneratedIdentifier, addresses, "RM", "SB");
     }
+
 
     private List setupAddresses(VendorAddressFixture[] fixtures) {
         addresses = new ArrayList();

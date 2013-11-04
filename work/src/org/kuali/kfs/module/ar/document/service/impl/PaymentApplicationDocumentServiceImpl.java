@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -32,7 +32,6 @@ import org.kuali.kfs.module.ar.document.CashControlDocument;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.PaymentApplicationDocument;
 import org.kuali.kfs.module.ar.document.dataaccess.CashControlDetailDao;
-import org.kuali.kfs.module.ar.document.service.AccountsReceivableDocumentHeaderService;
 import org.kuali.kfs.module.ar.document.service.InvoicePaidAppliedService;
 import org.kuali.kfs.module.ar.document.service.NonAppliedHoldingService;
 import org.kuali.kfs.module.ar.document.service.PaymentApplicationDocumentService;
@@ -54,31 +53,33 @@ public class PaymentApplicationDocumentServiceImpl implements PaymentApplication
     private InvoicePaidAppliedService<AppliedPayment> invoicePaidAppliedService;
     private UniversityDateService universityDateService;
     private CashControlDetailDao cashControlDetailDao;
-    
+
     /**
-     * 
+     *
      * @param customerInvoiceDocument
      * @return
      * @throws WorkflowException
      */
+    @Override
     public PaymentApplicationDocument createPaymentApplicationToMatchInvoice(CustomerInvoiceDocument customerInvoiceDocument) throws WorkflowException {
-        
-        PaymentApplicationDocument applicationDocument = 
+
+        PaymentApplicationDocument applicationDocument =
             (PaymentApplicationDocument) documentService.getNewDocument(PaymentApplicationDocument.class);
 
         //  get the processing chart & org off the invoice, we'll create the payapp with the same processing org
         String processingChartCode = customerInvoiceDocument.getAccountsReceivableDocumentHeader().getProcessingChartOfAccountCode();
         String processingOrgCode = customerInvoiceDocument.getAccountsReceivableDocumentHeader().getProcessingOrganizationCode();
-        
-        AccountsReceivableDocumentHeaderService arDocHeaderService = SpringContext.getBean(AccountsReceivableDocumentHeaderService.class);
-        AccountsReceivableDocumentHeader arDocHeader = arDocHeaderService.getNewAccountsReceivableDocumentHeader(processingChartCode, processingOrgCode);
+
+        AccountsReceivableDocumentHeader arDocHeader = new AccountsReceivableDocumentHeader();
+        arDocHeader.setProcessingChartOfAccountCode(processingChartCode);
+        arDocHeader.setProcessingOrganizationCode(processingOrgCode);
         arDocHeader.setDocumentNumber(applicationDocument.getDocumentNumber());
         applicationDocument.setAccountsReceivableDocumentHeader(arDocHeader);
-        
+
         // This code is basically copied from PaymentApplicationDocumentAction.quickApply
         int paidAppliedItemNumber = 1;
         for(CustomerInvoiceDetail customerInvoiceDetail : customerInvoiceDocument.getCustomerInvoiceDetailsWithoutDiscounts()) {
-            InvoicePaidApplied invoicePaidApplied = 
+            InvoicePaidApplied invoicePaidApplied =
                 createInvoicePaidAppliedForInvoiceDetail(
                     customerInvoiceDetail, applicationDocument, paidAppliedItemNumber);
             // if there was not another invoice paid applied already created for the current detail then invoicePaidApplied will not be null
@@ -88,7 +89,7 @@ public class PaymentApplicationDocumentServiceImpl implements PaymentApplication
                 paidAppliedItemNumber++;
             }
         }
-        
+
         return applicationDocument;
     }
 
@@ -98,6 +99,7 @@ public class PaymentApplicationDocumentServiceImpl implements PaymentApplication
      * @return
      * @throws WorkflowException
      */
+    @Override
     public PaymentApplicationDocument createAndSavePaymentApplicationToMatchInvoice(CustomerInvoiceDocument customerInvoiceDocument) throws WorkflowException {
         PaymentApplicationDocument applicationDocument = createPaymentApplicationToMatchInvoice(customerInvoiceDocument);
         documentService.saveDocument(applicationDocument);
@@ -112,6 +114,7 @@ public class PaymentApplicationDocumentServiceImpl implements PaymentApplication
      * @return
      * @throws WorkflowException
      */
+    @Override
     public PaymentApplicationDocument createSaveAndApprovePaymentApplicationToMatchInvoice(CustomerInvoiceDocument customerInvoiceDocument, String approvalAnnotation, List workflowNotificationRecipients) throws WorkflowException {
         DocumentService documentService = SpringContext.getBean(DocumentService.class);
         PaymentApplicationDocument applicationDocument = createAndSavePaymentApplicationToMatchInvoice(customerInvoiceDocument);
@@ -177,9 +180,10 @@ public class PaymentApplicationDocumentServiceImpl implements PaymentApplication
     }
 
     /**
-     * 
+     *
      * @see org.kuali.kfs.module.ar.document.service.PaymentApplicationDocumentService#getCashControlDocumentForPaymentApplicationDocument(org.kuali.kfs.module.ar.document.PaymentApplicationDocument)
      */
+    @Override
     public CashControlDocument getCashControlDocumentForPaymentApplicationDocument(PaymentApplicationDocument paymentApplicationDocument) {
         if (paymentApplicationDocument == null) {
             throw new IllegalArgumentException("A null paymentApplicationDocument parameter was passed in.");
@@ -187,11 +191,12 @@ public class PaymentApplicationDocumentServiceImpl implements PaymentApplication
         String payAppDocNumber = paymentApplicationDocument.getDocumentHeader().getDocumentNumber();
         return getCashControlDocumentForPayAppDocNumber(payAppDocNumber);
     }
-    
+
     /**
-     * 
+     *
      * @see org.kuali.kfs.module.ar.document.service.PaymentApplicationDocumentService#getCashControlDocumentForPayAppDocNumber(java.lang.String)
      */
+    @Override
     public CashControlDocument getCashControlDocumentForPayAppDocNumber(String paymentApplicationDocumentNumber) {
         if (StringUtils.isBlank(paymentApplicationDocumentNumber)) {
             throw new IllegalArgumentException("A null or blank paymentApplicationDocumentNumber paraemter was passed in.");
@@ -214,6 +219,7 @@ public class PaymentApplicationDocumentServiceImpl implements PaymentApplication
     /**
      * @see org.kuali.kfs.module.ar.document.service.PaymentApplicationDocumentService#getCashControlDetailForPaymentApplicationDocument(org.kuali.kfs.module.ar.document.PaymentApplicationDocument)
      */
+    @Override
     public CashControlDetail getCashControlDetailForPaymentApplicationDocument(PaymentApplicationDocument document) {
         if (document == null) {
             throw new IllegalArgumentException("A null paymentApplicationDocument parameter was passed in.");
@@ -222,11 +228,12 @@ public class PaymentApplicationDocumentServiceImpl implements PaymentApplication
         CashControlDetail cashControlDetail = getCashControlDetailForPayAppDocNumber(payAppDocumentNumber);
         return cashControlDetail;
     }
-    
+
     /**
-     * 
+     *
      * @see org.kuali.kfs.module.ar.document.service.PaymentApplicationDocumentService#getCashControlDetailForPayAppDocNumber(java.lang.String)
      */
+    @Override
     public CashControlDetail getCashControlDetailForPayAppDocNumber(String payAppDocNumber) {
         if (StringUtils.isBlank(payAppDocNumber)) {
             throw new IllegalArgumentException("A null or blank payAppDocNumber parameter was passed in.");
@@ -234,13 +241,14 @@ public class PaymentApplicationDocumentServiceImpl implements PaymentApplication
         CashControlDetail cashControlDetail = cashControlDetailDao.getCashControlDetailByRefDocNumber(payAppDocNumber);
         return cashControlDetail;
     }
-    
+
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
 
+    @Override
     public PaymentApplicationDocument createInvoicePaidAppliedsForEntireInvoiceDocument(CustomerInvoiceDocument customerInvoiceDocument, PaymentApplicationDocument paymentApplicationDocument) {
-        
+
         //  clear any existing paidapplieds
         paymentApplicationDocument.getInvoicePaidApplieds().clear();
 
@@ -250,31 +258,32 @@ public class PaymentApplicationDocumentServiceImpl implements PaymentApplication
             //  create the new paidapplied
             InvoicePaidApplied invoicePaidApplied = createInvoicePaidAppliedForInvoiceDetail(
                     detail, paymentApplicationDocument, paidAppliedItemNumber);
-            
+
             // add it to the payment application document list of applied payments
             paymentApplicationDocument.getInvoicePaidApplieds().add(invoicePaidApplied);
             paidAppliedItemNumber++;
         }
-        
+
         return paymentApplicationDocument;
     }
-    
+
     /**
      * @see org.kuali.kfs.module.ar.document.service.PaymentApplicationDocumentService#createInvoicePaidAppliedForInvoiceDetail(org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail, org.kuali.rice.core.api.util.type.KualiDecimal)
      */
+    @Override
     public InvoicePaidApplied createInvoicePaidAppliedForInvoiceDetail(CustomerInvoiceDetail customerInvoiceDetail, PaymentApplicationDocument paymentApplicationDocument, Integer paidAppliedItemNumber) {
 
         Integer universityFiscalYear = universityDateService.getCurrentFiscalYear();
         String universityFiscalPeriodCode = universityDateService.getCurrentUniversityDate().getAccountingPeriod().getUniversityFiscalPeriodCode();
-        
+
         InvoicePaidApplied invoicePaidApplied = new InvoicePaidApplied();
-        
+
         // set the document number for the invoice paid applied to the payment application document number.
         invoicePaidApplied.setDocumentNumber(paymentApplicationDocument.getDocumentNumber());
-        
+
         // Set the invoice paid applied ref doc number to the document number for the customer invoice document
         invoicePaidApplied.setFinancialDocumentReferenceInvoiceNumber(customerInvoiceDetail.getDocumentNumber());
-        
+
         invoicePaidApplied.setInvoiceItemNumber(customerInvoiceDetail.getSequenceNumber());
         invoicePaidApplied.setInvoiceItemAppliedAmount(customerInvoiceDetail.getAmountOpen());
         invoicePaidApplied.setUniversityFiscalYear(universityFiscalYear);
@@ -287,6 +296,7 @@ public class PaymentApplicationDocumentServiceImpl implements PaymentApplication
     /**
      * @see org.kuali.kfs.module.ar.document.service.PaymentApplicationDocumentService#customerInvoiceDetailPairsWithInvoicePaidApplied(org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail, org.kuali.kfs.module.ar.businessobject.InvoicePaidApplied)
      */
+    @Override
     public boolean customerInvoiceDetailPairsWithInvoicePaidApplied(CustomerInvoiceDetail customerInvoiceDetail, InvoicePaidApplied invoicePaidApplied) {
         boolean pairs = true;
         pairs &= customerInvoiceDetail.getSequenceNumber().equals(invoicePaidApplied.getInvoiceItemNumber());
@@ -298,12 +308,12 @@ public class PaymentApplicationDocumentServiceImpl implements PaymentApplication
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put("financialDocumentReferenceInvoiceNumber", invoiceNumber);
         BusinessObjectService service = SpringContext.getBean(BusinessObjectService.class);
-        
+
         Collection<PaymentApplicationDocument> payments = service.findMatching(PaymentApplicationDocument.class, fieldValues);
-        
+
         return payments;
     }
-    
+
     /*
     public Collection<PaymentApplicationDocument> getPaymentApplicationDocumentsByCustomerNumber(String customerNumber) {
 
@@ -340,7 +350,7 @@ public class PaymentApplicationDocumentServiceImpl implements PaymentApplication
     public Collection<PaymentApplicationDocument> getPaymentApplicationDocumentsByAccountNumber(String accountNumber) {
 
         Collection<CustomerInvoiceDocument> invoiceList = SpringContext.getBean(CustomerInvoiceDocumentService.class).getCustomerInvoiceDocumentsByAccountNumber(accountNumber);
-        
+
         Set<String> customerNumberSet = new HashSet<String>();
         for (CustomerInvoiceDocument invoice : invoiceList) {
             Map<String, String> fieldValues = new HashMap<String, String>();
@@ -350,15 +360,15 @@ public class PaymentApplicationDocumentServiceImpl implements PaymentApplication
             customerNumberSet.add(arDocHeader.getCustomerNumber());
         }
 
-        Collection<PaymentApplicationDocument> paymentApplicationDocumentList = new ArrayList<PaymentApplicationDocument>();        
+        Collection<PaymentApplicationDocument> paymentApplicationDocumentList = new ArrayList<PaymentApplicationDocument>();
         for (String customerNumber : customerNumberSet) {
             paymentApplicationDocumentList.addAll(getPaymentApplicationDocumentsByCustomerNumber(customerNumber));
         }
-        
+
         return paymentApplicationDocumentList;
     }
     */
-    
+
     public DocumentService getDocumentService() {
         return documentService;
     }
@@ -366,11 +376,11 @@ public class PaymentApplicationDocumentServiceImpl implements PaymentApplication
     public void setDocumentService(DocumentService documentService) {
         this.documentService = documentService;
     }
-    
+
     public void setInvoicePaidAppliedService(InvoicePaidAppliedService invoicePaidAppliedService) {
         this.invoicePaidAppliedService = invoicePaidAppliedService;
     }
-    
+
     public BusinessObjectService getBusinessObjectService() {
         return businessObjectService;
     }
@@ -382,7 +392,7 @@ public class PaymentApplicationDocumentServiceImpl implements PaymentApplication
     public void setNonAppliedHoldingService(NonAppliedHoldingService nonAppliedHoldingService) {
         this.nonAppliedHoldingService = nonAppliedHoldingService;
     }
-    
+
     public void setUniversityDateService(UniversityDateService universityDateService) {
         this.universityDateService = universityDateService;
     }
@@ -390,5 +400,5 @@ public class PaymentApplicationDocumentServiceImpl implements PaymentApplication
     public void setCashControlDetailDao(CashControlDetailDao cashControlDetailDao) {
         this.cashControlDetailDao = cashControlDetailDao;
     }
-    
+
 }

@@ -98,12 +98,10 @@ public class PaymentFileServiceImpl extends InitiateDirectoryBase implements Pay
                 if (paymentFile != null && paymentFile.isPassedValidation()) {
                     // load payment data
                     loadPayments(paymentFile, status, incomingFileName);
-
                     createOutputFile(status, incomingFileName);
                 }else{
                     //if we encounter an error for the payment file, we will remove the .done file so it will not be parse again
-
-                    LOG.warn("Encounter a problem while processing payment file: " + incomingFileName + " .  Removing the done file to stop re-process.");
+                    LOG.error("Encounter a problem while processing payment file: " + incomingFileName + " .  Removing the done file to stop re-process.");
                     removeDoneFile(incomingFileName);
                 }
             }
@@ -126,9 +124,15 @@ public class PaymentFileServiceImpl extends InitiateDirectoryBase implements Pay
         // parse xml, if errors found return with failure
         PaymentFileLoad paymentFile = parsePaymentFile(paymentInputFileType, incomingFileName, errorMap);
 
+        // if no parsing error, do further validation
         if (errorMap.hasNoErrors()) {
-            // do validation
             doPaymentFileValidation(paymentFile, errorMap);
+        }
+
+        //TODO FSKD-5416 KFSCNTRB ???        
+        // if any error from parsing or post-parsing validation, send error email notice
+        if (errorMap.hasErrors()) {
+            paymentFileEmailService.sendErrorEmail(paymentFile, errorMap);
         }
 
         return paymentFile;
@@ -142,11 +146,18 @@ public class PaymentFileServiceImpl extends InitiateDirectoryBase implements Pay
     public void doPaymentFileValidation(PaymentFileLoad paymentFile, MessageMap errorMap) {
         paymentFileValidationService.doHardEdits(paymentFile, errorMap);
 
+        //TODO FSKD-5416 KFSCNTRB ???
         if (errorMap.hasErrors()) {
-            paymentFileEmailService.sendErrorEmail(paymentFile, errorMap);
+            // move the sending error email notice logic into the caller processPaymentFile
+            // since we need to send such notice on and both parsing error and post-parsing validation error
+            //paymentFileEmailService.sendErrorEmail(paymentFile, errorMap);
+            // set validation failed
+            paymentFile.setPassedValidation(false);
         }
-
-        paymentFile.setPassedValidation(true);
+        else {
+            // set validation succeeded
+            paymentFile.setPassedValidation(true);
+        }
     }
 
     /**
@@ -219,7 +230,6 @@ public class PaymentFileServiceImpl extends InitiateDirectoryBase implements Pay
         }
         catch (ParseException e1) {
             LOG.error("Error parsing xml " + e1.getMessage());
-
             errorMap.putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_BATCH_UPLOAD_PARSING_XML, new String[] { e1.getMessage() });
         }
 

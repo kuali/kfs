@@ -30,9 +30,6 @@
         <value>requisitionSourceCode</value>
       </list>
     </property>
-    
-    
-    
     <property name="documentTypeName" value="PMSO"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
     <property name="workflowAttributes">
@@ -51,6 +48,7 @@
       <list>
         <bean parent="MaintainableFieldDefinition" p:name="requisitionSourceCode" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="requisitionSourceDescription" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="allowCopyDays" p:required="true" p:defaultValue="9999"/>
         <bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true"/>
       </list>
     </property>

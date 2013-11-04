@@ -28,6 +28,7 @@
 				<property name="lines">
 					<list>
 						<ref bean="VoucherInformation"/>
+						<ref bean="AccountingLineView-lineDescription" />
 					</list>
 				</property>
 			</bean>
@@ -47,6 +48,7 @@
 					<list>
 						<ref bean="VoucherInformation"/>
 						<ref bean="EncumbranceInformation"/>
+						<ref bean="AccountingLineView-lineDescription" />
 					</list>
 				</property>
 			</bean>
@@ -65,6 +67,7 @@
 				<property name="lines">
 					<list>
 						<ref bean="VoucherInformation"/>
+						<ref bean="AccountingLineView-lineDescription" />
 					</list>
 				</property>
 			</bean>
@@ -84,6 +87,7 @@
 					<list>
 						<ref bean="VoucherInformation"/>
 						<ref bean="EncumbranceInformation"/>
+						<ref bean="AccountingLineView-lineDescription" />
 					</list>
 				</property>
 			</bean>

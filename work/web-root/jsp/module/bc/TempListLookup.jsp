@@ -115,7 +115,6 @@
                 --> 					
 				<tr align=center>
 					<td height="30" colspan=2 class="infoline">
-					<c:if test="${KualiForm.forceToAccountListScreen != true}">
 					<c:if test="${KualiForm.tempListLookupMode == BCConstants.TempListLookupMode.ACCOUNT_SELECT_ABOVE_POV}">
 					  <html:image
 					  	  property="methodToCall.submitReport" value="submit"
@@ -131,13 +130,6 @@
 						property="methodToCall.clearValues" value="clearValues"
 						src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_clear.gif" styleClass="tinybutton"
 						alt="clear" title="clear" border="0" /> 
-					</c:if>
-					</c:if>
-					<c:if test="${KualiForm.forceToAccountListScreen == true}">
-						<html:image
-					  	  	property="methodToCall.submitReport" value="submit"
-						  	src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_submit.gif" styleClass="tinybutton"
-						  	alt="submit" title="submit" border="0" onclick="excludeSubmitRestriction=true"/>
 					</c:if>
 					<c:choose>
 						<c:when test="${KualiForm.tempListLookupMode == BCConstants.TempListLookupMode.CSF_TRACKER_POSITION_LOOKUP}" >

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog'
+	xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+	xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd'>
+	
+  	<changeSet author="KFS52" id="KFSCNTRB-1276">
+		<comment>KFSCNTRB-1276 Need this column to hold number of days after the creation of a requisition in which it can be copied.The value 9999 would indicate that a copy would be allowed for an infinite number of days and the value 0 would indicate that copy is not allowed</comment>
+		<addColumn tableName="PUR_REQS_SRC_T">
+		 <column name="ALLOW_COPY_DAYS" type="NUMBER(4)" defaultValueNumeric="9999">
+		  <constraints nullable="false" />
+		 </column>
+		</addColumn>
+		<modifySql dbms="mysql">
+			<replace replace="NUMBER" with="DECIMAL" />
+		</modifySql>
+	</changeSet>
+	
+</databaseChangeLog>

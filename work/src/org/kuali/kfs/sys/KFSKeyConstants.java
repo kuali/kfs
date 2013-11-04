@@ -1031,6 +1031,13 @@ public class KFSKeyConstants {
     //capital asset information specific errors...
     public static final String ERROR_ASSET_ACCOUNT_NUMBER_LINE_NOT_IN_SOURCE_OR_TARGET_ACCOUNTING_LINES = "error.asset.accounting.lines.not.in.source.or.target.accountLines";
     public static final String ERROR_ASSET_LINE_AMOUNT_NOT_EQUAL_TO_DISTRIBUTED_ACCOUNTING_LINES = "error.asset.amount.not.equalDistributedAccountingLines";
-    
+
     public static final String QUESTION_NEED_OVERRIDE_ACCOUNT_FOR_EXPIRED = "question.need.override.account.for.expired";
+
+    public static final class IntraAccountAdjustment {
+        public static final String ERROR_NOT_BALANCED_PER_ACC_OBJECT = "error.iaa.al.not.balanced.per.acc.per.object";
+        public static final String ERROR_CS_ICR_SUBACCOUNTS_NOT_ALLOWED = "error.iaa.cs.icr.subaccounts.not.allowed";
+    }
+
+    public static final String ERROR_INVALID_INCOME_OBJCODE_SUB_FUND = "error.invalid.income.objCode.subFund";
 }

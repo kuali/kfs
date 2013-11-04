@@ -14,89 +14,78 @@
 		the specific language governing permissions and limitations under the
 		License.
 	-->
-  <bean id="TravelCompanyCode" parent="TravelCompanyCode-parentBean"/>
+	<bean id="TravelCompanyCode" parent="TravelCompanyCode-parentBean" />
 
 	<bean id="TravelCompanyCode-parentBean" abstract="true"
 		parent="BusinessObjectEntry">
 		<property name="businessObjectClass"
 			value="org.kuali.kfs.fp.businessobject.TravelCompanyCode" />
-    <property name="inquiryDefinition">
-      <ref bean="TravelCompanyCode-inquiryDefinition"/>
-    </property>
-    <property name="lookupDefinition">
-      <ref bean="TravelCompanyCode-lookupDefinition"/>
-    </property>
-    <property name="titleAttribute" value="code"/>
-    <property name="objectLabel" value="Disbursement Voucher Travel Company"/>
-    <property name="attributes">
-      <list>
-        <ref bean="TravelCompanyCode-code"/>
-        <ref bean="TravelCompanyCode-travelExpenseTypeCode.prepaidExpense"/>
-        <ref bean="TravelCompanyCode-name"/>
-        <ref bean="TravelCompanyCode-foreignCompany"/>        
-        <ref bean="TravelCompanyCode-active"/>
-      </list>
-    </property>
-  </bean>
+		<property name="inquiryDefinition">
+			<ref bean="TravelCompanyCode-inquiryDefinition" />
+		</property>
+		<property name="lookupDefinition">
+			<ref bean="TravelCompanyCode-lookupDefinition" />
+		</property>
+		<property name="titleAttribute" value="code" />
+		<property name="objectLabel" value="Disbursement Voucher Travel Company" />
+		<property name="attributes">
+			<list>
+				<ref bean="TravelCompanyCode-code" />
+				<ref bean="TravelCompanyCode-travelExpenseTypeCode.prepaidExpense" />
+				<ref bean="TravelCompanyCode-name" />
+				<ref bean="TravelCompanyCode-active" />
+			</list>
+		</property>
+	</bean>
 
-<!-- Attribute Definitions -->
+	<!-- Attribute Definitions -->
 
 
-  <bean id="TravelCompanyCode-code" parent="TravelCompanyCode-code-parentBean"/>
+	<bean id="TravelCompanyCode-code" parent="TravelCompanyCode-code-parentBean" />
 
 	<bean id="TravelCompanyCode-code-parentBean" abstract="true"
 		parent="TravelExpenseTypeCode-code">
-    <property name="label" value="Company Type Code"/>
-    <property name="forceUppercase" value="true"/>
-  </bean>
+		<property name="label" value="Company Type Code" />
+		<property name="forceUppercase" value="true" />
+	</bean>
 	<bean id="TravelCompanyCode-travelExpenseTypeCode.prepaidExpense"
 		parent="TravelCompanyCode-travelExpenseTypeCode.prepaidExpense-parentBean" />
 
 	<bean
 		id="TravelCompanyCode-travelExpenseTypeCode.prepaidExpense-parentBean"
 		abstract="true" parent="TravelExpenseTypeCode-prepaidExpense">
-    <property name="name" value="travelExpenseTypeCode.prepaidExpense"/>
-  </bean>
-  <bean id="TravelCompanyCode-name" parent="TravelCompanyCode-name-parentBean"/>
+		<property name="name" value="travelExpenseTypeCode.prepaidExpense" />
+	</bean>
+	<bean id="TravelCompanyCode-name" parent="TravelCompanyCode-name-parentBean" />
 
 	<bean id="TravelCompanyCode-name-parentBean" abstract="true"
 		parent="AttributeDefinition">
-    <property name="name" value="name"/>
-    <property name="label" value="Travel Company Name"/>
-    <property name="shortLabel" value="Name"/>
-    <property name="maxLength" value="40"/>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="40"/>
-    </property>
-  </bean>
-  <bean id="TravelCompanyCode-active" parent="TravelCompanyCode-active-parentBean"/>
+		<property name="name" value="name" />
+		<property name="label" value="Travel Company Name" />
+		<property name="shortLabel" value="Name" />
+		<property name="maxLength" value="40" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="40" />
+		</property>
+	</bean>
+	<bean id="TravelCompanyCode-active" parent="TravelCompanyCode-active-parentBean" />
 
 	<bean id="TravelCompanyCode-active-parentBean" abstract="true"
 		parent="GenericAttributes-activeIndicator">
-    <property name="name" value="active"/>
-  </bean>
-  
-  <bean id="TravelCompanyCode-foreignCompany" parent="TravelCompanyCode-foreignCompany-parentBean" />
-  <bean id="TravelCompanyCode-foreignCompany-parentBean" parent="GenericAttributes-genericBoolean">		
-	<property name="name" value="foreignCompany" />
-	<property name="label" value="Foreign Company" />
-	<property name="shortLabel" value="Foreign Company" />
-	<property name="maxLength" value="1" />
-	<property name="required" value="false" />
-	<property name="summary" value="Foreign Company" />
-	<property name="description" value="Foreign Company" />
-  </bean>
-
-<!-- Business Object Inquiry Definition -->
+		<property name="name" value="active" />
+	</bean>
 
 
-  <bean id="TravelCompanyCode-inquiryDefinition" parent="TravelCompanyCode-inquiryDefinition-parentBean"/>
+	<!-- Business Object Inquiry Definition -->
+
+
+	<bean id="TravelCompanyCode-inquiryDefinition" parent="TravelCompanyCode-inquiryDefinition-parentBean" />
 
 	<bean id="TravelCompanyCode-inquiryDefinition-parentBean"
 		abstract="true" parent="InquiryDefinition">
-    <property name="title" value="Disbursement Voucher Travel Company Inquiry"/>
-    <property name="inquirySections">
-      <list>
+		<property name="title" value="Disbursement Voucher Travel Company Inquiry" />
+		<property name="inquirySections">
+			<list>
 				<ref bean="TravelCompanyCode-inquirySectionDefinition" />
 			</list>
 		</property>
@@ -104,53 +93,50 @@
 	<bean id="TravelCompanyCode-inquirySectionDefinition" parent="TravelCompanyCode-inquirySectionDefinition-parentBean" />
 	<bean id="TravelCompanyCode-inquirySectionDefinition-parentBean"
 		parent="InquirySectionDefinition" abstract="true">
-          <property name="title" value=""/>
-          <property name="numberOfColumns" value="1"/>
-          <property name="inquiryFields">
-            <list>
-              <bean parent="FieldDefinition" p:attributeName="code"/>
-              <bean parent="FieldDefinition" p:attributeName="name"/>
-              <bean parent="FieldDefinition" p:attributeName="foreignCompany"/>              
+		<property name="title" value="" />
+		<property name="numberOfColumns" value="1" />
+		<property name="inquiryFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="code" />
+				<bean parent="FieldDefinition" p:attributeName="name" />
 				<bean parent="FieldDefinition" p:attributeName="active" />
 			</list>
 		</property>
 	</bean>
 
-<!-- Business Object Lookup Definition -->
+
+	<!-- Business Object Lookup Definition -->
 
 
-  <bean id="TravelCompanyCode-lookupDefinition" parent="TravelCompanyCode-lookupDefinition-parentBean"/>
-
+	<bean id="TravelCompanyCode-lookupDefinition" parent="TravelCompanyCode-lookupDefinition-parentBean" />
 
 	<bean id="TravelCompanyCode-lookupDefinition-parentBean" abstract="true"
 		parent="LookupDefinition">
-    <property name="title" value="Disbursement Voucher Travel Company Lookup"/>
-    
-    <property name="defaultSort">
-      <bean parent="SortDefinition">
-        <property name="attributeNames">
-          <list>
-            <value>code</value>
-          </list>
-        </property>
-      </bean>
-    </property>
-    <property name="lookupFields">
-      <list>
-        <bean parent="FieldDefinition" p:attributeName="code"/>
-        <bean parent="FieldDefinition" p:attributeName="travelExpenseTypeCode.prepaidExpense"/>
-        <bean parent="FieldDefinition" p:attributeName="name"/>
-        <bean parent="FieldDefinition" p:attributeName="foreignCompany"/>
-        <bean parent="FieldDefinition" p:attributeName="active"/>
-      </list>
-    </property>
-    <property name="resultFields">
-      <list>
-        <bean parent="FieldDefinition" p:attributeName="code"/>
-        <bean parent="FieldDefinition" p:attributeName="name"/>
-        <bean parent="FieldDefinition" p:attributeName="foreignCompany"/>        
-        <bean parent="FieldDefinition" p:attributeName="active"/>
-      </list>
-    </property>
-  </bean>
+		<property name="title" value="Disbursement Voucher Travel Company Lookup" />
+
+		<property name="defaultSort">
+			<bean parent="SortDefinition">
+				<property name="attributeNames">
+					<list>
+						<value>code</value>
+					</list>
+				</property>
+			</bean>
+		</property>
+		<property name="lookupFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="code" />
+				<bean parent="FieldDefinition" p:attributeName="travelExpenseTypeCode.prepaidExpense" />
+				<bean parent="FieldDefinition" p:attributeName="name" />
+				<bean parent="FieldDefinition" p:attributeName="active" />
+			</list>
+		</property>
+		<property name="resultFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="code" />
+				<bean parent="FieldDefinition" p:attributeName="name" />
+				<bean parent="FieldDefinition" p:attributeName="active" />
+			</list>
+		</property>
+	</bean>
 </beans>

@@ -318,10 +318,6 @@ public class KFSPropertyConstants {
     public static final String COMPLETE = "complete";
     public static final String COMPONENT_CLASS = "componentClass";
     public static final String COMPONENT_LABEL = "componentLabel";
-    public static final String CUSTOMER_ADDRESS_IDENTIFIER = "customerAddressIdentifier";
-    public static final String CUSTOMER_NUMBER = "customerNumber";
-    public static final String CUSTOMER_NAME = "customerName";
-    public static final String CUSTOMER_TAX_NUMBER = "customerTaxNbr";
     public static final String DEPARTMENT_NAME = "departmentName";
     public static final String DESCRIPTION = KRADPropertyConstants.DESCRIPTION;
     public static final String EXTENSION = "extension";

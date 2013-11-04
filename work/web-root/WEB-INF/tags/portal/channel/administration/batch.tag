@@ -39,15 +39,6 @@
 			<li><portal:portalLink displayTitle="true" title="Labor Enterprise Feed Upload" url="laborBatchUploadFileSet.do?methodToCall=start&batchUpload.batchInputTypeName=laborEnterpriseFeederFileSetType" /></li>
 		</c:if>
 	</ul>
-	<c:if test="${ConfigProperties.module.travel.enabled == 'true'}">
-    <strong>Travel</strong><br/>
-	<ul class="chan">
-	    <li><portal:portalLink displayTitle="true" title="Credit Card Data Upload" url="batchUpload.do?methodToCall=start&batchUpload.batchInputTypeName=creditCardDataXmlInputFileType" /></li>
-	    <li><portal:portalLink displayTitle="true" title="Per Diem XML Batch Upload" url="batchUpload.do?methodToCall=start&batchUpload.batchInputTypeName=perDiemXmlInputFileType" /></li>
-	    <li><portal:portalLink displayTitle="true" title="Per Diem TXT Batch Upload" url="batchUpload.do?methodToCall=start&batchUpload.batchInputTypeName=perDiemTxtInputFileType" /></li>
-	    <li><portal:portalLink displayTitle="true" title="Travel Agency Data Upload" url="batchUpload.do?methodToCall=start&batchUpload.batchInputTypeName=agencyDataXmlInputFileType" /></li>
-    </ul>	
-	</c:if>
 	<strong>Purchasing/Accounts Payable</strong><br/>
     <ul class="chan">
 	    <li><portal:portalLink displayTitle="true" title="Electronic Invoice Upload" url="batchUpload.do?methodToCall=start&batchUpload.batchInputTypeName=electronicInvoiceInputFileType" /></li>
@@ -69,10 +60,10 @@
 		<li><portal:portalLink displayTitle="true" title="Special Batch File Upload" url="batchFileUpload" /></li>
 	</ul>
 	<c:if test="${ConfigProperties.module.access.security.enabled == 'true'}">
-	<strong>Security</strong><br/>
-    <ul class="chan">
-    	<li><portal:portalLink displayTitle="true" title="Access Security Simulation" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.sec.businessobject.AccessSecuritySimulation&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
-	</ul>
+		<strong>Security</strong><br/>
+	    <ul class="chan">
+	    	<li><portal:portalLink displayTitle="true" title="Access Security Simulation" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.sec.businessobject.AccessSecuritySimulation&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
+		</ul>	
 	</c:if>
 </div>
 <channel:portalChannelBottom />

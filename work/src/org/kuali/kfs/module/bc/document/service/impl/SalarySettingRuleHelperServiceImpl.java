@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -25,9 +25,9 @@ import java.util.List;
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.bc.BCConstants;
-import org.kuali.kfs.module.bc.BCConstants.SynchronizationCheckType;
 import org.kuali.kfs.module.bc.BCKeyConstants;
 import org.kuali.kfs.module.bc.BCPropertyConstants;
+import org.kuali.kfs.module.bc.BCConstants.SynchronizationCheckType;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
 import org.kuali.kfs.module.bc.document.service.SalarySettingRuleHelperService;
 import org.kuali.kfs.module.bc.document.service.SalarySettingService;
@@ -46,7 +46,7 @@ public class SalarySettingRuleHelperServiceImpl implements SalarySettingRuleHelp
 
     protected SalarySettingService salarySettingService;
     protected HumanResourcesPayrollService humanResourcesPayrollService;
-    
+
     /**
      * @see org.kuali.kfs.module.bc.document.service.SalarySettingRuleHelperService#canBeAdjusted(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding, org.kuali.rice.krad.util.MessageMap)
      */
@@ -56,7 +56,7 @@ public class SalarySettingRuleHelperServiceImpl implements SalarySettingRuleHelp
             //errorMap.putError(BCPropertyConstants.APPOINTMENT_REQUESTED_AMOUNT, BCKeyConstants.ERROR_CANNOT_ADJUST_FUNDING_WITHOUT_EFFECTIVE_CSF_TRACKER);
             return false;
         }
-        
+
         if (appointmentFunding.isAppointmentFundingDeleteIndicator()) {
             // These error messages should not be displayed since the reported condition is obvious and benign.
             //errorMap.putError(BCPropertyConstants.APPOINTMENT_REQUESTED_AMOUNT, BCKeyConstants.ERROR_CANNOT_ADJUST_FUNDING_MARKED_AS_DELETE);
@@ -139,7 +139,7 @@ public class SalarySettingRuleHelperServiceImpl implements SalarySettingRuleHelp
                 errorMap.putError(BCPropertyConstants.APPOINTMENT_REQUESTED_FTE_QUANTITY, BCKeyConstants.ERROR_REQUEST_FTE_NOT_ZERO_WHEN_FULL_YEAR_LEAVE);
                 return false;
             }
-            
+
             return true;
         }
 
@@ -179,10 +179,17 @@ public class SalarySettingRuleHelperServiceImpl implements SalarySettingRuleHelp
         if (this.hasValidRequestedAmount(appointmentFunding, errorMap)){
             KualiInteger requestedAmount = appointmentFunding.getAppointmentRequestedAmount();
             BigDecimal requestedFteQuantity = appointmentFunding.getAppointmentRequestedFteQuantity();
+            BigDecimal hourlyRate = appointmentFunding.getAppointmentRequestedPayRate();
             if (requestedAmount.isPositive() && (requestedFteQuantity != null && requestedFteQuantity.compareTo(BigDecimal.ZERO) == 0)) {
                 errorMap.putError(BCPropertyConstants.APPOINTMENT_REQUESTED_AMOUNT, BCKeyConstants.ERROR_REQUESTED_AMOUNT_NEEDS_FTE_FIRST);
                 return false;
             }
+            if ((hourlyRate != null && hourlyRate.compareTo(BigDecimal.ZERO) != 0)  && (requestedFteQuantity != null && requestedFteQuantity.compareTo(BigDecimal.ZERO) == 0)) {
+                errorMap.putError(BCPropertyConstants.APPOINTMENT_REQUESTED_PAY_RATE, BCKeyConstants.ERROR_REQUESTED_AMOUNT_NEEDS_FTE_FIRST);
+                return false;
+            }
+        } else {
+            return false;
         }
 
         return true;
@@ -202,7 +209,7 @@ public class SalarySettingRuleHelperServiceImpl implements SalarySettingRuleHelp
                 errorMap.putError(BCPropertyConstants.APPOINTMENT_REQUESTED_CSF_AMOUNT, BCKeyConstants.ERROR_FTE_GREATER_THAN_ZERO_REQUIRED);
                 return false;
             }
-            
+
             return true;
         }
 
@@ -223,7 +230,7 @@ public class SalarySettingRuleHelperServiceImpl implements SalarySettingRuleHelp
                 errorMap.putError(BCPropertyConstants.APPOINTMENT_REQUESTED_CSF_TIME_PERCENT, BCKeyConstants.ERROR_LEAVE_TIME_PERCENT_NOT_IN_RANGE, BigDecimal.ZERO.toPlainString(), BCConstants.ONE_HUNDRED.toPlainString());
                 return false;
             }
-            
+
             return true;
         }
 
@@ -263,7 +270,7 @@ public class SalarySettingRuleHelperServiceImpl implements SalarySettingRuleHelp
                 errorMap.putError(BCPropertyConstants.APPOINTMENT_FUNDING_MONTH, BCKeyConstants.ERROR_FUNDIN_MONTH_NOT_IN_RANGE, ObjectUtils.toString(fundingMonths), "0", ObjectUtils.toString(normalWorkMonths));
                 return false;
             }
-            
+
             return true;
         }
 
@@ -283,6 +290,7 @@ public class SalarySettingRuleHelperServiceImpl implements SalarySettingRuleHelp
     public boolean hasValidRequestedTimePercent(PendingBudgetConstructionAppointmentFunding appointmentFunding, MessageMap errorMap) {
         KualiInteger requestedAmount = appointmentFunding.getAppointmentRequestedAmount();
         BigDecimal requestedTimePercent = appointmentFunding.getAppointmentRequestedTimePercent();
+        BigDecimal hourlyRate = appointmentFunding.getAppointmentRequestedPayRate();
 
         if (requestedTimePercent == null) {
             errorMap.putError(BCPropertyConstants.APPOINTMENT_REQUESTED_TIME_PERCENT, BCKeyConstants.ERROR_EMPTY_REQUESTED_TIME_PERCENT);
@@ -294,7 +302,7 @@ public class SalarySettingRuleHelperServiceImpl implements SalarySettingRuleHelp
             return false;
         }
 
-        if (requestedAmount.isPositive() && requestedTimePercent.compareTo(BigDecimal.ZERO) <= 0) {
+        if ((requestedAmount.isPositive() || (hourlyRate != null && hourlyRate.compareTo(BigDecimal.ZERO) != 0)) && requestedTimePercent.compareTo(BigDecimal.ZERO) <= 0) {
             errorMap.putError(BCPropertyConstants.APPOINTMENT_REQUESTED_TIME_PERCENT, BCKeyConstants.ERROR_TIME_PERCENT_GREATER_THAN_ZERO_REQUIRED);
             return false;
         }
@@ -336,7 +344,7 @@ public class SalarySettingRuleHelperServiceImpl implements SalarySettingRuleHelp
 
     /**
      * Sets the salarySettingService attribute value.
-     * 
+     *
      * @param salarySettingService The salarySettingService to set.
      */
     public void setSalarySettingService(SalarySettingService salarySettingService) {
@@ -345,7 +353,7 @@ public class SalarySettingRuleHelperServiceImpl implements SalarySettingRuleHelp
 
     /**
      * Sets the humanResourcesPayrollService attribute value.
-     * 
+     *
      * @param humanResourcesPayrollService The humanResourcesPayrollService to set.
      */
     public void setHumanResourcesPayrollService(HumanResourcesPayrollService humanResourcesPayrollService) {

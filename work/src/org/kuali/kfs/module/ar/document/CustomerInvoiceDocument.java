@@ -34,11 +34,7 @@ import org.kuali.kfs.coa.businessobject.ProjectCode;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.kfs.coa.service.AccountService;
-import org.kuali.kfs.integration.ar.AccountsReceivableCustomerAddress;
-import org.kuali.kfs.integration.ar.AccountsReceivableCustomerInvoice;
-import org.kuali.kfs.integration.ar.AccountsReceivableCustomerInvoiceRecurrenceDetails;
 import org.kuali.kfs.module.ar.ArConstants;
-import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
 import org.kuali.kfs.module.ar.businessobject.Customer;
 import org.kuali.kfs.module.ar.businessobject.CustomerAddress;
@@ -80,7 +76,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class CustomerInvoiceDocument extends AccountingDocumentBase implements AmountTotaling, Copyable, Correctable, Comparable<CustomerInvoiceDocument>, AccountsReceivableCustomerInvoice {
+public class CustomerInvoiceDocument extends AccountingDocumentBase implements AmountTotaling, Copyable, Correctable, Comparable<CustomerInvoiceDocument> {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CustomerInvoiceDocument.class);
 
     protected static final String HAS_RECCURENCE_NODE = "HasReccurence";
@@ -166,7 +162,6 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
      *
      * @return the outstanding balance on this invoice
      */
-    @Override
     public KualiDecimal getOpenAmount() {
         return SpringContext.getBean(CustomerInvoiceDocumentService.class).getOpenAmountForCustomerInvoiceDocument(this);
     }
@@ -216,7 +211,6 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
      *
      * @return Returns the invoiceAttentionLineText
      */
-    @Override
     public String getInvoiceAttentionLineText() {
         return invoiceAttentionLineText;
     }
@@ -236,7 +230,6 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
      *
      * @return Returns the invoiceDueDate
      */
-    @Override
     public Date getInvoiceDueDate() {
         return invoiceDueDate;
     }
@@ -246,7 +239,6 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
      *
      * @param invoiceDueDate The invoiceDueDate to set.
      */
-    @Override
     public void setInvoiceDueDate(Date invoiceDueDate) {
         this.invoiceDueDate = invoiceDueDate;
     }
@@ -257,7 +249,6 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
      *
      * @return Returns the billingDate
      */
-    @Override
     public Date getBillingDate() {
         return billingDate;
     }
@@ -267,7 +258,6 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
      *
      * @return
      */
-    @Override
     public Integer getAge() {
         if (ObjectUtils.isNotNull(billingDate)) {
             return (int) KfsDateUtils.getDifferenceInDays(new Timestamp(billingDate.getTime()), SpringContext.getBean(DateTimeService.class).getCurrentTimestamp());
@@ -285,7 +275,6 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
      *
      * @param billingDate The billingDate to set.
      */
-    @Override
     public void setBillingDate(Date billingDate) {
         this.billingDate = billingDate;
     }
@@ -296,7 +285,6 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
      *
      * @return Returns the invoiceTermsText
      */
-    @Override
     public String getInvoiceTermsText() {
         return invoiceTermsText;
     }
@@ -306,7 +294,6 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
      *
      * @param invoiceTermsText The invoiceTermsText to set.
      */
-    @Override
     public void setInvoiceTermsText(String invoiceTermsText) {
         this.invoiceTermsText = invoiceTermsText;
     }
@@ -326,7 +313,6 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
      *
      * @param organizationInvoiceNumber The organizationInvoiceNumber to set.
      */
-    @Override
     public void setOrganizationInvoiceNumber(String organizationInvoiceNumber) {
         this.organizationInvoiceNumber = organizationInvoiceNumber;
     }
@@ -363,7 +349,6 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
      *
      * @param printInvoiceIndicator The printInvoiceIndicator to set.
      */
-    @Override
     public void setPrintInvoiceIndicator(String printInvoiceIndicator) {
         this.printInvoiceIndicator = printInvoiceIndicator;
     }
@@ -392,7 +377,6 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
      *
      * @return Returns the billByChartOfAccountCode
      */
-    @Override
     public String getBillByChartOfAccountCode() {
         return billByChartOfAccountCode;
     }
@@ -402,17 +386,16 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
      *
      * @param billByChartOfAccountCode The billByChartOfAccountCode to set.
      */
-    @Override
     public void setBillByChartOfAccountCode(String billByChartOfAccountCode) {
         this.billByChartOfAccountCode = billByChartOfAccountCode;
     }
+
 
     /**
      * Gets the billedByOrganizationCode attribute.
      *
      * @return Returns the billedByOrganizationCode
      */
-    @Override
     public String getBilledByOrganizationCode() {
         return billedByOrganizationCode;
     }
@@ -422,10 +405,10 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
      *
      * @param billedByOrganizationCode The billedByOrganizationCode to set.
      */
-    @Override
     public void setBilledByOrganizationCode(String billedByOrganizationCode) {
         this.billedByOrganizationCode = billedByOrganizationCode;
     }
+
 
     /**
      * Gets the customerShipToAddressIdentifier attribute.
@@ -460,7 +443,6 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
      *
      * @param customerBillToAddressIdentifier The customerBillToAddressIdentifier to set.
      */
-    @Override
     public void setCustomerBillToAddressIdentifier(Integer customerBillToAddressIdentifier) {
         this.customerBillToAddressIdentifier = customerBillToAddressIdentifier;
     }
@@ -509,7 +491,6 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
      *
      * @return Returns the openInvoiceIndicator
      */
-    @Override
     public boolean isOpenInvoiceIndicator() {
         return openInvoiceIndicator;
     }
@@ -519,7 +500,6 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
      *
      * @param openInvoiceIndicator The openInvoiceIndicator to set.
      */
-    @Override
     public void setOpenInvoiceIndicator(boolean openInvoiceIndicator) {
         this.openInvoiceIndicator = openInvoiceIndicator;
     }
@@ -565,7 +545,6 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
      *
      * @param paymentChartOfAccountsCode The paymentChartOfAccountsCode to set.
      */
-    @Override
     public void setPaymentChartOfAccountsCode(String paymentChartOfAccountsCode) {
         this.paymentChartOfAccountsCode = paymentChartOfAccountsCode;
     }
@@ -620,7 +599,6 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
      *
      * @param paymentOrganizationReferenceIdentifier The paymentOrganizationReferenceIdentifier to set.
      */
-    @Override
     public void setPaymentOrganizationReferenceIdentifier(String paymentOrganizationReferenceIdentifier) {
         this.paymentOrganizationReferenceIdentifier = paymentOrganizationReferenceIdentifier;
     }
@@ -684,7 +662,6 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
      *
      * @return Returns the accountsReceivableDocumentHeader
      */
-    @Override
     public AccountsReceivableDocumentHeader getAccountsReceivableDocumentHeader() {
         return accountsReceivableDocumentHeader;
     }
@@ -772,7 +749,6 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
      *
      * @return Returns the paymentAccount.
      */
-    @Override
     public Account getPaymentAccount() {
         return paymentAccount;
     }
@@ -1673,7 +1649,6 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
         return billingAddressInternationalProvinceName;
     }
 
-    @Override
     public void setBillingAddressInternationalProvinceName(String billingAddressInternationalProvinceName) {
         this.billingAddressInternationalProvinceName = billingAddressInternationalProvinceName;
     }
@@ -1682,7 +1657,6 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
         return billingAddressName;
     }
 
-    @Override
     public void setBillingAddressName(String billingAddressName) {
         this.billingAddressName = billingAddressName;
     }
@@ -1699,7 +1673,6 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
         return billingCityName;
     }
 
-    @Override
     public void setBillingCityName(String billingCityName) {
         this.billingCityName = billingCityName;
     }
@@ -1708,7 +1681,6 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
         return billingCountryCode;
     }
 
-    @Override
     public void setBillingCountryCode(String billingCountryCode) {
         this.billingCountryCode = billingCountryCode;
     }
@@ -1717,7 +1689,6 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
         return billingEmailAddress;
     }
 
-    @Override
     public void setBillingEmailAddress(String billingEmailAddress) {
         this.billingEmailAddress = billingEmailAddress;
     }
@@ -1726,7 +1697,6 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
         return billingInternationalMailCode;
     }
 
-    @Override
     public void setBillingInternationalMailCode(String billingInternationalMailCode) {
         this.billingInternationalMailCode = billingInternationalMailCode;
     }
@@ -1735,7 +1705,6 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
         return billingStateCode;
     }
 
-    @Override
     public void setBillingStateCode(String billingStateCode) {
         this.billingStateCode = billingStateCode;
     }
@@ -1744,12 +1713,10 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
         return billingZipCode;
     }
 
-    @Override
     public void setBillingZipCode(String billingZipCode) {
         this.billingZipCode = billingZipCode;
     }
 
-    @Override
     public String getCustomerName() {
         return customerName;
     }
@@ -1834,7 +1801,6 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
         return billingLine1StreetAddress;
     }
 
-    @Override
     public void setBillingLine1StreetAddress(String billingLine1StreetAddress) {
         this.billingLine1StreetAddress = billingLine1StreetAddress;
     }
@@ -1843,7 +1809,6 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
         return billingLine2StreetAddress;
     }
 
-    @Override
     public void setBillingLine2StreetAddress(String billingLine2StreetAddress) {
         this.billingLine2StreetAddress = billingLine2StreetAddress;
     }
@@ -2018,41 +1983,4 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
         return (ObjectUtils.isNotNull(getCustomerInvoiceRecurrenceDetails()) && getCustomerInvoiceRecurrenceDetails().isActive());
     }
 
-    @Override
-    public void setCustomerBillToAddress(AccountsReceivableCustomerAddress customerBillToAddress) {
-        this.customerBillToAddress = (CustomerAddress) customerBillToAddress;
-    }
-
-    @Override
-    public void setBillingAddressTypeCodeAsPrimary() {
-        setBillingAddressTypeCode(ArKeyConstants.CustomerConstants.CUSTOMER_ADDRESS_TYPE_CODE_PRIMARY);
-    }
-
-    @Override
-    public void setCustomerInvoiceRecurrenceDetails(AccountsReceivableCustomerInvoiceRecurrenceDetails customerInvoiceRecurrenceDetails) {
-        this.customerInvoiceRecurrenceDetails = (CustomerInvoiceRecurrenceDetails) customerInvoiceRecurrenceDetails;
-    }
-
-    @Override
-    public void setAccountsReceivableDocumentHeader(org.kuali.kfs.integration.ar.AccountsReceivableDocumentHeader accountsReceivableDocumentHeader) {
-        this.accountsReceivableDocumentHeader = (org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader)accountsReceivableDocumentHeader;
-    }
-
-    private Timestamp agingReportSentTime;
-
-    /**
-     * Gets the agingReportSentTime attribute.
-     * @return Returns the agingReportSentTime.
-     */
-    public Timestamp getAgingReportSentTime() {
-        return agingReportSentTime;
-    }
-
-    /**
-     * Sets the agingReportSentTime attribute value.
-     * @param agingReportSentTime The agingReportSentTime to set.
-     */
-    public void setAgingReportSentTime(Timestamp agingReportSentTime) {
-        this.agingReportSentTime = agingReportSentTime;
-    }
 }

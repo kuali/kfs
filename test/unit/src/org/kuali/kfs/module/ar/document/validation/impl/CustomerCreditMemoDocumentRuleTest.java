@@ -167,7 +167,7 @@ public class CustomerCreditMemoDocumentRuleTest extends KualiTestBase {
     public void testIsCustomerCreditMemoQtyGreaterThanInvoiceQty_Equal_True() {
         CustomerCreditMemoDetail detail = new CustomerCreditMemoDetail();
 
-        detail.setInvoiceOpenItemQuantity(new BigDecimal(2));
+        detail.setInvoiceOpenItemQuantity(new KualiDecimal(2));
         detail.setCreditMemoItemQuantity(new BigDecimal(2));
 
         assertTrue(rule.isCustomerCreditMemoQtyLessThanEqualToInvoiceOpenQty(detail));
@@ -179,7 +179,7 @@ public class CustomerCreditMemoDocumentRuleTest extends KualiTestBase {
     public void testIsCustomerCreditMemoQtyGreaterThanInvoiceQty_Less_True() {
         CustomerCreditMemoDetail detail = new CustomerCreditMemoDetail();
 
-        detail.setInvoiceOpenItemQuantity(new BigDecimal(2));
+        detail.setInvoiceOpenItemQuantity(new KualiDecimal(2));
         detail.setCreditMemoItemQuantity(new BigDecimal(1));
 
         assertTrue(rule.isCustomerCreditMemoQtyLessThanEqualToInvoiceOpenQty(detail));
@@ -191,7 +191,7 @@ public class CustomerCreditMemoDocumentRuleTest extends KualiTestBase {
     public void testIsCustomerCreditMemoQtyGreaterThanInvoiceQty_False() {
         CustomerCreditMemoDetail detail = new CustomerCreditMemoDetail();
 
-        detail.setInvoiceOpenItemQuantity(new BigDecimal(1));
+        detail.setInvoiceOpenItemQuantity(new KualiDecimal(1));
         detail.setCreditMemoItemQuantity(new BigDecimal(2));
 
         assertFalse(rule.isCustomerCreditMemoQtyLessThanEqualToInvoiceOpenQty(detail));

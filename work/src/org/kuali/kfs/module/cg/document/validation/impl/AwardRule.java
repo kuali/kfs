@@ -16,13 +16,12 @@
 package org.kuali.kfs.module.cg.document.validation.impl;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.kuali.kfs.integration.ar.AccountsReceivableModuleService;
-import org.kuali.kfs.integration.ar.businessobject.CustomerInvoiceAccount;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleRetrieveService;
 import org.kuali.kfs.module.cg.CGKeyConstants;
 import org.kuali.kfs.module.cg.CGPropertyConstants;

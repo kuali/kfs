@@ -46,7 +46,7 @@ public class CustomerCreditMemoDetail extends PersistableBusinessObjectBase impl
     private KualiDecimal invoiceLineTotalAmount; // not in DB
     private KualiDecimal creditMemoLineTotalAmount; // not in DB
     private KualiDecimal invoiceOpenItemAmount; // not in DB
-    private BigDecimal invoiceOpenItemQuantity; // not in DB
+    private KualiDecimal invoiceOpenItemQuantity; // not in DB
     private CustomerInvoiceDetail customerInvoiceDetail; // not in DB
     private String financialDocumentReferenceInvoiceNumber; // not in DB
     private boolean invoiceOpenItemQuantityZero; // not in DB
@@ -289,7 +289,7 @@ public class CustomerCreditMemoDetail extends PersistableBusinessObjectBase impl
      *
      * @return Returns the invoiceOpenItemQuantity.
      */
-    public BigDecimal getInvoiceOpenItemQuantity() {
+    public KualiDecimal getInvoiceOpenItemQuantity() {
         return invoiceOpenItemQuantity;
     }
 
@@ -298,7 +298,7 @@ public class CustomerCreditMemoDetail extends PersistableBusinessObjectBase impl
      *
      * @param invoiceOpenItemQuantity The invoiceOpenItemQuantity to set.
      */
-    public void setInvoiceOpenItemQuantity(BigDecimal invoiceOpenItemQuantity) {
+    public void setInvoiceOpenItemQuantity(KualiDecimal invoiceOpenItemQuantity) {
         this.invoiceOpenItemQuantity = invoiceOpenItemQuantity;
     }
 

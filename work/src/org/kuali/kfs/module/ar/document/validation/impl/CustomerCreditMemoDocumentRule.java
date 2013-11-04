@@ -163,8 +163,8 @@ public class CustomerCreditMemoDocumentRule extends TransactionalDocumentRuleBas
     }
 
     public boolean isCustomerCreditMemoQtyLessThanEqualToInvoiceOpenQty(CustomerCreditMemoDetail customerCreditMemoDetail) {
-        BigDecimal invoiceOpenItemQty = customerCreditMemoDetail.getInvoiceOpenItemQuantity();
-        BigDecimal customerCreditMemoItemQty = customerCreditMemoDetail.getCreditMemoItemQuantity();
+        KualiDecimal invoiceOpenItemQty = customerCreditMemoDetail.getInvoiceOpenItemQuantity();
+        KualiDecimal customerCreditMemoItemQty = new KualiDecimal(customerCreditMemoDetail.getCreditMemoItemQuantity());
 
         // customer credit memo quantity must not be greater than invoice open item quantity
         boolean validQuantity = (customerCreditMemoItemQty.compareTo(invoiceOpenItemQty) < 1 ? true : false);

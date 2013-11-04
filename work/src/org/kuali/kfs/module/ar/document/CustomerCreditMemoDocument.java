@@ -410,11 +410,11 @@ public class CustomerCreditMemoDocument extends GeneralLedgerPostingDocumentBase
         }
     }
 
-    public KualiDecimal getInvoiceOpenItemQuantity(CustomerCreditMemoDetail customerCreditMemoDetail,CustomerInvoiceDetail customerInvoiceDetail) {
-        KualiDecimal invoiceOpenItemQuantity;
+    public BigDecimal getInvoiceOpenItemQuantity(CustomerCreditMemoDetail customerCreditMemoDetail,CustomerInvoiceDetail customerInvoiceDetail) {
+        BigDecimal invoiceOpenItemQuantity;
         BigDecimal invoiceItemUnitPrice = customerInvoiceDetail.getInvoiceItemUnitPrice();
         if (ObjectUtils.isNull(invoiceItemUnitPrice) || invoiceItemUnitPrice.equals(BigDecimal.ZERO)) {
-            invoiceOpenItemQuantity = KualiDecimal.ZERO;
+            invoiceOpenItemQuantity = BigDecimal.ZERO;
         }
         else {
             KualiDecimal invoiceOpenItemAmount = customerCreditMemoDetail.getInvoiceOpenItemAmount();
@@ -423,7 +423,7 @@ public class CustomerCreditMemoDocument extends GeneralLedgerPostingDocumentBase
                 invoiceOpenItemPretaxAmount = getCustomerInvoiceDetailOpenPretaxAmount(invoiceOpenItemAmount);
             }
 
-            invoiceOpenItemQuantity = new KualiDecimal(invoiceOpenItemPretaxAmount.bigDecimalValue().divide(invoiceItemUnitPrice, 4));
+            invoiceOpenItemQuantity = invoiceOpenItemPretaxAmount.bigDecimalValue().divide(invoiceItemUnitPrice, ArConstants.ITEM_QUANTITY_SCALE, BigDecimal.ROUND_HALF_UP);
         }
         return invoiceOpenItemQuantity;
     }

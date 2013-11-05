@@ -1126,7 +1126,8 @@
     <bean id="excludeSingleActorSeparationOfDutiesRoleTypeService" parent="excludeSingleActorSeparationOfDutiesRoleTypeService-parentBean" />
     <bean id="excludeSingleActorSeparationOfDutiesRoleTypeService-parentBean" abstract="true" class="org.kuali.kfs.sys.identity.ExcludeSingleActorSeparationOfDutiesRoleTypeService" />
 
-	<bean id="kfsNotificationService" class="org.kuali.kfs.sys.service.impl.KfsNotificationServiceImpl">
+	<bean id="kfsNotificationService" parent="kfsNotificationService-parentBean"/>
+	<bean id="kfsNotificationService-parentBean" abstract="true" class="org.kuali.kfs.sys.service.impl.KfsNotificationServiceImpl">
 		<property name="velocityEngine" ref="velocityEngine"/>
 		<property name="configurationService" ref="kualiConfigurationService"/>
 		<property name="mailService" ref="mailService" />	

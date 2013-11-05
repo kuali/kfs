@@ -326,7 +326,7 @@
 	</bean>
 	
 	<bean id="TravelDocument-actualExpenseRoutingValidation" parent="TravelDocument-actualExpenseRoutingValidation-parentBean"/>
-	<bean id="TravelDocument-actualExpenseRoutingValidation-parentBean" parent="CollectionValidation" p:removeCollectionPropretyPluralization="false">
+	<bean id="TravelDocument-actualExpenseRoutingValidation-parentBean" abstract="true" parent="CollectionValidation" p:removeCollectionPropretyPluralization="false">
 		<property name="collectionProperty" value="document.actualExpenses" />
 		<property name="validations">
 			<list>
@@ -368,7 +368,7 @@
 	</bean>
 	
 	<bean id="TravelDocument-actualExpenseSavingValidation" parent="TravelDocument-actualExpenseSavingValidation-parentBean"/>
-	<bean id="TravelDocument-actualExpenseSavingValidation-parentBean" parent="CollectionValidation" p:removeCollectionPropretyPluralization="false">
+	<bean id="TravelDocument-actualExpenseSavingValidation-parentBean" abstract="true" parent="CollectionValidation" p:removeCollectionPropretyPluralization="false">
 		<property name="collectionProperty" value="document.actualExpenses" />
 		<property name="validations">
 			<list>
@@ -474,7 +474,7 @@
 	</bean>
 	
 	<bean id="NonTripTravelDocument-actualExpenseSavingValidation" parent="NonTripTravelDocument-actualExpenseSavingValidation-parentBean"/>
-	<bean id="NonTripTravelDocument-actualExpenseSavingValidation-parentBean" parent="CollectionValidation" p:removeCollectionPropretyPluralization="false">
+	<bean id="NonTripTravelDocument-actualExpenseSavingValidation-parentBean" abstract="true" parent="CollectionValidation" p:removeCollectionPropretyPluralization="false">
 		<property name="collectionProperty" value="document.actualExpenses" />
 		<property name="validations">
 			<list>

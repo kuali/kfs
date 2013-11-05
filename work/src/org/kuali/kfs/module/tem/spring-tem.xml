@@ -382,8 +382,8 @@
 		<property name="temProfileService" ref="temProfileService" />
 	</bean>
 
-	<bean id="travelExpenseSummaryReportService"
-		class="org.kuali.kfs.module.tem.report.service.impl.ExpenseSummaryReportServiceImpl">
+	<bean id="travelExpenseSummaryReportService" parent="travelExpenseSummaryReportService-parentBean" />
+	<bean id="travelExpenseSummaryReportService-parentBean" abstract="true" class="org.kuali.kfs.module.tem.report.service.impl.ExpenseSummaryReportServiceImpl">
 		<property name="configurationService" ref="kualiConfigurationService" />
 		<property name="parameterService" ref="parameterService" />
 		<property name="personService" ref="personService" />
@@ -392,15 +392,16 @@
 		<property name="accountingDistributionService" ref="temAccountingDistributionService"/>		
 	</bean>
 
-	<bean id="travelSummaryByDayReportService"
-		class="org.kuali.kfs.module.tem.report.service.impl.SummaryByDayReportServiceImpl">
+	<bean id="travelSummaryByDayReportService" parent="travelSummaryByDayReportService-parentBean" />
+	<bean id="travelSummaryByDayReportService-parentBean" abstract="true" class="org.kuali.kfs.module.tem.report.service.impl.SummaryByDayReportServiceImpl">
 		<property name="configurationService" ref="kualiConfigurationService" />
 		<property name="parameterService" ref="parameterService" />
 		<property name="personService" ref="personService" />
 		<property name="travelDocumentService" ref="temTravelDocumentService" />
 	</bean>
-	<bean id="travelEntertainmentHostCertificationService"
-		class="org.kuali.kfs.module.tem.report.service.impl.TravelEntertainmentHostCertificationServiceImpl">
+	
+	<bean id="travelEntertainmentHostCertificationService" parent="travelEntertainmentHostCertificationService-parentBean" />
+	<bean id="travelEntertainmentHostCertificationService-parentBean" abstract="true" class="org.kuali.kfs.module.tem.report.service.impl.TravelEntertainmentHostCertificationServiceImpl">
 		<property name="configurationService" ref="kualiConfigurationService" />
 		<property name="parameterService" ref="parameterService" />
 		<property name="personService" ref="personService" />
@@ -408,7 +409,9 @@
 		<property name="entReportInfo" ref="entReportInfo" />
 		<property name="temProfileService" ref="temProfileService" />
 	</bean>
-	<bean id="nonEmployeeFormsReportInfo" class="org.kuali.kfs.sys.report.ReportInfoHolder">
+	
+	<bean id="nonEmployeeFormsReportInfo" parent="nonEmployeeFormsReportInfo-parentBean" />
+	<bean id="nonEmployeeFormsReportInfo-parentBean" abstract="true" class="org.kuali.kfs.sys.report.ReportInfoHolder">
 		<property name="reportTitle" value="Non EmployeeCertification" />
 		<property name="reportFileName" value="NonEmployeeCertification" />
 		<property name="reportsDirectory" value="${reports.directory}/tem/" />
@@ -417,7 +420,9 @@
 		<property name="reportTemplateName" value="NonEmployeeCertification" />
 		<property name="subReportTemplateClassPath" value="org/kuali/kfs/module/tem/report/" />
 	</bean>
-	<bean id="entReportInfo" class="org.kuali.kfs.sys.report.ReportInfoHolder">
+	
+	<bean id="entReportInfo" parent="entReportInfo-parentBean" />
+	<bean id="entReportInfo-parentBean" abstract="true" class="org.kuali.kfs.sys.report.ReportInfoHolder">
 		<property name="reportTitle" value="Entertainment Host Certification" />
 		<property name="reportFileName" value="EntertainmentHostCertification" />
 		<property name="reportsDirectory" value="${reports.directory}/tem/" />
@@ -427,14 +432,14 @@
 		<property name="subReportTemplateClassPath" value="org/kuali/kfs/module/tem/report/" />
 	</bean>
 
-	<bean id="travelReportService"
-		class="org.kuali.kfs.module.tem.report.service.impl.TravelReportServiceImpl">
+	<bean id="travelReportService" parent="travelReportService-parentBean" />
+	<bean id="travelReportService-parentBean" abstract="true" class="org.kuali.kfs.module.tem.report.service.impl.TravelReportServiceImpl">
 		<property name="reportGenerationService" ref="reportGenerationService" />
 		<property name="reportFactoryService" ref="travelReportFactoryService" />
 	</bean>
 
-	<bean id="travelReportFactoryService"
-		class="org.kuali.kfs.module.tem.report.service.impl.TravelReportFactoryServiceImpl">
+	<bean id="travelReportFactoryService" parent="travelReportFactoryService-parentBean" />
+	<bean id="travelReportFactoryService-parentBean" abstract="true" class="org.kuali.kfs.module.tem.report.service.impl.TravelReportFactoryServiceImpl">
 		<property name="styles">
 			<map>
 				<entry key="h1">
@@ -617,8 +622,8 @@
 		<property name="arrangerDocumentService" ref="temArrangerDocumentService" />
 	</bean>
 
-	<bean id="temArrangerDocumentService"
-		class="org.kuali.kfs.module.tem.document.service.impl.TravelArrangerDocumentServiceImpl">
+	<bean id="temArrangerDocumentService" parent="temArrangerDocumentService-parentBean" />
+	<bean id="temArrangerDocumentService-parentBean" abstract="true" class="org.kuali.kfs.module.tem.document.service.impl.TravelArrangerDocumentServiceImpl">
 		<property name="businessObjectService" ref="businessObjectService" />
 	</bean>
 	
@@ -626,7 +631,7 @@
 	<bean id="expenseTypeObjectCodeDao-parentBean" parent="platformAwareDao" abstract="true" class="org.kuali.kfs.module.tem.dataaccess.impl.ExpenseTypeObjectCodeDaoOjb" />
 	
 	<bean id="travelExpenseService" parent="travelExpenseService-parentBean" />
-	<bean id="travelExpenseService-parentBean" class="org.kuali.kfs.module.tem.service.impl.TravelExpenseServiceImpl">
+	<bean id="travelExpenseService-parentBean" abstract="true" class="org.kuali.kfs.module.tem.service.impl.TravelExpenseServiceImpl">
 		<property name="businessObjectService" ref="businessObjectService" />
 		<property name="dateTimeService" ref="dateTimeService" />
 		<property name="expenseTypeObjectCodeDao" ref="expenseTypeObjectCodeDao"/>
@@ -687,7 +692,7 @@
     </bean>
 
     <bean id="perDiemTxtInputFileType" parent="perDiemTxtInputFileType-parentBean"/>
-    <bean id="perDiemTxtInputFileType-parentBean" class="org.kuali.kfs.module.tem.batch.PerDiemTxtInputFileType">
+    <bean id="perDiemTxtInputFileType-parentBean" abstract="true" class="org.kuali.kfs.module.tem.batch.PerDiemTxtInputFileType">
         <property name="directoryPath" value="${staging.directory}/tem/federalPerDiemTxt" />
         <property name="fileExtension" value="txt"/>
         <property name="fileNamePrefix" value="perDiem" />
@@ -699,7 +704,7 @@
     </bean> 
     
     <bean id="perDiemXmlInputFileType" parent="perDiemXmlInputFileType-parentBean"/>
-    <bean id="perDiemXmlInputFileType-parentBean" class="org.kuali.kfs.module.tem.batch.PerDiemXmlInputFileType">
+    <bean id="perDiemXmlInputFileType-parentBean" abstract="true" class="org.kuali.kfs.module.tem.batch.PerDiemXmlInputFileType">
         <property name="directoryPath" value="${staging.directory}/tem/federalPerDiemXml" />
         <property name="fileExtension" value="xml"/>
         <property name="fileNamePrefix" value="perDiem" />
@@ -735,7 +740,8 @@
 		<property name="perDiemLoadService" ref="perDiemLoadService" />
 	</bean>
 
-	<bean id="perDiemLoadService"
+	<bean id="perDiemLoadService" parent="perDiemLoadService-parentBean"/>
+	<bean id="perDiemLoadService-parentBean" abstract="true"
 		class="org.kuali.kfs.module.tem.batch.service.impl.PerDiemLoadServiceImpl">
 		<property name="businessObjectService" ref="businessObjectService" />
 		<property name="perDiemService" ref="perDiemService" />
@@ -757,10 +763,12 @@
 		</property>
 	</bean>
 
-	<bean id="perDiemFileParsingService"
+	<bean id="perDiemFileParsingService" parent="perDiemFileParsingService-parentBean"/>
+	<bean id="perDiemFileParsingService-parentBean" abstract="true"
 		class="org.kuali.kfs.module.tem.batch.service.impl.PerDiemFileParsingServiceImpl" />
 
-	<bean id="perDiemService" class="org.kuali.kfs.module.tem.service.impl.PerDiemServiceImpl">
+	<bean id="perDiemService" parent="perDiemService-parentBean" />
+	<bean id="perDiemService-parentBean" abstract="true" class="org.kuali.kfs.module.tem.service.impl.PerDiemServiceImpl">
 		<property name="businessObjectService" ref="businessObjectService" />
 		<property name="dateTimeService" ref="dateTimeService" />
 		<property name="parameterService" ref="parameterService" />
@@ -783,48 +791,57 @@
 		</property>
 	</bean>
 
-	<bean id="importedCTSExpenseService"
+	<bean id="importedCTSExpenseService" parent="importedCTSExpenseService-parentBean" />
+	<bean id="importedCTSExpenseService-parentBean" abstract="true"
 		class="org.kuali.kfs.module.tem.service.impl.ImportedCTSExpenseServiceImpl" >
         <property name="importedExpensePendingEntryService" ref="importedExpensePendingEntryService" />    
     </bean>
-		
-	<bean id="importedCorporateCardExpenseService"
+
+	<bean id="importedCorporateCardExpenseService" parent="importedCorporateCardExpenseService-parentBean" />
+	<bean id="importedCorporateCardExpenseService-parentBean" abstract="true"
 		class="org.kuali.kfs.module.tem.service.impl.ImportedCorporateCardExpenseServiceImpl">
         <property name="travelDisbursementService" ref="travelDisbursementService" />
         <property name="creditCardAgencyService" ref="creditCardAgencyService" />
         <property name="importedExpensePendingEntryService" ref="importedExpensePendingEntryService" />
     </bean>
     
-    <bean id="creditCardAgencyService" class="org.kuali.kfs.module.tem.service.impl.CreditCardAgencyServiceImpl" >
+    <bean id="creditCardAgencyService" parent="creditCardAgencyService-parentBean"/>
+    <bean id="creditCardAgencyService-parentBean" abstract="true" class="org.kuali.kfs.module.tem.service.impl.CreditCardAgencyServiceImpl" >
         <property name="businessObjectService" ref="businessObjectService" />
     </bean>
 		
-	<bean id="actualExpenseService"
+	<bean id="actualExpenseService" parent="actualExpenseService-parentBean" />
+	<bean id="actualExpenseService-parentBean" abstract="true"
 		class="org.kuali.kfs.module.tem.service.impl.ActualExpenseServiceImpl" />
 		
-	<bean id="perDiemLoadValidationService"
+	<bean id="perDiemLoadValidationService" parent="perDiemLoadValidationService-parentBean"/>
+	<bean id="perDiemLoadValidationService-parentBean" abstract="true"
 		class="org.kuali.kfs.module.tem.batch.service.impl.PerDiemLoadValidationServiceImpl">
 		<property name="perDiemService" ref="perDiemService" />
 		<property name="dictionaryValidationService" ref="dictionaryValidationService" />
 	</bean>
 
-	<bean id="defaultMealBreakDownStrategy"
+	<bean id="defaultMealBreakDownStrategy" parent="defaultMealBreakDownStrategy-parentBean"/>
+	<bean id="defaultMealBreakDownStrategy-parentBean" abstract="true"
 		class="org.kuali.kfs.module.tem.batch.businessobject.DefaultMealBreakDownStrategy">
 		<property name="parameterService" ref="parameterService" />
 	</bean>
 
-	<bean id="mealBreakDownStrategyForContinental"
+	<bean id="mealBreakDownStrategyForContinental" parent="mealBreakDownStrategyForContinental-parentBean"/>
+	<bean id="mealBreakDownStrategyForContinental-parentBean" abstract="true"
 		class="org.kuali.kfs.module.tem.batch.businessobject.MealBreakDownStrategyForContinental">
 		<property name="businessObjectService" ref="businessObjectService" />
 		<property name="parameterService" ref="parameterService" />
 	</bean>
 
-	<bean id="mealBreakDownStrategyForOutsideContinental"
+	<bean id="mealBreakDownStrategyForOutsideContinental" parent="mealBreakDownStrategyForOutsideContinental-parentBean"/>
+	<bean id="mealBreakDownStrategyForOutsideContinental-parentBean" abstract="true"
 		class="org.kuali.kfs.module.tem.batch.businessobject.MealBreakDownStrategyForOutsideContinental">
 		<property name="parameterService" ref="parameterService" />
 	</bean>
 
-	<bean id="perDiemUploadReportHelper" parent="businessObjectReportHelper">
+	<bean id="perDiemUploadReportHelper" parent="perDiemUploadReportHelper-parentBean" />
+	<bean id="perDiemUploadReportHelper-parentBean" abstract="true" parent="businessObjectReportHelper">
 		<property name="dataDictionaryBusinessObjectClass"
 			value="org.kuali.kfs.module.tem.batch.businessobject.PerDiemForLoad" />
 		<property name="orderedPropertyNameToHeaderLabelMap">
@@ -840,7 +857,8 @@
 		<property name="columnCount" value="6" />
 	</bean>
 	
-	<bean id="perDiemFieldsToPopulate" class="java.util.ArrayList">
+	<bean id="perDiemFieldsToPopulate" parent="perDiemFieldsToPopulate-parentBean"/>
+	<bean id="perDiemFieldsToPopulate-parentBean" abstract="true" class="java.util.ArrayList">
 		<constructor-arg>
 			<list>
 				<value>primaryDestination.region.regionCode</value>
@@ -885,7 +903,8 @@
 		<property name="taxableRamificationNotificationService" ref="taxableRamificationNotificationService"/>
 	</bean>
 	
-	<bean id="taxableRamificationNotificationService" class="org.kuali.kfs.module.tem.batch.service.impl.TaxableRamificationNotificationServiceImpl">
+	<bean id="taxableRamificationNotificationService" parent="taxableRamificationNotificationService-parentBean"/>
+	<bean id="taxableRamificationNotificationService-parentBean" abstract="true" class="org.kuali.kfs.module.tem.batch.service.impl.TaxableRamificationNotificationServiceImpl">
 		<property name="businessObjectService" ref="businessObjectService" />
 		<property name="taxableRamificationDocumentService" ref="taxableRamificationDocumentService" />
 		<property name="kfsNotificationService" ref="kfsNotificationService" />
@@ -894,7 +913,8 @@
         <property name="notificationTemplate" value="org/kuali/kfs/module/tem/report/template/taxbleRamificationNotificationTemplate.vm" />        
     </bean> 
 
-    <bean id="taxableRamificationDocumentService" class="org.kuali.kfs.module.tem.document.service.impl.TaxableRamificationDocumentServiceImpl">
+	<bean id="taxableRamificationDocumentService" parent="taxableRamificationDocumentService-parentBean"/>
+    <bean id="taxableRamificationDocumentService-parentBean" abstract="true" class="org.kuali.kfs.module.tem.document.service.impl.TaxableRamificationDocumentServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="documentService" ref="documentService" />
         <property name="accountsReceivableModuleService" ref="accountsReceivableModuleService" />
@@ -902,7 +922,8 @@
         <property name="travelDocumentService" ref="temTravelDocumentService" />        
     </bean> 
     
-    <bean id="travelDocumentNotificationService" class="org.kuali.kfs.module.tem.service.impl.TravelDocumentNotificationServiceImpl">
+    <bean id="travelDocumentNotificationService" parent="travelDocumentNotificationService-parentBean"/>
+    <bean id="travelDocumentNotificationService-parentBean" abstract="true" class="org.kuali.kfs.module.tem.service.impl.TravelDocumentNotificationServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />    
 		<property name="kfsNotificationService" ref="kfsNotificationService" />
 		<property name="parameterService" ref="parameterService" />
@@ -913,8 +934,7 @@
 
 	<!-- Start Agency Upload configuration -->
 	<bean id="agencyDataXmlInputFileType" parent="agencyDataXmlInputFileType-parentBean" />
-	<bean id="agencyDataXmlInputFileType-parentBean"
-		class="org.kuali.kfs.module.tem.batch.AgencyDataXmlInputFileType">
+	<bean id="agencyDataXmlInputFileType-parentBean" abstract="true" class="org.kuali.kfs.module.tem.batch.AgencyDataXmlInputFileType">
 		<property name="directoryPath" value="${staging.directory}/tem/agencyData" />
 		<property name="fileExtension" value="xml" />
 		<property name="fileNamePrefix" value="agencyData" />
@@ -955,7 +975,7 @@
 	</bean>
 	
 	<bean id="agencyDataImportService" parent="agencyDataImportService-parentBean" />
-	<bean id="agencyDataImportService-parentBean" class="org.kuali.kfs.module.tem.batch.service.impl.AgencyDataImportServiceImpl">
+	<bean id="agencyDataImportService-parentBean" abstract="true" class="org.kuali.kfs.module.tem.batch.service.impl.AgencyDataImportServiceImpl">
 		<property name="businessObjectService" ref="businessObjectService" />
 		<property name="batchInputFileService" ref="batchInputFileService"/>
 		<property name="expenseImportByTravelerService" ref="expenseImportByTravelerService" />
@@ -975,7 +995,7 @@
 		</property>			
 	</bean>
     <bean id="dataReportService" parent="dataReportService-parentBean" />
-    <bean id="dataReportService-parentBean" class="org.kuali.kfs.module.tem.batch.service.impl.DataReportServiceImpl">
+    <bean id="dataReportService-parentBean" abstract="true" class="org.kuali.kfs.module.tem.batch.service.impl.DataReportServiceImpl">
         <property name="dateTimeService" ref="dateTimeService" />
     </bean>
 	<bean id="agencyDataTripUploadReportHelper" parent="businessObjectReportHelper">
@@ -1029,7 +1049,7 @@
 		<property name="columnCount" value="17" />
 	</bean>
 	<bean id="expenseImportByTravelerService" parent="expenseImportByTravelerService-parentBean" />
-	<bean id="expenseImportByTravelerService-parentBean" class="org.kuali.kfs.module.tem.batch.service.impl.ExpenseImportByTravelerServiceImpl">
+	<bean id="expenseImportByTravelerService-parentBean" abstract="true" class="org.kuali.kfs.module.tem.batch.service.impl.ExpenseImportByTravelerServiceImpl">
 		<property name="temProfileService" ref="temProfileService" />
 		<property name="accountService" ref="accountService"/>
 		<property name="subAccountService" ref="subAccountService" />
@@ -1045,7 +1065,7 @@
 		<property name="universityDateService" ref="universityDateService" />
 	</bean>
 	<bean id="expenseImportByTripService" parent="expenseImportByTripService-parentBean" />
-	<bean id="expenseImportByTripService-parentBean" class="org.kuali.kfs.module.tem.batch.service.impl.ExpenseImportByTripServiceImpl">
+	<bean id="expenseImportByTripService-parentBean" abstract="true" class="org.kuali.kfs.module.tem.batch.service.impl.ExpenseImportByTripServiceImpl">
 		<property name="temProfileService" ref="temProfileService" />
 		<property name="travelAuthorizationService" ref="temTravelAuthorizationService"/>
 		<property name="businessObjectService" ref="businessObjectService" />
@@ -1056,7 +1076,7 @@
        	<property name="agencyStagingDataDao" ref="agencyStagingDataDao" />
 	</bean>
     <bean id="importedExpensePendingEntryService" parent="importedExpensePendingEntryService-parentBean" />
-    <bean id="importedExpensePendingEntryService-parentBean" class="org.kuali.kfs.module.tem.batch.service.impl.ImportedExpensePendingEntryServiceImpl">
+    <bean id="importedExpensePendingEntryService-parentBean" abstract="true" class="org.kuali.kfs.module.tem.batch.service.impl.ImportedExpensePendingEntryServiceImpl">
       <property name="dateTimeService" ref="dateTimeService" />
       <property name="universityDateService" ref="universityDateService" />
       <property name="parameterService" ref="parameterService"/>
@@ -1083,7 +1103,7 @@
 	</bean>
 	
 	<bean id="creditCardDataImportService" parent="creditCardDataImportService-parentBean" />
-	<bean id="creditCardDataImportService-parentBean" class="org.kuali.kfs.module.tem.batch.service.impl.CreditCardDataImportServiceImpl">
+	<bean id="creditCardDataImportService-parentBean" abstract="true" class="org.kuali.kfs.module.tem.batch.service.impl.CreditCardDataImportServiceImpl">
 		<property name="businessObjectService" ref="businessObjectService" />
 		<property name="batchInputFileService" ref="batchInputFileService"/>
 		<property name="temProfileService" ref="temProfileService" />
@@ -1126,8 +1146,7 @@
     
     
 	<bean id="creditCardDataXmlInputFileType" parent="creditCardDataXmlInputFileType-parentBean" />
-	<bean id="creditCardDataXmlInputFileType-parentBean"
-		class="org.kuali.kfs.module.tem.batch.CreditCardDataXmlInputFileType">
+	<bean id="creditCardDataXmlInputFileType-parentBean" abstract="true" class="org.kuali.kfs.module.tem.batch.CreditCardDataXmlInputFileType">
 		<property name="directoryPath" value="${staging.directory}/tem/creditCardData" />
 		<property name="fileExtension" value="xml" />
 		<property name="fileNamePrefix" value="creditCardData" />
@@ -1271,17 +1290,22 @@
 		<property name="dataDictionaryService" ref="dataDictionaryService" />
 	</bean>
     
-    <bean id="temExecutiveManagerRoleTypeService" class="org.kuali.kfs.module.tem.identity.ExecutiveManagerRoleTypeServiceImpl" />
+    <bean id="temExecutiveManagerRoleTypeService" parent="temExecutiveManagerRoleTypeService-parentBean" />
+    <bean id="temExecutiveManagerRoleTypeService-parentBean" abstract="true" class="org.kuali.kfs.module.tem.identity.ExecutiveManagerRoleTypeServiceImpl" />
     
-    <bean id="historicalTravelExpenseDao" parent="platformAwareDao" class="org.kuali.kfs.module.tem.dataaccess.impl.HistoricalTravelExpenseDaoOjb"/>
-   
-    <bean id="agencyStagingDataDao" parent="platformAwareDao" class="org.kuali.kfs.module.tem.dataaccess.impl.AgencyStagingDataDaoOjb"/>
+    <bean id="historicalTravelExpenseDao" parent="historicalTravelExpenseDao-parentBean" />
+    <bean id="historicalTravelExpenseDao-parentBean" abstract="true" parent="platformAwareDao" class="org.kuali.kfs.module.tem.dataaccess.impl.HistoricalTravelExpenseDaoOjb"/>
+   	
+   	<bean id="agencyStagingDataDao" parent="agencyStagingDataDao-parentBean" />
+    <bean id="agencyStagingDataDao-parentBean" abstract="true" parent="platformAwareDao" class="org.kuali.kfs.module.tem.dataaccess.impl.AgencyStagingDataDaoOjb"/>
  
-    <bean id="historicalTravelExpenseService" class="org.kuali.kfs.module.tem.service.impl.HistoricalTravelExpenseServiceImpl">
+ 	<bean id="historicalTravelExpenseService" parent="historicalTravelExpenseService-parentBean" />
+    <bean id="historicalTravelExpenseService-parentBean" abstract="true" class="org.kuali.kfs.module.tem.service.impl.HistoricalTravelExpenseServiceImpl">
     	<property name="historicalTravelExpenseDao" ref="historicalTravelExpenseDao" />
     </bean>
     
-    <bean id="travelImportedExpenseNotificationService" class="org.kuali.kfs.module.tem.batch.service.impl.TravelImportedExpenseNotificationServiceImpl">
+    <bean id="travelImportedExpenseNotificationService" parent="travelImportedExpenseNotificationService-parentBean" />
+    <bean id="travelImportedExpenseNotificationService-parentBean" abstract="true" class="org.kuali.kfs.module.tem.batch.service.impl.TravelImportedExpenseNotificationServiceImpl">
     	<property name="businessObjectService" ref="businessObjectService" />   	
     	<property name="dateTimeService" ref="dateTimeService" />
     	<property name="temProfileService" ref="temProfileService" />
@@ -1343,7 +1367,8 @@
 	<import resource="document/validation/configuration/TemValidatorDefinitions.xml" /> 
 	
 	<!-- Spring beans for TMCP document/action -->
-	<bean id="agencyEntryService" class="org.kuali.kfs.module.tem.service.impl.AgencyEntryServiceImpl">
+	<bean id="agencyEntryService" parent="agencyEntryService-parentBean" />
+	<bean id="agencyEntryService-parentBean" abstract="true" class="org.kuali.kfs.module.tem.service.impl.AgencyEntryServiceImpl">
         <property name="agencyEntryGroupService">
             <ref bean="agencyEntryGroupService" />
         </property>
@@ -1356,7 +1381,8 @@
         <property name="batchFileDirectoryName" value="${staging.directory}/tem/agencyData"/>
         <property name="batchFileErrorDirectoryName" value="${staging.directory}/tem/agencyData/error"/>
     </bean>
-	<bean id="agencyEntryGroupService" class="org.kuali.kfs.module.tem.service.impl.AgencyEntryGroupServiceImpl">
+    <bean id="agencyEntryGroupService" parent="agencyEntryGroupService-parentBean"/>
+	<bean id="agencyEntryGroupService-parentBean" abstract="true" class="org.kuali.kfs.module.tem.service.impl.AgencyEntryGroupServiceImpl">
         <property name="dateTimeService">
             <ref bean="dateTimeService" />
         </property>
@@ -1368,8 +1394,9 @@
         <property name="nightlyOutFileName" value="tem_agentry_kfs" />
         <property name="backupFileName" value="tem_agBackup" />
     </bean>
-    <bean id="temCorrectionDocumentService" class="org.kuali.kfs.module.tem.document.service.impl.TemCorrectionDocumentServiceImpl">
-        
+    
+    <bean id="temCorrectionDocumentService" parent="temCorrectionDocumentService-parentBean" />
+    <bean id="temCorrectionDocumentService-parentBean" abstract="true" class="org.kuali.kfs.module.tem.document.service.impl.TemCorrectionDocumentServiceImpl">    
         <property name="batchFileDirectoryName" value="${staging.directory}/tem/agencyData"/>
     </bean>
     
@@ -1397,13 +1424,14 @@
 		</property>
 	</bean>
     
-    
-     <bean id="temReleaseHeldEncumbranceStep" class="org.kuali.kfs.module.tem.batch.TemReleaseHeldEncumbranceStep" parent="step">
+    <bean id="temReleaseHeldEncumbranceStep" parent="temReleaseHeldEncumbranceStep-parentBean" />
+    <bean id="temReleaseHeldEncumbranceStep-parentBean" abstract="true" class="org.kuali.kfs.module.tem.batch.TemReleaseHeldEncumbranceStep" parent="step">
         <property name="generalLedgerPendingEntryService" ref="generalLedgerPendingEntryService" />
         <property name="parameterService" ref="parameterService" />
     </bean> 
 	
-	<bean id="travelEntertainmentMovingModuleService" class="org.kuali.kfs.module.tem.service.impl.TravelEntertainmentMovingModuleServiceImpl">
+	<bean id="travelEntertainmentMovingModuleService" parent="travelEntertainmentMovingModuleService-parentBean" />
+	<bean id="travelEntertainmentMovingModuleService-parentBean" abstract="true" class="org.kuali.kfs.module.tem.service.impl.TravelEntertainmentMovingModuleServiceImpl">
 		<property name="parameterService" ref="parameterService"/>
 		<property name="travelDocumentService" ref="temTravelDocumentService" />
 		<property name="travelerService" ref="travelerService" />

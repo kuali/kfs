@@ -1144,11 +1144,13 @@
 		</property>
 	</bean>
 	
-	<bean id="customerAgingReportNotificationStep" class="org.kuali.kfs.module.ar.batch.CustomerAgingReportNotificationStep" parent="step">
+	<bean id="customerAgingReportNotificationStep" parent="customerAgingReportNotificationStep-parentBean" />
+	<bean id="customerAgingReportNotificationStep-parentBean" abstract="true" class="org.kuali.kfs.module.ar.batch.CustomerAgingReportNotificationStep" parent="step">
 		<property name="customerNotificationService" ref="customerNotificationService"/>
 	</bean>
 	
-	<bean id="customerNotificationService" class="org.kuali.kfs.module.ar.batch.service.impl.CustomerNotificationServiceImpl">
+	<bean id="customerNotificationService" parent="customerNotificationService-parentBean" />
+	<bean id="customerNotificationService-parentBean" abstract="true" class="org.kuali.kfs.module.ar.batch.service.impl.CustomerNotificationServiceImpl">
 		<property name="businessObjectService" ref="businessObjectService" />
 		<property name="customerInvoiceDocumentService" ref="customerInvoiceDocumentService" />
 		<property name="kfsNotificationService" ref="kfsNotificationService" />

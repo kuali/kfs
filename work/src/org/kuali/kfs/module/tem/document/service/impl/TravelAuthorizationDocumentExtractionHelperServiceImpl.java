@@ -35,7 +35,6 @@ import org.kuali.kfs.pdp.businessobject.PaymentGroup;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSParameterKeyConstants;
 import org.kuali.kfs.sys.batch.service.PaymentSourceToExtractService;
-import org.kuali.kfs.sys.document.PaymentSource;
 import org.kuali.kfs.sys.document.service.PaymentSourceHelperService;
 import org.kuali.kfs.sys.document.validation.event.AccountingDocumentSaveWithNoLedgerEntryGenerationEvent;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
@@ -46,7 +45,7 @@ import org.kuali.rice.krad.service.DocumentService;
  * Implementation of the PaymentSourceToExtractServiceImpl and TravelAuthorizatoinDocumentPaymentServices which will feed travel authorizations
  * and travel authorization amendments with travel advances to PDP
  */
-public class TravelAuthorizationDocumentExtractionHelperServiceImpl implements TravelAuthorizationDocumentPaymentService, PaymentSourceToExtractService {
+public class TravelAuthorizationDocumentExtractionHelperServiceImpl implements TravelAuthorizationDocumentPaymentService, PaymentSourceToExtractService<TravelAuthorizationDocument> {
     org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(TravelAuthorizationDocumentExtractionHelperServiceImpl.class);
     protected TravelDocumentDao travelDocumentDao;
     protected TravelPaymentsHelperService travelPaymentsHelperService;
@@ -60,18 +59,18 @@ public class TravelAuthorizationDocumentExtractionHelperServiceImpl implements T
      * @see org.kuali.kfs.sys.batch.service.PaymentSourceToExtractService#retrievePaymentSourcesByCampus(boolean)
      */
     @Override
-    public Map<String, List<? extends PaymentSource>> retrievePaymentSourcesByCampus(boolean immediatesOnly) {
+    public Map<String, List<TravelAuthorizationDocument>> retrievePaymentSourcesByCampus(boolean immediatesOnly) {
         if (LOG.isDebugEnabled()) {
             LOG.debug("retrievePaymentSourcesByCampus() started");
         }
 
-        Map<String, List<? extends PaymentSource>> documentsByCampus = new HashMap<String, List<? extends PaymentSource>>();
+        Map<String, List<TravelAuthorizationDocument>> documentsByCampus = new HashMap<String, List<TravelAuthorizationDocument>>();
         final List<? extends TravelAuthorizationDocument> authorizations = retrieveAllApprovedAuthorizationDocuments(immediatesOnly);
         Map<String, String> initiatorCampuses = new HashMap<String, String>();
         for (TravelAuthorizationDocument document : authorizations) {
             final String campusCode = getTravelPaymentsHelperService().findCampusForDocument(document, initiatorCampuses);
             if (!StringUtils.isBlank(campusCode)) {
-                List<TravelAuthorizationDocument> documentsForCampus = (List<TravelAuthorizationDocument>)documentsByCampus.get(campusCode);
+                List<TravelAuthorizationDocument> documentsForCampus = documentsByCampus.get(campusCode);
                 if (documentsForCampus == null) {
                     documentsForCampus = new ArrayList<TravelAuthorizationDocument>();
                     documentsByCampus.put(campusCode, documentsForCampus);

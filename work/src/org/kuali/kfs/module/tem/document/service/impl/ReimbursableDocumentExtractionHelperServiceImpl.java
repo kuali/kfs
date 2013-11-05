@@ -34,7 +34,6 @@ import org.kuali.kfs.pdp.businessobject.PaymentGroup;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSParameterKeyConstants;
 import org.kuali.kfs.sys.batch.service.PaymentSourceToExtractService;
-import org.kuali.kfs.sys.document.PaymentSource;
 import org.kuali.kfs.sys.document.service.PaymentSourceHelperService;
 import org.kuali.kfs.sys.document.validation.event.AccountingDocumentSaveWithNoLedgerEntryGenerationEvent;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
@@ -45,7 +44,7 @@ import org.kuali.rice.krad.service.DocumentService;
  * Helper class to help PDP extraction of Reimbursable travel & entertainment documents - namely, the Travel Reimbursement,
  * the entertainment document, and the moving and relocation document
  */
-public class ReimbursableDocumentExtractionHelperServiceImpl implements PaymentSourceToExtractService, ReimbursableDocumentPaymentService {
+public class ReimbursableDocumentExtractionHelperServiceImpl implements PaymentSourceToExtractService<TEMReimbursementDocument>, ReimbursableDocumentPaymentService {
     org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ReimbursableDocumentExtractionHelperServiceImpl.class);
     protected DocumentService documentService;
     protected TravelerService travelerService;
@@ -59,18 +58,18 @@ public class ReimbursableDocumentExtractionHelperServiceImpl implements PaymentS
      * @see org.kuali.kfs.sys.batch.service.PaymentSourceToExtractService#retrievePaymentSourcesByCampus(boolean)
      */
     @Override
-    public Map<String, List<? extends PaymentSource>> retrievePaymentSourcesByCampus(boolean immediatesOnly) {
+    public Map<String, List<TEMReimbursementDocument>> retrievePaymentSourcesByCampus(boolean immediatesOnly) {
         if (LOG.isDebugEnabled()) {
             LOG.debug("retrievePaymentSourcesByCampus() started");
         }
 
-        Map<String, List<? extends PaymentSource>> documentsByCampus = new HashMap<String, List<? extends PaymentSource>>();
+        Map<String, List<TEMReimbursementDocument>> documentsByCampus = new HashMap<String, List<TEMReimbursementDocument>>();
         final List<TEMReimbursementDocument> reimbursables = retrieveAllApprovedReimbursableDocuments(immediatesOnly);
         Map<String, String> initiatorCampuses = new HashMap<String, String>();
         for (TEMReimbursementDocument document : reimbursables) {
             final String campusCode = getTravelPaymentsHelperService().findCampusForDocument(document, initiatorCampuses);
             if (!StringUtils.isBlank(campusCode)) {
-                List<TEMReimbursementDocument> documentsForCampus = (List<TEMReimbursementDocument>)documentsByCampus.get(campusCode);
+                List<TEMReimbursementDocument> documentsForCampus = documentsByCampus.get(campusCode);
                 if (documentsForCampus == null) {
                     documentsForCampus = new ArrayList<TEMReimbursementDocument>();
                     documentsByCampus.put(campusCode, documentsForCampus);

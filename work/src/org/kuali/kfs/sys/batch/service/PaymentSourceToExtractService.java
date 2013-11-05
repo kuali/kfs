@@ -18,19 +18,19 @@ package org.kuali.kfs.sys.batch.service;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.kfs.sys.document.PaymentSource;
+import org.kuali.rice.krad.document.Document;
 
 /**
  * Contract of services which will feed PaymentSources to the PaymentSourceExtractionService
  */
-public interface PaymentSourceToExtractService {
+public interface PaymentSourceToExtractService<D extends Document> {
     /**
      * Retrieves all of the PaymentSource documents which should be extracted in PDP, grouped by campus
      *
      * @param immediatesOnly if true, only payments to be immediately extracted will be retrieved
      * @return a Map, where the key is the campus code and the value is a List of PaymentSource documents to be extracted
      */
-    public Map<String, List<? extends PaymentSource>> retrievePaymentSourcesByCampus(boolean immediatesOnly);
+    public Map<String, List<D>> retrievePaymentSourcesByCampus(boolean immediatesOnly);
 
     /**
      * @return the unit of the customer profile associated with this payment source

@@ -46,7 +46,6 @@ import org.kuali.kfs.sys.batch.service.PaymentSourceToExtractService;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
-import org.kuali.kfs.sys.document.PaymentSource;
 import org.kuali.kfs.sys.document.service.PaymentSourceHelperService;
 import org.kuali.kfs.sys.document.validation.event.AccountingDocumentSaveWithNoLedgerEntryGenerationEvent;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
@@ -62,7 +61,7 @@ import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 
-public class DisbursementVoucherExtractionHelperServiceImpl implements DisbursementVoucherPaymentService, PaymentSourceToExtractService {
+public class DisbursementVoucherExtractionHelperServiceImpl implements DisbursementVoucherPaymentService, PaymentSourceToExtractService<DisbursementVoucherDocument> {
     static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DisbursementVoucherExtractionHelperServiceImpl.class);
 
     protected BusinessObjectService businessObjectService;
@@ -119,7 +118,7 @@ public class DisbursementVoucherExtractionHelperServiceImpl implements Disbursem
      * @see org.kuali.kfs.sys.batch.service.PaymentSourceToExtractService#retrievePaymentSourcesByCampus(boolean)
      */
     @Override
-    public Map<String, List<? extends PaymentSource>> retrievePaymentSourcesByCampus(boolean immediatesOnly) {
+    public Map<String, List<DisbursementVoucherDocument>> retrievePaymentSourcesByCampus(boolean immediatesOnly) {
         if (LOG.isDebugEnabled()) {
             LOG.debug("retrievePaymentSourcesByCampus() started");
         }
@@ -128,14 +127,14 @@ public class DisbursementVoucherExtractionHelperServiceImpl implements Disbursem
             throw new UnsupportedOperationException("DisbursementVoucher PDP does immediates extraction through normal document processing; immediates for DisbursementVoucher should not be run through batch.");
         }
 
-        Map<String, List<? extends PaymentSource>> documentsByCampus = new HashMap<String, List<? extends PaymentSource>>();
+        Map<String, List<DisbursementVoucherDocument>> documentsByCampus = new HashMap<String, List<DisbursementVoucherDocument>>();
 
         Collection<DisbursementVoucherDocument> docs = disbursementVoucherDao.getDocumentsByHeaderStatus(KFSConstants.DocumentStatusCodes.APPROVED, false);
         for (DisbursementVoucherDocument element : docs) {
             String dvdCampusCode = element.getCampusCode();
             if (StringUtils.isNotBlank(dvdCampusCode)) {
                 if (documentsByCampus.containsKey(dvdCampusCode)) {
-                    List<DisbursementVoucherDocument> documents = (List<DisbursementVoucherDocument>)documentsByCampus.get(dvdCampusCode);
+                    List<DisbursementVoucherDocument> documents = documentsByCampus.get(dvdCampusCode);
                     documents.add(element);
                 }
                 else {

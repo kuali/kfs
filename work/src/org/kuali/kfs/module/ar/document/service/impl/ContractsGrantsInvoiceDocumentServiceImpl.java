@@ -2659,14 +2659,12 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             eligibleInvoiceFlag = false;
             if (ObjectUtils.isNotNull(invoice.getAge())) {
 
-                // BGH temporarily commented out for testing purposes
-//                if (invoice.getAward() == null || invoice.getAward().getDunningCampaign() == null) {
-//                    eligibleInvoiceFlag = false;
-//                    continue;
-//                }
-//                String dunningCampaignCode = invoice.getAward().getDunningCampaign();
+                if (invoice.getAward() == null || invoice.getAward().getDunningCampaign() == null) {
+                    eligibleInvoiceFlag = false;
+                    continue;
+                }
+                String dunningCampaignCode = invoice.getAward().getDunningCampaign();
 
-                String dunningCampaignCode = "TEST";
                 DunningCampaign dunningCampaign = SpringContext.getBean(BusinessObjectService.class).findBySinglePrimaryKey(DunningCampaign.class, dunningCampaignCode);
                 if (ObjectUtils.isNull(dunningCampaign) || !dunningCampaign.isActive()) {
                     eligibleInvoiceFlag = false;

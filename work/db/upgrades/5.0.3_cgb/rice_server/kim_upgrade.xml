@@ -119,8 +119,8 @@
 			<column name="ACTV_IND" value="Y" />
 		</insert>
 		<insert tableName="KRIM_TYP_ATTR_T">
-			<column name="KIM_TYP_ATTR_ID" value="KFSCNTRB199-TYPATTR2" />
-			<column name="OBJ_ID" value="KFSCNTRB199-TYPATTR2"/>
+			<column name="KIM_TYP_ATTR_ID" value="KFSMI10824-TYPATTR2" />
+			<column name="OBJ_ID" value="KFSMI10824-TYPATTR2"/>
 			<column name="VER_NBR" value="1" />
 			<column name="SORT_CD" value="b" />
 			<column name="KIM_TYP_ID" value="KFSMI10824-TYP1" />
@@ -128,8 +128,8 @@
 			<column name="ACTV_IND" value="Y" />
 		</insert>
 		<insert tableName="KRIM_TYP_ATTR_T">
-			<column name="KIM_TYP_ATTR_ID" value="KFSCNTRB199-TYPATTR3" />
-			<column name="OBJ_ID" value="KFSCNTRB199-TYPATTR3"/>
+			<column name="KIM_TYP_ATTR_ID" value="KFSMI10824-TYPATTR3" />
+			<column name="OBJ_ID" value="KFSMI10824-TYPATTR3"/>
 			<column name="VER_NBR" value="1" />
 			<column name="SORT_CD" value="c" />
 			<column name="KIM_TYP_ID" value="KFSMI10824-TYP1" />
@@ -137,8 +137,8 @@
 			<column name="ACTV_IND" value="Y" />
 		</insert>
 		<insert tableName="KRIM_TYP_ATTR_T">
-			<column name="KIM_TYP_ATTR_ID" value="KFSCNTRB199-TYPATTR4" />
-			<column name="OBJ_ID" value="KFSCNTRB199-TYPATTR4"/>
+			<column name="KIM_TYP_ATTR_ID" value="KFSMI10824-TYPATTR4" />
+			<column name="OBJ_ID" value="KFSMI10824-TYPATTR4"/>
 			<column name="VER_NBR" value="1" />
 			<column name="SORT_CD" value="d" />
 			<column name="KIM_TYP_ID" value="KFSMI10824-TYP1" />
@@ -146,8 +146,8 @@
 			<column name="ACTV_IND" value="Y" />
 		</insert>
 		<insert tableName="KRIM_TYP_ATTR_T">
-			<column name="KIM_TYP_ATTR_ID" value="KFSCNTRB199-TYPATTR5" />
-			<column name="OBJ_ID" value="KFSCNTRB199-TYPATTR5"/>
+			<column name="KIM_TYP_ATTR_ID" value="KFSMI10824-TYPATTR5" />
+			<column name="OBJ_ID" value="KFSMI10824-TYPATTR5"/>
 			<column name="VER_NBR" value="1" />
 			<column name="SORT_CD" value="e" />
 			<column name="KIM_TYP_ID" value="KFSMI10824-TYP1" />
@@ -155,8 +155,8 @@
 			<column name="ACTV_IND" value="Y" />
 		</insert>
 		<insert tableName="KRIM_TYP_ATTR_T">
-			<column name="KIM_TYP_ATTR_ID" value="KFSCNTRB199-TYPATTR6" />
-			<column name="OBJ_ID" value="KFSCNTRB199-TYPATTR6"/>
+			<column name="KIM_TYP_ATTR_ID" value="KFSMI10824-TYPATTR6" />
+			<column name="OBJ_ID" value="KFSMI10824-TYPATTR6"/>
 			<column name="VER_NBR" value="1" />
 			<column name="SORT_CD" value="f" />
 			<column name="KIM_TYP_ID" value="KFSMI10824-TYP1" />

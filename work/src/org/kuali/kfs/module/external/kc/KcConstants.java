@@ -72,6 +72,18 @@ public class KcConstants {
         public static QName SERVICE = new QName(KC_NAMESPACE_URI, SOAP_SERVICE_NAME);
         public static final List <String> KC_ALLOWABLE_CRITERIA_PARAMETERS = Arrays.asList("accountNumber", "chartOfAccountsCode");
     }
+    public static class Sponsor {
+        public static final String SOAP_SERVICE_NAME = "sponsorWebSoapService";
+        public static final String SERVICE_PORT = "sponsorWebServicePort";
+        public static QName SERVICE = new QName(KC_NAMESPACE_URI, SOAP_SERVICE_NAME);
+        public static final List <String> KC_ALLOWABLE_CRITERIA_PARAMETERS = Arrays.asList("sponsorCode", "sponsorName");
+    }
+    public static class Award {
+        public static final String SOAP_SERVICE_NAME = "awardWebSoapService";
+        public static final String SERVICE_PORT = "awardWebServicePort";
+        public static QName SERVICE = new QName(KC_NAMESPACE_URI, SOAP_SERVICE_NAME);
+        public static final List <String> KC_ALLOWABLE_CRITERIA_PARAMETERS = Arrays.asList("awardId", "sponsorCode");
+    }
 
     public static class KcWebService {
         public static final String STATUS_KC_SUCCESS = "success";

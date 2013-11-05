@@ -43,7 +43,9 @@
                 <entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsAward" value="org.kuali.kfs.module.external.kc.businessobject.Award"/>
                 <entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsAccountAwardInformation" value="org.kuali.kfs.module.external.kc.businessobject.AwardAccount"/>
                 <entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsAgency" value="org.kuali.kfs.module.external.kc.businessobject.Agency"/>
+                <entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAgency" value="org.kuali.kfs.module.external.kc.businessobject.Agency"/>
                 <entry key="org.kuali.kfs.integration.cg.ContractAndGrantsProposal" value="org.kuali.kfs.module.external.kc.businessobject.Proposal"/>
+                <entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward" value="org.kuali.kfs.module.external.kc.businessobject.Award"/>
              </map>
         </property>
         <property name="externalizableBusinessObjectServiceImplementations">
@@ -52,6 +54,8 @@
        			<entry key="org.kuali.kfs.module.external.kc.businessobject.BudgetCategoryDTO" value="budgetCategoryService"/>
        			<entry key="org.kuali.kfs.module.external.kc.businessobject.CfdaDTO" value="cfdaNumberService"/>
        			<entry key="org.kuali.kfs.module.external.kc.businessobject.AwardAccount" value="awardAccountService"/>       			
+                <entry key="org.kuali.kfs.module.external.kc.businessobject.Agency" value="sponsorWebService"/>
+                <entry key="org.kuali.kfs.module.external.kc.businessobject.Award" value="awardWebService"/>
              </map>
         </property>
         <property name="kfsToKcInquiryUrlClassMapping">
@@ -135,7 +139,13 @@
 	<bean id="cfdaNumberService-parentBean" class="org.kuali.kfs.module.external.kc.service.impl.CfdaServiceImpl" abstract="true"/>
 		 	  	  	
     <bean id="awardAccountService" parent="awardAccountService-parentBean"/>
-  	<bean id="awardAccountService-parentBean" class="org.kuali.kfs.module.external.kc.service.impl.AwardAccountServiceImpl" abstract="true"/>  
+  	<bean id="awardAccountService-parentBean" class="org.kuali.kfs.module.external.kc.service.impl.AwardAccountServiceImpl" abstract="true"/>
+    
+    <bean id="sponsorWebService" parent="sponsorWebService-parentBean"/>
+    <bean id="sponsorWebService-parentBean" class="org.kuali.kfs.module.external.kc.service.impl.SponsorServiceImpl" abstract="true"/>
+    
+    <bean id="awardWebService" parent="awardWebService-parentBean"/>
+    <bean id="awardWebService-parentBean" class="org.kuali.kfs.module.external.kc.service.impl.AwardServiceImpl" abstract="true"/>
   	  		
   	<import resource="spring-kc-bus-exports.xml"/>
 </beans>

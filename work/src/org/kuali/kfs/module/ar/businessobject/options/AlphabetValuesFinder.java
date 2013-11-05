@@ -13,17 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.module.ar.dataaccess;
+package org.kuali.kfs.module.ar.businessobject.options;
 
-import java.util.Collection;
+import org.kuali.rice.krad.keyvalues.EnumValuesFinder;
 
-import org.kuali.kfs.module.ar.businessobject.Customer;
+/**
+ * Defines the values finder class that lists the letters in the alphabet.
+ */
+public class AlphabetValuesFinder extends EnumValuesFinder {
 
-public interface CustomerDao {
+    public enum Alphabet { A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y, Z }
 
-    public Customer getByTaxNumber(String taxNumber);
+    public AlphabetValuesFinder() {
+        super(Alphabet.class);
+    }
 
-    public Customer getByName(String customerName);
-
-    public Collection<Customer> getByNameRange(String lastNameStartingLetter, String lastNameEndingLetter);
 }

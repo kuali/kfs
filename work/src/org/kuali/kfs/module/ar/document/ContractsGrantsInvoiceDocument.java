@@ -57,7 +57,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
  * Contracts Grants Invoice document extending Customer Invoice document.
  */
 
-public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
+public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument implements CollectionsDocumentWithCustomer {
 
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ContractsGrantsInvoiceDocument.class);
     private Long proposalNumber;
@@ -812,5 +812,10 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
      */
     public void setShowEventsInd(boolean showEventsInd) {
         this.showEventsInd = showEventsInd;
+    }
+
+    @Override
+    public String getCustomerNumber() {
+        return accountsReceivableDocumentHeader.getCustomerNumber();
     }
 }

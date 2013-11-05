@@ -24,3 +24,9 @@
 "KFSSEC103","KFSSEC103","1","overrideDeny","","Y","KFS-SEC","org.kuali.kfs.sec.identity.SecKimAttributes"
 KFSMI6886-ATTRDEF,KFSMI6886-ATTRDEF,1,achTransactionTypeCode,"",Y,KFS-PDP,org.kuali.kfs.sys.identity.KfsKimAttributes
 "KFSCNTRB199-ATTRDEF1","KFSCNTRB199-ATTRDEF1","1","filePath","","Y","KFS-SYS","org.kuali.kfs.sys.identity.KfsKimAttributes"
+"KFSMI10824-ATTRDEF1","KFSMI10824-ATTRDEF1",1,"billingChartOfAccountsCode","","Y","KFS-AR","org.kuali.kfs.module.ar.identity.ArKimAttributes"
+"KFSMI10824-ATTRDEF2","KFSMI10824-ATTRDEF2",1,"billingOrganizationCode","","Y","KFS-AR","org.kuali.kfs.module.ar.identity.ArKimAttributes"
+"KFSMI10824-ATTRDEF3","KFSMI10824-ATTRDEF3",1,"processingChartOfAccountsCode","","Y","KFS-AR","org.kuali.kfs.module.ar.identity.ArKimAttributes"
+"KFSMI10824-ATTRDEF4","KFSMI10824-ATTRDEF4",1,"processingOrganizationCode","","Y","KFS-AR","org.kuali.kfs.module.ar.identity.ArKimAttributes"
+"KFSMI10824-ATTRDEF5","KFSMI10824-ATTRDEF5",1,"customerLastNameStartingLetter","","Y","KFS-AR","org.kuali.kfs.module.ar.identity.ArKimAttributes"
+"KFSMI10824-ATTRDEF6","KFSMI10824-ATTRDEF6",1,"customerLastNameEndingLetter","","Y","KFS-AR","org.kuali.kfs.module.ar.identity.ArKimAttributes"

@@ -29,7 +29,6 @@ import org.apache.ojb.broker.query.Criteria;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.CollectionActivityReport;
 import org.kuali.kfs.module.ar.businessobject.CollectionActivityType;
-import org.kuali.kfs.module.ar.businessobject.CollectorInformation;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.Event;
 import org.kuali.kfs.module.ar.dataaccess.CustomerCollectorDao;
@@ -51,12 +50,13 @@ import org.kuali.rice.krad.util.ObjectUtils;
 /**
  * This class is used to get the services for PDF generation and other services for Collection Activity Report
  */
-public class CollectionActivityReportServiceImpl extends ContractsGrantsReportServiceImplBase implements CollectionActivityReportService {
+public class CollectionActivityReportServiceImpl extends ContractsGrantsCollectorReportServiceImplBase implements CollectionActivityReportService {
 
     private ReportInfo collActReportInfo;
     private ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService;
     private CustomerCollectorDao customerCollectorDao;
     protected BusinessObjectService businessObjectService;
+    private PersonService personService;
 
     /**
      * Gets the collActReportInfo attribute.
@@ -195,57 +195,15 @@ public class CollectionActivityReportServiceImpl extends ContractsGrantsReportSe
         // filter by collector
         List<String> collectorList = new ArrayList<String>();
         if (StringUtils.isNotEmpty(collectorPrincName.trim())) {
-            PersonService personService = SpringContext.getBean(org.kuali.rice.kim.api.identity.PersonService.class);
             Person collUser = personService.getPersonByPrincipalName(collectorPrincName);
             if (ObjectUtils.isNotNull(collUser)) {
                 collector = collUser.getPrincipalId();
                 if (ObjectUtils.isNotNull(collector) && StringUtils.isNotEmpty(collector.trim())) {
-                    Criteria collectorCriteria = new Criteria();
-                    collectorCriteria.addEqualTo(ArPropertyConstants.COLLECTOR_HEAD, collector);
-                    collectorCriteria.addEqualTo(KFSPropertyConstants.ACTIVE, true);
-
-                    // Code commented for KFSMI-10824, please don't remove.
-//                    // chk if selected collector is collector head
-//                    Collection<CollectorHierarchy> collectorHierarchies = collectorHierarchyDao.getCollectorHierarchyByCriteria(collectorCriteria);
-//
-//                    if (ObjectUtils.isNotNull(collectorHierarchies) && CollectionUtils.isNotEmpty(collectorHierarchies)) {
-//                        CollectorHierarchy collectorHead = new ArrayList<CollectorHierarchy>(collectorHierarchies).get(0);
-//                        if (ObjectUtils.isNotNull(collectorHead)) {
-//                            collectorList.add(collectorHead.getPrincipalId());
-//                            if (ObjectUtils.isNotNull(collectorHead.getCollectorInformations()) && CollectionUtils.isNotEmpty(collectorHead.getCollectorInformations())) {
-//                                // get principal ids of collector
-//                                for (CollectorInformation collectorInfo : collectorHead.getCollectorInformations()) {
-//                                    if (collectorInfo.isActive()) {
-//                                        collectorList.add(collectorInfo.getPrincipalId());
-//                                    }
-//                                }
-//                            }
-//                        }
-//                        else {
-//                            if (collectorHierarchyDao.isCollector(collector)) {
-//                                collectorList.add(collector);
-//                            }
-//                        }
-//                    }
-//                    else {
-//                        // check it exists in collector information and is active and his head is active
-//                        if (collectorHierarchyDao.isCollector(collector)) {
-//                            collectorList.add(collector);
-//                        }
-//                    }
-
-                    // filter invoice by Collectorlist
-                    if (ObjectUtils.isNotNull(collectorList) && !collectorList.isEmpty()) {
-                        // retrieve customer numbers for the collectors
-                        collectorCriteria = new Criteria();
-                        collectorCriteria.addIn(KFSPropertyConstants.PRINCIPAL_ID, collectorList);
-                        List<String> customerNumbers = customerCollectorDao.retrieveCustomerNmbersByCriteria(collectorCriteria);
-                        contractsGrantsInvoiceDocs = this.filterInvoicesAccordingToCustomerNumbers(contractsGrantsInvoiceDocs, customerNumbers);
-                    }
-                    else {
-                        displayList.clear();
-                        return displayList;
-                    }
+                    filterRecordsForCollector(collector, contractsGrantsInvoiceDocs);
+                }
+                else {
+                    displayList.clear();
+                    return displayList;
                 }
             }
             else {
@@ -379,7 +337,6 @@ public class CollectionActivityReportServiceImpl extends ContractsGrantsReportSe
         collectionActivityReport.setProposalNumber(event.getInvoiceDocument().getProposalNumber());
         collectionActivityReport.setCompletedInd(event.isCompletedInd());
         collectionActivityReport.setCompletedDate(event.getCompletedDate());
-        PersonService personService = SpringContext.getBean(org.kuali.rice.kim.api.identity.PersonService.class);
 
         String userPrincId = event.getUserPrincipalId();
         Person person = personService.getPerson(userPrincId);
@@ -396,6 +353,14 @@ public class CollectionActivityReportServiceImpl extends ContractsGrantsReportSe
             collectionActivityReport.setAgencyName(event.getInvoiceDocument().getAward().getAgency().getFullName());
         }
         return collectionActivityReport;
+    }
+
+    public PersonService getPersonService() {
+        return personService;
+    }
+
+    public void setPersonService(PersonService personService) {
+        this.personService = personService;
     }
 
 }

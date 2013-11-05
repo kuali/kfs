@@ -1,0 +1,121 @@
+<!--
+ Copyright 2009 The Kuali Foundation
+ 
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl2.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:dd="http://rice.kuali.org/dd"
+    xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
+
+  <bean id="ArKimAttributes" parent="ArKimAttributes-parentBean" />
+
+  <bean id="ArKimAttributes-parentBean" abstract="true" parent="KfsKimAttributes-parentBean"
+        p:businessObjectClass="org.kuali.kfs.module.ar.identity.ArKimAttributes"
+        p:objectLabel="KFS AR KIM Attributes">
+    <property name="attributes">
+      <list merge="true">
+		<ref bean="ArKimAttributes-billingChartOfAccountsCode" />
+		<ref bean="ArKimAttributes-billingOrganizationCode" />        
+		<ref bean="ArKimAttributes-processingChartOfAccountsCode" />
+		<ref bean="ArKimAttributes-processingOrganizationCode" />
+		<ref bean="ArKimAttributes-customerLastNameStartingLetter" />
+		<ref bean="ArKimAttributes-customerLastNameEndingLetter" />
+      </list>
+    </property>
+    <property name="relationships">
+      <list merge="true">
+        <dd:relationship objectAttribute="billingChart">
+            <dd:primitiveAttribute source="billingChartOfAccountsCode" target="chartOfAccountsCode" />
+        </dd:relationship>          
+        <dd:relationship objectAttribute="billingOrganization">
+            <dd:primitiveAttribute source="billingChartOfAccountsCode" target="chartOfAccountsCode" />
+            <dd:primitiveAttribute source="billingOrganizationCode" target="organizationCode" />
+        </dd:relationship>          
+        <dd:relationship objectAttribute="processingChart">
+            <dd:primitiveAttribute source="processingChartOfAccountsCode" target="chartOfAccountsCode" />
+        </dd:relationship>          
+        <dd:relationship objectAttribute="processingOrganization">
+            <dd:primitiveAttribute source="processingChartOfAccountsCode" target="chartOfAccountsCode" />
+            <dd:primitiveAttribute source="processingOrganizationCode" target="organizationCode" />
+        </dd:relationship>          
+      </list>
+    </property>
+  </bean>
+  
+  <bean id="ArKimAttributes-billingChartOfAccountsCode" parent="ArKimAttributes-billingChartOfAccountsCode-parentBean" />
+
+  <bean id="ArKimAttributes-billingChartOfAccountsCode-parentBean" abstract="true" parent="KfsKimAttributes-chartOfAccountsCode" 
+  	p:name="billingChartOfAccountsCode" 
+	p:label="Billing Chart Code"
+    p:shortLabel="Billing Chart Code">
+    <property name="required" value="false"/>
+  </bean>
+  
+  <bean id="ArKimAttributes-billingOrganizationCode" parent="ArKimAttributes-billingOrganizationCode-parentBean" />
+
+  <bean id="ArKimAttributes-billingOrganizationCode-parentBean" abstract="true" parent="Organization-organizationCode" 
+  	p:name="billingOrganizationCode" 
+	p:label="Billing Organization"
+    p:shortLabel="Billing Org">
+    <property name="required" value="false"/>
+  </bean>
+
+  <bean id="ArKimAttributes-processingChartOfAccountsCode" parent="ArKimAttributes-processingChartOfAccountsCode-parentBean" />
+
+  <bean id="ArKimAttributes-processingChartOfAccountsCode-parentBean" abstract="true" parent="KfsKimAttributes-chartOfAccountsCode" 
+  	p:name="processingChartOfAccountsCode" 
+	p:label="Processing Chart Code"
+    p:shortLabel="Processing Chart Code">
+    <property name="required" value="false"/>
+  </bean>
+  
+  <bean id="ArKimAttributes-processingOrganizationCode" parent="ArKimAttributes-processingOrganizationCode-parentBean" />
+
+  <bean id="ArKimAttributes-processingOrganizationCode-parentBean" abstract="true" parent="Organization-organizationCode" 
+  	p:name="processingOrganizationCode" 
+	p:label="Processing Organization"
+    p:shortLabel="Processing Org">
+    <property name="required" value="false"/>
+  </bean>
+
+  <bean id="ArKimAttributes-customerLastNameStartingLetter" parent="ArKimAttributes-customerLastNameStartingLetter-parentBean" />
+
+  <bean id="ArKimAttributes-customerLastNameStartingLetter-parentBean" abstract="true" parent="AttributeDefinition" 
+  	p:name="customerLastNameStartingLetter" 
+	p:label="Customer Last Name Starting Letter"
+    p:shortLabel="Cust Name Start Letter">
+    <property name="required" value="true"/>
+    <property name="control">
+		<bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.ar.businessobject.options.AlphabetValuesFinder"
+				p:includeKeyInLabel="false" />
+	</property>
+  </bean>
+
+  <bean id="ArKimAttributes-customerLastNameEndingLetter" parent="ArKimAttributes-customerLastNameEndingLetter-parentBean" />
+
+  <bean id="ArKimAttributes-customerLastNameEndingLetter-parentBean" abstract="true" parent="AttributeDefinition" 
+  	p:name="customerLastNameEndingLetter" 
+	p:label="Customer Last Name Ending Letter"
+    p:shortLabel="Cust Name End Letter">
+    <property name="required" value="true"/>
+    <property name="control">
+		<bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.ar.businessobject.options.AlphabetValuesFinder"
+				p:includeKeyInLabel="false" />
+	</property>
+  </bean>
+
+</beans>

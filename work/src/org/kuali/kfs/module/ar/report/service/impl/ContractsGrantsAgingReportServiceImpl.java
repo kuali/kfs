@@ -29,11 +29,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.query.Criteria;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
-import org.kuali.kfs.module.ar.businessobject.CollectorInformation;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.OrganizationOptions;
 import org.kuali.kfs.module.ar.dataaccess.CustomerCollectorDao;
@@ -57,12 +55,13 @@ import org.kuali.rice.krad.util.ObjectUtils;
 /**
  * This class is used to get the services for PDF generation and other services for CG Aging report.
  */
-public class ContractsGrantsAgingReportServiceImpl extends ContractsGrantsReportServiceImplBase implements ContractsGrantsAgingReportService {
+public class ContractsGrantsAgingReportServiceImpl extends ContractsGrantsCollectorReportServiceImplBase implements ContractsGrantsAgingReportService {
 
     private ReportInfo cgAgingReportInfo;
     private ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService;
     private CustomerCollectorDao customerCollectorDao;
     protected BusinessObjectService businessObjectService;
+    private PersonService personService;
 
     /**
      * Gets the cgAgingReportInfo attribute.
@@ -380,57 +379,15 @@ public class ContractsGrantsAgingReportServiceImpl extends ContractsGrantsReport
         // filter by collector
         List<String> collectorList = new ArrayList<String>();
         if (ObjectUtils.isNotNull(collectorPrincName) && StringUtils.isNotEmpty(collectorPrincName.trim())) {
-            PersonService personService = SpringContext.getBean(org.kuali.rice.kim.api.identity.PersonService.class);
             Person collUser = personService.getPersonByPrincipalName(collectorPrincName);
             if (ObjectUtils.isNotNull(collUser)) {
                 collector = collUser.getPrincipalId();
                 if (ObjectUtils.isNotNull(collector) && StringUtils.isNotEmpty(collector)) {
-                    Criteria collectorCriteria = new Criteria();
-                    collectorCriteria.addEqualTo(ArPropertyConstants.COLLECTOR_HEAD, collector);
-                    collectorCriteria.addEqualTo(KFSPropertyConstants.ACTIVE, true);
-
-                 // Code commented for KFSMI-10824, please don't remove.
-//                    // chk if selected collector is collector head
-//                    Collection<CollectorHierarchy> collectorHierarchies = collectorHierarchyDao.getCollectorHierarchyByCriteria(collectorCriteria);
-//
-//                    if (ObjectUtils.isNotNull(collectorHierarchies) && CollectionUtils.isNotEmpty(collectorHierarchies)) {
-//                        CollectorHierarchy collectorHead = new ArrayList<CollectorHierarchy>(collectorHierarchies).get(0);
-//                        if (ObjectUtils.isNotNull(collectorHead)) {
-//                            collectorList.add(collectorHead.getPrincipalId());
-//                            if (ObjectUtils.isNotNull(collectorHead.getCollectorInformations()) && CollectionUtils.isNotEmpty(collectorHead.getCollectorInformations())) {
-//                                // get principal ids of collector
-//                                for (CollectorInformation collectorInfo : collectorHead.getCollectorInformations()) {
-//                                    if (collectorInfo.isActive()) {
-//                                        collectorList.add(collectorInfo.getPrincipalId());
-//                                    }
-//                                }
-//                            }
-//                        }
-//                        else {
-//                            if (collectorHierarchyDao.isCollector(collector)) {
-//                                collectorList.add(collector);
-//                            }
-//                        }
-//                    }
-//                    else {
-//                        // check it exists in collector information and is active and his head is active
-//                        if (collectorHierarchyDao.isCollector(collector)) {
-//                            collectorList.add(collector);
-//                        }
-//                    }
-
-                    // filter invoice by Collectorlist
-                    if (ObjectUtils.isNotNull(collectorList) && !collectorList.isEmpty()) {
-                        // retrieve customer numbers for the collectors
-                        collectorCriteria = new Criteria();
-                        collectorCriteria.addIn(KFSPropertyConstants.PRINCIPAL_ID, collectorList);
-                        List<String> customerNumbers = customerCollectorDao.retrieveCustomerNmbersByCriteria(collectorCriteria);
-                        contractsGrantsInvoiceDocs = this.filterInvoicesAccordingToCustomerNumbers(contractsGrantsInvoiceDocs, customerNumbers);
-                    }
-                    else {
-                        contractsGrantsInvoiceDocs.clear();
-                        return cgMapByCustomer;
-                    }
+                    filterRecordsForCollector(collector, contractsGrantsInvoiceDocs);
+                }
+                else {
+                    contractsGrantsInvoiceDocs.clear();
+                    return cgMapByCustomer;
                 }
             }
             else {
@@ -570,48 +527,6 @@ public class ContractsGrantsAgingReportServiceImpl extends ContractsGrantsReport
             args.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, accountChartCode);
         }
         return businessObjectService.findMatching(CustomerInvoiceDetail.class, args);
-    }
-
-    /**
-     * This method filters invoices according to collectors
-     *
-     * @param contractsGrantsInvoiceDocuments
-     * @param customerNumbers
-     * @return Returns the list of ContractsGrantsInvoiceDocument.
-     */
-    private Collection<ContractsGrantsInvoiceDocument> filterInvoicesAccordingToCustomerNumbers(Collection<ContractsGrantsInvoiceDocument> contractsGrantsInvoiceDocuments, List<String> customerNumbers) {
-        List<ContractsGrantsInvoiceDocument> filteredInvoices = new ArrayList<ContractsGrantsInvoiceDocument>();
-        if (ObjectUtils.isNotNull(contractsGrantsInvoiceDocuments) && CollectionUtils.isNotEmpty(contractsGrantsInvoiceDocuments)) {
-            for (ContractsGrantsInvoiceDocument cgDoc : contractsGrantsInvoiceDocuments) {
-                if (isCustomerAvailableInList(cgDoc.getAccountsReceivableDocumentHeader().getCustomerNumber(), customerNumbers)) {
-                    filteredInvoices.add(cgDoc);
-                }
-            }
-        }
-        return filteredInvoices;
-    }
-
-    /**
-     * This method checks that the given customer is found in list of customers found in customer collectors
-     *
-     * @param customerNumber
-     * @param customerNumbers
-     * @return Returns true if customer found in the list otherwise false
-     */
-    private boolean isCustomerAvailableInList(String customerNumber, List<String> customerNumbers) {
-        boolean isAvail = false;
-        if (ObjectUtils.isNotNull(customerNumbers) && !customerNumbers.isEmpty()) {
-            for (String custNmber : customerNumbers) {
-                if (custNmber.equalsIgnoreCase(customerNumber)) {
-                    isAvail = true;
-                    break;
-                }
-            }
-        }
-        else {
-            isAvail = false;
-        }
-        return isAvail;
     }
 
     /**
@@ -759,5 +674,13 @@ public class ContractsGrantsAgingReportServiceImpl extends ContractsGrantsReport
             return string.toString();
         }
         return "";
+    }
+
+    public PersonService getPersonService() {
+        return personService;
+    }
+
+    public void setPersonService(PersonService personService) {
+        this.personService = personService;
     }
 }

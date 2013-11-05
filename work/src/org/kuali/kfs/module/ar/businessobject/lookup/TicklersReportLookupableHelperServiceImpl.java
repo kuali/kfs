@@ -27,12 +27,11 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.ojb.broker.query.Criteria;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
-import org.kuali.kfs.module.ar.businessobject.CollectorInformation;
-import org.kuali.kfs.module.ar.businessobject.CustomerCollector;
 import org.kuali.kfs.module.ar.businessobject.Event;
 import org.kuali.kfs.module.ar.businessobject.TicklersReport;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.CollectionActivityDocumentService;
+import org.kuali.kfs.module.ar.document.service.CustomerService;
 import org.kuali.kfs.module.ar.report.ContractsGrantsReportUtils;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -58,6 +57,9 @@ import org.kuali.rice.krad.util.UrlFactory;
  * Helper class for Tickler Reports.
  */
 public class TicklersReportLookupableHelperServiceImpl extends ContractsGrantsReportLookupableHelperServiceImplBase {
+
+    private CustomerService customerService;
+    private PersonService personService;
 
     /**
      * This method performs the lookup and returns a collection of lookup items
@@ -139,54 +141,14 @@ public class TicklersReportLookupableHelperServiceImpl extends ContractsGrantsRe
             if (isValid) {
                 // Check for customer collectors
                 if (!collectorPrincName.trim().isEmpty()) {
-                    PersonService personService = SpringContext.getBean(org.kuali.rice.kim.api.identity.PersonService.class);
                     Person collUser = personService.getPersonByPrincipalName(collectorPrincName);
                     if (ObjectUtils.isNotNull(collUser)) {
                         principalId = collUser.getPrincipalId();
                         if (ObjectUtils.isNotNull(principalId) && !principalId.equals("")) {
+                            isValid = customerService.doesCustomerMatchCollector(event.getInvoiceDocument().getCustomer().getCustomerName(), principalId);
+                        }
+                        else {
                             isValid = false;
-
-                            CustomerCollector customerCollector = event.getInvoiceDocument().getCustomer().getCustomerCollector();
-
-                            // Collector head logic
-                            Criteria collectorCriteria = new Criteria();
-                            collectorCriteria.addEqualTo(ArPropertyConstants.COLLECTOR_HEAD, principalId);
-                            collectorCriteria.addEqualTo(KFSPropertyConstants.ACTIVE, true);
-
-                         // Code commented for KFSMI-10824, please don't remove.
-//                            // chk if selected collector is collector head
-//                            List<String> collectorList = new ArrayList<String>();
-//                            Collection<CollectorHierarchy> collectorHierarchies = collectorHierarchyDao.getCollectorHierarchyByCriteria(collectorCriteria);
-//
-//                            if (ObjectUtils.isNotNull(collectorHierarchies) && CollectionUtils.isNotEmpty(collectorHierarchies)) {
-//                                CollectorHierarchy collectorHead = new ArrayList<CollectorHierarchy>(collectorHierarchies).get(0);
-//                                if (ObjectUtils.isNotNull(collectorHead)) {
-//                                    if (ObjectUtils.isNotNull(collectorHead.getPrincipalId()) && ObjectUtils.isNotNull(customerCollector) && collectorHead.getPrincipalId().equalsIgnoreCase(customerCollector.getPrincipalId())) {
-//                                        isValid = true;
-//                                    }
-//                                    else {
-//                                        // check principal ids of collector
-//                                        if (ObjectUtils.isNotNull(collectorHead.getCollectorInformations()) && CollectionUtils.isNotEmpty(collectorHead.getCollectorInformations())) {
-//                                            for (CollectorInformation collectorInfo : collectorHead.getCollectorInformations()) {
-//                                                if (collectorInfo.isActive() && ObjectUtils.isNotNull(collectorInfo.getPrincipalId()) && ObjectUtils.isNotNull(customerCollector) && collectorInfo.getPrincipalId().equalsIgnoreCase(customerCollector.getPrincipalId())) {
-//                                                    isValid = true;
-//                                                    break;
-//                                                }
-//                                            }
-//                                        }
-//                                    }
-//                                }
-//                                else if (ObjectUtils.isNotNull(customerCollector) && customerCollector.getPrincipalId().equals(principalId)) {
-//                                    if (collectorHierarchyDao.isCollector(principalId)) {
-//                                        isValid = true;
-//                                    }
-//                                }
-//                            }
-//                            else if (ObjectUtils.isNotNull(customerCollector) && customerCollector.getPrincipalId().equals(principalId)) {
-//                                if (collectorHierarchyDao.isCollector(principalId)) {
-//                                    isValid = true;
-//                                }
-//                            }
                         }
                     }
                     else {
@@ -341,5 +303,21 @@ public class TicklersReportLookupableHelperServiceImpl extends ContractsGrantsRe
         lookupUrl = UrlFactory.parameterizeUrl("arCollectionActivityDocument.do", parameters);
 
         return lookupUrl;
+    }
+
+    public CustomerService getCustomerService() {
+        return customerService;
+    }
+
+    public void setCustomerService(CustomerService customerService) {
+        this.customerService = customerService;
+    }
+
+    public PersonService getPersonService() {
+        return personService;
+    }
+
+    public void setPersonService(PersonService personService) {
+        this.personService = personService;
     }
 }

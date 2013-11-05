@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,20 +17,25 @@ package org.kuali.kfs.module.ar.document.service.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.coa.identity.FinancialSystemUserRoleTypeServiceImpl;
+import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.Customer;
 import org.kuali.kfs.module.ar.dataaccess.CustomerDao;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
-import org.kuali.kfs.module.ar.document.CustomerInvoiceWriteoffDocument;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
 import org.kuali.kfs.module.ar.document.service.CustomerService;
-import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
+import org.kuali.kfs.module.ar.identity.ArKimAttributes;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.rice.kim.api.KimConstants;
+import org.kuali.rice.kim.api.role.RoleService;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.service.NoteService;
 import org.kuali.rice.krad.service.SequenceAccessorService;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -46,18 +51,20 @@ public class CustomerServiceImpl implements CustomerService {
     protected CustomerInvoiceDocumentService customerInvoiceDocumentService;
     protected NoteService noteService;
     protected static final String CUSTOMER_NUMBER_SEQUENCE = "CUST_NBR_SEQ";
-    
+
     /**
      * @see org.kuali.kfs.module.ar.document.service.CustomerService#getByPrimaryKey(java.lang.String)
      */
+    @Override
     public Customer getByPrimaryKey(String customerNumber) {
        return businessObjectService.findBySinglePrimaryKey(Customer.class, customerNumber);
     }
 
+    @Override
     public Customer getByTaxNumber(String taxNumber) {
         return customerDao.getByTaxNumber(taxNumber);
     }
-    
+
     public CustomerDao getCustomerDao() {
         return customerDao;
     }
@@ -69,13 +76,14 @@ public class CustomerServiceImpl implements CustomerService {
     /**
      * @see org.kuali.kfs.module.ar.document.service.CustomerService#getNextCustomerNumber(org.kuali.kfs.module.ar.businessobject.Customer)
      */
+    @Override
     public String getNextCustomerNumber(Customer newCustomer) {
         try {
             Long customerNumberSuffix = sequenceAccessorService.getNextAvailableSequenceNumber(
                     CUSTOMER_NUMBER_SEQUENCE, Customer.class);
             String customerNumberPrefix = newCustomer.getCustomerName().substring(0, 3);
             String customerNumber = customerNumberPrefix + String.valueOf(customerNumberSuffix);
-    
+
             return customerNumber;
         } catch(StringIndexOutOfBoundsException sibe) {
             // The customer number generation expects all customer names to be at least three characters long.
@@ -85,7 +93,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     /**
      * This method gets the sequenceAccessorService
-     * 
+     *
      * @return the sequenceAccessorService
      */
     public SequenceAccessorService getSequenceAccessorService() {
@@ -94,7 +102,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     /**
      * This method sets the sequenceAccessorService
-     * 
+     *
      * @param sequenceAccessorService
      */
     public void setSequenceAccessorService(SequenceAccessorService sequenceAccessorService) {
@@ -104,10 +112,11 @@ public class CustomerServiceImpl implements CustomerService {
     /**
      * @see org.kuali.kfs.module.ar.document.service.CustomerService#getCustomerByName(java.lang.String)
      */
+    @Override
     public Customer getCustomerByName(String customerName) {
         return customerDao.getByName(customerName);
 	}
-	
+
     public BusinessObjectService getBusinessObjectService() {
         return businessObjectService;
     }
@@ -124,6 +133,7 @@ public class CustomerServiceImpl implements CustomerService {
         this.customerInvoiceDocumentService = customerInvoiceDocumentService;
     }
 
+    @Override
     public Collection<CustomerInvoiceDocument> getInvoicesForCustomer(Customer customer) {
         Collection<CustomerInvoiceDocument> invoices = null;
         if(null != customer) {
@@ -132,11 +142,13 @@ public class CustomerServiceImpl implements CustomerService {
         return invoices;
     }
 
+    @Override
     public Collection<CustomerInvoiceDocument> getInvoicesForCustomer(String customerNumber) {
         return customerInvoiceDocumentService.getCustomerInvoiceDocumentsByCustomerNumber(customerNumber);
     }
 
-    
+
+    @Override
     public void createCustomerNote(String customerNumber, String customerNote) {
         Customer customer = getByPrimaryKey(customerNumber);
          try {
@@ -146,13 +158,14 @@ public class CustomerServiceImpl implements CustomerService {
                 newBONote.setNotePostedTimestampToCurrent();
                 newBONote.setNoteTypeCode(KFSConstants.NoteTypeEnum.BUSINESS_OBJECT_NOTE_TYPE.getCode());
                 Note note = noteService.createNote(newBONote, customer, GlobalVariables.getUserSession().getPrincipalId());
-                noteService.save(note); 
+                noteService.save(note);
               }
         } catch (Exception e){
             throw new RuntimeException("Problems creating note for Customer " + customerNumber);
         }
        }
 
+    @Override
     public List<Note> getCustomerNotes(String customerNumber) {
         Customer customer = getByPrimaryKey(customerNumber);
         List<Note> notes = new ArrayList<Note>();
@@ -169,4 +182,33 @@ public class CustomerServiceImpl implements CustomerService {
     public void setNoteService(NoteService noteService) {
         this.noteService = noteService;
     }
+
+    /**
+     * @see org.kuali.kfs.module.ar.document.service.CustomerService#doesCustomerMatchCollector(java.lang.String, java.lang.String)
+     */
+    @Override
+    public boolean doesCustomerMatchCollector(String customerName, String collectorPrincipalId) {
+        boolean matches = false;
+
+        Map<String, String> qualification = new HashMap<String, String>(2);
+        qualification.put(FinancialSystemUserRoleTypeServiceImpl.PERFORM_QUALIFIER_MATCH, "true");
+        qualification.put(KimConstants.AttributeConstants.NAMESPACE_CODE, ArConstants.AR_NAMESPACE_CODE);
+        RoleService roleService = KimApiServiceLocator.getRoleService();
+        List<Map<String, String>> qualifiers = roleService.getRoleQualifersForPrincipalByNamespaceAndRolename(collectorPrincipalId, ArConstants.AR_NAMESPACE_CODE, KFSConstants.SysKimApiConstants.ACCOUNTS_RECEIVABLE_COLLECTOR, qualification);
+        if ((qualifiers != null) && !qualifiers.isEmpty()) {
+            for (Map<String, String> qualifier: qualifiers) {
+                String startingLetter = qualifier.get(ArKimAttributes.CUSTOMER_LAST_NAME_STARTING_LETTER);
+                String endingLetter = qualifier.get(ArKimAttributes.CUSTOMER_LAST_NAME_ENDING_LETTER);
+                if (StringUtils.isNotEmpty(startingLetter) && StringUtils.isNotEmpty(endingLetter)) {
+                    if (customerName.charAt(0) >= startingLetter.charAt(0) && customerName.charAt(0) <= endingLetter.charAt(0)) {
+                        matches = true;
+                        break;
+                    }
+                }
+            }
+        }
+
+        return matches;
+    }
+
 }

@@ -25,9 +25,10 @@ import java.util.Map;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.query.Criteria;
+import org.kuali.kfs.coa.identity.FinancialSystemUserRoleTypeServiceImpl;
+import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.CollectionStatus;
-import org.kuali.kfs.module.ar.businessobject.CollectorInformation;
 import org.kuali.kfs.module.ar.businessobject.CustomerType;
 import org.kuali.kfs.module.ar.businessobject.FinalDisposition;
 import org.kuali.kfs.module.ar.businessobject.ReferralToCollectionsDetail;
@@ -37,15 +38,17 @@ import org.kuali.kfs.module.ar.dataaccess.CustomerCollectorDao;
 import org.kuali.kfs.module.ar.dataaccess.ReferralToCollectionsDao;
 import org.kuali.kfs.module.ar.document.ReferralToCollectionsDocument;
 import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService;
+import org.kuali.kfs.module.ar.identity.ArKimAttributes;
 import org.kuali.kfs.module.ar.report.ContractsGrantsReportDataHolder;
 import org.kuali.kfs.module.ar.report.service.ReferralToCollectionsReportService;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.report.ReportInfo;
 import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.kim.api.role.RoleService;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.exception.InfrastructureException;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -55,7 +58,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
 /**
  * This class is used to get the services for PDF generation and other services for Referral To Collections Report.
  */
-public class ReferralToCollectionsReportServiceImpl extends ContractsGrantsReportServiceImplBase implements ReferralToCollectionsReportService {
+public class ReferralToCollectionsReportServiceImpl extends ContractsGrantsCollectorReportServiceImplBase implements ReferralToCollectionsReportService {
 
     private ReportInfo refToCollReportInfo;
     private ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService;
@@ -70,6 +73,7 @@ public class ReferralToCollectionsReportServiceImpl extends ContractsGrantsRepor
     private boolean considerAccountNumberInd;
     private boolean considerinvoiceNumberInd;
 
+    private PersonService personService;
 
     /**
      * Gets the refToCollReportInfo attribute.
@@ -239,56 +243,15 @@ public class ReferralToCollectionsReportServiceImpl extends ContractsGrantsRepor
         // filter by collector
         List<String> collectorList = new ArrayList<String>();
         if (StringUtils.isNotEmpty(collectorPrincName.trim())) {
-            PersonService personService = SpringContext.getBean(org.kuali.rice.kim.api.identity.PersonService.class);
             Person collUser = personService.getPersonByPrincipalName(collectorPrincName);
             if (ObjectUtils.isNotNull(collUser)) {
                 collector = collUser.getPrincipalId();
                 if (ObjectUtils.isNotNull(collector) && StringUtils.isNotEmpty(collector.trim())) {
-                    Criteria collectorCriteria = new Criteria();
-                    collectorCriteria.addEqualTo(ArPropertyConstants.COLLECTOR_HEAD, collector);
-                    collectorCriteria.addEqualTo(KFSPropertyConstants.ACTIVE, true);
-
-                 // Code commented for KFSMI-10824, please don't remove.
-//                    // chk if selected collector is collector head
-//                    Collection<CollectorHierarchy> collectorHierarchies = collectorHierarchyDao.getCollectorHierarchyByCriteria(collectorCriteria);
-//
-//                    if (ObjectUtils.isNotNull(collectorHierarchies) && CollectionUtils.isNotEmpty(collectorHierarchies)) {
-//                        CollectorHierarchy collectorHead = new ArrayList<CollectorHierarchy>(collectorHierarchies).get(0);
-//                        if (ObjectUtils.isNotNull(collectorHead)) {
-//                            collectorList.add(collectorHead.getPrincipalId());
-//                            if (ObjectUtils.isNotNull(collectorHead.getCollectorInformations()) && CollectionUtils.isNotEmpty(collectorHead.getCollectorInformations())) {
-//                                // get principal ids of collector
-//                                for (CollectorInformation collectorInfo : collectorHead.getCollectorInformations()) {
-//                                    if (collectorInfo.isActive()) {
-//                                        collectorList.add(collectorInfo.getPrincipalId());
-//                                    }
-//                                }
-//                            }
-//                        }
-//                        else {
-//                            if (collectorHierarchyDao.isCollector(collector)) {
-//                                collectorList.add(collector);
-//                            }
-//                        }
-//                    }
-//                    else {
-//                        // check it exists in collector information and is active and his head is active
-//                        if (collectorHierarchyDao.isCollector(collector)) {
-//                            collectorList.add(collector);
-//                        }
-//                    }
-
-                    // filter invoice by Collectorlist
-                    if (ObjectUtils.isNotNull(collectorList) && !collectorList.isEmpty()) {
-                        collectorCriteria = new Criteria();
-                        collectorCriteria.addIn(KFSPropertyConstants.PRINCIPAL_ID, collectorList);
-                        List<String> customerNumbers = customerCollectorDao.retrieveCustomerNmbersByCriteria(collectorCriteria);
-                        referralToCollectionsDocs = this.filterDocsAccordingToCustomerNumbers(referralToCollectionsDocs, customerNumbers);
-                    }
-                    else {
-                        displayList.clear();
-                        return displayList;
-                    }
+                    filterRecordsForCollector(collector, referralToCollectionsDocs);
+                }
+                else {
+                    displayList.clear();
+                    return displayList;
                 }
             }
             else {
@@ -313,48 +276,6 @@ public class ReferralToCollectionsReportServiceImpl extends ContractsGrantsRepor
             }
         }
         return displayList;
-    }
-
-    /**
-     * This method filters invoices according to collectors
-     *
-     * @param contractsGrantsInvoiceDocuments
-     * @param customerNumbers
-     * @return Returns the list of ContractsGrantsInvoiceDocument.
-     */
-    private Collection<ReferralToCollectionsDocument> filterDocsAccordingToCustomerNumbers(Collection<ReferralToCollectionsDocument> refToCollDocs, List<String> customerNumbers) {
-        List<ReferralToCollectionsDocument> filteredDocs = new ArrayList<ReferralToCollectionsDocument>();
-        if (ObjectUtils.isNotNull(refToCollDocs) && CollectionUtils.isNotEmpty(refToCollDocs)) {
-            for (ReferralToCollectionsDocument refDoc : refToCollDocs) {
-                if (isCustomerAvailableInList(refDoc.getCustomerNumber(), customerNumbers)) {
-                    filteredDocs.add(refDoc);
-                }
-            }
-        }
-        return filteredDocs;
-    }
-
-    /**
-     * This method checks that the given customer is found in list of customers found in customer collectors
-     *
-     * @param customerNumber
-     * @param customerNumbers
-     * @return Returns true if customer found in the list otherwise false
-     */
-    private boolean isCustomerAvailableInList(String customerNumber, List<String> customerNumbers) {
-        boolean isAvail = false;
-        if (ObjectUtils.isNotNull(customerNumbers) && !customerNumbers.isEmpty()) {
-            for (String custNmber : customerNumbers) {
-                if (custNmber.equalsIgnoreCase(customerNumber)) {
-                    isAvail = true;
-                    break;
-                }
-            }
-        }
-        else {
-            isAvail = false;
-        }
-        return isAvail;
     }
 
     /**
@@ -541,4 +462,45 @@ public class ReferralToCollectionsReportServiceImpl extends ContractsGrantsRepor
         }
         return refTypeDesc;
     }
+
+    /**
+     * get role qualifiers for collector
+     * billing chart/org, processing chart/org, first/last letters for customer name
+     *
+     * @param principalId
+     * @param namespaceCode
+     * @return
+     */
+    private Map<String, String> getRoleQualifiersForUser(String principalId, String namespaceCode) {
+        Map<String, String> roleQualifiers = new HashMap<String, String>();
+        if (StringUtils.isBlank(principalId)) {
+            return null;
+        }
+        Map<String, String> qualification = new HashMap<String, String>(2);
+        qualification.put(FinancialSystemUserRoleTypeServiceImpl.PERFORM_QUALIFIER_MATCH, "true");
+        qualification.put(KimConstants.AttributeConstants.NAMESPACE_CODE, namespaceCode);
+        RoleService roleService = KimApiServiceLocator.getRoleService();
+        List<Map<String, String>> qualifiers = roleService.getRoleQualifersForPrincipalByNamespaceAndRolename(principalId, ArConstants.AR_NAMESPACE_CODE, KFSConstants.SysKimApiConstants.ACCOUNTS_RECEIVABLE_COLLECTOR, qualification);
+        if ((qualifiers != null) && !qualifiers.isEmpty()) {
+            for (Map<String, String> qualifier: qualifiers) {
+                String startingLetter = qualifier.get(ArKimAttributes.CUSTOMER_LAST_NAME_STARTING_LETTER);
+                String endingLetter = qualifier.get(ArKimAttributes.CUSTOMER_LAST_NAME_ENDING_LETTER);
+                if (StringUtils.isNotEmpty(startingLetter) && StringUtils.isNotEmpty(endingLetter)) {
+                    roleQualifiers.put(ArKimAttributes.CUSTOMER_LAST_NAME_STARTING_LETTER, startingLetter);
+                    roleQualifiers.put(ArKimAttributes.CUSTOMER_LAST_NAME_ENDING_LETTER, endingLetter);
+                    return roleQualifiers;
+                }
+            }
+        }
+        return null;
+    }
+
+    public PersonService getPersonService() {
+        return personService;
+    }
+
+    public void setPersonService(PersonService personService) {
+        this.personService = personService;
+    }
+
 }

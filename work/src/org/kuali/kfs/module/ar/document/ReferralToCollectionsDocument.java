@@ -28,20 +28,20 @@ import org.kuali.kfs.module.ar.businessobject.CollectionActivityType;
 import org.kuali.kfs.module.ar.businessobject.Event;
 import org.kuali.kfs.module.ar.businessobject.ReferralToCollectionsDetail;
 import org.kuali.kfs.module.ar.businessobject.ReferralType;
-import org.kuali.kfs.sys.context.SpringContext; import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
+import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.kfs.sys.context.SpringContext; import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * Document class for Referral To Collections TD.
  */
-public class ReferralToCollectionsDocument extends FinancialSystemTransactionalDocumentBase {
+public class ReferralToCollectionsDocument extends FinancialSystemTransactionalDocumentBase implements CollectionsDocumentWithCustomer {
 
     private String agencyNumber;
     private String customerNumber;
@@ -103,6 +103,7 @@ public class ReferralToCollectionsDocument extends FinancialSystemTransactionalD
      *
      * @return Returns the customerNumber.
      */
+    @Override
     public String getCustomerNumber() {
         return customerNumber;
     }

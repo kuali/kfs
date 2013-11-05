@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -30,43 +30,43 @@ public interface CustomerService {
      * @return
      */
     public Customer getByPrimaryKey(String customerNumber);
-    
+
     /**
      * Return customer by taxNumber
      * @param customerNumber
      * @return
      */
     public Customer getByTaxNumber(String taxNumber);
-    
+
     /**
      * This method builds the new customer number
      * @param newCustomer the new customer
      * @return the new customer number
      */
     public String getNextCustomerNumber(Customer newCustomer);
-    
+
     /**
      * This method gets a customer given his name
      * @param customerName
      * @return the customer with the given name
      */
     public Customer getCustomerByName(String customerName);
-    
+
     /**
      * @param customer
      * @return
      */
     public Collection<CustomerInvoiceDocument> getInvoicesForCustomer(Customer customer);
-    
+
     /**
      * @param customerNumber
      * @return
      */
     public Collection<CustomerInvoiceDocument> getInvoicesForCustomer(String customerNumber);
-    
+
     /**
      * This method create customer notes from customer notes for customer number.
-     * 
+     *
      * @param customerNumber
      * @param customerNote
      */
@@ -74,9 +74,20 @@ public interface CustomerService {
 
     /**
      * Gets list of notes for customer
-     * 
+     *
      * @param customerNumber
      * @return list of Notes.
      */
     public List<Note> getCustomerNotes(String customerNumber) ;
+
+    /**
+     * Determines if the customer name that is passed in as a parameter matches the customers
+     * that the passed in collector is assigned to via the CGB Collector role qualifiers.
+     *
+     * @param customerName String name of the customer to check
+     * @param collectorPrincipalId String principal Id of the collector to check
+     * @return
+     */
+    public boolean doesCustomerMatchCollector(String customerName, String collectorPrincipalId);
+
 }

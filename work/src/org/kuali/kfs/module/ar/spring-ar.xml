@@ -55,7 +55,7 @@
 				<entry key="org.kuali.kfs.integration.ar.AccountsReceivableMilestoneSchedule" value="org.kuali.kfs.module.ar.businessobject.MilestoneSchedule" />
 				<entry key="org.kuali.kfs.integration.ar.AccountsReceivableBill" value="org.kuali.kfs.module.ar.businessobject.Bill" />
 				<entry key="org.kuali.kfs.integration.ar.AccountsReceivableInvoiceIndicator" value="org.kuali.kfs.module.ar.businessobject.InvoiceIndicator" />
-				<entry key="org.kuali.kfs.integration.ar.AccountsReceivableCustomerInvoiceAccountInformation" value="org.kuali.kfs.module.ar.businessobject.CustomerInvoiceAccount" />
+								<entry key="org.kuali.kfs.integration.ar.AccountsReceivableCustomerInvoiceAccountInformation" value="org.kuali.kfs.module.ar.businessobject.CustomerInvoiceAccount" />
             </map>
         </property>  
 		<property name="dataDictionaryPackages">
@@ -269,6 +269,9 @@
 		</property>
 		<property name="invoicePaidAppliedService">
 			<ref bean="invoicePaidAppliedService" />
+		</property>
+		<property name="customerService">
+			<ref bean="customerService" />
 		</property>
 		<property name="milestoneDao" ref="milestoneDao" />
 		<property name="billDao" ref="billDao" />
@@ -626,6 +629,12 @@
 
 	<bean id="ticklersReportLookupableHelperService" class="org.kuali.kfs.module.ar.businessobject.lookup.TicklersReportLookupableHelperServiceImpl"
 		scope="prototype">
+		<property name="customerService">
+			<ref bean="customerService" />
+		</property>
+		<property name="personService">
+			<ref bean="personService" />
+		</property>
 	</bean>
 
 	<bean id="ticklersReportLookupResultLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
@@ -688,8 +697,17 @@
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
+		<property name="customerDao">
+			<ref bean="customerDao" />
+		</property>
 		<property name="customerCollectorDao">
 			<ref bean="customerCollectorDao" />
+		</property>
+		<property name="personService">
+			<ref bean="personService" />
+		</property>
+		<property name="roleService">
+			<ref bean="roleService" />
 		</property>
 	</bean>
 	
@@ -1569,6 +1587,10 @@
 		</property>
     </bean>
 
+	<bean name="collectorRoleTypeService" parent="collectorRoleTypeService-parentBean"/>
+	<bean name="collectorRoleTypeService-parentBean" abstract="true" 
+		class="org.kuali.kfs.module.ar.identity.CollectorRoleTypeServiceImpl" />
+    
     <bean id="invoiceRecurrenceDerivedRoleTypeService"  parent="invoiceRecurrenceDerivedRoleTypeService-parentBean"/>
     <bean id="invoiceRecurrenceDerivedRoleTypeService-parentBean" class="org.kuali.kfs.module.ar.identity.InvoiceRecurrenceDerivedRoleTypeServiceImpl" abstract="true"/>  
   
@@ -1601,8 +1623,17 @@
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
+		<property name="customerDao">
+			<ref bean="customerDao" />
+		</property>
 		<property name="customerCollectorDao">
 			<ref bean="customerCollectorDao" />
+		</property>
+		<property name="personService">
+			<ref bean="personService" />
+		</property>
+		<property name="roleService">
+			<ref bean="roleService" />
 		</property>
 	</bean>
 
@@ -1635,6 +1666,9 @@
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
+		<property name="customerDao">
+			<ref bean="customerDao" />
+		</property>
 		<property name="customerCollectorDao">
 			<ref bean="customerCollectorDao" />
 		</property>
@@ -1643,6 +1677,12 @@
 		</property>
 		<property name="documentService">
 			<ref bean="documentService" />
+		</property>
+		<property name="personService">
+			<ref bean="personService" />
+		</property>
+		<property name="roleService">
+			<ref bean="roleService" />
 		</property>
 	</bean>
 	

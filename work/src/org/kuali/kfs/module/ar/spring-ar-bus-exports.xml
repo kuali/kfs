@@ -28,6 +28,9 @@
 		p:callbackService-ref="accountsReceivableOrganizationDerivedRoleTypeService" p:localServiceName="accountsReceivableOrganizationDerivedRoleTypeService" />
 		
 	<bean parent="roleTypeServiceCallback" 
+		p:callbackService-ref="collectorRoleTypeService" p:localServiceName="collectorRoleTypeService" />
+		
+	<bean parent="roleTypeServiceCallback" 
 		p:callbackService-ref="invoiceRecurrenceDerivedRoleTypeService" p:localServiceName="invoiceRecurrenceDerivedRoleTypeService" />
 		  	 
 </beans>

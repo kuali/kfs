@@ -37,7 +37,6 @@ import org.kuali.kfs.module.ar.businessobject.InvoicePaidApplied;
 import org.kuali.kfs.module.ar.businessobject.NonInvoicedDistribution;
 import org.kuali.kfs.module.ar.businessobject.OrganizationOptions;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
-import org.kuali.kfs.module.ar.document.PaymentApplicationDocument;
 import org.kuali.kfs.module.ar.document.dataaccess.CustomerInvoiceDocumentDao;
 import org.kuali.kfs.module.ar.document.service.AccountsReceivableDocumentHeaderService;
 import org.kuali.kfs.module.ar.document.service.CustomerAddressService;
@@ -860,8 +859,7 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
             isSuccess &= false;
         }
         else {
-            CustomerInvoiceDocumentService service = SpringContext.getBean(CustomerInvoiceDocumentService.class);
-            CustomerInvoiceDocument customerInvoiceDocument = service.getInvoiceByInvoiceDocumentNumber(invDocumentNumber);
+            CustomerInvoiceDocument customerInvoiceDocument = getInvoiceByInvoiceDocumentNumber(invDocumentNumber);
 
             if (ObjectUtils.isNull(customerInvoiceDocument)) {
                 isSuccess &= false;

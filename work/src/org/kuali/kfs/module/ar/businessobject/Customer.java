@@ -23,10 +23,8 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomer;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomerAddress;
-import org.kuali.kfs.integration.ar.AccountsReceivableInvoiceTemplate;
 import org.kuali.kfs.module.ar.document.service.CustomerAddressService;
 import org.kuali.kfs.module.ar.document.service.CustomerService;
-import org.kuali.kfs.module.ar.businessobject.InvoiceIndicator;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
@@ -62,7 +60,6 @@ public class Customer extends PersistableBusinessObjectBase implements MutableIn
 
     private Customer customerParentCompany;
     private CustomerType customerType;
-    private CustomerCollector customerCollector;
     private List    boNotes;
 
     private List<CustomerAddress> customerAddresses;
@@ -80,14 +77,6 @@ public class Customer extends PersistableBusinessObjectBase implements MutableIn
     public Customer() {
         customerAddresses = new ArrayList<CustomerAddress>();
         customerInvoiceAccounts = new ArrayList<CustomerInvoiceAccount>();
-    }
-
-    public CustomerCollector getCustomerCollector() {
-        return customerCollector;
-    }
-
-    public void setCustomerCollector(CustomerCollector customerCollector) {
-        this.customerCollector = customerCollector;
     }
 
     /**

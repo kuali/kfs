@@ -29,7 +29,6 @@
         <ref bean="CustomerMaintenanceDocument-ContactInformation"/>
         <ref bean="CustomerMaintenanceDocument-Addresses"/>
     	<ref bean="CustomerMaintenanceDocument-InvoiceAccounts" />
-        <!-- <ref bean="CustomerMaintenanceDocument-CustomerCollector"/> -->
         <ref bean="CustomerMaintenanceDocument-CollectionsMaintenance"/>
       </list>
     </property>
@@ -53,7 +52,6 @@
     <property name="webScriptFiles">
       <list>
         <value>../scripts/module/ar/customerAddress.js</value>
-        <value>../scripts/module/ar/collectorObjectInfo.js</value>
       </list>
     </property>
     <property name="workflowAttributes">
@@ -161,22 +159,6 @@
         </property>
         </bean>
         
-<!--   <bean id="CustomerMaintenanceDocument-CustomerCollector" parent="CustomerMaintenanceDocument-CustomerCollector-parentBean"/>
-
-  <bean id="CustomerMaintenanceDocument-CustomerCollector-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="Customer Collector"/>
-    <property name="title" value="Customer Collector"/>
-    <property name="maintainableItems">
-      <list>  
-	      <bean parent="MaintainableFieldDefinition" p:name="customerCollector.principalId" p:unconditionallyReadOnly="true"/>
-          <bean parent="MaintainableFieldDefinition" p:name="customerCollector.collector.principalName"
-				p:webUILeaveFieldFunction="proposalCollectorIDLookup" />
-		  <bean parent="MaintainableFieldDefinition" p:name="customerCollector.collector.name"
-				p:unconditionallyReadOnly="true" />
-      </list>
-    </property>
-  </bean> -->
-  
   	<bean id="CustomerMaintenanceDocument-InvoiceAccounts" parent="CustomerMaintenanceDocument-InvoiceAccounts-parentBean" />
 
 	<bean id="CustomerMaintenanceDocument-InvoiceAccounts-parentBean"

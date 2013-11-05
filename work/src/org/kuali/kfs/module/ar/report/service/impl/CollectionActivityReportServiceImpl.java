@@ -31,7 +31,6 @@ import org.kuali.kfs.module.ar.businessobject.CollectionActivityReport;
 import org.kuali.kfs.module.ar.businessobject.CollectionActivityType;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.Event;
-import org.kuali.kfs.module.ar.dataaccess.CustomerCollectorDao;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.CollectionActivityDocumentService;
 import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService;
@@ -54,7 +53,6 @@ public class CollectionActivityReportServiceImpl extends ContractsGrantsCollecto
 
     private ReportInfo collActReportInfo;
     private ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService;
-    private CustomerCollectorDao customerCollectorDao;
     protected BusinessObjectService businessObjectService;
     private PersonService personService;
 
@@ -110,24 +108,6 @@ public class CollectionActivityReportServiceImpl extends ContractsGrantsCollecto
      */
     public void setContractsGrantsInvoiceDocumentService(ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService) {
         this.contractsGrantsInvoiceDocumentService = contractsGrantsInvoiceDocumentService;
-    }
-
-    /**
-     * Gets the customerCollectorDao attribute.
-     *
-     * @return Returns the customerCollectorDao.
-     */
-    public CustomerCollectorDao getCustomerCollectorDao() {
-        return customerCollectorDao;
-    }
-
-    /**
-     * Sets the customerCollectorDao attribute value.
-     *
-     * @param customerCollectorDao The customerCollectorDao to set.
-     */
-    public void setCustomerCollectorDao(CustomerCollectorDao customerCollectorDao) {
-        this.customerCollectorDao = customerCollectorDao;
     }
 
     /**

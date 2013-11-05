@@ -34,7 +34,6 @@ import org.kuali.kfs.module.ar.businessobject.FinalDisposition;
 import org.kuali.kfs.module.ar.businessobject.ReferralToCollectionsDetail;
 import org.kuali.kfs.module.ar.businessobject.ReferralToCollectionsReport;
 import org.kuali.kfs.module.ar.businessobject.ReferralType;
-import org.kuali.kfs.module.ar.dataaccess.CustomerCollectorDao;
 import org.kuali.kfs.module.ar.dataaccess.ReferralToCollectionsDao;
 import org.kuali.kfs.module.ar.document.ReferralToCollectionsDocument;
 import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService;
@@ -62,7 +61,6 @@ public class ReferralToCollectionsReportServiceImpl extends ContractsGrantsColle
 
     private ReportInfo refToCollReportInfo;
     private ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService;
-    private CustomerCollectorDao customerCollectorDao;
     protected BusinessObjectService businessObjectService;
     private ReferralToCollectionsDao referralToCollectionsDao;
     private DocumentService documentService;
@@ -128,25 +126,6 @@ public class ReferralToCollectionsReportServiceImpl extends ContractsGrantsColle
     public void setContractsGrantsInvoiceDocumentService(ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService) {
         this.contractsGrantsInvoiceDocumentService = contractsGrantsInvoiceDocumentService;
     }
-
-    /**
-     * Gets the customerCollectorDao attribute.
-     *
-     * @return Returns the customerCollectorDao.
-     */
-    public CustomerCollectorDao getCustomerCollectorDao() {
-        return customerCollectorDao;
-    }
-
-    /**
-     * Sets the customerCollectorDao attribute value.
-     *
-     * @param customerCollectorDao The customerCollectorDao to set.
-     */
-    public void setCustomerCollectorDao(CustomerCollectorDao customerCollectorDao) {
-        this.customerCollectorDao = customerCollectorDao;
-    }
-
 
     /**
      * Gets the referralToCollectionsDao attribute.

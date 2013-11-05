@@ -619,18 +619,6 @@
 		</reference-descriptor>
 	</class-descriptor>
 
-	<class-descriptor class="org.kuali.kfs.module.ar.businessobject.CustomerCollector" table="AR_CUST_CLCTR_T">
-		<field-descriptor name="customerNumber" column="CUST_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
-		<field-descriptor name="principalId" column="PRNCPL_ID" jdbc-type="VARCHAR" />
-		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
-		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-
-		<reference-descriptor name="customer" class-ref="org.kuali.kfs.module.ar.businessobject.Customer" auto-retrieve="true"
-			auto-update="none" auto-delete="none" proxy="true">
-			<foreignkey field-ref="customerNumber" />
-		</reference-descriptor>
-	</class-descriptor>
-	
 	<class-descriptor class="org.kuali.kfs.module.ar.businessobject.CustomerInvoiceRecurrenceDetails" table="AR_INV_RCURRNC_DTL_T">
 		<field-descriptor name="invoiceNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />

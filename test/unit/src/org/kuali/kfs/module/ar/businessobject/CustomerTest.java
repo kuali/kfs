@@ -22,13 +22,12 @@ import java.util.List;
 
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
-import org.kuali.kfs.sys.context.SpringContext; import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.MaintenanceDocumentTestUtils;
 import org.kuali.kfs.sys.fixture.UserNameFixture;
-import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.DocumentService;
-import org.kuali.kfs.sys.context.SpringContext; import org.kuali.rice.krad.service.DocumentService;
 
 /**
  * This class tests Customer Note and Customer Collector Maintenance Document
@@ -64,13 +63,6 @@ public class CustomerTest extends KualiTestBase {
         List list = new LinkedList();
         list.add(customerAddress);
         customer.setCustomerAddresses(list);
-
-        // set Customer Collector
-        CustomerCollector collector = new CustomerCollector();
-        collector.setPrincipalId("1204808831");
-        // collector.setActive(true);
-
-        customer.setCustomerCollector(collector);
 
         document.getNewMaintainableObject().setBusinessObject(customer);
         document.getNewMaintainableObject().setBoClass(customer.getClass());

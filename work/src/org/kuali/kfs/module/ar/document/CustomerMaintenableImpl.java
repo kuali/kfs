@@ -27,8 +27,6 @@ import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.ARCollector;
 import org.kuali.kfs.module.ar.businessobject.Customer;
 import org.kuali.kfs.module.ar.businessobject.CustomerAddress;
-import org.kuali.kfs.module.ar.businessobject.CustomerCollector;
-import org.kuali.kfs.module.ar.document.service.CustomerCollectorService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemMaintainable;
@@ -386,18 +384,4 @@ public class CustomerMaintenableImpl extends FinancialSystemMaintainable {
         super.processAfterRetrieve();
     }
 
-    /**
-     *
-     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#saveBusinessObject()
-     */
-    @Override
-    public void saveBusinessObject() {
-        super.saveBusinessObject();
-        CustomerCollectorService customerCollectorService = SpringContext.getBean(CustomerCollectorService.class);
-        CustomerCollector customerCollector = getCustomer().getCustomerCollector();
-        if(ObjectUtils.isNotNull(customerCollector)){
-        customerCollector.setCustomerNumber(getCustomer().getCustomerNumber());
-        customerCollectorService.createCustomerCollector(customerCollector);
-        }
-    }
 }

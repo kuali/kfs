@@ -311,7 +311,6 @@ public class ArPropertyConstants{
     public static final String DOCUMENT_STATUS_CODE = "documentHeader.financialDocumentStatusCode";
     public static final String DOCUMENT_HEADER_FINANCIAL_DOCUMENT_IN_ERROR_NUMBER = "documentHeader.financialDocumentInErrorNumber";
     public static final String CUSTOMER_NAME = "accountsReceivableDocumentHeader.customer.customerName";
-    public static final String COLLECTOR = "accountsReceivableDocumentHeader.customer.customerCollector.principalId";
     public static final String CONTRACTS_GRANTS_INV_DOC_TYPE = "CGIN";
 
     public static final String REFERRAL_TO_COLL_DOC_TYPE = "RTCL";

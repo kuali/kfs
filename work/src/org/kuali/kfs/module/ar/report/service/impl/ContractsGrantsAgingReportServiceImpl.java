@@ -34,7 +34,6 @@ import org.apache.ojb.broker.query.Criteria;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.OrganizationOptions;
-import org.kuali.kfs.module.ar.dataaccess.CustomerCollectorDao;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService;
 import org.kuali.kfs.module.ar.report.ContractsGrantsAgingReportDetailDataHolder;
@@ -59,7 +58,6 @@ public class ContractsGrantsAgingReportServiceImpl extends ContractsGrantsCollec
 
     private ReportInfo cgAgingReportInfo;
     private ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService;
-    private CustomerCollectorDao customerCollectorDao;
     protected BusinessObjectService businessObjectService;
     private PersonService personService;
 
@@ -115,24 +113,6 @@ public class ContractsGrantsAgingReportServiceImpl extends ContractsGrantsCollec
      */
     public void setContractsGrantsInvoiceDocumentService(ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService) {
         this.contractsGrantsInvoiceDocumentService = contractsGrantsInvoiceDocumentService;
-    }
-
-    /**
-     * Gets the customerCollectorDao attribute.
-     *
-     * @return Returns the customerCollectorDao.
-     */
-    public CustomerCollectorDao getCustomerCollectorDao() {
-        return customerCollectorDao;
-    }
-
-    /**
-     * Sets the customerCollectorDao attribute value.
-     *
-     * @param customerCollectorDao The customerCollectorDao to set.
-     */
-    public void setCustomerCollectorDao(CustomerCollectorDao customerCollectorDao) {
-        this.customerCollectorDao = customerCollectorDao;
     }
 
     /**

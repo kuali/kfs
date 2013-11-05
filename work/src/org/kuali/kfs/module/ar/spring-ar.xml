@@ -150,7 +150,6 @@
 	<bean id="eventDao" parent="platformAwareDao" class="org.kuali.kfs.module.ar.dataaccess.impl.EventDaoOjb" />
 	<bean id="awardAccountObjectCodeTotalBilledDao" parent="platformAwareDao" class="org.kuali.kfs.module.ar.dataaccess.impl.AwardAccountObjectCodeTotalBilledDaoOjb" />
 	<bean id="cashControlDocumentDao" parent="platformAwareDao" class="org.kuali.kfs.module.ar.document.dataaccess.impl.CashControlDocumentDaoOjb" />
-	<bean id="customerCollectorDao" parent="platformAwareDao" class="org.kuali.kfs.module.ar.dataaccess.impl.CustomerCollectorDaoOjb" />
 	<bean id="referralToCollectionsDao" parent="platformAwareDao" class="org.kuali.kfs.module.ar.dataaccess.impl.ReferralToCollectionsDaoOjb" />
 	<bean id="milestoneDao" parent="platformAwareDao" class="org.kuali.kfs.module.ar.dataaccess.impl.MilestoneDaoOjb" />	
 	<bean id="billDao" parent="platformAwareDao" class="org.kuali.kfs.module.ar.dataaccess.impl.BillDaoOjb" />
@@ -700,9 +699,6 @@
 		<property name="customerDao">
 			<ref bean="customerDao" />
 		</property>
-		<property name="customerCollectorDao">
-			<ref bean="customerCollectorDao" />
-		</property>
 		<property name="personService">
 			<ref bean="personService" />
 		</property>
@@ -925,12 +921,6 @@
 		</property>
 	</bean>
 	
-	<bean id="customerCollectorService" class="org.kuali.kfs.module.ar.document.service.impl.CustomerCollectorServiceImpl">
-		<property name="customerCollectorDao">
-			<ref bean="customerCollectorDao" />
-		</property>
-	</bean>
-
 	<bean id="customerInvoiceDocumentService" class="org.kuali.kfs.module.ar.document.service.impl.CustomerInvoiceDocumentServiceImpl">
 		<property name="documentDao">
 			<ref bean="documentDao" />
@@ -1626,9 +1616,6 @@
 		<property name="customerDao">
 			<ref bean="customerDao" />
 		</property>
-		<property name="customerCollectorDao">
-			<ref bean="customerCollectorDao" />
-		</property>
 		<property name="personService">
 			<ref bean="personService" />
 		</property>
@@ -1668,9 +1655,6 @@
 		</property>
 		<property name="customerDao">
 			<ref bean="customerDao" />
-		</property>
-		<property name="customerCollectorDao">
-			<ref bean="customerCollectorDao" />
 		</property>
 		<property name="referralToCollectionsDao">
 			<ref bean="referralToCollectionsDao" />

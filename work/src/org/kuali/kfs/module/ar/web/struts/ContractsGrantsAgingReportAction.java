@@ -44,7 +44,6 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.ContractsAndGrantsAgingReport;
-import org.kuali.kfs.module.ar.businessobject.CustomerCollector;
 import org.kuali.kfs.module.ar.businessobject.Event;
 import org.kuali.kfs.module.ar.businessobject.lookup.ContractsGrantsAgingReportLookupableHelperServiceImpl;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
@@ -475,15 +474,15 @@ public class ContractsGrantsAgingReportAction extends ContractsGrantsReportLooku
         }
 
         // set Customer Collector
-        String custColl = null;
-        if (cgInvoiceReportEntry.getAccountsReceivableDocumentHeader().getCustomer() != null) {
-            CustomerCollector custCollector = cgInvoiceReportEntry.getAccountsReceivableDocumentHeader().getCustomer().getCustomerCollector();
-            if (ObjectUtils.isNotNull(custCollector)) {
-                custColl = custCollector.getPrincipalId();
-                custColl = ObjectUtils.isNotNull(custCollector.getCollector()) ? custCollector.getCollector().getName() : null;
-                reportDetail.setCollectorName(custColl);
-            }
-        }
+//        String custColl = null;
+//        if (cgInvoiceReportEntry.getAccountsReceivableDocumentHeader().getCustomer() != null) {
+//            CustomerCollector custCollector = cgInvoiceReportEntry.getAccountsReceivableDocumentHeader().getCustomer().getCustomerCollector();
+//            if (ObjectUtils.isNotNull(custCollector)) {
+//                custColl = custCollector.getPrincipalId();
+//                custColl = ObjectUtils.isNotNull(custCollector.getCollector()) ? custCollector.getCollector().getName() : null;
+//                reportDetail.setCollectorName(custColl);
+//            }
+//        }
 
         // calculate ageInDays : current date - created date
         final long MILLSECS_PER_DAY = 24 * 60 * 60 * 1000;

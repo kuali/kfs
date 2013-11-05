@@ -514,12 +514,17 @@ public class PdpEmailServiceImpl implements PdpEmailService {
         String fromAddresses = customer.getAdviceReturnEmailAddr();
         String toAddresses = paymentGroup.getAdviceEmailAddress();
         Collection<String> ccAddresses = parameterService.getParameterValuesAsString(SendAchAdviceNotificationsStep.class, PdpParameterConstants.ACH_SUMMARY_CC_EMAIL_ADDRESSES_PARMAETER_NAME);
+        Collection<String> bccAddresses = parameterService.getParameterValuesAsString(SendAchAdviceNotificationsStep.class, PdpParameterConstants.ACH_SUMMARY_BCC_EMAIL_ADDRESSES_PARMAETER_NAME);
         String batchAddresses = mailService.getBatchMailingList();
         String subject = customer.getAdviceSubjectLine();
 
         message.addToAddress(toAddresses);
-        message.getCcAddresses().addAll(ccAddresses);
-        //message.addBccAddress(ccAddresses);
+        if(!ccAddresses.isEmpty()){
+            message.getCcAddresses().addAll(ccAddresses);
+        }
+        if(!bccAddresses.isEmpty()){
+            message.getCcAddresses().addAll(bccAddresses);
+        }
         message.setFromAddress(fromAddresses);
         message.setSubject(subject);
 

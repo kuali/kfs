@@ -31,12 +31,15 @@ import org.kuali.kfs.coa.businessobject.AccountDelegateModelDetail;
 import org.kuali.kfs.coa.businessobject.AccountGlobalDetail;
 import org.kuali.kfs.coa.service.AccountDelegateService;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemGlobalMaintainable;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.maintenance.MaintenanceLock;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
@@ -47,6 +50,27 @@ import org.kuali.rice.krad.util.ObjectUtils;
  */
 public class AccountDelegateGlobalMaintainableImpl extends FinancialSystemGlobalMaintainable {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountDelegateGlobalMaintainableImpl.class);
+
+    @Override
+    /**
+     * show the max account delegates info message
+     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#processAfterNew(org.kuali.rice.kns.document.MaintenanceDocument, java.util.Map)
+     */
+    public void processAfterNew(MaintenanceDocument document, Map<String, String[]> requestParameters) {
+        super.processAfterNew(document, requestParameters);
+
+        this.displayMaxAccountDelegatesInfoMessage();
+    }
+
+    /**
+     * Informational message about max account delegates
+     */
+    protected void displayMaxAccountDelegatesInfoMessage() {
+        String maxAccountDelegatesString = SpringContext.getBean(ParameterService.class).getParameterValueAsString(AccountDelegateGlobal.class, KFSConstants.ChartApcParms.MAXIMUM_ACCOUNT_DELEGATES);
+        if(maxAccountDelegatesString != null && !maxAccountDelegatesString.isEmpty()){
+            GlobalVariables.getMessageMap().putInfo(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.INFO_DOCUMENT_DELEGATE_MAXIMUM_ACCOUNT_DELEGATES, maxAccountDelegatesString);
+        }
+    }
 
     /**
      * This method is used for the creation of a delegate from a {@link OrganizationRoutingModelName}

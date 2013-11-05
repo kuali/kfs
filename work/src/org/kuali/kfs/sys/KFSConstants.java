@@ -694,6 +694,8 @@ public class KFSConstants {
 
         // newly created prior year accounts to be added
         public static final String PRIOR_YEAR_ACCOUNTS_TO_BE_ADDED = "PRIOR_YEAR_ACCOUNTS_TO_BE_ADDED";
+
+        public static final String MAXIMUM_ACCOUNT_DELEGATES = "MAXIMUM_ACCOUNT_DELEGATES";
     }
 
     public static class FinancialApcParms {

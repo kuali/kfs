@@ -225,6 +225,8 @@ public class KFSKeyConstants {
     public static final String ERROR_DOCUMENT_ACCTDELEGATEMAINT_ACCT_NOT_CLOSED = "error.document.accountDelegateMaintenance.acctNotClosed";
     public static final String ERROR_DOCUMENT_GLOBAL_ACCOUNT_ONE_CHART_ONLY = "error.document.accountGlobalDetails.onlyOneChartAllowed";
     public static final String ERROR_DOCUMENT_GLOBAL_ACCOUNT_ONE_CHART_ONLY_ADDNEW = "error.document.accountGlobalDetails.onlyOneChartAllowedOnAddNew";
+    public static final String INFO_DOCUMENT_DELEGATE_MAXIMUM_ACCOUNT_DELEGATES = "info.document.delegateGlobal.max.account.delegates";
+    public static final String ERROR_DOCUMENT_DELEGATE_MAXIMUM_ACCOUNT_DELEGATES = "error.document.delegateGlobal.max.account.delegates";
     public static final String ERROR_DOCUMENT_DELEGATE_CHANGE_NO_DELEGATE = "error.document.delegateGlobal.noDelegate";
     public static final String ERROR_DOCUMENT_DELEGATE_CHANGE_NO_ACTIVE_DELEGATE = "error.document.delegateGlobal.noActiveDelegate";
     public static final String ERROR_DOCUMENT_ACCTDELEGATEMAINT_INVALID_DOC_TYPE = "error.document.delegateMaintenance.invalidFinancialSystemDocumentTypeCode";

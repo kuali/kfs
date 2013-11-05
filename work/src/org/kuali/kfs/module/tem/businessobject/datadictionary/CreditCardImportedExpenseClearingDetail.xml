@@ -32,7 +32,8 @@
 			</list>
 		</property>
 	</bean>
-	<bean id="CreditCardImportedExpenseClearingDetail-creditCardStagingDataId" parent="CreditCardStagingData-id">
+	<bean id="CreditCardImportedExpenseClearingDetail-creditCardStagingDataId" parent="CreditCardImportedExpenseClearingDetail-creditCardStagingDataId-parentBean"/>
+	<bean id="CreditCardImportedExpenseClearingDetail-creditCardStagingDataId-parentBean" abstract="true" parent="CreditCardStagingData-id">
 		<property name="name" value="creditCardStagingDataId" />
 	</bean>
 	<bean id="CreditCardImportedExpenseClearingDetail-travelerName" parent="CreditCardImportedExpenseClearingDetail-travelerName-parentBean" />

@@ -54,7 +54,7 @@
 		<property name="control"><bean parent="TextControlDefinition" p:size="40"/></property>
 	</bean>
 	<bean id="ClassOfService-approvalRequired" parent="ClassOfService-approvalRequired-parentBean" />
-	<bean id="ClassOfService-approvalRequired-parentBean" parent="GenericAttributes-genericBoolean">
+	<bean id="ClassOfService-approvalRequired-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
 		<property name="name" value="approvalRequired" />
 		<property name="label" value="Approval Required" />
 		<property name="shortLabel" value="Approval Required" />

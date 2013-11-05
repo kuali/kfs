@@ -387,7 +387,7 @@
       <property name="name" value="profile.employeeId" />
     </bean>
     <bean id="CreditCardStagingData-creditCardAgency_creditCardOrAgencyCode" parent="CreditCardStagingData-creditCardAgency_creditCardOrAgencyCode-parentBean" />
-    <bean id="CreditCardStagingData-creditCardAgency_creditCardOrAgencyCode-parentBean" parent="CreditCardAgency-creditCardOrAgencyCode">
+    <bean id="CreditCardStagingData-creditCardAgency_creditCardOrAgencyCode-parentBean" abstract="true" parent="CreditCardAgency-creditCardOrAgencyCode">
       <property name="name" value="creditCardAgency.creditCardOrAgencyCode" />
     </bean>
   

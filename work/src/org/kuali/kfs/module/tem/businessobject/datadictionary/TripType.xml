@@ -49,7 +49,7 @@
 		</property>
 	</bean>
 	<bean id="TripType-code" parent="TripType-code-parentBean" />
-	<bean id="TripType-code-parentBean" parent="AttributeDefinition">
+	<bean id="TripType-code-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="code" />
 		<property name="label" value="Code" />
 		<property name="shortLabel" value="Code" />
@@ -60,7 +60,7 @@
 		<property name="control"><bean parent="TextControlDefinition" p:size="3"/></property>
 	</bean>
 	<bean id="TripType-name" parent="TripType-name-parentBean" />
-	<bean id="TripType-name-parentBean" parent="AttributeDefinition">
+	<bean id="TripType-name-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="name" />
 		<property name="label" value="Name" />
 		<property name="shortLabel" value="Name" />
@@ -71,7 +71,7 @@
 		<property name="control"><bean parent="TextControlDefinition" p:size="40"/></property>
 	</bean>
 	<bean id="TripType-generateEncumbrance" parent="TripType-generateEncumbrance-parentBean" />
-	<bean id="TripType-generateEncumbrance-parentBean" parent="GenericAttributes-genericBoolean">
+	<bean id="TripType-generateEncumbrance-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
 		<property name="name" value="generateEncumbrance" />
 		<property name="label" value="Generate Encumbrance" />
 		<property name="shortLabel" value="Generate Encumbrance" />
@@ -80,7 +80,7 @@
 		<property name="description" value="Generate Encumbrance" />
 	</bean>
 	<bean id="TripType-encumbranceBalanceType" parent="TripType-encumbranceBalanceType-parentBean" />
-	<bean id="TripType-encumbranceBalanceType-parentBean" parent="AttributeDefinition">
+	<bean id="TripType-encumbranceBalanceType-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="encumbranceBalanceType" />
 		<property name="label" value="Encumbrance Balance Type" />
 		<property name="shortLabel" value="Encumbrance Balance Type" />
@@ -90,7 +90,7 @@
 		<property name="control"><bean parent="TextControlDefinition" p:size="2"/></property>
 	</bean>
 	<bean id="TripType-encumbranceObjCode" parent="TripType-encumbranceObjCode-parentBean" />
-	<bean id="TripType-encumbranceObjCode-parentBean" parent="AttributeDefinition">
+	<bean id="TripType-encumbranceObjCode-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="encumbranceObjCode" />
 		<property name="label" value="Encumbrance Obj Code" />
 		<property name="shortLabel" value="Encumbrance Obj Code" />
@@ -100,7 +100,7 @@
 		<property name="control"><bean parent="TextControlDefinition" p:size="4"/></property>
 	</bean>
 	<bean id="TripType-contactInfoRequired" parent="TripType-contactInfoRequired-parentBean" />
-	<bean id="TripType-contactInfoRequired-parentBean" parent="GenericAttributes-genericBoolean">
+	<bean id="TripType-contactInfoRequired-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
 		<property name="name" value="contactInfoRequired" />
 		<property name="label" value="Contact Info Required" />
 		<property name="shortLabel" value="Contact Info Required" />
@@ -109,7 +109,7 @@
 		<property name="description" value="Contact Info Required" />
 	</bean>
 	<bean id="TripType-blanketTravel" parent="TripType-blanketTravel-parentBean" />
-	<bean id="TripType-blanketTravel-parentBean" parent="GenericAttributes-genericBoolean">
+	<bean id="TripType-blanketTravel-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
 		<property name="name" value="blanketTravel" />
 		<property name="label" value="Blanket Travel" />
 		<property name="shortLabel" value="Blanket Travel" />
@@ -118,7 +118,7 @@
 		<property name="description" value="Blanket Travel" />
 	</bean>
 	<bean id="TripType-autoTravelReimbursementLimit" parent="TripType-autoTravelReimbursementLimit-parentBean" />
-	<bean id="TripType-autoTravelReimbursementLimit-parentBean" parent="GenericAttributes-genericAmount">
+	<bean id="TripType-autoTravelReimbursementLimit-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
         <property name="name" value="autoTravelReimbursementLimit" />
         <property name="label" value="Auto Travel Reimbursement Limit" />
         <property name="shortLabel" value="Auto TR Limit" />
@@ -128,7 +128,7 @@
         <property name="description" value="Auto Travel Reimbursement Limit" />
 	</bean>
 	<bean id="TripType-usePerDiem" parent="TripType-usePerDiem-parentBean" />
-	<bean id="TripType-usePerDiem-parentBean" parent="GenericAttributes-genericBoolean">
+	<bean id="TripType-usePerDiem-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
 		<property name="name" value="usePerDiem" />
 		<property name="label" value="Use Per Diem" />
 		<property name="shortLabel" value="Use Per Diem" />
@@ -137,7 +137,7 @@
 		<property name="description" value="Use Per Diem" />
 	</bean>
 	<bean id="TripType-travelAuthorizationRequired" parent="TripType-travelAuthorizationRequired-parentBean" />
-	<bean id="TripType-travelAuthorizationRequired-parentBean" parent="GenericAttributes-genericBoolean">
+	<bean id="TripType-travelAuthorizationRequired-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
 		<property name="name" value="travelAuthorizationRequired" />
 		<property name="label" value="Travel Authorization Required" />
 		<property name="shortLabel" value="TA Required" />
@@ -146,7 +146,7 @@
 		<property name="description" value="Travel Authorization Required" />
 	</bean>
 	<bean id="TripType-perDiemCalcMethod" parent="TripType-perDiemCalcMethod-parentBean" />
-	<bean id="TripType-perDiemCalcMethod-parentBean" parent="AttributeDefinition">
+	<bean id="TripType-perDiemCalcMethod-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="perDiemCalcMethod" />
 		<property name="label" value="Per Diem Calculate Method" />
 		<property name="shortLabel" value="Per Diem Calc Method" />
@@ -161,7 +161,7 @@
         </property>
 	</bean>					
 	<bean id="TripType-active" parent="TripType-active-parentBean" />
-	<bean id="TripType-active-parentBean" parent="GenericAttributes-genericBoolean">
+	<bean id="TripType-active-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
 		<property name="name" value="active" />
 		<property name="label" value="Active" />
 		<property name="shortLabel" value="Active" />
@@ -170,7 +170,7 @@
 		<property name="description" value="Active" />
 	</bean>
 	<bean id="TripType-versionNumber" parent="TripType-versionNumber-parentBean" />
-	<bean id="TripType-versionNumber-parentBean" parent="GenericAttributes-versionNumber">
+	<bean id="TripType-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
 		<property name="name" value="versionNumber" />
 		<property name="label" value="Version Number" />
 		<property name="shortLabel" value="Version Number" />

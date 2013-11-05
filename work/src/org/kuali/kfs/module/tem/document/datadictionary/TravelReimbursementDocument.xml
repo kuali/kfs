@@ -118,7 +118,7 @@
 		<property name="maxDictionaryValidationDepth" value="0"/>
 	</bean>
 	<bean id="TravelReimbursementDocument-travelDocumentNumber" parent="TravelReimbursementDocument-travelDocumentNumber-parentBean" />
-	<bean id="TravelReimbursementDocument-travelDocumentNumber-parentBean" parent="AttributeDefinition">
+	<bean id="TravelReimbursementDocument-travelDocumentNumber-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="travelDocumentIdentifier" />
 		<property name="label" value="TEM Doc #" />
 		<property name="shortLabel" value="TEM Doc #" />
@@ -134,7 +134,7 @@
         <property name="label" value="Document Status" />
     </bean>
 	<bean id="TravelReimbursementDocument-finalReimbursement" parent="TravelReimbursementDocument-finalReimbursement-parentBean" />
-	<bean id="TravelReimbursementDocument-finalReimbursement-parentBean" parent="GenericAttributes-genericBoolean">
+	<bean id="TravelReimbursementDocument-finalReimbursement-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
 		<property name="name" value="finalReimbursement" />
 		<property name="label" value="Final Reimbursement" />
 		<property name="shortLabel" value="Final Reimbursement" />
@@ -151,7 +151,7 @@
 		<property name="validationPattern"><bean parent="NumericValidationPattern" /></property>
 	</bean>
 	<bean id="TravelReimbursementDocument-employeeCertification" parent="TravelReimbursementDocument-employeeCertification-parentBean" />
-	<bean id="TravelReimbursementDocument-employeeCertification-parentBean" parent="GenericAttributes-genericBoolean">
+	<bean id="TravelReimbursementDocument-employeeCertification-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
 		<property name="name" value="employeeCertification" />
 		<property name="label" value="Employee Certification" />
 		<property name="shortLabel" value="Employee Certification" />
@@ -160,7 +160,7 @@
 		<property name="description" value="Employee Certification" />
 	</bean>
 	<bean id="TravelReimbursementDocument-nonEmployeeCertification" parent="TravelReimbursementDocument-nonEmployeeCertification-parentBean" />
-	<bean id="TravelReimbursementDocument-nonEmployeeCertification-parentBean" parent="GenericAttributes-genericBoolean">
+	<bean id="TravelReimbursementDocument-nonEmployeeCertification-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
 		<property name="name" value="nonEmployeeCertification" />
 		<property name="label" value="Non-Employee Certification" />
 		<property name="shortLabel" value="Non-Employee Certification" />
@@ -169,7 +169,7 @@
 		<property name="description" value="NonEmployee Certification" />
 	</bean>
 	<bean id="TravelReimbursementDocument-contactName" parent="TravelReimbursementDocument-contactName-parentBean" />
-	<bean id="TravelReimbursementDocument-contactName-parentBean" parent="AttributeDefinition">
+	<bean id="TravelReimbursementDocument-contactName-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="contactName" />
 		<property name="label" value="Contact Name" />
 		<property name="shortLabel" value="Contact Name" />
@@ -179,7 +179,7 @@
 		<property name="control"><bean parent="TextControlDefinition" p:size="40"/></property>
 	</bean>
 	<bean id="TravelReimbursementDocument-contactPhoneNum" parent="TravelReimbursementDocument-contactPhoneNum-parentBean" />
-	<bean id="TravelReimbursementDocument-contactPhoneNum-parentBean" parent="AttributeDefinition">
+	<bean id="TravelReimbursementDocument-contactPhoneNum-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="contactPhoneNum" />
 		<property name="label" value="Contact Phone Num" />
 		<property name="shortLabel" value="Contact Phone Num" />
@@ -192,7 +192,7 @@
 		<property name="control"><bean parent="TextControlDefinition" p:size="20"/></property>
 	</bean>
 	<bean id="TravelReimbursementDocument-contactEmailAddress" parent="TravelReimbursementDocument-contactEmailAddress-parentBean" />
-	<bean id="TravelReimbursementDocument-contactEmailAddress-parentBean" parent="AttributeDefinition">
+	<bean id="TravelReimbursementDocument-contactEmailAddress-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="contactEmailAddress" />
 		<property name="label" value="Contact Email Address" />
 		<property name="shortLabel" value="Contact Email Address" />
@@ -202,7 +202,7 @@
 		<property name="control"><bean parent="TextControlDefinition" p:size="40"/></property>
 	</bean>
 	<bean id="TravelReimbursementDocument-contactCampusCode" parent="TravelReimbursementDocument-contactCampusCode-parentBean" />
-	<bean id="TravelReimbursementDocument-contactCampusCode-parentBean" parent="AttributeDefinition">
+	<bean id="TravelReimbursementDocument-contactCampusCode-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="contactCampusCode" />
 		<property name="label" value="Contact Campus Code" />
 		<property name="shortLabel" value="Contact Campus Code" />
@@ -222,7 +222,7 @@
 	</bean>
   
 	<bean id="TravelReimbursementDocument-tripBegin" parent="TravelReimbursementDocument-tripBegin-parentBean" />
-	<bean id="TravelReimbursementDocument-tripBegin-parentBean" parent="AttributeDefinition">
+	<bean id="TravelReimbursementDocument-tripBegin-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="tripBegin" />
 		<property name="label" value="Trip Begin" />
 		<property name="shortLabel" value="Trip Begin" />
@@ -235,7 +235,7 @@
 	    </property>		
 	</bean>
 	<bean id="TravelReimbursementDocument-tripEnd" parent="TravelReimbursementDocument-tripEnd-parentBean" />
-	<bean id="TravelReimbursementDocument-tripEnd-parentBean" parent="AttributeDefinition">
+	<bean id="TravelReimbursementDocument-tripEnd-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="tripEnd" />
 		<property name="label" value="Trip End" />
 		<property name="shortLabel" value="Trip End" />
@@ -279,7 +279,7 @@
     </bean>
     
 	<bean id="TravelReimbursementDocument-tripDescription" parent="TravelReimbursementDocument-tripDescription-parentBean" />
-	<bean id="TravelReimbursementDocument-tripDescription-parentBean" parent="AttributeDefinition">
+	<bean id="TravelReimbursementDocument-tripDescription-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="tripDescription" />
 		<property name="label" value="Business Purpose" />
 		<property name="shortLabel" value="Business Purpose" />
@@ -290,7 +290,7 @@
 		<property name="control"><bean parent="TextControlDefinition" p:size="255"/></property>
 	</bean>
 	<bean id="TravelReimbursementDocument-perDiemAdjustment" parent="TravelReimbursementDocument-perDiemAdjustment-parentBean" />
-	<bean id="TravelReimbursementDocument-perDiemAdjustment-parentBean" parent="GenericAttributes-genericAmount">
+	<bean id="TravelReimbursementDocument-perDiemAdjustment-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
 		<property name="name" value="perDiemAdjustment" />
 		<property name="label" value="Less Manual Per Diem Adjustment" />
 		<property name="shortLabel" value="Less Manual Per Diem Adjustment" />
@@ -299,13 +299,13 @@
 		<property name="description" value="Less Manual Per Diem Adjustment" />
 	</bean>
 	<bean id="TravelReimbursementDocument-appDocStatus" parent="TravelReimbursementDocument-appDocStatus-parentBean" />
-	<bean id="TravelReimbursementDocument-appDocStatus-parentBean" parent="FinancialSystemDocumentHeader-financialDocumentStatusCode">
+	<bean id="TravelReimbursementDocument-appDocStatus-parentBean" abstract="true" parent="FinancialSystemDocumentHeader-financialDocumentStatusCode">
 		<property name="name" value="dummyAppDocStatus" />
 		<property name="label" value="Travel Req Status Code" />
 		<property name="shortLabel" value="TR Status" />
 	</bean>
 	<bean id="TravelReimbursementDocument-expenseLimit" parent="TravelReimbursementDocument-expenseLimit-parentBean" />
-	<bean id="TravelReimbursementDocument-expenseLimit-parentBean" parent="GenericAttributes-genericAmount">
+	<bean id="TravelReimbursementDocument-expenseLimit-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
 		<property name="name" value="expenseLimit" />
 		<property name="label" value="Expense Limit" />
 		<property name="shortLabel" value="Expense Limit" />
@@ -314,7 +314,7 @@
 		<property name="description" value="Expense Limit" />
 	</bean>
 	<bean id="TravelReimbursementDocument-mealWithoutLodgingReason" parent="TravelReimbursementDocument-mealWithoutLodgingReason-parentBean" />
-	<bean id="TravelReimbursementDocument-mealWithoutLodgingReason-parentBean" parent="AttributeDefinition">
+	<bean id="TravelReimbursementDocument-mealWithoutLodgingReason-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="mealWithoutLodgingReason" />
 		<property name="label" value="Justification for meals without lodging" />
 		<property name="shortLabel" value="Meal Without Lodging Reason" />
@@ -327,7 +327,7 @@
         </property>		
 	</bean>		
 	<bean id="TravelReimbursementDocument-delinquentTRException" parent="TravelReimbursementDocument-delinquentTRException-parentBean" />
-	<bean id="TravelReimbursementDocument-delinquentTRException-parentBean" parent="AttributeDefinition">
+	<bean id="TravelReimbursementDocument-delinquentTRException-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="delinquentTRException" />
 		<property name="label" value="Delinquent TR Exception" />
 		<property name="shortLabel" value="Delinquent TR Exception" />
@@ -339,7 +339,7 @@
 		</property>
 	</bean>
 	<bean id="TravelReimbursementDocument-blanketTravel" parent="TravelReimbursementDocument-blanketTravel-parentBean" />
-	<bean id="TravelReimbursementDocument-blanketTravel-parentBean" parent="AttributeDefinition">
+	<bean id="TravelReimbursementDocument-blanketTravel-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="blanketTravel" />
 		<property name="label" value="Blanket Travel" />
 		<property name="shortLabel" value="Blanket Travel" />

@@ -45,8 +45,8 @@
 	<property name="label" value="Travel Document Identifier" />
   </bean>  
   
-  <bean id="TaxableRamificationDocument-travelAdvanceDocumentNumber" parent="TaxableRamificationDocument-travelAdvanceDocumentNumber-parent"/>  
-  <bean id="TaxableRamificationDocument-travelAdvanceDocumentNumber-parent" abstract="true" parent="TravelAdvance-documentNumber">
+  <bean id="TaxableRamificationDocument-travelAdvanceDocumentNumber" parent="TaxableRamificationDocument-travelAdvanceDocumentNumber-parentBean"/>  
+  <bean id="TaxableRamificationDocument-travelAdvanceDocumentNumber-parentBean" abstract="true" parent="TravelAdvance-documentNumber">
   	<property name="name" value="travelAdvanceDocumentNumber" />
 	<property name="label" value="Travel Advance Document Number" />
 	<property name="shortLabel" value="Advance Doc. #" />		
@@ -54,8 +54,8 @@
 	<property name="control"><bean parent="TextControlDefinition" p:size="32"/></property>    
   </bean>
 
-  <bean id="TaxableRamificationDocument-travelerDetailId" parent="TaxableRamificationDocument-travelerDetailId-parent"/>  
-  <bean id="TaxableRamificationDocument-travelerDetailId-parent" abstract="true" parent="TravelerDetail-id">
+  <bean id="TaxableRamificationDocument-travelerDetailId" parent="TaxableRamificationDocument-travelerDetailId-parentBean"/>  
+  <bean id="TaxableRamificationDocument-travelerDetailId-parentBean" abstract="true" parent="TravelerDetail-id">
   	<property name="name" value="travelerDetailId" />
 	<property name="label" value="Traveler Detail Id" />
 	<property name="shortLabel" value="Traveler Detail Id" />	
@@ -63,8 +63,8 @@
 	<property name="control"><bean parent="TextControlDefinition" p:size="32"/></property>        	
   </bean>
 
-  <bean id="TaxableRamificationDocument-arInvoiceDocNumber" parent="TaxableRamificationDocument-arInvoiceDocNumber-parent"/>  
-  <bean id="TaxableRamificationDocument-arInvoiceDocNumber-parent" abstract="true" parent="AttributeDefinition">
+  <bean id="TaxableRamificationDocument-arInvoiceDocNumber" parent="TaxableRamificationDocument-arInvoiceDocNumber-parentBean"/>  
+  <bean id="TaxableRamificationDocument-arInvoiceDocNumber-parentBean" abstract="true" parent="AttributeDefinition">
   	<property name="name" value="arInvoiceDocNumber" />
 	<property name="label" value="Advance Number" />
     <property name="required" value="true"/>	
@@ -73,17 +73,7 @@
     <property name="summary" value="AR Invoice Document Number" />
     <property name="description" value="AR Invoice Document Number" />
     <property name="control"><bean parent="TextControlDefinition" p:size="35"/></property>
-  </bean> 
-  
-  <bean id="TravelAuthorizationDocument-arCustomerId-parentBean" parent="AttributeDefinition">
-        <property name="name" value="arCustomerId" />
-        <property name="label" value="AR Customer ID" />
-        <property name="shortLabel" value="AR Customer ID" />
-        <property name="maxLength" value="255" />
-        <property name="summary" value="AR Customer ID" />
-        <property name="description" value="AR Customer ID" />
-        <property name="control"><bean parent="TextControlDefinition" p:size="35"/></property>
-    </bean>
+  </bean>
   
   <bean id="TaxableRamificationDocument-dueDate" parent="TaxableRamificationDocument-dueDate-parentBean"/>
   <bean id="TaxableRamificationDocument-dueDate-parentBean" abstract="true" parent="TravelAdvance-dueDate">

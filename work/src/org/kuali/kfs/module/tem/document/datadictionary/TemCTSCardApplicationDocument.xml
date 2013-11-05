@@ -26,12 +26,13 @@
 		</property>
 	</bean>
 	
-	<bean id="TemCTSCardApplicationDocument-temProfileId" parent="TemProfile-profileId-parentBean">
+	<bean id="TemCTSCardApplicationDocument-temProfileId" parent="TemCTSCardApplicationDocument-temProfileId-parentBean" />
+	<bean id="TemCTSCardApplicationDocument-temProfileId-parentBean" abstract="true" parent="TemProfile-profileId-parentBean">
 		<property name="name" value="temProfileId" />
 	</bean>
 	
 	<bean id="TemCTSCardApplicationDocument-bankAppliedDate" parent="TemCTSCardApplicationDocument-bankAppliedDate-parentBean" />
-	<bean id="TemCTSCardApplicationDocument-bankAppliedDate-parentBean" parent="GenericAttributes-genericDate">
+	<bean id="TemCTSCardApplicationDocument-bankAppliedDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
 		<property name="name" value="bankAppliedDate" />
 		<property name="label" value="Bank Applied Date" />
 		<property name="shortLabel" value="Bank Applied Date" />
@@ -40,7 +41,7 @@
 	</bean>
 	
 	<bean id="TemCTSCardApplicationDocument-bankApprovedDate" parent="TemCTSCardApplicationDocument-bankApprovedDate-parentBean" />
-	<bean id="TemCTSCardApplicationDocument-bankApprovedDate-parentBean" parent="GenericAttributes-genericDate">
+	<bean id="TemCTSCardApplicationDocument-bankApprovedDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
 		<property name="name" value="bankApprovedDate" />
 		<property name="label" value="Bank Approved Date" />
 		<property name="shortLabel" value="Bank Approved Date" />
@@ -49,7 +50,7 @@
 	</bean>
 	
 	<bean id="TemCTSCardApplicationDocument-userAgreement" parent="TemCTSCardApplicationDocument-userAgreement-parentBean" />
-	<bean id="TemCTSCardApplicationDocument-userAgreement-parentBean" parent="GenericAttributes-genericBoolean">
+	<bean id="TemCTSCardApplicationDocument-userAgreement-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
 		<property name="name" value="userAgreement" />
 		<property name="label" value="Accept User Agreement" />
 		<property name="shortLabel" value="Accept User Agreement" />
@@ -59,7 +60,7 @@
 	</bean>
 	
 	<bean id="TemCTSCardApplicationDocument-appDocStatus" parent="TemCTSCardApplicationDocument-appDocStatus-parentBean" />
-    <bean id="TemCTSCardApplicationDocument-appDocStatus-parentBean" parent="FinancialSystemDocumentHeader-financialDocumentStatusCode">
+    <bean id="TemCTSCardApplicationDocument-appDocStatus-parentBean" abstract="true" parent="FinancialSystemDocumentHeader-financialDocumentStatusCode">
         <property name="name" value="dummyAppDocStatus" />
         <property name="label" value="Application Status Code" />
         <property name="shortLabel" value="Status" />

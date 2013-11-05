@@ -346,8 +346,8 @@
         <property name="forceUppercase" value="true"/>
 	</bean>
 
-	<bean id="TemProfile-temProfileAddress.cityName" parent="TemProfile-temProfileAddress.cityName-ParentBean" />
-	<bean id="TemProfile-temProfileAddress.cityName-ParentBean"	abstract="true" parent="TemProfileAddress-cityName">
+	<bean id="TemProfile-temProfileAddress.cityName" parent="TemProfile-temProfileAddress.cityName-parentBean" />
+	<bean id="TemProfile-temProfileAddress.cityName-parentBean"	abstract="true" parent="TemProfileAddress-cityName">
 		<property name="name" value="temProfileAddress.cityName" />
         <property name="forceUppercase" value="true"/>
 	</bean>
@@ -554,8 +554,9 @@
 		</property>
 	</bean>
 
-	<bean id="TemProfile-employeeId" parent="PersonImpl-employeeId" />
-
+	<bean id="TemProfile-employeeId" parent="TemProfile-employeeId-parentBean" />
+	<bean id="TemProfile-employeeId-parentBean" abstract="true" parent="PersonImpl-employeeId" />
+	
 	<bean id="TemProfile-homeDepartment" parent="TemProfile-homeDepartment-parentBean" />
 	<bean id="TemProfile-homeDepartment-parentBean" abstract="true" parent="PersonImpl-primaryDepartmentCode">
 		<property name="name" value="homeDepartment" />

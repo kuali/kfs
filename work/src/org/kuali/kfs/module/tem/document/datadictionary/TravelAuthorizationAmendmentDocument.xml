@@ -97,7 +97,7 @@
 		</property>
 	</bean>
 	<bean id="TravelAuthorizationAmendmentDocument-appDocStatus" parent="TravelAuthorizationAmendmentDocument-appDocStatus-parentBean" />
-	<bean id="TravelAuthorizationAmendmentDocument-appDocStatus-parentBean" parent="FinancialSystemDocumentHeader-financialDocumentStatusCode">
+	<bean id="TravelAuthorizationAmendmentDocument-appDocStatus-parentBean" abstract="true" parent="FinancialSystemDocumentHeader-financialDocumentStatusCode">
 		<property name="name" value="dummyAppDocStatus" />
 		<property name="label" value="Travel Auth Amend Status Code" />
 		<property name="shortLabel" value="TAA Status" />

@@ -37,7 +37,7 @@
     </bean>
     
     <bean id="TravelDocumentAccountingLine-cardType" parent="TravelDocumentAccountingLine-cardType-parentBean" />
-    <bean id="TravelDocumentAccountingLine-cardType-parentBean" parent="TravelCardType-code-parentBean">
+    <bean id="TravelDocumentAccountingLine-cardType-parentBean" abstract="true" parent="TravelCardType-code-parentBean">
       <property name="name" value="cardType" />
       <property name="maxLength" value="40" />
       <property name="label" value="Expense or Encumb" />

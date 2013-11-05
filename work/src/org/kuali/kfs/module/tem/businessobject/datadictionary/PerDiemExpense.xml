@@ -59,7 +59,7 @@
 		<property name="description" value="Date" />
 	</bean>
 	<bean id="PerDiemExpense-mileageRateExpenseTypeCode" parent="PerDiemExpense-mileageRateExpenseTypeCode-parentBean"/>
-	<bean id="PerDiemExpense-mileageRateExpenseTypeCode-parentBean" parent="ExpenseType-code">
+	<bean id="PerDiemExpense-mileageRateExpenseTypeCode-parentBean" abstract="true" parent="ExpenseType-code">
 		<property name="name" value="mileageRateExpenseTypeCode"/>
 	</bean>
 	<bean id="PerDiemExpense-documentNumber" parent="PerDiemExpense-documentNumber-parentBean" />

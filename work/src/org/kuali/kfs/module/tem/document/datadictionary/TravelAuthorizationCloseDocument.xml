@@ -98,7 +98,7 @@
 		</property>
 	</bean>
 	<bean id="TravelAuthorizationCloseDocument-appDocStatus" parent="TravelAuthorizationCloseDocument-appDocStatus-parentBean" />
-	<bean id="TravelAuthorizationCloseDocument-appDocStatus-parentBean" parent="FinancialSystemDocumentHeader-financialDocumentStatusCode">
+	<bean id="TravelAuthorizationCloseDocument-appDocStatus-parentBean" abstract="true" parent="FinancialSystemDocumentHeader-financialDocumentStatusCode">
 		<property name="name" value="dummyAppDocStatus" />
 		<property name="label" value="Travel Auth Close Status Code" />
 		<property name="shortLabel" value="TAC Status" />

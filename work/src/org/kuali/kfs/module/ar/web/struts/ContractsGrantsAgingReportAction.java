@@ -473,17 +473,6 @@ public class ContractsGrantsAgingReportAction extends ContractsGrantsReportLooku
             reportDetail.setLastEventDate(events.get(0).getActivityDate());
         }
 
-        // set Customer Collector
-//        String custColl = null;
-//        if (cgInvoiceReportEntry.getAccountsReceivableDocumentHeader().getCustomer() != null) {
-//            CustomerCollector custCollector = cgInvoiceReportEntry.getAccountsReceivableDocumentHeader().getCustomer().getCustomerCollector();
-//            if (ObjectUtils.isNotNull(custCollector)) {
-//                custColl = custCollector.getPrincipalId();
-//                custColl = ObjectUtils.isNotNull(custCollector.getCollector()) ? custCollector.getCollector().getName() : null;
-//                reportDetail.setCollectorName(custColl);
-//            }
-//        }
-
         // calculate ageInDays : current date - created date
         final long MILLSECS_PER_DAY = 24 * 60 * 60 * 1000;
         reportDetail.setAgeInDays((sqlToday.getTime() - docCreateDate.getTime()) / MILLSECS_PER_DAY);

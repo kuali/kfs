@@ -18,6 +18,19 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
 	
+	<!--  setup role type and role qualifiers for CGB Collector role -->
+	<changeSet author="KFS5CGB" id="KFSMI-10824_ADD_CGB_COLLECTOR_ROLE_TYPE">
+		<insert tableName="KRIM_TYP_T">
+			<column name="KIM_TYP_ID" value="KFSMI10824-TYP1"/>
+			<column name="OBJ_ID" value="KFSMI10824-TYP1"/>
+			<column name="VER_NBR" value="1" />
+			<column name="NMSPC_CD" value="KFS-AR" />
+			<column name="NM" value="Collector" />
+			<column name="SRVC_NM" value="{http://kfs.kuali.org/kfs/v5_0}collectorRoleTypeService" />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+	</changeSet>
+
 	<!-- script to add new CGB Collector role -->
 	<changeSet author="KFS411CGB"
 		id="KFSCNTRB-860_INSERT_COLLECTOR_KRIM_ROLE_01">
@@ -41,7 +54,7 @@
 	</changeSet>
 
 	<!--  setup role type and role qualifiers for CGB Collector role -->
-	<changeSet author="KFS5CGB" id="KFSMI-10824_ADD_CGB_COLLECTOR_ROLE_TYPE">
+	<changeSet author="KFS5CGB" id="KFSMI-10824_ADD_CGB_COLLECTOR_ROLE_ATTRIBUTES">
 		<insert tableName="KRIM_ATTR_DEFN_T">
 			<column name="KIM_ATTR_DEFN_ID" value="KFSMI10824-ATTRDEF1" />
 			<column name="OBJ_ID" value="KFSMI10824-ATTRDEF1"/>
@@ -51,7 +64,6 @@
 			<column name="CMPNT_NM" value="org.kuali.kfs.module.ar.identity.ArKimAttributes" />
 			<column name="ACTV_IND" value="Y" />
 		</insert>
-
 		<insert tableName="KRIM_ATTR_DEFN_T">
 			<column name="KIM_ATTR_DEFN_ID" value="KFSMI10824-ATTRDEF2" />
 			<column name="OBJ_ID" value="KFSMI10824-ATTRDEF2"/>
@@ -95,15 +107,6 @@
 			<column name="NMSPC_CD" value="KFS-AR" />
 			<column name="NM" value="customerLastNameEndingLetter" />
 			<column name="CMPNT_NM" value="org.kuali.kfs.module.ar.identity.ArKimAttributes" />
-			<column name="ACTV_IND" value="Y" />
-		</insert>
-		<insert tableName="KRIM_TYP_T">
-			<column name="KIM_TYP_ID" value="KFSMI10824-TYP1"/>
-			<column name="OBJ_ID" value="KFSMI10824-TYP1"/>
-			<column name="VER_NBR" value="1" />
-			<column name="NMSPC_CD" value="KFS-AR" />
-			<column name="NM" value="Collector" />
-			<column name="SRVC_NM" value="{http://kfs.kuali.org/kfs/v5_0}collectorRoleTypeService" />
 			<column name="ACTV_IND" value="Y" />
 		</insert>
 		<insert tableName="KRIM_TYP_ATTR_T">

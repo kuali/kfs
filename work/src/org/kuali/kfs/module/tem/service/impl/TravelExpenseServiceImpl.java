@@ -64,12 +64,14 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Service for handling travel expenses
  *
  * @see org.kuali.kfs.module.tem.document.validation.impl.AgencyStagingDataValidation
  */
+@Transactional
 public class TravelExpenseServiceImpl implements TravelExpenseService {
     org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(TravelExpenseServiceImpl.class);
 

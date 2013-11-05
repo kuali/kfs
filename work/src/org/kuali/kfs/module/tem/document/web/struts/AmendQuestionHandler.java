@@ -55,10 +55,12 @@ import org.kuali.rice.krad.exception.ValidationException;
 import org.kuali.rice.krad.service.DataDictionaryService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.ObjectUtils;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
  */
+@Transactional
 public class AmendQuestionHandler implements QuestionHandler<TravelDocument> {
     private ConfigurationService ConfigurationService;
     private DataDictionaryService dataDictionaryService;

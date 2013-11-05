@@ -112,6 +112,11 @@
       <parent>TTSM</parent>
     </documentType>
     <documentType>
+      <name>TCT</name>
+      <label>Travel Card Type</label>
+      <parent>TTSM</parent>
+    </documentType>
+    <documentType>
       <name>TPRA</name>
       <label>TEM Profile Account</label>
       <parent>TTSM</parent>

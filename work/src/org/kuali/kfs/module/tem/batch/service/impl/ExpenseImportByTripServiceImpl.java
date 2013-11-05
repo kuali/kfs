@@ -56,12 +56,14 @@ import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.ErrorMessage;
 import org.kuali.rice.krad.util.ObjectUtils;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Service for handling imported expenses using the IU method or "By Trip Id" method.
  *
  * @see org.kuali.kfs.module.tem.document.validation.impl.AgencyStagingDataValidation
  */
+@Transactional
 public class ExpenseImportByTripServiceImpl extends ExpenseImportServiceBase implements ExpenseImportByTripService  {
 
     public static Logger LOG = Logger.getLogger(ExpenseImportByTripServiceImpl.class);

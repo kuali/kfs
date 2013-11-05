@@ -33,10 +33,12 @@ import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.datadictionary.validation.charlevel.RegexValidationPattern;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Travel Service Implementation
  */
+@Transactional
 public class TravelServiceImpl implements TravelService {
 
     private BusinessObjectService businessObjectService;

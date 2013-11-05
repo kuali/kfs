@@ -19,7 +19,7 @@
 		<value>code</value>
 	</list>
 	</property>
-	<property name="documentTypeName"        value="TTYP" />
+	<property name="documentTypeName"        value="TTYT" />
 	<property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
 
 </bean>

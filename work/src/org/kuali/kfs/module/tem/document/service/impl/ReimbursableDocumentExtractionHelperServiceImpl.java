@@ -39,11 +39,13 @@ import org.kuali.kfs.sys.document.validation.event.AccountingDocumentSaveWithNoL
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.service.DocumentService;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Helper class to help PDP extraction of Reimbursable travel & entertainment documents - namely, the Travel Reimbursement,
  * the entertainment document, and the moving and relocation document
  */
+@Transactional
 public class ReimbursableDocumentExtractionHelperServiceImpl implements PaymentSourceToExtractService<TEMReimbursementDocument>, ReimbursableDocumentPaymentService {
     org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ReimbursableDocumentExtractionHelperServiceImpl.class);
     protected DocumentService documentService;

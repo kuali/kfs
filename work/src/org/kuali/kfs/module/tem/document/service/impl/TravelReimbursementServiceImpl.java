@@ -91,7 +91,9 @@ import org.kuali.rice.krad.service.NoteService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
+import org.springframework.transaction.annotation.Transactional;
 
+@Transactional
 public class TravelReimbursementServiceImpl implements TravelReimbursementService {
 
     protected static Logger LOG = Logger.getLogger(TravelReimbursementServiceImpl.class);

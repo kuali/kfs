@@ -12,7 +12,7 @@
 		express or implied. See the License for the specific language governing permissions 
 		and limitations under the License. -->
 
-	<!-- bean parent="DataDictionaryBeanOverride">
+	<bean parent="DataDictionaryBeanOverride">
 		<property name="beanName" value="Account-inquiryDefinition" />
 		<property name="fieldOverrides">
            <list>
@@ -26,5 +26,5 @@
                 </bean>
             </list>
 		</property>
-	</bean -->
+	</bean>
 </beans>

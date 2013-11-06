@@ -43,7 +43,7 @@
 		<addForeignKeyConstraint constraintName="AR_CUST_INV_ACCT_R2"
 			referencedTableName="CA_CHART_T" baseColumnNames="FIN_COA_CD"
 			baseTableName="AR_CUST_INV_ACCT_T" referencedColumnNames="FIN_COA_CD" />
-		<addForeignKeyConstraint constraintName="AR_MLSTN_R1"
+		<addForeignKeyConstraint constraintName="AR_MLSTN_TR1"
 			referencedTableName="AR_MLSTN_SCHDL_T" baseColumnNames="PRPSL_NBR"
 			baseTableName="AR_MLSTN_T" referencedColumnNames="PRPSL_NBR" />
 		<addForeignKeyConstraint constraintName="AR_CUST_INV_ACCT_R3"
@@ -78,7 +78,7 @@
 		Detail and Invoice Agency Address Detail to Customer Invoice Table -->
 	<changeSet author="kfs" id="AR_CG_INV_DTL_T_DROP_FK">	
 		
-		<addForeignKeyConstraint constraintName="AR_CG_INV_DTL_FK1"
+		<addForeignKeyConstraint constraintName="AR_CG_INV_DTL_TR1"
 			referencedTableName="AR_INV_DOC_T" baseColumnNames="FDOC_NBR"
 			baseTableName="AR_CG_INV_DTL_T" referencedColumnNames="FDOC_NBR" />
 	</changeSet>

@@ -21,7 +21,7 @@
 			<column name="CUST_TYP_CD" type="varchar(10)" />
 			<column name="CUST_CRTD" type="varchar(1)" />
 			<column name="SPNSR_CD" type="varchar(6)">
-				<constraints unique="true" nullable="true" />
+				<constraints unique="true" nullable="true" uniqueConstraintName="CG_AGENCY_TC1"/>
 			</column>
 			<column name="CMPGN_ID" type="varchar(4)" />
 			<column name="STATE_AGENCY_IND" type="varchar(1)"
@@ -279,7 +279,11 @@
 
 	<changeSet author="KFSCGB" id="AR_MLSTN_T">
 		<createTable tableName="AR_MLSTN_T">
-			<column name="MLSTN_ID" type="decimal(12,0)" defaultValue="0">
+			<column name="PRPSL_NBR" type="decimal(12,0)" >
+				<constraints primaryKey="true" primaryKeyName="AR_MLSTN_TP1" />
+			</column>
+			<column name="MLSTN_NBR" type="decimal(12,0)" >
+				<constraints primaryKey="true" primaryKeyName="AR_MLSTN_TP1" />
 			</column>
 			<column name="OBJ_ID" type="varchar(36)">
 				<constraints unique="true" nullable="false" uniqueConstraintName="AR_MLSTN_TC1" />
@@ -287,11 +291,10 @@
 			<column name="VER_NBR" type="decimal(8,0)" defaultValueNumeric="1">
 				<constraints nullable="false" />
 			</column>
+			<column name="MLSTN_ID" type="decimal(12,0)" defaultValue="0" />
 			<column name="MLSTN_DESC" type="varchar(45)" />
 			<column name="MLSTN_AMT" type="decimal(19,2)" />
 			<column name="BILLED_IND" type="varchar(1)" />
-			<column name="MLSTN_NBR" type="decimal(12,0)" > <constraints primaryKey="true" nullable="false" /></column>
-			<column name="PRPSL_NBR" type="decimal(12,0)" ><constraints primaryKey="true" nullable="false" /></column>
 			<column name="MLSTN_COMPLTN_DT" type="datetime" />
 			<column name="MLSTN_EXPCTD_COMPLTN_DT" type="datetime" />
 		</createTable>
@@ -324,13 +327,13 @@
 		
 		<createTable tableName="AR_BILL_T">
 			<column name="BILL_NBR" type="decimal(12,0)" defaultValue="0">
-				<constraints primaryKey="true" nullable="false" />
+				<constraints primaryKey="true" primaryKeyName="AR_BILL_TP1" />
 			</column>
 			<column name="PRPSL_NBR" type="decimal(12,0)" defaultValue="0">
-				<constraints primaryKey="true" nullable="false" />
+				<constraints primaryKey="true" primaryKeyName="AR_BILL_TP1" />
 			</column>
 			<column name="BILL_ID" type="decimal(12,0)" defaultValue="0">
-				<constraints primaryKey="true" nullable="false" />
+				<constraints primaryKey="true" primaryKeyName="AR_BILL_TP1" />
 			</column>
 			<column name="OBJ_ID" type="varchar(36)">
 				<constraints unique="true" nullable="false" uniqueConstraintName="AR_BILL_TC1"/>
@@ -419,29 +422,29 @@
 	<changeSet author="KFSCGB" id="AR_CG_INV_DTL_T">
 		<createTable tableName="AR_CG_INV_DTL_T">
 			<column name="FDOC_NBR" type="varchar(10)">
-				<constraints primaryKey="true" nullable="false" /></column>
-			<column name="INV_CTG" type="varchar(120)" />
+				<constraints primaryKey="true" primaryKeyName="AR_CG_INV_DTL_TP1" />
+			</column>
+			<column name="INV_DTL_ID" type="decimal(12,0)">
+				<constraints primaryKey="true" primaryKeyName="AR_CG_INV_DTL_TP1" />
+			</column>
 			<column name="OBJ_ID" type="varchar(36)">
 				<constraints unique="true" nullable="false" uniqueConstraintName="AR_CG_INV_DTL_TC1"/>
 			</column>
 			<column name="VER_NBR" type="decimal(8,0)" defaultValueNumeric="1">
 				<constraints nullable="false" />
 			</column>
+			<column name="INV_CTG" type="varchar(120)" />
 			<column name="INV_BDGT_AMT" type="decimal(19,2)" />
 			<column name="INV_EXPND_AMT" type="decimal(19,2)" />
 			<column name="INV_CUM_AMT" type="decimal(19,2)" />
 			<column name="INV_BLNC_AMT" type="decimal(19,2)" />
-			<column name="INV_DTL_ID" type="decimal(12,0)">
-			<constraints primaryKey="true" nullable="false" /></column>
 			<column name="INV_CTG_CD" type="VARCHAR(4)" />
 			<column name="INV_BILLED_AMT" type="DECIMAL(19,2)" defaultValue="0" />
 			<column name="IND_CST_IND" type="varchar(1)" />
 			<column name="ADJ_CUM_EXPND" type="decimal(19,2)"	defaultValue="0" />
 			<column name="ADJ_BLNC" type="decimal(19,2)" defaultValue="0" />
 		</createTable>
-
 	</changeSet>
-
 
 	<changeSet author="KFSCGB" id="AR_INV_AGENCY_ADDR_DTL_T">
 		<createTable tableName="AR_INV_AGENCY_ADDR_DTL_T">
@@ -983,12 +986,10 @@
 		</modifySql>
 	</changeSet>
 
-
-
 	<changeSet author="KFSCGB" id="AR_LTRCR_RVW_DOC_T">
 		<createTable tableName="AR_LTRCR_RVW_DOC_T">
 			<column name="FDOC_NBR" type="varchar(14)">
-				<constraints primaryKey="true" nullable="false" />
+				<constraints primaryKey="true" primaryKeyName="AR_LTRCR_RVW_DOC_TP1" />
 			</column>
 			<column name="OBJ_ID" type="varchar(36)">
                  <constraints nullable="false" unique="true" uniqueConstraintName="AR_LTRCR_RVW_DOC_TC1"/>
@@ -999,6 +1000,11 @@
 			<column name="LTRCR_FND_CD" type="varchar(15)" />
 			<column name="LTRCR_FNDGRP_CD" type="varchar(4)" />
 		</createTable>
+
+		<modifySql dbms="oracle">
+			<replace replace="varchar" with="varchar2" />
+			<replace replace="decimal" with="number" />
+		</modifySql>
 	</changeSet>
 
 	<changeSet author="KFSCGB" id="AR_FINAL_INV_RVRSL_ENTRY_T_CREATE">
@@ -1109,11 +1115,11 @@
 	<changeSet author="KFSCGB" id="AR_LOC_RVW_DTL_T_RECREATE">
 		<createTable tableName="AR_LTRCR_RVW_DTL_T">
 			<column name="FDOC_NBR" type="varchar(14)">
-				<constraints primaryKey="true" nullable="false" />
+				<constraints primaryKey="true" primaryKeyName="AR_LTRCR_RVW_DTL_TP1" />
 			</column>
 			<column name="LTRCR_RVW_DTL_ID" type="decimal(12,0)"
 				defaultValue="0">
-				<constraints primaryKey="true" nullable="false" />
+				<constraints primaryKey="true" primaryKeyName="AR_LTRCR_RVW_DTL_TP1" />
 			</column>
 			<column name="PRPSL_NBR" type="decimal(12,0)" defaultValue="0"></column>
 			<column name="FIN_COA_CD" type="varchar(2)"></column>
@@ -1652,6 +1658,11 @@
 			<column name="INV_IND_CD" type="VARCHAR(10)" />
 			<column name="PRNT_ENV_NBR" type="decimal(5,0)" />
 		</addColumn>
+
+		<modifySql dbms="oracle">
+			<replace replace="varchar" with="varchar2" />
+			<replace replace="decimal" with="number" />
+		</modifySql>
 	</changeSet>
 	
 	<changeSet author="KFSCGB" id="KFSMI11385_REMOVE_LOC_FUND_GRP_FROM_AWARD">

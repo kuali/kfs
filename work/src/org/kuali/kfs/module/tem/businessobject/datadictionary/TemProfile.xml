@@ -74,73 +74,10 @@
 		<property name="relationships">
 			<list>
 				<bean parent="RelationshipDefinition">
-					<property name="objectAttributeName" value="travelerType" />
-					<property name="primitiveAttributes">
-						<list>
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="travelerTypeCode"
-								p:targetName="code" />
-						</list>
-					</property>
-				</bean>
-				<bean parent="RelationshipDefinition">
-					<property name="objectAttributeName" value="chart" />
-					<property name="primitiveAttributes">
-						<list>
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="defaultChartCode"
-								p:targetName="chartOfAccountsCode" />
-						</list>
-					</property>
-
-				</bean>
-				<bean parent="RelationshipDefinition">
-					<property name="objectAttributeName" value="account" />
-					<property name="primitiveAttributes">
-						<list>
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="defaultAccount"
-								p:targetName="accountNumber" />
-						</list>
-					</property>
-					<property name="supportAttributes">
- 						<list>
- 							<bean parent="SupportAttributeDefinition" p:sourceName="defaultChartCode" p:targetName="chartOfAccountsCode" />
-						</list>
-					</property>
-				</bean>
-				<bean parent="RelationshipDefinition">
-					<property name="objectAttributeName" value="subAccount" />
-					<property name="primitiveAttributes">
-						<list>
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="defaultSubAccount"
-								p:targetName="subAccountNumber" />
-						</list>
-					</property>
-					<property name="supportAttributes">
- 						<list>
- 							<bean parent="SupportAttributeDefinition" p:sourceName="defaultChartCode" p:targetName="chartOfAccountsCode" />
- 							<bean parent="SupportAttributeDefinition" p:sourceName="defaultAccount" p:targetName="accountNumber" />
-						</list>
-					</property>
-				</bean>
-				<bean parent="RelationshipDefinition">
-					<property name="objectAttributeName" value="project" />
-					<property name="primitiveAttributes">
-						<list>
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="defaultProjectCode"
-								p:targetName="code" />
-						</list>
-					</property>
-					<property name="supportAttributes">
- 						<list>
- 							<bean parent="SupportAttributeDefinition" p:sourceName="defaultChartCode" p:targetName="chartOfAccountsCode" />
-						</list>
-					</property>
-				</bean>
-				<bean parent="RelationshipDefinition">
 					<property name="objectAttributeName" value="principal" />
 					<property name="primitiveAttributes">
 						<list>
 							<bean parent="PrimitiveAttributeDefinition" p:sourceName="principalId" p:targetName="principalId" />
-							
 						</list>
 					</property>
 					<property name="supportAttributes">
@@ -158,15 +95,6 @@
 						</list>
 					</property>
 				</bean>
-				<bean parent="RelationshipDefinition">
-					<property name="objectAttributeName" value="homeDeptOrg" />
-					<property name="primitiveAttributes">
-						<list>
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="homeDeptOrgCode"
-								p:targetName="organizationCode" />
-						</list>
-					</property>
-				</bean>	 
 			</list>
 		</property>
 	</bean>

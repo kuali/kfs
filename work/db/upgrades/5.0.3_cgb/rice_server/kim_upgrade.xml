@@ -42,15 +42,9 @@
 				value="This role defines the list of users that may be selected as Collectors on the Customer document." />
 			<column name="KIM_TYP_ID" value="KFSMI10824-TYP1" />
 			<column name="ACTV_IND" value="Y" />
-			<column name="OBJ_ID" valueNumeric="KFSCGBPII1" />
+			<column name="OBJ_ID" value="KFSCGBPII1" />
 			<column name="VER_NBR" value="1" />
 		</insert>
-		<modifySql dbms="mysql">
-			<replace replace="SYS_GUID" with="uuid()" />
-		</modifySql>
-		<modifySql dbms='oracle'>
-			<replace replace='SYS_GUID' with='sys_guid()' />
-		</modifySql>
 	</changeSet>
 
 	<!--  setup role type and role qualifiers for CGB Collector role -->

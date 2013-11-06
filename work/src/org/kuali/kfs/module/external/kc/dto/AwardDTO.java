@@ -1,16 +1,14 @@
 package org.kuali.kfs.module.external.kc.dto;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
 import java.sql.Date;
-import java.util.List;
+import java.sql.Timestamp;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.rice.core.api.util.type.KualiDecimal;
-import org.kuali.rice.kim.api.identity.Person;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "awardDTO", propOrder = {
@@ -32,14 +30,15 @@ import org.kuali.rice.kim.api.identity.Person;
     "sponsor",
     "principalInvestigatorId",
     "unitNumber",
-    "commentText"
+    "commentText",
+    "fundManagerId"
 })
 public class AwardDTO implements Serializable {
 
 	private static final long serialVersionUID = -7830094624716529740L;
-	
+
 	private String awardId;
-    private ProposalDTO proposal;	
+    private ProposalDTO proposal;
 	private Date awardStartDate;
 	private Date awardEndDate;
 	private KualiDecimal awardTotalAmount;
@@ -57,7 +56,8 @@ public class AwardDTO implements Serializable {
     private String principalInvestigatorId;
     private String unitNumber;
     private String commentText;
-    
+    private String fundManagerId;
+
 	public String getAwardId() {
 		return awardId;
 	}
@@ -171,5 +171,11 @@ public class AwardDTO implements Serializable {
 	}
 	public void setPrincipalInvestigatorId(String principalInvestigatorId) {
 		this.principalInvestigatorId = principalInvestigatorId;
+	}
+	public String getFundManagerId() {
+		return fundManagerId;
+	}
+	public void setFundManagerId(String fundManagerId) {
+		this.fundManagerId = fundManagerId;
 	}
 }

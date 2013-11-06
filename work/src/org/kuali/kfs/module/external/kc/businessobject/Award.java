@@ -21,10 +21,10 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAwardAccount;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingFrequency;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsFundManager;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsLetterOfCreditFund;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsOrganization;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsProjectDirector;
@@ -110,7 +110,7 @@ public class Award implements ContractsAndGrantsBillingAward {
     private String userLookupRoleNamespaceCode;
     private ContractsAndGrantsLetterOfCreditFund letterOfCreditFund;
     private String userLookupRoleName;
-    private ContractsAndGrantsFundManager awardPrimaryFundManager;
+    private AwardFundManager awardPrimaryFundManager;
     private ContractsAndGrantsBillingFrequency billingFrequency;
     private ContractsAndGrantsProjectDirector awardPrimaryProjectDirector;
     private ContractsAndGrantsOrganization primaryAwardOrganization;
@@ -138,6 +138,9 @@ public class Award implements ContractsAndGrantsBillingAward {
         this.setCommentText(kcAward.getCommentText());
         this.setProposal(new Proposal(kcAward.getProposal()));
         this.getProposal().setAward(this);
+        if (StringUtils.isNotEmpty(kcAward.getFundManagerId())) {
+            awardPrimaryFundManager = new AwardFundManager(proposalNumber, kcAward.getFundManagerId());
+        }
     }
 
     /**
@@ -774,11 +777,11 @@ public class Award implements ContractsAndGrantsBillingAward {
     }
 
     @Override
-    public ContractsAndGrantsFundManager getAwardPrimaryFundManager() {
+    public AwardFundManager getAwardPrimaryFundManager() {
         return awardPrimaryFundManager;
     }
 
-    public void setAwardPrimaryFundManager(ContractsAndGrantsFundManager awardPrimaryFundManager) {
+    public void setAwardPrimaryFundManager(AwardFundManager awardPrimaryFundManager) {
         this.awardPrimaryFundManager = awardPrimaryFundManager;
     }
 

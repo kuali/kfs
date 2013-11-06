@@ -206,7 +206,7 @@
 			<column name="VER_NBR" value="1" />
 			<column name="PARM_TYP_CD" value="CONFG" />
 			<column name="VAL"
-				value="Invoice Submittal for Grant Number: #grantNumber / Proposal Number: #proposalNumber , Invoice Number: #invoiceNumber ." />
+				value="Invoice Submittal for Grant Number: #grantNumber / Proposal Number: #proposalNumber / Invoice Number: #invoiceNumber ." />
 			<column name="PARM_DESC_TXT"
 				value="Subject for Invoice Report Email. Sets the email subject for the Invoice Reports that are sent out by the Invoice Report Delivery process. The {#value} tags are replaced by actual values for the individual Reports." />
 			<column name="EVAL_OPRTR_CD" value="A" />

@@ -62,9 +62,9 @@
 			<label>
 				Proposal
 			</label>
-			<docSearchHelpURL>
-				default.htm?turl=WordDocuments%2Fcustomdocumentsearches.htm
-			</docSearchHelpURL>
+			<helpDefinitionURL>
+				default.htm?turl=WordDocuments%2Fproposal.htm
+			</helpDefinitionURL>
 			<active>
 				true
 			</active>

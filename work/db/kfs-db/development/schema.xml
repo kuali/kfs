@@ -812,11 +812,6 @@
         <unique name="AR_BILL_TC1">
             <unique-column name="OBJ_ID"/>
         </unique>
-        <unique name="PK_CG_BILL_T">
-            <unique-column name="BILL_NBR"/>
-            <unique-column name="PRPSL_NBR"/>
-            <unique-column name="BILL_ID"/>
-        </unique>
     </table>
     <table name="AR_CATEGORIES_T">
         <column name="CTGRY_CD" primaryKey="true" size="4" type="VARCHAR"/>
@@ -835,22 +830,19 @@
     </table>
     <table name="AR_CG_INV_DTL_T">
         <column name="FDOC_NBR" primaryKey="true" size="10" type="VARCHAR"/>
-        <column name="INV_CTG" size="120" type="VARCHAR"/>
+        <column name="INV_DTL_ID" primaryKey="true" size="12" type="DECIMAL"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
+        <column name="INV_CTG" size="120" type="VARCHAR"/>
         <column name="INV_BDGT_AMT" scale="2" size="19" type="DECIMAL"/>
         <column name="INV_EXPND_AMT" scale="2" size="19" type="DECIMAL"/>
         <column name="INV_CUM_AMT" scale="2" size="19" type="DECIMAL"/>
         <column name="INV_BLNC_AMT" scale="2" size="19" type="DECIMAL"/>
-        <column default="0" name="INV_DTL_ID" primaryKey="true" size="12" type="DECIMAL"/>
-        <column default="0" name="INV_BILLED_AMT" scale="2" size="19" type="DECIMAL"/>
         <column name="INV_CTG_CD" size="4" type="VARCHAR"/>
+        <column default="0" name="INV_BILLED_AMT" scale="2" size="19" type="DECIMAL"/>
         <column name="IND_CST_IND" size="1" type="VARCHAR"/>
         <column default="0" name="ADJ_CUM_EXPND" scale="2" size="19" type="DECIMAL"/>
         <column default="0" name="ADJ_BLNC" scale="2" size="19" type="DECIMAL"/>
-        <foreign-key foreignTable="AR_INV_DOC_T" name="AR_CG_INV_DTL_FK1">
-            <reference foreign="FDOC_NBR" local="FDOC_NBR"/>
-        </foreign-key>
         <unique name="AR_CG_INV_DTL_TC1">
             <unique-column name="OBJ_ID"/>
         </unique>
@@ -1010,9 +1002,9 @@
         <column name="CUST_ADDR_TYPE_CD" size="2" type="VARCHAR"/>
         <column name="CUST_ADDR_END_DT" type="DATE"/>
         <column name="INV_TYP_CD" size="10" type="VARCHAR"/>
-        <column name="COPIES_TO_PRINT_QTY" size="22" type="DECIMAL"/>
+        <column name="COPIES_TO_PRINT_QTY" size="5" type="DECIMAL"/>
         <column name="INV_IND_CD" size="10" type="VARCHAR"/>
-        <column name="PRNT_ENV_NBR" size="22" type="DECIMAL"/>
+        <column name="PRNT_ENV_NBR" size="5" type="DECIMAL"/>
         <foreign-key foreignTable="AR_CUST_ADDR_TYP_T" name="AR_CUST_ADDR_TR1">
             <reference foreign="CUST_ADDR_TYPE_CD" local="CUST_ADDR_TYPE_CD"/>
         </foreign-key>
@@ -1313,9 +1305,12 @@
         <column name="CUM_AMT" scale="2" size="19" type="DECIMAL"/>
         <column name="BAL_AMT" scale="2" size="19" type="DECIMAL"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
-        <column default="1" name="VER_NBR" size="8" type="DECIMAL"/>
+        <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
         <column name="CNTRCT_CNTRL_ACCT_NBR" size="7" type="VARCHAR"/>
         <column default="0" name="BILLED_AMT" scale="2" size="19" type="DECIMAL"/>
+        <column name="IND_CST_IND" size="1" type="VARCHAR"/>
+        <column default="0" name="ADJ_CUM_EXPND" scale="2" size="19" type="DECIMAL"/>
+        <column default="0" name="ADJ_BLNC" scale="2" size="19" type="DECIMAL"/>
         <foreign-key foreignTable="AR_INV_DOC_T" name="AR_INV_ACCT_DTL_TR1">
             <reference foreign="FDOC_NBR" local="FDOC_NBR"/>
         </foreign-key>
@@ -1332,7 +1327,7 @@
         <column name="AGENCY_INV_TYP_CD" size="10" type="VARCHAR"/>
         <column name="PREF_AGENCY_INV_TYP_CD" size="10" type="VARCHAR"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
-        <column default="1" name="VER_NBR" size="8" type="DECIMAL"/>
+        <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
         <column name="INV_IND_CD" size="10" type="VARCHAR"/>
         <column name="PREF_INV_IND_CD" size="10" type="VARCHAR"/>
         <column name="NOTE_ID" size="14" type="DECIMAL"/>
@@ -1357,7 +1352,7 @@
         <foreign-key foreignTable="AR_INV_DOC_T" name="AR_INV_BILL_R1">
             <reference foreign="FDOC_NBR" local="FDOC_NBR"/>
         </foreign-key>
-        <unique name="SYS_C0010102985">
+        <unique name="AR_INV_BILL_TC1">
             <unique-column name="OBJ_ID"/>
         </unique>
     </table>
@@ -1657,7 +1652,7 @@
         <foreign-key foreignTable="AR_INV_DOC_T" name="AR_INV_MLSTN_R1">
             <reference foreign="FDOC_NBR" local="FDOC_NBR"/>
         </foreign-key>
-        <unique name="AR_INV_SUSP_CTGRY_TC1">
+        <unique name="AR_INV_MLSTN_TC1">
             <unique-column name="OBJ_ID"/>
         </unique>
     </table>
@@ -1711,7 +1706,7 @@
         <column name="FDOC_NBR" primaryKey="true" size="14" type="VARCHAR"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
-        <unique name="AR_INV_BILL_TC1">
+        <unique name="AR_INV_SUSP_CTGRY_TC1">
             <unique-column name="OBJ_ID"/>
         </unique>
     </table>
@@ -1741,16 +1736,13 @@
         </unique>
     </table>
     <table name="AR_LTRCR_RVW_DOC_T">
-        <column name="FDOC_NBR" required="true" size="14" type="VARCHAR"/>
+        <column name="FDOC_NBR" primaryKey="true" size="14" type="VARCHAR"/>
+        <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
+        <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
         <column name="LTRCR_FND_CD" size="15" type="VARCHAR"/>
         <column name="LTRCR_FNDGRP_CD" size="4" type="VARCHAR"/>
-        <column name="OBJ_ID" size="36" type="VARCHAR"/>
-        <column default="1" name="VER_NBR" size="22" type="DECIMAL"/>
         <unique name="AR_LTRCR_RVW_DOC_TC1">
             <unique-column name="OBJ_ID"/>
-        </unique>
-        <unique name="PK_AR_LOC_RVW_DOC_T">
-            <unique-column name="FDOC_NBR"/>
         </unique>
     </table>
     <table name="AR_LTRCR_RVW_DTL_T">
@@ -1775,12 +1767,11 @@
         <column name="AWD_END_DT" type="TIMESTAMP"/>
         <column name="AGENCY_NBR" size="5" type="VARCHAR"/>
         <column name="CUST_NBR" size="9" type="VARCHAR"/>
+        <foreign-key foreignTable="AR_LTRCR_RVW_DOC_T" name="AR_LTRCR_RVW_DTL_R1">
+            <reference foreign="FDOC_NBR" local="FDOC_NBR"/>
+        </foreign-key>
         <unique name="AR_LTRCR_RVW_DTL_TC1">
             <unique-column name="OBJ_ID"/>
-        </unique>
-        <unique name="PK_AR_LOC_RVW_DTL_T">
-            <unique-column name="FDOC_NBR"/>
-            <unique-column name="LTRCR_RVW_DTL_ID"/>
         </unique>
     </table>
     <table name="AR_MLSTN_SCHDL_T">
@@ -1789,27 +1780,21 @@
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
         <column name="TOT_AMT_SCHDL" scale="2" size="19" type="DECIMAL"/>
         <column name="TOT_AWD_RMNG" scale="2" size="19" type="DECIMAL"/>
-        <foreign-key foreignTable="CG_AWD_T" name="CG_MLSTN_SCHDL_FK1">
-            <reference foreign="CGPRPSL_NBR" local="PRPSL_NBR"/>
-        </foreign-key>
         <unique name="AR_MLSTN_SCHDL_TC1">
             <unique-column name="OBJ_ID"/>
         </unique>
     </table>
     <table name="AR_MLSTN_T">
-        <column default="0" name="MLSTN_ID" primaryKey="true" size="12" type="DECIMAL"/>
+        <column name="PRPSL_NBR" primaryKey="true" size="12" type="DECIMAL"/>
+        <column name="MLSTN_NBR" primaryKey="true" size="12" type="DECIMAL"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
+        <column default="0" name="MLSTN_ID" size="12" type="DECIMAL"/>
         <column name="MLSTN_DESC" size="45" type="VARCHAR"/>
         <column name="MLSTN_AMT" scale="2" size="19" type="DECIMAL"/>
         <column name="BILLED_IND" size="1" type="VARCHAR"/>
-        <column default="0" name="MLSTN_NBR" primaryKey="true" size="12" type="DECIMAL"/>
-        <column name="PRPSL_NBR" primaryKey="true" size="12" type="DECIMAL"/>
         <column name="MLSTN_COMPLTN_DT" type="TIMESTAMP"/>
         <column name="MLSTN_EXPCTD_COMPLTN_DT" type="TIMESTAMP"/>
-        <foreign-key foreignTable="AR_MLSTN_SCHDL_T" name="AR_MLSTN_R1">
-            <reference foreign="PRPSL_NBR" local="PRPSL_NBR"/>
-        </foreign-key>
         <unique name="AR_MLSTN_TC1">
             <unique-column name="OBJ_ID"/>
         </unique>
@@ -4131,15 +4116,15 @@
         <unique name="CG_AGENCY_TC0">
             <unique-column name="OBJ_ID"/>
         </unique>
+        <unique name="CG_AGENCY_TC1">
+            <unique-column name="SPNSR_CD"/>
+        </unique>
         <index name="CG_AGENCY_TI2">
             <index-column name="CG_RPTTO_AGNCY_NBR"/>
         </index>
         <index name="CG_AGENCY_TI3">
             <index-column name="CG_AGENCY_TYP_CD"/>
         </index>
-        <unique name="SYS_C0015481501">
-            <unique-column name="SPNSR_CD"/>
-        </unique>
     </table>
     <table name="CG_AGENCY_TYP_T">
         <column name="CG_AGENCY_TYP_CD" primaryKey="true" size="1" type="VARCHAR"/>
@@ -4482,7 +4467,7 @@
         <column name="CG_LTRCR_EXPIRATION_DT" type="TIMESTAMP"/>
         <column name="ACTV_IND" required="true" size="1" type="VARCHAR"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
-        <column default="1" name="VER_NBR" size="8" type="DECIMAL"/>
+        <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
         <foreign-key foreignTable="CG_LTRCR_FNDGRP_T" name="CG_LTRCR_FND_R1">
             <reference foreign="CG_LTRCR_FNDGRP_CD" local="CG_LTRCR_FNDGRP_CD"/>
         </foreign-key>

@@ -46,6 +46,7 @@
                 <entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAgency" value="org.kuali.kfs.module.external.kc.businessobject.Agency"/>
                 <entry key="org.kuali.kfs.integration.cg.ContractAndGrantsProposal" value="org.kuali.kfs.module.external.kc.businessobject.Proposal"/>
                 <entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward" value="org.kuali.kfs.module.external.kc.businessobject.Award"/>
+                <entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsLetterOfCreditFundGroup" value="org.kuali.kfs.module.external.kc.businessobject.LetterOfCreditFundGroup"/>
              </map>
         </property>
         <property name="externalizableBusinessObjectServiceImplementations">

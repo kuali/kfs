@@ -22,10 +22,5 @@
 			<label>Account Auto-Creation Defaults</label>
 			<parent>KCSM</parent>
 		</documentType>
-		<documentType>
-			<name>PRPSLACD</name>
-			<label>Proposal Auto-Creation Defaults</label>
-			<parent>KCSM</parent>
-		</documentType>
 	</documentTypes>
 </data>

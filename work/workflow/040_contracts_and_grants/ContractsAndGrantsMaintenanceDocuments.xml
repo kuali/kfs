@@ -44,7 +44,7 @@
 				<start name="AdHoc" />
 				<role name="OrganizationHierarchy">
 					<qualifierResolverClass>
-						org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+						org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
 					</qualifierResolverClass>
 					<activationType>
 						P
@@ -62,9 +62,6 @@
 			<label>
 				Proposal
 			</label>
-			<helpDefinitionURL>
-				default.htm?turl=WordDocuments%2Fproposal.htm
-			</helpDefinitionURL>
 			<docSearchHelpURL>
 				default.htm?turl=WordDocuments%2Fcustomdocumentsearches.htm
 			</docSearchHelpURL>
@@ -85,12 +82,12 @@
 				<start name="AdHoc" />
 				<role name="OrganizationHierarchy">
 					<qualifierResolverClass>
-						org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+						org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
 					</qualifierResolverClass>
 				</role>
 				<role name="ResearchRisk">
 					<qualifierResolverClass>
-						org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+						org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
 					</qualifierResolverClass>
 				</role>
 			</routeNodes>

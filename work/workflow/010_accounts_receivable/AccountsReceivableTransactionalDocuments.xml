@@ -61,27 +61,27 @@
 				<start name="AdHoc" />
 				<role name="Lockbox">
 					<qualifierResolverClass>
-						org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
-          </qualifierResolverClass>
+						org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
+          			</qualifierResolverClass>
 					<mandatoryRoute>
 						true
-          </mandatoryRoute>
+          			</mandatoryRoute>
 				</role>
 				<split name="AssociatedWithElectronicPayment">
 					<type>
 						org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode
-          </type>
+          			</type>
 				</split>
 				<role name="ElectronicPayment">
 					<qualifierResolverClass>
-						org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
-          </qualifierResolverClass>
+						org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
+          			</qualifierResolverClass>
 				</role>
 				<join name="Join" />
 				<simple name="NoOp">
 					<type>
 						org.kuali.rice.kew.engine.node.NoOpNode
-          </type>
+          			</type>
 				</simple>
 			</routeNodes>
 		</documentType>
@@ -211,7 +211,7 @@
 				</split>
 				<role name="Account">
 					<qualifierResolverClass>
-						org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+						org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
           </qualifierResolverClass>
 					<activationType>
 						P
@@ -260,7 +260,7 @@
 				<start name="AdHoc" />
 				<role name="Account">
 					<qualifierResolverClass>
-						org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+						org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
           </qualifierResolverClass>
 					<activationType>
 						P
@@ -317,7 +317,7 @@
 				</split>
 				<role name="Account">
 					<qualifierResolverClass>
-						org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+						org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
           </qualifierResolverClass>
 					<activationType>
 						P
@@ -325,7 +325,7 @@
 				</role>
 				<role name="Recurrence">
 					<qualifierResolverClass>
-						org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+						org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
           </qualifierResolverClass>
 					<activationType>
 						P
@@ -387,7 +387,7 @@
 				</split>
 				<role name="FundsManager">
 					<qualifierResolverClass>
-						org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+						org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
         </qualifierResolverClass>
 				</role>
 				<simple name="NoOpNode">

@@ -42,7 +42,7 @@
 				value="This role defines the list of users that may be selected as Collectors on the Customer document." />
 			<column name="KIM_TYP_ID" value="KFSMI10824-TYP1" />
 			<column name="ACTV_IND" value="Y" />
-			<column name="OBJ_ID" valueNumeric="SYS_GUID" />
+			<column name="OBJ_ID" valueNumeric="KFSCGBPII1" />
 			<column name="VER_NBR" value="1" />
 		</insert>
 		<modifySql dbms="mysql">
@@ -185,7 +185,7 @@
 			<column name="PERM_ID" value="1111" />
 			<column name="PERM_TMPL_ID" value="29" />
 			<column name="NMSPC_CD" value="KFS-CG" />
-			<column name="NM" value="Use Screen  CG Invoice On Demand " />
+			<column name="NM" value="Use Screen CG Invoice On Demand " />
 			<column name="DESC_TXT"
 				value="Allows users access to screens in the KFS-CG module that are not documents, lookups, inquiries, or batch uploads, i.e. this primarily provides access to CG Invoice On Demand process" />
 			<column name="OBJ_ID" value="KFSCG02" />

@@ -463,3 +463,5 @@ KFSCNTRB705-PRM7ATT2,KFSCNTRB705-PRM7ATT2,1,KFSCNTRB705-PRM7,KFSCNTRB199-TYP1,KF
 KFSCNTRB-762-PRM1-ATTR1,KFSCNTRB-762-PRM1-ATTR1,1,KFSCNTRB-762-PRM1,12,2,org.kuali.kfs.gl.web.struts.TrialBalanceReportAction
 KFSCG01,KFSCG01,1,1110,3,13,CGIN
 KFSCG02,KFSCG02,1,1111,12,2,org.kuali.kfs.module.cg.web.struts.ContractsGrantsInvoiceOnDemandSummaryAction
+CGPRMTRFFR,KFSCG03,1,CGPERMFFR,12,2,org.kuali.kfs.module.cg.web.struts.FederalFinancialReportAction
+CGPRMTRIRD,KFSCGPERMIRD02,1,CGPERMIRD,12,2,org.kuali.kfs.module.cg.web.struts.InvoiceReportDeliveryAction

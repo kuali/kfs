@@ -86,7 +86,7 @@
 				Grant Description
 			</label>
 			<helpDefinitionURL>
-				default.htm?turl=WordDocuments%2Fgrantdescriptionmaintenancedocument.htm
+				default.htm?turl=WordDocuments%2Fgrantdescription.htm
 			</helpDefinitionURL>
 			<active>
 				true
@@ -297,26 +297,6 @@
 		</documentType>
 		<documentType>
 			<name>
-				CFDM
-			</name>
-			<parent>
-				CGSM
-			</parent>
-			<label>
-				Catalog of Federal Domestic Assistance
-			</label>
-			<helpDefinitionURL>
-				default.htm?turl=WordDocuments%2Fcatalogoffederaldomesticassistance.htm
-			</helpDefinitionURL>
-			<active>
-				true
-			</active>
-			<routingVersion>
-				2
-			</routingVersion>
-		</documentType>
-		<documentType>
-			<name>
 				AATY
 			</name>
 			<parent>
@@ -467,26 +447,6 @@
 			</label>
 			<helpDefinitionURL>
 				default.htm?turl=WordDocuments%2Finvoiceindicators.htm
-			</helpDefinitionURL>
-			<active>
-				true
-			</active>
-			<routingVersion>
-				2
-			</routingVersion>
-		</documentType>
-		<documentType>
-			<name>
-				AATY
-			</name>
-			<parent>
-				CGSM
-			</parent>
-			<label>
-				Agency Address Type
-			</label>
-			<helpDefinitionURL>
-				default.htm?turl=WordDocuments%2Fagencyaddresstype.htm
 			</helpDefinitionURL>
 			<active>
 				true

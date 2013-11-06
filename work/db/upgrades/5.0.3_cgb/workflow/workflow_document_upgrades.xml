@@ -289,6 +289,168 @@
 				2
 			</routingVersion>
 		</documentType>
+		
+		<!-- Added from ContractsAndGrantsSimpleMaintenanceDocuments.xml -->
+		<documentType>
+			<name>
+				AATY
+			</name>
+			<parent>
+				CGSM
+			</parent>
+			<label>
+				Agency Address Type
+			</label>
+			<helpDefinitionURL>
+				default.htm?turl=WordDocuments%2Fagencyaddresstype.htm
+			</helpDefinitionURL>
+			<active>
+				true
+			</active>
+			<routingVersion>
+				2
+			</routingVersion>
+		</documentType>
+		<documentType>
+			<name>
+				CGFR
+			</name>
+			<parent>
+				CGSM
+			</parent>
+			<label>
+				Financial Report Frequency
+			</label>
+			<helpDefinitionURL>
+				default.htm?turl=WordDocuments%2Ffinancialreportfrequency.htm
+			</helpDefinitionURL>
+			<active>
+				true
+			</active>
+			<routingVersion>
+				2
+			</routingVersion>
+		</documentType>
+		<documentType>
+			<name>
+				CGBF
+			</name>
+			<parent>
+				CGSM
+			</parent>
+			<label>
+				Billing Frequency
+			</label>
+			<helpDefinitionURL>
+				default.htm?turl=WordDocuments%2Fbillingfrequency.htm
+			</helpDefinitionURL>
+			<active>
+				true
+			</active>
+			<routingVersion>
+				2
+			</routingVersion>
+		</documentType>
+		<documentType>
+			<name>
+				CGAI
+			</name>
+			<parent>
+				CGSM
+			</parent>
+			<label>
+				Account Invoice Templates
+			</label>
+			<helpDefinitionURL>
+				default.htm?turl=WordDocuments%2Faccountinvoicetemplates.htm
+			</helpDefinitionURL>
+			<active>
+				true
+			</active>
+			<routingVersion>
+				2
+			</routingVersion>
+		</documentType>
+		<documentType>
+			<name>
+				CGIT
+			</name>
+			<parent>
+				CGSM
+			</parent>
+			<label>
+				Instrument Type
+			</label>
+			<helpDefinitionURL>
+				default.htm?turl=WordDocuments%2Fcontractsorgranttype.htm
+			</helpDefinitionURL>
+			<active>
+				true
+			</active>
+			<routingVersion>
+				2
+			</routingVersion>
+		</documentType>
+		<documentType>
+			<name>
+				CGFT
+			</name>
+			<parent>
+				CGSM
+			</parent>
+			<label>
+				Financial Form Template
+			</label>
+			<helpDefinitionURL>
+				default.htm?turl=WordDocuments%2Ffinancialformtemplate.htm
+			</helpDefinitionURL>
+			<active>
+				true
+			</active>
+			<routingVersion>
+				2
+			</routingVersion>
+		</documentType>
+		<documentType>
+			<name>
+				LOCF
+			</name>
+			<parent>
+				CGSM
+			</parent>
+			<label>
+				Letter of Credit Fund
+			</label>
+			<helpDefinitionURL>
+				default.htm?turl=WordDocuments%2Fletterofcredithelp.htm
+			</helpDefinitionURL>
+			<active>
+				true
+			</active>
+			<routingVersion>
+				2
+			</routingVersion>
+		</documentType>
+		<documentType>
+			<name>
+				CGII
+			</name>
+			<parent>
+				CGSM
+			</parent>
+			<label>
+				Invoice Indicators
+			</label>
+			<helpDefinitionURL>
+				default.htm?turl=WordDocuments%2Finvoiceindicators.htm
+			</helpDefinitionURL>
+			<active>
+				true
+			</active>
+			<routingVersion>
+				2
+			</routingVersion>
+		</documentType>
 
 		<!-- Added from AccountsReceivableMaintenanceDocuments.xml -->
 		<documentType>
@@ -558,7 +720,7 @@
 				<start name="AdHoc" />
 				<role name="Lockbox">
 					<qualifierResolverClass>
-						org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+						org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
 					</qualifierResolverClass>
 					<mandatoryRoute>
 						true
@@ -571,7 +733,7 @@
 				</split>
 				<role name="ElectronicPayment">
 					<qualifierResolverClass>
-						org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+						org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
 					</qualifierResolverClass>
 				</role>
 				<join name="Join" />
@@ -708,7 +870,7 @@
 				</split>
 				<role name="Account">
 					<qualifierResolverClass>
-						org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+						org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
 					</qualifierResolverClass>
 					<activationType>
 						P
@@ -757,7 +919,7 @@
 				<start name="AdHoc" />
 				<role name="Account">
 					<qualifierResolverClass>
-						org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+						org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
 					</qualifierResolverClass>
 					<activationType>
 						P
@@ -814,7 +976,7 @@
 				</split>
 				<role name="Account">
 					<qualifierResolverClass>
-						org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+						org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
 					</qualifierResolverClass>
 					<activationType>
 						P
@@ -822,7 +984,7 @@
 				</role>
 				<role name="Recurrence">
 					<qualifierResolverClass>
-						org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+						org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
 					</qualifierResolverClass>
 					<activationType>
 						P
@@ -884,7 +1046,7 @@
 				</split>
 				<role name="FundsManager">
 					<qualifierResolverClass>
-						org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+						org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
 					</qualifierResolverClass>
 				</role>
 				<simple name="NoOpNode">

@@ -15,13 +15,8 @@
  */
 package org.kuali.kfs.sys.document;
 
-import java.sql.Date;
-import java.util.List;
-
-import org.kuali.kfs.pdp.businessobject.PaymentGroup;
 import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.kfs.sys.businessobject.PaymentSourceWireTransfer;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 /**
  * Information needed by PDP to pay out from a given document
@@ -31,39 +26,6 @@ public interface PaymentSource extends GeneralLedgerPostingDocument, GeneralLedg
      * @return the wire transfer associated with this payment source
      */
     public abstract PaymentSourceWireTransfer getWireTransfer();
-
-    /**
-     * @return a PDP PaymentGroup which would act to pay out this payment
-     */
-    public abstract PaymentGroup generatePaymentGroup(Date processRunDate);
-
-    /**
-     * Marks the payment source as extracted upon the extraction date
-     * @param extractionDate the date when this payment source was extracted
-     */
-    public abstract void markAsExtracted(java.sql.Date extractionDate);
-
-    /**
-     * Marks the payment source as paid upon the processing date
-     * @param processDate the date when this payment source was paid
-     */
-    public abstract void markAsPaid(java.sql.Date processDate);
-
-    /**
-     * Marks the payment source as canceled upon the passed-in canceled date
-     * @param cancelDate the date when the payment source was canceled
-     */
-    public abstract void cancelPayment(java.sql.Date cancelDate);
-
-    /**
-     * Resets the given PaymentSource so that it seems as if it was not extracted according to values on the document
-     */
-    public abstract void resetFromExtraction();
-
-    /**
-     * @return the date when the PaymentSource was canceled, nor null if it is not canceled at all.
-     */
-    public abstract java.sql.Date getCancelDate();
 
     /**
      * @return true if this payment has an attachment with it (which would prevent it from being used as part of a wire transfer)
@@ -76,11 +38,6 @@ public interface PaymentSource extends GeneralLedgerPostingDocument, GeneralLedg
     public abstract String getPaymentMethodCode();
 
     /**
-     * @return the amount of this payment
-     */
-    public abstract KualiDecimal getPaymentAmount();
-
-    /**
      * @return the code identifier of the campus most associated with this campus
      */
     public abstract String getCampusCode();
@@ -89,19 +46,4 @@ public interface PaymentSource extends GeneralLedgerPostingDocument, GeneralLedg
      * @return the bank associated with this document
      */
     public abstract Bank getBank();
-
-    /**
-     * @return the FSLO document type associated with ach/check entries for this document type
-     */
-    public abstract String getAchCheckDocumentType();
-
-    /**
-     * @return the e-mail address that a notification e-mail, explaining that this payment source has been extracted in the immediate extract process, should be from
-     */
-    public abstract String getImmediateExtractEMailFromAddress();
-
-    /**
-     * @return the e-mail addresses that a notification e-mail, explaining that this payment source has been extracted in the immediate extract process, should be sent to
-     */
-    public abstract List<String> getImmediateExtractEmailToAddresses();
 }

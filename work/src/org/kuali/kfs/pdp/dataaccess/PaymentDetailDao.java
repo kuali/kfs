@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -21,6 +21,7 @@ import java.util.List;
 
 import org.kuali.kfs.pdp.businessobject.DailyReport;
 import org.kuali.kfs.pdp.businessobject.DisbursementNumberRange;
+import org.kuali.kfs.pdp.businessobject.ExtractionUnit;
 import org.kuali.kfs.pdp.businessobject.PaymentDetail;
 
 public interface PaymentDetailDao {
@@ -36,7 +37,7 @@ public interface PaymentDetailDao {
     /**
      * Retrieves list of <code>DisbursementNumberRange</code> records for the given processing campus which are active and have
      * range start date before or equal to the current date.
-     * 
+     *
      * @param campus processing campus to retrieve ranges for
      * @return List of <code>DisbursementNumberRange</code> records found
      */
@@ -44,7 +45,7 @@ public interface PaymentDetailDao {
 
     /**
      * This returns the data required for the daily report
-     * 
+     *
      * @param currentSqlDate the current Sql date
      * @return
      */
@@ -52,26 +53,22 @@ public interface PaymentDetailDao {
 
     /**
      * This will return an iterator of all the cancelled payment details that haven't already been processed
-     * 
-     * @param organization
-     * @param subUnit
+     * @param extractionUnits a List of ExtractionUnit objects to represent each of the unit/sub-unit combinations to get PaymentDetails for
      * @return
      */
-    public Iterator getUnprocessedCancelledDetails(String organization, List<String> subUnits);
+    public Iterator getUnprocessedCancelledDetails(List<ExtractionUnit> extractionUnits);
 
     /**
      * This will return all the ACH payments that need an email sent
-     * 
+     *
      * @return
      */
     public Iterator getAchPaymentsWithUnsentEmail();
 
     /**
      * This will return an iterator of all the paid payment details that haven't already been processed
-     * 
-     * @param organization
-     * @param subUnit
+     * @param extractionUnits a List of ExtractionUnit objects to represent each of the unit/sub-unit combinations to get PaymentDetails for
      * @return
      */
-    public Iterator getUnprocessedPaidDetails(String organization, List<String> subUnits);
+    public Iterator getUnprocessedPaidDetails(List<ExtractionUnit> extractionUnits);
 }

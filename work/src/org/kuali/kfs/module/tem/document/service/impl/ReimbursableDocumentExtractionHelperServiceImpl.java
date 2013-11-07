@@ -22,10 +22,10 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemParameterConstants;
 import org.kuali.kfs.module.tem.dataaccess.TravelDocumentDao;
 import org.kuali.kfs.module.tem.document.TEMReimbursementDocument;
-import org.kuali.kfs.module.tem.document.service.ReimbursableDocumentPaymentService;
 import org.kuali.kfs.module.tem.document.service.TravelPaymentsHelperService;
 import org.kuali.kfs.module.tem.service.TravelerService;
 import org.kuali.kfs.pdp.businessobject.PaymentAccountDetail;
@@ -36,6 +36,7 @@ import org.kuali.kfs.sys.KFSParameterKeyConstants;
 import org.kuali.kfs.sys.batch.service.PaymentSourceToExtractService;
 import org.kuali.kfs.sys.document.service.PaymentSourceHelperService;
 import org.kuali.kfs.sys.document.validation.event.AccountingDocumentSaveWithNoLedgerEntryGenerationEvent;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.service.DocumentService;
@@ -46,7 +47,7 @@ import org.springframework.transaction.annotation.Transactional;
  * the entertainment document, and the moving and relocation document
  */
 @Transactional
-public class ReimbursableDocumentExtractionHelperServiceImpl implements PaymentSourceToExtractService<TEMReimbursementDocument>, ReimbursableDocumentPaymentService {
+public class ReimbursableDocumentExtractionHelperServiceImpl implements PaymentSourceToExtractService<TEMReimbursementDocument> {
     org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ReimbursableDocumentExtractionHelperServiceImpl.class);
     protected DocumentService documentService;
     protected TravelerService travelerService;
@@ -100,7 +101,7 @@ public class ReimbursableDocumentExtractionHelperServiceImpl implements PaymentS
      * @see org.kuali.kfs.module.tem.document.service.ReimbursableDocumentPaymentService#cancelReimbursableDocument(org.kuali.kfs.module.tem.document.TEMReimbursementDocument, java.sql.Date)
      */
     @Override
-    public void cancelReimbursableDocument(TEMReimbursementDocument reimbursableDoc, Date cancelDate) {
+    public void cancelPayment(TEMReimbursementDocument reimbursableDoc, Date cancelDate) {
         if (reimbursableDoc.getTravelPayment().getCancelDate() == null) {
             try {
                 reimbursableDoc.getTravelPayment().setCancelDate(cancelDate);
@@ -114,15 +115,14 @@ public class ReimbursableDocumentExtractionHelperServiceImpl implements PaymentS
                 throw new RuntimeException(we);
             }
         }
-
     }
 
     /**
      * Creates a payment group for the reimbursable travel & entertainment document
-     * @see org.kuali.kfs.module.tem.document.service.ReimbursableDocumentPaymentService#createPaymentGroupForReimbursable(org.kuali.kfs.module.tem.document.TEMReimbursementDocument, java.sql.Date)
+     * @see org.kuali.kfs.sys.batch.service.PaymentSourceToExtractService#createPaymentGroup(org.kuali.rice.krad.document.Document, java.sql.Date)
      */
     @Override
-    public PaymentGroup createPaymentGroupForReimbursable(TEMReimbursementDocument reimbursableDoc, Date processRunDate) {
+    public PaymentGroup createPaymentGroup(TEMReimbursementDocument reimbursableDoc, Date processRunDate) {
         if (LOG.isDebugEnabled()) {
             LOG.debug("createPaymentGroupForReimbursable() started");
         }
@@ -182,6 +182,113 @@ public class ReimbursableDocumentExtractionHelperServiceImpl implements PaymentS
     public String getPreDisbursementCustomerProfileSubUnit() {
         final String subUnit = getParameterService().getParameterValueAsString(TemParameterConstants.TEM_DOCUMENT.class, KFSParameterKeyConstants.PdpExtractBatchParameters.PDP_SBUNT_CODE);
         return subUnit;
+    }
+
+    /**
+     * Marks the extract date on the travel payment associated with the document
+     * @see org.kuali.kfs.sys.batch.service.PaymentSourceToExtractService#markAsExtracted(org.kuali.rice.krad.document.Document, java.sql.Date)
+     */
+    @Override
+    public void markAsExtracted(TEMReimbursementDocument document, Date sqlProcessRunDate) {
+        try {
+            document.getFinancialSystemDocumentHeader().setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.Payments.EXTRACTED);
+            document.getTravelPayment().setExtractDate(sqlProcessRunDate);
+            getDocumentService().saveDocument(document, AccountingDocumentSaveWithNoLedgerEntryGenerationEvent.class);
+        }
+        catch (WorkflowException we) {
+            LOG.error("Could not save TEMReimbursementDocument document #" + document.getDocumentNumber() + ": " + we);
+            throw new RuntimeException(we);
+        }
+    }
+
+    /**
+     * Returns the travel payment check total amount
+     * @see org.kuali.kfs.sys.batch.service.PaymentSourceToExtractService#getPaymentAmount(org.kuali.rice.krad.document.Document)
+     */
+    @Override
+    public KualiDecimal getPaymentAmount(TEMReimbursementDocument document) {
+        return document.getTravelPayment().getCheckTotalAmount();
+    }
+
+    /**
+     * Returns the value of the KFS-TEM / Document / IMMEDIATE_EXTRACT_NOTIFICATION_FROM_EMAIL_ADDRESS parameter
+     * @see org.kuali.kfs.sys.document.PaymentSource#getImmediateExtractEMailFromAddress()
+     */
+    @Override
+    public String getImmediateExtractEMailFromAddress() {
+        return getParameterService().getParameterValueAsString(TemParameterConstants.TEM_DOCUMENT.class, KFSParameterKeyConstants.PdpExtractBatchParameters.IMMEDIATE_EXTRACT_FROM_ADDRESS_PARM_NM);
+    }
+
+    /**
+     * Returns the value of the KFS-TEM / Document / IMMEDIATE_EXTRACT_NOTIFICATION_TO_EMAIL_ADDRESSES parameter
+     * @see org.kuali.kfs.sys.document.PaymentSource#getImmediateExtractEmailToAddresses()
+     */
+    @Override
+    public List<String> getImmediateExtractEmailToAddresses() {
+        List<String> toAddresses = new ArrayList<String>();
+        toAddresses.addAll(getParameterService().getParameterValuesAsString(TemParameterConstants.TEM_DOCUMENT.class, KFSParameterKeyConstants.PdpExtractBatchParameters.IMMEDIATE_EXTRACT_TO_ADDRESSES_PARM_NM));
+        return toAddresses;
+    }
+
+    /**
+     * Sets the canceled date on the TravelPayment
+     * @see org.kuali.kfs.sys.document.PaymentSource#markAsPaid(java.sql.Date)
+     */
+    @Override
+    public void markAsPaid(TEMReimbursementDocument doc, Date processDate) {
+        try {
+            doc.getTravelPayment().setPaidDate(processDate);
+            getDocumentService().saveDocument(doc, AccountingDocumentSaveWithNoLedgerEntryGenerationEvent.class);
+        }
+        catch (WorkflowException we) {
+            LOG.error("encountered workflow exception while attempting to save Disbursement Voucher: " + doc.getDocumentNumber() + " " + we);
+            throw new RuntimeException(we);
+        }
+    }
+
+    /**
+     * Resets the extraction date and paid date to null; resets the document's financial status code to approved
+     * @see org.kuali.kfs.sys.document.PaymentSource#resetFromExtraction()
+     */
+    @Override
+    public void resetFromExtraction(TEMReimbursementDocument doc) {
+        try {
+            doc.getTravelPayment().setExtractDate(null);
+            doc.getTravelPayment().setPaidDate(null);
+            doc.getFinancialSystemDocumentHeader().setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.APPROVED);
+            getDocumentService().saveDocument(doc, AccountingDocumentSaveWithNoLedgerEntryGenerationEvent.class);
+        }
+        catch (WorkflowException we) {
+            LOG.error("encountered workflow exception while attempting to save Disbursement Voucher: " + doc.getDocumentNumber() + " " + we);
+            throw new RuntimeException(we);
+        }
+    }
+
+    /**
+     * Defers to the document to find out which
+     * @see org.kuali.kfs.sys.batch.service.PaymentSourceToExtractService#getAchCheckDocumentType(org.kuali.kfs.sys.document.PaymentSource)
+     */
+    @Override
+    public String getAchCheckDocumentType(TEMReimbursementDocument paymentSource) {
+        return paymentSource.getAchCheckDocumentType();
+    }
+
+    /**
+     * Handles ENCA, RECA, and TRCA
+     * @see org.kuali.kfs.sys.batch.service.PaymentSourceToExtractService#handlesAchCheckDocumentType(java.lang.String)
+     */
+    @Override
+    public boolean handlesAchCheckDocumentType(String achCheckDocumentType) {
+        return StringUtils.equals(achCheckDocumentType, TemConstants.TravelDocTypes.TRAVEL_REIMBURSEMENT_CHECK_ACH_DOCUMENT) || StringUtils.equals(achCheckDocumentType, TemConstants.TravelDocTypes.ENTERTAINMENT_CHECK_ACH_DOCUMENT) || StringUtils.equals(achCheckDocumentType, TemConstants.TravelDocTypes.RELOCATION_CHECK_ACH_DOCUMENT);
+    }
+
+    /**
+     * Determines if the payment would be 0 - if it's greater than that, it should be extracted
+     * @see org.kuali.kfs.sys.batch.service.PaymentSourceToExtractService#shouldExtractPayment(org.kuali.kfs.sys.document.PaymentSource)
+     */
+    @Override
+    public boolean shouldExtractPayment(TEMReimbursementDocument paymentSource) {
+        return KualiDecimal.ZERO.isLessThan(getPaymentAmount(paymentSource));
     }
 
     /**

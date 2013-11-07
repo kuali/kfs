@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.pdp.PdpPropertyConstants;
+import org.kuali.kfs.pdp.businessobject.ExtractionUnit;
 import org.kuali.kfs.pdp.businessobject.PaymentDetail;
 import org.kuali.kfs.pdp.dataaccess.PaymentDetailDao;
 import org.kuali.kfs.pdp.service.PaymentDetailService;
@@ -34,7 +35,7 @@ public class PaymentDetailServiceImpl implements PaymentDetailService {
 
     private PaymentDetailDao paymentDetailDao;
     private BusinessObjectService businessObjectService;
-    
+
     public void setPaymentDetailDao(PaymentDetailDao c) {
         paymentDetailDao = c;
     }
@@ -42,9 +43,10 @@ public class PaymentDetailServiceImpl implements PaymentDetailService {
     /**
      * @see org.kuali.kfs.pdp.service.PaymentDetailService#getByDisbursementNumber(java.lang.Integer)
      */
+    @Override
     public Iterator getByDisbursementNumber(Integer disbursementNumber) {
         LOG.debug("getByDisbursementNumber() started");
-        
+
         Map fieldValues = new HashMap();
         fieldValues.put(PdpPropertyConstants.PaymentDetail.PAYMENT_DISBURSEMENT_NUMBER, disbursementNumber);
         List<PaymentDetail> paymentDetailByDisbursementNumberList= (List<PaymentDetail>)this.businessObjectService.findMatching(PaymentDetail.class, fieldValues);
@@ -52,7 +54,7 @@ public class PaymentDetailServiceImpl implements PaymentDetailService {
 
         return paymentDetailByDisbursementNumberList.iterator();
     }
-    
+
     /**
      * Returns all PaymentDetail records with the given disbursement number and a group with the given process id, disbursement type, and bank code
      * @param disbursementNumber the disbursement number of the payment details to find
@@ -61,11 +63,12 @@ public class PaymentDetailServiceImpl implements PaymentDetailService {
      * @param bankCode the bank code of the payment group of payment details to find
      * @return an iterator of PaymentDetail records matching the given criteria
      */
+    @Override
     public Iterator<PaymentDetail> getByDisbursementNumber(Integer disbursementNumber, Integer processId, String disbursementType, String bankCode) {
         if (LOG.isDebugEnabled()) {
             LOG.debug("getByDisbursementNumber() started");
         }
-        
+
         Map fieldValues = new HashMap();
         fieldValues.put(PdpPropertyConstants.PaymentDetail.PAYMENT_DISBURSEMENT_NUMBER, disbursementNumber);
         fieldValues.put(PdpPropertyConstants.PaymentDetail.PAYMENT_GROUP+"."+PdpPropertyConstants.PaymentGroup.PAYMENT_GROUP_PROCESS_ID, processId);
@@ -78,21 +81,23 @@ public class PaymentDetailServiceImpl implements PaymentDetailService {
     }
 
     /**
-     * @see org.kuali.kfs.pdp.service.PaymentDetailService#getUnprocessedCancelledDetails(java.lang.String, java.lang.String)
+     * @see org.kuali.kfs.pdp.service.PaymentDetailService#getUnprocessedCancelledDetails(java.util.List)
      */
-    public Iterator getUnprocessedCancelledDetails(String organization, List<String> subUnits) {
+    @Override
+    public Iterator getUnprocessedCancelledDetails(List<ExtractionUnit> extractionUnits) {
         LOG.debug("getUnprocessedCancelledDetails() started");
 
-        return paymentDetailDao.getUnprocessedCancelledDetails(organization, subUnits);
+        return paymentDetailDao.getUnprocessedCancelledDetails(extractionUnits);
     }
 
     /**
-     * @see org.kuali.kfs.pdp.service.PaymentDetailService#getUnprocessedPaidDetails(java.lang.String, java.lang.String)
+     * @see org.kuali.kfs.pdp.service.PaymentDetailService#getUnprocessedPaidDetails(java.util.List)
      */
-    public Iterator getUnprocessedPaidDetails(String organization, List<String> subUnits) {
+    @Override
+    public Iterator getUnprocessedPaidDetails(List<ExtractionUnit> extractionUnits) {
         LOG.debug("getUnprocessedPaidDetails() started");
 
-        return paymentDetailDao.getUnprocessedPaidDetails(organization, subUnits);
+        return paymentDetailDao.getUnprocessedPaidDetails(extractionUnits);
     }
 
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {

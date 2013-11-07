@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -34,6 +34,7 @@ import org.kuali.kfs.pdp.PdpConstants;
 import org.kuali.kfs.pdp.PdpPropertyConstants;
 import org.kuali.kfs.pdp.businessobject.DailyReport;
 import org.kuali.kfs.pdp.businessobject.DisbursementNumberRange;
+import org.kuali.kfs.pdp.businessobject.ExtractionUnit;
 import org.kuali.kfs.pdp.businessobject.PaymentDetail;
 import org.kuali.kfs.pdp.businessobject.PaymentGroup;
 import org.kuali.kfs.pdp.businessobject.options.DailyReportComparator;
@@ -54,6 +55,7 @@ public class PaymentDetailDaoOjb extends PlatformAwareDaoBaseOjb implements Paym
     /**
      * @see org.kuali.kfs.pdp.dataaccess.PaymentDetailDao#getAchPaymentsWithUnsentEmail()
      */
+    @Override
     public Iterator getAchPaymentsWithUnsentEmail() {
         LOG.debug("getAchPaymentsWithUnsentEmail() started");
 
@@ -68,6 +70,7 @@ public class PaymentDetailDaoOjb extends PlatformAwareDaoBaseOjb implements Paym
     /**
      * @see org.kuali.kfs.pdp.dataaccess.PaymentDetailDao#getDailyReportData(java.sql.Date)
      */
+    @Override
     public List<DailyReport> getDailyReportData(Date currentSqlDate) {
         LOG.debug("getDailyReportData() started");
 
@@ -183,6 +186,7 @@ public class PaymentDetailDaoOjb extends PlatformAwareDaoBaseOjb implements Paym
     /**
      * @see org.kuali.kfs.pdp.dataaccess.PaymentDetailDao#getDetailForEpic(String, String, String, String)
      */
+    @Override
     public PaymentDetail getDetailForEpic(String custPaymentDocNbr, String fdocTypeCode, String orgCode, String subUnitCode) {
         LOG.debug("getDetailForEpic(custPaymentDocNbr, fdocTypeCode) started");
         List data = new ArrayList();
@@ -214,6 +218,7 @@ public class PaymentDetailDaoOjb extends PlatformAwareDaoBaseOjb implements Paym
     /**
      * @see org.kuali.kfs.pdp.dataaccess.PaymentDetailDao#getDisbursementNumberRanges(java.lang.String)
      */
+    @Override
     public List<DisbursementNumberRange> getDisbursementNumberRanges(String campus) {
         LOG.debug("getDisbursementNumberRanges() started");
 
@@ -232,20 +237,22 @@ public class PaymentDetailDaoOjb extends PlatformAwareDaoBaseOjb implements Paym
     }
 
     /**
-     * @see org.kuali.kfs.pdp.dataaccess.PaymentDetailDao#getUnprocessedCancelledDetails(java.lang.String, java.lang.String)
+     * @see org.kuali.kfs.pdp.dataaccess.PaymentDetailDao#getUnprocessedCancelledDetails(java.util.List)
      */
-    public Iterator getUnprocessedCancelledDetails(String organization, List<String> subUnits) {
+    @Override
+    public Iterator getUnprocessedCancelledDetails(List<ExtractionUnit> extractionUnits) {
         LOG.debug("getUnprocessedCancelledDetails() started");
 
         Collection codes = new ArrayList();
         codes.add(PdpConstants.PaymentStatusCodes.CANCEL_DISBURSEMENT);
         codes.add(PdpConstants.PaymentStatusCodes.CANCEL_PAYMENT);
 
+        Criteria subUnitsCriteria = buildExtractionUnitsCriteria(extractionUnits);
+
         Criteria criteria = new Criteria();
-        criteria.addIn(PdpPropertyConstants.PaymentDetail.PAYMENT_SUBUNIT_CODE, subUnits);
-        criteria.addEqualTo(PdpPropertyConstants.PaymentDetail.PAYMENT_UNIT_CODE, organization);
         criteria.addIn(PdpPropertyConstants.PaymentDetail.PAYMENT_STATUS_CODE, codes);
         criteria.addIsNull(PdpPropertyConstants.PaymentDetail.PAYMENT_EPIC_PAYMENT_CANCELLED_DATE);
+        criteria.addAndCriteria(subUnitsCriteria);
 
         return getPersistenceBrokerTemplate().getIteratorByQuery(new QueryByCriteria(PaymentDetail.class, criteria));
     }
@@ -253,16 +260,34 @@ public class PaymentDetailDaoOjb extends PlatformAwareDaoBaseOjb implements Paym
     /**
      * @see org.kuali.kfs.pdp.dataaccess.PaymentDetailDao#getUnprocessedPaidDetails(java.lang.String, java.lang.String)
      */
-    public Iterator getUnprocessedPaidDetails(String organization, List<String> subUnits) {
+    @Override
+    public Iterator getUnprocessedPaidDetails(List<ExtractionUnit> extractionUnits) {
         LOG.debug("getUnprocessedPaidDetails() started");
 
+        Criteria subUnitsCriteria = buildExtractionUnitsCriteria(extractionUnits);
+
         Criteria criteria = new Criteria();
-        criteria.addIn(PdpPropertyConstants.PaymentDetail.PAYMENT_SUBUNIT_CODE, subUnits);
-        criteria.addEqualTo(PdpPropertyConstants.PaymentDetail.PAYMENT_UNIT_CODE, organization);
         criteria.addEqualTo(PdpPropertyConstants.PaymentDetail.PAYMENT_STATUS_CODE, PdpConstants.PaymentStatusCodes.EXTRACTED);
         criteria.addIsNull(PdpPropertyConstants.PaymentDetail.PAYMENT_EPIC_PAYMENT_PAID_EXTRACTED_DATE);
+        criteria.addAndCriteria(subUnitsCriteria);
 
         return getPersistenceBrokerTemplate().getIteratorByQuery(new QueryByCriteria(PaymentDetail.class, criteria));
+    }
+
+    /**
+     * Builds an "or" criteria from the List of extractionUnits
+     * @param extractionUnits the extractionUnits to build an or Criteria for
+     * @return an or Criteria to throw into a query
+     */
+    protected Criteria buildExtractionUnitsCriteria(List<ExtractionUnit> extractionUnits) {
+        Criteria subUnitsCriteria = new Criteria();
+        for (ExtractionUnit extractionUnit : extractionUnits) {
+            Criteria subUnitCriteria = new Criteria();
+            subUnitCriteria.addEqualTo(PdpPropertyConstants.PaymentDetail.PAYMENT_UNIT_CODE, extractionUnit.getUnit());
+            subUnitCriteria.addEqualTo(PdpPropertyConstants.PaymentDetail.PAYMENT_SUBUNIT_CODE, extractionUnit.getSubUnit());
+            subUnitsCriteria.addOrCriteria(subUnitCriteria);
+        }
+        return subUnitsCriteria;
     }
 
 }

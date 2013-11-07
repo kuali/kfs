@@ -37,7 +37,6 @@ import org.kuali.kfs.sys.businessobject.WireCharge;
 import org.kuali.kfs.sys.document.PaymentSource;
 import org.kuali.kfs.sys.document.service.AccountingDocumentRuleHelperService;
 import org.kuali.kfs.sys.document.service.PaymentSourceHelperService;
-import org.kuali.kfs.sys.document.validation.event.AccountingDocumentSaveWithNoLedgerEntryGenerationEvent;
 import org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBaseConstants.GENERAL_LEDGER_PENDING_ENTRY_CODE;
 import org.kuali.kfs.sys.service.BankService;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
@@ -49,7 +48,6 @@ import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.core.api.util.type.KualiInteger;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
-import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -423,58 +421,6 @@ public class PaymentSourceHelperServiceImpl implements PaymentSourceHelperServic
            paymentSource.setGeneralLedgerPendingEntries(newGLPEs);
        }
    }
-
-   /**
-    * This cancels the disbursement voucher
-    *
-    * @param dv the disbursement voucher document to cancel
-    * @param processDate the date of the cancelation
-    * @see org.kuali.kfs.fp.batch.service.DisbursementVoucherExtractService#cancelExtractedDisbursementVoucher(org.kuali.kfs.fp.document.DisbursementVoucherDocument)
-    */
-   @Override
-   public void cancelExtractedPaymentSource(PaymentSource paymentSource, java.sql.Date processDate) {
-       paymentSource.cancelPayment(processDate);
-   }
-
-   /**
-    * This updates the disbursement voucher so that when it is re-extracted, information about it will be accurate
-    *
-    * @param dv the disbursement voucher document to reset
-    * @param processDate the date of the reseting
-    * @see org.kuali.kfs.fp.batch.service.DisbursementVoucherExtractService#resetExtractedDisbursementVoucher(org.kuali.kfs.fp.document.DisbursementVoucherDocument)
-    */
-   @Override
-   public void resetExtractedPaymentSource(PaymentSource paymentSource, java.sql.Date processDate) {
-       try {
-           paymentSource.resetFromExtraction();
-           paymentSource.getFinancialSystemDocumentHeader().setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.APPROVED);
-           getDocumentService().saveDocument(paymentSource, AccountingDocumentSaveWithNoLedgerEntryGenerationEvent.class);
-       }
-       catch (WorkflowException we) {
-           LOG.error("encountered workflow exception while attempting to save Disbursement Voucher: " + paymentSource.getDocumentNumber() + " " + we);
-           throw new RuntimeException(we);
-       }
-   }
-
-   /**
-    * Marks the disbursement voucher as paid by setting its paid date
-    *
-    * @param dv the dv document to mark as paid
-    * @param processDate the date when the dv was paid
-    * @see org.kuali.kfs.fp.batch.service.DisbursementVoucherExtractService#markDisbursementVoucherAsPaid(org.kuali.kfs.fp.document.DisbursementVoucherDocument)
-    */
-   @Override
-   public void markPaymentSourceAsPaid(PaymentSource paymentSource, java.sql.Date processDate) {
-       try {
-           paymentSource.markAsPaid(processDate);
-           getDocumentService().saveDocument(paymentSource, AccountingDocumentSaveWithNoLedgerEntryGenerationEvent.class);
-       }
-       catch (WorkflowException we) {
-           LOG.error("encountered workflow exception while attempting to save Disbursement Voucher: " + paymentSource.getDocumentNumber() + " " + we);
-           throw new RuntimeException(we);
-       }
-   }
-
 
     /**
      * @return the implementation of the UniversityDateService to use

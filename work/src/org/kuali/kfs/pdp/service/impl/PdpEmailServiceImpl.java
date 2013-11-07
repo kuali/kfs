@@ -812,14 +812,13 @@ public class PdpEmailServiceImpl implements PdpEmailService {
     /**
      * Sends notification e-mail that an immediate extract Disbursement Voucher has been extracted
      * @param disbursementVoucher the disbursement voucher which was immediately extracted
-     * @param user the current extracting user
+     * @param fromAddress the address that the e-mail should be sent from
+     * @param toAddresses the addresses that the e-mail should be sent to
      */
     @Override
-    public void sendPaymentSourceImmediateExtractEmail(PaymentSource paymentSource) {
+    public void sendPaymentSourceImmediateExtractEmail(PaymentSource paymentSource, String fromAddress, Collection<String> toAddresses) {
         MailMessage message = new MailMessage();
 
-        final String fromAddress = paymentSource.getImmediateExtractEMailFromAddress();
-        final Collection<String> toAddresses = paymentSource.getImmediateExtractEmailToAddresses();
         final String disbursementVoucherDocumentLabel = dataDictionaryService.getDocumentLabelByTypeName(DisbursementVoucherConstants.DOCUMENT_TYPE_CODE);
         final String subject = getMessage(KFSKeyConstants.MESSAGE_PAYMENT_SOURCE_IMMEDIATE_EXTRACT_EMAIL_SUBJECT, disbursementVoucherDocumentLabel, paymentSource.getCampusCode());
         final String body = getMessage(KFSKeyConstants.MESSAGE_PAYMENT_SOURCE_IMMEDIATE_EXTRACT_EMAIL_BODY, disbursementVoucherDocumentLabel, paymentSource.getCampusCode(), paymentSource.getDocumentNumber());

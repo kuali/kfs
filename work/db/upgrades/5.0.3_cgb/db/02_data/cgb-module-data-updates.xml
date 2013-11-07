@@ -121,21 +121,6 @@
 			<column name="ACTV_IND" value="Y" />
 			<column name="OBJ_ID" valueComputed="SYS_GUID()" />
 		</insert>
-		<insert tableName="CG_SRC_OF_FNDS_T">
-			<column name="SRC_OF_FNDS_CD" value="STF" />
-			<column name="SRC_OF_FNDS_DESC" value="State Funds" />
-			<column name="ACTV_IND" value="Y" />
-			<column name="OBJ_ID" valueComputed="SYS_GUID()" />
-		</insert>
-		<insert tableName="CG_SRC_OF_FNDS_T">
-			<column name="SRC_OF_FNDS_CD" value="IF" />
-			<column name="SRC_OF_FNDS_DESC" value="Internal Funds" />
-			<column name="ACTV_IND" value="Y" />
-			<column name="OBJ_ID" valueComputed="SYS_GUID()" />
-		</insert>
-		<delete tableName="CG_SRC_OF_FNDS_T">
-			<where>SRC_OF_FNDS_CD='RF'</where>
-		</delete>
 		<modifySql dbms="mysql">
 			<replace replace="SYS_GUID()" with="uuid()" />
 		</modifySql>

@@ -118,26 +118,9 @@
 			baseTableName="AR_CLCTR_INFO_T" referencedColumnNames="CLCTR_HEAD_PRNCPL_ID" />
 	</changeSet>
 
-	<changeSet author="KFSCGB" id="AR_MLSTN_MOD1">
-		<addPrimaryKey tableName="AR_MLSTN_T" columnNames="CGPRPSL_NBR,MLSTN_ID" />
-		<addPrimaryKey tableName="AR_MLSTN_T" columnNames="MLSTN_ID" />
-		<modifySql dbms="oracle">
-			<replace replace="varchar" with="varchar2" />
-			<replace replace="decimal" with="number" />
-			<replace replace="datetime" with="date" />
-		</modifySql>
-	</changeSet>
-	
-	<changeSet author="KFSCGB" id="AR_CG_INV_DTL_ADD_FIELDS">
-		<addPrimaryKey tableName="AR_CG_INV_DTL_T" columnNames="INV_DTL_ID,FDOC_NBR" />
-		<modifySql dbms="oracle">
-			<replace replace="decimal" with="number" />
-		</modifySql>
-	</changeSet>
-	
-	<!-- For some reason the unique constraint is created without our name when adding a column to a table
-		 (unlike creating a new table where the constraint name we specify is used) so we are adding this 
-		 constraint here instead -->
+	<!-- There is a bug in our version of liquibase where a unique constraint name is ignored when adding a column
+		(see: https://liquibase.jira.com/browse/CORE-1313). So we are adding the constraint here instead of
+		when the column is added to the table in cgb-module-structure-updates.xml as a workaround. -->
 	<changeSet author="KFSCGB" id="addUniqueConstraint-example">
     	<addUniqueConstraint constraintName="CG_AGENCY_TC1"
         	tableName="CG_AGENCY_T" columnNames="SPNSR_CD"/>

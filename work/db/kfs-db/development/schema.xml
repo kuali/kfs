@@ -843,6 +843,9 @@
         <column name="IND_CST_IND" size="1" type="VARCHAR"/>
         <column default="0" name="ADJ_CUM_EXPND" scale="2" size="19" type="DECIMAL"/>
         <column default="0" name="ADJ_BLNC" scale="2" size="19" type="DECIMAL"/>
+        <foreign-key foreignTable="AR_INV_DOC_T" name="AR_CG_INV_DTL_TR1">
+            <reference foreign="FDOC_NBR" local="FDOC_NBR"/>
+        </foreign-key>
         <unique name="AR_CG_INV_DTL_TC1">
             <unique-column name="OBJ_ID"/>
         </unique>
@@ -1795,6 +1798,9 @@
         <column name="BILLED_IND" size="1" type="VARCHAR"/>
         <column name="MLSTN_COMPLTN_DT" type="TIMESTAMP"/>
         <column name="MLSTN_EXPCTD_COMPLTN_DT" type="TIMESTAMP"/>
+        <foreign-key foreignTable="AR_MLSTN_SCHDL_T" name="AR_MLSTN_TR1">
+            <reference foreign="PRPSL_NBR" local="PRPSL_NBR"/>
+        </foreign-key>
         <unique name="AR_MLSTN_TC1">
             <unique-column name="OBJ_ID"/>
         </unique>
@@ -16854,7 +16860,6 @@
     <view name="PUR_PO_V" viewdefinition="SELECT P.AP_PUR_DOC_LNK_ID,             P.PO_ID,             P.PO_CUR_IND,             P.FDOC_NBR,             P.OBJ_ID,             P.PO_STAT_CD,             P.RECUR_PMT_TYP_CD,             P.PO_VNDR_CHC_CD,             P.PO_END_DT,             E.TOTAL_ENCUMBRANCE,             SUMMATION.TOTAL_AMOUNT   FROM PUR_PO_T P,            PUR_PO_ITM_TOT_ENC_V E,            PUR_PO_ITM_TOT_AMT_V SUMMATION WHERE P.FDOC_NBR = E.FDOC_NBR    AND P.FDOC_NBR = SUMMATION.FDOC_NBR       &#xa;"/>
     <sequence name="A21_LBR_BLD_NBR_SEQ" nextval="2000"/>
     <sequence name="AGENCY_ADDR_ID_SEQ" nextval="1"/>
-    <sequence name="AGENCY_NTE_SEQ" nextval="1"/>
     <sequence name="AP_CRDT_MEMO_ACCT_CHG_SEQ" nextval="2000"/>
     <sequence name="AP_CRDT_MEMO_ACCT_HIST_SEQ" nextval="1000"/>
     <sequence name="AP_CRDT_MEM_ITM_USE_TAX_ID_SEQ" nextval="1000"/>
@@ -16887,7 +16892,6 @@
     <sequence name="CRDT_MEMO_STAT_HIST_ID" nextval="1002"/>
     <sequence name="CUST_ADDR_ID_SEQ" nextval="2000"/>
     <sequence name="CUST_NBR_SEQ" nextval="2000"/>
-    <sequence name="CUST_NTE_SEQ" nextval="1"/>
     <sequence name="DIRTY_CACHE_SEQ" nextval="2000"/>
     <sequence name="DUN_LTR_DIST_SEQ" nextval="1"/>
     <sequence name="DV_PAYEE_ID_NBR_SEQ" nextval="178184"/>

@@ -21,7 +21,7 @@
 			<column name="CUST_TYP_CD" type="varchar(10)" />
 			<column name="CUST_CRTD" type="varchar(1)" />
 			<column name="SPNSR_CD" type="varchar(6)">
-				<constraints unique="true" nullable="true" uniqueConstraintName="CG_AGENCY_TC1"/>
+				<constraints nullable="true" />
 			</column>
 			<column name="CMPGN_ID" type="varchar(4)" />
 			<column name="STATE_AGENCY_IND" type="varchar(1)"

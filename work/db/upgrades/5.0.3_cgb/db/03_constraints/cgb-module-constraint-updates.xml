@@ -135,4 +135,12 @@
 		</modifySql>
 	</changeSet>
 	
+	<!-- For some reason the unique constraint is created without our name when adding a column to a table
+		 (unlike creating a new table where the constraint name we specify is used) so we are adding this 
+		 constraint here instead -->
+	<changeSet author="KFSCGB" id="addUniqueConstraint-example">
+    	<addUniqueConstraint constraintName="CG_AGENCY_TC1"
+        	tableName="CG_AGENCY_T" columnNames="SPNSR_CD"/>
+	</changeSet>
+	
 </databaseChangeLog>

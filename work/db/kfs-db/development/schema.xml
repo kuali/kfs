@@ -6650,6 +6650,7 @@
         <column name="FDOC_LN_MO11_AMT" scale="2" size="19" type="DECIMAL"/>
         <column name="FDOC_LN_MO12_AMT" scale="2" size="19" type="DECIMAL"/>
         <column name="FRNG_BENE_IND" size="1" type="VARCHAR"/>
+        <column name="FDOC_LINE_DESC" size="40" type="VARCHAR"/>
         <foreign-key foreignTable="CA_ACCOUNT_T" name="FP_BDGT_ADJ_DTL_TR1">
             <reference foreign="FIN_COA_CD" local="FIN_COA_CD"/>
             <reference foreign="ACCOUNT_NBR" local="ACCOUNT_NBR"/>
@@ -13611,6 +13612,7 @@
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
         <column name="REQS_SRC_DESC" required="true" size="45" type="VARCHAR"/>
         <column name="DOBJ_MAINT_CD_ACTV_IND" required="true" size="1" type="VARCHAR"/>
+        <column default="9999" name="ALLOW_COPY_DAYS" required="true" size="4" type="DECIMAL"/>
         <unique name="PUR_REQS_SRC_TC0">
             <unique-column name="OBJ_ID"/>
         </unique>

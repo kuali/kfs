@@ -79,10 +79,10 @@
 
 	<bean
 		id="LetterOfCreditFund-letterOfCreditFundGroup.letterOfCreditFundGroupDescription"
-		parent="LetterOfCreditFund-letterOfCreditFundGroup.letterOfCreditFundGroupDescription-parent" />
+		parent="LetterOfCreditFund-letterOfCreditFundGroup.letterOfCreditFundGroupDescription-parentBean" />
 
 	<bean
-		id="LetterOfCreditFund-letterOfCreditFundGroup.letterOfCreditFundGroupDescription-parent"
+		id="LetterOfCreditFund-letterOfCreditFundGroup.letterOfCreditFundGroupDescription-parentBean"
 		parent="LetterOfCreditFundGroup-letterOfCreditFundGroupDescription"
 		abstract="true">
 		<property name="name"

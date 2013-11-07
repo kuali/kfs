@@ -84,8 +84,8 @@
 			<bean parent="TextControlDefinition" p:size="6" />
 		</property>
 	</bean>
-	<bean id="LetterOfCreditFund-letterOfCreditFundGroup.letterOfCreditFundGroupDescription" parent="LetterOfCreditFund-letterOfCreditFundGroup.letterOfCreditFundGroupDescription-parent" />
-	<bean	id="LetterOfCreditFund-letterOfCreditFundGroup.letterOfCreditFundGroupDescription-parent"	abstract="true" parent="AttributeDefinition">
+	<bean id="LetterOfCreditFund-letterOfCreditFundGroup.letterOfCreditFundGroupDescription" parent="LetterOfCreditFund-letterOfCreditFundGroup.letterOfCreditFundGroupDescription-parentBean" />
+	<bean	id="LetterOfCreditFund-letterOfCreditFundGroup.letterOfCreditFundGroupDescription-parentBean"	abstract="true" parent="AttributeDefinition">
 		<property name="name"
 			value="letterOfCreditFundGroup.letterOfCreditFundGroupDescription" />
 		<property name="label" value="LOC Fund Group Description" />

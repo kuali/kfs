@@ -27,6 +27,7 @@ import org.kuali.kfs.module.tem.batch.service.ExpenseImportByTripService;
 import org.kuali.kfs.module.tem.businessobject.AgencyStagingData;
 import org.kuali.kfs.module.tem.document.service.AgencyStagingDataValidationHelper;
 import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.util.ErrorMessage;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -67,6 +68,14 @@ public class AgencyStagingDataValidationByTrip implements AgencyStagingDataValid
      */
     @Override
     public boolean processCustomApproveDocumentBusinessRules(final MaintenanceDocument document) {
+        return true;
+    }
+
+    /**
+     * @see org.kuali.kfs.module.tem.document.service.AgencyStagingDataValidationHelper#processCustomAddCollectionLineBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument, java.lang.String, org.kuali.rice.krad.bo.PersistableBusinessObject)
+     */
+    @Override
+    public boolean processCustomAddCollectionLineBusinessRules(MaintenanceDocument document, String collectionName, PersistableBusinessObject line) {
         return true;
     }
 
@@ -140,12 +149,17 @@ public class AgencyStagingDataValidationByTrip implements AgencyStagingDataValid
             List<ErrorMessage> errors = getExpenseImportByTripService().validateMissingAccountingInfo(data);
 
             if(!errors.isEmpty()) {
-                if (isErrorListContainsErrorKey(errors, TemKeyConstants.MESSAGE_AGENCY_DATA_REQUIRED_ACCOUNT_INFO)) {
-                    putFieldError(ACCOUNTING_INFO, TemKeyConstants.MESSAGE_AGENCY_DATA_REQUIRED_ACCOUNT_INFO);
-                    result &= false;
+                for(ErrorMessage error : errors) {
+                    putFieldError(ACCOUNTING_INFO, error.getErrorKey(), error.getMessageParameters());
                 }
-                else {
-                    putFieldError(ACCOUNTING_INFO, TemKeyConstants.MESSAGE_AGENCY_DATA_INVALID_ACCTG_INFO);
+                result &= false;
+            }
+            else {
+                errors = getExpenseImportByTripService().validateAccountingInfo(data);
+                if (!errors.isEmpty()) {
+                    for(ErrorMessage error : errors) {
+                        putFieldError(ACCOUNTING_INFO, error.getErrorKey(), error.getMessageParameters());
+                    }
                     result &= false;
                 }
             }

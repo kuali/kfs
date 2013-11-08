@@ -28,15 +28,6 @@ import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 public interface ImportedExpensePendingEntryService {
 
-    /**
-     * Set the document number used in the GLPE created for imported expenses
-     *
-     * 2-Digit Code Agency Code + Number of day (001~365) + YY + hhmmss
-     *
-     * @param agencyData
-     * @return
-     */
-    public String getImportExpenseDocumentNumber(AgencyStagingData agencyData);
 
     public boolean checkAndAddPendingEntriesToList(List<GeneralLedgerPendingEntry> pendingEntries, List<GeneralLedgerPendingEntry> entryList, AgencyStagingData agencyData, boolean isCredit, boolean generateOffset);
 

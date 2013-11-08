@@ -21,6 +21,7 @@ import org.kuali.kfs.module.tem.document.service.AgencyStagingDataValidationHelp
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
 
 /**
  * Business rules validation for the Travel Agency Audit and Correction
@@ -62,6 +63,16 @@ public class AgencyStagingDataValidation extends MaintenanceDocumentRuleBase {
     protected boolean processCustomApproveDocumentBusinessRules(MaintenanceDocument document) {
         boolean result = super.processCustomApproveDocumentBusinessRules(document);
         result &= getValidationHelper().processCustomApproveDocumentBusinessRules(document);
+        return result;
+    }
+
+    /**
+     * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomAddCollectionLineBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument, java.lang.String, org.kuali.rice.krad.bo.PersistableBusinessObject)
+     */
+    @Override
+    public boolean processCustomAddCollectionLineBusinessRules(MaintenanceDocument document, String collectionName, PersistableBusinessObject line) {
+        boolean result = super.processCustomAddCollectionLineBusinessRules(document, collectionName, line);
+        result &= getValidationHelper().processCustomAddCollectionLineBusinessRules(document, collectionName, line);
         return result;
     }
 

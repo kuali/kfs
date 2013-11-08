@@ -77,12 +77,12 @@ public interface ExpenseImportByTravelerService {
 
     /**
      *
-     * This method creates GLPEs and a {@link HistoricalTravelExpense} based on the imported {@link AgencyStagingData}.
+     * This method a {@link HistoricalTravelExpense} based on the imported {@link AgencyStagingData}.
      * @param agencyData
      * @param sequenceHelper
      * @return
      */
-    public boolean distributeExpense(AgencyStagingData agencyData, GeneralLedgerPendingEntrySequenceHelper sequenceHelper);
+    public boolean distributeExpense(AgencyStagingData agencyData);
 
 
     /**

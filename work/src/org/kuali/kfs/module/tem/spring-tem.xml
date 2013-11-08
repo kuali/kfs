@@ -988,6 +988,7 @@
 		<property name="agencyDataTripUploadReportHelper" ref="agencyDataTripUploadReportHelper" />
 		<property name="dateTimeService" ref="dateTimeService" />
 	    <property name="dataReportService" ref="dataReportService" />
+	    <property name="travelDocumentService" ref="temTravelDocumentService" />
 		<property name="agencyDataImportFileTypes">
 			<list>
 				<ref bean="agencyDataXmlInputFileType"/>
@@ -1073,7 +1074,7 @@
 		<property name="travelExpenseService" ref="travelExpenseService" />
         <property name="importedExpensePendingEntryService" ref="importedExpensePendingEntryService" />
         <property name="travelDocumentService" ref="temTravelDocumentService" />
-       	<property name="agencyStagingDataDao" ref="agencyStagingDataDao" />
+        <property name="travelEncumbranceService" ref="travelEncumbranceService" />
 	</bean>
     <bean id="importedExpensePendingEntryService" parent="importedExpensePendingEntryService-parentBean" />
     <bean id="importedExpensePendingEntryService-parentBean" abstract="true" class="org.kuali.kfs.module.tem.batch.service.impl.ImportedExpensePendingEntryServiceImpl">
@@ -1081,6 +1082,7 @@
       <property name="universityDateService" ref="universityDateService" />
       <property name="parameterService" ref="parameterService"/>
       <property name="generalLedgerPendingEntryService" ref="generalLedgerPendingEntryService" />
+      <property name="travelDocumentService" ref="temTravelDocumentService" />
     </bean>
 	<!-- End Agency Upload configuration -->
 
@@ -1295,9 +1297,6 @@
     
     <bean id="historicalTravelExpenseDao" parent="historicalTravelExpenseDao-parentBean" />
     <bean id="historicalTravelExpenseDao-parentBean" abstract="true" parent="platformAwareDao" class="org.kuali.kfs.module.tem.dataaccess.impl.HistoricalTravelExpenseDaoOjb"/>
-   	
-   	<bean id="agencyStagingDataDao" parent="agencyStagingDataDao-parentBean" />
-    <bean id="agencyStagingDataDao-parentBean" abstract="true" parent="platformAwareDao" class="org.kuali.kfs.module.tem.dataaccess.impl.AgencyStagingDataDaoOjb"/>
  
  	<bean id="historicalTravelExpenseService" parent="historicalTravelExpenseService-parentBean" />
     <bean id="historicalTravelExpenseService-parentBean" abstract="true" class="org.kuali.kfs.module.tem.service.impl.HistoricalTravelExpenseServiceImpl">

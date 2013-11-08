@@ -20,6 +20,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,9 +39,13 @@ import org.kuali.kfs.module.tem.batch.service.ExpenseImportByTripService;
 import org.kuali.kfs.module.tem.businessobject.AgencyImportData;
 import org.kuali.kfs.module.tem.businessobject.AgencyStagingData;
 import org.kuali.kfs.module.tem.businessobject.defaultvalue.NextAgencyStagingDataIdFinder;
+import org.kuali.kfs.module.tem.document.TravelDocument;
+import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
 import org.kuali.kfs.module.tem.service.TravelExpenseService;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.batch.BatchInputFileType;
 import org.kuali.kfs.sys.batch.service.BatchInputFileService;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.report.BusinessObjectReportHelper;
@@ -61,6 +66,7 @@ public class AgencyDataImportServiceImpl implements AgencyDataImportService {
     private ExpenseImportByTripService expenseImportByTripService;
     private TravelExpenseService travelExpenseService;
     private static ConfigurationService configurationService;
+    private TravelDocumentService travelDocumentService;
 
     private List<BatchInputFileType> agencyDataImportFileTypes;
     private String agencyDataFileErrorDirectory;
@@ -293,9 +299,18 @@ public class AgencyDataImportServiceImpl implements AgencyDataImportService {
         LOG.info("Starting Agency Expense Distribution/Reconciliation Process");
         List<AgencyStagingData> agencyData = travelExpenseService.retrieveValidAgencyData();
         if (ObjectUtils.isNotNull(agencyData) && agencyData.size() > 0) {
-            GeneralLedgerPendingEntrySequenceHelper sequenceHelper = new GeneralLedgerPendingEntrySequenceHelper();
+
+            //set up map for keeping track of sequence helpers per Trip Id. Sequence helper is not needed for ImportBy=TRV
+            Map<String,GeneralLedgerPendingEntrySequenceHelper> sequenceHelperMap = new HashMap<String,GeneralLedgerPendingEntrySequenceHelper>();
+            GeneralLedgerPendingEntrySequenceHelper sequenceHelper = null;
+
             for (AgencyStagingData agency : agencyData) {
-                processAgencyStagingExpense(agency, sequenceHelper);
+
+                if (agency.getExpenseImport() == ExpenseImport.trip) {
+                    sequenceHelper = getGeneralLedgerPendingEntrySequenceHelper(agency, sequenceHelperMap);
+                }
+                boolean result = processAgencyStagingExpense(agency, sequenceHelper);
+                LOG.info("Agency Data Id: "+ agency.getId() + (result ? " was":" was not") + " processed.");
             }
         }
         businessObjectService.save(agencyData);
@@ -308,14 +323,18 @@ public class AgencyDataImportServiceImpl implements AgencyDataImportService {
      * @see org.kuali.kfs.module.tem.batch.service.AgencyDataImportService#processAgencyStagingExpense(org.kuali.kfs.module.tem.businessobject.AgencyStagingData, org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper)
      */
     @Override
-    public void processAgencyStagingExpense(AgencyStagingData agency, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
+    public boolean processAgencyStagingExpense(AgencyStagingData agency, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
+        boolean result = false;
         if (agency.getExpenseImport() == ExpenseImport.traveler) {
-            expenseImportByTravelerService.distributeExpense(agency, sequenceHelper);
+            result = expenseImportByTravelerService.distributeExpense(agency);
+
         }
 
         if (agency.getExpenseImport() == ExpenseImport.trip) {
-            expenseImportByTripService.reconciliateExpense(agency, sequenceHelper);
+            result = expenseImportByTripService.reconciliateExpense(agency, sequenceHelper);
         }
+
+        return result;
     }
 
     /**
@@ -327,11 +346,12 @@ public class AgencyDataImportServiceImpl implements AgencyDataImportService {
 
         List<AgencyStagingData> agencyData = travelExpenseService.retrieveValidAgencyDataByImportType(ExpenseImportTypes.IMPORT_BY_TRIP);
         if (ObjectUtils.isNotNull(agencyData) && agencyData.size() > 0) {
-            GeneralLedgerPendingEntrySequenceHelper sequenceHelper = new GeneralLedgerPendingEntrySequenceHelper();
+            Map<String, GeneralLedgerPendingEntrySequenceHelper> sequenceHelperMap = new HashMap<String, GeneralLedgerPendingEntrySequenceHelper>();
             int count = 1;
             for (AgencyStagingData agency : agencyData) {
                 LOG.info("Matching agency data record# " + count + " of " + agencyData.size());
-                expenseImportByTripService.reconciliateExpense(agency, sequenceHelper);
+                boolean result = expenseImportByTripService.reconciliateExpense(agency, getGeneralLedgerPendingEntrySequenceHelper(agency, sequenceHelperMap));
+                LOG.info("Agency Data Id: "+ agency.getId() + (result ? " was":" was not") +" reconciled.");
                 count++;
             }
         }
@@ -341,7 +361,45 @@ public class AgencyDataImportServiceImpl implements AgencyDataImportService {
         return true;
     }
 
-    private BusinessObjectReportHelper getReportHelper(ExpenseImport importType){
+    protected GeneralLedgerPendingEntrySequenceHelper getGeneralLedgerPendingEntrySequenceHelper(AgencyStagingData agencyStagingData, Map<String,GeneralLedgerPendingEntrySequenceHelper> sequenceHelperMap) {
+        String tripId = agencyStagingData.getTripId();
+        GeneralLedgerPendingEntrySequenceHelper sequenceHelper = sequenceHelperMap.get(tripId);
+        if (ObjectUtils.isNull(sequenceHelper)) {
+
+            Collection<GeneralLedgerPendingEntry> glpes = getGeneralLedgerPendingEntriesForDocumentNumber(agencyStagingData);
+            if (ObjectUtils.isNotNull(glpes) && !glpes.isEmpty()) {
+
+                Integer maxSequenceNumber = 0;
+                for(GeneralLedgerPendingEntry glpe : glpes) {
+                    Integer sequenceNumber = glpe.getTransactionLedgerEntrySequenceNumber();
+                    maxSequenceNumber = (maxSequenceNumber < sequenceNumber ? sequenceNumber : maxSequenceNumber);
+                }
+                sequenceHelper = new GeneralLedgerPendingEntrySequenceHelper(maxSequenceNumber++);
+            }
+            else {
+                sequenceHelper = new GeneralLedgerPendingEntrySequenceHelper();
+            }
+
+            sequenceHelperMap.put(tripId, sequenceHelper);
+        }
+
+        return sequenceHelper;
+    }
+
+    protected Collection<GeneralLedgerPendingEntry> getGeneralLedgerPendingEntriesForDocumentNumber(AgencyStagingData agencyStagingData) {
+        Collection<GeneralLedgerPendingEntry> glpes = null;
+
+        TravelDocument travelDocument = getTravelDocumentService().getTravelDocument(agencyStagingData.getTripId());
+        if (ObjectUtils.isNotNull(travelDocument)) {
+            Map<String,Object> fieldValues = new HashMap<String, Object>();
+            fieldValues.put(KFSPropertyConstants.DOCUMENT_NUMBER, travelDocument.getDocumentNumber());
+            glpes = businessObjectService.findMatching(GeneralLedgerPendingEntry.class, fieldValues);
+        }
+
+        return glpes;
+    }
+
+    protected BusinessObjectReportHelper getReportHelper(ExpenseImport importType){
         BusinessObjectReportHelper reportHelper = getAgencyDataTravelerUploadReportHelper();
         if(ExpenseImport.traveler == importType){
             reportHelper = getAgencyDataTravelerUploadReportHelper();
@@ -448,8 +506,6 @@ public class AgencyDataImportServiceImpl implements AgencyDataImportService {
         this.expenseImportByTripService = expenseImportByTripService;
     }
 
-
-
     /**
      * Gets the travelExpenseService attribute.
      * @return Returns the travelExpenseService.
@@ -515,6 +571,14 @@ public class AgencyDataImportServiceImpl implements AgencyDataImportService {
 
     public void setDataReportService(DataReportService dataReportService) {
         this.dataReportService = dataReportService;
+    }
+
+    public TravelDocumentService getTravelDocumentService() {
+        return travelDocumentService;
+    }
+
+    public void setTravelDocumentService(TravelDocumentService travelDocumentService) {
+        this.travelDocumentService = travelDocumentService;
     }
 
 }

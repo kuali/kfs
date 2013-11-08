@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.tem.document.service;
 
 import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
 
 /**
  * Helper interface to bridge between trip and traveler implementations of travel agency auditing
@@ -38,4 +39,9 @@ public interface AgencyStagingDataValidationHelper  {
      * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomApproveDocumentBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument)
      */
     boolean processCustomApproveDocumentBusinessRules(final MaintenanceDocument document);
+
+    /**
+     * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomAddCollectionLineBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument, java.lang.String, org.kuali.rice.krad.bo.PersistableBusinessObject)
+     */
+    boolean processCustomAddCollectionLineBusinessRules(MaintenanceDocument document, String collectionName, PersistableBusinessObject line);
 }

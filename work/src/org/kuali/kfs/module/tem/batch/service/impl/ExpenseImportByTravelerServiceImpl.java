@@ -27,9 +27,9 @@ import org.kuali.kfs.coa.service.ObjectCodeService;
 import org.kuali.kfs.coa.service.ProjectCodeService;
 import org.kuali.kfs.coa.service.SubAccountService;
 import org.kuali.kfs.coa.service.SubObjectCodeService;
-import org.kuali.kfs.module.tem.TemConstants.AgencyStagingDataErrorCodes;
 import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
+import org.kuali.kfs.module.tem.TemConstants.AgencyStagingDataErrorCodes;
 import org.kuali.kfs.module.tem.batch.service.ExpenseImportByTravelerService;
 import org.kuali.kfs.module.tem.batch.service.ImportedExpensePendingEntryService;
 import org.kuali.kfs.module.tem.businessobject.AgencyStagingData;
@@ -38,7 +38,6 @@ import org.kuali.kfs.module.tem.businessobject.TemProfile;
 import org.kuali.kfs.module.tem.businessobject.TripAccountingInformation;
 import org.kuali.kfs.module.tem.service.TemProfileService;
 import org.kuali.kfs.module.tem.service.TravelExpenseService;
-import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
@@ -261,83 +260,83 @@ public class ExpenseImportByTravelerServiceImpl extends ExpenseImportServiceBase
     @Override
     public List<ErrorMessage> validateDuplicateData(final AgencyStagingData agencyData) {
 
+        //make sure all the mandatory fields are present before checking for duplicates
         List<ErrorMessage> errorMessages = validateMandatoryFieldsPresent(agencyData);
         if (!errorMessages.isEmpty()) {
             return errorMessages;
         }
 
-        // Verify that this isn't a duplicate entry based on the following:
-        // Traveler ID, Ticket Number, Agency Name, Transaction Date, Transaction Amount, Invoice Number
+        List<AgencyStagingData> agencyDataList = checkDuplicateData(agencyData);
+        if (ObjectUtils.isNotNull(agencyDataList) || agencyDataList.size() != 0) {
 
-        final Map<String, Object> fieldValues = new HashMap<String, Object>();
+            boolean isDuplicate = false;
+            String errorMessage = "Found a duplicate entry for Agency Staging Data: Duplicate Ids ";
 
-        if (StringUtils.isNotEmpty(agencyData.getTravelerId())) {
-            fieldValues.put(TemPropertyConstants.TRAVELER_ID, agencyData.getTravelerId());
-        }
-        if (StringUtils.isNotEmpty(agencyData.getAirTicketNumber())) {
-            fieldValues.put(TemPropertyConstants.AIR_TICKET_NUMBER, agencyData.getAirTicketNumber());
-        }
-        if (StringUtils.isNotEmpty(agencyData.getLodgingItineraryNumber())) {
-            fieldValues.put(TemPropertyConstants.LODGING_ITINERARY_NUMBER, agencyData.getLodgingItineraryNumber());
-        }
-        if (StringUtils.isNotEmpty(agencyData.getRentalCarItineraryNumber())) {
-            fieldValues.put(TemPropertyConstants.RENTAL_CAR_ITINERARY_NUMBER, agencyData.getRentalCarItineraryNumber());
-        }
-        if (StringUtils.isNotEmpty(agencyData.getCreditCardOrAgencyCode())) {
-            fieldValues.put(TemPropertyConstants.CREDIT_CARD_AGENCY_CODE, agencyData.getCreditCardOrAgencyCode());
-        }
-        if (ObjectUtils.isNotNull(agencyData.getTransactionPostingDate())) {
-            fieldValues.put(TemPropertyConstants.TRANSACTION_POSTING_DATE, agencyData.getTransactionPostingDate());
-        }
-        if (ObjectUtils.isNotNull(agencyData.getTripExpenseAmount())) {
-            fieldValues.put(TemPropertyConstants.TRIP_EXPENSE_AMOUNT, agencyData.getTripExpenseAmount());
-        }
-        if (StringUtils.isNotEmpty(agencyData.getTripInvoiceNumber())) {
-            fieldValues.put(TemPropertyConstants.TRIP_INVOICE_NUMBER, agencyData.getTripInvoiceNumber());
-        }
-
-        if (fieldValues.isEmpty()) {
-            errorMessages.add(new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_DATA_NO_MANDATORY_FIELDS_GENERIC));
-        }
-        else {
-
-            List<AgencyStagingData> agencyDataList = (List<AgencyStagingData>) businessObjectService.findMatching(AgencyStagingData.class, fieldValues);
-            if (ObjectUtils.isNotNull(agencyDataList) || agencyDataList.size() != 0) {
-
-                boolean isDuplicate = false;
-                String errorMessage = "Found a duplicate entry for Agency Staging Data: Duplicate Ids ";
-
-                for(AgencyStagingData duplicate : agencyDataList) {
-                    Integer duplicateId = duplicate.getId();
-                    if (ObjectUtils.isNotNull(agencyData.getId()) && (duplicateId.intValue() != agencyData.getId().intValue())) {
-                        errorMessage += duplicate.getId() +" ";
-                        isDuplicate = true;
-                    }
+            for(AgencyStagingData duplicate : agencyDataList) {
+                Integer duplicateId = duplicate.getId();
+                if (ObjectUtils.isNotNull(agencyData.getId()) && (duplicateId.intValue() != agencyData.getId().intValue())) {
+                    errorMessage += duplicate.getId() +" ";
+                    isDuplicate = true;
                 }
-                if (isDuplicate) {
-                    LOG.error(errorMessage);
+            }
+            if (isDuplicate) {
+                LOG.error(errorMessage);
 
-                    String itineraryData = "";
-                    if (StringUtils.isNotEmpty(agencyData.getAirTicketNumber())) {
-                        itineraryData = "AIR-"+ agencyData.getAirTicketNumber();
-                    }
-                    else if (StringUtils.isNotEmpty(agencyData.getLodgingItineraryNumber())) {
-                        itineraryData = "LODGING-"+ agencyData.getLodgingItineraryNumber();
-                    }
-                    else if (StringUtils.isNotEmpty(agencyData.getRentalCarItineraryNumber())) {
-                        itineraryData = "RENTAL CAR-"+ agencyData.getRentalCarItineraryNumber();
-                    }
-
-                    ErrorMessage error = new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_DATA_TRAVELER_DUPLICATE_RECORD,
-                        agencyData.getTravelerId(), itineraryData, agencyData.getCreditCardOrAgencyCode(),
-                        agencyData.getTransactionPostingDate().toString(), agencyData.getTripExpenseAmount().toString(), agencyData.getTripInvoiceNumber());
-                    errorMessages.add(error);
-
+                String itineraryData = "";
+                if (StringUtils.isNotEmpty(agencyData.getAirTicketNumber())) {
+                    itineraryData = "AIR-"+ agencyData.getAirTicketNumber();
                 }
+                else if (StringUtils.isNotEmpty(agencyData.getLodgingItineraryNumber())) {
+                    itineraryData = "LODGING-"+ agencyData.getLodgingItineraryNumber();
+                }
+                else if (StringUtils.isNotEmpty(agencyData.getRentalCarItineraryNumber())) {
+                    itineraryData = "RENTAL CAR-"+ agencyData.getRentalCarItineraryNumber();
+                }
+
+                ErrorMessage error = new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_DATA_TRAVELER_DUPLICATE_RECORD,
+                    agencyData.getTravelerId(), itineraryData, agencyData.getCreditCardOrAgencyCode(),
+                    agencyData.getTransactionPostingDate().toString(), agencyData.getTripExpenseAmount().toString(), agencyData.getTripInvoiceNumber());
+                errorMessages.add(error);
+
             }
         }
 
         return errorMessages;
+    }
+
+    protected List<AgencyStagingData> checkDuplicateData(AgencyStagingData agencyStagingData) {
+        // Verify that this isn't a duplicate entry based on the following:
+        // Traveler ID, Ticket Number (or Lodging or Rental Car Itinerary Number), Agency Name, Transaction Date, Transaction Amount, Invoice Number
+
+        final Map<String, Object> fieldValues = new HashMap<String, Object>();
+
+        if (StringUtils.isNotEmpty(agencyStagingData.getTravelerId())) {
+            fieldValues.put(TemPropertyConstants.TRAVELER_ID, agencyStagingData.getTravelerId());
+        }
+        if (StringUtils.isNotEmpty(agencyStagingData.getAirTicketNumber())) {
+            fieldValues.put(TemPropertyConstants.AIR_TICKET_NUMBER, agencyStagingData.getAirTicketNumber());
+        }
+        if (StringUtils.isNotEmpty(agencyStagingData.getLodgingItineraryNumber())) {
+            fieldValues.put(TemPropertyConstants.LODGING_ITINERARY_NUMBER, agencyStagingData.getLodgingItineraryNumber());
+        }
+        if (StringUtils.isNotEmpty(agencyStagingData.getRentalCarItineraryNumber())) {
+            fieldValues.put(TemPropertyConstants.RENTAL_CAR_ITINERARY_NUMBER, agencyStagingData.getRentalCarItineraryNumber());
+        }
+        if (StringUtils.isNotEmpty(agencyStagingData.getCreditCardOrAgencyCode())) {
+            fieldValues.put(TemPropertyConstants.CREDIT_CARD_AGENCY_CODE, agencyStagingData.getCreditCardOrAgencyCode());
+        }
+        if (ObjectUtils.isNotNull(agencyStagingData.getTransactionPostingDate())) {
+            fieldValues.put(TemPropertyConstants.TRANSACTION_POSTING_DATE, agencyStagingData.getTransactionPostingDate());
+        }
+        if (ObjectUtils.isNotNull(agencyStagingData.getTripExpenseAmount())) {
+            fieldValues.put(TemPropertyConstants.TRIP_EXPENSE_AMOUNT, agencyStagingData.getTripExpenseAmount());
+        }
+        if (StringUtils.isNotEmpty(agencyStagingData.getTripInvoiceNumber())) {
+            fieldValues.put(TemPropertyConstants.TRIP_INVOICE_NUMBER, agencyStagingData.getTripInvoiceNumber());
+        }
+
+        List<AgencyStagingData> agencyDataList = (List<AgencyStagingData>) businessObjectService.findMatching(AgencyStagingData.class, fieldValues);
+        return agencyDataList;
     }
 
     /**
@@ -345,10 +344,11 @@ public class ExpenseImportByTravelerServiceImpl extends ExpenseImportServiceBase
      * @see org.kuali.kfs.module.tem.batch.service.ExpenseImportByTravelerService#distributeExpense(org.kuali.kfs.module.tem.businessobject.AgencyStagingData+ org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper)
      */
     @Override
-    public boolean distributeExpense(final AgencyStagingData agencyData, final GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
+    public boolean distributeExpense(final AgencyStagingData agencyData) {
 
         LOG.info("Distributing expense for agency data: "+ agencyData.getId());
 
+        boolean result = false;
         if (agencyData.isActive()) {
 
             if (AgencyStagingDataErrorCodes.AGENCY_NO_ERROR.equals(agencyData.getErrorCode())) {
@@ -358,6 +358,7 @@ public class ExpenseImportByTravelerServiceImpl extends ExpenseImportServiceBase
                 businessObjectService.save(expense);
                 agencyData.setMoveToHistoryIndicator(true);
                 agencyData.setErrorCode(AgencyStagingDataErrorCodes.AGENCY_MOVED_TO_HISTORICAL);
+                result = true;
             }
             else {
                 LOG.info("Agency Data: "+ agencyData.getId() +"; expected errorCode="+ AgencyStagingDataErrorCodes.AGENCY_NO_ERROR +", received errorCode="+ agencyData.getErrorCode() +". Will not attempt to distribute expense.");
@@ -367,8 +368,8 @@ public class ExpenseImportByTravelerServiceImpl extends ExpenseImportServiceBase
             LOG.info("Agency Data: "+ agencyData.getId() +", is not active. Will not distribute.");
         }
 
-        LOG.info("Finished distributing expense for agency data: "+ agencyData.getId());
-        return true;
+        LOG.info("Finished distributing expense for agency data: "+ agencyData.getId() +". Agency data "+ (result ? "was":"was not") +" distributed.");
+        return result;
     }
 
 

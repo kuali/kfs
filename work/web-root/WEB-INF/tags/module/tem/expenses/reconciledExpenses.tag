@@ -26,7 +26,6 @@
 		<th align="center">Action</th>
 		<th align="center">Status</th>
 		<th align="center">Document Number</th>
-		<th align="center">Document Type</th>
 		<th align="center"><kul:htmlAttributeLabel attributeEntry="${travelCardTypeAttributes.code}" noColon="true" /></th>
 		<th align="center">Expense Date</th>
 		<th align="center">Expense Type</th>
@@ -60,11 +59,6 @@
 			<td>
 				<div align="center">
 					${KualiForm.document.historicalTravelExpenses[ctr].documentNumber}
-				</div>
-			</td>
-			<td>
-				<div align="center">
-					${KualiForm.document.historicalTravelExpenses[ctr].documentType}
 				</div>
 			</td>
 			<td>

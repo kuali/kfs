@@ -442,7 +442,6 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
 
         glpeService.populateExplicitGeneralLedgerPendingEntry(cashControlDocument, accountingLine, sequenceHelper, explicitEntry);
 
-        explicitEntry.setFinancialObjectTypeCode(options.getFinancialObjectTypeAssetsCd());
         explicitEntry.setFinancialDocumentTypeCode(documentType);
         explicitEntry.setDocumentNumber(cashControlDocument.getDocumentNumber());
 

@@ -47,8 +47,8 @@
 			referencedTableName="AR_MLSTN_SCHDL_T" baseColumnNames="PRPSL_NBR"
 			baseTableName="AR_MLSTN_T" referencedColumnNames="PRPSL_NBR" />
 		<addForeignKeyConstraint constraintName="AR_CUST_INV_ACCT_R3"
-			referencedTableName="CA_ACCOUNT_T" baseColumnNames="ACCOUNT_NBR,FIN_COA_CD"
-			baseTableName="AR_CUST_INV_ACCT_T" referencedColumnNames="ACCOUNT_NBR,FIN_COA_CD" />
+			referencedTableName="CA_ACCOUNT_T" baseColumnNames="FIN_COA_CD,ACCOUNT_NBR"
+			baseTableName="AR_CUST_INV_ACCT_T" referencedColumnNames="FIN_COA_CD,ACCOUNT_NBR" />
 		<addForeignKeyConstraint constraintName="AR_CUST_INV_ACCT_R4"
 			referencedTableName="CA_SUB_ACCT_T" baseColumnNames="FIN_COA_CD,ACCOUNT_NBR,SUB_ACCT_NBR"
 			baseTableName="AR_CUST_INV_ACCT_T" referencedColumnNames="FIN_COA_CD,ACCOUNT_NBR,SUB_ACCT_NBR" />

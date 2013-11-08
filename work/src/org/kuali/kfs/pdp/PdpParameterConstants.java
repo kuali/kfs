@@ -49,8 +49,6 @@ public class PdpParameterConstants {
     public static String MAX_NOTE_LINES = "MAX_NOTE_LINES";
     public static String FORMAT_SUMMARY_ROWS = "FORMAT_SUMMARY_REVIEW_RESULTS_PER_PAGE";
 
-    public static String PAYMENT_SOURCE_DOCUMENT_TYPES = "PAYMENT_SOURCE_DOCUMENT_TYPES";
-
     public static class BatchConstants{
         public static final String BATCH_ID_PARAM = "batchId";
     }

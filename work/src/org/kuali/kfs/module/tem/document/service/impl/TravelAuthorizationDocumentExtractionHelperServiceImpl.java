@@ -38,6 +38,7 @@ import org.kuali.kfs.sys.batch.service.PaymentSourceToExtractService;
 import org.kuali.kfs.sys.document.service.PaymentSourceHelperService;
 import org.kuali.kfs.sys.document.validation.event.AccountingDocumentSaveWithNoLedgerEntryGenerationEvent;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiInteger;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.service.DocumentService;
@@ -225,7 +226,7 @@ public class TravelAuthorizationDocumentExtractionHelperServiceImpl implements P
      * @see org.kuali.kfs.sys.batch.service.PaymentSourceToExtractService#markAsExtracted(org.kuali.rice.krad.document.Document, java.sql.Date)
      */
     @Override
-    public void markAsExtracted(TravelAuthorizationDocument document, Date sqlProcessRunDate) {
+    public void markAsExtracted(TravelAuthorizationDocument document, Date sqlProcessRunDate, KualiInteger paymentGroupId) {
         try {
             document.getFinancialSystemDocumentHeader().setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.Payments.EXTRACTED);
             document.getAdvanceTravelPayment().setExtractDate(sqlProcessRunDate);

@@ -17,6 +17,7 @@ package org.kuali.kfs.module.tem.document;
 
 import static org.kuali.kfs.module.tem.TemConstants.DISBURSEMENT_VOUCHER_DOCTYPE;
 
+import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -31,6 +32,7 @@ import org.kuali.kfs.integration.purap.PurchasingAccountsPayableModuleService;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.businessobject.ActualExpense;
+import org.kuali.kfs.module.tem.businessobject.ImportedExpense;
 import org.kuali.kfs.module.tem.businessobject.PerDiemExpense;
 import org.kuali.kfs.module.tem.businessobject.TravelPayment;
 import org.kuali.kfs.module.tem.document.service.AccountingDocumentRelationshipService;
@@ -57,6 +59,9 @@ public abstract class TEMReimbursementDocument extends TravelDocumentBase implem
     private TravelPayment travelPayment;
     private PaymentSourceWireTransfer wireTransfer;
     private volatile transient Person initiator;
+    private Date corporateCardPaymentExtractDate;
+    private Date corporateCardPaymentPaidDate;
+    private Date corporateCardPaymentCancelDate;
 
     private static transient volatile PaymentSourceHelperService paymentSourceHelperService;
     private static transient volatile PaymentSourceExtractionService paymentSourceExtractionService;
@@ -376,6 +381,30 @@ public abstract class TEMReimbursementDocument extends TravelDocumentBase implem
         return totalAmount;
     }
 
+    public Date getCorporateCardPaymentExtractDate() {
+        return corporateCardPaymentExtractDate;
+    }
+
+    public void setCorporateCardPaymentExtractDate(Date corporateCardPaymentExtractDate) {
+        this.corporateCardPaymentExtractDate = corporateCardPaymentExtractDate;
+    }
+
+    public Date getCorporateCardPaymentPaidDate() {
+        return corporateCardPaymentPaidDate;
+    }
+
+    public void setCorporateCardPaymentPaidDate(Date corporateCardPaymentPaidDate) {
+        this.corporateCardPaymentPaidDate = corporateCardPaymentPaidDate;
+    }
+
+    public Date getCorporateCardPaymentCancelDate() {
+        return corporateCardPaymentCancelDate;
+    }
+
+    public void setCorporateCardPaymentCancelDate(Date corporateCardPaymentCancelDate) {
+        this.corporateCardPaymentCancelDate = corporateCardPaymentCancelDate;
+    }
+
     /**
      * Returns the campus code of the initiator
      * @see org.kuali.kfs.sys.document.PaymentSource#getCampusCode()
@@ -433,6 +462,21 @@ public abstract class TEMReimbursementDocument extends TravelDocumentBase implem
     @Override
     public boolean isDebit(GeneralLedgerPendingEntrySourceDetail postable) {
         return true;
+    }
+
+    /**
+     * Determines if any imported expenses on the document have a card type of CORP
+     * @return true if there are CORP imported expenses on the document, false otherwise
+     */
+    public boolean isCorporateCardPayable() {
+        if (getImportedExpenses() != null && !getImportedExpenses().isEmpty()) {
+            for (ImportedExpense expense : getImportedExpenses()) {
+                if (StringUtils.equals(expense.getCardType(), TemConstants.TRAVEL_TYPE_CORP)) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     /**

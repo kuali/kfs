@@ -22,6 +22,7 @@ import java.util.Map;
 import org.kuali.kfs.pdp.businessobject.PaymentGroup;
 import org.kuali.kfs.sys.document.PaymentSource;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiInteger;
 
 /**
  * Contract of services which will feed PaymentSources to the PaymentSourceExtractionService
@@ -49,8 +50,9 @@ public interface PaymentSourceToExtractService<PS extends PaymentSource> {
      * Marks the given document as extracted by PDP
      * @param document the document that has been extracted
      * @param sqlProcessRunDate the date when PDP is asking for the creation of the payment group
+     * @param paymentGroupId the id of the payment group that was extracted
      */
-    public abstract void markAsExtracted(PS document, Date sqlProcessRunDate);
+    public abstract void markAsExtracted(PS document, Date sqlProcessRunDate, KualiInteger paymentGroupId);
 
     /**
      * Builds a PaymentGroup which represents a

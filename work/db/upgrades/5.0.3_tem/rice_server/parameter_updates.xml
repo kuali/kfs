@@ -75,17 +75,6 @@
 		<insert tableName="KRCR_PARM_T">
 			<column name="NMSPC_CD" value="KFS-TEM"/>
 			<column name="CMPNT_CD" value="Document"/>
-			<column name="PARM_NM" value="CORPORATE_CARD_BANK_PAYMENT_REASON_CODE"/>
-			<column name="OBJ_ID" value="KFS-TEM-PARM-005"/>
-			<column name="PARM_TYP_CD" value="CONFG"/>
-			<column name="VAL" value="U"/>
-			<column name="PARM_DESC_TXT" value="Corporate Card Payment"/>
-			<column name="EVAL_OPRTR_CD" value="A"/>
-			<column name="APPL_ID" value="KFS"/>
-		</insert>
-		<insert tableName="KRCR_PARM_T">
-			<column name="NMSPC_CD" value="KFS-TEM"/>
-			<column name="CMPNT_CD" value="Document"/>
 			<column name="PARM_NM" value="CUMULATIVE_REIMBURSABLE_AMOUNT_WITHOUT_DIVISION_APPROVAL"/>
 			<column name="OBJ_ID" value="KFS-TEM-PARM-006"/>
 			<column name="PARM_TYP_CD" value="CONFG"/>
@@ -141,11 +130,11 @@
 		<insert tableName="KRCR_PARM_T">
 			<column name="NMSPC_CD" value="KFS-TEM"/>
 			<column name="CMPNT_CD" value="Document"/>
-			<column name="PARM_NM" value="CORPORATE_CARD_PAYMENT_BY_DV_IND"/>
+			<column name="PARM_NM" value="CORPORATE_CARD_PAYMENT_IND"/>
 			<column name="OBJ_ID" value="KFS-TEM-PARM-011"/>
 			<column name="PARM_TYP_CD" value="CONFG"/>
 			<column name="VAL" value="Y"/>
-			<column name="PARM_DESC_TXT" value="When this parameter value is &quot;Y&quot; and the corporate credit card transactions are included in the imported expense, a Disbursement Voucher is created to pay the corporate credit card company when the document becomes final."/>
+			<column name="PARM_DESC_TXT" value="When this parameter value is &quot;Y&quot; and the corporate credit card transactions are included in the imported expense, a PDP payment group is created to pay the corporate credit card company when the document becomes final."/>
 			<column name="EVAL_OPRTR_CD" value="A"/>
 			<column name="APPL_ID" value="KFS"/>
 		</insert>
@@ -1235,17 +1224,6 @@
 			<column name="PARM_TYP_CD" value="CONFG"/>
 			<column name="VAL" value="knoreceipt-l@indiana.edu"/>
 			<column name="PARM_DESC_TXT" value="Email addresses which receive notification that a Travel or Entertainment document was prepared for immediate extraction."/>
-			<column name="EVAL_OPRTR_CD" value="A"/>
-			<column name="APPL_ID" value="KFS"/>
-		</insert>
-		<insert tableName="KRCR_PARM_T">
-			<column name="NMSPC_CD" value="KFS-PDP"/>
-			<column name="CMPNT_CD" value="ProcessPdPCancelsAndPaidStep"/>
-			<column name="PARM_NM" value="PAYMENT_SOURCE_DOCUMENT_TYPES"/>
-			<column name="OBJ_ID" value="KFS-TEM-PARM-154"/>
-			<column name="PARM_TYP_CD" value="CONFG"/>
-			<column name="VAL" value="DVCA;TACA;TRCA;ENCA;RECA"/>
-			<column name="PARM_DESC_TXT" value="List of ledger-only document types representing check/ACH payments made by payment source documents, which PDP should pay and cancel."/>
 			<column name="EVAL_OPRTR_CD" value="A"/>
 			<column name="APPL_ID" value="KFS"/>
 		</insert>

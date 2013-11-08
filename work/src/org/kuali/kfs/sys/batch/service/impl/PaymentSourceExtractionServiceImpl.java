@@ -209,7 +209,7 @@ public class PaymentSourceExtractionServiceImpl implements PaymentSourceExtracti
             this.businessObjectService.save(pg);
 
             if (!testMode) {
-                getPaymentSourceToExtractService().markAsExtracted(document, sqlProcessRunDate);
+                getPaymentSourceToExtractService().markAsExtracted(document, sqlProcessRunDate, pg.getId());
             }
         }
     }

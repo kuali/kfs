@@ -1653,5 +1653,23 @@
 	      </routingVersion>
 	      <routePaths/>
 	    </documentType>
+	    <documentType>
+	      <name>
+	        RCCA
+	      </name>
+	      <parent>
+	        FSLO
+	      </parent>
+	      <label>
+	        TEM Reimbursable Corporate Card – Check/ACH
+	      </label>
+	      <active>
+	        true
+	      </active>
+	      <routingVersion>
+	        2
+	      </routingVersion>
+	      <routePaths/>
+	    </documentType>
 	</documentTypes>
 </data>

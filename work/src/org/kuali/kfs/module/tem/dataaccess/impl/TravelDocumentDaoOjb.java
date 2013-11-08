@@ -34,7 +34,9 @@ import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
+import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
+import org.kuali.kfs.module.tem.businessobject.ImportedExpense;
 import org.kuali.kfs.module.tem.businessobject.PerDiem;
 import org.kuali.kfs.module.tem.businessobject.TravelAdvance;
 import org.kuali.kfs.module.tem.dataaccess.TravelDocumentDao;
@@ -220,4 +222,57 @@ public class TravelDocumentDaoOjb extends PlatformAwareDaoBaseOjb implements Tra
         return getPersistenceBrokerTemplate().getCollectionByQuery(new QueryByCriteria(documentClazz, criteria));
     }
 
+    /**
+     * Retrieves all travel reimbursement documents which have corporate card expenses to extract but which have not yet been extracted
+     * @see org.kuali.kfs.module.tem.dataaccess.TravelDocumentDao#getReimbursementDocumentsNeedingCorporateCardExtraction()
+     */
+    @Override
+    public Collection<? extends TEMReimbursementDocument> getReimbursementDocumentsNeedingCorporateCardExtraction() {
+        return (Collection<? extends TEMReimbursementDocument>)getUnExtractedCorporateCardTravelDocuments(TravelReimbursementDocument.class);
+
+    }
+
+    /**
+     * Retrieves all entertainment reimbursement documents which have corporate card expenses to extract but which have not yet been extracted
+     * @see org.kuali.kfs.module.tem.dataaccess.TravelDocumentDao#getReimbursementDocumentsNeedingCorporateCardExtraction()
+     */
+    @Override
+    public Collection<? extends TEMReimbursementDocument> getEntertainmentDocumentsNeedingCorporateCardExtraction() {
+        return (Collection<? extends TEMReimbursementDocument>)getUnExtractedCorporateCardTravelDocuments(TravelEntertainmentDocument.class);
+
+    }
+
+    /**
+     * Retrieves all moving and relocation reimbursement documents which have corporate card expenses to extract but which have not yet been extracted
+     * @see org.kuali.kfs.module.tem.dataaccess.TravelDocumentDao#getReimbursementDocumentsNeedingCorporateCardExtraction()
+     */
+    @Override
+    public Collection<? extends TEMReimbursementDocument> getRelocationDocumentsNeedingCorporateCardExtraction() {
+        return (Collection<? extends TEMReimbursementDocument>)getUnExtractedCorporateCardTravelDocuments(TravelRelocationDocument.class);
+
+    }
+
+    /**
+     * Retrieves all documents of the given TravelDocument class that a) are extracted or approved by document header, but b) have a null corporate card extraction date and c) actually have corporate card expenses
+     * @param documentClazz the class of the travel documents to retrieve
+     * @return a Collection of matching documents
+     */
+    protected Collection<? extends TravelDocument> getUnExtractedCorporateCardTravelDocuments(Class<? extends TravelDocument> documentClazz) {
+        Criteria criteria = new Criteria();
+
+        List<String> statusCodes = new ArrayList<String>();
+        statusCodes.add(KFSConstants.DocumentStatusCodes.Payments.EXTRACTED);
+        statusCodes.add(KFSConstants.DocumentStatusCodes.APPROVED);
+        criteria.addIn(KFSPropertyConstants.DOCUMENT_HEADER+"."+KFSPropertyConstants.FINANCIAL_DOCUMENT_STATUS_CODE, statusCodes);
+        criteria.addIsNull(TemPropertyConstants.CORPORATE_CARD_PAYMENT_EXTRACT_DATE);
+
+        Criteria expenseCriteria = new Criteria();
+        expenseCriteria.addEqualTo(TemPropertyConstants.CARD_TYPE, TemConstants.TRAVEL_TYPE_CORP);
+        expenseCriteria.addEqualTo(TemPropertyConstants.EXPENSE_LINE_TYPE_CODE, TemConstants.EXPENSE_IMPORTED);
+        ReportQueryByCriteria expensesSubQuery = QueryFactory.newReportQuery(ImportedExpense.class, expenseCriteria);
+        expensesSubQuery.setAttributes(new String[] {KFSPropertyConstants.DOCUMENT_NUMBER});
+        criteria.addIn(KFSPropertyConstants.DOCUMENT_NUMBER, expensesSubQuery);
+
+        return getPersistenceBrokerTemplate().getCollectionByQuery(new QueryByCriteria(documentClazz, criteria));
+    }
 }

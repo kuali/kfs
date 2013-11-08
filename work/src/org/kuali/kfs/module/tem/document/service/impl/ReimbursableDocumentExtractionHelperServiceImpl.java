@@ -37,6 +37,7 @@ import org.kuali.kfs.sys.batch.service.PaymentSourceToExtractService;
 import org.kuali.kfs.sys.document.service.PaymentSourceHelperService;
 import org.kuali.kfs.sys.document.validation.event.AccountingDocumentSaveWithNoLedgerEntryGenerationEvent;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiInteger;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.service.DocumentService;
@@ -155,7 +156,7 @@ public class ReimbursableDocumentExtractionHelperServiceImpl implements PaymentS
 
         PaymentDetail pd = getTravelPaymentsHelperService().buildGenericPaymentDetail(document.getDocumentHeader(), processRunDate, document.getTravelPayment(), getTravelPaymentsHelperService().getInitiator(document), document.getAchCheckDocumentType());
         // Handle accounts
-        final List<PaymentAccountDetail> paymentAccounts = this.getTravelPaymentsHelperService().buildGenericPaymentAccountDetails(document.getSourceAccountingLines());
+        final List<PaymentAccountDetail> paymentAccounts = getTravelPaymentsHelperService().buildGenericPaymentAccountDetails(document.getSourceAccountingLines());
         for (PaymentAccountDetail pad : paymentAccounts) {
             pd.addAccountDetail(pad);
         }
@@ -173,7 +174,6 @@ public class ReimbursableDocumentExtractionHelperServiceImpl implements PaymentS
         return unit;
     }
 
-
     /**
      * Uses the value in the KFS-TEM / Document / PRE_DISBURSEMENT_EXTRACT_SUB_UNIT
      * @see org.kuali.kfs.sys.document.PaymentSource#getPreDisbursementCustomerProfileSubUnit()
@@ -189,7 +189,7 @@ public class ReimbursableDocumentExtractionHelperServiceImpl implements PaymentS
      * @see org.kuali.kfs.sys.batch.service.PaymentSourceToExtractService#markAsExtracted(org.kuali.rice.krad.document.Document, java.sql.Date)
      */
     @Override
-    public void markAsExtracted(TEMReimbursementDocument document, Date sqlProcessRunDate) {
+    public void markAsExtracted(TEMReimbursementDocument document, Date sqlProcessRunDate, KualiInteger paymentGroupId) {
         try {
             document.getFinancialSystemDocumentHeader().setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.Payments.EXTRACTED);
             document.getTravelPayment().setExtractDate(sqlProcessRunDate);

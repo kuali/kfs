@@ -16,45 +16,35 @@
 package org.kuali.kfs.module.tem.service.impl;
 
 import java.sql.Date;
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeSet;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
-import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemConstants.TravelParameters;
 import org.kuali.kfs.module.tem.TemParameterConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.batch.service.ImportedExpensePendingEntryService;
 import org.kuali.kfs.module.tem.businessobject.AccountingDistribution;
-import org.kuali.kfs.module.tem.businessobject.AccountingDocumentRelationship;
 import org.kuali.kfs.module.tem.businessobject.ExpenseTypeObjectCode;
 import org.kuali.kfs.module.tem.businessobject.HistoricalTravelExpense;
 import org.kuali.kfs.module.tem.businessobject.ImportedExpense;
 import org.kuali.kfs.module.tem.businessobject.TemExpense;
 import org.kuali.kfs.module.tem.businessobject.TemSourceAccountingLine;
 import org.kuali.kfs.module.tem.document.TravelDocument;
-import org.kuali.kfs.module.tem.document.TravelRelocationDocument;
-import org.kuali.kfs.module.tem.document.service.AccountingDocumentRelationshipService;
-import org.kuali.kfs.module.tem.document.service.TravelDisbursementService;
 import org.kuali.kfs.module.tem.service.CreditCardAgencyService;
 import org.kuali.kfs.module.tem.service.TemExpenseService;
 import org.kuali.kfs.module.tem.service.TravelExpenseService;
 import org.kuali.kfs.module.tem.util.ExpenseUtils;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kim.api.identity.Person;
-import org.kuali.rice.kim.api.identity.PersonService;
 
 public class ImportedCorporateCardExpenseServiceImpl extends ExpenseServiceBase implements TemExpenseService {
 
     protected static Logger LOG = Logger.getLogger(ImportedCorporateCardExpenseServiceImpl.class);
 
-    TravelDisbursementService travelDisbursementService;
     ImportedExpensePendingEntryService importedExpensePendingEntryService;
     CreditCardAgencyService creditCardAgencyService;
 
@@ -144,45 +134,6 @@ public class ImportedCorporateCardExpenseServiceImpl extends ExpenseServiceBase 
     }
 
     /**
-     * Spawn DV doc(s) for the imported corporate card expenses to pay back the bank
-     *
-     * @param document
-     */
-    private void createVendorDisbursementVouchers(TravelDocument document){
-        Person principal = SpringContext.getBean(PersonService.class).getPerson(document.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId());
-
-        //build map of the accounting line info and amount by card type
-        Collection<String> cardAgencyTypeSet = new TreeSet<String>();
-        for (TemSourceAccountingLine line : (List<TemSourceAccountingLine>)document.getSourceAccountingLines()){
-            //pick up all the corp card types
-            if (creditCardAgencyService.getCorpCreditCardAgencyCodeList().contains(line.getCardType())){
-                cardAgencyTypeSet.add(line.getCardType());
-            }
-        }
-
-        //process DV for each of the card type
-        for (String cardAgencyType : cardAgencyTypeSet){
-            DisbursementVoucherDocument disbursementVoucherDocument = travelDisbursementService.createAndApproveDisbursementVoucherDocument(document, cardAgencyType);
-            String docNumber = disbursementVoucherDocument.getDocumentNumber();
-
-            if (!(document instanceof TravelRelocationDocument)){
-                for (HistoricalTravelExpense expense : document.getHistoricalTravelExpenses()){
-                    if (expense.getCreditCardStagingData() != null){
-                        if (expense.getCreditCardStagingData().getCreditCardAgency().getTravelCardTypeCode().equals(cardAgencyType)){
-                            expense.getCreditCardStagingData().setDisbursementVoucherDocumentNumber(docNumber);
-                            getBusinessObjectService().save(expense.getCreditCardStagingData());
-                        }
-                    }
-                }
-            }
-
-            //set relation from DV back to the travel doc
-            String relationDescription = document.getDocumentHeader().getWorkflowDocument().getDocumentTypeName() + " - DV";
-            SpringContext.getBean(AccountingDocumentRelationshipService.class).save(new AccountingDocumentRelationship(document.getDocumentNumber(), disbursementVoucherDocument.getDocumentNumber(), relationDescription));
-        }
-    }
-
-    /**
      * @see org.kuali.kfs.module.tem.service.impl.ExpenseServiceBase#updateExpense(org.kuali.kfs.module.tem.document.TravelDocument)
      */
     @Override
@@ -196,14 +147,7 @@ public class ImportedCorporateCardExpenseServiceImpl extends ExpenseServiceBase 
             }
         }
         getBusinessObjectService().save(historicalTravelExpenses);
-        boolean spawnDV = getParameterService().getParameterValueAsBoolean(TemParameterConstants.TEM_DOCUMENT.class, TravelParameters.CORPORATE_CARD_PAYMENT_BY_DV_IND);
-        if (spawnDV){
-            createVendorDisbursementVouchers(travelDocument);
-        }
-    }
-
-    public void setTravelDisbursementService(TravelDisbursementService travelDisbursementService) {
-        this.travelDisbursementService = travelDisbursementService;
+        boolean spawnDV = getParameterService().getParameterValueAsBoolean(TemParameterConstants.TEM_DOCUMENT.class, TravelParameters.CORPORATE_CARD_PAYMENT_IND);
     }
 
     public void setCreditCardAgencyService(CreditCardAgencyService creditCardAgencyService) {

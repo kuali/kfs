@@ -57,7 +57,6 @@ import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.TravelReimbursementDocument;
 import org.kuali.kfs.module.tem.document.service.AccountingDocumentRelationshipService;
 import org.kuali.kfs.module.tem.document.service.TravelAuthorizationService;
-import org.kuali.kfs.module.tem.document.service.TravelDisbursementService;
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
 import org.kuali.kfs.module.tem.service.TemProfileService;
 import org.kuali.kfs.module.tem.service.TravelerService;
@@ -102,7 +101,6 @@ public class TravelAuthorizationServiceImpl implements TravelAuthorizationServic
     private AccountsReceivableModuleService accountsReceivableModuleService;
     private ParameterService parameterService;
     private DocumentService documentService;
-    private TravelDisbursementService travelDisbursementService;
     private DateTimeService dateTimeService;
     private KualiRuleService kualiRuleService;
     private WorkflowDocumentService workflowDocumentService;
@@ -671,10 +669,6 @@ public class TravelAuthorizationServiceImpl implements TravelAuthorizationServic
 	public void setTemProfileService(TemProfileService temProfileService) {
 		this.temProfileService = temProfileService;
 	}
-
-    public void setTravelDisbursementService(TravelDisbursementService travelDisbursementService) {
-        this.travelDisbursementService = travelDisbursementService;
-    }
 
     public void setDocumentDao(DocumentDao documentDao) {
         this.documentDao = documentDao;

@@ -97,4 +97,21 @@ public interface TravelDocumentDao {
      */
     public abstract Collection<? extends TravelAuthorizationDocument> getAuthorizationsAndAmendmentsByHeaderStatus(String statusCode, boolean immediatesOnly);
 
+    /**
+     * Retrieves all TravelReimbursement documents which have corporate card expenses and have not yet been extracted
+     * @return a Collection of qualifying reimbursement documents
+     */
+    public abstract Collection<? extends TEMReimbursementDocument> getReimbursementDocumentsNeedingCorporateCardExtraction();
+
+    /**
+     * Retrieves all Entertainment documents which have corporate card expenses and have not yet been extracted
+     * @return a Collection of qualifying reimbursement documents
+     */
+    public abstract Collection<? extends TEMReimbursementDocument> getEntertainmentDocumentsNeedingCorporateCardExtraction();
+
+    /**
+     * Retrieves all Moving & Relocation documents which have corporate card expenses and have not yet been extracted
+     * @return a Collection of qualifying reimbursement documents
+     */
+    public abstract Collection<? extends TEMReimbursementDocument> getRelocationDocumentsNeedingCorporateCardExtraction();
 }

@@ -148,6 +148,7 @@ public class TemConstants {
         public static final String ENTERTAINMENT_WIRE_OR_FOREIGN_DRAFT_DOCUMENT = "ENWF";
         public static final String RELOCATION_CHECK_ACH_DOCUMENT = "RECA";
         public static final String RELOCATION_WIRE_OR_FOREIGN_DRAFT_DOCUMENT = "REWF";
+        public static final String REIMBURSABLE_CORPORATE_CARD_CHECK_ACH_DOCUMENT = "RCCA";
         public static final String TRAVEL_CTS_CARD_DOCUMENT = "CTAP";
         public static final String TRAVEL_CORP_CARD_DOCUMENT = "CCAP";
         public static final String TEM_TRANSACTIONAL_DOCUMENT = "TT";
@@ -190,11 +191,10 @@ public class TemConstants {
 
         public static final String ALWAYS_REIMBURSABLE_CARD_TYPE = "ALWAYS_REIMBURSABLE_CARD_TYPE";
         public static final String AMOUNT_DUE_CORPORATE_CARD_TOTAL_LINE_IND = "AMOUNT_DUE_CORPORATE_CARD_TOTAL_LINE_IND";
-        public static final String CORPORATE_CARD_PAYMENT_BY_DV_IND = "CORPORATE_CARD_PAYMENT_BY_DV_IND";
+        public static final String CORPORATE_CARD_PAYMENT_IND = "CORPORATE_CARD_PAYMENT_IND";
         public static final String SEPARATION_OF_DUTIES_ROUTING_CHOICE = "SEPARATION_OF_DUTIES_ROUTING_CHOICE";
         public static final String IMPORTED_EXPENSE_DETAIL_IND = "IMPORTED_EXPENSE_DETAIL_IND";
         public static final String ACCOUNTING_LINE_VALIDATION = "ACCOUNTING_LINE_VALIDATION";
-        public static final String CORPORATE_CARD_BANK_PAYMENT_REASON_CODE = "CORPORATE_CARD_BANK_PAYMENT_REASON_CODE";
 
         public static final String ENTERTAINMENT_MANAGER_TO_EDIT_ALL_IND = "ENTERTAINMENT_MANAGER_TO_EDIT_ALL_IND";
         public static final String MOVING_RELOCATION_MANAGER_TO_EDIT_ALL_IND = "MOVING_RELOCATION_MANAGER_TO_EDIT_ALL_IND";

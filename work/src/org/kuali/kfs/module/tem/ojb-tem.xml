@@ -634,6 +634,9 @@
 		<field-descriptor name="financialDocumentBankCode" column="FDOC_BNK_CD" jdbc-type="VARCHAR" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR"/>
 		<field-descriptor name="versionNumber" locking="true" column="VER_NBR" jdbc-type="BIGINT"/>
+		<field-descriptor name="corporateCardPaymentExtractDate" column="CORP_CARD_PMT_EXTRT_DT" jdbc-type="DATE"/>
+        <field-descriptor name="corporateCardPaymentPaidDate" column="CORP_CARD_PMT_PAID_DT" jdbc-type="DATE"/>
+        <field-descriptor name="corporateCardPaymentCancelDate" column="CORP_CARD_PMT_CNCL_DT" jdbc-type="DATE"/>
 		<reference-descriptor name="documentHeader" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<foreignkey field-ref="documentNumber"/>
 		</reference-descriptor>
@@ -747,6 +750,9 @@
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR"/>
         <field-descriptor name="versionNumber" locking="true" column="VER_NBR" jdbc-type="BIGINT"/>
         <field-descriptor name="financialDocumentBankCode" column="FDOC_BNK_CD" jdbc-type="VARCHAR" />
+        <field-descriptor name="corporateCardPaymentExtractDate" column="CORP_CARD_PMT_EXTRT_DT" jdbc-type="DATE"/>
+        <field-descriptor name="corporateCardPaymentPaidDate" column="CORP_CARD_PMT_PAID_DT" jdbc-type="DATE"/>
+        <field-descriptor name="corporateCardPaymentCancelDate" column="CORP_CARD_PMT_CNCL_DT" jdbc-type="DATE"/>
         
         <reference-descriptor name="documentHeader" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object">
             <foreignkey field-ref="documentNumber"/>
@@ -846,7 +852,10 @@
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR"/>
         <field-descriptor name="versionNumber" locking="true" column="VER_NBR" jdbc-type="BIGINT"/>
         <field-descriptor name="titleCode" column="TITLE_CD" jdbc-type="VARCHAR"/>       
-        <field-descriptor name="financialDocumentBankCode" column="FDOC_BNK_CD" jdbc-type="VARCHAR" /> 
+        <field-descriptor name="financialDocumentBankCode" column="FDOC_BNK_CD" jdbc-type="VARCHAR" />
+        <field-descriptor name="corporateCardPaymentExtractDate" column="CORP_CARD_PMT_EXTRT_DT" jdbc-type="DATE"/>
+        <field-descriptor name="corporateCardPaymentPaidDate" column="CORP_CARD_PMT_PAID_DT" jdbc-type="DATE"/>
+        <field-descriptor name="corporateCardPaymentCancelDate" column="CORP_CARD_PMT_CNCL_DT" jdbc-type="DATE"/>
         <reference-descriptor name="documentHeader" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object">
             <foreignkey field-ref="documentNumber"/>
         </reference-descriptor>

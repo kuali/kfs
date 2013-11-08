@@ -320,7 +320,6 @@
 		<property name="objectCodeService" ref="objectCodeService" />
 		<property name="personService" ref="personService" />
 		<property name="travelDocumentService" ref="temTravelDocumentService" />
-        <property name="travelDisbursementService" ref="travelDisbursementService" />
 		<property name="travelAuthorizationService" ref="temTravelAuthorizationService" />
 		<property name="workflowDocumentService" ref="workflowDocumentService" />
 		<property name="documentDao" ref="documentDao" />
@@ -529,20 +528,6 @@
     	<property name="travelExpenseService" ref="travelExpenseService"/>
     	<property name="noteService" ref="noteService"/>
 	</bean>
-  
-    <bean id="travelDisbursementService" parent="travelDisbursementService-parentBean" />
-    <bean id="travelDisbursementService-parentBean"
-      class="org.kuali.kfs.module.tem.document.service.impl.TravelDisbursementServiceImpl" abstract="true">
-      <property name="documentService" ref="documentService" />
-      <property name="businessObjectService" ref="businessObjectService" />
-      <property name="dateTimeService" ref="dateTimeService" />
-      <property name="travelerService" ref="travelerService" />
-      <property name="accountingDocumentRelationshipService" ref="temAccountingDocumentRelationshipService" />
-      <property name="parameterService" ref="parameterService" />
-      <property name="workflowDocumentService" ref="workflowDocumentService" />
-      <property name="kualiRuleService" ref="kualiRuleService" />
-      <property name="travelDocumentService" ref="temTravelDocumentService" />
-    </bean>
     
     <bean id="travelEncumbranceService" parent="travelEncumbranceService-parentBean" />
     <bean id="travelEncumbranceService-parentBean"
@@ -565,7 +550,6 @@
 	    <property name="accountsReceivableModuleService" ref="accountsReceivableModuleService" />	
         <property name="parameterService" ref="parameterService" />
         <property name="documentService" ref="documentService" />
-		<property name="travelDisbursementService" ref="travelDisbursementService" />
 		<property name="dateTimeService" ref="dateTimeService" />
 	    <property name="ruleService" ref="kualiRuleService" />	
         <property name="workflowDocumentService" ref="workflowDocumentService" />
@@ -800,7 +784,6 @@
 	<bean id="importedCorporateCardExpenseService" parent="importedCorporateCardExpenseService-parentBean" />
 	<bean id="importedCorporateCardExpenseService-parentBean" abstract="true"
 		class="org.kuali.kfs.module.tem.service.impl.ImportedCorporateCardExpenseServiceImpl">
-        <property name="travelDisbursementService" ref="travelDisbursementService" />
         <property name="creditCardAgencyService" ref="creditCardAgencyService" />
         <property name="importedExpensePendingEntryService" ref="importedExpensePendingEntryService" />
     </bean>
@@ -1339,6 +1322,7 @@
 			<list>
 				<ref bean="travelAuthorizationsPreDisbursementProcessorExtractStep"/>
 				<ref bean="travelReimbursementsPreDisbursementProcessorExtractStep"/>
+				<ref bean="reimbursementsCorporateCardPreDisbursementProcessorExtractStep"/>
 			</list>
 		</property>
 	</bean>
@@ -1361,6 +1345,16 @@
 	<bean id="travelAuthorizationsExtractService"  parent="travelAuthorizationsExtractService-parentBean"/>
 	<bean id="travelAuthorizationsExtractService-parentBean" parent="paymentSourceExtractionService-parentBean" abstract="true">
 		<property name="paymentSourceToExtractService" ref="temAuthorizationDocumentExtractionHelperService"/>
+	</bean>
+	
+	<bean id="reimbursementsCorporateCardPreDisbursementProcessorExtractStep" parent="reimbursementsCorporateCardPreDisbursementProcessorExtractStep-parentBean" />
+	<bean id="reimbursementsCorporateCardPreDisbursementProcessorExtractStep-parentBean" parent="paymentSourceToPdpExtractStep" abstract="true">
+		<property name="paymentSourceExtractionService" ref="reimbursementsCorporateCardExtractService" />
+	</bean>
+	
+	<bean id="reimbursementsCorporateCardExtractService"  parent="reimbursementsCorporateCardExtractService-parentBean"/>
+	<bean id="reimbursementsCorporateCardExtractService-parentBean" parent="paymentSourceExtractionService-parentBean" abstract="true">
+		<property name="paymentSourceToExtractService" ref="corporateCardExtractionService"/>
 	</bean>
     
 	<import resource="document/validation/configuration/TemValidatorDefinitions.xml" /> 
@@ -1492,6 +1486,17 @@
 		<property name="travelDocumentDao" ref="travelDocumentDao"/>
 		<property name="travelPaymentsHelperService" ref="travelPaymentsHelperService"/>
 		<property name="parameterService" ref="parameterService"/>
+	</bean>
+	
+	<bean id="corporateCardExtractionService" parent="corporateCardExtractionService-parentBean"/>
+	<bean id="corporateCardExtractionService-parentBean" class="org.kuali.kfs.module.tem.document.service.impl.CorporateCardExtractionServiceImpl" abstract="true">
+		<property name="documentService" ref="documentService"/>
+		<property name="paymentSourceHelperService" ref="paymentSourceHelperService"/>
+		<property name="travelDocumentDao" ref="travelDocumentDao"/>
+		<property name="travelPaymentsHelperService" ref="travelPaymentsHelperService"/>
+		<property name="parameterService" ref="parameterService"/>
+		<property name="businessObjectService" ref="businessObjectService"/>
+		<property name="vendorService" ref="vendorService"/>
 	</bean>
 	
 	<bean id="reimbursementOverageOrganizationHierarchyRoleTypeService" class="org.kuali.kfs.module.tem.identity.ReimbursementOverageOrganizationHierarchyRoleTypeServiceImpl">

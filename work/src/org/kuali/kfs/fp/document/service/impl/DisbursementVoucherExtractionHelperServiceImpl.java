@@ -487,7 +487,7 @@ public class DisbursementVoucherExtractionHelperServiceImpl implements PaymentSo
      * @see org.kuali.kfs.sys.batch.service.PaymentSourceToExtractService#markAsExtracted(org.kuali.rice.krad.document.Document, java.sql.Date)
      */
     @Override
-    public void markAsExtracted(DisbursementVoucherDocument document, Date sqlProcessRunDate) {
+    public void markAsExtracted(DisbursementVoucherDocument document, Date sqlProcessRunDate, KualiInteger paymentGroupId) {
         try {
             document.getFinancialSystemDocumentHeader().setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.Payments.EXTRACTED);
             document.setExtractDate(sqlProcessRunDate);

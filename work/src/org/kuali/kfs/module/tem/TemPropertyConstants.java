@@ -386,6 +386,11 @@ public class TemPropertyConstants {
 
     public static final String TRAVEL_PAYMENT = "travelPayment";
     public static final String ADVANCE_TRAVEL_PAYMENT = "advanceTravelPayment";
+
+    public static final String CORPORATE_CARD_PAYMENT_EXTRACT_DATE = "corporateCardPaymentExtractDate";
+    public static final String CARD_TYPE = "cardType";
+    public static final String EXPENSE_LINE_TYPE_CODE = "expenseLineTypeCode";
+
     public class TravelPaymentProperties {
         public static final String SPECIAL_HANDLING_PERSON_NAME = "specialHandlingPersonName";
         public static final String SPECIAL_HANDLING_STATE_CODE = "specialHandlingStateCode";

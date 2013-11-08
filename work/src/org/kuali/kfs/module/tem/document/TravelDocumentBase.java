@@ -65,7 +65,6 @@ import org.kuali.kfs.module.tem.businessobject.TransportationModeDetail;
 import org.kuali.kfs.module.tem.businessobject.TravelerDetail;
 import org.kuali.kfs.module.tem.businessobject.TravelerType;
 import org.kuali.kfs.module.tem.businessobject.TripType;
-import org.kuali.kfs.module.tem.document.service.TravelDisbursementService;
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
 import org.kuali.kfs.module.tem.document.service.TravelEncumbranceService;
 import org.kuali.kfs.module.tem.document.service.TravelReimbursementService;
@@ -168,10 +167,6 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
 
     protected TravelDocumentService getTravelDocumentService() {
         return SpringContext.getBean(TravelDocumentService.class);
-    }
-
-    protected TravelDisbursementService getTravelDisbursementService() {
-        return SpringContext.getBean(TravelDisbursementService.class);
     }
 
     protected TravelEncumbranceService getTravelEncumbranceService() {

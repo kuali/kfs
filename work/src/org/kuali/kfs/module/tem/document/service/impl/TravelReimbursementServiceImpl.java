@@ -62,7 +62,6 @@ import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
 import org.kuali.kfs.module.tem.document.TravelReimbursementDocument;
 import org.kuali.kfs.module.tem.document.service.AccountingDocumentRelationshipService;
 import org.kuali.kfs.module.tem.document.service.TravelAuthorizationService;
-import org.kuali.kfs.module.tem.document.service.TravelDisbursementService;
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
 import org.kuali.kfs.module.tem.document.service.TravelReimbursementService;
 import org.kuali.kfs.module.tem.pdf.Coversheet;
@@ -105,7 +104,6 @@ public class TravelReimbursementServiceImpl implements TravelReimbursementServic
     protected DocumentService documentService;
     protected ConfigurationService ConfigurationService;
     protected TravelDocumentService travelDocumentService;
-    protected TravelDisbursementService travelDisbursementService;
     protected TravelAuthorizationService travelAuthorizationService;
     protected ParameterService parameterService;
     protected WorkflowDocumentService workflowDocumentService;
@@ -1014,10 +1012,6 @@ public class TravelReimbursementServiceImpl implements TravelReimbursementServic
      */
     public void setGeneralLedgerPendingEntryService(GeneralLedgerPendingEntryService generalLedgerPendingEntryService) {
         this.generalLedgerPendingEntryService = generalLedgerPendingEntryService;
-    }
-
-    public void setTravelDisbursementService(TravelDisbursementService travelDisbursementService) {
-        this.travelDisbursementService = travelDisbursementService;
     }
 
     /**

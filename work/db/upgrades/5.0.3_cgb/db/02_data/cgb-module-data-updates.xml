@@ -203,7 +203,7 @@
 			<column name="OBJ_ID" valueComputed="SYS_GUID()" />
 			<column name="VER_NBR" value="1" />
 			<column name="CG_AGENCY_TYP_DESC" value="Default Type From Ext System" />
-			<column name="ACTV_IND" value="Y" />
+			<column name="ROW_ACTV_IND" value="Y" />
 		</insert>
 		<modifySql dbms="mysql">
 			<replace replace="SYS_GUID()" with="uuid()" />

@@ -229,7 +229,7 @@
 		</insert>
 	</changeSet>
 
-	<changeSet author="kfs" id="KRCR_PARM_T_ADD_CG_INVOICE_EMAIL_BODY">
+	<changeSet author="kfs" id="KRCR_PARM_T_ADD_CG_INVOICE_EMAIL_BODY" dbms="oracle">
 		<insert tableName="KRCR_PARM_T">
 			<column name="NMSPC_CD" value="KFS-AR" />
 			<column name="CMPNT_CD" value="ContractsGrantsInvoiceEmailReportsBatchStep" />
@@ -238,18 +238,25 @@
 			<column name="VER_NBR" value="1" />
 			<column name="PARM_TYP_CD" value="CONFG" />
 			<column name="VAL"
-				value="Dear #agencyName , #addressName : 
+				value="Dear #agencyName , #addressName: \n\n Attached please find our invoice for payment processing, a hardcopy will not be sent. \n\n Please contact me if you have any questions. \n\n Thank you, \n Fund Manager Principal \n #name , #title \n #department \n #phone \n #email" />
+			<column name="PARM_DESC_TXT"
+				value="Body for Email to be sent for Invoice Reports. Set the Email's body that is sent out by the Invoice Report Delivery process. The {#value} tags will be replaced by actual values for the individual report." />
+			<column name="EVAL_OPRTR_CD" value="A" />
+			<column name="APPL_ID" value="KFS" />
+		</insert>
+	</changeSet>
 
-Attached please find our invoice for payment processing, a hardcopy will not be sent. 
-
-Please contact me if you have any questions. 
-
-Thank you, 
-Fund Manager Principal 
-#name , #title 
-#department 
-#phone 
-#email" />
+	<!-- need to escape the newline characters for MySQL -->
+	<changeSet author="kfs" id="KRCR_PARM_T_ADD_CG_INVOICE_EMAIL_BODY" dbms="mysql">
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-AR" />
+			<column name="CMPNT_CD" value="ContractsGrantsInvoiceEmailReportsBatchStep" />
+			<column name="PARM_NM" value="CG_INVOICE_EMAIL_BODY" />
+			<column name="OBJ_ID" value="CG-INVOICE-EMAIL-BODY" />
+			<column name="VER_NBR" value="1" />
+			<column name="PARM_TYP_CD" value="CONFG" />
+			<column name="VAL"
+				value="Dear #agencyName , #addressName: \\n\\n Attached please find our invoice for payment processing, a hardcopy will not be sent. \\n\\n Please contact me if you have any questions. \\n\\n Thank you, \\n Fund Manager Principal \\n #name , #title \\n #department \\n #phone \\n #email" />
 			<column name="PARM_DESC_TXT"
 				value="Body for Email to be sent for Invoice Reports. Set the Email's body that is sent out by the Invoice Report Delivery process. The {#value} tags will be replaced by actual values for the individual report." />
 			<column name="EVAL_OPRTR_CD" value="A" />

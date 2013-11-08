@@ -232,9 +232,9 @@ public class TravelEntertainmentAction extends TravelActionBase {
 
         entForm.setCanPrintHostCertification(document.canShowHostCertification());
 
-        final KualiDecimal reimbursableTotal = document.getReimbursableTotal();
-        if (reimbursableTotal != null && !ObjectUtils.isNull(document.getTravelPayment())) {
-            document.getTravelPayment().setCheckTotalAmount(reimbursableTotal);
+        final KualiDecimal paymentTotal = document.getPaymentAmount();
+        if (paymentTotal != null && !ObjectUtils.isNull(document.getTravelPayment())) {
+            document.getTravelPayment().setCheckTotalAmount(paymentTotal);
         }
 
         return retval;

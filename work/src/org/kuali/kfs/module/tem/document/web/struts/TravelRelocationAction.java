@@ -126,9 +126,9 @@ public class TravelRelocationAction extends TravelActionBase {
 
         request.setAttribute(SHOW_REPORTS_ATTRIBUTE, !document.getDocumentHeader().getWorkflowDocument().isInitiated());
 
-        final KualiDecimal reimbursableTotal = document.getReimbursableTotal();
-        if (reimbursableTotal != null && !ObjectUtils.isNull(document.getTravelPayment())) {
-            document.getTravelPayment().setCheckTotalAmount(reimbursableTotal);
+        final KualiDecimal paymentTotal = document.getPaymentAmount();
+        if (paymentTotal != null && !ObjectUtils.isNull(document.getTravelPayment())) {
+            document.getTravelPayment().setCheckTotalAmount(paymentTotal);
         }
 
         return retval;

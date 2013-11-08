@@ -467,15 +467,17 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
     }
 
     /**
-     * Overridden to respect reimbursable amount logic
+     * Overridden to take out advances amount
      * @see org.kuali.kfs.module.tem.document.TEMReimbursementDocument#getPaymentAmount()
      */
     @Override
     public KualiDecimal getPaymentAmount() {
-        if (!getReimbursableTotal().equals(getReimbursableAmount())){
-            return getReimbursableAmount();
+        final KualiDecimal paymentAmountBeforeAdvances = super.getPaymentAmount();
+        final KualiDecimal paymentAmountAfterAdvances = paymentAmountBeforeAdvances.subtract(getAdvancesTotal());
+        if (paymentAmountAfterAdvances.isLessThan(KualiDecimal.ZERO)) {
+            return KualiDecimal.ZERO;
         }
-        return super.getPaymentAmount();
+        return paymentAmountAfterAdvances;
     }
 
     /**

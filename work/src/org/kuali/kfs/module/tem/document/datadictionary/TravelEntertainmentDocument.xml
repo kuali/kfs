@@ -56,6 +56,10 @@
 			<ref bean="TravelEntertainmentDocument-numberOfAttendees" />
 			<ref bean="TravelEntertainmentDocument-versionNumber" />
 			<ref bean="TravelEntertainmentDocument-appDocStatus" />
+			<ref bean="TravelEntertainmentDocument-corporateCardPaymentPdpStatus"/>
+			<ref bean="TravelEntertainmentDocument-corporateCardPaymentExtractDate"/>
+			<ref bean="TravelEntertainmentDocument-corporateCardPaymentPaidDate"/>
+			<ref bean="TravelEntertainmentDocument-corporateCardPaymentCancelDate"/>
 		</list>
 		</property>
 		<property name="collections">
@@ -289,6 +293,30 @@
 		<property name="label" value="ENT Status Code" />
 		<property name="shortLabel" value="ENT Status" />
 	</bean>
+	<bean id="TravelEntertainmentDocument-corporateCardPaymentPdpStatus" parent="TravelEntertainmentDocument-corporateCardPaymentPdpStatus-parentBean"/>
+	<bean id="TravelEntertainmentDocument-corporateCardPaymentPdpStatus-parentBean" abstract="true" parent="TravelPayment-paymentPdpStatus">
+		<property name="name" value="corporateCardPaymentPdpStatus" />
+		<property name="label" value="Corporate Card Pre-Disbursement Processor Status"/>
+		<property name="shortLabel" value="Corp. Card PDP Status" />
+	</bean>
+	<bean id="TravelEntertainmentDocument-corporateCardPaymentExtractDate" parent="TravelEntertainmentDocument-corporateCardPaymentExtractDate-parentBean"/>
+	<bean id="TravelEntertainmentDocument-corporateCardPaymentExtractDate-parentBean" abstract="true" parent="TravelPayment-extractDate">
+		<property name="name" value="corporateCardPaymentExtractDate" />
+		<property name="label" value="Corporate Card Extraction Date"/>
+		<property name="shortLabel" value="Corp. Card Extract Dt." />
+	</bean>
+	<bean id="TravelEntertainmentDocument-corporateCardPaymentPaidDate" parent="TravelEntertainmentDocument-corporateCardPaymentPaidDate-parentBean"/>
+	<bean id="TravelEntertainmentDocument-corporateCardPaymentPaidDate-parentBean" abstract="true" parent="TravelPayment-paidDate">
+		<property name="name" value="corporateCardPaymentPaidDate" />
+		<property name="label" value="Corporate Card Paid Date"/>
+		<property name="shortLabel" value="Corp. Card Pd. Dt." />
+	</bean>
+	<bean id="TravelEntertainmentDocument-corporateCardPaymentCancelDate" parent="TravelEntertainmentDocument-corporateCardPaymentCancelDate-parentBean"/>
+	<bean id="TravelEntertainmentDocument-corporateCardPaymentCancelDate-parentBean" abstract="true" parent="TravelPayment-cancelDate">
+		<property name="name" value="corporateCardPaymentCancelDate" />
+		<property name="label" value="Corporate Card Canceled Date"/>
+		<property name="shortLabel" value="Corp. Card Cncld. Dt." />
+	</bean>		
 	
   <bean id="TravelEntertainmentDocument-workflowAttributes" parent="TravelEntertainmentDocument-workflowAttributes-parentBean"/>
   

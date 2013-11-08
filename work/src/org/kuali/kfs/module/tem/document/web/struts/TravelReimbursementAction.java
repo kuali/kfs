@@ -559,9 +559,9 @@ public class TravelReimbursementAction extends TravelActionBase {
 
         getTravelDocumentService().showNoTravelAuthorizationError(document);
 
-        final KualiDecimal reimbursableTotal = document.getReimbursableGrandTotal(); // the grand total is the amount that's actually reimbursable from this trip
-        if (reimbursableTotal != null && !ObjectUtils.isNull(document.getTravelPayment()) && reimbursableTotal.isGreaterEqual(KualiDecimal.ZERO)) {
-            document.getTravelPayment().setCheckTotalAmount(reimbursableTotal);
+        final KualiDecimal paymentTotal = document.getPaymentAmount(); // the grand total is the amount that's actually reimbursable from this trip
+        if (paymentTotal != null && !ObjectUtils.isNull(document.getTravelPayment()) && paymentTotal.isGreaterEqual(KualiDecimal.ZERO)) {
+            document.getTravelPayment().setCheckTotalAmount(paymentTotal);
         }
         // and update the new source line if possible
         if (reimbForm.getNewSourceLine() != null) {

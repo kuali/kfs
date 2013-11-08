@@ -90,7 +90,7 @@
     <tem:assignAccounts />
     <tem:accountingLines />
 	<tem:travelPayment/>
-	<tem:travelPaymentPDPStatus travelPaymentProperty="travelPayment" pdpPaymentDocumentType="${KualiForm.document.paymentDocumentType}"/>
+	<tem:travelPaymentPDPStatus travelPaymentProperty="travelPayment" pdpPaymentDocumentType="${KualiForm.document.achCheckDocumentType}" displayCorporateCardExtraction="${KualiForm.document.corporateCardPayable}"/>
     <gl:generalLedgerPendingEntries />
     <tem:relatedDocuments />
 

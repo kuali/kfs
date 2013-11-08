@@ -42,7 +42,6 @@ import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.businessobject.PaymentSourceWireTransfer;
-import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.businessobject.WireCharge;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.PaymentSource;
@@ -243,6 +242,13 @@ public abstract class TEMReimbursementDocument extends TravelDocumentBase implem
     public abstract String getWireTransferOrForeignDraftDocumentType();
 
     /**
+     * @return RCCA, the corporate card payment ach/check document type
+     */
+    public String getCorporateCardPaymentAchCheckDocumentType() {
+        return TemConstants.TravelDocTypes.REIMBURSABLE_CORPORATE_CARD_CHECK_ACH_DOCUMENT;
+    }
+
+    /**
      * @see org.kuali.kfs.module.tem.document.TravelDocument#getReimbursableTotal()
      */
     @Override
@@ -318,6 +324,20 @@ public abstract class TEMReimbursementDocument extends TravelDocumentBase implem
     }
 
     /**
+     * @return the amount that should be disbursed to the traveler for this reimbursement
+     */
+    public KualiDecimal getPaymentAmount() {
+        final KualiDecimal reimbursableExpenseTotal = getEligibleAmount();
+        if (getExpenseLimit() != null && reimbursableExpenseTotal.isGreaterThan(getExpenseLimit())) {
+            return getExpenseLimit();
+        }
+        if (reimbursableExpenseTotal.isLessThan(KualiDecimal.ZERO)) {
+            return KualiDecimal.ZERO;
+        }
+        return reimbursableExpenseTotal;
+    }
+
+    /**
      *
      * @return
      */
@@ -368,17 +388,6 @@ public abstract class TEMReimbursementDocument extends TravelDocumentBase implem
     @Override
     public String getPaymentMethodCode() {
         return getTravelPayment().getPaymentMethodCode();
-    }
-
-    /**
-     * @return the amount to pay out for this payment
-     */
-    public KualiDecimal getPaymentAmount() {
-        KualiDecimal totalAmount = KualiDecimal.ZERO;
-        for (SourceAccountingLine line : getReimbursableSourceAccountingLines()) {
-            totalAmount = totalAmount.add(line.getAmount());
-        }
-        return totalAmount;
     }
 
     public Date getCorporateCardPaymentExtractDate() {
@@ -477,6 +486,23 @@ public abstract class TEMReimbursementDocument extends TravelDocumentBase implem
             }
         }
         return false;
+    }
+
+    /**
+     * Based on which pdp dates are present (extract, paid, canceled), determines a String for the status
+     * @return a String representation of the status
+     */
+    public String getCorporateCardPaymentPdpStatus() {
+        if (corporateCardPaymentCancelDate != null) {
+            return "Canceled";
+        }
+        if (corporateCardPaymentPaidDate != null) {
+            return "Paid";
+        }
+        if (corporateCardPaymentExtractDate != null) {
+            return "Extracted";
+        }
+        return "Pre-Extraction";
     }
 
     /**

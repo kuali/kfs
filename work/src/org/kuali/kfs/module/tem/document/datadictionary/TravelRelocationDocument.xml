@@ -66,6 +66,10 @@
                 <ref bean="TravelRelocationDocument-comments" />
                 <ref bean="TravelRelocationDocument-versionNumber" />
                 <ref bean="TravelRelocationDocument-appDocStatus" />
+                <ref bean="TravelRelocationDocument-corporateCardPaymentPdpStatus"/>
+				<ref bean="TravelRelocationDocument-corporateCardPaymentExtractDate"/>
+				<ref bean="TravelRelocationDocument-corporateCardPaymentPaidDate"/>
+				<ref bean="TravelRelocationDocument-corporateCardPaymentCancelDate"/>
             </list>
         </property>
         <property name="collections">
@@ -410,6 +414,30 @@
         <property name="label" value="RELO Status Code" />
         <property name="shortLabel" value="RELO Status" />
     </bean>
+    	<bean id="TravelRelocationDocument-corporateCardPaymentPdpStatus" parent="TravelRelocationDocument-corporateCardPaymentPdpStatus-parentBean"/>
+	<bean id="TravelRelocationDocument-corporateCardPaymentPdpStatus-parentBean" abstract="true" parent="TravelPayment-paymentPdpStatus">
+		<property name="name" value="corporateCardPaymentPdpStatus" />
+		<property name="label" value="Corporate Card Pre-Disbursement Processor Status"/>
+		<property name="shortLabel" value="Corp. Card PDP Status" />
+	</bean>
+	<bean id="TravelRelocationDocument-corporateCardPaymentExtractDate" parent="TravelRelocationDocument-corporateCardPaymentExtractDate-parentBean"/>
+	<bean id="TravelRelocationDocument-corporateCardPaymentExtractDate-parentBean" abstract="true" parent="TravelPayment-extractDate">
+		<property name="name" value="corporateCardPaymentExtractDate" />
+		<property name="label" value="Corporate Card Extraction Date"/>
+		<property name="shortLabel" value="Corp. Card Extract Dt." />
+	</bean>
+	<bean id="TravelRelocationDocument-corporateCardPaymentPaidDate" parent="TravelRelocationDocument-corporateCardPaymentPaidDate-parentBean"/>
+	<bean id="TravelRelocationDocument-corporateCardPaymentPaidDate-parentBean" abstract="true" parent="TravelPayment-paidDate">
+		<property name="name" value="corporateCardPaymentPaidDate" />
+		<property name="label" value="Corporate Card Paid Date"/>
+		<property name="shortLabel" value="Corp. Card Pd. Dt." />
+	</bean>
+	<bean id="TravelRelocationDocument-corporateCardPaymentCancelDate" parent="TravelRelocationDocument-corporateCardPaymentCancelDate-parentBean"/>
+	<bean id="TravelRelocationDocument-corporateCardPaymentCancelDate-parentBean" abstract="true" parent="TravelPayment-cancelDate">
+		<property name="name" value="corporateCardPaymentCancelDate" />
+		<property name="label" value="Corporate Card Canceled Date"/>
+		<property name="shortLabel" value="Corp. Card Cncld. Dt." />
+	</bean>		
 
     <!-- Validations -->
     <bean id="TravelRelocationDocument-validations" parent="TravelRelocationDocument-validations-parentBean" />

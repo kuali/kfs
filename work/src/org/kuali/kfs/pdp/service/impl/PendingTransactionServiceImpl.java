@@ -56,6 +56,7 @@ import org.kuali.rice.krad.datadictionary.BusinessObjectEntry;
 import org.kuali.rice.krad.datadictionary.mask.MaskFormatterLiteral;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DataDictionaryService;
+import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -125,11 +126,6 @@ public class PendingTransactionServiceImpl implements PendingTransactionService 
             accountListings.addAll(paymentDetail.getAccountDetail());
         }
 
-        BusinessObjectEntry businessObjectEntry = dataDictionaryService.getDataDictionary().getBusinessObjectEntry(PaymentDetail.class.getName());
-        AttributeDefinition attributeDefinition = businessObjectEntry.getAttributeDefinition("paymentGroup.payeeName");
-        AttributeSecurity originalPayeeNameAttributeSecurity = attributeDefinition.getAttributeSecurity();
-        String maskLiteral = ((MaskFormatterLiteral) originalPayeeNameAttributeSecurity.getMaskFormatter()).getLiteral();
-
         GeneralLedgerPendingEntrySequenceHelper sequenceHelper = new GeneralLedgerPendingEntrySequenceHelper();
         for (PaymentAccountDetail paymentAccountDetail : accountListings) {
             GlPendingTransaction glPendingTransaction = new GlPendingTransaction();
@@ -187,7 +183,14 @@ public class PendingTransactionServiceImpl implements PendingTransactionService 
 
 
             if (researchParticipantPaymentValidationService.isResearchParticipantPayment(customerProfile)) {
-                trnDesc = maskLiteral;
+                BusinessObjectEntry businessObjectEntry = dataDictionaryService.getDataDictionary().getBusinessObjectEntry(PaymentDetail.class.getName());
+                AttributeDefinition attributeDefinition = businessObjectEntry.getAttributeDefinition("paymentGroup.payeeName");
+                AttributeSecurity originalPayeeNameAttributeSecurity = attributeDefinition.getAttributeSecurity();
+                //This is a temporary work around for an issue introduced with KFSCNTRB-705.
+                if (ObjectUtils.isNotNull(originalPayeeNameAttributeSecurity)) {
+                    String maskLiteral = ((MaskFormatterLiteral) originalPayeeNameAttributeSecurity.getMaskFormatter()).getLiteral();
+                    trnDesc = maskLiteral;
+                }
             }
             else {
                 String payeeName = paymentGroup.getPayeeName();

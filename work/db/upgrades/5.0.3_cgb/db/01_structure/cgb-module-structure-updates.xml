@@ -1666,6 +1666,9 @@
 	</changeSet>
 	
 	<changeSet author="KFSCGB" id="KFSMI11385_REMOVE_LOC_FUND_GRP_FROM_AWARD">
+		<!--  need to drop the constraint first, at least for MySQL, but doesn't hurt Oracle -->
+		<dropForeignKeyConstraint baseTableName="CG_AWD_T" constraintName="CG_AWD_TR4"/>
+            
 		<dropColumn tableName="CG_AWD_T" columnName="CG_LTRCR_FNDGRP_CD" />	
 	</changeSet>	
 	

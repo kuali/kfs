@@ -15903,6 +15903,9 @@
         <column name="FDOC_BNK_CD" size="4" type="VARCHAR"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
+        <column name="CORP_CARD_PMT_EXTRT_DT" type="DATE"/>
+        <column name="CORP_CARD_PMT_PAID_DT" type="DATE"/>
+        <column name="CORP_CARD_PMT_CNCL_DT" type="DATE"/>
         <foreign-key foreignTable="TEM_PRI_DEST_T" name="TEM_ENT_DOC_TR1">
             <reference foreign="ID" local="PRIMARY_DEST_ID"/>
         </foreign-key>
@@ -16038,6 +16041,9 @@
         </foreign-key>
         <unique name="TEM_MILEAGE_RATE_TC0">
             <unique-column name="OBJ_ID"/>
+        </unique>
+        <unique name="TEM_MILEAGE_RATE_TP1">
+            <unique-column name="ID"/>
         </unique>
     </table>
     <table name="TEM_PER_DIEM_EXP_T">
@@ -16336,6 +16342,9 @@
         <column name="FDOC_BNK_CD" size="4" type="VARCHAR"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
+        <column name="CORP_CARD_PMT_EXTRT_DT" type="DATE"/>
+        <column name="CORP_CARD_PMT_PAID_DT" type="DATE"/>
+        <column name="CORP_CARD_PMT_CNCL_DT" type="DATE"/>
         <foreign-key foreignTable="TEM_TRAVELER_DTL_T" name="TEM_RELO_DOC_TR1">
             <reference foreign="ID" local="TRAVELER_DTL_ID"/>
         </foreign-key>
@@ -16571,10 +16580,6 @@
         <column name="AR_INV_DOC_NBR" size="255" type="VARCHAR"/>
         <column name="DUE_DT" type="DATE"/>
         <column name="PYMT_MTHD" size="255" type="VARCHAR"/>
-        <column name="ACCOUNT_NBR" size="7" type="VARCHAR"/>
-        <column name="SUB_ACCT_NBR" size="5" type="VARCHAR"/>
-        <column name="FIN_OBJECT_CD" size="4" type="VARCHAR"/>
-        <column name="FIN_SUB_OBJ_CD" size="3" type="VARCHAR"/>
         <column name="ADV_PMNT_RSN_CD" size="2" type="VARCHAR"/>
         <column name="TRVL_ADV_PLCY" required="true" size="1" type="VARCHAR"/>
         <column name="ADD_JUST" size="100" type="VARCHAR"/>
@@ -16773,8 +16778,8 @@
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
         <column name="CHK_TOT_AMT" scale="2" size="19" type="DECIMAL"/>
         <column name="DUE_DT" type="DATE"/>
-        <column name="ATTCH_IND" size="1" type="CHAR"/>
-        <column name="SPCL_HANDLG_IND" size="1" type="CHAR"/>
+        <column default="N" name="ATTCH_IND" size="1" type="CHAR"/>
+        <column default="N" name="SPCL_HANDLG_IND" size="1" type="CHAR"/>
         <column name="CHK_STUB_TXT" size="1400" type="VARCHAR"/>
         <column default="N" name="IMD_PMT_IND" size="1" type="VARCHAR"/>
         <column name="EXTRT_DT" type="DATE"/>
@@ -16782,7 +16787,7 @@
         <column name="CNCL_DT" type="DATE"/>
         <column name="DOC_LOC_CD" size="2" type="VARCHAR"/>
         <column name="PMT_MTHD_CD" size="1" type="VARCHAR"/>
-        <column name="ALIEN_PMT_IND" size="1" type="CHAR"/>
+        <column default="N" name="ALIEN_PMT_IND" size="1" type="CHAR"/>
         <column name="RMT_PRSN_NM" size="123" type="VARCHAR"/>
         <column name="RMT_LN1_ADDR" size="45" type="VARCHAR"/>
         <column name="RMT_LN2_ADDR" size="45" type="VARCHAR"/>
@@ -16790,7 +16795,7 @@
         <column name="RMT_ST_CD" size="2" type="VARCHAR"/>
         <column name="RMT_ZIP_CD" size="20" type="VARCHAR"/>
         <column name="RMT_CNTRY_CD" size="2" type="VARCHAR"/>
-        <column name="W9_CMPLT_IND" size="1" type="CHAR"/>
+        <column default="N" name="W9_CMPLT_IND" size="1" type="CHAR"/>
         <column name="PAYEE_TYP_CD" size="1" type="VARCHAR"/>
         <column default="N" name="EXCPT_IND" required="true" size="1" type="VARCHAR"/>
         <foreign-key foreignTable="FS_PMT_DOC_LOC_T" name="TEM_TRVL_PMT_TR1">
@@ -16831,6 +16836,9 @@
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
         <column name="BLNKT_TRVL_IND" size="1" type="VARCHAR"/>
+        <column name="CORP_CARD_PMT_EXTRT_DT" type="DATE"/>
+        <column name="CORP_CARD_PMT_PAID_DT" type="DATE"/>
+        <column name="CORP_CARD_PMT_CNCL_DT" type="DATE"/>
         <foreign-key foreignTable="TEM_TRAVELER_DTL_T" name="TEM_TRVL_REIMB_DOC_TR1">
             <reference foreign="ID" local="TRAVELER_DTL_ID"/>
         </foreign-key>

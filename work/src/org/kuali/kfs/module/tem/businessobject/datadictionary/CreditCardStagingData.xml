@@ -33,7 +33,7 @@
 			<ref bean="CreditCardStagingData-travelerName" />
 			<ref bean="CreditCardStagingData-typeCode" />
 			<ref bean="CreditCardStagingData-expenseTypeCode" />
-			<ref bean="CreditCardStagingData-disbursementVoucherDocumentNumber" />
+			<ref bean="CreditCardStagingData-paymentGroupId" />
 			<ref bean="CreditCardStagingData-merchantName" />
 			<ref bean="CreditCardStagingData-bankPostDate" />
 			<ref bean="CreditCardStagingData-processingTimestamp" />
@@ -275,14 +275,14 @@
 		<property name="description" value="Type Code" />
 		<property name="control"><bean parent="TextControlDefinition" p:size="2"/></property>
 	</bean>
-	<bean id="CreditCardStagingData-disbursementVoucherDocumentNumber" parent="CreditCardStagingData-disbursementVoucherDocumentNumber-parentBean" />
-	<bean id="CreditCardStagingData-disbursementVoucherDocumentNumber-parentBean" abstract="true" parent="AttributeDefinition">
-		<property name="name" value="disbursementVoucherDocumentNumber" />
-		<property name="label" value="Disbursement Voucher Doc #" />
-		<property name="shortLabel" value="DV Doc #" />
-		<property name="maxLength" value="32" />
-		<property name="summary" value="Disbursement Voucher Document Number" />
-		<property name="description" value="Disbursement Voucher Document Number" />
+	<bean id="CreditCardStagingData-paymentGroupId" parent="CreditCardStagingData-paymentGroupId-parentBean" />
+	<bean id="CreditCardStagingData-paymentGroupId-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="paymentGroupId" />
+		<property name="label" value="Payment Group Id" />
+		<property name="shortLabel" value="Pmt Grp" />
+		<property name="maxLength" value="8" />
+		<property name="summary" value="Payment Group Id" />
+		<property name="description" value="Payment Group Id" />
 		<property name="forceUppercase" value="true"/>
 		<property name="control"><bean parent="TextControlDefinition" p:size="32"/></property>
 	</bean>
@@ -469,12 +469,8 @@
             <bean parent="FieldDefinition" p:attributeName="temProfileId" />
             <bean parent="FieldDefinition" p:attributeName="travelerName" />            
             <bean parent="FieldDefinition" p:attributeName="merchantName" />
-			<!-- <bean parent="FieldDefinition" p:attributeName="bankPostDate" />
-		    <bean parent="FieldDefinition" p:attributeName="billingCycleDate" />
-            <bean parent="FieldDefinition" p:attributeName="transactionDate" /> -->
             <bean parent="FieldDefinition" p:attributeName="processingTimestamp" />
             <bean parent="FieldDefinition" p:attributeName="referenceNumber" />
-            <!-- <bean parent="FieldDefinition" p:attributeName="departureDate" /> -->
             <bean parent="FieldDefinition" p:attributeName="ticketNumber" />
             <bean parent="FieldDefinition" p:attributeName="serviceFeeNumber" />	
             <bean parent="FieldDefinition" p:attributeName="itineraryNumber" />
@@ -487,7 +483,6 @@
 		<property name="resultFields">
 		<list>
 			<!-- suppress the ID displayed so it will not be used for viewing info -->
-            <!-- <bean parent="FieldDefinition" p:attributeName="id" /> -->
             <bean parent="FieldDefinition" p:attributeName="creditCardAgency.creditCardOrAgencyCode" />
 			<bean parent="FieldDefinition" p:attributeName="creditCardKey" />
 		    <bean parent="FieldDefinition" p:attributeName="errorCode" />	
@@ -508,7 +503,7 @@
             <bean parent="FieldDefinition" p:attributeName="stagingFileName" />
             <bean parent="FieldDefinition" p:attributeName="reconciliationDate" />
             <bean parent="FieldDefinition" p:attributeName="moveToHistoryIndicator" />
-            <bean parent="FieldDefinition" p:attributeName="disbursementVoucherDocumentNumber" />
+            <bean parent="FieldDefinition" p:attributeName="paymentGroupId" />
 			<bean parent="FieldDefinition" p:attributeName="location" />			
 		</list>
 		</property>

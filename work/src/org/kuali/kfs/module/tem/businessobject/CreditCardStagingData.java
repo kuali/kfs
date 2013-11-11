@@ -29,6 +29,7 @@ import javax.persistence.Table;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.tem.TemConstants.ExpenseImport;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiInteger;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 @Entity
@@ -56,7 +57,7 @@ public class CreditCardStagingData extends PersistableBusinessObjectBase {
     private String travelerName;
     private String typeCode;
     private String expenseTypeCode;
-    private String disbursementVoucherDocumentNumber;
+    private KualiInteger paymentGroupId;
     private String merchantName;
     private Date bankPostDate;
     private String creditCardNumber;
@@ -338,27 +339,13 @@ public class CreditCardStagingData extends PersistableBusinessObjectBase {
         this.expenseTypeCode = expenseTypeCode;
     }
 
-
-    /**
-     * Gets the disbursementVoucherDocumentNumber attribute.
-     *
-     * @return Returns the disbursementVoucherDocumentNumber
-     */
-
-    public String getDisbursementVoucherDocumentNumber() {
-        return disbursementVoucherDocumentNumber;
+    public KualiInteger getPaymentGroupId() {
+        return paymentGroupId;
     }
 
-
-    /**
-     * Sets the disbursementVoucherDocumentNumber attribute.
-     *
-     * @param disbursementVoucherDocumentNumber The disbursementVoucherDocumentNumber to set.
-     */
-    public void setDisbursementVoucherDocumentNumber(String disbursementVoucherDocumentNumber) {
-        this.disbursementVoucherDocumentNumber = disbursementVoucherDocumentNumber;
+    public void setPaymentGroupId(KualiInteger paymentGroupId) {
+        this.paymentGroupId = paymentGroupId;
     }
-
 
     @Column(name = "MERCHANT_NM", length = 40, nullable = true)
     public String getMerchantName() {

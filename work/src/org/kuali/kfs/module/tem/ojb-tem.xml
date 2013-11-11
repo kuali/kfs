@@ -1415,7 +1415,7 @@
 		<field-descriptor name="travelerName" column="TRAVELER_NM" jdbc-type="VARCHAR"/>
 		<field-descriptor name="typeCode" column="TYPE_CD" jdbc-type="VARCHAR"/>
 		<field-descriptor name="expenseTypeCode" column="DV_EXP_CD" jdbc-type="VARCHAR"/>
-		<field-descriptor name="disbursementVoucherDocumentNumber" column="DV_DOC_NUM" jdbc-type="VARCHAR"/>
+		<field-descriptor name="paymentGroupId" column="PMT_GRP_ID" jdbc-type="BIGINT" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiIntegerFieldConversion" />
 		<field-descriptor name="merchantName" column="MERCHANT_NM" jdbc-type="VARCHAR"/>
 		<field-descriptor name="bankPostDate" column="BANK_POST_DT" jdbc-type="DATE"/>
 		<field-descriptor name="processingTimestamp" column="PROCESSING_TS" jdbc-type="TIMESTAMP"/>

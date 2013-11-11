@@ -23,6 +23,7 @@ import java.util.Set;
 import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
+import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
@@ -97,7 +98,8 @@ public class ExpenseTypeObjectCodeDaoOjb extends PlatformAwareDaoBaseOjb impleme
             travelerTypes.add(TemConstants.ALL_EXPENSE_TYPE_OBJECT_CODE_TRAVELER_TYPE);
             c.addIn(TemPropertyConstants.TRAVELER_TYPE_CODE, travelerTypes);
         }
-        final Query query = QueryFactory.newQuery(ExpenseTypeObjectCode.class, c);
+        QueryByCriteria query = QueryFactory.newQuery(ExpenseTypeObjectCode.class, c);
+        query.addOrderByAscending(TemPropertyConstants.EXPENSE_TYPE+"."+KFSPropertyConstants.NAME);
         List<ExpenseTypeObjectCode> results = new ArrayList<ExpenseTypeObjectCode>();
         results.addAll(getPersistenceBrokerTemplate().getCollectionByQuery(query));
         return results;

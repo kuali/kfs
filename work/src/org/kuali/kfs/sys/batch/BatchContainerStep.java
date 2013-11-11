@@ -19,9 +19,11 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
@@ -54,6 +56,7 @@ public class BatchContainerStep extends AbstractStep implements ContainerStepLis
     protected StringBuffer containerResults;
     protected Map<String, BatchStepFileDescriptor> startedSteps;
     protected List<BatchStepFileDescriptor[]> completedSteps;
+    protected Set<String> submittedBatchSteps;
 
     /**
      * This method begins an infinite loop in order to process semaphore files written by BatchStepTrigger (called via the brte scripts).
@@ -63,158 +66,187 @@ public class BatchContainerStep extends AbstractStep implements ContainerStepLis
      * This method exits gracefully when it receives a .run file for the batchContainerStopStep.
      *
      */
-	@Override
+    @Override
     public boolean execute(String jobName, Date jobRunDate) throws InterruptedException {
-		LOG.info("Starting the batch container in Job: "+ jobName +" on "+ jobRunDate);
+        LOG.info("Starting the batch container in Job: "+ jobName +" on "+ jobRunDate);
 
-		if (batchContainerDirectory == null) {
-			throw new RuntimeException("The batchContainerDirectory has not been specified.");
-		}
-		if (batchContainerStopStep == null) {
-			throw new RuntimeException("The batchContainerStopStep has not been specified.");
-		}
+        if (batchContainerDirectory == null) {
+            throw new RuntimeException("The batchContainerDirectory has not been specified.");
+        }
+        if (batchContainerStopStep == null) {
+            throw new RuntimeException("The batchContainerStopStep has not been specified.");
+        }
 
-		directory = new BatchContainerDirectory(batchContainerDirectory);
+        directory = new BatchContainerDirectory(batchContainerDirectory);
 
-		if (directory.isBatchContainerRunning()) {
-			//an instance of the batch container is already running - exit w/out trying to remove the batch container semaphore file
-			LOG.error("The BatchContainer is already running");
-			return true;
-		}
+        if (directory.isBatchContainerRunning()) {
+            //an instance of the batch container is already running - exit w/out trying to remove the batch container semaphore file
+            LOG.error("The BatchContainer is already running");
+            return true;
+        }
 
-		initContainerResults();
+        initContainerResults();
 
-		try {
-			//write batch container run lock file to indicate the batch container is running
-			directory.writeBatchContainerSemaphore(jobName, getName());
-			directory.addShutdownHook();
-			LOG.info("The BatchContainer is running");
+        try {
+            //write batch container run lock file to indicate the batch container is running
+            directory.writeBatchContainerSemaphore(jobName, getName());
+            directory.addShutdownHook();
+            LOG.info("The BatchContainer is running");
 
-	        ParameterService parameterService = getParameterService();
-	        DateTimeService dateTimeService = getDateTimeService();
+            ParameterService parameterService = getParameterService();
+            DateTimeService dateTimeService = getDateTimeService();
 
-			Executor executor = Executors.newCachedThreadPool();
-	        while(true) {
+            Executor executor = Executors.newCachedThreadPool();
+            while(true) {
 
-	            if (LOG.isDebugEnabled()) {
-	                LOG.debug("Looking for steps...");
-	            }
-	        	File[] stepRunFiles = directory.getStepRunFiles();
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("Looking for steps...");
+                }
+                File[] stepRunFiles = directory.getStepRunFiles();
 
-	        	while (stepRunFiles != null && stepRunFiles.length > 0) {
-	        		LOG.info("Found "+ stepRunFiles.length +" steps to execute");
+                while (stepRunFiles != null && stepRunFiles.length > 0) {
+                    LOG.info("Found "+ stepRunFiles.length +" steps to execute");
 
-	        		for(File stepRunFile : stepRunFiles) {
-	        			BatchStepFileDescriptor batchStepFile = new BatchStepFileDescriptor(stepRunFile);
+                    for(File stepRunFile : stepRunFiles) {
+                        BatchStepFileDescriptor batchStepFile = new BatchStepFileDescriptor(stepRunFile);
 
-	        			Step step = getStep(batchStepFile);
-	        			if (step == null) {
-	        				directory.removeBatchStepFileFromSystem(batchStepFile);
-	        				directory.writeBatchStepErrorResultFile(batchStepFile, new IllegalArgumentException("Unable to find bean for step: "+ batchStepFile.getStepName()));
-	        			}
-	        			else {
+                        Step step = getStep(batchStepFile);
+                        if(!isStepRunning(step)){
+                            if (step == null) {
+                                directory.removeBatchStepFileFromSystem(batchStepFile);
+                                directory.writeBatchStepErrorResultFile(batchStepFile, new IllegalArgumentException("Unable to find bean for step: "+ batchStepFile.getStepName()));
+                            }
+                            else {
 
-	        				if (isStopBatchContainerTriggered(step)) {
-	        					directory.removeBatchStepFileFromSystem(batchStepFile);
-	        					directory.writeBatchStepSuccessfulResultFile(batchStepFile);
+                                if (isStopBatchContainerTriggered(step)) {
+                                    directory.removeBatchStepFileFromSystem(batchStepFile);
+                                    directory.writeBatchStepSuccessfulResultFile(batchStepFile);
 
-	        					//Stop BatchContainer
-	        					LOG.info("shutting down container");
-	        					return true;
-	        				}
+                                    //Stop BatchContainer
+                                    LOG.info("shutting down container");
+                                    return true;
+                                }
 
-	        				//retrieve the stepIndex before the file is removed
-	        				int stepIndex = directory.getStepIndexFromFile(batchStepFile);
+                                //retrieve the stepIndex before the file is removed
+                                int stepIndex = directory.getStepIndexFromFile(batchStepFile);
 
-	        				directory.removeBatchStepFileFromSystem(batchStepFile);
+                                directory.removeBatchStepFileFromSystem(batchStepFile);
 
-	        				if (LOG.isDebugEnabled()) {
-	        				    LOG.debug("Creating new thread to run "+ batchStepFile);
-	        				}
-	        				BatchStepExecutor batchStepExecutor = new BatchStepExecutor(parameterService, dateTimeService, directory, batchStepFile, step, stepIndex);
-                            batchStepExecutor.addContainerStepListener(this);
-	        				executor.execute(batchStepExecutor);
+                                if (LOG.isDebugEnabled()) {
+                                    LOG.debug("Creating new thread to run "+ batchStepFile);
+                                }
+                                BatchStepExecutor batchStepExecutor = new BatchStepExecutor(parameterService, dateTimeService, directory, batchStepFile, step, stepIndex);
+                                batchStepExecutor.addContainerStepListener(this);
+                                executor.execute(batchStepExecutor);
 
-	        			}
-	        		}
+                            }
+                        }
+                        else {
+                            LOG.info("Step is already running " + step.getName());
+                            directory.removeBatchStepFileFromSystem(batchStepFile);
+                            directory.writeBatchStepSuccessfulResultFile(batchStepFile);
+                        }
+                    }
 
-	        		if (LOG.isDebugEnabled()) {
-	        		    LOG.debug("Looking for steps...");
-	        		}
-	            	stepRunFiles = directory.getStepRunFiles();
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug("Looking for steps...");
+                    }
+                    stepRunFiles = directory.getStepRunFiles();
 
-	        	}
+                }
 
-	        	sleep();
-	    		if (!directory.isBatchContainerRunning()) {
-	    			//the batch container's runlock file no longer exists - exit
-	    			LOG.error("The BatchContainer runlock file no longer exists - exiting");
-	    			return false;
-	    		}
-	        }
+                sleep();
+                if (!directory.isBatchContainerRunning()) {
+                    //the batch container's runlock file no longer exists - exit
+                    LOG.error("The BatchContainer runlock file no longer exists - exiting");
+                    return false;
+                }
+            }
 
-		} finally {
-			//remove batch container run lock file
-			directory.removeBatchContainerSemaphore();
-			LOG.info("The BatchContainer has stopped running");
+        } finally {
+            //remove batch container run lock file
+            directory.removeBatchContainerSemaphore();
+            LOG.info("The BatchContainer has stopped running");
 
-			logContainerResultsSummary();
-		}
-	}
+            logContainerResultsSummary();
+        }
+    }
 
-	/**
-	 * Notification that the Step started. Log the Step's information
-	 */
-	@Override
+    /**
+     * Notification that the Step started. Log the Step's information
+     */
+    @Override
     public void stepStarted(BatchStepFileDescriptor runFile, String logFileName) {
-	    logStepStarted(runFile, logFileName);
-	}
+        LOG.info("In step started step ");
+        if(!submittedBatchSteps.contains(runFile.getStepName())) {
+            LOG.info("adding step to submitted list " + runFile.getStepName());
+            submittedBatchSteps.add(runFile.getStepName());
+        }
+        logStepStarted(runFile, logFileName);
+    }
 
-	/**
-	 * Notification that the Step finished. Log the Step's information
-	 */
-	@Override
+    /**
+     * Notification that the Step finished. Log the Step's information
+     */
+    @Override
     public void stepFinished(BatchStepFileDescriptor resultFile, String logFileName) {
-	    logStepFinished(resultFile, logFileName);
-	}
+        LOG.info("In step finished  step ");
+        if(submittedBatchSteps.contains(resultFile.getStepName())) {
+            LOG.info("remove step to submitted list " + resultFile.getStepName());
+            submittedBatchSteps.remove(resultFile.getStepName());
+        }
+        logStepFinished(resultFile, logFileName);
+    }
 
-	/**
-	 * Retrieves the Step bean from the SpringContext
-	 *
-	 * @param batchStepFile the file descriptor for the step to run
-	 * @return the Step bean from the SpringContext
-	 */
-	protected Step getStep(BatchStepFileDescriptor batchStepFile) {
-	  if (LOG.isDebugEnabled()) {
-	      LOG.debug("Converting step named in .run file into a Step class...");
-	  }
+    /**
+     * Retrieves the Step bean from the SpringContext
+     *
+     * @param batchStepFile the file descriptor for the step to run
+     * @return the Step bean from the SpringContext
+     */
+    protected Step getStep(BatchStepFileDescriptor batchStepFile) {
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("Converting step named in .run file into a Step class...");
+        }
 
-	  Step step = null;
-	  try {
-	      step = BatchSpringContext.getStep(batchStepFile.getStepName());
-	  } catch (RuntimeException runtimeException) {
-	      LOG.error("Failed to getStep from spring context: ", runtimeException);
-	  }
-      if (step == null) {
-      	LOG.error("Unable to find bean for step: "+ batchStepFile.getStepName());
-      	return null;
-      }
+        Step step = null;
+        try {
+            step = BatchSpringContext.getStep(batchStepFile.getStepName());
+        } catch (RuntimeException runtimeException) {
+            LOG.error("Failed to getStep from spring context: ", runtimeException);
+        }
+        if (step == null) {
+            LOG.error("Unable to find bean for step: "+ batchStepFile.getStepName());
+            return null;
+        }
 
-      LOG.info("Found valid step: "+ step.getName());
-      return step;
-	}
+        LOG.info("Found valid step: "+ step.getName());
+        return step;
+    }
 
-	/**
-	 * @param step the Step specified by the .run file
-	 * @return true if the Step received is the step to stop the batch container, false otherwise
-	 */
+    /**
+     * @param step the Step specified by the .run file
+     * @return true if the Step received is the step to stop the batch container, false otherwise
+     */
     protected boolean isStopBatchContainerTriggered(Step step) {
-    	if (step.getName().equals(batchContainerStopStep.getName())) {
-    		LOG.info("Received Step: "+ batchContainerStopStep.getName() +". Stop listening for steps.");
-    		return true;
-    	}
-    	return false;
- 	}
+        if (step.getName().equals(batchContainerStopStep.getName())) {
+            LOG.info("Received Step: "+ batchContainerStopStep.getName() +". Stop listening for steps.");
+            return true;
+        }
+        return false;
+    }
+
+    protected boolean isStepRunning(Step step) {
+        LOG.info("In isStepRunning ");
+        if(submittedBatchSteps.contains(step.getName())) {
+            LOG.info("The " + step.getName() + " already running ");
+            return true;
+
+        }
+        return false;
+    }
+
+
 
     /**
      * Sleep for a specified amount of time before looking for more semaphore files to process
@@ -234,17 +266,18 @@ public class BatchContainerStep extends AbstractStep implements ContainerStepLis
     /**
      * @return (in milliseconds) the amount of time to wait before looking for more semaphore files to process
      */
-	protected long getSemaphoreProcessingInterval() {
-		return Long.parseLong(getParameterService().getParameterValueAsString(BatchContainerStep.class, KFSConstants.SystemGroupParameterNames.BATCH_CONTAINER_SEMAPHORE_PROCESSING_INTERVAL));
-	}
+    protected long getSemaphoreProcessingInterval() {
+        return Long.parseLong(getParameterService().getParameterValueAsString(BatchContainerStep.class, KFSConstants.SystemGroupParameterNames.BATCH_CONTAINER_SEMAPHORE_PROCESSING_INTERVAL));
+    }
 
-	/**
-	 * Initialize the structures necessary for logging the Steps' statistics
-	 */
+    /**
+     * Initialize the structures necessary for logging the Steps' statistics
+     */
     protected void initContainerResults() {
         containerResults = new StringBuffer("Container Results:\n");
         startedSteps = new HashMap<String, BatchStepFileDescriptor>();
         completedSteps = new ArrayList<BatchStepFileDescriptor[]>();
+        submittedBatchSteps = new HashSet<String>();
     }
 
     /**
@@ -282,11 +315,11 @@ public class BatchContainerStep extends AbstractStep implements ContainerStepLis
         BatchStepFileDescriptor runFile = startedSteps.remove(logFileName);
 
         containerResults.append("COMPLETED "+ resultFile
-                                +" "+ resultFile.getCompletedDate()
-                                +" LOGFILE="+ logFileName
-                                +" STATUS="+ resultFile.getExtension()
-                                +(resultFile.isStepFileAnErrorResultFile() ? " EXCEPTION:\n"+ directory.getExceptionFromFile(resultFile) : "")
-                                +"\n");
+                +" "+ resultFile.getCompletedDate()
+                +" LOGFILE="+ logFileName
+                +" STATUS="+ resultFile.getExtension()
+                +(resultFile.isStepFileAnErrorResultFile() ? " EXCEPTION:\n"+ directory.getExceptionFromFile(resultFile) : "")
+                +"\n");
 
         BatchStepFileDescriptor[] files = {runFile, resultFile};
         completedSteps.add(files);
@@ -295,56 +328,56 @@ public class BatchContainerStep extends AbstractStep implements ContainerStepLis
     /**
      * Print a summary of the steps that ran and the steps that haven't completed yet.
      */
-	protected void logContainerResultsSummary() {
-	    LOG.info("Printing container results...");
+    protected void logContainerResultsSummary() {
+        LOG.info("Printing container results...");
 
-	    containerResults.append("\n\nCompleted Steps: \n");
-	    if (completedSteps.isEmpty()) { containerResults.append("None"); }
+        containerResults.append("\n\nCompleted Steps: \n");
+        if (completedSteps.isEmpty()) { containerResults.append("None"); }
 
-	    for(BatchStepFileDescriptor[] batchStepFile : completedSteps) {
-	        String status = batchStepFile[1].getExtension();
-	        Date startedDate = batchStepFile[0].getStartedDate();
-	        Date completedDate = batchStepFile[1].getCompletedDate();
+        for(BatchStepFileDescriptor[] batchStepFile : completedSteps) {
+            String status = batchStepFile[1].getExtension();
+            Date startedDate = batchStepFile[0].getStartedDate();
+            Date completedDate = batchStepFile[1].getCompletedDate();
 
             containerResults.append(batchStepFile[0] +"=" +status +"; S:"+ startedDate +" F:"+ completedDate +"\n");
-	    }
+        }
 
-	    containerResults.append("\n\nIncomplete Steps: \n");
-	    if (startedSteps.isEmpty()) { containerResults.append("None"); }
+        containerResults.append("\n\nIncomplete Steps: \n");
+        if (startedSteps.isEmpty()) { containerResults.append("None"); }
 
-	    for(Iterator<BatchStepFileDescriptor> iter = startedSteps.values().iterator(); iter.hasNext();) {
-	        BatchStepFileDescriptor batchStepFile = iter.next();
+        for(Iterator<BatchStepFileDescriptor> iter = startedSteps.values().iterator(); iter.hasNext();) {
+            BatchStepFileDescriptor batchStepFile = iter.next();
 
             Date startedDate = batchStepFile.getStartedDate();
 
             containerResults.append(batchStepFile +"; S:"+ startedDate +"\n");
-	    }
+        }
 
-	    LOG.info(containerResults);
-	}
+        LOG.info(containerResults);
+    }
 
-	/**
-	 * The path to the directory in which BatchContainerStep, BatchStepExecutor, and BatchStepTrigger will read and write the step semaphore files.
-	 *
-	 * @param batchContainerDirectory
-	 */
-	public void setBatchContainerDirectory(String batchContainerDirectory) {
-		this.batchContainerDirectory = batchContainerDirectory;
-	}
+    /**
+     * The path to the directory in which BatchContainerStep, BatchStepExecutor, and BatchStepTrigger will read and write the step semaphore files.
+     *
+     * @param batchContainerDirectory
+     */
+    public void setBatchContainerDirectory(String batchContainerDirectory) {
+        this.batchContainerDirectory = batchContainerDirectory;
+    }
 
-	/**
-	 * The Step which indicates to the Batch Container to shut itself down.
-	 *
-	 * @param batchContainerStopStep
-	 */
-	public void setBatchContainerStopStep(Step batchContainerStopStep) {
-		this.batchContainerStopStep = batchContainerStopStep;
-	}
+    /**
+     * The Step which indicates to the Batch Container to shut itself down.
+     *
+     * @param batchContainerStopStep
+     */
+    public void setBatchContainerStopStep(Step batchContainerStopStep) {
+        this.batchContainerStopStep = batchContainerStopStep;
+    }
 
-	/**
-	 * @return the batchContainerStopStep
-	 */
-	public Step getBatchContainerStopStep() {
-	    return this.batchContainerStopStep;
-	}
+    /**
+     * @return the batchContainerStopStep
+     */
+    public Step getBatchContainerStopStep() {
+        return this.batchContainerStopStep;
+    }
 }

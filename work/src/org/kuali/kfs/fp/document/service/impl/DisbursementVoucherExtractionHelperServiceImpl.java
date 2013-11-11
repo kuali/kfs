@@ -32,7 +32,6 @@ import org.kuali.kfs.fp.businessobject.DisbursementVoucherPreConferenceRegistran
 import org.kuali.kfs.fp.dataaccess.DisbursementVoucherDao;
 import org.kuali.kfs.fp.document.DisbursementVoucherConstants;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
-import org.kuali.kfs.fp.document.service.DisbursementVoucherPaymentService;
 import org.kuali.kfs.pdp.PdpConstants;
 import org.kuali.kfs.pdp.PdpParameterConstants;
 import org.kuali.kfs.pdp.businessobject.PaymentAccountDetail;
@@ -46,7 +45,6 @@ import org.kuali.kfs.sys.batch.service.PaymentSourceToExtractService;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
-import org.kuali.kfs.sys.document.PaymentSource;
 import org.kuali.kfs.sys.document.service.PaymentSourceHelperService;
 import org.kuali.kfs.sys.document.validation.event.AccountingDocumentSaveWithNoLedgerEntryGenerationEvent;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
@@ -61,8 +59,10 @@ import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
+import org.springframework.transaction.annotation.Transactional;
 
-public class DisbursementVoucherExtractionHelperServiceImpl implements DisbursementVoucherPaymentService, PaymentSourceToExtractService {
+@Transactional
+public class DisbursementVoucherExtractionHelperServiceImpl implements PaymentSourceToExtractService<DisbursementVoucherDocument> {
     static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DisbursementVoucherExtractionHelperServiceImpl.class);
 
     protected BusinessObjectService businessObjectService;
@@ -74,8 +74,12 @@ public class DisbursementVoucherExtractionHelperServiceImpl implements Disbursem
     protected DisbursementVoucherDao disbursementVoucherDao;
     protected PaymentSourceHelperService paymentSourceHelperService;
 
+    /**
+     * Rolls the disbursement voucher back to a cancelled state
+     * @see org.kuali.kfs.sys.batch.service.PaymentSourceToExtractService#cancelPayment(org.kuali.kfs.sys.document.PaymentSource, java.sql.Date)
+     */
     @Override
-    public void cancelDisbursementVoucher(DisbursementVoucherDocument dv, Date cancelDate) {
+    public void cancelPayment(DisbursementVoucherDocument dv, Date cancelDate) {
         if (dv.getCancelDate() == null) {
             try {
                 // set the canceled date
@@ -119,7 +123,7 @@ public class DisbursementVoucherExtractionHelperServiceImpl implements Disbursem
      * @see org.kuali.kfs.sys.batch.service.PaymentSourceToExtractService#retrievePaymentSourcesByCampus(boolean)
      */
     @Override
-    public Map<String, List<? extends PaymentSource>> retrievePaymentSourcesByCampus(boolean immediatesOnly) {
+    public Map<String, List<DisbursementVoucherDocument>> retrievePaymentSourcesByCampus(boolean immediatesOnly) {
         if (LOG.isDebugEnabled()) {
             LOG.debug("retrievePaymentSourcesByCampus() started");
         }
@@ -128,14 +132,14 @@ public class DisbursementVoucherExtractionHelperServiceImpl implements Disbursem
             throw new UnsupportedOperationException("DisbursementVoucher PDP does immediates extraction through normal document processing; immediates for DisbursementVoucher should not be run through batch.");
         }
 
-        Map<String, List<? extends PaymentSource>> documentsByCampus = new HashMap<String, List<? extends PaymentSource>>();
+        Map<String, List<DisbursementVoucherDocument>> documentsByCampus = new HashMap<String, List<DisbursementVoucherDocument>>();
 
         Collection<DisbursementVoucherDocument> docs = disbursementVoucherDao.getDocumentsByHeaderStatus(KFSConstants.DocumentStatusCodes.APPROVED, false);
         for (DisbursementVoucherDocument element : docs) {
             String dvdCampusCode = element.getCampusCode();
             if (StringUtils.isNotBlank(dvdCampusCode)) {
                 if (documentsByCampus.containsKey(dvdCampusCode)) {
-                    List<DisbursementVoucherDocument> documents = (List<DisbursementVoucherDocument>)documentsByCampus.get(dvdCampusCode);
+                    List<DisbursementVoucherDocument> documents = documentsByCampus.get(dvdCampusCode);
                     documents.add(element);
                 }
                 else {
@@ -149,8 +153,12 @@ public class DisbursementVoucherExtractionHelperServiceImpl implements Disbursem
         return documentsByCampus;
     }
 
+    /**
+     * Creates a PaymentGroup to pay the passed in DisbursementVoucher
+     * @see org.kuali.kfs.fp.document.service.DisbursementVoucherPaymentService#createPaymentGroup(org.kuali.kfs.fp.document.DisbursementVoucherDocument, java.sql.Date)
+     */
     @Override
-    public PaymentGroup createPaymentGroupForDisbursementVoucher(DisbursementVoucherDocument document, Date processRunDate) {
+    public PaymentGroup createPaymentGroup(DisbursementVoucherDocument document, Date processRunDate) {
         if (LOG.isDebugEnabled()) {
             LOG.debug("createPaymentGroupForDisbursementVoucher() started");
         }
@@ -472,6 +480,115 @@ public class DisbursementVoucherExtractionHelperServiceImpl implements Disbursem
     public String getPreDisbursementCustomerProfileSubUnit() {
         final String subUnit = getParameterService().getParameterValueAsString(DisbursementVoucherDocument.class, KFSParameterKeyConstants.PdpExtractBatchParameters.PDP_SBUNT_CODE);
         return subUnit;
+    }
+
+    /**
+     *
+     * @see org.kuali.kfs.sys.batch.service.PaymentSourceToExtractService#markAsExtracted(org.kuali.rice.krad.document.Document, java.sql.Date)
+     */
+    @Override
+    public void markAsExtracted(DisbursementVoucherDocument document, Date sqlProcessRunDate, KualiInteger paymentGroupId) {
+        try {
+            document.getFinancialSystemDocumentHeader().setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.Payments.EXTRACTED);
+            document.setExtractDate(sqlProcessRunDate);
+            getDocumentService().saveDocument(document, AccountingDocumentSaveWithNoLedgerEntryGenerationEvent.class);
+        }
+        catch (WorkflowException we) {
+            LOG.error("Could not save disbursement voucher document #" + document.getDocumentNumber() + ": " + we);
+            throw new RuntimeException(we);
+        }
+    }
+
+    /**
+     * The amount check total amount from the given DV
+     * @see org.kuali.kfs.sys.batch.service.PaymentSourceToExtractService#getPaymentAmount(org.kuali.rice.krad.document.Document)
+     */
+    @Override
+    public KualiDecimal getPaymentAmount(DisbursementVoucherDocument document) {
+        return document.getDisbVchrCheckTotalAmount();
+    }
+
+    /**
+     * Calls setPaidDate to set when this DisbursementVoucher was paid
+     * @see org.kuali.kfs.sys.batch.service.PaymentSourceToExtractService#markAsPaid(org.kuali.kfs.sys.document.PaymentSource, java.sql.Date)
+     */
+    @Override
+    public void markAsPaid(DisbursementVoucherDocument paymentSource, Date processDate) {
+        try {
+            paymentSource.setPaidDate(processDate);
+            getDocumentService().saveDocument(paymentSource, AccountingDocumentSaveWithNoLedgerEntryGenerationEvent.class);
+        }
+        catch (WorkflowException we) {
+            LOG.error("encountered workflow exception while attempting to save Disbursement Voucher: " + paymentSource.getDocumentNumber() + " " + we);
+            throw new RuntimeException(we);
+        }
+    }
+
+    /**
+     * Resets the DisbursementVoucher so that it it no longer marked as extracted; to do that, it sets its financial system document status back to approved,
+     * and sets the paid date and extract date to null
+     * @see org.kuali.kfs.sys.batch.service.PaymentSourceToExtractService#resetFromExtraction(org.kuali.kfs.sys.document.PaymentSource)
+     */
+    @Override
+    public void resetFromExtraction(DisbursementVoucherDocument paymentSource) {
+        try {
+            paymentSource.setExtractDate(null);
+            // reset the status to APPROVED so DV will be extracted to PDP again
+            paymentSource.setPaidDate(null);
+            paymentSource.getFinancialSystemDocumentHeader().setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.APPROVED);
+            getDocumentService().saveDocument(paymentSource, AccountingDocumentSaveWithNoLedgerEntryGenerationEvent.class);
+        }
+        catch (WorkflowException we) {
+            LOG.error("encountered workflow exception while attempting to save Disbursement Voucher: " + paymentSource.getDocumentNumber() + " " + we);
+            throw new RuntimeException(we);
+        }
+    }
+
+    /**
+     * Returns DVCA
+     * @see org.kuali.kfs.sys.document.PaymentSource#getAchCheckDocumentType()
+     */
+    @Override
+    public String getAchCheckDocumentType(DisbursementVoucherDocument document) {
+        return DisbursementVoucherConstants.DOCUMENT_TYPE_CHECKACH;
+    }
+
+    /**
+     * Returns true if the doc type is "DVCA"
+     * @see org.kuali.kfs.sys.batch.service.PaymentSourceToExtractService#handlesAchCheckDocumentType(java.lang.String)
+     */
+    @Override
+    public boolean handlesAchCheckDocumentType(String achCheckDocumentType) {
+        return StringUtils.equals(achCheckDocumentType, DisbursementVoucherConstants.DOCUMENT_TYPE_CHECKACH);
+    }
+
+    /**
+     * Returns the value of the KFS-FP / Disbursement Voucher / IMMEDIATE_EXTRACT_NOTIFICATION_FROM_EMAIL_ADDRESS parameter
+     * @see org.kuali.kfs.sys.document.PaymentSource#getImmediateExtractEMailFromAddress()
+     */
+    @Override
+    public String getImmediateExtractEMailFromAddress() {
+        return getParameterService().getParameterValueAsString(DisbursementVoucherDocument.class, KFSParameterKeyConstants.PdpExtractBatchParameters.IMMEDIATE_EXTRACT_FROM_ADDRESS_PARM_NM);
+    }
+
+    /**
+     * Returns the value of the KFS-FP / Disbursement Voucher / IMMEDIATE_EXTRACT_NOTIFICATION_TO_EMAIL_ADDRESSES parameter
+     * @see org.kuali.kfs.sys.document.PaymentSource#getImmediateExtractEmailToAddresses()
+     */
+    @Override
+    public List<String> getImmediateExtractEmailToAddresses() {
+        List<String> toAddresses = new ArrayList<String>();
+        toAddresses.addAll(getParameterService().getParameterValuesAsString(DisbursementVoucherDocument.class, KFSParameterKeyConstants.PdpExtractBatchParameters.IMMEDIATE_EXTRACT_TO_ADDRESSES_PARM_NM));
+        return toAddresses;
+    }
+
+    /**
+     * Determines if the payment would be 0 - if it's greater than that, it should be extracted
+     * @see org.kuali.kfs.sys.batch.service.PaymentSourceToExtractService#shouldExtractPayment(org.kuali.kfs.sys.document.PaymentSource)
+     */
+    @Override
+    public boolean shouldExtractPayment(DisbursementVoucherDocument paymentSource) {
+        return KualiDecimal.ZERO.isLessThan(getPaymentAmount(paymentSource));
     }
 
     /**

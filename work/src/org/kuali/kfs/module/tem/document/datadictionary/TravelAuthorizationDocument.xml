@@ -110,7 +110,7 @@
 		</property>
 	</bean>
 	<bean id="TravelAuthorizationDocument-travelDocumentNumber" parent="TravelAuthorizationDocument-travelDocumentNumber-parentBean" />
-	<bean id="TravelAuthorizationDocument-travelDocumentNumber-parentBean" parent="AttributeDefinition">
+	<bean id="TravelAuthorizationDocument-travelDocumentNumber-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="travelDocumentIdentifier" />
 		<property name="label" value="TEM Doc #" />
 		<property name="shortLabel" value="TEM Doc #" />
@@ -145,7 +145,7 @@
 	</bean>
   
 	<bean id="TravelAuthorizationDocument-tripBegin" parent="TravelAuthorizationDocument-tripBegin-parentBean" />
-	<bean id="TravelAuthorizationDocument-tripBegin-parentBean" parent="AttributeDefinition">
+	<bean id="TravelAuthorizationDocument-tripBegin-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="tripBegin" />
 		<property name="label" value="Trip Begin" />
 		<property name="shortLabel" value="Trip Begin" />
@@ -158,7 +158,7 @@
 	    </property>		
 	</bean>
 	<bean id="TravelAuthorizationDocument-tripEnd" parent="TravelAuthorizationDocument-tripEnd-parentBean" />
-	<bean id="TravelAuthorizationDocument-tripEnd-parentBean" parent="AttributeDefinition">
+	<bean id="TravelAuthorizationDocument-tripEnd-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="tripEnd" />
 		<property name="label" value="Trip End" />
 		<property name="shortLabel" value="Trip End" />
@@ -199,7 +199,7 @@
     </bean>
     
 	<bean id="TravelAuthorizationDocument-tripDescription" parent="TravelAuthorizationDocument-tripDescription-parentBean" />
-	<bean id="TravelAuthorizationDocument-tripDescription-parentBean" parent="AttributeDefinition">
+	<bean id="TravelAuthorizationDocument-tripDescription-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="tripDescription" />
 		<property name="label" value="Business Purpose" />
 		<property name="shortLabel" value="Business Purpose" />
@@ -212,7 +212,7 @@
         </property>
 	</bean>
 	<bean id="TravelAuthorizationDocument-delinquentTRException" parent="TravelAuthorizationDocument-delinquentTRException-parentBean" />
-	<bean id="TravelAuthorizationDocument-delinquentTRException-parentBean" parent="AttributeDefinition">
+	<bean id="TravelAuthorizationDocument-delinquentTRException-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="delinquentTRException" />
 		<property name="label" value="Delinquent TR Exception" />
 		<property name="shortLabel" value="Delinquent TR Exception" />
@@ -224,7 +224,7 @@
 		</property>
 	</bean>		
 	<bean id="TravelAuthorizationDocument-blanketTravel" parent="TravelAuthorizationDocument-blanketTravel-parentBean" />
-	<bean id="TravelAuthorizationDocument-blanketTravel-parentBean" parent="AttributeDefinition">
+	<bean id="TravelAuthorizationDocument-blanketTravel-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="blanketTravel" />
 		<property name="label" value="Blanket Travel" />
 		<property name="shortLabel" value="Blanket Travel" />
@@ -236,7 +236,7 @@
 		</property>
 	</bean>		
     <bean id="TravelAuthorizationDocument-perDiemAdjustment" parent="TravelAuthorizationDocument-perDiemAdjustment-parentBean" />
-    <bean id="TravelAuthorizationDocument-perDiemAdjustment-parentBean" parent="GenericAttributes-genericAmount">
+    <bean id="TravelAuthorizationDocument-perDiemAdjustment-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
         <property name="name" value="perDiemAdjustment" />
         <property name="label" value="Per Diem Adjustment" />
         <property name="shortLabel" value="Per Diem Adjustment" />
@@ -244,7 +244,7 @@
         <property name="description" value="Per Diem Adjustment" />
     </bean>
 	<bean id="TravelAuthorizationDocument-cellPhoneNumber" parent="TravelAuthorizationDocument-cellPhoneNumber-parentBean" />
-	<bean id="TravelAuthorizationDocument-cellPhoneNumber-parentBean" parent="AttributeDefinition">
+	<bean id="TravelAuthorizationDocument-cellPhoneNumber-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="cellPhoneNumber" />
 		<property name="label" value="Traveler's Cell or Other Contact Number During Trip" />
 		<property name="shortLabel" value="Traveler's Cell or Other Contact Number During Trip" />
@@ -264,7 +264,7 @@
 	  	</property>
 	</bean>
 	<bean id="TravelAuthorizationDocument-regionFamiliarity" parent="TravelAuthorizationDocument-regionFamiliarity-parentBean" />
-	<bean id="TravelAuthorizationDocument-regionFamiliarity-parentBean" parent="AttributeDefinition">
+	<bean id="TravelAuthorizationDocument-regionFamiliarity-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="regionFamiliarity" />
 		<property name="label" value="Region Familiarity" />
 		<property name="shortLabel" value="Region Familiarity" />
@@ -276,7 +276,7 @@
         </property>
 	</bean>
 	<bean id="TravelAuthorizationDocument-citizenshipCountryCode" parent="TravelAuthorizationDocument-citizenshipCountryCode-parentBean" />
-	<bean id="TravelAuthorizationDocument-citizenshipCountryCode-parentBean" parent="AttributeDefinition">
+	<bean id="TravelAuthorizationDocument-citizenshipCountryCode-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="citizenshipCountryCode" />
 		<property name="label" value="* Citizenship Country Code" />
 		<property name="shortLabel" value="* Citizenship" />
@@ -298,13 +298,13 @@
 	  	</property>
 	</bean>
 	<bean id="TravelAuthorizationDocument-appDocStatus" parent="TravelAuthorizationDocument-appDocStatus-parentBean" />
-	<bean id="TravelAuthorizationDocument-appDocStatus-parentBean" parent="FinancialSystemDocumentHeader-financialDocumentStatusCode">
+	<bean id="TravelAuthorizationDocument-appDocStatus-parentBean" abstract="true" parent="FinancialSystemDocumentHeader-financialDocumentStatusCode">
 		<property name="name" value="dummyAppDocStatus" />
 		<property name="label" value="Travel Auth Status Code" />
 		<property name="shortLabel" value="TA Status" />
 	</bean>
 	<bean id="TravelAuthorizationDocument-expenseLimit" parent="TravelAuthorizationDocument-expenseLimit-parentBean" />
-	<bean id="TravelAuthorizationDocument-expenseLimit-parentBean" parent="GenericAttributes-genericAmount">
+	<bean id="TravelAuthorizationDocument-expenseLimit-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
 		<property name="name" value="expenseLimit" />
 		<property name="label" value="Expense Limit" />
 		<property name="shortLabel" value="Expense Limit" />
@@ -313,7 +313,7 @@
 		<property name="description" value="Expense Limit" />
 	</bean>
 	<bean id="TravelAuthorizationDocument-mealWithoutLodgingReason" parent="TravelAuthorizationDocument-mealWithoutLodgingReason-parentBean" />
-	<bean id="TravelAuthorizationDocument-mealWithoutLodgingReason-parentBean" parent="AttributeDefinition">
+	<bean id="TravelAuthorizationDocument-mealWithoutLodgingReason-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="mealWithoutLodgingReason" />
 		<property name="label" value="Justification for meals without lodging" />
 		<property name="shortLabel" value="Meal Without Lodging Reason" />

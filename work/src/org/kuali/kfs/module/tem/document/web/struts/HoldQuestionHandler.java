@@ -47,7 +47,9 @@ import org.kuali.rice.krad.service.DataDictionaryService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
+import org.springframework.transaction.annotation.Transactional;
 
+@Transactional
 public class HoldQuestionHandler implements QuestionHandler<TravelDocument> {
     private ConfigurationService ConfigurationService;
     private DataDictionaryService dataDictionaryService;

@@ -103,8 +103,8 @@
 	<bean id="TravelerProfileForLookup-temProfileAddress.streetAddressLine2" parent="TravelerProfileForLookup-temProfileAddress.streetAddressLine2-parentBean" />
 	<bean id="TravelerProfileForLookup-temProfileAddress.streetAddressLine2-parentBean" abstract="true" parent="TemProfile-temProfileAddress.streetAddressLine2"/>
 
-	<bean id="TravelerProfileForLookup-temProfileAddress.cityName" parent="TravelerProfileForLookup-temProfileAddress.cityName-ParentBean" />
-	<bean id="TravelerProfileForLookup-temProfileAddress.cityName-ParentBean"	abstract="true" parent="TemProfile-temProfileAddress.cityName"/>
+	<bean id="TravelerProfileForLookup-temProfileAddress.cityName" parent="TravelerProfileForLookup-temProfileAddress.cityName-parentBean" />
+	<bean id="TravelerProfileForLookup-temProfileAddress.cityName-parentBean" abstract="true" parent="TemProfile-temProfileAddress.cityName"/>
 
 	<bean id="TravelerProfileForLookup-temProfileAddress.stateCode" parent="TravelerProfileForLookup-temProfileAddress.stateCode-parentBean" />
 	<bean id="TravelerProfileForLookup-temProfileAddress.stateCode-parentBean" abstract="true" parent="TemProfile-temProfileAddress.stateCode"/>

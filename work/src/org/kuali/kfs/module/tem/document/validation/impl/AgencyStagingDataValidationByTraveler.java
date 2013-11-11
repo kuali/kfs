@@ -27,6 +27,7 @@ import org.kuali.kfs.module.tem.batch.service.ExpenseImportByTravelerService;
 import org.kuali.kfs.module.tem.businessobject.AgencyStagingData;
 import org.kuali.kfs.module.tem.document.service.AgencyStagingDataValidationHelper;
 import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.util.ErrorMessage;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -67,6 +68,14 @@ public class AgencyStagingDataValidationByTraveler implements AgencyStagingDataV
      */
     @Override
     public boolean processCustomApproveDocumentBusinessRules(final MaintenanceDocument document) {
+        return true;
+    }
+
+    /**
+     * @see org.kuali.kfs.module.tem.document.service.AgencyStagingDataValidationHelper#processCustomAddCollectionLineBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument, java.lang.String, org.kuali.rice.krad.bo.PersistableBusinessObject)
+     */
+    @Override
+    public boolean processCustomAddCollectionLineBusinessRules(MaintenanceDocument document, String collectionName, PersistableBusinessObject line) {
         return true;
     }
 

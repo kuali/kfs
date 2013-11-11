@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -18,13 +18,14 @@ package org.kuali.kfs.pdp.service;
 import java.util.Iterator;
 import java.util.List;
 
+import org.kuali.kfs.pdp.businessobject.ExtractionUnit;
 import org.kuali.kfs.pdp.businessobject.PaymentDetail;
 
 public interface PaymentDetailService {
-    
+
     /**
      * Return an iterator of all the payment details for a specific disbursement number
-     * 
+     *
      * @param disbursementNumber
      * @return
      */
@@ -32,22 +33,20 @@ public interface PaymentDetailService {
 
     /**
      * This will return an iterator of all the cancelled payment details that haven't already been processed
-     * 
-     * @param organization
-     * @param subUnit
+     *
+     * @param extractionUnits a List of ExtractionUnit objects to represent each of the unit/sub-unit combinations to get PaymentDetails for
      * @return
      */
-    public Iterator getUnprocessedCancelledDetails(String organization, List<String> subUnits);
+    public Iterator getUnprocessedCancelledDetails(List<ExtractionUnit> extractionUnits);
 
     /**
      * This will return an iterator of all the paid payment details that haven't already been processed
-     * 
-     * @param organization
-     * @param subUnit
+     *
+     * @param extractionUnits a List of ExtractionUnit objects to represent each of the unit/sub-unit combinations to get PaymentDetails for
      * @return
      */
-    public Iterator getUnprocessedPaidDetails(String organization, List<String> subUnits);
-    
+    public Iterator getUnprocessedPaidDetails(List<ExtractionUnit> extractionUnits);
+
     /**
      * Returns all PaymentDetail records with the given disbursement number and a group with the given process id, disbursement type, and bank code
      * @param disbursementNumber the disbursement number of the payment details to find

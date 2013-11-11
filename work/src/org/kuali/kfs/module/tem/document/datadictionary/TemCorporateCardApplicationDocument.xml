@@ -26,12 +26,13 @@
 		</property>
 	</bean>
 	
-	<bean id="TemCorporateCardApplicationDocument-temProfileId" parent="TemProfile-profileId-parentBean" >
+	<bean id="TemCorporateCardApplicationDocument-temProfileId" parent="TemCorporateCardApplicationDocument-temProfileId-parentBean" />
+	<bean id="TemCorporateCardApplicationDocument-temProfileId-parentBean" abstract="true" parent="TemProfile-profileId-parentBean" >
 		<property name="name" value="temProfileId" />
 	</bean>
 	
 	<bean id="TemCorporateCardApplicationDocument-pseudoNumber" parent="TemCorporateCardApplicationDocument-pseudoNumber-parentBean" />
-	<bean id="TemCorporateCardApplicationDocument-pseudoNumber-parentBean" parent="AttributeDefinition">
+	<bean id="TemCorporateCardApplicationDocument-pseudoNumber-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="pseudoNumber" />
 		<property name="label" value="Corporate Card Pseudo Number" />
 		<property name="shortLabel" value="Corp Card Pseudo Number" />
@@ -43,7 +44,7 @@
 	</bean>
 	
 	<bean id="TemCorporateCardApplicationDocument-userAgreement" parent="TemCorporateCardApplicationDocument-userAgreement-parentBean" />
-	<bean id="TemCorporateCardApplicationDocument-userAgreement-parentBean" parent="GenericAttributes-genericBoolean">
+	<bean id="TemCorporateCardApplicationDocument-userAgreement-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
 		<property name="name" value="userAgreement" />
 		<property name="label" value="Accept User Agreement" />
 		<property name="shortLabel" value="Accept User Agreement" />
@@ -53,7 +54,7 @@
 	</bean>
 	
 	<bean id="TemCorporateCardApplicationDocument-departmentHeadAgreement" parent="TemCorporateCardApplicationDocument-departmentHeadAgreement-parentBean" />
-	<bean id="TemCorporateCardApplicationDocument-departmentHeadAgreement-parentBean" parent="GenericAttributes-genericBoolean">
+	<bean id="TemCorporateCardApplicationDocument-departmentHeadAgreement-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
 		<property name="name" value="departmentHeadAgreement" />
 		<property name="label" value="Accept Department Head Agreement" />
 		<property name="shortLabel" value="Accept Department Head Agreement" />
@@ -63,7 +64,7 @@
 	</bean>
 
 	<bean id="TemCorporateCardApplicationDocument-appDocStatus" parent="TemCorporateCardApplicationDocument-appDocStatus-parentBean" />
-    <bean id="TemCorporateCardApplicationDocument-appDocStatus-parentBean" parent="FinancialSystemDocumentHeader-financialDocumentStatusCode">
+    <bean id="TemCorporateCardApplicationDocument-appDocStatus-parentBean" abstract="true" parent="FinancialSystemDocumentHeader-financialDocumentStatusCode">
         <property name="name" value="dummyAppDocStatus" />
         <property name="label" value="Application Status Code" />
         <property name="shortLabel" value="Status" />

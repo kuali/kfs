@@ -29,6 +29,7 @@ import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.springframework.transaction.annotation.Transactional;
 
+@Transactional
 public class AccountingDocumentRelationshipServiceImpl implements AccountingDocumentRelationshipService {
 
     private AccountingDocumentRelationshipDao accountingDocumentRelationshipDao;
@@ -142,7 +143,6 @@ public class AccountingDocumentRelationshipServiceImpl implements AccountingDocu
      * @see org.kuali.kfs.module.tem.document.service.AccountingDocumentRelationshipService#save(java.util.List)
      */
     @Override
-    @Transactional
     public void save(List<AccountingDocumentRelationship> accountingDocumentRelationships) {
         for (AccountingDocumentRelationship adr : accountingDocumentRelationships) {
             save(adr);
@@ -154,7 +154,6 @@ public class AccountingDocumentRelationshipServiceImpl implements AccountingDocu
      *      If the principalId is not set, it will be defaulted to KualiUser.SYSTEM_USER's principalId.
      */
     @Override
-    @Transactional
     public void save(AccountingDocumentRelationship accountingDocumentRelationship) {
         if (accountingDocumentRelationship.getPrincipalId() == null) {
             Person person = personService.getPersonByPrincipalName(KFSConstants.SYSTEM_USER);
@@ -168,7 +167,6 @@ public class AccountingDocumentRelationshipServiceImpl implements AccountingDocu
      * @see org.kuali.kfs.module.tem.document.service.AccountingDocumentRelationshipService#delete(java.util.List)
      */
     @Override
-    @Transactional
     public void delete(List<AccountingDocumentRelationship> accountingDocumentRelationships) {
         for (AccountingDocumentRelationship adr : accountingDocumentRelationships) {
             delete(adr);
@@ -197,7 +195,6 @@ public class AccountingDocumentRelationshipServiceImpl implements AccountingDocu
      * @see org.kuali.kfs.module.tem.document.service.AccountingDocumentRelationshipService#delete(org.kuali.kfs.module.tem.businessobject.AccountingDocumentRelationship)
      */
     @Override
-    @Transactional
     public void delete(AccountingDocumentRelationship accountingDocumentRelationship) {
         accountingDocumentRelationshipDao.delete(accountingDocumentRelationship);
     }

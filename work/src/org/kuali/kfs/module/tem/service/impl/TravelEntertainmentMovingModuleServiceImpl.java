@@ -19,14 +19,12 @@ import java.util.List;
 
 import org.kuali.kfs.integration.tem.TravelEntertainmentMovingModuleService;
 import org.kuali.kfs.integration.tem.TravelEntertainmentMovingTravelDocument;
-import org.kuali.kfs.module.tem.TemParameterConstants;
 import org.kuali.kfs.module.tem.businessobject.AccountingDocumentRelationship;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.TravelReimbursementDocument;
 import org.kuali.kfs.module.tem.document.service.AccountingDocumentRelationshipService;
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
 import org.kuali.kfs.module.tem.service.TravelerService;
-import org.kuali.kfs.sys.KFSParameterKeyConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.document.Document;
@@ -85,16 +83,6 @@ public class TravelEntertainmentMovingModuleServiceImpl implements TravelEnterta
     @Override
     public boolean isTravelReimbursementDocument(TravelEntertainmentMovingTravelDocument document) {
         return document instanceof TravelReimbursementDocument;
-    }
-
-    /**
-     * Returns the value of the KFS-TEM / Document / PRE_DISBURSEMENT_EXTRACT_SUB_UNIT parameter
-     * @see org.kuali.kfs.integration.tem.TravelEntertainmentMovingModuleService#getPdpSubUnit()
-     */
-	@Override
-    public String getPdpSubUnit() {
-	    final String subUnit = getParameterService().getParameterValueAsString(TemParameterConstants.TEM_DOCUMENT.class, KFSParameterKeyConstants.PdpExtractBatchParameters.PDP_SBUNT_CODE);
-        return subUnit;
     }
 
     /**

@@ -179,6 +179,11 @@
 			<parent>TTSM</parent>
 		</documentType>
 		<documentType>
+      		<name>TCT</name>
+      		<label>Travel Card Type</label>
+      		<parent>TTSM</parent>
+    	</documentType>
+		<documentType>
 			<name>TPRA</name>
 			<label>TEM Profile Account</label>
 			<parent>TTSM</parent>
@@ -1639,6 +1644,24 @@
 	      </parent>
 	      <label>
 	        Travel Reimbursement Travel Advances
+	      </label>
+	      <active>
+	        true
+	      </active>
+	      <routingVersion>
+	        2
+	      </routingVersion>
+	      <routePaths/>
+	    </documentType>
+	    <documentType>
+	      <name>
+	        RCCA
+	      </name>
+	      <parent>
+	        FSLO
+	      </parent>
+	      <label>
+	        TEM Reimbursable Corporate Card – Check/ACH
 	      </label>
 	      <active>
 	        true

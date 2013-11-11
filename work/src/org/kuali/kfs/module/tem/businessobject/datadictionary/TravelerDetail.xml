@@ -60,7 +60,7 @@
 		</property>
 	</bean>
 	<bean id="TravelerDetail-id" parent="TravelerDetail-id-parentBean" />
-	<bean id="TravelerDetail-id-parentBean" parent="AttributeDefinition">
+	<bean id="TravelerDetail-id-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="id" />
 		<property name="label" value="Id" />
 		<property name="shortLabel" value="Id" />
@@ -76,7 +76,7 @@
 		</property>
 	</bean>
 	<bean id="TravelerDetail-documentNumber" parent="TravelerDetail-documentNumber-parentBean" />
-	<bean id="TravelerDetail-documentNumber-parentBean" parent="AttributeDefinition">
+	<bean id="TravelerDetail-documentNumber-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="documentNumber" />
 		<property name="label" value="Document Number" />
 		<property name="shortLabel" value="Document Number" />
@@ -88,7 +88,7 @@
 		</property>
 	</bean>
 	<bean id="TravelerDetail-principalId" parent="TravelerDetail-principalId-parentBean" />
-	<bean id="TravelerDetail-principalId-parentBean" parent="AttributeDefinition">
+	<bean id="TravelerDetail-principalId-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="principalId" />
 		<property name="label" value="Principal Id" />
 		<property name="shortLabel" value="Principal Id" />
@@ -100,7 +100,7 @@
 		</property>
 	</bean>
 	<bean id="TravelerDetail-principalName" parent="TravelerDetail-principalName-parentBean" />
-	<bean id="TravelerDetail-principalName-parentBean" parent="KimBaseBeans-principalName" abstract="true">
+	<bean id="TravelerDetail-principalName-parentBean" abstract="true" parent="KimBaseBeans-principalName">
 		<property name="required" value="false" />
 	</bean>
 	<bean id="TravelerDetail-customerNumber" parent="TravelerDetail-customerNumber-parentBean" />
@@ -111,7 +111,7 @@
 		<property name="shortLabel" value="Number" />
 	</bean>
 	<bean id="TravelerDetail-firstName" parent="TravelerDetail-firstName-parentBean" />
-	<bean id="TravelerDetail-firstName-parentBean" parent="AttributeDefinition">
+	<bean id="TravelerDetail-firstName-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="firstName" />
 		<property name="label" value="First Name" />
 		<property name="shortLabel" value="First Name" />
@@ -124,7 +124,7 @@
 		</property>
 	</bean>
 	<bean id="TravelerDetail-lastName" parent="TravelerDetail-lastName-parentBean" />
-	<bean id="TravelerDetail-lastName-parentBean" parent="AttributeDefinition">
+	<bean id="TravelerDetail-lastName-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="lastName" />
 		<property name="label" value="Last Name" />
 		<property name="shortLabel" value="Last Name" />
@@ -137,7 +137,7 @@
 		</property>
 	</bean>
 	<bean id="TravelerDetail-streetAddressLine1" parent="TravelerDetail-streetAddressLine1-parentBean" />
-	<bean id="TravelerDetail-streetAddressLine1-parentBean" parent="AttributeDefinition">
+	<bean id="TravelerDetail-streetAddressLine1-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="streetAddressLine1" />
 		<property name="label" value="Street Address Line1" />
 		<property name="shortLabel" value="Street Address Line1" />
@@ -153,7 +153,7 @@
 		</property>
 	</bean>
 	<bean id="TravelerDetail-streetAddressLine2" parent="TravelerDetail-streetAddressLine2-parentBean" />
-	<bean id="TravelerDetail-streetAddressLine2-parentBean" parent="AttributeDefinition">
+	<bean id="TravelerDetail-streetAddressLine2-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="streetAddressLine2" />
 		<property name="label" value="Street Address Line2" />
 		<property name="shortLabel" value="Street Address Line2" />
@@ -168,7 +168,7 @@
 		</property>
 	</bean>
 	<bean id="TravelerDetail-cityName" parent="TravelerDetail-cityName-parentBean" />
-	<bean id="TravelerDetail-cityName-parentBean" parent="AttributeDefinition">
+	<bean id="TravelerDetail-cityName-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="cityName" />
 		<property name="label" value="City Name" />
 		<property name="shortLabel" value="City Name" />
@@ -186,7 +186,7 @@
 		</property>
 	</bean>
 	<bean id="TravelerDetail-stateCode" parent="TravelerDetail-stateCode-parentBean" />
-	<bean id="TravelerDetail-stateCode-parentBean" parent="AttributeDefinition">
+	<bean id="TravelerDetail-stateCode-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="stateCode" />
 		<property name="label" value="State Code" />
 		<property name="shortLabel" value="State Code" />
@@ -202,7 +202,7 @@
 		</property>
 	</bean>
 	<bean id="TravelerDetail-zipCode" parent="TravelerDetail-zipCode-parentBean" />
-	<bean id="TravelerDetail-zipCode-parentBean" parent="AttributeDefinition">
+	<bean id="TravelerDetail-zipCode-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="zipCode" />
 		<property name="label" value="Zip Code" />
 		<property name="shortLabel" value="Zip Code" />
@@ -218,7 +218,7 @@
 		</property>
 	</bean>
 	<bean id="TravelerDetail-countryCode" parent="TravelerDetail-countryCode-parentBean" />
-	<bean id="TravelerDetail-countryCode-parentBean" parent="AttributeDefinition">
+	<bean id="TravelerDetail-countryCode-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="countryCode" />
 		<property name="label" value="Country Code" />
 		<property name="shortLabel" value="Country Code" />
@@ -234,7 +234,7 @@
 		</property>
 	</bean>
 	<bean id="TravelerDetail-emailAddress" parent="TravelerDetail-emailAddress-parentBean" />
-	<bean id="TravelerDetail-emailAddress-parentBean" parent="AttributeDefinition">
+	<bean id="TravelerDetail-emailAddress-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="emailAddress" />
 		<property name="label" value="Email Address" />
 		<property name="shortLabel" value="Email Address" />
@@ -249,7 +249,7 @@
 		</property>
 	</bean>
 	<bean id="TravelerDetail-phoneNumber" parent="TravelerDetail-phoneNumber-parentBean" />
-	<bean id="TravelerDetail-phoneNumber-parentBean" parent="AttributeDefinition">
+	<bean id="TravelerDetail-phoneNumber-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="phoneNumber" />
 		<property name="label" value="Phone Number" />
 		<property name="shortLabel" value="Phone Number" />
@@ -264,7 +264,7 @@
 		</property>
 	</bean>
 	<bean id="TravelerDetail-liabilityInsurance" parent="TravelerDetail-liabilityInsurance-parentBean" />
-	<bean id="TravelerDetail-liabilityInsurance-parentBean" parent="AttributeDefinition">
+	<bean id="TravelerDetail-liabilityInsurance-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="liabilityInsurance" />
 		<property name="label" value="Liability Insurance" />
 		<property name="shortLabel" value="Liability Insurance" />
@@ -276,7 +276,7 @@
 		</property>
 	</bean>
 	<bean id="TravelerDetail-travelerTypeCode" parent="TravelerDetail-travelerTypeCode-parentBean" />
-	<bean id="TravelerDetail-travelerTypeCode-parentBean" parent="AttributeDefinition">
+	<bean id="TravelerDetail-travelerTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="travelerTypeCode" />
 		<property name="label" value="Traveler Type Code" />
 		<property name="shortLabel" value="Traveler Type Code" />
@@ -292,7 +292,7 @@
 	</bean>
 
 	<bean id="TravelerDetail-citizenship" parent="TravelerDetail-citizenship-parentBean" />
-	<bean id="TravelerDetail-citizenship-parentBean" parent="AttributeDefinition">
+	<bean id="TravelerDetail-citizenship-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="citizenship" />
 		<property name="label" value="Citizenship" />
 		<property name="shortLabel" value="Citizenship" />
@@ -307,7 +307,7 @@
 	</bean>
 
 	<bean id="TravelerDetail-active" parent="TravelerDetail-active-parentBean" />
-	<bean id="TravelerDetail-active-parentBean" parent="GenericAttributes-genericBoolean">
+	<bean id="TravelerDetail-active-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
 		<property name="name" value="active" />
 		<property name="label" value="Active" />
 		<property name="shortLabel" value="Active" />
@@ -317,7 +317,7 @@
 	</bean>
 		
 	<bean id="TravelerDetail-versionNumber" parent="TravelerDetail-versionNumber-parentBean" />
-	<bean id="TravelerDetail-versionNumber-parentBean" parent="GenericAttributes-versionNumber">
+	<bean id="TravelerDetail-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
 		<property name="name" value="versionNumber" />
 		<property name="label" value="Version Number" />
 		<property name="shortLabel" value="Version Number" />

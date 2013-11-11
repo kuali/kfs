@@ -97,7 +97,8 @@ public class AgencyStagingDataMaintainable extends FinancialSystemMaintainable {
             updateCreditCardAgency(updateAgencyStaging);
             //after fixing the agency audit record, attempt to move agency data to historical table
             AgencyDataImportService importService = SpringContext.getBean(AgencyDataImportService.class);
-            importService.processAgencyStagingExpense(updateAgencyStaging, new GeneralLedgerPendingEntrySequenceHelper());
+            boolean result = importService.processAgencyStagingExpense(updateAgencyStaging, new GeneralLedgerPendingEntrySequenceHelper());
+            LOG.info("Agency Data Id: "+ updateAgencyStaging.getId() + (result ? " was":" was not") +" processed.");
 
             //save the agency staging record after it is processed and moved to history
             getBusinessObjectService().save(updateAgencyStaging);

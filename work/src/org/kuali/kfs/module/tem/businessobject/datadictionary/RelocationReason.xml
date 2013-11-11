@@ -19,7 +19,7 @@
 		</property>
 	</bean>
 	<bean id="RelocationReason-reloReasonCode" parent="RelocationReason-reloReasonCode-parentBean" />
-	<bean id="RelocationReason-reloReasonCode-parentBean" parent="AttributeDefinition">
+	<bean id="RelocationReason-reloReasonCode-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="reloReasonCode" />
 		<property name="label" value="Relo Reason Code" />
 		<property name="shortLabel" value="Relo Reason Code" />
@@ -30,7 +30,7 @@
 		<property name="control"><bean parent="TextControlDefinition" p:size="2"/></property>
 	</bean>
 	<bean id="RelocationReason-reloReasonName" parent="RelocationReason-reloReasonName-parentBean" />
-	<bean id="RelocationReason-reloReasonName-parentBean" parent="AttributeDefinition">
+	<bean id="RelocationReason-reloReasonName-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="reloReasonName" />
 		<property name="label" value="Relo Reason Name" />
 		<property name="shortLabel" value="Relo Reason Name" />
@@ -41,7 +41,7 @@
 		<property name="control"><bean parent="TextControlDefinition" p:size="40"/></property>
 	</bean>
 	<bean id="RelocationReason-reloReasonDescription" parent="RelocationReason-reloReasonDescription-parentBean" />
-	<bean id="RelocationReason-reloReasonDescription-parentBean" parent="AttributeDefinition">
+	<bean id="RelocationReason-reloReasonDescription-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="reloReasonDescription" />
 		<property name="label" value="Relo Reason Description" />
 		<property name="shortLabel" value="Relo Reason Description" />
@@ -51,7 +51,7 @@
 		<property name="control"><bean parent="TextControlDefinition" p:size="200"/></property>
 	</bean>
 	<bean id="RelocationReason-active" parent="RelocationReason-active-parentBean" />
-	<bean id="RelocationReason-active-parentBean" parent="GenericAttributes-genericBoolean">
+	<bean id="RelocationReason-active-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
 		<property name="name" value="active" />
 		<property name="label" value="Active" />
 		<property name="shortLabel" value="Active" />
@@ -60,7 +60,7 @@
 		<property name="description" value="Active" />
 	</bean>
 	<bean id="RelocationReason-versionNumber" parent="RelocationReason-versionNumber-parentBean" />
-	<bean id="RelocationReason-versionNumber-parentBean" parent="GenericAttributes-versionNumber">
+	<bean id="RelocationReason-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
 		<property name="name" value="versionNumber" />
 		<property name="label" value="Version Number" />
 		<property name="shortLabel" value="Version Number" />

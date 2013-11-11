@@ -22,7 +22,7 @@
   </bean>
 
   <bean id="TravelCardType-code" parent="TravelCardType-code-parentBean" />
-  <bean id="TravelCardType-code-parentBean" parent="AttributeDefinition">
+  <bean id="TravelCardType-code-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="code" />
     <property name="forceUppercase" value="true" />
     <property name="label" value="Travel Card Type Code" />
@@ -35,7 +35,7 @@
   </bean>
   
   <bean id="TravelCardType-description" parent="TravelCardType-description-parentBean" />
-  <bean id="TravelCardType-description-parentBean" parent="AttributeDefinition">
+  <bean id="TravelCardType-description-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="name" />
     <property name="label" value="Travel Card Type Description" />
 	<property name="shortLabel" value="Card Type Desc" />

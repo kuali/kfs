@@ -35,7 +35,6 @@ import org.kuali.kfs.sys.batch.service.PaymentSourceToExtractService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.PaymentSource;
 import org.kuali.kfs.sys.document.service.FinancialSystemDocumentService;
-import org.kuali.kfs.sys.document.validation.event.AccountingDocumentSaveWithNoLedgerEntryGenerationEvent;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.core.api.util.type.KualiInteger;
@@ -57,7 +56,7 @@ public class PaymentSourceExtractionServiceImpl implements PaymentSourceExtracti
     protected CustomerProfileService customerProfileService;
     protected BusinessObjectService businessObjectService;
     protected PdpEmailService paymentFileEmailService;
-    protected PaymentSourceToExtractService paymentSourceToExtractService;
+    protected PaymentSourceToExtractService<PaymentSource> paymentSourceToExtractService;
     protected DocumentService documentService;
     protected Set<String> checkAchFsloDocTypes;
 
@@ -88,7 +87,7 @@ public class PaymentSourceExtractionServiceImpl implements PaymentSourceExtracti
         }
 
         // Get a list of campuses that have documents with an 'A' (approved) status.
-        Map<String, List<? extends PaymentSource>>  campusListMap = paymentSourceToExtractService.retrievePaymentSourcesByCampus(false);
+        Map<String, List<PaymentSource>>  campusListMap = paymentSourceToExtractService.retrievePaymentSourcesByCampus(false);
 
         if (campusListMap != null && !campusListMap.isEmpty()) {
             // Process each campus one at a time
@@ -117,7 +116,7 @@ public class PaymentSourceExtractionServiceImpl implements PaymentSourceExtracti
         }
 
         // Get a list of campuses that have documents with an 'A' (approved) status.
-        Map<String, List<? extends PaymentSource>> documentsByCampus = paymentSourceToExtractService.retrievePaymentSourcesByCampus(true);
+        Map<String, List<PaymentSource>> documentsByCampus = paymentSourceToExtractService.retrievePaymentSourcesByCampus(true);
         // Process each campus one at a time
         for (String campusCode : documentsByCampus.keySet()) {
             extractImmediatePaymentsForCampus(campusCode, uuser.getPrincipalId(), processRunDate, documentsByCampus.get(campusCode));
@@ -142,9 +141,11 @@ public class PaymentSourceExtractionServiceImpl implements PaymentSourceExtracti
         KualiDecimal totalAmount = KualiDecimal.ZERO;
 
         for (PaymentSource document : documents) {
-            addPayment(document, batch, processRunDate, false);
-            count++;
-            totalAmount = totalAmount.add(document.getPaymentAmount());
+            if (getPaymentSourceToExtractService().shouldExtractPayment(document)) {
+                addPayment(document, batch, processRunDate, false);
+                count++;
+                totalAmount = totalAmount.add(getPaymentSourceToExtractService().getPaymentAmount(document));
+            }
         }
 
         batch.setPaymentCount(new KualiInteger(count));
@@ -172,9 +173,11 @@ public class PaymentSourceExtractionServiceImpl implements PaymentSourceExtracti
             KualiDecimal totalAmount = KualiDecimal.ZERO;
 
             for (PaymentSource document : documents) {
-                addPayment(document, batch, processRunDate, false);
-                count++;
-                totalAmount = totalAmount.add(document.getPaymentAmount());
+                if (getPaymentSourceToExtractService().shouldExtractPayment(document)) {
+                    addPayment(document, batch, processRunDate, false);
+                    count++;
+                    totalAmount = totalAmount.add(getPaymentSourceToExtractService().getPaymentAmount(document));
+                }
             }
 
             batch.setPaymentCount(new KualiInteger(count));
@@ -196,8 +199,8 @@ public class PaymentSourceExtractionServiceImpl implements PaymentSourceExtracti
         LOG.info("addPayment() started for document number=" + document.getDocumentNumber());
 
         final java.sql.Date sqlProcessRunDate = new java.sql.Date(processRunDate.getTime());
-        PaymentGroup pg = document.generatePaymentGroup(sqlProcessRunDate);
-        if (pg != null) { // the payment source returned null instead of a PaymentGroup?  I guess it didn't want to be paid for some reason (for instance, a 0 amount document)
+        PaymentGroup pg = getPaymentSourceToExtractService().createPaymentGroup(document, sqlProcessRunDate);
+        if (pg != null) { // the payment source returned null instead of a PaymentGroup?  I guess it didn't want to be paid for some reason (for instance, a 0 amount document or doc which didn't have a travel advance, etc)
             pg.setBatch(batch);
             if (immediate) {
                 pg.setProcessImmediate(Boolean.TRUE);
@@ -206,15 +209,7 @@ public class PaymentSourceExtractionServiceImpl implements PaymentSourceExtracti
             this.businessObjectService.save(pg);
 
             if (!testMode) {
-                try {
-                    document.getFinancialSystemDocumentHeader().setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.Payments.EXTRACTED);
-                    document.markAsExtracted(sqlProcessRunDate);
-                    getDocumentService().saveDocument(document, AccountingDocumentSaveWithNoLedgerEntryGenerationEvent.class);
-                }
-                catch (WorkflowException we) {
-                    LOG.error("Could not save disbursement voucher document #" + document.getDocumentNumber() + ": " + we);
-                    throw new RuntimeException(we);
-                }
+                getPaymentSourceToExtractService().markAsExtracted(document, sqlProcessRunDate, pg.getId());
             }
         }
     }
@@ -296,24 +291,26 @@ public class PaymentSourceExtractionServiceImpl implements PaymentSourceExtracti
         if (LOG.isDebugEnabled()) {
             LOG.debug("extractImmediatePayment(DisbursementVoucherDocument) started");
         }
-        final Date processRunDate = dateTimeService.getCurrentDate();
-        final Principal principal = KimApiServiceLocator.getIdentityService().getPrincipalByPrincipalName(KFSConstants.SYSTEM_USER);
-        if (principal == null) {
-            LOG.debug("extractPayments() Unable to find user " + KFSConstants.SYSTEM_USER);
-            throw new IllegalArgumentException("Unable to find user " + KFSConstants.SYSTEM_USER);
+        if (getPaymentSourceToExtractService().shouldExtractPayment(paymentSource)) {
+            final Date processRunDate = dateTimeService.getCurrentDate();
+            final Principal principal = KimApiServiceLocator.getIdentityService().getPrincipalByPrincipalName(KFSConstants.SYSTEM_USER);
+            if (principal == null) {
+                LOG.debug("extractPayments() Unable to find user " + KFSConstants.SYSTEM_USER);
+                throw new IllegalArgumentException("Unable to find user " + KFSConstants.SYSTEM_USER);
+            }
+
+            Batch batch = createBatch(paymentSource.getCampusCode(), principal.getPrincipalId(), processRunDate);
+            KualiDecimal totalAmount = KualiDecimal.ZERO;
+
+            addPayment(paymentSource, batch, processRunDate, true);
+            totalAmount = totalAmount.add(getPaymentSourceToExtractService().getPaymentAmount(paymentSource));
+
+            batch.setPaymentCount(new KualiInteger(1));
+            batch.setPaymentTotalAmount(totalAmount);
+
+            businessObjectService.save(batch);
+            paymentFileEmailService.sendPaymentSourceImmediateExtractEmail(paymentSource, getPaymentSourceToExtractService().getImmediateExtractEMailFromAddress(), getPaymentSourceToExtractService().getImmediateExtractEmailToAddresses());
         }
-
-        Batch batch = createBatch(paymentSource.getCampusCode(), principal.getPrincipalId(), processRunDate);
-        KualiDecimal totalAmount = KualiDecimal.ZERO;
-
-        addPayment(paymentSource, batch, processRunDate, true);
-        totalAmount = totalAmount.add(paymentSource.getPaymentAmount());
-
-        batch.setPaymentCount(new KualiInteger(1));
-        batch.setPaymentTotalAmount(totalAmount);
-
-        businessObjectService.save(batch);
-        paymentFileEmailService.sendPaymentSourceImmediateExtractEmail(paymentSource);
     }
 
     /**
@@ -355,7 +352,7 @@ public class PaymentSourceExtractionServiceImpl implements PaymentSourceExtracti
     /**
      * @return the injected implementation of the PaymentSourceToExtractService
      */
-    public PaymentSourceToExtractService getPaymentSourceToExtractService() {
+    public PaymentSourceToExtractService<PaymentSource> getPaymentSourceToExtractService() {
         return this.paymentSourceToExtractService;
     }
 
@@ -364,7 +361,7 @@ public class PaymentSourceExtractionServiceImpl implements PaymentSourceExtracti
      *
      * @param paymentSourceToExtractService the paymentSourceToExtractService implementation to use
      */
-    public void setPaymentSourceToExtractService(PaymentSourceToExtractService paymentSourceToExtractService) {
+    public void setPaymentSourceToExtractService(PaymentSourceToExtractService<PaymentSource> paymentSourceToExtractService) {
         this.paymentSourceToExtractService = paymentSourceToExtractService;
     }
 

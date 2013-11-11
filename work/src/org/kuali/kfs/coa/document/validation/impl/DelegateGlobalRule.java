@@ -30,6 +30,7 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.service.FinancialSystemDocumentTypeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
@@ -46,6 +47,7 @@ public class DelegateGlobalRule extends GlobalDocumentRuleBase {
     protected static final KualiDecimal ZERO = KualiDecimal.ZERO;
     protected AccountDelegateGlobal newDelegateGlobal;
     protected static final String DELEGATE_GLOBALS_PREFIX = "delegateGlobals";
+    protected static ParameterService parameterService;
 
     public DelegateGlobalRule() {
         super();
@@ -239,6 +241,16 @@ public class DelegateGlobalRule extends GlobalDocumentRuleBase {
 
                 // increment counter for delegate changes list
                 i++;
+            }
+            //KFSCNTRB-1730- check total number doesn't exceed parameter
+            String maxAccountDelegatesString = getParameterService().getParameterValueAsString(AccountDelegateGlobal.class, KFSConstants.ChartApcParms.MAXIMUM_ACCOUNT_DELEGATES);
+            if(maxAccountDelegatesString != null && !maxAccountDelegatesString.isEmpty()){
+                int maxAccountDelegates = Integer.parseInt(maxAccountDelegatesString);
+                int sumAccountDelegates = newDelegateGlobal.getDelegateGlobals().size() * newDelegateGlobal.getAccountGlobalDetails().size();
+                if (sumAccountDelegates > maxAccountDelegates) {
+                    GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_DOCUMENT_DELEGATE_MAXIMUM_ACCOUNT_DELEGATES, maxAccountDelegatesString, Integer.toString(sumAccountDelegates));
+                    success = false;
+                }
             }
         }
         return success;
@@ -531,4 +543,11 @@ public class DelegateGlobalRule extends GlobalDocumentRuleBase {
         return success;
     }
 
+    
+    public ParameterService getParameterService() {
+        if ( parameterService == null ) {
+            parameterService = SpringContext.getBean(ParameterService.class);
+        }
+        return parameterService;
+    }
 }

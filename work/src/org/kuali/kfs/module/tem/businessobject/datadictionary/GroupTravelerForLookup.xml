@@ -51,7 +51,7 @@
     </bean>
     
     <bean id="GroupTravelerForLookup-customerNumber" parent="GroupTravelerForLookup-customerNumber-parentBean" />
-    <bean id="GroupTravelerForLookup-customerNumber-parentBean" parent="AttributeDefinition">
+    <bean id="GroupTravelerForLookup-customerNumber-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="customerNumber" />
 		<property name="forceUppercase" value="true" />
 		<property name="label" value="Customer Number" />
@@ -65,7 +65,7 @@
 		</property>
     </bean>
     <bean id="GroupTravelerForLookup-customerName" parent="GroupTravelerForLookup-customerName-parentBean" />
-    <bean id="GroupTravelerForLookup-customerName-parentBean" parent="AttributeDefinition">
+    <bean id="GroupTravelerForLookup-customerName-parentBean" abstract="true" parent="AttributeDefinition">
         <property name="name" value="customerName" />
 		<property name="forceUppercase" value="true" />
 		<property name="label" value="Customer Name" />

@@ -514,12 +514,17 @@ public class PdpEmailServiceImpl implements PdpEmailService {
         String fromAddresses = customer.getAdviceReturnEmailAddr();
         String toAddresses = paymentGroup.getAdviceEmailAddress();
         Collection<String> ccAddresses = parameterService.getParameterValuesAsString(SendAchAdviceNotificationsStep.class, PdpParameterConstants.ACH_SUMMARY_CC_EMAIL_ADDRESSES_PARMAETER_NAME);
+        Collection<String> bccAddresses = parameterService.getParameterValuesAsString(SendAchAdviceNotificationsStep.class, PdpParameterConstants.ACH_SUMMARY_BCC_EMAIL_ADDRESSES_PARMAETER_NAME);
         String batchAddresses = mailService.getBatchMailingList();
         String subject = customer.getAdviceSubjectLine();
 
         message.addToAddress(toAddresses);
-        message.getCcAddresses().addAll(ccAddresses);
-        //message.addBccAddress(ccAddresses);
+        if(!ccAddresses.isEmpty()){
+            message.getCcAddresses().addAll(ccAddresses);
+        }
+        if(!bccAddresses.isEmpty()){
+            message.getCcAddresses().addAll(bccAddresses);
+        }
         message.setFromAddress(fromAddresses);
         message.setSubject(subject);
 
@@ -812,14 +817,13 @@ public class PdpEmailServiceImpl implements PdpEmailService {
     /**
      * Sends notification e-mail that an immediate extract Disbursement Voucher has been extracted
      * @param disbursementVoucher the disbursement voucher which was immediately extracted
-     * @param user the current extracting user
+     * @param fromAddress the address that the e-mail should be sent from
+     * @param toAddresses the addresses that the e-mail should be sent to
      */
     @Override
-    public void sendPaymentSourceImmediateExtractEmail(PaymentSource paymentSource) {
+    public void sendPaymentSourceImmediateExtractEmail(PaymentSource paymentSource, String fromAddress, Collection<String> toAddresses) {
         MailMessage message = new MailMessage();
 
-        final String fromAddress = paymentSource.getImmediateExtractEMailFromAddress();
-        final Collection<String> toAddresses = paymentSource.getImmediateExtractEmailToAddresses();
         final String disbursementVoucherDocumentLabel = dataDictionaryService.getDocumentLabelByTypeName(DisbursementVoucherConstants.DOCUMENT_TYPE_CODE);
         final String subject = getMessage(KFSKeyConstants.MESSAGE_PAYMENT_SOURCE_IMMEDIATE_EXTRACT_EMAIL_SUBJECT, disbursementVoucherDocumentLabel, paymentSource.getCampusCode());
         final String body = getMessage(KFSKeyConstants.MESSAGE_PAYMENT_SOURCE_IMMEDIATE_EXTRACT_EMAIL_BODY, disbursementVoucherDocumentLabel, paymentSource.getCampusCode(), paymentSource.getDocumentNumber());

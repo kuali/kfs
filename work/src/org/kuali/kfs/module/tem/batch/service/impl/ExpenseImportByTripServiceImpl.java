@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.tem.batch.service.impl;
 
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -23,15 +24,16 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.kuali.kfs.gl.businessobject.Encumbrance;
 import org.kuali.kfs.module.tem.TemConstants;
+import org.kuali.kfs.module.tem.TemKeyConstants;
+import org.kuali.kfs.module.tem.TemParameterConstants;
+import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.TemConstants.AgencyMatchProcessParameter;
 import org.kuali.kfs.module.tem.TemConstants.AgencyStagingDataErrorCodes;
 import org.kuali.kfs.module.tem.TemConstants.AgencyStagingDataValidation;
 import org.kuali.kfs.module.tem.TemConstants.CreditCardStagingDataErrorCodes;
 import org.kuali.kfs.module.tem.TemConstants.TravelParameters;
-import org.kuali.kfs.module.tem.TemKeyConstants;
-import org.kuali.kfs.module.tem.TemParameterConstants;
-import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.batch.AgencyDataImportStep;
 import org.kuali.kfs.module.tem.batch.service.ExpenseImportByTripService;
 import org.kuali.kfs.module.tem.batch.service.ImportedExpensePendingEntryService;
@@ -46,6 +48,7 @@ import org.kuali.kfs.module.tem.businessobject.TripAccountingInformation;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.service.TravelAuthorizationService;
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
+import org.kuali.kfs.module.tem.document.service.TravelEncumbranceService;
 import org.kuali.kfs.module.tem.service.TemProfileService;
 import org.kuali.kfs.module.tem.service.TravelExpenseService;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
@@ -55,12 +58,14 @@ import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.ErrorMessage;
 import org.kuali.rice.krad.util.ObjectUtils;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Service for handling imported expenses using the IU method or "By Trip Id" method.
  *
  * @see org.kuali.kfs.module.tem.document.validation.impl.AgencyStagingDataValidation
  */
+@Transactional
 public class ExpenseImportByTripServiceImpl extends ExpenseImportServiceBase implements ExpenseImportByTripService  {
 
     public static Logger LOG = Logger.getLogger(ExpenseImportByTripServiceImpl.class);
@@ -72,6 +77,7 @@ public class ExpenseImportByTripServiceImpl extends ExpenseImportServiceBase imp
     private TravelExpenseService travelExpenseService;
     private ImportedExpensePendingEntryService importedExpensePendingEntryService;
     private TravelDocumentService travelDocumentService;
+    private TravelEncumbranceService travelEncumbranceService;
 
     /**
      *
@@ -253,7 +259,6 @@ public class ExpenseImportByTripServiceImpl extends ExpenseImportServiceBase imp
                 if (!isAccountNumberValid(account.getTripChartCode(), account.getTripAccountNumber())) {
 
                     LOG.error("Invalid Account in Agency Data record. tripId: "+ agencyData.getTripId() + " chart code: " + account.getTripChartCode() + " account: " + account.getTripAccountNumber());
-                    account.setTripAccountNumber(profile.getDefaultAccount());
                     setErrorCode(agencyData, AgencyStagingDataErrorCodes.AGENCY_INVALID_ACCOUNT);
                     error = new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_DATA_INVALID_ACCOUNT_NUM, account.getTripChartCode(), account.getTripAccountNumber());
                     errorMessages.add(error);
@@ -267,7 +272,6 @@ public class ExpenseImportByTripServiceImpl extends ExpenseImportServiceBase imp
 
                     LOG.error("Invalid SubAccount in Agency Data record. tripId: "+ agencyData.getTripId() + " chart code: " + account.getTripChartCode() + " account: " + account.getTripAccountNumber() + " subaccount: " + account.getTripSubAccountNumber());
 
-                    account.setTripSubAccountNumber(profile.getDefaultSubAccount());
                     setErrorCode(agencyData, AgencyStagingDataErrorCodes.AGENCY_INVALID_SUBACCOUNT);
                     error = new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_DATA_INVALID_SUBACCOUNT, account.getTripSubAccountNumber());
                     errorMessages.add(error);
@@ -280,7 +284,6 @@ public class ExpenseImportByTripServiceImpl extends ExpenseImportServiceBase imp
 
                 LOG.error("Invalid Project in Agency Data record. tripId: "+ agencyData.getTripId()+ " project code: " + account.getProjectCode());
 
-                account.setProjectCode(profile.getDefaultProjectCode());
                 setErrorCode(agencyData, AgencyStagingDataErrorCodes.AGENCY_INVALID_PROJECT);
                 error = new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_DATA_INVALID_PROJECT_CODE, account.getProjectCode());
                 errorMessages.add(error);
@@ -293,7 +296,6 @@ public class ExpenseImportByTripServiceImpl extends ExpenseImportServiceBase imp
 
                     LOG.error("Invalid Object Code in Agency Data record. tripId: "+ agencyData.getTripId() + " chart code: " + account.getTripChartCode() + " object code: " + account.getObjectCode());
 
-                    account.setObjectCode(getObjectCode(agencyData));
                     setErrorCode(agencyData, AgencyStagingDataErrorCodes.AGENCY_INVALID_OBJECT);
 
                     error = new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_DATA_INVALID_OBJECT_CODE, account.getTripChartCode(), account.getObjectCode());
@@ -325,78 +327,78 @@ public class ExpenseImportByTripServiceImpl extends ExpenseImportServiceBase imp
     @Override
     public List<ErrorMessage> validateDuplicateData(AgencyStagingData agencyData) {
 
-        // Verify that this isn't a duplicate entry based on the following:
-        // Trip ID, Invoice Number, Traveler Type Id, Agency Name, Transaction Date, Transaction Amount
-
+        //make sure all the mandatory fields are present before checking for duplicates
         List<ErrorMessage> errorMessages = validateMandatoryFieldsPresent(agencyData);
         if (!errorMessages.isEmpty()) {
             return errorMessages;
         }
 
-        Map<String, Object> fieldValues = new HashMap<String, Object>();
+        List<AgencyStagingData> agencyDataList = checkForDuplicates(agencyData);
+        if (ObjectUtils.isNotNull(agencyDataList) && !agencyDataList.isEmpty()) {
 
-        if (StringUtils.isNotEmpty(agencyData.getTripId())) {
-            fieldValues.put(TemPropertyConstants.TRIP_ID, agencyData.getTripId());
-        }
-        if (StringUtils.isNotEmpty(agencyData.getCreditCardOrAgencyCode())) {
-            fieldValues.put(TemPropertyConstants.CREDIT_CARD_AGENCY_CODE, agencyData.getCreditCardOrAgencyCode());
-        }
-        if (ObjectUtils.isNotNull(agencyData.getTransactionPostingDate())) {
-            fieldValues.put(TemPropertyConstants.TRANSACTION_POSTING_DATE, agencyData.getTransactionPostingDate());
-        }
-        if (ObjectUtils.isNotNull(agencyData.getTripExpenseAmount())) {
-            fieldValues.put(TemPropertyConstants.TRIP_EXPENSE_AMOUNT, agencyData.getTripExpenseAmount());
-        }
-        if (StringUtils.isNotEmpty(agencyData.getAirTicketNumber())) {
-            fieldValues.put(TemPropertyConstants.AIR_TICKET_NUMBER, agencyData.getAirTicketNumber());
-        }
-        if (StringUtils.isNotEmpty(agencyData.getLodgingItineraryNumber())) {
-            fieldValues.put(TemPropertyConstants.LODGING_ITINERARY_NUMBER, agencyData.getLodgingItineraryNumber());
-        }
-        if (StringUtils.isNotEmpty(agencyData.getRentalCarItineraryNumber())) {
-            fieldValues.put(TemPropertyConstants.RENTAL_CAR_ITINERARY_NUMBER, agencyData.getRentalCarItineraryNumber());
-        }
+            boolean isDuplicate = false;
+            String errorMessage = "Found a duplicate entry for Agency Staging Data: Duplicate Ids ";
 
-        if (fieldValues.isEmpty()) {
-            errorMessages.add(new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_DATA_NO_MANDATORY_FIELDS_GENERIC));
-        }
-        else {
-
-            List<AgencyStagingData> agencyDataList = (List<AgencyStagingData>) businessObjectService.findMatching(AgencyStagingData.class, fieldValues);
-            if (ObjectUtils.isNotNull(agencyDataList) && !agencyDataList.isEmpty()) {
-
-                boolean isDuplicate = false;
-                String errorMessage = "Found a duplicate entry for Agency Staging Data: Duplicate Ids ";
-
-                for(AgencyStagingData duplicate : agencyDataList) {
-                    Integer duplicateId = duplicate.getId();
-                    if (ObjectUtils.isNotNull(agencyData.getId()) && (agencyData.getId().intValue() != duplicateId.intValue())) {
-                        errorMessage += duplicate.getId() +" ";
-                        isDuplicate = true;
-                    }
+            for(AgencyStagingData duplicate : agencyDataList) {
+                Integer duplicateId = duplicate.getId();
+                if (ObjectUtils.isNotNull(agencyData.getId()) && (agencyData.getId().intValue() != duplicateId.intValue())) {
+                    errorMessage += duplicate.getId() +" ";
+                    isDuplicate = true;
                 }
-                if (isDuplicate) {
-                    LOG.error(errorMessage);
+            }
+            if (isDuplicate) {
+                LOG.error(errorMessage);
 
-                    String itineraryData = "";
-                    if (StringUtils.isNotEmpty(agencyData.getAirTicketNumber())) {
-                        itineraryData = "AIR-"+ agencyData.getAirTicketNumber();
-                    }
-                    else if (StringUtils.isNotEmpty(agencyData.getLodgingItineraryNumber())) {
-                        itineraryData = "LODGING-"+ agencyData.getLodgingItineraryNumber();
-                    }
-                    else if (StringUtils.isNotEmpty(agencyData.getRentalCarItineraryNumber())) {
-                        itineraryData = "RENTAL CAR-"+ agencyData.getRentalCarItineraryNumber();
-                    }
-
-                    ErrorMessage error = new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_DATA_TRIP_DUPLICATE_RECORD, agencyData.getTripId(), agencyData.getAgency(),
-                            agencyData.getTransactionPostingDate().toString(), agencyData.getTripExpenseAmount().toString());
-                    errorMessages.add(error);
+                String itineraryData = "";
+                if (StringUtils.isNotEmpty(agencyData.getAirTicketNumber())) {
+                    itineraryData = "AIR-"+ agencyData.getAirTicketNumber();
                 }
+                else if (StringUtils.isNotEmpty(agencyData.getLodgingItineraryNumber())) {
+                    itineraryData = "LODGING-"+ agencyData.getLodgingItineraryNumber();
+                }
+                else if (StringUtils.isNotEmpty(agencyData.getRentalCarItineraryNumber())) {
+                    itineraryData = "RENTAL CAR-"+ agencyData.getRentalCarItineraryNumber();
+                }
+
+                ErrorMessage error = new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_DATA_TRIP_DUPLICATE_RECORD, agencyData.getTripId(), agencyData.getAgency(),
+                        agencyData.getTransactionPostingDate().toString(), agencyData.getTripExpenseAmount().toString(), itineraryData);
+                errorMessages.add(error);
             }
         }
 
         return errorMessages;
+    }
+
+    protected List<AgencyStagingData> checkForDuplicates(AgencyStagingData agencyStagingData) {
+        // Verify that this isn't a duplicate entry based on the following:
+        // Trip ID, Ticket Number or Itinerary Number, Agency Name, Transaction Date, Transaction Amount
+
+        Map<String, Object> fieldValues = new HashMap<String, Object>();
+
+        if (StringUtils.isNotEmpty(agencyStagingData.getTripId())) {
+            fieldValues.put(TemPropertyConstants.TRIP_ID, agencyStagingData.getTripId());
+        }
+        if (StringUtils.isNotEmpty(agencyStagingData.getCreditCardOrAgencyCode())) {
+            fieldValues.put(TemPropertyConstants.CREDIT_CARD_AGENCY_CODE, agencyStagingData.getCreditCardOrAgencyCode());
+        }
+        if (ObjectUtils.isNotNull(agencyStagingData.getTransactionPostingDate())) {
+            fieldValues.put(TemPropertyConstants.TRANSACTION_POSTING_DATE, agencyStagingData.getTransactionPostingDate());
+        }
+        if (ObjectUtils.isNotNull(agencyStagingData.getTripExpenseAmount())) {
+            fieldValues.put(TemPropertyConstants.TRIP_EXPENSE_AMOUNT, agencyStagingData.getTripExpenseAmount());
+        }
+        if (StringUtils.isNotEmpty(agencyStagingData.getAirTicketNumber())) {
+            fieldValues.put(TemPropertyConstants.AIR_TICKET_NUMBER, agencyStagingData.getAirTicketNumber());
+        }
+        if (StringUtils.isNotEmpty(agencyStagingData.getLodgingItineraryNumber())) {
+            fieldValues.put(TemPropertyConstants.LODGING_ITINERARY_NUMBER, agencyStagingData.getLodgingItineraryNumber());
+        }
+        if (StringUtils.isNotEmpty(agencyStagingData.getRentalCarItineraryNumber())) {
+            fieldValues.put(TemPropertyConstants.RENTAL_CAR_ITINERARY_NUMBER, agencyStagingData.getRentalCarItineraryNumber());
+        }
+
+        List<AgencyStagingData> agencyDataList = (List<AgencyStagingData>) businessObjectService.findMatching(AgencyStagingData.class, fieldValues);
+        return agencyDataList;
     }
 
     /**
@@ -409,6 +411,7 @@ public class ExpenseImportByTripServiceImpl extends ExpenseImportServiceBase imp
 
         LOG.info("Reconciling expense for agency data: "+ agencyData.getId()+ " tripId: "+ agencyData.getTripId());
 
+        boolean result = false;
         //only reconcile the record if it is active
         if (agencyData.isActive()) {
 
@@ -432,86 +435,106 @@ public class ExpenseImportByTripServiceImpl extends ExpenseImportServiceBase imp
                 }
 
                 if (ObjectUtils.isNotNull(ccData)) {
-                    LOG.debug("Found a match for Agency: "+ agencyData.getId()+ " Credit Card: "+ ccData.getId()+ " tripId: "+ agencyData.getTripId());
+                    LOG.info("Found a match for Agency: "+ agencyData.getId()+ " Credit Card: "+ ccData.getId()+ " tripId: "+ agencyData.getTripId());
+
                     final TravelDocument travelDocument = getTravelDocumentService().getTravelDocument(agencyData.getTripId());
+
                     ExpenseTypeObjectCode travelExpenseType = getTravelExpenseType(expenseTypeCategory, travelDocument);
                     if (travelExpenseType != null) {
-                        HistoricalTravelExpense expense = travelExpenseService.createHistoricalTravelExpense(agencyData, ccData, travelExpenseType);
-                        AgencyServiceFee serviceFee = getAgencyServiceFee(agencyData.getDistributionCode());
 
-                        List<GeneralLedgerPendingEntry> entries = new ArrayList<GeneralLedgerPendingEntry>();
-                        List<TripAccountingInformation> accountingInfo = agencyData.getTripAccountingInformation();
+                        if (isAccountingLinesMatch(agencyData)) {
+                            List<TripAccountingInformation> accountingInfo = agencyData.getTripAccountingInformation();
 
-                        // Need to split up the amounts if there are multiple accounts
-                        KualiDecimal remainingAmount = agencyData.getTripExpenseAmount();
-                        KualiDecimal numAccounts = new KualiDecimal(accountingInfo.size());
-                        KualiDecimal currentAmount = agencyData.getTripExpenseAmount().divide(numAccounts);
-                        KualiDecimal remainingFeeAmount = new KualiDecimal(0);
-                        KualiDecimal currentFeeAmount = new KualiDecimal(0);
-                        if (ObjectUtils.isNotNull(serviceFee)) {
-                            remainingFeeAmount = serviceFee.getServiceFee();
-                            currentFeeAmount = serviceFee.getServiceFee().divide(numAccounts);
-                        }
+                            HistoricalTravelExpense expense = travelExpenseService.createHistoricalTravelExpense(agencyData, ccData, travelExpenseType);
+                            AgencyServiceFee serviceFee = getAgencyServiceFee(agencyData.getDistributionCode());
 
-                        String creditObjectCode = getParameterService().getParameterValueAsString(TemParameterConstants.TEM_ALL.class, AgencyMatchProcessParameter.TRAVEL_CREDIT_CARD_CLEARING_OBJECT_CODE);
+                            List<GeneralLedgerPendingEntry> entries = new ArrayList<GeneralLedgerPendingEntry>();
 
-                        boolean allGlpesCreated = true;
-
-                        for (int i = 0; i < accountingInfo.size(); i++) {
-                            TripAccountingInformation info = accountingInfo.get(i);
-
-                            // If its the last account, use the remainingAmount to resolve rounding
-                            if (i < accountingInfo.size() - 1) {
-                                remainingAmount = remainingAmount.subtract(currentAmount);
-                                remainingFeeAmount = remainingFeeAmount.subtract(currentFeeAmount);
-                            }
-                            else {
-                                currentAmount = remainingAmount;
-                                currentFeeAmount = remainingFeeAmount;
-                            }
-                            String objectCode = info.getObjectCode();
-                            if (StringUtils.isEmpty(objectCode)) {
-                                objectCode = travelExpenseType.getFinancialObjectCode();
-                            }
-
-                            // set the amount on the accounting info for documents pulling in imported expenses
-                            info.setAmount(currentAmount);
-
+                            // Need to split up the amounts if there are multiple accounts
+                            KualiDecimal remainingAmount = agencyData.getTripExpenseAmount();
+                            KualiDecimal numAccounts = new KualiDecimal(accountingInfo.size());
+                            KualiDecimal currentAmount = agencyData.getTripExpenseAmount().divide(numAccounts);
+                            KualiDecimal remainingFeeAmount = new KualiDecimal(0);
+                            KualiDecimal currentFeeAmount = new KualiDecimal(0);
                             if (ObjectUtils.isNotNull(serviceFee)) {
-                                // Agency Data has a DI Code that maps to an Agency Service Fee, create GLPEs for it.
-                                LOG.info("Processing Service Fee GLPE for agency: "+ agencyData.getId()+ " tripId: "+ agencyData.getTripId());
+                                remainingFeeAmount = serviceFee.getServiceFee();
+                                currentFeeAmount = serviceFee.getServiceFee().divide(numAccounts);
+                            }
+
+                            String creditObjectCode = getParameterService().getParameterValueAsString(TemParameterConstants.TEM_ALL.class, AgencyMatchProcessParameter.TRAVEL_CREDIT_CARD_CLEARING_OBJECT_CODE);
+
+                            boolean allGlpesCreated = true;
+
+                            for (int i = 0; i < accountingInfo.size(); i++) {
+                                TripAccountingInformation info = accountingInfo.get(i);
+
+                                // If its the last account, use the remainingAmount to resolve rounding
+                                if (i < accountingInfo.size() - 1) {
+                                    remainingAmount = remainingAmount.subtract(currentAmount);
+                                    remainingFeeAmount = remainingFeeAmount.subtract(currentFeeAmount);
+                                }
+                                else {
+                                    currentAmount = remainingAmount;
+                                    currentFeeAmount = remainingFeeAmount;
+                                }
+                                String objectCode = info.getObjectCode();
+                                if (StringUtils.isEmpty(objectCode)) {
+                                    objectCode = travelExpenseType.getFinancialObjectCode();
+                                }
+
+                                // set the amount on the accounting info for documents pulling in imported expenses
+                                info.setAmount(currentAmount);
+
+                                if (ObjectUtils.isNotNull(serviceFee)) {
+                                    // Agency Data has a DI Code that maps to an Agency Service Fee, create GLPEs for it.
+                                    LOG.info("Processing Service Fee GLPE for agency: "+ agencyData.getId()+ " tripId: "+ agencyData.getTripId());
+
+                                    final boolean generateOffset = true;
+                                    List<GeneralLedgerPendingEntry> pendingEntries = importedExpensePendingEntryService.buildDebitPendingEntry(agencyData, info, sequenceHelper, objectCode, currentFeeAmount, generateOffset);
+                                    allGlpesCreated = importedExpensePendingEntryService.checkAndAddPendingEntriesToList(pendingEntries, entries, agencyData, false, generateOffset);
+
+                                    pendingEntries = importedExpensePendingEntryService.buildServiceFeeCreditPendingEntry(agencyData, info, sequenceHelper, serviceFee, currentFeeAmount, generateOffset);
+                                    allGlpesCreated &= importedExpensePendingEntryService.checkAndAddPendingEntriesToList(pendingEntries, entries, agencyData, true, generateOffset);
+                                }
 
                                 final boolean generateOffset = true;
-                                List<GeneralLedgerPendingEntry> pendingEntries = importedExpensePendingEntryService.buildDebitPendingEntry(agencyData, info, sequenceHelper, objectCode, currentFeeAmount, generateOffset);
-                                allGlpesCreated = importedExpensePendingEntryService.checkAndAddPendingEntriesToList(pendingEntries, entries, agencyData, false, generateOffset);
+                                List<GeneralLedgerPendingEntry> pendingEntries = importedExpensePendingEntryService.buildDebitPendingEntry(agencyData, info, sequenceHelper, objectCode, currentAmount, generateOffset);
+                                allGlpesCreated &= importedExpensePendingEntryService.checkAndAddPendingEntriesToList(pendingEntries, entries, agencyData, false, generateOffset);
 
-                                pendingEntries = importedExpensePendingEntryService.buildServiceFeeCreditPendingEntry(agencyData, info, sequenceHelper, serviceFee, currentFeeAmount, generateOffset);
+                                pendingEntries = importedExpensePendingEntryService.buildCreditPendingEntry(agencyData, info, sequenceHelper, creditObjectCode, currentAmount, generateOffset);
                                 allGlpesCreated &= importedExpensePendingEntryService.checkAndAddPendingEntriesToList(pendingEntries, entries, agencyData, true, generateOffset);
                             }
 
-                            final boolean generateOffset = true;
-                            List<GeneralLedgerPendingEntry> pendingEntries = importedExpensePendingEntryService.buildDebitPendingEntry(agencyData, info, sequenceHelper, objectCode, currentAmount, generateOffset);
-                            allGlpesCreated &= importedExpensePendingEntryService.checkAndAddPendingEntriesToList(pendingEntries, entries, agencyData, false, generateOffset);
+                            if (entries.size() > 0 && allGlpesCreated) {
 
-                            pendingEntries = importedExpensePendingEntryService.buildCreditPendingEntry(agencyData, info, sequenceHelper, creditObjectCode, currentAmount, generateOffset);
-                            allGlpesCreated &= importedExpensePendingEntryService.checkAndAddPendingEntriesToList(pendingEntries, entries, agencyData, true, generateOffset);
-                        }
+                                GeneralLedgerPendingEntry glpe = entries.get(0);
 
-                        if (entries.size() > 0 && allGlpesCreated) {
-                            businessObjectService.save(entries);
-                            businessObjectService.save(expense);
-                            ccData.setErrorCode(CreditCardStagingDataErrorCodes.CREDIT_CARD_MOVED_TO_HISTORICAL);
-                            ccData.setMoveToHistoryIndicator(true);
-                            businessObjectService.save(ccData);
-                            agencyData.setMoveToHistoryIndicator(true);
-                            agencyData.setErrorCode(AgencyStagingDataErrorCodes.AGENCY_MOVED_TO_HISTORICAL);
+                                //add the GLPE document number to the historical expense entry
+                                expense.setDocumentNumber(glpe.getDocumentNumber());
+                                //add the TravelDocument document number to the historical expense entry
+                                expense.setDocumentType(travelDocument.getDocumentTypeName());
+                                //set the travel company to be the merchant name from the credit card data
+                                expense.setTravelCompany(ccData.getMerchantName());
+
+                                businessObjectService.save(entries);
+                                businessObjectService.save(expense);
+                                ccData.setErrorCode(CreditCardStagingDataErrorCodes.CREDIT_CARD_MOVED_TO_HISTORICAL);
+                                ccData.setMoveToHistoryIndicator(true);
+                                businessObjectService.save(ccData);
+                                agencyData.setMoveToHistoryIndicator(true);
+                                agencyData.setErrorCode(AgencyStagingDataErrorCodes.AGENCY_MOVED_TO_HISTORICAL);
+                                result = true;
+                            }
+                            else {
+                                LOG.error("An error occured while creating GLPEs for agency data: "+ agencyData.getId()+ " tripId"+ agencyData.getTripId()+ ". Not creating GLPE or historical expense for this agency record.");
+                            }
                         }
                         else {
-                            LOG.error("An errror occured while creating GLPEs for agency: "+ agencyData.getId()+ " tripId"+ agencyData.getTripId()+ " Not creating historical expense for this agency record.");
-                            return false;
+                            LOG.error("The accounting lines on the agency data record do not have a match on the travel document. Agency data: "+ agencyData.getId() +"; tripId: "+ agencyData.getTripId() +"; documentNumber: "+ travelDocument.getDocumentNumber());
                         }
-                    } else {
-                        LOG.info("No expense type object code could be found for "+agencyData.getId()+" tripId: "+agencyData.getTripId());
+                    }
+                    else {
+                        LOG.info("No expense type object code could be found for agency data: "+agencyData.getId()+" tripId: "+agencyData.getTripId());
                     }
                 }
                 else {
@@ -526,7 +549,74 @@ public class ExpenseImportByTripServiceImpl extends ExpenseImportServiceBase imp
             LOG.info("Agency Data: "+ agencyData.getId() +", is not active. Will not try to reconcile");
         }
 
-        LOG.info("Finished reconciling expense for agency data: "+ agencyData.getId()+ " tripId: "+ agencyData.getTripId());
+        LOG.info("Finished reconciling expense for agency data: "+ agencyData.getId()+ ", Trip Id: "+ agencyData.getTripId() +". Agency data "+ (result ? "was":"was not") +" reconciled.");
+        return result;
+    }
+
+    /**
+     * This method checks whether the accounting lines on the agency staging data record have a match with the source accounting lines on the travel document
+     *
+     * @param agencyDataAccountingLines
+     * @param travelDocumentAccountingLines
+     * @return
+     */
+    protected boolean isAccountingLinesMatch(AgencyStagingData agencyStagingData) {
+
+        List<TripAccountingInformation> agencyDataAccountingLines = agencyStagingData.getTripAccountingInformation();
+
+        //check that the accounting lines on the agency record have a matching encumbrance on the trip
+        List<Encumbrance> tripEncumbrances = getTravelEncumbranceService().getEncumbrancesForTrip(agencyStagingData.getTripId(), null);
+
+        // Get ACCOUNTING_LINE_VALIDATION parameter to determine which fields to validate
+        Collection<String> validationParams = getParameterService().getParameterValuesAsString(AgencyDataImportStep.class, TravelParameters.ACCOUNTING_LINE_VALIDATION);
+        if (ObjectUtils.isNull(validationParams)) {
+           LOG.info("Did not find the parameter, "+ TravelParameters.ACCOUNTING_LINE_VALIDATION +". Will not validate matching accounting lines.");
+           return true;
+        }
+
+        for(TripAccountingInformation agencyAccount : agencyDataAccountingLines) {
+
+            boolean foundAMatch = false;
+            for(Encumbrance encumbrance : tripEncumbrances) {
+
+                boolean account = true, subaccount = true, objectcode = true, subobjectcode = true;
+                if (validationParams.contains(TemConstants.AgencyStagingDataValidation.VALIDATE_ACCOUNT)) {
+                    if (!StringUtils.equals(agencyAccount.getTripAccountNumber(), encumbrance.getAccountNumber())) {
+                        account = false;
+                    }
+                }
+                if (validationParams.contains(TemConstants.AgencyStagingDataValidation.VALIDATE_SUBACCOUNT)) {
+                    if ( ObjectUtils.isNull(agencyAccount.getTripSubAccountNumber()) && ObjectUtils.isNull(encumbrance.getSubAccountNumber()) ||
+                            (ObjectUtils.isNotNull(agencyAccount.getTripSubAccountNumber()) &&
+                                StringUtils.equals(agencyAccount.getTripSubAccountNumber(), encumbrance.getSubAccountNumber())) ) {
+                        subaccount = false;
+                    }
+                }
+                if (validationParams.contains(TemConstants.AgencyStagingDataValidation.VALIDATE_OBJECT_CODE)) {
+                    if ( ObjectUtils.isNull(agencyAccount.getObjectCode()) && ObjectUtils.isNull(encumbrance.getObjectCode()) ||
+                            (ObjectUtils.isNotNull(agencyAccount.getObjectCode()) &&
+                                    StringUtils.equals(agencyAccount.getObjectCode(), encumbrance.getObjectCode())) ) {
+                        objectcode = false;
+                    }
+                }
+                if (validationParams.contains(TemConstants.AgencyStagingDataValidation.VALIDATE_SUBOBJECT_CODE)) {
+                    if ( ObjectUtils.isNull(agencyAccount.getSubObjectCode()) && ObjectUtils.isNull(encumbrance.getSubObjectCode()) ||
+                            (ObjectUtils.isNotNull(agencyAccount.getSubObjectCode()) &&
+                                    StringUtils.equals(agencyAccount.getSubObjectCode(), encumbrance.getSubObjectCode())) ) {
+                        subobjectcode = false;
+                    }
+                }
+                if (account && subaccount && objectcode && subobjectcode) {
+                    foundAMatch = true;
+                    break;
+                }
+            }
+            //the agency data accounting line does not have a matching encumbrance on the trip- return false
+            if (!foundAMatch) {
+                return false;
+            }
+        }
+        //all agency data accounting lines have matching encumbrances on the trip- return true
         return true;
     }
 
@@ -660,6 +750,14 @@ public class ExpenseImportByTripServiceImpl extends ExpenseImportServiceBase imp
 
     public void setTravelDocumentService(TravelDocumentService travelDocumentService) {
         this.travelDocumentService = travelDocumentService;
+    }
+
+    public TravelEncumbranceService getTravelEncumbranceService() {
+        return this.travelEncumbranceService;
+    }
+
+    public void setTravelEncumbranceService(TravelEncumbranceService travelEncumbranceService) {
+        this.travelEncumbranceService = travelEncumbranceService;
     }
 
 }

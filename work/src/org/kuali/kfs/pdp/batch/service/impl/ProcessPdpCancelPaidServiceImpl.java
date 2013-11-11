@@ -17,24 +17,23 @@ package org.kuali.kfs.pdp.batch.service.impl;
 
 import java.sql.Date;
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
-import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.integration.purap.PurchasingAccountsPayableModuleService;
-import org.kuali.kfs.integration.tem.TravelEntertainmentMovingModuleService;
 import org.kuali.kfs.pdp.PdpConstants;
-import org.kuali.kfs.pdp.PdpParameterConstants;
-import org.kuali.kfs.pdp.batch.ProcessPdPCancelsAndPaidStep;
 import org.kuali.kfs.pdp.batch.service.ProcessPdpCancelPaidService;
+import org.kuali.kfs.pdp.businessobject.ExtractionUnit;
 import org.kuali.kfs.pdp.businessobject.PaymentDetail;
 import org.kuali.kfs.pdp.service.PaymentDetailService;
 import org.kuali.kfs.pdp.service.PaymentGroupService;
 import org.kuali.kfs.sys.KFSParameterKeyConstants;
+import org.kuali.kfs.sys.batch.service.PaymentSourceToExtractService;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.PaymentSource;
-import org.kuali.kfs.sys.document.service.PaymentSourceHelperService;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
@@ -54,11 +53,10 @@ public class ProcessPdpCancelPaidServiceImpl implements ProcessPdpCancelPaidServ
     protected ParameterService parameterService;
     protected DateTimeService dateTimeService;
     protected PurchasingAccountsPayableModuleService purchasingAccountsPayableModuleService;
-    protected TravelEntertainmentMovingModuleService travelEntertainmentMovingModuleService;
-    protected PaymentSourceHelperService paymentSourceHelperService;
     protected DocumentService documentService;
 
     protected volatile Set<String> paymentSourceCheckACHDocumentTypes;
+    protected volatile List<PaymentSourceToExtractService<PaymentSource>> paymentSourceToExtractServices;
 
     /**
      * @see org.kuali.kfs.module.purap.service.ProcessPdpCancelPaidService#processPdpCancels()
@@ -69,15 +67,8 @@ public class ProcessPdpCancelPaidServiceImpl implements ProcessPdpCancelPaidServ
 
         Date processDate = dateTimeService.getCurrentSqlDate();
 
-        String organization = parameterService.getParameterValueAsString(KfsParameterConstants.PURCHASING_BATCH.class, KFSParameterKeyConstants.PurapPdpParameterConstants.PURAP_PDP_ORG_CODE);
-        String purapSubUnit = parameterService.getParameterValueAsString(KfsParameterConstants.PURCHASING_BATCH.class, KFSParameterKeyConstants.PurapPdpParameterConstants.PURAP_PDP_SUB_UNIT_CODE);
-        String dvSubUnit = parameterService.getParameterValueAsString(DisbursementVoucherDocument.class, KFSParameterKeyConstants.PdpExtractBatchParameters.PDP_SBUNT_CODE);
-
-        List<String> subUnits = new ArrayList<String>();
-        subUnits.add(purapSubUnit);
-        subUnits.add(dvSubUnit);
-
-        Iterator<PaymentDetail> details = paymentDetailService.getUnprocessedCancelledDetails(organization, subUnits);
+        final List<ExtractionUnit> extractionUnits = getExtractionUnits();
+        Iterator<PaymentDetail> details = paymentDetailService.getUnprocessedCancelledDetails(extractionUnits);
         while (details.hasNext()) {
             PaymentDetail paymentDetail = details.next();
 
@@ -90,23 +81,25 @@ public class ProcessPdpCancelPaidServiceImpl implements ProcessPdpCancelPaidServ
             if(purchasingAccountsPayableModuleService.isPurchasingBatchDocument(documentTypeCode)) {
                 purchasingAccountsPayableModuleService.handlePurchasingBatchCancels(documentNumber, documentTypeCode, primaryCancel, disbursedPayment);
             }
-            else if (getPaymentSourceCheckACHDocumentTypes().contains(documentTypeCode)) {
-                try {
-                    PaymentSource dv = (PaymentSource)getDocumentService().getByDocumentHeaderId(documentNumber);
-                    if (dv != null) {
-                        if (disbursedPayment || primaryCancel) {
-                            getPaymentSourceHelperService().cancelExtractedPaymentSource(dv, processDate);
-                        } else {
-                            getPaymentSourceHelperService().resetExtractedPaymentSource(dv, processDate);
-                        }
-                    }
-                } catch (WorkflowException we) {
-                    throw new RuntimeException("Could not retrieve document #"+documentNumber, we);
-                }
-            }
             else {
-                LOG.warn("processPdpCancels() Unknown document type (" + documentTypeCode + ") for document ID: " + documentNumber);
-                continue;
+                PaymentSourceToExtractService<PaymentSource> extractService = getPaymentSourceToExtractService(paymentDetail);
+                if (extractService != null) {
+                    try {
+                        PaymentSource dv = (PaymentSource)getDocumentService().getByDocumentHeaderId(documentNumber);
+                        if (dv != null) {
+                            if (disbursedPayment || primaryCancel) {
+                                extractService.cancelPayment(dv, processDate);
+                            } else {
+                                extractService.resetFromExtraction(dv);
+                            }
+                        }
+                    } catch (WorkflowException we) {
+                        throw new RuntimeException("Could not retrieve document #"+documentNumber, we);
+                    }
+                } else {
+                    LOG.warn("processPdpCancels() Unknown document type (" + documentTypeCode + ") for document ID: " + documentNumber);
+                    continue;
+                }
             }
 
             paymentGroupService.processCancelledGroup(paymentDetail.getPaymentGroup(), processDate);
@@ -122,17 +115,8 @@ public class ProcessPdpCancelPaidServiceImpl implements ProcessPdpCancelPaidServ
 
         Date processDate = dateTimeService.getCurrentSqlDate();
 
-        String organization = parameterService.getParameterValueAsString(KfsParameterConstants.PURCHASING_BATCH.class, KFSParameterKeyConstants.PurapPdpParameterConstants.PURAP_PDP_ORG_CODE);
-        String purapSubUnit = parameterService.getParameterValueAsString(KfsParameterConstants.PURCHASING_BATCH.class, KFSParameterKeyConstants.PurapPdpParameterConstants.PURAP_PDP_SUB_UNIT_CODE);
-        String dvSubUnit = parameterService.getParameterValueAsString(DisbursementVoucherDocument.class, KFSParameterKeyConstants.PdpExtractBatchParameters.PDP_SBUNT_CODE);
-        String temSubUnit = getTravelEntertainmentMovingModuleService().getPdpSubUnit();
-
-        List<String> subUnits = new ArrayList<String>();
-        subUnits.add(purapSubUnit);
-        subUnits.add(dvSubUnit);
-        subUnits.add(temSubUnit);
-
-        Iterator<PaymentDetail> details = paymentDetailService.getUnprocessedPaidDetails(organization, subUnits);
+        final List<ExtractionUnit> extractionUnits = getExtractionUnits();
+        Iterator<PaymentDetail> details = paymentDetailService.getUnprocessedPaidDetails(extractionUnits);
         while (details.hasNext()) {
             PaymentDetail paymentDetail = details.next();
 
@@ -142,17 +126,19 @@ public class ProcessPdpCancelPaidServiceImpl implements ProcessPdpCancelPaidServ
             if(purchasingAccountsPayableModuleService.isPurchasingBatchDocument(documentTypeCode)) {
                 purchasingAccountsPayableModuleService.handlePurchasingBatchPaids(documentNumber, documentTypeCode, processDate);
             }
-            else if (getPaymentSourceCheckACHDocumentTypes().contains(documentTypeCode)) {
-                try {
-                    PaymentSource dv = (PaymentSource)getDocumentService().getByDocumentHeaderId(documentNumber);
-                    getPaymentSourceHelperService().markPaymentSourceAsPaid(dv, processDate);
-                } catch (WorkflowException we) {
-                    throw new RuntimeException("Could not retrieve document #"+documentNumber, we);
-                }
-            }
             else {
-                LOG.warn("processPdpPaids() Unknown document type (" + documentTypeCode + ") for document ID: " + documentNumber);
-                continue;
+                PaymentSourceToExtractService<PaymentSource> extractService = getPaymentSourceToExtractService(paymentDetail);
+                if (extractService != null) {
+                    try {
+                        PaymentSource dv = (PaymentSource)getDocumentService().getByDocumentHeaderId(documentNumber);
+                        extractService.markAsPaid(dv, processDate);
+                    } catch (WorkflowException we) {
+                        throw new RuntimeException("Could not retrieve document #"+documentNumber, we);
+                    }
+                } else {
+                    LOG.warn("processPdpPaids() Unknown document type (" + documentTypeCode + ") for document ID: " + documentNumber);
+                    continue;
+                }
             }
 
             paymentGroupService.processPaidGroup(paymentDetail.getPaymentGroup(), processDate);
@@ -171,13 +157,58 @@ public class ProcessPdpCancelPaidServiceImpl implements ProcessPdpCancelPaidServ
     }
 
     /**
-     * @return a List of all of the FSLO-parented document types which represent ACH or Checks created by PaymentSources
+     * @return a List of all available PaymentSourceToExtractService implementations
      */
-    public Set<String> getPaymentSourceCheckACHDocumentTypes() {
-        if (paymentSourceCheckACHDocumentTypes == null) {
-            paymentSourceCheckACHDocumentTypes = new HashSet<String>(parameterService.getParameterValuesAsString(ProcessPdPCancelsAndPaidStep.class, PdpParameterConstants.PAYMENT_SOURCE_DOCUMENT_TYPES));
+    protected List<PaymentSourceToExtractService<PaymentSource>> getPaymentSourceToExtractServices() {
+        if (paymentSourceToExtractServices == null) {
+            paymentSourceToExtractServices = new ArrayList<PaymentSourceToExtractService<PaymentSource>>();
+            Map<String, PaymentSourceToExtractService> extractionServices = SpringContext.getBeansOfType(PaymentSourceToExtractService.class);
+            for (PaymentSourceToExtractService<PaymentSource> extractionService : extractionServices.values()) {
+                paymentSourceToExtractServices.add(extractionService);
+            }
         }
-        return paymentSourceCheckACHDocumentTypes;
+        return paymentSourceToExtractServices;
+    }
+
+    /**
+     * Looks up the PaymentSourceToExtractService which can act upon the given PaymentDetail, based on the PaymentDetail's document type
+     * @param paymentDetail the payment detail to find an extraction service to act upon
+     * @return the matching PaymentSourceToExtractService, or null if a matching service could not be found (which would be weird, because _something_ created this PaymentDetail, but...whatever)
+     */
+    protected PaymentSourceToExtractService<PaymentSource> getPaymentSourceToExtractService(PaymentDetail paymentDetail) {
+        for (PaymentSourceToExtractService<PaymentSource> extractionService : getPaymentSourceToExtractServices()) {
+            if (extractionService.handlesAchCheckDocumentType(paymentDetail.getFinancialDocumentTypeCode())) {
+                return extractionService;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Loops through the PaymentSourceToExtractService List and builds ExtractionUnits for each
+     * @return a List of ExtractionUnits for each customer profile organization and sub-organization handled by PaymentSourceToExtractServices
+     */
+    protected List<ExtractionUnit> getExtractionUnitsForPaymentSourceToExtractServices() {
+        List<ExtractionUnit> extractionUnits = new ArrayList<ExtractionUnit>();
+        for (PaymentSourceToExtractService<PaymentSource> extractionService : getPaymentSourceToExtractServices()) {
+            final ExtractionUnit extractionUnit = new ExtractionUnit(extractionService.getPreDisbursementCustomerProfileUnit(), extractionService.getPreDisbursementCustomerProfileSubUnit());
+            if (!extractionUnits.contains(extractionUnit)) {
+                extractionUnits.add(extractionUnit);
+            }
+        }
+        return extractionUnits;
+    }
+
+    /**
+     * @return a List of all known ExtractionUnits
+     */
+    protected List<ExtractionUnit> getExtractionUnits() {
+        List<ExtractionUnit> extractionUnits = getExtractionUnitsForPaymentSourceToExtractServices();
+        final String purapOrg = parameterService.getParameterValueAsString(KfsParameterConstants.PURCHASING_BATCH.class, KFSParameterKeyConstants.PurapPdpParameterConstants.PURAP_PDP_ORG_CODE);
+        final String purapSubUnit = parameterService.getParameterValueAsString(KfsParameterConstants.PURCHASING_BATCH.class, KFSParameterKeyConstants.PurapPdpParameterConstants.PURAP_PDP_SUB_UNIT_CODE);
+        final ExtractionUnit purapExtractionUnit = new ExtractionUnit(purapOrg, purapSubUnit);
+        extractionUnits.add(purapExtractionUnit);
+        return Collections.unmodifiableList(extractionUnits);
     }
 
     public void setPaymentDetailService(PaymentDetailService paymentDetailService) {
@@ -213,29 +244,6 @@ public class ProcessPdpCancelPaidServiceImpl implements ProcessPdpCancelPaidServ
      */
     public void setDocumentService(DocumentService documentService) {
         this.documentService = documentService;
-    }
-
-    /**
-     * @return an implementation of the PaymentSourceHelperService
-     */
-    public PaymentSourceHelperService getPaymentSourceHelperService() {
-        return paymentSourceHelperService;
-    }
-
-    /**
-     * Sets the implementation of the PaymentSourceHelperService for this service to use
-     * @param paymentSourceHelperService an implementation of PaymentSourceHelperService
-     */
-    public void setPaymentSourceHelperService(PaymentSourceHelperService paymentSourceHelperService) {
-        this.paymentSourceHelperService = paymentSourceHelperService;
-    }
-
-    public TravelEntertainmentMovingModuleService getTravelEntertainmentMovingModuleService() {
-        return travelEntertainmentMovingModuleService;
-    }
-
-    public void setTravelEntertainmentMovingModuleService(TravelEntertainmentMovingModuleService travelEntertainmentMovingModuleService) {
-        this.travelEntertainmentMovingModuleService = travelEntertainmentMovingModuleService;
     }
 
 }

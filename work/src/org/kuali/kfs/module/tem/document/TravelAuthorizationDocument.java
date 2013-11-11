@@ -53,12 +53,9 @@ import org.kuali.kfs.module.tem.businessobject.TransportationModeDetail;
 import org.kuali.kfs.module.tem.businessobject.TravelAdvance;
 import org.kuali.kfs.module.tem.businessobject.TravelPayment;
 import org.kuali.kfs.module.tem.businessobject.TravelerDetailEmergencyContact;
-import org.kuali.kfs.module.tem.document.service.TravelAuthorizationDocumentPaymentService;
 import org.kuali.kfs.module.tem.document.service.TravelAuthorizationService;
 import org.kuali.kfs.module.tem.service.TemExpenseService;
-import org.kuali.kfs.pdp.businessobject.PaymentGroup;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSParameterKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.batch.service.PaymentSourceExtractionService;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
@@ -117,7 +114,6 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
     private Integer nextAdvanceLineNumber  = new Integer(1);
 
     protected volatile static PersonService personService;
-    protected volatile static TravelAuthorizationDocumentPaymentService travelAuthorizationDocumentPaymentService;
     protected volatile static ConfigurationService configurationService;
     protected volatile static PaymentSourceHelperService paymentSourceHelperService;
     protected volatile static OptionsService optionsService;
@@ -1206,18 +1202,6 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
     }
 
     /**
-     * Generates a payment group to pay the advance if this authorization has one
-     * @see org.kuali.kfs.sys.document.PaymentSource#generatePaymentGroup(java.sql.Date)
-     */
-    @Override
-    public PaymentGroup generatePaymentGroup(Date processRunDate) {
-        if (shouldProcessAdvanceForDocument()) {
-            return getTravelAuthorizationDocumentPaymentService().createPaymentGroupForAuthorization(this, processRunDate);
-        }
-        return null;
-    }
-
-    /**
      * @return true if this document seems to have an active advance which should therefore be processed, false otherwise
      */
     public boolean shouldProcessAdvanceForDocument() {
@@ -1225,43 +1209,9 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
     }
 
     /**
-     * Sets the extraction date on the travel payment
-     * @see org.kuali.kfs.sys.document.PaymentSource#markAsExtracted(java.sql.Date)
-     */
-    @Override
-    public void markAsExtracted(Date extractionDate) {
-        getAdvanceTravelPayment().setExtractDate(extractionDate);
-    }
-
-    /**
-     * Sets the paid date on the travel payment
-     * @see org.kuali.kfs.sys.document.PaymentSource#markAsPaid(java.sql.Date)
-     */
-    @Override
-    public void markAsPaid(Date processDate) {
-        getAdvanceTravelPayment().setPaidDate(processDate);
-    }
-
-    @Override
-    public void cancelPayment(Date cancelDate) {
-        getTravelAuthorizationDocumentPaymentService().cancelAuthorizationDocument(this, cancelDate);
-    }
-
-    /**
-     * This involves rolling back the extracted and paid dates and setting the document to approved
-     * @see org.kuali.kfs.sys.document.PaymentSource#resetFromExtraction()
-     */
-    @Override
-    public void resetFromExtraction() {
-        getAdvanceTravelPayment().setExtractDate(null);
-        getAdvanceTravelPayment().setPaidDate(null);
-    }
-
-    /**
      * Returns the cancel date from the travel payment
      * @see org.kuali.kfs.sys.document.PaymentSource#getCancelDate()
      */
-    @Override
     public Date getCancelDate() {
         return this.getAdvanceTravelPayment().getCancelDate();
     }
@@ -1285,18 +1235,6 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
     }
 
     /**
-     * If the travel advance is partially filled in, returns the amount requested
-     * @see org.kuali.kfs.sys.document.PaymentSource#getPaymentAmount()
-     */
-    @Override
-    public KualiDecimal getPaymentAmount() {
-        if (shouldProcessAdvanceForDocument()) {
-            return this.getTravelAdvance().getTravelAdvanceRequested();
-        }
-        return KualiDecimal.ZERO;
-    }
-
-    /**
      * Returns the campus code of the initiator of this document
      * @see org.kuali.kfs.sys.document.PaymentSource#getCampusCode()
      */
@@ -1304,35 +1242,6 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
     public String getCampusCode() {
         final Person initiator = getPersonService().getPerson(getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId());
         return initiator.getCampusCode();
-    }
-
-    /**
-     * Returns "TACA"
-     * @see org.kuali.kfs.sys.document.PaymentSource#getAchCheckDocumentType()
-     */
-    @Override
-    public String getAchCheckDocumentType() {
-        return TemConstants.TravelDocTypes.TRAVEL_AUTHORIZATION_CHECK_ACH_DOCUMENT;
-    }
-
-    /**
-     * Returns the value of the KFS-TEM / Document / IMMEDIATE_EXTRACT_NOTIFICATION_FROM_EMAIL_ADDRESS parameter
-     * @see org.kuali.kfs.sys.document.PaymentSource#getImmediateExtractEMailFromAddress()
-     */
-    @Override
-    public String getImmediateExtractEMailFromAddress() {
-        return getParameterService().getParameterValueAsString(TemParameterConstants.TEM_DOCUMENT.class, KFSParameterKeyConstants.PdpExtractBatchParameters.IMMEDIATE_EXTRACT_FROM_ADDRESS_PARM_NM);
-    }
-
-    /**
-     * Returns the value of the KFS-TEM / Document / IMMEDIATE_EXTRACT_NOTIFICATION_TO_EMAIL_ADDRESSES parameter
-     * @see org.kuali.kfs.sys.document.PaymentSource#getImmediateExtractEmailToAddresses()
-     */
-    @Override
-    public List<String> getImmediateExtractEmailToAddresses() {
-        List<String> toAddresses = new ArrayList<String>();
-        toAddresses.addAll(getParameterService().getParameterValuesAsString(TemParameterConstants.TEM_DOCUMENT.class, KFSParameterKeyConstants.PdpExtractBatchParameters.IMMEDIATE_EXTRACT_TO_ADDRESSES_PARM_NM));
-        return toAddresses;
     }
 
     /**
@@ -1493,16 +1402,6 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
             personService = SpringContext.getBean(PersonService.class);
         }
         return personService;
-    }
-
-    /**
-     * @return the default implementation of the ReimbursableDocumentPaymentService
-     */
-    protected static TravelAuthorizationDocumentPaymentService getTravelAuthorizationDocumentPaymentService() {
-        if (travelAuthorizationDocumentPaymentService == null) {
-            travelAuthorizationDocumentPaymentService = SpringContext.getBean(TravelAuthorizationDocumentPaymentService.class);
-        }
-        return travelAuthorizationDocumentPaymentService;
     }
 
     /**

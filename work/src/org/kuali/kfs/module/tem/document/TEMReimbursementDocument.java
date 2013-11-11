@@ -31,21 +31,17 @@ import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.integration.purap.PurchasingAccountsPayableModuleService;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemKeyConstants;
-import org.kuali.kfs.module.tem.TemParameterConstants;
 import org.kuali.kfs.module.tem.businessobject.ActualExpense;
+import org.kuali.kfs.module.tem.businessobject.ImportedExpense;
 import org.kuali.kfs.module.tem.businessobject.PerDiemExpense;
 import org.kuali.kfs.module.tem.businessobject.TravelPayment;
 import org.kuali.kfs.module.tem.document.service.AccountingDocumentRelationshipService;
-import org.kuali.kfs.module.tem.document.service.ReimbursableDocumentPaymentService;
-import org.kuali.kfs.pdp.businessobject.PaymentGroup;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSParameterKeyConstants;
 import org.kuali.kfs.sys.batch.service.PaymentSourceExtractionService;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.businessobject.PaymentSourceWireTransfer;
-import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.businessobject.WireCharge;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.PaymentSource;
@@ -62,8 +58,10 @@ public abstract class TEMReimbursementDocument extends TravelDocumentBase implem
     private TravelPayment travelPayment;
     private PaymentSourceWireTransfer wireTransfer;
     private volatile transient Person initiator;
+    private Date corporateCardPaymentExtractDate;
+    private Date corporateCardPaymentPaidDate;
+    private Date corporateCardPaymentCancelDate;
 
-    private static transient volatile ReimbursableDocumentPaymentService reimbursableDocumentPaymentService;
     private static transient volatile PaymentSourceHelperService paymentSourceHelperService;
     private static transient volatile PaymentSourceExtractionService paymentSourceExtractionService;
     private static transient volatile AccountingDocumentRelationshipService accountingDocumentRelationshipService;
@@ -236,7 +234,6 @@ public abstract class TEMReimbursementDocument extends TravelDocumentBase implem
     /**
      * @return the FSLO document type associated with ach/check entries for this document type
      */
-    @Override
     public abstract String getAchCheckDocumentType();
 
     /**
@@ -245,23 +242,10 @@ public abstract class TEMReimbursementDocument extends TravelDocumentBase implem
     public abstract String getWireTransferOrForeignDraftDocumentType();
 
     /**
-     * Returns the value of the KFS-TEM / Document / IMMEDIATE_EXTRACT_NOTIFICATION_FROM_EMAIL_ADDRESS parameter
-     * @see org.kuali.kfs.sys.document.PaymentSource#getImmediateExtractEMailFromAddress()
+     * @return RCCA, the corporate card payment ach/check document type
      */
-    @Override
-    public String getImmediateExtractEMailFromAddress() {
-        return getParameterService().getParameterValueAsString(TemParameterConstants.TEM_DOCUMENT.class, KFSParameterKeyConstants.PdpExtractBatchParameters.IMMEDIATE_EXTRACT_FROM_ADDRESS_PARM_NM);
-    }
-
-    /**
-     * Returns the value of the KFS-TEM / Document / IMMEDIATE_EXTRACT_NOTIFICATION_TO_EMAIL_ADDRESSES parameter
-     * @see org.kuali.kfs.sys.document.PaymentSource#getImmediateExtractEmailToAddresses()
-     */
-    @Override
-    public List<String> getImmediateExtractEmailToAddresses() {
-        List<String> toAddresses = new ArrayList<String>();
-        toAddresses.addAll(getParameterService().getParameterValuesAsString(TemParameterConstants.TEM_DOCUMENT.class, KFSParameterKeyConstants.PdpExtractBatchParameters.IMMEDIATE_EXTRACT_TO_ADDRESSES_PARM_NM));
-        return toAddresses;
+    public String getCorporateCardPaymentAchCheckDocumentType() {
+        return TemConstants.TravelDocTypes.REIMBURSABLE_CORPORATE_CARD_CHECK_ACH_DOCUMENT;
     }
 
     /**
@@ -340,6 +324,20 @@ public abstract class TEMReimbursementDocument extends TravelDocumentBase implem
     }
 
     /**
+     * @return the amount that should be disbursed to the traveler for this reimbursement
+     */
+    public KualiDecimal getPaymentAmount() {
+        final KualiDecimal reimbursableExpenseTotal = getEligibleAmount();
+        if (getExpenseLimit() != null && reimbursableExpenseTotal.isGreaterThan(getExpenseLimit())) {
+            return getExpenseLimit();
+        }
+        if (reimbursableExpenseTotal.isLessThan(KualiDecimal.ZERO)) {
+            return KualiDecimal.ZERO;
+        }
+        return reimbursableExpenseTotal;
+    }
+
+    /**
      *
      * @return
      */
@@ -377,60 +375,6 @@ public abstract class TEMReimbursementDocument extends TravelDocumentBase implem
     }
 
     /**
-     * Defers to the ReimbursableDocumentExtractionHelperServiceImpl to generate a PaymentGroup
-     * @see org.kuali.kfs.sys.document.PaymentSource#generatePaymentGroup(java.sql.Date)
-     */
-    @Override
-    public PaymentGroup generatePaymentGroup(Date processRunDate) {
-        return getReimbursableDocumentPaymentService().createPaymentGroupForReimbursable(this, processRunDate);
-    }
-
-    /**
-     * Sets the extracted date on the TravelPayment
-     * @see org.kuali.kfs.sys.document.PaymentSource#markAsExtracted(java.sql.Date)
-     */
-    @Override
-    public void markAsExtracted(Date extractionDate) {
-        getTravelPayment().setExtractDate(extractionDate);
-    }
-
-    /**
-     * Sets the canceled date on the TravelPayment
-     * @see org.kuali.kfs.sys.document.PaymentSource#markAsPaid(java.sql.Date)
-     */
-    @Override
-    public void markAsPaid(Date processDate) {
-        getTravelPayment().setPaidDate(processDate);
-    }
-
-    /**
-     * Defers to the ReimbursableDocumentExtractionHelperServiceImpl to cancel the document
-     * @see org.kuali.kfs.sys.document.PaymentSource#cancelPayment(java.sql.Date)
-     */
-    @Override
-    public void cancelPayment(Date cancelDate) {
-        getReimbursableDocumentPaymentService().cancelReimbursableDocument(this, cancelDate);
-    }
-
-    /**
-     * Resets the extraction date and paid date to null; resets the document's financial status code to approved
-     * @see org.kuali.kfs.sys.document.PaymentSource#resetFromExtraction()
-     */
-    @Override
-    public void resetFromExtraction() {
-        getTravelPayment().setExtractDate(null);
-        getTravelPayment().setPaidDate(null);
-    }
-
-    /**
-     * @return the date when the reimbursement payment was canceled
-     */
-    @Override
-    public Date getCancelDate() {
-        return getTravelPayment().getCancelDate();
-    }
-
-    /**
      * @return the value of the travelPayment's attachmentCode
      */
     @Override
@@ -446,13 +390,28 @@ public abstract class TEMReimbursementDocument extends TravelDocumentBase implem
         return getTravelPayment().getPaymentMethodCode();
     }
 
-    @Override
-    public KualiDecimal getPaymentAmount() {
-        KualiDecimal totalAmount = KualiDecimal.ZERO;
-        for (SourceAccountingLine line : getReimbursableSourceAccountingLines()) {
-            totalAmount = totalAmount.add(line.getAmount());
-        }
-        return totalAmount;
+    public Date getCorporateCardPaymentExtractDate() {
+        return corporateCardPaymentExtractDate;
+    }
+
+    public void setCorporateCardPaymentExtractDate(Date corporateCardPaymentExtractDate) {
+        this.corporateCardPaymentExtractDate = corporateCardPaymentExtractDate;
+    }
+
+    public Date getCorporateCardPaymentPaidDate() {
+        return corporateCardPaymentPaidDate;
+    }
+
+    public void setCorporateCardPaymentPaidDate(Date corporateCardPaymentPaidDate) {
+        this.corporateCardPaymentPaidDate = corporateCardPaymentPaidDate;
+    }
+
+    public Date getCorporateCardPaymentCancelDate() {
+        return corporateCardPaymentCancelDate;
+    }
+
+    public void setCorporateCardPaymentCancelDate(Date corporateCardPaymentCancelDate) {
+        this.corporateCardPaymentCancelDate = corporateCardPaymentCancelDate;
     }
 
     /**
@@ -515,13 +474,35 @@ public abstract class TEMReimbursementDocument extends TravelDocumentBase implem
     }
 
     /**
-     * @return the default implementation of the ReimbursableDocumentPaymentService
+     * Determines if any imported expenses on the document have a card type of CORP
+     * @return true if there are CORP imported expenses on the document, false otherwise
      */
-    public static ReimbursableDocumentPaymentService getReimbursableDocumentPaymentService() {
-        if (reimbursableDocumentPaymentService == null) {
-            reimbursableDocumentPaymentService = SpringContext.getBean(ReimbursableDocumentPaymentService.class);
+    public boolean isCorporateCardPayable() {
+        if (getImportedExpenses() != null && !getImportedExpenses().isEmpty()) {
+            for (ImportedExpense expense : getImportedExpenses()) {
+                if (StringUtils.equals(expense.getCardType(), TemConstants.TRAVEL_TYPE_CORP)) {
+                    return true;
+                }
+            }
         }
-        return reimbursableDocumentPaymentService;
+        return false;
+    }
+
+    /**
+     * Based on which pdp dates are present (extract, paid, canceled), determines a String for the status
+     * @return a String representation of the status
+     */
+    public String getCorporateCardPaymentPdpStatus() {
+        if (corporateCardPaymentCancelDate != null) {
+            return "Canceled";
+        }
+        if (corporateCardPaymentPaidDate != null) {
+            return "Paid";
+        }
+        if (corporateCardPaymentExtractDate != null) {
+            return "Extracted";
+        }
+        return "Pre-Extraction";
     }
 
     /**

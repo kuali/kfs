@@ -69,10 +69,12 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.location.api.state.State;
 import org.kuali.rice.location.api.state.StateService;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * implement the service method calls defined in PerDiemService
  */
+@Transactional
 public class PerDiemServiceImpl extends ExpenseServiceBase implements PerDiemService, TemExpenseService {
 
     private static Logger LOG = Logger.getLogger(PerDiemServiceImpl.class);

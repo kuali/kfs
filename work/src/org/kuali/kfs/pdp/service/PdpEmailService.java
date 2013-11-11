@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.pdp.service;
 
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -110,8 +111,9 @@ public interface PdpEmailService {
 
     /**
      * Sends notification e-mail that an immediate extract Disbursement Voucher has been extracted
-     * @param paymentSource the disbursement voucher which was immediately extracted
+     * @param paymentSource the payment source being immediately extracted
+     * @param paymentSourceToExtractService the service used to extract the payment, which reports the e-mail addresses to extract
      * @param user the current extracting user
      */
-    public void sendPaymentSourceImmediateExtractEmail(PaymentSource paymentSource);
+    public void sendPaymentSourceImmediateExtractEmail(PaymentSource paymentSource, String fromAddress, Collection<String> toAddresses);
 }

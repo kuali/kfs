@@ -63,7 +63,7 @@
 		</property>
 	</bean>
 	<bean id="ExpenseType-groupTravel" parent="ExpenseType-groupTravel-parentBean" />
-	<bean id="ExpenseType-groupTravel-parentBean" parent="GenericAttributes-genericBoolean">
+	<bean id="ExpenseType-groupTravel-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
 		<property name="name" value="groupTravel" />
 		<property name="label" value="Group Travel" />
 		<property name="shortLabel" value="Group Travel" />
@@ -119,7 +119,7 @@
 		<property name="shortLabel" value="Cat. Deflt." />
 	</bean>
 	<bean id="ExpenseType-active" parent="ExpenseType-active-parentBean" />
-	<bean id="ExpenseType-active-parentBean" parent="GenericAttributes-genericBoolean">
+	<bean id="ExpenseType-active-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
 		<property name="name" value="active" />
 		<property name="label" value="Active" />
 		<property name="shortLabel" value="Active" />

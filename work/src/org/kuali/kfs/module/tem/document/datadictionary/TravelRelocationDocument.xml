@@ -66,6 +66,10 @@
                 <ref bean="TravelRelocationDocument-comments" />
                 <ref bean="TravelRelocationDocument-versionNumber" />
                 <ref bean="TravelRelocationDocument-appDocStatus" />
+                <ref bean="TravelRelocationDocument-corporateCardPaymentPdpStatus"/>
+				<ref bean="TravelRelocationDocument-corporateCardPaymentExtractDate"/>
+				<ref bean="TravelRelocationDocument-corporateCardPaymentPaidDate"/>
+				<ref bean="TravelRelocationDocument-corporateCardPaymentCancelDate"/>
             </list>
         </property>
         <property name="collections">
@@ -127,7 +131,7 @@
     </bean>
 
     <bean id="TravelRelocationDocument-travelDocumentNumber" parent="TravelRelocationDocument-travelDocumentNumber-parentBean" />
-    <bean id="TravelRelocationDocument-travelDocumentNumber-parentBean" parent="AttributeDefinition">
+    <bean id="TravelRelocationDocument-travelDocumentNumber-parentBean" abstract="true" parent="AttributeDefinition">
         <property name="name" value="travelDocumentIdentifier" />
         <property name="label" value="TEM Doc #" />
         <property name="shortLabel" value="TEM Doc #" />
@@ -145,7 +149,7 @@
         <property name="label" value="Document Status" />
     </bean>
     <bean id="TravelRelocationDocument-tripTypeCode" parent="TravelRelocationDocument-tripTypeCode-parentBean" />
-    <bean id="TravelRelocationDocument-tripTypeCode-parentBean" parent="AttributeDefinition">
+    <bean id="TravelRelocationDocument-tripTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
         <property name="name" value="tripTypeCode" />
         <property name="label" value="Trip Type Code" />
         <property name="shortLabel" value="Trip Type Code" />
@@ -158,7 +162,7 @@
         </property>
     </bean>
     <bean id="TravelRelocationDocument-tripBegin" parent="TravelRelocationDocument-tripBegin-parentBean" />
-    <bean id="TravelRelocationDocument-tripBegin-parentBean" parent="GenericAttributes-genericDate">
+    <bean id="TravelRelocationDocument-tripBegin-parentBean" abstract="true" parent="GenericAttributes-genericDate">
         <property name="name" value="tripBegin" />
         <property name="label" value="Moving Begin" />
         <property name="shortLabel" value="Moving Begin" />
@@ -167,7 +171,7 @@
         <property name="description" value="Moving Begin" />
     </bean>
     <bean id="TravelRelocationDocument-tripEnd" parent="TravelRelocationDocument-tripEnd-parentBean" />
-    <bean id="TravelRelocationDocument-tripEnd-parentBean" parent="GenericAttributes-genericDate">
+    <bean id="TravelRelocationDocument-tripEnd-parentBean" abstract="true" parent="GenericAttributes-genericDate">
         <property name="name" value="tripEnd" />
         <property name="label" value="Moving End" />
         <property name="shortLabel" value="Moving End" />
@@ -176,7 +180,7 @@
         <property name="description" value="Moving End" />
     </bean>
     <bean id="TravelRelocationDocument-tripDescription" parent="TravelRelocationDocument-tripDescription-parentBean" />
-    <bean id="TravelRelocationDocument-tripDescription-parentBean" parent="AttributeDefinition">
+    <bean id="TravelRelocationDocument-tripDescription-parentBean" abstract="true" parent="AttributeDefinition">
         <property name="name" value="tripDescription" />
         <property name="label" value="Trip Description" />
         <property name="shortLabel" value="Trip Description" />
@@ -188,7 +192,7 @@
         </property>
     </bean>
     <bean id="TravelRelocationDocument-expenseLimit" parent="TravelRelocationDocument-expenseLimit-parentBean" />
-    <bean id="TravelRelocationDocument-expenseLimit-parentBean" parent="GenericAttributes-genericAmount">
+    <bean id="TravelRelocationDocument-expenseLimit-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
         <property name="name" value="expenseLimit" />
         <property name="label" value="Expense Limit" />
         <property name="shortLabel" value="Expense Limit" />
@@ -197,7 +201,7 @@
         <property name="description" value="Expense Limit" />
     </bean>
     <bean id="TravelRelocationDocument-temProfileId" parent="TravelRelocationDocument-temProfileId-parentBean" />
-    <bean id="TravelRelocationDocument-temProfileId-parentBean" parent="AttributeDefinition">
+    <bean id="TravelRelocationDocument-temProfileId-parentBean" abstract="true" parent="AttributeDefinition">
         <property name="name" value="temProfileId" />
         <property name="label" value="Requester" />
         <property name="shortLabel" value="Requester" />
@@ -212,7 +216,7 @@
         </property>
     </bean>
     <bean id="TravelRelocationDocument-fromAddress1" parent="TravelRelocationDocument-fromAddress1-parentBean" />
-    <bean id="TravelRelocationDocument-fromAddress1-parentBean" parent="AttributeDefinition">
+    <bean id="TravelRelocationDocument-fromAddress1-parentBean" abstract="true" parent="AttributeDefinition">
         <property name="name" value="fromAddress1" />
         <property name="label" value="From Address1" />
         <property name="shortLabel" value="From Address1" />
@@ -224,7 +228,7 @@
         </property>
     </bean>
     <bean id="TravelRelocationDocument-fromAddress2" parent="TravelRelocationDocument-fromAddress2-parentBean" />
-    <bean id="TravelRelocationDocument-fromAddress2-parentBean" parent="AttributeDefinition">
+    <bean id="TravelRelocationDocument-fromAddress2-parentBean" abstract="true" parent="AttributeDefinition">
         <property name="name" value="fromAddress2" />
         <property name="label" value="From Address2" />
         <property name="shortLabel" value="From Address2" />
@@ -236,7 +240,7 @@
         </property>
     </bean>
     <bean id="TravelRelocationDocument-fromCity" parent="TravelRelocationDocument-fromCity-parentBean" />
-    <bean id="TravelRelocationDocument-fromCity-parentBean" parent="AttributeDefinition">
+    <bean id="TravelRelocationDocument-fromCity-parentBean" abstract="true" parent="AttributeDefinition">
         <property name="name" value="fromCity" />
         <property name="label" value="Moving From City" />
         <property name="shortLabel" value="Moving From City" />
@@ -248,7 +252,7 @@
         </property>
     </bean>
     <bean id="TravelRelocationDocument-fromStateCode" parent="TravelRelocationDocument-fromStateCode-parentBean" />
-    <bean id="TravelRelocationDocument-fromStateCode-parentBean" parent="AttributeDefinition">
+    <bean id="TravelRelocationDocument-fromStateCode-parentBean" abstract="true" parent="AttributeDefinition">
         <property name="name" value="fromStateCode" />
         <property name="label" value="Moving From State" />
         <property name="shortLabel" value="Moving From State" />
@@ -262,7 +266,7 @@
         </property>
     </bean>
     <bean id="TravelRelocationDocument-fromCountryCode" parent="TravelRelocationDocument-fromCountryCode-parentBean" />
-    <bean id="TravelRelocationDocument-fromCountryCode-parentBean" parent="AttributeDefinition">
+    <bean id="TravelRelocationDocument-fromCountryCode-parentBean" abstract="true" parent="AttributeDefinition">
         <property name="name" value="fromCountryCode" />
         <property name="label" value="Moving From Country" />
         <property name="shortLabel" value="Moving From Country" />
@@ -275,7 +279,7 @@
         </property>
     </bean>
     <bean id="TravelRelocationDocument-toAddress1" parent="TravelRelocationDocument-toAddress1-parentBean" />
-    <bean id="TravelRelocationDocument-toAddress1-parentBean" parent="AttributeDefinition">
+    <bean id="TravelRelocationDocument-toAddress1-parentBean" abstract="true" parent="AttributeDefinition">
         <property name="name" value="toAddress1" />
         <property name="label" value="To Address1" />
         <property name="shortLabel" value="To Address1" />
@@ -287,7 +291,7 @@
         </property>
     </bean>
     <bean id="TravelRelocationDocument-toAddress2" parent="TravelRelocationDocument-toAddress2-parentBean" />
-    <bean id="TravelRelocationDocument-toAddress2-parentBean" parent="AttributeDefinition">
+    <bean id="TravelRelocationDocument-toAddress2-parentBean" abstract="true" parent="AttributeDefinition">
         <property name="name" value="toAddress2" />
         <property name="label" value="To Address2" />
         <property name="shortLabel" value="To Address2" />
@@ -299,7 +303,7 @@
         </property>
     </bean>
     <bean id="TravelRelocationDocument-toCity" parent="TravelRelocationDocument-toCity-parentBean" />
-    <bean id="TravelRelocationDocument-toCity-parentBean" parent="AttributeDefinition">
+    <bean id="TravelRelocationDocument-toCity-parentBean" abstract="true" parent="AttributeDefinition">
         <property name="name" value="toCity" />
         <property name="label" value="Moving To City" />
         <property name="shortLabel" value="Moving To City" />
@@ -311,7 +315,7 @@
         </property>
     </bean>
     <bean id="TravelRelocationDocument-toStateCode" parent="TravelRelocationDocument-toStateCode-parentBean" />
-    <bean id="TravelRelocationDocument-toStateCode-parentBean" parent="AttributeDefinition">
+    <bean id="TravelRelocationDocument-toStateCode-parentBean" abstract="true" parent="AttributeDefinition">
         <property name="name" value="toStateCode" />
         <property name="label" value="Moving To State" />
         <property name="shortLabel" value="Moving To State" />
@@ -325,7 +329,7 @@
         </property>
     </bean>
     <bean id="TravelRelocationDocument-toCountryCode" parent="TravelRelocationDocument-toCountryCode-parentBean" />
-    <bean id="TravelRelocationDocument-toCountryCode-parentBean" parent="AttributeDefinition">
+    <bean id="TravelRelocationDocument-toCountryCode-parentBean" abstract="true" parent="AttributeDefinition">
         <property name="name" value="toCountryCode" />
         <property name="label" value="Moving To Country" />
         <property name="shortLabel" value="Moving To Country" />
@@ -343,7 +347,7 @@
     
     
     <bean id="TravelRelocationDocument-reasonCode" parent="TravelRelocationDocument-reasonCode-parentBean" />
-    <bean id="TravelRelocationDocument-reasonCode-parentBean" parent="AttributeDefinition">
+    <bean id="TravelRelocationDocument-reasonCode-parentBean" abstract="true" parent="AttributeDefinition">
         <property name="name" value="reasonCode" />
         <property name="label" value="Reason Code" />
         <property name="shortLabel" value="Reason Code" />
@@ -358,7 +362,7 @@
         </property>
     </bean>
     <bean id="TravelRelocationDocument-jobClsCode" parent="TravelRelocationDocument-jobClsCode-parentBean" />
-    <bean id="TravelRelocationDocument-jobClsCode-parentBean" parent="AttributeDefinition">
+    <bean id="TravelRelocationDocument-jobClsCode-parentBean" abstract="true" parent="AttributeDefinition">
         <property name="name" value="jobClsCode" />
         <property name="label" value="Job Classification Code" />
         <property name="shortLabel" value="Job Classification Code" />
@@ -373,7 +377,7 @@
         </property>
     </bean>
     <bean id="TravelRelocationDocument-titleCode" parent="TravelRelocationDocument-titleCode-parentBean" />
-    <bean id="TravelRelocationDocument-titleCode-parentBean" parent="AttributeDefinition">
+    <bean id="TravelRelocationDocument-titleCode-parentBean" abstract="true" parent="AttributeDefinition">
         <property name="name" value="titleCode" />
         <property name="label" value="Title Code" />
         <property name="shortLabel" value="Title Code" />
@@ -385,7 +389,7 @@
         </property>
     </bean>
     <bean id="TravelRelocationDocument-comments" parent="TravelRelocationDocument-comments-parentBean" />
-    <bean id="TravelRelocationDocument-comments-parentBean" parent="AttributeDefinition">
+    <bean id="TravelRelocationDocument-comments-parentBean" abstract="true" parent="AttributeDefinition">
         <property name="name" value="comments" />
         <property name="label" value="Comments" />
         <property name="shortLabel" value="Comments" />
@@ -397,7 +401,7 @@
         </property>
     </bean>
     <bean id="TravelRelocationDocument-versionNumber" parent="TravelRelocationDocument-versionNumber-parentBean" />
-    <bean id="TravelRelocationDocument-versionNumber-parentBean" parent="GenericAttributes-versionNumber">
+    <bean id="TravelRelocationDocument-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
         <property name="name" value="versionNumber" />
         <property name="label" value="Version Number" />
         <property name="shortLabel" value="Version Number" />
@@ -405,11 +409,35 @@
         <property name="description" value="Version Number" />
     </bean>
     <bean id="TravelRelocationDocument-appDocStatus" parent="TravelRelocationDocument-appDocStatus-parentBean" />
-    <bean id="TravelRelocationDocument-appDocStatus-parentBean" parent="FinancialSystemDocumentHeader-financialDocumentStatusCode">
+    <bean id="TravelRelocationDocument-appDocStatus-parentBean" abstract="true" parent="FinancialSystemDocumentHeader-financialDocumentStatusCode">
         <property name="name" value="dummyAppDocStatus" />
         <property name="label" value="RELO Status Code" />
         <property name="shortLabel" value="RELO Status" />
     </bean>
+    	<bean id="TravelRelocationDocument-corporateCardPaymentPdpStatus" parent="TravelRelocationDocument-corporateCardPaymentPdpStatus-parentBean"/>
+	<bean id="TravelRelocationDocument-corporateCardPaymentPdpStatus-parentBean" abstract="true" parent="TravelPayment-paymentPdpStatus">
+		<property name="name" value="corporateCardPaymentPdpStatus" />
+		<property name="label" value="Corporate Card Pre-Disbursement Processor Status"/>
+		<property name="shortLabel" value="Corp. Card PDP Status" />
+	</bean>
+	<bean id="TravelRelocationDocument-corporateCardPaymentExtractDate" parent="TravelRelocationDocument-corporateCardPaymentExtractDate-parentBean"/>
+	<bean id="TravelRelocationDocument-corporateCardPaymentExtractDate-parentBean" abstract="true" parent="TravelPayment-extractDate">
+		<property name="name" value="corporateCardPaymentExtractDate" />
+		<property name="label" value="Corporate Card Extraction Date"/>
+		<property name="shortLabel" value="Corp. Card Extract Dt." />
+	</bean>
+	<bean id="TravelRelocationDocument-corporateCardPaymentPaidDate" parent="TravelRelocationDocument-corporateCardPaymentPaidDate-parentBean"/>
+	<bean id="TravelRelocationDocument-corporateCardPaymentPaidDate-parentBean" abstract="true" parent="TravelPayment-paidDate">
+		<property name="name" value="corporateCardPaymentPaidDate" />
+		<property name="label" value="Corporate Card Paid Date"/>
+		<property name="shortLabel" value="Corp. Card Pd. Dt." />
+	</bean>
+	<bean id="TravelRelocationDocument-corporateCardPaymentCancelDate" parent="TravelRelocationDocument-corporateCardPaymentCancelDate-parentBean"/>
+	<bean id="TravelRelocationDocument-corporateCardPaymentCancelDate-parentBean" abstract="true" parent="TravelPayment-cancelDate">
+		<property name="name" value="corporateCardPaymentCancelDate" />
+		<property name="label" value="Corporate Card Canceled Date"/>
+		<property name="shortLabel" value="Corp. Card Cncld. Dt." />
+	</bean>		
 
     <!-- Validations -->
     <bean id="TravelRelocationDocument-validations" parent="TravelRelocationDocument-validations-parentBean" />

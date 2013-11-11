@@ -559,9 +559,9 @@ public class TravelReimbursementAction extends TravelActionBase {
 
         getTravelDocumentService().showNoTravelAuthorizationError(document);
 
-        final KualiDecimal reimbursableTotal = document.getReimbursableGrandTotal(); // the grand total is the amount that's actually reimbursable from this trip
-        if (reimbursableTotal != null && !ObjectUtils.isNull(document.getTravelPayment()) && reimbursableTotal.isGreaterEqual(KualiDecimal.ZERO)) {
-            document.getTravelPayment().setCheckTotalAmount(reimbursableTotal);
+        final KualiDecimal paymentTotal = document.getPaymentAmount(); // the grand total is the amount that's actually reimbursable from this trip
+        if (paymentTotal != null && !ObjectUtils.isNull(document.getTravelPayment()) && paymentTotal.isGreaterEqual(KualiDecimal.ZERO)) {
+            document.getTravelPayment().setCheckTotalAmount(paymentTotal);
         }
         // and update the new source line if possible
         if (reimbForm.getNewSourceLine() != null) {
@@ -716,7 +716,7 @@ public class TravelReimbursementAction extends TravelActionBase {
             TravelReimbursementForm travelReimbursementForm = (TravelReimbursementForm) form;
             TravelReimbursementDocument travelReimbursementDocument = travelReimbursementForm.getTravelReimbursementDocument();
 
-            Boolean value = getParameterService().getParameterValueAsBoolean(TravelReimbursementDocument.class, TemConstants.TravelReimbursementParameters.PRETRIP_REIMBURSEMENT_IND);
+            Boolean value = getParameterService().getParameterValueAsBoolean(TravelReimbursementDocument.class, TemConstants.TravelReimbursementParameters.PRETRIP_REIMBURSEMENT_IND, false);
 
             if (value != null && value.booleanValue()){
                 String description = travelReimbursementDocument.getDocumentHeader().getDocumentDescription();
@@ -746,9 +746,9 @@ public class TravelReimbursementAction extends TravelActionBase {
             TravelReimbursementForm travelReimbursementForm = (TravelReimbursementForm) form;
             TravelReimbursementDocument travelReimbursementDocument = travelReimbursementForm.getTravelReimbursementDocument();
 
-            String value = getParameterService().getParameterValueAsString(TravelReimbursementDocument.class, TemConstants.TravelReimbursementParameters.PRETRIP_REIMBURSEMENT_IND);
+            final boolean preTrip = getParameterService().getParameterValueAsBoolean(TravelReimbursementDocument.class, TemConstants.TravelReimbursementParameters.PRETRIP_REIMBURSEMENT_IND, false);
 
-            if (value.equalsIgnoreCase("Y")){
+            if (preTrip){
                 String description = travelReimbursementDocument.getDocumentHeader().getDocumentDescription();
                 travelReimbursementDocument.getDocumentHeader().setDocumentDescription(description + " (Pre-Trip)");
             }

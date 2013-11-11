@@ -29,47 +29,63 @@
 		</property>
 	</bean>
 	
-	<bean id="PerDiemForLoad-id" parent="PerDiem-id"/>
+	<bean id="PerDiemForLoad-id" parent="PerDiemForLoad-id-parentBean" />
+	<bean id="PerDiemForLoad-id-parentBean" abstract="true" parent="PerDiem-id"/>
 	
-	<bean id="PerDiemForLoad-lineNumber" parent="PerDiem-lineNumber" />
+	<bean id="PerDiemForLoad-lineNumber" parent="PerDiemForLoad-lineNumber-parentBean" />
+	<bean id="PerDiemForLoad-lineNumber-parentBean" abstract="true" parent="PerDiem-lineNumber" />
 	
-	<bean id="PerDiemForLoad-primaryDestinationId" parent="PerDiem-primaryDestinationId" >
+	<bean id="PerDiemForLoad-primaryDestinationId" parent="PerDiemForLoad-primaryDestinationId-parentBean" />
+	<bean id="PerDiemForLoad-primaryDestinationId-parentBean" abstract="true" parent="PerDiem-primaryDestinationId" >
 		<property name="required" value="false" />
 	</bean>
 	
-	<bean id="PerDiemForLoad-seasonBeginDate" parent="PerDiem-seasonBeginDate"/>
+	<bean id="PerDiemForLoad-seasonBeginDate" parent="PerDiemForLoad-seasonBeginDate-parentBean" />
+	<bean id="PerDiemForLoad-seasonBeginDate-parentBean" abstract="true" parent="PerDiem-seasonBeginDate"/>
 	
-	<bean id="PerDiemForLoad-effectiveFromDate" parent="PerDiem-effectiveFromDate" >
+	<bean id="PerDiemForLoad-effectiveFromDate" parent="PerDiemForLoad-effectiveFromDate-parentBean" />
+	<bean id="PerDiemForLoad-effectiveFromDate-parentBean" abstract="true" parent="PerDiem-effectiveFromDate" >
 		<property name="required" value="true" />		
 	</bean>
 	
-	<bean id="PerDiemForLoad-effectiveToDate" parent="PerDiem-effectiveToDate" />
+	<bean id="PerDiemForLoad-effectiveToDate" parent="PerDiemForLoad-effectiveToDate-parentBean" />
+	<bean id="PerDiemForLoad-effectiveToDate-parentBean" abstract="true" parent="PerDiem-effectiveToDate" />
 	
-	<bean id="PerDiemForLoad-breakfast" parent="PerDiem-breakfast" />
+	<bean id="PerDiemForLoad-breakfast" parent="PerDiemForLoad-breakfast-parentBean" />
+	<bean id="PerDiemForLoad-breakfast-parentBean" abstract="true" parent="PerDiem-breakfast" />
 
-	<bean id="PerDiemForLoad-lunch" parent="PerDiem-lunch" />
+	<bean id="PerDiemForLoad-lunch" parent="PerDiemForLoad-lunch-parentBean" />
+	<bean id="PerDiemForLoad-lunch-parentBean" abstract="true" parent="PerDiem-lunch" />
 
-	<bean id="PerDiemForLoad-dinner" parent="PerDiem-dinner" />
+	<bean id="PerDiemForLoad-dinner" parent="PerDiemForLoad-dinner-parentBean" />
+	<bean id="PerDiemForLoad-dinner-parentBean" abstract="true" parent="PerDiem-dinner" />
 
-	<bean id="PerDiemForLoad-incidentals" parent="PerDiem-incidentals" />
+	<bean id="PerDiemForLoad-incidentals" parent="PerDiemForLoad-incidentals-parentBean" />
+	<bean id="PerDiemForLoad-incidentals-parentBean" abstract="true" parent="PerDiem-incidentals" />
 
-	<bean id="PerDiemForLoad-mealsAndIncidentals" parent="PerDiem-mealsAndIncidentals" />
+	<bean id="PerDiemForLoad-mealsAndIncidentals" parent="PerDiemForLoad-mealsAndIncidentals-parentBean" />
+	<bean id="PerDiemForLoad-mealsAndIncidentals-parentBean" abstract="true" parent="PerDiem-mealsAndIncidentals" />
 
-	<bean id="PerDiemForLoad-active" parent="PerDiem-active" />
+	<bean id="PerDiemForLoad-active" parent="PerDiemForLoad-active-parentBean" />
+	<bean id="PerDiemForLoad-active-parentBean" abstract="true" parent="PerDiem-active" />
 	
-	<bean id="PerDiemForLoad-versionNumber" parent="PerDiem-versionNumber" />
+	<bean id="PerDiemForLoad-versionNumber" parent="PerDiemForLoad-versionNumber-parentBean" />
+	<bean id="PerDiemForLoad-versionNumber-parentBean" abstract="true" parent="PerDiem-versionNumber" />
 	
-	<bean id="PerDiemForLoad-regionNameForReport" parent="TemRegion-regionName">
+	<bean id="PerDiemForLoad-regionNameForReport" parent="PerDiemForLoad-regionNameForReport-parentBean" />
+	<bean id="PerDiemForLoad-regionNameForReport-parentBean" abstract="true" parent="TemRegion-regionName">
 		<property name="name" value="regionNameForReport"/>
 		<property name="required" value="false" />
 	</bean>
 	
-	<bean id="PerDiemForLoad-countyForReport" parent="PrimaryDestination-county">
+	<bean id="PerDiemForLoad-countyForReport" parent="PerDiemForLoad-countyForReport-parentBean" />
+	<bean id="PerDiemForLoad-countyForReport-parentBean" abstract="true" parent="PrimaryDestination-county">
 		<property name="name" value="countyForReport"/>
 		<property name="required" value="false" />
 	</bean>
 	
-	<bean id="PerDiemForLoad-primaryDestinationForReport" parent="PrimaryDestination-primaryDestinationName">
+	<bean id="PerDiemForLoad-primaryDestinationForReport" parent="PerDiemForLoad-primaryDestinationForReport-parentBean" />
+	<bean id="PerDiemForLoad-primaryDestinationForReport-parentBean" abstract="true" parent="PrimaryDestination-primaryDestinationName">
 		<property name="name" value="primaryDestinationForReport"/>
 		<property name="required" value="false" />
 	</bean>

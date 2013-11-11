@@ -15,8 +15,6 @@
  */
 package org.kuali.kfs.module.tem.batch.service.impl;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,14 +26,15 @@ import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.service.ObjectCodeService;
 import org.kuali.kfs.fp.document.DistributionOfIncomeAndExpenseDocument;
 import org.kuali.kfs.module.tem.TemConstants;
-import org.kuali.kfs.module.tem.TemConstants.AgencyMatchProcessParameter;
 import org.kuali.kfs.module.tem.TemParameterConstants;
+import org.kuali.kfs.module.tem.TemConstants.AgencyMatchProcessParameter;
 import org.kuali.kfs.module.tem.batch.service.ImportedExpensePendingEntryService;
 import org.kuali.kfs.module.tem.businessobject.AgencyServiceFee;
 import org.kuali.kfs.module.tem.businessobject.AgencyStagingData;
 import org.kuali.kfs.module.tem.businessobject.TemSourceAccountingLine;
 import org.kuali.kfs.module.tem.businessobject.TripAccountingInformation;
 import org.kuali.kfs.module.tem.document.TravelDocument;
+import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
@@ -59,20 +58,8 @@ public class ImportedExpensePendingEntryServiceImpl implements ImportedExpensePe
     UniversityDateService universityDateService;
     ParameterService parameterService;
     GeneralLedgerPendingEntryService generalLedgerPendingEntryService;
+    TravelDocumentService travelDocumentService;
 
-    /**
-     * @see org.kuali.kfs.module.tem.batch.service.ImportedExpensePendingEntryService#getImportExpenseDocumentNumber(org.kuali.kfs.module.tem.businessobject.AgencyStagingData)
-     */
-    @Override
-    public String getImportExpenseDocumentNumber(AgencyStagingData agencyData){
-        String documentNumber = "";
-
-        //3-Digit Code Agency Code + Number of day (001~365) + YY + hhmmss
-        DateFormat dateFormat = new SimpleDateFormat("Dyyhhmmss");
-        documentNumber = agencyData.getCreditCardOrAgencyCode().substring(0,3)
-                + dateFormat.format(dateTimeService.getCurrentSqlDate());
-        return documentNumber;
-    }
 
     /**
      * @see org.kuali.kfs.module.tem.batch.service.ImportedExpensePendingEntryService#checkAndAddPendingEntriesToList(java.util.List, org.kuali.kfs.module.tem.businessobject.AgencyStagingData, boolean, boolean)
@@ -262,7 +249,7 @@ public class ImportedExpensePendingEntryServiceImpl implements ImportedExpensePe
         explicitEntry.setFinancialDocumentTypeCode(docType);
         explicitEntry.setTransactionLedgerEntryDescription(TemConstants.TEM_IMPORTED_GLPE_DESC);
         explicitEntry.setOrganizationDocumentNumber(travelDocument.getTravelDocumentIdentifier());
-        explicitEntry.setDocumentNumber(travelDocument.getDocumentNumber());
+        explicitEntry.setDocumentNumber(getImportExpenseDocumentNumber(travelDocument));
         explicitEntry.setOrganizationReferenceId(travelDocument.getFinancialDocumentTypeCode()+TemConstants.IMPORTED_FLAG);
         final String transactionCode = isCredit ? KFSConstants.GL_CREDIT_CODE : KFSConstants.GL_DEBIT_CODE;
         explicitEntry.setTransactionDebitCreditCode(transactionCode);
@@ -312,6 +299,32 @@ public class ImportedExpensePendingEntryServiceImpl implements ImportedExpensePe
         return success;
     }
 
+    /**
+     * Returns the Document Number to set on the GLPE
+     *
+     * @param travelDocument
+     * @return
+     */
+    protected String getImportExpenseDocumentNumber(TravelDocument travelDocument) {
+        if (ObjectUtils.isNotNull(travelDocument)) {
+            return travelDocument.getDocumentNumber();
+        }
+        else {
+            return null;
+        }
+    }
+
+    /**
+     * Returns the Document Number to set on the GLPE
+     *
+     * @param agencyData
+     * @return
+     */
+    protected String getImportExpenseDocumentNumber(AgencyStagingData agencyData) {
+        TravelDocument travelDocument = getTravelDocumentService().getTravelDocument(agencyData.getTripId());
+        return getImportExpenseDocumentNumber(travelDocument);
+    }
+
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;
     }
@@ -328,4 +341,11 @@ public class ImportedExpensePendingEntryServiceImpl implements ImportedExpensePe
         this.generalLedgerPendingEntryService = generalLedgerPendingEntryService;
     }
 
+    public TravelDocumentService getTravelDocumentService() {
+        return travelDocumentService;
+    }
+
+    public void setTravelDocumentService(TravelDocumentService travelDocumentService) {
+        this.travelDocumentService = travelDocumentService;
+    }
 }

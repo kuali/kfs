@@ -100,24 +100,4 @@ public interface PaymentSourceHelperService {
      * @param glpe the general ledger pending entry to undo
      */
     public abstract void oppositifyAndSaveEntry(GeneralLedgerPendingEntry glpe, GeneralLedgerPendingEntrySequenceHelper glpeSeqHelper);
-
-    /**
-     * Cancels a disbursement voucher completely, because its payment has been canceled
-     * @param dv the disbursement voucher to cancel
-     */
-    public abstract void cancelExtractedPaymentSource(PaymentSource paymentSource, java.sql.Date processDate);
-
-    /**
-     * Resets the disbursement voucher so that it can be reextracted
-     * @param dv the disbursement voucher to reset for reextraction
-     */
-    public abstract void resetExtractedPaymentSource(PaymentSource paymentSource, java.sql.Date processDate);
-
-    /**
-     * Marks a disbursement voucher as paid
-     * @param dv the disbursement voucher to mark
-     * @param processDate the date when the dv was paid
-     */
-    public abstract void markPaymentSourceAsPaid(PaymentSource paymentSource, java.sql.Date processDate);
-
 }

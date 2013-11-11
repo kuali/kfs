@@ -221,6 +221,12 @@
 		<addForeignKeyConstraint constraintName="TEM_EXP_TYP_FIN_OBJ_CD_TR1"
 			baseTableName="TEM_EXP_TYP_FIN_OBJ_CD_T" baseColumnNames="EXP_TYP_CD"
 			referencedTableName="TEM_EXP_TYP_T" referencedColumnNames="EXP_TYP_CD" />
+		<createIndex name="TEM_EXP_TYP_FIN_OBJ_CD_TI1" unique="true">
+			<column name="EXP_TYP_CD" type="VARCHAR(2)"/>
+			<column name="TRIP_TYP_CD" type="VARCHAR(3)"/>
+			<column name="TRAVELER_TYP_CD" type="VARCHAR(3)"/>
+			<column name="DOC_TYP_NM" type="VARCHAR(4)"/>
+		</createIndex> 
 		<addUniqueConstraint tableName="TEM_EXP_TYP_T"
 			constraintName="TEM_EXP_TYP_TC0" columnNames="OBJ_ID" />
 		<addUniqueConstraint tableName="TEM_EXP_TYP_FIN_OBJ_CD_T"
@@ -252,7 +258,7 @@
 			columnName="TRAVELER_TYP_CD" columnDataType="VARCHAR2(3)" />
 		<addForeignKeyConstraint constraintName="TEM_HIST_EXP_TR2"
 			baseTableName="TEM_HIST_EXP_T" baseColumnNames="DV_EXP_CD"
-			referencedTableName="FP_DV_EXP_TYP_T" referencedColumnNames="DV_EXP_CD" />
+			referencedTableName="TEM_EXP_TYP_T" referencedColumnNames="EXP_TYP_CD" />
 		<addUniqueConstraint tableName="TEM_HIST_EXP_T"
 			constraintName="TEM_HIST_EXP_TC0" columnNames="OBJ_ID" />
 		<addNotNullConstraint tableName="TEM_HIST_EXP_T"
@@ -301,14 +307,6 @@
 			columnName="FDOC_NBR" columnDataType="VARCHAR2(14)" />
 		<addNotNullConstraint tableName="TEM_PER_DIEM_EXP_T"
 			columnName="MILEAGE_RT_ID" columnDataType="NUMBER(22,0)" />
-		<addUniqueConstraint tableName="TEM_PER_DIEM_MIE_BREAK_DOWN_T"
-			constraintName="TEM_PER_DIEM_MIE_BRK_DWN_TC0" columnNames="OBJ_ID" />
-		<addNotNullConstraint tableName="TEM_PER_DIEM_MIE_BREAK_DOWN_T"
-			columnName="VER_NBR" columnDataType="NUMBER(8,0)" />
-		<addNotNullConstraint tableName="TEM_PER_DIEM_MIE_BREAK_DOWN_T"
-			columnName="OBJ_ID" columnDataType="VARCHAR2(36)" />
-		<addNotNullConstraint tableName="TEM_PER_DIEM_MIE_BREAK_DOWN_T"
-			columnName="ACTV_IND" columnDataType="VARCHAR2(1)" />
 		<addForeignKeyConstraint constraintName="TEM_PER_DIEM_TR1"
 			baseTableName="TEM_PER_DIEM_T" baseColumnNames="TRIP_TYP_CD"
 			referencedTableName="TEM_TRIP_TYP_T" referencedColumnNames="CODE" />

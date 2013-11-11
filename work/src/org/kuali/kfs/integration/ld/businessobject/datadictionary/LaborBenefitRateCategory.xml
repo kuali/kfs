@@ -34,6 +34,7 @@
 	<bean id="LaborBenefitRateCategory-code-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="laborBenefitRateCategoryCode" />
 		<property name="label" value="Labor Benefit Rate Category Code" />
+		<property name="forceUppercase" value="true" />
 		<property name="shortLabel" value="Code" />
 		<property name="maxLength" value="2" />
 		<property name="required" value="true" />

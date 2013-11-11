@@ -65,7 +65,7 @@
 	</bean>
   
 	<bean id="CreditCardStagingData-id" parent="CreditCardStagingData-id-parentBean" />
-	<bean id="CreditCardStagingData-id-parentBean" parent="AttributeDefinition">
+	<bean id="CreditCardStagingData-id-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="id" />
 		<property name="label" value="Credit Card Data Id" />
 		<property name="shortLabel" value="Data Id" />
@@ -76,7 +76,7 @@
 		<property name="control"><bean parent="TextControlDefinition" p:size="255"/></property>
 	</bean>
 	<bean id="CreditCardStagingData-creditCardKey" parent="CreditCardStagingData-creditCardKey-parentBean" />
-	<bean id="CreditCardStagingData-creditCardKey-parentBean" parent="AttributeDefinition">
+	<bean id="CreditCardStagingData-creditCardKey-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="creditCardKey" />
 		<property name="label" value="Credit Card Key" />
 		<property name="shortLabel" value="Credit Card Key" />
@@ -87,7 +87,7 @@
 		<property name="control"><bean parent="TextControlDefinition" p:size="38"/></property>
 	</bean>
     <bean id="CreditCardStagingData-creditCardNumber" parent="CreditCardStagingData-creditCardNumber-parentBean" />
-    <bean id="CreditCardStagingData-creditCardNumber-parentBean" parent="AttributeDefinition">
+    <bean id="CreditCardStagingData-creditCardNumber-parentBean" abstract="true" parent="AttributeDefinition">
         <property name="name" value="creditCardNumber" />
         <property name="label" value="Credit Card Number" />
         <property name="shortLabel" value="Credit Card Number" />
@@ -96,7 +96,7 @@
         <property name="control"><bean parent="TextControlDefinition" p:size="22"/></property>
     </bean>
 	<bean id="CreditCardStagingData-travelerId" parent="CreditCardStagingData-travelerId-parentBean" />
-	<bean id="CreditCardStagingData-travelerId-parentBean" parent="AttributeDefinition">
+	<bean id="CreditCardStagingData-travelerId-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="travelerId" />
 		<property name="label" value="Traveler Id" />
 		<property name="shortLabel" value="Traveler Id" />
@@ -108,7 +108,7 @@
 		<property name="validationPattern"><bean parent="NumericValidationPattern" /></property>
 	</bean>
 	<bean id="CreditCardStagingData-airNumber" parent="CreditCardStagingData-airNumber-parentBean" />
-	<bean id="CreditCardStagingData-airNumber-parentBean" parent="AttributeDefinition">
+	<bean id="CreditCardStagingData-airNumber-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="airNumber" />
 		<property name="label" value="Air Number" />
 		<property name="shortLabel" value="Air Number" />
@@ -118,7 +118,7 @@
 		<property name="control"><bean parent="TextControlDefinition" p:size="3"/></property>
 	</bean>
 	<bean id="CreditCardStagingData-billingCycleDate" parent="CreditCardStagingData-billingCycleDate-parentBean" />
-	<bean id="CreditCardStagingData-billingCycleDate-parentBean" parent="GenericAttributes-genericDate">
+	<bean id="CreditCardStagingData-billingCycleDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
 		<property name="name" value="billingCycleDate" />
 		<property name="label" value="Billing Cycle Date" />
 		<property name="shortLabel" value="Billing Cycle Date" />
@@ -126,7 +126,7 @@
 		<property name="description" value="Billing Cycle Date" />
 	</bean>
 	<bean id="CreditCardStagingData-creditCardOrAgencyCode" parent="CreditCardStagingData-creditCardOrAgencyCode-parentBean" />
-	<bean id="CreditCardStagingData-creditCardOrAgencyCode-parentBean" parent="AttributeDefinition">
+	<bean id="CreditCardStagingData-creditCardOrAgencyCode-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="creditCardOrAgencyCode" />
 		<property name="label" value="Credit Card or Agency Code" />
 		<property name="shortLabel" value="Credit Card or Agency Code" />
@@ -136,7 +136,7 @@
 		<property name="control"><bean parent="TextControlDefinition" p:size="4"/></property>
 	</bean>
 	<bean id="CreditCardStagingData-creationDate" parent="CreditCardStagingData-creationDate-parentBean" />
-	<bean id="CreditCardStagingData-creationDate-parentBean" parent="GenericAttributes-genericDate">
+	<bean id="CreditCardStagingData-creationDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
 		<property name="name" value="creationDate" />
 		<property name="label" value="Creation Date" />
 		<property name="shortLabel" value="Creation Date" />
@@ -144,7 +144,7 @@
 		<property name="description" value="Creation Date" />
 	</bean>
 	<bean id="CreditCardStagingData-creationTimestamp" parent="CreditCardStagingData-creationTimestamp-parentBean" />
-	<bean id="CreditCardStagingData-creationTimestamp-parentBean" parent="GenericAttributes-genericDate">
+	<bean id="CreditCardStagingData-creationTimestamp-parentBean" abstract="true" parent="GenericAttributes-genericDate">
 		<property name="name" value="creationTimestamp" />
 		<property name="label" value="Creation Timestamp" />
 		<property name="shortLabel" value="Creation Timestamp" />
@@ -152,7 +152,7 @@
 		<property name="description" value="Creation Timestamp" />
 	</bean>
 	<bean id="CreditCardStagingData-processingTimestamp" parent="CreditCardStagingData-processingTimestamp-parentBean" />
-	<bean id="CreditCardStagingData-processingTimestamp-parentBean" parent="GenericAttributes-genericTimestamp">
+	<bean id="CreditCardStagingData-processingTimestamp-parentBean" abstract="true" parent="GenericAttributes-genericTimestamp">
 		<property name="name" value="processingTimestamp" />
 		<property name="label" value="Processing Timestamp" />
 		<property name="shortLabel" value="Processing Timestamp" />
@@ -164,7 +164,7 @@
         <property name="formatterClass" value="org.kuali.rice.core.web.format.DateViewTimestampObjectFormatter"/>
 	</bean>	
 	<bean id="CreditCardStagingData-departureDate" parent="CreditCardStagingData-departureDate-parentBean" />
-	<bean id="CreditCardStagingData-departureDate-parentBean" parent="GenericAttributes-genericDate">
+	<bean id="CreditCardStagingData-departureDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
 		<property name="name" value="departureDate" />
 		<property name="label" value="Departure Date" />
 		<property name="shortLabel" value="Departure Date" />
@@ -172,7 +172,7 @@
 		<property name="description" value="Departure Date" />
 	</bean>
 	<bean id="CreditCardStagingData-identifier" parent="CreditCardStagingData-identifier-parentBean" />
-	<bean id="CreditCardStagingData-identifier-parentBean" parent="AttributeDefinition">
+	<bean id="CreditCardStagingData-identifier-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="identifier" />
 		<property name="label" value="Identifier" />
 		<property name="shortLabel" value="Identifier" />
@@ -182,7 +182,7 @@
 		<property name="control"><bean parent="TextControlDefinition" p:size="1"/></property>
 	</bean>
 	<bean id="CreditCardStagingData-reconciliationDate" parent="CreditCardStagingData-reconciliationDate-parentBean" />
-	<bean id="CreditCardStagingData-reconciliationDate-parentBean" parent="GenericAttributes-genericDate">
+	<bean id="CreditCardStagingData-reconciliationDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
 		<property name="name" value="reconciliationDate" />
 		<property name="label" value="Reconciliation Date" />
 		<property name="shortLabel" value="Reconciliation Date" />
@@ -190,7 +190,7 @@
 		<property name="description" value="Reconciliation Date" />
 	</bean>
 	<bean id="CreditCardStagingData-referenceNumber" parent="CreditCardStagingData-referenceNumber-parentBean" />
-	<bean id="CreditCardStagingData-referenceNumber-parentBean" parent="AttributeDefinition">
+	<bean id="CreditCardStagingData-referenceNumber-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="referenceNumber" />
 		<property name="label" value="Reference Number" />
 		<property name="shortLabel" value="Reference Number" />
@@ -200,7 +200,7 @@
 		<property name="control"><bean parent="TextControlDefinition" p:size="23"/></property>
 	</bean>
 	<bean id="CreditCardStagingData-sequenceNumber" parent="CreditCardStagingData-sequenceNumber-parentBean" />
-	<bean id="CreditCardStagingData-sequenceNumber-parentBean" parent="AttributeDefinition">
+	<bean id="CreditCardStagingData-sequenceNumber-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="sequenceNumber" />
 		<property name="label" value="Sequence Number" />
 		<property name="shortLabel" value="Sequence Number" />
@@ -210,7 +210,7 @@
 		<property name="control"><bean parent="TextControlDefinition" p:size="3"/></property>
 	</bean>
 	<bean id="CreditCardStagingData-ticketNumber" parent="CreditCardStagingData-ticketNumber-parentBean" />
-	<bean id="CreditCardStagingData-ticketNumber-parentBean" parent="AttributeDefinition">
+	<bean id="CreditCardStagingData-ticketNumber-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="ticketNumber" />
 		<property name="label" value="Ticket Number" />
 		<property name="shortLabel" value="Ticket Number" />
@@ -220,7 +220,7 @@
 		<property name="control"><bean parent="TextControlDefinition" p:size="16"/></property>
 	</bean>
 	<bean id="CreditCardStagingData-transactionAmount" parent="CreditCardStagingData-transactionAmount-parentBean" />
-	<bean id="CreditCardStagingData-transactionAmount-parentBean" parent="GenericAttributes-genericAmount">
+	<bean id="CreditCardStagingData-transactionAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
 		<property name="name" value="transactionAmount" />
 		<property name="label" value="Transaction Amount" />
 		<property name="shortLabel" value="Transaction Amount" />
@@ -228,7 +228,7 @@
 		<property name="description" value="Transaction Amount" />
 	</bean>
 	<bean id="CreditCardStagingData-transactionCode" parent="CreditCardStagingData-transactionCode-parentBean" />
-	<bean id="CreditCardStagingData-transactionCode-parentBean" parent="AttributeDefinition">
+	<bean id="CreditCardStagingData-transactionCode-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="transactionCode" />
 		<property name="label" value="Transaction Code" />
 		<property name="shortLabel" value="Transaction Code" />
@@ -238,7 +238,7 @@
 		<property name="control"><bean parent="TextControlDefinition" p:size="1"/></property>
 	</bean>
 	<bean id="CreditCardStagingData-transactionDate" parent="CreditCardStagingData-transactionDate-parentBean" />
-	<bean id="CreditCardStagingData-transactionDate-parentBean" parent="GenericAttributes-genericDate">
+	<bean id="CreditCardStagingData-transactionDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
 		<property name="name" value="transactionDate" />
 		<property name="label" value="Transaction Date" />
 		<property name="shortLabel" value="Transaction Date" />
@@ -246,7 +246,7 @@
 		<property name="description" value="Transaction Date" />
 	</bean>
 	<bean id="CreditCardStagingData-travelerName" parent="CreditCardStagingData-travelerName-parentBean" />
-	<bean id="CreditCardStagingData-travelerName-parentBean" parent="AttributeDefinition">
+	<bean id="CreditCardStagingData-travelerName-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="travelerName" />
 		<property name="label" value="Traveler Name" />
 		<property name="shortLabel" value="Traveler Name" />
@@ -256,7 +256,7 @@
 		<property name="control"><bean parent="TextControlDefinition" p:size="40"/></property>
 	</bean>
 	<bean id="CreditCardStagingData-typeCode" parent="CreditCardStagingData-typeCode-parentBean" />
-	<bean id="CreditCardStagingData-typeCode-parentBean" parent="AttributeDefinition">
+	<bean id="CreditCardStagingData-typeCode-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="typeCode" />
 		<property name="label" value="Type Code" />
 		<property name="shortLabel" value="Type Code" />
@@ -266,7 +266,7 @@
 		<property name="control"><bean parent="TextControlDefinition" p:size="1"/></property>
 	</bean>
 	<bean id="CreditCardStagingData-expenseTypeCode" parent="CreditCardStagingData-expenseTypeCode-parentBean" />
-	<bean id="CreditCardStagingData-expenseTypeCode-parentBean" parent="AttributeDefinition">
+	<bean id="CreditCardStagingData-expenseTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="expenseTypeCode" />
 		<property name="label" value="Expense Type Code" />
 		<property name="shortLabel" value="Expense Type Code" />
@@ -276,7 +276,7 @@
 		<property name="control"><bean parent="TextControlDefinition" p:size="2"/></property>
 	</bean>
 	<bean id="CreditCardStagingData-disbursementVoucherDocumentNumber" parent="CreditCardStagingData-disbursementVoucherDocumentNumber-parentBean" />
-	<bean id="CreditCardStagingData-disbursementVoucherDocumentNumber-parentBean" parent="AttributeDefinition">
+	<bean id="CreditCardStagingData-disbursementVoucherDocumentNumber-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="disbursementVoucherDocumentNumber" />
 		<property name="label" value="Disbursement Voucher Doc #" />
 		<property name="shortLabel" value="DV Doc #" />
@@ -287,7 +287,7 @@
 		<property name="control"><bean parent="TextControlDefinition" p:size="32"/></property>
 	</bean>
 	<bean id="CreditCardStagingData-merchantName" parent="CreditCardStagingData-merchantName-parentBean" />
-	<bean id="CreditCardStagingData-merchantName-parentBean" parent="AttributeDefinition">
+	<bean id="CreditCardStagingData-merchantName-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="merchantName" />
 		<property name="label" value="Merchant Name" />
 		<property name="shortLabel" value="Merchant Name" />
@@ -297,7 +297,7 @@
 		<property name="control"><bean parent="TextControlDefinition" p:size="40"/></property>
 	</bean>
 	<bean id="CreditCardStagingData-bankPostDate" parent="CreditCardStagingData-bankPostDate-parentBean" />
-	<bean id="CreditCardStagingData-bankPostDate-parentBean" parent="GenericAttributes-genericDate">
+	<bean id="CreditCardStagingData-bankPostDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
 		<property name="name" value="bankPostDate" />
 		<property name="label" value="Bank Post Date" />
 		<property name="shortLabel" value="Bank Post Date" />
@@ -305,7 +305,7 @@
 		<property name="description" value="Bank Post Date" />
 	</bean>
 	<bean id="CreditCardStagingData-moveToHistoryIndicator" parent="CreditCardStagingData-moveToHistoryIndicator-parentBean" />
-	<bean id="CreditCardStagingData-moveToHistoryIndicator-parentBean" parent="GenericAttributes-genericBoolean">
+	<bean id="CreditCardStagingData-moveToHistoryIndicator-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
 		<property name="name" value="moveToHistoryIndicator" />
 		<property name="label" value="Matched Records?" />
 		<property name="shortLabel" value="Moved To History" />
@@ -317,7 +317,7 @@
 		</property>
 	</bean>
 	<bean id="CreditCardStagingData-location" parent="CreditCardStagingData-location-parentBean" />
-	<bean id="CreditCardStagingData-location-parentBean" parent="AttributeDefinition">
+	<bean id="CreditCardStagingData-location-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="location" />
 		<property name="label" value="Location" />
 		<property name="shortLabel" value="Location" />
@@ -327,7 +327,7 @@
 		<property name="control"><bean parent="TextControlDefinition" p:size="20"/></property>
 	</bean>
 	<bean id="CreditCardStagingData-errorCode" parent="CreditCardStagingData-errorCode-parentBean" />
-	<bean id="CreditCardStagingData-errorCode-parentBean" parent="AttributeDefinition">
+	<bean id="CreditCardStagingData-errorCode-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="errorCode" />
 		<property name="label" value="Status Code" />
 		<property name="shortLabel" value="Status" />
@@ -337,7 +337,7 @@
 		<property name="control"><bean parent="TextControlDefinition" p:size="40"/></property>
 	</bean>
 	<bean id="CreditCardStagingData-versionNumber" parent="CreditCardStagingData-versionNumber-parentBean" />
-	<bean id="CreditCardStagingData-versionNumber-parentBean" parent="GenericAttributes-versionNumber">
+	<bean id="CreditCardStagingData-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
 		<property name="name" value="versionNumber" />
 		<property name="label" value="Version Number" />
 		<property name="shortLabel" value="Version Number" />
@@ -345,7 +345,7 @@
 		<property name="description" value="Version Number" />
 	</bean>
 	<bean id="CreditCardStagingData-serviceFeeNumber" parent="CreditCardStagingData-serviceFeeNumber-parentBean" />
-	<bean id="CreditCardStagingData-serviceFeeNumber-parentBean" parent="AttributeDefinition">
+	<bean id="CreditCardStagingData-serviceFeeNumber-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="serviceFeeNumber" />
 		<property name="label" value="Service Fee Number" />
 		<property name="shortLabel" value="Service Fee Number" />
@@ -355,7 +355,7 @@
 		<property name="control"><bean parent="TextControlDefinition" p:size="20"/></property>
 	</bean>
     <bean id="CreditCardStagingData-itineraryNumber" parent="CreditCardStagingData-itineraryNumber-parentBean" />
-    <bean id="CreditCardStagingData-itineraryNumber-parentBean" parent="AttributeDefinition">
+    <bean id="CreditCardStagingData-itineraryNumber-parentBean" abstract="true" parent="AttributeDefinition">
       <property name="name" value="itineraryNumber" />
       <property name="label" value="Itinerary Number" />
       <property name="shortLabel" value="Itinerary" />
@@ -363,7 +363,7 @@
       <property name="control"><bean parent="TextControlDefinition" p:size="20"/></property>
     </bean>
       <bean id="CreditCardStagingData-importBy" parent="CreditCardStagingData-importBy-parentBean" />
-    <bean id="CreditCardStagingData-importBy-parentBean" parent="AttributeDefinition">
+    <bean id="CreditCardStagingData-importBy-parentBean" abstract="true" parent="AttributeDefinition">
       <property name="name" value="importBy" />
       <property name="label" value="Import By" />
       <property name="shortLabel" value="Import By" />
@@ -373,7 +373,7 @@
       </property>
     </bean>
 	<bean id="CreditCardStagingData-temProfileId" parent="CreditCardStagingData-temProfileId-parentBean" />
-	<bean id="CreditCardStagingData-temProfileId-parentBean" parent="AttributeDefinition">
+	<bean id="CreditCardStagingData-temProfileId-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="temProfileId" />
 		<property name="label" value="Tem Profile Id" />
 		<property name="shortLabel" value="Tem Profile Id" />
@@ -383,16 +383,16 @@
 		<property name="control"><bean parent="TextControlDefinition" p:size="19"/></property>
 	</bean>
     <bean id="CreditCardStagingData-profile_employeeId" parent="CreditCardStagingData-profile_employeeId-parentBean" />
-    <bean id="CreditCardStagingData-profile_employeeId-parentBean" parent="TemProfile-employeeId">
+    <bean id="CreditCardStagingData-profile_employeeId-parentBean" abstract="true" parent="TemProfile-employeeId">
       <property name="name" value="profile.employeeId" />
     </bean>
     <bean id="CreditCardStagingData-creditCardAgency_creditCardOrAgencyCode" parent="CreditCardStagingData-creditCardAgency_creditCardOrAgencyCode-parentBean" />
-    <bean id="CreditCardStagingData-creditCardAgency_creditCardOrAgencyCode-parentBean" parent="CreditCardAgency-creditCardOrAgencyCode">
+    <bean id="CreditCardStagingData-creditCardAgency_creditCardOrAgencyCode-parentBean" abstract="true" parent="CreditCardAgency-creditCardOrAgencyCode">
       <property name="name" value="creditCardAgency.creditCardOrAgencyCode" />
     </bean>
   
     <bean id="CreditCardStagingData-stagingFileName" parent="CreditCardStagingData-stagingFileName-parentBean" />
-    <bean id="CreditCardStagingData-stagingFileName-parentBean" parent="AgencyStagingData-stagingFileName-parentBean" />
+    <bean id="CreditCardStagingData-stagingFileName-parentBean" abstract="true" parent="AgencyStagingData-stagingFileName-parentBean" />
   
     <bean id="CreditCardStagingData-inquiryDefinition" parent="CreditCardStagingData-inquiryDefinition-parentBean" />
 	<bean id="CreditCardStagingData-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">

@@ -36,7 +36,7 @@
 		</property>
 	</bean>
 	<bean id="TemRegion-regionCode" parent="TemRegion-regionCode-parentBean" />
-	<bean id="TemRegion-regionCode-parentBean" parent="AttributeDefinition">
+	<bean id="TemRegion-regionCode-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="regionCode" />
 		<property name="label" value="Region Code" />
 		<property name="shortLabel" value="Region Code" />
@@ -50,7 +50,7 @@
 	</bean>
 	
 	<bean id="TemRegion-regionName" parent="TemRegion-regionName-parentBean" />
-	<bean id="TemRegion-regionName-parentBean" parent="AttributeDefinition">
+	<bean id="TemRegion-regionName-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="regionName" />
 		<property name="label" value="Region Name" />
 		<property name="shortLabel" value="Region Name" />
@@ -63,7 +63,7 @@
 		</property>
 	</bean>
 	<bean id="TemRegion-tripTypeCode" parent="TemRegion-tripTypeCode-parentBean" />
-	<bean id="TemRegion-tripTypeCode-parentBean" parent="AttributeDefinition">
+	<bean id="TemRegion-tripTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="tripTypeCode" />
 		<property name="label" value="Trip Type Code" />
 		<property name="shortLabel" value="Trip Type Code" />
@@ -77,7 +77,7 @@
 	</bean>
 	
 	<bean id="TemRegion-active" parent="TemRegion-active-parentBean" />
-	<bean id="TemRegion-active-parentBean" parent="GenericAttributes-genericBoolean">
+	<bean id="TemRegion-active-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
 		<property name="name" value="active" />
 		<property name="label" value="Active" />
 		<property name="shortLabel" value="Active" />
@@ -86,7 +86,7 @@
 		<property name="description" value="Active" />
 	</bean>
 	<bean id="TemRegion-versionNumber" parent="TemRegion-versionNumber-parentBean" />
-	<bean id="TemRegion-versionNumber-parentBean" parent="GenericAttributes-versionNumber">
+	<bean id="TemRegion-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
 		<property name="name" value="versionNumber" />
 		<property name="label" value="Version Number" />
 		<property name="shortLabel" value="Version Number" />

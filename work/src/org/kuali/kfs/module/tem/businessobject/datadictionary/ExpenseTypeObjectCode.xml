@@ -108,7 +108,7 @@
 		<property name="name" value="expenseTypeCode"/>
 	</bean>
 	<bean id="ExpenseTypeObjectCode-tripTypeCode" parent="ExpenseTypeObjectCode-tripTypeCode-parentBean" />
-	<bean id="ExpenseTypeObjectCode-tripTypeCode-parentBean" parent="AttributeDefinition">
+	<bean id="ExpenseTypeObjectCode-tripTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="tripTypeCode" />
 		<property name="label" value="Trip Type" />
 		<property name="shortLabel" value="Trip Type" />
@@ -123,7 +123,7 @@
 		</property>
 	</bean>	
 	<bean id="ExpenseTypeObjectCode-travelerTypeCode" parent="ExpenseTypeObjectCode-travelerTypeCode-parentBean" />
-	<bean id="ExpenseTypeObjectCode-travelerTypeCode-parentBean" parent="AttributeDefinition">
+	<bean id="ExpenseTypeObjectCode-travelerTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="travelerTypeCode" />
 		<property name="label" value="Traveler Type" />
 		<property name="shortLabel" value="Traveler Type" />
@@ -138,7 +138,7 @@
 		</property>
 	</bean>	
 	<bean id="ExpenseTypeObjectCode-documentTypeName" parent="ExpenseTypeObjectCode-documentTypeName-parentBean" />
-	<bean id="ExpenseTypeObjectCode-documentTypeName-parentBean" parent="AttributeDefinition">
+	<bean id="ExpenseTypeObjectCode-documentTypeName-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="documentTypeName" />
 		<property name="label" value="Document Type" />
 		<property name="shortLabel" value="Document Type" />
@@ -255,7 +255,7 @@
 	</bean>
 	
 	<bean id="ExpenseTypeObjectCode-active" parent="ExpenseTypeObjectCode-active-parentBean" />
-	<bean id="ExpenseTypeObjectCode-active-parentBean" parent="GenericAttributes-genericBoolean">
+	<bean id="ExpenseTypeObjectCode-active-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
 		<property name="name" value="active" />
 		<property name="label" value="Active" />
 		<property name="shortLabel" value="Active" />
@@ -264,7 +264,7 @@
 		<property name="description" value="Active" />
 	</bean>
 	<bean id="ExpenseTypeObjectCode-versionNumber" parent="ExpenseTypeObjectCode-versionNumber-parentBean" />
-	<bean id="ExpenseTypeObjectCode-versionNumber-parentBean" parent="GenericAttributes-versionNumber">
+	<bean id="ExpenseTypeObjectCode-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
 		<property name="name" value="versionNumber" />
 		<property name="label" value="Version Number" />
 		<property name="shortLabel" value="Version Number" />

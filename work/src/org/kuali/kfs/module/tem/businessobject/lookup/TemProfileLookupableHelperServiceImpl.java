@@ -31,13 +31,16 @@ import org.kuali.kfs.module.tem.businessobject.TemProfile;
 import org.kuali.kfs.module.tem.businessobject.TemProfileFromCustomer;
 import org.kuali.kfs.module.tem.businessobject.TemProfileFromKimPerson;
 import org.kuali.kfs.module.tem.datadictionary.MappedDefinition;
+import org.kuali.kfs.module.tem.document.authorization.TemProfileAuthorizer;
+import org.kuali.kfs.module.tem.document.service.TravelArrangerDocumentService;
 import org.kuali.kfs.module.tem.service.TemProfileService;
 import org.kuali.kfs.module.tem.service.TemRoleService;
 import org.kuali.kfs.module.tem.service.TravelerService;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.FinancialSystemUserService;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
-import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kim.api.services.IdentityManagementService;
@@ -45,6 +48,7 @@ import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
 import org.kuali.rice.kns.datadictionary.FieldDefinition;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
+import org.kuali.rice.kns.service.DocumentHelperService;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.bo.BusinessObject;
@@ -190,25 +194,24 @@ public class TemProfileLookupableHelperServiceImpl extends KualiLookupableHelper
         // next we need to get the current user's info
         UserSession user = GlobalVariables.getUserSession();
 
-        boolean canCreateNewProfile = false;
+        final TemProfileAuthorizer authorizer = (TemProfileAuthorizer)SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(TemConstants.TravelDocTypes.TRAVEL_PROFILE_DOCUMENT);
+
+        final TemProfile dummyProfile = new TemProfile();
+        // fill the dummy profile with the user's org, so that org qualified roles will have qualifiers
+        final ChartOrgHolder chartOrg = SpringContext.getBean(FinancialSystemUserService.class).getPrimaryOrganization(user.getPerson(), TemConstants.NAMESPACE);
+        dummyProfile.setHomeDeptChartOfAccountsCode(chartOrg.getChartOfAccountsCode());
+        dummyProfile.setHomeDeptOrgCode(chartOrg.getOrganizationCode());
+
+        boolean canCreateNewProfile = authorizer.canCreateAnyProfile(dummyProfile, user.getPerson());
         boolean canCreateMyProfile = false;
-
-        Map<String,String> roleQualifiers = new HashMap<String,String>();
-
-        Map<String,String> permissionDetails = new HashMap<String,String>();
-        permissionDetails.put(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME, TemConstants.TravelDocTypes.TRAVEL_PROFILE_DOCUMENT);
-
-        if (getIdentityManagementService().isAuthorizedByTemplateName(user.getPrincipalId(), KFSConstants.CoreModuleNamespaces.KNS, KimConstants.PermissionTemplateNames.CREATE_MAINTAIN_RECORDS, permissionDetails, roleQualifiers)) {
-            canCreateNewProfile = true;
-        }
 
         Map<String, String> criteria = new HashMap<String, String>(2);
         criteria.put("principalId", user.getPrincipalId());
         criteria.put("active", "true");
 
-        // If an active TEM Profile doesn't exist, allow the user to create their profile
+        // If an active TEM Profile doesn't exist and user is granted KFS-TEM Edit My TEM Profile permission, allow the user to create their profile
         if (getTemProfileService().findTemProfile(criteria) == null ) {
-            canCreateMyProfile = true;
+            canCreateMyProfile = authorizer.canEditOwnProfile(dummyProfile, user.getPerson());
         }
 
         String url = "<div class=\"createnew\" title=\"Create TEM Profile\">";

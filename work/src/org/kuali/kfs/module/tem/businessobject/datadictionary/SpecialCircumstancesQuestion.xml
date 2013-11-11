@@ -20,7 +20,7 @@
 		</property>
 	</bean>
 	<bean id="SpecialCircumstancesQuestion-id" parent="SpecialCircumstancesQuestion-id-parentBean" />
-	<bean id="SpecialCircumstancesQuestion-id-parentBean" parent="AttributeDefinition">
+	<bean id="SpecialCircumstancesQuestion-id-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="id" />
 		<property name="label" value="Id" />
 		<property name="shortLabel" value="Id" />
@@ -32,7 +32,7 @@
 		<property name="validationPattern"><bean parent="NumericValidationPattern" /></property>
 	</bean>
 	<bean id="SpecialCircumstancesQuestion-documentType" parent="SpecialCircumstancesQuestion-documentType-parentBean" />
-	<bean id="SpecialCircumstancesQuestion-documentType-parentBean" parent="AttributeDefinition">
+	<bean id="SpecialCircumstancesQuestion-documentType-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="documentType" />
 		<property name="label" value="Document Type" />
 		<property name="shortLabel" value="Document Type" />
@@ -47,8 +47,7 @@
         </property>
 	</bean>	
 	<bean id="SpecialCircumstancesQuestion-text" parent="SpecialCircumstancesQuestion-text-parentBean" />
-	<bean id="SpecialCircumstancesQuestion-text-parentBean"
-		parent="AttributeDefinition">
+	<bean id="SpecialCircumstancesQuestion-text-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="text" />
 		<property name="label" value="Question Text" />
 		<property name="shortLabel" value="Question Text" />
@@ -60,7 +59,7 @@
 		</property>
 	</bean>
 	<bean id="SpecialCircumstancesQuestion-active" parent="SpecialCircumstancesQuestion-active-parentBean" />
-	<bean id="SpecialCircumstancesQuestion-active-parentBean" parent="GenericAttributes-genericBoolean">
+	<bean id="SpecialCircumstancesQuestion-active-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
 		<property name="name" value="active" />
 		<property name="label" value="Active" />
 		<property name="shortLabel" value="Active" />
@@ -69,7 +68,7 @@
 		<property name="description" value="Active" />
 	</bean>
 	<bean id="SpecialCircumstancesQuestion-free" parent="SpecialCircumstancesQuestion-free-parentBean" />
-	<bean id="SpecialCircumstancesQuestion-free-parentBean" parent="GenericAttributes-genericBoolean">
+	<bean id="SpecialCircumstancesQuestion-free-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
 		<property name="name" value="free" />
 		<property name="label" value="Free Form" />
 		<property name="shortLabel" value="Free Form" />
@@ -78,7 +77,7 @@
 		<property name="description" value="Is this a Free Form response question?" />
 	</bean>
 	<bean id="SpecialCircumstancesQuestion-versionNumber" parent="SpecialCircumstancesQuestion-versionNumber-parentBean" />
-	<bean id="SpecialCircumstancesQuestion-versionNumber-parentBean" parent="GenericAttributes-versionNumber">
+	<bean id="SpecialCircumstancesQuestion-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
 		<property name="name" value="versionNumber" />
 		<property name="label" value="Version Number" />
 		<property name="shortLabel" value="Version Number" />

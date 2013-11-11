@@ -57,7 +57,6 @@ import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.TravelReimbursementDocument;
 import org.kuali.kfs.module.tem.document.service.AccountingDocumentRelationshipService;
 import org.kuali.kfs.module.tem.document.service.TravelAuthorizationService;
-import org.kuali.kfs.module.tem.document.service.TravelDisbursementService;
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
 import org.kuali.kfs.module.tem.service.TemProfileService;
 import org.kuali.kfs.module.tem.service.TravelerService;
@@ -91,7 +90,9 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
+import org.springframework.transaction.annotation.Transactional;
 
+@Transactional
 public class TravelAuthorizationServiceImpl implements TravelAuthorizationService {
 
     protected static Logger LOG = Logger.getLogger(TravelAuthorizationServiceImpl.class);
@@ -100,7 +101,6 @@ public class TravelAuthorizationServiceImpl implements TravelAuthorizationServic
     private AccountsReceivableModuleService accountsReceivableModuleService;
     private ParameterService parameterService;
     private DocumentService documentService;
-    private TravelDisbursementService travelDisbursementService;
     private DateTimeService dateTimeService;
     private KualiRuleService kualiRuleService;
     private WorkflowDocumentService workflowDocumentService;
@@ -669,10 +669,6 @@ public class TravelAuthorizationServiceImpl implements TravelAuthorizationServic
 	public void setTemProfileService(TemProfileService temProfileService) {
 		this.temProfileService = temProfileService;
 	}
-
-    public void setTravelDisbursementService(TravelDisbursementService travelDisbursementService) {
-        this.travelDisbursementService = travelDisbursementService;
-    }
 
     public void setDocumentDao(DocumentDao documentDao) {
         this.documentDao = documentDao;

@@ -48,8 +48,8 @@ public class CustomerCreditMemoDetailItemQuantityValidation extends GenericValid
                 return false;
             }
 
-            KualiDecimal invoiceOpenItemQty = customerCreditMemoDetail.getInvoiceOpenItemQuantity();
-            KualiDecimal customerCreditMemoItemQty = new KualiDecimal(customerCreditMemoDetail.getCreditMemoItemQuantity());
+            BigDecimal invoiceOpenItemQty = customerCreditMemoDetail.getInvoiceOpenItemQuantity();
+            BigDecimal customerCreditMemoItemQty = customerCreditMemoDetail.getCreditMemoItemQuantity();
 
             // customer credit memo quantity must not be greater than invoice open item quantity
             isValid = (customerCreditMemoItemQty.compareTo(invoiceOpenItemQty) < 1?true:false);

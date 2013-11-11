@@ -221,8 +221,10 @@
 	
 	<bean id="ProcurementCard-accountNumberValidation" class="org.kuali.kfs.fp.document.validation.impl.ProcurementCardAccountNumberValidation" abstract="true" />
 
-	<bean id="ProcurementCard-accountAccessibilityValidation" class="org.kuali.kfs.fp.document.validation.impl.ProcurementCardAccountAccessibilityValidation" abstract="true" />
-
+	<bean id="ProcurementCard-accountAccessibilityValidation" class="org.kuali.kfs.fp.document.validation.impl.ProcurementCardAccountAccessibilityValidation" abstract="true" >
+		<property name="dataDictionaryService" ref="dataDictionaryService" />
+	</bean>
+	
 	<bean id="ProcurementCard-balanceValidation" class="org.kuali.kfs.fp.document.validation.impl.ProcurementCardBalanceValidation" abstract="true" />
 
 	<bean id="ProcurementCard-fixErrorPathValidation" class="org.kuali.kfs.fp.document.validation.impl.ProcurementCardFixErrorPathValidation" abstract="true" />
@@ -230,7 +232,7 @@
 	<bean id="ProcurementCard-objectCodeValidation" class="org.kuali.kfs.fp.document.validation.impl.ProcurementCardObjectCodeValidation" abstract="true" />
 	
 	<bean id="ProcurementCard-accountingLineAmountNonZeroValidation" class="org.kuali.kfs.fp.document.validation.impl.AccountingLineAmountNonZeroValidation" abstract="true" />
-
+	
 	<bean id="ServiceBilling-accountingLineAmountNonZeroValidation" class="org.kuali.kfs.fp.document.validation.impl.AccountingLineAmountNonZeroValidation" abstract="true" />
 	
 	<bean id="ServiceBilling-accountingLineAccessibleValidation" class="org.kuali.kfs.fp.document.validation.impl.ServiceBillingAccountingLineAccessibleValidation" abstract="true">

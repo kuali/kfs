@@ -43,6 +43,23 @@
 		</property>
 	</bean>
 
+	<bean id="securityBalanceLookupableHelperService" parent="securityBalanceLookupableHelperService-parentBean" scope="prototype" />
+        
+	<bean id="securityBalanceLookupableHelperService-parentBean" class="org.kuali.kfs.sec.businessobject.lookup.AccessSecurityBalanceLookupableHelperServiceImpl" scope="prototype" abstract="true">
+		<property name="accessSecurityService">
+			<ref bean="accessSecurityService" />
+		</property>	
+		<property name="businessObjectMetaDataService">
+			<ref bean="businessObjectMetaDataService" />
+		</property>
+		<property name="persistenceStructureService">
+			<ref bean="persistenceStructureService" />
+		</property>	
+		<property name="businessObjectAuthorizationService">
+			<ref bean="businessObjectAuthorizationService" />
+		</property>			
+	</bean>
+	
     <bean id="secModuleService" parent="secModuleService-parentBean"/>
     
     <bean id="secModuleService-parentBean" abstract="true" class="org.kuali.kfs.sys.service.impl.KfsModuleServiceImpl">

@@ -3,6 +3,12 @@
 	xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd'>
 	
 	<changeSet author="KFSTEM" id="KFSMI-11416">
+		<insert tableName="PDP_ACH_TRANS_TYP_T">
+			<column name="TRANS_TYP" value="TEM"/>
+			<column name="OBJ_ID" value="KFS-ACH-TRANS-TYP-002"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="TRANS_TYPE_DESC" value="Travel and Entertainment Transaction Type"/>
+		</insert>
 		<insert tableName="PDP_CUST_PRFL_T">
 			<column name="CUST_ID" value="10000033"/>
 			<column name="OBJ_ID" value="KFS-TEM-CUST_PRFL-0001"/>
@@ -24,7 +30,7 @@
 			<column name="DFLT_SUB_OBJ_CD" value="---"/>
 			<column name="ADV_CRTE_IND" value="Y"/>
 			<column name="ACH_PMT_DESC" value="TEST"/>
-			<column name="ACH_TRANS_TYP" value="PRAP"/>
+			<column name="ACH_TRANS_TYP" value="TEM"/>
 			<column name="CUST_CNTC_FULL_NM" value="Keisha Huntley"/>
 			<column name="CUST_LN1_ADDR" value="500 Kuali Place"/>
 			<column name="CUST_CTY_NM" value="Bloomington"/>
@@ -63,7 +69,7 @@
 			<column name="DFLT_SUB_OBJ_CD" value="---"/>
 			<column name="ADV_CRTE_IND" value="Y"/>
 			<column name="ACH_PMT_DESC" value="TEST"/>
-			<column name="ACH_TRANS_TYP" value="PRAP"/>
+			<column name="ACH_TRANS_TYP" value="TEM"/>
 			<column name="CUST_CNTC_FULL_NM" value="Keisha Huntley"/>
 			<column name="CUST_LN1_ADDR" value="500 Kuali Place"/>
 			<column name="CUST_CTY_NM" value="Bloomington"/>
@@ -102,7 +108,7 @@
 			<column name="DFLT_SUB_OBJ_CD" value="---"/>
 			<column name="ADV_CRTE_IND" value="Y"/>
 			<column name="ACH_PMT_DESC" value="TEST"/>
-			<column name="ACH_TRANS_TYP" value="PRAP"/>
+			<column name="ACH_TRANS_TYP" value="TEM"/>
 			<column name="CUST_CNTC_FULL_NM" value="Keisha Huntley"/>
 			<column name="CUST_LN1_ADDR" value="500 Kuali Place"/>
 			<column name="CUST_CTY_NM" value="Bloomington"/>
@@ -141,7 +147,7 @@
 			<column name="DFLT_SUB_OBJ_CD" value="---"/>
 			<column name="ADV_CRTE_IND" value="Y"/>
 			<column name="ACH_PMT_DESC" value="TEST"/>
-			<column name="ACH_TRANS_TYP" value="PRAP"/>
+			<column name="ACH_TRANS_TYP" value="TEM"/>
 			<column name="CUST_CNTC_FULL_NM" value="Keisha Huntley"/>
 			<column name="CUST_LN1_ADDR" value="500 Kuali Place"/>
 			<column name="CUST_CTY_NM" value="Bloomington"/>
@@ -180,7 +186,7 @@
 			<column name="DFLT_SUB_OBJ_CD" value="---"/>
 			<column name="ADV_CRTE_IND" value="Y"/>
 			<column name="ACH_PMT_DESC" value="TEST"/>
-			<column name="ACH_TRANS_TYP" value="PRAP"/>
+			<column name="ACH_TRANS_TYP" value="TEM"/>
 			<column name="CUST_CNTC_FULL_NM" value="Keisha Huntley"/>
 			<column name="CUST_LN1_ADDR" value="500 Kuali Place"/>
 			<column name="CUST_CTY_NM" value="Bloomington"/>
@@ -219,7 +225,7 @@
 			<column name="DFLT_SUB_OBJ_CD" value="---"/>
 			<column name="ADV_CRTE_IND" value="Y"/>
 			<column name="ACH_PMT_DESC" value="TEST"/>
-			<column name="ACH_TRANS_TYP" value="PRAP"/>
+			<column name="ACH_TRANS_TYP" value="TEM"/>
 			<column name="CUST_CNTC_FULL_NM" value="Keisha Huntley"/>
 			<column name="CUST_LN1_ADDR" value="500 Kuali Place"/>
 			<column name="CUST_CTY_NM" value="Bloomington"/>
@@ -258,7 +264,7 @@
 			<column name="DFLT_SUB_OBJ_CD" value="---"/>
 			<column name="ADV_CRTE_IND" value="Y"/>
 			<column name="ACH_PMT_DESC" value="TEST"/>
-			<column name="ACH_TRANS_TYP" value="PRAP"/>
+			<column name="ACH_TRANS_TYP" value="TEM"/>
 			<column name="CUST_CNTC_FULL_NM" value="Keisha Huntley"/>
 			<column name="CUST_LN1_ADDR" value="500 Kuali Place"/>
 			<column name="CUST_CTY_NM" value="Bloomington"/>
@@ -297,7 +303,7 @@
 			<column name="DFLT_SUB_OBJ_CD" value="---"/>
 			<column name="ADV_CRTE_IND" value="Y"/>
 			<column name="ACH_PMT_DESC" value="TEST"/>
-			<column name="ACH_TRANS_TYP" value="PRAP"/>
+			<column name="ACH_TRANS_TYP" value="TEM"/>
 			<column name="CUST_CNTC_FULL_NM" value="Keisha Huntley"/>
 			<column name="CUST_LN1_ADDR" value="500 Kuali Place"/>
 			<column name="CUST_CTY_NM" value="Bloomington"/>

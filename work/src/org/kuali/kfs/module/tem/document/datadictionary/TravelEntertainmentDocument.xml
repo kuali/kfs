@@ -54,6 +54,7 @@
 			<ref bean="TravelEntertainmentDocument-paymentMethod" />
 			<ref bean="TravelEntertainmentDocument-attendeeListAttached" />
 			<ref bean="TravelEntertainmentDocument-numberOfAttendees" />
+			<ref bean="TravelEntertainmentDocument-hostAsPayee" />
 			<ref bean="TravelEntertainmentDocument-versionNumber" />
 			<ref bean="TravelEntertainmentDocument-appDocStatus" />
 			<ref bean="TravelEntertainmentDocument-corporateCardPaymentPdpStatus"/>
@@ -277,6 +278,19 @@
 		<property name="description" value="Number Of Attendees" />
 		<property name="control"><bean parent="TextControlDefinition" p:size="10"/></property>
 		<property name="validationPattern"><bean parent="NumericValidationPattern" /></property>
+	</bean>
+	
+	<bean id="TravelEntertainmentDocument-hostAsPayee" parent="TravelEntertainmentDocument-hostAsPayee-parentBean" />
+	<bean id="TravelEntertainmentDocument-hostAsPayee-parentBean" parent="AttributeDefinition">
+		<property name="name" value="hostAsPayee" />
+		<property name="label" value="Event host same as payee" />
+		<property name="shortLabel" value="Host as Payee" />
+		<property name="maxLength" value="1" />
+		<property name="summary" value="Event Host same as Payee" />
+		<property name="description" value="Event Host same as Payee" />
+		<property name="control">
+			<bean parent="CheckboxControlDefinition" />
+		</property>
 	</bean>
     <bean id="TravelEntertainmentDocument-expenseLimit" parent="TravelEntertainmentDocument-expenseLimit-parentBean" />
 	<bean id="TravelEntertainmentDocument-expenseLimit-parentBean" abstract="true" parent="GenericAttributes-genericAmount">

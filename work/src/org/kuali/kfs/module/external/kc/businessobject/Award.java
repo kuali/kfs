@@ -120,7 +120,8 @@ public class Award implements ContractsAndGrantsBillingAward {
     private boolean stopWorkIndicator;
 
     public Award(AwardDTO kcAward) {
-        setAwardNumber(kcAward.getAwardId());
+        setProposalNumber(kcAward.getAwardId());
+        setAwardNumber(kcAward.getAwardNumber());
         this.setAwardBeginningDate(kcAward.getAwardStartDate());
         this.setAwardEndingDate(kcAward.getAwardEndDate());
         this.setAwardTotalAmount(kcAward.getAwardTotalAmount());
@@ -135,9 +136,16 @@ public class Award implements ContractsAndGrantsBillingAward {
         this.setAwardTitle(kcAward.getTitle());
         this.setAwardCommentText(kcAward.getAwardCommentText());
         this.setAgency(new Agency(kcAward.getSponsor()));
-        this.setCommentText(kcAward.getCommentText());
         this.setProposal(new Proposal(kcAward.getProposal()));
         this.getProposal().setAward(this);
+        this.setAdditionalFormsRequiredIndicator(kcAward.isAdditionalFormsRequired());
+        this.setAutoApproveIndicator(kcAward.isAutoApproveInvoice());
+        this.setMinInvoiceAmount(kcAward.getMinInvoiceAmount());
+        this.setAdditionalFormsDescription(kcAward.getAdditionalFormsDescription());
+        this.setStopWorkIndicator(kcAward.isStopWork());
+        this.setCommentText(kcAward.getStopWorkReason());
+        this.setInvoicingOptions(kcAward.getInvoicingOption());
+        this.setDunningCampaign(kcAward.getDunningCampaignId());
         if (StringUtils.isNotEmpty(kcAward.getFundManagerId())) {
             awardPrimaryFundManager = new AwardFundManager(proposalNumber, kcAward.getFundManagerId());
         }

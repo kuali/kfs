@@ -13,6 +13,7 @@ import org.kuali.rice.core.api.util.type.KualiDecimal;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "awardDTO", propOrder = {
     "awardId",
+    "awardNumber",
     "proposal",
     "awardStartDate",
     "awardEndDate",
@@ -30,14 +31,22 @@ import org.kuali.rice.core.api.util.type.KualiDecimal;
     "sponsor",
     "principalInvestigatorId",
     "unitNumber",
-    "commentText",
-    "fundManagerId"
+    "fundManagerId",
+    "additionalFormsRequired",
+    "autoApproveInvoice",
+    "stopWork",
+    "additionalFormsDescription",
+    "invoicingOption",
+    "dunningCampaignId",
+    "stopWorkReason",
+    "minInvoiceAmount"
 })
 public class AwardDTO implements Serializable {
 
 	private static final long serialVersionUID = -7830094624716529740L;
 
-	private String awardId;
+	private Long awardId;
+	private String awardNumber;
     private ProposalDTO proposal;
 	private Date awardStartDate;
 	private Date awardEndDate;
@@ -55,13 +64,20 @@ public class AwardDTO implements Serializable {
     private SponsorDTO sponsor;
     private String principalInvestigatorId;
     private String unitNumber;
-    private String commentText;
     private String fundManagerId;
+    private boolean additionalFormsRequired;
+    private boolean autoApproveInvoice;
+    private boolean stopWork;
+    private String additionalFormsDescription;
+    private String invoicingOption;
+    private String dunningCampaignId;
+    private String stopWorkReason;
+    private KualiDecimal minInvoiceAmount;
 
-	public String getAwardId() {
+	public Long getAwardId() {
 		return awardId;
 	}
-	public void setAwardId(String awardId) {
+	public void setAwardId(Long awardId) {
 		this.awardId = awardId;
 	}
 	public ProposalDTO getProposal() {
@@ -136,12 +152,6 @@ public class AwardDTO implements Serializable {
 	public void setUnitNumber(String unitNumber) {
 		this.unitNumber = unitNumber;
 	}
-	public String getCommentText() {
-		return commentText;
-	}
-	public void setCommentText(String commentText) {
-		this.commentText = commentText;
-	}
 	public String getSponsorCode() {
 		return sponsorCode;
 	}
@@ -177,5 +187,59 @@ public class AwardDTO implements Serializable {
 	}
 	public void setFundManagerId(String fundManagerId) {
 		this.fundManagerId = fundManagerId;
+	}
+	public boolean isAdditionalFormsRequired() {
+		return additionalFormsRequired;
+	}
+	public void setAdditionalFormsRequired(boolean additionalFormsRequired) {
+		this.additionalFormsRequired = additionalFormsRequired;
+	}
+	public boolean isStopWork() {
+		return stopWork;
+	}
+	public void setStopWork(boolean stopWork) {
+		this.stopWork = stopWork;
+	}
+	public String getAdditionalFormsDescription() {
+		return additionalFormsDescription;
+	}
+	public void setAdditionalFormsDescription(String additionalFormsDescription) {
+		this.additionalFormsDescription = additionalFormsDescription;
+	}
+	public String getInvoicingOption() {
+		return invoicingOption;
+	}
+	public void setInvoicingOption(String invoicingOption) {
+		this.invoicingOption = invoicingOption;
+	}
+	public String getDunningCampaignId() {
+		return dunningCampaignId;
+	}
+	public void setDunningCampaignId(String dunningCampaignId) {
+		this.dunningCampaignId = dunningCampaignId;
+	}
+	public String getStopWorkReason() {
+		return stopWorkReason;
+	}
+	public void setStopWorkReason(String stopWorkReason) {
+		this.stopWorkReason = stopWorkReason;
+	}
+	public boolean isAutoApproveInvoice() {
+		return autoApproveInvoice;
+	}
+	public void setAutoApproveInvoice(boolean autoApproveInvoice) {
+		this.autoApproveInvoice = autoApproveInvoice;
+	}
+	public KualiDecimal getMinInvoiceAmount() {
+		return minInvoiceAmount;
+	}
+	public void setMinInvoiceAmount(KualiDecimal minInvoiceAmount) {
+		this.minInvoiceAmount = minInvoiceAmount;
+	}
+	public String getAwardNumber() {
+		return awardNumber;
+	}
+	public void setAwardNumber(String awardNumber) {
+		this.awardNumber = awardNumber;
 	}
 }

@@ -1495,13 +1495,16 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
      * @return
      */
     protected boolean requiresTaxManagerApprovalRouting() {
-        KualiDecimal total = KualiDecimal.ZERO;
         for (TemExpense line : getAllActualExpensesWithDetails()) {
             if(line.getTaxable()){
                 return true;
             }
         }
-
+        for (TemExpense imported : getImportedExpenses()) {
+            if (imported.getTaxable()) {
+                return true;
+            }
+        }
         return false;
     }
 

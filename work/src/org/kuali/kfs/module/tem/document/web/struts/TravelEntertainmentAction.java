@@ -32,7 +32,6 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.module.tem.TemConstants;
-import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.businessobject.ActualExpense;
 import org.kuali.kfs.module.tem.businessobject.Attendee;
@@ -54,8 +53,6 @@ import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
-import org.kuali.rice.krad.bo.Note;
-import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
@@ -82,7 +79,7 @@ public class TravelEntertainmentAction extends TravelActionBase {
         final TravelEntertainmentDocument document = entForm.getEntertainmentDocument();
 
         initializeNewAttendeeLines(entForm.getNewAttendeeLines(), document.getAttendee());
-        setEntHostCertificationWarning(document);
+
 
         return retval;
     }
@@ -213,7 +210,6 @@ public class TravelEntertainmentAction extends TravelActionBase {
         final String travelIdentifier = document.getTravelDocumentIdentifier();
 
         initializeNames(entForm, document);
-        setEntHostCertificationWarning(document);
         setButtonPermissions(entForm);
 
         if(ObjectUtils.isNotNull(document.getActualExpenses())){
@@ -274,22 +270,7 @@ public class TravelEntertainmentAction extends TravelActionBase {
         return true;
     }
 
-    private void setEntHostCertificationWarning(final TravelEntertainmentDocument document) {
-        if (document.getDocumentHeader().getWorkflowDocument().isInitiated() || document.getDocumentHeader().getWorkflowDocument().isSaved()) {
-            boolean entertainmentHostAttached = false;
-            List<Note> notes = document.getNotes();
-            for (Note note : notes) {
-                if (ObjectUtils.isNotNull(note.getAttachment()) && TemConstants.AttachmentTypeCodes.ATTACHMENT_TYPE_ENT_HOST_CERT.equals(note.getAttachment().getAttachmentTypeCode())) {
-                    entertainmentHostAttached = true;
-                    break;
-                }
-            }
 
-            if (document.getHostProfile() != null && document.getTemProfile() != null && !document.getHostProfile().getProfileId().equals(document.getTemProfile().getProfileId())) {
-                GlobalVariables.getMessageMap().putWarning(TemPropertyConstants.EntertainmentFields.HOST_NAME, TemKeyConstants.HOST_CERTIFICATION_REQUIRED_IND);
-            }
-        }
-    }
 
     /**
      * Recalculates the Expenses Total Tab

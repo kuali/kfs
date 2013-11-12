@@ -1357,7 +1357,7 @@
 		<property name="paymentSourceToExtractService" ref="corporateCardExtractionService"/>
 	</bean>
     
-	<import resource="document/validation/configuration/TemValidatorDefinitions.xml" /> 
+	
 	
 	<!-- Spring beans for TMCP document/action -->
 	<bean id="agencyEntryService" parent="agencyEntryService-parentBean" />
@@ -1505,5 +1505,6 @@
 	</bean>
 
     <import resource="spring-tem-bus-exports.xml"/>
+    <import resource="document/validation/configuration/TemValidatorDefinitions.xml" /> 
 	
 </beans>

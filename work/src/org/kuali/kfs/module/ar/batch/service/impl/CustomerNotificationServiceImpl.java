@@ -221,7 +221,7 @@ public class CustomerNotificationServiceImpl implements CustomerNotificationServ
      * get the notification selection option from an application parameter
      */
     protected String getNotificationSelectionOption() {
-        return this.getParameterService().getParameterValueAsString(CustomerAgingReportNotificationStep.class, ArParameterKeyConstants.AR_EMAIL_NOTIFICATION_SELECTION_TYPE_PARAM_NM);
+        return this.getParameterService().getParameterValueAsString(CustomerAgingReportNotificationStep.class, ArParameterKeyConstants.NOTIFICATION_SELECTION_TYPE_PARAM_NM);
     }
 
     /**

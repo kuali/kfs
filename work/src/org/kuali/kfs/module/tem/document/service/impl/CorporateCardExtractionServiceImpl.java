@@ -204,6 +204,9 @@ public class CorporateCardExtractionServiceImpl implements PaymentSourceToExtrac
             pg.setEmployeeIndicator(true);
         }
         pg.setPayeeId(vendor.getVendorNumber());
+        pg.setPayeeIdTypeCd(PdpConstants.PayeeIdTypeCodes.VENDOR_ID);
+        pg.setTaxablePayment(Boolean.FALSE);
+        pg.setPayeeOwnerCd(vendor.getVendorHeader().getVendorOwnershipCode());
 
         // now add the payment detail
         final PaymentDetail paymentDetail = buildPaymentDetail(document, processRunDate);
@@ -383,7 +386,7 @@ public class CorporateCardExtractionServiceImpl implements PaymentSourceToExtrac
      */
     @Override
     public void cancelPayment(TEMReimbursementDocument paymentSource, Date cancelDate) {
-        if (paymentSource.getTravelPayment().getCancelDate() == null) {
+        if (paymentSource.getCorporateCardPaymentCancelDate() == null) {
             try {
                 paymentSource.setCorporateCardPaymentCancelDate(cancelDate);
                 getPaymentSourceHelperService().handleEntryCancellation(paymentSource);

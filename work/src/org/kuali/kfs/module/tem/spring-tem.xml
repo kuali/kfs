@@ -1466,12 +1466,12 @@
 		<property name="personService" ref="personService"/>
 		<property name="workflowDocumentService" ref="workflowDocumentService"/>
 		<property name="paymentSourceHelperService" ref="paymentSourceHelperService"/>
+		<property name="travelerService" ref="travelerService"/>
 	</bean>
 	
 	<bean id="temReimbursableDocumentExtractionHelperService" parent="temReimbursableDocumentExtractionHelperService-parentBean"/>
 	<bean id="temReimbursableDocumentExtractionHelperService-parentBean" class="org.kuali.kfs.module.tem.document.service.impl.ReimbursableDocumentExtractionHelperServiceImpl" abstract="true">
 		<property name="documentService" ref="documentService"/>
-		<property name="travelerService" ref="travelerService"/>
 		<property name="paymentSourceHelperService" ref="paymentSourceHelperService"/>
 		<property name="travelDocumentDao" ref="travelDocumentDao"/>
 		<property name="travelPaymentsHelperService" ref="travelPaymentsHelperService"/>
@@ -1481,7 +1481,6 @@
 	<bean id="temAuthorizationDocumentExtractionHelperService" parent="temAuthorizationDocumentExtractionHelperService-parentBean"/>
 	<bean id="temAuthorizationDocumentExtractionHelperService-parentBean" class="org.kuali.kfs.module.tem.document.service.impl.TravelAuthorizationDocumentExtractionHelperServiceImpl" abstract="true">
 		<property name="documentService" ref="documentService"/>
-		<property name="travelerService" ref="travelerService"/>
 		<property name="paymentSourceHelperService" ref="paymentSourceHelperService"/>
 		<property name="travelDocumentDao" ref="travelDocumentDao"/>
 		<property name="travelPaymentsHelperService" ref="travelPaymentsHelperService"/>

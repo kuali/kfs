@@ -28,7 +28,6 @@ import org.kuali.kfs.module.tem.TemParameterConstants;
 import org.kuali.kfs.module.tem.dataaccess.TravelDocumentDao;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
 import org.kuali.kfs.module.tem.document.service.TravelPaymentsHelperService;
-import org.kuali.kfs.module.tem.service.TravelerService;
 import org.kuali.kfs.pdp.businessobject.PaymentAccountDetail;
 import org.kuali.kfs.pdp.businessobject.PaymentDetail;
 import org.kuali.kfs.pdp.businessobject.PaymentGroup;
@@ -55,7 +54,6 @@ public class TravelAuthorizationDocumentExtractionHelperServiceImpl implements P
     protected TravelPaymentsHelperService travelPaymentsHelperService;
     protected DocumentService documentService;
     protected PaymentSourceHelperService paymentSourceHelperService;
-    protected TravelerService travelerService;
     protected ParameterService parameterService;
 
     /**
@@ -162,12 +160,7 @@ public class TravelAuthorizationDocumentExtractionHelperServiceImpl implements P
     @Override
     public PaymentGroup createPaymentGroup(TravelAuthorizationDocument authorizationDoc, Date processDate) {
         if (authorizationDoc.shouldProcessAdvanceForDocument()) {
-            PaymentGroup pg = getTravelPaymentsHelperService().buildGenericPaymentGroup(authorizationDoc.getTraveler(), authorizationDoc.getAdvanceTravelPayment(), authorizationDoc.getFinancialDocumentBankCode());
-            if (getTravelerService().isEmployee(authorizationDoc.getTraveler())){
-                pg.setPayeeId(authorizationDoc.getTemProfile().getEmployeeId());
-            }else{
-                pg.setPayeeId(authorizationDoc.getTraveler().getCustomerNumber());
-            }
+            PaymentGroup pg = getTravelPaymentsHelperService().buildGenericPaymentGroup(authorizationDoc.getTraveler(), authorizationDoc.getTemProfile(), authorizationDoc.getAdvanceTravelPayment(), authorizationDoc.getFinancialDocumentBankCode());
 
             // now add the payment detail
             final PaymentDetail paymentDetail = buildPaymentDetail(authorizationDoc, processDate);
@@ -355,21 +348,6 @@ public class TravelAuthorizationDocumentExtractionHelperServiceImpl implements P
      */
     public void setPaymentSourceHelperService(PaymentSourceHelperService paymentSourceHelperService) {
         this.paymentSourceHelperService = paymentSourceHelperService;
-    }
-
-    /**
-     * @return an implementation of the TravelerService
-     */
-    public TravelerService getTravelerService() {
-        return travelerService;
-    }
-
-    /**
-     * Sets the implementation of the TravelerService for this service to use
-     * @param parameterService an implementation of TravelerService
-     */
-    public void setTravelerService(TravelerService travelerService) {
-        this.travelerService = travelerService;
     }
 
     /**

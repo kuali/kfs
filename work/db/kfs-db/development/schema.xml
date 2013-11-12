@@ -15073,7 +15073,6 @@
         <column name="TRAVELER_NM" size="40" type="VARCHAR"/>
         <column name="TYPE_CD" size="1" type="VARCHAR"/>
         <column name="DV_EXP_CD" size="2" type="VARCHAR"/>
-        <column name="DV_DOC_NUM" size="14" type="VARCHAR"/>
         <column name="MERCHANT_NM" size="40" type="VARCHAR"/>
         <column name="BANK_POST_DT" type="DATE"/>
         <column name="PROCESSING_TS" type="DATE"/>
@@ -15083,6 +15082,10 @@
         <column name="ITN_NBR" size="20" type="VARCHAR"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
+        <column name="PMT_GRP_ID" size="8" type="DECIMAL"/>
+        <foreign-key foreignTable="PDP_PMT_GRP_T" name="TEM_CREDIT_CARD_STAGING_TR1">
+            <reference foreign="PMT_GRP_ID" local="PMT_GRP_ID"/>
+        </foreign-key>
         <unique name="TEM_CREDIT_CARD_STAGING_TC0">
             <unique-column name="OBJ_ID"/>
         </unique>

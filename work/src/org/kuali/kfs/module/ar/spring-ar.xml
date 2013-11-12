@@ -1185,6 +1185,12 @@
 		<property name="boService">
 			<ref bean="businessObjectService" />
 		</property>
+    <property name="batchInputFileTypes">
+      <list>
+        <ref bean="customerLoadInputFileType" />
+        <ref bean="customerLoadCSVInputFileType" />
+      </list>
+    </property>
 		<property name="dateTimeService">
 			<ref bean="dateTimeService" />
 		</property>
@@ -1211,6 +1217,22 @@
 		</property>
 	</bean>
 
+  <bean id="customerLoadCSVInputFileType"  parent="customerLoadCSVInputFileType-parentBean"/>
+  <bean id="customerLoadCSVInputFileType-parentBean" class="org.kuali.kfs.module.ar.batch.CustomerLoadCSVInputFileType" abstract="true">
+    <property name="directoryPath">
+      <value>${staging.directory}/ar/customer</value>
+    </property>
+    <property name="fileExtension">
+      <value>csv</value>
+    </property>
+    <property name="csvEnumClass">
+      <value>org.kuali.kfs.module.ar.batch.vo.CustomerAddressCSV</value>
+    </property>         
+    <property name="customerLoadService">
+      <ref bean="customerLoadService" />
+    </property>         
+  </bean>
+    
 	<bean id="customerInvoiceWriteoffBatchJob" parent="scheduledJobDescriptor">
 		<property name="steps">
 			<list>

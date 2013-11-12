@@ -180,6 +180,8 @@
 
 	<class-descriptor class="org.kuali.kfs.module.cg.businessobject.LetterOfCreditFund" table="CG_LTRCR_FND_T">
 		<field-descriptor name="letterOfCreditFundCode" column="CG_LTRCR_FND_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 		<field-descriptor name="fundDescription" column="CG_LTRCR_FND_DESC" jdbc-type="VARCHAR" />
 		<field-descriptor name="letterOfCreditFundGroupCode" column="CG_LTRCR_FNDGRP_CD" jdbc-type="VARCHAR" />
 		<field-descriptor name="letterOfCreditFundAmount" column="CG_LTRCR_AMT" jdbc-type="DECIMAL"
@@ -537,12 +539,6 @@
 			<orderby name="accountNumber" sort="ASC" />
 			<inverse-foreignkey field-ref="proposalNumber" />
 		</collection-descriptor>
-	<!-- 	<collection-descriptor name="awardInvoiceAccounts" element-class-ref="org.kuali.kfs.module.cg.businessobject.AwardInvoiceAccount"
-			collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" proxy="true" auto-retrieve="true" auto-update="object" auto-delete="object">
-			<orderby name="chartOfAccountsCode" sort="ASC" />
-			<orderby name="accountNumber" sort="ASC" />
-			<inverse-foreignkey field-ref="proposalNumber" />
-		</collection-descriptor> -->
 		<collection-descriptor name="awardSubcontractors" element-class-ref="org.kuali.kfs.module.cg.businessobject.AwardSubcontractor"
 			collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" proxy="true" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<orderby name="awardSubcontractorAmendmentNumber" sort="ASC" />
@@ -556,12 +552,7 @@
 			<orderby name="organizationCode" sort="ASC" />
 			<inverse-foreignkey field-ref="proposalNumber" />
 		</collection-descriptor>
-<!-- 		<collection-descriptor name="bills" element-class-ref="org.kuali.kfs.module.cg.businessobject.Bill" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"
-			auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
-			<orderby name="billIdentifier" sort="ASC" />
-			<inverse-foreignkey field-ref="proposalNumber" />
-		</collection-descriptor>
- -->	</class-descriptor>
+	</class-descriptor>
 
 	<!-- AWARD STATUS -->
 
@@ -628,11 +619,7 @@
 			auto-update="none" auto-delete="none" proxy="true">
 			<foreignkey field-ref="chartOfAccountsCode" />
 		</reference-descriptor>
-
-
 	</class-descriptor>
-
-
 
 	<!-- AWARD ORGANIZATION -->
 
@@ -734,8 +721,6 @@
 			<foreignkey field-ref="billedByOrganizationCode" />
 		</reference-descriptor>
 	</class-descriptor>
-
-
 
 	<!-- FINANCIAL REPORT FREQUENCIES -->
 

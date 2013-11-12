@@ -15718,10 +15718,6 @@
         <unique name="TEM_CC_IMP_EXP_CLR_DTL_T_TC0">
             <unique-column name="OBJ_ID"/>
         </unique>
-        <unique name="TEM_CC_IMP_EXP_CLR_DTL_T_TP1">
-            <unique-column name="FDOC_NBR"/>
-            <unique-column name="CC_STG_DAT_ID"/>
-        </unique>
     </table>
     <table name="TEM_CC_IMP_EXP_CLR_T">
         <column name="FDOC_NBR" primaryKey="true" size="14" type="VARCHAR"/>
@@ -15729,9 +15725,6 @@
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
         <unique name="TEM_CC_IMP_EXP_CLR_T_TC0">
             <unique-column name="OBJ_ID"/>
-        </unique>
-        <unique name="TEM_CC_IMP_EXP_CLR_T_TP1">
-            <unique-column name="FDOC_NBR"/>
         </unique>
     </table>
     <table name="TEM_CLASS_SVC_T">
@@ -15921,9 +15914,6 @@
         </foreign-key>
         <foreign-key foreignTable="TEM_PURPOSE_T" name="TEM_ENT_DOC_TR3">
             <reference foreign="PURPOSE_CODE" local="PURPOSE_CODE"/>
-        </foreign-key>
-        <foreign-key foreignTable="TEM_PRI_DEST_T" name="TEM_ENT_DOC_TR4">
-            <reference foreign="ID" local="PRIMARY_DEST_ID"/>
         </foreign-key>
         <foreign-key foreignTable="FP_BANK_T" name="TEM_ENT_DOC_TR5">
             <reference foreign="BNK_CD" local="FDOC_BNK_CD"/>

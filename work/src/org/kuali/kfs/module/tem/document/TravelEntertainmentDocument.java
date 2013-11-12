@@ -81,6 +81,7 @@ public class TravelEntertainmentDocument extends TEMReimbursementDocument implem
     private TravelerDetail host;
     private TemProfile hostProfile;
     private TravelerDetail attendeeDetail;
+    private Boolean hostAsPayee;
 
     private List<Attendee> attendee = new ArrayList<Attendee>();
 
@@ -527,4 +528,23 @@ public class TravelEntertainmentDocument extends TEMReimbursementDocument implem
     public String getTripTypeCode() {
         return TemConstants.ALL_EXPENSE_TYPE_OBJECT_CODE_TRIP_TYPE;
     }
+
+    /**
+     * return true if host same as payee otherwise false
+     */
+    public Boolean getHostAsPayee() {
+        return hostAsPayee;
+    }
+
+    /**
+     *
+     * @see #getHostAsPayee()
+     * @param hostAsPayee
+     */
+    public void setHostAsPayee(Boolean hostAsPayee) {
+        this.hostAsPayee = hostAsPayee;
+    }
+
+
+
 }

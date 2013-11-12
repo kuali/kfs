@@ -184,6 +184,7 @@ public class TravelAuthorizationDocumentExtractionHelperServiceImpl implements P
         }
 
         PaymentDetail pd = getTravelPaymentsHelperService().buildGenericPaymentDetail(document.getDocumentHeader(), processRunDate, document.getAdvanceTravelPayment(), getTravelPaymentsHelperService().getInitiator(document), getAchCheckDocumentType(document));
+        pd.setPurchaseOrderNbr(document.getTravelDocumentIdentifier());
         // Handle accounts
         final List<PaymentAccountDetail> paymentAccounts = this.getTravelPaymentsHelperService().buildGenericPaymentAccountDetails(document.getAdvanceAccountingLines());
         for (PaymentAccountDetail pad : paymentAccounts) {

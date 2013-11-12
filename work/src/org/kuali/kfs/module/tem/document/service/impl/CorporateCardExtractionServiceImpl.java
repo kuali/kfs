@@ -281,6 +281,7 @@ public class CorporateCardExtractionServiceImpl implements PaymentSourceToExtrac
         pd.setPrimaryCancelledPayment(Boolean.FALSE);
         pd.setFinancialDocumentTypeCode(getAchCheckDocumentType(document));
         pd.setFinancialSystemOriginCode(KFSConstants.ORIGIN_CODE_KUALI);
+        pd.setPurchaseOrderNbr(document.getTravelDocumentIdentifier());
 
         int line = 0;
         PaymentNoteText pnt = new PaymentNoteText();

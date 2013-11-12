@@ -202,6 +202,14 @@ function update_travelerTypeCode () {
 	}
 }
 
+function copy_payeeToHostName(payeeFirstName, payeeLastName) {
+	var hostAsPayee = document.getElementById("document.hostAsPayee").checked;
+	alert(hostAsPayee);
+	if(hostAsPayee == true){
+		document.getElementById("document.hostName").value = payeeFirstName + " "  + payeeLastName;
+	}
+}
+
 function check_nonReimbursable () {
 	var expenseType = document.getElementById("newActualExpenseLine.travelExpenseTypeCodeId").value;
 	var dwrReply = {

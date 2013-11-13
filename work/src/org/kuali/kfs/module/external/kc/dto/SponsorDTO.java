@@ -18,6 +18,7 @@ import javax.xml.bind.annotation.XmlType;
     "dunAndBradstreetNumber",
     "dunsPlusFourNumber",
     "state",
+    "stateAgency",
     "active",
     "contactInformation"
 })
@@ -35,6 +36,7 @@ public class SponsorDTO implements Serializable {
     private String dunAndBradstreetNumber;
     private String dunsPlusFourNumber;
     private String state;
+    private boolean stateAgency;
     private boolean active;
 
     private RolodexDTO contactInformation;
@@ -134,4 +136,12 @@ public class SponsorDTO implements Serializable {
     public void setActive(boolean active) {
         this.active = active;
     }
+
+	public boolean isStateAgency() {
+		return stateAgency;
+	}
+
+	public void setStateAgency(boolean stateAgency) {
+		this.stateAgency = stateAgency;
+	}
 }

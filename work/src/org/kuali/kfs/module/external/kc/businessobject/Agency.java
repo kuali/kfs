@@ -49,6 +49,8 @@ public class Agency implements ContractsAndGrantsBillingAgency {
         setAgencyTypeCode(kcSponsor.getSponsorTypeCode()); //TODO are these compatible?
         setActive(kcSponsor.isActive());
         setDunsPlusFourNumber(kcSponsor.getDunsPlusFourNumber());
+        setStateAgencyIndicator(kcSponsor.isStateAgency());
+
     }
 
     /**

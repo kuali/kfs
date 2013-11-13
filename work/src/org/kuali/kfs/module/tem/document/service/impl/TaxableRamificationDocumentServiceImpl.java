@@ -17,6 +17,7 @@ package org.kuali.kfs.module.tem.document.service.impl;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -38,6 +39,7 @@ import org.kuali.kfs.module.tem.document.service.TaxableRamificationDocumentServ
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
@@ -72,6 +74,11 @@ public class TaxableRamificationDocumentServiceImpl implements TaxableRamificati
         Integer customerInvoiceAge = this.getNotificationOnDays();
 
         Date lastTaxableRamificationNotificationDate = this.getLastTaxableRamificationNotificationDate();
+        if (ObjectUtils.isNull(lastTaxableRamificationNotificationDate)) {
+            Calendar calendar = SpringContext.getBean(DateTimeService.class).getCurrentCalendar();
+            calendar.add(Calendar.DAY_OF_YEAR, customerInvoiceAge);
+            lastTaxableRamificationNotificationDate = new java.sql.Date(calendar.getTime().getTime());
+        }
         Map<String, KualiDecimal> invoiceOpenAmountMap = this.getAccountsReceivableModuleService().getCustomerInvoiceOpenAmount(customerTypeCodes, customerInvoiceAge, lastTaxableRamificationNotificationDate);
         Set<String> arInvoiceDocNumbers = invoiceOpenAmountMap.keySet();
 

@@ -263,7 +263,7 @@ public class KFSPropertyConstants {
     public static final String BUSINESS_OBJECT_FOR_VALIDATION = "businessObjectForValidation";
     public static final String CAB_USER = "cabUser";
     public static final String CAMPUS = KRADPropertyConstants.CAMPUS;
-    public static final String CAMPUS_CODE = KRADPropertyConstants.CAMPUS_CODE;
+    public static final String CAMPUS_CODE = "campusCode";
     public static final String CAMPUS_DESCRIPTION = "campusDescription";
     public static final String CAMPUS_LOCATION_CODE = "campusLocationCode";
     public static final String CAMPUS_MAXIMUM_PERIOD1_RATE = "campusMaximumPeriod1Rate";
@@ -1273,7 +1273,7 @@ public class KFSPropertyConstants {
     public static final String CAPITAL_ASSET_LINE_AMOUNT = "capitalAssetLineAmount";
     public static final String APPLICATION_DOCUMENT_STATUS = "applicationDocumentStatus";
     public static final String INVOICE_TEMPLATE_CODE = "invoiceTemplateCode";
-    
+
 
     public static class SubAccountImport {
         public static final String CHART_OF_ACCOUNTS_CODE = "chartOfAccountsCode";

@@ -203,11 +203,11 @@
     <bean id="TravelRelocationDocument-temProfileId" parent="TravelRelocationDocument-temProfileId-parentBean" />
     <bean id="TravelRelocationDocument-temProfileId-parentBean" abstract="true" parent="AttributeDefinition">
         <property name="name" value="temProfileId" />
-        <property name="label" value="Requester" />
-        <property name="shortLabel" value="Requester" />
+        <property name="label" value="Payee Id" />
+        <property name="shortLabel" value="Payee Id" />
         <property name="maxLength" value="32" />
-        <property name="summary" value="Requester" />
-        <property name="description" value="Requester" />
+        <property name="summary" value="Payee Id" />
+        <property name="description" value="Payee Id" />
         <property name="control">
             <bean parent="TextControlDefinition" p:size="32" />
         </property>

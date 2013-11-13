@@ -251,11 +251,11 @@
 	<bean id="TravelEntertainmentDocument-temProfileId" parent="TravelEntertainmentDocument-temProfileId-parentBean" />
 	<bean id="TravelEntertainmentDocument-temProfileId-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="temProfileId" />
-		<property name="label" value="Requester Id" />
-		<property name="shortLabel" value="Requester Id" />
+		<property name="label" value="Payee Id" />
+		<property name="shortLabel" value="Payee Id" />
 		<property name="maxLength" value="32" />
-		<property name="summary" value="Requester Id" />
-		<property name="description" value="Requester Id" />
+		<property name="summary" value="Payee Id" />
+		<property name="description" value="Payee Id" />
 		<property name="control"><bean parent="TextControlDefinition" p:size="32"/></property>
 		<property name="validationPattern"><bean parent="NumericValidationPattern" /></property>
 	</bean>

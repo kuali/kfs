@@ -29,6 +29,7 @@ public class AccountingLineOverrideOptionFinder extends KeyValuesBase implements
 
     protected static List<KeyValue> LABELS = new ArrayList<KeyValue>();
     static {
+        LABELS.add(new ConcreteKeyValue(AccountingLineOverride.CODE.BLANK, ""));
         LABELS.add(new ConcreteKeyValue(AccountingLineOverride.CODE.NONE, "NONE"));
         LABELS.add(new ConcreteKeyValue(AccountingLineOverride.CODE.EXPIRED_ACCOUNT, "EXP_ACCT"));
         LABELS.add(new ConcreteKeyValue(AccountingLineOverride.CODE.NON_BUDGETED_OBJECT, "NON_BDG_OBJ"));

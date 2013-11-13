@@ -43,6 +43,7 @@
             <list>
                 <ref bean="TravelRelocationDocument-travelDocumentNumber" />
                 <ref bean="TravelRelocationDocument-applicationDocumentStatus" />
+                <ref bean="TravelRelocationDocument-temProfileName" />
                 <ref bean="TravelRelocationDocument-tripTypeCode" />
                 <ref bean="TravelRelocationDocument-tripBegin" />
                 <ref bean="TravelRelocationDocument-tripEnd" />
@@ -215,6 +216,17 @@
             <bean parent="NumericValidationPattern" />
         </property>
     </bean>
+    
+    <bean id="TravelRelocationDocument-temProfileName" parent="TravelRelocationDocument-temProfileName-parentBean" />
+	<bean id="TravelRelocationDocument-temProfileName-parentBean" abstract="true" parent="TemProfile-principal.principalName">
+		<property name="name" value="temProfileName" />
+		<property name="label" value="Payee Name" />
+		<property name="shortLabel" value="Payee Name" />
+		<property name="maxLength" value="32" />
+		<property name="summary" value="Payee Name" />
+		<property name="description" value="Payee Name" />
+		<property name="control"><bean parent="TextControlDefinition" p:size="32"/></property>
+	</bean> 
     <bean id="TravelRelocationDocument-fromAddress1" parent="TravelRelocationDocument-fromAddress1-parentBean" />
     <bean id="TravelRelocationDocument-fromAddress1-parentBean" abstract="true" parent="AttributeDefinition">
         <property name="name" value="fromAddress1" />
@@ -498,7 +510,7 @@
             <list>
                 <bean parent="TravelModule-SearchingTypeDefinition-applicationDocumentStatus" />
                 <bean parent="TravelModule-SearchingTypeDefinition-travelDocumentIdentifier" />
-                <bean parent="TravelModule-SearchingTypeDefinition-temProfileId" />
+                <bean parent="TravelModule-SearchingTypeDefinition-temProfileName" />
                 <bean parent="TravelModule-SearchingTypeDefinition-reasonCode" />
                 <bean parent="TravelModule-SearchingTypeDefinition-tripBegin" />
                 <bean parent="TravelModule-SearchingTypeDefinition-tripEnd" />

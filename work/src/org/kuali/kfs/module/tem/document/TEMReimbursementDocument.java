@@ -414,6 +414,14 @@ public abstract class TEMReimbursementDocument extends TravelDocumentBase implem
         this.corporateCardPaymentCancelDate = corporateCardPaymentCancelDate;
     }
 
+    /*
+     *  Used for searching on ENT and RELO.
+     *
+     */
+    public String getTemProfileName() {
+        return getTemProfile().getPrincipal().getPrincipalName();
+    }
+
     /**
      * Returns the campus code of the initiator
      * @see org.kuali.kfs.sys.document.PaymentSource#getCampusCode()

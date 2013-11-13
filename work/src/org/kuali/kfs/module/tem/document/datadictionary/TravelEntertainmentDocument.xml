@@ -41,6 +41,7 @@
 			<ref bean="TravelEntertainmentDocument-hostProfileId" />
 			<ref bean="TravelEntertainmentDocument-hostName" />
 			<ref bean="TravelEntertainmentDocument-temProfileId" />
+			<ref bean="TravelEntertainmentDocument-temProfileName" />
 			<ref bean="TravelEntertainmentDocument-tripTypeCode" />
 			<ref bean="TravelEntertainmentDocument-tripBegin" />
 			<ref bean="TravelEntertainmentDocument-tripEnd" />
@@ -172,11 +173,11 @@
 	<bean id="TravelEntertainmentDocument-eventTitle" parent="TravelEntertainmentDocument-eventTitle-parentBean" />
 	<bean id="TravelEntertainmentDocument-eventTitle-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="eventTitle" />
-		<property name="label" value="Event Tite" />
-		<property name="shortLabel" value="Event Tite" />
+		<property name="label" value="Event Title" />
+		<property name="shortLabel" value="Event Title" />
 		<property name="maxLength" value="100" />
-		<property name="summary" value="Event Tite" />
-		<property name="description" value="Event Tite" />
+		<property name="summary" value="Event Title" />
+		<property name="description" value="Event Title" />
 		<property name="control"><bean parent="TextControlDefinition" p:size="100"/></property>
 	</bean>
 	<bean id="TravelEntertainmentDocument-hostCertified" parent="TravelEntertainmentDocument-hostCertified-parentBean" />
@@ -259,6 +260,19 @@
 		<property name="control"><bean parent="TextControlDefinition" p:size="32"/></property>
 		<property name="validationPattern"><bean parent="NumericValidationPattern" /></property>
 	</bean>
+	
+	<bean id="TravelEntertainmentDocument-temProfileName" parent="TravelEntertainmentDocument-temProfileName-parentBean" />
+	<bean id="TravelEntertainmentDocument-temProfileName-parentBean" abstract="true" parent="TemProfile-principal.principalName">
+		<property name="name" value="temProfileName" />
+		<property name="label" value="Payee Name" />
+		<property name="shortLabel" value="Payee Name" />
+		<property name="maxLength" value="32" />
+		<property name="summary" value="Payee Name" />
+		<property name="description" value="Payee Name" />
+		<property name="required" value="false" />
+		<property name="control"><bean parent="TextControlDefinition" p:size="32"/></property>
+	</bean> 
+	
 	<bean id="TravelEntertainmentDocument-attendeeListAttached" parent="TravelEntertainmentDocument-attendeeListAttached-parentBean" />
 	<bean id="TravelEntertainmentDocument-attendeeListAttached-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
 		<property name="name" value="attendeeListAttached" />
@@ -281,6 +295,7 @@
 	</bean>
 	
 	<bean id="TravelEntertainmentDocument-hostAsPayee" parent="TravelEntertainmentDocument-hostAsPayee-parentBean" />
+	
 	<bean id="TravelEntertainmentDocument-hostAsPayee-parentBean" parent="AttributeDefinition">
 		<property name="name" value="hostAsPayee" />
 		<property name="label" value="Event host same as payee" />
@@ -340,7 +355,7 @@
 		<list>
 		    <bean parent="TravelModule-SearchingTypeDefinition-applicationDocumentStatus" />
             <bean parent="TravelModule-SearchingTypeDefinition-tripBegin" />
-            <bean parent="TravelModule-SearchingTypeDefinition-temProfileId" />
+            <bean parent="TravelModule-SearchingTypeDefinition-temProfileName" />
 			<bean parent="TravelModule-SearchingTypeDefinition-eventTitle" />
             <bean parent="TravelModule-SearchingTypeDefinition-spouseIncludedForSearching" />
             <bean parent="TravelModule-SearchingTypeDefinition-traveler.cityName" />

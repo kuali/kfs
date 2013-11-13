@@ -87,6 +87,7 @@
 				<property name="inquiryFields">
 				<list>
 					<bean parent="FieldDefinition" p:attributeName="id" />
+					<bean parent="FieldDefinition" p:attributeName="expenseTypeCode"/>
 					<bean parent="FieldDefinition" p:attributeName="expenseType.name"/>
 					<bean parent="FieldDefinition" p:attributeName="rate" />
 					<bean parent="FieldDefinition" p:attributeName="activeFromDate" />
@@ -117,6 +118,7 @@
 		<property name="resultFields">
 		<list>
 			<bean parent="FieldDefinition" p:attributeName="id" />
+			<bean parent="FieldDefinition" p:attributeName="expenseTypeCode"/>
 			<bean parent="FieldDefinition" p:attributeName="expenseType.name" />
 			<bean parent="FieldDefinition" p:attributeName="rate" />
 			<bean parent="FieldDefinition" p:attributeName="activeFromDate" />

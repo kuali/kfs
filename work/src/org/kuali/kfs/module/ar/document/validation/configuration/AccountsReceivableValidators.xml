@@ -209,7 +209,7 @@
 			<ref bean="businessObjectService" />
 		</property>
 		<property name="workflowDocumentService">
-			<ref bean="workflowDocumentService" />
+   			<ref bean="rice.kew.workflowDocumentService" />
 		</property>
 	</bean>
 	<bean id="CustomerCreditMemo-noDataToSubmitValidation"
@@ -243,7 +243,7 @@
 			<ref bean="businessObjectService" />
 		</property>
 		<property name="workflowDocumentService">
-			<ref bean="workflowDocumentService" />
+   			<ref bean="rice.kew.workflowDocumentService" />
 		</property>
 	</bean>
 	<bean
@@ -254,7 +254,7 @@
 			<ref bean="businessObjectService" />
 		</property>
 		<property name="workflowDocumentService">
-			<ref bean="workflowDocumentService" />
+   			<ref bean="rice.kew.workflowDocumentService" />
 		</property>
 	</bean>
 

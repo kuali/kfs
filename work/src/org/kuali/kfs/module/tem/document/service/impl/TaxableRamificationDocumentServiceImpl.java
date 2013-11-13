@@ -17,7 +17,6 @@ package org.kuali.kfs.module.tem.document.service.impl;
 
 import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -75,9 +74,7 @@ public class TaxableRamificationDocumentServiceImpl implements TaxableRamificati
 
         Date lastTaxableRamificationNotificationDate = this.getLastTaxableRamificationNotificationDate();
         if (ObjectUtils.isNull(lastTaxableRamificationNotificationDate)) {
-            Calendar calendar = SpringContext.getBean(DateTimeService.class).getCurrentCalendar();
-            calendar.add(Calendar.DAY_OF_YEAR, customerInvoiceAge);
-            lastTaxableRamificationNotificationDate = new java.sql.Date(calendar.getTime().getTime());
+            lastTaxableRamificationNotificationDate = SpringContext.getBean(DateTimeService.class).getCurrentSqlDate();
         }
         Map<String, KualiDecimal> invoiceOpenAmountMap = this.getAccountsReceivableModuleService().getCustomerInvoiceOpenAmount(customerTypeCodes, customerInvoiceAge, lastTaxableRamificationNotificationDate);
         Set<String> arInvoiceDocNumbers = invoiceOpenAmountMap.keySet();

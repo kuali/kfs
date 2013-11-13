@@ -25,7 +25,6 @@ import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
 import org.kuali.kfs.module.tem.document.TravelReimbursementDocument;
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.krad.document.Document;
 
@@ -120,13 +119,6 @@ public class TravelAuthorizationDocumentPresentationController extends TravelAut
      */
     public boolean canAmend(TravelAuthorizationDocument document) {
         boolean can = isOpen(document) && (isFinalOrProcessed(document));
-        final DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
-        java.util.Date today = dateTimeService.getCurrentDate();
-
-        if (document.getTripBegin() != null) {
-            can &= today.before(document.getTripBegin());
-        }
-
         if (can) {
             //If there are TR's that are not canceled or disapproved, disabled amend
             final TravelDocumentService travelDocumentService = SpringContext.getBean(TravelDocumentService.class);

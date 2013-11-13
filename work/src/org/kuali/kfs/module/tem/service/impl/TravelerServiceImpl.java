@@ -53,6 +53,8 @@ import org.kuali.kfs.module.tem.identity.TemOrganizationHierarchyRoleTypeService
 import org.kuali.kfs.module.tem.service.TemRoleService;
 import org.kuali.kfs.module.tem.service.TravelerService;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
+import org.kuali.kfs.sys.businessobject.ChartOrgHolderImpl;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.core.api.datetime.DateTimeService;
@@ -128,19 +130,10 @@ public class TravelerServiceImpl implements TravelerService {
 
         if(isProfileAdmin || isOrgArranger) {
             //pull the org they are responsible for and filter on that
-            Organization org = profile.getHomeDeptOrg();
-            String roleName;
-            if(isOrgArranger) {
-                roleName = TemConstants.TEM_ORGANIZATION_PROFILE_ARRANGER;
-            } else {
-                roleName = TemConstants.TEM_PROFILE_ADMIN;
-            }
-            String roleQualifiers[] = this.getOrganizationForUser(user.getPrincipalId(), roleName);
-            if(ObjectUtils.isNotNull(roleQualifiers)) {
-                String roleChartOfAccountsCode = roleQualifiers[0];
-                String roleOrganizationCode = roleQualifiers[1];
-                canInclude |= isParentOrg(org.getChartOfAccountsCode(), org.getOrganizationCode(), roleChartOfAccountsCode, roleOrganizationCode, true);
-            }
+            final String roleName = isOrgArranger ?
+                TemConstants.TEM_ORGANIZATION_PROFILE_ARRANGER :
+                TemConstants.TEM_PROFILE_ADMIN;
+            canInclude |= isArrangeeByOrganizationByRole(user.getPrincipalId(), profile, roleName);
         }
 
         //check in arranger details if it does not already have the authority to view the profile
@@ -155,6 +148,36 @@ public class TravelerServiceImpl implements TravelerService {
         }
 
         return canInclude;
+    }
+
+    /**
+     * Checks both the organization approver and profile admin roles to see if the given principal can arrange for the role
+     * @param principalId the principal id to check
+     * @param profile the profile to see if the principal can be their arranger
+     * @return true if the principal can be an arranger for the profile, false otherwise
+     */
+    @Override
+    public boolean isArrangeeByOrganization(String principalId, TemProfile profile) {
+        return isArrangeeByOrganizationByRole(principalId, profile, TemConstants.TEM_ORGANIZATION_PROFILE_ARRANGER) ||
+                isArrangeeByOrganizationByRole(principalId, profile, TemConstants.TEM_PROFILE_ADMIN);
+    }
+
+    /**
+     * Determines if the given principal id represents a user who can arrange trips for the given profile, by the power granted by the given role
+     * @param principalId the principal id to see if they can act as arrangers
+     * @param profile the profile to act as an arranger for
+     * @param roleName the role it is expected the principal should be in
+     * @return true if the principal can arrange, false otherwise
+     */
+    protected boolean isArrangeeByOrganizationByRole(String principalId, TemProfile profile, String roleName) {
+        Organization org = profile.getHomeDeptOrg();
+        final ChartOrgHolder chartOrg = getOrganizationForUser(principalId, roleName);
+        if(ObjectUtils.isNotNull(chartOrg)) {
+            final String roleChartOfAccountsCode = chartOrg.getChartOfAccountsCode();
+            final String roleOrganizationCode = chartOrg.getOrganizationCode();
+            return isParentOrg(org.getChartOfAccountsCode(), org.getOrganizationCode(), roleChartOfAccountsCode, roleOrganizationCode, true);
+        }
+        return false; // they're not in the role to begin with
     }
 
     @Override
@@ -688,7 +711,7 @@ public class TravelerServiceImpl implements TravelerService {
                 || (descendHierarchy && organizationService.isParentOrganization(chartCode, orgCode, roleChartCode, roleOrgCode));
     }
 
-    protected String[] getOrganizationForUser(String principalId, String roleName) {
+    protected ChartOrgHolder getOrganizationForUser(String principalId, String roleName) {
         if (principalId == null) {
             return null;
         }
@@ -696,10 +719,8 @@ public class TravelerServiceImpl implements TravelerService {
         qualification.put(TemOrganizationHierarchyRoleTypeService.PERFORM_QUALIFIER_MATCH, "false");
         List<Map<String,String>> roleQualifiers = getRoleService().getRoleQualifersForPrincipalByNamespaceAndRolename(principalId, TemConstants.PARAM_NAMESPACE, roleName, qualification);
         if ((roleQualifiers != null) && !roleQualifiers.isEmpty()) {
-            String[] qualifiers = new String[2];
-            qualifiers[0] = roleQualifiers.get(0).get(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE);
-            qualifiers[1] = roleQualifiers.get(0).get(KfsKimAttributes.ORGANIZATION_CODE);
-            return qualifiers;
+            final ChartOrgHolder chartOrg = new ChartOrgHolderImpl(roleQualifiers.get(0).get(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE), roleQualifiers.get(0).get(KfsKimAttributes.ORGANIZATION_CODE));
+            return chartOrg;
         }
         return null;
     }

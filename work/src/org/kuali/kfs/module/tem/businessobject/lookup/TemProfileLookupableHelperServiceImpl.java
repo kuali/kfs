@@ -171,7 +171,8 @@ public class TemProfileLookupableHelperServiceImpl extends KualiLookupableHelper
             return false;
         }
         final TemProfileArranger temProfileArranger = getTravelArrangerDocumentService().findTemProfileArranger(possibleArranger.getPrincipalId(), possibleArrangee.getProfileId());
-        return temProfileArranger != null;
+        final boolean isOrganizationalApprover = getTravelerService().isArrangeeByOrganization(possibleArranger.getPrincipalId(), possibleArrangee);
+        return temProfileArranger != null || isOrganizationalApprover;
     }
 
     @Override

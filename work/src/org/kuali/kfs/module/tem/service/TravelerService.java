@@ -179,4 +179,12 @@ public interface TravelerService {
 	 * @return
 	 */
 	public boolean isParentOrg(String chartCode, String orgCode, String roleChartCode, String roleOrgCode, boolean descendHierarchy);
+
+	/**
+     * Checks both the organization approver and profile admin roles to see if the given principal can arrange for the role
+     * @param principalId the principal id to check
+     * @param profile the profile to see if the principal can be their arranger
+     * @return true if the principal can be an arranger for the profile, false otherwise
+     */
+    public boolean isArrangeeByOrganization(String principalId, TemProfile profile);
 }

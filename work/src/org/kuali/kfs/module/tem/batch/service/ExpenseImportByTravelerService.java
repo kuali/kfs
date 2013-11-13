@@ -19,7 +19,6 @@ import java.util.List;
 
 import org.kuali.kfs.module.tem.businessobject.AgencyStagingData;
 import org.kuali.kfs.module.tem.businessobject.TemProfile;
-import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.rice.krad.util.ErrorMessage;
 
 public interface ExpenseImportByTravelerService {
@@ -74,6 +73,14 @@ public interface ExpenseImportByTravelerService {
      * @return
      */
     public List<ErrorMessage> validateDuplicateData(AgencyStagingData agencyData);
+
+    /**
+     * This method checks to see if the credit card agency specified is valid
+     *
+     * @param agencyData
+     * @return
+     */
+    public List<ErrorMessage> validateCreditCardAgency(AgencyStagingData agencyData);
 
     /**
      *

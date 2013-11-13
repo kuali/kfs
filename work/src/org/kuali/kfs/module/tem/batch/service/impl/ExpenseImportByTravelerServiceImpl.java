@@ -138,9 +138,7 @@ public class ExpenseImportByTravelerServiceImpl extends ExpenseImportServiceBase
 
         errorMessages.addAll(validateAccountingInfo(agencyData));
 
-        if (!isCreditCardAgencyValid(agencyData)){
-            errorMessages.add(new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_CREDIT_CARD_DATA_INVALID_CCA));
-        }
+        errorMessages.addAll(validateCreditCardAgency(agencyData));
 
         LOG.info("Finished validating agency data.");
         agencyData.setProcessingTimestamp(dateTimeService.getCurrentTimestamp());
@@ -282,19 +280,8 @@ public class ExpenseImportByTravelerServiceImpl extends ExpenseImportServiceBase
             if (isDuplicate) {
                 LOG.error(errorMessage);
 
-                String itineraryData = "";
-                if (StringUtils.isNotEmpty(agencyData.getAirTicketNumber())) {
-                    itineraryData = "AIR-"+ agencyData.getAirTicketNumber();
-                }
-                else if (StringUtils.isNotEmpty(agencyData.getLodgingItineraryNumber())) {
-                    itineraryData = "LODGING-"+ agencyData.getLodgingItineraryNumber();
-                }
-                else if (StringUtils.isNotEmpty(agencyData.getRentalCarItineraryNumber())) {
-                    itineraryData = "RENTAL CAR-"+ agencyData.getRentalCarItineraryNumber();
-                }
-
                 ErrorMessage error = new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_DATA_TRAVELER_DUPLICATE_RECORD,
-                    agencyData.getTravelerId(), itineraryData, agencyData.getCreditCardOrAgencyCode(),
+                    agencyData.getTravelerId(), agencyData.getItineraryDataString(), agencyData.getCreditCardOrAgencyCode(),
                     agencyData.getTransactionPostingDate().toString(), agencyData.getTripExpenseAmount().toString(), agencyData.getTripInvoiceNumber());
                 errorMessages.add(error);
 
@@ -337,6 +324,17 @@ public class ExpenseImportByTravelerServiceImpl extends ExpenseImportServiceBase
 
         List<AgencyStagingData> agencyDataList = (List<AgencyStagingData>) businessObjectService.findMatching(AgencyStagingData.class, fieldValues);
         return agencyDataList;
+    }
+
+    public List<ErrorMessage> validateCreditCardAgency(AgencyStagingData agencyData) {
+        List<ErrorMessage> errorMessages = new ArrayList<ErrorMessage>();
+
+        if (!isCreditCardAgencyValid(agencyData)) {
+            //setErrorCode is already done in isCreditCardAgencyValid()
+            errorMessages.add(new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_CREDIT_CARD_DATA_INVALID_CCA));
+        }
+
+        return errorMessages;
     }
 
     /**

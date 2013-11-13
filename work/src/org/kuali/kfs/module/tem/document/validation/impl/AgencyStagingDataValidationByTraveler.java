@@ -21,7 +21,6 @@ import static org.kuali.kfs.module.tem.TemPropertyConstants.TravelAgencyAuditRep
 
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.batch.service.ExpenseImportByTravelerService;
 import org.kuali.kfs.module.tem.businessobject.AgencyStagingData;
@@ -171,19 +170,7 @@ public class AgencyStagingDataValidationByTraveler implements AgencyStagingDataV
                     }
                     else {
 
-                        //figure out which itinerary to display
-                        String itineraryData = "";
-                        if (StringUtils.isNotEmpty(data.getAirTicketNumber())) {
-                            itineraryData = "AIR-"+ data.getAirTicketNumber();
-                        }
-                        else if (StringUtils.isNotEmpty(data.getLodgingItineraryNumber())) {
-                            itineraryData += "LODGING-"+ data.getLodgingItineraryNumber();
-                        }
-                        else if (StringUtils.isNotEmpty(data.getRentalCarItineraryNumber())) {
-                            itineraryData += "RENTAL CAR-"+ data.getRentalCarItineraryNumber();
-                        }
-
-                        putFieldError(TRAVELER_DATA, TemKeyConstants.MESSAGE_AGENCY_DATA_TRAVELER_DUPLICATE_RECORD, data.getTravelerId(), itineraryData,
+                        putFieldError(TRAVELER_DATA, TemKeyConstants.MESSAGE_AGENCY_DATA_TRAVELER_DUPLICATE_RECORD, data.getTravelerId(), data.getItineraryDataString(),
                                 data.getCreditCardOrAgencyCode(), data.getTransactionPostingDate().toString(), data.getTripExpenseAmount().toString(), data.getTripInvoiceNumber());
                         result &= false;
                     }

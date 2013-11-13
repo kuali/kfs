@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.tem.businessobject;
 
+
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -34,6 +35,8 @@ import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemConstants.ExpenseImport;
 import org.kuali.kfs.module.tem.TemConstants.ExpenseTypeMetaCategory;
+import org.kuali.kfs.module.tem.service.TravelExpenseService;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
@@ -554,7 +557,12 @@ public class AgencyStagingData extends PersistableBusinessObjectBase implements 
      * @param accountingInfo
      */
     public void addTripAccountingInformation(TripAccountingInformation accountingInfo) {
-        getTripAccountingInformation().add(accountingInfo);
+        TravelExpenseService travelExpenseService = SpringContext.getBean(TravelExpenseService.class);
+
+        //Don't add accounting line if it is empty
+        if (!travelExpenseService.isTripAccountingInformationEmpty(accountingInfo)) {
+            getTripAccountingInformation().add(accountingInfo);
+        }
     }
 
     /**
@@ -1690,4 +1698,11 @@ public class AgencyStagingData extends PersistableBusinessObjectBase implements 
         this.copiedFromId = copiedFromId;
     }
 
+    public String getItineraryDataString() {
+        String itineraryData = StringUtils.isNotEmpty(getAirTicketNumber()) ? TemConstants.ExpenseTypeMetaCategory.AIRFARE.getName() +"-"+ getAirTicketNumber() :
+            (StringUtils.isNotEmpty(getLodgingItineraryNumber()) ? TemConstants.ExpenseTypeMetaCategory.LODGING.getName() +"-"+ getLodgingItineraryNumber() :
+            (StringUtils.isNotEmpty(getRentalCarItineraryNumber()) ? TemConstants.ExpenseTypeMetaCategory.RENTAL_CAR.getName() +"-"+ getRentalCarItineraryNumber() : "" ));
+
+        return itineraryData;
+    }
 }

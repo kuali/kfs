@@ -79,6 +79,23 @@ public interface ExpenseImportByTripService {
     public List<ErrorMessage> validateDuplicateData(AgencyStagingData agencyData);
 
     /**
+     * This method checks to see if the credit card agency specified is valid
+     *
+     * @param agencyData
+     * @return
+     */
+    public List<ErrorMessage> validateCreditCardAgency(AgencyStagingData agencyData);
+
+    /**
+     * This method checks to see whether the distribution code has a match in the AgencyServiceFee table.
+     * It is not a required field so it does not complain if there is no data; it only complains if the data provided doesn't have a match.
+     *
+     * @param agencyData
+     * @return
+     */
+    public List<ErrorMessage> validateDistributionCode(AgencyStagingData agencyData);
+
+    /**
      *
      * This method performs the "matching process" where it matches agency data with credit card data. If the agency matches a credit card,
      * GLPEs are created, and {@link HistoricalTravelExpense} is created (hanging off of the tripId's travel document).

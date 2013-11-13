@@ -244,6 +244,7 @@ public class TemPropertyConstants {
         public static final String TRANSACTION_POSTING_DATE = "transactionPostingDate";
         public static final String TRIP_INVOICE_NUMBER = "tripInvoiceNumber";
         public static final String CREDIT_CARD_OR_AGENCY_CODE = "creditCardOrAgencyCode";
+        public static final String DI_CD = "distributionCode";
     }
 
     @SuppressWarnings("rawtypes")

@@ -45,6 +45,7 @@ import org.kuali.kfs.module.tem.businessobject.ExpenseTypeObjectCode;
 import org.kuali.kfs.module.tem.businessobject.HistoricalTravelExpense;
 import org.kuali.kfs.module.tem.businessobject.OtherExpense;
 import org.kuali.kfs.module.tem.businessobject.TemExpense;
+import org.kuali.kfs.module.tem.businessobject.TripAccountingInformation;
 import org.kuali.kfs.module.tem.dataaccess.ExpenseTypeObjectCodeDao;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.web.struts.TravelFormBase;
@@ -541,4 +542,16 @@ public class TravelExpenseServiceImpl implements TravelExpenseService {
         return isExceed;
     }
 
+    /**
+     * @see org.kuali.kfs.module.tem.service.TravelExpenseService#isTripAccountingInformationEmpty(org.kuali.kfs.module.tem.businessobject.TripAccountingInformation)
+     */
+    public boolean isTripAccountingInformationEmpty(TripAccountingInformation accountingInformation) {
+        return StringUtils.isEmpty(accountingInformation.getTripChartCode()) &&
+                StringUtils.isEmpty(accountingInformation.getTripAccountNumber()) &&
+                StringUtils.isEmpty(accountingInformation.getTripSubAccountNumber()) &&
+                StringUtils.isEmpty(accountingInformation.getObjectCode()) &&
+                StringUtils.isEmpty(accountingInformation.getSubObjectCode()) &&
+                StringUtils.isEmpty(accountingInformation.getProjectCode()) &&
+                StringUtils.isEmpty(accountingInformation.getOrganizationReference());
+    }
 }

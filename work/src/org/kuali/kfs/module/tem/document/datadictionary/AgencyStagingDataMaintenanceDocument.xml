@@ -82,7 +82,7 @@
                 <bean parent="MaintainableFieldDefinition" p:name="tripInvoiceNumber" p:required="true" />
                 <bean parent="MaintainableFieldDefinition" p:name="tripExpenseAmount" p:required="true" />
                 <bean parent="MaintainableFieldDefinition" p:name="otherAmount"  />
-        		<bean parent="MaintainableFieldDefinition" p:name="distributionCode" p:unconditionallyReadOnly="true" />                
+        		<bean parent="MaintainableFieldDefinition" p:name="distributionCode" />                
             </list>
         </property>
     </bean>

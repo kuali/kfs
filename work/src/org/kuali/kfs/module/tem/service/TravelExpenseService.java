@@ -25,6 +25,7 @@ import org.kuali.kfs.module.tem.businessobject.ExpenseType;
 import org.kuali.kfs.module.tem.businessobject.ExpenseTypeObjectCode;
 import org.kuali.kfs.module.tem.businessobject.HistoricalTravelExpense;
 import org.kuali.kfs.module.tem.businessobject.OtherExpense;
+import org.kuali.kfs.module.tem.businessobject.TripAccountingInformation;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kim.api.identity.Person;
@@ -140,4 +141,8 @@ public interface TravelExpenseService {
      */
     public ExpenseType getDefaultExpenseTypeForCategory(TemConstants.ExpenseTypeMetaCategory category);
 
+    /**
+     * @return true if all values in the TripAccountingInformation record are empty, false otherwise
+     */
+    public boolean isTripAccountingInformationEmpty(TripAccountingInformation accountingInformation);
 }

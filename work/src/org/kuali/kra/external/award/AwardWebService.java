@@ -14,7 +14,7 @@ import org.kuali.kfs.module.external.kc.dto.AwardDTO;
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 public interface AwardWebService {
 
-	public AwardDTO getAward(@WebParam(name= "awardId") String awardId);
+    public AwardDTO getAward(@WebParam(name="awardId") Long awardId);
 
 	public List<AwardDTO> getMatchingAwards(@WebParam(name= "searchCriteria") List<HashMapElement> searchCriteria);
 }

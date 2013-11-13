@@ -69,7 +69,8 @@ public class AwardServiceImpl implements ExternalizableBusinessObjectService {
 
     @Override
     public ExternalizableBusinessObject findByPrimaryKey(Map primaryKeys) {
-        AwardDTO dto  = this.getWebService().getAward((String)primaryKeys.get("awardId"));
+        //use the proposal number as its the awardId on the KC side.
+        AwardDTO dto  = this.getWebService().getAward((Long)primaryKeys.get("proposalNumber"));
         return new Award(dto);
     }
 

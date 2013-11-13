@@ -60,7 +60,8 @@ import com.lowagie.text.pdf.SimpleBookmark;
 
 public class CustomerInvoiceDocumentAction extends KualiAccountingDocumentActionBase {
 
-
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CustomerInvoiceDocumentAction.class);
+    
     /**
      * Overriding to make it easier to distinguish discount lines and lines that are associated to discounts
      * 
@@ -562,7 +563,7 @@ public class CustomerInvoiceDocumentAction extends KualiAccountingDocumentAction
             
         }
         catch(Exception e) {
-            e.printStackTrace();
+            LOG.error("problem during CustomerInvoiceDocumentAction.printInvoicePDF()", e);
         } 
         
         response.setContentType("application/pdf");

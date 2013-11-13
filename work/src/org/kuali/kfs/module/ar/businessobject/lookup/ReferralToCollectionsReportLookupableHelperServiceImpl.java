@@ -247,7 +247,7 @@ public class ReferralToCollectionsReportLookupableHelperServiceImpl extends Kual
         }
         catch (Exception e) {
             // do nothing, try block needed to make CustomerAgingReportLookupableHelperServiceImpl
-            e.printStackTrace();
+            LOG.error("problem during ReferralToCollectionsReportLookupableHelperServiceImpl.performLookup()", e);
         }
         return displayList;
     }

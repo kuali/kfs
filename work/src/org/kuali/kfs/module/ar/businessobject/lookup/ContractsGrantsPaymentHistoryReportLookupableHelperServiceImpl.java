@@ -108,7 +108,7 @@ public class ContractsGrantsPaymentHistoryReportLookupableHelperServiceImpl exte
                         }
                         catch (ParseException ex) {
                             // TODO Auto-generated catch block
-                            ex.printStackTrace();
+                            LOG.error("problem during ContractsGrantsPaymentHistoryReportLookupableHelperServiceImpl.performLookup()", ex);
                         }
 
                         cgPaymentHistoryReport.setCustomerNumber(cashControlDetail.getCustomerNumber());

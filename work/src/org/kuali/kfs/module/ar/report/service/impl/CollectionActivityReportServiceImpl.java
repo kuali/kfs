@@ -55,7 +55,8 @@ public class CollectionActivityReportServiceImpl extends ContractsGrantsCollecto
     private ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService;
     protected BusinessObjectService businessObjectService;
     private PersonService personService;
-
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CollectionActivityReportServiceImpl.class);
+    
     /**
      * Gets the collActReportInfo attribute.
      *
@@ -167,7 +168,7 @@ public class CollectionActivityReportServiceImpl extends ContractsGrantsCollecto
                     }
                 }
                 catch (Exception wfe) {
-                    wfe.printStackTrace();
+                    LOG.error("problem during CollectionActivityReportServiceImpl.filterEventsForColletionActivity()", wfe);
                 }
             }
         }

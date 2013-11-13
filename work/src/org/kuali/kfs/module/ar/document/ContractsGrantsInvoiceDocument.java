@@ -231,7 +231,7 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument impl
                     }
                 }
                 catch (WorkflowException ex) {
-                    ex.printStackTrace();
+                    LOG.error("problem during ContractsGrantsInvoiceDocument.doRouteStatusChange()", ex);
                 }
             }
             else {

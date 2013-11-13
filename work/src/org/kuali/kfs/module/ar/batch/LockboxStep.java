@@ -31,7 +31,7 @@ public class LockboxStep extends AbstractStep {
         try {
             resultInd = lockboxService.processLockboxes();
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.error("problem during lockboxService.processLockboxes()", e);
         }
         return resultInd;
     }

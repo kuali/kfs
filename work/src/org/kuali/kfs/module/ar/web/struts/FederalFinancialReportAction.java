@@ -61,7 +61,7 @@ public class FederalFinancialReportAction extends KualiAction {
     private static final String FISCAL_YEAR_AND_PERIOD_REQUIRED = "Enter both period and fiscal year.";
     private static final String PROPOSAL_NUMBER_REQUIRED = "Please enter a proposal Number for SF425.";
     private static final String AGENCY_REQUIRED = "Please enter an Agency for SF425A.";
-
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(FederalFinancialReportAction.class);
 
     /**
      * Constructs a FederalFinancialReportAction.java.
@@ -278,7 +278,7 @@ public class FederalFinancialReportAction extends KualiAction {
 
             }
             catch (Exception e) {
-                e.printStackTrace();
+                LOG.error("problem during printInvoicePDF()", e);
             }
 
             response.setContentType("application/pdf");

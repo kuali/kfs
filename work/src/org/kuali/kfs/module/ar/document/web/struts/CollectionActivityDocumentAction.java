@@ -65,7 +65,8 @@ public class CollectionActivityDocumentAction extends FinancialSystemTransaction
 
     protected DocumentService documentService;
     protected CollectionActivityDocumentService collectionActivityDocumentService;
-
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CollectionActivityDocumentAction.class);
+    
     /**
      * Constructor for CollectionActivityDocumentAction class
      */
@@ -322,7 +323,7 @@ public class CollectionActivityDocumentAction extends FinancialSystemTransaction
                 selectedEvent = colActDocForm.getSelectedInvoiceApplication().getEvents().get(index);
             }
             catch (Exception e) {
-                e.printStackTrace();
+                LOG.error("problem during CollectionActivityDocumentAction.editEvent()", e);
             }
         }
 

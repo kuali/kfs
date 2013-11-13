@@ -445,7 +445,7 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
             }
         }
         catch (ParseException e) {
-            e.printStackTrace();
+            LOG.error("problem during CustomerOpenItemReportServiceImpl.getPopulatedReportDetails()", e);
         }
 
         // Billing Organization

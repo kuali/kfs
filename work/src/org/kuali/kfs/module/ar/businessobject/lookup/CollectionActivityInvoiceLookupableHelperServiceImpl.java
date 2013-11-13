@@ -256,7 +256,7 @@ public class CollectionActivityInvoiceLookupableHelperServiceImpl extends KualiL
         }
         catch (Exception e) {
             // do nothing, try block needed to make CustomerAgingReportLookupableHelperServiceImpl
-            e.printStackTrace();
+            LOG.error("problem during collectionActivityInvoiceLookupableHelperService.performLookup()", e);
         }
         return displayList;
     }

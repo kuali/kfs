@@ -151,7 +151,7 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
         }
         catch (ParseException e) {
             reportRunDate = today;
-            e.printStackTrace();
+            LOG.error("problem during CustomerAgingReportLookupableHelperServiceImpl.getSearchResults()",e);
         }
         Date cutoffdate30 = DateUtils.addDays(reportRunDate, -30);
         Date cutoffdate31 = DateUtils.addDays(reportRunDate, -31);
@@ -427,7 +427,7 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
         }
         catch (Exception e) {
             // do nothing, try block needed to make CustomerAgingReportLookupableHelperServiceImpl
-            // e.printStackTrace();
+            LOG.error("problem during CustomerAgingReportLookupableHelperServiceImpl.performLookup()",e);
         }
 
 

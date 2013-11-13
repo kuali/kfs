@@ -40,7 +40,7 @@ public class FinalInvoiceReversalValidation {
     private static final String INVOICE_NOT_FINAL_ERROR_MESSAGE = "The Invoice is not marked as Final Bill.";
     private static final String INVALID_INVOICE_ERROR_MESSAGE = "Not a valid Contracts and Grants Invoice document number.";
     private static final String NO_ENTRY_ERROR_MESSAGE = "Please enter a Contracts and Grants Invoice document number.";
-
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(FinalInvoiceReversalValidation.class);
     /**
      * This method validates the Document for valid invoices for reversal.
      *
@@ -108,7 +108,7 @@ public class FinalInvoiceReversalValidation {
             }
         }
         catch (WorkflowException ex) {
-            ex.printStackTrace();
+            LOG.error("problem during FinalInvoiceReversalValidation.validCGINValidation()", ex);
         }
         return true;
     }

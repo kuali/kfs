@@ -56,6 +56,8 @@ import com.lowagie.text.pdf.SimpleBookmark;
  */
 public class ContractsGrantsLetterOfCreditReviewDocumentAction extends KualiTransactionalDocumentActionBase {
 
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ContractsGrantsLetterOfCreditReviewDocumentAction.class);
+    
     public ContractsGrantsLetterOfCreditReviewDocumentAction() {
         super();
     }
@@ -331,7 +333,7 @@ public class ContractsGrantsLetterOfCreditReviewDocumentAction extends KualiTran
 
             }
             catch (Exception e) {
-                e.printStackTrace();
+                LOG.error("problem during printInvoicePDF", e);
             }
 
             response.setContentType("application/pdf");

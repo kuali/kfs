@@ -53,6 +53,8 @@ import com.lowagie.text.pdf.SimpleBookmark;
 
 public class CustomerCreditMemoDocumentAction extends KualiTransactionalDocumentActionBase {
     
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CustomerCreditMemoDocumentAction.class);
+    
     public CustomerCreditMemoDocumentAction() {
         super();
     }
@@ -340,7 +342,7 @@ public class CustomerCreditMemoDocumentAction extends KualiTransactionalDocument
             contentDisposition = sbContentDispValue.toString();
         }
         catch(Exception e) {
-            e.printStackTrace();
+            LOG.error("problem during lockboxService.processLockboxes()", e);
         } 
 
         response.setContentType("application/pdf");

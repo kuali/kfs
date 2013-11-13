@@ -85,7 +85,7 @@ import org.kuali.rice.krad.util.UrlFactory;
  * Lookupable Helper Service class for ContractsGrantsAgingReport.
  */
 public class ContractsGrantsAgingReportLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
-
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ContractsGrantsAgingReportLookupableHelperServiceImpl.class);
     private DataDictionaryService dataDictionaryService;
     private DateTimeService dateTimeService;
 
@@ -244,7 +244,7 @@ public class ContractsGrantsAgingReportLookupableHelperServiceImpl extends Kuali
             }
         }
         catch (Exception ex) {
-            ex.printStackTrace();
+            LOG.error("problem during ContractsGrantsAgingReportLookupableHelperServiceImpl.getSearchResults()",ex);
         }
         return new CollectionIncomplete<ContractsAndGrantsAgingReport>(results, (long) results.size());
     }
@@ -312,7 +312,7 @@ public class ContractsGrantsAgingReportLookupableHelperServiceImpl extends Kuali
             }
         }
         catch (Exception ex) {
-            ex.printStackTrace();
+            LOG.error("problem during ContractsGrantsAgingReportLookupableHelperServiceImpl.getSearchResultsUnbounded()",ex);
         }
         return new CollectionIncomplete<ContractsGrantsInvoiceDocument>(results, (long) results.size());
     }
@@ -544,7 +544,7 @@ public class ContractsGrantsAgingReportLookupableHelperServiceImpl extends Kuali
             }
             catch (Exception e) {
                 // do nothing, try block needed to make CustomerAgingReportLookupableHelperServiceImpl-
-                e.printStackTrace();
+                LOG.error("problem during contractsGrantsAgingReportLookupableHelperService.performLookup()", e);
             }
 
 

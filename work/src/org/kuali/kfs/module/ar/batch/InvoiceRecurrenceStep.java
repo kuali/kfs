@@ -30,7 +30,7 @@ public class InvoiceRecurrenceStep extends AbstractStep {
         try {
             resultInd = invoiceRecurrenceService.processInvoiceRecurrence();
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.error("problem during invoiceRecurrenceService.processInvoiceRecurrence()", e);
         }
         return resultInd;
     }

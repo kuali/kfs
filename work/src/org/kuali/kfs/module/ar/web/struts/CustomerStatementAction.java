@@ -224,7 +224,7 @@ public class CustomerStatementAction extends KualiAction {
                 contentDisposition = sbContentDispValue.toString();
             }
             catch(Exception e) {
-                e.printStackTrace();
+                LOG.error("problem during printStatementPDF()", e);
             } 
 
             fileName.append("-StatementBatchPDFs.pdf");

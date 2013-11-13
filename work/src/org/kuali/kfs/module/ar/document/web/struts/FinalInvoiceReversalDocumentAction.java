@@ -33,6 +33,8 @@ import org.kuali.rice.kns.web.struts.form.KualiForm;
  */
 public class FinalInvoiceReversalDocumentAction extends KualiTransactionalDocumentActionBase {
 
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(FinalInvoiceReversalDocumentAction.class);
+    
     /**
      * This method adds an entry to the list of entries.
      *
@@ -85,7 +87,7 @@ public class FinalInvoiceReversalDocumentAction extends KualiTransactionalDocume
                 document.updateContractsGrantsInvoiceDocument();
             }
             catch (WorkflowException ex) {
-                ex.printStackTrace();
+                LOG.error("problem during FinalInvoiceReversalDocumentAction.doProcessingAfterPost()", ex);
             }
         }
         super.doProcessingAfterPost(actionForm, request);

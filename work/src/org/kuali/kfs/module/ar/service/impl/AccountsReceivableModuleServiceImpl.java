@@ -92,7 +92,8 @@ public class AccountsReceivableModuleServiceImpl implements AccountsReceivableMo
     private CustomerDocumentService customerDocumentService;
     private ParameterService parameterService;
     protected Lookupable customerLookupable;
-
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountsReceivableModuleServiceImpl.class);
+    
     public ParameterService getParameterService() {
         return parameterService;
     }
@@ -530,7 +531,7 @@ public class AccountsReceivableModuleServiceImpl implements AccountsReceivableMo
             return (CustomerInvoiceDocument) getDocumentService().getNewDocument(CustomerInvoiceDocument.class);
         }
         catch (WorkflowException ex) {
-            ex.printStackTrace();
+            LOG.error("problem during AccountsReceivableModuleServiceImpl.createCustomerInvoiceDocument()", ex);
         }
 
         return new CustomerInvoiceDocument();
@@ -546,7 +547,7 @@ public class AccountsReceivableModuleServiceImpl implements AccountsReceivableMo
             crmDocument = (CustomerCreditMemoDocument)getDocumentService().getNewDocument(CustomerCreditMemoDocument.class);
         }
         catch (WorkflowException ex) {
-            ex.printStackTrace();
+            LOG.error("problem during AccountsReceivableModuleServiceImpl.createCustomerCreditMemoDocument()", ex);
         }
         return crmDocument;
     }

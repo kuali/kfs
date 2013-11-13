@@ -154,10 +154,10 @@ public class ContractsGrantsInvoiceEmailReportsBatchStep extends AbstractStep {
             arEmailService.sendInvoicesViaEmail(collection);
         }
         catch (AddressException ex) {
-            ex.printStackTrace();
+            LOG.error("AddressException", ex);
         }
         catch (MessagingException ex) {
-            ex.printStackTrace();
+            LOG.error("MessagingException", ex);
         }
         // Close the error file.
         outputFileStream.close();

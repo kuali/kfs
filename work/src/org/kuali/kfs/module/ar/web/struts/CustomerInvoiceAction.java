@@ -191,7 +191,7 @@ public class CustomerInvoiceAction extends KualiAction {
                 // csForm.setReports(file);
             }
             catch(Exception e) {
-                e.printStackTrace();
+                LOG.error("problem during CustomerInvoiceAction.print()", e);
             } 
             fileName.append("-InvoiceBatchPDFs.pdf");
             

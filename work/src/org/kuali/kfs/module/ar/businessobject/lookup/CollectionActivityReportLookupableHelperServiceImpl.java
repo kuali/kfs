@@ -245,7 +245,7 @@ public class CollectionActivityReportLookupableHelperServiceImpl extends KualiLo
         }
         catch (Exception e) {
             // do nothing, try block needed to make CustomerAgingReportLookupableHelperServiceImpl
-            e.printStackTrace();
+            LOG.error("problem during lockboxService.processLockboxes()", e);
         }
         return displayList;
     }

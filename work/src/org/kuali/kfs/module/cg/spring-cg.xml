@@ -154,6 +154,12 @@
 		<property name="dateTimeService">
 			<ref bean="dateTimeService" />
 		</property>
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>		
+		<property name="documentService">
+			<ref bean="documentService" />
+		</property>			
 	</bean>
 	
 	<bean id="proposalLookupableHelperService" parent="proposalLookupableHelperService-parentBean" scope="prototype" />

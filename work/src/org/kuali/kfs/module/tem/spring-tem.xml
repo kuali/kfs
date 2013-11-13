@@ -559,6 +559,8 @@
         <property name="travelDocumentService" ref="temTravelDocumentService" />
         <property name="documentDao" ref="documentDao" />
         <property name="dataDictionaryService" ref="dataDictionaryService"/>
+        <property name="identityService" ref="identityService"/>
+        <property name="noteService" ref="noteService"/>
 		<property name="propertyChangeListeners">
 			<list>
 				<ref bean="TravelDocument-addActualExpenseListener" />

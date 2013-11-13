@@ -77,6 +77,8 @@ import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kim.api.identity.IdentityService;
+import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.bo.Note;
@@ -86,6 +88,7 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.KeyValuesService;
 import org.kuali.rice.krad.service.KualiRuleService;
+import org.kuali.rice.krad.service.NoteService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -97,19 +100,21 @@ public class TravelAuthorizationServiceImpl implements TravelAuthorizationServic
 
     protected static Logger LOG = Logger.getLogger(TravelAuthorizationServiceImpl.class);
 
-    private BusinessObjectService businessObjectService;
-    private AccountsReceivableModuleService accountsReceivableModuleService;
-    private ParameterService parameterService;
-    private DocumentService documentService;
-    private DateTimeService dateTimeService;
-    private KualiRuleService kualiRuleService;
-    private WorkflowDocumentService workflowDocumentService;
-    private UniversityDateService universityDateService;
-    private AccountingDocumentRelationshipService accountingDocumentRelationshipService;
-    private TemProfileService temProfileService;
-    private TravelDocumentService travelDocumentService;
-    private DocumentDao documentDao;
+    protected BusinessObjectService businessObjectService;
+    protected AccountsReceivableModuleService accountsReceivableModuleService;
+    protected ParameterService parameterService;
+    protected DocumentService documentService;
+    protected DateTimeService dateTimeService;
+    protected KualiRuleService kualiRuleService;
+    protected WorkflowDocumentService workflowDocumentService;
+    protected UniversityDateService universityDateService;
+    protected AccountingDocumentRelationshipService accountingDocumentRelationshipService;
+    protected TemProfileService temProfileService;
+    protected TravelDocumentService travelDocumentService;
+    protected DocumentDao documentDao;
     protected DataDictionaryService dataDictionaryService;
+    protected IdentityService identityService;
+    protected NoteService noteService;
 
     private List<PropertyChangeListener> propertyChangeListeners;
 
@@ -532,9 +537,12 @@ public class TravelAuthorizationServiceImpl implements TravelAuthorizationServic
         try {
             String user = GlobalVariables.getUserSession().getPerson().getLastName() + ", " + GlobalVariables.getUserSession().getPerson().getFirstName();
             String note = MessageUtils.getMessage(TA_MESSAGE_CLOSE_DOCUMENT_TEXT, user);
+            Principal kfsSystemUser = getIdentityService().getPrincipalByPrincipalName(KFSConstants.SYSTEM_USER);
 
             final Note newNote = documentService.createNoteFromDocument(authorization, note);
+            newNote.setAuthorUniversalIdentifier(kfsSystemUser.getPrincipalId());
             authorization.addNote(newNote);
+            getNoteService().save(newNote); // documentDao doesn't seem to save notes
             authorization.updateAppDocStatus(TravelAuthorizationStatusCodeKeys.RETIRED_VERSION);
             documentDao.save(authorization);
 
@@ -542,6 +550,7 @@ public class TravelAuthorizationServiceImpl implements TravelAuthorizationServic
             GlobalVariables.setUserSession(new UserSession(initiatorPrincipalName));
             authorizationClose = authorization.toCopyTAC();
             final Note newNoteTAC = documentService.createNoteFromDocument(authorizationClose, note);
+            newNoteTAC.setAuthorUniversalIdentifier(kfsSystemUser.getPrincipalId());
             authorizationClose.addNote(newNoteTAC);
             authorizationClose.setTravelReimbursementDocumentNumber(reimbursementDocNum);
 
@@ -688,4 +697,21 @@ public class TravelAuthorizationServiceImpl implements TravelAuthorizationServic
     public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
         this.dataDictionaryService = dataDictionaryService;
     }
+
+    public IdentityService getIdentityService() {
+        return identityService;
+    }
+
+    public void setIdentityService(IdentityService identityService) {
+        this.identityService = identityService;
+    }
+
+    public NoteService getNoteService() {
+        return noteService;
+    }
+
+    public void setNoteService(NoteService noteService) {
+        this.noteService = noteService;
+    }
+
 }

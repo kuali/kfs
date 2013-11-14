@@ -67,6 +67,7 @@
 		<property name="summary" value="Encumbrance Balance Type" />
 		<property name="description" value="Encumbrance Balance Type" />
 		<property name="control"><bean parent="TextControlDefinition" p:size="2"/></property>
+		<property name="required" value="true" />
 	</bean>
 	<bean id="TripType-encumbranceObjCode" parent="TripType-encumbranceObjCode-parentBean" />
 	<bean id="TripType-encumbranceObjCode-parentBean" abstract="true" parent="AttributeDefinition">

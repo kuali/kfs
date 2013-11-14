@@ -569,6 +569,9 @@
 			columnName="PER_DIEM_ID" columnDataType="NUMBER(22,0)" />
 		<addUniqueConstraint tableName="TEM_TRIP_TYP_T"
 			constraintName="TEM_TRIP_TYP_TC0" columnNames="OBJ_ID" />
+		<addForeignKeyConstraint constraintName="TEM_TRIP_TYP_TR1"
+			baseTableName="TEM_TRIP_TYP_T" baseColumnNames="ENC_BAL_TYP"
+			referencedTableName="CA_BALANCE_TYPE_T" referencedColumnNames="FIN_BALANCE_TYP_CD" />
 		<addNotNullConstraint tableName="TEM_TRIP_TYP_T"
 			columnName="VER_NBR" columnDataType="NUMBER(8,0)" />
 		<addNotNullConstraint tableName="TEM_TRIP_TYP_T"

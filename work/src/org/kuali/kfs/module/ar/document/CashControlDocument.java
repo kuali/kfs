@@ -42,7 +42,7 @@ import org.kuali.kfs.sys.businessobject.ElectronicPaymentClaim;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
-import org.kuali.kfs.sys.context.SpringContext; import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.kfs.sys.document.Correctable;
 import org.kuali.kfs.sys.document.ElectronicPaymentClaiming;
@@ -54,6 +54,7 @@ import org.kuali.kfs.sys.service.BankService;
 import org.kuali.kfs.sys.service.ElectronicPaymentClaimingService;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.sys.service.UniversityDateService;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.core.web.format.CurrencyFormatter;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
@@ -61,18 +62,13 @@ import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
 import org.kuali.rice.kew.routeheader.service.RouteHeaderService;
 import org.kuali.rice.kew.service.KEWServiceLocator;
+import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.document.Copyable;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.service.DocumentService;
-import org.kuali.kfs.sys.context.SpringContext; import org.kuali.rice.krad.service.DocumentService;
-import org.kuali.rice.core.api.config.property.ConfigurationService;
-import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
-import org.kuali.rice.core.web.format.CurrencyFormatter;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
@@ -624,15 +620,6 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
     @Deprecated
     public void setElectronicPaymentClaims(List<ElectronicPaymentClaim> electronicPaymentClaims) {
         this.electronicPaymentClaims = electronicPaymentClaims;
-    }
-
-    /**
-     * @see org.kuali.kfs.sys.document.LedgerPostingDocumentBase#getFinancialDocumentTypeCode()
-     */
-    @Override
-    public String getFinancialDocumentTypeCode() {
-        // TODO Auto-generated method stub
-        return null;
     }
 
     /**

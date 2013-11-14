@@ -167,7 +167,7 @@
 		<form-bean name="ContractsGrantsLetterOfCreditReviewDocumentForm"
 			type="org.kuali.kfs.module.ar.web.struts.ContractsGrantsLetterOfCreditReviewDocumentForm" />
 		<form-bean name="ContractsGrantsLetterOfCreditReviewDocumentForm"
-			type="org.kuali.kfs.module.ar.document.web.struts.ContractsGrantsLetterOfCreditReviewDocumentForm" />
+			type="org.kuali.kfs.module.ar.web.struts.ContractsGrantsLetterOfCreditReviewDocumentForm" />
 
 		<form-bean name="FederalFinancialReportForm"
 			type="org.kuali.kfs.module.ar.web.struts.FederalFinancialReportForm" />
@@ -637,7 +637,7 @@
 
 		<action path="/arContractsGrantsLetterOfCreditReviewDocument" name="ContractsGrantsLetterOfCreditReviewDocumentForm"
 			scope="request" attribute="KualiForm" parameter="methodToCall"
-			type="org.kuali.kfs.module.ar.document.web.struts.ContractsGrantsLetterOfCreditReviewDocumentAction">
+			type="org.kuali.kfs.module.ar.web.struts.ContractsGrantsLetterOfCreditReviewDocumentAction">
 			<set-property property="cancellable" value="true" />
 			<forward name="basic"
 				path="/jsp/module/ar/ContractsGrantsLetterOfCreditReviewDocument.jsp" />

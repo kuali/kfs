@@ -1258,6 +1258,7 @@
 		<property name="travelDocumentService" ref="temTravelDocumentService" />
 		<property name="documentDao" ref="documentDao" />
 		<property name="dataDictionaryService" ref="dataDictionaryService" />
+		<property name="noteService" ref="noteService"/>
 	</bean>
 
 	<bean id="RemoveHoldTa"
@@ -1266,6 +1267,7 @@
 		<property name="travelDocumentService" ref="temTravelDocumentService" />
 		<property name="documentDao" ref="documentDao" />
 		<property name="dataDictionaryService" ref="dataDictionaryService" />
+		<property name="noteService" ref="noteService"/>
 	</bean>
 
 	<bean id="CloseTa"

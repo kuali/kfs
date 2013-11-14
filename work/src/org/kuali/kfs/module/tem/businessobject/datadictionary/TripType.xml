@@ -26,33 +26,12 @@
 			<ref bean="TripType-versionNumber" />
 		</list>
 		</property>
-		<property name="relationships">
-			<list>
-				<bean parent="RelationshipDefinition">
-					<property name="objectAttributeName" value="balanceType" />
-					<property name="primitiveAttributes">
-						<list>
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="encumbranceBalanceType" p:targetName="code" />
-						</list>
-					</property>
-				</bean>
-				<bean parent="RelationshipDefinition">
-					<property name="objectAttributeName" value="encumbrance" />
-					<property name="primitiveAttributes">
-						<list>
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="encumbranceObjCode" p:targetName="objectCode" />
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="encumbranceBalanceType" p:targetName="balanceTypeCode" />
-						</list>
-					</property>
-				</bean>
-			</list>
-		</property>
 	</bean>
 	<bean id="TripType-code" parent="TripType-code-parentBean" />
 	<bean id="TripType-code-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="code" />
-		<property name="label" value="Code" />
-		<property name="shortLabel" value="Code" />
+		<property name="label" value="Trip Type Code" />
+		<property name="shortLabel" value="Trip Type Code" />
 		<property name="maxLength" value="3" />
 		<property name="required" value="true" />
 		<property name="summary" value="Code" />
@@ -62,8 +41,8 @@
 	<bean id="TripType-name" parent="TripType-name-parentBean" />
 	<bean id="TripType-name-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="name" />
-		<property name="label" value="Name" />
-		<property name="shortLabel" value="Name" />
+		<property name="label" value="Trip Type Name" />
+		<property name="shortLabel" value="Trip Type Name" />
 		<property name="maxLength" value="40" />
 		<property name="required" value="true" />
 		<property name="summary" value="Name" />
@@ -102,8 +81,8 @@
 	<bean id="TripType-contactInfoRequired" parent="TripType-contactInfoRequired-parentBean" />
 	<bean id="TripType-contactInfoRequired-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
 		<property name="name" value="contactInfoRequired" />
-		<property name="label" value="Contact Info Required" />
-		<property name="shortLabel" value="Contact Info Required" />
+		<property name="label" value="Emergency Contact Required" />
+		<property name="shortLabel" value="Emergency Contact Required" />
 		<property name="required" value="true" />
 		<property name="summary" value="Contact Info Required" />
 		<property name="description" value="Contact Info Required" />
@@ -130,8 +109,8 @@
 	<bean id="TripType-usePerDiem" parent="TripType-usePerDiem-parentBean" />
 	<bean id="TripType-usePerDiem-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
 		<property name="name" value="usePerDiem" />
-		<property name="label" value="Use Per Diem" />
-		<property name="shortLabel" value="Use Per Diem" />
+		<property name="label" value="Display Per Diem Table " />
+		<property name="shortLabel" value="Display Per Diem Table " />
 		<property name="required" value="false" />
 		<property name="summary" value="Use Per Diem" />
 		<property name="description" value="Use Per Diem" />
@@ -148,7 +127,7 @@
 	<bean id="TripType-perDiemCalcMethod" parent="TripType-perDiemCalcMethod-parentBean" />
 	<bean id="TripType-perDiemCalcMethod-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="perDiemCalcMethod" />
-		<property name="label" value="Per Diem Calculate Method" />
+		<property name="label" value="Per Diem Calculation Method" />
 		<property name="shortLabel" value="Per Diem Calc Method" />
 		<property name="maxLength" value="1" />
 		<property name="required" value="true" />

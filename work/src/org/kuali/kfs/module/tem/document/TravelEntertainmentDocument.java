@@ -352,6 +352,8 @@ public class TravelEntertainmentDocument extends TEMReimbursementDocument implem
     @Override
     public void initiateDocument() {
         super.initiateDocument();
+        setTripBegin(null);
+        setTripEnd(null);
         setAppDocStatus(EntertainmentStatusCodeKeys.IN_PROCESS);
         getTravelPayment().setDocumentationLocationCode(getParameterService().getParameterValueAsString(TravelEntertainmentDocument.class, TravelParameters.DOCUMENTATION_LOCATION_CODE,
                 getParameterService().getParameterValueAsString(TemParameterConstants.TEM_DOCUMENT.class,TravelParameters.DOCUMENTATION_LOCATION_CODE)));

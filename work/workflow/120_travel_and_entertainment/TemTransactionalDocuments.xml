@@ -1157,6 +1157,7 @@
 			<label>CTS Card Application</label>
 			<docHandler>${kfs.url}/temCTSCardApplication.do?methodToCall=docHandler</docHandler>
 			<active>true</active>
+			<authorizer>org.kuali.kfs.module.tem.document.authorization.TravelWorkflowDocumentAuthorizer</authorizer>
 			<routingVersion>2</routingVersion>
 			<validApplicationStatuses>
 				<status>Application</status>

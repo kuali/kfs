@@ -329,6 +329,7 @@
         <property name="offsetDefinitionService" ref="offsetDefinitionService"/>
         <property name="optionsService" ref="optionsService"/>
         <property name="noteService" ref="noteService"/>
+        <property name="travelReimbursementDao" ref="travelReimbursementDao" />
 		<property name="propertyChangeListeners">
 			<list>
 				<ref bean="TravelDocument-addActualExpenseListener" />
@@ -572,6 +573,10 @@
 	<bean id="travelDocumentDao" parent="platformAwareDao"
 		class="org.kuali.kfs.module.tem.dataaccess.impl.TravelDocumentDaoOjb" />
 
+	<bean id="travelReimbursementDao" parent="platformAwareDao"
+		class="org.kuali.kfs.module.tem.dataaccess.impl.TravelReimbursementDaoOjb" />
+	
+	
 	<bean id="perDiemDao" parent="platformAwareDao"
 		class="org.kuali.kfs.module.tem.dataaccess.impl.PerDiemDaoOjb" />	
 

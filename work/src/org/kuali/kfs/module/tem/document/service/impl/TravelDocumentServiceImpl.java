@@ -119,7 +119,9 @@ import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.core.web.format.FormatException;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kew.api.document.attribute.DocumentAttributeIndexingQueue;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
@@ -2105,7 +2107,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
      */
     @Override
     public void revertOriginalDocument(TravelDocument travelDocument, String status) {
-
+        final DocumentAttributeIndexingQueue documentAttributeIndexingQueue = KewApiServiceLocator.getDocumentAttributeIndexingQueue(); // this service is not a good candidate for injection
         List<Document> relatedDocumentList = getDocumentsRelatedTo(travelDocument, TravelDocTypes.TRAVEL_AUTHORIZATION_DOCUMENT,
                 TravelDocTypes.TRAVEL_AUTHORIZATION_AMEND_DOCUMENT);
 
@@ -2124,6 +2126,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
                 catch (Exception ex) {
                     ex.printStackTrace();
                 }
+                documentAttributeIndexingQueue.indexDocument(taDoc.getDocumentNumber());
             }
         }
     }

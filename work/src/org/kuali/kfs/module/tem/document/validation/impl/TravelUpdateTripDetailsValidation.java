@@ -23,7 +23,6 @@ import java.util.Date;
 
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
-import org.kuali.kfs.module.tem.TemPropertyConstants.TravelAuthorizationFields;
 import org.kuali.kfs.module.tem.businessobject.TripType;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.TravelReimbursementDocument;
@@ -75,14 +74,14 @@ public class TravelUpdateTripDetailsValidation extends GenericValidation {
 
         if (endDate != null && beginDate != null && endDate.compareTo(beginDate) < 0) {
             valid = false;
-            GlobalVariables.getMessageMap().putError(TravelAuthorizationFields.TRIP_BEGIN_DT, ERROR_TA_AUTH_END_DATE_BEFORE_BEGIN);
+            GlobalVariables.getMessageMap().putError(TemPropertyConstants.TRIP_BEGIN_DT, ERROR_TA_AUTH_END_DATE_BEFORE_BEGIN);
         }
 
         if (doc.getDocumentHeader().getWorkflowDocument().getDocumentTypeName().equals(TemConstants.TravelDocTypes.TRAVEL_REIMBURSEMENT_DOCUMENT)) {
             TravelReimbursementDocument tr = (TravelReimbursementDocument) doc;
             if (tr.getDelinquentAction() != null) {
                 if (tr.getDelinquentAction().equals(TemConstants.DELINQUENT_STOP) && !tr.getDelinquentTRException()) {
-                    GlobalVariables.getMessageMap().putError(TravelAuthorizationFields.TRIP_END_DT, KFSKeyConstants.ERROR_CUSTOM, "Travel Reimbursement cannot be initiated because of delinquency.");
+                    GlobalVariables.getMessageMap().putError(TemPropertyConstants.TRIP_END_DT, KFSKeyConstants.ERROR_CUSTOM, "Travel Reimbursement cannot be initiated because of delinquency.");
                 }
 
                 if (tr.getDocumentHeader().getExplanation() == null || tr.getDocumentHeader().getExplanation().trim().length() == 0) {

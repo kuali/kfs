@@ -411,8 +411,8 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
             if (TemConstants.ExpenseTypeMetaCategory.MILEAGE.getCode().equals(expenseType.getExpenseTypeMetaCategoryCode())) {
                 final MileageRate mileageRate = getMileageRate(expenseType.getCode(), searchDate);
                 keyValues.add(new ConcreteKeyValue(expenseType.getCode(), expenseType.getCode()+" - "+mileageRate.getRate().toString()));
+                }
             }
-        }
 
         //sort by label
         Comparator<KeyValue> labelComparator = new Comparator<KeyValue>() {
@@ -1401,6 +1401,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
         return foundCode;
     }
 
+
     /**
      *
      * @see org.kuali.kfs.module.tem.document.service.TravelDocumentService#getAllStates(java.lang.String)
@@ -2187,6 +2188,8 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
         return advances;
     }
 
+
+
     /**
      * Determines if the document with the given document number has been approved or not
      * @param documentNumber the document number of the document to check
@@ -2463,6 +2466,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
     public void setPerDiemService(PerDiemService perDiemService) {
         this.perDiemService = perDiemService;
     }
+
 
     public List<String> getGroupTravelerColumns() {
         return groupTravelerColumns;

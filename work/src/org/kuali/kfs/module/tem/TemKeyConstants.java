@@ -90,6 +90,8 @@ public class TemKeyConstants {
     public static final String TRVL_REIMB_AIRFARE_ERROR = "document.airfareNote,document.airfare,newActualExpenseLine.*";
     public static final String TRVL_REIMB_CONTACT_INFO_ERRORS = "document.contactName,document.contactPhoneNum";
     public static final String TRVL_REIMB_ACCOUNTING_DISTRIBUTION_ERRORS = "accountingDistribution";
+    public static final String TRVL_REMIB_DUPLICATE_TRIP_QUESTION = "trvl.reimbursement.duplicate.trip.question.text";
+    public static final String TRVL_REMIB_PROCEED_QUESTION = "trvl.reimbursement.proceed.text";
     public static final String TRVL_ENT_ATTENDEE_ERRORS = "document.numberOfAttendees,document.attendeeListAttached,newAttendeeLines*,attendee,attendeeType,company,name,title";
     public static final String TRVL_GROUP_TRVL_ERRORS = "newGroupTravelerLine.name,newGroupTravelerLine.travelerTypeCode,newGroupTravelerLine.groupTravelerEmpId,groupTraveler";
     public static final String ERROR_TR_EMPLOYEE_INITIATOR_MUST_CERTIFY ="error.document.tem.employeeCertification";

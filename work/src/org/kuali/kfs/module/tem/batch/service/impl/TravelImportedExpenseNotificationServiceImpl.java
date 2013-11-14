@@ -21,12 +21,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemParameterConstants;
 import org.kuali.kfs.module.tem.batch.TravelImportedExpenseNotificationStep;
 import org.kuali.kfs.module.tem.batch.service.TravelImportedExpenseNotificationService;
 import org.kuali.kfs.module.tem.businessobject.HistoricalTravelExpense;
 import org.kuali.kfs.module.tem.businessobject.TemProfile;
+import org.kuali.kfs.module.tem.document.TravelDocument;
+import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
 import org.kuali.kfs.module.tem.service.HistoricalTravelExpenseService;
 import org.kuali.kfs.module.tem.service.TemProfileService;
 import org.kuali.kfs.sys.KFSConstants;
@@ -34,20 +37,24 @@ import org.kuali.kfs.sys.service.KfsNotificationService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.mail.MailMessage;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 public class TravelImportedExpenseNotificationServiceImpl implements TravelImportedExpenseNotificationService {
 
-    private DateTimeService dateTimeService;
-    private BusinessObjectService businessObjectService;
-    private TemProfileService temProfileService;
-    private HistoricalTravelExpenseService historicalTravelExpenseService;
+    protected DateTimeService dateTimeService;
+    protected BusinessObjectService businessObjectService;
+    protected TemProfileService temProfileService;
+    protected HistoricalTravelExpenseService historicalTravelExpenseService;
+    protected TravelDocumentService travelDocumentService;
+    protected DocumentService documentService;
 
-    private KfsNotificationService kfsNotificationService;
-    private ParameterService parameterService;
-    private String notificationTemplate;
+    protected KfsNotificationService kfsNotificationService;
+    protected ParameterService parameterService;
+    protected String notificationTemplate;
 
     /**
      * @see org.kuali.kfs.module.tem.batch.service.TravelImportedExpenseNotificationService#sendImportedExpenseNotification()
@@ -58,10 +65,12 @@ public class TravelImportedExpenseNotificationServiceImpl implements TravelImpor
        Map<Integer, List<HistoricalTravelExpense>> expensesGroupByTraveler = this.groupExpensesByTraveler(travelExpenses);
 
        for(Integer travelerProfileId : expensesGroupByTraveler.keySet()){
-           List<HistoricalTravelExpense> expensesOfTraveler = expensesGroupByTraveler.get(travelerProfileId);
+           if (travelerProfileId != null) {
+               List<HistoricalTravelExpense> expensesOfTraveler = expensesGroupByTraveler.get(travelerProfileId);
 
-           if(ObjectUtils.isNotNull(expensesOfTraveler) && !expensesOfTraveler.isEmpty()){
-               this.sendImportedExpenseNotification(travelerProfileId, expensesOfTraveler);
+               if(ObjectUtils.isNotNull(expensesOfTraveler) && !expensesOfTraveler.isEmpty()){
+                   this.sendImportedExpenseNotification(travelerProfileId, expensesOfTraveler);
+               }
            }
        }
     }
@@ -133,6 +142,10 @@ public class TravelImportedExpenseNotificationServiceImpl implements TravelImpor
         for(HistoricalTravelExpense expense : travelExpenses){
             Integer profileId = expense.getProfileId();
 
+            if (profileId == null) {
+                profileId = lookupProfileId(expense);
+            }
+
             if(expensesGroupedByTraveler.containsKey(profileId)){
                 List<HistoricalTravelExpense> expensesOfTraveler = expensesGroupedByTraveler.get(profileId);
                 expensesOfTraveler.add(expense);
@@ -146,6 +159,37 @@ public class TravelImportedExpenseNotificationServiceImpl implements TravelImpor
         }
 
         return expensesGroupedByTraveler;
+    }
+
+    /**
+     * Uses the given reconciled expense to look up the profile id (presumably from the trip's current document)
+     * @param reconciledExpense the reconciled expense to try to find a profile id for
+     * @return the profile id for the expense, or null if one could not be determined
+     */
+    protected Integer lookupProfileId(HistoricalTravelExpense reconciledExpense) {
+        if (reconciledExpense.getProfileId() != null) {
+            return reconciledExpense.getProfileId();
+        }
+        if (!StringUtils.isBlank(reconciledExpense.getDocumentNumber())) {
+            try {
+                final TravelDocument travelDoc = (TravelDocument)getDocumentService().getByDocumentHeaderIdSessionless(reconciledExpense.getDocumentNumber());
+                if (travelDoc != null && !ObjectUtils.isNull(travelDoc.getTemProfileId())) {
+                    return travelDoc.getTemProfileId();
+                }
+            }
+            catch (WorkflowException we) {
+                // i can't access a document in workflow?  Then let's blow chunks, fun style!
+                throw new RuntimeException("Cannot retrieve document #"+reconciledExpense.getDocumentNumber()+"...and really, I'm just trying to look up a traveler is all", we);
+            }
+        }
+        if (!StringUtils.isBlank(reconciledExpense.getTripId())) {
+            final TravelDocument travelDoc = getTravelDocumentService().getTravelDocument(reconciledExpense.getTripId());
+            if (travelDoc != null && !ObjectUtils.isNull(travelDoc.getTemProfileId())) {
+                return travelDoc.getTemProfileId();
+            }
+        }
+
+        return null;
     }
 
     protected List<HistoricalTravelExpense> getImportedExpesnesToBeNotified() {
@@ -285,4 +329,21 @@ public class TravelImportedExpenseNotificationServiceImpl implements TravelImpor
     public void setHistoricalTravelExpenseService(HistoricalTravelExpenseService historicalTravelExpenseService) {
         this.historicalTravelExpenseService = historicalTravelExpenseService;
     }
+
+    public TravelDocumentService getTravelDocumentService() {
+        return travelDocumentService;
+    }
+
+    public void setTravelDocumentService(TravelDocumentService travelDocumentService) {
+        this.travelDocumentService = travelDocumentService;
+    }
+
+    public DocumentService getDocumentService() {
+        return documentService;
+    }
+
+    public void setDocumentService(DocumentService documentService) {
+        this.documentService = documentService;
+    }
+
 }

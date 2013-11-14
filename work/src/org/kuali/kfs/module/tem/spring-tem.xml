@@ -1300,7 +1300,9 @@
     	<property name="businessObjectService" ref="businessObjectService" />   	
     	<property name="dateTimeService" ref="dateTimeService" />
     	<property name="temProfileService" ref="temProfileService" />
-    	<property name="historicalTravelExpenseService" ref="historicalTravelExpenseService" />   
+    	<property name="historicalTravelExpenseService" ref="historicalTravelExpenseService" /> 
+    	<property name="travelDocumentService" ref="temTravelDocumentService"/>
+    	<property name="documentService" ref="documentService"/>
     	
     	<property name="kfsNotificationService" ref="kfsNotificationService" />
     	<property name="parameterService" ref="parameterService" />

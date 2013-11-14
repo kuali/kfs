@@ -38,9 +38,10 @@ public interface LaborLedgerBalanceDao {
      * 
      * @param fieldValues the input fields and values
      * @param isConsolidated consolidation option is applied or not
+     * @param noZeroAmounts makes sure at least one of the 13 monthly buckets has an amount not equals to zero
      * @return the records of balance entries
      */
-    public Iterator findBalance(Map fieldValues, boolean isConsolidated, List<String> encumbranceBalanceTypes);
+    public Iterator findBalance(Map fieldValues, boolean isConsolidated, List<String> encumbranceBalanceTypes, boolean noZeroAmounts);
 
     /**
      * This method gets the size collection of balance entry groups according to input fields and values if the entries are required
@@ -48,9 +49,10 @@ public interface LaborLedgerBalanceDao {
      * 
      * @param encumbranceBalanceTypes a list of encumbrance balance types
      * @param fieldValues the input fields and values
+     * @param noZeroAmounts makes sure at least one of the 13 monthly buckets has an amount not equals to zero
      * @return the size collection of balance entry groups
      */
-    public Iterator getConsolidatedBalanceRecordCount(Map fieldValues, List<String> encumbranceBalanceTypes);
+    public Iterator getConsolidatedBalanceRecordCount(Map fieldValues, List<String> encumbranceBalanceTypes, boolean noZeroAmounts);
 
     /**
      * @param fiscalYear the given fiscal year

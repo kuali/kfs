@@ -71,9 +71,9 @@ public class LaborLedgerBalanceServiceImpl implements LaborLedgerBalanceService 
      */
     @Override
     @NonTransactional
-    public Iterator findBalance(Map fieldValues, boolean isConsolidated, List<String> encumbranceBalanceTypes) {
+    public Iterator findBalance(Map fieldValues, boolean isConsolidated, List<String> encumbranceBalanceTypes, boolean noZeroAmounts) {
         LOG.debug("findBalance() started");
-        return laborLedgerBalanceDao.findBalance(fieldValues, isConsolidated, encumbranceBalanceTypes);
+        return laborLedgerBalanceDao.findBalance(fieldValues, isConsolidated, encumbranceBalanceTypes, noZeroAmounts);
     }
 
     /**
@@ -81,7 +81,7 @@ public class LaborLedgerBalanceServiceImpl implements LaborLedgerBalanceService 
      */
     @Override
     @NonTransactional
-    public Integer getBalanceRecordCount(Map fieldValues, boolean isConsolidated, List<String> encumbranceBalanceTypes) {
+    public Integer getBalanceRecordCount(Map fieldValues, boolean isConsolidated, List<String> encumbranceBalanceTypes, boolean noZeroAmounts) {
         LOG.debug("getBalanceRecordCount() started");
 
         Integer recordCount = null;
@@ -89,7 +89,7 @@ public class LaborLedgerBalanceServiceImpl implements LaborLedgerBalanceService 
             recordCount = OJBUtility.getResultSizeFromMap(fieldValues, new LedgerBalance()).intValue();
         }
         else {
-            Iterator recordCountIterator = laborLedgerBalanceDao.getConsolidatedBalanceRecordCount(fieldValues, encumbranceBalanceTypes);
+            Iterator recordCountIterator = laborLedgerBalanceDao.getConsolidatedBalanceRecordCount(fieldValues, encumbranceBalanceTypes, noZeroAmounts);
             List recordCountList = IteratorUtils.toList(recordCountIterator);
             recordCount = recordCountList.size();
         }

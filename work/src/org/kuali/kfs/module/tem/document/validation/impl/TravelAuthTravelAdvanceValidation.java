@@ -28,6 +28,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationParameters;
 import org.kuali.kfs.module.tem.TemKeyConstants;
+import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants.TravelAuthorizationFields;
 import org.kuali.kfs.module.tem.businessobject.TemProfile;
 import org.kuali.kfs.module.tem.businessobject.TemProfileAccount;
@@ -169,7 +170,7 @@ public class TravelAuthTravelAdvanceValidation extends GenericValidation {
         }
 
         if (advance.getDueDate() != null && tripEnd == null){
-            GlobalVariables.getMessageMap().putError(TravelAuthorizationFields.TRIP_END_DT, TemKeyConstants.ERROR_TA_TRVL_TRIP_END_MISSING);
+            GlobalVariables.getMessageMap().putError(TemPropertyConstants.TRIP_END_DT, TemKeyConstants.ERROR_TA_TRVL_TRIP_END_MISSING);
             success = false;
         }
         else if (advance.getDueDate() != null && advance.getDueDate().after(tripEnd)) {

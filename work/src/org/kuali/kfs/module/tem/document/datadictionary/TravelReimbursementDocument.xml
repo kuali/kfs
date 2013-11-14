@@ -13,6 +13,7 @@
 		<property name="documentTypeName" value="TR" />
 		<property name="documentClass" value="org.kuali.kfs.module.tem.document.TravelReimbursementDocument" />
 		<property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase"/>
+		<property name="promptBeforeValidationClass" value="org.kuali.kfs.module.tem.document.validation.impl.TravelReimbursementDocumentPreRules" />
 	    <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.tem.document.authorization.TravelReimbursementDocumentPresentationController" />
         <property name="documentAuthorizerClass" value="org.kuali.kfs.module.tem.document.authorization.TravelReimbursementAuthorizer"/>
 		<property name="sessionDocument" value="true"/>

@@ -50,7 +50,7 @@
 							<tr>
 								<td>
 									<div align="center">
-										<tem:htmlMaskControlAttribute
+										<kul:htmlControlAttribute
 					                    attributeEntry="${accountingDocumentRelationship.relDocumentNumber}"
 					                    property="newAccountingDocumentRelationship.relDocumentNumber"
 					                    readOnly="false" />
@@ -58,7 +58,7 @@
 				                </td>
 								<td valign=top class="infoline">
 									<div align="center">
-										<tem:htmlMaskControlAttribute
+										<kul:htmlControlAttribute
 					                    attributeEntry="${accountingDocumentRelationship.relDocumentNumber}"
 					                    property="newAccountingDocumentRelationship.description"
 					                    readOnly="false" />

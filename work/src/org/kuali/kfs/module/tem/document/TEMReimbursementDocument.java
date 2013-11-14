@@ -18,7 +18,6 @@ package org.kuali.kfs.module.tem.document;
 import static org.kuali.kfs.module.tem.TemConstants.DISBURSEMENT_VOUCHER_DOCTYPE;
 
 import java.sql.Date;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -118,22 +117,11 @@ public abstract class TEMReimbursementDocument extends TravelDocumentBase implem
         setActualExpenses(new ArrayList<ActualExpense>());
         setPerDiemExpenses(new ArrayList<PerDiemExpense>());
 
-        //default dates if null
-        Calendar calendar = getDateTimeService().getCurrentCalendar();
-        if (getTripBegin() == null) {
-            calendar.add(Calendar.DAY_OF_MONTH, 1);
-            setTripBegin(new Timestamp(calendar.getTimeInMillis()));
-
-        }
-        if (getTripEnd() == null) {
-            calendar.add(Calendar.DAY_OF_MONTH, 2);
-            setTripEnd(new Timestamp(calendar.getTimeInMillis()));
-        }
-
         // initiate payment and wire transfer
         this.travelPayment = new TravelPayment();
         this.wireTransfer = new PaymentSourceWireTransfer();
         // set due date to the next day
+        Calendar calendar = getDateTimeService().getCurrentCalendar();
         calendar = getDateTimeService().getCurrentCalendar();
         calendar.add(Calendar.DAY_OF_MONTH, 1);
         travelPayment.setDueDate(new java.sql.Date(calendar.getTimeInMillis()));

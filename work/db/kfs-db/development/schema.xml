@@ -15804,6 +15804,9 @@
         <column name="ACTV_IND" required="true" size="1" type="VARCHAR"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
+        <foreign-key foreignTable="CA_BALANCE_TYPE_T" name="TEM_TRIP_TYP_TR1">
+            <reference foreign="FIN_BALANCE_TYP_CD" local="ENC_BAL_TYP"/>
+        </foreign-key>
         <unique name="TEM_TRIP_TYP_TC0">
             <unique-column name="OBJ_ID"/>
         </unique>

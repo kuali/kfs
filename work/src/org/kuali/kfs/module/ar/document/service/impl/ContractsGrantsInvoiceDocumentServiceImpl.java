@@ -228,7 +228,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         List<CustomerInvoiceAccount> customerInvoiceAccounts = new ArrayList<CustomerInvoiceAccount>();
         if (ObjectUtils.isNotNull(contractsGrantsInvoiceDocument.getAward())) {
             Map<String, Object> map = new HashMap<String, Object>();
-            map.put(KFSPropertyConstants.PROPOSAL_NUMBER, contractsGrantsInvoiceDocument.getAward().getProposalNumber());
+            map.put(KFSPropertyConstants.CUSTOMER_NUMBER, contractsGrantsInvoiceDocument.getCustomerNumber());
             map.put(KFSPropertyConstants.ACTIVE, true);
             customerInvoiceAccounts = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(CustomerInvoiceAccount.class).getExternalizableBusinessObjectsList(CustomerInvoiceAccount.class, map);
         }
@@ -3878,7 +3878,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         boolean isUsingReceivableFAU = ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_FAU.equals(receivableOffsetOption);
         List<CustomerInvoiceAccount> customerInvoiceAccounts = new ArrayList<CustomerInvoiceAccount>();
         Map<String, Object> map = new HashMap<String, Object>();
-        map.put(KFSPropertyConstants.PROPOSAL_NUMBER, award.getProposalNumber());
+        map.put(KFSPropertyConstants.CUSTOMER_NUMBER, document.getCustomerNumber());
         map.put(KFSPropertyConstants.ACTIVE, true);
         customerInvoiceAccounts = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(CustomerInvoiceAccount.class).getExternalizableBusinessObjectsList(CustomerInvoiceAccount.class, map);
         if (isUsingReceivableFAU) {

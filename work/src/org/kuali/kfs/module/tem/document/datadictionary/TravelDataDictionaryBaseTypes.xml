@@ -40,8 +40,8 @@
     <bean id="TravelDocumentAccountingLine-cardType-parentBean" abstract="true" parent="TravelCardType-code-parentBean">
       <property name="name" value="cardType" />
       <property name="maxLength" value="40" />
-      <property name="label" value="Expense or Encumb" />
-      <property name="shortLabel" value="Expense or Encumb" />
+      <property name="label" value="Expense Source" />
+      <property name="shortLabel" value="Expense Source" />
       <property name="control">
         <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.tem.businessobject.options.CardTypeValuesFinder" p:includeKeyInLabel="false"/>
       </property>

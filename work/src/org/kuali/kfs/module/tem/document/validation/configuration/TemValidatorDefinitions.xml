@@ -28,7 +28,9 @@
 	</bean>
 
 	<bean id="TravelModule-accommodationInfoRequiredValidation"
-		class="org.kuali.kfs.module.tem.document.validation.impl.TravelAuthAccommodationInfoRequiredValidation" />
+		class="org.kuali.kfs.module.tem.document.validation.impl.TravelAuthAccommodationInfoRequiredValidation">
+		<property name="parameterService" ref="parameterService"/>
+	</bean>
 
 	<bean id="TravelModule-emergencyContactRequiredValidation"
 		class="org.kuali.kfs.module.tem.document.validation.impl.TravelAuthEmergencyContactRequiredValidation" />

@@ -215,6 +215,8 @@ public class TemConstants {
         public static final String INCLUDE_TRAVELER_TYPE_IN_TRIP_ID_IND = "INCLUDE_TRAVELER_TYPE_IN_TRIP_ID_IND";
 
         public static final String PER_DIEM_MILEAGE_RATE_EXPENSE_TYPE_CODE = "PER_DIEM_MILEAGE_RATE_EXPENSE_TYPE_CODE";
+
+        public static final String INTERNATIONAL_TRIP_REQUIRES_ACCOMMODATION_IND = "INTERNATIONAL_TRIP_REQUIRES_ACCOMMODATION_IND";
     }
 
     public static class TravelAuthorizationParameters {

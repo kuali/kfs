@@ -165,8 +165,8 @@
 
   <bean id="PaymentDetail-purchaseOrderNbr-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="purchaseOrderNbr"/>
-    <property name="label" value="Purchase Order Number"/>
-    <property name="shortLabel" value="Order Nbr"/>
+    <property name="label" value="Purchase Order/TEM Number"/>
+    <property name="shortLabel" value="PO/TEM Nbr"/>
     <property name="maxLength" value="32"/>
     <property name="validationPattern">
        <ref bean="AnyCharacterValidation" />

@@ -21,14 +21,12 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAwardAccount;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingFrequency;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsLetterOfCreditFund;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsOrganization;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsProjectDirector;
-import org.kuali.kfs.module.external.kc.dto.AwardDTO;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
@@ -118,38 +116,6 @@ public class Award implements ContractsAndGrantsBillingAward {
     private String commentText;
     private String dunningCampaign;
     private boolean stopWorkIndicator;
-
-    public Award(AwardDTO kcAward) {
-        setProposalNumber(kcAward.getAwardId());
-        setAwardNumber(kcAward.getAwardNumber());
-        this.setAwardBeginningDate(kcAward.getAwardStartDate());
-        this.setAwardEndingDate(kcAward.getAwardEndDate());
-        this.setAwardTotalAmount(kcAward.getAwardTotalAmount());
-        this.setAwardDirectCostAmount(kcAward.getAwardDirectCostAmount());
-        this.setAwardIndirectCostAmount(kcAward.getAwardIndirectCostAmount());
-        this.setAwardDocumentNumber(kcAward.getAwardDocumentNumber());
-        this.setAwardLastUpdateDate(kcAward.getAwardLastUpdateDate());
-        this.setAwardCreateTimestamp(kcAward.getAwardCreateTimestamp());
-        this.setProposalAwardTypeCode(kcAward.getProposalAwardTypeCode());
-        this.setAwardStatusCode(kcAward.getAwardStatusCode());
-        this.setAgencyNumber(kcAward.getSponsorCode());
-        this.setAwardTitle(kcAward.getTitle());
-        this.setAwardCommentText(kcAward.getAwardCommentText());
-        this.setAgency(new Agency(kcAward.getSponsor()));
-        this.setProposal(new Proposal(kcAward.getProposal()));
-        this.getProposal().setAward(this);
-        this.setAdditionalFormsRequiredIndicator(kcAward.isAdditionalFormsRequired());
-        this.setAutoApproveIndicator(kcAward.isAutoApproveInvoice());
-        this.setMinInvoiceAmount(kcAward.getMinInvoiceAmount());
-        this.setAdditionalFormsDescription(kcAward.getAdditionalFormsDescription());
-        this.setStopWorkIndicator(kcAward.isStopWork());
-        this.setCommentText(kcAward.getStopWorkReason());
-        this.setInvoicingOptions(kcAward.getInvoicingOption());
-        this.setDunningCampaign(kcAward.getDunningCampaignId());
-        if (StringUtils.isNotEmpty(kcAward.getFundManagerId())) {
-            awardPrimaryFundManager = new AwardFundManager(proposalNumber, kcAward.getFundManagerId());
-        }
-    }
 
     /**
      * Default no-args constructor.

@@ -107,6 +107,7 @@
         <property name="parameterService" ref="parameterService" />
         <property name="dataDictionaryService" ref="dataDictionaryService" />
         <property name="businessObjectService" ref="businessObjectService" />
+        <property name="accountDefaultsService" ref="accountDefaultsService"/>
     </bean>
 	    
     <bean id="budgetAdjustmentService" parent="budgetAdjustmentService-parentBean"/>
@@ -115,6 +116,11 @@
         <property name="parameterService" ref="parameterService" />
         <property name="dataDictionaryService" ref="dataDictionaryService" />
         <property name="businessObjectService" ref="businessObjectService" />
+    </bean>
+    
+    <bean id="accountDefaultsService" parent="accountDefaultsService-parentBean"/>
+    <bean id="accountDefaultsService-parentBean" class="org.kuali.kfs.module.external.kc.service.impl.AccountDefaultServiceImpl" abstract="true">
+      <property name="businessObjectService" ref="businessObjectService" />
     </bean>
     
     <!--
@@ -146,7 +152,9 @@
     <bean id="sponsorWebService-parentBean" class="org.kuali.kfs.module.external.kc.service.impl.SponsorServiceImpl" abstract="true"/>
     
     <bean id="awardWebService" parent="awardWebService-parentBean"/>
-    <bean id="awardWebService-parentBean" class="org.kuali.kfs.module.external.kc.service.impl.AwardServiceImpl" abstract="true"/>
+    <bean id="awardWebService-parentBean" class="org.kuali.kfs.module.external.kc.service.impl.AwardServiceImpl" abstract="true">
+      <property name="accountDefaultsService" ref="accountDefaultsService"/>
+    </bean>
   	  		
   	<import resource="spring-kc-bus-exports.xml"/>
 </beans>

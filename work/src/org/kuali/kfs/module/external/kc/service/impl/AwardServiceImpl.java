@@ -24,10 +24,17 @@ import java.util.Map;
 
 import javax.xml.ws.WebServiceException;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.integration.cg.dto.HashMapElement;
 import org.kuali.kfs.module.external.kc.KcConstants;
+import org.kuali.kfs.module.external.kc.businessobject.AccountAutoCreateDefaults;
+import org.kuali.kfs.module.external.kc.businessobject.Agency;
 import org.kuali.kfs.module.external.kc.businessobject.Award;
+import org.kuali.kfs.module.external.kc.businessobject.AwardFundManager;
+import org.kuali.kfs.module.external.kc.businessobject.AwardOrganization;
+import org.kuali.kfs.module.external.kc.businessobject.Proposal;
 import org.kuali.kfs.module.external.kc.dto.AwardDTO;
+import org.kuali.kfs.module.external.kc.service.AccountDefaultsService;
 import org.kuali.kfs.module.external.kc.service.ExternalizableBusinessObjectService;
 import org.kuali.kfs.module.external.kc.service.KfsService;
 import org.kuali.kfs.module.external.kc.util.GlobalVariablesExtractHelper;
@@ -45,6 +52,8 @@ import org.kuali.rice.krad.bo.ExternalizableBusinessObject;
 
 public class AwardServiceImpl implements ExternalizableBusinessObjectService {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AwardServiceImpl.class);
+
+    private AccountDefaultsService accountDefaultsService;
 
     protected AwardWebService getWebService() {
         // first attempt to get the service from the KSB - works when KFS & KC share a Rice instance
@@ -71,7 +80,7 @@ public class AwardServiceImpl implements ExternalizableBusinessObjectService {
     public ExternalizableBusinessObject findByPrimaryKey(Map primaryKeys) {
         //use the proposal number as its the awardId on the KC side.
         AwardDTO dto  = this.getWebService().getAward((Long)primaryKeys.get("proposalNumber"));
-        return new Award(dto);
+        return awardFromDTO(dto);
     }
 
     @Override
@@ -103,10 +112,64 @@ public class AwardServiceImpl implements ExternalizableBusinessObjectService {
         } else {
             List<Award> awards = new ArrayList<Award>();
             for (AwardDTO dto : result) {
-                awards.add(new Award(dto));
+                awards.add(awardFromDTO(dto));
             }
             return awards;
         }
+    }
+
+    protected Award awardFromDTO(AwardDTO kcAward) {
+        Award award = new Award();
+        award.setProposalNumber(kcAward.getAwardId());
+        award.setAwardNumber(kcAward.getAwardNumber());
+        award.setAwardBeginningDate(kcAward.getAwardStartDate());
+        award.setAwardEndingDate(kcAward.getAwardEndDate());
+        award.setAwardTotalAmount(kcAward.getAwardTotalAmount());
+        award.setAwardDirectCostAmount(kcAward.getAwardDirectCostAmount());
+        award.setAwardIndirectCostAmount(kcAward.getAwardIndirectCostAmount());
+        award.setAwardDocumentNumber(kcAward.getAwardDocumentNumber());
+        award.setAwardLastUpdateDate(kcAward.getAwardLastUpdateDate());
+        award.setAwardCreateTimestamp(kcAward.getAwardCreateTimestamp());
+        award.setProposalAwardTypeCode(kcAward.getProposalAwardTypeCode());
+        award.setAwardStatusCode(kcAward.getAwardStatusCode());
+        award.setAgencyNumber(kcAward.getSponsorCode());
+        award.setAwardTitle(kcAward.getTitle());
+        award.setAwardCommentText(kcAward.getAwardCommentText());
+        award.setAgency(new Agency(kcAward.getSponsor()));
+        award.setProposal(new Proposal(kcAward.getProposal()));
+        award.getProposal().setAward(award);
+        award.setAdditionalFormsRequiredIndicator(kcAward.isAdditionalFormsRequired());
+        award.setAutoApproveIndicator(kcAward.isAutoApproveInvoice());
+        award.setMinInvoiceAmount(kcAward.getMinInvoiceAmount());
+        award.setAdditionalFormsDescription(kcAward.getAdditionalFormsDescription());
+        award.setStopWorkIndicator(kcAward.isStopWork());
+        award.setCommentText(kcAward.getStopWorkReason());
+        award.setInvoicingOptions(kcAward.getInvoicingOption());
+        award.setDunningCampaign(kcAward.getDunningCampaignId());
+        if (StringUtils.isNotEmpty(kcAward.getFundManagerId())) {
+            award.setAwardPrimaryFundManager(new AwardFundManager(award.getProposalNumber(), kcAward.getFundManagerId()));
+        }
+        AccountAutoCreateDefaults defaults = getAccountDefaultsService().getAccountDefaults(kcAward.getUnitNumber());
+        if (defaults != null) {
+            AwardOrganization awardOrg = new AwardOrganization();
+            awardOrg.setActive(true);
+            awardOrg.setAwardPrimaryOrganizationIndicator(true);
+            awardOrg.setChartOfAccountsCode(defaults.getChartOfAccountsCode());
+            awardOrg.setChartOfAccounts(defaults.getChartOfAccounts());
+            awardOrg.setOrganization(defaults.getOrganization());
+            awardOrg.setOrganizationCode(defaults.getOrganizationCode());
+            awardOrg.setProposalNumber(award.getProposalNumber());
+            award.setPrimaryAwardOrganization(awardOrg);
+        }
+        return award;
+    }
+
+    public AccountDefaultsService getAccountDefaultsService() {
+        return accountDefaultsService;
+    }
+
+    public void setAccountDefaultsService(AccountDefaultsService accountDefaultsService) {
+        this.accountDefaultsService = accountDefaultsService;
     }
 
  }

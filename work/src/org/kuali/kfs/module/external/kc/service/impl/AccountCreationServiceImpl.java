@@ -17,9 +17,7 @@ package org.kuali.kfs.module.external.kc.service.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Account;
@@ -28,13 +26,13 @@ import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.IndirectCostRecoveryAccount;
 import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.coa.service.ChartService;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleService;
 import org.kuali.kfs.integration.cg.dto.AccountCreationStatusDTO;
 import org.kuali.kfs.integration.cg.dto.AccountParametersDTO;
 import org.kuali.kfs.module.external.kc.KcConstants;
 import org.kuali.kfs.module.external.kc.businessobject.AccountAutoCreateDefaults;
 import org.kuali.kfs.module.external.kc.businessobject.IndirectCostRecoveryAutoDefAccount;
 import org.kuali.kfs.module.external.kc.service.AccountCreationService;
+import org.kuali.kfs.module.external.kc.service.AccountDefaultsService;
 import org.kuali.kfs.module.external.kc.util.GlobalVariablesExtractHelper;
 import org.kuali.kfs.module.external.kc.util.KcUtils;
 import org.kuali.kfs.sys.KFSConstants;
@@ -76,6 +74,7 @@ public class AccountCreationServiceImpl implements AccountCreationService {
     private ParameterService parameterService;
     private DataDictionaryService dataDictionaryService;
     private BusinessObjectService businessObjectService;
+    private AccountDefaultsService accountDefaultsService;
 
     /**
      * This is the web service method that creates a new account 1. Creates an account object using the parameters from KC and the
@@ -85,6 +84,7 @@ public class AccountCreationServiceImpl implements AccountCreationService {
      * @param AccountAutoCreateDefaults
      * @return AccountCreationStatusDTO
      */
+    @Override
     public AccountCreationStatusDTO createAccount(AccountParametersDTO accountParameters) {
 
         AccountCreationStatusDTO accountCreationStatus = new AccountCreationStatusDTO();
@@ -102,7 +102,7 @@ public class AccountCreationServiceImpl implements AccountCreationService {
 
         // get the defaults table
         String unitNumber = accountParameters.getUnit();
-        AccountAutoCreateDefaults defaults = getAccountDefaults(unitNumber);
+        AccountAutoCreateDefaults defaults = getAccountDefaultsService().getAccountDefaults(unitNumber);
 
         if (defaults == null) {
             this.setFailStatus(accountCreationStatus, KcConstants.AccountCreationService.ERROR_KC_ACCOUNT_PARAMS_UNIT_NOT_DEFINED);
@@ -460,52 +460,7 @@ public class AccountCreationServiceImpl implements AccountCreationService {
         }
     }
 
-    /**
-     * This method looks up the default table
-     *
-     * @param String unitNumber
-     * @return AccountAutoCreateDefaults
-     */
-    protected AccountAutoCreateDefaults getAccountDefaults(String unitNumber) {
 
-        AccountAutoCreateDefaults defaults = null;
-
-        if (unitNumber == null || unitNumber.isEmpty()) {
-            return null;
-        }
-
-        Map<String, String> criteria = new HashMap<String, String>();
-        criteria.put("kcUnit", unitNumber);
-        defaults = businessObjectService.findByPrimaryKey(AccountAutoCreateDefaults.class, criteria);
-
-        // if the matching defaults is null, try the parents in the hierarchy
-        if (defaults == null) {
-
-            List<String> parentUnits = null;
-            try {
-                parentUnits = SpringContext.getBean(ContractsAndGrantsModuleService.class).getParentUnits(unitNumber);
-            }
-            catch (Exception ex) {
-                LOG.error( KcUtils.getErrorMessage(KcConstants.AccountCreationService.ERROR_KC_ACCOUNT_PARAMS_UNIT_NOTFOUND, null) + ": " + ex.getMessage());
-
-                GlobalVariables.getMessageMap().putError(KcConstants.AccountCreationService.ERROR_KC_ACCOUNT_PARAMS_UNIT_NOTFOUND, "kcUnit", ex.getMessage());
-
-            }
-
-            if (parentUnits != null) {
-                for (String unit : parentUnits) {
-                    criteria.put("kcUnit", unit);
-                    defaults = businessObjectService.findByPrimaryKey(AccountAutoCreateDefaults.class, criteria);
-                    if (defaults != null) {
-                        break;
-                    }
-                }
-            }
-
-        }
-
-        return defaults;
-    }
 
     /**
      * Check to see if the main link between KFS and KC is valid, namely the chart and account number.
@@ -567,21 +522,25 @@ public class AccountCreationServiceImpl implements AccountCreationService {
          return isValid;
     }
 
+    @Override
     public boolean accountsCanCrossCharts() {
         return SpringContext.getBean(AccountService.class).accountsCanCrossCharts();
     }
 
+    @Override
     public boolean isValidAccount(String accountNumber) {
         Collection<Account> accounts = SpringContext.getBean(AccountService.class).getAccountsForAccountNumber(accountNumber);
         return (accounts != null && !accounts.isEmpty());
     }
 
+    @Override
     public boolean isValidChartCode(String chartOfAccountsCode) {
         Chart chart = SpringContext.getBean(ChartService.class).getByPrimaryId(chartOfAccountsCode);
         return (chart != null);
     }
 
 
+    @Override
     public boolean isValidChartAccount(String chartOfAccountsCode, String accountNumber) {
         AccountService accountService = SpringContext.getBean(AccountService.class);
         Account account = accountService.getByPrimaryId(chartOfAccountsCode, accountNumber);
@@ -765,6 +724,14 @@ public class AccountCreationServiceImpl implements AccountCreationService {
      */
     protected BusinessObjectService getBusinessObjectService() {
         return businessObjectService;
+    }
+
+    public AccountDefaultsService getAccountDefaultsService() {
+        return accountDefaultsService;
+    }
+
+    public void setAccountDefaultsService(AccountDefaultsService accountDefaultsService) {
+        this.accountDefaultsService = accountDefaultsService;
     }
 
 }

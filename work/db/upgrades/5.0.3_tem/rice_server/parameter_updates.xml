@@ -1293,6 +1293,17 @@
 			<column name="EVAL_OPRTR_CD" value="A"/>
 			<column name="APPL_ID" value="KFS"/>
 		</insert>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-TEM"/>
+			<column name="CMPNT_CD" value="Document"/>
+			<column name="PARM_NM" value="INTERNATIONAL_TRIP_REQUIRES_ACCOMMODATION_IND"/>
+			<column name="OBJ_ID" value="KFS-TEM-PARM-161"/>
+			<column name="PARM_TYP_CD" value="CONFG"/>
+			<column name="VAL" value="Y"/>
+			<column name="PARM_DESC_TXT" value="If set to &quot;Y&quot;, then on international trips where per diem is requested, information about accommodations must also be provided."/>
+			<column name="EVAL_OPRTR_CD" value="A"/>
+			<column name="APPL_ID" value="KFS"/>
+		</insert>
 		
 		<update tableName="KRCR_PARM_T">
 			<column name="VAL" value="V=C,E;U=V;A=V;B=V,E;C=S,V,E,VSP;D=V;E=V;F=V,E;G=V;H=V;K=V,VRF;L=V;M=V,E;N=V;P=V,E;R=V;T=C,V;W=V;X=V;Z=E"/>

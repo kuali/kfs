@@ -35,7 +35,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
  */
 public enum ARAwardFixture {
 
-    CG_AWARD1(new Long(111), "111", "2011-10-01", "2011-09-22", null, new KualiDecimal(0), new KualiDecimal(0), new KualiDecimal(0), false, null, true, null),
+    CG_AWARD1(new Long(11), "111", "2011-10-01", "2011-09-22", null, new KualiDecimal(0), new KualiDecimal(0), new KualiDecimal(0), false, null, true, null),
     CG_AWARD2(new Long(11), null, "1968-07-01", "1969-06-30", Date.valueOf("1969-01-01"), new KualiDecimal(7708.00), new KualiDecimal(2016.00), KualiDecimal.ZERO, false, null, true, null),
     CG_AWARD3(new Long(1234), "1234", "2011-01-01", "2011-09-22", Date.valueOf("2011-10-01"), new KualiDecimal(0), new KualiDecimal(0), new KualiDecimal(0), false, null, true, null),
     CG_AWARD_INV_AWARD(new Long(11), "111", "2011-10-01", "2011-09-22", Date.valueOf("2011-10-01"), new KualiDecimal(0), new KualiDecimal(0), new KualiDecimal(0), false, ArPropertyConstants.INV_AWARD, true, null),

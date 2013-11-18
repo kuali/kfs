@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -23,7 +23,7 @@ import org.kuali.rice.core.api.util.type.KualiDecimal;
  */
 public enum InvoiceAccountDetailFixture {
 
-    INV_ACCT_DTL1("5030", new Long(80072), new Integer(2011), "IN", "9000000", "", new KualiDecimal(300), KualiDecimal.ZERO, KualiDecimal.ZERO, new KualiDecimal(300), KualiDecimal.ZERO), INV_ACCT_DTL2("5030", new Long(80072), new Integer(2011), "IN", "9000001", "", new KualiDecimal(120), KualiDecimal.ZERO, KualiDecimal.ZERO, new KualiDecimal(120), KualiDecimal.ZERO), INV_ACCT_DTL3("5030", new Long(80072), new Integer(2011), "BL", "1031400", "0142900", new KualiDecimal(120), new KualiDecimal(1), KualiDecimal.ZERO, new KualiDecimal(120), KualiDecimal.ZERO), INV_ACCT_DTL4("5030", new Long(80072), new Integer(2011), "BL", "0142900", "1031400", new KualiDecimal(120), new KualiDecimal(1), KualiDecimal.ZERO, new KualiDecimal(120), KualiDecimal.ZERO);
+    INV_ACCT_DTL1("5030", new Long(80072), new Integer(2011), "IN", "9000000", "", new KualiDecimal(300), KualiDecimal.ZERO, KualiDecimal.ZERO, new KualiDecimal(300), KualiDecimal.ZERO), INV_ACCT_DTL2("5030", new Long(80072), new Integer(2011), "IN", "9000001", "", new KualiDecimal(120), KualiDecimal.ZERO, KualiDecimal.ZERO, new KualiDecimal(120), KualiDecimal.ZERO), INV_ACCT_DTL3("5030", new Long(80072), new Integer(2011), "BL", "2336320", "0142900", new KualiDecimal(120), new KualiDecimal(1), KualiDecimal.ZERO, new KualiDecimal(120), KualiDecimal.ZERO), INV_ACCT_DTL4("5030", new Long(80072), new Integer(2011), "UA", "6812950", "1031400", new KualiDecimal(120), new KualiDecimal(1), KualiDecimal.ZERO, new KualiDecimal(120), KualiDecimal.ZERO);
 
     private String documentNumber;
     private Long proposalNumber;

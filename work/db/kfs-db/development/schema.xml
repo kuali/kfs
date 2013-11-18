@@ -15827,7 +15827,6 @@
         <column name="TRAVELER_NM" size="40" type="VARCHAR"/>
         <column name="TYPE_CD" size="1" type="VARCHAR"/>
         <column name="DV_EXP_CD" size="2" type="VARCHAR"/>
-        <column name="DV_DOC_NUM" size="14" type="VARCHAR"/>
         <column name="MERCHANT_NM" size="40" type="VARCHAR"/>
         <column name="BANK_POST_DT" type="DATE"/>
         <column name="PROCESSING_TS" type="DATE"/>
@@ -15837,6 +15836,10 @@
         <column name="ITN_NBR" size="20" type="VARCHAR"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
+        <column name="PMT_GRP_ID" size="8" type="DECIMAL"/>
+        <foreign-key foreignTable="PDP_PMT_GRP_T" name="TEM_CREDIT_CARD_STAGING_TR1">
+            <reference foreign="PMT_GRP_ID" local="PMT_GRP_ID"/>
+        </foreign-key>
         <unique name="TEM_CREDIT_CARD_STAGING_TC0">
             <unique-column name="OBJ_ID"/>
         </unique>
@@ -15906,8 +15909,9 @@
         <column name="CORP_CARD_PMT_EXTRT_DT" type="DATE"/>
         <column name="CORP_CARD_PMT_PAID_DT" type="DATE"/>
         <column name="CORP_CARD_PMT_CNCL_DT" type="DATE"/>
-        <foreign-key foreignTable="TEM_PRI_DEST_T" name="TEM_ENT_DOC_TR1">
-            <reference foreign="ID" local="PRIMARY_DEST_ID"/>
+        <column name="HOST_AS_PAYEE" size="1" type="VARCHAR"/>
+        <foreign-key foreignTable="TEM_TRAVELER_DTL_T" name="TEM_ENT_DOC_TR1">
+            <reference foreign="ID" local="TRAVELER_DTL_ID"/>
         </foreign-key>
         <foreign-key foreignTable="TEM_TRIP_TYP_T" name="TEM_ENT_DOC_TR2">
             <reference foreign="CODE" local="TRIP_TYP_CD"/>
@@ -16552,6 +16556,9 @@
         <column name="ACTV_IND" required="true" size="1" type="VARCHAR"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
+        <foreign-key foreignTable="CA_BALANCE_TYPE_T" name="TEM_TRIP_TYP_TR1">
+            <reference foreign="FIN_BALANCE_TYP_CD" local="ENC_BAL_TYP"/>
+        </foreign-key>
         <unique name="TEM_TRIP_TYP_TC0">
             <unique-column name="OBJ_ID"/>
         </unique>

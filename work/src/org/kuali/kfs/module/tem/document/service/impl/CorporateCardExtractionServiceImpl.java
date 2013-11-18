@@ -50,6 +50,7 @@ import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * Service which supports creating PDP payments for Corporate Cards by extracting reimbursable documents
@@ -72,6 +73,11 @@ public class CorporateCardExtractionServiceImpl implements PaymentSourceToExtrac
     public Map<String, List<TEMReimbursementDocument>> retrievePaymentSourcesByCampus(boolean immediatesOnly) {
         if (LOG.isDebugEnabled()) {
             LOG.debug("retrievePaymentSourcesByCampus() started");
+        }
+
+        final boolean disburseCorporateCardPayments = getParameterService().getParameterValueAsBoolean(TemParameterConstants.TEM_DOCUMENT.class, TemConstants.TravelParameters.CORPORATE_CARD_PAYMENT_IND);
+        if (!disburseCorporateCardPayments) {
+            return new HashMap<String, List<TEMReimbursementDocument>>(); // can't disburse payments? then don't find any documents to disburse
         }
 
         Map<String, List<TEMReimbursementDocument>> documentsByCampus = new HashMap<String, List<TEMReimbursementDocument>>();
@@ -134,7 +140,7 @@ public class CorporateCardExtractionServiceImpl implements PaymentSourceToExtrac
     public void markAsExtracted(TEMReimbursementDocument document, Date sqlProcessRunDate, KualiInteger paymentGroupId) {
         try {
             document.setCorporateCardPaymentExtractDate(sqlProcessRunDate);
-            associatePaymentGroupWithCreditCardData(document, paymentGroupId.toString());
+            associatePaymentGroupWithCreditCardData(document, paymentGroupId);
             getDocumentService().saveDocument(document, AccountingDocumentSaveWithNoLedgerEntryGenerationEvent.class);
         }
         catch (WorkflowException we) {
@@ -148,11 +154,11 @@ public class CorporateCardExtractionServiceImpl implements PaymentSourceToExtrac
      * @param document the document to update
      * @param paymentGroupNumber the payment group id to update the historical expenses with
      */
-    protected void associatePaymentGroupWithCreditCardData(TEMReimbursementDocument document, String paymentGroupNumber) {
+    protected void associatePaymentGroupWithCreditCardData(TEMReimbursementDocument document, KualiInteger paymentGroupNumber) {
         for (HistoricalTravelExpense expense : document.getHistoricalTravelExpenses()){
             if (expense.getCreditCardStagingData() != null){
                 if (StringUtils.equals(expense.getCreditCardStagingData().getCreditCardAgency().getTravelCardTypeCode(), TemConstants.TRAVEL_TYPE_CORP)){
-                    expense.getCreditCardStagingData().setDisbursementVoucherDocumentNumber(paymentGroupNumber);
+                    expense.getCreditCardStagingData().setPaymentGroupId(paymentGroupNumber);
                     getBusinessObjectService().save(expense.getCreditCardStagingData());
                 }
             }
@@ -167,6 +173,11 @@ public class CorporateCardExtractionServiceImpl implements PaymentSourceToExtrac
     public PaymentGroup createPaymentGroup(TEMReimbursementDocument document, Date processRunDate) {
         if (LOG.isDebugEnabled()) {
             LOG.debug("createPaymentGroupForReimbursable() started");
+        }
+
+        final boolean disburseCorporateCardPayments = getParameterService().getParameterValueAsBoolean(TemParameterConstants.TEM_DOCUMENT.class, TemConstants.TravelParameters.CORPORATE_CARD_PAYMENT_IND);
+        if (!disburseCorporateCardPayments) {
+            return null; // can't disburse payments? then don't create payment groups
         }
 
         PaymentGroup pg = new PaymentGroup();
@@ -193,6 +204,9 @@ public class CorporateCardExtractionServiceImpl implements PaymentSourceToExtrac
             pg.setEmployeeIndicator(true);
         }
         pg.setPayeeId(vendor.getVendorNumber());
+        pg.setPayeeIdTypeCd(PdpConstants.PayeeIdTypeCodes.VENDOR_ID);
+        pg.setTaxablePayment(Boolean.FALSE);
+        pg.setPayeeOwnerCd(vendor.getVendorHeader().getVendorOwnershipCode());
 
         // now add the payment detail
         final PaymentDetail paymentDetail = buildPaymentDetail(document, processRunDate);
@@ -267,11 +281,15 @@ public class CorporateCardExtractionServiceImpl implements PaymentSourceToExtrac
         pd.setPrimaryCancelledPayment(Boolean.FALSE);
         pd.setFinancialDocumentTypeCode(getAchCheckDocumentType(document));
         pd.setFinancialSystemOriginCode(KFSConstants.ORIGIN_CODE_KUALI);
+        pd.setPurchaseOrderNbr(document.getTravelDocumentIdentifier());
 
         int line = 0;
         PaymentNoteText pnt = new PaymentNoteText();
         pnt.setCustomerNoteLineNbr(new KualiInteger(line++));
-        pnt.setCustomerNoteText("Info: " + document.getTemProfile().getPrincipalName() + " " + document.getTemProfile().getPhoneNumber());
+        final String travelerId = (!ObjectUtils.isNull(document.getTemProfile()) ?
+                (!ObjectUtils.isNull(document.getTemProfile().getPrincipal()) ? document.getTemProfile().getPrincipal().getPrincipalName() : document.getTemProfile().getCustomerNumber()) :
+                    document.getDocumentNumber()); // they got this far without a payee id?  that really probably shouldn't happen
+        pnt.setCustomerNoteText("Info: " + travelerId + " " + document.getTemProfile().getPhoneNumber());
         pd.addNote(pnt);
 
         final String text = document.getDocumentHeader().getDocumentDescription();
@@ -369,7 +387,7 @@ public class CorporateCardExtractionServiceImpl implements PaymentSourceToExtrac
      */
     @Override
     public void cancelPayment(TEMReimbursementDocument paymentSource, Date cancelDate) {
-        if (paymentSource.getTravelPayment().getCancelDate() == null) {
+        if (paymentSource.getCorporateCardPaymentCancelDate() == null) {
             try {
                 paymentSource.setCorporateCardPaymentCancelDate(cancelDate);
                 getPaymentSourceHelperService().handleEntryCancellation(paymentSource);

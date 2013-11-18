@@ -31,7 +31,7 @@
 				</div>
 			</th>
 			<td class="datacell">
-				<tem:htmlMaskControlAttribute attributeEntry="${documentAttributes.cellPhoneNumber}" property="document.cellPhoneNumber" readOnly="${!fullEntryMode}" />
+				<kul:htmlControlAttribute attributeEntry="${documentAttributes.cellPhoneNumber}" property="document.cellPhoneNumber" readOnly="${!fullEntryMode}" />
  			</td>
 		</tr>
 		<tr>
@@ -41,7 +41,7 @@
 				</div>
 			</th>
 			<td class="datacell">
-				<tem:htmlMaskControlAttribute attributeEntry="${travelerAttributes.citizenship}" property="document.traveler.citizenship" readOnly="true" />
+				<kul:htmlControlAttribute attributeEntry="${travelerAttributes.citizenship}" property="document.traveler.citizenship" readOnly="true" />
 			</td>
 		</tr>
 	</table>
@@ -87,21 +87,21 @@
 					
 					</th>
 					<td>
-					<div align="center"><tem:htmlMaskControlAttribute
+					<div align="center"><kul:htmlControlAttribute
 	                    attributeEntry="${emergencyContactAttributes.contactRelationTypeCode}"
 	                    property="newEmergencyContactLine.contactRelationTypeCode"
 	                    readOnly="false" /></div>
 	                </td>
-					<td valign=top class="infoline"><tem:htmlMaskControlAttribute
+					<td valign=top class="infoline"><kul:htmlControlAttribute
 						attributeEntry="${emergencyContactAttributes.contactName}"
 						property="newEmergencyContactLine.contactName" readOnly="false" /></td>
-					<td valign=top class="infoline"><tem:htmlMaskControlAttribute
+					<td valign=top class="infoline"><kul:htmlControlAttribute
 						attributeEntry="${emergencyContactAttributes.phoneNumber}"
 						property="newEmergencyContactLine.phoneNumber" readOnly="false" /></td>
-					<td valign=top class="infoline"><tem:htmlMaskControlAttribute
+					<td valign=top class="infoline"><kul:htmlControlAttribute
 						attributeEntry="${emergencyContactAttributes.emailAddress}"
 						property="newEmergencyContactLine.emailAddress" readOnly="false" /></td>
-					<td valign=top class="infoline"><tem:htmlMaskControlAttribute
+					<td valign=top class="infoline"><kul:htmlControlAttribute
 						attributeEntry="${emergencyContactAttributes.primary}"
 						property="newEmergencyContactLine.primary" readOnly="false" /></td>											
 					<td class="infoline">
@@ -120,30 +120,30 @@
 				property="document.traveler.emergencyContacts" id="currentLine">
 				<tr>
 					<th scope="row">
-					<div align="right"><tem:htmlMaskControlAttribute
+					<div align="right"><kul:htmlControlAttribute
 						attributeEntry="${emergencyContactAttributes.financialDocumentLineNumber}"
 						property="document.traveler.emergencyContacts[${ctr}].financialDocumentLineNumber"
 						readOnly="true" /></div>
 					</th>
 					<td valign=top nowrap>
-					<div align="center"><tem:htmlMaskControlAttribute
+					<div align="center"><kul:htmlControlAttribute
 						attributeEntry="${emergencyContactAttributes.contactRelationTypeCode}"
 						property="document.traveler.emergencyContacts[${ctr}].contactRelationTypeCode"
 						readOnly="${!fullEntryMode}" /></div>
 					</td>
-					<td valign=top><tem:htmlMaskControlAttribute
+					<td valign=top><kul:htmlControlAttribute
 						attributeEntry="${emergencyContactAttributes.contactName}"
 						property="document.traveler.emergencyContacts[${ctr}].contactName"
 						readOnly="${!fullEntryMode}" /></td>
-					<td valign=top><tem:htmlMaskControlAttribute
+					<td valign=top><kul:htmlControlAttribute
 						attributeEntry="${emergencyContactAttributes.phoneNumber}"
 						property="document.traveler.emergencyContacts[${ctr}].phoneNumber"
 						readOnly="${!fullEntryMode}" /></td>
-					<td valign=top><tem:htmlMaskControlAttribute
+					<td valign=top><kul:htmlControlAttribute
 						attributeEntry="${emergencyContactAttributes.emailAddress}"
 						property="document.traveler.emergencyContacts[${ctr}].emailAddress"
 						readOnly="${!fullEntryMode}" /></td>
-					<td valign=top><tem:htmlMaskControlAttribute
+					<td valign=top><kul:htmlControlAttribute
 						attributeEntry="${emergencyContactAttributes.primary}"
 						property="document.traveler.emergencyContacts[${ctr}].primary"
 						readOnly="${!fullEntryMode}" /></td>						

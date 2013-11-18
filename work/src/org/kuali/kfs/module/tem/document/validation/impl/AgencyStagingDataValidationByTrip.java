@@ -16,12 +16,12 @@
 package org.kuali.kfs.module.tem.document.validation.impl;
 
 import static org.kuali.kfs.module.tem.TemPropertyConstants.TravelAgencyAuditReportFields.ACCOUNTING_INFO;
+import static org.kuali.kfs.module.tem.TemPropertyConstants.TravelAgencyAuditReportFields.DI_CD;
 import static org.kuali.kfs.module.tem.TemPropertyConstants.TravelAgencyAuditReportFields.LODGING_NUMBER;
 import static org.kuali.kfs.module.tem.TemPropertyConstants.TravelAgencyAuditReportFields.TRIP_ID;
 
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.batch.service.ExpenseImportByTripService;
 import org.kuali.kfs.module.tem.businessobject.AgencyStagingData;
@@ -183,22 +183,17 @@ public class AgencyStagingDataValidationByTrip implements AgencyStagingDataValid
                         result &= false;
                     }
                     else {
-                        //figure out which itinerary to display
-                        String itineraryData = "";
-                        if (StringUtils.isNotEmpty(data.getAirTicketNumber())) {
-                            itineraryData = "AIR-"+ data.getAirTicketNumber();
-                        }
-                        else if (StringUtils.isNotEmpty(data.getLodgingItineraryNumber())) {
-                            itineraryData += "LODGING-"+ data.getLodgingItineraryNumber();
-                        }
-                        else if (StringUtils.isNotEmpty(data.getRentalCarItineraryNumber())) {
-                            itineraryData += "RENTAL CAR-"+ data.getRentalCarItineraryNumber();
-                        }
 
-                        putFieldError(TRIP_ID, TemKeyConstants.MESSAGE_AGENCY_DATA_TRIP_DUPLICATE_RECORD, data.getTripId(), data.getAgency(), data.getTransactionPostingDate().toString(), data.getTripExpenseAmount().toString(), itineraryData);
+                        putFieldError(TRIP_ID, TemKeyConstants.MESSAGE_AGENCY_DATA_TRIP_DUPLICATE_RECORD, data.getTripId(), data.getAgency(),
+                                data.getTransactionPostingDate().toString(), data.getTripExpenseAmount().toString(), data.getItineraryDataString());
                         result &= false;
                     }
                 }
+            }
+
+            if (!getExpenseImportByTripService().validateDistributionCode(data).isEmpty()) {
+                putFieldError(DI_CD, TemKeyConstants.MESSAGE_AGENCY_DATA_INVALID_DISTRIBUTION_CODE, data.getDistributionCode());
+                result &= false;
             }
         }
 

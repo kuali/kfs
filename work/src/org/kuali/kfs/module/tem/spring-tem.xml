@@ -329,6 +329,7 @@
         <property name="offsetDefinitionService" ref="offsetDefinitionService"/>
         <property name="optionsService" ref="optionsService"/>
         <property name="noteService" ref="noteService"/>
+        <property name="travelReimbursementDao" ref="travelReimbursementDao" />
 		<property name="propertyChangeListeners">
 			<list>
 				<ref bean="TravelDocument-addActualExpenseListener" />
@@ -559,6 +560,8 @@
         <property name="travelDocumentService" ref="temTravelDocumentService" />
         <property name="documentDao" ref="documentDao" />
         <property name="dataDictionaryService" ref="dataDictionaryService"/>
+        <property name="identityService" ref="identityService"/>
+        <property name="noteService" ref="noteService"/>
 		<property name="propertyChangeListeners">
 			<list>
 				<ref bean="TravelDocument-addActualExpenseListener" />
@@ -570,6 +573,10 @@
 	<bean id="travelDocumentDao" parent="platformAwareDao"
 		class="org.kuali.kfs.module.tem.dataaccess.impl.TravelDocumentDaoOjb" />
 
+	<bean id="travelReimbursementDao" parent="platformAwareDao"
+		class="org.kuali.kfs.module.tem.dataaccess.impl.TravelReimbursementDaoOjb" />
+	
+	
 	<bean id="perDiemDao" parent="platformAwareDao"
 		class="org.kuali.kfs.module.tem.dataaccess.impl.PerDiemDaoOjb" />	
 
@@ -1251,6 +1258,7 @@
 		<property name="travelDocumentService" ref="temTravelDocumentService" />
 		<property name="documentDao" ref="documentDao" />
 		<property name="dataDictionaryService" ref="dataDictionaryService" />
+		<property name="noteService" ref="noteService"/>
 	</bean>
 
 	<bean id="RemoveHoldTa"
@@ -1259,6 +1267,7 @@
 		<property name="travelDocumentService" ref="temTravelDocumentService" />
 		<property name="documentDao" ref="documentDao" />
 		<property name="dataDictionaryService" ref="dataDictionaryService" />
+		<property name="noteService" ref="noteService"/>
 	</bean>
 
 	<bean id="CloseTa"
@@ -1291,7 +1300,9 @@
     	<property name="businessObjectService" ref="businessObjectService" />   	
     	<property name="dateTimeService" ref="dateTimeService" />
     	<property name="temProfileService" ref="temProfileService" />
-    	<property name="historicalTravelExpenseService" ref="historicalTravelExpenseService" />   
+    	<property name="historicalTravelExpenseService" ref="historicalTravelExpenseService" /> 
+    	<property name="travelDocumentService" ref="temTravelDocumentService"/>
+    	<property name="documentService" ref="documentService"/>
     	
     	<property name="kfsNotificationService" ref="kfsNotificationService" />
     	<property name="parameterService" ref="parameterService" />
@@ -1357,7 +1368,7 @@
 		<property name="paymentSourceToExtractService" ref="corporateCardExtractionService"/>
 	</bean>
     
-	<import resource="document/validation/configuration/TemValidatorDefinitions.xml" /> 
+	
 	
 	<!-- Spring beans for TMCP document/action -->
 	<bean id="agencyEntryService" parent="agencyEntryService-parentBean" />
@@ -1466,12 +1477,12 @@
 		<property name="personService" ref="personService"/>
 		<property name="workflowDocumentService" ref="workflowDocumentService"/>
 		<property name="paymentSourceHelperService" ref="paymentSourceHelperService"/>
+		<property name="travelerService" ref="travelerService"/>
 	</bean>
 	
 	<bean id="temReimbursableDocumentExtractionHelperService" parent="temReimbursableDocumentExtractionHelperService-parentBean"/>
 	<bean id="temReimbursableDocumentExtractionHelperService-parentBean" class="org.kuali.kfs.module.tem.document.service.impl.ReimbursableDocumentExtractionHelperServiceImpl" abstract="true">
 		<property name="documentService" ref="documentService"/>
-		<property name="travelerService" ref="travelerService"/>
 		<property name="paymentSourceHelperService" ref="paymentSourceHelperService"/>
 		<property name="travelDocumentDao" ref="travelDocumentDao"/>
 		<property name="travelPaymentsHelperService" ref="travelPaymentsHelperService"/>
@@ -1481,7 +1492,6 @@
 	<bean id="temAuthorizationDocumentExtractionHelperService" parent="temAuthorizationDocumentExtractionHelperService-parentBean"/>
 	<bean id="temAuthorizationDocumentExtractionHelperService-parentBean" class="org.kuali.kfs.module.tem.document.service.impl.TravelAuthorizationDocumentExtractionHelperServiceImpl" abstract="true">
 		<property name="documentService" ref="documentService"/>
-		<property name="travelerService" ref="travelerService"/>
 		<property name="paymentSourceHelperService" ref="paymentSourceHelperService"/>
 		<property name="travelDocumentDao" ref="travelDocumentDao"/>
 		<property name="travelPaymentsHelperService" ref="travelPaymentsHelperService"/>
@@ -1505,5 +1515,6 @@
 	</bean>
 
     <import resource="spring-tem-bus-exports.xml"/>
+    <import resource="document/validation/configuration/TemValidatorDefinitions.xml" /> 
 	
 </beans>

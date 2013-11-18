@@ -128,11 +128,12 @@ public class TemPropertyConstants {
     public static final String CREDIT_CARD_AGENCY_ID = "creditCardAgencyId";
 
     public static final String RATE = "rate";
+    public static final String TEM_PROFILE_ID = "temProfileId";
+    public static final String TRIP_BEGIN_DT = "tripBegin";
+    public static final String TRIP_END_DT = "tripEnd";
 
     public static class TravelAuthorizationFields {
         public static final String TRVL_ADV_REQUESTED = "travelAdvanceRequested";
-        public static final String TRIP_BEGIN_DT = "tripBegin";
-        public static final String TRIP_END_DT = "tripEnd";
         public static final String TRIP_TYPE = "tripTypeCode";
         public static final String TRAVELER_TYPE = "travelerTypeCode";
         public static final String CELL_PHONE_NUMBER = "cellPhoneNumber";
@@ -244,6 +245,7 @@ public class TemPropertyConstants {
         public static final String TRANSACTION_POSTING_DATE = "transactionPostingDate";
         public static final String TRIP_INVOICE_NUMBER = "tripInvoiceNumber";
         public static final String CREDIT_CARD_OR_AGENCY_CODE = "creditCardOrAgencyCode";
+        public static final String DI_CD = "distributionCode";
     }
 
     @SuppressWarnings("rawtypes")

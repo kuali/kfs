@@ -29,7 +29,7 @@ public class TemProfileArrangerOrganizationHierarchyRoleTypeServiceImpl extends 
     @Override
     protected boolean performMatch(Map<String, String> inputAttributes, Map<String, String> storedAttributes) {
 
-        if (inputAttributes == null) {
+        if (inputAttributes == null || inputAttributes.isEmpty() || (!inputAttributes.containsKey(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE) && !inputAttributes.containsKey(KfsKimAttributes.ORGANIZATION_CODE))) {
             return true;
         }
         String orgChartOfAccountsCode = inputAttributes.get(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE);

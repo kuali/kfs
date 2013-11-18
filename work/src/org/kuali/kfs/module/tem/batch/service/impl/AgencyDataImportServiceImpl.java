@@ -190,9 +190,7 @@ public class AgencyDataImportServiceImpl implements AgencyDataImportService {
                 importedAgencyStagingData.setImportBy(agencyImportData.getImportBy());
                 importedAgencyStagingData.setStagingFileName(StringUtils.substringAfterLast(dataFileName, File.separator));
 
-                String itineraryData = StringUtils.isNotEmpty(importedAgencyStagingData.getAirTicketNumber()) ? "AIR-"+ importedAgencyStagingData.getAirTicketNumber() :
-                                        (StringUtils.isNotEmpty(importedAgencyStagingData.getLodgingItineraryNumber()) ? "LODGING-"+ importedAgencyStagingData.getLodgingItineraryNumber() :
-                                        (StringUtils.isNotEmpty(importedAgencyStagingData.getRentalCarItineraryNumber()) ? "RENTAL CAR-"+ importedAgencyStagingData.getRentalCarItineraryNumber() : "" ));
+                String itineraryData = importedAgencyStagingData.getItineraryDataString();
 
                 AgencyStagingData validAgencyStagingData = null;
                 List<ErrorMessage> errorMessages = new ArrayList<ErrorMessage>();

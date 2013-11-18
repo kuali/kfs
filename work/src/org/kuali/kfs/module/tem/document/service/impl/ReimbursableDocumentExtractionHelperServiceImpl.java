@@ -27,7 +27,6 @@ import org.kuali.kfs.module.tem.TemParameterConstants;
 import org.kuali.kfs.module.tem.dataaccess.TravelDocumentDao;
 import org.kuali.kfs.module.tem.document.TEMReimbursementDocument;
 import org.kuali.kfs.module.tem.document.service.TravelPaymentsHelperService;
-import org.kuali.kfs.module.tem.service.TravelerService;
 import org.kuali.kfs.pdp.businessobject.PaymentAccountDetail;
 import org.kuali.kfs.pdp.businessobject.PaymentDetail;
 import org.kuali.kfs.pdp.businessobject.PaymentGroup;
@@ -51,7 +50,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class ReimbursableDocumentExtractionHelperServiceImpl implements PaymentSourceToExtractService<TEMReimbursementDocument> {
     org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ReimbursableDocumentExtractionHelperServiceImpl.class);
     protected DocumentService documentService;
-    protected TravelerService travelerService;
     protected PaymentSourceHelperService paymentSourceHelperService;
     protected TravelDocumentDao travelDocumentDao;
     protected TravelPaymentsHelperService travelPaymentsHelperService;
@@ -128,12 +126,7 @@ public class ReimbursableDocumentExtractionHelperServiceImpl implements PaymentS
             LOG.debug("createPaymentGroupForReimbursable() started");
         }
 
-        PaymentGroup pg = getTravelPaymentsHelperService().buildGenericPaymentGroup(reimbursableDoc.getTraveler(), reimbursableDoc.getTravelPayment(), reimbursableDoc.getFinancialDocumentBankCode());
-        if (getTravelerService().isEmployee(reimbursableDoc.getTraveler())){
-            pg.setPayeeId(reimbursableDoc.getTemProfile().getEmployeeId());
-        }else{
-            pg.setPayeeId(reimbursableDoc.getTraveler().getCustomerNumber());
-        }
+        PaymentGroup pg = getTravelPaymentsHelperService().buildGenericPaymentGroup(reimbursableDoc.getTraveler(), reimbursableDoc.getTemProfile(), reimbursableDoc.getTravelPayment(), reimbursableDoc.getFinancialDocumentBankCode());
 
         // now add the payment detail
         final PaymentDetail paymentDetail = buildPaymentDetail(reimbursableDoc, processRunDate);
@@ -155,6 +148,7 @@ public class ReimbursableDocumentExtractionHelperServiceImpl implements PaymentS
         }
 
         PaymentDetail pd = getTravelPaymentsHelperService().buildGenericPaymentDetail(document.getDocumentHeader(), processRunDate, document.getTravelPayment(), getTravelPaymentsHelperService().getInitiator(document), document.getAchCheckDocumentType());
+        pd.setPurchaseOrderNbr(document.getTravelDocumentIdentifier());
         // Handle accounts
         final List<PaymentAccountDetail> paymentAccounts = getTravelPaymentsHelperService().buildGenericPaymentAccountDetails(document.getSourceAccountingLines());
         for (PaymentAccountDetail pad : paymentAccounts) {
@@ -304,21 +298,6 @@ public class ReimbursableDocumentExtractionHelperServiceImpl implements PaymentS
      */
     public void setDocumentService(DocumentService documentService) {
         this.documentService = documentService;
-    }
-
-    /**
-     * @return an implementation of the TravelerService
-     */
-    public TravelerService getTravelerService() {
-        return travelerService;
-    }
-
-    /**
-     * Sets the implementation of the TravelerService for this service to use
-     * @param parameterService an implementation of TravelerService
-     */
-    public void setTravelerService(TravelerService travelerService) {
-        this.travelerService = travelerService;
     }
 
     /**

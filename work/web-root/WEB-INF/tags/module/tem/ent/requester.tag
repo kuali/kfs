@@ -42,9 +42,6 @@
 		<td class="datacell" colspan="3">
 			<div align="left">
 				<kul:htmlControlAttribute attributeEntry="${documentAttributes.hostName}" property="document.hostName" readOnly="${!fullEntryMode}" />
-				<c:if test="${fullEntryMode}">
-					<kul:lookup boClassName="org.kuali.kfs.module.tem.businessobject.TemProfile" lookupParameters="document.host.travelerTypeCode:travelerTypeCode" fieldConversions="profileId:document.hostProfileId" />
-				</c:if>
 			</div>
 		</td>
 	</tr>
@@ -52,12 +49,21 @@
 		<tr>
 			<th class="bord-l-b"><div align="right">Payee Lookup:</div>
 			</th>
-			<td class="datacell" colspan="3">
+			<td class="datacell" >
 				<div align="left">
 					&nbsp;
 					<kul:lookup boClassName="org.kuali.kfs.module.tem.businessobject.TravelerProfileForLookup" lookupParameters="document.traveler.travelerTypeCode:travelerTypeCode" />
+					
 				</div>
 			</td>
+			 <th class="bord-l-b">
+	            <div align="right" >
+	            	<kul:htmlAttributeLabel attributeEntry="${documentAttributes.hostAsPayee}" />
+	           	</div>
+            </th>
+            <td class="datacell">
+            	<kul:htmlControlAttribute attributeEntry="${documentAttributes.hostAsPayee}" property="document.hostAsPayee" readOnly="${!fullEntryMode}" onclick="javascript: copy_payeeToHostName('${KualiForm.document.traveler.firstName}', '${KualiForm.document.traveler.lastName}');" />                 
+            </td>
 		</tr>
 	</c:if>
 	<tr>

@@ -32,6 +32,23 @@
 			
 		</list>
 		</property>
+		<property name="relationships">
+			<list>
+				<bean parent="RelationshipDefinition"> <!-- we've got a supporting attribute here - name - so we created a DD-based relationship -->
+					<property name="objectAttributeName" value="creditCardAgency" />
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="creditCardAgencyId" p:targetName="id" />
+						</list>
+					</property>
+					<property name="supportAttributes">
+						<list>
+							<bean parent="SupportAttributeDefinition" p:identifier="true" p:sourceName="name" p:targetName="creditCardOrAgencyName" />
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
 	</bean>
 	<bean id="TemProfileAccount-accountId" parent="TemProfileAccount-accountId-parentBean" />
 	<bean id="TemProfileAccount-accountId-parentBean" abstract="true" parent="AttributeDefinition">

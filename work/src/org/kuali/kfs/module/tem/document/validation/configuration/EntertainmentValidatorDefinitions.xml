@@ -13,6 +13,7 @@
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
         
 	<bean id="Entertainment-entertainmentInformationRequiredInfoValidation" class="org.kuali.kfs.module.tem.document.validation.impl.TravelEntertainmentRequiredInfoValidation"/>
+	<bean id="Entertainment-hostCertificationAttachmentValidation" class="org.kuali.kfs.module.tem.document.validation.impl.TravelEntertainmentHostCertificationAttachmentValidation" />
 	
 	<bean id="Entertainment-routeDocumentValidation" parent="Entertainment-routeDocumentValidation-parentBean" scope="prototype" />
 	<bean id="Entertainment-routeDocumentValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
@@ -25,7 +26,7 @@
 						<bean parent="accountingDocumentFieldConversion" />
 					</list>
 				</property>
-			</bean>  			    			
+			</bean>
    			<bean parent="Entertainment-entertainmentInformationRequiredInfoValidation" scope="prototype" />
    			<bean parent="TravelModule-travelerValidation" scope="prototype" /> 
    			<bean parent="TravelModule-requiredInfoValidation" scope="prototype" />
@@ -92,6 +93,7 @@
   	<bean id="Entertainment-saveDocumentValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
     	<property name="validations">
     		<list>
+    			<bean parent="Entertainment-hostCertificationAttachmentValidation" scope="prototype" />	
                 <bean parent="AccountingDocument-SaveDocument-DefaultValidation" scope="prototype" />
                 <bean parent="NonTripTravelDocument-actualExpenseSavingValidation" scope="prototype"/>
                 <bean parent="TravelModule-perDiemExpenseValidation" scope="prototype" />

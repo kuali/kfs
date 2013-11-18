@@ -119,7 +119,9 @@ import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.core.web.format.FormatException;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kew.api.document.attribute.DocumentAttributeIndexingQueue;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
@@ -411,8 +413,8 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
             if (TemConstants.ExpenseTypeMetaCategory.MILEAGE.getCode().equals(expenseType.getExpenseTypeMetaCategoryCode())) {
                 final MileageRate mileageRate = getMileageRate(expenseType.getCode(), searchDate);
                 keyValues.add(new ConcreteKeyValue(expenseType.getCode(), expenseType.getCode()+" - "+mileageRate.getRate().toString()));
+                }
             }
-        }
 
         //sort by label
         Comparator<KeyValue> labelComparator = new Comparator<KeyValue>() {
@@ -1401,6 +1403,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
         return foundCode;
     }
 
+
     /**
      *
      * @see org.kuali.kfs.module.tem.document.service.TravelDocumentService#getAllStates(java.lang.String)
@@ -2104,7 +2107,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
      */
     @Override
     public void revertOriginalDocument(TravelDocument travelDocument, String status) {
-
+        final DocumentAttributeIndexingQueue documentAttributeIndexingQueue = KewApiServiceLocator.getDocumentAttributeIndexingQueue(); // this service is not a good candidate for injection
         List<Document> relatedDocumentList = getDocumentsRelatedTo(travelDocument, TravelDocTypes.TRAVEL_AUTHORIZATION_DOCUMENT,
                 TravelDocTypes.TRAVEL_AUTHORIZATION_AMEND_DOCUMENT);
 
@@ -2123,6 +2126,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
                 catch (Exception ex) {
                     ex.printStackTrace();
                 }
+                documentAttributeIndexingQueue.indexDocument(taDoc.getDocumentNumber());
             }
         }
     }
@@ -2186,6 +2190,8 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
         }
         return advances;
     }
+
+
 
     /**
      * Determines if the document with the given document number has been approved or not
@@ -2463,6 +2469,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
     public void setPerDiemService(PerDiemService perDiemService) {
         this.perDiemService = perDiemService;
     }
+
 
     public List<String> getGroupTravelerColumns() {
         return groupTravelerColumns;

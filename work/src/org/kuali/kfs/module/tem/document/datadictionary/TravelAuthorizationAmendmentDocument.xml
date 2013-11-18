@@ -26,7 +26,7 @@
                 </entry>
 				<entry>
 					<key><value>source</value></key>
-					<ref bean="TravelDocument-sourceAccountingLineGroup" parent="AccountingLineGroup"/>
+					<ref bean="TravelAuthorizationDocument-sourceAccountingLineGroup" parent="AccountingLineGroup"/>
 				</entry>
                 <entry>
                     <key><value>accountDistribution</value></key>

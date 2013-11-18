@@ -2386,27 +2386,13 @@
 			<column name="OBJ_ID" valueComputed="SYS_GUID()"/>
 		</insert>
 		<insert tableName="TEM_TRIP_TYP_T">
-			<column name="CODE" value="BLN"/>
-			<column name="NM" value="In-State Blanket"/>
-			<column name="GEN_ENC_IND" value="N"/>
-			<column name="CONT_INFO_REQ_IND" value="N"/>
-			<column name="BLANKET_IND" value="Y"/>
-			<column name="AUTO_TR_LIMIT" valueNumeric="0.0"/>
-			<column name="USE_PER_DIEM" value="Y"/>
-			<column name="TA_REQUIRED" value="N"/>
-			<column name="PER_DIEM_CALC_METHOD" value="P"/>
-			<column name="ACTV_IND" value="Y"/>
-			<column name="VER_NBR" valueNumeric="1"/>
-			<column name="OBJ_ID" valueComputed="SYS_GUID()"/>
-		</insert>
-		<insert tableName="TEM_TRIP_TYP_T">
 			<column name="CODE" value="IN"/>
 			<column name="NM" value="In-State"/>
 			<column name="GEN_ENC_IND" value="Y"/>
-			<column name="ENC_BAL_TYP" value="EX"/>
+			<column name="ENC_BAL_TYP" value="TE"/>
 			<column name="ENC_OBJ_CD" value="6000"/>
 			<column name="CONT_INFO_REQ_IND" value="N"/>
-			<column name="BLANKET_IND" value="N"/>
+			<column name="BLANKET_IND" value="Y"/>
 			<column name="AUTO_TR_LIMIT" valueNumeric="0.0"/>
 			<column name="USE_PER_DIEM" value="Y"/>
 			<column name="TA_REQUIRED" value="N"/>
@@ -2419,7 +2405,7 @@
 			<column name="CODE" value="INT"/>
 			<column name="NM" value="International"/>
 			<column name="GEN_ENC_IND" value="Y"/>
-			<column name="ENC_BAL_TYP" value="EX"/>
+			<column name="ENC_BAL_TYP" value="TE"/>
 			<column name="ENC_OBJ_CD" value="6200"/>
 			<column name="CONT_INFO_REQ_IND" value="Y"/>
 			<column name="BLANKET_IND" value="N"/>
@@ -2435,7 +2421,7 @@
 			<column name="CODE" value="OUT"/>
 			<column name="NM" value="Out of State"/>
 			<column name="GEN_ENC_IND" value="Y"/>
-			<column name="ENC_BAL_TYP" value="EX"/>
+			<column name="ENC_BAL_TYP" value="TE"/>
 			<column name="ENC_OBJ_CD" value="6100"/>
 			<column name="CONT_INFO_REQ_IND" value="N"/>
 			<column name="BLANKET_IND" value="N"/>

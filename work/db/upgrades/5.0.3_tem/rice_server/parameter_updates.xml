@@ -5,7 +5,7 @@
 	<changeSet author="KFSTEM" id="KFSMI-8897">
 		<comment>Update parameters to allow the Travel and Entertainment Module payment documents to have banks associated.</comment>
 		<update tableName="KRCR_PARM_T">
-			<column name="VAL" value="DV;PREQ;CM;CTRL;TA;TR;RELO;ENT" />
+			<column name="VAL" value="DV;PREQ;CM;CTRL;TA;TAA;TR;RELO;ENT" />
 			<where>NMSPC_CD='KFS-SYS' AND CMPNT_CD = 'Bank' AND PARM_NM='BANK_CODE_DOCUMENT_TYPES' AND APPL_ID = 'KFS'</where>
 		</update>
 		<update tableName="KRCR_PARM_T">
@@ -1290,6 +1290,17 @@
 			<column name="PARM_TYP_CD" value="CONFG"/>
 			<column name="VAL" value="MP"/>
 			<column name="PARM_DESC_TXT" value="The expense type code which will be the default for per diem expenses."/>
+			<column name="EVAL_OPRTR_CD" value="A"/>
+			<column name="APPL_ID" value="KFS"/>
+		</insert>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-TEM"/>
+			<column name="CMPNT_CD" value="Document"/>
+			<column name="PARM_NM" value="INTERNATIONAL_TRIP_REQUIRES_ACCOMMODATION_IND"/>
+			<column name="OBJ_ID" value="KFS-TEM-PARM-161"/>
+			<column name="PARM_TYP_CD" value="CONFG"/>
+			<column name="VAL" value="Y"/>
+			<column name="PARM_DESC_TXT" value="If set to &quot;Y&quot;, then on international trips where per diem is requested, information about accommodations must also be provided."/>
 			<column name="EVAL_OPRTR_CD" value="A"/>
 			<column name="APPL_ID" value="KFS"/>
 		</insert>

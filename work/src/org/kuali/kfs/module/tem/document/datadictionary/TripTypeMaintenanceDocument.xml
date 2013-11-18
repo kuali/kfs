@@ -32,7 +32,7 @@
 			<bean parent="MaintainableFieldDefinition" p:name="code" p:required="true"/>
 			<bean parent="MaintainableFieldDefinition" p:name="name" p:required="true"/>
 			<bean parent="MaintainableFieldDefinition" p:name="generateEncumbrance" p:required="true"/>
-			<bean parent="MaintainableFieldDefinition" p:name="encumbranceBalanceType" p:required="false"/>
+			<bean parent="MaintainableFieldDefinition" p:name="encumbranceBalanceType" p:required="true"/>
 			<bean parent="MaintainableFieldDefinition" p:name="encumbranceObjCode" p:required="false"/>
 			<bean parent="MaintainableFieldDefinition" p:name="contactInfoRequired" p:required="true"/>
 			<bean parent="MaintainableFieldDefinition" p:name="blanketTravel" p:required="true"/>

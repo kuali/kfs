@@ -21,10 +21,12 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.module.tem.businessobject.TemProfile;
 import org.kuali.kfs.module.tem.businessobject.TravelPayment;
 import org.kuali.kfs.module.tem.businessobject.TravelerDetail;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.service.TravelPaymentsHelperService;
+import org.kuali.kfs.module.tem.service.TravelerService;
 import org.kuali.kfs.pdp.PdpConstants;
 import org.kuali.kfs.pdp.businessobject.PaymentAccountDetail;
 import org.kuali.kfs.pdp.businessobject.PaymentDetail;
@@ -52,6 +54,7 @@ public class TravelPaymentsHelperServiceImpl implements TravelPaymentsHelperServ
     protected PersonService personService;
     protected WorkflowDocumentService workflowDocumentService;
     protected PaymentSourceHelperService paymentSourceHelperService;
+    protected TravelerService travelerService;
 
     /**
      * Retrieves the campus code associated with the initiator of a passed in authorization document
@@ -104,11 +107,10 @@ public class TravelPaymentsHelperServiceImpl implements TravelPaymentsHelperServ
     }
 
     /**
-     *
-     * @see org.kuali.kfs.module.tem.document.service.TravelPaymentsHelperService#buildGenericPaymentGroup(org.kuali.kfs.module.tem.businessobject.TravelerDetail, org.kuali.kfs.module.tem.businessobject.TravelPayment, java.lang.String)
+     * @see org.kuali.kfs.module.tem.document.service.TravelPaymentsHelperService#buildGenericPaymentGroup(org.kuali.kfs.module.tem.businessobject.TravelerDetail, org.kuali.kfs.module.tem.businessobject.TemProfile, org.kuali.kfs.module.tem.businessobject.TravelPayment, java.lang.String)
      */
     @Override
-    public PaymentGroup buildGenericPaymentGroup(TravelerDetail traveler, TravelPayment payment, String bankCode) {
+    public PaymentGroup buildGenericPaymentGroup(TravelerDetail traveler, TemProfile travelerProfile, TravelPayment payment, String bankCode) {
         PaymentGroup pg = new PaymentGroup();
         pg.setCombineGroups(Boolean.TRUE);
         pg.setCampusAddress(Boolean.FALSE);
@@ -128,6 +130,18 @@ public class TravelPaymentsHelperServiceImpl implements TravelPaymentsHelperServ
 
         pg.setBankCode(bankCode);
         pg.setPaymentStatusCode(PdpConstants.PaymentStatusCodes.OPEN);
+
+        pg.setTaxablePayment(Boolean.FALSE);
+
+        if (getTravelerService().isEmployee(traveler)){
+            pg.setPayeeId(travelerProfile.getEmployeeId());
+            pg.setPayeeIdTypeCd(PdpConstants.PayeeIdTypeCodes.EMPLOYEE);
+            pg.setEmployeeIndicator(Boolean.TRUE);
+            pg.setTaxablePayment(Boolean.FALSE);
+        }else{
+            pg.setPayeeId(traveler.getCustomerNumber());
+            pg.setPayeeIdTypeCd(PdpConstants.PayeeIdTypeCodes.CUSTOMER);
+        }
 
         return pg;
     }
@@ -299,5 +313,13 @@ public class TravelPaymentsHelperServiceImpl implements TravelPaymentsHelperServ
      */
     public void setPaymentSourceHelperService(PaymentSourceHelperService paymentSourceHelperService) {
         this.paymentSourceHelperService = paymentSourceHelperService;
+    }
+
+    public TravelerService getTravelerService() {
+        return travelerService;
+    }
+
+    public void setTravelerService(TravelerService travelerService) {
+        this.travelerService = travelerService;
     }
 }

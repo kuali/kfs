@@ -181,9 +181,9 @@ public class ExpenseImportByTripServiceImpl extends ExpenseImportServiceBase imp
 
         errorMessages.addAll(validateAccountingInfo(agencyData));
 
-        if (!isCreditCardAgencyValid(agencyData)) {
-            errorMessages.add(new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_CREDIT_CARD_DATA_INVALID_CCA));
-        }
+        errorMessages.addAll(validateCreditCardAgency(agencyData));
+
+        errorMessages.addAll(validateDistributionCode(agencyData));
 
         LOG.info("Finished validating agency data. tripId:"+ agencyData.getTripId());
         agencyData.setProcessingTimestamp(dateTimeService.getCurrentTimestamp());
@@ -349,19 +349,8 @@ public class ExpenseImportByTripServiceImpl extends ExpenseImportServiceBase imp
             if (isDuplicate) {
                 LOG.error(errorMessage);
 
-                String itineraryData = "";
-                if (StringUtils.isNotEmpty(agencyData.getAirTicketNumber())) {
-                    itineraryData = "AIR-"+ agencyData.getAirTicketNumber();
-                }
-                else if (StringUtils.isNotEmpty(agencyData.getLodgingItineraryNumber())) {
-                    itineraryData = "LODGING-"+ agencyData.getLodgingItineraryNumber();
-                }
-                else if (StringUtils.isNotEmpty(agencyData.getRentalCarItineraryNumber())) {
-                    itineraryData = "RENTAL CAR-"+ agencyData.getRentalCarItineraryNumber();
-                }
-
                 ErrorMessage error = new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_DATA_TRIP_DUPLICATE_RECORD, agencyData.getTripId(), agencyData.getAgency(),
-                        agencyData.getTransactionPostingDate().toString(), agencyData.getTripExpenseAmount().toString(), itineraryData);
+                        agencyData.getTransactionPostingDate().toString(), agencyData.getTripExpenseAmount().toString(), agencyData.getItineraryDataString());
                 errorMessages.add(error);
             }
         }
@@ -399,6 +388,33 @@ public class ExpenseImportByTripServiceImpl extends ExpenseImportServiceBase imp
 
         List<AgencyStagingData> agencyDataList = (List<AgencyStagingData>) businessObjectService.findMatching(AgencyStagingData.class, fieldValues);
         return agencyDataList;
+    }
+
+    public List<ErrorMessage> validateCreditCardAgency(AgencyStagingData agencyData) {
+        List<ErrorMessage> errorMessages = new ArrayList<ErrorMessage>();
+
+        if (!isCreditCardAgencyValid(agencyData)) {
+            //setErrorCode is already done in isCreditCardAgencyValid()
+            errorMessages.add(new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_CREDIT_CARD_DATA_INVALID_CCA));
+        }
+
+        return errorMessages;
+    }
+
+    public List<ErrorMessage> validateDistributionCode(AgencyStagingData agencyData) {
+        List<ErrorMessage> errorMessages = new ArrayList<ErrorMessage>();
+
+        String distributionCode = agencyData.getDistributionCode();
+        if (ObjectUtils.isNotNull(distributionCode)) {
+            AgencyServiceFee serviceFee = getAgencyServiceFee(distributionCode);
+            if (ObjectUtils.isNull(serviceFee)) {
+                LOG.error("Invalid DI Code: "+ distributionCode);
+                setErrorCode(agencyData, AgencyStagingDataErrorCodes.AGENCY_INVALID_DI_CD);
+                errorMessages.add(new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_DATA_INVALID_DISTRIBUTION_CODE, distributionCode));
+            }
+        }
+
+        return errorMessages;
     }
 
     /**
@@ -644,7 +660,7 @@ public class ExpenseImportByTripServiceImpl extends ExpenseImportServiceBase imp
      * @param distributionCode
      * @return
      */
-    private AgencyServiceFee getAgencyServiceFee(String distributionCode) {
+    protected AgencyServiceFee getAgencyServiceFee(String distributionCode) {
         if (StringUtils.isNotEmpty(distributionCode)) {
             Map<String,String> criteria = new HashMap<String,String>(1);
             criteria.put(TemPropertyConstants.DISTRIBUTION_CODE, distributionCode);

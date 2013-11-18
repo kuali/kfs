@@ -127,7 +127,7 @@ public class TemProfileMaintainable extends FinancialSystemMaintainable {
                 temProfile.setHomeDeptChartOfAccountsCode(chartOrg.getChartOfAccountsCode());
                 temProfile.setHomeDeptOrgCode(chartOrg.getOrganizationCode());
                 // does the current user have the ability to initiate all tem profiles? if not, throw an exception
-                if (!(getTemProfileAuthorizer().canEditAllProfiles(document, currentUser))) {
+                if (!(getTemProfileAuthorizer().canCreateAnyProfile(document, currentUser))) {
                     throw new AuthorizationException(currentUser.getPrincipalName(),
                             TemConstants.Permission.EDIT_ANY_PROFILE,
                             this.getClass().getSimpleName());

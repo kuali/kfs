@@ -71,6 +71,19 @@
         </property>
     </bean>
     
+    <bean id="TravelModule-SearchingTypeDefinition-temProfileName" class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
+        <property name="searchingAttribute">
+            <bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
+                <property name="attributeName" value="temProfileName" />
+            </bean>
+        </property>
+        <property name="documentValues">
+            <list>
+                <value>temProfileName</value>
+            </list>
+        </property>
+    </bean>
+    
     <bean id="TravelModule-SearchingTypeDefinition-hostProfileId" class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
         <property name="searchingAttribute">
             <bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">

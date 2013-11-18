@@ -923,8 +923,14 @@ public class TravelAuthorizationAction extends TravelActionBase {
      */
     @Override
     public ActionForward insertSourceLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        super.insertSourceLine(mapping, form, request, response);
         TravelAuthorizationForm travelauthForm = (TravelAuthorizationForm) form;
+        // before we try to insert - set the card type to encumbrance
+        TemSourceAccountingLine accountingLine = (TemSourceAccountingLine)(((TravelAuthorizationForm)form).getNewSourceLine());
+        accountingLine.setCardType(TemConstants.ENCUMBRANCE);
+
+        super.insertSourceLine(mapping, form, request, response);
+
+        // after we insert and have a blank line - set the amount to fill in
         travelauthForm.getNewSourceLine().setAmount(this.getAccountingLineAmountToFillIn(travelauthForm));
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);

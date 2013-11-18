@@ -90,6 +90,8 @@ public class TemKeyConstants {
     public static final String TRVL_REIMB_AIRFARE_ERROR = "document.airfareNote,document.airfare,newActualExpenseLine.*";
     public static final String TRVL_REIMB_CONTACT_INFO_ERRORS = "document.contactName,document.contactPhoneNum";
     public static final String TRVL_REIMB_ACCOUNTING_DISTRIBUTION_ERRORS = "accountingDistribution";
+    public static final String TRVL_REMIB_DUPLICATE_TRIP_QUESTION = "trvl.reimbursement.duplicate.trip.question.text";
+    public static final String TRVL_REMIB_PROCEED_QUESTION = "trvl.reimbursement.proceed.text";
     public static final String TRVL_ENT_ATTENDEE_ERRORS = "document.numberOfAttendees,document.attendeeListAttached,newAttendeeLines*,attendee,attendeeType,company,name,title";
     public static final String TRVL_GROUP_TRVL_ERRORS = "newGroupTravelerLine.name,newGroupTravelerLine.travelerTypeCode,newGroupTravelerLine.groupTravelerEmpId,groupTraveler";
     public static final String ERROR_TR_EMPLOYEE_INITIATOR_MUST_CERTIFY ="error.document.tem.employeeCertification";
@@ -240,6 +242,7 @@ public class TemKeyConstants {
     public static final String MESSAGE_AGENCY_DATA_MISSING_TRIP_DATA="message.batch.tem.agencyDataMissingTripData";
     public static final String MESSAGE_AGENCY_DATA_INVALID_TEM_PROFILE="message.batch.tem.agencyDataMissingTemProfile";
     public static final String MESSAGE_AGENCY_DATA_INVALID_EXPENSE_TYPE_OBJECT_CODE="message.batch.tem.agencyData.notFound.expenseTypeObjectCode";
+    public static final String MESSAGE_AGENCY_DATA_INVALID_DISTRIBUTION_CODE="message.batch.tem.agencyDataInvalidDistributionCode";
 
     public static final String MESSAGE_CREDIT_CARD_DATA_REPORT_HEADER = "message.batch.tem.creditcard.DataReportHeader";
     public static final String MESSAGE_CREDIT_CARD_DATA_DUPLICATE_RECORD="message.batch.tem.creditcard.DuplicateRecord";

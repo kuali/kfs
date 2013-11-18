@@ -28,13 +28,13 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationParameters;
 import org.kuali.kfs.module.tem.TemKeyConstants;
+import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants.TravelAuthorizationFields;
 import org.kuali.kfs.module.tem.businessobject.TemProfile;
 import org.kuali.kfs.module.tem.businessobject.TemProfileAccount;
 import org.kuali.kfs.module.tem.businessobject.TravelAdvance;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
 import org.kuali.kfs.module.tem.service.TemProfileService;
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
@@ -164,13 +164,13 @@ public class TravelAuthTravelAdvanceValidation extends GenericValidation {
             Date today = KfsDateUtils.clearTimeFields(new Date());
 
             if (dueDate != null && dueDate.before(today)) {
-                GlobalVariables.getMessageMap().putError(KFSConstants.DOCUMENT_ERRORS, KFSKeyConstants.ERROR_CUSTOM, "The Payment Due Date cannot be in the past.");
+                GlobalVariables.getMessageMap().putError(TravelAuthorizationFields.TRVL_ADV_DUE_DATE, KFSKeyConstants.ERROR_CUSTOM, "The Payment Due Date cannot be in the past.");
                 success = false;
             }
         }
 
         if (advance.getDueDate() != null && tripEnd == null){
-            GlobalVariables.getMessageMap().putError(TravelAuthorizationFields.TRIP_END_DT, TemKeyConstants.ERROR_TA_TRVL_TRIP_END_MISSING);
+            GlobalVariables.getMessageMap().putError(TemPropertyConstants.TRIP_END_DT, TemKeyConstants.ERROR_TA_TRVL_TRIP_END_MISSING);
             success = false;
         }
         else if (advance.getDueDate() != null && advance.getDueDate().after(tripEnd)) {

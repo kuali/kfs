@@ -152,6 +152,10 @@
 		<kul:subtab width="100%" subTabTitle="Special Handling" open="false" noShowHideButton="false">
 			<table cellpadding=0 class="datatable" summary="Special Handling Section">          
 				<tr>
+				  <th align=right valign=middle class="bord-l-b"><div align="right"><kul:htmlAttributeLabel attributeEntry="${travelPaymentAttributes.specialHandlingPersonName}"/></div></th>
+				  <td align=left valign=middle class="datacell">
+                    <kul:htmlControlAttribute attributeEntry="${travelPaymentAttributes.specialHandlingPersonName}" property="document.${paymentPropertyName}.specialHandlingPersonName" readOnly="${!(fullEntryMode || specialHandlingChangingEntryMode)}"/>  
+                  </td>
 				  <th align="right" valign="middle" class="bord-l-b"><div align="right"><kul:htmlAttributeLabel attributeEntry="${travelPaymentAttributes.specialHandlingCityName}"/></div></th>
 				  <td align="left" valign="middle" class="datacell" colspan="3">
 					<kul:htmlControlAttribute attributeEntry="${travelPaymentAttributes.specialHandlingCityName}" property="document.${paymentPropertyName}.specialHandlingCityName" readOnly="${!(fullEntryMode || specialHandlingChangingEntryMode) }"/>  

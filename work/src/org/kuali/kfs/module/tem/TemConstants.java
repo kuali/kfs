@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.WordUtils;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.KfsAuthorizationConstants.TransactionalEditMode;
@@ -214,6 +215,8 @@ public class TemConstants {
         public static final String INCLUDE_TRAVELER_TYPE_IN_TRIP_ID_IND = "INCLUDE_TRAVELER_TYPE_IN_TRIP_ID_IND";
 
         public static final String PER_DIEM_MILEAGE_RATE_EXPENSE_TYPE_CODE = "PER_DIEM_MILEAGE_RATE_EXPENSE_TYPE_CODE";
+
+        public static final String INTERNATIONAL_TRIP_REQUIRES_ACCOMMODATION_IND = "INTERNATIONAL_TRIP_REQUIRES_ACCOMMODATION_IND";
     }
 
     public static class TravelAuthorizationParameters {
@@ -686,6 +689,7 @@ public class TemConstants {
         public static final String AGENCY_REQUIRED_FIELDS = "REQ";
         public static final String AGENCY_DUPLICATE_DATA = "DUP";
         public static final String AGENCY_INVALID_EXPENSE_TYPE_OBJECT_CODE = "EXP";
+        public static final String AGENCY_INVALID_DI_CD = "DI";
     }
 
     public static class AgencyStagingDataValidation {
@@ -969,7 +973,7 @@ public class TemConstants {
         }
 
         public String getName() {
-            return StringUtils.capitalize(this.toString().toLowerCase());
+            return WordUtils.capitalizeFully(StringUtils.replace(this.toString(), "_", " "));
         }
 
         /**

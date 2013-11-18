@@ -23,7 +23,6 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import org.kuali.kfs.coa.businessobject.BalanceType;
-import org.kuali.kfs.gl.businessobject.Encumbrance;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
@@ -36,34 +35,19 @@ import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 @Entity
 @Table(name="TEM_TRIP_TYP_T")
 public class TripType extends PersistableBusinessObjectBase implements MutableInactivatable {
-
     private String code;
-
     private String name;
-
     private Boolean generateEncumbrance = Boolean.FALSE;
-
     private String encumbranceBalanceType;
-
     private String encumbranceObjCode;
-
     private Boolean contactInfoRequired = Boolean.FALSE;
-
     private Boolean blanketTravel = Boolean.FALSE;
-
     private KualiDecimal autoTravelReimbursementLimit;
-
     private Boolean usePerDiem = Boolean.FALSE;
-
     private Boolean travelAuthorizationRequired = Boolean.FALSE;
-
     private String perDiemCalcMethod = TemConstants.PERCENTAGE;
-
     private Boolean active = Boolean.TRUE;
-
     private BalanceType balanceType;
-
-    private Encumbrance encumbrance;
 
     @Id
     @Column(name="code",length=3,nullable=false)
@@ -216,21 +200,10 @@ public class TripType extends PersistableBusinessObjectBase implements MutableIn
         this.balanceType = balanceType;
     }
 
-    public Encumbrance getEncumbrance() {
-        return encumbrance;
-    }
-
-    public void setEncumbrance(Encumbrance encumbrance) {
-        this.encumbrance = encumbrance;
-    }
-
     @SuppressWarnings("rawtypes")
     protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap map = new LinkedHashMap();
         map.put("code", code);
-        map.put("name", name);
-        map.put("encumbranceBalanceType", encumbranceBalanceType);
-        map.put("encumbranceObjCode", encumbranceObjCode);
 
         return map;
     }

@@ -273,7 +273,7 @@
 			<column name="TRAVELER_NM" type="VARCHAR2(40)" />
 			<column name="TYPE_CD" type="VARCHAR2(1)" />
 			<column name="DV_EXP_CD" type="VARCHAR2(2)" />
-			<column name="DV_DOC_NUM" type="VARCHAR2(14)" />
+			<column name="PMT_GRP_ID" type="NUMBER(8)" />
 			<column name="MERCHANT_NM" type="VARCHAR2(40)" />
 			<column name="BANK_POST_DT" type="DATE" />
 			<column name="PROCESSING_TS" type="DATE" />
@@ -343,6 +343,7 @@
 			<column name="CORP_CARD_PMT_EXTRT_DT" type="DATE"/>
 			<column name="CORP_CARD_PMT_PAID_DT" type="DATE"/>
 			<column name="CORP_CARD_PMT_CNCL_DT" type="DATE"/>
+			<column name="HOST_AS_PAYEE" type="VARCHAR2(1)" />
 		</createTable>
 		<addPrimaryKey tableName="TEM_ENT_DOC_T" constraintName="TEM_ENT_DOC_TP1"
 			columnNames="FDOC_NBR" />

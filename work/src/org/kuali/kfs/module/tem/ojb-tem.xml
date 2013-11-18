@@ -215,6 +215,9 @@
         <field-descriptor name="active" column="ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR"/>
         <field-descriptor name="versionNumber" locking="true" column="VER_NBR" jdbc-type="BIGINT"/>
+        <reference-descriptor name="balanceType" class-ref="org.kuali.kfs.coa.businessobject.BalanceType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+            <foreignkey field-ref="encumbranceBalanceType"/>
+        </reference-descriptor>
     </class-descriptor>
         
     <class-descriptor class="org.kuali.kfs.module.tem.businessobject.TravelAdvance" table="TEM_TRVL_ADV_T">
@@ -630,6 +633,7 @@
         <field-descriptor name="primaryDestinationCountryState" column="PRIMARY_DEST_CNTRY_ST" jdbc-type="VARCHAR"/>
         <field-descriptor name="primaryDestinationCounty" column="PRIMARY_DEST_CNTY" jdbc-type="VARCHAR"/>
 		<field-descriptor name="attendeeListAttached" column="ATTENDEE_LIST_ATTACHED" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+		<field-descriptor name="hostAsPayee" column="HOST_AS_PAYEE" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
 		<field-descriptor name="nextSourceLineNumber" column="FDOC_NXT_EXP_NBR" jdbc-type="INTEGER" />
 		<field-descriptor name="financialDocumentBankCode" column="FDOC_BNK_CD" jdbc-type="VARCHAR" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR"/>
@@ -1415,7 +1419,7 @@
 		<field-descriptor name="travelerName" column="TRAVELER_NM" jdbc-type="VARCHAR"/>
 		<field-descriptor name="typeCode" column="TYPE_CD" jdbc-type="VARCHAR"/>
 		<field-descriptor name="expenseTypeCode" column="DV_EXP_CD" jdbc-type="VARCHAR"/>
-		<field-descriptor name="disbursementVoucherDocumentNumber" column="DV_DOC_NUM" jdbc-type="VARCHAR"/>
+		<field-descriptor name="paymentGroupId" column="PMT_GRP_ID" jdbc-type="BIGINT" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiIntegerFieldConversion" />
 		<field-descriptor name="merchantName" column="MERCHANT_NM" jdbc-type="VARCHAR"/>
 		<field-descriptor name="bankPostDate" column="BANK_POST_DT" jdbc-type="DATE"/>
 		<field-descriptor name="processingTimestamp" column="PROCESSING_TS" jdbc-type="TIMESTAMP"/>

@@ -19,6 +19,7 @@ import java.sql.Date;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.kfs.module.tem.businessobject.TemProfile;
 import org.kuali.kfs.module.tem.businessobject.TravelPayment;
 import org.kuali.kfs.module.tem.businessobject.TravelerDetail;
 import org.kuali.kfs.module.tem.document.TravelDocument;
@@ -51,11 +52,12 @@ public interface TravelPaymentsHelperService {
     /**
      * Builds a generic payment group which can be customized for the specific travel document's needs
      * @param traveler the detail about the traveler
+     * @param travelerProfile the profile for the traveler
      * @param payment the payment information from the document
      * @param bankCode the code of the bank from the document
      * @return a generically built PaymentGroup
      */
-    public abstract PaymentGroup buildGenericPaymentGroup(TravelerDetail traveler, TravelPayment payment, String bankCode);
+    public abstract PaymentGroup buildGenericPaymentGroup(TravelerDetail traveler, TemProfile travelerProfile, TravelPayment payment, String bankCode);
 
     /**
      * Builds a generic payment detail which can be customized for a specific travel document's needs

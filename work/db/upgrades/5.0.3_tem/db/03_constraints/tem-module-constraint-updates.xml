@@ -169,6 +169,9 @@
 			columnName="ACTV_IND" columnDataType="VARCHAR2(1)" />
 		<addUniqueConstraint tableName="TEM_CREDIT_CARD_STAGING_T"
 			constraintName="TEM_CREDIT_CARD_STAGING_TC0" columnNames="OBJ_ID" />
+		<addForeignKeyConstraint constraintName="TEM_CREDIT_CARD_STAGING_TR1"
+			baseTableName="TEM_CREDIT_CARD_STAGING_T" baseColumnNames="PMT_GRP_ID"
+			referencedTableName="PDP_PMT_GRP_T" referencedColumnNames="ID" />
 		<addNotNullConstraint tableName="TEM_CREDIT_CARD_STAGING_T"
 			columnName="VER_NBR" columnDataType="NUMBER(8,0)" />
 		<addNotNullConstraint tableName="TEM_CREDIT_CARD_STAGING_T"
@@ -566,6 +569,9 @@
 			columnName="PER_DIEM_ID" columnDataType="NUMBER(22,0)" />
 		<addUniqueConstraint tableName="TEM_TRIP_TYP_T"
 			constraintName="TEM_TRIP_TYP_TC0" columnNames="OBJ_ID" />
+		<addForeignKeyConstraint constraintName="TEM_TRIP_TYP_TR1"
+			baseTableName="TEM_TRIP_TYP_T" baseColumnNames="ENC_BAL_TYP"
+			referencedTableName="CA_BALANCE_TYPE_T" referencedColumnNames="FIN_BALANCE_TYP_CD" />
 		<addNotNullConstraint tableName="TEM_TRIP_TYP_T"
 			columnName="VER_NBR" columnDataType="NUMBER(8,0)" />
 		<addNotNullConstraint tableName="TEM_TRIP_TYP_T"

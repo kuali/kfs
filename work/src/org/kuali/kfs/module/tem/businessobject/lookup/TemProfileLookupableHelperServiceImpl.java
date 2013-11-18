@@ -139,6 +139,26 @@ public class TemProfileLookupableHelperServiceImpl extends KualiLookupableHelper
         return profiles;
     }
 
+    /**
+     * Determines if the given possibleArranger is an arranger for the given possibleArrangee
+     * @param possibleArranger the Person who could be the arranger of the given profile
+     * @param possibleArrangee the profile, who could have trips arranged by the possibleArranger
+     * @return true if possibleArranger is an arranger for possibleArrangee, false otherwise
+     */
+    protected boolean isArranger(Person possibleArranger, TemProfile possibleArrangee) {
+        if (possibleArranger == null) {
+            // there's no current user running this lookup?  Weird.
+            return false;
+        }
+        if (possibleArrangee == null) {
+            // there's no profile but we're adding it to a list?  even weirder
+            return false;
+        }
+        final TemProfileArranger temProfileArranger = getTravelArrangerDocumentService().findTemProfileArranger(possibleArranger.getPrincipalId(), possibleArrangee.getProfileId());
+        final boolean isOrganizationalApprover = getTravelerService().isArrangeeByOrganization(possibleArranger.getPrincipalId(), possibleArrangee);
+        return temProfileArranger != null || isOrganizationalApprover;
+    }
+
     @Override
     public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
         List<HtmlData> htmlDataList = new ArrayList<HtmlData>();

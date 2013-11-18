@@ -45,17 +45,19 @@ import org.kuali.rice.krad.dao.DocumentDao;
 import org.kuali.rice.krad.exception.ValidationException;
 import org.kuali.rice.krad.service.DataDictionaryService;
 import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.service.NoteService;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
 public class HoldQuestionHandler implements QuestionHandler<TravelDocument> {
-    private ConfigurationService ConfigurationService;
-    private DataDictionaryService dataDictionaryService;
-    private TravelDocumentService travelDocumentService;
-    private DocumentService documentService;
-    private DocumentDao documentDao;
+    protected ConfigurationService ConfigurationService;
+    protected DataDictionaryService dataDictionaryService;
+    protected TravelDocumentService travelDocumentService;
+    protected DocumentService documentService;
+    protected DocumentDao documentDao;
+    protected NoteService noteService;
 
     @Override
     public <T> T handleResponse(final Inquisitive<TravelDocument,?> asker) throws Exception {
@@ -101,8 +103,8 @@ public class HoldQuestionHandler implements QuestionHandler<TravelDocument> {
             T returnActionForward =  (T) ((StrutsInquisitor) asker).getMapping().findForward(MAPPING_BASIC);
 
             final Note newNote = getDocumentService().createNoteFromDocument(document, noteText.toString());
-            //newNote.setNoteTypeCode(KFSConstants.NoteTypeEnum.DOCUMENT_HEADER_NOTE_TYPE.getCode());
             document.addNote(newNote);
+            getNoteService().save(newNote);
 
             //save the new state on the document
             document.updateAppDocStatus(TravelAuthorizationStatusCodeKeys.REIMB_HELD);
@@ -231,6 +233,14 @@ public class HoldQuestionHandler implements QuestionHandler<TravelDocument> {
      */
     protected DataDictionaryService getDataDictionaryService() {
         return dataDictionaryService;
+    }
+
+    public NoteService getNoteService() {
+        return noteService;
+    }
+
+    public void setNoteService(NoteService noteService) {
+        this.noteService = noteService;
     }
 
     protected AdHocRoutePerson buildFyiRecipient(String userName) {

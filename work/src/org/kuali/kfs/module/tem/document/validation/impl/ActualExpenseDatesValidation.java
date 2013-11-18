@@ -58,7 +58,7 @@ public class ActualExpenseDatesValidation extends GenericValidation {
                     return true; // no error here, because expense date is less than trip end date
                 }
                 messageDate = tripEndDate;
-                messageProperty = getDataDictionaryService().getAttributeLabel(travelDocument.getClass(), TemPropertyConstants.TravelAuthorizationFields.TRIP_END_DT);
+                messageProperty = getDataDictionaryService().getAttributeLabel(travelDocument.getClass(), TemPropertyConstants.TRIP_END_DT);
             }
 
             // still here?  let's check initiation date

@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -38,6 +38,7 @@ import org.kuali.rice.krad.service.KualiModuleService;
 @ConfigureContext(session = khuntley)
 public class FinalInvoiceReversalTest extends CGInvoiceDocumentSetupTest {
 
+    @Override
     protected void setUp() throws Exception {
         super.setUp();
         document.getInvoiceGeneralDetail().setFinalBillIndicator(true);
@@ -46,6 +47,7 @@ public class FinalInvoiceReversalTest extends CGInvoiceDocumentSetupTest {
 
     public void testFinalInvoiceDocumentValidation() throws WorkflowException {
         FinalInvoiceReversalDocument firDocument = (FinalInvoiceReversalDocument) documentService.getNewDocument(FinalInvoiceReversalDocument.class);
+        firDocument.getDocumentHeader().setDocumentDescription("Unit Test Document");
         FinalInvoiceReversalEntry entry = new FinalInvoiceReversalEntry();
         entry.setInvoiceDocumentNumber(document.getDocumentNumber());
         firDocument.addInvoiceEntry(entry);
@@ -66,7 +68,7 @@ public class FinalInvoiceReversalTest extends CGInvoiceDocumentSetupTest {
             mapKey.put(KFSPropertyConstants.ACCOUNT_NUMBER, id.getAccountNumber());
             mapKey.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, id.getChartOfAccountsCode());
             mapKey.put(KFSPropertyConstants.PROPOSAL_NUMBER, document.getProposalNumber());
-            ContractsAndGrantsBillingAwardAccount awardAccount = (ContractsAndGrantsBillingAwardAccount) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsBillingAwardAccount.class).getExternalizableBusinessObject(ContractsAndGrantsBillingAwardAccount.class, mapKey);
+            ContractsAndGrantsBillingAwardAccount awardAccount = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsBillingAwardAccount.class).getExternalizableBusinessObject(ContractsAndGrantsBillingAwardAccount.class, mapKey);
             assertTrue(awardAccount.isFinalBilledIndicator());
         }
 
@@ -81,7 +83,7 @@ public class FinalInvoiceReversalTest extends CGInvoiceDocumentSetupTest {
             mapKey.put(KFSPropertyConstants.ACCOUNT_NUMBER, id.getAccountNumber());
             mapKey.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, id.getChartOfAccountsCode());
             mapKey.put(KFSPropertyConstants.PROPOSAL_NUMBER, document.getProposalNumber());
-            ContractsAndGrantsBillingAwardAccount awardAccount = (ContractsAndGrantsBillingAwardAccount) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsBillingAwardAccount.class).getExternalizableBusinessObject(ContractsAndGrantsBillingAwardAccount.class, mapKey);
+            ContractsAndGrantsBillingAwardAccount awardAccount = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsBillingAwardAccount.class).getExternalizableBusinessObject(ContractsAndGrantsBillingAwardAccount.class, mapKey);
             assertFalse(awardAccount.isFinalBilledIndicator());
         }
     }

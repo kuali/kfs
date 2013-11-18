@@ -1,12 +1,12 @@
 /*
  * Copyright 2012 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -25,29 +25,26 @@ import java.util.Map;
 
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAwardAccount;
-import org.kuali.kfs.integration.cg.businessobject.Award;
 import org.kuali.kfs.module.ar.batch.service.ContractsGrantsInvoiceCreateDocumentService;
 import org.kuali.kfs.module.ar.businessobject.DunningCampaign;
 import org.kuali.kfs.module.ar.businessobject.DunningLetterDistribution;
 import org.kuali.kfs.module.ar.businessobject.DunningLetterDistributionOnDemandLookupResult;
 import org.kuali.kfs.module.ar.businessobject.DunningLetterTemplate;
-import org.kuali.kfs.module.ar.document.CGInvoiceDocumentSetupTest;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService;
 import org.kuali.kfs.module.ar.fixture.ARAwardAccountFixture;
 import org.kuali.kfs.module.ar.fixture.ARAwardFixture;
-import org.kuali.kfs.module.ar.fixture.ContractsGrantsInvoiceDocumentFixture;
 import org.kuali.kfs.module.ar.fixture.DunningCampaignFixture;
 import org.kuali.kfs.module.ar.fixture.DunningLetterDistributionFixture;
 import org.kuali.kfs.module.ar.fixture.DunningLetterTemplateFixture;
 import org.kuali.kfs.module.ar.web.struts.DunningLetterDistributionOnDemandLookupForm;
+import org.kuali.kfs.module.cg.businessobject.Award;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
@@ -61,7 +58,7 @@ public class DunningLetterDistributionOnDemandLookupableHelperServiceImplTest ex
     private DunningLetterDistributionOnDemandLookupableHelperServiceImpl dunningLetterDistributionOnDemandLookupableHelperServiceImpl;
     private DunningLetterDistributionOnDemandLookupForm dunningLetterDistributionOnDemandLookupForm;
     private Map fieldValues;
-    
+
     private static final String invoiceDocumentNumber = null;
 
     /**
@@ -76,7 +73,7 @@ public class DunningLetterDistributionOnDemandLookupableHelperServiceImplTest ex
         DocumentService documentService = SpringContext.getBean(DocumentService.class);
         dunningLetterDistributionOnDemandLookupForm = new DunningLetterDistributionOnDemandLookupForm();
         //To create a basic invoice with test data
-        
+
         String coaCode = "BL";
         String orgCode = "SRS";
         ContractsAndGrantsBillingAward award = ARAwardFixture.CG_AWARD_MONTHLY_BILLED_DATE_NULL.createAward();
@@ -87,10 +84,10 @@ public class DunningLetterDistributionOnDemandLookupableHelperServiceImplTest ex
 
         award.getActiveAwardAccounts().add(awardAccount_1);
         award = ARAwardFixture.CG_AWARD_MONTHLY_BILLED_DATE_NULL.setAgencyFromFixture((Award) award);
-        
+
         ContractsGrantsInvoiceDocument cgInvoice = SpringContext.getBean(ContractsGrantsInvoiceCreateDocumentService.class).createCGInvoiceDocumentByAwardInfo(award, awardAccounts, coaCode, orgCode);
         cgInvoice.getFinancialSystemDocumentHeader().setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.APPROVED);
-        
+
         //To create Dunning Campaign and Dunning LEtter Distribtuions and templates.
         DunningCampaign dunningCampaign = SpringContext.getBean(BusinessObjectService.class).findBySinglePrimaryKey(DunningCampaign.class, DunningCampaignFixture.AR_DUNC1);
         if(ObjectUtils.isNull(dunningCampaign)){

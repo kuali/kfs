@@ -1,12 +1,12 @@
 /*
  * Copyright 2012 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -18,8 +18,10 @@ package org.kuali.kfs.module.ar.document.validation.impl;
 import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.kuali.kfs.module.ar.businessobject.lookup.ReferralToCollectionsDocumentUtil;
 import org.kuali.kfs.module.ar.dataaccess.ContractsGrantsInvoiceDocumentDao;
@@ -29,6 +31,8 @@ import org.kuali.kfs.module.ar.document.service.impl.ContractsGrantsInvoiceDocum
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.lookup.LookupResultsService;
+import org.kuali.rice.kns.lookup.LookupUtils;
 
 /**
  * This class tests the methods of ReferralToCollectionsDocumentUtil
@@ -52,6 +56,15 @@ public class ReferralToCollectionsDocumentUtilTest extends KualiTestBase {
         contractsGrantsInvoiceDocumentServiceImpl = new ContractsGrantsInvoiceDocumentServiceImpl();
         contractsGrantsInvoiceDocumentServiceImpl.setContractsGrantsInvoiceDocumentDao(SpringContext.getBean(ContractsGrantsInvoiceDocumentDao.class));
         referralToCollectionsDocument = new ReferralToCollectionsDocument();
+
+        // not super enthused about doing this, but not sure where the the data was expected to be coming from for
+        // these tests
+        // also - we're not storing any object ids, do we need to in order to really test this code?
+        Map<String, String> compositeObjectIdMap = LookupUtils.generateCompositeSelectedObjectIds(new HashSet<String>(), new HashSet<String>(), new HashSet<String>());
+        Set<String> compositeObjectIds = compositeObjectIdMap.keySet();
+
+        LookupResultsService lookupResultsService = SpringContext.getBean(LookupResultsService.class);
+        lookupResultsService.persistSelectedObjectIds(LOOKUP_SEQUENCE_NUMBER, compositeObjectIds, PERSON_ID);
     }
 
     /**

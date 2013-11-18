@@ -162,6 +162,7 @@ public class BatchContainerDirectory {
     	writeBatchStepFileToSystem(errorFile, null);
     }
 
+
     /**
      * Writes the error file for the Step specified in the descriptor. The stack trace in the Throwable will be written to the file.
      *
@@ -209,6 +210,7 @@ public class BatchContainerDirectory {
                     else if (details instanceof Integer) {
                         writeStepIndexToFile(file, (Integer)details);
                     }
+
                 }
 
             } catch (IOException e) {
@@ -248,7 +250,7 @@ public class BatchContainerDirectory {
     }
 
     /**
-     * Returns the result file (either a success file or an error file) if one exists for the specified step. Otherwise null is returned.
+     * Returns the result file (either a success file  or an error file) if one exists for the specified step. Otherwise null is returned.
      *
      * @param batchStepFile the step for which a result file is requested
      * @return the descriptor of the result file if one exists, null otherwise
@@ -271,6 +273,7 @@ public class BatchContainerDirectory {
 
             return new BatchStepFileDescriptor(errorFile);
         }
+
 
         return null;
     }
@@ -415,6 +418,17 @@ public class BatchContainerDirectory {
 	 */
     private boolean isFileEmpty(File file) {
     	return file.length() == 0;
+    }
+
+
+    private void writeMessageToFile(File runFile , String message) {
+        PrintStream printStream = initializePrintStream(runFile);
+
+        //write index
+        printStream.print(message);
+        printStream.flush();
+
+        destroyPrintStream(printStream);
     }
 
     /**

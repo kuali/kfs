@@ -54,7 +54,7 @@ public class FinalInvoiceTest extends CGInvoiceDocumentSetupTest {
     }
 
     public void testInvoiceOnFinal() {
-        assertTrue(document.getDocumentHeader().getWorkflowDocument().getStatus().equals("S"));
+        assertTrue(document.getDocumentHeader().getWorkflowDocument().isInitiated());
         Map<String, Object> map = new HashMap<String, Object>();
         map.put(KFSPropertyConstants.PROPOSAL_NUMBER, document.getProposalNumber());
         SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class).updateBillsAndMilestones(KFSConstants.ParameterValues.STRING_YES,document.getInvoiceMilestones(),document.getInvoiceBills());
@@ -73,14 +73,15 @@ public class FinalInvoiceTest extends CGInvoiceDocumentSetupTest {
         if (CollectionUtils.isEmpty(bills)) {
             Iterator iterator = bills.iterator();
 
-            while (iterator.hasNext())
+            while (iterator.hasNext()) {
                 assertTrue(((Bill) iterator.next()).isBilledIndicator());
+            }
         }
     }
 
     public void testMultipleInvoices() {
         document.getInvoiceGeneralDetail().setFinalBillIndicator(true);
-        assertTrue(document.getDocumentHeader().getWorkflowDocument().getStatus().equals("S"));
+        assertTrue(document.getDocumentHeader().getWorkflowDocument().isInitiated());
         SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class).doWhenFinalInvoice(document);
         Iterator iterator = document.getAccountDetails().iterator();
         while (iterator.hasNext()) {

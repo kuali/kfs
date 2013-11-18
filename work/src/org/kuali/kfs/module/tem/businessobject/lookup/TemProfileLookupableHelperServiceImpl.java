@@ -28,6 +28,7 @@ import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants.TemProfileProperties;
 import org.kuali.kfs.module.tem.businessobject.TemProfile;
+import org.kuali.kfs.module.tem.businessobject.TemProfileArranger;
 import org.kuali.kfs.module.tem.businessobject.TemProfileFromCustomer;
 import org.kuali.kfs.module.tem.businessobject.TemProfileFromKimPerson;
 import org.kuali.kfs.module.tem.datadictionary.MappedDefinition;
@@ -41,6 +42,7 @@ import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.FinancialSystemUserService;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kim.api.services.IdentityManagementService;
@@ -66,6 +68,7 @@ public class TemProfileLookupableHelperServiceImpl extends KualiLookupableHelper
     private PersonService personService;
     private TemProfileService temProfileService;
     private IdentityManagementService identityManagementService;
+    private TravelArrangerDocumentService travelArrangerDocumentService;
 
     private static final String[] addressLookupFields = { TemProfileProperties.ADDRESS_1, TemProfileProperties.ADDRESS_2, TemProfileProperties.CITY_NAME, TemProfileProperties.STATE_CODE, TemProfileProperties.ZIP_CODE, TemProfileProperties.COUNTRY_CODE };
 
@@ -75,6 +78,8 @@ public class TemProfileLookupableHelperServiceImpl extends KualiLookupableHelper
     @Override
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
 
+        boolean arrangeesOnly = false;
+        Person currentUser = GlobalVariables.getUserSession().getPerson();
         // split homeDepartment field value into org code and coa code for TemProfile lookup
         if (fieldValues != null) {
             String homeDepartment = fieldValues.get(TemConstants.TEM_PROFILE_HOME_DEPARTMENT);
@@ -89,6 +94,15 @@ public class TemProfileLookupableHelperServiceImpl extends KualiLookupableHelper
                     fieldValues.remove(TemConstants.TEM_PROFILE_HOME_DEPARTMENT);
                 }
             }
+
+            if (fieldValues.containsKey(TemPropertyConstants.TemProfileProperties.ONLY_ARRANGEES_IN_LOOKUP)) {
+                final String arrangeesOnlyValue = fieldValues.remove(TemPropertyConstants.TemProfileProperties.ONLY_ARRANGEES_IN_LOOKUP);
+                if (!StringUtils.isBlank(arrangeesOnlyValue)) {
+                    OjbCharBooleanConversion booleanConverter = new OjbCharBooleanConversion();
+                    final Boolean arrangeesOnlyBool = (Boolean)booleanConverter.sqlToJava(arrangeesOnlyValue);
+                    arrangeesOnly = arrangeesOnlyBool.booleanValue();
+                }
+            }
         }
 
         List<TemProfile> searchResults = (List<TemProfile>) super.getSearchResults(fieldValues);
@@ -98,7 +112,9 @@ public class TemProfileLookupableHelperServiceImpl extends KualiLookupableHelper
             if (!StringUtils.isBlank(profile.getPrincipalId())) {
                 getTravelerService().populateTemProfile(profile);
             }
-            profiles.add(profile);
+            if (!arrangeesOnly || isArranger(currentUser, profile)) {
+                profiles.add(profile);
+            }
         }
 
         // Need to also search kim. This is necessary because data could be different between kim and the tem profile,
@@ -404,6 +420,14 @@ public class TemProfileLookupableHelperServiceImpl extends KualiLookupableHelper
 
     public void setIdentityManagementService(IdentityManagementService identityManagementService) {
         this.identityManagementService = identityManagementService;
+    }
+
+    public TravelArrangerDocumentService getTravelArrangerDocumentService() {
+        return travelArrangerDocumentService;
+    }
+
+    public void setTravelArrangerDocumentService(TravelArrangerDocumentService travelArrangerDocumentService) {
+        this.travelArrangerDocumentService = travelArrangerDocumentService;
     }
 
 }

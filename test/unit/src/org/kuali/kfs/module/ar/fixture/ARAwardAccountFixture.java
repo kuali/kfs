@@ -17,7 +17,7 @@ package org.kuali.kfs.module.ar.fixture;
 
 import java.sql.Date;
 
-import org.kuali.kfs.integration.cg.businessobject.AwardAccount;
+import org.kuali.kfs.module.cg.businessobject.AwardAccount;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 /**
@@ -25,7 +25,8 @@ import org.kuali.rice.core.api.util.type.KualiDecimal;
  */
 public enum ARAwardAccountFixture {
 
-    AWD_ACCT_1(new Long(111), "BL", "1031400", false, null, null, new KualiDecimal(1), false), AWD_ACCT_2(new Long(111), "BL", "0142900", false, null, null, new KualiDecimal(1), false);
+    AWD_ACCT_1(new Long(11), "BL", "2336320", false, null, null, new KualiDecimal(1), false),
+    AWD_ACCT_2(new Long(11), "UA", "6812950", false, null, null, new KualiDecimal(1), false);
 
     private Long proposalNumber;
     private String chartOfAccountsCode;

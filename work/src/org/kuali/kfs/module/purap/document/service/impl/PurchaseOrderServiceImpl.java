@@ -37,15 +37,15 @@ import org.kuali.kfs.coa.businessobject.AccountDelegate;
 import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.integration.purap.CapitalAssetSystem;
 import org.kuali.kfs.module.purap.PurapConstants;
-import org.kuali.kfs.module.purap.PurapKeyConstants;
-import org.kuali.kfs.module.purap.PurapParameterConstants;
-import org.kuali.kfs.module.purap.PurapPropertyConstants;
-import org.kuali.kfs.module.purap.PurapRuleConstants;
 import org.kuali.kfs.module.purap.PurapConstants.PODocumentsStrings;
 import org.kuali.kfs.module.purap.PurapConstants.POTransmissionMethods;
 import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderDocTypes;
 import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderStatuses;
 import org.kuali.kfs.module.purap.PurapConstants.RequisitionSources;
+import org.kuali.kfs.module.purap.PurapKeyConstants;
+import org.kuali.kfs.module.purap.PurapParameterConstants;
+import org.kuali.kfs.module.purap.PurapPropertyConstants;
+import org.kuali.kfs.module.purap.PurapRuleConstants;
 import org.kuali.kfs.module.purap.batch.AutoCloseRecurringOrdersStep;
 import org.kuali.kfs.module.purap.businessobject.AutoClosePurchaseOrderView;
 import org.kuali.kfs.module.purap.businessobject.ContractManagerAssignmentDetail;
@@ -74,6 +74,7 @@ import org.kuali.kfs.module.purap.document.service.PurApWorkflowIntegrationServi
 import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
 import org.kuali.kfs.module.purap.document.service.RequisitionService;
+import org.kuali.kfs.module.purap.util.PurApObjectUtils;
 import org.kuali.kfs.module.purap.util.ThresholdHelper;
 import org.kuali.kfs.module.purap.util.ThresholdHelper.ThresholdSummary;
 import org.kuali.kfs.sys.KFSConstants;
@@ -84,7 +85,6 @@ import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
 import org.kuali.kfs.sys.document.validation.event.AttributedRouteDocumentEvent;
 import org.kuali.kfs.sys.document.validation.event.DocumentSystemSaveEvent;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
-import org.kuali.kfs.sys.util.ObjectPopulationUtils;
 import org.kuali.kfs.vnd.VendorConstants;
 import org.kuali.kfs.vnd.VendorConstants.AddressTypes;
 import org.kuali.kfs.vnd.businessobject.CommodityCode;
@@ -620,7 +620,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             sourceObjectClass = sourceObjectClass.getSuperclass();
             classesToExclude.add(sourceObjectClass);
         }
-        ObjectPopulationUtils.populateFromBaseWithSuper(sourceDocument, newPurchaseOrderChangeDocument, PurapConstants.uncopyableFieldsForPurchaseOrder(), classesToExclude);
+        PurApObjectUtils.populateFromBaseWithSuper(sourceDocument, newPurchaseOrderChangeDocument, PurapConstants.uncopyableFieldsForPurchaseOrder(), classesToExclude);
         newPurchaseOrderChangeDocument.getDocumentHeader().setDocumentDescription(sourceDocument.getDocumentHeader().getDocumentDescription());
         newPurchaseOrderChangeDocument.getDocumentHeader().setOrganizationDocumentNumber(sourceDocument.getDocumentHeader().getOrganizationDocumentNumber());
         newPurchaseOrderChangeDocument.getDocumentHeader().setExplanation(sourceDocument.getDocumentHeader().getExplanation());
@@ -779,7 +779,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                 uncopyableFields.putAll(PurapConstants.uncopyableFieldsForSplitPurchaseOrder());
 
                 // Copy all fields over from the current document except the items and the above-specified fields.
-                ObjectPopulationUtils.populateFromBaseWithSuper(currentDocument, newDocument, uncopyableFields, classesToExclude);
+                PurApObjectUtils.populateFromBaseWithSuper(currentDocument, newDocument, uncopyableFields, classesToExclude);
                 newDocument.getDocumentHeader().setDocumentDescription(currentDocument.getDocumentHeader().getDocumentDescription());
                 newDocument.getDocumentHeader().setOrganizationDocumentNumber(currentDocument.getDocumentHeader().getOrganizationDocumentNumber());
                 newDocument.setPurchaseOrderCurrentIndicator(true);
@@ -1645,13 +1645,19 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
         RequisitionDocument req = po.getPurApSourceDocumentIfPossible();
 
-        String reqInitiator =req.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId();
+        String reqInitiator=null;
+
+        if(ObjectUtils.isNotNull(req)){
+            reqInitiator =req.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId();
+        }
+
         String currentDocumentTypeName = po.getDocumentHeader().getWorkflowDocument().getDocumentTypeName();
         Set<String> fiscalOfficerIds = new HashSet<String>();
         Set<Account> accounts = new HashSet<Account>();
         try {
-            po.appSpecificRouteDocumentToUser(po.getDocumentHeader().getWorkflowDocument(), reqInitiator, getAdhocFyiAnnotation(po) + KFSConstants.BLANK_SPACE + req.getPurapDocumentIdentifier() + KFSConstants.BLANK_SPACE + "(document Id " + req.getDocumentNumber() + ")", "Requisition Routed By User");
-
+            if(reqInitiator!=null) {
+                po.appSpecificRouteDocumentToUser(po.getDocumentHeader().getWorkflowDocument(), reqInitiator, getAdhocFyiAnnotation(po) + KFSConstants.BLANK_SPACE + req.getPurapDocumentIdentifier() + KFSConstants.BLANK_SPACE + "(document Id " + req.getDocumentNumber() + ")", "Requisition Routed By User");
+            }
 
             if(!PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_AMENDMENT_DOCUMENT.equalsIgnoreCase(currentDocumentTypeName)){
                 List<PurchaseOrderItem> items = po.getItemsActiveOnly();
@@ -1842,7 +1848,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
      * @param vendor The VendorDetail object whose default address we'll obtain and set the fields.
      */
     protected void updateDefaultVendorAddress(VendorDetail vendor) {
-       
+
         VendorAddress defaultAddress = vendorService.getVendorDefaultAddress(vendor.getVendorHeaderGeneratedIdentifier(),vendor.getVendorDetailAssignedIdentifier(), vendor.getVendorHeader().getVendorType().getAddressType().getVendorAddressTypeCode(), "",false);
         if (defaultAddress != null) {
             if (defaultAddress.getVendorState() != null) {

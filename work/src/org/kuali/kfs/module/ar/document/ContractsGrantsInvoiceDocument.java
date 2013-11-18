@@ -50,6 +50,7 @@ import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.KualiModuleService;
+import org.kuali.rice.krad.service.ModuleService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 
@@ -464,9 +465,22 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument impl
      * @return Returns the award.
      */
     public ContractsAndGrantsBillingAward getAward() {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put(KFSPropertyConstants.PROPOSAL_NUMBER, this.getProposalNumber());
-        return award = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsBillingAward.class).getExternalizableBusinessObject(ContractsAndGrantsBillingAward.class, map);
+        if ( ObjectUtils.isNull(proposalNumber)) {
+            award = null;
+        } else {
+            if ( award == null || !award.getProposalNumber().equals(proposalNumber))  {
+                ModuleService moduleService = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsBillingAward.class);
+                if ( moduleService != null ) {
+                    Map<String,Object> key = new HashMap<String, Object>(1);
+                    key.put(KFSPropertyConstants.PROPOSAL_NUMBER, this.getProposalNumber());
+                    award = moduleService.getExternalizableBusinessObject(ContractsAndGrantsBillingAward.class, key);
+                } else {
+                    throw new RuntimeException( "CONFIGURATION ERROR: No responsible module found for EBO class.  Unable to proceed." );
+                }
+            }
+        }
+        return award;
+
     }
 
     /**

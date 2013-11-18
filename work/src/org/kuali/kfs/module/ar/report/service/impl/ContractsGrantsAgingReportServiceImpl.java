@@ -60,7 +60,8 @@ public class ContractsGrantsAgingReportServiceImpl extends ContractsGrantsCollec
     private ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService;
     protected BusinessObjectService businessObjectService;
     private PersonService personService;
-
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ContractsGrantsAgingReportServiceImpl.class);
+    
     /**
      * Gets the cgAgingReportInfo attribute.
      *
@@ -254,7 +255,7 @@ public class ContractsGrantsAgingReportServiceImpl extends ContractsGrantsCollec
                     }
                 }
                 catch (Exception wfe) {
-                    wfe.printStackTrace();
+                    LOG.error("problem during ContractsGrantsAgingReportServiceImpl.filterContractsGrantsAgingReport()", wfe);
                 }
             }
         }
@@ -276,7 +277,7 @@ public class ContractsGrantsAgingReportServiceImpl extends ContractsGrantsCollec
                         Map<String, String> orgCriteria = new HashMap<String, String>();
                         orgCriteria.put(ArPropertyConstants.OrganizationOptionsFields.ORGANIZATION_CODE, document.getBilledByOrganizationCode());
                         // retrive Organization
-                        OrganizationOptions orgOp = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(OrganizationOptions.class, orgCriteria);
+                        OrganizationOptions orgOp = businessObjectService.findByPrimaryKey(OrganizationOptions.class, orgCriteria);
                         if (orgOp != null) {
                             isBiller = orgOp.isCgBillerIndicator();
                             billerOrgMap.put(org, isBiller);
@@ -633,7 +634,7 @@ public class ContractsGrantsAgingReportServiceImpl extends ContractsGrantsCollec
             return baos.toByteArray();
         }
         catch (IOException e) {
-            e.printStackTrace();
+            LOG.error("problem during ContractsGrantsAgingReportServiceImpl.generateCSVToExport()", e);
         }
         return null;
     }

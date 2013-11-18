@@ -32,6 +32,7 @@ import org.kuali.kfs.module.ar.document.CollectionActivityDocument;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.CollectionActivityDocumentService;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
@@ -52,7 +53,11 @@ import org.kuali.rice.krad.util.ObjectUtils;
 public class CollectionActivityDocumentServiceImpl implements CollectionActivityDocumentService {
 
     private DocumentService documentService;
-
+    private DateTimeService dateTimeService;
+    private BusinessObjectService businessObjectService;
+    private DocumentTypeService documentTypeService;
+    private KualiModuleService kualiModuleService;
+    
     /**
      * Gets the documentService attribute.
      *
@@ -71,6 +76,40 @@ public class CollectionActivityDocumentServiceImpl implements CollectionActivity
         this.documentService = documentService;
     }
 
+    public void setDateTimeService(DateTimeService dateTimeService) {
+        this.dateTimeService = dateTimeService;
+    }
+    
+    /**
+     * This method gets the business object service
+     * @return the business object service
+     */
+    public BusinessObjectService getBusinessObjectService() {
+        return businessObjectService;
+    }
+
+    /**
+     * This method sets the business object service
+     * @param businessObjectService
+     */
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
+    }
+    
+    public void setDocumentTypeService(DocumentTypeService documentTypeService) {
+        this.documentTypeService = documentTypeService;
+    }
+    
+    /**
+     * Sets the kualiModuleService attribute value.
+     * 
+     * @param kualiModuleService The kualiModuleService to set.
+     */
+    @NonTransactional
+    public void setKualiModuleService(KualiModuleService kualiModuleService) {
+        this.kualiModuleService = kualiModuleService;
+    }
+    
     /**
      * @see org.kuali.kfs.module.ar.document.service.CollectionActivityDocumentService#addNewEvent(java.lang.String,
      *      org.kuali.kfs.module.ar.document.CollectionActivityDocument, org.kuali.kfs.module.ar.businessobject.Event)
@@ -78,7 +117,7 @@ public class CollectionActivityDocumentServiceImpl implements CollectionActivity
     @Override
     public void addNewEvent(String description, CollectionActivityDocument colActDoc, Event newEvent) throws WorkflowException {
 
-        final Date now = SpringContext.getBean(DateTimeService.class).getCurrentDate();
+        final Date now = dateTimeService.getCurrentDate();
         newEvent.setPostedDate(now);
 
         if (ObjectUtils.isNotNull(GlobalVariables.getUserSession()) && ObjectUtils.isNotNull(GlobalVariables.getUserSession().getPerson())) {
@@ -98,14 +137,13 @@ public class CollectionActivityDocumentServiceImpl implements CollectionActivity
         documentService.prepareWorkflowDocument(colActDoc);
 
         documentService.saveDocument(colActDoc);
-        SpringContext.getBean(BusinessObjectService.class).save(newEvent);
+        businessObjectService.save(newEvent);
         final DocumentAttributeIndexingQueue documentAttributeIndexingQueue = KewApiServiceLocator.getDocumentAttributeIndexingQueue();
         documentAttributeIndexingQueue.indexDocument(colActDoc.getDocumentNumber());
 
 //        final WorkflowDocumentActions workflowDocumentActions = SpringContext.getBean(WorkflowDocumentActions.class);
 //        workflowDocumentActions.indexDocument(new Long(colActDoc.getDocumentNumber()));
 
-      DocumentTypeService documentTypeService = SpringContext.getBean(DocumentTypeService.class);
       DocumentType documentType = documentTypeService.getDocumentTypeByName(colActDoc.getFinancialDocumentTypeCode());
       DocumentAttributeIndexingQueue queue = KewApiServiceLocator.getDocumentAttributeIndexingQueue(documentType.getApplicationId());
       queue.indexDocument(colActDoc.getDocumentNumber());
@@ -133,9 +171,8 @@ public class CollectionActivityDocumentServiceImpl implements CollectionActivity
         final DocumentAttributeIndexingQueue documentAttributeIndexingQueue = KewApiServiceLocator.getDocumentAttributeIndexingQueue();
         documentAttributeIndexingQueue.indexDocument(colActDoc.getDocumentNumber());
 
-        SpringContext.getBean(BusinessObjectService.class).save(event);
+        businessObjectService.save(event);
 
-        DocumentTypeService documentTypeService = SpringContext.getBean(DocumentTypeService.class);
         DocumentType documentType = documentTypeService.getDocumentTypeByName(colActDoc.getFinancialDocumentTypeCode());
         DocumentAttributeIndexingQueue queue = KewApiServiceLocator.getDocumentAttributeIndexingQueue(documentType.getApplicationId());
         queue.indexDocument(colActDoc.getDocumentNumber());
@@ -155,7 +192,7 @@ public class CollectionActivityDocumentServiceImpl implements CollectionActivity
             Map<String, Object> map = new HashMap<String, Object>();
             map.put(ArPropertyConstants.TicklersReportFields.PROPOSAL_NUMBER, colActDoc.getProposalNumber());
 
-            List<ContractsGrantsInvoiceDocument> invoices = (List<ContractsGrantsInvoiceDocument>) SpringContext.getBean(BusinessObjectService.class).findMatching(ContractsGrantsInvoiceDocument.class, map);
+            List<ContractsGrantsInvoiceDocument> invoices = (List<ContractsGrantsInvoiceDocument>) businessObjectService.findMatching(ContractsGrantsInvoiceDocument.class, map);
             if (ObjectUtils.isNotNull(invoices) && CollectionUtils.isNotEmpty(invoices)) {
                 ContractsGrantsInvoiceDocument invoice = invoices.get(0);
                 if (ObjectUtils.isNotNull(invoice.getAward()) && ObjectUtils.isNotNull(invoice.getAward().getAgency())) {
@@ -188,7 +225,7 @@ public class CollectionActivityDocumentServiceImpl implements CollectionActivity
         if (ObjectUtils.isNotNull(proposalNumber)) {
             Map<String, Object> map = new HashMap<String, Object>();
             map.put(ArPropertyConstants.TicklersReportFields.PROPOSAL_NUMBER, proposalNumber);
-            award = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsBillingAward.class).getExternalizableBusinessObject(ContractsAndGrantsBillingAward.class, map);
+            award = kualiModuleService.getResponsibleModuleService(ContractsAndGrantsBillingAward.class).getExternalizableBusinessObject(ContractsAndGrantsBillingAward.class, map);
         }
         return award;
     }

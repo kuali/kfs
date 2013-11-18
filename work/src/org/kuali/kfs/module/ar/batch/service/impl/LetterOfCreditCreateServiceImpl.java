@@ -65,7 +65,25 @@ public class LetterOfCreditCreateServiceImpl implements LetterOfCreditCreateServ
     private CashControlDocumentDao cashControlDocumentDao;
     private CashControlDetailDao cashControlDetailDao;
     private WorkflowDocumentService workflowDocumentService;
+    private ConfigurationService configService;
+    private ParameterService parameterService;
+    
+    public ConfigurationService getConfigService() {
+        return configService;
+    }
 
+
+    public void setConfigService(ConfigurationService configService) {
+        this.configService = configService;
+    }
+
+    public ParameterService getParameterService() {
+        return parameterService;
+    }
+
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
+    }
     /**
      * This method created cashcontrol documents and payment application based on the loc creation type and loc value passed.
      *
@@ -83,13 +101,12 @@ public class LetterOfCreditCreateServiceImpl implements LetterOfCreditCreateServ
 
         try {
             CashControlDocument cashControlDoc = (CashControlDocument) documentService.getNewDocument(CashControlDocument.class);
-            cashControlDoc.getDocumentHeader().setDocumentDescription(SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(ArKeyConstants.CASH_CTRL_DOC_CREATED_BY_BATCH));
-            AccountsReceivableDocumentHeaderService arDocHeaderService = SpringContext.getBean(AccountsReceivableDocumentHeaderService.class);
+            cashControlDoc.getDocumentHeader().setDocumentDescription(configService.getPropertyValueAsString(ArKeyConstants.CASH_CTRL_DOC_CREATED_BY_BATCH));
             AccountsReceivableDocumentHeader accountsReceivableDocumentHeader = new AccountsReceivableDocumentHeader();
             accountsReceivableDocumentHeader.setDocumentNumber(cashControlDoc.getDocumentNumber());
             // To get default processing chart code and org code from Paramters
-            String defaultProcessingChartCode = SpringContext.getBean(ParameterService.class).getParameterValueAsString(CashControlDocument.class, ArConstants.DEFAULT_PROCESSING_CHART);
-            String defaultProcessingOrgCode = SpringContext.getBean(ParameterService.class).getParameterValueAsString(CashControlDocument.class, ArConstants.DEFAULT_PROCESSING_ORG);
+            String defaultProcessingChartCode = parameterService.getParameterValueAsString(CashControlDocument.class, ArConstants.DEFAULT_PROCESSING_CHART);
+            String defaultProcessingOrgCode = parameterService.getParameterValueAsString(CashControlDocument.class, ArConstants.DEFAULT_PROCESSING_ORG);
             accountsReceivableDocumentHeader.setProcessingChartOfAccountCode(defaultProcessingChartCode);
             accountsReceivableDocumentHeader.setProcessingOrganizationCode(defaultProcessingOrgCode);
             if (ObjectUtils.isNotNull(locCreationType) && ObjectUtils.isNotNull(locValue)) {
@@ -121,7 +138,7 @@ public class LetterOfCreditCreateServiceImpl implements LetterOfCreditCreateServ
             cashControlDetail.setCustomerPaymentDate(today);
             cashControlDetail.setReferenceFinancialDocumentNumber(cashControlDoc.getDocumentNumber());
 
-            cashControlDocumentService.addNewCashControlDetail(SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(ArKeyConstants.CREATED_BY_CASH_CTRL_DOC), cashControlDoc, cashControlDetail);
+            cashControlDocumentService.addNewCashControlDetail(configService.getPropertyValueAsString(ArKeyConstants.CREATED_BY_CASH_CTRL_DOC), cashControlDoc, cashControlDetail);
 
             documentService.saveDocument(cashControlDoc);
 

@@ -154,6 +154,9 @@
 		<property name="dateTimeService">
 			<ref bean="dateTimeService" />
 		</property>
+		<property name="configService">
+			<ref bean="kualiConfigurationService" />
+		</property>
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>		
@@ -219,6 +222,12 @@
         <property name="businessObjectService">
             <ref bean="businessObjectService" />
         </property>
+   		<property name="dateTimeService">
+			<ref bean="dateTimeService" />
+		</property>
+		<property name="parameterService">
+			<ref bean="parameterService" />
+		</property>
     </bean>
 	
     <bean id="cfdaBatchStep" class="org.kuali.kfs.module.cg.batch.CfdaBatchStep" parent="step">
@@ -276,6 +285,9 @@
 		</property>
 		<property name="agencyAddressDao">
 			<ref bean="agencyAddressDao" />
+		</property>
+   		<property name="dateTimeService">
+			<ref bean="dateTimeService" />
 		</property>
 	</bean>
 

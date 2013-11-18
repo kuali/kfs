@@ -36,7 +36,7 @@ public class CustomerAddressServiceImpl implements CustomerAddressService {
 
     private BusinessObjectService businessObjectService;
     private SequenceAccessorService sequenceAccessorService;
-
+    private DateTimeService dateTimeService;
     protected static final String CUST_ADDR_ID_SEQ = "CUST_ADDR_ID_SEQ";
 
     @SuppressWarnings("unchecked")
@@ -48,7 +48,7 @@ public class CustomerAddressServiceImpl implements CustomerAddressService {
             criteria.put("customerNumber", customerNumber);
             criteria.put("customerAddressIdentifier", customerAddressIdentifier);
 
-            customerAddress = (CustomerAddress) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(CustomerAddress.class, criteria);
+            customerAddress = (CustomerAddress) businessObjectService.findByPrimaryKey(CustomerAddress.class, criteria);
         }
         return customerAddress;
     }
@@ -61,7 +61,7 @@ public class CustomerAddressServiceImpl implements CustomerAddressService {
             criteria.put("customerNumber", customerNumber);
             criteria.put("customerAddressTypeCode", "P");
             
-            primaryAddress = (CustomerAddress)SpringContext.getBean(BusinessObjectService.class).findMatching(CustomerAddress.class, criteria).iterator().next();
+            primaryAddress = (CustomerAddress)businessObjectService.findMatching(CustomerAddress.class, criteria).iterator().next();
         }
         
         return primaryAddress;
@@ -80,7 +80,7 @@ public class CustomerAddressServiceImpl implements CustomerAddressService {
 
         if (ObjectUtils.isNotNull(customerAddress)) {
             if (ObjectUtils.isNotNull(customerAddress.getCustomerAddressEndDate())) {
-                Timestamp currentDateTimestamp = new Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime());
+                Timestamp currentDateTimestamp = new Timestamp(dateTimeService.getCurrentDate().getTime());
                 Timestamp addressEndDateTimestamp = new Timestamp(customerAddress.getCustomerAddressEndDate().getTime());
                 if (addressEndDateTimestamp.before(currentDateTimestamp)) {
                     return false;
@@ -154,4 +154,7 @@ public class CustomerAddressServiceImpl implements CustomerAddressService {
         this.sequenceAccessorService = sequenceAccessorService;
     }
 
+    public void setDateTimeService(DateTimeService dateTimeService) {
+        this.dateTimeService = dateTimeService;
+    }
 }

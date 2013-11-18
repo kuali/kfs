@@ -46,7 +46,9 @@ public class CloseServiceImpl implements CloseService {
     private DateTimeService dateTimeService;
     protected BusinessObjectService businessObjectService;
     protected DocumentService documentService;
-
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CloseServiceImpl.class);
+    private ConfigurationService configService;
+    
     /**
      * <ul>
      * <li>Get the max proposal_close_number in cg_prpsl_close_t.</li>
@@ -81,8 +83,6 @@ public class CloseServiceImpl implements CloseService {
         String noteText = null;
         if (max.getDocumentHeader().getWorkflowDocument().getCurrentNodeNames().contains( CGConstants.CGKimApiConstants.UNPROCESSED_ROUTING_NODE_NAME) ) {
 
-            ConfigurationService kualiConfigurationService = SpringContext.getBean(ConfigurationService.class);
-
             try {
 
                 Collection<Proposal> proposals = proposalDao.getProposalsToClose(max);
@@ -103,11 +103,11 @@ public class CloseServiceImpl implements CloseService {
                 max.setProposalClosedCount(proposalCloseCount);
 
                 businessObjectService.save(max);
-                noteText = kualiConfigurationService.getPropertyValueAsString(CGKeyConstants.MESSAGE_CLOSE_JOB_SUCCEEDED);
+                noteText = configService.getPropertyValueAsString(CGKeyConstants.MESSAGE_CLOSE_JOB_SUCCEEDED);
 
             }
             catch (Exception e) {
-                String messageProperty = kualiConfigurationService.getPropertyValueAsString(CGKeyConstants.ERROR_CLOSE_JOB_FAILED);
+                String messageProperty = configService.getPropertyValueAsString(CGKeyConstants.ERROR_CLOSE_JOB_FAILED);
                 noteText = MessageFormat.format(messageProperty, e.getMessage(), e.getCause().getMessage());
             }
             finally {
@@ -142,13 +142,12 @@ public class CloseServiceImpl implements CloseService {
      * @see org.kuali.kfs.module.cg.service.CloseService#addDocumentNoteAfterClosing(String)
      */
     protected boolean addDocumentNoteAfterClosing(ProposalAwardCloseDocument close, String noteText) {
-        DocumentService service = SpringContext.getBean(DocumentService.class);
         try {
-            service.createNoteFromDocument(close, noteText);
-            service.approveDocument(close, noteText, null);
+            documentService.createNoteFromDocument(close, noteText);
+            documentService.approveDocument(close, noteText, null);
         }
         catch (WorkflowException we) {
-            we.printStackTrace();
+            LOG.error("problem during CloseServiceImpl.addDocumentNoteAfterClosing()", we);
             return false;
         }
         return true;
@@ -196,5 +195,9 @@ public class CloseServiceImpl implements CloseService {
 
     public void setDocumentService(DocumentService documentService) {
         this.documentService = documentService;
+    }
+
+    public void setConfigService(ConfigurationService configService) {
+        this.configService = configService;
     }
 }

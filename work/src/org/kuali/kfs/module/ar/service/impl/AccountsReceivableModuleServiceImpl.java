@@ -69,6 +69,7 @@ import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ElectronicPaymentClaimingDocumentGenerationStrategy;
 import org.kuali.kfs.sys.service.FinancialSystemUserService;
+import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
@@ -93,6 +94,89 @@ public class AccountsReceivableModuleServiceImpl implements AccountsReceivableMo
     private ParameterService parameterService;
     protected Lookupable customerLookupable;
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountsReceivableModuleServiceImpl.class);
+    private KualiModuleService kualiModuleService;
+    private BusinessObjectService businessObjectService;
+    private DocumentService documentService;
+    private AccountsReceivableDocumentHeaderService accountsReceivableDocumentHeaderService;
+    private CustomerInvoiceDocumentService customerInvoiceDocumentService;
+    private CustomerService customerService;
+    private CustomerInvoiceDetailService customerInvoiceDetailService;
+    private SystemInformationService systemInformationService;
+    private ReceivableAccountingLineService receivableAccountingLineService;
+    private CustomerCreditMemoDetailService customerCreditMemoDetailService;
+    private CustomerAddressService customerAddressService;
+    
+    public CustomerAddressService getCustomerAddressService() {
+        return customerAddressService;
+    }
+
+    public void setCustomerAddressService(CustomerAddressService customerAddressService) {
+        this.customerAddressService = customerAddressService;
+    }
+    
+    public CustomerCreditMemoDetailService getCustomerCreditMemoDetailService() {
+        return customerCreditMemoDetailService;
+    }
+
+    public void setCustomerCreditMemoDetailService(CustomerCreditMemoDetailService customerCreditMemoDetailService) {
+        this.customerCreditMemoDetailService = customerCreditMemoDetailService;
+    }
+
+    public ReceivableAccountingLineService getReceivableAccountingLineService() {
+        return receivableAccountingLineService;
+    }
+
+    public void setReceivableAccountingLineService(ReceivableAccountingLineService receivableAccountingLineService) {
+        this.receivableAccountingLineService = receivableAccountingLineService;
+    }
+    
+    public SystemInformationService getSystemInformationService() {
+        return systemInformationService;
+    }
+
+    public void setSystemInformationService(SystemInformationService systemInformationService) {
+        this.systemInformationService = systemInformationService;
+    }
+
+    /**
+     * Gets the customerInvoiceDetailService attribute.
+     *
+     * @return Returns the customerInvoiceDetailService.
+     */
+    public CustomerInvoiceDetailService getCustomerInvoiceDetailService() {
+        return customerInvoiceDetailService;
+    }
+
+    /**
+     * Sets the customerInvoiceDetailService attribute value.
+     *
+     * @param customerInvoiceDetailService The customerInvoiceDetailService to set.
+     */
+
+    public void setCustomerInvoiceDetailService(CustomerInvoiceDetailService customerInvoiceDetailService) {
+        this.customerInvoiceDetailService = customerInvoiceDetailService;
+    }
+    
+    public CustomerService getCustomerService() {
+        return customerService;
+    }
+
+    public void setCustomerService(CustomerService customerService) {
+        this.customerService = customerService;
+    }
+    
+    public void setCustomerInvoiceDocumentService(CustomerInvoiceDocumentService customerInvoiceDocumentService) {
+        this.customerInvoiceDocumentService = customerInvoiceDocumentService;
+    }
+    
+    /**
+     * Sets the accountsReceivableDocumentHeaderService attribute value.
+     *
+     * @param accountsReceivableDocumentHeaderService The accountsReceivableDocumentHeaderService to set.
+     */
+    public void setAccountsReceivableDocumentHeaderService(AccountsReceivableDocumentHeaderService accountsReceivableDocumentHeaderService) {
+        this.accountsReceivableDocumentHeaderService = accountsReceivableDocumentHeaderService;
+    }
     
     public ParameterService getParameterService() {
         return parameterService;
@@ -115,24 +199,33 @@ public class AccountsReceivableModuleServiceImpl implements AccountsReceivableMo
     }
 
     public KualiModuleService getKualiModuleService() {
-        return SpringContext.getBean(KualiModuleService.class);
+        return kualiModuleService;
     }
 
     public BusinessObjectService getBusinessObjectService() {
-        return SpringContext.getBean(BusinessObjectService.class);
+        return businessObjectService;
     }
 
     public DocumentService getDocumentService() {
-        return SpringContext.getBean(DocumentService.class);
+        return documentService;
     }
 
+    /**
+     * Sets the documentService attribute value.
+     *
+     * @param documentService The documentService to set.
+     */
+    public void setDocumentService(DocumentService documentService) {
+        this.documentService = documentService;
+    }
+    
     /**
      * Gets the contractsGrantsInvoiceDocumentService attribute.
      *
      * @return Returns the contractsGrantsInvoiceDocumentService.
      */
     public ContractsGrantsInvoiceDocumentService getContractsGrantsInvoiceDocumentService() {
-        return SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class);
+        return contractsGrantsInvoiceDocumentService;
     }
 
     /**
@@ -239,8 +332,6 @@ public class AccountsReceivableModuleServiceImpl implements AccountsReceivableMo
      */
     @Override
     public Collection<? extends AccountsReceivableCustomerInvoice> getOpenCustomerInvoices(List<String> customerTypeCodes, Integer customerInvoiceAge, Date invoiceBillingDateFrom) {
-        CustomerInvoiceDocumentService customerInvoiceDocumentService = SpringContext.getBean(CustomerInvoiceDocumentService.class);
-
         return customerInvoiceDocumentService.getAllAgingInvoiceDocumentsByCustomerTypes(customerTypeCodes, customerInvoiceAge, invoiceBillingDateFrom);
     }
 
@@ -284,7 +375,7 @@ public class AccountsReceivableModuleServiceImpl implements AccountsReceivableMo
             throw new RuntimeException("Could not create Customer Credit Memo for trip invoice, trip: "+tripId+"; invoice document #"+invoice.getDocumentNumber(), we);
         }
 
-        AccountsReceivableDocumentHeader arDocHeader = SpringContext.getBean(AccountsReceivableDocumentHeaderService.class).getNewAccountsReceivableDocumentHeader(organizationOptions.getProcessingChartOfAccountCode(), organizationOptions.getProcessingOrganizationCode());
+        AccountsReceivableDocumentHeader arDocHeader = accountsReceivableDocumentHeaderService.getNewAccountsReceivableDocumentHeader(organizationOptions.getProcessingChartOfAccountCode(), organizationOptions.getProcessingOrganizationCode());
         arDocHeader.setDocumentNumber(creditMemo.getDocumentNumber());
         arDocHeader.setCustomerNumber(invoice.getAccountsReceivableDocumentHeader().getCustomerNumber());
         creditMemo.setAccountsReceivableDocumentHeader(arDocHeader);
@@ -343,12 +434,12 @@ public class AccountsReceivableModuleServiceImpl implements AccountsReceivableMo
      */
     @Override
     public String getNextCustomerNumber(AccountsReceivableCustomer customer) {
-        return SpringContext.getBean(CustomerService.class).getNextCustomerNumber((Customer) customer);
+        return customerService.getNextCustomerNumber((Customer) customer);
     }
 
     @Override
     public String createAndSaveCustomer(String description, ContractsAndGrantsBillingAgency agency) throws WorkflowException {
-        return SpringContext.getBean(CustomerDocumentService.class).createAndSaveCustomer(description, agency);
+        return customerDocumentService.createAndSaveCustomer(description, agency);
     }
 
     /**
@@ -431,7 +522,7 @@ public class AccountsReceivableModuleServiceImpl implements AccountsReceivableMo
      */
     @Override
     public AccountsReceivableSystemInformation getSystemInformationByProcessingChartOrgAndFiscalYear(String chartOfAccountsCode, String organizationCode, Integer currentFiscalYear) {
-        return SpringContext.getBean(SystemInformationService.class).getByProcessingChartOrgAndFiscalYear(chartOfAccountsCode, organizationCode, currentFiscalYear);
+        return systemInformationService.getByProcessingChartOrgAndFiscalYear(chartOfAccountsCode, organizationCode, currentFiscalYear);
     }
 
     /**
@@ -439,7 +530,7 @@ public class AccountsReceivableModuleServiceImpl implements AccountsReceivableMo
      */
     @Override
     public boolean isUsingReceivableFAU() {
-        String receivableOffsetOption = SpringContext.getBean(ParameterService.class).getParameterValueAsString(CustomerInvoiceDocument.class, ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD);
+        String receivableOffsetOption = parameterService.getParameterValueAsString(CustomerInvoiceDocument.class, ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD);
         return receivableOffsetOption != null ? ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_FAU.equals(receivableOffsetOption) : false;
     }
 
@@ -448,7 +539,7 @@ public class AccountsReceivableModuleServiceImpl implements AccountsReceivableMo
      */
     @Override
     public void setReceivableAccountingLineForCustomerInvoiceDocument(AccountsReceivableCustomerInvoice document) {
-        SpringContext.getBean(ReceivableAccountingLineService.class).setReceivableAccountingLineForCustomerInvoiceDocument((CustomerInvoiceDocument) document);
+        receivableAccountingLineService.setReceivableAccountingLineForCustomerInvoiceDocument((CustomerInvoiceDocument) document);
     }
 
     /**
@@ -456,7 +547,7 @@ public class AccountsReceivableModuleServiceImpl implements AccountsReceivableMo
      */
     @Override
     public AccountsReceivableCustomerInvoiceDetail getCustomerInvoiceDetailFromCustomerInvoiceItemCode(String invoiceItemCode, String processingChartCode, String processingOrgCode) {
-        return SpringContext.getBean(CustomerInvoiceDetailService.class).getCustomerInvoiceDetailFromCustomerInvoiceItemCode(invoiceItemCode, processingChartCode, processingOrgCode);
+        return customerInvoiceDetailService.getCustomerInvoiceDetailFromCustomerInvoiceItemCode(invoiceItemCode, processingChartCode, processingOrgCode);
     }
 
     /**
@@ -464,7 +555,7 @@ public class AccountsReceivableModuleServiceImpl implements AccountsReceivableMo
      */
     @Override
     public String getAccountsReceivableObjectCodeBasedOnReceivableParameter(AccountsReceivableCustomerInvoiceDetail customerInvoiceDetail) {
-        return SpringContext.getBean(CustomerInvoiceDetailService.class).getAccountsReceivableObjectCodeBasedOnReceivableParameter((CustomerInvoiceDetail) customerInvoiceDetail);
+        return customerInvoiceDetailService.getAccountsReceivableObjectCodeBasedOnReceivableParameter((CustomerInvoiceDetail) customerInvoiceDetail);
     }
 
     /**
@@ -472,7 +563,7 @@ public class AccountsReceivableModuleServiceImpl implements AccountsReceivableMo
      */
     @Override
     public void recalculateCustomerInvoiceDetail(AccountsReceivableCustomerInvoice customerInvoiceDocument, AccountsReceivableCustomerInvoiceDetail detail) {
-        SpringContext.getBean(CustomerInvoiceDetailService.class).recalculateCustomerInvoiceDetail((CustomerInvoiceDocument) customerInvoiceDocument, (CustomerInvoiceDetail) detail);
+        customerInvoiceDetailService.recalculateCustomerInvoiceDetail((CustomerInvoiceDocument) customerInvoiceDocument, (CustomerInvoiceDetail) detail);
     }
 
     /**
@@ -480,7 +571,7 @@ public class AccountsReceivableModuleServiceImpl implements AccountsReceivableMo
      */
     @Override
     public void prepareCustomerInvoiceDetailForAdd(AccountsReceivableCustomerInvoiceDetail detail, AccountsReceivableCustomerInvoice customerInvoiceDocument) {
-        SpringContext.getBean(CustomerInvoiceDetailService.class).prepareCustomerInvoiceDetailForAdd((CustomerInvoiceDetail) detail, (CustomerInvoiceDocument) customerInvoiceDocument);
+        customerInvoiceDetailService.prepareCustomerInvoiceDetailForAdd((CustomerInvoiceDetail) detail, (CustomerInvoiceDocument) customerInvoiceDocument);
     }
 
     /**
@@ -498,7 +589,7 @@ public class AccountsReceivableModuleServiceImpl implements AccountsReceivableMo
     public Collection<AccountsReceivableCustomerInvoice> getOpenInvoiceDocumentsByCustomerNumberForTrip(String customerNumber, String travelDocId) {
 
         Collection<AccountsReceivableCustomerInvoice> invoices = new ArrayList<AccountsReceivableCustomerInvoice>();
-        Collection<CustomerInvoiceDocument> result = SpringContext.getBean(CustomerInvoiceDocumentService.class).getOpenInvoiceDocumentsByCustomerNumber(customerNumber);
+        Collection<CustomerInvoiceDocument> result = customerInvoiceDocumentService.getOpenInvoiceDocumentsByCustomerNumber(customerNumber);
 
         // if the trip id is not blank, perform a comparison with the Org Doc Num, otherwise add the entire collection into the result
         if (StringUtils.isNotBlank(travelDocId)){
@@ -519,7 +610,7 @@ public class AccountsReceivableModuleServiceImpl implements AccountsReceivableMo
      */
     @Override
     public AccountsReceivableDocumentHeader getNewAccountsReceivableDocumentHeader(String processingChart, String processingOrg) {
-        return SpringContext.getBean(AccountsReceivableDocumentHeaderService.class).getNewAccountsReceivableDocumentHeader(processingChart, processingOrg);
+        return accountsReceivableDocumentHeaderService.getNewAccountsReceivableDocumentHeader(processingChart, processingOrg);
     }
 
     /**
@@ -570,8 +661,7 @@ public class AccountsReceivableModuleServiceImpl implements AccountsReceivableMo
         CustomerCreditMemoDetail detail = crmDocument.getCreditMemoDetails().get(0);
         detail.setCreditMemoItemTotalAmount(creditAmount);
 
-        CustomerCreditMemoDetailService service = SpringContext.getBean(CustomerCreditMemoDetailService.class);
-        service.recalculateCustomerCreditMemoDetail(detail, crmDocument);
+        customerCreditMemoDetailService.recalculateCustomerCreditMemoDetail(detail, crmDocument);
 
         return crmDocument;
     }
@@ -594,7 +684,7 @@ public class AccountsReceivableModuleServiceImpl implements AccountsReceivableMo
     @Override
     public String retrieveGLPEReceivableParameterValue() {
 
-        String parameterValue = SpringContext.getBean(ParameterService.class).getParameterValueAsString(CustomerInvoiceDocument.class, ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD);
+        String parameterValue = parameterService.getParameterValueAsString(CustomerInvoiceDocument.class, ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD);
         return parameterValue;
 
     }
@@ -621,7 +711,7 @@ public class AccountsReceivableModuleServiceImpl implements AccountsReceivableMo
         Map<String, Object> map = new HashMap<String, Object>();
         map.put(KFSPropertyConstants.PROPOSAL_NUMBER, proposalNumber);
 
-        ContractsAndGrantsBillingAward award = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsBillingAward.class).getExternalizableBusinessObject(ContractsAndGrantsBillingAward.class, map);
+        ContractsAndGrantsBillingAward award = kualiModuleService.getResponsibleModuleService(ContractsAndGrantsBillingAward.class).getExternalizableBusinessObject(ContractsAndGrantsBillingAward.class, map);
 
         return contractsGrantsInvoiceDocumentService.calculateTotalPaymentsToDateByAward(award);
 
@@ -629,7 +719,7 @@ public class AccountsReceivableModuleServiceImpl implements AccountsReceivableMo
 
     @Override
     public AccountsReceivableCustomerAddress getPrimaryAddress(String customerNumber) {
-        return SpringContext.getBean(CustomerAddressService.class).getPrimaryAddress(customerNumber);
+        return customerAddressService.getPrimaryAddress(customerNumber);
     }
     
     /**
@@ -658,5 +748,24 @@ public class AccountsReceivableModuleServiceImpl implements AccountsReceivableMo
 
     public void setProposalNumber(AccountsReceivableMilestoneSchedule milestoneSchedule, Long proposalNumber) {
         ((MilestoneSchedule) milestoneSchedule).setProposalNumber(proposalNumber);
+    }
+    
+    /**
+     * Sets the kualiModuleService attribute value.
+     * 
+     * @param kualiModuleService The kualiModuleService to set.
+     */
+    @NonTransactional
+    public void setKualiModuleService(KualiModuleService kualiModuleService) {
+        this.kualiModuleService = kualiModuleService;
+    }
+    
+    /**
+     * Sets the businessObjectService attribute value.
+     *
+     * @param businessObjectService The businessObjectService to set.
+     */
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
     }
 }

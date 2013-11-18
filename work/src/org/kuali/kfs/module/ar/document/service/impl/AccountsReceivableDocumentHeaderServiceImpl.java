@@ -71,7 +71,7 @@ public class AccountsReceivableDocumentHeaderServiceImpl implements AccountsRece
         Map<String, String> criteria = new HashMap<String, String>();
         criteria.put("chartOfAccountsCode", chartOfAccountsCode);
         criteria.put("organizationCode", organizationCode);
-        return SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(OrganizationOptions.class, criteria);
+        return businessObjectService.findByPrimaryKey(OrganizationOptions.class, criteria);
     }
 
     protected SystemInformation getProcessingOrgIfExists(String chartOfAccountsCode, String organizationCode) {

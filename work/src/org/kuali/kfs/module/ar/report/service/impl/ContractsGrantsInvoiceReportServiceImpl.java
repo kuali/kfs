@@ -53,6 +53,7 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.report.ReportInfo;
+import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.core.web.format.CurrencyFormatter;
@@ -93,7 +94,15 @@ public class ContractsGrantsInvoiceReportServiceImpl extends ContractsGrantsRepo
     private ReportInfo contractsGrantsInvoiceReportInfo;
     private Map<String, String> replacementList = new HashMap<String, String>();
     SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
-
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ContractsGrantsInvoiceReportServiceImpl.class);
+    private PersonService personService;
+    private BusinessObjectService businessObjectService;
+    private ParameterService parameterService;
+    private ConfigurationService configService;
+    private KualiModuleService kualiModuleService;
+    private DocumentService documentService;
+    private NoteService noteService;
+    
     /**
      * @see org.kuali.kfs.module.ar.report.service.ContractsGrantsInvoiceReportService#generateReport(org.kuali.kfs.module.ar.report.ContractsGrantsReportDataHolder,
      *      java.io.ByteArrayOutputStream)
@@ -157,7 +166,7 @@ public class ContractsGrantsInvoiceReportServiceImpl extends ContractsGrantsRepo
             header.add(new Paragraph(" "));
             header.setAlignment(Element.ALIGN_CENTER);
             title.add(new Paragraph("Document Number: " + returnProperStringValue(LOCDocument.getDocumentNumber()), headerFont));
-            Person person = SpringContext.getBean(PersonService.class).getPerson(LOCDocument.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId());
+            Person person = personService.getPerson(LOCDocument.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId());
             // writing the Document details
             title.add(new Paragraph("Document Status: " + returnProperStringValue(LOCDocument.getDocumentHeader().getWorkflowDocument().getApplicationDocumentStatus()), headerFont));
             title.add(new Paragraph("Document Initiator: " + returnProperStringValue(person.getName()), headerFont));
@@ -230,7 +239,7 @@ public class ContractsGrantsInvoiceReportServiceImpl extends ContractsGrantsRepo
             document.close();
         }
         catch (Exception e) {
-            e.printStackTrace();
+            LOG.error("problem during ContractsGrantsInvoiceReportServiceImpl.generateInvoiceInPdf()", e);
         }
     }
 
@@ -342,7 +351,7 @@ public class ContractsGrantsInvoiceReportServiceImpl extends ContractsGrantsRepo
         for(ContractsGrantsInvoiceDocument invoice: list){
             Map primaryKeys = new HashMap<String, Object>();
             primaryKeys.put("financialDocumentReferenceInvoiceNumber", invoice.getDocumentNumber());
-            List<InvoicePaidApplied> ipas = (List<InvoicePaidApplied>)SpringContext.getBean(BusinessObjectService.class).findMatching(InvoicePaidApplied.class, primaryKeys);
+            List<InvoicePaidApplied> ipas = (List<InvoicePaidApplied>)businessObjectService.findMatching(InvoicePaidApplied.class, primaryKeys);
             if(ObjectUtils.isNotNull(ipas)) {
                 for(InvoicePaidApplied ipa : ipas) {
                     cashReceipt = cashReceipt.add(ipa.getInvoiceItemAppliedAmount());
@@ -381,7 +390,7 @@ public class ContractsGrantsInvoiceReportServiceImpl extends ContractsGrantsRepo
                 key.put("financialIcrSeriesIdentifier", awardAccount.getAccount().getFinancialIcrSeriesIdentifier());
                 key.put(KFSPropertyConstants.ACTIVE, true);
                 key.put("transactionDebitIndicator", KFSConstants.GL_DEBIT_CODE);
-                List<IndirectCostRecoveryRateDetail> icrDetail = (List<IndirectCostRecoveryRateDetail>) SpringContext.getBean(BusinessObjectService.class).findMatchingOrderBy(IndirectCostRecoveryRateDetail.class, key, "awardIndrCostRcvyEntryNbr", false);
+                List<IndirectCostRecoveryRateDetail> icrDetail = (List<IndirectCostRecoveryRateDetail>) businessObjectService.findMatchingOrderBy(IndirectCostRecoveryRateDetail.class, key, "awardIndrCostRcvyEntryNbr", false);
                 if (CollectionUtils.isNotEmpty(icrDetail)) {
                     KualiDecimal rate = new KualiDecimal(icrDetail.get(0).getAwardIndrCostRcvyRatePct());
                     if (ObjectUtils.isNotNull(rate)) {
@@ -400,7 +409,7 @@ public class ContractsGrantsInvoiceReportServiceImpl extends ContractsGrantsRepo
         primaryKeys.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, year);
         primaryKeys.put("processingChartOfAccountCode", award.getPrimaryAwardOrganization().getChartOfAccountsCode());
         primaryKeys.put("processingOrganizationCode", award.getPrimaryAwardOrganization().getOrganizationCode());
-        SystemInformation sysInfo = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(SystemInformation.class, primaryKeys);
+        SystemInformation sysInfo = businessObjectService.findByPrimaryKey(SystemInformation.class, primaryKeys);
 
         if (ObjectUtils.isNotNull(sysInfo)) {
             String address = returnProperStringValue(sysInfo.getOrganizationRemitToAddressName());
@@ -465,7 +474,7 @@ public class ContractsGrantsInvoiceReportServiceImpl extends ContractsGrantsRepo
         if (ArConstants.FINAL.equals(reportingPeriod)) {
             replacementList.put("Final", "Yes");
         }
-        String accountingBasis = SpringContext.getBean(ParameterService.class).getParameterValueAsString(ArConstants.AR_NAMESPACE_CODE, KRADConstants.DetailTypes.ALL_DETAIL_TYPE, ArConstants.BASIS_OF_ACCOUNTING);
+        String accountingBasis = parameterService.getParameterValueAsString(ArConstants.AR_NAMESPACE_CODE, KRADConstants.DetailTypes.ALL_DETAIL_TYPE, ArConstants.BASIS_OF_ACCOUNTING);
         if (ArConstants.BASIS_OF_ACCOUNTING_CASH.equals(accountingBasis)) {
             replacementList.put("Cash", "Yes");
         }
@@ -493,7 +502,7 @@ public class ContractsGrantsInvoiceReportServiceImpl extends ContractsGrantsRepo
         primaryKeys.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, year);
         primaryKeys.put("processingChartOfAccountCode", awards.get(0).getPrimaryAwardOrganization().getChartOfAccountsCode());
         primaryKeys.put("processingOrganizationCode", awards.get(0).getPrimaryAwardOrganization().getOrganizationCode());
-        SystemInformation sysInfo = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(SystemInformation.class, primaryKeys);
+        SystemInformation sysInfo = businessObjectService.findByPrimaryKey(SystemInformation.class, primaryKeys);
 
         if (ObjectUtils.isNotNull(sysInfo)) {
             String address = returnProperStringValue(sysInfo.getOrganizationRemitToAddressName());
@@ -529,7 +538,7 @@ public class ContractsGrantsInvoiceReportServiceImpl extends ContractsGrantsRepo
         if (ArConstants.FINAL.equals(reportingPeriod)) {
             replacementList.put("Final", "Yes");
         }
-        String accountingBasis = SpringContext.getBean(ParameterService.class).getParameterValueAsString(ArConstants.AR_NAMESPACE_CODE, KRADConstants.DetailTypes.ALL_DETAIL_TYPE, ArConstants.BASIS_OF_ACCOUNTING);
+        String accountingBasis = parameterService.getParameterValueAsString(ArConstants.AR_NAMESPACE_CODE, KRADConstants.DetailTypes.ALL_DETAIL_TYPE, ArConstants.BASIS_OF_ACCOUNTING);
         if (ArConstants.BASIS_OF_ACCOUNTING_CASH.equals(accountingBasis)) {
             replacementList.put("Cash", "Yes");
         }
@@ -592,7 +601,7 @@ public class ContractsGrantsInvoiceReportServiceImpl extends ContractsGrantsRepo
     protected void stampPdfFormValues425(ContractsAndGrantsBillingAward award, String reportingPeriod, String year, OutputStream returnStream) throws Exception {
         String reportTemplateName = FF_425_TEMPLATE_NM + ".pdf";
         try {
-            String federalReportTemplatePath = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(KFSConstants.EXTERNALIZABLE_HELP_URL_KEY);
+            String federalReportTemplatePath = configService.getPropertyValueAsString(KFSConstants.EXTERNALIZABLE_HELP_URL_KEY);
             // populate form with document values
             PdfReader reader = new PdfReader(federalReportTemplatePath + reportTemplateName);
             PdfStamper stamper = new PdfStamper(reader, returnStream);
@@ -620,12 +629,12 @@ public class ContractsGrantsInvoiceReportServiceImpl extends ContractsGrantsRepo
      */
     protected void stampPdfFormValues425A(ContractsAndGrantsBillingAgency agency, String reportingPeriod, String year, OutputStream returnStream) throws Exception {
         String reportTemplateName = FF_425A_TEMPLATE_NM + ".pdf";
-        String federalReportTemplatePath = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(KFSConstants.EXTERNALIZABLE_HELP_URL_KEY);
+        String federalReportTemplatePath = configService.getPropertyValueAsString(KFSConstants.EXTERNALIZABLE_HELP_URL_KEY);
         try {
             Map fieldValues = new HashMap<String, String>();
             fieldValues.put(KFSPropertyConstants.AGENCY_NUMBER, agency.getAgencyNumber());
             fieldValues.put(KFSPropertyConstants.ACTIVE, true);
-            List<ContractsAndGrantsBillingAward> awards = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsBillingAward.class).getExternalizableBusinessObjectsList(ContractsAndGrantsBillingAward.class, fieldValues);
+            List<ContractsAndGrantsBillingAward> awards = kualiModuleService.getResponsibleModuleService(ContractsAndGrantsBillingAward.class).getExternalizableBusinessObjectsList(ContractsAndGrantsBillingAward.class, fieldValues);
             Integer pageNumber = 1, totalPages;
             totalPages = (awards.size() / 30) + 1;
             PdfCopyFields copy = new PdfCopyFields(returnStream);
@@ -702,7 +711,7 @@ public class ContractsGrantsInvoiceReportServiceImpl extends ContractsGrantsRepo
     public void sendEmailForListofInvoicesToAgency(Collection<ContractsGrantsInvoiceDocument> list) {
         for (ContractsGrantsInvoiceDocument invoiceDocument : list) {
             invoiceDocument.setMarkedForProcessing(ArConstants.INV_RPT_PRCS_IN_PROGRESS);
-            SpringContext.getBean(DocumentService.class).updateDocument(invoiceDocument);
+            documentService.updateDocument(invoiceDocument);
         }
     }
 
@@ -744,29 +753,29 @@ public class ContractsGrantsInvoiceReportServiceImpl extends ContractsGrantsRepo
             // add a document
             Map<String, Object> map = new HashMap<String, Object>();
             map.put(ArPropertyConstants.CustomerInvoiceDocumentFields.DOCUMENT_NUMBER, invoice.getDocumentNumber());
-            List<InvoiceAgencyAddressDetail> agencyAddresses = (List<InvoiceAgencyAddressDetail>) SpringContext.getBean(BusinessObjectService.class).findMatching(InvoiceAgencyAddressDetail.class, map);
+            List<InvoiceAgencyAddressDetail> agencyAddresses = (List<InvoiceAgencyAddressDetail>) businessObjectService.findMatching(InvoiceAgencyAddressDetail.class, map);
             for (InvoiceAgencyAddressDetail agencyAddress : agencyAddresses) {
                 if (ArConstants.InvoiceIndicator.MAIL.equals(agencyAddress.getPreferredInvoiceIndicatorCode())) {
                     ContractsAndGrantsAgencyAddress address;
                     Map<String, Object> primaryKeys = new HashMap<String, Object>();
                     primaryKeys.put(KFSPropertyConstants.AGENCY_NUMBER, agencyAddress.getAgencyNumber());
                     primaryKeys.put("agencyAddressIdentifier", agencyAddress.getAgencyAddressIdentifier());
-                    address = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsAgencyAddress.class).getExternalizableBusinessObject(ContractsAndGrantsAgencyAddress.class, primaryKeys);
-                    Note note = SpringContext.getBean(NoteService.class).getNoteByNoteId(agencyAddress.getNoteId());
-                    for (int i = 0; i < address.getAgencyCopiesToPrint(); i++) {
-
-                        if (ObjectUtils.isNotNull(note)) {
-                            if (!pageAdded) {
-                                copy.open();
-                            }
-                            pageAdded = true;
-                            copy.addDocument(new PdfReader(note.getAttachment().getAttachmentContents()));
-                        }
-                    }
+                    address = kualiModuleService.getResponsibleModuleService(ContractsAndGrantsAgencyAddress.class).getExternalizableBusinessObject(ContractsAndGrantsAgencyAddress.class, primaryKeys);
+                    Note note = noteService.getNoteByNoteId(agencyAddress.getNoteId());
+//                    for (int i = 0; i < address.getAgencyCopiesToPrint(); i++) {
+//
+//                        if (ObjectUtils.isNotNull(note)) {
+//                            if (!pageAdded) {
+//                                copy.open();
+//                            }
+//                            pageAdded = true;
+//                            copy.addDocument(new PdfReader(note.getAttachment().getAttachmentContents()));
+//                        }
+//                    }
                 }
             }
             invoice.setDateReportProcessed(new Date());
-            SpringContext.getBean(DocumentService.class).updateDocument(invoice);
+            documentService.updateDocument(invoice);
         }
         if (pageAdded) {
             copy.close();
@@ -792,75 +801,75 @@ public class ContractsGrantsInvoiceReportServiceImpl extends ContractsGrantsRepo
             // add a document
             Map<String, Object> map = new HashMap<String, Object>();
             map.put(ArPropertyConstants.CustomerInvoiceDocumentFields.DOCUMENT_NUMBER, invoice.getDocumentNumber());
-            List<InvoiceAgencyAddressDetail> agencyAddresses = (List<InvoiceAgencyAddressDetail>) SpringContext.getBean(BusinessObjectService.class).findMatching(InvoiceAgencyAddressDetail.class, map);
+            List<InvoiceAgencyAddressDetail> agencyAddresses = (List<InvoiceAgencyAddressDetail>) businessObjectService.findMatching(InvoiceAgencyAddressDetail.class, map);
             for (InvoiceAgencyAddressDetail agencyAddress : agencyAddresses) {
                 if (ArConstants.InvoiceIndicator.MAIL.equals(agencyAddress.getPreferredInvoiceIndicatorCode())) {
                     ContractsAndGrantsAgencyAddress address;
                     Map<String, Object> primaryKeys = new HashMap<String, Object>();
                     primaryKeys.put(KFSPropertyConstants.AGENCY_NUMBER, agencyAddress.getAgencyNumber());
                     primaryKeys.put("agencyAddressIdentifier", agencyAddress.getAgencyAddressIdentifier());
-                    address = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsAgencyAddress.class).getExternalizableBusinessObject(ContractsAndGrantsAgencyAddress.class, primaryKeys);
-                    for (int i = 0; i < address.getAgencyPrintEnvelopesNumber(); i++) {
-                        // if a page has not already been added then open the document.
-                        if (!pageAdded) {
-                            document.open();
-                        }
-                        pageAdded = true;
-                        document.newPage();
-                        Paragraph sendTo = new Paragraph();
-                        Paragraph sentBy = new Paragraph();
-                        sentBy.setIndentationLeft(20);
-                        // adding the send To address
-                        sendTo.add(new Paragraph(address.getAgencyAddressName(), titleFont));
-                        if (StringUtils.isNotEmpty(address.getAgencyLine1StreetAddress())) {
-                            sendTo.add(new Paragraph(address.getAgencyLine1StreetAddress(), titleFont));
-                        }
-                        if (StringUtils.isNotEmpty(address.getAgencyLine2StreetAddress())) {
-                            sendTo.add(new Paragraph(address.getAgencyLine2StreetAddress(), titleFont));
-                        }
-                        String string = "";
-                        if (StringUtils.isNotEmpty(address.getAgencyCityName())) {
-                            string += address.getAgencyCityName();
-                        }
-                        if (StringUtils.isNotEmpty(address.getAgencyStateCode())) {
-                            string += ", " + address.getAgencyStateCode();
-                        }
-                        if (StringUtils.isNotEmpty(address.getAgencyZipCode())) {
-                            string += "-" + address.getAgencyZipCode();
-                        }
-                        if (StringUtils.isNotEmpty(string)) {
-                            sendTo.add(new Paragraph(string, titleFont));
-                        }
-                        sendTo.setAlignment(Element.ALIGN_CENTER);
-                        sendTo.add(new Paragraph(" "));
-
-                        // adding the sent From address
-                        Organization org = invoice.getAward().getPrimaryAwardOrganization().getOrganization();
-                        sentBy.add(new Paragraph(org.getOrganizationName(), smallFont));
-                        if (StringUtils.isNotEmpty(org.getOrganizationLine1Address())) {
-                            sentBy.add(new Paragraph(org.getOrganizationLine1Address(), smallFont));
-                        }
-                        if (StringUtils.isNotEmpty(org.getOrganizationLine2Address())) {
-                            sentBy.add(new Paragraph(org.getOrganizationLine2Address(), smallFont));
-                        }
-                        string = "";
-                        if (StringUtils.isNotEmpty(address.getAgencyCityName())) {
-                            string += org.getOrganizationCityName();
-                        }
-                        if (StringUtils.isNotEmpty(address.getAgencyStateCode())) {
-                            string += ", " + org.getOrganizationStateCode();
-                        }
-                        if (StringUtils.isNotEmpty(address.getAgencyZipCode())) {
-                            string += "-" + org.getOrganizationZipCode();
-                        }
-                        if (StringUtils.isNotEmpty(string)) {
-                            sentBy.add(new Paragraph(string, smallFont));
-                        }
-                        sentBy.setAlignment(Element.ALIGN_LEFT);
-
-                        document.add(sentBy);
-                        document.add(sendTo);
-                    }
+                    address = kualiModuleService.getResponsibleModuleService(ContractsAndGrantsAgencyAddress.class).getExternalizableBusinessObject(ContractsAndGrantsAgencyAddress.class, primaryKeys);
+//                    for (int i = 0; i < address.getAgencyPrintEnvelopesNumber(); i++) {
+//                        // if a page has not already been added then open the document.
+//                        if (!pageAdded) {
+//                            document.open();
+//                        }
+//                        pageAdded = true;
+//                        document.newPage();
+//                        Paragraph sendTo = new Paragraph();
+//                        Paragraph sentBy = new Paragraph();
+//                        sentBy.setIndentationLeft(20);
+//                        // adding the send To address
+//                        sendTo.add(new Paragraph(address.getAgencyAddressName(), titleFont));
+//                        if (StringUtils.isNotEmpty(address.getAgencyLine1StreetAddress())) {
+//                            sendTo.add(new Paragraph(address.getAgencyLine1StreetAddress(), titleFont));
+//                        }
+//                        if (StringUtils.isNotEmpty(address.getAgencyLine2StreetAddress())) {
+//                            sendTo.add(new Paragraph(address.getAgencyLine2StreetAddress(), titleFont));
+//                        }
+//                        String string = "";
+//                        if (StringUtils.isNotEmpty(address.getAgencyCityName())) {
+//                            string += address.getAgencyCityName();
+//                        }
+//                        if (StringUtils.isNotEmpty(address.getAgencyStateCode())) {
+//                            string += ", " + address.getAgencyStateCode();
+//                        }
+//                        if (StringUtils.isNotEmpty(address.getAgencyZipCode())) {
+//                            string += "-" + address.getAgencyZipCode();
+//                        }
+//                        if (StringUtils.isNotEmpty(string)) {
+//                            sendTo.add(new Paragraph(string, titleFont));
+//                        }
+//                        sendTo.setAlignment(Element.ALIGN_CENTER);
+//                        sendTo.add(new Paragraph(" "));
+//
+//                        // adding the sent From address
+//                        Organization org = invoice.getAward().getPrimaryAwardOrganization().getOrganization();
+//                        sentBy.add(new Paragraph(org.getOrganizationName(), smallFont));
+//                        if (StringUtils.isNotEmpty(org.getOrganizationLine1Address())) {
+//                            sentBy.add(new Paragraph(org.getOrganizationLine1Address(), smallFont));
+//                        }
+//                        if (StringUtils.isNotEmpty(org.getOrganizationLine2Address())) {
+//                            sentBy.add(new Paragraph(org.getOrganizationLine2Address(), smallFont));
+//                        }
+//                        string = "";
+//                        if (StringUtils.isNotEmpty(address.getAgencyCityName())) {
+//                            string += org.getOrganizationCityName();
+//                        }
+//                        if (StringUtils.isNotEmpty(address.getAgencyStateCode())) {
+//                            string += ", " + org.getOrganizationStateCode();
+//                        }
+//                        if (StringUtils.isNotEmpty(address.getAgencyZipCode())) {
+//                            string += "-" + org.getOrganizationZipCode();
+//                        }
+//                        if (StringUtils.isNotEmpty(string)) {
+//                            sentBy.add(new Paragraph(string, smallFont));
+//                        }
+//                        sentBy.setAlignment(Element.ALIGN_LEFT);
+//
+//                        document.add(sentBy);
+//                        document.add(sendTo);
+//                    }
                 }
             }
         }
@@ -936,9 +945,78 @@ public class ContractsGrantsInvoiceReportServiceImpl extends ContractsGrantsRepo
             return baos.toByteArray();
         }
         catch (IOException e) {
-            e.printStackTrace();
+            LOG.error("problem during ContractsGrantsInvoiceReportServiceImpl.generateCSVToExport()", e);
         }
         return null;
     }
+    
+    public PersonService getPersonService() {
+        return personService;
+    }
 
+    public void setPersonService(PersonService personService) {
+        this.personService = personService;
+    }
+    
+    /**
+     * Gets the businessObjectService attribute.
+     *
+     * @return Returns the businessObjectService.
+     */
+    public BusinessObjectService getBusinessObjectService() {
+        return businessObjectService;
+    }
+
+    /**
+     * Sets the businessObjectService attribute value.
+     *
+     * @param businessObjectService The businessObjectService to set.
+     */
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
+    }
+    
+    public ParameterService getParameterService() {
+        return parameterService;
+    }
+
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
+    }
+    
+    public void setConfigService(ConfigurationService configService) {
+        this.configService = configService;
+    }
+    
+    /**
+     * Sets the kualiModuleService attribute value.
+     * 
+     * @param kualiModuleService The kualiModuleService to set.
+     */
+    @NonTransactional
+    public void setKualiModuleService(KualiModuleService kualiModuleService) {
+        this.kualiModuleService = kualiModuleService;
+    }
+    
+    /**
+     * @return the documentService
+     */
+    public DocumentService getDocumentService() {
+        return documentService;
+    }
+
+    /**
+     * @param documentService the documentService to set
+     */
+    public void setDocumentService(DocumentService documentService) {
+        this.documentService = documentService;
+    }
+    
+    public NoteService getNoteService() {
+        return noteService;
+    }
+
+    public void setNoteService(NoteService noteService) {
+        this.noteService = noteService;
+    }
 }

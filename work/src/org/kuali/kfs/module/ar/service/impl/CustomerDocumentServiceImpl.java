@@ -29,6 +29,7 @@ import org.kuali.kfs.module.ar.document.service.CustomerService;
 import org.kuali.kfs.module.ar.service.CustomerDocumentService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.document.attribute.DocumentAttributeIndexingQueue;
 import org.kuali.rice.kew.api.exception.WorkflowException;
@@ -46,10 +47,12 @@ public class CustomerDocumentServiceImpl implements CustomerDocumentService {
 
     private DocumentService documentService;
     private WorkflowDocumentService workflowDocumentService;
-
+    private CustomerService customerService;
+    private KualiModuleService kualiModuleService;
+    
     public String createAndSaveCustomer(String description, ContractsAndGrantsBillingAgency agency) throws WorkflowException {
         MaintenanceDocument doc = null;
-        doc = (MaintenanceDocument) SpringContext.getBean(DocumentService.class).getNewDocument(SpringContext.getBean(MaintenanceDocumentDictionaryService.class).getDocumentTypeName(Customer.class));
+        doc = (MaintenanceDocument) documentService.getNewDocument(SpringContext.getBean(MaintenanceDocumentDictionaryService.class).getDocumentTypeName(Customer.class));
         // set a description to say that this application document has been created by the Agency Document
         doc.getDocumentHeader().setDocumentDescription(description);
         // to set the explanation to reference the agency number
@@ -72,14 +75,13 @@ public class CustomerDocumentServiceImpl implements CustomerDocumentService {
         }
 
         // To call the customer service to get the customer number and set it to the customer number
-        CustomerService customerService = SpringContext.getBean(CustomerService.class);
         String customerNumber = customerService.getNextCustomerNumber(customer);
         customer.setCustomerNumber(customerNumber);
 
         List<ContractsAndGrantsAgencyAddress> agencyAddresses = new ArrayList<ContractsAndGrantsAgencyAddress>();
         Map<String, Object> map = new HashMap<String, Object>();
         map.put(KFSPropertyConstants.AGENCY_NUMBER, agency.getAgencyNumber());
-        agencyAddresses = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsAgencyAddress.class).getExternalizableBusinessObjectsList(ContractsAndGrantsAgencyAddress.class, map);
+        agencyAddresses = kualiModuleService.getResponsibleModuleService(ContractsAndGrantsAgencyAddress.class).getExternalizableBusinessObjectsList(ContractsAndGrantsAgencyAddress.class, map);
 
         // to set the primary agency address to the customer
         for (ContractsAndGrantsAgencyAddress agencyAddress : agencyAddresses) {
@@ -153,5 +155,21 @@ public class CustomerDocumentServiceImpl implements CustomerDocumentService {
         this.workflowDocumentService = workflowDocumentService;
     }
 
+    public CustomerService getCustomerService() {
+        return customerService;
+    }
 
+    public void setCustomerService(CustomerService customerService) {
+        this.customerService = customerService;
+    }
+    
+    /**
+     * Sets the kualiModuleService attribute value.
+     * 
+     * @param kualiModuleService The kualiModuleService to set.
+     */
+    @NonTransactional
+    public void setKualiModuleService(KualiModuleService kualiModuleService) {
+        this.kualiModuleService = kualiModuleService;
+    }
 }

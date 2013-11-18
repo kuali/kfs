@@ -36,6 +36,7 @@ import org.kuali.kfs.module.cg.businessobject.CfdaUpdateResults;
 import org.kuali.kfs.module.cg.service.CfdaService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -47,7 +48,9 @@ public class CfdaServiceImpl implements CfdaService {
 
     protected BusinessObjectService businessObjectService;
     protected static Comparator cfdaComparator;
-
+    private DateTimeService dateTimeService;
+    protected ParameterService parameterService;
+    
     static {
         cfdaComparator = new Comparator() {
             @Override
@@ -59,16 +62,30 @@ public class CfdaServiceImpl implements CfdaService {
         };
     }
 
+    @NonTransactional
+    public void setDateTimeService(DateTimeService dateTimeService) {
+        this.dateTimeService = dateTimeService;
+    }
+    
+    /**
+     * Sets the parameterService attribute value.
+     *
+     * @param parameterService The parameterService to set.
+     */
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
+    }
+    
     /**
      * @return
      * @throws IOException
      */
     public SortedMap<String, CFDA> getGovCodes() throws IOException {
-        Calendar calendar = SpringContext.getBean(DateTimeService.class).getCurrentCalendar();
+        Calendar calendar = dateTimeService.getCurrentCalendar();
         SortedMap<String, CFDA> govMap = new TreeMap<String, CFDA>();
 
         // ftp://ftp.cfda.gov/programs09187.csv
-        String govURL = SpringContext.getBean(ParameterService.class).getParameterValueAsString(CfdaBatchStep.class, KFSConstants.SOURCE_URL_PARAMETER);
+        String govURL = parameterService.getParameterValueAsString(CfdaBatchStep.class, KFSConstants.SOURCE_URL_PARAMETER);
         String fileName = StringUtils.substringAfterLast(govURL, "/");
         govURL = StringUtils.substringBeforeLast(govURL, "/");
         if (StringUtils.contains(govURL, "ftp://")) {

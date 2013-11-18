@@ -50,6 +50,7 @@ import org.kuali.kfs.module.ar.service.AREmailService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.mail.MailMessage;
@@ -79,7 +80,41 @@ public class AREmailServiceImpl extends MailerImpl implements AREmailService {
     private DataDictionaryService dataDictionaryService;
     private Mailer mailer;
     private ConfigurationService kualiConfigurationService;
+    private BusinessObjectService businessObjectService;
+    private DocumentService documentService;
+    private KualiModuleService kualiModuleService;
+    
+    /**
+     * Sets the kualiModuleService attribute value.
+     * 
+     * @param kualiModuleService The kualiModuleService to set.
+     */
+    @NonTransactional
+    public void setKualiModuleService(KualiModuleService kualiModuleService) {
+        this.kualiModuleService = kualiModuleService;
+    }
+    
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
+    }
 
+    /**
+     * This method gets the document service
+     *
+     * @return the document service
+     */
+    public DocumentService getDocumentService() {
+        return documentService;
+    }
+
+    /**
+     * This method sets the document service
+     *
+     * @param documentService
+     */
+    public void setDocumentService(DocumentService documentService) {
+        this.documentService = documentService;
+    }
     /**
      * This method is used to send emails to the agency
      *
@@ -110,20 +145,20 @@ public class AREmailServiceImpl extends MailerImpl implements AREmailService {
             List<InvoiceAgencyAddressDetail> agencyAddresses = invoice.getAgencyAddressDetails();
             for (InvoiceAgencyAddressDetail agencyAddress : agencyAddresses) {
                 if (ArConstants.InvoiceIndicator.EMAIL.equals(agencyAddress.getPreferredInvoiceIndicatorCode())) {
-                    Note note = SpringContext.getBean(BusinessObjectService.class).findBySinglePrimaryKey(Note.class, agencyAddress.getNoteId());
+                    Note note = businessObjectService.findBySinglePrimaryKey(Note.class, agencyAddress.getNoteId());
                     if (ObjectUtils.isNotNull(note)) {
 
                         MimeMessage message = new MimeMessage(session);
 
                         // From Address
-                        String sender = SpringContext.getBean(ParameterService.class).getParameterValueAsString(ContractsGrantsInvoiceEmailReportsBatchStep.class, ArConstants.CG_INVOICE_FROM_EMAIL_ADDRESS);
+                        String sender = parameterService.getParameterValueAsString(ContractsGrantsInvoiceEmailReportsBatchStep.class, ArConstants.CG_INVOICE_FROM_EMAIL_ADDRESS);
                         message.setFrom(new InternetAddress(sender));
                         // To Address
                         Map<String, Object> primaryKeys = new HashMap<String, Object>();
                         ContractsAndGrantsAgencyAddress address; // = agencyAddress.getAgencyAddress();
                         primaryKeys.put(KFSPropertyConstants.AGENCY_NUMBER, agencyAddress.getAgencyNumber());
                         primaryKeys.put("agencyAddressIdentifier", agencyAddress.getAgencyAddressIdentifier());
-                        address = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsAgencyAddress.class).getExternalizableBusinessObject(ContractsAndGrantsAgencyAddress.class, primaryKeys);
+                        address = kualiModuleService.getResponsibleModuleService(ContractsAndGrantsAgencyAddress.class).getExternalizableBusinessObject(ContractsAndGrantsAgencyAddress.class, primaryKeys);
                         String recipients = address.getAgencyInvoiceEmailAddress();
                         if (StringUtils.isNotEmpty(recipients)) {
                             InternetAddress[] recipientAddress = { new InternetAddress(recipients) };
@@ -134,8 +169,8 @@ public class AREmailServiceImpl extends MailerImpl implements AREmailService {
                         }
 
                         // The Subject
-                        String subject = SpringContext.getBean(ParameterService.class).getParameterValueAsString(ContractsGrantsInvoiceEmailReportsBatchStep.class, ArConstants.CG_INVOICE_EMAIL_SUBJECT);
-                        String bodyText = SpringContext.getBean(ParameterService.class).getParameterValueAsString(ContractsGrantsInvoiceEmailReportsBatchStep.class, ArConstants.CG_INVOICE_EMAIL_BODY);
+                        String subject = parameterService.getParameterValueAsString(ContractsGrantsInvoiceEmailReportsBatchStep.class, ArConstants.CG_INVOICE_EMAIL_SUBJECT);
+                        String bodyText = parameterService.getParameterValueAsString(ContractsGrantsInvoiceEmailReportsBatchStep.class, ArConstants.CG_INVOICE_EMAIL_BODY);
                         Map<String, String> map = new HashMap<String, String>();
                         this.getEmailParameterList(map, invoice, address);
                         subject = replaceValuesInString(subject, map);
@@ -163,7 +198,7 @@ public class AREmailServiceImpl extends MailerImpl implements AREmailService {
                             multipart.addBodyPart(attachment);
                         }
                         catch (IOException ex) {
-                            ex.printStackTrace();
+                            LOG.error("problem during AREmailServiceImpl.sendInvoicesViaEmail()", ex);
                         }
 
                         // add the Multipart to the message
@@ -175,7 +210,7 @@ public class AREmailServiceImpl extends MailerImpl implements AREmailService {
                 }
             }
             invoice.setMarkedForProcessing(ArConstants.INV_RPT_PRCS_SENT);
-            SpringContext.getBean(DocumentService.class).updateDocument(invoice);
+            documentService.updateDocument(invoice);
         }
     }
 
@@ -184,7 +219,7 @@ public class AREmailServiceImpl extends MailerImpl implements AREmailService {
         Map<String, Object> key = new HashMap<String, Object>();
         key.put(KFSPropertyConstants.ORGANIZATION_CODE, orgCode[0].trim());
         key.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, orgCode[1].trim());
-        Organization org = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Organization.class, key);
+        Organization org = businessObjectService.findByPrimaryKey(Organization.class, key);
         primaryKeys.put("#grantNumber", returnProperStringValue(invoice.getAward().getProposal().getGrantNumber()));
         primaryKeys.put("#proposalNumber", returnProperStringValue(invoice.getProposalNumber()));
         primaryKeys.put("#invoiceNumber", returnProperStringValue(invoice.getDocumentNumber()));
@@ -317,11 +352,11 @@ public class AREmailServiceImpl extends MailerImpl implements AREmailService {
         }
         catch (InvalidAddressException ex) {
             // TODO Auto-generated catch block
-            ex.printStackTrace();
+            LOG.error("InvalidAddressException ", ex);
         }
         catch (MessagingException ex) {
             // TODO Auto-generated catch block
-            ex.printStackTrace();
+            LOG.error("MessagingException ", ex);
         }
     }
 

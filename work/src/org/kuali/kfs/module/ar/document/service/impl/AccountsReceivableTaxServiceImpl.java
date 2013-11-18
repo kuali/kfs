@@ -36,6 +36,7 @@ public class AccountsReceivableTaxServiceImpl implements AccountsReceivableTaxSe
     
     private ParameterService parameterService;
     private BusinessObjectService businessObjectService;
+    protected CustomerAddressService customerAddressService;
     
     /**
      * @see org.kuali.kfs.module.ar.document.service.AccountsReceivableTaxService#isCustomerInvoiceDetailTaxable(org.kuali.kfs.module.ar.document.CustomerInvoiceDocument, org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail)
@@ -81,7 +82,6 @@ public class AccountsReceivableTaxServiceImpl implements AccountsReceivableTaxSe
         //if customer number or ship to address id isn't provided, go to org options
         if (ObjectUtils.isNotNull(shipToAddressIdentifier) && StringUtils.isNotEmpty(customerNumber) ) {
             
-            CustomerAddressService customerAddressService = SpringContext.getBean(CustomerAddressService.class);
             CustomerAddress customerShipToAddress = customerAddressService.getByPrimaryKey(customerNumber, shipToAddressIdentifier);
             if( ObjectUtils.isNotNull(customerShipToAddress) ){
                 postalCode = customerShipToAddress.getCustomerZipCode();
@@ -116,5 +116,13 @@ public class AccountsReceivableTaxServiceImpl implements AccountsReceivableTaxSe
 
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
+    }
+    
+    public CustomerAddressService getCustomerAddressService() {
+        return customerAddressService;
+    }
+
+    public void setCustomerAddressService(CustomerAddressService customerAddressService) {
+        this.customerAddressService = customerAddressService;
     }
 }

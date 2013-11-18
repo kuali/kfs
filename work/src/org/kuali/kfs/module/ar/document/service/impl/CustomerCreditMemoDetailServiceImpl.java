@@ -28,7 +28,6 @@ import org.kuali.rice.krad.util.ObjectUtils;
 public class CustomerCreditMemoDetailServiceImpl implements CustomerCreditMemoDetailService {
 
     public void recalculateCustomerCreditMemoDetail(CustomerCreditMemoDetail customerCreditMemoDetail, CustomerCreditMemoDocument customerCreditMemoDocument) {
-        CustomerInvoiceDetailService service = SpringContext.getBean(CustomerInvoiceDetailService.class);
         
         String invDocumentNumber = customerCreditMemoDocument.getFinancialDocumentReferenceInvoiceNumber();
         Integer lineNumber = customerCreditMemoDetail.getReferenceInvoiceItemNumber();

@@ -345,7 +345,7 @@ public class CustomerInvoiceDetailServiceImpl implements CustomerInvoiceDetailSe
         else if (ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_SUBFUND.equals(receivableOffsetOption)) {
             if (StringUtils.isNotEmpty(customerInvoiceDetail.getAccountNumber())) {
                 customerInvoiceDetail.refreshReferenceObject(KFSPropertyConstants.ACCOUNT);
-                accountsReceivableObjectCode = SpringContext.getBean(ParameterService.class).getSubParameterValueAsString(CustomerInvoiceDocument.class, ArConstants.GLPE_RECEIVABLE_OFFSET_OBJECT_CODE_BY_SUB_FUND, customerInvoiceDetail.getAccount().getSubFundGroupCode());
+                accountsReceivableObjectCode = parameterService.getSubParameterValueAsString(CustomerInvoiceDocument.class, ArConstants.GLPE_RECEIVABLE_OFFSET_OBJECT_CODE_BY_SUB_FUND, customerInvoiceDetail.getAccount().getSubFundGroupCode());
             }
         }
         return accountsReceivableObjectCode;

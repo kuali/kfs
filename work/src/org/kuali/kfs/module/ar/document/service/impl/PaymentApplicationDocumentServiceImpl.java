@@ -89,7 +89,10 @@ public class PaymentApplicationDocumentServiceImpl implements PaymentApplication
     private SystemInformationService systemInformationService;
     private CustomerAddressService customerAddressService;
     private ParameterService parameterService;
-
+    private PersonService personService;
+    private CustomerInvoiceDocumentService customerInvoiceDocumentService;
+    private KualiRuleService kualiRuleService;
+    
     /**
      *
      * @param customerInvoiceDocument
@@ -148,7 +151,6 @@ public class PaymentApplicationDocumentServiceImpl implements PaymentApplication
      */
     @Override
     public PaymentApplicationDocument createSaveAndApprovePaymentApplicationToMatchInvoice(CustomerInvoiceDocument customerInvoiceDocument, String approvalAnnotation, List workflowNotificationRecipients) throws WorkflowException {
-        DocumentService documentService = SpringContext.getBean(DocumentService.class);
         PaymentApplicationDocument applicationDocument = createAndSavePaymentApplicationToMatchInvoice(customerInvoiceDocument);
         documentService.approveDocument(applicationDocument, approvalAnnotation, workflowNotificationRecipients);
         return applicationDocument;
@@ -385,7 +387,7 @@ public class PaymentApplicationDocumentServiceImpl implements PaymentApplication
         UserSession userSession = GlobalVariables.getUserSession();
 
 
-        Person initiator = SpringContext.getBean(PersonService.class).getPerson(paymentApplicationDocument.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId());
+        Person initiator = personService.getPerson(paymentApplicationDocument.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId());
         GlobalVariables.setUserSession(new UserSession(initiator.getPrincipalName()));
 
         DisbursementVoucherDocument disbursementVoucherDocument = null;
@@ -423,7 +425,7 @@ public class PaymentApplicationDocumentServiceImpl implements PaymentApplication
 
         try {
             if (blanketApproveDVInd) {
-                boolean isValid = SpringContext.getBean(KualiRuleService.class).applyRules(new BlanketApproveDocumentEvent(disbursementVoucherDocument));
+                boolean isValid = kualiRuleService.applyRules(new BlanketApproveDocumentEvent(disbursementVoucherDocument));
                 if (isValid) {
                     documentService.blanketApproveDocument(disbursementVoucherDocument, "blanket approved for payment application refund", new ArrayList());
                 }
@@ -432,7 +434,7 @@ public class PaymentApplicationDocumentServiceImpl implements PaymentApplication
                 }
             }
             else if (routeDVInd) {
-                boolean isValid = SpringContext.getBean(KualiRuleService.class).applyRules(new RouteDocumentEvent(disbursementVoucherDocument));
+                boolean isValid = kualiRuleService.applyRules(new RouteDocumentEvent(disbursementVoucherDocument));
                 if (isValid) {
                     documentService.routeDocument(disbursementVoucherDocument, "routed for payment application refund", new ArrayList());
                 }
@@ -547,7 +549,7 @@ public class PaymentApplicationDocumentServiceImpl implements PaymentApplication
     }
 
 	public Collection<PaymentApplicationDocument> getPaymentApplicationDocumentsByAccountNumber(String accountNumber) {
-		Collection<CustomerInvoiceDocument> invoiceList = SpringContext.getBean(CustomerInvoiceDocumentService.class).getCustomerInvoiceDocumentsByAccountNumber(accountNumber);
+		Collection<CustomerInvoiceDocument> invoiceList = customerInvoiceDocumentService.getCustomerInvoiceDocumentsByAccountNumber(accountNumber);
 
         Set<String> customerNumberSet = new HashSet<String>();
         for (CustomerInvoiceDocument invoice : invoiceList) {
@@ -676,10 +678,24 @@ public class PaymentApplicationDocumentServiceImpl implements PaymentApplication
     public Collection<PaymentApplicationDocument> getPaymentApplicationDocumentByInvoiceDocument(String invoiceNumber) {
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put("financialDocumentReferenceInvoiceNumber", invoiceNumber);
-        BusinessObjectService service = SpringContext.getBean(BusinessObjectService.class);
-
-        Collection<PaymentApplicationDocument> payments = service.findMatching(PaymentApplicationDocument.class, fieldValues);
+        Collection<PaymentApplicationDocument> payments = businessObjectService.findMatching(PaymentApplicationDocument.class, fieldValues);
 
         return payments;
+    }
+    
+    public PersonService getPersonService() {
+        return personService;
+    }
+
+    public void setPersonService(PersonService personService) {
+        this.personService = personService;
+    }
+    
+    public void setCustomerInvoiceDocumentService(CustomerInvoiceDocumentService customerInvoiceDocumentService) {
+        this.customerInvoiceDocumentService = customerInvoiceDocumentService;
+    }    
+    
+    public void setKualiRuleService(KualiRuleService ruleService) {
+        this.kualiRuleService = ruleService;
     }
 }

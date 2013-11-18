@@ -56,7 +56,8 @@ import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.NoteService;
-import org.kuali.kfs.sys.context.SpringContext; import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.kfs.sys.context.SpringContext; import org.kuali.kfs.sys.service.NonTransactional;
+import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.krad.service.KualiModuleService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
@@ -75,7 +76,10 @@ public class DunningLetterDistributionOnDemandServiceImpl implements DunningLett
     private BusinessObjectService businessObjectService;
     private ContractsGrantsInvoiceDocumentDao contractsGrantsInvoiceDocumentDao;
     private static final SimpleDateFormat FILE_NAME_TIMESTAMP = new SimpleDateFormat("MM-dd-yyyy");
-
+    protected DateTimeService dateTimeService;
+    private KualiModuleService kualiModuleService;
+    protected NoteService noteService;
+    
     /**
      * @see org.kuali.kfs.module.ar.document.service.DunningLetterDistributionOnDemandService#createDunningLetters(org.kuali.kfs.module.ar.businessobject.DunningLetterTemplate,
      *      org.kuali.kfs.module.ar.businessobject.DunningLetterDistributionOnDemandLookupResult)
@@ -114,7 +118,7 @@ public class DunningLetterDistributionOnDemandServiceImpl implements DunningLett
                         event.setActivityCode(activityCode);
                         event.setActivityDate(new java.sql.Date(new Date().getTime()));
                         event.setActivityText(ArConstants.DunningLetters.DUNNING_LETTER_SENT_TXT);
-                        final Date now = SpringContext.getBean(DateTimeService.class).getCurrentDate();
+                        final Date now = dateTimeService.getCurrentDate();
                         event.setPostedDate(now);
 
                         if (GlobalVariables.getUserSession() != null && GlobalVariables.getUserSession().getPerson() != null) {
@@ -148,7 +152,7 @@ public class DunningLetterDistributionOnDemandServiceImpl implements DunningLett
                 Map<String, Object> primaryKeys = new HashMap<String, Object>();
                 primaryKeys.put(KFSPropertyConstants.AGENCY_NUMBER, dunningLetterDistributionOnDemandLookupResult.getAgencyNumber());
                 primaryKeys.put("agencyAddressTypeCode", "P");
-                address = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsAgencyAddress.class).getExternalizableBusinessObject(ContractsAndGrantsAgencyAddress.class, primaryKeys);
+                address = kualiModuleService.getResponsibleModuleService(ContractsAndGrantsAgencyAddress.class).getExternalizableBusinessObject(ContractsAndGrantsAgencyAddress.class, primaryKeys);
                 String fullAddress = "";
                 if (StringUtils.isNotEmpty(address.getAgencyLine1StreetAddress())) {
                     fullAddress += returnProperStringValue(address.getAgencyLine1StreetAddress()) + "\n";
@@ -304,14 +308,14 @@ public class DunningLetterDistributionOnDemandServiceImpl implements DunningLett
             // add a document
             Map<String, Object> map = new HashMap<String, Object>();
             map.put(ArPropertyConstants.CustomerInvoiceDocumentFields.DOCUMENT_NUMBER, invoice.getDocumentNumber());
-            List<InvoiceAgencyAddressDetail> agencyAddresses = (List<InvoiceAgencyAddressDetail>) SpringContext.getBean(BusinessObjectService.class).findMatching(InvoiceAgencyAddressDetail.class, map);
+            List<InvoiceAgencyAddressDetail> agencyAddresses = (List<InvoiceAgencyAddressDetail>) businessObjectService.findMatching(InvoiceAgencyAddressDetail.class, map);
             for (InvoiceAgencyAddressDetail agencyAddress : agencyAddresses) {
                 ContractsAndGrantsAgencyAddress address;
                 Map<String, Object> primaryKeys = new HashMap<String, Object>();
                 primaryKeys.put(KFSPropertyConstants.AGENCY_NUMBER, agencyAddress.getAgencyNumber());
                 primaryKeys.put("agencyAddressTypeCode", "P");
-                address = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsAgencyAddress.class).getExternalizableBusinessObject(ContractsAndGrantsAgencyAddress.class, primaryKeys);
-                Note note = SpringContext.getBean(NoteService.class).getNoteByNoteId(agencyAddress.getNoteId());
+                address = kualiModuleService.getResponsibleModuleService(ContractsAndGrantsAgencyAddress.class).getExternalizableBusinessObject(ContractsAndGrantsAgencyAddress.class, primaryKeys);
+                Note note = noteService.getNoteByNoteId(agencyAddress.getNoteId());
                 if (ObjectUtils.isNotNull(note) && note.getAttachment().getAttachmentFileSize() > 0) {
                     copy.addDocument(new PdfReader(note.getAttachment().getAttachmentContents()));
                 }
@@ -373,5 +377,30 @@ public class DunningLetterDistributionOnDemandServiceImpl implements DunningLett
         this.contractsGrantsInvoiceDocumentDao = contractsGrantsInvoiceDocumentDao;
     }
 
+    public DateTimeService getDateTimeService() {
+        return dateTimeService;
+    }
 
+    public void setDateTimeService(DateTimeService dateTimeService) {
+        this.dateTimeService = dateTimeService;
+    }
+    
+    /**
+     * Sets the kualiModuleService attribute value.
+     * 
+     * @param kualiModuleService The kualiModuleService to set.
+     */
+    @NonTransactional
+    public void setKualiModuleService(KualiModuleService kualiModuleService) {
+        this.kualiModuleService = kualiModuleService;
+    }
+    
+    public NoteService getNoteService() {
+        return noteService;
+    }
+
+    public void setNoteService(NoteService noteService) {
+        this.noteService = noteService;
+    }
+    
 }

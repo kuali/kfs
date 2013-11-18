@@ -104,6 +104,7 @@ import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.PdfFormFillerUtil;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
@@ -139,9 +140,94 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
     private InvoicePaidAppliedService invoicePaidAppliedService;
     private MilestoneDao milestoneDao;
     private BillDao billDao;
+    private ParameterService parameterService;
+    private UniversityDateService universityDateService;
     public static final String REPORT_LINE_DIVIDER = "--------------------------------------------------------------------------------------------------------------";
     private static final SimpleDateFormat FILE_NAME_TIMESTAMP = new SimpleDateFormat("MM-dd-yyyy");
+    private BusinessObjectService businessObjectService;
+    private DocumentService documentService;
+    private KualiModuleService kualiModuleService;
+    protected NoteService noteService;
+    private AttachmentService attachmentService;
+    private ObjectLevelService objectLevelService;
+    private ObjectCodeService objectCodeService;
+    private AccountService accountService;
+    private ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService;
 
+    /**
+     * Sets the contractsGrantsInvoiceDocumentService attribute value.
+     *
+     * @param contractsGrantsInvoiceDocumentService The contractsGrantsInvoiceDocumentService to set.
+     */
+    public void setContractsGrantsInvoiceDocumentService(ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService) {
+        this.contractsGrantsInvoiceDocumentService = contractsGrantsInvoiceDocumentService;
+    }
+   
+    /**
+     * Sets the accountService attribute value.
+     * 
+     * @param accountService The accountService to set.
+     */
+    public void setAccountService(AccountService accountService) {
+        this.accountService = accountService;
+    }
+    
+    /**
+     * Gets the objectCodeService attribute.
+     * @return Returns the objectCodeService.
+     */
+    public ObjectCodeService getObjectCodeService() {
+        return objectCodeService;
+    }
+
+    /**
+     * Sets the objectCodeService attribute value.
+     * @param objectCodeService The objectCodeService to set.
+     */
+    public void setObjectCodeService(ObjectCodeService objectCodeService) {
+        this.objectCodeService = objectCodeService;
+    }
+    
+    public void setObjectLevelService(ObjectLevelService objectLevelService) {
+        this.objectLevelService = objectLevelService;
+    }
+    
+    /**
+     * Gets the attachmentService attribute.
+     * 
+     * @return Returns the attachmentService.
+     */
+    public AttachmentService getAttachmentService() {
+        return attachmentService;
+    }
+
+    /**
+     * Sets the attachmentService attribute value.
+     * 
+     * @param attachmentService The attachmentService to set.
+     */
+    public void setAttachmentService(AttachmentService attachmentService) {
+        this.attachmentService = attachmentService;
+    }
+    
+    public NoteService getNoteService() {
+        return noteService;
+    }
+
+    public void setNoteService(NoteService noteService) {
+        this.noteService = noteService;
+    }
+    
+    /**
+     * Sets the kualiModuleService attribute value.
+     * 
+     * @param kualiModuleService The kualiModuleService to set.
+     */
+    @NonTransactional
+    public void setKualiModuleService(KualiModuleService kualiModuleService) {
+        this.kualiModuleService = kualiModuleService;
+    }
+    
     public void setVerifyBillingFrequencyService(VerifyBillingFrequencyService verifyBillingFrequencyService) {
         this.verifyBillingFrequencyService = verifyBillingFrequencyService;
     }
@@ -230,7 +316,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             Map<String, Object> map = new HashMap<String, Object>();
             map.put(KFSPropertyConstants.CUSTOMER_NUMBER, contractsGrantsInvoiceDocument.getCustomerNumber());
             map.put(KFSPropertyConstants.ACTIVE, true);
-            customerInvoiceAccounts = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(CustomerInvoiceAccount.class).getExternalizableBusinessObjectsList(CustomerInvoiceAccount.class, map);
+            customerInvoiceAccounts = kualiModuleService.getResponsibleModuleService(CustomerInvoiceAccount.class).getExternalizableBusinessObjectsList(CustomerInvoiceAccount.class, map);
         }
         boolean awardBillByControlAccountInd = false;
         boolean awardBillByInvoicingAccountInd = false;
@@ -241,7 +327,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         if (CollectionUtils.isEmpty(contractsGrantsInvoiceDocument.getSourceAccountingLines())) {
             // To check if the invoice account section in award has a income account set.
 
-            String receivableOffsetOption = SpringContext.getBean(ParameterService.class).getParameterValueAsString(CustomerInvoiceDocument.class, ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD);
+            String receivableOffsetOption = parameterService.getParameterValueAsString(CustomerInvoiceDocument.class, ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD);
             boolean isUsingReceivableFAU = ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_FAU.equals(receivableOffsetOption);
             if (isUsingReceivableFAU) {
                 if (ObjectUtils.isNotNull(contractsGrantsInvoiceDocument.getAward()) && CollectionUtils.isNotEmpty(customerInvoiceAccounts)) {
@@ -289,14 +375,14 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
             // To retrieve the financial object code from the Organization Accounting Default.
             Map<String, Object> criteria = new HashMap<String, Object>();
-            Integer currentYear = SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear();
+            Integer currentYear = universityDateService.getCurrentFiscalYear();
             criteria.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, currentYear);
             criteria.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, contractsGrantsInvoiceDocument.getBillByChartOfAccountCode());
             criteria.put(ArPropertyConstants.CustomerInvoiceItemCodes.ORGANIZATION_CODE, contractsGrantsInvoiceDocument.getBilledByOrganizationCode());
             // Need to avoid hitting database in the loop. option would be to set the financial object code when the form loads and
             // save
             // it somewhere.
-            OrganizationAccountingDefault organizationAccountingDefault = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(OrganizationAccountingDefault.class, criteria);
+            OrganizationAccountingDefault organizationAccountingDefault = businessObjectService.findByPrimaryKey(OrganizationAccountingDefault.class, criteria);
             if (ObjectUtils.isNotNull(organizationAccountingDefault)) {
                 if (awardBillByInvoicingAccountInd) {
                     // If its bill by Invoicing Account , irrespective of it is by contract control account, there would be a single
@@ -306,7 +392,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
                         contractsGrantsInvoiceDocument.getSourceAccountingLines().add(cide);
                     }
                     catch (Exception e) {
-                        e.printStackTrace();
+                        LOG.error("problem during ContractsGrantsInvoiceDocumentServiceImpl.createSourceAccountingLinesAndGLPEs()", e);
                         throw new RuntimeException(e);
                     }
                 }
@@ -330,7 +416,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
                             contractsGrantsInvoiceDocument.getSourceAccountingLines().add(cide);
                         }
                         catch (Exception e) {
-                            e.printStackTrace();
+                            LOG.error("problem during ContractsGrantsInvoiceDocumentServiceImpl.createSourceAccountingLinesAndGLPEs()", e);
                             throw new RuntimeException(e);
                         }
                     }
@@ -369,7 +455,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
                             }
                             catch (Exception e) {
-                                e.printStackTrace();
+                                LOG.error("problem during ContractsGrantsInvoiceDocumentServiceImpl.createSourceAccountingLinesAndGLPEs()", e);
                                 throw new RuntimeException(e);
                             }
 
@@ -562,7 +648,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             totalBilledKeys.put(KFSPropertyConstants.ACCOUNT_NUMBER, invoiceDetailAccountObjectCode.getAccountNumber());
             totalBilledKeys.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, invoiceDetailAccountObjectCode.getFinancialObjectCode());
 
-            List<AwardAccountObjectCodeTotalBilled> awardAccountObjectCodeTotalBilledList = (List<AwardAccountObjectCodeTotalBilled>) SpringContext.getBean(BusinessObjectService.class).findMatching(AwardAccountObjectCodeTotalBilled.class, totalBilledKeys);
+            List<AwardAccountObjectCodeTotalBilled> awardAccountObjectCodeTotalBilledList = (List<AwardAccountObjectCodeTotalBilled>) businessObjectService.findMatching(AwardAccountObjectCodeTotalBilled.class, totalBilledKeys);
             if (awardAccountObjectCodeTotalBilledList != null && !awardAccountObjectCodeTotalBilledList.isEmpty()) {
                 AwardAccountObjectCodeTotalBilled awardAccountObjectCodeTotalBilled = awardAccountObjectCodeTotalBilledList.get(0);
                 awardAccountObjectCodeTotalBilled.setTotalBilled(awardAccountObjectCodeTotalBilled.getTotalBilled().add(invoiceDetailAccountObjectCode.getCurrentExpenditures()));
@@ -717,7 +803,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             LOG.error("Category Code can not be null during recalculation of account object code for Contracts and Grants Invoice Document.");
         }
         // get the category that matches this category code.
-        Collection<ContractsAndGrantsCategories> contractsAndGrantsCategories = SpringContext.getBean(BusinessObjectService.class).findAll(ContractsAndGrantsCategories.class);
+        Collection<ContractsAndGrantsCategories> contractsAndGrantsCategories = businessObjectService.findAll(ContractsAndGrantsCategories.class);
         Iterator<ContractsAndGrantsCategories> contractsAndGrantsCategoriesIterator = contractsAndGrantsCategories.iterator();
         ContractsAndGrantsCategories category = null;
         while (contractsAndGrantsCategoriesIterator.hasNext()) {
@@ -875,7 +961,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         Map<String, Object> keys = new HashMap<String, Object>();
         keys.put(KFSPropertyConstants.PROPOSAL_NUMBER, proposalNumber);
 
-        List<AwardAccountObjectCodeTotalBilled> accountObjectCodeTotalBilledList = (List<AwardAccountObjectCodeTotalBilled>) SpringContext.getBean(BusinessObjectService.class).findMatching(AwardAccountObjectCodeTotalBilled.class, keys);
+        List<AwardAccountObjectCodeTotalBilled> accountObjectCodeTotalBilledList = (List<AwardAccountObjectCodeTotalBilled>) businessObjectService.findMatching(AwardAccountObjectCodeTotalBilled.class, keys);
         KualiDecimal billedToDate = KualiDecimal.ZERO;
         for (AwardAccountObjectCodeTotalBilled awardAccountObjectCodeTotalBilled : accountObjectCodeTotalBilledList) {
             billedToDate = billedToDate.add(awardAccountObjectCodeTotalBilled.getTotalBilled());
@@ -1034,7 +1120,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
                     writeNewLines("", outputFileStream);
                 }
                 catch (IOException ex) {
-                    ex.printStackTrace();
+                    LOG.error("LetterOfCreditCreateServiceImpl.validateInvoices Stopped: " + ex.getMessage());
                 }
             }
         }
@@ -1085,12 +1171,12 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         List<Balance> glBalances = new ArrayList<Balance>();
         KualiDecimal balanceAmount = KualiDecimal.ZERO;
         KualiDecimal balAmt = KualiDecimal.ZERO;
-        Integer currentYear = SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear();
+        Integer currentYear = universityDateService.getCurrentFiscalYear();
         List<Integer> fiscalYears = new ArrayList<Integer>();
         Calendar c = Calendar.getInstance();
 
 
-        Integer fiscalYear = SpringContext.getBean(UniversityDateService.class).getFiscalYear(awardBeginningDate);
+        Integer fiscalYear = universityDateService.getFiscalYear(awardBeginningDate);
 
         for (Integer i = fiscalYear; i <= currentYear; i++) {
             fiscalYears.add(i);
@@ -1104,7 +1190,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             balanceKeys.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, eachFiscalYr);
             balanceKeys.put("balanceTypeCode", balanceTypeCode);
             balanceKeys.put("objectTypeCode", ArPropertyConstants.EXPENSE_OBJECT_TYPE);
-            glBalances.addAll(SpringContext.getBean(BusinessObjectService.class).findMatching(Balance.class, balanceKeys));
+            glBalances.addAll(businessObjectService.findMatching(Balance.class, balanceKeys));
         }
         for (Balance bal : glBalances) {
             if (ObjectUtils.isNotNull(bal.getSubAccount()) && ObjectUtils.isNotNull(bal.getSubAccount().getA21SubAccount()) && !StringUtils.equalsIgnoreCase(bal.getSubAccount().getA21SubAccount().getSubAccountTypeCode(), KFSConstants.SubAccountType.COST_SHARE)) {
@@ -1171,12 +1257,12 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         KualiDecimal incAmt = KualiDecimal.ZERO;
         KualiDecimal claimOnCash = KualiDecimal.ZERO;
         List<Balance> glBalances = new ArrayList<Balance>();
-        Integer currentYear = SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear();
+        Integer currentYear = universityDateService.getCurrentFiscalYear();
         List<Integer> fiscalYears = new ArrayList<Integer>();
         Calendar c = Calendar.getInstance();
 
 
-        Integer fiscalYear = SpringContext.getBean(UniversityDateService.class).getFiscalYear(awardBeginningDate);
+        Integer fiscalYear = universityDateService.getFiscalYear(awardBeginningDate);
 
         for (Integer i = fiscalYear; i <= currentYear; i++) {
             fiscalYears.add(i);
@@ -1188,7 +1274,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             balanceKeys.put(KFSPropertyConstants.ACCOUNT_NUMBER, awardAccount.getAccountNumber());
             balanceKeys.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, eachFiscalYr);
             balanceKeys.put("balanceTypeCode", ArPropertyConstants.ACTUAL_BALANCE_TYPE);
-            glBalances.addAll(SpringContext.getBean(BusinessObjectService.class).findMatching(Balance.class, balanceKeys));
+            glBalances.addAll(businessObjectService.findMatching(Balance.class, balanceKeys));
         }
         for (Balance bal : glBalances) {
             if (ObjectUtils.isNotNull(bal.getSubAccount()) && ObjectUtils.isNotNull(bal.getSubAccount().getA21SubAccount()) && !StringUtils.equalsIgnoreCase(bal.getSubAccount().getA21SubAccount().getSubAccountTypeCode(), KFSConstants.SubAccountType.COST_SHARE)) {
@@ -1381,7 +1467,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
     private void addSuspensionCategoryToDocument(List<String> suspensionCategoryCodes, List<InvoiceSuspensionCategory> invoiceSuspensionCategories, String documentNumber, String suspensionCategoryCode) {
         if (!suspensionCategoryCodes.contains(suspensionCategoryCode)) { // check prevents duplicate
             // To check if the suspension category is active.
-            SuspensionCategory suspensionCategory = SpringContext.getBean(BusinessObjectService.class).findBySinglePrimaryKey(SuspensionCategory.class, suspensionCategoryCode);
+            SuspensionCategory suspensionCategory = businessObjectService.findBySinglePrimaryKey(SuspensionCategory.class, suspensionCategoryCode);
             if (ObjectUtils.isNotNull(suspensionCategory) && suspensionCategory.isActive()) {
                 invoiceSuspensionCategories.add(new InvoiceSuspensionCategory(documentNumber, suspensionCategoryCode));
             }
@@ -1476,7 +1562,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         List<ContractsAndGrantsAgencyAddress> agencyAddresses = new ArrayList<ContractsAndGrantsAgencyAddress>();
         Map<String, Object> map = new HashMap<String, Object>();
         map.put(KFSPropertyConstants.AGENCY_NUMBER, agency.getAgencyNumber());
-        agencyAddresses = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsAgencyAddress.class).getExternalizableBusinessObjectsList(ContractsAndGrantsAgencyAddress.class, map);
+        agencyAddresses = kualiModuleService.getResponsibleModuleService(ContractsAndGrantsAgencyAddress.class).getExternalizableBusinessObjectsList(ContractsAndGrantsAgencyAddress.class, map);
         for (ContractsAndGrantsAgencyAddress agencyAddress : agencyAddresses) {
             if (ArConstants.AGENCY_PRIMARY_ADDRESSES_TYPE_CODE.equals(agencyAddress.getAgencyAddressTypeCode())) {
                 return isAgencyAddressComplete(agencyAddress);
@@ -1494,7 +1580,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         List<ContractsAndGrantsAgencyAddress> agencyAddresses = new ArrayList<ContractsAndGrantsAgencyAddress>();
         Map<String, Object> map = new HashMap<String, Object>();
         map.put(KFSPropertyConstants.AGENCY_NUMBER, agency.getAgencyNumber());
-        agencyAddresses = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsAgencyAddress.class).getExternalizableBusinessObjectsList(ContractsAndGrantsAgencyAddress.class, map);
+        agencyAddresses = kualiModuleService.getResponsibleModuleService(ContractsAndGrantsAgencyAddress.class).getExternalizableBusinessObjectsList(ContractsAndGrantsAgencyAddress.class, map);
 
         for (ContractsAndGrantsAgencyAddress agencyAddress : agencyAddresses) {
             if (ArConstants.AGENCY_ALTERNATE_ADDRESSES_TYPE_CODE.equals(agencyAddress.getAgencyAddressTypeCode())) {
@@ -1631,7 +1717,6 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         }
 
         // Then go through the map and check to see if any of them have closed accounts
-        AccountService accountService = SpringContext.getBean(AccountService.class);
         Set<String> keys = map.keySet();
         for (String chartOfAccountsCode : keys) {
             Set<String> values = map.get(chartOfAccountsCode);
@@ -1763,7 +1848,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             milestones = getMilestoneDao().getMatchingMilestoneByProposalIdAndInListOfMilestoneId(proposalNumber, milestoneIds);
         }
         catch (Exception ex) {
-            ex.printStackTrace();
+            LOG.error("problem during lgetMilestoneDao().getMatchingMilestoneByProposalIdAndInListOfMilestoneId()", ex);
         }
         for (Milestone milestone : milestones) {
             if(value.equalsIgnoreCase(KFSConstants.ParameterValues.YES) || value.equalsIgnoreCase(KFSConstants.ParameterValues.STRING_YES)){
@@ -1849,13 +1934,13 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
         Map<String, Object> criteria = new HashMap<String, Object>();
         criteria.put(KFSPropertyConstants.PROPOSAL_NUMBER, award.getProposalNumber());
-        Collection<ContractsGrantsInvoiceDocument> cgInvoiceDocs = SpringContext.getBean(BusinessObjectService.class).findMatching(ContractsGrantsInvoiceDocument.class, criteria);
+        Collection<ContractsGrantsInvoiceDocument> cgInvoiceDocs = businessObjectService.findMatching(ContractsGrantsInvoiceDocument.class, criteria);
 
         for (ContractsGrantsInvoiceDocument cgInvoiceDoc : cgInvoiceDocs) {
             criteria.clear();
             criteria.put("financialDocumentReferenceInvoiceNumber", cgInvoiceDoc.getDocumentNumber());
 
-            Collection<InvoicePaidApplied> invoicePaidApplieds = SpringContext.getBean(BusinessObjectService.class).findMatching(InvoicePaidApplied.class, criteria);
+            Collection<InvoicePaidApplied> invoicePaidApplieds = businessObjectService.findMatching(InvoicePaidApplied.class, criteria);
             for (InvoicePaidApplied invoicePapidApplied : invoicePaidApplieds) {
 
                 totalPayments = totalPayments.add(invoicePapidApplied.getInvoiceItemAppliedAmount());
@@ -1871,7 +1956,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
      * @return
      */
     public KualiDecimal getCumulativeCashDisbursement(ContractsAndGrantsBillingAwardAccount awardAccount, java.sql.Date awardBeginningDate) {
-        Integer currentYear = SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear();
+        Integer currentYear = universityDateService.getCurrentFiscalYear();
         KualiDecimal cumAmt = KualiDecimal.ZERO;
         KualiDecimal balAmt = KualiDecimal.ZERO;
         List<Balance> glBalances = new ArrayList<Balance>();
@@ -1880,7 +1965,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         Calendar c = Calendar.getInstance();
 
 
-        Integer fiscalYear = SpringContext.getBean(UniversityDateService.class).getFiscalYear(awardBeginningDate);
+        Integer fiscalYear = universityDateService.getFiscalYear(awardBeginningDate);
 
         for (Integer i = fiscalYear; i <= currentYear; i++) {
             fiscalYears.add(i);
@@ -1893,7 +1978,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             balanceKeys.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, eachFiscalYr);
             balanceKeys.put("balanceTypeCode", ArPropertyConstants.ACTUAL_BALANCE_TYPE);
             balanceKeys.put("objectTypeCode", ArPropertyConstants.EXPENSE_OBJECT_TYPE);
-            glBalances.addAll(SpringContext.getBean(BusinessObjectService.class).findMatching(Balance.class, balanceKeys));
+            glBalances.addAll(businessObjectService.findMatching(Balance.class, balanceKeys));
         }
         for (Balance bal : glBalances) {
             if (ObjectUtils.isNotNull(bal.getSubAccount()) && ObjectUtils.isNotNull(bal.getSubAccount().getA21SubAccount()) && !StringUtils.equalsIgnoreCase(bal.getSubAccount().getA21SubAccount().getSubAccountTypeCode(), KFSConstants.SubAccountType.COST_SHARE)) {
@@ -2021,7 +2106,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         if (award.getPreferredBillingFrequency() != null) {
             Map<String, Object> criteria = new HashMap<String, Object>();
             criteria.put(KFSPropertyConstants.ACTIVE, true);
-            Collection<ContractsAndGrantsBillingFrequency> set = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsBillingFrequency.class).getExternalizableBusinessObjectsList(ContractsAndGrantsBillingFrequency.class, criteria);
+            Collection<ContractsAndGrantsBillingFrequency> set = kualiModuleService.getResponsibleModuleService(ContractsAndGrantsBillingFrequency.class).getExternalizableBusinessObjectsList(ContractsAndGrantsBillingFrequency.class, criteria);
             for (ContractsAndGrantsBillingFrequency billingFrequency : set) {
                 if (award.getPreferredBillingFrequency().equalsIgnoreCase(billingFrequency.getFrequency())) {
                     isValid = true;
@@ -2176,7 +2261,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
     @Override
     public List<ContractsAndGrantsBillingAward> getActiveAwardsByCriteria(Map<String, Object> criteria) {
 
-        return SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsBillingAward.class).getExternalizableBusinessObjectsList(ContractsAndGrantsBillingAward.class, criteria);
+        return kualiModuleService.getResponsibleModuleService(ContractsAndGrantsBillingAward.class).getExternalizableBusinessObjectsList(ContractsAndGrantsBillingAward.class, criteria);
     }
 
     /**
@@ -2191,7 +2276,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
             Map<String, Object> map = new HashMap<String, Object>();
             map.put(KFSPropertyConstants.PROPOSAL_NUMBER, award.getProposalNumber());
-            milestones = (List<Milestone>) SpringContext.getBean(BusinessObjectService.class).findMatching(Milestone.class, map);
+            milestones = (List<Milestone>) businessObjectService.findMatching(Milestone.class, map);
 
             // To retrieve the previous period end Date to check for milestones and billing schedule.
 
@@ -2227,7 +2312,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             Map<String, Object> map = new HashMap<String, Object>();
             map.put(KFSPropertyConstants.PROPOSAL_NUMBER, award.getProposalNumber());
 
-            bills = (List<Bill>) SpringContext.getBean(BusinessObjectService.class).findMatching(Bill.class, map);
+            bills = (List<Bill>) businessObjectService.findMatching(Bill.class, map);
             // To retrieve the previous period end Date to check for milestones and billing schedule.
 
             Timestamp ts = new Timestamp(new java.util.Date().getTime());
@@ -2254,7 +2339,6 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
     @Override
     public boolean owningAgencyHasNoCustomerRecord(ContractsAndGrantsBillingAward award) {
         boolean isValid = true;
-        CustomerService customerService = SpringContext.getBean(CustomerService.class);
         if (ObjectUtils.isNotNull(award.getAgency().getCustomerNumber())) {
             Customer customer = customerService.getByPrimaryKey(award.getAgency().getCustomerNumber());
             if (ObjectUtils.isNotNull(customer)) {
@@ -2272,7 +2356,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
     public Collection<ContractsGrantsInvoiceDocument> getContractsGrantsInvoiceDocumentAppliedByPaymentApplicationNumber(String paymentApplicationNumberCorrecting) {
         Collection<ContractsGrantsInvoiceDocument> cgInvoices = new ArrayList<ContractsGrantsInvoiceDocument>();
         try {
-            PaymentApplicationDocument paymentApplicationDocument = (PaymentApplicationDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(paymentApplicationNumberCorrecting);
+            PaymentApplicationDocument paymentApplicationDocument = (PaymentApplicationDocument) documentService.getByDocumentHeaderId(paymentApplicationNumberCorrecting);
             for (InvoicePaidApplied invoicePaidApplied : paymentApplicationDocument.getInvoicePaidApplieds()) {
                 cgInvoices.add((ContractsGrantsInvoiceDocument) invoicePaidApplied.getCustomerInvoiceDocument());
             }
@@ -2294,7 +2378,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
     public boolean isChartAndOrgNotSetupForInvoicing(ContractsAndGrantsBillingAward award) {
         String coaCode = null, orgCode = null;
         String procCoaCode = null, procOrgCode = null;
-        Integer currentYear = SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear();
+        Integer currentYear = universityDateService.getCurrentFiscalYear();
 
         Map<String, Object> criteria = new HashMap<String, Object>();
         Map<String, Object> sysCriteria = new HashMap<String, Object>();
@@ -2317,9 +2401,9 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
                     }
                     sysCriteria.put("processingChartOfAccountCode", procCodes.get(0));
                     sysCriteria.put("processingOrganizationCode", procCodes.get(1));
-                    OrganizationAccountingDefault organizationAccountingDefault = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(OrganizationAccountingDefault.class, criteria);
+                    OrganizationAccountingDefault organizationAccountingDefault = businessObjectService.findByPrimaryKey(OrganizationAccountingDefault.class, criteria);
 
-                    SystemInformation systemInformation = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(SystemInformation.class, sysCriteria);
+                    SystemInformation systemInformation = businessObjectService.findByPrimaryKey(SystemInformation.class, sysCriteria);
                     if (ObjectUtils.isNull(organizationAccountingDefault) || ObjectUtils.isNull(systemInformation)) {
                         return true;
                     }
@@ -2341,9 +2425,9 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
                     }
                     sysCriteria.put("processingChartOfAccountCode", procCodes.get(0));
                     sysCriteria.put("processingOrganizationCode", procCodes.get(1));
-                    OrganizationAccountingDefault organizationAccountingDefault = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(OrganizationAccountingDefault.class, criteria);
+                    OrganizationAccountingDefault organizationAccountingDefault = businessObjectService.findByPrimaryKey(OrganizationAccountingDefault.class, criteria);
 
-                    SystemInformation systemInformation = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(SystemInformation.class, sysCriteria);
+                    SystemInformation systemInformation = businessObjectService.findByPrimaryKey(SystemInformation.class, sysCriteria);
                     if (ObjectUtils.isNull(organizationAccountingDefault) || ObjectUtils.isNull(systemInformation)) {
                         return true;
                     }
@@ -2364,9 +2448,9 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
                     }
                     sysCriteria.put("processingChartOfAccountCode", procCodes.get(0));
                     sysCriteria.put("processingOrganizationCode", procCodes.get(1));
-                    OrganizationAccountingDefault organizationAccountingDefault = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(OrganizationAccountingDefault.class, criteria);
+                    OrganizationAccountingDefault organizationAccountingDefault = businessObjectService.findByPrimaryKey(OrganizationAccountingDefault.class, criteria);
 
-                    SystemInformation systemInformation = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(SystemInformation.class, sysCriteria);
+                    SystemInformation systemInformation = businessObjectService.findByPrimaryKey(SystemInformation.class, sysCriteria);
                     if (ObjectUtils.isNull(organizationAccountingDefault) || ObjectUtils.isNull(systemInformation)) {
                         return true;
                     }
@@ -2392,7 +2476,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         Map<String, String> criteria = new HashMap<String, String>();
         criteria.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, billingChartCode);
         criteria.put(KFSPropertyConstants.ORGANIZATION_CODE, billingOrgCode);
-        OrganizationOptions organizationOptions = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(OrganizationOptions.class, criteria);
+        OrganizationOptions organizationOptions = businessObjectService.findByPrimaryKey(OrganizationOptions.class, criteria);
 
         if (ObjectUtils.isNotNull(organizationOptions)) {
             procCodes.add(0, organizationOptions.getProcessingChartOfAccountCode());
@@ -2411,8 +2495,8 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
     @Override
     public boolean isOffsetDefNotSetupForInvoicing(ContractsAndGrantsBillingAward award) {
         String coaCode = null, orgCode = null;
-        Integer currentYear = SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear();
-        String receivableOffsetOption = SpringContext.getBean(ParameterService.class).getParameterValueAsString(CustomerInvoiceDocument.class, ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD);
+        Integer currentYear = universityDateService.getCurrentFiscalYear();
+        String receivableOffsetOption = parameterService.getParameterValueAsString(CustomerInvoiceDocument.class, ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD);
         boolean isUsingReceivableFAU = receivableOffsetOption.equals("3");
         // This condition is validated only if GLPE is 3 and CG enhancements is ON
         if (isUsingReceivableFAU) {
@@ -2427,7 +2511,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
                     for (ContractsAndGrantsBillingAwardAccount awardAccount : award.getActiveAwardAccounts()) {
                         coaCode = awardAccount.getAccount().getChartOfAccountsCode();
                         criteria.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, coaCode);
-                        OffsetDefinition offset = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(OffsetDefinition.class, criteria);
+                        OffsetDefinition offset = businessObjectService.findByPrimaryKey(OffsetDefinition.class, criteria);
                         if (ObjectUtils.isNull(offset)) {
                             return true;
                         }
@@ -2439,7 +2523,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
                     for (Account controlAccount : controlAccounts) {
                         coaCode = controlAccount.getChartOfAccountsCode();
                         criteria.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, coaCode);
-                        OffsetDefinition offset = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(OffsetDefinition.class, criteria);
+                        OffsetDefinition offset = businessObjectService.findByPrimaryKey(OffsetDefinition.class, criteria);
                         if (ObjectUtils.isNull(offset)) {
                             return true;
                         }
@@ -2451,7 +2535,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
                     for (Account controlAccount : controlAccounts) {
                         coaCode = controlAccount.getChartOfAccountsCode();
                         criteria.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, coaCode);
-                        OffsetDefinition offset = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(OffsetDefinition.class, criteria);
+                        OffsetDefinition offset = businessObjectService.findByPrimaryKey(OffsetDefinition.class, criteria);
                         if (ObjectUtils.isNull(offset)) {
                             return true;
                         }
@@ -2508,7 +2592,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         totalBilledKeys.put(KFSPropertyConstants.PROPOSAL_NUMBER, proposalNumber);
         KualiDecimal billedToDate = KualiDecimal.ZERO;
 
-        List<Milestone> milestones = (List<Milestone>) SpringContext.getBean(BusinessObjectService.class).findMatching(Milestone.class, totalBilledKeys);
+        List<Milestone> milestones = (List<Milestone>) businessObjectService.findMatching(Milestone.class, totalBilledKeys);
         if (CollectionUtils.isNotEmpty(milestones)) {
             Iterator<Milestone> iterator = milestones.iterator();
             while (iterator.hasNext()) {
@@ -2530,7 +2614,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         totalBilledKeys.put(KFSPropertyConstants.PROPOSAL_NUMBER, proposalNumber);
         KualiDecimal billedToDate = KualiDecimal.ZERO;
 
-        List<Bill> bills = (List<Bill>) SpringContext.getBean(BusinessObjectService.class).findMatching(Bill.class, totalBilledKeys);
+        List<Bill> bills = (List<Bill>) businessObjectService.findMatching(Bill.class, totalBilledKeys);
         if (CollectionUtils.isNotEmpty(bills)) {
             Iterator<Bill> iterator = bills.iterator();
             while (iterator.hasNext()) {
@@ -2601,7 +2685,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
         // To get value for FINAL days past due.
         String stateAgencyFinalCutOffDate = null;
-        String finalCutOffDate = SpringContext.getBean(ParameterService.class).getParameterValueAsString(DunningCampaign.class, ArConstants.DunningLetters.DYS_PST_DUE_FINAL_PARM);
+        String finalCutOffDate = parameterService.getParameterValueAsString(DunningCampaign.class, ArConstants.DunningLetters.DYS_PST_DUE_FINAL_PARM);
         if (ObjectUtils.isNull(finalCutOffDate)) {
             finalCutOffDate = "0";
         }
@@ -2665,7 +2749,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
                 }
                 String dunningCampaignCode = invoice.getAward().getDunningCampaign();
 
-                DunningCampaign dunningCampaign = SpringContext.getBean(BusinessObjectService.class).findBySinglePrimaryKey(DunningCampaign.class, dunningCampaignCode);
+                DunningCampaign dunningCampaign = businessObjectService.findBySinglePrimaryKey(DunningCampaign.class, dunningCampaignCode);
                 if (ObjectUtils.isNull(dunningCampaign) || !dunningCampaign.isActive()) {
                     eligibleInvoiceFlag = false;
                     continue;
@@ -2696,7 +2780,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
                 ContractsAndGrantsBillingAgency agency = invoice.getAward().getAgency();
                 if (agency.isStateAgencyIndicator()) {
-                    stateAgencyFinalCutOffDate = SpringContext.getBean(ParameterService.class).getParameterValueAsString(DunningCampaign.class, ArConstants.DunningLetters.DYS_PST_DUE_STATE_AGENCY_FINAL_PARM);
+                    stateAgencyFinalCutOffDate = parameterService.getParameterValueAsString(DunningCampaign.class, ArConstants.DunningLetters.DYS_PST_DUE_STATE_AGENCY_FINAL_PARM);
                 }
                 if (ObjectUtils.isNotNull(stateAgencyFinalCutOffDate) && agingBucket.equalsIgnoreCase(ArConstants.DunningLetters.DYS_PST_DUE_STATE_AGENCY_FINAL)) {
 
@@ -2749,7 +2833,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
                 }
                 for (DunningLetterDistribution dunningLetterDistribution : dunningLetterDistributions) {
 
-                    DunningLetterTemplate dunningLetterTemplate = SpringContext.getBean(BusinessObjectService.class).findBySinglePrimaryKey(DunningLetterTemplate.class, dunningLetterDistribution.getDunningLetterTemplate());
+                    DunningLetterTemplate dunningLetterTemplate = businessObjectService.findBySinglePrimaryKey(DunningLetterTemplate.class, dunningLetterDistribution.getDunningLetterTemplate());
 
                     if (dunningLetterDistribution.getDaysPastDue().equalsIgnoreCase(ArConstants.DunningLetters.DYS_PST_DUE_CURRENT)) {
                         if ((invoice.getAge().compareTo(cutoffdate0) >= 0) && (invoice.getAge().compareTo(cutoffdate30) <= 0)) {
@@ -2836,7 +2920,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             }
 
             if (eligibleInvoiceFlag) {
-                SpringContext.getBean(BusinessObjectService.class).save(invoice.getInvoiceGeneralDetail());
+                businessObjectService.save(invoice.getInvoiceGeneralDetail());
                 eligibleInvoices.add(invoice);
             }
         }
@@ -2916,7 +3000,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             InvoicePaidApplied invPaidApp = invoicePaidApplieds.get(invoicePaidApplieds.size() - 1);
             PaymentApplicationDocument referenceFinancialDocument;
             try {
-                referenceFinancialDocument = (PaymentApplicationDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(invPaidApp.getDocumentNumber());
+                referenceFinancialDocument = (PaymentApplicationDocument) documentService.getByDocumentHeaderId(invPaidApp.getDocumentNumber());
                 paymentDate = referenceFinancialDocument.getFinancialSystemDocumentHeader().getDocumentFinalDate();
             }
             catch (WorkflowException ex) {
@@ -2974,7 +3058,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         Map<String, String> refFieldValues = new HashMap<String, String>();
         refFieldValues.put(ArPropertyConstants.ReferralTypeFields.OUTSIDE_COLLECTION_AGENCY_IND, "true");
         refFieldValues.put(ArPropertyConstants.ReferralTypeFields.ACTIVE, "true");
-        List<ReferralType> refTypes = (List<ReferralType>) SpringContext.getBean(BusinessObjectService.class).findMatching(ReferralType.class, refFieldValues);
+        List<ReferralType> refTypes = (List<ReferralType>) businessObjectService.findMatching(ReferralType.class, refFieldValues);
         String outsideColAgencyCode = CollectionUtils.isNotEmpty(refTypes) ? refTypes.get(0).getReferralTypeCode() : null;
 
         referralNull.addIsNull(ArPropertyConstants.ReferralToCollectionsFields.REFERRAL_TYPE);
@@ -3028,10 +3112,10 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             byte[] copyReportStream;
             // validating the invoice template
             if (ObjectUtils.isNotNull(invoiceAgencyAddressDetail.getPreferredAgencyInvoiceTemplateCode())) {
-                invoiceTemplate = SpringContext.getBean(BusinessObjectService.class).findBySinglePrimaryKey(InvoiceTemplate.class, invoiceAgencyAddressDetail.getPreferredAgencyInvoiceTemplateCode());
+                invoiceTemplate = businessObjectService.findBySinglePrimaryKey(InvoiceTemplate.class, invoiceAgencyAddressDetail.getPreferredAgencyInvoiceTemplateCode());
             }
             else if (ObjectUtils.isNotNull(invoiceAgencyAddressDetail.getAgencyInvoiceTemplateCode())) {
-                invoiceTemplate = SpringContext.getBean(BusinessObjectService.class).findBySinglePrimaryKey(InvoiceTemplate.class, invoiceAgencyAddressDetail.getAgencyInvoiceTemplateCode());
+                invoiceTemplate = businessObjectService.findBySinglePrimaryKey(InvoiceTemplate.class, invoiceAgencyAddressDetail.getAgencyInvoiceTemplateCode());
             }
             else {
                 GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_FILE_UPLOAD_NO_PDF_FILE_SELECTED_FOR_SAVE, ArConstants.ACTIVE_INVOICE_TEMPLATE_ERROR);
@@ -3050,7 +3134,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
                     Map<String, Object> primaryKeys = new HashMap<String, Object>();
                     primaryKeys.put(KFSPropertyConstants.AGENCY_NUMBER, invoiceAgencyAddressDetail.getAgencyNumber());
                     primaryKeys.put("agencyAddressIdentifier", invoiceAgencyAddressDetail.getAgencyAddressIdentifier());
-                    address = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsAgencyAddress.class).getExternalizableBusinessObject(ContractsAndGrantsAgencyAddress.class, primaryKeys);
+                    address = kualiModuleService.getResponsibleModuleService(ContractsAndGrantsAgencyAddress.class).getExternalizableBusinessObject(ContractsAndGrantsAgencyAddress.class, primaryKeys);
                     String fullAddress = "";
                     if (StringUtils.isNotEmpty(address.getAgencyLine1StreetAddress())) {
                         fullAddress += returnProperStringValue(address.getAgencyLine1StreetAddress()) + "\n";
@@ -3077,13 +3161,13 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
                     note.setNotePostedTimestampToCurrent();
                     note.setNoteText("Auto-generated invoice for Agency Address-" + document.getDocumentNumber() + "-" + invoiceAgencyAddressDetail.getAgencyAddressName());
                     note.setNoteTypeCode(KFSConstants.NoteTypeEnum.BUSINESS_OBJECT_NOTE_TYPE.getCode());
-                    note = SpringContext.getBean(NoteService.class).createNote(note, document, null);
-                    Attachment attachment = SpringContext.getBean(AttachmentService.class).createAttachment(note, outputFileName, ArConstants.TemplateUploadSystem.TEMPLATE_MIME_TYPE, reportStream.length, new ByteArrayInputStream(reportStream), "");
+                    note = noteService.createNote(note, document, null);
+                    Attachment attachment = attachmentService.createAttachment(note, outputFileName, ArConstants.TemplateUploadSystem.TEMPLATE_MIME_TYPE, reportStream.length, new ByteArrayInputStream(reportStream), "");
                     // adding attachment to the note
                     note.setAttachment(attachment);
-                    SpringContext.getBean(NoteService.class).save(note);
+                    noteService.save(note);
                     attachment.setNoteIdentifier(note.getNoteIdentifier());
-                    SpringContext.getBean(BusinessObjectService.class).save(attachment);
+                    businessObjectService.save(attachment);
                     document.addNote(note);
 
                     // generating Copy invoice
@@ -3094,23 +3178,23 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
                     copyNote.setNotePostedTimestampToCurrent();
                     copyNote.setNoteText("Auto-generated invoice (Copy) for Agency Address-" + document.getDocumentNumber() + "-" + invoiceAgencyAddressDetail.getAgencyAddressName());
                     copyNote.setNoteTypeCode(KFSConstants.NoteTypeEnum.BUSINESS_OBJECT_NOTE_TYPE.getCode());
-                    copyNote = SpringContext.getBean(NoteService.class).createNote(copyNote, document, null);
-                    Attachment copyAttachment = SpringContext.getBean(AttachmentService.class).createAttachment(copyNote, outputFileName, ArConstants.TemplateUploadSystem.TEMPLATE_MIME_TYPE, copyReportStream.length, new ByteArrayInputStream(copyReportStream), "");
+                    copyNote = noteService.createNote(copyNote, document, null);
+                    Attachment copyAttachment = attachmentService.createAttachment(copyNote, outputFileName, ArConstants.TemplateUploadSystem.TEMPLATE_MIME_TYPE, copyReportStream.length, new ByteArrayInputStream(copyReportStream), "");
                     // adding attachment to the note
                     copyNote.setAttachment(copyAttachment);
-                    SpringContext.getBean(NoteService.class).save(copyNote);
+                    noteService.save(copyNote);
                     copyAttachment.setNoteIdentifier(copyNote.getNoteIdentifier());
-                    SpringContext.getBean(BusinessObjectService.class).save(copyAttachment);
+                    businessObjectService.save(copyAttachment);
                     document.addNote(copyNote);
                     invoiceAgencyAddressDetail.setNoteId(note.getNoteIdentifier());
                     // saving the note to the document header
-                    SpringContext.getBean(DocumentService.class).updateDocument(document);
+                    documentService.updateDocument(document);
                 }
                 catch (IOException ex) {
                     GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_FILE_UPLOAD_NO_PDF_FILE_SELECTED_FOR_SAVE, ArConstants.INVOICE_TEMPLATE_NOT_FOUND_ERROR + invoiceTemplate.getInvoiceTemplateCode() + ".");
                 }
                 catch (Exception ex) {
-                    ex.printStackTrace();
+                    LOG.error("problem during ContractsGrantsInvoiceDocumentServiceImpl.generateInvoicesForAgencyAddresses", ex);
                 }
             }
             else {
@@ -3148,7 +3232,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         primaryKeys.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, document.getAccountingPeriod().getUniversityFiscalYear());
         primaryKeys.put("processingChartOfAccountCode", document.getAccountsReceivableDocumentHeader().getProcessingChartOfAccountCode());
         primaryKeys.put("processingOrganizationCode", document.getAccountsReceivableDocumentHeader().getProcessingOrganizationCode());
-        SystemInformation sysInfo = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(SystemInformation.class, primaryKeys);
+        SystemInformation sysInfo = businessObjectService.findByPrimaryKey(SystemInformation.class, primaryKeys);
         parameterMap.put("#documentNumber", returnProperStringValue(document.getDocumentNumber()));
         if (ObjectUtils.isNotNull(document.getDocumentHeader().getWorkflowDocument().getDateCreated())) {
             parameterMap.put("#date", returnProperStringValue(FILE_NAME_TIMESTAMP.format(document.getDocumentHeader().getWorkflowDocument().getDateCreated())));
@@ -3250,7 +3334,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
                 Map map = new HashMap<String, Object>();
                 map.put(KFSPropertyConstants.ACCOUNT_NUMBER, document.getAccountDetails().get(i).getAccountNumber());
                 map.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, document.getAccountDetails().get(i).getChartOfAccountsCode());
-                Account account = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Account.class, map);
+                Account account = businessObjectService.findByPrimaryKey(Account.class, map);
                 if (ObjectUtils.isNotNull(account)) {
                     parameterMap.put("#accountDetails[" + i + "].account.responsibilityID", returnProperStringValue(account.getContractsAndGrantsAccountResponsibilityId()));
                 }
@@ -3310,8 +3394,8 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             }
         }
         if (ObjectUtils.isNotNull(award)) {
-            KualiDecimal billing = SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class).getAwardBilledToDateByProposalNumber(award.getProposalNumber());
-            KualiDecimal payments = SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class).calculateTotalPaymentsToDateByAward(award);
+            KualiDecimal billing = contractsGrantsInvoiceDocumentService.getAwardBilledToDateByProposalNumber(award.getProposalNumber());
+            KualiDecimal payments = contractsGrantsInvoiceDocumentService.calculateTotalPaymentsToDateByAward(award);
             KualiDecimal receivable = billing.subtract(payments);
             parameterMap.put("#award.billings", returnProperStringValue(billing));
             parameterMap.put("#award.payments", returnProperStringValue(payments));
@@ -3470,7 +3554,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         java.sql.Date awdLastBilledDate;
         Map<String, Object> map = new HashMap<String, Object>();
         map.put(KFSPropertyConstants.PROPOSAL_NUMBER, document.getProposalNumber());
-        ContractsAndGrantsBillingAward award = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsBillingAward.class).getExternalizableBusinessObject(ContractsAndGrantsBillingAward.class, map);
+        ContractsAndGrantsBillingAward award = kualiModuleService.getResponsibleModuleService(ContractsAndGrantsBillingAward.class).getExternalizableBusinessObject(ContractsAndGrantsBillingAward.class, map);
         ContractsAndGrantsBillingAwardAccount awardAccount = award.getActiveAwardAccounts().get(0);
         awdLastBilledDate = award.getActiveAwardAccounts().get(0).getCurrentLastBilledDate();
         for (int i = 0; i < award.getActiveAwardAccounts().size(); i++) {
@@ -3533,7 +3617,6 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             }
 
             try {
-                ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService = SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class);
                 contractsGrantsInvoiceDocumentService.retrieveAndUpdateMilestones(invoiceMilestones, string);
 
             }
@@ -3554,7 +3637,6 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         if (invoiceBills != null && !invoiceBills.isEmpty()) {
 
             try {
-                ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService = SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class);
                 contractsGrantsInvoiceDocumentService.retrieveAndUpdateBills(invoiceBills, string);
 
             }
@@ -3638,7 +3720,6 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             totalMilestonesAmount = totalMilestonesAmount.add(milestone.getMilestoneAmount());
         }
 
-        ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService = SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class);
         // set the billed to Date Field
         if (document.getInvoiceGeneralDetail().getBillingFrequency().equalsIgnoreCase(ArPropertyConstants.MILESTONE_BILLING_SCHEDULE_CODE) && CollectionUtils.isNotEmpty(document.getInvoiceMilestones())) {// To
             // check
@@ -3704,9 +3785,9 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         List<Bill> bills = new ArrayList<Bill>();
         Map<String, Object> map = new HashMap<String, Object>();
         map.put(KFSPropertyConstants.PROPOSAL_NUMBER, award.getProposalNumber());
-        milestones = (List<Milestone>) SpringContext.getBean(BusinessObjectService.class).findMatching(Milestone.class, map);
-//        bills = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(AccountsReceivableBill.class).getExternalizableBusinessObjectsList(AccountsReceivableBill.class, map);
-        bills = (List<Bill>) SpringContext.getBean(BusinessObjectService.class).findMatching(Bill.class, map);
+        milestones = (List<Milestone>) businessObjectService.findMatching(Milestone.class, map);
+//        bills = kualiModuleService.getResponsibleModuleService(AccountsReceivableBill.class).getExternalizableBusinessObjectsList(AccountsReceivableBill.class, map);
+        bills = (List<Bill>) businessObjectService.findMatching(Bill.class, map);
 
 
         if (ObjectUtils.isNotNull(award)) {
@@ -3715,9 +3796,6 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             document.setProposalNumber(award.getProposalNumber());
             InvoiceGeneralDetail invoiceGeneralDetail = new InvoiceGeneralDetail();
             invoiceGeneralDetail.setDocumentNumber(document.getDocumentNumber());
-
-            ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService = SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class);
-            VerifyBillingFrequencyService verifyBillingFrequencyService = SpringContext.getBean(VerifyBillingFrequencyService.class);
 
             // Set the last Billed Date and Billing Period
             Timestamp ts = new Timestamp(new java.util.Date().getTime());
@@ -3734,7 +3812,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             document.setCustomerBillToAddressIdentifier(Integer.parseInt("1"));
 
             // Set Invoice due date to current date as it is required field and never used.
-            document.setInvoiceDueDate(SpringContext.getBean(DateTimeService.class).getCurrentSqlDateMidnight());
+            document.setInvoiceDueDate(dateTimeService.getCurrentSqlDateMidnight());
 
             // copy award's agency address to invoice agency address details
             document.getAgencyAddressDetails().clear();
@@ -3742,7 +3820,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             List<ContractsAndGrantsAgencyAddress> agencyAddresses = new ArrayList<ContractsAndGrantsAgencyAddress>();
             Map<String, Object> mapKey = new HashMap<String, Object>();
             mapKey.put(KFSPropertyConstants.AGENCY_NUMBER, award.getAgency().getAgencyNumber());
-            agencyAddresses = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsAgencyAddress.class).getExternalizableBusinessObjectsList(ContractsAndGrantsAgencyAddress.class, mapKey);
+            agencyAddresses = kualiModuleService.getResponsibleModuleService(ContractsAndGrantsAgencyAddress.class).getExternalizableBusinessObjectsList(ContractsAndGrantsAgencyAddress.class, mapKey);
             for (ContractsAndGrantsAgencyAddress agencyAddress : agencyAddresses) {
 
                 InvoiceAgencyAddressDetail invoiceAgencyAddressDetail = new InvoiceAgencyAddressDetail();
@@ -3751,10 +3829,6 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
                 invoiceAgencyAddressDetail.setAgencyAddressIdentifier(agencyAddress.getAgencyAddressIdentifier());
                 invoiceAgencyAddressDetail.setAgencyAddressTypeCode(agencyAddress.getAgencyAddressTypeCode());
                 invoiceAgencyAddressDetail.setAgencyAddressName(agencyAddress.getAgencyAddressName());
-                invoiceAgencyAddressDetail.setAgencyInvoiceTemplateCode(agencyAddress.getAgencyInvoiceTemplateCode());
-                invoiceAgencyAddressDetail.setPreferredAgencyInvoiceTemplateCode(agencyAddress.getAgencyInvoiceTemplateCode());
-                invoiceAgencyAddressDetail.setInvoiceIndicatorCode(agencyAddress.getInvoiceIndicatorCode());
-                invoiceAgencyAddressDetail.setPreferredInvoiceIndicatorCode(agencyAddress.getInvoiceIndicatorCode());
 
                 document.getAgencyAddressDetails().add(invoiceAgencyAddressDetail);
             }
@@ -3850,7 +3924,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             if (ObjectUtils.isNotNull(document.getAccountsReceivableDocumentHeader())) {
                 document.getAccountsReceivableDocumentHeader().setCustomerNumber(award.getAgency().getCustomerNumber());
             }
-            Customer customer = SpringContext.getBean(CustomerService.class).getByPrimaryKey(award.getAgency().getCustomerNumber());
+            Customer customer = customerService.getByPrimaryKey(award.getAgency().getCustomerNumber());
             if (ObjectUtils.isNotNull(customer)) {
                 document.setCustomerName(customer.getCustomerName());
             }
@@ -3874,13 +3948,13 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
         // To set Account Receivable object code when the parameter is 3.
 
-        String receivableOffsetOption = SpringContext.getBean(ParameterService.class).getParameterValueAsString(CustomerInvoiceDocument.class, ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD);
+        String receivableOffsetOption = parameterService.getParameterValueAsString(CustomerInvoiceDocument.class, ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD);
         boolean isUsingReceivableFAU = ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_FAU.equals(receivableOffsetOption);
         List<CustomerInvoiceAccount> customerInvoiceAccounts = new ArrayList<CustomerInvoiceAccount>();
         Map<String, Object> map = new HashMap<String, Object>();
         map.put(KFSPropertyConstants.CUSTOMER_NUMBER, document.getCustomerNumber());
         map.put(KFSPropertyConstants.ACTIVE, true);
-        customerInvoiceAccounts = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(CustomerInvoiceAccount.class).getExternalizableBusinessObjectsList(CustomerInvoiceAccount.class, map);
+        customerInvoiceAccounts = kualiModuleService.getResponsibleModuleService(CustomerInvoiceAccount.class).getExternalizableBusinessObjectsList(CustomerInvoiceAccount.class, map);
         if (isUsingReceivableFAU) {
             if (CollectionUtils.isNotEmpty(customerInvoiceAccounts)) {
                 for (CustomerInvoiceAccount customerInvoiceAccount : customerInvoiceAccounts) {
@@ -3979,12 +4053,12 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         List<Balance> glBalances = new ArrayList<Balance>();
         List<Integer> fiscalYears = new ArrayList<Integer>();
         Calendar c = Calendar.getInstance();
-        Integer currentYear = SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear();
+        Integer currentYear = universityDateService.getCurrentFiscalYear();
         Map<String, Set<String>> objectCodeFromCategoriesMap = new HashMap<String, Set<String>>();
 
         Map<String, Object> criteria = new HashMap<String, Object>();
         criteria.put(KFSPropertyConstants.ACTIVE, true);
-        Collection<ContractsAndGrantsCategories> contractsAndGrantsCategories = SpringContext.getBean(BusinessObjectService.class).findMatching(ContractsAndGrantsCategories.class, criteria);
+        Collection<ContractsAndGrantsCategories> contractsAndGrantsCategories = businessObjectService.findMatching(ContractsAndGrantsCategories.class, criteria);
         // get the categories and create a new arraylist for each one
         for (ContractsAndGrantsCategories category : contractsAndGrantsCategories) {
             // populate the category object code maps
@@ -3997,7 +4071,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             // 1. If award is billed for the first time.
 
 
-            Integer fiscalYear = SpringContext.getBean(UniversityDateService.class).getFiscalYear(award.getAwardBeginningDate());
+            Integer fiscalYear = universityDateService.getFiscalYear(award.getAwardBeginningDate());
 
             for (Integer i = fiscalYear; i <= currentYear; i++) {
                 fiscalYears.add(i);
@@ -4011,15 +4085,13 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
                 balanceKeys.put("objectTypeCode", ArPropertyConstants.EXPENSE_OBJECT_TYPE);
                 balanceKeys.put("balanceTypeCode", ArPropertyConstants.ACTUAL_BALANCE_TYPE);
 
-                glBalances.addAll(SpringContext.getBean(BusinessObjectService.class).findMatching(Balance.class, balanceKeys));
+                glBalances.addAll(businessObjectService.findMatching(Balance.class, balanceKeys));
             }
         } // now you have a list of balances from all accounts;
 
 
         for (Balance bal : glBalances) {
             if (ObjectUtils.isNotNull(bal.getSubAccount()) && ObjectUtils.isNotNull(bal.getSubAccount().getA21SubAccount()) && !StringUtils.equalsIgnoreCase(bal.getSubAccount().getA21SubAccount().getSubAccountTypeCode(), KFSConstants.SubAccountType.COST_SHARE)) {
-
-                ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService = SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class);
 
                 for (ContractsAndGrantsCategories category : contractsAndGrantsCategories) {
                     Set<String> objectCodeFromCategoriesSet = objectCodeFromCategoriesMap.get(category.getCategoryCode());
@@ -4037,7 +4109,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
                         invDtlKeys.put(KFSPropertyConstants.ACCOUNT_NUMBER, bal.getAccountNumber());
                         invDtlKeys.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, bal.getObjectCode());
                         invDtlKeys.put(KFSPropertyConstants.DOCUMENT_NUMBER, document.getDocumentHeader().getDocumentNumber());
-                        invoiceDetailAccountObjectCode = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(InvoiceDetailAccountObjectCode.class, invDtlKeys);
+                        invoiceDetailAccountObjectCode = businessObjectService.findByPrimaryKey(InvoiceDetailAccountObjectCode.class, invDtlKeys);
 
                         if (ObjectUtils.isNull(invoiceDetailAccountObjectCode)) {
                             invoiceDetailAccountObjectCode = new InvoiceDetailAccountObjectCode();
@@ -4062,7 +4134,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
                         }
 
                         // add this single account object code item to the list in the Map
-                        SpringContext.getBean(BusinessObjectService.class).save(invoiceDetailAccountObjectCode);
+                        businessObjectService.save(invoiceDetailAccountObjectCode);
 
 
                         break; // found a match into which category, we can stop and move on to next balance entry
@@ -4100,7 +4172,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
                 totalBilledKeys.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, awdAcct.getChartOfAccountsCode());
                 totalBilledKeys.put(KFSPropertyConstants.ACCOUNT_NUMBER, awdAcct.getAccountNumber());
 
-                List<AwardAccountObjectCodeTotalBilled> awardAccountObjectCodeTotalBilledList = (List<AwardAccountObjectCodeTotalBilled>) SpringContext.getBean(BusinessObjectService.class).findMatching(AwardAccountObjectCodeTotalBilled.class, totalBilledKeys);
+                List<AwardAccountObjectCodeTotalBilled> awardAccountObjectCodeTotalBilledList = (List<AwardAccountObjectCodeTotalBilled>) businessObjectService.findMatching(AwardAccountObjectCodeTotalBilled.class, totalBilledKeys);
 
                 for (InvoiceDetailAccountObjectCode invoiceDetailAccountObjectCode : document.getInvoiceDetailAccountObjectCodes()) {
                     if (CollectionUtils.isNotEmpty(awardAccountObjectCodeTotalBilledList)) {
@@ -4132,11 +4204,10 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         // To get only the active categories.
         Map<String, Object> criteria = new HashMap<String, Object>();
         criteria.put(KFSPropertyConstants.ACTIVE, true);
-        Collection<ContractsAndGrantsCategories> contractsAndGrantsCategories = SpringContext.getBean(BusinessObjectService.class).findMatching(ContractsAndGrantsCategories.class, criteria);
+        Collection<ContractsAndGrantsCategories> contractsAndGrantsCategories = businessObjectService.findMatching(ContractsAndGrantsCategories.class, criteria);
         Iterator<ContractsAndGrantsCategories> it = contractsAndGrantsCategories.iterator();
 
         // query database for award account object code details. then divi them up into categories
-        ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService = SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class);
         List<AwardAccountObjectCodeTotalBilled> awardAccountObjectCodeTotalBilleds = contractsGrantsInvoiceDocumentService.getAwardAccountObjectCodeTotalBuildByProposalNumberAndAccount(awardAccounts);
 
         while (it.hasNext()) {
@@ -4365,7 +4436,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         }
         if (ObjectUtils.isNotNull(category.getCategoryConsolidations()) && StringUtils.isNotEmpty(category.getCategoryConsolidations())) {
             List<String> consolidationCodes = Arrays.asList(category.getCategoryConsolidations().split(","));
-            List<ObjectLevel> objectLevels = SpringContext.getBean(ObjectLevelService.class).getObjectLevelsByConsolidationsIds(consolidationCodes);
+            List<ObjectLevel> objectLevels = objectLevelService.getObjectLevelsByConsolidationsIds(consolidationCodes);
             if (ObjectUtils.isNotNull(objectLevels) && !objectLevels.isEmpty()) {
                 for (ObjectLevel level : objectLevels) {
                     levels.add(level.getFinancialObjectLevelCode());
@@ -4374,7 +4445,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         }
         if (ObjectUtils.isNotNull(category.getCategoryLevels()) && StringUtils.isNotEmpty(category.getCategoryLevels())) {
             List<String> levelCodes = Arrays.asList(category.getCategoryLevels().split(","));
-            List<ObjectLevel> objectLevels = SpringContext.getBean(ObjectLevelService.class).getObjectLevelsByLevelIds(levelCodes);
+            List<ObjectLevel> objectLevels = objectLevelService.getObjectLevelsByLevelIds(levelCodes);
             if (ObjectUtils.isNotNull(objectLevels) && !objectLevels.isEmpty()) {
                 for (ObjectLevel level : objectLevels) {
                     levels.add(level.getFinancialObjectLevelCode());
@@ -4382,7 +4453,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             }
         }
         if (ObjectUtils.isNotNull(levels) && !levels.isEmpty()) {
-            List<ObjectCode> objectCodes = SpringContext.getBean(ObjectCodeService.class).getObjectCodesByLevelIds(new ArrayList<String>(levels));
+            List<ObjectCode> objectCodes = objectCodeService.getObjectCodesByLevelIds(new ArrayList<String>(levels));
             if (ObjectUtils.isNotNull(objectCodes) && !objectCodes.isEmpty()) {
                 for (ObjectCode objectCode : objectCodes) {
                     objectCodeArray.add(objectCode.getFinancialObjectCode());
@@ -4401,7 +4472,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         Set<String> objectCodeArray = new HashSet<String>();
         Map<String, Object> criteria = new HashMap<String, Object>();
         criteria.put(KFSPropertyConstants.ACTIVE, true);
-        Collection<ContractsAndGrantsCategories> contractsAndGrantsCategories = SpringContext.getBean(BusinessObjectService.class).findMatching(ContractsAndGrantsCategories.class, criteria);
+        Collection<ContractsAndGrantsCategories> contractsAndGrantsCategories = businessObjectService.findMatching(ContractsAndGrantsCategories.class, criteria);
         Iterator<ContractsAndGrantsCategories> contractsAndGrantsCategoriesIterator = contractsAndGrantsCategories.iterator();
 
         while (contractsAndGrantsCategoriesIterator.hasNext()) {
@@ -4444,4 +4515,37 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         this.customerService = customerService;
     }
 
+    public ParameterService getParameterService() {
+        return parameterService;
+    }
+
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
+    }
+    
+    public void setUniversityDateService(UniversityDateService universityDateService) {
+        this.universityDateService = universityDateService;
+    }
+    
+    public BusinessObjectService getBusinessObjectService() {
+        return businessObjectService;
+    }
+    
+    /**
+     * This method gets the document service
+     *
+     * @return the document service
+     */
+    public DocumentService getDocumentService() {
+        return documentService;
+    }
+
+    /**
+     * This method sets the document service
+     *
+     * @param documentService
+     */
+    public void setDocumentService(DocumentService documentService) {
+        this.documentService = documentService;
+    }
 }

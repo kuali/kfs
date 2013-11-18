@@ -96,7 +96,7 @@ public class LockboxServiceImpl implements LockboxService {
     private DateTimeService dateTimeService;
     private BusinessObjectService boService;
     private CustomerService customerService;
-
+    private DocumentTypeService documentTypeService;
     private LockboxDao lockboxDao;
     private String reportsDirectory;
 
@@ -135,7 +135,6 @@ public class LockboxServiceImpl implements LockboxService {
                     cashControlDocument.getDocumentHeader().getWorkflowDocument().route("Routed by Lockbox Batch process.");
 
                     //RICE20 replaced searchableAttributeProcessingService.indexDocument with DocumentAttributeIndexingQueue.indexDocument
-                    DocumentTypeService documentTypeService = SpringContext.getBean(DocumentTypeService.class);
                     DocumentType documentType = documentTypeService.getDocumentTypeByName(cashControlDocument.getFinancialDocumentTypeCode());
                     DocumentAttributeIndexingQueue queue = KewApiServiceLocator.getDocumentAttributeIndexingQueue(documentType.getApplicationId());
                     queue.indexDocument(cashControlDocument.getDocumentNumber());
@@ -226,7 +225,6 @@ public class LockboxServiceImpl implements LockboxService {
                     cashControlDocument.getDocumentHeader().getWorkflowDocument().route("Routed by Lockbox Batch process.");
 
                     //RICE20 replaced searchableAttributeProcessingService.indexDocument with DocumentAttributeIndexingQueue.indexDocument
-                    DocumentTypeService documentTypeService = SpringContext.getBean(DocumentTypeService.class);
                     DocumentType documentType = documentTypeService.getDocumentTypeByName(cashControlDocument.getFinancialDocumentTypeCode());
                     DocumentAttributeIndexingQueue queue = KewApiServiceLocator.getDocumentAttributeIndexingQueue(documentType.getApplicationId());
                     queue.indexDocument(cashControlDocument.getDocumentNumber());
@@ -507,7 +505,6 @@ public class LockboxServiceImpl implements LockboxService {
             payAppDoc.getDocumentHeader().getWorkflowDocument().route(annotation);
 
             //RICE20 replaced searchableAttributeProcessingService.indexDocument with DocumentAttributeIndexingQueue.indexDocument
-            DocumentTypeService documentTypeService = SpringContext.getBean(DocumentTypeService.class);
             DocumentType documentType = documentTypeService.getDocumentTypeByName(payAppDoc.getFinancialDocumentTypeCode());
             DocumentAttributeIndexingQueue queue = KewApiServiceLocator.getDocumentAttributeIndexingQueue(documentType.getApplicationId());
             queue.indexDocument(payAppDoc.getDocumentNumber());
@@ -793,5 +790,7 @@ public class LockboxServiceImpl implements LockboxService {
         this.customerService = customerService;
     }
 
-
+    public void setDocumentTypeService(DocumentTypeService documentTypeService) {
+        this.documentTypeService = documentTypeService;
+    }
 }

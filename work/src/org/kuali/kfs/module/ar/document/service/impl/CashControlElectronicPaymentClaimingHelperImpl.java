@@ -51,7 +51,7 @@ public class CashControlElectronicPaymentClaimingHelperImpl implements Electroni
     protected CashControlDocumentService cashControlDocumentService;
     protected ConfigurationService kualiConfigurationService;
     private static DocumentTypeService documentTypeService;
-
+    private AccountsReceivableDocumentHeaderService accountsReceivableDocumentHeaderService;
     protected final static String URL_PREFIX = "ar";
     protected final static String URL_MIDDLE = "Document.do?methodToCall=docHandler&command=";
     protected final static String URL_SUFFIX = "&docId=";
@@ -70,7 +70,6 @@ public class CashControlElectronicPaymentClaimingHelperImpl implements Electroni
 
             //create and set AccountsReceivableDocumentHeader
             ChartOrgHolder currentUser = SpringContext.getBean(FinancialSystemUserService.class).getPrimaryOrganization(GlobalVariables.getUserSession().getPerson(), ArConstants.AR_NAMESPACE_CODE);
-            AccountsReceivableDocumentHeaderService accountsReceivableDocumentHeaderService = SpringContext.getBean(AccountsReceivableDocumentHeaderService.class);
             AccountsReceivableDocumentHeader accountsReceivableDocumentHeader = accountsReceivableDocumentHeaderService.getNewAccountsReceivableDocumentHeaderForCurrentUser();
             accountsReceivableDocumentHeader.setDocumentNumber(document.getDocumentNumber());
             document.setAccountsReceivableDocumentHeader(accountsReceivableDocumentHeader);
@@ -226,6 +225,14 @@ public class CashControlElectronicPaymentClaimingHelperImpl implements Electroni
         }
         return documentTypeService;
     }
-
+    
+    /**
+     * Sets the accountsReceivableDocumentHeaderService attribute value.
+     *
+     * @param accountsReceivableDocumentHeaderService The accountsReceivableDocumentHeaderService to set.
+     */
+    public void setAccountsReceivableDocumentHeaderService(AccountsReceivableDocumentHeaderService accountsReceivableDocumentHeaderService) {
+        this.accountsReceivableDocumentHeaderService = accountsReceivableDocumentHeaderService;
+    }
 }
 

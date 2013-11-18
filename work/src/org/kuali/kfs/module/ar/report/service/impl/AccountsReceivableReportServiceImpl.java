@@ -96,11 +96,18 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
     private DateTimeService dateTimeService;
     private DocumentService documentService;
     private ParameterService parameterService;
-
+    private CustomerAddressService customerAddressService;
     private PhoneNumberFormatter phoneNumberFormatter = new PhoneNumberFormatter();
-
+    private BusinessObjectService businessObjectService;
     private CurrencyFormatter currencyFormatter = new CurrencyFormatter();
-
+    private UniversityDateService universityDateService;
+    private CustomerService customerService;
+    private CustomerInvoiceDetailService customerInvoiceDetailService;
+    private CustomerInvoiceDocumentService customerInvoiceDocumentService;
+    private OrganizationService orgService;
+    protected InvoicePaidAppliedService<AppliedPayment> invoicePaidAppliedService;
+    private CustomerInvoiceWriteoffDocumentService invoiceWriteoffDocumentService;
+    
     /**
      * @see org.kuali.kfs.module.ar.report.service.AccountsReceivableReportService#generateCreditMemo(org.kuali.kfs.module.ar.document.CustomerCreditMemoDocument)
      */
@@ -110,8 +117,6 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
         String invoiceNumber = creditMemo.getFinancialDocumentReferenceInvoiceNumber();
         CustomerInvoiceDocument invoice = (CustomerInvoiceDocument) documentService.getByDocumentHeaderId(invoiceNumber);
         String custID = invoice.getAccountsReceivableDocumentHeader().getCustomerNumber();
-
-        CustomerAddressService addrService = SpringContext.getBean(CustomerAddressService.class);
 
         Map<String, String> creditMemoMap = new HashMap<String, String>();
         creditMemoMap.put("docNumber", creditMemo.getDocumentNumber());
@@ -163,7 +168,7 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
         invoiceMap.put("headerField", (ObjectUtils.isNull(invoice.getInvoiceHeaderText()) ? "" : invoice.getInvoiceHeaderText()));
         invoiceMap.put("billingOrgName", invoice.getBilledByOrganization().getOrganizationName());
         invoiceMap.put("pretaxAmount", invoice.getInvoiceItemPreTaxAmountTotal().toString());
-        boolean salesTaxInd = SpringContext.getBean(ParameterService.class).getParameterValueAsBoolean("KFS-AR", "Document", ArConstants.ENABLE_SALES_TAX_IND);
+        boolean salesTaxInd = parameterService.getParameterValueAsBoolean("KFS-AR", "Document", ArConstants.ENABLE_SALES_TAX_IND);
         if (salesTaxInd) {
             invoiceMap.put("taxAmount", invoice.getInvoiceItemTaxAmountTotal().toString());
             // KualiDecimal taxPercentage = invoice.getStateTaxPercent().add(invoice.getLocalTaxPercent());
@@ -183,10 +188,9 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
         Map<String, String> criteria = new HashMap<String, String>();
         criteria.put("chartOfAccountsCode", chart);
         criteria.put("organizationCode", org);
-        OrganizationOptions orgOptions = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(OrganizationOptions.class, criteria);
+        OrganizationOptions orgOptions = businessObjectService.findByPrimaryKey(OrganizationOptions.class, criteria);
 
-        BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
-        String fiscalYear = SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear().toString();
+        String fiscalYear = universityDateService.getCurrentFiscalYear().toString();
         criteria = new HashMap<String, String>();
 
         Organization processingOrg = invoice.getAccountsReceivableDocumentHeader().getProcessingOrganization();
@@ -236,13 +240,11 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
 
         CustomerInvoiceReportDataHolder reportDataHolder = new CustomerInvoiceReportDataHolder();
         String custID = invoice.getAccountsReceivableDocumentHeader().getCustomerNumber();
-        CustomerService custService = SpringContext.getBean(CustomerService.class);
-        Customer cust = custService.getByPrimaryKey(custID);
+        Customer cust = customerService.getByPrimaryKey(custID);
         Integer customerBillToAddressIdentifier = invoice.getCustomerBillToAddressIdentifier();
         Integer customerShipToAddressIdentifier = invoice.getCustomerShipToAddressIdentifier();
-        CustomerAddressService addrService = SpringContext.getBean(CustomerAddressService.class);
-        CustomerAddress billToAddr = addrService.getByPrimaryKey(custID, customerBillToAddressIdentifier);
-        CustomerAddress shipToAddr = addrService.getByPrimaryKey(custID, customerShipToAddressIdentifier);
+        CustomerAddress billToAddr = customerAddressService.getByPrimaryKey(custID, customerBillToAddressIdentifier);
+        CustomerAddress shipToAddr = customerAddressService.getByPrimaryKey(custID, customerShipToAddressIdentifier);
 
         Map<String, String> customerMap = new HashMap<String, String>();
         customerMap.put("id", custID);
@@ -299,7 +301,7 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
         invoiceMap.put("invoiceAttentionLineText", StringUtils.upperCase(invoice.getInvoiceAttentionLineText()));
         invoiceMap.put("billingOrgName", invoice.getBilledByOrganization().getOrganizationName());
         invoiceMap.put("pretaxAmount", currencyFormatter.format(invoice.getInvoiceItemPreTaxAmountTotal()).toString());
-        boolean salesTaxInd = SpringContext.getBean(ParameterService.class).getParameterValueAsBoolean("KFS-AR", "Document", ArConstants.ENABLE_SALES_TAX_IND);
+        boolean salesTaxInd = parameterService.getParameterValueAsBoolean("KFS-AR", "Document", ArConstants.ENABLE_SALES_TAX_IND);
         if (salesTaxInd) {
             invoiceMap.put("taxAmount", currencyFormatter.format(invoice.getInvoiceItemTaxAmountTotal()).toString());
             invoiceMap.put("taxPercentage", ""); // suppressing this as its useless ... see KULAR-415
@@ -310,8 +312,7 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
         OCRLineService ocrService = SpringContext.getBean(OCRLineService.class);
         String ocrLine = ocrService.generateOCRLine(invoice.getSourceTotal(), custID, invoice.getDocumentNumber());
         invoiceMap.put("ocrLine", ocrLine);
-        CustomerInvoiceDetailService invoiceDetailService = SpringContext.getBean(CustomerInvoiceDetailService.class);
-        List<CustomerInvoiceDetail> detailsList = (List<CustomerInvoiceDetail>) invoiceDetailService.getCustomerInvoiceDetailsForInvoice(invoice);
+        List<CustomerInvoiceDetail> detailsList = (List<CustomerInvoiceDetail>) customerInvoiceDetailService.getCustomerInvoiceDetailsForInvoice(invoice);
         CustomerInvoiceDetail firstDetail = detailsList.get(0);
         String firstChartCode = firstDetail.getChartOfAccountsCode();
         String firstAccount = firstDetail.getAccountNumber();
@@ -325,10 +326,9 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
         Map<String, String> criteria = new HashMap<String, String>();
         criteria.put("chartOfAccountsCode", chart);
         criteria.put("organizationCode", org);
-        OrganizationOptions orgOptions = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(OrganizationOptions.class, criteria);
+        OrganizationOptions orgOptions = businessObjectService.findByPrimaryKey(OrganizationOptions.class, criteria);
 
-        BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
-        String fiscalYear = SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear().toString();
+        String fiscalYear = universityDateService.getCurrentFiscalYear().toString();
         criteria = new HashMap<String, String>();
 
         Organization processingOrg = invoice.getAccountsReceivableDocumentHeader().getProcessingOrganization();
@@ -380,8 +380,7 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
     public File createStatement(String billingChartCode, String billingOrgCode, String customerNumber, Organization processingOrg, List<CustomerStatementDetailReportDataHolder> details, String statementFormat, String zeroBalance, CustomerStatementResultHolder customerStatementResultHolder) {
 
         CustomerStatementReportDataHolder reportDataHolder = new CustomerStatementReportDataHolder();
-        CustomerAddressService addrService = SpringContext.getBean(CustomerAddressService.class);
-        CustomerAddress billToAddr = addrService.getPrimaryAddress(customerNumber);
+        CustomerAddress billToAddr = customerAddressService.getPrimaryAddress(customerNumber);
 
         Map<String, String> customerMap = new HashMap<String, String>();
         customerMap.put("id", customerNumber);
@@ -406,7 +405,7 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
         invoiceMap.clear();
         invoiceMap.put("createDate", dateTimeService.toDateString(dateTimeService.getCurrentDate()));
         invoiceMap.put("customerOrg", billingOrgCode);
-        Organization billingOrg = SpringContext.getBean(OrganizationService.class).getByPrimaryId(billingChartCode, billingOrgCode);
+        Organization billingOrg = orgService.getByPrimaryId(billingChartCode, billingOrgCode);
         invoiceMap.put("billingOrgName", billingOrg.getOrganizationName());
 
         KualiDecimal amountDue = KualiDecimal.ZERO;
@@ -451,7 +450,7 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
         Map<String, String> criteria = new HashMap<String, String>();
         criteria.put("chartOfAccountsCode", billingChartCode);
         criteria.put("organizationCode", billingOrgCode);
-        OrganizationOptions orgOptions = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(OrganizationOptions.class, criteria);
+        OrganizationOptions orgOptions = businessObjectService.findByPrimaryKey(OrganizationOptions.class, criteria);
 
         sysinfoMap.put("checkPayableTo", orgOptions.getOrganizationCheckPayableToName());
         sysinfoMap.put("remitToName", orgOptions.getOrganizationRemitToAddressName());
@@ -462,8 +461,7 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
         invoiceMap.put("billingOrgFax", (String) phoneNumberFormatter.format(phoneNumberFormatter.convertFromPresentationFormat(orgOptions.getOrganizationFaxNumber())));
         invoiceMap.put("billingOrgPhone", (String) phoneNumberFormatter.format(phoneNumberFormatter.convertFromPresentationFormat(orgOptions.getOrganizationPhoneNumber())));
 
-        BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
-        String fiscalYear = SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear().toString();
+        String fiscalYear = universityDateService.getCurrentFiscalYear().toString();
 
         criteria.clear();
         criteria.put("universityFiscalYear", fiscalYear);
@@ -497,7 +495,7 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
      */
     @Override
     public List<File> generateInvoicesByBillingOrg(String chartCode, String orgCode, Date date) {
-        CustomerInvoiceDocumentService invoiceDocService = SpringContext.getBean(CustomerInvoiceDocumentService.class);
+        CustomerInvoiceDocumentService invoiceDocService = customerInvoiceDocumentService;
         List<CustomerInvoiceDocument> invoices = invoiceDocService.getPrintableCustomerInvoiceDocumentsByBillingChartAndOrg(chartCode, orgCode);
         List<File> reports = new ArrayList<File>();
 
@@ -520,8 +518,7 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
      */
     @Override
     public List<File> generateInvoicesByProcessingOrg(String chartCode, String orgCode, Date date) {
-        CustomerInvoiceDocumentService invoiceDocService = SpringContext.getBean(CustomerInvoiceDocumentService.class);
-        List<CustomerInvoiceDocument> invoices = invoiceDocService.getPrintableCustomerInvoiceDocumentsByProcessingChartAndOrg(chartCode, orgCode);
+        List<CustomerInvoiceDocument> invoices = customerInvoiceDocumentService.getPrintableCustomerInvoiceDocumentsByProcessingChartAndOrg(chartCode, orgCode);
 
         List<File> reports = new ArrayList<File>();
         for (CustomerInvoiceDocument doc : invoices) {
@@ -543,8 +540,7 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
     @Override
     public List<File> generateInvoicesByInitiator(String initiator, java.sql.Date date) {
         List<File> reports = new ArrayList<File>();
-        CustomerInvoiceDocumentService invoiceDocService = SpringContext.getBean(CustomerInvoiceDocumentService.class);
-        Collection<CustomerInvoiceDocument> invoices = invoiceDocService.getPrintableCustomerInvoiceDocumentsByInitiatorPrincipalName(initiator);
+        Collection<CustomerInvoiceDocument> invoices = customerInvoiceDocumentService.getPrintableCustomerInvoiceDocumentsByInitiatorPrincipalName(initiator);
         for (CustomerInvoiceDocument invoice : invoices) {
             if (date == null) {
                 reports.add(generateInvoice(invoice));
@@ -580,7 +576,7 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
         for (String processingChartAndOrg : processingOrgKeys) {
             String processingChartCode = processingChartAndOrg.substring(0, 2);
             String processingOrgCode = processingChartAndOrg.substring(2);
-            Organization processingOrg = SpringContext.getBean(OrganizationService.class).getByPrimaryId(processingChartCode, processingOrgCode);
+            Organization processingOrg = orgService.getByPrimaryId(processingChartCode, processingOrgCode);
 
             // sort by organization
             Map<String, Map<String, List<CustomerStatementDetailReportDataHolder>>> statementDetailsByProcessingOrg = statementDetailsSorted.get(processingChartAndOrg);
@@ -627,7 +623,7 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
      */
     @Override
     public List<CustomerStatementResultHolder> generateStatementByBillingOrg(String chartCode, String orgCode, String statementFormat, String incldueZeroBalanceCustomers) {
-        return generateStatementReports(SpringContext.getBean(CustomerInvoiceDocumentService.class).getPrintableCustomerInvoiceDocumentsForBillingStatementByBillingChartAndOrg(chartCode, orgCode), statementFormat, incldueZeroBalanceCustomers);
+        return generateStatementReports(customerInvoiceDocumentService.getPrintableCustomerInvoiceDocumentsForBillingStatementByBillingChartAndOrg(chartCode, orgCode), statementFormat, incldueZeroBalanceCustomers);
     }
 
     /**
@@ -635,7 +631,7 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
      */
     @Override
     public List<CustomerStatementResultHolder> generateStatementByAccount(String accountNumber, String statementFormat, String incldueZeroBalanceCustomers) {
-        return generateStatementReports(SpringContext.getBean(CustomerInvoiceDocumentService.class).getCustomerInvoiceDocumentsByAccountNumber(accountNumber), statementFormat, incldueZeroBalanceCustomers);
+        return generateStatementReports(customerInvoiceDocumentService.getCustomerInvoiceDocumentsByAccountNumber(accountNumber), statementFormat, incldueZeroBalanceCustomers);
     }
 
     /**
@@ -644,9 +640,9 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
     @Override
     public List<CustomerStatementResultHolder> generateStatementByCustomer(String customerNumber, String statementFormat, String incldueZeroBalanceCustomers) {
         if(StringUtils.equals(statementFormat, ArConstants.STATEMENT_FORMAT_SUMMARY)){
-            return generateStatementReports(SpringContext.getBean(CustomerInvoiceDocumentService.class).getOpenInvoiceDocumentsByCustomerNumber(customerNumber), statementFormat, incldueZeroBalanceCustomers);
+            return generateStatementReports(customerInvoiceDocumentService.getOpenInvoiceDocumentsByCustomerNumber(customerNumber), statementFormat, incldueZeroBalanceCustomers);
         } else {
-            return generateStatementReports(SpringContext.getBean(CustomerInvoiceDocumentService.class).getCustomerInvoiceDocumentsByCustomerNumber(customerNumber), statementFormat, incldueZeroBalanceCustomers);
+            return generateStatementReports(customerInvoiceDocumentService.getCustomerInvoiceDocumentsByCustomerNumber(customerNumber), statementFormat, incldueZeroBalanceCustomers);
         }
     }
 
@@ -687,8 +683,7 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
 
         List<CustomerStatementDetailReportDataHolder> returnList = new ArrayList<CustomerStatementDetailReportDataHolder>();
         //  payment
-        InvoicePaidAppliedService<AppliedPayment> paymentService = SpringContext.getBean(InvoicePaidAppliedService.class);
-        Collection<InvoicePaidApplied> payments = paymentService.getInvoicePaidAppliedsForInvoice(invoice);
+        Collection<InvoicePaidApplied> payments = invoicePaidAppliedService.getInvoicePaidAppliedsForInvoice(invoice);
         for (InvoicePaidApplied doc : payments) {
             try {
                 Document payAppDoc = documentService.getByDocumentHeaderId(doc.getDocumentNumber());
@@ -761,8 +756,7 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
                          statementDetailsByCustomer.addAll( paymentsForInvoice(invoice));
 
                           // add writeoff
-                        CustomerInvoiceWriteoffDocumentService writeoffService = SpringContext.getBean(CustomerInvoiceWriteoffDocumentService.class);
-                        Collection<CustomerInvoiceWriteoffDocument> writeoffs = writeoffService.getCustomerCreditMemoDocumentByInvoiceDocument(invoice.getDocumentNumber());
+                        Collection<CustomerInvoiceWriteoffDocument> writeoffs = invoiceWriteoffDocumentService.getCustomerCreditMemoDocumentByInvoiceDocument(invoice.getDocumentNumber());
                         for (CustomerInvoiceWriteoffDocument doc : writeoffs) {
                             try {
                                 WorkflowDocument workflowDoc = doc.getDocumentHeader().getWorkflowDocument();
@@ -844,7 +838,6 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
     protected void calculateAgingAmounts(List<CustomerStatementDetailReportDataHolder> details, Map<String, String> invoiceMap,KualiDecimal previousBalance) {
         for (CustomerStatementDetailReportDataHolder csdrdh : details) {
             if (csdrdh.getDocType().equals(ArConstants.INVOICE_DOC_TYPE)) {
-                CustomerInvoiceDocumentService customerInvoiceDocumentService = SpringContext.getBean(CustomerInvoiceDocumentService.class);
                 CustomerInvoiceDocument ci = customerInvoiceDocumentService.getInvoiceByInvoiceDocumentNumber(csdrdh.getDocumentNumber());
 
                 Collection<CustomerInvoiceDetail> invoiceDetails = customerInvoiceDocumentService.getCustomerInvoiceDetailsForCustomerInvoiceDocument(ci);
@@ -896,7 +889,6 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
     protected CustomerBillingStatement getCustomerBillingStatement(String customerNumber) {
         Map<String, String> criteria = new HashMap<String, String>();
         criteria.put("customerNumber", customerNumber);
-        BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
         return businessObjectService.findByPrimaryKey(CustomerBillingStatement.class, criteria);
     }
 
@@ -972,5 +964,72 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
         this.parameterService = parameterService;
     }
 
+    public CustomerAddressService getCustomerAddressService() {
+        return customerAddressService;
+    }
 
+    public void setCustomerAddressService(CustomerAddressService customerAddressService) {
+        this.customerAddressService = customerAddressService;
+    }
+    
+    /**
+     * @param businessObjectService
+     */
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
+    }
+    
+    public void setUniversityDateService(UniversityDateService universityDateService) {
+        this.universityDateService = universityDateService;
+    }
+    
+    public CustomerService getCustomerService() {
+        return customerService;
+    }
+
+    public void setCustomerService(CustomerService customerService) {
+        this.customerService = customerService;
+    }
+    
+    /**
+     * Gets the customerInvoiceDetailService attribute.
+     *
+     * @return Returns the customerInvoiceDetailService.
+     */
+    public CustomerInvoiceDetailService getCustomerInvoiceDetailService() {
+        return customerInvoiceDetailService;
+    }
+
+    /**
+     * Sets the customerInvoiceDetailService attribute value.
+     *
+     * @param customerInvoiceDetailService The customerInvoiceDetailService to set.
+     */
+    public void setCustomerInvoiceDetailService(CustomerInvoiceDetailService customerInvoiceDetailService) {
+        this.customerInvoiceDetailService = customerInvoiceDetailService;
+    }
+    
+    public CustomerInvoiceDocumentService getCustomerInvoiceDocumentService() {
+        return customerInvoiceDocumentService;
+    }
+
+    public void setCustomerInvoiceDocumentService(CustomerInvoiceDocumentService customerInvoiceDocumentService) {
+        this.customerInvoiceDocumentService = customerInvoiceDocumentService;
+    }
+    
+    public void setOrgService(OrganizationService orgService) {
+        this.orgService = orgService;
+    }
+    
+    public void setInvoicePaidAppliedService(InvoicePaidAppliedService invoicePaidAppliedService) {
+        this.invoicePaidAppliedService = invoicePaidAppliedService;
+    }
+    
+    public CustomerInvoiceWriteoffDocumentService getInvoiceWriteoffDocumentService() {
+        return invoiceWriteoffDocumentService;
+    }
+
+    public void setInvoiceWriteoffDocumentService(CustomerInvoiceWriteoffDocumentService customerInvoiceWriteoffDocumentService) {
+        this.invoiceWriteoffDocumentService = customerInvoiceWriteoffDocumentService;
+    }
 }

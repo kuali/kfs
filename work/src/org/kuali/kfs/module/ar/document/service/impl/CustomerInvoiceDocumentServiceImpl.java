@@ -86,7 +86,7 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
     protected CustomerInvoiceDetailService customerInvoiceDetailService;
     protected CustomerInvoiceRecurrenceDetails customerInvoiceRecurrenceDetails;
     protected UniversityDateService universityDateService;
-
+    protected ParameterService parameterService;
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CustomerInvoiceDocumentServiceImpl.class);
 
     /**
@@ -354,7 +354,6 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
         // original-amount = SpringContext.getBean(FinancialSystemDocumentService.class).get
         HashMap criteria = new HashMap();
         criteria.put("documentNumber", customerInvoiceDocument.getDocumentHeader().getDocumentTemplateNumber());
-        businessObjectService = SpringContext.getBean(BusinessObjectService.class);
         FinancialSystemDocumentHeader financialSystemDocumentHeader = businessObjectService.findByPrimaryKey(FinancialSystemDocumentHeader.class, criteria);
         KualiDecimal originalTotalAmount = KualiDecimal.ZERO;
         originalTotalAmount = financialSystemDocumentHeader.getFinancialDocumentTotalAmount();
@@ -616,7 +615,7 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
         }
 
         // If document is using receivable option, set receivable accounting line for customer invoice document
-        String receivableOffsetOption = SpringContext.getBean(ParameterService.class).getParameterValueAsString(CustomerInvoiceDocument.class, ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD);
+        String receivableOffsetOption = parameterService.getParameterValueAsString(CustomerInvoiceDocument.class, ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD);
         boolean isUsingReceivableFAU = ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_FAU.equals(receivableOffsetOption);
         if (isUsingReceivableFAU) {
             receivableAccountingLineService.setReceivableAccountingLineForCustomerInvoiceDocument(document);
@@ -630,7 +629,6 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
     public void loadCustomerAddressesForCustomerInvoiceDocument(CustomerInvoiceDocument customerInvoiceDocument) {
         // if address identifier is provided, try to refresh customer address data
         if (ObjectUtils.isNotNull(customerInvoiceDocument.getAccountsReceivableDocumentHeader())) {
-            CustomerAddressService customerAddressService = SpringContext.getBean(CustomerAddressService.class);
             CustomerAddress customerShipToAddress = customerAddressService.getByPrimaryKey(customerInvoiceDocument.getAccountsReceivableDocumentHeader().getCustomerNumber(), customerInvoiceDocument.getCustomerShipToAddressIdentifier());
             CustomerAddress customerBillToAddress = customerAddressService.getByPrimaryKey(customerInvoiceDocument.getAccountsReceivableDocumentHeader().getCustomerNumber(), customerInvoiceDocument.getCustomerBillToAddressIdentifier());
 
@@ -672,7 +670,7 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
         // make open invoice indicator to true
         document.setOpenInvoiceIndicator(true);
         document.setPrintDate(null);
-        document.setBillingDate(SpringContext.getBean(DateTimeService.class).getCurrentSqlDateMidnight());
+        document.setBillingDate(dateTimeService.getCurrentSqlDateMidnight());
     }
 
     /**
@@ -867,7 +865,7 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
             else {
                 Document doc = null;
                 try {
-                    doc = SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(invDocumentNumber);
+                    doc = documentService.getByDocumentHeaderId(invDocumentNumber);
                 }
                 catch (WorkflowException e) {
                     isSuccess &= false;
@@ -946,4 +944,14 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
         // TODO Auto-generated method stub
 
     }
+    
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
+    }
+
+    public void setPersonService(PersonService personService) {
+        this.personService = personService;
+    }
+    
+    
 }

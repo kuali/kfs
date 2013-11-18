@@ -43,9 +43,9 @@ public class CustomerAgingReportServiceImpl implements CustomerAgingReportServic
 
 
     private DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
-
+    private ParameterService parameterService;
     private DateTimeService dateTimeService;
-
+    private CustomerInvoiceDocumentService customerInvoiceDocumentService;
 
     /**
      * @see org.kuali.kfs.module.ar.report.service.CustomerAgingReportService#calculateAgingReportAmounts()
@@ -59,7 +59,7 @@ public class CustomerAgingReportServiceImpl implements CustomerAgingReportServic
         KualiDecimal total91toSYSPR = KualiDecimal.ZERO;
         KualiDecimal totalSYSPRplus1orMore = KualiDecimal.ZERO;
 
-        String nbrDaysForLastBucket = SpringContext.getBean(ParameterService.class).getParameterValueAsString(CustomerAgingReportDetail.class, "CUSTOMER_INVOICE_AGE");     // ArConstants.CUSTOMER_INVOICE_AGE); // default is 120
+        String nbrDaysForLastBucket = parameterService.getParameterValueAsString(CustomerAgingReportDetail.class, "CUSTOMER_INVOICE_AGE");     // ArConstants.CUSTOMER_INVOICE_AGE); // default is 120
 
         Date cutoffdate30 = DateUtils.addDays(reportRunDate, -30);
         Date cutoffdate60 = DateUtils.addDays(reportRunDate, -60);
@@ -80,7 +80,7 @@ public class CustomerAgingReportServiceImpl implements CustomerAgingReportServic
             if(retrievedInvoices.containsKey(invoiceDocumentNumber)) {
                 custInvoice = (CustomerInvoiceDocument) retrievedInvoices.get(invoiceDocumentNumber);
             } else {
-                custInvoice = SpringContext.getBean(CustomerInvoiceDocumentService.class).getInvoiceByInvoiceDocumentNumber(invoiceDocumentNumber);
+                custInvoice = customerInvoiceDocumentService.getInvoiceByInvoiceDocumentNumber(invoiceDocumentNumber);
                 retrievedInvoices.put(invoiceDocumentNumber, custInvoice);
             }
             Date approvalDate=custInvoice.getBillingDate(); 
@@ -157,4 +157,11 @@ public class CustomerAgingReportServiceImpl implements CustomerAgingReportServic
         this.dateTimeService = dateTimeService;
     }
     
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
+    }
+    
+    public void setCustomerInvoiceDocumentService(CustomerInvoiceDocumentService customerInvoiceDocumentService) {
+        this.customerInvoiceDocumentService = customerInvoiceDocumentService;
+    }
 }

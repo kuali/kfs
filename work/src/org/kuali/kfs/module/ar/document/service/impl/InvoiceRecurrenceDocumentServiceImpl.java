@@ -47,7 +47,10 @@ public class InvoiceRecurrenceDocumentServiceImpl implements InvoiceRecurrenceDo
 
     private ParameterService parameterService;
     private BusinessObjectService businessObjectService;
-
+    private CustomerAddressService customerAddressService;
+    private DocumentService documentService;
+    private DateTimeService dateTimeService;
+    
     /**
      * @see org.kuali.kfs.module.ar.document.service.AccountsReceivableTaxService#isCustomerInvoiceDetailTaxable(org.kuali.kfs.module.ar.document.CustomerInvoiceDocument, org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail)
      */
@@ -104,7 +107,6 @@ public class InvoiceRecurrenceDocumentServiceImpl implements InvoiceRecurrenceDo
         //if customer number or ship to address id isn't provided, go to org options
         if (ObjectUtils.isNotNull(shipToAddressIdentifier) && StringUtils.isNotEmpty(customerNumber) ) {
 
-            CustomerAddressService customerAddressService = SpringContext.getBean(CustomerAddressService.class);
             CustomerAddress customerShipToAddress = customerAddressService.getByPrimaryKey(customerNumber, shipToAddressIdentifier);
             if( ObjectUtils.isNotNull(customerShipToAddress) ){
                 postalCode = customerShipToAddress.getCustomerZipCode();
@@ -138,7 +140,7 @@ public class InvoiceRecurrenceDocumentServiceImpl implements InvoiceRecurrenceDo
 
         CustomerInvoiceDocument customerInvoiceDocument = null;
         try {
-            customerInvoiceDocument = (CustomerInvoiceDocument)SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(invoiceNumber);
+            customerInvoiceDocument = (CustomerInvoiceDocument)documentService.getByDocumentHeaderId(invoiceNumber);
         } catch (WorkflowException e){
 
         }
@@ -163,7 +165,7 @@ public class InvoiceRecurrenceDocumentServiceImpl implements InvoiceRecurrenceDo
         if (ObjectUtils.isNull(beginDate)) {
             return isSuccess;
         }
-        Timestamp currentDate = new Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime());
+        Timestamp currentDate = new Timestamp(dateTimeService.getCurrentDate().getTime());
         Timestamp beginDateTimestamp = new Timestamp(beginDate.getTime());
         if (beginDateTimestamp.before(currentDate) || beginDateTimestamp.equals(currentDate)) {
             return false;
@@ -268,7 +270,7 @@ public class InvoiceRecurrenceDocumentServiceImpl implements InvoiceRecurrenceDo
         }
         Integer maximumRecurrencesByInterval;
         if (ObjectUtils.isNotNull(intervalCode)) {
-            List<String> maximumRecurrences = new ArrayList<String>( SpringContext.getBean(ParameterService.class).getSubParameterValuesAsString(InvoiceRecurrence.class, ArConstants.MAXIMUM_RECURRENCES_BY_INTERVAL, intervalCode) );
+            List<String> maximumRecurrences = new ArrayList<String>( parameterService.getSubParameterValuesAsString(InvoiceRecurrence.class, ArConstants.MAXIMUM_RECURRENCES_BY_INTERVAL, intervalCode) );
             if (maximumRecurrences.size() > 0 && StringUtils.isNotBlank(maximumRecurrences.get(0))) {
                 maximumRecurrencesByInterval = Integer.valueOf(maximumRecurrences.get(0));
                 if (totalRecurrenceNumber > maximumRecurrencesByInterval) {
@@ -301,5 +303,21 @@ public class InvoiceRecurrenceDocumentServiceImpl implements InvoiceRecurrenceDo
 
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
+    }
+    
+    public CustomerAddressService getCustomerAddressService() {
+        return customerAddressService;
+    }
+
+    public void setCustomerAddressService(CustomerAddressService customerAddressService) {
+        this.customerAddressService = customerAddressService;
+    }
+    
+    public void setDocumentService(DocumentService documentService) {
+        this.documentService = documentService;
+    }
+
+    public void setDateTimeService(DateTimeService dateTimeService) {
+        this.dateTimeService = dateTimeService;
     }
 }

@@ -45,6 +45,7 @@ public class CustomerCreditMemoDocumentServiceImpl implements CustomerCreditMemo
     private UniversityDateService universityDateService;
     private BusinessObjectService businessObjectService;
     private DateTimeService dateTimeService;
+    private AccountsReceivableTaxService accountsReceivableTaxService;
     
     public void completeCustomerCreditMemo(CustomerCreditMemoDocument creditMemo) {
         
@@ -147,7 +148,7 @@ public class CustomerCreditMemoDocumentServiceImpl implements CustomerCreditMemo
             
             if (!blanketApproveDocumentEventFlag) {
                 customerCreditMemoDetail.setDuplicateCreditMemoItemTotalAmount(customerCreditMemoDetailItemAmount);
-                boolean isCustomerInvoiceDetailTaxable = SpringContext.getBean(AccountsReceivableTaxService.class).isCustomerInvoiceDetailTaxable(customerCreditMemoDocument.getInvoice(), customerCreditMemoDetail.getCustomerInvoiceDetail());
+                boolean isCustomerInvoiceDetailTaxable = accountsReceivableTaxService.isCustomerInvoiceDetailTaxable(customerCreditMemoDocument.getInvoice(), customerCreditMemoDetail.getCustomerInvoiceDetail());
                 customerCreditMemoDocument.recalculateTotals(customerCreditMemoDetailItemAmount,isCustomerInvoiceDetailTaxable);
             }
         }
@@ -159,10 +160,9 @@ public class CustomerCreditMemoDocumentServiceImpl implements CustomerCreditMemo
     public Collection<CustomerCreditMemoDocument> getCustomerCreditMemoDocumentByInvoiceDocument(String invoiceNumber) {
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put("financialDocumentReferenceInvoiceNumber", invoiceNumber);
-        BusinessObjectService service = SpringContext.getBean(BusinessObjectService.class);
         
         Collection<CustomerCreditMemoDocument> creditMemos = 
-            service.findMatching(CustomerCreditMemoDocument.class, fieldValues);
+            businessObjectService.findMatching(CustomerCreditMemoDocument.class, fieldValues);
         
         return creditMemos;
     }
@@ -205,4 +205,11 @@ public class CustomerCreditMemoDocumentServiceImpl implements CustomerCreditMemo
         this.dateTimeService = dateTimeService;
     }
     
+    public AccountsReceivableTaxService getAccountsReceivableTaxService() {
+        return accountsReceivableTaxService;
+    }
+
+    public void setAccountsReceivableTaxService(AccountsReceivableTaxService accountsReceivableTaxService) {
+        this.accountsReceivableTaxService = accountsReceivableTaxService;
+    }
 }

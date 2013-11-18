@@ -200,7 +200,6 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
      * @param details <=> <key = documentNumber, value = customerOpenItemReportDetail>
      */
     protected void populateReportDetailsForInvoices(List invoiceIds, List results, Hashtable details) {
-        CustomerInvoiceDocumentService customerInvoiceDocumentService = SpringContext.getBean(CustomerInvoiceDocumentService.class);
         Collection invoices = getDocuments(CustomerInvoiceDocument.class, invoiceIds);
         Collection cgInvoices = getDocuments(ContractsGrantsInvoiceDocument.class, invoiceIds);
         if (CollectionUtils.isNotEmpty(cgInvoices)) {

@@ -42,6 +42,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.service.AccountingDocumentRuleHelperService;
 import org.kuali.kfs.sys.service.BankService;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
+import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.kfs.sys.service.OptionsService;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
@@ -67,7 +68,10 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
     private DataDictionaryService dataDictionaryService;
     private ChartService chartService;
     private UniversityDateService universityDateService;
-
+    private BankService bankService;
+    private AccountingDocumentRuleHelperService accountingDocumentRuleHelperService;
+    private DocumentTypeService documentTypeService;
+    
     /**
      * @see org.kuali.kfs.module.ar.document.service.CashControlDocumentService#createAndSavePaymentApplicationDocument(java.lang.String,
      *      org.kuali.kfs.module.ar.document.CashControlDocument, org.kuali.kfs.module.ar.businessobject.CashControlDetail)
@@ -120,7 +124,6 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
         documentService.saveDocument(doc);
 
         //RICE20 replaced searchableAttributeProcessingService.indexDocument with DocumentAttributeIndexingQueue.indexDocument
-        DocumentTypeService documentTypeService = SpringContext.getBean(DocumentTypeService.class);
         DocumentType documentType = documentTypeService.getDocumentTypeByName(doc.getFinancialDocumentTypeCode());
         DocumentAttributeIndexingQueue queue = KewApiServiceLocator.getDocumentAttributeIndexingQueue(documentType.getApplicationId());
         queue.indexDocument(doc.getDocumentNumber());
@@ -154,8 +157,6 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
         documentService.saveDocument(cashControlDocument);
 
         //RICE20 replaced searchableAttributeProcessingService.indexDocument with DocumentAttributeIndexingQueue.indexDocument
-        DocumentTypeService documentTypeService = SpringContext.getBean(DocumentTypeService.class);
-
         DocumentType cashDocumentType = documentTypeService.getDocumentTypeByName(cashControlDocument.getFinancialDocumentTypeCode());
         DocumentAttributeIndexingQueue cashQueue = KewApiServiceLocator.getDocumentAttributeIndexingQueue(cashDocumentType.getApplicationId());
         cashQueue.indexDocument(cashControlDocument.getDocumentNumber());
@@ -196,7 +197,7 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
         criteria.put("universityFiscalYear", currentFiscalYear);
         criteria.put("processingChartOfAccountCode", processingChartOfAccountCode);
         criteria.put("processingOrganizationCode", processingOrganizationCode);
-        SystemInformation systemInformation = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(SystemInformation.class, criteria);
+        SystemInformation systemInformation = businessObjectService.findByPrimaryKey(SystemInformation.class, criteria);
 
         // if there is no system information for this processing chart of accounts and organization return false; glpes cannot be
         // created
@@ -229,15 +230,14 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
     @Override
     public boolean createBankOffsetGLPEs(CashControlDocument cashControlDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
         boolean isSuccess = true;
-        if (SpringContext.getBean(BankService.class).isBankSpecificationEnabled()) {
+        if (bankService.isBankSpecificationEnabled()) {
             // get associated bank
-            Bank bank = SpringContext.getBean(BankService.class).getByPrimaryId(cashControlDocument.getBankCode());
+            Bank bank = bankService.getByPrimaryId(cashControlDocument.getBankCode());
             GeneralLedgerPendingEntry bankOffsetEntry = new GeneralLedgerPendingEntry();
             final KualiDecimal totalAmount = glpeService.getOffsetToCashAmount(cashControlDocument).negated();
             // add additional GLPE's based on bank code
             if (glpeService.populateBankOffsetGeneralLedgerPendingEntry(bank, totalAmount, cashControlDocument, cashControlDocument.getPostingYear(), sequenceHelper, bankOffsetEntry, ArPropertyConstants.CashControlDocumentFields.BANK_CODE)) {
-                AccountingDocumentRuleHelperService accountingDocumentRuleUtil = SpringContext.getBean(AccountingDocumentRuleHelperService.class);
-                bankOffsetEntry.setTransactionLedgerEntryDescription(accountingDocumentRuleUtil.formatProperty(KFSKeyConstants.Bank.DESCRIPTION_GLPE_BANK_OFFSET));
+                bankOffsetEntry.setTransactionLedgerEntryDescription(accountingDocumentRuleHelperService.formatProperty(KFSKeyConstants.Bank.DESCRIPTION_GLPE_BANK_OFFSET));
                 cashControlDocument.addPendingEntry(bankOffsetEntry);
                 sequenceHelper.increment();
                 GeneralLedgerPendingEntry offsetEntry = new GeneralLedgerPendingEntry(bankOffsetEntry);
@@ -274,7 +274,7 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
         criteria.put("universityFiscalYear", currentFiscalYear);
         criteria.put("processingChartOfAccountCode", processingChartOfAccountCode);
         criteria.put("processingOrganizationCode", processingOrganizationCode);
-        SystemInformation systemInformation = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(SystemInformation.class, criteria);
+        SystemInformation systemInformation = businessObjectService.findByPrimaryKey(SystemInformation.class, criteria);
 
         // if there is no system information set up for this processing chart of accounts and organization return false, glpes
         // cannot be created
@@ -298,7 +298,7 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
         // get Advance Deposit accounting lines by getting Electronic Payment Claims
         Map criteria2 = new HashMap();
         criteria2.put("referenceFinancialDocumentNumber", cashControlDocument.getDocumentNumber());
-        Collection<ElectronicPaymentClaim> electronicPaymentClaims = SpringContext.getBean(BusinessObjectService.class).findMatching(ElectronicPaymentClaim.class, criteria2);
+        Collection<ElectronicPaymentClaim> electronicPaymentClaims = businessObjectService.findMatching(ElectronicPaymentClaim.class, criteria2);
 
         // no EFT claims found
         if (ObjectUtils.isNull(electronicPaymentClaims)) {
@@ -311,7 +311,7 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
             criteria3.put("documentNumber", electronicPaymentClaim.getDocumentNumber());
             criteria3.put("sequenceNumber", electronicPaymentClaim.getFinancialDocumentLineNumber());
             criteria3.put("financialDocumentLineTypeCode", "F");
-            SourceAccountingLine advanceDepositAccountingLine = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(SourceAccountingLine.class, criteria3);
+            SourceAccountingLine advanceDepositAccountingLine = businessObjectService.findByPrimaryKey(SourceAccountingLine.class, criteria3);
 
             // build dummy accounting line for gl creation
             accountingLine = buildAccountingLine(advanceDepositAccountingLine.getAccountNumber(), advanceDepositAccountingLine.getSubAccountNumber(), advanceDepositAccountingLine.getFinancialObjectCode(), advanceDepositAccountingLine.getFinancialSubObjectCode(), advanceDepositAccountingLine.getChartOfAccountsCode(), KFSConstants.GL_DEBIT_CODE, advanceDepositAccountingLine.getAmount());
@@ -344,7 +344,7 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
         criteria.put("universityFiscalYear", currentFiscalYear);
         criteria.put("processingChartOfAccountCode", processingChartOfAccountCode);
         criteria.put("processingOrganizationCode", processingOrganizationCode);
-        SystemInformation systemInformation = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(SystemInformation.class, criteria);
+        SystemInformation systemInformation = businessObjectService.findByPrimaryKey(SystemInformation.class, criteria);
 
         // if no system information is set up for this processing chart of accounts and organization code return false, the glpes
         // cannot be created
@@ -386,7 +386,7 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
         criteria.put("universityFiscalYear", currentFiscalYear);
         criteria.put("processingChartOfAccountCode", chartOfAccountsCode);
         criteria.put("processingOrganizationCode", processingOrgCode);
-        SystemInformation systemInformation = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(SystemInformation.class, criteria);
+        SystemInformation systemInformation = businessObjectService.findByPrimaryKey(SystemInformation.class, criteria);
 
         return (systemInformation == null) ? null : systemInformation.getLockboxNumber();
 
@@ -619,5 +619,28 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
     public void setUniversityDateService(UniversityDateService universityDateService) {
         this.universityDateService = universityDateService;
     }
+    
+    @NonTransactional
+    public void setBankService(BankService bankService) {
+        this.bankService = bankService;
+    }
+    
+    /**
+     * @return the implementation of the AccountingDocumentRuleHelperService to use
+     */
+    public AccountingDocumentRuleHelperService getAccountingDocumentRuleHelperService() {
+        return accountingDocumentRuleHelperService;
+    }
 
+    /**
+     * Sets the implementation of the AccountingDocumentRuleHelperService to use
+     * @param accountingDocumentRuleService the implementation of the AccountingDocumentRuleHelperService to use
+     */
+    public void setAccountingDocumentRuleHelperService(AccountingDocumentRuleHelperService accountingDocumentRuleService) {
+        this.accountingDocumentRuleHelperService = accountingDocumentRuleService;
+    }
+    
+    public void setDocumentTypeService(DocumentTypeService documentTypeService) {
+        this.documentTypeService = documentTypeService;
+    }
 }

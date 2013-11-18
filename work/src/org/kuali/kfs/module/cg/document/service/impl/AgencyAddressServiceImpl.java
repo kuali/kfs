@@ -40,7 +40,7 @@ public class AgencyAddressServiceImpl implements AgencyAddressService {
 
     private BusinessObjectService businessObjectService;
     private SequenceAccessorService sequenceAccessorService;
-
+    private DateTimeService dateTimeService;
     protected static final String AGENCY_ADDR_ID_SEQ = "AGENCY_ADDR_ID_SEQ";
 
     /**
@@ -55,7 +55,7 @@ public class AgencyAddressServiceImpl implements AgencyAddressService {
             criteria.put(KFSPropertyConstants.AGENCY_NUMBER, agencyNumber);
             criteria.put("agencyAddressIdentifier", agencyAddressIdentifier);
 
-            agencyAddress = (AgencyAddress) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(AgencyAddress.class, criteria);
+            agencyAddress = (AgencyAddress) businessObjectService.findByPrimaryKey(AgencyAddress.class, criteria);
         }
         return agencyAddress;
     }
@@ -71,7 +71,7 @@ public class AgencyAddressServiceImpl implements AgencyAddressService {
             criteria.put(KFSPropertyConstants.AGENCY_NUMBER, agencyNumber);
             criteria.put("agencyAddressTypeCode", "P");
 
-            primaryAddress = (AgencyAddress) SpringContext.getBean(BusinessObjectService.class).findMatching(AgencyAddress.class, criteria).iterator().next();
+            primaryAddress = (AgencyAddress) businessObjectService.findMatching(AgencyAddress.class, criteria).iterator().next();
         }
 
         return primaryAddress;
@@ -90,7 +90,7 @@ public class AgencyAddressServiceImpl implements AgencyAddressService {
 
         if (ObjectUtils.isNotNull(agencyAddress)) {
             if (ObjectUtils.isNotNull(agencyAddress.getAgencyAddressEndDate())) {
-                Timestamp currentDateTimestamp = new Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime());
+                Timestamp currentDateTimestamp = new Timestamp(dateTimeService.getCurrentDate().getTime());
                 Timestamp addressEndDateTimestamp = new Timestamp(agencyAddress.getAgencyAddressEndDate().getTime());
                 if (addressEndDateTimestamp.before(currentDateTimestamp)) {
                     return false;
@@ -169,4 +169,11 @@ public class AgencyAddressServiceImpl implements AgencyAddressService {
         this.sequenceAccessorService = sequenceAccessorService;
     }
 
+    public DateTimeService getDateTimeService() {
+        return dateTimeService;
+    }
+
+    public void setDateTimeService(DateTimeService dateTimeService) {
+        this.dateTimeService = dateTimeService;
+    }
 }

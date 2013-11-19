@@ -84,11 +84,11 @@ public interface AccountsReceivableModuleService {
      *
      * @param customerTypeCodes the given customer type codes
      * @param customerInvoiceAge the given customer invoice age
-     * @param invoiceBillingDateFrom the from date of billing date of the invoice
+     * @param invoiceDueDateFrom the from date of due date of the invoice
      *
      * @return a set of the open amounts indexed by the customer invoice numbers
      */
-    public Map<String, KualiDecimal> getCustomerInvoiceOpenAmount(List<String> customerTypeCodes, Integer customerInvoiceAge, Date invoiceBillingDateFrom);
+    public Map<String, KualiDecimal> getCustomerInvoiceOpenAmount(List<String> customerTypeCodes, Integer customerInvoiceAge, Date invoiceDueDateFrom);
 
     /**
      * get the open customer invoice documents with the given search criteria

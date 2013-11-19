@@ -892,9 +892,9 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
      * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService#getAllAgingInvoiceDocumentsByCustomerTypes(java.util.List, java.lang.Integer, java.sql.Date)
      */
     @Override
-    public Collection<CustomerInvoiceDocument> getAllAgingInvoiceDocumentsByCustomerTypes(List<String> customerTypes, Integer invoiceAge, Date invoiceBillingDateFrom) {
-        Date invoiceBillingDateTo = this.getPastDate(invoiceAge - 1) ;
+    public Collection<CustomerInvoiceDocument> getAllAgingInvoiceDocumentsByCustomerTypes(List<String> customerTypes, Integer invoiceAge, Date invoiceDueDateFrom) {
+        Date invoiceDueDateTo = this.getPastDate(invoiceAge - 1) ;
 
-        return customerInvoiceDocumentDao.getAllAgingInvoiceDocumentsByCustomerTypes(customerTypes, invoiceBillingDateFrom, invoiceBillingDateTo);
+        return customerInvoiceDocumentDao.getAllAgingInvoiceDocumentsByCustomerTypes(customerTypes, invoiceDueDateFrom, invoiceDueDateTo);
     }
 }

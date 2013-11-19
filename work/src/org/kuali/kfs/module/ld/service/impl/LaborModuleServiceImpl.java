@@ -52,6 +52,7 @@ import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.AccountingLineOverride;
 import org.kuali.kfs.sys.businessobject.AccountingLineOverride.COMPONENT;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
@@ -69,6 +70,7 @@ import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.KualiModuleService;
 import org.kuali.rice.krad.service.SessionDocumentService;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.krad.util.UrlFactory;
 import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
 import org.springframework.transaction.annotation.Transactional;
@@ -480,9 +482,14 @@ public class LaborModuleServiceImpl implements LaborModuleService {
     }
 
     @Override
-    public AccountingLineOverride determineNeededOverrides(AccountingLine line) {
+    public AccountingLineOverride determineNeededOverrides(AccountingDocument document, AccountingLine line) {
+        boolean isDocumentFinalOrProcessed = false; 
+        if(ObjectUtils.isNotNull(document)) { 
+            AccountingDocument accountingDocument = document; 
+            isDocumentFinalOrProcessed = accountingDocument.isDocumentFinalOrProcessed(); 
+        } 
         Set<Integer> neededOverrideComponents = new HashSet<Integer>();
-        if (AccountingLineOverride.needsExpiredAccountOverride(line.getAccount())) {
+        if (AccountingLineOverride.needsExpiredAccountOverride(line, isDocumentFinalOrProcessed)) {
             neededOverrideComponents.add(COMPONENT.EXPIRED_ACCOUNT);
         }
         if (AccountingLineOverride.needsObjectBudgetOverride(line.getAccount(), line.getObjectCode())) {

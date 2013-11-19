@@ -249,7 +249,7 @@ public class ExpenseTransferDocumentActionBase extends KualiAccountingDocumentAc
                                     SpringContext.getBean(PersistenceService.class).retrieveNonKeyFields(line);
 
                                     insertAccountingLine(true, expenseTransferDocumentForm, line);
-                                    updateAccountOverrideCode(line);
+                                    updateAccountOverrideCode(financialDocument, line);
                                     processAccountingLineOverrides(line);
                                 }
                             }
@@ -444,16 +444,8 @@ public class ExpenseTransferDocumentActionBase extends KualiAccountingDocumentAc
      */
     @Override
     protected void processAccountingLineOverrides(List accountingLines) {
-        if (!accountingLines.isEmpty()) {
-            SpringContext.getBean(PersistenceService.class).retrieveReferenceObjects(accountingLines, AccountingLineOverride.REFRESH_FIELDS);
-
-            for (Iterator i = accountingLines.iterator(); i.hasNext();) {
-                AccountingLine line = (AccountingLine) i.next();
-                LaborAccountingLineOverride.processForOutput(line);
-            }
-        }
+        processAccountingLineOverrides(null,accountingLines);
     }
-
 
    /**
     *
@@ -468,7 +460,7 @@ public class ExpenseTransferDocumentActionBase extends KualiAccountingDocumentAc
                 AccountingLine line = (AccountingLine) i.next();
                // line.refreshReferenceObject("account");
                 SpringContext.getBean(PersistenceService.class).retrieveReferenceObjects(line, AccountingLineOverride.REFRESH_FIELDS);
-                LaborAccountingLineOverride.processForOutput(line);
+                LaborAccountingLineOverride.processForOutput(financialDocument, line);
             }
         }
     }
@@ -480,8 +472,8 @@ public class ExpenseTransferDocumentActionBase extends KualiAccountingDocumentAc
      *
      * @param line accounting line
      */
-    protected void updateAccountOverrideCode(ExpenseTransferAccountingLine line) {
-        AccountingLineOverride override = LaborAccountingLineOverride.determineNeededOverrides(line);
+    protected void updateAccountOverrideCode(AccountingDocument accountingDocument, ExpenseTransferAccountingLine line) {
+        AccountingLineOverride override = LaborAccountingLineOverride.determineNeededOverrides(accountingDocument, line);
         line.setOverrideCode(override.getCode());
     }
 

@@ -24,6 +24,7 @@ import org.kuali.kfs.sys.businessobject.AccountingLineOverride;
 import org.kuali.kfs.sys.businessobject.AccountingLineOverride.COMPONENT;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.AccountingDocument;
 
 /**
  * Labor business object for Labor Accounting Line Override
@@ -60,9 +61,9 @@ public class LaborAccountingLineOverride {
      *
      * @param line
      */
-    public static void processForOutput(AccountingLine line) {
+    public static void processForOutput(AccountingDocument document, AccountingLine line) {
         AccountingLineOverride fromCurrentCode = AccountingLineOverride.valueOf(line.getOverrideCode());
-        AccountingLineOverride needed = determineNeededOverrides(line);
+        AccountingLineOverride needed = determineNeededOverrides(document, line);
         // KFSMI-9133 : updating system to automatically check expired account boxes on the source side
         // of the transaction, since those are read only.  Otherwise, amounts in expired accounts
         // could never be transferred
@@ -86,8 +87,8 @@ public class LaborAccountingLineOverride {
      * @param line
      * @return what overrides the given line needs.
      */
-    public static AccountingLineOverride determineNeededOverrides(AccountingLine line) {
+    public static AccountingLineOverride determineNeededOverrides(AccountingDocument document, AccountingLine line) {
         LaborModuleService laborModuleService = SpringContext.getBean(LaborModuleService.class);
-        return laborModuleService.determineNeededOverrides(line);
+        return laborModuleService.determineNeededOverrides(document, line);
     }
 }

@@ -30,11 +30,11 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.tem.TemConstants;
+import org.kuali.kfs.module.tem.TemKeyConstants;
+import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.TemConstants.CreditCardStagingDataErrorCodes;
 import org.kuali.kfs.module.tem.TemConstants.ExpenseImport;
 import org.kuali.kfs.module.tem.TemConstants.ExpenseTypes;
-import org.kuali.kfs.module.tem.TemKeyConstants;
-import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.batch.service.CreditCardDataImportService;
 import org.kuali.kfs.module.tem.batch.service.DataReportService;
 import org.kuali.kfs.module.tem.businessobject.CreditCardAgency;
@@ -53,6 +53,7 @@ import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.ErrorMessage;
 import org.kuali.rice.krad.util.ObjectUtils;
+import org.springframework.transaction.annotation.Transactional;
 
 public class CreditCardDataImportServiceImpl implements CreditCardDataImportService{
 
@@ -323,16 +324,24 @@ public class CreditCardDataImportServiceImpl implements CreditCardDataImportServ
         List<CreditCardStagingData> creditCardData = travelExpenseService.retrieveValidCreditCardData();
         if (ObjectUtils.isNotNull(creditCardData) && creditCardData.size() > 0) {
             for(CreditCardStagingData creditCard: creditCardData){
-                LOG.info("Creating historical travel expense for credit card: " + creditCard.getId());
-                HistoricalTravelExpense expense = travelExpenseService.createHistoricalTravelExpense(creditCard);
-                businessObjectService.save(expense);
-
-                //Mark as moved to historical
-                creditCard.setErrorCode(CreditCardStagingDataErrorCodes.CREDIT_CARD_MOVED_TO_HISTORICAL);
-                LOG.info("Finished creating historical travel expense for credit card: " + creditCard.getId() + " Historical Travel Expense: " + expense.getId());
+                boolean result = processCreditCardStagingExpense(creditCard);
+                LOG.info("Credit Card Staging Data Id: "+ creditCard.getId() + (result ? " was":" was not") + " processed.");
             }
-            businessObjectService.save(creditCardData);
         }
+
+        return true;
+    }
+
+    @Transactional
+    protected boolean processCreditCardStagingExpense(CreditCardStagingData creditCard) {
+        LOG.info("Creating historical travel expense for credit card: " + creditCard.getId());
+        HistoricalTravelExpense expense = travelExpenseService.createHistoricalTravelExpense(creditCard);
+        businessObjectService.save(expense);
+
+        //Mark as moved to historical
+        creditCard.setErrorCode(CreditCardStagingDataErrorCodes.CREDIT_CARD_MOVED_TO_HISTORICAL);
+        LOG.info("Finished creating historical travel expense for credit card: " + creditCard.getId() + " Historical Travel Expense: " + expense.getId());
+        businessObjectService.save(creditCard);
 
         return true;
     }

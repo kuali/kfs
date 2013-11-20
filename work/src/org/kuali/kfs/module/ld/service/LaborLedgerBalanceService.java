@@ -65,6 +65,21 @@ public interface LaborLedgerBalanceService {
     public Iterator findBalance(Map fieldValues, boolean isConsolidated, List<String> encumbranceBalanceTypes, boolean noZeroAmounts);
 
     /**
+     * @deprecated use {@link findBalance(Map fieldValues, boolean isConsolidated, List<String> encumbranceBalanceTypes, boolean noZeroAmounts)} instead.
+     *
+     * NOTE: unused
+     *
+     * This method gets the size of balance entries according to input fields and values
+     * 
+     * @param fieldValues the input fields and values
+     * @param isConsolidated consolidation option is applied or not
+     * @param encumbranceBalanceTypes a list of encumbrance balance types
+     * @return the size of balance entries
+     */
+    @Deprecated
+    public Iterator findBalance(Map fieldValues, boolean isConsolidated, List<String> encumbranceBalanceTypes);
+
+    /**
      * This method finds the summary records of balance entries according to input fields and values
      * 
      * @param fieldValues the input fields and values
@@ -74,6 +89,21 @@ public interface LaborLedgerBalanceService {
      * @return the summary records of balance entries
      */
     public Integer getBalanceRecordCount(Map fieldValues, boolean isConsolidated, List<String> encumbranceBalanceTypes, boolean noZeroAmounts);
+
+    /**
+     * @deprecated use {@link getBalanceRecordCount(Map fieldValues, boolean isConsolidated, List<String> encumbranceBalanceTypes, boolean noZeroAmounts)} instead.
+     *
+     * NOTE: unused
+     *
+     * This method finds the summary records of balance entries according to input fields and values
+     * 
+     * @param fieldValues the input fields and values
+     * @param isConsolidated consolidation option is applied or not
+     * @param encumbranceBalanceTypes a list of encumbranceBalanceTypes
+     * @return the summary records of balance entries
+     */
+    @Deprecated
+    public Integer getBalanceRecordCount(Map fieldValues, boolean isConsolidated, List<String> encumbranceBalanceTypes);
 
     /**
      * find a ledger balance from the given ledger balance collection with the given transaction information

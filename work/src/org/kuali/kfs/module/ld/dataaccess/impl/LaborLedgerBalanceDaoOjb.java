@@ -125,6 +125,19 @@ public class LaborLedgerBalanceDaoOjb extends PlatformAwareDaoBaseOjb implements
         return getPersistenceBrokerTemplate().getIteratorByQuery(query);
     }
 
+    @Deprecated
+    public Iterator<LedgerBalance> findBalance(Map fieldValues, boolean isConsolidated, List<String> encumbranceBalanceTypes) {
+        LOG.debug("findBalance() started");
+
+        Query query = this.getBalanceQuery(fieldValues, isConsolidated, encumbranceBalanceTypes, false);
+        OJBUtility.limitResultSize(query);
+
+        if (isConsolidated) {
+            return getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query);
+        }
+        return getPersistenceBrokerTemplate().getIteratorByQuery(query);
+    }
+
     /**
      * @see org.kuali.kfs.module.ld.dataaccess.LaborLedgerBalanceDao#getConsolidatedBalanceRecordCount(java.util.Map)
      */
@@ -132,6 +145,14 @@ public class LaborLedgerBalanceDaoOjb extends PlatformAwareDaoBaseOjb implements
         LOG.debug("getBalanceRecordCount() started");
 
         ReportQueryByCriteria query = this.getBalanceCountQuery(fieldValues, encumbranceBalanceTypes, noZeroAmounts);
+        return getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query);
+    }
+
+    @Deprecated
+    public Iterator getConsolidatedBalanceRecordCount(Map fieldValues, List<String> encumbranceBalanceTypes) {
+        LOG.debug("getBalanceRecordCount() started");
+
+        ReportQueryByCriteria query = this.getBalanceCountQuery(fieldValues, encumbranceBalanceTypes, false);
         return getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query);
     }
 

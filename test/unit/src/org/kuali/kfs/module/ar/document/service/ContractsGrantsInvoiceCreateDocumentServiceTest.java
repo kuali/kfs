@@ -60,7 +60,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceTest extends KualiTestBa
     public void testCreateCGInvoiceDocumentByAwardInfo() {
 
         String coaCode = "BL";
-        String orgCode = "SRS";
+        String orgCode = "UGCS";
 
         DocumentService documentService = SpringContext.getBean(DocumentService.class);
         ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument_1 = ContractsGrantsInvoiceDocumentFixture.CG_INV_DOC1.createContractsGrantsInvoiceDocument(documentService);

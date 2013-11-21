@@ -45,6 +45,12 @@ import org.kuali.rice.krad.util.ObjectUtils;
 public class ContractsAndGrantsModuleServiceImpl implements ContractsAndGrantsModuleService {
     private org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ContractsAndGrantsModuleServiceImpl.class);
 
+    private AwardService awardService;
+    private ParameterService parameterService;
+    private AgencyService agencyService;
+    private CfdaService cfdaService;
+    private BusinessObjectService businessObjectService;
+    
     /**
      * @see org.kuali.kfs.integration.cg.ContractsAndGrantsModuleService#getProjectDirectorForAccount(java.lang.String,
      *      java.lang.String)
@@ -166,7 +172,7 @@ public class ContractsAndGrantsModuleServiceImpl implements ContractsAndGrantsMo
      * @return an implementation of the parameterService
      */
     public ParameterService getParameterService() {
-        return SpringContext.getBean(ParameterService.class);
+        return parameterService;
     }
 
     /**
@@ -175,7 +181,7 @@ public class ContractsAndGrantsModuleServiceImpl implements ContractsAndGrantsMo
      * @return an implementation of AgencyService
      */
     public AgencyService getAgencyService() {
-        return SpringContext.getBean(AgencyService.class);
+        return agencyService;
     }
 
     /**
@@ -184,7 +190,7 @@ public class ContractsAndGrantsModuleServiceImpl implements ContractsAndGrantsMo
      * @return an implementation of the CfdaService
      */
     public CfdaService getCfdaService() {
-        return SpringContext.getBean(CfdaService.class);
+        return cfdaService;
     }
 
     /**
@@ -193,7 +199,7 @@ public class ContractsAndGrantsModuleServiceImpl implements ContractsAndGrantsMo
      * @return an implementation of the BusinessObjectService
      */
     public BusinessObjectService getBusinessObjectService() {
-        return SpringContext.getBean(BusinessObjectService.class);
+        return businessObjectService;
     }
 
     /**
@@ -232,7 +238,7 @@ public class ContractsAndGrantsModuleServiceImpl implements ContractsAndGrantsMo
      * @return Returns the awardService.
      */
     public AwardService getAwardService() {
-        return SpringContext.getBean(AwardService.class);
+        return awardService;
     }
 
     /**
@@ -253,6 +259,24 @@ public class ContractsAndGrantsModuleServiceImpl implements ContractsAndGrantsMo
         return false;
     }
 
+    public void setAwardService(AwardService awardService) {
+        this.awardService = awardService;
+    }
 
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
+    }
+
+    public void setAgencyService(AgencyService agencyService) {
+        this.agencyService = agencyService;
+    }
+
+    public void setCfdaService(CfdaService cfdaService) {
+        this.cfdaService = cfdaService;
+    }
+
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
+    }
 
 }

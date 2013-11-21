@@ -79,7 +79,6 @@
 				<entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsLetterOfCreditFundGroup" value="org.kuali.kfs.module.cg.businessobject.LetterOfCreditFundGroup" />
 				<entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsLetterOfCreditFund" value="org.kuali.kfs.module.cg.businessobject.LetterOfCreditFund" />
 				<entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsAgencyAddress" value="org.kuali.kfs.module.cg.businessobject.AgencyAddress" />
-				<entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsAgencyAddressType" value="org.kuali.kfs.module.cg.businessobject.AgencyAddressType" />
 				<entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsBillingFrequency" value="org.kuali.kfs.module.cg.businessobject.BillingFrequency" />
 				<entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsContractGrantType" value="org.kuali.kfs.module.cg.businessobject.ContractGrantType" />
 				<entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsFundManager" value="org.kuali.kfs.module.cg.businessobject.AwardFundManager" />
@@ -110,7 +109,15 @@
 	</bean>
 
     <bean id="contractsAndGrantsModuleService"  parent="contractsAndGrantsModuleService-parentBean"/>
-    <bean id="contractsAndGrantsModuleService-parentBean" class="org.kuali.kfs.module.cg.service.impl.ContractsAndGrantsModuleServiceImpl" abstract="true" />
+    <bean id="contractsAndGrantsModuleService-parentBean" class="org.kuali.kfs.module.cg.service.impl.ContractsAndGrantsModuleServiceImpl" abstract="true" >
+    <property name="awardService" ref="awardService" />
+		<property name="parameterService" ref="parameterService" />
+		<property name="agencyService" ref="agencyService" />
+		<property name="cfdaService" ref="cfdaService" />
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>	
+	</bean>
 
 	<bean id="contractsAndGrantsModuleUpdateService" class="org.kuali.kfs.module.cg.service.impl.ContractsAndGrantsModuleUpdateServiceImpl">
 		<property name="awardService" ref="awardService" />
@@ -129,7 +136,15 @@
 		</property>
 	</bean>
 
-	<bean id="contractsAndGrantsModuleRetrieveService" class="org.kuali.kfs.module.cg.service.impl.ContractsAndGrantsModuleRetrieveServiceImpl" />
+	<bean id="contractsAndGrantsModuleRetrieveService" class="org.kuali.kfs.module.cg.service.impl.ContractsAndGrantsModuleRetrieveServiceImpl">
+		<property name="awardService" ref="awardService" />
+		<property name="parameterService" ref="parameterService" />
+		<property name="agencyService" ref="agencyService" />
+		<property name="cfdaService" ref="cfdaService" />
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>	
+	</bean>
 
 	<!-- DAOs -->
 	<bean id="awardDao" parent="platformAwareDao" class="org.kuali.kfs.module.cg.dataaccess.impl.AwardDaoOjb" />

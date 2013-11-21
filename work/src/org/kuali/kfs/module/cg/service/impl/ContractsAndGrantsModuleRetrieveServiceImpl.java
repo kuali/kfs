@@ -53,7 +53,10 @@ import java.util.ArrayList;
 public class ContractsAndGrantsModuleRetrieveServiceImpl implements ContractsAndGrantsModuleRetrieveService {
 
     private AwardService awardService;
-
+    private ParameterService parameterService;
+    private AgencyService agencyService;
+    private CfdaService cfdaService;
+    private BusinessObjectService businessObjectService;
 
     /**
      * This method would return list of business object - in this case Awards for CG Invoice On Demand functionality in AR.
@@ -133,7 +136,7 @@ public class ContractsAndGrantsModuleRetrieveServiceImpl implements ContractsAnd
      * @return an implementation of the parameterService
      */
     public ParameterService getParameterService() {
-        return SpringContext.getBean(ParameterService.class);
+        return parameterService;
     }
 
     /**
@@ -142,7 +145,7 @@ public class ContractsAndGrantsModuleRetrieveServiceImpl implements ContractsAnd
      * @return an implementation of AgencyService
      */
     public AgencyService getAgencyService() {
-        return SpringContext.getBean(AgencyService.class);
+        return agencyService;
     }
 
     /**
@@ -151,7 +154,7 @@ public class ContractsAndGrantsModuleRetrieveServiceImpl implements ContractsAnd
      * @return an implementation of the CfdaService
      */
     public CfdaService getCfdaService() {
-        return SpringContext.getBean(CfdaService.class);
+        return cfdaService;
     }
 
     /**
@@ -160,7 +163,7 @@ public class ContractsAndGrantsModuleRetrieveServiceImpl implements ContractsAnd
      * @return an implementation of the BusinessObjectService
      */
     public BusinessObjectService getBusinessObjectService() {
-        return SpringContext.getBean(BusinessObjectService.class);
+        return businessObjectService;
     }
 
     /**
@@ -169,7 +172,7 @@ public class ContractsAndGrantsModuleRetrieveServiceImpl implements ContractsAnd
      * @return an implementation of the BusinessObjectService
      */
     public AwardService getAwardService() {
-        return SpringContext.getBean(AwardService.class);
+        return awardService;
     }
 
     /**
@@ -192,5 +195,27 @@ public class ContractsAndGrantsModuleRetrieveServiceImpl implements ContractsAnd
         Award award = getAwardService().getByPrimaryId(proposalNumber);
         return getAwardService().hasValidContractControlAccounts(award);
     }
+
+    public void setAwardService(AwardService awardService) {
+        this.awardService = awardService;
+    }
+
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
+    }
+
+    public void setAgencyService(AgencyService agencyService) {
+        this.agencyService = agencyService;
+    }
+
+    public void setCfdaService(CfdaService cfdaService) {
+        this.cfdaService = cfdaService;
+    }
+
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
+    }
+    
+    
 }
 

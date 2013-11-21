@@ -163,7 +163,7 @@ public class ContractsAndGrantsModuleUpdateServiceImpl implements ContractsAndGr
     public void setAwardAccountsToAward(Long proposalNumber, List<ContractsAndGrantsBillingAwardAccount> awardAccounts) {
 
         // Award and proposal is being saved
-        Proposal proposal = SpringContext.getBean(BusinessObjectService.class).findBySinglePrimaryKey(Proposal.class, proposalNumber);
+        Proposal proposal = businessObjectService.findBySinglePrimaryKey(Proposal.class, proposalNumber);
         if (ObjectUtils.isNull(proposal)) {
             proposal = new Proposal();
             proposal.setProposalNumber(proposalNumber);
@@ -186,7 +186,7 @@ public class ContractsAndGrantsModuleUpdateServiceImpl implements ContractsAndGr
             mapKey.put(KFSPropertyConstants.ACCOUNT_NUMBER, awardAccount.getAccountNumber());
             mapKey.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, awardAccount.getChartOfAccountsCode());
             mapKey.put(KFSPropertyConstants.PROPOSAL_NUMBER, awardAccount.getProposalNumber());
-            AwardAccount awdAcct = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(AwardAccount.class, mapKey);
+            AwardAccount awdAcct = businessObjectService.findByPrimaryKey(AwardAccount.class, mapKey);
             if (ObjectUtils.isNull(awdAcct)) {
                 awdAcct = new AwardAccount();
                 awdAcct.setAccountNumber(awardAccount.getAccountNumber());

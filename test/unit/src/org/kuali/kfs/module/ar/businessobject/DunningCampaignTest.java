@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -23,20 +23,19 @@ import java.util.List;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
-import org.kuali.kfs.sys.context.SpringContext; import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.MaintenanceDocumentTestUtils;
 import org.kuali.kfs.sys.fixture.UserNameFixture;
-import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.DocumentService;
-import org.kuali.kfs.sys.context.SpringContext; import org.kuali.rice.krad.service.DocumentService;
 
 /**
  * This class tests Dunning Campaign Maintenance Document
  */
 @ConfigureContext(session = UserNameFixture.khuntley)
 public class DunningCampaignTest extends KualiTestBase {
-    
+
     public MaintenanceDocument document;
     public DocumentService documentService;
     public static final Class<MaintenanceDocument> DOCUMENT_CLASS = MaintenanceDocument.class;
@@ -45,24 +44,26 @@ public class DunningCampaignTest extends KualiTestBase {
     /**
      * @see junit.framework.TestCase#setUp()
      */
+    @Override
     protected void setUp() throws Exception {
         super.setUp();
-        
+
         document = (MaintenanceDocument) SpringContext.getBean(DocumentService.class).getNewDocument("DUNC");
         document.getDocumentHeader().setDocumentDescription("Test Document");
         documentService = SpringContext.getBean(DocumentService.class);
-        
+
         dunningCampaign = new DunningCampaign();
         dunningCampaign.setCampaignID("TEST");
         dunningCampaign.setCampaignDescription("Testing Description");
         dunningCampaign.setActive(true);
-        
+        dunningCampaign.setVersionNumber(new Long(1));
+
         // set Dunning letter distribution list
         DunningLetterDistribution dunningLetterDistribution = new DunningLetterDistribution();
         dunningLetterDistribution.setDaysPastDue(ArConstants.DunningLetters.DYS_PST_DUE_CURRENT);
         dunningLetterDistribution.setSendDunningLetterIndicator(true);
         dunningLetterDistribution.setDunningLetterTemplate("UA");
-        
+
         List list = new LinkedList();
         list.add(dunningLetterDistribution);
         dunningCampaign.setDunningLetterDistributions(list);
@@ -72,7 +73,7 @@ public class DunningCampaignTest extends KualiTestBase {
 
     /**
      * This method calls testSaveDocument method.
-     * 
+     *
      * @throws Exception
      */
     @ConfigureContext(session = khuntley, shouldCommitTransactions = true)
@@ -82,11 +83,11 @@ public class DunningCampaignTest extends KualiTestBase {
 
     /**
      * This method tests getNewDocument() method on Dunning Campaign maintenance document.
-     * 
+     *
      * @throws Exception
      */
     public void testGetNewDocument() throws Exception {
-        Document document = (Document) documentService.getNewDocument("DUNC");
+        Document document = documentService.getNewDocument("DUNC");
         // verify document was created
         assertNotNull(document);
         assertNotNull(document.getDocumentHeader());

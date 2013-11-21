@@ -502,4 +502,22 @@ public class LaborModuleServiceImpl implements LaborModuleService {
 
         return AccountingLineOverride.valueOf(inputComponentArray);
     }
+
+    @Override
+    @Deprecated
+    public AccountingLineOverride determineNeededOverrides(AccountingLine line) {
+        Set<Integer> neededOverrideComponents = new HashSet<Integer>();
+        if (AccountingLineOverride.needsExpiredAccountOverride(line.getAccount())) {
+            neededOverrideComponents.add(COMPONENT.EXPIRED_ACCOUNT);
+        }
+        if (AccountingLineOverride.needsObjectBudgetOverride(line.getAccount(), line.getObjectCode())) {
+            neededOverrideComponents.add(COMPONENT.NON_BUDGETED_OBJECT);
+        }
+        if (AccountingLineOverride.needsNonFringAccountOverride(line.getAccount())) {
+            neededOverrideComponents.add(COMPONENT.NON_FRINGE_ACCOUNT_USED);
+        }
+        Integer[] inputComponentArray = neededOverrideComponents.toArray(new Integer[neededOverrideComponents.size()]);
+
+        return AccountingLineOverride.valueOf(inputComponentArray);
+    }  
 }

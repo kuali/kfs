@@ -172,4 +172,11 @@ public class LaborModuleServiceNoOp extends UnimplementedKfsModuleServiceImpl im
         return null;
     }
 
+    @Override
+    @Deprecated
+    public AccountingLineOverride determineNeededOverrides(AccountingLine line) {
+        LOG.warn( "Using No-Op " + getClass().getSimpleName() + " service." );
+        return null;
+    }
+
 }

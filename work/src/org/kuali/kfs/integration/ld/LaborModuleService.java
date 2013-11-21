@@ -200,5 +200,10 @@ public interface LaborModuleService {
     public String getCostSharingSourceChartOfAccountsCode();
 
     public AccountingLineOverride determineNeededOverrides(AccountingDocument document, AccountingLine line);
+    /**
+     * @deprecated use {@link determineNeededOverrides(AccountingDocument document, AccountingLine line)} instead.
+     */
+    @Deprecated
+    public AccountingLineOverride determineNeededOverrides(AccountingLine line);
 
 }

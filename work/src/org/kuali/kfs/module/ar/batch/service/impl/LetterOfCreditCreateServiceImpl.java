@@ -34,7 +34,6 @@ import org.kuali.kfs.module.ar.document.CashControlDocument;
 import org.kuali.kfs.module.ar.document.PaymentApplicationDocument;
 import org.kuali.kfs.module.ar.document.dataaccess.CashControlDetailDao;
 import org.kuali.kfs.module.ar.document.dataaccess.CashControlDocumentDao;
-import org.kuali.kfs.module.ar.document.service.AccountsReceivableDocumentHeaderService;
 import org.kuali.kfs.module.ar.document.service.CashControlDocumentService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -67,7 +66,7 @@ public class LetterOfCreditCreateServiceImpl implements LetterOfCreditCreateServ
     private WorkflowDocumentService workflowDocumentService;
     private ConfigurationService configService;
     private ParameterService parameterService;
-    
+
     public ConfigurationService getConfigService() {
         return configService;
     }
@@ -175,7 +174,7 @@ public class LetterOfCreditCreateServiceImpl implements LetterOfCreditCreateServ
     public boolean validatecashControlDocument(String customerNumber, String locCreationType, String locValue, PrintStream outputFileStream) {
         boolean isExists = false;
         Criteria criteria = new Criteria();
-        criteria.addEqualTo("locCreationType", locCreationType);
+        criteria.addEqualTo("letterOfCreditCreationType", locCreationType);
         if (locCreationType.equalsIgnoreCase(ArConstants.LOC_BY_AWARD)) {
             criteria.addEqualTo("proposalNumber", (new Long(locValue)));
         }

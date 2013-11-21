@@ -36,7 +36,7 @@ import org.kuali.rice.krad.service.KualiModuleService;
  * This class tests the final invoice reversal process
  */
 @ConfigureContext(session = khuntley)
-public class FinalInvoiceReversalTest extends CGInvoiceDocumentSetupTest {
+public class FinalInvoiceReversalTest extends CGInvoiceDocumentTestBase {
 
     @Override
     protected void setUp() throws Exception {

@@ -43,7 +43,7 @@ import org.kuali.rice.krad.service.KualiModuleService;
  */
 
 @ConfigureContext(session = khuntley)
-public class InvoiceCorrectionTest extends CGInvoiceDocumentSetupTest {
+public class InvoiceCorrectionTest extends CGInvoiceDocumentTestBase {
 
     /**
      * @see org.kuali.kfs.module.ar.document.CGInvoiceDocumentSetupTest#setUp()

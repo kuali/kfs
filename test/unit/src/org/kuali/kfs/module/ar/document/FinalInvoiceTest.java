@@ -43,7 +43,7 @@ import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
  * This class tests the Final Invoicing Process
  */
 @ConfigureContext(session = khuntley)
-public class FinalInvoiceTest extends CGInvoiceDocumentSetupTest {
+public class FinalInvoiceTest extends CGInvoiceDocumentTestBase {
 
     WorkflowDocumentService workflowDocumentService;
 

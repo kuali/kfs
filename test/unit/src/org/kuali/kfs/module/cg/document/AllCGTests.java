@@ -36,7 +36,6 @@ public class AllCGTests {
         TestSuite suite = new TestSuite(AllCGTests.class.getName());
 
         suite.addTestSuite(FinancialFormTemplateTest.class);
-        suite.addTestSuite(AgencyAddressTypeTest.class);
         suite.addTestSuite(ContractGrantTypeTest.class);
         suite.addTestSuite(BillingFrequencyTest.class);
         suite.addTestSuite(FinancialReportFrequenciesTest.class);

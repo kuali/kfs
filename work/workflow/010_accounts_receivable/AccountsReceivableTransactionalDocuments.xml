@@ -113,7 +113,7 @@
 		</documentType>
 		<documentType>
 			<name>
-				CATD
+				COLA
       </name>
 			<parent>
 				AR
@@ -341,7 +341,7 @@
 		</documentType>
 		<documentType>
 			<name>
-				CGIN
+				CINV
       </name>
 			<parent>
 				AR
@@ -400,7 +400,7 @@
 		</documentType>
 		<documentType>
 			<name>
-				CGLR
+				LCR
       </name>
 			<parent>
 				AR

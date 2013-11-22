@@ -53,7 +53,7 @@ public class ContractsGrantsLetterOfCreditReviewDocumentForm extends FinancialSy
      */
     @Override
     protected String getDefaultDocumentTypeName() {
-        return "CGLR";
+        return "LCR";
     }
 
     /**

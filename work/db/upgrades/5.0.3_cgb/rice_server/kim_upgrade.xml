@@ -168,8 +168,8 @@
 			<column name="PERM_ID" value="1110" />
 			<column name="PERM_TMPL_ID" value="10" />
 			<column name="NMSPC_CD" value="KFS-CG" />
-			<column name="NM" value="Initiate Document of Type CGIN" />
-			<column name="DESC_TXT" value="Initiate Document of Type CGIN" />
+			<column name="NM" value="Initiate Document of Type CINV" />
+			<column name="DESC_TXT" value="Initiate Document of Type CINV" />
 			<column name="OBJ_ID" value="KFSCG01" />
 			<column name="VER_NBR" value="1" />
 			<column name="ACTV_IND" value="Y" />
@@ -196,7 +196,7 @@
 			<column name="PERM_ID" value="1110" />
 			<column name="KIM_TYP_ID" value="3" />
 			<column name="KIM_ATTR_DEFN_ID" value="13" />
-			<column name="ATTR_VAL" value="CGIN" />
+			<column name="ATTR_VAL" value="CINV" />
 			<column name="OBJ_ID" value="KFSCG01" />
 			<column name="VER_NBR" value="1" />
 		</insert>
@@ -420,7 +420,7 @@
 			<column name="RSP_ID" value="169" />
 			<column name="KIM_TYP_ID" value="7" />
 			<column name="KIM_ATTR_DEFN_ID" value="13" />
-			<column name="ATTR_VAL" value="CGIN" />
+			<column name="ATTR_VAL" value="CINV" />
 		</insert>
 
 		<insert tableName="krim_rsp_attr_data_t">

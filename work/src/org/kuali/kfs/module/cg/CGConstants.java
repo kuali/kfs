@@ -126,7 +126,7 @@ public class CGConstants{
     // Parameter name for the CG and Billing Enhancements Indicator
     public static final String ENABLE_CG_BILLING_ENHANCEMENTS_IND = "ENABLE_CG_BILLING_ENHANCEMENTS_IND";
     public static final String AWARD = "AWRD";
-    public static final String CG_MILESTONE_SCHEDULE = "CGMS";
+    public static final String CG_MILESTONE_SCHEDULE = "MILE";
 
 
     public static final String GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_FAU = "3";

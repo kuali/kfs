@@ -111,7 +111,7 @@
 		</documentType>
 		<documentType>
 			<name>
-				DLTS
+				DLTM
 			</name>
 			<parent>
 				ARSM
@@ -191,7 +191,7 @@
 		</documentType>
 		<documentType>
 			<name>
-				CGCT
+				CAT
 			</name>
 			<parent>
 				ARSM
@@ -211,7 +211,7 @@
 		</documentType>
 		<documentType>
 			<name>
-				CGSC
+				SCAT
 			</name>
 			<parent>
 				ARSM
@@ -251,7 +251,7 @@
 		</documentType>
 		<documentType>
 			<name>
-				RFTY
+				RTYP
 			</name>
 			<parent>
 				ARSM
@@ -271,7 +271,7 @@
 		</documentType>
 		<documentType>
 			<name>
-				CGMS
+				MILE
 			</name>
 			<parent>
 				CGSM
@@ -293,27 +293,7 @@
 		<!-- Added from ContractsAndGrantsSimpleMaintenanceDocuments.xml -->
 		<documentType>
 			<name>
-				AATY
-			</name>
-			<parent>
-				CGSM
-			</parent>
-			<label>
-				Agency Address Type
-			</label>
-			<helpDefinitionURL>
-				default.htm?turl=WordDocuments%2Fagencyaddresstype.htm
-			</helpDefinitionURL>
-			<active>
-				true
-			</active>
-			<routingVersion>
-				2
-			</routingVersion>
-		</documentType>
-		<documentType>
-			<name>
-				CGFR
+				FRF
 			</name>
 			<parent>
 				CGSM
@@ -333,7 +313,7 @@
 		</documentType>
 		<documentType>
 			<name>
-				CGBF
+				BILF
 			</name>
 			<parent>
 				CGSM
@@ -353,7 +333,7 @@
 		</documentType>
 		<documentType>
 			<name>
-				CGAI
+				AITM
 			</name>
 			<parent>
 				CGSM
@@ -373,7 +353,7 @@
 		</documentType>
 		<documentType>
 			<name>
-				CGIT
+				INST
 			</name>
 			<parent>
 				CGSM
@@ -393,7 +373,7 @@
 		</documentType>
 		<documentType>
 			<name>
-				CGFT
+				FFTM
 			</name>
 			<parent>
 				CGSM
@@ -433,7 +413,7 @@
 		</documentType>
 		<documentType>
 			<name>
-				CGII
+				INVI
 			</name>
 			<parent>
 				CGSM
@@ -772,7 +752,7 @@
 		</documentType>
 		<documentType>
 			<name>
-				CATD
+				COLA
 			</name>
 			<parent>
 				AR
@@ -1000,7 +980,7 @@
 		</documentType>
 		<documentType>
 			<name>
-				CGIN
+				CINV
 			</name>
 			<parent>
 				AR
@@ -1059,7 +1039,7 @@
 		</documentType>
 		<documentType>
 			<name>
-				CGLR
+				LCR
 			</name>
 			<parent>
 				AR

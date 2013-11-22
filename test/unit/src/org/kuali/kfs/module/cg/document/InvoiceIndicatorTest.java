@@ -46,7 +46,7 @@ public class InvoiceIndicatorTest extends KualiTestBase {
      */
     protected void setUp() throws Exception {
         super.setUp();
-        document = (MaintenanceDocument) SpringContext.getBean(DocumentService.class).getNewDocument("CGII");
+        document = (MaintenanceDocument) SpringContext.getBean(DocumentService.class).getNewDocument("INVI");
         document.getDocumentHeader().setDocumentDescription("Test Document");
         documentService = SpringContext.getBean(DocumentService.class);
         invoiceIndicator = new InvoiceIndicator();
@@ -64,7 +64,7 @@ public class InvoiceIndicatorTest extends KualiTestBase {
     }
 
     public void testGetNewDocument() throws Exception {
-        Document document = (Document) documentService.getNewDocument("CGII");
+        Document document = (Document) documentService.getNewDocument("INVI");
         // verify document was created
         assertNotNull(document);
         assertNotNull(document.getDocumentHeader());

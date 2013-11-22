@@ -46,7 +46,7 @@ public class FinancialReportFrequenciesTest extends KualiTestBase {
      */
     protected void setUp() throws Exception {
         super.setUp();
-        document = (MaintenanceDocument) SpringContext.getBean(DocumentService.class).getNewDocument("CGFR");
+        document = (MaintenanceDocument) SpringContext.getBean(DocumentService.class).getNewDocument("FRF");
         document.getDocumentHeader().setDocumentDescription("Test Document");
         documentService = SpringContext.getBean(DocumentService.class);
         financialReportFrequencies = new FinancialReportFrequencies();
@@ -64,7 +64,7 @@ public class FinancialReportFrequenciesTest extends KualiTestBase {
     }
 
     public void testGetNewDocument() throws Exception {
-        Document document = (Document) documentService.getNewDocument("CGFR");
+        Document document = (Document) documentService.getNewDocument("FRF");
         // verify document was created
         assertNotNull(document);
         assertNotNull(document.getDocumentHeader());

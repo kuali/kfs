@@ -32,7 +32,7 @@
     </property>
     
     
-    <property name="documentTypeName" value="RFTY"/>
+    <property name="documentTypeName" value="RTYP"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
     <property name="workflowAttributes">
     	<ref bean="ReferralTypeMaintenanceDocument-workflowAttributes"/>

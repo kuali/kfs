@@ -281,10 +281,10 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
             }
         }
         else {
-            errLines.add("No Award is found to create CGIN");
+            errLines.add("No Award is found to create CINV");
         }
 
-        // print out the invalid awards which has not been used to create CGIN edoc
+        // print out the invalid awards which has not been used to create CINV edoc
         if (!CollectionUtils.isEmpty(errLines)) {
             File errOutPutfile = new File(errOutputFileName);
             PrintStream outputFileStream = null;

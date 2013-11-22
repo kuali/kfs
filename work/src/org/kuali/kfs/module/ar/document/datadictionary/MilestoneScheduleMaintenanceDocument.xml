@@ -31,7 +31,7 @@
 				<value>proposalNumber</value>
 			</list>
 		</property>
-		<property name="documentTypeName" value="CGMS" />
+		<property name="documentTypeName" value="MILE" />
 		<property name="documentAuthorizerClass"
 			value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
 		<property name="workflowAttributes">

@@ -46,7 +46,7 @@ public class ContractGrantTypeTest extends KualiTestBase {
      */
     protected void setUp() throws Exception {
         super.setUp();
-        document = (MaintenanceDocument) SpringContext.getBean(DocumentService.class).getNewDocument("CGIT");
+        document = (MaintenanceDocument) SpringContext.getBean(DocumentService.class).getNewDocument("INST");
         document.getDocumentHeader().setDocumentDescription("Test Document");
         documentService = SpringContext.getBean(DocumentService.class);
         contractGrantType = new ContractGrantType();
@@ -64,7 +64,7 @@ public class ContractGrantTypeTest extends KualiTestBase {
     }
 
     public void testGetNewDocument() throws Exception {
-        Document document = (Document) documentService.getNewDocument("CGIT");
+        Document document = (Document) documentService.getNewDocument("INST");
         // verify document was created
         assertNotNull(document);
         assertNotNull(document.getDocumentHeader());

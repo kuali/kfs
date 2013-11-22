@@ -299,7 +299,7 @@ public class TicklersReportLookupableHelperServiceImpl extends ContractsGrantsRe
         parameters.put(ArPropertyConstants.CollectionActivityDocumentFields.SELECTED_PROPOSAL_NUMBER, detail.getProposalNumber().toString());
         parameters.put(ArPropertyConstants.CollectionActivityDocumentFields.SELECTED_INVOICE_DOCUMENT_NUMBER, detail.getInvoiceNumber());
         parameters.put(KFSConstants.PARAMETER_COMMAND, "initiate");
-        parameters.put(KFSConstants.DOCUMENT_TYPE_NAME, "CATD");
+        parameters.put(KFSConstants.DOCUMENT_TYPE_NAME, "COLA");
         lookupUrl = UrlFactory.parameterizeUrl("arCollectionActivityDocument.do", parameters);
 
         return lookupUrl;

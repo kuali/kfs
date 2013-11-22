@@ -73,7 +73,7 @@ public class ContractsGrantsInvoiceDocumentForm extends CustomerInvoiceDocumentF
      */
     @Override
     protected String getDefaultDocumentTypeName() {
-        return "CGIN";
+        return "CINV";
     }
 
     /**

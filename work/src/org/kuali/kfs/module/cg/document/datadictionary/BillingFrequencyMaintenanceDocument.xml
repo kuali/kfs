@@ -34,7 +34,7 @@
 
 
 
-		<property name="documentTypeName" value="CGBF" />
+		<property name="documentTypeName" value="BILF" />
 		<property name="documentAuthorizerClass"
 			value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
 		<property name="workflowAttributes">

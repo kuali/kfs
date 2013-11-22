@@ -29,7 +29,7 @@
 				<value>categoryCode</value>
 			</list>
 		</property>
-		<property name="documentTypeName" value="CGCT" />
+		<property name="documentTypeName" value="CAT" />
 		<property name="businessRulesClass" value="org.kuali.kfs.module.ar.document.validation.CategoryRule"/>
 		<property name="documentAuthorizerClass"
 			value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />

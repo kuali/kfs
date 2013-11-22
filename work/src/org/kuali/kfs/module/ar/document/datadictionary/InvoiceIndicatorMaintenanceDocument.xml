@@ -31,7 +31,7 @@
 				<value>invoiceIndicator</value>
 			</list>
 		</property>
-		<property name="documentTypeName" value="CGII" />
+		<property name="documentTypeName" value="INVI" />
 		<property name="documentAuthorizerClass"
 			value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
 		<property name="workflowAttributes">

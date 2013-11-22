@@ -47,7 +47,7 @@ public enum ContractsGrantsInvoiceDocumentFixture {
     public ContractsGrantsInvoiceDocument createContractsGrantsInvoiceDocument(DocumentService documentService) {
         ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument = null;
         try {
-            contractsGrantsInvoiceDocument = (ContractsGrantsInvoiceDocument) documentService.getNewDocument("CGIN");
+            contractsGrantsInvoiceDocument = (ContractsGrantsInvoiceDocument) documentService.getNewDocument("CINV");
         }
         catch (WorkflowException e) {
             Log.debug(e.toString());

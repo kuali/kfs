@@ -116,7 +116,7 @@ public class AwardLookupableHelperServiceImpl extends KualiLookupableHelperServi
         params.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.SEARCH_METHOD);
         params.put(KFSConstants.DOC_FORM_KEY, "88888888");
         params.put(KFSConstants.HIDE_LOOKUP_RETURN_LINK, "false");
-        params.put("docTypeFullName", "CGIN");
+        params.put("docTypeFullName", "CINV");
         params.put(KFSPropertyConstants.PROPOSAL_NUMBER, award.getProposalNumber().toString());
         params.put(KFSConstants.RETURN_LOCATION_PARAMETER, "portal.do");
 //        Note

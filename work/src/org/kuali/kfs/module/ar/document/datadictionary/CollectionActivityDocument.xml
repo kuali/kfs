@@ -8,7 +8,7 @@
 	<bean id="CollectionActivityDocument-parentBean" abstract="true"
 		parent="TransactionalDocumentEntry">
 
-		<property name="documentTypeName" value="CATD" />
+		<property name="documentTypeName" value="COLA" />
 		<property name="documentClass"
 			value="org.kuali.kfs.module.ar.document.CollectionActivityDocument" />
 		<property name="businessRulesClass"

@@ -311,10 +311,10 @@ public class ArPropertyConstants{
     public static final String DOCUMENT_STATUS_CODE = "documentHeader.financialDocumentStatusCode";
     public static final String DOCUMENT_HEADER_FINANCIAL_DOCUMENT_IN_ERROR_NUMBER = "documentHeader.financialDocumentInErrorNumber";
     public static final String CUSTOMER_NAME = "accountsReceivableDocumentHeader.customer.customerName";
-    public static final String CONTRACTS_GRANTS_INV_DOC_TYPE = "CGIN";
+    public static final String CONTRACTS_GRANTS_INV_DOC_TYPE = "CINV";
 
     public static final String REFERRAL_TO_COLL_DOC_TYPE = "RTCL";
-    public static final String COLLECTION_ACTIVTY_DOC_TYPE = "CATD";
+    public static final String COLLECTION_ACTIVTY_DOC_TYPE = "COLA";
 
     public static final String COLLECTOR_HEAD = "principalId";
     public static final String COLLECTOR_PRINC_NAME = "collector.principalName";

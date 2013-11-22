@@ -119,7 +119,7 @@
 		</documentType>
 		<documentType>
 			<name>
-				DLTS
+				DLTM
 			</name>
 			<parent>
 				ARSM
@@ -199,13 +199,13 @@
 		</documentType>
 		<documentType>
 			<name>
-				CGCT
+				CAT
       </name>
 			<parent>
 				ARSM
       </parent>
 			<label>
-				Category
+				Cost Category
       </label>
 			<helpDefinitionURL>
 				default.htm?turl=WordDocuments%2Fcategoryhelp.htm
@@ -219,7 +219,7 @@
 		</documentType>
 		<documentType>
 			<name>
-				CGSC
+				SCAT
       </name>
 			<parent>
 				ARSM
@@ -259,7 +259,7 @@
 		</documentType>
 		<documentType>
 			<name>
-				RFTY
+				RTYP
 			</name>
 			<parent>
 				ARSM
@@ -279,7 +279,7 @@
 		</documentType>
 		<documentType>
 			<name>
-				CGMS
+				MILE
 			</name>
 			<parent>
 				CGSM

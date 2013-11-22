@@ -17,7 +17,7 @@
 		parent="TransactionalDocumentEntry">
 
 
-		<property name="documentTypeName" value="CGIN" />
+		<property name="documentTypeName" value="CINV" />
 		<property name="documentClass"
 			value="org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument" />
 		<property name="businessRulesClass"

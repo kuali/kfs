@@ -1128,7 +1128,7 @@ public class KFSConstants {
     // contracts grants module document type codes
     public static final class ContractsGrantsModuleDocumentTypeCodes {
         // contracts grants invoice
-        public static final String CONTRACTS_GRANTS_INVOICE = "CGIN";
+        public static final String CONTRACTS_GRANTS_INVOICE = "CINV";
         public static final String AGENCY_PRIMARY_ADDRESSES_TYPE_CODE = "P";
         public static final String AGENCY_ALTERNATE_ADDRESSES_TYPE_CODE = "A";
     }

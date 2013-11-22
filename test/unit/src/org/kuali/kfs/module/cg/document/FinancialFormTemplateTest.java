@@ -46,7 +46,7 @@ public class FinancialFormTemplateTest extends KualiTestBase {
      */
     protected void setUp() throws Exception {
         super.setUp();
-        document = (MaintenanceDocument) SpringContext.getBean(DocumentService.class).getNewDocument("CGFT");
+        document = (MaintenanceDocument) SpringContext.getBean(DocumentService.class).getNewDocument("FFTM");
         document.getDocumentHeader().setDocumentDescription("Test Document");
         documentService = SpringContext.getBean(DocumentService.class);
         financialFormType = new FinancialFormTemplate();
@@ -64,7 +64,7 @@ public class FinancialFormTemplateTest extends KualiTestBase {
     }
 
     public void testGetNewDocument() throws Exception {
-        Document document = (Document) documentService.getNewDocument("CGFT");
+        Document document = (Document) documentService.getNewDocument("FFTM");
         // verify document was created
         assertNotNull(document);
         assertNotNull(document.getDocumentHeader());

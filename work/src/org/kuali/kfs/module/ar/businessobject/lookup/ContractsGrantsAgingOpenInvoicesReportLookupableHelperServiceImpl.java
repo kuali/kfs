@@ -219,7 +219,7 @@ public class ContractsGrantsAgingOpenInvoicesReportLookupableHelperServiceImpl e
         parameters.put("selectedProposalNumber", proposalNumber);
         parameters.put("selectedInvoiceDocumentNumber", detail.getDocumentNumber());
         parameters.put("command", "initiate");
-        parameters.put("docTypeName", "CATD");
+        parameters.put("docTypeName", "COLA");
         lookupUrl = UrlFactory.parameterizeUrl("arCollectionActivityDocument.do", parameters);       
         }
         catch (WorkflowException ex) {

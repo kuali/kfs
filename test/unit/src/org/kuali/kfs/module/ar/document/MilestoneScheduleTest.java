@@ -49,7 +49,7 @@ public class MilestoneScheduleTest extends KualiTestBase {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        document = (MaintenanceDocument) SpringContext.getBean(DocumentService.class).getNewDocument("CGMS");
+        document = (MaintenanceDocument) SpringContext.getBean(DocumentService.class).getNewDocument("MILE");
         document.getDocumentHeader().setDocumentDescription("Test Document");
         documentService = SpringContext.getBean(DocumentService.class);
         milestoneSchedule = new MilestoneSchedule();
@@ -71,7 +71,7 @@ public class MilestoneScheduleTest extends KualiTestBase {
     }
 
     public void testGetNewDocument() throws Exception {
-        Document document = documentService.getNewDocument("CGMS");
+        Document document = documentService.getNewDocument("MILE");
         // verify document was created
         assertNotNull(document);
         assertNotNull(document.getDocumentHeader());

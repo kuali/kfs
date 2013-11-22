@@ -32,7 +32,7 @@
 				<value>letterTemplateCode</value>
 			</list>
 		</property>
-		<property name="documentTypeName" value="DLTS" />
+		<property name="documentTypeName" value="DLTM" />
 		<property name="documentAuthorizerClass"
 			value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
 		<property name="workflowAttributes">

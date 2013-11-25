@@ -60,6 +60,9 @@ are intended for use only by Kuali Foundation developers.
 			<entry key="rice.kew.additionalSpringFiles" default="" operation="+" value=",${checkmodularization.kew.override.spring.files}"/>
 			<entry key="rice.location.additionalSpringFiles" default="" operation="+" value=",${checkmodularization.location.override.spring.files}"/>
 		</propertyfile>
+		
+		<!-- delete this LD override file which is an edge case (bean override with new inquiry field) and causing spring context failures -->
+		<delete file="${classes.directory}/org/kuali/kfs/module/ld/businessobject/datadictionary/overrides/Account.xml" />
 	</target>
 
 	<target name="modularization-test" depends="modularization-prep">

@@ -29,7 +29,7 @@
 			</list>
 		</property>
 
-		<property name="documentTypeName" value="SUSPCAT" />
+		<property name="documentTypeName" value="SCAT" />
 		<property name="documentAuthorizerClass"
 			value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
 		<property name="workflowAttributes"

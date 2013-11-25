@@ -24,6 +24,7 @@ import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.gl.businessobject.Entry;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.AccountingLineOverride;
+import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.lookup.HtmlData;
@@ -198,6 +199,11 @@ public interface LaborModuleService {
     public String getCostSharingSourceSubAccountNumber();
     public String getCostSharingSourceChartOfAccountsCode();
 
+    public AccountingLineOverride determineNeededOverrides(AccountingDocument document, AccountingLine line);
+    /**
+     * @deprecated use {@link determineNeededOverrides(AccountingDocument document, AccountingLine line)} instead.
+     */
+    @Deprecated
     public AccountingLineOverride determineNeededOverrides(AccountingLine line);
 
 }

@@ -364,5 +364,5 @@ public interface CustomerInvoiceDocumentService {
      *
      * @return all customer invoice documents that are open and with the given age
      */
-    public Collection<CustomerInvoiceDocument> getAllAgingInvoiceDocumentsByCustomerTypes(List<String> customerTypes, Integer invoiceAge, Date invoiceBillingDateFrom);
+    public Collection<CustomerInvoiceDocument> getAllAgingInvoiceDocumentsByCustomerTypes(List<String> customerTypes, Integer invoiceAge, Date invoiceDueDateFrom);
 }

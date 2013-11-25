@@ -94,7 +94,7 @@ public class LaborLedgerBalanceDaoOjb extends PlatformAwareDaoBaseOjb implements
      */
     public Iterator<LedgerBalance> findBalancesForFiscalYear(Integer fiscalYear, Map<String, String> fieldValues, List<String> encumbranceBalanceTypes) {
 
-        Criteria criteria = buildCriteriaFromMap(fieldValues, new LedgerBalance(), encumbranceBalanceTypes);
+        Criteria criteria = buildCriteriaFromMap(fieldValues, new LedgerBalance(), encumbranceBalanceTypes, false);
         criteria.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, fiscalYear);
 
         QueryByCriteria query = QueryFactory.newQuery(LedgerBalance.class, criteria);
@@ -113,10 +113,23 @@ public class LaborLedgerBalanceDaoOjb extends PlatformAwareDaoBaseOjb implements
     /**
      * @see org.kuali.kfs.module.ld.dataaccess.LaborLedgerBalanceDao#findBalance(java.util.Map, boolean)
      */
+    public Iterator<LedgerBalance> findBalance(Map fieldValues, boolean isConsolidated, List<String> encumbranceBalanceTypes, boolean noZeroAmounts) {
+        LOG.debug("findBalance() started");
+
+        Query query = this.getBalanceQuery(fieldValues, isConsolidated, encumbranceBalanceTypes, noZeroAmounts);
+        OJBUtility.limitResultSize(query);
+
+        if (isConsolidated) {
+            return getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query);
+        }
+        return getPersistenceBrokerTemplate().getIteratorByQuery(query);
+    }
+
+    @Deprecated
     public Iterator<LedgerBalance> findBalance(Map fieldValues, boolean isConsolidated, List<String> encumbranceBalanceTypes) {
         LOG.debug("findBalance() started");
 
-        Query query = this.getBalanceQuery(fieldValues, isConsolidated, encumbranceBalanceTypes);
+        Query query = this.getBalanceQuery(fieldValues, isConsolidated, encumbranceBalanceTypes, false);
         OJBUtility.limitResultSize(query);
 
         if (isConsolidated) {
@@ -128,21 +141,29 @@ public class LaborLedgerBalanceDaoOjb extends PlatformAwareDaoBaseOjb implements
     /**
      * @see org.kuali.kfs.module.ld.dataaccess.LaborLedgerBalanceDao#getConsolidatedBalanceRecordCount(java.util.Map)
      */
+    public Iterator getConsolidatedBalanceRecordCount(Map fieldValues, List<String> encumbranceBalanceTypes, boolean noZeroAmounts) {
+        LOG.debug("getBalanceRecordCount() started");
+
+        ReportQueryByCriteria query = this.getBalanceCountQuery(fieldValues, encumbranceBalanceTypes, noZeroAmounts);
+        return getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query);
+    }
+
+    @Deprecated
     public Iterator getConsolidatedBalanceRecordCount(Map fieldValues, List<String> encumbranceBalanceTypes) {
         LOG.debug("getBalanceRecordCount() started");
 
-        ReportQueryByCriteria query = this.getBalanceCountQuery(fieldValues, encumbranceBalanceTypes);
+        ReportQueryByCriteria query = this.getBalanceCountQuery(fieldValues, encumbranceBalanceTypes, false);
         return getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query);
     }
 
     // build the query for balance search
-    protected Query getBalanceQuery(Map fieldValues, boolean isConsolidated, List<String> encumbarnceBalanceTypes) {
+    protected Query getBalanceQuery(Map fieldValues, boolean isConsolidated, List<String> encumbarnceBalanceTypes, boolean noZeroAmounts) {
         if (LOG.isDebugEnabled()) {
             LOG.debug("Building criteria from map fields: " + fieldValues.keySet());
             LOG.debug("getBalanceQuery(Map, boolean) started");
         }
 
-        Criteria criteria = buildCriteriaFromMap(fieldValues, new LedgerBalance(), encumbarnceBalanceTypes);
+        Criteria criteria = buildCriteriaFromMap(fieldValues, new LedgerBalance(), encumbarnceBalanceTypes, noZeroAmounts);
         ReportQueryByCriteria query = QueryFactory.newReportQuery(LedgerBalance.class, criteria);
 
         // if consolidated, then ignore subaccount number and balance type code
@@ -154,8 +175,8 @@ public class LaborLedgerBalanceDaoOjb extends PlatformAwareDaoBaseOjb implements
     }
 
     // build the query for balance search
-    protected ReportQueryByCriteria getBalanceCountQuery(Map fieldValues, List<String> encumbranceBalanceTypes) {
-        Criteria criteria = buildCriteriaFromMap(fieldValues, new LedgerBalance(), encumbranceBalanceTypes);
+    protected ReportQueryByCriteria getBalanceCountQuery(Map fieldValues, List<String> encumbranceBalanceTypes, boolean noZeroAmounts) {
+        Criteria criteria = buildCriteriaFromMap(fieldValues, new LedgerBalance(), encumbranceBalanceTypes, noZeroAmounts);
         ReportQueryByCriteria query = QueryFactory.newReportQuery(LedgerBalance.class, criteria);
 
         // set the selection attributes
@@ -177,9 +198,11 @@ public class LaborLedgerBalanceDaoOjb extends PlatformAwareDaoBaseOjb implements
      * 
      * @param fieldValues
      * @param balance
+     * @param encumbranceBalanceTypes
+     * @param noZeroAmounts makes sure at least one of the 13 monthly buckets has an amount not equals to zero
      * @return a query criteria
      */
-    protected Criteria buildCriteriaFromMap(Map fieldValues, LedgerBalance balance, List<String> encumbranceBalanceTypes) {
+    protected Criteria buildCriteriaFromMap(Map fieldValues, LedgerBalance balance, List<String> encumbranceBalanceTypes, boolean noZeroAmounts) {
         Map localFieldValues = new HashMap();
         localFieldValues.putAll(fieldValues);
 
@@ -197,6 +220,24 @@ public class LaborLedgerBalanceDaoOjb extends PlatformAwareDaoBaseOjb implements
         }
 
         criteria.addAndCriteria(OJBUtility.buildCriteriaFromMap(localFieldValues, new LedgerBalance()));
+        if (noZeroAmounts) {
+            Criteria noZeroAmountsCriteria = new Criteria();
+            noZeroAmountsCriteria.addEqualTo(KFSPropertyConstants.MONTH1_AMOUNT, 0);
+            noZeroAmountsCriteria.addEqualTo(KFSPropertyConstants.MONTH2_AMOUNT, 0);
+            noZeroAmountsCriteria.addEqualTo(KFSPropertyConstants.MONTH3_AMOUNT, 0);
+            noZeroAmountsCriteria.addEqualTo(KFSPropertyConstants.MONTH4_AMOUNT, 0);
+            noZeroAmountsCriteria.addEqualTo(KFSPropertyConstants.MONTH5_AMOUNT, 0);
+            noZeroAmountsCriteria.addEqualTo(KFSPropertyConstants.MONTH6_AMOUNT, 0);
+            noZeroAmountsCriteria.addEqualTo(KFSPropertyConstants.MONTH7_AMOUNT, 0);
+            noZeroAmountsCriteria.addEqualTo(KFSPropertyConstants.MONTH8_AMOUNT, 0);
+            noZeroAmountsCriteria.addEqualTo(KFSPropertyConstants.MONTH9_AMOUNT, 0);
+            noZeroAmountsCriteria.addEqualTo(KFSPropertyConstants.MONTH10_AMOUNT, 0);
+            noZeroAmountsCriteria.addEqualTo(KFSPropertyConstants.MONTH11_AMOUNT, 0);
+            noZeroAmountsCriteria.addEqualTo(KFSPropertyConstants.MONTH12_AMOUNT, 0);
+            noZeroAmountsCriteria.addEqualTo(KFSPropertyConstants.MONTH13_AMOUNT, 0);
+            noZeroAmountsCriteria.setNegative(true);
+            criteria.addAndCriteria(noZeroAmountsCriteria);
+        }
         return criteria;
     }
 

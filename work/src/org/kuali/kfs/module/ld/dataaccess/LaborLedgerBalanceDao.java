@@ -34,15 +34,34 @@ import org.kuali.kfs.module.ld.businessobject.LedgerBalanceForYearEndBalanceForw
 public interface LaborLedgerBalanceDao {
 
     /**
+     * @deprecated use {@link findBalance(Map fieldValues, boolean isConsolidated, List<String> encumbranceBalanceTypes, boolean noZeroAmounts)} instead.
+     *
+     * NOTE: unused
+     *
      * This method finds the records of balance entries according to input fields and values
      * 
      * @param fieldValues the input fields and values
      * @param isConsolidated consolidation option is applied or not
      * @return the records of balance entries
      */
+    @Deprecated
     public Iterator findBalance(Map fieldValues, boolean isConsolidated, List<String> encumbranceBalanceTypes);
 
     /**
+     * This method finds the records of balance entries according to input fields and values
+     * 
+     * @param fieldValues the input fields and values
+     * @param isConsolidated consolidation option is applied or not
+     * @param noZeroAmounts makes sure at least one of the 13 monthly buckets has an amount not equals to zero
+     * @return the records of balance entries
+     */
+    public Iterator<LedgerBalance> findBalance(Map fieldValues, boolean isConsolidated, List<String> encumbranceBalanceTypes, boolean noZeroAmounts);
+
+    /**
+     * @deprecated use {@link getConsolidatedBalanceRecordCount(Map fieldValues, List<String> encumbranceBalanceTypes, boolean noZeroAmounts)} instead.
+     *
+     * NOTE: unused
+     *
      * This method gets the size collection of balance entry groups according to input fields and values if the entries are required
      * to be consolidated
      * 
@@ -50,7 +69,19 @@ public interface LaborLedgerBalanceDao {
      * @param fieldValues the input fields and values
      * @return the size collection of balance entry groups
      */
+    @Deprecated
     public Iterator getConsolidatedBalanceRecordCount(Map fieldValues, List<String> encumbranceBalanceTypes);
+
+    /**
+     * This method gets the size collection of balance entry groups according to input fields and values if the entries are required
+     * to be consolidated
+     * 
+     * @param encumbranceBalanceTypes a list of encumbrance balance types
+     * @param fieldValues the input fields and values
+     * @param noZeroAmounts makes sure at least one of the 13 monthly buckets has an amount not equals to zero
+     * @return the size collection of balance entry groups
+     */
+    public Iterator getConsolidatedBalanceRecordCount(Map fieldValues, List<String> encumbranceBalanceTypes, boolean noZeroAmounts);
 
     /**
      * @param fiscalYear the given fiscal year

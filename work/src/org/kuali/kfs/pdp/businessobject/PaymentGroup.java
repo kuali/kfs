@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -67,7 +67,7 @@ public class PaymentGroup extends TimestampedBusinessObjectBase {
     private Boolean taxablePayment; // PMT_TXBL_IND
     private Boolean nraPayment; // NRA_PMT_IND
     private Boolean processImmediate; // PROC_IMD_IND
-    private boolean combineGroups; // PMT_GRP_CMB_IND
+    private Boolean combineGroups; // PMT_GRP_CMB_IND
     private String achBankRoutingNbr; // ACH_BNK_RTNG_NBR
     private String adviceEmailAddress; // ADV_EMAIL_ADDR
     private Boolean employeeIndicator; // EMP_IND
@@ -132,7 +132,7 @@ public class PaymentGroup extends TimestampedBusinessObjectBase {
     public String getPaymentStatusCode() {
         return paymentStatusCode;
     }
-    
+
     /**
      * @return String containing the payment status code and indication or cancel/reissued payments or stale payments
      */
@@ -161,7 +161,7 @@ public class PaymentGroup extends TimestampedBusinessObjectBase {
         if (isCanceledReissued) {
             paymentStatusWithHistory += " (Reissued)";
         }
-        
+
         // check for stale payments, if one payment detail is stale then they all are
         PaymentDetail paymentDetail = getPaymentDetails().get(0);
         if (!paymentDetail.isDisbursementActionAllowed()) {
@@ -173,7 +173,7 @@ public class PaymentGroup extends TimestampedBusinessObjectBase {
 
     /**
      * WIDTH MUST BE LESS THAN THE # OF SPACES
-     * 
+     *
      * @param width
      * @param val
      * @return
@@ -211,7 +211,7 @@ public class PaymentGroup extends TimestampedBusinessObjectBase {
 
     /**
      * Get the total of all the detail items
-     * 
+     *
      * @return
      */
     public KualiDecimal getNetPaymentAmount() {
@@ -362,11 +362,11 @@ public class PaymentGroup extends TimestampedBusinessObjectBase {
         this.city = city;
     }
 
-    public boolean getCombineGroups() {
+    public Boolean getCombineGroups() {
         return combineGroups;
     }
 
-    public void setCombineGroups(boolean combineGroups) {
+    public void setCombineGroups(Boolean combineGroups) {
         this.combineGroups = combineGroups;
     }
 
@@ -450,7 +450,7 @@ public class PaymentGroup extends TimestampedBusinessObjectBase {
 
     /**
      * Gets the bankCode attribute.
-     * 
+     *
      * @return Returns the bankCode.
      */
     public String getBankCode() {
@@ -459,7 +459,7 @@ public class PaymentGroup extends TimestampedBusinessObjectBase {
 
     /**
      * Sets the bankCode attribute value.
-     * 
+     *
      * @param bankCode The bankCode to set.
      */
     public void setBankCode(String bankCode) {
@@ -850,7 +850,7 @@ public class PaymentGroup extends TimestampedBusinessObjectBase {
     /**
      * Takes a <code>String</code> and attempt to format as <code>Timestamp</code for setting the
      * paymentDate field
-     * 
+     *
      * @param paymentDate Timestamp as string
      */
     public void setPaymentDate(String paymentDate) throws ParseException {
@@ -983,7 +983,7 @@ public class PaymentGroup extends TimestampedBusinessObjectBase {
 
     /**
      * Gets the batchId attribute.
-     * 
+     *
      * @return Returns the batchId.
      */
     public KualiInteger getBatchId() {
@@ -992,14 +992,14 @@ public class PaymentGroup extends TimestampedBusinessObjectBase {
 
     /**
      * Sets the batchId attribute value.
-     * 
+     *
      * @param batchId The batchId to set.
      */
     public void setBatchId(KualiInteger batchId) {
         this.batchId = batchId;
     }
 
-    
+
     protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
 
@@ -1034,7 +1034,7 @@ public class PaymentGroup extends TimestampedBusinessObjectBase {
 
     /**
      * Gets the adviceEmailSentDate attribute.
-     * 
+     *
      * @return Returns the adviceEmailSentDate.
      */
     public Timestamp getAdviceEmailSentDate() {
@@ -1043,7 +1043,7 @@ public class PaymentGroup extends TimestampedBusinessObjectBase {
 
     /**
      * Sets the adviceEmailSentDate attribute value.
-     * 
+     *
      * @param adviceEmailSentDate The adviceEmailSentDate to set.
      */
     public void setAdviceEmailSentDate(Timestamp adviceEmailSentDate) {

@@ -59,8 +59,24 @@ public interface LaborLedgerBalanceService {
      * @param fieldValues the input fields and values
      * @param isConsolidated consolidation option is applied or not
      * @param encumbranceBalanceTypes a list of encumbrance balance types
+     * @param noZeroAmounts makes sure at least one of the 13 monthly buckets has an amount not equals to zero
      * @return the size of balance entries
      */
+    public Iterator findBalance(Map fieldValues, boolean isConsolidated, List<String> encumbranceBalanceTypes, boolean noZeroAmounts);
+
+    /**
+     * @deprecated use {@link findBalance(Map fieldValues, boolean isConsolidated, List<String> encumbranceBalanceTypes, boolean noZeroAmounts)} instead.
+     *
+     * NOTE: unused
+     *
+     * This method gets the size of balance entries according to input fields and values
+     * 
+     * @param fieldValues the input fields and values
+     * @param isConsolidated consolidation option is applied or not
+     * @param encumbranceBalanceTypes a list of encumbrance balance types
+     * @return the size of balance entries
+     */
+    @Deprecated
     public Iterator findBalance(Map fieldValues, boolean isConsolidated, List<String> encumbranceBalanceTypes);
 
     /**
@@ -69,8 +85,24 @@ public interface LaborLedgerBalanceService {
      * @param fieldValues the input fields and values
      * @param isConsolidated consolidation option is applied or not
      * @param encumbranceBalanceTypes a list of encumbranceBalanceTypes
+     * @param noZeroAmounts makes sure at least one of the 13 monthly buckets has an amount not equals to zero
      * @return the summary records of balance entries
      */
+    public Integer getBalanceRecordCount(Map fieldValues, boolean isConsolidated, List<String> encumbranceBalanceTypes, boolean noZeroAmounts);
+
+    /**
+     * @deprecated use {@link getBalanceRecordCount(Map fieldValues, boolean isConsolidated, List<String> encumbranceBalanceTypes, boolean noZeroAmounts)} instead.
+     *
+     * NOTE: unused
+     *
+     * This method finds the summary records of balance entries according to input fields and values
+     * 
+     * @param fieldValues the input fields and values
+     * @param isConsolidated consolidation option is applied or not
+     * @param encumbranceBalanceTypes a list of encumbranceBalanceTypes
+     * @return the summary records of balance entries
+     */
+    @Deprecated
     public Integer getBalanceRecordCount(Map fieldValues, boolean isConsolidated, List<String> encumbranceBalanceTypes);
 
     /**

@@ -44,6 +44,7 @@ public class AccountingLineOverride {
      * These codes are the way the override is persisted in the AccountingLine.
      */
     public static final class CODE { // todo: use JDK 1.5 enum
+        public static final String BLANK = "";
         public static final String NONE = "NONE";
         public static final String EXPIRED_ACCOUNT = "EXPIRED_ACCOUNT";
         public static final String NON_BUDGETED_OBJECT = "NON_BUDGETED_OBJECT";

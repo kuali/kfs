@@ -465,17 +465,17 @@ public class CustomerInvoiceDocumentDaoOjb extends PlatformAwareDaoBaseOjb imple
     /**
      * get selection criteria for aging invoice document
      */
-    protected Criteria getAllAgingInvoiceDocumentsCriteria(String prefix, Date invoiceBillingDateFrom, Date invoiceBillingDateTo) {
+    protected Criteria getAllAgingInvoiceDocumentsCriteria(String prefix, Date invoiceDueDateFrom, Date invoiceDueDateTo) {
         Criteria criteria = new Criteria();
         Criteria criteria2 = new Criteria();
-        if(ObjectUtils.isNotNull(invoiceBillingDateFrom)){
-            criteria.addGreaterOrEqualThan(ArPropertyConstants.CustomerInvoiceDocumentFields.BILLING_DATE, invoiceBillingDateFrom);
+        if(ObjectUtils.isNotNull(invoiceDueDateFrom)){
+            criteria.addGreaterThan(ArPropertyConstants.CustomerInvoiceDocumentFields.INVOICE_DUE_DATE, invoiceDueDateFrom);
         }
 
-        if(ObjectUtils.isNotNull(invoiceBillingDateTo)){
-            criteria2.addLessOrEqualThan(ArPropertyConstants.CustomerInvoiceDocumentFields.BILLING_DATE, invoiceBillingDateTo);
+        if(ObjectUtils.isNotNull(invoiceDueDateTo)){
+            criteria2.addLessOrEqualThan(ArPropertyConstants.CustomerInvoiceDocumentFields.INVOICE_DUE_DATE, invoiceDueDateTo);
         }
-        criteria.addOrCriteria(criteria2);
+        criteria.addAndCriteria(criteria2);
         criteria.addEqualTo(prefix + ArPropertyConstants.CustomerInvoiceDocumentFields.OPEN_INVOICE_INDICATOR, true);
         criteria.addEqualTo(prefix + "documentHeader.financialDocumentStatusCode", KFSConstants.DocumentStatusCodes.APPROVED);
 
@@ -483,10 +483,10 @@ public class CustomerInvoiceDocumentDaoOjb extends PlatformAwareDaoBaseOjb imple
     }
 
     @Override
-    public Collection<CustomerInvoiceDocument> getAllAgingInvoiceDocumentsByCustomerTypes(List<String> customerTypes, Date invoiceBillingDateFrom, Date invoiceBillingDateTo) {
-        LOG.info("invoiceBillingDateFrom :::::" + invoiceBillingDateFrom);
-        LOG.info("invoiceBillingDateTo ::::::::" + invoiceBillingDateTo);
-        Criteria criteria = this.getAllAgingInvoiceDocumentsCriteria(StringUtils.EMPTY, invoiceBillingDateFrom, invoiceBillingDateTo);
+    public Collection<CustomerInvoiceDocument> getAllAgingInvoiceDocumentsByCustomerTypes(List<String> customerTypes, Date invoiceDueDateFrom, Date invoiceDueDateTo) {
+        LOG.info("invoiceDueDateFrom :::::" + invoiceDueDateFrom);
+        LOG.info("invoiceDueDateTo ::::::::" + invoiceDueDateTo);
+        Criteria criteria = this.getAllAgingInvoiceDocumentsCriteria(StringUtils.EMPTY, invoiceDueDateFrom, invoiceDueDateTo);
 
         if(ObjectUtils.isNotNull(customerTypes)){
             criteria.addIn(ArPropertyConstants.CustomerTypeFields.CUSTOMER_TYPE_CODE, customerTypes);

@@ -139,7 +139,7 @@ public class AccountingLineOverrideTest extends KualiTestBase {
     }
 
     public void testIsValidCode_empty() {
-        assertEquals(false, AccountingLineOverride.isValidCode(""));
+        assertEquals(true, AccountingLineOverride.isValidCode(""));
     }
 
     public void testIsValidCode_blank() {

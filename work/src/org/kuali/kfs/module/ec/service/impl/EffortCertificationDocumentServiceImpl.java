@@ -430,7 +430,7 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
 
         accountingLine.refreshNonUpdateableReferences();
 
-        AccountingLineOverride override = laborModuleService.determineNeededOverrides(accountingLine);
+        AccountingLineOverride override = laborModuleService.determineNeededOverrides(null, accountingLine);
 
         // if an expired account override is needed, set it, otherwise validations on the downstream ST doc could fail
         accountingLine.setAccountExpiredOverrideNeeded(override.hasComponent(COMPONENT.EXPIRED_ACCOUNT));

@@ -54,6 +54,7 @@ import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.ErrorMessage;
 import org.kuali.rice.krad.util.ObjectUtils;
+import org.springframework.transaction.annotation.Transactional;
 
 public class AgencyDataImportServiceImpl implements AgencyDataImportService {
     public static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AgencyDataImportServiceImpl.class);
@@ -311,7 +312,6 @@ public class AgencyDataImportServiceImpl implements AgencyDataImportService {
                 LOG.info("Agency Data Id: "+ agency.getId() + (result ? " was":" was not") + " processed.");
             }
         }
-        businessObjectService.save(agencyData);
 
         LOG.info("Finished Agency Expense Distribution/Reconciliation Process");
         return true;
@@ -320,6 +320,7 @@ public class AgencyDataImportServiceImpl implements AgencyDataImportService {
     /**
      * @see org.kuali.kfs.module.tem.batch.service.AgencyDataImportService#processAgencyStagingExpense(org.kuali.kfs.module.tem.businessobject.AgencyStagingData, org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper)
      */
+    @Transactional
     @Override
     public boolean processAgencyStagingExpense(AgencyStagingData agency, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
         boolean result = false;
@@ -332,6 +333,7 @@ public class AgencyDataImportServiceImpl implements AgencyDataImportService {
             result = expenseImportByTripService.reconciliateExpense(agency, sequenceHelper);
         }
 
+        businessObjectService.save(agency);
         return result;
     }
 

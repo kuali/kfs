@@ -76,7 +76,6 @@
 				<value>invoiceRecurrenceJob</value>
 				<value>customerInvoiceWriteoffBatchJob</value>
 				<value>customerAgingReportNotificationJob</value>
-				<value>upcomingMilestoneNotificationJob</value>
 				<value>dunningLetterDistributionJob</value>
 				<value>letterOfCreditJob</value>
 				<value>invoiceReportEmailDeliveryJob</value>

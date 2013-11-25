@@ -913,7 +913,7 @@
 
 	<bean id="customerInvoiceDetailService" parent="customerInvoiceDetailService-parentBean" />
 
-	<bean id="customerInvoiceDetailService-parentBean" class="org.kuali.kfs.module.ar.document.service.impl.CustomerInvoiceDetailServiceImpl">
+	<bean id="customerInvoiceDetailService-parentBean" class="org.kuali.kfs.module.ar.document.service.impl.CustomerInvoiceDetailServiceImpl" abstract="true">
 		<property name="dateTimeService">
 			<ref bean="dateTimeService" />
 		</property>
@@ -1082,7 +1082,7 @@
 
 	<bean id="customerInvoiceWriteoffDocumentService" parent="customerInvoiceWriteoffDocumentService-parentBean" />
 
-	<bean id="customerInvoiceWriteoffDocumentService-parentBean" class="org.kuali.kfs.module.ar.document.service.impl.CustomerInvoiceWriteoffDocumentServiceImpl">
+	<bean id="customerInvoiceWriteoffDocumentService-parentBean" class="org.kuali.kfs.module.ar.document.service.impl.CustomerInvoiceWriteoffDocumentServiceImpl" abstract="true">
 		<property name="accountsReceivableDocumentHeaderService">
 			<ref bean="accountsReceivableDocumentHeaderService" />
 		</property>

@@ -50,19 +50,19 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.PdfFormFillerUtil;
-import org.kuali.kfs.sys.context.SpringContext; import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.kfs.sys.service.NonTransactional;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.core.web.format.CurrencyFormatter;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.krad.service.NoteService;
-import org.kuali.kfs.sys.context.SpringContext; import org.kuali.kfs.sys.service.NonTransactional;
-import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.krad.service.KualiModuleService;
+import org.kuali.rice.krad.service.NoteService;
 import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.util.ObjectUtils;
-import org.kuali.rice.core.web.format.CurrencyFormatter;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.lowagie.text.DocumentException;
 import com.lowagie.text.pdf.PdfCopyFields;
@@ -79,12 +79,13 @@ public class DunningLetterDistributionOnDemandServiceImpl implements DunningLett
     protected DateTimeService dateTimeService;
     private KualiModuleService kualiModuleService;
     protected NoteService noteService;
-    
+
     /**
      * @see org.kuali.kfs.module.ar.document.service.DunningLetterDistributionOnDemandService#createDunningLetters(org.kuali.kfs.module.ar.businessobject.DunningLetterTemplate,
      *      org.kuali.kfs.module.ar.businessobject.DunningLetterDistributionOnDemandLookupResult)
      */
     @Override
+    @Transactional
     public byte[] createDunningLetters(DunningLetterTemplate dunningLetterTemplate, DunningLetterDistributionOnDemandLookupResult dunningLetterDistributionOnDemandLookupResult) {
 
         List<ContractsGrantsInvoiceDocument> selectedInvoices = new ArrayList<ContractsGrantsInvoiceDocument>();
@@ -250,6 +251,7 @@ public class DunningLetterDistributionOnDemandServiceImpl implements DunningLett
      * @throws Exception
      */
     @Override
+    @NonTransactional
     public boolean createZipOfPDFs(byte[] report, ByteArrayOutputStream baos) throws IOException {
 
         ZipOutputStream zos = new ZipOutputStream(baos);
@@ -285,6 +287,7 @@ public class DunningLetterDistributionOnDemandServiceImpl implements DunningLett
     /**
      * @see org.kuali.kfs.module.ar.report.service.ContractsGrantsInvoiceReportService#generateListOfInvoicesPdfToPrint(java.util.Collection)
      */
+    @NonTransactional
     public byte[] generateListOfInvoicesPdfToPrint(Collection<ContractsGrantsInvoiceDocument> list, byte[] report) throws DocumentException, IOException {
         Date runDate = new Date();
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -346,6 +349,7 @@ public class DunningLetterDistributionOnDemandServiceImpl implements DunningLett
      *
      * @return Returns the businessObjectService.
      */
+    @NonTransactional
     public BusinessObjectService getBusinessObjectService() {
         return businessObjectService;
     }
@@ -355,6 +359,7 @@ public class DunningLetterDistributionOnDemandServiceImpl implements DunningLett
      *
      * @param businessObjectService The businessObjectService to set.
      */
+    @NonTransactional
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
@@ -364,6 +369,7 @@ public class DunningLetterDistributionOnDemandServiceImpl implements DunningLett
      *
      * @return Returns the contractsGrantsInvoiceDocumentDao.
      */
+    @NonTransactional
     public ContractsGrantsInvoiceDocumentDao getContractsGrantsInvoiceDocumentDao() {
         return contractsGrantsInvoiceDocumentDao;
     }
@@ -373,34 +379,39 @@ public class DunningLetterDistributionOnDemandServiceImpl implements DunningLett
      *
      * @param contractsGrantsInvoiceDocumentDao The contractsGrantsInvoiceDocumentDao to set.
      */
+    @NonTransactional
     public void setContractsGrantsInvoiceDocumentDao(ContractsGrantsInvoiceDocumentDao contractsGrantsInvoiceDocumentDao) {
         this.contractsGrantsInvoiceDocumentDao = contractsGrantsInvoiceDocumentDao;
     }
 
+    @NonTransactional
     public DateTimeService getDateTimeService() {
         return dateTimeService;
     }
 
+    @NonTransactional
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;
     }
-    
+
     /**
      * Sets the kualiModuleService attribute value.
-     * 
+     *
      * @param kualiModuleService The kualiModuleService to set.
      */
     @NonTransactional
     public void setKualiModuleService(KualiModuleService kualiModuleService) {
         this.kualiModuleService = kualiModuleService;
     }
-    
+
+    @NonTransactional
     public NoteService getNoteService() {
         return noteService;
     }
 
+    @NonTransactional
     public void setNoteService(NoteService noteService) {
         this.noteService = noteService;
     }
-    
+
 }

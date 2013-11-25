@@ -40,11 +40,13 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.report.ReportInfo;
+import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.ObjectUtils;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * This class is used to get the services for PDF generation and other services for Collection Activity Report
@@ -56,12 +58,13 @@ public class CollectionActivityReportServiceImpl extends ContractsGrantsCollecto
     protected BusinessObjectService businessObjectService;
     private PersonService personService;
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CollectionActivityReportServiceImpl.class);
-    
+
     /**
      * Gets the collActReportInfo attribute.
      *
      * @return Returns the collActReportInfo.
      */
+    @NonTransactional
     public ReportInfo getCollActReportInfo() {
         return collActReportInfo;
     }
@@ -71,6 +74,7 @@ public class CollectionActivityReportServiceImpl extends ContractsGrantsCollecto
      *
      * @param collActReportInfo The collActReportInfo to set.
      */
+    @NonTransactional
     public void setCollActReportInfo(ReportInfo collActReportInfo) {
         this.collActReportInfo = collActReportInfo;
     }
@@ -80,6 +84,7 @@ public class CollectionActivityReportServiceImpl extends ContractsGrantsCollecto
      *
      * @return Returns the businessObjectService.
      */
+    @NonTransactional
     public BusinessObjectService getBusinessObjectService() {
         return businessObjectService;
     }
@@ -89,6 +94,7 @@ public class CollectionActivityReportServiceImpl extends ContractsGrantsCollecto
      *
      * @param businessObjectService The businessObjectService to set.
      */
+    @NonTransactional
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
@@ -98,6 +104,7 @@ public class CollectionActivityReportServiceImpl extends ContractsGrantsCollecto
      *
      * @return Returns the contractsGrantsInvoiceDocumentService.
      */
+    @NonTransactional
     public ContractsGrantsInvoiceDocumentService getContractsGrantsInvoiceDocumentService() {
         return contractsGrantsInvoiceDocumentService;
     }
@@ -107,6 +114,7 @@ public class CollectionActivityReportServiceImpl extends ContractsGrantsCollecto
      *
      * @param contractsGrantsInvoiceDocumentService The contractsGrantsInvoiceDocumentService to set.
      */
+    @NonTransactional
     public void setContractsGrantsInvoiceDocumentService(ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService) {
         this.contractsGrantsInvoiceDocumentService = contractsGrantsInvoiceDocumentService;
     }
@@ -116,6 +124,7 @@ public class CollectionActivityReportServiceImpl extends ContractsGrantsCollecto
      *      java.io.ByteArrayOutputStream)
      */
     @Override
+    @NonTransactional
     public String generateReport(ContractsGrantsReportDataHolder reportDataHolder, ByteArrayOutputStream baos) {
         return generateReport(reportDataHolder, collActReportInfo, baos);
     }
@@ -124,6 +133,7 @@ public class CollectionActivityReportServiceImpl extends ContractsGrantsCollecto
      * @see org.kuali.kfs.module.ar.report.service.ContractsGrantsAgingReportService#filterContractsGrantsAgingReport(java.util.Map)
      */
     @Override
+    @Transactional
     public List<CollectionActivityReport> filterEventsForColletionActivity(Map lookupFormFields) {
 
         List<CollectionActivityReport> displayList = new ArrayList<CollectionActivityReport>();
@@ -336,10 +346,12 @@ public class CollectionActivityReportServiceImpl extends ContractsGrantsCollecto
         return collectionActivityReport;
     }
 
+    @NonTransactional
     public PersonService getPersonService() {
         return personService;
     }
 
+    @NonTransactional
     public void setPersonService(PersonService personService) {
         this.personService = personService;
     }

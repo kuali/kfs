@@ -104,7 +104,6 @@ import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.PdfFormFillerUtil;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
@@ -162,16 +161,16 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
     public void setContractsGrantsInvoiceDocumentService(ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService) {
         this.contractsGrantsInvoiceDocumentService = contractsGrantsInvoiceDocumentService;
     }
-   
+
     /**
      * Sets the accountService attribute value.
-     * 
+     *
      * @param accountService The accountService to set.
      */
     public void setAccountService(AccountService accountService) {
         this.accountService = accountService;
     }
-    
+
     /**
      * Gets the objectCodeService attribute.
      * @return Returns the objectCodeService.
@@ -187,14 +186,14 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
     public void setObjectCodeService(ObjectCodeService objectCodeService) {
         this.objectCodeService = objectCodeService;
     }
-    
+
     public void setObjectLevelService(ObjectLevelService objectLevelService) {
         this.objectLevelService = objectLevelService;
     }
-    
+
     /**
      * Gets the attachmentService attribute.
-     * 
+     *
      * @return Returns the attachmentService.
      */
     public AttachmentService getAttachmentService() {
@@ -203,13 +202,13 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
     /**
      * Sets the attachmentService attribute value.
-     * 
+     *
      * @param attachmentService The attachmentService to set.
      */
     public void setAttachmentService(AttachmentService attachmentService) {
         this.attachmentService = attachmentService;
     }
-    
+
     public NoteService getNoteService() {
         return noteService;
     }
@@ -217,17 +216,16 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
     public void setNoteService(NoteService noteService) {
         this.noteService = noteService;
     }
-    
+
     /**
      * Sets the kualiModuleService attribute value.
-     * 
+     *
      * @param kualiModuleService The kualiModuleService to set.
      */
-    @NonTransactional
     public void setKualiModuleService(KualiModuleService kualiModuleService) {
         this.kualiModuleService = kualiModuleService;
     }
-    
+
     public void setVerifyBillingFrequencyService(VerifyBillingFrequencyService verifyBillingFrequencyService) {
         this.verifyBillingFrequencyService = verifyBillingFrequencyService;
     }
@@ -4519,23 +4517,27 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         return parameterService;
     }
 
+    @Override
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
     }
-    
+
+    @Override
     public void setUniversityDateService(UniversityDateService universityDateService) {
         this.universityDateService = universityDateService;
     }
-    
+
+    @Override
     public BusinessObjectService getBusinessObjectService() {
         return businessObjectService;
     }
-    
+
     /**
      * This method gets the document service
      *
      * @return the document service
      */
+    @Override
     public DocumentService getDocumentService() {
         return documentService;
     }
@@ -4545,6 +4547,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
      *
      * @param documentService
      */
+    @Override
     public void setDocumentService(DocumentService documentService) {
         this.documentService = documentService;
     }

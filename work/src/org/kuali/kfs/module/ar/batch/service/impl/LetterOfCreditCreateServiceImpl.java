@@ -38,6 +38,7 @@ import org.kuali.kfs.module.ar.document.service.CashControlDocumentService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.service.FinancialSystemDocumentService;
+import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
@@ -52,6 +53,7 @@ import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Defines a service class for creating Cash Control documents from the LOC Review Document.
@@ -67,19 +69,22 @@ public class LetterOfCreditCreateServiceImpl implements LetterOfCreditCreateServ
     private ConfigurationService configService;
     private ParameterService parameterService;
 
+    @NonTransactional
     public ConfigurationService getConfigService() {
         return configService;
     }
 
-
+    @NonTransactional
     public void setConfigService(ConfigurationService configService) {
         this.configService = configService;
     }
 
+    @NonTransactional
     public ParameterService getParameterService() {
         return parameterService;
     }
 
+    @NonTransactional
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
     }
@@ -93,8 +98,8 @@ public class LetterOfCreditCreateServiceImpl implements LetterOfCreditCreateServ
      * @param outputFileStream
      * @return
      */
-
     @Override
+    @Transactional
     public String createCashControlDocuments(String customerNumber, String locCreationType, String locValue, KualiDecimal totalAmount, PrintStream outputFileStream) {
         String documentNumber = null;
 
@@ -171,6 +176,7 @@ public class LetterOfCreditCreateServiceImpl implements LetterOfCreditCreateServ
      * @return
      */
     @Override
+    @Transactional
     public boolean validatecashControlDocument(String customerNumber, String locCreationType, String locValue, PrintStream outputFileStream) {
         boolean isExists = false;
         Criteria criteria = new Criteria();
@@ -228,6 +234,7 @@ public class LetterOfCreditCreateServiceImpl implements LetterOfCreditCreateServ
      *
      */
     @Override
+    @NonTransactional
     public boolean routeLOCDocuments() {
         List<String> cashControlDocumentIdList = null;
         List<String> payAppDocumentIdList = null;
@@ -431,6 +438,7 @@ public class LetterOfCreditCreateServiceImpl implements LetterOfCreditCreateServ
      *
      * @return Returns the documentService.
      */
+    @NonTransactional
     public DocumentService getDocumentService() {
         return documentService;
     }
@@ -441,6 +449,7 @@ public class LetterOfCreditCreateServiceImpl implements LetterOfCreditCreateServ
      *
      * @param documentService The documentService to set.
      */
+    @NonTransactional
     public void setDocumentService(DocumentService documentService) {
         this.documentService = documentService;
     }
@@ -451,6 +460,7 @@ public class LetterOfCreditCreateServiceImpl implements LetterOfCreditCreateServ
      *
      * @return Returns the cashControlDocumentService.
      */
+    @NonTransactional
     public CashControlDocumentService getCashControlDocumentService() {
         return cashControlDocumentService;
     }
@@ -461,6 +471,7 @@ public class LetterOfCreditCreateServiceImpl implements LetterOfCreditCreateServ
      *
      * @param cashControlDocumentService The cashControlDocumentService to set.
      */
+    @NonTransactional
     public void setCashControlDocumentService(CashControlDocumentService cashControlDocumentService) {
         this.cashControlDocumentService = cashControlDocumentService;
     }
@@ -471,6 +482,7 @@ public class LetterOfCreditCreateServiceImpl implements LetterOfCreditCreateServ
      *
      * @return Returns the cashControlDocumentDao.
      */
+    @NonTransactional
     public CashControlDocumentDao getCashControlDocumentDao() {
         return cashControlDocumentDao;
     }
@@ -481,6 +493,7 @@ public class LetterOfCreditCreateServiceImpl implements LetterOfCreditCreateServ
      *
      * @param cashControlDocumentDao The cashControlDocumentDao to set.
      */
+    @NonTransactional
     public void setCashControlDocumentDao(CashControlDocumentDao cashControlDocumentDao) {
         this.cashControlDocumentDao = cashControlDocumentDao;
     }
@@ -491,6 +504,7 @@ public class LetterOfCreditCreateServiceImpl implements LetterOfCreditCreateServ
      *
      * @return Returns the cashControlDetailDao.
      */
+    @NonTransactional
     public CashControlDetailDao getCashControlDetailDao() {
         return cashControlDetailDao;
     }
@@ -501,20 +515,19 @@ public class LetterOfCreditCreateServiceImpl implements LetterOfCreditCreateServ
      *
      * @param cashControlDetailDao The cashControlDetailDao to set.
      */
+    @NonTransactional
     public void setCashControlDetailDao(CashControlDetailDao cashControlDetailDao) {
         this.cashControlDetailDao = cashControlDetailDao;
     }
 
-
+    @NonTransactional
     public WorkflowDocumentService getWorkflowDocumentService() {
         return workflowDocumentService;
     }
 
-
+    @NonTransactional
     public void setWorkflowDocumentService(WorkflowDocumentService workflowDocumentService) {
         this.workflowDocumentService = workflowDocumentService;
     }
-
-
 
 }

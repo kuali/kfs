@@ -42,6 +42,7 @@ import org.kuali.kfs.module.ar.report.ContractsGrantsReportDataHolder;
 import org.kuali.kfs.module.ar.report.service.ReferralToCollectionsReportService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.report.ReportInfo;
+import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.identity.Person;
@@ -53,6 +54,7 @@ import org.kuali.rice.krad.exception.InfrastructureException;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.ObjectUtils;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * This class is used to get the services for PDF generation and other services for Referral To Collections Report.
@@ -78,6 +80,7 @@ public class ReferralToCollectionsReportServiceImpl extends ContractsGrantsColle
      *
      * @return Returns the refToCollReportInfo.
      */
+    @NonTransactional
     public ReportInfo getRefToCollReportInfo() {
         return refToCollReportInfo;
     }
@@ -87,6 +90,7 @@ public class ReferralToCollectionsReportServiceImpl extends ContractsGrantsColle
      *
      * @return Returns the refToCollReportInfo.
      */
+    @NonTransactional
     public void setRefToCollReportInfo(ReportInfo refToCollReportInfo) {
         this.refToCollReportInfo = refToCollReportInfo;
     }
@@ -96,6 +100,7 @@ public class ReferralToCollectionsReportServiceImpl extends ContractsGrantsColle
      *
      * @return Returns the businessObjectService.
      */
+    @NonTransactional
     public BusinessObjectService getBusinessObjectService() {
         return businessObjectService;
     }
@@ -105,6 +110,7 @@ public class ReferralToCollectionsReportServiceImpl extends ContractsGrantsColle
      *
      * @param businessObjectService The businessObjectService to set.
      */
+    @NonTransactional
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
@@ -114,6 +120,7 @@ public class ReferralToCollectionsReportServiceImpl extends ContractsGrantsColle
      *
      * @return Returns the contractsGrantsInvoiceDocumentService.
      */
+    @NonTransactional
     public ContractsGrantsInvoiceDocumentService getContractsGrantsInvoiceDocumentService() {
         return contractsGrantsInvoiceDocumentService;
     }
@@ -123,6 +130,7 @@ public class ReferralToCollectionsReportServiceImpl extends ContractsGrantsColle
      *
      * @param contractsGrantsInvoiceDocumentService The contractsGrantsInvoiceDocumentService to set.
      */
+    @NonTransactional
     public void setContractsGrantsInvoiceDocumentService(ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService) {
         this.contractsGrantsInvoiceDocumentService = contractsGrantsInvoiceDocumentService;
     }
@@ -132,6 +140,7 @@ public class ReferralToCollectionsReportServiceImpl extends ContractsGrantsColle
      *
      * @return Returns the referralToCollectionsDao.
      */
+    @NonTransactional
     public ReferralToCollectionsDao getReferralToCollectionsDao() {
         return referralToCollectionsDao;
     }
@@ -141,6 +150,7 @@ public class ReferralToCollectionsReportServiceImpl extends ContractsGrantsColle
      *
      * @param referralToCollectionsDao The referralToCollectionsDao to set.
      */
+    @NonTransactional
     public void setReferralToCollectionsDao(ReferralToCollectionsDao referralToCollectionsDao) {
         this.referralToCollectionsDao = referralToCollectionsDao;
     }
@@ -150,6 +160,7 @@ public class ReferralToCollectionsReportServiceImpl extends ContractsGrantsColle
      *
      * @return Returns the documentService.
      */
+    @NonTransactional
     public DocumentService getDocumentService() {
         return documentService;
     }
@@ -159,6 +170,7 @@ public class ReferralToCollectionsReportServiceImpl extends ContractsGrantsColle
      *
      * @param documentService The documentService to set.
      */
+    @NonTransactional
     public void setDocumentService(DocumentService documentService) {
         this.documentService = documentService;
     }
@@ -168,6 +180,7 @@ public class ReferralToCollectionsReportServiceImpl extends ContractsGrantsColle
      *      java.io.ByteArrayOutputStream)
      */
     @Override
+    @NonTransactional
     public String generateReport(ContractsGrantsReportDataHolder reportDataHolder, ByteArrayOutputStream baos) {
         return generateReport(reportDataHolder, refToCollReportInfo, baos);
     }
@@ -176,6 +189,7 @@ public class ReferralToCollectionsReportServiceImpl extends ContractsGrantsColle
      * @see org.kuali.kfs.module.ar.report.service.ContractsGrantsAgingReportService#filterContractsGrantsAgingReport(java.util.Map)
      */
     @Override
+    @Transactional
     public List<ReferralToCollectionsReport> filterRecordsForReferralToCollections(Map lookupFormFields, boolean isPdf) {
 
         List<ReferralToCollectionsReport> displayList = new ArrayList<ReferralToCollectionsReport>();
@@ -474,10 +488,12 @@ public class ReferralToCollectionsReportServiceImpl extends ContractsGrantsColle
         return null;
     }
 
+    @NonTransactional
     public PersonService getPersonService() {
         return personService;
     }
 
+    @NonTransactional
     public void setPersonService(PersonService personService) {
         this.personService = personService;
     }

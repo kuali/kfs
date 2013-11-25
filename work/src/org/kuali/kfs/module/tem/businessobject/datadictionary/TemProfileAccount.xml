@@ -96,9 +96,9 @@
 		<property name="control"><bean parent="TextControlDefinition" p:size="50"/></property>
 		<property name="attributeSecurity">
 			<bean parent="AttributeSecurity">
-				<property name="mask" value="true" />
-				<property name="maskFormatter">
-					<bean parent="MaskFormatterLiteral" p:literal="*********" />
+				<property name="partialMask" value="true"/>
+				<property name="partialMaskFormatter">
+					<bean parent="MaskFormatterSubString" p:maskLength="12" />
 				</property>
 			</bean>
 		</property>

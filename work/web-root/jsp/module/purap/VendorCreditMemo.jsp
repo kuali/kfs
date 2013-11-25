@@ -51,9 +51,9 @@
             itemAttributes="${DataDictionary.CreditMemoItem.attributes}"
     	    documentAttributes="${DataDictionary.SourceAccountingLine.attributes}" />  
     	    	
-		<purap:relatedDocuments documentAttributes="${DataDictionary.RelatedDocuments.attributes}"/>
+		<purap:customRelatedDocuments documentAttributes="${DataDictionary.RelatedDocuments.attributes}"/>
            	
-	    <purap:paymentHistory documentAttributes="${DataDictionary.RelatedDocuments.attributes}" />
+	    <purap:customPaymentHistory documentAttributes="${DataDictionary.RelatedDocuments.attributes}" />
 	
 	    <gl:generalLedgerPendingEntries />
 	    

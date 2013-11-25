@@ -93,6 +93,10 @@ public class AccountingLineRuleUtilTest extends KualiTestBase {
         testHasRequiredOverrides(ACTIVE_ACCOUNT.createAccount(), AccountingLineOverride.CODE.NONE, null, null);
     }
 
+    public void testHasRequiredOverrides_blank_valid() {
+        testHasRequiredOverrides(ACTIVE_ACCOUNT.createAccount(), AccountingLineOverride.CODE.BLANK, null, null);
+    }
+    
     public void testHasRequiredOverrides_null() {
         testHasRequiredOverrides(null, AccountingLineOverride.CODE.NONE, null, null);
     }

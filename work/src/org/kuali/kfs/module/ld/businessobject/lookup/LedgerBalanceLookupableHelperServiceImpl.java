@@ -120,8 +120,8 @@ public class LedgerBalanceLookupableHelperServiceImpl extends BalanceLookupableH
         if (isA21Balance) {
             fieldValues.put(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, KFSConstants.BALANCE_TYPE_ACTUAL);
         }
-        Integer recordCountForActualBalance = balanceService.getBalanceRecordCount(fieldValues, isConsolidated, getEncumbranceBalanceTypes(fieldValues));
-        Iterator actualBalanceIterator = balanceService.findBalance(fieldValues, isConsolidated, getEncumbranceBalanceTypes(fieldValues));
+        Integer recordCountForActualBalance = balanceService.getBalanceRecordCount(fieldValues, isConsolidated, getEncumbranceBalanceTypes(fieldValues), false);
+        Iterator actualBalanceIterator = balanceService.findBalance(fieldValues, isConsolidated, getEncumbranceBalanceTypes(fieldValues), false);
         Collection searchResultsCollection = buildBalanceCollection(actualBalanceIterator, isConsolidated, pendingEntryOption);
         laborInquiryOptionsService.updateLedgerBalanceByPendingLedgerEntry(searchResultsCollection, fieldValues, pendingEntryOption, isConsolidated);
 
@@ -129,9 +129,9 @@ public class LedgerBalanceLookupableHelperServiceImpl extends BalanceLookupableH
         Integer recordCountForEffortBalance = 0;
         if (isA21Balance) {
             fieldValues.put(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, KFSConstants.BALANCE_TYPE_A21);
-            recordCountForEffortBalance = balanceService.getBalanceRecordCount(fieldValues, isConsolidated, getEncumbranceBalanceTypes(fieldValues));
+            recordCountForEffortBalance = balanceService.getBalanceRecordCount(fieldValues, isConsolidated, getEncumbranceBalanceTypes(fieldValues), false);
 
-            Iterator effortBalanceIterator = balanceService.findBalance(fieldValues, isConsolidated, getEncumbranceBalanceTypes(fieldValues));
+            Iterator effortBalanceIterator = balanceService.findBalance(fieldValues, isConsolidated, getEncumbranceBalanceTypes(fieldValues), false);
             Collection effortBalances = buildBalanceCollection(effortBalanceIterator, isConsolidated, pendingEntryOption);
             laborInquiryOptionsService.updateLedgerBalanceByPendingLedgerEntry(effortBalances, fieldValues, pendingEntryOption, isConsolidated);
 

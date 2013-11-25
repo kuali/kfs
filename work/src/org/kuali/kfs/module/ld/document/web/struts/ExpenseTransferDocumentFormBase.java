@@ -179,7 +179,7 @@ public abstract class ExpenseTransferDocumentFormBase extends LaborDocumentFormB
     @Override
     protected void repopulateOverrides(AccountingLine line, String accountingLinePropertyName, Map parameterMap) {
         super.repopulateOverrides(line, accountingLinePropertyName, parameterMap);
-        LaborAccountingLineOverride.determineNeededOverrides(line);
+        LaborAccountingLineOverride.determineNeededOverrides(getFinancialDocument(), line);
         if (line.getNonFringeAccountOverrideNeeded()) {
             if (parameterMap.containsKey(accountingLinePropertyName+".nonFringeAccountOverride.present")) {
                 line.setNonFringeAccountOverride(parameterMap.containsKey(accountingLinePropertyName+".nonFringeAccountOverride"));

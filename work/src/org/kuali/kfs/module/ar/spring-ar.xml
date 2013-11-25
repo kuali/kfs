@@ -77,6 +77,10 @@
 				<value>customerInvoiceWriteoffBatchJob</value>
 				<value>customerAgingReportNotificationJob</value>
 				<value>upcomingMilestoneNotificationJob</value>
+				<value>dunningLetterDistributionJob</value>
+				<value>letterOfCreditJob</value>
+				<value>invoiceReportEmailDeliveryJob</value>
+				<value>contractsGrantsInvoiceDocumentJob</value>
 			</list>
 		</property>
 		<property name="triggerNames">

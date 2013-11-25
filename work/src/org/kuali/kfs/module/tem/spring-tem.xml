@@ -207,6 +207,7 @@
 	<bean id="travelerProfileDocLookupHelperService" parent="travelerProfileDocLookupHelperService-parentBean" scope="prototype"/>
 	<bean id="travelerProfileDocLookupHelperService-parentBean" abstract="true" parent="baseProfileLookupableHelperService" class="org.kuali.kfs.module.tem.businessobject.lookup.TravelerProfileDocLookupableHelperServiceImpl">
         <property name="permissionService" ref="kimPermissionService"/>
+        <property name="travelArrangerDocumentService" ref="temArrangerDocumentService"/>
 	</bean>
 	<bean id="travelerProfileDocLookupable" parent="travelerProfileDocLookupable-parentBean" scope="prototype"/>
 	<bean id="travelerProfileDocLookupable-parentBean" abstract="true" class="org.kuali.rice.kns.lookup.KualiLookupableImpl">

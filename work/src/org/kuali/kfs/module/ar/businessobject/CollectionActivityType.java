@@ -1,12 +1,12 @@
 /*
  * Copyright 2012 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -18,14 +18,15 @@ package org.kuali.kfs.module.ar.businessobject;
 import java.util.LinkedHashMap;
 
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
  * Defines collection activity that can be taken on an outstanding debt.
- * 
+ *
  * @author mpritmani
  */
-public class CollectionActivityType extends PersistableBusinessObjectBase {
+public class CollectionActivityType extends PersistableBusinessObjectBase implements MutableInactivatable {
 
     private String activityCode;
     private String activityDescription;
@@ -41,7 +42,7 @@ public class CollectionActivityType extends PersistableBusinessObjectBase {
 
     /**
      * Gets the activityCode attribute.
-     * 
+     *
      * @return Returns the activityCode
      */
     public String getActivityCode() {
@@ -50,7 +51,7 @@ public class CollectionActivityType extends PersistableBusinessObjectBase {
 
     /**
      * Sets the activityCode attribute.
-     * 
+     *
      * @param activityCode The activityCode to set.
      */
     public void setActivityCode(String activityCode) {
@@ -59,7 +60,7 @@ public class CollectionActivityType extends PersistableBusinessObjectBase {
 
     /**
      * Gets the activityDescription attribute.
-     * 
+     *
      * @return Returns the activityDescription
      */
     public String getActivityDescription() {
@@ -68,7 +69,7 @@ public class CollectionActivityType extends PersistableBusinessObjectBase {
 
     /**
      * Sets the activityDescription attribute.
-     * 
+     *
      * @param activityDescription The activityDescription to set.
      */
     public void setActivityDescription(String activityDescription) {
@@ -77,7 +78,7 @@ public class CollectionActivityType extends PersistableBusinessObjectBase {
 
     /**
      * Gets the referralIndicator attribute.
-     * 
+     *
      * @return Returns the referralIndicator.
      */
     public boolean isReferralIndicator() {
@@ -86,7 +87,7 @@ public class CollectionActivityType extends PersistableBusinessObjectBase {
 
     /**
      * Sets the referralIndicator attribute.
-     * 
+     *
      * @param referralIndicator The referralIndicator to set.
      */
     public void setReferralIndicator(boolean referralIndicator) {
@@ -95,7 +96,7 @@ public class CollectionActivityType extends PersistableBusinessObjectBase {
 
     /**
      * Gets the dunningProcessIndicator attribute.
-     * 
+     *
      * @return Returns the dunningProcessIndicator.
      */
     public boolean isDunningProcessIndicator() {
@@ -104,7 +105,7 @@ public class CollectionActivityType extends PersistableBusinessObjectBase {
 
     /**
      * Sets the dunningProcessIndicator attribute.
-     * 
+     *
      * @param dunningProcessIndicator The dunningProcessIndicator to set.
      */
     public void setDunningProcessIndicator(boolean dunningProcessIndicator) {
@@ -113,18 +114,20 @@ public class CollectionActivityType extends PersistableBusinessObjectBase {
 
     /**
      * Gets the active attribute.
-     * 
+     *
      * @return Returns the active
      */
+    @Override
     public boolean isActive() {
         return active;
     }
 
     /**
      * Sets the active attribute.
-     * 
+     *
      * @param active The active to set.
      */
+    @Override
     public void setActive(boolean active) {
         this.active = active;
     }
@@ -132,7 +135,7 @@ public class CollectionActivityType extends PersistableBusinessObjectBase {
     /**
      * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    
+
     @SuppressWarnings("unchecked")
     protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();

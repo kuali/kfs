@@ -16,12 +16,11 @@
 package org.kuali.kfs.integration.ar.businessobject;
 
 import org.kuali.kfs.integration.ar.AccountsReceivableCollectionStatus;
-import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 
 /**
  * Business Object for Collection Status
  */
-public class CollectionStatus implements MutableInactivatable, AccountsReceivableCollectionStatus {
+public class CollectionStatus implements AccountsReceivableCollectionStatus {
 
     private String statusCode;
     private String statusDescription;
@@ -38,6 +37,7 @@ public class CollectionStatus implements MutableInactivatable, AccountsReceivabl
      *
      * @return Returns the statusCode.
      */
+    @Override
     public String getStatusCode() {
         return statusCode;
     }
@@ -56,6 +56,7 @@ public class CollectionStatus implements MutableInactivatable, AccountsReceivabl
      *
      * @return Returns the statusDescription.
      */
+    @Override
     public String getStatusDescription() {
         return statusDescription;
     }

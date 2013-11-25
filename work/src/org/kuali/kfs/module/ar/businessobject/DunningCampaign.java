@@ -1,12 +1,12 @@
 /*
  * Copyright 2012 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,12 +15,12 @@
  */
 package org.kuali.kfs.module.ar.businessobject;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.kfs.integration.ar.AccountsReceivableDunningCampaign;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
-import java.util.ArrayList;
 
 /**
  * Business Object for Dunning Campaigns
@@ -43,9 +43,10 @@ public class DunningCampaign extends PersistableBusinessObjectBase implements Ac
 
     /**
      * Gets the campaignID attribute.
-     * 
+     *
      * @return Returns the campaignID.
      */
+    @Override
     public String getCampaignID() {
         return campaignID;
     }
@@ -53,7 +54,7 @@ public class DunningCampaign extends PersistableBusinessObjectBase implements Ac
 
     /**
      * Sets the campaignID attribute value.
-     * 
+     *
      * @param campaignID The campaignID to set.
      */
     public void setCampaignID(String campaignID) {
@@ -63,9 +64,10 @@ public class DunningCampaign extends PersistableBusinessObjectBase implements Ac
 
     /**
      * Gets the campaignDescription attribute.
-     * 
+     *
      * @return Returns the campaignDescription.
      */
+    @Override
     public String getCampaignDescription() {
         return campaignDescription;
     }
@@ -73,7 +75,7 @@ public class DunningCampaign extends PersistableBusinessObjectBase implements Ac
 
     /**
      * Sets the campaignDescription attribute value.
-     * 
+     *
      * @param campaignDescription The campaignDescription to set.
      */
     public void setCampaignDescription(String campaignDescription) {
@@ -83,9 +85,10 @@ public class DunningCampaign extends PersistableBusinessObjectBase implements Ac
 
     /**
      * Gets the active attribute.
-     * 
+     *
      * @return Returns the active.
      */
+    @Override
     public boolean isActive() {
         return active;
     }
@@ -93,9 +96,10 @@ public class DunningCampaign extends PersistableBusinessObjectBase implements Ac
 
     /**
      * Sets the active attribute value.
-     * 
+     *
      * @param active The active to set.
      */
+    @Override
     public void setActive(boolean active) {
         this.active = active;
     }
@@ -103,7 +107,7 @@ public class DunningCampaign extends PersistableBusinessObjectBase implements Ac
 
     /**
      * Gets the dunningLetterDistributions attribute.
-     * 
+     *
      * @return Returns the dunningLetterDistributions.
      */
     public List<DunningLetterDistribution> getDunningLetterDistributions() {
@@ -113,7 +117,7 @@ public class DunningCampaign extends PersistableBusinessObjectBase implements Ac
 
     /**
      * Sets the dunningLetterDistributions attribute value.
-     * 
+     *
      * @param dunningLetterDistributions The dunningLetterDistributions to set.
      */
     public void setDunningLetterDistributions(List<DunningLetterDistribution> dunningLetterDistributions) {
@@ -121,7 +125,7 @@ public class DunningCampaign extends PersistableBusinessObjectBase implements Ac
     }
 
 
-    
+
     protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap toStringMap = new LinkedHashMap();
         toStringMap.put("campaignID", this.campaignID);

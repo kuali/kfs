@@ -16,12 +16,11 @@
 package org.kuali.kfs.integration.ar.businessobject;
 
 import org.kuali.kfs.integration.ar.AccountsReceivableDunningCampaign;
-import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 
 /**
  * Business Object for Dunning Campaigns
  */
-public class DunningCampaign implements MutableInactivatable, AccountsReceivableDunningCampaign {
+public class DunningCampaign implements AccountsReceivableDunningCampaign {
 
     private String campaignID;
     private String campaignDescription;
@@ -38,6 +37,7 @@ public class DunningCampaign implements MutableInactivatable, AccountsReceivable
      *
      * @return Returns the campaignID.
      */
+    @Override
     public String getCampaignID() {
         return campaignID;
     }
@@ -56,6 +56,7 @@ public class DunningCampaign implements MutableInactivatable, AccountsReceivable
      *
      * @return Returns the campaignDescription.
      */
+    @Override
     public String getCampaignDescription() {
         return campaignDescription;
     }
@@ -74,6 +75,7 @@ public class DunningCampaign implements MutableInactivatable, AccountsReceivable
      *
      * @return Returns the active.
      */
+    @Override
     public boolean isActive() {
         return active;
     }
@@ -83,6 +85,7 @@ public class DunningCampaign implements MutableInactivatable, AccountsReceivable
      *
      * @param active The active to set.
      */
+    @Override
     public void setActive(boolean active) {
         this.active = active;
     }

@@ -21,6 +21,7 @@ import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.coa.businessobject.defaultvalue.CurrentUserChartValueFinder;
 import org.kuali.kfs.coa.businessobject.defaultvalue.CurrentUserOrgValueFinder;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.krad.util.ObjectUtils;
 
@@ -29,7 +30,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
  *
  * @author mpritmani
  */
-public class DunningLetterTemplate extends PersistableBusinessObjectBase {
+public class DunningLetterTemplate extends PersistableBusinessObjectBase implements MutableInactivatable {
 
     private String letterTemplateCode;
     private String letterTemplateDescription;
@@ -94,6 +95,7 @@ public class DunningLetterTemplate extends PersistableBusinessObjectBase {
      *
      * @return Returns active attribute.
      */
+    @Override
     public boolean isActive() {
         return active;
     }
@@ -103,6 +105,7 @@ public class DunningLetterTemplate extends PersistableBusinessObjectBase {
      *
      * @param active The active attribute to set.
      */
+    @Override
     public void setActive(boolean active) {
         this.active = active;
     }

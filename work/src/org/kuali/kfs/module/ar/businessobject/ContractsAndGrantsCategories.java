@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,12 +17,13 @@ package org.kuali.kfs.module.ar.businessobject;
 
 import java.util.LinkedHashMap;
 
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
  * Defines the Categories on the Contracts and Grants Invoices.
  */
-public class ContractsAndGrantsCategories extends PersistableBusinessObjectBase {
+public class ContractsAndGrantsCategories extends PersistableBusinessObjectBase implements MutableInactivatable {
 
     private String categoryCode;
     private String categoryName;
@@ -36,7 +37,7 @@ public class ContractsAndGrantsCategories extends PersistableBusinessObjectBase 
 
     /**
      * Gets the categoryCode attribute.
-     * 
+     *
      * @return Returns the categoryCode.
      */
     public String getCategoryCode() {
@@ -46,7 +47,7 @@ public class ContractsAndGrantsCategories extends PersistableBusinessObjectBase 
 
     /**
      * Sets the categoryCode attribute value.
-     * 
+     *
      * @param categoryCode The categoryCode to set.
      */
     public void setCategoryCode(String categoryCode) {
@@ -56,7 +57,7 @@ public class ContractsAndGrantsCategories extends PersistableBusinessObjectBase 
 
     /**
      * Gets the categoryNumber attribute.
-     * 
+     *
      * @return Returns the categoryNumber.
      */
     public String getCategoryName() {
@@ -66,7 +67,7 @@ public class ContractsAndGrantsCategories extends PersistableBusinessObjectBase 
 
     /**
      * Sets the categoryNumber attribute value.
-     * 
+     *
      * @param categoryNumber The categoryNumber to set.
      */
     public void setCategoryName(String categoryName) {
@@ -76,7 +77,7 @@ public class ContractsAndGrantsCategories extends PersistableBusinessObjectBase 
 
     /**
      * Gets the categoryDescription attribute.
-     * 
+     *
      * @return Returns the categoryDescription.
      */
     public String getCategoryDescription() {
@@ -86,7 +87,7 @@ public class ContractsAndGrantsCategories extends PersistableBusinessObjectBase 
 
     /**
      * Sets the categoryDescription attribute value.
-     * 
+     *
      * @param categoryDescription The categoryDescription to set.
      */
     public void setCategoryDescription(String categoryDescription) {
@@ -96,7 +97,7 @@ public class ContractsAndGrantsCategories extends PersistableBusinessObjectBase 
 
     /**
      * Gets the objectCodes attribute.
-     * 
+     *
      * @return Returns the objectCodes.
      */
     public String getCategoryObjectCodes() {
@@ -106,7 +107,7 @@ public class ContractsAndGrantsCategories extends PersistableBusinessObjectBase 
 
     /**
      * Sets the objectCodes attribute value.
-     * 
+     *
      * @param objectCodes The objectCodes to set.
      */
     public void setCategoryObjectCodes(String objectCodes) {
@@ -116,9 +117,10 @@ public class ContractsAndGrantsCategories extends PersistableBusinessObjectBase 
 
     /**
      * Gets the active attribute.
-     * 
+     *
      * @return Returns the active.
      */
+    @Override
     public boolean isActive() {
         return active;
     }
@@ -126,9 +128,10 @@ public class ContractsAndGrantsCategories extends PersistableBusinessObjectBase 
 
     /**
      * Sets the active attribute value.
-     * 
+     *
      * @param active The active to set.
      */
+    @Override
     public void setActive(boolean active) {
         this.active = active;
     }
@@ -136,7 +139,7 @@ public class ContractsAndGrantsCategories extends PersistableBusinessObjectBase 
 
     /**
      * Gets the indirectCostIndicator attribute.
-     * 
+     *
      * @return Returns the indirectCostIndicator.
      */
     public boolean isIndirectCostIndicator() {
@@ -146,14 +149,14 @@ public class ContractsAndGrantsCategories extends PersistableBusinessObjectBase 
 
     /**
      * Sets the indirectCostIndicator attribute value.
-     * 
+     *
      * @param indirectCostIndicator The indirectCostIndicator to set.
      */
     public void setIndirectCostIndicator(boolean indirectCostIndicator) {
         this.indirectCostIndicator = indirectCostIndicator;
     }
 
-    
+
     public String getCategoryConsolidations() {
         return categoryConsolidations;
     }

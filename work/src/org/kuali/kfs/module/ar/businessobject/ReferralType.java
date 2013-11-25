@@ -17,13 +17,14 @@ package org.kuali.kfs.module.ar.businessobject;
 
 import java.util.LinkedHashMap;
 
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
  * This class is used for Referral Type
  * @author jignasha.
  */
-public class ReferralType extends PersistableBusinessObjectBase {
+public class ReferralType extends PersistableBusinessObjectBase implements MutableInactivatable {
 
     private String referralTypeCode;
     private String description;
@@ -42,6 +43,7 @@ public class ReferralType extends PersistableBusinessObjectBase {
      *
      * @return Returns the active.
      */
+    @Override
     public boolean isActive() {
         return active;
     }
@@ -51,6 +53,7 @@ public class ReferralType extends PersistableBusinessObjectBase {
      *
      * @param active The active to set.
      */
+    @Override
     public void setActive(boolean active) {
         this.active = active;
     }

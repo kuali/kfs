@@ -149,6 +149,7 @@
 				<bean parent="FieldDefinition" p:attributeName="subObjectCode" />
 				<bean parent="FieldDefinition" p:attributeName="subAccountNumber" />
 				<bean parent="FieldDefinition" p:attributeName="accountType" />
+				<bean parent="FieldDefinition" p:attributeName="active" p:defaultValue="Y"/>
 			</list>
 		</property>
 		<property name="resultFields">
@@ -159,6 +160,7 @@
 				<bean parent="FieldDefinition" p:attributeName="subObjectCode" />
 				<bean parent="FieldDefinition" p:attributeName="subAccountNumber" />
 				<bean parent="FieldDefinition" p:attributeName="accountType" />
+        		<bean parent="FieldDefinition" p:attributeName="active"/>				
 			</list>
 		</property>
 	</bean>

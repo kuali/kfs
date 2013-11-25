@@ -190,7 +190,8 @@
 	<bean id="milestoneDao" parent="platformAwareDao" class="org.kuali.kfs.module.ar.dataaccess.impl.MilestoneDaoOjb" />	
 	<bean id="billDao" parent="platformAwareDao" class="org.kuali.kfs.module.ar.dataaccess.impl.BillDaoOjb" />
 	
-	<bean id="contractsGrantsInvoiceCreateDocumentService" class="org.kuali.kfs.module.ar.batch.service.impl.ContractsGrantsInvoiceCreateDocumentServiceImpl">
+	<bean id="contractsGrantsInvoiceCreateDocumentService" parent="contractsGrantsInvoiceCreateDocumentService-parentBean"/>
+	<bean id="contractsGrantsInvoiceCreateDocumentService-parentBean" class="org.kuali.kfs.module.ar.batch.service.impl.ContractsGrantsInvoiceCreateDocumentServiceImpl" abstract="true">
 		<property name="accountingPeriodService">
 			<ref bean="accountingPeriodService" />
 		</property>
@@ -245,7 +246,8 @@
 		</property>
 	</bean>
 
-	<bean id="arEmailService" class="org.kuali.kfs.module.ar.service.impl.AREmailServiceImpl">
+	<bean id="arEmailService" parent = "arEmailService-parentBean" />
+	<bean id="arEmailService-parentBean" class="org.kuali.kfs.module.ar.service.impl.AREmailServiceImpl" abstract="true">
 		<property name="mailService" ref="mailService" />
 		<property name="parameterService" ref="parameterService" />
 		<property name="dataDictionaryService" ref="dataDictionaryService" />
@@ -291,7 +293,8 @@
 		</property>
 	</bean>
 
-	<bean id="contractsGrantsInvoiceDocumentService" class="org.kuali.kfs.module.ar.document.service.impl.ContractsGrantsInvoiceDocumentServiceImpl">
+	<bean id="contractsGrantsInvoiceDocumentService" parent="contractsGrantsInvoiceDocumentService-parentBean" />
+	<bean id="contractsGrantsInvoiceDocumentService-parentBean" class="org.kuali.kfs.module.ar.document.service.impl.ContractsGrantsInvoiceDocumentServiceImpl" abstract="true">
 		<property name="awardAccountObjectCodeTotalBilledDao">
 			<ref bean="awardAccountObjectCodeTotalBilledDao" />
 		</property>
@@ -351,7 +354,8 @@
 		</property>
 	</bean>
 
-	<bean id="verifyBillingFrequencyService" class="org.kuali.kfs.module.ar.batch.service.impl.VerifyBillingFrequencyServiceImpl">
+	<bean id="verifyBillingFrequencyService" parent="verifyBillingFrequencyService-parentBean" />
+	<bean id="verifyBillingFrequencyService-parentBean" class="org.kuali.kfs.module.ar.batch.service.impl.VerifyBillingFrequencyServiceImpl" abstract="true">
 		<property name="universityDateService">
 			<ref bean="universityDateService" />
 		</property>
@@ -439,7 +443,8 @@
 		<property name="batchFileDirectoryName" value="${reports.directory}/ar" />
 	</bean>
 
-	<bean id="letterOfCreditCreateService" class="org.kuali.kfs.module.ar.batch.service.impl.LetterOfCreditCreateServiceImpl">
+	<bean id="letterOfCreditCreateService" parent="letterOfCreditCreateService-parentBean"/>
+	<bean id="letterOfCreditCreateService-parentBean" class="org.kuali.kfs.module.ar.batch.service.impl.LetterOfCreditCreateServiceImpl" abstract="true">
 		<property name="documentService">
 			<ref bean="documentService" />
 		</property>
@@ -493,7 +498,8 @@
 		</property>
 	</bean>
 
-	<bean id="contractsGrantsInvoiceReportService" class="org.kuali.kfs.module.ar.report.service.impl.ContractsGrantsInvoiceReportServiceImpl">
+	<bean id="contractsGrantsInvoiceReportService" parent="contractsGrantsInvoiceReportService-parentBean"/>
+	<bean id="contractsGrantsInvoiceReportService-parentBean" class="org.kuali.kfs.module.ar.report.service.impl.ContractsGrantsInvoiceReportServiceImpl" abstract="true">
 		<property name="reportGenerationService">
 			<ref bean="reportGenerationService" />
 		</property>
@@ -552,7 +558,8 @@
 		</property>
 	</bean>
 
-	<bean id="contractsGrantsPaymentHistoryReportService" class="org.kuali.kfs.module.ar.report.service.impl.ContractsGrantsPaymentHistoryReportServiceImpl">
+	<bean id="contractsGrantsPaymentHistoryReportService" parent="contractsGrantsPaymentHistoryReportService-parentBean"/>
+	<bean id="contractsGrantsPaymentHistoryReportService-parentBean" class="org.kuali.kfs.module.ar.report.service.impl.ContractsGrantsPaymentHistoryReportServiceImpl" abstract="true">
 		<property name="reportGenerationService">
 			<ref bean="reportGenerationService" />
 		</property>
@@ -594,7 +601,8 @@
 		</property>
 	</bean>
 
-	<bean id="contractsGrantsLOCDrawDetailsReportService" class="org.kuali.kfs.module.ar.report.service.impl.ContractsGrantsLOCDrawDetailsReportServiceImpl">
+	<bean id="contractsGrantsLOCDrawDetailsReportService" parent="contractsGrantsLOCDrawDetailsReportService-parentBean"/>
+	<bean id="contractsGrantsLOCDrawDetailsReportService-parentBean" class="org.kuali.kfs.module.ar.report.service.impl.ContractsGrantsLOCDrawDetailsReportServiceImpl" abstract="true">
 		<property name="reportGenerationService">
 			<ref bean="reportGenerationService" />
 		</property>
@@ -635,7 +643,8 @@
 		</property>
 	</bean>
 
-	<bean id="contractsGrantsLOCAmountsNotDrawnReportService" class="org.kuali.kfs.module.ar.report.service.impl.ContractsGrantsLOCAmountsNotDrawnReportServiceImpl">
+	<bean id="contractsGrantsLOCAmountsNotDrawnReportService" parent="contractsGrantsLOCAmountsNotDrawnReportService-parentBean"/>
+	<bean id="contractsGrantsLOCAmountsNotDrawnReportService-parentBean" class="org.kuali.kfs.module.ar.report.service.impl.ContractsGrantsLOCAmountsNotDrawnReportServiceImpl" abstract="true">
 		<property name="reportGenerationService">
 			<ref bean="reportGenerationService" />
 		</property>
@@ -676,7 +685,8 @@
 		</property>
 	</bean>
 
-	<bean id="contractsGrantsInvoiceSuspenseActivityReportService" class="org.kuali.kfs.module.ar.report.service.impl.ContractsGrantsInvoiceSuspenseActivityReportServiceImpl">
+	<bean id="contractsGrantsInvoiceSuspenseActivityReportService" parent="contractsGrantsInvoiceSuspenseActivityReportService-parentBean" />
+	<bean id="contractsGrantsInvoiceSuspenseActivityReportService-parentBean" class="org.kuali.kfs.module.ar.report.service.impl.ContractsGrantsInvoiceSuspenseActivityReportServiceImpl" abstract="true">
 		<property name="reportGenerationService">
 			<ref bean="reportGenerationService" />
 		</property>
@@ -717,7 +727,8 @@
 		</property>
 	</bean>
 
-	<bean id="contractsGrantsSuspendedInvoiceReportService" class="org.kuali.kfs.module.ar.report.service.impl.ContractsGrantsSuspendedInvoiceReportServiceImpl">
+	<bean id="contractsGrantsSuspendedInvoiceReportService" parent="contractsGrantsSuspendedInvoiceReportService-parentBean" />
+	<bean id="contractsGrantsSuspendedInvoiceReportService-parentBean" class="org.kuali.kfs.module.ar.report.service.impl.ContractsGrantsSuspendedInvoiceReportServiceImpl" abstract="true">
 		<property name="reportGenerationService">
 			<ref bean="reportGenerationService" />
 		</property>
@@ -758,7 +769,8 @@
 		</property>
 	</bean>
 
-	<bean id="ticklersReportService" class="org.kuali.kfs.module.ar.report.service.impl.TicklersReportServiceImpl">
+	<bean id="ticklersReportService" parent="ticklersReportService-parentBean" />
+	<bean id="ticklersReportService-parentBean" class="org.kuali.kfs.module.ar.report.service.impl.TicklersReportServiceImpl" abstract="true">
 		<property name="reportGenerationService">
 			<ref bean="reportGenerationService" />
 		</property>
@@ -783,7 +795,8 @@
 		</property>
 	</bean>
 	
-	<bean id="contractsGrantsAgingReportService" class="org.kuali.kfs.module.ar.report.service.impl.ContractsGrantsAgingReportServiceImpl" >
+	<bean id="contractsGrantsAgingReportService" parent="contractsGrantsAgingReportService-parentBean" />
+	<bean id="contractsGrantsAgingReportService-parentBean" class="org.kuali.kfs.module.ar.report.service.impl.ContractsGrantsAgingReportServiceImpl" abstract="true">
 		<property name="reportGenerationService">
 			<ref bean="reportGenerationService" />
 		</property>
@@ -806,7 +819,6 @@
 			<ref bean="roleService" />
 		</property>
 	</bean>
-	
 
 	<bean id="contractsGrantsMilestoneReportLookupableHelperService" class="org.kuali.kfs.module.ar.businessobject.lookup.ContractsGrantsMilestoneReportLookupableHelperServiceImpl"
 		scope="prototype">
@@ -837,7 +849,8 @@
 		</property>
 	</bean>
 
-	<bean id="contractsGrantsMilestoneReportService" class="org.kuali.kfs.module.ar.report.service.impl.ContractsGrantsMilestoneReportServiceImpl">
+	<bean id="contractsGrantsMilestoneReportService" parent="contractsGrantsMilestoneReportService-parentBean" />
+	<bean id="contractsGrantsMilestoneReportService-parentBean" class="org.kuali.kfs.module.ar.report.service.impl.ContractsGrantsMilestoneReportServiceImpl" abstract="true">
 		<property name="reportGenerationService">
 			<ref bean="reportGenerationService" />
 		</property>
@@ -846,10 +859,10 @@
 		</property>
 	</bean>
 
-
 	<import resource="document/validation/configuration/ContractsGrantsInvoiceValidation.xml" />
 
-	<bean id="customerDocumentService" class="org.kuali.kfs.module.ar.service.impl.CustomerDocumentServiceImpl">
+	<bean id="customerDocumentService" parent="customerDocumentService-parentBean" />
+	<bean id="customerDocumentService-parentBean" class="org.kuali.kfs.module.ar.service.impl.CustomerDocumentServiceImpl" abstract="true">
 		<property name="documentService">
 			<ref bean="documentService" />
 		</property>
@@ -1215,7 +1228,8 @@
 		</property>
 	</bean>
 
-	<bean id="collectionActivityDocumentService" class="org.kuali.kfs.module.ar.document.service.impl.CollectionActivityDocumentServiceImpl">
+	<bean id="collectionActivityDocumentService" parent="collectionActivityDocumentService-parentBean" />
+	<bean id="collectionActivityDocumentService-parentBean" class="org.kuali.kfs.module.ar.document.service.impl.CollectionActivityDocumentServiceImpl" abstract="true">
 		<property name="documentService">
 			<ref bean="documentService" />
 		</property>
@@ -1231,7 +1245,8 @@
 		</property>
 	</bean>
 	
-	<bean id="cashControlDocumentService" class="org.kuali.kfs.module.ar.document.service.impl.CashControlDocumentServiceImpl">
+	<bean id="cashControlDocumentService" parent="cashControlDocumentService-parentBean" />
+	<bean id="cashControlDocumentService-parentBean" class="org.kuali.kfs.module.ar.document.service.impl.CashControlDocumentServiceImpl" abstract="true">
 		<property name="accountsReceivableDocumentHeaderService">
 			<ref bean="accountsReceivableDocumentHeaderService" />
 		</property>
@@ -1400,7 +1415,8 @@
 		</property>
 	</bean>
 
-	<bean id="cashControlElectronicPaymentClaimingDocumentHelper" class="org.kuali.kfs.module.ar.document.service.impl.CashControlElectronicPaymentClaimingHelperImpl">
+	<bean id="cashControlElectronicPaymentClaimingDocumentHelper" parent="cashControlElectronicPaymentClaimingDocumentHelper-parentBean" />
+	<bean id="cashControlElectronicPaymentClaimingDocumentHelper-parentBean" class="org.kuali.kfs.module.ar.document.service.impl.CashControlElectronicPaymentClaimingHelperImpl" abstract="true">
 		<property name="dataDictionaryService">
 			<ref bean="dataDictionaryService" />
 		</property>
@@ -1886,7 +1902,9 @@
 			<ref bean="customerInvoiceWriteoffLookupResultLookupableHelperService" />
 		</property>
 	</bean>
-	<bean id="customerOpenItemReportService" class="org.kuali.kfs.module.ar.document.service.impl.CustomerOpenItemReportServiceImpl">
+	
+	<bean id="customerOpenItemReportService" parent="customerOpenItemReportService-parentBean" />
+	<bean id="customerOpenItemReportService-parentBean" class="org.kuali.kfs.module.ar.document.service.impl.CustomerOpenItemReportServiceImpl" abstract="true">
 		<property name="accountsReceivableDocumentHeaderDao">
 			<ref bean="accountsReceivableDocumentHeaderDao" />
 		</property>
@@ -1976,7 +1994,8 @@
 		</property>
 	</bean>
 
-	<bean id="collectionActivityReportService" class="org.kuali.kfs.module.ar.report.service.impl.CollectionActivityReportServiceImpl" >
+	<bean id="collectionActivityReportService" parent="collectionActivityReportService-parentBean" />
+	<bean id="collectionActivityReportService-parentBean" class="org.kuali.kfs.module.ar.report.service.impl.CollectionActivityReportServiceImpl" abstract="true">
 		<property name="reportGenerationService">
 			<ref bean="reportGenerationService" />
 		</property>
@@ -2000,7 +2019,7 @@
 		</property>
 	</bean>
 
-  <bean id="refToCollReportInfo" class="org.kuali.kfs.sys.report.ReportInfoHolder">
+	<bean id="refToCollReportInfo" class="org.kuali.kfs.sys.report.ReportInfoHolder">
 		<property name="reportTitle" value="Referral To Collections Report" />
 		<property name="reportFileName" value="ar_ref_coll_report" />
 		<property name="reportsDirectory" value="${reports.directory}/ar/" />
@@ -2016,7 +2035,8 @@
 		</property>
 	</bean>
 	
-  	<bean id="referralToCollectionsReportService" class="org.kuali.kfs.module.ar.report.service.impl.ReferralToCollectionsReportServiceImpl" >
+  	<bean id="referralToCollectionsReportService" parent="referralToCollectionsReportService-parentBean" />
+  	<bean id="referralToCollectionsReportService-parentBean" class="org.kuali.kfs.module.ar.report.service.impl.ReferralToCollectionsReportServiceImpl" abstract="true">
 		<property name="reportGenerationService">
 			<ref bean="reportGenerationService" />
 		</property>
@@ -2143,7 +2163,8 @@
 		</property>
 	</bean>
 	
-	<bean id="contractsGrantsAgingOpenInvoicesReportService" class="org.kuali.kfs.module.ar.document.service.impl.ContractsGrantsAgingOpenInvoicesReportServiceImpl">
+	<bean id="contractsGrantsAgingOpenInvoicesReportService" parent="contractsGrantsAgingOpenInvoicesReportService-parentBean" />
+	<bean id="contractsGrantsAgingOpenInvoicesReportService-parentBean" class="org.kuali.kfs.module.ar.document.service.impl.ContractsGrantsAgingOpenInvoicesReportServiceImpl" abstract="true">
 		<property name="customerInvoiceDocumentService">
 			<ref bean="customerInvoiceDocumentService" />
 		</property>
@@ -2180,7 +2201,8 @@
 		</property>
 	</bean>
 	
-	<bean id="dunningLetterDistributionOnDemandService" class="org.kuali.kfs.module.ar.document.service.impl.DunningLetterDistributionOnDemandServiceImpl">
+	<bean id="dunningLetterDistributionOnDemandService" parent="dunningLetterDistributionOnDemandService-parentBean" />
+	<bean id="dunningLetterDistributionOnDemandService-parentBean" class="org.kuali.kfs.module.ar.document.service.impl.DunningLetterDistributionOnDemandServiceImpl" abstract="true">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>

@@ -86,16 +86,6 @@
 		<field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
 	</class-descriptor>
 
-	<!-- AGENCY ADDRESS TYPE -->
-
-	<class-descriptor class="org.kuali.kfs.module.cg.businessobject.AgencyAddressType" table="CG_AGENCY_ADDR_TYP_T">
-		<field-descriptor name="agencyAddressTypeCode" column="CG_AGENCY_ADDR_TYPE_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
-		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
-		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-		<field-descriptor name="agencyAddressTypeDescription" column="CG_AGENCY_ADDR_TYP_DESC" jdbc-type="VARCHAR" />
-		<field-descriptor name="active" column="ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
-	</class-descriptor>
-
 	<!-- AGENCY ADDRESS -->
 
 	<class-descriptor class="org.kuali.kfs.module.cg.businessobject.AgencyAddress" table="CG_AGENCY_ADDR_T">

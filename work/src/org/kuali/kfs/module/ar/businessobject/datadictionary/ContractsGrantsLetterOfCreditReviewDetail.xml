@@ -84,7 +84,7 @@
 
 	<bean id="ContractsGrantsLetterOfCreditReviewDetail-accountNumber" parent="ContractsGrantsLetterOfCreditReviewDetail-accountNumber-parentBean" />
 
-	<bean id="ContractsGrantsLetterOfCreditReviewDetail-accountNumber-parentBean" parent="AccountAttribute">
+	<bean id="ContractsGrantsLetterOfCreditReviewDetail-accountNumber-parentBean" abstract="true" parent="AccountAttribute">
 		<property name="name" value="accountNumber" />
 		<property name="label" value="Account Number" />
 		<property name="shortLabel" value="CntrctAcct" />

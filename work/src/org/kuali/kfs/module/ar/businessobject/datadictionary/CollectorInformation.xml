@@ -111,7 +111,7 @@
   <!--  for userrole namespace -->
   
   <bean id="CollectorInformation-userLookupRoleNamespaceCode" parent="CollectorInformation-userLookupRoleNamespaceCode-parentBean" />
-	<bean id="CollectorInformation-userLookupRoleNamespaceCode-parentBean" parent="AttributeDefinition">
+	<bean id="CollectorInformation-userLookupRoleNamespaceCode-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="userLookupRoleNamespaceCode" />
 		<property name="label" value="Role Namespace Code" />
 		<property name="required" value="false" />
@@ -121,7 +121,7 @@
 		</property>
 	</bean>
 	<bean id="CollectorInformation-userLookupRoleName" parent="CollectorInformation-userLookupRoleName-parentBean" />
-	<bean id="CollectorInformation-userLookupRoleName-parentBean" parent="AttributeDefinition">
+	<bean id="CollectorInformation-userLookupRoleName-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="userLookupRoleName" />
 		<property name="label" value="Role Name" />
 		<property name="required" value="false" />

@@ -104,7 +104,7 @@
 	</bean>
 	
 	<bean id="ReferralToCollectionsDocument-validations" parent="ReferralToCollectionsDocument-validations-parentBean" />
-	<bean id="ReferralToCollectionsDocument-validations-parentBean"
+	<bean id="ReferralToCollectionsDocument-validations-parentBean" abstract="true"
 		class="org.springframework.beans.factory.config.MapFactoryBean">
 		<property name="sourceMap">
 			<map>

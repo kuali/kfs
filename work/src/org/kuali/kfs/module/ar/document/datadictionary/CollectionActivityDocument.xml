@@ -47,7 +47,7 @@
 	</bean>
 	
 	<bean id="CollectionActivityDocument-validations" parent="CollectionActivityDocument-validations-parentBean" />
-	<bean id="CollectionActivityDocument-validations-parentBean"
+	<bean id="CollectionActivityDocument-validations-parentBean" abstract="true" 
 		class="org.springframework.beans.factory.config.MapFactoryBean">
 		<property name="sourceMap">
 			<map>

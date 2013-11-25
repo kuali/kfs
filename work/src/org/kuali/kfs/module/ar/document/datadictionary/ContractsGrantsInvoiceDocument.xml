@@ -815,7 +815,7 @@
 
 	<bean id="ContractsGrantsInvoiceDocument-validations" parent="ContractsGrantsInvoiceDocument-validations-parentBean" />
 
-	<bean id="ContractsGrantsInvoiceDocument-validations-parentBean"
+	<bean id="ContractsGrantsInvoiceDocument-validations-parentBean" abstract="true" 
 		class="org.springframework.beans.factory.config.MapFactoryBean">
 		<property name="sourceMap">
 			<map>

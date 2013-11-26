@@ -184,11 +184,6 @@
       		<parent>TTSM</parent>
     	</documentType>
 		<documentType>
-			<name>TPRA</name>
-			<label>TEM Profile Account</label>
-			<parent>TTSM</parent>
-		</documentType>
-		<documentType>
 			<name>CCIE</name>
 			<label>Credit Card Imported Expense Clearing Document</label>
 			<parent>TTSM</parent>

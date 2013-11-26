@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -25,6 +25,7 @@ import org.kuali.kfs.module.cg.businessobject.Award;
 import org.kuali.kfs.module.cg.businessobject.AwardAccount;
 import org.kuali.kfs.module.cg.businessobject.AwardFundManager;
 import org.kuali.kfs.module.cg.businessobject.AwardProjectDirector;
+import org.kuali.kfs.module.cg.fixture.AgencyAddressFixture;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -44,13 +45,18 @@ public class CGMaintenanceDocumentRuleBaseTest extends MaintenanceRuleTestBase {
     private Award award;
     private Long proposalNumber;
 
+    @Override
     public void setUp() throws Exception {
         rule = new CGMaintenanceDocumentRuleBase();
         agencyNumber = new Long(12851);
         proposalNumber = new Long(39603);
         boService = SpringContext.getBean(BusinessObjectService.class);
-        award = (Award) boService.findBySinglePrimaryKey(Award.class, proposalNumber);
-        agency = (Agency) boService.findBySinglePrimaryKey(Agency.class, agencyNumber);
+        award = boService.findBySinglePrimaryKey(Award.class, proposalNumber);
+        agency = boService.findBySinglePrimaryKey(Agency.class, agencyNumber);
+        // save a test agency address since we don't have those in our test data
+        AgencyAddress agencyAddress = AgencyAddressFixture.CG_AGENCY_ADD3.createAgencyAddress();
+        agencyAddress.setAgencyNumber(String.valueOf(agencyNumber));
+        boService.save(agencyAddress);
     }
 
     public void testCheckEndAfterBegin() {

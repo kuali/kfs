@@ -51,10 +51,12 @@ import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.ObjectUtils;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Service which supports creating PDP payments for Corporate Cards by extracting reimbursable documents
  */
+@Transactional
 public class CorporateCardExtractionServiceImpl implements PaymentSourceToExtractService<TEMReimbursementDocument> {
     static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CorporateCardExtractionServiceImpl.class);
     protected ParameterService parameterService;

@@ -23,11 +23,12 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.Table;
 
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 @Entity
 @Table(name = "TEM_PROFILE_ACCOUNT_T")
-public class TemProfileAccount extends PersistableBusinessObjectBase {
+public class TemProfileAccount extends PersistableBusinessObjectBase implements MutableInactivatable {
 
     private Integer profileId;
     private TemProfile profile;
@@ -161,8 +162,9 @@ public class TemProfileAccount extends PersistableBusinessObjectBase {
      *
      * @return Returns the active.
      */
+    @Override
     @Column(name = "ACTV_IND", nullable = false, length = 1)
-    public Boolean getActive() {
+    public boolean isActive() {
         return active;
     }
 
@@ -171,7 +173,8 @@ public class TemProfileAccount extends PersistableBusinessObjectBase {
      *
      * @param active The active to set.
      */
-    public void setActive(Boolean active) {
+    @Override
+    public void setActive(boolean active) {
         this.active = active;
     }
 

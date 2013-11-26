@@ -140,6 +140,7 @@
 			<bean parent="FieldDefinition" p:attributeName="regionCode" p:required="true" />
 			<bean parent="FieldDefinition" p:attributeName="county" />
 			<bean parent="FieldDefinition" p:attributeName="primaryDestinationName" />
+			<bean parent="FieldDefinition" p:attributeName="active" p:defaultValue="Y"/>
 		</list>
 		</property>
 		<property name="resultFields">

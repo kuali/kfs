@@ -21,6 +21,7 @@ import javax.persistence.Column;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.kim.framework.identity.employment.EntityEmploymentStatusEbo;
 import org.kuali.rice.kim.framework.identity.employment.EntityEmploymentTypeEbo;
 import org.kuali.rice.kim.impl.identity.employment.EntityEmploymentStatusBo;
@@ -28,7 +29,7 @@ import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.location.framework.campus.CampusEbo;
 
 @SuppressWarnings("restriction")
-public class TemProfileFromKimPerson extends PersistableBusinessObjectBase {
+public class TemProfileFromKimPerson extends PersistableBusinessObjectBase implements MutableInactivatable {
 
     private String principalId;
     private String employeeId;
@@ -360,6 +361,7 @@ public class TemProfileFromKimPerson extends PersistableBusinessObjectBase {
      * Gets the active attribute.
      * @return Returns the active.
      */
+    @Override
     @Column(length = 1, nullable = true)
     public boolean isActive() {
         return active;
@@ -370,6 +372,7 @@ public class TemProfileFromKimPerson extends PersistableBusinessObjectBase {
      * Sets the active attribute value.
      * @param active The active to set.
      */
+    @Override
     public void setActive(boolean active) {
         this.active = active;
     }

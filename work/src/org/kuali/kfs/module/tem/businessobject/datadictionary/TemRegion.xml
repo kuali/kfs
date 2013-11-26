@@ -132,6 +132,7 @@
 			<bean parent="FieldDefinition" p:attributeName="regionCode" p:required="true" />
 			<bean parent="FieldDefinition" p:attributeName="tripTypeCode" />
 			<bean parent="FieldDefinition" p:attributeName="regionName" />
+			<bean parent="FieldDefinition" p:attributeName="active" p:defaultValue="Y"/>
 		</list>
 		</property>
 		<property name="resultFields">

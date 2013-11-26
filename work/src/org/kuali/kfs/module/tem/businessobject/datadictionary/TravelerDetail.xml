@@ -436,6 +436,7 @@
 				</bean>
 				<bean parent="FieldDefinition" p:attributeName="travelerTypeCode"
 					p:noLookup="true" />
+				<bean parent="FieldDefinition" p:attributeName="active" p:defaultValue="Y"/>
 			</list>
 		</property>
 		<property name="resultFields">
@@ -451,6 +452,7 @@
 				<bean parent="FieldDefinition" p:attributeName="countryCode" />
 				<bean parent="FieldDefinition" p:attributeName="emailAddress" />
 				<bean parent="FieldDefinition" p:attributeName="phoneNumber" />
+				<bean parent="FieldDefinition" p:attributeName="active"/>
 			</list>
 		</property>
 	</bean>

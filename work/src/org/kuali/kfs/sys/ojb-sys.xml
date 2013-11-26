@@ -693,7 +693,6 @@
 	    <field-descriptor name="currencyTypeCode" column="CRNCY_TYP_CD" jdbc-type="VARCHAR" />
 	    <field-descriptor name="wireTransferFeeWaiverIndicator" column="WIRE_TRNFR_FEE_WVR_IND" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
 	    <field-descriptor name="payeeAccountName" column="PAYEE_ACCT_NM" jdbc-type="VARCHAR" />
-	    <field-descriptor name="payeeAccountTypeCode" column="PAYEE_ACCT_TYP_CD" jdbc-type="VARCHAR" />
 	    <field-descriptor name="automatedClearingHouseProfileNumber" column="ACH_PRFL_NBR" jdbc-type="VARCHAR" />
 	    <field-descriptor name="foreignCurrencyTypeName" column="FCRNCY_TYP_NM" jdbc-type="VARCHAR" />
 	    <field-descriptor name="foreignCurrencyTypeCode" column="FCRNCY_TYP_CD" jdbc-type="VARCHAR" />

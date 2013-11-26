@@ -18,7 +18,7 @@
 		<renameColumn tableName="FS_PMT_SRC_WIRE_TRNFR_T" oldColumnName="DV_CRNCY_TYP_CD" newColumnName="CRNCY_TYP_CD" columnDataType="VARCHAR2(1)"/>
 		<renameColumn tableName="FS_PMT_SRC_WIRE_TRNFR_T" oldColumnName="DV_WIRE_TRNFR_FEE_WVR_IND" newColumnName="WIRE_TRNFR_FEE_WVR_IND" columnDataType="CHAR(1)"/>
 		<renameColumn tableName="FS_PMT_SRC_WIRE_TRNFR_T" oldColumnName="DV_PAYEE_ACCT_NM" newColumnName="PAYEE_ACCT_NM" columnDataType="VARCHAR2(123)"/>
-		<renameColumn tableName="FS_PMT_SRC_WIRE_TRNFR_T" oldColumnName="DV_PAYEE_ACCT_TYP_CD" newColumnName="PAYEE_ACCT_TYP_CD" columnDataType="VARCHAR2(1)"/>
+		<dropColumn tableName="FS_PMT_SRC_WIRE_TRNFR_T" columnName="DV_PAYEE_ACCT_TYP_CD"/>
 		<renameColumn tableName="FS_PMT_SRC_WIRE_TRNFR_T" oldColumnName="DV_ACH_PRFL_NBR" newColumnName="ACH_PRFL_NBR" columnDataType="VARCHAR2(3)"/>
 		<renameColumn tableName="FS_PMT_SRC_WIRE_TRNFR_T" oldColumnName="DV_FCRNCY_TYP_NM" newColumnName="FCRNCY_TYP_NM" columnDataType="VARCHAR2(20)"/>
 		<renameColumn tableName="FS_PMT_SRC_WIRE_TRNFR_T" oldColumnName="DV_FCRNCY_TYP_CD" newColumnName="FCRNCY_TYP_CD" columnDataType="VARCHAR2(1)"/>

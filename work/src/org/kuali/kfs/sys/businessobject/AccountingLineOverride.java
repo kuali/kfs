@@ -85,6 +85,7 @@ public class AccountingLineOverride {
 
     static {
         // populate the code map
+        new AccountingLineOverride(CODE.BLANK, new Integer[] {});
         new AccountingLineOverride(CODE.NONE, new Integer[] {});
         new AccountingLineOverride(CODE.EXPIRED_ACCOUNT,
         // todo: use JDK 1.5 ... args

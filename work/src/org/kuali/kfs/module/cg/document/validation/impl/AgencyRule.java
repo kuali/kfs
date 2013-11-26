@@ -1,12 +1,12 @@
 /*
  * Copyright 2006 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -34,10 +34,10 @@ import org.kuali.kfs.module.cg.businessobject.AwardFundManager;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 
@@ -91,14 +91,14 @@ public class AgencyRule extends CGMaintenanceDocumentRuleBase {
             // There must be at least one primary Agency Address in Agency
             success &= checkPrimary(newAgency.getAgencyAddresses(), AgencyAddress.class, KFSPropertyConstants.AGENCY_ADDRESSES, Agency.class);
 
-            
+
             // Guide the user further
             if (!success) {
                 GlobalVariables.getMessageMap().putInfo(MAINTAINABLE_ERROR_PREFIX + KFSPropertyConstants.AGENCY_ADDRESSES, CGKeyConstants.AgencyConstants.MESSAGE_SELECT_PRIMARY_AGENCY_ADDRESS_TYPE);
             }
-            
+
             success &= validateAddresses(newAgency);
-            
+
             // Make sure new agency customers have a Customer Type
             success &= validateCustomerType(newAgency);
         }
@@ -136,7 +136,7 @@ public class AgencyRule extends CGMaintenanceDocumentRuleBase {
             putFieldError("agencyTypeCode", KFSKeyConstants.ERROR_AGENCY_TYPE_NOT_FOUND, agencyType);
             return false;
         }
-        return false;
+        return true;
     }
 
     /**
@@ -221,7 +221,7 @@ public class AgencyRule extends CGMaintenanceDocumentRuleBase {
     /**
      * Overrides the method in MaintenanceDocumentRuleBase to give error message to the user when the user tries to add multiple
      * Primary Agency Addresses. At most one Primary Agency Address is allowed. contract.
-     * 
+     *
      * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processAddCollectionLineBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument,
      *      java.lang.String, org.kuali.rice.krad.bo.PersistableBusinessObject)
      */
@@ -251,8 +251,9 @@ public class AgencyRule extends CGMaintenanceDocumentRuleBase {
                             }
                             else {
                                 boolean isValid = checkAddressIsValid(newAgencyAddress);
-                                if (!isValid)
+                                if (!isValid) {
                                     return isValid;
+                                }
                             }
                         }
                     }
@@ -264,8 +265,9 @@ public class AgencyRule extends CGMaintenanceDocumentRuleBase {
                     }
                     else {
                         boolean isValid = checkAddressIsValid(newAgencyAddress);
-                        if (!isValid)
+                        if (!isValid) {
                             return isValid;
+                        }
                     }
                 }
             }
@@ -277,7 +279,7 @@ public class AgencyRule extends CGMaintenanceDocumentRuleBase {
 
     /**
      * This method validates the addresses when Customer is created from Agency
-     * 
+     *
      * @param agencyAddress
      * @return
      */
@@ -313,7 +315,7 @@ public class AgencyRule extends CGMaintenanceDocumentRuleBase {
 
     /**
      * This method validates the addresses when Customer is created from Agency
-     * 
+     *
      * @param agencyAddress
      * @param ind
      * @return
@@ -352,7 +354,7 @@ public class AgencyRule extends CGMaintenanceDocumentRuleBase {
 
     /**
      * This method validates the addresses when Customer is created from Agency
-     * 
+     *
      * @param agency
      * @return
      */
@@ -373,7 +375,7 @@ public class AgencyRule extends CGMaintenanceDocumentRuleBase {
     /**
      * This method validates that a customer type is selected when the create new customer
      *  option is selected.
-     * 
+     *
      * @param agency
      * @return
      */
@@ -386,9 +388,9 @@ public class AgencyRule extends CGMaintenanceDocumentRuleBase {
             if( StringUtils.isEmpty(agency.getCustomerTypeCode()) ){
                 putFieldError(CGPropertyConstants.AgencyFields.AGENCY_CUSTOMER_TYPE_CODE, CGKeyConstants.AgencyConstants.ERROR_AGENCY_CUSTOMER_TYPE_CODE_REQUIRED_WHEN_AGENCY_CUSTOMER_NEW);
                 isValid &= false;
-            }            
+            }
         }
-        
+
         return isValid;
     }
 }

@@ -136,7 +136,8 @@
 		</property>
 	</bean>
 
-	<bean id="contractsAndGrantsModuleRetrieveService" class="org.kuali.kfs.module.cg.service.impl.ContractsAndGrantsModuleRetrieveServiceImpl">
+	<bean id="contractsAndGrantsModuleRetrieveService" parent="contractsAndGrantsModuleRetrieveService-parentBean" scope="prototype"/>
+	<bean id="contractsAndGrantsModuleRetrieveService-parentBean" class="org.kuali.kfs.module.cg.service.impl.ContractsAndGrantsModuleRetrieveServiceImpl" abstract="true" >
 		<property name="awardService" ref="awardService" />
 		<property name="parameterService" ref="parameterService" />
 		<property name="agencyService" ref="agencyService" />
@@ -156,7 +157,8 @@
 	<bean id="agencyAddressDao" parent="platformAwareDao" class="org.kuali.kfs.module.cg.dataaccess.impl.AgencyAddressDaoOjb" />
 
 	<!-- Services -->
-	<bean id="closeService" class="org.kuali.kfs.module.cg.service.impl.CloseServiceImpl">
+	<bean id="closeService" parent="closeService-parentBean" scope="prototype"/>
+	<bean id="closeService-parentBean" class="org.kuali.kfs.module.cg.service.impl.CloseServiceImpl" abstract="true">
 		<property name="awardDao">
 			<ref bean="awardDao" />
 		</property>
@@ -285,13 +287,8 @@
 		</property>
 	</bean>
 
-	<!-- <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
-		<property name="serviceDefinition">
-			<bean parent="kfsService" p:service-ref="researchRiskReviewRoleTypeService" p:localServiceName="researchRiskReviewRoleTypeService" />
-		</property>
-	</bean> -->
-
-	<bean id="agencyAddressService" class="org.kuali.kfs.module.cg.document.service.impl.AgencyAddressServiceImpl">
+	<bean id="agencyAddressService" parent="agencyAddressService-parentBean" scope="prototype"/>
+	<bean id="agencyAddressService-parentBean" class="org.kuali.kfs.module.cg.document.service.impl.AgencyAddressServiceImpl" abstract="true">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
@@ -306,20 +303,22 @@
 		</property>
 	</bean>
 
-
-	<bean id="letterOfCreditFundService" class="org.kuali.kfs.module.cg.service.impl.LetterOfCreditFundServiceImpl">
+	<bean id="letterOfCreditFundService" parent="letterOfCreditFundService-parentBean" scope="prototype"/>
+	<bean id="letterOfCreditFundService-parentBean" class="org.kuali.kfs.module.cg.service.impl.LetterOfCreditFundServiceImpl" abstract="true">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
 	</bean>
 
-	<bean id="awardService" class="org.kuali.kfs.module.cg.service.impl.AwardServiceImpl">
+	<bean id="awardService" parent="awardService-parentBean" scope="prototype"/>
+	<bean id="awardService-parentBean" class="org.kuali.kfs.module.cg.service.impl.AwardServiceImpl" abstract="true">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
 	</bean>
 
-	<bean id="contractsGrantsAwardBalancesReportService" class="org.kuali.kfs.module.cg.report.service.impl.ContractsGrantsAwardBalancesReportServiceImpl">
+	<bean id="contractsGrantsAwardBalancesReportService" parent="contractsGrantsAwardBalancesReportService-parentBean" scope="prototype" />
+	<bean id="contractsGrantsAwardBalancesReportService-parentBean" class="org.kuali.kfs.module.cg.report.service.impl.ContractsGrantsAwardBalancesReportServiceImpl" abstract="true">
 		<property name="reportGenerationService">
 			<ref bean="reportGenerationService" />
 		</property>

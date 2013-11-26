@@ -31,6 +31,7 @@ import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.permission.PermissionService;
+import org.kuali.rice.kns.util.FieldUtils;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
@@ -144,6 +145,39 @@ public class TravelerProfileDocLookupableHelperServiceImpl extends TemProfileLoo
     @Override
     public String getSupplementalMenuBar() {
         return KFSConstants.EMPTY_STRING;
+    }
+
+    /**
+     * Overrides set rows so that the _rows_ always look at TravelerProfileForLookup as the business object class - we want that lookup,
+     * but we want to search for TemProfiles....
+     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#setRows()
+     */
+    @Override
+    protected void setRows() {
+        List<String> lookupFieldAttributeList = null;
+        final Class<? extends BusinessObject> businessObjectClazz = TravelerProfileForLookup.class;
+        if (getBusinessObjectMetaDataService().isLookupable(businessObjectClazz)) {
+            lookupFieldAttributeList = getBusinessObjectMetaDataService().getLookupableFieldNames(
+                    businessObjectClazz);
+        }
+        if (lookupFieldAttributeList == null) {
+            throw new RuntimeException("Lookup not defined for business object " + getBusinessObjectClass());
+        }
+
+        // construct field object for each search attribute
+        List fields = new ArrayList();
+        try {
+            fields = FieldUtils.createAndPopulateFieldsForLookup(lookupFieldAttributeList, getReadOnlyFieldsList(),
+                    businessObjectClazz);
+        } catch (InstantiationException e) {
+            throw new RuntimeException("Unable to create instance of business object class" + e.getMessage());
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException("Unable to create instance of business object class" + e.getMessage());
+        }
+
+        int numCols = getBusinessObjectDictionaryService().getLookupNumberOfColumns(businessObjectClazz);
+
+        this.rows = FieldUtils.wrapFields(fields, numCols);
     }
 
     /**

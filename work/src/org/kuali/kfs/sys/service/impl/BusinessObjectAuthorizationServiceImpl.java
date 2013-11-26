@@ -58,11 +58,11 @@ public class BusinessObjectAuthorizationServiceImpl extends org.kuali.rice.kns.s
             AttributeDefinition attributeDefinition = objectEntry.getAttributeDefinition(attributeName);
             if (attributeDefinition.getAttributeSecurity() != null) {
                 if (attributeDefinition.getAttributeSecurity().isMask() &&
-                        !canFullyUnmaskFieldForBusinessObject(user, dataObject.getClass(), attributeName, permissionTarget)) {
+                        !canFullyUnmaskFieldForBusinessObject(user, dataObject.getClass(), attributeName, permissionTarget, document)) {
                     businessObjectRestrictions.addFullyMaskedField(propertyPrefix + attributeName, attributeDefinition.getAttributeSecurity().getMaskFormatter());
                 }
                 if (attributeDefinition.getAttributeSecurity().isPartialMask() &&
-                        !canPartiallyUnmaskFieldForBusinessObject(user, dataObject.getClass(), attributeName, permissionTarget)) {
+                        !canPartiallyUnmaskFieldForBusinessObject(user, dataObject.getClass(), attributeName, permissionTarget, document)) {
                     businessObjectRestrictions.addPartiallyMaskedField(propertyPrefix + attributeName, attributeDefinition.getAttributeSecurity().getPartialMaskFormatter());
                 }
             }
@@ -75,7 +75,7 @@ public class BusinessObjectAuthorizationServiceImpl extends org.kuali.rice.kns.s
      */
     @Override
     public boolean canFullyUnmaskField(Person user, Class<?> dataObjectClass, String fieldName, Document document) {
-        return canFullyUnmaskFieldForBusinessObject(user, dataObjectClass, fieldName, document);
+        return canFullyUnmaskFieldForBusinessObject(user, dataObjectClass, fieldName, document, null);
     }
 
     /**
@@ -84,7 +84,7 @@ public class BusinessObjectAuthorizationServiceImpl extends org.kuali.rice.kns.s
      */
     @Override
     public boolean canPartiallyUnmaskField(Person user, Class<?> dataObjectClass, String fieldName, Document document) {
-        return canPartiallyUnmaskFieldForBusinessObject(user, dataObjectClass, fieldName, document);
+        return canPartiallyUnmaskFieldForBusinessObject(user, dataObjectClass, fieldName, document, null);
     }
 
     /**
@@ -93,9 +93,10 @@ public class BusinessObjectAuthorizationServiceImpl extends org.kuali.rice.kns.s
      * @param dataObjectClass the class of the data object being checked
      * @param fieldName the name of the field to potentially unmask
      * @param businessObject the business object containing sensitive information
+     * @param document the document we are acting on, or null if no document is known
      * @return true if the field on the business object can be fully unmasked, false otherwise
      */
-    protected boolean canFullyUnmaskFieldForBusinessObject(Person user, Class<?> dataObjectClass, String fieldName, BusinessObject businessObject) {
+    protected boolean canFullyUnmaskFieldForBusinessObject(Person user, Class<?> dataObjectClass, String fieldName, BusinessObject businessObject, Document document) {
         if(isNonProductionEnvAndUnmaskingTurnedOffForUs()) {
             return false;
         }
@@ -105,6 +106,9 @@ public class BusinessObjectAuthorizationServiceImpl extends org.kuali.rice.kns.s
         }
 
         DocumentAuthorizer authorizer = findDocumentAuthorizerForBusinessObject(businessObject);
+        if (authorizer == null && document != null) {
+            authorizer = findDocumentAuthorizerForBusinessObject(document);
+        }
         if (authorizer == null) {
             return getPermissionServiceForUs().isAuthorizedByTemplate(user.getPrincipalId(), KRADConstants.KNS_NAMESPACE,
                     KimConstants.PermissionTemplateNames.FULL_UNMASK_FIELD, new HashMap<String, String>(
@@ -114,7 +118,7 @@ public class BusinessObjectAuthorizationServiceImpl extends org.kuali.rice.kns.s
                     .isAuthorizedByTemplate( businessObject,
                             KRADConstants.KNS_NAMESPACE,
                             KimConstants.PermissionTemplateNames.FULL_UNMASK_FIELD,
-                            user.getPrincipalId(), getFieldPermissionDetails(dataObjectClass, fieldName), null);
+                            user.getPrincipalId(), getFieldPermissionDetails(dataObjectClass, fieldName), Collections.<String, String>emptyMap());
     }
 
     /**
@@ -123,9 +127,10 @@ public class BusinessObjectAuthorizationServiceImpl extends org.kuali.rice.kns.s
      * @param dataObjectClass the class of the data object being checked
      * @param fieldName the name of the field to potentially unmask
      * @param businessObject the business object containing sensitive information
+     * @param document the document we are acting on, or null if no document is known
      * @return true if the field on the business object can be partially unmasked, false otherwise
      */
-    protected boolean canPartiallyUnmaskFieldForBusinessObject(Person user, Class<?> dataObjectClass, String fieldName, BusinessObject businessObject) {
+    protected boolean canPartiallyUnmaskFieldForBusinessObject(Person user, Class<?> dataObjectClass, String fieldName, BusinessObject businessObject, Document document) {
         if(isNonProductionEnvAndUnmaskingTurnedOffForUs()) {
             return false;
         }
@@ -135,7 +140,9 @@ public class BusinessObjectAuthorizationServiceImpl extends org.kuali.rice.kns.s
         }
 
         DocumentAuthorizer authorizer = findDocumentAuthorizerForBusinessObject(businessObject);
-
+        if (authorizer == null && document != null) {
+            authorizer = findDocumentAuthorizerForBusinessObject(document);
+        }
         if ( authorizer == null ) {
             return getPermissionServiceForUs().isAuthorizedByTemplate(user.getPrincipalId(), KRADConstants.KNS_NAMESPACE,
                     KimConstants.PermissionTemplateNames.PARTIAL_UNMASK_FIELD, new HashMap<String, String>(
@@ -145,7 +152,7 @@ public class BusinessObjectAuthorizationServiceImpl extends org.kuali.rice.kns.s
                     .isAuthorizedByTemplate( businessObject,
                                              KRADConstants.KNS_NAMESPACE,
                                              KimConstants.PermissionTemplateNames.PARTIAL_UNMASK_FIELD,
-                                             user.getPrincipalId(), getFieldPermissionDetails(dataObjectClass, fieldName), Collections.<String, String>emptyMap()  );
+                                             user.getPrincipalId(), getFieldPermissionDetails(dataObjectClass, fieldName), Collections.<String, String>emptyMap() );
         }
     }
 

@@ -20,6 +20,9 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.businessobject.TemProfile;
+import org.kuali.kfs.module.tem.businessobject.TemProfileAccount;
+import org.kuali.kfs.module.tem.businessobject.TemProfileArranger;
+import org.kuali.kfs.module.tem.businessobject.TemProfileEmergencyContact;
 import org.kuali.kfs.module.tem.identity.TemKimAttributes;
 import org.kuali.kfs.sys.document.FinancialSystemMaintenanceDocument;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase;
@@ -52,6 +55,30 @@ public class TemProfileAuthorizerAssistant extends FinancialSystemMaintenanceDoc
             }
         } else if (dataObject instanceof TemProfile) {
             addRoleQualificationsFromProfile((TemProfile)dataObject, attributes);
+        } else if (dataObject instanceof TemProfileEmergencyContact) {
+            final TemProfileEmergencyContact emergencyContact = (TemProfileEmergencyContact)dataObject;
+            if (ObjectUtils.isNull(emergencyContact.getProfile())) {
+                emergencyContact.refreshReferenceObject(TemPropertyConstants.PROFILE);
+            }
+            if (!ObjectUtils.isNull(emergencyContact.getProfile())) {
+                addRoleQualificationsFromProfile(emergencyContact.getProfile(), attributes);
+            }
+        } else if (dataObject instanceof TemProfileArranger) {
+            final TemProfileArranger arranger = (TemProfileArranger)dataObject;
+            if (ObjectUtils.isNull(arranger.getProfile())) {
+                arranger.refreshReferenceObject(TemPropertyConstants.PROFILE);
+            }
+            if (!ObjectUtils.isNull(arranger.getProfile())) {
+                addRoleQualificationsFromProfile(arranger.getProfile(), attributes);
+            }
+        } else if (dataObject instanceof TemProfileAccount) {
+            final TemProfileAccount profileAccount = (TemProfileAccount)dataObject;
+            if (ObjectUtils.isNull(profileAccount.getProfile())) {
+                profileAccount.refreshReferenceObject(TemPropertyConstants.PROFILE);
+            }
+            if (!ObjectUtils.isNull(profileAccount.getProfile())) {
+                addRoleQualificationsFromProfile(profileAccount.getProfile(), attributes);
+            }
         }
     }
 

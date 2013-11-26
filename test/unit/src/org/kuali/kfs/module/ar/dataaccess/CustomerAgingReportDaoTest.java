@@ -17,19 +17,17 @@ package org.kuali.kfs.module.ar.dataaccess;
 
 import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 import java.util.Map;
 
-import org.apache.ojb.broker.query.Criteria;
-import org.kuali.kfs.module.ar.businessobject.Event;
+import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
+import org.kuali.kfs.module.ar.document.service.CustomerInvoiceWriteoffDocumentService;
 import org.kuali.kfs.module.ar.fixture.CustomerInvoiceDetailFixture;
 import org.kuali.kfs.module.ar.fixture.CustomerInvoiceDocumentFixture;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 
 /**
  * This class tests the methods of CustomerAgingReportDao.
@@ -38,6 +36,7 @@ import org.kuali.rice.core.api.util.type.KualiDecimal;
 public class CustomerAgingReportDaoTest extends KualiTestBase {
 
     private CustomerAgingReportDao customerAgingReportDao;
+    private CustomerInvoiceDocument customerInvoiceDocument;
 
     private static final String CHART1 = "UA";
     private static final String CHART2 = "BL";
@@ -53,7 +52,7 @@ public class CustomerAgingReportDaoTest extends KualiTestBase {
         super.setUp();
         // setting up Customer Invoice Document.
         CustomerInvoiceDetailFixture customerInvoiceDetailFixture1 = CustomerInvoiceDetailFixture.BASE_CUSTOMER_INVOICE_DETAIL;
-        CustomerInvoiceDocumentFixture.BASE_CIDOC_WITH_CUSTOMER_WITH_BILLING_INFO.createCustomerInvoiceDocument(new CustomerInvoiceDetailFixture[] {customerInvoiceDetailFixture1});
+        customerInvoiceDocument = CustomerInvoiceDocumentFixture.BASE_CIDOC_WITH_CUSTOMER_WITH_BILLING_INFO.createCustomerInvoiceDocument(new CustomerInvoiceDetailFixture[] {customerInvoiceDetailFixture1});
         customerAgingReportDao = SpringContext.getBean(CustomerAgingReportDao.class);
     }
 
@@ -132,8 +131,14 @@ public class CustomerAgingReportDaoTest extends KualiTestBase {
     /**
      * This method tests the method findWriteOffAmountByCustomerNumber of CustomerAgingReportDao class.
      */
-    public void testFindWriteOffAmountByCustomerNumber() {
+    public void testFindWriteOffAmountByCustomerNumber() throws WorkflowException {
         KualiDecimal writeOffAmt = customerAgingReportDao.findWriteOffAmountByCustomerNumber(CUSTOMER_NUMBER);
+        assertNull(writeOffAmt);
+
+        CustomerInvoiceWriteoffDocumentService writeoffService = SpringContext.getBean(CustomerInvoiceWriteoffDocumentService.class);
+        writeoffService.createCustomerInvoiceWriteoffDocument(customerInvoiceDocument.getDocumentNumber(), "Created by CustomerAgingReportDaoTest.testFindWriteOffAmountByCustomerNumber unit test.");
+
+        writeOffAmt = customerAgingReportDao.findWriteOffAmountByCustomerNumber(CUSTOMER_NUMBER);
         assertNotNull(writeOffAmt);
     }
 }

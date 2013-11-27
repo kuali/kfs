@@ -51,7 +51,7 @@ public class DunningLetterTemplatesTest extends KualiTestBase {
     protected void setUp() throws Exception {
         super.setUp();
         
-        document = (MaintenanceDocument) SpringContext.getBean(DocumentService.class).getNewDocument("DLTS");
+        document = (MaintenanceDocument) SpringContext.getBean(DocumentService.class).getNewDocument("DLTM");
         document.getDocumentHeader().setDocumentDescription("Test Document");
         documentService = SpringContext.getBean(DocumentService.class);
         dunningLetterTemplate = new DunningLetterTemplate();
@@ -88,7 +88,7 @@ public class DunningLetterTemplatesTest extends KualiTestBase {
      * @throws Exception
      */
     public void testGetNewDocument() throws Exception {
-        Document document = (Document) documentService.getNewDocument("DLTS");
+        Document document = (Document) documentService.getNewDocument("DLTM");
         // verify document was created
         assertNotNull(document);
         assertNotNull(document.getDocumentHeader());

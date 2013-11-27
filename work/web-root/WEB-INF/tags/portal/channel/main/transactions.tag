@@ -26,13 +26,13 @@
 					url="arCashControlDocument.do?methodToCall=docHandler&command=initiate&docTypeName=CTRL" /></li>
 			<li><portal:portalLink displayTitle="true"
 					title="Collection Activity - P2*"
-					url="arCollectionActivityDocument.do?methodToCall=docHandler&command=initiate&docTypeName=CATD" /></li>
+					url="arCollectionActivityDocument.do?methodToCall=docHandler&command=initiate&docTypeName=COLA" /></li>
 					<li><portal:portalLink displayTitle="true"
 					title="Contracts Grants Invoice On Demand"
 					url="arContractsGrantsInvoiceOnDemandLookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.ContractsGrantsInvoiceOnDemandLookupResult&docFormKey=88888888&returnLocation=portal.do&hideReturnLink=true" /></li>
 			<li><portal:portalLink displayTitle="true"
 					title="Contracts Grants LOC Review"
-					url="arContractsGrantsLetterOfCreditReviewDocument.do?methodToCall=docHandler&command=initiate&docTypeName=CGLR" /></li>			
+					url="arContractsGrantsLetterOfCreditReviewDocument.do?methodToCall=docHandler&command=initiate&docTypeName=LCR" /></li>			
 			<li><portal:portalLink displayTitle="true"
 					title="Customer Credit Memo"
 					url="arCustomerCreditMemoDocument.do?methodToCall=docHandler&command=initiate&docTypeName=CRM" /></li>

@@ -65,7 +65,7 @@ public class CGInvoiceDocumentTestBase extends KualiTestBase {
         award = ARAwardFixture.CG_AWARD_INV_ACCOUNT.createAward();
         award = ARAwardFixture.CG_AWARD_INV_ACCOUNT.setAgencyFromFixture((Award) award);
 
-        document = (ContractsGrantsInvoiceDocument) documentService.getNewDocument("CGIN");
+        document = (ContractsGrantsInvoiceDocument) documentService.getNewDocument("CINV");
         Date start = SpringContext.getBean(DateTimeService.class).getCurrentSqlDate();
         Date stop = start;
         stop.setYear(start.getYear() + 1);
@@ -81,7 +81,7 @@ public class CGInvoiceDocumentTestBase extends KualiTestBase {
 
                     List<ContractsAndGrantsBillingAwardAccount> list = new ArrayList<ContractsAndGrantsBillingAwardAccount>();
                     list.clear();
-                    // only one account is added into the list to create cgin
+                    // only one account is added into the list to create CINV
                     list.add(awardAccount);
                     Map<String, Object> criteria = new HashMap<String,Object>();
                     criteria.put("accountNumber", awardAccount.getAccountNumber());
@@ -108,14 +108,14 @@ public class CGInvoiceDocumentTestBase extends KualiTestBase {
                     criteria.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, coaCode);
                     criteria.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, "8000");
                     criteria.put(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, "AC");
-                    criteria.put(KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE, "CGIN");
+                    criteria.put(KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE, "CINV");
                     OffsetDefinition offset = boService.findByPrimaryKey(OffsetDefinition.class, criteria);
                     if (ObjectUtils.isNull(offset)) {
                         offset = new OffsetDefinition();
                         offset.setChartOfAccountsCode(coaCode);
                         offset.setUniversityFiscalYear(currentYear);
                         offset.setFinancialObjectCode("8000");
-                        offset.setFinancialDocumentTypeCode("CGIN");
+                        offset.setFinancialDocumentTypeCode("CINV");
                         offset.setFinancialBalanceTypeCode("AC");
                         boService.save(offset);
                     }

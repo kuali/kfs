@@ -1212,6 +1212,7 @@
 				<status>Fiscal Officer Review</status>
 				<status>Pending Bank Application</status>
 				<status>Applied To Bank</status>
+				<status>Approved By Bank</status>
 				<status>Approved</status>
 				<status>Declined</status>
 			</validApplicationStatuses>

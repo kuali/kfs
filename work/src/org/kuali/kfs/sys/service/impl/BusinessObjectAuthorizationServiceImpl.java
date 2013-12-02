@@ -145,9 +145,15 @@ public class BusinessObjectAuthorizationServiceImpl extends org.kuali.rice.kns.s
             return false;
         }
 
-        DocumentAuthorizer authorizer = findDocumentAuthorizerForBusinessObject(businessObject);
-        if (authorizer == null && document != null) {
+        DocumentAuthorizer authorizer = null;
+        BusinessObject boForAuthorization = null;
+        if (document != null) {
             authorizer = findDocumentAuthorizerForBusinessObject(document);
+            boForAuthorization = document;
+        }
+        if (authorizer == null) {
+            authorizer = findDocumentAuthorizerForBusinessObject(businessObject);
+            boForAuthorization = businessObject;
         }
         if ( authorizer == null ) {
             return getPermissionServiceForUs().isAuthorizedByTemplate(user.getPrincipalId(), KRADConstants.KNS_NAMESPACE,
@@ -155,7 +161,7 @@ public class BusinessObjectAuthorizationServiceImpl extends org.kuali.rice.kns.s
                     getFieldPermissionDetails(dataObjectClass, fieldName)), Collections.<String, String>emptyMap());
         } else { // if a document was passed, evaluate the permission in the context of a document
             return authorizer
-                    .isAuthorizedByTemplate( businessObject,
+                    .isAuthorizedByTemplate( boForAuthorization,
                                              KRADConstants.KNS_NAMESPACE,
                                              KimConstants.PermissionTemplateNames.PARTIAL_UNMASK_FIELD,
                                              user.getPrincipalId(), getFieldPermissionDetails(dataObjectClass, fieldName), Collections.<String, String>emptyMap() );

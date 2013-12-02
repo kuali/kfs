@@ -671,6 +671,15 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument impl
     }
 
     /**
+     * Adds the totalInvoiceDetail to the totalInvoiceDetails list
+     *
+     * @param totalInvoiceDetail The InvoiceDetail to add to the totalInvoiceDetails List.
+     */
+    public void addTotalInvoiceDetail(InvoiceDetail totalInvoiceDetail) {
+        totalInvoiceDetails.add(totalInvoiceDetail);
+    }
+
+    /**
      * Sets the totalInvoiceDetails attribute value.
      *
      * @param totalInvoiceDetails The totalInvoiceDetails to set.

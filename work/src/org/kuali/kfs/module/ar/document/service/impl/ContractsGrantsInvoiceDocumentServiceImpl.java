@@ -4335,7 +4335,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             totalInvDetail.setBilled(document.getDirectCostInvoiceDetails().get(0).getBilled().add(totalInDirectCostBilled));
         }
 
-        document.getTotalInvoiceDetails().add(totalInvDetail);
+        document.addTotalInvoiceDetail(totalInvDetail);
 
     }
 

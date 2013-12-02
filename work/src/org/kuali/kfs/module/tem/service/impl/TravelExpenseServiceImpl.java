@@ -30,12 +30,12 @@ import java.util.Set;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.fp.businessobject.TravelExpenseTypeCode;
 import org.kuali.kfs.module.tem.TemConstants;
-import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.TemConstants.AgencyStagingDataErrorCodes;
 import org.kuali.kfs.module.tem.TemConstants.CreditCardStagingDataErrorCodes;
 import org.kuali.kfs.module.tem.TemConstants.ExpenseImportTypes;
 import org.kuali.kfs.module.tem.TemConstants.ExpenseTypeMetaCategory;
 import org.kuali.kfs.module.tem.TemConstants.ReconciledCodes;
+import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.businessobject.ActualExpense;
 import org.kuali.kfs.module.tem.businessobject.AgencyStagingData;
 import org.kuali.kfs.module.tem.businessobject.CreditCardAgency;
@@ -361,7 +361,8 @@ public class TravelExpenseServiceImpl implements TravelExpenseService {
         HistoricalTravelExpense expense = createHistoricalTravelExpense(agency);
         expense.setLocation(creditCard.getLocation());
         expense.setCreditCardStagingDataId(creditCard.getId());
-        expense.setReconciled(ReconciledCodes.AUTO_RECONCILED);
+        expense.setReconciled(ReconciledCodes.RECONCILED);
+        expense.setReconciliationDate(getDateTimeService().getCurrentSqlDate());
         expense.setTravelExpenseTypeString(travelExpenseType.getExpenseType().getName());
         return expense;
     }
@@ -545,6 +546,7 @@ public class TravelExpenseServiceImpl implements TravelExpenseService {
     /**
      * @see org.kuali.kfs.module.tem.service.TravelExpenseService#isTripAccountingInformationEmpty(org.kuali.kfs.module.tem.businessobject.TripAccountingInformation)
      */
+    @Override
     public boolean isTripAccountingInformationEmpty(TripAccountingInformation accountingInformation) {
         return StringUtils.isEmpty(accountingInformation.getTripChartCode()) &&
                 StringUtils.isEmpty(accountingInformation.getTripAccountNumber()) &&

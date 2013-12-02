@@ -140,7 +140,7 @@ public class ImportedCorporateCardExpenseServiceImpl extends ExpenseServiceBase 
     public void updateExpense(TravelDocument travelDocument) {
         List<HistoricalTravelExpense> historicalTravelExpenses = travelDocument.getHistoricalTravelExpenses();
         for (HistoricalTravelExpense historicalTravelExpense : historicalTravelExpenses){
-            if (historicalTravelExpense.isCreditCardTravelExpense()){
+            if (historicalTravelExpense.isCreditCardTravelExpense() && historicalTravelExpense.getReconciliationDate() == null){ // don't reset reconciled if we've already reconciled
                 long time = (new java.util.Date()).getTime();
                 historicalTravelExpense.setReconciliationDate(new Date(time));
                 historicalTravelExpense.setReconciled(TemConstants.ReconciledCodes.RECONCILED);

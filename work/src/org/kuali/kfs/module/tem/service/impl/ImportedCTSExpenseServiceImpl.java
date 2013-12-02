@@ -229,7 +229,7 @@ public class ImportedCTSExpenseServiceImpl extends ExpenseServiceBase implements
     public void updateExpense(TravelDocument travelDocument) {
         List<HistoricalTravelExpense> historicalTravelExpenses = travelDocument.getHistoricalTravelExpenses();
         for (HistoricalTravelExpense historicalTravelExpense : historicalTravelExpenses){
-            if (historicalTravelExpense.getAgencyStagingDataId() != null){
+            if (historicalTravelExpense.getAgencyStagingDataId() != null && historicalTravelExpense.getReconciliationDate() == null){ // don't reset reconciled if we've already reconciled
                 long time = (new java.util.Date()).getTime();
                 historicalTravelExpense.setReconciliationDate(new Date(time));
                 historicalTravelExpense.setReconciled(TemConstants.ReconciledCodes.RECONCILED);

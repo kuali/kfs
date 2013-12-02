@@ -746,13 +746,11 @@ public class TemConstants {
     public static class ReconciledCodes {
         public static final String RECONCILED = "R";
         public static final String UNRECONCILED = "N";
-        public static final String AUTO_RECONCILED = "A";
         public static final String CLEARED = "C";
     }
 
     public static final Map<String, String> reconciledCodes() {
         Map<String, String> returnMap = new HashMap<String, String>();
-        returnMap.put(ReconciledCodes.AUTO_RECONCILED, "Auto Reconciled");
         returnMap.put(ReconciledCodes.UNRECONCILED, "Unreconciled");
         returnMap.put(ReconciledCodes.RECONCILED,"Reconciled");
         returnMap.put(ReconciledCodes.CLEARED,"Cleared");

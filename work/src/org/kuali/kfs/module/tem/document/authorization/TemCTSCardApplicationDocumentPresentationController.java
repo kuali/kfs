@@ -31,6 +31,12 @@ public class TemCTSCardApplicationDocumentPresentationController extends Financi
         return super.canSave(document);
     }
 
-
-
+    /**
+     * Blanket approve is not allowed on CTS Card application documents
+     * @see org.kuali.rice.krad.document.DocumentPresentationControllerBase#canBlanketApprove(org.kuali.rice.krad.document.Document)
+     */
+    @Override
+    public boolean canBlanketApprove(Document document) {
+        return false;
+    }
 }

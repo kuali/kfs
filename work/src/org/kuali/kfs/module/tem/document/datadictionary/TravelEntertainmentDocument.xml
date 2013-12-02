@@ -32,8 +32,6 @@
 				</entry>
 			</map>
 		</property>
-	
-	
 		<property name="attributes">
 		<list>
 			<ref bean="TravelEntertainmentDocument-travelDocumentNumber" />
@@ -295,8 +293,7 @@
 	</bean>
 	
 	<bean id="TravelEntertainmentDocument-hostAsPayee" parent="TravelEntertainmentDocument-hostAsPayee-parentBean" />
-	
-	<bean id="TravelEntertainmentDocument-hostAsPayee-parentBean" parent="AttributeDefinition">
+	<bean id="TravelEntertainmentDocument-hostAsPayee-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="hostAsPayee" />
 		<property name="label" value="Event host same as payee" />
 		<property name="shortLabel" value="Host as Payee" />

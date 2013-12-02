@@ -31,12 +31,13 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomer;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.krad.service.KualiModuleService;
 import org.kuali.rice.krad.service.ModuleService;
 import org.kuali.rice.krad.util.ObjectUtils;
 
-public abstract class BaseTemProfile extends PersistableBusinessObjectBase {
+public abstract class BaseTemProfile extends PersistableBusinessObjectBase implements MutableInactivatable {
 
     protected Integer id;
     protected String documentNumber;
@@ -460,6 +461,7 @@ public abstract class BaseTemProfile extends PersistableBusinessObjectBase {
      *
      * @return Returns the active.
      */
+    @Override
     @Column(name = "ACTV_IND", nullable = false, length = 1)
     public boolean isActive() {
         return active;
@@ -470,6 +472,7 @@ public abstract class BaseTemProfile extends PersistableBusinessObjectBase {
      *
      * @param active The active to set.
      */
+    @Override
     public void setActive(boolean active) {
         this.active = active;
     }

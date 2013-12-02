@@ -26,13 +26,14 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 @Entity
 @Table(name = "TEM_PROFILE_ARRANGER_T")
-public class TemProfileArranger extends PersistableBusinessObjectBase {
+public class TemProfileArranger extends PersistableBusinessObjectBase implements MutableInactivatable {
 
     private Integer arrangerId;
     private String principalId;
@@ -129,6 +130,7 @@ public class TemProfileArranger extends PersistableBusinessObjectBase {
      * Gets the active attribute.
      * @return Returns the active.
      */
+    @Override
     @Column(name="ACTV_IND",nullable=false,length=1)
     public boolean isActive() {
         return active;
@@ -139,6 +141,7 @@ public class TemProfileArranger extends PersistableBusinessObjectBase {
      * Sets the active attribute value.
      * @param active The active to set.
      */
+    @Override
     public void setActive(boolean active) {
         this.active = active;
     }

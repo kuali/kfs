@@ -26,12 +26,13 @@ import javax.persistence.Table;
 
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 @Entity
 @Table(name = "TEM_AGENCY_SRVC_FEE_T")
-public class AgencyServiceFee extends PersistableBusinessObjectBase{
+public class AgencyServiceFee extends PersistableBusinessObjectBase implements MutableInactivatable {
 
     private Integer id;
     private String diCode;
@@ -184,8 +185,9 @@ public class AgencyServiceFee extends PersistableBusinessObjectBase{
      * Gets the active attribute.
      * @return Returns the active.
      */
+    @Override
     @Column(name="ACTV_IND",nullable=false,length=1)
-    public Boolean getActive() {
+    public boolean isActive() {
         return active;
     }
 
@@ -193,7 +195,8 @@ public class AgencyServiceFee extends PersistableBusinessObjectBase{
      * Sets the active attribute value.
      * @param active The active to set.
      */
-    public void setActive(Boolean active) {
+    @Override
+    public void setActive(boolean active) {
         this.active = active;
     }
 

@@ -22,6 +22,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
@@ -30,7 +31,7 @@ import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
  */
 @Entity
 @Table(name="TEM_TRANS_MD_T")
-public class TransportationMode extends PersistableBusinessObjectBase {
+public class TransportationMode extends PersistableBusinessObjectBase implements MutableInactivatable {
 
     private String code;
 
@@ -57,12 +58,14 @@ public class TransportationMode extends PersistableBusinessObjectBase {
         this.name = name;
     }
 
+    @Override
     @Column(name="ACTV_IND",nullable=false,length=1)
-    public Boolean getActive() {
+    public boolean isActive() {
         return active;
     }
 
-    public void setActive(Boolean active) {
+    @Override
+    public void setActive(boolean active) {
         this.active = active;
     }
 

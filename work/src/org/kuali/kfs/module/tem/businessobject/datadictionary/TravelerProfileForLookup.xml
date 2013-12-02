@@ -15,6 +15,7 @@
 			<list>
 				<ref bean="TravelerProfileForLookup-profileId" />
 				<ref bean="TravelerProfileForLookup-principalId" />
+				<ref bean="TravelerProfileForLookup-principal.principalName" />
 				<ref bean="TravelerProfileForLookup-customerNumber" />
 				<ref bean="TravelerProfileForLookup-driversLicenseNumber" />
 				<ref bean="TravelerProfileForLookup-driversLicenseState" />
@@ -50,11 +51,36 @@
 				<ref bean="TravelerProfileForLookup-defaultAccount" />
 				<ref bean="TravelerProfileForLookup-defaultSubAccount" />
 				<ref bean="TravelerProfileForLookup-defaultProjectCode" />
-				<ref bean="TravelerProfileForLookup-principalName" />
 				<ref bean="TravelerProfileForLookup-achSignUp" />
 				<ref bean="TravelerProfileForLookup-achTransactionType" />
 				<ref bean="TravelerProfileForLookup-active" />
 				<ref bean="TravelerProfileForLookup-versionNumber" />
+			</list>
+		</property>
+		<property name="relationships">
+			<list>
+				<bean parent="RelationshipDefinition">
+					<property name="objectAttributeName" value="principal" />
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="principalId" p:targetName="principalId" />
+						</list>
+					</property>
+					<property name="supportAttributes">
+						<list>
+							<bean parent="SupportAttributeDefinition" p:identifier="true" p:sourceName="principal.principalName" p:targetName="principalName" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="RelationshipDefinition">
+					<property name="objectAttributeName" value="customer" />
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="customerNumber"
+								p:targetName="customerNumber" />
+						</list>
+					</property>
+				</bean>
 			</list>
 		</property>
 	</bean>
@@ -63,6 +89,9 @@
 
 	<bean id="TravelerProfileForLookup-principalId" parent="TravelerProfileForLookup-principalId-parentBean" />
 	<bean id="TravelerProfileForLookup-principalId-parentBean" parent="TemProfile-principalId" abstract="true"/>
+	
+	<bean id="TravelerProfileForLookup-principal.principalName" parent="TravelerProfileForLookup-principal.principalName-parentBean" />
+	<bean id="TravelerProfileForLookup-principal.principalName-parentBean" abstract="true" parent="TemProfile-principal.principalName" />
 
 	<bean id="TravelerProfileForLookup-customerNumber" parent="TravelerProfileForLookup-customerNumber-parentBean" />
 	<bean id="TravelerProfileForLookup-customerNumber-parentBean" abstract="true" parent="TemProfile-customerNumber"/>
@@ -175,9 +204,6 @@
 	<bean id="TravelerProfileForLookup-defaultProjectCode" parent="TravelerProfileForLookup-defaultProjectCode-parentBean" />
 	<bean id="TravelerProfileForLookup-defaultProjectCode-parentBean" abstract="true" parent="TemProfile-defaultProjectCode"/>
 
-	<bean id="TravelerProfileForLookup-principalName" parent="TravelerProfileForLookup-principalName-parentBean" />
-	<bean id="TravelerProfileForLookup-principalName-parentBean" abstract="true" parent="TemProfile-principal.principalName"/>
-
 	<bean id="TravelerProfileForLookup-active" parent="TravelerProfileForLookup-active-parentBean" />
 	<bean id="TravelerProfileForLookup-active-parentBean" abstract="true" parent="TemProfile-active"/>
 
@@ -202,7 +228,7 @@
 		</property>
 		<property name="lookupFields">
 			<list>
-				<bean parent="FieldDefinition" p:attributeName="principalId" />
+				<bean parent="FieldDefinition" p:attributeName="principal.principalName" />
 				<bean parent="FieldDefinition" p:attributeName="profileId" />
 				<bean parent="FieldDefinition" p:attributeName="firstName" />
 				<bean parent="FieldDefinition" p:attributeName="lastName" />
@@ -216,7 +242,7 @@
 		<property name="resultFields">
 			<list>
 				<bean parent="FieldDefinition" p:attributeName="profileId" />
-				<bean parent="FieldDefinition" p:attributeName="principalId" />
+				<bean parent="FieldDefinition" p:attributeName="principal.principalName" />
 				<bean parent="FieldDefinition" p:attributeName="firstName" />
 				<bean parent="FieldDefinition" p:attributeName="lastName" />
 				<bean parent="FieldDefinition" p:attributeName="temProfileAddress.streetAddressLine1" />
@@ -226,6 +252,7 @@
 				<bean parent="FieldDefinition" p:attributeName="temProfileAddress.countryCode" />
 				<bean parent="FieldDefinition" p:attributeName="emailAddress" />
 				<bean parent="FieldDefinition" p:attributeName="phoneNumber" />
+				<bean parent="FieldDefinition" p:attributeName="active"/>
 			</list>
 		</property>
 	</bean>

@@ -34,7 +34,6 @@
         <ref bean="PaymentSourceWireTransfer-currencyTypeName"/>
         <ref bean="PaymentSourceWireTransfer-wireTransferFeeWaiverIndicator"/>
         <ref bean="PaymentSourceWireTransfer-payeeAccountName"/>
-        <ref bean="PaymentSourceWireTransfer-payeeAccountTypeCode"/>
         <ref bean="PaymentSourceWireTransfer-automatedClearingHouseProfileNumber"/>
       </list>
     </property>
@@ -204,19 +203,6 @@
     <property name="required" value="true"/>
     <property name="control">
       <ref bean="StandardNameTextControl" />
-    </property>
-  </bean>
-  <bean id="PaymentSourceWireTransfer-payeeAccountTypeCode" parent="PaymentSourceWireTransfer-payeeAccountTypeCode-parentBean"/>
-
-  <bean id="PaymentSourceWireTransfer-payeeAccountTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="payeeAccountTypeCode"/>
-    <property name="forceUppercase" value="false"/>
-    <property name="label" value="Bank Acct Type"/>
-    <property name="shortLabel" value="Acct Type"/>
-    <property name="maxLength" value="1"/>
-    <property name="required" value="false"/>
-    <property name="control">
-      <bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.kfs.fp.businessobject.options.BankAccountTypeValuesFinder" p:includeKeyInLabel="false"/>
     </property>
   </bean>
   <bean id="PaymentSourceWireTransfer-automatedClearingHouseProfileNumber" parent="PaymentSourceWireTransfer-automatedClearingHouseProfileNumber-parentBean"/>

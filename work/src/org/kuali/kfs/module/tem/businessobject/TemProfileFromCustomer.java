@@ -24,11 +24,12 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomerType;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 @Entity
 @Table(name = "TEM_PROFILE_CUST_T")
-public class TemProfileFromCustomer extends PersistableBusinessObjectBase {
+public class TemProfileFromCustomer extends PersistableBusinessObjectBase implements MutableInactivatable {
 
     private String customerNumber;
     private String customerTypeCode;
@@ -176,8 +177,9 @@ public class TemProfileFromCustomer extends PersistableBusinessObjectBase {
      * Gets the active attribute.
      * @return Returns the active.
      */
+    @Override
     @Column(name="ACTV_IND",nullable=false,length=1)
-    public boolean getActive() {
+    public boolean isActive() {
         return active;
     }
 
@@ -185,6 +187,7 @@ public class TemProfileFromCustomer extends PersistableBusinessObjectBase {
      * Sets the active attribute value.
      * @param active The active to set.
      */
+    @Override
     public void setActive(boolean active) {
         this.active = active;
     }

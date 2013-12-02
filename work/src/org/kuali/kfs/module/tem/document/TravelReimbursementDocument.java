@@ -513,7 +513,8 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
      */
     @Override
     public KualiDecimal getReimbursableGrandTotal() {
-        KualiDecimal grandTotal = super.getReimbursableGrandTotal();
+        KualiDecimal grandTotal = getReimbursableTotal();
+
         KualiDecimal advancesTotal = getAdvancesTotal();
         if (advancesTotal.isGreaterThan(grandTotal)) {
             return KualiDecimal.ZERO; // if advances are greater than what is being reimbursed, then the grand total is a big fat goose egg.  With two equally sized goose eggs after the decimal point.

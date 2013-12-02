@@ -763,6 +763,7 @@
 				<bean parent="FieldDefinition" p:attributeName="temProfileAddress.countryCode" />
 				<bean parent="FieldDefinition" p:attributeName="emailAddress" />
 				<bean parent="FieldDefinition" p:attributeName="phoneNumber" />
+				<bean parent="FieldDefinition" p:attributeName="active"/>
 			</list>
 		</property>
 	</bean>

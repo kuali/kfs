@@ -8944,7 +8944,6 @@
         <column name="CRNCY_TYP_CD" size="1" type="VARCHAR"/>
         <column name="WIRE_TRNFR_FEE_WVR_IND" size="1" type="CHAR"/>
         <column name="PAYEE_ACCT_NM" size="123" type="VARCHAR"/>
-        <column name="PAYEE_ACCT_TYP_CD" size="1" type="VARCHAR"/>
         <column name="ACH_PRFL_NBR" size="3" type="VARCHAR"/>
         <column name="BNK_CNTRY_CD" size="2" type="VARCHAR"/>
         <column name="FCRNCY_TYP_NM" size="20" type="VARCHAR"/>

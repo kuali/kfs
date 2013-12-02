@@ -41,6 +41,8 @@ import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumen
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kew.api.KewApiServiceLocator;
+import org.kuali.rice.kew.api.document.attribute.DocumentAttributeIndexingQueue;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
@@ -102,6 +104,8 @@ public class TemCardApplicationAction extends FinancialSystemTransactionalDocume
             document.approvedByBank();
             document.getDocumentHeader().getWorkflowDocument().setApplicationDocumentStatus(TemWorkflowConstants.RouteNodeNames.APPROVED_BY_BANK);
             document.saveAppDocStatus();
+            final DocumentAttributeIndexingQueue documentAttributeIndexingQueue = KewApiServiceLocator.getDocumentAttributeIndexingQueue();
+            documentAttributeIndexingQueue.indexDocument(document.getDocumentHeader().getDocumentNumber());
         }
         return super.approve(mapping, form, request, response);
     }

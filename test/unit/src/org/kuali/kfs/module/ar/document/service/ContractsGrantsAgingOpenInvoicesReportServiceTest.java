@@ -59,7 +59,7 @@ public class ContractsGrantsAgingOpenInvoicesReportServiceTest extends KualiTest
         super.setUp();
         // setting up document
         String chartCode = "BL";
-        String orgCode = "SRS";
+        String orgCode = "UGCS";
 
         // To create a basic invoice with test data
         DocumentService documentService = SpringContext.getBean(DocumentService.class);

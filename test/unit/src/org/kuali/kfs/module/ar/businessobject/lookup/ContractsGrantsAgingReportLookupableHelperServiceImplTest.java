@@ -64,7 +64,7 @@ public class ContractsGrantsAgingReportLookupableHelperServiceImplTest extends K
 
         // setting up document
         String chartCode = "BL";
-        String orgCode = "SRS";
+        String orgCode = "UGCS";
         String customerNumber = "ABB2";
         String customerName = "WOODS CORPORATION";
 

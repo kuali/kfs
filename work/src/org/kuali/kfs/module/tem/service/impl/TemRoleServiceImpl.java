@@ -26,6 +26,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemConstants.TravelDocTypes;
+import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants.TemProfileProperties;
 import org.kuali.kfs.module.tem.businessobject.TemProfile;
 import org.kuali.kfs.module.tem.businessobject.TemProfileArranger;
@@ -171,7 +172,11 @@ public class TemRoleServiceImpl implements TemRoleService{
      */
     @Override
     public boolean isTravelArranger(final Person user) {
-        return isTravelArranger(user, null, null, null);
+        Map fieldValues = new HashMap();
+        fieldValues.put(TemPropertyConstants.TemProfileProperties.PRINCIPAL_ID, user.getPrincipalId());
+        fieldValues.put(KFSPropertyConstants.ACTIVE, "Y");
+        Collection<TemProfileArranger> arrangers = businessObjectService.findMatching(TemProfileArranger.class, fieldValues);
+        return ObjectUtils.isNotNull(arrangers) && !arrangers.isEmpty();
     }
 
     /**

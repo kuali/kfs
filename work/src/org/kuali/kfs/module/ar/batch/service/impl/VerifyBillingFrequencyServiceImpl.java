@@ -483,7 +483,7 @@ public class VerifyBillingFrequencyServiceImpl implements VerifyBillingFrequency
         Object[] acctPeriodList = accountingPeriodService.getAllAccountingPeriods().toArray();
         if (acctPeriodList != null) {
             // get all the accounting period end dates of current fiscal year
-            for (int i = 0; i < acctPeriodList.length - 1; i++) {
+            for (int i = 0; i < acctPeriodList.length; i++) {
                 AccountingPeriod acctPeriod = (AccountingPeriod) acctPeriodList[i];
                 if (acctPeriod.getUniversityFiscalYear().equals(currPeriod.getUniversityFiscalYear()) && !isInvalidPeriodCode(acctPeriod) && acctPeriod.isActive()) {
                     acctPeriodEndDateList.add(acctPeriod.getUniversityFiscalPeriodEndDate());

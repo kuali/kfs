@@ -117,6 +117,19 @@ public class TravelArrangerDocumentServiceImpl implements TravelArrangerDocument
         return null;
     }
 
+    /**
+     * @see org.kuali.kfs.module.tem.document.service.TravelArrangerDocumentService#hasArrangees(java.lang.String)
+     */
+    @Override
+    public boolean hasArrangees(String principalId) {
+        Map<String, String> fieldValues = new HashMap<String, String>();
+        fieldValues.put(TemProfileProperties.PRINCIPAL_ID, principalId);
+        fieldValues.put(KRADPropertyConstants.ACTIVE, "Y");
+
+        final int arrangeeCount = businessObjectService.countMatching(TemProfileArranger.class, fieldValues);
+        return arrangeeCount > 0;
+    }
+
     public BusinessObjectService getBusinessObjectService() {
         return businessObjectService;
     }

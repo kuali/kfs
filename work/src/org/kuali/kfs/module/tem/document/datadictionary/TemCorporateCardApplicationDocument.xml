@@ -14,7 +14,8 @@
 		<property name="documentTypeName" value="CCAP" />
 		<property name="documentClass" value="org.kuali.kfs.module.tem.document.TemCorporateCardApplicationDocument" />
 		<property name="sessionDocument" value="true" />
-		<property name="documentPresentationControllerClass" value="org.kuali.kfs.module.tem.document.authorization.TemCorporateCardApplicationDocumentPresentationController" />
+		<property name="documentPresentationControllerClass" value="org.kuali.kfs.module.tem.document.authorization.CardApplicationDocumentPresentationController" />
+		<property name="documentAuthorizerClass" value="org.kuali.kfs.module.tem.document.authorization.CardApplicationDocumentAuthorizer"/>
 		<property name="workflowAttributes" ref="TemCorporateCardApplicationDocument-workflowAttributes" />
 		<property name="attributes">
 			<list>

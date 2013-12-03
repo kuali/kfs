@@ -71,6 +71,13 @@ public class ArrangerDerivedRoleTypeServiceImpl extends DerivedRoleTypeServiceBa
                         }
                     }
                 }
+            } else {
+                // do we have a profile principal id?
+                final String profilePrincipalId = qualification.get(TemKimAttributes.PROFILE_PRINCIPAL_ID);
+                if (!StringUtils.isBlank(profilePrincipalId)) {
+                    // in this case, we're just wondering if the user is an assigned arranger in general
+                    return getArrangerDocumentService().hasArrangees(profilePrincipalId);
+                }
             }
         }
 

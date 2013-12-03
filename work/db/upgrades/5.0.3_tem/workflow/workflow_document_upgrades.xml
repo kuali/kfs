@@ -1395,7 +1395,8 @@
 			<label>CTS Card Application</label>
 			<docHandler>${kfs.url}/temCTSCardApplication.do?methodToCall=docHandler</docHandler>
 			<active>true</active>
-			<routingVersion>1</routingVersion>
+			<routingVersion>2</routingVersion>
+			<authorizer>org.kuali.kfs.module.tem.document.authorization.TravelWorkflowDocumentAuthorizer</authorizer>
 			<validApplicationStatuses>
 				<status>Application</status>
 				<status>Account Review</status>
@@ -1426,7 +1427,7 @@
 					</qualifierResolverClass>
 					<activationType>
 						P
-					</activationType>
+                    </activationType>
 				</role>
 				<role name="Travel">
 					<qualifierResolverClass>
@@ -1434,7 +1435,7 @@
 					</qualifierResolverClass>
 					<activationType>
 						P
-					</activationType>
+                    </activationType>
 				</role>
 			</routeNodes>
 		</documentType>
@@ -1444,7 +1445,8 @@
 			<label>Corporate Card Application</label>
 			<docHandler>${kfs.url}/temCorporateCardApplication.do?methodToCall=docHandler</docHandler>
 			<active>true</active>
-			<routingVersion>1</routingVersion>
+			<routingVersion>2</routingVersion>
+			<authorizer>org.kuali.kfs.module.tem.document.authorization.TravelWorkflowDocumentAuthorizer</authorizer>
 			<validApplicationStatuses>
 				<status>Application</status>
 				<status>Fiscal Officer Review</status>
@@ -1475,7 +1477,7 @@
 					</qualifierResolverClass>
 					<activationType>
 						P
-					</activationType>
+                    </activationType>
 				</role>
 				<role name="Travel">
 					<qualifierResolverClass>
@@ -1483,7 +1485,7 @@
 					</qualifierResolverClass>
 					<activationType>
 						P
-					</activationType>
+                    </activationType>
 				</role>
 			</routeNodes>
 		</documentType>

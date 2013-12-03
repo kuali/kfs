@@ -19,12 +19,12 @@ import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocu
 import org.kuali.rice.krad.document.Document;
 
 /**
- * Presentation controller for the corporate card application document presentation controller
+ * Generic presentation controller for the travel card application documents
  */
-public class TemCorporateCardApplicationDocumentPresentationController extends FinancialSystemTransactionalDocumentPresentationControllerBase {
+public class CardApplicationDocumentPresentationController extends FinancialSystemTransactionalDocumentPresentationControllerBase {
 
     /**
-     * Corporate card documents cannot be blanket approved
+     * travel card documents cannot be blanket approved
      * @see org.kuali.rice.krad.document.DocumentPresentationControllerBase#canBlanketApprove(org.kuali.rice.krad.document.Document)
      */
     @Override

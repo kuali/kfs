@@ -36,5 +36,24 @@
           <replace replace="sys_guid()" with="uuid()" />
         </modifySql>
     </changeSet>
-	
+    
+    <changeSet author="KFS50" id="KFSCNTRB1730_MAX_ACCOUNT_DELEGATES">
+        <comment>Adds parameter for KFSCNTRB-1730 maximum number of (delegate * account) for account global delegate document</comment>
+        <insert tableName="KRCR_PARM_T">
+            <column name="NMSPC_CD" value="KFS-COA" />
+            <column name="CMPNT_CD" value="AccountDelegateGlobal" />
+            <column name="PARM_NM" value="MAX_ACCOUNT_DELEGATES" />
+            <column name="APPL_ID" value="KFS" />
+            <column name="OBJ_ID" valueNumeric="sys_guid() " />
+            <column name="VER_NBR" value="1" />
+            <column name="PARM_TYP_CD" value="VALID" />
+            <column name="VAL" value="5000" />
+            <column name="PARM_DESC_TXT" value="The maximum number of account delegates to create. This is calculated by multiplying account delegates with accounts." />
+            <column name="EVAL_OPRTR_CD" value="A" />
+        </insert>
+        <modifySql dbms="mysql">
+          <replace replace="sys_guid()" with="uuid()" />
+        </modifySql>
+    </changeSet>
+
 </databaseChangeLog>

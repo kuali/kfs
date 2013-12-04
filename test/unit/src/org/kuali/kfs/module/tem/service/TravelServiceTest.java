@@ -30,7 +30,6 @@ import org.kuali.kfs.module.tem.businessobject.PerDiem;
 import org.kuali.kfs.module.tem.businessobject.PerDiemExpense;
 import org.kuali.kfs.module.tem.businessobject.TemProfile;
 import org.kuali.kfs.module.tem.businessobject.TravelerType;
-import org.kuali.kfs.module.tem.service.impl.TravelServiceImpl;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -56,7 +55,7 @@ public class TravelServiceTest extends KualiTestBase{
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        final TravelService travelServiceTemp = SpringContext.getBean(TravelServiceImpl.class);
+        final TravelService travelServiceTemp = SpringContext.getBean(TravelService.class);
         businessObjectService = SpringContext.getBean(BusinessObjectService.class);
         sas = SpringContext.getBean(SequenceAccessorService.class);
         travelService = (TravelService)Proxy.newProxyInstance(this.getClass().getClassLoader(), new Class[] {TravelService.class}, new InvocationHandler() {

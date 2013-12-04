@@ -1,2 +1,2 @@
 id|di_cd|di_desc|chart_cd|acct_nbr|obj_cd|srvc_fee|actv_ind|ver_nbr|obj_id|
-1.0|VC|VC Service Fee|BL|1031400|5000|25.0|Y|1.0|KFS_TEM_AGENCY_SRVC_FEE_001|
+1.0|VC|VC Service Fee|BL|1031400|5040|25.0|Y|1.0|KFS_TEM_AGENCY_SRVC_FEE_001|

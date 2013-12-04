@@ -225,6 +225,7 @@
 		<property name="maxLength" value="32" />
 		<property name="summary" value="Payee Name" />
 		<property name="description" value="Payee Name" />
+		<property name="required" value="false"/>
 		<property name="control"><bean parent="TextControlDefinition" p:size="32"/></property>
 	</bean> 
     <bean id="TravelRelocationDocument-fromAddress1" parent="TravelRelocationDocument-fromAddress1-parentBean" />

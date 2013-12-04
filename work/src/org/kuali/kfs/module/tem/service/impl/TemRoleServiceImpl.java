@@ -175,8 +175,12 @@ public class TemRoleServiceImpl implements TemRoleService{
         Map fieldValues = new HashMap();
         fieldValues.put(TemPropertyConstants.TemProfileProperties.PRINCIPAL_ID, user.getPrincipalId());
         fieldValues.put(KFSPropertyConstants.ACTIVE, "Y");
-        Collection<TemProfileArranger> arrangers = businessObjectService.findMatching(TemProfileArranger.class, fieldValues);
-        return ObjectUtils.isNotNull(arrangers) && !arrangers.isEmpty();
+        int count =  businessObjectService.countMatching(TemProfileArranger.class, fieldValues);
+        boolean isArranger = count > 0 ? true : false;
+
+        boolean checkOrgRole = checkOrganizationRole(user, TemConstants.TEM_ORGANIZATION_PROFILE_ARRANGER, TemConstants.PARAM_NAMESPACE, null);
+        //user is an arranger if either check is successful
+        return isArranger || checkOrgRole;
     }
 
     /**

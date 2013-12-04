@@ -123,6 +123,9 @@
       <property name="businessObjectService" ref="businessObjectService" />
     </bean>
     
+    <bean id="dunningCampaignService" parent="dunningCampaignService-parentBean"/>
+    <bean id="dunningCampaignService-parentBean" class="org.kuali.kfs.module.external.kc.service.impl.DunningCampaignServiceImpl" abstract="true"/>
+    
     <!--
     <bean id="kcRiceApplicationConfigurationService" class="org.kuali.kfs.module.external.kc.service.impl.KcRiceApplicationConfigurationServiceImpl">
  	     <property name="packagePrefixes">

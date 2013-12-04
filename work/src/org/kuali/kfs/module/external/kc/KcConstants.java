@@ -157,6 +157,10 @@ public class KcConstants {
         public static final String ERROR_KC_DOCUMENT_INVALID_USER="error.kc.document.invalid.user";
     }
 
+    public static class DunningCampaignService {
+        public static final String WEB_SERVICE_NAME = "dunningCampaignService";
+    }
+
     public static class ObjectCodeService {
         public static final String WEB_SERVICE_NAME = "kcObjectCodeService";
     }

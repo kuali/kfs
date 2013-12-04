@@ -41,5 +41,11 @@
         p:serviceNameSpaceURI="${kc-kfs.kfs.service.namespace.uri}"
         p:serviceInterface="org.kuali.kfs.module.external.kc.service.KcObjectCodeService" 
 		p:busSecurity="${kuali.coeus.integration.bus.security.enabled}"/>
- 
+    
+    <bean id="dunningCampaignServiceSOAP" parent="kfsCallbackService"
+        p:callbackService-ref="dunningCampaignService" p:localServiceName="dunningCampaignServiceSOAP" 
+        p:serviceNameSpaceURI="${kc-kfs.kfs.service.namespace.uri}"
+        p:serviceInterface="org.kuali.kfs.module.external.kc.service.DunningCampaignService" 
+        p:busSecurity="${kuali.coeus.integration.bus.security.enabled}"/>
+        
  </beans>

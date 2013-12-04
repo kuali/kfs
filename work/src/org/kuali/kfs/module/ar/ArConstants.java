@@ -25,7 +25,7 @@ public class ArConstants{
     public static final String AR_NAMESPACE_CODE = "KFS-AR";
     public static final String CG_NAMESPACE_CODE = "KFS-CG";
     public static final String ENABLE_CG_PRORATE_BILL_IND = "ENABLE_CG_PRORATE_BILL_IND";
-
+    public static final String DEFAULT_INVOICE_TEMPLATE = "DEFAULT_INVOICE_TEMPLATE";
     public static final String INVOICE_DOC_TYPE = "Invoice";
     public static final String CREDIT_MEMO_DOC_TYPE = "Credit Memo";
     public static final String PAYMENT_DOC_TYPE = "Payment";
@@ -425,7 +425,7 @@ public class ArConstants{
     // CG Invoice Document
     public static final String CONTRACTS_AND_GRANTS_INVOICE_CATEGORIES = "CONTRACTS_AND_GRANTS_INVOICE_CATEGORIES";
 
-    public static final String CGIN_DOCUMENT_TYPE = "CGIN";
+    public static final String CGIN_DOCUMENT_TYPE = "CINV";
     public static final String CGIN_DOCUMENT_DESCRIPTION = "Contracts Grants Invoice Document";
     public static final String ACCOUNT = "Account";
     public static final String CONTRACT_CONTROL_ACCOUNT = "Contract Control Account";

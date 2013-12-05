@@ -408,7 +408,7 @@ public class ExpenseImportByTripServiceImpl extends ExpenseImportServiceBase imp
         if (ObjectUtils.isNotNull(distributionCode)) {
             AgencyServiceFee serviceFee = getAgencyServiceFee(distributionCode);
             if (ObjectUtils.isNull(serviceFee)) {
-                LOG.error("Invalid DI Code: "+ distributionCode);
+                LOG.error("Invalid Distribution Code: "+ distributionCode);
                 setErrorCode(agencyData, AgencyStagingDataErrorCodes.AGENCY_INVALID_DI_CD);
                 errorMessages.add(new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_DATA_INVALID_DISTRIBUTION_CODE, distributionCode));
             }
@@ -656,7 +656,7 @@ public class ExpenseImportByTripServiceImpl extends ExpenseImportServiceBase imp
 
     /**
      *
-     * This method returns the {@link AgencyServiceFee} by distribution code (diCode).
+     * This method returns the {@link AgencyServiceFee} by distribution code (distributionCode).
      * @param distributionCode
      * @return
      */
@@ -664,6 +664,7 @@ public class ExpenseImportByTripServiceImpl extends ExpenseImportServiceBase imp
         if (StringUtils.isNotEmpty(distributionCode)) {
             Map<String,String> criteria = new HashMap<String,String>(1);
             criteria.put(TemPropertyConstants.DISTRIBUTION_CODE, distributionCode);
+            criteria.put(TemPropertyConstants.ACTIVE_IND, TemConstants.YES);
             List<AgencyServiceFee> serviceFee = (List<AgencyServiceFee>) getBusinessObjectService().findMatching(AgencyServiceFee.class, criteria);
             if (ObjectUtils.isNotNull(serviceFee) && serviceFee.size() > 0) {
                 return serviceFee.get(0);

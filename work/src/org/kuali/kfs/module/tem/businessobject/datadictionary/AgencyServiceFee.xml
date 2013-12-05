@@ -7,13 +7,12 @@
 		<property name="businessObjectClass" value="org.kuali.kfs.module.tem.businessobject.AgencyServiceFee" />
 		<property name="lookupDefinition" ref="AgencyServiceFee-lookupDefinition" />
 		<property name="inquiryDefinition" ref="AgencyServiceFee-inquiryDefinition" />
-		<property name="titleAttribute" value="id" />
+		<property name="titleAttribute" value="code" />
 		<property name="objectLabel" value="AgencyServiceFee" />
 		<property name="attributes">
 		<list>
-			<ref bean="AgencyServiceFee-id" />
-			<ref bean="AgencyServiceFee-diCode" />
-			<ref bean="AgencyServiceFee-diCodeDescription" />
+			<ref bean="AgencyServiceFee-code" />
+			<ref bean="AgencyServiceFee-name" />
 			<ref bean="AgencyServiceFee-creditChartCode" />
 			<ref bean="AgencyServiceFee-creditAccountNumber" />
 			<ref bean="AgencyServiceFee-creditObjectCode" />
@@ -55,37 +54,25 @@
 			</list>
 		</property>
 	</bean>
-	<bean id="AgencyServiceFee-id" parent="AgencyServiceFee-id-parentBean" />
-	<bean id="AgencyServiceFee-id-parentBean" abstract="true" parent="AttributeDefinition">
-		<property name="name" value="id" />
-		<property name="label" value="Id" />
-		<property name="shortLabel" value="Id" />
-		<property name="maxLength" value="32" />
-		<property name="required" value="true" />
-		<property name="summary" value="Id" />
-		<property name="description" value="Id" />
-		<property name="control"><bean parent="HiddenControlDefinition" /></property>
-		<property name="validationPattern"><bean parent="NumericValidationPattern" /></property>
-	</bean>
-	<bean id="AgencyServiceFee-diCode" parent="AgencyServiceFee-diCode-parentBean" />
-	<bean id="AgencyServiceFee-diCode-parentBean" abstract="true" parent="AttributeDefinition">
-		<property name="name" value="diCode" />
-		<property name="label" value="Di Code" />
-		<property name="shortLabel" value="Di Code" />
+	<bean id="AgencyServiceFee-code" parent="AgencyServiceFee-code-parentBean" />
+	<bean id="AgencyServiceFee-code-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="code" />
+		<property name="label" value="Distribution Code" />
+		<property name="shortLabel" value="Dist Code" />
 		<property name="maxLength" value="3" />
 		<property name="required" value="true" />
-		<property name="summary" value="Di Code" />
-		<property name="description" value="Di Code" />
+		<property name="summary" value="Distribution Code" />
+		<property name="description" value="Distribution Code" />
 		<property name="control"><bean parent="TextControlDefinition" p:size="3"/></property>
 	</bean>
-	<bean id="AgencyServiceFee-diCodeDescription" parent="AgencyServiceFee-diCodeDescription-parentBean" />
-	<bean id="AgencyServiceFee-diCodeDescription-parentBean" abstract="true" parent="AttributeDefinition">
-		<property name="name" value="diCodeDescription" />
-		<property name="label" value="Di Code Description" />
-		<property name="shortLabel" value="Di Code Description" />
+	<bean id="AgencyServiceFee-name" parent="AgencyServiceFee-name-parentBean" />
+	<bean id="AgencyServiceFee-name-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="name" />
+		<property name="label" value="Distribution Code Description" />
+		<property name="shortLabel" value="Dist Code Description" />
 		<property name="maxLength" value="40" />
-		<property name="summary" value="Di Code Description" />
-		<property name="description" value="Di Code Description" />
+		<property name="summary" value="Distribution Code Description" />
+		<property name="description" value="Distribution Code Description" />
 		<property name="control"><bean parent="TextControlDefinition" p:size="40"/></property>
 	</bean>
 	<bean id="AgencyServiceFee-creditChartCode" parent="AgencyServiceFee-creditChartCode-parentBean" />
@@ -148,9 +135,8 @@
 				<property name="numberOfColumns" value="1"/>
 				<property name="inquiryFields">
 				<list>
-					<bean parent="FieldDefinition" p:attributeName="id" />
-					<bean parent="FieldDefinition" p:attributeName="diCode" />
-					<bean parent="FieldDefinition" p:attributeName="diCodeDescription" />
+					<bean parent="FieldDefinition" p:attributeName="code" />
+					<bean parent="FieldDefinition" p:attributeName="name" />
 					<bean parent="FieldDefinition" p:attributeName="creditChartCode" />
 					<bean parent="FieldDefinition" p:attributeName="creditAccountNumber" />
 					<bean parent="FieldDefinition" p:attributeName="creditObjectCode" />
@@ -172,8 +158,7 @@
 		</bean>
 		</property>
 		<property name="lookupFields"><list>
-			<bean parent="FieldDefinition" p:attributeName="id" />
-			<bean parent="FieldDefinition" p:attributeName="diCode" />
+			<bean parent="FieldDefinition" p:attributeName="code" />
 			<bean parent="FieldDefinition" p:attributeName="creditChartCode" />
 			<bean parent="FieldDefinition" p:attributeName="creditAccountNumber" />
 			<bean parent="FieldDefinition" p:attributeName="creditObjectCode" />
@@ -182,9 +167,8 @@
 		</property>
 		<property name="resultFields">
 		<list>
-			<bean parent="FieldDefinition" p:attributeName="id" />
-			<bean parent="FieldDefinition" p:attributeName="diCode" />
-			<bean parent="FieldDefinition" p:attributeName="diCodeDescription" />
+			<bean parent="FieldDefinition" p:attributeName="code" />
+			<bean parent="FieldDefinition" p:attributeName="name" />
 			<bean parent="FieldDefinition" p:attributeName="creditChartCode" />
 			<bean parent="FieldDefinition" p:attributeName="creditAccountNumber" />
 			<bean parent="FieldDefinition" p:attributeName="creditObjectCode" />

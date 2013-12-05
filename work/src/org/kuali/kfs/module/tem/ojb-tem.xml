@@ -1286,7 +1286,7 @@
 		<field-descriptor name="alternateTripId" column="ALT_TRP_ID" jdbc-type="VARCHAR"/>
 		<field-descriptor name="tripArrangerName" column="TRP_ARR_NM" jdbc-type="VARCHAR"/>
 		<field-descriptor name="groupObjectCode" column="GRP_OBJ_CD" jdbc-type="VARCHAR"/>
-		<field-descriptor name="distributionCode" column="DI_CD" jdbc-type="VARCHAR"/>
+		<field-descriptor name="distributionCode" column="DIST_CD" jdbc-type="VARCHAR"/>
 		<field-descriptor name="tripDepartureDate" column="TRP_DPT_DT" jdbc-type="DATE"/>
 		<field-descriptor name="tripReturnDate" column="TRP_RTRN_DT" jdbc-type="DATE"/>
 		<field-descriptor name="fareSaverCode" column="FARE_SVR_CD" jdbc-type="VARCHAR"/>
@@ -1368,6 +1368,10 @@
 	        <foreignkey field-ref="searchAccountNumber" />
 	        <foreignkey field-ref="searchSubAccountNumber" />
 	    </reference-descriptor>
+	    
+	    <reference-descriptor name="agencyServiceFee" class-ref="org.kuali.kfs.module.tem.businessobject.AgencyServiceFee" auto-retrieve="true" auto-update="none" auto-delete="none">
+	    	<foreignkey field-ref="distributionCode"/>
+	    </reference-descriptor>	    
 	</class-descriptor>
 	
 	<class-descriptor class="org.kuali.kfs.module.tem.businessobject.CreditCardAgency" table="TEM_CREDIT_CARD_AGENCY_T">
@@ -1614,12 +1618,11 @@
    </class-descriptor>	
 
 	<class-descriptor class="org.kuali.kfs.module.tem.businessobject.AgencyServiceFee" table="TEM_AGENCY_SRVC_FEE_T">
-		<field-descriptor name="id" primarykey="true" sequence-name="TEM_AGENCY_SRVC_FEE_ID_SEQ" autoincrement="true" column="ID" jdbc-type="INTEGER"/>
-		<field-descriptor name="diCode" column="DI_CD" jdbc-type="VARCHAR"/>
-		<field-descriptor name="diCodeDescription" column="DI_DESC" jdbc-type="VARCHAR"/>
+		<field-descriptor name="code" primarykey="true" column="DIST_CD" jdbc-type="VARCHAR"/>
+		<field-descriptor name="name" column="DIST_DESC" jdbc-type="VARCHAR"/>
 		<field-descriptor name="creditChartCode" column="CHART_CD" jdbc-type="VARCHAR"/>
 		<field-descriptor name="creditAccountNumber" column="ACCT_NBR" jdbc-type="VARCHAR"/>
-		<field-descriptor name="creditObjectCode" column="OBJ_CD" jdbc-type="VARCHAR"/>
+		<field-descriptor name="creditObjectCode" column="FIN_OBJECT_CD" jdbc-type="VARCHAR"/>
 		<field-descriptor name="serviceFee" column="SRVC_FEE" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
 		<field-descriptor name="active" column="ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR"/>

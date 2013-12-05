@@ -83,8 +83,9 @@ public class AgencyStagingData extends PersistableBusinessObjectBase implements 
     // Accounting Information
     private ArrayList<TripAccountingInformation> tripAccountingInformation;
     private String groupObjectCode;
-    private String distributionCode; // diCode
+    private String distributionCode;
 
+    private AgencyServiceFee agencyServiceFee;
 
     //Used strictly for searching, never stored in the db
     private String searchChartOfAccountsCode;
@@ -586,7 +587,7 @@ public class AgencyStagingData extends PersistableBusinessObjectBase implements 
      * Gets the distributionCode attribute.
      * @return Returns the distributionCode.
      */
-    @Column(name = "DI_CD", length = 4, nullable = true)
+    @Column(name = "DIST_CD", length = 4, nullable = true)
     public String getDistributionCode() {
         return distributionCode;
     }
@@ -1696,6 +1697,14 @@ public class AgencyStagingData extends PersistableBusinessObjectBase implements 
 
     public void setCopiedFromId(Integer copiedFromId) {
         this.copiedFromId = copiedFromId;
+    }
+
+    public AgencyServiceFee getAgencyServiceFee() {
+        return agencyServiceFee;
+    }
+
+    public void setAgencyServiceFee(AgencyServiceFee agencyServiceFee) {
+        this.agencyServiceFee = agencyServiceFee;
     }
 
     public String getItineraryDataString() {

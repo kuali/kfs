@@ -355,7 +355,7 @@ public class TemPropertyConstants {
     public static final String TICKET_NUMBER = "ticketNumber";
     public static final String SERVICE_FEE_NUMBER = "serviceFeeNumber";
     public static final String ITINERARY_NUMBER = "itineraryNumber";
-    public static final String DISTRIBUTION_CODE = "diCode";
+    public static final String DISTRIBUTION_CODE = "code";
     public static final String IMPORT_BY = "importBy";
     public static final String ACTIVE_IND = "active";
 

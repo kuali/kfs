@@ -147,14 +147,14 @@
 					<property name="summaryFields">
 						<list>
 							<bean parent="MaintainableFieldDefinition" p:name="agencyAddressName" />
-							<bean parent="MaintainableFieldDefinition" p:name="agencyAddressTypeCode" />
+							<bean parent="MaintainableFieldDefinition" p:name="customerAddressTypeCode" />
 						</list>
 					</property>
 					<property name="maintainableFields">
 						<list>
 							<bean parent="MaintainableFieldDefinition" p:name="agencyAddressIdentifier"
 								p:unconditionallyReadOnly="true" />
-							<bean parent="MaintainableFieldDefinition" p:name="agencyAddressTypeCode"
+							<bean parent="MaintainableFieldDefinition" p:name="customerAddressTypeCode"
 								p:required="true" />
 							<bean parent="MaintainableFieldDefinition" p:name="agencyAddressName"
 								p:required="true" />
@@ -177,12 +177,6 @@
 							<bean parent="MaintainableFieldDefinition" p:name="agencyContactEmailAddress" />
 							<bean parent="MaintainableFieldDefinition" p:name="agencyInvoiceEmailAddress" />
 							<bean parent="MaintainableFieldDefinition" p:name="agencyAddressEndDate" />
-							<bean parent="MaintainableFieldDefinition" p:name="agencyInvoiceTemplateCode" />
-							<bean parent="MaintainableFieldDefinition" p:name="invoiceIndicatorCode" />
-							<bean parent="MaintainableFieldDefinition" p:name="agencyCopiesToPrint"
-								p:defaultValueFinderClass="org.kuali.kfs.module.cg.businessobject.options.AgencyAddressCopiesToPrintValueFinder" />
-							<bean parent="MaintainableFieldDefinition" p:name="agencyPrintEnvelopesNumber"
-								p:defaultValue="0" />
 						</list>
 					</property>
 				</bean>

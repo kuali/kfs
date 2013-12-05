@@ -76,7 +76,8 @@
         <bean parent="MaintainableFieldDefinition" p:name="customerRecordAddDate" p:unconditionallyReadOnly="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="customerLastActivityDate" p:unconditionallyReadOnly="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="customerAddressChangeDate" p:unconditionallyReadOnly="true"/>
-
+		<bean parent="MaintainableFieldDefinition" p:name="customerInvoiceTemplateCode"
+					p:defaultValueFinderClass="org.kuali.kfs.module.ar.businessobject.defaultvalue.DefaultInvoiceTemplateFinder" />
       </list>
     </property>
   </bean>
@@ -148,10 +149,10 @@
               <bean parent="MaintainableFieldDefinition" p:name="customerEmailAddress"/>
               <bean parent="MaintainableFieldDefinition" p:name="customerAddressEndDate"/>
               
-              <bean parent="MaintainableFieldDefinition" p:name="agencyInvoiceTemplateCode"/>
+              <bean parent="MaintainableFieldDefinition" p:name="customerInvoiceTemplateCode"/>
               <bean parent="MaintainableFieldDefinition" p:name="invoiceIndicatorCode"/>
-              <bean parent="MaintainableFieldDefinition" p:name="agencyCopiesToPrint"/>
-              <bean parent="MaintainableFieldDefinition" p:name="agencyPrintEnvelopesNumber"/>     
+              <bean parent="MaintainableFieldDefinition" p:name="customerCopiesToPrint"/>
+              <bean parent="MaintainableFieldDefinition" p:name="customerPrintEnvelopesNumber"/>     
             </list>
           </property>
         </bean>

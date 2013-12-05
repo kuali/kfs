@@ -110,12 +110,8 @@
 		<field-descriptor name="agencyInternationalMailCode" column="CG_AGENCY_INTL_MAIL_CD" jdbc-type="VARCHAR" />
 		<field-descriptor name="agencyContactEmailAddress" column="AGENCY_CNTCT_EMAIL_ADDR" jdbc-type="VARCHAR" />
 		<field-descriptor name="agencyInvoiceEmailAddress" column="AGENCY_INV_EMAIL_ADDR" jdbc-type="VARCHAR" />
-		<field-descriptor name="agencyAddressTypeCode" column="CG_AGENCY_ADDR_TYPE_CD" jdbc-type="VARCHAR" />
+		<field-descriptor name="customerAddressTypeCode" column="CG_AGENCY_ADDR_TYPE_CD" jdbc-type="VARCHAR" />
 		<field-descriptor name="agencyAddressEndDate" column="CG_AGENCY_ADDR_END_DT" jdbc-type="DATE" />
-		<field-descriptor name="agencyInvoiceTemplateCode" column="INV_TYP_CD" jdbc-type="VARCHAR" /><!-- Invoice Type Link -->
-		<field-descriptor name="invoiceIndicatorCode" column="INV_IND_CD" jdbc-type="VARCHAR" /><!-- Invoice Indicator Link -->
-		<field-descriptor name="agencyCopiesToPrint" column="COPIES_TO_PRINT_QTY" jdbc-type="INTEGER" />
-		<field-descriptor name="agencyPrintEnvelopesNumber" column="PRNT_ENV_NBR" jdbc-type="INTEGER" />
 		<reference-descriptor name="agency" class-ref="org.kuali.kfs.module.cg.businessobject.Agency" auto-retrieve="true" auto-update="none"
 			auto-delete="none" proxy="true">
 			<foreignkey field-ref="agencyNumber" />

@@ -32,8 +32,8 @@ public class InvoiceAgencyAddressDetail extends PersistableBusinessObjectBase {
 
     private String documentNumber;
     private String agencyNumber;
-    private Long agencyAddressIdentifier;
-    private String agencyAddressTypeCode;
+    private Integer customerAddressIdentifier;
+    private String customerAddressTypeCode;
     private String agencyAddressName;
     private String preferredAgencyInvoiceTemplateCode;
     private String agencyInvoiceTemplateCode;
@@ -43,6 +43,7 @@ public class InvoiceAgencyAddressDetail extends PersistableBusinessObjectBase {
 
     private ContractsGrantsInvoiceDocument invoiceDocument;
     private ContractsAndGrantsAgencyAddress agencyAddress;
+    private CustomerAddress customerAddress;
 
     /**
      * Default constructor.
@@ -141,22 +142,21 @@ public class InvoiceAgencyAddressDetail extends PersistableBusinessObjectBase {
         this.agencyNumber = agencyNumber;
     }
 
-    /**
-     * Gets the agencyAddress attribute.
-     * 
-     * @return Returns the agencyAddress.
-     */
+    
     public ContractsAndGrantsAgencyAddress getAgencyAddress() {
-        return agencyAddress = (ContractsAndGrantsAgencyAddress) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsAgencyAddress.class).retrieveExternalizableBusinessObjectIfNecessary(this, agencyAddress, "agencyAddress");
+        return agencyAddress;
     }
 
-    /**
-     * Sets the agencyAddress attribute value.
-     * 
-     * @param agencyAddress The agencyAddress to set.
-     */
     public void setAgencyAddress(ContractsAndGrantsAgencyAddress agencyAddress) {
         this.agencyAddress = agencyAddress;
+    }
+
+    public CustomerAddress getCustomerAddress() {
+        return customerAddress;
+    }
+
+    public void setCustomerAddress(CustomerAddress customerAddress) {
+        this.customerAddress = customerAddress;
     }
 
     /**
@@ -164,8 +164,8 @@ public class InvoiceAgencyAddressDetail extends PersistableBusinessObjectBase {
      * 
      * @return Returns the agencyAddressIdentifier
      */
-    public Long getAgencyAddressIdentifier() {
-        return agencyAddressIdentifier;
+    public Integer getCustomerAddressIdentifier() {
+        return customerAddressIdentifier;
     }
 
     /**
@@ -173,26 +173,16 @@ public class InvoiceAgencyAddressDetail extends PersistableBusinessObjectBase {
      * 
      * @param agencyAddressIdentifier The agencyAddressIdentifier to set.
      */
-    public void setAgencyAddressIdentifier(Long agencyAddressIdentifier) {
-        this.agencyAddressIdentifier = agencyAddressIdentifier;
+    public void setCustomerAddressIdentifier(Integer customerAddressIdentifier) {
+        this.customerAddressIdentifier = customerAddressIdentifier;
     }
 
-    /**
-     * Gets the agencyAddressTypeCode attribute.
-     * 
-     * @return Returns the agencyAddressTypeCode
-     */
-    public String getAgencyAddressTypeCode() {
-        return agencyAddressTypeCode;
+    public String getCustomerAddressTypeCode() {
+        return customerAddressTypeCode;
     }
 
-    /**
-     * Sets the agencyAddressTypeCode attribute.
-     * 
-     * @param agencyAddressTypeCode The agencyAddressTypeCode to set.
-     */
-    public void setAgencyAddressTypeCode(String agencyAddressTypeCode) {
-        this.agencyAddressTypeCode = agencyAddressTypeCode;
+    public void setCustomerAddressTypeCode(String customerAddressTypeCode) {
+        this.customerAddressTypeCode = customerAddressTypeCode;
     }
 
     /**
@@ -277,7 +267,7 @@ public class InvoiceAgencyAddressDetail extends PersistableBusinessObjectBase {
         LinkedHashMap m = new LinkedHashMap();
         m.put(KFSPropertyConstants.DOCUMENT_NUMBER, this.documentNumber);
         m.put(agencyNumber, this.agencyNumber);
-        m.put(agencyAddressTypeCode, this.agencyAddressTypeCode);
+        m.put(customerAddressTypeCode, this.customerAddressTypeCode);
         m.put(agencyAddressName, this.agencyAddressName);
         m.put(preferredAgencyInvoiceTemplateCode, this.preferredAgencyInvoiceTemplateCode);
         m.put(agencyInvoiceTemplateCode, this.agencyInvoiceTemplateCode);

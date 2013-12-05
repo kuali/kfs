@@ -85,7 +85,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
     private ConfigurationService configService;
     private List<String> errLines = new ArrayList<String>();
     private KualiModuleService kualiModuleService;
-    
+    private ContractsAndGrantsModuleRetrieveService contractsAndGrantsModuleRetrieveService;
     public static final String REPORT_LINE_DIVIDER = "--------------------------------------------------------------------------------------------------------------";
 
     /**
@@ -194,8 +194,6 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
                                     }
                                 }
 
-                                // coaCode = controlAccount.getChartOfAccountsCode();
-                                // orgCode = controlAccount.getOrganizationCode();
                                 coaCode = awd.getPrimaryAwardOrganization().getChartOfAccountsCode();
                                 orgCode = awd.getPrimaryAwardOrganization().getOrganizationCode();
                                 // To get valid award accounts of amounts > zero$ and pass it to the create invoices method
@@ -254,8 +252,6 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
                             Account account;
                             for (ContractsAndGrantsBillingAwardAccount awardAccount : awd.getActiveAwardAccounts()) {
                                 account = awardAccount.getAccount();
-                                // coaCode = account.getContractControlFinCoaCode();
-                                // orgCode = account.getContractControlAccount().getOrganizationCode();
                                 coaCode = awd.getPrimaryAwardOrganization().getChartOfAccountsCode();
                                 orgCode = awd.getPrimaryAwardOrganization().getOrganizationCode();
                             }
@@ -542,7 +538,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
                     isInvalid = true;
                 }
                 // 13. Award does not have appropriate Contract Control Accounts set based on Invoicing Options
-                List<String> errorString = SpringContext.getBean(ContractsAndGrantsModuleRetrieveService.class).hasValidContractControlAccounts(award.getProposalNumber());
+                List<String> errorString = contractsAndGrantsModuleRetrieveService.hasValidContractControlAccounts(award.getProposalNumber());
                 if (!CollectionUtils.isEmpty(errorString)) {
                     errorList.add(configService.getPropertyValueAsString(errorString.get(0)).replace("{0}", errorString.get(1)));
                     invalidGroup.put(award, errorList);
@@ -675,7 +671,6 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
             throw new RuntimeException(re.getMessage(), re);
         }
 
-        // Collections.reverse(documentIdList);
         if (LOG.isInfoEnabled()) {
             LOG.info("CGinvoice to Route: " + documentIdList);
         }
@@ -713,15 +708,9 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
     protected List<String> retrieveContractsGrantsInvoiceDocumentsToRoute(String statusCode) throws WorkflowException, RemoteException {
         List<String> documentIds = new ArrayList<String>();
 
-        // DocumentSearchCriteriaDTO criteria = new DocumentSearchCriteriaDTO();
         DocumentSearchCriteria.Builder criteria = DocumentSearchCriteria.Builder.create();
         criteria.setDocumentTypeName(KFSConstants.ContractsGrantsModuleDocumentTypeCodes.CONTRACTS_GRANTS_INVOICE);
         criteria.setDocumentStatuses(Collections.singletonList(DocumentStatus.fromCode(statusCode)));
-
-        // DocumentSearchResultDTO results =
-        // SpringContext.getBean(KualiWorkflowInfo.class).performDocumentSearch(GlobalVariables.getUserSession().getPerson().getPrincipalId(),
-        // criteria);
-
         DocumentSearchCriteria crit = criteria.build();
 
         int maxResults = SpringContext.getBean(FinancialSystemDocumentService.class).getMaxResultCap(crit);
@@ -987,6 +976,16 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
 
     public void setConfigService(ConfigurationService configService) {
         this.configService = configService;
+    }
+
+
+    public ContractsAndGrantsModuleRetrieveService getContractsAndGrantsModuleRetrieveService() {
+        return contractsAndGrantsModuleRetrieveService;
+    }
+
+
+    public void setContractsAndGrantsModuleRetrieveService(ContractsAndGrantsModuleRetrieveService contractsAndGrantsModuleRetrieveService) {
+        this.contractsAndGrantsModuleRetrieveService = contractsAndGrantsModuleRetrieveService;
     }
     
     

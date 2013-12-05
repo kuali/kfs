@@ -1687,7 +1687,7 @@
 		<field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
 		<field-descriptor name="agencyNumber" column="AGENCY_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
 		<field-descriptor name="agencyAddressIdentifier" column="AGENCY_ADDR_ID" jdbc-type="BIGINT" primarykey="true" index="true" />
-		<field-descriptor name="agencyAddressTypeCode" column="AGENCY_ADDR_TYPE_CD" jdbc-type="VARCHAR" />
+		<field-descriptor name="customerAddressTypeCode" column="CUST_ADDR_TYPE_CD" jdbc-type="VARCHAR" />
 		<field-descriptor name="agencyAddressName" column="AGENCY_ADDR_NM" jdbc-type="VARCHAR" />
 		<field-descriptor name="agencyInvoiceTemplateCode" column="AGENCY_INV_TYP_CD" jdbc-type="VARCHAR" /><!-- Invoice Type Link -->
 		<field-descriptor name="preferredAgencyInvoiceTemplateCode" column="PREF_AGENCY_INV_TYP_CD" jdbc-type="VARCHAR" /><!-- Invoice Type 
@@ -2191,6 +2191,31 @@
 			<foreignkey field-ref="chartOfAccountsCode" />
 			<foreignkey field-ref="accountNumber" />
 			<foreignkey field-ref="subAccountNumber" />
+		</reference-descriptor>
+	</class-descriptor>
+	
+		<!-- INVOICE TEMPLATE -->
+
+	<class-descriptor class="org.kuali.kfs.module.ar.businessobject.InvoiceTemplate" table="AR_INV_TYP_T">
+		<field-descriptor name="invoiceTemplateCode" column="INV_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="invoiceTemplateDescription" column="INV_TYP_DESC" jdbc-type="VARCHAR" />
+		<field-descriptor name="filename" column="FILENAME" jdbc-type="VARCHAR" locking="false" />
+		<field-descriptor name="filepath" column="FILEPATH" jdbc-type="VARCHAR" locking="false" />
+		<field-descriptor name="accessRestrictedIndicator" column="ACCESS_RSTRCTD_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+		<field-descriptor name="active" column="ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+		<field-descriptor name="date" column="UPLOAD_DT" jdbc-type="VARCHAR" locking="false" />
+		<field-descriptor name="billByChartOfAccountCode" column="BILL_BY_COA_CD" jdbc-type="VARCHAR" />
+		<field-descriptor name="billedByOrganizationCode" column="BILL_BY_ORG_CD" jdbc-type="VARCHAR" />
+		<reference-descriptor name="billByChartOfAccount" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true"
+			auto-update="none" auto-delete="none" proxy="true">
+			<foreignkey field-ref="billByChartOfAccountCode" />
+		</reference-descriptor>
+		<reference-descriptor name="billedByOrganization" class-ref="org.kuali.kfs.coa.businessobject.Organization" auto-retrieve="true"
+			auto-update="none" auto-delete="none" proxy="true">
+			<foreignkey field-ref="billByChartOfAccountCode" />
+			<foreignkey field-ref="billedByOrganizationCode" />
 		</reference-descriptor>
 	</class-descriptor>
 	

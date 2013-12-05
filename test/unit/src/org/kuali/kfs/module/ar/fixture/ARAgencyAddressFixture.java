@@ -28,13 +28,13 @@ public enum ARAgencyAddressFixture {
 
     private String agencyNumber;
     private Long agencyAddressIdentifier;
-    private String agencyAddressTypeCode;
+    private String customerAddressTypeCode;
 
     private ARAgencyAddressFixture(String agencyNumber, Long agencyAddressIdentifier, String agencyAddressTypeCode) {
 
         this.agencyNumber = agencyNumber;
         this.agencyAddressIdentifier = agencyAddressIdentifier;
-        this.agencyAddressTypeCode = agencyAddressTypeCode;
+        this.customerAddressTypeCode = agencyAddressTypeCode;
 
     }
 
@@ -42,7 +42,7 @@ public enum ARAgencyAddressFixture {
         AgencyAddress agencyAddress = new AgencyAddress();
         agencyAddress.setAgencyNumber(this.agencyNumber);
         agencyAddress.setAgencyAddressIdentifier(this.agencyAddressIdentifier);
-        agencyAddress.setAgencyAddressTypeCode(this.agencyAddressTypeCode);
+        agencyAddress.setCustomerAddressTypeCode(this.customerAddressTypeCode);
         return agencyAddress;
     }
 }

@@ -124,9 +124,6 @@
 					key="org.kuali.kfs.integration.cg.ContractsAndGrantsAgencyAddress"
 					value="org.kuali.kfs.integration.cg.businessobject.AgencyAddress" />
 				<entry
-					key="org.kuali.kfs.integration.cg.ContractsAndGrantsAgencyAddressType"
-					value="org.kuali.kfs.integration.cg.businessobject.AgencyAddressType" />
-				<entry
 					key="org.kuali.kfs.integration.cg.ContractsAndGrantsBillingFrequency"
 					value="org.kuali.kfs.integration.cg.businessobject.BillingFrequency" />
 				<entry

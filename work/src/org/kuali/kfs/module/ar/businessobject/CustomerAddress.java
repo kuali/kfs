@@ -63,16 +63,16 @@ public class CustomerAddress extends PersistableBusinessObjectBase implements Co
 
     // Invoice Template link
 
-    private String agencyInvoiceTemplateCode;
-    private AccountsReceivableInvoiceTemplate agencyInvoiceTemplate;
+    private String customerInvoiceTemplateCode;
+    private InvoiceTemplate customerInvoiceTemplate;
 
     // Invoice Indicator link
 
     private String invoiceIndicatorCode;
     private InvoiceIndicator invoiceIndicator;
 
-    private Integer agencyCopiesToPrint;
-    private Integer agencyPrintEnvelopesNumber;
+    private Integer customerCopiesToPrint;
+    private Integer customerPrintEnvelopesNumber;
     
     /**
      * Default constructor.
@@ -403,79 +403,6 @@ public class CustomerAddress extends PersistableBusinessObjectBase implements Co
     public void setCustomer(Customer customer) {
         this.customer = customer;
     }
-
-    /**
-     * Gets the agencyInvoiceTemplateCode attribute.
-     *
-     * @return Returns the agencyInvoiceTemplateCode.
-     */
-    public String getAgencyInvoiceTemplateCode() {
-
-        return agencyInvoiceTemplateCode;
-    }
-
-    /**
-     * Sets the agencyInvoiceTemplateCode attribute value.
-     *
-     * @param agencyInvoiceTemplateCode The agencyInvoiceTemplateCode to set.
-     */
-    public void setAgencyInvoiceTemplateCode(String agencyInvoiceTemplateCode) {
-        this.agencyInvoiceTemplateCode = agencyInvoiceTemplateCode;
-    }
-    
-    /**
-     * Gets the agencyInvoiceTemplate attribute.
-     *
-     * @return Returns the agencyInvoiceTemplate.
-     */
-    public AccountsReceivableInvoiceTemplate getAgencyInvoiceTemplate() {
-        return agencyInvoiceTemplate;
-    }
-
-    /**
-     * Sets the agencyInvoiceTemplate attribute value.
-     *
-     * @param agencyInvoiceTemplate The agencyInvoiceTemplate to set.
-     */
-    public void setAgencyInvoiceTemplate(AccountsReceivableInvoiceTemplate agencyInvoiceTemplate) {
-        this.agencyInvoiceTemplate = agencyInvoiceTemplate;
-    }
-
-    /**
-     * Gets the agencyCopiesToPrint attribute.
-     *
-     * @return Returns the agencyCopiesToPrint.
-     */
-    public Integer getAgencyCopiesToPrint() {
-        return agencyCopiesToPrint;
-    }
-
-    /**
-     * Sets the agencyCopiesToPrint attribute value.
-     *
-     * @param agencyCopiesToPrint The agencyCopiesToPrint to set.
-     */
-    public void setAgencyCopiesToPrint(Integer agencyCopiesToPrint) {
-        this.agencyCopiesToPrint = agencyCopiesToPrint;
-    }
-
-    /**
-     * Gets the agencyPrintEnvelopes attribute.
-     *
-     * @return Returns the agencyPrintEnvelopes.
-     */
-    public Integer getAgencyPrintEnvelopesNumber() {
-        return agencyPrintEnvelopesNumber;
-    }
-
-    /**
-     * Sets the agencyPrintEnvelopes attribute value.
-     *
-     * @param agencyPrintEnvelopes The agencyPrintEnvelopes to set.
-     */
-    public void setAgencyPrintEnvelopesNumber(Integer agencyPrintEnvelopesNumber) {
-        this.agencyPrintEnvelopesNumber = agencyPrintEnvelopesNumber;
-    }
     
     /**
      * Gets the invoiceIndicatorCode attribute.
@@ -624,5 +551,45 @@ public class CustomerAddress extends PersistableBusinessObjectBase implements Co
     @Override
     public void refresh() {
         super.refresh();
+    }
+
+    public String getCustomerInvoiceTemplateCode() {
+        return customerInvoiceTemplateCode;
+    }
+
+    public void setCustomerInvoiceTemplateCode(String customerInvoiceTemplateCode) {
+        this.customerInvoiceTemplateCode = customerInvoiceTemplateCode;
+    }
+
+    public InvoiceTemplate getCustomerInvoiceTemplate() {
+        return customerInvoiceTemplate;
+    }
+
+    public void setCustomerInvoiceTemplate(InvoiceTemplate customerInvoiceTemplate) {
+        this.customerInvoiceTemplate = customerInvoiceTemplate;
+    }
+
+    public InvoiceIndicator getInvoiceIndicator() {
+        return invoiceIndicator;
+    }
+
+    public void setInvoiceIndicator(InvoiceIndicator invoiceIndicator) {
+        this.invoiceIndicator = invoiceIndicator;
+    }
+
+    public Integer getCustomerCopiesToPrint() {
+        return customerCopiesToPrint;
+    }
+
+    public void setCustomerCopiesToPrint(Integer customerCopiesToPrint) {
+        this.customerCopiesToPrint = customerCopiesToPrint;
+    }
+
+    public Integer getCustomerPrintEnvelopesNumber() {
+        return customerPrintEnvelopesNumber;
+    }
+
+    public void setCustomerPrintEnvelopesNumber(Integer customerPrintEnvelopesNumber) {
+        this.customerPrintEnvelopesNumber = customerPrintEnvelopesNumber;
     }
 }

@@ -23,7 +23,7 @@
 				<ref bean="AgencyAddress-agencyAddressEndDate" />
 				<ref bean="AgencyAddress-agencyAddressIdentifier" />
 				<ref bean="AgencyAddress-agencyAddressName" />
-				<ref bean="AgencyAddress-agencyAddressTypeCode" />
+				<ref bean="AgencyAddress-customerAddressTypeCode" />
 				<ref bean="AgencyAddress-agencyCityName" />
 				<ref bean="AgencyAddress-agencyContactEmailAddress" />
 				<ref bean="AgencyAddress-agencyInvoiceEmailAddress" />
@@ -40,10 +40,6 @@
 				<ref bean="AgencyAddress-agencyPhoneNumber" />
 				<ref bean="AgencyAddress-agencyFaxNumber" />
 				<ref bean="AgencyAddress-agencyAddressInternationalProvinceName" />
-				<ref bean="AgencyAddress-agencyInvoiceTemplateCode" />
-				<ref bean="AgencyAddress-invoiceIndicatorCode" />
-				<ref bean="AgencyAddress-agencyCopiesToPrint" />
-				<ref bean="AgencyAddress-agencyPrintEnvelopesNumber" />
 			</list>
 		</property>
 	</bean>
@@ -76,11 +72,11 @@
 		</property>
 	</bean>
 
-	<bean id="AgencyAddress-agencyAddressTypeCode" parent="AgencyAddress-agencyAddressTypeCode-parentBean" />
+	<bean id="AgencyAddress-customerAddressTypeCode" parent="AgencyAddress-customerAddressTypeCode-parentBean" />
 
-	<bean id="AgencyAddress-agencyAddressTypeCode-parentBean"
+	<bean id="AgencyAddress-customerAddressTypeCode-parentBean"
 		abstract="true" parent="AttributeDefinition">
-		<property name="name" value="agencyAddressTypeCode" />
+		<property name="name" value="customerAddressTypeCode" />
 		<property name="forceUppercase" value="true" />
 		<property name="label" value="Address Type" />
 		<property name="shortLabel" value="Type" />
@@ -372,80 +368,6 @@
 		</property>
 		<property name="control">
 			<bean parent="TextControlDefinition" p:size="45" />
-		</property>
-	</bean>
-
-	<!-- Link to Invoice Template -->
-	<bean id="AgencyAddress-agencyInvoiceTemplateCode" parent="AgencyAddress-agencyInvoiceTemplateCode-parentBean" />
-
-	<bean id="AgencyAddress-agencyInvoiceTemplateCode-parentBean"
-		abstract="true" parent="AttributeDefinition">
-		<property name="name" value="agencyInvoiceTemplateCode" />
-		<property name="forceUppercase" value="true" />
-		<property name="label" value="Invoice Template" />
-		<property name="shortLabel" value="InvType" />
-		<property name="maxLength" value="10" />
-		<property name="validationPattern">
-			<ref bean="AnyCharacterValidation" />
-		</property>
-		<property name="control">
-			<bean parent="SelectControlDefinition"
-				p:valuesFinderClass="org.kuali.kfs.integration.cg.businessobject.options.AgencyInvoiceTemplateValuesFinder"
-				p:includeKeyInLabel="false" />
-		</property>
-	</bean>
-
-	<!-- Invoice Indicator Link -->
-	<bean id="AgencyAddress-invoiceIndicatorCode" parent="AgencyAddress-invoiceIndicatorCode-parentBean" />
-
-	<bean id="AgencyAddress-invoiceIndicatorCode-parentBean" abstract="true"
-		parent="AttributeDefinition">
-		<property name="name" value="invoiceIndicatorCode" />
-		<property name="forceUppercase" value="true" />
-		<property name="label" value="Print Invoice Indicator" />
-		<property name="shortLabel" value="InvInd" />
-		<property name="maxLength" value="10" />
-		<property name="validationPattern">
-			<ref bean="AnyCharacterValidation" />
-		</property>
-		<property name="control">
-			<bean parent="SelectControlDefinition"
-				p:valuesFinderClass="org.kuali.kfs.integration.cg.businessobject.options.InvoiceIndicatorValuesFinder"
-				p:includeKeyInLabel="false" />
-		</property>
-	</bean>
-
-	<bean id="AgencyAddress-agencyCopiesToPrint" parent="AgencyAddress-agencyCopiesToPrint-parentBean" />
-
-	<bean id="AgencyAddress-agencyCopiesToPrint-parentBean" abstract="true"
-		parent="AttributeDefinition">
-		<property name="name" value="agencyCopiesToPrint" />
-		<property name="label" value="Copies to Print" />
-		<property name="shortLabel" value="CopiesPrnt" />
-		<property name="maxLength" value="5" />
-		<property name="validationPattern">
-			<bean parent="NumericValidationPattern" />
-		</property>
-		<property name="required" value="false" />
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="5" />
-		</property>
-	</bean>
-
-	<bean id="AgencyAddress-agencyPrintEnvelopesNumber" parent="AgencyAddress-agencyPrintEnvelopesNumber-parentBean" />
-
-	<bean id="AgencyAddress-agencyPrintEnvelopesNumber-parentBean"
-		abstract="true" parent="AttributeDefinition">
-		<property name="name" value="agencyPrintEnvelopesNumber" />
-		<property name="label" value="Number of Envelopes to print" />
-		<property name="shortLabel" value="PrintEnvNum" />
-		<property name="maxLength" value="5" />
-		<property name="validationPattern">
-			<bean parent="NumericValidationPattern" />
-		</property>
-		<property name="required" value="false" />
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="5" />
 		</property>
 	</bean>
 

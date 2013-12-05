@@ -25,13 +25,6 @@ import org.kuali.rice.krad.bo.ExternalizableBusinessObject;
 public interface ContractsAndGrantsAgencyAddress extends ExternalizableBusinessObject {
 
     /**
-     * Gets the invoiceIndicatorCode attribute.
-     * 
-     * @return Returns the invoiceIndicatorCode.
-     */
-    public String getInvoiceIndicatorCode();
-
-    /**
      * Gets the agencyNumber attribute.
      * 
      * @return Returns the agencyNumber
@@ -145,7 +138,7 @@ public interface ContractsAndGrantsAgencyAddress extends ExternalizableBusinessO
      * 
      * @return Returns the agencyAddressTypeCode
      */
-    public String getAgencyAddressTypeCode();
+    public String getCustomerAddressTypeCode();
 
     /**
      * Gets the agencyAddressEndDate attribute.
@@ -153,29 +146,6 @@ public interface ContractsAndGrantsAgencyAddress extends ExternalizableBusinessO
      * @return Returns the agencyAddressEndDate
      */
     public Date getAgencyAddressEndDate();
-
-
-    /**
-     * Gets the agencyInvoiceTemplateCode attribute.
-     * 
-     * @return Returns the agencyInvoiceTemplateCode.
-     */
-    public String getAgencyInvoiceTemplateCode();
-
-
-    /**
-     * Gets the agencyCopiesToPrint attribute.
-     * 
-     * @return Returns the agencyCopiesToPrint.
-     */
-    public Integer getAgencyCopiesToPrint();
-
-    /**
-     * Gets the agencyPrintEnvelopes attribute.
-     * 
-     * @return Returns the agencyPrintEnvelopes.
-     */
-    public Integer getAgencyPrintEnvelopesNumber();
 
     /**
      * Gets the agencyContactName attribute.

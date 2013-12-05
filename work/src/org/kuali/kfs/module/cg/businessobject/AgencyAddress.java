@@ -58,23 +58,12 @@ public class AgencyAddress extends PersistableBusinessObjectBase implements Comp
     private String agencyInternationalMailCode;
     private String agencyContactEmailAddress;
     private String agencyInvoiceEmailAddress;
-    private String agencyAddressTypeCode;
+    private String customerAddressTypeCode;
     private Date agencyAddressEndDate;
 
     private AccountsReceivableCustomerAddressType customerAddressType;
     private Agency agency;
     private CountryEbo agencyCountry;
-
-    // Invoice Template link
-
-    private String agencyInvoiceTemplateCode;
-    private AccountsReceivableInvoiceTemplate agencyInvoiceTemplate;
-
-    // Invoice Indicator link
-    private AccountsReceivableInvoiceIndicator invoiceIndicator;
-    private String invoiceIndicatorCode;
-    private Integer agencyCopiesToPrint;
-    private Integer agencyPrintEnvelopesNumber;
 
     /**
      * Default constructor.o
@@ -83,26 +72,7 @@ public class AgencyAddress extends PersistableBusinessObjectBase implements Comp
 
     }
 
-    /**
-     * Gets the invoiceIndicatorCode attribute.
-     *
-     * @return Returns the invoiceIndicatorCode.
-     */
-    @Override
-    public String getInvoiceIndicatorCode() {
-        return invoiceIndicatorCode;
-    }
-
-    /**
-     * Sets the invoiceIndicatorCode attribute value.
-     *
-     * @param invoiceIndicatorCode The invoiceIndicatorCode to set.
-     */
-    public void setInvoiceIndicatorCode(String invoiceIndicatorCode) {
-        this.invoiceIndicatorCode = invoiceIndicatorCode;
-    }
-
-    /**
+     /**
      * Gets the agencyNumber attribute.
      *
      * @return Returns the agencyNumber
@@ -394,25 +364,13 @@ public class AgencyAddress extends PersistableBusinessObjectBase implements Comp
         this.agencyInvoiceEmailAddress = agencyInvoiceEmailAddress;
     }
 
-    /**
-     * Gets the agencyAddressTypeCode attribute.
-     *
-     * @return Returns the agencyAddressTypeCode
-     */
-    @Override
-    public String getAgencyAddressTypeCode() {
-        return agencyAddressTypeCode;
+    public String getCustomerAddressTypeCode() {
+        return customerAddressTypeCode;
     }
 
-    /**
-     * Sets the agencyAddressTypeCode attribute.
-     *
-     * @param agencyAddressTypeCode The agencyAddressTypeCode to set.
-     */
-    public void setAgencyAddressTypeCode(String agencyAddressTypeCode) {
-        this.agencyAddressTypeCode = agencyAddressTypeCode;
+    public void setCustomerAddressTypeCode(String customerAddressTypeCode) {
+        this.customerAddressTypeCode = customerAddressTypeCode;
     }
-
 
     /**
      * Gets the agencyAddressEndDate attribute.
@@ -498,83 +456,6 @@ public class AgencyAddress extends PersistableBusinessObjectBase implements Comp
         this.agencyCountry = agencyCountry;
     }
 
-
-    /**
-     * Gets the agencyInvoiceTemplateCode attribute.
-     *
-     * @return Returns the agencyInvoiceTemplateCode.
-     */
-    @Override
-    public String getAgencyInvoiceTemplateCode() {
-
-        return agencyInvoiceTemplateCode;
-    }
-
-    /**
-     * Sets the agencyInvoiceTemplateCode attribute value.
-     *
-     * @param agencyInvoiceTemplateCode The agencyInvoiceTemplateCode to set.
-     */
-    public void setAgencyInvoiceTemplateCode(String agencyInvoiceTemplateCode) {
-        this.agencyInvoiceTemplateCode = agencyInvoiceTemplateCode;
-    }
-
-    /**
-     * Gets the agencyInvoiceTemplate attribute.
-     *
-     * @return Returns the agencyInvoiceTemplate.
-     */
-    public AccountsReceivableInvoiceTemplate getAgencyInvoiceTemplate() {
-        return agencyInvoiceTemplate;
-    }
-
-    /**
-     * Sets the agencyInvoiceTemplate attribute value.
-     *
-     * @param agencyInvoiceTemplate The agencyInvoiceTemplate to set.
-     */
-    public void setAgencyInvoiceTemplate(AccountsReceivableInvoiceTemplate agencyInvoiceTemplate) {
-        this.agencyInvoiceTemplate = agencyInvoiceTemplate;
-    }
-
-    /**
-     * Gets the agencyCopiesToPrint attribute.
-     *
-     * @return Returns the agencyCopiesToPrint.
-     */
-    @Override
-    public Integer getAgencyCopiesToPrint() {
-        return agencyCopiesToPrint;
-    }
-
-    /**
-     * Sets the agencyCopiesToPrint attribute value.
-     *
-     * @param agencyCopiesToPrint The agencyCopiesToPrint to set.
-     */
-    public void setAgencyCopiesToPrint(Integer agencyCopiesToPrint) {
-        this.agencyCopiesToPrint = agencyCopiesToPrint;
-    }
-
-    /**
-     * Gets the agencyPrintEnvelopes attribute.
-     *
-     * @return Returns the agencyPrintEnvelopes.
-     */
-    @Override
-    public Integer getAgencyPrintEnvelopesNumber() {
-        return agencyPrintEnvelopesNumber;
-    }
-
-    /**
-     * Sets the agencyPrintEnvelopes attribute value.
-     *
-     * @param agencyPrintEnvelopes The agencyPrintEnvelopes to set.
-     */
-    public void setAgencyPrintEnvelopesNumber(Integer agencyPrintEnvelopesNumber) {
-        this.agencyPrintEnvelopesNumber = agencyPrintEnvelopesNumber;
-    }
-
     /**
      * Gets the agencyContactName attribute.
      *
@@ -630,25 +511,6 @@ public class AgencyAddress extends PersistableBusinessObjectBase implements Comp
      */
     public void setAgencyFaxNumber(String agencyFaxNumber) {
         this.agencyFaxNumber = agencyFaxNumber;
-    }
-
-    /**
-     * Gets the invoiceIndicator attribute.
-     *
-     * @return Returns the invoiceIndicator
-     */
-
-    public AccountsReceivableInvoiceIndicator getInvoiceIndicator() {
-        return invoiceIndicator;
-    }
-
-    /**
-     * Sets the invoiceIndicator attribute.
-     *
-     * @param invoiceIndicator The invoiceIndicator to set.
-     */
-    public void setInvoiceIndicator(AccountsReceivableInvoiceIndicator invoiceIndicator) {
-        this.invoiceIndicator = invoiceIndicator;
     }
 
     /**
@@ -718,7 +580,7 @@ public class AgencyAddress extends PersistableBusinessObjectBase implements Comp
         if (this.getAgencyInvoiceEmailAddress() != null && address.getAgencyInvoiceEmailAddress() != null && !this.getAgencyInvoiceEmailAddress().equalsIgnoreCase(address.getAgencyInvoiceEmailAddress()) || (this.getAgencyInvoiceEmailAddress() == null && address.getAgencyInvoiceEmailAddress() != null) || (this.getAgencyInvoiceEmailAddress() != null && address.getAgencyInvoiceEmailAddress() == null)) {
             return -1;
         }
-        if (this.getAgencyAddressTypeCode() != null && address.getAgencyAddressTypeCode() != null && !this.getAgencyAddressTypeCode().equalsIgnoreCase(address.getAgencyAddressTypeCode()) || (this.getAgencyAddressTypeCode() == null && address.getAgencyAddressTypeCode() != null) || (this.getAgencyAddressTypeCode() != null && address.getAgencyAddressTypeCode() == null)) {
+        if (this.getCustomerAddressTypeCode() != null && address.getCustomerAddressTypeCode() != null && !this.getCustomerAddressTypeCode().equalsIgnoreCase(address.getCustomerAddressTypeCode()) || (this.getCustomerAddressTypeCode() == null && address.getCustomerAddressTypeCode() != null) || (this.getCustomerAddressTypeCode() != null && address.getCustomerAddressTypeCode() == null)) {
             return -1;
         }
         if (this.getAgencyAddressIdentifier() != null && address.getAgencyAddressIdentifier() != null && this.getAgencyAddressIdentifier().compareTo(address.getAgencyAddressIdentifier()) != 0 || (this.getAgencyAddressIdentifier() == null && address.getAgencyAddressIdentifier() != null) || (this.getAgencyAddressIdentifier() != null && address.getAgencyAddressIdentifier() == null)) {
@@ -736,7 +598,7 @@ public class AgencyAddress extends PersistableBusinessObjectBase implements Comp
 
     @Override
     public boolean isPrimary() {
-        if (ObjectUtils.isNotNull(this.agencyAddressTypeCode) && this.agencyAddressTypeCode.equals(CGConstants.AGENCY_PRIMARY_ADDRESSES_TYPE_CODE)) {
+        if (ObjectUtils.isNotNull(this.customerAddressTypeCode) && this.customerAddressTypeCode.equals(CGConstants.AGENCY_PRIMARY_ADDRESSES_TYPE_CODE)) {
             return true;
         }
         return false;

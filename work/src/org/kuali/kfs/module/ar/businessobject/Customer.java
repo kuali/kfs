@@ -71,6 +71,10 @@ public class Customer extends PersistableBusinessObjectBase implements MutableIn
   private boolean stopWorkIndicator;
   private String stopWorkReason;
 
+  // Invoice Types link
+
+  private String customerInvoiceTemplateCode;
+  private InvoiceTemplate customerInvoiceTemplate;
     /**
      * Default constructor.
      */
@@ -687,6 +691,20 @@ public class Customer extends PersistableBusinessObjectBase implements MutableIn
         }
     }
 
+    public String getCustomerInvoiceTemplateCode() {
+        return customerInvoiceTemplateCode;
+    }
 
+    public void setCustomerInvoiceTemplateCode(String customerInvoiceTemplateCode) {
+        this.customerInvoiceTemplateCode = customerInvoiceTemplateCode;
+    }
+
+    public InvoiceTemplate getCustomerInvoiceTemplate() {
+        return customerInvoiceTemplate;
+    }
+
+    public void setCustomerInvoiceTemplate(InvoiceTemplate customerInvoiceTemplate) {
+        this.customerInvoiceTemplate = customerInvoiceTemplate;
+    }
 }
 

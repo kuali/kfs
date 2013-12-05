@@ -125,19 +125,6 @@ public class AREmailServiceImpl extends MailerImpl implements AREmailService {
         LOG.debug("sendInvoicesViaEmail() starting.");
 
         Properties props = getConfigProperties();
-//        String host = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(MbpKeyConstants.EMAIL.RELAY_SERVER);
-        // Setup mail server
-        // props.put("mail.sender", fromAddress);
-//        String sender = SpringContext.getBean(ParameterService.class).getParameterValueAsString(ContractsGrantsInvoiceEmailReportsBatchStep.class, ArConstants.CG_INVOICE_FROM_EMAIL_ADDRESS);
-//        props.put("mail.sender", sender);
-//        props.put("mail.smtp.host", host);
-//        props.put("mail.smtp.starttls.enable", "true");
-//        props.put("mail.smtp.ssl.enable", "true");
-//        props.put("mail.smtp.port", "25");
-//        props.put("mail.debug", "true");
-//        props.put("mail.smtp.auth", "false");
-//        props.put("mail.smtp.socketFactory.port", "25");
-
 
         // Get session
         Session session = Session.getInstance(props, null);
@@ -157,7 +144,7 @@ public class AREmailServiceImpl extends MailerImpl implements AREmailService {
                         Map<String, Object> primaryKeys = new HashMap<String, Object>();
                         ContractsAndGrantsAgencyAddress address; // = agencyAddress.getAgencyAddress();
                         primaryKeys.put(KFSPropertyConstants.AGENCY_NUMBER, agencyAddress.getAgencyNumber());
-                        primaryKeys.put("agencyAddressIdentifier", agencyAddress.getAgencyAddressIdentifier());
+                        primaryKeys.put("agencyAddressIdentifier", agencyAddress.getCustomerAddressIdentifier());
                         address = kualiModuleService.getResponsibleModuleService(ContractsAndGrantsAgencyAddress.class).getExternalizableBusinessObject(ContractsAndGrantsAgencyAddress.class, primaryKeys);
                         String recipients = address.getAgencyInvoiceEmailAddress();
                         if (StringUtils.isNotEmpty(recipients)) {
@@ -227,7 +214,6 @@ public class AREmailServiceImpl extends MailerImpl implements AREmailService {
         primaryKeys.put("#addressName", returnProperStringValue(agencyAddress.getAgencyAddressName()));
         primaryKeys.put("#name", returnProperStringValue(invoice.getAward().getAwardPrimaryFundManager().getFundManager().getName()));
         primaryKeys.put("#title", returnProperStringValue(invoice.getAward().getAwardPrimaryFundManager().getAwardFundManagerProjectTitle()));
-        // primaryKeys.put("#school", invoice.getAward().getAwardPrimaryFundManager().getFundManager().get);
         if (ObjectUtils.isNotNull(org)) {
             primaryKeys.put("#department", returnProperStringValue(org.getOrganizationName()));
         }

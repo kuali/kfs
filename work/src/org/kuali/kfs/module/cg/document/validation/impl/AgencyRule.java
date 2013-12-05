@@ -236,13 +236,13 @@ public class AgencyRule extends CGMaintenanceDocumentRuleBase {
                 if (collectionName.equals(KFSPropertyConstants.AGENCY_ADDRESSES)) {
                     newAgency = (Agency) document.getNewMaintainableObject().getBusinessObject();
                     List<AgencyAddress> agencyAddresses = newAgency.getAgencyAddresses();
-                    String tmpCode = newAgencyAddress.getAgencyAddressTypeCode();
+                    String tmpCode = newAgencyAddress.getCustomerAddressTypeCode();
 
                     // Check if there is an Agency Primary Address in the collection lines or not.
                     int count = 0;
                     for (AgencyAddress agencyAddress : agencyAddresses) {
-                        String agencyAddressTypeCode = agencyAddress.getAgencyAddressTypeCode();
-                        if (agencyAddressTypeCode != null && agencyAddressTypeCode.equals(CGConstants.AGENCY_PRIMARY_ADDRESSES_TYPE_CODE)) {
+                        String customerAddressTypeCode = agencyAddress.getCustomerAddressTypeCode();
+                        if (customerAddressTypeCode != null && customerAddressTypeCode.equals(CGConstants.AGENCY_PRIMARY_ADDRESSES_TYPE_CODE)) {
                             count++;
                             if (ObjectUtils.isNotNull(tmpCode) && !tmpCode.isEmpty() && tmpCode.equals(CGConstants.AGENCY_PRIMARY_ADDRESSES_TYPE_CODE)) {
                                 String elementLabel = SpringContext.getBean(DataDictionaryService.class).getCollectionElementLabel(Agency.class.getName(), collectionName, AgencyAddress.class);

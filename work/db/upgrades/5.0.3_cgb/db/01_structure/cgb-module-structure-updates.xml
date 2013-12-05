@@ -169,13 +169,13 @@
 		</modifySql>
 	</changeSet>
 
-	<changeSet author="KFSCGB" id="CG_INV_TYP_T">
-		<createTable tableName="CG_INV_TYP_T">
+	<changeSet author="KFSCGB" id="AR_INV_TYP_T">
+		<createTable tableName="AR_INV_TYP_T">
 			<column name="INV_TYP_CD" type="varchar(10)">
 				<constraints primaryKey="true" nullable="false" />
 			</column>
 			<column name="OBJ_ID" type="varchar(36)">
-				<constraints unique="true" nullable="false" uniqueConstraintName="CG_INV_TYP_TC1" />
+				<constraints unique="true" nullable="false" uniqueConstraintName="AR_INV_TYP_TC1" />
 			</column>
 			<column name="VER_NBR" type="decimal(8,0)" defaultValueNumeric="1">
 				<constraints nullable="false" />
@@ -458,7 +458,7 @@
 				defaultValue="0">
 				<constraints primaryKey="true" nullable="false" />
 			</column>
-			<column name="AGENCY_ADDR_TYPE_CD" type="varchar(2)" />
+			<column name="CUST_ADDR_TYPE_CD" type="varchar(2)" />
 			<column name="AGENCY_ADDR_NM" type="varchar(40)" />
 			<column name="AGENCY_INV_TYP_CD" type="varchar(10)" />
 			<column name="PREF_AGENCY_INV_TYP_CD" type="varchar(10)" />

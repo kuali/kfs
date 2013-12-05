@@ -91,7 +91,7 @@ public class CustomerDocumentServiceImpl implements CustomerDocumentService {
                 }
                 CustomerAddress customerAddress = customer.getCustomerAddresses().get(0);
                 customerAddress.setCustomerAddressName(agencyAddress.getAgencyAddressName());
-                customerAddress.setCustomerAddressTypeCode(agencyAddress.getAgencyAddressTypeCode());
+                customerAddress.setCustomerAddressTypeCode(agencyAddress.getCustomerAddressTypeCode());
                 customerAddress.setCustomerLine1StreetAddress(agencyAddress.getAgencyLine1StreetAddress());
                 customerAddress.setCustomerLine2StreetAddress(agencyAddress.getAgencyLine2StreetAddress());
                 customerAddress.setCustomerCityName(agencyAddress.getAgencyCityName());
@@ -112,9 +112,6 @@ public class CustomerDocumentServiceImpl implements CustomerDocumentService {
 
         final DocumentAttributeIndexingQueue documentAttributeIndexingQueue = KewApiServiceLocator.getDocumentAttributeIndexingQueue();
         documentAttributeIndexingQueue.indexDocument(doc.getDocumentNumber());
-
-//        final WorkflowDocumentActions workflowDocumentActions = SpringContext.getBean(WorkflowDocumentActions.class);
-//        workflowDocumentActions.indexDocument(new Long(doc.getDocumentNumber()));
 
         return customerNumber;
     }

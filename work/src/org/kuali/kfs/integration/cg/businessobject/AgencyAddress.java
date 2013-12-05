@@ -45,19 +45,8 @@ public class AgencyAddress implements ContractsAndGrantsAgencyAddress {
     private String agencyInternationalMailCode;
     private String agencyContactEmailAddress;
     private String agencyInvoiceEmailAddress;
-    private String agencyAddressTypeCode;
+    private String customerAddressTypeCode;
     private Date agencyAddressEndDate;
-
-    // Invoice Template link
-
-    private String agencyInvoiceTemplateCode;
-
-    // Invoice Indicator link
-
-    private String invoiceIndicatorCode;
-
-    private Integer agencyCopiesToPrint;
-    private Integer agencyPrintEnvelopesNumber;
 
     private ContractsAndGrantsBillingAgency agency;
 
@@ -66,24 +55,6 @@ public class AgencyAddress implements ContractsAndGrantsAgencyAddress {
      */
     public AgencyAddress() {
 
-    }
-
-    /**
-     * Gets the invoiceIndicatorCode attribute.
-     * 
-     * @return Returns the invoiceIndicatorCode.
-     */
-    public String getInvoiceIndicatorCode() {
-        return invoiceIndicatorCode;
-    }
-
-    /**
-     * Sets the invoiceIndicatorCode attribute value.
-     * 
-     * @param invoiceIndicatorCode The invoiceIndicatorCode to set.
-     */
-    public void setInvoiceIndicatorCode(String invoiceIndicatorCode) {
-        this.invoiceIndicatorCode = invoiceIndicatorCode;
     }
 
     /**
@@ -363,24 +334,13 @@ public class AgencyAddress implements ContractsAndGrantsAgencyAddress {
         this.agencyInvoiceEmailAddress = agencyInvoiceEmailAddress;
     }
 
-    /**
-     * Gets the agencyAddressTypeCode attribute.
-     * 
-     * @return Returns the agencyAddressTypeCode
-     */
-    public String getAgencyAddressTypeCode() {
-        return agencyAddressTypeCode;
+    public String getCustomerAddressTypeCode() {
+        return customerAddressTypeCode;
     }
 
-    /**
-     * Sets the agencyAddressTypeCode attribute.
-     * 
-     * @param agencyAddressTypeCode The agencyAddressTypeCode to set.
-     */
-    public void setAgencyAddressTypeCode(String agencyAddressTypeCode) {
-        this.agencyAddressTypeCode = agencyAddressTypeCode;
+    public void setCustomerAddressTypeCode(String customerAddressTypeCode) {
+        this.customerAddressTypeCode = customerAddressTypeCode;
     }
-
 
     /**
      * Gets the agencyAddressEndDate attribute.
@@ -398,63 +358,6 @@ public class AgencyAddress implements ContractsAndGrantsAgencyAddress {
      */
     public void setAgencyAddressEndDate(Date agencyAddressEndDate) {
         this.agencyAddressEndDate = agencyAddressEndDate;
-    }
-
-
-    /**
-     * Gets the agencyInvoiceTemplateCode attribute.
-     * 
-     * @return Returns the agencyInvoiceTemplateCode.
-     */
-    public String getAgencyInvoiceTemplateCode() {
-
-        return agencyInvoiceTemplateCode;
-    }
-
-    /**
-     * Sets the agencyInvoiceTemplateCode attribute value.
-     * 
-     * @param agencyInvoiceTemplateCode The agencyInvoiceTemplateCode to set.
-     */
-    public void setAgencyInvoiceTemplateCode(String agencyInvoiceTemplateCode) {
-        this.agencyInvoiceTemplateCode = agencyInvoiceTemplateCode;
-    }
-
-
-    /**
-     * Gets the agencyCopiesToPrint attribute.
-     * 
-     * @return Returns the agencyCopiesToPrint.
-     */
-    public Integer getAgencyCopiesToPrint() {
-        return agencyCopiesToPrint;
-    }
-
-    /**
-     * Sets the agencyCopiesToPrint attribute value.
-     * 
-     * @param agencyCopiesToPrint The agencyCopiesToPrint to set.
-     */
-    public void setAgencyCopiesToPrint(Integer agencyCopiesToPrint) {
-        this.agencyCopiesToPrint = agencyCopiesToPrint;
-    }
-
-    /**
-     * Gets the agencyPrintEnvelopes attribute.
-     * 
-     * @return Returns the agencyPrintEnvelopes.
-     */
-    public Integer getAgencyPrintEnvelopesNumber() {
-        return agencyPrintEnvelopesNumber;
-    }
-
-    /**
-     * Sets the agencyPrintEnvelopes attribute value.
-     * 
-     * @param agencyPrintEnvelopes The agencyPrintEnvelopes to set.
-     */
-    public void setAgencyPrintEnvelopesNumber(Integer agencyPrintEnvelopesNumber) {
-        this.agencyPrintEnvelopesNumber = agencyPrintEnvelopesNumber;
     }
 
     /**
@@ -513,7 +416,7 @@ public class AgencyAddress implements ContractsAndGrantsAgencyAddress {
 
 
     public boolean isPrimary() {
-        if (ObjectUtils.isNotNull(this.agencyAddressTypeCode) && this.agencyAddressTypeCode.equals(KFSConstants.ContractsGrantsModuleDocumentTypeCodes.AGENCY_PRIMARY_ADDRESSES_TYPE_CODE))
+        if (ObjectUtils.isNotNull(this.customerAddressTypeCode) && this.customerAddressTypeCode.equals(KFSConstants.ContractsGrantsModuleDocumentTypeCodes.AGENCY_PRIMARY_ADDRESSES_TYPE_CODE))
             return true;
         return false;
     }

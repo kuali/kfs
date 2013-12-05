@@ -219,6 +219,9 @@
 		<property name="kualiModuleService">
 			<ref bean="kualiModuleService" />
 		</property>
+		<property name="contractsAndGrantsModuleRetrieveService">
+			<ref bean="contractsAndGrantsModuleRetrieveService"/>
+		</property>
 	</bean>
 
 	<bean id="dunningLetterDistributionJob" parent="scheduledJobDescriptor">
@@ -291,7 +294,7 @@
 				<ref bean="contractsGrantsInvoiceRouteDocumentsStep" />
 			</list>
 		</property>
-	</bean>
+	</bean>	
 
 	<bean id="contractsGrantsInvoiceDocumentService" parent="contractsGrantsInvoiceDocumentService-parentBean" />
 	<bean id="contractsGrantsInvoiceDocumentService-parentBean" class="org.kuali.kfs.module.ar.document.service.impl.ContractsGrantsInvoiceDocumentServiceImpl" abstract="true">
@@ -351,6 +354,9 @@
 		</property>
 		<property name="contractsGrantsInvoiceDocumentService">
 			<ref bean="contractsGrantsInvoiceDocumentService" />
+		</property>
+		<property name="contractsAndGrantsModuleUpdateService">
+			<ref bean="contractsAndGrantsModuleUpdateService" />
 		</property>
 	</bean>
 

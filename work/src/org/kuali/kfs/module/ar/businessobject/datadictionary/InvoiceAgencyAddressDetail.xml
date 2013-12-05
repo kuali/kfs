@@ -26,8 +26,8 @@
 			<list>
 				<ref bean="InvoiceAgencyAddressDetail-documentNumber" />
 				<ref bean="InvoiceAgencyAddressDetail-agencyNumber" />
-				<ref bean="InvoiceAgencyAddressDetail-agencyAddressIdentifier" />
-				<ref bean="InvoiceAgencyAddressDetail-agencyAddressTypeCode" />
+				<ref bean="InvoiceAgencyAddressDetail-customerAddressIdentifier" />
+				<ref bean="InvoiceAgencyAddressDetail-customerAddressTypeCode" />
 				<ref bean="InvoiceAgencyAddressDetail-agencyAddressName" />
 				<ref bean="InvoiceAgencyAddressDetail-agencyInvoiceTemplateCode" />
 				<ref bean="InvoiceAgencyAddressDetail-preferredAgencyInvoiceTemplateCode" />
@@ -37,11 +37,11 @@
 		</property>
 		<property name="relationships">
 			<list>
-				<bean parent="RelationshipDefinition" p:objectAttributeName="agencyAddress">
+				<bean parent="RelationshipDefinition" p:objectAttributeName="customerAddress">
 					<property name="primitiveAttributes">
 						<list>
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="agencyNumber" p:targetName="agencyNumber" />
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="agencyAddressIdentifier" p:targetName="agencyAddressIdentifier" />
+							<!-- <bean parent="PrimitiveAttributeDefinition" p:sourceName="agencyNumber" p:targetName="agencyNumber" /> -->
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="customerAddressIdentifier" p:targetName="customerAddressIdentifier" />
 						</list>
 					</property>
 				</bean>
@@ -72,12 +72,12 @@
 			<bean parent="TextControlDefinition" p:size="11" />
 		</property>
 	</bean>
-	<bean id="InvoiceAgencyAddressDetail-agencyAddressIdentifier" parent="InvoiceAgencyAddressDetail-agencyAddressIdentifier-parentBean" />
+	<bean id="InvoiceAgencyAddressDetail-customerAddressIdentifier" parent="InvoiceAgencyAddressDetail-customerAddressIdentifier-parentBean" />
 
-	<bean id="InvoiceAgencyAddressDetail-agencyAddressIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
-		<property name="name" value="agencyAddressIdentifier" />
+	<bean id="InvoiceAgencyAddressDetail-customerAddressIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="customerAddressIdentifier" />
 		<property name="forceUppercase" value="true" />
-		<property name="label" value="Agency Address Identifier" />
+		<property name="label" value="Customer Address Identifier" />
 		<property name="shortLabel" value="Identifier" />
 		<property name="maxLength" value="12" />
 		<property name="validationPattern">
@@ -87,10 +87,10 @@
 			<ref bean="HiddenControl" />
 		</property>
 	</bean>
-	<bean id="InvoiceAgencyAddressDetail-agencyAddressTypeCode" parent="InvoiceAgencyAddressDetail-agencyAddressTypeCode-parentBean" />
+	<bean id="InvoiceAgencyAddressDetail-customerAddressTypeCode" parent="InvoiceAgencyAddressDetail-customerAddressTypeCode-parentBean" />
 
-	<bean id="InvoiceAgencyAddressDetail-agencyAddressTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
-		<property name="name" value="agencyAddressTypeCode" />
+	<bean id="InvoiceAgencyAddressDetail-customerAddressTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="customerAddressTypeCode" />
 		<property name="forceUppercase" value="true" />
 		<property name="label" value="Address Type" />
 		<property name="shortLabel" value="Type" />
@@ -99,7 +99,7 @@
 			<ref bean="AnyCharacterValidation" />
 		</property>
 		<property name="control">
-			<bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.ar.businessobject.options.AgencyAddressTypeValuesFinder"
+			<bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.ar.businessobject.options.CustomerAddressTypeValuesFinder"
 				p:includeKeyInLabel="false" />
 		</property>
 	</bean>
@@ -199,8 +199,8 @@
 						<list>
 							<bean parent="FieldDefinition" p:attributeName="documentNumber" />
 							<bean parent="FieldDefinition" p:attributeName="agencyNumber" />
-							<bean parent="FieldDefinition" p:attributeName="agencyAddressIdentifier" />
-							<bean parent="FieldDefinition" p:attributeName="agencyAddressTypeCode" />
+							<bean parent="FieldDefinition" p:attributeName="customerAddressIdentifier" />
+							<bean parent="FieldDefinition" p:attributeName="customerAddressTypeCode" />
 							<bean parent="FieldDefinition" p:attributeName="agencyAddressName" />
 							<bean parent="FieldDefinition" p:attributeName="agencyInvoiceTemplateCode" />
 							<bean parent="FieldDefinition" p:attributeName="preferredAgencyInvoiceTemplateCode" />

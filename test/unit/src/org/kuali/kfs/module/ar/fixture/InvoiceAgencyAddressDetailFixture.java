@@ -21,24 +21,24 @@ import org.kuali.kfs.module.ar.businessobject.InvoiceAgencyAddressDetail;
  * Fixture class for InvoiceAgencyAddressDetail
  */
 public enum InvoiceAgencyAddressDetailFixture {
-    INV_AGENCY_ADDRESS_DETAIL1("documentNumber", "agencyNumber", new Long(111), "agencyAddressTypeCode", "agencyAddressName", "preferredAgencyInvoiceTemplateCode", "agencyInvoiceTemplateCode", "invoiceIndicatorCode", "preferredInvoiceIndicatorCode");
+    INV_AGENCY_ADDRESS_DETAIL1("documentNumber", "agencyNumber",111, "agencyAddressTypeCode", "agencyAddressName", "preferredAgencyInvoiceTemplateCode", "agencyInvoiceTemplateCode", "invoiceIndicatorCode", "preferredInvoiceIndicatorCode");
 
     private String documentNumber;
     private String agencyNumber;
-    private Long agencyAddressIdentifier;
-    private String agencyAddressTypeCode;
+    private Integer customerAddressIdentifier;
+    private String customerAddressTypeCode;
     private String agencyAddressName;
     private String preferredAgencyInvoiceTemplateCode;
     private String agencyInvoiceTemplateCode;
     private String invoiceIndicatorCode;
     private String preferredInvoiceIndicatorCode;
 
-    private InvoiceAgencyAddressDetailFixture(String documentNumber, String agencyNumber, Long agencyAddressIdentifier, String agencyAddressTypeCode, String agencyAddressName, String preferredAgencyInvoiceTemplateCode, String agencyInvoiceTemplateCode, String invoiceIndicatorCode, String preferredInvoiceIndicatorCode) {
+    private InvoiceAgencyAddressDetailFixture(String documentNumber, String agencyNumber, Integer customerAddressIdentifier, String customerAddressTypeCode, String agencyAddressName, String preferredAgencyInvoiceTemplateCode, String agencyInvoiceTemplateCode, String invoiceIndicatorCode, String preferredInvoiceIndicatorCode) {
 
         this.documentNumber = documentNumber;
         this.agencyNumber = agencyNumber;
-        this.agencyAddressIdentifier = agencyAddressIdentifier;
-        this.agencyAddressTypeCode = agencyAddressTypeCode;
+        this.customerAddressIdentifier = customerAddressIdentifier;
+        this.customerAddressTypeCode = customerAddressTypeCode;
         this.agencyAddressName = agencyAddressName;
         this.preferredAgencyInvoiceTemplateCode = preferredAgencyInvoiceTemplateCode;
         this.agencyInvoiceTemplateCode = agencyInvoiceTemplateCode;
@@ -50,8 +50,8 @@ public enum InvoiceAgencyAddressDetailFixture {
         InvoiceAgencyAddressDetail invoiceAgencyAddressDetail = new InvoiceAgencyAddressDetail();
         invoiceAgencyAddressDetail.setDocumentNumber(this.documentNumber);
         invoiceAgencyAddressDetail.setAgencyNumber(this.agencyNumber);
-        invoiceAgencyAddressDetail.setAgencyAddressIdentifier(this.agencyAddressIdentifier);
-        invoiceAgencyAddressDetail.setAgencyAddressTypeCode(this.agencyAddressTypeCode);
+        invoiceAgencyAddressDetail.setCustomerAddressIdentifier(this.customerAddressIdentifier);
+        invoiceAgencyAddressDetail.setCustomerAddressTypeCode(this.customerAddressTypeCode);
         invoiceAgencyAddressDetail.setAgencyAddressName(this.agencyAddressName);
         invoiceAgencyAddressDetail.setPreferredAgencyInvoiceTemplateCode(this.preferredAgencyInvoiceTemplateCode);
         invoiceAgencyAddressDetail.setAgencyInvoiceTemplateCode(this.agencyInvoiceTemplateCode);

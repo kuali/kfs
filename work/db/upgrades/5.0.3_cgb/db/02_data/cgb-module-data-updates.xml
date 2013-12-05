@@ -3,22 +3,22 @@
 	xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd'>
 
 	<changeSet author="KFSCGB" id="CG_UPDT_FIELD_DEFS">
-		<delete tableName="CG_INV_TYP_T">
+		<delete tableName="AR_INV_TYP_T">
 			<where>INV_TYP_CD='cms'</where>
 		</delete>
-		<delete tableName="CG_INV_TYP_T">
+		<delete tableName="AR_INV_TYP_T">
 			<where>INV_TYP_CD='SCHD'</where>
 		</delete>
-		<delete tableName="CG_INV_TYP_T">
+		<delete tableName="AR_INV_TYP_T">
 			<where>INV_TYP_CD='STD'</where>
 		</delete>
-		<insert tableName="CG_INV_TYP_T">
+		<insert tableName="AR_INV_TYP_T">
 			<column name="INV_TYP_CD" value="SCHD" />
 			<column name="INV_TYP_DESC" value="Scheduled" />
 			<column name="ACTV_IND" value="Y" />
 			<column name="OBJ_ID" valueComputed="SYS_GUID()" />
 		</insert>
- 		<insert tableName="CG_INV_TYP_T">
+ 		<insert tableName="AR_INV_TYP_T">
 			<column name="INV_TYP_CD" value="STD" />
 			<column name="INV_TYP_DESC" value="Standard" />
 			<column name="ACTV_IND" value="Y" />

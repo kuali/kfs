@@ -97,6 +97,6 @@ public class AgencyAddressServiceDaoImplTest extends KualiTestBase {
         agencyAddress.setAgencyStateCode(state);
         agencyAddress.setAgencyZipCode(zipcode);
         agencyAddress.setAgencyNumber(agencyNumber);
-        agencyAddress.setAgencyAddressTypeCode("P");
+        agencyAddress.setCustomerAddressTypeCode("P");
     }
 }

@@ -43,6 +43,7 @@
 				<ref bean="Customer-customerName" />
 				<ref bean="Customer-customerNumber" />
 				<ref bean="Customer-customerParentCompanyNumber" />
+				<ref bean="Customer-customerInvoiceTemplateCode" />
 				<ref bean="Customer-customerPhoneNumber" />
 				<ref bean="Customer-customerRecordAddDate" />
 				<ref bean="Customer-customerTaxExemptIndicator" />
@@ -596,6 +597,27 @@
 			<list>
 				<ref bean="Customer-inquiryCollectionDefinition-customerAddresses" />
 			</list>
+		</property>
+	</bean>
+	
+	
+	<!-- Link to Invoice Template -->
+	<bean id="Customer-customerInvoiceTemplateCode" parent="Customer-customerInvoiceTemplateCode-parentBean" />
+
+	<bean id="Customer-customerInvoiceTemplateCode-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="name" value="customerInvoiceTemplateCode" />
+		<property name="forceUppercase" value="true" />
+		<property name="label" value="Preferred Invoice Template" />
+		<property name="shortLabel" value="InvType" />
+		<property name="maxLength" value="10" />
+		<property name="validationPattern">
+			<ref bean="AnyCharacterValidation" />
+		</property>
+		<property name="control">
+			<bean parent="SelectControlDefinition"
+				p:valuesFinderClass="org.kuali.kfs.module.ar.businessobject.options.AgencyInvoiceTemplateValuesFinder"
+				p:includeKeyInLabel="false" />
 		</property>
 	</bean>
 	

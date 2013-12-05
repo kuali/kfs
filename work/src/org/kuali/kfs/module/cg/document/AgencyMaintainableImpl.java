@@ -245,53 +245,5 @@ public class AgencyMaintainableImpl extends FinancialSystemMaintainable {
         catch (Exception e) {
             LOG.debug("Exception : " + e.getMessage() + " happened when getting default values from parameter");
         }
-
-        // Default the invoice template field on the addresses tab
-        defaultInvoiceTemplate(getAgency(), document);
-
-    }
-
-    /**
-     * Overriding to default fields on the document for new documents
-     *
-     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#processAfterEdit(org.kuali.rice.kns.document.MaintenanceDocument,
-     *      java.util.Map)
-     */
-    @Override
-    public void processAfterEdit(MaintenanceDocument document, Map<String, String[]> parameters) {
-        super.processAfterEdit(document, parameters);
-
-        // Default the invoice template field on the addresses tab
-        defaultInvoiceTemplate(getAgency(), document);
-    }
-
-    /**
-     * Overriding to default fields on the document for copied documents
-     *
-     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#processAfterEdit(org.kuali.rice.kns.document.MaintenanceDocument,
-     *      java.util.Map)
-     */
-    @Override
-    public void processAfterCopy(MaintenanceDocument document, Map<String, String[]> parameters) {
-        super.processAfterEdit(document, parameters);
-
-        // Default the invoice template field on the addresses tab
-        defaultInvoiceTemplate(getAgency(), document);
-
-    }
-
-    /**
-     * Defaults the invoice template field for new Agency Addresses on the given Agency maintenance document
-     *
-     * @param agency
-     * @param document
-     */
-    private void defaultInvoiceTemplate(Agency agency, MaintenanceDocument document) {
-
-        // Default Invoice Template for new Agency Addresses
-        if (ObjectUtils.isNotNull(agency)) {
-            AgencyAddress newAgencyAddress = (AgencyAddress) document.getNewMaintainableObject().getNewCollectionLine(CGPropertyConstants.AgencyFields.AGENCY_TAB_ADDRESSES);
-            newAgencyAddress.setAgencyInvoiceTemplateCode(agency.getAgencyInvoiceTemplateCode());
-        }
     }
 }

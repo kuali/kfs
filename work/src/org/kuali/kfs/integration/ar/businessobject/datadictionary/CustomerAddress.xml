@@ -45,7 +45,7 @@
 				<ref bean="CustomerAddress-customerCountryCode" />
 				<ref bean="CustomerAddress-customerAddressInternationalProvinceName" />
 				
-				<ref bean="CustomerAddress-agencyInvoiceTemplateCode" />
+				<ref bean="CustomerAddress-customerInvoiceTemplateCode" />
 				<ref bean="CustomerAddress-invoiceIndicatorCode" />
 				<ref bean="CustomerAddress-agencyCopiesToPrint" />
 				<ref bean="CustomerAddress-agencyPrintEnvelopesNumber" />
@@ -265,11 +265,11 @@
 
 
 <!-- Link to Invoice Template -->
-	<bean id="CustomerAddress-agencyInvoiceTemplateCode" parent="CustomerAddress-agencyInvoiceTemplateCode-parentBean" />
+	<bean id="CustomerAddress-customerInvoiceTemplateCode" parent="CustomerAddress-customerInvoiceTemplateCode-parentBean" />
 
-	<bean id="CustomerAddress-agencyInvoiceTemplateCode-parentBean"
+	<bean id="CustomerAddress-customerInvoiceTemplateCode-parentBean"
 		abstract="true" parent="AttributeDefinition">
-		<property name="name" value="agencyInvoiceTemplateCode" />
+		<property name="name" value="customerInvoiceTemplateCode" />
 		<property name="forceUppercase" value="true" />
 		<property name="label" value="Invoice Template" />
 		<property name="shortLabel" value="InvType" />

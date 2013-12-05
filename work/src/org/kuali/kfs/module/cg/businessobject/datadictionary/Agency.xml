@@ -57,10 +57,6 @@
 				<ref bean="Agency-agencyAddresses.agencyAddressInternationalProvinceName" />
 				<ref bean="Agency-agencyAddresses.agencyContactEmailAddress" />
 				<ref bean="Agency-agencyAddresses.agencyInvoiceEmailAddress" />
-				<ref bean="Agency-agencyAddresses.agencyInvoiceTemplateCode" />
-				<ref bean="Agency-agencyAddresses.invoiceIndicatorCode" />
-				<ref bean="Agency-agencyAddresses.agencyCopiesToPrint" />
-				<ref bean="Agency-agencyAddresses.agencyPrintEnvelopesNumber" />
 				<ref bean="Agency-active" />
 				<ref bean="Agency-customerCreated" />
 				<ref bean="Agency-customerNumber" />
@@ -547,36 +543,6 @@
 		<property name="name" value="agencyAddresses.agencyInvoiceEmailAddress" />
 	</bean>
 
-	<bean id="Agency-agencyAddresses.agencyInvoiceTemplateCode"
-		parent="Agency-agencyAddresses.agencyInvoiceTemplateCode-parentBean" />
-
-	<bean id="Agency-agencyAddresses.agencyInvoiceTemplateCode-parentBean"
-		abstract="true" parent="AgencyAddress-agencyInvoiceTemplateCode">
-		<property name="name" value="agencyAddresses.agencyInvoiceTemplateCode" />
-	</bean>
-
-	<bean id="Agency-agencyAddresses.invoiceIndicatorCode" parent="Agency-agencyAddresses.invoiceIndicatorCode-parentBean" />
-
-	<bean id="Agency-agencyAddresses.invoiceIndicatorCode-parentBean"
-		abstract="true" parent="AgencyAddress-invoiceIndicatorCode">
-		<property name="name" value="agencyAddresses.invoiceIndicatorCode" />
-	</bean>
-
-	<bean id="Agency-agencyAddresses.agencyCopiesToPrint" parent="Agency-agencyAddresses.agencyCopiesToPrint-parentBean" />
-
-	<bean id="Agency-agencyAddresses.agencyCopiesToPrint-parentBean"
-		abstract="true" parent="AgencyAddress-agencyCopiesToPrint">
-		<property name="name" value="agencyAddresses.agencyCopiesToPrint" />
-	</bean>
-
-	<bean id="Agency-agencyAddresses.agencyPrintEnvelopesNumber"
-		parent="Agency-agencyAddresses.agencyPrintEnvelopesNumber-parentBean" />
-
-	<bean id="Agency-agencyAddresses.agencyPrintEnvelopesNumber-parentBean"
-		abstract="true" parent="AgencyAddress-agencyPrintEnvelopesNumber">
-		<property name="name" value="agencyAddresses.agencyPrintEnvelopesNumber" />
-	</bean>
-
 	<bean id="Agency-sponsorCode" parent="Agency-sponsorCode-parentBean" />
 
 	<bean id="Agency-sponsorCode-parentBean" abstract="true"
@@ -762,8 +728,6 @@
 				<bean parent="FieldDefinition" p:attributeName="agencyAddresses.agencyAddressInternationalProvinceName" />
 				<bean parent="FieldDefinition" p:attributeName="agencyAddresses.agencyContactEmailAddress" />
 				<bean parent="FieldDefinition" p:attributeName="agencyAddresses.agencyInvoiceEmailAddress" />
-				<bean parent="FieldDefinition" p:attributeName="agencyAddresses.agencyInvoiceTemplateCode" />
-				<bean parent="FieldDefinition" p:attributeName="agencyAddresses.invoiceIndicatorCode" />
 			</list>
 		</property>
 		<property name="resultFields">

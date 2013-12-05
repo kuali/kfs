@@ -78,6 +78,13 @@ public interface AccountsReceivableCustomerAddress extends ExternalizableBusines
 
     public void setCustomerAddressTypeCodeAsAlternate();
 
+    public String getCustomerInvoiceTemplateCode();
+    
+    public String getInvoiceIndicatorCode();
+    
+    public Integer getCustomerCopiesToPrint(); 
+    
+    public Integer getCustomerPrintEnvelopesNumber();
     @Override
     public void refresh();
 }

@@ -63,6 +63,7 @@ import org.kuali.kfs.module.ar.businessobject.AwardAccountObjectCodeTotalBilled;
 import org.kuali.kfs.module.ar.businessobject.Bill;
 import org.kuali.kfs.module.ar.businessobject.ContractsAndGrantsCategories;
 import org.kuali.kfs.module.ar.businessobject.Customer;
+import org.kuali.kfs.module.ar.businessobject.CustomerAddress;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceAccount;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.DunningCampaign;
@@ -152,7 +153,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
     private ObjectCodeService objectCodeService;
     private AccountService accountService;
     private ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService;
-
+    private ContractsAndGrantsModuleUpdateService contractsAndGrantsModuleUpdateService;
     /**
      * Sets the contractsGrantsInvoiceDocumentService attribute value.
      *
@@ -1235,7 +1236,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             criteria.put(KFSPropertyConstants.ACCOUNT_NUMBER, awardAccount.getAccountNumber());
             criteria.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, awardAccount.getChartOfAccountsCode());
             criteria.put(KFSPropertyConstants.PROPOSAL_NUMBER, awardAccount.getProposalNumber());
-            SpringContext.getBean(ContractsAndGrantsModuleUpdateService.class).setAmountToDrawToAwardAccount(criteria, amountToDraw);
+            contractsAndGrantsModuleUpdateService.setAmountToDrawToAwardAccount(criteria, amountToDraw);
         }
 
     }
@@ -1327,8 +1328,6 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
         ContractsAndGrantsBillingAward award = contractsGrantsInvoiceDocument.getAward();
         String documentNumber = contractsGrantsInvoiceDocument.getDocumentNumber();
-        // ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService =
-        // SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class);
 
         List<String> suspensionCategoryCodes = new ArrayList<String>(); // list of existing codes
 
@@ -1562,7 +1561,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         map.put(KFSPropertyConstants.AGENCY_NUMBER, agency.getAgencyNumber());
         agencyAddresses = kualiModuleService.getResponsibleModuleService(ContractsAndGrantsAgencyAddress.class).getExternalizableBusinessObjectsList(ContractsAndGrantsAgencyAddress.class, map);
         for (ContractsAndGrantsAgencyAddress agencyAddress : agencyAddresses) {
-            if (ArConstants.AGENCY_PRIMARY_ADDRESSES_TYPE_CODE.equals(agencyAddress.getAgencyAddressTypeCode())) {
+            if (ArConstants.AGENCY_PRIMARY_ADDRESSES_TYPE_CODE.equals(agencyAddress.getCustomerAddressTypeCode())) {
                 return isAgencyAddressComplete(agencyAddress);
             }
         }
@@ -1581,7 +1580,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         agencyAddresses = kualiModuleService.getResponsibleModuleService(ContractsAndGrantsAgencyAddress.class).getExternalizableBusinessObjectsList(ContractsAndGrantsAgencyAddress.class, map);
 
         for (ContractsAndGrantsAgencyAddress agencyAddress : agencyAddresses) {
-            if (ArConstants.AGENCY_ALTERNATE_ADDRESSES_TYPE_CODE.equals(agencyAddress.getAgencyAddressTypeCode())) {
+            if (ArConstants.AGENCY_ALTERNATE_ADDRESSES_TYPE_CODE.equals(agencyAddress.getCustomerAddressTypeCode())) {
                 return isAgencyAddressComplete(agencyAddress);
             }
         }
@@ -3025,11 +3024,6 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
         Collection<ContractsGrantsInvoiceDocument> invoices;
         Criteria criteria = new Criteria();
-        // if(ObjectUtils.isNotNull(agencyNumber)&& StringUtils.isNotBlank(agencyNumber.toString()) &&
-        // StringUtils.isNotEmpty(agencyNumber.toString())){
-        // criteria.addIn(ArPropertyConstants.ReferralToCollectionsFields.AGENCY_ADDRESS_DETAILS_AGENCY_NUMBER, Arrays.asList(new
-        // String[] {agencyNumber}));
-        // }
         if (ObjectUtils.isNotNull(proposalNumber) && StringUtils.isNotBlank(proposalNumber.toString()) && StringUtils.isNotEmpty(proposalNumber.toString())) {
             criteria.addEqualTo(KFSPropertyConstants.PROPOSAL_NUMBER, proposalNumber);
         }
@@ -3131,7 +3125,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
                     ContractsAndGrantsAgencyAddress address;
                     Map<String, Object> primaryKeys = new HashMap<String, Object>();
                     primaryKeys.put(KFSPropertyConstants.AGENCY_NUMBER, invoiceAgencyAddressDetail.getAgencyNumber());
-                    primaryKeys.put("agencyAddressIdentifier", invoiceAgencyAddressDetail.getAgencyAddressIdentifier());
+                    primaryKeys.put("agencyAddressIdentifier", invoiceAgencyAddressDetail.getCustomerAddressIdentifier());
                     address = kualiModuleService.getResponsibleModuleService(ContractsAndGrantsAgencyAddress.class).getExternalizableBusinessObject(ContractsAndGrantsAgencyAddress.class, primaryKeys);
                     String fullAddress = "";
                     if (StringUtils.isNotEmpty(address.getAgencyLine1StreetAddress())) {
@@ -3312,8 +3306,8 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             for (int i = 0; i < document.getAgencyAddressDetails().size(); i++) {
                 parameterMap.put("#agencyAddressDetails[" + i + "].documentNumber", returnProperStringValue(document.getAgencyAddressDetails().get(i).getDocumentNumber()));
                 parameterMap.put("#agencyAddressDetails[" + i + "].agencyNumber", returnProperStringValue(document.getAgencyAddressDetails().get(i).getAgencyNumber()));
-                parameterMap.put("#agencyAddressDetails[" + i + "].agencyAddressIdentifier", returnProperStringValue(document.getAgencyAddressDetails().get(i).getAgencyAddressIdentifier()));
-                parameterMap.put("#agencyAddressDetails[" + i + "].agencyAddressTypeCode", returnProperStringValue(document.getAgencyAddressDetails().get(i).getAgencyAddressTypeCode()));
+                parameterMap.put("#agencyAddressDetails[" + i + "].agencyAddressIdentifier", returnProperStringValue(document.getAgencyAddressDetails().get(i).getCustomerAddressIdentifier()));
+                parameterMap.put("#agencyAddressDetails[" + i + "].agencyAddressTypeCode", returnProperStringValue(document.getAgencyAddressDetails().get(i).getCustomerAddressTypeCode()));
                 parameterMap.put("#agencyAddressDetails[" + i + "].agencyAddressName", returnProperStringValue(document.getAgencyAddressDetails().get(i).getAgencyAddressName()));
                 parameterMap.put("#agencyAddressDetails[" + i + "].agencyInvoiceTemplateCode", returnProperStringValue(document.getAgencyAddressDetails().get(i).getAgencyInvoiceTemplateCode()));
                 parameterMap.put("#agencyAddressDetails[" + i + "].preferredAgencyInvoiceTemplateCode", returnProperStringValue(document.getAgencyAddressDetails().get(i).getPreferredAgencyInvoiceTemplateCode()));
@@ -3567,7 +3561,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         }
 
         // To set last billed Date to award.
-        SpringContext.getBean(ContractsAndGrantsModuleUpdateService.class).setLastBilledDateToAward(award.getProposalNumber(), awdLastBilledDate);
+        contractsAndGrantsModuleUpdateService.setLastBilledDateToAward(award.getProposalNumber(), awdLastBilledDate);
     }
 
     /**
@@ -3582,7 +3576,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         mapKey.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, id.getChartOfAccountsCode());
         mapKey.put(KFSPropertyConstants.PROPOSAL_NUMBER, proposalNumber);
         // To set previous and current last Billed Date for award account .
-        SpringContext.getBean(ContractsAndGrantsModuleUpdateService.class).setLastBilledDateToAwardAccount(mapKey, invoiceStatus, lastBilledDate);
+        contractsAndGrantsModuleUpdateService.setLastBilledDateToAwardAccount(mapKey, invoiceStatus, lastBilledDate);
 
     }
 
@@ -3657,7 +3651,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         mapKey.put(KFSPropertyConstants.PROPOSAL_NUMBER, proposalNumber);
 
         // To set final Billed to award Account
-        SpringContext.getBean(ContractsAndGrantsModuleUpdateService.class).setFinalBilledToAwardAccount(mapKey, value);
+        contractsAndGrantsModuleUpdateService.setFinalBilledToAwardAccount(mapKey, value);
     }
 
     /**
@@ -3784,7 +3778,6 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         Map<String, Object> map = new HashMap<String, Object>();
         map.put(KFSPropertyConstants.PROPOSAL_NUMBER, award.getProposalNumber());
         milestones = (List<Milestone>) businessObjectService.findMatching(Milestone.class, map);
-//        bills = kualiModuleService.getResponsibleModuleService(AccountsReceivableBill.class).getExternalizableBusinessObjectsList(AccountsReceivableBill.class, map);
         bills = (List<Bill>) businessObjectService.findMatching(Bill.class, map);
 
 
@@ -3815,18 +3808,17 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             // copy award's agency address to invoice agency address details
             document.getAgencyAddressDetails().clear();
 
-            List<ContractsAndGrantsAgencyAddress> agencyAddresses = new ArrayList<ContractsAndGrantsAgencyAddress>();
+            List<CustomerAddress> customerAddresses = new ArrayList<CustomerAddress>();
             Map<String, Object> mapKey = new HashMap<String, Object>();
-            mapKey.put(KFSPropertyConstants.AGENCY_NUMBER, award.getAgency().getAgencyNumber());
-            agencyAddresses = kualiModuleService.getResponsibleModuleService(ContractsAndGrantsAgencyAddress.class).getExternalizableBusinessObjectsList(ContractsAndGrantsAgencyAddress.class, mapKey);
-            for (ContractsAndGrantsAgencyAddress agencyAddress : agencyAddresses) {
+            mapKey.put(KFSPropertyConstants.CUSTOMER_NUMBER, award.getAgency().getCustomerNumber());
+            customerAddresses = (List<CustomerAddress>) businessObjectService.findMatching(CustomerAddress.class, mapKey);
+            for (CustomerAddress agencyAddress : customerAddresses) {
 
                 InvoiceAgencyAddressDetail invoiceAgencyAddressDetail = new InvoiceAgencyAddressDetail();
                 invoiceAgencyAddressDetail.setDocumentNumber(document.getDocumentNumber());
-                invoiceAgencyAddressDetail.setAgencyNumber(agencyAddress.getAgencyNumber());
-                invoiceAgencyAddressDetail.setAgencyAddressIdentifier(agencyAddress.getAgencyAddressIdentifier());
-                invoiceAgencyAddressDetail.setAgencyAddressTypeCode(agencyAddress.getAgencyAddressTypeCode());
-                invoiceAgencyAddressDetail.setAgencyAddressName(agencyAddress.getAgencyAddressName());
+                invoiceAgencyAddressDetail.setCustomerAddressIdentifier(agencyAddress.getCustomerAddressIdentifier());
+                invoiceAgencyAddressDetail.setCustomerAddressTypeCode(agencyAddress.getCustomerAddressTypeCode());
+                invoiceAgencyAddressDetail.setAgencyAddressName(agencyAddress.getCustomerAddressName());
 
                 document.getAgencyAddressDetails().add(invoiceAgencyAddressDetail);
             }
@@ -4551,4 +4543,34 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
     public void setDocumentService(DocumentService documentService) {
         this.documentService = documentService;
     }
+
+    public ContractsAndGrantsModuleUpdateService getContractsAndGrantsModuleUpdateService() {
+        return contractsAndGrantsModuleUpdateService;
+    }
+
+    public void setContractsAndGrantsModuleUpdateService(ContractsAndGrantsModuleUpdateService contractsAndGrantsModuleUpdateService) {
+        this.contractsAndGrantsModuleUpdateService = contractsAndGrantsModuleUpdateService;
+    }
+
+    public UniversityDateService getUniversityDateService() {
+        return universityDateService;
+    }
+
+    public KualiModuleService getKualiModuleService() {
+        return kualiModuleService;
+    }
+
+    public ObjectLevelService getObjectLevelService() {
+        return objectLevelService;
+    }
+
+    public AccountService getAccountService() {
+        return accountService;
+    }
+
+    public ContractsGrantsInvoiceDocumentService getContractsGrantsInvoiceDocumentService() {
+        return contractsGrantsInvoiceDocumentService;
+    }
+    
+    
 }

@@ -384,4 +384,60 @@ public class CustomerMaintenableImpl extends FinancialSystemMaintainable {
         super.processAfterRetrieve();
     }
 
+    /**
+     * Overriding to default fields on the document for new documents
+     *
+     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#processAfterEdit(org.kuali.rice.kns.document.MaintenanceDocument,
+     *      java.util.Map)
+     */
+    @Override
+    public void processAfterEdit(MaintenanceDocument document, Map<String, String[]> parameters) {
+        super.processAfterEdit(document, parameters);
+
+        // Default the invoice template field on the addresses tab
+        defaultInvoiceTemplate(getCustomer(), document);
+    }
+
+    /**
+     * Overriding to default fields on the document for copied documents
+     *
+     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#processAfterEdit(org.kuali.rice.kns.document.MaintenanceDocument,
+     *      java.util.Map)
+     */
+    @Override
+    public void processAfterCopy(MaintenanceDocument document, Map<String, String[]> parameters) {
+        super.processAfterEdit(document, parameters);
+
+        // Default the invoice template field on the addresses tab
+        defaultInvoiceTemplate(getCustomer(), document);
+
+    }
+
+    /**
+     * Defaults the invoice template field for new Agency Addresses on the given Agency maintenance document
+     *
+     * @param agency
+     * @param document
+     */
+    private void defaultInvoiceTemplate(Customer customer, MaintenanceDocument document) {
+
+        // Default Invoice Template for new Agency Addresses
+        if (ObjectUtils.isNotNull(customer)) {
+            CustomerAddress newCustomerAddress = (CustomerAddress) document.getNewMaintainableObject().getNewCollectionLine(ArPropertyConstants.CustomerFields.CUSTOMER_TAB_ADDRESSES);
+            newCustomerAddress.setCustomerInvoiceTemplateCode(customer.getCustomerInvoiceTemplateCode());
+        }
+    }
+    
+    /**
+     * Overridden to set the default values on the Agency document.
+     *
+     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#processAfterNew(org.kuali.rice.kns.document.MaintenanceDocument,
+     *      java.util.Map)
+     */
+    @Override
+    public void processAfterNew(MaintenanceDocument document, Map<String, String[]> parameters) {
+        super.processAfterNew(document, parameters);
+        // Default the invoice template field on the addresses tab
+        defaultInvoiceTemplate(getCustomer(), document);
+    }
 }

@@ -41,6 +41,7 @@ import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAwardAccount;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.ContractsGrantsLetterOfCreditReviewDetail;
+import org.kuali.kfs.module.ar.businessobject.CustomerAddress;
 import org.kuali.kfs.module.ar.businessobject.InvoiceAgencyAddressDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoicePaidApplied;
 import org.kuali.kfs.module.ar.businessobject.SystemInformation;
@@ -756,22 +757,22 @@ public class ContractsGrantsInvoiceReportServiceImpl extends ContractsGrantsRepo
             List<InvoiceAgencyAddressDetail> agencyAddresses = (List<InvoiceAgencyAddressDetail>) businessObjectService.findMatching(InvoiceAgencyAddressDetail.class, map);
             for (InvoiceAgencyAddressDetail agencyAddress : agencyAddresses) {
                 if (ArConstants.InvoiceIndicator.MAIL.equals(agencyAddress.getPreferredInvoiceIndicatorCode())) {
-                    ContractsAndGrantsAgencyAddress address;
+                    CustomerAddress address;
                     Map<String, Object> primaryKeys = new HashMap<String, Object>();
-                    primaryKeys.put(KFSPropertyConstants.AGENCY_NUMBER, agencyAddress.getAgencyNumber());
-                    primaryKeys.put("agencyAddressIdentifier", agencyAddress.getAgencyAddressIdentifier());
-                    address = kualiModuleService.getResponsibleModuleService(ContractsAndGrantsAgencyAddress.class).getExternalizableBusinessObject(ContractsAndGrantsAgencyAddress.class, primaryKeys);
+                    primaryKeys.put(KFSPropertyConstants.CUSTOMER_NUMBER, invoice.getCustomerNumber());
+                    primaryKeys.put("customerAddressIdentifier", agencyAddress.getCustomerAddressIdentifier());
+                    address = businessObjectService.findByPrimaryKey(CustomerAddress.class,primaryKeys);
                     Note note = noteService.getNoteByNoteId(agencyAddress.getNoteId());
-//                    for (int i = 0; i < address.getAgencyCopiesToPrint(); i++) {
-//
-//                        if (ObjectUtils.isNotNull(note)) {
-//                            if (!pageAdded) {
-//                                copy.open();
-//                            }
-//                            pageAdded = true;
-//                            copy.addDocument(new PdfReader(note.getAttachment().getAttachmentContents()));
-//                        }
-//                    }
+                    for (int i = 0; i < address.getCustomerCopiesToPrint(); i++) {
+
+                        if (ObjectUtils.isNotNull(note)) {
+                            if (!pageAdded) {
+                                copy.open();
+                            }
+                            pageAdded = true;
+                            copy.addDocument(new PdfReader(note.getAttachment().getAttachmentContents()));
+                        }
+                    }
                 }
             }
             invoice.setDateReportProcessed(new Date());
@@ -797,79 +798,79 @@ public class ContractsGrantsInvoiceReportServiceImpl extends ContractsGrantsRepo
         Font titleFont = new Font(Font.TIMES_ROMAN, 12, Font.BOLD);
         Font smallFont = new Font(Font.TIMES_ROMAN, 9, Font.NORMAL);
         for (ContractsGrantsInvoiceDocument invoice : list) {
-
+            
             // add a document
             Map<String, Object> map = new HashMap<String, Object>();
             map.put(ArPropertyConstants.CustomerInvoiceDocumentFields.DOCUMENT_NUMBER, invoice.getDocumentNumber());
             List<InvoiceAgencyAddressDetail> agencyAddresses = (List<InvoiceAgencyAddressDetail>) businessObjectService.findMatching(InvoiceAgencyAddressDetail.class, map);
             for (InvoiceAgencyAddressDetail agencyAddress : agencyAddresses) {
                 if (ArConstants.InvoiceIndicator.MAIL.equals(agencyAddress.getPreferredInvoiceIndicatorCode())) {
-                    ContractsAndGrantsAgencyAddress address;
+                    CustomerAddress address;
                     Map<String, Object> primaryKeys = new HashMap<String, Object>();
-                    primaryKeys.put(KFSPropertyConstants.AGENCY_NUMBER, agencyAddress.getAgencyNumber());
-                    primaryKeys.put("agencyAddressIdentifier", agencyAddress.getAgencyAddressIdentifier());
-                    address = kualiModuleService.getResponsibleModuleService(ContractsAndGrantsAgencyAddress.class).getExternalizableBusinessObject(ContractsAndGrantsAgencyAddress.class, primaryKeys);
-//                    for (int i = 0; i < address.getAgencyPrintEnvelopesNumber(); i++) {
-//                        // if a page has not already been added then open the document.
-//                        if (!pageAdded) {
-//                            document.open();
-//                        }
-//                        pageAdded = true;
-//                        document.newPage();
-//                        Paragraph sendTo = new Paragraph();
-//                        Paragraph sentBy = new Paragraph();
-//                        sentBy.setIndentationLeft(20);
-//                        // adding the send To address
-//                        sendTo.add(new Paragraph(address.getAgencyAddressName(), titleFont));
-//                        if (StringUtils.isNotEmpty(address.getAgencyLine1StreetAddress())) {
-//                            sendTo.add(new Paragraph(address.getAgencyLine1StreetAddress(), titleFont));
-//                        }
-//                        if (StringUtils.isNotEmpty(address.getAgencyLine2StreetAddress())) {
-//                            sendTo.add(new Paragraph(address.getAgencyLine2StreetAddress(), titleFont));
-//                        }
-//                        String string = "";
-//                        if (StringUtils.isNotEmpty(address.getAgencyCityName())) {
-//                            string += address.getAgencyCityName();
-//                        }
-//                        if (StringUtils.isNotEmpty(address.getAgencyStateCode())) {
-//                            string += ", " + address.getAgencyStateCode();
-//                        }
-//                        if (StringUtils.isNotEmpty(address.getAgencyZipCode())) {
-//                            string += "-" + address.getAgencyZipCode();
-//                        }
-//                        if (StringUtils.isNotEmpty(string)) {
-//                            sendTo.add(new Paragraph(string, titleFont));
-//                        }
-//                        sendTo.setAlignment(Element.ALIGN_CENTER);
-//                        sendTo.add(new Paragraph(" "));
-//
-//                        // adding the sent From address
-//                        Organization org = invoice.getAward().getPrimaryAwardOrganization().getOrganization();
-//                        sentBy.add(new Paragraph(org.getOrganizationName(), smallFont));
-//                        if (StringUtils.isNotEmpty(org.getOrganizationLine1Address())) {
-//                            sentBy.add(new Paragraph(org.getOrganizationLine1Address(), smallFont));
-//                        }
-//                        if (StringUtils.isNotEmpty(org.getOrganizationLine2Address())) {
-//                            sentBy.add(new Paragraph(org.getOrganizationLine2Address(), smallFont));
-//                        }
-//                        string = "";
-//                        if (StringUtils.isNotEmpty(address.getAgencyCityName())) {
-//                            string += org.getOrganizationCityName();
-//                        }
-//                        if (StringUtils.isNotEmpty(address.getAgencyStateCode())) {
-//                            string += ", " + org.getOrganizationStateCode();
-//                        }
-//                        if (StringUtils.isNotEmpty(address.getAgencyZipCode())) {
-//                            string += "-" + org.getOrganizationZipCode();
-//                        }
-//                        if (StringUtils.isNotEmpty(string)) {
-//                            sentBy.add(new Paragraph(string, smallFont));
-//                        }
-//                        sentBy.setAlignment(Element.ALIGN_LEFT);
-//
-//                        document.add(sentBy);
-//                        document.add(sendTo);
-//                    }
+                    primaryKeys.put(KFSPropertyConstants.CUSTOMER_NUMBER, invoice.getCustomerNumber());
+                    primaryKeys.put("customerAddressIdentifier", agencyAddress.getCustomerAddressIdentifier());
+                    address = businessObjectService.findByPrimaryKey(CustomerAddress.class,primaryKeys);
+                    for (int i = 0; i < address.getCustomerPrintEnvelopesNumber(); i++) {
+                        // if a page has not already been added then open the document.
+                        if (!pageAdded) {
+                            document.open();
+                        }
+                        pageAdded = true;
+                        document.newPage();
+                        Paragraph sendTo = new Paragraph();
+                        Paragraph sentBy = new Paragraph();
+                        sentBy.setIndentationLeft(20);
+                        // adding the send To address
+                        sendTo.add(new Paragraph(address.getCustomerAddressName(), titleFont));
+                        if (StringUtils.isNotEmpty(address.getCustomerLine1StreetAddress())) {
+                            sendTo.add(new Paragraph(address.getCustomerLine1StreetAddress(), titleFont));
+                        }
+                        if (StringUtils.isNotEmpty(address.getCustomerLine2StreetAddress())) {
+                            sendTo.add(new Paragraph(address.getCustomerLine2StreetAddress(), titleFont));
+                        }
+                        String string = "";
+                        if (StringUtils.isNotEmpty(address.getCustomerCityName())) {
+                            string += address.getCustomerCityName();
+                        }
+                        if (StringUtils.isNotEmpty(address.getCustomerStateCode())) {
+                            string += ", " + address.getCustomerStateCode();
+                        }
+                        if (StringUtils.isNotEmpty(address.getCustomerZipCode())) {
+                            string += "-" + address.getCustomerZipCode();
+                        }
+                        if (StringUtils.isNotEmpty(string)) {
+                            sendTo.add(new Paragraph(string, titleFont));
+                        }
+                        sendTo.setAlignment(Element.ALIGN_CENTER);
+                        sendTo.add(new Paragraph(" "));
+
+                        // adding the sent From address
+                        Organization org = invoice.getAward().getPrimaryAwardOrganization().getOrganization();
+                        sentBy.add(new Paragraph(org.getOrganizationName(), smallFont));
+                        if (StringUtils.isNotEmpty(org.getOrganizationLine1Address())) {
+                            sentBy.add(new Paragraph(org.getOrganizationLine1Address(), smallFont));
+                        }
+                        if (StringUtils.isNotEmpty(org.getOrganizationLine2Address())) {
+                            sentBy.add(new Paragraph(org.getOrganizationLine2Address(), smallFont));
+                        }
+                        string = "";
+                        if (StringUtils.isNotEmpty(address.getCustomerCityName())) {
+                            string += org.getOrganizationCityName();
+                        }
+                        if (StringUtils.isNotEmpty(address.getCustomerStateCode())) {
+                            string += ", " + org.getOrganizationStateCode();
+                        }
+                        if (StringUtils.isNotEmpty(address.getCustomerZipCode())) {
+                            string += "-" + org.getOrganizationZipCode();
+                        }
+                        if (StringUtils.isNotEmpty(string)) {
+                            sentBy.add(new Paragraph(string, smallFont));
+                        }
+                        sentBy.setAlignment(Element.ALIGN_LEFT);
+
+                        document.add(sentBy);
+                        document.add(sendTo);
+                    }
                 }
             }
         }

@@ -189,10 +189,34 @@
         <property name="validations">
             <list>
             	<bean parent="TravelAuthorizationDocument-advanceObjectCodeValidation" scope="prototype"/>
-                <bean parent="TravelModule-addAccountingLine-failFastValidation" scope="prototype" />
+                <bean parent="TravelAuthorizationDocument-addAccountingLine-failFastValidation" scope="prototype" />
             </list>
         </property>
-    </bean> 
+    </bean>
+    
+    <bean id="TravelAuthorizationDocument-addAccountingLine-failFastValidation" abstract="true" parent="TravelAuthorizationDocument-addAccountingLine-failFastValidation-parentBean" scope="prototype"/>
+    <bean id="TravelAuthorizationDocument-addAccountingLine-failFastValidation-parentBean" abstract="true" parent="CompositeValidation">
+        <property name="validations">
+            <list>
+                <bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype">
+                    <property name="parameterProperties">
+                        <bean parent="accountingLineToBusinessObjectFieldConversion" />
+                    </property>
+                </bean>
+                <bean parent="AccountingDocument-accountingLineDataDictionaryValidation" scope="prototype">
+                    <property name="parameterProperties">
+                        <list>
+                            <bean parent="accountingLineFieldConversion" />
+                        </list>
+                    </property>
+                    <property name="quitOnFail" value="true" />
+                </bean>
+    			<bean parent="TravelModule-accountingObjectLevelValidation" scope="prototype" />
+                <bean parent="TravelModule-addAccountingLineAllowedObjCodeValidation" scope="prototype"/>
+                <bean parent="TravelModule-accountingLineBlanketTripTypeValidation" scope="prototype"/>
+            </list>
+        </property>
+    </bean>
     
     <!-- Update Accounting Line Event -->
     <bean id="TravelAuthorization-updateAccountingLine-failFastValidation" abstract="true" parent="CompositeValidation" scope="prototype">

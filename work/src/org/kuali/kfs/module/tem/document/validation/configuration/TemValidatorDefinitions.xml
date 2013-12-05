@@ -129,7 +129,8 @@
 	<bean id="TravelDocument-perDiemPrimaryDestMatchValidation-parentBean" abstract="true" class="org.kuali.kfs.module.tem.document.validation.impl.TravelDocumentPerDiemPrimaryDestinationMatchValidation"/>
 
 	<!-- Add Accounting Line Event -->
-    <bean id="TravelModule-addAccountingLine-failFastValidation" abstract="true" parent="CompositeValidation" scope="prototype">
+	<bean id="TravelModule-addAccountingLine-failFastValidation" abstract="true" parent="TravelModule-addAccountingLine-failFastValidation-parentBean" scope="prototype"/>
+    <bean id="TravelModule-addAccountingLine-failFastValidation-parentBean" abstract="true" parent="CompositeValidation">
         <property name="validations">
             <list>
                 <bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype">
@@ -147,7 +148,6 @@
                 </bean>
     			<bean parent="TravelModule-accountingObjectLevelValidation" scope="prototype" />
                 <bean parent="TravelModule-addAccountingLineAllowedObjCodeValidation" scope="prototype"/>
-                <bean parent="TravelModule-accountingLineBlanketTripTypeValidation" scope="prototype"/>
             </list>
         </property>
     </bean>

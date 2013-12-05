@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.tem.document.authorization;
 
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
@@ -111,4 +112,27 @@ public class TemProfileAuthorizerAssistant extends FinancialSystemMaintenanceDoc
     public boolean canCopy(Document document, Person user) {
         return false;
     }
+
+    /**
+     * Permissions may exist to hide the
+     * @see org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase#getSecurePotentiallyHiddenSectionIds()
+     */
+    /*@Override
+    public Set<String> getSecurePotentiallyHiddenSectionIds() {
+        Set<String> hiddenSections = super.getSecurePotentiallyHiddenSectionIds();
+        hiddenSections.add(TemPropertyConstants.TemProfileProperties.TEM_PROFILE_ADMINISTRATOR);
+        return hiddenSections;
+    }*/
+
+    /**
+     * There's a permission for out-of-the-box KFS to make the TemProfileAdministrator section read only
+     * @see org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase#getSecurePotentiallyReadOnlySectionIds()
+     */
+    @Override
+    public Set<String> getSecurePotentiallyReadOnlySectionIds() {
+        Set<String> readOnlySections = super.getSecurePotentiallyReadOnlySectionIds();
+        readOnlySections.add(TemPropertyConstants.TemProfileProperties.TEM_PROFILE_ADMINISTRATOR);
+        return readOnlySections;
+    }
+
 }

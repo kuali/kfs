@@ -183,10 +183,10 @@ public class TravelRelocationAction extends TravelActionBase {
                 if (document.getTraveler().getPrincipalId() != null) {
                     document.getTraveler().setPrincipalName(getPersonService().getPerson(document.getTraveler().getPrincipalId()).getPrincipalName());
                 }
+                document.setProfileId(oldRelocation.getTemProfileId());
+                document.updatePayeeTypeForReimbursable();
 
                 document.setTripDescription(oldRelocation.getTripDescription());
-                document.setTripType(oldRelocation.getTripType());
-                document.setTripTypeCode(oldRelocation.getTripTypeCode());
                 document.setPrimaryDestinationName(oldRelocation.getPrimaryDestinationName());
                 document.setTripBegin(oldRelocation.getTripBegin());
                 document.setTripEnd(oldRelocation.getTripEnd());
@@ -301,7 +301,6 @@ public class TravelRelocationAction extends TravelActionBase {
         if (!relocation.getDocumentHeader().getWorkflowDocument().isInitiated()) {
             LOG.debug("Refreshing objects in relocation");
             relocation.refreshReferenceObject(TemPropertyConstants.TRAVELER);
-            relocation.refreshReferenceObject(TemPropertyConstants.TRIP_TYPE);
             relocation.refreshReferenceObject(TemPropertyConstants.ACTUAL_EXPENSES);
             relocation.refreshReferenceObject(TemPropertyConstants.SPECIAL_CIRCUMSTANCES);
         }

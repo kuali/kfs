@@ -294,7 +294,6 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
         TravelFormBase travelFormBase = (TravelFormBase) form;
         final String methodToCall = travelFormBase.getMethodToCall();
         final TravelDocument document = (TravelDocument) travelFormBase.getDocument();
-        document.refreshReferenceObject(TemPropertyConstants.TRIP_TYPE);
 
         //set PerDiem categories and breakdown
         getPerDiemService().setPerDiemCategoriesAndBreakdown(travelFormBase);

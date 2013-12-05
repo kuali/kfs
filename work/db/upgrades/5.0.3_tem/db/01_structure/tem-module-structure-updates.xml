@@ -319,7 +319,6 @@
 			<column name="TITLE" type="VARCHAR2(100)" />
 			<column name="TRAVELER_DTL_ID" type="NUMBER(22,0)" />
 			<column name="TEM_PROFILE_ID" type="NUMBER(22,0)" />
-			<column name="TRIP_TYP_CD" type="VARCHAR2(3)" />
 			<column name="TRIP_BGN_DT" type="DATE" />
 			<column name="TRIP_END_DT" type="DATE" />
 			<column name="PRIMARY_DEST_ID" type="NUMBER(22,0)" />
@@ -629,7 +628,6 @@
 		<createTable tableName="TEM_RELO_DOC_T">
 			<column name="FDOC_NBR" type="VARCHAR2(14)" />
 			<column name="TRVL_ID" type="VARCHAR2(19)" />
-			<column name="TRIP_TYP_CD" type="VARCHAR2(3)" />
 			<column name="TRIP_BGN_DT" type="DATE" />
 			<column name="TRIP_END_DT" type="DATE" />
 			<column name="PRIMARY_DEST_ID" type="NUMBER(22,0)" />

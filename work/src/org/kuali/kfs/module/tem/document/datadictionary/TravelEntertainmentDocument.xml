@@ -40,7 +40,6 @@
 			<ref bean="TravelEntertainmentDocument-hostName" />
 			<ref bean="TravelEntertainmentDocument-temProfileId" />
 			<ref bean="TravelEntertainmentDocument-temProfileName" />
-			<ref bean="TravelEntertainmentDocument-tripTypeCode" />
 			<ref bean="TravelEntertainmentDocument-tripBegin" />
 			<ref bean="TravelEntertainmentDocument-tripEnd" />
 			<ref bean="TravelEntertainmentDocument-eventTitle" />
@@ -117,18 +116,6 @@
         <property name="name" value="applicationDocumentStatus"/>
         <property name="label" value="Document Status" />
     </bean>
-    
-	<bean id="TravelEntertainmentDocument-tripTypeCode" parent="TravelEntertainmentDocument-tripTypeCode-parentBean" />
-	<bean id="TravelEntertainmentDocument-tripTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
-		<property name="name" value="tripTypeCode" />
-		<property name="label" value="Trip Type Code" />
-		<property name="shortLabel" value="Trip Type Code" />
-		<property name="required" value="false" />
-		<property name="maxLength" value="3" />
-		<property name="summary" value="Trip Type Code" />
-		<property name="description" value="Trip Type Code" />
-		<property name="control"><bean parent="TextControlDefinition" p:size="3"/></property>
-	</bean>
 	
 	<bean id="TravelEntertainmentDocument-tripBegin" parent="TravelEntertainmentDocument-tripBegin-parentBean" />
 	<bean id="TravelEntertainmentDocument-tripBegin-parentBean" abstract="true" parent="GenericAttributes-genericDate">

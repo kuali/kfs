@@ -36,7 +36,6 @@ import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationParameters;
 import org.kuali.kfs.module.tem.TemConstants.TravelCustomSearchLinks;
 import org.kuali.kfs.module.tem.TemConstants.TravelParameters;
 import org.kuali.kfs.module.tem.TemParameterConstants;
-import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.businessobject.AccountingDistribution;
 import org.kuali.kfs.module.tem.businessobject.AccountingDocumentRelationship;
 import org.kuali.kfs.module.tem.businessobject.ActualExpense;
@@ -637,7 +636,7 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
             throw new IllegalArgumentException("invalid (null) document");
         }
         TravelDocumentBase travelDoc = (TravelDocumentBase) financialDocument;
-        travelDoc.refreshReferenceObject(TemPropertyConstants.TRIP_TYPE);
+
         try {
             SourceAccountingLine newSource = (SourceAccountingLine) financialDocument.getSourceAccountingLineClass().newInstance();
             if (travelDoc.getTemProfile() != null) {
@@ -647,15 +646,7 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
                 newSource.setSubAccountNumber(travelDoc.getTemProfile().getDefaultSubAccount());
                 newSource.setProjectCode(travelDoc.getTemProfile().getDefaultProjectCode());
             }
-
-            if (ObjectUtils.isNotNull(travelDoc.getTripType())) {
-                // set object code based on trip type
-                newSource.setFinancialObjectCode(travelDoc.getTripType().getEncumbranceObjCode());
-            }
-            else {
-                // default object code here
-                newSource.setFinancialObjectCode("");
-            }
+            newSource.setFinancialObjectCode("");
             return newSource;
         }
         catch (Exception e) {

@@ -32,7 +32,7 @@
 					</tr>
 					<tr>
 						<th class="bord-l-b"><div align="right">Less CTS Charges: -</div></th>
-					    <td><bean:write name="KualiForm" property="document.CTSTotal" /></td>
+					    <td><bean:write name="KualiForm" property="document.fullCTSTotal" /></td>
 					</tr>
 					<c:if test="${KualiForm.showCorporateCardTotal}">
 						<tr>

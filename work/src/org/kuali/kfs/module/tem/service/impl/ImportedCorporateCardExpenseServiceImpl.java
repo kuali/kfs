@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.tem.service.impl;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -107,7 +108,14 @@ public class ImportedCorporateCardExpenseServiceImpl extends ExpenseServiceBase 
      */
     @Override
     public List<? extends TemExpense> getExpenseDetails(TravelDocument document) {
-        return document.getImportedExpenses();
+        final List<ImportedExpense> importedExpenses = document.getImportedExpenses();
+        List<ImportedExpense> corporateCardExpenses = new ArrayList<ImportedExpense>();
+        for (ImportedExpense expense : importedExpenses) {
+            if (StringUtils.equals(expense.getCardType(), TemConstants.TRAVEL_TYPE_CORP)) {
+                corporateCardExpenses.add(expense);
+            }
+        }
+        return corporateCardExpenses;
     }
 
     /**

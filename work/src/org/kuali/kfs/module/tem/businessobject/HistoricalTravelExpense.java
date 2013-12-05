@@ -211,4 +211,5 @@ public class HistoricalTravelExpense extends ImportedExpenseBase {
     public void setTravelExpenseTypeString(String travelExpenseTypeString) {
         this.travelExpenseTypeString = travelExpenseTypeString;
     }
+
 }

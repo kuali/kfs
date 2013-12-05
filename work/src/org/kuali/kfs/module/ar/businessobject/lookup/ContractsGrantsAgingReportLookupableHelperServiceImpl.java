@@ -643,7 +643,6 @@ public class ContractsGrantsAgingReportLookupableHelperServiceImpl extends Kuali
         Properties params = new Properties();
         ContractsAndGrantsAgingReport detail = (ContractsAndGrantsAgingReport) bo;
 //      Note
-//      params.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, DocSearchCriteriaDTO.class.getName());
         params.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, DocumentSearchCriteriaBo.class.getName());
         params.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.START_METHOD);
         params.put(KFSConstants.DOC_FORM_KEY, "88888888");
@@ -664,7 +663,6 @@ public class ContractsGrantsAgingReportLookupableHelperServiceImpl extends Kuali
         Properties params = new Properties();
         ContractsAndGrantsAgingReport detail = (ContractsAndGrantsAgingReport) bo;
 //        Note
-//        params.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, DocSearchCriteriaDTO.class.getName());
         params.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, DocumentSearchCriteriaBo.class.getName());
         params.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.START_METHOD);
         params.put(KFSConstants.DOC_FORM_KEY, "88888888");

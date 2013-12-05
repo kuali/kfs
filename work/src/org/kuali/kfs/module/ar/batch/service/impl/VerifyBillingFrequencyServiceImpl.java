@@ -128,7 +128,6 @@ public class VerifyBillingFrequencyServiceImpl implements VerifyBillingFrequency
                     int i = -1;
                     for (i = 0; i < periodEndDateListOfCurrFiscalYear.size(); i++) {
                         // find the PreviousAccountingPeriodEndDate by current fiscal period end date and last billed date
-                        // last billed date <= PreviousAccountingPeriodEndDate < current fiscal period end date
                         if (currPeriod.getUniversityFiscalPeriodEndDate().equals(periodEndDateListOfCurrFiscalYear.get(i))) {
                             break;
                         }
@@ -145,14 +144,11 @@ public class VerifyBillingFrequencyServiceImpl implements VerifyBillingFrequency
                 }
                 else{
                 // get end date by award's beginning date
-                // previousAccountingPeriodEndDay =
-                // accountingPeriodService.getByDate(award.getAwardBeginningDate()).getUniversityFiscalPeriodEndDate();
                 // if the lastBilledDate = null, means the the award is billed from its start date till the previous period end
                 // date, so the calculation would be:
                 int i = -1;
                 for (i = 0; i < periodEndDateListOfCurrFiscalYear.size(); i++) {
                     // find the PreviousAccountingPeriodEndDate by current fiscal period end date and last billed date
-                    // last billed date <= PreviousAccountingPeriodEndDate < current fiscal period end date
                     if (currPeriod.getUniversityFiscalPeriodEndDate().equals(periodEndDateListOfCurrFiscalYear.get(i))) {
                         break;
                     }
@@ -232,7 +228,6 @@ public class VerifyBillingFrequencyServiceImpl implements VerifyBillingFrequency
                     int i = 0;
                     for (i = 2; i < periodEndDateListOfCurrFiscalYear.size(); i += 3) {
                         // find the PreviousAccountingPeriodEndDate by current fiscal period end date and last billed date.
-                        // last billed date <= PreviousAccountingPeriodEndDate < current fiscal period end date
                         // for exmple, if current date is 2011.10.8, then the code will get out from for loop when looping to i =5
                         // (2011.12.31), so previous end date is 2011.9.30(i=5-3=2)
                         if (!currPeriod.getUniversityFiscalPeriodEndDate().after(periodEndDateListOfCurrFiscalYear.get(i))) {
@@ -324,7 +319,6 @@ public class VerifyBillingFrequencyServiceImpl implements VerifyBillingFrequency
                     int i = -1;
                     for (i = 5; i < periodEndDateListOfCurrFiscalYear.size(); i += 6) {
                         // find the PreviousAccountingPeriodEndDate by current fiscal period end date and last billed date.
-                        // last billed date <= PreviousAccountingPeriodEndDate < current fiscal period end date
                         tmpEndDate = periodEndDateListOfCurrFiscalYear.get(i);
 
                         if (!currPeriod.getUniversityFiscalPeriodEndDate().after(periodEndDateListOfCurrFiscalYear.get(i))) {

@@ -143,7 +143,6 @@ public class CollectionActivityInvoiceLookupableHelperServiceImpl extends KualiL
             cl.setBillingFrequency(contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getBillingFrequency());
         }
         cl.setPaymentAmount(contractsGrantsInvoiceDocumentService.retrievePaymentAmountByDocumentNumber(contractsGrantsInvoiceDocument.getDocumentNumber()));
-        // cl.setLastPaymentDate(contractsGrantsInvoiceDocumentService.retrievePaymentDateByDocumentNumber(contractsGrantsInvoiceDocument.getDocumentNumber()));
         cl.setBalanceDue(cl.getInvoiceAmount().subtract(cl.getPaymentAmount()));
         cl.setAge(contractsGrantsInvoiceDocument.getAge());
         return cl;
@@ -188,7 +187,6 @@ public class CollectionActivityInvoiceLookupableHelperServiceImpl extends KualiL
                 BusinessObject element = (BusinessObject) aDisplayList;
 
                 BusinessObjectRestrictions businessObjectRestrictions = getBusinessObjectAuthorizationService().getLookupResultRestrictions(element, user);
-//                String returnUrl = "www.bigfrickenRETURNurl";
                 String actionUrls = "www.someACTIONurl";
 
                 if (ObjectUtils.isNotNull(getColumns())) {

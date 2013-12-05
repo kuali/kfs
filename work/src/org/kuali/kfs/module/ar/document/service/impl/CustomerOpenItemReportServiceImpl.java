@@ -688,7 +688,6 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
         Collection arDocumentHeaders = accountsReceivableDocumentHeaderDao.getARDocumentHeadersIncludingHiddenApplicationByCustomerNumber(customerNumber);
         String userId = GlobalVariables.getUserSession().getPrincipalId();
 
-        //List invoiceIds = new ArrayList();
         List paymentApplicationIds = new ArrayList();
         List creditMemoIds = new ArrayList();
         List writeOffIds = new ArrayList();
@@ -758,7 +757,6 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
         String userId = GlobalVariables.getUserSession().getPrincipalId();
 
         Hashtable details = new Hashtable();
-        //List invoiceIds = new ArrayList();
         List paymentApplicationIds = new ArrayList();
         List creditMemoIds = new ArrayList();
         List writeOffIds = new ArrayList();

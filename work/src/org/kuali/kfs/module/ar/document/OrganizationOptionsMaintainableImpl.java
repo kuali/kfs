@@ -57,7 +57,6 @@ public class OrganizationOptionsMaintainableImpl extends FinancialSystemMaintain
         super.processAfterNew(document, parameters);
         
         initializeAttributes(document);
-        //document.getNewMaintainableObject().setGenerateDefaultValues(false);
 		
         Person finSysUser = GlobalVariables.getUserSession().getPerson();
         

@@ -143,7 +143,6 @@ public class InvoiceRecurrenceServiceImpl implements InvoiceRecurrenceService {
                 customerInvoiceDocument.toCopy();
                 List<AdHocRouteRecipient> adHocRouteRecipients = new ArrayList<AdHocRouteRecipient>();
                 adHocRouteRecipients.add(buildApprovePersonRecipient(initiator));
-                //adHocRouteRecipients.add(buildApproveWorkgroupRecipient(workgroup));
                 getDocumentService().routeDocument(customerInvoiceDocument, "This is a recurred Customer Invoice", adHocRouteRecipients);
                 invoiceRecurrence.setDocumentLastCreateDate(currentDate);
                 boService.save(invoiceRecurrence);
@@ -162,7 +161,6 @@ public class InvoiceRecurrenceServiceImpl implements InvoiceRecurrenceService {
                     customerInvoiceDocument.toCopy();
                     List<AdHocRouteRecipient> adHocRouteRecipients = new ArrayList<AdHocRouteRecipient>();
                     adHocRouteRecipients.add(buildApprovePersonRecipient(initiator));
-                    //adHocRouteRecipients.add(buildApproveWorkgroupRecipient(workgroup));
                     getDocumentService().routeDocument(customerInvoiceDocument, "This is a recurred Customer Invoice", adHocRouteRecipients);
                     invoiceRecurrence.setDocumentLastCreateDate(currentDate);
                     boService.save(invoiceRecurrence);
@@ -185,7 +183,6 @@ public class InvoiceRecurrenceServiceImpl implements InvoiceRecurrenceService {
                 newMaintDoc.getNewMaintainableObject().setMaintenanceAction(KRADConstants.MAINTENANCE_EDIT_ACTION);
                 List<AdHocRouteRecipient> adHocRouteRecipients = new ArrayList<AdHocRouteRecipient>();
                 adHocRouteRecipients.add(buildFyiPersonRecipient(initiator));
-                //adHocRouteRecipients.add(buildFyiWorkgroupRecipient(workgroup));
                 getDocumentService().routeDocument(newMaintDoc, null, adHocRouteRecipients);
                 newInvoiceRecurrence.setDocumentLastCreateDate(currentDate);
                 boService.save(newInvoiceRecurrence);

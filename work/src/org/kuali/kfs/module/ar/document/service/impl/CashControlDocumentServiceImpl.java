@@ -113,12 +113,6 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
         // to succeed before the document is saved again.
         doc.setCashControlDetail(cashControlDetail);
 
-//        AccountsReceivableDocumentHeader accountsReceivableDocumentHeader2 = accountsReceivableDocumentHeaderService.getNewAccountsReceivableDocumentHeaderForCurrentUser();
-//        accountsReceivableDocumentHeader2.setDocumentNumber(doc.getDocumentNumber());
-//        accountsReceivableDocumentHeader2.setCustomerNumber(cashControlDetail.getCustomerNumber());
-//        doc.getNonAppliedHolding().setAccountsReceivableDocumentHeader(accountsReceivableDocumentHeader2);
-//        doc.getNonAppliedHolding().setCustomerNumber(cashControlDetail.getCustomerNumber());
-//        doc.getNonAppliedHolding().setReferenceFinancialDocumentNumber(doc.getDocumentNumber());
         doc.setNonAppliedHolding(null);
 
         documentService.saveDocument(doc);
@@ -148,7 +142,6 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
         // update new cash control detail fields to refer to the new created PaymentApplicationDocument
         cashControlDetail.setReferenceFinancialDocument(paymentApplicationDocument);
         cashControlDetail.setReferenceFinancialDocumentNumber(paymentApplicationDocument.getDocumentNumber());
-        // newCashControlDetail.setStatus(doc.getDocumentHeader().getWorkflowDocument().getStatusDisplayValue());
 
         // Save the cash control document, but do NOT do a full workflow-save, just persist the state
         paymentApplicationDocument.populateDocumentForRouting();

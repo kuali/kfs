@@ -351,7 +351,6 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
     public KualiDecimal getOriginalTotalAmountForCustomerInvoiceDocument(CustomerInvoiceDocument customerInvoiceDocument) {
         LOG.info("\n\n\n\t\t invoice: " + customerInvoiceDocument.getDocumentNumber() + "\n\t\t 111111111 HEADER TOTAL AMOUNT (should be null): " + customerInvoiceDocument.getFinancialSystemDocumentHeader().getFinancialDocumentTotalAmount() + "\n\n");
         customerInvoiceDocument.getDocumentNumber();
-        // original-amount = SpringContext.getBean(FinancialSystemDocumentService.class).get
         HashMap criteria = new HashMap();
         criteria.put("documentNumber", customerInvoiceDocument.getDocumentHeader().getDocumentTemplateNumber());
         FinancialSystemDocumentHeader financialSystemDocumentHeader = businessObjectService.findByPrimaryKey(FinancialSystemDocumentHeader.class, criteria);

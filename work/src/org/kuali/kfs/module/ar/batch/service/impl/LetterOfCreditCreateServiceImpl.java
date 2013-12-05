@@ -251,7 +251,6 @@ public class LetterOfCreditCreateServiceImpl implements LetterOfCreditCreateServ
             throw new RuntimeException(re.getMessage(), re);
         }
 
-        // Collections.reverse(documentIdList);
         if (LOG.isInfoEnabled()) {
             LOG.info("Cash control Documents to Route: " + cashControlDocumentIdList);
             LOG.info("Payment Application Documents to Route: " + payAppDocumentIdList);
@@ -313,21 +312,9 @@ public class LetterOfCreditCreateServiceImpl implements LetterOfCreditCreateServ
     protected List<String> retrieveCashControlDocumentsToRoute(String statusCode) throws WorkflowException, RemoteException {
         List<String> documentIds = new ArrayList<String>();
 
-//        DocumentSearchCriteriaDTO criteria = new DocumentSearchCriteriaDTO();
-//        criteria.setDocTypeFullName(KFSConstants.FinancialDocumentTypeCodes.CASH_CONTROL);
-//        criteria.setDocRouteStatus(statusCode);
         DocumentSearchCriteria.Builder criteria = DocumentSearchCriteria.Builder.create();
         criteria.setDocumentTypeName(KFSConstants.FinancialDocumentTypeCodes.CASH_CONTROL);
         criteria.setDocumentStatuses(Collections.singletonList(DocumentStatus.fromCode(statusCode)));
-//        DocumentSearchResultDTO results = SpringContext.getBean(KualiWorkflowInfo.class).performDocumentSearch(GlobalVariables.getUserSession().getPerson().getPrincipalId(), criteria);
-//
-//        for (DocumentSearchResultRowDTO resultRow : results.getSearchResults()) {
-//            for (KeyValue field : resultRow.getFieldValues()) {
-//                if (field.getKey().equals(WORKFLOW_SEARCH_RESULT_KEY)) {
-//                    documentIds.add(parseDocumentIdFromRouteDocHeader(field.getValue()));
-//                }
-//            }
-//        }
 
         DocumentSearchCriteria crit = criteria.build();
 
@@ -361,19 +348,6 @@ public class LetterOfCreditCreateServiceImpl implements LetterOfCreditCreateServ
     @SuppressWarnings("deprecation")
     protected List<String> retrievePayAppDocumentsToRoute(String statusCode) throws WorkflowException, RemoteException {
         List<String> documentIds = new ArrayList<String>();
-
-//        DocumentSearchCriteriaDTO criteria = new DocumentSearchCriteriaDTO();
-//        criteria.setDocTypeFullName(KFSConstants.FinancialDocumentTypeCodes.PAYMENT_APPLICATION);
-//        criteria.setDocRouteStatus(statusCode);
-//        DocumentSearchResultDTO results = SpringContext.getBean(KualiWorkflowInfo.class).performDocumentSearch(GlobalVariables.getUserSession().getPerson().getPrincipalId(), criteria);
-//
-//        for (DocumentSearchResultRowDTO resultRow : results.getSearchResults()) {
-//            for (KeyValue field : resultRow.getFieldValues()) {
-//                if (field.getKey().equals(WORKFLOW_SEARCH_RESULT_KEY)) {
-//                    documentIds.add(parseDocumentIdFromRouteDocHeader(field.getValue()));
-//                }
-//            }
-//        }
 
         DocumentSearchCriteria.Builder criteria = DocumentSearchCriteria.Builder.create();
         criteria.setDocumentTypeName(KFSConstants.FinancialDocumentTypeCodes.PAYMENT_APPLICATION);

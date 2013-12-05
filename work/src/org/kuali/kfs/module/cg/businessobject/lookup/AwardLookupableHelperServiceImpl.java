@@ -119,8 +119,6 @@ public class AwardLookupableHelperServiceImpl extends KualiLookupableHelperServi
         params.put("docTypeFullName", "CINV");
         params.put(KFSPropertyConstants.PROPOSAL_NUMBER, award.getProposalNumber().toString());
         params.put(KFSConstants.RETURN_LOCATION_PARAMETER, "portal.do");
-//        Note
-//        params.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, DocSearchCriteriaDTO.class.getName());
         params.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, DocumentSearchCriteriaBo.class.getName());
         String url = UrlFactory.parameterizeUrl(KRADConstants.LOOKUP_ACTION, params);
         return new AnchorHtmlData(url, KFSConstants.SEARCH_METHOD, "View Invoices");

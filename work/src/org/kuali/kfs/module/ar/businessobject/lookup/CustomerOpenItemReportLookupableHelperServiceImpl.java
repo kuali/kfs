@@ -177,9 +177,6 @@ public class CustomerOpenItemReportLookupableHelperServiceImpl extends KualiLook
         for (Iterator iter = displayList.iterator(); iter.hasNext();) {
             BusinessObject element = (BusinessObject) iter.next();
 
-            // String returnUrl = getReturnUrl(element, lookupForm.getFieldConversions(),
-            // lookupForm.getLookupableImplServiceName());
-            // String actionUrls = getActionUrls(element);
             String returnUrl = "www.bigfrickenRETURNurl";
             String actionUrls = "www.someACTIONurl";
             List<Column> columns = getColumns();
@@ -224,7 +221,6 @@ public class CustomerOpenItemReportLookupableHelperServiceImpl extends KualiLook
                             "&methodToCall=search&customerNumber="+customerNumber+ 
                             "&reportName=" + KFSConstants.CustomerOpenItemReport.UNPAID_UNAPPLIED_AMOUNT_REPORT +
                             "&customerName=" + customerName +
-                            //"&customerName=" +customer.getCustomerName()+
                             "&documentNumber=" + documentNumber +
                             "&reportName=Unpaid / Unapplied Amount Report&docFormKey=88888888";
                             col.setPropertyURL(href);

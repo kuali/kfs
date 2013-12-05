@@ -159,16 +159,8 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
         Date cutoffdate61 = DateUtils.addDays(reportRunDate, -61);
         Date cutoffdate90 = DateUtils.addDays(reportRunDate, -90);
         Date cutoffdate91 = DateUtils.addDays(reportRunDate, -91);
-        // Date cutoffdate120 = KfsDateUtils.addDays(reportRunDate, -120);
         Date cutoffdate120 = DateUtils.addDays(reportRunDate, -1 * Integer.parseInt(nbrDaysForLastBucket));
         Date cutoffdate121 = DateUtils.addDays(cutoffdate120, -1);
-
-        // LOG.info("\t\t********** REPORT DATE\t\t"+reportRunDate.toString());
-        // LOG.info("\t\t*********************** cutoffdate 30:\t\t"+cutoffdate30.toString());
-        // LOG.info("\t\t*********************** cutoffdate 60:\t\t"+cutoffdate60.toString());
-        // LOG.info("\t\t*********************** cutoffdate 90:\t\t"+cutoffdate90.toString());
-        // LOG.info("\t\t*********************** cutoffdate 120:\t\t"+cutoffdate120.toString());
-
 
         Collection<CustomerInvoiceDocument> invoices = new ArrayList<CustomerInvoiceDocument>();
         Map<String, CustomerAgingReportDetail> knownCustomers = new HashMap<String, CustomerAgingReportDetail>();
@@ -266,16 +258,6 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
                 fieldNm = (String) fieldConversions.get(fieldNm);
             }
 
-            if (SpringContext.getBean(BusinessObjectAuthorizationService.class).attributeValueNeedsToBeEncryptedOnFormsAndLinks(bo.getClass(), fieldNm)) {
-                // try {
-                // fieldVal = encryptionService.encrypt(fieldVal);
-                // }
-                // catch (GeneralSecurityException e) {
-                // LOG.error("Exception while trying to encrypted value for inquiry framework.", e);
-                // throw new RuntimeException(e);
-                // }
-            }
-
             // need to format date in url
             if (fieldVal instanceof Date) {
                 DateFormatter dateFormatter = new DateFormatter();
@@ -325,9 +307,6 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
                 BusinessObject element = (BusinessObject) aDisplayList;
 
                 BusinessObjectRestrictions businessObjectRestrictions = getBusinessObjectAuthorizationService().getLookupResultRestrictions(element, user);
-                // String returnUrl = getReturnUrl(element, lookupForm.getFieldConversions(),
-                // lookupForm.getLookupableImplServiceName());
-                // String actionUrls = getActionUrls(element);
                 String returnUrl = "www.bigfrickenRETURNurl";
                 String actionUrls = "www.someACTIONurl";
 
@@ -460,8 +439,6 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
     private String getPaymentApplicationSearchUrl(BusinessObject bo, String columnTitle) {
         Properties params = new Properties();
         CustomerAgingReportDetail detail = (CustomerAgingReportDetail) bo;
-//        Note
-//        params.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, DocSearchCriteriaDTO.class.getName());
         params.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, DocumentSearchCriteriaBo.class.getName());
         params.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.START_METHOD);
         params.put(KFSConstants.DOC_FORM_KEY, "88888888");
@@ -481,8 +458,6 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
     private String getCustomerWriteoffSearchUrl(BusinessObject bo, String columnTitle) {
         Properties params = new Properties();
         CustomerAgingReportDetail detail = (CustomerAgingReportDetail) bo;
-//        Note
-//        params.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, DocSearchCriteriaDTO.class.getName());
         params.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, DocumentSearchCriteriaBo.class.getName());
         params.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.START_METHOD);
         params.put(KFSConstants.DOC_FORM_KEY, "88888888");

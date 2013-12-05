@@ -141,14 +141,9 @@ public class CollectionActivityDocumentServiceImpl implements CollectionActivity
         final DocumentAttributeIndexingQueue documentAttributeIndexingQueue = KewApiServiceLocator.getDocumentAttributeIndexingQueue();
         documentAttributeIndexingQueue.indexDocument(colActDoc.getDocumentNumber());
 
-//        final WorkflowDocumentActions workflowDocumentActions = SpringContext.getBean(WorkflowDocumentActions.class);
-//        workflowDocumentActions.indexDocument(new Long(colActDoc.getDocumentNumber()));
-
       DocumentType documentType = documentTypeService.getDocumentTypeByName(colActDoc.getFinancialDocumentTypeCode());
       DocumentAttributeIndexingQueue queue = KewApiServiceLocator.getDocumentAttributeIndexingQueue(documentType.getApplicationId());
       queue.indexDocument(colActDoc.getDocumentNumber());
-//        final SearchableAttributeProcessingService searchableAttributeProcessingService = SpringContext.getBean(SearchableAttributeProcessingService.class);
-//        searchableAttributeProcessingService.indexDocument(new Long(colActDoc.getDocumentNumber()));
     }
 
     /**
@@ -166,8 +161,6 @@ public class CollectionActivityDocumentServiceImpl implements CollectionActivity
         documentService.prepareWorkflowDocument(colActDoc);
 
         documentService.saveDocument(colActDoc);
-//        final WorkflowDocumentActions workflowDocumentActions = SpringContext.getBean(WorkflowDocumentActions.class);
-//        workflowDocumentActions.indexDocument(new Long(colActDoc.getDocumentNumber()));
         final DocumentAttributeIndexingQueue documentAttributeIndexingQueue = KewApiServiceLocator.getDocumentAttributeIndexingQueue();
         documentAttributeIndexingQueue.indexDocument(colActDoc.getDocumentNumber());
 
@@ -177,8 +170,6 @@ public class CollectionActivityDocumentServiceImpl implements CollectionActivity
         DocumentAttributeIndexingQueue queue = KewApiServiceLocator.getDocumentAttributeIndexingQueue(documentType.getApplicationId());
         queue.indexDocument(colActDoc.getDocumentNumber());
 
-//        final SearchableAttributeProcessingService searchableAttributeProcessingService = SpringContext.getBean(SearchableAttributeProcessingService.class);
-//        searchableAttributeProcessingService.indexDocument(new Long(colActDoc.getDocumentNumber()));
     }
 
     /**

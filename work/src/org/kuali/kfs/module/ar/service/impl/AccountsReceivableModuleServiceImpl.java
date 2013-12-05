@@ -579,7 +579,7 @@ public class AccountsReceivableModuleServiceImpl implements AccountsReceivableMo
      */
     @Override
     public KualiDecimal getOpenAmountForCustomerInvoiceDocument(AccountsReceivableCustomerInvoice invoice) {
-        return SpringContext.getBean(CustomerInvoiceDocumentService.class).getOpenAmountForCustomerInvoiceDocument((CustomerInvoiceDocument) invoice);
+        return customerInvoiceDocumentService.getOpenAmountForCustomerInvoiceDocument((CustomerInvoiceDocument) invoice);
     }
 
     /**

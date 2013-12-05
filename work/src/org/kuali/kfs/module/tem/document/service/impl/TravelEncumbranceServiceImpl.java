@@ -503,6 +503,8 @@ public class TravelEncumbranceServiceImpl implements TravelEncumbranceService {
                 offsetEntry.setTransactionLedgerEntryAmount(disencumbranceAmount);
                 travelReimbursementDocument.addPendingEntry(pendingEntry);
                 travelReimbursementDocument.addPendingEntry(offsetEntry);
+
+                encumbrance.setAccountLineEncumbranceClosedAmount(encumbrance.getAccountLineEncumbranceClosedAmount().add(disencumbranceAmount));
             }
         }
     }

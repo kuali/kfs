@@ -597,8 +597,8 @@
 		<field-descriptor name="customerAddressEndDate" column="CUST_ADDR_END_DT" jdbc-type="DATE" />
 		<field-descriptor name="agencyInvoiceTemplateCode" column="INV_TYP_CD" jdbc-type="VARCHAR" /><!-- Invoice Type Link -->
 		<field-descriptor name="invoiceIndicatorCode" column="INV_IND_CD" jdbc-type="VARCHAR" /><!-- Invoice Indicator Link -->
-		<field-descriptor name="agencyCopiesToPrint" column="COPIES_TO_PRINT_QTY" jdbc-type="INTEGER" />
-		<field-descriptor name="agencyPrintEnvelopesNumber" column="PRNT_ENV_NBR" jdbc-type="INTEGER" />
+		<field-descriptor name="customerCopiesToPrint" column="COPIES_TO_PRINT_QTY" jdbc-type="INTEGER" />
+		<field-descriptor name="customerPrintEnvelopesNumber" column="PRNT_ENV_NBR" jdbc-type="INTEGER" />
 		<reference-descriptor name="customerAddressType" class-ref="org.kuali.kfs.module.ar.businessobject.CustomerAddressType"
 			auto-retrieve="true" auto-update="none" auto-delete="none" proxy="false">
 			<foreignkey field-ref="customerAddressTypeCode" />

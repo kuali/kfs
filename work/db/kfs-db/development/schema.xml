@@ -14823,12 +14823,11 @@
         </unique>
     </table>
     <table name="TEM_AGENCY_SRVC_FEE_T">
-        <column name="ID" primaryKey="true" size="22" type="DECIMAL"/>
-        <column name="DI_CD" required="true" size="3" type="VARCHAR"/>
-        <column name="DI_DESC" size="40" type="VARCHAR"/>
+        <column name="DIST_CD" primaryKey="true" size="3" type="VARCHAR"/>
+        <column name="DIST_DESC" size="40" type="VARCHAR"/>
         <column name="CHART_CD" required="true" size="2" type="VARCHAR"/>
         <column name="ACCT_NBR" required="true" size="7" type="VARCHAR"/>
-        <column name="OBJ_CD" required="true" size="4" type="VARCHAR"/>
+        <column name="FIN_OBJECT_CD" required="true" size="4" type="VARCHAR"/>
         <column name="SRVC_FEE" scale="2" size="8" type="DECIMAL"/>
         <column name="ACTV_IND" required="true" size="1" type="VARCHAR"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
@@ -14866,7 +14865,7 @@
         <column name="ALT_TRP_ID" size="20" type="VARCHAR"/>
         <column name="TRP_ARR_NM" size="50" type="VARCHAR"/>
         <column name="GRP_OBJ_CD" size="20" type="VARCHAR"/>
-        <column name="DI_CD" size="4" type="VARCHAR"/>
+        <column name="DIST_CD" size="4" type="VARCHAR"/>
         <column name="TRP_DPT_DT" type="DATE"/>
         <column name="TRP_RTRN_DT" type="DATE"/>
         <column name="FARE_SVR_CD" size="1" type="VARCHAR"/>
@@ -15131,7 +15130,6 @@
         <column name="TITLE" size="100" type="VARCHAR"/>
         <column name="TRAVELER_DTL_ID" size="22" type="DECIMAL"/>
         <column name="TEM_PROFILE_ID" size="22" type="DECIMAL"/>
-        <column name="TRIP_TYP_CD" size="3" type="VARCHAR"/>
         <column name="TRIP_BGN_DT" type="DATE"/>
         <column name="TRIP_END_DT" type="DATE"/>
         <column name="PRIMARY_DEST_ID" size="22" type="DECIMAL"/>
@@ -15157,9 +15155,6 @@
         <column name="HOST_AS_PAYEE" size="1" type="VARCHAR"/>
         <foreign-key foreignTable="TEM_TRAVELER_DTL_T" name="TEM_ENT_DOC_TR1">
             <reference foreign="ID" local="TRAVELER_DTL_ID"/>
-        </foreign-key>
-        <foreign-key foreignTable="TEM_TRIP_TYP_T" name="TEM_ENT_DOC_TR2">
-            <reference foreign="CODE" local="TRIP_TYP_CD"/>
         </foreign-key>
         <foreign-key foreignTable="TEM_PURPOSE_T" name="TEM_ENT_DOC_TR3">
             <reference foreign="PURPOSE_CODE" local="PURPOSE_CODE"/>
@@ -15563,7 +15558,6 @@
     <table name="TEM_RELO_DOC_T">
         <column name="FDOC_NBR" primaryKey="true" size="14" type="VARCHAR"/>
         <column name="TRVL_ID" size="19" type="VARCHAR"/>
-        <column name="TRIP_TYP_CD" size="3" type="VARCHAR"/>
         <column name="TRIP_BGN_DT" type="DATE"/>
         <column name="TRIP_END_DT" type="DATE"/>
         <column name="PRIMARY_DEST_ID" size="22" type="DECIMAL"/>
@@ -15598,9 +15592,6 @@
         <column name="CORP_CARD_PMT_CNCL_DT" type="DATE"/>
         <foreign-key foreignTable="TEM_TRAVELER_DTL_T" name="TEM_RELO_DOC_TR1">
             <reference foreign="ID" local="TRAVELER_DTL_ID"/>
-        </foreign-key>
-        <foreign-key foreignTable="TEM_TRIP_TYP_T" name="TEM_RELO_DOC_TR2">
-            <reference foreign="CODE" local="TRIP_TYP_CD"/>
         </foreign-key>
         <foreign-key foreignTable="TEM_RELO_REASON_T" name="TEM_RELO_DOC_TR3">
             <reference foreign="RELO_REASON_CD" local="REASON_CD"/>
@@ -16232,7 +16223,6 @@
     <sequence name="SHPMNT_RCVNG_ID" nextval="1002"/>
     <sequence name="TEM_ACCT_DOC_REL_ID_SEQ" nextval="1"/>
     <sequence name="TEM_ACCT_LINES_ID_SEQ" nextval="1"/>
-    <sequence name="TEM_AGENCY_SRVC_FEE_ID_SEQ" nextval="1"/>
     <sequence name="TEM_AGENCY_STAGING_ID_SEQ" nextval="1"/>
     <sequence name="TEM_ATTENDEE_ID_SEQ" nextval="1"/>
     <sequence name="TEM_CORP_CARD_PSEUDO_NUM_SEQ" nextval="1"/>

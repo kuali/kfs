@@ -126,7 +126,7 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
     // The name of the collection looked up (by a multiple value lookup)
     protected String lookedUpCollectionName;
 
-    protected boolean perDiemCreatable;
+    protected boolean perDiemCreatable = true;
 
     protected TravelFormBase() {
         this.accountDistributionnextSourceLineNumber = new Integer(1);

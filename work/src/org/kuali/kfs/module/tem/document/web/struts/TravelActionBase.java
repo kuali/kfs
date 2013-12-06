@@ -1565,7 +1565,7 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
     protected void handleMissingPerDiemMileageRates(TravelFormBase form) {
         if (!canCreatePerDiem(form)) {
             // add an error about it
-            GlobalVariables.getMessageMap().putError(KFSPropertyConstants.DOCUMENT+"."+TemPropertyConstants.TRIP_TYPE_CODE, TemKeyConstants.ERROR_DOCUMENT_PER_DIEM_EXPENSE_MISSING_MILEAGE_RATE, getParameterService().getParameterValueAsString(TemParameterConstants.TEM_DOCUMENT.class, TemConstants.TravelParameters.PER_DIEM_MILEAGE_RATE_EXPENSE_TYPE_CODE, KFSConstants.EMPTY_STRING));
+            GlobalVariables.getMessageMap().putError(KFSPropertyConstants.DOCUMENT+"."+TemPropertyConstants.PER_DIEM_EXPENSES, TemKeyConstants.ERROR_DOCUMENT_PER_DIEM_EXPENSE_MISSING_MILEAGE_RATE, getParameterService().getParameterValueAsString(TemParameterConstants.TEM_DOCUMENT.class, TemConstants.TravelParameters.PER_DIEM_MILEAGE_RATE_EXPENSE_TYPE_CODE, KFSConstants.EMPTY_STRING));
             // set the form to false
             form.setPerDiemCreatable(false);
         }

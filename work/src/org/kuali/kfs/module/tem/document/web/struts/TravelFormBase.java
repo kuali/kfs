@@ -126,6 +126,8 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
     // The name of the collection looked up (by a multiple value lookup)
     protected String lookedUpCollectionName;
 
+    protected boolean perDiemCreatable;
+
     protected TravelFormBase() {
         this.accountDistributionnextSourceLineNumber = new Integer(1);
         this.setAccountDistributionnewSourceLine(setupNewAccountDistributionAccountingLine());
@@ -1102,6 +1104,21 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
             defaultPerDiemMileageExpenseType = this.getParameterService().getParameterValueAsString(TemParameterConstants.TEM_DOCUMENT.class, TemConstants.TravelParameters.PER_DIEM_MILEAGE_RATE_EXPENSE_TYPE_CODE, KFSConstants.EMPTY_STRING);
         }
         return defaultPerDiemMileageExpenseType;
+    }
+
+    /**
+     * @return if per diem can be created for this trip.  This is not dependent on trip type so much as it is that the conditions for per diem to be created exist (for instance, an active mileage rate for the default mileage rate expense type code)
+     */
+    public boolean isPerDiemCreatable() {
+        return perDiemCreatable;
+    }
+
+    /**
+     * Sets if per diem is creatable on this trip
+     * @param perDiemCreatable set to true if per diem can be created on this trip, false otherwise
+     */
+    public void setPerDiemCreatable(boolean perDiemCreatable) {
+        this.perDiemCreatable = perDiemCreatable;
     }
 
 }

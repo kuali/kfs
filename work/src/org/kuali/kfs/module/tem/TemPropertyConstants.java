@@ -31,7 +31,7 @@ public class TemPropertyConstants {
     public static final String NEW_SOURCE_ACCTG_LINE = "newSourceLine";
     public static final String TRIP_INFO_UPDATE_TRIP_DTL = "tripInfoUpdateTripDetails";
     public static final String PER_DIEM = "perDiem";
-    public static final String PER_DIEM_EXP = "perDiemExpenses";
+    public static final String PER_DIEM_EXPENSES = "perDiemExpenses";
     public static final String EM_CONTACT = "emergencyContact";
     public static final String EM_CONTACTS = "emergencyContacts";
     public static final String TRIP_OVERVIEW = "tripOverview";

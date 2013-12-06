@@ -76,7 +76,7 @@ public class TravelAuthTripInformationValidation extends GenericValidation {
             document.refreshReferenceObject(TemPropertyConstants.TRIP_TYPE);
 
             if (!document.getTripType().getUsePerDiem() && document.getPerDiemExpenses() != null && !document.getPerDiemExpenses().isEmpty()) {
-                GlobalVariables.getMessageMap().putError(KFSConstants.DOCUMENT_PROPERTY_NAME + "." + TemPropertyConstants.PER_DIEM_EXP, KFSKeyConstants.ERROR_CUSTOM, "Per Diem entry is not allowed for this Trip Type [" + document.getTripType().getCode() + "].");
+                GlobalVariables.getMessageMap().putError(KFSConstants.DOCUMENT_PROPERTY_NAME + "." + TemPropertyConstants.PER_DIEM_EXPENSES, KFSKeyConstants.ERROR_CUSTOM, "Per Diem entry is not allowed for this Trip Type [" + document.getTripType().getCode() + "].");
                 rulePassed = false;
             }
 

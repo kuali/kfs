@@ -328,42 +328,46 @@
 					</c:if>
 				</c:forEach>
 			</table>
-			<div id="perdiem-buttons" align="center" valign="bottom">
-				<c:choose>
-					<c:when test="${fullEntryMode}">
-						<c:choose>
-							<c:when test="${fn:length(KualiForm.document.perDiemExpenses) < 1}">							
-								<c:if test="${KualiForm.document.tripType.usePerDiem}">
+			<c:if test="${KualiForm.perDiemCreatable}">
+				<div id="perdiem-buttons" align="center" valign="bottom">
+					<c:choose>
+						<c:when test="${fullEntryMode}">
+							<c:choose>
+								<c:when test="${fn:length(KualiForm.document.perDiemExpenses) < 1}">
+									<c:choose>
+										<c:when test="${KualiForm.document.tripType.usePerDiem}">
+											<html:image
+												src="${ConfigProperties.externalizable.images.url}tinybutton-createperdiem.gif"
+												styleClass="tinybutton"
+												property="methodToCall.updatePerDiemExpenses"
+												alt="Create Per Diem Rows" title="Create Per Diem Rows" />
+										</c:when>
+										<c:otherwise>
+											<div>Per Diem entry is not allowed for this Trip Type [${KualiForm.document.tripType.code}].</div>
+										</c:otherwise>
+									</c:choose>
+								</c:when>
+								<c:otherwise>
+									<tem:perDiemExpenseTotals/>
 									<html:image
-										src="${ConfigProperties.externalizable.images.url}tinybutton-createperdiem.gif"
+										src="${ConfigProperties.externalizable.images.url}tinybutton-updateperdiem.gif"
 										styleClass="tinybutton"
 										property="methodToCall.updatePerDiemExpenses"
 										alt="Create Per Diem Rows" title="Create Per Diem Rows" />
-								</c:if>
-								<c:if test="${!KualiForm.document.tripType.usePerDiem}">
-									<div>Per Diem entry is not allowed for this Trip Type [${KualiForm.document.tripType.code}].</div>
-								</c:if>
-							</c:when>
-							<c:otherwise>
-								<tem:perDiemExpenseTotals/>
-								<html:image
-									src="${ConfigProperties.externalizable.images.url}tinybutton-updateperdiem.gif"
-									styleClass="tinybutton"
-									property="methodToCall.updatePerDiemExpenses"
-									alt="Create Per Diem Rows" title="Create Per Diem Rows" />
-								<html:image
-									src="${ConfigProperties.externalizable.images.url}tinybutton-removeperdiem.gif"
-									styleClass="tinybutton"
-									property="methodToCall.clearPerDiemExpenses"
-									alt="Remove Per Diem Rows" title="Remove Per Diem Rows" />
-							</c:otherwise>
-						</c:choose>
-					</c:when>
-					<c:otherwise>
-						<tem:perDiemExpenseTotals/>
-					</c:otherwise>
-				</c:choose>
-			</div>
+									<html:image
+										src="${ConfigProperties.externalizable.images.url}tinybutton-removeperdiem.gif"
+										styleClass="tinybutton"
+										property="methodToCall.clearPerDiemExpenses"
+										alt="Remove Per Diem Rows" title="Remove Per Diem Rows" />
+								</c:otherwise>
+							</c:choose>
+						</c:when>
+						<c:otherwise>
+							<tem:perDiemExpenseTotals/>
+						</c:otherwise>
+					</c:choose>
+				</div>
+			</c:if>
 
 		</div>
 	</kul:tab>

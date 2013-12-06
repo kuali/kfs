@@ -166,6 +166,8 @@ public class TravelAuthorizationAction extends TravelActionBase {
 
         setTabStateForEmergencyContacts(authForm);
 
+        handleMissingPerDiemMileageRates(authForm);
+
         return retval;
     }
 

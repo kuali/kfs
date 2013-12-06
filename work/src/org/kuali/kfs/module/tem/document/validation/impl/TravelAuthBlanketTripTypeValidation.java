@@ -37,7 +37,7 @@ public class TravelAuthBlanketTripTypeValidation extends GenericValidation {
              // If the user selects Blanket Trip Type, airfare amount and the Trip Detail Estimate should not be completed. (Note:
                 // Blanket Travel implies in-state travel)
                 if (!ObjectUtils.isNull(taDocument.getPerDiemExpenses()) && !taDocument.getPerDiemExpenses().isEmpty()) {
-                    GlobalVariables.getMessageMap().putError(TemPropertyConstants.PER_DIEM_EXP, TemKeyConstants.ERROR_TA_BLANKET_TYPE_NO_ESTIMATE);
+                    GlobalVariables.getMessageMap().putError(TemPropertyConstants.PER_DIEM_EXPENSES, TemKeyConstants.ERROR_TA_BLANKET_TYPE_NO_ESTIMATE);
                     taDocument.logErrors();
                     rulePassed = false;
                 }

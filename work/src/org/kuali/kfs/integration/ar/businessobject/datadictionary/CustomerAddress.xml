@@ -47,8 +47,8 @@
 				
 				<ref bean="CustomerAddress-customerInvoiceTemplateCode" />
 				<ref bean="CustomerAddress-invoiceIndicatorCode" />
-				<ref bean="CustomerAddress-agencyCopiesToPrint" />
-				<ref bean="CustomerAddress-agencyPrintEnvelopesNumber" />
+				<ref bean="CustomerAddress-customerCopiesToPrint" />
+				<ref bean="CustomerAddress-customerPrintEnvelopesNumber" />
 			</list>
 		</property>
 	</bean>
@@ -300,11 +300,11 @@
 		</property>
 	</bean>
 
-	<bean id="CustomerAddress-agencyCopiesToPrint" parent="CustomerAddress-agencyCopiesToPrint-parentBean" />
+	<bean id="CustomerAddress-customerCopiesToPrint" parent="CustomerAddress-customerCopiesToPrint-parentBean" />
 
-	<bean id="CustomerAddress-agencyCopiesToPrint-parentBean" abstract="true"
+	<bean id="CustomerAddress-customerCopiesToPrint-parentBean" abstract="true"
 		parent="AttributeDefinition">
-		<property name="name" value="agencyCopiesToPrint" />
+		<property name="name" value="customerCopiesToPrint" />
 		<property name="label" value="Copies to Print" />
 		<property name="shortLabel" value="CopiesPrnt" />
 		<property name="maxLength" value="5" />
@@ -317,11 +317,11 @@
 		</property>
 	</bean>
 
-	<bean id="CustomerAddress-agencyPrintEnvelopesNumber" parent="CustomerAddress-agencyPrintEnvelopesNumber-parentBean" />
+	<bean id="CustomerAddress-customerPrintEnvelopesNumber" parent="CustomerAddress-customerPrintEnvelopesNumber-parentBean" />
 
-	<bean id="CustomerAddress-agencyPrintEnvelopesNumber-parentBean"
+	<bean id="CustomerAddress-customerPrintEnvelopesNumber-parentBean"
 		abstract="true" parent="AttributeDefinition">
-		<property name="name" value="agencyPrintEnvelopesNumber" />
+		<property name="name" value="customerPrintEnvelopesNumber" />
 		<property name="label" value="Number of Envelopes to print" />
 		<property name="shortLabel" value="PrintEnvNum" />
 		<property name="maxLength" value="5" />

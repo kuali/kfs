@@ -608,7 +608,7 @@
 			<foreignkey field-ref="customerNumber" />
 		</reference-descriptor>
 		<!-- Invoice Type Link -->
-		<reference-descriptor name="agencyInvoiceTemplate" class-ref="org.kuali.kfs.module.ar.businessobject.InvoiceTemplate"
+		<reference-descriptor name="customerInvoiceTemplate" class-ref="org.kuali.kfs.module.ar.businessobject.InvoiceTemplate"
 			auto-retrieve="true" auto-update="none" auto-delete="none" proxy="false">
 			<foreignkey field-ref="customerInvoiceTemplateCode" />
 		</reference-descriptor>

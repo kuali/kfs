@@ -595,7 +595,7 @@
 		<field-descriptor name="customerEmailAddress" column="CUST_EMAIL_ADDR" jdbc-type="VARCHAR" />
 		<field-descriptor name="customerAddressTypeCode" column="CUST_ADDR_TYPE_CD" jdbc-type="VARCHAR" />
 		<field-descriptor name="customerAddressEndDate" column="CUST_ADDR_END_DT" jdbc-type="DATE" />
-		<field-descriptor name="agencyInvoiceTemplateCode" column="INV_TYP_CD" jdbc-type="VARCHAR" /><!-- Invoice Type Link -->
+		<field-descriptor name="customerInvoiceTemplateCode" column="INV_TYP_CD" jdbc-type="VARCHAR" /><!-- Invoice Type Link -->
 		<field-descriptor name="invoiceIndicatorCode" column="INV_IND_CD" jdbc-type="VARCHAR" /><!-- Invoice Indicator Link -->
 		<field-descriptor name="customerCopiesToPrint" column="COPIES_TO_PRINT_QTY" jdbc-type="INTEGER" />
 		<field-descriptor name="customerPrintEnvelopesNumber" column="PRNT_ENV_NBR" jdbc-type="INTEGER" />

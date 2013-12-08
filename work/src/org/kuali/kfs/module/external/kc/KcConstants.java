@@ -89,6 +89,11 @@ public class KcConstants {
         public static final String SERVICE_PORT = "awardTypeWebServicePort";
         public static QName SERVICE = new QName(KC_NAMESPACE_URI, SOAP_SERVICE_NAME);
     }
+    public static class AwardPayment {
+        public static final String SOAP_SERVICE_NAME = "awardPaymentWebSoapService";
+        public static final String SERVICE_PORT = "awardPaymentWebServicePort";
+        public static QName SERVICE = new QName(KC_NAMESPACE_URI, SOAP_SERVICE_NAME);
+    }
 
     public static class KcWebService {
         public static final String STATUS_KC_SUCCESS = "success";

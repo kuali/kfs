@@ -1,4 +1,4 @@
-package org.kuali.kra.external.award;
+package org.kuali.kra.external.award.service;
 
 import java.util.List;
 

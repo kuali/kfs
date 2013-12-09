@@ -51,7 +51,7 @@ public class TravelAuthBlanketTripTypeValidation extends GenericValidation {
                     GlobalVariables.getMessageMap().putError(KFSConstants.DOCUMENT_PROPERTY_NAME + "." +TemPropertyConstants.TRIP_TYPE_CODE, TemKeyConstants.ERROR_TA_TRIP_TYPE_BLANKET_NOT_ALLOWED);
                 }
             }
-            if ((taDocument.isBlanketTravel() || isNonEncumbranceTrip(taDocument)) && StringUtils.isBlank(taDocument.getTemProfile().getDefaultChartCode()) || StringUtils.isBlank(taDocument.getTemProfile().getDefaultAccount())) {
+            if ((taDocument.isBlanketTravel() || isNonEncumbranceTrip(taDocument)) && (StringUtils.isBlank(taDocument.getTemProfile().getDefaultChartCode()) || StringUtils.isBlank(taDocument.getTemProfile().getDefaultAccount()))) {
                 rulePassed = false;
                 final String basePropertyName = (taDocument.isBlanketTravel()) ? TemPropertyConstants.BLANKET_IND : TemPropertyConstants.TRIP_TYPE_CODE;
                 GlobalVariables.getMessageMap().putError(KFSConstants.DOCUMENT_PROPERTY_NAME + "." +basePropertyName, TemKeyConstants.ERROR_TA_PROFILE_NOT_COMPLETE_FOR_BLANKET_TRAVEL);

@@ -83,15 +83,15 @@ import org.springframework.transaction.annotation.Transactional;
 public class DisbursementVoucherExtractServiceImpl implements DisbursementVoucherExtractService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DisbursementVoucherExtractServiceImpl.class);
 
-    private ParameterService parameterService;
-    private DisbursementVoucherDao disbursementVoucherDao;
-    private DateTimeService dateTimeService;
-    private CustomerProfileService customerProfileService;
-    private PaymentFileService paymentFileService;
-    private PaymentGroupService paymentGroupService;
-    private BusinessObjectService businessObjectService;
-    private PdpEmailService paymentFileEmailService;
-    private int maxNoteLines;
+    protected ParameterService parameterService;
+    protected DisbursementVoucherDao disbursementVoucherDao;
+    protected DateTimeService dateTimeService;
+    protected CustomerProfileService customerProfileService;
+    protected PaymentFileService paymentFileService;
+    protected PaymentGroupService paymentGroupService;
+    protected BusinessObjectService businessObjectService;
+    protected PdpEmailService paymentFileEmailService;
+    protected int maxNoteLines;
 
     // This should only be set to true when testing this system. Setting this to true will run the code but
     // won't set the doc status to extracted
@@ -671,7 +671,7 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
      * @param limit Number of character that should represent a chopped word
      * @return String [] of chopped words
      */
-    private String [] chopWord(String word, int limit)
+    protected String [] chopWord(String word, int limit)
     {
         StringBuilder builder = new StringBuilder();
         if (word != null && word.trim().length() > 0) {

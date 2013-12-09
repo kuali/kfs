@@ -299,6 +299,8 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
     @SuppressWarnings("null")
     @Override
     public void updatePerDiemItemsFor(final TravelDocument document, final List<PerDiemExpense> perDiemExpenseList, final Integer perDiemId, final Timestamp start, final Timestamp end) {
+        final String mileageRateExpenseTypeCode = getParameterService().getParameterValueAsString(TemParameterConstants.TEM_DOCUMENT.class, TemConstants.TravelParameters.PER_DIEM_MILEAGE_RATE_EXPENSE_TYPE_CODE, KFSConstants.EMPTY_STRING);
+
         // Check for changes on trip begin and trip end.
         // This is necessary to prevent duplication of per diem creation due to timestamp changes.
         boolean datesChanged = false;
@@ -379,7 +381,6 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
                 // Check if a per diem entry exists for this date
                 if (!perDiemMapped.containsKey(someDate)) {
                     final boolean prorated = !KfsDateUtils.isSameDay(start, end) && (KfsDateUtils.isSameDay(someDate, start) || KfsDateUtils.isSameDay(someDate, end));
-                    final String mileageRateExpenseTypeCode = perDiemExpenseList.size() > counter && !ObjectUtils.isNull(perDiemExpenseList.get(counter)) ? perDiemExpenseList.get(counter).getMileageRateExpenseTypeCode() : null;
                     PerDiemExpense perDiemExpense = createPerDiemItem(document,perDiemList.get(counter), someDate, prorated, mileageRateExpenseTypeCode);
                     perDiemExpense.setDocumentNumber(document.getDocumentNumber());
                     perDiemMapped.put(someDate, perDiemExpense);

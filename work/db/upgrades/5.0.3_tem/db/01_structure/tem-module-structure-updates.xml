@@ -63,19 +63,18 @@
 		<addPrimaryKey tableName="TEM_ADV_PMNT_RSN_T"
 			constraintName="TEM_ADV_PMNT_RSN_TP1" columnNames="CODE" />
 		<createTable tableName="TEM_AGENCY_SRVC_FEE_T">
-			<column name="ID" type="NUMBER(22,0)" />
-			<column name="DI_CD" type="VARCHAR2(3)" />
-			<column name="DI_DESC" type="VARCHAR2(40)" />
+			<column name="DIST_CD" type="VARCHAR2(3)" />
+			<column name="DIST_DESC" type="VARCHAR2(40)" />
 			<column name="CHART_CD" type="VARCHAR2(2)" />
 			<column name="ACCT_NBR" type="VARCHAR2(7)" />
-			<column name="OBJ_CD" type="VARCHAR2(4)" />
+			<column name="FIN_OBJECT_CD" type="VARCHAR2(4)" />
 			<column name="SRVC_FEE" type="NUMBER(8,2)" />
 			<column name="ACTV_IND" type="VARCHAR2(1)" />
 			<column name="VER_NBR" type="NUMBER(8,0)" defaultValueNumeric="1" />
 			<column name="OBJ_ID" type="VARCHAR2(36)" />
 		</createTable>
 		<addPrimaryKey tableName="TEM_AGENCY_SRVC_FEE_T"
-			constraintName="TEM_AGENCY_SRVC_FEE_TP1" columnNames="ID" />
+			constraintName="TEM_AGENCY_SRVC_FEE_TP1" columnNames="DIST_CD" />
 		<createTable tableName="TEM_AGENCY_STAGING_T">
 			<column name="ID" type="NUMBER(22,0)" />
 			<column name="ERROR_CD" type="VARCHAR2(40)" />
@@ -105,7 +104,7 @@
 			<column name="ALT_TRP_ID" type="VARCHAR2(20)" />
 			<column name="TRP_ARR_NM" type="VARCHAR2(50)" />
 			<column name="GRP_OBJ_CD" type="VARCHAR2(20)" />
-			<column name="DI_CD" type="VARCHAR2(4)" />
+			<column name="DIST_CD" type="VARCHAR2(4)" />
 			<column name="TRP_DPT_DT" type="DATE" />
 			<column name="TRP_RTRN_DT" type="DATE" />
 			<column name="FARE_SVR_CD" type="VARCHAR2(1)" />
@@ -320,7 +319,6 @@
 			<column name="TITLE" type="VARCHAR2(100)" />
 			<column name="TRAVELER_DTL_ID" type="NUMBER(22,0)" />
 			<column name="TEM_PROFILE_ID" type="NUMBER(22,0)" />
-			<column name="TRIP_TYP_CD" type="VARCHAR2(3)" />
 			<column name="TRIP_BGN_DT" type="DATE" />
 			<column name="TRIP_END_DT" type="DATE" />
 			<column name="PRIMARY_DEST_ID" type="NUMBER(22,0)" />
@@ -630,7 +628,6 @@
 		<createTable tableName="TEM_RELO_DOC_T">
 			<column name="FDOC_NBR" type="VARCHAR2(14)" />
 			<column name="TRVL_ID" type="VARCHAR2(19)" />
-			<column name="TRIP_TYP_CD" type="VARCHAR2(3)" />
 			<column name="TRIP_BGN_DT" type="DATE" />
 			<column name="TRIP_END_DT" type="DATE" />
 			<column name="PRIMARY_DEST_ID" type="NUMBER(22,0)" />
@@ -1125,8 +1122,6 @@
 		<createSequence sequenceName="TEM_ACCT_DOC_REL_ID_SEQ"
 			startValue="1" />
 		<createSequence sequenceName="TEM_ACCT_LINES_ID_SEQ"
-			startValue="1" />
-		<createSequence sequenceName="TEM_AGENCY_SRVC_FEE_ID_SEQ"
 			startValue="1" />
 		<createSequence sequenceName="TEM_AGENCY_STAGING_ID_SEQ"
 			startValue="1" />

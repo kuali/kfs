@@ -16,7 +16,7 @@
 		<property name="allowsNewOrCopy" value="true" />
 		<property name="lockingKeys">
 			<list>
-				<value>id</value>
+				<value>code</value>
 			</list>
 		</property>
 		<property name="documentTypeName"        value="TASF" />
@@ -27,11 +27,11 @@
 	<bean id="AgencyServiceFeeMaintenanceDocument-Section" parent="AgencyServiceFeeMaintenanceDocument-Section-parentBean" />
 	<bean id="AgencyServiceFeeMaintenanceDocument-Section-parentBean" abstract="true" parent="MaintainableSectionDefinition">
 		<property name="id"    value="CreditCardAgency" />
-		<property name="title" value="Edit CreditCardAgency" />
+		<property name="title" value="Edit Credit Card Agency" />
 		<property name="maintainableItems">
 			<list>
-				<bean parent="MaintainableFieldDefinition" p:name="diCode" p:required="true"/>
-				<bean parent="MaintainableFieldDefinition" p:name="diCodeDescription" p:required="true"/>
+				<bean parent="MaintainableFieldDefinition" p:name="code" p:required="true"/>
+				<bean parent="MaintainableFieldDefinition" p:name="name" p:required="true"/>
 				<bean parent="MaintainableFieldDefinition" p:name="creditChartCode" p:required="true"/>
 				<bean parent="MaintainableFieldDefinition" p:name="creditAccountNumber" p:required="true"/>
 				<bean parent="MaintainableFieldDefinition" p:name="creditObjectCode" p:required="true"/>

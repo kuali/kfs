@@ -36,7 +36,6 @@ import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationParameters;
 import org.kuali.kfs.module.tem.TemConstants.TravelCustomSearchLinks;
 import org.kuali.kfs.module.tem.TemConstants.TravelParameters;
 import org.kuali.kfs.module.tem.TemParameterConstants;
-import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.businessobject.AccountingDistribution;
 import org.kuali.kfs.module.tem.businessobject.AccountingDocumentRelationship;
 import org.kuali.kfs.module.tem.businessobject.ActualExpense;
@@ -126,6 +125,8 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
 
     // The name of the collection looked up (by a multiple value lookup)
     protected String lookedUpCollectionName;
+
+    protected boolean perDiemCreatable = true;
 
     protected TravelFormBase() {
         this.accountDistributionnextSourceLineNumber = new Integer(1);
@@ -637,7 +638,7 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
             throw new IllegalArgumentException("invalid (null) document");
         }
         TravelDocumentBase travelDoc = (TravelDocumentBase) financialDocument;
-        travelDoc.refreshReferenceObject(TemPropertyConstants.TRIP_TYPE);
+
         try {
             SourceAccountingLine newSource = (SourceAccountingLine) financialDocument.getSourceAccountingLineClass().newInstance();
             if (travelDoc.getTemProfile() != null) {
@@ -647,15 +648,7 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
                 newSource.setSubAccountNumber(travelDoc.getTemProfile().getDefaultSubAccount());
                 newSource.setProjectCode(travelDoc.getTemProfile().getDefaultProjectCode());
             }
-
-            if (ObjectUtils.isNotNull(travelDoc.getTripType())) {
-                // set object code based on trip type
-                newSource.setFinancialObjectCode(travelDoc.getTripType().getEncumbranceObjCode());
-            }
-            else {
-                // default object code here
-                newSource.setFinancialObjectCode("");
-            }
+            newSource.setFinancialObjectCode("");
             return newSource;
         }
         catch (Exception e) {
@@ -1111,6 +1104,21 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
             defaultPerDiemMileageExpenseType = this.getParameterService().getParameterValueAsString(TemParameterConstants.TEM_DOCUMENT.class, TemConstants.TravelParameters.PER_DIEM_MILEAGE_RATE_EXPENSE_TYPE_CODE, KFSConstants.EMPTY_STRING);
         }
         return defaultPerDiemMileageExpenseType;
+    }
+
+    /**
+     * @return if per diem can be created for this trip.  This is not dependent on trip type so much as it is that the conditions for per diem to be created exist (for instance, an active mileage rate for the default mileage rate expense type code)
+     */
+    public boolean isPerDiemCreatable() {
+        return perDiemCreatable;
+    }
+
+    /**
+     * Sets if per diem is creatable on this trip
+     * @param perDiemCreatable set to true if per diem can be created on this trip, false otherwise
+     */
+    public void setPerDiemCreatable(boolean perDiemCreatable) {
+        this.perDiemCreatable = perDiemCreatable;
     }
 
 }

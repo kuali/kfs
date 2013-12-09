@@ -58,7 +58,7 @@ public class PerDiemExpenseValidation extends GenericValidation {
 
         int counter = 0;
         for (PerDiemExpense perDiem : travelDocument.getPerDiemExpenses()) {
-            String path = TemPropertyConstants.PER_DIEM_EXP + "[" + counter + "]";
+            String path = TemPropertyConstants.PER_DIEM_EXPENSES + "[" + counter + "]";
             GlobalVariables.getMessageMap().addToErrorPath(path);
             success = validatePerDiemValues(perDiem);
             if (success) {

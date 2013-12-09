@@ -15,13 +15,12 @@
  */
 package org.kuali.kfs.module.tem.document.authorization;
 
-import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentPresentationControllerBase;
 import org.kuali.rice.krad.document.Document;
 
 /**
  *
  */
-public class TemCTSCardApplicationDocumentPresentationController extends FinancialSystemTransactionalDocumentPresentationControllerBase {
+public class TemCTSCardApplicationDocumentPresentationController extends CardApplicationDocumentPresentationController {
 
     @Override
     public boolean canSave(Document document) {
@@ -30,7 +29,5 @@ public class TemCTSCardApplicationDocumentPresentationController extends Financi
         }
         return super.canSave(document);
     }
-
-
 
 }

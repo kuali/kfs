@@ -115,8 +115,6 @@ public class TravelEntertainmentAction extends TravelActionBase {
                 }
 
                 document.setPrimaryDestinationId(travelDocument.getPrimaryDestinationId());
-                document.setTripType(travelDocument.getTripType());
-                document.setTripTypeCode(travelDocument.getTripTypeCode());
 
                 document.setExpenseLimit(travelDocument.getExpenseLimit());
                 document.configureTraveler(travelDocument.getTemProfileId(), travelDocument.getTraveler());
@@ -184,8 +182,7 @@ public class TravelEntertainmentAction extends TravelActionBase {
             document.setNonEmployeeCertified(entDocument.getNonEmployeeCertified());
         }
         catch (WorkflowException ex) {
-            // TODO Auto-generated catch block
-            ex.printStackTrace();
+            throw new RuntimeException("Could not initiate new ENT doc", ex);
         }
     }
 
@@ -289,7 +286,6 @@ public class TravelEntertainmentAction extends TravelActionBase {
         if (!entDoc.getDocumentHeader().getWorkflowDocument().isInitiated()) {
             LOG.debug("Refreshing objects in entertainment document");
             entDoc.refreshReferenceObject(TemPropertyConstants.TRAVELER);
-            entDoc.refreshReferenceObject(TemPropertyConstants.TRIP_TYPE);
             entDoc.refreshReferenceObject(TemPropertyConstants.ACTUAL_EXPENSES);
             entDoc.refreshReferenceObject(TemPropertyConstants.SPECIAL_CIRCUMSTANCES);
         }

@@ -1826,6 +1826,14 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
     }
 
     /**
+     * @return returns complete CTS charges, including non-reimbursable charges
+     */
+    public KualiDecimal getFullCTSTotal() {
+        KualiDecimal lessCtsCharges = getTravelExpenseService().getExpenseServiceByType(ExpenseType.importedCTS).getAllExpenseTotal(this, true);
+        return lessCtsCharges;
+    }
+
+    /**
      * @see org.kuali.kfs.module.tem.document.TravelDocument#getCorporateCardTotal()
      */
     @Override

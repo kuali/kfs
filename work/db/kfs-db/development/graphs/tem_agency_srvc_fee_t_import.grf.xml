@@ -18,12 +18,11 @@
       <attr name="transform"><![CDATA[
 //#TL
     function transform() {
-        $0.id := $id;
-        $0.di_cd := replace(nvl($di_cd, ""), "~!~", "|" );
-        $0.di_desc := replace(nvl($di_desc, ""), "~!~", "|" );
+        $0.dist_cd := replace(nvl($dist_cd, ""), "~!~", "|" );
+        $0.dist_desc := replace(nvl($dist_desc, ""), "~!~", "|" );
         $0.chart_cd := replace(nvl($chart_cd, ""), "~!~", "|" );
         $0.acct_nbr := replace(nvl($acct_nbr, ""), "~!~", "|" );
-        $0.obj_cd := replace(nvl($obj_cd, ""), "~!~", "|" );
+        $0.fin_object_cd := replace(nvl($fin_object_cd, ""), "~!~", "|" );
         $0.srvc_fee := $srvc_fee;
         $0.actv_ind := replace(nvl($actv_ind, ""), "~!~", "|" );
         $0.ver_nbr := $ver_nbr;

@@ -203,9 +203,6 @@
 		<addForeignKeyConstraint constraintName="TEM_ENT_DOC_TR1"
 			baseTableName="TEM_ENT_DOC_T" baseColumnNames="TRAVELER_DTL_ID"
 			referencedTableName="TEM_TRAVELER_DTL_T" referencedColumnNames="ID" />
-		<addForeignKeyConstraint constraintName="TEM_ENT_DOC_TR2"
-			baseTableName="TEM_ENT_DOC_T" baseColumnNames="TRIP_TYP_CD"
-			referencedTableName="TEM_TRIP_TYP_T" referencedColumnNames="CODE" />
 		<addForeignKeyConstraint constraintName="TEM_ENT_DOC_TR3"
 			baseTableName="TEM_ENT_DOC_T" baseColumnNames="PURPOSE_CODE"
 			referencedTableName="TEM_PURPOSE_T" referencedColumnNames="PURPOSE_CODE" />
@@ -429,9 +426,6 @@
 		<addForeignKeyConstraint constraintName="TEM_RELO_DOC_TR1"
 			baseTableName="TEM_RELO_DOC_T" baseColumnNames="TRAVELER_DTL_ID"
 			referencedTableName="TEM_TRAVELER_DTL_T" referencedColumnNames="ID" />
-		<addForeignKeyConstraint constraintName="TEM_RELO_DOC_TR2"
-			baseTableName="TEM_RELO_DOC_T" baseColumnNames="TRIP_TYP_CD"
-			referencedTableName="TEM_TRIP_TYP_T" referencedColumnNames="CODE" />
 		<addForeignKeyConstraint constraintName="TEM_RELO_DOC_TR3"
 			baseTableName="TEM_RELO_DOC_T" baseColumnNames="REASON_CD"
 			referencedTableName="TEM_RELO_REASON_T" referencedColumnNames="RELO_REASON_CD" />

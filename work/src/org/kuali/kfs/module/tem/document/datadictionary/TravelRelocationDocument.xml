@@ -44,7 +44,6 @@
                 <ref bean="TravelRelocationDocument-travelDocumentNumber" />
                 <ref bean="TravelRelocationDocument-applicationDocumentStatus" />
                 <ref bean="TravelRelocationDocument-temProfileName" />
-                <ref bean="TravelRelocationDocument-tripTypeCode" />
                 <ref bean="TravelRelocationDocument-tripBegin" />
                 <ref bean="TravelRelocationDocument-tripEnd" />
                 <ref bean="TravelRelocationDocument-tripDescription" />
@@ -149,19 +148,6 @@
         <property name="name" value="applicationDocumentStatus"/>
         <property name="label" value="Document Status" />
     </bean>
-    <bean id="TravelRelocationDocument-tripTypeCode" parent="TravelRelocationDocument-tripTypeCode-parentBean" />
-    <bean id="TravelRelocationDocument-tripTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
-        <property name="name" value="tripTypeCode" />
-        <property name="label" value="Trip Type Code" />
-        <property name="shortLabel" value="Trip Type Code" />
-        <property name="required" value="false" />
-        <property name="maxLength" value="3" />
-        <property name="summary" value="Trip Type Code" />
-        <property name="description" value="Trip Type Code" />
-        <property name="control">
-            <bean parent="TextControlDefinition" p:size="3" />
-        </property>
-    </bean>
     <bean id="TravelRelocationDocument-tripBegin" parent="TravelRelocationDocument-tripBegin-parentBean" />
     <bean id="TravelRelocationDocument-tripBegin-parentBean" abstract="true" parent="GenericAttributes-genericDate">
         <property name="name" value="tripBegin" />
@@ -225,6 +211,7 @@
 		<property name="maxLength" value="32" />
 		<property name="summary" value="Payee Name" />
 		<property name="description" value="Payee Name" />
+		<property name="required" value="false"/>
 		<property name="control"><bean parent="TextControlDefinition" p:size="32"/></property>
 	</bean> 
     <bean id="TravelRelocationDocument-fromAddress1" parent="TravelRelocationDocument-fromAddress1-parentBean" />

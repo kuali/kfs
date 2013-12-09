@@ -23,7 +23,6 @@ import java.util.Date;
 
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
-import org.kuali.kfs.module.tem.businessobject.TripType;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.TravelReimbursementDocument;
 import org.kuali.kfs.sys.KFSConstants;
@@ -44,8 +43,6 @@ public class TravelUpdateTripDetailsValidation extends GenericValidation {
         TravelDocument doc = (TravelDocument) event.getDocument();
         Date beginDate = doc.getTripBegin();
         Date endDate = doc.getTripEnd();
-        doc.refreshReferenceObject(TemPropertyConstants.TRIP_TYPE);
-        TripType tripType = doc.getTripType();
 
         boolean valid = true;
 
@@ -53,15 +50,6 @@ public class TravelUpdateTripDetailsValidation extends GenericValidation {
         MessageMap errors = GlobalVariables.getMessageMap();
         GlobalVariables.getMessageMap().clearErrorPath();
         GlobalVariables.getMessageMap().addToErrorPath(KFSConstants.DOCUMENT_PROPERTY_NAME);
-
-//        if (errors.containsKeyMatchingPattern(KFSConstants.DOCUMENT_PROPERTY_NAME + "." + TemPropertyConstants.PER_DIEM_NAME + "." + TemPropertyConstants.TravelAuthorizationFields.TRIP_TYPE)
-//                && errors.containsKeyMatchingPattern(KFSConstants.DOCUMENT_PROPERTY_NAME + "." + TemPropertyConstants.TravelAuthorizationFields.TRIP_TYPE)){
-//            errors.removeAllErrorMessagesForProperty(KFSConstants.DOCUMENT_PROPERTY_NAME + "." + TemPropertyConstants.PER_DIEM_NAME + "." + TemPropertyConstants.TravelAuthorizationFields.TRIP_TYPE);
-//        }
-//        else if (errors.containsKeyMatchingPattern(KFSConstants.DOCUMENT_PROPERTY_NAME + "." + TemPropertyConstants.PER_DIEM_NAME + "." + TemPropertyConstants.TravelAuthorizationFields.TRIP_TYPE)
-//                && !doc.getTripTypeCode().isEmpty()){
-//            errors.removeAllErrorMessagesForProperty(KFSConstants.DOCUMENT_PROPERTY_NAME + "." + TemPropertyConstants.PER_DIEM_NAME + "." + TemPropertyConstants.TravelAuthorizationFields.TRIP_TYPE);
-//        }
 
         int postCount = GlobalVariables.getMessageMap().getErrorCount();
         if (postCount > preCount) {
@@ -94,7 +82,7 @@ public class TravelUpdateTripDetailsValidation extends GenericValidation {
 
 
         if (doc.getTripType() != null && !doc.getTripType().getUsePerDiem() && doc.getPerDiemExpenses() != null && !doc.getPerDiemExpenses().isEmpty()) {
-            GlobalVariables.getMessageMap().putError(KFSConstants.DOCUMENT_PROPERTY_NAME + "." + TemPropertyConstants.PER_DIEM_EXP, KFSKeyConstants.ERROR_CUSTOM, "Per Diem entry is not allowed for this Trip Type [" + doc.getTripType().getCode() + "].");
+            GlobalVariables.getMessageMap().putError(KFSConstants.DOCUMENT_PROPERTY_NAME + "." + TemPropertyConstants.PER_DIEM_EXPENSES, KFSKeyConstants.ERROR_CUSTOM, "Per Diem entry is not allowed for this Trip Type [" + doc.getTripType().getCode() + "].");
             valid = false;
         }
 

@@ -28,6 +28,7 @@ import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationParameters;
 import org.kuali.kfs.module.tem.TemConstants.TravelParameters;
 import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.TemParameterConstants;
+import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.businessobject.AccountingDistribution;
 import org.kuali.kfs.module.tem.businessobject.TemSourceAccountingLine;
 import org.kuali.kfs.module.tem.businessobject.TransportationMode;
@@ -36,16 +37,20 @@ import org.kuali.kfs.module.tem.businessobject.TravelerDetail;
 import org.kuali.kfs.module.tem.businessobject.TravelerDetailEmergencyContact;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
 import org.kuali.kfs.module.tem.document.TravelDocument;
+import org.kuali.kfs.module.tem.document.TravelDocumentBase;
 import org.kuali.kfs.module.tem.document.service.TravelReimbursementService;
 import org.kuali.kfs.module.tem.document.web.bean.TravelAuthorizationMvcWrapperBean;
 import org.kuali.kfs.module.tem.service.TravelService;
 import org.kuali.kfs.module.tem.util.MessageUtils;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.rice.core.web.format.CurrencyFormatter;
 import org.kuali.rice.kns.web.ui.ExtraButton;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DataDictionaryService;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public class TravelAuthorizationForm extends TravelFormBase implements TravelAuthorizationMvcWrapperBean{
     private TravelerDetailEmergencyContact newEmergencyContactLine;
@@ -497,6 +502,22 @@ public class TravelAuthorizationForm extends TravelFormBase implements TravelAut
         }
 
        return false;
+    }
+
+    /**
+     * Overridden to pull the object code from the trip type if possible
+     * @see org.kuali.kfs.module.tem.document.web.struts.TravelFormBase#createNewSourceAccountingLine(org.kuali.kfs.sys.document.AccountingDocument)
+     */
+    @Override
+    protected SourceAccountingLine createNewSourceAccountingLine(AccountingDocument financialDocument) {
+        TemSourceAccountingLine accountingLine = (TemSourceAccountingLine)super.createNewSourceAccountingLine(financialDocument);
+        TravelDocumentBase travelDoc = (TravelDocumentBase) financialDocument;
+        travelDoc.refreshReferenceObject(TemPropertyConstants.TRIP_TYPE);
+        if (ObjectUtils.isNotNull(travelDoc.getTripType())) {
+            // set object code based on trip type
+            accountingLine.setFinancialObjectCode(travelDoc.getTripType().getEncumbranceObjCode());
+        }
+        return accountingLine;
     }
 
 }

@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.tem.service.impl;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,6 +30,7 @@ import org.kuali.kfs.module.tem.TemParameterConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.batch.service.ImportedExpensePendingEntryService;
 import org.kuali.kfs.module.tem.businessobject.AccountingDistribution;
+import org.kuali.kfs.module.tem.businessobject.HistoricalExpenseAsTemExpenseWrapper;
 import org.kuali.kfs.module.tem.businessobject.HistoricalTravelExpense;
 import org.kuali.kfs.module.tem.businessobject.ImportedExpense;
 import org.kuali.kfs.module.tem.businessobject.TemExpense;
@@ -100,7 +102,19 @@ public class ImportedCTSExpenseServiceImpl extends ExpenseServiceBase implements
      */
     @Override
     public List<? extends TemExpense> getExpenseDetails(TravelDocument document) {
-        return document.getImportedExpenses();
+        final List<ImportedExpense> importedExpenses = document.getImportedExpenses();
+        List<TemExpense> ctsExpenses = new ArrayList<TemExpense>();
+        for (ImportedExpense expense : importedExpenses) {
+            if (StringUtils.equals(expense.getCardType(), TemConstants.TRAVEL_TYPE_CTS)) {
+                ctsExpenses.add(expense);
+            }
+        }
+        // now include all HistoricalExpenses hung on the document
+        final List<HistoricalTravelExpense> hungExpenses = document.getHistoricalTravelExpenses();
+        for (HistoricalTravelExpense expense : hungExpenses) {
+            ctsExpenses.add(new HistoricalExpenseAsTemExpenseWrapper(expense));
+        }
+        return ctsExpenses;
     }
 
     /**
@@ -109,7 +123,7 @@ public class ImportedCTSExpenseServiceImpl extends ExpenseServiceBase implements
     @Override
     public boolean validateExpenseCalculation(TemExpense expense){
         return (expense instanceof ImportedExpense)
-                && StringUtils.defaultString(((ImportedExpense)expense).getCardType()).equals(TemConstants.TRAVEL_TYPE_CTS);
+                && StringUtils.defaultString(((ImportedExpense)expense).getCardType()).equals(TemConstants.TRAVEL_TYPE_CTS) || expense instanceof HistoricalExpenseAsTemExpenseWrapper;
     }
 
     /**
@@ -229,7 +243,7 @@ public class ImportedCTSExpenseServiceImpl extends ExpenseServiceBase implements
     public void updateExpense(TravelDocument travelDocument) {
         List<HistoricalTravelExpense> historicalTravelExpenses = travelDocument.getHistoricalTravelExpenses();
         for (HistoricalTravelExpense historicalTravelExpense : historicalTravelExpenses){
-            if (historicalTravelExpense.getAgencyStagingDataId() != null){
+            if (historicalTravelExpense.getAgencyStagingDataId() != null && historicalTravelExpense.getReconciliationDate() == null){ // don't reset reconciled if we've already reconciled
                 long time = (new java.util.Date()).getTime();
                 historicalTravelExpense.setReconciliationDate(new Date(time));
                 historicalTravelExpense.setReconciled(TemConstants.ReconciledCodes.RECONCILED);

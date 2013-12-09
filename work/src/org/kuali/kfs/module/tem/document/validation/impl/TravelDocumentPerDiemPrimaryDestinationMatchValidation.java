@@ -48,7 +48,7 @@ public class TravelDocumentPerDiemPrimaryDestinationMatchValidation extends Gene
                     }
                 }
                 // still here?  then we didn't find a match...
-                GlobalVariables.getMessageMap().putError(KFSPropertyConstants.DOCUMENT+"."+TemPropertyConstants.PER_DIEM_EXP+"[0]."+TemPropertyConstants.PRIMARY_DESTINATION_ID, TemKeyConstants.ERROR_TRAVEL_DOC_PRI_DEST_PER_DIEM_NO_MATCH, travelDoc.getPrimaryDestinationName());
+                GlobalVariables.getMessageMap().putError(KFSPropertyConstants.DOCUMENT+"."+TemPropertyConstants.PER_DIEM_EXPENSES+"[0]."+TemPropertyConstants.PRIMARY_DESTINATION_ID, TemKeyConstants.ERROR_TRAVEL_DOC_PRI_DEST_PER_DIEM_NO_MATCH, travelDoc.getPrimaryDestinationName());
                 return false;
             }
         }

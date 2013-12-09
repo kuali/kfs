@@ -616,7 +616,6 @@
 		<field-descriptor name="hostName" column="HOST_NAME" jdbc-type="VARCHAR"/>
 		<field-descriptor name="temProfileId" column="TEM_PROFILE_ID" jdbc-type="INTEGER"/>
 		<field-descriptor name="travelerDetailId" column="TRAVELER_DTL_ID" jdbc-type="INTEGER"/>
-		<field-descriptor name="tripTypeCode" column="TRIP_TYP_CD" jdbc-type="VARCHAR"/>
 		<field-descriptor name="tripBegin" column="TRIP_BGN_DT" jdbc-type="TIMESTAMP"/>
         <field-descriptor name="tripEnd" column="TRIP_END_DT" jdbc-type="TIMESTAMP"/>
 		<field-descriptor name="eventTitle" column="TITLE" jdbc-type="VARCHAR"/>
@@ -678,9 +677,6 @@
         </reference-descriptor>
         <reference-descriptor name="temProfile" class-ref="org.kuali.kfs.module.tem.businessobject.TemProfile" auto-retrieve="true" auto-update="none" auto-delete="none">
             <foreignkey field-ref="temProfileId"/>
-        </reference-descriptor>
-        <reference-descriptor name="tripType" class-ref="org.kuali.kfs.module.tem.businessobject.TripType" auto-retrieve="true" auto-update="none" auto-delete="none">
-            <foreignkey field-ref="tripTypeCode"/>
         </reference-descriptor>
        <collection-descriptor name="perDiemExpenses" element-class-ref="org.kuali.kfs.module.tem.businessobject.PerDiemExpense" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="true">
             <orderby name="mileageDate" sort="ASC" />
@@ -830,7 +826,6 @@
         <field-descriptor name="expenseLimit" column="EXP_LMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
         <field-descriptor name="temProfileId" column="TEM_PROFILE_ID" jdbc-type="INTEGER"/>        
         <field-descriptor name="travelerDetailId" column="TRAVELER_DTL_ID" jdbc-type="INTEGER"/>
-        <field-descriptor name="tripTypeCode" column="TRIP_TYP_CD" jdbc-type="VARCHAR"/>
         <field-descriptor name="tripBegin" column="TRIP_BGN_DT" jdbc-type="TIMESTAMP"/>
         <field-descriptor name="tripEnd" column="TRIP_END_DT" jdbc-type="TIMESTAMP"/>
         <field-descriptor name="paymentMethod" column="PAYMENT_METHOD" jdbc-type="VARCHAR"/>
@@ -868,9 +863,6 @@
         </reference-descriptor>
         <reference-descriptor name="temProfile" class-ref="org.kuali.kfs.module.tem.businessobject.TemProfile" auto-retrieve="true" auto-update="none" auto-delete="none">
             <foreignkey field-ref="temProfileId"/>
-        </reference-descriptor>
-        <reference-descriptor name="tripType" class-ref="org.kuali.kfs.module.tem.businessobject.TripType" auto-retrieve="true" auto-update="none" auto-delete="none">
-            <foreignkey field-ref="tripTypeCode"/>
         </reference-descriptor>
         <reference-descriptor name="travelPayment" class-ref="org.kuali.kfs.module.tem.businessobject.TravelPayment" auto-retrieve="true" auto-update="object" auto-delete="object">
         	<foreignkey field-ref="documentNumber"/>
@@ -1286,7 +1278,7 @@
 		<field-descriptor name="alternateTripId" column="ALT_TRP_ID" jdbc-type="VARCHAR"/>
 		<field-descriptor name="tripArrangerName" column="TRP_ARR_NM" jdbc-type="VARCHAR"/>
 		<field-descriptor name="groupObjectCode" column="GRP_OBJ_CD" jdbc-type="VARCHAR"/>
-		<field-descriptor name="distributionCode" column="DI_CD" jdbc-type="VARCHAR"/>
+		<field-descriptor name="distributionCode" column="DIST_CD" jdbc-type="VARCHAR"/>
 		<field-descriptor name="tripDepartureDate" column="TRP_DPT_DT" jdbc-type="DATE"/>
 		<field-descriptor name="tripReturnDate" column="TRP_RTRN_DT" jdbc-type="DATE"/>
 		<field-descriptor name="fareSaverCode" column="FARE_SVR_CD" jdbc-type="VARCHAR"/>
@@ -1368,6 +1360,10 @@
 	        <foreignkey field-ref="searchAccountNumber" />
 	        <foreignkey field-ref="searchSubAccountNumber" />
 	    </reference-descriptor>
+	    
+	    <reference-descriptor name="agencyServiceFee" class-ref="org.kuali.kfs.module.tem.businessobject.AgencyServiceFee" auto-retrieve="true" auto-update="none" auto-delete="none">
+	    	<foreignkey field-ref="distributionCode"/>
+	    </reference-descriptor>	    
 	</class-descriptor>
 	
 	<class-descriptor class="org.kuali.kfs.module.tem.businessobject.CreditCardAgency" table="TEM_CREDIT_CARD_AGENCY_T">
@@ -1614,12 +1610,11 @@
    </class-descriptor>	
 
 	<class-descriptor class="org.kuali.kfs.module.tem.businessobject.AgencyServiceFee" table="TEM_AGENCY_SRVC_FEE_T">
-		<field-descriptor name="id" primarykey="true" sequence-name="TEM_AGENCY_SRVC_FEE_ID_SEQ" autoincrement="true" column="ID" jdbc-type="INTEGER"/>
-		<field-descriptor name="diCode" column="DI_CD" jdbc-type="VARCHAR"/>
-		<field-descriptor name="diCodeDescription" column="DI_DESC" jdbc-type="VARCHAR"/>
+		<field-descriptor name="code" primarykey="true" column="DIST_CD" jdbc-type="VARCHAR"/>
+		<field-descriptor name="name" column="DIST_DESC" jdbc-type="VARCHAR"/>
 		<field-descriptor name="creditChartCode" column="CHART_CD" jdbc-type="VARCHAR"/>
 		<field-descriptor name="creditAccountNumber" column="ACCT_NBR" jdbc-type="VARCHAR"/>
-		<field-descriptor name="creditObjectCode" column="OBJ_CD" jdbc-type="VARCHAR"/>
+		<field-descriptor name="creditObjectCode" column="FIN_OBJECT_CD" jdbc-type="VARCHAR"/>
 		<field-descriptor name="serviceFee" column="SRVC_FEE" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
 		<field-descriptor name="active" column="ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR"/>

@@ -592,7 +592,7 @@ public class TravelReimbursementServiceImpl implements TravelReimbursementServic
             Iterator<String> it = trDocument.getDisabledProperties().keySet().iterator();
             while (it.hasNext()){
                 String key = it.next();
-                if (key.indexOf(TemPropertyConstants.PER_DIEM_EXP) != 0){
+                if (key.indexOf(TemPropertyConstants.PER_DIEM_EXPENSES) != 0){
                     trDocument.getDisabledProperties().remove(key);
                 }
             }

@@ -20,7 +20,7 @@
 <c:set var="documentAttributes" value="${DataDictionary.TravelAuthorizationDocument.attributes}" />
 <c:set var="isTA" value="${KualiForm.isTravelAuthorizationDoc}" />
 <c:set var="isTR" value="${KualiForm.docTypeName == TemConstants.TravelDocTypes.TRAVEL_REIMBURSEMENT_DOCUMENT}" />
-<c:set var="isLimitEditable" value="${fullEntryMode || fiscalOfficer}" />
+<c:set var="isLimitEditable" value="${KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT] && KualiForm.editingMode['expenseLimitEntry']}" />
 
 <kul:tab tabTitle="Special Circumstances" defaultOpen="${KualiForm.document.specialCircumstancesDefaultOpen}" tabErrorKey="${TemKeyConstants.TRVL_AUTH_SPECIAL_CIRCUMSTANCES_ERRORS}">
     <div class="tab-container" align=center > 

@@ -111,7 +111,7 @@ public class TravelReimbursementAction extends TravelActionBase {
     protected void refreshCollectionsFor(final TravelReimbursementDocument reimbursement) {
         if (!reimbursement.getDocumentHeader().getWorkflowDocument().isInitiated()) {
             LOG.debug("Refreshing objects in reimbursement");
-            reimbursement.refreshReferenceObject(TemPropertyConstants.PER_DIEM_EXP);
+            reimbursement.refreshReferenceObject(TemPropertyConstants.PER_DIEM_EXPENSES);
             reimbursement.refreshReferenceObject(TemPropertyConstants.TRAVELER);
             reimbursement.refreshReferenceObject(TemPropertyConstants.TRIP_TYPE);
             reimbursement.refreshReferenceObject(TemPropertyConstants.ACTUAL_EXPENSES);
@@ -305,7 +305,7 @@ public class TravelReimbursementAction extends TravelActionBase {
 
     protected Integer getPerDiemActionLineNumber(final HttpServletRequest request) {
         for (final String parameterKey : ((Map<String,String>) request.getParameterMap()).keySet()) {
-            if (StringUtils.containsIgnoreCase(parameterKey, TemPropertyConstants.PER_DIEM_EXP)) {
+            if (StringUtils.containsIgnoreCase(parameterKey, TemPropertyConstants.PER_DIEM_EXPENSES)) {
                 return getLineNumberFromParameter(parameterKey);
             }
         }
@@ -568,6 +568,8 @@ public class TravelReimbursementAction extends TravelActionBase {
             final String objectCode = getObjectCodeForNewSourceAccountingLine(reimbForm);
             reimbForm.getNewSourceLine().setFinancialObjectCode(objectCode);
         }
+
+        handleMissingPerDiemMileageRates(reimbForm);
 
         return retval;
     }

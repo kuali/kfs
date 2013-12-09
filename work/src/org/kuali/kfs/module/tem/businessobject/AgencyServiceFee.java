@@ -19,29 +19,22 @@ import java.util.LinkedHashMap;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
-import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.krad.bo.KualiCodeBase;
 
 @Entity
 @Table(name = "TEM_AGENCY_SRVC_FEE_T")
-public class AgencyServiceFee extends PersistableBusinessObjectBase implements MutableInactivatable {
+public class AgencyServiceFee extends KualiCodeBase implements MutableInactivatable {
 
-    private Integer id;
-    private String diCode;
-    private String diCodeDescription;
     private String creditChartCode;
     private String creditAccountNumber;
     private String creditObjectCode;
     private KualiDecimal serviceFee;
-    private Boolean active = Boolean.TRUE;
 
     private Account account;
     private ObjectCode objectCode;
@@ -49,68 +42,14 @@ public class AgencyServiceFee extends PersistableBusinessObjectBase implements M
     @SuppressWarnings("rawtypes")
     protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap map = new LinkedHashMap();
-        map.put("diCode", diCode);
-        map.put("diCodeDescription", diCodeDescription);
+        map.put("code", getCode());
+        map.put("name", getName());
         map.put("creditChartCode", creditChartCode);
         map.put("creditAccountNumber", creditAccountNumber);
         map.put("creditObjectCode", creditObjectCode);
         map.put("serviceFee", serviceFee);
 
         return map;
-    }
-
-    /**
-     * Gets the id attribute.
-     * @return Returns the id.
-     */
-    @Id
-    @GeneratedValue(generator = "TEM_AGENCY_SRVC_FEE_ID_SEQ")
-    @SequenceGenerator(name = "TEM_AGENCY_SRVC_FEE_ID_SEQ", sequenceName = "TEM_AGENCY_SRVC_FEE_ID_SEQ", allocationSize = 5)
-    @Column(name = "ID", nullable = false)
-    public Integer getId() {
-        return id;
-    }
-
-    /**
-     * Sets the id attribute value.
-     * @param id The id to set.
-     */
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    /**
-     * Gets the diCode attribute.
-     * @return Returns the diCode.
-     */
-    @Column(name = "DI_CD", length = 3, nullable = false)
-    public String getDiCode() {
-        return diCode;
-    }
-
-    /**
-     * Sets the diCode attribute value.
-     * @param diCode The diCode to set.
-     */
-    public void setDiCode(String diCode) {
-        this.diCode = diCode;
-    }
-
-    /**
-     * Gets the diCodeDescription attribute.
-     * @return Returns the diCodeDescription.
-     */
-    @Column(name = "DI_DESC", length = 40, nullable = true)
-    public String getDiCodeDescription() {
-        return diCodeDescription;
-    }
-
-    /**
-     * Sets the diCodeDescription attribute value.
-     * @param diCodeDescription The diCodeDescription to set.
-     */
-    public void setDiCodeDescription(String diCodeDescription) {
-        this.diCodeDescription = diCodeDescription;
     }
 
     /**
@@ -151,7 +90,7 @@ public class AgencyServiceFee extends PersistableBusinessObjectBase implements M
      * Gets the creditObjectCode attribute.
      * @return Returns the creditObjectCode.
      */
-    @Column(name = "OBJ_CD", length = 4, nullable = false)
+    @Column(name = "FIN_OBJECT_CD", length = 4, nullable = false)
     public String getCreditObjectCode() {
         return creditObjectCode;
     }
@@ -179,25 +118,6 @@ public class AgencyServiceFee extends PersistableBusinessObjectBase implements M
      */
     public void setServiceFee(KualiDecimal serviceFee) {
         this.serviceFee = serviceFee;
-    }
-
-    /**
-     * Gets the active attribute.
-     * @return Returns the active.
-     */
-    @Override
-    @Column(name="ACTV_IND",nullable=false,length=1)
-    public boolean isActive() {
-        return active;
-    }
-
-    /**
-     * Sets the active attribute value.
-     * @param active The active to set.
-     */
-    @Override
-    public void setActive(boolean active) {
-        this.active = active;
     }
 
     /**
@@ -231,5 +151,4 @@ public class AgencyServiceFee extends PersistableBusinessObjectBase implements M
     public void setObjectCode(ObjectCode objectCode) {
         this.objectCode = objectCode;
     }
-
 }

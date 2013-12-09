@@ -42,7 +42,7 @@ public class TravelAuthAccommodationInfoRequiredValidation extends GenericValida
         TripType tripType = taDocument.getTripType();
 
         boolean valid = true;
-        GlobalVariables.getMessageMap().addToErrorPath(TemPropertyConstants.PER_DIEM_EXP);
+        GlobalVariables.getMessageMap().addToErrorPath(TemPropertyConstants.PER_DIEM_EXPENSES);
         final boolean internationalAccommodationInfoRequired = getParameterService().getParameterValueAsBoolean(TemParameterConstants.TEM_DOCUMENT.class, TemConstants.TravelParameters.INTERNATIONAL_TRIP_REQUIRES_ACCOMMODATION_IND);
         if(tripType !=null && isInternationalTrip(tripType) && internationalAccommodationInfoRequired) {
             //loop through each trip detail estimate and check for accommodation information
@@ -73,7 +73,7 @@ public class TravelAuthAccommodationInfoRequiredValidation extends GenericValida
             GlobalVariables.getMessageMap().putError(TravelAuthorizationFields.ACCOMM_TYPE, KFSKeyConstants.ERROR_REQUIRED, "Accommodation Type");
 
         }
-        GlobalVariables.getMessageMap().removeFromErrorPath(TemPropertyConstants.PER_DIEM_EXP);
+        GlobalVariables.getMessageMap().removeFromErrorPath(TemPropertyConstants.PER_DIEM_EXPENSES);
 
         return valid;
     }

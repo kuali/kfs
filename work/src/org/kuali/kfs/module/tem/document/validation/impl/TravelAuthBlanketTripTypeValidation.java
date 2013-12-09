@@ -50,13 +50,23 @@ public class TravelAuthBlanketTripTypeValidation extends GenericValidation {
                     rulePassed = false;
                     GlobalVariables.getMessageMap().putError(KFSConstants.DOCUMENT_PROPERTY_NAME + "." +TemPropertyConstants.TRIP_TYPE_CODE, TemKeyConstants.ERROR_TA_TRIP_TYPE_BLANKET_NOT_ALLOWED);
                 }
-                if (StringUtils.isBlank(taDocument.getTemProfile().getDefaultChartCode()) || StringUtils.isBlank(taDocument.getTemProfile().getDefaultAccount())) {
-                    rulePassed = false;
-                    GlobalVariables.getMessageMap().putError(KFSConstants.DOCUMENT_PROPERTY_NAME + "." +TemPropertyConstants.BLANKET_IND, TemKeyConstants.ERROR_TA_PROFILE_NOT_COMPLETE_FOR_BLANKET_TRAVEL);
-                }
+            }
+            if ((taDocument.isBlanketTravel() || isNonEncumbranceTrip(taDocument)) && StringUtils.isBlank(taDocument.getTemProfile().getDefaultChartCode()) || StringUtils.isBlank(taDocument.getTemProfile().getDefaultAccount())) {
+                rulePassed = false;
+                final String basePropertyName = (taDocument.isBlanketTravel()) ? TemPropertyConstants.BLANKET_IND : TemPropertyConstants.TRIP_TYPE_CODE;
+                GlobalVariables.getMessageMap().putError(KFSConstants.DOCUMENT_PROPERTY_NAME + "." +basePropertyName, TemKeyConstants.ERROR_TA_PROFILE_NOT_COMPLETE_FOR_BLANKET_TRAVEL);
             }
         }
 
         return rulePassed;
+    }
+
+    /**
+     * Determines if the trip type does not need to generate encumbrances and has no accounting line
+     * @param travelAuth the travel authorization to verify
+     * @return true if the authorization is not planning to generate encumbrances, false otherwise
+     */
+    protected boolean isNonEncumbranceTrip(TravelAuthorizationDocument travelAuth) {
+        return !travelAuth.getTripType().isGenerateEncumbrance() && (travelAuth.getSourceAccountingLines() == null || travelAuth.getSourceAccountingLines().isEmpty());
     }
 }

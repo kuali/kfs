@@ -1361,7 +1361,7 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
     }
 
     public String getBlanketTotalDollarAmountForRouting() {
-        if (!getBlanketTravel()) {
+        if (!getBlanketTravel() && getTripType().isGenerateEncumbrance()) {
             return "";
         } else {
             return getTotalDollarAmount().toString();
@@ -1369,7 +1369,7 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
     }
 
     public String getBlanketChartForRouting() {
-        if (!getBlanketTravel()) {
+        if (!getBlanketTravel() && getTripType().isGenerateEncumbrance()) {
             return "";
         } else {
             if (ObjectUtils.isNotNull(getTemProfile())) {
@@ -1380,7 +1380,7 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
     }
 
     public String getBlanketAccountForRouting() {
-        if (!getBlanketTravel()) {
+        if (!getBlanketTravel() && getTripType().isGenerateEncumbrance()) {
             return "";
         } else {
             if (ObjectUtils.isNotNull(getTemProfile())) {

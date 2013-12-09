@@ -1325,7 +1325,7 @@
         <column name="FDOC_NBR" primaryKey="true" size="14" type="VARCHAR"/>
         <column name="AGENCY_NBR" primaryKey="true" size="5" type="VARCHAR"/>
         <column default="0" name="AGENCY_ADDR_ID" primaryKey="true" size="12" type="DECIMAL"/>
-        <column name="AGENCY_ADDR_TYPE_CD" size="2" type="VARCHAR"/>
+        <column name="CUST_ADDR_TYPE_CD" size="2" type="VARCHAR"/>
         <column name="AGENCY_ADDR_NM" size="40" type="VARCHAR"/>
         <column name="AGENCY_INV_TYP_CD" size="10" type="VARCHAR"/>
         <column name="PREF_AGENCY_INV_TYP_CD" size="10" type="VARCHAR"/>

@@ -68,46 +68,6 @@
 				<bean parent="CollectionDefinition" p:name="historicalTravelExpenses" p:label="Reconciled Expenses" p:shortLabel="Reconciled Expenses" p:elementLabel="Reconciled Expenses" />
 			</list>
 		</property>
-		<property name="relationships">
-		<list>
-			<bean parent="RelationshipDefinition">
-				<property name="objectAttributeName" value="temProfile" />
-				<property name="primitiveAttributes">
-				<list>
-					<bean parent="PrimitiveAttributeDefinition" p:sourceName="temProfileId" p:targetName="profileId" />
-				</list>
-				</property>
-				<property name="supportAttributes">
-				<list>
-				</list>
-				</property>
-			</bean>
-			<bean parent="RelationshipDefinition">
-				<property name="objectAttributeName" value="tripType" />
-				<property name="primitiveAttributes">
-				<list>
-					<bean parent="PrimitiveAttributeDefinition" p:sourceName="tripTypeCode" p:targetName="code" />
-				</list>
-				</property>
-				<property name="supportAttributes">
-				<list>
-				</list>
-				</property>
-			</bean>
-			<bean parent="RelationshipDefinition">
-                <property name="objectAttributeName" value="primaryDestination" />
-                <property name="primitiveAttributes">
-                <list>
-                    <bean parent="PrimitiveAttributeDefinition" p:sourceName="primaryDestinationId" p:targetName="id" />
-                </list>
-                </property>
-                <property name="supportAttributes">
-                <list>
-                </list>
-                </property>
-            </bean>
-			</list>
-		</property>
 	</bean>
 	<bean id="TravelAuthorizationDocument-travelDocumentNumber" parent="TravelAuthorizationDocument-travelDocumentNumber-parentBean" />
 	<bean id="TravelAuthorizationDocument-travelDocumentNumber-parentBean" abstract="true" parent="AttributeDefinition">

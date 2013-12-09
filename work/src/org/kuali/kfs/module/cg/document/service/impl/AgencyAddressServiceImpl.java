@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -69,7 +69,7 @@ public class AgencyAddressServiceImpl implements AgencyAddressService {
         if (StringUtils.isNotBlank(agencyNumber)) {
             Map criteria = new HashMap();
             criteria.put(KFSPropertyConstants.AGENCY_NUMBER, agencyNumber);
-            criteria.put("agencyAddressTypeCode", "P");
+            criteria.put("customerAddressTypeCode", "P");
 
             primaryAddress = (AgencyAddress) businessObjectService.findMatching(AgencyAddress.class, criteria).iterator().next();
         }
@@ -79,7 +79,7 @@ public class AgencyAddressServiceImpl implements AgencyAddressService {
 
     /**
      * This method returns true if agency address is active
-     * 
+     *
      * @param agencyNumber
      * @param agencyAddressIdentifier
      * @return
@@ -124,7 +124,7 @@ public class AgencyAddressServiceImpl implements AgencyAddressService {
 
     /**
      * This method sets agency address dao
-     * 
+     *
      * @return
      */
     public AgencyAddressDao getAgencyAddressDao() {
@@ -133,7 +133,7 @@ public class AgencyAddressServiceImpl implements AgencyAddressService {
 
     /**
      * This method gets agency address dao
-     * 
+     *
      * @param agencyAddressDao
      */
     public void setAgencyAddressDao(AgencyAddressDao agencyAddressDao) {
@@ -153,7 +153,7 @@ public class AgencyAddressServiceImpl implements AgencyAddressService {
 
     /**
      * This method gets the sequenceAccessorService
-     * 
+     *
      * @return
      */
     public SequenceAccessorService getSequenceAccessorService() {
@@ -162,7 +162,7 @@ public class AgencyAddressServiceImpl implements AgencyAddressService {
 
     /**
      * This method sets the sequenceAccessorService
-     * 
+     *
      * @param sequenceAccessorService
      */
     public void setSequenceAccessorService(SequenceAccessorService sequenceAccessorService) {

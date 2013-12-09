@@ -1,12 +1,12 @@
 /*
  * Copyright 2006 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -71,11 +71,13 @@ import org.kuali.rice.krad.util.ObjectUtils;
 @ConfigureContext(session = khuntley)
 public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
 
+    ContractsGrantsInvoiceDocumentServiceImpl contractsGrantsInvoiceDocumentServiceImpl =  new ContractsGrantsInvoiceDocumentServiceImpl();
     /**
      * @see junit.framework.TestCase#setUp()
      */
     @Override
     protected void setUp() throws Exception {
+        contractsGrantsInvoiceDocumentServiceImpl.setBusinessObjectService(SpringContext.getBean(BusinessObjectService.class));
         super.setUp();
     }
 
@@ -83,6 +85,7 @@ public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
      * Tests the prorateBill() method of service.
      */
     public void testProrateBill() {
+
 
         DocumentService documentService = SpringContext.getBean(DocumentService.class);
         ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument = ContractsGrantsInvoiceDocumentFixture.CG_INV_DOC1.createContractsGrantsInvoiceDocument(documentService);
@@ -112,7 +115,6 @@ public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
         accountDetails.add(invoiceAccountDetail_1);
         accountDetails.add(invoiceAccountDetail_2);
         contractsGrantsInvoiceDocument.setAccountDetails(accountDetails);
-        ContractsGrantsInvoiceDocumentServiceImpl contractsGrantsInvoiceDocumentServiceImpl = new ContractsGrantsInvoiceDocumentServiceImpl();
 
         try {
             contractsGrantsInvoiceDocumentServiceImpl.prorateBill(contractsGrantsInvoiceDocument);
@@ -151,7 +153,6 @@ public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
         assertNotNull(contractsGrantsInvoiceDocument);
 
         contractsGrantsInvoiceDocument.setAward(award);
-        ContractsGrantsInvoiceDocumentServiceImpl contractsGrantsInvoiceDocumentServiceImpl = new ContractsGrantsInvoiceDocumentServiceImpl();
         // contractsGrantsInvoiceDocument is created today and award ending date is set to 2011-09-22, so following method always
         // returns true
         assertTrue(contractsGrantsInvoiceDocumentServiceImpl.isInvoiceCreateDateAfterAwardEndingDate(contractsGrantsInvoiceDocument));
@@ -172,7 +173,6 @@ public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
         invoiceDetails.add(invoiceDetail_1);
         invoiceDetails.add(invoiceDetail_2);
 
-        ContractsGrantsInvoiceDocumentServiceImpl contractsGrantsInvoiceDocumentServiceImpl = new ContractsGrantsInvoiceDocumentServiceImpl();
         KualiDecimal expectedResult = new KualiDecimal(7.66);
         assertTrue(expectedResult.compareTo(contractsGrantsInvoiceDocumentServiceImpl.getInvoiceDetailExpenditureSum(invoiceDetails)) == 0);
     }
@@ -204,7 +204,6 @@ public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
         invoiceDetailAccountObjectCodes.add(invoiceDetailAccountObjectCode_1);
         invoiceDetailAccountObjectCodes.add(invoiceDetailAccountObjectCode_2);
 
-        ContractsGrantsInvoiceDocumentServiceImpl contractsGrantsInvoiceDocumentServiceImpl = new ContractsGrantsInvoiceDocumentServiceImpl();
         contractsGrantsInvoiceDocumentServiceImpl.recalculateAccountDetails(invoiceAccountDetails, invoiceDetailAccountObjectCodes);
 
         assert (invoiceAccountDetails.get(0).getExpenditureAmount().compareTo(value1) == 0);
@@ -262,7 +261,6 @@ public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
 
         KualiDecimal originalTotalBilledValue = contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getNewTotalBilled();
 
-        ContractsGrantsInvoiceDocumentServiceImpl contractsGrantsInvoiceDocumentServiceImpl = new ContractsGrantsInvoiceDocumentServiceImpl();
         contractsGrantsInvoiceDocumentServiceImpl.recalculateNewTotalBilled(contractsGrantsInvoiceDocument);
 
         // assert newTotalBilled hasn't changed
@@ -314,7 +312,6 @@ public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
         InvoiceGeneralDetail invoiceGeneralDetail = InvoiceGeneralDetailFixture.INV_GNRL_DTL1.createInvoiceGeneralDetail();
         contractsGrantsInvoiceDocument.setInvoiceGeneralDetail(invoiceGeneralDetail);
 
-        ContractsGrantsInvoiceDocumentServiceImpl contractsGrantsInvoiceDocumentServiceImpl = new ContractsGrantsInvoiceDocumentServiceImpl();
         contractsGrantsInvoiceDocumentServiceImpl.updateSuspensionCategoriesOnDocument(contractsGrantsInvoiceDocument);
 
         // expected suspensionCategories are below
@@ -538,7 +535,7 @@ public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
 
     /**
      * This method compares the source accounting lines.
-     * 
+     *
      * @param contractsGrantsInvoiceDocument The invoice document object.
      * @param customerInvoiceDetail The customer invoice detail object.
      */
@@ -594,7 +591,6 @@ public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
         invoiceDetailAccountObjectCodes.add(invoiceDetailAccountObjectCode_1);
         invoiceDetailAccountObjectCodes.add(invoiceDetailAccountObjectCode_2);
 
-        ContractsGrantsInvoiceDocumentServiceImpl contractsGrantsInvoiceDocumentServiceImpl = new ContractsGrantsInvoiceDocumentServiceImpl();
         assertFalse(contractsGrantsInvoiceDocumentServiceImpl.isAwardHasClosedAccountWithCurrentExpenditures(contractsGrantsInvoiceDocument));
 
     }
@@ -603,7 +599,6 @@ public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
      * Tests the GetInvoiceDocumentsForReferralToCollectionsLookup() method of service class.
      */
     public void testGetInvoiceDocumentsForReferralToCollectionsLookup() {
-        ContractsGrantsInvoiceDocumentServiceImpl contractsGrantsInvoiceDocumentServiceImpl = new ContractsGrantsInvoiceDocumentServiceImpl();
         contractsGrantsInvoiceDocumentServiceImpl.setContractsGrantsInvoiceDocumentDao(SpringContext.getBean(ContractsGrantsInvoiceDocumentDao.class));
         Map<String, String> fieldValues = new LinkedHashMap<String, String>();
         fieldValues.put("agencyNumber", "20770");

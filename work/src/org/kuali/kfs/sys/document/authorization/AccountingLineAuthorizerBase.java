@@ -367,7 +367,9 @@ public class AccountingLineAuthorizerBase implements AccountingLineAuthorizer {
     protected final Map<String,String> getRoleQualifiers(AccountingDocument accountingDocument, AccountingLine accountingLine) {
         Map<String,String> roleQualifiers = new HashMap<String,String>();
 
-        if (accountingLine != null) {
+        if (accountingLine != null
+                && StringUtils.isNotBlank(accountingLine.getAccountNumber())
+                && StringUtils.isNotBlank(accountingLine.getChartOfAccountsCode())) {
             roleQualifiers.put(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE, accountingLine.getChartOfAccountsCode());
             roleQualifiers.put(KfsKimAttributes.ACCOUNT_NUMBER, accountingLine.getAccountNumber());
         }

@@ -57,6 +57,7 @@ public class TemConstants {
     public static final String TRAVEL_MANAGER_TEST_ATTRIBUTE = "travelManager";
     public static final String FISCAL_OFFICER_TEST_ATTRIBUTE = "fiscalOfficer";
     public static final String DELINQUENT_TEST_ATTRIBUTE = "delinquent";
+    public static final String TEM_DOCUMENT_IDENTIFER_NOT_AVAILABLE = "Not Available";
 
     public static final String AMENDMENT_TA_QUESTION = "AmendmentTa";
     public static final String CLOSE_TA_QUESTION = "CloseTa";

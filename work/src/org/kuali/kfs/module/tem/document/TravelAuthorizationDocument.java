@@ -775,6 +775,7 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
 
         if (DocumentStatus.PROCESSED.getCode().equals(statusChangeEvent.getNewRouteStatus())) {
             LOG.debug("New route status is " + statusChangeEvent.getNewRouteStatus());
+            this.getDocumentHeader().setOrganizationDocumentNumber(getTravelDocumentIdentifier());
 
             if (!(this instanceof TravelAuthorizationCloseDocument)) {
                 // for some reason when it goes to final it never updates to the last status, updating TA status to OPEN REIMBURSEMENT
@@ -1174,7 +1175,12 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
                 updatePayeeTypeForAuthorization();
             }
         }
+
+        if(maskTravelDocumentIdentifierAndOrganizationDocNumber()) {
+            this.getDocumentHeader().setOrganizationDocumentNumber(null);
+        }
     }
+
 
     /**
      * For reimbursable documents, sets the proper payee type code and profile id after a profile lookup
@@ -1342,6 +1348,14 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
         }
 
         return events;
+    }
+
+    public boolean maskTravelDocumentIdentifierAndOrganizationDocNumber() {
+        boolean vendorPaymentAllowedBeforeFinal = getParameterService().getParameterValueAsBoolean(TravelAuthorizationDocument.class, TemConstants.TravelAuthorizationParameters.VENDOR_PAYMENT_ALLOWED_BEFORE_FINAL_APPROVAL_IND);
+        if(!vendorPaymentAllowedBeforeFinal && !(getFinancialSystemDocumentHeader().getWorkflowDocument().isProcessed() || getFinancialSystemDocumentHeader().getWorkflowDocument().isFinal())) {
+            return true;
+        }
+        return false;
     }
 
     /**

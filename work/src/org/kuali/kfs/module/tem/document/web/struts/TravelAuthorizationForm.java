@@ -47,7 +47,10 @@ import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.rice.core.web.format.CurrencyFormatter;
+import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kns.web.ui.ExtraButton;
+import org.kuali.rice.kns.web.ui.HeaderField;
+import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DataDictionaryService;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -518,6 +521,52 @@ public class TravelAuthorizationForm extends TravelFormBase implements TravelAut
             accountingLine.setFinancialObjectCode(travelDoc.getTripType().getEncumbranceObjCode());
         }
         return accountingLine;
+    }
+
+    @Override
+    public void populateHeaderFields(WorkflowDocument workflowDocument) {
+        super.populateHeaderFields(workflowDocument);
+        boolean vendorPaymentAllowedBeforeFinal = getParameterService().getParameterValueAsBoolean(TravelAuthorizationDocument.class, TemConstants.TravelAuthorizationParameters.VENDOR_PAYMENT_ALLOWED_BEFORE_FINAL_APPROVAL_IND);
+        String travelDocumentIdentifier = getTravelDocument().getTravelDocumentIdentifier();
+        String organizationDocumentNumber = getTravelDocument().getDocumentHeader().getOrganizationDocumentNumber();
+        TravelAuthorizationDocument document = (TravelAuthorizationDocument)getTravelDocument();
+
+        if(document.maskTravelDocumentIdentifierAndOrganizationDocNumber()) {
+
+            DataDictionaryService dataDictionaryService = SpringContext.getBean(DataDictionaryService.class);
+            if (ObjectUtils.isNotNull(travelDocumentIdentifier)) {
+                travelDocumentIdentifier = "";
+                int strLength = dataDictionaryService.getAttributeMaxLength(TravelAuthorizationDocument.class.getName(), TemPropertyConstants.TRAVEL_DOCUMENT_IDENTIFIER);
+                for (int i = 0; i < strLength; i++) {
+                    travelDocumentIdentifier = travelDocumentIdentifier.concat("*");
+                }
+           }
+
+            if (ObjectUtils.isNotNull(organizationDocumentNumber)) {
+                organizationDocumentNumber = "";
+                int strLength = dataDictionaryService.getAttributeMaxLength(DocumentHeader.class.getName(), "organizationDocumentNumber");
+
+                for (int i = 0; i < strLength; i++) {
+                    organizationDocumentNumber = organizationDocumentNumber.concat("*");
+                }
+           }
+        }
+
+        if (ObjectUtils.isNotNull(getTravelDocument().getTravelDocumentIdentifier())) {
+            getDocInfo().add(new HeaderField("DataDictionary.TravelAuthorizationDocument.attributes.travelDocumentIdentifier", travelDocumentIdentifier));
+        }
+        else {
+            getDocInfo().add(new HeaderField("DataDictionary.TravelAuthorizationDocument.attributes.travelDocumentIdentifier", TemConstants.TEM_DOCUMENT_IDENTIFER_NOT_AVAILABLE));
+        }
+
+        if(ObjectUtils.isNotNull(getTravelDocument().getDocumentHeader().getOrganizationDocumentNumber())){
+            getDocInfo().add(new HeaderField("DataDictionary.DocumentHeader.attributes.organizationDocumentNumber", organizationDocumentNumber));
+        }
+        else {
+            getDocInfo().add(new HeaderField("DataDictionary.DocumentHeader.attributes.organizationDocumentNumber", TemConstants.TEM_DOCUMENT_IDENTIFER_NOT_AVAILABLE));
+        }
+
+
     }
 
 }

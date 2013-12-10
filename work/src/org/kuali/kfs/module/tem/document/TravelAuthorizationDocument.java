@@ -1352,10 +1352,8 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
 
     public boolean maskTravelDocumentIdentifierAndOrganizationDocNumber() {
         boolean vendorPaymentAllowedBeforeFinal = getParameterService().getParameterValueAsBoolean(TravelAuthorizationDocument.class, TemConstants.TravelAuthorizationParameters.VENDOR_PAYMENT_ALLOWED_BEFORE_FINAL_APPROVAL_IND);
-        if(!vendorPaymentAllowedBeforeFinal && !(getFinancialSystemDocumentHeader().getWorkflowDocument().isProcessed() || getFinancialSystemDocumentHeader().getWorkflowDocument().isFinal())) {
-            return true;
-        }
-        return false;
+        return !vendorPaymentAllowedBeforeFinal && !(getFinancialSystemDocumentHeader().getWorkflowDocument().isProcessed() || getFinancialSystemDocumentHeader().getWorkflowDocument().isFinal());
+
     }
 
     /**

@@ -1321,23 +1321,23 @@
             <unique-column name="OBJ_ID"/>
         </unique>
     </table>
-    <table name="AR_INV_AGENCY_ADDR_DTL_T">
+    <table name="AR_INV_ADDR_DTL_T">
         <column name="FDOC_NBR" primaryKey="true" size="14" type="VARCHAR"/>
-        <column name="AGENCY_NBR" primaryKey="true" size="5" type="VARCHAR"/>
-        <column default="0" name="AGENCY_ADDR_ID" primaryKey="true" size="12" type="DECIMAL"/>
+        <column name="CUST_NBR" primaryKey="true" size="40" type="VARCHAR"/>
+        <column default="0" name="CUST_ADDR_ID" primaryKey="true" size="12" type="DECIMAL"/>
         <column name="CUST_ADDR_TYPE_CD" size="2" type="VARCHAR"/>
-        <column name="AGENCY_ADDR_NM" size="40" type="VARCHAR"/>
-        <column name="AGENCY_INV_TYP_CD" size="10" type="VARCHAR"/>
-        <column name="PREF_AGENCY_INV_TYP_CD" size="10" type="VARCHAR"/>
+        <column name="CUST_ADDR_NM" size="40" type="VARCHAR"/>
+        <column name="CUST_INV_TYP_CD" size="10" type="VARCHAR"/>
+        <column name="PREF_CUST_INV_TYP_CD" size="10" type="VARCHAR"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
         <column name="INV_IND_CD" size="10" type="VARCHAR"/>
         <column name="PREF_INV_IND_CD" size="10" type="VARCHAR"/>
         <column name="NOTE_ID" size="14" type="DECIMAL"/>
-        <foreign-key foreignTable="AR_INV_DOC_T" name="AR_INV_AGENCY_ADDR_DTL_TR1">
+        <foreign-key foreignTable="AR_INV_DOC_T" name="AR_INV_ADDR_DTL_TR1">
             <reference foreign="FDOC_NBR" local="FDOC_NBR"/>
         </foreign-key>
-        <unique name="AR_INV_AGENCY_ADDR_DTL_TC1">
+        <unique name="AR_INV_ADDR_DTL_TC1">
             <unique-column name="OBJ_ID"/>
         </unique>
     </table>
@@ -1710,6 +1710,22 @@
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
         <unique name="AR_INV_SUSP_CTGRY_TC1">
+            <unique-column name="OBJ_ID"/>
+        </unique>
+    </table>
+    <table name="AR_INV_TYP_T">
+        <column name="INV_TYP_CD" primaryKey="true" size="10" type="VARCHAR"/>
+        <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
+        <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
+        <column name="INV_TYP_DESC" size="45" type="VARCHAR"/>
+        <column default="Y" name="ACTV_IND" required="true" size="1" type="VARCHAR"/>
+        <column name="FILENAME" size="50" type="VARCHAR"/>
+        <column name="FILEPATH" size="500" type="VARCHAR"/>
+        <column name="ACCESS_RSTRCTD_IND" size="1" type="VARCHAR"/>
+        <column name="BILL_BY_COA_CD" size="2" type="VARCHAR"/>
+        <column name="BILL_BY_ORG_CD" size="4" type="VARCHAR"/>
+        <column name="UPLOAD_DT" size="25" type="VARCHAR"/>
+        <unique name="CG_INV_TYP_TC1">
             <unique-column name="OBJ_ID"/>
         </unique>
     </table>
@@ -4042,23 +4058,16 @@
         <column name="CG_AGENCY_INTL_MAIL_CD" size="20" type="VARCHAR"/>
         <column name="CG_AGENCY_ADDR_TYPE_CD" size="2" type="VARCHAR"/>
         <column name="CG_AGENCY_ADDR_END_DT" type="TIMESTAMP"/>
-        <column name="INV_TYP_CD" size="10" type="VARCHAR"/>
-        <column name="COPIES_TO_PRINT_QTY" size="5" type="DECIMAL"/>
         <column name="CNTCT_NM" size="40" type="VARCHAR"/>
         <column name="PHN_NBR" size="40" type="VARCHAR"/>
         <column name="FAX_NBR" size="40" type="VARCHAR"/>
         <column name="AGENCY_CNTCT_EMAIL_ADDR" size="60" type="VARCHAR"/>
         <column name="AGENCY_INV_EMAIL_ADDR" size="60" type="VARCHAR"/>
-        <column name="INV_IND_CD" size="10" type="VARCHAR"/>
-        <column name="PRNT_ENV_NBR" size="5" type="DECIMAL"/>
         <foreign-key foreignTable="CG_AGENCY_T" name="CG_AGENCY_ADDR_R1">
             <reference foreign="CG_AGENCY_NBR" local="CG_AGENCY_NBR"/>
         </foreign-key>
         <foreign-key foreignTable="CG_AGENCY_ADDR_TYP_T" name="CG_AGENCY_ADDR_R2">
             <reference foreign="CG_AGENCY_ADDR_TYPE_CD" local="CG_AGENCY_ADDR_TYPE_CD"/>
-        </foreign-key>
-        <foreign-key foreignTable="CG_INV_TYP_T" name="CG_AGENCY_ADDR_R3">
-            <reference foreign="INV_TYP_CD" local="INV_TYP_CD"/>
         </foreign-key>
         <unique name="CG_AGENCY_ADDR_TC1">
             <unique-column name="OBJ_ID"/>
@@ -4106,9 +4115,6 @@
         </foreign-key>
         <foreign-key foreignTable="CG_FIN_FORM_TYP_T" name="CG_AGENCY_R2">
             <reference foreign="FIN_FORM_TYP_CD" local="CG_AGENCY_FIN_FORM_TYP_CD"/>
-        </foreign-key>
-        <foreign-key foreignTable="CG_INV_TYP_T" name="CG_AGENCY_R3">
-            <reference foreign="INV_TYP_CD" local="CG_AGENCY_INV_TYP_CD"/>
         </foreign-key>
         <foreign-key foreignTable="CG_FIN_RPT_FREQ_T" name="CG_AGENCY_R4">
             <reference foreign="FIN_RPT_FREQ_CD" local="FIN_RPT_FREQ_CD"/>
@@ -4435,22 +4441,6 @@
         <column name="CG_GRANT_DESC" size="25" type="VARCHAR"/>
         <column name="CG_GRNT_DESC_ACTV_CD" size="1" type="VARCHAR"/>
         <unique name="CG_GRANT_DESC_TC0">
-            <unique-column name="OBJ_ID"/>
-        </unique>
-    </table>
-    <table name="CG_INV_TYP_T">
-        <column name="INV_TYP_CD" primaryKey="true" size="10" type="VARCHAR"/>
-        <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
-        <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
-        <column name="INV_TYP_DESC" size="45" type="VARCHAR"/>
-        <column default="Y" name="ACTV_IND" required="true" size="1" type="VARCHAR"/>
-        <column name="FILENAME" size="50" type="VARCHAR"/>
-        <column name="FILEPATH" size="500" type="VARCHAR"/>
-        <column name="ACCESS_RSTRCTD_IND" size="1" type="VARCHAR"/>
-        <column name="BILL_BY_COA_CD" size="2" type="VARCHAR"/>
-        <column name="BILL_BY_ORG_CD" size="4" type="VARCHAR"/>
-        <column name="UPLOAD_DT" size="25" type="VARCHAR"/>
-        <unique name="CG_INV_TYP_TC1">
             <unique-column name="OBJ_ID"/>
         </unique>
     </table>

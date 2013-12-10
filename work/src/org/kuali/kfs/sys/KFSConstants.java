@@ -1275,6 +1275,7 @@ public class KFSConstants {
         public static final String ACCOUNT_REVIEW_FULL_EDIT = "AccountFullEdit";
         public static final String PROJECT_MANAGEMENT = "ProjectManagement";
         public static final String ORGANIZATION_HIERARCHY = "OrganizationHierarchy";
+        public static final String PAYMENT_METHOD = "PaymentMethod";
     }
 
     public static final String ROOT_DOCUMENT_TYPE = "KFS";

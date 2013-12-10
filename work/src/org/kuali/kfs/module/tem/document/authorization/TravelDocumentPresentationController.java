@@ -17,6 +17,7 @@ package org.kuali.kfs.module.tem.document.authorization;
 
 import java.util.Set;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationParameters;
 import org.kuali.kfs.module.tem.TemConstants.TravelEditMode;
@@ -24,12 +25,14 @@ import org.kuali.kfs.module.tem.TemWorkflowConstants;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
 import org.kuali.kfs.module.tem.service.TemProfileService;
 import org.kuali.kfs.module.tem.service.TemRoleService;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KfsAuthorizationConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentPresentationControllerBase;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kew.api.action.ActionRequest;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.document.authorization.DocumentAuthorizer;
 import org.kuali.rice.kns.service.DocumentHelperService;
@@ -57,7 +60,40 @@ public class TravelDocumentPresentationController extends FinancialSystemTransac
         editModes.add(KfsAuthorizationConstants.TransactionalEditMode.IMMEDIATE_DISBURSEMENT_ENTRY);
         editModes.add(TemConstants.EditModes.CHECK_AMOUNT_ENTRY);
         editModes.add(TemConstants.EditModes.EXPENSE_LIMIT_ENTRY);
+
+        if (document.getDocumentHeader().getWorkflowDocument().getNodeNames().contains(KFSConstants.RouteLevelNames.PAYMENT_METHOD)) {
+            editModes.add(KfsAuthorizationConstants.TransactionalEditMode.WIRE_ENTRY);
+            editModes.add(KfsAuthorizationConstants.TransactionalEditMode.FRN_ENTRY);
+        }
+
+        if (document.getDocumentHeader().getWorkflowDocument().isInitiated() || document.getDocumentHeader().getWorkflowDocument().isSaved() || isActionRequestedOfCurrentUser(document)) {
+            editModes.add(TemConstants.EditModes.CONVERSION_RATE_ENTRY);
+        }
         return editModes;
+    }
+
+    /**
+     * Determines if there's an action request for the current user
+     * @param document the document to check action requests on
+     * @return true if there are action requests for the current user, false otherwise
+     */
+    protected boolean isActionRequestedOfCurrentUser(Document document) {
+        final Person currentUser = GlobalVariables.getUserSession().getPerson();
+        for (ActionRequest request : document.getDocumentHeader().getWorkflowDocument().getRootActionRequests()) {
+            if (request.getActionTaken() == null) {
+                if (StringUtils.equals(currentUser.getPrincipalId(), request.getPrincipalId())) {
+                    return true;
+                }
+                if (request.getChildRequests() != null && !request.getChildRequests().isEmpty()) {
+                    for (ActionRequest childRequest : request.getChildRequests()) {
+                        if (StringUtils.equals(currentUser.getPrincipalId(), childRequest.getPrincipalId())) {
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        return false;
     }
 
     /**

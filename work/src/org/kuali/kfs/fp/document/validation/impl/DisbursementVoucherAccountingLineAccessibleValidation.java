@@ -89,9 +89,9 @@ public class DisbursementVoucherAccountingLineAccessibleValidation extends Accou
     protected static final List<String> CANDIDATE_EDIT_MODES = new ArrayList<String>(4);
     static {
         CANDIDATE_EDIT_MODES.add(KfsAuthorizationConstants.DisbursementVoucherEditMode.TAX_ENTRY);
-        CANDIDATE_EDIT_MODES.add(KfsAuthorizationConstants.DisbursementVoucherEditMode.FRN_ENTRY);
+        CANDIDATE_EDIT_MODES.add(KfsAuthorizationConstants.TransactionalEditMode.FRN_ENTRY);
         CANDIDATE_EDIT_MODES.add(KfsAuthorizationConstants.DisbursementVoucherEditMode.TRAVEL_ENTRY);
-        CANDIDATE_EDIT_MODES.add(KfsAuthorizationConstants.DisbursementVoucherEditMode.WIRE_ENTRY);
+        CANDIDATE_EDIT_MODES.add(KfsAuthorizationConstants.TransactionalEditMode.WIRE_ENTRY);
     }
 
     /**

@@ -122,6 +122,11 @@
 	<bean id="TravelAuthorizationDocument-accountingLineAccessibleValidation" parent="TravelAuthorizationDocument-accountingLineAccessibleValidation-parentBean"/>
 	<bean id="TravelAuthorizationDocument-accountingLineAccessibleValidation-parentBean" abstract="true" class="org.kuali.kfs.module.tem.document.validation.impl.TravelAuthorizationAccountingLineAccessibleValidation" parent="AccountingDocument-accountingLineAccessibleValidation"/>
 	
+	<bean id="TravelDocument-accountingLineTotalsValidation" parent="TravelDocument-accountingLineTotalsValidation-parentBean"/>
+	<bean id="TravelDocument-accountingLineTotalsValidation-parentBean" abstract="true" class="org.kuali.kfs.module.tem.document.validation.impl.TravelDocumentAccountingLineTotalsValidation" parent="AccountingDocument-accountingLineGroupTotalsUnchangedValidation">
+		<property name="documentHelperService" ref="documentHelperService"/>
+	</bean>
+	
 	<bean id="TravelDocument-actualExpenseNotesValidation" parent="TravelDocument-actualExpenseNotesValidation-parentBean"/>
 	<bean id="TravelDocument-actualExpenseNotesValidation-parentBean" abstract="true" class="org.kuali.kfs.module.tem.document.validation.impl.ActualExpenseNotesValidation" />
 	
@@ -155,7 +160,7 @@
     <bean id="TravelModule-addAccountingLineValidation" parent="TravelModule-addAccountingLineValidation-parentBean" scope="prototype" />
     <bean id="TravelModule-addAccountingLineValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
         <property name="validations">
-            <list>     
+            <list>
                 <bean parent="TravelModule-addAccountingLine-failFastValidation" scope="prototype" />
             </list>
         </property>

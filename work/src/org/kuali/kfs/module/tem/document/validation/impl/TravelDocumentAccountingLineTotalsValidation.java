@@ -1,5 +1,5 @@
 /*
- * Copyright 2008 The Kuali Foundation
+ * Copyright 2013 The Kuali Foundation.
  *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,29 +13,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.fp.document.validation.impl;
+package org.kuali.kfs.module.tem.document.validation.impl;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
+import org.kuali.kfs.module.tem.document.TravelDocument;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
-import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.KfsAuthorizationConstants.DisbursementVoucherEditMode;
-import org.kuali.kfs.sys.KfsAuthorizationConstants.TransactionalEditMode;
-import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.KfsAuthorizationConstants;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.kfs.sys.document.validation.impl.AccountingLineGroupTotalsUnchangedValidation;
+import org.kuali.rice.core.web.format.CurrencyFormatter;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizer;
 import org.kuali.rice.kns.document.authorization.TransactionalDocumentPresentationController;
 import org.kuali.rice.kns.service.DocumentHelperService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
-public class DisbursementVoucherAccountingLineTotalsValidation extends AccountingLineGroupTotalsUnchangedValidation {
-    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DisbursementVoucherAccountingLineTotalsValidation.class);
+/**
+ * Mostly disallows totals on document from changing, but if user can change wire transfer or foreign draft, allows totals to change
+ */
+public class TravelDocumentAccountingLineTotalsValidation extends AccountingLineGroupTotalsUnchangedValidation {
+    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(TravelDocumentAccountingLineTotalsValidation.class);
+
+    protected DocumentHelperService documentHelperService;
 
     /**
      * @see org.kuali.kfs.sys.document.validation.impl.AccountingLineGroupTotalsUnchangedValidation#validate(org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent)
@@ -46,32 +50,30 @@ public class DisbursementVoucherAccountingLineTotalsValidation extends Accountin
             LOG.debug("validate start");
         }
 
-        DisbursementVoucherDocument dvDocument = (DisbursementVoucherDocument) event.getDocument();
-
-
-        Person financialSystemUser = GlobalVariables.getUserSession().getPerson();
-        final Set<String> currentEditModes = getEditModesFromDocument(dvDocument, financialSystemUser);
+        final TravelDocument travelDoc = (TravelDocument) event.getDocument();
+        final Person financialSystemUser = GlobalVariables.getUserSession().getPerson();
+        final Set<String> currentEditModes = getEditModesFromDocument(travelDoc, financialSystemUser);
 
         // amounts can only decrease
-        List<String> candidateEditModes = this.getCandidateEditModes();
-        if (this.hasRequiredEditMode(currentEditModes, candidateEditModes)) {
-
+        if (hasRequiredEditMode(currentEditModes, getCandidateEditModes())) {
             //users in foreign or wire workgroup can increase or decrease amounts because of currency conversion
-            List<String> foreignDraftAndWireTransferEditModes = this.getForeignDraftAndWireTransferEditModes(dvDocument);
+            List<String> foreignDraftAndWireTransferEditModes = getForeignDraftAndWireTransferEditModes();
             if (!this.hasRequiredEditMode(currentEditModes, foreignDraftAndWireTransferEditModes)) {
-                DisbursementVoucherDocument persistedDocument = (DisbursementVoucherDocument) retrievePersistedDocument(dvDocument);
+                TravelDocument persistedDocument = (TravelDocument) retrievePersistedDocument(travelDoc);
                 if (persistedDocument == null) {
-                    handleNonExistentDocumentWhenApproving(dvDocument);
+                    handleNonExistentDocumentWhenApproving(travelDoc);
                     return true;
                 }
                 // KFSMI- 5183
-                if (persistedDocument.getDocumentHeader().getWorkflowDocument().isSaved() && persistedDocument.getDisbVchrCheckTotalAmount().isZero()) {
+                if (persistedDocument.getDocumentHeader().getWorkflowDocument().isSaved() && persistedDocument.getTotalAccountLineAmount().isZero()) {
                     return true;
                 }
 
                 // check total cannot decrease
-                if (!persistedDocument.getDocumentHeader().getWorkflowDocument().isCompletionRequested() && persistedDocument.getDisbVchrCheckTotalAmount().isLessThan(dvDocument.getDisbVchrCheckTotalAmount())) {
-                    GlobalVariables.getMessageMap().putError(KFSPropertyConstants.DOCUMENT + "." + KFSPropertyConstants.DISB_VCHR_CHECK_TOTAL_AMOUNT, KFSKeyConstants.ERROR_DV_CHECK_TOTAL_CHANGE);
+                if (!persistedDocument.getDocumentHeader().getWorkflowDocument().isCompletionRequested() && persistedDocument.getTotalAccountLineAmount().isLessThan(travelDoc.getTotalAccountLineAmount())) {
+                    final String persistedTotal = (String) new CurrencyFormatter().format(persistedDocument.getTotalAccountLineAmount());
+                    final String currentTotal = (String) new CurrencyFormatter().format(travelDoc.getTotalAccountLineAmount());
+                    GlobalVariables.getMessageMap().putError(KFSConstants.SOURCE_ACCOUNTING_LINE_ERRORS, KFSKeyConstants.ERROR_DOCUMENT_SINGLE_ACCOUNTING_LINE_SECTION_TOTAL_CHANGED, new String[] { persistedTotal, currentTotal });
                     return false;
                 }
             }
@@ -106,9 +108,8 @@ public class DisbursementVoucherAccountingLineTotalsValidation extends Accountin
      * @return the Set of current edit modes
      */
     protected Set<String> getEditModesFromDocument(AccountingDocument accountingDocument, Person financialSystemUser) {
-        final DocumentHelperService documentHelperService = SpringContext.getBean(DocumentHelperService.class);
-        final TransactionalDocumentAuthorizer documentAuthorizer = (TransactionalDocumentAuthorizer) documentHelperService.getDocumentAuthorizer(accountingDocument);
-        final TransactionalDocumentPresentationController presentationController = (TransactionalDocumentPresentationController) documentHelperService.getDocumentPresentationController(accountingDocument);
+        final TransactionalDocumentAuthorizer documentAuthorizer = (TransactionalDocumentAuthorizer) getDocumentHelperService().getDocumentAuthorizer(accountingDocument);
+        final TransactionalDocumentPresentationController presentationController = (TransactionalDocumentPresentationController) getDocumentHelperService().getDocumentPresentationController(accountingDocument);
 
         final Set<String> presentationControllerEditModes = presentationController.getEditModes(accountingDocument);
         final Set<String> editModes = documentAuthorizer.getEditModes(accountingDocument, financialSystemUser, presentationControllerEditModes);
@@ -123,10 +124,8 @@ public class DisbursementVoucherAccountingLineTotalsValidation extends Accountin
      */
     protected List<String> getCandidateEditModes() {
         List<String> candidateEdiModes = new ArrayList<String>();
-        candidateEdiModes.add(DisbursementVoucherEditMode.TAX_ENTRY);
-        candidateEdiModes.add(TransactionalEditMode.FRN_ENTRY);
-        candidateEdiModes.add(DisbursementVoucherEditMode.TRAVEL_ENTRY);
-        candidateEdiModes.add(TransactionalEditMode.WIRE_ENTRY);
+        candidateEdiModes.add(KfsAuthorizationConstants.TransactionalEditMode.FRN_ENTRY);
+        candidateEdiModes.add(KfsAuthorizationConstants.TransactionalEditMode.WIRE_ENTRY);
 
         return candidateEdiModes;
     }
@@ -136,25 +135,20 @@ public class DisbursementVoucherAccountingLineTotalsValidation extends Accountin
      * @param dvDocument the document we're validating
      * @return foreign draft And wire transfer edit mode names
      */
-    protected List<String> getForeignDraftAndWireTransferEditModes(DisbursementVoucherDocument dvDocument) {
+    protected List<String> getForeignDraftAndWireTransferEditModes() {
         List<String> foreignDraftAndWireTransferEditModes = new ArrayList<String>();
-        foreignDraftAndWireTransferEditModes.add(TransactionalEditMode.FRN_ENTRY);
-        foreignDraftAndWireTransferEditModes.add(TransactionalEditMode.WIRE_ENTRY);
-
-        if (includeTaxAsTotalChangingMode(dvDocument)) {
-            foreignDraftAndWireTransferEditModes.add(DisbursementVoucherEditMode.TAX_ENTRY);
-        }
+        foreignDraftAndWireTransferEditModes.add(KfsAuthorizationConstants.TransactionalEditMode.FRN_ENTRY);
+        foreignDraftAndWireTransferEditModes.add(KfsAuthorizationConstants.TransactionalEditMode.WIRE_ENTRY);
 
         return foreignDraftAndWireTransferEditModes;
     }
 
-    /**
-     * Determines whether the tax edit mode should be allowed to change the accounting line totals,
-     * based on whether the payee is a non-resident alient or not
-     * @param dvDocument the document to check
-     * @return true if the tax entry mode can change accounting line totals, false otherwise
-     */
-    protected boolean includeTaxAsTotalChangingMode(DisbursementVoucherDocument dvDocument) {
-        return dvDocument.getDvPayeeDetail().isDisbVchrAlienPaymentCode();
+    public DocumentHelperService getDocumentHelperService() {
+        return documentHelperService;
     }
+
+    public void setDocumentHelperService(DocumentHelperService documentHelperService) {
+        this.documentHelperService = documentHelperService;
+    }
+
 }

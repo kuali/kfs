@@ -472,26 +472,26 @@
 						</branch>
 						<join name="JoinRequiresAward" />
 					</split>
-	     			<split name="RequiresSeparationOfDuties" nextNode="PaymentMethod" nextAppDocStatus="Awaiting Separation Of Duties Review">
+	     			<split name="RequiresSeparationOfDuties" nextNode="Travel" nextAppDocStatus="Awaiting Separation Of Duties Review">
 			         	<branch name="True">
-			            	<role name="SeparationOfDuties" nextNode="JoinRequiresSeparationOfDuties" nextAppDocStatus="Awaiting Disbursement Method Review" />
+			            	<role name="SeparationOfDuties" nextNode="JoinRequiresSeparationOfDuties" nextAppDocStatus="Awaiting Travel Manager Review" />
 			         	</branch>
 			         	<branch name="False">
-			            	<simple name="NoOpRequiresSeparationOfDuties" nextNode="JoinRequiresSeparationOfDuties" nextAppDocStatus="Awaiting Disbursement Method Review" />
+			            	<simple name="NoOpRequiresSeparationOfDuties" nextNode="JoinRequiresSeparationOfDuties" nextAppDocStatus="Awaiting Travel Manager Review" />
 			         	</branch>	
 			         	<join name="JoinRequiresSeparationOfDuties" />	         		
 	     			</split>
-	     			<role name="PaymentMethod" nextNode="Travel" nextAppDocStatus="Awaiting Travel Manager Review" />
 					<role name="Travel" nextNode="TaxManagerApproval" nextAppDocStatus="Awaiting Tax Manager Review" />
-					<split name="TaxManagerApproval" nextAppDocStatus="Awaiting Tax Manager Review">
+					<split name="TaxManagerApproval" nextNode="Travel" nextAppDocStatus="Awaiting Tax Manager Review">
 			         	<branch name="True">
-			            	<role name="Tax" nextNode="JoinTaxManager" nextAppDocStatus="Department Approved" />
+			            	<role name="Tax" nextNode="JoinTaxManager" nextAppDocStatus="Awaiting Disbursement Method Review" />
 			         	</branch>
 			         	<branch name="False">
-			            	<simple name="NoOpTaxManager" nextNode="JoinTaxManager" nextAppDocStatus="Department Approved" />
+			            	<simple name="NoOpTaxManager" nextNode="JoinTaxManager" nextAppDocStatus="Awaiting Disbursement Method Review" />
 			         	</branch>	
 			         	<join name="JoinTaxManager" />	         		
 	     			</split>
+	     			<role name="PaymentMethod" nextNode="Travel" nextAppDocStatus="Department Approved" />
                 </routePath>
             </routePaths>
             <routeNodes>
@@ -765,26 +765,26 @@
                     
                     <role name="SubFund" nextNode="Award" nextAppDocStatus="Awaiting Award Review" />
                     <role name="Award" nextNode="RequiresSeparationOfDuties" nextAppDocStatus="Awaiting Separation Of Duties Review" />
-                    <split name="RequiresSeparationOfDuties" nextNode="PaymentMethod" nextAppDocStatus="Awaiting Separation Of Duties Review">
+                    <split name="RequiresSeparationOfDuties" nextNode="MovingAndRelocationManager" nextAppDocStatus="Awaiting Separation Of Duties Review">
                         <branch name="True">
-                            <role name="SeparationOfDuties" nextNode="JoinRequiresSeparationOfDuties" nextAppDocStatus="Awaiting Disbursement Method Review" />
+                            <role name="SeparationOfDuties" nextNode="JoinRequiresSeparationOfDuties" nextAppDocStatus="Awaiting Moving and Relocation Manager Review" />
                         </branch>
                         <branch name="False">
-                            <simple name="NoOpRequiresSeparationOfDuties" nextNode="JoinRequiresSeparationOfDuties" nextAppDocStatus="Awaiting Disbursement Method Review" />
+                            <simple name="NoOpRequiresSeparationOfDuties" nextNode="JoinRequiresSeparationOfDuties" nextAppDocStatus="Awaiting Moving and Relocation Manager Review" />
                         </branch>   
                         <join name="JoinRequiresSeparationOfDuties" />                  
                     </split>
-                    <role name="PaymentMethod" nextNode="MovingAndRelocationManager" nextAppDocStatus="Awaiting Moving and Relocation Manager Review" />
                     <role name="MovingAndRelocationManager" nextNode="TaxManagerApproval" nextAppDocStatus="Awaiting Tax Manager Review" />
-                    <split name="TaxManagerApproval" nextAppDocStatus="Awaiting Tax Manager Review">
+                    <split name="TaxManagerApproval" nextNode="PaymentMethod" nextAppDocStatus="Awaiting Tax Manager Review">
 			         	<branch name="True">
-			            	<role name="Tax" nextNode="JoinTaxManagerApproval" nextAppDocStatus="Moving And Relocation Manager Approved" />
+			            	<role name="Tax" nextNode="JoinTaxManagerApproval" nextAppDocStatus="Awaiting Disbursement Method Review" />
 			         	</branch>
 			         	<branch name="False">
-			            	<simple name="NoOpTaxManagerApproval" nextNode="JoinTaxManagerApproval" nextAppDocStatus="Moving And Relocation Manager Approved" />
+			            	<simple name="NoOpTaxManagerApproval" nextNode="JoinTaxManagerApproval" nextAppDocStatus="Awaiting Disbursement Method Review" />
 			         	</branch>
                         <join name="JoinTaxManagerApproval"/>		         		
 	     			</split>
+	     			<role name="PaymentMethod" nextAppDocStatus="Moving And Relocation Manager Approved" />
                 </routePath>
             </routePaths> 
             
@@ -1034,27 +1034,26 @@
 					</split>
            	        <role name="SubFund" nextNode="Award" nextAppDocStatus="Awaiting Award Review" />
             	    <role name="Award" nextNode="RequiresSeparationOfDuties" nextAppDocStatus="Awaiting Separation Of Duties Review" />
-                    
-                    <split name="RequiresSeparationOfDuties" nextNode="PaymentMethod" nextAppDocStatus="Awaiting Separation Of Duties Review">
+                    <split name="RequiresSeparationOfDuties" nextNode="EntertainmentManager" nextAppDocStatus="Awaiting Separation Of Duties Review">
                         <branch name="True">
-                            <role name="SeparationOfDuties" nextNode="JoinRequiresSeparationOfDuties" nextAppDocStatus="Awaiting Disbursement Payment Review" />
+                            <role name="SeparationOfDuties" nextNode="JoinRequiresSeparationOfDuties" nextAppDocStatus="Awaiting Entertainment Manager Review" />
                         </branch>
                         <branch name="False">
-                            <simple name="NoOpRequiresSeparationOfDuties" nextNode="JoinRequiresSeparationOfDuties" nextAppDocStatus="Awaiting Disbursement Payment Review" />
+                            <simple name="NoOpRequiresSeparationOfDuties" nextNode="JoinRequiresSeparationOfDuties" nextAppDocStatus="Awaiting Entertainment Manager Review" />
                         </branch>   
                         <join name="JoinRequiresSeparationOfDuties" />                  
                     </split>
-                    <role name="PaymentMethod" nextNode="EntertainmentManager" nextAppDocStatus="Awaiting Entertainment Manager Review"/>
 					<role name="EntertainmentManager" nextNode="TaxManager" nextAppDocStatus="Awaiting Tax Manager Review"/>
-					<split name="TaxManager" nextAppDocStatus="Awaiting Tax Manager Review">
+					<split name="TaxManager" nextNode="PaymentMethod" nextAppDocStatus="Awaiting Tax Manager Review">
 					   <branch name="True">
-					      <role name="Tax" nextNode="JoinTaxManager" nextAppDocStatus="Entertainment Manager Approved"/>
+					      <role name="Tax" nextNode="JoinTaxManager" nextAppDocStatus="Awaiting Disbursement Payment Review"/>
 					   </branch>
 					   <branch name="False">
-						  <simple name="NoOpTaxManager" nextNode="JoinTaxManager"  nextAppDocStatus="Entertainment Manager Approved" />
+						  <simple name="NoOpTaxManager" nextNode="JoinTaxManager" nextAppDocStatus="Awaiting Disbursement Payment Review" />
 					   </branch>
 					   <join name="JoinTaxManager"/>
 					</split>
+					<role name="PaymentMethod" nextAppDocStatus="Entertainment Manager Approved"/>
                 </routePath>
             </routePaths>
             <routeNodes>

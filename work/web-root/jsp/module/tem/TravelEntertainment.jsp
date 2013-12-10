@@ -19,6 +19,9 @@
 <c:set var="fullEntryMode" value="${KualiForm.editingMode['fullEntry']}" scope="request" />
 <c:set var="advancePaymentMode" value="${KualiForm.editingMode['advancePaymentEntry']}" scope="request"/>
 <c:set var="actualExpenseTaxableMode" value="${KualiForm.editingMode['actualExpenseTaxableEntry']}" scope="request"/>
+<c:set var="conversionRateEntryMode" value="${KualiForm.editingMode['conversionRateEntry']}" scope="request"/>
+<c:set var="frnEntryMode" value="${canEdit && KualiForm.editingMode['frnEntry']}" scope="request" />
+<c:set var="wireEntryMode" value="${canEdit && KualiForm.editingMode['wireEntry']}" scope="request" />
 
 <kul:documentPage showDocumentInfo="true"
     documentTypeName="ENT"

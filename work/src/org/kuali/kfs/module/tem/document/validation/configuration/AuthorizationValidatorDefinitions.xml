@@ -297,7 +297,7 @@
     			<bean parent="TravelModule-tripDetailMileageRateValidation" scope="prototype" />
     			<bean parent="TravelDocument-actualExpenseSavingValidation" scope="prototype"/>
                 <bean parent="TravelModule-perDiemExpenseValidation" scope="prototype" />
-				<bean parent="AccountingDocument-SaveDocument-DefaultValidation" scope="prototype" />
+				<bean parent="TravelDocument-accountingLineTotalsValidationn" scope="prototype" />
     		</list>
     	</property>
     </bean>  

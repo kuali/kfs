@@ -85,10 +85,14 @@
 			</td>
 			<td valign="top" nowrap class="infoline">
 				<div align="center" id="div_${expense}.currencyRate">
+					<c:set var="currencyRateReadOnly" value="${!conversionRateEntryMode}" />
+					<c:if test="${!conversionRateEntryMode}">
+						<c:set var="currencyRateReadOnly" value="${lineNumber != null || !fullEntryMode || !empty detailObject.expenseDetails || detailObject.expenseTypeObjectCode.expenseType.expenseDetailRequired}" />
+					</c:if>
 					<kul:htmlControlAttribute
 						attributeEntry="${otherExpenseAttributes.currencyRate}"
 						property="${expense}.currencyRate"
-						readOnly="${lineNumber != null || !fullEntryMode || !empty detailObject.expenseDetails || detailObject.expenseTypeObjectCode.expenseType.expenseDetailRequired}" />
+						readOnly="${currencyRateReadOnly}" />
 					<br/>
 					<c:if test="${lineNumber == null}" >
 						<a href="${KualiForm.foreignCurrencyUrl}" target="currency_conversion_window">Rate Conversion Site</a>

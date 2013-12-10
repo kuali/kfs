@@ -65,6 +65,7 @@ public class TemPropertyConstants {
     public static final String UNFILTERED_INCIDENTALS_VALUE = "unfilteredIncidentalsValue";
 
     public static final String TRAVEL_DOCUMENT_IDENTIFIER = "travelDocumentIdentifier";
+    public static final String ORGANIZATION_DOCUMENT_NUMBER = "organizationDocumentNumber";
 
     public static final String TRVL_DOC_SEARCH_RESULT_PROPERTY_NAME_ACTIONS = "actions";
 

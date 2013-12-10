@@ -1,12 +1,12 @@
 /*
  * Copyright 2006 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -18,43 +18,37 @@ package org.kuali.kfs.module.ar.businessobject;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.kfs.integration.cg.ContractsAndGrantsAgencyAddress;
-import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.krad.service.KualiModuleService;
 
 /**
- * This class is used to represent an invoice agency address detail business object.
+ * This class is used to represent an invoice address detail business object.
  */
-public class InvoiceAgencyAddressDetail extends PersistableBusinessObjectBase {
+public class InvoiceAddressDetail extends PersistableBusinessObjectBase {
 
     private String documentNumber;
-    private String agencyNumber;
+    private String customerNumber;
     private Integer customerAddressIdentifier;
     private String customerAddressTypeCode;
-    private String agencyAddressName;
-    private String preferredAgencyInvoiceTemplateCode;
-    private String agencyInvoiceTemplateCode;
+    private String customerAddressName;
+    private String preferredCustomerInvoiceTemplateCode;
+    private String customerInvoiceTemplateCode;
     private String invoiceIndicatorCode;
     private String preferredInvoiceIndicatorCode;
     private long noteId;
 
-    private ContractsGrantsInvoiceDocument invoiceDocument;
-    private ContractsAndGrantsAgencyAddress agencyAddress;
     private CustomerAddress customerAddress;
 
     /**
      * Default constructor.
      */
-    public InvoiceAgencyAddressDetail() {
+    public InvoiceAddressDetail() {
 
     }
 
     /**
      * Gets the invoiceIndicatorCode attribute.
-     * 
+     *
      * @return Returns the invoiceIndicatorCode.
      */
     public String getInvoiceIndicatorCode() {
@@ -63,7 +57,7 @@ public class InvoiceAgencyAddressDetail extends PersistableBusinessObjectBase {
 
     /**
      * Gets the noteId attribute.
-     * 
+     *
      * @return Returns the noteId.
      */
     public long getNoteId() {
@@ -72,7 +66,7 @@ public class InvoiceAgencyAddressDetail extends PersistableBusinessObjectBase {
 
     /**
      * Sets the noteId attribute value.
-     * 
+     *
      * @param noteId The noteId to set.
      */
     public void setNoteId(long noteId) {
@@ -81,7 +75,7 @@ public class InvoiceAgencyAddressDetail extends PersistableBusinessObjectBase {
 
     /**
      * Sets the invoiceIndicatorCode attribute value.
-     * 
+     *
      * @param invoiceIndicatorCode The invoiceIndicatorCode to set.
      */
     public void setInvoiceIndicatorCode(String invoiceIndicatorCode) {
@@ -90,7 +84,7 @@ public class InvoiceAgencyAddressDetail extends PersistableBusinessObjectBase {
 
     /**
      * Gets the preferredInvoiceIndicatorCode attribute.
-     * 
+     *
      * @return Returns the preferredInvoiceIndicatorCode.
      */
     public String getPreferredInvoiceIndicatorCode() {
@@ -99,7 +93,7 @@ public class InvoiceAgencyAddressDetail extends PersistableBusinessObjectBase {
 
     /**
      * Sets the preferredInvoiceIndicatorCode attribute value.
-     * 
+     *
      * @param preferredInvoiceIndicatorCode The preferredInvoiceIndicatorCode to set.
      */
     public void setPreferredInvoiceIndicatorCode(String preferredInvoiceIndicatorCode) {
@@ -108,7 +102,7 @@ public class InvoiceAgencyAddressDetail extends PersistableBusinessObjectBase {
 
     /**
      * Gets the documentNumber attribute.
-     * 
+     *
      * @return Returns the documentNumber
      */
     public String getDocumentNumber() {
@@ -117,7 +111,7 @@ public class InvoiceAgencyAddressDetail extends PersistableBusinessObjectBase {
 
     /**
      * Sets the documentNumber attribute.
-     * 
+     *
      * @param documentNumber The documentNumber to set.
      */
     public void setDocumentNumber(String documentNumber) {
@@ -125,30 +119,21 @@ public class InvoiceAgencyAddressDetail extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the agencyNumber attribute.
-     * 
-     * @return Returns the agencyNumber
+     * Gets the customerNumber attribute.
+     *
+     * @return Returns the customerNumber
      */
-    public String getAgencyNumber() {
-        return agencyNumber;
+    public String getCustomerNumber() {
+        return customerNumber;
     }
 
     /**
-     * Sets the agencyNumber attribute.
-     * 
-     * @param agencyNumber The agencyNumber to set.
+     * Sets the customerNumber attribute.
+     *
+     * @param customerNumber The customerNumber to set.
      */
-    public void setAgencyNumber(String agencyNumber) {
-        this.agencyNumber = agencyNumber;
-    }
-
-    
-    public ContractsAndGrantsAgencyAddress getAgencyAddress() {
-        return agencyAddress;
-    }
-
-    public void setAgencyAddress(ContractsAndGrantsAgencyAddress agencyAddress) {
-        this.agencyAddress = agencyAddress;
+    public void setCustomerNumber(String customerNumber) {
+        this.customerNumber = customerNumber;
     }
 
     public CustomerAddress getCustomerAddress() {
@@ -160,18 +145,18 @@ public class InvoiceAgencyAddressDetail extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the agencyAddressIdentifier attribute.
-     * 
-     * @return Returns the agencyAddressIdentifier
+     * Gets the customerAddressIdentifier attribute.
+     *
+     * @return Returns the customerAddressIdentifier
      */
     public Integer getCustomerAddressIdentifier() {
         return customerAddressIdentifier;
     }
 
     /**
-     * Sets the agencyAddressIdentifier attribute.
-     * 
-     * @param agencyAddressIdentifier The agencyAddressIdentifier to set.
+     * Sets the customerAddressIdentifier attribute.
+     *
+     * @param customerAddressIdentifier The customerAddressIdentifier to set.
      */
     public void setCustomerAddressIdentifier(Integer customerAddressIdentifier) {
         this.customerAddressIdentifier = customerAddressIdentifier;
@@ -186,78 +171,59 @@ public class InvoiceAgencyAddressDetail extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the agencyAddressName attribute.
-     * 
-     * @return Returns the agencyAddressName
+     * Gets the customerAddressName attribute.
+     *
+     * @return Returns the customerAddressName
      */
-    public String getAgencyAddressName() {
-        return agencyAddressName;
+    public String getCustomerAddressName() {
+        return customerAddressName;
     }
 
     /**
-     * Sets the agencyAddressName attribute.
-     * 
-     * @param agencyAddressName The agencyAddressName to set.
+     * Sets the customerAddressName attribute.
+     *
+     * @param customerAddressName The customerAddressName to set.
      */
-    public void setAgencyAddressName(String agencyAddressName) {
-        this.agencyAddressName = agencyAddressName;
+    public void setCustomerAddressName(String customerAddressName) {
+        this.customerAddressName = customerAddressName;
     }
 
     /**
-     * Gets the agencyInvoiceTemplateCode attribute.
-     * 
-     * @return Returns the agencyInvoiceTemplateCode.
+     * Gets the customerInvoiceTemplateCode attribute.
+     *
+     * @return Returns the customerInvoiceTemplateCode.
      */
-    public String getAgencyInvoiceTemplateCode() {
+    public String getCustomerInvoiceTemplateCode() {
 
-        return agencyInvoiceTemplateCode;
+        return customerInvoiceTemplateCode;
     }
 
     /**
-     * Sets the agencyInvoiceTemplateCode attribute value.
-     * 
-     * @param agencyInvoiceTemplateCode The agencyInvoiceTemplateCode to set.
+     * Sets the customerInvoiceTemplateCode attribute value.
+     *
+     * @param customerInvoiceTemplateCode The customerInvoiceTemplateCode to set.
      */
-    public void setAgencyInvoiceTemplateCode(String agencyInvoiceTemplateCode) {
-        this.agencyInvoiceTemplateCode = agencyInvoiceTemplateCode;
+    public void setCustomerInvoiceTemplateCode(String customerInvoiceTemplateCode) {
+        this.customerInvoiceTemplateCode = customerInvoiceTemplateCode;
     }
 
     /**
-     * Gets the preferredAgencyInvoiceTemplateCode attribute.
-     * 
-     * @return Returns the preferredAgencyInvoiceTemplateCode.
+     * Gets the preferredCustomerInvoiceTemplateCode attribute.
+     *
+     * @return Returns the preferredCustomerInvoiceTemplateCode.
      */
-    public String getPreferredAgencyInvoiceTemplateCode() {
+    public String getPreferredCustomerInvoiceTemplateCode() {
 
-        return preferredAgencyInvoiceTemplateCode;
+        return preferredCustomerInvoiceTemplateCode;
     }
 
     /**
-     * Sets the preferredAgencyInvoiceTemplateCode attribute value.
-     * 
-     * @param preferredAgencyInvoiceTemplateCode The preferredAgencyInvoiceTemplateCode to set.
+     * Sets the preferredCustomerInvoiceTemplateCode attribute value.
+     *
+     * @param preferredCustomerInvoiceTemplateCode The preferredCustomerInvoiceTemplateCode to set.
      */
-    public void setPreferredAgencyInvoiceTemplateCode(String preferredAgencyInvoiceTemplateCode) {
-        this.preferredAgencyInvoiceTemplateCode = preferredAgencyInvoiceTemplateCode;
-    }
-
-
-    /**
-     * Gets the invoiceDocument attribute.
-     * 
-     * @return Returns the invoiceDocument.
-     */
-    public ContractsGrantsInvoiceDocument getInvoiceDocument() {
-        return invoiceDocument;
-    }
-
-    /**
-     * Sets the invoiceDocument attribute value.
-     * 
-     * @param invoiceDocument The invoiceDocument to set.
-     */
-    public void setInvoiceDocument(ContractsGrantsInvoiceDocument invoiceDocument) {
-        this.invoiceDocument = invoiceDocument;
+    public void setPreferredCustomerInvoiceTemplateCode(String preferredCustomerInvoiceTemplateCode) {
+        this.preferredCustomerInvoiceTemplateCode = preferredCustomerInvoiceTemplateCode;
     }
 
     /**
@@ -266,11 +232,11 @@ public class InvoiceAgencyAddressDetail extends PersistableBusinessObjectBase {
     protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         m.put(KFSPropertyConstants.DOCUMENT_NUMBER, this.documentNumber);
-        m.put(agencyNumber, this.agencyNumber);
+        m.put(customerNumber, this.customerNumber);
         m.put(customerAddressTypeCode, this.customerAddressTypeCode);
-        m.put(agencyAddressName, this.agencyAddressName);
-        m.put(preferredAgencyInvoiceTemplateCode, this.preferredAgencyInvoiceTemplateCode);
-        m.put(agencyInvoiceTemplateCode, this.agencyInvoiceTemplateCode);
+        m.put(customerAddressName, this.customerAddressName);
+        m.put(preferredCustomerInvoiceTemplateCode, this.preferredCustomerInvoiceTemplateCode);
+        m.put(customerInvoiceTemplateCode, this.customerInvoiceTemplateCode);
         m.put(invoiceIndicatorCode, invoiceIndicatorCode);
         m.put(preferredInvoiceIndicatorCode, this.preferredInvoiceIndicatorCode);
         return m;

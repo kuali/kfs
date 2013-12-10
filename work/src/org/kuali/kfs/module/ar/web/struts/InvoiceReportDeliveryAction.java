@@ -42,7 +42,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
-import org.kuali.kfs.module.ar.businessobject.InvoiceAgencyAddressDetail;
+import org.kuali.kfs.module.ar.businessobject.InvoiceAddressDetail;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService;
 import org.kuali.kfs.module.ar.report.service.ContractsGrantsInvoiceReportService;
@@ -182,8 +182,8 @@ public class InvoiceReportDeliveryAction extends KualiAction {
                 Set<ContractsGrantsInvoiceDocument> mailSet = new HashSet<ContractsGrantsInvoiceDocument>();
                 for(ContractsGrantsInvoiceDocument invoice: list){
                     if(ObjectUtils.isNull(invoice.getDateReportProcessed())){
-                        for(InvoiceAgencyAddressDetail agencyAddressDetail: invoice.getAgencyAddressDetails()){
-                            if(ArConstants.InvoiceIndicator.MAIL.equals(agencyAddressDetail.getPreferredInvoiceIndicatorCode())){
+                        for(InvoiceAddressDetail invoiceAddressDetail: invoice.getInvoiceAddressDetails()){
+                            if(ArConstants.InvoiceIndicator.MAIL.equals(invoiceAddressDetail.getPreferredInvoiceIndicatorCode())){
                                 mailSet.add(invoice);
                             }
                         }
@@ -222,7 +222,7 @@ public class InvoiceReportDeliveryAction extends KualiAction {
                 Set<ContractsGrantsInvoiceDocument> emailSet = new HashSet<ContractsGrantsInvoiceDocument>();
                 for(ContractsGrantsInvoiceDocument invoice: list){
                     if(ObjectUtils.isNull(invoice.getMarkedForProcessing())){
-                        for(InvoiceAgencyAddressDetail agencyAddressDetail: invoice.getAgencyAddressDetails()){
+                        for(InvoiceAddressDetail agencyAddressDetail: invoice.getInvoiceAddressDetails()){
                             if(ArConstants.InvoiceIndicator.EMAIL.equals(agencyAddressDetail.getPreferredInvoiceIndicatorCode())){
                                 emailSet.add(invoice);
                             }

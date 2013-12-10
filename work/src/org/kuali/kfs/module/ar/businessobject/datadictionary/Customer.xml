@@ -616,7 +616,7 @@
 		</property>
 		<property name="control">
 			<bean parent="SelectControlDefinition"
-				p:valuesFinderClass="org.kuali.kfs.module.ar.businessobject.options.AgencyInvoiceTemplateValuesFinder"
+				p:valuesFinderClass="org.kuali.kfs.module.ar.businessobject.options.InvoiceTemplateValuesFinder"
 				p:includeKeyInLabel="false" />
 		</property>
 	</bean>

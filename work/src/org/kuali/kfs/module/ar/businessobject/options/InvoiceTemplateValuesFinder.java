@@ -26,9 +26,9 @@ import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 import org.kuali.rice.krad.service.KeyValuesService;
 
 /**
- * This class defines the link for Billing Frequency.
+ * ValuesFinder that returns a list of InvoiceTemplates.
  */
-public class AgencyInvoiceTemplateValuesFinder extends KeyValuesBase {
+public class InvoiceTemplateValuesFinder extends KeyValuesBase {
 
     protected List<KeyValue> keyValues = new ArrayList();
 

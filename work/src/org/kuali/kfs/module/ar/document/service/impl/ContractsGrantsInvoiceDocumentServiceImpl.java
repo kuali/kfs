@@ -71,7 +71,7 @@ import org.kuali.kfs.module.ar.businessobject.DunningLetterDistribution;
 import org.kuali.kfs.module.ar.businessobject.DunningLetterDistributionOnDemandLookupResult;
 import org.kuali.kfs.module.ar.businessobject.DunningLetterTemplate;
 import org.kuali.kfs.module.ar.businessobject.InvoiceAccountDetail;
-import org.kuali.kfs.module.ar.businessobject.InvoiceAgencyAddressDetail;
+import org.kuali.kfs.module.ar.businessobject.InvoiceAddressDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoiceBill;
 import org.kuali.kfs.module.ar.businessobject.InvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoiceDetailAccountObjectCode;
@@ -104,7 +104,6 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.PdfFormFillerUtil;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
@@ -3097,17 +3096,17 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
     @Override
     public void generateInvoicesForAgencyAddresses(ContractsGrantsInvoiceDocument document) {
         InvoiceTemplate invoiceTemplate = null;
-        Iterator<InvoiceAgencyAddressDetail> iterator = document.getAgencyAddressDetails().iterator();
+        Iterator<InvoiceAddressDetail> iterator = document.getInvoiceAddressDetails().iterator();
         while (iterator.hasNext()) {
-            InvoiceAgencyAddressDetail invoiceAgencyAddressDetail = iterator.next();
+            InvoiceAddressDetail invoiceAddressDetail = iterator.next();
             byte[] reportStream;
             byte[] copyReportStream;
             // validating the invoice template
-            if (ObjectUtils.isNotNull(invoiceAgencyAddressDetail.getPreferredAgencyInvoiceTemplateCode())) {
-                invoiceTemplate = businessObjectService.findBySinglePrimaryKey(InvoiceTemplate.class, invoiceAgencyAddressDetail.getPreferredAgencyInvoiceTemplateCode());
+            if (ObjectUtils.isNotNull(invoiceAddressDetail.getPreferredCustomerInvoiceTemplateCode())) {
+                invoiceTemplate = businessObjectService.findBySinglePrimaryKey(InvoiceTemplate.class, invoiceAddressDetail.getPreferredCustomerInvoiceTemplateCode());
             }
-            else if (ObjectUtils.isNotNull(invoiceAgencyAddressDetail.getAgencyInvoiceTemplateCode())) {
-                invoiceTemplate = businessObjectService.findBySinglePrimaryKey(InvoiceTemplate.class, invoiceAgencyAddressDetail.getAgencyInvoiceTemplateCode());
+            else if (ObjectUtils.isNotNull(invoiceAddressDetail.getCustomerInvoiceTemplateCode())) {
+                invoiceTemplate = businessObjectService.findBySinglePrimaryKey(InvoiceTemplate.class, invoiceAddressDetail.getCustomerInvoiceTemplateCode());
             }
             else {
                 GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_FILE_UPLOAD_NO_PDF_FILE_SELECTED_FOR_SAVE, ArConstants.ACTIVE_INVOICE_TEMPLATE_ERROR);
@@ -3120,28 +3119,24 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
                 String outputFileName;
                 try {
                     // genrating original invoice
-                    outputFileName = document.getDocumentNumber() + "_" + invoiceAgencyAddressDetail.getAgencyAddressName() + FILE_NAME_TIMESTAMP.format(new Date()) + ArConstants.TemplateUploadSystem.EXTENSION;
+                    outputFileName = document.getDocumentNumber() + "_" + invoiceAddressDetail.getCustomerAddressName() + FILE_NAME_TIMESTAMP.format(new Date()) + ArConstants.TemplateUploadSystem.EXTENSION;
                     Map<String, String> replacementList = getTemplateParameterList(document);
-                    ContractsAndGrantsAgencyAddress address;
-                    Map<String, Object> primaryKeys = new HashMap<String, Object>();
-                    primaryKeys.put(KFSPropertyConstants.AGENCY_NUMBER, invoiceAgencyAddressDetail.getAgencyNumber());
-                    primaryKeys.put("agencyAddressIdentifier", invoiceAgencyAddressDetail.getCustomerAddressIdentifier());
-                    address = kualiModuleService.getResponsibleModuleService(ContractsAndGrantsAgencyAddress.class).getExternalizableBusinessObject(ContractsAndGrantsAgencyAddress.class, primaryKeys);
+                    CustomerAddress address = invoiceAddressDetail.getCustomerAddress();
                     String fullAddress = "";
-                    if (StringUtils.isNotEmpty(address.getAgencyLine1StreetAddress())) {
-                        fullAddress += returnProperStringValue(address.getAgencyLine1StreetAddress()) + "\n";
+                    if (StringUtils.isNotEmpty(address.getCustomerLine1StreetAddress())) {
+                        fullAddress += returnProperStringValue(address.getCustomerLine1StreetAddress()) + "\n";
                     }
-                    if (StringUtils.isNotEmpty(address.getAgencyLine2StreetAddress())) {
-                        fullAddress += returnProperStringValue(address.getAgencyLine2StreetAddress()) + "\n";
+                    if (StringUtils.isNotEmpty(address.getCustomerLine2StreetAddress())) {
+                        fullAddress += returnProperStringValue(address.getCustomerLine2StreetAddress()) + "\n";
                     }
-                    if (StringUtils.isNotEmpty(address.getAgencyCityName())) {
-                        fullAddress += returnProperStringValue(address.getAgencyCityName());
+                    if (StringUtils.isNotEmpty(address.getCustomerCityName())) {
+                        fullAddress += returnProperStringValue(address.getCustomerCityName());
                     }
-                    if (StringUtils.isNotEmpty(address.getAgencyStateCode())) {
-                        fullAddress += " " + returnProperStringValue(address.getAgencyStateCode());
+                    if (StringUtils.isNotEmpty(address.getCustomerStateCode())) {
+                        fullAddress += " " + returnProperStringValue(address.getCustomerStateCode());
                     }
-                    if (StringUtils.isNotEmpty(address.getAgencyZipCode())) {
-                        fullAddress += "-" + returnProperStringValue(address.getAgencyZipCode());
+                    if (StringUtils.isNotEmpty(address.getCustomerZipCode())) {
+                        fullAddress += "-" + returnProperStringValue(address.getCustomerZipCode());
                     }
                     replacementList.put("#agency.fullAddress", returnProperStringValue(fullAddress));
                     reportStream = PdfFormFillerUtil.populateTemplate(templateFile, replacementList, "");
@@ -3151,7 +3146,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
                     }
                     Note note = new Note();
                     note.setNotePostedTimestampToCurrent();
-                    note.setNoteText("Auto-generated invoice for Agency Address-" + document.getDocumentNumber() + "-" + invoiceAgencyAddressDetail.getAgencyAddressName());
+                    note.setNoteText("Auto-generated invoice for Invoice Address-" + document.getDocumentNumber() + "-" + invoiceAddressDetail.getCustomerAddressName());
                     note.setNoteTypeCode(KFSConstants.NoteTypeEnum.BUSINESS_OBJECT_NOTE_TYPE.getCode());
                     note = noteService.createNote(note, document, null);
                     Attachment attachment = attachmentService.createAttachment(note, outputFileName, ArConstants.TemplateUploadSystem.TEMPLATE_MIME_TYPE, reportStream.length, new ByteArrayInputStream(reportStream), "");
@@ -3163,12 +3158,12 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
                     document.addNote(note);
 
                     // generating Copy invoice
-                    outputFileName = document.getDocumentNumber() + "_" + invoiceAgencyAddressDetail.getAgencyAddressName() + FILE_NAME_TIMESTAMP.format(new Date()) + "_COPY" + ArConstants.TemplateUploadSystem.EXTENSION;
+                    outputFileName = document.getDocumentNumber() + "_" + invoiceAddressDetail.getCustomerAddressName() + FILE_NAME_TIMESTAMP.format(new Date()) + "_COPY" + ArConstants.TemplateUploadSystem.EXTENSION;
                     copyReportStream = PdfFormFillerUtil.createWatermarkOnFile(reportStream, "COPY");
                     // creating and saving the copy note with an attachment
                     Note copyNote = new Note();
                     copyNote.setNotePostedTimestampToCurrent();
-                    copyNote.setNoteText("Auto-generated invoice (Copy) for Agency Address-" + document.getDocumentNumber() + "-" + invoiceAgencyAddressDetail.getAgencyAddressName());
+                    copyNote.setNoteText("Auto-generated invoice (Copy) for Agency Address-" + document.getDocumentNumber() + "-" + invoiceAddressDetail.getCustomerAddressName());
                     copyNote.setNoteTypeCode(KFSConstants.NoteTypeEnum.BUSINESS_OBJECT_NOTE_TYPE.getCode());
                     copyNote = noteService.createNote(copyNote, document, null);
                     Attachment copyAttachment = attachmentService.createAttachment(copyNote, outputFileName, ArConstants.TemplateUploadSystem.TEMPLATE_MIME_TYPE, copyReportStream.length, new ByteArrayInputStream(copyReportStream), "");
@@ -3178,7 +3173,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
                     copyAttachment.setNoteIdentifier(copyNote.getNoteIdentifier());
                     businessObjectService.save(copyAttachment);
                     document.addNote(copyNote);
-                    invoiceAgencyAddressDetail.setNoteId(note.getNoteIdentifier());
+                    invoiceAddressDetail.setNoteId(note.getNoteIdentifier());
                     // saving the note to the document header
                     documentService.updateDocument(document);
                 }
@@ -3302,15 +3297,15 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             parameterMap.put("#totalInvoiceDetail.adjustedCumulativeExpenditures", returnProperStringValue(document.getTotalInvoiceDetails().get(0).getAdjustedCumExpenditures()));
             parameterMap.put("#totalInvoiceDetail.adjustedBalance", returnProperStringValue(document.getTotalInvoiceDetails().get(0).getAdjustedBalance()));
         }
-        if (CollectionUtils.isNotEmpty(document.getAgencyAddressDetails())) {
-            for (int i = 0; i < document.getAgencyAddressDetails().size(); i++) {
-                parameterMap.put("#agencyAddressDetails[" + i + "].documentNumber", returnProperStringValue(document.getAgencyAddressDetails().get(i).getDocumentNumber()));
-                parameterMap.put("#agencyAddressDetails[" + i + "].agencyNumber", returnProperStringValue(document.getAgencyAddressDetails().get(i).getAgencyNumber()));
-                parameterMap.put("#agencyAddressDetails[" + i + "].agencyAddressIdentifier", returnProperStringValue(document.getAgencyAddressDetails().get(i).getCustomerAddressIdentifier()));
-                parameterMap.put("#agencyAddressDetails[" + i + "].agencyAddressTypeCode", returnProperStringValue(document.getAgencyAddressDetails().get(i).getCustomerAddressTypeCode()));
-                parameterMap.put("#agencyAddressDetails[" + i + "].agencyAddressName", returnProperStringValue(document.getAgencyAddressDetails().get(i).getAgencyAddressName()));
-                parameterMap.put("#agencyAddressDetails[" + i + "].agencyInvoiceTemplateCode", returnProperStringValue(document.getAgencyAddressDetails().get(i).getAgencyInvoiceTemplateCode()));
-                parameterMap.put("#agencyAddressDetails[" + i + "].preferredAgencyInvoiceTemplateCode", returnProperStringValue(document.getAgencyAddressDetails().get(i).getPreferredAgencyInvoiceTemplateCode()));
+        if (CollectionUtils.isNotEmpty(document.getInvoiceAddressDetails())) {
+            for (int i = 0; i < document.getInvoiceAddressDetails().size(); i++) {
+                parameterMap.put("#agencyAddressDetails[" + i + "].documentNumber", returnProperStringValue(document.getInvoiceAddressDetails().get(i).getDocumentNumber()));
+                parameterMap.put("#agencyAddressDetails[" + i + "].agencyNumber", returnProperStringValue(document.getInvoiceAddressDetails().get(i).getCustomerNumber()));
+                parameterMap.put("#agencyAddressDetails[" + i + "].agencyAddressIdentifier", returnProperStringValue(document.getInvoiceAddressDetails().get(i).getCustomerAddressIdentifier()));
+                parameterMap.put("#agencyAddressDetails[" + i + "].agencyAddressTypeCode", returnProperStringValue(document.getInvoiceAddressDetails().get(i).getCustomerAddressTypeCode()));
+                parameterMap.put("#agencyAddressDetails[" + i + "].agencyAddressName", returnProperStringValue(document.getInvoiceAddressDetails().get(i).getCustomerAddressName()));
+                parameterMap.put("#agencyAddressDetails[" + i + "].agencyInvoiceTemplateCode", returnProperStringValue(document.getInvoiceAddressDetails().get(i).getCustomerInvoiceTemplateCode()));
+                parameterMap.put("#agencyAddressDetails[" + i + "].preferredAgencyInvoiceTemplateCode", returnProperStringValue(document.getInvoiceAddressDetails().get(i).getPreferredCustomerInvoiceTemplateCode()));
             }
         }
         if (CollectionUtils.isNotEmpty(document.getAccountDetails())) {
@@ -3805,22 +3800,23 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             // Set Invoice due date to current date as it is required field and never used.
             document.setInvoiceDueDate(dateTimeService.getCurrentSqlDateMidnight());
 
-            // copy award's agency address to invoice agency address details
-            document.getAgencyAddressDetails().clear();
+            // copy award's customer address to invoice address details
+            document.getInvoiceAddressDetails().clear();
 
             List<CustomerAddress> customerAddresses = new ArrayList<CustomerAddress>();
             Map<String, Object> mapKey = new HashMap<String, Object>();
             mapKey.put(KFSPropertyConstants.CUSTOMER_NUMBER, award.getAgency().getCustomerNumber());
             customerAddresses = (List<CustomerAddress>) businessObjectService.findMatching(CustomerAddress.class, mapKey);
-            for (CustomerAddress agencyAddress : customerAddresses) {
+            for (CustomerAddress customerAddress : customerAddresses) {
 
-                InvoiceAgencyAddressDetail invoiceAgencyAddressDetail = new InvoiceAgencyAddressDetail();
-                invoiceAgencyAddressDetail.setDocumentNumber(document.getDocumentNumber());
-                invoiceAgencyAddressDetail.setCustomerAddressIdentifier(agencyAddress.getCustomerAddressIdentifier());
-                invoiceAgencyAddressDetail.setCustomerAddressTypeCode(agencyAddress.getCustomerAddressTypeCode());
-                invoiceAgencyAddressDetail.setAgencyAddressName(agencyAddress.getCustomerAddressName());
+                InvoiceAddressDetail invoiceAddressDetail = new InvoiceAddressDetail();
+                invoiceAddressDetail.setCustomerNumber(customerAddress.getCustomerNumber());
+                invoiceAddressDetail.setDocumentNumber(document.getDocumentNumber());
+                invoiceAddressDetail.setCustomerAddressIdentifier(customerAddress.getCustomerAddressIdentifier());
+                invoiceAddressDetail.setCustomerAddressTypeCode(customerAddress.getCustomerAddressTypeCode());
+                invoiceAddressDetail.setCustomerAddressName(customerAddress.getCustomerAddressName());
 
-                document.getAgencyAddressDetails().add(invoiceAgencyAddressDetail);
+                document.getInvoiceAddressDetails().add(invoiceAddressDetail);
             }
 
             java.sql.Date invoiceDate = document.getInvoiceGeneralDetail().getLastBilledDate();
@@ -4571,6 +4567,6 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
     public ContractsGrantsInvoiceDocumentService getContractsGrantsInvoiceDocumentService() {
         return contractsGrantsInvoiceDocumentService;
     }
-    
-    
+
+
 }

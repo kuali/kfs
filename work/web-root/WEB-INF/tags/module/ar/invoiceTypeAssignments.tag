@@ -18,7 +18,7 @@
 
 <c:if test="${!empty KualiForm.document.proposalNumber}">
 	<kul:tab tabTitle="Invoice Type Assignments" defaultOpen="true" tabErrorKey="document.agencyAddressDetails*">
-		<c:set var="agencyAddressDetailsAttributes" value="${DataDictionary.InvoiceAgencyAddressDetail.attributes}" />
+		<c:set var="agencyAddressDetailsAttributes" value="${DataDictionary.InvoiceAddressDetail.attributes}" />
 
 		<div class="tab-container" align="center">
 			<h3>Invoice Type Assignments</h3>

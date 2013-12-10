@@ -32,7 +32,7 @@ import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.Event;
 import org.kuali.kfs.module.ar.businessobject.FinalDisposition;
 import org.kuali.kfs.module.ar.businessobject.InvoiceAccountDetail;
-import org.kuali.kfs.module.ar.businessobject.InvoiceAgencyAddressDetail;
+import org.kuali.kfs.module.ar.businessobject.InvoiceAddressDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoiceBill;
 import org.kuali.kfs.module.ar.businessobject.InvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoiceDetailAccountObjectCode;
@@ -70,7 +70,7 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument impl
     private List<InvoiceDetail> inDirectCostInvoiceDetails;
     private List<InvoiceDetail> totalInvoiceDetails;
     private List<InvoiceDetailAccountObjectCode> invoiceDetailAccountObjectCodes;
-    private List<InvoiceAgencyAddressDetail> agencyAddressDetails;
+    private List<InvoiceAddressDetail> invoiceAddressDetails;
     private List<InvoiceAccountDetail> accountDetails;
     private InvoiceGeneralDetail invoiceGeneralDetail;
     private List<InvoiceMilestone> invoiceMilestones;
@@ -100,7 +100,7 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument impl
      */
     public ContractsGrantsInvoiceDocument() {
 
-        agencyAddressDetails = new ArrayList<InvoiceAgencyAddressDetail>();
+        invoiceAddressDetails = new ArrayList<InvoiceAddressDetail>();
         invoiceDetails = new ArrayList<InvoiceDetail>();
         events = new ArrayList<Event>();
         directCostInvoiceDetails = new ArrayList<InvoiceDetail>();
@@ -350,21 +350,21 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument impl
     }
 
     /**
-     * Gets the agencyAddressDetails attribute.
+     * Gets the invoiceAddressDetails attribute.
      *
-     * @return Returns the agencyAddressDetails.
+     * @return Returns the invoiceAddressDetails.
      */
-    public List<InvoiceAgencyAddressDetail> getAgencyAddressDetails() {
-        return agencyAddressDetails;
+    public List<InvoiceAddressDetail> getInvoiceAddressDetails() {
+        return invoiceAddressDetails;
     }
 
     /**
-     * Sets the agencyAddressDetails attribute value.
+     * Sets the invoiceAddressDetails attribute value.
      *
-     * @param agencyAddressDetails The agencyAddressDetails to set.
+     * @param invoiceAddressDetails The invoiceAddressDetails to set.
      */
-    public void setAgencyAddressDetails(List<InvoiceAgencyAddressDetail> agencyAddressDetails) {
-        this.agencyAddressDetails = agencyAddressDetails;
+    public void setInvoiceAddressDetails(List<InvoiceAddressDetail> invoiceAddressDetails) {
+        this.invoiceAddressDetails = invoiceAddressDetails;
     }
 
     /**

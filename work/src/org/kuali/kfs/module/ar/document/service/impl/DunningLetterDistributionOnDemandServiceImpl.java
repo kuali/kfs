@@ -34,15 +34,14 @@ import java.util.zip.ZipOutputStream;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsAgencyAddress;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.module.ar.ArConstants;
-import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.CollectionActivityType;
+import org.kuali.kfs.module.ar.businessobject.CustomerAddress;
 import org.kuali.kfs.module.ar.businessobject.DunningLetterDistributionOnDemandLookupResult;
 import org.kuali.kfs.module.ar.businessobject.DunningLetterTemplate;
 import org.kuali.kfs.module.ar.businessobject.Event;
-import org.kuali.kfs.module.ar.businessobject.InvoiceAgencyAddressDetail;
+import org.kuali.kfs.module.ar.businessobject.InvoiceAddressDetail;
 import org.kuali.kfs.module.ar.dataaccess.ContractsGrantsInvoiceDocumentDao;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.DunningLetterDistributionOnDemandService;
@@ -149,30 +148,30 @@ public class DunningLetterDistributionOnDemandServiceImpl implements DunningLett
                 // Step2. add parameters to the dunning letter
                 outputFileName = dunningLetterDistributionOnDemandLookupResult.getProposalNumber() + FILE_NAME_TIMESTAMP.format(new Date()) + ArConstants.TemplateUploadSystem.EXTENSION;
                 Map<String, String> replacementList = getTemplateParameterList(selectedInvoices);
-                ContractsAndGrantsAgencyAddress address;
+                CustomerAddress address;
                 Map<String, Object> primaryKeys = new HashMap<String, Object>();
-                primaryKeys.put(KFSPropertyConstants.AGENCY_NUMBER, dunningLetterDistributionOnDemandLookupResult.getAgencyNumber());
-                primaryKeys.put("agencyAddressTypeCode", "P");
-                address = kualiModuleService.getResponsibleModuleService(ContractsAndGrantsAgencyAddress.class).getExternalizableBusinessObject(ContractsAndGrantsAgencyAddress.class, primaryKeys);
+                primaryKeys.put(KFSPropertyConstants.CUSTOMER_NUMBER, dunningLetterDistributionOnDemandLookupResult.getCustomerNumber());
+                primaryKeys.put("customerAddressTypeCode", "P");
+                address = businessObjectService.findByPrimaryKey(CustomerAddress.class, primaryKeys);
                 String fullAddress = "";
-                if (StringUtils.isNotEmpty(address.getAgencyLine1StreetAddress())) {
-                    fullAddress += returnProperStringValue(address.getAgencyLine1StreetAddress()) + "\n";
+                if (StringUtils.isNotEmpty(address.getCustomerLine1StreetAddress())) {
+                    fullAddress += returnProperStringValue(address.getCustomerLine1StreetAddress()) + "\n";
                 }
-                if (StringUtils.isNotEmpty(address.getAgencyLine2StreetAddress())) {
-                    fullAddress += returnProperStringValue(address.getAgencyLine2StreetAddress()) + "\n";
+                if (StringUtils.isNotEmpty(address.getCustomerLine2StreetAddress())) {
+                    fullAddress += returnProperStringValue(address.getCustomerLine2StreetAddress()) + "\n";
                 }
-                if (StringUtils.isNotEmpty(address.getAgencyCityName())) {
-                    fullAddress += returnProperStringValue(address.getAgencyCityName());
+                if (StringUtils.isNotEmpty(address.getCustomerCityName())) {
+                    fullAddress += returnProperStringValue(address.getCustomerCityName());
                 }
-                if (StringUtils.isNotEmpty(address.getAgencyStateCode())) {
-                    fullAddress += " " + returnProperStringValue(address.getAgencyStateCode());
+                if (StringUtils.isNotEmpty(address.getCustomerStateCode())) {
+                    fullAddress += " " + returnProperStringValue(address.getCustomerStateCode());
                 }
-                if (StringUtils.isNotEmpty(address.getAgencyZipCode())) {
-                    fullAddress += "-" + returnProperStringValue(address.getAgencyZipCode());
+                if (StringUtils.isNotEmpty(address.getCustomerZipCode())) {
+                    fullAddress += "-" + returnProperStringValue(address.getCustomerZipCode());
                 }
                 replacementList.put("#agency.fullAddressInline", returnProperStringValue(fullAddress));
-                replacementList.put("#agency.fullName", returnProperStringValue(address.getAgency().getFullName()));
-                replacementList.put("#agency.contactName", returnProperStringValue(address.getAgencyContactName()));
+                replacementList.put("#agency.fullName", returnProperStringValue(address.getCustomer().getCustomerName()));
+                replacementList.put("#agency.contactName", returnProperStringValue(address.getCustomer().getCustomerContactName()));
                 reportStream = PdfFormFillerUtil.populateTemplate(templateFile, replacementList, "");
 
                 // Step3. attach each dunning letter to invoice pdfs.
@@ -308,17 +307,8 @@ public class DunningLetterDistributionOnDemandServiceImpl implements DunningLett
         copy.open();
         copy.addDocument(new PdfReader(report));
         for (ContractsGrantsInvoiceDocument invoice : list) {
-            // add a document
-            Map<String, Object> map = new HashMap<String, Object>();
-            map.put(ArPropertyConstants.CustomerInvoiceDocumentFields.DOCUMENT_NUMBER, invoice.getDocumentNumber());
-            List<InvoiceAgencyAddressDetail> agencyAddresses = (List<InvoiceAgencyAddressDetail>) businessObjectService.findMatching(InvoiceAgencyAddressDetail.class, map);
-            for (InvoiceAgencyAddressDetail agencyAddress : agencyAddresses) {
-                ContractsAndGrantsAgencyAddress address;
-                Map<String, Object> primaryKeys = new HashMap<String, Object>();
-                primaryKeys.put(KFSPropertyConstants.AGENCY_NUMBER, agencyAddress.getAgencyNumber());
-                primaryKeys.put("agencyAddressTypeCode", "P");
-                address = kualiModuleService.getResponsibleModuleService(ContractsAndGrantsAgencyAddress.class).getExternalizableBusinessObject(ContractsAndGrantsAgencyAddress.class, primaryKeys);
-                Note note = noteService.getNoteByNoteId(agencyAddress.getNoteId());
+            for (InvoiceAddressDetail invoiceAddressDetail : invoice.getInvoiceAddressDetails()) {
+                Note note = noteService.getNoteByNoteId(invoiceAddressDetail.getNoteId());
                 if (ObjectUtils.isNotNull(note) && note.getAttachment().getAttachmentFileSize() > 0) {
                     copy.addDocument(new PdfReader(note.getAttachment().getAttachmentContents()));
                 }

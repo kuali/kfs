@@ -446,24 +446,24 @@
 		</createTable>
 	</changeSet>
 
-	<changeSet author="KFSCGB" id="AR_INV_AGENCY_ADDR_DTL_T">
-		<createTable tableName="AR_INV_AGENCY_ADDR_DTL_T">
+	<changeSet author="KFSCGB" id="AR_INV_ADDR_DTL_T">
+		<createTable tableName="AR_INV_ADDR_DTL_T">
 			<column name="FDOC_NBR" type="varchar(14)">
 				<constraints primaryKey="true" nullable="false" />
 			</column>
-			<column name="AGENCY_NBR" type="varchar(5)" defaultValue="">
+			<column name="CUST_NBR" type="varchar(40)" defaultValue="">
 				<constraints primaryKey="true" nullable="false" />
 			</column>
-			<column name="AGENCY_ADDR_ID" type="decimal(12,0)"
+			<column name="CUST_ADDR_ID" type="decimal(12,0)"
 				defaultValue="0">
 				<constraints primaryKey="true" nullable="false" />
 			</column>
 			<column name="CUST_ADDR_TYPE_CD" type="varchar(2)" />
-			<column name="AGENCY_ADDR_NM" type="varchar(40)" />
-			<column name="AGENCY_INV_TYP_CD" type="varchar(10)" />
-			<column name="PREF_AGENCY_INV_TYP_CD" type="varchar(10)" />
+			<column name="CUST_ADDR_NM" type="varchar(40)" />
+			<column name="CUST_INV_TYP_CD" type="varchar(10)" />
+			<column name="PREF_CUST_INV_TYP_CD" type="varchar(10)" />
 			<column name="OBJ_ID" type="varchar(36)">
-				<constraints unique="true" nullable="false" uniqueConstraintName="AR_INV_AGENCY_ADDR_DTL_TC1"/>
+				<constraints unique="true" nullable="false" uniqueConstraintName="AR_INV_ADDR_DTL_TC1"/>
 			</column>
 			<column name="VER_NBR" type="decimal(8,0)" defaultValueNumeric="1" >
 				<constraints nullable="false" />

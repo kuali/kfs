@@ -77,11 +77,10 @@
 			baseTableName="AR_CG_INV_DTL_T" referencedColumnNames="FDOC_NBR" />
 	</changeSet>
 
-	<changeSet author="kfs" id="AR_INV_AGENCY_ADDR_DTL_T_DROP_FK">
-		
-		<addForeignKeyConstraint constraintName="AR_INV_AGENCY_ADDR_DTL_TR1"
+	<changeSet author="kfs" id="AR_INV_ADDR_DTL_T_ADD_FK">
+		<addForeignKeyConstraint constraintName="AR_INV_ADDR_DTL_TR1"
 			referencedTableName="AR_INV_DOC_T" baseColumnNames="FDOC_NBR"
-			baseTableName="AR_INV_AGENCY_ADDR_DTL_T" referencedColumnNames="FDOC_NBR" />
+			baseTableName="AR_INV_ADDR_DTL_T" referencedColumnNames="FDOC_NBR" />
 	</changeSet>
 
 	<changeSet author="kfs" id="AR_INV_ACCT_DTL_T_DROP_FK">

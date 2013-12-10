@@ -18,7 +18,7 @@ package org.kuali.kfs.module.ar.web.struts;
 import java.util.List;
 
 import org.apache.struts.upload.FormFile;
-import org.kuali.kfs.module.ar.businessobject.options.AgencyInvoiceTemplateValuesFinder;
+import org.kuali.kfs.module.ar.businessobject.options.InvoiceTemplateValuesFinder;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 
 
@@ -51,7 +51,7 @@ public class AccountsReceivableInvoiceTemplateUploadForm extends KualiForm {
         this.filePath = filePath;
     }
 
-    private AgencyInvoiceTemplateValuesFinder valuesFinder = new AgencyInvoiceTemplateValuesFinder();
+    private InvoiceTemplateValuesFinder valuesFinder = new InvoiceTemplateValuesFinder();
     private List invoiceTemplateList = valuesFinder.getKeyValues();
 
     /**

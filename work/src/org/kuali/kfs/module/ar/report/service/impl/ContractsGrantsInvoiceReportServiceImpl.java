@@ -42,7 +42,7 @@ import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.ContractsGrantsLetterOfCreditReviewDetail;
 import org.kuali.kfs.module.ar.businessobject.CustomerAddress;
-import org.kuali.kfs.module.ar.businessobject.InvoiceAgencyAddressDetail;
+import org.kuali.kfs.module.ar.businessobject.InvoiceAddressDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoicePaidApplied;
 import org.kuali.kfs.module.ar.businessobject.SystemInformation;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
@@ -754,8 +754,8 @@ public class ContractsGrantsInvoiceReportServiceImpl extends ContractsGrantsRepo
             // add a document
             Map<String, Object> map = new HashMap<String, Object>();
             map.put(ArPropertyConstants.CustomerInvoiceDocumentFields.DOCUMENT_NUMBER, invoice.getDocumentNumber());
-            List<InvoiceAgencyAddressDetail> agencyAddresses = (List<InvoiceAgencyAddressDetail>) businessObjectService.findMatching(InvoiceAgencyAddressDetail.class, map);
-            for (InvoiceAgencyAddressDetail agencyAddress : agencyAddresses) {
+            List<InvoiceAddressDetail> agencyAddresses = (List<InvoiceAddressDetail>) businessObjectService.findMatching(InvoiceAddressDetail.class, map);
+            for (InvoiceAddressDetail agencyAddress : agencyAddresses) {
                 if (ArConstants.InvoiceIndicator.MAIL.equals(agencyAddress.getPreferredInvoiceIndicatorCode())) {
                     CustomerAddress address;
                     Map<String, Object> primaryKeys = new HashMap<String, Object>();
@@ -802,8 +802,8 @@ public class ContractsGrantsInvoiceReportServiceImpl extends ContractsGrantsRepo
             // add a document
             Map<String, Object> map = new HashMap<String, Object>();
             map.put(ArPropertyConstants.CustomerInvoiceDocumentFields.DOCUMENT_NUMBER, invoice.getDocumentNumber());
-            List<InvoiceAgencyAddressDetail> agencyAddresses = (List<InvoiceAgencyAddressDetail>) businessObjectService.findMatching(InvoiceAgencyAddressDetail.class, map);
-            for (InvoiceAgencyAddressDetail agencyAddress : agencyAddresses) {
+            List<InvoiceAddressDetail> agencyAddresses = (List<InvoiceAddressDetail>) businessObjectService.findMatching(InvoiceAddressDetail.class, map);
+            for (InvoiceAddressDetail agencyAddress : agencyAddresses) {
                 if (ArConstants.InvoiceIndicator.MAIL.equals(agencyAddress.getPreferredInvoiceIndicatorCode())) {
                     CustomerAddress address;
                     Map<String, Object> primaryKeys = new HashMap<String, Object>();

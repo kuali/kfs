@@ -615,6 +615,8 @@ public class KFSConstants {
         public static final String ENROUTE = "R";
         public static final String DISAPPROVED = "D";
         public static final String APPROVED = "A";
+        public static final String PROCESSED = "P";
+        public static final String FINAL = "F";
 
         public static class CashReceipt {
             // once a CashReceipt gets approved, its financialDocumentStatus goes to "verified"

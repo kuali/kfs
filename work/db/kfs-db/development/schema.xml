@@ -1334,6 +1334,9 @@
         <column name="INV_IND_CD" size="10" type="VARCHAR"/>
         <column name="PREF_INV_IND_CD" size="10" type="VARCHAR"/>
         <column name="NOTE_ID" size="14" type="DECIMAL"/>
+        <foreign-key foreignTable="AR_INV_DOC_T" name="AR_INV_ADDR_DTL_TR1">
+            <reference foreign="FDOC_NBR" local="FDOC_NBR"/>
+        </foreign-key>
         <unique name="AR_INV_ADDR_DTL_TC1">
             <unique-column name="OBJ_ID"/>
         </unique>

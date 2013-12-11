@@ -1324,19 +1324,16 @@
     <table name="AR_INV_ADDR_DTL_T">
         <column name="FDOC_NBR" primaryKey="true" size="14" type="VARCHAR"/>
         <column name="CUST_NBR" primaryKey="true" size="40" type="VARCHAR"/>
-        <column default="0" name="CUST_ADDR_ID" primaryKey="true" size="12" type="DECIMAL"/>
+        <column name="CUST_ADDR_ID" primaryKey="true" size="7" type="DECIMAL"/>
+        <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
+        <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
         <column name="CUST_ADDR_TYPE_CD" size="2" type="VARCHAR"/>
         <column name="CUST_ADDR_NM" size="40" type="VARCHAR"/>
         <column name="CUST_INV_TYP_CD" size="10" type="VARCHAR"/>
         <column name="PREF_CUST_INV_TYP_CD" size="10" type="VARCHAR"/>
-        <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
-        <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
         <column name="INV_IND_CD" size="10" type="VARCHAR"/>
         <column name="PREF_INV_IND_CD" size="10" type="VARCHAR"/>
         <column name="NOTE_ID" size="14" type="DECIMAL"/>
-        <foreign-key foreignTable="AR_INV_DOC_T" name="AR_INV_ADDR_DTL_TR1">
-            <reference foreign="FDOC_NBR" local="FDOC_NBR"/>
-        </foreign-key>
         <unique name="AR_INV_ADDR_DTL_TC1">
             <unique-column name="OBJ_ID"/>
         </unique>

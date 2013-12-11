@@ -88,16 +88,11 @@
 			<column name="CG_AGENCY_INTL_MAIL_CD" type="varchar(20)" />
 			<column name="CG_AGENCY_ADDR_TYPE_CD" type="varchar(2)" />
 			<column name="CG_AGENCY_ADDR_END_DT" type="datetime" />
-			<column name="INV_TYP_CD" type="varchar(10)" />
-			<column name="COPIES_TO_PRINT_QTY" type="decimal(5,0)" />
-		<!-- 	<column name="PRNT_ENV" type="varchar(1)" /> -->
 			<column name="CNTCT_NM" type="varchar(40)" />
 			<column name="PHN_NBR" type="varchar(40)" />
 			<column name="FAX_NBR" type="varchar(40)" />
 			<column name="AGENCY_CNTCT_EMAIL_ADDR" type="varchar(60)" />
 			<column name="AGENCY_INV_EMAIL_ADDR" type="varchar(60)" />
-			<column name="INV_IND_CD" type="VARCHAR(10)" />
-			<column name="PRNT_ENV_NBR" type="decimal(5,0)" />
 		</createTable>
 		<modifySql dbms="oracle">
 			<replace replace="varchar" with="varchar2" />

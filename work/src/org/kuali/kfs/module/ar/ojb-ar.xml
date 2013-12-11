@@ -1686,7 +1686,7 @@
 	<class-descriptor class="org.kuali.kfs.module.ar.businessobject.InvoiceAddressDetail" table="AR_INV_ADDR_DTL_T">
 		<field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
 		<field-descriptor name="customerNumber" column="CUST_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
-		<field-descriptor name="customerAddressIdentifier" column="CUST_ADDR_ID" jdbc-type="BIGINT" primarykey="true" index="true" />
+		<field-descriptor name="customerAddressIdentifier" column="CUST_ADDR_ID" jdbc-type="INTEGER" primarykey="true" index="true" />
 		<field-descriptor name="customerAddressTypeCode" column="CUST_ADDR_TYPE_CD" jdbc-type="VARCHAR" />
 		<field-descriptor name="customerAddressName" column="CUST_ADDR_NM" jdbc-type="VARCHAR" />
 		<field-descriptor name="customerInvoiceTemplateCode" column="CUST_INV_TYP_CD" jdbc-type="VARCHAR" /><!-- Invoice Type Link -->

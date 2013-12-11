@@ -34,7 +34,6 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.query.Criteria;
 import org.kuali.kfs.coa.businessobject.IndirectCostRecoveryRateDetail;
 import org.kuali.kfs.coa.businessobject.Organization;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsAgencyAddress;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAgency;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAwardAccount;
@@ -103,7 +102,7 @@ public class ContractsGrantsInvoiceReportServiceImpl extends ContractsGrantsRepo
     private KualiModuleService kualiModuleService;
     private DocumentService documentService;
     private NoteService noteService;
-    
+
     /**
      * @see org.kuali.kfs.module.ar.report.service.ContractsGrantsInvoiceReportService#generateReport(org.kuali.kfs.module.ar.report.ContractsGrantsReportDataHolder,
      *      java.io.ByteArrayOutputStream)
@@ -760,7 +759,7 @@ public class ContractsGrantsInvoiceReportServiceImpl extends ContractsGrantsRepo
                     CustomerAddress address;
                     Map<String, Object> primaryKeys = new HashMap<String, Object>();
                     primaryKeys.put(KFSPropertyConstants.CUSTOMER_NUMBER, invoice.getCustomerNumber());
-                    primaryKeys.put("customerAddressIdentifier", agencyAddress.getCustomerAddressIdentifier());
+                    primaryKeys.put(KFSPropertyConstants.CUSTOMER_ADDRESS_IDENTIFIER, agencyAddress.getCustomerAddressIdentifier());
                     address = businessObjectService.findByPrimaryKey(CustomerAddress.class,primaryKeys);
                     Note note = noteService.getNoteByNoteId(agencyAddress.getNoteId());
                     for (int i = 0; i < address.getCustomerCopiesToPrint(); i++) {
@@ -798,7 +797,7 @@ public class ContractsGrantsInvoiceReportServiceImpl extends ContractsGrantsRepo
         Font titleFont = new Font(Font.TIMES_ROMAN, 12, Font.BOLD);
         Font smallFont = new Font(Font.TIMES_ROMAN, 9, Font.NORMAL);
         for (ContractsGrantsInvoiceDocument invoice : list) {
-            
+
             // add a document
             Map<String, Object> map = new HashMap<String, Object>();
             map.put(ArPropertyConstants.CustomerInvoiceDocumentFields.DOCUMENT_NUMBER, invoice.getDocumentNumber());
@@ -808,7 +807,7 @@ public class ContractsGrantsInvoiceReportServiceImpl extends ContractsGrantsRepo
                     CustomerAddress address;
                     Map<String, Object> primaryKeys = new HashMap<String, Object>();
                     primaryKeys.put(KFSPropertyConstants.CUSTOMER_NUMBER, invoice.getCustomerNumber());
-                    primaryKeys.put("customerAddressIdentifier", agencyAddress.getCustomerAddressIdentifier());
+                    primaryKeys.put(KFSPropertyConstants.CUSTOMER_ADDRESS_IDENTIFIER, agencyAddress.getCustomerAddressIdentifier());
                     address = businessObjectService.findByPrimaryKey(CustomerAddress.class,primaryKeys);
                     for (int i = 0; i < address.getCustomerPrintEnvelopesNumber(); i++) {
                         // if a page has not already been added then open the document.
@@ -950,7 +949,7 @@ public class ContractsGrantsInvoiceReportServiceImpl extends ContractsGrantsRepo
         }
         return null;
     }
-    
+
     public PersonService getPersonService() {
         return personService;
     }
@@ -958,7 +957,7 @@ public class ContractsGrantsInvoiceReportServiceImpl extends ContractsGrantsRepo
     public void setPersonService(PersonService personService) {
         this.personService = personService;
     }
-    
+
     /**
      * Gets the businessObjectService attribute.
      *
@@ -976,7 +975,7 @@ public class ContractsGrantsInvoiceReportServiceImpl extends ContractsGrantsRepo
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
-    
+
     public ParameterService getParameterService() {
         return parameterService;
     }
@@ -984,21 +983,21 @@ public class ContractsGrantsInvoiceReportServiceImpl extends ContractsGrantsRepo
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
     }
-    
+
     public void setConfigService(ConfigurationService configService) {
         this.configService = configService;
     }
-    
+
     /**
      * Sets the kualiModuleService attribute value.
-     * 
+     *
      * @param kualiModuleService The kualiModuleService to set.
      */
     @NonTransactional
     public void setKualiModuleService(KualiModuleService kualiModuleService) {
         this.kualiModuleService = kualiModuleService;
     }
-    
+
     /**
      * @return the documentService
      */
@@ -1012,7 +1011,7 @@ public class ContractsGrantsInvoiceReportServiceImpl extends ContractsGrantsRepo
     public void setDocumentService(DocumentService documentService) {
         this.documentService = documentService;
     }
-    
+
     public NoteService getNoteService() {
         return noteService;
     }

@@ -79,7 +79,7 @@
 		<property name="forceUppercase" value="true" />
 		<property name="label" value="Customer Address Identifier" />
 		<property name="shortLabel" value="Identifier" />
-		<property name="maxLength" value="12" />
+		<property name="maxLength" value="7" />
 		<property name="validationPattern">
 			<ref bean="NumericValidation" />
 		</property>

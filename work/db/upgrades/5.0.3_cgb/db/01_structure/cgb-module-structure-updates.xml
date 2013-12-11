@@ -446,27 +446,25 @@
 			<column name="FDOC_NBR" type="varchar(14)">
 				<constraints primaryKey="true" nullable="false" />
 			</column>
-			<column name="CUST_NBR" type="varchar(40)" defaultValue="">
+			<column name="CUST_NBR" type="varchar(40)">
 				<constraints primaryKey="true" nullable="false" />
 			</column>
-			<column name="CUST_ADDR_ID" type="decimal(12,0)"
-				defaultValue="0">
+			<column name="CUST_ADDR_ID" type="decimal(7,0)">
 				<constraints primaryKey="true" nullable="false" />
 			</column>
-			<column name="CUST_ADDR_TYPE_CD" type="varchar(2)" />
-			<column name="CUST_ADDR_NM" type="varchar(40)" />
-			<column name="CUST_INV_TYP_CD" type="varchar(10)" />
-			<column name="PREF_CUST_INV_TYP_CD" type="varchar(10)" />
 			<column name="OBJ_ID" type="varchar(36)">
 				<constraints unique="true" nullable="false" uniqueConstraintName="AR_INV_ADDR_DTL_TC1"/>
 			</column>
 			<column name="VER_NBR" type="decimal(8,0)" defaultValueNumeric="1" >
 				<constraints nullable="false" />
 			</column>			
+			<column name="CUST_ADDR_TYPE_CD" type="varchar(2)" />
+			<column name="CUST_ADDR_NM" type="varchar(40)" />
+			<column name="CUST_INV_TYP_CD" type="varchar(10)" />
+			<column name="PREF_CUST_INV_TYP_CD" type="varchar(10)" />
 			<column name="INV_IND_CD" type="VARCHAR(10)" />
 			<column name="PREF_INV_IND_CD" type="VARCHAR(10)" />
 			<column name="NOTE_ID" type="DECIMAL(14,0)" />
-			
 		</createTable>
 		<modifySql dbms="oracle">
 			<replace replace="varchar" with="varchar2" />
@@ -474,7 +472,6 @@
 			<replace replace="datetime" with="date" />
 		</modifySql>
 	</changeSet>
-
 
 	<changeSet author="KFSCGB" id="AR_INV_ACCT_DTL_T">
 		<createTable tableName="AR_INV_ACCT_DTL_T">

@@ -65,7 +65,7 @@
 			<tr>
 				<th align=right valign=middle class="bord-l-b" style="width: 25%;">
 					<div align="right">
-						<kul:htmlAttributeLabel attributeEntry="${invoiceGeneralDetailAttributes.finalBill}" />
+						<kul:htmlAttributeLabel attributeEntry="${invoiceGeneralDetailAttributes.finalBillIndicator}" />
 					</div>
 				</th>
 				<c:choose>
@@ -75,7 +75,7 @@
 					<c:otherwise>
 						<td align=left valign=middle class="datacell" style="width: 25%;">
 							<div id="document.finalBill.div">
-								<kul:htmlControlAttribute attributeEntry="${invoiceGeneralDetailAttributes.finalBill}" property="document.invoiceGeneralDetail.finalBill"
+								<kul:htmlControlAttribute attributeEntry="${invoiceGeneralDetailAttributes.finalBillIndicator}" property="document.invoiceGeneralDetail.finalBillIndicator"
 									readOnly="${readOnlyForFinal}" />
 							</div>
 						</td>

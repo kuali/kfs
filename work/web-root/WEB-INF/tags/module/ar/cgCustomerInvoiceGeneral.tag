@@ -65,7 +65,7 @@
 					</th>
 					<td align=left valign=middle class="datacell" style="width: 25%;">
 						<div id="document.accountsReceivableDocumentHeader.customer.customerName.div">
-							<kul:htmlControlAttribute attributeEntry="${document.accountsReceivableDocumentHeader.customer.customerName}"
+							<kul:htmlControlAttribute attributeEntry="${documentAttributes.customerName}"
 								property="document.accountsReceivableDocumentHeader.customer.customerName" readOnly="true" />
 						</div>
 					</td>

@@ -94,7 +94,13 @@
     	<property name="validations">
     		<list>
     			<bean parent="Entertainment-hostCertificationAttachmentValidation" scope="prototype" />	
-                <bean parent="TravelDocument-accountingLineTotalsValidation" scope="prototype" />
+                <bean parent="TravelDocument-accountingLineTotalsValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="accountingDocumentFieldConversion" />
+						</list>
+					</property>
+				</bean>
                 <bean parent="NonTripTravelDocument-actualExpenseSavingValidation" scope="prototype"/>
                 <bean parent="TravelModule-perDiemExpenseValidation" scope="prototype" />
     		</list>

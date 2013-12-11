@@ -297,7 +297,13 @@
     			<bean parent="TravelModule-tripDetailMileageRateValidation" scope="prototype" />
     			<bean parent="TravelDocument-actualExpenseSavingValidation" scope="prototype"/>
                 <bean parent="TravelModule-perDiemExpenseValidation" scope="prototype" />
-				<bean parent="TravelDocument-accountingLineTotalsValidation" scope="prototype" />
+				<bean parent="TravelDocument-accountingLineTotalsValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="accountingDocumentFieldConversion" />
+						</list>
+					</property>
+				</bean>
     		</list>
     	</property>
     </bean>  

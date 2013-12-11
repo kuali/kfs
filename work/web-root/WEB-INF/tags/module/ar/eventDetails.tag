@@ -51,8 +51,8 @@
 			property="${propertyName}.followupInd" readOnly="${readOnly}" /></td>
 		<td align=left class="${cssClass}"><kul:htmlControlAttribute attributeEntry="${eventAttributes.followupDate}"
 			property="${propertyName}.followupDate" readOnly="${readOnly}" /></td>
-		<td align=left class="${cssClass}"><kul:htmlControlAttribute attributeEntry="${eventAttributes.completed}"
-			property="${propertyName}.completed" readOnly="${readOnly}" onclick="clearDate(this.name, '${propertyName}.completedDate');" /></td>
+		<td align=left class="${cssClass}"><kul:htmlControlAttribute attributeEntry="${eventAttributes.completedInd}"
+			property="${propertyName}.completedInd" readOnly="${readOnly}" onclick="clearDate(this.name, '${propertyName}.completedDate');" /></td>
 		<td align=left class="${cssClass}"><kul:htmlControlAttribute attributeEntry="${eventAttributes.completedDate}"
 			property="${propertyName}.completedDate" readOnly="${readOnly}" /></td>
 		<td align=left class="${cssClass}"><kul:htmlControlAttribute attributeEntry="${eventAttributes.postedDate}"

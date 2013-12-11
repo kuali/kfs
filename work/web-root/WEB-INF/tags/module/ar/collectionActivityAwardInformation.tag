@@ -309,7 +309,7 @@
 										<tr>
 											<c:choose>
 												<c:when
-													test="${!KualiForm.document.selectedInvoiceApplication.showEvents}">
+													test="${!KualiForm.document.selectedInvoiceApplication.showEventsInd}">
 													<td colspan='2'>Events can not be displayed.</td>
 												</c:when>
 												<c:otherwise>

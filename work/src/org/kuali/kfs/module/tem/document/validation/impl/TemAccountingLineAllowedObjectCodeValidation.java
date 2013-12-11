@@ -51,6 +51,7 @@ import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.service.DocumentHelperService;
 import org.kuali.rice.krad.bo.Note;
+import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADPropertyConstants;
@@ -77,8 +78,8 @@ public class TemAccountingLineAllowedObjectCodeValidation extends GenericValidat
         GlobalVariables.getMessageMap().clearErrorPath();
         TravelDocument travelDocument = (TravelDocument) event.getDocument();
 
-        final boolean canUpdate = isAtTravelNode(event.getDocument().getDocumentHeader().getWorkflowDocument());  // Are we at the travel node?  If so, there's a chance that accounting lines changed; if they did, that
-                            // was a permission granted to the travel manager so we should allow it
+        final boolean canUpdate = isAtTravelNode(event.getDocument().getDocumentHeader().getWorkflowDocument()) || isAdvancePaymentMethodException(event.getDocument(), line);  // Are we at the travel node?  If so, there's a chance that accounting lines changed; if they did, that
+                            // was a permission granted to the travel manager so we should allow it.  Also, if we're at PaymentMethod and the line is an advance accounting line, that's allowed to
 
         boolean valid = true;
         String errorPath = TemPropertyConstants.NEW_SOURCE_ACCTG_LINE;
@@ -225,6 +226,17 @@ public class TemAccountingLineAllowedObjectCodeValidation extends GenericValidat
             }
         }
         return false;
+    }
+
+    /**
+     * Determines if a) the document is at the PaymentMethod route node; and b) the accountingLine is for a travel advance
+     * @param document a travel document
+     * @param accountingLine the accounting line to validate
+     * @return true if the advance payment/payment method is correct and accessibility should not be checked; false otherwise
+     */
+    protected boolean isAdvancePaymentMethodException(Document document, TemSourceAccountingLine accountingLine) {
+        return StringUtils.equals(TemConstants.TRAVEL_ADVANCE_ACCOUNTING_LINE_TYPE_CODE, accountingLine.getFinancialDocumentLineTypeCode()) &&
+                document.getDocumentHeader().getWorkflowDocument().getCurrentNodeNames().contains(KFSConstants.RouteLevelNames.PAYMENT_METHOD);
     }
 
 }

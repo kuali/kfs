@@ -78,6 +78,7 @@ import org.kuali.kfs.module.tem.businessobject.SpecialCircumstances;
 import org.kuali.kfs.module.tem.businessobject.SpecialCircumstancesQuestion;
 import org.kuali.kfs.module.tem.businessobject.TemExpense;
 import org.kuali.kfs.module.tem.businessobject.TemRegion;
+import org.kuali.kfs.module.tem.businessobject.TemSourceAccountingLine;
 import org.kuali.kfs.module.tem.businessobject.TransportationModeDetail;
 import org.kuali.kfs.module.tem.businessobject.TravelAdvance;
 import org.kuali.kfs.module.tem.businessobject.TripType;
@@ -1974,8 +1975,9 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
         boolean success = true;
         Map<String,Object> fieldValues = new HashMap<String,Object>();
         fieldValues.put(KRADPropertyConstants.DOCUMENT_NUMBER, travelDocument.getDocumentNumber());
+        fieldValues.put(KFSPropertyConstants.FINANCIAL_DOCUMENT_LINE_TYPE_CODE, KFSConstants.SOURCE_ACCT_LINE_TYPE_CODE);
 
-        List<SourceAccountingLine> currentLines = (List<SourceAccountingLine>) getBusinessObjectService().findMatching(SourceAccountingLine.class, fieldValues);
+        List<TemSourceAccountingLine> currentLines = (List<TemSourceAccountingLine>) getBusinessObjectService().findMatchingOrderBy(TemSourceAccountingLine.class, fieldValues,KFSPropertyConstants.SEQUENCE_NUMBER, true);
 
         final boolean canUpdate = isAtTravelNode(travelDocument.getDocumentHeader().getWorkflowDocument());  // Are we at the travel node?  If so, there's a chance that accounting lines changed; if they did, that
                                         // was a permission granted to the travel manager so we should allow it

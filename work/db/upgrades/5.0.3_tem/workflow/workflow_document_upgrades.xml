@@ -410,17 +410,17 @@
 					<role name="Award" nextNode="RequiresSeparationOfDuties" nextAppDocStatus="Awaiting Separation Of Duties Review"/>
 	     			<split name="RequiresSeparationOfDuties" nextNode="TravelAdvanceRequested" nextAppDocStatus="Awaiting Separation Of Duties Review">
 			         	<branch name="True">
-			            	<role name="SeparationOfDuties" nextNode="JoinRequiresSeparationOfDuties" nextAppDocStatus="Awaiting Disbursement Method Review" />
+			            	<role name="SeparationOfDuties" nextNode="JoinRequiresSeparationOfDuties" nextAppDocStatus="Awaiting Travel Manager Review" />
 			         	</branch>
 			         	<branch name="False">
-			            	<simple name="NoOpRequiresSeparationOfDuties" nextNode="JoinRequiresSeparationOfDuties" nextAppDocStatus="Awaiting Disbursement Method Review" />
+			            	<simple name="NoOpRequiresSeparationOfDuties" nextNode="JoinRequiresSeparationOfDuties" nextAppDocStatus="Awaiting Travel Manager Review" />
 			         	</branch>	
 			         	<join name="JoinRequiresSeparationOfDuties" />	         		
 	     			</split>
-					<split name="TravelAdvanceRequested" nextAppDocStatus="Awaiting Disbursement Method Review">
+					<split name="TravelAdvanceRequested" nextAppDocStatus="Awaiting Travel Manager Review">
                         <branch name="True">
-                        	<role name="PaymentMethod" nextNode="Travel" nextAppDocStatus="Awaiting Travel Manager Review" />
-                            <role name="Travel" nextNode="JoinTravelAdvanceRequested" nextAppDocStatus="Open For Reimbursement" />
+                        	<role name="Travel" nextNode="PaymentMethod" nextAppDocStatus="Awaiting Disbursement Method Review" />
+                        	<role name="PaymentMethod" nextNode="JoinTravelAdvanceRequested" nextAppDocStatus="Open For Reimbursement" />
                         </branch>
                         <branch name="False">
                             <simple name="NoOpTravelAdvanceRequested" nextNode="JoinTravelAdvanceRequested" nextAppDocStatus="Open For Reimbursement" />
@@ -720,7 +720,7 @@
 			         	<join name="JoinRequiresSeparationOfDuties" />	         		
 	     			</split>
 					<role name="Travel" nextNode="TaxManagerApproval" nextAppDocStatus="Awaiting Tax Manager Review" />
-					<split name="TaxManagerApproval" nextNode="Travel" nextAppDocStatus="Awaiting Tax Manager Review">
+					<split name="TaxManagerApproval" nextNode="PaymentMethod" nextAppDocStatus="Awaiting Tax Manager Review">
 			         	<branch name="True">
 			            	<role name="Tax" nextNode="JoinTaxManager" nextAppDocStatus="Awaiting Disbursement Method Review" />
 			         	</branch>
@@ -729,7 +729,7 @@
 			         	</branch>	
 			         	<join name="JoinTaxManager" />	         		
 	     			</split>
-	     			<role name="PaymentMethod" nextNode="Travel" nextAppDocStatus="Department Approved" />
+	     			<role name="PaymentMethod" nextAppDocStatus="Department Approved" />
                 </routePath>
             </routePaths>
             <routeNodes>

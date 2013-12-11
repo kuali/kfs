@@ -103,17 +103,6 @@ public class DisbursementVoucherAccountingLineAccessibleValidation extends Accou
         return Collections.unmodifiableList(CANDIDATE_EDIT_MODES);
     }
 
-//    /**
-//     * Determines if the two given accounting lines have not have their account changed
-//     * @param pollux the first accounting line to check
-//     * @param castor the second accounting line to check
-//     * @return true if the account is the same for the two, false otherwise
-//     */
-//    protected boolean accountUnchanged(AccountingLine pollux, AccountingLine castor) {
-//        return StringUtils.equals(pollux.getChartOfAccountsCode(), castor.getChartOfAccountsCode())
-//                && StringUtils.equals(pollux.getAccountNumber(), castor.getAccountNumber());
-//    }
-
     /**
      * Sets the oldAccountingLineForValidation attribute value.
      * @param oldAccountingLineForValidation The oldAccountingLineForValidation to set.

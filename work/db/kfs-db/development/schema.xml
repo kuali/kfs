@@ -1725,7 +1725,7 @@
         <column name="BILL_BY_COA_CD" size="2" type="VARCHAR"/>
         <column name="BILL_BY_ORG_CD" size="4" type="VARCHAR"/>
         <column name="UPLOAD_DT" size="25" type="VARCHAR"/>
-        <unique name="CG_INV_TYP_TC1">
+        <unique name="AR_INV_TYP_TC1">
             <unique-column name="OBJ_ID"/>
         </unique>
     </table>

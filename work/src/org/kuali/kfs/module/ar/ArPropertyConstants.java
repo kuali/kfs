@@ -388,7 +388,6 @@ public class ArPropertyConstants{
         // other constants
         public static final String INVOICE_DOCUMENT_NUMBER = "invoiceDocumentNumber";
         public static final String AWARD_DOCUMENT_NUMBER = "awardDocumentNumber";
-        public static final String AGENCY_ADDRESS_DETAILS_AGENCY_NUMBER = "agencyAddressDetails.agencyNumber";
         public static final String ACCOUNT_DETAILS_ACCOUNT_NUMBER = "accountDetails.accountNumber";
         public static final String REFERRAL_TYPE = "referralType";
         public static final String ACCOUNTS_RECEIVABLE_CUSTOMER_NAME = "accountsReceivableDocumentHeader.customer.customerName";

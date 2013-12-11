@@ -222,8 +222,8 @@ public class InvoiceReportDeliveryAction extends KualiAction {
                 Set<ContractsGrantsInvoiceDocument> emailSet = new HashSet<ContractsGrantsInvoiceDocument>();
                 for(ContractsGrantsInvoiceDocument invoice: list){
                     if(ObjectUtils.isNull(invoice.getMarkedForProcessing())){
-                        for(InvoiceAddressDetail agencyAddressDetail: invoice.getInvoiceAddressDetails()){
-                            if(ArConstants.InvoiceIndicator.EMAIL.equals(agencyAddressDetail.getPreferredInvoiceIndicatorCode())){
+                        for(InvoiceAddressDetail invoiceAddressDetail: invoice.getInvoiceAddressDetails()){
+                            if(ArConstants.InvoiceIndicator.EMAIL.equals(invoiceAddressDetail.getPreferredInvoiceIndicatorCode())){
                                 emailSet.add(invoice);
                             }
                         }

@@ -246,7 +246,7 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument impl
             contractsGrantsInvoiceDocumentService.addToAccountObjectCodeBilledTotal(invoiceDetailAccountObjectCodes);
 
             // generate the invoices from templates
-            contractsGrantsInvoiceDocumentService.generateInvoicesForAgencyAddresses(this);
+            contractsGrantsInvoiceDocumentService.generateInvoicesForInvoiceAddresses(this);
         }
     }
 

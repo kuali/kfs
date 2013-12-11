@@ -3094,7 +3094,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
      * This method generates the attached invoices for the agency addresses in the Contracts and Grants Invoice Document.
      */
     @Override
-    public void generateInvoicesForAgencyAddresses(ContractsGrantsInvoiceDocument document) {
+    public void generateInvoicesForInvoiceAddresses(ContractsGrantsInvoiceDocument document) {
         InvoiceTemplate invoiceTemplate = null;
         Iterator<InvoiceAddressDetail> iterator = document.getInvoiceAddressDetails().iterator();
         while (iterator.hasNext()) {
@@ -3118,7 +3118,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
                 File outputDirectory = null;
                 String outputFileName;
                 try {
-                    // genrating original invoice
+                    // generating original invoice
                     outputFileName = document.getDocumentNumber() + "_" + invoiceAddressDetail.getCustomerAddressName() + FILE_NAME_TIMESTAMP.format(new Date()) + ArConstants.TemplateUploadSystem.EXTENSION;
                     Map<String, String> replacementList = getTemplateParameterList(document);
                     CustomerAddress address = invoiceAddressDetail.getCustomerAddress();
@@ -3138,7 +3138,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
                     if (StringUtils.isNotEmpty(address.getCustomerZipCode())) {
                         fullAddress += "-" + returnProperStringValue(address.getCustomerZipCode());
                     }
-                    replacementList.put("#agency.fullAddress", returnProperStringValue(fullAddress));
+                    replacementList.put("#customer.fullAddress", returnProperStringValue(fullAddress));
                     reportStream = PdfFormFillerUtil.populateTemplate(templateFile, replacementList, "");
                     // creating and saving the original note with an attachment
                     if (ObjectUtils.isNotNull(document.getInvoiceGeneralDetail()) && document.getInvoiceGeneralDetail().isFinalBillIndicator()) {
@@ -3163,7 +3163,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
                     // creating and saving the copy note with an attachment
                     Note copyNote = new Note();
                     copyNote.setNotePostedTimestampToCurrent();
-                    copyNote.setNoteText("Auto-generated invoice (Copy) for Agency Address-" + document.getDocumentNumber() + "-" + invoiceAddressDetail.getCustomerAddressName());
+                    copyNote.setNoteText("Auto-generated invoice (Copy) for Invoice Address-" + document.getDocumentNumber() + "-" + invoiceAddressDetail.getCustomerAddressName());
                     copyNote.setNoteTypeCode(KFSConstants.NoteTypeEnum.BUSINESS_OBJECT_NOTE_TYPE.getCode());
                     copyNote = noteService.createNote(copyNote, document, null);
                     Attachment copyAttachment = attachmentService.createAttachment(copyNote, outputFileName, ArConstants.TemplateUploadSystem.TEMPLATE_MIME_TYPE, copyReportStream.length, new ByteArrayInputStream(copyReportStream), "");
@@ -3181,7 +3181,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
                     GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_FILE_UPLOAD_NO_PDF_FILE_SELECTED_FOR_SAVE, ArConstants.INVOICE_TEMPLATE_NOT_FOUND_ERROR + invoiceTemplate.getInvoiceTemplateCode() + ".");
                 }
                 catch (Exception ex) {
-                    LOG.error("problem during ContractsGrantsInvoiceDocumentServiceImpl.generateInvoicesForAgencyAddresses", ex);
+                    LOG.error("problem during ContractsGrantsInvoiceDocumentServiceImpl.generateInvoicesForInvoiceAddresses", ex);
                 }
             }
             else {
@@ -3299,13 +3299,13 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         }
         if (CollectionUtils.isNotEmpty(document.getInvoiceAddressDetails())) {
             for (int i = 0; i < document.getInvoiceAddressDetails().size(); i++) {
-                parameterMap.put("#agencyAddressDetails[" + i + "].documentNumber", returnProperStringValue(document.getInvoiceAddressDetails().get(i).getDocumentNumber()));
-                parameterMap.put("#agencyAddressDetails[" + i + "].agencyNumber", returnProperStringValue(document.getInvoiceAddressDetails().get(i).getCustomerNumber()));
-                parameterMap.put("#agencyAddressDetails[" + i + "].agencyAddressIdentifier", returnProperStringValue(document.getInvoiceAddressDetails().get(i).getCustomerAddressIdentifier()));
-                parameterMap.put("#agencyAddressDetails[" + i + "].agencyAddressTypeCode", returnProperStringValue(document.getInvoiceAddressDetails().get(i).getCustomerAddressTypeCode()));
-                parameterMap.put("#agencyAddressDetails[" + i + "].agencyAddressName", returnProperStringValue(document.getInvoiceAddressDetails().get(i).getCustomerAddressName()));
-                parameterMap.put("#agencyAddressDetails[" + i + "].agencyInvoiceTemplateCode", returnProperStringValue(document.getInvoiceAddressDetails().get(i).getCustomerInvoiceTemplateCode()));
-                parameterMap.put("#agencyAddressDetails[" + i + "].preferredAgencyInvoiceTemplateCode", returnProperStringValue(document.getInvoiceAddressDetails().get(i).getPreferredCustomerInvoiceTemplateCode()));
+                parameterMap.put("#invoiceAddressDetails[" + i + "].documentNumber", returnProperStringValue(document.getInvoiceAddressDetails().get(i).getDocumentNumber()));
+                parameterMap.put("#invoiceAddressDetails[" + i + "].customerNumber", returnProperStringValue(document.getInvoiceAddressDetails().get(i).getCustomerNumber()));
+                parameterMap.put("#invoiceAddressDetails[" + i + "].customerAddressIdentifier", returnProperStringValue(document.getInvoiceAddressDetails().get(i).getCustomerAddressIdentifier()));
+                parameterMap.put("#invoiceAddressDetails[" + i + "].customerAddressTypeCode", returnProperStringValue(document.getInvoiceAddressDetails().get(i).getCustomerAddressTypeCode()));
+                parameterMap.put("#invoiceAddressDetails[" + i + "].customerAddressName", returnProperStringValue(document.getInvoiceAddressDetails().get(i).getCustomerAddressName()));
+                parameterMap.put("#invoiceAddressDetails[" + i + "].customerInvoiceTemplateCode", returnProperStringValue(document.getInvoiceAddressDetails().get(i).getCustomerInvoiceTemplateCode()));
+                parameterMap.put("#invoiceAddressDetails[" + i + "].preferredCustomerInvoiceTemplateCode", returnProperStringValue(document.getInvoiceAddressDetails().get(i).getPreferredCustomerInvoiceTemplateCode()));
             }
         }
         if (CollectionUtils.isNotEmpty(document.getAccountDetails())) {

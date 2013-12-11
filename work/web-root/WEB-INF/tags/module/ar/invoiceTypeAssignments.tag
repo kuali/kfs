@@ -17,34 +17,34 @@
 <%@ attribute name="readOnly" required="true" description="If document is in read only mode"%>
 
 <c:if test="${!empty KualiForm.document.proposalNumber}">
-	<kul:tab tabTitle="Invoice Type Assignments" defaultOpen="true" tabErrorKey="document.agencyAddressDetails*">
-		<c:set var="agencyAddressDetailsAttributes" value="${DataDictionary.InvoiceAddressDetail.attributes}" />
+	<kul:tab tabTitle="Invoice Type Assignments" defaultOpen="true" tabErrorKey="document.invoiceAddressDetails*">
+		<c:set var="invoiceAddressDetailsAttributes" value="${DataDictionary.InvoiceAddressDetail.attributes}" />
 
 		<div class="tab-container" align="center">
 			<h3>Invoice Type Assignments</h3>
 			<table cellpadding=0 class="datatable" summary="Invoice Type Assignments section">
 				<tr>
-					<kul:htmlAttributeHeaderCell attributeEntry="${agencyAddressDetailsAttributes.agencyAddressTypeCode}" useShortLabel="false" />
-					<kul:htmlAttributeHeaderCell attributeEntry="${agencyAddressDetailsAttributes.agencyAddressName}" useShortLabel="false" />
-					<kul:htmlAttributeHeaderCell attributeEntry="${agencyAddressDetailsAttributes.agencyInvoiceTemplateCode}" useShortLabel="false" />
-					<kul:htmlAttributeHeaderCell attributeEntry="${agencyAddressDetailsAttributes.preferredAgencyInvoiceTemplateCode}" useShortLabel="false" />
-					<kul:htmlAttributeHeaderCell attributeEntry="${agencyAddressDetailsAttributes.invoiceIndicatorCode}" useShortLabel="false" />
-					<kul:htmlAttributeHeaderCell attributeEntry="${agencyAddressDetailsAttributes.preferredInvoiceIndicatorCode}" useShortLabel="false" />
+					<kul:htmlAttributeHeaderCell attributeEntry="${invoiceAddressDetailsAttributes.customerAddressTypeCode}" useShortLabel="false" />
+					<kul:htmlAttributeHeaderCell attributeEntry="${invoiceAddressDetailsAttributes.customerAddressName}" useShortLabel="false" />
+					<kul:htmlAttributeHeaderCell attributeEntry="${invoiceAddressDetailsAttributes.customerInvoiceTemplateCode}" useShortLabel="false" />
+					<kul:htmlAttributeHeaderCell attributeEntry="${invoiceAddressDetailsAttributes.preferredCustomerInvoiceTemplateCode}" useShortLabel="false" />
+					<kul:htmlAttributeHeaderCell attributeEntry="${invoiceAddressDetailsAttributes.invoiceIndicatorCode}" useShortLabel="false" />
+					<kul:htmlAttributeHeaderCell attributeEntry="${invoiceAddressDetailsAttributes.preferredInvoiceIndicatorCode}" useShortLabel="false" />
 				</tr>
-				<logic:iterate indexId="ctr" name="KualiForm" property="document.agencyAddressDetails" id="agencyAddressDetail">
+				<logic:iterate indexId="ctr" name="KualiForm" property="document.invoiceAddressDetails" id="invoiceAddressDetail">
 					<tr>
-						<td class="datacell"><kul:htmlControlAttribute attributeEntry="${agencyAddressDetailsAttributes.agencyAddressTypeCode}"
-								property="document.agencyAddressDetails[${ctr}].agencyAddressTypeCode" readOnly="true" /></td>
-						<td class="datacell"><kul:htmlControlAttribute attributeEntry="${agencyAddressDetailsAttributes.agencyAddressName}"
-								property="document.agencyAddressDetails[${ctr}].agencyAddressName" readOnly="true" /></td>
-						<td class="datacell"><kul:htmlControlAttribute attributeEntry="${agencyAddressDetailsAttributes.agencyInvoiceTemplateCode}"
-								property="document.agencyAddressDetails[${ctr}].agencyInvoiceTemplateCode" readOnly="true" /></td>
-						<td class="datacell"><kul:htmlControlAttribute attributeEntry="${agencyAddressDetailsAttributes.preferredAgencyInvoiceTemplateCode}"
-								property="document.agencyAddressDetails[${ctr}].preferredAgencyInvoiceTemplateCode" readOnly="${readOnly}" /></td>
-						<td class="datacell"><kul:htmlControlAttribute attributeEntry="${agencyAddressDetailsAttributes.invoiceIndicatorCode}"
-								property="document.agencyAddressDetails[${ctr}].invoiceIndicatorCode" readOnly="true" /></td>
-						<td class="datacell"><kul:htmlControlAttribute attributeEntry="${agencyAddressDetailsAttributes.preferredInvoiceIndicatorCode}"
-								property="document.agencyAddressDetails[${ctr}].preferredInvoiceIndicatorCode" readOnly="${readOnly}" /></td>
+						<td class="datacell"><kul:htmlControlAttribute attributeinvoiceAddressDetailessDetailsAttributes.customerAddressTypeCode}"
+								property="document.invoiceAddressDetail[${ctr}].customerAddressTypeCode" readOnly="true" /></td>
+						<td class="datacell"><kul:htmlControlAttribute attributeEntry="${invoiceAddressDetailsAttributes.customerAddressName}"
+								property="document.invoiceAddressDetails[${ctr}].customerAddressName" readOnly="true" /></td>
+						<td class="datacell"><kul:htmlControlAttribute attributeEntry="${invoiceAddressDetailsAttributes.customerInvoiceTemplateCode}"
+								property="document.invoiceAddressDetails[${ctr}].customerInvoiceTemplateCode" readOnly="true" /></td>
+						<td class="datacell"><kul:htmlControlAttribute attributeEntry="${invoiceAddressDetailsAttributes.preferredCustomerInvoiceTemplateCode}"
+								property="document.invoiceAddressDetails[${ctr}].preferredCustomerInvoiceTemplateCode" readOnly="${readOnly}" /></td>
+						<td class="datacell"><kul:htmlControlAttribute attributeEntry="${invoiceAddressDetailsAttributes.invoiceIndicatorCode}"
+								property="document.invoiceAddressDetails[${ctr}].invoiceIndicatorCode" readOnly="true" /></td>
+						<td class="datacell"><kul:htmlControlAttribute attributeEntry="${invoiceAddressDetailsAttributes.preferredInvoiceIndicatorCode}"
+								property="document.invoiceAddressDetails[${ctr}].preferredInvoiceIndicatorCode" readOnly="${readOnly}" /></td>
 					</tr>
 				</logic:iterate>
 			</table>

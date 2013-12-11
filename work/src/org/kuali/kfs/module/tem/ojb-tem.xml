@@ -1619,6 +1619,21 @@
 		<field-descriptor name="active" column="ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR"/>
 		<field-descriptor name="versionNumber" locking="true" column="VER_NBR" jdbc-type="BIGINT"/>
+
+        <reference-descriptor name="chart" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+	        <foreignkey field-ref="creditChartCode" />
+	    </reference-descriptor>
+	
+	    <reference-descriptor name="account" class-ref="org.kuali.kfs.coa.businessobject.Account" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+	        <foreignkey field-ref="creditChartCode" />
+	        <foreignkey field-ref="creditAccountNumber" />
+	    </reference-descriptor>		
+	    
+	    <reference-descriptor name="objectCode" class-ref="org.kuali.kfs.coa.businessobject.ObjectCodeCurrent" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+	        <foreignkey field-ref="creditChartCode" />
+	        <foreignkey field-ref="creditObjectCode" />
+	    </reference-descriptor>		
+	    
 	</class-descriptor>
 
 	<class-descriptor class="org.kuali.kfs.module.tem.document.TemCorporateCardApplicationDocument" table="TEM_CORP_CARD_APP_DOC_T">

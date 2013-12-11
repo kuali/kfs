@@ -21,74 +21,32 @@
 			<ref bean="AgencyServiceFee-versionNumber" />
 		</list>
 		</property>
-		<property name="relationships">
-			<list>
-				<bean parent="RelationshipDefinition">
-					<property name="objectAttributeName" value="account" />
-					<property name="primitiveAttributes">
-						<list>
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="creditAccountNumber"
-								p:targetName="accountNumber" />
-						</list>
-					</property>
-					<property name="supportAttributes">
- 						<list>
- 							<bean parent="SupportAttributeDefinition" p:sourceName="creditChartCode" p:targetName="chartOfAccountsCode" />
-						</list>
-					</property>
-				</bean>
-				<bean parent="RelationshipDefinition">
-					<property name="objectAttributeName" value="objectCode" />
-					<property name="primitiveAttributes">
-						<list>
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="creditObjectCode"
-								p:targetName="financialObjectCode" />
-						</list>
-					</property>
-					<property name="supportAttributes">
- 						<list>
- 							<bean parent="SupportAttributeDefinition" p:sourceName="creditChartCode" p:targetName="chartOfAccountsCode" />
-						</list>
-					</property>
-				</bean>
-			</list>
-		</property>
 	</bean>
 	<bean id="AgencyServiceFee-code" parent="AgencyServiceFee-code-parentBean" />
 	<bean id="AgencyServiceFee-code-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="code" />
-		<property name="label" value="Distribution Code" />
-		<property name="shortLabel" value="Dist Code" />
+		<property name="label" value="Agency Service Fee Code" />
+		<property name="shortLabel" value="Agency Service Fee Code" />
 		<property name="maxLength" value="3" />
 		<property name="required" value="true" />
-		<property name="summary" value="Distribution Code" />
-		<property name="description" value="Distribution Code" />
+		<property name="summary" value="Agency Service Fee Code" />
+		<property name="description" value="Agency Service Fee Code" />
 		<property name="control"><bean parent="TextControlDefinition" p:size="3"/></property>
 	</bean>
 	<bean id="AgencyServiceFee-name" parent="AgencyServiceFee-name-parentBean" />
 	<bean id="AgencyServiceFee-name-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="name" />
-		<property name="label" value="Distribution Code Description" />
-		<property name="shortLabel" value="Dist Code Description" />
+		<property name="label" value="Agency Service Fee Description" />
+		<property name="shortLabel" value="Agency Service Fee Description" />
 		<property name="maxLength" value="40" />
-		<property name="summary" value="Distribution Code Description" />
-		<property name="description" value="Distribution Code Description" />
+		<property name="summary" value="Agency Service Fee Description" />
+		<property name="description" value="Agency Service Fee Description" />
 		<property name="control"><bean parent="TextControlDefinition" p:size="40"/></property>
 	</bean>
 	<bean id="AgencyServiceFee-creditChartCode" parent="AgencyServiceFee-creditChartCode-parentBean" />
 	<bean id="AgencyServiceFee-creditChartCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
 		<property name="name" value="creditChartCode" />
-		<property name="label" value="Credit Chart Code" />
-		<property name="shortLabel" value="Credit Chart Code" />
-		<property name="maxLength" value="2" />
 		<property name="required" value="true" />
-		<property name="summary" value="Credit Chart Code" />
-		<property name="description" value="Credit Chart Code" />
-		<property name="control">
-			<bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.ChartValuesFinder"
-            p:includeKeyInLabel="false" />
-		</property>
 	</bean>
 	<bean id="AgencyServiceFee-creditAccountNumber" parent="AgencyServiceFee-creditAccountNumber-parentBean" />
 	<bean id="AgencyServiceFee-creditAccountNumber-parentBean" abstract="true" parent="AccountAttribute">

@@ -21,27 +21,27 @@ import org.kuali.kfs.module.ar.businessobject.InvoiceAddressDetail;
  * Fixture class for InvoiceAddressDetail
  */
 public enum InvoiceAddressDetailFixture {
-    INV_ADDRESS_DETAIL1("documentNumber", "agencyNumber",111, "agencyAddressTypeCode", "agencyAddressName", "preferredAgencyInvoiceTemplateCode", "agencyInvoiceTemplateCode", "invoiceIndicatorCode", "preferredInvoiceIndicatorCode");
+    INV_ADDRESS_DETAIL1("documentNumber", "customerNumber",111, "customerAddressTypeCode", "customerAddressName", "preferredCustomerInvoiceTemplateCode", "customerInvoiceTemplateCode", "invoiceIndicatorCode", "preferredInvoiceIndicatorCode");
 
     private String documentNumber;
-    private String agencyNumber;
+    private String customerNumber;
     private Integer customerAddressIdentifier;
     private String customerAddressTypeCode;
-    private String agencyAddressName;
-    private String preferredAgencyInvoiceTemplateCode;
-    private String agencyInvoiceTemplateCode;
+    private String customerAddressName;
+    private String preferredCustomerInvoiceTemplateCode;
+    private String customerInvoiceTemplateCode;
     private String invoiceIndicatorCode;
     private String preferredInvoiceIndicatorCode;
 
-    private InvoiceAddressDetailFixture(String documentNumber, String agencyNumber, Integer customerAddressIdentifier, String customerAddressTypeCode, String agencyAddressName, String preferredAgencyInvoiceTemplateCode, String agencyInvoiceTemplateCode, String invoiceIndicatorCode, String preferredInvoiceIndicatorCode) {
+    private InvoiceAddressDetailFixture(String documentNumber, String customerNumber, Integer customerAddressIdentifier, String customerAddressTypeCode, String customerAddressName, String preferredCustomerInvoiceTemplateCode, String customerInvoiceTemplateCode, String invoiceIndicatorCode, String preferredInvoiceIndicatorCode) {
 
         this.documentNumber = documentNumber;
-        this.agencyNumber = agencyNumber;
+        this.customerNumber = customerNumber;
         this.customerAddressIdentifier = customerAddressIdentifier;
         this.customerAddressTypeCode = customerAddressTypeCode;
-        this.agencyAddressName = agencyAddressName;
-        this.preferredAgencyInvoiceTemplateCode = preferredAgencyInvoiceTemplateCode;
-        this.agencyInvoiceTemplateCode = agencyInvoiceTemplateCode;
+        this.customerAddressName = customerAddressName;
+        this.preferredCustomerInvoiceTemplateCode = preferredCustomerInvoiceTemplateCode;
+        this.customerInvoiceTemplateCode = customerInvoiceTemplateCode;
         this.invoiceIndicatorCode = invoiceIndicatorCode;
         this.preferredInvoiceIndicatorCode = preferredInvoiceIndicatorCode;
     }
@@ -49,12 +49,12 @@ public enum InvoiceAddressDetailFixture {
     public InvoiceAddressDetail createInvoiceAddressDetail() {
         InvoiceAddressDetail invoiceAddressDetail = new InvoiceAddressDetail();
         invoiceAddressDetail.setDocumentNumber(this.documentNumber);
-        invoiceAddressDetail.setCustomerNumber(this.agencyNumber);
+        invoiceAddressDetail.setCustomerNumber(this.customerNumber);
         invoiceAddressDetail.setCustomerAddressIdentifier(this.customerAddressIdentifier);
         invoiceAddressDetail.setCustomerAddressTypeCode(this.customerAddressTypeCode);
-        invoiceAddressDetail.setCustomerAddressName(this.agencyAddressName);
-        invoiceAddressDetail.setPreferredCustomerInvoiceTemplateCode(this.preferredAgencyInvoiceTemplateCode);
-        invoiceAddressDetail.setCustomerInvoiceTemplateCode(this.agencyInvoiceTemplateCode);
+        invoiceAddressDetail.setCustomerAddressName(this.customerAddressName);
+        invoiceAddressDetail.setPreferredCustomerInvoiceTemplateCode(this.preferredCustomerInvoiceTemplateCode);
+        invoiceAddressDetail.setCustomerInvoiceTemplateCode(this.customerInvoiceTemplateCode);
         invoiceAddressDetail.setInvoiceIndicatorCode(this.invoiceIndicatorCode);
         invoiceAddressDetail.setPreferredInvoiceIndicatorCode(this.preferredInvoiceIndicatorCode);
 

@@ -159,7 +159,7 @@
  			type="org.kuali.kfs.module.ar.web.struts.ReferralToCollectionsSummaryForm" />
 
  		<form-bean name="ReferralToCollectionsDocumentForm"
- 			type="org.kuali.kfs.module.ar.web.struts.ReferralToCollectionsDocumentForm" />
+ 			type="org.kuali.kfs.module.ar.document.web.struts.ReferralToCollectionsDocumentForm" />
 
 		<form-bean name="FinalInvoiceReversalDocumentForm"
 			type="org.kuali.kfs.module.ar.document.web.struts.FinalInvoiceReversalDocumentForm" />

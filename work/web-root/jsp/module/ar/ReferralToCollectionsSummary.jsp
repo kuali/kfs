@@ -21,14 +21,14 @@
 	docTitle="Referral To Collections Summary">
 
 	<div id="globalbuttons" class="globalbuttons">
-		<c:if test="${KualiForm.awardInvoiced}">
+		<c:if test="${KualiForm.awardInvoicedInd}">
 			<html:image
 				src="${ConfigProperties.externalizable.images.url}buttonsmall_return.gif"
 				styleClass="globalbuttons" property="methodToCall.cancel"
 				title="return" alt="return" />
 		</c:if>
 
-		<c:if test="${!KualiForm.awardInvoiced}">
+		<c:if test="${!KualiForm.awardInvoicedInd}">
 
 			<ar:referralToCollectionsSummaryResults
 				invoiceAttributes="${DataDictionary.ContractsGrantsInvoiceDocument.attributes}" />

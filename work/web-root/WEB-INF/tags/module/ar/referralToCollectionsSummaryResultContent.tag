@@ -35,7 +35,7 @@
 			</tr>
 		</thead>
 		<logic:iterate id="invoices" name="KualiForm" property="${propertyName}.invoices" indexId="ctr">
-			<ar:referralToCollectionsSummarySubResult invoiceAttributes="${invoiceAttributes}" propertyName="${propertyName}.invoices[${ctr}]" />
+			<ar:referralToCollectionsSummarySubResult invoiceAttributes="${invoiceAttributes}" accountDetails="${accountDetails}" propertyName="${propertyName}.invoices[${ctr}]" />
 		</logic:iterate>
 	</table>
 </div>

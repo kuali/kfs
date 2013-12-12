@@ -17,6 +17,8 @@
 
 <%@ attribute name="invoiceAttributes" required="true" type="java.util.Map"
 	description="The DataDictionary entry containing attributes for this row's fields."%>
+<%@ attribute name="accountDetails" required="true" type="java.util.Map"
+	description="The DataDictionary entry containing attributes for this row's account fields."%>
 <%@ attribute name="propertyName" required="true" description="The DataDictionary entry containing attributes for this row's fields."%>
 
 <tr>

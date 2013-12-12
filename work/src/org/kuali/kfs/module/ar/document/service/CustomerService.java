@@ -80,14 +80,4 @@ public interface CustomerService {
      */
     public List<Note> getCustomerNotes(String customerNumber) ;
 
-    /**
-     * Determines if the customer name that is passed in as a parameter matches the customers
-     * that the passed in collector is assigned to via the CGB Collector role qualifiers.
-     *
-     * @param customerName String name of the customer to check
-     * @param collectorPrincipalId String principal Id of the collector to check
-     * @return
-     */
-    public boolean doesCustomerMatchCollector(String customerName, String collectorPrincipalId);
-
 }

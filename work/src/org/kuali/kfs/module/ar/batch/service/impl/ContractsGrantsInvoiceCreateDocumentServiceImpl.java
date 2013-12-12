@@ -19,6 +19,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.rmi.RemoteException;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -758,11 +759,32 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
     protected void writeErrorEntryByAward(ContractsAndGrantsBillingAward award, List<String> validationCategory, PrintStream printStream) throws IOException {
         // %15s %18s %20s %19s %15s %18s %23s %18s
         boolean firstLineFlag = true;
+        String awardBeginningDate;
+        String awardEndingDate;
+        String awardTotalAmount;
 
         String proposalNumber = award.getProposalNumber().toString();
-        String awardBeginningDate = award.getAwardBeginningDate().toString();
-        String awardEndingDate = award.getAwardEndingDate().toString();
-        String awardTotalAmount = award.getAwardTotalAmount().toString();
+        Date beginningDate = award.getAwardBeginningDate();
+        Date endingDate = award.getAwardEndingDate();
+        KualiDecimal totalAmount = award.getAwardTotalAmount();
+
+        if (ObjectUtils.isNotNull(beginningDate)) {
+            awardBeginningDate = award.getAwardBeginningDate().toString();
+        } else {
+            awardBeginningDate = "null award beginning date";
+        }
+
+        if (ObjectUtils.isNotNull(beginningDate)) {
+            awardEndingDate = award.getAwardEndingDate().toString();
+        } else {
+            awardEndingDate = "null award ending date";
+        }
+
+        if (ObjectUtils.isNotNull(totalAmount)) {
+            awardTotalAmount = award.getAwardTotalAmount().toString();
+        } else {
+            awardTotalAmount = "null award total amount";
+        }
 
         KualiDecimal cumulativeExpenses = KualiDecimal.ZERO;
         // calculate cumulativeExpenses
@@ -960,7 +982,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
 
     /**
      * Sets the kualiModuleService attribute value.
-     * 
+     *
      * @param kualiModuleService The kualiModuleService to set.
      */
     @NonTransactional
@@ -987,6 +1009,6 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
     public void setContractsAndGrantsModuleRetrieveService(ContractsAndGrantsModuleRetrieveService contractsAndGrantsModuleRetrieveService) {
         this.contractsAndGrantsModuleRetrieveService = contractsAndGrantsModuleRetrieveService;
     }
-    
-    
+
+
 }

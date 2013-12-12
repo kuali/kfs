@@ -15,8 +15,6 @@
  */
 package org.kuali.kfs.module.ar.dataaccess;
 
-import java.util.Collection;
-
 import org.kuali.kfs.module.ar.businessobject.Customer;
 
 public interface CustomerDao {
@@ -25,5 +23,4 @@ public interface CustomerDao {
 
     public Customer getByName(String customerName);
 
-    public Collection<Customer> getByNameRange(String lastNameStartingLetter, String lastNameEndingLetter);
 }

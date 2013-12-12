@@ -49,13 +49,14 @@ import org.kuali.rice.core.web.format.CurrencyFormatter;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
  * This class is used to get the services for PDF generation and other services for CG Aging report.
  */
-public class ContractsGrantsAgingReportServiceImpl extends ContractsGrantsCollectorReportServiceImplBase implements ContractsGrantsAgingReportService {
+public class ContractsGrantsAgingReportServiceImpl extends ContractsGrantsReportServiceImplBase implements ContractsGrantsAgingReportService {
 
     private ReportInfo cgAgingReportInfo;
     private ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService;
@@ -249,7 +250,7 @@ public class ContractsGrantsAgingReportServiceImpl extends ContractsGrantsCollec
         Collection<ContractsGrantsInvoiceDocument> contractsGrantsInvoiceDocs = contractsGrantsInvoiceDocumentService.retrieveAllCGInvoicesByCriteria(criteria);
         contractsGrantsInvoiceDocs = contractsGrantsInvoiceDocumentService.attachWorkflowHeadersToCGInvoices(contractsGrantsInvoiceDocs);
 
-        // Filter "CGIN" docs and remove "INV" docs.
+        // Filter "CINV" docs and remove "INV" docs.
         if (ObjectUtils.isNotNull(contractsGrantsInvoiceDocs) && !contractsGrantsInvoiceDocs.isEmpty()) {
             documents = new HashMap<String, ContractsGrantsInvoiceDocument>();
             for (Iterator iter = contractsGrantsInvoiceDocs.iterator(); iter.hasNext();) {
@@ -366,23 +367,27 @@ public class ContractsGrantsAgingReportServiceImpl extends ContractsGrantsCollec
             contractsGrantsInvoiceDocs = this.filterInvoicesAccordingToAmount(contractsGrantsInvoiceDocs, includeFromAmt, includeToAmt, invoiceAmountFrom, invoiceAmountTo);
         }
 
-        // filter by collector
-        List<String> collectorList = new ArrayList<String>();
+        // filter by collector and user performing the search
+        String collectorPrincipalId = null;
         if (ObjectUtils.isNotNull(collectorPrincName) && StringUtils.isNotEmpty(collectorPrincName.trim())) {
             Person collUser = personService.getPersonByPrincipalName(collectorPrincName);
             if (ObjectUtils.isNotNull(collUser)) {
-                collector = collUser.getPrincipalId();
-                if (ObjectUtils.isNotNull(collector) && StringUtils.isNotEmpty(collector)) {
-                    filterRecordsForCollector(collector, contractsGrantsInvoiceDocs);
-                }
-                else {
-                    contractsGrantsInvoiceDocs.clear();
-                    return cgMapByCustomer;
+                collectorPrincipalId = collUser.getPrincipalId();
+            }
+        }
+        Person user = GlobalVariables.getUserSession().getPerson();
+
+        for (Iterator<ContractsGrantsInvoiceDocument> iter = contractsGrantsInvoiceDocs.iterator(); iter.hasNext();) {
+            ContractsGrantsInvoiceDocument document = iter.next();
+            if (StringUtils.isNotEmpty(collectorPrincipalId)) {
+                if (!contractsGrantsInvoiceDocumentService.canViewInvoice(document, collectorPrincipalId)) {
+                    iter.remove();
+                    continue;
                 }
             }
-            else {
-                contractsGrantsInvoiceDocs.clear();
-                return cgMapByCustomer;
+
+            if (!contractsGrantsInvoiceDocumentService.canViewInvoice(document, user.getPrincipalId())) {
+                iter.remove();
             }
         }
 

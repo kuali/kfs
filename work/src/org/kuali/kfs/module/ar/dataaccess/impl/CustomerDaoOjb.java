@@ -15,14 +15,11 @@
  */
 package org.kuali.kfs.module.ar.dataaccess.impl;
 
-import java.util.Collection;
-
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.kfs.coa.dataaccess.impl.ObjectCodeDaoOjb;
 import org.kuali.kfs.module.ar.businessobject.Customer;
 import org.kuali.kfs.module.ar.dataaccess.CustomerDao;
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
 public class CustomerDaoOjb extends PlatformAwareDaoBaseOjb implements CustomerDao {
@@ -43,19 +40,6 @@ public class CustomerDaoOjb extends PlatformAwareDaoBaseOjb implements CustomerD
         criteria.addEqualTo("customerName", customerName);
 
         return (Customer) getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(Customer.class, criteria));
-    }
-
-    @Override
-    public Collection<Customer> getByNameRange(String lastNameStartingLetter, String lastNameEndingLetter) {
-        Criteria criteria = new Criteria();
-        criteria.addBetween("customerName", lastNameStartingLetter, lastNameEndingLetter);
-
-        // Now we need to add an or criteria to pick up last names that start with the ending letter
-        Criteria criteriaOr = new Criteria();
-        criteriaOr.addLike("customerName", lastNameEndingLetter + KFSConstants.PERCENTAGE_SIGN);
-        criteria.addOrCriteria(criteriaOr);
-
-        return getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(Customer.class, criteria));
     }
 
 }

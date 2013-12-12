@@ -17,23 +17,15 @@ package org.kuali.kfs.module.ar.document.service.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.coa.identity.FinancialSystemUserRoleTypeServiceImpl;
-import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.Customer;
 import org.kuali.kfs.module.ar.dataaccess.CustomerDao;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
 import org.kuali.kfs.module.ar.document.service.CustomerService;
-import org.kuali.kfs.module.ar.identity.ArKimAttributes;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.rice.kim.api.KimConstants;
-import org.kuali.rice.kim.api.role.RoleService;
-import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.NoteService;
@@ -181,34 +173,6 @@ public class CustomerServiceImpl implements CustomerService {
 
     public void setNoteService(NoteService noteService) {
         this.noteService = noteService;
-    }
-
-    /**
-     * @see org.kuali.kfs.module.ar.document.service.CustomerService#doesCustomerMatchCollector(java.lang.String, java.lang.String)
-     */
-    @Override
-    public boolean doesCustomerMatchCollector(String customerName, String collectorPrincipalId) {
-        boolean matches = false;
-
-        Map<String, String> qualification = new HashMap<String, String>(2);
-        qualification.put(FinancialSystemUserRoleTypeServiceImpl.PERFORM_QUALIFIER_MATCH, "true");
-        qualification.put(KimConstants.AttributeConstants.NAMESPACE_CODE, ArConstants.AR_NAMESPACE_CODE);
-        RoleService roleService = KimApiServiceLocator.getRoleService();
-        List<Map<String, String>> qualifiers = roleService.getRoleQualifersForPrincipalByNamespaceAndRolename(collectorPrincipalId, ArConstants.AR_NAMESPACE_CODE, KFSConstants.SysKimApiConstants.ACCOUNTS_RECEIVABLE_COLLECTOR, qualification);
-        if ((qualifiers != null) && !qualifiers.isEmpty()) {
-            for (Map<String, String> qualifier: qualifiers) {
-                String startingLetter = qualifier.get(ArKimAttributes.CUSTOMER_LAST_NAME_STARTING_LETTER);
-                String endingLetter = qualifier.get(ArKimAttributes.CUSTOMER_LAST_NAME_ENDING_LETTER);
-                if (StringUtils.isNotEmpty(startingLetter) && StringUtils.isNotEmpty(endingLetter)) {
-                    if (customerName.charAt(0) >= startingLetter.charAt(0) && customerName.charAt(0) <= endingLetter.charAt(0)) {
-                        matches = true;
-                        break;
-                    }
-                }
-            }
-        }
-
-        return matches;
     }
 
 }

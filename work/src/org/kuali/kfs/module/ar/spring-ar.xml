@@ -294,7 +294,7 @@
 				<ref bean="contractsGrantsInvoiceRouteDocumentsStep" />
 			</list>
 		</property>
-	</bean>	
+	</bean>
 
 	<bean id="contractsGrantsInvoiceDocumentService" parent="contractsGrantsInvoiceDocumentService-parentBean" />
 	<bean id="contractsGrantsInvoiceDocumentService-parentBean" class="org.kuali.kfs.module.ar.document.service.impl.ContractsGrantsInvoiceDocumentServiceImpl" abstract="true">
@@ -745,6 +745,9 @@
 
 	<bean id="ticklersReportLookupableHelperService" class="org.kuali.kfs.module.ar.businessobject.lookup.TicklersReportLookupableHelperServiceImpl"
 		scope="prototype">
+		<property name="contractsGrantsInvoiceDocumentService">
+			<ref bean="contractsGrantsInvoiceDocumentService" />
+		</property>
 		<property name="customerService">
 			<ref bean="customerService" />
 		</property>
@@ -815,14 +818,8 @@
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
-		<property name="customerDao">
-			<ref bean="customerDao" />
-		</property>
 		<property name="personService">
 			<ref bean="personService" />
-		</property>
-		<property name="roleService">
-			<ref bean="roleService" />
 		</property>
 	</bean>
 
@@ -1978,8 +1975,9 @@
     </bean>
 
 	<bean name="collectorRoleTypeService" parent="collectorRoleTypeService-parentBean"/>
-	<bean name="collectorRoleTypeService-parentBean" abstract="true" 
-		class="org.kuali.kfs.module.ar.identity.CollectorRoleTypeServiceImpl" />
+	<bean id="collectorRoleTypeService-parentBean" abstract="true" 
+		class="org.kuali.kfs.module.ar.identity.CollectorRoleTypeServiceImpl"
+		parent="organizationHierarchyAwareRoleTypeService" />
     
     <bean id="invoiceRecurrenceDerivedRoleTypeService"  parent="invoiceRecurrenceDerivedRoleTypeService-parentBean"/>
     <bean id="invoiceRecurrenceDerivedRoleTypeService-parentBean" class="org.kuali.kfs.module.ar.identity.InvoiceRecurrenceDerivedRoleTypeServiceImpl" abstract="true"/>  
@@ -2014,14 +2012,8 @@
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
-		<property name="customerDao">
-			<ref bean="customerDao" />
-		</property>
 		<property name="personService">
 			<ref bean="personService" />
-		</property>
-		<property name="roleService">
-			<ref bean="roleService" />
 		</property>
 	</bean>
 
@@ -2055,20 +2047,14 @@
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
-		<property name="customerDao">
-			<ref bean="customerDao" />
-		</property>
-		<property name="referralToCollectionsDao">
-			<ref bean="referralToCollectionsDao" />
-		</property>
 		<property name="documentService">
 			<ref bean="documentService" />
 		</property>
 		<property name="personService">
 			<ref bean="personService" />
 		</property>
-		<property name="roleService">
-			<ref bean="roleService" />
+		<property name="referralToCollectionsDao">
+			<ref bean="referralToCollectionsDao" />
 		</property>
 	</bean>
 	
@@ -2161,6 +2147,9 @@
 	
 	<bean id="collectionActivityReportLookupableHelperService" class="org.kuali.kfs.module.ar.businessobject.lookup.CollectionActivityReportLookupableHelperServiceImpl"
 		scope="prototype">
+		<property name="configService">
+			<ref bean="kualiConfigurationService" />
+		</property>
 	</bean>
 
 	<bean id="collectionActivityReportLookupResultLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">

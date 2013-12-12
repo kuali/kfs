@@ -15,6 +15,11 @@
  */
 package org.kuali.kfs.module.ar.businessobject.options;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.keyvalues.EnumValuesFinder;
 
 /**
@@ -28,4 +33,18 @@ public class AlphabetValuesFinder extends EnumValuesFinder {
         super(Alphabet.class);
     }
 
+    /**
+     * need to add blank to key values list before returning it
+     *
+     * @see org.kuali.rice.krad.keyvalues.EnumValuesFinder#getKeyValues()
+     */
+    @Override
+    public List<KeyValue> getKeyValues() {
+        List<KeyValue> keyValues = new ArrayList<KeyValue>();
+
+        keyValues.add(new ConcreteKeyValue("", ""));
+        keyValues.addAll(super.getKeyValues());
+
+        return keyValues;
+    }
 }

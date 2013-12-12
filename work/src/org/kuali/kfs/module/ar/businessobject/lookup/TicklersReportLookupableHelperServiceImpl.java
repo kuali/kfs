@@ -31,6 +31,7 @@ import org.kuali.kfs.module.ar.businessobject.Event;
 import org.kuali.kfs.module.ar.businessobject.TicklersReport;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.CollectionActivityDocumentService;
+import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService;
 import org.kuali.kfs.module.ar.document.service.CustomerService;
 import org.kuali.kfs.module.ar.report.ContractsGrantsReportUtils;
 import org.kuali.kfs.sys.KFSConstants;
@@ -58,6 +59,7 @@ import org.kuali.rice.krad.util.UrlFactory;
  */
 public class TicklersReportLookupableHelperServiceImpl extends ContractsGrantsReportLookupableHelperServiceImplBase {
 
+    private ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService;
     private CustomerService customerService;
     private PersonService personService;
 
@@ -145,7 +147,7 @@ public class TicklersReportLookupableHelperServiceImpl extends ContractsGrantsRe
                     if (ObjectUtils.isNotNull(collUser)) {
                         principalId = collUser.getPrincipalId();
                         if (ObjectUtils.isNotNull(principalId) && !principalId.equals("")) {
-                            isValid = customerService.doesCustomerMatchCollector(event.getInvoiceDocument().getCustomer().getCustomerName(), principalId);
+                            isValid = contractsGrantsInvoiceDocumentService.canViewInvoice(event.getInvoiceDocument(), principalId);
                         }
                         else {
                             isValid = false;
@@ -155,6 +157,11 @@ public class TicklersReportLookupableHelperServiceImpl extends ContractsGrantsRe
                         isValid = false;
                     }
                 }
+            }
+
+            if (isValid) {
+                Person user = GlobalVariables.getUserSession().getPerson();
+                isValid = contractsGrantsInvoiceDocumentService.canViewInvoice(event.getInvoiceDocument(), user.getPrincipalId());
             }
 
             if (isValid) {
@@ -319,5 +326,13 @@ public class TicklersReportLookupableHelperServiceImpl extends ContractsGrantsRe
 
     public void setPersonService(PersonService personService) {
         this.personService = personService;
+    }
+
+    public ContractsGrantsInvoiceDocumentService getContractsGrantsInvoiceDocumentService() {
+        return contractsGrantsInvoiceDocumentService;
+    }
+
+    public void setContractsGrantsInvoiceDocumentService(ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService) {
+        this.contractsGrantsInvoiceDocumentService = contractsGrantsInvoiceDocumentService;
     }
 }

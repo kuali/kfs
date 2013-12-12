@@ -28,15 +28,17 @@ public class ArKimAttributes extends KfsKimAttributes {
     public static final String BILLING_ORGANIZATION_CODE = "billingOrganizationCode";
     public static final String PROCESSING_CHART_OF_ACCOUNTS_CODE = "processingChartOfAccountsCode";
     public static final String PROCESSING_ORGANIZATION_CODE = "processingOrganizationCode";
-    public static final String CUSTOMER_LAST_NAME_STARTING_LETTER = "customerLastNameStartingLetter";
-    public static final String CUSTOMER_LAST_NAME_ENDING_LETTER = "customerLastNameEndingLetter";
+    public static final String CUSTOMER_NAME_STARTING_LETTER = "customerNameStartingLetter";
+    public static final String CUSTOMER_NAME_ENDING_LETTER = "customerNameEndingLetter";
+    public static final String CUSTOMER_NAME = "customerName";
 
     protected String billingChartOfAccountsCode;
     protected String billingOrganizationCode;
     protected String processingChartOfAccountsCode;
     protected String processingOrganizationCode;
-    protected String customerLastNameStartingLetter;
-    protected String customerLastNameEndingLetter;
+    protected String customerNameStartingLetter;
+    protected String customerNameEndingLetter;
+    protected String customerName;
 
     protected Chart billingChart;
     protected Organization billingOrganization;
@@ -107,20 +109,28 @@ public class ArKimAttributes extends KfsKimAttributes {
         this.processingOrganization = processingOrganization;
     }
 
-    public String getCustomerLastNameStartingLetter() {
-        return customerLastNameStartingLetter;
+    public String getCustomerNameStartingLetter() {
+        return customerNameStartingLetter;
     }
 
-    public void setCustomerLastNameStartingLetter(String customerLastNameStartingLetter) {
-        this.customerLastNameStartingLetter = customerLastNameStartingLetter;
+    public void setCustomerNameStartingLetter(String customerNameStartingLetter) {
+        this.customerNameStartingLetter = customerNameStartingLetter;
     }
 
-    public String getCustomerLastNameEndingLetter() {
-        return customerLastNameEndingLetter;
+    public String getCustomerNameEndingLetter() {
+        return customerNameEndingLetter;
     }
 
-    public void setCustomerLastNameEndingLetter(String customerLastNameEndingLetter) {
-        this.customerLastNameEndingLetter = customerLastNameEndingLetter;
+    public void setCustomerNameEndingLetter(String customerNameEndingLetter) {
+        this.customerNameEndingLetter = customerNameEndingLetter;
+    }
+
+    public String getCustomerName() {
+        return customerName;
+    }
+
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
     }
 
 }

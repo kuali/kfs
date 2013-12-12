@@ -32,8 +32,8 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 		<ref bean="ArKimAttributes-billingOrganizationCode" />        
 		<ref bean="ArKimAttributes-processingChartOfAccountsCode" />
 		<ref bean="ArKimAttributes-processingOrganizationCode" />
-		<ref bean="ArKimAttributes-customerLastNameStartingLetter" />
-		<ref bean="ArKimAttributes-customerLastNameEndingLetter" />
+		<ref bean="ArKimAttributes-customerNameStartingLetter" />
+		<ref bean="ArKimAttributes-customerNameEndingLetter" />
       </list>
     </property>
     <property name="relationships">
@@ -92,26 +92,26 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="required" value="false"/>
   </bean>
 
-  <bean id="ArKimAttributes-customerLastNameStartingLetter" parent="ArKimAttributes-customerLastNameStartingLetter-parentBean" />
+  <bean id="ArKimAttributes-customerNameStartingLetter" parent="ArKimAttributes-customerNameStartingLetter-parentBean" />
 
-  <bean id="ArKimAttributes-customerLastNameStartingLetter-parentBean" abstract="true" parent="AttributeDefinition" 
-  	p:name="customerLastNameStartingLetter" 
-	p:label="Customer Last Name Starting Letter"
+  <bean id="ArKimAttributes-customerNameStartingLetter-parentBean" abstract="true" parent="AttributeDefinition" 
+  	p:name="customerNameStartingLetter" 
+	p:label="Customer Name Starting Letter"
     p:shortLabel="Cust Name Start Letter">
-    <property name="required" value="true"/>
+    <property name="required" value="false"/>
     <property name="control">
 		<bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.ar.businessobject.options.AlphabetValuesFinder"
 				p:includeKeyInLabel="false" />
 	</property>
   </bean>
 
-  <bean id="ArKimAttributes-customerLastNameEndingLetter" parent="ArKimAttributes-customerLastNameEndingLetter-parentBean" />
+  <bean id="ArKimAttributes-customerNameEndingLetter" parent="ArKimAttributes-customerNameEndingLetter-parentBean" />
 
-  <bean id="ArKimAttributes-customerLastNameEndingLetter-parentBean" abstract="true" parent="AttributeDefinition" 
-  	p:name="customerLastNameEndingLetter" 
-	p:label="Customer Last Name Ending Letter"
+  <bean id="ArKimAttributes-customerNameEndingLetter-parentBean" abstract="true" parent="AttributeDefinition" 
+  	p:name="customerNameEndingLetter" 
+	p:label="Customer Name Ending Letter"
     p:shortLabel="Cust Name End Letter">
-    <property name="required" value="true"/>
+    <property name="required" value="false"/>
     <property name="control">
 		<bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.ar.businessobject.options.AlphabetValuesFinder"
 				p:includeKeyInLabel="false" />

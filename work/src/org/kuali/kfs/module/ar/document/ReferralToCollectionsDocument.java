@@ -41,7 +41,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
 /**
  * Document class for Referral To Collections TD.
  */
-public class ReferralToCollectionsDocument extends FinancialSystemTransactionalDocumentBase implements CollectionsDocumentWithCustomer {
+public class ReferralToCollectionsDocument extends FinancialSystemTransactionalDocumentBase {
 
     private String agencyNumber;
     private String customerNumber;
@@ -103,7 +103,6 @@ public class ReferralToCollectionsDocument extends FinancialSystemTransactionalD
      *
      * @return Returns the customerNumber.
      */
-    @Override
     public String getCustomerNumber() {
         return customerNumber;
     }

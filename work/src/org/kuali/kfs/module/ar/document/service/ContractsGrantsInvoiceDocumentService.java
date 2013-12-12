@@ -445,6 +445,16 @@ public interface ContractsGrantsInvoiceDocumentService extends CustomerInvoiceDo
     public java.sql.Date retrievePaymentDateByDocumentNumber(String documentNumber);
 
     /**
+     * Determine if the collectorPrincipalId can view the invoice, leverages role qualifiers
+     * on the CGB Collector role to perform the check.
+     *
+     * @param invoice The invoice to check if the collector can view.
+     * @param collectorPrincipalId The principal id of the collector to check permissions for.
+     * @return Returns true if the collector can view the invoice, false otherwise.
+     */
+    public boolean canViewInvoice(ContractsGrantsInvoiceDocument invoice, String collectorPrincipalId);
+
+    /**
      * This method retrieves the CGDocs with their workflow headers.
      *
      * @param invoices

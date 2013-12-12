@@ -320,4 +320,12 @@ public class ArKeyConstants {
 
      public static final String MESSAGE_CG_UPCOMING_MILESTONES_EMAIL_LINE_1 = "message.cg.upcoming.milestones.email.line1";
      public static final String MESSAGE_CG_UPCOMING_MILESTONES_EMAIL_LINE_2 = "message.cg.upcoming.milestones.email.line2";
+
+     // Kim Type Services error messages
+     public static final String ERROR_BILLINGCHART_OR_BILLINGORG_NOTEMPTY_ALL_REQUIRED = "error.billingchart.or.billingorg.notempty.all.required";
+     public static final String ERROR_EITHER_BILLINGCHART_OR_PROCESSCHART_REQUIRED_NOT_BOTH = "error.either.billingchart.or.processchart.required.not.both";
+     public static final String ERROR_PROCESSCHART_OR_PROCESSORG_NOTEMPTY_ALL_REQUIRED = "error.processchart.or.processorg.notempty.all.required";
+     public static final String ERROR_STARTLETTER_AFTER_ENDLETTER = "error.startletter.after.endletter";
+     public static final String ERROR_STARTLETTER_OR_ENDLETTER_NOTEMPTY_ALL_REQUIRED = "error.startletter.or.endletter.notempty.all.required";
+
 }

@@ -90,7 +90,7 @@
 			<column name="OBJ_ID" value="KFSMI10824-ATTRDEF5"/>
 			<column name="VER_NBR" value="1" />
 			<column name="NMSPC_CD" value="KFS-AR" />
-			<column name="NM" value="customerLastNameStartingLetter" />
+			<column name="NM" value="customerNameStartingLetter" />
 			<column name="CMPNT_NM" value="org.kuali.kfs.module.ar.identity.ArKimAttributes" />
 			<column name="ACTV_IND" value="Y" />
 		</insert>
@@ -99,7 +99,7 @@
 			<column name="OBJ_ID" value="KFSMI10824-ATTRDEF6"/>
 			<column name="VER_NBR" value="1" />
 			<column name="NMSPC_CD" value="KFS-AR" />
-			<column name="NM" value="customerLastNameEndingLetter" />
+			<column name="NM" value="customerNameEndingLetter" />
 			<column name="CMPNT_NM" value="org.kuali.kfs.module.ar.identity.ArKimAttributes" />
 			<column name="ACTV_IND" value="Y" />
 		</insert>
@@ -155,6 +155,190 @@
 			<column name="SORT_CD" value="f" />
 			<column name="KIM_TYP_ID" value="KFSMI10824-TYP1" />
 			<column name="KIM_ATTR_DEFN_ID" value="KFSMI10824-ATTRDEF6" />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+	</changeSet>
+	
+	<!--  setup permissions for CGB Collector role -->
+	<changeSet author="KFS5CGB" id="KFSMI-10824_ADD_CGB_COLLECTOR_ROLE_PERMISSIONS">
+		<insert tableName="KRIM_PERM_T">
+			<column name="PERM_ID" value="KFSMI10824-PRM1" />
+			<column name="OBJ_ID" value="KFSMI10824-PRM1"/>
+			<column name="VER_NBR" value="1" />
+			<column name="PERM_TMPL_ID" valueNumeric=" (select perm_tmpl_id from KRIM_PERM_TMPL_T where nm = 'Look Up Records' and nmspc_cd = 'KR-NS') " />
+			<column name="NMSPC_CD" value="KFS-AR" />
+			<column name="NM" value="Lookup TicklersReport" />
+			<column name="DESC_TXT" value="Allows the lookup of Ticklers Report records." />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+		<insert tableName="KRIM_PERM_ATTR_DATA_T">
+			<column name="ATTR_DATA_ID" value="KFSMI10824-ATT1" />
+			<column name="OBJ_ID" value="KFSMI10824-ATT1"/>
+			<column name="VER_NBR" value="1" />
+			<column name="PERM_ID" value="KFSMI10824-PRM1" />
+			<column name="KIM_TYP_ID" valueNumeric=" (select kim_typ_id from KRIM_PERM_TMPL_T where nm = 'Look Up Records' and nmspc_cd = 'KR-NS') " />
+			<column name="KIM_ATTR_DEFN_ID" valueNumeric=" (select kim_attr_defn_id from KRIM_ATTR_DEFN_T where nmspc_cd = 'KR-NS' and nm = 'componentName') " />
+			<column name="ATTR_VAL" value="TicklersReport" />
+		</insert>
+		<insert tableName="KRIM_PERM_ATTR_DATA_T">
+			<column name="ATTR_DATA_ID" value="KFSMI10824-ATT2" />
+			<column name="OBJ_ID" value="KFSMI10824-ATT2"/>
+			<column name="VER_NBR" value="1" />
+			<column name="PERM_ID" value="KFSMI10824-PRM1" />
+			<column name="KIM_TYP_ID" valueNumeric=" (select kim_typ_id from KRIM_PERM_TMPL_T where nm = 'Look Up Records' and nmspc_cd = 'KR-NS') " />
+			<column name="KIM_ATTR_DEFN_ID" valueNumeric=" (select kim_attr_defn_id from KRIM_ATTR_DEFN_T where nmspc_cd = 'KR-NS' and nm = 'namespaceCode') " />
+			<column name="ATTR_VAL" value="KFS-AR" />
+		</insert>		
+		<insert tableName="KRIM_ROLE_PERM_T">
+			<column name="ROLE_PERM_ID" value="KFSMI10824-RLPRM1" />
+			<column name="OBJ_ID" value="KFSMI10824-RLPRM1"/>
+			<column name="VER_NBR" value="1" />
+			<column name="ROLE_ID" value="KFSCGBPII1" />
+			<column name="PERM_ID" value="KFSMI10824-PRM1" />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+		<insert tableName="KRIM_PERM_T">
+			<column name="PERM_ID" value="KFSMI10824-PRM2" />
+			<column name="OBJ_ID" value="KFSMI10824-PRM2"/>
+			<column name="VER_NBR" value="1" />
+			<column name="PERM_TMPL_ID" valueNumeric=" (select perm_tmpl_id from KRIM_PERM_TMPL_T where nm = 'Look Up Records' and nmspc_cd = 'KR-NS') " />
+			<column name="NMSPC_CD" value="KFS-AR" />
+			<column name="NM" value="Lookup Collection Activity Report" />
+			<column name="DESC_TXT" value="Allows the lookup of Collection Activity Report records." />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+		<insert tableName="KRIM_PERM_ATTR_DATA_T">
+			<column name="ATTR_DATA_ID" value="KFSMI10824-ATT3" />
+			<column name="OBJ_ID" value="KFSMI10824-ATT3"/>
+			<column name="VER_NBR" value="1" />
+			<column name="PERM_ID" value="KFSMI10824-PRM2" />
+			<column name="KIM_TYP_ID" valueNumeric=" (select kim_typ_id from KRIM_PERM_TMPL_T where nm = 'Look Up Records' and nmspc_cd = 'KR-NS') " />
+			<column name="KIM_ATTR_DEFN_ID" valueNumeric=" (select kim_attr_defn_id from KRIM_ATTR_DEFN_T where nmspc_cd = 'KR-NS' and nm = 'componentName') " />
+			<column name="ATTR_VAL" value="CollectionActivityReport" />
+		</insert>
+		<insert tableName="KRIM_PERM_ATTR_DATA_T">
+			<column name="ATTR_DATA_ID" value="KFSMI10824-ATT4" />
+			<column name="OBJ_ID" value="KFSMI10824-ATT4"/>
+			<column name="VER_NBR" value="1" />
+			<column name="PERM_ID" value="KFSMI10824-PRM2" />
+			<column name="KIM_TYP_ID" valueNumeric=" (select kim_typ_id from KRIM_PERM_TMPL_T where nm = 'Look Up Records' and nmspc_cd = 'KR-NS') " />
+			<column name="KIM_ATTR_DEFN_ID" valueNumeric=" (select kim_attr_defn_id from KRIM_ATTR_DEFN_T where nmspc_cd = 'KR-NS' and nm = 'namespaceCode') " />
+			<column name="ATTR_VAL" value="KFS-AR" />
+		</insert>		
+		<insert tableName="KRIM_ROLE_PERM_T">
+			<column name="ROLE_PERM_ID" value="KFSMI10824-RLPRM2" />
+			<column name="OBJ_ID" value="KFSMI10824-RLPRM2"/>
+			<column name="VER_NBR" value="1" />
+			<column name="ROLE_ID" value="KFSCGBPII1" />
+			<column name="PERM_ID" value="KFSMI10824-PRM2" />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+		<insert tableName="KRIM_PERM_T">
+			<column name="PERM_ID" value="KFSMI10824-PRM3" />
+			<column name="OBJ_ID" value="KFSMI10824-PRM3"/>
+			<column name="VER_NBR" value="1" />
+			<column name="PERM_TMPL_ID" valueNumeric=" (select perm_tmpl_id from KRIM_PERM_TMPL_T where nm = 'Look Up Records' and nmspc_cd = 'KR-NS') " />
+			<column name="NMSPC_CD" value="KFS-AR" />
+			<column name="NM" value="Lookup Contracts And Grants Aging Report" />
+			<column name="DESC_TXT" value="Allows the lookup of Contracts And Grants Aging Report records." />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+		<insert tableName="KRIM_PERM_ATTR_DATA_T">
+			<column name="ATTR_DATA_ID" value="KFSMI10824-ATT5" />
+			<column name="OBJ_ID" value="KFSMI10824-ATT5"/>
+			<column name="VER_NBR" value="1" />
+			<column name="PERM_ID" value="KFSMI10824-PRM3" />
+			<column name="KIM_TYP_ID" valueNumeric=" (select kim_typ_id from KRIM_PERM_TMPL_T where nm = 'Look Up Records' and nmspc_cd = 'KR-NS') " />
+			<column name="KIM_ATTR_DEFN_ID" valueNumeric=" (select kim_attr_defn_id from KRIM_ATTR_DEFN_T where nmspc_cd = 'KR-NS' and nm = 'componentName') " />
+			<column name="ATTR_VAL" value="ContractsAndGrantsAgingReport" />
+		</insert>
+		<insert tableName="KRIM_PERM_ATTR_DATA_T">
+			<column name="ATTR_DATA_ID" value="KFSMI10824-ATT6" />
+			<column name="OBJ_ID" value="KFSMI10824-ATT6"/>
+			<column name="VER_NBR" value="1" />
+			<column name="PERM_ID" value="KFSMI10824-PRM3" />
+			<column name="KIM_TYP_ID" valueNumeric=" (select kim_typ_id from KRIM_PERM_TMPL_T where nm = 'Look Up Records' and nmspc_cd = 'KR-NS') " />
+			<column name="KIM_ATTR_DEFN_ID" valueNumeric=" (select kim_attr_defn_id from KRIM_ATTR_DEFN_T where nmspc_cd = 'KR-NS' and nm = 'namespaceCode') " />
+			<column name="ATTR_VAL" value="KFS-AR" />
+		</insert>		
+		<insert tableName="KRIM_ROLE_PERM_T">
+			<column name="ROLE_PERM_ID" value="KFSMI10824-RLPRM3" />
+			<column name="OBJ_ID" value="KFSMI10824-RLPRM3"/>
+			<column name="VER_NBR" value="1" />
+			<column name="ROLE_ID" value="KFSCGBPII1" />
+			<column name="PERM_ID" value="KFSMI10824-PRM3" />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+		<insert tableName="KRIM_PERM_T">
+			<column name="PERM_ID" value="KFSMI10824-PRM4" />
+			<column name="OBJ_ID" value="KFSMI10824-PRM4"/>
+			<column name="VER_NBR" value="1" />
+			<column name="PERM_TMPL_ID" valueNumeric=" (select perm_tmpl_id from KRIM_PERM_TMPL_T where nm = 'Look Up Records' and nmspc_cd = 'KR-NS') " />
+			<column name="NMSPC_CD" value="KFS-AR" />
+			<column name="NM" value="Lookup Dunning Letter Distribution On Demand" />
+			<column name="DESC_TXT" value="Allows the lookup of Dunning Letter Distribution On Demand records." />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+		<insert tableName="KRIM_PERM_ATTR_DATA_T">
+			<column name="ATTR_DATA_ID" value="KFSMI10824-ATT7" />
+			<column name="OBJ_ID" value="KFSMI10824-ATT7"/>
+			<column name="VER_NBR" value="1" />
+			<column name="PERM_ID" value="KFSMI10824-PRM4" />
+			<column name="KIM_TYP_ID" valueNumeric=" (select kim_typ_id from KRIM_PERM_TMPL_T where nm = 'Look Up Records' and nmspc_cd = 'KR-NS') " />
+			<column name="KIM_ATTR_DEFN_ID" valueNumeric=" (select kim_attr_defn_id from KRIM_ATTR_DEFN_T where nmspc_cd = 'KR-NS' and nm = 'componentName') " />
+			<column name="ATTR_VAL" value="DunningLetterDistributionOnDemandLookupResult" />
+		</insert>
+		<insert tableName="KRIM_PERM_ATTR_DATA_T">
+			<column name="ATTR_DATA_ID" value="KFSMI10824-ATT8" />
+			<column name="OBJ_ID" value="KFSMI10824-ATT8"/>
+			<column name="VER_NBR" value="1" />
+			<column name="PERM_ID" value="KFSMI10824-PRM4" />
+			<column name="KIM_TYP_ID" valueNumeric=" (select kim_typ_id from KRIM_PERM_TMPL_T where nm = 'Look Up Records' and nmspc_cd = 'KR-NS') " />
+			<column name="KIM_ATTR_DEFN_ID" valueNumeric=" (select kim_attr_defn_id from KRIM_ATTR_DEFN_T where nmspc_cd = 'KR-NS' and nm = 'namespaceCode') " />
+			<column name="ATTR_VAL" value="KFS-AR" />
+		</insert>		
+		<insert tableName="KRIM_ROLE_PERM_T">
+			<column name="ROLE_PERM_ID" value="KFSMI10824-RLPRM4" />
+			<column name="OBJ_ID" value="KFSMI10824-RLPRM4"/>
+			<column name="VER_NBR" value="1" />
+			<column name="ROLE_ID" value="KFSCGBPII1" />
+			<column name="PERM_ID" value="KFSMI10824-PRM4" />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+		<insert tableName="KRIM_PERM_T">
+			<column name="PERM_ID" value="KFSMI10824-PRM5" />
+			<column name="OBJ_ID" value="KFSMI10824-PRM5"/>
+			<column name="VER_NBR" value="1" />
+			<column name="PERM_TMPL_ID" valueNumeric=" (select perm_tmpl_id from KRIM_PERM_TMPL_T where nm = 'Look Up Records' and nmspc_cd = 'KR-NS') " />
+			<column name="NMSPC_CD" value="KFS-AR" />
+			<column name="NM" value="Lookup Referral To Collections" />
+			<column name="DESC_TXT" value="Allows the lookup of Referral To Collections records." />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+		<insert tableName="KRIM_PERM_ATTR_DATA_T">
+			<column name="ATTR_DATA_ID" value="KFSMI10824-ATT9" />
+			<column name="OBJ_ID" value="KFSMI10824-ATT9"/>
+			<column name="VER_NBR" value="1" />
+			<column name="PERM_ID" value="KFSMI10824-PRM5" />
+			<column name="KIM_TYP_ID" valueNumeric=" (select kim_typ_id from KRIM_PERM_TMPL_T where nm = 'Look Up Records' and nmspc_cd = 'KR-NS') " />
+			<column name="KIM_ATTR_DEFN_ID" valueNumeric=" (select kim_attr_defn_id from KRIM_ATTR_DEFN_T where nmspc_cd = 'KR-NS' and nm = 'componentName') " />
+			<column name="ATTR_VAL" value="ReferralToCollectionsReport" />
+		</insert>
+		<insert tableName="KRIM_PERM_ATTR_DATA_T">
+			<column name="ATTR_DATA_ID" value="KFSMI10824-ATT10" />
+			<column name="OBJ_ID" value="KFSMI10824-ATT10"/>
+			<column name="VER_NBR" value="1" />
+			<column name="PERM_ID" value="KFSMI10824-PRM5" />
+			<column name="KIM_TYP_ID" valueNumeric=" (select kim_typ_id from KRIM_PERM_TMPL_T where nm = 'Look Up Records' and nmspc_cd = 'KR-NS') " />
+			<column name="KIM_ATTR_DEFN_ID" valueNumeric=" (select kim_attr_defn_id from KRIM_ATTR_DEFN_T where nmspc_cd = 'KR-NS' and nm = 'namespaceCode') " />
+			<column name="ATTR_VAL" value="KFS-AR" />
+		</insert>		
+		<insert tableName="KRIM_ROLE_PERM_T">
+			<column name="ROLE_PERM_ID" value="KFSMI10824-RLPRM5" />
+			<column name="OBJ_ID" value="KFSMI10824-RLPRM5"/>
+			<column name="VER_NBR" value="1" />
+			<column name="ROLE_ID" value="KFSCGBPII1" />
+			<column name="PERM_ID" value="KFSMI10824-PRM5" />
 			<column name="ACTV_IND" value="Y" />
 		</insert>
 	</changeSet>
@@ -402,7 +586,7 @@
 		</insert>
 	</changeSet>
 
-<changeSet author="kfs" id="ADD_FUND_MANAGER_RSP_ATTR_DATA">
+	<changeSet author="kfs" id="ADD_FUND_MANAGER_RSP_ATTR_DATA">
 		<insert tableName="krim_rsp_attr_data_t">
 			<column name="ATTR_DATA_ID" value="KFS169" />
 			<column name="OBJ_ID" value="KFS169" />

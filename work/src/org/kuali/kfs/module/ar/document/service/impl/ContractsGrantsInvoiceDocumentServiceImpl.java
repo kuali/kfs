@@ -100,6 +100,7 @@ import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentSe
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService;
 import org.kuali.kfs.module.ar.document.service.CustomerService;
 import org.kuali.kfs.module.ar.document.service.InvoicePaidAppliedService;
+import org.kuali.kfs.module.ar.identity.ArKimAttributes;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -112,6 +113,8 @@ import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.role.RoleService;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.bo.Attachment;
 import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.document.Document;
@@ -1173,27 +1176,30 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         List<Integer> fiscalYears = new ArrayList<Integer>();
         Calendar c = Calendar.getInstance();
 
+        if (ObjectUtils.isNotNull(awardBeginningDate)) {
+            Integer fiscalYear = universityDateService.getFiscalYear(awardBeginningDate);
 
-        Integer fiscalYear = universityDateService.getFiscalYear(awardBeginningDate);
+            if (ObjectUtils.isNotNull(fiscalYear)) {
+                for (Integer i = fiscalYear; i <= currentYear; i++) {
+                    fiscalYears.add(i);
+                }
 
-        for (Integer i = fiscalYear; i <= currentYear; i++) {
-            fiscalYears.add(i);
-        }
+                for (Integer eachFiscalYr : fiscalYears) {
 
-        for (Integer eachFiscalYr : fiscalYears) {
-
-            Map<String, Object> balanceKeys = new HashMap<String, Object>();
-            balanceKeys.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, awardAccount.getChartOfAccountsCode());
-            balanceKeys.put(KFSPropertyConstants.ACCOUNT_NUMBER, awardAccount.getAccountNumber());
-            balanceKeys.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, eachFiscalYr);
-            balanceKeys.put("balanceTypeCode", balanceTypeCode);
-            balanceKeys.put("objectTypeCode", ArPropertyConstants.EXPENSE_OBJECT_TYPE);
-            glBalances.addAll(businessObjectService.findMatching(Balance.class, balanceKeys));
-        }
-        for (Balance bal : glBalances) {
-            if (ObjectUtils.isNotNull(bal.getSubAccount()) && ObjectUtils.isNotNull(bal.getSubAccount().getA21SubAccount()) && !StringUtils.equalsIgnoreCase(bal.getSubAccount().getA21SubAccount().getSubAccountTypeCode(), KFSConstants.SubAccountType.COST_SHARE)) {
-                balAmt = bal.getContractsGrantsBeginningBalanceAmount().add(bal.getAccountLineAnnualBalanceAmount());
-                balanceAmount = balanceAmount.add(balAmt);
+                    Map<String, Object> balanceKeys = new HashMap<String, Object>();
+                    balanceKeys.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, awardAccount.getChartOfAccountsCode());
+                    balanceKeys.put(KFSPropertyConstants.ACCOUNT_NUMBER, awardAccount.getAccountNumber());
+                    balanceKeys.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, eachFiscalYr);
+                    balanceKeys.put("balanceTypeCode", balanceTypeCode);
+                    balanceKeys.put("objectTypeCode", ArPropertyConstants.EXPENSE_OBJECT_TYPE);
+                    glBalances.addAll(businessObjectService.findMatching(Balance.class, balanceKeys));
+                }
+                for (Balance bal : glBalances) {
+                    if (ObjectUtils.isNotNull(bal.getSubAccount()) && ObjectUtils.isNotNull(bal.getSubAccount().getA21SubAccount()) && !StringUtils.equalsIgnoreCase(bal.getSubAccount().getA21SubAccount().getSubAccountTypeCode(), KFSConstants.SubAccountType.COST_SHARE)) {
+                        balAmt = bal.getContractsGrantsBeginningBalanceAmount().add(bal.getAccountLineAnnualBalanceAmount());
+                        balanceAmount = balanceAmount.add(balAmt);
+                    }
+                }
             }
         }
         return balanceAmount;
@@ -2753,14 +2759,21 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
                 if (checkCollector) {
                     if (isCollector) {
-                        eligibleInvoiceFlag = customerService.doesCustomerMatchCollector(invoice.getCustomer().getCustomerName(), collector);
-                        if(!eligibleInvoiceFlag) {
+                        if (!canViewInvoice(invoice, collector)) {
+                            eligibleInvoiceFlag = false;
                             continue;
                         }
                     } else {
                         eligibleInvoiceFlag = false;
                         continue;
                     }
+                }
+
+                Person user = GlobalVariables.getUserSession().getPerson();
+
+                if (!canViewInvoice(invoice, user.getPrincipalId())) {
+                    eligibleInvoiceFlag = false;
+                    continue;
                 }
 
                 if (checkAgencyNumber && ((invoice.getAward().getAgencyNumber() == null || !invoice.getAward().getAgencyNumber().equals(agencyNumber)))) {
@@ -2921,6 +2934,33 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             }
         }
         return eligibleInvoices;
+    }
+
+    /**
+     * @see org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService#canViewInvoice(org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument, java.lang.String)
+     */
+    @Override
+    public boolean canViewInvoice(ContractsGrantsInvoiceDocument invoice, String collectorPrincipalId) {
+        boolean canViewInvoice = false;
+
+        RoleService roleService = KimApiServiceLocator.getRoleService();
+
+        List<String> roleIds = new ArrayList<String>();
+        Map<String, String> qualification = new HashMap<String, String>(3);
+        qualification.put(ArKimAttributes.CHART_OF_ACCOUNTS_CODE, invoice.getBillByChartOfAccountCode());
+        qualification.put(ArKimAttributes.ORGANIZATION_CODE, invoice.getBilledByOrganizationCode());
+
+        String customerName = invoice.getCustomerName();
+        if (StringUtils.isNotEmpty(customerName)) {
+            qualification.put(ArKimAttributes.CUSTOMER_NAME, customerName);
+        }
+
+        roleIds.add(roleService.getRoleIdByNamespaceCodeAndName(ArConstants.AR_NAMESPACE_CODE, KFSConstants.SysKimApiConstants.ACCOUNTS_RECEIVABLE_COLLECTOR));
+        if (roleService.principalHasRole(collectorPrincipalId, roleIds, qualification)) {
+            canViewInvoice = true;
+        }
+
+        return canViewInvoice;
     }
 
     /**

@@ -45,13 +45,14 @@ import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
  * This class is used to get the services for PDF generation and other services for Collection Activity Report
  */
-public class CollectionActivityReportServiceImpl extends ContractsGrantsCollectorReportServiceImplBase implements CollectionActivityReportService {
+public class CollectionActivityReportServiceImpl extends ContractsGrantsReportServiceImplBase implements CollectionActivityReportService {
 
     private ReportInfo collActReportInfo;
     private ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService;
@@ -167,15 +168,38 @@ public class CollectionActivityReportServiceImpl extends ContractsGrantsCollecto
         Collection<ContractsGrantsInvoiceDocument> contractsGrantsInvoiceDocs = contractsGrantsInvoiceDocumentService.retrieveAllCGInvoicesByCriteria(criteria);
         contractsGrantsInvoiceDocs = contractsGrantsInvoiceDocumentService.attachWorkflowHeadersToCGInvoices(contractsGrantsInvoiceDocs);
 
-        // Filter "CGIN" docs and remove "INV" docs.
+        // Filter "CINV" docs and remove "INV" docs.
+        // also filter out invoice docs by collector and for the user performing the search
         if (ObjectUtils.isNotNull(contractsGrantsInvoiceDocs) && !contractsGrantsInvoiceDocs.isEmpty()) {
-            for (Iterator iter = contractsGrantsInvoiceDocs.iterator(); iter.hasNext();) {
+            String collectorPrincipalId = null;
+            if (StringUtils.isNotEmpty(collectorPrincName.trim())) {
+                Person collUser = personService.getPersonByPrincipalName(collectorPrincName);
+                if (ObjectUtils.isNotNull(collUser)) {
+                    collectorPrincipalId = collUser.getPrincipalId();
+                }
+            }
+            Person user = GlobalVariables.getUserSession().getPerson();
+
+            for (Iterator<ContractsGrantsInvoiceDocument> iter = contractsGrantsInvoiceDocs.iterator(); iter.hasNext();) {
                 try {
-                    ContractsGrantsInvoiceDocument document = (ContractsGrantsInvoiceDocument) iter.next();
+                    ContractsGrantsInvoiceDocument document = iter.next();
                     String documentTypeName = document.getAccountsReceivableDocumentHeader().getDocumentHeader().getWorkflowDocument().getDocumentTypeName();
                     if (!documentTypeName.equals(ArPropertyConstants.CONTRACTS_GRANTS_INV_DOC_TYPE)) {
                         iter.remove();
+                        continue;
                     }
+
+                    if (StringUtils.isNotEmpty(collectorPrincipalId)) {
+                        if (!contractsGrantsInvoiceDocumentService.canViewInvoice(document, collectorPrincipalId)) {
+                            iter.remove();
+                            continue;
+                        }
+                    }
+
+                    if (!contractsGrantsInvoiceDocumentService.canViewInvoice(document, user.getPrincipalId())) {
+                        iter.remove();
+                    }
+
                 }
                 catch (Exception wfe) {
                     LOG.error("problem during CollectionActivityReportServiceImpl.filterEventsForColletionActivity()", wfe);
@@ -183,32 +207,10 @@ public class CollectionActivityReportServiceImpl extends ContractsGrantsCollecto
             }
         }
 
-        // filter by collector
-        List<String> collectorList = new ArrayList<String>();
-        if (StringUtils.isNotEmpty(collectorPrincName.trim())) {
-            Person collUser = personService.getPersonByPrincipalName(collectorPrincName);
-            if (ObjectUtils.isNotNull(collUser)) {
-                collector = collUser.getPrincipalId();
-                if (ObjectUtils.isNotNull(collector) && StringUtils.isNotEmpty(collector.trim())) {
-                    filterRecordsForCollector(collector, contractsGrantsInvoiceDocs);
-                }
-                else {
-                    displayList.clear();
-                    return displayList;
-                }
-            }
-            else {
-                displayList.clear();
-                return displayList;
-            }
-        }
-
-
         // find by agency number
         if (ObjectUtils.isNotNull(agencyNumber) && StringUtils.isNotEmpty(agencyNumber)) {
             contractsGrantsInvoiceDocs = this.filterContractsGrantsDocsAccordingToAgency(contractsGrantsInvoiceDocs, agencyNumber);
         }
-
 
         // Set account number.
         String accountNum = null;
@@ -257,48 +259,6 @@ public class CollectionActivityReportServiceImpl extends ContractsGrantsCollecto
         return contractsGrantsInvoiceDocs;
     }
 
-
-    /**
-     * This method filters invoices according to collectors
-     *
-     * @param contractsGrantsInvoiceDocuments
-     * @param customerNumbers
-     * @return Returns the list of ContractsGrantsInvoiceDocument.
-     */
-    private Collection<ContractsGrantsInvoiceDocument> filterInvoicesAccordingToCustomerNumbers(Collection<ContractsGrantsInvoiceDocument> contractsGrantsInvoiceDocuments, List<String> customerNumbers) {
-        List<ContractsGrantsInvoiceDocument> filteredInvoices = new ArrayList<ContractsGrantsInvoiceDocument>();
-        if (ObjectUtils.isNotNull(contractsGrantsInvoiceDocuments) && CollectionUtils.isNotEmpty(contractsGrantsInvoiceDocuments)) {
-            for (ContractsGrantsInvoiceDocument cgDoc : contractsGrantsInvoiceDocuments) {
-                if (isCustomerAvailableInList(cgDoc.getAccountsReceivableDocumentHeader().getCustomerNumber(), customerNumbers)) {
-                    filteredInvoices.add(cgDoc);
-                }
-            }
-        }
-        return filteredInvoices;
-    }
-
-    /**
-     * This method checks that the given customer is found in list of customers found in customer collectors
-     *
-     * @param customerNumber
-     * @param customerNumbers
-     * @return Returns true if customer found in the list otherwise false
-     */
-    private boolean isCustomerAvailableInList(String customerNumber, List<String> customerNumbers) {
-        boolean isAvail = false;
-        if (ObjectUtils.isNotNull(customerNumbers) && !customerNumbers.isEmpty()) {
-            for (String custNmber : customerNumbers) {
-                if (custNmber.equalsIgnoreCase(customerNumber)) {
-                    isAvail = true;
-                    break;
-                }
-            }
-        }
-        else {
-            isAvail = false;
-        }
-        return isAvail;
-    }
 
     /**
      * This method is used to convert the Event Object into collection activity report.

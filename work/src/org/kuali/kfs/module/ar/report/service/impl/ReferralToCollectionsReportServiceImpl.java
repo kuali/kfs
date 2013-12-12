@@ -19,6 +19,7 @@ import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -53,13 +54,14 @@ import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.exception.InfrastructureException;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
  * This class is used to get the services for PDF generation and other services for Referral To Collections Report.
  */
-public class ReferralToCollectionsReportServiceImpl extends ContractsGrantsCollectorReportServiceImplBase implements ReferralToCollectionsReportService {
+public class ReferralToCollectionsReportServiceImpl extends ContractsGrantsReportServiceImplBase implements ReferralToCollectionsReportService {
 
     private ReportInfo refToCollReportInfo;
     private ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService;
@@ -253,6 +255,10 @@ public class ReferralToCollectionsReportServiceImpl extends ContractsGrantsColle
             }
         }
 
+        // filter for user requesting the report
+        Person user = GlobalVariables.getUserSession().getPerson();
+        filterRecordsForCollector(user.getPrincipalId(), referralToCollectionsDocs);
+
         // find by agency number
         String accountNum = null;
         if (ObjectUtils.isNotNull(referralToCollectionsDocs) && CollectionUtils.isNotEmpty(referralToCollectionsDocs)) {
@@ -269,6 +275,35 @@ public class ReferralToCollectionsReportServiceImpl extends ContractsGrantsColle
             }
         }
         return displayList;
+    }
+
+    /**
+     * Removes any documents from the sourceCollectionDocuments that have customers that don't match the collector
+     * based on the role qualifiers for the collector assigned to the CGB Collector role.
+     *
+     * @param collector String principalId for the collector used to match against customers and filter the documents
+     * @param sourceCollectionDocuments Collection of documents to filter
+     */
+    private void filterRecordsForCollector(String collector, Collection<ReferralToCollectionsDocument> sourceCollectionDocuments) {
+        RoleService roleService = KimApiServiceLocator.getRoleService();
+
+        for (Iterator<ReferralToCollectionsDocument> iter = sourceCollectionDocuments.iterator(); iter.hasNext();) {
+            ReferralToCollectionsDocument refDoc = iter.next();
+
+            List<String> roleIds = new ArrayList<String>();
+            Map<String, String> qualification = new HashMap<String, String>(3);
+
+            String customerName = refDoc.getCustomerName();
+            if (StringUtils.isNotEmpty(customerName)) {
+                qualification.put(ArKimAttributes.CUSTOMER_NAME, customerName);
+            }
+
+            roleIds.add(roleService.getRoleIdByNamespaceCodeAndName(ArConstants.AR_NAMESPACE_CODE, KFSConstants.SysKimApiConstants.ACCOUNTS_RECEIVABLE_COLLECTOR));
+            if (!roleService.principalHasRole(collector, roleIds, qualification)) {
+                iter.remove();
+            }
+        }
+
     }
 
     /**
@@ -476,11 +511,11 @@ public class ReferralToCollectionsReportServiceImpl extends ContractsGrantsColle
         List<Map<String, String>> qualifiers = roleService.getRoleQualifersForPrincipalByNamespaceAndRolename(principalId, ArConstants.AR_NAMESPACE_CODE, KFSConstants.SysKimApiConstants.ACCOUNTS_RECEIVABLE_COLLECTOR, qualification);
         if ((qualifiers != null) && !qualifiers.isEmpty()) {
             for (Map<String, String> qualifier: qualifiers) {
-                String startingLetter = qualifier.get(ArKimAttributes.CUSTOMER_LAST_NAME_STARTING_LETTER);
-                String endingLetter = qualifier.get(ArKimAttributes.CUSTOMER_LAST_NAME_ENDING_LETTER);
+                String startingLetter = qualifier.get(ArKimAttributes.CUSTOMER_NAME_STARTING_LETTER);
+                String endingLetter = qualifier.get(ArKimAttributes.CUSTOMER_NAME_ENDING_LETTER);
                 if (StringUtils.isNotEmpty(startingLetter) && StringUtils.isNotEmpty(endingLetter)) {
-                    roleQualifiers.put(ArKimAttributes.CUSTOMER_LAST_NAME_STARTING_LETTER, startingLetter);
-                    roleQualifiers.put(ArKimAttributes.CUSTOMER_LAST_NAME_ENDING_LETTER, endingLetter);
+                    roleQualifiers.put(ArKimAttributes.CUSTOMER_NAME_STARTING_LETTER, startingLetter);
+                    roleQualifiers.put(ArKimAttributes.CUSTOMER_NAME_ENDING_LETTER, endingLetter);
                     return roleQualifiers;
                 }
             }

@@ -526,7 +526,7 @@ public class TravelAuthorizationForm extends TravelFormBase implements TravelAut
     @Override
     public void populateHeaderFields(WorkflowDocument workflowDocument) {
         super.populateHeaderFields(workflowDocument);
-        boolean vendorPaymentAllowedBeforeFinal = getParameterService().getParameterValueAsBoolean(TravelAuthorizationDocument.class, TemConstants.TravelAuthorizationParameters.VENDOR_PAYMENT_ALLOWED_BEFORE_FINAL_APPROVAL_IND);
+       boolean vendorPaymentAllowedBeforeFinal = getParameterService().getParameterValueAsBoolean(TravelAuthorizationDocument.class, TemConstants.TravelAuthorizationParameters.VENDOR_PAYMENT_ALLOWED_BEFORE_FINAL_APPROVAL_IND);
         String travelDocumentIdentifier = getTravelDocument().getTravelDocumentIdentifier();
         String organizationDocumentNumber = getTravelDocument().getDocumentHeader().getOrganizationDocumentNumber();
         TravelAuthorizationDocument document = (TravelAuthorizationDocument)getTravelDocument();
@@ -550,21 +550,19 @@ public class TravelAuthorizationForm extends TravelFormBase implements TravelAut
                     organizationDocumentNumber = organizationDocumentNumber.concat("*");
                 }
            }
+
+            for (HeaderField headerField : getDocInfo()) {
+                String ddAttributeEntryName = headerField.getDdAttributeEntryName();
+                if (ObjectUtils.isNotNull(ddAttributeEntryName) && ddAttributeEntryName.equals("DataDictionary.TravelAuthorizationDocument.attributes.travelDocumentIdentifier")) {
+                    headerField.setDisplayValue(travelDocumentIdentifier);
+                }
+
+                if (ObjectUtils.isNotNull(ddAttributeEntryName) && ddAttributeEntryName.equals("DataDictionary.DocumentHeader.attributes.organizationDocumentNumber")) {
+                    headerField.setDisplayValue(organizationDocumentNumber);
+                }
+            }
         }
 
-        if (ObjectUtils.isNotNull(getTravelDocument().getTravelDocumentIdentifier())) {
-            getDocInfo().add(new HeaderField("DataDictionary.TravelAuthorizationDocument.attributes.travelDocumentIdentifier", travelDocumentIdentifier));
-        }
-        else {
-            getDocInfo().add(new HeaderField("DataDictionary.TravelAuthorizationDocument.attributes.travelDocumentIdentifier", TemConstants.TEM_DOCUMENT_IDENTIFER_NOT_AVAILABLE));
-        }
-
-        if(ObjectUtils.isNotNull(getTravelDocument().getDocumentHeader().getOrganizationDocumentNumber())){
-            getDocInfo().add(new HeaderField("DataDictionary.DocumentHeader.attributes.organizationDocumentNumber", organizationDocumentNumber));
-        }
-        else {
-            getDocInfo().add(new HeaderField("DataDictionary.DocumentHeader.attributes.organizationDocumentNumber", TemConstants.TEM_DOCUMENT_IDENTIFER_NOT_AVAILABLE));
-        }
 
 
     }

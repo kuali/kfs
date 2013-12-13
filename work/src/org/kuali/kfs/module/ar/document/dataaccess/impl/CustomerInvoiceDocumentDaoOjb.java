@@ -467,15 +467,14 @@ public class CustomerInvoiceDocumentDaoOjb extends PlatformAwareDaoBaseOjb imple
      */
     protected Criteria getAllAgingInvoiceDocumentsCriteria(String prefix, Date invoiceDueDateFrom, Date invoiceDueDateTo) {
         Criteria criteria = new Criteria();
-        Criteria criteria2 = new Criteria();
         if(ObjectUtils.isNotNull(invoiceDueDateFrom)){
-            criteria.addGreaterThan(ArPropertyConstants.CustomerInvoiceDocumentFields.INVOICE_DUE_DATE, invoiceDueDateFrom);
+            criteria.addGreaterOrEqualThan(ArPropertyConstants.CustomerInvoiceDocumentFields.INVOICE_DUE_DATE, invoiceDueDateFrom);
         }
 
         if(ObjectUtils.isNotNull(invoiceDueDateTo)){
-            criteria2.addLessOrEqualThan(ArPropertyConstants.CustomerInvoiceDocumentFields.INVOICE_DUE_DATE, invoiceDueDateTo);
+            criteria.addLessThan(ArPropertyConstants.CustomerInvoiceDocumentFields.INVOICE_DUE_DATE, invoiceDueDateTo);
         }
-        criteria.addAndCriteria(criteria2);
+
         criteria.addEqualTo(prefix + ArPropertyConstants.CustomerInvoiceDocumentFields.OPEN_INVOICE_INDICATOR, true);
         criteria.addEqualTo(prefix + "documentHeader.financialDocumentStatusCode", KFSConstants.DocumentStatusCodes.APPROVED);
 

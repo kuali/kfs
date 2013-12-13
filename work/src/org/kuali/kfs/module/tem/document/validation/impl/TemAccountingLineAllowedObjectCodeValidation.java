@@ -124,7 +124,6 @@ public class TemAccountingLineAllowedObjectCodeValidation extends GenericValidat
             }
         }
 
-
         if (line.getAmount().isLessEqual(KualiDecimal.ZERO) && !travelDocument.getBlanketTravel()) {
             GlobalVariables.getMessageMap().putError(KFSPropertyConstants.AMOUNT, KFSKeyConstants.ERROR_CUSTOM, "Amount must be greater than zero.");
             valid &= false;

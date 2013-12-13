@@ -314,6 +314,8 @@ public class TemKeyConstants {
 
     public static final String ERROR_GROUP_TRAVELER_LOOKUP_NEEDS_SOME_FIELD = "error.groupTraveler.lookupNeedsSomeField";
 
+    public static final String ERROR_MIELAGE_RATES_PER_DIEM_RATES_CHANGED = "error.mileage.rates.per.diem.rates.changed";
+
     //Configuration properties
     public static final String CONFIG_PROPERTY_REIMBURSEMENT_INITIATELINK_ENABLED = "module.travel.reimbursement.initiatelink.enabled";
 

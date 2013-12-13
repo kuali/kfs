@@ -893,7 +893,9 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
      */
     @Override
     public Collection<CustomerInvoiceDocument> getAllAgingInvoiceDocumentsByCustomerTypes(List<String> customerTypes, Integer invoiceAge, Date invoiceDueDateFrom) {
-        Date invoiceDueDateTo = this.getPastDate(invoiceAge - 1) ;
+        Date pastDate = this.getPastDate(invoiceAge - 1) ;
+        Date invoiceDueDateTo = KfsDateUtils.convertToSqlDate(DateUtils.addDays(pastDate, 1));
+        LOG.info("invoiceDueDateTo" + invoiceDueDateTo);
 
         return customerInvoiceDocumentDao.getAllAgingInvoiceDocumentsByCustomerTypes(customerTypes, invoiceDueDateFrom, invoiceDueDateTo);
     }

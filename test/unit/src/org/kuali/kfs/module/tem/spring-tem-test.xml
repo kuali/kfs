@@ -23,14 +23,51 @@
     <bean id="expenseTypeObjectCodeDao" parent="expenseTypeObjectCodeDao-test-parentBean"/>
 	<bean id="expenseTypeObjectCodeDao-test-parentBean" abstract="true" class="org.kuali.kfs.module.tem.dataaccess.impl.MockExpenseTypeObjectCodeDao" />
 
-    <alias name="temTravelDocumentService" alias="realTemTravelDocumentService" />
-	<bean id="temTravelDocumentService" parent="temTravelDocumentService-parentBean" />
-	<bean id="temTravelDocumentService-parentBean" abstract="true" class="org.kuali.kfs.module.tem.document.service.impl.MockTravelDocumentServiceImpl">
+    <bean id="realTemTravelDocumentService" parent="realTemTravelDocumentService-parentBean" />
+	<bean id="realTemTravelDocumentService-parentBean" class="org.kuali.kfs.module.tem.document.service.impl.TravelDocumentServiceImpl"	abstract="true">
+		<property name="businessObjectService" ref="businessObjectService" />
+		<property name="documentService" ref="documentService" />
+		<property name="dataDictionaryService" ref="dataDictionaryService" />
+		<property name="dateTimeService" ref="dateTimeService" />
+		<property name="travelDocumentDao" ref="travelDocumentDao" />
+		<property name="travelAuthorizationService" ref="temTravelAuthorizationService" />
+		<property name="parameterService" ref="parameterService" />
+		<property name="accountingDocumentRelationshipService" ref="temAccountingDocumentRelationshipService" />
+		<property name="temRoleService" ref="temRoleService" />
+		<property name="travelerService" ref="travelerService" />
+		<property name="workflowDocumentService" ref="workflowDocumentService" />
+		<property name="kualiRuleService" ref="kualiRuleService" />
+		<property name="stateService" ref="stateService" />
+		<property name="persistenceStructureService" ref="persistenceStructureService"/>
+		<property name="universityDateService" ref="universityDateService" />
+		<property name="defaultAcceptableFileExtensions">
+			<list>
+				<value>csv</value>
+			</list>
+		</property>
+    	<property name="csvRecordFactory" ref="groupTravelerCsvRecordFactory" />
+    	<property name="groupTravelerColumns">
+    		<list>
+    			<value>groupTravelerType</value>
+    			<value>groupTravelerEmpId</value>
+    			<value>name</value>
+    		</list>
+    	</property>
+    	<property name="perDiemService" ref="perDiemService"/>
+    	<property name="travelExpenseService" ref="travelExpenseService"/>
+    	<property name="noteService" ref="noteService"/>
+	</bean>
+	<bean id="travelDocumentService" parent="travelDocumentService-parentBean" />
+	<bean id="travelDocumentService-parentBean" abstract="true" class="org.kuali.kfs.module.tem.document.service.impl.MockTravelDocumentServiceImpl">
 	    <property name="travelDocumentService" ref="realTemTravelDocumentService" />		
 	    <property name="dateTimeService" ref="dateTimeService" />
 	</bean>
 
-	<alias name="temProfileService" alias="realTemProfileService"/>
+	<bean id="realTemProfileService" parent="realTemProfileService-parentBean" />
+	<bean id="realTemProfileService-parentBean" abstract="true" class="org.kuali.kfs.module.tem.service.impl.TemProfileServiceImpl" >
+		<property name="personService" ref="personService" />
+		<property name="businessObjectService" ref="businessObjectService" />
+	</bean>
 	<bean id="temProfileService" parent="temProfileService-parentBean" />
 	<bean id="temProfileService-parentBean" abstract="true" class="org.kuali.kfs.module.tem.service.impl.MockTemProfileServiceImpl">
 		<property name="profileService" ref="realTemProfileService" />

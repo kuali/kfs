@@ -52,7 +52,7 @@
 
 	<bean id="TravelModule-tripDetailMealsAndIncidentalsValidation"
 		class="org.kuali.kfs.module.tem.document.validation.impl.TravelAuthTripDetailMealsAndIncidentalsValidation">
-		<property name="travelDocumentService" ref="temTravelDocumentService" />
+		<property name="travelDocumentService" ref="travelDocumentService" />
         <property name="parameterService" ref="parameterService" />
 	</bean>
 	
@@ -76,7 +76,7 @@
 		class="org.kuali.kfs.module.tem.document.validation.impl.TravelAuthTripInformationValidation">
 		<property name="travelService" ref="temTravelService" />
 		<property name="dictionaryValidationService" ref="dictionaryValidationService" />
-		<property name="travelDocumentService" ref="temTravelDocumentService" />
+		<property name="travelDocumentService" ref="travelDocumentService" />
 	</bean>
 
 	<bean id="TravelModule-requiredInfoValidation"

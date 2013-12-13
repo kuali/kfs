@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.tem.document.validation.impl;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 
 import org.kuali.kfs.module.tem.TemKeyConstants;
@@ -103,7 +104,7 @@ public class TravelDocumentActualExpenseLineValidation extends TemDocumentExpens
         }
 
         //validate currency rate is greater than 0
-        if (actualExpense.getCurrencyRate().isNegative()) {
+        if (actualExpense.getCurrencyRate().compareTo(BigDecimal.ZERO) < 0) {
             GlobalVariables.getMessageMap().putError(TemPropertyConstants.CURRENCY_RATE, KFSKeyConstants.ERROR_ZERO_OR_NEGATIVE_AMOUNT, "Currency Rate");
             success = false;
         }

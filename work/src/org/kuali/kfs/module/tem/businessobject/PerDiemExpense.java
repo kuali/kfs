@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.tem.businessobject;
 
+import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.LinkedHashMap;
@@ -28,7 +29,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemConstants.TravelParameters;
 import org.kuali.kfs.module.tem.TemParameterConstants;
@@ -76,7 +76,6 @@ public class PerDiemExpense extends PersistableBusinessObjectBase {
     private Timestamp mileageDate;
     private ExpenseType mileageRateExpenseType;
     private String mileageRateExpenseTypeCode;
-    private MileageRate mileageRate;
 
     private String accommodationTypeCode;
     private String accommodationName;
@@ -461,10 +460,7 @@ public class PerDiemExpense extends PersistableBusinessObjectBase {
     }
 
     public MileageRate getMileageRate() {
-        if (this.mileageRate == null || !StringUtils.equals(getMileageRateExpenseTypeCode(), mileageRate.getExpenseTypeCode()) || !isMileageDateWithinMileageRateRange(mileageRate)){
-            this.mileageRate = SpringContext.getBean(TravelDocumentService.class).getMileageRate(getMileageRateExpenseTypeCode(), new java.sql.Date(this.getMileageDate().getTime()));
-        }
-        return this.mileageRate;
+        return SpringContext.getBean(TravelDocumentService.class).getMileageRate(getMileageRateExpenseTypeCode(), new java.sql.Date(this.getMileageDate().getTime()));
     }
 
     /**
@@ -483,7 +479,7 @@ public class PerDiemExpense extends PersistableBusinessObjectBase {
         KualiDecimal total = KualiDecimal.ZERO;
         if (!personal) {
             if (ObjectUtils.isNotNull(getMileageRate()) && ObjectUtils.isNotNull(this.miles) && this.miles > 0) {
-                total = new KualiDecimal(miles).multiply(getMileageRate().getRate());
+                total = new KualiDecimal(new BigDecimal(miles).multiply(getMileageRate().getRate()));
             }
         }
 

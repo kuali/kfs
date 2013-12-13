@@ -20,6 +20,7 @@ import static org.kuali.kfs.module.tem.TemPropertyConstants.TRAVEL_DOCUMENT_IDEN
 import static org.kuali.kfs.sys.KFSConstants.EXTERNALIZABLE_HELP_URL_KEY;
 
 import java.beans.PropertyChangeListener;
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -131,10 +132,10 @@ public class TravelRelocationServiceImpl implements TravelRelocationService{
                 expense.refreshReferenceObject(TemPropertyConstants.EXPENSE_TYPE_OBJECT_CODE);
                 expenseMap.put("expenseType", expense.getExpenseTypeObjectCode().getExpenseType().getName());
 
-                final KualiDecimal rate = expense.getCurrencyRate();
+                final BigDecimal rate = expense.getCurrencyRate();
                 final KualiDecimal amount = expense.getExpenseAmount();
 
-                expenseMap.put("amount", amount.multiply(rate) + "");
+                expenseMap.put("amount", new KualiDecimal(amount.bigDecimalValue().multiply(rate)).toString());
                 expenseMap.put("receipt", "");
                 expenses.add(expenseMap);
             }

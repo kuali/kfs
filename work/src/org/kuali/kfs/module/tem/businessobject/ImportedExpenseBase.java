@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.tem.businessobject;
 
+import java.math.BigDecimal;
 import java.sql.Date;
 
 import javax.persistence.Column;
@@ -38,7 +39,7 @@ public abstract class ImportedExpenseBase extends PersistableBusinessObjectBase 
     protected Date reconciliationDate;
     protected String reconciled;
     protected String description;
-    protected KualiDecimal currencyRate = new KualiDecimal(1.000);
+    protected BigDecimal currencyRate = new BigDecimal(1.000);
     protected KualiDecimal convertedAmount;
     protected Boolean reimbursable = Boolean.TRUE;
     protected Boolean missingReceipt = Boolean.FALSE;
@@ -258,7 +259,7 @@ public abstract class ImportedExpenseBase extends PersistableBusinessObjectBase 
      * @return Returns the currencyRate.
      */
     @Column(name="CURR_RT")
-    public KualiDecimal getCurrencyRate() {
+    public BigDecimal getCurrencyRate() {
         return currencyRate;
     }
 
@@ -266,7 +267,7 @@ public abstract class ImportedExpenseBase extends PersistableBusinessObjectBase 
      * Sets the currencyRate attribute value.
      * @param currencyRate The currencyRate to set.
      */
-    public void setCurrencyRate(KualiDecimal currencyRate) {
+    public void setCurrencyRate(BigDecimal currencyRate) {
         this.currencyRate = currencyRate;
     }
 
@@ -277,7 +278,7 @@ public abstract class ImportedExpenseBase extends PersistableBusinessObjectBase 
     @Column(name="CONV_AMT")
     public KualiDecimal getConvertedAmount() {
         if (convertedAmount == null){
-            convertedAmount = amount.multiply(currencyRate);
+            convertedAmount = new KualiDecimal(amount.bigDecimalValue().multiply(currencyRate));
         }
         return convertedAmount;
     }

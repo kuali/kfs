@@ -17,6 +17,7 @@ package org.kuali.kfs.module.tem.document.validation.impl;
 
 import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -97,7 +98,7 @@ public class TravelDocumentActualExpenseLineValidationTest extends KualiTestBase
 
       //Testing Currency rate required validation
         airFareEntry.setExpenseAmount(new KualiDecimal(100));
-        airFareEntry.setCurrencyRate(KualiDecimal.ZERO);
+        airFareEntry.setCurrencyRate(BigDecimal.ZERO);
         assertTrue(validation.validateGeneralRules(airFareEntry, document));
 
         //Testing duplicate entry

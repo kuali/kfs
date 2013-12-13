@@ -15,6 +15,8 @@
  */
 package org.kuali.kfs.module.tem.document.validation.impl;
 
+import java.math.BigDecimal;
+
 import org.kuali.kfs.module.tem.TemConstants.PerDiemType;
 import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
@@ -101,11 +103,11 @@ public class TravelDocumentActualExpenseDetailLineValidation extends TemDocument
         boolean valid = true;
         if (getActualExpenseDetailForValidation().isMileage()) {
             // Check to see if miles & mileage rate/other mileage rate is entered
-            valid = (ObjectUtils.isNotNull(getActualExpenseDetailForValidation().getMiles()) && getActualExpenseDetailForValidation().getMiles() > 0 && (ObjectUtils.isNotNull(getActualExpenseDetailForValidation().getMileageRate()) || (ObjectUtils.isNotNull(getActualExpenseDetailForValidation().getMileageOtherRate()) && getActualExpenseDetailForValidation().getMileageOtherRate().isGreaterThan(KualiDecimal.ZERO))));
+            valid = (ObjectUtils.isNotNull(getActualExpenseDetailForValidation().getMiles()) && getActualExpenseDetailForValidation().getMiles() > 0 && (ObjectUtils.isNotNull(getActualExpenseDetailForValidation().getMileageRate()) || (ObjectUtils.isNotNull(getActualExpenseDetailForValidation().getMileageOtherRate()) && getActualExpenseDetailForValidation().getMileageOtherRate().compareTo(BigDecimal.ZERO) > 0)));
             if (valid) {
                 if (ObjectUtils.isNotNull(getActualExpenseDetailForValidation().getMileageOtherRate())) {
-                    KualiDecimal maxMileageRate = getMaxMileageRate();
-                    if (getActualExpenseDetailForValidation().getMileageOtherRate().isGreaterThan(maxMileageRate)) {
+                    BigDecimal maxMileageRate = getMaxMileageRate();
+                    if (getActualExpenseDetailForValidation().getMileageOtherRate().compareTo(maxMileageRate) > 0) {
                         GlobalVariables.getMessageMap().putError(TemPropertyConstants.TEM_ACTUAL_EXPENSE_MILES, TemKeyConstants.ERROR_ACTUAL_EXPENSE_OTHER_MILEAGE_RATE_EXCEED, getActualExpenseDetailForValidation().getMileageOtherRate().toString(), maxMileageRate.toString());
                         valid = false;
                     }

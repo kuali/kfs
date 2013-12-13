@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.tem.businessobject;
 
+import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.List;
 
@@ -140,14 +141,14 @@ public interface TemExpense {
      * @return the value of currencyRate
      */
     @Column(name = "CUR_RT", precision = 4, scale = 3, nullable = false)
-    public KualiDecimal getCurrencyRate();
+    public BigDecimal getCurrencyRate();
 
     /**
      * Sets the value of currencyRate
      *
      * @param argCurrencyRate Value to assign to this.currencyRate
      */
-    public void setCurrencyRate(final KualiDecimal argCurrencyRate);
+    public void setCurrencyRate(final BigDecimal argCurrencyRate);
 
     /**
      * Sets the value of convertedAmount

@@ -200,10 +200,10 @@ public class TravelReimbursementServiceImpl implements TravelReimbursementServic
                 expense.refreshReferenceObject(TemPropertyConstants.EXPENSE_TYPE_OBJECT_CODE);
                 expenseMap.put("expenseType", expense.getExpenseTypeObjectCode().getExpenseType().getName());
 
-                final KualiDecimal rate = expense.getCurrencyRate();
+                final BigDecimal rate = expense.getCurrencyRate();
                 final KualiDecimal amount = expense.getExpenseAmount();
 
-                expenseMap.put("amount", amount.multiply(rate) + "");
+                expenseMap.put("amount", new KualiDecimal(amount.bigDecimalValue().multiply(rate)).toString());
 
                 expenseMap.put("receipt", getFormattedReceiptRequired(expense.getExpenseTypeObjectCode().isReceiptRequired()));
                 if (TemConstants.ExpenseTypeMetaCategory.LODGING.getCode().equals(expense.getExpenseType().getExpenseTypeMetaCategoryCode())) {

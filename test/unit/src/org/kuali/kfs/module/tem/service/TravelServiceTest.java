@@ -18,6 +18,7 @@ package org.kuali.kfs.module.tem.service;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
+import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -78,7 +79,7 @@ public class TravelServiceTest extends KualiTestBase{
                         @Override
                         public MileageRate getMileageRate() {
                             MileageRate rate = new MileageRate();
-                            rate.setRate(new KualiDecimal(0.45));
+                            rate.setRate(new BigDecimal(0.45));
                             rate.setExpenseTypeCode("MP");
                             return rate;
                         }

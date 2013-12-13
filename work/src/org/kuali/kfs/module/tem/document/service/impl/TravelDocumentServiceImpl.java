@@ -28,6 +28,7 @@ import static org.kuali.kfs.module.tem.TemPropertyConstants.PER_DIEM_EXPENSE_DIS
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.StringReader;
+import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
@@ -941,10 +942,10 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
         KualiDecimal total = KualiDecimal.ZERO;
 
         for (final ActualExpense actualExpense : actualExpenses) {
-            if (actualExpense.getMileageIndicator()) {
+            if (actualExpense.isMileage()) {
                 actualExpense.setExpenseAmount(calculateMileage(actualExpense));
                 total = total.add(actualExpense.getExpenseAmount());
-                actualExpense.setConvertedAmount(actualExpense.getExpenseAmount().multiply(actualExpense.getCurrencyRate()));
+                actualExpense.setConvertedAmount(new KualiDecimal(actualExpense.getExpenseAmount().bigDecimalValue().multiply(actualExpense.getCurrencyRate())));
             }
 
             // Check to see if it is detail record. if detail record, get parent record.
@@ -952,10 +953,10 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
                 final ActualExpense parentActualExpense = getParentActualExpense(actualExpenses, actualExpense.getExpenseParentId());
 
                 // If expense type for parent record is mileage, add detail expense amount to the parent expense amount
-                if (parentActualExpense.getMileageIndicator()) {
+                if (parentActualExpense.isMileage()) {
                     parentActualExpense.setExpenseAmount(actualExpense.getTotalDetailExpenseAmount());
                     // total = total.add(parentActualExpense.getExpenseAmount());
-                    parentActualExpense.setConvertedAmount(parentActualExpense.getExpenseAmount().multiply(parentActualExpense.getCurrencyRate()));
+                    parentActualExpense.setConvertedAmount(new KualiDecimal(parentActualExpense.getExpenseAmount().bigDecimalValue().multiply(parentActualExpense.getCurrencyRate())));
                 }
 
             }
@@ -984,10 +985,10 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
     @Override
     public void handleNewActualExpense(final ActualExpense newActualExpenseLine) {
         if (newActualExpenseLine.getExpenseAmount() != null) {
-            final KualiDecimal rate = newActualExpenseLine.getCurrencyRate();
+            final BigDecimal rate = newActualExpenseLine.getCurrencyRate();
             final KualiDecimal amount = newActualExpenseLine.getExpenseAmount();
 
-            newActualExpenseLine.setConvertedAmount(amount.multiply(rate));
+            newActualExpenseLine.setConvertedAmount(new KualiDecimal(amount.bigDecimalValue().multiply(rate)));
             LOG.debug("Set converted amount for "+ newActualExpenseLine+ " to "+ newActualExpenseLine.getConvertedAmount());
 
             if (isHostedMeal(newActualExpenseLine)) {

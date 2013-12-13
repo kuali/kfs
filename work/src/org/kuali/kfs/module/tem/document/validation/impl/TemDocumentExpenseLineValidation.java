@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.tem.document.validation.impl;
 
 
+import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.List;
 
@@ -266,11 +267,11 @@ public abstract class TemDocumentExpenseLineValidation extends GenericValidation
      *
      * @return
      */
-    public KualiDecimal getMaxMileageRate() {
-        KualiDecimal maxMileage = KualiDecimal.ZERO;
+    public BigDecimal getMaxMileageRate() {
+        BigDecimal maxMileage = BigDecimal.ZERO;
         Collection<MileageRate> mileageRates = SpringContext.getBean(BusinessObjectService.class).findAll(MileageRate.class);
         for (MileageRate mileageRate : mileageRates) {
-            if (mileageRate.getRate().isGreaterThan(maxMileage)) {
+            if (mileageRate.getRate().compareTo(maxMileage) > 0) {
                 maxMileage = mileageRate.getRate();
             }
         }

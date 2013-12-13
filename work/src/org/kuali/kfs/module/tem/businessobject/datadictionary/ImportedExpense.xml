@@ -66,9 +66,12 @@
 		<property name="shortLabel" value="Currency Rate" />
 		<property name="required" value="false" />
 		<property name="summary" value="Currency Rate" />
-        <property name="maxLength" value="10" />
+        <property name="maxLength" value="21" />
 		<property name="description" value="The rate of currency conversion" />
 		<property name="control"><bean parent="TextControlDefinition" p:size="6"/></property>
+		<property name="validationPattern">
+			<bean parent="FixedPointValidationPattern" p:precision="20" p:scale="10" p:allowNegative="false" />
+		</property>
 	</bean>
 	<bean id="ImportedExpense-countryCode" parent="ImportedExpense-countryCode-parentBean" />
 	<bean id="ImportedExpense-countryCode-parentBean" abstract="true" parent="AttributeDefinition">

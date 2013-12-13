@@ -162,7 +162,7 @@ public class SummaryByDayReportServiceImpl implements SummaryByDayReportService 
         for (final ActualExpense expense : travelDocument.getActualExpenses()) {
             expense.refreshReferenceObject(TemPropertyConstants.EXPENSE_TYPE_OBJECT_CODE);
             final String expenseDate = monthDay.format(expense.getExpenseDate());
-            final SummaryByDayReport.Detail detail = new SummaryByDayReport.Detail(expense.getExpenseTypeObjectCode().getExpenseType().getName()==null?"":expense.getExpenseTypeObjectCode().getExpenseType().getName(), expense.getExpenseAmount().multiply(expense.getCurrencyRate()), expenseDate);
+            final SummaryByDayReport.Detail detail = new SummaryByDayReport.Detail(expense.getExpenseTypeObjectCode().getExpenseType().getName()==null?"":expense.getExpenseTypeObjectCode().getExpenseType().getName(), new KualiDecimal(expense.getExpenseAmount().bigDecimalValue().multiply(expense.getCurrencyRate())), expenseDate);
 
             if (isTransportationExpense(expense)) {
                 transportation.add(detail);
@@ -177,7 +177,7 @@ public class SummaryByDayReportServiceImpl implements SummaryByDayReportService 
                 other.add(detail);
             }
 
-            incrementSummary(summaryData, expenseDate, expense.getExpenseAmount().multiply(expense.getCurrencyRate()));
+            incrementSummary(summaryData, expenseDate, new KualiDecimal(expense.getExpenseAmount().bigDecimalValue().multiply(expense.getCurrencyRate())));
         }
 
         for (final String expenseDate : summaryData.keySet()) {

@@ -20,13 +20,13 @@ function onblur_customerCreated(customerCreatedField) {
 
 }
 
-// Sets the Invoice Templte field for new Agency Addresses to the Preferred
+// Sets the Invoice Template field for new Agency to the Preferred
 // Invoice Template
 function setNewAddressInvoiceTemplate(invoiceTemplateField, callbackFunction) {
 
 	var templateCode = getElementValue(invoiceTemplateField.name);
 	setRecipientValue(
-			"document.newMaintainableObject.add.agencyAddresses.agencyInvoiceTemplateCode",
+			"document.newMaintainableObject.add.agency.agencyInvoiceTemplateCode",
 			templateCode);
 
 }

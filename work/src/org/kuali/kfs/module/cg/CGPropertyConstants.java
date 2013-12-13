@@ -71,7 +71,7 @@ public class CGPropertyConstants{
         public static final String AGENCY_TAB_GENERAL_INFORMATION = "agencyGeneralInformation";
         public static final String AGENCY_TAB_ADDRESSES = "agencyAddresses";
         public static final String AGENCY_TAB_ADDRESSES_ADD_NEW_ADDRESS = "add.agencyAddresses";
-        public static final String AGENCY_ADDRESS_TYPE_CODE = "agencyAddressTypeCode";
+        public static final String AGENCY_CUSTOMER_ADDRESS_TYPE_CODE = "customerAddressTypeCode";
         public static final String AGENCY_ADDRESS_IDENTIFIER = "agencyAddressIdentifier";
         public static final String AGENCY_NUMBER = "agencyNumber";
         public static final String AGENCY_NAME = "agencyName";

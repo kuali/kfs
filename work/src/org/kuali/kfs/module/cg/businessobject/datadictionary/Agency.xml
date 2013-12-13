@@ -642,7 +642,7 @@
 								<property name="numberOfColumns" value="1" />
 								<property name="inquiryFields">
 									<list>
-										<bean parent="FieldDefinition" p:attributeName="agencyAddressTypeCode" />
+										<bean parent="FieldDefinition" p:attributeName="customerAddressTypeCode" />
 										<bean parent="FieldDefinition" p:attributeName="agencyAddressName" />
 										<bean parent="FieldDefinition" p:attributeName="agencyContactName" />
 										<bean parent="FieldDefinition" p:attributeName="agencyLine1StreetAddress" />
@@ -660,13 +660,11 @@
 										<bean parent="FieldDefinition" p:attributeName="agencyContactEmailAddress" />
 										<bean parent="FieldDefinition" p:attributeName="agencyInvoiceEmailAddress" />
 										<bean parent="FieldDefinition" p:attributeName="agencyAddressEndDate" />
-										<bean parent="FieldDefinition" p:attributeName="agencyInvoiceTemplateCode" />
-										<bean parent="FieldDefinition" p:attributeName="invoiceIndicatorCode" />
 									</list>
 								</property>
 								<property name="summaryFields">
 									<list>
-										<bean parent="FieldDefinition" p:attributeName="agencyAddressTypeCode" />
+										<bean parent="FieldDefinition" p:attributeName="customerAddressTypeCode" />
 									</list>
 								</property>
 							</bean>

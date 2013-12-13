@@ -268,10 +268,10 @@
 		<form-bean name="ContractsGrantsAwardBalancesReportLookupForm"
 			type="org.kuali.kfs.module.cg.web.struts.ContractsGrantsAwardBalancesReportLookupForm" />
 
+		<!-- AR Module Bean Definitions -->
 		<form-bean name="AccountsReceivableInvoiceTemplateUploadForm"
 			type="org.kuali.kfs.module.ar.web.struts.AccountsReceivableInvoiceTemplateUploadForm" />
 
-		<!-- AR Module Bean Definitions -->
 		<form-bean name="AccountsReceivableLetterTemplateUploadForm"
 			type="org.kuali.kfs.module.ar.web.struts.AccountsReceivableLetterTemplateUploadForm" />
 			
@@ -539,6 +539,14 @@
 				redirect="false" />
 		</action>
  
+		<action path="/arAccountsReceivableInvoiceTemplateUpload" name="AccountsReceivableInvoiceTemplateUploadForm"
+			scope="request" attribute="KualiForm" parameter="methodToCall"
+			type="org.kuali.kfs.module.ar.web.struts.AccountsReceivableInvoiceTemplateUploadAction">
+			<set-property property="cancellable" value="true" />
+			<forward name="basic"
+				path="/jsp/module/ar/AccountsReceivableInvoiceTemplateUpload.jsp" />
+		</action>
+
 		<action path="/arAccountsReceivableLetterTemplateUpload" name="AccountsReceivableLetterTemplateUploadForm"
 			scope="request" attribute="KualiForm" parameter="methodToCall"
 			type="org.kuali.kfs.module.ar.web.struts.AccountsReceivableLetterTemplateUploadAction">

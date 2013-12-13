@@ -23,7 +23,7 @@ import org.kuali.rice.kns.web.struts.form.KualiForm;
 
 
 /**
- * This class represents the form for the ContractsGrantsInvoiceTemplateDocument.
+ * This class represents the form for the InvoiceTemplate.
  */
 public class AccountsReceivableInvoiceTemplateUploadForm extends KualiForm {
 
@@ -127,7 +127,7 @@ public class AccountsReceivableInvoiceTemplateUploadForm extends KualiForm {
     }
 
     /**
-     * Constructs a ContractsGrantsInvoiceTemplateUploadForm.java.
+     * Constructs a AccountsReceivableInvoiceTemplateUploadForm.java.
      *
      * @param document
      * @param uploadedFile

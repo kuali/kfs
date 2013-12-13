@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -22,21 +22,15 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.coa.businessobject.Organization;
-import org.kuali.kfs.coa.businessobject.defaultvalue.CurrentUserChartValueFinder;
-import org.kuali.kfs.coa.businessobject.defaultvalue.CurrentUserOrgValueFinder;
 import org.kuali.kfs.coa.identity.FinancialSystemUserRoleTypeServiceImpl;
-import org.kuali.kfs.module.cg.CGKeyConstants;
-import org.kuali.kfs.module.purap.util.UseTaxContainer;
 import org.kuali.kfs.module.ar.ArConstants;
+import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.businessobject.InvoiceTemplate;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.kfs.sys.service.FinancialSystemUserService;
-import org.kuali.kfs.sys.service.impl.FinancialSystemUserServiceImpl.ChartOrgHolderImpl;
-import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.role.RoleService;
@@ -44,12 +38,11 @@ import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
+import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.krad.util.UrlFactory;
-
-import com.sun.java.help.search.HTMLIndexerKit.HTMLParserCallback.IsindexAction;
 
 /**
  * Helper service class for Invoice Template lookup
@@ -59,7 +52,7 @@ public class InvoiceTemplateLookupableHelperServiceImpl extends KualiLookupableH
 
     /***
      * This method was overridden to remove the COPY link from the actions and to add in the REPORT link.
-     * 
+     *
      * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getCustomActionUrls(org.kuali.rice.krad.bo.BusinessObject,
      *      java.util.List)
      */
@@ -72,7 +65,7 @@ public class InvoiceTemplateLookupableHelperServiceImpl extends KualiLookupableH
         if (invoiceTemplate.isAccessRestrictedIndicator()) {
             Person currentUser = GlobalVariables.getUserSession().getPerson();
             // check for KFS-SYS User Role's membership
-            Map<String, String> userOrg = getOrgAndChartForUser(currentUser.getPrincipalId(), ArConstants.AR_NAMESPACE_CODE); 
+            Map<String, String> userOrg = getOrgAndChartForUser(currentUser.getPrincipalId(), ArConstants.AR_NAMESPACE_CODE);
             if(userOrg == null) {
                 userOrg = getOrgAndChartForUser(currentUser.getPrincipalId(), KFSConstants.CoreModuleNamespaces.KFS);
                 if(userOrg == null) {
@@ -81,8 +74,8 @@ public class InvoiceTemplateLookupableHelperServiceImpl extends KualiLookupableH
                   userOrg.put(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE, chartOrg.getChartOfAccountsCode());
                   userOrg.put(KfsKimAttributes.ORGANIZATION_CODE,chartOrg.getOrganizationCode());
                 }
-            } 
-            
+            }
+
             if (ObjectUtils.isNotNull(invoiceTemplate.getBillByChartOfAccountCode()) && ObjectUtils.isNotNull(invoiceTemplate.getBilledByOrganizationCode())) {
                 if (invoiceTemplate.getBillByChartOfAccountCode().equals(userOrg.get(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE)) && invoiceTemplate.getBilledByOrganizationCode().equals(userOrg.get(KfsKimAttributes.ORGANIZATION_CODE))) {
                     isValid = true;
@@ -98,29 +91,31 @@ public class InvoiceTemplateLookupableHelperServiceImpl extends KualiLookupableH
             if (allowsMaintenanceNewOrCopyAction()) {
                 htmlDataList.add(getUrlData(businessObject, KRADConstants.MAINTENANCE_COPY_METHOD_TO_CALL, pkNames));
             }
-            if (invoiceTemplate.isValidOrganization())
+            if (invoiceTemplate.isValidOrganization()) {
                 htmlDataList.add(getInvoiceTemplateUploadUrl(businessObject));
-            if (ObjectUtils.isNotNull(invoiceTemplate.getFilename()) && StringUtils.isNotBlank(invoiceTemplate.getFilename()))
+            }
+            if (ObjectUtils.isNotNull(invoiceTemplate.getFilename()) && StringUtils.isNotBlank(invoiceTemplate.getFilename())) {
                 htmlDataList.add(getInvoiceTemplateDownloadUrl(businessObject));
+            }
         }
         return htmlDataList;
     }
 
     /**
      * This method helps in uploading the invoice templates.
-     * 
+     *
      * @param bo
      * @return
      */
     private AnchorHtmlData getInvoiceTemplateUploadUrl(BusinessObject bo) {
         InvoiceTemplate invoiceTemplate = (InvoiceTemplate) bo;
-        String href = "../cgContractsGrantsInvoiceTemplateUpload.do" + "?&methodToCall=start&invoiceTemplateCode=" + invoiceTemplate.getInvoiceTemplateCode() + "&docFormKey=88888888";
-        return new AnchorHtmlData(href, KFSConstants.SEARCH_METHOD, CGKeyConstants.AgencyConstants.ACTIONS_UPLOAD);
+        String href = "../arAccountsReceivableInvoiceTemplateUpload.do" + "?&methodToCall=start&invoiceTemplateCode=" + invoiceTemplate.getInvoiceTemplateCode() + "&docFormKey=88888888";
+        return new AnchorHtmlData(href, KFSConstants.SEARCH_METHOD, ArKeyConstants.ACTIONS_UPLOAD);
     }
 
     /**
      * This method helps in downloading the invoice templates.
-     * 
+     *
      * @param bo
      * @return
      */
@@ -131,10 +126,10 @@ public class InvoiceTemplateLookupableHelperServiceImpl extends KualiLookupableH
             parameters.put("filePath", invoiceTemplate.getFilepath());
             parameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, "download");
         }
-        String href = UrlFactory.parameterizeUrl("../cgContractsGrantsInvoiceTemplateUpload.do", parameters);
-        return new AnchorHtmlData(href, KFSConstants.SEARCH_METHOD, CGKeyConstants.AgencyConstants.ACTIONS_DOWNLOAD);
+        String href = UrlFactory.parameterizeUrl("../arAccountsReceivableInvoiceTemplateUpload.do", parameters);
+        return new AnchorHtmlData(href, KFSConstants.SEARCH_METHOD, ArKeyConstants.ACTIONS_DOWNLOAD);
     }
-    
+
     private Map<String, String> getOrgAndChartForUser(String principalId, String namespaceCode) {
         Map<String, String> chartAndOrg = new HashMap<String, String>();
         if (StringUtils.isBlank(principalId)) {

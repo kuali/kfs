@@ -93,13 +93,6 @@
 				<value>${reports.directory}/cg</value>
 			</list>
 		</property>
-		<property name="templateFileDirectories">
-			<map>
-				<entry key="templates.directory">
-					<value>${templates.directory}/cg</value>
-				</entry>
-			</map>
-		</property>
 	</bean>
 
 	<bean id="cgModuleService" parent="cgModuleService-parentBean" />

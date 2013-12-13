@@ -105,7 +105,13 @@
             <value>${staging.directory}/ar</value>
           </list>
         </property>
-          	
+		<property name="templateFileDirectories">
+			<map>
+				<entry key="templates.directory">
+					<value>${templates.directory}/ar</value>
+				</entry>
+			</map>
+		</property>
 	</bean>
 
     <bean id="arModuleService" parent="arModuleService-parentBean"/>

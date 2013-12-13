@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -53,7 +53,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
- * Action Class for Contracts Grants Invoice Template Upload Action.
+ * Action Class for Accounts Receivable Invoice Template Upload Action.
  */
 public class AccountsReceivableInvoiceTemplateUploadAction extends KualiAction {
 
@@ -65,20 +65,20 @@ public class AccountsReceivableInvoiceTemplateUploadAction extends KualiAction {
     private BusinessObjectService boService;
 
     /**
-     * Constructs a ContractsGrantsInvoiceTemplateUploadAction.java.
+     * Constructs a AccountsReceivableInvoiceTemplateUploadAction.java.
      */
     public AccountsReceivableInvoiceTemplateUploadAction() {
         super();
         boService = SpringContext.getBean(BusinessObjectService.class);
         kualiConfigurationService = SpringContext.getBean(ConfigurationService.class);
-        systemConfiguration = SpringContext.getBean(KualiModuleService.class).getModuleServiceByNamespaceCode("KFS-CG").getModuleConfiguration();
+        systemConfiguration = SpringContext.getBean(KualiModuleService.class).getModuleServiceByNamespaceCode(KFSConstants.OptionalModuleNamespaces.ACCOUNTS_RECEIVABLE).getModuleConfiguration();
         currentUserOrgValueFinder = new CurrentUserOrgValueFinder();
         currentUserChartValueFinder = new CurrentUserChartValueFinder();
     }
 
     /**
      * Gets the boService attribute.
-     * 
+     *
      * @return Returns the boService.
      */
     public BusinessObjectService getBoService() {
@@ -87,7 +87,7 @@ public class AccountsReceivableInvoiceTemplateUploadAction extends KualiAction {
 
     /**
      * Sets the boService attribute value.
-     * 
+     *
      * @param boService The boService to set.
      */
     public void setBoService(BusinessObjectService boService) {
@@ -96,7 +96,7 @@ public class AccountsReceivableInvoiceTemplateUploadAction extends KualiAction {
 
     /**
      * Gets the kualiConfigurationService attribute.
-     * 
+     *
      * @return Returns the kualiConfigurationService.
      */
     public ConfigurationService getConfigurationService() {
@@ -105,7 +105,7 @@ public class AccountsReceivableInvoiceTemplateUploadAction extends KualiAction {
 
     /**
      * Sets the kualiConfigurationService attribute value.
-     * 
+     *
      * @param kualiConfigurationService The kualiConfigurationService to set.
      */
     public void setConfigurationService(ConfigurationService kualiConfigurationService) {
@@ -198,10 +198,12 @@ public class AccountsReceivableInvoiceTemplateUploadAction extends KualiAction {
         File destinationFile = new File(destinationPath);
         // upload the file and save the document
         try {
-            if (!destinationFolder.exists())
+            if (!destinationFolder.exists()) {
                 destinationFolder.mkdirs();
-            if (destinationFile.exists())
+            }
+            if (destinationFile.exists()) {
                 destinationFile.delete();
+            }
             java.util.Date dt = new java.util.Date();
             java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             this.writeInputStreamToFileStorage(uploadedFile.getInputStream(), destinationFile);
@@ -225,7 +227,7 @@ public class AccountsReceivableInvoiceTemplateUploadAction extends KualiAction {
 
     /**
      * This method enables user to download the template
-     * 
+     *
      * @param mapping
      * @param form
      * @param request
@@ -254,7 +256,7 @@ public class AccountsReceivableInvoiceTemplateUploadAction extends KualiAction {
 
     /**
      * This method writes the contents from the input stream to the destination storage place.
-     * 
+     *
      * @param fileContents
      * @param destinationFile
      * @throws IOException

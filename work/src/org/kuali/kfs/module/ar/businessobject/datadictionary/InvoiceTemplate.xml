@@ -167,7 +167,7 @@
 
 	<bean id="InvoiceTemplate-inquiryDefinition-parentBean" abstract="true"
 		parent="InquiryDefinition">
-		<property name="title" value="Account Invoice Templates Inquiry" />
+		<property name="title" value="Invoice Template Inquiry" />
 		<property name="inquirySections">
 			<list>
 				<bean parent="InquirySectionDefinition">
@@ -202,7 +202,7 @@
 
 	<bean id="InvoiceTemplate-lookupDefinition-parentBean" abstract="true"
 		parent="LookupDefinition">
-		<property name="title" value="Account Invoice Templates Lookup" />
+		<property name="title" value="Invoice Template Lookup" />
 		<property name="lookupableID" value="invoiceTemplateLookupable" />
 
 		<property name="defaultSort">

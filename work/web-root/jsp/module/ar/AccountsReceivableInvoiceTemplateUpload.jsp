@@ -16,9 +16,9 @@
 <%@ include file="/jsp/sys/kfsTldHeader.jsp"%>
 
 <kul:page showDocumentInfo="false"
-	headerTitle="Contracts and Grants Invoice Template Upload" docTitle=""
+	headerTitle="Account Invoice Template Upload" docTitle=""
 	renderMultipart="true" transactionalDocument="false"
-	htmlFormAction="cgContractsGrantsInvoiceTemplateUpload" errorKey="foo">
+	htmlFormAction="arAccountsReceivableInvoiceTemplateUpload" errorKey="foo">
 
 	<c:set var="InvoiceTemplateAttributes"
 		value="${DataDictionary.InvoiceTemplate.attributes}" />

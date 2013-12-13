@@ -68,8 +68,12 @@ public class CollectorRoleTypeServiceImpl extends OrganizationHierarchyAwareRole
         String processingChart = roleQualifier.get(ArKimAttributes.PROCESSING_CHART_OF_ACCOUNTS_CODE);
         String processingOrg = roleQualifier.get(ArKimAttributes.PROCESSING_ORGANIZATION_CODE);
 
-        if (isParentOrg(chartOfAccountsCode, organizationCode, billingChart, billingOrg, true) ||
-                isParentOrg(chartOfAccountsCode, organizationCode, processingChart, processingOrg, true)) {
+        // only billing chart/org or processing chart/org will be populated, and we don't want to call isParentOrg
+        // with null values, so we need to check for empty values first before calling isParentOrg
+        if ((StringUtils.isNotEmpty(billingChart) && StringUtils.isNotEmpty(billingOrg) &&
+                isParentOrg(chartOfAccountsCode, organizationCode, billingChart, billingOrg, true)) ||
+            (StringUtils.isNotEmpty(processingChart) && StringUtils.isNotEmpty(processingOrg) &&
+                isParentOrg(chartOfAccountsCode, organizationCode, processingChart, processingOrg, true))) {
             orgMatches = true;
         }
 

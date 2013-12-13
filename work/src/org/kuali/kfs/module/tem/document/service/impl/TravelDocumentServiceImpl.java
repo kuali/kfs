@@ -49,6 +49,7 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.time.DateUtils;
 import org.apache.log4j.Logger;
 import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.kfs.gl.service.EncumbranceService;
@@ -449,7 +450,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
             final Date fromDate = mileageRate.getActiveFromDate();
             final Date toDate = mileageRate.getActiveToDate();
 
-            if((fromDate.equals(expenseDate) || fromDate.before(expenseDate)) && (toDate.equals(expenseDate) || toDate.after(expenseDate))) {
+            if(DateUtils.truncatedCompareTo(fromDate, expenseDate, Calendar.DATE) <= 0  && DateUtils.truncatedCompareTo(toDate, expenseDate, Calendar.DATE) >= 0) {
                 chosenMileageRate = mileageRate;
             }
         }

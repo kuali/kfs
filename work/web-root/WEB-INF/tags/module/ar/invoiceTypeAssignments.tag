@@ -33,8 +33,8 @@
 				</tr>
 				<logic:iterate indexId="ctr" name="KualiForm" property="document.invoiceAddressDetails" id="invoiceAddressDetail">
 					<tr>
-						<td class="datacell"><kul:htmlControlAttribute attributeEntry="${invoiceAddressDetailessDetailsAttributes.customerAddressTypeCode}"
-								property="document.invoiceAddressDetail[${ctr}].customerAddressTypeCode" readOnly="true" /></td>
+						<td class="datacell"><kul:htmlControlAttribute attributeEntry="${invoiceAddressDetailsAttributes.customerAddressTypeCode}"
+								property="document.invoiceAddressDetails[${ctr}].customerAddressTypeCode" readOnly="true" /></td>
 						<td class="datacell"><kul:htmlControlAttribute attributeEntry="${invoiceAddressDetailsAttributes.customerAddressName}"
 								property="document.invoiceAddressDetails[${ctr}].customerAddressName" readOnly="true" /></td>
 						<td class="datacell"><kul:htmlControlAttribute attributeEntry="${invoiceAddressDetailsAttributes.customerInvoiceTemplateCode}"

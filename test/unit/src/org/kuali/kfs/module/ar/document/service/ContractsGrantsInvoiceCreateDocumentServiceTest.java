@@ -49,11 +49,18 @@ import org.kuali.rice.krad.service.KualiModuleService;
 @ConfigureContext(session = khuntley)
 public class ContractsGrantsInvoiceCreateDocumentServiceTest extends KualiTestBase {
 
+    private ContractsGrantsInvoiceCreateDocumentService contractsGrantsInvoiceCreateDocumentService;
+    private ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService;
+    private DocumentService documentService;
+    private KualiModuleService kualiModuleService;
 
     @Override
     protected void setUp() throws Exception {
-
         super.setUp();
+        contractsGrantsInvoiceCreateDocumentService = SpringContext.getBean(ContractsGrantsInvoiceCreateDocumentService.class);
+        contractsGrantsInvoiceDocumentService = SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class);
+        documentService = SpringContext.getBean(DocumentService.class);
+        kualiModuleService = SpringContext.getBean(KualiModuleService.class);
     }
 
     @SuppressWarnings("deprecation")
@@ -62,15 +69,16 @@ public class ContractsGrantsInvoiceCreateDocumentServiceTest extends KualiTestBa
         String coaCode = "BL";
         String orgCode = "UGCS";
 
-        DocumentService documentService = SpringContext.getBean(DocumentService.class);
         ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument_1 = ContractsGrantsInvoiceDocumentFixture.CG_INV_DOC1.createContractsGrantsInvoiceDocument(documentService);
         contractsGrantsInvoiceDocument_1.setBillByChartOfAccountCode(coaCode);
         contractsGrantsInvoiceDocument_1.setBilledByOrganizationCode(orgCode);
 
         AccountsReceivableDocumentHeader accountsReceivableDocumentHeader = new AccountsReceivableDocumentHeader();
         accountsReceivableDocumentHeader.setDocumentNumber(contractsGrantsInvoiceDocument_1.getDocumentNumber());
-        accountsReceivableDocumentHeader.setProcessingChartOfAccountCode(coaCode);
-        accountsReceivableDocumentHeader.setProcessingOrganizationCode(orgCode);
+
+        List<String> procCodes = contractsGrantsInvoiceDocumentService.getProcessingFromBillingCodes(coaCode, orgCode);
+        accountsReceivableDocumentHeader.setProcessingChartOfAccountCode(procCodes.get(0));
+        accountsReceivableDocumentHeader.setProcessingOrganizationCode(procCodes.get(1));
 
         contractsGrantsInvoiceDocument_1.setAccountsReceivableDocumentHeader(accountsReceivableDocumentHeader);
         ContractsAndGrantsBillingAward award = ARAwardFixture.CG_AWARD_MONTHLY_BILLED_DATE_NULL.createAward();
@@ -94,7 +102,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceTest extends KualiTestBa
         ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument_2;
 
 
-        contractsGrantsInvoiceDocument_2 = SpringContext.getBean(ContractsGrantsInvoiceCreateDocumentService.class).createCGInvoiceDocumentByAwardInfo(award, awardAccounts, coaCode, orgCode);
+        contractsGrantsInvoiceDocument_2 = contractsGrantsInvoiceCreateDocumentService.createCGInvoiceDocumentByAwardInfo(award, awardAccounts, coaCode, orgCode);
 
         assertEquals(contractsGrantsInvoiceDocument_1.getProposalNumber(), contractsGrantsInvoiceDocument_2.getProposalNumber());
         assertEquals(contractsGrantsInvoiceDocument_1.getAccountDetails().get(0).getAccountNumber(), contractsGrantsInvoiceDocument_2.getAccountDetails().get(0).getAccountNumber());
@@ -113,14 +121,14 @@ public class ContractsGrantsInvoiceCreateDocumentServiceTest extends KualiTestBa
         List<ContractsAndGrantsBillingAward> awards = new ArrayList<ContractsAndGrantsBillingAward>();
         awards.add(invalidAward);
         // To retrieve the batch file directory name as "reports/ar"
-        ModuleConfiguration systemConfiguration = SpringContext.getBean(KualiModuleService.class).getModuleServiceByNamespaceCode("KFS-AR").getModuleConfiguration();
+        ModuleConfiguration systemConfiguration = kualiModuleService.getModuleServiceByNamespaceCode("KFS-AR").getModuleConfiguration();
 
         String destinationFolderPath = ((FinancialSystemModuleConfiguration) systemConfiguration).getBatchFileDirectories().get(0);
 
 
         String errorOutputFile = destinationFolderPath + "JUNIT TEST.log";
 
-        Collection<ContractsAndGrantsBillingAward> validAwards = SpringContext.getBean(ContractsGrantsInvoiceCreateDocumentService.class).validateAwards(awards, errorOutputFile);
+        Collection<ContractsAndGrantsBillingAward> validAwards = contractsGrantsInvoiceCreateDocumentService.validateAwards(awards, errorOutputFile);
 
         assertTrue(CollectionUtils.isEmpty(validAwards));
 

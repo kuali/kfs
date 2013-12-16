@@ -56,11 +56,11 @@ import org.kuali.rice.krad.util.ObjectUtils;
 public class DisbursementVoucherPayeeServiceImpl implements DisbursementVoucherPayeeService {
     private org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DisbursementVoucherPayeeServiceImpl.class);
 
-    private BusinessObjectService businessObjectService;
-    private DataDictionaryService dataDictionaryService;
-    private DocumentService documentService;
-    private ParameterService parameterService;
-    private VendorService vendorService;
+    protected BusinessObjectService businessObjectService;
+    protected DataDictionaryService dataDictionaryService;
+    protected DocumentService documentService;
+    protected ParameterService parameterService;
+    protected VendorService vendorService;
 
     public final static String addressPattern = "{0}, {1}, {2} {3}";
 
@@ -448,7 +448,7 @@ public class DisbursementVoucherPayeeServiceImpl implements DisbursementVoucherP
     }
 
  // do mapping between vendor type code and payee type code
-    private static Map<String, String> getVendorPayeeTypeCodeMapping() {
+    public static Map<String, String> getVendorPayeeTypeCodeMapping() {
         Map<String, String> payeeVendorTypeCodeMapping = new HashMap<String, String>();
 
         payeeVendorTypeCodeMapping.put(VendorConstants.VendorTypes.PURCHASE_ORDER, KFSConstants.PaymentPayeeTypes.VENDOR);

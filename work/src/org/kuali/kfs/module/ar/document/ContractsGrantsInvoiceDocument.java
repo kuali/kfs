@@ -589,15 +589,14 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
      * @return Returns the directCostInvoiceDetails.
      */
     public List<InvoiceDetail> getDirectCostInvoiceDetails() {
-        // To get the list of invoice Details for direct cost
-        List<InvoiceDetail> dcInvDetails = new ArrayList<InvoiceDetail>();
-        for (InvoiceDetail dInvD : directCostInvoiceDetails) {
-            if (dInvD.getCategoryCode().equalsIgnoreCase(ArConstants.TOTAL_DIRECT_COST_CD)) {
-                dcInvDetails.add(dInvD);
+        for (Iterator<InvoiceDetail> iter = directCostInvoiceDetails.iterator(); iter.hasNext();) {
+            InvoiceDetail dInvD = iter.next();
+            if (!dInvD.getCategoryCode().equalsIgnoreCase(ArConstants.TOTAL_DIRECT_COST_CD)) {
+                iter.remove();
             }
         }
 
-        return dcInvDetails;
+        return directCostInvoiceDetails;
     }
 
     /**
@@ -634,14 +633,14 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
      */
     public List<InvoiceDetail> getInDirectCostInvoiceDetails() {
         // To get the list of invoice Details for indirect cost
-        List<InvoiceDetail> indInvDetails = new ArrayList<InvoiceDetail>();
-        for (InvoiceDetail indInvD : inDirectCostInvoiceDetails) {
-            if (indInvD.getCategoryCode().equalsIgnoreCase(ArConstants.TOTAL_IN_DIRECT_COST_CD)) {
-                indInvDetails.add(indInvD);
+        for (Iterator<InvoiceDetail> iter = inDirectCostInvoiceDetails.iterator(); iter.hasNext();) {
+            InvoiceDetail indInvD = iter.next();
+            if (!indInvD.getCategoryCode().equalsIgnoreCase(ArConstants.TOTAL_IN_DIRECT_COST_CD)) {
+                iter.remove();
             }
         }
 
-        return indInvDetails;
+        return inDirectCostInvoiceDetails;
     }
 
     /**

@@ -101,12 +101,11 @@ public class TravelAuthTravelAdvanceValidation extends GenericValidation {
             success = success && validateDueDate(advance, document.getTripEnd());
         }
 
-        String initiator = document.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId();
         String travelerID = document.getTraveler().getPrincipalId();
         Boolean checkPolicy = Boolean.FALSE;
         if (travelerID != null){
             //traveler must accept policy, if initiator is arranger, the traveler will have to accept later.
-            checkPolicy = initiator.equals(travelerID) || GlobalVariables.getUserSession().getPrincipalId().equals(travelerID);
+            checkPolicy = GlobalVariables.getUserSession().getPrincipalId().equals(travelerID);
         }
         else{ //Non-kim traveler, arranger accepts policy
             checkPolicy = Boolean.TRUE;

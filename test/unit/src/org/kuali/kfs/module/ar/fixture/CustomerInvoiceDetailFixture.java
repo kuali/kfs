@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -58,7 +58,7 @@ public enum CustomerInvoiceDetailFixture {
             new KualiDecimal(0), // amount
             new KualiDecimal(0) // invoiceItemTaxAmount
             , null),
-            
+
     CUSTOMER_INVOICE_DETAIL_WITH_NEGATIVE_AMOUNT(null, // documentNumber
             "BL", // chartOfAccountsCode
             "1031400", // accountNumber
@@ -73,8 +73,8 @@ public enum CustomerInvoiceDetailFixture {
             new BigDecimal(-1), // invoiceItemUnitPrice
             new KualiDecimal(-1), // amount
             new KualiDecimal(0) // invoiceItemTaxAmount
-            , null),            
-            
+            , null),
+
     CUSTOMER_INVOICE_DETAIL_DISCOUNT_WITH_NEGATIVE_AMOUNT(null, // documentNumber
             "BL", // chartOfAccountsCode
             "1031400", // accountNumber
@@ -89,8 +89,8 @@ public enum CustomerInvoiceDetailFixture {
             new BigDecimal(-1), // invoiceItemUnitPrice
             new KualiDecimal(-1), // amount
             new KualiDecimal(0) // invoiceItemTaxAmount
-            , new CustomerInvoiceDetail()),            
-            
+            , new CustomerInvoiceDetail()),
+
     CUSTOMER_INVOICE_DETAIL_DISCOUNT_WITH_POSITIVE_AMOUNT(null, // documentNumber
             "BL", // chartOfAccountsCode
             "1031400", // accountNumber
@@ -105,7 +105,7 @@ public enum CustomerInvoiceDetailFixture {
             new BigDecimal(1), // invoiceItemUnitPrice
             new KualiDecimal(1), // amount
             new KualiDecimal(0) // invoiceItemTaxAmount
-            , new CustomerInvoiceDetail()),            
+            , new CustomerInvoiceDetail()),
 
     CUSTOMER_INVOICE_DETAIL_SUBFUND_RECEIVABLE(null, // documentNumber
             "BL", // chartOfAccountsCode
@@ -116,6 +116,22 @@ public enum CustomerInvoiceDetailFixture {
             "CID", // organizationRefId
             "BOB", // projectCode
             "8110", // accountsReceivableObjectCode
+            Date.valueOf("2008-01-01"), // invoiceItemServiceDate
+            new BigDecimal(1), // invoiceItemQuantity
+            new BigDecimal(1), // invoiceItemUnitPrice
+            new KualiDecimal(1), // amount
+            new KualiDecimal(0) // invoiceItemTaxAmount
+            , null),
+
+    CUSTOMER_INVOICE_DETAIL_SUBFUND_RECEIVABLE_2(null, // documentNumber
+            "BL", // chartOfAccountsCode
+            "2336320", // accountNumber
+            "ADV", // subAccountNumber
+            "5000", // financialObjectCode
+            "SAC", // financialSubObjectCode
+            "CID", // organizationRefId
+            "BOB", // projectCode
+            "8118", // accountsReceivableObjectCode
             Date.valueOf("2008-01-01"), // invoiceItemServiceDate
             new BigDecimal(1), // invoiceItemQuantity
             new BigDecimal(1), // invoiceItemUnitPrice
@@ -138,11 +154,26 @@ public enum CustomerInvoiceDetailFixture {
             new KualiDecimal(1), // amount
             new KualiDecimal(0), // invoiceItemTaxAmount
             null),
+    CUSTOMER_INVOICE_DETAIL_CHART_RECEIVABLE_2(null, // documentNumber
+            "BL", // chartOfAccountsCode
+            "2336320", // accountNumber
+            "ADV", // subAccountNumber
+            "5000", // financialObjectCode
+            "SAC", // financialSubObjectCode
+            "CID", // organizationRefId
+            "BOB", // projectCode
+            "8118", // accountsReceivableObjectCode
+            Date.valueOf("2008-01-01"), // invoiceItemServiceDate
+            new BigDecimal(1), // invoiceItemQuantity
+            new BigDecimal(1), // invoiceItemUnitPrice
+            new KualiDecimal(1), // amount
+            new KualiDecimal(0), // invoiceItemTaxAmount
+            null),
     ZERO_DOLLAR_INVOICE_DETAIL(KualiDecimal.ZERO),
     ONE_DOLLAR_INVOICE_DETAIL(new KualiDecimal(1)),
     TEN_DOLLAR_INVOICE_DETAIL(new KualiDecimal(10)),
     FIFTY_DOLLAR_INVOICE_DETAIL(new KualiDecimal(50)),
-    ONE_HUNDRED_DOLLAR_INVOICE_DETAIL(new KualiDecimal(100)), 
+    ONE_HUNDRED_DOLLAR_INVOICE_DETAIL(new KualiDecimal(100)),
     ONE_THOUSAND_DOLLAR_INVOICE_DETAIL(null, // documentNumber
             "BL", // chartOfAccountsCode
             "1031400", // accountNumber
@@ -173,7 +204,7 @@ public enum CustomerInvoiceDetailFixture {
                     new KualiDecimal("500.00"), // amount
                     new KualiDecimal(0) // invoiceItemTaxAmount
                     , null),
-    
+
     ;
 
     public String documentNumber;
@@ -194,7 +225,7 @@ public enum CustomerInvoiceDetailFixture {
 
     /**
      * Create a customer invoice detail where all you really care about is the amount.
-     * 
+     *
      * @param amount
      */
     CustomerInvoiceDetailFixture(KualiDecimal amount) {
@@ -214,10 +245,10 @@ public enum CustomerInvoiceDetailFixture {
             new KualiDecimal(0), // invoiceItemTaxAmount
             null);
     }
-    
+
     /**
      * Create a customer invoice detail with specific values for all fields.
-     * 
+     *
      * @param documentNumber
      * @param chartOfAccountsCode
      * @param accountNumber
@@ -254,7 +285,7 @@ public enum CustomerInvoiceDetailFixture {
 
     /**
      * This method creates a customer invoice detail based on the information for this enum
-     * 
+     *
      * @return
      */
     public CustomerInvoiceDetail createCustomerInvoiceDetail() {
@@ -280,7 +311,7 @@ public enum CustomerInvoiceDetailFixture {
 
     /**
      * Add this customer invoice detail to the passed in document
-     * 
+     *
      * @param customerInvoiceDocument
      */
     public CustomerInvoiceDetail addTo(CustomerInvoiceDocument customerInvoiceDocument) {
@@ -301,5 +332,5 @@ public enum CustomerInvoiceDetailFixture {
         customerInvoiceDocument.addSourceAccountingLine(customerInvoiceDetail);
         return customerInvoiceDetail;
     }
-    
+
 }

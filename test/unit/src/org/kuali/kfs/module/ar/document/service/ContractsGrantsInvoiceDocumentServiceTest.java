@@ -71,20 +71,21 @@ import org.kuali.rice.krad.util.ObjectUtils;
 @ConfigureContext(session = khuntley)
 public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
 
-    ContractsGrantsInvoiceDocumentServiceImpl contractsGrantsInvoiceDocumentServiceImpl =  new ContractsGrantsInvoiceDocumentServiceImpl();
+    ContractsGrantsInvoiceDocumentServiceImpl contractsGrantsInvoiceDocumentServiceImpl = new ContractsGrantsInvoiceDocumentServiceImpl();
     /**
      * @see junit.framework.TestCase#setUp()
      */
     @Override
     protected void setUp() throws Exception {
         contractsGrantsInvoiceDocumentServiceImpl.setBusinessObjectService(SpringContext.getBean(BusinessObjectService.class));
+        contractsGrantsInvoiceDocumentServiceImpl.setContractsGrantsInvoiceDocumentService(SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class));
         super.setUp();
     }
 
     /**
      * Tests the prorateBill() method of service.
      */
-    public void testProrateBill() {
+    public void testProrateBill() throws WorkflowException {
 
 
         DocumentService documentService = SpringContext.getBean(DocumentService.class);
@@ -106,8 +107,8 @@ public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
 
         KualiDecimal value1 = new KualiDecimal(5);
         KualiDecimal value2 = new KualiDecimal(0);
-        contractsGrantsInvoiceDocument.getInvoiceDetails().get(1).setExpenditures(value1);
-        contractsGrantsInvoiceDocument.getInvoiceDetails().get(2).setExpenditures(value2);
+        contractsGrantsInvoiceDocument.getInvoiceDetails().get(0).setExpenditures(value1);
+        contractsGrantsInvoiceDocument.getInvoiceDetails().get(1).setExpenditures(value2);
 
         InvoiceAccountDetail invoiceAccountDetail_1 = InvoiceAccountDetailFixture.INV_ACCT_DTL1.createInvoiceAccountDetail();
         InvoiceAccountDetail invoiceAccountDetail_2 = InvoiceAccountDetailFixture.INV_ACCT_DTL2.createInvoiceAccountDetail();
@@ -116,30 +117,21 @@ public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
         accountDetails.add(invoiceAccountDetail_2);
         contractsGrantsInvoiceDocument.setAccountDetails(accountDetails);
 
-        try {
-            contractsGrantsInvoiceDocumentServiceImpl.prorateBill(contractsGrantsInvoiceDocument);
+        // setup various invoice detail collections on invoice document
+        contractsGrantsInvoiceDocumentServiceImpl.generateValuesForCategories(award.getActiveAwardAccounts(), contractsGrantsInvoiceDocument);
 
-        }
-        catch (WorkflowException ex) {
-            ex.printStackTrace();
-        }
+        contractsGrantsInvoiceDocumentServiceImpl.prorateBill(contractsGrantsInvoiceDocument);
 
-        assertEquals(value1, contractsGrantsInvoiceDocument.getInvoiceDetails().get(1).getExpenditures());
-        assertEquals(value2, contractsGrantsInvoiceDocument.getInvoiceDetails().get(2).getExpenditures());
+        assertEquals(value1, contractsGrantsInvoiceDocument.getInvoiceDetails().get(0).getExpenditures());
+        assertEquals(value2, contractsGrantsInvoiceDocument.getInvoiceDetails().get(1).getExpenditures());
 
         // change the award total, it should now prorate
         contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().setAwardTotal(new KualiDecimal(4));
 
-        try {
-            contractsGrantsInvoiceDocumentServiceImpl.prorateBill(contractsGrantsInvoiceDocument);
-        }
-        catch (WorkflowException ex) {
-            ex.printStackTrace();
-        }
+        contractsGrantsInvoiceDocumentServiceImpl.prorateBill(contractsGrantsInvoiceDocument);
 
-        assertEquals(new KualiDecimal(4.00), contractsGrantsInvoiceDocument.getInvoiceDetails().get(1).getExpenditures());
-
-        assertEquals(new KualiDecimal(0), contractsGrantsInvoiceDocument.getInvoiceDetails().get(2).getExpenditures());
+        assertEquals(new KualiDecimal(4.00), contractsGrantsInvoiceDocument.getInvoiceDetails().get(0).getExpenditures());
+        assertEquals(new KualiDecimal(0), contractsGrantsInvoiceDocument.getInvoiceDetails().get(1).getExpenditures());
     }
 
     /**
@@ -247,6 +239,9 @@ public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
         accountDetails.add(invoiceAccountDetail_1);
         accountDetails.add(invoiceAccountDetail_2);
         contractsGrantsInvoiceDocument.setAccountDetails(accountDetails);
+
+        // setup various invoice detail collections on invoice document
+        contractsGrantsInvoiceDocumentServiceImpl.generateValuesForCategories(award.getActiveAwardAccounts(), contractsGrantsInvoiceDocument);
 
         // set InvoiceDetailAccountObjectCodes
         InvoiceDetailAccountObjectCode invoiceDetailAccountObjectCode_1 = InvoiceDetailAccountObjectCodeFixture.DETAIL_ACC_OBJ_CD1.createInvoiceDetailAccountObjectCode();
@@ -357,8 +352,8 @@ public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
         KualiDecimal value1 = new KualiDecimal(5);
 
         KualiDecimal value2 = new KualiDecimal(0);
-        contractsGrantsInvoiceDocument.getInvoiceDetails().get(1).setExpenditures(value1);
-        contractsGrantsInvoiceDocument.getInvoiceDetails().get(2).setExpenditures(value2);
+        contractsGrantsInvoiceDocument.getInvoiceDetails().get(0).setExpenditures(value1);
+        contractsGrantsInvoiceDocument.getInvoiceDetails().get(1).setExpenditures(value2);
 
         InvoiceAccountDetail invoiceAccountDetail_1 = InvoiceAccountDetailFixture.INV_ACCT_DTL3.createInvoiceAccountDetail();
         InvoiceAccountDetail invoiceAccountDetail_2 = InvoiceAccountDetailFixture.INV_ACCT_DTL4.createInvoiceAccountDetail();
@@ -385,7 +380,7 @@ public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
         criteria.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, currentYear);
         criteria.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, coaCode);
         criteria.put(KFSPropertyConstants.ORGANIZATION_CODE, orgCode);
-        OrganizationAccountingDefault organizationAccountingDefault = (OrganizationAccountingDefault) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(OrganizationAccountingDefault.class, criteria);
+        OrganizationAccountingDefault organizationAccountingDefault = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(OrganizationAccountingDefault.class, criteria);
 
         if (ObjectUtils.isNull(organizationAccountingDefault)) {
             organizationAccountingDefault = new OrganizationAccountingDefault();
@@ -404,7 +399,7 @@ public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
 //        parameterService.setParameterForTesting(CustomerInvoiceDocument.class, ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD, ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_CHART);
 
         // To check if the source accounting lines are created as expected.
-        CustomerInvoiceDetail customerInvoiceDetail = CustomerInvoiceDetailFixture.CUSTOMER_INVOICE_DETAIL_CHART_RECEIVABLE.createCustomerInvoiceDetail();
+        CustomerInvoiceDetail customerInvoiceDetail = CustomerInvoiceDetailFixture.CUSTOMER_INVOICE_DETAIL_CHART_RECEIVABLE_2.createCustomerInvoiceDetail();
 
         // 1. Invoicing by Award
         contractsGrantsInvoiceDocument.setInvoiceGeneralDetail(inv_Gnrl_Dtl_1);
@@ -444,7 +439,7 @@ public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
 //        parameterService.setParameterForTesting(CustomerInvoiceDocument.class, ArConstants.GLPE_RECEIVABLE_OFFSET_OBJECT_CODE_BY_SUB_FUND, "GENFND=8110");
 
         // To check if the source accounting lines are created as expected.
-        customerInvoiceDetail = CustomerInvoiceDetailFixture.CUSTOMER_INVOICE_DETAIL_SUBFUND_RECEIVABLE.createCustomerInvoiceDetail();
+        customerInvoiceDetail = CustomerInvoiceDetailFixture.CUSTOMER_INVOICE_DETAIL_SUBFUND_RECEIVABLE_2.createCustomerInvoiceDetail();
 
         accountDetails.clear();
         accountDetails.add(invoiceAccountDetail_1);
@@ -487,7 +482,7 @@ public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
 
         // Use the same customer Invoice detail as Subfund.
 
-        customerInvoiceDetail = CustomerInvoiceDetailFixture.CUSTOMER_INVOICE_DETAIL_SUBFUND_RECEIVABLE.createCustomerInvoiceDetail();
+        customerInvoiceDetail = CustomerInvoiceDetailFixture.CUSTOMER_INVOICE_DETAIL_SUBFUND_RECEIVABLE_2.createCustomerInvoiceDetail();
 
 
         CustomerInvoiceAccount custInvAcct = ARAwardInvoiceAccountFixture.AWD_INV_ACCT_1.createCustomerInvoiceAccount();

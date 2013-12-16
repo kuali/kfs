@@ -97,7 +97,7 @@ public class AddImportedExpenseDetailEvent implements Observer {
             }
             if (detailTotal.isLessThan(line.getExpenseAmount())){
                 KualiDecimal remainderExpense = line.getExpenseAmount().subtract(detailTotal);
-                KualiDecimal remainderConverted = line.getConvertedAmount().subtract(detailTotal.multiply(line.getCurrencyRate()));
+                KualiDecimal remainderConverted = line.getConvertedAmount().subtract(new KualiDecimal(detailTotal.bigDecimalValue().multiply(line.getCurrencyRate())));
                 newExpense.setExpenseAmount(remainderExpense);
                 newExpense.setConvertedAmount(remainderConverted);
             }

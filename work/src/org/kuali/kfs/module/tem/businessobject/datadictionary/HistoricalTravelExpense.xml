@@ -166,6 +166,9 @@
 		<property name="shortLabel" value="Currency Rate" />
 		<property name="summary" value="Currency Rate" />
 		<property name="description" value="Currency Rate" />
+		<property name="validationPattern">
+			<bean parent="FixedPointValidationPattern" p:precision="20" p:scale="10" p:allowNegative="false" />
+		</property>
 	</bean>
 	<bean id="HistoricalTravelExpense-convertedAmount" parent="HistoricalTravelExpense-convertedAmount-parentBean" />
 	<bean id="HistoricalTravelExpense-convertedAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">

@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.tem.businessobject;
 
+import java.math.BigDecimal;
 import java.sql.Date;
 
 import org.kuali.rice.core.api.util.type.KualiDecimal;
@@ -93,8 +94,8 @@ public interface OtherExpense extends BusinessObject {
     void setMiles(final Integer miles);
     Integer getMiles();
 
-    void setMileageOtherRate(KualiDecimal mileageOtherRate);
-    KualiDecimal getMileageOtherRate();
+    void setMileageOtherRate(BigDecimal mileageOtherRate);
+    BigDecimal getMileageOtherRate();
 
     void setRentalCarInsurance(final Boolean rentalCarInsurance);
     Boolean getRentalCarInsurance();

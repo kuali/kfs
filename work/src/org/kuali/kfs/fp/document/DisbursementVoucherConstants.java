@@ -225,7 +225,6 @@ public interface DisbursementVoucherConstants {
         public static final String AWARD = "Award";
         public static final String TRAVEL = "Travel";
         public static final String CAMPUS = "Campus";
-        public static final String PAYMENT_METHOD = "PaymentMethod";
     }
     
     public static final String DV_DOC_NAME = "Disbursement Voucher";

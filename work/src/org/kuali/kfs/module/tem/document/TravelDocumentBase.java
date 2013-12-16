@@ -964,7 +964,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
 
         if(actualExpenses != null){
             for (final ActualExpense expense : actualExpenses) {
-                final KualiDecimal expenseAmount = expense.getExpenseAmount().multiply(expense.getCurrencyRate());
+                final KualiDecimal expenseAmount = new KualiDecimal(expense.getExpenseAmount().bigDecimalValue().multiply(expense.getCurrencyRate()));
 
                 LOG.debug("Expense amount gotten is " + expenseAmount);
                 retval = retval.add(expenseAmount);

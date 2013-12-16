@@ -57,6 +57,7 @@ public class TemConstants {
     public static final String TRAVEL_MANAGER_TEST_ATTRIBUTE = "travelManager";
     public static final String FISCAL_OFFICER_TEST_ATTRIBUTE = "fiscalOfficer";
     public static final String DELINQUENT_TEST_ATTRIBUTE = "delinquent";
+    public static final String TEM_DOCUMENT_IDENTIFER_NOT_AVAILABLE = "Not Available";
 
     public static final String AMENDMENT_TA_QUESTION = "AmendmentTa";
     public static final String CLOSE_TA_QUESTION = "CloseTa";
@@ -914,6 +915,7 @@ public class TemConstants {
         public static final String ACTUAL_EXPENSE_TAXABLE_MODE = "actualExpenseTaxableEntry";
         public static final String BLANKET_TRAVEL_ENTRY = "blanketTravelEntry";
         public static final String EXPENSE_LIMIT_ENTRY = "expenseLimitEntry";
+        public static final String CONVERSION_RATE_ENTRY = "conversionRateEntry";
     }
 
     public static class TravelAuthorizationActions {

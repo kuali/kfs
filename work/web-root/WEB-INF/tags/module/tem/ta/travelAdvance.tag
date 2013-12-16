@@ -36,7 +36,7 @@
 			<kul:htmlControlAttribute
 				attributeEntry="${travelAdvanceAttributes.travelAdvanceRequested}"
 				property="${travelAdvanceProperty}.travelAdvanceRequested"
-				readOnly="${!fullEntryMode}" />
+				readOnly="${!fullEntryMode && !conversionRateEntryMode}" />
 		</td>
 	</tr>
 	<tr>

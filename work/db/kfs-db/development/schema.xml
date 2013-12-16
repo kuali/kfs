@@ -15983,7 +15983,7 @@
         <column name="DESCRIPTION" size="25" type="VARCHAR"/>
         <column name="RECON_DT" type="DATE"/>
         <column name="RECONCILED" size="1" type="VARCHAR"/>
-        <column name="CURR_RT" scale="2" size="8" type="DECIMAL"/>
+        <column name="CURR_RT" scale="10" size="20" type="DECIMAL"/>
         <column name="CONV_AMT" scale="2" size="8" type="DECIMAL"/>
         <column name="REIMB" size="1" type="VARCHAR"/>
         <column name="MISSING_RCPT" size="1" type="VARCHAR"/>
@@ -16018,7 +16018,7 @@
     </table>
     <table name="TEM_MILEAGE_RT_T">
         <column name="ID" primaryKey="true" size="22" type="DECIMAL"/>
-        <column name="RT" scale="2" size="19" type="DECIMAL"/>
+        <column name="RT" scale="4" size="14" type="DECIMAL"/>
         <column name="ACTV_FROM_DT" required="true" type="DATE"/>
         <column name="ACTV_TO_DT" required="true" type="DATE"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
@@ -16731,14 +16731,14 @@
         <column name="EXP_DT" type="DATE"/>
         <column default="0" name="EXP_AMT" scale="3" size="20" type="DECIMAL"/>
         <column name="EXP_DESC" size="255" type="VARCHAR"/>
-        <column default="0" name="CUR_RT" scale="6" size="7" type="DECIMAL"/>
+        <column default="0" name="CUR_RT" scale="10" size="20" type="DECIMAL"/>
         <column name="CUR_COUNTRY_CD" size="100" type="VARCHAR"/>
         <column default="0" name="CONVERTED_AMT" scale="2" size="7" type="DECIMAL"/>
         <column name="DV_EXP_CO_NM" size="40" type="VARCHAR"/>
         <column name="AIRFARE_SRC_CD" size="10" type="VARCHAR"/>
         <column name="CLASS_SVC_CODE" size="10" type="VARCHAR"/>
         <column name="MILES" size="22" type="DECIMAL"/>
-        <column default="0" name="MILEAGE_OTHR_RT" scale="2" size="19" type="DECIMAL"/>
+        <column default="0" name="MILEAGE_OTHR_RT" scale="4" size="14" type="DECIMAL"/>
         <column name="CARD_TYPE" size="40" type="VARCHAR"/>
         <column name="RENTAL_CAR_INSURANCE" size="1" type="VARCHAR"/>
         <column name="NON_REIMB_IND" size="1" type="VARCHAR"/>

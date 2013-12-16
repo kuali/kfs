@@ -20,16 +20,20 @@ import java.util.List;
 
 import org.apache.commons.lang.WordUtils;
 import org.apache.log4j.Logger;
+import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemConstants.TravelDocTypes;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
+import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
 import org.kuali.kfs.module.tem.service.TemProfileService;
 import org.kuali.kfs.module.tem.service.TemRoleService;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.workflow.KFSDocumentSearchCustomizer;
 import org.kuali.rice.core.api.uif.DataType;
 import org.kuali.rice.core.api.uif.RemotableAttributeField;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.document.Document;
 import org.kuali.rice.kew.api.document.attribute.DocumentAttribute;
 import org.kuali.rice.kew.api.document.attribute.DocumentAttributeString;
@@ -60,6 +64,29 @@ public class TravelDocumentSearchCustomizer extends KFSDocumentSearchCustomizer 
             List<DocumentAttribute.AbstractBuilder<?>> custAttrBuilders = new ArrayList<DocumentAttribute.AbstractBuilder<?>>();
             Document document = result.getDocument();
 
+            if(TemConstants.TravelDocTypes.TRAVEL_AUTHORIZATION_DOCUMENT.equals(document.getDocumentTypeName())) {
+                for (DocumentAttribute documentAttribute : result.getDocumentAttributes()) {
+                    if (TemPropertyConstants.TRAVEL_DOCUMENT_IDENTIFIER.equals(documentAttribute.getName())) {
+                        if (maskOrgDocNumberAndTravelDocumentIdentifier(document) ) {
+                               DocumentAttributeString.Builder builder = DocumentAttributeString.Builder.create(TemPropertyConstants.TRAVEL_DOCUMENT_IDENTIFIER);
+                                builder.setValue("********");
+                                custAttrBuilders.add(builder);
+
+                        }
+                    }
+
+                    if (TemPropertyConstants.ORGANIZATION_DOCUMENT_NUMBER.equals(documentAttribute.getName())) {
+                        if (maskOrgDocNumberAndTravelDocumentIdentifier(document) ) {
+                            DocumentAttributeString.Builder builder = DocumentAttributeString.Builder.create(TemPropertyConstants.ORGANIZATION_DOCUMENT_NUMBER);
+                             builder.setValue("********");
+                             custAttrBuilders.add(builder);
+
+                     }
+                    }
+
+                }
+            }
+
             DocumentAttributeString.Builder attributeBuilder = DocumentAttributeString.Builder.create(TemPropertyConstants.TRVL_DOC_SEARCH_RESULT_PROPERTY_NAME_ACTIONS);
             attributeBuilder.setValue(buildCustomActionHTML(result, getDocument(document.getDocumentId())));
             custAttrBuilders.add(attributeBuilder);
@@ -70,6 +97,16 @@ public class TravelDocumentSearchCustomizer extends KFSDocumentSearchCustomizer 
         }
         customResultsBuilder.setResultValues(customResultValueBuilders);
         return customResultsBuilder.build();
+
+    }
+
+    public boolean maskOrgDocNumberAndTravelDocumentIdentifier (Document document) {
+        boolean vendorPaymentAllowedBeforeFinal = SpringContext.getBean(ParameterService.class).getParameterValueAsBoolean(TravelAuthorizationDocument.class, TemConstants.TravelAuthorizationParameters.VENDOR_PAYMENT_ALLOWED_BEFORE_FINAL_APPROVAL_IND);
+        if(!vendorPaymentAllowedBeforeFinal && !(KFSConstants.DocumentStatusCodes.PROCESSED.equals(document.getStatus().getCode()) || KFSConstants.DocumentStatusCodes.FINAL.equals(document.getStatus().getCode()))) {
+            return true;
+        }
+
+        return false;
     }
 
     /**

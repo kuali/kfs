@@ -22,6 +22,7 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
@@ -36,6 +37,7 @@ public class AgencyServiceFee extends KualiCodeBase implements MutableInactivata
     private String creditObjectCode;
     private KualiDecimal serviceFee;
 
+    private Chart chart;
     private Account account;
     private ObjectCode objectCode;
 
@@ -118,6 +120,22 @@ public class AgencyServiceFee extends KualiCodeBase implements MutableInactivata
      */
     public void setServiceFee(KualiDecimal serviceFee) {
         this.serviceFee = serviceFee;
+    }
+
+    /**
+     * Gets the chart attribute.
+     * @return Returns the chart
+     */
+    public Chart getChart() {
+        return chart;
+    }
+
+    /**
+     * Sets the chart attribute.
+     * @param chart The chart to set.
+     */
+    public void setChart(Chart chart) {
+        this.chart = chart;
     }
 
     /**

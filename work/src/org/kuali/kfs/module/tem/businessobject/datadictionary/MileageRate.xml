@@ -49,6 +49,9 @@
 		<property name="required" value="true" />
 		<property name="summary" value="Rate" />
 		<property name="description" value="Rate" />
+		<property name="validationPattern">
+			<bean parent="FixedPointValidationPattern" p:precision="14" p:scale="4" p:allowNegative="false" />
+		</property>
 	</bean>
 	<bean id="MileageRate-activeFromDate" parent="MileageRate-activeFromDate-parentBean" />
 	<bean id="MileageRate-activeFromDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">

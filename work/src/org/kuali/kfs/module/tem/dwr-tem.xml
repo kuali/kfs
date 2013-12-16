@@ -21,7 +21,7 @@
 	</init>
 	<allow>
 	    <create creator="spring" javascript="TravelDocumentService">
-	    	<param name="beanName" value="temTravelDocumentService" />
+	    	<param name="beanName" value="travelDocumentService" />
 	    	<include method="checkNonEmployeeTravelerTypeCode" />
 	    	<include method="getAllStates" />
 	    </create>

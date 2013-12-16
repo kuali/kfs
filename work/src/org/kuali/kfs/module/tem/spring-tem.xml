@@ -320,7 +320,7 @@
 		<property name="ruleService" ref="kualiRuleService" />
 		<property name="objectCodeService" ref="objectCodeService" />
 		<property name="personService" ref="personService" />
-		<property name="travelDocumentService" ref="temTravelDocumentService" />
+		<property name="travelDocumentService" ref="travelDocumentService" />
 		<property name="travelAuthorizationService" ref="temTravelAuthorizationService" />
 		<property name="workflowDocumentService" ref="workflowDocumentService" />
 		<property name="documentDao" ref="documentDao" />
@@ -346,7 +346,7 @@
 		<property name="documentService" ref="documentService" />
 		<property name="parameterService" ref="parameterService" />
 		<property name="personService" ref="personService" />
-		<property name="travelDocumentService" ref="temTravelDocumentService" />
+		<property name="travelDocumentService" ref="travelDocumentService" />
 	</bean>
 
 	<bean id="temTravelRelocationService" parent="temTravelRelocationService-parentBean" />
@@ -356,7 +356,7 @@
 		<property name="documentService" ref="documentService" />
 		<property name="parameterService" ref="parameterService" />
 		<property name="personService" ref="personService" />
-		<property name="travelDocumentService" ref="temTravelDocumentService" />
+		<property name="travelDocumentService" ref="travelDocumentService" />
 		<property name="propertyChangeListeners">
 			<list>
 				<ref bean="TravelDocument-addActualExpenseListener" />
@@ -370,7 +370,7 @@
 		<property name="businessObjectService" ref="businessObjectService" />
 		<property name="parameterService" ref="parameterService" />
 		<property name="objectCodeService" ref="objectCodeService" />
-		<property name="travelDocumentService" ref="temTravelDocumentService" />
+		<property name="travelDocumentService" ref="travelDocumentService" />
 	</bean>
 
 	<bean id="nonEmployeeCertificationReportService" parent="nonEmployeeCertificationReportService-parentBean" /> 
@@ -379,7 +379,7 @@
 		<property name="reportInfo" ref="nonEmployeeFormsReportInfo" />	
 		<property name="personService" ref="personService" />	
         <property name="organizationService" ref="organizationService" />
-		<property name="travelDocumentService" ref="temTravelDocumentService" />
+		<property name="travelDocumentService" ref="travelDocumentService" />
 		<property name="temProfileService" ref="temProfileService" />
 	</bean>
 
@@ -388,7 +388,7 @@
 		<property name="configurationService" ref="kualiConfigurationService" />
 		<property name="parameterService" ref="parameterService" />
 		<property name="personService" ref="personService" />
-		<property name="travelDocumentService" ref="temTravelDocumentService" />
+		<property name="travelDocumentService" ref="travelDocumentService" />
 		<property name="travelAuthorizationService" ref="temTravelAuthorizationService"/>
 		<property name="accountingDistributionService" ref="temAccountingDistributionService"/>		
 	</bean>
@@ -398,7 +398,7 @@
 		<property name="configurationService" ref="kualiConfigurationService" />
 		<property name="parameterService" ref="parameterService" />
 		<property name="personService" ref="personService" />
-		<property name="travelDocumentService" ref="temTravelDocumentService" />
+		<property name="travelDocumentService" ref="travelDocumentService" />
 	</bean>
 	
 	<bean id="travelEntertainmentHostCertificationService" parent="travelEntertainmentHostCertificationService-parentBean" />
@@ -406,7 +406,7 @@
 		<property name="configurationService" ref="kualiConfigurationService" />
 		<property name="parameterService" ref="parameterService" />
 		<property name="personService" ref="personService" />
-		<property name="travelDocumentService" ref="temTravelDocumentService" />
+		<property name="travelDocumentService" ref="travelDocumentService" />
 		<property name="entReportInfo" ref="entReportInfo" />
 		<property name="temProfileService" ref="temProfileService" />
 	</bean>
@@ -494,10 +494,8 @@
         <property name="travelDocumentDao" ref="travelDocumentDao" />		
 	</bean>
 
-	<bean id="temTravelDocumentService" parent="temTravelDocumentService-parentBean" />
-	<bean id="temTravelDocumentService-parentBean"
-		class="org.kuali.kfs.module.tem.document.service.impl.TravelDocumentServiceImpl"
-		abstract="true">
+	<bean id="travelDocumentService" parent="travelDocumentService-parentBean" />
+	<bean id="travelDocumentService-parentBean" class="org.kuali.kfs.module.tem.document.service.impl.TravelDocumentServiceImpl"	abstract="true">
 		<property name="businessObjectService" ref="businessObjectService" />
 		<property name="documentService" ref="documentService" />
 		<property name="dataDictionaryService" ref="dataDictionaryService" />
@@ -535,7 +533,7 @@
     <bean id="travelEncumbranceService-parentBean"
       class="org.kuali.kfs.module.tem.document.service.impl.TravelEncumbranceServiceImpl" abstract="true">
       <property name="businessObjectService" ref="businessObjectService" />
-      <property name="travelDocumentService" ref="temTravelDocumentService" />
+      <property name="travelDocumentService" ref="travelDocumentService" />
       <property name="documentService" ref="documentService" />
       <property name="encumbranceService" ref="glEncumbranceService" />
       <property name="encumbranceCalculator" ref="glPostEncumbrance" />
@@ -558,7 +556,7 @@
 		<property name="universityDateService" ref="universityDateService" />
 		<property name="accountingDocumentRelationshipService" ref="temAccountingDocumentRelationshipService" />
 		<property name="temProfileService" ref="temProfileService" />
-        <property name="travelDocumentService" ref="temTravelDocumentService" />
+        <property name="travelDocumentService" ref="travelDocumentService" />
         <property name="documentDao" ref="documentDao" />
         <property name="dataDictionaryService" ref="dataDictionaryService"/>
         <property name="identityService" ref="identityService"/>
@@ -645,7 +643,7 @@
     </bean>  
     <bean id="removeActualExpenseEvent" class="org.kuali.kfs.module.tem.document.web.struts.RemoveActualExpenseEvent">
       <property name="accountingDistributionService" ref="temAccountingDistributionService" />
-      <property name="travelDocumentService"         ref="temTravelDocumentService" />
+      <property name="travelDocumentService"         ref="travelDocumentService" />
       <property name="ruleService"                   ref="kualiRuleService" />
     </bean>
     
@@ -670,7 +668,7 @@
     </bean>
 
     <bean id="importAttendeesEvent" class="org.kuali.kfs.module.tem.document.web.struts.ImportAttendeesEvent">
-        <property name="travelDocumentService"              ref="temTravelDocumentService" />        
+        <property name="travelDocumentService"              ref="travelDocumentService" />        
         <property name="travelEntertainmentDocumentService" ref="temEntertainmentDocumentService" />
         <property name="ruleService"                        ref="kualiRuleService" />
     </bean>
@@ -679,7 +677,7 @@
     </bean>
     
     <bean id="uploadGroupTravelersEvent" class="org.kuali.kfs.module.tem.document.web.struts.UploadGroupTravelersEvent">
-        <property name="travelDocumentService" ref="temTravelDocumentService" />        
+        <property name="travelDocumentService" ref="travelDocumentService" />        
         <property name="ruleService" ref="kualiRuleService" />
     </bean>
 
@@ -910,7 +908,7 @@
         <property name="documentService" ref="documentService" />
         <property name="accountsReceivableModuleService" ref="accountsReceivableModuleService" />
         <property name="parameterService" ref="parameterService" />
-        <property name="travelDocumentService" ref="temTravelDocumentService" />        
+        <property name="travelDocumentService" ref="travelDocumentService" />        
     </bean> 
     
     <bean id="travelDocumentNotificationService" parent="travelDocumentNotificationService-parentBean"/>
@@ -979,7 +977,7 @@
 		<property name="agencyDataTripUploadReportHelper" ref="agencyDataTripUploadReportHelper" />
 		<property name="dateTimeService" ref="dateTimeService" />
 	    <property name="dataReportService" ref="dataReportService" />
-	    <property name="travelDocumentService" ref="temTravelDocumentService" />
+	    <property name="travelDocumentService" ref="travelDocumentService" />
 		<property name="agencyDataImportFileTypes">
 			<list>
 				<ref bean="agencyDataXmlInputFileType"/>
@@ -1064,7 +1062,7 @@
 		<property name="dateTimeService" ref="dateTimeService" />
 		<property name="travelExpenseService" ref="travelExpenseService" />
         <property name="importedExpensePendingEntryService" ref="importedExpensePendingEntryService" />
-        <property name="travelDocumentService" ref="temTravelDocumentService" />
+        <property name="travelDocumentService" ref="travelDocumentService" />
         <property name="travelEncumbranceService" ref="travelEncumbranceService" />
 	</bean>
     <bean id="importedExpensePendingEntryService" parent="importedExpensePendingEntryService-parentBean" />
@@ -1073,7 +1071,7 @@
       <property name="universityDateService" ref="universityDateService" />
       <property name="parameterService" ref="parameterService"/>
       <property name="generalLedgerPendingEntryService" ref="generalLedgerPendingEntryService" />
-      <property name="travelDocumentService" ref="temTravelDocumentService" />
+      <property name="travelDocumentService" ref="travelDocumentService" />
     </bean>
 	<!-- End Agency Upload configuration -->
 
@@ -1239,7 +1237,7 @@
 	<bean id="ReturnToFiscalOfficer"
 		class="org.kuali.kfs.module.tem.document.web.struts.ReturnToFiscalOfficerQuestionHandler">
 		<property name="configurationService" ref="kualiConfigurationService" />
-		<property name="travelDocumentService" ref="temTravelDocumentService" />
+		<property name="travelDocumentService" ref="travelDocumentService" />
 		<property name="dataDictionaryService" ref="dataDictionaryService" />
 	</bean>
 
@@ -1247,7 +1245,7 @@
 		class="org.kuali.kfs.module.tem.document.web.struts.AmendQuestionHandler">
 		<property name="configurationService" ref="kualiConfigurationService" />
 		<property name="travelService" ref="temTravelService" />
-        <property name="travelDocumentService" ref="temTravelDocumentService" />
+        <property name="travelDocumentService" ref="travelDocumentService" />
 		<property name="documentDao" ref="documentDao" />
 		<property name="dataDictionaryService" ref="dataDictionaryService" />
 		<property name="accountingDocumentRelationshipService" ref="temAccountingDocumentRelationshipService" />
@@ -1256,7 +1254,7 @@
 	<bean id="HoldTa"
 		class="org.kuali.kfs.module.tem.document.web.struts.HoldQuestionHandler">
 		<property name="configurationService" ref="kualiConfigurationService" />
-		<property name="travelDocumentService" ref="temTravelDocumentService" />
+		<property name="travelDocumentService" ref="travelDocumentService" />
 		<property name="documentDao" ref="documentDao" />
 		<property name="dataDictionaryService" ref="dataDictionaryService" />
 		<property name="noteService" ref="noteService"/>
@@ -1265,7 +1263,7 @@
 	<bean id="RemoveHoldTa"
 		class="org.kuali.kfs.module.tem.document.web.struts.RemoveHoldQuestionHandler">
 		<property name="configurationService" ref="kualiConfigurationService" />
-		<property name="travelDocumentService" ref="temTravelDocumentService" />
+		<property name="travelDocumentService" ref="travelDocumentService" />
 		<property name="documentDao" ref="documentDao" />
 		<property name="dataDictionaryService" ref="dataDictionaryService" />
 		<property name="noteService" ref="noteService"/>
@@ -1278,7 +1276,7 @@
 	</bean>
 	
 	<bean id="CancelTa" class="org.kuali.kfs.module.tem.document.web.struts.CancelQuestionHandler">
-		<property name="travelDocumentService" ref="temTravelDocumentService" />
+		<property name="travelDocumentService" ref="travelDocumentService" />
 		<property name="documentService" ref="documentService"/>
 		<property name="travelEncumbranceService" ref="travelEncumbranceService"/>
 		<property name="configurationService" ref="kualiConfigurationService" />
@@ -1302,7 +1300,7 @@
     	<property name="dateTimeService" ref="dateTimeService" />
     	<property name="temProfileService" ref="temProfileService" />
     	<property name="historicalTravelExpenseService" ref="historicalTravelExpenseService" /> 
-    	<property name="travelDocumentService" ref="temTravelDocumentService"/>
+    	<property name="travelDocumentService" ref="travelDocumentService"/>
     	<property name="documentService" ref="documentService"/>
     	
     	<property name="kfsNotificationService" ref="kfsNotificationService" />
@@ -1438,7 +1436,7 @@
 	<bean id="travelEntertainmentMovingModuleService" parent="travelEntertainmentMovingModuleService-parentBean" />
 	<bean id="travelEntertainmentMovingModuleService-parentBean" abstract="true" class="org.kuali.kfs.module.tem.service.impl.TravelEntertainmentMovingModuleServiceImpl">
 		<property name="parameterService" ref="parameterService"/>
-		<property name="travelDocumentService" ref="temTravelDocumentService" />
+		<property name="travelDocumentService" ref="travelDocumentService" />
 		<property name="travelerService" ref="travelerService" />
 		<property name="accountingDocumentRelationshipService" ref="temAccountingDocumentRelationshipService" />
     </bean>

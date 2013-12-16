@@ -20,13 +20,13 @@ public class KfsAuthorizationConstants  {
     public static class TransactionalEditMode{
         public static final String EXPENSE_ENTRY = "expenseEntry";
         public static final String IMMEDIATE_DISBURSEMENT_ENTRY = "immediateDisbursementEntryMode";
+        public static final String FRN_ENTRY = "frnEntry";
+        public static final String WIRE_ENTRY = "wireEntry";
     }
 
     public static class DisbursementVoucherEditMode extends TransactionalEditMode {
         public static final String PAYEE_ENTRY = "payeeEntry";
         public static final String TAX_ENTRY = "taxEntry";
-        public static final String FRN_ENTRY = "frnEntry";
-        public static final String WIRE_ENTRY = "wireEntry";
         public static final String TRAVEL_ENTRY = "travelEntry";
         public static final String FULL_ENTRY = "fullEntry";
         public static final String PAYMENT_HANDLING_ENTRY = "paymentHandlingEntry";

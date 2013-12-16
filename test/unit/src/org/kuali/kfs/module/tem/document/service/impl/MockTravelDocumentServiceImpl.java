@@ -422,4 +422,10 @@ public class MockTravelDocumentServiceImpl implements TravelDocumentService {
     public TravelDocument getTravelDocument(String travelDocumentIdentifier) {
         return realTravelDocumentService.getTravelDocument(travelDocumentIdentifier);
     }
+
+    @Override
+    public boolean travelDocumentTotalsUnchangedFromPersisted(TravelDocument travelDocument) {
+        return realTravelDocumentService.travelDocumentTotalsUnchangedFromPersisted(travelDocument);
+    }
+
 }

@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.tem.businessobject;
 
 import java.lang.reflect.Field;
+import java.math.BigDecimal;
 import java.util.LinkedHashMap;
 
 import javax.persistence.Column;
@@ -50,9 +51,8 @@ public class ActualExpense extends AbstractExpense implements OtherExpense, Expe
 
     private String airfareSourceCode;
     private String classOfServiceCode;
-    private MileageRate mileageRate;
     private Integer miles;
-    private KualiDecimal mileageOtherRate;
+    private BigDecimal mileageOtherRate = BigDecimal.ZERO;
     private Boolean rentalCarInsurance = Boolean.FALSE;
 
     private Boolean airfareIndicator = Boolean.FALSE;
@@ -121,10 +121,7 @@ public class ActualExpense extends AbstractExpense implements OtherExpense, Expe
      * @return the value of mileageRate
      */
     public MileageRate getMileageRate(){
-        if (this.mileageRate == null){
-            this.mileageRate = SpringContext.getBean(TravelDocumentService.class).getMileageRate(getExpenseTypeCode(), getExpenseDate());
-        }
-        return this.mileageRate;
+        return SpringContext.getBean(TravelDocumentService.class).getMileageRate(getExpenseTypeCode(), getExpenseDate());
     }
 
     /**
@@ -154,7 +151,7 @@ public class ActualExpense extends AbstractExpense implements OtherExpense, Expe
      * @param mileageOtherRate value to assign to this.mileageOtherRate
      */
     @Override
-    public void setMileageOtherRate(final KualiDecimal mileageOtherRate) {
+    public void setMileageOtherRate(final BigDecimal mileageOtherRate) {
         this.mileageOtherRate = mileageOtherRate;
     }
 
@@ -165,7 +162,7 @@ public class ActualExpense extends AbstractExpense implements OtherExpense, Expe
      */
     @Override
     @Column(name="MILEAGE_OTHR_RT",precision=19,scale=2,nullable=true)
-    public KualiDecimal getMileageOtherRate() {
+    public BigDecimal getMileageOtherRate() {
         return this.mileageOtherRate;
     }
 
@@ -312,12 +309,12 @@ public class ActualExpense extends AbstractExpense implements OtherExpense, Expe
 
         if(ObjectUtils.isNotNull(this.miles) && this.miles != 0){
             if (!ObjectUtils.isNull(mileageOtherRate)) {
-                total= new KualiDecimal(miles).multiply(this.mileageOtherRate); // mileageOtherRate takes precedence
+                total= new KualiDecimal(new BigDecimal(miles).multiply(this.mileageOtherRate)); // mileageOtherRate takes precedence
             }
             else {
                 try{
                     final MileageRate mileageRate = this.getMileageRate();
-                    total = new KualiDecimal(miles).multiply(this.mileageRate.getRate());
+                    total = new KualiDecimal(new BigDecimal(miles).multiply(getMileageRate().getRate()));
                 }
                 catch(Exception ex){
                     //This should never happen

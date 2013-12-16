@@ -55,8 +55,8 @@ public class DisbursementVoucherDocumentPresentationController extends Accountin
         Set<String> editModes = super.getEditModes(document);
 
         editModes.add(KfsAuthorizationConstants.DisbursementVoucherEditMode.TAX_ENTRY);
-        editModes.add(KfsAuthorizationConstants.DisbursementVoucherEditMode.FRN_ENTRY);
-        editModes.add(KfsAuthorizationConstants.DisbursementVoucherEditMode.WIRE_ENTRY);
+        editModes.add(KfsAuthorizationConstants.TransactionalEditMode.FRN_ENTRY);
+        editModes.add(KfsAuthorizationConstants.TransactionalEditMode.WIRE_ENTRY);
         editModes.add(KfsAuthorizationConstants.TransactionalEditMode.IMMEDIATE_DISBURSEMENT_ENTRY);
 
         addFullEntryEntryMode(document, editModes);
@@ -154,7 +154,7 @@ public class DisbursementVoucherDocumentPresentationController extends Accountin
                 if (((DisbursementVoucherDocument)document).isTravelReviewRequired()) {
                    editModes.add(KfsAuthorizationConstants.DisbursementVoucherEditMode.TRAVEL_ENTRY);
                 }
-            } else if (currentRouteLevels.contains(DisbursementVoucherConstants.RouteLevelNames.PAYMENT_METHOD) && ((DisbursementVoucherDocument)document).getDisbVchrPaymentMethodCode().equals(KFSConstants.PaymentSourceConstants.PAYMENT_METHOD_DRAFT)) {
+            } else if (currentRouteLevels.contains(KFSConstants.RouteLevelNames.PAYMENT_METHOD) && ((DisbursementVoucherDocument)document).getDisbVchrPaymentMethodCode().equals(KFSConstants.PaymentSourceConstants.PAYMENT_METHOD_DRAFT)) {
                 editModes.add(KfsAuthorizationConstants.DisbursementVoucherEditMode.TRAVEL_ENTRY);
             } else {
                 editModes.add(KfsAuthorizationConstants.DisbursementVoucherEditMode.TRAVEL_ENTRY); // we're not FO? Then always add it, as KIM permissions will take it out if we shouldn't have it

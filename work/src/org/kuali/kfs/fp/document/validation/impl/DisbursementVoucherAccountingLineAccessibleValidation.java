@@ -89,9 +89,9 @@ public class DisbursementVoucherAccountingLineAccessibleValidation extends Accou
     protected static final List<String> CANDIDATE_EDIT_MODES = new ArrayList<String>(4);
     static {
         CANDIDATE_EDIT_MODES.add(KfsAuthorizationConstants.DisbursementVoucherEditMode.TAX_ENTRY);
-        CANDIDATE_EDIT_MODES.add(KfsAuthorizationConstants.DisbursementVoucherEditMode.FRN_ENTRY);
+        CANDIDATE_EDIT_MODES.add(KfsAuthorizationConstants.TransactionalEditMode.FRN_ENTRY);
         CANDIDATE_EDIT_MODES.add(KfsAuthorizationConstants.DisbursementVoucherEditMode.TRAVEL_ENTRY);
-        CANDIDATE_EDIT_MODES.add(KfsAuthorizationConstants.DisbursementVoucherEditMode.WIRE_ENTRY);
+        CANDIDATE_EDIT_MODES.add(KfsAuthorizationConstants.TransactionalEditMode.WIRE_ENTRY);
     }
 
     /**
@@ -102,17 +102,6 @@ public class DisbursementVoucherAccountingLineAccessibleValidation extends Accou
     protected List<String> getCandidateEditModes() {
         return Collections.unmodifiableList(CANDIDATE_EDIT_MODES);
     }
-
-//    /**
-//     * Determines if the two given accounting lines have not have their account changed
-//     * @param pollux the first accounting line to check
-//     * @param castor the second accounting line to check
-//     * @return true if the account is the same for the two, false otherwise
-//     */
-//    protected boolean accountUnchanged(AccountingLine pollux, AccountingLine castor) {
-//        return StringUtils.equals(pollux.getChartOfAccountsCode(), castor.getChartOfAccountsCode())
-//                && StringUtils.equals(pollux.getAccountNumber(), castor.getAccountNumber());
-//    }
 
     /**
      * Sets the oldAccountingLineForValidation attribute value.

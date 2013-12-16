@@ -15,6 +15,8 @@
  */
 package org.kuali.kfs.module.tem.document.validation.impl;
 
+import java.math.BigDecimal;
+
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemKeyConstants;
@@ -67,7 +69,7 @@ public class MileageRateRule extends MaintenanceDocumentRuleBase {
     protected boolean checkRate(MileageRate mileageRate) {
         boolean success = true;
         if (mileageRate.getRate() != null) {
-            if (!mileageRate.getRate().isPositive()) {
+            if (mileageRate.getRate().compareTo(BigDecimal.ZERO) < 0) {
                 putFieldError(TemPropertyConstants.RATE, TemKeyConstants.ERROR_DOCUMENT_MILEAGE_RATE_INVALID_RATE);
                 success = false;
             }

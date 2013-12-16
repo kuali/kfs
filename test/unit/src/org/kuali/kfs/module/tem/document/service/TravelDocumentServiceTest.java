@@ -22,6 +22,7 @@ import static org.kuali.kfs.module.tem.TemConstants.MILEAGE_TOTAL_ATTRIBUTE;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
+import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -33,19 +34,20 @@ import org.apache.log4j.Logger;
 import org.junit.Test;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.businessobject.ActualExpense;
+import org.kuali.kfs.module.tem.businessobject.ExpenseType;
 import org.kuali.kfs.module.tem.businessobject.ExpenseTypeObjectCode;
 import org.kuali.kfs.module.tem.businessobject.MileageRate;
 import org.kuali.kfs.module.tem.businessobject.PerDiem;
 import org.kuali.kfs.module.tem.businessobject.PerDiemExpense;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
 import org.kuali.kfs.module.tem.document.TravelDocument;
-import org.kuali.kfs.module.tem.document.service.impl.TravelDocumentServiceImpl;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
  *
@@ -57,7 +59,7 @@ public class TravelDocumentServiceTest extends KualiTestBase {
     private static final Logger LOG = Logger.getLogger(TravelDocumentServiceTest.class);
 
     protected final static String AIRFARE_EXPENSE_TYPE = "A";
-    protected final static String MILEAGE_EXPENSE_TYPE = "MM";
+    protected final static String MILEAGE_EXPENSE_TYPE = "MP";
 
     private TravelDocumentService travelDocumentService;
     private ParameterService parameterService;
@@ -84,7 +86,7 @@ public class TravelDocumentServiceTest extends KualiTestBase {
         mileageType.setExpenseTypeCode(MILEAGE_EXPENSE_TYPE);
         airfareType.setExpenseTypeCode(AIRFARE_EXPENSE_TYPE);
 
-        final TravelDocumentService travelDocumentServiceTemp = SpringContext.getBean(TravelDocumentServiceImpl.class);
+        final TravelDocumentService travelDocumentServiceTemp = SpringContext.getBean(TravelDocumentService.class);
         parameterService = SpringContext.getBean(ParameterService.class);
         travelDocumentService = (TravelDocumentService)Proxy.newProxyInstance(this.getClass().getClassLoader(), new Class[] {TravelDocumentService.class}, new InvocationHandler() {
             @Override
@@ -105,7 +107,7 @@ public class TravelDocumentServiceTest extends KualiTestBase {
                         @Override
                         public MileageRate getMileageRate() {
                             MileageRate rate = new MileageRate();
-                            rate.setRate(new KualiDecimal(0.45));
+                            rate.setRate(new BigDecimal(0.45));
                             rate.setExpenseTypeCode("MP");
                             return rate;
                         }
@@ -138,7 +140,7 @@ public class TravelDocumentServiceTest extends KualiTestBase {
             @Override
             public MileageRate getMileageRate() {
                 MileageRate rate = new MileageRate();
-                rate.setRate(new KualiDecimal(0.45));
+                rate.setRate(new BigDecimal(0.45));
                 rate.setExpenseTypeCode("MP");
                 return rate;
             }
@@ -190,7 +192,7 @@ public class TravelDocumentServiceTest extends KualiTestBase {
             @Override
             public MileageRate getMileageRate() {
                 MileageRate rate = new MileageRate();
-                rate.setRate(new KualiDecimal(0.45));
+                rate.setRate(new BigDecimal(0.45));
                 rate.setExpenseTypeCode("MP");
                 return rate;
             }
@@ -231,7 +233,7 @@ public class TravelDocumentServiceTest extends KualiTestBase {
             @Override
             public MileageRate getMileageRate() {
                 MileageRate rate = new MileageRate();
-                rate.setRate(new KualiDecimal(0.45));
+                rate.setRate(new BigDecimal(0.45));
                 rate.setExpenseTypeCode("MP");
                 return rate;
             }
@@ -330,7 +332,7 @@ public class TravelDocumentServiceTest extends KualiTestBase {
             @Override
             public MileageRate getMileageRate() {
                 MileageRate rate = new MileageRate();
-                rate.setRate(new KualiDecimal(0.45));
+                rate.setRate(new BigDecimal(0.45));
                 rate.setExpenseTypeCode("MP");
                 return rate;
             }
@@ -381,6 +383,7 @@ public class TravelDocumentServiceTest extends KualiTestBase {
 
         TravelDocument td = new TravelAuthorizationDocument();
         td.setDocumentNumber("1");
+        td.setPrimaryDestinationId(23242);
         travelDocumentService.updatePerDiemItemsFor(td, perDiemExpenses, new Integer(1), startDate, endDate);
 
         assertEquals(4, perDiemExpenses.size());
@@ -408,7 +411,7 @@ public class TravelDocumentServiceTest extends KualiTestBase {
             @Override
             public MileageRate getMileageRate() {
                 MileageRate rate = new MileageRate();
-                rate.setRate(new KualiDecimal(0.45));
+                rate.setRate(new BigDecimal(0.45));
                 rate.setExpenseTypeCode("MP");
                 return rate;
             }
@@ -464,6 +467,7 @@ public class TravelDocumentServiceTest extends KualiTestBase {
 
         TravelDocument td = new TravelAuthorizationDocument();
         td.setDocumentNumber("1");
+        td.setPrimaryDestinationId(23242);
         travelDocumentService.updatePerDiemItemsFor(td, perDiemExpenses, 1, startDate, endDate);
 
         assertEquals(3, perDiemExpenses.size());
@@ -487,6 +491,7 @@ public class TravelDocumentServiceTest extends KualiTestBase {
         Timestamp endDate = new Timestamp(cal.getTimeInMillis());
         TravelDocument td = new TravelAuthorizationDocument();
         td.setDocumentNumber("1");
+        td.setPrimaryDestinationId(23242);
         travelDocumentService.updatePerDiemItemsFor(td, perDiemExpenses, 1, new Timestamp(today.getTime()), endDate);
 
         assertEquals(6, perDiemExpenses.size());
@@ -505,6 +510,7 @@ public class TravelDocumentServiceTest extends KualiTestBase {
 
         TravelDocument td = new TravelAuthorizationDocument();
         td.setDocumentNumber("1");
+        td.setPrimaryDestinationId(23242);
         travelDocumentService.updatePerDiemItemsFor(td, perDiemExpenses, 1, startDate, endDate);
 
         assertEquals(2, perDiemExpenses.size());
@@ -603,7 +609,7 @@ public class TravelDocumentServiceTest extends KualiTestBase {
             @Override
             public MileageRate getMileageRate() {
                 MileageRate rate = new MileageRate();
-                rate.setRate(new KualiDecimal(0.45));
+                rate.setRate(new BigDecimal(0.45));
                 rate.setExpenseTypeCode("MP");
                 return rate;
             }
@@ -640,7 +646,7 @@ public class TravelDocumentServiceTest extends KualiTestBase {
             @Override
             public MileageRate getMileageRate() {
                 MileageRate rate = new MileageRate();
-                rate.setRate(new KualiDecimal(0.45));
+                rate.setRate(new BigDecimal(0.45));
                 rate.setExpenseTypeCode("MP");
                 return rate;
             }
@@ -700,23 +706,56 @@ public class TravelDocumentServiceTest extends KualiTestBase {
             public MileageRate getMileageRate() {
                 MileageRate rate = new MileageRate();
                 rate.setId(1);
-                rate.setRate(new KualiDecimal(0.45));
-                rate.setExpenseTypeCode("MP");
+                rate.setRate(new BigDecimal(0.45));
+                rate.setExpenseTypeCode(MILEAGE_EXPENSE_TYPE);
                 return rate;
+            }
+
+            @Override
+            public ExpenseType getExpenseType() {
+                final BusinessObjectService boService = SpringContext.getBean(BusinessObjectService.class);
+                final ExpenseType mileageExpenseType = boService.findBySinglePrimaryKey(ExpenseType.class, MILEAGE_EXPENSE_TYPE);
+                return mileageExpenseType;
             }
 
         };
 
         actualExpense.setTravelExpenseTypeCode(mileageType);
         actualExpense.setMiles(50);
+        actualExpense.setExpenseTypeCode(MILEAGE_EXPENSE_TYPE);
 
-        ActualExpense actualExpense2 = new ActualExpense();
+        ActualExpense actualExpense2 = new ActualExpense() {
+            @Override
+            public MileageRate getMileageRate() {
+                MileageRate rate = new MileageRate();
+                rate.setId(1);
+                rate.setRate(new BigDecimal(0.45));
+                rate.setExpenseTypeCode(MILEAGE_EXPENSE_TYPE);
+                return rate;
+            }
+
+            @Override
+            public ExpenseType getExpenseType() {
+                final BusinessObjectService boService = SpringContext.getBean(BusinessObjectService.class);
+                final ExpenseType mileageExpenseType = boService.findBySinglePrimaryKey(ExpenseType.class, MILEAGE_EXPENSE_TYPE);
+                return mileageExpenseType;
+            }
+        };
         actualExpense2.setTravelExpenseTypeCode(mileageType);
         actualExpense2.setMiles(50);
-        actualExpense2.setMileageOtherRate(new KualiDecimal(0.50));
+        actualExpense2.setMileageOtherRate(new BigDecimal(0.50));
+        actualExpense2.setExpenseTypeCode(MILEAGE_EXPENSE_TYPE);
 
-        ActualExpense actualExpense3 = new ActualExpense();
+        ActualExpense actualExpense3 = new ActualExpense() {
+            @Override
+            public ExpenseType getExpenseType() {
+                final BusinessObjectService boService = SpringContext.getBean(BusinessObjectService.class);
+                final ExpenseType airfareExpenseType = boService.findBySinglePrimaryKey(ExpenseType.class, AIRFARE_EXPENSE_TYPE);
+                return airfareExpenseType;
+            }
+        };
         actualExpense3.setTravelExpenseTypeCode(airfareType);
+        actualExpense3.setExpenseTypeCode(AIRFARE_EXPENSE_TYPE);
 
         assertEquals(new KualiDecimal(actualExpense.getMiles() * 0.45), travelDocumentService.calculateMileage(actualExpense));
         assertEquals(new KualiDecimal(actualExpense2.getMiles() * 0.50), travelDocumentService.calculateMileage(actualExpense2));
@@ -733,23 +772,55 @@ public class TravelDocumentServiceTest extends KualiTestBase {
             public MileageRate getMileageRate() {
                 MileageRate rate = new MileageRate();
                 rate.setId(1);
-                rate.setRate(new KualiDecimal(0.45));
-                rate.setExpenseTypeCode("MP");
+                rate.setRate(new BigDecimal(0.45));
+                rate.setExpenseTypeCode(MILEAGE_EXPENSE_TYPE);
                 return rate;
+            }
+
+            @Override
+            public ExpenseType getExpenseType() {
+                final BusinessObjectService boService = SpringContext.getBean(BusinessObjectService.class);
+                final ExpenseType mileageExpenseType = boService.findBySinglePrimaryKey(ExpenseType.class, MILEAGE_EXPENSE_TYPE);
+                return mileageExpenseType;
             }
         };
 
         actualExpense.setTravelExpenseTypeCode(mileageType);
         actualExpense.setMiles(50);
-        actualExpense.setExpenseTypeCode("MP");
+        actualExpense.setExpenseTypeCode(MILEAGE_EXPENSE_TYPE);
 
-        ActualExpense actualExpense2 = new ActualExpense();
+        ActualExpense actualExpense2 = new ActualExpense() {
+            @Override
+            public MileageRate getMileageRate() {
+                MileageRate rate = new MileageRate();
+                rate.setId(1);
+                rate.setRate(new BigDecimal(0.45));
+                rate.setExpenseTypeCode(MILEAGE_EXPENSE_TYPE);
+                return rate;
+            }
+
+            @Override
+            public ExpenseType getExpenseType() {
+                final BusinessObjectService boService = SpringContext.getBean(BusinessObjectService.class);
+                final ExpenseType mileageExpenseType = boService.findBySinglePrimaryKey(ExpenseType.class, MILEAGE_EXPENSE_TYPE);
+                return mileageExpenseType;
+            }
+        };
         actualExpense2.setTravelExpenseTypeCode(mileageType);
         actualExpense2.setMiles(50);
-        actualExpense2.setMileageOtherRate(new KualiDecimal(0.50));
+        actualExpense2.setMileageOtherRate(new BigDecimal(0.50));
+        actualExpense2.setExpenseTypeCode(MILEAGE_EXPENSE_TYPE);
 
-        ActualExpense actualExpense3 = new ActualExpense();
+        ActualExpense actualExpense3 = new ActualExpense() {
+            @Override
+            public ExpenseType getExpenseType() {
+                final BusinessObjectService boService = SpringContext.getBean(BusinessObjectService.class);
+                final ExpenseType airfareExpenseType = boService.findBySinglePrimaryKey(ExpenseType.class, AIRFARE_EXPENSE_TYPE);
+                return airfareExpenseType;
+            }
+        };
         actualExpense3.setTravelExpenseTypeCode(airfareType);
+        actualExpense3.setExpenseTypeCode(AIRFARE_EXPENSE_TYPE);
 
         List<ActualExpense> actualExpenses = new ArrayList<ActualExpense>();
         actualExpenses.add(actualExpense);
@@ -770,17 +841,54 @@ public class TravelDocumentServiceTest extends KualiTestBase {
     public final void testCalculateExpenseAmountTotalForMileage2() {
         List<ActualExpense> actualExpenses = new ArrayList<ActualExpense>();
 
-        ActualExpense actualExpense_1 = new ActualExpense();
-        ActualExpense actualExpense_2 = new ActualExpense();
-        ActualExpense actualExpense_3 = new ActualExpense();
-        ActualExpense actualExpense_4 = new ActualExpense(){
+        ActualExpense actualExpense_1 = new ActualExpense() {
             @Override
             public MileageRate getMileageRate() {
                 MileageRate rate = new MileageRate();
                 rate.setId(1);
-                rate.setRate(new KualiDecimal(0.45));
-                rate.setExpenseTypeCode("MP");
+                rate.setRate(new BigDecimal(0.45));
+                rate.setExpenseTypeCode(MILEAGE_EXPENSE_TYPE);
                 return rate;
+            }
+
+            @Override
+            public ExpenseType getExpenseType() {
+                final BusinessObjectService boService = SpringContext.getBean(BusinessObjectService.class);
+                final ExpenseType mileageExpenseType = boService.findBySinglePrimaryKey(ExpenseType.class, MILEAGE_EXPENSE_TYPE);
+                return mileageExpenseType;
+            }
+        };
+        ActualExpense actualExpense_2 = new ActualExpense(){
+            @Override
+            public ExpenseType getExpenseType() {
+                final BusinessObjectService boService = SpringContext.getBean(BusinessObjectService.class);
+                final ExpenseType airfareExpenseType = boService.findBySinglePrimaryKey(ExpenseType.class, AIRFARE_EXPENSE_TYPE);
+                return airfareExpenseType;
+            }
+        };
+        ActualExpense actualExpense_3 = new ActualExpense(){
+            @Override
+            public MileageRate getMileageRate() {
+                MileageRate rate = new MileageRate();
+                rate.setId(1);
+                rate.setRate(new BigDecimal(0.45));
+                rate.setExpenseTypeCode(MILEAGE_EXPENSE_TYPE);
+                return rate;
+            }
+
+            @Override
+            public ExpenseType getExpenseType() {
+                final BusinessObjectService boService = SpringContext.getBean(BusinessObjectService.class);
+                final ExpenseType mileageExpenseType = boService.findBySinglePrimaryKey(ExpenseType.class, MILEAGE_EXPENSE_TYPE);
+                return mileageExpenseType;
+            }
+        };
+        ActualExpense actualExpense_4 = new ActualExpense(){
+            @Override
+            public ExpenseType getExpenseType() {
+                final BusinessObjectService boService = SpringContext.getBean(BusinessObjectService.class);
+                final ExpenseType airfareExpenseType = boService.findBySinglePrimaryKey(ExpenseType.class, AIRFARE_EXPENSE_TYPE);
+                return airfareExpenseType;
             }
         };
         ActualExpense actualExpense_5 = new ActualExpense();
@@ -788,6 +896,7 @@ public class TravelDocumentServiceTest extends KualiTestBase {
         actualExpense_1.setId(new Long(1));
         actualExpense_1.setTravelExpenseTypeCode(mileageType);
         actualExpense_1.setExpenseAmount(new KualiDecimal(500.00));
+        actualExpense_1.setExpenseTypeCode(MILEAGE_EXPENSE_TYPE);
 
         actualExpense_2.setId(new Long(2));
         actualExpense_2.setTravelExpenseTypeCode(airfareType);
@@ -797,15 +906,16 @@ public class TravelDocumentServiceTest extends KualiTestBase {
         actualExpense_3.setTravelExpenseTypeCode(mileageType);
         actualExpense_3.setExpenseAmount(new KualiDecimal(100.00));
         actualExpense_3.setExpenseParentId(new Long(1));
-        actualExpense_3.setMileageOtherRate(new KualiDecimal(5.0));
+        actualExpense_3.setMileageOtherRate(new BigDecimal(5.0));
         actualExpense_3.setMiles(50);
+        actualExpense_3.setExpenseTypeCode(MILEAGE_EXPENSE_TYPE);
 
         actualExpense_4.setId(new Long(4));
         actualExpense_4.setTravelExpenseTypeCode(airfareType);
         actualExpense_4.setExpenseAmount(new KualiDecimal(10.00));
         actualExpense_4.setExpenseParentId(new Long(1));
         actualExpense_4.setMiles(100);
-        actualExpense_4.setExpenseTypeCode("MP");
+        actualExpense_4.setExpenseTypeCode(AIRFARE_EXPENSE_TYPE);
 
         actualExpense_5.setId(new Long(5));
         actualExpense_5.setTravelExpenseTypeCode(airfareType);
@@ -878,7 +988,7 @@ public class TravelDocumentServiceTest extends KualiTestBase {
             @Override
             public MileageRate getMileageRate() {
                 MileageRate rate = new MileageRate();
-                rate.setRate(new KualiDecimal(0.45));
+                rate.setRate(new BigDecimal(0.45));
                 rate.setExpenseTypeCode("MP");
                 return rate;
             }
@@ -919,7 +1029,7 @@ public class TravelDocumentServiceTest extends KualiTestBase {
             @Override
             public MileageRate getMileageRate() {
                 MileageRate rate = new MileageRate();
-                rate.setRate(new KualiDecimal(0.45));
+                rate.setRate(new BigDecimal(0.45));
                 rate.setExpenseTypeCode("MP");
                 return rate;
             }

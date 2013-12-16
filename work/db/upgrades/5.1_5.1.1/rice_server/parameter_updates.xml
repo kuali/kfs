@@ -37,12 +37,12 @@
         </modifySql>
     </changeSet>
     
-    <changeSet author="KFS50" id="KFSCNTRB1730_MAX_ACCOUNT_DELEGATES">
+    <changeSet author="KFS50" id="KFSCNTRB1730_MAXIMUM_ACCOUNT_DELEGATES">
         <comment>Adds parameter for KFSCNTRB-1730 maximum number of (delegate * account) for account global delegate document</comment>
         <insert tableName="KRCR_PARM_T">
             <column name="NMSPC_CD" value="KFS-COA" />
             <column name="CMPNT_CD" value="AccountDelegateGlobal" />
-            <column name="PARM_NM" value="MAX_ACCOUNT_DELEGATES" />
+            <column name="PARM_NM" value="MAXIMUM_ACCOUNT_DELEGATES" />
             <column name="APPL_ID" value="KFS" />
             <column name="OBJ_ID" valueNumeric="sys_guid() " />
             <column name="VER_NBR" value="1" />

@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.tem.businessobject;
 
+import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.List;
 
@@ -196,7 +197,7 @@ public class HistoricalExpenseAsTemExpenseWrapper implements TemExpense {
      * @return the currencyRate of the base HistoricalTravelExpense
      */
     @Override
-    public KualiDecimal getCurrencyRate() {
+    public BigDecimal getCurrencyRate() {
         return baseExpense.getCurrencyRate();
     }
 
@@ -204,7 +205,7 @@ public class HistoricalExpenseAsTemExpenseWrapper implements TemExpense {
      * All setters are ignored
      */
     @Override
-    public void setCurrencyRate(KualiDecimal argCurrencyRate) {}
+    public void setCurrencyRate(BigDecimal argCurrencyRate) {}
 
     /**
      * All setters are ignored

@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.tem.businessobject;
 
+import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.LinkedHashMap;
 
@@ -29,7 +30,6 @@ import javax.persistence.Table;
 
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
@@ -41,7 +41,7 @@ import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 public class MileageRate extends PersistableBusinessObjectBase {
     private Integer id;
     private String expenseTypeCode;
-    private KualiDecimal rate;
+    private BigDecimal rate;
     private Date activeFromDate;
     private Date activeToDate;
 
@@ -60,11 +60,11 @@ public class MileageRate extends PersistableBusinessObjectBase {
     }
 
     @Column(name="rt",precision=19,scale=2,nullable=false)
-    public KualiDecimal getRate() {
+    public BigDecimal getRate() {
         return rate;
     }
 
-    public void setRate(KualiDecimal rate) {
+    public void setRate(BigDecimal rate) {
         this.rate = rate;
     }
 

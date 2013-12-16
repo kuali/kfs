@@ -56,41 +56,45 @@ public class ImportedCTSExpenseServiceImpl extends ExpenseServiceBase implements
     @Override
     public void calculateDistributionTotals(TravelDocument document, Map<String, AccountingDistribution> distributionMap, List<? extends TemExpense> expenses){
         String defaultChartCode = ExpenseUtils.getDefaultChartCode(document);
-        for (ImportedExpense expense : (List<ImportedExpense>) expenses) {
+        for (TemExpense temExpense : expenses) {
 
-            String cardType = expense.getCardType();
-            if (cardType != null && cardType.equals(TemConstants.TRAVEL_TYPE_CTS) && !expense.getNonReimbursable()){
-                expense.refreshReferenceObject(TemPropertyConstants.EXPENSE_TYPE_OBJECT_CODE);
-                String financialObjectCode= "";
-                expense.getExpenseTypeObjectCode();
-                if (expense.getExpenseTypeObjectCode().getExpenseTypeCode().equals(TemConstants.ExpenseTypes.AIRFARE)){
-                    financialObjectCode= getParameterService().getParameterValueAsString(TemParameterConstants.TEM_ALL.class, TemConstants.AgencyMatchProcessParameter.TRAVEL_CREDIT_CARD_AIRFARE_OBJECT_CODE);
-                }
-                else if (expense.getExpenseTypeObjectCode().getExpenseTypeCode().equals(TemConstants.ExpenseTypes.LODGING)){
-                    financialObjectCode= getParameterService().getParameterValueAsString(TemParameterConstants.TEM_ALL.class, TemConstants.AgencyMatchProcessParameter.TRAVEL_CREDIT_CARD_LODGING_OBJECT_CODE);
-                }
-                else if (expense.getExpenseTypeObjectCode().getExpenseTypeCode().equals(TemConstants.ExpenseTypes.RENTAL_CAR)){
-                    financialObjectCode= getParameterService().getParameterValueAsString(TemParameterConstants.TEM_ALL.class, TemConstants.AgencyMatchProcessParameter.TRAVEL_CREDIT_CARD_RENTAL_CAR_OBJECT_CODE);
-                }
+            if (temExpense instanceof ImportedExpense) {
+                ImportedExpense expense = (ImportedExpense)temExpense;
 
-                LOG.debug("Refreshed importedExpense with expense type code " + expense.getExpenseTypeObjectCode().getExpenseTypeCode() + " and financialObjectCode " + financialObjectCode);
-
-                final ObjectCode objCode = getObjectCodeService().getByPrimaryIdForCurrentYear(defaultChartCode, expense.getExpenseTypeObjectCode().getFinancialObjectCode());
-                if (objCode != null && expense.getExpenseTypeObjectCode() != null && !expense.getExpenseTypeObjectCode().getExpenseType().isPrepaidExpense()){
-                    AccountingDistribution distribution = null;
-                    String key = objCode.getCode() + "-" + TemConstants.TRAVEL_TYPE_CTS;
-                    if (distributionMap.containsKey(key)){
-                        distributionMap.get(key).setSubTotal(distributionMap.get(key).getSubTotal().add(expense.getConvertedAmount()));
-                        distributionMap.get(key).setRemainingAmount(distributionMap.get(key).getRemainingAmount().add(expense.getConvertedAmount()));
+                String cardType = expense.getCardType();
+                if (cardType != null && cardType.equals(TemConstants.TRAVEL_TYPE_CTS) && !expense.getNonReimbursable()){
+                    expense.refreshReferenceObject(TemPropertyConstants.EXPENSE_TYPE_OBJECT_CODE);
+                    String financialObjectCode= "";
+                    expense.getExpenseTypeObjectCode();
+                    if (expense.getExpenseTypeObjectCode().getExpenseTypeCode().equals(TemConstants.ExpenseTypes.AIRFARE)){
+                        financialObjectCode= getParameterService().getParameterValueAsString(TemParameterConstants.TEM_ALL.class, TemConstants.AgencyMatchProcessParameter.TRAVEL_CREDIT_CARD_AIRFARE_OBJECT_CODE);
                     }
-                    else{
-                        distribution = new AccountingDistribution();
-                        distribution.setObjectCode(objCode.getCode());
-                        distribution.setObjectCodeName(objCode.getName());
-                        distribution.setCardType(cardType);
-                        distribution.setRemainingAmount(expense.getConvertedAmount());
-                        distribution.setSubTotal(expense.getConvertedAmount());
-                        distributionMap.put(key, distribution);
+                    else if (expense.getExpenseTypeObjectCode().getExpenseTypeCode().equals(TemConstants.ExpenseTypes.LODGING)){
+                        financialObjectCode= getParameterService().getParameterValueAsString(TemParameterConstants.TEM_ALL.class, TemConstants.AgencyMatchProcessParameter.TRAVEL_CREDIT_CARD_LODGING_OBJECT_CODE);
+                    }
+                    else if (expense.getExpenseTypeObjectCode().getExpenseTypeCode().equals(TemConstants.ExpenseTypes.RENTAL_CAR)){
+                        financialObjectCode= getParameterService().getParameterValueAsString(TemParameterConstants.TEM_ALL.class, TemConstants.AgencyMatchProcessParameter.TRAVEL_CREDIT_CARD_RENTAL_CAR_OBJECT_CODE);
+                    }
+
+                    LOG.debug("Refreshed importedExpense with expense type code " + expense.getExpenseTypeObjectCode().getExpenseTypeCode() + " and financialObjectCode " + financialObjectCode);
+
+                    final ObjectCode objCode = getObjectCodeService().getByPrimaryIdForCurrentYear(defaultChartCode, expense.getExpenseTypeObjectCode().getFinancialObjectCode());
+                    if (objCode != null && expense.getExpenseTypeObjectCode() != null && !expense.getExpenseTypeObjectCode().getExpenseType().isPrepaidExpense()){
+                        AccountingDistribution distribution = null;
+                        String key = objCode.getCode() + "-" + TemConstants.TRAVEL_TYPE_CTS;
+                        if (distributionMap.containsKey(key)){
+                            distributionMap.get(key).setSubTotal(distributionMap.get(key).getSubTotal().add(expense.getConvertedAmount()));
+                            distributionMap.get(key).setRemainingAmount(distributionMap.get(key).getRemainingAmount().add(expense.getConvertedAmount()));
+                        }
+                        else{
+                            distribution = new AccountingDistribution();
+                            distribution.setObjectCode(objCode.getCode());
+                            distribution.setObjectCodeName(objCode.getName());
+                            distribution.setCardType(cardType);
+                            distribution.setRemainingAmount(expense.getConvertedAmount());
+                            distribution.setSubTotal(expense.getConvertedAmount());
+                            distributionMap.put(key, distribution);
+                        }
                     }
                 }
             }

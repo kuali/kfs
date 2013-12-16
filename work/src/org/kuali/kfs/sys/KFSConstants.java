@@ -630,6 +630,8 @@ public class KFSConstants {
         public static final String ENROUTE = "R";
         public static final String DISAPPROVED = "D";
         public static final String APPROVED = "A";
+        public static final String PROCESSED = "P";
+        public static final String FINAL = "F";
 
         public static class CashReceipt {
             // once a CashReceipt gets approved, its financialDocumentStatus goes to "verified"
@@ -1312,6 +1314,7 @@ public class KFSConstants {
         public static final String ACCOUNT_REVIEW_FULL_EDIT = "AccountFullEdit";
         public static final String PROJECT_MANAGEMENT = "ProjectManagement";
         public static final String ORGANIZATION_HIERARCHY = "OrganizationHierarchy";
+        public static final String PAYMENT_METHOD = "PaymentMethod";
     }
 
     public static final String ROOT_DOCUMENT_TYPE = "KFS";

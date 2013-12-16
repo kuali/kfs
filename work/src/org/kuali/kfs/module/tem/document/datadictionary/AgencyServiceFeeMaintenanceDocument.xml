@@ -13,6 +13,13 @@
 				<ref bean="AgencyServiceFeeMaintenanceDocument-Section" />
 			</list>
 		</property>
+	    <property name="defaultExistenceChecks">
+	        <list>
+		      	<bean parent="ReferenceDefinition" p:attributeName="chart" p:attributeToHighlightOnFail="creditChartCode" />
+		      	<bean parent="ReferenceDefinition" p:attributeName="account" p:attributeToHighlightOnFail="creditAccountNumber" />
+		      	<bean parent="ReferenceDefinition" p:attributeName="objectCode" p:attributeToHighlightOnFail="creditObjectCode" />		      	
+		    </list>
+		</property> 		
 		<property name="allowsNewOrCopy" value="true" />
 		<property name="lockingKeys">
 			<list>
@@ -26,8 +33,8 @@
 	
 	<bean id="AgencyServiceFeeMaintenanceDocument-Section" parent="AgencyServiceFeeMaintenanceDocument-Section-parentBean" />
 	<bean id="AgencyServiceFeeMaintenanceDocument-Section-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-		<property name="id"    value="CreditCardAgency" />
-		<property name="title" value="Edit Credit Card Agency" />
+		<property name="id"    value="AgencyServiceFee" />
+		<property name="title" value="Edit Agency Service Fee" />
 		<property name="maintainableItems">
 			<list>
 				<bean parent="MaintainableFieldDefinition" p:name="code" p:required="true"/>

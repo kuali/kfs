@@ -149,6 +149,8 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
 
     protected volatile static PerDiemService perDiemService;
 
+    protected static final String ACCOUNTING_LINES_TOTALS_VALIDATION_BEAN = "TravelDocument-accountingLineTotalsValidation";
+
 
     @Override
     protected DocumentService getDocumentService() {
@@ -335,6 +337,25 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
         }
 
         return retval;
+    }
+
+    /**
+     * Overridden to recalculate per diems and actual expenses in case per diem rate or mileage rates changed; if
+     * @see org.kuali.kfs.sys.web.struts.KualiAccountingDocumentActionBase#loadDocument(org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase)
+     */
+    @Override
+    protected void loadDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
+        super.loadDocument(kualiDocumentFormBase);
+        TravelDocument travelDoc = ((TravelFormBase)kualiDocumentFormBase).getTravelDocument();
+        if (travelDoc.getDocumentHeader().getWorkflowDocument().isEnroute() || travelDoc.getDocumentHeader().getWorkflowDocument().isCompletionRequested()) { // only update background rates if the document is still enroute
+            if (travelDoc.getActualExpenses() != null && !travelDoc.getActualExpenses().isEmpty()) {
+                ExpenseUtils.calculateMileage(travelDoc.getActualExpenses());
+            }
+            if (!getTravelDocumentService().travelDocumentTotalsUnchangedFromPersisted(travelDoc)) {
+                // let's throw up an warning message here
+                GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, TemKeyConstants.ERROR_MIELAGE_RATES_PER_DIEM_RATES_CHANGED);
+            }
+        }
     }
 
     /**

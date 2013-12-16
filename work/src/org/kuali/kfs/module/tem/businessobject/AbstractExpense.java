@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.tem.businessobject;
 
 import java.lang.reflect.Field;
+import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -59,7 +60,7 @@ public abstract class AbstractExpense extends PersistableBusinessObjectBase impl
     private ExpenseType expenseType;
     private Long expenseParentId;
     private String description;
-    private KualiDecimal currencyRate = new KualiDecimal(1.00);
+    private BigDecimal currencyRate = new BigDecimal(1.00);
     private String travelCompanyCodeName;
     private TravelCompanyCode travelCompanyCode;
     private String expenseTypeCode;
@@ -287,9 +288,9 @@ public abstract class AbstractExpense extends PersistableBusinessObjectBase impl
      */
     @Override
     @Column(name="CUR_RT",precision=4,scale=3,nullable=false)
-    public KualiDecimal getCurrencyRate() {
+    public BigDecimal getCurrencyRate() {
         if (currencyRate == null){
-            this.currencyRate = new KualiDecimal(1.00);
+            this.currencyRate = new BigDecimal(1.00);
         }
         return this.currencyRate;
     }
@@ -300,7 +301,7 @@ public abstract class AbstractExpense extends PersistableBusinessObjectBase impl
      * @param argCurrencyRate Value to assign to this.currencyRate
      */
     @Override
-    public void setCurrencyRate(final KualiDecimal argCurrencyRate) {
+    public void setCurrencyRate(final BigDecimal argCurrencyRate) {
         this.currencyRate = argCurrencyRate;
     }
 
@@ -325,7 +326,7 @@ public abstract class AbstractExpense extends PersistableBusinessObjectBase impl
         KualiDecimal calc = KualiDecimal.ZERO;
         if (getExpenseAmount() != null
                 && getCurrencyRate() != null){
-            calc = getExpenseAmount().multiply(getCurrencyRate());
+            calc = new KualiDecimal(getExpenseAmount().bigDecimalValue().multiply(getCurrencyRate()));
         }
         if (!calc.equals(convertedAmount)){
             this.convertedAmount = calc;

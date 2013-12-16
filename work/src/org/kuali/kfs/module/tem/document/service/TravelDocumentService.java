@@ -427,4 +427,12 @@ public interface TravelDocumentService {
      *  @return
      */
     public TravelDocument getTravelDocument(String travelDocumentIdentifier);
+
+    /**
+     * Determines if the per diem and actual expense total on the given document equal that of the persisted document
+     * (useful if trying to figure out if mileage rate or per diem rates changed)
+     * @param travelDocument the travel document to check
+     * @return true if the totals are unchanged, false otherwise
+     */
+    public boolean travelDocumentTotalsUnchangedFromPersisted(TravelDocument travelDocument);
 }

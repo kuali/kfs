@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.tem.document.validation.impl;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 
 import org.kuali.kfs.module.tem.TemKeyConstants;
@@ -103,7 +104,7 @@ public class TravelDocumentActualExpenseLineValidation extends TemDocumentExpens
         }
 
         //validate currency rate is greater than 0
-        if (actualExpense.getCurrencyRate().isNegative()) {
+        if (actualExpense.getCurrencyRate().compareTo(BigDecimal.ZERO) < 0) {
             GlobalVariables.getMessageMap().putError(TemPropertyConstants.CURRENCY_RATE, KFSKeyConstants.ERROR_ZERO_OR_NEGATIVE_AMOUNT, "Currency Rate");
             success = false;
         }
@@ -242,7 +243,7 @@ public class TravelDocumentActualExpenseLineValidation extends TemDocumentExpens
      * @param document
      * @return
      */
-    private boolean isLodgingAllowanceEntered(ActualExpense ote, TravelDocument document) {
+    protected boolean isLodgingAllowanceEntered(ActualExpense ote, TravelDocument document) {
         for (ActualExpense actualExpense : document.getActualExpenses()) {
             if (actualExpense.isLodgingAllowance()
                     && (!ote.equals(actualExpense))
@@ -269,7 +270,7 @@ public class TravelDocumentActualExpenseLineValidation extends TemDocumentExpens
      * @param document
      * @return
      */
-    private boolean isLodgingEntered(ActualExpense ote, TravelDocument document) {
+    protected boolean isLodgingEntered(ActualExpense ote, TravelDocument document) {
         for (ActualExpense actualExpense : document.getActualExpenses()) {
             if (actualExpense.isLodging()
                     && (!ote.equals(actualExpense))
@@ -289,27 +290,19 @@ public class TravelDocumentActualExpenseLineValidation extends TemDocumentExpens
      * @param document
      * @return
      */
-    private boolean isDuplicateEntry(ActualExpense expense, TravelDocument document) {
+    protected boolean isDuplicateEntry(ActualExpense expense, TravelDocument document) {
         if (document.shouldRefreshExpenseTypeObjectCode()) {
             expense.refreshExpenseTypeObjectCode(document.getDocumentTypeName(), document.getTraveler().getTravelerTypeCode(), document.getTripTypeCode());
         }
-        ExpenseTypeObjectCode expenseTypeCode = expense.getExpenseTypeObjectCode();
+        final ExpenseTypeObjectCode expenseTypeCode = expense.getExpenseTypeObjectCode();
 
         //do a check if its coming out of the document expense list - this will happen during route validation
         if (!document.getActualExpenses().contains(expense)){
             for (ActualExpense actualExpense : document.getActualExpenses()) {
-
-                if (expenseTypeCode != null && expenseTypeCode.isPerDaily()) {
-                    if (actualExpense.getExpenseTypeCode().equals(expense.getExpenseTypeCode())) {
-                        return true;
-                    }
-                }
-                else {
-                    if (expense.getExpenseDate() != null
-                            && expense.getExpenseDate().equals(actualExpense.getExpenseDate())
-                            && actualExpense.getExpenseTypeCode().equals(expense.getExpenseTypeCode())) {
-                        return true;
-                    }
+                if (expense.getExpenseDate() != null
+                        && expense.getExpenseDate().equals(actualExpense.getExpenseDate())
+                        && actualExpense.getExpenseTypeCode().equals(expense.getExpenseTypeCode())) {
+                    return true;
                 }
             }
         }
@@ -324,9 +317,9 @@ public class TravelDocumentActualExpenseLineValidation extends TemDocumentExpens
      * @param document
      * @return
      */
-    private KualiDecimal getMaximumAmount(ActualExpense actualExpense, TravelDocument document) {
+    protected KualiDecimal getMaximumAmount(ActualExpense actualExpense, TravelDocument document) {
         KualiDecimal maxAmount = KualiDecimal.ZERO;
-        ExpenseTypeObjectCode expenseTypeCode = actualExpense.getExpenseTypeObjectCode();
+        final ExpenseTypeObjectCode expenseTypeCode = actualExpense.getExpenseTypeObjectCode();
 
         if (expenseTypeCode != null && expenseTypeCode.getMaximumAmount() != null) {
             if (expenseTypeCode.isPerDaily()) {
@@ -352,7 +345,7 @@ public class TravelDocumentActualExpenseLineValidation extends TemDocumentExpens
      * @param document
      * @return
      */
-    private KualiDecimal getTotalExpenseAmount(ActualExpense ote, TravelDocument document) {
+    protected KualiDecimal getTotalExpenseAmount(ActualExpense ote, TravelDocument document) {
         KualiDecimal totalExpenseAmount = KualiDecimal.ZERO;
 
         for (ActualExpense actualExpense : document.getActualExpenses()) {

@@ -28,6 +28,7 @@ import static org.kuali.kfs.module.tem.TemPropertyConstants.PER_DIEM_EXPENSE_DIS
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.StringReader;
+import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
@@ -48,6 +49,7 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.time.DateUtils;
 import org.apache.log4j.Logger;
 import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.kfs.gl.service.EncumbranceService;
@@ -78,6 +80,7 @@ import org.kuali.kfs.module.tem.businessobject.SpecialCircumstances;
 import org.kuali.kfs.module.tem.businessobject.SpecialCircumstancesQuestion;
 import org.kuali.kfs.module.tem.businessobject.TemExpense;
 import org.kuali.kfs.module.tem.businessobject.TemRegion;
+import org.kuali.kfs.module.tem.businessobject.TemSourceAccountingLine;
 import org.kuali.kfs.module.tem.businessobject.TransportationModeDetail;
 import org.kuali.kfs.module.tem.businessobject.TravelAdvance;
 import org.kuali.kfs.module.tem.businessobject.TripType;
@@ -447,7 +450,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
             final Date fromDate = mileageRate.getActiveFromDate();
             final Date toDate = mileageRate.getActiveToDate();
 
-            if((fromDate.equals(expenseDate) || fromDate.before(expenseDate)) && (toDate.equals(expenseDate) || toDate.after(expenseDate))) {
+            if(DateUtils.truncatedCompareTo(fromDate, expenseDate, Calendar.DATE) <= 0  && DateUtils.truncatedCompareTo(toDate, expenseDate, Calendar.DATE) >= 0) {
                 chosenMileageRate = mileageRate;
             }
         }
@@ -940,10 +943,10 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
         KualiDecimal total = KualiDecimal.ZERO;
 
         for (final ActualExpense actualExpense : actualExpenses) {
-            if (actualExpense.getMileageIndicator()) {
+            if (actualExpense.isMileage()) {
                 actualExpense.setExpenseAmount(calculateMileage(actualExpense));
                 total = total.add(actualExpense.getExpenseAmount());
-                actualExpense.setConvertedAmount(actualExpense.getExpenseAmount().multiply(actualExpense.getCurrencyRate()));
+                actualExpense.setConvertedAmount(new KualiDecimal(actualExpense.getExpenseAmount().bigDecimalValue().multiply(actualExpense.getCurrencyRate())));
             }
 
             // Check to see if it is detail record. if detail record, get parent record.
@@ -951,10 +954,10 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
                 final ActualExpense parentActualExpense = getParentActualExpense(actualExpenses, actualExpense.getExpenseParentId());
 
                 // If expense type for parent record is mileage, add detail expense amount to the parent expense amount
-                if (parentActualExpense.getMileageIndicator()) {
+                if (parentActualExpense.isMileage()) {
                     parentActualExpense.setExpenseAmount(actualExpense.getTotalDetailExpenseAmount());
                     // total = total.add(parentActualExpense.getExpenseAmount());
-                    parentActualExpense.setConvertedAmount(parentActualExpense.getExpenseAmount().multiply(parentActualExpense.getCurrencyRate()));
+                    parentActualExpense.setConvertedAmount(new KualiDecimal(parentActualExpense.getExpenseAmount().bigDecimalValue().multiply(parentActualExpense.getCurrencyRate())));
                 }
 
             }
@@ -983,10 +986,10 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
     @Override
     public void handleNewActualExpense(final ActualExpense newActualExpenseLine) {
         if (newActualExpenseLine.getExpenseAmount() != null) {
-            final KualiDecimal rate = newActualExpenseLine.getCurrencyRate();
+            final BigDecimal rate = newActualExpenseLine.getCurrencyRate();
             final KualiDecimal amount = newActualExpenseLine.getExpenseAmount();
 
-            newActualExpenseLine.setConvertedAmount(amount.multiply(rate));
+            newActualExpenseLine.setConvertedAmount(new KualiDecimal(amount.bigDecimalValue().multiply(rate)));
             LOG.debug("Set converted amount for "+ newActualExpenseLine+ " to "+ newActualExpenseLine.getConvertedAmount());
 
             if (isHostedMeal(newActualExpenseLine)) {
@@ -1974,8 +1977,9 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
         boolean success = true;
         Map<String,Object> fieldValues = new HashMap<String,Object>();
         fieldValues.put(KRADPropertyConstants.DOCUMENT_NUMBER, travelDocument.getDocumentNumber());
+        fieldValues.put(KFSPropertyConstants.FINANCIAL_DOCUMENT_LINE_TYPE_CODE, KFSConstants.SOURCE_ACCT_LINE_TYPE_CODE);
 
-        List<SourceAccountingLine> currentLines = (List<SourceAccountingLine>) getBusinessObjectService().findMatching(SourceAccountingLine.class, fieldValues);
+        List<TemSourceAccountingLine> currentLines = (List<TemSourceAccountingLine>) getBusinessObjectService().findMatchingOrderBy(TemSourceAccountingLine.class, fieldValues,KFSPropertyConstants.SEQUENCE_NUMBER, true);
 
         final boolean canUpdate = isAtTravelNode(travelDocument.getDocumentHeader().getWorkflowDocument());  // Are we at the travel node?  If so, there's a chance that accounting lines changed; if they did, that
                                         // was a permission granted to the travel manager so we should allow it
@@ -2365,7 +2369,37 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
 
        LOG.error("Unable to find any travel document for given Trip Id: "+ travelDocumentIdentifier);
        return null;
-   }
+    }
+
+    /**
+     * Compares the accounting line total of the persisted version of the document with the current approved amount on the document...that's the only
+     * way to capture the discrepancy between the two
+     * @see org.kuali.kfs.module.tem.document.service.TravelDocumentService#travelDocumentTotalsUnchangedFromPersisted(org.kuali.kfs.module.tem.document.TravelDocument)
+     */
+    @Override
+    public boolean travelDocumentTotalsUnchangedFromPersisted(TravelDocument travelDocument) {
+        // get persisted document (we'll use business object service since we don't need workflow document information)
+        final TravelDocument persistedDocument = getBusinessObjectService().findBySinglePrimaryKey(travelDocument.getClass(), travelDocument.getDocumentNumber());
+        // now the question is: does the accounting line total of the persisted document equal the expense total of the given doc?
+        final KualiDecimal persistedAccountingLinesTotal = getAccountingLineAmount(persistedDocument);
+        final KualiDecimal currentDocumentApprovedAmount = travelDocument.getApprovedAmount();
+        return persistedAccountingLinesTotal.equals(currentDocumentApprovedAmount);
+    }
+
+    /**
+     * Calculate the total of the source accounting lines on the document
+     * @param travelDoc the travel document to calculate the source accounting line total for
+     * @return the total of the source accounting lines
+     */
+    protected KualiDecimal getAccountingLineAmount(TravelDocument travelDoc) {
+        KualiDecimal total = KualiDecimal.ZERO;
+        if (travelDoc.getSourceAccountingLines() != null && !travelDoc.getSourceAccountingLines().isEmpty()) {
+            for (TemSourceAccountingLine accountingLine : (List<TemSourceAccountingLine>)travelDoc.getSourceAccountingLines()) {
+                total = total.add(accountingLine.getAmount());
+            }
+        }
+        return total;
+    }
 
     public PersistenceStructureService getPersistenceStructureService() {
         return persistenceStructureService;

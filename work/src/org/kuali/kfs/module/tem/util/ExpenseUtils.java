@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.tem.util;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -110,12 +111,12 @@ public class ExpenseUtils {
     public static void calculateMileage(List<ActualExpense> actualExpenses){
         for (ActualExpense actualExpense : actualExpenses){
             if (!StringUtils.isBlank(actualExpense.getExpenseTypeCode()) && actualExpense.isMileage()){
-                actualExpense.setCurrencyRate(new KualiDecimal(1));
+                actualExpense.setCurrencyRate(BigDecimal.ONE);
                 KualiDecimal total = KualiDecimal.ZERO;
                 for (TemExpense detail : actualExpense.getExpenseDetails()){
                     ActualExpense detailExpense = (ActualExpense) detail;
                     if (detailExpense.getMileageRate() != null) {
-                        KualiDecimal mileage = (new KualiDecimal(detailExpense.getMiles())).multiply(detailExpense.getMileageRate().getRate());
+                        KualiDecimal mileage = new KualiDecimal(new BigDecimal(detailExpense.getMiles()).multiply(detailExpense.getMileageRate().getRate()));
                         detailExpense.setExpenseAmount(mileage);
                         detailExpense.setConvertedAmount(mileage);
                         total = total.add(detailExpense.getExpenseAmount());

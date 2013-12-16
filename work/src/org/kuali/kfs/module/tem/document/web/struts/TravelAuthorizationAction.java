@@ -1022,6 +1022,18 @@ public class TravelAuthorizationAction extends TravelActionBase {
     }
 
     /**
+     * At PaymentMethod node, propogate the advance amount if needed
+     * @see org.kuali.kfs.module.tem.document.web.struts.TravelActionBase#approve(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @Override
+    public ActionForward approve(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        if (((TravelAuthorizationForm)form).getTravelAuthorizationDocument().getDocumentHeader().getWorkflowDocument().getCurrentNodeNames().contains(KFSConstants.RouteLevelNames.PAYMENT_METHOD) && ((TravelAuthorizationForm)form).getTravelAuthorizationDocument().shouldProcessAdvanceForDocument()) {
+            ((TravelAuthorizationForm)form).getTravelAuthorizationDocument().propagateAdvanceInformationIfNeeded();
+        }
+        return super.approve(mapping, form, request, response);
+    }
+
+    /**
      * action which clears out an advance - this allows travel managers to clear advance as needed
      */
     public ActionForward clearAdvance(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {

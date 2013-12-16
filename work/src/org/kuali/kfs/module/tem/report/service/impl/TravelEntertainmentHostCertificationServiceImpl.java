@@ -113,7 +113,7 @@ public class TravelEntertainmentHostCertificationServiceImpl implements TravelEn
                 expense.refreshReferenceObject(TemPropertyConstants.EXPENSE_TYPE_OBJECT_CODE);
                 final String expenseDate = new SimpleDateFormat("MM/dd/yyyy").format(expense.getExpenseDate());
                 final NonEmployeeCertificationReport.Detail detail = new NonEmployeeCertificationReport.Detail(expense.getExpenseTypeObjectCode().getExpenseType().getName()==null?
-                        "":expense.getExpenseTypeObjectCode().getExpenseType().getName(),expense.getExpenseAmount().multiply(expense.getCurrencyRate()), expenseDate);
+                        "":expense.getExpenseTypeObjectCode().getExpenseType().getName(),new KualiDecimal(expense.getExpenseAmount().bigDecimalValue().multiply(expense.getCurrencyRate())), expenseDate);
                 expenseDetails.add(detail);
                 incrementSummary(summaryData, expense);
             }
@@ -151,7 +151,7 @@ public class TravelEntertainmentHostCertificationServiceImpl implements TravelEn
         if (summaryAmount == null) {
             summaryAmount = KualiDecimal.ZERO;
         }
-        summaryAmount = summaryAmount.add(expense.getExpenseAmount().multiply(expense.getCurrencyRate()));
+        summaryAmount = summaryAmount.add(new KualiDecimal(expense.getExpenseAmount().bigDecimalValue().multiply(expense.getCurrencyRate())));
         LOG.debug("Adding "+ summaryAmount+ " for "+ expenseDate+ " to summary data");
         summaryData.put(expenseDate, summaryAmount);
     }

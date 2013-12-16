@@ -775,6 +775,7 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
 
         if (DocumentStatus.PROCESSED.getCode().equals(statusChangeEvent.getNewRouteStatus())) {
             LOG.debug("New route status is " + statusChangeEvent.getNewRouteStatus());
+            this.getDocumentHeader().setOrganizationDocumentNumber(getTravelDocumentIdentifier());
 
             if (!(this instanceof TravelAuthorizationCloseDocument)) {
                 // for some reason when it goes to final it never updates to the last status, updating TA status to OPEN REIMBURSEMENT
@@ -1174,7 +1175,12 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
                 updatePayeeTypeForAuthorization();
             }
         }
+
+        if(maskTravelDocumentIdentifierAndOrganizationDocNumber()) {
+            this.getDocumentHeader().setOrganizationDocumentNumber(null);
+        }
     }
+
 
     /**
      * For reimbursable documents, sets the proper payee type code and profile id after a profile lookup
@@ -1344,6 +1350,12 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
         return events;
     }
 
+    public boolean maskTravelDocumentIdentifierAndOrganizationDocNumber() {
+        boolean vendorPaymentAllowedBeforeFinal = getParameterService().getParameterValueAsBoolean(TravelAuthorizationDocument.class, TemConstants.TravelAuthorizationParameters.VENDOR_PAYMENT_ALLOWED_BEFORE_FINAL_APPROVAL_IND);
+        return !vendorPaymentAllowedBeforeFinal && !(getFinancialSystemDocumentHeader().getWorkflowDocument().isProcessed() || getFinancialSystemDocumentHeader().getWorkflowDocument().isFinal());
+
+    }
+
     /**
      * @return the advance Accounting Lines that will be used in comparisons between persisted and currrent accounting lines to generate accounting line events
      */
@@ -1361,7 +1373,7 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
     }
 
     public String getBlanketTotalDollarAmountForRouting() {
-        if (!getBlanketTravel()) {
+        if (!getBlanketTravel() && getTripType().isGenerateEncumbrance()) {
             return "";
         } else {
             return getTotalDollarAmount().toString();
@@ -1369,7 +1381,7 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
     }
 
     public String getBlanketChartForRouting() {
-        if (!getBlanketTravel()) {
+        if (!getBlanketTravel() && getTripType().isGenerateEncumbrance()) {
             return "";
         } else {
             if (ObjectUtils.isNotNull(getTemProfile())) {
@@ -1380,7 +1392,7 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
     }
 
     public String getBlanketAccountForRouting() {
-        if (!getBlanketTravel()) {
+        if (!getBlanketTravel() && getTripType().isGenerateEncumbrance()) {
             return "";
         } else {
             if (ObjectUtils.isNotNull(getTemProfile())) {

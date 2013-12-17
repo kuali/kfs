@@ -22,6 +22,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.kfs.module.tem.businessobject.defaultvalue.NextAgencyStagingDataIdFinder;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -71,6 +72,8 @@ public class AgencyStagingDataTest extends KualiTestBase {
         }
 
         AgencyStagingData agency = new AgencyStagingData();
+        NextAgencyStagingDataIdFinder idFinder = new NextAgencyStagingDataIdFinder();
+        agency.setId(Integer.getInteger(idFinder.getValue()));
         agency.setErrorCode("errorcode");
         agency.setAgencyDataId(123456789);
         agency.setCreditCardOrAgencyCode("abcd");

@@ -147,6 +147,7 @@ public class ExpenseImportByTravelerServiceTest extends KualiTestBase {
         AgencyStagingData agency = createAgencyStagingData();
         agency.setTravelerId("987654321");
         List<ErrorMessage> errors = expenseImportByTravelerService.validateTraveler(agency);
+
         assertTrue(!errors.isEmpty());
         assertTrue(agency.getErrorCode().equals(AgencyStagingDataErrorCodes.AGENCY_INVALID_TRAVELER));
 
@@ -249,6 +250,8 @@ public class ExpenseImportByTravelerServiceTest extends KualiTestBase {
         agency.setTravelerName("Traveler Bob");
         agency.setTravelerId(EMPLOYEE_ID);
         agency.setAirTicketNumber("12345678");
+        agency.setLodgingItineraryNumber("12345");
+        agency.setRentalCarItineraryNumber("54321");
         agency.setAgency("agency name");
         agency.setTransactionPostingDate(dateTimeService.getCurrentSqlDate());
         agency.setTripExpenseAmount(new KualiDecimal(123.45));

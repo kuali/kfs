@@ -26,6 +26,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kfs.module.ar.businessobject.Customer;
 import org.kuali.kfs.module.tem.TemConstants;
+import org.kuali.kfs.module.tem.businessobject.TravelPayment;
 import org.kuali.kfs.module.tem.businessobject.TravelerDetail;
 import org.kuali.kfs.module.tem.document.TravelReimbursementDocument;
 import org.kuali.kfs.module.tem.pdf.Coversheet;
@@ -68,6 +69,10 @@ public class TravelReimbursementServiceTest extends KualiTestBase {
         traveler.setTravelerTypeCode(TemConstants.EMP_TRAVELER_TYP_CD);
         traveler.setCustomer(new Customer());
         tr.setTraveler(traveler);
+
+        TravelPayment travelPayment = new TravelPayment();
+        travelPayment.setDocumentationLocationCode("T");
+        tr.setTravelPayment(travelPayment);
     }
 
     @Override

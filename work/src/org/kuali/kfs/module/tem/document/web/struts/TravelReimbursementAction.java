@@ -484,7 +484,14 @@ public class TravelReimbursementAction extends TravelActionBase {
         final TravelReimbursementDocument document = ((TravelReimbursementForm) form).getTravelReimbursementDocument();
         final String travelIdentifier = document.getTravelDocumentIdentifier();
 
-        document.refreshReferenceObject(TemPropertyConstants.TRIP_TYPE);
+        // should we refresh the trip type, upon which so much depends?  let's check and do so if we need to
+        if (!StringUtils.isBlank(document.getTripTypeCode())) {
+            if (ObjectUtils.isNull(document.getTripType()) || !StringUtils.equals(document.getTripType().getCode(), document.getTripTypeCode())) {
+                document.refreshReferenceObject(TemPropertyConstants.TRIP_TYPE);
+            }
+        } else {
+            document.setTripType(null);
+        }
         setButtonPermissions(reimbForm);
         LOG.debug("Found "+ document.getActualExpenses().size()+ " other expenses");
 

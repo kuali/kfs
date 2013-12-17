@@ -19,14 +19,13 @@ import java.util.LinkedHashMap;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.Table;
 
 import org.kuali.kfs.coa.businessobject.BalanceType;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
-import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.krad.bo.KualiCodeBase;
 
 /**
  * Trip Type
@@ -34,9 +33,7 @@ import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
  */
 @Entity
 @Table(name="TEM_TRIP_TYP_T")
-public class TripType extends PersistableBusinessObjectBase implements MutableInactivatable {
-    private String code;
-    private String name;
+public class TripType extends KualiCodeBase implements MutableInactivatable {
     private Boolean generateEncumbrance = Boolean.FALSE;
     private String encumbranceBalanceType;
     private String encumbranceObjCode;
@@ -46,27 +43,7 @@ public class TripType extends PersistableBusinessObjectBase implements MutableIn
     private Boolean usePerDiem = Boolean.FALSE;
     private Boolean travelAuthorizationRequired = Boolean.FALSE;
     private String perDiemCalcMethod = TemConstants.PERCENTAGE;
-    private Boolean active = Boolean.TRUE;
     private BalanceType balanceType;
-
-    @Id
-    @Column(name="code",length=3,nullable=false)
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
-
-    @Column(name="nm",length=40,nullable=false)
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 
     @Column(name="gen_enc_ind",nullable=false,length=1)
     public boolean isGenerateEncumbrance() {
@@ -179,17 +156,6 @@ public class TripType extends PersistableBusinessObjectBase implements MutableIn
      */
     public void setPerDiemCalcMethod(String perDiemCalcMethod) {
         this.perDiemCalcMethod = perDiemCalcMethod;
-    }
-
-    @Override
-    @Column(name="actv_ind",nullable=false,length=1)
-    public boolean isActive() {
-        return active;
-    }
-
-    @Override
-    public void setActive(boolean active) {
-        this.active = active;
     }
 
     public BalanceType getBalanceType() {

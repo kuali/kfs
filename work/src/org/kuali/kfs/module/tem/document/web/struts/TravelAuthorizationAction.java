@@ -105,6 +105,15 @@ public class TravelAuthorizationAction extends TravelActionBase {
         TravelAuthorizationForm authForm = (TravelAuthorizationForm) form;
         TravelAuthorizationDocument travelAuthDocument = (TravelAuthorizationDocument) authForm.getDocument();
 
+        // should we refresh the trip type, upon which so much depends?  let's check and do so if we need to
+        if (!StringUtils.isBlank(travelAuthDocument.getTripTypeCode())) {
+            if (ObjectUtils.isNull(travelAuthDocument.getTripType()) || !StringUtils.equals(travelAuthDocument.getTripType().getCode(), travelAuthDocument.getTripTypeCode())) {
+                travelAuthDocument.refreshReferenceObject(TemPropertyConstants.TRIP_TYPE);
+            }
+        } else {
+            travelAuthDocument.setTripType(null);
+        }
+
         if (travelAuthDocument.getTraveler() != null && travelAuthDocument.getTraveler().getPrincipalId() != null) {
             travelAuthDocument.getTraveler().setPrincipalName(getPersonService().getPerson(travelAuthDocument.getTraveler().getPrincipalId()).getPrincipalName());
         }

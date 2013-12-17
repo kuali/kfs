@@ -510,7 +510,7 @@
 			<column name="OBJ_ID" value="KFSCG20111101" />
 			<column name="VER_NBR" value="1" />
 			<column name="NM" value="Derived Role: Funds Manager" />
-			<column name="SRVC_NM" value="fundsManagerDerivedRoleTypeService" />
+			<column name="SRVC_NM" value="{http://kfs.kuali.org/kfs/v5_0}fundsManagerDerivedRoleTypeService" />
 			<column name="ACTV_IND" value="Y" />
 			<column name="NMSPC_CD" value="KFS-CG" />
 		</insert>

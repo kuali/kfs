@@ -17,6 +17,7 @@ package org.kuali.kfs.module.ar.document;
 
 import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -30,6 +31,7 @@ import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.krad.bo.AdHocRouteRecipient;
 import org.kuali.rice.krad.service.KualiModuleService;
 
 /**
@@ -42,10 +44,18 @@ public class FinalInvoiceReversalTest extends CGInvoiceDocumentTestBase {
     protected void setUp() throws Exception {
         super.setUp();
         document.getInvoiceGeneralDetail().setFinalBillIndicator(true);
+        documentService.saveDocument(document);
         SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class).doWhenFinalInvoice(document);
     }
 
     public void testFinalInvoiceDocumentValidation() throws WorkflowException {
+        ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService = SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class);
+
+        // need to switch to a user that is authorized to route doc, and route doc, so it goes to final
+        // and subsequent validation will pass
+        document.getDocumentHeader().getWorkflowDocument().switchPrincipal("6162502038");
+        documentService.routeDocument(document, "route test doc", new ArrayList<AdHocRouteRecipient>());
+
         FinalInvoiceReversalDocument firDocument = (FinalInvoiceReversalDocument) documentService.getNewDocument(FinalInvoiceReversalDocument.class);
         firDocument.getDocumentHeader().setDocumentDescription("Unit Test Document");
         FinalInvoiceReversalEntry entry = new FinalInvoiceReversalEntry();
@@ -59,11 +69,12 @@ public class FinalInvoiceReversalTest extends CGInvoiceDocumentTestBase {
         FinalInvoiceReversalEntry entry = new FinalInvoiceReversalEntry();
         entry.setInvoiceDocumentNumber(document.getDocumentNumber());
         FinalInvoiceReversalDocument firDocument = (FinalInvoiceReversalDocument) documentService.getNewDocument(FinalInvoiceReversalDocument.class);
+        firDocument.getDocumentHeader().setDocumentDescription("Unit Test Document");
         firDocument.addInvoiceEntry(entry);
         documentService.saveDocument(firDocument);
-        Iterator iterator = document.getAccountDetails().iterator();
+        Iterator<InvoiceAccountDetail> iterator = document.getAccountDetails().iterator();
         while (iterator.hasNext()) {
-            InvoiceAccountDetail id = (InvoiceAccountDetail) iterator.next();
+            InvoiceAccountDetail id = iterator.next();
             Map<String, Object> mapKey = new HashMap<String, Object>();
             mapKey.put(KFSPropertyConstants.ACCOUNT_NUMBER, id.getAccountNumber());
             mapKey.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, id.getChartOfAccountsCode());
@@ -78,7 +89,7 @@ public class FinalInvoiceReversalTest extends CGInvoiceDocumentTestBase {
         assertFalse(document.getInvoiceGeneralDetail().isFinalBillIndicator());
         iterator = document.getAccountDetails().iterator();
         while (iterator.hasNext()) {
-            InvoiceAccountDetail id = (InvoiceAccountDetail) iterator.next();
+            InvoiceAccountDetail id = iterator.next();
             Map<String, Object> mapKey = new HashMap<String, Object>();
             mapKey.put(KFSPropertyConstants.ACCOUNT_NUMBER, id.getAccountNumber());
             mapKey.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, id.getChartOfAccountsCode());

@@ -36,6 +36,7 @@
 				<ref bean="Award-proposal.proposalNumber" />
 				<ref bean="Award-proposalNumber" />
 				<ref bean="Award-awardNumber" />
+				<ref bean="Award-agencyNumber" />
 				<ref bean="Award-awardTitle" />
 				<ref bean="Award-grantNumber" />
 				<ref bean="Award-cfdaNumber" />
@@ -130,6 +131,11 @@
 		<property name="control">
 			<bean parent="TextControlDefinition" p:size="40" />
 		</property>
+	</bean>
+	<bean id="Award-agencyNumber" parent="Award-agencyNumber-parentBean" />
+
+	<bean id="Award-agencyNumber-parentBean" abstract="true"
+		parent="Agency-agencyNumber">
 	</bean>
 	<bean id="Award-awardTitle" parent="Award-awardTitle-parentBean" />
 

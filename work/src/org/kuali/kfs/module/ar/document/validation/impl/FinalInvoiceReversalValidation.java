@@ -18,7 +18,6 @@ package org.kuali.kfs.module.ar.document.validation.impl;
 import java.util.Iterator;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.FinalInvoiceReversalEntry;
@@ -26,6 +25,7 @@ import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.module.ar.document.FinalInvoiceReversalDocument;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.DocumentService;
@@ -120,7 +120,7 @@ public class FinalInvoiceReversalValidation {
      * @return
      */
     public static boolean entryValidations(ContractsGrantsInvoiceDocument document) {
-        if (!document.getDocumentHeader().getWorkflowDocument().getApplicationDocumentStatus().equals(ArConstants.DOCUMENT_STATUS_FINAL)) {
+        if (!DocumentStatus.FINAL.equals(document.getDocumentHeader().getWorkflowDocument().getStatus())) {
             GlobalVariables.getMessageMap().putError(ArPropertyConstants.FINAL_INVOICE_REVERSAL_ENTRIES_PROPERTY_PATH, ArKeyConstants.FINAL_INVOICE_REVERSAL_EDOC_ERROR_KEY, INVOICE_NOT_FINALIZED_ERROR_MESSAGE);
             return false;
         }

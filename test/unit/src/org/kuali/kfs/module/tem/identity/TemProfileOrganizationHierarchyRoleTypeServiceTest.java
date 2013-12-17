@@ -25,12 +25,12 @@ public class TemProfileOrganizationHierarchyRoleTypeServiceTest extends KualiTes
 
     public static Logger LOG = Logger.getLogger(TemProfileOrganizationHierarchyRoleTypeServiceTest.class);
 
-    private TemProfileOrganizationHierarchyRoleTypeServiceImpl temProfileOrganizationHierarchyRoleService;
+    private TemOrganizationHierarchyRoleTypeService temProfileOrganizationHierarchyRoleService;
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        temProfileOrganizationHierarchyRoleService = SpringContext.getBean(TemProfileOrganizationHierarchyRoleTypeServiceImpl.class);
+        temProfileOrganizationHierarchyRoleService = SpringContext.getBean(TemOrganizationHierarchyRoleTypeService.class);
     }
 
     public final void testIsParentOrg() {

@@ -2381,6 +2381,9 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
         // get persisted document (we'll use business object service since we don't need workflow document information)
         final TravelDocument persistedDocument = getBusinessObjectService().findBySinglePrimaryKey(travelDocument.getClass(), travelDocument.getDocumentNumber());
         // now the question is: does the accounting line total of the persisted document equal the expense total of the given doc?
+        if (persistedDocument == null || persistedDocument.getSourceAccountingLines() == null || persistedDocument.getSourceAccountingLines().isEmpty()) {
+            return true; // we don't have any values we can reliably test against, so...those values are not changed
+        }
         final KualiDecimal persistedAccountingLinesTotal = getAccountingLineAmount(persistedDocument);
         final KualiDecimal currentDocumentApprovedAmount = travelDocument.getApprovedAmount();
         return persistedAccountingLinesTotal.equals(currentDocumentApprovedAmount);

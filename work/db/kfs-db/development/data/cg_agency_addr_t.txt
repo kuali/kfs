@@ -1,0 +1,5 @@
+cg_agency_nbr|cg_agency_addr_id|obj_id|ver_nbr|cg_agency_addr_nm|cg_agency_line_1_addr|cg_agency_line_2_addr|cg_agency_line_3_addr|cg_agency_line_4_addr|cg_agency_city_nm|cg_agency_state_cd|cg_agency_zip_cd|cg_agency_cntry_cd|cg_agency_addr_intl_prov_nm|cg_agency_intl_mail_cd|cg_agency_addr_type_cd|cg_agency_addr_end_dt|cntct_nm|phn_nbr|fax_nbr|agency_cntct_email_addr|agency_inv_email_addr|
+55107|33.0|EDC0BE47140F3031E040E00ABCD64EE1|1.0|MAIN OFFICE|123 ELM STREET||||WASHINGTON|DC|06249|US|||P||JOHN DOE|||||
+55108|34.0|EDC0BE4714103031E040E00ABCD64EE1|1.0|123 OAK STREET|123 OAK STREET||||NOTTAWA|MI|49075|US|||P||JANICE FROMAN|||||
+55113|35.0|EDC0BE4714113031E040E00ABCD64EE1|1.0|BILLING OFFICE|123 MAIN ST||||STORRS|CT|06269|US|||P|||||||
+55116|36.0|EDC0BE4714123031E040E00ABCD64EE1|1.0|MAIN OFFICE|123 OAK STREET||||THREE RIVERS|MI|49075|US|||P|||||||

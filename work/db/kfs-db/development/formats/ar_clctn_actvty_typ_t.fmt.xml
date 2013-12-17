@@ -1,0 +1,9 @@
+<Record name="ar_clctn_actvty_typ_t" type="delimited">
+  <Field name="ar_clctn_actvty_typ_cd"          type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="actvty_desc"                     type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="rfrl_ind"                        type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="dun_prcs_ind"                    type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="obj_id"                          type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="ver_nbr"                         type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="actv_ind"                        type="string"     nullable="true"  trim="false" delimiter="|\r\n" />
+</Record>

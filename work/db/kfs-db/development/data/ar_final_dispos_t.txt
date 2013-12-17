@@ -1,0 +1,4 @@
+ar_final_dispos_cd|dispos_desc|obj_id|ver_nbr|actv_ind|
+DCCL|Document closed - E|EDC0BE4713FC3031E040E00ABCD64EE1|1.0|N|
+F111|Invoice closed|EDC0BE4713FB3031E040E00ABCD64EE1|1.0|Y|
+FD11|Final Disposition Test|EDC0BE4713FA3031E040E00ABCD64EE1|1.0|Y|

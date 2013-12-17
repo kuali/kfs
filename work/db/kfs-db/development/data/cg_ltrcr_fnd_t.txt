@@ -1,0 +1,3 @@
+cg_ltrcr_fnd_cd|cg_ltrcr_fnd_desc|cg_ltrcr_fndgrp_cd|cg_ltrcr_amt|cg_ltrcr_start_dt|cg_ltrcr_expiration_dt|actv_ind|obj_id|ver_nbr|
+DHHS - 80324|DHHS - 80324|DHHS|200000.0|||Y|EDC0BE4714093031E040E00ABCD64EE1|1.0|
+NASA 123|NASA 123|NASA|100000.0|20120702000000||Y|EDC0BE47140A3031E040E00ABCD64EE1|1.0|

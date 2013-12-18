@@ -16,15 +16,23 @@
 package org.kuali.kfs.module.tem.document;
 
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemWorkflowConstants;
 import org.kuali.kfs.module.tem.batch.TaxableRamificationNotificationStep;
+import org.kuali.kfs.module.tem.businessobject.TemSourceAccountingLine;
 import org.kuali.kfs.module.tem.businessobject.TravelAdvance;
 import org.kuali.kfs.module.tem.businessobject.TravelerDetail;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
  * if the cash advance is not cleared on an expense report, the system will generate a tax ramification document showing all taxable
@@ -47,6 +55,8 @@ public class TaxableRamificationDocument extends FinancialSystemTransactionalDoc
 
     private TravelerDetail travelerDetail;
     private TravelAdvance travelAdvance;
+
+    private List<TemSourceAccountingLine> advanceAccountingLines;
 
     /**
      * Gets the arInvoiceDocNumber attribute.
@@ -238,4 +248,22 @@ public class TaxableRamificationDocument extends FinancialSystemTransactionalDoc
     protected boolean requireFiscalOfficerFYI() {
         return this.getParameterService().getParameterValueAsBoolean(TaxableRamificationNotificationStep.class, TemConstants.TaxRamificationParameter.SEND_FYI_TO_FISCAL_OFFICER_IND);
     }
+
+    /**
+     * Read only method to look up accounting lines associated with the advance.  Couldn't do this in OJB because collection-descriptor
+     * assumes the collection is related to your PK.  Because it's stupid.
+     * @return the accounting lines associated with the travel advance associated with this document
+     */
+    public List<TemSourceAccountingLine> getAdvanceAccountingLines() {
+        if (advanceAccountingLines == null) {
+            Map<String, Object> fieldValues = new HashMap<String, Object>();
+            fieldValues.put(KFSPropertyConstants.DOCUMENT_NUMBER, getTravelDocumentNumber());
+            fieldValues.put(KFSPropertyConstants.FINANCIAL_DOCUMENT_LINE_TYPE_CODE, TemConstants.TRAVEL_ADVANCE_ACCOUNTING_LINE_TYPE_CODE);
+
+            advanceAccountingLines = new ArrayList<TemSourceAccountingLine>();
+            advanceAccountingLines.addAll(SpringContext.getBean(BusinessObjectService.class).findMatchingOrderBy(TemSourceAccountingLine.class, fieldValues, KFSPropertyConstants.SEQUENCE_NUMBER, true));
+        }
+        return advanceAccountingLines;
+    }
+
 }

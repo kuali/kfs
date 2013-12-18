@@ -157,23 +157,18 @@ public class TaxableRamificationDocumentServiceImpl implements TaxableRamificati
      * add adhoc recipients to the given taxable ramification document
      */
     protected void addAdHocRoutePersons(TaxableRamificationDocument taxableRamificationDocument) {
-        Set<String> adHocRecipientPrincipalIds = this.getAdhocRecipientsPrincipalIds(taxableRamificationDocument);
+        final Set<String> adHocRecipientPrincipalIds = getFYIRecipientsPrincipalIds(taxableRamificationDocument);
         for (String principalId : adHocRecipientPrincipalIds) {
-            this.getTravelDocumentService().addAdHocFYIRecipient(taxableRamificationDocument, principalId);
+            getTravelDocumentService().addAdHocFYIRecipient(taxableRamificationDocument, principalId);
         }
     }
 
     /**
-     * collect all adhoc recipients of the given tax ramification document. They may be the traveler and fiscal officer
+     * collect all adhoc recipients of the given tax ramification document.  This is meant for overriding, in case other recipients should
+     * be notified
      */
-    protected Set<String> getAdhocRecipientsPrincipalIds(TaxableRamificationDocument taxRamificationDocument) {
+    protected Set<String> getFYIRecipientsPrincipalIds(TaxableRamificationDocument taxRamificationDocument) {
         Set<String> adHocRecipients = new HashSet<String>();
-
-        TravelerDetail traveler = taxRamificationDocument.getTravelerDetail();
-        String travelerPrincipalId = traveler.getPrincipalId();
-        if (StringUtils.isNotEmpty(travelerPrincipalId)) {
-            adHocRecipients.add(travelerPrincipalId);
-        }
 
         return adHocRecipients;
     }

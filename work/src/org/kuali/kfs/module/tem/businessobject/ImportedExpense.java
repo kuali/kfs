@@ -36,6 +36,8 @@ public class ImportedExpense extends AbstractExpense implements TemExpense, Expe
     private Boolean enableNonReimbursable = Boolean.TRUE;
     private String expenseLineTypeCode = TemConstants.EXPENSE_IMPORTED;
 
+    private HistoricalTravelExpense historicalTravelExpense;
+
     public ImportedExpense(){
     }
 
@@ -142,5 +144,13 @@ public class ImportedExpense extends AbstractExpense implements TemExpense, Expe
     @Override
     public Boolean getRentalCarInsurance() {
         return false;
+    }
+
+    public HistoricalTravelExpense getHistoricalTravelExpense() {
+        return historicalTravelExpense;
+    }
+
+    public void setHistoricalTravelExpense(HistoricalTravelExpense historicalTravelExpense) {
+        this.historicalTravelExpense = historicalTravelExpense;
     }
 }

@@ -25,7 +25,9 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemParameterConstants;
+import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.businessobject.HistoricalTravelExpense;
+import org.kuali.kfs.module.tem.businessobject.ImportedExpense;
 import org.kuali.kfs.module.tem.businessobject.TemSourceAccountingLine;
 import org.kuali.kfs.module.tem.dataaccess.TravelDocumentDao;
 import org.kuali.kfs.module.tem.document.TEMReimbursementDocument;
@@ -237,9 +239,12 @@ public class CorporateCardExtractionServiceImpl implements PaymentSourceToExtrac
      * @return the id of the found vendor or null if nothing was found
      */
     protected String findCorporateCardVendorNumber(TEMReimbursementDocument document) {
-        for (HistoricalTravelExpense historicalTravelExpense : document.getHistoricalTravelExpenses()){
-            if (historicalTravelExpense.isCreditCardTravelExpense() && StringUtils.equals(historicalTravelExpense.getCreditCardAgency().getTravelCardTypeCode(), TemConstants.TRAVEL_TYPE_CORP)) {
-                return historicalTravelExpense.getCreditCardAgency().getVendorNumber();
+        for (ImportedExpense importedExpense : document.getImportedExpenses()) {
+            if (StringUtils.equals(importedExpense.getCardType(), TemConstants.TRAVEL_TYPE_CORP) && !ObjectUtils.isNull(importedExpense.getHistoricalTravelExpense())) {
+                importedExpense.getHistoricalTravelExpense().refreshReferenceObject(TemPropertyConstants.CREDIT_CARD_AGENCY);
+                if (!ObjectUtils.isNull(importedExpense.getHistoricalTravelExpense().getCreditCardAgency()) && !StringUtils.isBlank(importedExpense.getHistoricalTravelExpense().getCreditCardAgency().getVendorNumber())) {
+                    return importedExpense.getHistoricalTravelExpense().getCreditCardAgency().getVendorNumber();
+                }
             }
         }
         return null;
@@ -302,8 +307,14 @@ public class CorporateCardExtractionServiceImpl implements PaymentSourceToExtrac
             }
             pd.addNote(pnt);
         }
-        // Handle accounts
-        final List<PaymentAccountDetail> paymentAccounts = buildPaymentAccountDetails(document.getSourceAccountingLines());
+        // Handle accounts, but only corporate card accounting lines
+        List<TemSourceAccountingLine> corporateCardLines = new ArrayList<TemSourceAccountingLine>();
+        for (TemSourceAccountingLine accountingLine : (List<TemSourceAccountingLine>)document.getSourceAccountingLines()) {
+            if (StringUtils.equals(TemConstants.TRAVEL_TYPE_CORP, accountingLine.getCardType())) {
+                corporateCardLines.add(accountingLine);
+            }
+        }
+        final List<PaymentAccountDetail> paymentAccounts = buildPaymentAccountDetails(corporateCardLines);
         for (PaymentAccountDetail pad : paymentAccounts) {
             pd.addAccountDetail(pad);
         }

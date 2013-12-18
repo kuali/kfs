@@ -33,17 +33,17 @@
 		<th align="center">Amount</th>
 	</tr>
 	<logic:iterate indexId="ctr" name="KualiForm"
-			property="document.historicalTravelExpenses" id="currentLine">
+			property="document.reconciledHistoricalTravelExpenses" id="currentLine">
 			<c:set var="lineCounter" value="${lineCounter + 1}" />
 		<tr>
 			<td>
 				<div align="center">
 					<c:choose>
-						<c:when test="${KualiForm.document.historicalTravelExpenses[ctr].agencyStagingDataId != null}">
-							<a target="blank" href="kr/inquiry.do?businessObjectClassName=org.kuali.kfs.module.tem.businessobject.AgencyStagingData&methodToCall=start&id=${KualiForm.document.historicalTravelExpenses[ctr].agencyStagingDataId }">View Details</a>
+						<c:when test="${KualiForm.document.reconciledHistoricalTravelExpenses[ctr].agencyStagingDataId != null}">
+							<a target="blank" href="kr/inquiry.do?businessObjectClassName=org.kuali.kfs.module.tem.businessobject.AgencyStagingData&methodToCall=start&id=${KualiForm.document.reconciledHistoricalTravelExpenses[ctr].agencyStagingDataId }">View Details</a>
 						</c:when>
 						<c:otherwise>
-							<a target="blank" href="kr/inquiry.do?businessObjectClassName=org.kuali.kfs.module.tem.businessobject.CreditCardStagingData&methodToCall=start&id=${KualiForm.document.historicalTravelExpenses[ctr].creditCardStagingDataId }">View Details</a>
+							<a target="blank" href="kr/inquiry.do?businessObjectClassName=org.kuali.kfs.module.tem.businessobject.CreditCardStagingData&methodToCall=start&id=${KualiForm.document.reconciledHistoricalTravelExpenses[ctr].creditCardStagingDataId }">View Details</a>
 						</c:otherwise>
 					</c:choose>
 				</div>
@@ -52,25 +52,25 @@
 				<div align="center">
 					<kul:htmlControlAttribute
 						attributeEntry="${historicalTravelExpenseAttributes.reconciled}"
-						property="document.historicalTravelExpenses[${ctr}].reconciled" 
+						property="document.reconciledHistoricalTravelExpenses[${ctr}].reconciled" 
 						readOnly="true" />
 				</div>
 			</td>
 			<td>
 				<div align="center">
-					${KualiForm.document.historicalTravelExpenses[ctr].documentNumber}
+					${KualiForm.document.reconciledHistoricalTravelExpenses[ctr].documentNumber}
 				</div>
 			</td>
 			<td>
 				<div align="center">
-					${KualiForm.document.historicalTravelExpenses[ctr].creditCardAgency.travelCardTypeCode}
+					${KualiForm.document.reconciledHistoricalTravelExpenses[ctr].creditCardAgency.travelCardTypeCode}
 				</div>
 			</td>
 			<td>
 				<div align="center">
 					<kul:htmlControlAttribute
 						attributeEntry="${historicalTravelExpenseAttributes.transactionPostingDate}"
-						property="document.historicalTravelExpenses[${ctr}].transactionPostingDate" 
+						property="document.reconciledHistoricalTravelExpenses[${ctr}].transactionPostingDate" 
 						readOnly="true" />
 				</div>
 			</td>
@@ -78,7 +78,7 @@
 				<div align="left">
 					<kul:htmlControlAttribute
 						attributeEntry="${historicalTravelExpenseAttributes.travelExpenseType}"
-						property="document.historicalTravelExpenses[${ctr}].travelExpenseType" 
+						property="document.reconciledHistoricalTravelExpenses[${ctr}].travelExpenseType" 
 						readOnly="true" />
 				</div>
 			</td>
@@ -86,7 +86,7 @@
 				<div align="left">
 					<kul:htmlControlAttribute
 						attributeEntry="${historicalTravelExpenseAttributes.travelCompany}"
-						property="document.historicalTravelExpenses[${ctr}].travelCompany" 
+						property="document.reconciledHistoricalTravelExpenses[${ctr}].travelCompany" 
 						readOnly="true" />
 				</div>
 			
@@ -95,7 +95,7 @@
 				<div align="right">
 					<kul:htmlControlAttribute
 						attributeEntry="${historicalTravelExpenseAttributes.convertedAmount}"
-						property="document.historicalTravelExpenses[${ctr}].convertedAmount" 
+						property="document.reconciledHistoricalTravelExpenses[${ctr}].convertedAmount" 
 						readOnly="true" />
 				</div>
 			</td>

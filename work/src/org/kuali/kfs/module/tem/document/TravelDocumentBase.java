@@ -1847,10 +1847,9 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
      */
     @Override
     public List<HistoricalTravelExpense> getHistoricalTravelExpenses() {
-        BusinessObjectService service = SpringContext.getBean(BusinessObjectService.class);
         Map<String,String> fieldValues = new HashMap<String, String>();
         fieldValues.put(TemPropertyConstants.TRIP_ID,this.getTravelDocumentIdentifier());
-        historicalTravelExpenses = (List<HistoricalTravelExpense>) service.findMatchingOrderBy(HistoricalTravelExpense.class, fieldValues, TemPropertyConstants.TRANSACTION_POSTING_DATE, true);
+        historicalTravelExpenses = (List<HistoricalTravelExpense>) getBusinessObjectService().findMatchingOrderBy(HistoricalTravelExpense.class, fieldValues, TemPropertyConstants.TRANSACTION_POSTING_DATE, true);
         for (HistoricalTravelExpense historicalTravelExpense : historicalTravelExpenses){
             historicalTravelExpense.refreshReferenceObject(TemPropertyConstants.CREDIT_CARD_AGENCY);
             historicalTravelExpense.refreshReferenceObject(TemPropertyConstants.AGENCY_STAGING_DATA);
@@ -1858,6 +1857,20 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
             historicalTravelExpense.getCreditCardAgency().refreshReferenceObject(TemPropertyConstants.TRAVEL_CARD_TYPE);
         }
         return historicalTravelExpenses;
+    }
+
+    /**
+     * @return HistoricalTravelExpense records associated with the trip which are reconciled - ie, they have both agency staging data and credit card staging data associated
+     */
+    public List<HistoricalTravelExpense> getReconciledHistoricalTravelExpenses() {
+        List<HistoricalTravelExpense> allHistoricalExpenses = getHistoricalTravelExpenses();
+        List<HistoricalTravelExpense> reconciledHistoricalExpenses = new ArrayList<HistoricalTravelExpense>();
+        for (HistoricalTravelExpense historicalExpense : allHistoricalExpenses) {
+            if (!ObjectUtils.isNull(historicalExpense.getCreditCardStagingData()) && !ObjectUtils.isNull(historicalExpense.getAgencyStagingData())) {
+                reconciledHistoricalExpenses.add(historicalExpense);
+            }
+        }
+        return reconciledHistoricalExpenses;
     }
 
     /**

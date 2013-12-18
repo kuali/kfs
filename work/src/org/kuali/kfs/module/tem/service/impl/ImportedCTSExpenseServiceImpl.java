@@ -18,8 +18,10 @@ package org.kuali.kfs.module.tem.service.impl;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
@@ -107,16 +109,20 @@ public class ImportedCTSExpenseServiceImpl extends ExpenseServiceBase implements
     @Override
     public List<? extends TemExpense> getExpenseDetails(TravelDocument document) {
         final List<ImportedExpense> importedExpenses = document.getImportedExpenses();
+        Set<Long> importedHistoricalExpenseIds = new HashSet<Long>();
         List<TemExpense> ctsExpenses = new ArrayList<TemExpense>();
         for (ImportedExpense expense : importedExpenses) {
             if (StringUtils.equals(expense.getCardType(), TemConstants.TRAVEL_TYPE_CTS)) {
                 ctsExpenses.add(expense);
+                importedHistoricalExpenseIds.add(expense.getHistoricalTravelExpenseId());
             }
         }
         // now include all HistoricalExpenses hung on the document
         final List<HistoricalTravelExpense> hungExpenses = document.getHistoricalTravelExpenses();
         for (HistoricalTravelExpense expense : hungExpenses) {
-            ctsExpenses.add(new HistoricalExpenseAsTemExpenseWrapper(expense));
+            if (StringUtils.equals(expense.getCreditCardAgency().getTravelCardTypeCode(), TemConstants.TRAVEL_TYPE_CTS) && !importedHistoricalExpenseIds.contains(expense.getId())) {
+                ctsExpenses.add(new HistoricalExpenseAsTemExpenseWrapper(expense));
+            }
         }
         return ctsExpenses;
     }

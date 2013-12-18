@@ -56,7 +56,6 @@ public class DunningCampaignTest extends KualiTestBase {
         dunningCampaign.setCampaignID("TEST");
         dunningCampaign.setCampaignDescription("Testing Description");
         dunningCampaign.setActive(true);
-        dunningCampaign.setVersionNumber(new Long(1));
 
         // set Dunning letter distribution list
         DunningLetterDistribution dunningLetterDistribution = new DunningLetterDistribution();

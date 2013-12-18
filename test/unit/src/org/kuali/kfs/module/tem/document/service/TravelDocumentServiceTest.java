@@ -206,6 +206,7 @@ public class TravelDocumentServiceTest extends KualiTestBase {
         perDiemExpense.setLunch(true);
         perDiemExpense.setDinner(true);
         perDiemExpense.setProrated(true);
+        perDiemExpense.setPersonal(false);
 
         Map<String, KualiDecimal> dailyTotal = travelDocumentService.calculateDailyTotal(perDiemExpense);
         assertEquals(new KualiDecimal(9), dailyTotal.get(MILEAGE_TOTAL_ATTRIBUTE));
@@ -276,6 +277,7 @@ public class TravelDocumentServiceTest extends KualiTestBase {
         perDiemExpense.setBreakfast(true);
         perDiemExpense.setLunch(true);
         perDiemExpense.setDinner(true);
+        perDiemExpense.setPersonal(false);
 
         perDiemExpense2.setMiles(30);
         perDiemExpense2.setLodging(new KualiDecimal(75.00));
@@ -283,6 +285,7 @@ public class TravelDocumentServiceTest extends KualiTestBase {
         perDiemExpense2.setBreakfast(true);
         perDiemExpense2.setLunch(true);
         perDiemExpense2.setDinner(true);
+        perDiemExpense2.setPersonal(false);
 
         perDiemExpense3.setMiles(40);
         perDiemExpense3.setLodging(new KualiDecimal(55.00));
@@ -290,11 +293,13 @@ public class TravelDocumentServiceTest extends KualiTestBase {
         perDiemExpense3.setBreakfast(true);
         perDiemExpense3.setLunch(true);
         perDiemExpense3.setDinner(true);
+        perDiemExpense3.setPersonal(false);
 
         List<PerDiemExpense> perDiemExpenses2 = new ArrayList<PerDiemExpense>();
         perDiemExpenses2.add(perDiemExpense);
         perDiemExpenses2.add(perDiemExpense2);
         perDiemExpenses2.add(perDiemExpense3);
+
 
         List<Map<String, KualiDecimal>> dailyTotals2 = travelDocumentService.calculateDailyTotals(perDiemExpenses2);
 

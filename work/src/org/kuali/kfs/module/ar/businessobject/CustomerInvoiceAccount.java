@@ -1,12 +1,12 @@
 /*
  * Copyright 2006 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -25,7 +25,6 @@ import org.kuali.kfs.coa.businessobject.ProjectCode;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomerInvoiceAccountInformation;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAward;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
@@ -53,7 +52,6 @@ public class CustomerInvoiceAccount extends PersistableBusinessObjectBase implem
     private ProjectCode project;
     private SubObjectCode subObject;
     private SubAccount subAccount;
-//    private ContractsAndGrantsCGBAward award;
     private Customer customer;
 
 
@@ -69,7 +67,7 @@ public class CustomerInvoiceAccount extends PersistableBusinessObjectBase implem
 
     /**
      * Gets the universityFiscalYear attribute.
-     * 
+     *
      * @return Returns the universityFiscalYear.
      */
     public Integer getUniversityFiscalYear() {
@@ -79,7 +77,7 @@ public class CustomerInvoiceAccount extends PersistableBusinessObjectBase implem
 
     /**
      * Sets the universityFiscalYear attribute value.
-     * 
+     *
      * @param universityFiscalYear The universityFiscalYear to set.
      */
     public void setUniversityFiscalYear(Integer universityFiscalYear) {
@@ -88,9 +86,10 @@ public class CustomerInvoiceAccount extends PersistableBusinessObjectBase implem
 
     /**
      * Gets the chartOfAccountsCode attribute.
-     * 
+     *
      * @return Returns the chartOfAccountsCode.
      */
+    @Override
     public String getChartOfAccountsCode() {
         return chartOfAccountsCode;
     }
@@ -98,7 +97,7 @@ public class CustomerInvoiceAccount extends PersistableBusinessObjectBase implem
 
     /**
      * Sets the chartOfAccountsCode attribute value.
-     * 
+     *
      * @param chartOfAccountsCode The chartOfAccountsCode to set.
      */
     public void setChartOfAccountsCode(String chartOfAccountsCode) {
@@ -108,9 +107,10 @@ public class CustomerInvoiceAccount extends PersistableBusinessObjectBase implem
 
     /**
      * Gets the objectCode attribute.
-     * 
+     *
      * @return Returns the objectCode.
      */
+    @Override
     public String getObjectCode() {
         return objectCode;
     }
@@ -118,7 +118,7 @@ public class CustomerInvoiceAccount extends PersistableBusinessObjectBase implem
 
     /**
      * Sets the objectCode attribute value.
-     * 
+     *
      * @param objectCode The objectCode to set.
      */
     public void setObjectCode(String objectCode) {
@@ -128,9 +128,10 @@ public class CustomerInvoiceAccount extends PersistableBusinessObjectBase implem
 
     /**
      * Gets the subObjectCode attribute.
-     * 
+     *
      * @return Returns the subObjectCode.
      */
+    @Override
     public String getSubObjectCode() {
         return subObjectCode;
     }
@@ -138,7 +139,7 @@ public class CustomerInvoiceAccount extends PersistableBusinessObjectBase implem
 
     /**
      * Sets the subObjectCode attribute value.
-     * 
+     *
      * @param subObjectCode The subObjectCode to set.
      */
     public void setSubObjectCode(String subObjectCode) {
@@ -148,9 +149,10 @@ public class CustomerInvoiceAccount extends PersistableBusinessObjectBase implem
 
     /**
      * Gets the subAccountNumber attribute.
-     * 
+     *
      * @return Returns the subAccountNumber.
      */
+    @Override
     public String getSubAccountNumber() {
         return subAccountNumber;
     }
@@ -158,7 +160,7 @@ public class CustomerInvoiceAccount extends PersistableBusinessObjectBase implem
 
     /**
      * Sets the subAccountNumber attribute value.
-     * 
+     *
      * @param subAccountNumber The subAccountNumber to set.
      */
     public void setSubAccountNumber(String subAccountNumber) {
@@ -168,9 +170,10 @@ public class CustomerInvoiceAccount extends PersistableBusinessObjectBase implem
 
     /**
      * Gets the accountNumber attribute.
-     * 
+     *
      * @return Returns the accountNumber.
      */
+    @Override
     public String getAccountNumber() {
         return accountNumber;
     }
@@ -178,7 +181,7 @@ public class CustomerInvoiceAccount extends PersistableBusinessObjectBase implem
 
     /**
      * Sets the accountNumber attribute value.
-     * 
+     *
      * @param accountNumber The accountNumber to set.
      */
     public void setAccountNumber(String accountNumber) {
@@ -188,9 +191,10 @@ public class CustomerInvoiceAccount extends PersistableBusinessObjectBase implem
 
     /**
      * Gets the object attribute.
-     * 
+     *
      * @return Returns the object.
      */
+    @Override
     public ObjectCode getObject() {
         return object;
     }
@@ -198,7 +202,7 @@ public class CustomerInvoiceAccount extends PersistableBusinessObjectBase implem
 
     /**
      * Sets the object attribute value.
-     * 
+     *
      * @param object The object to set.
      */
     public void setObject(ObjectCode object) {
@@ -208,9 +212,10 @@ public class CustomerInvoiceAccount extends PersistableBusinessObjectBase implem
 
     /**
      * Gets the project attribute.
-     * 
+     *
      * @return Returns the project.
      */
+    @Override
     public ProjectCode getProject() {
         return project;
     }
@@ -218,7 +223,7 @@ public class CustomerInvoiceAccount extends PersistableBusinessObjectBase implem
 
     /**
      * Sets the project attribute value.
-     * 
+     *
      * @param project The project to set.
      */
     public void setProject(ProjectCode project) {
@@ -228,9 +233,10 @@ public class CustomerInvoiceAccount extends PersistableBusinessObjectBase implem
 
     /**
      * Gets the subObject attribute.
-     * 
+     *
      * @return Returns the subObject.
      */
+    @Override
     public SubObjectCode getSubObject() {
         return subObject;
     }
@@ -238,7 +244,7 @@ public class CustomerInvoiceAccount extends PersistableBusinessObjectBase implem
 
     /**
      * Sets the subObject attribute value.
-     * 
+     *
      * @param subObject The subObject to set.
      */
     public void setSubObject(SubObjectCode subObject) {
@@ -248,9 +254,10 @@ public class CustomerInvoiceAccount extends PersistableBusinessObjectBase implem
 
     /**
      * Gets the subAccount attribute.
-     * 
+     *
      * @return Returns the subAccount.
      */
+    @Override
     public SubAccount getSubAccount() {
         return subAccount;
     }
@@ -258,7 +265,7 @@ public class CustomerInvoiceAccount extends PersistableBusinessObjectBase implem
 
     /**
      * Sets the subAccount attribute value.
-     * 
+     *
      * @param subAccount The subAccount to set.
      */
     public void setSubAccount(SubAccount subAccount) {
@@ -269,13 +276,14 @@ public class CustomerInvoiceAccount extends PersistableBusinessObjectBase implem
     /***
      * @see org.kuali.kfs.integration.businessobject.cg.ContractsGrantsAwardInvoiceAccountInformation#getAccount()
      */
+    @Override
     public Account getAccount() {
         return account;
     }
 
     /**
      * Sets the account attribute.
-     * 
+     *
      * @param account The account to set.
      * @deprecated Setter is required by OJB, but should not be used to modify this attribute. This attribute is set on the initial
      *             creation of the object and should not be changed.
@@ -288,13 +296,14 @@ public class CustomerInvoiceAccount extends PersistableBusinessObjectBase implem
     /***
      * @see org.kuali.kfs.integration.businessobject.cg.ContractsGrantsAwardInvoiceAccountInformation#getChartOfAccounts()
      */
+    @Override
     public Chart getChartOfAccounts() {
         return chartOfAccounts;
     }
 
     /**
      * Sets the chartOfAccounts attribute.
-     * 
+     *
      * @param chartOfAccounts The chartOfAccounts to set.
      * @deprecated Setter is required by OJB, but should not be used to modify this attribute. This attribute is set on the initial
      *             creation of the object and should not be changed.
@@ -309,7 +318,7 @@ public class CustomerInvoiceAccount extends PersistableBusinessObjectBase implem
      * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
     @SuppressWarnings("unchecked")
-    
+
     protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         if (this.customerNumber != null) {
@@ -320,25 +329,10 @@ public class CustomerInvoiceAccount extends PersistableBusinessObjectBase implem
         return m;
     }
 
-//    /***
-//     * @see org.kuali.kfs.integration.businessobject.cg.ContractsAndGrantsAccountAwardInformation#getAward()
-//     */
-//    public ContractsAndGrantsCGBAward getAward() {
-//        return award;
-//    }
-//
-//    /**
-//     * This method sets the associated award to the value provided.
-//     * 
-//     * @param award Value to be assigned to the associated Award object.
-//     */
-//    public void setAward(ContractsAndGrantsCGBAward award) {
-//        this.award = award;
-//    }
-
     /**
      * @see org.kuali.rice.core.api.mo.common.active.MutableInactivatable#isActive()
      */
+    @Override
     public boolean isActive() {
         return active;
     }
@@ -346,6 +340,7 @@ public class CustomerInvoiceAccount extends PersistableBusinessObjectBase implem
     /**
      * @see org.kuali.rice.core.api.mo.common.active.MutableInactivatable#setActive(boolean)
      */
+    @Override
     public void setActive(boolean active) {
         this.active = active;
     }
@@ -353,9 +348,10 @@ public class CustomerInvoiceAccount extends PersistableBusinessObjectBase implem
 
     /**
      * Gets the accountType attribute.
-     * 
+     *
      * @return Returns the accountType.
      */
+    @Override
     public String getAccountType() {
         return accountType;
     }
@@ -363,7 +359,7 @@ public class CustomerInvoiceAccount extends PersistableBusinessObjectBase implem
 
     /**
      * Sets the accountType attribute value.
-     * 
+     *
      * @param accountType The accountType to set.
      */
     public void setAccountType(String accountType) {
@@ -371,6 +367,7 @@ public class CustomerInvoiceAccount extends PersistableBusinessObjectBase implem
     }
 
 
+    @Override
     public String getCustomerNumber() {
         return customerNumber;
     }

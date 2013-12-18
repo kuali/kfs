@@ -147,6 +147,7 @@ public class TravelDocumentServiceTest extends KualiTestBase {
         };
 
         perDiemExpense.setProrated(false);
+        perDiemExpense.setPersonal(false);
 
         perDiemExpense.setMiles(0);
         perDiemExpense.setBreakfast(false);

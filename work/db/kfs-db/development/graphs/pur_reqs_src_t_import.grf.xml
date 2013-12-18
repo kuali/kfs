@@ -23,6 +23,7 @@
         $0.ver_nbr := $ver_nbr;
         $0.reqs_src_desc := replace(nvl($reqs_src_desc, ""), "~!~", "|" );
         $0.dobj_maint_cd_actv_ind := replace(nvl($dobj_maint_cd_actv_ind, ""), "~!~", "|" );
+        $0.allow_copy_days := $allow_copy_days;
    }
       ]]></attr>
     </Node>

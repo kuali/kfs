@@ -337,16 +337,6 @@
 			<accessrule kind="nonaccessible" pattern="**"/>
 		</accessrules>
 	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="build/drivers/mysql-connector-java-5.1.13-bin.jar"><!-- Runtime Only lib -->
-		<accessrules>
-			<accessrule kind="nonaccessible" pattern="**"/>
-		</accessrules>
-	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="build/drivers/ojdbc6.jar"><!-- Runtime Only lib -->
-		<accessrules>
-			<accessrule kind="nonaccessible" pattern="**"/>
-		</accessrules>
-	</classpathentry>
 	<classpathentry exported="true" kind="lib" path="build/external/appserver/connector-api-1.5.jar"><!-- Runtime Only lib -->
 		<accessrules>
 			<accessrule kind="nonaccessible" pattern="**"/>

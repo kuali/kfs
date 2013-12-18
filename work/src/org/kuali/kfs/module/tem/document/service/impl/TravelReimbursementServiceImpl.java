@@ -328,7 +328,7 @@ public class TravelReimbursementServiceImpl implements TravelReimbursementServic
 
         final Note noteToAdd = documentService.createNoteFromDocument(reimbursement, noteText);
         reimbursement.addNote(noteToAdd);
-        documentDao.save(reimbursement);
+        getNoteService().save(noteToAdd);
     }
 
 

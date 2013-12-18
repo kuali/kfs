@@ -32,6 +32,7 @@ import org.kuali.kfs.module.tem.document.TravelReimbursementDocument;
 import org.kuali.kfs.module.tem.pdf.Coversheet;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.DocumentTestUtils;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.api.exception.WorkflowException;
@@ -72,6 +73,7 @@ public class TravelReimbursementServiceTest extends KualiTestBase {
 
         TravelPayment travelPayment = new TravelPayment();
         travelPayment.setDocumentationLocationCode("T");
+        travelPayment.setPaymentMethodCode(KFSConstants.PaymentSourceConstants.PAYMENT_METHOD_WIRE);
         tr.setTravelPayment(travelPayment);
     }
 

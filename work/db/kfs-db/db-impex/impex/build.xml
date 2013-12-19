@@ -1079,7 +1079,10 @@ END;
 		<java classname="org.apache.tools.ant.Main"
 		      fork="true"
 		      failonerror="true">		    
-		    <classpath path="${java.class.path}" />
+		    <classpath>
+		    	<pathelement path="${java.class.path}" />
+		    	<pathelement path="${drivers.directory}" />
+		    </classpath>
 		    <jvmarg value="-Xmx1g" />
 		    <arg value="-Duser.home=${user.home}" />
 			<arg value="-buildfile" />

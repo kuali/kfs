@@ -60,7 +60,7 @@
 						property="selectedProposalNumber" forceRequired="true" /> <c:if
 						test="${readOnly ne true}">
 						<kul:lookup
-							boClassName="org.kuali.kfs.module.cg.businessobject.Award"
+							boClassName="org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward"
 							fieldConversions="proposalNumber:selectedProposalNumber" />
 					</c:if></td>
 			</tr>

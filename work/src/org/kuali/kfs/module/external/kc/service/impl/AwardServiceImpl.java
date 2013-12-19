@@ -36,6 +36,7 @@ import org.kuali.kfs.module.external.kc.businessobject.LetterOfCreditFund;
 import org.kuali.kfs.module.external.kc.businessobject.Proposal;
 import org.kuali.kfs.module.external.kc.dto.AwardDTO;
 import org.kuali.kfs.module.external.kc.service.AccountDefaultsService;
+import org.kuali.kfs.module.external.kc.service.BillingFrequencyService;
 import org.kuali.kfs.module.external.kc.service.ExternalizableBusinessObjectService;
 import org.kuali.kfs.module.external.kc.service.KfsService;
 import org.kuali.kfs.module.external.kc.util.GlobalVariablesExtractHelper;
@@ -55,6 +56,7 @@ public class AwardServiceImpl implements ExternalizableBusinessObjectService {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AwardServiceImpl.class);
 
     private AccountDefaultsService accountDefaultsService;
+    private BillingFrequencyService billingFrequencyService;
 
     protected AwardWebService getWebService() {
         // first attempt to get the service from the KSB - works when KFS & KC share a Rice instance
@@ -164,6 +166,7 @@ public class AwardServiceImpl implements ExternalizableBusinessObjectService {
         }
         award.setLetterOfCreditFundCode(kcAward.getMethodOfPayment().getMethodOfPaymentCode());
         award.setLetterOfCreditFund(new LetterOfCreditFund(kcAward.getMethodOfPayment().getMethodOfPaymentCode(), kcAward.getMethodOfPayment().getDescription()));
+        award.setBillingFrequency(getBillingFrequencyService().createBillingFrequency(kcAward.getInvoiceBillingFrequency()));
         return award;
     }
 
@@ -173,6 +176,14 @@ public class AwardServiceImpl implements ExternalizableBusinessObjectService {
 
     public void setAccountDefaultsService(AccountDefaultsService accountDefaultsService) {
         this.accountDefaultsService = accountDefaultsService;
+    }
+
+    protected BillingFrequencyService getBillingFrequencyService() {
+        return billingFrequencyService;
+    }
+
+    public void setBillingFrequencyService(BillingFrequencyService billingFrequencyService) {
+        this.billingFrequencyService = billingFrequencyService;
     }
 
  }

@@ -49,6 +49,7 @@
                 <entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsLetterOfCreditFundGroup" value="org.kuali.kfs.module.external.kc.businessobject.LetterOfCreditFundGroup"/>
                 <entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsLetterOfCreditFund" value="org.kuali.kfs.module.external.kc.businessobject.LetterOfCreditFund"/>
                 <entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsContractGrantType" value="org.kuali.kfs.module.external.kc.businessobject.ContractGrantType"/>
+                <entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsBillingFrequency" value="org.kuali.kfs.module.external.kc.businessobject.BillingFrequency"/>
              </map>
         </property>
         <property name="externalizableBusinessObjectServiceImplementations">
@@ -62,6 +63,8 @@
                 <entry key="org.kuali.kfs.module.external.kc.businessobject.ContractGrantType" value="awardTypeWebService"/>
                 <entry key="org.kuali.kfs.module.external.kc.businessobject.LetterOfCreditFundGroup" value="letterOfCreditFundGroupService"/>
                 <entry key="org.kuali.kfs.module.external.kc.businessobject.LetterOfCreditFund" value="letterOfCreditFundService"/>
+                <entry key="org.kuali.kfs.module.external.kc.businessobject.BillingFrequency" value="billingFrequencyService" />
+
              </map>
         </property>
         <property name="kfsToKcInquiryUrlClassMapping">
@@ -74,6 +77,7 @@
                 <entry key="org.kuali.kfs.module.external.kc.businessobject.ContractGrantType" value="org.kuali.kra.award.home.AwardType"/>
                 <entry key="org.kuali.kfs.module.external.kc.businessobject.LetterOfCreditFundGroup" value="org.kuali.kra.award.home.AwardBasisOfPayment"/>
                 <entry key="org.kuali.kfs.module.external.kc.businessobject.LetterOfCreditFund" value="org.kuali.kra.award.home.AwardMethodOfPayment"/>
+                <entry key="org.kuali.kfs.module.external.kc.businessobject.BillingFrequency" value="org.kuali.kra.award.paymentreports.Frequency"/>
              </map>
         </property>        
         <property name="kfsToKcInquiryUrlParameterMapping">
@@ -87,6 +91,7 @@
                 <entry key="org.kuali.kfs.module.external.kc.businessobject.ContractGrantType.contractGrantTypeCode" value="awardTypeCode"/>
                 <entry key="org.kuali.kfs.module.external.kc.businessobject.LetterOfCreditFundGroup" value="basisOfPaymentCode"/>
                 <entry key="org.kuali.kfs.module.external.kc.businessobject.LetterOfCreditFund" value="methodOfPaymentCode"/>    
+                <entry key="org.kuali.kfs.module.external.kc.businessobject.BillingFrequency" value="frequencyCode"/>            
              </map>
         </property>        
  		<property name="dataDictionaryPackages">
@@ -168,6 +173,7 @@
     <bean id="awardWebService" parent="awardWebService-parentBean"/>
     <bean id="awardWebService-parentBean" class="org.kuali.kfs.module.external.kc.service.impl.AwardServiceImpl" abstract="true">
       <property name="accountDefaultsService" ref="accountDefaultsService"/>
+      <property name="billingFrequencyService" ref="billingFrequencyService" />
     </bean>
 
     <bean id="awardTypeWebService" parent="awardTypeWebService-parentBean"/>
@@ -178,5 +184,11 @@
     
     <bean id="letterOfCreditFundService" parent="letterOfCreditFundService-parentBean"/>
     <bean id="letterOfCreditFundService-parentBean" class="org.kuali.kfs.module.external.kc.service.impl.LetterOfCreditFundServiceImpl" abstract="true"/>
+    
+    <bean id="billingFrequencyService" parent="billingFrequencyService-parentBean"/>
+    <bean id="billingFrequencyService-parentBean" class="org.kuali.kfs.module.external.kc.service.impl.BillingFrequencyServiceImpl" abstract="true" >
+    	<property name="businessObjectService" ref="businessObjectService" />
+    </bean>
+    
   	<import resource="spring-kc-bus-exports.xml"/>
 </beans>

@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+	<!--
+		Copyright 2009 The Kuali Foundation Licensed under the Educational
+		Community License, Version 2.0 (the "License"); you may not use this
+		file except in compliance with the License. You may obtain a copy of
+		the License at http://www.opensource.org/licenses/ecl2.php Unless
+		required by applicable law or agreed to in writing, software
+		distributed under the License is distributed on an "AS IS" BASIS,
+		WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+		implied. See the License for the specific language governing
+		permissions and limitations under the License.
+	-->
+	<bean id="BillingFrequencyMapping" parent="BillingFrequencyMapping-parentBean" />
+
+	<bean id="BillingFrequencyMapping-parentBean" abstract="true" parent="BusinessObjectEntry">
+		<property name="businessObjectClass"
+			value="org.kuali.kfs.module.external.kc.businessobject.BillingFrequencyMapping" />
+		<property name="inquiryDefinition">
+			<ref bean="BillingFrequencyMapping-inquiryDefinition" />
+		</property>
+		<property name="lookupDefinition" ref="BillingFrequencyMapping-lookupDefinition" />
+		<property name="titleAttribute" value="frequency" />
+		<property name="objectLabel" value="frequency" />
+		<property name="attributes">
+			<list>
+				<ref bean="BillingFrequencyMapping-kcFrequencyCode" />
+				<ref bean="BillingFrequencyMapping-frequency" />
+				<ref bean="BillingFrequencyMapping-gracePeriodDays"/>
+				<ref bean="BillingFrequencyMapping-active" />
+			</list>
+		</property>
+		<property name="primaryKeys">
+			<list>
+				<value>frequency</value>
+				<value>kcFrequencyCode</value>
+			</list>
+		</property>
+	</bean>
+
+	<!-- Attribute Definitions -->
+
+
+	<bean id="BillingFrequencyMapping-kcFrequencyCode" parent="BillingFrequencyMapping-kcFrequencyCode-parentBean" />
+	<bean id="BillingFrequencyMapping-kcFrequencyCode-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="name" value="kcFrequencyCode" />
+		<property name="forceUppercase" value="true" />
+		<property name="label" value="KC Frequency Code" />
+		<property name="shortLabel" value="kcFrequencyCode" />
+		<property name="maxLength" value="3" />
+		<property name="validationPattern">
+			<bean parent="NumericValidationPattern" />
+		</property>
+		<property name="required" value="true" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="5" />
+		</property>
+	</bean>
+	
+	<bean id="BillingFrequencyMapping-frequency" parent="BillingFrequencyMapping-frequency-parentBean" />
+
+	<bean id="BillingFrequencyMapping-frequency-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="name" value="frequency" />
+		<property name="forceUppercase" value="true" />
+		<property name="label" value="Frequency" />
+		<property name="shortLabel" value="Code" />
+		<property name="maxLength" value="10" />
+		<property name="validationPattern">
+			<ref bean="AnyCharacterValidation" />
+		</property>
+		<property name="required" value="true" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="6" />
+		</property>
+	</bean>
+	<bean id="BillingFrequencyMapping-frequencyDescription" parent="BillingFrequencyMapping-frequencyDescription-parentBean" />
+
+	<bean id="BillingFrequencyMapping-frequencyDescription-parentBean"
+		abstract="true" parent="AttributeDefinition">
+		<property name="name" value="frequencyDescription" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Frequency Description" />
+		<property name="shortLabel" value="Description" />
+		<property name="maxLength" value="45" />
+		<property name="validationPattern">
+			<ref bean="AnyCharacterWithWhitespaceValidation" />
+		</property>
+		<property name="required" value="true" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="47" />
+		</property>
+	</bean>
+
+	<bean id="BillingFrequencyMapping-gracePeriodDays" parent="BillingFrequencyMapping-gracePeriodDays-parentBean" />
+
+	<bean id="BillingFrequencyMapping-gracePeriodDays-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="name" value="gracePeriodDays" />
+		<property name="label" value="Grace Period Days" />
+		<property name="shortLabel" value="Grace Period" />
+		<property name="maxLength" value="3" />
+		<property name="required" value="true" />
+		<property name="validationPattern">
+			<ref bean="NumericValidation" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="47" />
+		</property>
+	</bean>
+
+	<bean id="BillingFrequencyMapping-active" parent="BillingFrequencyMapping-active-parentBean" />
+
+	<bean id="BillingFrequencyMapping-active-parentBean" abstract="true"
+		parent="GenericAttributes-activeIndicator">
+		<property name="name" value="active" />
+	</bean>
+
+	<bean id="BillingFrequencyMapping-inquiryDefinition" parent="BillingFrequencyMapping-inquiryDefinition-parentBean" />
+	<bean id="BillingFrequencyMapping-inquiryDefinition-parentBean" abstract="true"
+		parent="InquiryDefinition">
+		<property name="title" value="Billing Frequency Mapping Inquiry" />
+		<property name="inquirySections">
+			<list>
+				<ref bean="BillingFrequencyMapping-inquirySectionDefinition" />
+			</list>
+		</property>
+	</bean>
+	<bean id="BillingFrequencyMapping-inquirySectionDefinition" parent="BillingFrequencyMapping-inquirySectionDefinition-parentBean" />
+	<bean id="BillingFrequencyMapping-inquirySectionDefinition-parentBean" parent="InquirySectionDefinition"
+		abstract="true">
+		<property name="title" value="Billing Frequency Mapping Details" />
+		<property name="numberOfColumns" value="1" />
+		<property name="inquiryFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="kcFrequencyCode" />
+				<bean parent="FieldDefinition" p:attributeName="frequency" />
+				<bean parent="FieldDefinition" p:attributeName="gracePeriodDays"/>
+				<bean parent="FieldDefinition" p:attributeName="active" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="BillingFrequencyMapping-lookupDefinition" parent="BillingFrequencyMapping-lookupDefinition-parentBean" />
+
+	<bean id="BillingFrequencyMapping-lookupDefinition-parentBean"
+		abstract="true" parent="LookupDefinition">
+		<property name="title" value="Billing Frequency Mapping Lookup" />
+
+		<property name="defaultSort">
+			<bean parent="SortDefinition">
+				<property name="attributeNames">
+					<list>
+						<value>kcFrequencyCode</value>
+					</list>
+				</property>
+			</bean>
+		</property>
+		<property name="lookupFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="kcFrequencyCode" />
+				<bean parent="FieldDefinition" p:attributeName="frequency" />
+				<bean parent="FieldDefinition" p:attributeName="gracePeriodDays"/>
+				<bean parent="FieldDefinition" p:attributeName="active" />
+			</list>
+		</property>
+		<property name="resultFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="kcFrequencyCode" />
+				<bean parent="FieldDefinition" p:attributeName="frequency" />
+				<bean parent="FieldDefinition" p:attributeName="gracePeriodDays"/>
+				<bean parent="FieldDefinition" p:attributeName="active" />
+			</list>
+		</property>
+	</bean>
+
+</beans>

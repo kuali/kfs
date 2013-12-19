@@ -1081,5 +1081,25 @@
 				<start name="AdHoc" />
 			</routeNodes>
 		</documentType>
+		<documentType>
+			<name>
+				KCBFM
+			</name>
+			<parent>
+				FSSM
+			</parent>
+			<label>
+				Billing Frequency Mapping
+			</label>
+			<helpDefinitionURL>
+				default.htm?turl=WordDocuments%2Fbillingfrequency.htm
+			</helpDefinitionURL>
+			<active>
+				true
+			</active>
+			<routingVersion>
+				2
+			</routingVersion>
+		</documentType>
 	</documentTypes>
 </data>

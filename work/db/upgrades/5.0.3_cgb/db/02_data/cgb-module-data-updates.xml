@@ -209,5 +209,66 @@
 			<replace replace="SYS_GUID()" with="uuid()" />
 		</modifySql>
 	</changeSet>
-
+	
+	<changeSet author="KFSCGB" id="KFSMI11381_KC_BILL_FREQ_MAP_T_DEFAULT">
+		<insert tableName="KC_BILL_FREQ_MAP_T">
+			<column name="KFS_FREQ_CD" value="ANNUALLY" />
+			<column name="KC_FREQ_CD" value="7" />
+			<column name="OBJ_ID" valueComputed="SYS_GUID()" />
+			<column name="VER_NBR" value="1" />
+			<column name="GRACE_PERIOD" value="0"/>
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+		<insert tableName="KC_BILL_FREQ_MAP_T">
+			<column name="KFS_FREQ_CD" value="LOCB" />
+			<column name="KC_FREQ_CD" value="60" />
+			<column name="OBJ_ID" valueComputed="SYS_GUID()" />
+			<column name="VER_NBR" value="1" />
+			<column name="GRACE_PERIOD" value="0"/>
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+		<insert tableName="KC_BILL_FREQ_MAP_T">
+			<column name="KFS_FREQ_CD" value="MON" />
+			<column name="KC_FREQ_CD" value="2" />
+			<column name="OBJ_ID" valueComputed="SYS_GUID()" />
+			<column name="VER_NBR" value="1" />
+			<column name="GRACE_PERIOD" value="0"/>
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+		<insert tableName="KC_BILL_FREQ_MAP_T">
+			<column name="KFS_FREQ_CD" value="MS" />
+			<column name="KC_FREQ_CD" value="14" />
+			<column name="OBJ_ID" valueComputed="SYS_GUID()" />
+			<column name="VER_NBR" value="1" />
+			<column name="GRACE_PERIOD" value="0"/>
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+		<insert tableName="KC_BILL_FREQ_MAP_T">
+			<column name="KFS_FREQ_CD" value="PDBS" />
+			<column name="KC_FREQ_CD" value="4" />
+			<column name="OBJ_ID" valueComputed="SYS_GUID()" />
+			<column name="VER_NBR" value="1" />
+			<column name="GRACE_PERIOD" value="0"/>
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+		<insert tableName="KC_BILL_FREQ_MAP_T">
+			<column name="KFS_FREQ_CD" value="QUAR" />
+			<column name="KC_FREQ_CD" value="3" />
+			<column name="OBJ_ID" valueComputed="SYS_GUID()" />
+			<column name="VER_NBR" value="1" />
+			<column name="GRACE_PERIOD" value="0"/>
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+		<insert tableName="KC_BILL_FREQ_MAP_T">
+			<column name="KFS_FREQ_CD" value="SEMI-ANN" />
+			<column name="KC_FREQ_CD" value="6" />
+			<column name="OBJ_ID" valueComputed="SYS_GUID()" />
+			<column name="VER_NBR" value="1" />
+			<column name="GRACE_PERIOD" value="0"/>
+			<column name="ACTV_IND" value="Y" />
+		</insert>														
+		<modifySql dbms="mysql">
+			<replace replace="SYS_GUID()" with="uuid()" />
+		</modifySql>
+	</changeSet>
 </databaseChangeLog>

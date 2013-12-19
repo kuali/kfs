@@ -83,6 +83,7 @@ public class KcConstants {
         public static final String SERVICE_PORT = "awardWebServicePort";
         public static QName SERVICE = new QName(KC_NAMESPACE_URI, SOAP_SERVICE_NAME);
         public static final List <String> KC_ALLOWABLE_CRITERIA_PARAMETERS = Arrays.asList("awardId", "sponsorCode");
+        public static final String ERROR_KC_FREQUENCY_MAPPING_NOT_FOUND = "error.kc.frequency.mapping.notfound";
     }
     public static class AwardType {
         public static final String SOAP_SERVICE_NAME = "awardTypeWebSoapService";
@@ -92,6 +93,11 @@ public class KcConstants {
     public static class AwardPayment {
         public static final String SOAP_SERVICE_NAME = "awardPaymentWebSoapService";
         public static final String SERVICE_PORT = "awardPaymentWebServicePort";
+        public static QName SERVICE = new QName(KC_NAMESPACE_URI, SOAP_SERVICE_NAME);
+    }
+    public static class Frequency {
+        public static final String SOAP_SERVICE_NAME = "frequencyWebSoapService";
+        public static final String SERVICE_PORT = "frequencyWebServicePort";
         public static QName SERVICE = new QName(KC_NAMESPACE_URI, SOAP_SERVICE_NAME);
     }
 

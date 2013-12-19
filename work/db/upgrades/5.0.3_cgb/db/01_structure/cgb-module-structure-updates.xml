@@ -1662,6 +1662,31 @@
 		<dropForeignKeyConstraint baseTableName="CG_AWD_T" constraintName="CG_AWD_TR4"/>
             
 		<dropColumn tableName="CG_AWD_T" columnName="CG_LTRCR_FNDGRP_CD" />	
+	</changeSet>
+
+	<changeSet author="KFSCGB"
+		id="KFSMI11381_KC_BILLING_FREQUENCY_MAPPING_T">
+		<createTable tableName="KC_BILL_FREQ_MAP_T">
+			<column name="KFS_FREQ_CD" type="varchar(10)">
+				<constraints primaryKey="true" primaryKeyName="KC_BILL_FREQ_MAP_TP1"/>
+			</column>
+			<column name="KC_FREQ_CD" type="varchar(3)">
+				<constraints primaryKey="true" primaryKeyName="KC_BILL_FREQ_MAP_TP1"/>
+			</column>
+			<column name="OBJ_ID" type="varchar(36)">
+				<constraints unique="true" nullable="false"
+					uniqueConstraintName="KC_CG_BILL_FREQ_MAP_TC0" />
+			</column>
+			<column name="VER_NBR" type="decimal(8,0)" defaultValue="1">
+				<constraints nullable="false" />
+			</column>
+			<column name="GRACE_PERIOD" type="varchar(3)"/>			
+			<column name="ACTV_IND" type="varchar(1)" defaultValue="Y" />
+		</createTable>
+
+		<modifySql dbms="oracle">
+			<replace replace="varchar" with="varchar2" />
+			<replace replace="decimal" with="number" />
+		</modifySql>
 	</changeSet>	
-	
 </databaseChangeLog>

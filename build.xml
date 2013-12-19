@@ -1077,7 +1077,7 @@ The workflow files you want to run must exist in the pending subdirectory and wi
             <classpath>
                 <pathelement location="${classes.directory}" />
                 <path refid="run.server.classpath" />
-            	<pathelemnt location="${drivers.directory}" />
+            	<pathelement location="${drivers.directory}" />
             </classpath>
         </java>
         

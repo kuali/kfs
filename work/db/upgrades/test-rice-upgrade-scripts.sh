@@ -216,6 +216,8 @@ if [[ "$EXPORT_UPGRADED_PROJECT" == "true" ]]; then
 	mkdir -p $WORKSPACE/upgraded_data
 	(
 	cat <<-EOF
+        drivers.directory=/opt/hudson/drivers
+
 		export.torque.database.user=$DB_USER
 		export.torque.database.schema=$DB_SCHEMA
 		export.torque.database.password=$DB_PASSWORD
@@ -307,6 +309,9 @@ if [[ "$IMPORT_NEW_PROJECT" == "true" ]]; then
 
 	(
 	cat <<-EOF
+
+        drivers.directory=/opt/hudson/drivers
+
 		import.torque.database.user=$DB_USER
 		import.torque.database.schema=$DB_SCHEMA
 		import.torque.database.password=$DB_PASSWORD

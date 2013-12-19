@@ -66,7 +66,7 @@ else
   TORQUE_PLATFORM=oracle
 fi
 
-set $WORKSPACE/kfs/build/drivers/*.jar
+set /opt/hudson/drivers/*.jar
 DRIVER_CLASSPATH=$(IFS=:; echo "$*")
 cd $WORKSPACE
 
@@ -83,6 +83,8 @@ EOF
 
 (
 cat <<-EOF
+
+    drivers.directory=/opt/hudson/drivers
 	import.torque.database.user=$DB_USER
 	import.torque.database.schema=$DB_SCHEMA
 	import.torque.database.password=$DB_PASSWORD

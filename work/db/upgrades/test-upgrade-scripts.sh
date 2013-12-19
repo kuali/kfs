@@ -128,7 +128,7 @@ if [[ "$IMPORT_OLD_PROJECT" == "true" ]]; then
 	popd
 fi
 
-set $PROJECT_DIR/build/drivers/*.jar
+set /opt/hudson/drivers/*.jar
 DRIVER_CLASSPATH=$(IFS=:; echo "$*")
 cd $WORKSPACE
 

@@ -475,6 +475,7 @@
 		     the loaded libraries -->
 		<path id="run.tests.classpath">
 			<pathelement location="${test.classes.directory}" />
+			<pathelement location="${drivers.directory}" />
 			<path refid="compile.tests.classpath" />
 			<path refid="database.drivers.classpath" />
 		</path>

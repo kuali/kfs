@@ -157,7 +157,8 @@ public class AssetTransferServiceImpl implements AssetTransferService {
             if (isGLPostable(document, asset, movableAsset)) {
                 asset.refreshReferenceObject(CamsPropertyConstants.Asset.ASSET_PAYMENTS);
                 List<AssetPayment> assetPayments = asset.getAssetPayments();
-                createSourceAndTargetGLPostables(document, assetPayments, movableAsset);
+                createSourceGLPostables(document, assetPayments, movableAsset);
+                createTargetGLPostables(document, assetPayments, movableAsset);
             }
         }
     }
@@ -248,13 +249,22 @@ public class AssetTransferServiceImpl implements AssetTransferService {
 
 
     /**
-     * Creates source and target GL Postable for the source / receiving organizations
+     * Creates GL Postables for the source organization
      *
      * @param universityDateService University Date Service to get the current fiscal year and period
      * @param assetPayments Payments for which GL entries needs to be created
      */
-    protected void createSourceAndTargetGLPostables(AssetTransferDocument document, List<AssetPayment> assetPayments, boolean movableAsset) {
-        Account paymentPlantAcct = null;
+    protected void createSourceGLPostables(AssetTransferDocument document, List<AssetPayment> assetPayments, boolean movableAsset) {
+        Account srcPlantAcct = null;
+        Account paymentSrcPlantAcct = null;
+        OffsetDefinition offsetDefinition = SpringContext.getBean(OffsetDefinitionService.class).getByPrimaryId(getUniversityDateService().getCurrentFiscalYear(), document.getAsset().getOrganizationOwnerChartOfAccountsCode(), CamsConstants.AssetTransfer.DOCUMENT_TYPE_CODE, CamsConstants.Postable.GL_BALANCE_TYPE_CODE_AC);
+
+        if (movableAsset) {
+            srcPlantAcct = document.getAsset().getOrganizationOwnerAccount().getOrganization().getOrganizationPlantAccount();
+        }
+        else {
+            srcPlantAcct = document.getAsset().getOrganizationOwnerAccount().getOrganization().getCampusPlantAccount();
+        }
         ObjectCodeService objectCodeService = SpringContext.getBean(ObjectCodeService.class);
 
         for (AssetPayment assetPayment : assetPayments) {
@@ -262,22 +272,50 @@ public class AssetTransferServiceImpl implements AssetTransferService {
                  ObjectCode objectCode = objectCodeService.getByPrimaryIdForCurrentYear(assetPayment.getChartOfAccountsCode(), assetPayment.getFinancialObjectCode());
                 if (ObjectUtils.isNotNull(objectCode)) {
                     if (movableAsset) {
-                        paymentPlantAcct = assetPayment.getAccount().getOrganization().getOrganizationPlantAccount();
+                        paymentSrcPlantAcct = assetPayment.getAccount().getOrganization().getOrganizationPlantAccount();
                     } else {
-                        paymentPlantAcct = assetPayment.getAccount().getOrganization().getCampusPlantAccount();
+                        paymentSrcPlantAcct = assetPayment.getAccount().getOrganization().getCampusPlantAccount();
                     }
                     if (getAssetPaymentService().isPaymentEligibleForCapitalizationGLPosting(assetPayment)) {
-                        document.getSourceAssetGlpeSourceDetails().add(createAssetGlpePostable(document, paymentPlantAcct, assetPayment, true , AmountCategory.CAPITALIZATION));
-                        document.getSourceAssetGlpeSourceDetails().add(createAssetGlpePostable(document, paymentPlantAcct, assetPayment, false, AmountCategory.CAPITALIZATION));
+                        document.getSourceAssetGlpeSourceDetails().add(createAssetGlpePostable(document, paymentSrcPlantAcct, assetPayment, true, AmountCategory.CAPITALIZATION));
                     }
                     if (getAssetPaymentService().isPaymentEligibleForAccumDeprGLPosting(assetPayment)) {
-                        document.getSourceAssetGlpeSourceDetails().add(createAssetGlpePostable(document, paymentPlantAcct, assetPayment, true , AmountCategory.ACCUM_DEPRECIATION));
-                        document.getSourceAssetGlpeSourceDetails().add(createAssetGlpePostable(document, paymentPlantAcct, assetPayment, false, AmountCategory.ACCUM_DEPRECIATION));
+                        document.getSourceAssetGlpeSourceDetails().add(createAssetGlpePostable(document, paymentSrcPlantAcct, assetPayment, true, AmountCategory.ACCUM_DEPRECIATION));
                     }
                     if (getAssetPaymentService().isPaymentEligibleForOffsetGLPosting(assetPayment)) {
-                        document.getSourceAssetGlpeSourceDetails().add(createAssetGlpePostable(document, paymentPlantAcct, assetPayment, true , AmountCategory.OFFSET_AMOUNT));
-                        document.getSourceAssetGlpeSourceDetails().add(createAssetGlpePostable(document, paymentPlantAcct, assetPayment, false, AmountCategory.OFFSET_AMOUNT));
+                        document.getSourceAssetGlpeSourceDetails().add(createAssetGlpePostable(document, paymentSrcPlantAcct, assetPayment, true, AmountCategory.OFFSET_AMOUNT));
                     }
+                }
+            }
+        }
+    }
+
+
+    /**
+     * Creates target GL Postable for the receiving organization
+     *
+     * @param universityDateService University Date Service to get the current fiscal year and period
+     * @param assetPayments Payments for which GL entries needs to be created
+     */
+    protected void createTargetGLPostables(AssetTransferDocument document, List<AssetPayment> assetPayments, boolean movableAsset) {
+        Account targetPlantAcct = null;
+
+        if (movableAsset) {
+            targetPlantAcct = document.getOrganizationOwnerAccount().getOrganization().getOrganizationPlantAccount();
+        }
+        else {
+            targetPlantAcct = document.getOrganizationOwnerAccount().getOrganization().getCampusPlantAccount();
+        }
+        for (AssetPayment assetPayment : assetPayments) {
+            if (getAssetPaymentService().isPaymentEligibleForGLPosting(assetPayment)) {
+                if (getAssetPaymentService().isPaymentEligibleForCapitalizationGLPosting(assetPayment)) {
+                    document.getTargetAssetGlpeSourceDetails().add(createAssetGlpePostable(document, targetPlantAcct, assetPayment, false, AmountCategory.CAPITALIZATION));
+                }
+                if (getAssetPaymentService().isPaymentEligibleForAccumDeprGLPosting(assetPayment)) {
+                    document.getTargetAssetGlpeSourceDetails().add(createAssetGlpePostable(document, targetPlantAcct, assetPayment, false, AmountCategory.ACCUM_DEPRECIATION));
+                }
+                if (getAssetPaymentService().isPaymentEligibleForOffsetGLPosting(assetPayment)) {
+                    document.getTargetAssetGlpeSourceDetails().add(createAssetGlpePostable(document, targetPlantAcct, assetPayment, false, AmountCategory.OFFSET_AMOUNT));
                 }
             }
         }

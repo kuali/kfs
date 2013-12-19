@@ -83,6 +83,8 @@ EOF
 
 (
 cat <<-EOF
+
+    drivers.directory=/opt/hudson/drivers
 	import.torque.database.user=$DB_USER
 	import.torque.database.schema=$DB_SCHEMA
 	import.torque.database.password=$DB_PASSWORD

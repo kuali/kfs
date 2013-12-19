@@ -39,7 +39,8 @@ import org.kuali.rice.core.api.util.type.KualiDecimal;
     "invoicingOption",
     "dunningCampaignId",
     "stopWorkReason",
-    "minInvoiceAmount"
+    "minInvoiceAmount",
+    "methodOfPayment"
 })
 public class AwardDTO implements Serializable {
 
@@ -73,6 +74,7 @@ public class AwardDTO implements Serializable {
     private String dunningCampaignId;
     private String stopWorkReason;
     private KualiDecimal minInvoiceAmount;
+    private AwardMethodOfPaymentDTO methodOfPayment;
 
 	public Long getAwardId() {
 		return awardId;
@@ -241,5 +243,11 @@ public class AwardDTO implements Serializable {
 	}
 	public void setAwardNumber(String awardNumber) {
 		this.awardNumber = awardNumber;
+	}
+	public AwardMethodOfPaymentDTO getMethodOfPayment() {
+		return methodOfPayment;
+	}
+	public void setMethodOfPayment(AwardMethodOfPaymentDTO methodOfPayment) {
+		this.methodOfPayment = methodOfPayment;
 	}
 }

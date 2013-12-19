@@ -26,6 +26,12 @@ public class LetterOfCreditFund implements ContractsAndGrantsLetterOfCreditFund 
     private String letterOfCreditFundCode;
     private String fundDescription;
 
+    public LetterOfCreditFund() { }
+    public LetterOfCreditFund(String letterOfCreditFundCode, String fundDescription) {
+        this.letterOfCreditFundCode = letterOfCreditFundCode;
+        this.fundDescription = fundDescription;
+    }
+
     @Override
     public void setActive(boolean active) { }
 

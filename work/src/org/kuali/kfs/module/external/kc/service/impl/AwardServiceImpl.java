@@ -32,6 +32,7 @@ import org.kuali.kfs.module.external.kc.businessobject.Agency;
 import org.kuali.kfs.module.external.kc.businessobject.Award;
 import org.kuali.kfs.module.external.kc.businessobject.AwardFundManager;
 import org.kuali.kfs.module.external.kc.businessobject.AwardOrganization;
+import org.kuali.kfs.module.external.kc.businessobject.LetterOfCreditFund;
 import org.kuali.kfs.module.external.kc.businessobject.Proposal;
 import org.kuali.kfs.module.external.kc.dto.AwardDTO;
 import org.kuali.kfs.module.external.kc.service.AccountDefaultsService;
@@ -161,10 +162,12 @@ public class AwardServiceImpl implements ExternalizableBusinessObjectService {
             awardOrg.setProposalNumber(award.getProposalNumber());
             award.setPrimaryAwardOrganization(awardOrg);
         }
+        award.setLetterOfCreditFundCode(kcAward.getMethodOfPayment().getMethodOfPaymentCode());
+        award.setLetterOfCreditFund(new LetterOfCreditFund(kcAward.getMethodOfPayment().getMethodOfPaymentCode(), kcAward.getMethodOfPayment().getDescription()));
         return award;
     }
 
-    public AccountDefaultsService getAccountDefaultsService() {
+    protected AccountDefaultsService getAccountDefaultsService() {
         return accountDefaultsService;
     }
 

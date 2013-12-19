@@ -66,7 +66,7 @@ else
   TORQUE_PLATFORM=oracle
 fi
 
-set $WORKSPACE/kfs/build/drivers/*.jar
+set /opt/hudson/drivers/*.jar
 DRIVER_CLASSPATH=$(IFS=:; echo "$*")
 cd $WORKSPACE
 

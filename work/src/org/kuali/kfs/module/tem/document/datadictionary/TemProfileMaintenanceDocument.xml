@@ -208,7 +208,13 @@
 
 	</bean>
 
-	<bean id="TemProfileMaintenanceDocument-RoutingType-Traveler"  parent="TravelDocument-RoutingType-Traveler">
+	<bean id="TemProfileMaintenanceDocument-RoutingType-Traveler" class="org.kuali.rice.krad.datadictionary.RoutingTypeDefinition">
+		<property name="routingAttributes">
+    		<list>
+		        <bean class="org.kuali.rice.krad.datadictionary.RoutingAttribute" p:qualificationAttributeName="profilePrincipalId" />
+		        <bean class="org.kuali.rice.krad.datadictionary.RoutingAttribute" p:qualificationAttributeName="maintenanceAction"/>
+    		</list>
+    	</property>
 		<property name="documentValuePathGroups">
 			<list>
 				<ref bean="TemProfileMaintenanceDocument-DocumentValuePathGroup-Traveler" />
@@ -221,6 +227,7 @@
 		<property name="documentValues">
 			<list>
 				<value>newMaintainableObject.businessObject.principalId</value>
+				<value>newMaintainableObject.maintenanceAction</value>
 			</list>
 		</property>
 	</bean>

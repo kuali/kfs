@@ -15,6 +15,8 @@
  */
 package org.kuali.kfs.module.tem.document.validation.impl;
 
+import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.businessobject.PerDiemExpense;
@@ -42,9 +44,15 @@ public class TravelDocumentPerDiemPrimaryDestinationMatchValidation extends Gene
         if (primaryDestId != null) {
             if (travelDoc.getPerDiemExpenses() != null && !travelDoc.getPerDiemExpenses().isEmpty()) {
                 for (PerDiemExpense perDiemExpense : travelDoc.getPerDiemExpenses()) {
-                    perDiemExpense.refreshReferenceObject(TemPropertyConstants.PER_DIEM);
-                    if (!ObjectUtils.isNull(perDiemExpense.getPerDiem()) && primaryDestId.equals(perDiemExpense.getPerDiem().getPrimaryDestinationId())) {
-                        return true; // skip out loop - we're fine
+                    if (primaryDestId == TemConstants.CUSTOM_PRIMARY_DESTINATION_ID) {
+                        if (perDiemExpense.getPerDiemId() == TemConstants.CUSTOM_PER_DIEM_ID && StringUtils.equals(perDiemExpense.getCountryStateText(), travelDoc.getPrimaryDestinationCountryState())) {
+                            return true;
+                        }
+                    } else if (perDiemExpense.getPerDiemId() != TemConstants.CUSTOM_PER_DIEM_ID) {
+                        perDiemExpense.refreshReferenceObject(TemPropertyConstants.PER_DIEM);
+                        if (!ObjectUtils.isNull(perDiemExpense.getPerDiem()) && primaryDestId.equals(perDiemExpense.getPerDiem().getPrimaryDestinationId())) {
+                            return true; // skip out loop - we're fine
+                        }
                     }
                 }
                 // still here?  then we didn't find a match...

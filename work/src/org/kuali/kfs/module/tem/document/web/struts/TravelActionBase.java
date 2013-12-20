@@ -835,7 +835,7 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
 
                 String[] priDestId = (String[])parameters.get(parameterKey);
                 PerDiem perDiem = null;
-                if (expense.getPerDiem().getPrimaryDestinationId().equals(new Integer(priDestId[0]))) {
+                if (expense.getPerDiemId() != TemConstants.CUSTOM_PER_DIEM_ID && expense.getPerDiem().getPrimaryDestinationId().equals(new Integer(priDestId[0]))) {
 
                     expense.refreshReferenceObject("perDiem");
                     perDiem = expense.getPerDiem();

@@ -25,7 +25,7 @@
 			<li><portal:portalLink displayTitle="true" title="Cash Control"
 					url="arCashControlDocument.do?methodToCall=docHandler&command=initiate&docTypeName=CTRL" /></li>
 			<li><portal:portalLink displayTitle="true"
-					title="Collection Activity - P2*"
+					title="Collection Activity"
 					url="arCollectionActivityDocument.do?methodToCall=docHandler&command=initiate&docTypeName=COLA" /></li>
 					<li><portal:portalLink displayTitle="true"
 					title="Contracts Grants Invoice On Demand"
@@ -49,7 +49,7 @@
 					title="Payment Application"
 					url="arPaymentApplicationDocument.do?methodToCall=docHandler&command=initiate&docTypeName=APP" /></li>
 			<li><portal:portalLink displayTitle="true"
-					title="Dunning Letter Distribution On Demand - P2*"
+					title="Dunning Letter Distribution On Demand"
 					url="arDunningLetterDistributionOnDemandLookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.DunningLetterDistributionOnDemandLookupResult&docFormKey=88888888&returnLocation=portal.do&hideReturnLink=true" />			</li>
 			<li><portal:portalLink displayTitle="true"
 					title="Final Invoice Reversal"
@@ -58,7 +58,7 @@
 					title="Payment Application"
 					url="arPaymentApplicationDocument.do?methodToCall=docHandler&command=initiate&docTypeName=APP" /></li>
 			<li><portal:portalLink displayTitle="true"
-					title="Referral To Collections - P2*"
+					title="Referral To Collections"
 					url="arReferralToCollectionsLookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.ReferralToCollectionsLookupResult&docFormKey=88888888&returnLocation=portal.do&hideReturnLink=true" /></li>
 		</ul>
 	</c:if>

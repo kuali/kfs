@@ -21,10 +21,10 @@
 		<li><portal:portalLink displayTitle="true" title="Category"
 				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.ContractsAndGrantsCategories&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
 		</li>
-		<li><portal:portalLink displayTitle="true" title="Collection Activity Type - P2*"
+		<li><portal:portalLink displayTitle="true" title="Collection Activity Type"
 				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.CollectionActivityType&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
 		</li>
-		<li><portal:portalLink displayTitle="true" title="Collection Status - P2*"
+		<li><portal:portalLink displayTitle="true" title="Collection Status"
 				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.CollectionStatus&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
 		</li>
 		<li><portal:portalLink displayTitle="true" title="Customer"
@@ -41,13 +41,13 @@
 				title="Customer Invoice Item Code"
 				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.CustomerInvoiceItemCode&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
 		</li>
-		<li><portal:portalLink displayTitle="true" title="Dunning Campaign - P2*"
+		<li><portal:portalLink displayTitle="true" title="Dunning Campaign"
 				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.DunningCampaign&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
 		</li>
-		<li><portal:portalLink displayTitle="true" title="Dunning Letter Templates - P2*"
+		<li><portal:portalLink displayTitle="true" title="Dunning Letter Templates"
 				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.DunningLetterTemplate&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
 		</li>
-		<li><portal:portalLink displayTitle="true" title="Final Disposition - P2*"
+		<li><portal:portalLink displayTitle="true" title="Final Disposition"
 				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.FinalDisposition&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
 		</li>
 		<li><portal:portalLink displayTitle="true"
@@ -73,7 +73,7 @@
 		<li><portal:portalLink displayTitle="true" title="Payment Medium"
 				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.PaymentMedium&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
 		</li>
-		<li><portal:portalLink displayTitle="true" title="Referral Type - P2*"
+		<li><portal:portalLink displayTitle="true" title="Referral Type"
 				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.ReferralType&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
 		</li>
 		<li><portal:portalLink displayTitle="true"

@@ -21,12 +21,12 @@
 		<strong>Accounts Receivable</strong></br>
 	    <ul class="chan">	
 			<li><portal:portalLink displayTitle="true" title="Billing Statement" url="arCustomerStatement.do?methodToCall=start" /></li>
-	   		<li><portal:portalLink displayTitle="true" title="Customer Aging Report - P2*" url="arCustomerAgingReportLookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.CustomerAgingReportDetail" /></li> 		
+	   		<li><portal:portalLink displayTitle="true" title="Customer Aging Report" url="arCustomerAgingReportLookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.CustomerAgingReportDetail" /></li> 		
 			<li><portal:portalLink displayTitle="true"
-					title="Collection Activity Report - P2*"
+					title="Collection Activity Report"
 					url="collectionActivityReportLookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.CollectionActivityReport" /></li>
 			<li><portal:portalLink displayTitle="true"
-					title="Contracts & Grants Aging Report - P2*"
+					title="Contracts & Grants Aging Report"
 					url="contractsGrantsAgingReportLookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.ContractsAndGrantsAgingReport" /></li>
 	   		<li><portal:portalLink displayTitle="true" title="Customer Invoice" url="arCustomerInvoice.do?methodToCall=start" /></li>
 			<li><portal:portalLink displayTitle="true"
@@ -40,10 +40,10 @@
 					url="contractsGrantsMilestoneReport.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.ContractsGrantsMilestoneReport&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
 			</li>
 			<li><portal:portalLink displayTitle="true"
-					title="Referral To Collections Report - P2*"
+					title="Referral To Collections Report"
 					url="referralToCollectionsReportLookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.ReferralToCollectionsReport" /></li>
 			<li><portal:portalLink displayTitle="true"
-					title="Tickler - P2*"
+					title="Tickler"
 					url="arTicklersReport.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.TicklersReport&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
 		</ul>
 	</c:if>

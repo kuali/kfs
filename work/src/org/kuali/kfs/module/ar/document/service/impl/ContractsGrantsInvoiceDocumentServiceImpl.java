@@ -2378,7 +2378,8 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
      */
     @Override
     public boolean isChartAndOrgNotSetupForInvoicing(ContractsAndGrantsBillingAward award) {
-        String coaCode = null, orgCode = null;
+        String coaCode = award.getPrimaryAwardOrganization().getChartOfAccountsCode();
+        String orgCode = award.getPrimaryAwardOrganization().getOrganizationCode();
         String procCoaCode = null, procOrgCode = null;
         Integer currentYear = universityDateService.getCurrentFiscalYear();
 
@@ -2386,80 +2387,25 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         Map<String, Object> sysCriteria = new HashMap<String, Object>();
         criteria.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, currentYear);
         sysCriteria.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, currentYear);
+        criteria.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, coaCode);
+        criteria.put(KFSPropertyConstants.ORGANIZATION_CODE, orgCode);
 
 
-        // To get the chart code and org code for invoicing depending on the invoicing options.
-        if (ObjectUtils.isNotNull(award.getInvoicingOptions())) {
-            if (award.getInvoicingOptions().equalsIgnoreCase(ArPropertyConstants.INV_ACCOUNT)) {
-                for (ContractsAndGrantsBillingAwardAccount awardAccount : award.getActiveAwardAccounts()) {
-                    coaCode = awardAccount.getAccount().getChartOfAccountsCode();
-                    orgCode = awardAccount.getAccount().getOrganizationCode();
-                    criteria.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, coaCode);
-                    criteria.put(KFSPropertyConstants.ORGANIZATION_CODE, orgCode);
-                    // To retrieve processing codes based on billing codes using organization options
-                    List<String> procCodes = getProcessingFromBillingCodes(coaCode, orgCode);
-                    if (CollectionUtils.isEmpty(procCodes)) {
-                        return true;
-                    }
-                    sysCriteria.put("processingChartOfAccountCode", procCodes.get(0));
-                    sysCriteria.put("processingOrganizationCode", procCodes.get(1));
-                    OrganizationAccountingDefault organizationAccountingDefault = businessObjectService.findByPrimaryKey(OrganizationAccountingDefault.class, criteria);
+        // To retrieve processing codes based on billing codes using organization options
+        List<String> procCodes = getProcessingFromBillingCodes(coaCode, orgCode);
+        if (!CollectionUtils.isEmpty(procCodes)) {
 
-                    SystemInformation systemInformation = businessObjectService.findByPrimaryKey(SystemInformation.class, sysCriteria);
-                    if (ObjectUtils.isNull(organizationAccountingDefault) || ObjectUtils.isNull(systemInformation)) {
-                        return true;
-                    }
+        sysCriteria.put("processingChartOfAccountCode", procCodes.get(0));
+        sysCriteria.put("processingOrganizationCode", procCodes.get(1));
+        OrganizationAccountingDefault organizationAccountingDefault = businessObjectService.findByPrimaryKey(OrganizationAccountingDefault.class, criteria);
 
-                }
-            }
-            if (award.getInvoicingOptions().equalsIgnoreCase(ArPropertyConstants.INV_CONTRACT_CONTROL_ACCOUNT)) {
-                List<Account> controlAccounts = (List<Account>) getContractControlAccounts(award);
-
-                for (Account controlAccount : controlAccounts) {
-                    coaCode = controlAccount.getChartOfAccountsCode();
-                    orgCode = controlAccount.getOrganizationCode();
-                    criteria.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, coaCode);
-                    criteria.put(KFSPropertyConstants.ORGANIZATION_CODE, orgCode);
-                    // To retrieve processing codes based on billing codes using organization options
-                    List<String> procCodes = getProcessingFromBillingCodes(coaCode, orgCode);
-                    if (CollectionUtils.isEmpty(procCodes)) {
-                        return true;
-                    }
-                    sysCriteria.put("processingChartOfAccountCode", procCodes.get(0));
-                    sysCriteria.put("processingOrganizationCode", procCodes.get(1));
-                    OrganizationAccountingDefault organizationAccountingDefault = businessObjectService.findByPrimaryKey(OrganizationAccountingDefault.class, criteria);
-
-                    SystemInformation systemInformation = businessObjectService.findByPrimaryKey(SystemInformation.class, sysCriteria);
-                    if (ObjectUtils.isNull(organizationAccountingDefault) || ObjectUtils.isNull(systemInformation)) {
-                        return true;
-                    }
-                }
-            }
-            if (award.getInvoicingOptions().equalsIgnoreCase(ArPropertyConstants.INV_AWARD)) {
-                List<Account> controlAccounts = (List<Account>) getContractControlAccounts(award);
-
-                for (Account controlAccount : controlAccounts) {
-                    coaCode = controlAccount.getChartOfAccountsCode();
-                    orgCode = controlAccount.getOrganizationCode();
-                    criteria.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, coaCode);
-                    criteria.put(KFSPropertyConstants.ORGANIZATION_CODE, orgCode);
-                    // To retrieve processing codes based on billing codes using organization options
-                    List<String> procCodes = getProcessingFromBillingCodes(coaCode, orgCode);
-                    if (CollectionUtils.isEmpty(procCodes)) {
-                        return true;
-                    }
-                    sysCriteria.put("processingChartOfAccountCode", procCodes.get(0));
-                    sysCriteria.put("processingOrganizationCode", procCodes.get(1));
-                    OrganizationAccountingDefault organizationAccountingDefault = businessObjectService.findByPrimaryKey(OrganizationAccountingDefault.class, criteria);
-
-                    SystemInformation systemInformation = businessObjectService.findByPrimaryKey(SystemInformation.class, sysCriteria);
-                    if (ObjectUtils.isNull(organizationAccountingDefault) || ObjectUtils.isNull(systemInformation)) {
-                        return true;
-                    }
-                }
-            }
+        SystemInformation systemInformation = businessObjectService.findByPrimaryKey(SystemInformation.class, sysCriteria);
+        if (ObjectUtils.isNull(organizationAccountingDefault) || ObjectUtils.isNull(systemInformation)) {
+            return true;
+        }
         }
         return false;
+
     }
 
     /**

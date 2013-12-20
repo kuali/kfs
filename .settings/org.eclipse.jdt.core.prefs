@@ -1,6 +1,4 @@
-#Wed Apr 04 17:32:09 EDT 2012
 eclipse.preferences.version=1
-instance/org.eclipse.core.net/org.eclipse.core.net.hasMigrated=true
 org.eclipse.jdt.core.builder.cleanOutputFolder=clean
 org.eclipse.jdt.core.builder.duplicateResourceTask=warning
 org.eclipse.jdt.core.builder.invalidClasspath=abort

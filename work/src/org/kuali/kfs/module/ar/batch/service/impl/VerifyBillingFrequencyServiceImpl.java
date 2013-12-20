@@ -112,6 +112,10 @@ public class VerifyBillingFrequencyServiceImpl implements VerifyBillingFrequency
         String billingFrequency = award.getPreferredBillingFrequency();
         ArrayList<Date> periodEndDateListOfCurrFiscalYear = getSortedListOfPeriodEndDatesOfCurrentFiscalYear(currPeriod);
 
+        // this is used later on when obtaining the last date of the previous fiscal year as the previousAccountPeriodEndDay
+        // it subtracts one from the fiscal year for the currPeriod passed in rather than assuming we want the
+        // previous fiscal year to the current active fiscal year, just in case a past period is sent in as currPeriod
+        // this is mostly just to facilitate unit tests but does make the code more robust (theoretically at least)
         int previousYear = currPeriod.getUniversityFiscalYear() - 1;
 
         // using dates to find PreviousAccountingPeriodEndDate, instead of AccountingPeriod

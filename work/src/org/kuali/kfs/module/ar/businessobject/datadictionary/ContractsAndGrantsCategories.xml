@@ -45,7 +45,7 @@
 
 	<bean id="ContractsAndGrantsCategories-categoryCode-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="categoryCode" />
-		<property name="forceUppercase" value="false" />
+		<property name="forceUppercase" value="true" />
 		<property name="label" value="Category Code" />
 		<property name="shortLabel" value="ContractsAndGrantsCategoriesCode" />
 		<property name="maxLength" value="4" />

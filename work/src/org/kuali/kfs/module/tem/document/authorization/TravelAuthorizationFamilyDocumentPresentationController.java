@@ -38,7 +38,7 @@ public abstract class TravelAuthorizationFamilyDocumentPresentationController ex
         }
         boolean enablePayments = getParameterService().getParameterValueAsBoolean(TravelAuthorizationDocument.class, TemConstants.TravelAuthorizationParameters.VENDOR_PAYMENT_ALLOWED_BEFORE_FINAL_APPROVAL_IND);
         if (enablePayments) {
-            return !isRetired(document) && (document.getDocumentHeader() != null && !(document.getDocumentHeader().getWorkflowDocument().isCanceled() || document.getDocumentHeader().getWorkflowDocument().isInitiated() || document.getDocumentHeader().getWorkflowDocument().isException() || document.getDocumentHeader().getWorkflowDocument().isDisapproved() || document.getDocumentHeader().getWorkflowDocument().isSaved()));
+            return !isRetired(document) && !isCancelled(document) && (document.getDocumentHeader() != null && !(document.getDocumentHeader().getWorkflowDocument().isCanceled() || document.getDocumentHeader().getWorkflowDocument().isInitiated() || document.getDocumentHeader().getWorkflowDocument().isException() || document.getDocumentHeader().getWorkflowDocument().isDisapproved() || document.getDocumentHeader().getWorkflowDocument().isSaved()));
         } else {
             return isOpen(document) && isFinalOrProcessed(document);
         }
@@ -69,6 +69,15 @@ public abstract class TravelAuthorizationFamilyDocumentPresentationController ex
      */
     protected boolean isRetired(TravelAuthorizationDocument document) {
         return TemConstants.TravelAuthorizationStatusCodeKeys.RETIRED_VERSION.equals(document.getAppDocStatus());
+    }
+
+    /**
+     * Determines if the document has been cancelled as a TA or not
+     * @param document the document to check
+     * @return true if the document is TA cancelled, false otherwise
+     */
+    protected boolean isCancelled(TravelAuthorizationDocument document) {
+        return TemConstants.TravelAuthorizationStatusCodeKeys.CANCELLED.equals(document.getAppDocStatus());
     }
 
     /**

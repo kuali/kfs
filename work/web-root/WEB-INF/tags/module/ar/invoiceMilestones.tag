@@ -20,7 +20,7 @@
 
 	<!-- If there are no invoiceMilestones, this section should not be displayed -->
 	<kul:tab tabTitle="Milestones" defaultOpen="true" tabErrorKey="document.invoiceMilestones*">
-		<c:set var="invoiceMilestoneAttributes" value="${DataDictionary.InvoiceMilestone.attributes}" />
+		<c:set var="invoiceMilestoneAttributes" value="${DataDictionary.Milestone.attributes}" />
 		<c:set var="milestoneAttributes" value="${DataDictionary.Milestone.attributes}" />
 
 		<div class="tab-container" align="center">

@@ -20,7 +20,7 @@
 
 	<!-- If there are no bills, this section should not be displayed -->
 	<kul:tab tabTitle="Bills" defaultOpen="true" tabErrorKey="document.invoiceBills*">
-		<c:set var="invoiceBillAttributes" value="${DataDictionary.InvoiceBill.attributes}" />
+		<c:set var="invoiceBillAttributes" value="${DataDictionary.Bill.attributes}" />
 		<c:set var="billAttributes" value="${DataDictionary.Bill.attributes}" />
 
 		<div class="tab-container" align="center">

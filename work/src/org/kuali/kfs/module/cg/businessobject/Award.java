@@ -296,8 +296,6 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
                 awardDirector.setActive(pDirector.isActive());
                 getAwardProjectDirectors().add(awardDirector);
             }
-
-
         }
     }
 
@@ -1857,7 +1855,6 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
      *
      * @return Returns the bills.
      */
-    @Override
     public List<AccountsReceivableBill> getBills() {
         bills = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(AccountsReceivableBill.class).retrieveExternalizableBusinessObjectsList(this, "bills", AccountsReceivableBill.class);
         return bills;

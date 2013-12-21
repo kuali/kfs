@@ -38,18 +38,19 @@
 
 			</list>
 		</property>
-		<property name="relationships">
-	<list>
-				<bean parent="RelationshipDefinition" p:objectAttributeName="award" p:targetClass="org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward">
-			<property name="primitiveAttributes">
-				<list>
-					<bean parent="PrimitiveAttributeDefinition" p:sourceName="proposalNumber"
-						p:targetName="proposalNumber" />
+				<property name="relationships">
+			<list>
+						 <bean parent="RelationshipDefinition">
+					<property name="objectAttributeName" value="award" />
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="award.proposalNumber"
+								p:targetName="proposalNumber" />
+						</list>
+					</property>
+				</bean>
 				</list>
-			</property>
-		</bean>
-		</list>
-		</property>
+				</property>
 	</bean>
 
 	<!-- Attribute Definitions -->
@@ -57,9 +58,7 @@
 	<bean id="Bill-proposalNumber" parent="Bill-proposalNumber-parentBean" />
 
 	<bean id="Bill-proposalNumber-parentBean" abstract="true"
-		parent="ExternalizableAttributeDefinitionProxy"
-		p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward"
-		p:sourceAttributeName="proposalNumber">
+		parent="AttributeDefinition">
 		<property name="name" value="proposalNumber" />
 		<property name="label" value="Proposal Number" />
 		<property name="shortLabel" value="PrpslNbr" />

@@ -183,10 +183,12 @@ public class Bill extends PersistableBusinessObjectBase implements AccountsRecei
      * @return Returns the award.
      */
     public ContractsAndGrantsBillingAward getAward() {
-        Map<String,Object> key = new HashMap<String, Object>(1);
-        key.put(KFSPropertyConstants.PROPOSAL_NUMBER, this.getProposalNumber());
-        return award = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsBillingAward.class).getExternalizableBusinessObject(ContractsAndGrantsBillingAward.class, key);
-
+        if (award == null && proposalNumber != null) {
+            Map<String, Object> map = new HashMap<String, Object> ();
+            map.put("proposalNumber", this.proposalNumber);
+            award = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsBillingAward.class).getExternalizableBusinessObject(ContractsAndGrantsBillingAward.class, map);
+        }
+        return award;
     }
 
     /**

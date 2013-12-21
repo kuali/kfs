@@ -39,13 +39,13 @@
 				<ref bean="Award-awardFundManagers.principalId" />
 				<ref bean="Award-awardPrimaryFundManager.fundManager.name" />
 				<ref bean="Award-milestoneSchedule.milestoneScheduleInquiryTitle" />
- 				<!-- <ref bean="Award-bill.proposalNumber" />
+ 				 <ref bean="Award-bill.proposalNumber" />
 				<ref bean="Award-bills.billNumber" />
 				<ref bean="Award-bills.billDescription" />
 				<ref bean="Award-bills.billIdentifier" />
 				<ref bean="Award-bills.billDate" />
-				<ref bean="Award-bills.estimatedAmount" /
-				<ref bean="Award-bills.billedIndicator" /> >-->
+				<ref bean="Award-bills.estimatedAmount" />
+				<ref bean="Award-bills.billedIndicator" /> 
   				<ref bean="Award-lookupPersonUniversalIdentifier" />
 				<ref bean="Award-lookupPerson.principalName" />
 				<ref bean="Award-lookupPerson.name" />
@@ -127,7 +127,7 @@
 					p:label="Award Subcontractors" p:shortLabel="Subcontractors"
 					p:elementLabel="Subcontractor" />
 				<bean parent="CollectionDefinition" p:name="bills" p:label="Bills"
-					p:shortLabel="Bills" p:elementLabel="Bill" p:dataObjectClass="org.kuali.kfs.integration.ar.AccountsReceivableBill" />
+					p:shortLabel="Bills" p:elementLabel="Bill"  />
 				<bean parent="CollectionDefinition" p:name="milestones"
 					p:label="Milestones" p:shortLabel="Milestones" p:elementLabel="Milestone" />
 
@@ -427,13 +427,12 @@
 		<property name="name" value="bills.estimatedAmount" />
 	</bean>
 
-<!--  Commented as this property not found anywhere -->
-	<!-- <bean id="Award-bills.billedIndicator" parent="Award-bills.billedIndicator-parentBean" />
+ <bean id="Award-bills.billedIndicator" parent="Award-bills.billedIndicator-parentBean" />
 
 	<bean id="Award-bills.billedIndicator-parentBean" abstract="true"
 		parent="Bill-billedIndicator">
 		<property name="name" value="bills.billedIndicator" />
-	</bean> -->
+	</bean> 
 	<bean id="Award-lookupPersonUniversalIdentifier" parent="Award-lookupPersonUniversalIdentifier-parentBean" />
 
 	<bean id="Award-lookupPersonUniversalIdentifier-parentBean"
@@ -1393,7 +1392,7 @@
 										<bean parent="FieldDefinition" p:attributeName="milestoneDescription" />
 										<bean parent="FieldDefinition" p:attributeName="milestoneAmount" />
 										<bean parent="FieldDefinition" p:attributeName="milestoneActualCompletionDate" />
-										<!-- <bean parent="FieldDefinition" p:attributeName="billedIndicator" /> -->
+										<bean parent="FieldDefinition" p:attributeName="billedIndicator" /> 
 									</list>
 								</property>
 							</bean>
@@ -1415,7 +1414,7 @@
 										<bean parent="FieldDefinition" p:attributeName="billIdentifier" />
 										<bean parent="FieldDefinition" p:attributeName="billDate" />
 										<bean parent="FieldDefinition" p:attributeName="estimatedAmount" />
-										<!-- <bean parent="FieldDefinition" p:attributeName="billedIndicator" /> -->
+										 <bean parent="FieldDefinition" p:attributeName="billedIndicator" /> 
 									</list>
 								</property>
 							</bean>

@@ -39,7 +39,7 @@
 				<ref bean="Award-awardFundManagers.principalId" />
 				<ref bean="Award-awardPrimaryFundManager.fundManager.name" />
 				<ref bean="Award-milestoneSchedule.milestoneScheduleInquiryTitle" />
- 				 <ref bean="Award-bill.proposalNumber" />
+ 				<ref bean="Award-bills.proposalNumber" />
 				<ref bean="Award-bills.billNumber" />
 				<ref bean="Award-bills.billDescription" />
 				<ref bean="Award-bills.billIdentifier" />

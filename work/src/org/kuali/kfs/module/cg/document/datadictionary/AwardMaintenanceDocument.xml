@@ -27,7 +27,7 @@
 				<ref bean="AwardMaintenanceDocument-Organizations" />
 				<ref bean="AwardMaintenanceDocument-Invoicing" />
 				<ref bean="AwardMaintenanceDocument-Subcontractors" />
-				<!-- <ref bean="AwardMaintenanceDocument-PredeterminedSchedule" /> -->
+				 <ref bean="AwardMaintenanceDocument-PredeterminedSchedule" /> 
 			</list>
 		</property>
 		<property name="defaultExistenceChecks">
@@ -328,7 +328,6 @@
 				<bean parent="MaintainableFieldDefinition"
 					p:name="letterOfCreditFund.letterOfCreditFundGroup.letterOfCreditFundGroupDescription"
 					p:unconditionallyReadOnly="true" />
-		<!-- 		<bean parent="MaintainableFieldDefinition" p:name="drawNumber" /> -->
 				<bean parent="MaintainableFieldDefinition" p:name="fundingExpirationDate" />
 				<bean parent="MaintainableFieldDefinition" p:name="preferredBillingFrequency"
 					p:webUILeaveFieldFunction="onblur_preferredBillingFrequency"
@@ -385,7 +384,7 @@
 			</list>
 		</property>
 	</bean>
-	<!-- <bean id="AwardMaintenanceDocument-PredeterminedSchedule"
+ <bean id="AwardMaintenanceDocument-PredeterminedSchedule"
 		parent="AwardMaintenanceDocument-PredeterminedSchedule-parentBean" />
 
 	<bean id="AwardMaintenanceDocument-PredeterminedSchedule-parentBean"
@@ -428,7 +427,7 @@
 				</bean>
 			</list>
 		</property>
-	</bean> -->
+	</bean> 
 
 	<!-- <bean id="AwardMaintenanceDocument-AwardBudgets" parent="AwardMaintenanceDocument-AwardBudgets-parentBean" 
 		/> <bean id="AwardMaintenanceDocument-AwardBudgets-parentBean" abstract="true" 

@@ -39,13 +39,13 @@
 				<ref bean="Award-awardFundManagers.principalId" />
 				<ref bean="Award-awardPrimaryFundManager.fundManager.name" />
 				<ref bean="Award-milestoneSchedule.milestoneScheduleInquiryTitle" />
- 				<ref bean="Award-bills.proposalNumber" />
+<!--  				<ref bean="Award-bills.proposalNumber" />
 				<ref bean="Award-bills.billNumber" />
 				<ref bean="Award-bills.billDescription" />
 				<ref bean="Award-bills.billIdentifier" />
 				<ref bean="Award-bills.billDate" />
 				<ref bean="Award-bills.estimatedAmount" />
-				<ref bean="Award-bills.billedIndicator" /> 
+				<ref bean="Award-bills.billedIndicator" />  -->
   				<ref bean="Award-lookupPersonUniversalIdentifier" />
 				<ref bean="Award-lookupPerson.principalName" />
 				<ref bean="Award-lookupPerson.name" />

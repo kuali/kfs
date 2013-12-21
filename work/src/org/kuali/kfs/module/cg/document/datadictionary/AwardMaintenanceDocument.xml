@@ -52,6 +52,7 @@
 					p:collection="awardOrganizations" p:attributeToHighlightOnFail="organizationCode" />
 				<bean parent="ReferenceDefinition" p:attributeName="subcontractor"
 					p:collection="awardSubcontractors" p:attributeToHighlightOnFail="subcontractorNumber" />
+								
 			</list>
 		</property>
 		<property name="lockingKeys">

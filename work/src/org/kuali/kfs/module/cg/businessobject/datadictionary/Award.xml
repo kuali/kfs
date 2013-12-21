@@ -202,6 +202,13 @@
 						</list>
 					</property>
 				</bean>
+				<bean parent="RelationshipDefinition" p:objectAttributeName="bills" p:targetClass="org.kuali.kfs.integration.ar.AccountsReceivableBill">
+							<property name="primitiveAttributes">
+								<list>		        			
+		        			<bean parent="PrimitiveAttributeDefinition" p:sourceName="proposalNumber" p:targetName="proposalNumber" />
+		        		</list>
+		        	</property>
+		        </bean>
 				<!--bean parent="RelationshipDefinition">
 					<property name="objectAttributeName" value="milestoneSchedule" />
 					<property name="primitiveAttributes">

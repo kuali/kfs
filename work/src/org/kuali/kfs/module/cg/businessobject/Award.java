@@ -161,7 +161,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
         awardSubcontractors = new ArrayList<AwardSubcontractor>();
         awardOrganizations = new ArrayList<AwardOrganization>();
         milestones = new ArrayList<AccountsReceivableMilestone>();
-//        bills = new ArrayList<AccountsReceivableBill>();
+        bills = new ArrayList<AccountsReceivableBill>();
     }
 
     /**

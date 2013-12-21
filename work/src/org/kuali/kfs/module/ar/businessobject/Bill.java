@@ -24,9 +24,9 @@ import org.kuali.kfs.integration.ar.AccountsReceivableBill;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.krad.service.KualiModuleService;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 /**
  * Bills to be used for Billing Schedule under Contracts and Grants
@@ -50,7 +50,7 @@ public class Bill extends PersistableBusinessObjectBase implements AccountsRecei
      * Constructs a Bills.java.
      */
     public Bill() {
-
+        this.setBilledIndicator(false);
     }
 
     /**
@@ -83,6 +83,7 @@ public class Bill extends PersistableBusinessObjectBase implements AccountsRecei
         return billNumber;
     }
 
+    @Override
     public boolean isBilledIndicator() {
         return billedIndicator;
     }

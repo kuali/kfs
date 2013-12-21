@@ -38,6 +38,19 @@
 
 			</list>
 		</property>
+				<property name="relationships">
+			<list>
+						 <bean parent="RelationshipDefinition">
+					<property name="objectAttributeName" value="award" />
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="award.proposalNumber"
+								p:targetName="proposalNumber" />
+						</list>
+					</property>
+				</bean>
+				</list>
+				</property>
 	</bean>
 
 	<!-- Attribute Definitions -->

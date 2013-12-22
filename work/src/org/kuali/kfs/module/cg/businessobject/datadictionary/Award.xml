@@ -384,68 +384,6 @@
 		<property name="shortLabel" value="MlstnSchdlLink" />
 	</bean>
 
-	<bean id="Award-bills.proposalNumber" parent="Award-bills.proposalNumber-parentBean" />
-
-	<bean id="Award-bills.proposalNumber-parentBean" abstract="true"
-		parent="ExternalizableAttributeDefinitionProxy"
-		p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.integration.ar.AccountsReceivableBill"
-		p:sourceAttributeName="proposalNumber">
-		<property name="name" value="bills.proposalNumber" />
-	</bean>
-
-	<bean id="Award-bills.billNumber" parent="Award-bills.billNumber-parentBean" />
-
-	<bean id="Award-bills.billNumber-parentBean" abstract="true"
-		parent="ExternalizableAttributeDefinitionProxy"
-		p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.integration.ar.AccountsReceivableBill"
-		p:sourceAttributeName="billNumber">
-		<property name="name" value="bills.billNumber" />
-	</bean>
-
-	<bean id="Award-bills.billDescription" parent="Award-bills.billDescription-parentBean" />
-
-	<bean id="Award-bills.billDescription-parentBean" abstract="true"
-		parent="ExternalizableAttributeDefinitionProxy"
-		p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.integration.ar.AccountsReceivableBill"
-		p:sourceAttributeName="billDescription">
-		<property name="name" value="bills.billDescription" />
-	</bean>
-
-	<bean id="Award-bills.billIdentifier" parent="Award-bills.billIdentifier-parentBean" />
-
-	<bean id="Award-bills.billIdentifier-parentBean" abstract="true"
-		parent="ExternalizableAttributeDefinitionProxy"
-		p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.integration.ar.AccountsReceivableBill"
-		p:sourceAttributeName="billIdentifier">
-		<property name="name" value="bills.billIdentifier" />
-	</bean>
-
-	<bean id="Award-bills.billDate" parent="Award-bills.billDate-parentBean" />
-
-	<bean id="Award-bills.billDate-parentBean" abstract="true"
-		parent="ExternalizableAttributeDefinitionProxy"
-		p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.integration.ar.AccountsReceivableBill"
-		p:sourceAttributeName="billDate">
-		<property name="name" value="bills.billDate" />
-	</bean>
-
-	<bean id="Award-bills.estimatedAmount" parent="Award-bills.estimatedAmount-parentBean" />
-
-	<bean id="Award-bills.estimatedAmount-parentBean" abstract="true"
-		parent="ExternalizableAttributeDefinitionProxy"
-		p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.integration.ar.AccountsReceivableBill"
-		p:sourceAttributeName="estimatedAmount">
-		<property name="name" value="bills.estimatedAmount" />
-	</bean>
-
- <bean id="Award-bills.billedIndicator" parent="Award-bills.billedIndicator-parentBean" />
-
-	<bean id="Award-bills.billedIndicator-parentBean" abstract="true"
-		parent="ExternalizableAttributeDefinitionProxy"
-		p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.integration.ar.AccountsReceivableBill"
-		p:sourceAttributeName="billedIndicator">
-		<property name="name" value="bills.billedIndicator" />
-	</bean> 
 	<bean id="Award-lookupPersonUniversalIdentifier" parent="Award-lookupPersonUniversalIdentifier-parentBean" />
 
 	<bean id="Award-lookupPersonUniversalIdentifier-parentBean"

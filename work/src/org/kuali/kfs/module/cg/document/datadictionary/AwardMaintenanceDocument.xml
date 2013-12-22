@@ -52,6 +52,8 @@
 					p:collection="awardOrganizations" p:attributeToHighlightOnFail="organizationCode" />
 				<bean parent="ReferenceDefinition" p:attributeName="subcontractor"
 					p:collection="awardSubcontractors" p:attributeToHighlightOnFail="subcontractorNumber" />
+				<bean parent="ReferenceDefinition" p:attributeName="bill"
+					p:collection="bills" p:attributeToHighlightOnFail="proposalNumber" p:collectionBusinessObjectClass="org.kuali.kfs.integration.ar.AccountsReceivableBill"/>								
 			</list>
 		</property>
 		<property name="lockingKeys">
@@ -396,8 +398,7 @@
 			<list>
 				<bean parent="MaintainableCollectionDefinition">
 					<property name="name" value="bills" />
-					<property name="businessObjectClass"
-						value="org.kuali.kfs.integration.ar.AccountsReceivableBill" />
+					<property name="businessObjectClass" value="org.kuali.kfs.module.ar.businessobject.Bill" />
 					<property name="summaryFields">
 						<list>
 							<bean parent="MaintainableFieldDefinition" p:name="proposalNumber" />

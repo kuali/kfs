@@ -388,4 +388,26 @@
 		</modifySql>
 	</changeSet>
 	
+	<changeSet author="KFSCGB"
+		id="KFSMI-11376_DO_NOT_INVOICE_STATUS_CODES">
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-AR" />
+			<column name="CMPNT_CD" value="InvoiceIndicator" />
+			<column name="PARM_NM" value="AWARD_STATUS_CODES" />
+			<column name="OBJ_ID" value="SYS_GUID" />
+			<column name="VER_NBR" value="1" />
+			<column name="PARM_TYP_CD" value="CONFG" />
+			<column name="VAL" value="2;4;5;6" />
+			<column name="PARM_DESC_TXT"
+				value="Kuali Coeus Award Status Codes that indicate the award should not be invoiced." />
+			<column name="EVAL_OPRTR_CD" value="D" />
+			<column name="APPL_ID" value="KFS" />
+		</insert>
+		<modifySql dbms="mysql">
+			<replace replace="SYS_GUID" with="uuid()" />
+		</modifySql>
+		<modifySql dbms='oracle'>
+			<replace replace='SYS_GUID' with='sys_guid()' />
+		</modifySql>
+	</changeSet>	
 </databaseChangeLog>

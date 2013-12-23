@@ -41,8 +41,10 @@ import org.kuali.kfs.module.external.kc.service.ExternalizableBusinessObjectServ
 import org.kuali.kfs.module.external.kc.service.KfsService;
 import org.kuali.kfs.module.external.kc.util.GlobalVariablesExtractHelper;
 import org.kuali.kfs.module.external.kc.webService.AwardWebSoapService;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kra.external.award.service.AwardWebService;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.bo.ExternalizableBusinessObject;
 
 /**
@@ -56,6 +58,7 @@ public class AwardServiceImpl implements ExternalizableBusinessObjectService {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AwardServiceImpl.class);
 
     private AccountDefaultsService accountDefaultsService;
+    private ParameterService parameterService;
     private BillingFrequencyService billingFrequencyService;
 
     protected AwardWebService getWebService() {
@@ -167,7 +170,14 @@ public class AwardServiceImpl implements ExternalizableBusinessObjectService {
         award.setLetterOfCreditFundCode(kcAward.getMethodOfPayment().getMethodOfPaymentCode());
         award.setLetterOfCreditFund(new LetterOfCreditFund(kcAward.getMethodOfPayment().getMethodOfPaymentCode(), kcAward.getMethodOfPayment().getDescription()));
         award.setBillingFrequency(getBillingFrequencyService().createBillingFrequency(kcAward.getInvoiceBillingFrequency()));
+        award.setSuspendInvoicingIndicator(getDoNotInvoiceStatuses().contains(kcAward.getAwardStatusCode()));
         return award;
+    }
+
+    protected Collection<String> getDoNotInvoiceStatuses() {
+        Collection<String> statuses = getParameterService().getParameterValuesAsString(KFSConstants.OptionalModuleNamespaces.CONTRACTS_AND_GRANTS, "Award",
+                KcConstants.Award.PARAMETER_KC_DO_NOT_INVOICE_AWARD_STATUS_CODES);
+        return statuses;
     }
 
     protected AccountDefaultsService getAccountDefaultsService() {
@@ -176,6 +186,14 @@ public class AwardServiceImpl implements ExternalizableBusinessObjectService {
 
     public void setAccountDefaultsService(AccountDefaultsService accountDefaultsService) {
         this.accountDefaultsService = accountDefaultsService;
+    }
+
+    protected ParameterService getParameterService() {
+        return parameterService;
+    }
+
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
     }
 
     protected BillingFrequencyService getBillingFrequencyService() {

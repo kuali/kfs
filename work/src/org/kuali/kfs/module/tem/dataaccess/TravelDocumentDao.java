@@ -114,4 +114,5 @@ public interface TravelDocumentDao {
      * @return a Collection of qualifying reimbursement documents
      */
     public abstract Collection<? extends TEMReimbursementDocument> getRelocationDocumentsNeedingCorporateCardExtraction();
+
 }

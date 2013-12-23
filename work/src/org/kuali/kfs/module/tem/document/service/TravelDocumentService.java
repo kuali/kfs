@@ -435,4 +435,13 @@ public interface TravelDocumentService {
      * @return true if the totals are unchanged, false otherwise
      */
     public boolean travelDocumentTotalsUnchangedFromPersisted(TravelDocument travelDocument);
+
+    /**
+     * This method retrieves a list of approved documents related to a travelDocumentIdentifier. It will grab the most current TA (TAA, TAC)
+     * and all TR, ENT, and RELO for the given identifier.
+     *
+     * @param travelDocumentIdentifier
+     * @return
+     */
+    public List<String> getApprovedTravelDocumentNumbersByTrip(String travelDocumentIdentifier);
 }

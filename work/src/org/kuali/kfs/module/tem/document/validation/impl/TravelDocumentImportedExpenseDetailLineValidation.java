@@ -15,6 +15,8 @@
  */
 package org.kuali.kfs.module.tem.document.validation.impl;
 
+import java.math.BigDecimal;
+
 import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.businessobject.ImportedExpense;
@@ -63,7 +65,7 @@ public class TravelDocumentImportedExpenseDetailLineValidation extends GenericVa
 
         }
 
-        if (success && !importedExpenseDetail.getCurrencyRate().equals(new KualiDecimal(1))){
+        if (success && !importedExpenseDetail.getCurrencyRate().equals(BigDecimal.ONE)){
             GlobalVariables.getMessageMap().putInfo(TemPropertyConstants.EXPENSE_AMOUNT, TemKeyConstants.INFO_TEM_IMPORT_CURRENCY_CONVERSION);
         }
         return success;

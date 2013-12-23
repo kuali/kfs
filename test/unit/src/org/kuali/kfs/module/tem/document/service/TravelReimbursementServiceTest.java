@@ -26,11 +26,13 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kfs.module.ar.businessobject.Customer;
 import org.kuali.kfs.module.tem.TemConstants;
+import org.kuali.kfs.module.tem.businessobject.TravelPayment;
 import org.kuali.kfs.module.tem.businessobject.TravelerDetail;
 import org.kuali.kfs.module.tem.document.TravelReimbursementDocument;
 import org.kuali.kfs.module.tem.pdf.Coversheet;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.DocumentTestUtils;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.api.exception.WorkflowException;
@@ -68,6 +70,11 @@ public class TravelReimbursementServiceTest extends KualiTestBase {
         traveler.setTravelerTypeCode(TemConstants.EMP_TRAVELER_TYP_CD);
         traveler.setCustomer(new Customer());
         tr.setTraveler(traveler);
+
+        TravelPayment travelPayment = new TravelPayment();
+        travelPayment.setDocumentationLocationCode("T");
+        travelPayment.setPaymentMethodCode(KFSConstants.PaymentSourceConstants.PAYMENT_METHOD_WIRE);
+        tr.setTravelPayment(travelPayment);
     }
 
     @Override

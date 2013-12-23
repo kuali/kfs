@@ -54,7 +54,7 @@
 					</tr>
 					<tr>
 			
-						<kul:htmlAttributeHeaderCell attributeEntry="${perDiemExpensesAttributes.countryStateCode}" />
+						<kul:htmlAttributeHeaderCell attributeEntry="${perDiemExpensesAttributes.countryState}" />
 						<kul:htmlAttributeHeaderCell attributeEntry="${perDiemExpensesAttributes.county}" />
 						<kul:htmlAttributeHeaderCell attributeEntry="${perDiemExpensesAttributes.primaryDestination}" />
 						<kul:htmlAttributeHeaderCell attributeEntry="${perDiemExpensesAttributes.personal}" />
@@ -85,30 +85,30 @@
 					<tr>
 					<td valign=top class="datacell">
 						<c:choose>
-						<c:when test="${isCustom}">
-							<kul:htmlControlAttribute
-								attributeEntry="${perDiemExpensesAttributes.countryStateText}"
-								property="document.perDiemExpenses[${perDiemIndex.count - 1}].countryState"
-								readOnly="${!isCustom && !fullEntryMode}" />
-							
-						</c:when>
-						<c:otherwise>
-							<kul:htmlControlAttribute
-								attributeEntry="${perDiemExpensesAttributes.countryState}"
-								property="document.perDiemExpenses[${perDiemIndex.count - 1}].countryState"
-								readOnly="${!isCustom && !fullEntryMode}" />
-						</c:otherwise>
+							<c:when test="${isCustom}">
+								<kul:htmlControlAttribute
+									attributeEntry="${perDiemExpensesAttributes.countryStateText}"
+									property="document.perDiemExpenses[${perDiemIndex.count - 1}].countryState"
+									readOnly="${fullEntryMode}" />
+								
+							</c:when>
+							<c:otherwise>
+								<kul:htmlControlAttribute
+									attributeEntry="${perDiemExpensesAttributes.countryState}"
+									property="document.perDiemExpenses[${perDiemIndex.count - 1}].countryState"
+									readOnly="true" />
+							</c:otherwise>
 						</c:choose>
 						</td>
 						<td valign=top class="datacell"><kul:htmlControlAttribute
 								attributeEntry="${perDiemExpensesAttributes.county}"
 								property="document.perDiemExpenses[${perDiemIndex.count - 1}].county"
-								readOnly="${!isCustom && !fullEntryMode}" />
+								readOnly="${!isCustom}" />
 						</td>
 						<td valign=top class="datacell"><kul:htmlControlAttribute
 								attributeEntry="${perDiemExpensesAttributes.perDiemId}"
 								property="document.perDiemExpenses[${perDiemIndex.count - 1}].primaryDestination"
-								readOnly="${!isCustom && !fullEntryMode}" /> 
+								readOnly="${!isCustom}" /> 
 							<c:if test="${fullEntryMode}">
 								<kul:lookup
 									boClassName="org.kuali.kfs.module.tem.businessobject.PrimaryDestination"

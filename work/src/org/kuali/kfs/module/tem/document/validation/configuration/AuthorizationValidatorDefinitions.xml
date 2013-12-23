@@ -246,7 +246,7 @@
         <property name="validations">
             <list>
                 <bean parent="TravelAuthorization-updateAccountingLine-failFastValidation" scope="prototype" />
-                <bean parent="TravelAuthorizationDocument-accountingLineAccessibleValidation" scope="prototype">
+                <bean parent="AccountingDocument-accountingLineAccessibleValidation" scope="prototype">
                     <property name="parameterProperties">
                         <list>
                             <bean parent="accountingDocumentFieldConversion" />

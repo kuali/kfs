@@ -57,14 +57,14 @@ import org.kuali.kfs.integration.ar.AccountsReceivableCustomerInvoice;
 import org.kuali.kfs.integration.ar.AccountsReceivableModuleService;
 import org.kuali.kfs.integration.ar.AccountsReceivableOrganizationOptions;
 import org.kuali.kfs.module.tem.TemConstants;
-import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationParameters;
-import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationStatusCodeKeys;
-import org.kuali.kfs.module.tem.TemConstants.TravelDocTypes;
-import org.kuali.kfs.module.tem.TemConstants.TravelParameters;
 import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.TemParameterConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.TemWorkflowConstants;
+import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationParameters;
+import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationStatusCodeKeys;
+import org.kuali.kfs.module.tem.TemConstants.TravelDocTypes;
+import org.kuali.kfs.module.tem.TemConstants.TravelParameters;
 import org.kuali.kfs.module.tem.businessobject.ActualExpense;
 import org.kuali.kfs.module.tem.businessobject.ExpenseType;
 import org.kuali.kfs.module.tem.businessobject.ExpenseTypeAware;
@@ -2381,6 +2381,9 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
         // get persisted document (we'll use business object service since we don't need workflow document information)
         final TravelDocument persistedDocument = getBusinessObjectService().findBySinglePrimaryKey(travelDocument.getClass(), travelDocument.getDocumentNumber());
         // now the question is: does the accounting line total of the persisted document equal the expense total of the given doc?
+        if (persistedDocument == null || persistedDocument.getSourceAccountingLines() == null || persistedDocument.getSourceAccountingLines().isEmpty()) {
+            return true; // we don't have any values we can reliably test against, so...those values are not changed
+        }
         final KualiDecimal persistedAccountingLinesTotal = getAccountingLineAmount(persistedDocument);
         final KualiDecimal currentDocumentApprovedAmount = travelDocument.getApprovedAmount();
         return persistedAccountingLinesTotal.equals(currentDocumentApprovedAmount);
@@ -2399,6 +2402,36 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
             }
         }
         return total;
+    }
+
+    /**
+     *
+     * @see org.kuali.kfs.module.tem.document.service.TravelDocumentService#getTravelDocumentNumbersByTrip(java.lang.String)
+     */
+    @Override
+    public List<String> getApprovedTravelDocumentNumbersByTrip(String travelDocumentIdentifier) {
+
+        List<String> travelDocumentNumbers = new ArrayList<String>();
+
+        TravelDocument travelDocument = getTravelDocument(travelDocumentIdentifier);
+        if (ObjectUtils.isNotNull(travelDocument)) {
+            travelDocumentNumbers.add(travelDocument.getDocumentNumber());
+        }
+
+        travelDocumentNumbers.addAll(getTravelDocumentDao().findDocumentNumbers(TravelReimbursementDocument.class, travelDocumentIdentifier));
+        travelDocumentNumbers.addAll(getTravelDocumentDao().findDocumentNumbers(TravelEntertainmentDocument.class, travelDocumentIdentifier));
+        travelDocumentNumbers.addAll(getTravelDocumentDao().findDocumentNumbers(TravelRelocationDocument.class, travelDocumentIdentifier));
+
+        List<String> approvedTravelDocumentNumbers = new ArrayList<String>();
+
+        for(Iterator iter = travelDocumentNumbers.iterator(); iter.hasNext();) {
+            String documentNumber = (String)iter.next();
+            if (isDocumentApprovedOrExtracted(documentNumber)) {
+                approvedTravelDocumentNumbers.add(documentNumber);
+            }
+        }
+
+        return approvedTravelDocumentNumbers;
     }
 
     public PersistenceStructureService getPersistenceStructureService() {

@@ -104,33 +104,37 @@
     <property name="shortLabel" value="Notice"/>
 	<property name="maxLength" value="2000"/>    
   </bean>
-  
-  <bean id="TaxableRamificationDocument-DocumentValuePathGroup-ChartAccountNumber" class="org.kuali.rice.krad.datadictionary.DocumentValuePathGroup">
-    	<property name="documentValues">
-    		<list>
-    			<value>travelAdvance.chartOfAccountsCode</value>
-    			<value>travelAdvance.accountNumber</value>
-    			
-    		</list>
-    	</property>
-   	</bean>
-   	
  
   <bean id="TaxableRamificationDocument-workflowAttributes" parent="TaxableRamificationDocument-workflowAttributes-parentBean"/>	  
-    <bean id="TaxableRamificationDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
-  	<property name="routingTypeDefinitions">
-    		<map>
-    			<entry key="AccountNotification" value-ref="TaxableRamificationDocument-RoutingType-RequireAccountNotification"/>
-    		</map>
+  <bean id="TaxableRamificationDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
+	<property name="routingTypeDefinitions">
+		<map>
+    		<entry key="Traveler" value-ref="TaxableRamificationDocument-RoutingType-Traveler"/>
+    		<entry key="AccountNotification" value-ref="TaxableRamificationDocument-RoutingType-RequireAccountNotification"/>
+    	</map>
     </property>
-  
   </bean>
   
-  <bean id="TaxableRamificationDocument-RoutingType-RequireAccountNotification" class="org.kuali.rice.krad.datadictionary.RoutingTypeDefinition">
+  <bean id="TaxableRamificationDocument-DocumentValuePathGroup-ChartAccountNumber" parent="TaxableRamificationDocument-DocumentValuePathGroup-ChartAccountNumber-parentBean"/>
+  <bean id="TaxableRamificationDocument-DocumentValuePathGroup-ChartAccountNumber-parentBean" abstract="true" class="org.kuali.rice.krad.datadictionary.DocumentValuePathGroup">
+  	<property name="documentValues">
+		<list>
+			<value>travelAdvance.travelAdvanceRequested</value>
+		</list>
+	</property>
+  	<property name="documentCollectionPath">
+  		<bean parent="DocumentCollectionPath-AccountingLine-chartAndAccountNumber">
+  			<property name="collectionPath" value="advanceAccountingLines" />
+  		</bean>
+   	</property>
+  </bean>
+  <bean id="TaxableRamificationDocument-RoutingType-RequireAccountNotification" parent="TaxableRamificationDocument-RoutingType-RequireAccountNotification-parentBean" />
+  <bean id="TaxableRamificationDocument-RoutingType-RequireAccountNotification-parentBean" abstract="true" class="org.kuali.rice.krad.datadictionary.RoutingTypeDefinition">
     	<property name="routingAttributes">
     		<list>
-		        <ref bean="RoutingAttribute-Chart"/>
-		        <ref bean="RoutingAttribute-Account" />
+    			<ref bean="RoutingAttribute-financialDocumentTotalAmount" />
+		        <ref bean="RoutingAttribute-chartOfAccountsCode" />
+		        <ref bean="RoutingAttribute-accountNumber" />
     		</list>
     	</property>
     	<property name="documentValuePathGroups">

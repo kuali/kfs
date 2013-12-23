@@ -1012,26 +1012,17 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
      *
      * @return
      */
-    private boolean requiresTravelerApprovalRouting() {
-        boolean routeToTraveler = false;
-
+    protected boolean requiresTravelerApprovalRouting() {
         //If there's travel advances, route to traveler if necessary
-        if (requiresTravelAdvanceReviewRouting()){
-            String initiator = this.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId();
-            String travelerID = this.getTraveler().getPrincipalId();
-
-            //traveler must accept policy, if initiator is arranger, the traveler will have to accept later.
-            routeToTraveler = travelerID != null && !initiator.equals(travelerID);
-        }
-        return routeToTraveler;
+        return requiresTravelAdvanceReviewRouting() && !getTravelAdvance().getTravelAdvancePolicy();
     }
 
     /**
      *
      * @return
      */
-    private boolean requiresTravelAdvanceReviewRouting() {
-        return (shouldProcessAdvanceForDocument() && KualiDecimal.ZERO.isLessThan(this.getTravelAdvance().getTravelAdvanceRequested()));
+    protected boolean requiresTravelAdvanceReviewRouting() {
+        return (shouldProcessAdvanceForDocument() && getTravelAdvance().getTravelAdvanceRequested().isPositive());
     }
 
     /**

@@ -275,4 +275,5 @@ public class TravelDocumentDaoOjb extends PlatformAwareDaoBaseOjb implements Tra
 
         return getPersistenceBrokerTemplate().getCollectionByQuery(new QueryByCriteria(documentClazz, criteria));
     }
+
 }

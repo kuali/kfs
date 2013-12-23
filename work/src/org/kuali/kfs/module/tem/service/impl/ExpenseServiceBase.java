@@ -122,12 +122,12 @@ public abstract class ExpenseServiceBase implements TemExpenseService {
                     }
                     else if (TemConstants.ExpenseTypeReimbursementCodes.NON_REIMBURSABLE.equals(code)){
                         if ((expense.getExpenseTypeObjectCode() != null && expense.getExpenseTypeObjectCode().getExpenseType().isPrepaidExpense()) || expense.getNonReimbursable()) {
-                            total = total.add(expense.getExpenseAmount());
+                            total = total.add(expense.getConvertedAmount());
                         }
                     }
                     else if (TemConstants.ExpenseTypeReimbursementCodes.REIMBURSABLE.equals(code)){
                         if ((!ObjectUtils.isNull(expense.getExpenseTypeObjectCode()) && !expense.getExpenseTypeObjectCode().getExpenseType().isPrepaidExpense()) && !expense.getNonReimbursable()) {
-                            total = total.add(expense.getExpenseAmount());
+                            total = total.add(expense.getConvertedAmount());
                         }
                     }
                 }

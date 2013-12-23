@@ -428,4 +428,8 @@ public class MockTravelDocumentServiceImpl implements TravelDocumentService {
         return realTravelDocumentService.travelDocumentTotalsUnchangedFromPersisted(travelDocument);
     }
 
+    @Override
+    public List<String> getApprovedTravelDocumentNumbersByTrip(String travelDocumentIdentifier) {
+        return realTravelDocumentService.getApprovedTravelDocumentNumbersByTrip(travelDocumentIdentifier);
+    }
 }

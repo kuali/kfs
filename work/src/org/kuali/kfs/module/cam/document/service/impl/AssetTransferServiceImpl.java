@@ -125,12 +125,8 @@ public class AssetTransferServiceImpl implements AssetTransferService {
         }
         ObjectCodeService objectCodeService = SpringContext.getBean(ObjectCodeService.class);
         ObjectCode objectCode = objectCodeService.getByPrimaryIdForCurrentYear(assetPayment.getChartOfAccountsCode(), assetPayment.getFinancialObjectCode());
-        if (isSource) {
-            String plantChartOfAccountsCode = plantAccount.getChartOfAccountsCode();
-            postable.setChartOfAccountsCode(plantChartOfAccountsCode);
-        } else {
-            postable.setChartOfAccountsCode(organizationOwnerChartOfAccountsCode);
-        }
+        String plantChartOfAccountsCode = plantAccount.getChartOfAccountsCode();
+        postable.setChartOfAccountsCode(plantChartOfAccountsCode);
         postable.setDocumentNumber(document.getDocumentNumber());
         postable.setFinancialSubObjectCode(assetPayment.getFinancialSubObjectCode());
         postable.setPostingYear(getUniversityDateService().getCurrentUniversityDate().getUniversityFiscalYear());
@@ -324,7 +320,6 @@ public class AssetTransferServiceImpl implements AssetTransferService {
             }
         }
     }
-
 
     public AssetPaymentService getAssetPaymentService() {
         return assetPaymentService;

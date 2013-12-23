@@ -119,11 +119,6 @@
         <property name="parameterService" ref="parameterService" />
 	</bean>
 	
-	<bean id="TravelAuthorizationDocument-accountingLineAccessibleValidation" parent="TravelAuthorizationDocument-accountingLineAccessibleValidation-parentBean"/>
-	<bean id="TravelAuthorizationDocument-accountingLineAccessibleValidation-parentBean" abstract="true" class="org.kuali.kfs.module.tem.document.validation.impl.TravelAuthorizationAccountingLineAccessibleValidation" parent="AccountingDocument-accountingLineAccessibleValidation">
-		<property name="documentHelperService" ref="documentHelperService"/>
-	</bean>
-	
 	<bean id="TravelDocument-accountingLineTotalsValidation" parent="TravelDocument-accountingLineTotalsValidation-parentBean"/>
 	<bean id="TravelDocument-accountingLineTotalsValidation-parentBean" abstract="true" class="org.kuali.kfs.module.tem.document.validation.impl.TravelDocumentAccountingLineTotalsValidation" parent="AccountingDocument-accountingLineGroupTotalsUnchangedValidation">
 		<property name="documentHelperService" ref="documentHelperService"/>

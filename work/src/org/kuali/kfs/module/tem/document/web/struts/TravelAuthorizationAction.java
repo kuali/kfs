@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -44,6 +45,7 @@ import org.kuali.kfs.module.tem.TemConstants.TravelParameters;
 import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.TemParameterConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
+import org.kuali.kfs.module.tem.TemWorkflowConstants;
 import org.kuali.kfs.module.tem.businessobject.TemSourceAccountingLine;
 import org.kuali.kfs.module.tem.businessobject.TravelerDetailEmergencyContact;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationAmendmentDocument;
@@ -104,6 +106,15 @@ public class TravelAuthorizationAction extends TravelActionBase {
         final ActionForward retval = super.execute(mapping, form, request, response);
         TravelAuthorizationForm authForm = (TravelAuthorizationForm) form;
         TravelAuthorizationDocument travelAuthDocument = (TravelAuthorizationDocument) authForm.getDocument();
+
+        // should we refresh the trip type, upon which so much depends?  let's check and do so if we need to
+        if (!StringUtils.isBlank(travelAuthDocument.getTripTypeCode())) {
+            if (ObjectUtils.isNull(travelAuthDocument.getTripType()) || !StringUtils.equals(travelAuthDocument.getTripType().getCode(), travelAuthDocument.getTripTypeCode())) {
+                travelAuthDocument.refreshReferenceObject(TemPropertyConstants.TRIP_TYPE);
+            }
+        } else {
+            travelAuthDocument.setTripType(null);
+        }
 
         if (travelAuthDocument.getTraveler() != null && travelAuthDocument.getTraveler().getPrincipalId() != null) {
             travelAuthDocument.getTraveler().setPrincipalName(getPersonService().getPerson(travelAuthDocument.getTraveler().getPrincipalId()).getPrincipalName());
@@ -1027,10 +1038,22 @@ public class TravelAuthorizationAction extends TravelActionBase {
      */
     @Override
     public ActionForward approve(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        if (((TravelAuthorizationForm)form).getTravelAuthorizationDocument().getDocumentHeader().getWorkflowDocument().getCurrentNodeNames().contains(KFSConstants.RouteLevelNames.PAYMENT_METHOD) && ((TravelAuthorizationForm)form).getTravelAuthorizationDocument().shouldProcessAdvanceForDocument()) {
+        if (isAtApprovalPropagateAdvanceInfoNode(((TravelAuthorizationForm)form).getTravelAuthorizationDocument().getDocumentHeader().getWorkflowDocument().getCurrentNodeNames()) && ((TravelAuthorizationForm)form).getTravelAuthorizationDocument().shouldProcessAdvanceForDocument()) {
             ((TravelAuthorizationForm)form).getTravelAuthorizationDocument().propagateAdvanceInformationIfNeeded();
         }
         return super.approve(mapping, form, request, response);
+    }
+
+    /**
+     * Determines if the approval request is coming from a node which should propagate advance information (specifically the amount of the advance)
+     * @param nodeNames the Set of nodes where the document is currently at
+     * @return true if the advance info should be propagated, false otherwise
+     */
+    protected boolean isAtApprovalPropagateAdvanceInfoNode(Set<String> nodeNames) {
+        if (nodeNames != null && !nodeNames.isEmpty()) {
+            return nodeNames.contains(KFSConstants.RouteLevelNames.PAYMENT_METHOD) || nodeNames.contains(TemWorkflowConstants.RouteNodeNames.AP_TRAVEL);
+        }
+        return false;
     }
 
     /**

@@ -186,12 +186,7 @@
 		</property>
 	</bean>
 
-	<bean id="TravelArrangerDocument-RoutingType-Traveler" class="org.kuali.rice.krad.datadictionary.RoutingTypeDefinition">
-		<property name="routingAttributes">
-			<list>
-				<ref bean="TravelArrangerDocument-RoutingAttribute-Traveler" />
-			</list>
-		</property>
+	<bean id="TravelArrangerDocument-RoutingType-Traveler" parent="TravelDocument-RoutingType-Traveler">
 		<property name="documentValuePathGroups">
 			<list>
 				<ref bean="TravelArrangerDocument-DocumentValuePathGroup-Traveler" />
@@ -206,11 +201,6 @@
 				<value>profile.principalId</value>
 			</list>
 		</property>
-	</bean>
-
-	<bean id="TravelArrangerDocument-RoutingAttribute-Traveler"
-		class="org.kuali.rice.krad.datadictionary.RoutingAttribute">
-		<property name="qualificationAttributeName" value="profilePrincipalId" />
 	</bean>
 
 </beans>

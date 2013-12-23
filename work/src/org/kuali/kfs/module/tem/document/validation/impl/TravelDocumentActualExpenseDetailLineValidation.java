@@ -25,7 +25,6 @@ import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.service.DataDictionaryService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -82,7 +81,7 @@ public class TravelDocumentActualExpenseDetailLineValidation extends TemDocument
         }
 
         //info for non-one currency
-        if (success && !getActualExpenseDetailForValidation().getCurrencyRate().equals(new KualiDecimal(1))) {
+        if (success && !getActualExpenseDetailForValidation().getCurrencyRate().equals(BigDecimal.ONE)) {
             GlobalVariables.getMessageMap().putInfo(TemPropertyConstants.EXPENSE_AMOUNT, TemKeyConstants.INFO_TEM_IMPORT_CURRENCY_CONVERSION);
         }
 

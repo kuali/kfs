@@ -195,19 +195,21 @@ public class TemProfileMaintainable extends FinancialSystemMaintainable {
     }
 
     protected void updateCustomerPrimaryAddress(TemProfile temProfile) {
-      AccountsReceivableCustomer customer = temProfile.getCustomer();
-       for(AccountsReceivableCustomerAddress customerAddress : customer.getAccountsReceivableCustomerAddresses()) {
-           if(ArKeyConstants.CustomerConstants.CUSTOMER_ADDRESS_TYPE_CODE_PRIMARY.equals(customerAddress.getAccountsReceivableCustomerAddressType().getCustomerAddressTypeCode())) {
-               customerAddress.setCustomerLine1StreetAddress(temProfile.getTemProfileAddress().getStreetAddressLine1());
-               customerAddress.setCustomerLine2StreetAddress(temProfile.getTemProfileAddress().getStreetAddressLine2());
-               customerAddress.setCustomerCityName(temProfile.getTemProfileAddress().getCityName());
-               customerAddress.setCustomerStateCode(temProfile.getTemProfileAddress().getStateCode());
-               customerAddress.setCustomerZipCode(temProfile.getTemProfileAddress().getZipCode());
-               customerAddress.setCustomerCountryCode(temProfile.getTemProfileAddress().getCountryCode());
-               customerAddress.setCustomerEmailAddress(temProfile.getEmailAddress());
-               getAccountsReceivableModuleService().saveCustomer(temProfile.getCustomer());
-           }
-       }
+        AccountsReceivableCustomer customer = temProfile.getCustomer();
+        if (!ObjectUtils.isNull(customer) && !ObjectUtils.isNull(customer.getAccountsReceivableCustomerAddresses()) && !customer.getAccountsReceivableCustomerAddresses().isEmpty()) {
+            for(AccountsReceivableCustomerAddress customerAddress : customer.getAccountsReceivableCustomerAddresses()) {
+                if(ArKeyConstants.CustomerConstants.CUSTOMER_ADDRESS_TYPE_CODE_PRIMARY.equals(customerAddress.getAccountsReceivableCustomerAddressType().getCustomerAddressTypeCode())) {
+                    customerAddress.setCustomerLine1StreetAddress(temProfile.getTemProfileAddress().getStreetAddressLine1());
+                    customerAddress.setCustomerLine2StreetAddress(temProfile.getTemProfileAddress().getStreetAddressLine2());
+                    customerAddress.setCustomerCityName(temProfile.getTemProfileAddress().getCityName());
+                    customerAddress.setCustomerStateCode(temProfile.getTemProfileAddress().getStateCode());
+                    customerAddress.setCustomerZipCode(temProfile.getTemProfileAddress().getZipCode());
+                    customerAddress.setCustomerCountryCode(temProfile.getTemProfileAddress().getCountryCode());
+                    customerAddress.setCustomerEmailAddress(temProfile.getEmailAddress());
+                    getAccountsReceivableModuleService().saveCustomer(temProfile.getCustomer());
+                }
+            }
+        }
     }
 
     /**

@@ -30,6 +30,7 @@ import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.service.ObjectCodeService;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.businessobject.ActualExpense;
+import org.kuali.kfs.module.tem.businessobject.ExpenseType;
 import org.kuali.kfs.module.tem.businessobject.ExpenseTypeObjectCode;
 import org.kuali.kfs.module.tem.businessobject.PerDiemExpense;
 import org.kuali.kfs.module.tem.businessobject.TravelerDetail;
@@ -106,6 +107,10 @@ public class ReimbursementAccountingTotalsValidationTest extends KualiTestBase {
         ExpenseTypeObjectCode travelExpenseTypeCode = new ExpenseTypeObjectCode();
         travelExpenseTypeCode.setExpenseTypeCode(AIRLINE_EXPENSE_TYPE_CODE);
         travelExpenseTypeCode.setFinancialObjectCode(FINANCIAL_OBJECT_CODE);
+        ExpenseType expenseType = new ExpenseType();
+        expenseType.setCode("A");
+        expenseType.setPrepaidExpense(false);
+        travelExpenseTypeCode.setExpenseType(expenseType);
         actualExpense.setTravelExpenseTypeCode(travelExpenseTypeCode);
 
         //setup sourceLines

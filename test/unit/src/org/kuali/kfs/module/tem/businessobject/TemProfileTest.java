@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.module.tem.TemConstants;
+import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -72,7 +73,7 @@ public class TemProfileTest extends KualiTestBase {
         businessObjectService.save(profile);
 
         Map<String, Object> values = new HashMap<String, Object>();
-        //values.put(TemPropertyConstants.TEMProfileProperties.PRINCIPAL_ID, "555555555");
+        values.put(TemPropertyConstants.TemProfileProperties.PROFILE_ID, profile.getProfileId());
 
         List<TemProfile> profileList = (List<TemProfile>) businessObjectService.findMatching(TemProfile.class, values);
         try{

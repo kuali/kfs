@@ -76,6 +76,7 @@ import org.kuali.kfs.module.tem.report.service.NonEmployeeCertificationReportSer
 import org.kuali.kfs.module.tem.report.service.SummaryByDayReportService;
 import org.kuali.kfs.module.tem.report.util.BarcodeHelper;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
@@ -484,7 +485,14 @@ public class TravelReimbursementAction extends TravelActionBase {
         final TravelReimbursementDocument document = ((TravelReimbursementForm) form).getTravelReimbursementDocument();
         final String travelIdentifier = document.getTravelDocumentIdentifier();
 
-        document.refreshReferenceObject(TemPropertyConstants.TRIP_TYPE);
+        // should we refresh the trip type, upon which so much depends?  let's check and do so if we need to
+        if (!StringUtils.isBlank(document.getTripTypeCode())) {
+            if (ObjectUtils.isNull(document.getTripType()) || !StringUtils.equals(document.getTripType().getCode(), document.getTripTypeCode())) {
+                document.refreshReferenceObject(TemPropertyConstants.TRIP_TYPE);
+            }
+        } else {
+            document.setTripType(null);
+        }
         setButtonPermissions(reimbForm);
         LOG.debug("Found "+ document.getActualExpenses().size()+ " other expenses");
 
@@ -721,8 +729,7 @@ public class TravelReimbursementAction extends TravelActionBase {
             Boolean value = getParameterService().getParameterValueAsBoolean(TravelReimbursementDocument.class, TemConstants.TravelReimbursementParameters.PRETRIP_REIMBURSEMENT_IND, false);
 
             if (value != null && value.booleanValue()){
-                String description = travelReimbursementDocument.getDocumentHeader().getDocumentDescription();
-                travelReimbursementDocument.getDocumentHeader().setDocumentDescription(description + " (Pre-Trip)");
+                travelReimbursementDocument.getDocumentHeader().setDocumentDescription(postpendPreTripToDescription(travelReimbursementDocument.getDocumentHeader().getClass(), travelReimbursementDocument.getDocumentHeader().getDocumentDescription()));
             }
         }
 
@@ -751,12 +758,23 @@ public class TravelReimbursementAction extends TravelActionBase {
             final boolean preTrip = getParameterService().getParameterValueAsBoolean(TravelReimbursementDocument.class, TemConstants.TravelReimbursementParameters.PRETRIP_REIMBURSEMENT_IND, false);
 
             if (preTrip){
-                String description = travelReimbursementDocument.getDocumentHeader().getDocumentDescription();
-                travelReimbursementDocument.getDocumentHeader().setDocumentDescription(description + " (Pre-Trip)");
+                travelReimbursementDocument.getDocumentHeader().setDocumentDescription(postpendPreTripToDescription(travelReimbursementDocument.getDocumentHeader().getClass(), travelReimbursementDocument.getDocumentHeader().getDocumentDescription()));
             }
         }
 
         return forward;
+    }
+
+    /**
+     * Adds (Pre-Trip) to the end of the given String (presumably the document description), and then makes sure it will fit within the doc description's max length
+     * @param description the description to add (Pre-Trip) to
+     * @return the fitted String
+     */
+    protected String postpendPreTripToDescription(Class<?> documentDescriptionClass, String description) {
+        final String postPendedDescription = description + " (Pre-Trip)";
+        final int maxLength = getDataDictionaryService().getAttributeMaxLength(documentDescriptionClass, KFSPropertyConstants.DOCUMENT_DESCRIPTION);
+        final String fittedDescription = (postPendedDescription.length() > maxLength) ? postPendedDescription.substring(0, maxLength) : postPendedDescription;
+        return fittedDescription;
     }
 
     /**

@@ -1155,7 +1155,8 @@
 			<routingVersion>2</routingVersion>
 			<routePaths>
 				<routePath>
-					<start name="AdHoc" nextNode="RequireAccountNotification" />
+					<start name="AdHoc" nextNode="Traveler"
+					<role name="Traveler" nextNode="RequireAccountNotification" />
 					<split name="RequireAccountNotification">
 						<branch name="True">
 							<role name="AccountNotification" nextNode="JoinRequireAccountNotification" />
@@ -1169,6 +1170,10 @@
 			</routePaths>
 			<routeNodes>
 				<start name="AdHoc" />
+				<role name="Traveler">
+          			<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          			<activationType>P</activationType>
+        		</role>
 				<split name="RequireAccountNotification">
 					<type>
 						org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode

@@ -24,7 +24,6 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.kuali.kfs.gl.businessobject.Encumbrance;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.TemParameterConstants;
@@ -44,6 +43,7 @@ import org.kuali.kfs.module.tem.businessobject.ExpenseType;
 import org.kuali.kfs.module.tem.businessobject.ExpenseTypeObjectCode;
 import org.kuali.kfs.module.tem.businessobject.HistoricalTravelExpense;
 import org.kuali.kfs.module.tem.businessobject.TemProfile;
+import org.kuali.kfs.module.tem.businessobject.TemSourceAccountingLine;
 import org.kuali.kfs.module.tem.businessobject.TripAccountingInformation;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.service.TravelAuthorizationService;
@@ -51,8 +51,11 @@ import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
 import org.kuali.kfs.module.tem.document.service.TravelEncumbranceService;
 import org.kuali.kfs.module.tem.service.TemProfileService;
 import org.kuali.kfs.module.tem.service.TravelExpenseService;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -580,8 +583,8 @@ public class ExpenseImportByTripServiceImpl extends ExpenseImportServiceBase imp
 
         List<TripAccountingInformation> agencyDataAccountingLines = agencyStagingData.getTripAccountingInformation();
 
-        //check that the accounting lines on the agency record have a matching encumbrance on the trip
-        List<Encumbrance> tripEncumbrances = getTravelEncumbranceService().getEncumbrancesForTrip(agencyStagingData.getTripId(), null);
+        //check that the accounting lines on the agency record have a matching source accounting line on the trip
+        List<TemSourceAccountingLine> tripSourceAccountingLines = getSourceAccountingLinesByTrip(agencyStagingData.getTripId());
 
         // Get ACCOUNTING_LINE_VALIDATION parameter to determine which fields to validate
         Collection<String> validationParams = getParameterService().getParameterValuesAsString(AgencyDataImportStep.class, TravelParameters.ACCOUNTING_LINE_VALIDATION);
@@ -593,46 +596,61 @@ public class ExpenseImportByTripServiceImpl extends ExpenseImportServiceBase imp
         for(TripAccountingInformation agencyAccount : agencyDataAccountingLines) {
 
             boolean foundAMatch = false;
-            for(Encumbrance encumbrance : tripEncumbrances) {
+            for(TemSourceAccountingLine sourceAccountingLine : tripSourceAccountingLines) {
 
                 boolean account = true, subaccount = true, objectcode = true, subobjectcode = true;
+
                 if (validationParams.contains(TemConstants.AgencyStagingDataValidation.VALIDATE_ACCOUNT)) {
-                    if (!StringUtils.equals(agencyAccount.getTripAccountNumber(), encumbrance.getAccountNumber())) {
+                    //need to clean the empty vs null data for comparison in StringUtils.equals
+                    String agencyAccountNumber = StringUtils.trimToEmpty(agencyAccount.getTripAccountNumber());
+                    String sourceAccountNumber = StringUtils.trimToEmpty(sourceAccountingLine.getAccountNumber());
+
+                    if ( !StringUtils.equals(agencyAccountNumber, sourceAccountNumber)) {
                         account = false;
                     }
                 }
                 if (validationParams.contains(TemConstants.AgencyStagingDataValidation.VALIDATE_SUBACCOUNT)) {
-                    if ( ObjectUtils.isNull(agencyAccount.getTripSubAccountNumber()) && ObjectUtils.isNull(encumbrance.getSubAccountNumber()) ||
-                            (ObjectUtils.isNotNull(agencyAccount.getTripSubAccountNumber()) &&
-                                StringUtils.equals(agencyAccount.getTripSubAccountNumber(), encumbrance.getSubAccountNumber())) ) {
+                    String agencySubAccountNumber = StringUtils.trimToEmpty(agencyAccount.getTripSubAccountNumber());
+                    String sourceSubAccountNumber = StringUtils.trimToEmpty(sourceAccountingLine.getSubAccountNumber());
+
+                    if ( !StringUtils.equals(agencySubAccountNumber, sourceSubAccountNumber) ) {
                         subaccount = false;
                     }
                 }
                 if (validationParams.contains(TemConstants.AgencyStagingDataValidation.VALIDATE_OBJECT_CODE)) {
-                    if ( ObjectUtils.isNull(agencyAccount.getObjectCode()) && ObjectUtils.isNull(encumbrance.getObjectCode()) ||
-                            (ObjectUtils.isNotNull(agencyAccount.getObjectCode()) &&
-                                    StringUtils.equals(agencyAccount.getObjectCode(), encumbrance.getObjectCode())) ) {
+                    String agencyObjectCode = StringUtils.trimToEmpty(agencyAccount.getObjectCode());
+                    String sourceObjectCode = StringUtils.trimToEmpty(sourceAccountingLine.getFinancialObjectCode());
+
+                    if( !StringUtils.equals(agencyObjectCode, sourceObjectCode)) {
                         objectcode = false;
                     }
                 }
                 if (validationParams.contains(TemConstants.AgencyStagingDataValidation.VALIDATE_SUBOBJECT_CODE)) {
-                    if ( ObjectUtils.isNull(agencyAccount.getSubObjectCode()) && ObjectUtils.isNull(encumbrance.getSubObjectCode()) ||
-                            (ObjectUtils.isNotNull(agencyAccount.getSubObjectCode()) &&
-                                    StringUtils.equals(agencyAccount.getSubObjectCode(), encumbrance.getSubObjectCode())) ) {
+                    String agencySubObjectCode = StringUtils.trimToEmpty(agencyAccount.getSubObjectCode());
+                    String sourceSubObjectCode = StringUtils.trimToEmpty(sourceAccountingLine.getFinancialSubObjectCode());
+
+                    if ( !StringUtils.equals(agencySubObjectCode, sourceSubObjectCode) ) {
                         subobjectcode = false;
                     }
                 }
+
                 if (account && subaccount && objectcode && subobjectcode) {
+                    LOG.info("Found source accounting line match for DocumentId: "+ sourceAccountingLine.getDocumentNumber() +", "+ sourceAccountingLine);
                     foundAMatch = true;
                     break;
                 }
+                else {
+                    LOG.info("Source accounting line did not match agency accounting line: AgncyStgDataId:"+ agencyAccount.getAgencyStagingDataId() +",trpAcctInfo: "+ agencyAccount.getId());
+                    LOG.info("Agency Account:"+ agencyAccount);
+                    LOG.info("Source Accounting Line: "+ sourceAccountingLine);
+                }
             }
-            //the agency data accounting line does not have a matching encumbrance on the trip- return false
+            //the agency data accounting line does not have a matching source account on the trip- return false
             if (!foundAMatch) {
                 return false;
             }
         }
-        //all agency data accounting lines have matching encumbrances on the trip- return true
+        //all agency data accounting lines have matching source accounts on the trip- return true
         return true;
     }
 
@@ -671,6 +689,22 @@ public class ExpenseImportByTripServiceImpl extends ExpenseImportServiceBase imp
             }
         }
         return null;
+    }
+
+    protected List<TemSourceAccountingLine> getSourceAccountingLinesByTrip(String travelDocumentIdentifier) {
+
+        List<String> travelDocumentNumbers = getTravelDocumentService().getApprovedTravelDocumentNumbersByTrip(travelDocumentIdentifier);
+        LOG.info("Will attempt to retrieve source accounting lines for the following approved documents: "+ travelDocumentNumbers);
+
+        ArrayList temSourceAccountingLines = new ArrayList<TemSourceAccountingLine>();
+
+        Map<String, Object> fieldValues = new HashMap<String, Object>();
+        fieldValues.put(KFSPropertyConstants.DOCUMENT_NUMBER, travelDocumentNumbers);
+        fieldValues.put(KFSPropertyConstants.FINANCIAL_DOCUMENT_LINE_TYPE_CODE, KFSConstants.SOURCE_ACCT_LINE_TYPE_CODE);
+
+        temSourceAccountingLines.addAll(SpringContext.getBean(BusinessObjectService.class).findMatchingOrderBy(TemSourceAccountingLine.class, fieldValues, KFSPropertyConstants.SEQUENCE_NUMBER, true));
+
+        return temSourceAccountingLines;
     }
 
     /**

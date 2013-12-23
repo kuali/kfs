@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.tem.document.validation.impl;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants.TravelAuthorizationFields;
@@ -77,7 +78,7 @@ public class TravelDocumentRequiredInfoValidation extends GenericValidation{
 
     private boolean isReceiptAttached(TravelDocument document){
         for(Note note: document.getNotes()){
-            if(note.getAttachment() != null && note.getAttachment().getAttachmentTypeCode().equalsIgnoreCase(ATTACHMENT_TYPE_CODE_RECEIPT)){
+            if(note.getAttachment() != null && !StringUtils.equalsIgnoreCase(note.getAttachment().getAttachmentTypeCode(), ATTACHMENT_TYPE_CODE_RECEIPT)){
                 return true;
             }
         }

@@ -523,7 +523,7 @@ public class PdpEmailServiceImpl implements PdpEmailService {
             message.getCcAddresses().addAll(ccAddresses);
         }
         if(!bccAddresses.isEmpty()){
-            message.getCcAddresses().addAll(bccAddresses);
+            message.getBccAddresses().addAll(bccAddresses);
         }
         message.setFromAddress(fromAddresses);
         message.setSubject(subject);

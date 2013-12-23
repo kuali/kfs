@@ -481,6 +481,7 @@
 		     the loaded libraries -->
 		<path id="run.tests.classpath">
 			<pathelement location="${test.classes.directory}" />
+			<pathelement location="${drivers.directory}" />
 			<path refid="compile.tests.classpath" />
 			<path refid="database.drivers.classpath" />
 		</path>
@@ -1083,6 +1084,7 @@ The workflow files you want to run must exist in the pending subdirectory and wi
             <classpath>
                 <pathelement location="${classes.directory}" />
                 <path refid="run.server.classpath" />
+            	<pathelement location="${drivers.directory}" />
             </classpath>
         </java>
         

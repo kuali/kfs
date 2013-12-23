@@ -57,14 +57,14 @@ import org.kuali.kfs.integration.ar.AccountsReceivableCustomerInvoice;
 import org.kuali.kfs.integration.ar.AccountsReceivableModuleService;
 import org.kuali.kfs.integration.ar.AccountsReceivableOrganizationOptions;
 import org.kuali.kfs.module.tem.TemConstants;
-import org.kuali.kfs.module.tem.TemKeyConstants;
-import org.kuali.kfs.module.tem.TemParameterConstants;
-import org.kuali.kfs.module.tem.TemPropertyConstants;
-import org.kuali.kfs.module.tem.TemWorkflowConstants;
 import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationParameters;
 import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationStatusCodeKeys;
 import org.kuali.kfs.module.tem.TemConstants.TravelDocTypes;
 import org.kuali.kfs.module.tem.TemConstants.TravelParameters;
+import org.kuali.kfs.module.tem.TemKeyConstants;
+import org.kuali.kfs.module.tem.TemParameterConstants;
+import org.kuali.kfs.module.tem.TemPropertyConstants;
+import org.kuali.kfs.module.tem.TemWorkflowConstants;
 import org.kuali.kfs.module.tem.businessobject.ActualExpense;
 import org.kuali.kfs.module.tem.businessobject.ExpenseType;
 import org.kuali.kfs.module.tem.businessobject.ExpenseTypeAware;
@@ -161,6 +161,7 @@ import au.com.bytecode.opencsv.CSVReader;
 /**
  * Travel Service Implementation
  */
+@Transactional
 public class TravelDocumentServiceImpl implements TravelDocumentService {
 
     protected static Logger LOG = Logger.getLogger(TravelDocumentServiceImpl.class);
@@ -1130,7 +1131,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
     }
 
     /**
-     * is this document in a final workflow state
+     * is this document in a final workflow state.
      *
      * @param reqForm
      * @return
@@ -2058,7 +2059,6 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
      * @see org.kuali.kfs.module.tem.document.service.TravelDocumentService#findLatestTaxableRamificationNotificationDate()
      */
     @Override
-    @Transactional
     public Date findLatestTaxableRamificationNotificationDate() {
         Object[] returnResult =  travelDocumentDao.findLatestTaxableRamificationNotificationDate();
         Date date = null;

@@ -427,9 +427,15 @@ public class MockTravelDocumentServiceImpl implements TravelDocumentService {
     public boolean travelDocumentTotalsUnchangedFromPersisted(TravelDocument travelDocument) {
         return realTravelDocumentService.travelDocumentTotalsUnchangedFromPersisted(travelDocument);
     }
-
+    
     @Override
     public List<String> getApprovedTravelDocumentNumbersByTrip(String travelDocumentIdentifier) {
         return realTravelDocumentService.getApprovedTravelDocumentNumbersByTrip(travelDocumentIdentifier);
     }
+
+    @Override
+    public List<String> findMatchingTrips(TravelDocument document) {
+        return realTravelDocumentService.findMatchingTrips(document);
+    }
+
 }

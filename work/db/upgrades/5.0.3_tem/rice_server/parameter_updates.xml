@@ -1321,6 +1321,18 @@
 			<column name="VAL" value="50M"/>
 			<where>nmspc_cd = 'KR-NS' and cmpnt_cd = 'All' and parm_nm = 'MAX_FILE_SIZE_DEFAULT_UPLOAD' and appl_id = 'KUALI'</where>
 		</update>
+		
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-TEM"/>
+			<column name="CMPNT_CD" value="TravelAuthorization"/>
+			<column name="PARM_NM" value="DUPLICATE_TRIP_DATE_RANGE_DAYS"/>
+			<column name="OBJ_ID" value="KFS-TEM-PARM-162"/>
+			<column name="PARM_TYP_CD" value="CONFG"/>
+			<column name="VAL" value="3"/>
+			<column name="PARM_DESC_TXT" value="The number of days before trip begin date and after trip end date to determine duplicate trip date range."/>
+			<column name="EVAL_OPRTR_CD" value="A"/>
+			<column name="APPL_ID" value="KFS"/>
+		</insert>
 
 	</changeSet>
 	

@@ -146,7 +146,7 @@ public class ContractsGrantsInvoiceEmailReportsBatchStep extends AbstractStep {
         Collection<ContractsGrantsInvoiceDocument> invoices = contractsGrantsInvoiceDocumentService.getAllCGInvoiceDocuments(false);
         for (ContractsGrantsInvoiceDocument invoice : invoices) {
             // invoice has been marked for processing
-            if (invoice.getMarkedForProcessing().equalsIgnoreCase(ArConstants.INV_RPT_PRCS_IN_PROGRESS)) {
+            if (ArConstants.INV_RPT_PRCS_IN_PROGRESS.equalsIgnoreCase(invoice.getMarkedForProcessing())) {
                 collection.add(invoice);
             }
         }

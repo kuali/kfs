@@ -1422,7 +1422,7 @@
         <column name="LTRCR_FND_CD" size="15" type="VARCHAR"/>
         <column name="LTRCR_FNDGRP_CD" size="4" type="VARCHAR"/>
         <column name="MRKD_FOR_PRCSSNG" size="45" type="VARCHAR"/>
-        <column name="RPRT_PROCESSED_DT" type="TIMESTAMP"/>
+        <column name="RPRT_PROCESSED_DT" type="DATE"/>
         <column name="RFRL_TYP_CD" size="6" type="VARCHAR"/>
         <column name="FINAL_DISPOS_CD" size="4" type="VARCHAR"/>
         <foreign-key foreignTable="AR_CUST_PRCS_TYP_T" name="AR_INV_DOC_TR1">

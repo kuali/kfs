@@ -334,6 +334,15 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
         this.invoiceDetails = invoiceDetails;
     }
 
+    /**
+     * Adds the given invoiceDetail to the InvoiceDetails list.
+     *
+     * @param invoiceDetail The invoiceDetails to add.
+     */
+    public void addInvoiceDetail(InvoiceDetail invoiceDetail) {
+        // KFSMI-12033 adding method to add invoice details
+        this.invoiceDetails.add(invoiceDetail);
+    }
 
     /**
      * @return

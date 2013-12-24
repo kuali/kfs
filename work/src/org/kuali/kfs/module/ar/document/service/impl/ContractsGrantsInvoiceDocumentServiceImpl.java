@@ -4205,8 +4205,8 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             invDetail.performBudgetCalculations(awardAccounts, completeObjectCodeArrayForSingleCategory, document.getAward().getAwardBeginningDate());// accounting
                                                                                                                                                       // calculations
             // happening here
-
-            document.getInvoiceDetails().add(invDetail);
+            // KFSMI-12033 correcting the building of invoice details
+            document.addInvoiceDetail(invDetail);
         }
 
 

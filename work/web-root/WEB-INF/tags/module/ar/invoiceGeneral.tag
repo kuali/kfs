@@ -36,6 +36,17 @@
 						<kul:htmlControlAttribute attributeEntry="${documentAttributes.proposalNumber}" property="document.proposalNumber" readOnly="true" />
 					</div>
 				</td>
+				<th align=right valign=middle class="bord-l-b" style="width: 25%;">
+					<div align="right">
+						<kul:htmlAttributeLabel attributeEntry="${invoiceGeneralDetailAttributes.comment}" useShortLabel="false" />
+					</div>
+				</th>
+				<td align=left valign=middle class="datacell" style="width: 25%;">
+					<div id="document.comment.div">
+						<kul:htmlControlAttribute attributeEntry="${invoiceGeneralDetailAttributes.comment}" property="document.invoiceGeneralDetail.comment"
+							readOnly="true" />
+					</div>
+				</td>
 			</tr>
 			<tr>
 				<th align=right valign=middle class="bord-l-b" style="width: 25%;">
@@ -51,16 +62,15 @@
 				</td>
 				<th align=right valign=middle class="bord-l-b" style="width: 25%;">
 					<div align="right">
-						<kul:htmlAttributeLabel attributeEntry="${invoiceGeneralDetailAttributes.comment}" useShortLabel="false" />
+						<kul:htmlAttributeLabel attributeEntry="${invoiceGeneralDetailAttributes.billingFrequency}" useShortLabel="false" />
 					</div>
 				</th>
 				<td align=left valign=middle class="datacell" style="width: 25%;">
-					<div id="document.comment.div">
-						<kul:htmlControlAttribute attributeEntry="${invoiceGeneralDetailAttributes.comment}" property="document.invoiceGeneralDetail.comment"
-							readOnly="true" />
+					<div id="document.billingFrequency.div">
+						<kul:htmlControlAttribute attributeEntry="${invoiceGeneralDetailAttributes.billingFrequency}"
+							property="document.invoiceGeneralDetail.billingFrequency" readOnly="true" />
 					</div>
 				</td>
-
 			</tr>
 			<tr>
 				<th align=right valign=middle class="bord-l-b" style="width: 25%;">
@@ -83,32 +93,6 @@
 				</c:choose>
 				<th align=right valign=middle class="bord-l-b" style="width: 25%;">
 					<div align="right">
-						<kul:htmlAttributeLabel attributeEntry="${invoiceGeneralDetailAttributes.billingFrequency}" useShortLabel="false" />
-					</div>
-				</th>
-				<td align=left valign=middle class="datacell" style="width: 25%;">
-					<div id="document.billingFrequency.div">
-						<kul:htmlControlAttribute attributeEntry="${invoiceGeneralDetailAttributes.billingFrequency}"
-							property="document.invoiceGeneralDetail.billingFrequency" readOnly="true" />
-					</div>
-				</td>
-
-			</tr>
-			<tr>
-
-				<th align=right valign=middle class="bord-l-b" style="width: 25%;">
-					<div align="right">
-						<kul:htmlAttributeLabel attributeEntry="${invoiceGeneralDetailAttributes.contractGrantType}" />
-					</div>
-				</th>
-				<td align=left valign=middle class="datacell" style="width: 25%;">
-					<div id="document.contractGrantType.div">
-						<kul:htmlControlAttribute attributeEntry="${invoiceGeneralDetailAttributes.contractGrantType}"
-							property="document.invoiceGeneralDetail.contractGrantType" readOnly="true" />
-					</div>
-				</td>
-				<th align=right valign=middle class="bord-l-b" style="width: 25%;">
-					<div align="right">
 						<kul:htmlAttributeLabel attributeEntry="${invoiceGeneralDetailAttributes.billingPeriod}" />
 					</div>
 				</th>
@@ -122,16 +106,15 @@
 			<tr>
 				<th align=right valign=middle class="bord-l-b" style="width: 25%;">
 					<div align="right">
-						<kul:htmlAttributeLabel attributeEntry="${invoiceGeneralDetailAttributes.awardTotal}" />
+						<kul:htmlAttributeLabel attributeEntry="${invoiceGeneralDetailAttributes.contractGrantType}" />
 					</div>
 				</th>
 				<td align=left valign=middle class="datacell" style="width: 25%;">
-					<div id="document.awardTotal.div">
-						<kul:htmlControlAttribute attributeEntry="${invoiceGeneralDetailAttributes.awardTotal}" property="document.invoiceGeneralDetail.awardTotal"
-							readOnly="true" />
+					<div id="document.contractGrantType.div">
+						<kul:htmlControlAttribute attributeEntry="${invoiceGeneralDetailAttributes.contractGrantType}"
+							property="document.invoiceGeneralDetail.contractGrantType" readOnly="true" />
 					</div>
 				</td>
-
 				<th align=right valign=middle class="bord-l-b" style="width: 25%;">
 					<div align="right">
 						<kul:htmlAttributeLabel attributeEntry="${invoiceGeneralDetailAttributes.newTotalBilled}" />
@@ -156,13 +139,13 @@
 			<tr>
 				<th align=right valign=middle class="bord-l-b" style="width: 25%;">
 					<div align="right">
-						<kul:htmlAttributeLabel attributeEntry="${invoiceGeneralDetailAttributes.amountRemainingToBill}" />
+						<kul:htmlAttributeLabel attributeEntry="${invoiceGeneralDetailAttributes.awardTotal}" />
 					</div>
 				</th>
 				<td align=left valign=middle class="datacell" style="width: 25%;">
-					<div id="document.amountRemainingToBill.div">
-						<kul:htmlControlAttribute attributeEntry="${invoiceGeneralDetailAttributes.amountRemainingToBill}"
-							property="document.invoiceGeneralDetail.amountRemainingToBill" readOnly="true" />
+					<div id="document.awardTotal.div">
+						<kul:htmlControlAttribute attributeEntry="${invoiceGeneralDetailAttributes.awardTotal}" property="document.invoiceGeneralDetail.awardTotal"
+							readOnly="true" />
 					</div>
 				</td>
 				<th align=right valign=middle class="bord-l-b" style="width: 25%;">
@@ -180,13 +163,13 @@
 			<tr>
 				<th align=right valign=middle class="bord-l-b" style="width: 25%;">
 					<div align="right">
-						<kul:htmlAttributeLabel attributeEntry="${invoiceGeneralDetailAttributes.costShareAmount}" />
+						<kul:htmlAttributeLabel attributeEntry="${invoiceGeneralDetailAttributes.amountRemainingToBill}" />
 					</div>
 				</th>
 				<td align=left valign=middle class="datacell" style="width: 25%;">
-					<div id="document.costShareAmount.div">
-						<kul:htmlControlAttribute attributeEntry="${invoiceGeneralDetailAttributes.costShareAmount}"
-							property="document.invoiceGeneralDetail.costShareAmount" />
+					<div id="document.amountRemainingToBill.div">
+						<kul:htmlControlAttribute attributeEntry="${invoiceGeneralDetailAttributes.amountRemainingToBill}"
+							property="document.invoiceGeneralDetail.amountRemainingToBill" readOnly="true" />
 					</div>
 				</td>
 				<th align=right valign=middle class="bord-l-b" style="width: 25%;">
@@ -198,6 +181,19 @@
 					<div id="document.billedToDate.div">
 						<kul:htmlControlAttribute attributeEntry="${invoiceGeneralDetailAttributes.lastBilledDate}"
 							property="document.invoiceGeneralDetail.lastBilledDate" readOnly="true" />
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<th align=right valign=middle class="bord-l-b" style="width: 25%;">
+					<div align="right">
+						<kul:htmlAttributeLabel attributeEntry="${invoiceGeneralDetailAttributes.costShareAmount}" />
+					</div>
+				</th>
+				<td align=left valign=middle class="datacell" colspan="3">
+					<div id="document.costShareAmount.div">
+						<kul:htmlControlAttribute attributeEntry="${invoiceGeneralDetailAttributes.costShareAmount}"
+							property="document.invoiceGeneralDetail.costShareAmount" />
 					</div>
 				</td>
 			</tr>

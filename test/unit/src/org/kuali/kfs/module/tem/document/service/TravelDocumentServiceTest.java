@@ -1080,4 +1080,5 @@ public class TravelDocumentServiceTest extends KualiTestBase {
         assertNotNull(advancesTotal);
         assertTrue(advancesTotal.isZero());
     }
-}
+
+   }

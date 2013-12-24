@@ -312,6 +312,12 @@ public class TravelEntertainmentAction extends TravelActionBase {
      * @param document the document to update
      */
     protected void performRequesterRefresh(TravelEntertainmentDocument document) {
+        if(document.getHostAsPayee()) {
+            document.setHostName(document.getTraveler().getFirstName() + " " + document.getTraveler().getLastName());
+        }
+        else {
+            document.setHostName(KFSConstants.EMPTY_STRING);
+        }
         document.updatePayeeTypeForReimbursable();
     }
 

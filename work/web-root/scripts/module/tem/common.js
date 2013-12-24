@@ -204,9 +204,13 @@ function update_travelerTypeCode () {
 
 function copy_payeeToHostName(payeeFirstName, payeeLastName) {
 	var hostAsPayee = document.getElementById("document.hostAsPayee").checked;
-	alert(hostAsPayee);
 	if(hostAsPayee == true){
+		alert("Clicking OK, will update the Event Host with the Payee's Name.");
 		document.getElementById("document.hostName").value = payeeFirstName + " "  + payeeLastName;
+	}
+	else {
+		alert("Clicking OK, will clear the Event Host Name.");
+		document.getElementById("document.hostName").value = "";
 	}
 }
 

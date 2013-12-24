@@ -2312,6 +2312,40 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
         return disabledPropertyMessages;
     }
 
+
+    @Override
+    public List<String> findMatchingTrips(TravelDocument travelDocument) {
+
+        String travelDocumentIdentifier = travelDocument.getTravelDocumentIdentifier();
+        Integer temProfileId = travelDocument.getTemProfileId();
+        Timestamp earliestTripBeginDate = null;
+        Timestamp greatestTripEndDate = null;
+
+        List<TravelReimbursementDocument> documents = findReimbursementDocuments(travelDocumentIdentifier);
+       for (TravelReimbursementDocument document : documents) {
+           Timestamp tripBegin = document.getTripBegin();
+           Timestamp tripEnd = document.getTripEnd();
+           if (ObjectUtils.isNull(earliestTripBeginDate) && ObjectUtils.isNull(greatestTripEndDate)) {
+               earliestTripBeginDate = tripBegin;
+               greatestTripEndDate = tripEnd;
+           }
+           else {
+               earliestTripBeginDate = tripBegin.before(earliestTripBeginDate) ? tripBegin :earliestTripBeginDate;
+               greatestTripEndDate = tripEnd.after(greatestTripEndDate)? tripEnd : greatestTripEndDate;
+
+               }
+        }
+
+       List<TravelReimbursementDocument> matchDocs =  (List<TravelReimbursementDocument>) travelDocumentDao.findMatchingTrips(temProfileId ,earliestTripBeginDate, greatestTripEndDate);
+        List<String> documentIds = new ArrayList<String>();
+        for (TravelReimbursementDocument document : matchDocs) {
+            if(!travelDocument.getDocumentNumber().equals(document.getDocumentNumber())) {
+                documentIds.add(document.getDocumentNumber());
+            }
+        }
+        return documentIds;
+    }
+
     /**
      * Inner class to hold keys & messages for disabled properties
      */

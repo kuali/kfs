@@ -20,7 +20,11 @@ import static org.kuali.kfs.module.tem.TemPropertyConstants.TRAVEL_DOCUMENT_IDEN
 
 import java.beans.PropertyChangeListener;
 import java.math.BigDecimal;
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.HashMap;
@@ -31,6 +35,7 @@ import java.util.Set;
 import java.util.concurrent.Callable;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.time.DateUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomer;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomerAddress;
@@ -50,6 +55,7 @@ import org.kuali.kfs.module.tem.businessobject.ExpenseTypeObjectCode;
 import org.kuali.kfs.module.tem.businessobject.TemProfile;
 import org.kuali.kfs.module.tem.businessobject.TravelAdvance;
 import org.kuali.kfs.module.tem.businessobject.TravelerDetail;
+import org.kuali.kfs.module.tem.dataaccess.TravelAuthorizationDao;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationAmendmentDocument;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationCloseDocument;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
@@ -115,6 +121,7 @@ public class TravelAuthorizationServiceImpl implements TravelAuthorizationServic
     protected DataDictionaryService dataDictionaryService;
     protected IdentityService identityService;
     protected NoteService noteService;
+    protected TravelAuthorizationDao travelAuthorizationDao;
 
     private List<PropertyChangeListener> propertyChangeListeners;
 
@@ -631,6 +638,111 @@ public class TravelAuthorizationServiceImpl implements TravelAuthorizationServic
         return nonReimbursable;
     }
 
+    @Override
+    public List<String> findMatchingTrips(TravelAuthorizationDocument authorization) {
+        List<String> duplicateTrips = new ArrayList<String>();
+
+        Date tripBeginDate = getTripBeginDate(authorization.getTripBegin());
+        Date tripEndDate = getTripEndDate(authorization.getTripEnd());
+
+        List<TravelAuthorizationDocument> authorizationDocuments = travelAuthorizationDao.findTravelAuthorizationByTraveler(authorization.getTemProfileId());
+
+        for (TravelAuthorizationDocument authorizationDocument : authorizationDocuments) {
+
+            List<TravelReimbursementDocument> travelReimbursementDocuments = travelDocumentService.findReimbursementDocuments(authorizationDocument.getTravelDocumentIdentifier());
+
+            if(!ObjectUtils.isNull(travelReimbursementDocuments) && !travelReimbursementDocuments.isEmpty()) {
+                 String documentnumber = matchReimbursements(travelReimbursementDocuments, authorization);
+                 if(ObjectUtils.isNotNull(documentnumber)) {
+                     duplicateTrips.add(documentnumber);
+                 }
+            }
+            else {
+                // look for TA's
+                try {
+                    if(!authorization.getDocumentNumber().equals(authorizationDocument.getDocumentNumber()) &&
+                           ( dateTimeService.convertToSqlDate(authorizationDocument.getTripBegin()).equals(tripBeginDate) || dateTimeService.convertToSqlDate(authorizationDocument.getTripEnd()).equals(tripEndDate))) {
+                        duplicateTrips.add(authorizationDocument.getDocumentNumber());
+                    }
+                }
+                catch (ParseException ex) {
+                    LOG.error("Parse exception " + ex);
+                }
+            }
+        }
+
+
+     return duplicateTrips;
+
+    }
+
+    private  String matchReimbursements(List<TravelReimbursementDocument> travelReimbursementDocuments, TravelAuthorizationDocument authorization) {
+        Timestamp earliestTripBeginDate = null;
+        Timestamp greatestTripEndDate = null;
+
+        for (TravelReimbursementDocument document : travelReimbursementDocuments) {
+            Timestamp tripBegin = document.getTripBegin();
+            Timestamp tripEnd = document.getTripEnd();
+            if (ObjectUtils.isNull(earliestTripBeginDate) && ObjectUtils.isNull(greatestTripEndDate)) {
+                earliestTripBeginDate = tripBegin;
+                greatestTripEndDate = tripEnd;
+            }
+            else {
+                earliestTripBeginDate = tripBegin.before(earliestTripBeginDate) ? tripBegin :earliestTripBeginDate;
+                greatestTripEndDate = tripEnd.after(greatestTripEndDate)? tripEnd : greatestTripEndDate;
+
+                }
+         }
+
+        if(authorization.getTripBegin().equals(earliestTripBeginDate)||  authorization.getTripEnd().equals(greatestTripEndDate)) {
+            return authorization.getDocumentNumber();
+        }
+
+        return null;
+    }
+
+    private Integer getDuplicateTripDateRangeDays() {
+        String tripDateRangeDays = parameterService.getParameterValueAsString(TravelAuthorizationDocument.class, TemConstants.TravelAuthorizationParameters.DUPLICATE_TRIP_DATE_RANGE_DAYS);
+        Integer days = null;
+        if (!StringUtils.isNumeric(tripDateRangeDays)) {
+            days = TemConstants.DEFAULT_DUPLICATE_TRIP_DATE_RANGE_DAYS;
+       }
+
+       days = Integer.parseInt(tripDateRangeDays);
+       return days;
+
+    }
+
+    private Date getTripBeginDate(Timestamp tripBeginDate) {
+       Date tripBegin = null;
+       Integer days = getDuplicateTripDateRangeDays();
+        try {
+            tripBegin = dateTimeService.convertToSqlDate(dateTimeService.toDateString(DateUtils.addDays(tripBeginDate, (days * -1))));
+
+        } catch (ParseException pe) {
+            LOG.error("Exception while parsing trip begin date" + pe);
+        }
+
+        return tripBegin;
+
+    }
+
+    private Date getTripEndDate(Timestamp tripEndDate) {
+        Date tripEnd = null;
+        Integer days = getDuplicateTripDateRangeDays();
+         try {
+             tripEnd = dateTimeService.convertToSqlDate(dateTimeService.toDateString((DateUtils.addDays(tripEndDate, days ))));
+
+         } catch (ParseException pe) {
+             LOG.error("Exception while parsing trip end date" + pe);
+         }
+
+         return tripEnd;
+
+    }
+
+
+
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
@@ -713,5 +825,11 @@ public class TravelAuthorizationServiceImpl implements TravelAuthorizationServic
     public void setNoteService(NoteService noteService) {
         this.noteService = noteService;
     }
+
+    public void setTravelAuthorizationDao(TravelAuthorizationDao travelAuthorizationDao) {
+        this.travelAuthorizationDao = travelAuthorizationDao;
+    }
+
+
 
 }

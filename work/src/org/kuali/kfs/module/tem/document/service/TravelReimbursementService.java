@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.module.tem.document.service;
 
-import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
@@ -171,14 +170,5 @@ public interface TravelReimbursementService {
      */
     public KualiDecimal getInvoiceAmount(TEMReimbursementDocument reimbursementDocument);
 
-    /**
-     * find matching trips  for the same traveler, dates and destination
-     *
-     * @param temProfileId
-     * @param tripBegin
-     * @param tripEnd
-     * @param primaryDestinationId
-     * @return matching trips
-     */
-    public List<String> findMatchingTrips(Integer temProfileId , Timestamp tripBegin, Timestamp tripEnd,Integer primaryDestinationId ) ;
+
 }

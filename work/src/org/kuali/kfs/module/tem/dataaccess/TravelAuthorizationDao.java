@@ -15,14 +15,18 @@
  */
 package org.kuali.kfs.module.tem.dataaccess;
 
-
-import java.sql.Timestamp;
 import java.util.List;
 
-import org.kuali.kfs.module.tem.document.TravelReimbursementDocument;
+import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
 
-public interface TravelReimbursementDao {
+public interface TravelAuthorizationDao {
 
-    public List<TravelReimbursementDocument> findMatchingTrips (Integer temProfileId ,Timestamp tripBegin, Timestamp tripEnd, Integer primaryDestinationId) ;
+    /**
+     *
+     * Retrieve all authorization by traveler
+     * @param temProfileId
+     * @return
+     */
+    public List<TravelAuthorizationDocument> findTravelAuthorizationByTraveler(Integer temProfileId);
 
 }

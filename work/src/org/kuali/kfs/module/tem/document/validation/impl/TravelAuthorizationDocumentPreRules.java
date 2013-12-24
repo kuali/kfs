@@ -18,8 +18,8 @@ package org.kuali.kfs.module.tem.document.validation.impl;
 import java.util.List;
 
 import org.kuali.kfs.module.tem.TemKeyConstants;
-import org.kuali.kfs.module.tem.document.TravelReimbursementDocument;
-import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
+import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
+import org.kuali.kfs.module.tem.document.service.TravelAuthorizationService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
@@ -27,23 +27,23 @@ import org.kuali.rice.kns.rules.PromptBeforeValidationBase;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.util.ObjectUtils;
 
-public class TravelReimbursementDocumentPreRules extends PromptBeforeValidationBase {
+public class TravelAuthorizationDocumentPreRules extends PromptBeforeValidationBase {
 
     @SuppressWarnings("rawtypes")
     @Override
     public boolean doPrompts(Document document) {
         boolean foundMatchingTrips = false;
-        TravelReimbursementDocument reimbursementDocument = (TravelReimbursementDocument) document;
+        TravelAuthorizationDocument authorizationDocument = (TravelAuthorizationDocument) document;
 
 
-        List<String> documentIds = SpringContext.getBean(TravelDocumentService.class).findMatchingTrips(reimbursementDocument);
+        List<String> documentIds = SpringContext.getBean(TravelAuthorizationService.class).findMatchingTrips(authorizationDocument);
 
         if(ObjectUtils.isNotNull(documentIds)&& !documentIds.isEmpty()) {
             foundMatchingTrips = true;
         }
 
        boolean shouldAskQuestion = false;
-        String proceed =  SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(TemKeyConstants.TRVL_DOCUMENT_PROCEED_QUESTION);;
+        String proceed =  SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(TemKeyConstants.TRVL_DOCUMENT_PROCEED_QUESTION);
         String question = "";
         if(foundMatchingTrips){
             question = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(TemKeyConstants.TRVL_DUPLICATE_TRIP_QUESTION);
@@ -52,7 +52,7 @@ public class TravelReimbursementDocumentPreRules extends PromptBeforeValidationB
 
 
         if (shouldAskQuestion) {
-            boolean userClickedYes = super.askOrAnalyzeYesNoQuestion("REMIB_WARNING", question + " " + documentIds.toString() + " " + proceed  );
+            boolean userClickedYes = super.askOrAnalyzeYesNoQuestion("AUTHORIZATION_WARNING", question + " " + documentIds.toString() + " " + proceed  );
             if (!userClickedYes) {
                 this.event.setActionForwardName(KFSConstants.MAPPING_BASIC);
             }
@@ -63,5 +63,8 @@ public class TravelReimbursementDocumentPreRules extends PromptBeforeValidationB
             return true;
         }
     }
+
+
+
 
 }

@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.tem.dataaccess;
 
+import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -115,4 +116,13 @@ public interface TravelDocumentDao {
      */
     public abstract Collection<? extends TEMReimbursementDocument> getRelocationDocumentsNeedingCorporateCardExtraction();
 
+    /**
+     * Retrieves duplicate trips for traveler with given trip begin and end date
+     *
+     * @param temProfileId
+     * @param tripBegin
+     * @param tripEnd
+     * @return
+     */
+    public Collection<? extends TEMReimbursementDocument> findMatchingTrips (Integer temProfileId ,Timestamp tripBegin, Timestamp tripEnd) ;
 }

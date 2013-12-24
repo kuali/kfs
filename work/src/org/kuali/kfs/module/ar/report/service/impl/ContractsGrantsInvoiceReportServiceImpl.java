@@ -24,7 +24,7 @@ import java.io.OutputStreamWriter;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
+import java.sql.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -131,7 +131,7 @@ public class ContractsGrantsInvoiceReportServiceImpl extends ContractsGrantsRepo
      */
     @Override
     public byte[] generateInvoice(ContractsGrantsLetterOfCreditReviewDocument document) {
-        Date runDate = new Date();
+        Date runDate = new Date(new java.util.Date().getTime());
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         this.generateInvoiceInPdf(baos, document);
         return baos.toByteArray();
@@ -301,7 +301,7 @@ public class ContractsGrantsInvoiceReportServiceImpl extends ContractsGrantsRepo
      */
     @Override
     public File generateFederalFinancialForm(ContractsAndGrantsBillingAward award, String period, String year, String formType, ContractsAndGrantsBillingAgency agency) throws Exception {
-        Date runDate = new Date();
+        Date runDate = new Date(new java.util.Date().getTime());
         String reportFileName = contractsGrantsInvoiceReportInfo.getReportFileName();
         String reportDirectory = contractsGrantsInvoiceReportInfo.getReportsDirectory();
         if (formType.equals(FEDERAL_FORM_425) && ObjectUtils.isNotNull(award)) {
@@ -461,7 +461,7 @@ public class ContractsGrantsInvoiceReportServiceImpl extends ContractsGrantsRepo
         replacementList.put("Name", returnProperStringValue(null));
         replacementList.put("Telephone", returnProperStringValue(null));
         replacementList.put("Email Address", returnProperStringValue(null));
-        replacementList.put("Date Report Submitted", returnProperStringValue(formatter.format(new Date())));
+        replacementList.put("Date Report Submitted", returnProperStringValue(formatter.format(new Date(new java.util.Date().getTime()))));
         if (ArConstants.QUATER1.equals(reportingPeriod) || ArConstants.QUATER2.equals(reportingPeriod) || ArConstants.QUATER3.equals(reportingPeriod) || ArConstants.QUATER4.equals(reportingPeriod)) {
             replacementList.put("Quaterly", "Yes");
         }
@@ -545,7 +545,7 @@ public class ContractsGrantsInvoiceReportServiceImpl extends ContractsGrantsRepo
         if (ArConstants.BASIS_OF_ACCOUNTING_ACCRUAL.equals(accountingBasis)) {
             replacementList.put("Accrual", "Yes");
         }
-        replacementList.put("Date Report Submitted", returnProperStringValue(formatter.format(new Date())));
+        replacementList.put("Date Report Submitted", returnProperStringValue(formatter.format(new Date(new java.util.Date().getTime()))));
         KualiDecimal totalCashControl = KualiDecimal.ZERO;
         KualiDecimal totalCashDisbursement = KualiDecimal.ZERO;
         ContractsGrantsInvoiceDocumentService service = SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class);
@@ -720,7 +720,7 @@ public class ContractsGrantsInvoiceReportServiceImpl extends ContractsGrantsRepo
      */
     @Override
     public byte[] generateListOfInvoicesPdfToPrint(Collection<ContractsGrantsInvoiceDocument> list) throws DocumentException, IOException {
-        Date runDate = new Date();
+        Date runDate = new Date(new java.util.Date().getTime());
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         generateCombinedPdfForInvoices(list, baos);
         return baos.toByteArray();
@@ -731,7 +731,7 @@ public class ContractsGrantsInvoiceReportServiceImpl extends ContractsGrantsRepo
      */
     @Override
     public byte[] generateListOfInvoicesEnvelopesPdfToPrint(Collection<ContractsGrantsInvoiceDocument> list) throws DocumentException, IOException {
-        Date runDate = new Date();
+        Date runDate = new Date(new java.util.Date().getTime());
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         generateCombinedPdfForEnvelopes(list, baos);
         return baos.toByteArray();
@@ -774,7 +774,7 @@ public class ContractsGrantsInvoiceReportServiceImpl extends ContractsGrantsRepo
                     }
                 }
             }
-            invoice.setDateReportProcessed(new Date());
+            invoice.setDateReportProcessed(new Date(new java.util.Date().getTime()));
             documentService.updateDocument(invoice);
         }
         if (pageAdded) {

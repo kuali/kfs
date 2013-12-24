@@ -15,9 +15,9 @@
  */
 package org.kuali.kfs.module.ar.document;
 
+import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -210,7 +210,7 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
                     this.getInvoiceGeneralDetail().setFinalBillIndicator(false);
                     ContractsGrantsInvoiceDocument invoice = (ContractsGrantsInvoiceDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(this.getFinancialSystemDocumentHeader().getFinancialDocumentInErrorNumber());
                     if (ObjectUtils.isNotNull(invoice)) {
-                        invoice.setInvoiceDueDate(new java.sql.Date(new Date().getTime()));
+                        invoice.setInvoiceDueDate(new Date(new java.util.Date().getTime()));
                         invoice.getInvoiceGeneralDetail().setFinalBillIndicator(false);
                         SpringContext.getBean(DocumentService.class).updateDocument(invoice);
                         // update correction to the AwardAccount Objects since the Invoice was unmarked as Final

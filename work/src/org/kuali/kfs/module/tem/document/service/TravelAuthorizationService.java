@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.tem.document.service;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.kuali.kfs.module.tem.document.TravelAuthorizationAmendmentDocument;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationCloseDocument;
@@ -72,4 +73,10 @@ public interface TravelAuthorizationService {
      * @return
      */
     public TravelReimbursementDocument findEnrouteOrProcessedTravelReimbursement(TravelAuthorizationDocument authorization);
+
+    /**
+     * find matching trips for the same traveler, dates
+     *
+     */
+    public List<String> findMatchingTrips(TravelAuthorizationDocument authorization) ;
 }

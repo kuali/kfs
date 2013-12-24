@@ -428,6 +428,8 @@ public interface TravelDocumentService {
      */
     public TravelDocument getTravelDocument(String travelDocumentIdentifier);
 
+
+
     /**
      * Determines if the per diem and actual expense total on the given document equal that of the persisted document
      * (useful if trying to figure out if mileage rate or per diem rates changed)
@@ -435,7 +437,7 @@ public interface TravelDocumentService {
      * @return true if the totals are unchanged, false otherwise
      */
     public boolean travelDocumentTotalsUnchangedFromPersisted(TravelDocument travelDocument);
-
+    
     /**
      * This method retrieves a list of approved documents related to a travelDocumentIdentifier. It will grab the most current TA (TAA, TAC)
      * and all TR, ENT, and RELO for the given identifier.
@@ -444,4 +446,11 @@ public interface TravelDocumentService {
      * @return
      */
     public List<String> getApprovedTravelDocumentNumbersByTrip(String travelDocumentIdentifier);
+
+    /**
+     * find matching trips  for the same traveler, dates
+     *
+     */
+    public List<String> findMatchingTrips(TravelDocument document) ;
+
 }

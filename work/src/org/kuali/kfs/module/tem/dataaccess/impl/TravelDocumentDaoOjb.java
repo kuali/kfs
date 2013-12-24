@@ -20,6 +20,7 @@ import static org.kuali.kfs.module.tem.TemPropertyConstants.TRAVEL_DOCUMENT_IDEN
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.GregorianCalendar;
@@ -47,6 +48,7 @@ import org.kuali.kfs.module.tem.document.TravelEntertainmentDocument;
 import org.kuali.kfs.module.tem.document.TravelReimbursementDocument;
 import org.kuali.kfs.module.tem.document.TravelRelocationDocument;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSConstants.DocumentStatusCodes;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.util.KfsDateUtils;
 import org.kuali.kfs.sys.util.TransactionalServiceUtils;
@@ -276,4 +278,21 @@ public class TravelDocumentDaoOjb extends PlatformAwareDaoBaseOjb implements Tra
         return getPersistenceBrokerTemplate().getCollectionByQuery(new QueryByCriteria(documentClazz, criteria));
     }
 
+
+    @Override
+    public Collection<? extends TEMReimbursementDocument> findMatchingTrips (Integer temProfileId ,Timestamp tripBegin, Timestamp tripEnd)  {
+
+
+        final Criteria criteria = new Criteria();
+        final Criteria orEndDateCriteria = new Criteria();
+        criteria.addEqualTo(TemPropertyConstants.TEM_PROFILE_ID, temProfileId);
+        criteria.addEqualTo(TemPropertyConstants.TRIP_BEGIN_DT, tripBegin);
+        orEndDateCriteria.addEqualTo(TemPropertyConstants.TRIP_END_DT, tripEnd);
+        criteria.addOrCriteria(orEndDateCriteria);
+        criteria.addNotIn("documentHeader.financialDocumentStatusCode", Arrays.asList(DocumentStatusCodes.INITIATED));
+
+        return  getPersistenceBrokerTemplate().getCollectionByQuery(new QueryByCriteria(TravelReimbursementDocument.class, criteria));
+
+
+    }
 }

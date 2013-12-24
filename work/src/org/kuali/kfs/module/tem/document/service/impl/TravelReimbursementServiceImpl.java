@@ -23,7 +23,6 @@ import static org.kuali.kfs.sys.KFSConstants.EXTERNALIZABLE_HELP_URL_KEY;
 
 import java.beans.PropertyChangeListener;
 import java.math.BigDecimal;
-import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -58,7 +57,6 @@ import org.kuali.kfs.module.tem.businessobject.TemSourceAccountingLineTotalPerce
 import org.kuali.kfs.module.tem.businessobject.TravelAdvance;
 import org.kuali.kfs.module.tem.businessobject.TravelerDetail;
 import org.kuali.kfs.module.tem.businessobject.TripType;
-import org.kuali.kfs.module.tem.dataaccess.TravelReimbursementDao;
 import org.kuali.kfs.module.tem.document.TEMReimbursementDocument;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
 import org.kuali.kfs.module.tem.document.TravelReimbursementDocument;
@@ -117,7 +115,6 @@ public class TravelReimbursementServiceImpl implements TravelReimbursementServic
     protected OffsetDefinitionService offsetDefinitionService;
     protected OptionsService optionsService;
     protected NoteService noteService;
-    protected TravelReimbursementDao travelReimbursementDao;
 
     protected List<PropertyChangeListener> propertyChangeListeners;
 
@@ -884,16 +881,8 @@ public class TravelReimbursementServiceImpl implements TravelReimbursementServic
         return result;
     }
 
-    @Override
-    public List<String> findMatchingTrips(Integer temProfileId , Timestamp tripBegin, Timestamp tripEnd,Integer primaryDestinationId) {
 
-        List<TravelReimbursementDocument> documents = travelReimbursementDao.findMatchingTrips(temProfileId , tripBegin, tripEnd, primaryDestinationId);
-        List<String> documentIds = new ArrayList<String>();
-        for (TravelReimbursementDocument document : documents) {
-            documentIds.add(document.getDocumentNumber());
-        }
-        return documentIds;
-    }
+
 
     /**
      * Sets the propertyChangeListener attribute value.
@@ -1066,9 +1055,9 @@ public class TravelReimbursementServiceImpl implements TravelReimbursementServic
         this.noteService = noteService;
     }
 
-    public void setTravelReimbursementDao(TravelReimbursementDao travelReimbursementDao) {
-        this.travelReimbursementDao = travelReimbursementDao;
-    }
+
+
+
 
 
 

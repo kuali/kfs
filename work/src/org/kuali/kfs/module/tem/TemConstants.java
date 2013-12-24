@@ -245,6 +245,7 @@ public class TemConstants {
         public static final String VENDOR_PAYMENT_ALLOWED_BEFORE_FINAL_APPROVAL_IND = "VENDOR_PAYMENT_ALLOWED_BEFORE_FINAL_APPROVAL_IND";
         public static final String HOLD_NEW_FISCAL_YEAR_ENCUMBRANCES_IND = "HOLD_NEW_FISCAL_YEAR_ENCUMBRANCES_IND";
         public static final String DISPLAY_IMPORTED_EXPENSE_IND = "DISPLAY_IMPORTED_EXPENSE_IND";
+        public static final String DUPLICATE_TRIP_DATE_RANGE_DAYS  = "DUPLICATE_TRIP_DATE_RANGE_DAYS";
     }
 
     public static class TravelReimbursementParameters {
@@ -599,6 +600,7 @@ public class TemConstants {
     public static final String CUSTOMER_PRIMARY_ADDRESS_TYPE_CODE = "P";
 
     public static final Integer DEFAULT_NOTIFICATION_DAYS = 120;
+    public static final Integer DEFAULT_DUPLICATE_TRIP_DATE_RANGE_DAYS = 3;
 
     public class TaxRamificationParameter{
         public static final String NOTIFICATION_DAYS_PARAM_NAME = "NOTIFICATION_DAYS";

@@ -330,7 +330,6 @@
         <property name="offsetDefinitionService" ref="offsetDefinitionService"/>
         <property name="optionsService" ref="optionsService"/>
         <property name="noteService" ref="noteService"/>
-        <property name="travelReimbursementDao" ref="travelReimbursementDao" />
 		<property name="propertyChangeListeners">
 			<list>
 				<ref bean="TravelDocument-addActualExpenseListener" />
@@ -559,6 +558,7 @@
         <property name="travelDocumentService" ref="travelDocumentService" />
         <property name="documentDao" ref="documentDao" />
         <property name="dataDictionaryService" ref="dataDictionaryService"/>
+        <property name="travelAuthorizationDao" ref="travelAuthorizationDao" />
         <property name="identityService" ref="identityService"/>
         <property name="noteService" ref="noteService"/>
 		<property name="propertyChangeListeners">
@@ -571,10 +571,6 @@
 
 	<bean id="travelDocumentDao" parent="platformAwareDao"
 		class="org.kuali.kfs.module.tem.dataaccess.impl.TravelDocumentDaoOjb" />
-
-	<bean id="travelReimbursementDao" parent="platformAwareDao"
-		class="org.kuali.kfs.module.tem.dataaccess.impl.TravelReimbursementDaoOjb" />
-	
 	
 	<bean id="perDiemDao" parent="platformAwareDao"
 		class="org.kuali.kfs.module.tem.dataaccess.impl.PerDiemDaoOjb" />	
@@ -1512,6 +1508,8 @@
 		<property name="chartService" ref="chartService"/>
 		<property name="organizationService" ref="organizationService"/>
 	</bean>
+	
+	<bean id="travelAuthorizationDao" parent="platformAwareDao" class="org.kuali.kfs.module.tem.dataaccess.impl.TravelAuthorizationDaoOjb"/>
 
     <import resource="spring-tem-bus-exports.xml"/>
     <import resource="document/validation/configuration/TemValidatorDefinitions.xml" /> 

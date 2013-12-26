@@ -20,10 +20,9 @@
 	<kul:tab tabTitle="Invoice Suspension Categories" defaultOpen="true" tabErrorKey="document.invoiceSuspensionCategories*">
 		<c:set var="invoiceSuspensionCategoriesAttributes" value="${DataDictionary.InvoiceSuspensionCategory.attributes}" />
 		<c:set var="suspensionCategoriesAttributes" value="${DataDictionary.SuspensionCategory.attributes}" />
-
 		<div class="tab-container" align="center">
 			<h3>Invoice Suspension Categories</h3>
-			<table cellpadding=0 class="datatable" summary="Invoice Suspension Categories section">
+ 			<table cellpadding=0 class="datatable" summary="Invoice Suspension Categories section">
 				<tr>
 					<kul:htmlAttributeHeaderCell attributeEntry="${invoiceSuspensionCategoriesAttributes.suspensionCategoryCode}" useShortLabel="false" />
 					<kul:htmlAttributeHeaderCell attributeEntry="${suspensionCategoriesAttributes.suspensionCategoryDescription}" useShortLabel="false" />
@@ -34,7 +33,7 @@
 							<td class="datacell"><kul:htmlControlAttribute attributeEntry="${invoiceSuspensionCategoriesAttributes.suspensionCategoryCode}"
 									property="document.invoiceSuspensionCategories[${ctr}].suspensionCategoryCode" readOnly="true" /></td>
 							<td class="datacell" width="75%"><kul:htmlControlAttribute
-									attributeEntry="${invoiceSuspensionCategoriesAttributes.suspensionCategory.suspensionCategoryDescription}"
+									attributeEntry="${invoiceSuspensionCategoriesAttributes['suspensionCategory.suspensionCategoryDescription']}"
 									property="document.invoiceSuspensionCategories[${ctr}].suspensionCategory.suspensionCategoryDescription" readOnly="true" /></td>
 						</tr>
 					</logic:iterate>

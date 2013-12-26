@@ -3206,250 +3206,250 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         primaryKeys.put("processingChartOfAccountCode", document.getAccountsReceivableDocumentHeader().getProcessingChartOfAccountCode());
         primaryKeys.put("processingOrganizationCode", document.getAccountsReceivableDocumentHeader().getProcessingOrganizationCode());
         SystemInformation sysInfo = businessObjectService.findByPrimaryKey(SystemInformation.class, primaryKeys);
-        parameterMap.put("#documentNumber", returnProperStringValue(document.getDocumentNumber()));
+        parameterMap.put("documentNumber", returnProperStringValue(document.getDocumentNumber()));
         if (ObjectUtils.isNotNull(document.getDocumentHeader().getWorkflowDocument().getDateCreated())) {
             parameterMap.put("#date", returnProperStringValue(FILE_NAME_TIMESTAMP.format(document.getDocumentHeader().getWorkflowDocument().getDateCreated())));
         }
         if (ObjectUtils.isNotNull(new Date(document.getDocumentHeader().getWorkflowDocument().getDateFinalized().getMillis()))) {
-            parameterMap.put("#finalStatusDate", returnProperStringValue(FILE_NAME_TIMESTAMP.format(new Date(document.getDocumentHeader().getWorkflowDocument().getDateFinalized().getMillis()))));
+            parameterMap.put("finalStatusDate", returnProperStringValue(FILE_NAME_TIMESTAMP.format(new Date(document.getDocumentHeader().getWorkflowDocument().getDateFinalized().getMillis()))));
         }
-        parameterMap.put("#proposalNumber", returnProperStringValue(document.getProposalNumber()));
-        parameterMap.put("#payee.name", returnProperStringValue(document.getBillingAddressName()));
-        parameterMap.put("#payee.addressLine1", returnProperStringValue(document.getBillingLine1StreetAddress()));
-        parameterMap.put("#payee.addressLine2", returnProperStringValue(document.getBillingLine2StreetAddress()));
-        parameterMap.put("#payee.city", returnProperStringValue(document.getBillingCityName()));
-        parameterMap.put("#payee.state", returnProperStringValue(document.getBillingStateCode()));
-        parameterMap.put("#payee.zipcode", returnProperStringValue(document.getBillingZipCode()));
-        parameterMap.put("#advanceFlag", convertBooleanValue(isAdvance(document)));
-        parameterMap.put("#reimbursementFlag", convertBooleanValue(!(isAdvance(document))));
-        parameterMap.put("#accountDetails.contractControlAccountNumber", returnProperStringValue(getRecipientAccountNumber(document.getAccountDetails())));
+        parameterMap.put("proposalNumber", returnProperStringValue(document.getProposalNumber()));
+        parameterMap.put("payee.name", returnProperStringValue(document.getBillingAddressName()));
+        parameterMap.put("payee.addressLine1", returnProperStringValue(document.getBillingLine1StreetAddress()));
+        parameterMap.put("payee.addressLine2", returnProperStringValue(document.getBillingLine2StreetAddress()));
+        parameterMap.put("payee.city", returnProperStringValue(document.getBillingCityName()));
+        parameterMap.put("payee.state", returnProperStringValue(document.getBillingStateCode()));
+        parameterMap.put("payee.zipcode", returnProperStringValue(document.getBillingZipCode()));
+        parameterMap.put("advanceFlag", convertBooleanValue(isAdvance(document)));
+        parameterMap.put("reimbursementFlag", convertBooleanValue(!(isAdvance(document))));
+        parameterMap.put("accountDetails.contractControlAccountNumber", returnProperStringValue(getRecipientAccountNumber(document.getAccountDetails())));
         if (ObjectUtils.isNotNull(sysInfo)) {
-            parameterMap.put("#systemInformation.feinNumber", returnProperStringValue(sysInfo.getUniversityFederalEmployerIdentificationNumber()));
-            parameterMap.put("#systemInformation.name", returnProperStringValue(sysInfo.getOrganizationRemitToAddressName()));
-            parameterMap.put("#systemInformation.addressLine1", returnProperStringValue(sysInfo.getOrganizationRemitToLine1StreetAddress()));
-            parameterMap.put("#systemInformation.addressLine2", returnProperStringValue(sysInfo.getOrganizationRemitToLine2StreetAddress()));
-            parameterMap.put("#systemInformation.city", returnProperStringValue(sysInfo.getOrganizationRemitToCityName()));
-            parameterMap.put("#systemInformation.state", returnProperStringValue(sysInfo.getOrganizationRemitToStateCode()));
-            parameterMap.put("#systemInformation.zipcode", returnProperStringValue(sysInfo.getOrganizationRemitToZipCode()));
+            parameterMap.put("systemInformation.feinNumber", returnProperStringValue(sysInfo.getUniversityFederalEmployerIdentificationNumber()));
+            parameterMap.put("systemInformation.name", returnProperStringValue(sysInfo.getOrganizationRemitToAddressName()));
+            parameterMap.put("systemInformation.addressLine1", returnProperStringValue(sysInfo.getOrganizationRemitToLine1StreetAddress()));
+            parameterMap.put("systemInformation.addressLine2", returnProperStringValue(sysInfo.getOrganizationRemitToLine2StreetAddress()));
+            parameterMap.put("systemInformation.city", returnProperStringValue(sysInfo.getOrganizationRemitToCityName()));
+            parameterMap.put("systemInformation.state", returnProperStringValue(sysInfo.getOrganizationRemitToStateCode()));
+            parameterMap.put("systemInformation.zipcode", returnProperStringValue(sysInfo.getOrganizationRemitToZipCode()));
         }
         if (CollectionUtils.isNotEmpty(document.getInvoiceDetails())) {
             for (int i = 0; i < document.getInvoiceDetails().size(); i++) {
-                parameterMap.put("#invoiceDetail[" + i + "].invoiceDetailIdentifier", returnProperStringValue(document.getInvoiceDetails().get(i).getInvoiceDetailIdentifier()));
-                parameterMap.put("#invoiceDetail[" + i + "].documentNumber", returnProperStringValue(document.getInvoiceDetails().get(i).getDocumentNumber()));
-                parameterMap.put("#invoiceDetail[" + i + "].categories", returnProperStringValue(document.getInvoiceDetails().get(i).getCategory()));
-                parameterMap.put("#invoiceDetail[" + i + "].budget", returnProperStringValue(document.getInvoiceDetails().get(i).getBudget()));
-                parameterMap.put("#invoiceDetail[" + i + "].expenditure", returnProperStringValue(document.getInvoiceDetails().get(i).getExpenditures()));
-                parameterMap.put("#invoiceDetail[" + i + "].cumulative", returnProperStringValue(document.getInvoiceDetails().get(i).getCumulative()));
-                parameterMap.put("#invoiceDetail[" + i + "].balance", returnProperStringValue(document.getInvoiceDetails().get(i).getBalance()));
-                parameterMap.put("#invoiceDetail[" + i + "].billed", returnProperStringValue(document.getInvoiceDetails().get(i).getBilled()));
-                parameterMap.put("#invoiceDetail[" + i + "].adjustedCumulativeExpenditures", returnProperStringValue(document.getInvoiceDetails().get(i).getAdjustedCumExpenditures()));
-                parameterMap.put("#invoiceDetail[" + i + "].adjustedBalance", returnProperStringValue(document.getInvoiceDetails().get(0).getAdjustedBalance()));
+                parameterMap.put("invoiceDetail[" + i + "].invoiceDetailIdentifier", returnProperStringValue(document.getInvoiceDetails().get(i).getInvoiceDetailIdentifier()));
+                parameterMap.put("invoiceDetail[" + i + "].documentNumber", returnProperStringValue(document.getInvoiceDetails().get(i).getDocumentNumber()));
+                parameterMap.put("invoiceDetail[" + i + "].categories", returnProperStringValue(document.getInvoiceDetails().get(i).getCategory()));
+                parameterMap.put("invoiceDetail[" + i + "].budget", returnProperStringValue(document.getInvoiceDetails().get(i).getBudget()));
+                parameterMap.put("invoiceDetail[" + i + "].expenditure", returnProperStringValue(document.getInvoiceDetails().get(i).getExpenditures()));
+                parameterMap.put("invoiceDetail[" + i + "].cumulative", returnProperStringValue(document.getInvoiceDetails().get(i).getCumulative()));
+                parameterMap.put("invoiceDetail[" + i + "].balance", returnProperStringValue(document.getInvoiceDetails().get(i).getBalance()));
+                parameterMap.put("invoiceDetail[" + i + "].billed", returnProperStringValue(document.getInvoiceDetails().get(i).getBilled()));
+                parameterMap.put("invoiceDetail[" + i + "].adjustedCumulativeExpenditures", returnProperStringValue(document.getInvoiceDetails().get(i).getAdjustedCumExpenditures()));
+                parameterMap.put("invoiceDetail[" + i + "].adjustedBalance", returnProperStringValue(document.getInvoiceDetails().get(0).getAdjustedBalance()));
             }
         }
         if (CollectionUtils.isNotEmpty(document.getDirectCostInvoiceDetails())) {
-            parameterMap.put("#directCostInvoiceDetail.invoiceDetailIdentifier", returnProperStringValue(document.getDirectCostInvoiceDetails().get(0).getInvoiceDetailIdentifier()));
-            parameterMap.put("#directCostInvoiceDetail.documentNumber", returnProperStringValue(document.getDirectCostInvoiceDetails().get(0).getDocumentNumber()));
-            parameterMap.put("#directCostInvoiceDetail.categories", returnProperStringValue(document.getDirectCostInvoiceDetails().get(0).getCategory()));
-            parameterMap.put("#directCostInvoiceDetail.budget", returnProperStringValue(document.getDirectCostInvoiceDetails().get(0).getBudget()));
-            parameterMap.put("#directCostInvoiceDetail.expenditure", returnProperStringValue(document.getDirectCostInvoiceDetails().get(0).getExpenditures()));
-            parameterMap.put("#directCostInvoiceDetail.cumulative", returnProperStringValue(document.getDirectCostInvoiceDetails().get(0).getCumulative()));
-            parameterMap.put("#directCostInvoiceDetail.balance", returnProperStringValue(document.getDirectCostInvoiceDetails().get(0).getBalance()));
-            parameterMap.put("#directCostInvoiceDetail.billed", returnProperStringValue(document.getDirectCostInvoiceDetails().get(0).getBilled()));
-            parameterMap.put("#directCostInvoiceDetail.adjustedCumulativeExpenditures", returnProperStringValue(document.getDirectCostInvoiceDetails().get(0).getAdjustedCumExpenditures()));
-            parameterMap.put("#directCostInvoiceDetail.adjustedBalance", returnProperStringValue(document.getDirectCostInvoiceDetails().get(0).getAdjustedBalance()));
+            parameterMap.put("directCostInvoiceDetail.invoiceDetailIdentifier", returnProperStringValue(document.getDirectCostInvoiceDetails().get(0).getInvoiceDetailIdentifier()));
+            parameterMap.put("directCostInvoiceDetail.documentNumber", returnProperStringValue(document.getDirectCostInvoiceDetails().get(0).getDocumentNumber()));
+            parameterMap.put("directCostInvoiceDetail.categories", returnProperStringValue(document.getDirectCostInvoiceDetails().get(0).getCategory()));
+            parameterMap.put("directCostInvoiceDetail.budget", returnProperStringValue(document.getDirectCostInvoiceDetails().get(0).getBudget()));
+            parameterMap.put("directCostInvoiceDetail.expenditure", returnProperStringValue(document.getDirectCostInvoiceDetails().get(0).getExpenditures()));
+            parameterMap.put("directCostInvoiceDetail.cumulative", returnProperStringValue(document.getDirectCostInvoiceDetails().get(0).getCumulative()));
+            parameterMap.put("directCostInvoiceDetail.balance", returnProperStringValue(document.getDirectCostInvoiceDetails().get(0).getBalance()));
+            parameterMap.put("directCostInvoiceDetail.billed", returnProperStringValue(document.getDirectCostInvoiceDetails().get(0).getBilled()));
+            parameterMap.put("directCostInvoiceDetail.adjustedCumulativeExpenditures", returnProperStringValue(document.getDirectCostInvoiceDetails().get(0).getAdjustedCumExpenditures()));
+            parameterMap.put("directCostInvoiceDetail.adjustedBalance", returnProperStringValue(document.getDirectCostInvoiceDetails().get(0).getAdjustedBalance()));
         }
         if (CollectionUtils.isNotEmpty(document.getInDirectCostInvoiceDetails())) {
-            parameterMap.put("#inDirectCostInvoiceDetail.invoiceDetailIdentifier", returnProperStringValue(document.getInDirectCostInvoiceDetails().get(0).getInvoiceDetailIdentifier()));
-            parameterMap.put("#inDirectCostInvoiceDetail.documentNumber", returnProperStringValue(document.getInDirectCostInvoiceDetails().get(0).getDocumentNumber()));
-            parameterMap.put("#inDirectCostInvoiceDetail.categories", returnProperStringValue(document.getInDirectCostInvoiceDetails().get(0).getCategory()));
-            parameterMap.put("#inDirectCostInvoiceDetail.budget", returnProperStringValue(document.getInDirectCostInvoiceDetails().get(0).getBudget()));
-            parameterMap.put("#inDirectCostInvoiceDetail.expenditure", returnProperStringValue(document.getInDirectCostInvoiceDetails().get(0).getExpenditures()));
-            parameterMap.put("#inDirectCostInvoiceDetail.cumulative", returnProperStringValue(document.getInDirectCostInvoiceDetails().get(0).getCumulative()));
-            parameterMap.put("#inDirectCostInvoiceDetail.balance", returnProperStringValue(document.getInDirectCostInvoiceDetails().get(0).getBalance()));
-            parameterMap.put("#inDirectCostInvoiceDetail.billed", returnProperStringValue(document.getInDirectCostInvoiceDetails().get(0).getBilled()));
-            parameterMap.put("#inDirectCostInvoiceDetail.adjustedCumulativeExpenditures", returnProperStringValue(document.getInDirectCostInvoiceDetails().get(0).getAdjustedCumExpenditures()));
-            parameterMap.put("#inDirectCostInvoiceDetail.adjustedBalance", returnProperStringValue(document.getInDirectCostInvoiceDetails().get(0).getAdjustedBalance()));
+            parameterMap.put("inDirectCostInvoiceDetail.invoiceDetailIdentifier", returnProperStringValue(document.getInDirectCostInvoiceDetails().get(0).getInvoiceDetailIdentifier()));
+            parameterMap.put("inDirectCostInvoiceDetail.documentNumber", returnProperStringValue(document.getInDirectCostInvoiceDetails().get(0).getDocumentNumber()));
+            parameterMap.put("inDirectCostInvoiceDetail.categories", returnProperStringValue(document.getInDirectCostInvoiceDetails().get(0).getCategory()));
+            parameterMap.put("inDirectCostInvoiceDetail.budget", returnProperStringValue(document.getInDirectCostInvoiceDetails().get(0).getBudget()));
+            parameterMap.put("inDirectCostInvoiceDetail.expenditure", returnProperStringValue(document.getInDirectCostInvoiceDetails().get(0).getExpenditures()));
+            parameterMap.put("inDirectCostInvoiceDetail.cumulative", returnProperStringValue(document.getInDirectCostInvoiceDetails().get(0).getCumulative()));
+            parameterMap.put("inDirectCostInvoiceDetail.balance", returnProperStringValue(document.getInDirectCostInvoiceDetails().get(0).getBalance()));
+            parameterMap.put("inDirectCostInvoiceDetail.billed", returnProperStringValue(document.getInDirectCostInvoiceDetails().get(0).getBilled()));
+            parameterMap.put("inDirectCostInvoiceDetail.adjustedCumulativeExpenditures", returnProperStringValue(document.getInDirectCostInvoiceDetails().get(0).getAdjustedCumExpenditures()));
+            parameterMap.put("inDirectCostInvoiceDetail.adjustedBalance", returnProperStringValue(document.getInDirectCostInvoiceDetails().get(0).getAdjustedBalance()));
         }
         if (CollectionUtils.isNotEmpty(document.getTotalInvoiceDetails())) {
-            parameterMap.put("#totalInvoiceDetail.invoiceDetailIdentifier", returnProperStringValue(document.getTotalInvoiceDetails().get(0).getInvoiceDetailIdentifier()));
-            parameterMap.put("#totalInvoiceDetail.documentNumber", returnProperStringValue(document.getTotalInvoiceDetails().get(0).getDocumentNumber()));
-            parameterMap.put("#totalInvoiceDetail.categories", returnProperStringValue(document.getTotalInvoiceDetails().get(0).getCategory()));
-            parameterMap.put("#totalInvoiceDetail.budget", returnProperStringValue(document.getTotalInvoiceDetails().get(0).getBudget()));
-            parameterMap.put("#totalInvoiceDetail.expenditure", returnProperStringValue(document.getTotalInvoiceDetails().get(0).getExpenditures()));
-            parameterMap.put("#totalInvoiceDetail.cumulative", returnProperStringValue(document.getTotalInvoiceDetails().get(0).getCumulative()));
-            parameterMap.put("#totalInvoiceDetail.balance", returnProperStringValue(document.getTotalInvoiceDetails().get(0).getBalance()));
-            parameterMap.put("#totalInvoiceDetail.billed", returnProperStringValue(document.getTotalInvoiceDetails().get(0).getBilled()));
-            parameterMap.put("#totalInvoiceDetail.estimatedCost", returnProperStringValue(document.getTotalInvoiceDetails().get(0).getBilled().add(document.getTotalInvoiceDetails().get(0).getExpenditures())));
-            parameterMap.put("#totalInvoiceDetail.adjustedCumulativeExpenditures", returnProperStringValue(document.getTotalInvoiceDetails().get(0).getAdjustedCumExpenditures()));
-            parameterMap.put("#totalInvoiceDetail.adjustedBalance", returnProperStringValue(document.getTotalInvoiceDetails().get(0).getAdjustedBalance()));
+            parameterMap.put("totalInvoiceDetail.invoiceDetailIdentifier", returnProperStringValue(document.getTotalInvoiceDetails().get(0).getInvoiceDetailIdentifier()));
+            parameterMap.put("totalInvoiceDetail.documentNumber", returnProperStringValue(document.getTotalInvoiceDetails().get(0).getDocumentNumber()));
+            parameterMap.put("totalInvoiceDetail.categories", returnProperStringValue(document.getTotalInvoiceDetails().get(0).getCategory()));
+            parameterMap.put("totalInvoiceDetail.budget", returnProperStringValue(document.getTotalInvoiceDetails().get(0).getBudget()));
+            parameterMap.put("totalInvoiceDetail.expenditure", returnProperStringValue(document.getTotalInvoiceDetails().get(0).getExpenditures()));
+            parameterMap.put("totalInvoiceDetail.cumulative", returnProperStringValue(document.getTotalInvoiceDetails().get(0).getCumulative()));
+            parameterMap.put("totalInvoiceDetail.balance", returnProperStringValue(document.getTotalInvoiceDetails().get(0).getBalance()));
+            parameterMap.put("totalInvoiceDetail.billed", returnProperStringValue(document.getTotalInvoiceDetails().get(0).getBilled()));
+            parameterMap.put("totalInvoiceDetail.estimatedCost", returnProperStringValue(document.getTotalInvoiceDetails().get(0).getBilled().add(document.getTotalInvoiceDetails().get(0).getExpenditures())));
+            parameterMap.put("totalInvoiceDetail.adjustedCumulativeExpenditures", returnProperStringValue(document.getTotalInvoiceDetails().get(0).getAdjustedCumExpenditures()));
+            parameterMap.put("totalInvoiceDetail.adjustedBalance", returnProperStringValue(document.getTotalInvoiceDetails().get(0).getAdjustedBalance()));
         }
         if (CollectionUtils.isNotEmpty(document.getInvoiceAddressDetails())) {
             for (int i = 0; i < document.getInvoiceAddressDetails().size(); i++) {
-                parameterMap.put("#invoiceAddressDetails[" + i + "].documentNumber", returnProperStringValue(document.getInvoiceAddressDetails().get(i).getDocumentNumber()));
-                parameterMap.put("#invoiceAddressDetails[" + i + "].customerNumber", returnProperStringValue(document.getInvoiceAddressDetails().get(i).getCustomerNumber()));
-                parameterMap.put("#invoiceAddressDetails[" + i + "].customerAddressIdentifier", returnProperStringValue(document.getInvoiceAddressDetails().get(i).getCustomerAddressIdentifier()));
-                parameterMap.put("#invoiceAddressDetails[" + i + "].customerAddressTypeCode", returnProperStringValue(document.getInvoiceAddressDetails().get(i).getCustomerAddressTypeCode()));
-                parameterMap.put("#invoiceAddressDetails[" + i + "].customerAddressName", returnProperStringValue(document.getInvoiceAddressDetails().get(i).getCustomerAddressName()));
-                parameterMap.put("#invoiceAddressDetails[" + i + "].customerInvoiceTemplateCode", returnProperStringValue(document.getInvoiceAddressDetails().get(i).getCustomerInvoiceTemplateCode()));
-                parameterMap.put("#invoiceAddressDetails[" + i + "].preferredCustomerInvoiceTemplateCode", returnProperStringValue(document.getInvoiceAddressDetails().get(i).getPreferredCustomerInvoiceTemplateCode()));
+                parameterMap.put("invoiceAddressDetails[" + i + "].documentNumber", returnProperStringValue(document.getInvoiceAddressDetails().get(i).getDocumentNumber()));
+                parameterMap.put("invoiceAddressDetails[" + i + "].customerNumber", returnProperStringValue(document.getInvoiceAddressDetails().get(i).getCustomerNumber()));
+                parameterMap.put("invoiceAddressDetails[" + i + "].customerAddressIdentifier", returnProperStringValue(document.getInvoiceAddressDetails().get(i).getCustomerAddressIdentifier()));
+                parameterMap.put("invoiceAddressDetails[" + i + "].customerAddressTypeCode", returnProperStringValue(document.getInvoiceAddressDetails().get(i).getCustomerAddressTypeCode()));
+                parameterMap.put("invoiceAddressDetails[" + i + "].customerAddressName", returnProperStringValue(document.getInvoiceAddressDetails().get(i).getCustomerAddressName()));
+                parameterMap.put("invoiceAddressDetails[" + i + "].customerInvoiceTemplateCode", returnProperStringValue(document.getInvoiceAddressDetails().get(i).getCustomerInvoiceTemplateCode()));
+                parameterMap.put("invoiceAddressDetails[" + i + "].preferredCustomerInvoiceTemplateCode", returnProperStringValue(document.getInvoiceAddressDetails().get(i).getPreferredCustomerInvoiceTemplateCode()));
             }
         }
         if (CollectionUtils.isNotEmpty(document.getAccountDetails())) {
             for (int i = 0; i < document.getAccountDetails().size(); i++) {
-                parameterMap.put("#accountDetails[" + i + "].documentNumber", returnProperStringValue(document.getAccountDetails().get(i).getDocumentNumber()));
-                parameterMap.put("#accountDetails[" + i + "].accountNumber", returnProperStringValue(document.getAccountDetails().get(i).getAccountNumber()));
-                parameterMap.put("#accountDetails[" + i + "].proposalNumber", returnProperStringValue(document.getAccountDetails().get(i).getProposalNumber()));
-                parameterMap.put("#accountDetails[" + i + "].universityFiscalYear", returnProperStringValue(document.getAccountDetails().get(i).getUniversityFiscalYear()));
-                parameterMap.put("#accountDetails[" + i + "].chartOfAccountsCode", returnProperStringValue(document.getAccountDetails().get(i).getChartOfAccountsCode()));
-                parameterMap.put("#accountDetails[" + i + "].budgetAmount", returnProperStringValue(document.getAccountDetails().get(i).getBudgetAmount()));
-                parameterMap.put("#accountDetails[" + i + "].expenditureAmount", returnProperStringValue(document.getAccountDetails().get(i).getExpenditureAmount()));
-                parameterMap.put("#accountDetails[" + i + "].balanceAmount", returnProperStringValue(document.getAccountDetails().get(i).getBalanceAmount()));
+                parameterMap.put("accountDetails[" + i + "].documentNumber", returnProperStringValue(document.getAccountDetails().get(i).getDocumentNumber()));
+                parameterMap.put("accountDetails[" + i + "].accountNumber", returnProperStringValue(document.getAccountDetails().get(i).getAccountNumber()));
+                parameterMap.put("accountDetails[" + i + "].proposalNumber", returnProperStringValue(document.getAccountDetails().get(i).getProposalNumber()));
+                parameterMap.put("accountDetails[" + i + "].universityFiscalYear", returnProperStringValue(document.getAccountDetails().get(i).getUniversityFiscalYear()));
+                parameterMap.put("accountDetails[" + i + "].chartOfAccountsCode", returnProperStringValue(document.getAccountDetails().get(i).getChartOfAccountsCode()));
+                parameterMap.put("accountDetails[" + i + "].budgetAmount", returnProperStringValue(document.getAccountDetails().get(i).getBudgetAmount()));
+                parameterMap.put("accountDetails[" + i + "].expenditureAmount", returnProperStringValue(document.getAccountDetails().get(i).getExpenditureAmount()));
+                parameterMap.put("accountDetails[" + i + "].balanceAmount", returnProperStringValue(document.getAccountDetails().get(i).getBalanceAmount()));
                 Map map = new HashMap<String, Object>();
                 map.put(KFSPropertyConstants.ACCOUNT_NUMBER, document.getAccountDetails().get(i).getAccountNumber());
                 map.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, document.getAccountDetails().get(i).getChartOfAccountsCode());
                 Account account = businessObjectService.findByPrimaryKey(Account.class, map);
                 if (ObjectUtils.isNotNull(account)) {
-                    parameterMap.put("#accountDetails[" + i + "].account.responsibilityID", returnProperStringValue(account.getContractsAndGrantsAccountResponsibilityId()));
+                    parameterMap.put("accountDetails[" + i + "].account.responsibilityID", returnProperStringValue(account.getContractsAndGrantsAccountResponsibilityId()));
                 }
             }
         }
         if (CollectionUtils.isNotEmpty(document.getInvoiceMilestones())) {
             for (int i = 0; i < document.getInvoiceMilestones().size(); i++) {
-                parameterMap.put("#invoiceMilestones[" + i + "].proposalNumber", returnProperStringValue(document.getInvoiceMilestones().get(i).getProposalNumber()));
-                parameterMap.put("#invoiceMilestones[" + i + "].milestoneNumber", returnProperStringValue(document.getInvoiceMilestones().get(i).getMilestoneNumber()));
-                parameterMap.put("#invoiceMilestones[" + i + "].milestoneIdentifier", returnProperStringValue(document.getInvoiceMilestones().get(i).getMilestoneIdentifier()));
-                parameterMap.put("#invoiceMilestones[" + i + "].milestoneDescription", returnProperStringValue(document.getInvoiceMilestones().get(i).getMilestoneDescription()));
-                parameterMap.put("#invoiceMilestones[" + i + "].milestoneAmount", returnProperStringValue(document.getInvoiceMilestones().get(i).getMilestoneAmount()));
-                parameterMap.put("#invoiceMilestones[" + i + "].milestoneExpectedCompletionDate", returnProperStringValue(document.getInvoiceMilestones().get(i).getMilestoneExpectedCompletionDate()));
-                parameterMap.put("#invoiceMilestones[" + i + "].milestoneCompletionDate", returnProperStringValue(document.getInvoiceMilestones().get(i).getMilestoneActualCompletionDate()));
-                parameterMap.put("#invoiceMilestones[" + i + "].isItBilled", returnProperStringValue(document.getInvoiceMilestones().get(i).isBilledIndicator()));
+                parameterMap.put("invoiceMilestones[" + i + "].proposalNumber", returnProperStringValue(document.getInvoiceMilestones().get(i).getProposalNumber()));
+                parameterMap.put("invoiceMilestones[" + i + "].milestoneNumber", returnProperStringValue(document.getInvoiceMilestones().get(i).getMilestoneNumber()));
+                parameterMap.put("invoiceMilestones[" + i + "].milestoneIdentifier", returnProperStringValue(document.getInvoiceMilestones().get(i).getMilestoneIdentifier()));
+                parameterMap.put("invoiceMilestones[" + i + "].milestoneDescription", returnProperStringValue(document.getInvoiceMilestones().get(i).getMilestoneDescription()));
+                parameterMap.put("invoiceMilestones[" + i + "].milestoneAmount", returnProperStringValue(document.getInvoiceMilestones().get(i).getMilestoneAmount()));
+                parameterMap.put("invoiceMilestones[" + i + "].milestoneExpectedCompletionDate", returnProperStringValue(document.getInvoiceMilestones().get(i).getMilestoneExpectedCompletionDate()));
+                parameterMap.put("invoiceMilestones[" + i + "].milestoneCompletionDate", returnProperStringValue(document.getInvoiceMilestones().get(i).getMilestoneActualCompletionDate()));
+                parameterMap.put("invoiceMilestones[" + i + "].isItBilled", returnProperStringValue(document.getInvoiceMilestones().get(i).isBilledIndicator()));
             }
         }
         if (ObjectUtils.isNotNull(document.getInvoiceGeneralDetail())) {
-            parameterMap.put("#invoiceGeneralDetail.documentNumber", returnProperStringValue(document.getInvoiceGeneralDetail().getDocumentNumber()));
-            parameterMap.put("#invoiceGeneralDetail.awardDateRange", returnProperStringValue(document.getInvoiceGeneralDetail().getAwardDateRange()));
-            parameterMap.put("#invoiceGeneralDetail.billingFrequency", returnProperStringValue(document.getInvoiceGeneralDetail().getBillingFrequency()));
-            parameterMap.put("#invoiceGeneralDetail.finalBill", convertBooleanValue(document.getInvoiceGeneralDetail().isFinalBillIndicator()));
-            parameterMap.put("#invoiceGeneralDetail.finalInvoice", convertBooleanValue(document.getInvoiceGeneralDetail().isFinalBillIndicator()));
+            parameterMap.put("invoiceGeneralDetail.documentNumber", returnProperStringValue(document.getInvoiceGeneralDetail().getDocumentNumber()));
+            parameterMap.put("invoiceGeneralDetail.awardDateRange", returnProperStringValue(document.getInvoiceGeneralDetail().getAwardDateRange()));
+            parameterMap.put("invoiceGeneralDetail.billingFrequency", returnProperStringValue(document.getInvoiceGeneralDetail().getBillingFrequency()));
+            parameterMap.put("invoiceGeneralDetail.finalBill", convertBooleanValue(document.getInvoiceGeneralDetail().isFinalBillIndicator()));
+            parameterMap.put("invoiceGeneralDetail.finalInvoice", convertBooleanValue(document.getInvoiceGeneralDetail().isFinalBillIndicator()));
             if (document.getInvoiceGeneralDetail().isFinalBillIndicator()) {
-                parameterMap.put("#invoiceGeneralDetail.finalInvoiceYesNo", "Yes");
+                parameterMap.put("invoiceGeneralDetail.finalInvoiceYesNo", "Yes");
             }
             else {
-                parameterMap.put("#invoiceGeneralDetail.finalInvoiceYesNo", "No");
+                parameterMap.put("invoiceGeneralDetail.finalInvoiceYesNo", "No");
             }
-            parameterMap.put("#invoiceGeneralDetail.billingPeriod", returnProperStringValue(document.getInvoiceGeneralDetail().getBillingPeriod()));
-            parameterMap.put("#invoiceGeneralDetail.contractGrantType", returnProperStringValue(document.getInvoiceGeneralDetail().getContractGrantType()));
-            parameterMap.put("#invoiceGeneralDetail.awardTotal", returnProperStringValue(document.getInvoiceGeneralDetail().getAwardTotal()));
-            parameterMap.put("#invoiceGeneralDetail.newTotalBilled", returnProperStringValue(document.getInvoiceGeneralDetail().getNewTotalBilled()));
-            parameterMap.put("#invoiceGeneralDetail.amountRemainingToBill", returnProperStringValue(document.getInvoiceGeneralDetail().getAmountRemainingToBill()));
-            parameterMap.put("#invoiceGeneralDetail.billedToDate", returnProperStringValue(document.getInvoiceGeneralDetail().getBilledToDate()));
-            parameterMap.put("#invoiceGeneralDetail.costShareAmount", returnProperStringValue(document.getInvoiceGeneralDetail().getCostShareAmount()));
-            parameterMap.put("#invoiceGeneralDetail.lastBilledDate", returnProperStringValue(document.getInvoiceGeneralDetail().getLastBilledDate()));
+            parameterMap.put("invoiceGeneralDetail.billingPeriod", returnProperStringValue(document.getInvoiceGeneralDetail().getBillingPeriod()));
+            parameterMap.put("invoiceGeneralDetail.contractGrantType", returnProperStringValue(document.getInvoiceGeneralDetail().getContractGrantType()));
+            parameterMap.put("invoiceGeneralDetail.awardTotal", returnProperStringValue(document.getInvoiceGeneralDetail().getAwardTotal()));
+            parameterMap.put("invoiceGeneralDetail.newTotalBilled", returnProperStringValue(document.getInvoiceGeneralDetail().getNewTotalBilled()));
+            parameterMap.put("invoiceGeneralDetail.amountRemainingToBill", returnProperStringValue(document.getInvoiceGeneralDetail().getAmountRemainingToBill()));
+            parameterMap.put("invoiceGeneralDetail.billedToDate", returnProperStringValue(document.getInvoiceGeneralDetail().getBilledToDate()));
+            parameterMap.put("invoiceGeneralDetail.costShareAmount", returnProperStringValue(document.getInvoiceGeneralDetail().getCostShareAmount()));
+            parameterMap.put("invoiceGeneralDetail.lastBilledDate", returnProperStringValue(document.getInvoiceGeneralDetail().getLastBilledDate()));
             String strArray[] = document.getInvoiceGeneralDetail().getBillingPeriod().split(" to ");
             if (ObjectUtils.isNotNull(strArray[0])) {
-                parameterMap.put("#invoiceGeneralDetail.invoicingPeriodStartDate", returnProperStringValue(strArray[0]));
+                parameterMap.put("invoiceGeneralDetail.invoicingPeriodStartDate", returnProperStringValue(strArray[0]));
             }
             if (ObjectUtils.isNotNull(strArray[1])) {
-                parameterMap.put("#invoiceGeneralDetail.invoicingPeriodEndDate", returnProperStringValue(strArray[1]));
-                parameterMap.put("#award.cumulativePeriod", returnProperStringValue(award.getAwardBeginningDate().toString() + " to " + strArray[1]));
+                parameterMap.put("invoiceGeneralDetail.invoicingPeriodEndDate", returnProperStringValue(strArray[1]));
+                parameterMap.put("award.cumulativePeriod", returnProperStringValue(award.getAwardBeginningDate().toString() + " to " + strArray[1]));
             }
         }
 
         if (CollectionUtils.isNotEmpty(document.getInvoiceBills())) {
             for (int i = 0; i < document.getInvoiceBills().size(); i++) {
-                parameterMap.put("#invoiceBills[" + i + "].proposalNumber", returnProperStringValue(document.getInvoiceBills().get(i).getProposalNumber()));
-                parameterMap.put("#invoiceBills[" + i + "].billNumber", returnProperStringValue(document.getInvoiceBills().get(i).getBillNumber()));
-                parameterMap.put("#invoiceBills[" + i + "].billDescription", returnProperStringValue(document.getInvoiceBills().get(i).getBillDescription()));
-                parameterMap.put("#invoiceBills[" + i + "].billIdentifier", returnProperStringValue(document.getInvoiceBills().get(i).getBillIdentifier()));
-                parameterMap.put("#invoiceBills[" + i + "].billDate", returnProperStringValue(document.getInvoiceBills().get(i).getBillDate()));
-                parameterMap.put("#invoiceBills[" + i + "].amount", returnProperStringValue(document.getInvoiceBills().get(i).getEstimatedAmount()));
-                parameterMap.put("#invoiceBills[" + i + "].isItBilled", returnProperStringValue(document.getInvoiceBills().get(i).isBilledIndicator()));
+                parameterMap.put("invoiceBills[" + i + "].proposalNumber", returnProperStringValue(document.getInvoiceBills().get(i).getProposalNumber()));
+                parameterMap.put("invoiceBills[" + i + "].billNumber", returnProperStringValue(document.getInvoiceBills().get(i).getBillNumber()));
+                parameterMap.put("invoiceBills[" + i + "].billDescription", returnProperStringValue(document.getInvoiceBills().get(i).getBillDescription()));
+                parameterMap.put("invoiceBills[" + i + "].billIdentifier", returnProperStringValue(document.getInvoiceBills().get(i).getBillIdentifier()));
+                parameterMap.put("invoiceBills[" + i + "].billDate", returnProperStringValue(document.getInvoiceBills().get(i).getBillDate()));
+                parameterMap.put("invoiceBills[" + i + "].amount", returnProperStringValue(document.getInvoiceBills().get(i).getEstimatedAmount()));
+                parameterMap.put("invoiceBills[" + i + "].isItBilled", returnProperStringValue(document.getInvoiceBills().get(i).isBilledIndicator()));
             }
         }
         if (ObjectUtils.isNotNull(award)) {
             KualiDecimal billing = contractsGrantsInvoiceDocumentService.getAwardBilledToDateByProposalNumber(award.getProposalNumber());
             KualiDecimal payments = contractsGrantsInvoiceDocumentService.calculateTotalPaymentsToDateByAward(award);
             KualiDecimal receivable = billing.subtract(payments);
-            parameterMap.put("#award.billings", returnProperStringValue(billing));
-            parameterMap.put("#award.payments", returnProperStringValue(payments));
-            parameterMap.put("#award.receivables", returnProperStringValue(receivable));
-            parameterMap.put("#award.proposalNumber", returnProperStringValue(award.getProposalNumber()));
-            parameterMap.put("#award.awardId", returnProperStringValue(award.getAwardId()));
+            parameterMap.put("award.billings", returnProperStringValue(billing));
+            parameterMap.put("award.payments", returnProperStringValue(payments));
+            parameterMap.put("award.receivables", returnProperStringValue(receivable));
+            parameterMap.put("award.proposalNumber", returnProperStringValue(award.getProposalNumber()));
+            parameterMap.put("award.awardId", returnProperStringValue(award.getAwardId()));
             if (ObjectUtils.isNotNull(award.getAwardBeginningDate())) {
-                parameterMap.put("#award.awardBeginningDate", returnProperStringValue(FILE_NAME_TIMESTAMP.format(award.getAwardBeginningDate())));
+                parameterMap.put("award.awardBeginningDate", returnProperStringValue(FILE_NAME_TIMESTAMP.format(award.getAwardBeginningDate())));
             }
             if (ObjectUtils.isNotNull(award.getAwardEndingDate())) {
-                parameterMap.put("#award.awardEndingDate", returnProperStringValue(FILE_NAME_TIMESTAMP.format(award.getAwardEndingDate())));
+                parameterMap.put("award.awardEndingDate", returnProperStringValue(FILE_NAME_TIMESTAMP.format(award.getAwardEndingDate())));
             }
-            parameterMap.put("#award.awardTotalAmount", returnProperStringValue(award.getAwardTotalAmount()));
-            parameterMap.put("#award.awardAddendumNumber", returnProperStringValue(award.getAwardAddendumNumber()));
-            parameterMap.put("#award.awardAllocatedUniversityComputingServicesAmount", returnProperStringValue(award.getAwardAllocatedUniversityComputingServicesAmount()));
-            parameterMap.put("#award.federalPassThroughFundedAmount", returnProperStringValue(award.getFederalPassThroughFundedAmount()));
+            parameterMap.put("award.awardTotalAmount", returnProperStringValue(award.getAwardTotalAmount()));
+            parameterMap.put("award.awardAddendumNumber", returnProperStringValue(award.getAwardAddendumNumber()));
+            parameterMap.put("award.awardAllocatedUniversityComputingServicesAmount", returnProperStringValue(award.getAwardAllocatedUniversityComputingServicesAmount()));
+            parameterMap.put("award.federalPassThroughFundedAmount", returnProperStringValue(award.getFederalPassThroughFundedAmount()));
             if (ObjectUtils.isNotNull(award.getAwardEntryDate())) {
-                parameterMap.put("#award.awardEntryDate", returnProperStringValue(FILE_NAME_TIMESTAMP.format(award.getAwardEntryDate())));
+                parameterMap.put("award.awardEntryDate", returnProperStringValue(FILE_NAME_TIMESTAMP.format(award.getAwardEntryDate())));
             }
-            parameterMap.put("#award.agencyFuture1Amount", returnProperStringValue(award.getAgencyFuture1Amount()));
-            parameterMap.put("#award.agencyFuture2Amount", returnProperStringValue(award.getAgencyFuture2Amount()));
-            parameterMap.put("#award.agencyFuture3Amount", returnProperStringValue(award.getAgencyFuture3Amount()));
-            parameterMap.put("#award.awardDocumentNumber", returnProperStringValue(award.getAwardDocumentNumber()));
+            parameterMap.put("award.agencyFuture1Amount", returnProperStringValue(award.getAgencyFuture1Amount()));
+            parameterMap.put("award.agencyFuture2Amount", returnProperStringValue(award.getAgencyFuture2Amount()));
+            parameterMap.put("award.agencyFuture3Amount", returnProperStringValue(award.getAgencyFuture3Amount()));
+            parameterMap.put("award.awardDocumentNumber", returnProperStringValue(award.getAwardDocumentNumber()));
             if (ObjectUtils.isNotNull(award.getAwardLastUpdateDate())) {
-                parameterMap.put("#award.awardLastUpdateDate", returnProperStringValue(FILE_NAME_TIMESTAMP.format(award.getAwardLastUpdateDate())));
+                parameterMap.put("award.awardLastUpdateDate", returnProperStringValue(FILE_NAME_TIMESTAMP.format(award.getAwardLastUpdateDate())));
             }
-            parameterMap.put("#award.federalPassthroughIndicator", convertBooleanValue(award.getFederalPassThroughIndicator()));
-            parameterMap.put("#award.oldProposalNumber", returnProperStringValue(award.getOldProposalNumber()));
-            parameterMap.put("#award.awardDirectCostAmount", returnProperStringValue(award.getAwardDirectCostAmount()));
-            parameterMap.put("#award.awardIndirectCostAmount", returnProperStringValue(award.getAwardIndirectCostAmount()));
-            parameterMap.put("#award.federalFundedAmount", returnProperStringValue(award.getFederalFundedAmount()));
-            parameterMap.put("#award.awardCreateTimestamp", returnProperStringValue(award.getAwardCreateTimestamp()));
+            parameterMap.put("award.federalPassthroughIndicator", convertBooleanValue(award.getFederalPassThroughIndicator()));
+            parameterMap.put("award.oldProposalNumber", returnProperStringValue(award.getOldProposalNumber()));
+            parameterMap.put("award.awardDirectCostAmount", returnProperStringValue(award.getAwardDirectCostAmount()));
+            parameterMap.put("award.awardIndirectCostAmount", returnProperStringValue(award.getAwardIndirectCostAmount()));
+            parameterMap.put("award.federalFundedAmount", returnProperStringValue(award.getFederalFundedAmount()));
+            parameterMap.put("award.awardCreateTimestamp", returnProperStringValue(award.getAwardCreateTimestamp()));
             if (ObjectUtils.isNotNull(award.getAwardClosingDate())) {
-                parameterMap.put("#award.awardClosingDate", returnProperStringValue(FILE_NAME_TIMESTAMP.format(award.getAwardClosingDate())));
+                parameterMap.put("award.awardClosingDate", returnProperStringValue(FILE_NAME_TIMESTAMP.format(award.getAwardClosingDate())));
             }
-            parameterMap.put("#award.proposalAwardTypeCode", returnProperStringValue(award.getProposalAwardTypeCode()));
-            parameterMap.put("#award.awardStatusCode", returnProperStringValue(award.getAwardStatusCode()));
+            parameterMap.put("award.proposalAwardTypeCode", returnProperStringValue(award.getProposalAwardTypeCode()));
+            parameterMap.put("award.awardStatusCode", returnProperStringValue(award.getAwardStatusCode()));
             if (ObjectUtils.isNotNull(award.getLetterOfCreditFund())) {
-                parameterMap.put("#award.letterOfCreditFundGroupCode", returnProperStringValue(award.getLetterOfCreditFund().getLetterOfCreditFundGroupCode()));
+                parameterMap.put("award.letterOfCreditFundGroupCode", returnProperStringValue(award.getLetterOfCreditFund().getLetterOfCreditFundGroupCode()));
             }
-            parameterMap.put("#award.letterOfCreditFundCode", returnProperStringValue(award.getLetterOfCreditFundCode()));
-            parameterMap.put("#award.grantDescriptionCode", returnProperStringValue(award.getGrantDescriptionCode()));
+            parameterMap.put("award.letterOfCreditFundCode", returnProperStringValue(award.getLetterOfCreditFundCode()));
+            parameterMap.put("award.grantDescriptionCode", returnProperStringValue(award.getGrantDescriptionCode()));
             if (ObjectUtils.isNotNull(award.getProposal())) {
-                parameterMap.put("#award.grantNumber", returnProperStringValue(award.getProposal().getGrantNumber()));
+                parameterMap.put("award.grantNumber", returnProperStringValue(award.getProposal().getGrantNumber()));
             }
-            parameterMap.put("#agencyNumber", returnProperStringValue(award.getAgencyNumber()));
-            parameterMap.put("#agency.fullName", returnProperStringValue(award.getAgency().getFullName()));
-            parameterMap.put("#award.federalPassThroughAgencyNumber", returnProperStringValue(award.getFederalPassThroughAgencyNumber()));
-            parameterMap.put("#award.agencyAnalystName", returnProperStringValue(award.getAgencyAnalystName()));
-            parameterMap.put("#award.analystTelephoneNumber;", returnProperStringValue(award.getAnalystTelephoneNumber()));
-            parameterMap.put("#award.preferredBillingFrequency", returnProperStringValue(award.getPreferredBillingFrequency()));
-            parameterMap.put("#award.preferredReportTemplate", returnProperStringValue(award.getPreferredReportTemplate()));
-            parameterMap.put("#award.preferredReportFrequency", returnProperStringValue(award.getPreferredReportFrequency()));
-            parameterMap.put("#award.awardProjectTitle", returnProperStringValue(award.getAwardProjectTitle()));
-            parameterMap.put("#award.awardCommentText", returnProperStringValue(award.getAwardCommentText()));
-            parameterMap.put("#award.awardPurposeCode", returnProperStringValue(award.getAwardPurposeCode()));
-            parameterMap.put("#award.active", convertBooleanValue(award.isActive()));
-            parameterMap.put("#award.kimGroupNames", returnProperStringValue(award.getKimGroupNames()));
-            parameterMap.put("#award.routingOrg", returnProperStringValue(award.getRoutingOrg()));
-            parameterMap.put("#award.routingChart", returnProperStringValue(award.getRoutingChart()));
-            parameterMap.put("#award.suspendInvoicing", convertBooleanValue(award.isSuspendInvoicingIndicator()));
-            parameterMap.put("#award.additionalFormsRequired", convertBooleanValue(award.isAdditionalFormsRequiredIndicator()));
-            parameterMap.put("#award.additionalFormsDescription", returnProperStringValue(award.getAdditionalFormsDescription()));
-            parameterMap.put("#award.contractGrantType", returnProperStringValue(award.getContractGrantType()));
-            parameterMap.put("#award.minInvoiceAmount", returnProperStringValue(award.getMinInvoiceAmount()));
-            parameterMap.put("#award.autoApprove", returnProperStringValue(award.getAutoApproveIndicator()));
-            parameterMap.put("#award.lookupPersonUniversalIdentifier", returnProperStringValue(award.getLookupPersonUniversalIdentifier()));
-            parameterMap.put("#award.lookupPerson", returnProperStringValue(award.getLookupPerson().getPrincipalName()));
-            parameterMap.put("#award.userLookupRoleNamespaceCode", returnProperStringValue(award.getUserLookupRoleNamespaceCode()));
-            parameterMap.put("#award.userLookupRoleName", returnProperStringValue(award.getUserLookupRoleName()));
-            parameterMap.put("#award.fundingExpirationDate", returnProperStringValue(award.getFundingExpirationDate()));
-            parameterMap.put("#award.commentText", returnProperStringValue(award.getCommentText()));
-            parameterMap.put("#award.awardProjectDirector.name", returnProperStringValue(award.getAwardPrimaryProjectDirector().getProjectDirector().getName()));
-            parameterMap.put("#award.letterOfCreditFundCode", returnProperStringValue(award.getLetterOfCreditFundCode()));
+            parameterMap.put("agencyNumber", returnProperStringValue(award.getAgencyNumber()));
+            parameterMap.put("agency.fullName", returnProperStringValue(award.getAgency().getFullName()));
+            parameterMap.put("award.federalPassThroughAgencyNumber", returnProperStringValue(award.getFederalPassThroughAgencyNumber()));
+            parameterMap.put("award.agencyAnalystName", returnProperStringValue(award.getAgencyAnalystName()));
+            parameterMap.put("award.analystTelephoneNumber;", returnProperStringValue(award.getAnalystTelephoneNumber()));
+            parameterMap.put("award.preferredBillingFrequency", returnProperStringValue(award.getPreferredBillingFrequency()));
+            parameterMap.put("award.preferredReportTemplate", returnProperStringValue(award.getPreferredReportTemplate()));
+            parameterMap.put("award.preferredReportFrequency", returnProperStringValue(award.getPreferredReportFrequency()));
+            parameterMap.put("award.awardProjectTitle", returnProperStringValue(award.getAwardProjectTitle()));
+            parameterMap.put("award.awardCommentText", returnProperStringValue(award.getAwardCommentText()));
+            parameterMap.put("award.awardPurposeCode", returnProperStringValue(award.getAwardPurposeCode()));
+            parameterMap.put("award.active", convertBooleanValue(award.isActive()));
+            parameterMap.put("award.kimGroupNames", returnProperStringValue(award.getKimGroupNames()));
+            parameterMap.put("award.routingOrg", returnProperStringValue(award.getRoutingOrg()));
+            parameterMap.put("award.routingChart", returnProperStringValue(award.getRoutingChart()));
+            parameterMap.put("award.suspendInvoicing", convertBooleanValue(award.isSuspendInvoicingIndicator()));
+            parameterMap.put("award.additionalFormsRequired", convertBooleanValue(award.isAdditionalFormsRequiredIndicator()));
+            parameterMap.put("award.additionalFormsDescription", returnProperStringValue(award.getAdditionalFormsDescription()));
+            parameterMap.put("award.contractGrantType", returnProperStringValue(award.getContractGrantType()));
+            parameterMap.put("award.minInvoiceAmount", returnProperStringValue(award.getMinInvoiceAmount()));
+            parameterMap.put("award.autoApprove", returnProperStringValue(award.getAutoApproveIndicator()));
+            parameterMap.put("award.lookupPersonUniversalIdentifier", returnProperStringValue(award.getLookupPersonUniversalIdentifier()));
+            parameterMap.put("award.lookupPerson", returnProperStringValue(award.getLookupPerson().getPrincipalName()));
+            parameterMap.put("award.userLookupRoleNamespaceCode", returnProperStringValue(award.getUserLookupRoleNamespaceCode()));
+            parameterMap.put("award.userLookupRoleName", returnProperStringValue(award.getUserLookupRoleName()));
+            parameterMap.put("award.fundingExpirationDate", returnProperStringValue(award.getFundingExpirationDate()));
+            parameterMap.put("award.commentText", returnProperStringValue(award.getCommentText()));
+            parameterMap.put("award.awardProjectDirector.name", returnProperStringValue(award.getAwardPrimaryProjectDirector().getProjectDirector().getName()));
+            parameterMap.put("award.letterOfCreditFundCode", returnProperStringValue(award.getLetterOfCreditFundCode()));
             if (ObjectUtils.isNotNull(award.getAwardPrimaryFundManager())) {
-                parameterMap.put("#award.primaryFundManager.name", returnProperStringValue(award.getAwardPrimaryFundManager().getFundManager().getName()));
-                parameterMap.put("#award.primaryFundManager.email", returnProperStringValue(award.getAwardPrimaryFundManager().getFundManager().getEmailAddress()));
-                parameterMap.put("#award.primaryFundManager.phone", returnProperStringValue(award.getAwardPrimaryFundManager().getFundManager().getPhoneNumber()));
+                parameterMap.put("award.primaryFundManager.name", returnProperStringValue(award.getAwardPrimaryFundManager().getFundManager().getName()));
+                parameterMap.put("award.primaryFundManager.email", returnProperStringValue(award.getAwardPrimaryFundManager().getFundManager().getEmailAddress()));
+                parameterMap.put("award.primaryFundManager.phone", returnProperStringValue(award.getAwardPrimaryFundManager().getFundManager().getPhoneNumber()));
             }
             if (ObjectUtils.isNotNull(document.getInvoiceGeneralDetail())) {
-                parameterMap.put("#totalAmountDue", returnProperStringValue(receivable.add(document.getInvoiceGeneralDetail().getNewTotalBilled())));
+                parameterMap.put("totalAmountDue", returnProperStringValue(receivable.add(document.getInvoiceGeneralDetail().getNewTotalBilled())));
             }
         }
         return parameterMap;

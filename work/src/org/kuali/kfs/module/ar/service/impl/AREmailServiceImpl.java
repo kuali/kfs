@@ -202,18 +202,18 @@ public class AREmailServiceImpl extends MailerImpl implements AREmailService {
         key.put(KFSPropertyConstants.ORGANIZATION_CODE, orgCode[0].trim());
         key.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, orgCode[1].trim());
         Organization org = businessObjectService.findByPrimaryKey(Organization.class, key);
-        primaryKeys.put("#grantNumber", returnProperStringValue(invoice.getAward().getProposal().getGrantNumber()));
-        primaryKeys.put("#proposalNumber", returnProperStringValue(invoice.getProposalNumber()));
-        primaryKeys.put("#invoiceNumber", returnProperStringValue(invoice.getDocumentNumber()));
-        primaryKeys.put("#customerName", returnProperStringValue(customerAddress.getCustomer().getCustomerName()));
-        primaryKeys.put("#addressName", returnProperStringValue(customerAddress.getCustomerAddressName()));
-        primaryKeys.put("#name", returnProperStringValue(invoice.getAward().getAwardPrimaryFundManager().getFundManager().getName()));
-        primaryKeys.put("#title", returnProperStringValue(invoice.getAward().getAwardPrimaryFundManager().getAwardFundManagerProjectTitle()));
+        primaryKeys.put("grantNumber", returnProperStringValue(invoice.getAward().getProposal().getGrantNumber()));
+        primaryKeys.put("proposalNumber", returnProperStringValue(invoice.getProposalNumber()));
+        primaryKeys.put("invoiceNumber", returnProperStringValue(invoice.getDocumentNumber()));
+        primaryKeys.put("customerName", returnProperStringValue(customerAddress.getCustomer().getCustomerName()));
+        primaryKeys.put("addressName", returnProperStringValue(customerAddress.getCustomerAddressName()));
+        primaryKeys.put("name", returnProperStringValue(invoice.getAward().getAwardPrimaryFundManager().getFundManager().getName()));
+        primaryKeys.put("title", returnProperStringValue(invoice.getAward().getAwardPrimaryFundManager().getAwardFundManagerProjectTitle()));
         if (ObjectUtils.isNotNull(org)) {
-            primaryKeys.put("#department", returnProperStringValue(org.getOrganizationName()));
+            primaryKeys.put("department", returnProperStringValue(org.getOrganizationName()));
         }
-        primaryKeys.put("#phone", returnProperStringValue(invoice.getAward().getAwardPrimaryFundManager().getFundManager().getPhoneNumber()));
-        primaryKeys.put("#email", returnProperStringValue(invoice.getAward().getAwardPrimaryFundManager().getFundManager().getEmailAddress()));
+        primaryKeys.put("phone", returnProperStringValue(invoice.getAward().getAwardPrimaryFundManager().getFundManager().getPhoneNumber()));
+        primaryKeys.put("email", returnProperStringValue(invoice.getAward().getAwardPrimaryFundManager().getFundManager().getEmailAddress()));
     }
 
     private String returnProperStringValue(Object string) {

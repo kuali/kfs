@@ -30,6 +30,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.integration.ar.AccountsReceivableBill;
+import org.kuali.kfs.integration.ar.AccountsReceivableMilestone;
 import org.kuali.kfs.integration.ar.AccountsReceivableModuleService;
 import org.kuali.kfs.module.cg.CGConstants;
 import org.kuali.kfs.module.cg.CGPropertyConstants;
@@ -42,7 +43,6 @@ import org.kuali.kfs.module.cg.businessobject.AwardProjectDirector;
 import org.kuali.kfs.module.cg.businessobject.AwardSubcontractor;
 import org.kuali.kfs.module.cg.businessobject.CGFundManager;
 import org.kuali.kfs.module.cg.businessobject.CGProjectDirector;
-import org.kuali.kfs.integration.ar.AccountsReceivableMilestone;
 import org.kuali.kfs.module.cg.businessobject.Proposal;
 import org.kuali.kfs.module.cg.document.validation.impl.AwardRuleUtil;
 import org.kuali.kfs.sys.KFSConstants;
@@ -246,6 +246,14 @@ public class AwardMaintainableImpl extends FinancialSystemMaintainable {
         super.prepareForSave();
     }
 
+    @Override
+    @SuppressWarnings("unchecked")
+    public void processAfterPost(MaintenanceDocument document, Map<String, String[]> parameters) {
+        super.processAfterPost(document, parameters);
+        Award newAward = (Award) document.getNewMaintainableObject().getBusinessObject();
+        SpringContext.getBean(BusinessObjectService.class).save(newAward.getProposal());
+    }
+    
     /**
      * This method is called for refreshing the Agency after a lookup to display its full name without AJAX.
      *

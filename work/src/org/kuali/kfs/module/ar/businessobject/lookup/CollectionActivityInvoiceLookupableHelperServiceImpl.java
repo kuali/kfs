@@ -138,7 +138,7 @@ public class CollectionActivityInvoiceLookupableHelperServiceImpl extends KualiL
 
         cl.setInvoiceDate(contractsGrantsInvoiceDocument.getBillingDate());
         cl.setInvoiceAmount(contractsGrantsInvoiceDocument.getSourceTotal());
-
+        cl.setBillingPeriod(contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getBillingPeriod());
         if (ObjectUtils.isNotNull(contractsGrantsInvoiceDocument.getInvoiceGeneralDetail())) {
             cl.setBillingFrequency(contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getBillingFrequency());
         }

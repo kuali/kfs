@@ -240,6 +240,7 @@ public class ArKeyConstants {
     public static class CollectionActivityDocumentErrors {
         public static final String ERROR_FOLLOW_UP_DATE_REQUIRED = "error.collectionActivity.followupDateRequired";
         public static final String ERROR_COMPLETED_DATE_REQUIRED = "error.collectionActivity.completedDateRequired";
+        public static final String ERROR_INVOICE_REQUIRED = "error.collectionActivity.invoiceRequired";
         public static final String SELECTED_INVOICES = "error.collectionActivity.selectedInvoiceDocumentNumberListRequired";
     }
 

@@ -48,8 +48,7 @@ public final class AddCollectionActivityDocumentEvent extends CollectionActivity
 
     @Override
     public boolean invokeRuleMethod(BusinessRule rule) {
-        // TODO Auto-generated method stub
-        return false;
+        return ((AddCollectionActivityDocumentRule) rule).processAddCollectionActivityDocumentEventBusinessRules((TransactionalDocument) getDocument(), getEvent());
     }
 
 }

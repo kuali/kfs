@@ -369,6 +369,8 @@ public class CollectionActivityDocumentAction extends FinancialSystemTransaction
                         colActDoc.setCustomerNumber(award.getAgency().getCustomer().getCustomerNumber());
                         colActDoc.setCustomerName(award.getAgency().getCustomer().getCustomerName());
                     }
+                    loadInvoices(collectionActivityDocumentForm, null);
+                    collectionActivityDocumentForm.getCollectionActivityDocument().setEventsFromCGInvoices();
                 }
                 else {
                     colActDoc.setAgencyNumber("Award not found");
@@ -386,7 +388,7 @@ public class CollectionActivityDocumentAction extends FinancialSystemTransaction
         CollectionActivityDocumentForm colActDocForm = (CollectionActivityDocumentForm) form;
         CollectionActivityDocument colActDoc = colActDocForm.getCollectionActivityDocument();
         if (ObjectUtils.isNull(colActDoc.getSelectedInvoiceDocumentNumberList())) {
-            errorMap.putError("document." + ArPropertyConstants.EventFields.SELECTED_INVOICES, ArKeyConstants.CollectionActivityDocumentErrors.ERROR_COMPLETED_DATE_REQUIRED);
+            errorMap.putError("document." + ArPropertyConstants.EventFields.SELECTED_INVOICES, ArKeyConstants.CollectionActivityDocumentErrors.ERROR_INVOICE_REQUIRED);
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
         List<String> selectedInvoiceList = new ArrayList(Arrays.asList(colActDoc.getSelectedInvoiceDocumentNumberList().split(",")));

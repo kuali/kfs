@@ -112,18 +112,7 @@
 				</td>
 			</tr>
 
-			<c:if test="${readOnly ne true}">
-				<tr>
-					<td colspan='2'>
-						<center>
-							<html:image property="methodToCall.loadInvoices"
-								src="${ConfigProperties.externalizable.images.url}tinybutton-load.gif"
-								alt="Load Invoices" title="Load Invoices"
-								styleClass="tinybutton" />
-						</center>
-					</td>
-				</tr>
-			</c:if>
+		
 		</table>
 
 

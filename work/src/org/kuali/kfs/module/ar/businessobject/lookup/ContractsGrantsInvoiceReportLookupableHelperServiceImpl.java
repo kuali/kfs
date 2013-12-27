@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.module.ar.businessobject.lookup;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -89,7 +89,7 @@ public class ContractsGrantsInvoiceReportLookupableHelperServiceImpl extends Con
                 cgInvoiceReport.setInvoiceType(workflowDocument.getDocumentTypeName());
 
                 Date docCreateDate = (Date) workflowDocument.getDateCreated().toDate();
-                cgInvoiceReport.setInvoiceDate(docCreateDate);
+                cgInvoiceReport.setInvoiceDate(new java.sql.Date(docCreateDate.getTime()));
                 cgInvoiceReport.setInvoiceDueDate(openCGInvoiceDoc.getInvoiceDueDate());
                 if (openCGInvoiceDoc.isOpenInvoiceIndicator()) {
                     cgInvoiceReport.setOpenInvoiceIndicator(ArConstants.ReportsConstants.INVOICE_INDICATOR_OPEN);

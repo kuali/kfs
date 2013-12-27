@@ -129,7 +129,7 @@
 
 		<c:choose>
 			<c:when
-				test="${empty KualiForm.selectedProposalNumber || KualiForm.methodToCall == 'refresh'}">
+				test="${empty KualiForm.selectedProposalNumber}">
 			</c:when>
 			<c:otherwise>
 				<c:choose>
@@ -147,7 +147,7 @@
 			<tr>
 				<c:choose>
 					<c:when
-						test="${empty KualiForm.selectedProposalNumber || KualiForm.methodToCall == 'refresh'}">
+						test="${empty KualiForm.selectedProposalNumber}">
 					</c:when>
 					<c:otherwise>
 						<td colspan='2'>

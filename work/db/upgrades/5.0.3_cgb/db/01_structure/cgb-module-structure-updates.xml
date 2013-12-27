@@ -1147,12 +1147,12 @@
 
 	<changeSet author="KFSCGB" id="CGB_LOC_RVW_DTL_ID_SEQ_oracle"
 		dbms="oracle">
-		<createSequence sequenceName="LOC_RVW_DTL_ID_SEQ" />
+		<createSequence sequenceName="LTRCR_RVW_DTL_ID_SEQ" />
 	</changeSet>
 
 	<changeSet author="KFSCGB" id="CGB_LOC_RVW_DTL_ID_SEQ_mysql"
 		dbms="mysql">
-		<createTable tableName="LOC_RVW_DTL_ID_SEQ">
+		<createTable tableName="LTRCR_RVW_DTL_ID_SEQ">
 			<column name="id" type="BIGINT(19)" autoIncrement="true">
 				<constraints primaryKey="true" nullable="false" />
 			</column>

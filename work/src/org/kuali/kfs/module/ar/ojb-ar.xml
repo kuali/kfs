@@ -2018,7 +2018,7 @@
 		<field-descriptor name="amountAvailableToDraw" column="AMT_AVL_DRW" jdbc-type="DECIMAL"
 			conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
 		<field-descriptor name="claimOnCashBalance" column="CLM_ON_CSH" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
-		<field-descriptor name="fundsNotDrawn" column="FND_NT_DRWN" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
+		<field-descriptor name="fundsNotDrawn" column="FND_NOT_DRWN" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 		<reference-descriptor name="contractsGrantsLetterOfCreditReviewDocument" class-ref="org.kuali.kfs.module.ar.document.ContractsGrantsLetterOfCreditReviewDocument"

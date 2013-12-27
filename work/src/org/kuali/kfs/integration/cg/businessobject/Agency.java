@@ -88,7 +88,6 @@ public class Agency implements ContractsAndGrantsBillingAgency {
      *
      * @return Returns the agencyNumber
      */
-    @Override
     public String getAgencyNumber() {
         return agencyNumber;
     }
@@ -107,7 +106,6 @@ public class Agency implements ContractsAndGrantsBillingAgency {
      *
      * @return Returns the reportingName
      */
-    @Override
     public String getReportingName() {
         return reportingName;
     }
@@ -126,7 +124,6 @@ public class Agency implements ContractsAndGrantsBillingAgency {
      *
      * @return Returns the fullName
      */
-    @Override
     public String getFullName() {
         return fullName;
     }
@@ -192,7 +189,6 @@ public class Agency implements ContractsAndGrantsBillingAgency {
      * @deprecated
      * @todo Why is this deprecated?
      */
-    @Deprecated
     public void setReportsToAgency(Agency reportsToAgencyNumber) {
         this.reportsToAgency = reportsToAgencyNumber;
     }
@@ -213,7 +209,6 @@ public class Agency implements ContractsAndGrantsBillingAgency {
      *
      * @return Returns the active.
      */
-    @Override
     public boolean isActive() {
         return active;
     }
@@ -223,7 +218,7 @@ public class Agency implements ContractsAndGrantsBillingAgency {
      *
      * @return Returns the customerNumber.
      */
-    @Override
+    
     public String getCustomerNumber() {
         return customerNumber;
     }
@@ -251,7 +246,7 @@ public class Agency implements ContractsAndGrantsBillingAgency {
      *
      * @return Returns the customerTypeCode.
      */
-    @Override
+   
     public String getCustomerTypeCode() {
         return customerTypeCode;
     }
@@ -261,7 +256,7 @@ public class Agency implements ContractsAndGrantsBillingAgency {
      *
      * @return Returns the dunsPlusFourNumber.
      */
-    @Override
+   
     public String getDunsPlusFourNumber() {
         return dunsPlusFourNumber;
     }
@@ -280,7 +275,7 @@ public class Agency implements ContractsAndGrantsBillingAgency {
      *
      * @param active The active to set.
      */
-    @Override
+    
     public void setActive(boolean active) {
         this.active = active;
     }
@@ -288,7 +283,7 @@ public class Agency implements ContractsAndGrantsBillingAgency {
     /**
      * @see org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAgency#getCustomer()
      */
-    @Override
+    
     public AccountsReceivableCustomer getCustomer() {
         return customer;
     }
@@ -307,7 +302,7 @@ public class Agency implements ContractsAndGrantsBillingAgency {
      *
      * @return Returns the stateAgencyIndicator.
      */
-    @Override
+    
     public boolean isStateAgencyIndicator() {
         return stateAgencyIndicator;
     }

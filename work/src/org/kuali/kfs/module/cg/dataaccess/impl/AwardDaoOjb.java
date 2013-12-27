@@ -35,7 +35,6 @@ public class AwardDaoOjb extends PlatformAwareDaoBaseOjb implements AwardDao {
     /**
      * @see org.kuali.kfs.module.cg.dataaccess.AwardDao#deleteAll()
      */
-    @Override
     public void deleteAll() {
         getPersistenceBrokerTemplate().deleteByQuery(QueryFactory.newQuery(Award.class, new Criteria()));
     }
@@ -43,7 +42,6 @@ public class AwardDaoOjb extends PlatformAwareDaoBaseOjb implements AwardDao {
     /**
      * @see org.kuali.kfs.module.cg.dataaccess.AwardDao#getAwardsToClose(org.kuali.kfs.module.cg.businessobject.Close)
      */
-    @Override
     public Collection<Award> getAwardsToClose(ProposalAwardCloseDocument close) {
 
         Criteria criteria = new Criteria();
@@ -51,7 +49,7 @@ public class AwardDaoOjb extends PlatformAwareDaoBaseOjb implements AwardDao {
         criteria.addLessOrEqualThan("awardEntryDate", close.getCloseOnOrBeforeDate());
         criteria.addNotEqualTo("awardStatusCode", "U");
 
-        return getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(Award.class, criteria));
+        return  (Collection<Award>) getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(Award.class, criteria));
     }
 
     /**

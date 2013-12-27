@@ -128,14 +128,14 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
         CustomerAgingReportDao agingReportDao = SpringContext.getBean(CustomerAgingReportDao.class);
 
-        setBackLocation(fieldValues.get(KFSConstants.BACK_LOCATION));
-        setDocFormKey(fieldValues.get(KFSConstants.DOC_FORM_KEY));
+        setBackLocation((String) fieldValues.get(KFSConstants.BACK_LOCATION));
+        setDocFormKey((String) fieldValues.get(KFSConstants.DOC_FORM_KEY));
 
-        reportOption = fieldValues.get(ArPropertyConstants.CustomerAgingReportFields.REPORT_OPTION);
-        accountNumber = fieldValues.get(KFSConstants.ACCOUNT_NUMBER_PROPERTY_NAME);
-        processingOrBillingChartCode = fieldValues.get("processingOrBillingChartOfAccountsCode");
-        accountChartCode = fieldValues.get("accountChartOfAccountsCode");
-        orgCode = fieldValues.get(KFSConstants.ORGANIZATION_CODE_PROPERTY_NAME);
+        reportOption = (String) fieldValues.get(ArPropertyConstants.CustomerAgingReportFields.REPORT_OPTION);
+        accountNumber = (String) fieldValues.get(KFSConstants.ACCOUNT_NUMBER_PROPERTY_NAME);
+        processingOrBillingChartCode = (String) fieldValues.get("processingOrBillingChartOfAccountsCode");
+        accountChartCode = (String) fieldValues.get("accountChartOfAccountsCode");
+        orgCode = (String) fieldValues.get(KFSConstants.ORGANIZATION_CODE_PROPERTY_NAME);
 
 
         total0to30 = KualiDecimal.ZERO;
@@ -147,7 +147,7 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
 
         Date today = getDateTimeService().getCurrentDate();
         try {
-            reportRunDate = dateFormat.parse(fieldValues.get(ArPropertyConstants.CustomerAgingReportFields.REPORT_RUN_DATE));
+            reportRunDate = dateFormat.parse((String) fieldValues.get(ArPropertyConstants.CustomerAgingReportFields.REPORT_RUN_DATE));
         }
         catch (ParseException e) {
             reportRunDate = today;
@@ -256,6 +256,16 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
             // Encrypt value if it is a secure field
             if (fieldConversions.containsKey(fieldNm)) {
                 fieldNm = (String) fieldConversions.get(fieldNm);
+            }
+
+            if (SpringContext.getBean(BusinessObjectAuthorizationService.class).attributeValueNeedsToBeEncryptedOnFormsAndLinks(bo.getClass(), fieldNm)) {
+                // try {
+                // fieldVal = encryptionService.encrypt(fieldVal);
+                // }
+                // catch (GeneralSecurityException e) {
+                // LOG.error("Exception while trying to encrypted value for inquiry framework.", e);
+                // throw new RuntimeException(e);
+                // }
             }
 
             // need to format date in url

@@ -53,6 +53,11 @@ public class Bill extends PersistableBusinessObjectBase implements AccountsRecei
         this.setBilledIndicator(false);
     }
 
+    public Bill(ContractsAndGrantsBillingAward award){
+        this();
+        this.setProposalNumber(award.getProposalNumber());
+    }
+
     /**
      * Gets the proposalNumber attribute.
      *

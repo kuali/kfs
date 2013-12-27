@@ -32,7 +32,9 @@ import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.kim.api.identity.CodedAttribute;
 import org.kuali.rice.kim.api.role.RoleService;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.bo.BusinessObject;
@@ -111,7 +113,7 @@ public class CGMaintenanceDocumentRuleBase extends MaintenanceDocumentRuleBase {
         for (T pd : projectDirectors) {
             String propertyName = collectionName + "[" + (i++) + "]." + personUserPropertyName;
             String id = pd.getPrincipalId();
-            if (StringUtils.isBlank(id) || (SpringContext.getBean(PersonService.class).getPerson(id) == null)) {
+            if (StringUtils.isBlank(id) || (KimApiServiceLocator.getIdentityService().getPrincipal(id) == null)) {
                 putFieldError(propertyName, KFSKeyConstants.ERROR_EXISTENCE, label);
                 success = false;
             }
@@ -153,7 +155,7 @@ public class CGMaintenanceDocumentRuleBase extends MaintenanceDocumentRuleBase {
         boolean success = true;
         final String personUserPropertyName = KFSPropertyConstants.PROJECT_DIRECTOR + "." + KFSPropertyConstants.PERSON_USER_IDENTIFIER;
         String label = SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(elementClass, personUserPropertyName);
-        RoleService roleService = SpringContext.getBean(RoleService.class);
+        RoleService roleService = KimApiServiceLocator.getRoleService();
 
         List<String> roleId = new ArrayList<String>();
         roleId.add(roleService.getRoleIdByNamespaceCodeAndName(KFSConstants.ParameterNamespaces.KFS, KFSConstants.SysKimApiConstants.CONTRACTS_AND_GRANTS_PROJECT_DIRECTOR));
@@ -183,17 +185,18 @@ public class CGMaintenanceDocumentRuleBase extends MaintenanceDocumentRuleBase {
      */
     protected <T extends CGProjectDirector> boolean checkProjectDirectorsStatuses(List<T> projectDirectors, Class<T> elementClass, String propertyName) {
         boolean success = true;
-        final String personUserPropertyName = KFSPropertyConstants.PROJECT_DIRECTOR + "." + KFSPropertyConstants.PERSON_USER_IDENTIFIER;
-        String label = SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(elementClass, personUserPropertyName);
         for (T pd : projectDirectors) {
             String pdEmplStatusCode = pd.getProjectDirector().getEmployeeStatusCode();
-            HashMap<String, String> criteria = new HashMap<String, String>();
-            criteria.put("code", pdEmplStatusCode);
             if (StringUtils.isBlank(pdEmplStatusCode) || Arrays.asList(PROJECT_DIRECTOR_INVALID_STATUSES).contains(pdEmplStatusCode)) {
-//                EmploymentStatusImpl empStatus = (EmploymentStatusImpl) getBoService().findByPrimaryKey(EmploymentStatusImpl.class, criteria);
-//                String pdEmplStatusName = (empStatus != null) ? empStatus.getName() : "INVALID STATUS CODE " + pdEmplStatusCode;
-//                String[] errors = { pd.getProjectDirector().getName(), pdEmplStatusCode + " - " + pdEmplStatusName };
-//                putFieldError(propertyName, KFSKeyConstants.ERROR_INVALID_PROJECT_DIRECTOR_STATUS, errors);
+                String pdEmplStatusName = "INVALID STATUS CODE " + pdEmplStatusCode;
+                if ( StringUtils.isNotBlank(pdEmplStatusCode) ) {
+                    CodedAttribute empStatus = KimApiServiceLocator.getIdentityService().getEmploymentStatus(pdEmplStatusCode);
+                    if ( empStatus != null ) {
+                        pdEmplStatusName = empStatus.getName();
+                    }
+                }
+                String[] errors = { pd.getProjectDirector().getName(), pdEmplStatusCode + " - " + pdEmplStatusName };
+                putFieldError(propertyName, KFSKeyConstants.ERROR_INVALID_PROJECT_DIRECTOR_STATUS, errors);
                 success = false;
             }
         }

@@ -20,8 +20,10 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.kfs.integration.ar.AccountsReceivableBill;
 import org.kuali.kfs.integration.ar.AccountsReceivableMilestone;
@@ -169,6 +171,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
      *
      * @return Returns the suspensionReason.
      */
+
     @Override
     public String getSuspensionReason() {
         return suspensionReason;
@@ -179,6 +182,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
      *
      * @return Returns the stateTransferIndicator.
      */
+
     @Override
     public boolean isStateTransferIndicator() {
         return stateTransferIndicator;
@@ -354,6 +358,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
      *
      * @return Returns the kimGroupNames.
      */
+
     @Override
     public String getKimGroupNames() {
         return kimGroupNames;
@@ -384,6 +389,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
      *
      * @return Returns the lastBilledDate.
      */
+
     @Override
     public Date getLastBilledDate() {
         return lastBilledDate;
@@ -404,6 +410,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
      *
      * @return Returns the awardTotalAmount
      */
+
     @Override
     public KualiDecimal getAwardTotalAmount() {
         KualiDecimal direct = getAwardDirectCostAmount();
@@ -531,6 +538,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
      *
      * @return Returns the agencyFuture1Amount
      */
+
     @Override
     public KualiDecimal getAgencyFuture1Amount() {
         return agencyFuture1Amount;
@@ -551,6 +559,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
      *
      * @return Returns the agencyFuture2Amount
      */
+
     @Override
     public KualiDecimal getAgencyFuture2Amount() {
         return agencyFuture2Amount;
@@ -570,6 +579,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
      *
      * @return Returns the agencyFuture3Amount
      */
+
     @Override
     public KualiDecimal getAgencyFuture3Amount() {
         return agencyFuture3Amount;
@@ -589,6 +599,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
      *
      * @return Returns the awardDocumentNumber
      */
+
     @Override
     public String getAwardDocumentNumber() {
         return awardDocumentNumber;
@@ -608,6 +619,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
      *
      * @return Returns the awardLastUpdateDate
      */
+
     @Override
     public Timestamp getAwardLastUpdateDate() {
         return awardLastUpdateDate;
@@ -627,6 +639,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
      *
      * @return Returns the federalPassThroughIndicator
      */
+
     @Override
     public boolean getFederalPassThroughIndicator() {
         return federalPassThroughIndicator;
@@ -646,6 +659,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
      *
      * @return Returns the oldProposalNumber
      */
+
     @Override
     public String getOldProposalNumber() {
         return oldProposalNumber;
@@ -665,6 +679,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
      *
      * @return Returns the awardDirectCostAmount
      */
+
     @Override
     public KualiDecimal getAwardDirectCostAmount() {
         return awardDirectCostAmount;
@@ -684,6 +699,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
      *
      * @return Returns the awardIndirectCostAmount
      */
+
     @Override
     public KualiDecimal getAwardIndirectCostAmount() {
         return awardIndirectCostAmount;
@@ -703,6 +719,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
      *
      * @return Returns the federalFundedAmount
      */
+
     @Override
     public KualiDecimal getFederalFundedAmount() {
         return federalFundedAmount;
@@ -722,6 +739,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
      *
      * @return Returns the awardCreateTimestamp
      */
+
     @Override
     public Timestamp getAwardCreateTimestamp() {
         return awardCreateTimestamp;
@@ -741,6 +759,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
      *
      * @return Returns the awardClosingDate
      */
+
     @Override
     public Date getAwardClosingDate() {
         return awardClosingDate;
@@ -760,6 +779,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
      *
      * @return Returns the proposalAwardTypeCode
      */
+
     @Override
     public String getProposalAwardTypeCode() {
         return proposalAwardTypeCode;
@@ -779,6 +799,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
      *
      * @return Returns the awardStatusCode
      */
+
     @Override
     public String getAwardStatusCode() {
         return awardStatusCode;
@@ -798,6 +819,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
      *
      * @return Returns the letterOfCreditFundCode.
      */
+
     @Override
     public String getLetterOfCreditFundCode() {
         return letterOfCreditFundCode;
@@ -817,6 +839,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
      *
      * @return Returns the grantDescriptionCode
      */
+
     @Override
     public String getGrantDescriptionCode() {
         return grantDescriptionCode;
@@ -836,6 +859,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
      *
      * @return Returns the agencyNumber
      */
+
     @Override
     public String getAgencyNumber() {
         return agencyNumber;
@@ -855,6 +879,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
      *
      * @return Returns the federalPassThroughAgencyNumber
      */
+
     @Override
     public String getFederalPassThroughAgencyNumber() {
         return federalPassThroughAgencyNumber;
@@ -874,6 +899,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
      *
      * @return Returns the agencyAnalystName
      */
+
     @Override
     public String getAgencyAnalystName() {
         return agencyAnalystName;
@@ -893,6 +919,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
      *
      * @return Returns the analystTelephoneNumber
      */
+
     @Override
     public String getAnalystTelephoneNumber() {
         return analystTelephoneNumber;
@@ -912,6 +939,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
      *
      * @return Returns the awardProjectTitle
      */
+
     @Override
     public String getAwardProjectTitle() {
         return awardProjectTitle;
@@ -931,6 +959,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
      *
      * @return Returns the awardCommentText
      */
+
     @Override
     public String getAwardCommentText() {
         return awardCommentText;
@@ -950,6 +979,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
      *
      * @return Returns the awardPurposeCode
      */
+
     @Override
     public String getAwardPurposeCode() {
         return awardPurposeCode;
@@ -969,6 +999,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
      *
      * @return Returns the active.
      */
+
     @Override
     public boolean isActive() {
         return active;
@@ -979,6 +1010,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
      *
      * @param active The active to set.
      */
+
     @Override
     public void setActive(boolean active) {
         this.active = active;
@@ -989,6 +1021,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
      *
      * @return Returns the proposal
      */
+
     @Override
     public Proposal getProposal() {
         return proposal;
@@ -1053,6 +1086,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
      *
      * @return Returns the letterOfCreditFund
      */
+
     @Override
     public LetterOfCreditFund getLetterOfCreditFund() {
         return letterOfCreditFund;
@@ -1096,6 +1130,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
      *
      * @return Returns the agency
      */
+
     @Override
     public Agency getAgency() {
         return agency;
@@ -1205,6 +1240,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
      *
      * @return Returns the active awardAccounts.
      */
+
     @Override
     public List<ContractsAndGrantsBillingAwardAccount> getActiveAwardAccounts() {
         List<ContractsAndGrantsBillingAwardAccount> activeAwardAccounts = new ArrayList<ContractsAndGrantsBillingAwardAccount>();
@@ -1269,6 +1305,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
      *
      * @return The award organization object marked as primary in the award organizations collection.
      */
+
     @Override
     public AwardOrganization getPrimaryAwardOrganization() {
         for (AwardOrganization ao : awardOrganizations) {
@@ -1311,6 +1348,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
     /**
      * @see org.kuali.kfs.sys.document.workflow.AlternateOrgReviewRouting#getRoutingChart()
      */
+
     @Override
     public String getRoutingChart() {
         return routingChart;
@@ -1326,6 +1364,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
     /**
      * @see org.kuali.kfs.sys.document.workflow.AlternateOrgReviewRouting#getRoutingOrg()
      */
+
     @Override
     public String getRoutingOrg() {
         return routingOrg;
@@ -1343,6 +1382,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
      *
      * @return the lookup {@link Person}
      */
+
     @Override
     public Person getLookupPerson() {
 
@@ -1363,6 +1403,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
      *
      * @return the id of the lookup person
      */
+
     @Override
     public String getLookupPersonUniversalIdentifier() {
         // NOTE
@@ -1385,6 +1426,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
      *
      * @return Returns the userLookupRoleNamespaceCode.
      */
+
     @Override
     public String getUserLookupRoleNamespaceCode() {
         return userLookupRoleNamespaceCode;
@@ -1403,6 +1445,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
      *
      * @return Returns the userLookupRoleName.
      */
+
     @Override
     public String getUserLookupRoleName() {
         return userLookupRoleName;
@@ -1419,6 +1462,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
     /**
      * @return a String to represent this field on the inquiry
      */
+
     @Override
     public String getAwardInquiryTitle() {
         return SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(AWARD_INQUIRY_TITLE_PROPERTY);
@@ -1436,6 +1480,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
      *
      * @return Returns the preferredBillingFrequency.
      */
+
     @Override
     public String getPreferredBillingFrequency() {
         return preferredBillingFrequency;
@@ -1455,6 +1500,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
      *
      * @return Returns the preferredReportFrequency.
      */
+
     @Override
     public String getPreferredReportFrequency() {
         return preferredReportFrequency;
@@ -1474,6 +1520,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
      *
      * @return Returns the suspendInvoicingIndicator.
      */
+
     @Override
     public boolean isSuspendInvoicingIndicator() {
         return suspendInvoicingIndicator;
@@ -1493,6 +1540,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
      *
      * @return Returns the additionalFormsRequiredIndicator.
      */
+
     @Override
     public boolean isAdditionalFormsRequiredIndicator() {
         return additionalFormsRequiredIndicator;
@@ -1512,6 +1560,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
      *
      * @return Returns the additionalFormsDescription.
      */
+
     @Override
     public String getAdditionalFormsDescription() {
         return additionalFormsDescription;
@@ -1531,6 +1580,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
      *
      * @return Returns the contractGrantType.
      */
+
     @Override
     public String getContractGrantType() {
         return contractGrantType;
@@ -1550,6 +1600,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
      *
      * @return Returns the preferredReportTemplate.
      */
+
     @Override
     public String getPreferredReportTemplate() {
         return preferredReportTemplate;
@@ -1569,6 +1620,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
      *
      * @return Returns the billingFrequency.
      */
+
     @Override
     public BillingFrequency getBillingFrequency() {
         return billingFrequency;
@@ -1640,6 +1692,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
      *
      * @return Returns the awardId.
      */
+
     @Override
     public String getAwardId() {
         return awardId;
@@ -1659,6 +1712,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
      *
      * @return Returns the autoApproveIndicator.
      */
+
     @Override
     public boolean getAutoApproveIndicator() {
         return autoApproveIndicator;
@@ -1678,6 +1732,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
      *
      * @return Returns the minInvoiceAmount.
      */
+
     @Override
     public KualiDecimal getMinInvoiceAmount() {
         return minInvoiceAmount;
@@ -1698,6 +1753,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
      *
      * @return Returns the invoicingOptions.
      */
+
     @Override
     public String getInvoicingOptions() {
         return invoicingOptions;
@@ -1736,6 +1792,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
     }
 
 
+
     @Override
     public AwardProjectDirector getAwardPrimaryProjectDirector() {
         for (AwardProjectDirector awdProjMgr : awardProjectDirectors) {
@@ -1756,6 +1813,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
      *
      * @return Returns the awardPrimaryFundManager.
      */
+
     @Override
     public AwardFundManager getAwardPrimaryFundManager() {
         for (AwardFundManager awdFundMgr : awardFundManagers) {
@@ -1780,6 +1838,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
      *
      * @return Returns the lookupFundMgrPersonUniversalIdentifier.
      */
+
     @Override
     public String getLookupFundMgrPersonUniversalIdentifier() {
         return lookupFundMgrPersonUniversalIdentifier;
@@ -1799,6 +1858,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
      *
      * @return Returns the lookupFundMgrPerson.
      */
+
     @Override
     public Person getLookupFundMgrPerson() {
         return lookupFundMgrPerson;
@@ -1818,6 +1878,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
      *
      * @return Returns the letterOfCreditCreationType.
      */
+
     @Override
     public String getLetterOfCreditCreationType() {
         return letterOfCreditCreationType;
@@ -1838,6 +1899,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
      *
      * @return Returns the fundingExpirationDate
      */
+
     @Override
     public Date getFundingExpirationDate() {
         return fundingExpirationDate;
@@ -1859,7 +1921,9 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
      */
 
     public List<AccountsReceivableBill> getBills() {
-        bills = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(AccountsReceivableBill.class).retrieveExternalizableBusinessObjectsList(this, "bills", AccountsReceivableBill.class);
+        Map<String, Object> fieldValues = new HashMap<String, Object>();
+        fieldValues.put(KFSPropertyConstants.PROPOSAL_NUMBER, this.getProposalNumber());
+         bills = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(AccountsReceivableBill.class).getExternalizableBusinessObjectsList(AccountsReceivableBill.class, fieldValues);
         return bills;
 
     }
@@ -1879,6 +1943,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
      *
      * @return Returns the commentText.
      */
+
     @Override
     public String getCommentText() {
         return commentText;
@@ -1900,6 +1965,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
      *
      * @return Returns the dunningCampaign.
      */
+
     @Override
     public String getDunningCampaign() {
         return dunningCampaign;
@@ -1919,6 +1985,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
      *
      * @return Returns the stopWorkIndicator.
      */
+
     @Override
     public boolean isStopWorkIndicator() {
         return stopWorkIndicator;

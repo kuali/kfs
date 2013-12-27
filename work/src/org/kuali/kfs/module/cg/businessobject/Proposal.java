@@ -650,7 +650,6 @@ public class Proposal extends PersistableBusinessObjectBase implements MutableIn
      * @param proposalAwardType The {@link ProposalAwardType} to set.
      * @deprecated
      */
-    @Deprecated
     public void setProposalAwardType(ProposalAwardType proposalAwardType) {
         this.proposalAwardType = proposalAwardType;
     }
@@ -670,7 +669,6 @@ public class Proposal extends PersistableBusinessObjectBase implements MutableIn
      * @param agency The {@link Agency} to set.
      * @deprecated
      */
-    @Deprecated
     public void setAgency(Agency agency) {
         this.agency = agency;
     }
@@ -690,7 +688,6 @@ public class Proposal extends PersistableBusinessObjectBase implements MutableIn
      * @param proposalStatus The {@link ProposalStatus} to set.
      * @deprecated
      */
-    @Deprecated
     public void setProposalStatus(ProposalStatus proposalStatus) {
         this.proposalStatus = proposalStatus;
     }
@@ -710,7 +707,6 @@ public class Proposal extends PersistableBusinessObjectBase implements MutableIn
      * @param federalPassThroughAgency The federalPassThrough {@link Agency} to set.
      * @deprecated
      */
-    @Deprecated
     public void setFederalPassThroughAgency(Agency federalPassThroughAgency) {
         this.federalPassThroughAgency = federalPassThroughAgency;
     }
@@ -730,7 +726,6 @@ public class Proposal extends PersistableBusinessObjectBase implements MutableIn
      * @param proposalPurpose The {@link ProposalPurpose} to set.
      * @deprecated
      */
-    @Deprecated
     public void setProposalPurpose(ProposalPurpose proposalPurpose) {
         this.proposalPurpose = proposalPurpose;
     }
@@ -750,7 +745,6 @@ public class Proposal extends PersistableBusinessObjectBase implements MutableIn
      * @param cfda The {@link CFDA} to set.
      * @deprecated
      */
-    @Deprecated
     public void setCfda(CFDA cfda) {
         this.cfda = cfda;
     }

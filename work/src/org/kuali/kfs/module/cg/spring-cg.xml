@@ -112,11 +112,6 @@
 		</property>	
 	</bean>
 
-	<bean id="contractsAndGrantsModuleUpdateService" class="org.kuali.kfs.module.cg.service.impl.ContractsAndGrantsModuleUpdateServiceImpl">
-		<property name="awardService" ref="awardService" />
-		<property name="businessObjectService" ref="businessObjectService" />
-	</bean>
-	
 	<bean id="CGConstants" class="org.kuali.rice.core.api.util.collect.ConstantsMap">
 		<property name="constantClass" value="org.kuali.kfs.module.cg.CGConstants" />
 	</bean>
@@ -150,7 +145,7 @@
 	<bean id="agencyAddressDao" parent="platformAwareDao" class="org.kuali.kfs.module.cg.dataaccess.impl.AgencyAddressDaoOjb" />
 
 	<!-- Services -->
-	<bean id="closeService" parent="closeService-parentBean" scope="prototype"/>
+	<bean id="closeService"  parent="closeService-parentBean"/>
 	<bean id="closeService-parentBean" class="org.kuali.kfs.module.cg.service.impl.CloseServiceImpl" abstract="true">
 		<property name="awardDao">
 			<ref bean="awardDao" />

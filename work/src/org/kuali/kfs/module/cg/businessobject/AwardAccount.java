@@ -38,6 +38,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
  */
 public class AwardAccount extends PersistableBusinessObjectBase implements CGProjectDirector, MutableInactivatable, ContractsAndGrantsAccountAwardInformation, ContractsAndGrantsBillingAwardAccount {
 
+
     private Long proposalNumber;
     private String chartOfAccountsCode;
     private String accountNumber;
@@ -60,7 +61,7 @@ public class AwardAccount extends PersistableBusinessObjectBase implements CGPro
      *
      * @return Returns the finalBilledIndicator.
      */
-    @Override
+
     public boolean isFinalBilledIndicator() {
         return finalBilledIndicator;
     }
@@ -280,7 +281,7 @@ public class AwardAccount extends PersistableBusinessObjectBase implements CGPro
      *
      * @return Returns the letterOfCreditReviewIndicator.
      */
-    @Override
+
     public boolean isLetterOfCreditReviewIndicator() {
         return letterOfCreditReviewIndicator;
     }
@@ -299,7 +300,7 @@ public class AwardAccount extends PersistableBusinessObjectBase implements CGPro
      *
      * @return Returns the amountToDraw.
      */
-    @Override
+
     public KualiDecimal getAmountToDraw() {
         return amountToDraw;
     }
@@ -318,7 +319,7 @@ public class AwardAccount extends PersistableBusinessObjectBase implements CGPro
      *
      * @return Returns the currentLastBilledDate.
      */
-    @Override
+
     public Date getCurrentLastBilledDate() {
         return currentLastBilledDate;
     }
@@ -337,7 +338,7 @@ public class AwardAccount extends PersistableBusinessObjectBase implements CGPro
      *
      * @return Returns the previousLastBilledDate.
      */
-    @Override
+
     public Date getPreviousLastBilledDate() {
         return previousLastBilledDate;
     }
@@ -354,6 +355,7 @@ public class AwardAccount extends PersistableBusinessObjectBase implements CGPro
     /**
      * @see org.kuali.kfs.integration.cg.ContractsAndGrantsAccountAwardInformation#getProjectDirectorName()
      */
+
     @Override
     public String getProjectDirectorName() {
         if (!ObjectUtils.isNull(projectDirector)) {
@@ -365,7 +367,7 @@ public class AwardAccount extends PersistableBusinessObjectBase implements CGPro
     /**
      * @see org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAwardAccount#getInvoiceDocumentStatus()
      */
-    @Override
+
     public String getInvoiceDocumentStatus() {
         return invoiceDocumentStatus;
     }

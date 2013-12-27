@@ -321,6 +321,7 @@ public class NonInvoiced extends PersistableBusinessObjectBase {
      * @param accountsReceivableDocumentHeader The accountsReceivableDocumentHeader to set.
      * @deprecated
      */
+    @Deprecated
     public void setAccountsReceivableDocumentHeader(AccountsReceivableDocumentHeader accountsReceivableDocumentHeader) {
         this.accountsReceivableDocumentHeader = accountsReceivableDocumentHeader;
     }
@@ -341,7 +342,8 @@ public class NonInvoiced extends PersistableBusinessObjectBase {
 	 * @param financialObject The financialObject to set.
 	 * @deprecated
 	 */
-	public void setFinancialObject(ObjectCode financialObject) {
+	@Deprecated
+    public void setFinancialObject(ObjectCode financialObject) {
 		this.financialObject = financialObject;
 	}
 
@@ -361,7 +363,8 @@ public class NonInvoiced extends PersistableBusinessObjectBase {
 	 * @param subAccount The subAccount to set.
 	 * @deprecated
 	 */
-	public void setSubAccount(SubAccount subAccount) {
+	@Deprecated
+    public void setSubAccount(SubAccount subAccount) {
 		this.subAccount = subAccount;
 	}
 
@@ -381,7 +384,8 @@ public class NonInvoiced extends PersistableBusinessObjectBase {
 	 * @param chartOfAccounts The chartOfAccounts to set.
 	 * @deprecated
 	 */
-	public void setChartOfAccounts(Chart chartOfAccounts) {
+	@Deprecated
+    public void setChartOfAccounts(Chart chartOfAccounts) {
 		this.chartOfAccounts = chartOfAccounts;
 	}
 
@@ -401,7 +405,8 @@ public class NonInvoiced extends PersistableBusinessObjectBase {
 	 * @param financialSubObject The financialSubObject to set.
 	 * @deprecated
 	 */
-	public void setFinancialSubObject(SubObjectCode financialSubObject) {
+	@Deprecated
+    public void setFinancialSubObject(SubObjectCode financialSubObject) {
 		this.financialSubObject = financialSubObject;
 	}
 
@@ -421,7 +426,8 @@ public class NonInvoiced extends PersistableBusinessObjectBase {
 	 * @param account The account to set.
 	 * @deprecated
 	 */
-	public void setAccount(Account account) {
+	@Deprecated
+    public void setAccount(Account account) {
 		this.account = account;
 	}
 
@@ -441,7 +447,8 @@ public class NonInvoiced extends PersistableBusinessObjectBase {
 	 * @param project The project to set.
 	 * @deprecated
 	 */
-	public void setProject(ProjectCode project) {
+	@Deprecated
+    public void setProject(ProjectCode project) {
 		this.project = project;
 	}
 

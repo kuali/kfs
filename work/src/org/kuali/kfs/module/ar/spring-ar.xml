@@ -1458,7 +1458,8 @@
 	<bean id="customerLoadStep-parentBean" class="org.kuali.kfs.module.ar.batch.CustomerLoadStep" parent="step" abstract="true">
 		<property name="batchService">
 			<ref bean="customerLoadService" />
-		</property>
+		</property>					
+    	<property name="batchInputFileType" ref="customerLoadInputFileType"/>
 	</bean>
 
 	<bean id="customerLoadService"  parent="customerLoadService-parentBean"/>
@@ -1548,6 +1549,7 @@
 		<property name="batchService">
 			<ref bean="customerInvoiceWriteoffBatchService" />
 		</property>
+    <property name="batchInputFileType" ref="customerInvoiceWriteoffBatchInputFileType"/>					
 	</bean>
 
 	<bean id="customerInvoiceWriteoffBatchService"  parent="customerInvoiceWriteoffBatchService-parentBean"/>
@@ -1790,7 +1792,9 @@
 			<ref bean="documentService" />
 		</property>
 		<property name="customerAddressService">
-			<ref bean="customerAddressService" />
+			<ref bean="customerAddressService" /></property>
+		<property name="parameterService">
+			<ref bean="parameterService" />
 		</property>
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
@@ -1924,7 +1928,9 @@
 			<ref bean="customerInvoiceDocumentService" />
 		</property>
 		<property name="financialSystemDocumentHeaderDao">
-			<ref bean="documentHeaderDao" />
+			<ref bean="documentHeaderDao" /></property>
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />			
 		</property>
 		<property name="documentService">
 			<ref bean="documentService" />

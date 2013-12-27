@@ -20,6 +20,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.apache.commons.beanutils.PropertyUtils;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -35,6 +36,10 @@ public interface DisbursementVoucherConstants {
     public static final String DOCUMENT_TYPE_CODE = "DV";
 
     // Text limits
+    /**
+     * Deprecated, please use KFSConstants.MAX_NOTE_LINE_SIZE
+     */
+    @Deprecated
     public static final int MAX_NOTE_LINE_SIZE = 90;
 
     // payment methods
@@ -43,12 +48,33 @@ public interface DisbursementVoucherConstants {
     public static String PAYMENT_METHOD_DRAFT = "F";
 
     // payee types
+    /**
+     * Deprecated, please use KFSConstants.PaymentPayeeTypes.EMPLOYEE
+     */
+    @Deprecated
     public static final String DV_PAYEE_TYPE_EMPLOYEE = "E";
+    /**
+     * Deprecated, please use KFSConstants.PaymentPayeeTypes.VENDOR
+     */
+    @Deprecated
     public static final String DV_PAYEE_TYPE_VENDOR = "V";
+    /**
+     * Deprecated, please use KFSConstants.PaymentPayeeTypes.CUSTOMER
+     */
+    @Deprecated
+    public static final String DV_PAYEE_TYPE_CUSTOMER = "C";
+    /**
+     * Deprecated, please use KFSConstants.PaymentPayeeTypes.SUBJECT_PAYMENT_VENDOR
+     */
+    @Deprecated
     public static final String DV_PAYEE_TYPE_SUBJECT_PAYMENT_VENDOR = "VSP";
+    /**
+     * Deprecated, please use KFSConstants.PaymentPayeeTypes.REVOLVING_FUND_VENDOR
+     */
+    @Deprecated
     public static final String DV_PAYEE_TYPE_REVOLVING_FUND_VENDOR = "VRF";
 
-    public static final List<String> VENDOR_PAYEE_TYPE_CODES = Arrays.asList(DV_PAYEE_TYPE_VENDOR, DV_PAYEE_TYPE_SUBJECT_PAYMENT_VENDOR, DV_PAYEE_TYPE_REVOLVING_FUND_VENDOR);
+    public static final List<String> VENDOR_PAYEE_TYPE_CODES = Arrays.asList(KFSConstants.PaymentPayeeTypes.VENDOR, KFSConstants.PaymentPayeeTypes.SUBJECT_PAYMENT_VENDOR, KFSConstants.PaymentPayeeTypes.REVOLVING_FUND_VENDOR);
 
     // document location
     public static final String NO_DOCUMENTATION_LOCATION = "N";
@@ -57,13 +83,20 @@ public interface DisbursementVoucherConstants {
     public static final String TAX_CONTROL_CODE_BEGIN_WITHHOLDING = "B";
     public static final String TAX_CONTROL_CODE_HOLD_PAYMENT = "H";
 
+    /**
+     * Use KFSConstants.DocumentStatusCodes instead of these
+     */
+    @Deprecated
     public static class DocumentStatusCodes {
         public static final String APPROVED = "A";
         public static final String EXTRACTED = "E";
     }
 
-
-     public static class DvPdpExtractGroup {
+    /**
+     * Please favor KFSParameterKeyConstants.PdpExtractBatchParameters instead of this
+     */
+    @Deprecated
+    public static class DvPdpExtractGroup {
         public static final String DV_PDP_ORG_CODE = "PRE_DISBURSEMENT_EXTRACT_ORGANIZATION";
         public static final String DV_PDP_SBUNT_CODE = "PRE_DISBURSEMENT_EXTRACT_SUB_UNIT";
     }
@@ -182,10 +215,14 @@ public interface DisbursementVoucherConstants {
 
     public static final String NON_VENDOR_EMPLOYEE_PAYEE_TYPE_LABEL_PARM_NM = "NON_VENDOR_EMPLOYEE_PAYEE_TYPE_LABEL";
     public static final String PO_AND_DV_PAYEE_TYPE_LABEL_PARM_NM = "PO_AND_DV_PAYEE_TYPE_LABEL";
+    public static final String PAYEE_TYPE_NAME = "PAYEE_TYPE_NAME";
     public static final String INDIVIDUAL_OWNERSHIP_TYPES_PARM_NM = "INDIVIDUAL_OWNERSHIP_TYPES";
     public static final String PAYMENT_REASONS_REQUIRING_TAX_REVIEW_PARM_NM = "PAYMENT_REASONS_REQUIRING_TAX_REVIEW";
     public static final String TAX_CONTROL_CODES_REQUIRING_TAX_REVIEW_PARM_NM = "TAX_CONTROL_CODES_REQUIRING_TAX_REVIEW";
     public static final String CAMPUSES_TAXED_FOR_MOVING_REIMBURSEMENTS_PARM_NM = "CAMPUSES_TAXED_FOR_MOVING_REIMBURSEMENTS";
+
+    public static final String IMMEDIATE_EXTRACT_FROM_ADDRESS_PARM_NM = "IMMEDIATE_EXTRACT_NOTIFICATION_FROM_EMAIL_ADDRESS";
+    public static final String IMMEDIATE_EXTRACT_TO_ADDRESSES_PARM_NM = "IMMEDIATE_EXTRACT_NOTIFICATION_TO_EMAIL_ADDRESSES";
 
     public static final String TAX_TYPE_SSN = "1";
     public static final String TAX_TYPE_FEIN = "0";
@@ -225,8 +262,9 @@ public interface DisbursementVoucherConstants {
         public static final String AWARD = "Award";
         public static final String TRAVEL = "Travel";
         public static final String CAMPUS = "Campus";
+        public static final String PAYMENT_METHOD = "PaymentMethod";
     }
-    
+
     public static final String DV_DOC_NAME = "Disbursement Voucher";
 
     public static final String DISBURSEMENT_VOUCHER_PAYMENT_SOURCE_EXTRACTION_SERVICE = "disbursementVoucherExtractService";

@@ -247,7 +247,8 @@ public class CashControlDetail extends PersistableBusinessObjectBase {
 	 * @param customer The customer to set.
 	 * @deprecated
 	 */
-	public void setCustomer(Customer customer) {
+	@Deprecated
+    public void setCustomer(Customer customer) {
 		this.customer = customer;
 	}
 

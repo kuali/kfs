@@ -30,6 +30,7 @@ import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.OffsetDefinition;
 import org.kuali.kfs.coa.service.BalanceTypeService;
+import org.kuali.kfs.coa.service.ObjectCodeService;
 import org.kuali.kfs.coa.service.OffsetDefinitionService;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
@@ -71,6 +72,8 @@ import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.kim.api.identity.principal.Principal;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.document.Copyable;
@@ -296,6 +299,10 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
      * This method subtracts the sum of the invoice paid applieds, non-ar and
      * unapplied totals from the outstanding amount received via the cash
      * control document.
+     *
+     * NOTE this method is not useful for a non-cash control PayApp, as it
+     * doesnt have access to the control documents until it is saved.  Use
+     * the same named method on the Form instead.
      *
      * @return
      * @throws WorkflowException
@@ -1487,7 +1494,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
     // determines if the doc was launched by SYSTEM_USER, if so, then it was launched from batch
     protected boolean launchedFromBatch() {
         boolean result = false;
-        Person initiator = SpringContext.getBean(PersonService.class).getPersonByPrincipalName(KFSConstants.SYSTEM_USER);
+        Principal initiator = KimApiServiceLocator.getIdentityService().getPrincipalByPrincipalName(KFSConstants.SYSTEM_USER);
         result = initiator.getPrincipalId().equalsIgnoreCase(getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId());
         return result;
     }

@@ -51,7 +51,6 @@ import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
 import org.kuali.kfs.module.ar.document.service.CustomerOpenItemReportService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.dataaccess.FinancialSystemDocumentHeaderDao;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
@@ -126,7 +125,8 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
             String documentNumber = documentHeader.getDocumentNumber();
             detail.setDocumentNumber(documentNumber);
 
-            if (documentType.equals(KFSConstants.FinancialDocumentTypeCodes.CUSTOMER_INVOICE)) {
+            // KFSMI-8356 Adding CINV to the invoice list
+            if (documentType.equals(KFSConstants.FinancialDocumentTypeCodes.CUSTOMER_INVOICE) || documentType.equals(KFSConstants.ContractsGrantsModuleDocumentTypeCodes.CONTRACTS_GRANTS_INVOICE)) {
                 invoiceIds.add(documentNumber);
             }
             else {

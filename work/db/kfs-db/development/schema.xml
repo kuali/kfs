@@ -16928,7 +16928,7 @@
     <sequence name="KRSB_BAM_PARM_S" nextval="30000"/>
     <sequence name="KRSB_BAM_S" nextval="30000"/>
     <sequence name="KRSB_MSG_QUE_S" nextval="30000"/>
-    <sequence name="LOC_RVW_DTL_ID_SEQ" nextval="1"/>
+    <sequence name="LTRCR_RVW_DTL_ID_SEQ" nextval="1"/>
     <sequence name="MLSTN_ID_SEQ" nextval="1"/>
     <sequence name="ORIGIN_ENTRY_ID_SEQ" nextval="2060"/>
     <sequence name="PDP_ACH_ACCT_GNRTD_ID_SEQ" nextval="10000000"/>

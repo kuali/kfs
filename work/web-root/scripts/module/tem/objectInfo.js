@@ -56,13 +56,17 @@ function loadExpenseTypeObjectCode(expenseTypeCodeField, documentTypeName, trave
 				if (data != null && typeof data == "object") { // we really did succeed!
 					// handle taxable
 					var taxableCheckbox = document.getElementById(lineName+".taxable");
-					taxableCheckbox.checked = data.taxable;
+					if (taxableCheckbox) {
+						taxableCheckbox.checked = data.taxable;
+					}
 					
 					// handle mileage
 					if (data.expenseTypeMetaCategoryCode == "M") {
 						var expenseAmountField = document.getElementById(lineName+".expenseAmount");
-						expenseAmountField.value = 0.0;
-						expenseAmountField.disabled = true;
+						if (expenseAmountField) {
+							expenseAmountField.value = 0.0;
+							expenseAmountField.disabled = true;
+						}
 					}
 				}
 			},

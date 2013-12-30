@@ -77,6 +77,7 @@ import org.kuali.kfs.module.tem.businessobject.PerDiemExpense;
 import org.kuali.kfs.module.tem.businessobject.PrimaryDestination;
 import org.kuali.kfs.module.tem.businessobject.SpecialCircumstances;
 import org.kuali.kfs.module.tem.businessobject.TemDistributionAccountingLine;
+import org.kuali.kfs.module.tem.businessobject.TemExpense;
 import org.kuali.kfs.module.tem.businessobject.TemProfile;
 import org.kuali.kfs.module.tem.businessobject.TemSourceAccountingLine;
 import org.kuali.kfs.module.tem.businessobject.TravelerDetail;
@@ -302,7 +303,6 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
 
         //set PerDiem categories and breakdown
         getPerDiemService().setPerDiemCategoriesAndBreakdown(travelFormBase);
-
         travelFormBase.setDisplayNonEmployeeForm(!isEmployee(document.getTraveler()));
 
         if (!StringUtils.isEmpty(methodToCall) && !methodToCall.equalsIgnoreCase("docHandler")) {
@@ -320,6 +320,7 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
         }
 
         ExpenseUtils.calculateMileage(document.getActualExpenses());
+        updateActualExpenseConversionRates(document);
         populateForeignCurrencyUrl(travelFormBase);
 
         final ActionForward retval = super.execute(mapping, form, request, response);
@@ -1635,6 +1636,20 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
         uncleanDate.set(Calendar.SECOND, 0);
         uncleanDate.set(Calendar.MILLISECOND, 0);
         return uncleanDate; // it's clean now
+    }
+
+    /**
+     * Goes through the actual expenses on the document and pushes the conversion rate of the parent expense down to the details
+     * @param doc the travel document to update
+     */
+    protected void updateActualExpenseConversionRates(TravelDocument doc) {
+        for (ActualExpense expense : doc.getActualExpenses()) {
+            if (expense.getExpenseDetails() != null && !expense.getExpenseDetails().isEmpty()) {
+                for (TemExpense detail : expense.getExpenseDetails()) {
+                    detail.setCurrencyRate(expense.getCurrencyRate());
+                }
+            }
+        }
     }
 
 }

@@ -112,6 +112,7 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
     private List<TemSourceAccountingLine> advanceAccountingLines;
     private List<TravelAdvance> travelAdvancesForTrip;
     private Integer nextAdvanceLineNumber  = new Integer(1);
+    private String holdRequestorPersonName ;
 
     protected volatile static PersonService personService;
     protected volatile static ConfigurationService configurationService;
@@ -1352,6 +1353,20 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
      */
     protected List getAdvanceAccountingLinesForComparison() {
         return getAdvanceAccountingLines();
+    }
+
+
+    /**
+     * The hold requestor person name
+     *
+     * @return
+     */
+    public String getHoldRequestorPersonName() {
+        return holdRequestorPersonName;
+    }
+
+    public void setHoldRequestorPersonName(String holdRequestorPersonName) {
+        this.holdRequestorPersonName = holdRequestorPersonName;
     }
 
     /**

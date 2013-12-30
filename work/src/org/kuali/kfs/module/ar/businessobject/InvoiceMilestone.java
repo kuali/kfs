@@ -18,17 +18,14 @@ package org.kuali.kfs.module.ar.businessobject;
 import java.sql.Date;
 import java.util.LinkedHashMap;
 
-import org.kuali.kfs.integration.ar.AccountsReceivableMilestone;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
-import org.kuali.kfs.module.ar.businessobject.Milestone;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.krad.service.KualiModuleService;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 
 /**
@@ -36,7 +33,7 @@ import org.kuali.rice.core.api.util.type.KualiDecimal;
  * key.
  */
 
-public class InvoiceMilestone extends PersistableBusinessObjectBase implements AccountsReceivableMilestone {
+public class InvoiceMilestone extends PersistableBusinessObjectBase  {
 
     private String documentNumber;
     private Long proposalNumber;
@@ -64,7 +61,6 @@ public class InvoiceMilestone extends PersistableBusinessObjectBase implements A
      *
      * @return Returns the award.
      */
-    @Override
     public ContractsAndGrantsBillingAward getAward() {
         return award = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsBillingAward.class).retrieveExternalizableBusinessObjectIfNecessary(this, award, "award");
     }
@@ -100,7 +96,6 @@ public class InvoiceMilestone extends PersistableBusinessObjectBase implements A
      *
      * @return Returns the milestoneActualCompletionDate.
      */
-    @Override
     public Date getMilestoneActualCompletionDate() {
         return milestoneActualCompletionDate;
     }
@@ -110,7 +105,6 @@ public class InvoiceMilestone extends PersistableBusinessObjectBase implements A
      *
      * @return Returns the milestoneAmount.
      */
-    @Override
     public KualiDecimal getMilestoneAmount() {
         return milestoneAmount;
     }
@@ -120,7 +114,6 @@ public class InvoiceMilestone extends PersistableBusinessObjectBase implements A
      *
      * @return Returns the milestoneDescription.
      */
-    @Override
     public String getMilestoneDescription() {
         return milestoneDescription;
     }
@@ -130,7 +123,6 @@ public class InvoiceMilestone extends PersistableBusinessObjectBase implements A
      *
      * @return Returns the milestoneExpectedCompletionDate.
      */
-    @Override
     public Date getMilestoneExpectedCompletionDate() {
         return milestoneExpectedCompletionDate;
     }
@@ -140,7 +132,6 @@ public class InvoiceMilestone extends PersistableBusinessObjectBase implements A
      *
      * @return Returns the milestoneIdentifier.
      */
-    @Override
     public Long getMilestoneIdentifier() {
         return milestoneIdentifier;
     }
@@ -150,7 +141,6 @@ public class InvoiceMilestone extends PersistableBusinessObjectBase implements A
      *
      * @return Returns the milestoneNumber.
      */
-    @Override
     public Long getMilestoneNumber() {
         return milestoneNumber;
     }
@@ -160,7 +150,6 @@ public class InvoiceMilestone extends PersistableBusinessObjectBase implements A
      *
      * @return Returns the proposalNumber.
      */
-    @Override
     public Long getProposalNumber() {
         return proposalNumber;
     }

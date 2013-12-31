@@ -196,7 +196,7 @@ public class AREmailServiceImpl extends MailerImpl implements AREmailService {
         }
     }
 
-    private void getEmailParameterList(Map<String, String> primaryKeys, ContractsGrantsInvoiceDocument invoice, CustomerAddress customerAddress) {
+    protected void getEmailParameterList(Map<String, String> primaryKeys, ContractsGrantsInvoiceDocument invoice, CustomerAddress customerAddress) {
         String[] orgCode = invoice.getAward().getAwardPrimaryFundManager().getFundManager().getPrimaryDepartmentCode().split("-");
         Map<String, Object> key = new HashMap<String, Object>();
         key.put(KFSPropertyConstants.ORGANIZATION_CODE, orgCode[0].trim());
@@ -216,7 +216,7 @@ public class AREmailServiceImpl extends MailerImpl implements AREmailService {
         primaryKeys.put("email", returnProperStringValue(invoice.getAward().getAwardPrimaryFundManager().getFundManager().getEmailAddress()));
     }
 
-    private String returnProperStringValue(Object string) {
+    protected String returnProperStringValue(Object string) {
         if (ObjectUtils.isNotNull(string)) {
             if (string instanceof KualiDecimal) {
                 String amount = (new CurrencyFormatter()).format(string).toString();
@@ -227,7 +227,7 @@ public class AREmailServiceImpl extends MailerImpl implements AREmailService {
         return "";
     }
 
-    private static String replaceValuesInString(String template, Map<String, String> replacementList) {
+    protected static String replaceValuesInString(String template, Map<String, String> replacementList) {
         StringBuilder buffOriginal = new StringBuilder();
         StringBuilder buffNormalized = new StringBuilder();
 
@@ -279,7 +279,7 @@ public class AREmailServiceImpl extends MailerImpl implements AREmailService {
      *
      * @return
      */
-    private Properties getConfigProperties() {
+    protected Properties getConfigProperties() {
         return ConfigContext.getCurrentContextConfig().getProperties();
     }
 

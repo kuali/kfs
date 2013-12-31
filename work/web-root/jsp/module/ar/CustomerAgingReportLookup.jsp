@@ -118,6 +118,8 @@
                             <td class="numbercell">&nbsp; $<c:out value="${KualiForm.total61to90}"/></td>
                             <td class="numbercell">&nbsp; $<c:out value="${KualiForm.total91toSYSPR}"/></td>
                             <td class="numbercell">&nbsp; $<c:out value="${KualiForm.totalSYSPRplus1orMore}"/></td>
+                            <td class="numbercell">&nbsp; $<c:out value="${KualiForm.totalOpenInvoices}"/></td>
+                            <td class="numbercell">&nbsp; $<c:out value="${KualiForm.totalWriteOffs}"/></td>
                         </display:footer>
 
                     </display:table>

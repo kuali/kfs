@@ -58,7 +58,6 @@ import org.kuali.rice.kew.impl.document.search.DocumentSearchCriteriaBo;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.document.authorization.BusinessObjectRestrictions;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
-import org.kuali.rice.kns.service.BusinessObjectAuthorizationService;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.web.comparator.CellComparatorHelper;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
@@ -101,6 +100,10 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
     private KualiDecimal total91toSYSPR = KualiDecimal.ZERO;
     private KualiDecimal totalSYSPRplus1orMore = KualiDecimal.ZERO;
 
+    private KualiDecimal totalOpenInvoices = KualiDecimal.ZERO;
+    private KualiDecimal totalCredits = KualiDecimal.ZERO;
+    private KualiDecimal totalWriteOffs = KualiDecimal.ZERO;
+    
     private Date reportRunDate;
     private String reportOption;
     private String accountNumber;
@@ -143,6 +146,9 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
         total61to90 = KualiDecimal.ZERO;
         total91toSYSPR = KualiDecimal.ZERO;
         totalSYSPRplus1orMore = KualiDecimal.ZERO;
+        totalOpenInvoices = KualiDecimal.ZERO;
+        totalWriteOffs = KualiDecimal.ZERO;
+        totalCredits = KualiDecimal.ZERO;
         DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
 
         Date today = getDateTimeService().getCurrentDate();
@@ -205,6 +211,20 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
 
         List<CustomerAgingReportDetail> results = new ArrayList<CustomerAgingReportDetail>();
         for (CustomerAgingReportDetail detail : knownCustomers.values()) {
+            // set total open invoices
+            KualiDecimal amount = detail.getUnpaidBalance0to30().add(detail.getUnpaidBalance31to60()).add(detail.getUnpaidBalance61to90()).add(detail.getUnpaidBalance91toSYSPR().add(detail.getUnpaidBalanceSYSPRplus1orMore()));
+            detail.setTotalOpenInvoices(amount);
+            totalOpenInvoices = totalOpenInvoices.add(amount);
+
+            // find total writeoff
+            KualiDecimal writeOffAmt = agingReportDao.findWriteOffAmountByCustomerNumber(detail.getCustomerNumber());
+            if (ObjectUtils.isNotNull(writeOffAmt)) {
+                totalWriteOffs = totalWriteOffs.add(writeOffAmt);
+            }
+            else {
+                writeOffAmt = KualiDecimal.ZERO;
+            }
+            detail.setTotalWriteOff(writeOffAmt);
             results.add(detail);
         }
 
@@ -426,6 +446,8 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
             ((CustomerAgingReportForm) lookupForm).setTotal61to90(total61to90.toString());
             ((CustomerAgingReportForm) lookupForm).setTotal91toSYSPR(total91toSYSPR.toString());
             ((CustomerAgingReportForm) lookupForm).setTotalSYSPRplus1orMore(totalSYSPRplus1orMore.toString());
+            ((CustomerAgingReportForm) lookupForm).setTotalOpenInvoices(totalOpenInvoices.toString());
+            ((CustomerAgingReportForm) lookupForm).setTotalWriteOffs(totalWriteOffs.toString());
         }
 
         return displayList;

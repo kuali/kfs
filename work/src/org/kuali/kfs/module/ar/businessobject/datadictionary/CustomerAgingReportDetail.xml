@@ -45,6 +45,8 @@
 				<ref bean="CustomerAgingReportDetail-unpaidBalance61to90" />
 				<ref bean="CustomerAgingReportDetail-unpaidBalance91toSYSPR" />
 				<ref bean="CustomerAgingReportDetail-unpaidBalanceSYSPRplus1orMore" />
+				<ref bean="CustomerAgingReportDetail-totalOpenInvoices" />
+				<ref bean="CustomerAgingReportDetail-totalWriteOff" />
 			</list>
 		</property>
 	</bean>
@@ -164,7 +166,21 @@
 		<property name="label" value="121+ days" />
 	</bean>
 
+	<bean id="CustomerAgingReportDetail-totalOpenInvoices"
+		parent="CustomerAgingReportDetail-totalOpenInvoices-parentBean" />
+	<bean id="CustomerAgingReportDetail-totalOpenInvoices-parentBean"
+		abstract="true" parent="GenericAttributes-genericAmount">
+		<property name="name" value="totalOpenInvoices" />
+		<property name="label" value="Total Open Invoices" />
+	</bean>
 
+	<bean id="CustomerAgingReportDetail-totalWriteOff" parent="CustomerAgingReportDetail-totalWriteOff-parentBean" />
+	<bean id="CustomerAgingReportDetail-totalWriteOff-parentBean"
+		abstract="true" parent="GenericAttributes-genericAmount">
+		<property name="name" value="totalWriteOff" />
+		<property name="label" value="Total Write-Off" />
+	</bean>
+	
 	<!-- Business Object Inquiry Definition -->
 
 
@@ -238,6 +254,8 @@
 				<bean parent="FieldDefinition" p:attributeName="unpaidBalance61to90" />
 				<bean parent="FieldDefinition" p:attributeName="unpaidBalance91toSYSPR" />
 				<bean parent="FieldDefinition" p:attributeName="unpaidBalanceSYSPRplus1orMore" />
+		        <bean parent="FieldDefinition" p:attributeName="totalOpenInvoices"/>
+		        <bean parent="FieldDefinition" p:attributeName="totalWriteOff"/>
 			</list>
 		</property>
 	</bean>

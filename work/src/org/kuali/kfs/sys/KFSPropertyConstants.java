@@ -326,6 +326,7 @@ public class KFSPropertyConstants {
     public static final String COMPONENT_LABEL = "componentLabel";
     public static final String CUSTOMER_ADDRESS_IDENTIFIER = "customerAddressIdentifier";
     public static final String CUSTOMER_NUMBER = "customerNumber";
+    public static final String CUSTOMER_ADDRESS_TYPE_CODE="customerAddressTypeCode";
     public static final String CUSTOMER_NAME = "customerName";
     public static final String CUSTOMER_TAX_NUMBER = "customerTaxNbr";
     public static final String DEPARTMENT_NAME = "departmentName";
@@ -1020,6 +1021,7 @@ public class KFSPropertyConstants {
     public static final String PROCESS_TOTAL_RECORD_COUNT = "processTotalRecordCount";
     public static final String PROCESS_TRANSMISSION_DATE = "processTransmissionDate";
     public static final String PROCESSING_FIN_CHART_OF_ACCT = "processingFinChartOfAcct";
+    public static final String PROCESSING_CHART_OF_ACCT_CD ="processingChartOfAccountCode";
     public static final String PROCESSING_FIN_CHART_OF_ACCT_CD = "processingFinChartOfAcctCd";
     public static final String PROCESSING_ORG = "processingOrg";
     public static final String PROCESSING_ORGANIZATION_CODE = "processingOrganizationCode";

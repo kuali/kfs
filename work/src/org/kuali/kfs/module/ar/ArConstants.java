@@ -73,7 +73,7 @@ public class ArConstants{
     public static final String LOOKUP_CUSTOMER_NAME = "customerName";
     public static final String LOOKUP_CUSTOMER_NUMBER = "customerNumber";
     public static final String LOOKUP_INVOICE_NUMBER = "invoiceNumber";
-
+    public static final String LOOKUP_INVOICE_NUMBERS = "invoiceNumbers";
     public static final String GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_CHART = "1";
     public static final String GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_SUBFUND = "2";
     public static final String GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_FAU = "3";
@@ -412,7 +412,8 @@ public class ArConstants{
     public static final String INVOICE_REPORT_OPTION = "dummyBusinessObject.invoiceReportOption";
     public static final String OUTSTANDING_INVOICES = "Outstanding Invoices";
     public static final String PAST_DUE_INVOICES = "Past Due Invoices";
-
+    public static final String LETTER_OF_CREDIT_FUND_CODE= "letterOfCreditFundCode";
+    public static final String LETTER_OF_CREDIT_FUND_GROUP_CODE = "letterOfCreditFundGroupCode";
     public static final String QUATER1 = "q1";
     public static final String QUATER2 = "q2";
     public static final String QUATER3 = "q3";
@@ -448,5 +449,12 @@ public class ArConstants{
     public static final String CHAPTER11 = "Chapter 11";
     public static final String CHAPTER13 = "Chapter 13";
     public static final String JUDGMENT_OBTAINED= "Judgment Obtained";
-
+    
+    public static final String NOTE = "note";
+    public static final String SUBMITTED_ON ="submittedOn";
+    public static final String SUBMITTED_BY_PRINCIPAL_ID = "submittedByPrincipalId";
+    public static final String CUS = "CUS";
+    public static final String INVR = "INVR";
+    public static final String LETTER_OF_CREDIT_CREATION_TYPE ="letterOfCreditCreationType" ;
+    public static final String PROPOSAL_NUMBER = "proposalNumber";
 }

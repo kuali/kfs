@@ -460,9 +460,12 @@ public class ArPropertyConstants{
         public static final String AGENCY_ADDRESS_IDENTIFIER = "agencyAddressIdentifier";
     }
 
-
+    public static final String INVOICE_NUMBER="invoiceItemNumber";
     public static final String CUSTOMER_INVOICE_DOCUMENT = "customerInvoiceDocument";
     public static final String ORGANIZATION_OPTIONS = "organizationOptions";
     public static final String AGING_REPORT_SENT_TIME = "agingReportSentTime";
-
+    public static final String  INVOICE_SEQUENCE_NUMBER ="invoiceSequenceNumber";
+    public static final String  SEQUENCE_NUMBER= "sequenceNumber";
+    public static final String  FINANCIAL_DOCUMENT_LINE_TYPE_CODE="financialDocumentLineTypeCode";
+    public static final String  FINANCIAL_DOCUMENT_LINE_TYPE_CODE_F="F";
 }

@@ -48,6 +48,7 @@ import org.kuali.kfs.module.ar.document.service.NonInvoicedDistributionService;
 import org.kuali.kfs.module.ar.document.service.ReceivableAccountingLineService;
 import org.kuali.kfs.module.ar.report.util.CustomerStatementResultHolder;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -354,7 +355,7 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
         LOG.info("\n\n\n\t\t invoice: " + customerInvoiceDocument.getDocumentNumber() + "\n\t\t 111111111 HEADER TOTAL AMOUNT (should be null): " + customerInvoiceDocument.getFinancialSystemDocumentHeader().getFinancialDocumentTotalAmount() + "\n\n");
         customerInvoiceDocument.getDocumentNumber();
         HashMap criteria = new HashMap();
-        criteria.put("documentNumber", customerInvoiceDocument.getDocumentHeader().getDocumentTemplateNumber());
+        criteria.put(KFSPropertyConstants.DOCUMENT_NUMBER, customerInvoiceDocument.getDocumentHeader().getDocumentTemplateNumber());
         FinancialSystemDocumentHeader financialSystemDocumentHeader = businessObjectService.findByPrimaryKey(FinancialSystemDocumentHeader.class, criteria);
         KualiDecimal originalTotalAmount = KualiDecimal.ZERO;
         originalTotalAmount = financialSystemDocumentHeader.getFinancialDocumentTotalAmount();
@@ -606,8 +607,8 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
         document.setCustomerInvoiceRecurrenceDetails(recurrenceDetails);
 
         Map<String, String> criteria = new HashMap<String, String>();
-        criteria.put("chartOfAccountsCode", document.getBillByChartOfAccountCode());
-        criteria.put("organizationCode", document.getBilledByOrganizationCode());
+        criteria.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, document.getBillByChartOfAccountCode());
+        criteria.put(KFSPropertyConstants.ORGANIZATION_CODE, document.getBilledByOrganizationCode());
         OrganizationOptions organizationOptions = businessObjectService.findByPrimaryKey(OrganizationOptions.class, criteria);
 
         if (ObjectUtils.isNotNull(organizationOptions)) {

@@ -196,7 +196,7 @@ public class ContractsGrantsAgingOpenInvoicesReportServiceImpl implements Contra
      * @param customerNumber
      * @return Returns the agency for the customer
      */
-    private ContractsAndGrantsBillingAgency getAgencyByCustomer(String customerNumber) {
+    protected ContractsAndGrantsBillingAgency getAgencyByCustomer(String customerNumber) {
         Map args = new HashMap();
         args.put(KFSPropertyConstants.CUSTOMER_NUMBER, customerNumber);
         return kualiModuleService.getResponsibleModuleService(ContractsAndGrantsBillingAgency.class).getExternalizableBusinessObject(ContractsAndGrantsBillingAgency.class, args);

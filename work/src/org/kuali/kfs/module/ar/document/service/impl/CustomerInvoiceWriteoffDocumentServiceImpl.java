@@ -42,7 +42,9 @@ import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceWriteoffDocumentService;
 import org.kuali.kfs.module.ar.document.service.CustomerService;
 import org.kuali.kfs.module.ar.document.service.InvoicePaidAppliedService;
+import org.kuali.kfs.module.ar.fixture.ARProposalFixture;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.FinancialSystemUserService;
@@ -168,9 +170,9 @@ public class CustomerInvoiceWriteoffDocumentServiceImpl implements CustomerInvoi
             ChartOrgHolder currentUser = financialSystemUserService.getPrimaryOrganization(GlobalVariables.getUserSession().getPerson(), ArConstants.AR_NAMESPACE_CODE);
 
             Map<String, Object> criteria = new HashMap<String, Object>(3);
-            criteria.put("universityFiscalYear", currentUniversityFiscalYear);
-            criteria.put("chartOfAccountsCode", customerInvoiceWriteoffDocument.getCustomerInvoiceDocument().getBillByChartOfAccountCode());
-            criteria.put("organizationCode", customerInvoiceWriteoffDocument.getCustomerInvoiceDocument().getBilledByOrganizationCode());
+            criteria.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, currentUniversityFiscalYear);
+            criteria.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, customerInvoiceWriteoffDocument.getCustomerInvoiceDocument().getBillByChartOfAccountCode());
+            criteria.put(KFSPropertyConstants.ORGANIZATION_CODE, customerInvoiceWriteoffDocument.getCustomerInvoiceDocument().getBilledByOrganizationCode());
 
             OrganizationAccountingDefault organizationAccountingDefault = businessObjectService.findByPrimaryKey(OrganizationAccountingDefault.class, criteria);
             if (ObjectUtils.isNotNull(organizationAccountingDefault)) {
@@ -189,8 +191,8 @@ public class CustomerInvoiceWriteoffDocumentServiceImpl implements CustomerInvoi
     @Override
     public boolean isCustomerInvoiceWriteoffDocumentApproved(String customerInvoiceWriteoffDocumentNumber) {
         Map<String, Object> criteria = new HashMap<String, Object>();
-        criteria.put("documentNumber", customerInvoiceWriteoffDocumentNumber);
-        criteria.put("documentHeader.financialDocumentStatusCode", KFSConstants.DocumentStatusCodes.APPROVED);
+        criteria.put(KFSPropertyConstants.DOCUMENT_NUMBER, customerInvoiceWriteoffDocumentNumber);
+        criteria.put(ArPropertyConstants.DOCUMENT_STATUS_CODE, KFSConstants.DocumentStatusCodes.APPROVED);
         return businessObjectService.countMatching(CustomerInvoiceWriteoffDocument.class, criteria) == 1;
     }
 
@@ -300,7 +302,7 @@ public class CustomerInvoiceWriteoffDocumentServiceImpl implements CustomerInvoi
         boolean isSuccess = true;
 
         Map<String, String> fieldValues = new HashMap<String, String>();
-        fieldValues.put("financialDocumentReferenceInvoiceNumber", invoiceDocumentNumber);
+        fieldValues.put(ArPropertyConstants.CustomerInvoiceDocumentFields.FINANCIAL_DOCUMENT_REF_INVOICE_NUMBER, invoiceDocumentNumber);
 
         Collection<CustomerCreditMemoDocument> customerCreditMemoDocuments = businessObjectService.findMatching(CustomerCreditMemoDocument.class, fieldValues);
 
@@ -334,7 +336,7 @@ public class CustomerInvoiceWriteoffDocumentServiceImpl implements CustomerInvoi
         boolean isSuccess = true;
 
         Map<String, String> fieldValues = new HashMap<String, String>();
-        fieldValues.put("financialDocumentReferenceInvoiceNumber", invoiceDocumentNumber);
+        fieldValues.put(ArPropertyConstants.CustomerInvoiceDocumentFields.FINANCIAL_DOCUMENT_REF_INVOICE_NUMBER, invoiceDocumentNumber);
 
         Collection<CustomerInvoiceWriteoffDocument> customerInvoiceWriteoffDocuments = businessObjectService.findMatching(CustomerInvoiceWriteoffDocument.class, fieldValues);
 
@@ -425,7 +427,7 @@ public class CustomerInvoiceWriteoffDocumentServiceImpl implements CustomerInvoi
     @Override
     public Collection<CustomerInvoiceWriteoffDocument> getCustomerCreditMemoDocumentByInvoiceDocument(String invoiceNumber) {
         Map<String, String> fieldValues = new HashMap<String, String>(1);
-        fieldValues.put("financialDocumentReferenceInvoiceNumber", invoiceNumber);
+        fieldValues.put(ArPropertyConstants.CustomerInvoiceDocumentFields.FINANCIAL_DOCUMENT_REF_INVOICE_NUMBER, invoiceNumber);
 
         Collection<CustomerInvoiceWriteoffDocument> writeoffs = businessObjectService.findMatching(CustomerInvoiceWriteoffDocument.class, fieldValues);
 

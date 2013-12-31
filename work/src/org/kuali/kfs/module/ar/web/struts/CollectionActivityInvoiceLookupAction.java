@@ -67,7 +67,6 @@ public class CollectionActivityInvoiceLookupAction extends KualiMultipleValueLoo
   
     @Override
     public ActionForward search(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        System.out.println("\n\t--> in search CollectionActivityInvoiceLookupAction");
         super.search(mapping, form, request, response);
         MultipleValueLookupForm multipleValueLookupForm = (MultipleValueLookupForm) form;
 
@@ -86,7 +85,6 @@ public class CollectionActivityInvoiceLookupAction extends KualiMultipleValueLoo
     @Override
     protected List<ResultRow> selectAll(MultipleValueLookupForm multipleValueLookupForm, int maxRowsPerPage) {
         String lookupResultsSequenceNumber = multipleValueLookupForm.getLookupResultsSequenceNumber();
-        System.out.println("\n\t--> in select all : " + lookupResultsSequenceNumber);
         List<ResultRow> resultTable = null;
         try {
             LookupResultsService lookupResultsService = SpringContext.getBean(LookupResultsService.class);
@@ -106,7 +104,6 @@ public class CollectionActivityInvoiceLookupAction extends KualiMultipleValueLoo
 
                 // for (ResultRow subResultRow : ((CollectionActivityInvoiceLookup) row).getSubResultRows()) {
                 String objId = row.getObjectId();
-                System.out.println("\n\t---> obj id " + objId);
                 selectedObjectIds.put(objId, objId);
                 // }
             }
@@ -138,7 +135,6 @@ public class CollectionActivityInvoiceLookupAction extends KualiMultipleValueLoo
     @Override
     public ActionForward prepareToReturnSelectedResults(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         MultipleValueLookupForm multipleValueLookupForm = (MultipleValueLookupForm) form;
-        System.out.println("\n\t--> in prepareToReturnSelectedResults" + multipleValueLookupForm.getLookupResultsSequenceNumber());
         if (StringUtils.isBlank(multipleValueLookupForm.getLookupResultsSequenceNumber())) {
             // no search was executed
             return prepareToReturnNone(mapping, form, request, response);
@@ -153,9 +149,7 @@ public class CollectionActivityInvoiceLookupAction extends KualiMultipleValueLoo
         if (!compositeObjectIds.isEmpty()) {
             success = true;
         }
-        System.out.println("success " + success);
         for (String selectedObjectId : multipleValueLookupForm.getSelectedObjectIdSet()) {
-            System.out.println("\n\t----> " + selectedObjectId);
         }
         if (success) {
 

@@ -51,6 +51,7 @@ import org.kuali.kfs.module.ar.document.service.NonAppliedHoldingService;
 import org.kuali.kfs.module.ar.document.service.PaymentApplicationDocumentService;
 import org.kuali.kfs.module.ar.document.service.SystemInformationService;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
@@ -346,7 +347,7 @@ public class PaymentApplicationDocumentServiceImpl implements PaymentApplication
 		Collection<PaymentApplicationDocument> payments = new ArrayList<PaymentApplicationDocument>();
 
         Map<String, String> fieldValues = new HashMap<String, String>();
-        fieldValues.put("customerNumber", customerNumber);
+        fieldValues.put(ArPropertyConstants.CustomerFields.CUSTOMER_NUMBER, customerNumber);
         Collection<AccountsReceivableDocumentHeader> documentHeaders = businessObjectService.findMatching(AccountsReceivableDocumentHeader.class, fieldValues);
         List<String> documentHeaderIds = new ArrayList<String>();
         for (AccountsReceivableDocumentHeader header : documentHeaders) {
@@ -554,7 +555,7 @@ public class PaymentApplicationDocumentServiceImpl implements PaymentApplication
         Set<String> customerNumberSet = new HashSet<String>();
         for (CustomerInvoiceDocument invoice : invoiceList) {
             Map<String, String> fieldValues = new HashMap<String, String>();
-            fieldValues.put("documentNumber", invoice.getDocumentNumber());
+            fieldValues.put(KFSPropertyConstants.DOCUMENT_NUMBER, invoice.getDocumentNumber());
 			AccountsReceivableDocumentHeader arDocHeader = businessObjectService.findByPrimaryKey(AccountsReceivableDocumentHeader.class, fieldValues);
             customerNumberSet.add(arDocHeader.getCustomerNumber());
 		}
@@ -677,7 +678,7 @@ public class PaymentApplicationDocumentServiceImpl implements PaymentApplication
 
     public Collection<PaymentApplicationDocument> getPaymentApplicationDocumentByInvoiceDocument(String invoiceNumber) {
         Map<String, String> fieldValues = new HashMap<String, String>();
-        fieldValues.put("financialDocumentReferenceInvoiceNumber", invoiceNumber);
+        fieldValues.put(ArPropertyConstants.CustomerInvoiceDocumentFields.FINANCIAL_DOCUMENT_REF_INVOICE_NUMBER, invoiceNumber);
         Collection<PaymentApplicationDocument> payments = businessObjectService.findMatching(PaymentApplicationDocument.class, fieldValues);
 
         return payments;

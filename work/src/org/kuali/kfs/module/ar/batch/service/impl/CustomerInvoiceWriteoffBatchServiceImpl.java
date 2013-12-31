@@ -513,27 +513,27 @@ public class CustomerInvoiceWriteoffBatchServiceImpl implements CustomerInvoiceW
         root.setAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
 
         //  create submittedBy element
-        e = xmldoc.createElement("submittedByPrincipalId");
+        e = xmldoc.createElement(ArConstants.SUBMITTED_BY_PRINCIPAL_ID);
         n = xmldoc.createCDATASection(writeoffBatchVO.getSubmittedByPrincipalName());
         e.appendChild(n);
         root.appendChild(e);
 
         //  create submittedOn element
-        e = xmldoc.createElement("submittedOn");
+        e = xmldoc.createElement(ArConstants.SUBMITTED_ON);
         n = xmldoc.createCDATASection(writeoffBatchVO.getSubmittedOn());
         e.appendChild(n);
         root.appendChild(e);
 
         //  create note element
-        e = xmldoc.createElement("note");
+        e = xmldoc.createElement(ArConstants.NOTE);
         n = xmldoc.createCDATASection(writeoffBatchVO.getNote());
         e.appendChild(n);
         root.appendChild(e);
 
         //  create invoices element and list of invoice child elements
-        invoicesElement = xmldoc.createElement("invoiceNumbers");
+        invoicesElement = xmldoc.createElement(ArConstants.LOOKUP_INVOICE_NUMBERS);
         for (String invoiceNumber : writeoffBatchVO.getInvoiceNumbers()) {
-            e = xmldoc.createElement("invoiceNumber");
+            e = xmldoc.createElement(ArConstants.LOOKUP_INVOICE_NUMBER);
             n = xmldoc.createCDATASection(invoiceNumber);
             e.appendChild(n);
             invoicesElement.appendChild(e);

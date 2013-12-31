@@ -147,7 +147,7 @@ public class LockboxLoadServiceImpl implements LockboxLoadService {
     @Override
     public void process(String fileName, Object parsedFileContents) {}
 
-    private boolean compareDetailsWithHeader(Lockbox lockbox) {
+    protected boolean compareDetailsWithHeader(Lockbox lockbox) {
         boolean isHeaderMatchedDetails = true;
         KualiDecimal  headerTransBatchTotal = lockbox.getHeaderTransactionBatchTotal();
         Integer headerTransBatchCount   = lockbox.getHeaderTransactionBatchCount();
@@ -242,7 +242,7 @@ public class LockboxLoadServiceImpl implements LockboxLoadService {
 
     }
 
-    private String composeLockboxLoadBody( FlatFileInformation flatFileInformation) {
+    protected String composeLockboxLoadBody( FlatFileInformation flatFileInformation) {
 
         String contactText = parameterService.getParameterValueAsString(LockboxLoadStep.class, ArConstants.Lockbox.CONTACTS_TEXT);
         StringBuffer body = new StringBuffer();
@@ -323,7 +323,7 @@ public class LockboxLoadServiceImpl implements LockboxLoadService {
         return fileByteContent;
     }
 
-    private void loadLockbox(Object parsedObject) {
+    protected void loadLockbox(Object parsedObject) {
         // create the lockbox object to load data
         List loadLockboxList = new ArrayList<Lockbox>();
         List<Lockbox> lockboxList = (List<Lockbox>)parsedObject;
@@ -353,7 +353,7 @@ public class LockboxLoadServiceImpl implements LockboxLoadService {
     }
 
 
-    private void setLockboxToLoad(List loadLockboxList ,Lockbox lockbox, int batchSequenceNumber ) {
+    protected void setLockboxToLoad(List loadLockboxList ,Lockbox lockbox, int batchSequenceNumber ) {
 
 
         for (LockboxDetail detail : lockbox.getLockboxDetails()) {
@@ -374,7 +374,7 @@ public class LockboxLoadServiceImpl implements LockboxLoadService {
 
     }
 
-    private void copyAllMessage(Object parsedObject, FlatFileInformation flatFileInformation) {
+    protected void copyAllMessage(Object parsedObject, FlatFileInformation flatFileInformation) {
         List<Lockbox> lockboxList = (List<Lockbox>)parsedObject;
         for (Lockbox lockbox : lockboxList) {
             FlatFileTransactionInformation information = lockbox.getFlatFileTransactionInformation();

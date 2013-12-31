@@ -197,19 +197,15 @@ public class DunningLetterDistributionOnDemandServiceImpl implements DunningLett
      * @param events The list of events.
      * @return Returns the number of final events.
      */
-    private int getFinalEventsCount(List<Event> events) {
+    protected int getFinalEventsCount(List<Event> events) {
         int count = 0;
         if (CollectionUtils.isNotEmpty(events)) {
             for (Event event : events) {
-                System.out.println("..........event " + event.getActivityText());
-                System.out.println("route status - " + event.getEventRouteStatus());
                 if (event.getEventRouteStatus() == null || event.getEventRouteStatus().equals(KewApiConstants.ROUTE_HEADER_FINAL_CD)) {
                     count++;
                 }
-                System.out.println("count " + count);
             }
         }
-        System.out.println(".....count finally is " + count);
         return count;
     }
 
@@ -218,7 +214,7 @@ public class DunningLetterDistributionOnDemandServiceImpl implements DunningLett
      *
      * @return
      */
-    private Map<String, String> getTemplateParameterList(List<ContractsGrantsInvoiceDocument> invoices) {
+    protected Map<String, String> getTemplateParameterList(List<ContractsGrantsInvoiceDocument> invoices) {
         ContractsAndGrantsBillingAward award = invoices.get(0).getAward();
         Map<String, String> parameterMap = new HashMap<String, String>();
         Map primaryKeys = new HashMap<String, Object>();
@@ -323,7 +319,7 @@ public class DunningLetterDistributionOnDemandServiceImpl implements DunningLett
      * @param string
      * @return
      */
-    private String returnProperStringValue(Object string) {
+    protected String returnProperStringValue(Object string) {
         if (ObjectUtils.isNotNull(string)) {
             if (string instanceof KualiDecimal) {
                 String amount = (new CurrencyFormatter()).format(string).toString();

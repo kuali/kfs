@@ -143,7 +143,7 @@ public class ContractsGrantsInvoiceReportServiceImpl extends ContractsGrantsRepo
      * @param os
      * @param LOCDocument
      */
-    private void generateInvoiceInPdf(OutputStream os, ContractsGrantsLetterOfCreditReviewDocument LOCDocument) {
+    protected void generateInvoiceInPdf(OutputStream os, ContractsGrantsLetterOfCreditReviewDocument LOCDocument) {
         try {
             Document document = new Document(new Rectangle(1350, 595));
             PdfWriter.getInstance(document, os);
@@ -249,7 +249,7 @@ public class ContractsGrantsInvoiceReportServiceImpl extends ContractsGrantsRepo
      * @param string
      * @return
      */
-    private String returnProperStringValue(Object string) {
+    protected String returnProperStringValue(Object string) {
         if (ObjectUtils.isNotNull(string)) {
             if (string instanceof KualiDecimal) {
                 String amount = (new CurrencyFormatter()).format(string).toString();
@@ -265,7 +265,7 @@ public class ContractsGrantsInvoiceReportServiceImpl extends ContractsGrantsRepo
      *
      * @param table
      */
-    private void addAccountsHeaders(PdfPTable table) {
+    protected void addAccountsHeaders(PdfPTable table) {
         table.addCell("Account Description");
         table.addCell("Chart Code");
         table.addCell("Account/Chart of Account Number");
@@ -281,7 +281,7 @@ public class ContractsGrantsInvoiceReportServiceImpl extends ContractsGrantsRepo
      *
      * @param table
      */
-    private void addAwardHeaders(PdfPTable table) {
+    protected void addAwardHeaders(PdfPTable table) {
         table.addCell("Award");
         table.addCell("Award Document Number");
         table.addCell("Agency Number");
@@ -369,7 +369,7 @@ public class ContractsGrantsInvoiceReportServiceImpl extends ContractsGrantsRepo
      * @param reportingPeriod
      * @param year
      */
-    private void populateListByAward(ContractsAndGrantsBillingAward award, String reportingPeriod, String year) {
+    protected void populateListByAward(ContractsAndGrantsBillingAward award, String reportingPeriod, String year) {
         replacementList.clear();
         ContractsGrantsInvoiceDocumentService service = SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class);
         KualiDecimal cashDisbursement = KualiDecimal.ZERO;
@@ -493,7 +493,7 @@ public class ContractsGrantsInvoiceReportServiceImpl extends ContractsGrantsRepo
      * @param agency
      * @return total amount
      */
-    private List<KualiDecimal> populateListByAgency(List<ContractsAndGrantsBillingAward> awards, String reportingPeriod, String year, ContractsAndGrantsBillingAgency agency) {
+    protected List<KualiDecimal> populateListByAgency(List<ContractsAndGrantsBillingAward> awards, String reportingPeriod, String year, ContractsAndGrantsBillingAgency agency) {
         replacementList.clear();
         replacementList.put("Reporting Period End Date", returnProperStringValue(getReportingPeriodEndDate(reportingPeriod, year)));
         replacementList.put("Federal Agency", returnProperStringValue(returnProperStringValue(agency.getFullName())));
@@ -574,7 +574,7 @@ public class ContractsGrantsInvoiceReportServiceImpl extends ContractsGrantsRepo
      * @param year
      * @return
      */
-    private String getReportingPeriodEndDate(String reportingPeriod, String year) {
+    protected String getReportingPeriodEndDate(String reportingPeriod, String year) {
         if (ArConstants.QUATER1.equals(reportingPeriod)) {
             return "03/31/" + year;
         }
@@ -689,7 +689,7 @@ public class ContractsGrantsInvoiceReportServiceImpl extends ContractsGrantsRepo
      * @throws IOException
      * @throws DocumentException
      */
-    private static byte[] renameFieldsIn(String template, Map<String, String> list) throws IOException, DocumentException {
+    protected static byte[] renameFieldsIn(String template, Map<String, String> list) throws IOException, DocumentException {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         // Create the stamper
         PdfStamper stamper = new PdfStamper(new PdfReader(template), baos);

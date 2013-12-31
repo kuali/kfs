@@ -20,6 +20,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.kuali.kfs.coa.service.ChartService;
+import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
 import org.kuali.kfs.module.ar.businessobject.CashControlDetail;
@@ -187,9 +188,9 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
 
         // get system information by processing chart of accounts and organization
         Map criteria = new HashMap();
-        criteria.put("universityFiscalYear", currentFiscalYear);
-        criteria.put("processingChartOfAccountCode", processingChartOfAccountCode);
-        criteria.put("processingOrganizationCode", processingOrganizationCode);
+        criteria.put(ArPropertyConstants.SystemInformationFields.UNIVERSITY_FISCAL_YEAR, currentFiscalYear);
+        criteria.put(ArPropertyConstants.OrganizationOptionsFields.PROCESSING_CHART_OF_ACCOUNTS_CODE, processingChartOfAccountCode);
+        criteria.put(ArPropertyConstants.OrganizationOptionsFields.PROCESSING_ORGANIZATION_CODE, processingOrganizationCode);
         SystemInformation systemInformation = businessObjectService.findByPrimaryKey(SystemInformation.class, criteria);
 
         // if there is no system information for this processing chart of accounts and organization return false; glpes cannot be
@@ -264,9 +265,9 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
 
         // get system information by processing chart of acccounts and organization
         Map criteria = new HashMap();
-        criteria.put("universityFiscalYear", currentFiscalYear);
-        criteria.put("processingChartOfAccountCode", processingChartOfAccountCode);
-        criteria.put("processingOrganizationCode", processingOrganizationCode);
+        criteria.put(ArPropertyConstants.SystemInformationFields.UNIVERSITY_FISCAL_YEAR, currentFiscalYear);
+        criteria.put(ArPropertyConstants.OrganizationOptionsFields.PROCESSING_CHART_OF_ACCOUNTS_CODE, processingChartOfAccountCode);
+        criteria.put(ArPropertyConstants.OrganizationOptionsFields.PROCESSING_ORGANIZATION_CODE, processingOrganizationCode);
         SystemInformation systemInformation = businessObjectService.findByPrimaryKey(SystemInformation.class, criteria);
 
         // if there is no system information set up for this processing chart of accounts and organization return false, glpes
@@ -290,7 +291,7 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
 
         // get Advance Deposit accounting lines by getting Electronic Payment Claims
         Map criteria2 = new HashMap();
-        criteria2.put("referenceFinancialDocumentNumber", cashControlDocument.getDocumentNumber());
+        criteria2.put(ArPropertyConstants.CashControlDetailFields.REFERENCE_FINANCIAL_DOC_NBR, cashControlDocument.getDocumentNumber());
         Collection<ElectronicPaymentClaim> electronicPaymentClaims = businessObjectService.findMatching(ElectronicPaymentClaim.class, criteria2);
 
         // no EFT claims found
@@ -301,9 +302,9 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
         // for each Advance Deposit accounting line, create a reverse GLPE in CashControl document.
         for (ElectronicPaymentClaim electronicPaymentClaim : electronicPaymentClaims ) {
             Map criteria3= new HashMap();
-            criteria3.put("documentNumber", electronicPaymentClaim.getDocumentNumber());
-            criteria3.put("sequenceNumber", electronicPaymentClaim.getFinancialDocumentLineNumber());
-            criteria3.put("financialDocumentLineTypeCode", "F");
+            criteria3.put(ArPropertyConstants.CustomerInvoiceDocumentFields.DOCUMENT_NUMBER, electronicPaymentClaim.getDocumentNumber());
+            criteria3.put(ArPropertyConstants.SEQUENCE_NUMBER, electronicPaymentClaim.getFinancialDocumentLineNumber());
+            criteria3.put(ArPropertyConstants.FINANCIAL_DOCUMENT_LINE_TYPE_CODE, ArPropertyConstants.FINANCIAL_DOCUMENT_LINE_TYPE_CODE_F);
             SourceAccountingLine advanceDepositAccountingLine = businessObjectService.findByPrimaryKey(SourceAccountingLine.class, criteria3);
 
             // build dummy accounting line for gl creation
@@ -334,9 +335,9 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
 
         // get system information by processing chart of accounts and organization code
         Map criteria = new HashMap();
-        criteria.put("universityFiscalYear", currentFiscalYear);
-        criteria.put("processingChartOfAccountCode", processingChartOfAccountCode);
-        criteria.put("processingOrganizationCode", processingOrganizationCode);
+        criteria.put(ArPropertyConstants.SystemInformationFields.UNIVERSITY_FISCAL_YEAR, currentFiscalYear);
+        criteria.put(ArPropertyConstants.OrganizationOptionsFields.PROCESSING_CHART_OF_ACCOUNTS_CODE, processingChartOfAccountCode);
+        criteria.put(ArPropertyConstants.OrganizationOptionsFields.PROCESSING_ORGANIZATION_CODE, processingOrganizationCode);
         SystemInformation systemInformation = businessObjectService.findByPrimaryKey(SystemInformation.class, criteria);
 
         // if no system information is set up for this processing chart of accounts and organization code return false, the glpes
@@ -376,9 +377,9 @@ public class CashControlDocumentServiceImpl implements CashControlDocumentServic
         String chartOfAccountsCode = cashControlDocument.getAccountsReceivableDocumentHeader().getProcessingChartOfAccountCode();
         String processingOrgCode = cashControlDocument.getAccountsReceivableDocumentHeader().getProcessingOrganizationCode();
         Map criteria = new HashMap();
-        criteria.put("universityFiscalYear", currentFiscalYear);
-        criteria.put("processingChartOfAccountCode", chartOfAccountsCode);
-        criteria.put("processingOrganizationCode", processingOrgCode);
+        criteria.put(ArPropertyConstants.SystemInformationFields.UNIVERSITY_FISCAL_YEAR, currentFiscalYear);
+        criteria.put(ArPropertyConstants.OrganizationOptionsFields.PROCESSING_CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);
+        criteria.put(ArPropertyConstants.OrganizationOptionsFields.PROCESSING_ORGANIZATION_CODE, processingOrgCode);
         SystemInformation systemInformation = businessObjectService.findByPrimaryKey(SystemInformation.class, criteria);
 
         return (systemInformation == null) ? null : systemInformation.getLockboxNumber();

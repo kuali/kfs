@@ -430,7 +430,7 @@ public class ContractsGrantsAgingReportServiceImpl extends ContractsGrantsReport
      * @return Returns the list of ContractsGrantsInvoiceDocument.
      */
     @SuppressWarnings("unchecked")
-    private Collection<ContractsGrantsInvoiceDocument> filterContractsGrantsDocsAccordingToAward(Collection<ContractsGrantsInvoiceDocument> contractsGrantsInvoiceDocs, String awardDocumentNumber, java.sql.Date awardEndFromDate, java.sql.Date awardEndToDate, String fundManager) {
+    protected Collection<ContractsGrantsInvoiceDocument> filterContractsGrantsDocsAccordingToAward(Collection<ContractsGrantsInvoiceDocument> contractsGrantsInvoiceDocs, String awardDocumentNumber, java.sql.Date awardEndFromDate, java.sql.Date awardEndToDate, String fundManager) {
         if (ObjectUtils.isNotNull(contractsGrantsInvoiceDocs) && !contractsGrantsInvoiceDocs.isEmpty()) {
             for (Iterator iter = contractsGrantsInvoiceDocs.iterator(); iter.hasNext();) {
                 boolean considerAwardDocNumber = (ObjectUtils.isNotNull(awardDocumentNumber) && !StringUtils.isEmpty(awardDocumentNumber)) ? false : true;
@@ -458,7 +458,7 @@ public class ContractsGrantsAgingReportServiceImpl extends ContractsGrantsReport
      * @param awardEndDate
      * @return Returns true if award end date is within the given range.
      */
-    private boolean includeInvoiceAccordingToAwardDate(Date awardDate, Date awardStartDate, Date awardEndDate) {
+    protected boolean includeInvoiceAccordingToAwardDate(Date awardDate, Date awardStartDate, Date awardEndDate) {
         boolean includeInvoice = true;
         if (ObjectUtils.isNotNull(awardStartDate) && ObjectUtils.isNotNull(awardEndDate)) {
             includeInvoice = awardDate.compareTo(awardStartDate) >= 0 && awardDate.compareTo(awardEndDate) <= 0;
@@ -482,7 +482,7 @@ public class ContractsGrantsAgingReportServiceImpl extends ContractsGrantsReport
      * @param includeToAmt
      * @return Returns the list of ContractsGrantsInvoiceDocument.
      */
-    private Collection<ContractsGrantsInvoiceDocument> filterInvoicesAccordingToAmount(Collection<ContractsGrantsInvoiceDocument> contractsGrantsInvoiceDocuments, boolean includeFromAmt, boolean includeToAmt, String invoiceAmountFrom, String invoiceAmountTo) {
+    protected Collection<ContractsGrantsInvoiceDocument> filterInvoicesAccordingToAmount(Collection<ContractsGrantsInvoiceDocument> contractsGrantsInvoiceDocuments, boolean includeFromAmt, boolean includeToAmt, String invoiceAmountFrom, String invoiceAmountTo) {
         List<ContractsGrantsInvoiceDocument> filteredInvoices = new ArrayList<ContractsGrantsInvoiceDocument>();
         for (ContractsGrantsInvoiceDocument doc : contractsGrantsInvoiceDocuments) {
             if (includeFromAmt && includeToAmt) {
@@ -513,7 +513,7 @@ public class ContractsGrantsAgingReportServiceImpl extends ContractsGrantsReport
      * @return a List of the CustomerInvoiceDetails associated with a given Account Number
      */
     @SuppressWarnings("unchecked")
-    private Collection<CustomerInvoiceDetail> getCustomerInvoiceDetailsByAccountNumber(String accountChartCode, String accountNumber) {
+    protected Collection<CustomerInvoiceDetail> getCustomerInvoiceDetailsByAccountNumber(String accountChartCode, String accountNumber) {
         Map args = new HashMap();
         if (ObjectUtils.isNotNull(accountNumber) && StringUtils.isNotEmpty(accountNumber)) {
             args.put(KFSPropertyConstants.ACCOUNT_NUMBER, accountNumber);
@@ -532,7 +532,7 @@ public class ContractsGrantsAgingReportServiceImpl extends ContractsGrantsReport
      * @param includeToAmt
      * @return Returns the list of ContractsGrantsInvoiceDocument.
      */
-    private Collection<ContractsGrantsInvoiceDocument> filterInvoicesAccordingToInvoiceDate(Collection<ContractsGrantsInvoiceDocument> contractsGrantsInvoiceDocuments, String invoiceFromDateString, String invoiceToDateString) {
+    protected Collection<ContractsGrantsInvoiceDocument> filterInvoicesAccordingToInvoiceDate(Collection<ContractsGrantsInvoiceDocument> contractsGrantsInvoiceDocuments, String invoiceFromDateString, String invoiceToDateString) {
         List<ContractsGrantsInvoiceDocument> filteredInvoices = new ArrayList<ContractsGrantsInvoiceDocument>();
         Date docInvoiceDate = null;
         for (ContractsGrantsInvoiceDocument doc : contractsGrantsInvoiceDocuments) {
@@ -661,7 +661,7 @@ public class ContractsGrantsAgingReportServiceImpl extends ContractsGrantsReport
      * @param string
      * @return
      */
-    private String returnProperStringValue(Object string) {
+    protected String returnProperStringValue(Object string) {
         if (ObjectUtils.isNotNull(string)) {
             if (string instanceof KualiDecimal) {
                 String amount = (new CurrencyFormatter()).format(string).toString();

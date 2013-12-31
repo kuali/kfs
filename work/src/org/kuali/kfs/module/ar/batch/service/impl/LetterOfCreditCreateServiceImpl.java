@@ -180,15 +180,15 @@ public class LetterOfCreditCreateServiceImpl implements LetterOfCreditCreateServ
     public boolean validatecashControlDocument(String customerNumber, String locCreationType, String locValue, PrintStream outputFileStream) {
         boolean isExists = false;
         Criteria criteria = new Criteria();
-        criteria.addEqualTo("letterOfCreditCreationType", locCreationType);
+        criteria.addEqualTo(ArConstants.LETTER_OF_CREDIT_CREATION_TYPE, locCreationType);
         if (locCreationType.equalsIgnoreCase(ArConstants.LOC_BY_AWARD)) {
-            criteria.addEqualTo("proposalNumber", (new Long(locValue)));
+            criteria.addEqualTo(ArConstants.PROPOSAL_NUMBER, (new Long(locValue)));
         }
         else if (locCreationType.equalsIgnoreCase(ArConstants.LOC_BY_LOC_FUND)) {
-            criteria.addEqualTo("letterOfCreditFundCode", locValue);
+            criteria.addEqualTo(ArConstants.LETTER_OF_CREDIT_FUND_CODE, locValue);
         }
         else if (locCreationType.equalsIgnoreCase(ArConstants.LOC_BY_LOC_FUND_GRP)) {
-            criteria.addEqualTo("letterOfCreditFundGroupCode", locValue);
+            criteria.addEqualTo(ArConstants.LETTER_OF_CREDIT_FUND_GROUP_CODE, locValue);
         }
 
         criteria.addNotEqualTo("documentHeader.financialDocumentStatusCode", KFSConstants.DocumentStatusCodes.APPROVED);

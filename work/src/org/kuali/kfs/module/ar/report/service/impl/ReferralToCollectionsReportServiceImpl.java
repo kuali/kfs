@@ -284,7 +284,7 @@ public class ReferralToCollectionsReportServiceImpl extends ContractsGrantsRepor
      * @param collector String principalId for the collector used to match against customers and filter the documents
      * @param sourceCollectionDocuments Collection of documents to filter
      */
-    private void filterRecordsForCollector(String collector, Collection<ReferralToCollectionsDocument> sourceCollectionDocuments) {
+    protected void filterRecordsForCollector(String collector, Collection<ReferralToCollectionsDocument> sourceCollectionDocuments) {
         RoleService roleService = KimApiServiceLocator.getRoleService();
 
         for (Iterator<ReferralToCollectionsDocument> iter = sourceCollectionDocuments.iterator(); iter.hasNext();) {
@@ -312,7 +312,7 @@ public class ReferralToCollectionsReportServiceImpl extends ContractsGrantsRepor
      * @param referralToCollectionsDocument
      * @return Returns the Object of ReferralToCollectionsReport.
      */
-    private ReferralToCollectionsReport convertReferralToCollectionsDocumentToReport(ReferralToCollectionsDocument referralToCollectionsDocument, ReferralToCollectionsReport referralToCollectionsReport) {
+    protected ReferralToCollectionsReport convertReferralToCollectionsDocumentToReport(ReferralToCollectionsDocument referralToCollectionsDocument, ReferralToCollectionsReport referralToCollectionsReport) {
         referralToCollectionsReport.setDocumentNumber(referralToCollectionsDocument.getDocumentNumber());
         referralToCollectionsReport.setDocumentDate(referralToCollectionsDocument.getDocumentHeader().getWorkflowDocument().getDateCreated().toDate());
         referralToCollectionsReport.setAgencyNumber(referralToCollectionsDocument.getAgencyNumber());
@@ -361,7 +361,7 @@ public class ReferralToCollectionsReportServiceImpl extends ContractsGrantsRepor
      * @param referralToCollectionsDocument
      * @return Returns the list of ReferralToCollectionsDetails.
      */
-    private List<ReferralToCollectionsReport> prepareRefToCollListFromReferralToCollectionsDocument(ReferralToCollectionsDocument referralToCollectionsDocument) {
+    protected List<ReferralToCollectionsReport> prepareRefToCollListFromReferralToCollectionsDocument(ReferralToCollectionsDocument referralToCollectionsDocument) {
         List<ReferralToCollectionsReport> reportList = new ArrayList<ReferralToCollectionsReport>();
         List<ReferralToCollectionsDetail> reCollectionsDocumentDetails = referralToCollectionsDocument.getReferralToCollectionsDetails();
         if (ObjectUtils.isNotNull(reCollectionsDocumentDetails) && CollectionUtils.isNotEmpty(reCollectionsDocumentDetails)) {
@@ -418,7 +418,7 @@ public class ReferralToCollectionsReportServiceImpl extends ContractsGrantsRepor
      * @param refDocs
      * @return Returns the collections of ReferralToCollectionsDocs with their workflow headers.
      */
-    private Collection<ReferralToCollectionsDocument> populateWorkflowHeaders(Collection<ReferralToCollectionsDocument> refDocs) {
+    protected Collection<ReferralToCollectionsDocument> populateWorkflowHeaders(Collection<ReferralToCollectionsDocument> refDocs) {
 
         // make a list of necessary workflow docs to retrieve
         List<String> documentHeaderIds = new ArrayList<String>();
@@ -450,7 +450,7 @@ public class ReferralToCollectionsReportServiceImpl extends ContractsGrantsRepor
      * @return Returns the flag true if doc specifies the search criterias.
      */
 
-    private boolean isValidReferralToCollectionsDetail(ReferralToCollectionsDetail refDetail) {
+    protected boolean isValidReferralToCollectionsDetail(ReferralToCollectionsDetail refDetail) {
 
         boolean valid = true;
         boolean isValidPN = true;
@@ -480,7 +480,7 @@ public class ReferralToCollectionsReportServiceImpl extends ContractsGrantsRepor
      * @param refTypeCode Primary key for the ReferralType Business Object.
      * @return Returns the description for the referraltypecode.
      */
-    private String retrieveReferralType(String refTypeCode) {
+    protected String retrieveReferralType(String refTypeCode) {
         String refTypeDesc = null;
         Map<String, String> map = new HashMap<String, String>();
         map.put(ArPropertyConstants.ReferralTypeFields.REFERRAL_TYPE_CODE, refTypeCode);
@@ -499,7 +499,7 @@ public class ReferralToCollectionsReportServiceImpl extends ContractsGrantsRepor
      * @param namespaceCode
      * @return
      */
-    private Map<String, String> getRoleQualifiersForUser(String principalId, String namespaceCode) {
+    protected Map<String, String> getRoleQualifiersForUser(String principalId, String namespaceCode) {
         Map<String, String> roleQualifiers = new HashMap<String, String>();
         if (StringUtils.isBlank(principalId)) {
             return null;

@@ -31,6 +31,7 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.module.ar.ArConstants;
+import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.batch.service.LockboxService;
 import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
 import org.kuali.kfs.module.ar.businessobject.CashControlDetail;
@@ -516,7 +517,7 @@ public class LockboxServiceImpl implements LockboxService {
 
     protected void deleteProcessedLockboxEntry(Lockbox lockboxEntry) {
         Map<String,Object> pkMap = new HashMap<String,Object>();
-        pkMap.put("invoiceSequenceNumber", lockboxEntry.getInvoiceSequenceNumber());
+        pkMap.put(ArPropertyConstants.INVOICE_SEQUENCE_NUMBER, lockboxEntry.getInvoiceSequenceNumber());
         boService.deleteMatching(Lockbox.class, pkMap);
     }
 

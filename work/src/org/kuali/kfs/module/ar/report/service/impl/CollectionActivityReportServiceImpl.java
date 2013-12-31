@@ -246,7 +246,7 @@ public class CollectionActivityReportServiceImpl extends ContractsGrantsReportSe
      * @return Returns the list of ContractsGrantsInvoiceDocument.
      */
     @SuppressWarnings("unchecked")
-    private Collection<ContractsGrantsInvoiceDocument> filterContractsGrantsDocsAccordingToAgency(Collection<ContractsGrantsInvoiceDocument> contractsGrantsInvoiceDocs, String agencyNumber) {
+    protected Collection<ContractsGrantsInvoiceDocument> filterContractsGrantsDocsAccordingToAgency(Collection<ContractsGrantsInvoiceDocument> contractsGrantsInvoiceDocs, String agencyNumber) {
         if (ObjectUtils.isNotNull(contractsGrantsInvoiceDocs) && !contractsGrantsInvoiceDocs.isEmpty()) {
             for (Iterator iter = contractsGrantsInvoiceDocs.iterator(); iter.hasNext();) {
                 ContractsGrantsInvoiceDocument cgDoc = (ContractsGrantsInvoiceDocument) iter.next();
@@ -267,7 +267,7 @@ public class CollectionActivityReportServiceImpl extends ContractsGrantsReportSe
      * @param event
      * @return Returns the Object of CollectionActivityReport class.
      */
-    private CollectionActivityReport convertEventToCollectionActivityReport(CollectionActivityReport collectionActivityReport, Event event) {
+    protected CollectionActivityReport convertEventToCollectionActivityReport(CollectionActivityReport collectionActivityReport, Event event) {
 
         // account no
         collectionActivityReport.setInvoiceNumber(event.getInvoiceNumber());

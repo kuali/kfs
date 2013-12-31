@@ -23,6 +23,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.ar.businessobject.CustomerAddress;
 import org.kuali.kfs.module.ar.dataaccess.CustomerAddressDao;
 import org.kuali.kfs.module.ar.document.service.CustomerAddressService;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -45,8 +46,8 @@ public class CustomerAddressServiceImpl implements CustomerAddressService {
         CustomerAddress customerAddress = null;
         if (StringUtils.isNotBlank(customerNumber) && ObjectUtils.isNotNull(customerAddressIdentifier)) {
             Map criteria = new HashMap();
-            criteria.put("customerNumber", customerNumber);
-            criteria.put("customerAddressIdentifier", customerAddressIdentifier);
+            criteria.put(KFSPropertyConstants.CUSTOMER_NUMBER, customerNumber);
+            criteria.put(KFSPropertyConstants.CUSTOMER_ADDRESS_IDENTIFIER, customerAddressIdentifier);
 
             customerAddress = (CustomerAddress) businessObjectService.findByPrimaryKey(CustomerAddress.class, criteria);
         }
@@ -58,8 +59,8 @@ public class CustomerAddressServiceImpl implements CustomerAddressService {
         CustomerAddress primaryAddress = null;
         if (StringUtils.isNotBlank(customerNumber)) {
             Map criteria = new HashMap();
-            criteria.put("customerNumber", customerNumber);
-            criteria.put("customerAddressTypeCode", "P");
+            criteria.put(KFSPropertyConstants.CUSTOMER_NUMBER, customerNumber);
+            criteria.put(KFSPropertyConstants.CUSTOMER_ADDRESS_TYPE_CODE, "P");
             
             primaryAddress = (CustomerAddress)businessObjectService.findMatching(CustomerAddress.class, criteria).iterator().next();
         }

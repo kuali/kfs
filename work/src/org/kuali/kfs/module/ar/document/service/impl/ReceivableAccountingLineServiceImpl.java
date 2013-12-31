@@ -22,6 +22,7 @@ import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.OrganizationAccountingDefault;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.ReceivableAccountingLineService;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.FinancialSystemUserService;
@@ -46,9 +47,9 @@ public class ReceivableAccountingLineServiceImpl implements ReceivableAccounting
         ChartOrgHolder currentUser = SpringContext.getBean(FinancialSystemUserService.class).getPrimaryOrganization(GlobalVariables.getUserSession().getPerson(), ArConstants.AR_NAMESPACE_CODE);
 
         Map criteria = new HashMap();
-        criteria.put("universityFiscalYear", currentUniverisityFiscalYear);
-        criteria.put("chartOfAccountsCode", currentUser.getChartOfAccountsCode());
-        criteria.put("organizationCode", currentUser.getOrganizationCode());
+        criteria.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, currentUniverisityFiscalYear);
+        criteria.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, currentUser.getChartOfAccountsCode());
+        criteria.put(KFSPropertyConstants.ORGANIZATION_CODE, currentUser.getOrganizationCode());
 
         OrganizationAccountingDefault organizationAccountingDefault = businessObjectService.findByPrimaryKey(OrganizationAccountingDefault.class, criteria);
         if( ObjectUtils.isNotNull( organizationAccountingDefault) ){

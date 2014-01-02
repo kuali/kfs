@@ -569,7 +569,7 @@
 			<column name="LTRCR_FND_CD" type="varchar(15)" />
 			<column name="LTRCR_FNDGRP_CD" type="varchar(4)" />
 			<column name="MRKD_FOR_PRCSSNG" type="VARCHAR(45)" />
-			<column name="RPRT_PROCESSED_DT" type="DATETIME" />
+			<column name="RPRT_PROCESSED_DT" type="DATE" />
 			<column name="RFRL_TYP_CD" type="varchar(6)" />
 			<column name="FINAL_DISPOS_CD" type="varchar(4)" />
 		</addColumn>

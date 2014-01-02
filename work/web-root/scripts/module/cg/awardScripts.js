@@ -27,11 +27,11 @@ function onblur_preferredBillingFrequency(awardScheduleField) {
 	var billNumber = elPrefix + ".add.bills.billNumber";
 	var billDate = elPrefix + ".add.bills.billDate";
 	var estimatedAmount = elPrefix + ".add.bills.estimatedAmount";
-	var bisItBilled = elPrefix + ".add.bills.isItBilled";
+	var bbilledIndicator = elPrefix + ".add.bills.billedIndicator";
 	clearRecipients(billNumber);
 	clearRecipients(billDate);
 	clearRecipients(estimatedAmount);
-	clearRecipients(bisItBilled);
+	clearRecipients(bbilledIndicator);
 
 	//submitting the form to bring dynamic sections
 	document.forms[0].submit();

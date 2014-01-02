@@ -256,7 +256,7 @@ public class InvoiceMilestone extends PersistableBusinessObjectBase  {
         LinkedHashMap m = new LinkedHashMap();
         m.put(ArPropertyConstants.CustomerInvoiceDocumentFields.DOCUMENT_NUMBER, this.documentNumber);
         m.put("milestoneDescription", this.milestoneDescription);
-        m.put("isItBilled", this.billedIndicator);
+        m.put("billedIndicator", this.billedIndicator);
         if (this.proposalNumber != null) {
             m.put(KFSPropertyConstants.PROPOSAL_NUMBER, this.proposalNumber.toString());
         }

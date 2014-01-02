@@ -3293,7 +3293,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
                 parameterMap.put("invoiceMilestones[" + i + "].milestoneAmount", returnProperStringValue(document.getInvoiceMilestones().get(i).getMilestoneAmount()));
                 parameterMap.put("invoiceMilestones[" + i + "].milestoneExpectedCompletionDate", returnProperStringValue(document.getInvoiceMilestones().get(i).getMilestoneExpectedCompletionDate()));
                 parameterMap.put("invoiceMilestones[" + i + "].milestoneCompletionDate", returnProperStringValue(document.getInvoiceMilestones().get(i).getMilestoneActualCompletionDate()));
-                parameterMap.put("invoiceMilestones[" + i + "].isItBilled", returnProperStringValue(document.getInvoiceMilestones().get(i).isBilledIndicator()));
+                parameterMap.put("invoiceMilestones[" + i + "].billedIndicator", returnProperStringValue(document.getInvoiceMilestones().get(i).isBilledIndicator()));
             }
         }
         if (ObjectUtils.isNotNull(document.getInvoiceGeneralDetail())) {
@@ -3334,7 +3334,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
                 parameterMap.put("invoiceBills[" + i + "].billIdentifier", returnProperStringValue(document.getInvoiceBills().get(i).getBillIdentifier()));
                 parameterMap.put("invoiceBills[" + i + "].billDate", returnProperStringValue(document.getInvoiceBills().get(i).getBillDate()));
                 parameterMap.put("invoiceBills[" + i + "].amount", returnProperStringValue(document.getInvoiceBills().get(i).getEstimatedAmount()));
-                parameterMap.put("invoiceBills[" + i + "].isItBilled", returnProperStringValue(document.getInvoiceBills().get(i).isBilledIndicator()));
+                parameterMap.put("invoiceBills[" + i + "].billedIndicator", returnProperStringValue(document.getInvoiceBills().get(i).isBilledIndicator()));
             }
         }
         if (ObjectUtils.isNotNull(award)) {

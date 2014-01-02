@@ -22,8 +22,10 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
@@ -344,14 +346,18 @@ public class AgencyDataImportServiceImpl implements AgencyDataImportService {
     public boolean matchExpenses() {
         LOG.info("Starting Agency Reconciliation Match Process");
 
+        Set<Integer> visitedIds = new HashSet<Integer>();
         List<AgencyStagingData> agencyData = travelExpenseService.retrieveValidAgencyDataByImportType(ExpenseImportTypes.IMPORT_BY_TRIP);
         if (ObjectUtils.isNotNull(agencyData) && agencyData.size() > 0) {
             Map<String, GeneralLedgerPendingEntrySequenceHelper> sequenceHelperMap = new HashMap<String, GeneralLedgerPendingEntrySequenceHelper>();
             int count = 1;
             for (AgencyStagingData agency : agencyData) {
-                LOG.info("Matching agency data record# " + count + " of " + agencyData.size());
-                boolean result = expenseImportByTripService.reconciliateExpense(agency, getGeneralLedgerPendingEntrySequenceHelper(agency, sequenceHelperMap));
-                LOG.info("Agency Data Id: "+ agency.getId() + (result ? " was":" was not") +" reconciled.");
+                if (!visitedIds.contains(agency.getId())) {
+                    LOG.info("Matching agency data record# " + count + " of " + agencyData.size());
+                    boolean result = expenseImportByTripService.reconciliateExpense(agency, getGeneralLedgerPendingEntrySequenceHelper(agency, sequenceHelperMap));
+                    LOG.info("Agency Data Id: "+ agency.getId() + (result ? " was":" was not") +" reconciled.");
+                    visitedIds.add(agency.getId());
+                }
                 count++;
             }
         }

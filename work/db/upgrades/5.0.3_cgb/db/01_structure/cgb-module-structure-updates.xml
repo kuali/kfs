@@ -318,20 +318,20 @@
 	</changeSet>
 
 	<!-- Create Bills table -->
-	<changeSet author="KFSCGB" id="AR_BILL_T">
+	<changeSet author="KFSCGB" id="CG_BILL_T">
 		
-		<createTable tableName="AR_BILL_T">
+		<createTable tableName="CG_BILL_T">
 			<column name="BILL_NBR" type="decimal(12,0)" defaultValue="0">
-				<constraints primaryKey="true" primaryKeyName="AR_BILL_TP1" />
+				<constraints primaryKey="true" primaryKeyName="CG_BILL_TP1" />
 			</column>
 			<column name="PRPSL_NBR" type="decimal(12,0)" defaultValue="0">
-				<constraints primaryKey="true" primaryKeyName="AR_BILL_TP1" />
+				<constraints primaryKey="true" primaryKeyName="CG_BILL_TP1" />
 			</column>
 			<column name="BILL_ID" type="decimal(12,0)" defaultValue="0">
-				<constraints primaryKey="true" primaryKeyName="AR_BILL_TP1" />
+				<constraints primaryKey="true" primaryKeyName="CG_BILL_TP1" />
 			</column>
 			<column name="OBJ_ID" type="varchar(36)">
-				<constraints unique="true" nullable="false" uniqueConstraintName="AR_BILL_TC1"/>
+				<constraints unique="true" nullable="false" uniqueConstraintName="CG_BILL_TC1"/>
 			</column>
 			<column name="VER_NBR" type="decimal(8,0)" defaultValueNumeric="1">
 				<constraints nullable="false" />

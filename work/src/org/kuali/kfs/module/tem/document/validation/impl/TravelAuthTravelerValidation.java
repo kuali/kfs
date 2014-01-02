@@ -20,6 +20,7 @@ import static org.kuali.kfs.module.tem.TemPropertyConstants.TRIP_OVERVIEW;
 
 import java.util.Date;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants.TravelAuthorizationFields;
@@ -27,7 +28,6 @@ import org.kuali.kfs.module.tem.businessobject.TravelerDetail;
 import org.kuali.kfs.module.tem.document.TravelDocumentBase;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.kfs.sys.service.PostalCodeValidationService;
@@ -35,8 +35,8 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 public class TravelAuthTravelerValidation extends GenericValidation {
+    protected PostalCodeValidationService postalCodeValidationService;
 
-    //@Override
     @Override
     public boolean validate(AttributedDocumentEvent event) {
         GlobalVariables.getMessageMap().clearErrorPath();
@@ -53,7 +53,9 @@ public class TravelAuthTravelerValidation extends GenericValidation {
                 GlobalVariables.getMessageMap().putError(KFSConstants.DOCUMENT_PROPERTY_NAME + "." + TravelAuthorizationFields.TRAVELER_PRINCIPAL_ID, KFSKeyConstants.ERROR_REQUIRED, "Principal Id");
             }
 
-            SpringContext.getBean(PostalCodeValidationService.class).validateAddress(traveler.getCountryCode(), traveler.getStateCode(), traveler.getZipCode(), "stateCode", "zipCode");
+            if (shouldValidateAddress(traveler.getCountryCode(), traveler.getStateCode())) {
+                getPostalCodeValidationService().validateAddress(traveler.getCountryCode(), traveler.getStateCode(), traveler.getZipCode(), "stateCode", "zipCode");
+            }
         }
 
         GlobalVariables.getMessageMap().removeFromErrorPath(TemPropertyConstants.TRAVELER);
@@ -70,6 +72,25 @@ public class TravelAuthTravelerValidation extends GenericValidation {
         }
 
         return true;
+    }
+
+    /**
+     * Determines if the address with the given country code and state code should go through standard postal code validation.  If the country code is the US,
+     * or if the state code is not blank or all dashes, then we'd like to go through postal code validation
+     * @param countryCode the country code of the address
+     * @param stateCode the state code of the address
+     * @return true if standard validation should be performed, false otherwise
+     */
+    protected boolean shouldValidateAddress(String countryCode, String stateCode) {
+        return StringUtils.equals(KFSConstants.COUNTRY_CODE_UNITED_STATES, countryCode) || (!StringUtils.isBlank(stateCode) && !(stateCode.matches("^-+$")));
+    }
+
+    public PostalCodeValidationService getPostalCodeValidationService() {
+        return postalCodeValidationService;
+    }
+
+    public void setPostalCodeValidationService(PostalCodeValidationService postalCodeValidationService) {
+        this.postalCodeValidationService = postalCodeValidationService;
     }
 
 }

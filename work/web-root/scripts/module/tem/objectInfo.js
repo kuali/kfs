@@ -60,14 +60,17 @@ function loadExpenseTypeObjectCode(expenseTypeCodeField, documentTypeName, trave
 						taxableCheckbox.checked = data.taxable;
 					}
 					
-					// handle mileage
-					if (data.expenseTypeMetaCategoryCode == "M") {
-						var expenseAmountField = document.getElementById(lineName+".expenseAmount");
-						if (expenseAmountField) {
+					var expenseAmountField = document.getElementById(lineName+".expenseAmount");
+					if (expenseAmountField) {
+						if (data.expenseTypeMetaCategoryCode == "M") { // handle mileage
 							expenseAmountField.value = 0.0;
 							expenseAmountField.disabled = true;
+						} else {
+							if (expenseAmountField.disabled) { // what if they were at mileage and they switched?  let's enable the amount field then
+								expenseAmountField.disabled = false;
+							}
 						}
-					}
+					} 
 				}
 			},
 			errorHandler: function (errorMessage) {

@@ -195,7 +195,7 @@
 						</list>
 					</property>
 				</bean>
-				<bean parent="RelationshipDefinition" p:objectAttributeName="bills" p:targetClass="org.kuali.kfs.integration.ar.AccountsReceivableBill">
+				<bean parent="RelationshipDefinition" p:objectAttributeName="bills" p:targetClass="org.kuali.kfs.module.cg.businessobject.Bill">
 							<property name="primitiveAttributes">
 								<list>		        			
 		        			<bean parent="PrimitiveAttributeDefinition" p:sourceName="proposalNumber" p:targetName="proposalNumber" />
@@ -1356,7 +1356,7 @@
 					<property name="inquiryFields">
 						<list>
 							<bean parent="InquiryCollectionDefinition" p:attributeName="bills"
-							p:businessObjectClass="org.kuali.kfs.integration.ar.AccountsReceivableBill" >
+							p:businessObjectClass="org.kuali.kfs.module.cg.businessobject.Bill" >
 								<property name="inquiryFields">
 									<list>
 										<bean parent="FieldDefinition" p:attributeName="proposalNumber" />

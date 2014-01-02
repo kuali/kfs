@@ -53,7 +53,6 @@
 				<entry key="org.kuali.kfs.integration.ar.AccountsReceivableInvoiceTemplate" value="org.kuali.kfs.module.ar.businessobject.InvoiceTemplate" />
 				<entry key="org.kuali.kfs.integration.ar.AccountsReceivableMilestone" value="org.kuali.kfs.module.ar.businessobject.Milestone" />
 				<entry key="org.kuali.kfs.integration.ar.AccountsReceivableMilestoneSchedule" value="org.kuali.kfs.module.ar.businessobject.MilestoneSchedule" />
-				<entry key="org.kuali.kfs.integration.ar.AccountsReceivableBill" value="org.kuali.kfs.module.ar.businessobject.Bill" />
 				<entry key="org.kuali.kfs.integration.ar.AccountsReceivableInvoiceIndicator" value="org.kuali.kfs.module.ar.businessobject.InvoiceIndicator" />
 								<entry key="org.kuali.kfs.integration.ar.AccountsReceivableCustomerInvoiceAccountInformation" value="org.kuali.kfs.module.ar.businessobject.CustomerInvoiceAccount" />
             </map>
@@ -194,8 +193,7 @@
 	<bean id="cashControlDocumentDao" parent="platformAwareDao" class="org.kuali.kfs.module.ar.document.dataaccess.impl.CashControlDocumentDaoOjb" />
 	<bean id="referralToCollectionsDao" parent="platformAwareDao" class="org.kuali.kfs.module.ar.dataaccess.impl.ReferralToCollectionsDaoOjb" />
 	<bean id="milestoneDao" parent="platformAwareDao" class="org.kuali.kfs.module.ar.dataaccess.impl.MilestoneDaoOjb" />	
-	<bean id="billDao" parent="platformAwareDao" class="org.kuali.kfs.module.ar.dataaccess.impl.BillDaoOjb" />
-	
+
 	<bean id="contractsGrantsInvoiceCreateDocumentService" parent="contractsGrantsInvoiceCreateDocumentService-parentBean"/>
 	<bean id="contractsGrantsInvoiceCreateDocumentService-parentBean" class="org.kuali.kfs.module.ar.batch.service.impl.ContractsGrantsInvoiceCreateDocumentServiceImpl" abstract="true">
 		<property name="accountingPeriodService">

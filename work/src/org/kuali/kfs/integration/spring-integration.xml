@@ -159,8 +159,8 @@
 				<entry 
 					key="org.kuali.kfs.integration.ar.AccountsReceivableCollectionStatus" 
 					value="org.kuali.kfs.integration.ar.businessobject.CollectionStatus" />    
-				<entry key="org.kuali.kfs.integration.ar.AccountsReceivableBill"
-					value="org.kuali.kfs.integration.ar.businessobject.Bill" />
+				<entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsBill"
+					value="org.kuali.kfs.integration.cg.businessobject.Bill" />
 				<entry key="org.kuali.kfs.integration.ar.AccountsReceivableMilestone"
 					value="org.kuali.kfs.integration.ar.businessobject.Milestone" />					            
 				<entry key="org.kuali.kfs.integration.ar.AccountsReceivableMilestoneSchedule"

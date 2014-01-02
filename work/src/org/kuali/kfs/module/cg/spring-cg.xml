@@ -86,6 +86,7 @@
 				<entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsProjectDirector" value="org.kuali.kfs.module.cg.businessobject.AwardProjectDirector" />
 				<entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsUnit" value="org.kuali.kfs.integration.cg.businessobject.UnitDTO" />
 				<entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsBudgetCategory" value="org.kuali.kfs.integration.cg.businessobject.BudgetCategoryDTO" />
+				<entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsBill" value="org.kuali.kfs.module.cg.businessobject.Bill" />
 			</map>
 		</property>
 		<property name="batchFileDirectories">
@@ -148,7 +149,7 @@
 	<bean id="closeDao" parent="platformAwareDao" class="org.kuali.kfs.module.cg.dataaccess.impl.CloseDaoOjb" />
 
 	<bean id="agencyAddressDao" parent="platformAwareDao" class="org.kuali.kfs.module.cg.dataaccess.impl.AgencyAddressDaoOjb" />
-
+	<bean id="billDao" parent="platformAwareDao" class="org.kuali.kfs.module.cg.dataaccess.impl.BillDaoOjb" />
 	<!-- Services -->
 	<bean id="closeService"  parent="closeService-parentBean"/>
 	<bean id="closeService-parentBean" class="org.kuali.kfs.module.cg.service.impl.CloseServiceImpl" abstract="true">

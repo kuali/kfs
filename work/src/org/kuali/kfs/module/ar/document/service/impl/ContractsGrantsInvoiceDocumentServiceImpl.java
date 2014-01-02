@@ -60,7 +60,6 @@ import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.batch.service.VerifyBillingFrequencyService;
 import org.kuali.kfs.module.ar.businessobject.AwardAccountObjectCodeTotalBilled;
-import org.kuali.kfs.module.ar.businessobject.Bill;
 import org.kuali.kfs.module.ar.businessobject.ContractsAndGrantsCategories;
 import org.kuali.kfs.module.ar.businessobject.Customer;
 import org.kuali.kfs.module.ar.businessobject.CustomerAddress;
@@ -90,7 +89,6 @@ import org.kuali.kfs.module.ar.businessobject.SystemInformation;
 import org.kuali.kfs.module.ar.businessobject.lookup.DunningLetterDistributionOnDemandLookupUtil;
 import org.kuali.kfs.module.ar.businessobject.lookup.ReferralToCollectionsDocumentUtil;
 import org.kuali.kfs.module.ar.dataaccess.AwardAccountObjectCodeTotalBilledDao;
-import org.kuali.kfs.module.ar.dataaccess.BillDao;
 import org.kuali.kfs.module.ar.dataaccess.ContractsGrantsInvoiceDocumentDao;
 import org.kuali.kfs.module.ar.dataaccess.MilestoneDao;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
@@ -101,6 +99,8 @@ import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService;
 import org.kuali.kfs.module.ar.document.service.CustomerService;
 import org.kuali.kfs.module.ar.document.service.InvoicePaidAppliedService;
 import org.kuali.kfs.module.ar.identity.ArKimAttributes;
+import org.kuali.kfs.module.cg.businessobject.Bill;
+import org.kuali.kfs.module.cg.dataaccess.BillDao;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -723,7 +723,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
      * @param invoiceDetailAccountObjectCodes
      * @return
      */
-    private KualiDecimal getSumOfExpendituresOfCategory(List<InvoiceDetailAccountObjectCode> invoiceDetailAccountObjectCodes) {
+    protected KualiDecimal getSumOfExpendituresOfCategory(List<InvoiceDetailAccountObjectCode> invoiceDetailAccountObjectCodes) {
         KualiDecimal total = KualiDecimal.ZERO;
         // null can occur if this category has no invoice detail objectcode amounts
         if (invoiceDetailAccountObjectCodes != null) {
@@ -743,7 +743,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
      * @param total is the sum of the current expenditures from all the object codes in that category
      * @param invoiceDetailAccountObjectCodes
      */
-    private void recalculateObjectCodeByCategory(ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument, InvoiceDetail invoiceDetail, KualiDecimal total, List<InvoiceDetailAccountObjectCode> invoiceDetailAccountObjectCodes) {
+    protected void recalculateObjectCodeByCategory(ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument, InvoiceDetail invoiceDetail, KualiDecimal total, List<InvoiceDetailAccountObjectCode> invoiceDetailAccountObjectCodes) {
         KualiDecimal currentExpenditure = invoiceDetail.getExpenditures();
         KualiDecimal newTotalAmount = KualiDecimal.ZERO;
 
@@ -798,7 +798,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
      * @param contractsGrantsInvoiceDocument
      * @param invoiceDetail
      */
-    private void assignCurrentExpenditureToNonExistingAccountObjectCode(ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument, InvoiceDetail invoiceDetail) {
+    protected void assignCurrentExpenditureToNonExistingAccountObjectCode(ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument, InvoiceDetail invoiceDetail) {
         String categoryCode = invoiceDetail.getCategoryCode();
         if (categoryCode == null) {
             LOG.error("Category Code can not be null during recalculation of account object code for Contracts and Grants Invoice Document.");
@@ -935,7 +935,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
      * @param invoices
      * @return
      */
-    private Collection<ContractsGrantsInvoiceDocument> populateWorkflowHeaders(Collection<ContractsGrantsInvoiceDocument> invoices) {
+    protected Collection<ContractsGrantsInvoiceDocument> populateWorkflowHeaders(Collection<ContractsGrantsInvoiceDocument> invoices) {
         // make a list of necessary workflow docs to retrieve
         List<String> documentHeaderIds = new ArrayList<String>();
         for (ContractsGrantsInvoiceDocument invoice : invoices) {
@@ -1466,7 +1466,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
      * @param suspensionCategoryCode
      */
     // this method adds a new InvoiceSuspensionCategory to the List<InvoiceSuspensionCategory> if it does not already exist.
-    private void addSuspensionCategoryToDocument(List<String> suspensionCategoryCodes, List<InvoiceSuspensionCategory> invoiceSuspensionCategories, String documentNumber, String suspensionCategoryCode) {
+    protected void addSuspensionCategoryToDocument(List<String> suspensionCategoryCodes, List<InvoiceSuspensionCategory> invoiceSuspensionCategories, String documentNumber, String suspensionCategoryCode) {
         if (!suspensionCategoryCodes.contains(suspensionCategoryCode)) { // check prevents duplicate
             // To check if the suspension category is active.
             SuspensionCategory suspensionCategory = businessObjectService.findBySinglePrimaryKey(SuspensionCategory.class, suspensionCategoryCode);
@@ -1483,7 +1483,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
      */
     // this method removes a suspensionCategoryCode from the List<String> and removes the object InvoiceSuspensionCategory from the
     // List<InvoiceSuspensionCategory>
-    private void removeSuspensionCategoryFromDocument(List<String> suspensionCategoryCodes, List<InvoiceSuspensionCategory> invoiceSuspensionCategories, String suspensionCategoryCode) {
+    protected void removeSuspensionCategoryFromDocument(List<String> suspensionCategoryCodes, List<InvoiceSuspensionCategory> invoiceSuspensionCategories, String suspensionCategoryCode) {
         if (suspensionCategoryCodes.contains(suspensionCategoryCode)) {
             suspensionCategoryCodes.remove(suspensionCategoryCode);
             for (InvoiceSuspensionCategory invoiceSuspensionCategory : invoiceSuspensionCategories) {
@@ -2622,7 +2622,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
     }
 
 
-    private Collection<ContractsGrantsInvoiceDocument> validateInvoicesForDunningLetters(Map<String, String> fieldValues, Collection<ContractsGrantsInvoiceDocument> cgInvoiceDocuments) {
+    protected Collection<ContractsGrantsInvoiceDocument> validateInvoicesForDunningLetters(Map<String, String> fieldValues, Collection<ContractsGrantsInvoiceDocument> cgInvoiceDocuments) {
         Integer agingBucketStartValue = null;
         Integer agingBucketEndValue = null;
         Integer cutoffdate0 = 0;
@@ -3061,7 +3061,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
      * @param invoices list of invoices.
      * @param awardDocumentNumber award document number to filter invoices.
      */
-    private void filterInvoicesByAwardDocumentNumber(Collection<ContractsGrantsInvoiceDocument> invoices, String agencyNumber, String awardDocumentNumber) {
+    protected void filterInvoicesByAwardDocumentNumber(Collection<ContractsGrantsInvoiceDocument> invoices, String agencyNumber, String awardDocumentNumber) {
         boolean checkAwardNumber = ObjectUtils.isNotNull(awardDocumentNumber) && StringUtils.isNotBlank(awardDocumentNumber) && StringUtils.isNotEmpty(awardDocumentNumber);
         boolean checkAgencyNumber = ObjectUtils.isNotNull(agencyNumber) && StringUtils.isNotBlank(agencyNumber.toString()) && StringUtils.isNotEmpty(agencyNumber.toString());
         if (invoices != null && !invoices.isEmpty()) {
@@ -3182,7 +3182,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
      * @param string
      * @return
      */
-    private String returnProperStringValue(Object string) {
+    protected String returnProperStringValue(Object string) {
         if (ObjectUtils.isNotNull(string)) {
             if (string instanceof KualiDecimal) {
                 String amount = (new CurrencyFormatter()).format(string).toString();
@@ -3198,7 +3198,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
      *
      * @return
      */
-    private Map<String, String> getTemplateParameterList(ContractsGrantsInvoiceDocument document) {
+    protected Map<String, String> getTemplateParameterList(ContractsGrantsInvoiceDocument document) {
         ContractsAndGrantsBillingAward award = document.getAward();
         Map<String, String> parameterMap = new HashMap<String, String>();
         Map primaryKeys = new HashMap<String, Object>();
@@ -3460,7 +3460,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
      *
      * @return
      */
-    private boolean isAdvance(ContractsGrantsInvoiceDocument document) {
+    protected boolean isAdvance(ContractsGrantsInvoiceDocument document) {
         if (ArPropertyConstants.PREDETERMINED_BILLING_SCHEDULE_CODE.equals(document.getInvoiceGeneralDetail().getBillingFrequency())) {
             return true;
         }
@@ -3473,7 +3473,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
      * @param bool
      * @return
      */
-    private String convertBooleanValue(boolean bool) {
+    protected String convertBooleanValue(boolean bool) {
         if (bool) {
             return "Yes";
         }
@@ -3485,7 +3485,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
      *
      * @return
      */
-    private String getRecipientAccountNumber(List<InvoiceAccountDetail> accountDetails) {
+    protected String getRecipientAccountNumber(List<InvoiceAccountDetail> accountDetails) {
         if (ObjectUtils.isNull(accountDetails.get(0).getContractControlAccountNumber())) {
             return accountDetails.get(0).getAccountNumber();
         }
@@ -3551,7 +3551,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
      * @param id
      * @param value
      */
-    private void calculateAwardAccountLastBilledDate(InvoiceAccountDetail id, String invoiceStatus, java.sql.Date lastBilledDate, Long proposalNumber) {
+    protected void calculateAwardAccountLastBilledDate(InvoiceAccountDetail id, String invoiceStatus, java.sql.Date lastBilledDate, Long proposalNumber) {
         Map<String, Object> mapKey = new HashMap<String, Object>();
         mapKey.put(KFSPropertyConstants.ACCOUNT_NUMBER, id.getAccountNumber());
         mapKey.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, id.getChartOfAccountsCode());
@@ -3625,7 +3625,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
      * @param id
      * @param value
      */
-    private void setAwardAccountFinalBilledValue(InvoiceAccountDetail id, boolean value, Long proposalNumber) {
+    protected void setAwardAccountFinalBilledValue(InvoiceAccountDetail id, boolean value, Long proposalNumber) {
         Map<String, Object> mapKey = new HashMap<String, Object>();
         mapKey.put(KFSPropertyConstants.ACCOUNT_NUMBER, id.getAccountNumber());
         mapKey.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, id.getChartOfAccountsCode());
@@ -4054,8 +4054,8 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
                 balanceKeys.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, awardAccount.getChartOfAccountsCode());
                 balanceKeys.put(KFSPropertyConstants.ACCOUNT_NUMBER, awardAccount.getAccountNumber());
                 balanceKeys.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, eachFiscalYr);
-                balanceKeys.put("objectTypeCode", ArPropertyConstants.EXPENSE_OBJECT_TYPE);
-                balanceKeys.put("balanceTypeCode", ArPropertyConstants.ACTUAL_BALANCE_TYPE);
+                balanceKeys.put(KFSPropertyConstants.OBJECT_TYPE_CODE, ArPropertyConstants.EXPENSE_OBJECT_TYPE);
+                balanceKeys.put(KFSPropertyConstants.BALANCE_TYPE_CODE, ArPropertyConstants.ACTUAL_BALANCE_TYPE);
 
                 glBalances.addAll(businessObjectService.findMatching(Balance.class, balanceKeys));
             }

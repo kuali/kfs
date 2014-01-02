@@ -13,18 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.integration.ar.businessobject;
+package org.kuali.kfs.integration.cg.businessobject;
 
 import java.util.Date;
 
-import org.kuali.kfs.integration.ar.AccountsReceivableBill;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsBill;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 /**
  * Integration class for Bill
  */
-public class Bill implements AccountsReceivableBill {
+public class Bill implements ContractsAndGrantsBill {
 
 
     private Long proposalNumber;

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.integration.ar;
+package org.kuali.kfs.integration.cg;
 
 import java.util.Date;
 
@@ -23,7 +23,7 @@ import org.kuali.rice.core.api.util.type.KualiDecimal;
 /**
  * Integration interface for Bill
  */
-public interface AccountsReceivableBill extends ExternalizableBusinessObject {
+public interface ContractsAndGrantsBill extends ExternalizableBusinessObject {
 
 
     /**

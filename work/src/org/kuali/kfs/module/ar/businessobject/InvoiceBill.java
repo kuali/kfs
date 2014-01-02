@@ -18,7 +18,7 @@ package org.kuali.kfs.module.ar.businessobject;
 import java.util.Date;
 import java.util.LinkedHashMap;
 
-import org.kuali.kfs.integration.ar.AccountsReceivableBill;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsBill;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
@@ -33,7 +33,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
  * This class extends the Bills BO to be used exclusively for Contracts Grants Invoice Document with document Number as its key.
  */
 
-public class InvoiceBill extends PersistableBusinessObjectBase implements AccountsReceivableBill {
+public class InvoiceBill extends PersistableBusinessObjectBase implements ContractsAndGrantsBill {
 
     private String documentNumber;
     private Long proposalNumber;

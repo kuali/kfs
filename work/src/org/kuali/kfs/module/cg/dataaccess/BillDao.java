@@ -13,26 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.module.ar.dataaccess.impl;
+package org.kuali.kfs.module.cg.dataaccess;
 
 import java.util.Collection;
 
 import org.apache.ojb.broker.query.Criteria;
-import org.apache.ojb.broker.query.QueryByCriteria;
-import org.kuali.kfs.module.ar.businessobject.Bill;
-import org.kuali.kfs.module.ar.dataaccess.BillDao;
-import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
+import org.kuali.kfs.module.cg.businessobject.Bill;
 
 /**
- * Bill DAO OJB object that implements BillDao
+ * Implementations of this interface provide access to persisted Bill instances.
  */
-public class BillDaoOjb extends PlatformAwareDaoBaseOjb implements BillDao {
+public interface BillDao {
 
-    @Override
-    public Collection<Bill> getBillsByMatchingCriteria(Criteria criteria) {
-        QueryByCriteria query = new QueryByCriteria(Bill.class, criteria);
-        Collection<Bill> bills = getPersistenceBrokerTemplate().getCollectionByQuery(query);
-        return bills;
-    }
+    /**
+     * @param
+     * @return a {@link Collection} of appropriate {@link Milestone}.
+     */
+    public Collection<Bill> getBillsByMatchingCriteria(Criteria criteria);
+
 
 }

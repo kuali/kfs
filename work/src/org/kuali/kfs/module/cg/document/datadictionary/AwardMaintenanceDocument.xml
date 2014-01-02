@@ -396,7 +396,7 @@
 			<list>
 				<bean parent="MaintainableCollectionDefinition">
 					<property name="name" value="bills" />
-					<property name="businessObjectClass" value="org.kuali.kfs.module.ar.businessobject.Bill" />
+					<property name="businessObjectClass" value="org.kuali.kfs.module.cg.businessobject.Bill" />
 					<property name="summaryFields">
 						<list>
 							<bean parent="MaintainableFieldDefinition" p:name="proposalNumber" />

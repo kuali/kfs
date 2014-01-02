@@ -29,7 +29,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.integration.ar.AccountsReceivableBill;
 import org.kuali.kfs.integration.ar.AccountsReceivableMilestone;
 import org.kuali.kfs.integration.ar.AccountsReceivableModuleService;
 import org.kuali.kfs.module.cg.CGConstants;
@@ -41,6 +40,7 @@ import org.kuali.kfs.module.cg.businessobject.AwardFundManager;
 import org.kuali.kfs.module.cg.businessobject.AwardOrganization;
 import org.kuali.kfs.module.cg.businessobject.AwardProjectDirector;
 import org.kuali.kfs.module.cg.businessobject.AwardSubcontractor;
+import org.kuali.kfs.module.cg.businessobject.Bill;
 import org.kuali.kfs.module.cg.businessobject.CGFundManager;
 import org.kuali.kfs.module.cg.businessobject.CGProjectDirector;
 import org.kuali.kfs.module.cg.businessobject.Proposal;
@@ -109,7 +109,7 @@ public class AwardMaintainableImpl extends FinancialSystemMaintainable {
         getAward().setAwardAccounts(new ArrayList<AwardAccount>());
         getAward().setMilestones(new ArrayList<AccountsReceivableMilestone>());
         getAward().setMilestoneSchedule(SpringContext.getBean(AccountsReceivableModuleService.class).getMilestoneSchedule());
-        getAward().setBills(new ArrayList<AccountsReceivableBill>());
+        getAward().setBills(new ArrayList<Bill>());
         getAward().setLastBilledDate(null);
     }
 
@@ -251,7 +251,9 @@ public class AwardMaintainableImpl extends FinancialSystemMaintainable {
     public void processAfterPost(MaintenanceDocument document, Map<String, String[]> parameters) {
         super.processAfterPost(document, parameters);
         Award newAward = (Award) document.getNewMaintainableObject().getBusinessObject();
-        SpringContext.getBean(BusinessObjectService.class).save(newAward.getProposal());
+        if(ObjectUtils.isNotNull(newAward.getProposal())) {
+            SpringContext.getBean(BusinessObjectService.class).save(newAward.getProposal());
+        }
     }
     
     /**

@@ -20,12 +20,9 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
-import org.kuali.kfs.integration.ar.AccountsReceivableBill;
 import org.kuali.kfs.integration.ar.AccountsReceivableMilestone;
 import org.kuali.kfs.integration.ar.AccountsReceivableMilestoneSchedule;
 import org.kuali.kfs.integration.ar.AccountsReceivableModuleService;
@@ -40,7 +37,6 @@ import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.krad.service.KualiModuleService;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
@@ -108,7 +104,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
     private List<AwardSubcontractor> awardSubcontractors;
     private List<AwardOrganization> awardOrganizations;
     private List<AccountsReceivableMilestone> milestones;
-    private List<AccountsReceivableBill> bills;
+    private List<Bill> bills;
 
 
     private Proposal proposal;
@@ -163,7 +159,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
         awardSubcontractors = new ArrayList<AwardSubcontractor>();
         awardOrganizations = new ArrayList<AwardOrganization>();
         milestones = new ArrayList<AccountsReceivableMilestone>();
-        bills = new ArrayList<AccountsReceivableBill>();
+        bills = new ArrayList<Bill>();
     }
 
     /**
@@ -1920,12 +1916,8 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
      * @return Returns the bills.
      */
 
-    public List<AccountsReceivableBill> getBills() {
-        Map<String, Object> fieldValues = new HashMap<String, Object>();
-        fieldValues.put(KFSPropertyConstants.PROPOSAL_NUMBER, this.getProposalNumber());
-         bills = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(AccountsReceivableBill.class).getExternalizableBusinessObjectsList(AccountsReceivableBill.class, fieldValues);
+    public List<Bill> getBills() {
         return bills;
-
     }
 
     /**
@@ -1934,7 +1926,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
      * @param bills The bills to set.
      */
 
-    public void setBills(List<AccountsReceivableBill> bills) {
+    public void setBills(List<Bill> bills) {
         this.bills = bills;
     }
 

@@ -72,6 +72,7 @@ are intended for use only by Kuali Foundation developers.
 			<jvmarg value="-XX:MaxPermSize=256m" />
 			<classpath>
 				<pathelement location="${classes.directory}" />
+				<pathelement location="${drivers.directory}" />
 				<path refid="compile.source.classpath" />
 				<path refid="database.drivers.classpath" />
 			</classpath>

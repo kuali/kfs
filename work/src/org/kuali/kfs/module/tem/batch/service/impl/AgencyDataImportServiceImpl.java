@@ -29,9 +29,9 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.tem.TemConstants;
-import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.TemConstants.ExpenseImport;
 import org.kuali.kfs.module.tem.TemConstants.ExpenseImportTypes;
+import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.batch.service.AgencyDataImportService;
 import org.kuali.kfs.module.tem.batch.service.DataReportService;
 import org.kuali.kfs.module.tem.batch.service.ExpenseImportByTravelerService;
@@ -355,7 +355,6 @@ public class AgencyDataImportServiceImpl implements AgencyDataImportService {
                 count++;
             }
         }
-        businessObjectService.save(agencyData);
 
         LOG.info("Finished Agency Reconciliation Match Process");
         return true;

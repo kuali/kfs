@@ -330,7 +330,6 @@
 			<ref bean="customerService" />
 		</property>
 		<property name="milestoneDao" ref="milestoneDao" />
-		<property name="billDao" ref="billDao" />
 		<property name="parameterService">
 			<ref bean="parameterService" />
 		</property>

@@ -19,6 +19,7 @@ import java.util.Set;
 
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemWorkflowConstants;
+import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.rice.krad.document.Document;
 
 public class TravelEntertainmentDocumentPresentationController extends TravelDocumentPresentationController {
@@ -36,6 +37,11 @@ public class TravelEntertainmentDocumentPresentationController extends TravelDoc
         if (document.getDocumentHeader().getWorkflowDocument().isInitiated() || document.getDocumentHeader().getWorkflowDocument().isSaved() || (nodeNames != null && !nodeNames.isEmpty() && (nodeNames.contains(TemWorkflowConstants.RouteNodeNames.TAX) || nodeNames.contains(TemWorkflowConstants.RouteNodeNames.ENTERTAINMENT_MANAGER)))) {
             editModes.add(TemConstants.EditModes.ACTUAL_EXPENSE_TAXABLE_MODE);
         }
+
+        if (isRootTravelDocument((TravelDocument)document)) {
+            editModes.add(TemConstants.EditModes.REQUESTER_LOOKUP_MODE);
+        }
+
         return editModes;
     }
 

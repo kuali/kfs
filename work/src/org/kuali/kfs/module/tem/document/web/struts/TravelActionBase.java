@@ -1008,8 +1008,18 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
      * @return true if they are a travel arranger
      */
     protected boolean setTravelArranger(TravelFormBase form) {
+        // TODO shouldn't this be an "edit transactional document" permission?
 
         TravelDocument travelDocument = form.getTravelDocument();
+
+        // don't set "travelArranger" attribute if this isn't the base document
+        if (!StringUtils.isBlank(travelDocument.getTravelDocumentIdentifier())) {
+            final TravelDocument baseTravelDocument = getTravelDocumentService().getTravelDocument(travelDocument.getTravelDocumentIdentifier());
+            if (baseTravelDocument != null && !StringUtils.equals(baseTravelDocument.getDocumentNumber(), travelDocument.getDocumentNumber())) {
+                return false; // this isn't the base document...so we can't change the traveler
+            }
+        }
+
         TemProfile profile = null;
 
         //default to nulls
@@ -1017,7 +1027,7 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
         String homeDepartment = null;
 
         if (ObjectUtils.isNotNull(travelDocument.getTemProfileId())) {
-            profile = SpringContext.getBean(BusinessObjectService.class).findBySinglePrimaryKey(TemProfile.class, travelDocument.getTemProfileId());
+            profile = getBusinessObjectService().findBySinglePrimaryKey(TemProfile.class, travelDocument.getTemProfileId());
             if (ObjectUtils.isNotNull(profile)) {
                 homeDepartment = profile.getHomeDepartment();
                 profileId = profile.getProfileId().toString();

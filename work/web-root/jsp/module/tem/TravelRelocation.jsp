@@ -22,6 +22,7 @@
 <c:set var="conversionRateEntryMode" value="${KualiForm.editingMode['conversionRateEntry']}" scope="request"/>
 <c:set var="frnEntryMode" value="${canEdit && KualiForm.editingMode['frnEntry']}" scope="request" />
 <c:set var="wireEntryMode" value="${canEdit && KualiForm.editingMode['wireEntry']}" scope="request" />
+<c:set var="lookupRequesterMode" value="${canEdit && KualiForm.editingMode['requesterLooupMode']}" scope="request" />
 
 <kul:documentPage showDocumentInfo="true"
     documentTypeName="RELO"

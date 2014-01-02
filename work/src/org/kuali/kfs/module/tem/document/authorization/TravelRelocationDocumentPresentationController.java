@@ -19,6 +19,7 @@ import java.util.Set;
 
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemWorkflowConstants;
+import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.rice.krad.document.Document;
 
 
@@ -40,6 +41,10 @@ public class TravelRelocationDocumentPresentationController extends TravelDocume
         final Set<String> nodeNames = document.getDocumentHeader().getWorkflowDocument().getNodeNames();
         if (document.getDocumentHeader().getWorkflowDocument().isInitiated() || document.getDocumentHeader().getWorkflowDocument().isSaved() || (nodeNames != null && !nodeNames.isEmpty() && (nodeNames.contains(TemWorkflowConstants.RouteNodeNames.TAX) || nodeNames.contains(TemWorkflowConstants.RouteNodeNames.MOVING_AND_RELOCATION_MANAGER)))) {
             editModes.add(TemConstants.EditModes.ACTUAL_EXPENSE_TAXABLE_MODE);
+        }
+
+        if (isRootTravelDocument((TravelDocument)document)) {
+            editModes.add(TemConstants.EditModes.REQUESTER_LOOKUP_MODE);
         }
 
         return editModes;

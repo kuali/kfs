@@ -23,6 +23,8 @@ import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationParameters;
 import org.kuali.kfs.module.tem.TemConstants.TravelEditMode;
 import org.kuali.kfs.module.tem.TemWorkflowConstants;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
+import org.kuali.kfs.module.tem.document.TravelDocument;
+import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
 import org.kuali.kfs.module.tem.service.TemProfileService;
 import org.kuali.kfs.module.tem.service.TemRoleService;
 import org.kuali.kfs.sys.KFSConstants;
@@ -44,6 +46,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
  *
  */
 public class TravelDocumentPresentationController extends FinancialSystemTransactionalDocumentPresentationControllerBase{
+    protected volatile TravelDocumentService travelDocumentService;
 
     /**
      * @see org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentPresentationControllerBase#getEditModes(org.kuali.rice.kns.document.Document)
@@ -165,6 +168,20 @@ public class TravelDocumentPresentationController extends FinancialSystemTransac
         return docInitiator.equals(currentUser.getPrincipalId());
     }
 
+    /**
+     * Determines if the given travel doc is the "root" travel document
+     * @param travelDoc the travel document to verify
+     * @return true if the travel document is the root document, false otherwise
+     */
+    protected boolean isRootTravelDocument(TravelDocument travelDoc) {
+        if (StringUtils.isBlank(travelDoc.getTravelDocumentIdentifier())) {
+            // no trip id?  then we must be the root
+            return true;
+        }
+        final TravelDocument baseTravelDocument = getTravelDocumentService().getTravelDocument(travelDoc.getTravelDocumentIdentifier());
+        return baseTravelDocument == null || StringUtils.equals(baseTravelDocument.getDocumentNumber(), travelDoc.getDocumentNumber());
+    }
+
     public ParameterService getParamService() {
         return SpringContext.getBean(ParameterService.class);
     }
@@ -185,4 +202,10 @@ public class TravelDocumentPresentationController extends FinancialSystemTransac
         return SpringContext.getBean(ConfigurationService.class);
     }
 
+    protected TravelDocumentService getTravelDocumentService() {
+        if (travelDocumentService == null) {
+            travelDocumentService = SpringContext.getBean(TravelDocumentService.class);
+        }
+        return travelDocumentService;
+    }
 }

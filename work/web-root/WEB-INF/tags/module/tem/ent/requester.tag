@@ -47,15 +47,22 @@
 	</tr>
 	<c:if test="${fullEntryMode}">
 		<tr>
-			<th class="bord-l-b"><div align="right">Payee Lookup:</div>
-			</th>
-			<td class="datacell" >
-				<div align="left">
-					&nbsp;
-					<kul:lookup boClassName="org.kuali.kfs.module.tem.businessobject.TravelerProfileForLookup" lookupParameters="document.traveler.travelerTypeCode:travelerTypeCode" />
-					
-				</div>
-			</td>
+			<c:choose>
+				<c:when test="${lookupRequesterMode}">
+					<th class="bord-l-b"><div align="right">Payee Lookup:</div>
+					</th>
+					<td class="datacell" >
+						<div align="left">
+							&nbsp;
+							<kul:lookup boClassName="org.kuali.kfs.module.tem.businessobject.TravelerProfileForLookup" lookupParameters="document.traveler.travelerTypeCode:travelerTypeCode" />
+							
+						</div>
+					</td>
+				</c:when>
+				<c:otherwise>
+					<th class="bord-l-b">&nbsp;</th><td class="datacell">&nbsp;</td>
+				</c:otherwise>
+			</c:choose>
 			 <th class="bord-l-b">
 	            <div align="right" >
 	            	<kul:htmlAttributeLabel attributeEntry="${documentAttributes.hostAsPayee}" />

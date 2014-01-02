@@ -158,32 +158,27 @@ public class TravelEntertainmentAction extends TravelActionBase {
         }
     }
 
-    private void populateFromPreviousENTDoc(TravelEntertainmentDocument document, String temDocId) {
-        try {
-            TravelEntertainmentDocument entDocument = (TravelEntertainmentDocument) getDocumentService().getByDocumentHeaderId(temDocId);
-            document.setTravelerDetailId(entDocument.getTravelerDetailId());
-            document.refreshReferenceObject(TemPropertyConstants.TRAVELER);
-            if (document.getAttendee() != null) {
-                document.setAttendee(entDocument.getAttendee());
-            }
-            if (document.getTraveler() != null) {
-                document.setTraveler(entDocument.getTraveler());
-            }
-            document.setHostProfileId(entDocument.getHostProfileId());
-            document.setTemProfileId(entDocument.getTemProfileId());
-            document.setEventTitle(entDocument.getEventTitle());
-            document.setPurposeCode(entDocument.getPurposeCode());
-            document.setPaymentMethod(entDocument.getPaymentMethod());
-            document.setTripBegin(entDocument.getTripBegin());
-            document.setTripEnd(entDocument.getTripEnd());
-            document.setSpouseIncluded(entDocument.getSpouseIncluded());
-            document.setDescription(entDocument.getDescription());
-            document.setHostCertified(entDocument.getHostCertified());
-            document.setNonEmployeeCertified(entDocument.getNonEmployeeCertified());
+    protected void populateFromPreviousENTDoc(TravelEntertainmentDocument document, String temDocId) {
+        TravelEntertainmentDocument entDocument = getBusinessObjectService().findBySinglePrimaryKey(TravelEntertainmentDocument.class, temDocId);
+        document.setTravelerDetailId(entDocument.getTravelerDetailId());
+        document.refreshReferenceObject(TemPropertyConstants.TRAVELER);
+        if (document.getAttendee() != null) {
+            document.setAttendee(entDocument.getAttendee());
         }
-        catch (WorkflowException ex) {
-            throw new RuntimeException("Could not initiate new ENT doc", ex);
+        if (document.getTraveler() != null) {
+            document.setTraveler(entDocument.getTraveler());
         }
+        document.setHostProfileId(entDocument.getHostProfileId());
+        document.setTemProfileId(entDocument.getTemProfileId());
+        document.setEventTitle(entDocument.getEventTitle());
+        document.setPurposeCode(entDocument.getPurposeCode());
+        document.setPaymentMethod(entDocument.getPaymentMethod());
+        document.setTripBegin(entDocument.getTripBegin());
+        document.setTripEnd(entDocument.getTripEnd());
+        document.setSpouseIncluded(entDocument.getSpouseIncluded());
+        document.setDescription(entDocument.getDescription());
+        document.setHostCertified(entDocument.getHostCertified());
+        document.setNonEmployeeCertified(entDocument.getNonEmployeeCertified());
     }
 
     protected void initializeNewAttendeeLines(final List<Attendee> newAttendeeLines, List<Attendee> attendees) {

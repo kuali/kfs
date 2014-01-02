@@ -324,7 +324,7 @@
 			<column name="NMSPC_CD" value="KFS-AR" />
 			<column name="CMPNT_CD" value="DunningCampaign" />
 			<column name="PARM_NM" value="DUNNING_LETTERS_FINAL_DAYS_PAST_DUE" />
-			<column name="OBJ_ID" valueNumeric="SYS_GUID" />
+			<column name="OBJ_ID" value="KFSAR007" />
 			<column name="VER_NBR" value="1" />
 			<column name="PARM_TYP_CD" value="CONFG" />
 			<column name="VAL" value="150" />
@@ -333,12 +333,6 @@
 			<column name="EVAL_OPRTR_CD" value="A" />
 			<column name="APPL_ID" value="KFS" />
 		</insert>
-		<modifySql dbms="mysql">
-			<replace replace="SYS_GUID" with="uuid()" />
-		</modifySql>
-		<modifySql dbms='oracle'>
-			<replace replace='SYS_GUID' with='sys_guid()' />
-		</modifySql>
 	</changeSet>
 
 	<changeSet author="KFS411CGB"
@@ -348,7 +342,7 @@
 			<column name="CMPNT_CD" value="DunningCampaign" />
 			<column name="PARM_NM"
 				value="DUNNING_LETTERS_STATE_AGENCY_FINAL_DAYS_PAST_DUE" />
-			<column name="OBJ_ID" valueNumeric="SYS_GUID" />
+			<column name="OBJ_ID" value="KFSAR008" />
 			<column name="VER_NBR" value="1" />
 			<column name="PARM_TYP_CD" value="CONFG" />
 			<column name="VAL" value="150" />
@@ -357,12 +351,6 @@
 			<column name="EVAL_OPRTR_CD" value="A" />
 			<column name="APPL_ID" value="KFS" />
 		</insert>
-		<modifySql dbms="mysql">
-			<replace replace="SYS_GUID" with="uuid()" />
-		</modifySql>
-		<modifySql dbms='oracle'>
-			<replace replace='SYS_GUID' with='sys_guid()' />
-		</modifySql>
 	</changeSet>
 
 	<changeSet author="KFS411CGB"
@@ -371,7 +359,7 @@
 			<column name="NMSPC_CD" value="KFS-CG" />
 			<column name="CMPNT_CD" value="Agency" />
 			<column name="PARM_NM" value="DEFAULT_DUNNING_CAMPAIGN" />
-			<column name="OBJ_ID" value="SYS_GUID" />
+			<column name="OBJ_ID" value="CG-DEFAULT-DUN-CMPGN" />
 			<column name="VER_NBR" value="1" />
 			<column name="PARM_TYP_CD" value="CONFG" />
 			<column name="VAL" value="" />
@@ -380,12 +368,6 @@
 			<column name="EVAL_OPRTR_CD" value="A" />
 			<column name="APPL_ID" value="KFS" />
 		</insert>
-		<modifySql dbms="mysql">
-			<replace replace="SYS_GUID" with="uuid()" />
-		</modifySql>
-		<modifySql dbms='oracle'>
-			<replace replace='SYS_GUID' with='sys_guid()' />
-		</modifySql>
 	</changeSet>
 	
 	<changeSet author="KFSCGB"
@@ -394,7 +376,7 @@
 			<column name="NMSPC_CD" value="KFS-AR" />
 			<column name="CMPNT_CD" value="InvoiceIndicator" />
 			<column name="PARM_NM" value="AWARD_STATUS_CODES" />
-			<column name="OBJ_ID" value="SYS_GUID" />
+			<column name="OBJ_ID" value="KFSAR009" />
 			<column name="VER_NBR" value="1" />
 			<column name="PARM_TYP_CD" value="CONFG" />
 			<column name="VAL" value="2;4;5;6" />
@@ -403,11 +385,5 @@
 			<column name="EVAL_OPRTR_CD" value="D" />
 			<column name="APPL_ID" value="KFS" />
 		</insert>
-		<modifySql dbms="mysql">
-			<replace replace="SYS_GUID" with="uuid()" />
-		</modifySql>
-		<modifySql dbms='oracle'>
-			<replace replace='SYS_GUID' with='sys_guid()' />
-		</modifySql>
 	</changeSet>	
 </databaseChangeLog>

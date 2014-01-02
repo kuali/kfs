@@ -100,7 +100,6 @@ import org.kuali.kfs.module.ar.document.service.CustomerService;
 import org.kuali.kfs.module.ar.document.service.InvoicePaidAppliedService;
 import org.kuali.kfs.module.ar.identity.ArKimAttributes;
 import org.kuali.kfs.module.cg.businessobject.Bill;
-import org.kuali.kfs.module.cg.dataaccess.BillDao;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -141,7 +140,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
     private DateTimeService dateTimeService;
     private InvoicePaidAppliedService invoicePaidAppliedService;
     private MilestoneDao milestoneDao;
-    private BillDao billDao;
+
     private ParameterService parameterService;
     private UniversityDateService universityDateService;
     public static final String REPORT_LINE_DIVIDER = "--------------------------------------------------------------------------------------------------------------";
@@ -1892,40 +1891,12 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         }
 
         // To get the bills with the criteria defined and set value to isItBilled.
-        this.setBillsisItBilled(mainCriteria, value);
-    }
-
-    public void setBillsisItBilled(Criteria criteria, String value) {
-        Collection<Bill> bills = getBillDao().getBillsByMatchingCriteria(criteria);
-        for (Bill bill : bills) {
-            if (KFSConstants.ParameterValues.YES.equalsIgnoreCase(value) || KFSConstants.ParameterValues.STRING_YES.equalsIgnoreCase(value)) {
-                bill.setBilledIndicator(true);
-            }
-            else {
-                bill.setBilledIndicator(false);
-            }
-            getBusinessObjectService().save(bill);
-        }
+        contractsAndGrantsModuleUpdateService.setBillsisItBilled(mainCriteria, value);
     }
 
 
-    /**
-     * Gets the billDao attribute.
-     *
-     * @return Returns the billDao.
-     */
-    public BillDao getBillDao() {
-        return billDao;
-    }
 
-    /**
-     * Sets the billDao attribute value.
-     *
-     * @param billDao The billDao to set.
-     */
-    public void setBillDao(BillDao billDao) {
-        this.billDao = billDao;
-    }
+
 
     /**
      * @see org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService#calculateTotalPaymentsToDateByAward(org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward)

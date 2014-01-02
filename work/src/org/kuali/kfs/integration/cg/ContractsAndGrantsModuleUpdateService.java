@@ -92,4 +92,10 @@ public interface ContractsAndGrantsModuleUpdateService {
      */
     public void setAwardAccountInvoiceDocumentStatus(Map<String, Object> criteria, String invoiceDocumentStatus);
 
+    /**
+     * This method updates value of isItBilled in Bill BO to Yes
+     *
+     * @param criteria
+     */
+    public void setBillsisItBilled(Criteria criteria, String value);
 }

@@ -53,10 +53,11 @@ public class ContractsAndGrantsModuleUpdateServiceNoOp implements ContractsAndGr
     }
 
     /**
-     * @see org.kuali.kfs.integration.cg.ContractsAndGrantsModuleUpdateService#setMilestonesisItBilled(java.lang.Long,
+     * @see org.kuali.kfs.integration.cg.ContractsAndGrantsModuleUpdateService#setBillsisItBilled(java.lang.Long,
      *      java.util.List, java.lang.String)
      */
-    public void setMilestonesisItBilled(Long proposalNumber, List<Long> milestoneIds, String value) {
+    @Override
+    public void setBillsisItBilled(Criteria criteria, String value) {
         LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
 
     }

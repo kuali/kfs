@@ -116,6 +116,7 @@
 	<bean id="contractsAndGrantsModuleUpdateService" class="org.kuali.kfs.module.cg.service.impl.ContractsAndGrantsModuleUpdateServiceImpl">
 		<property name="awardService" ref="awardService" />
 		<property name="businessObjectService" ref="businessObjectService" />
+		<property name="billDao" ref="billDao" />
 	</bean>
 	
 	<bean id="CGConstants" class="org.kuali.rice.core.api.util.collect.ConstantsMap">

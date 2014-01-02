@@ -77,7 +77,6 @@ import org.kuali.kfs.module.tem.service.TravelExpenseService;
 import org.kuali.kfs.module.tem.service.TravelService;
 import org.kuali.kfs.module.tem.service.TravelerService;
 import org.kuali.kfs.module.tem.util.GroupTravelerComparator;
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.Bank;
@@ -2012,7 +2011,6 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
         String reasonCode = getParameterService().getParameterValueAsString(TemParameterConstants.TEM_DOCUMENT.class, TravelParameters.VENDOR_PAYMENT_REASON_CODE);
 
         disbursementVoucherDocument.getDvPayeeDetail().setDisbVchrPaymentReasonCode(reasonCode);
-        disbursementVoucherDocument.getDvPayeeDetail().setDisbursementVoucherPayeeTypeCode(KFSConstants.PaymentPayeeTypes.VENDOR);
         disbursementVoucherDocument.getDocumentHeader().setOrganizationDocumentNumber(this.getTravelDocumentIdentifier());
 
         Calendar dueDate = Calendar.getInstance();
@@ -2021,7 +2019,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
 
         Person initiator = SpringContext.getBean(PersonService.class).getPerson(this.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId());
         if (initiator == null) {
-            throw new RuntimeException("Initiator could not be found in KIM!");
+            throw new RuntimeException("Initiator could not be found in KIM!  Which is super-strange...this block should never execute in reality"); // because KIM wouldn't even let you here, would it?
         }
 
         disbursementVoucherDocument.setDisbVchrContactPersonName(initiator.getPrincipalName());

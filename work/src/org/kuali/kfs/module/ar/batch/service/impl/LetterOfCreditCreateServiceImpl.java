@@ -27,6 +27,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.ojb.broker.query.Criteria;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArKeyConstants;
+import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.batch.service.LetterOfCreditCreateService;
 import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
 import org.kuali.kfs.module.ar.businessobject.CashControlDetail;
@@ -191,9 +192,9 @@ public class LetterOfCreditCreateServiceImpl implements LetterOfCreditCreateServ
             criteria.addEqualTo(ArConstants.LETTER_OF_CREDIT_FUND_GROUP_CODE, locValue);
         }
 
-        criteria.addNotEqualTo("documentHeader.financialDocumentStatusCode", KFSConstants.DocumentStatusCodes.APPROVED);
-        criteria.addNotEqualTo("documentHeader.financialDocumentStatusCode", KFSConstants.DocumentStatusCodes.CANCELLED);
-        criteria.addNotEqualTo("documentHeader.financialDocumentStatusCode", KFSConstants.DocumentStatusCodes.DISAPPROVED);
+        criteria.addNotEqualTo(ArPropertyConstants.DOCUMENT_STATUS_CODE, KFSConstants.DocumentStatusCodes.APPROVED);
+        criteria.addNotEqualTo(ArPropertyConstants.DOCUMENT_STATUS_CODE, KFSConstants.DocumentStatusCodes.CANCELLED);
+        criteria.addNotEqualTo(ArPropertyConstants.DOCUMENT_STATUS_CODE, KFSConstants.DocumentStatusCodes.DISAPPROVED);
 
         CashControlDocument cashControlDocument = cashControlDocumentDao.getCashControlDocumentByCriteria(criteria);
         if (ObjectUtils.isNotNull(cashControlDocument)) {

@@ -58,6 +58,26 @@ public class Event extends PersistableBusinessObjectBase {
         super();
     }
 
+
+    public Event(Event event) {
+        super();
+        this.eventIdentifier = event.eventIdentifier;
+        this.eventCode = event.eventCode;
+        this.invoiceNumber = event.invoiceNumber;
+        this.activityCode = event.activityCode;
+        this.activityDate = event.activityDate;
+        this.activityText = event.activityText;
+        this.followupInd = event.followupInd;
+        this.followupDate = event.followupDate;
+        this.completedInd = event.completedInd;
+        this.completedDate = event.completedDate;
+        this.postedDate = event.postedDate;
+        this.userPrincipalId = event.userPrincipalId;
+        this.eventRouteStatus = event.eventRouteStatus;
+        this.documentNumber = event.documentNumber;
+    }
+
+
     /**
      * Gets the eventIdentifier attribute.
      *

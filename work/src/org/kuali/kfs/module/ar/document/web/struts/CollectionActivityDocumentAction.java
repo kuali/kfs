@@ -392,27 +392,25 @@ public class CollectionActivityDocumentAction extends FinancialSystemTransaction
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
         List<String> selectedInvoiceList = new ArrayList(Arrays.asList(colActDoc.getSelectedInvoiceDocumentNumberList().split(",")));
-        Event newGlobalEvent = colActDoc.getGlobalEvent();
-
+        
         ConfigurationService kualiConfiguration = SpringContext.getBean(ConfigurationService.class);
 
         KualiRuleService ruleService = SpringContext.getBean(KualiRuleService.class);
         for (String invoiceNumber : selectedInvoiceList) {
             boolean rulePassed = true;
+            Event newGlobalEvent = new Event(colActDoc.getGlobalEvent());
             newGlobalEvent.setInvoiceNumber(invoiceNumber);
             // apply save rules for the doc
             rulePassed &= ruleService.applyRules(new SaveDocumentEvent(KFSConstants.DOCUMENT_HEADER_ERRORS, colActDoc));
 
             // apply rules for the new collection activity document detail
             rulePassed &= ruleService.applyRules(new AddCollectionActivityDocumentEvent(ArConstants.NEW_COLLECTION_ACTIVITY_EVENT_ERROR_PATH_PREFIX, colActDoc, newGlobalEvent));
-
             if (rulePassed) {
                 collectionActivityDocumentService.addNewEvent(kualiConfiguration.getPropertyValueAsString(ArKeyConstants.CollectionActivityDocumentConstants.CREATED_BY_COLLECTION_ACTIVITY_DOC), colActDoc, newGlobalEvent);
-                colActDoc.setGlobalEvent(new Event());
-                colActDoc.setSelectedInvoiceDocumentNumberList("");
             }
         }
-
+        colActDoc.setGlobalEvent(new Event());
+        colActDoc.setSelectedInvoiceDocumentNumberList("");
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 }

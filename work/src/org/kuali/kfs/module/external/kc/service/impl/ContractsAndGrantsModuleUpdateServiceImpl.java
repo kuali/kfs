@@ -19,6 +19,7 @@ import java.sql.Date;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ojb.broker.query.Criteria;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAwardAccount;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleUpdateService;
 import org.kuali.kra.external.award.AwardWebService;
@@ -81,6 +82,12 @@ public class ContractsAndGrantsModuleUpdateServiceImpl implements ContractsAndGr
 
     public void setAwardWebService(AwardWebService awardWebService) {
         this.awardWebService = awardWebService;
+    }
+
+    @Override
+    public void setBillsisItBilled(Criteria criteria, String value) {
+        // TODO Auto-generated method stub
+
     }
 
 }

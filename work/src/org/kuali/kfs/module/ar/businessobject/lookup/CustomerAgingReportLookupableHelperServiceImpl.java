@@ -555,6 +555,9 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
             } else if (StringUtils.equals(columnTitle, cutoffdateSYSPRplus1orMorelabel)) {
                 href += "&startDate=" + "&endDate=" + dateFormatter.format(DateUtils.addDays(reportRunDate, -121)).toString();
                 columnTitle = Integer.toString((Integer.parseInt(nbrDaysForLastBucket)) + 1) + " days and older";
+            }else {
+                href += "&startDate=" + "&endDate=" + dateFormatter.format(reportRunDate).toString();
+                columnTitle = KFSConstants.CustomerOpenItemReport.ALL_DAYS;
             }
             href += "&columnTitle=" + columnTitle;
         }

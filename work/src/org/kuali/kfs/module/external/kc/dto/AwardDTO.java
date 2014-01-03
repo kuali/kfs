@@ -1,48 +1,10 @@
 package org.kuali.kfs.module.external.kc.dto;
 
 import java.io.Serializable;
-import java.sql.Date;
-import java.sql.Timestamp;
-
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlType;
+import java.util.Date;
 
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "awardDTO", propOrder = {
-    "awardId",
-    "awardNumber",
-    "proposal",
-    "awardStartDate",
-    "awardEndDate",
-    "awardTotalAmount",
-    "awardDocumentNumber",
-    "awardLastUpdateDate",
-    "awardDirectCostAmount",
-    "awardIndirectCostAmount",
-    "awardCreateTimestamp",
-    "proposalAwardTypeCode",
-    "awardStatusCode",
-    "sponsorCode",
-    "title",
-    "awardCommentText",
-    "sponsor",
-    "principalInvestigatorId",
-    "unitNumber",
-    "fundManagerId",
-    "additionalFormsRequired",
-    "autoApproveInvoice",
-    "stopWork",
-    "additionalFormsDescription",
-    "invoicingOption",
-    "dunningCampaignId",
-    "stopWorkReason",
-    "minInvoiceAmount",
-    "methodOfPayment",
-    "invoiceBillingFrequency"
-})
 public class AwardDTO implements Serializable {
 
 	private static final long serialVersionUID = -7830094624716529740L;
@@ -54,10 +16,10 @@ public class AwardDTO implements Serializable {
 	private Date awardEndDate;
 	private KualiDecimal awardTotalAmount;
     private String awardDocumentNumber;
-    private Timestamp awardLastUpdateDate;
+    private Date awardLastUpdateDate;
     private KualiDecimal awardDirectCostAmount;
     private KualiDecimal awardIndirectCostAmount;
-    private Timestamp awardCreateTimestamp;
+    private Date awardCreateTimestamp;
     private String proposalAwardTypeCode;
     private String awardStatusCode;
     private String sponsorCode;
@@ -114,10 +76,10 @@ public class AwardDTO implements Serializable {
 	public void setAwardDocumentNumber(String awardDocumentNumber) {
 		this.awardDocumentNumber = awardDocumentNumber;
 	}
-	public Timestamp getAwardLastUpdateDate() {
+	public Date getAwardLastUpdateDate() {
 		return awardLastUpdateDate;
 	}
-	public void setAwardLastUpdateDate(Timestamp awardLastUpdateDate) {
+	public void setAwardLastUpdateDate(Date awardLastUpdateDate) {
 		this.awardLastUpdateDate = awardLastUpdateDate;
 	}
 	public KualiDecimal getAwardDirectCostAmount() {
@@ -132,10 +94,10 @@ public class AwardDTO implements Serializable {
 	public void setAwardIndirectCostAmount(KualiDecimal awardIndirectCostAmount) {
 		this.awardIndirectCostAmount = awardIndirectCostAmount;
 	}
-	public Timestamp getAwardCreateTimestamp() {
+	public Date getAwardCreateTimestamp() {
 		return awardCreateTimestamp;
 	}
-	public void setAwardCreateTimestamp(Timestamp awardCreateTimestamp) {
+	public void setAwardCreateTimestamp(Date awardCreateTimestamp) {
 		this.awardCreateTimestamp = awardCreateTimestamp;
 	}
 	public String getProposalAwardTypeCode() {

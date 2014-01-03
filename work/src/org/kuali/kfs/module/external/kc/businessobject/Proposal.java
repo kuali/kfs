@@ -57,7 +57,7 @@ public class Proposal implements ContractAndGrantsProposal {
     private String proposalProjectTitle;
 
     public Proposal(ProposalDTO kcProposal) {
-        setProposalNumber(Long.valueOf(kcProposal.getProposalNumber()));
+        setProposalNumber(kcProposal.getProposalNumber() == null ? null : Long.valueOf(kcProposal.getProposalNumber()));
         setProposalBeginningDate(kcProposal.getRequestedStartDateTotal());
         setProposalEndingDate(kcProposal.getRequestedEndDateTotal());
         setProposalTotalAmount(kcProposal.getProposalTotalAmount());

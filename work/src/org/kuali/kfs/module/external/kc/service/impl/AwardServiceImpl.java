@@ -18,14 +18,12 @@ package org.kuali.kfs.module.external.kc.service.impl;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import javax.xml.ws.WebServiceException;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.integration.cg.dto.HashMapElement;
 import org.kuali.kfs.module.external.kc.KcConstants;
 import org.kuali.kfs.module.external.kc.businessobject.AccountAutoCreateDefaults;
 import org.kuali.kfs.module.external.kc.businessobject.Agency;
@@ -35,6 +33,7 @@ import org.kuali.kfs.module.external.kc.businessobject.AwardOrganization;
 import org.kuali.kfs.module.external.kc.businessobject.LetterOfCreditFund;
 import org.kuali.kfs.module.external.kc.businessobject.Proposal;
 import org.kuali.kfs.module.external.kc.dto.AwardDTO;
+import org.kuali.kfs.module.external.kc.dto.AwardSearchCriteriaDto;
 import org.kuali.kfs.module.external.kc.service.AccountDefaultsService;
 import org.kuali.kfs.module.external.kc.service.BillingFrequencyService;
 import org.kuali.kfs.module.external.kc.service.ExternalizableBusinessObjectService;
@@ -42,7 +41,7 @@ import org.kuali.kfs.module.external.kc.service.KfsService;
 import org.kuali.kfs.module.external.kc.util.GlobalVariablesExtractHelper;
 import org.kuali.kfs.module.external.kc.webService.AwardWebSoapService;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kra.external.award.service.AwardWebService;
+import org.kuali.kra.external.award.AwardWebService;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.bo.ExternalizableBusinessObject;
@@ -91,24 +90,17 @@ public class AwardServiceImpl implements ExternalizableBusinessObjectService {
 
     @Override
     public Collection findMatching(Map fieldValues) {
-        java.util.List <HashMapElement> hashMapList = new ArrayList<HashMapElement>();
         List<AwardDTO> result = null;
 
-        for (Iterator i = fieldValues.entrySet().iterator(); i.hasNext();) {
-            Map.Entry e = (Map.Entry) i.next();
-
-            String key = (String) e.getKey();
-            String val = (String) e.getValue();
-
-            if ( KcConstants.Award.KC_ALLOWABLE_CRITERIA_PARAMETERS.contains(key)  && (val.length() > 0)) {
-                HashMapElement hashMapElement = new HashMapElement();
-                hashMapElement.setKey(key);
-                hashMapElement.setValue(val);
-                hashMapList.add(hashMapElement);
-            }
+        AwardSearchCriteriaDto criteria = new AwardSearchCriteriaDto();
+        if (fieldValues.containsKey("proposalNumber")) {
+            criteria.setAwardId(Long.parseLong((String) fieldValues.get("proposalNumber")));
         }
+        criteria.setAwardNumber((String) fieldValues.get("awardNumber"));
+        criteria.setChartOfAccounts((String) fieldValues.get("chartOfAccounts"));
+        criteria.setAccountNumber((String) fieldValues.get("accountNumber"));
         try {
-          result  = this.getWebService().getMatchingAwards(hashMapList);
+          result  = this.getWebService().searchAwards(criteria);
         } catch (WebServiceException ex) {
             GlobalVariablesExtractHelper.insertError(KcConstants.WEBSERVICE_UNREACHABLE, KfsService.getWebServiceServerName());
         }
@@ -128,22 +120,24 @@ public class AwardServiceImpl implements ExternalizableBusinessObjectService {
         Award award = new Award();
         award.setProposalNumber(kcAward.getAwardId());
         award.setAwardNumber(kcAward.getAwardNumber());
-        award.setAwardBeginningDate(kcAward.getAwardStartDate());
-        award.setAwardEndingDate(kcAward.getAwardEndDate());
+        award.setAwardBeginningDate(kcAward.getAwardStartDate() == null ? null : new java.sql.Date(kcAward.getAwardStartDate().getDate()));
+        award.setAwardEndingDate(kcAward.getAwardEndDate() == null ? null : new java.sql.Date(kcAward.getAwardEndDate().getDate()));
         award.setAwardTotalAmount(kcAward.getAwardTotalAmount());
         award.setAwardDirectCostAmount(kcAward.getAwardDirectCostAmount());
         award.setAwardIndirectCostAmount(kcAward.getAwardIndirectCostAmount());
         award.setAwardDocumentNumber(kcAward.getAwardDocumentNumber());
-        award.setAwardLastUpdateDate(kcAward.getAwardLastUpdateDate());
-        award.setAwardCreateTimestamp(kcAward.getAwardCreateTimestamp());
+        award.setAwardLastUpdateDate(kcAward.getAwardLastUpdateDate() == null ? null : new java.sql.Timestamp(kcAward.getAwardLastUpdateDate().getDate()));
+        award.setAwardCreateTimestamp(kcAward.getAwardCreateTimestamp() == null ? null : new java.sql.Timestamp(kcAward.getAwardCreateTimestamp().getDate()));
         award.setProposalAwardTypeCode(kcAward.getProposalAwardTypeCode());
         award.setAwardStatusCode(kcAward.getAwardStatusCode());
         award.setAgencyNumber(kcAward.getSponsorCode());
         award.setAwardTitle(kcAward.getTitle());
         award.setAwardCommentText(kcAward.getAwardCommentText());
         award.setAgency(new Agency(kcAward.getSponsor()));
-        award.setProposal(new Proposal(kcAward.getProposal()));
-        award.getProposal().setAward(award);
+        if (kcAward.getProposal() != null) {
+            award.setProposal(new Proposal(kcAward.getProposal()));
+            award.getProposal().setAward(award);
+        }
         award.setAdditionalFormsRequiredIndicator(kcAward.isAdditionalFormsRequired());
         award.setAutoApproveIndicator(kcAward.isAutoApproveInvoice());
         award.setMinInvoiceAmount(kcAward.getMinInvoiceAmount());
@@ -167,8 +161,10 @@ public class AwardServiceImpl implements ExternalizableBusinessObjectService {
             awardOrg.setProposalNumber(award.getProposalNumber());
             award.setPrimaryAwardOrganization(awardOrg);
         }
-        award.setLetterOfCreditFundCode(kcAward.getMethodOfPayment().getMethodOfPaymentCode());
-        award.setLetterOfCreditFund(new LetterOfCreditFund(kcAward.getMethodOfPayment().getMethodOfPaymentCode(), kcAward.getMethodOfPayment().getDescription()));
+        if (kcAward.getMethodOfPayment() != null) {
+            award.setLetterOfCreditFundCode(kcAward.getMethodOfPayment().getMethodOfPaymentCode());
+            award.setLetterOfCreditFund(new LetterOfCreditFund(kcAward.getMethodOfPayment().getMethodOfPaymentCode(), kcAward.getMethodOfPayment().getDescription()));
+        }
         award.setBillingFrequency(getBillingFrequencyService().createBillingFrequency(kcAward.getInvoiceBillingFrequency()));
         award.setSuspendInvoicingIndicator(getDoNotInvoiceStatuses().contains(kcAward.getAwardStatusCode()));
         return award;

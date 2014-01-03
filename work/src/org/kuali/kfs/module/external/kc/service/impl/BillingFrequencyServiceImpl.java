@@ -101,7 +101,11 @@ public class BillingFrequencyServiceImpl implements ExternalizableBusinessObject
 
     @Override
     public BillingFrequency createBillingFrequency(FrequencyDto kcFrequency) {
-        return createBillingFrequency(kcFrequency, getFrequencyMapping(kcFrequency.getFrequencyCode()));
+        if (kcFrequency != null) {
+            return createBillingFrequency(kcFrequency, getFrequencyMapping(kcFrequency.getFrequencyCode()));
+        } else {
+            return null;
+        }
     }
 
     protected List<BillingFrequency> createBillingFrequency(List<FrequencyDto> kcFrequencies) {

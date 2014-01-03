@@ -4389,13 +4389,8 @@
         <column name="EST_AMT" size="7" type="DECIMAL"/>
         <column name="BILLED_IND" size="5" type="VARCHAR"/>
         <column name="BILL_DESC" size="45" type="VARCHAR"/>
-        <unique name="AR_BILL_TC1">
+        <unique name="CG_BILL_TC1">
             <unique-column name="OBJ_ID"/>
-        </unique>
-        <unique name="AR_BILL_TP1">
-            <unique-column name="BILL_NBR"/>
-            <unique-column name="PRPSL_NBR"/>
-            <unique-column name="BILL_ID"/>
         </unique>
     </table>
     <table name="CG_CFDA_REF_T">

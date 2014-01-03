@@ -3095,7 +3095,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
                     if (StringUtils.isNotEmpty(address.getCustomerZipCode())) {
                         fullAddress += "-" + returnProperStringValue(address.getCustomerZipCode());
                     }
-                    replacementList.put("#customer.fullAddress", returnProperStringValue(fullAddress));
+                    replacementList.put("customer.fullAddress", returnProperStringValue(fullAddress));
                     reportStream = PdfFormFillerUtil.populateTemplate(templateFile, replacementList, "");
                     // creating and saving the original note with an attachment
                     if (ObjectUtils.isNotNull(document.getInvoiceGeneralDetail()) && document.getInvoiceGeneralDetail().isFinalBillIndicator()) {
@@ -3179,7 +3179,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         SystemInformation sysInfo = businessObjectService.findByPrimaryKey(SystemInformation.class, primaryKeys);
         parameterMap.put("documentNumber", returnProperStringValue(document.getDocumentNumber()));
         if (ObjectUtils.isNotNull(document.getDocumentHeader().getWorkflowDocument().getDateCreated())) {
-            parameterMap.put("#date", returnProperStringValue(FILE_NAME_TIMESTAMP.format(document.getDocumentHeader().getWorkflowDocument().getDateCreated())));
+            parameterMap.put("date", returnProperStringValue(FILE_NAME_TIMESTAMP.format(document.getDocumentHeader().getWorkflowDocument().getDateCreated())));
         }
         if (ObjectUtils.isNotNull(new Date(document.getDocumentHeader().getWorkflowDocument().getDateFinalized().getMillis()))) {
             parameterMap.put("finalStatusDate", returnProperStringValue(FILE_NAME_TIMESTAMP.format(new Date(document.getDocumentHeader().getWorkflowDocument().getDateFinalized().getMillis()))));

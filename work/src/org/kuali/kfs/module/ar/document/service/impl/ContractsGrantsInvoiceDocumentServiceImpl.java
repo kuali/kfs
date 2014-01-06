@@ -3106,7 +3106,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
                     note.setNoteText("Auto-generated invoice for Invoice Address-" + document.getDocumentNumber() + "-" + invoiceAddressDetail.getCustomerAddressName());
                     note.setNoteTypeCode(KFSConstants.NoteTypeEnum.BUSINESS_OBJECT_NOTE_TYPE.getCode());
                     Person systemUser = getPersonService().getPersonByPrincipalName(KFSConstants.SYSTEM_USER);
-                    note = noteService.createNote(note, document, systemUser.getPrincipalId());
+                    note = noteService.createNote(note, document.getNoteTarget(), systemUser.getPrincipalId());
                     Attachment attachment = attachmentService.createAttachment(note, outputFileName, ArConstants.TemplateUploadSystem.TEMPLATE_MIME_TYPE, reportStream.length, new ByteArrayInputStream(reportStream), "");
                     // adding attachment to the note
                     note.setAttachment(attachment);
@@ -3123,7 +3123,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
                     copyNote.setNotePostedTimestampToCurrent();
                     copyNote.setNoteText("Auto-generated invoice (Copy) for Invoice Address-" + document.getDocumentNumber() + "-" + invoiceAddressDetail.getCustomerAddressName());
                     copyNote.setNoteTypeCode(KFSConstants.NoteTypeEnum.BUSINESS_OBJECT_NOTE_TYPE.getCode());
-                    copyNote = noteService.createNote(copyNote, document, systemUser.getPrincipalId());
+                    copyNote = noteService.createNote(copyNote, document.getNoteTarget(), systemUser.getPrincipalId());
                     Attachment copyAttachment = attachmentService.createAttachment(copyNote, outputFileName, ArConstants.TemplateUploadSystem.TEMPLATE_MIME_TYPE, copyReportStream.length, new ByteArrayInputStream(copyReportStream), "");
                     // adding attachment to the note
                     copyNote.setAttachment(copyAttachment);

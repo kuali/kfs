@@ -17,8 +17,8 @@ package org.kuali.kfs.integration.ar;
 
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.Organization;
-import org.kuali.rice.krad.bo.ExternalizableBusinessObject;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
+import org.kuali.rice.krad.bo.ExternalizableBusinessObject;
 
 /**
  * Integration interface for InvoiceTemplate
@@ -32,13 +32,6 @@ public interface AccountsReceivableInvoiceTemplate extends MutableInactivatable,
      * @return Returns the date.
      */
     public String getDate();
-
-    /**
-     * Gets the filepath attribute.
-     *
-     * @return Returns the filepath.
-     */
-    public String getFilepath();
 
     /**
      * Gets the accessRestrictedIndicator attribute.

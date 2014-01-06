@@ -23,10 +23,10 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.businessobject.DunningLetterTemplate;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
+import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.krad.util.UrlFactory;
@@ -81,8 +81,8 @@ public class DunningLetterTemplateLookupableHelperServiceImpl extends KualiLooku
     private AnchorHtmlData getDunningLetterTemplateDownloadUrl(BusinessObject bo) {
         DunningLetterTemplate letterTemplate = (DunningLetterTemplate) bo;
         Properties parameters = new Properties();
-        if (ObjectUtils.isNotNull(letterTemplate.getFilename()) && ObjectUtils.isNotNull(letterTemplate.getFilepath())) {
-            parameters.put("filePath", letterTemplate.getFilepath());
+        if (ObjectUtils.isNotNull(letterTemplate.getFilename())) {
+            parameters.put("fileName", letterTemplate.getFilename());
             parameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, "download");
         }
         String href = UrlFactory.parameterizeUrl("../arAccountsReceivableLetterTemplateUpload.do", parameters);

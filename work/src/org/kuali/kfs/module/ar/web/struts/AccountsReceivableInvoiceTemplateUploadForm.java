@@ -31,24 +31,24 @@ public class AccountsReceivableInvoiceTemplateUploadForm extends KualiForm {
     private boolean active;
     private boolean accessRestrictedInd;
     private String invoiceTemplateCode;
-    private String filePath;
+    private String fileName;
 
     /**
-     * Gets the filePath attribute.
+     * Gets the fileName attribute.
      *
-     * @return Returns the filePath.
+     * @return Returns the fileName.
      */
-    public String getFilePath() {
-        return filePath;
+    public String getFileName() {
+        return fileName;
     }
 
     /**
-     * Sets the filePath attribute value.
+     * Sets the fileName attribute value.
      *
-     * @param filePath The filePath to set.
+     * @param fileName The fileName to set.
      */
-    public void setFilePath(String filePath) {
-        this.filePath = filePath;
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
     }
 
     private InvoiceTemplateValuesFinder valuesFinder = new InvoiceTemplateValuesFinder();

@@ -122,8 +122,8 @@ public class InvoiceTemplateLookupableHelperServiceImpl extends KualiLookupableH
     private AnchorHtmlData getInvoiceTemplateDownloadUrl(BusinessObject bo) {
         InvoiceTemplate invoiceTemplate = (InvoiceTemplate) bo;
         Properties parameters = new Properties();
-        if (ObjectUtils.isNotNull(invoiceTemplate.getFilename()) && ObjectUtils.isNotNull(invoiceTemplate.getFilepath())) {
-            parameters.put("filePath", invoiceTemplate.getFilepath());
+        if (ObjectUtils.isNotNull(invoiceTemplate.getFilename())) {
+            parameters.put("fileName", invoiceTemplate.getFilename());
             parameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, "download");
         }
         String href = UrlFactory.parameterizeUrl("../arAccountsReceivableInvoiceTemplateUpload.do", parameters);

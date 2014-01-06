@@ -43,7 +43,6 @@ public class InvoiceTemplate extends PersistableBusinessObjectBase implements Ac
     protected Organization billedByOrganization;
     private boolean accessRestrictedIndicator;
     private String filename;
-    private String filepath;
     private String date;
 
     /**
@@ -63,25 +62,6 @@ public class InvoiceTemplate extends PersistableBusinessObjectBase implements Ac
      */
     public void setDate(String date) {
         this.date = date;
-    }
-
-    /**
-     * Gets the filepath attribute.
-     *
-     * @return Returns the filepath.
-     */
-    @Override
-    public String getFilepath() {
-        return filepath;
-    }
-
-    /**
-     * Sets the filepath attribute value.
-     *
-     * @param filepath The filepath to set.
-     */
-    public void setFilepath(String filepath) {
-        this.filepath = filepath;
     }
 
     /**

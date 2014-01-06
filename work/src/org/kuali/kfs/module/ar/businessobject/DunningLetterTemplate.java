@@ -44,7 +44,6 @@ public class DunningLetterTemplate extends PersistableBusinessObjectBase impleme
     protected Organization billedByOrganization;
     private boolean accessRestrictedInd;
     private String filename;
-    private String filepath;
     private String date;
 
     /**
@@ -126,24 +125,6 @@ public class DunningLetterTemplate extends PersistableBusinessObjectBase impleme
      */
     public void setDate(String date) {
         this.date = date;
-    }
-
-    /**
-     * Gets the filepath attribute.
-     *
-     * @return Returns the filepath.
-     */
-    public String getFilepath() {
-        return filepath;
-    }
-
-    /**
-     * Sets the filepath attribute value.
-     *
-     * @param filepath The filepath to set.
-     */
-    public void setFilepath(String filepath) {
-        this.filepath = filepath;
     }
 
     /**

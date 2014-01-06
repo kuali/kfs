@@ -1,12 +1,12 @@
 /*
  * Copyright 2012 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -42,15 +42,16 @@ import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.exception.FileStorageException;
 import org.kuali.kfs.sys.web.struts.KualiBatchInputFileSetAction;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.kns.web.struts.action.KualiAction;
 import org.kuali.rice.krad.bo.ModuleConfiguration;
 import org.kuali.rice.krad.exception.AuthorizationException;
 import org.kuali.rice.krad.exception.ValidationException;
 import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.krad.service.KualiModuleService;
-import org.kuali.rice.krad.util.GlobalVariables; import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
-import org.kuali.rice.kns.web.struts.action.KualiAction;
 
 public class AccountsReceivableLetterTemplateUploadAction extends KualiAction {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(KualiBatchInputFileSetAction.class);
@@ -74,7 +75,7 @@ public class AccountsReceivableLetterTemplateUploadAction extends KualiAction {
 
     /**
      * Gets the boService attribute.
-     * 
+     *
      * @return Returns the boService.
      */
     public BusinessObjectService getBoService() {
@@ -83,7 +84,7 @@ public class AccountsReceivableLetterTemplateUploadAction extends KualiAction {
 
     /**
      * Sets the boService attribute value.
-     * 
+     *
      * @param boService The boService to set.
      */
     public void setBoService(BusinessObjectService boService) {
@@ -92,7 +93,7 @@ public class AccountsReceivableLetterTemplateUploadAction extends KualiAction {
 
     /**
      * Gets the kualiConfigurationService attribute.
-     * 
+     *
      * @return Returns the kualiConfigurationService.
      */
     public ConfigurationService getConfigurationService() {
@@ -101,7 +102,7 @@ public class AccountsReceivableLetterTemplateUploadAction extends KualiAction {
 
     /**
      * Sets the kualiConfigurationService attribute value.
-     * 
+     *
      * @param kualiConfigurationService The kualiConfigurationService to set.
      */
     public void setConfigurationService(ConfigurationService kualiConfigurationService) {
@@ -190,14 +191,15 @@ public class AccountsReceivableLetterTemplateUploadAction extends KualiAction {
         File destinationFile = new File(destinationPath);
         // upload the file and save the document
         try {
-            if (!destinationFolder.exists())
+            if (!destinationFolder.exists()) {
                 destinationFolder.mkdirs();
-            if (destinationFile.exists())
+            }
+            if (destinationFile.exists()) {
                 destinationFile.delete();
+            }
             java.util.Date dt = new java.util.Date();
             java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             this.writeInputStreamToFileStorage(uploadedFile.getInputStream(), destinationFile);
-            document.setFilepath(destinationFile.getAbsolutePath());
             document.setDate(sdf.format(dt));
             boService.save(document);
         }
@@ -217,7 +219,7 @@ public class AccountsReceivableLetterTemplateUploadAction extends KualiAction {
 
     /**
      * This method enables user to download the template
-     * 
+     *
      * @param mapping
      * @param form
      * @param request
@@ -227,7 +229,8 @@ public class AccountsReceivableLetterTemplateUploadAction extends KualiAction {
      */
     public ActionForward download(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         AccountsReceivableLetterTemplateUploadForm fileAdminForm = (AccountsReceivableLetterTemplateUploadForm) form;
-        String filePath = fileAdminForm.getFilePath();
+        String templateFolderPath = ((FinancialSystemModuleConfiguration) systemConfiguration).getTemplateFileDirectories().get(KFSConstants.TEMPLATES_DIRECTORY_KEY);
+        String filePath = templateFolderPath + File.separator + fileAdminForm.getFileName();
         File file = new File(filePath).getAbsoluteFile();
         if (!file.exists() || !file.isFile()) {
             throw new RuntimeException("Error: non-existent file or directory provided");
@@ -246,7 +249,7 @@ public class AccountsReceivableLetterTemplateUploadAction extends KualiAction {
 
     /**
      * This method writes the contents from the input stream to the destination storage place.
-     * 
+     *
      * @param fileContents
      * @param destinationFile
      * @throws IOException

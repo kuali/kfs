@@ -20,7 +20,6 @@ import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.coa.businessobject.defaultvalue.CurrentUserChartValueFinder;
 import org.kuali.kfs.coa.businessobject.defaultvalue.CurrentUserOrgValueFinder;
 import org.kuali.kfs.integration.ar.AccountsReceivableInvoiceTemplate;
-import org.kuali.kfs.integration.ar.businessobject.InvoiceTemplate;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
@@ -40,7 +39,6 @@ public class InvoiceTemplate implements AccountsReceivableInvoiceTemplate{
     protected Organization billedByOrganization;
     private boolean accessRestrictedIndicator;
     private String filename;
-    private String filepath;
     private String date;
 
     /**
@@ -60,25 +58,6 @@ public class InvoiceTemplate implements AccountsReceivableInvoiceTemplate{
      */
     public void setDate(String date) {
         this.date = date;
-    }
-
-    /**
-     * Gets the filepath attribute.
-     *
-     * @return Returns the filepath.
-     */
-    @Override
-    public String getFilepath() {
-        return filepath;
-    }
-
-    /**
-     * Sets the filepath attribute value.
-     *
-     * @param filepath The filepath to set.
-     */
-    public void setFilepath(String filepath) {
-        this.filepath = filepath;
     }
 
     /**

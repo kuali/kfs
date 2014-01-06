@@ -180,7 +180,6 @@
 				<constraints nullable="false" />
 			</column>
 			<column name="FILENAME" type="varchar(50)" />
-			<column name="FILEPATH" type="varchar(500)" />
 			<column name="ACCESS_RSTRCTD_IND" type="varchar(1)" />
 			<column name="BILL_BY_COA_CD" type="varchar(2)" />
 			<column name="BILL_BY_ORG_CD" type="varchar(4)" />
@@ -1264,7 +1263,6 @@
 			</column>
 			<column name="DUN_LTR_TMPLT_DESC" type="varchar(45)" />
 			<column name="FILENAME" type="varchar(50)" />
-			<column name="FILEPATH" type="varchar(500)" />
 			<column name="ACCESS_RSTRCTD_IND" type="varchar(1)"
 				defaultValue="N" />
 			<column name="ACTV_IND" type="varchar(1)" defaultValue="Y" />

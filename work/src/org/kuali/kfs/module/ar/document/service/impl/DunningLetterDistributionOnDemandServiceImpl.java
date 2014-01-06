@@ -45,6 +45,7 @@ import org.kuali.kfs.module.ar.businessobject.InvoiceAddressDetail;
 import org.kuali.kfs.module.ar.dataaccess.ContractsGrantsInvoiceDocumentDao;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.DunningLetterDistributionOnDemandService;
+import org.kuali.kfs.sys.FinancialSystemModuleConfiguration;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -55,6 +56,7 @@ import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.core.web.format.CurrencyFormatter;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.krad.bo.ModuleConfiguration;
 import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KualiModuleService;
@@ -92,7 +94,7 @@ public class DunningLetterDistributionOnDemandServiceImpl implements DunningLett
         byte[] finalReportStream = null;
         int lastEventCode;
 
-        if (ObjectUtils.isNotNull(dunningLetterTemplate) && dunningLetterTemplate.isActive() && ObjectUtils.isNotNull(dunningLetterTemplate.getFilepath())) {
+        if (ObjectUtils.isNotNull(dunningLetterTemplate) && dunningLetterTemplate.isActive() && ObjectUtils.isNotNull(dunningLetterTemplate.getFilename())) {
             // To get list of invoices per award per dunning letter template
             for (ContractsGrantsInvoiceDocument cgInvoice : dunningLetterDistributionOnDemandLookupResult.getInvoices()) {
                 if (cgInvoice.getInvoiceGeneralDetail().getDunningLetterTemplateAssigned().equals(dunningLetterTemplate.getLetterTemplateCode())) {
@@ -139,8 +141,10 @@ public class DunningLetterDistributionOnDemandServiceImpl implements DunningLett
 
 
             // to generate dunning letter from templates.
-
-            File templateFile = new File(dunningLetterTemplate.getFilepath());
+            ModuleConfiguration systemConfiguration = kualiModuleService.getModuleServiceByNamespaceCode(KFSConstants.OptionalModuleNamespaces.ACCOUNTS_RECEIVABLE).getModuleConfiguration();
+            String templateFolderPath = ((FinancialSystemModuleConfiguration) systemConfiguration).getTemplateFileDirectories().get(KFSConstants.TEMPLATES_DIRECTORY_KEY);
+            String templateFilePath = templateFolderPath + File.separator + dunningLetterTemplate.getFilename();
+            File templateFile = new File(templateFilePath);
             File outputDirectory = null;
             String outputFileName;
             try {

@@ -207,7 +207,6 @@ public class AccountsReceivableInvoiceTemplateUploadAction extends KualiAction {
             java.util.Date dt = new java.util.Date();
             java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             this.writeInputStreamToFileStorage(uploadedFile.getInputStream(), destinationFile);
-            document.setFilepath(destinationFile.getAbsolutePath());
             document.setDate(sdf.format(dt));
             boService.save(document);
         }
@@ -237,7 +236,8 @@ public class AccountsReceivableInvoiceTemplateUploadAction extends KualiAction {
      */
     public ActionForward download(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         AccountsReceivableInvoiceTemplateUploadForm fileAdminForm = (AccountsReceivableInvoiceTemplateUploadForm) form;
-        String filePath = fileAdminForm.getFilePath();
+        String templateFolderPath = ((FinancialSystemModuleConfiguration) systemConfiguration).getTemplateFileDirectories().get(KFSConstants.TEMPLATES_DIRECTORY_KEY);
+        String filePath = templateFolderPath + File.separator + fileAdminForm.getFileName();
         File file = new File(filePath).getAbsoluteFile();
         if (!file.exists() || !file.isFile()) {
             throw new RuntimeException("Error: non-existent file or directory provided");

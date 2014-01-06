@@ -1426,7 +1426,6 @@
 		<field-descriptor name="letterTemplateCode" column="DUN_LTR_TMPLT_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
 		<field-descriptor name="letterTemplateDescription" column="DUN_LTR_TMPLT_DESC" jdbc-type="VARCHAR" />
 		<field-descriptor name="filename" column="FILENAME" jdbc-type="VARCHAR" locking="false" />
-		<field-descriptor name="filepath" column="FILEPATH" jdbc-type="VARCHAR" locking="false" />
 		<field-descriptor name="accessRestrictedInd" column="ACCESS_RSTRCTD_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
 		<field-descriptor name="active" column="ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
 		<field-descriptor name="date" column="UPLOAD_DT" jdbc-type="VARCHAR" locking="false" />
@@ -2187,7 +2186,6 @@
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 		<field-descriptor name="invoiceTemplateDescription" column="INV_TYP_DESC" jdbc-type="VARCHAR" />
 		<field-descriptor name="filename" column="FILENAME" jdbc-type="VARCHAR" locking="false" />
-		<field-descriptor name="filepath" column="FILEPATH" jdbc-type="VARCHAR" locking="false" />
 		<field-descriptor name="accessRestrictedIndicator" column="ACCESS_RSTRCTD_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
 		<field-descriptor name="active" column="ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
 		<field-descriptor name="date" column="UPLOAD_DT" jdbc-type="VARCHAR" locking="false" />

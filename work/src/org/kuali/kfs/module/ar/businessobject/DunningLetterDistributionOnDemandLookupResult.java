@@ -24,7 +24,6 @@ import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsAgency;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsAward;
-import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.sys.KFSConstants;
@@ -52,10 +51,12 @@ public class DunningLetterDistributionOnDemandLookupResult extends TransientBusi
     private ContractsAndGrantsAward award;
     private ContractsAndGrantsAgency agency;
     private Customer customer;
-    private Chart chart;
-    private Organization organization;
+    private Chart billingChart;
+    private Organization billingOrganization;
     private String billingChartCode;
     private String billingOrganizationCode;
+    private Chart processingChart;
+    private Organization processingOrganization;
     private String processingChartCode;
     private String processingOrganizationCode;
 
@@ -71,23 +72,23 @@ public class DunningLetterDistributionOnDemandLookupResult extends TransientBusi
     }
 
 
-    public Chart getChart() {
-        return chart;
+    public Chart getBillingChart() {
+        return billingChart;
     }
 
 
-    public void setChart(Chart chart) {
-        this.chart = chart;
+    public void setBillingChart(Chart chart) {
+        this.billingChart = chart;
     }
 
 
-    public Organization getOrganization() {
-        return organization;
+    public Organization getBillingOrganization() {
+        return billingOrganization;
     }
 
 
-    public void setOrganization(Organization organization) {
-        this.organization = organization;
+    public void setBillingOrganization(Organization organization) {
+        this.billingOrganization = organization;
     }
 
 
@@ -108,6 +109,25 @@ public class DunningLetterDistributionOnDemandLookupResult extends TransientBusi
 
     public void setBillingOrganizationCode(String billingOrganizationCode) {
         this.billingOrganizationCode = billingOrganizationCode;
+    }
+
+    public Chart getProcessingChart() {
+        return processingChart;
+    }
+
+
+    public void setProcessingChart(Chart chart) {
+        this.processingChart = chart;
+    }
+
+
+    public Organization getProcessingOrganization() {
+        return processingOrganization;
+    }
+
+
+    public void setProcessingOrganization(Organization organization) {
+        this.processingOrganization = organization;
     }
 
 

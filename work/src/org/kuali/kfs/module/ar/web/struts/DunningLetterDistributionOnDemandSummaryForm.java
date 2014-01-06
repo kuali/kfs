@@ -15,11 +15,11 @@
  */
 package org.kuali.kfs.module.ar.web.struts;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 import org.kuali.kfs.module.ar.businessobject.DunningLetterDistributionOnDemandLookupResult;
-import java.util.ArrayList;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 
 /**
@@ -29,14 +29,14 @@ public class DunningLetterDistributionOnDemandSummaryForm extends KualiForm {
 
     private String lookupResultsSequenceNumber;
     private Collection<DunningLetterDistributionOnDemandLookupResult> dunningLetterDistributionOnDemandLookupResults;
-    private boolean dunningLetterNotSentInd;
+    private boolean dunningLetterNotSent;
 
     /**
      * Initialize contractsGrantsInvoiceOnDemandLookupResults and awardInvoiced.
      */
     public DunningLetterDistributionOnDemandSummaryForm() {
         dunningLetterDistributionOnDemandLookupResults = new ArrayList<DunningLetterDistributionOnDemandLookupResult>();
-        dunningLetterNotSentInd = false;
+        dunningLetterNotSent = false;
     }
 
     /**
@@ -87,21 +87,21 @@ public class DunningLetterDistributionOnDemandSummaryForm extends KualiForm {
     }
 
     /**
-     * Gets the collection dunningLetterNotSentInd.
+     * Gets the collection dunningLetterNotSent.
      *
-     * @return Returns the dunningLetterNotSentInd.
+     * @return Returns the dunningLetterNotSent.
      */
-    public boolean isDunningLetterNotSentInd() {
-        return dunningLetterNotSentInd;
+    public boolean isDunningLetterNotSent() {
+        return dunningLetterNotSent;
     }
 
     /**
-     * Sets the dunningLetterNotSentInd attribute.
+     * Sets the dunningLetterNotSent attribute.
      *
-     * @param dunningLetterNotSentInd The dunningLetterNotSentInd set.
+     * @param dunningLetterNotSent The dunningLetterNotSent set.
      */
-    public void setDunningLetterNotSentInd(boolean dunningLetterNotSentInd) {
-        this.dunningLetterNotSentInd = dunningLetterNotSentInd;
+    public void setDunningLetterNotSent(boolean dunningLetterNotSent) {
+        this.dunningLetterNotSent = dunningLetterNotSent;
     }
 
 

@@ -138,7 +138,7 @@ public class DunningLetterDistributionOnDemandSummaryAction extends KualiAction 
         }
         else {
             KNSGlobalVariables.getMessageList().add(ArKeyConstants.DunningCampaignConstantsAndErrors.MESSAGE_DUNNING_CAMPAIGN_BATCH_NOT_SENT);
-            dunningLetterDistributionOnDemandSummaryForm.setDunningLetterNotSentInd(true);
+            dunningLetterDistributionOnDemandSummaryForm.setDunningLetterNotSent(true);
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
     }

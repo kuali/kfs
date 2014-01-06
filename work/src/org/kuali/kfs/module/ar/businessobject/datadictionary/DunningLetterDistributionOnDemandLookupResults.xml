@@ -76,7 +76,7 @@
 					</property>
 				</bean>
 		        <bean parent="RelationshipDefinition">
-		          <property name="objectAttributeName" value="chart"/>
+		          <property name="objectAttributeName" value="billingChart"/>
 		          <property name="primitiveAttributes">
 		            <list>
 		              <bean parent="PrimitiveAttributeDefinition" p:sourceName="billingChartCode" p:targetName="chartOfAccountsCode"/>
@@ -84,7 +84,7 @@
 		          </property>
 		        </bean>				
 		        <bean parent="RelationshipDefinition">
-		          <property name="objectAttributeName" value="organization"/>
+		          <property name="objectAttributeName" value="billingOrganization"/>
 		          <property name="primitiveAttributes">
 		            <list>
 		              <bean parent="PrimitiveAttributeDefinition" p:sourceName="billingOrganizationCode" p:targetName="organizationCode"/>
@@ -92,7 +92,7 @@
 		          </property>
 		        </bean>				
 		        <bean parent="RelationshipDefinition">
-		          <property name="objectAttributeName" value="chart"/>
+		          <property name="objectAttributeName" value="processingChart"/>
 		          <property name="primitiveAttributes">
 		            <list>
 		              <bean parent="PrimitiveAttributeDefinition" p:sourceName="processingChartCode" p:targetName="chartOfAccountsCode"/>
@@ -100,7 +100,7 @@
 		          </property>
 		        </bean>				
 		        <bean parent="RelationshipDefinition">
-		          <property name="objectAttributeName" value="organization"/>
+		          <property name="objectAttributeName" value="processingOrganization"/>
 		          <property name="primitiveAttributes">
 		            <list>
 		              <bean parent="PrimitiveAttributeDefinition" p:sourceName="processingOrganizationCode" p:targetName="organizationCode"/>

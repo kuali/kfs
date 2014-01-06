@@ -584,13 +584,8 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
             encTotal = encTotal.subtract(this.perDiemAdjustment);
         }
 
-        if (getExpenseLimit() != null && getExpenseLimit().isPositive()) {
-            if (getExpenseLimit().isLessThan(encTotal)) {  // we've got an expense limit and we need to respect it
-                return getExpenseLimit();
-            }
-        }
-
-        return encTotal;
+        final KualiDecimal encTotalWithExpenseLimit = applyExpenseLimit(encTotal);
+        return encTotalWithExpenseLimit;
     }
 
     /**

@@ -519,7 +519,9 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
         if (advancesTotal.isGreaterThan(grandTotal)) {
             return KualiDecimal.ZERO; // if advances are greater than what is being reimbursed, then the grand total is a big fat goose egg.  With two equally sized goose eggs after the decimal point.
         }
-        return grandTotal.subtract(getAdvancesTotal());
+        final KualiDecimal reimbursableGrandTotal = grandTotal.subtract(getAdvancesTotal());
+        final KualiDecimal reimbursableGrandTotalAfterExpenseLimit = applyExpenseLimit(reimbursableGrandTotal);
+        return reimbursableGrandTotalAfterExpenseLimit;
     }
 
     /**

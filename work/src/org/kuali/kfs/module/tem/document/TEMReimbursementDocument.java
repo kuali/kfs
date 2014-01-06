@@ -328,13 +328,12 @@ public abstract class TEMReimbursementDocument extends TravelDocumentBase implem
      */
     public KualiDecimal getPaymentAmount() {
         final KualiDecimal reimbursableExpenseTotal = getEligibleAmount();
-        if (getExpenseLimit() != null && reimbursableExpenseTotal.isGreaterThan(getExpenseLimit())) {
-            return getExpenseLimit();
-        }
         if (reimbursableExpenseTotal.isLessThan(KualiDecimal.ZERO)) {
             return KualiDecimal.ZERO;
         }
-        return reimbursableExpenseTotal;
+
+        final KualiDecimal reimbursableExpenseTotalWithExpenseLimit = applyExpenseLimit(reimbursableExpenseTotal);
+        return reimbursableExpenseTotalWithExpenseLimit;
     }
 
     /**

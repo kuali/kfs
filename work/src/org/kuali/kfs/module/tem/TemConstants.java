@@ -956,15 +956,15 @@ public class TemConstants {
      * Categories of expense types that cause special reactions from the system, as described below
      */
     public enum ExpenseTypeMetaCategory {
+        AIRFARE("A"), // forces extra airfare information to be filled on as part of an expense
         BREAKFAST("B"), // expenses with this expense type meta category cannot have a per diem breakfast on the same day
         LUNCH("J"), // expenses with this expense type meta category cannot have a per diem lunch on the same day ("J" for deJeneur which I just liked better than "U")
         DINNER("D"),  // expenses with this expense type meta category cannot have a per diem dinner on the same day
-        AIRFARE("A"), // forces extra airfare information to be filled on as part of an expense
+        INCIDENTALS("I"),
         LODGING("L"),
         LODGING_ALLOWANCE("W"),
         MILEAGE("M"), // changes the expense type entry to accept mileage rate and miles driven instead of a lump amount
-        RENTAL_CAR("R"),
-        INCIDENTALS("I");
+        RENTAL_CAR("R");
 
         private String code;
 

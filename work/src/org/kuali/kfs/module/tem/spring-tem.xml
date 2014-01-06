@@ -1482,6 +1482,7 @@
 		<property name="travelDocumentDao" ref="travelDocumentDao"/>
 		<property name="travelPaymentsHelperService" ref="travelPaymentsHelperService"/>
 		<property name="parameterService" ref="parameterService"/>
+		<property name="travelReimbursementService" ref="temTravelReimbursementService"/>
 	</bean>
 	
 	<bean id="temAuthorizationDocumentExtractionHelperService" parent="temAuthorizationDocumentExtractionHelperService-parentBean"/>

@@ -178,6 +178,8 @@ if [[ "$EXPORT_UPGRADED_PROJECT" == "true" ]]; then
 		export.torque.database.url=$DATASOURCE
 		
 		export.table.name.filter=^(?!.*(_BKUP)).*\$
+
+        drivers.directory=/opt/hudson/drivers
 	EOF
 	) > $TEMP_DIR/impex-build.properties
 	pushd $PROJECT_DIR/work/db/kfs-db/db-impex/impex

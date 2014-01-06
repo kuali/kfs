@@ -22,7 +22,7 @@
 	<h3>Payee (Person to be Reimbursed)</h3>
 
 	<table cellpadding="0" cellspacing="0" class="datatable" summary="Requester Section">
-		<c:if test="${fullEntryMode}">
+		<c:if test="${fullEntryMode && lookupRequesterMode}">
         <tr>
             <th class="bord-l-b"><div align="right">Payee Lookup:</div></th>
             <td class="datacell" colspan="3">

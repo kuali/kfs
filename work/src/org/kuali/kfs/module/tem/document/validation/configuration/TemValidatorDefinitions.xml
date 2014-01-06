@@ -35,8 +35,10 @@
 	<bean id="TravelModule-emergencyContactRequiredValidation"
 		class="org.kuali.kfs.module.tem.document.validation.impl.TravelAuthEmergencyContactRequiredValidation" />
 
-	<bean id="TravelModule-travelerValidation"
-		class="org.kuali.kfs.module.tem.document.validation.impl.TravelAuthTravelerValidation" />
+	<bean id="TravelModule-travelerValidation" parent="TravelModule-travelerValidation-parentBean" />
+	<bean id="TravelModule-travelerValidation-parentBean" abstract="true" class="org.kuali.kfs.module.tem.document.validation.impl.TravelAuthTravelerValidation">
+		<property name="postalCodeValidationService" ref="postalCodeValidationService"/>
+	</bean>
 		
 	<bean id="TravelModule-blanketTripTypeValidation"
 		class="org.kuali.kfs.module.tem.document.validation.impl.TravelAuthBlanketTripTypeValidation" />

@@ -76,8 +76,10 @@ import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.dao.DocumentDao;
@@ -108,6 +110,7 @@ public class TravelReimbursementServiceImpl implements TravelReimbursementServic
     protected ParameterService parameterService;
     protected WorkflowDocumentService workflowDocumentService;
     protected PersonService personService;
+    protected IdentityService identityService;
     protected DocumentDao documentDao;
     protected AccountingDocumentRelationshipService accountingDocumentRelationshipService;
     protected AccountsReceivableModuleService accountsReceivableModuleService;
@@ -321,9 +324,12 @@ public class TravelReimbursementServiceImpl implements TravelReimbursementServic
         final String newStartDateStr = formatter.format(reimbursement.getTripBegin());
         final String newEndDateStr = formatter.format(reimbursement.getTripEnd());
 
-        final String noteText = String.format(DATE_CHANGED_MESSAGE, origStartDateStr, origEndDateStr, newStartDateStr, newEndDateStr);
+        final String noteText = String.format(DATE_CHANGED_MESSAGE, origStartDateStr, origEndDateStr, newStartDateStr, newEndDateStr, reimbursement.getDocumentNumber());
 
         final Note noteToAdd = documentService.createNoteFromDocument(reimbursement, noteText);
+
+        final Principal systemUser = getIdentityService().getPrincipalByPrincipalName(KFSConstants.SYSTEM_USER);
+        noteToAdd.setAuthorUniversalIdentifier(systemUser.getPrincipalId());
         reimbursement.addNote(noteToAdd);
         getNoteService().save(noteToAdd);
     }
@@ -1055,10 +1061,11 @@ public class TravelReimbursementServiceImpl implements TravelReimbursementServic
         this.noteService = noteService;
     }
 
+    public IdentityService getIdentityService() {
+        return identityService;
+    }
 
-
-
-
-
-
+    public void setIdentityService(IdentityService identityService) {
+        this.identityService = identityService;
+    }
 }

@@ -320,6 +320,7 @@
 		<property name="ruleService" ref="kualiRuleService" />
 		<property name="objectCodeService" ref="objectCodeService" />
 		<property name="personService" ref="personService" />
+		<property name="identityService" ref="identityService"/>
 		<property name="travelDocumentService" ref="travelDocumentService" />
 		<property name="travelAuthorizationService" ref="temTravelAuthorizationService" />
 		<property name="workflowDocumentService" ref="workflowDocumentService" />

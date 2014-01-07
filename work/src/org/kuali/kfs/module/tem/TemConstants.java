@@ -477,7 +477,7 @@ public class TemConstants {
     public static final String TRAVEL_RELOCATION_ACTION_NAME = "temTravelRelocation";
     public static final String ENTERTAINMENT_ACTION_NAME = "temTravelEntertainment";
 
-    public static final String DATE_CHANGED_MESSAGE = "The trip begin/end dates have been changed from %s - %s to %s - %s";
+    public static final String DATE_CHANGED_MESSAGE = "The trip begin/end dates have been changed from %s - %s to %s - %s by Travel Reimbursement Doc # %s";
     public static final String TA_CANCELLED_MESSAGE = "Travel Authorization cancelled.";
 
     public static final String EMP_TRAVELER_TYP_CD = "EMP";

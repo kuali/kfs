@@ -123,6 +123,7 @@ public enum ARAwardFixture {
     public Award setAgencyFromFixture(Award award) {
         ContractsAndGrantsBillingAgency agency = ARAgencyFixture.CG_AGENCY1.createAgency();
         award.setAgency((Agency)agency);
+        award.setAgencyNumber(agency.getAgencyNumber());
         return award;
     }
 

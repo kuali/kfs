@@ -1039,53 +1039,6 @@
             <unique-column name="OBJ_ID"/>
         </unique>
     </table>
-    <table name="AR_CUST_INV_ACCT_T">
-        <column name="CUST_NBR" primaryKey="true" size="9" type="VARCHAR"/>
-        <column name="FIN_COA_CD" primaryKey="true" size="2" type="VARCHAR"/>
-        <column name="UNIV_FISCAL_YR" primaryKey="true" size="4" type="DECIMAL"/>
-        <column name="ACCOUNT_NBR" primaryKey="true" size="7" type="VARCHAR"/>
-        <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
-        <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
-        <column name="FIN_OBJECT_CD" size="4" type="VARCHAR"/>
-        <column name="SUB_ACCT_NBR" size="5" type="VARCHAR"/>
-        <column name="FIN_SUB_OBJ_CD" size="3" type="VARCHAR"/>
-        <column name="PROJECT_CD" size="10" type="VARCHAR"/>
-        <column name="ACCT_TYP" size="45" type="VARCHAR"/>
-        <column name="ACTV_IND" size="1" type="VARCHAR"/>
-        <foreign-key foreignTable="AR_CUST_T" name="AR_CUST_INV_ACCT_R1">
-            <reference foreign="CUST_NBR" local="CUST_NBR"/>
-        </foreign-key>
-        <foreign-key foreignTable="CA_CHART_T" name="AR_CUST_INV_ACCT_R2">
-            <reference foreign="FIN_COA_CD" local="FIN_COA_CD"/>
-        </foreign-key>
-        <foreign-key foreignTable="CA_ACCOUNT_T" name="AR_CUST_INV_ACCT_R3">
-            <reference foreign="FIN_COA_CD" local="FIN_COA_CD"/>
-            <reference foreign="ACCOUNT_NBR" local="ACCOUNT_NBR"/>
-        </foreign-key>
-        <foreign-key foreignTable="CA_SUB_ACCT_T" name="AR_CUST_INV_ACCT_R4">
-            <reference foreign="FIN_COA_CD" local="FIN_COA_CD"/>
-            <reference foreign="ACCOUNT_NBR" local="ACCOUNT_NBR"/>
-            <reference foreign="SUB_ACCT_NBR" local="SUB_ACCT_NBR"/>
-        </foreign-key>
-        <foreign-key foreignTable="CA_OBJECT_CODE_T" name="AR_CUST_INV_ACCT_R5">
-            <reference foreign="UNIV_FISCAL_YR" local="UNIV_FISCAL_YR"/>
-            <reference foreign="FIN_COA_CD" local="FIN_COA_CD"/>
-            <reference foreign="FIN_OBJECT_CD" local="FIN_OBJECT_CD"/>
-        </foreign-key>
-        <foreign-key foreignTable="CA_SUB_OBJECT_CD_T" name="AR_CUST_INV_ACCT_R6">
-            <reference foreign="UNIV_FISCAL_YR" local="UNIV_FISCAL_YR"/>
-            <reference foreign="FIN_COA_CD" local="FIN_COA_CD"/>
-            <reference foreign="ACCOUNT_NBR" local="ACCOUNT_NBR"/>
-            <reference foreign="FIN_OBJECT_CD" local="FIN_OBJECT_CD"/>
-            <reference foreign="FIN_SUB_OBJ_CD" local="FIN_SUB_OBJ_CD"/>
-        </foreign-key>
-        <foreign-key foreignTable="CA_PROJECT_T" name="AR_CUST_INV_ACCT_R7">
-            <reference foreign="PROJECT_CD" local="PROJECT_CD"/>
-        </foreign-key>
-        <unique name="AR_CUST_INV_ACCT_TC1">
-            <unique-column name="OBJ_ID"/>
-        </unique>
-    </table>
     <table name="AR_CUST_PRCS_TYP_T">
         <column name="CUST_SPCL_PRCS_CD" primaryKey="true" size="2" type="VARCHAR"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
@@ -4179,6 +4132,53 @@
             <reference foreign="CGPRPSL_NBR" local="CGPRPSL_NBR"/>
         </foreign-key>
         <unique name="CG_AWD_FNDMGR_TC1">
+            <unique-column name="OBJ_ID"/>
+        </unique>
+    </table>
+    <table name="CG_AWD_INV_ACCT_T">
+        <column default="0" name="CGPRPSL_NBR" primaryKey="true" size="12" type="DECIMAL"/>
+        <column name="FIN_COA_CD" primaryKey="true" size="2" type="VARCHAR"/>
+        <column name="UNIV_FISCAL_YR" primaryKey="true" size="4" type="DECIMAL"/>
+        <column name="ACCOUNT_NBR" primaryKey="true" size="7" type="VARCHAR"/>
+        <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
+        <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
+        <column name="FIN_OBJECT_CD" size="4" type="VARCHAR"/>
+        <column name="SUB_ACCT_NBR" size="5" type="VARCHAR"/>
+        <column name="FIN_SUB_OBJ_CD" size="3" type="VARCHAR"/>
+        <column name="PROJECT_CD" size="10" type="VARCHAR"/>
+        <column name="ACCT_TYP" size="45" type="VARCHAR"/>
+        <column name="ACTV_IND" size="1" type="VARCHAR"/>
+        <foreign-key foreignTable="CG_AWD_T" name="CG_AWD_INV_ACCT_R1">
+            <reference foreign="CGPRPSL_NBR" local="CGPRPSL_NBR"/>
+        </foreign-key>
+        <foreign-key foreignTable="CA_CHART_T" name="CG_AWD_INV_ACCT_R2">
+            <reference foreign="FIN_COA_CD" local="FIN_COA_CD"/>
+        </foreign-key>
+        <foreign-key foreignTable="CA_ACCOUNT_T" name="CG_AWD_INV_ACCT_R3">
+            <reference foreign="FIN_COA_CD" local="FIN_COA_CD"/>
+            <reference foreign="ACCOUNT_NBR" local="ACCOUNT_NBR"/>
+        </foreign-key>
+        <foreign-key foreignTable="CA_SUB_ACCT_T" name="CG_AWD_INV_ACCT_R4">
+            <reference foreign="FIN_COA_CD" local="FIN_COA_CD"/>
+            <reference foreign="ACCOUNT_NBR" local="ACCOUNT_NBR"/>
+            <reference foreign="SUB_ACCT_NBR" local="SUB_ACCT_NBR"/>
+        </foreign-key>
+        <foreign-key foreignTable="CA_OBJECT_CODE_T" name="CG_AWD_INV_ACCT_R5">
+            <reference foreign="UNIV_FISCAL_YR" local="UNIV_FISCAL_YR"/>
+            <reference foreign="FIN_COA_CD" local="FIN_COA_CD"/>
+            <reference foreign="FIN_OBJECT_CD" local="FIN_OBJECT_CD"/>
+        </foreign-key>
+        <foreign-key foreignTable="CA_SUB_OBJECT_CD_T" name="CG_AWD_INV_ACCT_R6">
+            <reference foreign="UNIV_FISCAL_YR" local="UNIV_FISCAL_YR"/>
+            <reference foreign="FIN_COA_CD" local="FIN_COA_CD"/>
+            <reference foreign="ACCOUNT_NBR" local="ACCOUNT_NBR"/>
+            <reference foreign="FIN_OBJECT_CD" local="FIN_OBJECT_CD"/>
+            <reference foreign="FIN_SUB_OBJ_CD" local="FIN_SUB_OBJ_CD"/>
+        </foreign-key>
+        <foreign-key foreignTable="CA_PROJECT_T" name="CG_AWD_INV_ACCT_R7">
+            <reference foreign="PROJECT_CD" local="PROJECT_CD"/>
+        </foreign-key>
+        <unique name="CG_AWD_INV_ACCT_TC1">
             <unique-column name="OBJ_ID"/>
         </unique>
     </table>

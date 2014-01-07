@@ -24,7 +24,6 @@
         $0.inv_typ_desc := replace(nvl($inv_typ_desc, ""), "~!~", "|" );
         $0.actv_ind := replace(nvl($actv_ind, ""), "~!~", "|" );
         $0.filename := replace(nvl($filename, ""), "~!~", "|" );
-        $0.filepath := replace(nvl($filepath, ""), "~!~", "|" );
         $0.access_rstrctd_ind := replace(nvl($access_rstrctd_ind, ""), "~!~", "|" );
         $0.bill_by_coa_cd := replace(nvl($bill_by_coa_cd, ""), "~!~", "|" );
         $0.bill_by_org_cd := replace(nvl($bill_by_org_cd, ""), "~!~", "|" );

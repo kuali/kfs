@@ -1220,7 +1220,6 @@
         <column name="DUN_LTR_TMPLT_CD" primaryKey="true" size="10" type="VARCHAR"/>
         <column name="DUN_LTR_TMPLT_DESC" size="45" type="VARCHAR"/>
         <column name="FILENAME" size="50" type="VARCHAR"/>
-        <column name="FILEPATH" size="500" type="VARCHAR"/>
         <column default="N" name="ACCESS_RSTRCTD_IND" size="1" type="VARCHAR"/>
         <column default="Y" name="ACTV_IND" size="1" type="VARCHAR"/>
         <column name="UPLOAD_DT" size="25" type="VARCHAR"/>
@@ -1706,7 +1705,6 @@
         <column name="INV_TYP_DESC" size="45" type="VARCHAR"/>
         <column default="Y" name="ACTV_IND" required="true" size="1" type="VARCHAR"/>
         <column name="FILENAME" size="50" type="VARCHAR"/>
-        <column name="FILEPATH" size="500" type="VARCHAR"/>
         <column name="ACCESS_RSTRCTD_IND" size="1" type="VARCHAR"/>
         <column name="BILL_BY_COA_CD" size="2" type="VARCHAR"/>
         <column name="BILL_BY_ORG_CD" size="4" type="VARCHAR"/>

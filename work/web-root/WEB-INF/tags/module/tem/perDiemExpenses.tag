@@ -44,7 +44,7 @@
 			<table cellpadding="0" class="datatable" summary="Destination, Miles and Meals">
 				<c:forEach items="${KualiForm.document.perDiemExpenses}" var="perDiemExpense" varStatus="perDiemIndex">
 					<c:set target="${paramMap}" property="queryDate" value="${perDiemExpense.mileageDate}" />
-					<c:set var="isCustom" value="${KualiForm.document.perDiemExpenses[perDiemIndex.count- 1].perDiem.id == TemConstants.CUSTOM_PER_DIEM_ID}" />
+					<c:set var="isCustom" value="${perDiemExpense.perDiem.id == TemConstants.CUSTOM_PER_DIEM_ID}" />
 					<c:set var="colspan" value="${!showPerDiemBreakdown && !isCustom && !isTR ? 10 : 14}" />
 					<c:set var="mileageDate" value="${KualiForm.document.perDiemExpenses[perDiemIndex.count - 1].mileageDate}" />
 					
@@ -89,7 +89,7 @@
 								<kul:htmlControlAttribute
 									attributeEntry="${perDiemExpensesAttributes.countryStateText}"
 									property="document.perDiemExpenses[${perDiemIndex.count - 1}].countryState"
-									readOnly="${fullEntryMode}" />
+									readOnly="${!fullEntryMode}" />
 								
 							</c:when>
 							<c:otherwise>
@@ -103,12 +103,12 @@
 						<td valign=top class="datacell"><kul:htmlControlAttribute
 								attributeEntry="${perDiemExpensesAttributes.county}"
 								property="document.perDiemExpenses[${perDiemIndex.count - 1}].county"
-								readOnly="${!isCustom}" />
+								readOnly="${!isCustom || !fullEntryMode}" />
 						</td>
 						<td valign=top class="datacell"><kul:htmlControlAttribute
 								attributeEntry="${perDiemExpensesAttributes.perDiemId}"
 								property="document.perDiemExpenses[${perDiemIndex.count - 1}].primaryDestination"
-								readOnly="${!isCustom}" /> 
+								readOnly="${!isCustom || !fullEntryMode}" /> 
 							<c:if test="${fullEntryMode}">
 								<kul:lookup
 									boClassName="org.kuali.kfs.module.tem.businessobject.PrimaryDestination"

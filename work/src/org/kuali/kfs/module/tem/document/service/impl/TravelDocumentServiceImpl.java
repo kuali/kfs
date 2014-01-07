@@ -206,7 +206,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
 
         PerDiem perDiem = expense.getPerDiem();
         expense.setPrimaryDestination(perDiem.getPrimaryDestination().getPrimaryDestinationName());
-        expense.setCountryState(perDiem.getPrimaryDestination().getRegion().getRegionCode());
+        expense.setCountryState(perDiem.getPrimaryDestination().getRegion().getRegionName());
         expense.setCounty(perDiem.getPrimaryDestination().getCounty());
 
         setPerDiemMealsAndIncidentals(expense, perDiem, document.getTripType(), document.getTripEnd(), expense.isProrated());

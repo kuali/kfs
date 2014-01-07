@@ -82,7 +82,7 @@ public class AccountingDistributionServiceImpl implements AccountingDistribution
             }
         }
 
-        if (expenseLimit != null && expenseLimit.isGreaterThan(KualiDecimal.ZERO)) {
+        if (expenseLimit != null && expenseLimit.isPositive() && expenseLimit.isLessThan(total)) {
             total = new KualiDecimal(expenseLimit.bigDecimalValue());
             useExpenseLimit = true;
         }

@@ -167,7 +167,7 @@ public class AwardMaintainableImpl extends FinancialSystemMaintainable {
             directors.get(0).setAwardPrimaryProjectDirectorIndicator(true);
         }
         List<AwardFundManager> managers = getAward().getAwardFundManagers();
-        if (managers.size() == 1) {
+        if (managers != null && managers.size() == 1) {
             managers.get(0).setAwardPrimaryFundManagerIndicator(true);
         }
         List<AwardOrganization> organizations = getAward().getAwardOrganizations();
@@ -255,7 +255,7 @@ public class AwardMaintainableImpl extends FinancialSystemMaintainable {
             SpringContext.getBean(BusinessObjectService.class).save(newAward.getProposal());
         }
     }
-    
+
     /**
      * This method is called for refreshing the Agency after a lookup to display its full name without AJAX.
      *

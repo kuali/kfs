@@ -35,7 +35,6 @@ import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
 import org.kuali.kfs.module.ar.report.service.ContractsGrantsAgingReportService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.rice.krad.service.KualiModuleService;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -51,7 +50,7 @@ public class ContractsGrantsAgingOpenInvoicesReportServiceImpl implements Contra
     private CustomerInvoiceDocumentService customerInvoiceDocumentService;
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ContractsGrantsAgingOpenInvoicesReportServiceImpl.class);
     private KualiModuleService kualiModuleService;
-    
+
     /**
      * Gets the contractsGrantsAgingReportService attribute.
      *
@@ -183,7 +182,7 @@ public class ContractsGrantsAgingOpenInvoicesReportServiceImpl implements Contra
 
             // Set Account number
             List<CustomerInvoiceDetail> details = invoice.getSourceAccountingLines();
-            String accountNum = (ObjectUtils.isNotNull(details) && CollectionUtils.isNotEmpty(details) && ObjectUtils.isNotNull(details.get(0))) ? details.get(0).getAccountNumber() : "";
+            String accountNum = (CollectionUtils.isNotEmpty(details) && ObjectUtils.isNotNull(details.get(0))) ? details.get(0).getAccountNumber() : "";
             detail.setAccountNumber(accountNum);
             results.add(detail);
 
@@ -201,10 +200,10 @@ public class ContractsGrantsAgingOpenInvoicesReportServiceImpl implements Contra
         args.put(KFSPropertyConstants.CUSTOMER_NUMBER, customerNumber);
         return kualiModuleService.getResponsibleModuleService(ContractsAndGrantsBillingAgency.class).getExternalizableBusinessObject(ContractsAndGrantsBillingAgency.class, args);
     }
-    
+
     /**
      * Sets the kualiModuleService attribute value.
-     * 
+     *
      * @param kualiModuleService The kualiModuleService to set.
      */
     @NonTransactional

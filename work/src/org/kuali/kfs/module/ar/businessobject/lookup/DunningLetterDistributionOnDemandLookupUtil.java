@@ -23,15 +23,13 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
-import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.DunningLetterDistributionOnDemandLookupResult;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.lookup.LookupResultsService;
-import java.util.ArrayList;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * Utility class for OnDemand Lookup for Dunning Letter Distribution process
@@ -58,20 +56,22 @@ public class DunningLetterDistributionOnDemandLookupUtil {
             Map.Entry entry = (Map.Entry) iter.next();
             List<ContractsGrantsInvoiceDocument> list = (List<ContractsGrantsInvoiceDocument>) entry.getValue();
 
-            // Get data from first award for agency data
-            ContractsAndGrantsBillingAward award = list.get(0).getAward();
-            if (!award.isStopWorkIndicator()) {
-                dunningLetterDistributionOnDemandLookupResult = new DunningLetterDistributionOnDemandLookupResult();
-                dunningLetterDistributionOnDemandLookupResult.setProposalNumber(award.getProposalNumber());
-                dunningLetterDistributionOnDemandLookupResult.setInvoiceDocumentNumber(list.get(0).getDocumentNumber());
-                dunningLetterDistributionOnDemandLookupResult.setAgencyNumber(award.getAgencyNumber());
-                dunningLetterDistributionOnDemandLookupResult.setCustomerNumber(list.get(0).getAccountsReceivableDocumentHeader().getCustomerNumber());
-                dunningLetterDistributionOnDemandLookupResult.setAwardTotal(award.getAwardTotalAmount());
-                dunningLetterDistributionOnDemandLookupResult.setCampaignID(award.getDunningCampaign());
-                dunningLetterDistributionOnDemandLookupResult.setAccountNumber(list.get(0).getAccountDetails().get(0).getAccountNumber());
-                dunningLetterDistributionOnDemandLookupResult.setInvoices(list);
+            if (CollectionUtils.isNotEmpty(list)){
+                // Get data from first award for agency data
+                ContractsAndGrantsBillingAward award = list.get(0).getAward();
+                if (ObjectUtils.isNotNull(award) && !award.isStopWorkIndicator()) {
+                    dunningLetterDistributionOnDemandLookupResult = new DunningLetterDistributionOnDemandLookupResult();
+                    dunningLetterDistributionOnDemandLookupResult.setProposalNumber(award.getProposalNumber());
+                    dunningLetterDistributionOnDemandLookupResult.setInvoiceDocumentNumber(list.get(0).getDocumentNumber());
+                    dunningLetterDistributionOnDemandLookupResult.setAgencyNumber(award.getAgencyNumber());
+                    dunningLetterDistributionOnDemandLookupResult.setCustomerNumber(list.get(0).getAccountsReceivableDocumentHeader().getCustomerNumber());
+                    dunningLetterDistributionOnDemandLookupResult.setAwardTotal(award.getAwardTotalAmount());
+                    dunningLetterDistributionOnDemandLookupResult.setCampaignID(award.getDunningCampaign());
+                    dunningLetterDistributionOnDemandLookupResult.setAccountNumber(list.get(0).getAccountDetails().get(0).getAccountNumber());
+                    dunningLetterDistributionOnDemandLookupResult.setInvoices(list);
 
-                populatedDunningLetterDistributionOnDemandLookupResults.add(dunningLetterDistributionOnDemandLookupResult);
+                    populatedDunningLetterDistributionOnDemandLookupResults.add(dunningLetterDistributionOnDemandLookupResult);
+                }
             }
         }
 

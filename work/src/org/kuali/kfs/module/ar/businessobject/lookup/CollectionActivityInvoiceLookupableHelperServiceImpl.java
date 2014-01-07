@@ -22,7 +22,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
-import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
@@ -37,35 +36,27 @@ import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
 import org.kuali.kfs.module.ar.report.service.ReferralToCollectionsReportService;
 import org.kuali.kfs.module.ar.web.ui.CollectionActivityInvoiceResultRow;
-import org.kuali.kfs.module.ar.web.ui.ReferralToCollectionsResultRow;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.ObjectUtil;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.web.format.BooleanFormatter;
 import org.kuali.rice.core.web.format.CollectionFormatter;
 import org.kuali.rice.core.web.format.DateFormatter;
 import org.kuali.rice.core.web.format.Formatter;
-import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.document.authorization.BusinessObjectRestrictions;
 import org.kuali.rice.kns.lookup.HtmlData;
-import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.web.comparator.CellComparatorHelper;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
 import org.kuali.rice.kns.web.ui.Column;
-import org.kuali.rice.kns.web.ui.ResultRow;
 import org.kuali.rice.krad.bo.BusinessObject;
-import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.lookup.CollectionIncomplete;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.krad.util.UrlFactory;
 
@@ -91,7 +82,7 @@ public class CollectionActivityInvoiceLookupableHelperServiceImpl extends KualiL
 
     /**
      * Get the search results that meet the input search criteria.
-     * 
+     *
      * @param fieldValues - Map containing prop name keys and search values
      * @return a List of found business objects
      */
@@ -113,7 +104,7 @@ public class CollectionActivityInvoiceLookupableHelperServiceImpl extends KualiL
 
     /**
      * Get the search results that meet the input search criteria.
-     * 
+     *
      * @param fieldValues - Map containing prop name keys and search values
      * @return a List of found business objects
      */
@@ -132,7 +123,7 @@ public class CollectionActivityInvoiceLookupableHelperServiceImpl extends KualiL
         cl.setProposalNumber(contractsGrantsInvoiceDocument.getProposalNumber());
         cl.setInvoiceNumber(contractsGrantsInvoiceDocument.getDocumentNumber());
 
-        if (ObjectUtils.isNotNull(contractsGrantsInvoiceDocument.getAccountDetails()) && CollectionUtils.isNotEmpty(contractsGrantsInvoiceDocument.getAccountDetails())) {
+        if (CollectionUtils.isNotEmpty(contractsGrantsInvoiceDocument.getAccountDetails())) {
             cl.setAccountNumber(contractsGrantsInvoiceDocument.getAccountDetails().get(0).getAccountNumber());
         }
 
@@ -150,7 +141,7 @@ public class CollectionActivityInvoiceLookupableHelperServiceImpl extends KualiL
 
     /**
      * This method performs the lookup and returns a collection of lookup items
-     * 
+     *
      * @param lookupForm
      * @param kualiLookupable
      * @param resultTable
@@ -178,7 +169,7 @@ public class CollectionActivityInvoiceLookupableHelperServiceImpl extends KualiL
 
         List pkNames = getBusinessObjectMetaDataService().listPrimaryKeyFieldNames(getBusinessObjectClass());
         List returnKeys = getReturnKeys();
-        
+
         Person user = GlobalVariables.getUserSession().getPerson();
         int i = 0;
         try {
@@ -261,7 +252,7 @@ public class CollectionActivityInvoiceLookupableHelperServiceImpl extends KualiL
 
     /**
      * Gets the customer inquiry url on given customerNumber
-     * 
+     *
      * @param customerNumber Customer Number for inquiry on Account
      * @return Returns the url string.
      */
@@ -278,7 +269,7 @@ public class CollectionActivityInvoiceLookupableHelperServiceImpl extends KualiL
 
     /**
      * This method returns the Agency inquiry url
-     * 
+     *
      * @param bo business object
      * @param columnTitle
      * @return Returns the url for the Agency Inquiry
@@ -295,7 +286,7 @@ public class CollectionActivityInvoiceLookupableHelperServiceImpl extends KualiL
 
     /**
      * Sets the businessObjectService attribute.
-     * 
+     *
      * @param businessObjectService The businessObjectService to set.
      */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
@@ -304,7 +295,7 @@ public class CollectionActivityInvoiceLookupableHelperServiceImpl extends KualiL
 
     /**
      * Gets the dateTimeService attribute.
-     * 
+     *
      * @return Returns the dateTimeService.
      */
     public DateTimeService getDateTimeService() {
@@ -316,7 +307,7 @@ public class CollectionActivityInvoiceLookupableHelperServiceImpl extends KualiL
 
     /**
      * Sets the dateTimeService attribute.
-     * 
+     *
      * @param dateTimeService The dateTimeService to set.
      */
     public void setDateTimeService(DateTimeService dateTimeService) {
@@ -348,6 +339,6 @@ public class CollectionActivityInvoiceLookupableHelperServiceImpl extends KualiL
 
         return titleText;
     }
-    
-    
+
+
 }

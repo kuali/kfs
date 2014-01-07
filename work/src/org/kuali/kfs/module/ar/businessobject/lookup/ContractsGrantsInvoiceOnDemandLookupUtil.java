@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -22,6 +22,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAgency;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
@@ -29,6 +30,7 @@ import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleRetrieveService;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.ContractsGrantsInvoiceOnDemandLookupResult;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * Utility class for OnDemand Lookup for Contracts and Grants Invoices.
@@ -37,7 +39,7 @@ public class ContractsGrantsInvoiceOnDemandLookupUtil {
 
     /**
      * This helper method returns a list of award lookup results based on the contracts greants on demand lookup
-     * 
+     *
      * @param award
      * @return
      */
@@ -55,15 +57,20 @@ public class ContractsGrantsInvoiceOnDemandLookupUtil {
             List<ContractsAndGrantsBillingAward> list = (List<ContractsAndGrantsBillingAward>) entry.getValue();
 
             // Get data from first award for agency data
-            ContractsAndGrantsBillingAgency agency = ((ContractsAndGrantsBillingAward) list.get(0)).getAgency();
-            contractsGrantsInvoiceOnDemandLookupResult = new ContractsGrantsInvoiceOnDemandLookupResult();
-            contractsGrantsInvoiceOnDemandLookupResult.setAgencyNumber(agency.getAgencyNumber());
-            contractsGrantsInvoiceOnDemandLookupResult.setAgencyReportingName(agency.getReportingName());
-            contractsGrantsInvoiceOnDemandLookupResult.setAgencyFullName(agency.getFullName());
-            contractsGrantsInvoiceOnDemandLookupResult.setCustomerNumber(agency.getCustomerNumber());
-            contractsGrantsInvoiceOnDemandLookupResult.setAwards(list);
+            if (CollectionUtils.isNotEmpty(list)){
+                ContractsAndGrantsBillingAgency agency = ((ContractsAndGrantsBillingAward) list.get(0)).getAgency();
+                contractsGrantsInvoiceOnDemandLookupResult = new ContractsGrantsInvoiceOnDemandLookupResult();
 
-            populatedContractsGrantsInvoiceOnDemandLookupResults.add(contractsGrantsInvoiceOnDemandLookupResult);
+                if (ObjectUtils.isNotNull(agency)){
+                    contractsGrantsInvoiceOnDemandLookupResult.setAgencyNumber(agency.getAgencyNumber());
+                    contractsGrantsInvoiceOnDemandLookupResult.setAgencyReportingName(agency.getReportingName());
+                    contractsGrantsInvoiceOnDemandLookupResult.setAgencyFullName(agency.getFullName());
+                    contractsGrantsInvoiceOnDemandLookupResult.setCustomerNumber(agency.getCustomerNumber());
+                }
+
+                contractsGrantsInvoiceOnDemandLookupResult.setAwards(list);
+                populatedContractsGrantsInvoiceOnDemandLookupResults.add(contractsGrantsInvoiceOnDemandLookupResult);
+            }
         }
 
         return populatedContractsGrantsInvoiceOnDemandLookupResults;
@@ -72,7 +79,7 @@ public class ContractsGrantsInvoiceOnDemandLookupUtil {
 
     /**
      * This helper method returns a map of a list of awards by agency
-     * 
+     *
      * @param awards
      * @return
      */

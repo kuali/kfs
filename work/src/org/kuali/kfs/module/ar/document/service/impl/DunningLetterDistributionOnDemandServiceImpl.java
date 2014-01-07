@@ -219,24 +219,27 @@ public class DunningLetterDistributionOnDemandServiceImpl implements DunningLett
      * @return
      */
     protected Map<String, String> getTemplateParameterList(List<ContractsGrantsInvoiceDocument> invoices) {
-        ContractsAndGrantsBillingAward award = invoices.get(0).getAward();
+
         Map<String, String> parameterMap = new HashMap<String, String>();
-        Map primaryKeys = new HashMap<String, Object>();
-        parameterMap.put("award.proposalNumber", returnProperStringValue(award.getProposalNumber()));
-        parameterMap.put("currentDate", returnProperStringValue(FILE_NAME_TIMESTAMP.format(new Date())));
-        if (CollectionUtils.isNotEmpty(invoices)) {
-            for (int i = 0; i < invoices.size(); i++) {
-                parameterMap.put("invoice[" + i + "].documentNumber", returnProperStringValue(invoices.get(i).getDocumentNumber()));
-                parameterMap.put("invoice[" + i + "].billingDate", returnProperStringValue(invoices.get(i).getBillingDate()));
-                parameterMap.put("invoice[" + i + "].totalAmount", returnProperStringValue(invoices.get(i).getTotalDollarAmount()));
-                parameterMap.put("invoice[" + i + "].customerName", returnProperStringValue(invoices.get(i).getCustomerName()));
-                parameterMap.put("invoice[" + i + "].customerNumber", returnProperStringValue(invoices.get(i).getAccountsReceivableDocumentHeader().getCustomerNumber()));
+
+        if (CollectionUtils.isNotEmpty(invoices)){
+            ContractsAndGrantsBillingAward award = invoices.get(0).getAward();
+            Map primaryKeys = new HashMap<String, Object>();
+            parameterMap.put("award.proposalNumber", returnProperStringValue(award.getProposalNumber()));
+            parameterMap.put("currentDate", returnProperStringValue(FILE_NAME_TIMESTAMP.format(new Date())));
+            if (CollectionUtils.isNotEmpty(invoices)) {
+                for (int i = 0; i < invoices.size(); i++) {
+                    parameterMap.put("invoice[" + i + "].documentNumber", returnProperStringValue(invoices.get(i).getDocumentNumber()));
+                    parameterMap.put("invoice[" + i + "].billingDate", returnProperStringValue(invoices.get(i).getBillingDate()));
+                    parameterMap.put("invoice[" + i + "].totalAmount", returnProperStringValue(invoices.get(i).getTotalDollarAmount()));
+                    parameterMap.put("invoice[" + i + "].customerName", returnProperStringValue(invoices.get(i).getCustomerName()));
+                    parameterMap.put("invoice[" + i + "].customerNumber", returnProperStringValue(invoices.get(i).getAccountsReceivableDocumentHeader().getCustomerNumber()));
+                }
+            }
+            if (ObjectUtils.isNotNull(award)) {
+                parameterMap.put("award.awardProjectTitle", returnProperStringValue(award.getAwardProjectTitle()));
             }
         }
-        if (ObjectUtils.isNotNull(award)) {
-            parameterMap.put("award.awardProjectTitle", returnProperStringValue(award.getAwardProjectTitle()));
-        }
-
         return parameterMap;
     }
 

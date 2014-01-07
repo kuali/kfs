@@ -1,12 +1,12 @@
 /*
  * Copyright 2012 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.ar.document.web.struts;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -24,6 +25,7 @@ import java.util.Map;
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.document.CollectionActivityDocument;
@@ -34,7 +36,6 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentFormBase;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.util.ObjectUtils;
-import java.util.ArrayList;
 
 /**
  * Form class for Collection Activity Document.
@@ -85,7 +86,7 @@ public class CollectionActivityDocumentForm extends FinancialSystemTransactional
         this.lookedUpCollectionName = lookedUpCollectionName;
     }
 
-    
+
     /**
      * Default constructor for CollectionActivityDocumentForm.
      */
@@ -97,7 +98,7 @@ public class CollectionActivityDocumentForm extends FinancialSystemTransactional
 
     /**
      * Gets the list of cgInvoices attribute.
-     * 
+     *
      * @return Returns the list of cgInvoices.
      */
     public List<ContractsGrantsInvoiceDocument> getCgInvoices() {
@@ -112,7 +113,7 @@ public class CollectionActivityDocumentForm extends FinancialSystemTransactional
 
     /**
      * Gets the selectedInvoiceDocumentNumber attribute.
-     * 
+     *
      * @return Returns the selectedInvoiceDocumentNumber.
      */
     public String getSelectedInvoiceDocumentNumber() {
@@ -121,7 +122,7 @@ public class CollectionActivityDocumentForm extends FinancialSystemTransactional
 
     /**
      * Sets the selectedInvoiceDocumentNumber attribute.
-     * 
+     *
      * @param selectedInvoiceDocumentNumber The selectedInvoiceDocumentNumber to set.
      */
     public void setSelectedInvoiceDocumentNumber(String selectedInvoiceDocumentNumber) {
@@ -131,7 +132,7 @@ public class CollectionActivityDocumentForm extends FinancialSystemTransactional
 
     /**
      * Gets the selectedProposalNumber attribute.
-     * 
+     *
      * @return Returns the selectedProposalNumber.
      */
     public String getSelectedProposalNumber() {
@@ -140,7 +141,7 @@ public class CollectionActivityDocumentForm extends FinancialSystemTransactional
 
     /**
      * Sets the selectedProposalNumber attribute value.
-     * 
+     *
      * @param selectedProposalNumber The selectedProposalNumber to set.
      */
     public void setSelectedProposalNumber(String selectedProposalNumber) {
@@ -149,7 +150,7 @@ public class CollectionActivityDocumentForm extends FinancialSystemTransactional
 
     /**
      * Gets the selectedAgencyNumber attribute.
-     * 
+     *
      * @return Returns the selected agency number.
      */
     public String getSelectedAgencyNumber() {
@@ -158,7 +159,7 @@ public class CollectionActivityDocumentForm extends FinancialSystemTransactional
 
     /**
      * Sets the selectedAgencyNumber attribute.
-     * 
+     *
      * @param selectedAgencyNumber The selected agency number to set.
      */
     public void setSelectedAgencyNumber(String selectedAgencyNumber) {
@@ -167,7 +168,7 @@ public class CollectionActivityDocumentForm extends FinancialSystemTransactional
 
     /**
      * Gets the selectedAgencyName attribute.
-     * 
+     *
      * @return Returns the seleted agency name.
      */
     public String getSelectedAgencyName() {
@@ -176,7 +177,7 @@ public class CollectionActivityDocumentForm extends FinancialSystemTransactional
 
     /**
      * Sets the selectedAgencyName attribute.
-     * 
+     *
      * @param selectedAgencyName The selected agency name to set.
      */
     public void setSelectedAgencyName(String selectedAgencyName) {
@@ -185,7 +186,7 @@ public class CollectionActivityDocumentForm extends FinancialSystemTransactional
 
     /**
      * Gets the selectedCustomerNumber attribute.
-     * 
+     *
      * @return Returns the selected customer number.
      */
     public String getSelectedCustomerNumber() {
@@ -194,7 +195,7 @@ public class CollectionActivityDocumentForm extends FinancialSystemTransactional
 
     /**
      * Sets the selectedCustomerNumber attribute.
-     * 
+     *
      * @param selectedCustomerNumber The selected customer number to set.
      */
     public void setSelectedCustomerNumber(String selectedCustomerNumber) {
@@ -203,7 +204,7 @@ public class CollectionActivityDocumentForm extends FinancialSystemTransactional
 
     /**
      * Gets the selectedCustomerName attribute.
-     * 
+     *
      * @return Returns the selected customer name.
      */
     public String getSelectedCustomerName() {
@@ -212,7 +213,7 @@ public class CollectionActivityDocumentForm extends FinancialSystemTransactional
 
     /**
      * Sets the selectedCustomerName attribute.
-     * 
+     *
      * @param selectedCustomerName The selected customer name to set.
      */
     public void setSelectedCustomerName(String selectedCustomerName) {
@@ -221,7 +222,7 @@ public class CollectionActivityDocumentForm extends FinancialSystemTransactional
 
     /**
      * This method retrieves a specific contracts grants invoice from the list, by array index
-     * 
+     *
      * @param index the index of the contracts grants invoice to retrieve
      * @return a ContractsGrantsInvoiceDocument
      */
@@ -231,7 +232,7 @@ public class CollectionActivityDocumentForm extends FinancialSystemTransactional
 
     /**
      * This method gets the collection activity document
-     * 
+     *
      * @return the collection activity document
      */
     public CollectionActivityDocument getCollectionActivityDocument() {
@@ -240,7 +241,7 @@ public class CollectionActivityDocumentForm extends FinancialSystemTransactional
 
     /**
      * Gets the selectedInvoiceBalance attribute.
-     * 
+     *
      * @return Returns the selectedInvoiceBalance.
      */
     public KualiDecimal getSelectedInvoiceBalance() {
@@ -250,7 +251,7 @@ public class CollectionActivityDocumentForm extends FinancialSystemTransactional
 
     /**
      * Gets the selectedInvoiceTotalAmount attribute.
-     * 
+     *
      * @return Returns the selectedInvoiceTotalAmount.
      */
     public KualiDecimal getSelectedInvoiceTotalAmount() {
@@ -260,7 +261,7 @@ public class CollectionActivityDocumentForm extends FinancialSystemTransactional
 
     /**
      * Gets the selectedInvoicePaymentAmount attribute.
-     * 
+     *
      * @return Returns the selectedInvoicePaymentAmount.
      */
     public KualiDecimal getSelectedInvoicePaymentAmount() {
@@ -270,7 +271,7 @@ public class CollectionActivityDocumentForm extends FinancialSystemTransactional
 
     /**
      * Gets the selectedProposalNumber attribute.
-     * 
+     *
      * @return Returns the selectedProposalNumber.
      */
     public Date getSelectedInvoicePaymentDate() {
@@ -280,7 +281,7 @@ public class CollectionActivityDocumentForm extends FinancialSystemTransactional
 
     /**
      * Gets the selectedInvoiceBalanceDue attribute.
-     * 
+     *
      * @return Returns the selectedInvoiceBalanceDue.
      */
     public KualiDecimal getSelectedInvoiceBalanceDue() {
@@ -298,7 +299,7 @@ public class CollectionActivityDocumentForm extends FinancialSystemTransactional
 
     /**
      * This method gets the previous invoice document number
-     * 
+     *
      * @return the previous invoice document number
      */
     public String getPreviousInvoiceDocumentNumber() {
@@ -334,7 +335,7 @@ public class CollectionActivityDocumentForm extends FinancialSystemTransactional
 
     /**
      * This method gets the next invoice document number
-     * 
+     *
      * @return the next invoice document number
      */
     public String getNextInvoiceDocumentNumber() {
@@ -373,7 +374,7 @@ public class CollectionActivityDocumentForm extends FinancialSystemTransactional
         }
         else {
             List<ContractsGrantsInvoiceDocument> i = getCgInvoices();
-            if (i.isEmpty()) {
+            if (CollectionUtils.isEmpty(i)) {
                 return null;
             }
             else {

@@ -25,9 +25,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.module.ar.ArConstants;
-import org.kuali.kfs.module.ar.businessobject.CollectionActivityInvoiceLookup;
 import org.kuali.kfs.module.ar.businessobject.Customer;
 import org.kuali.kfs.module.ar.businessobject.Event;
 import org.kuali.kfs.module.ar.document.service.CollectionActivityDocumentService;
@@ -325,7 +325,7 @@ public class CollectionActivityDocument extends FinancialSystemTransactionalDocu
         }
         else {
             List<ContractsGrantsInvoiceDocument> i = invoices;
-            if (i.isEmpty()) {
+            if (CollectionUtils.isEmpty(i)) {
                 return null;
             }
             else {
@@ -419,7 +419,12 @@ public class CollectionActivityDocument extends FinancialSystemTransactionalDocu
         // To retrieve the batch file directory name as "reports/ar"
         ModuleConfiguration systemConfiguration = SpringContext.getBean(KualiModuleService.class).getModuleServiceByNamespaceCode("KFS-AR").getModuleConfiguration();
 
-        String destinationFolderPath = ((FinancialSystemModuleConfiguration) systemConfiguration).getBatchFileDirectories().get(0);
+        // Set destination folder path
+        String destinationFolderPath = StringUtils.EMPTY;
+        List <String> batchDirectories = ((FinancialSystemModuleConfiguration) systemConfiguration).getBatchFileDirectories();
+        if (CollectionUtils.isNotEmpty(batchDirectories)){
+            destinationFolderPath = batchDirectories.get(0);
+        }
 
         String runtimeStamp = dateTimeService.toDateTimeStringForFilename(new java.util.Date());
 

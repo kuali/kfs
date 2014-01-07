@@ -337,10 +337,23 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
 
                     AccountsReceivableDocumentHeader accountsReceivableDocumentHeader = new AccountsReceivableDocumentHeader();
                     accountsReceivableDocumentHeader.setDocumentNumber(cgInvoiceDocument.getDocumentNumber());
-                    accountsReceivableDocumentHeader.setProcessingChartOfAccountCode(procCodes.get(0));
-                    accountsReceivableDocumentHeader.setProcessingOrganizationCode(procCodes.get(1));
-                    cgInvoiceDocument.setAccountsReceivableDocumentHeader(accountsReceivableDocumentHeader);
 
+                    // Set processing chart and org codes
+                    if (procCodes != null){
+                        int procCodesSize = procCodes.size();
+
+                        // Set processing chart
+                        if (procCodesSize > 0){
+                            accountsReceivableDocumentHeader.setProcessingChartOfAccountCode(procCodes.get(0));
+                        }
+
+                        // Set processing org code
+                        if (procCodesSize > 1){
+                            accountsReceivableDocumentHeader.setProcessingOrganizationCode(procCodes.get(1));
+                        }
+                    }
+
+                    cgInvoiceDocument.setAccountsReceivableDocumentHeader(accountsReceivableDocumentHeader);
 
                     cgInvoiceDocument.setAward(awd);
                     contractsGrantsInvoiceDocumentService.populateInvoiceFromAward(awd, accounts,cgInvoiceDocument);
@@ -540,7 +553,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
                 }
                 // 13. Award does not have appropriate Contract Control Accounts set based on Invoicing Options
                 List<String> errorString = contractsAndGrantsModuleRetrieveService.hasValidContractControlAccounts(award.getProposalNumber());
-                if (!CollectionUtils.isEmpty(errorString)) {
+                if (!CollectionUtils.isEmpty(errorString) && errorString.size() > 1) {
                     errorList.add(configService.getPropertyValueAsString(errorString.get(0)).replace("{0}", errorString.get(1)));
                     invalidGroup.put(award, errorList);
 
@@ -803,23 +816,28 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
         }
 
         try {
-            if (award.getActiveAwardAccounts().size() > 0) {
-                for (ContractsAndGrantsBillingAwardAccount awardAccount : award.getActiveAwardAccounts()) {
-                    if (firstLineFlag) {
-                        writeToReport(proposalNumber, awardAccount.getAccountNumber(), awardBeginningDate, awardEndingDate, awardTotalAmount, cumulativeExpenses.toString(), printStream);
-                        firstLineFlag = false;
+            if (ObjectUtils.isNotNull(award)){
+
+                boolean isActiveAwardAccountsEmpty = CollectionUtils.isEmpty(award.getActiveAwardAccounts());
+
+                if (!isActiveAwardAccountsEmpty) {
+                    for (ContractsAndGrantsBillingAwardAccount awardAccount : award.getActiveAwardAccounts()) {
+                        if (firstLineFlag) {
+                            writeToReport(proposalNumber, awardAccount.getAccountNumber(), awardBeginningDate, awardEndingDate, awardTotalAmount, cumulativeExpenses.toString(), printStream);
+                            firstLineFlag = false;
+                        }
+                        else {
+                            writeToReport("", awardAccount.getAccountNumber(), "", "", "", "", printStream);
+                        }
                     }
-                    else {
-                        writeToReport("", awardAccount.getAccountNumber(), "", "", "", "", printStream);
-                    }
-                }
-            }
-            else {
-                if (award.getActiveAwardAccounts().size() == 0) {
-                    writeToReport(proposalNumber, "", awardBeginningDate, awardEndingDate, awardTotalAmount, cumulativeExpenses.toString(), printStream);
                 }
                 else {
-                    writeToReport(proposalNumber, award.getActiveAwardAccounts().get(0).getAccountNumber(), awardBeginningDate, awardEndingDate, awardTotalAmount, cumulativeExpenses.toString(), printStream);
+                    if (isActiveAwardAccountsEmpty) {
+                        writeToReport(proposalNumber, "", awardBeginningDate, awardEndingDate, awardTotalAmount, cumulativeExpenses.toString(), printStream);
+                    }
+                    else {
+                        writeToReport(proposalNumber, award.getActiveAwardAccounts().get(0).getAccountNumber(), awardBeginningDate, awardEndingDate, awardTotalAmount, cumulativeExpenses.toString(), printStream);
+                    }
                 }
             }
             // To print all the errors from the validation category.

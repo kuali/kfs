@@ -522,7 +522,7 @@ public class AwardRule extends CGMaintenanceDocumentRuleBase {
         boolean success = true;
         AwardService awardService = SpringContext.getBean(AwardService.class);
         List<String> errorString = awardService.hasValidContractControlAccounts(newAwardCopy);
-        if (CollectionUtils.isNotEmpty(errorString)) {
+        if (CollectionUtils.isNotEmpty(errorString) && errorString.size() > 1) {
             success = false;
             putFieldError(CGPropertyConstants.AWARD_INVOICING_OPTIONS, errorString.get(0), errorString.get(1));
         }

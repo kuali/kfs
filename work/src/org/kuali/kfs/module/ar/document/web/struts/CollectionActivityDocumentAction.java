@@ -66,7 +66,7 @@ public class CollectionActivityDocumentAction extends FinancialSystemTransaction
     protected DocumentService documentService;
     protected CollectionActivityDocumentService collectionActivityDocumentService;
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CollectionActivityDocumentAction.class);
-    
+
     /**
      * Constructor for CollectionActivityDocumentAction class
      */
@@ -116,7 +116,7 @@ public class CollectionActivityDocumentAction extends FinancialSystemTransaction
 
     /**
      * This method updates the customer invoice details when a new invoice is selected
-     * 
+     *
      * @param mapping
      * @param form
      * @param request
@@ -132,7 +132,7 @@ public class CollectionActivityDocumentAction extends FinancialSystemTransaction
 
     /**
      * This method updates customer invoice details when next invoice is selected
-     * 
+     *
      * @param mapping
      * @param form
      * @param request
@@ -148,7 +148,7 @@ public class CollectionActivityDocumentAction extends FinancialSystemTransaction
 
     /**
      * This method updates customer invoice details when previous invoice is selected
-     * 
+     *
      * @param mapping
      * @param form
      * @param request
@@ -164,7 +164,7 @@ public class CollectionActivityDocumentAction extends FinancialSystemTransaction
 
     /**
      * Retrieve all invoices for the selected customer.
-     * 
+     *
      * @param mapping
      * @param form
      * @param request
@@ -182,7 +182,7 @@ public class CollectionActivityDocumentAction extends FinancialSystemTransaction
 
     /**
      * This method loads the invoices for currently selected customer
-     * 
+     *
      * @param applicationDocumentForm
      */
     @SuppressWarnings("unused")
@@ -215,7 +215,7 @@ public class CollectionActivityDocumentAction extends FinancialSystemTransaction
 
     /**
      * This method loads the events for selected invoice number.
-     * 
+     *
      * @param colActForm The form object of Collection Activity.
      * @param currentInvoiceNumber The invoice number of which, events are to be loaded.
      */
@@ -224,7 +224,7 @@ public class CollectionActivityDocumentAction extends FinancialSystemTransaction
 
         // if no invoice number entered than get the first invoice
         if (colActForm.getSelectedProposalNumber() != null && StringUtils.isBlank(currentInvoiceNumber)) {
-            if (ObjectUtils.isNull(colActDoc.getInvoices()) || colActDoc.getInvoices().isEmpty()) {
+            if (CollectionUtils.isEmpty(colActDoc.getInvoices())) {
                 currentInvoiceNumber = null;
             }
             else {
@@ -242,7 +242,7 @@ public class CollectionActivityDocumentAction extends FinancialSystemTransaction
 
     /**
      * Get an error to display in the UI for a certain field.
-     * 
+     *
      * @param propertyName
      * @param errorKey
      */
@@ -254,7 +254,7 @@ public class CollectionActivityDocumentAction extends FinancialSystemTransaction
 
     /**
      * Get an error to display at the global level, for the whole document.
-     * 
+     *
      * @param errorKey
      */
     protected void addGlobalError(String errorKey) {
@@ -263,7 +263,7 @@ public class CollectionActivityDocumentAction extends FinancialSystemTransaction
 
     /**
      * This method adds a new event.
-     * 
+     *
      * @param mapping action mapping
      * @param form action form
      * @param request
@@ -303,7 +303,7 @@ public class CollectionActivityDocumentAction extends FinancialSystemTransaction
 
     /**
      * This method adds a new event
-     * 
+     *
      * @param mapping action mapping
      * @param form action form
      * @param request

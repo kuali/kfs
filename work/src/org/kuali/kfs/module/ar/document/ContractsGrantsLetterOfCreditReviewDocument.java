@@ -26,6 +26,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAwardAccount;
@@ -42,14 +43,13 @@ import org.kuali.kfs.sys.FinancialSystemModuleConfiguration;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 import org.kuali.rice.krad.bo.ModuleConfiguration;
-import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.krad.service.KualiModuleService;
 import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.util.ObjectUtils;
-import java.util.ArrayList;
 
 /**
  * Contracts Grants LOC Review Document.
@@ -285,7 +285,12 @@ public class ContractsGrantsLetterOfCreditReviewDocument extends FinancialSystem
             // To retrieve the batch file directory name as "reports/cg"
             ModuleConfiguration systemConfiguration = SpringContext.getBean(KualiModuleService.class).getModuleServiceByNamespaceCode("KFS-AR").getModuleConfiguration();
 
-            String destinationFolderPath = ((FinancialSystemModuleConfiguration) systemConfiguration).getBatchFileDirectories().get(0);
+            // Set destination folder path
+            String destinationFolderPath = StringUtils.EMPTY;
+            List <String> batchDirectories = ((FinancialSystemModuleConfiguration) systemConfiguration).getBatchFileDirectories();
+            if (CollectionUtils.isNotEmpty(batchDirectories)){
+                destinationFolderPath = batchDirectories.get(0);
+            }
 
             String runtimeStamp = dateTimeService.toDateTimeStringForFilename(new java.util.Date());
             String errOutputFile1 = destinationFolderPath + File.separator + ArConstants.BatchFileSystem.LOC_REVIEW_VALIDATION_ERROR_OUTPUT_FILE + "_" + runtimeStamp + ArConstants.BatchFileSystem.EXTENSION;
@@ -507,7 +512,13 @@ public class ContractsGrantsLetterOfCreditReviewDocument extends FinancialSystem
             // To retrieve the batch file directory name as "reports/cg"
             ModuleConfiguration systemConfiguration = SpringContext.getBean(KualiModuleService.class).getModuleServiceByNamespaceCode("KFS-AR").getModuleConfiguration();
 
-            String destinationFolderPath = ((FinancialSystemModuleConfiguration) systemConfiguration).getBatchFileDirectories().get(0);
+            // Set destination folder path
+            String destinationFolderPath = StringUtils.EMPTY;
+
+            List <String> batchDirectories = ((FinancialSystemModuleConfiguration) systemConfiguration).getBatchFileDirectories();
+            if (CollectionUtils.isNotEmpty(batchDirectories)){
+                destinationFolderPath = batchDirectories.get(0);
+            }
 
             String runtimeStamp = dateTimeService.toDateTimeStringForFilename(new java.util.Date());
 

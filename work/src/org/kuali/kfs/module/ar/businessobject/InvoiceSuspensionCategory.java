@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -20,6 +20,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
@@ -54,14 +55,14 @@ public class InvoiceSuspensionCategory extends PersistableBusinessObjectBase {
         Map<String, Object> criteria = new HashMap<String, Object>();
         criteria.put(ArPropertyConstants.SuspensionCategory.SUSPENSION_CATEGORY_CODE, suspensionCategoryCode);
         List suspensionCategoryList = (List) SpringContext.getBean(BusinessObjectService.class).findMatching(SuspensionCategory.class, criteria);
-        if (suspensionCategoryList != null && !suspensionCategoryList.isEmpty()) {
+        if (CollectionUtils.isNotEmpty(suspensionCategoryList)) {
             this.suspensionCategory = (SuspensionCategory) suspensionCategoryList.get(0);
         }
     }
 
     /**
      * Gets the documentNumber attribute.
-     * 
+     *
      * @return Returns the documentNumber
      */
     public String getDocumentNumber() {
@@ -70,7 +71,7 @@ public class InvoiceSuspensionCategory extends PersistableBusinessObjectBase {
 
     /**
      * Sets the documentNumber attribute value.
-     * 
+     *
      * @param documentNumber The documentNumber to set.
      */
     public void setDocumentNumber(String documentNumber) {
@@ -79,7 +80,7 @@ public class InvoiceSuspensionCategory extends PersistableBusinessObjectBase {
 
     /**
      * Gets the suspensionCategoryCode attribute.
-     * 
+     *
      * @return Returns the suspensionCategoryCode
      */
     public String getSuspensionCategoryCode() {
@@ -88,7 +89,7 @@ public class InvoiceSuspensionCategory extends PersistableBusinessObjectBase {
 
     /**
      * Sets the suspensionCategoryCode attribute value.
-     * 
+     *
      * @param suspensionCategoryCode The suspensionCategoryCode to set.
      */
     public void setSuspensionCategoryCode(String suspensionCategoryCode) {
@@ -97,7 +98,7 @@ public class InvoiceSuspensionCategory extends PersistableBusinessObjectBase {
 
     /**
      * Gets the suspensionCategory attribute.
-     * 
+     *
      * @return Returns the suspensionCategory
      */
     public SuspensionCategory getSuspensionCategory() {
@@ -106,7 +107,7 @@ public class InvoiceSuspensionCategory extends PersistableBusinessObjectBase {
 
     /**
      * Sets the suspensionCategory attribute value.
-     * 
+     *
      * @param suspensionCategory The suspensionCategory to set.
      */
     public void setSuspensionCategory(SuspensionCategory suspensionCategory) {

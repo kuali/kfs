@@ -33,14 +33,11 @@ import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.module.ar.document.ReferralToCollectionsDocument;
 import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService;
 import org.kuali.kfs.module.ar.document.service.CustomerService;
-import org.kuali.kfs.module.ar.document.web.struts.ReferralToCollectionsDocumentForm;
-import org.kuali.kfs.sys.FinancialSystemModuleConfiguration;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.krad.bo.PersistableBusinessObject;
-import org.kuali.rice.kns.lookup.LookupResultsService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.kns.lookup.LookupResultsService;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.util.ObjectUtils;
-import java.util.ArrayList;
 
 /**
  * Utility class for Referral To Collections lookup.
@@ -67,23 +64,25 @@ public class ReferralToCollectionsDocumentUtil {
             Map.Entry entry = (Map.Entry) iter.next();
             List<ContractsGrantsInvoiceDocument> list = (List<ContractsGrantsInvoiceDocument>) entry.getValue();
 
-            // Get data from first award for agency data
-            ContractsGrantsInvoiceDocument invoice = list.get(0);
-            ContractsAndGrantsBillingAward award = invoice.getAward();
+            if (CollectionUtils.isNotEmpty(list)){
+                // Get data from first award for agency data
+                ContractsGrantsInvoiceDocument invoice = list.get(0);
+                ContractsAndGrantsBillingAward award = invoice.getAward();
 
-            if (ObjectUtils.isNotNull(award)) {
-                ContractsAndGrantsBillingAgency agency = award.getAgency();
-                referralToCollectionsLookupResult = new ReferralToCollectionsLookupResult();
-                referralToCollectionsLookupResult.setAgencyNumber(agency.getAgencyNumber());
-                referralToCollectionsLookupResult.setCustomerNumber(ObjectUtils.isNotNull(invoice.getCustomer()) ? invoice.getCustomer().getCustomerNumber() : agency.getCustomerNumber());
-                referralToCollectionsLookupResult.setProposalNumber(award.getProposalNumber());
-                referralToCollectionsLookupResult.setAwardBeginningDate(award.getAwardBeginningDate());
-                referralToCollectionsLookupResult.setAwardEndingDate(award.getAwardEndingDate());
-                referralToCollectionsLookupResult.setAccountNumber(list.get(0).getAccountDetails().get(0).getAccountNumber());
-                referralToCollectionsLookupResult.setAwardTotal(award.getAwardTotalAmount());
-                referralToCollectionsLookupResult.setInvoices(list);
+                if (ObjectUtils.isNotNull(award)) {
+                    ContractsAndGrantsBillingAgency agency = award.getAgency();
+                    referralToCollectionsLookupResult = new ReferralToCollectionsLookupResult();
+                    referralToCollectionsLookupResult.setAgencyNumber(agency.getAgencyNumber());
+                    referralToCollectionsLookupResult.setCustomerNumber(ObjectUtils.isNotNull(invoice.getCustomer()) ? invoice.getCustomer().getCustomerNumber() : agency.getCustomerNumber());
+                    referralToCollectionsLookupResult.setProposalNumber(award.getProposalNumber());
+                    referralToCollectionsLookupResult.setAwardBeginningDate(award.getAwardBeginningDate());
+                    referralToCollectionsLookupResult.setAwardEndingDate(award.getAwardEndingDate());
+                    referralToCollectionsLookupResult.setAccountNumber(list.get(0).getAccountDetails().get(0).getAccountNumber());
+                    referralToCollectionsLookupResult.setAwardTotal(award.getAwardTotalAmount());
+                    referralToCollectionsLookupResult.setInvoices(list);
 
-                populatedReferralToCollectionsLookupResults.add(referralToCollectionsLookupResult);
+                    populatedReferralToCollectionsLookupResults.add(referralToCollectionsLookupResult);
+                }
             }
         }
 
@@ -128,7 +127,7 @@ public class ReferralToCollectionsDocumentUtil {
             rcDetail.setInvoiceBalance(invoice.getSourceTotal().subtract(paymentAmount));
 
             List<InvoiceAccountDetail> invAccDets = invoice.getAccountDetails();
-            if (ObjectUtils.isNotNull(invAccDets) && CollectionUtils.isNotEmpty(invAccDets)) {
+            if (CollectionUtils.isNotEmpty(invAccDets)) {
                 rcDetail.setAccountNumber(invAccDets.get(0).getAccountNumber());
             }
 

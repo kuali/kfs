@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -32,6 +33,7 @@ import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleRetrieveService;
 import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.DunningLetterDistributionOnDemandLookupResult;
+import org.kuali.kfs.module.ar.businessobject.InvoiceAccountDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoiceGeneralDetail;
 import org.kuali.kfs.module.ar.businessobject.inquiry.DunningLetterDistributionOnDemandLookupResultInquirableImpl;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
@@ -40,23 +42,23 @@ import org.kuali.kfs.module.ar.web.ui.DunningLetterDistributionOnDemandResultRow
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.core.web.format.BooleanFormatter;
+import org.kuali.rice.core.web.format.Formatter;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.document.authorization.BusinessObjectRestrictions;
+import org.kuali.rice.kns.lookup.HtmlData;
+import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
+import org.kuali.rice.kns.web.comparator.CellComparatorHelper;
+import org.kuali.rice.kns.web.struts.form.LookupForm;
+import org.kuali.rice.kns.web.ui.Column;
+import org.kuali.rice.kns.web.ui.ResultRow;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.krad.exception.ValidationException;
 import org.kuali.rice.krad.lookup.CollectionIncomplete;
-import org.kuali.rice.kns.lookup.HtmlData;
-import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
+import org.kuali.rice.krad.util.BeanPropertyComparator;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
-import org.kuali.rice.krad.util.BeanPropertyComparator;
-import org.kuali.rice.kns.web.comparator.CellComparatorHelper;
-import org.kuali.rice.core.web.format.BooleanFormatter;
-import org.kuali.rice.core.web.format.Formatter;
-import org.kuali.rice.kns.web.struts.form.LookupForm;
-import org.kuali.rice.kns.web.ui.Column;
-import org.kuali.rice.kns.web.ui.ResultRow;
 
 /**
  * Defines a lookupable helper service class for OnDemand Dunning Letter Distribution.
@@ -100,10 +102,16 @@ public class DunningLetterDistributionOnDemandLookupableHelperServiceImpl extend
             for (ContractsGrantsInvoiceDocument invoice : result.getInvoices()) {
 
                 List<Column> subResultColumns = new ArrayList<Column>();
+                InvoiceAccountDetail invoiceAccountDetail = new InvoiceAccountDetail();
+
+                // set invoice account detail
+                if (CollectionUtils.isNotEmpty(invoice.getAccountDetails())){
+                    invoiceAccountDetail = invoice.getAccountDetails().get(0);
+                }
 
                 for (String propertyName : invoiceAttributesForDisplay) {
                     if (propertyName.equalsIgnoreCase(KFSPropertyConstants.ACCOUNT_NUMBER)) {
-                        Account account = SpringContext.getBean(AccountService.class).getByPrimaryId(invoice.getAccountDetails().get(0).getChartOfAccountsCode(), invoice.getAccountDetails().get(0).getAccountNumber());
+                        Account account = SpringContext.getBean(AccountService.class).getByPrimaryId(invoiceAccountDetail.getChartOfAccountsCode(), invoiceAccountDetail.getAccountNumber());
                         subResultColumns.add(setupResultsColumn(account, propertyName, businessObjectRestrictions));
                     }
                     else if (propertyName.equalsIgnoreCase("dunningLetterTemplateSentDate")) {

@@ -389,13 +389,15 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
                 if (awardBillByInvoicingAccountInd) {
                     // If its bill by Invoicing Account , irrespective of it is by contract control account, there would be a single
                     // source accounting line with award invoice account specified by the user.
-                    try {
-                        CustomerInvoiceDetail cide = createSourceAccountingLine(contractsGrantsInvoiceDocument.getDocumentNumber(), invoiceAccountDetails.get(0), invoiceAccountDetails.get(1), invoiceAccountDetails.get(2), contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getNewTotalBilled(), Integer.parseInt("1"));
-                        contractsGrantsInvoiceDocument.getSourceAccountingLines().add(cide);
-                    }
-                    catch (Exception e) {
-                        LOG.error("problem during ContractsGrantsInvoiceDocumentServiceImpl.createSourceAccountingLinesAndGLPEs()", e);
-                        throw new RuntimeException(e);
+                    if (CollectionUtils.isNotEmpty(invoiceAccountDetails) && invoiceAccountDetails.size() > 2){
+                        try {
+                            CustomerInvoiceDetail cide = createSourceAccountingLine(contractsGrantsInvoiceDocument.getDocumentNumber(), invoiceAccountDetails.get(0), invoiceAccountDetails.get(1), invoiceAccountDetails.get(2), contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getNewTotalBilled(), Integer.parseInt("1"));
+                            contractsGrantsInvoiceDocument.getSourceAccountingLines().add(cide);
+                        }
+                        catch (Exception e) {
+                            LOG.error("problem during ContractsGrantsInvoiceDocumentServiceImpl.createSourceAccountingLinesAndGLPEs()", e);
+                            throw new RuntimeException(e);
+                        }
                     }
                 }
                 else {
@@ -406,8 +408,9 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
                         String accountNumber = null;
                         // Use the first account to get the contract control account number, as every account would have the same
                         // contract control account number.
-                        if (StringUtils.isNotEmpty(contractsGrantsInvoiceDocument.getAccountDetails().get(0).getContractControlAccountNumber())) {
-                            accountNumber = contractsGrantsInvoiceDocument.getAccountDetails().get(0).getContractControlAccountNumber();
+                        List<InvoiceAccountDetail> accountDetails = contractsGrantsInvoiceDocument.getAccountDetails();
+                        if (CollectionUtils.isNotEmpty(accountDetails) && StringUtils.isNotEmpty(accountDetails.get(0).getContractControlAccountNumber())) {
+                            accountNumber = accountDetails.get(0).getContractControlAccountNumber();
                         }
 
                         String coaCode = contractsGrantsInvoiceDocument.getBillByChartOfAccountCode();
@@ -516,17 +519,24 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         if (expenditureValueChanged) {
             // update Total Direct Cost in the Invoice Detail Tab
             KualiDecimal totalDirectCostExpenditures = getInvoiceDetailExpenditureSum(contractsGrantsInvoiceDocument.getInvoiceDetails());
+
             // Set expenditures to Direct Cost invoice Details
-            contractsGrantsInvoiceDocument.getDirectCostInvoiceDetails().get(0).setExpenditures(totalDirectCostExpenditures);
+            if (CollectionUtils.isNotEmpty(contractsGrantsInvoiceDocument.getDirectCostInvoiceDetails())){
+                contractsGrantsInvoiceDocument.getDirectCostInvoiceDetails().get(0).setExpenditures(totalDirectCostExpenditures);
+            }
 
             // update Total Indirect Cost in the Invoice Detail Tab
             KualiDecimal totalInDirectCostExpenditures = getInvoiceDetailExpenditureSum(contractsGrantsInvoiceDocument.getInvoiceDetailsIndirectCostOnly());
+
             // Set expenditures to Indirect Cost invoice Details
-            contractsGrantsInvoiceDocument.getInDirectCostInvoiceDetails().get(0).setExpenditures(totalInDirectCostExpenditures);
+            if (CollectionUtils.isNotEmpty(contractsGrantsInvoiceDocument.getInDirectCostInvoiceDetails())){
+                contractsGrantsInvoiceDocument.getInDirectCostInvoiceDetails().get(0).setExpenditures(totalInDirectCostExpenditures);
+            }
 
             // Set the total for Total Cost Invoice Details section.
-            contractsGrantsInvoiceDocument.getTotalInvoiceDetails().get(0).setExpenditures(contractsGrantsInvoiceDocument.getDirectCostInvoiceDetails().get(0).getExpenditures().add(totalInDirectCostExpenditures));
-
+            if(CollectionUtils.isNotEmpty(contractsGrantsInvoiceDocument.getTotalInvoiceDetails()) && CollectionUtils.isNotEmpty(contractsGrantsInvoiceDocument.getDirectCostInvoiceDetails())){
+                contractsGrantsInvoiceDocument.getTotalInvoiceDetails().get(0).setExpenditures(contractsGrantsInvoiceDocument.getDirectCostInvoiceDetails().get(0).getExpenditures().add(totalInDirectCostExpenditures));
+            }
             recalculateAccountDetails(contractsGrantsInvoiceDocument.getAccountDetails(), contractsGrantsInvoiceDocument.getInvoiceDetailAccountObjectCodes());
 
             // update source accounting lines
@@ -1836,7 +1846,9 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         }
         // This method get the milestones with the criteria defined and set value to isItBilled.
 
-        this.setMilestonesisItBilled(invoiceMilestones.get(0).getProposalNumber(), milestoneIds, string);
+        if (CollectionUtils.isNotEmpty(invoiceMilestones)){
+            this.setMilestonesisItBilled(invoiceMilestones.get(0).getProposalNumber(), milestoneIds, string);
+        }
     }
 
     /**
@@ -2366,16 +2378,16 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
         // To retrieve processing codes based on billing codes using organization options
         List<String> procCodes = getProcessingFromBillingCodes(coaCode, orgCode);
-        if (!CollectionUtils.isEmpty(procCodes)) {
+        if (!CollectionUtils.isEmpty(procCodes) && procCodes.size() > 1) {
 
-        sysCriteria.put("processingChartOfAccountCode", procCodes.get(0));
-        sysCriteria.put("processingOrganizationCode", procCodes.get(1));
-        OrganizationAccountingDefault organizationAccountingDefault = businessObjectService.findByPrimaryKey(OrganizationAccountingDefault.class, criteria);
+            sysCriteria.put("processingChartOfAccountCode", procCodes.get(0));
+            sysCriteria.put("processingOrganizationCode", procCodes.get(1));
+            OrganizationAccountingDefault organizationAccountingDefault = businessObjectService.findByPrimaryKey(OrganizationAccountingDefault.class, criteria);
 
-        SystemInformation systemInformation = businessObjectService.findByPrimaryKey(SystemInformation.class, sysCriteria);
-        if (ObjectUtils.isNotNull(organizationAccountingDefault) || ObjectUtils.isNotNull(systemInformation)) {
-            return false;
-        }
+            SystemInformation systemInformation = businessObjectService.findByPrimaryKey(SystemInformation.class, sysCriteria);
+            if (ObjectUtils.isNotNull(organizationAccountingDefault) || ObjectUtils.isNotNull(systemInformation)) {
+                return false;
+            }
         }
         return true;
 
@@ -3244,6 +3256,8 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             parameterMap.put("systemInformation.zipcode", returnProperStringValue(sysInfo.getOrganizationRemitToZipCode()));
         }
         if (CollectionUtils.isNotEmpty(document.getInvoiceDetails())) {
+            InvoiceDetail firstInvoiceDetail = document.getInvoiceDetails().get(0);
+
             for (int i = 0; i < document.getInvoiceDetails().size(); i++) {
                 parameterMap.put("invoiceDetail[" + i + "].invoiceDetailIdentifier", returnProperStringValue(document.getInvoiceDetails().get(i).getInvoiceDetailIdentifier()));
                 parameterMap.put("invoiceDetail[" + i + "].documentNumber", returnProperStringValue(document.getInvoiceDetails().get(i).getDocumentNumber()));
@@ -3254,45 +3268,51 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
                 parameterMap.put("invoiceDetail[" + i + "].balance", returnProperStringValue(document.getInvoiceDetails().get(i).getBalance()));
                 parameterMap.put("invoiceDetail[" + i + "].billed", returnProperStringValue(document.getInvoiceDetails().get(i).getBilled()));
                 parameterMap.put("invoiceDetail[" + i + "].adjustedCumulativeExpenditures", returnProperStringValue(document.getInvoiceDetails().get(i).getAdjustedCumExpenditures()));
-                parameterMap.put("invoiceDetail[" + i + "].adjustedBalance", returnProperStringValue(document.getInvoiceDetails().get(0).getAdjustedBalance()));
+                parameterMap.put("invoiceDetail[" + i + "].adjustedBalance", returnProperStringValue(firstInvoiceDetail.getAdjustedBalance()));
             }
         }
         if (CollectionUtils.isNotEmpty(document.getDirectCostInvoiceDetails())) {
-            parameterMap.put("directCostInvoiceDetail.invoiceDetailIdentifier", returnProperStringValue(document.getDirectCostInvoiceDetails().get(0).getInvoiceDetailIdentifier()));
-            parameterMap.put("directCostInvoiceDetail.documentNumber", returnProperStringValue(document.getDirectCostInvoiceDetails().get(0).getDocumentNumber()));
-            parameterMap.put("directCostInvoiceDetail.categories", returnProperStringValue(document.getDirectCostInvoiceDetails().get(0).getCategory()));
-            parameterMap.put("directCostInvoiceDetail.budget", returnProperStringValue(document.getDirectCostInvoiceDetails().get(0).getBudget()));
-            parameterMap.put("directCostInvoiceDetail.expenditure", returnProperStringValue(document.getDirectCostInvoiceDetails().get(0).getExpenditures()));
-            parameterMap.put("directCostInvoiceDetail.cumulative", returnProperStringValue(document.getDirectCostInvoiceDetails().get(0).getCumulative()));
-            parameterMap.put("directCostInvoiceDetail.balance", returnProperStringValue(document.getDirectCostInvoiceDetails().get(0).getBalance()));
-            parameterMap.put("directCostInvoiceDetail.billed", returnProperStringValue(document.getDirectCostInvoiceDetails().get(0).getBilled()));
-            parameterMap.put("directCostInvoiceDetail.adjustedCumulativeExpenditures", returnProperStringValue(document.getDirectCostInvoiceDetails().get(0).getAdjustedCumExpenditures()));
-            parameterMap.put("directCostInvoiceDetail.adjustedBalance", returnProperStringValue(document.getDirectCostInvoiceDetails().get(0).getAdjustedBalance()));
+            InvoiceDetail firstDirectCostInvoiceDetail = document.getDirectCostInvoiceDetails().get(0);
+
+            parameterMap.put("directCostInvoiceDetail.invoiceDetailIdentifier", returnProperStringValue(firstDirectCostInvoiceDetail.getInvoiceDetailIdentifier()));
+            parameterMap.put("directCostInvoiceDetail.documentNumber", returnProperStringValue(firstDirectCostInvoiceDetail.getDocumentNumber()));
+            parameterMap.put("directCostInvoiceDetail.categories", returnProperStringValue(firstDirectCostInvoiceDetail.getCategory()));
+            parameterMap.put("directCostInvoiceDetail.budget", returnProperStringValue(firstDirectCostInvoiceDetail.getBudget()));
+            parameterMap.put("directCostInvoiceDetail.expenditure", returnProperStringValue(firstDirectCostInvoiceDetail.getExpenditures()));
+            parameterMap.put("directCostInvoiceDetail.cumulative", returnProperStringValue(firstDirectCostInvoiceDetail.getCumulative()));
+            parameterMap.put("directCostInvoiceDetail.balance", returnProperStringValue(firstDirectCostInvoiceDetail.getBalance()));
+            parameterMap.put("directCostInvoiceDetail.billed", returnProperStringValue(firstDirectCostInvoiceDetail.getBilled()));
+            parameterMap.put("directCostInvoiceDetail.adjustedCumulativeExpenditures", returnProperStringValue(firstDirectCostInvoiceDetail.getAdjustedCumExpenditures()));
+            parameterMap.put("directCostInvoiceDetail.adjustedBalance", returnProperStringValue(firstDirectCostInvoiceDetail.getAdjustedBalance()));
         }
         if (CollectionUtils.isNotEmpty(document.getInDirectCostInvoiceDetails())) {
-            parameterMap.put("inDirectCostInvoiceDetail.invoiceDetailIdentifier", returnProperStringValue(document.getInDirectCostInvoiceDetails().get(0).getInvoiceDetailIdentifier()));
-            parameterMap.put("inDirectCostInvoiceDetail.documentNumber", returnProperStringValue(document.getInDirectCostInvoiceDetails().get(0).getDocumentNumber()));
-            parameterMap.put("inDirectCostInvoiceDetail.categories", returnProperStringValue(document.getInDirectCostInvoiceDetails().get(0).getCategory()));
-            parameterMap.put("inDirectCostInvoiceDetail.budget", returnProperStringValue(document.getInDirectCostInvoiceDetails().get(0).getBudget()));
-            parameterMap.put("inDirectCostInvoiceDetail.expenditure", returnProperStringValue(document.getInDirectCostInvoiceDetails().get(0).getExpenditures()));
-            parameterMap.put("inDirectCostInvoiceDetail.cumulative", returnProperStringValue(document.getInDirectCostInvoiceDetails().get(0).getCumulative()));
-            parameterMap.put("inDirectCostInvoiceDetail.balance", returnProperStringValue(document.getInDirectCostInvoiceDetails().get(0).getBalance()));
-            parameterMap.put("inDirectCostInvoiceDetail.billed", returnProperStringValue(document.getInDirectCostInvoiceDetails().get(0).getBilled()));
-            parameterMap.put("inDirectCostInvoiceDetail.adjustedCumulativeExpenditures", returnProperStringValue(document.getInDirectCostInvoiceDetails().get(0).getAdjustedCumExpenditures()));
-            parameterMap.put("inDirectCostInvoiceDetail.adjustedBalance", returnProperStringValue(document.getInDirectCostInvoiceDetails().get(0).getAdjustedBalance()));
+            InvoiceDetail firstInDirectCostInvoiceDetail = document.getInDirectCostInvoiceDetails().get(0);
+
+            parameterMap.put("inDirectCostInvoiceDetail.invoiceDetailIdentifier", returnProperStringValue(firstInDirectCostInvoiceDetail.getInvoiceDetailIdentifier()));
+            parameterMap.put("inDirectCostInvoiceDetail.documentNumber", returnProperStringValue(firstInDirectCostInvoiceDetail.getDocumentNumber()));
+            parameterMap.put("inDirectCostInvoiceDetail.categories", returnProperStringValue(firstInDirectCostInvoiceDetail.getCategory()));
+            parameterMap.put("inDirectCostInvoiceDetail.budget", returnProperStringValue(firstInDirectCostInvoiceDetail.getBudget()));
+            parameterMap.put("inDirectCostInvoiceDetail.expenditure", returnProperStringValue(firstInDirectCostInvoiceDetail.getExpenditures()));
+            parameterMap.put("inDirectCostInvoiceDetail.cumulative", returnProperStringValue(firstInDirectCostInvoiceDetail.getCumulative()));
+            parameterMap.put("inDirectCostInvoiceDetail.balance", returnProperStringValue(firstInDirectCostInvoiceDetail.getBalance()));
+            parameterMap.put("inDirectCostInvoiceDetail.billed", returnProperStringValue(firstInDirectCostInvoiceDetail.getBilled()));
+            parameterMap.put("inDirectCostInvoiceDetail.adjustedCumulativeExpenditures", returnProperStringValue(firstInDirectCostInvoiceDetail.getAdjustedCumExpenditures()));
+            parameterMap.put("inDirectCostInvoiceDetail.adjustedBalance", returnProperStringValue(firstInDirectCostInvoiceDetail.getAdjustedBalance()));
         }
         if (CollectionUtils.isNotEmpty(document.getTotalInvoiceDetails())) {
-            parameterMap.put("totalInvoiceDetail.invoiceDetailIdentifier", returnProperStringValue(document.getTotalInvoiceDetails().get(0).getInvoiceDetailIdentifier()));
-            parameterMap.put("totalInvoiceDetail.documentNumber", returnProperStringValue(document.getTotalInvoiceDetails().get(0).getDocumentNumber()));
-            parameterMap.put("totalInvoiceDetail.categories", returnProperStringValue(document.getTotalInvoiceDetails().get(0).getCategory()));
-            parameterMap.put("totalInvoiceDetail.budget", returnProperStringValue(document.getTotalInvoiceDetails().get(0).getBudget()));
-            parameterMap.put("totalInvoiceDetail.expenditure", returnProperStringValue(document.getTotalInvoiceDetails().get(0).getExpenditures()));
-            parameterMap.put("totalInvoiceDetail.cumulative", returnProperStringValue(document.getTotalInvoiceDetails().get(0).getCumulative()));
-            parameterMap.put("totalInvoiceDetail.balance", returnProperStringValue(document.getTotalInvoiceDetails().get(0).getBalance()));
-            parameterMap.put("totalInvoiceDetail.billed", returnProperStringValue(document.getTotalInvoiceDetails().get(0).getBilled()));
-            parameterMap.put("totalInvoiceDetail.estimatedCost", returnProperStringValue(document.getTotalInvoiceDetails().get(0).getBilled().add(document.getTotalInvoiceDetails().get(0).getExpenditures())));
-            parameterMap.put("totalInvoiceDetail.adjustedCumulativeExpenditures", returnProperStringValue(document.getTotalInvoiceDetails().get(0).getAdjustedCumExpenditures()));
-            parameterMap.put("totalInvoiceDetail.adjustedBalance", returnProperStringValue(document.getTotalInvoiceDetails().get(0).getAdjustedBalance()));
+            InvoiceDetail firstTotalInvoiceDetail = document.getTotalInvoiceDetails().get(0);
+
+            parameterMap.put("totalInvoiceDetail.invoiceDetailIdentifier", returnProperStringValue(firstTotalInvoiceDetail.getInvoiceDetailIdentifier()));
+            parameterMap.put("totalInvoiceDetail.documentNumber", returnProperStringValue(firstTotalInvoiceDetail.getDocumentNumber()));
+            parameterMap.put("totalInvoiceDetail.categories", returnProperStringValue(firstTotalInvoiceDetail.getCategory()));
+            parameterMap.put("totalInvoiceDetail.budget", returnProperStringValue(firstTotalInvoiceDetail.getBudget()));
+            parameterMap.put("totalInvoiceDetail.expenditure", returnProperStringValue(firstTotalInvoiceDetail.getExpenditures()));
+            parameterMap.put("totalInvoiceDetail.cumulative", returnProperStringValue(firstTotalInvoiceDetail.getCumulative()));
+            parameterMap.put("totalInvoiceDetail.balance", returnProperStringValue(firstTotalInvoiceDetail.getBalance()));
+            parameterMap.put("totalInvoiceDetail.billed", returnProperStringValue(firstTotalInvoiceDetail.getBilled()));
+            parameterMap.put("totalInvoiceDetail.estimatedCost", returnProperStringValue(firstTotalInvoiceDetail.getBilled().add(firstTotalInvoiceDetail.getExpenditures())));
+            parameterMap.put("totalInvoiceDetail.adjustedCumulativeExpenditures", returnProperStringValue(firstTotalInvoiceDetail.getAdjustedCumExpenditures()));
+            parameterMap.put("totalInvoiceDetail.adjustedBalance", returnProperStringValue(firstTotalInvoiceDetail.getAdjustedBalance()));
         }
         if (CollectionUtils.isNotEmpty(document.getInvoiceAddressDetails())) {
             for (int i = 0; i < document.getInvoiceAddressDetails().size(); i++) {
@@ -3539,21 +3559,29 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         Map<String, Object> map = new HashMap<String, Object>();
         map.put(KFSPropertyConstants.PROPOSAL_NUMBER, document.getProposalNumber());
         ContractsAndGrantsBillingAward award = kualiModuleService.getResponsibleModuleService(ContractsAndGrantsBillingAward.class).getExternalizableBusinessObject(ContractsAndGrantsBillingAward.class, map);
-        ContractsAndGrantsBillingAwardAccount awardAccount = award.getActiveAwardAccounts().get(0);
-        awdLastBilledDate = award.getActiveAwardAccounts().get(0).getCurrentLastBilledDate();
-        for (int i = 0; i < award.getActiveAwardAccounts().size(); i++) {
-            if (ObjectUtils.isNull(awdLastBilledDate) || ObjectUtils.isNull(award.getActiveAwardAccounts().get(i).getCurrentLastBilledDate())) {
-                // The dates would be null if the user is correcting the first invoice created for the award. Then the award last
-                // billed date should also be null.
-                awdLastBilledDate = null;
-            }
-            else if (awdLastBilledDate.after(award.getActiveAwardAccounts().get(i).getCurrentLastBilledDate())) {
-                awdLastBilledDate = award.getActiveAwardAccounts().get(i).getCurrentLastBilledDate();
-            }
-        }
+        ContractsAndGrantsBillingAwardAccount awardAccount;
 
-        // To set last billed Date to award.
-        contractsAndGrantsModuleUpdateService.setLastBilledDateToAward(award.getProposalNumber(), awdLastBilledDate);
+        if (CollectionUtils.isNotEmpty(award.getActiveAwardAccounts())) {
+            ContractsAndGrantsBillingAwardAccount firstActiveawardAccount = award.getActiveAwardAccounts().get(0);
+
+            awardAccount = firstActiveawardAccount;
+            awdLastBilledDate = firstActiveawardAccount.getCurrentLastBilledDate();
+
+            for (int i = 0; i < award.getActiveAwardAccounts().size(); i++) {
+                if (ObjectUtils.isNull(awdLastBilledDate) || ObjectUtils.isNull(award.getActiveAwardAccounts().get(i).getCurrentLastBilledDate())) {
+                    // The dates would be null if the user is correcting the first invoice created for the award. Then the award
+                    // last
+                    // billed date should also be null.
+                    awdLastBilledDate = null;
+                }
+                else if (awdLastBilledDate.after(award.getActiveAwardAccounts().get(i).getCurrentLastBilledDate())) {
+                    awdLastBilledDate = award.getActiveAwardAccounts().get(i).getCurrentLastBilledDate();
+                }
+            }
+
+            // To set last billed Date to award.
+            contractsAndGrantsModuleUpdateService.setLastBilledDateToAward(award.getProposalNumber(), awdLastBilledDate);
+        }
     }
 
     /**
@@ -3728,7 +3756,9 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         else {
             document.getInvoiceGeneralDetail().setBilledToDate(contractsGrantsInvoiceDocumentService.getAwardBilledToDateByProposalNumber(document.getProposalNumber()));
             // update the new total billed for the invoice.
-            document.getInvoiceGeneralDetail().setNewTotalBilled(document.getInvoiceGeneralDetail().getNewTotalBilled().add(document.getTotalInvoiceDetails().get(0).getExpenditures()));
+            if (CollectionUtils.isNotEmpty(document.getTotalInvoiceDetails())){
+                document.getInvoiceGeneralDetail().setNewTotalBilled(document.getInvoiceGeneralDetail().getNewTotalBilled().add(document.getTotalInvoiceDetails().get(0).getExpenditures()));
+            }
         }
 
         // to set Marked for processing and Date report processed to null.
@@ -4313,11 +4343,12 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         totalInvDetail.setCategoryCode(ArConstants.TOTAL_COST_CD);
 
         if (ObjectUtils.isNotNull(document.getDirectCostInvoiceDetails()) && CollectionUtils.isNotEmpty(document.getDirectCostInvoiceDetails())) {
-            totalInvDetail.setBudget(document.getDirectCostInvoiceDetails().get(0).getBudget().add(totalInDirectCostBudget));
-            totalInvDetail.setExpenditures(document.getDirectCostInvoiceDetails().get(0).getExpenditures().add(totalInDirectCostExpenditures));
-            totalInvDetail.setCumulative(document.getDirectCostInvoiceDetails().get(0).getCumulative().add(totalInDirectCostCumulative));
-            totalInvDetail.setBalance(document.getDirectCostInvoiceDetails().get(0).getBalance().add(totalInDirectCostBalance));
-            totalInvDetail.setBilled(document.getDirectCostInvoiceDetails().get(0).getBilled().add(totalInDirectCostBilled));
+            InvoiceDetail firstDirectCostInvoiceDetail = document.getDirectCostInvoiceDetails().get(0);
+            totalInvDetail.setBudget(firstDirectCostInvoiceDetail.getBudget().add(totalInDirectCostBudget));
+            totalInvDetail.setExpenditures(firstDirectCostInvoiceDetail.getExpenditures().add(totalInDirectCostExpenditures));
+            totalInvDetail.setCumulative(firstDirectCostInvoiceDetail.getCumulative().add(totalInDirectCostCumulative));
+            totalInvDetail.setBalance(firstDirectCostInvoiceDetail.getBalance().add(totalInDirectCostBalance));
+            totalInvDetail.setBilled(firstDirectCostInvoiceDetail.getBilled().add(totalInDirectCostBilled));
         }
 
         document.addTotalInvoiceDetail(totalInvDetail);

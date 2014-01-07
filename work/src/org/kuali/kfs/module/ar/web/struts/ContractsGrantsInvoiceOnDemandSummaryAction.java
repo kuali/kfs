@@ -16,21 +16,18 @@
 package org.kuali.kfs.module.ar.web.struts;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleService;
-import org.kuali.kfs.integration.cg.businessobject.Award;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.batch.service.ContractsGrantsInvoiceCreateDocumentService;
@@ -39,14 +36,14 @@ import org.kuali.kfs.module.ar.businessobject.lookup.ContractsGrantsInvoiceOnDem
 import org.kuali.kfs.sys.FinancialSystemModuleConfiguration;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kim.api.identity.Person;
-import org.kuali.rice.krad.bo.ModuleConfiguration;
 import org.kuali.rice.core.api.datetime.DateTimeService;
-import org.kuali.rice.krad.service.KualiModuleService;
-import org.kuali.rice.krad.util.GlobalVariables; import org.kuali.rice.kns.util.KNSGlobalVariables;
-import org.kuali.rice.krad.util.KRADConstants;
-import java.util.ArrayList;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.web.struts.action.KualiAction;
+import org.kuali.rice.krad.bo.ModuleConfiguration;
+import org.kuali.rice.krad.service.KualiModuleService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
 
 /**
  * Action class for Contracts Grants Invoice On Demand Summary.
@@ -105,7 +102,12 @@ public class ContractsGrantsInvoiceOnDemandSummaryAction extends KualiAction {
         // To retrieve the batch file directory name as "reports/cg"
         ModuleConfiguration systemConfiguration = SpringContext.getBean(KualiModuleService.class).getModuleServiceByNamespaceCode("KFS-AR").getModuleConfiguration();
 
-        String destinationFolderPath = ((FinancialSystemModuleConfiguration) systemConfiguration).getBatchFileDirectories().get(0);
+        String destinationFolderPath = StringUtils.EMPTY;
+        List<String> batchFileDirectories = ((FinancialSystemModuleConfiguration) systemConfiguration).getBatchFileDirectories();
+
+        if ( CollectionUtils.isNotEmpty(batchFileDirectories)){
+            destinationFolderPath = ((FinancialSystemModuleConfiguration) systemConfiguration).getBatchFileDirectories().get(0);
+        }
 
         String runtimeStamp = dateTimeService.toDateTimeStringForFilename(new java.util.Date());
         contractsGrantsInvoiceOnDemandSummaryForm.setAwardInvoicedInd(true);// set to false before creating invoices

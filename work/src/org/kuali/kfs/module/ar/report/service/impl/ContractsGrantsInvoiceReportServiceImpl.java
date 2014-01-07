@@ -21,10 +21,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.sql.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -434,7 +434,9 @@ public class ContractsGrantsInvoiceReportServiceImpl extends ContractsGrantsRepo
         }
         replacementList.put("Federal Agency", returnProperStringValue(returnProperStringValue(award.getAgency().getFullName())));
         replacementList.put("Federal Grant Number", returnProperStringValue(award.getAwardDocumentNumber()));
-        replacementList.put("Recipient Account Number", returnProperStringValue(award.getActiveAwardAccounts().get(0).getAccountNumber()));
+        if(CollectionUtils.isNotEmpty(award.getActiveAwardAccounts())){
+            replacementList.put("Recipient Account Number", returnProperStringValue(award.getActiveAwardAccounts().get(0).getAccountNumber()));
+        }
         if (ObjectUtils.isNotNull(award.getAwardBeginningDate())) {
             replacementList.put("Grant Period From", returnProperStringValue(formatter.format(award.getAwardBeginningDate())));
         }
@@ -500,8 +502,11 @@ public class ContractsGrantsInvoiceReportServiceImpl extends ContractsGrantsRepo
 
         Map primaryKeys = new HashMap<String, Object>();
         primaryKeys.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, year);
-        primaryKeys.put("processingChartOfAccountCode", awards.get(0).getPrimaryAwardOrganization().getChartOfAccountsCode());
-        primaryKeys.put("processingOrganizationCode", awards.get(0).getPrimaryAwardOrganization().getOrganizationCode());
+        if (CollectionUtils.isNotEmpty(awards)){
+            primaryKeys.put("processingChartOfAccountCode", awards.get(0).getPrimaryAwardOrganization().getChartOfAccountsCode());
+            primaryKeys.put("processingOrganizationCode", awards.get(0).getPrimaryAwardOrganization().getOrganizationCode());
+        }
+
         SystemInformation sysInfo = businessObjectService.findByPrimaryKey(SystemInformation.class, primaryKeys);
 
         if (ObjectUtils.isNotNull(sysInfo)) {
@@ -653,8 +658,12 @@ public class ContractsGrantsInvoiceReportServiceImpl extends ContractsGrantsRepo
                 }
                 // generate replacement list for FF425
                 List<KualiDecimal> list = populateListByAgency(awardsList, reportingPeriod, year, agency);
-                sumCashControl = sumCashControl.add(list.get(0));
-                sumCumExp = sumCumExp.add(list.get(1));
+                if (CollectionUtils.isNotEmpty(list)){
+                    sumCashControl = sumCashControl.add(list.get(0));
+                    if (list.size() > 1){
+                        sumCumExp = sumCumExp.add(list.get(1));
+                    }
+                }
 
                 // populate form with document values
                 replacementList.put("pageNumber", returnProperStringValue(pageNumber + 1));

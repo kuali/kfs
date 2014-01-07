@@ -57,7 +57,7 @@ public class CollectionActivityDocumentServiceImpl implements CollectionActivity
     private BusinessObjectService businessObjectService;
     private DocumentTypeService documentTypeService;
     private KualiModuleService kualiModuleService;
-    
+
     /**
      * Gets the documentService attribute.
      *
@@ -79,7 +79,7 @@ public class CollectionActivityDocumentServiceImpl implements CollectionActivity
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;
     }
-    
+
     /**
      * This method gets the business object service
      * @return the business object service
@@ -95,21 +95,21 @@ public class CollectionActivityDocumentServiceImpl implements CollectionActivity
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
-    
+
     public void setDocumentTypeService(DocumentTypeService documentTypeService) {
         this.documentTypeService = documentTypeService;
     }
-    
+
     /**
      * Sets the kualiModuleService attribute value.
-     * 
+     *
      * @param kualiModuleService The kualiModuleService to set.
      */
     @NonTransactional
     public void setKualiModuleService(KualiModuleService kualiModuleService) {
         this.kualiModuleService = kualiModuleService;
     }
-    
+
     /**
      * @see org.kuali.kfs.module.ar.document.service.CollectionActivityDocumentService#addNewEvent(java.lang.String,
      *      org.kuali.kfs.module.ar.document.CollectionActivityDocument, org.kuali.kfs.module.ar.businessobject.Event)
@@ -182,7 +182,7 @@ public class CollectionActivityDocumentServiceImpl implements CollectionActivity
             map.put(ArPropertyConstants.TicklersReportFields.PROPOSAL_NUMBER, colActDoc.getProposalNumber());
 
             List<ContractsGrantsInvoiceDocument> invoices = (List<ContractsGrantsInvoiceDocument>) businessObjectService.findMatching(ContractsGrantsInvoiceDocument.class, map);
-            if (ObjectUtils.isNotNull(invoices) && CollectionUtils.isNotEmpty(invoices)) {
+            if (CollectionUtils.isNotEmpty(invoices)) {
                 ContractsGrantsInvoiceDocument invoice = invoices.get(0);
                 if (ObjectUtils.isNotNull(invoice.getAward()) && ObjectUtils.isNotNull(invoice.getAward().getAgency())) {
                     ContractsAndGrantsBillingAgency agency = invoice.getAward().getAgency();

@@ -1,12 +1,12 @@
 /*
  * Copyright 2012 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -31,6 +32,7 @@ import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleRetrieveService;
 import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
+import org.kuali.kfs.module.ar.businessobject.InvoiceAccountDetail;
 import org.kuali.kfs.module.ar.businessobject.ReferralToCollectionsLookupResult;
 import org.kuali.kfs.module.ar.businessobject.inquiry.ReferralToCollectionsLookupResultInquirableImpl;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
@@ -39,23 +41,23 @@ import org.kuali.kfs.module.ar.web.ui.ReferralToCollectionsResultRow;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.core.web.format.BooleanFormatter;
+import org.kuali.rice.core.web.format.Formatter;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.document.authorization.BusinessObjectRestrictions;
+import org.kuali.rice.kns.lookup.HtmlData;
+import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
+import org.kuali.rice.kns.web.comparator.CellComparatorHelper;
+import org.kuali.rice.kns.web.struts.form.LookupForm;
+import org.kuali.rice.kns.web.ui.Column;
+import org.kuali.rice.kns.web.ui.ResultRow;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.krad.exception.ValidationException;
 import org.kuali.rice.krad.lookup.CollectionIncomplete;
-import org.kuali.rice.kns.lookup.HtmlData;
-import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
+import org.kuali.rice.krad.util.BeanPropertyComparator;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
-import org.kuali.rice.krad.util.BeanPropertyComparator;
-import org.kuali.rice.kns.web.comparator.CellComparatorHelper;
-import org.kuali.rice.core.web.format.BooleanFormatter;
-import org.kuali.rice.core.web.format.Formatter;
-import org.kuali.rice.kns.web.struts.form.LookupForm;
-import org.kuali.rice.kns.web.ui.Column;
-import org.kuali.rice.kns.web.ui.ResultRow;
 
 /**
  * Defines a lookupable helper service class for Referral To Collections.
@@ -67,7 +69,7 @@ public class ReferralToCollectionsLookupableHelperServiceImpl extends KualiLooku
 
     /**
      * Gets the contractsGrantsInvoiceDocumentService attribute.
-     * 
+     *
      * @return Returns the contractsGrantsInvoiceDocumentService.
      */
     public ContractsGrantsInvoiceDocumentService getContractsGrantsInvoiceDocumentService() {
@@ -76,7 +78,7 @@ public class ReferralToCollectionsLookupableHelperServiceImpl extends KualiLooku
 
     /**
      * Sets the contractsGrantsInvoiceDocumentService attribute value.
-     * 
+     *
      * @param contractsGrantsInvoiceDocumentService The contractsGrantsInvoiceDocumentService to set.
      */
     public void setContractsGrantsInvoiceDocumentService(ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService) {
@@ -85,7 +87,7 @@ public class ReferralToCollectionsLookupableHelperServiceImpl extends KualiLooku
 
     /**
      * Customized validation for lookup fields of doc.
-     * 
+     *
      * @see org.kuali.core.lookup.LookupableHelperService#validateSearchParameters(java.util.Map)
      */
     public void validateSearchParameters(Map fieldValues) {
@@ -115,7 +117,7 @@ public class ReferralToCollectionsLookupableHelperServiceImpl extends KualiLooku
 
     /**
      * This method performs the lookup and returns a collection of lookup items
-     * 
+     *
      * @param lookupForm
      * @param kualiLookupable
      * @param resultTable
@@ -147,10 +149,16 @@ public class ReferralToCollectionsLookupableHelperServiceImpl extends KualiLooku
             for (ContractsGrantsInvoiceDocument invoice : result.getInvoices()) {
 
                 List<Column> subResultColumns = new ArrayList<Column>();
+                InvoiceAccountDetail firstInvoiceAccountDetail = new InvoiceAccountDetail();
+
+                // Set first invoice account detail
+                if (CollectionUtils.isNotEmpty(invoice.getAccountDetails())){
+                    firstInvoiceAccountDetail = invoice.getAccountDetails().get(0);
+                }
 
                 for (String propertyName : invoiceAttributesForDisplay) {
                     if (propertyName.equalsIgnoreCase(KFSPropertyConstants.ACCOUNT_NUMBER)) {
-                        Account account = SpringContext.getBean(AccountService.class).getByPrimaryId(invoice.getAccountDetails().get(0).getChartOfAccountsCode(), invoice.getAccountDetails().get(0).getAccountNumber());
+                        Account account = SpringContext.getBean(AccountService.class).getByPrimaryId(firstInvoiceAccountDetail.getChartOfAccountsCode(), firstInvoiceAccountDetail.getAccountNumber());
                         subResultColumns.add(setupResultsColumn(account, propertyName, businessObjectRestrictions));
                     }
                     else {
@@ -253,7 +261,7 @@ public class ReferralToCollectionsLookupableHelperServiceImpl extends KualiLooku
 
     /**
      * Since there aren't that many fields for inquiry, just deal with each of them one by one for this lookup
-     * 
+     *
      * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getInquiryUrl(org.kuali.rice.krad.bo.BusinessObject,
      *      java.lang.String)
      */
@@ -264,7 +272,7 @@ public class ReferralToCollectionsLookupableHelperServiceImpl extends KualiLooku
 
     /**
      * Constructs the list of columns for the search results. All properties for the column objects come from the DataDictionary.
-     * 
+     *
      * @param bo
      * @return Collection<Column>
      */
@@ -287,7 +295,7 @@ public class ReferralToCollectionsLookupableHelperServiceImpl extends KualiLooku
 
     /**
      * overriding this method to convert the list of awards to a list of ContratcsGrantsInvoiceOnDemandLookupResult
-     * 
+     *
      * @see org.kuali.core.lookup.Lookupable#getSearchResults(java.util.Map)
      */
     @Override
@@ -300,7 +308,7 @@ public class ReferralToCollectionsLookupableHelperServiceImpl extends KualiLooku
 
     /**
      * build the search result list from the given collection and the number of all qualified search results
-     * 
+     *
      * @param searchResultsCollection the given search results, which may be a subset of the qualified search results
      * @param actualSize the number of all qualified search results
      * @return the search result list with the given results and actual size

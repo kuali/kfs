@@ -218,8 +218,8 @@ public class CollectionActivityReportServiceImpl extends ContractsGrantsReportSe
             for (ContractsGrantsInvoiceDocument cgInvoiceDocument : contractsGrantsInvoiceDocs) {
                 List<Event> events = cgInvoiceDocument.getEvents();
                 List<CustomerInvoiceDetail> details = cgInvoiceDocument.getSourceAccountingLines();
-                accountNum = (ObjectUtils.isNotNull(details) && CollectionUtils.isNotEmpty(details) && ObjectUtils.isNotNull(details.get(0))) ? details.get(0).getAccountNumber() : "";
-                if (ObjectUtils.isNotNull(events) && CollectionUtils.isNotEmpty(events)) {
+                accountNum = (CollectionUtils.isNotEmpty(details) && ObjectUtils.isNotNull(details.get(0))) ? details.get(0).getAccountNumber() : "";
+                if (CollectionUtils.isNotEmpty(events)) {
                     for (Event event : events) {
                         if (ObjectUtils.isNull(event.getEventRouteStatus()) || !event.getEventRouteStatus().equals(KewApiConstants.ROUTE_HEADER_SAVED_CD)) {
                             CollectionActivityReport collectionActivityReport = new CollectionActivityReport();

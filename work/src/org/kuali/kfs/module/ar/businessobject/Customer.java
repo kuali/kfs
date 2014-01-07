@@ -63,7 +63,6 @@ public class Customer extends PersistableBusinessObjectBase implements MutableIn
     private List    boNotes;
 
     private List<CustomerAddress> customerAddresses;
-    private List<CustomerInvoiceAccount> customerInvoiceAccounts;
 
   private String bankruptcyType;
   private Date bankruptcyDate;
@@ -80,7 +79,6 @@ public class Customer extends PersistableBusinessObjectBase implements MutableIn
      */
     public Customer() {
         customerAddresses = new ArrayList<CustomerAddress>();
-        customerInvoiceAccounts = new ArrayList<CustomerInvoiceAccount>();
     }
 
     /**
@@ -656,14 +654,6 @@ public class Customer extends PersistableBusinessObjectBase implements MutableIn
         this.stopWorkReason = stopWorkReason;
     }
 
-
-    public List<CustomerInvoiceAccount> getCustomerInvoiceAccounts() {
-        return customerInvoiceAccounts;
-    }
-
-    public void setCustomerInvoiceAccounts(List<CustomerInvoiceAccount> customerInvoiceAccounts) {
-        this.customerInvoiceAccounts = customerInvoiceAccounts;
-    }
 
     @Override
     public AccountsReceivableCustomerAddress getPrimaryAddress() {

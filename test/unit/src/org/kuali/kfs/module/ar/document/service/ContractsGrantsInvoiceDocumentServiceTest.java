@@ -26,10 +26,10 @@ import java.util.Map;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAgency;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAwardAccount;
+import org.kuali.kfs.integration.cg.ContractsGrantsAwardInvoiceAccountInformation;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.batch.service.ContractsGrantsInvoiceCreateDocumentService;
 import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
-import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceAccount;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoiceAccountDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoiceBill;
@@ -78,7 +78,6 @@ import org.kuali.rice.krad.util.ObjectUtils;
 public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
 
     ContractsGrantsInvoiceDocumentServiceImpl contractsGrantsInvoiceDocumentServiceImpl = new ContractsGrantsInvoiceDocumentServiceImpl();
-
     /**
      * @see junit.framework.TestCase#setUp()
      */
@@ -487,7 +486,7 @@ public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
         customerInvoiceDetail = CustomerInvoiceDetailFixture.CUSTOMER_INVOICE_DETAIL_SUBFUND_RECEIVABLE_2.createCustomerInvoiceDetail();
 
 
-        CustomerInvoiceAccount custInvAcct = ARAwardInvoiceAccountFixture.AWD_INV_ACCT_1.createCustomerInvoiceAccount();
+        ContractsGrantsAwardInvoiceAccountInformation awdInvAcct = ARAwardInvoiceAccountFixture.AWD_INV_ACCT_1.createAwardInvoiceAccount();
 
 
         accountDetails.clear();
@@ -497,6 +496,8 @@ public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
         // 1. Invoicing by Award
         contractsGrantsInvoiceDocument.setInvoiceGeneralDetail(inv_Gnrl_Dtl_1);
         ContractsAndGrantsBillingAward awardInvAward = ARAwardFixture.CG_AWARD_INV_AWARD.createAward();
+        awardInvAward.getActiveAwardInvoiceAccounts().clear();
+        awardInvAward.getActiveAwardInvoiceAccounts().add(awdInvAcct);
         contractsGrantsInvoiceDocument.setAward(awardInvAward);
 
         compareSourceAccountingLines(contractsGrantsInvoiceDocument, customerInvoiceDetail);
@@ -515,6 +516,8 @@ public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
         // 2. Invoicing by Account
         contractsGrantsInvoiceDocument.setInvoiceGeneralDetail(inv_Gnrl_Dtl_1);
         awardInvAward = ARAwardFixture.CG_AWARD_INV_ACCOUNT.createAward();
+        awardInvAward.getActiveAwardInvoiceAccounts().clear();
+        awardInvAward.getActiveAwardInvoiceAccounts().add(awdInvAcct);
         contractsGrantsInvoiceDocument.setAward(awardInvAward);
         compareSourceAccountingLines(contractsGrantsInvoiceDocument, customerInvoiceDetail);
 
@@ -522,6 +525,8 @@ public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
         // invoice account detail here.
         contractsGrantsInvoiceDocument.setInvoiceGeneralDetail(inv_Gnrl_Dtl_1);
         awardInvAward = ARAwardFixture.CG_AWARD_INV_CCA.createAward();
+        awardInvAward.getActiveAwardInvoiceAccounts().clear();
+        awardInvAward.getActiveAwardInvoiceAccounts().add(awdInvAcct);
         contractsGrantsInvoiceDocument.setAward(awardInvAward);
         accountDetails.clear();
         accountDetails.add(invoiceAccountDetail_2);

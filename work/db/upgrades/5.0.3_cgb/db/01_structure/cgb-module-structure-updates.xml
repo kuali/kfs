@@ -873,9 +873,9 @@
 	<!-- To make char code, account number primary to differentiate one account 
 		from another. Dropping the table and creating again as this would be a crucial 
 		change to the table -->
-	<changeSet author="KFSCGB" id="AR_CUST_INV_ACCT_T_CREATE">
-		<createTable tableName="AR_CUST_INV_ACCT_T">
-			<column name="CUST_NBR" type="varchar(9)" >
+	<changeSet author="KFSCGB" id="CG_AWD_INV_ACCT_T_CREATE">
+		<createTable tableName="CG_AWD_INV_ACCT_T">
+			<column name="CGPRPSL_NBR" type="decimal(12,0)" defaultValue="0">
 				<constraints primaryKey="true" nullable="false" />
 			</column>
 			<column name="FIN_COA_CD" type="varchar(2)">
@@ -888,7 +888,7 @@
 				<constraints primaryKey="true" nullable="false" />
 			</column>
 			<column name="OBJ_ID" type="varchar(36)">
-				<constraints unique="true" nullable="false" uniqueConstraintName="AR_CUST_INV_ACCT_TC1"/>
+				<constraints unique="true" nullable="false" uniqueConstraintName="CG_AWD_INV_ACCT_TC1"/>
 			</column>
 			<column name="VER_NBR" type="decimal(8,0)" defaultValueNumeric="1">
 				<constraints nullable="false" />
@@ -899,6 +899,7 @@
 			<column name="PROJECT_CD" type="varchar(10)" />
 			<column name="ACCT_TYP" type="varchar(45)" />
 			<column name="ACTV_IND" type="varchar(1)" />
+			
 		</createTable>
 		<modifySql dbms="oracle">
 				<replace replace="varchar" with="varchar2" />

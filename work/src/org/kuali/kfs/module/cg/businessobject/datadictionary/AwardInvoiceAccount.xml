@@ -11,29 +11,30 @@
 		express or implied. See the License for the specific language governing permissions 
 		and limitations under the License. -->
 
-	<bean id="CustomerInvoiceAccount" parent="CustomerInvoiceAccount-parentBean" />
+	<bean id="AwardInvoiceAccount" parent="AwardInvoiceAccount-parentBean" />
 
-	<bean id="CustomerInvoiceAccount-parentBean" abstract="true"
+	<bean id="AwardInvoiceAccount-parentBean" abstract="true"
 		parent="BusinessObjectEntry">
 		<property name="businessObjectClass"
-			value="org.kuali.kfs.module.ar.businessobject.CustomerInvoiceAccount" />
+			value="org.kuali.kfs.module.cg.businessobject.AwardInvoiceAccount" />
 		<property name="inquiryDefinition">
-			<ref bean="CustomerInvoiceAccount-inquiryDefinition" />
+			<ref bean="AwardInvoiceAccount-inquiryDefinition" />
 		</property>
 		<property name="lookupDefinition">
-			<ref bean="CustomerInvoiceAccount-lookupDefinition" />
+			<ref bean="AwardInvoiceAccount-lookupDefinition" />
 		</property>
-		<property name="objectLabel" value="Customer Invoice Account" />
+		<property name="objectLabel" value="Award Invoice Account" />
 		<property name="attributes">
 			<list>
-				<ref bean="CustomerInvoiceAccount-chartOfAccountsCode" />
-				<ref bean="CustomerInvoiceAccount-accountNumber" />
-				<ref bean="CustomerInvoiceAccount-account.accountName" />
-				<ref bean="CustomerInvoiceAccount-objectCode" />
-				<ref bean="CustomerInvoiceAccount-subObjectCode" />
-				<ref bean="CustomerInvoiceAccount-subAccountNumber" />
-				<ref bean="CustomerInvoiceAccount-accountType" />
-				<ref bean="CustomerInvoiceAccount-active" />
+				<bean parent="Proposal-proposalNumber" />
+				<ref bean="AwardInvoiceAccount-chartOfAccountsCode" />
+				<ref bean="AwardInvoiceAccount-accountNumber" />
+				<ref bean="AwardInvoiceAccount-account.accountName" />
+				<ref bean="AwardInvoiceAccount-objectCode" />
+				<ref bean="AwardInvoiceAccount-subObjectCode" />
+				<ref bean="AwardInvoiceAccount-subAccountNumber" />
+				<ref bean="AwardInvoiceAccount-accountType" />
+				<ref bean="AwardInvoiceAccount-active" />
 			</list>
 		</property>
 	</bean>
@@ -41,46 +42,46 @@
 	<!-- Attribute Definitions -->
 
 
-	<bean id="CustomerInvoiceAccount-chartOfAccountsCode" parent="CustomerInvoiceAccount-chartOfAccountsCode-parentBean" />
-	<bean id="CustomerInvoiceAccount-chartOfAccountsCode-parentBean"
+	<bean id="AwardInvoiceAccount-chartOfAccountsCode" parent="AwardInvoiceAccount-chartOfAccountsCode-parentBean" />
+	<bean id="AwardInvoiceAccount-chartOfAccountsCode-parentBean"
 		abstract="true" parent="ChartAttribute-SelectControl">
 		<property name="name" value="chartOfAccountsCode" />
 	</bean>
 
-	<bean id="CustomerInvoiceAccount-accountNumber" parent="CustomerInvoiceAccount-accountNumber-parentBean" />
-	<bean id="CustomerInvoiceAccount-accountNumber-parentBean" abstract="true"
+	<bean id="AwardInvoiceAccount-accountNumber" parent="AwardInvoiceAccount-accountNumber-parentBean" />
+	<bean id="AwardInvoiceAccount-accountNumber-parentBean" abstract="true"
 		parent="AccountAttribute">
 		<property name="name" value="accountNumber" />
 	</bean>
 
-	<bean id="CustomerInvoiceAccount-account.accountName" parent="CustomerInvoiceAccount-account.accountName-parentBean" />
-	<bean id="CustomerInvoiceAccount-account.accountName-parentBean"
+	<bean id="AwardInvoiceAccount-account.accountName" parent="AwardInvoiceAccount-account.accountName-parentBean" />
+	<bean id="AwardInvoiceAccount-account.accountName-parentBean"
 		abstract="true" parent="Account-accountName">
 		<property name="name" value="account.accountName" />
 	</bean>
 
-	<bean id="CustomerInvoiceAccount-objectCode" parent="CustomerInvoiceAccount-objectCode-parentBean" />
-	<bean id="CustomerInvoiceAccount-objectCode-parentBean" abstract="true"
+	<bean id="AwardInvoiceAccount-objectCode" parent="AwardInvoiceAccount-objectCode-parentBean" />
+	<bean id="AwardInvoiceAccount-objectCode-parentBean" abstract="true"
 		parent="ObjectCodeAttribute">
 		<property name="name" value="objectCode" />
 	</bean>
 
-	<bean id="CustomerInvoiceAccount-subObjectCode" parent="CustomerInvoiceAccount-subObjectCode-parentBean" />
-	<bean id="CustomerInvoiceAccount-subObjectCode-parentBean" abstract="true"
+	<bean id="AwardInvoiceAccount-subObjectCode" parent="AwardInvoiceAccount-subObjectCode-parentBean" />
+	<bean id="AwardInvoiceAccount-subObjectCode-parentBean" abstract="true"
 		parent="SubObjectAttribute">
 		<property name="name" value="subObjectCode" />
 	</bean>
 
-	<bean id="CustomerInvoiceAccount-subAccountNumber" parent="CustomerInvoiceAccount-subAccountNumber-parentBean" />
-	<bean id="CustomerInvoiceAccount-subAccountNumber-parentBean"
+	<bean id="AwardInvoiceAccount-subAccountNumber" parent="AwardInvoiceAccount-subAccountNumber-parentBean" />
+	<bean id="AwardInvoiceAccount-subAccountNumber-parentBean"
 		abstract="true" parent="SubAccountAttribute">
 		<property name="name" value="subAccountNumber" />
 	</bean>
 
 
-	<bean id="CustomerInvoiceAccount-accountType" parent="CustomerInvoiceAccount-accountType-parentBean" />
+	<bean id="AwardInvoiceAccount-accountType" parent="AwardInvoiceAccount-accountType-parentBean" />
 
-	<bean id="CustomerInvoiceAccount-accountType-parentBean" abstract="true"
+	<bean id="AwardInvoiceAccount-accountType-parentBean" abstract="true"
 		parent="AttributeDefinition">
 		<property name="name" value="accountType" />
 		<property name="label" value="Type of Account" />
@@ -88,13 +89,13 @@
 		<property name="maxLength" value="45" />
 		<property name="control">
 			<bean parent="SelectControlDefinition"
-				p:valuesFinderClass="org.kuali.kfs.module.ar.businessobject.options.AccountTypeValuesFinder"
+				p:valuesFinderClass="org.kuali.kfs.module.cg.businessobject.options.AccountTypeValuesFinder"
 				p:includeKeyInLabel="false" />
 		</property>
 	</bean>
 
-	<bean id="CustomerInvoiceAccount-active" parent="CustomerInvoiceAccount-active-parentBean" />
-	<bean id="CustomerInvoiceAccount-active-parentBean" abstract="true"
+	<bean id="AwardInvoiceAccount-active" parent="AwardInvoiceAccount-active-parentBean" />
+	<bean id="AwardInvoiceAccount-active-parentBean" abstract="true"
 		parent="GenericAttributes-activeIndicator">
 		<property name="name" value="active" />
 	</bean>
@@ -103,15 +104,15 @@
 	<!-- Business Object Inquiry Definition -->
 
 
-	<bean id="CustomerInvoiceAccount-inquiryDefinition" parent="CustomerInvoiceAccount-inquiryDefinition-parentBean" />
+	<bean id="AwardInvoiceAccount-inquiryDefinition" parent="AwardInvoiceAccount-inquiryDefinition-parentBean" />
 
-	<bean id="CustomerInvoiceAccount-inquiryDefinition-parentBean"
+	<bean id="AwardInvoiceAccount-inquiryDefinition-parentBean"
 		abstract="true" parent="InquiryDefinition">
-		<property name="title" value="Customer Account Inquiry" />
+		<property name="title" value="Award Account Inquiry" />
 		<property name="inquirySections">
 			<list>
 				<bean parent="InquirySectionDefinition">
-					<property name="title" value="Customer Invoice Account Details" />
+					<property name="title" value="Award Invoice Account Details" />
 					<property name="numberOfColumns" value="1" />
 					<property name="inquiryFields">
 						<list>
@@ -131,11 +132,11 @@
 	<!-- Business Object Lookup Definition -->
 
 
-	<bean id="CustomerInvoiceAccount-lookupDefinition" parent="CustomerInvoiceAccount-lookupDefinition-parentBean" />
+	<bean id="AwardInvoiceAccount-lookupDefinition" parent="AwardInvoiceAccount-lookupDefinition-parentBean" />
 
-	<bean id="CustomerInvoiceAccount-lookupDefinition-parentBean"
+	<bean id="AwardInvoiceAccount-lookupDefinition-parentBean"
 		abstract="true" parent="LookupDefinition">
-		<property name="title" value="Customer Account Lookup" />
+		<property name="title" value="Award Account Lookup" />
 
 		<property name="defaultSort">
 			<bean parent="SortDefinition">
@@ -160,7 +161,7 @@
 				<bean parent="FieldDefinition" p:attributeName="subObjectCode" />
 				<bean parent="FieldDefinition" p:attributeName="subAccountNumber" />
 				<bean parent="FieldDefinition" p:attributeName="accountType" />
-        		<bean parent="FieldDefinition" p:attributeName="active"/>				
+				<bean parent="FieldDefinition" p:attributeName="active"/>				
 			</list>
 		</property>
 	</bean>

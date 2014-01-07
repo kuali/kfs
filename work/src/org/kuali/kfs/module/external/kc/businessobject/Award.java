@@ -27,6 +27,7 @@ import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingFrequency;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsLetterOfCreditFund;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsOrganization;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsProjectDirector;
+import org.kuali.kfs.integration.cg.ContractsGrantsAwardInvoiceAccountInformation;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
@@ -847,6 +848,12 @@ public class Award implements ContractsAndGrantsBillingAward {
 
     public void setSuspendInvoicingIndicator(boolean suspendInvoicingIndicator) {
         this.suspendInvoicingIndicator = suspendInvoicingIndicator;
+    }
+
+    @Override
+    public List<ContractsGrantsAwardInvoiceAccountInformation> getActiveAwardInvoiceAccounts() {
+        // TODO Auto-generated method stub
+        return null;
     }
 
 }

@@ -28,31 +28,31 @@
 		<addForeignKeyConstraint constraintName="CG_LTRCR_FND_R1"
 			baseTableName="CG_LTRCR_FND_T" baseColumnNames="CG_LTRCR_FNDGRP_CD"
 			referencedTableName="CG_LTRCR_FNDGRP_T" referencedColumnNames="CG_LTRCR_FNDGRP_CD" />
-		<addForeignKeyConstraint constraintName="AR_CUST_INV_ACCT_R1"
-			referencedTableName="AR_CUST_T" baseColumnNames="CUST_NBR"
-			baseTableName="AR_CUST_INV_ACCT_T" referencedColumnNames="CUST_NBR" />
+		<addForeignKeyConstraint constraintName="CG_AWD_INV_ACCT_R1"
+			referencedTableName="CG_AWD_T" baseColumnNames="CGPRPSL_NBR"
+			baseTableName="CG_AWD_INV_ACCT_T" referencedColumnNames="CGPRPSL_NBR" />
 		<addForeignKeyConstraint constraintName="CG_AWD_FNDMGR_R1"
 			referencedTableName="CG_AWD_T" baseColumnNames="CGPRPSL_NBR"
 			baseTableName="CG_AWD_FNDMGR_T" referencedColumnNames="CGPRPSL_NBR" />
-		<addForeignKeyConstraint constraintName="AR_CUST_INV_ACCT_R2"
+		<addForeignKeyConstraint constraintName="CG_AWD_INV_ACCT_R2"
 			referencedTableName="CA_CHART_T" baseColumnNames="FIN_COA_CD"
-			baseTableName="AR_CUST_INV_ACCT_T" referencedColumnNames="FIN_COA_CD" />
+			baseTableName="CG_AWD_INV_ACCT_T" referencedColumnNames="FIN_COA_CD" />
 		<addForeignKeyConstraint constraintName="AR_MLSTN_TR1"
 			referencedTableName="AR_MLSTN_SCHDL_T" baseColumnNames="PRPSL_NBR"
 			baseTableName="AR_MLSTN_T" referencedColumnNames="PRPSL_NBR" />
-		<addForeignKeyConstraint constraintName="AR_CUST_INV_ACCT_R3"
-			referencedTableName="CA_ACCOUNT_T" baseColumnNames="FIN_COA_CD,ACCOUNT_NBR"
-			baseTableName="AR_CUST_INV_ACCT_T" referencedColumnNames="FIN_COA_CD,ACCOUNT_NBR" />
 		<addForeignKeyConstraint constraintName="AR_CUST_INV_ACCT_R4"
+			referencedTableName="CA_ACCOUNT_T" baseColumnNames="FIN_COA_CD,ACCOUNT_NBR"
+			baseTableName="CG_AWD_INV_ACCT_T" referencedColumnNames="FIN_COA_CD,ACCOUNT_NBR" />
+		<addForeignKeyConstraint constraintName="CG_AWD_INV_ACCT_R4"
 			referencedTableName="CA_SUB_ACCT_T" baseColumnNames="FIN_COA_CD,ACCOUNT_NBR,SUB_ACCT_NBR"
-			baseTableName="AR_CUST_INV_ACCT_T" referencedColumnNames="FIN_COA_CD,ACCOUNT_NBR,SUB_ACCT_NBR" />
-		<addForeignKeyConstraint constraintName="AR_CUST_INV_ACCT_R5"
+			baseTableName="CG_AWD_INV_ACCT_T" referencedColumnNames="FIN_COA_CD,ACCOUNT_NBR,SUB_ACCT_NBR" />
+		<addForeignKeyConstraint constraintName="CG_AWD_INV_ACCT_R5"
 			referencedTableName="CA_OBJECT_CODE_T" baseColumnNames="UNIV_FISCAL_YR,FIN_COA_CD,FIN_OBJECT_CD"
-			baseTableName="AR_CUST_INV_ACCT_T" referencedColumnNames="UNIV_FISCAL_YR,FIN_COA_CD,FIN_OBJECT_CD" />
-		<addForeignKeyConstraint constraintName="AR_CUST_INV_ACCT_R6"
+			baseTableName="CG_AWD_INV_ACCT_T" referencedColumnNames="UNIV_FISCAL_YR,FIN_COA_CD,FIN_OBJECT_CD" />
+		<addForeignKeyConstraint constraintName="CG_AWD_INV_ACCT_R6"
 			referencedTableName="CA_SUB_OBJECT_CD_T"
 			baseColumnNames="UNIV_FISCAL_YR,FIN_COA_CD,ACCOUNT_NBR,FIN_OBJECT_CD,FIN_SUB_OBJ_CD"
-			baseTableName="AR_CUST_INV_ACCT_T"
+			baseTableName="CG_AWD_INV_ACCT_T"
 			referencedColumnNames="UNIV_FISCAL_YR,FIN_COA_CD,ACCOUNT_NBR,FIN_OBJECT_CD,FIN_SUB_OBJ_CD" />
 		<addForeignKeyConstraint constraintName="AR_INV_MLSTN_R1"
 			referencedTableName="AR_INV_DOC_T" baseColumnNames="FDOC_NBR"
@@ -60,9 +60,9 @@
 		<addForeignKeyConstraint constraintName="AR_INV_BILL_R1"
 			referencedTableName="AR_INV_DOC_T" baseColumnNames="FDOC_NBR"
 			baseTableName="AR_INV_BILL_T" referencedColumnNames="FDOC_NBR" />
-		<addForeignKeyConstraint constraintName="AR_CUST_INV_ACCT_R7"
+		<addForeignKeyConstraint constraintName="CG_AWD_INV_ACCT_R7"
 			referencedTableName="CA_PROJECT_T" baseColumnNames="PROJECT_CD"
-			baseTableName="AR_CUST_INV_ACCT_T" referencedColumnNames="PROJECT_CD" />
+			baseTableName="CG_AWD_INV_ACCT_T" referencedColumnNames="PROJECT_CD" />
 		<addForeignKeyConstraint constraintName="AR_LTRCR_RVW_DTL_R1"
 			referencedTableName="AR_LTRCR_RVW_DOC_T" baseColumnNames="FDOC_NBR"
 			baseTableName="AR_LTRCR_RVW_DTL_T" referencedColumnNames="FDOC_NBR" />

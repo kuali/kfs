@@ -56,6 +56,7 @@ import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAwardAccount;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingFrequency;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleUpdateService;
+import org.kuali.kfs.integration.cg.ContractsGrantsAwardInvoiceAccountInformation;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
@@ -64,7 +65,6 @@ import org.kuali.kfs.module.ar.businessobject.AwardAccountObjectCodeTotalBilled;
 import org.kuali.kfs.module.ar.businessobject.ContractsAndGrantsCategories;
 import org.kuali.kfs.module.ar.businessobject.Customer;
 import org.kuali.kfs.module.ar.businessobject.CustomerAddress;
-import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceAccount;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.DunningCampaign;
 import org.kuali.kfs.module.ar.businessobject.DunningLetterDistribution;
@@ -313,12 +313,12 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
      */
     @Override
     public void createSourceAccountingLinesAndGLPEs(ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument) throws WorkflowException {
-        List<CustomerInvoiceAccount> customerInvoiceAccounts = new ArrayList<CustomerInvoiceAccount>();
+        List<ContractsGrantsAwardInvoiceAccountInformation> awardInvoiceAccounts = new ArrayList<ContractsGrantsAwardInvoiceAccountInformation>();
         if (ObjectUtils.isNotNull(contractsGrantsInvoiceDocument.getAward())) {
             Map<String, Object> map = new HashMap<String, Object>();
-            map.put(KFSPropertyConstants.CUSTOMER_NUMBER, contractsGrantsInvoiceDocument.getCustomerNumber());
+            map.put(KFSPropertyConstants.PROPOSAL_NUMBER, contractsGrantsInvoiceDocument.getAward().getProposalNumber());
             map.put(KFSPropertyConstants.ACTIVE, true);
-            customerInvoiceAccounts = kualiModuleService.getResponsibleModuleService(CustomerInvoiceAccount.class).getExternalizableBusinessObjectsList(CustomerInvoiceAccount.class, map);
+            awardInvoiceAccounts = kualiModuleService.getResponsibleModuleService(ContractsGrantsAwardInvoiceAccountInformation.class).getExternalizableBusinessObjectsList(ContractsGrantsAwardInvoiceAccountInformation.class, map);
         }
         boolean awardBillByControlAccountInd = false;
         boolean awardBillByInvoicingAccountInd = false;
@@ -332,14 +332,14 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             String receivableOffsetOption = parameterService.getParameterValueAsString(CustomerInvoiceDocument.class, ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD);
             boolean isUsingReceivableFAU = ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_FAU.equals(receivableOffsetOption);
             if (isUsingReceivableFAU) {
-                if (ObjectUtils.isNotNull(contractsGrantsInvoiceDocument.getAward()) && CollectionUtils.isNotEmpty(customerInvoiceAccounts)) {
-                    for (CustomerInvoiceAccount customerInvoiceAccount : customerInvoiceAccounts) {
-                        if (customerInvoiceAccount.getAccountType().equals(ArPropertyConstants.INCOME_ACCOUNT)) {
-                            if (customerInvoiceAccount.isActive()) {// Consider the active invoice account only.
+                if (ObjectUtils.isNotNull(contractsGrantsInvoiceDocument.getAward()) && CollectionUtils.isNotEmpty(awardInvoiceAccounts)) {
+                    for (ContractsGrantsAwardInvoiceAccountInformation awardInvoiceAccount : awardInvoiceAccounts) {
+                        if (awardInvoiceAccount.getAccountType().equals(ArPropertyConstants.INCOME_ACCOUNT)) {
+                            if (awardInvoiceAccount.isActive()) {// Consider the active invoice account only.
                                 awardBillByInvoicingAccountInd = true;
-                                invoiceAccountDetails.add(customerInvoiceAccount.getChartOfAccountsCode());
-                                invoiceAccountDetails.add(customerInvoiceAccount.getAccountNumber());
-                                invoiceAccountDetails.add(customerInvoiceAccount.getObjectCode());
+                                invoiceAccountDetails.add(awardInvoiceAccount.getChartOfAccountsCode());
+                                invoiceAccountDetails.add(awardInvoiceAccount.getAccountNumber());
+                                invoiceAccountDetails.add(awardInvoiceAccount.getObjectCode());
                             }
                         }
                     }
@@ -2548,6 +2548,40 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         return billedToDate;
     }
 
+
+    /**
+     * This method checks if there is atleast one AR Invoice Account present when the GLPE is 3.
+     *
+     * @param award
+     * @return
+     */
+    @Override
+    public boolean hasARInvoiceAccountAssigned(ContractsAndGrantsBillingAward award) {
+        boolean isValid = true;
+        String receivableOffsetOption = parameterService.getParameterValueAsString(CustomerInvoiceDocument.class, ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD);
+        boolean isUsingReceivableFAU = receivableOffsetOption.equals("3");
+        // This condition is validated only if GLPE is 3 and CG enhancements is ON
+        if (isUsingReceivableFAU) {
+            if (ObjectUtils.isNull(award.getActiveAwardInvoiceAccounts()) || CollectionUtils.isEmpty(award.getActiveAwardInvoiceAccounts())) {
+                isValid = false;
+            }
+            else {
+                int arCount = 0;
+                for (ContractsGrantsAwardInvoiceAccountInformation awardInvoiceAccount : award.getActiveAwardInvoiceAccounts()) {
+                    if (awardInvoiceAccount.getAccountType().equals(ArPropertyConstants.AR_ACCOUNT)) {
+                        arCount++;
+
+                    }
+                }
+                if (arCount == 0) {
+                    isValid = false;
+                }
+            }
+        }
+        return isValid;
+    }
+
+
     @Override
     public Collection<DunningLetterDistributionOnDemandLookupResult> getInvoiceDocumentsForDunningLetterOnDemandLookup(Map<String, String> fieldValues) {
 
@@ -3899,21 +3933,21 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
         String receivableOffsetOption = parameterService.getParameterValueAsString(CustomerInvoiceDocument.class, ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD);
         boolean isUsingReceivableFAU = ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_FAU.equals(receivableOffsetOption);
-        List<CustomerInvoiceAccount> customerInvoiceAccounts = new ArrayList<CustomerInvoiceAccount>();
+        List<ContractsGrantsAwardInvoiceAccountInformation> awardInvoiceAccounts = new ArrayList<ContractsGrantsAwardInvoiceAccountInformation>();
         Map<String, Object> map = new HashMap<String, Object>();
-        map.put(KFSPropertyConstants.CUSTOMER_NUMBER, document.getCustomerNumber());
+        map.put(KFSPropertyConstants.PROPOSAL_NUMBER, award.getProposalNumber());
         map.put(KFSPropertyConstants.ACTIVE, true);
-        customerInvoiceAccounts = kualiModuleService.getResponsibleModuleService(CustomerInvoiceAccount.class).getExternalizableBusinessObjectsList(CustomerInvoiceAccount.class, map);
+        awardInvoiceAccounts = kualiModuleService.getResponsibleModuleService(ContractsGrantsAwardInvoiceAccountInformation.class).getExternalizableBusinessObjectsList(ContractsGrantsAwardInvoiceAccountInformation.class, map);
         if (isUsingReceivableFAU) {
-            if (CollectionUtils.isNotEmpty(customerInvoiceAccounts)) {
-                for (CustomerInvoiceAccount customerInvoiceAccount : customerInvoiceAccounts) {
-                    if (customerInvoiceAccount.getAccountType().equals(ArPropertyConstants.AR_ACCOUNT)) {
-                        if (customerInvoiceAccount.isActive()) {// consider the active invoice account only.
-                            document.setPaymentChartOfAccountsCode(customerInvoiceAccount.getChartOfAccountsCode());
-                            document.setPaymentAccountNumber(customerInvoiceAccount.getAccountNumber());
-                            document.setPaymentSubAccountNumber(customerInvoiceAccount.getSubAccountNumber());
-                            document.setPaymentFinancialObjectCode(customerInvoiceAccount.getObjectCode());
-                            document.setPaymentFinancialSubObjectCode(customerInvoiceAccount.getSubObjectCode());
+            if (CollectionUtils.isNotEmpty(awardInvoiceAccounts)) {
+                for (ContractsGrantsAwardInvoiceAccountInformation awardInvoiceAccount : awardInvoiceAccounts) {
+                    if (awardInvoiceAccount.getAccountType().equals(ArPropertyConstants.AR_ACCOUNT)) {
+                        if (awardInvoiceAccount.isActive()) {// consider the active invoice account only.
+                            document.setPaymentChartOfAccountsCode(awardInvoiceAccount.getChartOfAccountsCode());
+                            document.setPaymentAccountNumber(awardInvoiceAccount.getAccountNumber());
+                            document.setPaymentSubAccountNumber(awardInvoiceAccount.getSubAccountNumber());
+                            document.setPaymentFinancialObjectCode(awardInvoiceAccount.getObjectCode());
+                            document.setPaymentFinancialSubObjectCode(awardInvoiceAccount.getSubObjectCode());
                         }
                     }
                 }

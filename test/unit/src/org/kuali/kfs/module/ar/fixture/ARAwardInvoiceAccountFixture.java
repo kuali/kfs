@@ -15,8 +15,8 @@
  */
 package org.kuali.kfs.module.ar.fixture;
 
+import org.kuali.kfs.integration.cg.businessobject.AwardInvoiceAccount;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
-import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceAccount;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
 
@@ -25,9 +25,9 @@ import org.kuali.kfs.sys.service.UniversityDateService;
  */
 public enum ARAwardInvoiceAccountFixture {
 
-    AWD_INV_ACCT_1("ABB2", "BL", SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear(), "1031400", "5000", null, null, ArPropertyConstants.INCOME_ACCOUNT);
+    AWD_INV_ACCT_1(new Long(111), "BL", SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear(), "1031400", "5000", null, null, ArPropertyConstants.INCOME_ACCOUNT);
 
-    private String customerNumber;
+    private Long proposalNumber;
     private String chartOfAccountsCode;
     private Integer universityFiscalYear;
     private String accountNumber;
@@ -38,9 +38,9 @@ public enum ARAwardInvoiceAccountFixture {
     private String accountType;
 
 
-    private ARAwardInvoiceAccountFixture(String customerNumber, String chartOfAccountsCode, Integer universityFiscalYear, String accountNumber, String objectCode, String subObjectCode, String subAccountNumber, String accountType) {
+    private ARAwardInvoiceAccountFixture(Long proposalNumber, String chartOfAccountsCode, Integer universityFiscalYear, String accountNumber, String objectCode, String subObjectCode, String subAccountNumber, String accountType) {
 
-        this.customerNumber = customerNumber;
+        this.proposalNumber = proposalNumber;
         this.chartOfAccountsCode = chartOfAccountsCode;
         this.universityFiscalYear = universityFiscalYear;
         this.accountNumber = accountNumber;
@@ -52,10 +52,10 @@ public enum ARAwardInvoiceAccountFixture {
 
     }
 
-    public CustomerInvoiceAccount createCustomerInvoiceAccount() {
-        CustomerInvoiceAccount awardInvoiceAccount = new CustomerInvoiceAccount();
+    public AwardInvoiceAccount createAwardInvoiceAccount() {
+        AwardInvoiceAccount awardInvoiceAccount = new AwardInvoiceAccount();
 
-        awardInvoiceAccount.setCustomerNumber(this.customerNumber);
+        awardInvoiceAccount.setProposalNumber(this.proposalNumber);
         awardInvoiceAccount.setChartOfAccountsCode(this.chartOfAccountsCode);
         awardInvoiceAccount.setUniversityFiscalYear(this.universityFiscalYear);
         awardInvoiceAccount.setAccountNumber(this.accountNumber);

@@ -65,8 +65,6 @@
 				<ref bean="Customer-bankruptcyReviewDate"/>
 				<ref bean="Customer-stopWorkIndicator"/>
 				<ref bean="Customer-stopWorkReason"/>
-				
-				
 			</list>
 		</property>
 		<property name="collections">
@@ -77,10 +75,6 @@
 
  				<bean parent="CollectionDefinition" p:name="boNotes" p:label="Notes"
 					p:shortLabel="Notes" p:elementLabel="Notes" />
-					
-				<bean parent="CollectionDefinition" p:name="customerInvoiceAccounts"
-					p:label="Customer Invoice Accounts" p:shortLabel="Invoice Accounts"
-					p:elementLabel="Invoice Account" />
 			</list>
 		</property>
 		<property name="inactivationBlockingDefinitions">

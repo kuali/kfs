@@ -30,6 +30,7 @@ import org.kuali.kfs.integration.cg.ContractsAndGrantsFundManager;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsLetterOfCreditFund;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsOrganization;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsProjectDirector;
+import org.kuali.kfs.integration.cg.ContractsGrantsAwardInvoiceAccountInformation;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
@@ -1505,6 +1506,18 @@ public class Award implements ContractsAndGrantsBillingAward {
      */
     public void setFederalPassThroughAgency(ContractsAndGrantsBillingAgency federalPassThroughAgency) {
         this.federalPassThroughAgency = federalPassThroughAgency;
+    }
+
+    /**
+     * Gets the list of active award invoice accounts. The integration object is used here - as this would be referred only from AR
+     * module.
+     *
+     * @return Returns the active awardInvoiceAccounts.
+     */
+    @Override
+    public List<ContractsGrantsAwardInvoiceAccountInformation> getActiveAwardInvoiceAccounts() {
+        List<ContractsGrantsAwardInvoiceAccountInformation> awardInvoiceAccounts = new ArrayList<ContractsGrantsAwardInvoiceAccountInformation>();
+        return awardInvoiceAccounts;
     }
 
     /**

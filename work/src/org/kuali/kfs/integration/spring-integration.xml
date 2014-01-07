@@ -102,8 +102,8 @@
 					key="org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAwardAccount"
 					value="org.kuali.kfs.integration.cg.businessobject.AwardAccount" />
 				<entry
-					key="org.kuali.kfs.integration.ar.AccountsReceivableCustomerInvoiceAccountInformation"
-					value="org.kuali.kfs.integration.ar.businessobject.CustomerInvoiceAccount" />
+					key="org.kuali.kfs.integration.cg.ContractsGrantsAwardInvoiceAccountInformation"
+					value="org.kuali.kfs.integration.cg.businessobject.AwardInvoiceAccount" />
 				<entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward"
 					value="org.kuali.kfs.integration.cg.businessobject.Award" />
 				<entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsAward"

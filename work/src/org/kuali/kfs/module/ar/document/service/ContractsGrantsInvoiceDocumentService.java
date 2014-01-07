@@ -394,6 +394,14 @@ public interface ContractsGrantsInvoiceDocumentService extends CustomerInvoiceDo
     public boolean isInvoiceInProgress(ContractsAndGrantsBillingAward award);
 
     /**
+     * This method checks if there is atleast one AR Invoice Account present when the GLPE is 3.
+     * 
+     * @param award
+     * @return
+     */
+    public boolean hasARInvoiceAccountAssigned(ContractsAndGrantsBillingAward award);
+
+    /**
      * This method checks if the Offset Definition is setup for the Chart Code from the award accounts.
      *
      * @param award

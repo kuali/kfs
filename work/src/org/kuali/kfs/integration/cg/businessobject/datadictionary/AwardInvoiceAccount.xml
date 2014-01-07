@@ -3,41 +3,42 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-	<bean id="CustomerInvoiceAccount" parent="CustomerInvoiceAccount-parentBean" />
+	<bean id="AwardInvoiceAccount" parent="AwardInvoiceAccount-parentBean" />
 
-	<bean id="CustomerInvoiceAccount-parentBean" abstract="true"
+	<bean id="AwardInvoiceAccount-parentBean" abstract="true"
 		parent="BusinessObjectEntry">
 		<property name="businessObjectClass"
-			value="org.kuali.kfs.integration.ar.businessobject.CustomerInvoiceAccount" />
+			value="org.kuali.kfs.integration.cg.businessobject.AwardInvoiceAccount" />
 		<property name="objectLabel" value="Award Account" />
 		<property name="attributes">
 			<list>
+				<bean parent="Proposal-proposalNumber" />
 				<bean parent="ChartAttribute-SelectControl" />
 				<bean parent="AccountAttribute" />
 				<bean parent="SubAccountAttribute" />
-				<ref bean="CustomerInvoiceAccount-objectCode" />
-				<ref bean="CustomerInvoiceAccount-subObjectCode" />
-				<ref bean="CustomerInvoiceAccount-active" />
+				<ref bean="AwardInvoiceAccount-objectCode" />
+				<ref bean="AwardInvoiceAccount-subObjectCode" />
+				<ref bean="AwardInvoiceAccount-active" />
 			</list>
 		</property>
 	</bean>
 
 	<!-- Attribute Definitions -->
 
-	<bean id="CustomerInvoiceAccount-objectCode" parent="CustomerInvoiceAccount-objectCode-parentBean" />
-	<bean id="CustomerInvoiceAccount-objectCode-parentBean" abstract="true"
+	<bean id="AwardInvoiceAccount-objectCode" parent="AwardInvoiceAccount-objectCode-parentBean" />
+	<bean id="AwardInvoiceAccount-objectCode-parentBean" abstract="true"
 		parent="ObjectCodeAttribute">
 		<property name="name" value="objectCode" />
 	</bean>
 
-	<bean id="CustomerInvoiceAccount-subObjectCode" parent="CustomerInvoiceAccount-subObjectCode-parentBean" />
-	<bean id="CustomerInvoiceAccount-subObjectCode-parentBean" abstract="true"
+	<bean id="AwardInvoiceAccount-subObjectCode" parent="AwardInvoiceAccount-subObjectCode-parentBean" />
+	<bean id="AwardInvoiceAccount-subObjectCode-parentBean" abstract="true"
 		parent="SubObjectAttribute">
 		<property name="name" value="subObjectCode" />
 	</bean>
 	
-	<bean id="CustomerInvoiceAccount-active" parent="CustomerInvoiceAccount-active-parentBean" />
-	<bean id="CustomerInvoiceAccount-active-parentBean" abstract="true"
+	<bean id="AwardInvoiceAccount-active" parent="AwardInvoiceAccount-active-parentBean" />
+	<bean id="AwardInvoiceAccount-active-parentBean" abstract="true"
 		parent="GenericAttributes-activeIndicator">
 		<property name="name" value="active" />
 	</bean>

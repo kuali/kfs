@@ -22,12 +22,13 @@
 			<list>
 				<ref bean="AwardMaintenanceDocument-AwardMaintenance" />
 				<ref bean="AwardMaintenanceDocument-Accounts" />
+				<ref bean="AwardMaintenanceDocument-InvoiceAccounts" />
 				<ref bean="AwardMaintenanceDocument-ProjectDirectors" />
 				<ref bean="AwardMaintenanceDocument-FundManagers" />
 				<ref bean="AwardMaintenanceDocument-Organizations" />
 				<ref bean="AwardMaintenanceDocument-Invoicing" />
 				<ref bean="AwardMaintenanceDocument-Subcontractors" />
-				 <ref bean="AwardMaintenanceDocument-PredeterminedSchedule" /> 
+				<ref bean="AwardMaintenanceDocument-PredeterminedSchedule" /> 
 			</list>
 		</property>
 		<property name="defaultExistenceChecks">
@@ -48,6 +49,10 @@
 					p:attributeToHighlightOnFail="awardPurposeCode" />
 				<bean parent="ReferenceDefinition" p:attributeName="account"
 					p:collection="awardAccounts" p:attributeToHighlightOnFail="accountNumber" />
+				<bean parent="ReferenceDefinition" p:attributeName="account"
+					p:collection="awardInvoiceAccounts" p:attributeToHighlightOnFail="accountNumber" />
+				<bean parent="ReferenceDefinition" p:attributeName="object" 
+					p:collection="awardInvoiceAccounts" p:attributeToHighlightOnFail="objectCode"/>
 				<bean parent="ReferenceDefinition" p:attributeName="organization"
 					p:collection="awardOrganizations" p:attributeToHighlightOnFail="organizationCode" />
 				<bean parent="ReferenceDefinition" p:attributeName="subcontractor"
@@ -197,7 +202,50 @@
 			</list>
 		</property>
 	</bean>
+	<bean id="AwardMaintenanceDocument-InvoiceAccounts" parent="AwardMaintenanceDocument-InvoiceAccounts-parentBean" />
 
+	<bean id="AwardMaintenanceDocument-InvoiceAccounts-parentBean"
+		abstract="true" parent="MaintainableSectionDefinition">
+		<property name="id" value="Invoice Accounts" />
+		<property name="title" value="Invoice Accounts" />
+		<property name="maintainableItems">
+			<list>
+				<bean parent="MaintainableCollectionDefinition">
+					<property name="name" value="awardInvoiceAccounts" />
+					<property name="businessObjectClass"
+						value="org.kuali.kfs.module.cg.businessobject.AwardInvoiceAccount" />
+					<property name="summaryFields">
+						<list>
+							<bean parent="MaintainableFieldDefinition" p:name="accountNumber" />
+							<bean parent="MaintainableFieldDefinition" p:name="subAccountNumber" />
+							<bean parent="MaintainableFieldDefinition" p:name="chartOfAccountsCode" />
+							<bean parent="MaintainableFieldDefinition" p:name="objectCode" />
+							<bean parent="MaintainableFieldDefinition" p:name="subObjectCode" />
+							<bean parent="MaintainableFieldDefinition" p:name="accountType" />
+						</list>
+					</property>
+					<property name="maintainableFields">
+						<list>
+							<bean parent="MaintainableFieldDefinition" p:name="chartOfAccountsCode"
+								p:required="true" p:webUILeaveFieldFunction="onblur_chartCode" />
+							<bean parent="MaintainableFieldDefinition" p:name="accountNumber"
+								p:required="true" p:webUILeaveFieldFunction="onblur_accountNumber" />
+							<bean parent="MaintainableFieldDefinition" p:name="subAccountNumber" />
+							<bean parent="MaintainableFieldDefinition" p:name="account.accountName"
+								p:unconditionallyReadOnly="true" />
+							<bean parent="MaintainableFieldDefinition" p:name="objectCode"
+								p:required="true" />
+							<bean parent="MaintainableFieldDefinition" p:name="subObjectCode" />
+							<bean parent="MaintainableFieldDefinition" p:name="accountType" p:required="true"/>
+							<bean parent="MaintainableFieldDefinition" p:name="active"
+								p:defaultValue="true" />
+
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
 	<bean id="AwardMaintenanceDocument-ProjectDirectors" parent="AwardMaintenanceDocument-ProjectDirectors-parentBean" />
 
 	<bean id="AwardMaintenanceDocument-ProjectDirectors-parentBean"

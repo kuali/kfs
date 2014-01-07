@@ -498,6 +498,13 @@ public interface ContractsAndGrantsBillingAward extends ContractsAndGrantsAward 
     public String getCommentText();
 
     /**
+     * Gets the activeAwardInvoiceAccounts attribute.
+     *
+     * @return Returns the activeAwardInvoiceAccounts.
+     */
+    public List<ContractsGrantsAwardInvoiceAccountInformation> getActiveAwardInvoiceAccounts();
+
+    /**
      * Gets the dunningCampaign attribute.
      *
      * @return Returns the dunningCampaign.

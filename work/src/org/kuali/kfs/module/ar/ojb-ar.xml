@@ -133,12 +133,6 @@
 			<orderby name="customerAddressIdentifier" sort="ASC" />
 			<inverse-foreignkey field-ref="customerNumber" />
 		</collection-descriptor>
-		<collection-descriptor name="customerInvoiceAccounts" element-class-ref="org.kuali.kfs.module.ar.businessobject.CustomerInvoiceAccount"
-			collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" proxy="true" auto-retrieve="true" auto-update="object" auto-delete="object">
-			<orderby name="chartOfAccountsCode" sort="ASC" />
-			<orderby name="accountNumber" sort="ASC" />
-			<inverse-foreignkey field-ref="customerNumber" />
-		</collection-descriptor>
 	</class-descriptor>
 
 	<class-descriptor class="org.kuali.kfs.module.ar.businessobject.NonAppliedHolding" table="AR_NON_APLD_HLDG_T">
@@ -2129,56 +2123,8 @@
 		<field-descriptor name="invoiceIndicatorDescription" column="INV_IND_DESC" jdbc-type="VARCHAR" />
 		<field-descriptor name="active" column="ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
 	</class-descriptor>
-	
-	<class-descriptor class="org.kuali.kfs.module.ar.businessobject.CustomerInvoiceAccount" table="AR_CUST_INV_ACCT_T">
-		<field-descriptor name="customerNumber" column="CUST_NBR" jdbc-type="VARCHAR" index="true" primarykey="true" />
-		<field-descriptor name="universityFiscalYear" column="UNIV_FISCAL_YR" jdbc-type="INTEGER" index="true" />
-		<field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
-		<field-descriptor name="accountNumber" column="ACCOUNT_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
-		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
-		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-		<field-descriptor name="objectCode" column="FIN_OBJECT_CD" jdbc-type="VARCHAR" index="true" />
-		<field-descriptor name="subAccountNumber" column="SUB_ACCT_NBR" jdbc-type="VARCHAR" index="true" />
-		<field-descriptor name="subObjectCode" column="FIN_SUB_OBJ_CD" jdbc-type="VARCHAR" index="true" />
-		<field-descriptor name="accountType" column="ACCT_TYP" jdbc-type="VARCHAR" index="true" />
-		<field-descriptor name="active" column="ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
-		<reference-descriptor name="customer" class-ref="org.kuali.kfs.module.ar.businessobject.Customer" auto-retrieve="true" auto-update="none"
-			auto-delete="none" proxy="true">
-			<foreignkey field-ref="customerNumber" />
-		</reference-descriptor>
-		<reference-descriptor name="account" class-ref="org.kuali.kfs.coa.businessobject.Account" auto-retrieve="true" auto-update="none"
-			auto-delete="none" proxy="true">
-			<foreignkey field-ref="chartOfAccountsCode" />
-			<foreignkey field-ref="accountNumber" />
-		</reference-descriptor>
-		<reference-descriptor name="chartOfAccounts" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true"
-			auto-update="none" auto-delete="none" proxy="true">
-			<foreignkey field-ref="chartOfAccountsCode" />
-		</reference-descriptor>
-
-		<reference-descriptor name="object" class-ref="org.kuali.kfs.coa.businessobject.ObjectCode" auto-retrieve="true" auto-update="none"
-			auto-delete="none" proxy="true">
-			<foreignkey field-ref="universityFiscalYear" />
-			<foreignkey field-ref="chartOfAccountsCode" />
-			<foreignkey field-ref="objectCode" />
-		</reference-descriptor>
-		<reference-descriptor name="subObject" class-ref="org.kuali.kfs.coa.businessobject.SubObjectCode" auto-retrieve="true"
-			auto-update="none" auto-delete="none" proxy="true">
-			<foreignkey field-ref="universityFiscalYear" />
-			<foreignkey field-ref="chartOfAccountsCode" />
-			<foreignkey field-ref="accountNumber" />
-			<foreignkey field-ref="objectCode" />
-			<foreignkey field-ref="subObjectCode" />
-		</reference-descriptor>
-		<reference-descriptor name="subAccount" class-ref="org.kuali.kfs.coa.businessobject.SubAccount" auto-retrieve="true"
-			auto-update="none" auto-delete="none" proxy="true">
-			<foreignkey field-ref="chartOfAccountsCode" />
-			<foreignkey field-ref="accountNumber" />
-			<foreignkey field-ref="subAccountNumber" />
-		</reference-descriptor>
-	</class-descriptor>
-	
-		<!-- INVOICE TEMPLATE -->
+		
+	<!-- INVOICE TEMPLATE -->
 
 	<class-descriptor class="org.kuali.kfs.module.ar.businessobject.InvoiceTemplate" table="AR_INV_TYP_T">
 		<field-descriptor name="invoiceTemplateCode" column="INV_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />

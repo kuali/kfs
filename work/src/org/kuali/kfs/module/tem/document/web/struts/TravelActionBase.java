@@ -923,6 +923,15 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
             amount = amountToBePaid.subtract(accountingTotal);
         }
 
+        if (travelDocument.getExpenseLimit() != null && travelDocument.getExpenseLimit().isPositive()) {
+            if (amount.isGreaterEqual(travelDocument.getExpenseLimit())) {
+                if (accountingTotal.isGreaterEqual(travelDocument.getExpenseLimit())) {
+                    return KualiDecimal.ZERO;
+                }
+                return travelDocument.getExpenseLimit().subtract(accountingTotal);
+            }
+        }
+
         return amount;
     }
 

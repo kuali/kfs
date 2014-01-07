@@ -23,7 +23,9 @@
 				<ref bean="CollectionActivityDocument-selectedInvoiceDocumentNumberList" />
 			</list>
 		</property>
-
+	<property name="workflowAttributes">
+    	<ref bean="CollectionActivityDocument-workflowAttributes"/>
+    </property>
 	</bean>
 	
 	<bean id="CollectionActivityDocument-proposalNumber" parent="CollectionActivityDocument-proposalNumber-parentBean" />
@@ -90,4 +92,10 @@
 		</property>
 	</bean>	
 
+  <!-- workflow attributes -->
+  <bean id="CollectionActivityDocument-workflowAttributes" parent="CollectionActivityDocument-workflowAttributes-parentBean"/>
+  
+  <bean id="CollectionActivityDocument-workflowAttributes-parentBean" class="org.kuali.rice.krad.datadictionary.WorkflowAttributes" abstract="true">
+  </bean>
+  
 </beans>

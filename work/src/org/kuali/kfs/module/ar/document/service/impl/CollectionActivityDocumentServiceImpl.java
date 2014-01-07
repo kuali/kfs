@@ -131,12 +131,10 @@ public class CollectionActivityDocumentServiceImpl implements CollectionActivity
 
         colActDoc.getEvents().add(newEvent);
 
-        colActDoc.populateDocumentForRouting();
         colActDoc.prepareForSave();
 
         documentService.prepareWorkflowDocument(colActDoc);
 
-        documentService.saveDocument(colActDoc);
         businessObjectService.save(newEvent);
         final DocumentAttributeIndexingQueue documentAttributeIndexingQueue = KewApiServiceLocator.getDocumentAttributeIndexingQueue();
         documentAttributeIndexingQueue.indexDocument(colActDoc.getDocumentNumber());

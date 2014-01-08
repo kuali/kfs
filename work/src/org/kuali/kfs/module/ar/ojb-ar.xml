@@ -1312,7 +1312,7 @@
 		<field-descriptor name="followupDate" column="FLW_UP_DT" jdbc-type="DATE" />
 		<field-descriptor name="completedInd" column="CMPLTD_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
 		<field-descriptor name="completedDate" column="CMPLTD_DT" jdbc-type="DATE" />
-		<field-descriptor name="postedDate" column="POST_TS" jdbc-type="DATE" />
+		<field-descriptor name="postedDate" column="POST_TS" jdbc-type="TIMESTAMP" />
 		<field-descriptor name="userPrincipalId" column="USR_PRNCPL_ID" jdbc-type="VARCHAR" />
 		<field-descriptor name="eventRouteStatus" column="EVENT_ROUTE_STATUS" jdbc-type="VARCHAR" />
 		<field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" />

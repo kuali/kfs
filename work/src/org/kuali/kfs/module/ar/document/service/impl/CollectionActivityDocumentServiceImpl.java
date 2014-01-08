@@ -15,8 +15,8 @@
  */
 package org.kuali.kfs.module.ar.document.service.impl;
 
+import java.sql.Timestamp;
 import java.util.Collection;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -117,7 +117,7 @@ public class CollectionActivityDocumentServiceImpl implements CollectionActivity
     @Override
     public void addNewEvent(String description, CollectionActivityDocument colActDoc, Event newEvent) throws WorkflowException {
 
-        final Date now = dateTimeService.getCurrentDate();
+        final Timestamp now = dateTimeService.getCurrentTimestamp();
         newEvent.setPostedDate(now);
 
         if (ObjectUtils.isNotNull(GlobalVariables.getUserSession()) && ObjectUtils.isNotNull(GlobalVariables.getUserSession().getPerson())) {

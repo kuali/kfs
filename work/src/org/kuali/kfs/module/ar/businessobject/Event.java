@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.ar.businessobject;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
@@ -42,7 +43,7 @@ public class Event extends PersistableBusinessObjectBase {
     private Date followupDate;
     private boolean completedInd;
     private Date completedDate;
-    private java.util.Date postedDate;
+    private Timestamp postedDate;
     private String userPrincipalId;
     private String eventRouteStatus;
     private String documentNumber;
@@ -272,7 +273,7 @@ public class Event extends PersistableBusinessObjectBase {
      *
      * @param postedDate The postedDate to set.
      */
-    public void setPostedDate(java.util.Date postedDate) {
+    public void setPostedDate(Timestamp postedDate) {
         this.postedDate = postedDate;
     }
 

@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.ar.document;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -287,7 +288,7 @@ public class ReferralToCollectionsDocument extends FinancialSystemTransactionalD
                             event.setActivityText(ObjectUtils.isNotNull(refType) ? refType.getDescription() : invoice.getReferralTypeCode());
 
                             // Set author and posted date
-                            final Date now = SpringContext.getBean(DateTimeService.class).getCurrentDate();
+                            final Timestamp now = SpringContext.getBean(DateTimeService.class).getCurrentTimestamp();
                             event.setPostedDate(now);
                             if (ObjectUtils.isNotNull(GlobalVariables.getUserSession()) && ObjectUtils.isNotNull(GlobalVariables.getUserSession().getPerson())) {
                                 Person authorUniversal = GlobalVariables.getUserSession().getPerson();

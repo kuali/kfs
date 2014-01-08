@@ -21,6 +21,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -120,7 +121,7 @@ public class DunningLetterDistributionOnDemandServiceImpl implements DunningLett
                         event.setActivityCode(activityCode);
                         event.setActivityDate(new java.sql.Date(new Date().getTime()));
                         event.setActivityText(ArConstants.DunningLetters.DUNNING_LETTER_SENT_TXT);
-                        final Date now = dateTimeService.getCurrentDate();
+                        final Timestamp now = dateTimeService.getCurrentTimestamp();
                         event.setPostedDate(now);
 
                         if (GlobalVariables.getUserSession() != null && GlobalVariables.getUserSession().getPerson() != null) {

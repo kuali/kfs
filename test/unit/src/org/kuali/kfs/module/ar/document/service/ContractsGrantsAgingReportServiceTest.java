@@ -27,10 +27,13 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAwardAccount;
+import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.batch.service.ContractsGrantsInvoiceCreateDocumentService;
+import org.kuali.kfs.module.ar.businessobject.OrganizationOptions;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.module.ar.fixture.ARAwardAccountFixture;
 import org.kuali.kfs.module.ar.fixture.ARAwardFixture;
+import org.kuali.kfs.module.ar.identity.ArKimAttributes;
 import org.kuali.kfs.module.ar.report.service.ContractsGrantsAgingReportService;
 import org.kuali.kfs.module.cg.businessobject.Award;
 import org.kuali.kfs.sys.ConfigureContext;
@@ -39,8 +42,12 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.bo.DocumentHeader;
+import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * Test file for ContractsGrantsAgingReport service.
@@ -93,6 +100,23 @@ public class ContractsGrantsAgingReportServiceTest extends KualiTestBase {
         documentService.saveDocument(cgInvoice);
         cgInvoice.getAccountsReceivableDocumentHeader().refresh();
         contractsGrantsAgingReportService = SpringContext.getBean(ContractsGrantsAgingReportService.class);
+
+        OrganizationOptions organizationOptions = new OrganizationOptions();
+
+        organizationOptions.setChartOfAccountsCode(chartCode);
+        organizationOptions.setOrganizationCode(orgCode);
+        organizationOptions.setProcessingChartOfAccountCode(chartCode);
+        organizationOptions.setProcessingOrganizationCode(orgCode);
+        organizationOptions.setCgBillerIndicator(true);
+        SpringContext.getBean(BusinessObjectService.class).save(organizationOptions);
+
+        Map<String, String> qualification = new HashMap<String, String>(3);
+        qualification.put(ArKimAttributes.BILLING_CHART_OF_ACCOUNTS_CODE, cgInvoice.getBillByChartOfAccountCode());
+        qualification.put(ArKimAttributes.BILLING_ORGANIZATION_CODE, cgInvoice.getBilledByOrganizationCode());
+
+        org.kuali.rice.kim.api.role.RoleService roleService = KimApiServiceLocator.getRoleService();
+        Person user = GlobalVariables.getUserSession().getPerson();
+        roleService.assignPrincipalToRole(user.getPrincipalId(), ArConstants.AR_NAMESPACE_CODE, KFSConstants.SysKimApiConstants.ACCOUNTS_RECEIVABLE_COLLECTOR, qualification);
     }
 
     /**

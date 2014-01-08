@@ -131,8 +131,8 @@ public class DunningLetterDistributionOnDemandLookupableHelperServiceImplTest ex
         fieldValues.put("invoiceDocumentNumber", cgInvoice.getDocumentNumber());
 
         Map<String, String> qualification = new HashMap<String, String>(3);
-        qualification.put(ArKimAttributes.CHART_OF_ACCOUNTS_CODE, cgInvoice.getBillByChartOfAccountCode());
-        qualification.put(ArKimAttributes.ORGANIZATION_CODE, cgInvoice.getBilledByOrganizationCode());
+        qualification.put(ArKimAttributes.BILLING_CHART_OF_ACCOUNTS_CODE, cgInvoice.getBillByChartOfAccountCode());
+        qualification.put(ArKimAttributes.BILLING_ORGANIZATION_CODE, cgInvoice.getBilledByOrganizationCode());
 
         org.kuali.rice.kim.api.role.RoleService roleService = KimApiServiceLocator.getRoleService();
         Person user = GlobalVariables.getUserSession().getPerson();

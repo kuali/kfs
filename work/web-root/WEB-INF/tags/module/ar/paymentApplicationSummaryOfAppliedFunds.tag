@@ -79,25 +79,34 @@
 									<th class='tab-subhead'>Refund</th>
 								</tr>
 								<tr>
-									<c:if test="${!showCCAndBtbA}">
-										<c:if test="${readOnly ne true}">
-											<td style="text-align: right;"><kul:htmlControlAttribute attributeEntry="${totalFromControl}" property="totalFromControl"
-													readOnly="true" /> <!--$<c:out value="${KualiForm.totalFromControl}" />--></td>
-											<td style="text-align: right;"><kul:htmlControlAttribute attributeEntry="${unallocatedBalance}" property="unallocatedBalance"
-													readOnly="true" /> <!--$<c:out value="${KualiForm.unallocatedBalance}" />--></td>
+								    <c:if test="${!showCCAndBtbA}">
+		                        	    <c:if test="${readOnly ne true}">
+											<td style="text-align: right;">
+												${totalFromControl}
+												<!--$<c:out value="${KualiForm.totalFromControl}" />-->
+											</td>
+											<td style="text-align: right;">
+												${unallocatedBalance}												
+												<!--$<c:out value="${KualiForm.unallocatedBalance}" />-->
+											</td>
 										</c:if>
 									</c:if>
 									<c:if test="${showCCAndBtbA}">
-										<td style="text-align: right;"><kul:htmlControlAttribute attributeEntry="${document.documentHeader.financialDocumentTotalAmount}"
-												property="document.documentHeader.financialDocumentTotalAmount" readOnly="true" /> <!--$<c:out value="${KualiForm.document.documentHeader.financialDocumentTotalAmount}" />-->
+										<td style="text-align: right;">											 
+											 ${financialDocumentTotalAmount}
 										</td>
-										<td style="text-align: right;"><kul:htmlControlAttribute attributeEntry="${unallocatedBalance}" property="unallocatedBalance"
-												readOnly="true" /> <!--$<c:out value="${KualiForm.unallocatedBalance}" />--></td>
+										<td style="text-align: right;">
+											${unallocatedBalance}									
+											<!--$<c:out value="${KualiForm.unallocatedBalance}" />-->
+										</td>
 									</c:if>
-									<td style="text-align: right;"><kul:htmlControlAttribute attributeEntry="${totalApplied}" property="totalApplied" readOnly="true" /> <!--$<c:out value="${KualiForm.totalApplied}" />-->
+									<td style="text-align: right;">
+										${totalApplied}								
+										<!--$<c:out value="${KualiForm.totalApplied}" />-->
 									</td>
-									<td style="text-align: right;"><kul:htmlControlAttribute
-											attributeEntry="${DataDictionary['PaymentApplicationDocument'].attributes.refundAmount}" property="document.refundAmount" readOnly="true" /></td>
+									<td style="text-align: right;">
+										${document.refundAmount}								
+									</td>
 								</tr>
 							</table>
 						<td>

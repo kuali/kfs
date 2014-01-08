@@ -27,6 +27,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -298,12 +299,16 @@ public class PdfFormFillerUtil {
     private static String replaceValues(String template, Map<String, String> replacementList) {
         StringBuilder buffOriginal = new StringBuilder(template);
         StringBuilder buffNormalized = new StringBuilder(template.toUpperCase());
-
-        String[] keyList = replacementList.keySet().toArray(new String[0]);
+        Map<String, String> newReplacementList = new HashMap<String, String>();
+        for(String key : replacementList.keySet()) {
+            newReplacementList.put("#"+key,replacementList.get(key));
+        }
+        
+        String[] keyList = newReplacementList.keySet().toArray(new String[0]);
 
         // Scan for each key
         for (String key : keyList) {
-            String value = replacementList.get(key);
+            String value = newReplacementList.get(key);
             key = key.toUpperCase();
 
             // Scan the buffer for the key
@@ -329,13 +334,19 @@ public class PdfFormFillerUtil {
     private static String replaceValuesIteratingThroughFile(String template, Map<String, String> replacementList) {
         StringBuilder buffOriginal = new StringBuilder();
         StringBuilder buffNormalized = new StringBuilder();
+        
+        Map<String, String> newReplacementList = new HashMap<String, String>();
+        
+        for(String key : replacementList.keySet()) {
+            newReplacementList.put("#"+key,replacementList.get(key));
+        }
 
         String[] keys = template.split("[\\s]+");
 
         // Scan for each word
         for (String key : keys) {
             if (validListTagFound(key)) {
-                String value = replacementList.get(key);
+                String value = newReplacementList.get(key);
                 if (ObjectUtils.isNotNull(value))
                     buffOriginal.append(value + " ");
                 else

@@ -24,6 +24,7 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.query.Criteria;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
@@ -142,7 +143,7 @@ public class TicklersReportLookupableHelperServiceImpl extends ContractsGrantsRe
 
             if (isValid) {
                 // Check for customer collectors
-                if (!collectorPrincName.trim().isEmpty()) {
+                if (StringUtils.isNotEmpty(collectorPrincName)) {
                     Person collUser = personService.getPersonByPrincipalName(collectorPrincName);
                     if (ObjectUtils.isNotNull(collUser)) {
                         principalId = collUser.getPrincipalId();

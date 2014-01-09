@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.ar.businessobject.lookup;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -126,7 +127,9 @@ public class ContractsGrantsLOCDrawDetailsReportLookupableHelperServiceImpl exte
                 cgLOCDrawDetailsReport.setLetterOfCreditFundGroupCode(cgLOCReviewDoc.getLetterOfCreditFundGroupCode());
 
                 if (ObjectUtils.isNotNull(workflowDocument) && ObjectUtils.isNotNull(workflowDocument.getDateCreated())) {
-                    cgLOCDrawDetailsReport.setLetterOfCreditReviewCreateDate((Date)(workflowDocument.getDateCreated().toDate()));
+                    Timestamp ts = new Timestamp(workflowDocument.getDateCreated().toDate().getTime());
+                    Date worflowDate = new Date(ts.getTime());
+                    cgLOCDrawDetailsReport.setLetterOfCreditReviewCreateDate((worflowDate));
                 }
                 cgLOCDrawDetailsReport.setAmountAvailableToDraw(totalAmountAvailableToDraw);
                 cgLOCDrawDetailsReport.setClaimOnCashBalance(totalClaimOnCashBalance);

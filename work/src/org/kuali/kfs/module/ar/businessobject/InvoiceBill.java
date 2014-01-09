@@ -18,22 +18,17 @@ package org.kuali.kfs.module.ar.businessobject;
 import java.util.Date;
 import java.util.LinkedHashMap;
 
-import org.kuali.kfs.integration.cg.ContractsAndGrantsBill;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.krad.service.KualiModuleService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
-import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
  * This class extends the Bills BO to be used exclusively for Contracts Grants Invoice Document with document Number as its key.
  */
 
-public class InvoiceBill extends PersistableBusinessObjectBase implements ContractsAndGrantsBill {
+public class InvoiceBill extends PersistableBusinessObjectBase {
 
     private String documentNumber;
     private Long proposalNumber;
@@ -56,6 +51,7 @@ public class InvoiceBill extends PersistableBusinessObjectBase implements Contra
 
     }
 
+
     public boolean isBilledIndicator() {
         return billedIndicator;
     }
@@ -69,7 +65,7 @@ public class InvoiceBill extends PersistableBusinessObjectBase implements Contra
      *
      * @return Returns the billDate.
      */
-    @Override
+
     public Date getBillDate() {
         return billDate;
     }
@@ -80,7 +76,7 @@ public class InvoiceBill extends PersistableBusinessObjectBase implements Contra
      *
      * @return Returns the billDescription.
      */
-    @Override
+
     public String getBillDescription() {
         return billDescription;
     }
@@ -90,7 +86,7 @@ public class InvoiceBill extends PersistableBusinessObjectBase implements Contra
      *
      * @return Returns the billIdentifier.
      */
-    @Override
+
     public Long getBillIdentifier() {
         return billIdentifier;
     }
@@ -100,7 +96,7 @@ public class InvoiceBill extends PersistableBusinessObjectBase implements Contra
      *
      * @return Returns the billNumber.
      */
-    @Override
+
     public Long getBillNumber() {
         return billNumber;
     }
@@ -119,7 +115,7 @@ public class InvoiceBill extends PersistableBusinessObjectBase implements Contra
      *
      * @return Returns the estimatedAmount.
      */
-    @Override
+
     public KualiDecimal getEstimatedAmount() {
         return estimatedAmount;
     }
@@ -138,7 +134,7 @@ public class InvoiceBill extends PersistableBusinessObjectBase implements Contra
      *
      * @return Returns the proposalNumber.
      */
-    @Override
+
     public Long getProposalNumber() {
         return proposalNumber;
     }
@@ -225,7 +221,7 @@ public class InvoiceBill extends PersistableBusinessObjectBase implements Contra
      * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
 
-    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
+    protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
 
         m.put(ArPropertyConstants.CustomerInvoiceDocumentFields.DOCUMENT_NUMBER, this.documentNumber);

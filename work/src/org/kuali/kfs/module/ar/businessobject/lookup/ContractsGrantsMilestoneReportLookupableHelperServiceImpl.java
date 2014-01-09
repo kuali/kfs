@@ -26,8 +26,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAwardAccount;
-import org.kuali.kfs.module.ar.businessobject.Milestone;
 import org.kuali.kfs.module.ar.businessobject.ContractsGrantsMilestoneReport;
+import org.kuali.kfs.module.ar.businessobject.Milestone;
 import org.kuali.kfs.module.ar.report.ContractsGrantsReportUtils;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -44,7 +44,6 @@ import org.kuali.rice.kns.web.ui.Column;
 import org.kuali.rice.kns.web.ui.ResultRow;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.krad.service.KualiModuleService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -60,7 +59,7 @@ public class ContractsGrantsMilestoneReportLookupableHelperServiceImpl extends C
 
     /**
      * This method performs the lookup and returns a collection of lookup items
-     * 
+     *
      * @param lookupForm
      * @param kualiLookupable
      * @param resultTable
@@ -78,10 +77,10 @@ public class ContractsGrantsMilestoneReportLookupableHelperServiceImpl extends C
         Collection<Milestone> milestones;
 
         Map<String, Object> map = new HashMap<String, Object>();
-        map.put("isBilledIndicator", "Y");
+        map.put("billedIndicator", true);
         milestones = SpringContext.getBean(BusinessObjectService.class).findMatching(Milestone.class, map);
         map.clear();
-        map.put("isBilledIndicator", "N");
+        map.put("billedIndicator", false);
         Collection<Milestone> notBilledMilestones = SpringContext.getBean(BusinessObjectService.class).findMatching(Milestone.class, map);
 
         milestones.addAll(notBilledMilestones);

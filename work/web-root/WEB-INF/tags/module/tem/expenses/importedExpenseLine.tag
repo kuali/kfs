@@ -136,7 +136,7 @@
 						<kul:htmlControlAttribute
 							attributeEntry="${importedExpenseAttributes.taxable}"
 							property="${expense}.taxable"
-							readOnly="${!fullEntryMode || !KualiForm.enableImportedTaxable}" />
+							readOnly="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT] || !expenseTaxableMode}" />
 		            </div>
 				</td>
 				<td class="infoline" rowspan="2">

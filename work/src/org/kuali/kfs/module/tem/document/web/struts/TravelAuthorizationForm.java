@@ -446,15 +446,6 @@ public class TravelAuthorizationForm extends TravelFormBase implements TravelAut
         return SpringContext.getBean(DataDictionaryService.class);
     }
 
-
-    /**
-     * @see org.kuali.kfs.module.tem.document.web.struts.TravelFormBase#getEnableTaxable()
-     */
-    @Override
-    public boolean getEnableImportedTaxable() {
-        return false;
-    }
-
     /**
      * @see org.kuali.kfs.module.tem.document.web.struts.TravelFormBase#getTravelPaymentFormAction()
      */

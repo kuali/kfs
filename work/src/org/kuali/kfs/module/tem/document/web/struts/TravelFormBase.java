@@ -87,7 +87,6 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
     private boolean canCalculate;
     private boolean canReturn;
     private boolean canShowImportExpenseDetails = true;
-    private boolean enableImportedTaxable = true;
     private int perDiemPercentage;
     private boolean displayNonEmployeeForm = false;
     private boolean openPaymentInformationWindow = false;
@@ -456,26 +455,6 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
      */
     public void setCanShowImportExpenseDetails(boolean canShowImportExpenseDetails) {
         this.canShowImportExpenseDetails = canShowImportExpenseDetails;
-    }
-
-    /**
-     * Gets the enableTaxable attribute.
-     *
-     * @return Returns the enableTaxable.
-     */
-    @Override
-    public boolean getEnableImportedTaxable() {
-        return enableImportedTaxable;
-    }
-
-    /**
-     * Sets the enableTaxable attribute value.
-     *
-     * @param enableTaxable The enableTaxable to set.
-     */
-    @Override
-    public void setEnableImportedTaxable(boolean enableImportedTaxable) {
-        this.enableImportedTaxable = enableImportedTaxable;
     }
 
     /**

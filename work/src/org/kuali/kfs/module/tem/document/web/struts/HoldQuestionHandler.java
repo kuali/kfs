@@ -39,7 +39,6 @@ import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.kew.api.KewApiConstants;
-import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.krad.bo.AdHocRoutePerson;
 import org.kuali.rice.krad.bo.AdHocRouteRecipient;
 import org.kuali.rice.krad.bo.Note;
@@ -112,8 +111,8 @@ public class HoldQuestionHandler implements QuestionHandler<TravelDocument> {
             //save the new state on the document
             document.updateAppDocStatus(TravelAuthorizationStatusCodeKeys.REIMB_HELD);
             TravelAuthorizationDocument authorization = (TravelAuthorizationDocument)document;
-            String name = SpringContext.getBean(PersonService.class).getPerson(GlobalVariables.getUserSession().getPrincipalId()).getName();
-            authorization.setHoldRequestorPersonName(name);
+            String principalId = GlobalVariables.getUserSession().getPrincipalId();
+            authorization.setHoldRequestorprincipalId(principalId);
             getDocumentDao().save(document);
 
             //send FYI for to initiator and traveler

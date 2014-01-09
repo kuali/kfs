@@ -260,7 +260,7 @@
         <field-descriptor name="perDiemAdjustment" column="PER_DIEM_ADJ" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
         <field-descriptor name="cellPhoneNumber" column="CELL_PH_NUM" jdbc-type="VARCHAR"/>
         <field-descriptor name="regionFamiliarity" column="RGN_FAMIL" jdbc-type="VARCHAR"/>
-        <field-descriptor name="holdRequestorPersonName" column="HOLD_RQSTR_PRSN_NM" jdbc-type="VARCHAR" />
+        <field-descriptor name="holdRequestorprincipalId" column="HOLD_RQSTR_PRNCPL_ID" jdbc-type="VARCHAR" />
         <field-descriptor name="citizenshipCountryCode" column="CTZN_CNTRY_CD" jdbc-type="VARCHAR"/>
         <field-descriptor name="nextSourceLineNumber" column="FDOC_NXT_EXP_NBR" jdbc-type="INTEGER" />
         <field-descriptor name="nextAdvanceLineNumber" column="FDOC_NXT_ADV_NBR" jdbc-type="INTEGER" />

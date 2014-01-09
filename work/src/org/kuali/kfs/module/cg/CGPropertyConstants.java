@@ -49,6 +49,7 @@ public class CGPropertyConstants{
 
     public static final String AWARD_MAINTENANCE_SECTION = "Award Maintenance";
     public static final String AWARD_INVOICING_SECTION = "Invoicing";
+    public static final String AWARD_INVOICE_LINK_PROPOSAL_NUMBER_PATH = "documentAttribute.proposalNumber";
 
 
     public static final String INCOME_ACCOUNT = "Income";

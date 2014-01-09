@@ -22,6 +22,7 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.module.cg.CGPropertyConstants;
 import org.kuali.kfs.module.cg.businessobject.Award;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -31,7 +32,6 @@ import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
-import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
@@ -116,8 +116,8 @@ public class AwardLookupableHelperServiceImpl extends KualiLookupableHelperServi
         params.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.SEARCH_METHOD);
         params.put(KFSConstants.DOC_FORM_KEY, "88888888");
         params.put(KFSConstants.HIDE_LOOKUP_RETURN_LINK, "false");
-        params.put("docTypeFullName", "CINV");
-        params.put(KFSPropertyConstants.PROPOSAL_NUMBER, award.getProposalNumber().toString());
+        params.put(KFSPropertyConstants.DOCUMENT_TYPE_NAME, KFSConstants.ContractsGrantsModuleDocumentTypeCodes.CONTRACTS_GRANTS_INVOICE);
+        params.put(CGPropertyConstants.AWARD_INVOICE_LINK_PROPOSAL_NUMBER_PATH, award.getProposalNumber().toString());
         params.put(KFSConstants.RETURN_LOCATION_PARAMETER, "portal.do");
         params.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, DocumentSearchCriteriaBo.class.getName());
         String url = UrlFactory.parameterizeUrl(KRADConstants.LOOKUP_ACTION, params);

@@ -33,11 +33,11 @@ import org.kuali.kfs.module.tem.businessobject.ActualExpense;
 import org.kuali.kfs.module.tem.businessobject.ExpenseType;
 import org.kuali.kfs.module.tem.businessobject.ExpenseTypeObjectCode;
 import org.kuali.kfs.module.tem.businessobject.PerDiemExpense;
+import org.kuali.kfs.module.tem.businessobject.TemSourceAccountingLine;
 import org.kuali.kfs.module.tem.businessobject.TravelerDetail;
 import org.kuali.kfs.module.tem.businessobject.TripType;
 import org.kuali.kfs.module.tem.document.TravelReimbursementDocument;
 import org.kuali.kfs.sys.ConfigureContext;
-import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEventBase;
@@ -115,9 +115,12 @@ public class ReimbursementAccountingTotalsValidationTest extends KualiTestBase {
 
         //setup sourceLines
         sourceLines = new ArrayList();
-        SourceAccountingLine sal = new SourceAccountingLine();
+        TemSourceAccountingLine sal = new TemSourceAccountingLine();
         sal.setAmount(new KualiDecimal(ACCOUNTING_LINE_AMOUNT));
+     //   sal.setFinancialObjectCode("5000");
+        sal.setCardType("blah");
         sal.setObjectCode(perDiemObjCode);
+        sal.setSequenceNumber(1);
         sourceLines.add(sal);
     }
 

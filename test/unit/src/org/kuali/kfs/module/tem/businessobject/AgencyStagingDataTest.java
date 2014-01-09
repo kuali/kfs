@@ -36,6 +36,7 @@ public class AgencyStagingDataTest extends KualiTestBase {
     private BusinessObjectService businessObjectService;
     private DataDictionaryService dataDictionaryService;
     private DateTimeService dateTimeService;
+    private NextAgencyStagingDataIdFinder idFinder;
 
     /**
      * @see junit.framework.TestCase#setUp()
@@ -46,6 +47,7 @@ public class AgencyStagingDataTest extends KualiTestBase {
         businessObjectService = SpringContext.getBean(BusinessObjectService.class);
         dataDictionaryService = SpringContext.getBean(DataDictionaryService.class);
         dateTimeService = SpringContext.getBean(DateTimeService.class);
+        idFinder = new NextAgencyStagingDataIdFinder();
     }
 
     @ConfigureContext(shouldCommitTransactions = false)
@@ -72,8 +74,9 @@ public class AgencyStagingDataTest extends KualiTestBase {
         }
 
         AgencyStagingData agency = new AgencyStagingData();
-        NextAgencyStagingDataIdFinder idFinder = new NextAgencyStagingDataIdFinder();
-        agency.setId(Integer.getInteger(idFinder.getValue()));
+
+        agency.setId(Integer.valueOf(idFinder.getValue()));
+
         agency.setErrorCode("errorcode");
         agency.setAgencyDataId(123456789);
         agency.setCreditCardOrAgencyCode("abcd");

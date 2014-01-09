@@ -17,6 +17,7 @@ package org.kuali.kfs.module.tem.document.service;
 
 import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -25,6 +26,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kfs.module.ar.businessobject.Customer;
 import org.kuali.kfs.module.tem.TemConstants;
+import org.kuali.kfs.module.tem.businessobject.TravelPayment;
 import org.kuali.kfs.module.tem.businessobject.TravelerDetail;
 import org.kuali.kfs.module.tem.document.TravelEntertainmentDocument;
 import org.kuali.kfs.module.tem.pdf.Coversheet;
@@ -32,6 +34,7 @@ import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.DocumentTestUtils;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.validation.event.AccountingDocumentSaveWithNoLedgerEntryGenerationEvent;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.service.DocumentService;
 
@@ -68,6 +71,9 @@ public class TravelEntertainmentServiceTest extends KualiTestBase {
         traveler.setTravelerTypeCode(TemConstants.EMP_TRAVELER_TYP_CD);
         traveler.setCustomer(new Customer());
         ent.setTraveler(traveler);
+        ent.setHostAsPayee(true);
+        ent.setTravelPayment(new TravelPayment());
+        ent.getTravelPayment().setDocumentationLocationCode("N");
     }
 
     @Override
@@ -82,7 +88,7 @@ public class TravelEntertainmentServiceTest extends KualiTestBase {
      */
     @Test
     public void testFindByTravelDocumentIdentifier() throws WorkflowException {
-        documentService.saveDocument(ent);
+        documentService.saveDocument(ent, AccountingDocumentSaveWithNoLedgerEntryGenerationEvent.class);
 
         // test find for non existent travelDocumentIdentifier
         List<TravelEntertainmentDocument> result = (List<TravelEntertainmentDocument>) entservice.findByTravelId("-1");
@@ -90,7 +96,7 @@ public class TravelEntertainmentServiceTest extends KualiTestBase {
         assertTrue(result.isEmpty());
 
         // test find for existing travelDocument
-        result = (List<TravelEntertainmentDocument>) entservice.find(ent.getTravelDocumentIdentifier());
+        result = (List<TravelEntertainmentDocument>) entservice.findByTravelId(ent.getTravelDocumentIdentifier());
         assertNotNull(result);
         assertFalse(result.isEmpty());
     }
@@ -104,7 +110,7 @@ public class TravelEntertainmentServiceTest extends KualiTestBase {
         assertNull(entservice.find(ent.getDocumentHeader().getDocumentNumber()));
 
         // test find for existent documentNumber
-        documentService.saveDocument(ent);
+        documentService.saveDocument(ent, AccountingDocumentSaveWithNoLedgerEntryGenerationEvent.class);
         assertNotNull(entservice.find(ent.getDocumentHeader().getDocumentNumber()));
     }
 
@@ -186,6 +192,9 @@ public class TravelEntertainmentServiceTest extends KualiTestBase {
         }
 
         assertNull(cover);
+
+        ent.setTripBegin(new Timestamp(new java.util.Date().getTime()));
+        ent.setTripEnd(new Timestamp(new java.util.Date().getTime()));
 
         cover = entservice.generateCoversheetFor(ent);
         assertNotNull(cover);

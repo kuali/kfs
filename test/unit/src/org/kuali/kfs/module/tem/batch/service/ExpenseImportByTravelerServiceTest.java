@@ -27,6 +27,7 @@ import org.kuali.kfs.module.tem.TemParameterConstants;
 import org.kuali.kfs.module.tem.businessobject.AgencyStagingData;
 import org.kuali.kfs.module.tem.businessobject.TemProfile;
 import org.kuali.kfs.module.tem.businessobject.TripAccountingInformation;
+import org.kuali.kfs.module.tem.businessobject.defaultvalue.NextAgencyStagingDataIdFinder;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -243,8 +244,10 @@ public class ExpenseImportByTravelerServiceTest extends KualiTestBase {
 
     protected AgencyStagingData createAgencyStagingData() {
         AgencyStagingData agency = new AgencyStagingData();
-
+        NextAgencyStagingDataIdFinder idFinder = new NextAgencyStagingDataIdFinder();
         // mandatory fields
+
+        agency.setId(Integer.valueOf(idFinder.getValue()));
         agency.setImportBy(ExpenseImportTypes.IMPORT_BY_TRAVELLER);
         agency.setCreditCardOrAgencyCode("1234");
         agency.setTravelerName("Traveler Bob");

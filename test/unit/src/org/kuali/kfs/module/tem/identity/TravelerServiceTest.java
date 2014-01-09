@@ -16,21 +16,22 @@
 package org.kuali.kfs.module.tem.identity;
 
 import org.apache.log4j.Logger;
+import org.kuali.kfs.module.tem.service.TravelerService;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 
 @ConfigureContext
-public class TemProfileOrganizationHierarchyRoleTypeServiceTest extends KualiTestBase {
+public class TravelerServiceTest extends KualiTestBase {
 
-    public static Logger LOG = Logger.getLogger(TemProfileOrganizationHierarchyRoleTypeServiceTest.class);
+    public static Logger LOG = Logger.getLogger(TravelerServiceTest.class);
 
-    private TemOrganizationHierarchyRoleTypeService temProfileOrganizationHierarchyRoleService;
+    private TravelerService travelerService;
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        temProfileOrganizationHierarchyRoleService = SpringContext.getBean(TemOrganizationHierarchyRoleTypeService.class);
+        travelerService = SpringContext.getBean(TravelerService.class);
     }
 
     public final void testIsParentOrg() {
@@ -39,22 +40,22 @@ public class TemProfileOrganizationHierarchyRoleTypeServiceTest extends KualiTes
         // BA ADAF reports to BL DBFA
 
         LOG.debug("testing no qualifications");
-        assertFalse(temProfileOrganizationHierarchyRoleService.isParentOrg(null, null, "BA", "ACPR", true));
+        assertFalse(travelerService.isParentOrg(null, null, "BA", "ACPR", true));
 
         LOG.debug("testing no roles");
-        assertFalse(temProfileOrganizationHierarchyRoleService.isParentOrg("BA", "ACPR", null, null, true));
+        assertFalse(travelerService.isParentOrg("BA", "ACPR", null, null, true));
 
         LOG.debug("testing no organization code role");
-        assertTrue(temProfileOrganizationHierarchyRoleService.isParentOrg("BA", "ACPR", "BA", null, true));
+        assertTrue(travelerService.isParentOrg("BA", "ACPR", "BA", null, true));
 
         LOG.debug("testing no org code role with chart code child of role chart code");
-        assertTrue(temProfileOrganizationHierarchyRoleService.isParentOrg("BA", "ADAF", "BL", null, true));
+        assertTrue(travelerService.isParentOrg("BA", "ADAF", "BL", null, true));
 
         LOG.debug("testing chart and org codes the same as the rold");
-        assertTrue(temProfileOrganizationHierarchyRoleService.isParentOrg("BA", "ACPR", "BA", "ACPR", true));
+        assertTrue(travelerService.isParentOrg("BA", "ACPR", "BA", "ACPR", true));
 
         LOG.debug("testing the chart and org codes are the children of the role");
-        assertTrue(temProfileOrganizationHierarchyRoleService.isParentOrg("BA", "ADAF", "BL", "DBFA", true));
+        assertTrue(travelerService.isParentOrg("BA", "ADAF", "BL", "DBFA", true));
 
     }
 }

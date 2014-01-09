@@ -72,7 +72,7 @@ public class TravelDocumentServiceTest extends KualiTestBase {
     private static final int MILEAGE = 2;
     private static final int MILEAGE_RATE = 10;
     private static final String AIRLINE_EXPENSE_TYPE_CODE = "A";
-    private static final String HOSTED_BREAKFAST = "HB";
+    private static final String HOSTED_BREAKFAST = "B";
 
     /**
      *
@@ -951,11 +951,9 @@ public class TravelDocumentServiceTest extends KualiTestBase {
     public void testIsHostedMeal() {
         boolean isHostedMeal = false;
         // test with null actualExpense
-        try{
-            isHostedMeal = travelDocumentService.isHostedMeal(null);
-        }catch(NullPointerException e){
-            LOG.warn("NPE.", e);
-        }
+
+        isHostedMeal = travelDocumentService.isHostedMeal(null);
+
         assertFalse(isHostedMeal);
 
         ActualExpense ote = new ActualExpense();

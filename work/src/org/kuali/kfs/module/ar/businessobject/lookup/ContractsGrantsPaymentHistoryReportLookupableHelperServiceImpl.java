@@ -138,11 +138,36 @@ public class ContractsGrantsPaymentHistoryReportLookupableHelperServiceImpl exte
         return displayList;
     }
 
+
+
     public BusinessObjectService getBusinessObjectService() {
         return businessObjectService;
     }
 
+
+
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
+
+    /**
+     * Gets the dateTimeService attribute.
+     *
+     * @return Returns the dateTimeService
+     */
+
+    public DateTimeService getDateTimeService() {
+        return dateTimeService;
+    }
+
+    /**
+     * Sets the dateTimeService attribute.
+     *
+     * @param dateTimeService The dateTimeService to set.
+     */
+    public void setDateTimeService(DateTimeService dateTimeService) {
+        this.dateTimeService = dateTimeService;
+    }
+
+
 }

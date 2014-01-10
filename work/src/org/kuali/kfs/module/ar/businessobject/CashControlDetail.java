@@ -210,7 +210,7 @@ public class CashControlDetail extends PersistableBusinessObjectBase {
 	 */
 	public PaymentApplicationDocument getReferenceFinancialDocument() {
 	    //This is to add NP checking on referenceFinancialDocumentNumber
-	    if (ObjectUtils.isNull(referenceFinancialDocument == null) && StringUtils.isNotEmpty(referenceFinancialDocumentNumber)) {
+	    if (ObjectUtils.isNull(referenceFinancialDocument) && StringUtils.isNotEmpty(referenceFinancialDocumentNumber)) {
             try {
                 referenceFinancialDocument = (PaymentApplicationDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(this.referenceFinancialDocumentNumber);
             }

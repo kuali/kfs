@@ -41,6 +41,10 @@
         <ref bean="CashControlDocument-referenceFinancialDocumentNumber"/>
         <ref bean="CashControlDocument-customerPaymentMediumCode"/>
         <ref bean="CashControlDocument-bankCode"/>
+		<ref bean="CashControlDocument-invoiceDocumentType" />
+		<ref bean="CashControlDocument-letterOfCreditCreationType" />
+		<ref bean="CashControlDocument-letterOfCreditFundCode" />
+		<ref bean="CashControlDocument-letterOfCreditFundGroupCode" />        
       </list>
     </property>
     <property name="workflowAttributes">
@@ -85,7 +89,63 @@
     <property name="shortLabel" value="Bank Code"/>
     <property name="required" value="false"/>
   </bean>
-  
+
+	<bean id="CashControlDocument-invoiceDocumentType" parent="CashControlDocument-invoiceDocumentType-parentBean" />
+
+	<bean id="CashControlDocument-invoiceDocumentType-parentBean"
+		abstract="true" parent="AttributeDefinition">
+		<property name="name" value="invoiceDocumentType" />
+		<property name="label" value="Invoice Document Type" />
+		<property name="shortLabel" value="Invoice Document Type" />
+		<property name="maxLength" value="4" />
+		<property name="required" value="true" />
+		<property name="control">
+			<bean parent="SelectControlDefinition"
+				p:valuesFinderClass="org.kuali.kfs.module.ar.businessobject.options.InvoiceDocumentTypeValuesFinder"
+				p:includeKeyInLabel="false" />
+		</property>
+	</bean>
+
+	<bean id="CashControlDocument-letterOfCreditCreationType" parent="CashControlDocument-letterOfCreditCreationType-parentBean" />
+
+	<bean id="CashControlDocument-letterOfCreditCreationType-parentBean"
+		abstract="true" parent="AttributeDefinition">
+		<property name="name" value="letterOfCreditCreationType" />
+		<property name="label" value="Letter of Credit Creation Type" />
+		<property name="shortLabel" value="Letter of Credit Creation Type" />
+		<property name="maxLength" value="45" />
+		<property name="control">
+			<bean parent="SelectControlDefinition"
+				p:valuesFinderClass="org.kuali.kfs.module.ar.businessobject.options.LocCreationTypeValuesFinder"
+				p:includeKeyInLabel="false" />
+		</property>
+	</bean>
+
+
+	<bean id="CashControlDocument-letterOfCreditFundGroupCode"
+		parent="CashControlDocument-letterOfCreditFundGroupCode-parentBean" />
+
+	<bean id="CashControlDocument-letterOfCreditFundGroupCode-parentBean"
+		abstract="true" parent="GenericAttributes-letterOfCreditFundGroupCode">
+		<property name="label" value="Letter Of Credit Fund Group" />
+		<property name="control">
+			<bean parent="SelectControlDefinition"
+				p:valuesFinderClass="org.kuali.kfs.module.ar.businessobject.options.LetterOfCreditFundGroupValuesFinder"
+				p:includeKeyInLabel="false" />
+		</property>
+	</bean>
+
+	<bean id="CashControlDocument-letterOfCreditFundCode" parent="CashControlDocument-letterOfCreditFundCode-parentBean" />
+
+	<bean id="CashControlDocument-letterOfCreditFundCode-parentBean"
+		abstract="true" parent="GenericAttributes-letterOfCreditFundCode">
+		<property name="label" value="Letter Of Credit Fund" />
+		<property name="control">
+			<bean parent="SelectControlDefinition"
+				p:valuesFinderClass="org.kuali.kfs.module.ar.businessobject.options.LetterOfCreditFundValuesFinder"
+				p:includeKeyInLabel="false" />
+		</property>
+	</bean>  
 <!-- Start - Workflow Attribute Beans -->  
 
   <bean id="CashControlDocument-DocumentValuePathGroup" parent="CashControlDocument-DocumentValuePathGroup-parentBean"/>

@@ -1,12 +1,12 @@
 /*
  * Copyright 2009 The Kuali Foundation
- *
+ * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
+ * 
  * http://www.opensource.org/licenses/ecl2.php
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -27,19 +27,19 @@ public class PaymentApplicationInvoiceApply implements Serializable {
 
     private CustomerInvoiceDocument invoice;
     private List<PaymentApplicationInvoiceDetailApply> detailApplications;
-
+    
     private String payAppDocNumber;
-    private boolean quickApplyInd;
-    private boolean quickApplyOldValueInd;
-
+    private boolean quickApply;
+    private boolean quickApplyOldValue;
+    
     public PaymentApplicationInvoiceApply(String payAppDocNumber, CustomerInvoiceDocument invoice) {
         this.invoice = invoice;
         this.detailApplications = new ArrayList<PaymentApplicationInvoiceDetailApply>();
         for (CustomerInvoiceDetail invoiceDetail : invoice.getCustomerInvoiceDetailsWithoutDiscounts()) {
             this.detailApplications.add(new PaymentApplicationInvoiceDetailApply(payAppDocNumber, invoiceDetail));
         }
-        this.quickApplyInd = false;
-        this.quickApplyOldValueInd = false;
+        this.quickApply = false;
+        this.quickApplyOldValue = false;
         this.payAppDocNumber = payAppDocNumber;
     }
 
@@ -50,7 +50,7 @@ public class PaymentApplicationInvoiceApply implements Serializable {
         }
         return applyAmount;
     }
-
+    
     // yes this method name is awkward.  Blame JSP that expects an is* or get*
     public boolean isAnyAppliedAmounts() {
         for (PaymentApplicationInvoiceDetailApply detailApplication : detailApplications) {
@@ -60,37 +60,37 @@ public class PaymentApplicationInvoiceApply implements Serializable {
         }
         return false;
     }
-
+    
     public List<PaymentApplicationInvoiceDetailApply> getDetailApplications() {
         return detailApplications;
     }
-
+    
     public String getDocumentNumber() {
         return invoice.getDocumentNumber();
     }
-
+    
     public KualiDecimal getOpenAmount() {
         return invoice.getOpenAmount();
     }
-
-    public boolean isQuickApplyInd() {
-        return quickApplyInd;
+    
+    public boolean isQuickApply() {
+        return quickApply;
     }
 
-    public void setQuickApplyInd(boolean quickApplyInd) {
-        this.quickApplyOldValueInd = this.quickApplyInd;
-        this.quickApplyInd = quickApplyInd;
+    public void setQuickApply(boolean quickApply) {
+        this.quickApplyOldValue = this.quickApply;
+        this.quickApply = quickApply;
         for (PaymentApplicationInvoiceDetailApply detailApplication : detailApplications) {
-            detailApplication.setInvoiceQuickAppliedInd(quickApplyInd);
+            detailApplication.setInvoiceQuickApplied(quickApply);
         }
     }
 
-    public boolean isQuickApplyIndChanged() {
-        return quickApplyInd != quickApplyOldValueInd;
+    public boolean isQuickApplyChanged() {
+        return quickApply != quickApplyOldValue;
     }
-
+    
     public CustomerInvoiceDocument getInvoice() {
         return invoice;
     }
-
+    
 }

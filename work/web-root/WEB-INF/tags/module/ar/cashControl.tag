@@ -92,6 +92,66 @@
 				</td>
 			</tr>
 
+			<tr>
+				<kul:htmlAttributeHeaderCell
+					attributeEntry="${documentAttributes.invoiceDocumentType}"
+					horizontal="true" forceRequired="true"
+					labelFor="document.invoiceDocumentType" useShortLabel="false" />
+				<td class="datacell-nowrap"><kul:htmlControlAttribute
+						attributeEntry="${documentAttributes.invoiceDocumentType}"
+						property="document.invoiceDocumentType" onchange="submitForm()"
+						forceRequired="true" /></td>
+			</tr>
+			<c:choose>
+				<c:when
+					test="${!empty KualiForm.document.invoiceDocumentType && KualiForm.document.invoiceDocumentType == 'CINV'}">
+
+					<tr>
+						<kul:htmlAttributeHeaderCell
+							attributeEntry="${documentAttributes.letterOfCreditCreationType}"
+							horizontal="true" labelFor="document.letterOfCreditCreationType"
+							useShortLabel="false" />
+						<td class="datacell-nowrap"><kul:htmlControlAttribute
+								attributeEntry="${documentAttributes.letterOfCreditCreationType}"
+								property="document.letterOfCreditCreationType" onchange="submitForm()" />
+
+						</td>
+					</tr>
+
+					<c:choose>
+						<c:when
+							test="${!empty KualiForm.document.letterOfCreditCreationType && KualiForm.document.letterOfCreditCreationType == CGConstants.LOC_BY_LOC_FUND}">
+
+							<tr>
+								<kul:htmlAttributeHeaderCell
+									attributeEntry="${documentAttributes.letterOfCreditFundCode}"
+									horizontal="true" labelFor="document.letterOfCreditFundCode"
+									useShortLabel="false" />
+								<td class="datacell-nowrap"><kul:htmlControlAttribute
+										attributeEntry="${documentAttributes.letterOfCreditFundCode}"
+										property="document.letterOfCreditFundCode" /></td>
+							</tr>
+						</c:when>
+						<c:when
+							test="${!empty KualiForm.document.letterOfCreditCreationType && KualiForm.document.letterOfCreditCreationType == CGConstants.LOC_BY_LOC_FUND_GRP}">
+
+
+							<tr>
+								<kul:htmlAttributeHeaderCell
+									attributeEntry="${documentAttributes.letterOfCreditFundGroupCode}"
+									horizontal="true"
+									labelFor="document.letterOfCreditFundGroupCode"
+									useShortLabel="false" />
+								<td class="datacell-nowrap"><kul:htmlControlAttribute
+										attributeEntry="${documentAttributes.letterOfCreditFundGroupCode}"
+										property="document.letterOfCreditFundGroupCode" />
+
+								</td>
+							</tr>
+						</c:when>
+					</c:choose>
+				</c:when>
+			</c:choose>
 
 			<c:if test="${KualiForm.cashPaymentMediumSelected}">
 				<tr>

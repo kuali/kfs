@@ -57,7 +57,7 @@ import com.lowagie.text.pdf.SimpleBookmark;
 public class ContractsGrantsLetterOfCreditReviewDocumentAction extends KualiTransactionalDocumentActionBase {
 
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ContractsGrantsLetterOfCreditReviewDocumentAction.class);
-    
+
     public ContractsGrantsLetterOfCreditReviewDocumentAction() {
         super();
     }
@@ -147,7 +147,7 @@ public class ContractsGrantsLetterOfCreditReviewDocumentAction extends KualiTran
         contractsGrantsLetterOfCreditReviewDetail.setClaimOnCashBalance(KualiDecimal.ZERO);// clear the cca claim on cash balance
         for (ContractsGrantsLetterOfCreditReviewDetail detail : contractsGrantsLetterOfCreditReviewDocument.getAccountReviewDetails()) {
             // To set amount to Draw to 0 if there are blank values, to avoid exceptions.
-            if (ObjectUtils.isNull(detail.getAmountToDraw()) || detail.getAmountToDraw().isNegative()) {
+            if (ObjectUtils.isNull(detail.getAmountToDraw())) {
                 detail.setAmountToDraw(KualiDecimal.ZERO);
             }
 

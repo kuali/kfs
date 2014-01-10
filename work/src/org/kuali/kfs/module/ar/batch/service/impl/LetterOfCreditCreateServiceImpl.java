@@ -116,10 +116,7 @@ public class LetterOfCreditCreateServiceImpl implements LetterOfCreditCreateServ
             accountsReceivableDocumentHeader.setProcessingOrganizationCode(defaultProcessingOrgCode);
             if (ObjectUtils.isNotNull(locCreationType) && ObjectUtils.isNotNull(locValue)) {
                 cashControlDoc.setLetterOfCreditCreationType(locCreationType);
-                if (cashControlDoc.getLetterOfCreditCreationType().equalsIgnoreCase(ArConstants.LOC_BY_AWARD)) {
-                    cashControlDoc.setProposalNumber(new Long(locValue));
-                }
-                else if (cashControlDoc.getLetterOfCreditCreationType().equalsIgnoreCase(ArConstants.LOC_BY_LOC_FUND)) {
+                if (cashControlDoc.getLetterOfCreditCreationType().equalsIgnoreCase(ArConstants.LOC_BY_LOC_FUND)) {
                     cashControlDoc.setLetterOfCreditFundCode(locValue);
                 }
                 else if (cashControlDoc.getLetterOfCreditCreationType().equalsIgnoreCase(ArConstants.LOC_BY_LOC_FUND_GRP)) {

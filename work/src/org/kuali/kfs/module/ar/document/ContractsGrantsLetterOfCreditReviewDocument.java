@@ -394,7 +394,7 @@ public class ContractsGrantsLetterOfCreditReviewDocument extends FinancialSystem
 
 
             // To set amount to Draw to 0 if there are blank values, to avoid exceptions.
-            if (ObjectUtils.isNull(detail.getAmountToDraw()) || detail.getAmountToDraw().isNegative()) {
+            if (ObjectUtils.isNull(detail.getAmountToDraw()) ) {
                 detail.setAmountToDraw(KualiDecimal.ZERO);
             }
             detail.setFundsNotDrawn(detail.getHiddenAmountToDraw().subtract(detail.getAmountToDraw()));

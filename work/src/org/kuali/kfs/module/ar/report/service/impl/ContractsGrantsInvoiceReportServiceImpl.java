@@ -771,6 +771,7 @@ public class ContractsGrantsInvoiceReportServiceImpl extends ContractsGrantsRepo
                     primaryKeys.put(KFSPropertyConstants.CUSTOMER_ADDRESS_IDENTIFIER, agencyAddress.getCustomerAddressIdentifier());
                     address = businessObjectService.findByPrimaryKey(CustomerAddress.class,primaryKeys);
                     Note note = noteService.getNoteByNoteId(agencyAddress.getNoteId());
+                    if(ObjectUtils.isNotNull(address.getCustomerCopiesToPrint())){
                     for (int i = 0; i < address.getCustomerCopiesToPrint(); i++) {
 
                         if (ObjectUtils.isNotNull(note)) {
@@ -780,6 +781,7 @@ public class ContractsGrantsInvoiceReportServiceImpl extends ContractsGrantsRepo
                             pageAdded = true;
                             copy.addDocument(new PdfReader(note.getAttachment().getAttachmentContents()));
                         }
+                    }
                     }
                 }
             }
@@ -818,6 +820,8 @@ public class ContractsGrantsInvoiceReportServiceImpl extends ContractsGrantsRepo
                     primaryKeys.put(KFSPropertyConstants.CUSTOMER_NUMBER, invoice.getCustomerNumber());
                     primaryKeys.put(KFSPropertyConstants.CUSTOMER_ADDRESS_IDENTIFIER, agencyAddress.getCustomerAddressIdentifier());
                     address = businessObjectService.findByPrimaryKey(CustomerAddress.class,primaryKeys);
+                    //If envelopes to print is empty - donot print them.
+                    if(ObjectUtils.isNotNull(address.getCustomerPrintEnvelopesNumber())){
                     for (int i = 0; i < address.getCustomerPrintEnvelopesNumber(); i++) {
                         // if a page has not already been added then open the document.
                         if (!pageAdded) {
@@ -878,6 +882,7 @@ public class ContractsGrantsInvoiceReportServiceImpl extends ContractsGrantsRepo
 
                         document.add(sentBy);
                         document.add(sendTo);
+                    }
                     }
                 }
             }

@@ -29,6 +29,8 @@
 			<ref bean="CreditCardAgency-enableNonReimbursable" />
 			<ref bean="CreditCardAgency-vendorNumber" />
 			<ref bean="CreditCardAgency-foreignCompany" />
+			<ref bean="CreditCardAgency-bankCode" />
+			<ref bean="CreditCardAgency-bank.bankName" />
 			<ref bean="CreditCardAgency-active" />
 			<ref bean="CreditCardAgency-versionNumber" />
 		</list>
@@ -227,6 +229,18 @@
 		<property name="summary" value="Foreign Company" />
 		<property name="description" value="Foreign Company" />
 	</bean>
+	
+	<bean id="CreditCardAgency-bankCode" parent="CreditCardAgency-bankCode-parentBean" />
+	<bean id="CreditCardAgency-bankCode-parentBean" abstract="true" parent="Bank-bankCode">
+		<property name="required" value="false" />
+	</bean>
+	
+	<bean id="CreditCardAgency-bank.bankName" parent="CreditCardAgency-bank.bankName-parentBean" />
+	<bean id="CreditCardAgency-bank.bankName-parentBean" abstract="true" parent="Bank-bankName">
+		<property name="name" value="bank.bankName" />
+		<property name="required" value="false" />
+	</bean>
+	
 	<bean id="CreditCardAgency-active" parent="CreditCardAgency-active-parentBean" />
 	<bean id="CreditCardAgency-active-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
 		<property name="name" value="active" />
@@ -271,6 +285,7 @@
 					<bean parent="FieldDefinition" p:attributeName="enableNonReimbursable" />
 					<bean parent="FieldDefinition" p:attributeName="vendorNumber" />
 					<bean parent="FieldDefinition" p:attributeName="foreignCompany" />
+					<bean parent="FieldDefinition" p:attributeName="bank.bankName" />
 					<bean parent="FieldDefinition" p:attributeName="active" />
 				</list>
 				</property>
@@ -294,6 +309,7 @@
 			<bean parent="FieldDefinition" p:attributeName="paymentIndicator" />
 			<bean parent="FieldDefinition" p:attributeName="creditCardOrAgencyName" />
 			<bean parent="FieldDefinition" p:attributeName="foreignCompany" />
+			<bean parent="FieldDefinition" p:attributeName="bankCode" />
 			<bean parent="FieldDefinition" p:attributeName="active" />
 		</list>
 		</property>
@@ -317,6 +333,7 @@
 			<bean parent="FieldDefinition" p:attributeName="enableNonReimbursable" />
 			<bean parent="FieldDefinition" p:attributeName="vendorNumber" />
 			<bean parent="FieldDefinition" p:attributeName="foreignCompany" />
+			<bean parent="FieldDefinition" p:attributeName="bankCode" />
 			<bean parent="FieldDefinition" p:attributeName="active" />
 		</list>
 		</property>

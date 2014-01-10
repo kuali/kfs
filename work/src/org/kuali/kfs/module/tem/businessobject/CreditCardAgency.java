@@ -26,6 +26,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
@@ -35,7 +36,6 @@ public class CreditCardAgency extends PersistableBusinessObjectBase implements M
 
     private Integer id;
     private String creditCardOrAgencyCode;
-    private TravelCardType travelCardType;
     private String travelCardTypeCode;
     private Boolean paymentIndicator;
     private String creditCardOrAgencyName;
@@ -52,7 +52,11 @@ public class CreditCardAgency extends PersistableBusinessObjectBase implements M
     private Boolean enableNonReimbursable;
     private String vendorNumber;
     private Boolean foreignCompany = Boolean.TRUE;
+    private String bankCode;
     private Boolean active = Boolean.TRUE;
+
+    private TravelCardType travelCardType;
+    private Bank bank;
 
 
     /**
@@ -306,5 +310,19 @@ public class CreditCardAgency extends PersistableBusinessObjectBase implements M
         return getActive();
     }
 
+    public String getBankCode() {
+        return bankCode;
+    }
 
+    public void setBankCode(String bankCode) {
+        this.bankCode = bankCode;
+    }
+
+    public Bank getBank() {
+        return bank;
+    }
+
+    public void setBank(Bank bank) {
+        this.bank = bank;
+    }
 }

@@ -8,6 +8,7 @@
 <bean id="CreditCardAgencyMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
 	<property name="businessObjectClass" value="org.kuali.kfs.module.tem.businessobject.CreditCardAgency" />
 	<property name="maintainableClass"   value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl" />
+	<property name="businessRulesClass" value="org.kuali.kfs.module.tem.document.validation.impl.CreditCardAgencyRule"/>
 	<property name="maintainableSections" >
 	<list>
 		<ref bean="CreditCardAgencyMaintenanceDocument-Section" />
@@ -21,7 +22,6 @@
 	</property>
 	<property name="documentTypeName"        value="TCCA" />
 	<property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
-
 </bean>
 
 <bean id="CreditCardAgencyMaintenanceDocument-Section" parent="CreditCardAgencyMaintenanceDocument-Section-parentBean" />
@@ -46,6 +46,7 @@
 			<bean parent="MaintainableFieldDefinition" p:name="enableNonReimbursable" p:required="false"/>
 			<bean parent="MaintainableFieldDefinition" p:name="vendorNumber" p:required="false"/>
 			<bean parent="MaintainableFieldDefinition" p:name="foreignCompany" p:required="true"/>
+			<bean parent="MaintainableFieldDefinition" p:name="bankCode" p:required="false"/>
 			<bean parent="MaintainableFieldDefinition" p:name="active" p:required="true"/>
 		</list></property>
 </bean>

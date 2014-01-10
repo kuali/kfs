@@ -243,6 +243,7 @@
 			<column name="ACTV_IND" type="VARCHAR2(1)" />
 			<column name="VER_NBR" type="NUMBER(8,0)" defaultValueNumeric="1" />
 			<column name="OBJ_ID" type="VARCHAR2(36)" />
+			<column name="BNK_CD" type="VARCHAR2(4)" />
 		</createTable>
 		<addPrimaryKey tableName="TEM_CREDIT_CARD_AGENCY_T"
 			constraintName="TEM_CREDIT_CARD_AGENCY_TP1" columnNames="ID" />

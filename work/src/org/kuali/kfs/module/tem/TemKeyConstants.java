@@ -317,6 +317,7 @@ public class TemKeyConstants {
 
     public static final String ERROR_MIELAGE_RATES_PER_DIEM_RATES_CHANGED = "error.mileage.rates.per.diem.rates.changed";
     public static final String ERROR_PER_DIEM_INVALID_DATE_SEASON_BEGIN_MONTH_DAY = "error.perdiem.invalid.date.seasonBeginMonthDay";
+    public static final String ERROR_CREDIT_CARD_AGENCY_CORPORATE_CARD_AGENCY_BANK_REQUIRED = "error.creditCardAgency.corporate.card.agency.bank.code.required";
 
     //Configuration properties
     public static final String CONFIG_PROPERTY_REIMBURSEMENT_INITIATELINK_ENABLED = "module.travel.reimbursement.initiatelink.enabled";

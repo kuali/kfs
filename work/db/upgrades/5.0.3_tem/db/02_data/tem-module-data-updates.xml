@@ -931,7 +931,7 @@
 			<column name="EXP_TYP_CD" value="B"/>
 			<column name="TRIP_TYP_CD" value="All"/>
 			<column name="TRAVELER_TYP_CD" value="All"/>
-			<column name="DOC_TYP_NM" value="TRV"/>
+			<column name="DOC_TYP_NM" value="TR"/>
 			<column name="OBJ_ID" valueComputed="SYS_GUID()"/>
 			<column name="VER_NBR" valueNumeric="1"/>
 			<column name="FIN_OBJECT_CD" value="6000"/>
@@ -946,7 +946,7 @@
 			<column name="EXP_TYP_CD" value="B"/>
 			<column name="TRIP_TYP_CD" value="OUT"/>
 			<column name="TRAVELER_TYP_CD" value="All"/>
-			<column name="DOC_TYP_NM" value="TRV"/>
+			<column name="DOC_TYP_NM" value="TR"/>
 			<column name="OBJ_ID" valueComputed="SYS_GUID()"/>
 			<column name="VER_NBR" valueNumeric="1"/>
 			<column name="FIN_OBJECT_CD" value="6100"/>
@@ -964,7 +964,7 @@
 			<column name="EXP_TYP_CD" value="B"/>
 			<column name="TRIP_TYP_CD" value="INT"/>
 			<column name="TRAVELER_TYP_CD" value="All"/>
-			<column name="DOC_TYP_NM" value="TRV"/>
+			<column name="DOC_TYP_NM" value="TR"/>
 			<column name="OBJ_ID" valueComputed="SYS_GUID()"/>
 			<column name="VER_NBR" valueNumeric="1"/>
 			<column name="FIN_OBJECT_CD" value="6200"/>
@@ -1027,7 +1027,7 @@
 			<column name="EXP_TYP_CD" value="D"/>
 			<column name="TRIP_TYP_CD" value="All"/>
 			<column name="TRAVELER_TYP_CD" value="All"/>
-			<column name="DOC_TYP_NM" value="TRV"/>
+			<column name="DOC_TYP_NM" value="TR"/>
 			<column name="OBJ_ID" valueComputed="SYS_GUID()"/>
 			<column name="VER_NBR" valueNumeric="1"/>
 			<column name="FIN_OBJECT_CD" value="6000"/>
@@ -1042,7 +1042,7 @@
 			<column name="EXP_TYP_CD" value="D"/>
 			<column name="TRIP_TYP_CD" value="OUT"/>
 			<column name="TRAVELER_TYP_CD" value="All"/>
-			<column name="DOC_TYP_NM" value="TRV"/>
+			<column name="DOC_TYP_NM" value="TR"/>
 			<column name="OBJ_ID" valueComputed="SYS_GUID()"/>
 			<column name="VER_NBR" valueNumeric="1"/>
 			<column name="FIN_OBJECT_CD" value="6100"/>
@@ -1060,7 +1060,7 @@
 			<column name="EXP_TYP_CD" value="D"/>
 			<column name="TRIP_TYP_CD" value="INT"/>
 			<column name="TRAVELER_TYP_CD" value="All"/>
-			<column name="DOC_TYP_NM" value="TRV"/>
+			<column name="DOC_TYP_NM" value="TR"/>
 			<column name="OBJ_ID" valueComputed="SYS_GUID()"/>
 			<column name="VER_NBR" valueNumeric="1"/>
 			<column name="FIN_OBJECT_CD" value="6200"/>
@@ -1334,7 +1334,7 @@
 			<column name="EXP_TYP_CD" value="LN"/>
 			<column name="TRIP_TYP_CD" value="All"/>
 			<column name="TRAVELER_TYP_CD" value="All"/>
-			<column name="DOC_TYP_NM" value="TRV"/>
+			<column name="DOC_TYP_NM" value="TR"/>
 			<column name="OBJ_ID" valueComputed="SYS_GUID()"/>
 			<column name="VER_NBR" valueNumeric="1"/>
 			<column name="FIN_OBJECT_CD" value="6000"/>
@@ -1349,7 +1349,7 @@
 			<column name="EXP_TYP_CD" value="LN"/>
 			<column name="TRIP_TYP_CD" value="OUT"/>
 			<column name="TRAVELER_TYP_CD" value="All"/>
-			<column name="DOC_TYP_NM" value="TRV"/>
+			<column name="DOC_TYP_NM" value="TR"/>
 			<column name="OBJ_ID" valueComputed="SYS_GUID()"/>
 			<column name="VER_NBR" valueNumeric="1"/>
 			<column name="FIN_OBJECT_CD" value="6100"/>
@@ -1367,7 +1367,7 @@
 			<column name="EXP_TYP_CD" value="LN"/>
 			<column name="TRIP_TYP_CD" value="INT"/>
 			<column name="TRAVELER_TYP_CD" value="All"/>
-			<column name="DOC_TYP_NM" value="TRV"/>
+			<column name="DOC_TYP_NM" value="TR"/>
 			<column name="OBJ_ID" valueComputed="SYS_GUID()"/>
 			<column name="VER_NBR" valueNumeric="1"/>
 			<column name="FIN_OBJECT_CD" value="6200"/>
@@ -1992,6 +1992,150 @@
 			<column name="OBJ_ID" valueComputed="SYS_GUID()"/>
 			<column name="VER_NBR" valueNumeric="1"/>
 			<column name="FIN_OBJECT_CD" value="6000"/>
+			<column name="NOTE_REQ_IND" value="N"/>
+			<column name="RCPT_REQ_IND" value="N"/>
+			<column name="TAXABLE_IND" value="N"/>
+			<column name="SPCL_RQST_REQ_IND" value="N"/>
+			<column name="ACTV_IND" value="Y"/>
+		</insert>
+		<insert tableName="TEM_EXP_TYP_FIN_OBJ_CD_T">
+			<column name="EXP_TYP_OBJ_CD_ID" value="79.0"/>
+			<column name="EXP_TYP_CD" value="B"/>
+			<column name="TRIP_TYP_CD" value="All"/>
+			<column name="TRAVELER_TYP_CD" value="All"/>
+			<column name="DOC_TYP_NM" value="TA"/>
+			<column name="OBJ_ID" valueComputed="EF7E48F8C00272F9E040E00ABCD6705F"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="6000"/>
+			<column name="NOTE_REQ_IND" value="N"/>
+			<column name="RCPT_REQ_IND" value="N"/>
+			<column name="TAXABLE_IND" value="N"/>
+			<column name="SPCL_RQST_REQ_IND" value="N"/>
+			<column name="ACTV_IND" value="Y"/>
+		</insert>
+		<insert tableName="TEM_EXP_TYP_FIN_OBJ_CD_T">
+			<column name="EXP_TYP_OBJ_CD_ID" value="80.0"/>
+			<column name="EXP_TYP_CD" value="B"/>
+			<column name="TRIP_TYP_CD" value="OUT"/>
+			<column name="TRAVELER_TYP_CD" value="All"/>
+			<column name="DOC_TYP_NM" value="TA"/>
+			<column name="OBJ_ID" valueComputed="EF7E48F8C00372F9E040E00ABCD6705F"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="6100"/>
+			<column name="MAX_AMT" valueNumeric="64.0"/>
+			<column name="MAX_AMT_SUM_CD" value="D"/>
+			<column name="ERR_TYP_CD" valueNumeric="1"/>
+			<column name="NOTE_REQ_IND" value="N"/>
+			<column name="RCPT_REQ_IND" value="N"/>
+			<column name="TAXABLE_IND" value="N"/>
+			<column name="SPCL_RQST_REQ_IND" value="N"/>
+			<column name="ACTV_IND" value="Y"/>
+		</insert>
+		<insert tableName="TEM_EXP_TYP_FIN_OBJ_CD_T">
+			<column name="EXP_TYP_OBJ_CD_ID" value="81.0"/>
+			<column name="EXP_TYP_CD" value="B"/>
+			<column name="TRIP_TYP_CD" value="INT"/>
+			<column name="TRAVELER_TYP_CD" value="All"/>
+			<column name="DOC_TYP_NM" value="TA"/>
+			<column name="OBJ_ID" valueComputed="EF7E48F8C00472F9E040E00ABCD6705F"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="6200"/>
+			<column name="NOTE_REQ_IND" value="N"/>
+			<column name="RCPT_REQ_IND" value="N"/>
+			<column name="TAXABLE_IND" value="N"/>
+			<column name="SPCL_RQST_REQ_IND" value="N"/>
+			<column name="ACTV_IND" value="Y"/>
+		</insert>
+		<insert tableName="TEM_EXP_TYP_FIN_OBJ_CD_T">
+			<column name="EXP_TYP_OBJ_CD_ID" value="82.0"/>
+			<column name="EXP_TYP_CD" value="D"/>
+			<column name="TRIP_TYP_CD" value="All"/>
+			<column name="TRAVELER_TYP_CD" value="All"/>
+			<column name="DOC_TYP_NM" value="TA"/>
+			<column name="OBJ_ID" valueComputed="EF7E48F8C00572F9E040E00ABCD6705F"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="6000"/>
+			<column name="NOTE_REQ_IND" value="N"/>
+			<column name="RCPT_REQ_IND" value="N"/>
+			<column name="TAXABLE_IND" value="N"/>
+			<column name="SPCL_RQST_REQ_IND" value="N"/>
+			<column name="ACTV_IND" value="Y"/>
+		</insert>
+		<insert tableName="TEM_EXP_TYP_FIN_OBJ_CD_T">
+			<column name="EXP_TYP_OBJ_CD_ID" value="83.0"/>
+			<column name="EXP_TYP_CD" value="D"/>
+			<column name="TRIP_TYP_CD" value="OUT"/>
+			<column name="TRAVELER_TYP_CD" value="All"/>
+			<column name="DOC_TYP_NM" value="TA"/>
+			<column name="OBJ_ID" valueComputed="EF7E48F8C00672F9E040E00ABCD6705F"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="6100"/>
+			<column name="MAX_AMT" valueNumeric="64.0"/>
+			<column name="MAX_AMT_SUM_CD" value="D"/>
+			<column name="ERR_TYP_CD" valueNumeric="1"/>
+			<column name="NOTE_REQ_IND" value="N"/>
+			<column name="RCPT_REQ_IND" value="N"/>
+			<column name="TAXABLE_IND" value="N"/>
+			<column name="SPCL_RQST_REQ_IND" value="N"/>
+			<column name="ACTV_IND" value="Y"/>
+		</insert>
+		<insert tableName="TEM_EXP_TYP_FIN_OBJ_CD_T">
+			<column name="EXP_TYP_OBJ_CD_ID" value="84.0"/>
+			<column name="EXP_TYP_CD" value="D"/>
+			<column name="TRIP_TYP_CD" value="INT"/>
+			<column name="TRAVELER_TYP_CD" value="All"/>
+			<column name="DOC_TYP_NM" value="TA"/>
+			<column name="OBJ_ID" valueComputed="EF7E48F8C00772F9E040E00ABCD6705F"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="6200"/>
+			<column name="NOTE_REQ_IND" value="N"/>
+			<column name="RCPT_REQ_IND" value="N"/>
+			<column name="TAXABLE_IND" value="N"/>
+			<column name="SPCL_RQST_REQ_IND" value="N"/>
+			<column name="ACTV_IND" value="Y"/>
+		</insert>
+		<insert tableName="TEM_EXP_TYP_FIN_OBJ_CD_T">
+			<column name="EXP_TYP_OBJ_CD_ID" value="85.0"/>
+			<column name="EXP_TYP_CD" value="LN"/>
+			<column name="TRIP_TYP_CD" value="All"/>
+			<column name="TRAVELER_TYP_CD" value="All"/>
+			<column name="DOC_TYP_NM" value="TA"/>
+			<column name="OBJ_ID" valueComputed="EF7E48F8C00872F9E040E00ABCD6705F"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="6000"/>
+			<column name="NOTE_REQ_IND" value="N"/>
+			<column name="RCPT_REQ_IND" value="N"/>
+			<column name="TAXABLE_IND" value="N"/>
+			<column name="SPCL_RQST_REQ_IND" value="N"/>
+			<column name="ACTV_IND" value="Y"/>
+		</insert>
+		<insert tableName="TEM_EXP_TYP_FIN_OBJ_CD_T">
+			<column name="EXP_TYP_OBJ_CD_ID" value="86.0"/>
+			<column name="EXP_TYP_CD" value="LN"/>
+			<column name="TRIP_TYP_CD" value="OUT"/>
+			<column name="TRAVELER_TYP_CD" value="All"/>
+			<column name="DOC_TYP_NM" value="TA"/>
+			<column name="OBJ_ID" valueComputed="EF7E48F8C00972F9E040E00ABCD6705F"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="6100"/>
+			<column name="MAX_AMT" valueNumeric="64.0"/>
+			<column name="MAX_AMT_SUM_CD" value="D"/>
+			<column name="ERR_TYP_CD" valueNumeric="1"/>
+			<column name="NOTE_REQ_IND" value="N"/>
+			<column name="RCPT_REQ_IND" value="N"/>
+			<column name="TAXABLE_IND" value="N"/>
+			<column name="SPCL_RQST_REQ_IND" value="N"/>
+			<column name="ACTV_IND" value="Y"/>
+		</insert>
+		<insert tableName="TEM_EXP_TYP_FIN_OBJ_CD_T">
+			<column name="EXP_TYP_OBJ_CD_ID" value="87.0"/>
+			<column name="EXP_TYP_CD" value="LN"/>
+			<column name="TRIP_TYP_CD" value="INT"/>
+			<column name="TRAVELER_TYP_CD" value="All"/>
+			<column name="DOC_TYP_NM" value="TA"/>
+			<column name="OBJ_ID" valueComputed="EF7E48F8C00A72F9E040E00ABCD6705F"/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="FIN_OBJECT_CD" value="6200"/>
 			<column name="NOTE_REQ_IND" value="N"/>
 			<column name="RCPT_REQ_IND" value="N"/>
 			<column name="TAXABLE_IND" value="N"/>

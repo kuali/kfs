@@ -64,6 +64,7 @@ public class TemKeyConstants {
     public static final String ERROR_DELINQUENT_MSG_REQUIRED              = "error.document.tem.delinquentMessageRequired";
     public static final String ERROR_TA_TRIP_TYPE_BLANKET_NOT_ALLOWED     = "error.document.tem.tripTypeNotBlanket";
     public static final String ERROR_TA_PROFILE_NOT_COMPLETE_FOR_BLANKET_TRAVEL = "error.document.tem.profileNotCompleteForBlanketTravel";
+    public static final String ERROR_REIMBURSABLE_NOT_COMPLETE_FOR_NO_REIMBURSEMENT = "error.document.tem.profileNotCompleteForNoReimbursement";
 
     public static final String WARNING_DUPLICATE_EXPENSE             = "warning.document.tem.actualexpense.duplicateExpenseType";
     public static final String WARNING_NOTES_JUSTIFICATION             = "warning.document.tem.actualexpense.notesJustification";
@@ -315,6 +316,7 @@ public class TemKeyConstants {
     public static final String ERROR_GROUP_TRAVELER_LOOKUP_NEEDS_SOME_FIELD = "error.groupTraveler.lookupNeedsSomeField";
 
     public static final String ERROR_MIELAGE_RATES_PER_DIEM_RATES_CHANGED = "error.mileage.rates.per.diem.rates.changed";
+    public static final String ERROR_PER_DIEM_INVALID_DATE_SEASON_BEGIN_MONTH_DAY = "error.perdiem.invalid.date.seasonBeginMonthDay";
 
     //Configuration properties
     public static final String CONFIG_PROPERTY_REIMBURSEMENT_INITIATELINK_ENABLED = "module.travel.reimbursement.initiatelink.enabled";

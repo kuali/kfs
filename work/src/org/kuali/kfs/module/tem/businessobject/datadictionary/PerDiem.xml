@@ -179,7 +179,14 @@
 		<property name="maxLength" value="5" />
 		<property name="control">
 			<bean parent="TextControlDefinition" p:size="5"/>
-		</property>		
+		</property>
+		<property name="required" value="true"/>
+		<property name="validationPattern">
+			<bean parent="RegexValidationPattern">
+				<property name="pattern" value="\d{1,2}/\d{1}\d"/> <!-- evidently regex validation pattern always puts a "*" at the end... -->
+				<property name="validationErrorMessageKey" value="error.perdiem.invalid.seasonBeginMonthDay"/>
+			</bean>
+		</property>
 	</bean>	
 	
 	<bean id="PerDiem-effectiveToDate" parent="PerDiem-effectiveToDate-parentBean" />

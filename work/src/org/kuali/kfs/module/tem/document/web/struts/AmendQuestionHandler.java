@@ -54,6 +54,7 @@ import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.exception.ValidationException;
 import org.kuali.rice.krad.service.DataDictionaryService;
 import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.service.NoteService;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -62,13 +63,14 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Transactional
 public class AmendQuestionHandler implements QuestionHandler<TravelDocument> {
-    private ConfigurationService ConfigurationService;
-    private DataDictionaryService dataDictionaryService;
-    private TravelService travelService;
-    private TravelDocumentService travelDocumentService;
-    private DocumentService documentService;
-    private DocumentDao documentDao;
-    private AccountingDocumentRelationshipService accountingDocumentRelationshipService;
+    protected ConfigurationService ConfigurationService;
+    protected DataDictionaryService dataDictionaryService;
+    protected TravelService travelService;
+    protected TravelDocumentService travelDocumentService;
+    protected DocumentService documentService;
+    protected DocumentDao documentDao;
+    protected AccountingDocumentRelationshipService accountingDocumentRelationshipService;
+    protected NoteService noteService;
 
     @Override
     public <T> T handleResponse(final Inquisitive<TravelDocument,?> asker) throws Exception {
@@ -113,13 +115,15 @@ public class AmendQuestionHandler implements QuestionHandler<TravelDocument> {
 
             final Note newNote = getDocumentService().createNoteFromDocument(document, noteText.toString());
             newNote.setNoteText(noteText.toString());
+            getNoteService().save(newNote);
             document.updateAppDocStatus(TravelAuthorizationStatusCodeKeys.PEND_AMENDMENT);
 
             final DocumentAttributeIndexingQueue documentAttributeIndexingQueue = KewApiServiceLocator.getDocumentAttributeIndexingQueue();
             documentAttributeIndexingQueue.indexDocument(document.getDocumentNumber());
 
             TravelAuthorizationAmendmentDocument taaDocument = ((TravelAuthorizationDocument) document).toCopyTAA();
-            taaDocument.addNote(newNote);
+            final Note firstNote = getDocumentService().createNoteFromDocument(taaDocument, noteText.toString());
+            taaDocument.addNote(firstNote);
             Note secondNote = getDocumentService().createNoteFromDocument(document, getMessageFrom(TemKeyConstants.TA_MESSAGE_AMEND_DOCUMENT_TEXT));
             Principal systemUser = KimApiServiceLocator.getIdentityService().getPrincipalByPrincipalName(KFSConstants.SYSTEM_USER);
             secondNote.setAuthorUniversalIdentifier(systemUser.getPrincipalId());
@@ -164,10 +168,7 @@ public class AmendQuestionHandler implements QuestionHandler<TravelDocument> {
         }
     }
 
-
-
-
-    private String createNote(String reason, String documentNumber) {
+    protected String createNote(String reason, String documentNumber) {
         String introNoteMessage = AMEND_NOTE_PREFIX + BLANK_SPACE;
         String suffix = StringUtils.replace(AMEND_NOTE_SUFFIX, "{0}", documentNumber);
         return introNoteMessage + reason + BLANK_SPACE + suffix;
@@ -314,5 +315,13 @@ public class AmendQuestionHandler implements QuestionHandler<TravelDocument> {
 
     public void setTravelDocumentService(TravelDocumentService travelDocumentService) {
         this.travelDocumentService = travelDocumentService;
+    }
+
+    public NoteService getNoteService() {
+        return noteService;
+    }
+
+    public void setNoteService(NoteService noteService) {
+        this.noteService = noteService;
     }
 }

@@ -1246,6 +1246,7 @@
 		<property name="documentDao" ref="documentDao" />
 		<property name="dataDictionaryService" ref="dataDictionaryService" />
 		<property name="accountingDocumentRelationshipService" ref="temAccountingDocumentRelationshipService" />
+		<property name="noteService" ref="noteService"/>
 	</bean>
 
 	<bean id="HoldTa"

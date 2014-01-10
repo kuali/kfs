@@ -131,6 +131,9 @@
 	
 	<bean id="TravelDocument-perDiemPrimaryDestMatchValidation" parent="TravelDocument-perDiemPrimaryDestMatchValidation-parentBean"/>
 	<bean id="TravelDocument-perDiemPrimaryDestMatchValidation-parentBean" abstract="true" class="org.kuali.kfs.module.tem.document.validation.impl.TravelDocumentPerDiemPrimaryDestinationMatchValidation"/>
+	
+	<bean id="TEMReimbursement-requiredAccountingLinesCountValidation" parent="TEMReimbursement-requiredAccountingLinesCountValidation-parentBean" />
+    <bean id="TEMReimbursement-requiredAccountingLinesCountValidation-parentBean" class="org.kuali.kfs.module.tem.document.validation.impl.TEMReimbursementRequiredAccountingLinesCountValidation" />
 
 	<!-- Add Accounting Line Event -->
 	<bean id="TravelModule-addAccountingLine-failFastValidation" abstract="true" parent="TravelModule-addAccountingLine-failFastValidation-parentBean" scope="prototype"/>

@@ -2194,4 +2194,39 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
         }
         return getExpenseLimit();
     }
+
+    public String getTotalDollarAmountForRouting() {
+        if (!shouldRouteByProfileAccount()) {
+            return "";
+        } else {
+            return getTotalDollarAmount().toString();
+        }
+    }
+
+    public String getProfileChartForRouting() {
+        if (!shouldRouteByProfileAccount()) {
+            return "";
+        } else {
+            if (ObjectUtils.isNotNull(getTemProfile())) {
+                return getTemProfile().getDefaultChartCode();
+            }
+            return "";
+        }
+    }
+
+    public String getProfileAccountForRouting() {
+        if (!shouldRouteByProfileAccount()) {
+            return "";
+        } else {
+            if (ObjectUtils.isNotNull(getTemProfile())) {
+                return getTemProfile().getDefaultAccount();
+            }
+            return "";
+        }
+    }
+
+    /**
+     * Determines if this document should attempt to route by profile account or not
+     */
+    protected abstract boolean shouldRouteByProfileAccount();
 }

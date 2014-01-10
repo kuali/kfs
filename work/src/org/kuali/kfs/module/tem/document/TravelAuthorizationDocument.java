@@ -1374,34 +1374,13 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
         return SpringContext.getBean(AccountingLineService.class).getByDocumentHeaderIdAndLineType(getAdvanceAccountingLineClass(), getDocumentNumber(), TemConstants.TRAVEL_ADVANCE_ACCOUNTING_LINE_TYPE_CODE);
     }
 
-    public String getBlanketTotalDollarAmountForRouting() {
-        if (!getBlanketTravel() && getTripType().isGenerateEncumbrance()) {
-            return "";
-        } else {
-            return getTotalDollarAmount().toString();
-        }
-    }
-
-    public String getBlanketChartForRouting() {
-        if (!getBlanketTravel() && getTripType().isGenerateEncumbrance()) {
-            return "";
-        } else {
-            if (ObjectUtils.isNotNull(getTemProfile())) {
-                return getTemProfile().getDefaultChartCode();
-            }
-            return "";
-        }
-    }
-
-    public String getBlanketAccountForRouting() {
-        if (!getBlanketTravel() && getTripType().isGenerateEncumbrance()) {
-            return "";
-        } else {
-            if (ObjectUtils.isNotNull(getTemProfile())) {
-                return getTemProfile().getDefaultAccount();
-            }
-            return "";
-        }
+    /**
+     * TA's will route by profile account if they are blanket travel or if the trip type does not generate an enumbrance
+     * @see org.kuali.kfs.module.tem.document.TravelDocumentBase#shouldRouteByProfileAccount()
+     */
+    @Override
+    protected boolean shouldRouteByProfileAccount() {
+        return getBlanketTravel() || !getTripType().isGenerateEncumbrance();
     }
 
     /**

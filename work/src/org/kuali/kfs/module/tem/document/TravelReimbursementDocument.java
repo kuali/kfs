@@ -302,9 +302,6 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
      */
     @Override
     public boolean answerSplitNodeQuestion(String nodeName) throws UnsupportedOperationException {
-        if (nodeName.equals(TemWorkflowConstants.ACCOUNT_APPROVAL_REQUIRED)) {
-            return requiresAccountApprovalRouting();
-        }
         if (nodeName.equals(TemWorkflowConstants.DIVISION_APPROVAL_REQUIRED)) {
             return requiresDivisionApprovalRouting() && isNotAutomaticReimbursement();
         }

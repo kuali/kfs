@@ -18,14 +18,7 @@
 	<bean id="TravelRelocation-routeDocumentValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
    	<property name="validations">
    		<list>
-   			<bean parent="AccountingDocument-oneSidedRequiredAccountingLinesCountValidation" scope="prototype">
-				<property name="requiredMinimumCount" value="1" />
-				<property name="parameterProperties">
-					<list>
-						<bean parent="accountingDocumentFieldConversion" />
-					</list>
-				</property>
-			</bean>  			    			
+   			<bean parent="TEMReimbursement-requiredAccountingLinesCountValidation" scope="prototype" />			    			
    			<bean parent="TravelRelocation-relocationInformationRequiredInfoValidation" scope="prototype" />
    			<bean parent="TravelModule-travelerValidation" scope="prototype" />  
    			<bean parent="TravelModule-requiredInfoValidation" scope="prototype" />

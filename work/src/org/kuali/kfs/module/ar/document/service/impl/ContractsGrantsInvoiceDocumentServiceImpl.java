@@ -1194,7 +1194,6 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
                 for (Integer i = fiscalYear; i <= currentYear; i++) {
                     fiscalYears.add(i);
                 }
-
                 for (Integer eachFiscalYr : fiscalYears) {
 
                     Map<String, Object> balanceKeys = new HashMap<String, Object>();
@@ -1282,13 +1281,17 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         for (Integer i = fiscalYear; i <= currentYear; i++) {
             fiscalYears.add(i);
         }
-
+        List<String> objectTypeCodeList = new ArrayList<String>();
+        objectTypeCodeList.add(ArPropertyConstants.EXPENSE_OBJECT_TYPE);
+        objectTypeCodeList.add(ArPropertyConstants.INCOME_OBJECT_TYPE);
+        
         for (Integer eachFiscalYr : fiscalYears) {
             Map<String, Object> balanceKeys = new HashMap<String, Object>();
             balanceKeys.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, awardAccount.getChartOfAccountsCode());
             balanceKeys.put(KFSPropertyConstants.ACCOUNT_NUMBER, awardAccount.getAccountNumber());
             balanceKeys.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, eachFiscalYr);
             balanceKeys.put("balanceTypeCode", ArPropertyConstants.ACTUAL_BALANCE_TYPE);
+            balanceKeys.put(KFSPropertyConstants.OBJECT_TYPE_CODE , objectTypeCodeList);
             glBalances.addAll(businessObjectService.findMatching(Balance.class, balanceKeys));
         }
         for (Balance bal : glBalances) {
@@ -1957,7 +1960,6 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         for (Integer i = fiscalYear; i <= currentYear; i++) {
             fiscalYears.add(i);
         }
-
         for (Integer eachFiscalYr : fiscalYears) {
             Map<String, Object> balanceKeys = new HashMap<String, Object>();
             balanceKeys.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, awardAccount.getChartOfAccountsCode());
@@ -4089,7 +4091,8 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             for (Integer i = fiscalYear; i <= currentYear; i++) {
                 fiscalYears.add(i);
             }
-
+            List<String> objCodes = new ArrayList<String>();
+            objCodes.addAll(getObjectCodeArrayFromContractsAndGrantsCategories(document));
             for (Integer eachFiscalYr : fiscalYears) {
                 Map<String, Object> balanceKeys = new HashMap<String, Object>();
                 balanceKeys.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, awardAccount.getChartOfAccountsCode());
@@ -4097,7 +4100,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
                 balanceKeys.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, eachFiscalYr);
                 balanceKeys.put(KFSPropertyConstants.OBJECT_TYPE_CODE, ArPropertyConstants.EXPENSE_OBJECT_TYPE);
                 balanceKeys.put(KFSPropertyConstants.BALANCE_TYPE_CODE, ArPropertyConstants.ACTUAL_BALANCE_TYPE);
-
+                balanceKeys.put(KFSPropertyConstants.OBJECT_CODE, objCodes);
                 glBalances.addAll(businessObjectService.findMatching(Balance.class, balanceKeys));
             }
         } // now you have a list of balances from all accounts;

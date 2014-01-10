@@ -348,13 +348,16 @@ public class InvoiceAccountDetail extends PersistableBusinessObjectBase {
         for (Integer i = fiscalYear; i <= currentYear; i++) {
             fiscalYears.add(i);
         }
-
+        List<String> balanceTypeCodeList = new ArrayList<String>();
+        balanceTypeCodeList.add(ArPropertyConstants.BUDGET_BALANCE_TYPE);
+        balanceTypeCodeList.add(ArPropertyConstants.ACTUAL_BALANCE_TYPE);
         for (Integer eachFiscalYr : fiscalYears) {
             Map<String, Object> balanceKeys = new HashMap<String, Object>();
             balanceKeys.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, getChartOfAccountsCode());
             balanceKeys.put(KFSPropertyConstants.ACCOUNT_NUMBER, getAccountNumber());
             balanceKeys.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, eachFiscalYr);
             balanceKeys.put("objectTypeCode", ArPropertyConstants.EXPENSE_OBJECT_TYPE);
+            balanceKeys.put(KFSPropertyConstants.BALANCE_TYPE_CODE,balanceTypeCodeList);
             glBalances.addAll(SpringContext.getBean(BusinessObjectService.class).findMatching(Balance.class, balanceKeys));
         }
         KualiDecimal budAmt = KualiDecimal.ZERO;

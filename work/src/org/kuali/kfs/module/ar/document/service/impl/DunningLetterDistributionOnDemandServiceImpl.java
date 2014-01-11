@@ -177,10 +177,12 @@ public class DunningLetterDistributionOnDemandServiceImpl implements DunningLett
                 replacementList.put("#agency.fullAddressInline", returnProperStringValue(fullAddress));
                 replacementList.put("#agency.fullName", returnProperStringValue(address.getCustomer().getCustomerName()));
                 replacementList.put("#agency.contactName", returnProperStringValue(address.getCustomer().getCustomerContactName()));
+                if(CollectionUtils.isNotEmpty(selectedInvoices)){
                 reportStream = PdfFormFillerUtil.populateTemplate(templateFile, replacementList, "");
 
                 // Step3. attach each dunning letter to invoice pdfs.
                 finalReportStream = generateListOfInvoicesPdfToPrint(selectedInvoices, reportStream);
+                }
             }
             catch (Exception ex) {
                 // This means that the invoice pdfs were not generated properly. So get only the Dunning letters created.

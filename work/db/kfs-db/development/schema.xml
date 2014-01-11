@@ -15038,8 +15038,12 @@
         <column name="ACTV_IND" required="true" size="1" type="VARCHAR"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
+        <column name="BNK_CD" size="4" type="VARCHAR"/>
         <foreign-key foreignTable="TEM_TRVL_CARD_TYP_T" name="TEM_CREDIT_CARD_AGENCY_TR1">
             <reference foreign="CODE" local="TRAVEL_CARD_TYPE_CD"/>
+        </foreign-key>
+        <foreign-key foreignTable="FP_BANK_T" name="TEM_CREDIT_CARD_AGENCY_TR2">
+            <reference foreign="BNK_CD" local="BNK_CD"/>
         </foreign-key>
         <unique name="TEM_CREDIT_CARD_AGENCY_TC0">
             <unique-column name="OBJ_ID"/>

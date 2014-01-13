@@ -221,7 +221,7 @@ public class InvoiceBill extends PersistableBusinessObjectBase {
      * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
 
-    protected LinkedHashMap toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
 
         m.put(ArPropertyConstants.CustomerInvoiceDocumentFields.DOCUMENT_NUMBER, this.documentNumber);

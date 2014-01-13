@@ -195,7 +195,8 @@ if [[ "$RUN_UPGRADE_WORKFLOW" == "true" ]]; then
 		rice.dev.mode=true
 		rice.ksb.batch.mode=true
 		dont.filter.project.rice=
-		dont.filter.project.spring.ide=	
+		dont.filter.project.spring.ide=
+        drivers.directory=/opt/hudson/drivers
 	EOF
 	) > $WORKSPACE/kfs-build.properties
 	#ant import-workflow-xml -Dworkflow.dir=$UPGRADE_SCRIPT_DIR/workflow/rice_provided -Duser.home=$WORKSPACE

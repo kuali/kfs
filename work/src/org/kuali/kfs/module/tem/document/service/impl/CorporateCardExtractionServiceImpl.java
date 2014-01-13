@@ -26,6 +26,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemParameterConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
+import org.kuali.kfs.module.tem.businessobject.CreditCardAgency;
 import org.kuali.kfs.module.tem.businessobject.HistoricalTravelExpense;
 import org.kuali.kfs.module.tem.businessobject.ImportedExpense;
 import org.kuali.kfs.module.tem.businessobject.TemSourceAccountingLine;
@@ -185,8 +186,10 @@ public class CorporateCardExtractionServiceImpl implements PaymentSourceToExtrac
         }
 
         PaymentGroup pg = new PaymentGroup();
-        final VendorDetail vendor = getCorporateCardVendor(document);
+        final CreditCardAgency creditCardAgency = getCorporateCreditCardAgency(document);
+        final VendorDetail vendor = getCorporateCardVendor(creditCardAgency);
         final VendorAddress vendorAddress = getVendorService().getVendorDefaultAddress(vendor.getVendorAddresses(), vendor.getVendorHeader().getVendorType().getAddressType().getVendorAddressTypeCode(), "");
+
         pg.setCombineGroups(Boolean.TRUE);
         pg.setCampusAddress(Boolean.FALSE);
 
@@ -202,7 +205,7 @@ public class CorporateCardExtractionServiceImpl implements PaymentSourceToExtrac
         pg.setPymtAttachment(false);
         pg.setPymtSpecialHandling(false);
         pg.setNraPayment(false);
-        pg.setBankCode(document.getFinancialDocumentBankCode());
+        pg.setBankCode(creditCardAgency.getBankCode());
         pg.setPaymentStatusCode(PdpConstants.PaymentStatusCodes.OPEN);
         if (StringUtils.equals(document.getTraveler().getTravelerTypeCode(), TemConstants.EMP_TRAVELER_TYP_CD)) {
             pg.setEmployeeIndicator(true);
@@ -225,12 +228,31 @@ public class CorporateCardExtractionServiceImpl implements PaymentSourceToExtrac
      * @param document the document to find a corporate card vendor for
      * @return the found vendor or null if a vendor could not be found
      */
-    protected VendorDetail getCorporateCardVendor(TEMReimbursementDocument document) {
-       final String vendorNumber =  findCorporateCardVendorNumber(document);
-       if (!StringUtils.isBlank(vendorNumber)) {
-           return getVendorService().getByVendorNumber(vendorNumber);
-       }
-       return null;
+    protected VendorDetail getCorporateCardVendor(CreditCardAgency creditCardAgency) {
+        if (!ObjectUtils.isNull(creditCardAgency)) {
+            final String vendorNumber =  creditCardAgency.getVendorNumber();
+            if (!StringUtils.isBlank(vendorNumber)) {
+                return getVendorService().getByVendorNumber(vendorNumber);
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Looks through the imported expenses on the document to find a corporate card record which has a credit card agency - returns that
+     * @param document a document to find a corporate card vendor for
+     * @return the id of the found vendor or null if nothing was found
+     */
+    protected CreditCardAgency getCorporateCreditCardAgency(TEMReimbursementDocument document) {
+        for (ImportedExpense importedExpense : document.getImportedExpenses()) {
+            if (StringUtils.equals(importedExpense.getCardType(), TemConstants.TRAVEL_TYPE_CORP) && !ObjectUtils.isNull(importedExpense.getHistoricalTravelExpense())) {
+                importedExpense.getHistoricalTravelExpense().refreshReferenceObject(TemPropertyConstants.CREDIT_CARD_AGENCY);
+                if (!ObjectUtils.isNull(importedExpense.getHistoricalTravelExpense().getCreditCardAgency()) && !StringUtils.isBlank(importedExpense.getHistoricalTravelExpense().getCreditCardAgency().getVendorNumber())) {
+                    return importedExpense.getHistoricalTravelExpense().getCreditCardAgency();
+                }
+            }
+        }
+        return null;
     }
 
     /**
@@ -239,13 +261,9 @@ public class CorporateCardExtractionServiceImpl implements PaymentSourceToExtrac
      * @return the id of the found vendor or null if nothing was found
      */
     protected String findCorporateCardVendorNumber(TEMReimbursementDocument document) {
-        for (ImportedExpense importedExpense : document.getImportedExpenses()) {
-            if (StringUtils.equals(importedExpense.getCardType(), TemConstants.TRAVEL_TYPE_CORP) && !ObjectUtils.isNull(importedExpense.getHistoricalTravelExpense())) {
-                importedExpense.getHistoricalTravelExpense().refreshReferenceObject(TemPropertyConstants.CREDIT_CARD_AGENCY);
-                if (!ObjectUtils.isNull(importedExpense.getHistoricalTravelExpense().getCreditCardAgency()) && !StringUtils.isBlank(importedExpense.getHistoricalTravelExpense().getCreditCardAgency().getVendorNumber())) {
-                    return importedExpense.getHistoricalTravelExpense().getCreditCardAgency().getVendorNumber();
-                }
-            }
+        final CreditCardAgency creditCardAgency = getCorporateCreditCardAgency(document);
+        if (!ObjectUtils.isNull(creditCardAgency)) {
+            return creditCardAgency.getVendorNumber();
         }
         return null;
     }

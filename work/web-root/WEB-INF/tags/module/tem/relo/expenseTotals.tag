@@ -39,6 +39,10 @@
 					<td><bean:write name="KualiForm" property="document.fullCTSTotal" /></td>
 				</tr>
 				<tr>
+					<th class="bord-l-b"><div align="right">Amount due Corporate Credit Card:</div></th>
+					<td><bean:write name="KualiForm" property="document.corporateCardTotal" /></td>
+				</tr>
+				<tr>
 					<th class="bord-l-b"><div align="right">Apply Expense Limit:</div> </th>
 					<c:choose>
 						<c:when test="${(KualiForm.document.expenseLimit) == null}">

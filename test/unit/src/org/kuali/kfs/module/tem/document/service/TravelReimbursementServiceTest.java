@@ -33,8 +33,10 @@ import org.kuali.kfs.module.tem.pdf.Coversheet;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.DocumentTestUtils;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.businessobject.PaymentSourceWireTransfer;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.validation.event.AccountingDocumentSaveWithNoLedgerEntryGenerationEvent;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.service.DocumentService;
 
@@ -75,6 +77,11 @@ public class TravelReimbursementServiceTest extends KualiTestBase {
         travelPayment.setDocumentationLocationCode("T");
         travelPayment.setPaymentMethodCode(KFSConstants.PaymentSourceConstants.PAYMENT_METHOD_WIRE);
         tr.setTravelPayment(travelPayment);
+
+        PaymentSourceWireTransfer wireTransfer = new PaymentSourceWireTransfer();
+        wireTransfer.setWireTransferFeeWaiverIndicator(false);
+        tr.setWireTransfer(wireTransfer);
+
     }
 
     @Override
@@ -89,7 +96,7 @@ public class TravelReimbursementServiceTest extends KualiTestBase {
      */
     @Test
     public void testFindByTravelDocumentIdentifier() throws WorkflowException {
-        documentService.saveDocument(tr);
+        documentService.saveDocument(tr, AccountingDocumentSaveWithNoLedgerEntryGenerationEvent.class);
 
         // test find for non existent travelDocumentIdentifier
         List<TravelReimbursementDocument> result = trService.findByTravelId("-1");
@@ -97,7 +104,7 @@ public class TravelReimbursementServiceTest extends KualiTestBase {
         assertTrue(result.isEmpty());
 
         // test find for existing travelDocument
-        result = (List<TravelReimbursementDocument>) trService.find(tr.getTravelDocumentIdentifier());
+        result = trService.findByTravelId(tr.getTravelDocumentIdentifier());
         assertNotNull(result);
         assertFalse(result.isEmpty());
     }
@@ -111,7 +118,7 @@ public class TravelReimbursementServiceTest extends KualiTestBase {
         assertNull(trService.find(tr.getDocumentHeader().getDocumentNumber()));
 
         // test find for existent documentNumber
-        documentService.saveDocument(tr);
+        documentService.saveDocument(tr, AccountingDocumentSaveWithNoLedgerEntryGenerationEvent.class);
         assertNotNull(trService.find(tr.getDocumentHeader().getDocumentNumber()));
     }
 
@@ -159,6 +166,8 @@ public class TravelReimbursementServiceTest extends KualiTestBase {
             tr.setTripBegin(new Timestamp(new java.util.Date().getTime()));
             tr.setTripEnd(new Timestamp(new java.util.Date().getTime()));
 
+            documentService.saveDocument(tr, AccountingDocumentSaveWithNoLedgerEntryGenerationEvent.class);
+
             trService.notifyDateChangedOn(tr, new java.util.Date(), new java.util.Date());
             success = true;
         }
@@ -187,6 +196,9 @@ public class TravelReimbursementServiceTest extends KualiTestBase {
         }
 
         assertNull(cover);
+
+        tr.setTripBegin(new Timestamp(new java.util.Date().getTime()));
+        tr.setTripEnd(new Timestamp(new java.util.Date().getTime()));
 
         cover = trService.generateCoversheetFor(tr);
         assertNotNull(cover);

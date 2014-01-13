@@ -456,7 +456,7 @@
     <property name="businessObjectClassName" value="org.kuali.kfs.module.tem.document.TravelReimbursementDocument" />
     <property name="routingTypeDefinitions">
 		<map>
-			<entry key="Account" value-ref="RoutingType-AccountingDocument-Account-sourceOnly" />
+			<entry key="Account" value-ref="TravelDocument-RoutingType-Account" />
 			<entry key="AccountingOrganizationHierarchy" value-ref="RoutingType-TravelAuthorizationDocument-AccountingOrganizationHierarchy" />
 			<entry key="ReimbursementOverage" value-ref="RoutingType-TravelReimbursement-ReimbursementOverage"/>
 			<entry key="SubFund" value-ref="RoutingType-AccountingDocument-SubFund" />

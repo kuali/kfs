@@ -431,7 +431,7 @@ public class TravelExpenseServiceImpl implements TravelExpenseService {
             // 1. if the given user cannot change the taxability then we should actually look at it
             Map<String, String> permissionDetails = new HashMap<String, String>();
             permissionDetails.put(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME, document.getDocumentTypeName());
-            permissionDetails.put(KimConstants.AttributeConstants.EDIT_MODE, TemConstants.EditModes.ACTUAL_EXPENSE_TAXABLE_MODE);
+            permissionDetails.put(KimConstants.AttributeConstants.EDIT_MODE, TemConstants.EditModes.EXPENSE_TAXABLE_MODE);
             final boolean canEditTaxable = getDocumentHelperService().getDocumentAuthorizer(document).isAuthorizedByTemplate(document, KRADConstants.KNS_NAMESPACE, KimConstants.PermissionTemplateNames.USE_TRANSACTIONAL_DOCUMENT, currentUser.getPrincipalId(), permissionDetails, Collections.<String, String>emptyMap());
             if (!canEditTaxable) {
                 actualExpense.setTaxable(actualExpense.getExpenseTypeObjectCode().isTaxable());

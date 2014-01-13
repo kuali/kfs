@@ -370,7 +370,7 @@
     <property name="businessObjectClassName" value="org.kuali.kfs.module.tem.document.TravelAuthorizationDocument" />
     <property name="routingTypeDefinitions">
 		<map>
-			<entry key="Account" value-ref="TravelAuthorization-RoutingType-Account" />
+			<entry key="Account" value-ref="TravelDocument-RoutingType-Account" />
 			<entry key="AccountingOrganizationHierarchy" value-ref="RoutingType-TravelAuthorizationDocument-AccountingOrganizationHierarchy" />
 			<entry key="SubFund" value-ref="RoutingType-AccountingDocument-SubFund" />
 			<entry key="Award" value-ref="RoutingType-AccountingDocument-Award" />

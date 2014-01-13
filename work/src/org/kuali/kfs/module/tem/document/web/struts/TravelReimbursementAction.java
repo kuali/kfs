@@ -718,18 +718,20 @@ public class TravelReimbursementAction extends TravelActionBase {
 
         ActionForward forward = super.route(mapping, form, request, response);
 
-        addDateChangedNote(form);
+        if (!StringUtils.isBlank(forward.getPath()) && forward.getPath().indexOf(KRADConstants.QUESTION_ACTION) < 0 ) {
+            addDateChangedNote(form);
 
-        addAccountingDocumentRelationship(form);
+            addAccountingDocumentRelationship(form);
 
-        if (GlobalVariables.getMessageMap().getErrorCount() == 0){
-            TravelReimbursementForm travelReimbursementForm = (TravelReimbursementForm) form;
-            TravelReimbursementDocument travelReimbursementDocument = travelReimbursementForm.getTravelReimbursementDocument();
+            if (GlobalVariables.getMessageMap().getErrorCount() == 0){
+                TravelReimbursementForm travelReimbursementForm = (TravelReimbursementForm) form;
+                TravelReimbursementDocument travelReimbursementDocument = travelReimbursementForm.getTravelReimbursementDocument();
 
-            Boolean value = getParameterService().getParameterValueAsBoolean(TravelReimbursementDocument.class, TemConstants.TravelReimbursementParameters.PRETRIP_REIMBURSEMENT_IND, false);
+                Boolean value = getParameterService().getParameterValueAsBoolean(TravelReimbursementDocument.class, TemConstants.TravelReimbursementParameters.PRETRIP_REIMBURSEMENT_IND, false);
 
-            if (value != null && value.booleanValue()){
-                travelReimbursementDocument.getDocumentHeader().setDocumentDescription(postpendPreTripToDescription(travelReimbursementDocument.getDocumentHeader().getClass(), travelReimbursementDocument.getDocumentHeader().getDocumentDescription()));
+                if (value != null && value.booleanValue()){
+                    travelReimbursementDocument.getDocumentHeader().setDocumentDescription(postpendPreTripToDescription(travelReimbursementDocument.getDocumentHeader().getClass(), travelReimbursementDocument.getDocumentHeader().getDocumentDescription()));
+                }
             }
         }
 
@@ -746,19 +748,20 @@ public class TravelReimbursementAction extends TravelActionBase {
 
         ActionForward forward = super.blanketApprove(mapping, form, request, response);
 
-        addDateChangedNote(form);
+        if (!StringUtils.isBlank(forward.getPath()) && forward.getPath().indexOf(KRADConstants.QUESTION_ACTION) < 0 ) {
+            addDateChangedNote(form);
 
-        addAccountingDocumentRelationship(form);
+            addAccountingDocumentRelationship(form);
 
+            if (GlobalVariables.getMessageMap().getErrorCount() == 0){
+                TravelReimbursementForm travelReimbursementForm = (TravelReimbursementForm) form;
+                TravelReimbursementDocument travelReimbursementDocument = travelReimbursementForm.getTravelReimbursementDocument();
 
-        if (GlobalVariables.getMessageMap().getErrorCount() == 0){
-            TravelReimbursementForm travelReimbursementForm = (TravelReimbursementForm) form;
-            TravelReimbursementDocument travelReimbursementDocument = travelReimbursementForm.getTravelReimbursementDocument();
+                final boolean preTrip = getParameterService().getParameterValueAsBoolean(TravelReimbursementDocument.class, TemConstants.TravelReimbursementParameters.PRETRIP_REIMBURSEMENT_IND, false);
 
-            final boolean preTrip = getParameterService().getParameterValueAsBoolean(TravelReimbursementDocument.class, TemConstants.TravelReimbursementParameters.PRETRIP_REIMBURSEMENT_IND, false);
-
-            if (preTrip){
-                travelReimbursementDocument.getDocumentHeader().setDocumentDescription(postpendPreTripToDescription(travelReimbursementDocument.getDocumentHeader().getClass(), travelReimbursementDocument.getDocumentHeader().getDocumentDescription()));
+                if (preTrip){
+                    travelReimbursementDocument.getDocumentHeader().setDocumentDescription(postpendPreTripToDescription(travelReimbursementDocument.getDocumentHeader().getClass(), travelReimbursementDocument.getDocumentHeader().getDocumentDescription()));
+                }
             }
         }
 

@@ -477,7 +477,7 @@ public class TemConstants {
     public static final String TRAVEL_RELOCATION_ACTION_NAME = "temTravelRelocation";
     public static final String ENTERTAINMENT_ACTION_NAME = "temTravelEntertainment";
 
-    public static final String DATE_CHANGED_MESSAGE = "The trip begin/end dates have been changed from %s - %s to %s - %s";
+    public static final String DATE_CHANGED_MESSAGE = "The trip begin/end dates have been changed from %s - %s to %s - %s by Travel Reimbursement Doc # %s";
     public static final String TA_CANCELLED_MESSAGE = "Travel Authorization cancelled.";
 
     public static final String EMP_TRAVELER_TYP_CD = "EMP";
@@ -914,7 +914,7 @@ public class TemConstants {
 
     public static class EditModes {
         public static final String CHECK_AMOUNT_ENTRY = "checkAmountEntry";
-        public static final String ACTUAL_EXPENSE_TAXABLE_MODE = "actualExpenseTaxableEntry";
+        public static final String EXPENSE_TAXABLE_MODE = "expenseTaxableEntry";
         public static final String BLANKET_TRAVEL_ENTRY = "blanketTravelEntry";
         public static final String EXPENSE_LIMIT_ENTRY = "expenseLimitEntry";
         public static final String CONVERSION_RATE_ENTRY = "conversionRateEntry";
@@ -956,15 +956,15 @@ public class TemConstants {
      * Categories of expense types that cause special reactions from the system, as described below
      */
     public enum ExpenseTypeMetaCategory {
+        AIRFARE("A"), // forces extra airfare information to be filled on as part of an expense
         BREAKFAST("B"), // expenses with this expense type meta category cannot have a per diem breakfast on the same day
         LUNCH("J"), // expenses with this expense type meta category cannot have a per diem lunch on the same day ("J" for deJeneur which I just liked better than "U")
         DINNER("D"),  // expenses with this expense type meta category cannot have a per diem dinner on the same day
-        AIRFARE("A"), // forces extra airfare information to be filled on as part of an expense
+        INCIDENTALS("I"),
         LODGING("L"),
         LODGING_ALLOWANCE("W"),
         MILEAGE("M"), // changes the expense type entry to accept mileage rate and miles driven instead of a lump amount
-        RENTAL_CAR("R"),
-        INCIDENTALS("I");
+        RENTAL_CAR("R");
 
         private String code;
 

@@ -45,7 +45,10 @@ public class TravelDocumentPerDiemPrimaryDestinationMatchValidation extends Gene
             if (travelDoc.getPerDiemExpenses() != null && !travelDoc.getPerDiemExpenses().isEmpty()) {
                 for (PerDiemExpense perDiemExpense : travelDoc.getPerDiemExpenses()) {
                     if (primaryDestId == TemConstants.CUSTOM_PRIMARY_DESTINATION_ID) {
-                        if (perDiemExpense.getPerDiemId() == TemConstants.CUSTOM_PER_DIEM_ID && StringUtils.equals(perDiemExpense.getCountryStateText(), travelDoc.getPrimaryDestinationCountryState())) {
+                        if (perDiemExpense.getPerDiemId() == TemConstants.CUSTOM_PER_DIEM_ID &&
+                                StringUtils.equals(perDiemExpense.getCountryStateText(), travelDoc.getPrimaryDestinationCountryState()) &&
+                                StringUtils.equals(perDiemExpense.getPrimaryDestination(), travelDoc.getPrimaryDestinationName()) &&
+                                StringUtils.equals(perDiemExpense.getCounty(), travelDoc.getPrimaryDestinationCounty())) {
                             return true;
                         }
                     } else if (perDiemExpense.getPerDiemId() != TemConstants.CUSTOM_PER_DIEM_ID) {

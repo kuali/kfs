@@ -20,7 +20,7 @@
 <c:set var="fullEntryMode" value="${KualiForm.editingMode['fullEntry']}" scope="request" />
 <c:set var="advancePaymentMode" value="${KualiForm.editingMode['advancePaymentEntry']}" scope="request"/>
 <c:set var="advancePolicyMode" value="${KualiForm.editingMode['advancePolicyEntry']}" scope="request"/>
-<c:set var="actualExpenseTaxableMode" value="${KualiForm.editingMode['actualExpenseTaxableEntry']}" scope="request"/>
+<c:set var="expenseTaxableMode" value="${KualiForm.editingMode['expenseTaxableEntry']}" scope="request"/>
 <c:set var="clearAdvanceMode" value="${KualiForm.editingMode['clearAdvanceMode']}" scope="request"/>
 <c:set var="blanketTravelMode" value="${KualiForm.editingMode['blanketTravelEntry']}" scope="request"/>
 <c:set var="conversionRateEntryMode" value="${KualiForm.editingMode['conversionRateEntry']}" scope="request"/>

@@ -8,6 +8,7 @@
 <bean id="PerDiemMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
 	<property name="businessObjectClass" value="org.kuali.kfs.module.tem.businessobject.PerDiem" />
 	<property name="maintainableClass"   value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl" />
+	<property name="businessRulesClass" value="org.kuali.kfs.module.tem.document.validation.impl.PerDiemRule"/>
 	<property name="maintainableSections" >
 	<list>
 		<ref bean="PerDiemMaintenanceDocument-Section" />
@@ -35,6 +36,7 @@
 			<bean parent="MaintainableFieldDefinition" p:name="seasonBeginDate" p:required="false"/>
 			<bean parent="MaintainableFieldDefinition" p:name="effectiveFromDate" p:required="false"/>
 			<bean parent="MaintainableFieldDefinition" p:name="effectiveToDate" p:required="false"/>
+			<bean parent="MaintainableFieldDefinition" p:name="seasonBeginMonthAndDay" p:required="true"/>
 			<bean parent="MaintainableFieldDefinition" p:name="breakfast" p:required="true"/>
 			<bean parent="MaintainableFieldDefinition" p:name="lunch" p:required="true"/>
 			<bean parent="MaintainableFieldDefinition" p:name="dinner" p:required="true"/>

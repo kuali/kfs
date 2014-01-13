@@ -62,7 +62,7 @@ public class TravelAuthOneSidedRequiredAccountingLinesCountValidation extends Ge
      * @return
      */
     private boolean validateSourceAccountingLineMeetMinimum(TravelDocument travelDocument){
-        final Integer REQUIRED_MINIMUM= 1;
+        final int REQUIRED_MINIMUM= 1;
         boolean validated = true;
 
         if (travelDocument.getSourceAccountingLines().size() < REQUIRED_MINIMUM && !travelDocument.getBlanketTravel()) {

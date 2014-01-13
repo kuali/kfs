@@ -34,6 +34,7 @@ import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.businessobject.ActualExpense;
 import org.kuali.kfs.module.tem.businessobject.ImportedExpense;
 import org.kuali.kfs.module.tem.businessobject.PerDiemExpense;
+import org.kuali.kfs.module.tem.businessobject.TemExpense;
 import org.kuali.kfs.module.tem.businessobject.TravelPayment;
 import org.kuali.kfs.module.tem.document.service.AccountingDocumentRelationshipService;
 import org.kuali.kfs.sys.KFSConstants;
@@ -328,13 +329,12 @@ public abstract class TEMReimbursementDocument extends TravelDocumentBase implem
      */
     public KualiDecimal getPaymentAmount() {
         final KualiDecimal reimbursableExpenseTotal = getEligibleAmount();
-        if (getExpenseLimit() != null && reimbursableExpenseTotal.isGreaterThan(getExpenseLimit())) {
-            return getExpenseLimit();
-        }
         if (reimbursableExpenseTotal.isLessThan(KualiDecimal.ZERO)) {
             return KualiDecimal.ZERO;
         }
-        return reimbursableExpenseTotal;
+
+        final KualiDecimal reimbursableExpenseTotalWithExpenseLimit = applyExpenseLimit(reimbursableExpenseTotal);
+        return reimbursableExpenseTotalWithExpenseLimit;
     }
 
     /**
@@ -511,6 +511,40 @@ public abstract class TEMReimbursementDocument extends TravelDocumentBase implem
             return "Extracted";
         }
         return "Pre-Extraction";
+    }
+
+    /**
+     * Reimbursable documents route by profile account if they have no actual expenses, per diem expenses, or reimbursable imported expenses
+     * @see org.kuali.kfs.module.tem.document.TravelDocumentBase#shouldRouteByProfileAccount()
+     */
+    @Override
+    protected boolean shouldRouteByProfileAccount() {
+        return !hasReimbursableExpenses();
+    }
+
+    /**
+     * @return true if there are reimbursable expenses on this document and false if there are not
+     */
+    public boolean hasReimbursableExpenses() {
+        final boolean actualExpenses = hasReimbursableExpenses(getActualExpenses());
+        final boolean perDiemExpenses = getPerDiemExpenses() != null && !getPerDiemExpenses().isEmpty();
+        final boolean reimbursableImportedExpenses = hasReimbursableExpenses(getImportedExpenses());
+        return (actualExpenses || perDiemExpenses || reimbursableImportedExpenses);
+    }
+
+    /**
+     * @return true if there are reimbursable imported expenses; false otherwise
+     */
+    protected boolean hasReimbursableExpenses(List<? extends TemExpense> expenses) {
+        if (expenses == null || expenses.isEmpty()) {
+            return false; // no imported expenses; let's just skip out now...
+        }
+        for (TemExpense expense : expenses) {
+            if (!expense.getNonReimbursable()) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**

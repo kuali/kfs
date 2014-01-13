@@ -112,7 +112,7 @@
 					<kul:htmlControlAttribute
 						attributeEntry="${otherExpenseAttributes.taxable}"
 						property="${expense}.taxable"
-						readOnly="${!actualExpenseTaxableMode || !empty detailObject.expenseDetails || detailObject.expenseTypeObjectCode.expenseType.expenseDetailRequired }" />
+						readOnly="${!expenseTaxableMode || !empty detailObject.expenseDetails || detailObject.expenseTypeObjectCode.expenseType.expenseDetailRequired }" />
             	</div>
             </td>
             <td valign="top" nowrap class="infoline">

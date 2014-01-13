@@ -202,6 +202,8 @@ public class TravelRelocationAction extends TravelActionBase {
                 document.setToCity(oldRelocation.getToCity());
                 document.setToCountryCode(oldRelocation.getToCountryCode());
                 document.setToStateCode(oldRelocation.getToStateCode());
+                document.setTravelDocumentIdentifier(oldRelocation.getTravelDocumentIdentifier());
+                document.getDocumentHeader().setOrganizationDocumentNumber(oldRelocation.getDocumentHeader().getOrganizationDocumentNumber());
             }
         }
     }

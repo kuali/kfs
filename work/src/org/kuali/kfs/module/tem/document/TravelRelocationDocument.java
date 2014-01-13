@@ -286,9 +286,6 @@ public class TravelRelocationDocument extends TEMReimbursementDocument implement
         if (nodeName.equals(TemWorkflowConstants.REQUIRES_TRAVELER_REVIEW)) {
             return requiresTravelerApprovalRouting();
         }
-        if (nodeName.equals(TemWorkflowConstants.ACCOUNT_APPROVAL_REQUIRED)) {
-            return requiresAccountApprovalRouting();
-        }
         if (nodeName.equals(TemWorkflowConstants.SPECIAL_REQUEST)) {
             return requiresSpecialRequestReviewRouting();
         }

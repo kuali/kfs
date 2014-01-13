@@ -30,6 +30,7 @@ import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocume
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
@@ -53,6 +54,9 @@ public class TemProfileAuthorizerAssistant extends FinancialSystemMaintenanceDoc
             if (maintDoc.getNewMaintainableObject().getBusinessObject() instanceof TemProfile) {
                 final TemProfile profile = (TemProfile) maintDoc.getNewMaintainableObject().getBusinessObject();
                 addRoleQualificationsFromProfile(profile, attributes);
+                if (!StringUtils.isBlank(maintDoc.getNewMaintainableObject().getMaintenanceAction())) {
+                    attributes.put(KRADConstants.MAINTENANCE_ACTN, maintDoc.getNewMaintainableObject().getMaintenanceAction());
+                }
             }
         } else if (dataObject instanceof TemProfile) {
             addRoleQualificationsFromProfile((TemProfile)dataObject, attributes);

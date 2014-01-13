@@ -76,8 +76,10 @@ import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.dao.DocumentDao;
@@ -108,6 +110,7 @@ public class TravelReimbursementServiceImpl implements TravelReimbursementServic
     protected ParameterService parameterService;
     protected WorkflowDocumentService workflowDocumentService;
     protected PersonService personService;
+    protected IdentityService identityService;
     protected DocumentDao documentDao;
     protected AccountingDocumentRelationshipService accountingDocumentRelationshipService;
     protected AccountsReceivableModuleService accountsReceivableModuleService;
@@ -321,9 +324,12 @@ public class TravelReimbursementServiceImpl implements TravelReimbursementServic
         final String newStartDateStr = formatter.format(reimbursement.getTripBegin());
         final String newEndDateStr = formatter.format(reimbursement.getTripEnd());
 
-        final String noteText = String.format(DATE_CHANGED_MESSAGE, origStartDateStr, origEndDateStr, newStartDateStr, newEndDateStr);
+        final String noteText = String.format(DATE_CHANGED_MESSAGE, origStartDateStr, origEndDateStr, newStartDateStr, newEndDateStr, reimbursement.getDocumentNumber());
 
         final Note noteToAdd = documentService.createNoteFromDocument(reimbursement, noteText);
+
+        final Principal systemUser = getIdentityService().getPrincipalByPrincipalName(KFSConstants.SYSTEM_USER);
+        noteToAdd.setAuthorUniversalIdentifier(systemUser.getPrincipalId());
         reimbursement.addNote(noteToAdd);
         getNoteService().save(noteToAdd);
     }
@@ -781,7 +787,8 @@ public class TravelReimbursementServiceImpl implements TravelReimbursementServic
      * @param accountingLines the accounting lines to find the percentage contribution of each of
      * @return a List of the accounting lines and their corresponding percentages
      */
-    protected List<TemSourceAccountingLineTotalPercentage> getPercentagesForLines(List<TemSourceAccountingLine> accountingLines) {
+    @Override
+    public List<TemSourceAccountingLineTotalPercentage> getPercentagesForLines(List<TemSourceAccountingLine> accountingLines) {
         final BigDecimal total = calculateLinesTotal(accountingLines).bigDecimalValue();
         List<TemSourceAccountingLineTotalPercentage> linePercentages = new ArrayList<TemSourceAccountingLineTotalPercentage>();
         for (TemSourceAccountingLine accountingLine : accountingLines) {
@@ -797,7 +804,8 @@ public class TravelReimbursementServiceImpl implements TravelReimbursementServic
      * @param accountingLines the accounting lines to add together
      * @return the sum of those accounting lines
      */
-    protected KualiDecimal calculateLinesTotal(List<TemSourceAccountingLine> accountingLines) {
+    @Override
+    public KualiDecimal calculateLinesTotal(List<TemSourceAccountingLine> accountingLines) {
         KualiDecimal sum = KualiDecimal.ZERO;
         for (TemSourceAccountingLine accountingLine : accountingLines) {
             sum = sum.add(accountingLine.getAmount());
@@ -819,7 +827,8 @@ public class TravelReimbursementServiceImpl implements TravelReimbursementServic
      * @param documentNumber the document number of the reimbursement which is crediting the advance we're paying back here
      * @return a List of TemSourceAccountingLines which will be source details to generate GLPEs
      */
-    protected List<TemSourceAccountingLine> createAccountingLinesFromPercentages(List<TemSourceAccountingLineTotalPercentage> linePercentages, KualiDecimal paymentAmount, String documentNumber) {
+    @Override
+    public List<TemSourceAccountingLine> createAccountingLinesFromPercentages(List<TemSourceAccountingLineTotalPercentage> linePercentages, KualiDecimal paymentAmount, String documentNumber) {
         List<TemSourceAccountingLine> creditLines = new ArrayList<TemSourceAccountingLine>();
         for (TemSourceAccountingLineTotalPercentage linePercentage : linePercentages) {
             final KualiDecimal amountForLine = new KualiDecimal(paymentAmount.bigDecimalValue().multiply(linePercentage.getPercentage()));
@@ -880,9 +889,6 @@ public class TravelReimbursementServiceImpl implements TravelReimbursementServic
         final OffsetDefinition result = getOffsetDefinitionService().getByPrimaryId(postingYear, chart, documentType, balanceType);
         return result;
     }
-
-
-
 
     /**
      * Sets the propertyChangeListener attribute value.
@@ -1055,10 +1061,11 @@ public class TravelReimbursementServiceImpl implements TravelReimbursementServic
         this.noteService = noteService;
     }
 
+    public IdentityService getIdentityService() {
+        return identityService;
+    }
 
-
-
-
-
-
+    public void setIdentityService(IdentityService identityService) {
+        this.identityService = identityService;
+    }
 }

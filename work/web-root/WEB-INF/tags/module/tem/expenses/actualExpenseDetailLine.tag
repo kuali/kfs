@@ -91,7 +91,7 @@
 			<kul:htmlControlAttribute
 				attributeEntry="${otherExpenseAttributes.taxable}"
 				property="${detail}.taxable"
-				readOnly="${!actualExpenseTaxableMode}" />
+				readOnly="${!expenseTaxableMode}" />
     	</div>
     </td>
 	<c:if test="${!empty detailObject.expenseTypeObjectCode && detailObject.expenseTypeObjectCode.receiptRequired}">

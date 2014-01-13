@@ -35,7 +35,7 @@ public class TravelEntertainmentDocumentPresentationController extends TravelDoc
 
         final Set<String> nodeNames = document.getDocumentHeader().getWorkflowDocument().getNodeNames();
         if (document.getDocumentHeader().getWorkflowDocument().isInitiated() || document.getDocumentHeader().getWorkflowDocument().isSaved() || (nodeNames != null && !nodeNames.isEmpty() && (nodeNames.contains(TemWorkflowConstants.RouteNodeNames.TAX) || nodeNames.contains(TemWorkflowConstants.RouteNodeNames.ENTERTAINMENT_MANAGER)))) {
-            editModes.add(TemConstants.EditModes.ACTUAL_EXPENSE_TAXABLE_MODE);
+            editModes.add(TemConstants.EditModes.EXPENSE_TAXABLE_MODE);
         }
 
         if (isRootTravelDocument((TravelDocument)document)) {

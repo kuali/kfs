@@ -481,7 +481,7 @@
     	</property>
 	</bean>
 	
-	<bean id="TravelAuthorization-RoutingType-Account" class="org.kuali.rice.krad.datadictionary.RoutingTypeDefinition">
+	<bean id="TravelDocument-RoutingType-Account" class="org.kuali.rice.krad.datadictionary.RoutingTypeDefinition">
     	<property name="routingAttributes">
     		<list>
 		        <ref bean="RoutingAttribute-financialDocumentTotalAmount" />
@@ -501,9 +501,9 @@
 			    <bean class="org.kuali.rice.krad.datadictionary.DocumentValuePathGroup">
     				<property name="documentValues">
     					<list>
-    						<value>blanketTotalDollarAmountForRouting</value>
-    						<value>blanketChartForRouting</value>
-    						<value>blanketAccountForRouting</value>
+    						<value>totalDollarAmountForRouting</value>
+    						<value>profileChartForRouting</value>
+    						<value>profileAccountForRouting</value>
     					</list>
     				</property>
 			   	</bean>

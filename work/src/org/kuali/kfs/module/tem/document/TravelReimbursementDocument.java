@@ -302,9 +302,6 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
      */
     @Override
     public boolean answerSplitNodeQuestion(String nodeName) throws UnsupportedOperationException {
-        if (nodeName.equals(TemWorkflowConstants.ACCOUNT_APPROVAL_REQUIRED)) {
-            return requiresAccountApprovalRouting();
-        }
         if (nodeName.equals(TemWorkflowConstants.DIVISION_APPROVAL_REQUIRED)) {
             return requiresDivisionApprovalRouting() && isNotAutomaticReimbursement();
         }
@@ -519,7 +516,9 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
         if (advancesTotal.isGreaterThan(grandTotal)) {
             return KualiDecimal.ZERO; // if advances are greater than what is being reimbursed, then the grand total is a big fat goose egg.  With two equally sized goose eggs after the decimal point.
         }
-        return grandTotal.subtract(getAdvancesTotal());
+        final KualiDecimal reimbursableGrandTotal = grandTotal.subtract(getAdvancesTotal());
+        final KualiDecimal reimbursableGrandTotalAfterExpenseLimit = applyExpenseLimit(reimbursableGrandTotal);
+        return reimbursableGrandTotalAfterExpenseLimit;
     }
 
     /**

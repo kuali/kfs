@@ -206,7 +206,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
 
         PerDiem perDiem = expense.getPerDiem();
         expense.setPrimaryDestination(perDiem.getPrimaryDestination().getPrimaryDestinationName());
-        expense.setCountryState(perDiem.getPrimaryDestination().getRegion().getRegionCode());
+        expense.setCountryState(perDiem.getPrimaryDestination().getRegion().getRegionName());
         expense.setCounty(perDiem.getPrimaryDestination().getCounty());
 
         setPerDiemMealsAndIncidentals(expense, perDiem, document.getTripType(), document.getTripEnd(), expense.isProrated());
@@ -2419,7 +2419,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
             return true; // we don't have any values we can reliably test against, so...those values are not changed
         }
         final KualiDecimal persistedAccountingLinesTotal = getAccountingLineAmount(persistedDocument);
-        final KualiDecimal currentDocumentApprovedAmount = travelDocument.getApprovedAmount();
+        final KualiDecimal currentDocumentApprovedAmount = travelDocument.applyExpenseLimit(travelDocument.getApprovedAmount());
         return persistedAccountingLinesTotal.equals(currentDocumentApprovedAmount);
     }
 

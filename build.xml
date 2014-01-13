@@ -1193,7 +1193,6 @@ The workflow files you want to run must exist in the pending subdirectory and wi
 			<fileset dir="${build.kfs.lib.directory}" includes="${runtime.only.jars}" />
 			<fileset dir="${build.rice.lib.directory}" includes="${runtime.only.jars}" />
 			<fileset dir="${build.server.lib.directory}" includes="${runtime.only.jars}" />
-			<fileset dir="${drivers.directory}" />
 			<fileset dir="${build.appserver.directory}" includes="${runtime.only.jars}" />
 			<fileset dir="${test.lib.directory}" includes="${runtime.only.jars}" />
 		</path>		  		
@@ -1218,6 +1217,34 @@ The workflow files you want to run must exist in the pending subdirectory and wi
 ]]></echo>
 			</sequential>
 		</for>
+		
+		<!-- KFS Database Jars -->
+		<path id="kfs.database.library.jars">
+			<fileset dir="${drivers.directory}" includes="${runtime.only.jars}"/>
+		</path>		  		
+
+		<!-- Convert paths to unix format for replacement -->
+		<pathconvert property="kfs.database.library.jars.safe" dirsep="/" pathsep=";">
+			<path refid="kfs.database.library.jars" />
+		</pathconvert>
+
+		<for list="${kfs.database.library.jars.safe}" param="jarname" delimiter=";">
+			<sequential>
+				<propertyregex property="file" 
+					input="@{jarname}" 
+					regexp="" 
+					replace="" 
+					override="true" />
+				<echo append="true" file="${classpath.file}"><![CDATA[	<classpathentry exported="true" kind="lib" path="${file}"><!-- Runtime Only lib -->
+		<accessrules>
+			<accessrule kind="nonaccessible" pattern="**"/>
+		</accessrules>
+	</classpathentry>
+]]></echo>
+			</sequential>
+		</for>
+		
+		
 		<!-- Testing Jars -->
 
     	<echo append="true" file="${classpath.file}" message="${classpath.suffix}" />

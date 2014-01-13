@@ -81,6 +81,21 @@
 						</list>
 					</property>
 				</bean>
+				<bean parent="CollectionValidation" scope="prototype">
+					<property name="collectionProperty" value="document.traveler.emergencyContacts" />
+					<property name="removeCollectionPropretyPluralization" value="false"/>
+					<property name="validations">
+						<list>
+							<bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype">
+								<property name="parameterProperties">
+									<list>
+										<bean parent="validationFieldConversion" p:sourceEventProperty="iterationSubject" p:targetValidationProperty="businessObjectForValidation"/>
+									</list>
+								</property>
+							</bean>
+						</list>
+					</property>
+				</bean>
 				<bean parent="TravelDocument-actualExpenseRoutingValidation" scope="prototype"/>
 				<bean parent="CollectionValidation" scope="prototype">
 					<property name="collectionProperty" value="document.importedExpenses" />

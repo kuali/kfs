@@ -112,7 +112,7 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
     private List<TemSourceAccountingLine> advanceAccountingLines;
     private List<TravelAdvance> travelAdvancesForTrip;
     private Integer nextAdvanceLineNumber  = new Integer(1);
-    private String holdRequestorPersonName ;
+    private String holdRequestorprincipalId ;
 
     protected volatile static PersonService personService;
     protected volatile static ConfigurationService configurationService;
@@ -584,13 +584,8 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
             encTotal = encTotal.subtract(this.perDiemAdjustment);
         }
 
-        if (getExpenseLimit() != null && getExpenseLimit().isPositive()) {
-            if (getExpenseLimit().isLessThan(encTotal)) {  // we've got an expense limit and we need to respect it
-                return getExpenseLimit();
-            }
-        }
-
-        return encTotal;
+        final KualiDecimal encTotalWithExpenseLimit = applyExpenseLimit(encTotal);
+        return encTotalWithExpenseLimit;
     }
 
     /**
@@ -1355,18 +1350,19 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
         return getAdvanceAccountingLines();
     }
 
-
-    /**
-     * The hold requestor person name
-     *
-     * @return
-     */
-    public String getHoldRequestorPersonName() {
-        return holdRequestorPersonName;
+   public String  getHoldRequestorPersonName() {
+        if(StringUtils.isNotBlank(holdRequestorprincipalId)) {
+            Person person = getPersonService().getPerson(holdRequestorprincipalId);
+            return person.getName();
+        }
+        return KFSConstants.EMPTY_STRING;
     }
 
-    public void setHoldRequestorPersonName(String holdRequestorPersonName) {
-        this.holdRequestorPersonName = holdRequestorPersonName;
+
+
+
+    public void setHoldRequestorprincipalId(String holdRequestorprincipalId) {
+        this.holdRequestorprincipalId = holdRequestorprincipalId;
     }
 
     /**
@@ -1378,34 +1374,13 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
         return SpringContext.getBean(AccountingLineService.class).getByDocumentHeaderIdAndLineType(getAdvanceAccountingLineClass(), getDocumentNumber(), TemConstants.TRAVEL_ADVANCE_ACCOUNTING_LINE_TYPE_CODE);
     }
 
-    public String getBlanketTotalDollarAmountForRouting() {
-        if (!getBlanketTravel() && getTripType().isGenerateEncumbrance()) {
-            return "";
-        } else {
-            return getTotalDollarAmount().toString();
-        }
-    }
-
-    public String getBlanketChartForRouting() {
-        if (!getBlanketTravel() && getTripType().isGenerateEncumbrance()) {
-            return "";
-        } else {
-            if (ObjectUtils.isNotNull(getTemProfile())) {
-                return getTemProfile().getDefaultChartCode();
-            }
-            return "";
-        }
-    }
-
-    public String getBlanketAccountForRouting() {
-        if (!getBlanketTravel() && getTripType().isGenerateEncumbrance()) {
-            return "";
-        } else {
-            if (ObjectUtils.isNotNull(getTemProfile())) {
-                return getTemProfile().getDefaultAccount();
-            }
-            return "";
-        }
+    /**
+     * TA's will route by profile account if they are blanket travel or if the trip type does not generate an enumbrance
+     * @see org.kuali.kfs.module.tem.document.TravelDocumentBase#shouldRouteByProfileAccount()
+     */
+    @Override
+    protected boolean shouldRouteByProfileAccount() {
+        return getBlanketTravel() || !getTripType().isGenerateEncumbrance();
     }
 
     /**

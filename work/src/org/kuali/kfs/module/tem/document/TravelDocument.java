@@ -455,4 +455,12 @@ public interface TravelDocument extends AccountingDocument, TravelEntertainmentM
      * @return the amount on the document that needs to be matched by accounting lines
      */
     public KualiDecimal getTotalAccountLineAmount();
+
+    /**
+     * Applies the expense limit to the given amount - that is, if the expense limit exists and is less than the given amount, the expense limit
+     * is returned, otherwise the expense limit
+     * @param the amount to check against the expense limit
+     * @return if the expense limit exists and is less than the given amount, returns the expense limit; else returns the given amount
+     */
+    public KualiDecimal applyExpenseLimit(KualiDecimal totalAmount);
 }

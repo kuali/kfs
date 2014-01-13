@@ -58,7 +58,7 @@ public class TravelAuthorizationDocumentPresentationController extends TravelAut
 
         final Set<String> nodeNames = document.getDocumentHeader().getWorkflowDocument().getNodeNames();
         if (wfDocument.isInitiated() || wfDocument.isSaved() || (nodeNames != null && !nodeNames.isEmpty() && (nodeNames.contains(TemWorkflowConstants.RouteNodeNames.TAX) || nodeNames.contains(TemWorkflowConstants.RouteNodeNames.AP_TRAVEL)))) {
-            editModes.add(TemConstants.EditModes.ACTUAL_EXPENSE_TAXABLE_MODE);
+            editModes.add(TemConstants.EditModes.EXPENSE_TAXABLE_MODE);
         }
 
         return editModes;

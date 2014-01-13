@@ -260,7 +260,7 @@
         <field-descriptor name="perDiemAdjustment" column="PER_DIEM_ADJ" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
         <field-descriptor name="cellPhoneNumber" column="CELL_PH_NUM" jdbc-type="VARCHAR"/>
         <field-descriptor name="regionFamiliarity" column="RGN_FAMIL" jdbc-type="VARCHAR"/>
-        <field-descriptor name="holdRequestorPersonName" column="HOLD_RQSTR_PRSN_NM" jdbc-type="VARCHAR" />
+        <field-descriptor name="holdRequestorprincipalId" column="HOLD_RQSTR_PRNCPL_ID" jdbc-type="VARCHAR" />
         <field-descriptor name="citizenshipCountryCode" column="CTZN_CNTRY_CD" jdbc-type="VARCHAR"/>
         <field-descriptor name="nextSourceLineNumber" column="FDOC_NXT_EXP_NBR" jdbc-type="INTEGER" />
         <field-descriptor name="nextAdvanceLineNumber" column="FDOC_NXT_ADV_NBR" jdbc-type="INTEGER" />
@@ -1386,12 +1386,16 @@
 		<field-descriptor name="enableNonReimbursable" column="ENABLE_NON_REIMBURSABLE" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
 		<field-descriptor name="vendorNumber" column="VENDOR_NUMBER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="foreignCompany" column="FOREIGN_COMPANY" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+		<field-descriptor name="bankCode" column="BNK_CD" jdbc-type="VARCHAR" />
 		<field-descriptor name="active" column="ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR"/>
 		<field-descriptor name="versionNumber" locking="true" column="VER_NBR" jdbc-type="BIGINT"/>
 		
-        <reference-descriptor name="travelCardType" class-ref="org.kuali.kfs.module.tem.businessobject.TravelCardType" auto-retrieve="false" auto-update="none" auto-delete="none">
+        <reference-descriptor name="travelCardType" class-ref="org.kuali.kfs.module.tem.businessobject.TravelCardType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
 		  <foreignkey field-ref="travelCardTypeCode"/> 
+		</reference-descriptor>
+		<reference-descriptor name="bank" class-ref="org.kuali.kfs.sys.businessobject.Bank" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+		  <foreignkey field-ref="bankCode"/> 
 		</reference-descriptor>
 	</class-descriptor>
 

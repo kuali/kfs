@@ -40,7 +40,7 @@ public class TravelRelocationDocumentPresentationController extends TravelDocume
 
         final Set<String> nodeNames = document.getDocumentHeader().getWorkflowDocument().getNodeNames();
         if (document.getDocumentHeader().getWorkflowDocument().isInitiated() || document.getDocumentHeader().getWorkflowDocument().isSaved() || (nodeNames != null && !nodeNames.isEmpty() && (nodeNames.contains(TemWorkflowConstants.RouteNodeNames.TAX) || nodeNames.contains(TemWorkflowConstants.RouteNodeNames.MOVING_AND_RELOCATION_MANAGER)))) {
-            editModes.add(TemConstants.EditModes.ACTUAL_EXPENSE_TAXABLE_MODE);
+            editModes.add(TemConstants.EditModes.EXPENSE_TAXABLE_MODE);
         }
 
         if (isRootTravelDocument((TravelDocument)document)) {

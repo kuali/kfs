@@ -12322,6 +12322,12 @@
             <index-column name="PAYGROUP"/>
             <index-column name="SAL_ADMIN_PLAN"/>
         </index>
+        <index name="LD_LDGR_ENTR_TI4">
+            <index-column name="UNIV_FISCAL_YR"/>
+            <index-column name="UNIV_FISCAL_PRD_CD"/>
+            <index-column name="FIN_BALANCE_TYP_CD"/>
+            <index-column name="EMPLID"/>
+        </index>
     </table>
     <table name="LD_PNDBC_APPTFND_T">
         <column name="UNIV_FISCAL_YR" primaryKey="true" size="4" type="DECIMAL"/>
@@ -16708,6 +16714,7 @@
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
         <column name="FDOC_NXT_ADV_NBR" size="7" type="DECIMAL"/>
         <column name="BLNKT_TRVL_IND" size="1" type="VARCHAR"/>
+        <column name="HOLD_RQSTR_PRNCPL_ID" size="40" type="VARCHAR"/>
         <foreign-key foreignTable="TEM_TRAVELER_DTL_T" name="TEM_TRVL_AUTH_DOC_TR1">
             <reference foreign="ID" local="TRAVELER_DTL_ID"/>
         </foreign-key>

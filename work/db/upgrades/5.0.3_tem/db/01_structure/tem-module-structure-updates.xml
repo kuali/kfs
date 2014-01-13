@@ -243,6 +243,7 @@
 			<column name="ACTV_IND" type="VARCHAR2(1)" />
 			<column name="VER_NBR" type="NUMBER(8,0)" defaultValueNumeric="1" />
 			<column name="OBJ_ID" type="VARCHAR2(36)" />
+			<column name="BNK_CD" type="VARCHAR2(4)" />
 		</createTable>
 		<addPrimaryKey tableName="TEM_CREDIT_CARD_AGENCY_T"
 			constraintName="TEM_CREDIT_CARD_AGENCY_TP1" columnNames="ID" />
@@ -961,7 +962,7 @@
 			<column name="OBJ_ID" type="VARCHAR2(36)" />
 			<column name="FDOC_NXT_ADV_NBR" type="NUMBER(7,0)" />
 			<column name="BLNKT_TRVL_IND" type="VARCHAR2(1)"/>
-			<column name="HOLD_RQSTR_PRSN_NM" type="VARCHAR2(150)"/>
+			<column name="HOLD_RQSTR_PRNCPL_ID" type="VARCHAR2(40)"/>
 		</createTable>
 		<addPrimaryKey tableName="TEM_TRVL_AUTH_DOC_T"
 			constraintName="TEM_TRVL_AUTH_DOC_TP1" columnNames="FDOC_NBR" />

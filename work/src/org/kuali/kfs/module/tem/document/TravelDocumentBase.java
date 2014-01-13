@@ -1731,7 +1731,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
         if (actualExpense.isHostedMeal()) {
             if (actualExpense.getExpenseParentId() != null) {
                 ActualExpense parent = getParentExpenseRecord(getActualExpenses(), actualExpense.getExpenseParentId());
-                if (!parent.getLodgingIndicator() && !parent.getLodgingAllowanceIndicator()) {
+                if (!parent.isLodging() && !parent.isLodgingAllowance()) {
                     return true;
                 }
             }
@@ -2176,4 +2176,57 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
     public KualiDecimal getTotalAccountLineAmount() {
        return getApprovedAmount();
     }
+
+
+    /**
+     * Applies the expense limit to the given amount - that is, if the expense limit exists and is less than the given amount, the expense limit
+     * is returned, otherwise the expense limit
+     * @param the amount to check against the expense limit
+     * @return if the expense limit exists and is less than the given amount, returns the expense limit; else returns the given amount
+     */
+    @Override
+    public KualiDecimal applyExpenseLimit(KualiDecimal totalAmount) {
+        if (getExpenseLimit() == null || !getExpenseLimit().isPositive()) {
+            return totalAmount;
+        }
+        if (getExpenseLimit().isGreaterEqual(totalAmount)) {
+            return totalAmount;
+        }
+        return getExpenseLimit();
+    }
+
+    public String getTotalDollarAmountForRouting() {
+        if (!shouldRouteByProfileAccount()) {
+            return "";
+        } else {
+            return getTotalDollarAmount().toString();
+        }
+    }
+
+    public String getProfileChartForRouting() {
+        if (!shouldRouteByProfileAccount()) {
+            return "";
+        } else {
+            if (ObjectUtils.isNotNull(getTemProfile())) {
+                return getTemProfile().getDefaultChartCode();
+            }
+            return "";
+        }
+    }
+
+    public String getProfileAccountForRouting() {
+        if (!shouldRouteByProfileAccount()) {
+            return "";
+        } else {
+            if (ObjectUtils.isNotNull(getTemProfile())) {
+                return getTemProfile().getDefaultAccount();
+            }
+            return "";
+        }
+    }
+
+    /**
+     * Determines if this document should attempt to route by profile account or not
+     */
+    protected abstract boolean shouldRouteByProfileAccount();
 }

@@ -20,6 +20,8 @@ import java.util.List;
 
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomerInvoice;
 import org.kuali.kfs.module.tem.businessobject.ActualExpense;
+import org.kuali.kfs.module.tem.businessobject.TemSourceAccountingLine;
+import org.kuali.kfs.module.tem.businessobject.TemSourceAccountingLineTotalPercentage;
 import org.kuali.kfs.module.tem.document.TEMReimbursementDocument;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
 import org.kuali.kfs.module.tem.document.TravelReimbursementDocument;
@@ -170,5 +172,26 @@ public interface TravelReimbursementService {
      */
     public KualiDecimal getInvoiceAmount(TEMReimbursementDocument reimbursementDocument);
 
+    /**
+     * Calculates how much each of the given accounting lines contributes to the total of the accounting lines
+     * @param accountingLines the accounting lines to find the percentage contribution of each of
+     * @return a List of the accounting lines and their corresponding percentages
+     */
+    public List<TemSourceAccountingLineTotalPercentage> getPercentagesForLines(List<TemSourceAccountingLine> accountingLines);
 
+    /**
+     * Generates accounting lines which will act as source details to generate the crediting glpes to pay back the advance
+     * @param linePercentages the accounting lines which paid for the advance and the amount they
+     * @param paymentAmount the total amount of the current invoice which is being paid back
+     * @param documentNumber the document number of the reimbursement which is crediting the advance we're paying back here
+     * @return a List of TemSourceAccountingLines which will be source details to generate GLPEs
+     */
+    public List<TemSourceAccountingLine> createAccountingLinesFromPercentages(List<TemSourceAccountingLineTotalPercentage> linePercentages, KualiDecimal paymentAmount, String documentNumber);
+
+    /**
+     * Calculates the sum of a list of AccountingLines
+     * @param accountingLines the accounting lines to add together
+     * @return the sum of those accounting lines
+     */
+    public KualiDecimal calculateLinesTotal(List<TemSourceAccountingLine> accountingLines);
 }

@@ -24,9 +24,12 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemParameterConstants;
+import org.kuali.kfs.module.tem.businessobject.TemSourceAccountingLine;
+import org.kuali.kfs.module.tem.businessobject.TemSourceAccountingLineTotalPercentage;
 import org.kuali.kfs.module.tem.dataaccess.TravelDocumentDao;
 import org.kuali.kfs.module.tem.document.TEMReimbursementDocument;
 import org.kuali.kfs.module.tem.document.service.TravelPaymentsHelperService;
+import org.kuali.kfs.module.tem.document.service.TravelReimbursementService;
 import org.kuali.kfs.pdp.businessobject.PaymentAccountDetail;
 import org.kuali.kfs.pdp.businessobject.PaymentDetail;
 import org.kuali.kfs.pdp.businessobject.PaymentGroup;
@@ -53,6 +56,7 @@ public class ReimbursableDocumentExtractionHelperServiceImpl implements PaymentS
     protected PaymentSourceHelperService paymentSourceHelperService;
     protected TravelDocumentDao travelDocumentDao;
     protected TravelPaymentsHelperService travelPaymentsHelperService;
+    protected TravelReimbursementService travelReimbursementService;
     protected ParameterService parameterService;
 
     /**
@@ -150,12 +154,55 @@ public class ReimbursableDocumentExtractionHelperServiceImpl implements PaymentS
         PaymentDetail pd = getTravelPaymentsHelperService().buildGenericPaymentDetail(document.getDocumentHeader(), processRunDate, document.getTravelPayment(), getTravelPaymentsHelperService().getInitiator(document), document.getAchCheckDocumentType());
         pd.setPurchaseOrderNbr(document.getTravelDocumentIdentifier());
         // Handle accounts
-        final List<PaymentAccountDetail> paymentAccounts = getTravelPaymentsHelperService().buildGenericPaymentAccountDetails(document.getSourceAccountingLines());
+        List<TemSourceAccountingLine> paymentAccountingLines = getAccountingLinesForPayment(document);
+        final List<PaymentAccountDetail> paymentAccounts = getTravelPaymentsHelperService().buildGenericPaymentAccountDetails(paymentAccountingLines);
         for (PaymentAccountDetail pad : paymentAccounts) {
             pd.addAccountDetail(pad);
         }
 
         return pd;
+    }
+
+    /**
+     * Determines the accounting lines to use for the payment account details.  It filters to the out of pocket expense accounting lines.  It then checks if the total of those lines equals the amount to pay out;
+     * if they don't, it redistributes the accounting lines by the true payment amount
+     * @param document the document to find the reimbursable accounting lines for
+     * @return a List of reimbursable accounting lines to build payment accounting details for
+     */
+    protected List<TemSourceAccountingLine> getAccountingLinesForPayment(TEMReimbursementDocument document) {
+        final List<TemSourceAccountingLine> outOfPocketAccountingLines = getOutOfPocketSourceAccountingLines(document.getSourceAccountingLines());
+        if (shouldRedistributeDifferentTotal(document, outOfPocketAccountingLines)) {
+            final List<TemSourceAccountingLineTotalPercentage> accountingLinesTotalPercentages = getTravelReimbursementService().getPercentagesForLines(outOfPocketAccountingLines);
+            final List<TemSourceAccountingLine> redistributedLines = getTravelReimbursementService().createAccountingLinesFromPercentages(accountingLinesTotalPercentages, document.getTravelPayment().getCheckTotalAmount(), document.getDocumentNumber());
+            return redistributedLines;
+        }
+        return outOfPocketAccountingLines;
+    }
+
+    /**
+     * Filters the given List of TemSourceAccountingLine objects, returning a List of only those which are out of pocket
+     * @param sourceAccountingLines the source source accounting line List from the document
+     * @return the List of those accounting lines which are out of pocket
+     */
+    protected List<TemSourceAccountingLine> getOutOfPocketSourceAccountingLines(List<TemSourceAccountingLine> sourceAccountingLines) {
+        List<TemSourceAccountingLine> outOfPocketLines = new ArrayList<TemSourceAccountingLine>();
+        for (TemSourceAccountingLine sourceAccountingLine : sourceAccountingLines) {
+            if (StringUtils.equals(sourceAccountingLine.getCardType(), TemConstants.ACTUAL_EXPENSE)) {
+                outOfPocketLines.add(sourceAccountingLine);
+            }
+        }
+        return outOfPocketLines;
+    }
+
+    /**
+     * Determines if the PDP amount is different than what would be paid out if the out of pocket accounting lines were used directly
+     * @param document the reimbursement document we're building accounting details for
+     * @param outOfPocketAccountingLines the out of pocket accounting lines from that document
+     * @return true if the amounts were different and therefore only the payment travel should be reimbursed; false if we can just use the accounting lines
+     */
+    protected boolean shouldRedistributeDifferentTotal(TEMReimbursementDocument document, List<TemSourceAccountingLine> outOfPocketAccountingLines) {
+        final KualiDecimal outOfPocketTotal = getTravelReimbursementService().calculateLinesTotal(outOfPocketAccountingLines);
+        return !outOfPocketTotal.equals(document.getTravelPayment().getCheckTotalAmount());
     }
 
     /**
@@ -360,4 +407,11 @@ public class ReimbursableDocumentExtractionHelperServiceImpl implements PaymentS
         this.parameterService = parameterService;
     }
 
+    public TravelReimbursementService getTravelReimbursementService() {
+        return travelReimbursementService;
+    }
+
+    public void setTravelReimbursementService(TravelReimbursementService travelReimbursementService) {
+        this.travelReimbursementService = travelReimbursementService;
+    }
 }

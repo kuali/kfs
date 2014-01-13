@@ -320,6 +320,7 @@
 		<property name="ruleService" ref="kualiRuleService" />
 		<property name="objectCodeService" ref="objectCodeService" />
 		<property name="personService" ref="personService" />
+		<property name="identityService" ref="identityService"/>
 		<property name="travelDocumentService" ref="travelDocumentService" />
 		<property name="travelAuthorizationService" ref="temTravelAuthorizationService" />
 		<property name="workflowDocumentService" ref="workflowDocumentService" />
@@ -1245,6 +1246,7 @@
 		<property name="documentDao" ref="documentDao" />
 		<property name="dataDictionaryService" ref="dataDictionaryService" />
 		<property name="accountingDocumentRelationshipService" ref="temAccountingDocumentRelationshipService" />
+		<property name="noteService" ref="noteService"/>
 	</bean>
 
 	<bean id="HoldTa"
@@ -1482,6 +1484,7 @@
 		<property name="travelDocumentDao" ref="travelDocumentDao"/>
 		<property name="travelPaymentsHelperService" ref="travelPaymentsHelperService"/>
 		<property name="parameterService" ref="parameterService"/>
+		<property name="travelReimbursementService" ref="temTravelReimbursementService"/>
 	</bean>
 	
 	<bean id="temAuthorizationDocumentExtractionHelperService" parent="temAuthorizationDocumentExtractionHelperService-parentBean"/>

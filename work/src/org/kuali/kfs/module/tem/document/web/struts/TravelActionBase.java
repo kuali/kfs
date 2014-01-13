@@ -923,6 +923,16 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
             amount = amountToBePaid.subtract(accountingTotal);
         }
 
+        if (travelDocument.getExpenseLimit() != null && travelDocument.getExpenseLimit().isPositive()) {
+            if (accountingTotal.isGreaterEqual(travelDocument.getExpenseLimit())) {
+                return KualiDecimal.ZERO; // the accounting line total is greater than or equal to the expense limit, there's no more expense limit to spend
+            }
+            if (amount.isGreaterThan(travelDocument.getExpenseLimit())) {
+                return travelDocument.getExpenseLimit().subtract(accountingTotal); // the amount to be paid - accounting total is still greater than the expense limit; so the amount we can actually pay is the expense limit - the accounting total
+            }
+            // we're under the expense limit; let's just return amount
+        }
+
         return amount;
     }
 

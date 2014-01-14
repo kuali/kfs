@@ -12322,12 +12322,6 @@
             <index-column name="PAYGROUP"/>
             <index-column name="SAL_ADMIN_PLAN"/>
         </index>
-        <index name="LD_LDGR_ENTR_TI4">
-            <index-column name="UNIV_FISCAL_YR"/>
-            <index-column name="UNIV_FISCAL_PRD_CD"/>
-            <index-column name="FIN_BALANCE_TYP_CD"/>
-            <index-column name="EMPLID"/>
-        </index>
     </table>
     <table name="LD_PNDBC_APPTFND_T">
         <column name="UNIV_FISCAL_YR" primaryKey="true" size="4" type="DECIMAL"/>

@@ -17,7 +17,7 @@ package org.kuali.kfs.module.tem.document.validation.impl;
 
 import java.text.SimpleDateFormat;
 
-import org.kuali.kfs.module.tem.TemConstants;
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.tem.TemConstants.TravelParameters;
 import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.TemParameterConstants;
@@ -104,7 +104,7 @@ public class TravelAuthTripDetailMealsAndIncidentalsValidation extends GenericVa
                 }
 
                 // check for meal without lodging
-                if (document.checkMealWithoutLodging(estimate) && !hasLodgingActualExpense(document) && (document.getMealWithoutLodgingReason() == null || document.getMealWithoutLodgingReason().trim().length() == 0)) {
+                if (document.checkMealWithoutLodging(estimate) && !hasLodgingActualExpense(document) && StringUtils.isBlank(document.getMealWithoutLodgingReason())) {
                     GlobalVariables.getMessageMap().putError(KFSPropertyConstants.DOCUMENT+"."+TemPropertyConstants.MEAL_WITHOUT_LODGING_REASON, KFSKeyConstants.ERROR_CUSTOM, "Justification for meals without lodging is required.");
                     rulePassed = false;
                     break;
@@ -113,7 +113,7 @@ public class TravelAuthTripDetailMealsAndIncidentalsValidation extends GenericVa
         }
 
         for(ActualExpense ote : document.getActualExpenses()) {
-            if (document.checkMealWithoutLodging(ote) && (document.getMealWithoutLodgingReason() == null || document.getMealWithoutLodgingReason().trim().length() == 0)){
+            if (document.checkMealWithoutLodging(ote) && StringUtils.isBlank(document.getMealWithoutLodgingReason())){
                 GlobalVariables.getMessageMap().putError(KFSPropertyConstants.DOCUMENT+"."+TemPropertyConstants.MEAL_WITHOUT_LODGING_REASON, KFSKeyConstants.ERROR_CUSTOM, "Justification for meals without lodging is required.");
                 rulePassed = false;
                 break;
@@ -130,7 +130,7 @@ public class TravelAuthTripDetailMealsAndIncidentalsValidation extends GenericVa
      */
     protected boolean hasLodgingActualExpense(TravelDocument document) {
         for (ActualExpense expense : document.getActualExpenses()) {
-            if (TemConstants.ExpenseTypes.LODGING.equals(expense.getExpenseTypeCode())) {
+            if (expense.isLodging() || expense.isLodgingAllowance()) {
                 return true;
             }
         }

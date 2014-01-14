@@ -82,7 +82,7 @@ public class FinalInvoiceTest extends CGInvoiceDocumentTestBase {
     public void testMultipleInvoices() {
         document.getInvoiceGeneralDetail().setFinalBillIndicator(true);
         assertTrue(document.getDocumentHeader().getWorkflowDocument().isInitiated());
-        SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class).doWhenFinalInvoice(document);
+        SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class).updateLastBilledDate(document);
         Iterator iterator = document.getAccountDetails().iterator();
         while (iterator.hasNext()) {
             InvoiceAccountDetail id = (InvoiceAccountDetail) iterator.next();

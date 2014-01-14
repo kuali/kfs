@@ -904,31 +904,19 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
 
 
     /**
-     * This method would calulate the amounts to be invoiced for every award account and returns the valid award acccounts with
-     * amounts > zero dollars
+     * This method returns the valid award accounts based on evaluation of preferred billing frequency and invoice document status
      *
      * @param awardAccounts
      * @return valid awardAccounts
      */
     protected List<ContractsAndGrantsBillingAwardAccount> getValidAwardAccounts(List<ContractsAndGrantsBillingAwardAccount> awardAccounts, ContractsAndGrantsBillingAward award) {
-        List<ContractsAndGrantsBillingAwardAccount> awdAcctsToCheck = new ArrayList<ContractsAndGrantsBillingAwardAccount>();
         List<ContractsAndGrantsBillingAwardAccount> validAwardAccounts = new ArrayList<ContractsAndGrantsBillingAwardAccount>();
         if (!award.getPreferredBillingFrequency().equalsIgnoreCase(ArPropertyConstants.MILESTONE_BILLING_SCHEDULE_CODE) && !award.getPreferredBillingFrequency().equalsIgnoreCase(ArPropertyConstants.PREDETERMINED_BILLING_SCHEDULE_CODE)) {
-            // To set the amount to Draw for each award account. Then test if the amount to Draw is zero dollars. if zero dollars.
-            // then the account is not valid.
-            // To make sure that the LOC Review indicator is false so the amounts can be updated.
-            for (ContractsAndGrantsBillingAwardAccount awdAcct : awardAccounts) {
-                if (!awdAcct.isLetterOfCreditReviewIndicator()) {
-                    awdAcctsToCheck.add(awdAcct);
-                }
-            }
-            contractsGrantsInvoiceDocumentService.setAwardAccountToDraw(awdAcctsToCheck, award);
-            // 1. To check the amounts for all accounts, even if they are set from LOC Review Document.
-            // 2. TO check if there are invoices in progress.
+            // TO check if there are invoices in progress.
             for (ContractsAndGrantsBillingAwardAccount awardAccount : awardAccounts) {
-                    if (StringUtils.isBlank(awardAccount.getInvoiceDocumentStatus()) || awardAccount.getInvoiceDocumentStatus().equalsIgnoreCase("FINAL") || awardAccount.getInvoiceDocumentStatus().equalsIgnoreCase("CANCELED") || awardAccount.getInvoiceDocumentStatus().equalsIgnoreCase("DISAPPROVED")) {
-                        validAwardAccounts.add(awardAccount);
-                    }
+                if (StringUtils.isBlank(awardAccount.getInvoiceDocumentStatus()) || awardAccount.getInvoiceDocumentStatus().equalsIgnoreCase(KewApiConstants.ROUTE_HEADER_FINAL_LABEL) || awardAccount.getInvoiceDocumentStatus().equalsIgnoreCase(KewApiConstants.ROUTE_HEADER_CANCEL_LABEL) || awardAccount.getInvoiceDocumentStatus().equalsIgnoreCase(KewApiConstants.ROUTE_HEADER_DISAPPROVED_LABEL)) {
+                    validAwardAccounts.add(awardAccount);
+                }
             }
 
             return validAwardAccounts;

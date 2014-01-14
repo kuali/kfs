@@ -45,7 +45,7 @@ public class FinalInvoiceReversalTest extends CGInvoiceDocumentTestBase {
         super.setUp();
         document.getInvoiceGeneralDetail().setFinalBillIndicator(true);
         documentService.saveDocument(document);
-        SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class).doWhenFinalInvoice(document);
+        SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class).updateLastBilledDate(document);
     }
 
     public void testFinalInvoiceDocumentValidation() throws WorkflowException {

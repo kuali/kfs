@@ -1284,7 +1284,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         List<String> objectTypeCodeList = new ArrayList<String>();
         objectTypeCodeList.add(ArPropertyConstants.EXPENSE_OBJECT_TYPE);
         objectTypeCodeList.add(ArPropertyConstants.INCOME_OBJECT_TYPE);
-        
+
         for (Integer eachFiscalYr : fiscalYears) {
             Map<String, Object> balanceKeys = new HashMap<String, Object>();
             balanceKeys.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, awardAccount.getChartOfAccountsCode());
@@ -3526,34 +3526,31 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
     }
 
     /**
-     * This method updates the awardAccounts when the final invoice is generated.
-     */
-    @Override
-    public void doWhenFinalInvoice(ContractsGrantsInvoiceDocument document) {
-        if (document.getInvoiceGeneralDetail().isFinalBillIndicator()) {
-            Iterator it = document.getAccountDetails().iterator();
-            while (it.hasNext()) {
-                InvoiceAccountDetail id = (InvoiceAccountDetail) it.next();
-                setAwardAccountFinalBilledValue(id, true, document.getProposalNumber());
-            }
-        }
-    }
-
-    /**
      * This method sets the last billed date to Award and Award Account objects based on the status of the invoice. Final or
      * Corrected.
      *
-     * @param invoiceStatus
+     * @param document
      */
     @Override
-    public void updateLastBilledDate(String invoiceStatus, ContractsGrantsInvoiceDocument document) {
+    public void updateLastBilledDate(ContractsGrantsInvoiceDocument document) {
+        boolean isFinalBill = document.getInvoiceGeneralDetail().isFinalBillIndicator();
+        String invoiceStatus = "FINAL";
+        if (document.isInvoiceReversal()) {
+            invoiceStatus = "CORRECTED";
+        }
+        String invoiceDocumentStatus = document.getDocumentHeader().getWorkflowDocument().getStatus().getLabel();
+
         // To calculate and update Last Billed Date based on the status of the invoice. Final or Corrected.
         // 1. Set last Billed Date to Award Accounts
 
         Iterator<InvoiceAccountDetail> iterator = document.getAccountDetails().iterator();
         while (iterator.hasNext()) {
             InvoiceAccountDetail id = iterator.next();
-            this.calculateAwardAccountLastBilledDate(id, invoiceStatus, document.getInvoiceGeneralDetail().getLastBilledDate(), document.getProposalNumber());
+            if (isFinalBill) {
+                setAwardAccountFinalBilledValueAndLastBilledDate(id, true, document.getProposalNumber(), invoiceStatus, document.getInvoiceGeneralDetail().getLastBilledDate(), invoiceDocumentStatus);
+            } else {
+                calculateAwardAccountLastBilledDate(id, invoiceStatus, document.getInvoiceGeneralDetail().getLastBilledDate(), document.getProposalNumber(), invoiceDocumentStatus);
+            }
         }
 
         // 2. Set last Billed to Award = least of last billed date of award account.
@@ -3576,29 +3573,35 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
                     // billed date should also be null.
                     awdLastBilledDate = null;
                 }
-                else if (awdLastBilledDate.after(award.getActiveAwardAccounts().get(i).getCurrentLastBilledDate())) {
-                    awdLastBilledDate = award.getActiveAwardAccounts().get(i).getCurrentLastBilledDate();
+                else if (ObjectUtils.isNotNull(awdLastBilledDate) && ObjectUtils.isNotNull(award.getActiveAwardAccounts().get(i).getCurrentLastBilledDate())) {
+                    if (awdLastBilledDate.after(award.getActiveAwardAccounts().get(i).getCurrentLastBilledDate())) {
+                        awdLastBilledDate = award.getActiveAwardAccounts().get(i).getCurrentLastBilledDate();
+                    }
                 }
             }
 
             // To set last billed Date to award.
             contractsAndGrantsModuleUpdateService.setLastBilledDateToAward(award.getProposalNumber(), awdLastBilledDate);
         }
+
     }
 
     /**
      * This method updates the AwardAccount object's last billed Variable with the value provided
      *
      * @param id
-     * @param value
+     * @param invoiceStatus
+     * @param lastBilledDate
+     * @param proposalNumber
+     * @param invoiceDocumentStatus
      */
-    protected void calculateAwardAccountLastBilledDate(InvoiceAccountDetail id, String invoiceStatus, java.sql.Date lastBilledDate, Long proposalNumber) {
+    protected void calculateAwardAccountLastBilledDate(InvoiceAccountDetail id, String invoiceStatus, java.sql.Date lastBilledDate, Long proposalNumber, String invoiceDocumentStatus) {
         Map<String, Object> mapKey = new HashMap<String, Object>();
         mapKey.put(KFSPropertyConstants.ACCOUNT_NUMBER, id.getAccountNumber());
         mapKey.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, id.getChartOfAccountsCode());
         mapKey.put(KFSPropertyConstants.PROPOSAL_NUMBER, proposalNumber);
         // To set previous and current last Billed Date for award account .
-        contractsAndGrantsModuleUpdateService.setLastBilledDateToAwardAccount(mapKey, invoiceStatus, lastBilledDate);
+        contractsAndGrantsModuleUpdateService.setLastBilledDateToAwardAccount(mapKey, invoiceStatus, lastBilledDate, invoiceDocumentStatus);
 
     }
 
@@ -3665,6 +3668,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
      *
      * @param id
      * @param value
+     * @param proposalNumber
      */
     protected void setAwardAccountFinalBilledValue(InvoiceAccountDetail id, boolean value, Long proposalNumber) {
         Map<String, Object> mapKey = new HashMap<String, Object>();
@@ -3674,6 +3678,27 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
         // To set final Billed to award Account
         contractsAndGrantsModuleUpdateService.setFinalBilledToAwardAccount(mapKey, value);
+    }
+
+    /**
+     * This method updates the ContractsAndGrantsBillingAwardAccount object's FinalBilled Variable with the value provided
+     * and also sets the last billed date and invoice status.
+     *
+     * @param id
+     * @param finalBilled
+     * @param proposalNumber
+     * @param invoiceStatus
+     * @param lastBilledDate
+     * @param invoiceDocumentStatus
+     */
+    protected void setAwardAccountFinalBilledValueAndLastBilledDate(InvoiceAccountDetail id, boolean finalBilled, Long proposalNumber, String invoiceStatus, java.sql.Date lastBilledDate, String invoiceDocumentStatus) {
+        Map<String, Object> mapKey = new HashMap<String, Object>();
+        mapKey.put(KFSPropertyConstants.ACCOUNT_NUMBER, id.getAccountNumber());
+        mapKey.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, id.getChartOfAccountsCode());
+        mapKey.put(KFSPropertyConstants.PROPOSAL_NUMBER, proposalNumber);
+
+        // To set previous and current last Billed Date for award account .
+        contractsAndGrantsModuleUpdateService.setFinalBilledAndLastBilledDateToAwardAccount(mapKey, finalBilled, invoiceStatus, lastBilledDate, invoiceDocumentStatus);
     }
 
     /**

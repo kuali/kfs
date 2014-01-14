@@ -1982,7 +1982,7 @@
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 		<reference-descriptor name="suspensionCategory" class-ref="org.kuali.kfs.module.ar.businessobject.SuspensionCategory"
-			auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
+			auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
 			<foreignkey field-ref="suspensionCategoryCode" />
 		</reference-descriptor>
 	</class-descriptor>

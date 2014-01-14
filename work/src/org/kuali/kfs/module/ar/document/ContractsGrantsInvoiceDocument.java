@@ -197,17 +197,19 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
     @Override
     public void doRouteStatusChange(DocumentRouteStatusChange statusChangeEvent) {
         super.doRouteStatusChange(statusChangeEvent);
-        // To set the status of the document to award account.
-        setAwardAccountInvoiceDocumentStatus(this.getDocumentHeader().getWorkflowDocument().getApplicationDocumentStatus());
+        boolean isFinal = getDocumentHeader().getWorkflowDocument().isFinal();
+        if (!isFinal) {
+            // To set the status of the document to award account.
+            setAwardAccountInvoiceDocumentStatus(this.getDocumentHeader().getWorkflowDocument().getStatus().getLabel());
+        }
         ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService = SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class);
         // performed only when document is in final state
-        if (getDocumentHeader().getWorkflowDocument().isFinal()) {
-
+        if (isFinal) {
             // update award accounts to final billed
-            contractsGrantsInvoiceDocumentService.doWhenFinalInvoice(this);
-            if (this.isInvoiceReversal()) { // Invoice correction process when corrected invoice goes to FINAL
+            contractsGrantsInvoiceDocumentService.updateLastBilledDate(this);
+            if (isInvoiceReversal()) { // Invoice correction process when corrected invoice goes to FINAL
                 try {
-                    this.getInvoiceGeneralDetail().setFinalBillIndicator(false);
+                    getInvoiceGeneralDetail().setFinalBillIndicator(false);
                     ContractsGrantsInvoiceDocument invoice = (ContractsGrantsInvoiceDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(this.getFinancialSystemDocumentHeader().getFinancialDocumentInErrorNumber());
                     if (ObjectUtils.isNotNull(invoice)) {
                         invoice.setInvoiceDueDate(new Date(new java.util.Date().getTime()));
@@ -215,10 +217,7 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
                         SpringContext.getBean(DocumentService.class).updateDocument(invoice);
                         // update correction to the AwardAccount Objects since the Invoice was unmarked as Final
                         contractsGrantsInvoiceDocumentService.updateUnfinalizationToAwardAccount(invoice.getAccountDetails(),invoice.getProposalNumber());
-                        // Update invoice, award account and award with the last billed Date.
-                        String invoiceStatus = "CORRECTED";
-                        contractsGrantsInvoiceDocumentService.updateLastBilledDate(invoiceStatus,this);// Setting award account and award last billed date
-                        this.getInvoiceGeneralDetail().setLastBilledDate(null);// Set invoice last billed date to null.
+                        getInvoiceGeneralDetail().setLastBilledDate(null);// Set invoice last billed date to null.
 
                         if (invoice.getInvoiceGeneralDetail().getBillingFrequency().equals(ArPropertyConstants.MILESTONE_BILLING_SCHEDULE_CODE)) {
                             contractsGrantsInvoiceDocumentService.correctMilestones(invoice.getInvoiceMilestones());
@@ -238,9 +237,6 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
             else {
                 // update Milestones and Bills when invoice goes to final state
                 contractsGrantsInvoiceDocumentService.updateBillsAndMilestones(KFSConstants.ParameterValues.STRING_YES,invoiceMilestones,invoiceBills);
-                // Update invoice, award account and award with the last billed Date.
-                String invoiceStatus = "FINAL";
-                contractsGrantsInvoiceDocumentService.updateLastBilledDate(invoiceStatus,this);
             }
 
             contractsGrantsInvoiceDocumentService.addToAccountObjectCodeBilledTotal(invoiceDetailAccountObjectCodes);

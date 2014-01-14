@@ -197,10 +197,9 @@ public class ContractsGrantsInvoiceDocumentTest extends KualiTestBase {
         contractsGrantsInvoiceDocument_2.setInvoiceGeneralDetail(invoiceGeneralDetail_2);
         // Now there are two invoices, to check combinations of invoices, when one by one go to final and corrected.
 
-
-        String invoiceStatus = "FINAL";
         // 1. invoice 1 is set to final.
-        contractsGrantsInvoiceDocumentService.updateLastBilledDate(invoiceStatus,contractsGrantsInvoiceDocument_1);
+        contractsGrantsInvoiceDocument_1.getInvoiceGeneralDetail().setFinalBillIndicator(true);
+        contractsGrantsInvoiceDocumentService.updateLastBilledDate(contractsGrantsInvoiceDocument_1);
         // Now to retrieve the Award Account and check the values.
 
         Map<String, Object> mapKey = new HashMap<String, Object>();
@@ -219,7 +218,8 @@ public class ContractsGrantsInvoiceDocumentTest extends KualiTestBase {
         assertEquals(null, award.getLastBilledDate());
 
         // 2. invoice 2 is set to final.
-        contractsGrantsInvoiceDocumentService.updateLastBilledDate(invoiceStatus,contractsGrantsInvoiceDocument_2);
+        contractsGrantsInvoiceDocument_2.getInvoiceGeneralDetail().setFinalBillIndicator(true);
+        contractsGrantsInvoiceDocumentService.updateLastBilledDate(contractsGrantsInvoiceDocument_2);
         mapKey = new HashMap<String, Object>();
         mapKey.put(KFSPropertyConstants.ACCOUNT_NUMBER, awardAccount_1.getAccountNumber());
         mapKey.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, awardAccount_1.getChartOfAccountsCode());
@@ -237,9 +237,11 @@ public class ContractsGrantsInvoiceDocumentTest extends KualiTestBase {
         award = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsBillingAward.class).getExternalizableBusinessObject(ContractsAndGrantsBillingAward.class, mapKey);
         assertEquals(lastBilledDate_1, award.getLastBilledDate());
 
-        invoiceStatus = "CORRECTED";
         // 3. invoice 1 or 2 is corrected.
-        contractsGrantsInvoiceDocumentService.updateLastBilledDate(invoiceStatus,contractsGrantsInvoiceDocument_1);
+        contractsGrantsInvoiceDocument_1.getInvoiceGeneralDetail().setFinalBillIndicator(true);
+        contractsGrantsInvoiceDocument_1.getFinancialSystemDocumentHeader().setFinancialDocumentInErrorNumber(contractsGrantsInvoiceDocument_2.getDocumentNumber());
+        contractsGrantsInvoiceDocument_1.isInvoiceReversal();
+        contractsGrantsInvoiceDocumentService.updateLastBilledDate(contractsGrantsInvoiceDocument_1);
         mapKey = new HashMap<String, Object>();
         mapKey.put(KFSPropertyConstants.ACCOUNT_NUMBER, awardAccount_1.getAccountNumber());
         mapKey.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, awardAccount_1.getChartOfAccountsCode());

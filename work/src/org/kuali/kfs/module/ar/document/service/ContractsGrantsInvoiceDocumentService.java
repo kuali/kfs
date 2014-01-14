@@ -395,7 +395,7 @@ public interface ContractsGrantsInvoiceDocumentService extends CustomerInvoiceDo
 
     /**
      * This method checks if there is atleast one AR Invoice Account present when the GLPE is 3.
-     * 
+     *
      * @param award
      * @return
      */
@@ -479,17 +479,12 @@ public interface ContractsGrantsInvoiceDocumentService extends CustomerInvoiceDo
     public Collection<ReferralToCollectionsLookupResult> getInvoiceDocumentsForReferralToCollectionsLookup(Map<String, String> fieldValues);
 
     /**
-     * This method updates the awardAccounts when the final invoice is generated.
-     */
-    public void doWhenFinalInvoice(ContractsGrantsInvoiceDocument document);
-
-    /**
-     * This method sets the last billed date to Award and Award Account objects based on the status of the invoice. Final or
-     * Corrected.
+     * This method sets the last billed date to Award and Award Account objects based on the status of the invoice.
+     * If this is the final invoice, also sets Final Billed indicator on Award Account
      *
-     * @param invoiceStatus
+     * @param document ContractGrantsInvoiceDocument referencing the Award and Award Account objects to update
      */
-    public void updateLastBilledDate(String invoiceStatus,ContractsGrantsInvoiceDocument document);
+    public void updateLastBilledDate(ContractsGrantsInvoiceDocument document);
 
     /**
      * This method updates the Bills and Milestone objects isItBilles Field.

@@ -106,9 +106,9 @@ public class CGInvoiceDocumentTestBase extends KualiTestBase {
                     criteria.clear();
                     criteria.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, currentYear);
                     criteria.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, coaCode);
-                    criteria.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, "8000");
                     criteria.put(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, "AC");
                     criteria.put(KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE, "CINV");
+
                     OffsetDefinition offset = boService.findByPrimaryKey(OffsetDefinition.class, criteria);
                     if (ObjectUtils.isNull(offset)) {
                         offset = new OffsetDefinition();

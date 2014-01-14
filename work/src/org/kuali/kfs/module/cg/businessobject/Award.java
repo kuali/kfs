@@ -20,8 +20,10 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.kfs.integration.ar.AccountsReceivableMilestone;
 import org.kuali.kfs.integration.ar.AccountsReceivableMilestoneSchedule;
@@ -385,21 +387,37 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
 
 
     /**
-     * Gets the lastBilledDate attribute.
+     * Gets the lastBilledDate attribute. This value is derived from the active Award Accounts for this Award.
      *
      * @return Returns the lastBilledDate.
      */
 
     @Override
     public Date getLastBilledDate() {
-        return lastBilledDate;
+        Date awdLastBilledDate = null;
+        Map<String, Object> map = new HashMap<String, Object>();
+
+        // find most recent last billed date for Award Accounts and return that
+        for (ContractsAndGrantsBillingAwardAccount awardAccount: getActiveAwardAccounts()) {
+            Date currentLastBilledDate = awardAccount.getCurrentLastBilledDate();
+            if (ObjectUtils.isNotNull(currentLastBilledDate)) {
+                if (ObjectUtils.isNotNull(awdLastBilledDate) && currentLastBilledDate.after(awdLastBilledDate)) {
+                    awdLastBilledDate = currentLastBilledDate;
+                } else {
+                    awdLastBilledDate = currentLastBilledDate;
+                }
+            }
+        }
+
+        return awdLastBilledDate;
     }
 
     /**
-     * Sets the lastBilledDate attribute value.
+     * Unused since getLastBilledDate() returns a derived value.
      *
      * @param lastBilledDate The lastBilledDate to set.
      */
+    @Deprecated
     public void setLastBilledDate(Date lastBilledDate) {
         this.lastBilledDate = lastBilledDate;
     }

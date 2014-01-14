@@ -30,7 +30,7 @@ public class ContractsAndGrantsModuleUpdateServiceImpl implements ContractsAndGr
     private AwardWebService awardWebService;
 
     @Override
-    public void setLastBilledDateToAwardAccount(Map<String, Object> criteria, String invoiceStatus, Date lastBilledDate) {
+    public void setLastBilledDateToAwardAccount(Map<String, Object> criteria, String invoiceStatus, Date lastBilledDate, String invoiceDocumentStatus) {
         // TODO Auto-generated method stub
 
     }
@@ -86,6 +86,12 @@ public class ContractsAndGrantsModuleUpdateServiceImpl implements ContractsAndGr
 
     @Override
     public void setBillsisItBilled(Criteria criteria, String value) {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void setFinalBilledAndLastBilledDateToAwardAccount(Map<String, Object> mapKey, boolean finalBilled, String invoiceStatus, Date lastBilledDate, String invoiceDocumentStatus) {
         // TODO Auto-generated method stub
 
     }

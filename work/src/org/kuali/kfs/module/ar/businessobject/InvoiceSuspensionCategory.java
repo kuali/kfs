@@ -15,16 +15,10 @@
  */
 package org.kuali.kfs.module.ar.businessobject;
 
-import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
  * SuspensionCategory under Contracts and Grants section. Created byFeb 21 2011 Task -666
@@ -51,13 +45,7 @@ public class InvoiceSuspensionCategory extends PersistableBusinessObjectBase {
     public InvoiceSuspensionCategory(String documentNumber, String suspensionCategoryCode) {
         this.documentNumber = documentNumber;
         this.suspensionCategoryCode = suspensionCategoryCode;
-
-        Map<String, Object> criteria = new HashMap<String, Object>();
-        criteria.put(ArPropertyConstants.SuspensionCategory.SUSPENSION_CATEGORY_CODE, suspensionCategoryCode);
-        List suspensionCategoryList = (List) SpringContext.getBean(BusinessObjectService.class).findMatching(SuspensionCategory.class, criteria);
-        if (CollectionUtils.isNotEmpty(suspensionCategoryList)) {
-            this.suspensionCategory = (SuspensionCategory) suspensionCategoryList.get(0);
-        }
+        refreshReferenceObject("suspensionCategory");
     }
 
     /**

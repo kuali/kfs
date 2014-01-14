@@ -18,12 +18,14 @@ package org.kuali.kfs.module.tem.document.authorization;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemConstants.TravelDocTypes;
 import org.kuali.kfs.module.tem.TemWorkflowConstants;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
 import org.kuali.kfs.module.tem.document.TravelReimbursementDocument;
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.krad.document.Document;
@@ -155,7 +157,7 @@ public class TravelAuthorizationDocumentPresentationController extends TravelAut
      * @return true if the authorization can be closed, false otherwise
      */
     public boolean canCloseAuthorization(TravelAuthorizationDocument document) {
-        return isOpen(document) && (isFinalOrProcessed(document)) && hasReimbursements(document);
+        return isOpen(document) && (isFinalOrProcessed(document)) && hasReimbursements(document) && !hasEnrouteReimbursements(document);
     }
 
     /**
@@ -193,6 +195,21 @@ public class TravelAuthorizationDocumentPresentationController extends TravelAut
     protected boolean hasReimbursements(TravelAuthorizationDocument document) {
         List<TravelReimbursementDocument> reimbursements = getTravelDocumentService().findReimbursementDocuments(document.getTravelDocumentIdentifier());
         return reimbursements != null && !reimbursements.isEmpty();
+    }
+
+    /**
+     * Determines if the given travel authorization document has any enroute reimbursements
+     * @param document the travel authorization to find enroute reimbursements for
+     * @return true if there are any enroute reimbursements, false otherwise
+     */
+    protected boolean hasEnrouteReimbursements(TravelAuthorizationDocument document) {
+        List<TravelReimbursementDocument> reimbursements = getTravelDocumentService().findReimbursementDocuments(document.getTravelDocumentIdentifier());
+        for (TravelReimbursementDocument reimbursement : reimbursements) {
+            if (StringUtils.equals(KFSConstants.DocumentStatusCodes.ENROUTE, reimbursement.getFinancialSystemDocumentHeader().getFinancialDocumentStatusCode())) {
+                return true;
+            }
+        }
+        return false;
     }
 
 

@@ -110,6 +110,11 @@ public enum ARAwardFixture {
         AwardAccount awardAccount_1 = ARAwardAccountFixture.AWD_ACCT_1.createAwardAccount();
         AwardAccount awardAccount_2 = ARAwardAccountFixture.AWD_ACCT_2.createAwardAccount();
 
+        if (ObjectUtils.isNotNull(this.lastBilledDate)) {
+            awardAccount_1.setCurrentLastBilledDate(this.lastBilledDate);
+            awardAccount_2.setCurrentLastBilledDate(this.lastBilledDate);
+        }
+
         List<AwardAccount> awardAccounts = new ArrayList<AwardAccount>();
         awardAccounts.add(awardAccount_1);
         awardAccounts.add(awardAccount_2);

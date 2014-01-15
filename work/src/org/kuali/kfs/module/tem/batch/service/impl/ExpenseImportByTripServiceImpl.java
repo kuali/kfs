@@ -695,7 +695,7 @@ public class ExpenseImportByTripServiceImpl extends ExpenseImportServiceBase imp
 
     protected List<TemSourceAccountingLine> getSourceAccountingLinesByTrip(String travelDocumentIdentifier) {
 
-        List<String> travelDocumentNumbers = getTravelDocumentService().getApprovedTravelDocumentNumbersByTrip(travelDocumentIdentifier);
+        Collection<String> travelDocumentNumbers = getTravelDocumentService().getApprovedTravelDocumentNumbersByTrip(travelDocumentIdentifier);
         LOG.info("Will attempt to retrieve source accounting lines for the following approved documents: "+ travelDocumentNumbers);
 
         ArrayList temSourceAccountingLines = new ArrayList<TemSourceAccountingLine>();

@@ -17,6 +17,7 @@ package org.kuali.kfs.module.tem.document.service.impl;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -427,9 +428,9 @@ public class MockTravelDocumentServiceImpl implements TravelDocumentService {
     public boolean travelDocumentTotalsUnchangedFromPersisted(TravelDocument travelDocument) {
         return realTravelDocumentService.travelDocumentTotalsUnchangedFromPersisted(travelDocument);
     }
-    
+
     @Override
-    public List<String> getApprovedTravelDocumentNumbersByTrip(String travelDocumentIdentifier) {
+    public Collection<String> getApprovedTravelDocumentNumbersByTrip(String travelDocumentIdentifier) {
         return realTravelDocumentService.getApprovedTravelDocumentNumbersByTrip(travelDocumentIdentifier);
     }
 

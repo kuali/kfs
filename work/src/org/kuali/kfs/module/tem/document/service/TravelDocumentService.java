@@ -17,6 +17,7 @@ package org.kuali.kfs.module.tem.document.service;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -437,7 +438,7 @@ public interface TravelDocumentService {
      * @return true if the totals are unchanged, false otherwise
      */
     public boolean travelDocumentTotalsUnchangedFromPersisted(TravelDocument travelDocument);
-    
+
     /**
      * This method retrieves a list of approved documents related to a travelDocumentIdentifier. It will grab the most current TA (TAA, TAC)
      * and all TR, ENT, and RELO for the given identifier.
@@ -445,7 +446,7 @@ public interface TravelDocumentService {
      * @param travelDocumentIdentifier
      * @return
      */
-    public List<String> getApprovedTravelDocumentNumbersByTrip(String travelDocumentIdentifier);
+    public Collection<String> getApprovedTravelDocumentNumbersByTrip(String travelDocumentIdentifier);
 
     /**
      * find matching trips  for the same traveler, dates

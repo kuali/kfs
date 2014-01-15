@@ -57,14 +57,14 @@ import org.kuali.kfs.integration.ar.AccountsReceivableCustomerInvoice;
 import org.kuali.kfs.integration.ar.AccountsReceivableModuleService;
 import org.kuali.kfs.integration.ar.AccountsReceivableOrganizationOptions;
 import org.kuali.kfs.module.tem.TemConstants;
-import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationParameters;
-import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationStatusCodeKeys;
-import org.kuali.kfs.module.tem.TemConstants.TravelDocTypes;
-import org.kuali.kfs.module.tem.TemConstants.TravelParameters;
 import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.TemParameterConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.TemWorkflowConstants;
+import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationParameters;
+import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationStatusCodeKeys;
+import org.kuali.kfs.module.tem.TemConstants.TravelDocTypes;
+import org.kuali.kfs.module.tem.TemConstants.TravelParameters;
 import org.kuali.kfs.module.tem.businessobject.ActualExpense;
 import org.kuali.kfs.module.tem.businessobject.ExpenseType;
 import org.kuali.kfs.module.tem.businessobject.ExpenseTypeAware;
@@ -1285,9 +1285,9 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
             //no authorizations exist so the root should be a reimbursement
             else {
                 final List<TravelReimbursementDocument> tempTrDocs = findReimbursementDocuments(travelDocumentIdentifier);
-                //did not find any reimbursements either so this must be an invalid travelDocumentIdentifier
+                //did not find any reimbursements either
                 if (tempTrDocs.isEmpty()) {
-                    LOG.error("Did not find any authorizations or reimbursements; invalid travelDocumentIndentifier: "+ travelDocumentIdentifier);
+                    LOG.debug("Did not find any authorizations or reimbursements for travelDocumentIndentifier: "+ travelDocumentIdentifier);
                     return null;
                 }
 
@@ -1305,7 +1305,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
             }
         }
         catch (WorkflowException we) {
-            throw new RuntimeException("Could not find documents related to trip id #"+travelDocumentIdentifier);
+            throw new RuntimeException("Could not find authorization or reimbursement documents related to trip id #"+travelDocumentIdentifier);
         }
 
         return rootTravelDocument;
@@ -2380,11 +2380,12 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
        try {
            TravelDocument travelDocument = findRootForTravelReimbursement(travelDocumentIdentifier);
            if (ObjectUtils.isNotNull(travelDocument)) {
+               LOG.debug("Found "+ travelDocument.getDocumentNumber() +" ("+ travelDocument.getDocumentTypeName() +") for travelDocumentIdentifier: "+ travelDocumentIdentifier);
                return travelDocument;
            }
 
        } catch (Exception exception) {
-           LOG.error("Exception occurred attempting to retrieve a travel document for tripId: "+ travelDocumentIdentifier, exception);
+           LOG.error("Exception occurred attempting to retrieve an authorization or remibursement travel document for travelDocumentIdentifier: "+ travelDocumentIdentifier, exception);
            return null;
        }
 
@@ -2393,12 +2394,16 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
 
        Collection<TravelEntertainmentDocument> entDocuments = getBusinessObjectService().findMatching(TravelEntertainmentDocument.class, fieldValues);
        if (entDocuments.iterator().hasNext()) {
-           return entDocuments.iterator().next();
+           TravelDocument ent = entDocuments.iterator().next();
+           LOG.debug("Found "+ ent.getDocumentNumber() +" ("+ ent.getDocumentTypeName() +") for travelDocumentIdentifier: "+ travelDocumentIdentifier);
+           return ent;
        }
 
        Collection<TravelRelocationDocument> reloDocuments = getBusinessObjectService().findMatching(TravelRelocationDocument.class, fieldValues);
        if (reloDocuments.iterator().hasNext()) {
-           return reloDocuments.iterator().next();
+           TravelDocument relo = reloDocuments.iterator().next();
+           LOG.info("Found "+ relo.getDocumentNumber() +" ("+ relo.getDocumentTypeName() +") for travelDocumentIdentifier: "+ travelDocumentIdentifier);
+           return relo;
        }
 
        LOG.error("Unable to find any travel document for given Trip Id: "+ travelDocumentIdentifier);
@@ -2443,7 +2448,8 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
      * @see org.kuali.kfs.module.tem.document.service.TravelDocumentService#getTravelDocumentNumbersByTrip(java.lang.String)
      */
     @Override
-    public List<String> getApprovedTravelDocumentNumbersByTrip(String travelDocumentIdentifier) {
+    public Collection<String> getApprovedTravelDocumentNumbersByTrip(String travelDocumentIdentifier) {
+        HashMap<String,String> approvedTravelDocumentNumbers = new HashMap<String,String>();
 
         List<String> travelDocumentNumbers = new ArrayList<String>();
 
@@ -2456,16 +2462,15 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
         travelDocumentNumbers.addAll(getTravelDocumentDao().findDocumentNumbers(TravelEntertainmentDocument.class, travelDocumentIdentifier));
         travelDocumentNumbers.addAll(getTravelDocumentDao().findDocumentNumbers(TravelRelocationDocument.class, travelDocumentIdentifier));
 
-        List<String> approvedTravelDocumentNumbers = new ArrayList<String>();
 
         for(Iterator iter = travelDocumentNumbers.iterator(); iter.hasNext();) {
             String documentNumber = (String)iter.next();
-            if (isDocumentApprovedOrExtracted(documentNumber)) {
-                approvedTravelDocumentNumbers.add(documentNumber);
+            if (!approvedTravelDocumentNumbers.containsKey(documentNumber) && isDocumentApprovedOrExtracted(documentNumber)) {
+                approvedTravelDocumentNumbers.put(documentNumber,documentNumber);
             }
         }
 
-        return approvedTravelDocumentNumbers;
+        return approvedTravelDocumentNumbers.values();
     }
 
     public PersistenceStructureService getPersistenceStructureService() {

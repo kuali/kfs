@@ -57,9 +57,12 @@
 				<ref bean="Customer-customerAddresses.customerZipCode" />
 				<ref bean="Customer-customerAddresses.customerAddressInternationalProvinceName" />
 				<ref bean="Customer-customerAddresses.customerEmailAddress" />
+				<ref bean="Customer-customerAddresses.customerInvoiceTemplateCode" />
+				<ref bean="Customer-customerAddresses.invoiceIndicatorCode" />
+				<ref bean="Customer-customerAddresses.customerCopiesToPrint" />
+				<ref bean="Customer-customerAddresses.customerPrintEnvelopesNumber" />
 				<ref bean="Customer-customerTaxTypeCode" />
-				<ref bean="Customer-customerTaxNbr" />
-				
+				<ref bean="Customer-customerTaxNbr" />				
 				<ref bean="Customer-bankruptcyType"/>
 				<ref bean="Customer-bankruptcyDate"/>
 				<ref bean="Customer-bankruptcyReviewDate"/>
@@ -446,6 +449,34 @@
 		<property name="name" value="customerAddresses.customerEmailAddress" />
 	</bean>
 	
+		<bean id="Customer-customerAddresses.customerInvoiceTemplateCode"
+		parent="Customer-customerAddresses.customerInvoiceTemplateCode-parentBean" />
+
+	<bean id="Customer-customerAddresses.customerInvoiceTemplateCode-parentBean"
+		abstract="true" parent="CustomerAddress-customerInvoiceTemplateCode">
+		<property name="name" value="customerAddresses.customerInvoiceTemplateCode" />
+	</bean>
+		<bean id="Customer-customerAddresses.invoiceIndicatorCode"
+		parent="Customer-customerAddresses.invoiceIndicatorCode-parentBean" />
+
+	<bean id="Customer-customerAddresses.invoiceIndicatorCode-parentBean"
+		abstract="true" parent="CustomerAddress-invoiceIndicatorCode">
+		<property name="name" value="customerAddresses.invoiceIndicatorCode" />
+	</bean>
+		<bean id="Customer-customerAddresses.customerCopiesToPrint"
+		parent="Customer-customerAddresses.customerCopiesToPrint-parentBean" />
+
+	<bean id="Customer-customerAddresses.customerCopiesToPrint-parentBean"
+		abstract="true" parent="CustomerAddress-customerCopiesToPrint">
+		<property name="name" value="customerAddresses.customerCopiesToPrint" />
+	</bean>
+		<bean id="Customer-customerAddresses.customerPrintEnvelopesNumber"
+		parent="Customer-customerAddresses.customerPrintEnvelopesNumber-parentBean" />
+
+	<bean id="Customer-customerAddresses.customerPrintEnvelopesNumber-parentBean"
+		abstract="true" parent="CustomerAddress-customerPrintEnvelopesNumber">
+		<property name="name" value="customerAddresses.customerPrintEnvelopesNumber" />
+	</bean>
 		<bean id="Customer-bankruptcyType" parent="Customer-bankruptcyType-parentBean" />
 
 	<bean id="Customer-bankruptcyType-parentBean" abstract="true"
@@ -521,7 +552,7 @@
 				<ref bean="Customer-inquirySectionDefinition-corporateInformation" />
 				<ref bean="Customer-inquirySectionDefinition-contactInformation" />
 				<ref bean="Customer-inquirySectionDefinition-address" />
-				 <ref bean="Customer-inquirySectionDefinition-notes" />
+				 <ref bean="Customer-inquirySectionDefinition-collections" />
 			</list>
 		</property>
 		<property name="inquirableClass"
@@ -543,6 +574,7 @@
 				<bean parent="FieldDefinition" p:attributeName="customerRecordAddDate" />
 				<bean parent="FieldDefinition" p:attributeName="customerLastActivityDate" />
 				<bean parent="FieldDefinition" p:attributeName="customerAddressChangeDate" />
+				<bean parent="FieldDefinition" p:attributeName="customerInvoiceTemplateCode" />
 			</list>
 		</property>
 	</bean>
@@ -579,6 +611,7 @@
 				<bean parent="FieldDefinition" p:attributeName="customerFaxNumber" />
 				<bean parent="FieldDefinition" p:attributeName="customerContactName" />
 				<bean parent="FieldDefinition" p:attributeName="customerContactPhoneNumber" />
+				
 			</list>
 		</property>
 	</bean>
@@ -638,6 +671,10 @@
 				<bean parent="FieldDefinition" p:attributeName="customerCountryCode" />
 				<bean parent="FieldDefinition" p:attributeName="customerEmailAddress" />
 				<bean parent="FieldDefinition" p:attributeName="customerAddressEndDate" />
+				<bean parent="FieldDefinition" p:attributeName="customerInvoiceTemplateCode" />
+				<bean parent="FieldDefinition" p:attributeName="invoiceIndicatorCode" />
+				<bean parent="FieldDefinition" p:attributeName="customerCopiesToPrint" />
+				<bean parent="FieldDefinition" p:attributeName="customerPrintEnvelopesNumber" />
 			</list>
 		</property>
 		<property name="summaryFields">
@@ -647,30 +684,21 @@
 		</property>
 	</bean>
 
-	<bean id="Customer-inquirySectionDefinition-notes" parent="Customer-inquirySectionDefinition-notes-parentBean" />
-	<bean id="Customer-inquirySectionDefinition-notes-parentBean"
+	<bean id="Customer-inquirySectionDefinition-collections" parent="Customer-inquirySectionDefinition-collections-parentBean" />
+	<bean id="Customer-inquirySectionDefinition-collections-parentBean"
 		parent="InquirySectionDefinition" abstract="true">
-		<property name="title" value="Notes" />
+		<property name="title" value="Collections" />
 		<property name="numberOfColumns" value="1" />
 		<property name="inquiryFields">
 			<list>
-				<bean parent="InquiryCollectionDefinition">
-					<property name="attributeName" value="boNotes" />
-					<property name="businessObjectClass" value="org.kuali.rice.krad.bo.Note"/>
-					<property name="numberOfColumns" value="1" />
-					<property name="inquiryFields">
-						<list>
-							<bean parent="FieldDefinition" p:attributeName="noteText" />
-							<bean parent="FieldDefinition" p:attributeName="notePostedTimestamp" />
-							<bean parent="FieldDefinition" p:attributeName="authorUniversal.principalName" />
-						    <bean parent="FieldDefinition" p:attributeName="attachmentLink" />
-						</list>
-					</property>
-				</bean>
+				<bean parent="FieldDefinition" p:attributeName="bankruptcyType"/>
+				<bean parent="FieldDefinition" p:attributeName="bankruptcyDate"/>
+				<bean parent="FieldDefinition" p:attributeName="bankruptcyReviewDate"/>
+				<bean parent="FieldDefinition" p:attributeName="stopWorkIndicator"/>
+				<bean parent="FieldDefinition" p:attributeName="stopWorkReason"/>				
 			</list>
 		</property>
 	</bean>
-
 
 	<!-- Business Object Lookup Definition -->
 

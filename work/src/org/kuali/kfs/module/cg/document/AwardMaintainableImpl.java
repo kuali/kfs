@@ -251,8 +251,14 @@ public class AwardMaintainableImpl extends FinancialSystemMaintainable {
     public void processAfterPost(MaintenanceDocument document, Map<String, String[]> parameters) {
         super.processAfterPost(document, parameters);
         Award newAward = (Award) document.getNewMaintainableObject().getBusinessObject();
-        if(ObjectUtils.isNotNull(newAward.getProposal())) {
-            SpringContext.getBean(BusinessObjectService.class).save(newAward.getProposal());
+
+        // KFSTP-16 Check for null proposal number before saving
+        if (ObjectUtils.isNotNull(newAward)){
+            Proposal proposal = newAward.getProposal();
+
+            if (ObjectUtils.isNotNull(proposal) && proposal.getProposalNumber() != null){
+                SpringContext.getBean(BusinessObjectService.class).save(newAward.getProposal());
+            }
         }
     }
 

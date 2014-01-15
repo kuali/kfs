@@ -611,26 +611,44 @@
 							<bean parent="FieldDefinition" p:attributeName="reportingName" />
 							<bean parent="FieldDefinition" p:attributeName="fullName" />
 							<bean parent="FieldDefinition" p:attributeName="agencyType.name" />
+							<bean parent="FieldDefinition" p:attributeName="active" />
 							<bean parent="FieldDefinition" p:attributeName="inStateIndicator" />
 							<bean parent="FieldDefinition" p:attributeName="indirectAmount" />
 							<bean parent="FieldDefinition" p:attributeName="reportsToAgencyNumber" />
-							<bean parent="FieldDefinition" p:attributeName="cageNumber" />
-							<bean parent="FieldDefinition" p:attributeName="dodacNumber" />
-							<bean parent="FieldDefinition" p:attributeName="dunAndBradstreetNumber" />
-							<bean parent="FieldDefinition" p:attributeName="dunsPlusFourNumber" />
 							<bean parent="FieldDefinition" p:attributeName="agencyInvoiceTemplateCode" />
 							<bean parent="FieldDefinition" p:attributeName="agencyFrequencyCode" />
 							<bean parent="FieldDefinition" p:attributeName="agencyFinancialReportCode" />
 							<bean parent="FieldDefinition" p:attributeName="agencyFinancialReportFreqCode" />
 							<bean parent="FieldDefinition" p:attributeName="agencyExpirationDate" />
-							<bean parent="FieldDefinition" p:attributeName="customerNumber" />
 							<bean parent="FieldDefinition" p:attributeName="sponsorCode" />
-							<bean parent="FieldDefinition" p:attributeName="active" />
+
 						</list>
 					</property>
 				</bean>
 				<bean parent="InquirySectionDefinition">
-
+					<property name="title" value="Customer" />
+					<property name="numberOfColumns" value="1" />
+					<property name="inquiryFields">
+						<list>
+							<bean parent="FieldDefinition" p:attributeName="customerCreated" />
+							<bean parent="FieldDefinition" p:attributeName="customerNumber" />
+							<bean parent="FieldDefinition" p:attributeName="customerTypeCode" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="InquirySectionDefinition">
+					<property name="title" value="Contracts and Grants" />
+					<property name="numberOfColumns" value="1" />
+					<property name="inquiryFields">
+						<list>
+							<bean parent="FieldDefinition" p:attributeName="cageNumber" />
+							<bean parent="FieldDefinition" p:attributeName="dodacNumber" />
+							<bean parent="FieldDefinition" p:attributeName="dunAndBradstreetNumber" />
+							<bean parent="FieldDefinition" p:attributeName="dunsPlusFourNumber" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="InquirySectionDefinition">
 					<property name="title" value="Address" />
 					<property name="numberOfColumns" value="1" />
 					<property name="inquiryFields">
@@ -668,6 +686,17 @@
 									</list>
 								</property>
 							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean parent="InquirySectionDefinition">
+					<property name="title" value="Collections Maintenance" />
+					<property name="numberOfColumns" value="1" />
+					<property name="inquiryFields">
+						<list>
+							<bean parent="FieldDefinition" p:attributeName="stateAgencyIndicator" />
+							<bean parent="FieldDefinition" p:attributeName="dunningCampaign" />
+							<bean parent="FieldDefinition" p:attributeName="notes" />
 						</list>
 					</property>
 				</bean>				

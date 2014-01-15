@@ -21,6 +21,7 @@
 
 		<property name="businessObjectClass" value="org.kuali.kfs.module.ar.businessobject.ContractsAndGrantsCategories" />
 		<property name="objectLabel" value="ContractsAndGrantsCategories" />
+		<property name="titleAttribute" value="categoryCode"/>
 		<property name="attributes">
 			<list>
 				<ref bean="ContractsAndGrantsCategories-categoryCode" />
@@ -33,9 +34,12 @@
 				<ref bean="ContractsAndGrantsCategories-active" />
 			</list>
 		</property>
+		<property name="inquiryDefinition">
+      		<ref bean="ContractsAndGrantsCategories-inquiryDefinition"/>
+    	</property>
 		<property name="lookupDefinition">
 			<ref bean="ContractsAndGrantsCategories-lookupDefinition" />
-		</property>
+		</property>	
 	</bean>
 
 	<!-- Attribute Definitions -->
@@ -171,6 +175,32 @@
 				<bean parent="FieldDefinition" p:attributeName="active" />
 			</list>
 		</property>
+	</bean>
+	
+	<!-- Business Object Inquiry Definition -->
+	
+	<bean id="ContractsAndGrantsCategories-inquiryDefinition" parent="ContractsAndGrantsCategories-inquiryDefinition-parentBean"/>
+	
+	<bean id="ContractsAndGrantsCategories-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+	  <property name="title" value="Category Inquiry"/>
+	  <property name="inquirySections">
+	    <list>
+	      <bean parent="InquirySectionDefinition">
+	        <property name="title" value="Cost Category"/>
+	        <property name="numberOfColumns" value="1"/>
+	        <property name="inquiryFields">
+	          <list>
+	            <bean parent="FieldDefinition" p:attributeName="categoryCode"/>
+	            <bean parent="FieldDefinition" p:attributeName="categoryName"/>
+	            <bean parent="FieldDefinition" p:attributeName="categoryDescription"/>
+	            <bean parent="FieldDefinition" p:attributeName="categoryObjectCodes"/>
+	            <bean parent="FieldDefinition" p:attributeName="indirectCostIndicator"/>
+	            <bean parent="FieldDefinition" p:attributeName="active"/>
+	          </list>
+	        </property>
+	      </bean>
+	    </list>
+	  </property>
 	</bean>
   
 </beans>

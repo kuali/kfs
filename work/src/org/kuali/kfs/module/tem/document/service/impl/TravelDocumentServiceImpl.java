@@ -51,20 +51,19 @@ import java.util.TreeSet;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
 import org.apache.log4j.Logger;
-import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.kfs.gl.service.EncumbranceService;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomerInvoice;
 import org.kuali.kfs.integration.ar.AccountsReceivableModuleService;
 import org.kuali.kfs.integration.ar.AccountsReceivableOrganizationOptions;
 import org.kuali.kfs.module.tem.TemConstants;
-import org.kuali.kfs.module.tem.TemKeyConstants;
-import org.kuali.kfs.module.tem.TemParameterConstants;
-import org.kuali.kfs.module.tem.TemPropertyConstants;
-import org.kuali.kfs.module.tem.TemWorkflowConstants;
 import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationParameters;
 import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationStatusCodeKeys;
 import org.kuali.kfs.module.tem.TemConstants.TravelDocTypes;
 import org.kuali.kfs.module.tem.TemConstants.TravelParameters;
+import org.kuali.kfs.module.tem.TemKeyConstants;
+import org.kuali.kfs.module.tem.TemParameterConstants;
+import org.kuali.kfs.module.tem.TemPropertyConstants;
+import org.kuali.kfs.module.tem.TemWorkflowConstants;
 import org.kuali.kfs.module.tem.businessobject.ActualExpense;
 import org.kuali.kfs.module.tem.businessobject.ExpenseType;
 import org.kuali.kfs.module.tem.businessobject.ExpenseTypeAware;
@@ -1379,16 +1378,12 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
     protected List<String> findAccountsResponsibleFor(final List<SourceAccountingLine> lines, String principalId) {
         final Set<String> accountList = new HashSet<String>();
         for (AccountingLine line : lines) {
-            try {
-                line.refreshReferenceObject(KFSPropertyConstants.ACCOUNT);
-                if (line != null && !ObjectUtils.isNull(line.getAccount())) {
-                    Person accountFiscalOfficerUser = line.getAccount().getAccountFiscalOfficerUser();
-                    if (accountFiscalOfficerUser != null && accountFiscalOfficerUser.getPrincipalId().equals(principalId)) {
-                        accountList.add(line.getAccountNumber());
-                    }
+            line.refreshReferenceObject(KFSPropertyConstants.ACCOUNT);
+            if (line != null && !ObjectUtils.isNull(line.getAccount())) {
+                Person accountFiscalOfficerUser = line.getAccount().getAccountFiscalOfficerUser();
+                if (accountFiscalOfficerUser != null && accountFiscalOfficerUser.getPrincipalId().equals(principalId)) {
+                    accountList.add(line.getAccountNumber());
                 }
-            } catch (PersistenceBrokerException ex){
-                //COA Account getAccountFiscalOfficerUser() is generating PersistenceBrokerException when we lookup an invalid account number.
             }
         }
         return new ArrayList<String>(accountList);

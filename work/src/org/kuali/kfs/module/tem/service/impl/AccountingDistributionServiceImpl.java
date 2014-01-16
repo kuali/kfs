@@ -28,7 +28,6 @@ import java.util.Map;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.log4j.Logger;
-import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.service.ObjectCodeService;
 import org.kuali.kfs.module.tem.TemConstants.ExpenseType;
@@ -195,22 +194,16 @@ public class AccountingDistributionServiceImpl implements AccountingDistribution
     protected Map<String, AccountingDistribution> accountingLinesToDistributionMap(TravelDocument travelDocument) {
         Map<String, AccountingDistribution> distributionMap = new HashMap<String, AccountingDistribution>();
         for (TemSourceAccountingLine accountingLine : (List<TemSourceAccountingLine>) travelDocument.getSourceAccountingLines()) {
-            // ObjectCode getCode() is generating PersistenceBrokerException when we lookup an invalid object code.
-            try {
-                AccountingDistribution distribution = null;
-                String key = accountingLine.getObjectCode().getCode() + "-" + accountingLine.getCardType();
-                if (distributionMap.containsKey(key)) {
-                    distributionMap.get(key).setSubTotal(distributionMap.get(key).getSubTotal().add(accountingLine.getAmount()));
-                }
-                else {
-                    distribution = new AccountingDistribution();
-                    distribution.setObjectCode(accountingLine.getObjectCode().getCode());
-                    distribution.setSubTotal(accountingLine.getAmount());
-                    distributionMap.put(key, distribution);
-                }
+            AccountingDistribution distribution = null;
+            String key = accountingLine.getObjectCode().getCode() + "-" + accountingLine.getCardType();
+            if (distributionMap.containsKey(key)) {
+                distributionMap.get(key).setSubTotal(distributionMap.get(key).getSubTotal().add(accountingLine.getAmount()));
             }
-            catch (PersistenceBrokerException ex) {
-                ex.printStackTrace();
+            else {
+                distribution = new AccountingDistribution();
+                distribution.setObjectCode(accountingLine.getObjectCode().getCode());
+                distribution.setSubTotal(accountingLine.getAmount());
+                distributionMap.put(key, distribution);
             }
         }
 

@@ -45,14 +45,14 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kew.api.exception.WorkflowException;
-import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DictionaryValidationService;
 import org.kuali.rice.core.api.parameter.ParameterEvaluator;
 import org.kuali.rice.core.api.parameter.ParameterEvaluatorService;
-import org.kuali.rice.coreservice.framework.parameter.ParameterService;
-import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kns.service.DictionaryValidationService;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
 import org.kuali.rice.krad.util.ObjectUtils;
 
@@ -273,7 +273,7 @@ public class PaymentApplicationDocumentRuleUtil {
      * @param paymentApplicationDocument
      * @return
      */
-    private static boolean validateNonInvoicedRefundDisbursementVoucherRules(NonInvoiced nonInvoiced, PaymentApplicationDocument paymentApplicationDocument) {
+    protected static boolean validateNonInvoicedRefundDisbursementVoucherRules(NonInvoiced nonInvoiced, PaymentApplicationDocument paymentApplicationDocument) {
         boolean isValid = true;
 
         SystemInformation systemInformation = SpringContext.getBean(SystemInformationService.class).getByProcessingChartOrgAndFiscalYear(paymentApplicationDocument.getAccountsReceivableDocumentHeader().getProcessingChartOfAccountCode(), paymentApplicationDocument.getAccountsReceivableDocumentHeader().getProcessingOrganizationCode(), paymentApplicationDocument.getPostingYear());
@@ -309,7 +309,7 @@ public class PaymentApplicationDocumentRuleUtil {
      * @param documentPaymentReason
      * @return
      */
-    private static boolean validateObjectCode(PaymentApplicationDocument paymentApplicationDocument, NonInvoiced nonInvoicedForValidation, String documentPaymentReason) {
+    protected static boolean validateObjectCode(PaymentApplicationDocument paymentApplicationDocument, NonInvoiced nonInvoicedForValidation, String documentPaymentReason) {
         MessageMap errors = GlobalVariables.getMessageMap();
         ParameterService parameterService = SpringContext.getBean(ParameterService.class);
 
@@ -353,7 +353,7 @@ public class PaymentApplicationDocumentRuleUtil {
      * @return true if account exists, falls within global function code restrictions, and account's sub fund is in permitted list
      *         for payment reason
      */
-    private static boolean validateAccountNumber(PaymentApplicationDocument paymentApplicationDocumentForValidation, NonInvoiced nonInvoicedForValidation, String documentPaymentReason) {
+    protected static boolean validateAccountNumber(PaymentApplicationDocument paymentApplicationDocumentForValidation, NonInvoiced nonInvoicedForValidation, String documentPaymentReason) {
         MessageMap errors = GlobalVariables.getMessageMap();
         ParameterService parameterService = SpringContext.getBean(ParameterService.class);
 
@@ -398,7 +398,7 @@ public class PaymentApplicationDocumentRuleUtil {
      * @param errorMessageKey The error key path to be used for applying errors when necessary.
      * @return True if the value provided is valid and exists, false otherwise.
      */
-    private static boolean validateNonInvoicedLineItem(String attributeName, String value, Class boClass, String errorPropertyName, String errorMessageKey) {
+    protected static boolean validateNonInvoicedLineItem(String attributeName, String value, Class boClass, String errorPropertyName, String errorMessageKey) {
         MessageMap errorMap = GlobalVariables.getMessageMap();
         boolean isValid = true;
         Map<String, String> criteria = new HashMap<String, String>();
@@ -418,7 +418,7 @@ public class PaymentApplicationDocumentRuleUtil {
      * @param totalFromControl
      * @return
      */
-    private static boolean validateNonInvoicedLineAmount(NonInvoiced nonInvoiced, PaymentApplicationDocument paymentApplicationDocument, KualiDecimal totalFromControl) {
+    protected static boolean validateNonInvoicedLineAmount(NonInvoiced nonInvoiced, PaymentApplicationDocument paymentApplicationDocument, KualiDecimal totalFromControl) {
         MessageMap errorMap = GlobalVariables.getMessageMap();
         KualiDecimal nonArLineAmount = nonInvoiced.getFinancialDocumentLineAmount();
         // check that dollar amount is not zero before continuing
@@ -571,7 +571,7 @@ public class PaymentApplicationDocumentRuleUtil {
      *
      * @return
      */
-    private static KualiDecimal getSumOfNonInvoiceds(List<NonInvoiced> nonInvoiceds) {
+    protected static KualiDecimal getSumOfNonInvoiceds(List<NonInvoiced> nonInvoiceds) {
         KualiDecimal sum = new KualiDecimal(0);
         for (NonInvoiced nonInvoiced : nonInvoiceds) {
             sum = sum.add(nonInvoiced.getFinancialDocumentLineAmount());

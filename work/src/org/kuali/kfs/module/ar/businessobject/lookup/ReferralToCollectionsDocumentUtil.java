@@ -77,7 +77,9 @@ public class ReferralToCollectionsDocumentUtil {
                     referralToCollectionsLookupResult.setProposalNumber(award.getProposalNumber());
                     referralToCollectionsLookupResult.setAwardBeginningDate(award.getAwardBeginningDate());
                     referralToCollectionsLookupResult.setAwardEndingDate(award.getAwardEndingDate());
-                    referralToCollectionsLookupResult.setAccountNumber(list.get(0).getAccountDetails().get(0).getAccountNumber());
+                    if (CollectionUtils.isNotEmpty(invoice.getAccountDetails())) {
+                        referralToCollectionsLookupResult.setAccountNumber(invoice.getAccountDetails().get(0).getAccountNumber());
+                    }
                     referralToCollectionsLookupResult.setAwardTotal(award.getAwardTotalAmount());
                     referralToCollectionsLookupResult.setInvoices(list);
 

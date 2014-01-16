@@ -231,7 +231,7 @@ public class VerifyBillingFrequencyServiceImpl implements VerifyBillingFrequency
             if (lastBilledDate != null) {
                 // if the current month is in the first fiscal quarter of the current year,
                 // then get the last day of the previous fiscal year as PreviousAccountingPeriodEndDate
-                if (periodEndDateListOfCurrFiscalYearSize > 1 && !currPeriod.getUniversityFiscalPeriodEndDate().after(periodEndDateListOfCurrFiscalYear.get(2))) {
+                if (periodEndDateListOfCurrFiscalYearSize > 2 && !currPeriod.getUniversityFiscalPeriodEndDate().after(periodEndDateListOfCurrFiscalYear.get(2))) {
                     previousAccountingPeriodEndDay = new Date(universityDateService.getLastDateOfFiscalYear(previousYear).getTime());
                 }
                 else {
@@ -296,7 +296,7 @@ public class VerifyBillingFrequencyServiceImpl implements VerifyBillingFrequency
                 else if (period.getUniversityFiscalYear().intValue() == currPeriod.getUniversityFiscalYear().intValue()) {
 
                     // previousAccoutingPeriodEndDay falls in the first fiscal period(first quarter)
-                    if (periodEndDateListOfCurrFiscalYearSize > 1 && !previousAccountingPeriodEndDay.after(periodEndDateListOfCurrFiscalYear.get(2))) {
+                    if (periodEndDateListOfCurrFiscalYearSize > 2 && !previousAccountingPeriodEndDay.after(periodEndDateListOfCurrFiscalYear.get(2))) {
                         final Date firstDayOfCurrentFiscalYear = new Date(universityDateService.getFirstDateOfFiscalYear(currPeriod.getUniversityFiscalYear()).getTime());
                         previousAccountingPeriodStartDay = firstDayOfCurrentFiscalYear;
                     }

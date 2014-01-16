@@ -58,16 +58,19 @@ public class DunningLetterDistributionOnDemandLookupUtil {
 
             if (CollectionUtils.isNotEmpty(list)){
                 // Get data from first award for agency data
-                ContractsAndGrantsBillingAward award = list.get(0).getAward();
+                ContractsGrantsInvoiceDocument document = list.get(0);
+                ContractsAndGrantsBillingAward award = document.getAward();
                 if (ObjectUtils.isNotNull(award) && !award.isStopWorkIndicator()) {
                     dunningLetterDistributionOnDemandLookupResult = new DunningLetterDistributionOnDemandLookupResult();
                     dunningLetterDistributionOnDemandLookupResult.setProposalNumber(award.getProposalNumber());
-                    dunningLetterDistributionOnDemandLookupResult.setInvoiceDocumentNumber(list.get(0).getDocumentNumber());
+                    dunningLetterDistributionOnDemandLookupResult.setInvoiceDocumentNumber(document.getDocumentNumber());
                     dunningLetterDistributionOnDemandLookupResult.setAgencyNumber(award.getAgencyNumber());
-                    dunningLetterDistributionOnDemandLookupResult.setCustomerNumber(list.get(0).getAccountsReceivableDocumentHeader().getCustomerNumber());
+                    dunningLetterDistributionOnDemandLookupResult.setCustomerNumber(document.getAccountsReceivableDocumentHeader().getCustomerNumber());
                     dunningLetterDistributionOnDemandLookupResult.setAwardTotal(award.getAwardTotalAmount());
                     dunningLetterDistributionOnDemandLookupResult.setCampaignID(award.getDunningCampaign());
-                    dunningLetterDistributionOnDemandLookupResult.setAccountNumber(list.get(0).getAccountDetails().get(0).getAccountNumber());
+                    if (CollectionUtils.isNotEmpty(document.getAccountDetails())) {
+                        dunningLetterDistributionOnDemandLookupResult.setAccountNumber(document.getAccountDetails().get(0).getAccountNumber());
+                    }
                     dunningLetterDistributionOnDemandLookupResult.setInvoices(list);
 
                     populatedDunningLetterDistributionOnDemandLookupResults.add(dunningLetterDistributionOnDemandLookupResult);

@@ -3519,10 +3519,13 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
      * @return
      */
     protected String getRecipientAccountNumber(List<InvoiceAccountDetail> accountDetails) {
-        if (ObjectUtils.isNull(accountDetails.get(0).getContractControlAccountNumber())) {
-            return accountDetails.get(0).getAccountNumber();
+        if (CollectionUtils.isNotEmpty(accountDetails)) {
+            if (ObjectUtils.isNull(accountDetails.get(0).getContractControlAccountNumber())) {
+                return accountDetails.get(0).getAccountNumber();
+            }
+            return accountDetails.get(0).getContractControlAccountNumber();
         }
-        return accountDetails.get(0).getContractControlAccountNumber();
+        return null;
     }
 
     /**

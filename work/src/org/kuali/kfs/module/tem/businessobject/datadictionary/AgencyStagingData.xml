@@ -632,7 +632,7 @@
 		<property name="name" value="lodgingPropertyStateCode" />
 		<property name="label" value="State" />
 		<property name="shortLabel" value="State" />
-		<property name="maxLength" value="2" />
+		<property name="maxLength" value="3" />
 		<property name="summary" value="State" />
 		<property name="description" value="State" />
 		<property name="control"><bean parent="TextControlDefinition" p:size="2"/></property>

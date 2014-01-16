@@ -65,6 +65,7 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.KualiModuleService;
 import org.kuali.rice.krad.service.MailService;
+import org.kuali.rice.krad.service.NoteService;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 
@@ -81,6 +82,7 @@ public class AREmailServiceImpl extends MailerImpl implements AREmailService {
     private ConfigurationService kualiConfigurationService;
     private BusinessObjectService businessObjectService;
     private DocumentService documentService;
+    private NoteService noteService;
     private KualiModuleService kualiModuleService;
 
     /**
@@ -131,7 +133,10 @@ public class AREmailServiceImpl extends MailerImpl implements AREmailService {
             List<InvoiceAddressDetail> invoiceAddressDetails = invoice.getInvoiceAddressDetails();
             for (InvoiceAddressDetail invoiceAddressDetail : invoiceAddressDetails) {
                 if (ArConstants.InvoiceIndicator.EMAIL.equals(invoiceAddressDetail.getPreferredInvoiceIndicatorCode())) {
-                    Note note = businessObjectService.findBySinglePrimaryKey(Note.class, invoiceAddressDetail.getNoteId());
+
+                    // KFSTI-48 Refactor to retrieve the note through noteService
+                    Note note = noteService.getNoteByNoteId(invoiceAddressDetail.getNoteId());
+
                     if (ObjectUtils.isNotNull(note)) {
 
                         MimeMessage message = new MimeMessage(session);
@@ -360,5 +365,12 @@ public class AREmailServiceImpl extends MailerImpl implements AREmailService {
         return subject;
     }
 
-
+    /**
+     * Sets the noteService attribute value.
+     *
+     * @param noteService The noteService to set.
+     */
+    public void setNoteService(NoteService noteService) {
+        this.noteService = noteService;
+    }
 }

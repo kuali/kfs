@@ -259,6 +259,7 @@
 		<property name="dataDictionaryService" ref="dataDictionaryService" />
 		<property name="businessObjectService" ref="businessObjectService" />
 		<property name="documentService" ref="documentService" />
+		<property name="noteService" ref="noteService" />
 		<property name="kualiModuleService">
 			<ref bean="kualiModuleService" />
 		</property>

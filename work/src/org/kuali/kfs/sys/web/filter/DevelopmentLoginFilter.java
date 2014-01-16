@@ -29,7 +29,7 @@ import javax.servlet.http.HttpServletRequestWrapper;
 
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.util.KRADConstants;
-//
+
 /**
  * A login filter which forwards to a login page that allows for the desired
  * authentication ID to be entered without the need for a password.

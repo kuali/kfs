@@ -2336,6 +2336,12 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
                }
         }
 
+       // TR with no TAs created from mainmenu
+       if(documents.isEmpty()) {
+           earliestTripBeginDate = getTripBeginDate(travelDocument.getTripBegin());
+           greatestTripEndDate = getTripEndDate(travelDocument.getTripEnd());
+       }
+
        List<TravelReimbursementDocument> matchDocs =  (List<TravelReimbursementDocument>) travelDocumentDao.findMatchingTrips(temProfileId ,earliestTripBeginDate, greatestTripEndDate);
         List<String> documentIds = new ArrayList<String>();
         for (TravelReimbursementDocument document : matchDocs) {
@@ -2345,6 +2351,48 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
         }
         return documentIds;
     }
+
+    private Integer getDuplicateTripDateRangeDays() {
+        String tripDateRangeDays = parameterService.getParameterValueAsString(TravelAuthorizationDocument.class, TemConstants.TravelParameters.DUPLICATE_TRIP_DATE_RANGE_DAYS);
+        Integer days = null;
+        if (!StringUtils.isNumeric(tripDateRangeDays)) {
+            days = TemConstants.DEFAULT_DUPLICATE_TRIP_DATE_RANGE_DAYS;
+       }
+
+       days = Integer.parseInt(tripDateRangeDays);
+       return days;
+
+    }
+
+    private Timestamp getTripBeginDate(Timestamp tripBeginDate) {
+        Timestamp tripBegin = null;
+        Integer days = getDuplicateTripDateRangeDays();
+         try {
+             tripBegin = dateTimeService.convertToSqlTimestamp(dateTimeService.toDateString(DateUtils.addDays(tripBeginDate, (days * -1))));
+
+         } catch (java.text.ParseException pe) {
+             LOG.error("Exception while parsing trip begin date" + pe);
+         }
+
+
+         return tripBegin;
+
+     }
+
+     private Timestamp getTripEndDate(Timestamp tripEndDate) {
+         Timestamp tripEnd = null;
+         Integer days = getDuplicateTripDateRangeDays();
+          try {
+              tripEnd = dateTimeService.convertToSqlTimestamp(dateTimeService.toDateString((DateUtils.addDays(tripEndDate, days ))));
+
+          } catch (java.text.ParseException pe) {
+              LOG.error("Exception while parsing trip end date" + pe);
+          }
+
+          return tripEnd;
+
+     }
+
 
     /**
      * Inner class to hold keys & messages for disabled properties

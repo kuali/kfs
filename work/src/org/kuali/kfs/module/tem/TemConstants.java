@@ -218,6 +218,7 @@ public class TemConstants {
         public static final String PER_DIEM_MILEAGE_RATE_EXPENSE_TYPE_CODE = "PER_DIEM_MILEAGE_RATE_EXPENSE_TYPE_CODE";
 
         public static final String INTERNATIONAL_TRIP_REQUIRES_ACCOMMODATION_IND = "INTERNATIONAL_TRIP_REQUIRES_ACCOMMODATION_IND";
+        public static final String DUPLICATE_TRIP_DATE_RANGE_DAYS  = "DUPLICATE_TRIP_DATE_RANGE_DAYS";
     }
 
     public static class TravelAuthorizationParameters {
@@ -245,7 +246,7 @@ public class TemConstants {
         public static final String VENDOR_PAYMENT_ALLOWED_BEFORE_FINAL_APPROVAL_IND = "VENDOR_PAYMENT_ALLOWED_BEFORE_FINAL_APPROVAL_IND";
         public static final String HOLD_NEW_FISCAL_YEAR_ENCUMBRANCES_IND = "HOLD_NEW_FISCAL_YEAR_ENCUMBRANCES_IND";
         public static final String DISPLAY_IMPORTED_EXPENSE_IND = "DISPLAY_IMPORTED_EXPENSE_IND";
-        public static final String DUPLICATE_TRIP_DATE_RANGE_DAYS  = "DUPLICATE_TRIP_DATE_RANGE_DAYS";
+
     }
 
     public static class TravelReimbursementParameters {

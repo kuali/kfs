@@ -29,7 +29,6 @@ import java.util.Set;
 import org.kuali.kfs.integration.cg.ContractAndGrantsProposal;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAwardAccount;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleUpdateService;
 import org.kuali.kfs.module.ar.businessobject.ContractsAndGrantsCategories;
 import org.kuali.kfs.module.ar.businessobject.InvoiceAccountDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoiceGeneralDetail;
@@ -40,24 +39,33 @@ import org.kuali.kfs.module.ar.fixture.ARProposalFixture;
 import org.kuali.kfs.module.ar.fixture.ContractsGrantsInvoiceDocumentFixture;
 import org.kuali.kfs.module.ar.fixture.InvoiceAccountDetailFixture;
 import org.kuali.kfs.module.ar.fixture.InvoiceGeneralDetailFixture;
+import org.kuali.kfs.module.cg.businessobject.Award;
+import org.kuali.kfs.module.cg.businessobject.AwardAccount;
+import org.kuali.kfs.module.cg.businessobject.Proposal;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.KualiModuleService;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * This class tests the ContractsGrantsInvoiceDocument class
  */
 @ConfigureContext(session = khuntley)
 public class ContractsGrantsInvoiceDocumentTest extends KualiTestBase {
+    private BusinessObjectService businessObjectService;
+
     public ContractsAndGrantsCategories category;
     public ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument;
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
+        businessObjectService = SpringContext.getBean(BusinessObjectService.class);
+
         category = new ContractsAndGrantsCategories();
         category.setCategoryCode("testCode");
         category.setCategoryDescription("testDescription");
@@ -171,7 +179,7 @@ public class ContractsGrantsInvoiceDocumentTest extends KualiTestBase {
         awardAccounts.add(awardAccount_1);
         awardAccounts.add(awardAccount_2);
 
-        SpringContext.getBean(ContractsAndGrantsModuleUpdateService.class).setAwardAccountsToAward(award.getProposalNumber(), awardAccounts);
+        setAwardAccountsToAward(award.getProposalNumber(), awardAccounts);
 
         contractsGrantsInvoiceDocument_1.setAward(award);
         contractsGrantsInvoiceDocument_2.setAward(award);
@@ -261,5 +269,53 @@ public class ContractsGrantsInvoiceDocumentTest extends KualiTestBase {
 
 
     }
+
+    /**
+     * This method sets values to Award respective to junit testing
+     *
+     * @param proposalNumber
+     * @param fieldValues
+     */
+    private void setAwardAccountsToAward(Long proposalNumber, List<ContractsAndGrantsBillingAwardAccount> awardAccounts) {
+
+        // Award and proposal is being saved
+        Proposal proposal = businessObjectService.findBySinglePrimaryKey(Proposal.class, proposalNumber);
+        if (ObjectUtils.isNull(proposal)) {
+            proposal = new Proposal();
+            proposal.setProposalNumber(proposalNumber);
+        }
+        businessObjectService.save(proposal);
+
+        Award award = businessObjectService.findBySinglePrimaryKey(Award.class, proposalNumber);
+        if (ObjectUtils.isNull(award)) {
+            award = new Award();
+            award.setProposalNumber(proposalNumber);
+
+        }
+        businessObjectService.save(award);
+
+        List<AwardAccount> awdAccts = new ArrayList<AwardAccount>();
+
+        for (ContractsAndGrantsBillingAwardAccount awardAccount : awardAccounts) {
+            Map<String, Object> mapKey = new HashMap<String, Object>();
+            mapKey.put(KFSPropertyConstants.ACCOUNT_NUMBER, awardAccount.getAccountNumber());
+            mapKey.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, awardAccount.getChartOfAccountsCode());
+            mapKey.put(KFSPropertyConstants.PROPOSAL_NUMBER, awardAccount.getProposalNumber());
+            AwardAccount awdAcct = businessObjectService.findByPrimaryKey(AwardAccount.class, mapKey);
+            if (ObjectUtils.isNull(awdAcct)) {
+                awdAcct = new AwardAccount();
+                awdAcct.setAccountNumber(awardAccount.getAccountNumber());
+                awdAcct.setChartOfAccountsCode(awardAccount.getChartOfAccountsCode());
+                awdAcct.setProposalNumber(awardAccount.getProposalNumber());
+            }
+
+            businessObjectService.save(awdAcct);
+
+            awdAccts.add(awdAcct);
+        }
+        award.setAwardAccounts(awdAccts);
+
+    }
+
 
 }

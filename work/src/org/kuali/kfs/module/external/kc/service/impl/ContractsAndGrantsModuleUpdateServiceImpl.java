@@ -16,11 +16,9 @@
 package org.kuali.kfs.module.external.kc.service.impl;
 
 import java.sql.Date;
-import java.util.List;
 import java.util.Map;
 
 import org.apache.ojb.broker.query.Criteria;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAwardAccount;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleUpdateService;
 import org.kuali.kra.external.award.AwardWebService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
@@ -54,12 +52,6 @@ public class ContractsAndGrantsModuleUpdateServiceImpl implements ContractsAndGr
 
     @Override
     public void setFinalBilledToAwardAccount(Map<String, Object> criteria, boolean finalBilled) {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public void setAwardAccountsToAward(Long proposalNumber, List<ContractsAndGrantsBillingAwardAccount> awardAccounts) {
         // TODO Auto-generated method stub
 
     }

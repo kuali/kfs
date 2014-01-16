@@ -16,7 +16,6 @@
 package org.kuali.kfs.integration.cg;
 
 import java.sql.Date;
-import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
@@ -97,14 +96,6 @@ public class ContractsAndGrantsModuleUpdateServiceNoOp implements ContractsAndGr
      */
     @Override
     public void setFinalBilledToAwardAccount(Map<String, Object> criteria, boolean finalBilled) {
-        LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
-    }
-
-    /**
-     * @see org.kuali.kfs.integration.cg.ContractsAndGrantsModuleUpdateService#setTestValuesToAward(java.lang.Long, java.util.Map)
-     */
-    @Override
-    public void setAwardAccountsToAward(Long proposalNumber, List<ContractsAndGrantsBillingAwardAccount> awardAccounts) {
         LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
     }
 

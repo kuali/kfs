@@ -18,22 +18,18 @@ package org.kuali.kfs.module.cg.service.impl;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.query.Criteria;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAwardAccount;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleUpdateService;
 import org.kuali.kfs.module.cg.businessobject.Award;
 import org.kuali.kfs.module.cg.businessobject.AwardAccount;
 import org.kuali.kfs.module.cg.businessobject.Bill;
-import org.kuali.kfs.module.cg.businessobject.Proposal;
 import org.kuali.kfs.module.cg.dataaccess.BillDao;
 import org.kuali.kfs.module.cg.service.AwardService;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -181,60 +177,6 @@ public class ContractsAndGrantsModuleUpdateServiceImpl implements ContractsAndGr
             getBusinessObjectService().save(awardAccount);
         }
     }
-
-    /**
-     * This method sets values to Award respective to junit testing
-     *
-     * @param proposalNumber
-     * @param fieldValues
-     */
-    @Override
-    @SuppressWarnings("deprecation")
-    public void setAwardAccountsToAward(Long proposalNumber, List<ContractsAndGrantsBillingAwardAccount> awardAccounts) {
-
-        // Award and proposal is being saved
-        Proposal proposal = businessObjectService.findBySinglePrimaryKey(Proposal.class, proposalNumber);
-        if (ObjectUtils.isNull(proposal)) {
-            proposal = new Proposal();
-            proposal.setProposalNumber(proposalNumber);
-        }
-        getBusinessObjectService().save(proposal);
-
-        Award award = getBusinessObjectService().findBySinglePrimaryKey(Award.class, proposalNumber);
-        if (ObjectUtils.isNull(award)) {
-            award = new Award();
-            award.setProposalNumber(proposalNumber);
-
-        }
-        getBusinessObjectService().save(award);
-
-        List<AwardAccount> awdAccts = new ArrayList<AwardAccount>();
-
-
-        for (ContractsAndGrantsBillingAwardAccount awardAccount : awardAccounts) {
-            Map<String, Object> mapKey = new HashMap<String, Object>();
-            mapKey.put(KFSPropertyConstants.ACCOUNT_NUMBER, awardAccount.getAccountNumber());
-            mapKey.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, awardAccount.getChartOfAccountsCode());
-            mapKey.put(KFSPropertyConstants.PROPOSAL_NUMBER, awardAccount.getProposalNumber());
-            AwardAccount awdAcct = businessObjectService.findByPrimaryKey(AwardAccount.class, mapKey);
-            if (ObjectUtils.isNull(awdAcct)) {
-                awdAcct = new AwardAccount();
-                awdAcct.setAccountNumber(awardAccount.getAccountNumber());
-                awdAcct.setChartOfAccountsCode(awardAccount.getChartOfAccountsCode());
-                awdAcct.setProposalNumber(awardAccount.getProposalNumber());
-
-            }
-
-
-            getBusinessObjectService().save(awdAcct);
-
-            awdAccts.add(awdAcct);
-        }
-        award.setAwardAccounts(awdAccts);
-
-
-    }
-
 
     /**
      * This method updates value of isItBilled in Bill BO to Yes

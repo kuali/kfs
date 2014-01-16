@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.integration.cg;
 
-import java.util.List;
 import java.util.Map;
 
 import org.apache.ojb.broker.query.Criteria;
@@ -77,15 +76,6 @@ public interface ContractsAndGrantsModuleUpdateService {
     public void setFinalBilledToAwardAccount(Map<String, Object> criteria, boolean finalBilled);
 
     /**
-     * This method sets Award Accounts to Award
-     *
-     * @param proposalNumber
-     * @param fieldValues
-     */
-    public void setAwardAccountsToAward(Long proposalNumber, List<ContractsAndGrantsBillingAwardAccount> awardAccounts);
-
-
-    /**
      * This method sets invoice Document Status to award Account.
      *
      * @param criteria
@@ -102,7 +92,7 @@ public interface ContractsAndGrantsModuleUpdateService {
 
     /**
      * This method sets final billed and last billed date to Award Account.
-     * 
+     *
      * @param mapKey
      * @param finalBilled
      * @param invoiceStatus

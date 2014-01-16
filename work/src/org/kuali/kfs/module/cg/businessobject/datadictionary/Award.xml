@@ -1432,7 +1432,7 @@
 		parent="LookupDefinition">
 		<property name="title" value="Award Lookup" />
 		<property name="lookupableID" value="awardLookupable" />
-
+		<property name="numOfColumns" value="2"/>
 		<property name="defaultSort">
 			<bean parent="SortDefinition">
 			</bean>
@@ -1442,7 +1442,6 @@
 				<bean parent="FieldDefinition" p:attributeName="proposalNumber" />
 				<bean parent="FieldDefinition" p:attributeName="agencyNumber" />
 				<bean parent="FieldDefinition" p:attributeName="awardDocumentNumber" />
-				<bean parent="FieldDefinition" p:attributeName="awardId" />
 				<bean parent="FieldDefinition" p:attributeName="lookupFundMgrPersonUniversalIdentifier" />
 				<bean parent="FieldDefinition" p:attributeName="lookupFundMgrPerson.principalName" />
 				<bean parent="FieldDefinition" p:attributeName="lookupFundMgrPerson.name" />
@@ -1471,11 +1470,9 @@
 				<bean parent="FieldDefinition" p:attributeName="preferredBillingFrequency" />
 				<bean parent="FieldDefinition" p:attributeName="preferredReportTemplate" />
 				<bean parent="FieldDefinition" p:attributeName="preferredReportFrequency" />
-				<bean parent="FieldDefinition" p:attributeName="stateTransferIndicator" />
 				<bean parent="FieldDefinition" p:attributeName="suspendInvoicingIndicator" />
 				<bean parent="FieldDefinition" p:attributeName="additionalFormsRequiredIndicator" />
 				<bean parent="FieldDefinition" p:attributeName="additionalFormsDescription" />
-				<bean parent="FieldDefinition" p:attributeName="contractGrantType" />
 				<bean parent="FieldDefinition" p:attributeName="minInvoiceAmount" />
 				<bean parent="FieldDefinition" p:attributeName="fundingExpirationDate" />
 				<bean parent="FieldDefinition" p:attributeName="active" />
@@ -1485,7 +1482,6 @@
 			<list>
 				<bean parent="FieldDefinition" p:attributeName="awardInquiryTitle" />
 				<bean parent="FieldDefinition" p:attributeName="proposalNumber" />
-				<bean parent="FieldDefinition" p:attributeName="awardId" />
 				<bean parent="FieldDefinition" p:attributeName="awardDocumentNumber" />
 				<bean parent="FieldDefinition" p:attributeName="agency.fullName" />
 				<bean parent="FieldDefinition" p:attributeName="awardTotalAmount" />
@@ -1500,15 +1496,8 @@
 				<bean parent="FieldDefinition" p:attributeName="awardPrimaryProjectDirector.projectDirector.name" />
 				<bean parent="FieldDefinition" p:attributeName="awardPrimaryFundManager.fundManager.name" />
 				<bean parent="FieldDefinition" p:attributeName="preferredBillingFrequency" />
-				<bean parent="FieldDefinition" p:attributeName="preferredReportTemplate" />
-				<bean parent="FieldDefinition" p:attributeName="preferredReportFrequency" />
-				<bean parent="FieldDefinition" p:attributeName="stateTransferIndicator" />
 				<bean parent="FieldDefinition" p:attributeName="suspendInvoicingIndicator" />
 				<bean parent="FieldDefinition" p:attributeName="additionalFormsRequiredIndicator" />
-				<bean parent="FieldDefinition" p:attributeName="additionalFormsDescription" />
-				<bean parent="FieldDefinition" p:attributeName="contractGrantType" />
-				<bean parent="FieldDefinition" p:attributeName="autoApproveIndicator" />
-				<bean parent="FieldDefinition" p:attributeName="minInvoiceAmount" />
 				<bean parent="FieldDefinition" p:attributeName="fundingExpirationDate" />
 				<bean parent="FieldDefinition" p:attributeName="active" />
 			</list>

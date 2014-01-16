@@ -729,31 +729,13 @@
 				<bean parent="FieldDefinition" p:attributeName="reportingName" />
 				<bean parent="FieldDefinition" p:attributeName="fullName" />
 				<bean parent="FieldDefinition" p:attributeName="agencyTypeCode" />
-				<bean parent="FieldDefinition" p:attributeName="cageNumber" />
-				<bean parent="FieldDefinition" p:attributeName="dodacNumber" />
-				<bean parent="FieldDefinition" p:attributeName="dunAndBradstreetNumber" />
-				<bean parent="FieldDefinition" p:attributeName="dunsPlusFourNumber" />
 				<bean parent="FieldDefinition" p:attributeName="agencyInvoiceTemplateCode" />
 				<bean parent="FieldDefinition" p:attributeName="agencyFrequencyCode" />
 				<bean parent="FieldDefinition" p:attributeName="agencyFinancialReportCode" />
 				<bean parent="FieldDefinition" p:attributeName="agencyFinancialReportFreqCode" />
-				<bean parent="FieldDefinition" p:attributeName="agencyExpirationDate" />
 				<bean parent="FieldDefinition" p:attributeName="customerNumber" />
-				<bean parent="FieldDefinition" p:attributeName="sponsorCode" />
-				<bean parent="FieldDefinition" p:defaultValue="Y"
-					p:attributeName="active" />
-				<bean parent="FieldDefinition" p:attributeName="agencyAddresses.agencyAddressName" />
+				<bean parent="FieldDefinition" p:defaultValue="Y" p:attributeName="active" />				
 				<bean parent="FieldDefinition" p:attributeName="agencyAddresses.agencyContactName" />
-				<bean parent="FieldDefinition" p:attributeName="agencyAddresses.agencyLine1StreetAddress" />
-				<bean parent="FieldDefinition" p:attributeName="agencyAddresses.agencyLine2StreetAddress" />
-				<bean parent="FieldDefinition" p:attributeName="agencyAddresses.agencyLine3StreetAddress" />
-				<bean parent="FieldDefinition" p:attributeName="agencyAddresses.agencyLine4StreetAddress" />
-				<bean parent="FieldDefinition" p:attributeName="agencyAddresses.agencyCityName" />
-				<bean parent="FieldDefinition" p:attributeName="agencyAddresses.agencyStateCode" />
-				<bean parent="FieldDefinition" p:attributeName="agencyAddresses.agencyZipCode" />
-				<bean parent="FieldDefinition" p:attributeName="agencyAddresses.agencyPhoneNumber" />
-				<bean parent="FieldDefinition" p:attributeName="agencyAddresses.agencyFaxNumber" />
-				<bean parent="FieldDefinition" p:attributeName="agencyAddresses.agencyAddressInternationalProvinceName" />
 				<bean parent="FieldDefinition" p:attributeName="agencyAddresses.agencyContactEmailAddress" />
 				<bean parent="FieldDefinition" p:attributeName="agencyAddresses.agencyInvoiceEmailAddress" />
 			</list>
@@ -768,16 +750,9 @@
 				<bean parent="FieldDefinition" p:attributeName="inStateIndicator" />
 				<bean parent="FieldDefinition" p:attributeName="indirectAmount" />
 				<bean parent="FieldDefinition" p:attributeName="reportsToAgencyNumber" />
-				<bean parent="FieldDefinition" p:attributeName="agencyInvoiceTemplateCode" />
 				<bean parent="FieldDefinition" p:attributeName="agencyFrequencyCode" />
-				<bean parent="FieldDefinition" p:attributeName="agencyFinancialReportCode" />
 				<bean parent="FieldDefinition" p:attributeName="agencyFinancialReportFreqCode" />
-				<bean parent="FieldDefinition" p:attributeName="agencyExpirationDate" />
-				<bean parent="FieldDefinition" p:attributeName="cageNumber" />
-				<bean parent="FieldDefinition" p:attributeName="dodacNumber" />
-				<bean parent="FieldDefinition" p:attributeName="dunAndBradstreetNumber" />
 				<bean parent="FieldDefinition" p:attributeName="customerNumber" />
-				<bean parent="FieldDefinition" p:attributeName="sponsorCode" />
 				<bean parent="FieldDefinition" p:attributeName="active" />
 			</list>
 		</property>

@@ -16,6 +16,9 @@
 
 package org.kuali.kfs.module.external.kc.businessobject;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomer;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAgency;
 import org.kuali.kfs.module.external.kc.dto.SponsorDTO;
@@ -41,6 +44,7 @@ public class Agency implements ContractsAndGrantsBillingAgency {
     private String dunsPlusFourNumber;
     private AccountsReceivableCustomer customer;
     private boolean stateAgencyIndicator;
+    private List<AgencyAddress> agencyAddresses;
 
     public Agency(SponsorDTO kcSponsor) {
         setAgencyNumber(kcSponsor.getSponsorCode());
@@ -50,7 +54,8 @@ public class Agency implements ContractsAndGrantsBillingAgency {
         setActive(kcSponsor.isActive());
         setDunsPlusFourNumber(kcSponsor.getDunsPlusFourNumber());
         setStateAgencyIndicator(kcSponsor.isStateAgency());
-
+        agencyAddresses = new ArrayList<AgencyAddress>();
+        agencyAddresses.add(new AgencyAddress(this, kcSponsor.getContactInformation()));
     }
 
     /**
@@ -287,5 +292,14 @@ public class Agency implements ContractsAndGrantsBillingAgency {
 
     public void setStateAgencyIndicator(boolean stateAgencyIndicator) {
         this.stateAgencyIndicator = stateAgencyIndicator;
+    }
+
+    @Override
+    public List<AgencyAddress> getAgencyAddresses() {
+        return agencyAddresses;
+    }
+
+    public void setAgencyAddresses(List<AgencyAddress> agencyAddresses) {
+        this.agencyAddresses = agencyAddresses;
     }
 }

@@ -41,6 +41,7 @@ import org.kuali.kfs.module.external.kc.service.KfsService;
 import org.kuali.kfs.module.external.kc.util.GlobalVariablesExtractHelper;
 import org.kuali.kfs.module.external.kc.webService.AwardWebSoapService;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kra.external.award.AwardWebService;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
@@ -91,14 +92,13 @@ public class AwardServiceImpl implements ExternalizableBusinessObjectService {
     @Override
     public Collection findMatching(Map fieldValues) {
         List<AwardDTO> result = null;
-
         AwardSearchCriteriaDto criteria = new AwardSearchCriteriaDto();
-        if (fieldValues.containsKey("proposalNumber")) {
-            criteria.setAwardId(Long.parseLong((String) fieldValues.get("proposalNumber")));
+        if (fieldValues.containsKey(KFSPropertyConstants.PROPOSAL_NUMBER)) {
+            criteria.setAwardId(Long.parseLong((String) fieldValues.get(KFSPropertyConstants.PROPOSAL_NUMBER)));
         }
         criteria.setAwardNumber((String) fieldValues.get("awardNumber"));
-        criteria.setChartOfAccounts((String) fieldValues.get("chartOfAccounts"));
-        criteria.setAccountNumber((String) fieldValues.get("accountNumber"));
+        criteria.setChartOfAccounts((String) fieldValues.get(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE));
+        criteria.setAccountNumber((String) fieldValues.get(KFSPropertyConstants.ACCOUNT_NUMBER));
         try {
           result  = this.getWebService().searchAwards(criteria);
         } catch (WebServiceException ex) {

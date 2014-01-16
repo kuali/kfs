@@ -37,7 +37,6 @@ import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.service.MaintenanceDocumentDictionaryService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.KualiModuleService;
-import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
 
 /**
@@ -49,7 +48,8 @@ public class CustomerDocumentServiceImpl implements CustomerDocumentService {
     private WorkflowDocumentService workflowDocumentService;
     private CustomerService customerService;
     private KualiModuleService kualiModuleService;
-    
+
+    @Override
     public String createAndSaveCustomer(String description, ContractsAndGrantsBillingAgency agency) throws WorkflowException {
         MaintenanceDocument doc = null;
         doc = (MaintenanceDocument) documentService.getNewDocument(SpringContext.getBean(MaintenanceDocumentDictionaryService.class).getDocumentTypeName(Customer.class));
@@ -78,11 +78,14 @@ public class CustomerDocumentServiceImpl implements CustomerDocumentService {
         String customerNumber = customerService.getNextCustomerNumber(customer);
         customer.setCustomerNumber(customerNumber);
 
-        List<ContractsAndGrantsAgencyAddress> agencyAddresses = new ArrayList<ContractsAndGrantsAgencyAddress>();
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put(KFSPropertyConstants.AGENCY_NUMBER, agency.getAgencyNumber());
-        agencyAddresses = kualiModuleService.getResponsibleModuleService(ContractsAndGrantsAgencyAddress.class).getExternalizableBusinessObjectsList(ContractsAndGrantsAgencyAddress.class, map);
-
+        List<? extends ContractsAndGrantsAgencyAddress> agencyAddresses = new ArrayList<ContractsAndGrantsAgencyAddress>();
+        if (agency.getAgencyAddresses() == null || agency.getAgencyAddresses().isEmpty()) {
+            Map<String, Object> map = new HashMap<String, Object>();
+            map.put(KFSPropertyConstants.AGENCY_NUMBER, agency.getAgencyNumber());
+            agencyAddresses = kualiModuleService.getResponsibleModuleService(ContractsAndGrantsAgencyAddress.class).getExternalizableBusinessObjectsList(ContractsAndGrantsAgencyAddress.class, map);
+        } else {
+            agencyAddresses = agency.getAgencyAddresses();
+        }
         // to set the primary agency address to the customer
         for (ContractsAndGrantsAgencyAddress agencyAddress : agencyAddresses) {
             if (agencyAddress.isPrimary()) {
@@ -100,7 +103,7 @@ public class CustomerDocumentServiceImpl implements CustomerDocumentService {
                 customerAddress.setCustomerZipCode(agencyAddress.getAgencyZipCode());
                 customerAddress.setCustomerAddressInternationalProvinceName(agencyAddress.getAgencyAddressInternationalProvinceName());
                 customerAddress.setCustomerInternationalMailCode(agencyAddress.getAgencyInternationalMailCode());
-                
+
             }
         }
 
@@ -159,10 +162,10 @@ public class CustomerDocumentServiceImpl implements CustomerDocumentService {
     public void setCustomerService(CustomerService customerService) {
         this.customerService = customerService;
     }
-    
+
     /**
      * Sets the kualiModuleService attribute value.
-     * 
+     *
      * @param kualiModuleService The kualiModuleService to set.
      */
     @NonTransactional

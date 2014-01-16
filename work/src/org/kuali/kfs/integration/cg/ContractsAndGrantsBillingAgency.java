@@ -15,6 +15,8 @@
  */
 package org.kuali.kfs.integration.cg;
 
+import java.util.List;
+
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomer;
 
 /**
@@ -82,4 +84,11 @@ public interface ContractsAndGrantsBillingAgency extends ContractsAndGrantsAgenc
      * @return Returns the stateAgency.
      */
     public boolean isStateAgencyIndicator();
+
+    /**
+     * Gets the agencyAddresses attribute
+     *
+     * @return
+     */
+    public List<? extends ContractsAndGrantsAgencyAddress> getAgencyAddresses();
 }

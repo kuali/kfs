@@ -145,6 +145,10 @@ public class KcConstants {
         public static final String ERROR_KC_DOCUMENT_INVALID_USER="error.kc.document.invalid.user";
     }
 
+    public static class CustomerCreationService {
+        public static final String WEB_SERVICE_NAME = "customerCreationService";
+    }
+
     public static class BudgetAdjustmentService {
 
         public static final String WEB_SERVICE_NAME = "budgetAdjustmentService";

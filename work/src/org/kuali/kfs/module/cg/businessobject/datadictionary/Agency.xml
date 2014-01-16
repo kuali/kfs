@@ -16,6 +16,7 @@
 	<bean id="Agency-parentBean" abstract="true" parent="BusinessObjectEntry">
 		<property name="businessObjectClass"
 			value="org.kuali.kfs.module.cg.businessobject.Agency" />
+		<property name="boNotesEnabled" value="true" />
 		<property name="inquiryDefinition">
 			<ref bean="Agency-inquiryDefinition" />
 		</property>

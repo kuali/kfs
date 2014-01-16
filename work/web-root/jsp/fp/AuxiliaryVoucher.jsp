@@ -43,10 +43,10 @@
                   </div>
                 </th>
                 <td class="datacell-nowrap">
-               		<c:if test="${readOnly}">
+               		<c:if test="${KualiForm.accountingPeriodReadOnly}">
                         ${KualiForm.accountingPeriod.universityFiscalPeriodName}
 					</c:if>
-                	<c:if test="${!readOnly}">
+                	<c:if test="${!KualiForm.accountingPeriodReadOnly}">
 						<html:select property="selectedAccountingPeriod"
 						 onchange ="submitForChangedType()">
 					 		<html:options property="accountingPeriodCompositeValueList" labelProperty="accountingPeriodLabelList"  />

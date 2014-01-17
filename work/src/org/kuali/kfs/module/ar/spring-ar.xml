@@ -161,6 +161,9 @@
 
 	<bean id="letterTemplateLookupableHelperService" class="org.kuali.kfs.module.ar.businessobject.lookup.DunningLetterTemplateLookupableHelperServiceImpl"
 		scope="prototype" parent="lookupableHelperService">
+		<property name="kualiModuleService">
+			<ref bean="kualiModuleService" />
+		</property>
 	</bean>
 
 	<bean id="letterTemplateLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
@@ -171,6 +174,9 @@
 	
 	<bean id="invoiceTemplateLookupableHelperService" class="org.kuali.kfs.module.ar.businessobject.lookup.InvoiceTemplateLookupableHelperServiceImpl"
 		scope="prototype" parent="lookupableHelperService">
+		<property name="kualiModuleService">
+			<ref bean="kualiModuleService" />
+		</property>
 	</bean>
 	
 	

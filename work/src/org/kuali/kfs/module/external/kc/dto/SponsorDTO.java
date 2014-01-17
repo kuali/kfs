@@ -6,12 +6,16 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 
+
+
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "sponsorDTO", propOrder = {
     "sponsorCode",
     "acronym",
     "sponsorName",
     "sponsorTypeCode",
+    "customerTypeCode",
+    "customerNumber",
     "sponsorTypeDescription",
     "cageNumber",
     "dodacNumber",
@@ -30,6 +34,8 @@ public class SponsorDTO implements Serializable {
 	private String acronym;
 	private String sponsorName;
 	private String sponsorTypeCode;
+	private String customerTypeCode;
+	private String customerNumber;
 	private String sponsorTypeDescription;
 	private String cageNumber;
     private String dodacNumber;
@@ -143,5 +149,21 @@ public class SponsorDTO implements Serializable {
 
 	public void setStateAgency(boolean stateAgency) {
 		this.stateAgency = stateAgency;
+	}
+
+	public String getCustomerTypeCode() {
+		return customerTypeCode;
+	}
+
+	public void setCustomerTypeCode(String customerTypeCode) {
+		this.customerTypeCode = customerTypeCode;
+	}
+
+	public String getCustomerNumber() {
+		return customerNumber;
+	}
+
+	public void setCustomerNumber(String customerNumber) {
+		this.customerNumber = customerNumber;
 	}
 }

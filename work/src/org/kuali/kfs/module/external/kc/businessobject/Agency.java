@@ -54,6 +54,7 @@ public class Agency implements ContractsAndGrantsBillingAgency {
         setActive(kcSponsor.isActive());
         setDunsPlusFourNumber(kcSponsor.getDunsPlusFourNumber());
         setStateAgencyIndicator(kcSponsor.isStateAgency());
+        setCustomerTypeCode(kcSponsor.getCustomerTypeCode());
         agencyAddresses = new ArrayList<AgencyAddress>();
         agencyAddresses.add(new AgencyAddress(this, kcSponsor.getContactInformation()));
     }

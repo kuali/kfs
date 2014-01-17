@@ -29,8 +29,10 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.EnumSet;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.JoinColumn;
@@ -1690,56 +1692,62 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
     }
 
     /**
-     *
-     * @return
+     * Determines if there are any meal expenses without lodging expenses on the same day
+     * @param perDiemExpenses per diem expenses to check
+     * @param actualExpenses actual expenses to check
+     * @return true if there are meals charged for any day of the trip without lodging; false otherwise
      */
-    public boolean isMealsWithoutLodging(){
-        if (perDiemExpenses != null){
-            for(PerDiemExpense pde : perDiemExpenses){
-                if (checkMealWithoutLodging(pde)) {
-                    return true;
-                }
+    public boolean isMealsWithoutLodging() {
+        Set<java.sql.Date> daysWithMeals = getDaysWithMeals(getPerDiemExpenses(), getActualExpenses());
+        for (java.sql.Date dayWithMeal : daysWithMeals) {
+            if (!hasLodgingExpenseOnDay(dayWithMeal, getPerDiemExpenses(), getActualExpenses())) {
+                return true;
             }
         }
-
-        if (actualExpenses != null){
-            for(ActualExpense actualExpense : actualExpenses){
-                if (checkMealWithoutLodging(actualExpense)) {
-                    return true;
-                }
-            }
-        }
-
         return false;
     }
 
     /**
-     *
-     * @param pde
-     * @return
+     * Finds all of the days within per diem expenses and actual expenses which have meals
+     * @param perDiemExpenses the per diem expenses to check
+     * @param actualExpenses the actual expenses to check
+     * @return a Set of days to check
      */
-    public boolean checkMealWithoutLodging(PerDiemExpense pde) {
-        return pde.getMealsTotal().isGreaterThan(KualiDecimal.ZERO) && pde.getLodgingTotal().isLessEqual(KualiDecimal.ZERO);
+    protected Set<java.sql.Date> getDaysWithMeals(List<PerDiemExpense> perDiemExpenses, List<ActualExpense> actualExpenses) {
+        Set<java.sql.Date> days = new HashSet<java.sql.Date>();
+        for (PerDiemExpense perDiemExpense : perDiemExpenses) {
+            if (perDiemExpense.getBreakfastValue().isGreaterThan(KualiDecimal.ZERO) || perDiemExpense.getLunchValue().isGreaterThan(KualiDecimal.ZERO) || perDiemExpense.getDinnerValue().isGreaterThan(KualiDecimal.ZERO)) {
+                java.sql.Date day = new java.sql.Date(perDiemExpense.getMileageDate().getTime());
+                days.add(day);
+            }
+        }
+        for (ActualExpense expense : actualExpenses) {
+            if (expense.isBreakfast() || expense.isLunch() || expense.isDinner()) {
+                days.add(expense.getExpenseDate());
+            }
+        }
+        return days;
     }
 
     /**
-     *
-     * @param actualExpense
-     * @return
+     * Looks through both per diem expenses and actual expenses to see if there is a lodging (or, in the case of actual expense, lodging allowance) expense for the given day
+     * @param day the day to find a lodging expense for
+     * @param perDiemExpenses the per diem expenses to look through
+     * @param actualExpenses the actual expenses to look through
+     * @return true if a lodging expense is found, false otherwise
      */
-    public boolean checkMealWithoutLodging(ActualExpense actualExpense) {
-        if (actualExpense.isHostedMeal()) {
-            if (actualExpense.getExpenseParentId() != null) {
-                ActualExpense parent = getParentExpenseRecord(getActualExpenses(), actualExpense.getExpenseParentId());
-                if (!parent.isLodging() && !parent.isLodgingAllowance()) {
-                    return true;
-                }
-            }
-            else {
+    protected boolean hasLodgingExpenseOnDay(java.sql.Date day, List<PerDiemExpense> perDiemExpenses, List<ActualExpense> actualExpenses) {
+        for (PerDiemExpense perDiemExpense : perDiemExpenses) {
+            java.sql.Date perDiemDate = new java.sql.Date(perDiemExpense.getMileageDate().getTime());
+            if (KfsDateUtils.isSameDay(day, perDiemDate) && perDiemExpense.getLodgingTotal().isGreaterThan(KualiDecimal.ZERO)) {
                 return true;
             }
         }
-
+        for (ActualExpense expense : actualExpenses) {
+            if (KfsDateUtils.isSameDay(day, expense.getExpenseDate()) && (expense.isLodging() || expense.isLodgingAllowance())) {
+                return true;
+            }
+        }
         return false;
     }
 

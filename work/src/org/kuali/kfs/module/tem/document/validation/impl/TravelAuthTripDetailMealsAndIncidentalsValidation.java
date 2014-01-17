@@ -101,22 +101,12 @@ public class TravelAuthTripDetailMealsAndIncidentalsValidation extends GenericVa
 
                     }
                 }
-
-                // check for meal without lodging
-                if (document.checkMealWithoutLodging(estimate) && !hasLodgingActualExpense(document) && StringUtils.isBlank(document.getMealWithoutLodgingReason())) {
-                    GlobalVariables.getMessageMap().putError(KFSPropertyConstants.DOCUMENT+"."+TemPropertyConstants.MEAL_WITHOUT_LODGING_REASON, TemKeyConstants.ERROR_TRVL_MEALS_NO_LODGING_REQUIRES_JUSTIFICATION);
-                    rulePassed = false;
-                    break;
-                }
             }
         }
 
-        for(ActualExpense ote : document.getActualExpenses()) {
-            if (document.checkMealWithoutLodging(ote) && StringUtils.isBlank(document.getMealWithoutLodgingReason())){
-                GlobalVariables.getMessageMap().putError(KFSPropertyConstants.DOCUMENT+"."+TemPropertyConstants.MEAL_WITHOUT_LODGING_REASON, TemKeyConstants.ERROR_TRVL_MEALS_NO_LODGING_REQUIRES_JUSTIFICATION);
-                rulePassed = false;
-                break;
-            }
+        if (StringUtils.isBlank(document.getMealWithoutLodgingReason()) && document.isMealsWithoutLodging()) {
+            GlobalVariables.getMessageMap().putError(KFSPropertyConstants.DOCUMENT+"."+TemPropertyConstants.MEAL_WITHOUT_LODGING_REASON, TemKeyConstants.ERROR_TRVL_MEALS_NO_LODGING_REQUIRES_JUSTIFICATION);
+            rulePassed = false;
         }
 
         return rulePassed;

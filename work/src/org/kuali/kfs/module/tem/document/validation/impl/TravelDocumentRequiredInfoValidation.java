@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.tem.document.validation.impl;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants.TravelAuthorizationFields;
@@ -31,7 +32,6 @@ import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 public class TravelDocumentRequiredInfoValidation extends GenericValidation{
-    public static final String ATTACHMENT_TYPE_CODE_RECEIPT = "RECEIPT";
     @Override
     public boolean validate(AttributedDocumentEvent event) {
         boolean valid = true;
@@ -78,7 +78,7 @@ public class TravelDocumentRequiredInfoValidation extends GenericValidation{
 
     private boolean isReceiptAttached(TravelDocument document){
         for(Note note: document.getNotes()){
-            if(note.getAttachment() != null && !StringUtils.equalsIgnoreCase(note.getAttachment().getAttachmentTypeCode(), ATTACHMENT_TYPE_CODE_RECEIPT)){
+            if(note.getAttachment() != null && StringUtils.equalsIgnoreCase(note.getAttachment().getAttachmentTypeCode(), TemConstants.AttachmentTypeCodes.ATTACHMENT_TYPE_RECEIPT)){
                 return true;
             }
         }

@@ -27,7 +27,6 @@ import org.kuali.kfs.module.tem.businessobject.PerDiemExpense;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.TravelDocumentBase;
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
-import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
@@ -105,7 +104,7 @@ public class TravelAuthTripDetailMealsAndIncidentalsValidation extends GenericVa
 
                 // check for meal without lodging
                 if (document.checkMealWithoutLodging(estimate) && !hasLodgingActualExpense(document) && StringUtils.isBlank(document.getMealWithoutLodgingReason())) {
-                    GlobalVariables.getMessageMap().putError(KFSPropertyConstants.DOCUMENT+"."+TemPropertyConstants.MEAL_WITHOUT_LODGING_REASON, KFSKeyConstants.ERROR_CUSTOM, "Justification for meals without lodging is required.");
+                    GlobalVariables.getMessageMap().putError(KFSPropertyConstants.DOCUMENT+"."+TemPropertyConstants.MEAL_WITHOUT_LODGING_REASON, TemKeyConstants.ERROR_TRVL_MEALS_NO_LODGING_REQUIRES_JUSTIFICATION);
                     rulePassed = false;
                     break;
                 }
@@ -114,7 +113,7 @@ public class TravelAuthTripDetailMealsAndIncidentalsValidation extends GenericVa
 
         for(ActualExpense ote : document.getActualExpenses()) {
             if (document.checkMealWithoutLodging(ote) && StringUtils.isBlank(document.getMealWithoutLodgingReason())){
-                GlobalVariables.getMessageMap().putError(KFSPropertyConstants.DOCUMENT+"."+TemPropertyConstants.MEAL_WITHOUT_LODGING_REASON, KFSKeyConstants.ERROR_CUSTOM, "Justification for meals without lodging is required.");
+                GlobalVariables.getMessageMap().putError(KFSPropertyConstants.DOCUMENT+"."+TemPropertyConstants.MEAL_WITHOUT_LODGING_REASON, TemKeyConstants.ERROR_TRVL_MEALS_NO_LODGING_REQUIRES_JUSTIFICATION);
                 rulePassed = false;
                 break;
             }

@@ -205,6 +205,7 @@ public class TemKeyConstants {
 
     public static final String ERROR_TRVL_RELATED_DOCUMENT_REQUIRED = "error.document.tem.travel.relatedDocument.relDocumentNumberRequired";
     public static final String ERROR_TRVL_RELATED_DOCUMENT_NOT_FOUND = "error.document.tem.travel.relatedDocument.documentNotFound";
+    public static final String ERROR_TRVL_MEALS_NO_LODGING_REQUIRES_JUSTIFICATION = "error.document.tem.travel.meals.no.loding.requires.justification";
 
     // upload parser
     public static final String ERROR_UPLOADPARSER_INVALID_FILE_FORMAT = "error.uploadParser.invalidFileFormat";

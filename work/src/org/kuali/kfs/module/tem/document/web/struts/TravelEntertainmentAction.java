@@ -128,6 +128,8 @@ public class TravelEntertainmentAction extends TravelActionBase {
                         entForm.getNewActualExpenseLines().add(new ActualExpense());
                     }
                 }
+
+                document.updatePayeeTypeForReimbursable();
             }
             else{
                 populateFromPreviousENTDoc(document, identifierStr);
@@ -179,6 +181,7 @@ public class TravelEntertainmentAction extends TravelActionBase {
         document.setDescription(entDocument.getDescription());
         document.setHostCertified(entDocument.getHostCertified());
         document.setNonEmployeeCertified(entDocument.getNonEmployeeCertified());
+        document.updatePayeeTypeForReimbursable();
     }
 
     protected void initializeNewAttendeeLines(final List<Attendee> newAttendeeLines, List<Attendee> attendees) {

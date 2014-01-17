@@ -311,6 +311,7 @@ public class AgencyDataImportServiceImpl implements AgencyDataImportService {
                     sequenceHelper = getGeneralLedgerPendingEntrySequenceHelper(agency, sequenceHelperMap);
                 }
                 boolean result = processAgencyStagingExpense(agency, sequenceHelper);
+                getBusinessObjectService().save(agency);
                 LOG.info("Agency Data Id: "+ agency.getId() + (result ? " was":" was not") + " processed.");
             }
         }
@@ -335,7 +336,6 @@ public class AgencyDataImportServiceImpl implements AgencyDataImportService {
             result = expenseImportByTripService.reconciliateExpense(agency, sequenceHelper);
         }
 
-        businessObjectService.save(agency);
         return result;
     }
 

@@ -89,7 +89,7 @@ public class AgencyStagingDataMaintainable extends FinancialSystemMaintainable {
     @Override
     public void doRouteStatusChange(DocumentHeader documentHeader) {
         super.doRouteStatusChange(documentHeader);
-        if (documentHeader.getWorkflowDocument().isFinal()){
+        if (documentHeader.getWorkflowDocument().isProcessed()){
             AgencyStagingData agencyStaging  = (AgencyStagingData) getBusinessObject();
 
             //get the updated AgencyStagingData from DB
@@ -101,7 +101,7 @@ public class AgencyStagingDataMaintainable extends FinancialSystemMaintainable {
             LOG.info("Agency Data Id: "+ updateAgencyStaging.getId() + (result ? " was":" was not") +" processed.");
 
             //save the agency staging record after it is processed and moved to history
-            getBusinessObjectService().save(updateAgencyStaging);
+            //getBusinessObjectService().save(updateAgencyStaging);
         }
     }
 
@@ -112,7 +112,7 @@ public class AgencyStagingDataMaintainable extends FinancialSystemMaintainable {
     private void updateCreditCardAgency(AgencyStagingData agencyStaging){
         //update the agency name base on code if provided
         CreditCardAgencyService creditCardAgencyService = SpringContext.getBean(CreditCardAgencyService.class);
-        CreditCardAgency agency = SpringContext.getBean(CreditCardAgencyService.class).getCreditCardAgencyByCode(agencyStaging.getCreditCardOrAgencyCode());
+        CreditCardAgency agency = creditCardAgencyService.getCreditCardAgencyByCode(agencyStaging.getCreditCardOrAgencyCode());
         if (agency != null){
             agencyStaging.setCreditCardAgency(agency);
         }

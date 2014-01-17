@@ -469,6 +469,9 @@ public class TravelReimbursementAction extends TravelActionBase {
                 }
             }
 
+            final AccountingDocumentRelationship relationship = buildRelationshipToProgenitorDocument(rootDocument, document);
+            getBusinessObjectService().save(relationship);
+
         } else {
             // we have no parent document; blank out the trip begin and end dates
             document.setTripBegin(null);

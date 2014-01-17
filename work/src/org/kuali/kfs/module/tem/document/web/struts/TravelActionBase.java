@@ -1624,4 +1624,18 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
         }
     }
 
+    /**
+     * Builds a relationship between the document we're creating and the one we're basing the document off of
+     * @param progenitorDocument the original document
+     * @param createdDocument the document we're creating now, based on that document
+     * @return the accounting document relationship between the two documents
+     */
+    protected AccountingDocumentRelationship buildRelationshipToProgenitorDocument(TravelDocument progenitorDocument, TravelDocument createdDocument) {
+        final String progenitorType = progenitorDocument.getDocumentHeader().getWorkflowDocument().getDocumentTypeName();
+        final String createdType = createdDocument.getDocumentHeader().getWorkflowDocument().getDocumentTypeName();
+        AccountingDocumentRelationship relationship = new AccountingDocumentRelationship(progenitorDocument.getDocumentNumber(), createdDocument.getDocumentNumber(), progenitorType+" - "+createdType);
+        relationship.setPrincipalId(GlobalVariables.getUserSession().getPrincipalId());
+        return relationship;
+    }
+
 }

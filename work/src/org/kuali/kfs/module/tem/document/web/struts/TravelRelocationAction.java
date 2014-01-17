@@ -41,6 +41,7 @@ import org.kuali.kfs.fp.document.web.struts.DisbursementVoucherForm;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.businessobject.AccountingDistribution;
+import org.kuali.kfs.module.tem.businessobject.AccountingDocumentRelationship;
 import org.kuali.kfs.module.tem.document.TravelRelocationDocument;
 import org.kuali.kfs.module.tem.document.authorization.TravelRelocationAuthorizer;
 import org.kuali.kfs.module.tem.document.service.TravelRelocationService;
@@ -204,6 +205,9 @@ public class TravelRelocationAction extends TravelActionBase {
                 document.setToStateCode(oldRelocation.getToStateCode());
                 document.setTravelDocumentIdentifier(oldRelocation.getTravelDocumentIdentifier());
                 document.getDocumentHeader().setOrganizationDocumentNumber(oldRelocation.getDocumentHeader().getOrganizationDocumentNumber());
+
+                final AccountingDocumentRelationship relationship = buildRelationshipToProgenitorDocument(oldRelocation, document);
+                getBusinessObjectService().save(relationship);
             }
         }
     }

@@ -17,13 +17,13 @@ package org.kuali.kfs.module.ar.document;
 
 import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAwardAccount;
-import org.kuali.kfs.module.ar.businessobject.Milestone;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.InvoiceAccountDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoiceBill;
@@ -31,7 +31,8 @@ import org.kuali.kfs.module.ar.businessobject.InvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoiceDetailAccountObjectCode;
 import org.kuali.kfs.module.ar.businessobject.InvoiceMilestone;
 import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService;
-import org.kuali.kfs.module.cg.businessobject.Bill;
+import org.kuali.kfs.module.ar.fixture.InvoiceBillFixture;
+import org.kuali.kfs.module.ar.fixture.InvoiceMilestoneFixture;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -69,34 +70,44 @@ public class InvoiceCorrectionTest extends CGInvoiceDocumentTestBase {
     }
 
     public void testCorrectedMilestones() throws WorkflowException {
-        if (document.getInvoiceGeneralDetail().getBillingFrequency().equals(ArPropertyConstants.MILESTONE_BILLING_SCHEDULE_CODE)) {
-            List<InvoiceMilestone> milestones = document.getInvoiceMilestones();
-            SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class).correctContractsGrantsInvoiceDocument(document);
-            List<InvoiceMilestone> correctedMilestones = document.getInvoiceMilestones();
-            Iterator iterator = milestones.iterator();
-            Iterator correctedIterator = correctedMilestones.iterator();
-            while (iterator.hasNext() || correctedIterator.hasNext()) {
-                Milestone id = (Milestone) iterator.next();
-                Milestone cid = (Milestone) correctedIterator.next();
-                assertTrue(id.getMilestoneAmount().equals(cid.getMilestoneAmount().negated()));
-                assertTrue(!cid.isBilledIndicator());
-            }
+        document.getInvoiceGeneralDetail().setBillingFrequency(ArPropertyConstants.MILESTONE_BILLING_SCHEDULE_CODE);
+        List<InvoiceMilestone> invoiceMilestones = new ArrayList<InvoiceMilestone>();
+        InvoiceMilestone invMilestone_1 = InvoiceMilestoneFixture.INV_MLSTN_1.createInvoiceMilestone();
+        invoiceMilestones.add(invMilestone_1);
+        document.setInvoiceMilestones(invoiceMilestones);
+
+        List<InvoiceMilestone> milestones = new ArrayList<InvoiceMilestone>();
+        InvoiceMilestone invMilestone_2 = InvoiceMilestoneFixture.INV_MLSTN_1.createInvoiceMilestone();
+        milestones.add(invMilestone_2);
+        Iterator iterator = milestones.iterator();
+        SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class).correctContractsGrantsInvoiceDocument(document);
+        List<InvoiceMilestone> correctedMilestones = document.getInvoiceMilestones();
+        Iterator correctedIterator = correctedMilestones.iterator();
+        while (iterator.hasNext() || correctedIterator.hasNext()) {
+            InvoiceMilestone id = (InvoiceMilestone) iterator.next();
+            InvoiceMilestone cid = (InvoiceMilestone) correctedIterator.next();
+            assertTrue(id.getMilestoneAmount().equals(cid.getMilestoneAmount().negated()));
         }
     }
 
     public void testCorrectedBills() throws WorkflowException {
-        if (document.getInvoiceGeneralDetail().getBillingFrequency().equals(ArPropertyConstants.PREDETERMINED_BILLING_SCHEDULE_CODE)) {
-            List<InvoiceBill> bills = document.getInvoiceBills();
-            SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class).correctContractsGrantsInvoiceDocument(document);
-            List<InvoiceBill> correctedBills = document.getInvoiceBills();
-            Iterator iterator = bills.iterator();
-            Iterator correctedIterator = correctedBills.iterator();
-            while (iterator.hasNext() || correctedIterator.hasNext()) {
-                Bill id = (Bill) iterator.next();
-                Bill cid = (Bill) correctedIterator.next();
-                assertTrue(id.getEstimatedAmount().equals(cid.getEstimatedAmount().negated()));
-                assertTrue(!cid.isBilledIndicator());
-            }
+        document.getInvoiceGeneralDetail().setBillingFrequency(ArPropertyConstants.PREDETERMINED_BILLING_SCHEDULE_CODE);
+        List<InvoiceBill> invoiceBills = new ArrayList<InvoiceBill>();
+        InvoiceBill invBill_1 = InvoiceBillFixture.INV_BILL_1.createInvoiceBill();
+        invoiceBills.add(invBill_1);
+        document.setInvoiceBills(invoiceBills);
+
+        List<InvoiceBill> bills = new ArrayList<InvoiceBill>();
+        InvoiceBill invBill_2 = InvoiceBillFixture.INV_BILL_1.createInvoiceBill();
+        bills.add(invBill_2);
+        Iterator iterator = bills.iterator();
+        SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class).correctContractsGrantsInvoiceDocument(document);
+        List<InvoiceBill> correctedBills = document.getInvoiceBills();
+        Iterator correctedIterator = correctedBills.iterator();
+        while (iterator.hasNext() || correctedIterator.hasNext()) {
+            InvoiceBill id = (InvoiceBill) iterator.next();
+            InvoiceBill cid = (InvoiceBill) correctedIterator.next();
+            assertTrue(id.getEstimatedAmount().equals(cid.getEstimatedAmount().negated()));
         }
     }
 

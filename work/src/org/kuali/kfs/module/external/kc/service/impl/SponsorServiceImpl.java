@@ -18,21 +18,20 @@ package org.kuali.kfs.module.external.kc.service.impl;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import javax.xml.ws.WebServiceException;
 
-import org.kuali.kfs.integration.cg.dto.HashMapElement;
 import org.kuali.kfs.module.external.kc.KcConstants;
 import org.kuali.kfs.module.external.kc.businessobject.Agency;
+import org.kuali.kfs.module.external.kc.dto.SponsorCriteriaDto;
 import org.kuali.kfs.module.external.kc.dto.SponsorDTO;
 import org.kuali.kfs.module.external.kc.service.ExternalizableBusinessObjectService;
 import org.kuali.kfs.module.external.kc.service.KfsService;
 import org.kuali.kfs.module.external.kc.util.GlobalVariablesExtractHelper;
 import org.kuali.kfs.module.external.kc.webService.SponsorWebSoapService;
-import org.kuali.kra.external.sponsor.service.SponsorWebService;
+import org.kuali.kra.external.sponsor.SponsorWebService;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.bo.ExternalizableBusinessObject;
 
@@ -69,30 +68,19 @@ public class SponsorServiceImpl implements ExternalizableBusinessObjectService {
 
     @Override
     public ExternalizableBusinessObject findByPrimaryKey(Map primaryKeys) {
-        SponsorDTO dto  = this.getWebService().getSponsor((String)primaryKeys.get("sponsorCode"));
+        SponsorDTO dto  = this.getWebService().getSponsor((String)primaryKeys.get("agencyNumber"));
         return new Agency(dto);
     }
 
     @Override
     public Collection findMatching(Map fieldValues) {
-        java.util.List <HashMapElement> hashMapList = new ArrayList<HashMapElement>();
         List<SponsorDTO> result = null;
+        SponsorCriteriaDto criteria = new SponsorCriteriaDto();
+        criteria.setSponsorCode((String) fieldValues.get("agencyNumber"));
+        criteria.setCustomerNumber((String) fieldValues.get("customerNumber"));
 
-        for (Iterator i = fieldValues.entrySet().iterator(); i.hasNext();) {
-            Map.Entry e = (Map.Entry) i.next();
-
-            String key = (String) e.getKey();
-            String val = (String) e.getValue();
-
-            if ( KcConstants.Unit.KC_ALLOWABLE_CRITERIA_PARAMETERS.contains(key)  && (val.length() > 0)) {
-                HashMapElement hashMapElement = new HashMapElement();
-                hashMapElement.setKey(key);
-                hashMapElement.setValue(val);
-                hashMapList.add(hashMapElement);
-            }
-        }
         try {
-          result  = this.getWebService().getMatchingSponsors(hashMapList);
+          result  = this.getWebService().getMatchingSponsors(criteria);
         } catch (WebServiceException ex) {
             GlobalVariablesExtractHelper.insertError(KcConstants.WEBSERVICE_UNREACHABLE, KfsService.getWebServiceServerName());
         }

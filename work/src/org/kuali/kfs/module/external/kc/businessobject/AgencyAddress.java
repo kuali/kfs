@@ -18,6 +18,7 @@ package org.kuali.kfs.module.external.kc.businessobject;
 import java.sql.Date;
 
 import org.kuali.kfs.integration.cg.ContractsAndGrantsAgencyAddress;
+import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.external.kc.dto.RolodexDTO;
 
 public class AgencyAddress implements ContractsAndGrantsAgencyAddress {
@@ -51,7 +52,7 @@ public class AgencyAddress implements ContractsAndGrantsAgencyAddress {
     public AgencyAddress(Agency agency, RolodexDTO kcAddress) {
         this.agency = agency;
         this.agencyNumber = agency.getAgencyNumber();
-        this.agencyAddressIdentifier = 1L;
+        this.agencyAddressIdentifier = kcAddress.getRolodexId().longValue();
         this.agencyAddressName = kcAddress.getFullName();
         this.agencyLine1StreetAddress = kcAddress.getAddressLine1();
         this.agencyLine2StreetAddress = kcAddress.getAddressLine2();
@@ -66,6 +67,7 @@ public class AgencyAddress implements ContractsAndGrantsAgencyAddress {
         this.agencyContactName = kcAddress.getFullName();
         this.agencyPhoneNumber = kcAddress.getPhoneNumber();
         this.agencyFaxNumber = kcAddress.getFaxNumber();
+        this.customerAddressTypeCode = ArConstants.AGENCY_PRIMARY_ADDRESSES_TYPE_CODE;
         this.primary = true;
     }
 

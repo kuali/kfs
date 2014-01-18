@@ -8,6 +8,7 @@ import javax.xml.bind.annotation.XmlType;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "rolodexDTO", propOrder = {
+	"rolodexId",
     "addressLine1",
     "addressLine2",
     "addressLine3",
@@ -27,7 +28,8 @@ import javax.xml.bind.annotation.XmlType;
 public class RolodexDTO implements Serializable {
 
 	private static final long serialVersionUID = -4921689508088574674L;
-	
+
+	private Integer rolodexId;
 	private String addressLine1;
     private String addressLine2;
     private String addressLine3;
@@ -43,7 +45,7 @@ public class RolodexDTO implements Serializable {
     private String postalCode;
     private String state;
     private Boolean active;
-    
+
 	public String getAddressLine1() {
 		return addressLine1;
 	}
@@ -162,5 +164,13 @@ public class RolodexDTO implements Serializable {
 
 	public void setActive(Boolean active) {
 		this.active = active;
+	}
+
+	public Integer getRolodexId() {
+		return rolodexId;
+	}
+
+	public void setRolodexId(Integer rolodexId) {
+		this.rolodexId = rolodexId;
 	}
 }

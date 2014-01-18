@@ -44,6 +44,7 @@
                 <entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsAccountAwardInformation" value="org.kuali.kfs.module.external.kc.businessobject.AwardAccount"/>
                 <entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsAgency" value="org.kuali.kfs.module.external.kc.businessobject.Agency"/>
                 <entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAgency" value="org.kuali.kfs.module.external.kc.businessobject.Agency"/>
+                <entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsAgencyAddress" value="org.kuali.kfs.module.external.kc.businessobject.AgencyAddress"/>
                 <entry key="org.kuali.kfs.integration.cg.ContractAndGrantsProposal" value="org.kuali.kfs.module.external.kc.businessobject.Proposal"/>
                 <entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward" value="org.kuali.kfs.module.external.kc.businessobject.Award"/>
                 <entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsLetterOfCreditFundGroup" value="org.kuali.kfs.module.external.kc.businessobject.LetterOfCreditFundGroup"/>
@@ -59,6 +60,7 @@
        			<entry key="org.kuali.kfs.module.external.kc.businessobject.CfdaDTO" value="cfdaNumberService"/>
        			<entry key="org.kuali.kfs.module.external.kc.businessobject.AwardAccount" value="awardAccountService"/>       			
                 <entry key="org.kuali.kfs.module.external.kc.businessobject.Agency" value="sponsorWebService"/>
+                <entry key="org.kuali.kfs.module.external.kc.businessobject.AgencyAddress" value="sponsorAddressWebService"/>
                 <entry key="org.kuali.kfs.module.external.kc.businessobject.Award" value="awardWebService"/>
                 <entry key="org.kuali.kfs.module.external.kc.businessobject.ContractGrantType" value="awardTypeWebService"/>
                 <entry key="org.kuali.kfs.module.external.kc.businessobject.LetterOfCreditFundGroup" value="letterOfCreditFundGroupService"/>
@@ -72,6 +74,7 @@
 	            <entry key="org.kuali.kfs.module.external.kc.businessobject.Award" value="org.kuali.kra.award.home.Award"/>
        			<entry key="org.kuali.kfs.module.external.kc.businessobject.Proposal" value="org.kuali.kra.institutionalproposal.home.InstitutionalProposal"/>
        			<entry key="org.kuali.kfs.module.external.kc.businessobject.Agency" value="org.kuali.kra.bo.Sponsor"/>
+       			<entry key="org.kuali.kfs.module.external.kc.businessobject.AgencyAddress" value="org.kuali.kra.bo.Rolodex"/>
       			<entry key="org.kuali.kfs.module.external.kc.businessobject.UnitDTO" value="org.kuali.kra.bo.Unit"/>
       			<entry key="org.kuali.kfs.module.external.kc.businessobject.CfdaDTO" value="org.kuali.kra.award.home.CFDA"/>
                 <entry key="org.kuali.kfs.module.external.kc.businessobject.ContractGrantType" value="org.kuali.kra.award.home.AwardType"/>
@@ -86,6 +89,7 @@
        			<entry key="org.kuali.kfs.module.external.kc.businessobject.Proposal.proposalNumber" value="proposalId"/>
        			<entry key="org.kuali.kfs.module.external.kc.businessobject.Agency.agencyNumber" value="sponsorCode"/>
        			<entry key="org.kuali.kfs.module.external.kc.businessobject.Agency.primeAgencyNumber" value="sponsorCode"/>
+       			<entry key="org.kuali.kfs.module.external.kc.businessobject.AgencyAddress.agencyAddressIdentifier" value="rolodexId"/>
        			<entry key="org.kuali.kfs.module.external.kc.businessobject.UnitDTO.unitNumber" value="unitNumber"/>
        			<entry key="org.kuali.kfs.module.external.kc.businessobject.CfdaDTO.cfdaNumber" value="cfdaNumber"/>
                 <entry key="org.kuali.kfs.module.external.kc.businessobject.ContractGrantType.contractGrantTypeCode" value="awardTypeCode"/>
@@ -175,6 +179,9 @@
     
     <bean id="sponsorWebService" parent="sponsorWebService-parentBean"/>
     <bean id="sponsorWebService-parentBean" class="org.kuali.kfs.module.external.kc.service.impl.SponsorServiceImpl" abstract="true"/>
+    
+    <bean id="sponsorAddressWebService" parent="sponsorAddressWebService-parentBean"/>
+    <bean id="sponsorAddressWebService-parentBean" class="org.kuali.kfs.module.external.kc.service.impl.SponsorAddressServiceImpl" abstract="true"/>
     
     <bean id="awardWebService" parent="awardWebService-parentBean"/>
     <bean id="awardWebService-parentBean" class="org.kuali.kfs.module.external.kc.service.impl.AwardServiceImpl" abstract="true">

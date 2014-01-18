@@ -66,6 +66,7 @@ public class CustomerCreationServiceImpl implements CustomerCreationService {
         } catch (Exception e) {
             result.setErrors(new ArrayList<String>());
             result.getErrors().add(e.getMessage());
+            LOG.error("Unable to create customer.", e);
         }
 
         return result;

@@ -48,13 +48,14 @@ public class Agency implements ContractsAndGrantsBillingAgency {
 
     public Agency(SponsorDTO kcSponsor) {
         setAgencyNumber(kcSponsor.getSponsorCode());
-        setReportingName(kcSponsor.getAcronym()); //TODO is this the reporting name or is it something else?
+        setReportingName(kcSponsor.getSponsorName());
         setFullName(kcSponsor.getSponsorName());
-        setAgencyTypeCode(kcSponsor.getSponsorTypeCode()); //TODO are these compatible?
+        setAgencyTypeCode(kcSponsor.getSponsorTypeCode());
         setActive(kcSponsor.isActive());
         setDunsPlusFourNumber(kcSponsor.getDunsPlusFourNumber());
         setStateAgencyIndicator(kcSponsor.isStateAgency());
         setCustomerTypeCode(kcSponsor.getCustomerTypeCode());
+        setActive(kcSponsor.isActive());
         agencyAddresses = new ArrayList<AgencyAddress>();
         agencyAddresses.add(new AgencyAddress(this, kcSponsor.getContactInformation()));
     }

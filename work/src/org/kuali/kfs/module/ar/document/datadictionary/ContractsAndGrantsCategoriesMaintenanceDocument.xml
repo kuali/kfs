@@ -48,7 +48,7 @@
 	<bean id="ContractsAndGrantsCategoriesMaintenanceDocument-EditCategory-parentBean"
 		abstract="true" parent="MaintainableSectionDefinition">
 		<property name="id" value="EditCategory" />
-		<property name="title" value="Edit Category" />
+		<property name="title" value="Edit Cost Category" />
 		<property name="maintainableItems">
 			<list>
 				<bean parent="MaintainableFieldDefinition" p:name="categoryCode"

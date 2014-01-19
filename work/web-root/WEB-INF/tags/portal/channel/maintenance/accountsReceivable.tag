@@ -18,7 +18,7 @@
 <channel:portalChannelTop channelTitle="Accounts Receivable" />
 <div class="body">
 	<ul class="chan">
-		<li><portal:portalLink displayTitle="true" title="Category"
+		<li><portal:portalLink displayTitle="true" title="Cost Category"
 				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.ContractsAndGrantsCategories&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
 		</li>
 		<li><portal:portalLink displayTitle="true" title="Collection Activity Type"

@@ -50,8 +50,8 @@
 	<bean id="ContractsAndGrantsCategories-categoryCode-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="categoryCode" />
 		<property name="forceUppercase" value="true" />
-		<property name="label" value="Category Code" />
-		<property name="shortLabel" value="ContractsAndGrantsCategoriesCode" />
+		<property name="label" value="Cost Category Code" />
+		<property name="shortLabel" value="Cost Category Code" />
 		<property name="maxLength" value="4" />
 		<property name="required" value="true" />
 		<property name="control">
@@ -64,8 +64,8 @@
 	<bean id="ContractsAndGrantsCategories-categoryName-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="categoryName" />
 		<property name="forceUppercase" value="false" />
-		<property name="label" value="Category Name" />
-		<property name="shortLabel" value="ContractsAndGrantsCategoriesName" />
+		<property name="label" value="Cost Category Name" />
+		<property name="shortLabel" value="Cost Category Name" />
 		<property name="maxLength" value="128" />
 		<property name="required" value="true" />
 		<property name="control">
@@ -79,8 +79,8 @@
 	<bean id="ContractsAndGrantsCategories-categoryDescription-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="categoryDescription" />
 		<property name="forceUppercase" value="false" />
-		<property name="label" value="Category Description" />
-		<property name="shortLabel" value="categoryDescription" />
+		<property name="label" value="Cost Category Description" />
+		<property name="shortLabel" value="Cost Category Description" />
 		<property name="maxLength" value="45" />
 		<property name="required" value="false" />
 		<property name="control">
@@ -93,15 +93,13 @@
 	<bean id="ContractsAndGrantsCategories-categoryObjectCodes-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="categoryObjectCodes" />
 		<property name="forceUppercase" value="false" />
-		<property name="label" value="Category Object Codes" />
+		<property name="label" value="Cost Category Object Codes" />
+		<property name="shortLabel" value="Cost Category Object Codes" />
 		<property name="maxLength" value="256" />
 		<property name="required" value="true" />
-
 	    <property name="constraintText" value="Must be 10 digits"/>
     	<property name="summary" value="Travel Account Number"/>
     	<property name="description" value="Travel Account Number"/>
-    	
-
 		<property name="control">
 			<bean parent="TextControlDefinition" p:size="50" />
 		</property>
@@ -112,7 +110,8 @@
 	<bean id="ContractsAndGrantsCategories-categoryConsolidations-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="categoryConsolidations" />
 		<property name="forceUppercase" value="false" />
-		<property name="label" value="Category Consolidations" />
+		<property name="label" value="Cost Category Consolidations" />
+		<property name="shortLabel" value="Cost Category Consolidations" />
 		<property name="maxLength" value="256" />
 		<property name="required" value="true" />
 		<property name="control">
@@ -125,7 +124,7 @@
 	<bean id="ContractsAndGrantsCategories-categoryLevels-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="categoryLevels" />
 		<property name="forceUppercase" value="false" />
-		<property name="label" value="Category Levels" />
+		<property name="label" value="Cost Category Levels" />
 		<property name="maxLength" value="256" />
 		<property name="required" value="true" />
 		<property name="control">
@@ -151,7 +150,7 @@
 	<bean id="ContractsAndGrantsCategories-lookupDefinition" parent="ContractsAndGrantsCategories-lookupDefinition-parentBean" />
 
 	<bean id="ContractsAndGrantsCategories-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-		<property name="title" value="Category Lookup" />
+		<property name="title" value="Cost Category Lookup" />
 
 		<property name="defaultSort">
 			<bean parent="SortDefinition">
@@ -182,7 +181,7 @@
 	<bean id="ContractsAndGrantsCategories-inquiryDefinition" parent="ContractsAndGrantsCategories-inquiryDefinition-parentBean"/>
 	
 	<bean id="ContractsAndGrantsCategories-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-	  <property name="title" value="Category Inquiry"/>
+	  <property name="title" value="Cost Category Inquiry"/>
 	  <property name="inquirySections">
 	    <list>
 	      <bean parent="InquirySectionDefinition">

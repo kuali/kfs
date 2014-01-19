@@ -66,8 +66,8 @@
 	<bean id="InvoiceDetail-category-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="category" />
 		<property name="forceUppercase" value="false" />
-		<property name="label" value="Category" />
-		<property name="shortLabel" value="Category" />
+		<property name="label" value="Cost Category" />
+		<property name="shortLabel" value="Cost Category" />
 		<property name="maxLength" value="120" />
 		<property name="required" value="false" />
 		<property name="control">
@@ -80,8 +80,8 @@
 	<bean id="InvoiceDetail-categoryCode-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="categoryCode" />
 		<property name="forceUppercase" value="false" />
-		<property name="label" value="Category Code" />
-		<property name="shortLabel" value="Category Code" />
+		<property name="label" value="Cost Category Code" />
+		<property name="shortLabel" value="Cost Category Code" />
 		<property name="maxLength" value="4" />
 		<property name="required" value="false" />
 		<property name="control">

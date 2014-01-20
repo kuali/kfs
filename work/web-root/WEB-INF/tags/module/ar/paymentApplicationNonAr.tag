@@ -28,6 +28,7 @@
     
 <c:set var="nonInvoicedAttributes" value="${DataDictionary['NonInvoiced'].attributes}" scope="request" />
 <c:set var="nonInvoicedAddLine" value="${KualiForm.nonInvoicedAddLine}" scope="request" />
+<c:set var="paymentApplicationAttributes" value="${DataDictionary['PaymentApplicationDocument'].attributes}" scope="request" />
 
     <kul:tab tabTitle="Non-AR" defaultOpen="true"
         tabErrorKey="${KFSConstants.PaymentApplicationTabErrorCodes.NON_AR_TAB}">
@@ -41,6 +42,8 @@
             <table width="100%" cellpadding="0" cellspacing="0" class="datatable">
                 <tr>
                     <kul:htmlAttributeHeaderCell literalLabel=" "/>             
+                    <kul:htmlAttributeHeaderCell 
+						attributeEntry="${nonInvoicedAttributes.refundIndicator}" />
                     <kul:htmlAttributeHeaderCell
 	                    attributeEntry="${nonInvoicedAttributes.chartOfAccountsCode}" />
                     <kul:htmlAttributeHeaderCell 
@@ -62,6 +65,10 @@
 	                    <td>
 	                        add
 	                    </td>
+	                    <td><kul:htmlControlAttribute 
+								attributeEntry="${nonInvoicedAttributes.refundIndicator}" 
+								property="nonInvoicedAddLine.refundIndicator" />
+						</td>
 	                    <td>
 			                <c:if test="${!accountsCanCrossCharts}">	
 	    		            	<span id="nonInvoicedAddLine.chartOfAccountsCode.div"><bean:write name="KualiForm" property="nonInvoicedAddLine.chartOfAccountsCode"/></span> 
@@ -148,6 +155,11 @@
                         <td>
                             <c:out value="${nonInvoiced.financialDocumentLineNumber}" />
                         </td>
+                        <td><kul:htmlControlAttribute 
+								readOnly="${readOnly}" 
+								attributeEntry="${nonInvoicedAttributes.refundIndicator}"
+								property="paymentApplicationDocument.nonInvoiced[${ctr}].refundIndicator" />
+						</td>
                         <td>
 			                <c:if test="${!accountsCanCrossCharts}">	
 	    		            	<span id="paymentApplicationDocument.nonInvoiced[${ctr}].chartOfAccountsCode.div"><bean:write name="KualiForm" property="paymentApplicationDocument.nonInvoiced[${ctr}].chartOfAccountsCode"/></span> 
@@ -233,5 +245,25 @@
                     <td>&nbsp;</td>
                 </tr>
             </table>
+            <c:if test="${empty KualiForm.editingMode['errorCorrection']}">
+				<h3>Refund</h3>
+				<table width="100%" cellpadding="0" cellspacing="0" class="datatable">
+					<tr>
+						<th><kul:htmlAttributeLabel attributeEntry="${paymentApplicationAttributes.refundDocumentNumber}" noColon="true" /></th>
+						<th><kul:htmlAttributeLabel attributeEntry="${paymentApplicationAttributes.refundDate}" noColon="true" /></th>
+						<th><kul:htmlAttributeLabel attributeEntry="${paymentApplicationAttributes.refundAmount}" noColon="true" /></th>
+						<th width="50%">&nbsp;</th>
+					</tr>
+					<tr>
+						<td><kul:htmlControlAttribute attributeEntry="${paymentApplicationAttributes.refundDocumentNumber}"
+								property="paymentApplicationDocument.refundDocumentNumber" readOnly="true" /></td>
+						<td><kul:htmlControlAttribute attributeEntry="${paymentApplicationAttributes.refundDate}"
+								property="paymentApplicationDocument.refundDate" readOnly="true" /></td>
+						<td><kul:htmlControlAttribute attributeEntry="${paymentApplicationAttributes.refundAmount}"
+								property="paymentApplicationDocument.refundAmount" readOnly="true" /></td>
+						<td width="50%">&nbsp;</td>
+					</tr>
+				</table>
+			</c:if>
         </div>
     </kul:tab>

@@ -28,6 +28,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.Predicate;
+import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
 import org.kuali.kfs.coa.service.AccountingPeriodService;
@@ -222,6 +223,11 @@ public class AuxiliaryVoucherForm extends VoucherForm {
         setAccountingPeriods(filteredAccountingPeriods);
         // set the chosen accounting period into the form
         populateSelectedVoucherAccountingPeriod();
+    }
+
+    public boolean getAccountingPeriodReadOnly(){
+        AuxiliaryVoucherDocument doc = (AuxiliaryVoucherDocument)this.getDocument();
+        return !StringUtils.equals(doc.getFinancialSystemDocumentHeader().getFinancialDocumentStatusCode(), "?");
     }
 
     protected class OpenAuxiliaryVoucherPredicate implements Predicate {

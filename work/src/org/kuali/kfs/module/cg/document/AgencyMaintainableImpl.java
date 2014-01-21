@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.cg.document;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,21 +31,18 @@ import org.kuali.kfs.module.cg.businessobject.Award;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemMaintainable;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.exception.WorkflowException;
-import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.Maintainable;
-import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.core.api.config.property.ConfigurationService;
-import org.kuali.rice.krad.service.KualiModuleService;
-import org.kuali.rice.coreservice.framework.parameter.ParameterService;
-import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.krad.util.ObjectUtils;
-import java.util.ArrayList;
 import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.Row;
 import org.kuali.rice.kns.web.ui.Section;
-import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.krad.bo.DocumentHeader;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * Methods for the Agency maintenance document UI.
@@ -149,6 +147,7 @@ public class AgencyMaintainableImpl extends FinancialSystemMaintainable {
     @Override
     public List getSections(MaintenanceDocument document, Maintainable oldMaintainable) {
         List<Section> sections = super.getSections(document, oldMaintainable);
+        Agency oldAgency = (Agency) document.getOldMaintainableObject().getBusinessObject();
         Agency agency = (Agency) document.getNewMaintainableObject().getBusinessObject();
         for (Section section : sections) {
             String sectionId = section.getSectionId();
@@ -171,6 +170,7 @@ public class AgencyMaintainableImpl extends FinancialSystemMaintainable {
                                 }
                                 else if (field.getPropertyName().equals(CGPropertyConstants.CUSTOMER_TYPE_CODE)) {
                                     field.setReadOnly(false);
+                                    agency.setCustomerTypeCode(null);
                                 }
                             }
                             else if (agency.getCustomerCreated().equals(CGConstants.AGENCY_NO_CUSTOMER_CODE)) {
@@ -180,6 +180,7 @@ public class AgencyMaintainableImpl extends FinancialSystemMaintainable {
                                 }
                                 else if (field.getPropertyName().equals(CGPropertyConstants.CUSTOMER_TYPE_CODE)) {
                                     field.setReadOnly(true);
+                                    agency.setCustomerTypeCode(null);
                                 }
                             }
                         }

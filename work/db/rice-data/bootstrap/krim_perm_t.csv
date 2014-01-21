@@ -318,8 +318,3 @@ KFSCNTRB-762-PRM1,KFSCNTRB-762-PRM1,1,29,KFS-GL,Use Trial Balance Screen,Allows 
 1111,KFSCG02,1,29,KFS-CG,Use Screen CG Invoice On Demand,"Allows users access to screens in the KFS-CG module that are not documents, lookups, inquiries, or batch uploads, i.e. this primarily provides access to CG Invoice On Demand process",Y
 CGPERMFFR,KFSCG03,1,29,KFS-CG,Use Screen CG Federal Form Generation Process,"Allows users access to screens in the KFS-CG module that are not documents, lookups, inquiries, or batch uploads, i.e. this primarily provides access to CG Federal Form Generation Process",Y
 CGPERMIRD,KFSCG04,1,29,KFS-CG,Use Screen CG Invoice Report Delivery Process,"Allows users access to screens in the KFS-CG module that are not documents, lookups, inquiries, or batch uploads, i.e. this primarily provides access to CG Invoice Report Delivery Process",Y
-KFSMI10824-PRM1,KFSMI10824-PRM1,1,23,KFS-AR,Lookup TicklersReport,Allows the lookup of Ticklers Report records.,Y
-KFSMI10824-PRM2,KFSMI10824-PRM2,1,23,KFS-AR,Lookup Collection Activity Report,Allows the lookup of Collection Activity Report records.,Y
-KFSMI10824-PRM3,KFSMI10824-PRM3,1,23,KFS-AR,Lookup Contracts And Grants Aging Report,Allows the lookup of Contracts And Grants Aging Report records.,Y
-KFSMI10824-PRM4,KFSMI10824-PRM4,1,23,KFS-AR,Lookup Dunning Letter Distribution On Demand,Allows the lookup of Dunning Letter Distribution On Demand records.,Y
-KFSMI10824-PRM5,KFSMI10824-PRM5,1,23,KFS-AR,Lookup Referral To Collections,Allows the lookup of Referral To Collections records.,Y

@@ -34,7 +34,6 @@ public class PerDiemDaoOjb extends PlatformAwareDaoBaseOjb implements PerDiemDao
         query.addOrderByAscending("pri_dest_id");
         query.addOrderByAscending("ssn_bgn_month_day");
 
-        // TODO Auto-generated method stub
         return getPersistenceBrokerTemplate().getCollectionByQuery(query);
     }
 

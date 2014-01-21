@@ -19,6 +19,7 @@ import org.kuali.kfs.module.tem.TemWorkflowConstants;
 import org.kuali.kfs.module.tem.businessobject.TemProfile;
 import org.kuali.kfs.module.tem.document.service.TravelArrangerDocumentService;
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
 import org.kuali.rice.kew.api.document.DocumentStatus;
@@ -78,7 +79,7 @@ public class TravelArrangerDocument extends FinancialSystemTransactionalDocument
         if(ObjectUtils.isNotNull(profile)) {
             return profile.getName();
         } else {
-            return "";
+            return KFSConstants.EMPTY_STRING;
         }
 
     }

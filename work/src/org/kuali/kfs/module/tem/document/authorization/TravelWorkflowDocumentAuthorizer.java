@@ -43,10 +43,6 @@ public class TravelWorkflowDocumentAuthorizer extends KimDocumentTypeAuthorizer 
                     KewApiConstants.INITIATE_PERMISSION, permissionDetails, qualificationDetails);
         }
         return true;
-
-
-
-
     }
 
 }

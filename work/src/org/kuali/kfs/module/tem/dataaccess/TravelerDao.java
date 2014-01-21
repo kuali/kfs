@@ -19,7 +19,6 @@ import java.util.Collection;
 import java.util.Map;
 
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomer;
-import org.kuali.rice.krad.dao.LookupDao;
 
 /**
  * This is the data access interface for Travelers.
@@ -36,5 +35,4 @@ public interface TravelerDao {
      */
     Collection<AccountsReceivableCustomer> findCustomersBy(final Map<String, String> criteria);
 
-    void setLookupDao(final LookupDao lookupDao);
 }

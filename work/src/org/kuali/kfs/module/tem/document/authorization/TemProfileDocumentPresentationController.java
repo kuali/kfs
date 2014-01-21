@@ -31,7 +31,6 @@ public class TemProfileDocumentPresentationController extends FinancialSystemMai
      */
     @Override
     public Set<String> getConditionallyReadOnlyPropertyNames(MaintenanceDocument document) {
-        // TODO Auto-generated method stub
         Set<String> readOnlyPropertyNames = super.getConditionallyReadOnlyPropertyNames(document);
 
         TemProfile profile = (TemProfile) document.getNewMaintainableObject().getBusinessObject();

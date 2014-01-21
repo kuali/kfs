@@ -20,7 +20,7 @@
   <bean id="TemCorrectionProcessDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">    
     <property name="documentTypeName" value="TMCP"/>
     <property name="documentClass" value="org.kuali.kfs.module.tem.document.TemCorrectionProcessDocument"/>
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.module.tem.document.authorization.CorrectionDocumentAuthorizer"/>
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentAuthorizerBase"/>
     <property name="workflowAttributes">
         <ref bean="TemCorrectionProcessDocument-workflowAttributes"/>
     </property>

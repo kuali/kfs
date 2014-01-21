@@ -118,17 +118,6 @@ public class TemProfileAuthorizerAssistant extends FinancialSystemMaintenanceDoc
     }
 
     /**
-     * Permissions may exist to hide the
-     * @see org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase#getSecurePotentiallyHiddenSectionIds()
-     */
-    /*@Override
-    public Set<String> getSecurePotentiallyHiddenSectionIds() {
-        Set<String> hiddenSections = super.getSecurePotentiallyHiddenSectionIds();
-        hiddenSections.add(TemPropertyConstants.TemProfileProperties.TEM_PROFILE_ADMINISTRATOR);
-        return hiddenSections;
-    }*/
-
-    /**
      * There's a permission for out-of-the-box KFS to make the TemProfileAdministrator section read only
      * @see org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase#getSecurePotentiallyReadOnlySectionIds()
      */

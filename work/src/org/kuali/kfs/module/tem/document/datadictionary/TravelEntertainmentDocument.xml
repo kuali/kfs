@@ -10,7 +10,7 @@
 		<property name="promptBeforeValidationClass" value="org.kuali.kfs.module.tem.document.validation.impl.TravelEntertainmentDocumentPreRules" />
 	    <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.tem.document.authorization.TravelEntertainmentDocumentPresentationController" />
 	    <property name="attachmentTypesValuesFinderClass" value="org.kuali.kfs.module.tem.businessobject.options.TravelEntertainmentAttachmentTypeValuesFinder"/>
-      	<property name="documentAuthorizerClass" value="org.kuali.kfs.module.tem.document.authorization.TravelEntertainmentAuthorizer"/>
+      	<property name="documentAuthorizerClass" value="org.kuali.kfs.module.tem.document.authorization.TravelEntertainmentDocumentAuthorizer"/>
         <property name="validationMap" ref="TravelEntertainmentDocument-validations"/>
 		<property name="sessionDocument" value="true"/>
 		<property name="allowsCopy" value="true"/>

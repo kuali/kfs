@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kfs.module.tem.businessobject.JobClassification;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
@@ -37,7 +38,7 @@ public class JobClassificationCodeValuesFinder extends KeyValuesBase {
 
         List<JobClassification> codes = (List<JobClassification>) SpringContext.getBean(BusinessObjectService.class).findAll(JobClassification.class);
         List<KeyValue> labels = new ArrayList<KeyValue>();
-        labels.add(new ConcreteKeyValue("", ""));
+        labels.add(new ConcreteKeyValue(KFSConstants.EMPTY_STRING, KFSConstants.EMPTY_STRING));
         for (JobClassification reason : codes) {
             if(reason.isActive()) {
                 labels.add(new ConcreteKeyValue(reason.getJobClsCode(), reason.getJobClsName()));

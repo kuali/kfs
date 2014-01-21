@@ -87,14 +87,6 @@ public class CreditCardStagingDataLookupableHelperServiceImpl extends KualiLooku
         CreditCardStagingData stagingData = (CreditCardStagingData) bo;
         boolean isTravelManager = isUserTravelManager();
 
-        //SW: will never able to edit, copy as thisi s not maintainable
-//        // For matched records or if user is not travel manager edit and delete link will not be displayed .
-//        if (stagingData.getMoveToHistoryIndicator()||!isTravelManager) {
-//            // clear 'edit' and delete links
-//            //anchorHtmlDataList.clear();
-//        }
-
-        //CLEANUP - need to be able to generate view link (or search result filter) base on accessibility
         if(true){
             anchorHtmlDataList.add(getViewUrl(stagingData));
         }

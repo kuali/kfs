@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kfs.module.tem.businessobject.RelocationReason;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
@@ -35,7 +36,7 @@ public class RelocationReasonCodeValuesFinder extends KeyValuesBase {
 
         List<RelocationReason> codes = (List<RelocationReason>) SpringContext.getBean(BusinessObjectService.class).findAll(RelocationReason.class);
         List<KeyValue> labels = new ArrayList<KeyValue>();
-        labels.add(new ConcreteKeyValue("", ""));
+        labels.add(new ConcreteKeyValue(KFSConstants.EMPTY_STRING, KFSConstants.EMPTY_STRING));
         for (RelocationReason reason : codes) {
             if(reason.isActive()) {
                 labels.add(new ConcreteKeyValue(reason.getReloReasonCode(), reason.getReloReasonName()));

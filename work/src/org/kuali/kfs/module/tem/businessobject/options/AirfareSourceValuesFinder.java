@@ -22,6 +22,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.module.tem.businessobject.AirfareSource;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
@@ -38,10 +40,10 @@ public class AirfareSourceValuesFinder extends KeyValuesBase {
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
 
         Map<String, String> criteria = new HashMap<String, String>();
-        criteria.put("active", Boolean.TRUE.toString());
+        criteria.put(KFSPropertyConstants.ACTIVE, Boolean.TRUE.toString());
         Collection<AirfareSource> bos = SpringContext.getBean(BusinessObjectService.class).findMatching(AirfareSource.class, criteria);
 
-        keyValues.add(new ConcreteKeyValue("", ""));
+        keyValues.add(new ConcreteKeyValue(KFSConstants.EMPTY_STRING, KFSConstants.EMPTY_STRING));
         for (AirfareSource typ : bos) {
             keyValues.add(new ConcreteKeyValue(typ.getCode(), typ.getName()));
         }

@@ -21,6 +21,7 @@ import java.util.List;
 
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.businessobject.TripType;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
@@ -41,7 +42,7 @@ public class ExpenseTypeObjectCodeTripTypeValuesFinder extends KeyValuesBase {
 
         Collection<TripType> bos = SpringContext.getBean(BusinessObjectService.class).findAll(TripType.class);
 
-        keyValues.add(new ConcreteKeyValue("", ""));
+        keyValues.add(new ConcreteKeyValue(KFSConstants.EMPTY_STRING, KFSConstants.EMPTY_STRING));
         keyValues.add(new ConcreteKeyValue(TemConstants.ALL_EXPENSE_TYPE_OBJECT_CODE_TRIP_TYPE, TemConstants.ALL_EXPENSE_TYPE_OBJECT_CODE_TRIP_TYPE));
         for (TripType typ : bos) {
             keyValues.add(new ConcreteKeyValue(typ.getCode(), typ.getName()));

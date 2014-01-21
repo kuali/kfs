@@ -20,6 +20,7 @@ import java.util.List;
 
 import org.kuali.kfs.fp.businessobject.TravelCompanyCode;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
@@ -39,7 +40,7 @@ public class CompanyNameValuesFinder extends KeyValuesBase {
         List<TravelCompanyCode> boList = (List<TravelCompanyCode>)
             getKeyValuesService().findAllOrderBy(TravelCompanyCode.class, TemPropertyConstants.NAME, true);
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
-        keyValues.add(new ConcreteKeyValue("", ""));
+        keyValues.add(new ConcreteKeyValue(KFSConstants.EMPTY_STRING, KFSConstants.EMPTY_STRING));
         for (TravelCompanyCode element : boList) {
             if(element.isActive()) {
                 keyValues.add(new ConcreteKeyValue(element.getName(), element.getName()));

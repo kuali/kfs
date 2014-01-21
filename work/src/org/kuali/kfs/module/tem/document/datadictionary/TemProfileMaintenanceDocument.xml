@@ -37,7 +37,7 @@
 		<property name="maintainableItems">
 			<list>
 			    <bean parent="MaintainableSubSectionHeaderDefinition" p:name="TEM Profile"/>
-				<bean parent="MaintainableFieldDefinition" p:name="profileId" p:required="true" p:unconditionallyReadOnly="true" p:defaultValueFinderClass="org.kuali.kfs.module.tem.businessobject.options.TemProfileIdFinder" />
+				<bean parent="MaintainableFieldDefinition" p:name="profileId" p:required="true" p:unconditionallyReadOnly="true" p:defaultValueFinderClass="org.kuali.kfs.module.tem.businessobject.defaultvalue.TemProfileIdFinder" />
 				<bean parent="MaintainableFieldDefinition" p:name="travelerTypeCode" p:required="true" p:noLookup="true" />
 				<bean parent="MaintainableFieldDefinition" p:name="lastUpdate" p:required="false" p:unconditionallyReadOnly="true" />
 				<bean parent="MaintainableFieldDefinition" p:name="updatedBy" p:required="false" p:unconditionallyReadOnly="true" />

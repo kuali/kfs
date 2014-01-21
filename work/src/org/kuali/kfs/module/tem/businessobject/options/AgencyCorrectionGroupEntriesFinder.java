@@ -53,7 +53,6 @@ public class AgencyCorrectionGroupEntriesFinder extends KeyValuesBase {
                 activeLabels.add(new ConcreteKeyValue(fileName, timeInfo + " " + fileName + " " + sizeInfo));
             }
         }
-        //Collections.sort(sortedFileList, new OriginEntryFileComparator());
         return activeLabels;
     }
 

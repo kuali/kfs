@@ -20,6 +20,7 @@ import java.util.Collection;
 import java.util.List;
 
 import org.kuali.kfs.module.tem.businessobject.ContactRelationType;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
@@ -37,7 +38,7 @@ public class ContactRelationTypeValuesFinder extends KeyValuesBase {
 
         Collection<ContactRelationType> bos = SpringContext.getBean(BusinessObjectService.class).findAll(ContactRelationType.class);
 
-        keyValues.add(new ConcreteKeyValue("", ""));
+        keyValues.add(new ConcreteKeyValue(KFSConstants.EMPTY_STRING, KFSConstants.EMPTY_STRING));
         for (ContactRelationType typ : bos) {
             keyValues.add(new ConcreteKeyValue(typ.getCode(), typ.getName()));
         }

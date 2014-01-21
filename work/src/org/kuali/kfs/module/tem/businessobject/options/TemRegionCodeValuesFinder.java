@@ -24,8 +24,10 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.tem.TemConstants;
+import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.businessobject.TemRegion;
 import org.kuali.kfs.module.tem.service.TravelService;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
@@ -41,12 +43,12 @@ public class TemRegionCodeValuesFinder extends KeyValuesBase {
     @Override
     public List<KeyValue> getKeyValues() {
 
-        String tripTypeCode = "";
+        String tripTypeCode = KFSConstants.EMPTY_STRING;
 
 
 
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
-        keyValues.add(new ConcreteKeyValue("", ""));
+        keyValues.add(new ConcreteKeyValue(KFSConstants.EMPTY_STRING, KFSConstants.EMPTY_STRING));
         BusinessObjectService service = SpringContext.getBean(BusinessObjectService.class);
         TravelService travelService = SpringContext.getBean(TravelService.class);
 
@@ -55,13 +57,13 @@ public class TemRegionCodeValuesFinder extends KeyValuesBase {
 
         Map<String, String> fieldValues = new HashMap<String, String>();
         if (StringUtils.isEmpty(tripTypeCode) || tripTypeCode.equals(TemConstants.TemTripTypes.IN_STATE)) {
-            fieldValues.put("tripTypeCode", TemConstants.TemTripTypes.IN_STATE);
+            fieldValues.put(TemPropertyConstants.TRIP_TYPE_CODE, TemConstants.TemTripTypes.IN_STATE);
             List<TemRegion> inRegions = (List<TemRegion>) service.findMatching(TemRegion.class, fieldValues);
             usRegions.addAll(inRegions);
         }
 
         if (StringUtils.isEmpty(tripTypeCode) || tripTypeCode.equals(TemConstants.TemTripTypes.OUT_OF_STATE)) {
-            fieldValues.put("tripTypeCode", TemConstants.TemTripTypes.OUT_OF_STATE);
+            fieldValues.put(TemPropertyConstants.TRIP_TYPE_CODE, TemConstants.TemTripTypes.OUT_OF_STATE);
             List<TemRegion> outRegions = (List<TemRegion>) service.findMatching(TemRegion.class, fieldValues);
             Collections.sort(outRegions);
             usRegions.addAll(outRegions);
@@ -72,7 +74,7 @@ public class TemRegionCodeValuesFinder extends KeyValuesBase {
 
         Iterator<TemRegion> it = usRegions.iterator();
 
-        String key = "";
+        String key = KFSConstants.EMPTY_STRING;
         while (it.hasNext()){
             TemRegion temRegion = it.next();
 
@@ -86,7 +88,7 @@ public class TemRegionCodeValuesFinder extends KeyValuesBase {
 
         if (StringUtils.isEmpty(tripTypeCode) || tripTypeCode.equals(TemConstants.TemTripTypes.INTERNATIONAL)) {
 
-            fieldValues.put("tripTypeCode", TemConstants.TemTripTypes.INTERNATIONAL);
+            fieldValues.put(TemPropertyConstants.TRIP_TYPE_CODE, TemConstants.TemTripTypes.INTERNATIONAL);
             List<TemRegion> intRegions = (List<TemRegion>) service.findMatching(TemRegion.class, fieldValues);
             Collections.sort(intRegions);
 

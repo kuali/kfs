@@ -52,44 +52,21 @@ public class TemProfileAccountLookupableHelperServiceImpl extends KualiLookupabl
     }
 
     /**
-     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#allowsMaintenanceEditAction(org.kuali.rice.kns.bo.BusinessObject)
-     */
-    @Override
-    protected boolean allowsMaintenanceEditAction(BusinessObject businessObject) {
-        // TODO Auto-generated method stub
-        return super.allowsMaintenanceEditAction(businessObject);
-    }
-
-    /**
      * @see org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl#getSearchResults(java.util.Map)
      */
     @Override
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
-        // TODO Auto-generated method stub
         String principalId = fieldValues.get("profile.principal.principalId");
         fieldValues.remove("profile.principal.principalId");
         fieldValues.put("profile.principalId", principalId);
         return super.getSearchResults(fieldValues);
     }
 
-
-
-    /**
-     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getSupplementalMenuBar()
-     */
-    @Override
-    public String getSupplementalMenuBar() {
-        // TODO Auto-generated method stub
-        return super.getSupplementalMenuBar();
-    }
-
-
     /**
      * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#allowsMaintenanceNewOrCopyAction()
      */
     @Override
     public boolean allowsMaintenanceNewOrCopyAction() {
-        // TODO Auto-generated method stub
         return false;
     }
 

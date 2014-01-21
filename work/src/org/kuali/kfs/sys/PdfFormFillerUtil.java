@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,18 +16,13 @@
 package org.kuali.kfs.sys;
 
 import java.awt.Color;
-import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
-import java.util.HashMap;
 import java.util.Map;
 
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -52,7 +47,7 @@ public class PdfFormFillerUtil {
 
     /**
      * This method generates the reports from the template file provided.
-     * 
+     *
      * @param template
      * @param outputDir
      * @param baseOutputFileName
@@ -89,47 +84,13 @@ public class PdfFormFillerUtil {
     }
 
     /**
-     * This method creates a new pdf file and adds lists to it.
-     * 
-     * @param outputStream
-     * @param replacementList
-     * @throws IOException
-     */
-    private static void pdfWriteToFile(byte[] outputStream, Map<String, String> replacementList) throws IOException {
-        ByteArrayInputStream fstream = new ByteArrayInputStream(outputStream);
-        // Get the object of DataInputStream
-        DataInputStream in = new DataInputStream(fstream);
-        BufferedReader br = new BufferedReader(new InputStreamReader(in));
-        String strLine;
-        // Read File Line By Line
-        try {
-            while ((strLine = br.readLine()) != null) {
-                if (validListTagFound(strLine)) {
-                    Object listToPopulateObject = replacementList.get(strLine.trim());
-                    // write the list to the pdf writer
-                }
-                else {
-                    // write line to pdfWriter
-                }
-            }
-        }
-        catch (IOException ex) {
-            // TODO Auto-generated catch block
-            ex.printStackTrace();
-        }
-        // Close the input stream
-        in.close();
-    }
-
-    /**
      * This method stamps the values onto the pdf file from the replacement list
-     * 
+     *
      * @param strLine
      * @param replacementList
      * @return
      */
     private static boolean validListTagFound(String strLine) {
-        // TODO Auto-generated method stub
         boolean valid = true;
         valid &= strLine.matches("^#[\\S]*$");
         return valid;
@@ -137,7 +98,7 @@ public class PdfFormFillerUtil {
 
     /**
      * This Method stamps the values from the map onto the fields in the template provided.
-     * 
+     *
      * @param templateStream
      * @param outputStream
      * @param replacementList
@@ -164,8 +125,9 @@ public class PdfFormFillerUtil {
                     newText = replaceValuesIteratingThroughFile(text, replacementList);
                 }
                 else {
-                    if (ObjectUtils.isNotNull(replacementList.get(fieldName.toString())))
+                    if (ObjectUtils.isNotNull(replacementList.get(fieldName.toString()))) {
                         newText = replacementList.get(fieldName);
+                    }
                 }
                 // Populate the field with the final value
                 fields.setField(fieldName.toString(), newText);
@@ -194,7 +156,7 @@ public class PdfFormFillerUtil {
 
     /**
      * This method creates a Final watermark on the input Stream.
-     * 
+     *
      * @param templateStream
      * @param finalmarkText
      * @return
@@ -230,19 +192,17 @@ public class PdfFormFillerUtil {
             pdfStamper.close();
         }
         catch (DocumentException ex) {
-            // TODO Auto-generated catch block
-            ex.printStackTrace();
+            throw new IOException("iText error creating final watermark on PDF", ex);
         }
         catch (IOException ex) {
-            // TODO Auto-generated catch block
-            ex.printStackTrace();
+            throw new IOException("IO error creating final watermark on PDF", ex);
         }
         return outputStream.toByteArray();
     }
 
     /**
      * This Method creates a custom watermark on the File.
-     * 
+     *
      * @param templateStream
      * @param watermarkText
      * @return
@@ -279,54 +239,17 @@ public class PdfFormFillerUtil {
             pdfStamper.close();
         }
         catch (DocumentException ex) {
-            // TODO Auto-generated catch block
-            ex.printStackTrace();
+            throw new IOException("iText error creating watermark on PDF", ex);
         }
         catch (IOException ex) {
-            // TODO Auto-generated catch block
-            ex.printStackTrace();
+            throw new IOException("IO error creating watermark on PDF", ex);
         }
         return outputStream.toByteArray();
     }
 
     /**
-     * Values are replaces in this method from the template by the values in the Map.
-     * 
-     * @param template
-     * @param replacementList
-     * @return
-     */
-    private static String replaceValues(String template, Map<String, String> replacementList) {
-        StringBuilder buffOriginal = new StringBuilder(template);
-        StringBuilder buffNormalized = new StringBuilder(template.toUpperCase());
-        Map<String, String> newReplacementList = new HashMap<String, String>();
-        for(String key : replacementList.keySet()) {
-            newReplacementList.put("#"+key,replacementList.get(key));
-        }
-        
-        String[] keyList = newReplacementList.keySet().toArray(new String[0]);
-
-        // Scan for each key
-        for (String key : keyList) {
-            String value = newReplacementList.get(key);
-            key = key.toUpperCase();
-
-            // Scan the buffer for the key
-            int index = buffNormalized.indexOf(key);
-            while (index != -1) {
-                buffOriginal.replace(index, index + key.length(), value);
-                buffNormalized.replace(index, index + key.length(), value);
-                index += value.length(); // Move to the end of the replacement
-                index = buffNormalized.indexOf(key, index);
-            }
-        }
-
-        return buffOriginal.toString();
-    }
-
-    /**
      * This method splits all the text in the template file and replaces them if they match the keys in the Map.
-     * 
+     *
      * @param template
      * @param replacementList
      * @return
@@ -334,23 +257,20 @@ public class PdfFormFillerUtil {
     private static String replaceValuesIteratingThroughFile(String template, Map<String, String> replacementList) {
         StringBuilder buffOriginal = new StringBuilder();
         StringBuilder buffNormalized = new StringBuilder();
-        
-        Map<String, String> newReplacementList = new HashMap<String, String>();
-        
-        for(String key : replacementList.keySet()) {
-            newReplacementList.put("#"+key,replacementList.get(key));
-        }
 
         String[] keys = template.split("[\\s]+");
 
         // Scan for each word
         for (String key : keys) {
             if (validListTagFound(key)) {
-                String value = newReplacementList.get(key);
-                if (ObjectUtils.isNotNull(value))
+                String replacementKey = key.substring(1);
+                String value = replacementList.get(replacementKey);
+                if (ObjectUtils.isNotNull(value)) {
                     buffOriginal.append(value + " ");
-                else
+                }
+                else {
                     buffOriginal.append(" ");
+                }
             }
             else {
                 buffOriginal.append(key + " ");

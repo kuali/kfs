@@ -180,6 +180,7 @@
 		        <bean parent="FieldDefinition" p:attributeName="name"/>
 		        <bean parent="FieldDefinition" p:attributeName="groupTravel" />
 				<bean parent="FieldDefinition" p:attributeName="expenseDetailRequired"/>
+				<bean parent="FieldDefinition" p:attributeName="prepaidExpense"/>
 				<bean parent="FieldDefinition" p:attributeName="hosted"/>
 				<bean parent="FieldDefinition" p:attributeName="expenseTypeMetaCategoryCode"/>
 				<bean parent="FieldDefinition" p:attributeName="categoryDefault"/>

@@ -17,7 +17,7 @@ package org.kuali.kfs.module.tem.document.validation.impl;
 
 import java.text.SimpleDateFormat;
 
-import org.kuali.kfs.module.tem.TemConstants;
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.tem.TemConstants.TravelParameters;
 import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.TemParameterConstants;
@@ -27,7 +27,6 @@ import org.kuali.kfs.module.tem.businessobject.PerDiemExpense;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.TravelDocumentBase;
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
-import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
@@ -102,22 +101,12 @@ public class TravelAuthTripDetailMealsAndIncidentalsValidation extends GenericVa
 
                     }
                 }
-
-                // check for meal without lodging
-                if (document.checkMealWithoutLodging(estimate) && !hasLodgingActualExpense(document) && (document.getMealWithoutLodgingReason() == null || document.getMealWithoutLodgingReason().trim().length() == 0)) {
-                    GlobalVariables.getMessageMap().putError(KFSPropertyConstants.DOCUMENT+"."+TemPropertyConstants.MEAL_WITHOUT_LODGING_REASON, KFSKeyConstants.ERROR_CUSTOM, "Justification for meals without lodging is required.");
-                    rulePassed = false;
-                    break;
-                }
             }
         }
 
-        for(ActualExpense ote : document.getActualExpenses()) {
-            if (document.checkMealWithoutLodging(ote) && (document.getMealWithoutLodgingReason() == null || document.getMealWithoutLodgingReason().trim().length() == 0)){
-                GlobalVariables.getMessageMap().putError(KFSPropertyConstants.DOCUMENT+"."+TemPropertyConstants.MEAL_WITHOUT_LODGING_REASON, KFSKeyConstants.ERROR_CUSTOM, "Justification for meals without lodging is required.");
-                rulePassed = false;
-                break;
-            }
+        if (StringUtils.isBlank(document.getMealWithoutLodgingReason()) && document.isMealsWithoutLodging()) {
+            GlobalVariables.getMessageMap().putError(KFSPropertyConstants.DOCUMENT+"."+TemPropertyConstants.MEAL_WITHOUT_LODGING_REASON, TemKeyConstants.ERROR_TRVL_MEALS_NO_LODGING_REQUIRES_JUSTIFICATION);
+            rulePassed = false;
         }
 
         return rulePassed;
@@ -130,7 +119,7 @@ public class TravelAuthTripDetailMealsAndIncidentalsValidation extends GenericVa
      */
     protected boolean hasLodgingActualExpense(TravelDocument document) {
         for (ActualExpense expense : document.getActualExpenses()) {
-            if (TemConstants.ExpenseTypes.LODGING.equals(expense.getExpenseTypeCode())) {
+            if (expense.isLodging() || expense.isLodgingAllowance()) {
                 return true;
             }
         }

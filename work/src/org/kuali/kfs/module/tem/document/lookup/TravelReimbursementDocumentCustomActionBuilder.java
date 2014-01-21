@@ -20,9 +20,9 @@ import java.util.List;
 import org.apache.commons.lang.text.StrBuilder;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.module.tem.TemConstants;
-import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.TemConstants.TravelDocTypes;
 import org.kuali.kfs.module.tem.TemConstants.TravelReimbursementStatusCodeKeys;
+import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.TravelReimbursementDocument;
 import org.kuali.kfs.module.tem.document.service.AccountingDocumentRelationshipService;
@@ -36,6 +36,7 @@ import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public class TravelReimbursementDocumentCustomActionBuilder extends DocumentActionBuilderBase implements TravelDocumentCustomActionBuilder{
     protected volatile TravelDocumentService travelDocumentService;
@@ -68,7 +69,7 @@ public class TravelReimbursementDocumentCustomActionBuilder extends DocumentActi
 
         Person user = GlobalVariables.getUserSession().getPerson();
         boolean hasInitAccess = false;
-        if (getTemRoleService().canAccessTravelDocument(document, user) && document.getTemProfileId() != null){
+        if (getTemRoleService().canAccessTravelDocument(document, user) && !ObjectUtils.isNull(document.getTraveler()) && document.getTemProfileId() != null && !ObjectUtils.isNull(document.getTemProfile())){
             //check if user also can init other docs
             hasInitAccess = user.getPrincipalId().equals(document.getTraveler().getPrincipalId()) || getTemRoleService().isTravelDocumentArrangerForProfile(documentType, user.getPrincipalId(), document.getTemProfileId()) || getTemRoleService().isTravelArranger(user, document.getTemProfile().getHomeDepartment() , document.getTemProfileId().toString(), documentType);
         }

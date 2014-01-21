@@ -116,4 +116,13 @@ public interface PerDiemService {
      * @return the retrieved per diem or null if a record was not found
      */
     public PerDiem getPerDiem(int primaryDestinationId, java.sql.Timestamp perDiemDate);
+
+    /**
+     * Determines if:
+     * <ul>
+     * <li>A current mileage rate for the KFS-TEM / Document / PER_DIEM_MILEAGE_RATE_EXPENSE_TYPE_CODE is available; if it is not, then per diem cannot be created
+     * </ul>
+     * @param form the form with the document on it, which may help in making such a decision
+     */
+    public boolean canCreatePerDiem(TravelDocument doc);
 }

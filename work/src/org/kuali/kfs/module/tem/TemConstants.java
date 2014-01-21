@@ -218,6 +218,7 @@ public class TemConstants {
         public static final String PER_DIEM_MILEAGE_RATE_EXPENSE_TYPE_CODE = "PER_DIEM_MILEAGE_RATE_EXPENSE_TYPE_CODE";
 
         public static final String INTERNATIONAL_TRIP_REQUIRES_ACCOMMODATION_IND = "INTERNATIONAL_TRIP_REQUIRES_ACCOMMODATION_IND";
+        public static final String DUPLICATE_TRIP_DATE_RANGE_DAYS  = "DUPLICATE_TRIP_DATE_RANGE_DAYS";
     }
 
     public static class TravelAuthorizationParameters {
@@ -245,7 +246,7 @@ public class TemConstants {
         public static final String VENDOR_PAYMENT_ALLOWED_BEFORE_FINAL_APPROVAL_IND = "VENDOR_PAYMENT_ALLOWED_BEFORE_FINAL_APPROVAL_IND";
         public static final String HOLD_NEW_FISCAL_YEAR_ENCUMBRANCES_IND = "HOLD_NEW_FISCAL_YEAR_ENCUMBRANCES_IND";
         public static final String DISPLAY_IMPORTED_EXPENSE_IND = "DISPLAY_IMPORTED_EXPENSE_IND";
-        public static final String DUPLICATE_TRIP_DATE_RANGE_DAYS  = "DUPLICATE_TRIP_DATE_RANGE_DAYS";
+
     }
 
     public static class TravelReimbursementParameters {
@@ -761,9 +762,9 @@ public class TemConstants {
     }
 
     public static class TravelCustomSearchLinks {
-        public static final String NEW_REIMBURSEMENT = "New&nbsp;Reimbursement";
+        public static final String NEW_REIMBURSEMENT = "New&nbsp;&nbsp;Reimbursement";
         public static final String NEW_ENTERTAINMENT = "New&nbsp;Entertainment";
-        public static final String NEW_RELOCATION = "New&nbsp;Relocation";
+        public static final String NEW_RELOCATION = "New&nbsp;&nbsp;Relocation";
         public static final String VENDOR_PAYMENT = "Vendor&nbsp;Payment";
         public static final String REQUISITION = "Requisition";
         public static final String AGENCY_SITES = "Agency&nbsp;Sites";

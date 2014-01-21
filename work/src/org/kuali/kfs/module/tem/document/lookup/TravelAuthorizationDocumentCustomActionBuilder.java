@@ -37,6 +37,7 @@ import org.kuali.rice.kns.service.DocumentHelperService;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public class TravelAuthorizationDocumentCustomActionBuilder extends DocumentActionBuilderBase implements TravelDocumentCustomActionBuilder{
 
@@ -77,7 +78,7 @@ public class TravelAuthorizationDocumentCustomActionBuilder extends DocumentActi
 
         Person user = GlobalVariables.getUserSession().getPerson();
         boolean hasInitAccess = false;
-        if (getTemRoleService().canAccessTravelDocument(document, user) && document.getTemProfileId() != null){
+        if (getTemRoleService().canAccessTravelDocument(document, user) && !ObjectUtils.isNull(document.getTraveler()) && document.getTemProfileId() != null && !ObjectUtils.isNull(document.getTemProfile())){
             //check if user also can init other docs
             hasInitAccess = user.getPrincipalId().equals(document.getTraveler().getPrincipalId()) || getTemRoleService().isTravelDocumentArrangerForProfile(documentType, user.getPrincipalId(), document.getTemProfileId()) || getTemRoleService().isTravelArranger(user, document.getTemProfile().getHomeDepartment() , document.getTemProfileId().toString(), documentType);
         }

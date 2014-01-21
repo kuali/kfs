@@ -33,6 +33,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
+import org.kuali.kfs.module.tem.businessobject.AccountingDocumentRelationship;
 import org.kuali.kfs.module.tem.businessobject.ActualExpense;
 import org.kuali.kfs.module.tem.businessobject.Attendee;
 import org.kuali.kfs.module.tem.businessobject.TravelerDetail;
@@ -50,10 +51,13 @@ import org.kuali.kfs.module.tem.report.util.BarcodeHelper;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
 
 /**
  * This class...
@@ -128,6 +132,11 @@ public class TravelEntertainmentAction extends TravelActionBase {
                         entForm.getNewActualExpenseLines().add(new ActualExpense());
                     }
                 }
+
+                document.updatePayeeTypeForReimbursable();
+
+                final AccountingDocumentRelationship relationship = buildRelationshipToProgenitorDocument(travelDocument, document);
+                getBusinessObjectService().save(relationship);
             }
             else{
                 populateFromPreviousENTDoc(document, identifierStr);
@@ -179,6 +188,17 @@ public class TravelEntertainmentAction extends TravelActionBase {
         document.setDescription(entDocument.getDescription());
         document.setHostCertified(entDocument.getHostCertified());
         document.setNonEmployeeCertified(entDocument.getNonEmployeeCertified());
+        document.updatePayeeTypeForReimbursable();
+
+        try {
+            final WorkflowDocument entDocWorkflowDocument = SpringContext.getBean(WorkflowDocumentService.class).loadWorkflowDocument(entDocument.getDocumentNumber(), GlobalVariables.getUserSession().getPerson());
+            entDocument.getDocumentHeader().setWorkflowDocument(entDocWorkflowDocument);
+            final AccountingDocumentRelationship relationship = buildRelationshipToProgenitorDocument(entDocument, document);
+            getBusinessObjectService().save(relationship);
+        }
+        catch (WorkflowException we) {
+            throw new RuntimeException("Could not load workflow document for old entertainment document "+temDocId, we);
+        }
     }
 
     protected void initializeNewAttendeeLines(final List<Attendee> newAttendeeLines, List<Attendee> attendees) {

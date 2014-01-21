@@ -25,14 +25,14 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.module.tem.TemConstants;
+import org.kuali.kfs.module.tem.TemKeyConstants;
+import org.kuali.kfs.module.tem.TemParameterConstants;
+import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.TemConstants.AgencyMatchProcessParameter;
 import org.kuali.kfs.module.tem.TemConstants.AgencyStagingDataErrorCodes;
 import org.kuali.kfs.module.tem.TemConstants.AgencyStagingDataValidation;
 import org.kuali.kfs.module.tem.TemConstants.CreditCardStagingDataErrorCodes;
 import org.kuali.kfs.module.tem.TemConstants.TravelParameters;
-import org.kuali.kfs.module.tem.TemKeyConstants;
-import org.kuali.kfs.module.tem.TemParameterConstants;
-import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.batch.AgencyDataImportStep;
 import org.kuali.kfs.module.tem.batch.service.ExpenseImportByTripService;
 import org.kuali.kfs.module.tem.batch.service.ImportedExpensePendingEntryService;
@@ -55,7 +55,6 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -696,16 +695,19 @@ public class ExpenseImportByTripServiceImpl extends ExpenseImportServiceBase imp
 
     protected List<TemSourceAccountingLine> getSourceAccountingLinesByTrip(String travelDocumentIdentifier) {
 
-        List<String> travelDocumentNumbers = getTravelDocumentService().getApprovedTravelDocumentNumbersByTrip(travelDocumentIdentifier);
+        Collection<String> travelDocumentNumbers = getTravelDocumentService().getApprovedTravelDocumentNumbersByTrip(travelDocumentIdentifier);
         LOG.info("Will attempt to retrieve source accounting lines for the following approved documents: "+ travelDocumentNumbers);
 
         ArrayList temSourceAccountingLines = new ArrayList<TemSourceAccountingLine>();
 
-        Map<String, Object> fieldValues = new HashMap<String, Object>();
-        fieldValues.put(KFSPropertyConstants.DOCUMENT_NUMBER, travelDocumentNumbers);
-        fieldValues.put(KFSPropertyConstants.FINANCIAL_DOCUMENT_LINE_TYPE_CODE, KFSConstants.SOURCE_ACCT_LINE_TYPE_CODE);
+        if (!travelDocumentNumbers.isEmpty()) {
 
-        temSourceAccountingLines.addAll(SpringContext.getBean(BusinessObjectService.class).findMatchingOrderBy(TemSourceAccountingLine.class, fieldValues, KFSPropertyConstants.SEQUENCE_NUMBER, true));
+            Map<String, Object> fieldValues = new HashMap<String, Object>();
+            fieldValues.put(KFSPropertyConstants.DOCUMENT_NUMBER, travelDocumentNumbers);
+            fieldValues.put(KFSPropertyConstants.FINANCIAL_DOCUMENT_LINE_TYPE_CODE, KFSConstants.SOURCE_ACCT_LINE_TYPE_CODE);
+
+            temSourceAccountingLines.addAll(getBusinessObjectService().findMatchingOrderBy(TemSourceAccountingLine.class, fieldValues, KFSPropertyConstants.SEQUENCE_NUMBER, true));
+        }
 
         return temSourceAccountingLines;
     }

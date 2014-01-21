@@ -120,6 +120,7 @@ public class ImportedExpensePendingEntryServiceImpl implements ImportedExpensePe
             glpe.setFinancialObjectCode(objectCode);
             glpe.setFinancialSubObjectCode(StringUtils.defaultIfEmpty(info.getSubObjectCode(), GENERAL_LEDGER_PENDING_ENTRY_CODE.getBlankFinancialSubObjectCode()));
             glpe.setFinancialObjectTypeCode(objectCd.getFinancialObjectTypeCode());
+            glpe.setProjectCode(StringUtils.defaultIfEmpty(info.getProjectCode(), GENERAL_LEDGER_PENDING_ENTRY_CODE.getBlankProjectCode()));
             glpe.setTransactionLedgerEntryAmount(amount);
             glpe.setTransactionDebitCreditCode(glCredtiDebitCode);
             glpe.setFinancialDocumentApprovedCode(KFSConstants.PENDING_ENTRY_APPROVED_STATUS_CODE.APPROVED);
@@ -195,6 +196,7 @@ public class ImportedExpensePendingEntryServiceImpl implements ImportedExpensePe
         GeneralLedgerPendingEntry pendingEntry = buildGeneralLedgerPendingEntry(agencyData, info, sequenceHelper, serviceFee.getCreditChartCode(), serviceFee.getCreditObjectCode(), amount, KFSConstants.GL_CREDIT_CODE);
         if(ObjectUtils.isNotNull(pendingEntry )) {
             pendingEntry.setAccountNumber(serviceFee.getCreditAccountNumber());
+            pendingEntry.setSubAccountNumber(GENERAL_LEDGER_PENDING_ENTRY_CODE.getBlankSubAccountNumber());
         }
 
         LOG.info("Created ServiceFee CREDIT GLPE: " + pendingEntry.getDocumentNumber() + " for AGENCY Import Expense: " + agencyData.getId() + " TripId: " + agencyData.getTripId()

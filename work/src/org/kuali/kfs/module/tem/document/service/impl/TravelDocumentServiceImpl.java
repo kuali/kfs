@@ -51,7 +51,6 @@ import java.util.TreeSet;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
 import org.apache.log4j.Logger;
-import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.kfs.gl.service.EncumbranceService;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomerInvoice;
 import org.kuali.kfs.integration.ar.AccountsReceivableModuleService;
@@ -1285,9 +1284,9 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
             //no authorizations exist so the root should be a reimbursement
             else {
                 final List<TravelReimbursementDocument> tempTrDocs = findReimbursementDocuments(travelDocumentIdentifier);
-                //did not find any reimbursements either so this must be an invalid travelDocumentIdentifier
+                //did not find any reimbursements either
                 if (tempTrDocs.isEmpty()) {
-                    LOG.error("Did not find any authorizations or reimbursements; invalid travelDocumentIndentifier: "+ travelDocumentIdentifier);
+                    LOG.debug("Did not find any authorizations or reimbursements for travelDocumentIndentifier: "+ travelDocumentIdentifier);
                     return null;
                 }
 
@@ -1305,7 +1304,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
             }
         }
         catch (WorkflowException we) {
-            throw new RuntimeException("Could not find documents related to trip id #"+travelDocumentIdentifier);
+            throw new RuntimeException("Could not find authorization or reimbursement documents related to trip id #"+travelDocumentIdentifier);
         }
 
         return rootTravelDocument;
@@ -1379,16 +1378,12 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
     protected List<String> findAccountsResponsibleFor(final List<SourceAccountingLine> lines, String principalId) {
         final Set<String> accountList = new HashSet<String>();
         for (AccountingLine line : lines) {
-            try {
-                line.refreshReferenceObject(KFSPropertyConstants.ACCOUNT);
-                if (line != null && !ObjectUtils.isNull(line.getAccount())) {
-                    Person accountFiscalOfficerUser = line.getAccount().getAccountFiscalOfficerUser();
-                    if (accountFiscalOfficerUser != null && accountFiscalOfficerUser.getPrincipalId().equals(principalId)) {
-                        accountList.add(line.getAccountNumber());
-                    }
+            line.refreshReferenceObject(KFSPropertyConstants.ACCOUNT);
+            if (line != null && !ObjectUtils.isNull(line.getAccount())) {
+                Person accountFiscalOfficerUser = line.getAccount().getAccountFiscalOfficerUser();
+                if (accountFiscalOfficerUser != null && accountFiscalOfficerUser.getPrincipalId().equals(principalId)) {
+                    accountList.add(line.getAccountNumber());
                 }
-            } catch (PersistenceBrokerException ex){
-                //COA Account getAccountFiscalOfficerUser() is generating PersistenceBrokerException when we lookup an invalid account number.
             }
         }
         return new ArrayList<String>(accountList);
@@ -2336,6 +2331,12 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
                }
         }
 
+       // TR with no TAs created from mainmenu
+       if(documents.isEmpty()) {
+           earliestTripBeginDate = getTripBeginDate(travelDocument.getTripBegin());
+           greatestTripEndDate = getTripEndDate(travelDocument.getTripEnd());
+       }
+
        List<TravelReimbursementDocument> matchDocs =  (List<TravelReimbursementDocument>) travelDocumentDao.findMatchingTrips(temProfileId ,earliestTripBeginDate, greatestTripEndDate);
         List<String> documentIds = new ArrayList<String>();
         for (TravelReimbursementDocument document : matchDocs) {
@@ -2345,6 +2346,48 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
         }
         return documentIds;
     }
+
+    private Integer getDuplicateTripDateRangeDays() {
+        String tripDateRangeDays = parameterService.getParameterValueAsString(TravelAuthorizationDocument.class, TemConstants.TravelParameters.DUPLICATE_TRIP_DATE_RANGE_DAYS);
+        Integer days = null;
+        if (!StringUtils.isNumeric(tripDateRangeDays)) {
+            days = TemConstants.DEFAULT_DUPLICATE_TRIP_DATE_RANGE_DAYS;
+       }
+
+       days = Integer.parseInt(tripDateRangeDays);
+       return days;
+
+    }
+
+    private Timestamp getTripBeginDate(Timestamp tripBeginDate) {
+        Timestamp tripBegin = null;
+        Integer days = getDuplicateTripDateRangeDays();
+         try {
+             tripBegin = dateTimeService.convertToSqlTimestamp(dateTimeService.toDateString(DateUtils.addDays(tripBeginDate, (days * -1))));
+
+         } catch (java.text.ParseException pe) {
+             LOG.error("Exception while parsing trip begin date" + pe);
+         }
+
+
+         return tripBegin;
+
+     }
+
+     private Timestamp getTripEndDate(Timestamp tripEndDate) {
+         Timestamp tripEnd = null;
+         Integer days = getDuplicateTripDateRangeDays();
+          try {
+              tripEnd = dateTimeService.convertToSqlTimestamp(dateTimeService.toDateString((DateUtils.addDays(tripEndDate, days ))));
+
+          } catch (java.text.ParseException pe) {
+              LOG.error("Exception while parsing trip end date" + pe);
+          }
+
+          return tripEnd;
+
+     }
+
 
     /**
      * Inner class to hold keys & messages for disabled properties
@@ -2380,11 +2423,12 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
        try {
            TravelDocument travelDocument = findRootForTravelReimbursement(travelDocumentIdentifier);
            if (ObjectUtils.isNotNull(travelDocument)) {
+               LOG.debug("Found "+ travelDocument.getDocumentNumber() +" ("+ travelDocument.getDocumentTypeName() +") for travelDocumentIdentifier: "+ travelDocumentIdentifier);
                return travelDocument;
            }
 
        } catch (Exception exception) {
-           LOG.error("Exception occurred attempting to retrieve a travel document for tripId: "+ travelDocumentIdentifier, exception);
+           LOG.error("Exception occurred attempting to retrieve an authorization or remibursement travel document for travelDocumentIdentifier: "+ travelDocumentIdentifier, exception);
            return null;
        }
 
@@ -2393,12 +2437,16 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
 
        Collection<TravelEntertainmentDocument> entDocuments = getBusinessObjectService().findMatching(TravelEntertainmentDocument.class, fieldValues);
        if (entDocuments.iterator().hasNext()) {
-           return entDocuments.iterator().next();
+           TravelDocument ent = entDocuments.iterator().next();
+           LOG.debug("Found "+ ent.getDocumentNumber() +" ("+ ent.getDocumentTypeName() +") for travelDocumentIdentifier: "+ travelDocumentIdentifier);
+           return ent;
        }
 
        Collection<TravelRelocationDocument> reloDocuments = getBusinessObjectService().findMatching(TravelRelocationDocument.class, fieldValues);
        if (reloDocuments.iterator().hasNext()) {
-           return reloDocuments.iterator().next();
+           TravelDocument relo = reloDocuments.iterator().next();
+           LOG.info("Found "+ relo.getDocumentNumber() +" ("+ relo.getDocumentTypeName() +") for travelDocumentIdentifier: "+ travelDocumentIdentifier);
+           return relo;
        }
 
        LOG.error("Unable to find any travel document for given Trip Id: "+ travelDocumentIdentifier);
@@ -2443,7 +2491,8 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
      * @see org.kuali.kfs.module.tem.document.service.TravelDocumentService#getTravelDocumentNumbersByTrip(java.lang.String)
      */
     @Override
-    public List<String> getApprovedTravelDocumentNumbersByTrip(String travelDocumentIdentifier) {
+    public Collection<String> getApprovedTravelDocumentNumbersByTrip(String travelDocumentIdentifier) {
+        HashMap<String,String> approvedTravelDocumentNumbers = new HashMap<String,String>();
 
         List<String> travelDocumentNumbers = new ArrayList<String>();
 
@@ -2456,16 +2505,15 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
         travelDocumentNumbers.addAll(getTravelDocumentDao().findDocumentNumbers(TravelEntertainmentDocument.class, travelDocumentIdentifier));
         travelDocumentNumbers.addAll(getTravelDocumentDao().findDocumentNumbers(TravelRelocationDocument.class, travelDocumentIdentifier));
 
-        List<String> approvedTravelDocumentNumbers = new ArrayList<String>();
 
         for(Iterator iter = travelDocumentNumbers.iterator(); iter.hasNext();) {
             String documentNumber = (String)iter.next();
-            if (isDocumentApprovedOrExtracted(documentNumber)) {
-                approvedTravelDocumentNumbers.add(documentNumber);
+            if (!approvedTravelDocumentNumbers.containsKey(documentNumber) && isDocumentApprovedOrExtracted(documentNumber)) {
+                approvedTravelDocumentNumbers.put(documentNumber,documentNumber);
             }
         }
 
-        return approvedTravelDocumentNumbers;
+        return approvedTravelDocumentNumbers.values();
     }
 
     public PersistenceStructureService getPersistenceStructureService() {

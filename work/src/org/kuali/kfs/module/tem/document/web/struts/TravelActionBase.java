@@ -41,9 +41,7 @@ import java.math.BigDecimal;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.Collection;
-import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -71,7 +69,6 @@ import org.kuali.kfs.module.tem.businessobject.ActualExpense;
 import org.kuali.kfs.module.tem.businessobject.GroupTraveler;
 import org.kuali.kfs.module.tem.businessobject.HistoricalTravelExpense;
 import org.kuali.kfs.module.tem.businessobject.ImportedExpense;
-import org.kuali.kfs.module.tem.businessobject.MileageRate;
 import org.kuali.kfs.module.tem.businessobject.PerDiem;
 import org.kuali.kfs.module.tem.businessobject.PerDiemExpense;
 import org.kuali.kfs.module.tem.businessobject.PrimaryDestination;
@@ -638,7 +635,7 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
         TravelDocument document = reqForm.getTravelDocument();
         ParameterService paramService = SpringContext.getBean(ParameterService.class);
 
-        if (SpringContext.getBean(KualiRuleService.class).applyRules(new UpdateTripDetailsEvent(TRIP_INFO_UPDATE_TRIP_DTL, reqForm.getDocument()))) {
+        if (SpringContext.getBean(KualiRuleService.class).applyRules(new UpdateTripDetailsEvent(TRIP_INFO_UPDATE_TRIP_DTL, reqForm.getDocument())) && getPerDiemService().canCreatePerDiem(document)) {
             getTravelDocumentService().updatePerDiemItemsFor(document, document.getPerDiemExpenses(), document.getPrimaryDestinationId(), document.getTripBegin(), document.getTripEnd());
         }
         reqForm.getNewSourceLine().setAmount(this.getAccountingLineAmountToFillIn(reqForm));
@@ -1605,57 +1602,12 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
      * @param form the travel form to update if per diem cannot be created
      */
     protected void handleMissingPerDiemMileageRates(TravelFormBase form) {
-        if (!canCreatePerDiem(form)) {
+        if (!getPerDiemService().canCreatePerDiem(form.getTravelDocument())) {
             // add an error about it
             GlobalVariables.getMessageMap().putError(KFSPropertyConstants.DOCUMENT+"."+TemPropertyConstants.PER_DIEM_EXPENSES, TemKeyConstants.ERROR_DOCUMENT_PER_DIEM_EXPENSE_MISSING_MILEAGE_RATE, getParameterService().getParameterValueAsString(TemParameterConstants.TEM_DOCUMENT.class, TemConstants.TravelParameters.PER_DIEM_MILEAGE_RATE_EXPENSE_TYPE_CODE, KFSConstants.EMPTY_STRING));
             // set the form to false
             form.setPerDiemCreatable(false);
         }
-    }
-
-    /**
-     * Determines if:
-     * <ul>
-     * <li>A current mileage rate for the KFS-TEM / Document / PER_DIEM_MILEAGE_RATE_EXPENSE_TYPE_CODE is available; if it is not, then per diem cannot be created
-     * </ul>
-     * @param form the form with the document on it, which may help in making such a decision
-     */
-    protected boolean canCreatePerDiem(TravelFormBase form) {
-        final String defaultPerDiemMileageRate = getParameterService().getParameterValueAsString(TemParameterConstants.TEM_DOCUMENT.class, TemConstants.TravelParameters.PER_DIEM_MILEAGE_RATE_EXPENSE_TYPE_CODE, KFSConstants.EMPTY_STRING);
-        if (StringUtils.isBlank(defaultPerDiemMileageRate)) {
-            return false;
-        }
-        final TravelDocument doc = form.getTravelDocument();
-        if (StringUtils.isBlank(doc.getTripTypeCode()) || doc.getTripBegin() == null || doc.getTripEnd() == null) {
-            return true; // we can't create per diem when trip begin or end are blank anyhow - but we shouldn't get the error
-        }
-        // now we need to loop through each day from begin date to end date to see if there is a validate mileage rate record for it
-        Calendar currDay = getCleanDay(doc.getTripBegin());
-        Calendar lastDay = getCleanDay(doc.getTripEnd());
-        while (currDay.before(lastDay) || currDay.equals(lastDay)) {
-            final MileageRate currDayMileageRate = getTravelDocumentService().getMileageRate(defaultPerDiemMileageRate, new java.sql.Date(currDay.getTimeInMillis()));
-            if (currDayMileageRate == null) {
-                return false;
-            }
-            currDay.add(Calendar.DATE, 1);
-        }
-        // we're good
-        return true;
-    }
-
-    /**
-     * Turns the given Timestamp into a Calendar where hour, minute, second, and millisecond are set to 0
-     * @param timestamp the timestamp to clean
-     * @return a Calendar which is only specified to the
-     */
-    protected Calendar getCleanDay(java.sql.Timestamp timestamp) {
-        Calendar uncleanDate = GregorianCalendar.getInstance();
-        uncleanDate.setTimeInMillis(timestamp.getTime());
-        uncleanDate.set(Calendar.HOUR, 0);
-        uncleanDate.set(Calendar.MINUTE, 0);
-        uncleanDate.set(Calendar.SECOND, 0);
-        uncleanDate.set(Calendar.MILLISECOND, 0);
-        return uncleanDate; // it's clean now
     }
 
     /**
@@ -1670,6 +1622,20 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
                 }
             }
         }
+    }
+
+    /**
+     * Builds a relationship between the document we're creating and the one we're basing the document off of
+     * @param progenitorDocument the original document
+     * @param createdDocument the document we're creating now, based on that document
+     * @return the accounting document relationship between the two documents
+     */
+    protected AccountingDocumentRelationship buildRelationshipToProgenitorDocument(TravelDocument progenitorDocument, TravelDocument createdDocument) {
+        final String progenitorType = progenitorDocument.getDocumentHeader().getWorkflowDocument().getDocumentTypeName();
+        final String createdType = createdDocument.getDocumentHeader().getWorkflowDocument().getDocumentTypeName();
+        AccountingDocumentRelationship relationship = new AccountingDocumentRelationship(progenitorDocument.getDocumentNumber(), createdDocument.getDocumentNumber(), progenitorType+" - "+createdType);
+        relationship.setPrincipalId(GlobalVariables.getUserSession().getPrincipalId());
+        return relationship;
     }
 
 }

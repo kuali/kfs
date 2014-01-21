@@ -376,7 +376,7 @@
     
     <xsd:simpleType name="lodgingPropertyCityName">
         <xsd:restriction base="xsd:normalizedString">
-            <xsd:maxLength value="40"/>
+            <xsd:maxLength value="30"/>
             <xsd:whiteSpace value="replace"/>
         </xsd:restriction>
     </xsd:simpleType>

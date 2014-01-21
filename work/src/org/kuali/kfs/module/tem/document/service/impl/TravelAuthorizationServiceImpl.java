@@ -652,16 +652,16 @@ public class TravelAuthorizationServiceImpl implements TravelAuthorizationServic
             List<TravelReimbursementDocument> travelReimbursementDocuments = travelDocumentService.findReimbursementDocuments(authorizationDocument.getTravelDocumentIdentifier());
 
             if(!ObjectUtils.isNull(travelReimbursementDocuments) && !travelReimbursementDocuments.isEmpty()) {
-                 String documentnumber = matchReimbursements(travelReimbursementDocuments, authorization);
-                 if(ObjectUtils.isNotNull(documentnumber)) {
-                     duplicateTrips.add(documentnumber);
+                 boolean matchFound = matchReimbursements(travelReimbursementDocuments, authorization);
+                 if(matchFound) {
+                     duplicateTrips.add(authorizationDocument.getDocumentNumber());
                  }
             }
             else {
                 // look for TA's
                 try {
                     if(!authorization.getDocumentNumber().equals(authorizationDocument.getDocumentNumber()) &&
-                           ( dateTimeService.convertToSqlDate(authorizationDocument.getTripBegin()).equals(tripBeginDate) || dateTimeService.convertToSqlDate(authorizationDocument.getTripEnd()).equals(tripEndDate))) {
+                           ( dateTimeService.convertToSqlDate(authorizationDocument.getTripBegin()).compareTo(tripBeginDate)>= 0 && dateTimeService.convertToSqlDate(authorizationDocument.getTripEnd()).compareTo(tripEndDate)<= 0)) {
                         duplicateTrips.add(authorizationDocument.getDocumentNumber());
                     }
                 }
@@ -676,7 +676,7 @@ public class TravelAuthorizationServiceImpl implements TravelAuthorizationServic
 
     }
 
-    private  String matchReimbursements(List<TravelReimbursementDocument> travelReimbursementDocuments, TravelAuthorizationDocument authorization) {
+    private  boolean matchReimbursements(List<TravelReimbursementDocument> travelReimbursementDocuments, TravelAuthorizationDocument authorization) {
         Timestamp earliestTripBeginDate = null;
         Timestamp greatestTripEndDate = null;
 
@@ -695,14 +695,14 @@ public class TravelAuthorizationServiceImpl implements TravelAuthorizationServic
          }
 
         if(authorization.getTripBegin().equals(earliestTripBeginDate)||  authorization.getTripEnd().equals(greatestTripEndDate)) {
-            return authorization.getDocumentNumber();
+            return true;
         }
 
-        return null;
+        return false;
     }
 
     private Integer getDuplicateTripDateRangeDays() {
-        String tripDateRangeDays = parameterService.getParameterValueAsString(TravelAuthorizationDocument.class, TemConstants.TravelAuthorizationParameters.DUPLICATE_TRIP_DATE_RANGE_DAYS);
+        String tripDateRangeDays = parameterService.getParameterValueAsString(TravelAuthorizationDocument.class, TemConstants.TravelParameters.DUPLICATE_TRIP_DATE_RANGE_DAYS);
         Integer days = null;
         if (!StringUtils.isNumeric(tripDateRangeDays)) {
             days = TemConstants.DEFAULT_DUPLICATE_TRIP_DATE_RANGE_DAYS;

@@ -42,6 +42,7 @@
                 <c:if test="${fullEntryMode}">
 	                <kul:lookup boClassName="org.kuali.kfs.fp.businessobject.DisbursementPayee"
 	                	fieldConversions="payeeIdNumber:document.dvPayeeDetail.disbVchrPayeeIdNumber,payeeTypeCode:document.dvPayeeDetail.disbursementVoucherPayeeTypeCode,paymentReasonCode:document.dvPayeeDetail.disbVchrPaymentReasonCode"
+						lookupParameters="document.dvPayeeDetail.disbVchrPaymentReasonCode:paymentReasonCode"
 	                	/>
                 </c:if>
               </td>

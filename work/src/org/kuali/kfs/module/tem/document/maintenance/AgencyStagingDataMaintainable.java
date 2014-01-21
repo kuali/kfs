@@ -88,31 +88,28 @@ public class AgencyStagingDataMaintainable extends FinancialSystemMaintainable {
      */
     @Override
     public void doRouteStatusChange(DocumentHeader documentHeader) {
-        super.doRouteStatusChange(documentHeader);
-        if (documentHeader.getWorkflowDocument().isFinal()){
+        if (documentHeader.getWorkflowDocument().isProcessed()){
             AgencyStagingData agencyStaging  = (AgencyStagingData) getBusinessObject();
 
-            //get the updated AgencyStagingData from DB
-            AgencyStagingData updateAgencyStaging = getBusinessObjectService().findBySinglePrimaryKey(AgencyStagingData.class, agencyStaging.getId());
-            updateCreditCardAgency(updateAgencyStaging);
+            updateCreditCardAgency(agencyStaging);
             //after fixing the agency audit record, attempt to move agency data to historical table
             AgencyDataImportService importService = SpringContext.getBean(AgencyDataImportService.class);
-            boolean result = importService.processAgencyStagingExpense(updateAgencyStaging, new GeneralLedgerPendingEntrySequenceHelper());
-            LOG.info("Agency Data Id: "+ updateAgencyStaging.getId() + (result ? " was":" was not") +" processed.");
+            boolean result = importService.processAgencyStagingExpense(agencyStaging, new GeneralLedgerPendingEntrySequenceHelper());
+            LOG.info("Agency Data Id: "+ agencyStaging.getId() + (result ? " was":" was not") +" processed.");
 
-            //save the agency staging record after it is processed and moved to history
-            getBusinessObjectService().save(updateAgencyStaging);
+            // nota bene: agency staging data object does NOT need to be saved here as the maint doc will save it itself once processing completes
         }
+        super.doRouteStatusChange(documentHeader);
     }
 
     /**
      *
      * @param agencyStaging
      */
-    private void updateCreditCardAgency(AgencyStagingData agencyStaging){
+    protected void updateCreditCardAgency(AgencyStagingData agencyStaging){
         //update the agency name base on code if provided
         CreditCardAgencyService creditCardAgencyService = SpringContext.getBean(CreditCardAgencyService.class);
-        CreditCardAgency agency = SpringContext.getBean(CreditCardAgencyService.class).getCreditCardAgencyByCode(agencyStaging.getCreditCardOrAgencyCode());
+        CreditCardAgency agency = creditCardAgencyService.getCreditCardAgencyByCode(agencyStaging.getCreditCardOrAgencyCode());
         if (agency != null){
             agencyStaging.setCreditCardAgency(agency);
         }
@@ -144,23 +141,14 @@ public class AgencyStagingDataMaintainable extends FinancialSystemMaintainable {
             errorMessages = expenseImportByTravelerService.validateAgencyData(agency);
         }
 
-       MessageMap messageMap = GlobalVariables.getMessageMap();
-       for(ErrorMessage message : errorMessages ){
-           messageMap.putError(KFSConstants.GLOBAL_ERRORS, message.getErrorKey(), message.getMessageParameters());
-       }
+        MessageMap messageMap = GlobalVariables.getMessageMap();
+        for(ErrorMessage message : errorMessages ){
+            messageMap.putError(KFSConstants.GLOBAL_ERRORS, message.getErrorKey(), message.getMessageParameters());
+        }
 
         updateCreditCardAgency((AgencyStagingData)document.getNewMaintainableObject().getBusinessObject());
 
         super.processAfterEdit(document, parameters);
-    }
-
-    /**
-     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#populateBusinessObject(java.util.Map, org.kuali.rice.kns.document.MaintenanceDocument, java.lang.String)
-     */
-    @SuppressWarnings("rawtypes")
-    @Override
-    public Map populateBusinessObject(Map<String, String> fieldValues, MaintenanceDocument maintenanceDocument, String methodToCall) {
-         return super.populateBusinessObject(fieldValues, maintenanceDocument, methodToCall);
     }
 
 	/**
@@ -183,10 +171,6 @@ public class AgencyStagingDataMaintainable extends FinancialSystemMaintainable {
 
         super.saveBusinessObject();
 	}
-
-
-
-
 
 	/**
 	 *

@@ -59,9 +59,6 @@ public abstract class TemDocumentExpenseLineValidation extends GenericValidation
         if (actualExpense.isMileage() && isPerDiemMileageEntered(actualExpense.getExpenseDate(), document.getPerDiemExpenses())) {
             perDiem = PerDiemType.mileage;
         }
-        else if ((actualExpense.isHostedMeal()) && isPerDiemMealsEntered(actualExpense.getExpenseDate(), document.getPerDiemExpenses())) {
-            perDiem = PerDiemType.meals;
-        }
         else if (actualExpense.isLodging() && isPerDiemLodgingEntered(actualExpense.getExpenseDate(), document.getPerDiemExpenses())) {
             perDiem = PerDiemType.lodging;
         }

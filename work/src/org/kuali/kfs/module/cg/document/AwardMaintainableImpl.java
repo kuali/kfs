@@ -29,7 +29,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.integration.ar.AccountsReceivableMilestone;
 import org.kuali.kfs.integration.ar.AccountsReceivableModuleService;
 import org.kuali.kfs.module.cg.CGConstants;
 import org.kuali.kfs.module.cg.CGPropertyConstants;
@@ -40,7 +39,6 @@ import org.kuali.kfs.module.cg.businessobject.AwardFundManager;
 import org.kuali.kfs.module.cg.businessobject.AwardOrganization;
 import org.kuali.kfs.module.cg.businessobject.AwardProjectDirector;
 import org.kuali.kfs.module.cg.businessobject.AwardSubcontractor;
-import org.kuali.kfs.module.cg.businessobject.Bill;
 import org.kuali.kfs.module.cg.businessobject.CGFundManager;
 import org.kuali.kfs.module.cg.businessobject.CGProjectDirector;
 import org.kuali.kfs.module.cg.businessobject.Proposal;
@@ -106,11 +104,26 @@ public class AwardMaintainableImpl extends FinancialSystemMaintainable {
     @Override
     public void processAfterCopy(MaintenanceDocument document, Map<String, String[]> parameters) {
         super.processAfterCopy(document, parameters);
-        getAward().setAwardAccounts(new ArrayList<AwardAccount>());
-        getAward().setMilestones(new ArrayList<AccountsReceivableMilestone>());
-        getAward().setMilestoneSchedule(SpringContext.getBean(AccountsReceivableModuleService.class).getMilestoneSchedule());
-        getAward().setBills(new ArrayList<Bill>());
+
+        Award oldAward = (Award) document.getOldMaintainableObject().getBusinessObject();
+        Award newAward = (Award) document.getNewMaintainableObject().getBusinessObject();
+
+        if (ObjectUtils.isNotNull(oldAward) && ObjectUtils.isNotNull(newAward)){
+            // Clear Accounts
+            oldAward.getAwardAccounts().clear();
+            newAward.getAwardAccounts().clear();
+
+            //Clear Milestones
+            oldAward.getMilestones().clear();
+            newAward.getMilestones().clear();
+
+            //Clear Bills
+            oldAward.getBills().clear();
+            newAward.getBills().clear();
+        }
+
         getAward().setLastBilledDate(null);
+        getAward().setMilestoneSchedule(SpringContext.getBean(AccountsReceivableModuleService.class).getMilestoneSchedule());
     }
 
     /**

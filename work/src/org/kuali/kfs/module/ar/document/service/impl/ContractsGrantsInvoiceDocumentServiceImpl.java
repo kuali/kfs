@@ -546,7 +546,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         }
 
         // set the General Detail Total to be billed - there would be only one value for Total Cost invoice Details.
-        contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().setNewTotalBilled(contractsGrantsInvoiceDocument.getTotalInvoiceDetails().get(0).getExpenditures().add(contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getBilledToDate()));
+        contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().setNewTotalBilled(contractsGrantsInvoiceDocument.getTotalInvoiceDetails().get(0).getExpenditures().add(contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getBilledToDateAmount()));
     }
 
     /**
@@ -612,7 +612,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
         for (InvoiceDetail invD : contractsGrantsInvoiceDocument.getInvoiceDetailsWithIndirectCosts()) {
             totalCost = totalCost.add(invD.getExpenditures());
         }
-        KualiDecimal billedTotalCost = contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getBilledToDate(); // Total Billed
+        KualiDecimal billedTotalCost = contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getBilledToDateAmount(); // Total Billed
                                                                                                                    // so far
         KualiDecimal accountAwardTotal = contractsGrantsInvoiceDocument.getInvoiceGeneralDetail().getAwardTotal(); // AwardTotal
 
@@ -966,19 +966,19 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
     }
 
     /**
-     * @see org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService#getAwardBilledToDateByProposalNumber(java.lang.Long)
+     * @see org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService#getAwardBilledToDateAmountByProposalNumber(java.lang.Long)
      */
     @Override
-    public KualiDecimal getAwardBilledToDateByProposalNumber(Long proposalNumber) {
+    public KualiDecimal getAwardBilledToDateAmountByProposalNumber(Long proposalNumber) {
         Map<String, Object> keys = new HashMap<String, Object>();
         keys.put(KFSPropertyConstants.PROPOSAL_NUMBER, proposalNumber);
 
         List<AwardAccountObjectCodeTotalBilled> accountObjectCodeTotalBilledList = (List<AwardAccountObjectCodeTotalBilled>) businessObjectService.findMatching(AwardAccountObjectCodeTotalBilled.class, keys);
-        KualiDecimal billedToDate = KualiDecimal.ZERO;
+        KualiDecimal billedToDateAmount = KualiDecimal.ZERO;
         for (AwardAccountObjectCodeTotalBilled awardAccountObjectCodeTotalBilled : accountObjectCodeTotalBilledList) {
-            billedToDate = billedToDate.add(awardAccountObjectCodeTotalBilled.getTotalBilled());
+            billedToDateAmount = billedToDateAmount.add(awardAccountObjectCodeTotalBilled.getTotalBilled());
         }
-        return billedToDate;
+        return billedToDateAmount;
     }
 
     /**
@@ -2519,13 +2519,13 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
     }
 
     /**
-     * @see org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService#getMilestonesBilledToDate(java.lang.Long)
+     * @see org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService#getMilestonesBilledToDateAmount(java.lang.Long)
      */
     @Override
-    public KualiDecimal getMilestonesBilledToDate(Long proposalNumber) {
+    public KualiDecimal getMilestonesBilledToDateAmount(Long proposalNumber) {
         Map<String, Object> totalBilledKeys = new HashMap<String, Object>();
         totalBilledKeys.put(KFSPropertyConstants.PROPOSAL_NUMBER, proposalNumber);
-        KualiDecimal billedToDate = KualiDecimal.ZERO;
+        KualiDecimal billedToDateAmount = KualiDecimal.ZERO;
 
         List<Milestone> milestones = (List<Milestone>) businessObjectService.findMatching(Milestone.class, totalBilledKeys);
         if (CollectionUtils.isNotEmpty(milestones)) {
@@ -2533,21 +2533,21 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             while (iterator.hasNext()) {
                 Milestone milestone = iterator.next();
                 if (milestone.isBilledIndicator()) {
-                    billedToDate = billedToDate.add(milestone.getMilestoneAmount());
+                    billedToDateAmount = billedToDateAmount.add(milestone.getMilestoneAmount());
                 }
             }
         }
-        return billedToDate;
+        return billedToDateAmount;
     }
 
     /**
-     * @see org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService#getPredeterminedBillingBilledToDate(java.lang.Long)
+     * @see org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService#getPredeterminedBillingBilledToDateAmount(java.lang.Long)
      */
     @Override
-    public KualiDecimal getPredeterminedBillingBilledToDate(Long proposalNumber) {
+    public KualiDecimal getPredeterminedBillingBilledToDateAmount(Long proposalNumber) {
         Map<String, Object> totalBilledKeys = new HashMap<String, Object>();
         totalBilledKeys.put(KFSPropertyConstants.PROPOSAL_NUMBER, proposalNumber);
-        KualiDecimal billedToDate = KualiDecimal.ZERO;
+        KualiDecimal billedToDateAmount = KualiDecimal.ZERO;
 
         List<ContractsAndGrantsBill> bills = kualiModuleService.getResponsibleModuleService(ContractsAndGrantsBill.class).getExternalizableBusinessObjectsList(ContractsAndGrantsBill.class, totalBilledKeys);
         if (CollectionUtils.isNotEmpty(bills)) {
@@ -2555,11 +2555,11 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             while (iterator.hasNext()) {
                 ContractsAndGrantsBill bill = iterator.next();
                 if (bill.isBilledIndicator()) {
-                    billedToDate = billedToDate.add(bill.getEstimatedAmount());
+                    billedToDateAmount = billedToDateAmount.add(bill.getEstimatedAmount());
                 }
             }
         }
-        return billedToDate;
+        return billedToDateAmount;
     }
 
 
@@ -3375,7 +3375,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             parameterMap.put("invoiceGeneralDetail.awardTotal", returnProperStringValue(document.getInvoiceGeneralDetail().getAwardTotal()));
             parameterMap.put("invoiceGeneralDetail.newTotalBilled", returnProperStringValue(document.getInvoiceGeneralDetail().getNewTotalBilled()));
             parameterMap.put("invoiceGeneralDetail.amountRemainingToBill", returnProperStringValue(document.getInvoiceGeneralDetail().getAmountRemainingToBill()));
-            parameterMap.put("invoiceGeneralDetail.billedToDate", returnProperStringValue(document.getInvoiceGeneralDetail().getBilledToDate()));
+            parameterMap.put("invoiceGeneralDetail.billedToDateAmount", returnProperStringValue(document.getInvoiceGeneralDetail().getBilledToDateAmount()));
             parameterMap.put("invoiceGeneralDetail.costShareAmount", returnProperStringValue(document.getInvoiceGeneralDetail().getCostShareAmount()));
             parameterMap.put("invoiceGeneralDetail.lastBilledDate", returnProperStringValue(document.getInvoiceGeneralDetail().getLastBilledDate()));
             String strArray[] = document.getInvoiceGeneralDetail().getBillingPeriod().split(" to ");
@@ -3400,7 +3400,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             }
         }
         if (ObjectUtils.isNotNull(award)) {
-            KualiDecimal billing = contractsGrantsInvoiceDocumentService.getAwardBilledToDateByProposalNumber(award.getProposalNumber());
+            KualiDecimal billing = contractsGrantsInvoiceDocumentService.getAwardBilledToDateAmountByProposalNumber(award.getProposalNumber());
             KualiDecimal payments = contractsGrantsInvoiceDocumentService.calculateTotalPaymentsToDateByAward(award);
             KualiDecimal receivable = billing.subtract(payments);
             parameterMap.put("award.billings", returnProperStringValue(billing));
@@ -3769,7 +3769,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             // award
             // has
             // milestones
-            document.getInvoiceGeneralDetail().setBilledToDate(contractsGrantsInvoiceDocumentService.getMilestonesBilledToDate(document.getProposalNumber()));
+            document.getInvoiceGeneralDetail().setBilledToDateAmount(contractsGrantsInvoiceDocumentService.getMilestonesBilledToDateAmount(document.getProposalNumber()));
             // update the new total billed for the invoice.
             document.getInvoiceGeneralDetail().setNewTotalBilled(document.getInvoiceGeneralDetail().getNewTotalBilled().add(totalMilestonesAmount));
         }
@@ -3779,12 +3779,12 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             // award
             // has
             // bills
-            document.getInvoiceGeneralDetail().setBilledToDate(contractsGrantsInvoiceDocumentService.getPredeterminedBillingBilledToDate(document.getProposalNumber()));
+            document.getInvoiceGeneralDetail().setBilledToDateAmount(contractsGrantsInvoiceDocumentService.getPredeterminedBillingBilledToDateAmount(document.getProposalNumber()));
             // update the new total billed for the invoice.
             document.getInvoiceGeneralDetail().setNewTotalBilled(document.getInvoiceGeneralDetail().getNewTotalBilled().add(totalBillingAmount));
         }
         else {
-            document.getInvoiceGeneralDetail().setBilledToDate(contractsGrantsInvoiceDocumentService.getAwardBilledToDateByProposalNumber(document.getProposalNumber()));
+            document.getInvoiceGeneralDetail().setBilledToDateAmount(contractsGrantsInvoiceDocumentService.getAwardBilledToDateAmountByProposalNumber(document.getProposalNumber()));
             // update the new total billed for the invoice.
             if (CollectionUtils.isNotEmpty(document.getTotalInvoiceDetails())){
                 document.getInvoiceGeneralDetail().setNewTotalBilled(document.getInvoiceGeneralDetail().getNewTotalBilled().add(document.getTotalInvoiceDetails().get(0).getExpenditures()));
@@ -4043,7 +4043,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
                 }
             }
         }
-        totalMilestoneAmount = totalMilestoneAmount.add(document.getInvoiceGeneralDetail().getBilledToDate());
+        totalMilestoneAmount = totalMilestoneAmount.add(document.getInvoiceGeneralDetail().getBilledToDateAmount());
 
         KualiDecimal totalBillAmount = KualiDecimal.ZERO;
         // To calculate the total bill amount.
@@ -4054,7 +4054,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
                 }
             }
         }
-        totalBillAmount = totalBillAmount.add(document.getInvoiceGeneralDetail().getBilledToDate());
+        totalBillAmount = totalBillAmount.add(document.getInvoiceGeneralDetail().getBilledToDateAmount());
 
         // to set the account detail expenditure amount
         KualiDecimal totalExpendituredAmount = KualiDecimal.ZERO;
@@ -4072,7 +4072,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
             }
             totalExpendituredAmount = totalExpendituredAmount.add(currentExpenditureAmount);
         }
-        totalExpendituredAmount = totalExpendituredAmount.add(document.getInvoiceGeneralDetail().getBilledToDate());
+        totalExpendituredAmount = totalExpendituredAmount.add(document.getInvoiceGeneralDetail().getBilledToDateAmount());
 
         // To set the New Total Billed Amount.
         if (document.getInvoiceMilestones().size() > 0) {

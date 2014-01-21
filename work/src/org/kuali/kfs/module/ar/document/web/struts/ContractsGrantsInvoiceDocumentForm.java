@@ -85,7 +85,7 @@ public class ContractsGrantsInvoiceDocumentForm extends CustomerInvoiceDocumentF
 
     public KualiDecimal getCurrentTotal() {
 
-        currentTotal = getContractsGrantsInvoiceDocument().getInvoiceGeneralDetail().getNewTotalBilled().subtract(getContractsGrantsInvoiceDocument().getInvoiceGeneralDetail().getBilledToDate());
+        currentTotal = getContractsGrantsInvoiceDocument().getInvoiceGeneralDetail().getNewTotalBilled().subtract(getContractsGrantsInvoiceDocument().getInvoiceGeneralDetail().getBilledToDateAmount());
         return currentTotal;
     }
     public void setCurrentTotal(KualiDecimal currentTotal) {

@@ -1614,7 +1614,7 @@
 		<field-descriptor name="newTotalBilled" column="NEW_TOT_BILLED_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
 		<field-descriptor name="amountRemainingToBill" column="AMT_RMNG_TO_BILL" jdbc-type="DECIMAL"
 			conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
-		<field-descriptor name="billedToDate" column="BILLED_TO_DT_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
+		<field-descriptor name="billedToDateAmount" column="BILLED_TO_DT_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
 		<field-descriptor name="costShareAmount" column="COST_SHR_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
 		<field-descriptor name="lastBilledDate" column="LST_BILLED_DT" jdbc-type="DATE" />
 		<field-descriptor name="dunningLetterTemplateAssigned" column="DUN_LTR_ASSGNED" jdbc-type="VARCHAR" />

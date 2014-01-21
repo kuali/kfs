@@ -105,7 +105,7 @@ public class AccountsReceivableModuleServiceImpl implements AccountsReceivableMo
     private ReceivableAccountingLineService receivableAccountingLineService;
     private CustomerCreditMemoDetailService customerCreditMemoDetailService;
     private CustomerAddressService customerAddressService;
-    
+
     public CustomerAddressService getCustomerAddressService() {
         return customerAddressService;
     }
@@ -113,7 +113,7 @@ public class AccountsReceivableModuleServiceImpl implements AccountsReceivableMo
     public void setCustomerAddressService(CustomerAddressService customerAddressService) {
         this.customerAddressService = customerAddressService;
     }
-    
+
     public CustomerCreditMemoDetailService getCustomerCreditMemoDetailService() {
         return customerCreditMemoDetailService;
     }
@@ -129,7 +129,7 @@ public class AccountsReceivableModuleServiceImpl implements AccountsReceivableMo
     public void setReceivableAccountingLineService(ReceivableAccountingLineService receivableAccountingLineService) {
         this.receivableAccountingLineService = receivableAccountingLineService;
     }
-    
+
     public SystemInformationService getSystemInformationService() {
         return systemInformationService;
     }
@@ -156,7 +156,7 @@ public class AccountsReceivableModuleServiceImpl implements AccountsReceivableMo
     public void setCustomerInvoiceDetailService(CustomerInvoiceDetailService customerInvoiceDetailService) {
         this.customerInvoiceDetailService = customerInvoiceDetailService;
     }
-    
+
     public CustomerService getCustomerService() {
         return customerService;
     }
@@ -164,11 +164,11 @@ public class AccountsReceivableModuleServiceImpl implements AccountsReceivableMo
     public void setCustomerService(CustomerService customerService) {
         this.customerService = customerService;
     }
-    
+
     public void setCustomerInvoiceDocumentService(CustomerInvoiceDocumentService customerInvoiceDocumentService) {
         this.customerInvoiceDocumentService = customerInvoiceDocumentService;
     }
-    
+
     /**
      * Sets the accountsReceivableDocumentHeaderService attribute value.
      *
@@ -177,7 +177,7 @@ public class AccountsReceivableModuleServiceImpl implements AccountsReceivableMo
     public void setAccountsReceivableDocumentHeaderService(AccountsReceivableDocumentHeaderService accountsReceivableDocumentHeaderService) {
         this.accountsReceivableDocumentHeaderService = accountsReceivableDocumentHeaderService;
     }
-    
+
     public ParameterService getParameterService() {
         return parameterService;
     }
@@ -218,7 +218,7 @@ public class AccountsReceivableModuleServiceImpl implements AccountsReceivableMo
     public void setDocumentService(DocumentService documentService) {
         this.documentService = documentService;
     }
-    
+
     /**
      * Gets the contractsGrantsInvoiceDocumentService attribute.
      *
@@ -690,14 +690,14 @@ public class AccountsReceivableModuleServiceImpl implements AccountsReceivableMo
     }
 
     /**
-     * @see org.kuali.kfs.integration.ar.AccountsReceivableModuleService#getAwardBilledToDateByProposalNumber(java.lang.Long) This
+     * @see org.kuali.kfs.integration.ar.AccountsReceivableModuleService#getAwardBilledToDateAmountByProposalNumber(java.lang.Long) This
      *      method gets the award billed to date using ContractsGrantsInvoiceDocumentService
      * @param roposalNumber
      * @return
      */
     @Override
-    public KualiDecimal getAwardBilledToDateByProposalNumber(Long proposalNumber) {
-        return contractsGrantsInvoiceDocumentService.getAwardBilledToDateByProposalNumber(proposalNumber);
+    public KualiDecimal getAwardBilledToDateAmountByProposalNumber(Long proposalNumber) {
+        return contractsGrantsInvoiceDocumentService.getAwardBilledToDateAmountByProposalNumber(proposalNumber);
     }
 
     /**
@@ -721,7 +721,7 @@ public class AccountsReceivableModuleServiceImpl implements AccountsReceivableMo
     public AccountsReceivableCustomerAddress getPrimaryAddress(String customerNumber) {
         return customerAddressService.getPrimaryAddress(customerNumber);
     }
-    
+
     /**
      * @see org.kuali.kfs.integration.ar.AccountsReceivableModuleService#ffindInvoiceTemplate(java.lang.String)
      */
@@ -732,7 +732,7 @@ public class AccountsReceivableModuleServiceImpl implements AccountsReceivableMo
         InvoiceTemplate invoiceTemplate = getKualiModuleService().getResponsibleModuleService(InvoiceTemplate.class).getExternalizableBusinessObject(InvoiceTemplate.class, primaryKey);
         return invoiceTemplate;
     }
-    
+
     /**
      * @see org.kuali.kfs.integration.ar.AccountsReceivableModuleService#saveCustomer(org.kuali.kfs.integration.ar.AccountsReceivableCustomer)
      */
@@ -740,26 +740,27 @@ public class AccountsReceivableModuleServiceImpl implements AccountsReceivableMo
     public void saveInvoiceTemplate(AccountsReceivableInvoiceTemplate invoiceTemplate) {
         getBusinessObjectService().save((InvoiceTemplate) invoiceTemplate);
     }
-    
+
     @Override
     public AccountsReceivableMilestoneSchedule getMilestoneSchedule() {
         return new MilestoneSchedule();
     }
 
+    @Override
     public void setProposalNumber(AccountsReceivableMilestoneSchedule milestoneSchedule, Long proposalNumber) {
         ((MilestoneSchedule) milestoneSchedule).setProposalNumber(proposalNumber);
     }
-    
+
     /**
      * Sets the kualiModuleService attribute value.
-     * 
+     *
      * @param kualiModuleService The kualiModuleService to set.
      */
     @NonTransactional
     public void setKualiModuleService(KualiModuleService kualiModuleService) {
         this.kualiModuleService = kualiModuleService;
     }
-    
+
     /**
      * Sets the businessObjectService attribute value.
      *

@@ -255,7 +255,7 @@ public class AccountsReceivableModuleServiceNoOp implements AccountsReceivableMo
      * @see org.kuali.kfs.integration.ar.AccountsReceivableModuleService#getAwardBilledToDateByProposalNumber(java.lang.Long)
      */
     @Override
-    public KualiDecimal getAwardBilledToDateByProposalNumber(Long proposalNumber) {
+    public KualiDecimal getAwardBilledToDateAmountByProposalNumber(Long proposalNumber) {
         LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
         return null;
     }

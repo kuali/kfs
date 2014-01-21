@@ -44,7 +44,7 @@ public class InvoiceGeneralDetail extends PersistableBusinessObjectBase {
     private KualiDecimal awardTotal = KualiDecimal.ZERO;
     private KualiDecimal newTotalBilled = KualiDecimal.ZERO;
     private KualiDecimal amountRemainingToBill = KualiDecimal.ZERO;
-    private KualiDecimal billedToDate = KualiDecimal.ZERO;
+    private KualiDecimal billedToDateAmount = KualiDecimal.ZERO;
     private KualiDecimal costShareAmount = KualiDecimal.ZERO;
     private Date lastBilledDate;
     private String dunningLetterTemplateAssigned;
@@ -100,13 +100,13 @@ public class InvoiceGeneralDetail extends PersistableBusinessObjectBase {
         // set the billed to Date Field
         // To check if award has milestones
         if (this.getBillingFrequency().equalsIgnoreCase(ArPropertyConstants.MILESTONE_BILLING_SCHEDULE_CODE)) {
-            this.setBilledToDate(contractsGrantsInvoiceDocumentService.getMilestonesBilledToDate(award.getProposalNumber()));
+            this.setBilledToDateAmount(contractsGrantsInvoiceDocumentService.getMilestonesBilledToDateAmount(award.getProposalNumber()));
         }
         else if (this.getBillingFrequency().equalsIgnoreCase(ArPropertyConstants.PREDETERMINED_BILLING_SCHEDULE_CODE)) {
-            this.setBilledToDate(contractsGrantsInvoiceDocumentService.getPredeterminedBillingBilledToDate(award.getProposalNumber()));
+            this.setBilledToDateAmount(contractsGrantsInvoiceDocumentService.getPredeterminedBillingBilledToDateAmount(award.getProposalNumber()));
         }
         else {
-            this.setBilledToDate(contractsGrantsInvoiceDocumentService.getAwardBilledToDateByProposalNumber(award.getProposalNumber()));
+            this.setBilledToDateAmount(contractsGrantsInvoiceDocumentService.getAwardBilledToDateAmountByProposalNumber(award.getProposalNumber()));
         }
 
     }
@@ -330,8 +330,8 @@ public class InvoiceGeneralDetail extends PersistableBusinessObjectBase {
         if (ObjectUtils.isNotNull(this.amountRemainingToBill)) {
             m.put("amountRemainingToBill", this.amountRemainingToBill.toString());
         }
-        if (ObjectUtils.isNotNull(this.billedToDate)) {
-            m.put("billedToDate", this.billedToDate.toString());
+        if (ObjectUtils.isNotNull(this.billedToDateAmount)) {
+            m.put("billedToDateAmount", this.billedToDateAmount.toString());
         }
         if (ObjectUtils.isNotNull(this.costShareAmount)) {
             m.put("costShareAmount", this.costShareAmount.toString());
@@ -343,21 +343,21 @@ public class InvoiceGeneralDetail extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the billedToDate attribute.
+     * Gets the billedToDateAmount attribute.
      *
-     * @return Returns the billedToDate.
+     * @return Returns the billedToDateAmount.
      */
-    public KualiDecimal getBilledToDate() {
-        return billedToDate;
+    public KualiDecimal getBilledToDateAmount() {
+        return billedToDateAmount;
     }
 
     /**
-     * Sets the billedToDate attribute value.
+     * Sets the billedToDateAmount attribute value.
      *
-     * @param billedToDate The billedToDate to set.
+     * @param billedToDateAmount The billedToDateAmount to set.
      */
-    public void setBilledToDate(KualiDecimal billedToDate) {
-        this.billedToDate = billedToDate;
+    public void setBilledToDateAmount(KualiDecimal billedToDateAmount) {
+        this.billedToDateAmount = billedToDateAmount;
     }
 
     /**
@@ -428,7 +428,7 @@ public class InvoiceGeneralDetail extends PersistableBusinessObjectBase {
         super.prePersist();
         newTotalBilled = getNewTotalBilled();
         amountRemainingToBill = getAmountRemainingToBill();
-        billedToDate = getBilledToDate();
+        billedToDateAmount = getBilledToDateAmount();
 
 
     }
@@ -445,7 +445,7 @@ public class InvoiceGeneralDetail extends PersistableBusinessObjectBase {
         super.preUpdate();
         newTotalBilled = getNewTotalBilled();
         amountRemainingToBill = getAmountRemainingToBill();
-        billedToDate = getBilledToDate();
+        billedToDateAmount = getBilledToDateAmount();
 
     }
 

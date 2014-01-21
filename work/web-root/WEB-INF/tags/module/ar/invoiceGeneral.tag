@@ -150,12 +150,12 @@
 				</td>
 				<th align=right valign=middle class="bord-l-b" style="width: 25%;">
 					<div align="right">
-						<kul:htmlAttributeLabel attributeEntry="${invoiceGeneralDetailAttributes.billedToDate}" />
+						<kul:htmlAttributeLabel attributeEntry="${invoiceGeneralDetailAttributes.billedToDateAmount}" />
 					</div>
 				</th>
 				<td align=left valign=middle class="datacell" style="width: 25%;">
-					<div id="document.billedToDate.div">
-						<kul:htmlControlAttribute attributeEntry="${invoiceGeneralDetailAttributes.billedToDate}" property="document.invoiceGeneralDetail.billedToDate"
+					<div id="document.billedToDateAmount.div">
+						<kul:htmlControlAttribute attributeEntry="${invoiceGeneralDetailAttributes.billedToDateAmount}" property="document.invoiceGeneralDetail.billedToDateAmount"
 							readOnly="true" />
 					</div>
 				</td>
@@ -178,7 +178,7 @@
 					</div>
 				</th>
 				<td align=left valign=middle class="datacell" style="width: 25%;">
-					<div id="document.billedToDate.div">
+					<div id="document.lastBilledDate.div">
 						<kul:htmlControlAttribute attributeEntry="${invoiceGeneralDetailAttributes.lastBilledDate}"
 							property="document.invoiceGeneralDetail.lastBilledDate" readOnly="true" />
 					</div>

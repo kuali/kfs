@@ -78,7 +78,7 @@ public interface ContractsGrantsInvoiceDocumentService extends CustomerInvoiceDo
      * @param proposalNumber
      * @return
      */
-    public KualiDecimal getMilestonesBilledToDate(Long proposalNumber);
+    public KualiDecimal getMilestonesBilledToDateAmount(Long proposalNumber);
 
     /**
      * Returns the billed to date amount for the given Proposal Number for Predetermined Billing.
@@ -86,7 +86,7 @@ public interface ContractsGrantsInvoiceDocumentService extends CustomerInvoiceDo
      * @param proposalNumber
      * @return
      */
-    public KualiDecimal getPredeterminedBillingBilledToDate(Long proposalNumber);
+    public KualiDecimal getPredeterminedBillingBilledToDateAmount(Long proposalNumber);
 
     /**
      * Returns the billed to date amount for the given Proposal Number.
@@ -121,7 +121,7 @@ public interface ContractsGrantsInvoiceDocumentService extends CustomerInvoiceDo
      * @param proposalNumber
      * @return
      */
-    public KualiDecimal getAwardBilledToDateByProposalNumber(Long proposalNumber);
+    public KualiDecimal getAwardBilledToDateAmountByProposalNumber(Long proposalNumber);
 
     /**
      * This method retrieves the amount to draw for the award accounts

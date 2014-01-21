@@ -38,11 +38,11 @@ public enum InvoiceGeneralDetailFixture {
     private KualiDecimal awardTotal = KualiDecimal.ZERO;
     private KualiDecimal newTotalBilled = KualiDecimal.ZERO;
     private KualiDecimal amountRemainingToBill = KualiDecimal.ZERO;
-    private KualiDecimal billedToDate = KualiDecimal.ZERO;
+    private KualiDecimal billedToDateAmount = KualiDecimal.ZERO;
     private KualiDecimal costShareAmount = KualiDecimal.ZERO;
     private Date lastBilledDate;
 
-    private InvoiceGeneralDetailFixture(String documentNumber, String comment, String awardDateRange, String billingFrequency, boolean finalBillIndicator, String billingPeriod, String contractGrantType, KualiDecimal awardTotal, KualiDecimal newTotalBilled, KualiDecimal amountRemainingToBill, KualiDecimal billedToDate, KualiDecimal costShareAmount, Date lastBilledDate) {
+    private InvoiceGeneralDetailFixture(String documentNumber, String comment, String awardDateRange, String billingFrequency, boolean finalBillIndicator, String billingPeriod, String contractGrantType, KualiDecimal awardTotal, KualiDecimal newTotalBilled, KualiDecimal amountRemainingToBill, KualiDecimal billedToDateAmount, KualiDecimal costShareAmount, Date lastBilledDate) {
         this.documentNumber = documentNumber;
         this.comment = comment;
         this.awardDateRange = awardDateRange;
@@ -53,7 +53,7 @@ public enum InvoiceGeneralDetailFixture {
         this.awardTotal = awardTotal;
         this.newTotalBilled = newTotalBilled;
         this.amountRemainingToBill = amountRemainingToBill;
-        this.billedToDate = billedToDate;
+        this.billedToDateAmount = billedToDateAmount;
         this.costShareAmount = costShareAmount;
         this.lastBilledDate = lastBilledDate;
     }
@@ -70,7 +70,7 @@ public enum InvoiceGeneralDetailFixture {
         invoiceGeneralDetail.setAwardTotal(awardTotal);
         invoiceGeneralDetail.setNewTotalBilled(newTotalBilled);
         invoiceGeneralDetail.setAmountRemainingToBill(amountRemainingToBill);
-        invoiceGeneralDetail.setBilledToDate(billedToDate);
+        invoiceGeneralDetail.setBilledToDateAmount(billedToDateAmount);
         invoiceGeneralDetail.setCostShareAmount(costShareAmount);
         invoiceGeneralDetail.setLastBilledDate(lastBilledDate);
         return invoiceGeneralDetail;

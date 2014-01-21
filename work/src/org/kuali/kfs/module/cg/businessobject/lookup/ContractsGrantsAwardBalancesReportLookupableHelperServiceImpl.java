@@ -99,13 +99,13 @@ public class ContractsGrantsAwardBalancesReportLookupableHelperServiceImpl exten
 
             awardBalancesReportEntry.setAwardTotalAmountForReport(award.getAwardTotalAmount());
 
-            KualiDecimal awardBilledToDate = SpringContext.getBean(AccountsReceivableModuleService.class).getAwardBilledToDateByProposalNumber(award.getProposalNumber());
-            awardBalancesReportEntry.setTotalBilledToDate(awardBilledToDate);
+            KualiDecimal awardBilledToDateAmount = SpringContext.getBean(AccountsReceivableModuleService.class).getAwardBilledToDateAmountByProposalNumber(award.getProposalNumber());
+            awardBalancesReportEntry.setTotalBilledToDate(awardBilledToDateAmount);
 
             // calculate Total Payments To Date
             KualiDecimal totalPayments = SpringContext.getBean(AccountsReceivableModuleService.class).calculateTotalPaymentsToDateByAward(award.getProposalNumber());
             awardBalancesReportEntry.setTotalPaymentsToDate(totalPayments);
-            awardBalancesReportEntry.setAmountCurrentlyDue(awardBilledToDate.subtract(totalPayments));
+            awardBalancesReportEntry.setAmountCurrentlyDue(awardBilledToDateAmount.subtract(totalPayments));
 
             if (ContractsGrantsReportUtils.doesMatchLookupFields(lookupForm.getFieldsForLookup(), awardBalancesReportEntry, "ContractsGrantsAwardBalancesReport")) {
                 displayList.add(awardBalancesReportEntry);

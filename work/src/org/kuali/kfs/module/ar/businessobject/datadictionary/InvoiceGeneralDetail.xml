@@ -33,7 +33,7 @@
 				<ref bean="InvoiceGeneralDetail-awardTotal" />
 				<ref bean="InvoiceGeneralDetail-newTotalBilled" />
 				<ref bean="InvoiceGeneralDetail-amountRemainingToBill" />
-				<ref bean="InvoiceGeneralDetail-billedToDate" />
+				<ref bean="InvoiceGeneralDetail-billedToDateAmount" />
 				<ref bean="InvoiceGeneralDetail-costShareAmount" />
 				<ref bean="InvoiceGeneralDetail-lastBilledDate" />
 				<ref bean="InvoiceGeneralDetail-dunningLetterTemplateSentDate" />
@@ -162,12 +162,12 @@
 		<property name="shortLabel" value="Amount Remaining To Bill" />
 	</bean>
 
-	<bean id="InvoiceGeneralDetail-billedToDate" parent="InvoiceGeneralDetail-billedToDate-parentBean" />
+	<bean id="InvoiceGeneralDetail-billedToDateAmount" parent="InvoiceGeneralDetail-billedToDateAmount-parentBean" />
 
-	<bean id="InvoiceGeneralDetail-billedToDate-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-		<property name="name" value="billedToDate" />
-		<property name="label" value="Billed To Date" />
-		<property name="shortLabel" value="Billed To Date" />
+	<bean id="InvoiceGeneralDetail-billedToDateAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+		<property name="name" value="billedToDateAmount" />
+		<property name="label" value="Amount Billed To Date" />
+		<property name="shortLabel" value="Amount Billed To Date" />
 		<property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter" />
 		<property name="exclusiveMin" value="-0.001" />
 	</bean>

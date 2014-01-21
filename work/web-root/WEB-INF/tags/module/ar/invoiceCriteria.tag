@@ -44,7 +44,7 @@
 					</div>
 				</th>
 				<td align=left valign=middle class="datacell" style="width: 25%;">
-					<div id="document.billedToDate.div">
+					<div id="document.lastBilledDate.div">
 						<kul:htmlControlAttribute attributeEntry="${documentAttributes.lastBilledDate}" property="document.lastBilledDate" readOnly="false" />
 					</div>
 				</td>

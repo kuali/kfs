@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.integration.cg.businessobject;
 
-import java.util.Date;
+import java.sql.Date;
 
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBill;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAward;
@@ -48,7 +48,7 @@ public class Bill implements ContractsAndGrantsBill {
 
     /**
      * Gets the proposalNumber attribute.
-     * 
+     *
      * @return Returns the proposalNumber.
      */
     @Override
@@ -58,7 +58,7 @@ public class Bill implements ContractsAndGrantsBill {
 
     /**
      * Sets the proposalNumber attribute value.
-     * 
+     *
      * @param proposalNumber The proposalNumber to set.
      */
     public void setProposalNumber(Long proposalNumber) {
@@ -68,7 +68,7 @@ public class Bill implements ContractsAndGrantsBill {
 
     /**
      * Gets the billNumber attribute.
-     * 
+     *
      * @return Returns the billNumber.
      */
     @Override
@@ -78,7 +78,7 @@ public class Bill implements ContractsAndGrantsBill {
 
     /**
      * Sets the billNumber attribute value.
-     * 
+     *
      * @param billNumber The billNumber to set.
      */
     public void setBillNumber(Long billNumber) {
@@ -87,7 +87,7 @@ public class Bill implements ContractsAndGrantsBill {
 
     /**
      * Gets the billDescription attribute.
-     * 
+     *
      * @return Returns the billDescription.
      */
     @Override
@@ -97,7 +97,7 @@ public class Bill implements ContractsAndGrantsBill {
 
     /**
      * Sets the billDescription attribute value.
-     * 
+     *
      * @param billDescription The billDescription to set.
      */
     public void setBillDescription(String billDescription) {
@@ -106,7 +106,7 @@ public class Bill implements ContractsAndGrantsBill {
 
     /**
      * Gets the billIdentifier attribute.
-     * 
+     *
      * @return Returns the billIdentifier.
      */
     @Override
@@ -116,7 +116,7 @@ public class Bill implements ContractsAndGrantsBill {
 
     /**
      * Sets the billIdentifier attribute value.
-     * 
+     *
      * @param billIdentifier The billIdentifier to set.
      */
     public void setBillIdentifier(Long billIdentifier) {
@@ -125,7 +125,7 @@ public class Bill implements ContractsAndGrantsBill {
 
     /**
      * Gets the billDate attribute.
-     * 
+     *
      * @return Returns the billDate.
      */
     @Override
@@ -135,7 +135,7 @@ public class Bill implements ContractsAndGrantsBill {
 
     /**
      * Sets the billDate attribute value.
-     * 
+     *
      * @param billDate The billDate to set.
      */
     public void setBillDate(Date billDate) {
@@ -144,7 +144,7 @@ public class Bill implements ContractsAndGrantsBill {
 
     /**
      * Gets the estimatedAmount attribute.
-     * 
+     *
      * @return Returns the estimatedAmount.
      */
     @Override
@@ -154,13 +154,14 @@ public class Bill implements ContractsAndGrantsBill {
 
     /**
      * Sets the estimatedAmount attribute value.
-     * 
+     *
      * @param estimatedAmount The estimatedAmount to set.
      */
     public void setEstimatedAmount(KualiDecimal estimatedAmount) {
         this.estimatedAmount = estimatedAmount;
     }
 
+    @Override
     public boolean isBilledIndicator() {
         return billedIndicator;
     }
@@ -171,7 +172,7 @@ public class Bill implements ContractsAndGrantsBill {
 
     /**
      * Gets the award attribute.
-     * 
+     *
      * @return Returns the award.
      */
     public ContractsAndGrantsBillingAward getAward() {
@@ -180,7 +181,7 @@ public class Bill implements ContractsAndGrantsBill {
 
     /**
      * Sets the award attribute value.
-     * 
+     *
      * @param award The award to set.
      */
     public void setAward(ContractsAndGrantsBillingAward award) {

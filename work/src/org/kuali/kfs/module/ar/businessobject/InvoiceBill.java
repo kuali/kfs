@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.module.ar.businessobject;
 
-import java.util.Date;
+import java.sql.Date;
 import java.util.LinkedHashMap;
 
 import org.kuali.kfs.module.ar.ArPropertyConstants;

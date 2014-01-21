@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.module.cg.businessobject;
 
-import java.util.Date;
+import java.sql.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -57,7 +57,7 @@ public class Bill extends PersistableBusinessObjectBase implements ContractsAndG
         this();
         this.setProposalNumber(award.getProposalNumber());
     }
-    
+
     /**
      * Gets the proposalNumber attribute.
      *

@@ -15,10 +15,10 @@
  */
 package org.kuali.kfs.integration.cg;
 
-import java.util.Date;
+import java.sql.Date;
 
-import org.kuali.rice.krad.bo.ExternalizableBusinessObject;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.bo.ExternalizableBusinessObject;
 
 /**
  * Integration interface for Bill

@@ -15,13 +15,18 @@
  */
 package org.kuali.kfs.module.cg.service.impl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.module.cg.businessobject.Agency;
 import org.kuali.kfs.module.cg.service.AgencyService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.NoteService;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * Implementation of the Agency service.
@@ -29,6 +34,7 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 public class AgencyServiceImpl implements AgencyService {
 
     protected BusinessObjectService businessObjectService;
+    protected NoteService noteService;
 
     /**
      * @see org.kuali.kfs.module.cg.service.AgencyService#getByPrimaryId(String)
@@ -44,7 +50,27 @@ public class AgencyServiceImpl implements AgencyService {
         return primaryKeys;
     }
 
+    public List<Note> getAgencyNotes(String agencyNumber) {
+        Agency agency = getByPrimaryId(agencyNumber);
+        List<Note> notes = new ArrayList<Note>();
+       if (ObjectUtils.isNotNull(agency)) {
+            notes = noteService.getByRemoteObjectId(agency.getObjectId());
+        }
+        return notes;
+    }
+
+    public NoteService getNoteService() {
+        return noteService;
+    }
+
+    public void setNoteService(NoteService noteService) {
+        this.noteService = noteService;
+    }
+
+
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
+
+
 }

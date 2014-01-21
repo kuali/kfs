@@ -228,6 +228,9 @@
         <property name="businessObjectService">
             <ref bean="businessObjectService" />
         </property>
+         <property name="noteService">
+            <ref bean="noteService" />
+        </property>
     </bean>
 
     <bean id="cfdaService"  parent="cfdaService-parentBean"/>

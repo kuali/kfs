@@ -21,13 +21,16 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomer;
 import org.kuali.kfs.integration.ar.AccountsReceivableInvoiceTemplate;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsBillingAgency;
+import org.kuali.kfs.module.cg.service.AgencyService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.krad.service.KualiModuleService;
 
@@ -91,6 +94,8 @@ public class Agency extends PersistableBusinessObjectBase implements ContractsAn
     private String customerTypeCode;
     private String dunningCampaign;
 
+    //To add boNotes
+    private List boNotes;
     /**
      * Default no-arg constructor.
      */
@@ -720,5 +725,26 @@ public class Agency extends PersistableBusinessObjectBase implements ContractsAn
         this.stateAgencyIndicator = stateAgencyIndicator;
     }
 
+    /**
+     * Gets the boNotes attribute.
+     *
+     * @return Returns the boNotes
+     */
 
+    public List<Note> getBoNotes() {
+        if (StringUtils.isEmpty(agencyNumber)) {
+            return new ArrayList<Note>();
+        }
+        AgencyService agencyService = SpringContext.getBean(AgencyService.class);
+        return agencyService.getAgencyNotes(agencyNumber);
+    }
+
+    /**
+     * Sets the boNotes attribute.
+     *
+     * @param boNotes The boNotes to set.
+     */
+    public void setBoNotes(List boNotes) {
+        this.boNotes = boNotes;
+    }
 }

@@ -507,7 +507,6 @@ public abstract class AbstractExpense extends PersistableBusinessObjectBase impl
 
     @SuppressWarnings("rawtypes")
     protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
-        // TODO Auto-generated method stub
         return null;
     }
 

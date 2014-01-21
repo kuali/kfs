@@ -129,7 +129,6 @@ public class CreditCardImportedExpenseClearingDetail extends GlobalBusinessObjec
 
     @SuppressWarnings("rawtypes")
     protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
-        // TODO Auto-generated method stub
         return null;
     }
 

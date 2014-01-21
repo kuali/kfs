@@ -62,7 +62,6 @@ public class CreditCardDataXmlInputFileType extends XmlBatchInputFileTypeBase {
      */
     @Override
     public boolean validate(Object parsedFileContents) {
-        // TODO Auto-generated method stub
         return true;
     }
 

@@ -432,7 +432,6 @@ public class CreditCardStagingData extends PersistableBusinessObjectBase {
 
     @SuppressWarnings("rawtypes")
     protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
-        // TODO Auto-generated method stub
         return null;
     }
 
@@ -551,6 +550,4 @@ public class CreditCardStagingData extends PersistableBusinessObjectBase {
     public void setStagingFileName(String stagingFileName) {
         this.stagingFileName = stagingFileName;
     }
-
-
 }

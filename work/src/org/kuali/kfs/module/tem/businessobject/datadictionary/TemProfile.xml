@@ -60,13 +60,6 @@
 		</property>
 		<property name="collections">
 			<list>
-				<bean parent="CollectionDefinition" p:name="emergencyContacts"
-					p:label="emergencyContacts" p:shortLabel="emergencyContacts"
-					p:elementLabel="emergencyContacts" />
-				<bean parent="CollectionDefinition" p:name="arrangers" p:label="arrangers"
-					p:shortLabel="arrangers" p:elementLabel="arrangers" />
-				<bean parent="CollectionDefinition" p:name="accounts" p:label="accounts"
-					p:shortLabel="accounts" p:elementLabel="accounts" />
  				<bean parent="CollectionDefinition" p:name="boNotes" p:label="Notes" 
                     p:shortLabel="Notes" p:elementLabel="Notes"/>
             </list>

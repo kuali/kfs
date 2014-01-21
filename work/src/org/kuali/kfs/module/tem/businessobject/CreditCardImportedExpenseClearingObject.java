@@ -58,7 +58,6 @@ public class CreditCardImportedExpenseClearingObject extends PersistableBusiness
 
     @Override
     public String getDocumentNumber() {
-        // TODO Auto-generated method stub
         return documentNumber;
     }
 
@@ -85,25 +84,21 @@ public class CreditCardImportedExpenseClearingObject extends PersistableBusiness
 
     @Override
     public List<PersistableBusinessObject> generateDeactivationsToPersist() {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public boolean isPersistable() {
-        // TODO Auto-generated method stub
         return true;
     }
 
     @Override
     public List<? extends GlobalBusinessObjectDetail> getAllDetailObjects() {
-        // TODO Auto-generated method stub
         return getExpenses();
     }
 
     @SuppressWarnings("rawtypes")
     protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
-        // TODO Auto-generated method stub
         return null;
     }
 

@@ -26,8 +26,8 @@ import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.service.ObjectCodeService;
 import org.kuali.kfs.fp.document.DistributionOfIncomeAndExpenseDocument;
 import org.kuali.kfs.module.tem.TemConstants;
-import org.kuali.kfs.module.tem.TemParameterConstants;
 import org.kuali.kfs.module.tem.TemConstants.AgencyMatchProcessParameter;
+import org.kuali.kfs.module.tem.TemParameterConstants;
 import org.kuali.kfs.module.tem.batch.service.ImportedExpensePendingEntryService;
 import org.kuali.kfs.module.tem.businessobject.AgencyServiceFee;
 import org.kuali.kfs.module.tem.businessobject.AgencyStagingData;
@@ -104,7 +104,6 @@ public class ImportedExpensePendingEntryServiceImpl implements ImportedExpensePe
             glpe.setVersionNumber(new Long(1));
             glpe.setUniversityFiscalYear(universityDateService.getCurrentFiscalYear());
             glpe.setFinancialBalanceTypeCode(KFSConstants.BALANCE_TYPE_ACTUAL);
-            //glpe.setUniversityFiscalPeriodCode(null);
             glpe.setFinancialDocumentTypeCode(DIST_INCOME_DOC_TYPE);
             glpe.setFinancialSystemOriginationCode(TemConstants.TEM_IMPORTED_SYS_ORIG_CD);
             glpe.setTransactionLedgerEntryDescription(TemConstants.TEM_IMPORTED_GLPE_DESC);

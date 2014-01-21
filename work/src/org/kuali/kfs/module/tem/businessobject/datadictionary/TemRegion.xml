@@ -18,22 +18,6 @@
 			<ref bean="TemRegion-versionNumber" />
 		</list>
 		</property>
-		<property name="relationships">
-		<list>
-			<bean parent="RelationshipDefinition">
-				<property name="objectAttributeName" value="tripType" />
-				<property name="primitiveAttributes">
-				<list>
-					<bean parent="PrimitiveAttributeDefinition" p:sourceName="tripTypeCode" p:targetName="code" />
-				</list>
-				</property>
-				<property name="supportAttributes">
-				<list>
-				</list>
-				</property>
-			</bean>
-		</list>
-		</property>
 	</bean>
 	<bean id="TemRegion-regionCode" parent="TemRegion-regionCode-parentBean" />
 	<bean id="TemRegion-regionCode-parentBean" abstract="true" parent="AttributeDefinition">

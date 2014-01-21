@@ -61,6 +61,7 @@ public class TemPropertyConstants {
 
     public static final String EXPENSE_DATE = "expenseDate";
     //TODO: this really should be named expenseDate in the PerDiem
+    // TODO: damn straight, it should have been....  Also, it probably _should_ have been a java.sql.Date, not a java.sql.Timestamp...
     public static final String MILEAGE_DATE = "mileageDate";
     public static final String UNFILTERED_INCIDENTALS_VALUE = "unfilteredIncidentalsValue";
 

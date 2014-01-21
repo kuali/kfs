@@ -114,6 +114,9 @@ if [[ "$IMPORT_OLD_PROJECT" == "true" ]]; then
 		import.admin.url=$ADMIN_DATASOURCE
 
 		oracle.usermaint.user=kulusermaint
+
+        drivers.directory=$DRIVERS.DIRECTORY
+        
 	EOF
 	) > $TEMP_DIR/impex-build.properties
 

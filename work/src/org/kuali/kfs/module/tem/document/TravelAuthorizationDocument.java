@@ -22,6 +22,7 @@ import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
@@ -69,6 +70,9 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.kfs.sys.document.PaymentSource;
 import org.kuali.kfs.sys.document.service.PaymentSourceHelperService;
+import org.kuali.kfs.sys.document.validation.event.AddAccountingLineEvent;
+import org.kuali.kfs.sys.document.validation.event.DeleteAccountingLineEvent;
+import org.kuali.kfs.sys.document.validation.event.ReviewAccountingLineEvent;
 import org.kuali.kfs.sys.service.AccountingLineService;
 import org.kuali.kfs.sys.service.OptionsService;
 import org.kuali.kfs.sys.service.UniversityDateService;
@@ -1327,20 +1331,64 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
 
         if (!ObjectUtils.isNull(getTravelAdvance()) && getTravelAdvance().isAtLeastPartiallyFilledIn() && !(getDocumentHeader().getWorkflowDocument().isInitiated() || getDocumentHeader().getWorkflowDocument().isSaved())) {
             // only check advance accounting lines if the travel advance is filled in
-            final List persistedAdvanceAccountingLines = getPersistedAdvanceAccountingLinesForComparison();
-            final List currentAdvanceAccountingLines = getAdvanceAccountingLinesForComparison();
+            final List<TemSourceAccountingLine> persistedAdvanceAccountingLines = getPersistedAdvanceAccountingLinesForComparison();
+            final List<TemSourceAccountingLine> currentAdvanceAccountingLines = getAdvanceAccountingLinesForComparison();
 
-            final List advanceEvents = generateEvents(persistedAdvanceAccountingLines, currentAdvanceAccountingLines, KFSConstants.DOCUMENT_PROPERTY_NAME + "." + TemPropertyConstants.ADVANCE_ACCOUNTING_LINES, this);
+            final List advanceEvents = generateEventsForAdvanceAccountingLines(persistedAdvanceAccountingLines, currentAdvanceAccountingLines);
             events.addAll(advanceEvents);
         }
 
         return events;
     }
 
+    /**
+     * Generates a List of events for advance accounting lines.  UpdateAccountingLine events will never be generated - only ReviewAccountingLine, AddAccountingLine, and DeleteAccountingLine events;
+     * this way, we never check accessibility for advance accounting lines which is something that isn't really needed
+     * @param persistedAdvanceAccountingLines the persisted advance accounting lines
+     * @param currentAdvanceAccountingLines the current advance accounting lines
+     * @return a List of events
+     */
+    protected List generateEventsForAdvanceAccountingLines(List<TemSourceAccountingLine> persistedAdvanceAccountingLines, List<TemSourceAccountingLine> currentAdvanceAccountingLines) {
+        List events = new ArrayList();
+        Map persistedLineMap = buildAccountingLineMap(persistedAdvanceAccountingLines);
+        final String errorPathPrefix = KFSConstants.DOCUMENT_PROPERTY_NAME + "." + TemPropertyConstants.ADVANCE_ACCOUNTING_LINES;
+        final String groupErrorPathPrefix = errorPathPrefix + KFSConstants.ACCOUNTING_LINE_GROUP_SUFFIX;
+
+        // (iterate through current lines to detect additions and updates, removing affected lines from persistedLineMap as we go
+        // so deletions can be detected by looking at whatever remains in persistedLineMap)
+        int index = 0;
+        for (TemSourceAccountingLine currentLine : currentAdvanceAccountingLines) {
+            String indexedErrorPathPrefix = errorPathPrefix + "[" + index + "]";
+            Integer key = currentLine.getSequenceNumber();
+
+            AccountingLine persistedLine = (AccountingLine) persistedLineMap.get(key);
+
+            if (persistedLine != null) {
+                ReviewAccountingLineEvent reviewEvent = new ReviewAccountingLineEvent(indexedErrorPathPrefix, this, currentLine);
+                events.add(reviewEvent);
+
+                persistedLineMap.remove(key);
+            }
+            else {
+                // it must be a new addition
+                AddAccountingLineEvent addEvent = new AddAccountingLineEvent(indexedErrorPathPrefix, this, currentLine);
+                events.add(addEvent);
+            }
+        }
+
+        // detect deletions
+        List<TemSourceAccountingLine> remainingPersistedLines = new ArrayList<TemSourceAccountingLine>();
+        remainingPersistedLines.addAll(persistedLineMap.values());
+        for (TemSourceAccountingLine persistedLine : remainingPersistedLines) {
+            DeleteAccountingLineEvent deleteEvent = new DeleteAccountingLineEvent(groupErrorPathPrefix, this, persistedLine, true);
+            events.add(deleteEvent);
+        }
+        return events;
+    }
+
     public boolean maskTravelDocumentIdentifierAndOrganizationDocNumber() {
         boolean vendorPaymentAllowedBeforeFinal = getParameterService().getParameterValueAsBoolean(TravelAuthorizationDocument.class, TemConstants.TravelAuthorizationParameters.VENDOR_PAYMENT_ALLOWED_BEFORE_FINAL_APPROVAL_IND);
         return !vendorPaymentAllowedBeforeFinal && !(getFinancialSystemDocumentHeader().getWorkflowDocument().isProcessed() || getFinancialSystemDocumentHeader().getWorkflowDocument().isFinal());
-
     }
 
     /**

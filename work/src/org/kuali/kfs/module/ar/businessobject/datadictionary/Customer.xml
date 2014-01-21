@@ -553,6 +553,7 @@
 				<ref bean="Customer-inquirySectionDefinition-contactInformation" />
 				<ref bean="Customer-inquirySectionDefinition-address" />
 				 <ref bean="Customer-inquirySectionDefinition-collections" />
+				 <ref bean="Customer-inquirySectionDefinition-notes" />
 			</list>
 		</property>
 		<property name="inquirableClass"
@@ -700,6 +701,29 @@
 		</property>
 	</bean>
 
+<bean id="Customer-inquirySectionDefinition-notes" parent="Customer-inquirySectionDefinition-notes-parentBean" />
+	<bean id="Customer-inquirySectionDefinition-notes-parentBean"
+		parent="InquirySectionDefinition" abstract="true">
+		<property name="title" value="Notes" />
+		<property name="numberOfColumns" value="1" />
+		<property name="inquiryFields">
+			<list>
+				<bean parent="InquiryCollectionDefinition">
+					<property name="attributeName" value="boNotes" />
+					<property name="businessObjectClass" value="org.kuali.rice.krad.bo.Note"/>
+					<property name="numberOfColumns" value="1" />
+					<property name="inquiryFields">
+						<list>
+							<bean parent="FieldDefinition" p:attributeName="noteText" />
+							<bean parent="FieldDefinition" p:attributeName="notePostedTimestamp" />
+							<bean parent="FieldDefinition" p:attributeName="authorUniversal.principalName" />
+						    <bean parent="FieldDefinition" p:attributeName="attachmentLink" />
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
 	<!-- Business Object Lookup Definition -->
 
 

@@ -103,7 +103,7 @@
 	  <property name="accountingLineView" ref="GeneralErrorCorrectionDocument-accountingLineView"/>
 	  <property name="accountingLineClass" value="org.kuali.kfs.fp.businessobject.GECSourceAccountingLine"/>
 	  <property name="groupLabel" value="From"/>
-	  <property name="accountingLineAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.FinancialProcessingAccountingLineAuthorizer"/>
+	  <property name="accountingLineAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.CapitalAccountingLinesAuthorizerBase"/>
 	  <property name="importedLinePropertyPrefix" value="source"/>
 	  <property name="totals" ref="AccountingDocument-sourceGroupTotals"/>
 	  <property name="errorKey" value="document.sourceAccounting*,sourceAccountingLines,newSourceLine*"/> <!-- note people copying this: AV and JV have extra things that belong here -->
@@ -114,7 +114,7 @@
 	  <property name="accountingLineView" ref="GeneralErrorCorrectionDocument-accountingLineView"/>
 	  <property name="accountingLineClass" value="org.kuali.kfs.fp.businessobject.GECTargetAccountingLine"/>
 	  <property name="groupLabel" value="To"/>
-	  <property name="accountingLineAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.FinancialProcessingAccountingLineAuthorizer"/>
+	  <property name="accountingLineAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.CapitalAccountingLinesAuthorizerBase"/>
 	  <property name="importedLinePropertyPrefix" value="target"/>
 	  <property name="totals" ref="AccountingDocument-targetGroupTotals"/>
 	  <property name="errorKey" value="document.targetAccounting*,targetAccountingLines,newTargetLine*"/>

@@ -473,6 +473,7 @@ public class KFSConstants {
     //cannot use SOURCE_ACCOUNTING_LINE_ERROR_PATTERN due to doubled error displayed in checking already added source accounting line
     public static final String NEW_SOURCE_LINE_ERRORS = "newSourceLine*";
     public static final String SOURCE_ACCOUNTING_LINE_ERROR_PATTERN = "document.sourceAccounting*,sourceAccountingLines,newSourceLine*,journalLineHelper*,auxiliaryLineHelper*";
+    public static final String NEW_TARGET_LINE_ERRORS = "newTargetLine*";
     public static final String TARGET_ACCOUNTING_LINE_ERROR_PATTERN = "document.targetAccounting*,targetAccountingLines,newTargetLine*";
     public static final String ACCOUNTING_LINE_GROUP_SUFFIX = "s";
     public static final String SOURCE_ACCOUNTING_LINE_ERRORS = EXISTING_SOURCE_ACCT_LINE_PROPERTY_NAME + ACCOUNTING_LINE_GROUP_SUFFIX;

@@ -452,6 +452,13 @@ public interface TravelDocumentService {
      * find matching trips  for the same traveler, dates
      *
      */
-    public List<String> findMatchingTrips(TravelDocument document) ;
+    public List<String> findMatchingTrips(TravelDocument document);
+
+    /**
+     * If a value on a per diem expense has been zero'd out, this method will restore it to its default value
+     * @param document the document with per diem expenses
+     * @param property the property to restore
+     */
+    public void restorePerDiemProperty(TravelDocument document, String property);
 
 }

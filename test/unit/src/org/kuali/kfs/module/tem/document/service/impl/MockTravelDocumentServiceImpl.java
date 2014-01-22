@@ -439,4 +439,9 @@ public class MockTravelDocumentServiceImpl implements TravelDocumentService {
         return realTravelDocumentService.findMatchingTrips(document);
     }
 
+    @Override
+    public void restorePerDiemProperty(TravelDocument document, String property) {
+        realTravelDocumentService.restorePerDiemProperty(document, property);
+    }
+
 }

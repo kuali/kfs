@@ -30,6 +30,7 @@ import org.kuali.kfs.module.external.kc.businessobject.Agency;
 import org.kuali.kfs.module.external.kc.businessobject.Award;
 import org.kuali.kfs.module.external.kc.businessobject.AwardFundManager;
 import org.kuali.kfs.module.external.kc.businessobject.AwardOrganization;
+import org.kuali.kfs.module.external.kc.businessobject.AwardProjectDirector;
 import org.kuali.kfs.module.external.kc.businessobject.LetterOfCreditFund;
 import org.kuali.kfs.module.external.kc.businessobject.Proposal;
 import org.kuali.kfs.module.external.kc.dto.AwardDTO;
@@ -45,6 +46,7 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kra.external.award.AwardWebService;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.krad.bo.ExternalizableBusinessObject;
 
 /**
@@ -60,6 +62,7 @@ public class AwardServiceImpl implements ExternalizableBusinessObjectService {
     private AccountDefaultsService accountDefaultsService;
     private ParameterService parameterService;
     private BillingFrequencyService billingFrequencyService;
+    private PersonService personService;
 
     protected AwardWebService getWebService() {
         // first attempt to get the service from the KSB - works when KFS & KC share a Rice instance
@@ -99,6 +102,7 @@ public class AwardServiceImpl implements ExternalizableBusinessObjectService {
         criteria.setAwardNumber((String) fieldValues.get("awardNumber"));
         criteria.setChartOfAccounts((String) fieldValues.get(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE));
         criteria.setAccountNumber((String) fieldValues.get(KFSPropertyConstants.ACCOUNT_NUMBER));
+        criteria.setPrincipalInvestigatorId((String) fieldValues.get("principalId"));
         try {
           result  = this.getWebService().searchAwards(criteria);
         } catch (WebServiceException ex) {
@@ -167,7 +171,16 @@ public class AwardServiceImpl implements ExternalizableBusinessObjectService {
         }
         award.setBillingFrequency(getBillingFrequencyService().createBillingFrequency(kcAward.getInvoiceBillingFrequency()));
         award.setSuspendInvoicingIndicator(getDoNotInvoiceStatuses().contains(kcAward.getAwardStatusCode()));
+        award.setAwardPrimaryProjectDirector(getProjectDirector(kcAward));
         return award;
+    }
+
+    protected AwardProjectDirector getProjectDirector(AwardDTO kcAward) {
+        AwardProjectDirector director = new AwardProjectDirector();
+        director.setPrincipalId(kcAward.getPrincipalInvestigatorId());
+        director.setProjectDirector(getPersonService().getPerson(kcAward.getPrincipalInvestigatorId()));
+        director.setProposalNumber(kcAward.getAwardId());
+        return director;
     }
 
     protected Collection<String> getDoNotInvoiceStatuses() {
@@ -198,6 +211,14 @@ public class AwardServiceImpl implements ExternalizableBusinessObjectService {
 
     public void setBillingFrequencyService(BillingFrequencyService billingFrequencyService) {
         this.billingFrequencyService = billingFrequencyService;
+    }
+
+    public PersonService getPersonService() {
+        return personService;
+    }
+
+    public void setPersonService(PersonService personService) {
+        this.personService = personService;
     }
 
  }

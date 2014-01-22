@@ -6,7 +6,8 @@ public class AwardSearchCriteriaDto {
 	private String awardNumber;
 	private String accountNumber;
 	private String chartOfAccounts;
-	
+	private String principalInvestigatorId;
+
 	public Long getAwardId() {
 		return awardId;
 	}
@@ -31,4 +32,10 @@ public class AwardSearchCriteriaDto {
 	public void setChartOfAccounts(String chartOfAccounts) {
 		this.chartOfAccounts = chartOfAccounts;
 	}
+    public String getPrincipalInvestigatorId() {
+        return principalInvestigatorId;
+    }
+    public void setPrincipalInvestigatorId(String principalInvestigatorId) {
+        this.principalInvestigatorId = principalInvestigatorId;
+    }
 }

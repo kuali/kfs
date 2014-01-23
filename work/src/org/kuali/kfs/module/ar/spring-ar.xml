@@ -367,6 +367,9 @@
 		<property name="contractsAndGrantsModuleUpdateService">
 			<ref bean="contractsAndGrantsModuleUpdateService" />
 		</property>
+		<property name="configurationService">
+			<ref bean="kualiConfigurationService" />
+		</property>
 	</bean>
 
 	<bean id="verifyBillingFrequencyService" parent="verifyBillingFrequencyService-parentBean" />

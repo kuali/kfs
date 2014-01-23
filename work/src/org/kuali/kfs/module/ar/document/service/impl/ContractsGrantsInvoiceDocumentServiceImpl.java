@@ -106,6 +106,7 @@ import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.PdfFormFillerUtil;
 import org.kuali.kfs.sys.service.UniversityDateService;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.core.web.format.CurrencyFormatter;
@@ -157,6 +158,7 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
     private AccountService accountService;
     private ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService;
     private ContractsAndGrantsModuleUpdateService contractsAndGrantsModuleUpdateService;
+    private ConfigurationService configurationService;
     /**
      * Sets the contractsGrantsInvoiceDocumentService attribute value.
      *
@@ -3116,7 +3118,15 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
                 invoiceTemplate = businessObjectService.findBySinglePrimaryKey(InvoiceTemplate.class, invoiceAddressDetail.getCustomerInvoiceTemplateCode());
             }
             else {
-                GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_FILE_UPLOAD_NO_PDF_FILE_SELECTED_FOR_SAVE, ArConstants.ACTIVE_INVOICE_TEMPLATE_ERROR);
+                GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_FILE_UPLOAD_NO_PDF_FILE_SELECTED_FOR_SAVE, ArConstants.INVOICE_TEMPLATE_NOT_FOUND_ERROR);
+                Note note = new Note();
+                note.setNotePostedTimestampToCurrent();
+                note.setNoteText(configurationService.getPropertyValueAsString(KFSKeyConstants.ERROR_FILE_UPLOAD_NO_PDF_FILE_SELECTED_FOR_SAVE)+ configurationService.getPropertyValueAsString(ArConstants.INVOICE_TEMPLATE_NOT_FOUND_ERROR));
+                note.setNoteTypeCode(KFSConstants.NoteTypeEnum.BUSINESS_OBJECT_NOTE_TYPE.getCode());
+                Person systemUser = getPersonService().getPersonByPrincipalName(KFSConstants.SYSTEM_USER);
+                note = noteService.createNote(note, document.getNoteTarget(), systemUser.getPrincipalId());
+                noteService.save(note);
+                document.addNote(note);
             }
 
             // generate invoices from templates.
@@ -3190,13 +3200,29 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
                 }
                 catch (IOException ex) {
                     GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_FILE_UPLOAD_NO_PDF_FILE_SELECTED_FOR_SAVE, ArConstants.INVOICE_TEMPLATE_NOT_FOUND_ERROR + invoiceTemplate.getInvoiceTemplateCode() + ".");
+                    Note note = new Note();
+                    note.setNotePostedTimestampToCurrent();
+                    note.setNoteText(configurationService.getPropertyValueAsString(KFSKeyConstants.ERROR_FILE_UPLOAD_NO_PDF_FILE_SELECTED_FOR_SAVE)+ configurationService.getPropertyValueAsString(ArConstants.INVOICE_TEMPLATE_NOT_FOUND_ERROR ) );
+                    note.setNoteTypeCode(KFSConstants.NoteTypeEnum.BUSINESS_OBJECT_NOTE_TYPE.getCode());
+                    Person systemUser = getPersonService().getPersonByPrincipalName(KFSConstants.SYSTEM_USER);
+                    note = noteService.createNote(note, document.getNoteTarget(), systemUser.getPrincipalId());
+                    noteService.save(note);
+                    document.addNote(note);
                 }
                 catch (Exception ex) {
                     LOG.error("problem during ContractsGrantsInvoiceDocumentServiceImpl.generateInvoicesForInvoiceAddresses", ex);
                 }
             }
             else {
-                GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_FILE_UPLOAD_NO_PDF_FILE_SELECTED_FOR_SAVE, ArConstants.ACTIVE_INVOICE_TEMPLATE_ERROR);
+                GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_FILE_UPLOAD_NO_PDF_FILE_SELECTED_FOR_SAVE, ArConstants.INVOICE_TEMPLATE_NOT_FOUND_ERROR);
+                Note note = new Note();
+                note.setNotePostedTimestampToCurrent();
+                note.setNoteText(configurationService.getPropertyValueAsString(KFSKeyConstants.ERROR_FILE_UPLOAD_NO_PDF_FILE_SELECTED_FOR_SAVE)+ configurationService.getPropertyValueAsString(ArConstants.INVOICE_TEMPLATE_NOT_FOUND_ERROR));
+                note.setNoteTypeCode(KFSConstants.NoteTypeEnum.BUSINESS_OBJECT_NOTE_TYPE.getCode());
+                Person systemUser = getPersonService().getPersonByPrincipalName(KFSConstants.SYSTEM_USER);
+                note = noteService.createNote(note, document.getNoteTarget(), systemUser.getPrincipalId());
+                noteService.save(note);
+                document.addNote(note);
             }
         }
     }
@@ -4625,6 +4651,25 @@ public class ContractsGrantsInvoiceDocumentServiceImpl extends CustomerInvoiceDo
 
     public ContractsGrantsInvoiceDocumentService getContractsGrantsInvoiceDocumentService() {
         return contractsGrantsInvoiceDocumentService;
+    }
+
+    /**
+     * Gets the configurationService attribute.
+     *
+     * @return Returns the configurationService
+     */
+
+    public ConfigurationService getConfigurationService() {
+        return configurationService;
+    }
+
+    /**
+     * Sets the configurationService attribute.
+     *
+     * @param configurationService The configurationService to set.
+     */
+    public void setConfigurationService(ConfigurationService configurationService) {
+        this.configurationService = configurationService;
     }
 
 

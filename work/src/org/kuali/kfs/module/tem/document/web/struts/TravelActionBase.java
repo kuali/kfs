@@ -44,6 +44,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -1636,6 +1637,23 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
         AccountingDocumentRelationship relationship = new AccountingDocumentRelationship(progenitorDocument.getDocumentNumber(), createdDocument.getDocumentNumber(), progenitorType+" - "+createdType);
         relationship.setPrincipalId(GlobalVariables.getUserSession().getPrincipalId());
         return relationship;
+    }
+
+    /**
+     * Disables any per diem meals which have matching hosted or group actual expenses and displays messages about that
+     * @param document the TA or TR to disable per diem expenses on
+     */
+    protected void disablePerDiemExpenes(TravelDocument document) {
+        for (ActualExpense actualExpense : document.getActualExpenses()){
+            getTravelDocumentService().disableDuplicateExpenses(document, actualExpense);
+        }
+
+        //Display any messages
+        Iterator<String> it = document.getDisabledProperties().keySet().iterator();
+        while (it.hasNext()){
+            String key = it.next();
+            GlobalVariables.getMessageMap().putInfo(key, TemKeyConstants.MESSAGE_GENERIC,document.getDisabledProperties().get(key));
+        }
     }
 
 }

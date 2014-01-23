@@ -63,10 +63,7 @@ public class RemoveActualExpenseEvent implements Observer {
         for (String disabledProperty : document.getDisabledProperties().keySet()) {
             getTravelDocumentService().restorePerDiemProperty(document, disabledProperty);
         }
-        document.getDisabledProperties().clear();
-        for (ActualExpense actualExpense : document.getActualExpenses()){
-            getTravelDocumentService().disableDuplicateExpenses(document, actualExpense);
-        }
+        document.getDisabledProperties().clear(); // and let the execute regenerate them
     }
 
     /**

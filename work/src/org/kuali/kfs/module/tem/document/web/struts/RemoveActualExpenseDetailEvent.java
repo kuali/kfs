@@ -75,9 +75,6 @@ public class RemoveActualExpenseDetailEvent implements Observer {
         }
         wrapper.setDistribution(getAccountingDistributionService().buildDistributionFrom(document));
         document.getDisabledProperties().clear();
-        for (ActualExpense actualExpense : document.getActualExpenses()){
-            getTravelDocumentService().disableDuplicateExpenses(document, actualExpense);
-        }
 
     }
 
